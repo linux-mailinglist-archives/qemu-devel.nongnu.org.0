@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD661624B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:39:02 +0100 (CET)
-Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DD61624AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:36:35 +0100 (CET)
+Received: from localhost ([::1]:60546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j40HN-0008EF-4V
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:39:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51532)
+	id 1j40F0-0002nu-MX
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:36:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j40Bf-00068R-6m
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:33:09 -0500
+ (envelope-from <quintela@redhat.com>) id 1j40C5-0006sL-IY
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:33:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j40Bd-0006ip-I9
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:33:06 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49232
+ (envelope-from <quintela@redhat.com>) id 1j40C4-0006qT-N5
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:33:33 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27062
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j40Bb-0006hd-N7
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:33:04 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j40C3-0006q0-Mi
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:33:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582021982;
+ s=mimecast20190719; t=1582022011;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L9v5WMTJxgvO5yfSaXlwBe9NDsyI92HU4kpr1EmsiCA=;
- b=Idt7shl2wLHgv2iAqaZkEzUX8VlVGYeA+hV9rP09xTUkm96I8l+wMoymLAx0dPUSMu9ZC1
- bzk6Xh6HkSQhcYp6glrRsxdVMka8HphVXZekRPsoKefkwOKwC+e97CcxR3LTgDfrjSzqXb
- jY1ba/yYi2hUihVKBXxivaYio2xQmLQ=
+ bh=cHvYpcDrHNi0jmtvHi5F3RD1e3HRjxtiCWreI9vii74=;
+ b=Tol1xs+CAJn7EECc3Gh6B8nl+jgeFWB2lmdC3yNytgmiEm3zuMmZRREHIFEzAup8wVV54t
+ f/EC1NiXRfL/rnJqWGTeceoCQHGdb7E1kXFfTYVVy1dEkWAVa7aANcWd0+j8lsWjZpZUCJ
+ iwCs1ZGrc1GEfDbE8Z2If/e6fNeGZmg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-YwU8GrtGObOqfueBzChldA-1; Tue, 18 Feb 2020 05:32:59 -0500
+ us-mta-358-aLTvOjWmOoyfIACJsGpPXA-1; Tue, 18 Feb 2020 05:33:29 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4105C189F762;
- Tue, 18 Feb 2020 10:32:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62445189F760;
+ Tue, 18 Feb 2020 10:33:27 +0000 (UTC)
 Received: from redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0611F5D9E2;
- Tue, 18 Feb 2020 10:32:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF13A5D9E2;
+ Tue, 18 Feb 2020 10:33:13 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH RESEND 10/13] ui/input-barrier: Remove superfluous
+Subject: Re: [PATCH RESEND 11/13] target/i386/whpx: Remove superfluous
  semicolon
-In-Reply-To: <20200218094402.26625-11-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 18 Feb 2020 10:43:59
+In-Reply-To: <20200218094402.26625-12-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 18 Feb 2020 10:44:00
  +0100")
 References: <20200218094402.26625-1-philmd@redhat.com>
- <20200218094402.26625-11-philmd@redhat.com>
+ <20200218094402.26625-12-philmd@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 18 Feb 2020 11:32:40 +0100
-Message-ID: <87o8twmbhz.fsf@secure.laptop>
+Date: Tue, 18 Feb 2020 11:33:10 +0100
+Message-ID: <87k14kmbh5.fsf@secure.laptop>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: YwU8GrtGObOqfueBzChldA-1
+X-MC-Unique: aLTvOjWmOoyfIACJsGpPXA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
@@ -80,9 +80,10 @@ Reply-To: quintela@redhat.com
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
  Gerd Hoffmann <kraxel@redhat.com>, "Edgar
- E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ E. Iglesias" <edgar.iglesias@gmail.com>, Justin Terry <juterry@microsoft.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Yuval Shaia <yuval.shaia.ml@gmail.com>,
@@ -96,7 +97,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> Fixes: 6105683da35
+> Fixes: 812d49f2a3e
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
