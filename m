@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABE8162362
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:30:56 +0100 (CET)
-Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219AF162377
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:35:59 +0100 (CET)
+Received: from localhost ([::1]:58952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zDT-0005BC-6i
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:30:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
+	id 1j3zIM-0000eq-5G
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:35:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j3zCY-0004XB-Vq
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:29:59 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3zF0-00067g-Ev
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:32:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j3zCX-00080J-Kv
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:29:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55389
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j3zEy-0001A8-7C
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:32:30 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40846
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j3zCX-0007zw-HH
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:29:57 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zEy-00019r-43
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:32:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582018196;
+ s=mimecast20190719; t=1582018347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QvwWWbk2wNRCtKvS/3pRfQIJZqAFG1GugwebnQqDjFA=;
- b=XFDEn6bMpiw6ULsnEGy+uiq4qiGxACY504QFQ2f5q79mR/J8jiaCh9m0OhS+gE+Vhc0R20
- p0EArWy/rwGo7iuPG3Jc9X8bECorBdSrssaY32XIjq5T4ERtGYSRidW7v/tJ9W6WGfz8Ke
- NTSaz5DbXiDXambSUCjuD9cm1JUbGLA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-MRpMCXrdNUedAX-w8Hxm2w-1; Tue, 18 Feb 2020 04:29:52 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA120477;
- Tue, 18 Feb 2020 09:29:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
- [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 567A71001B07;
- Tue, 18 Feb 2020 09:29:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AFE0411385C9; Tue, 18 Feb 2020 10:29:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/2] hw/ipmi/bmc: Delay timer_new_ns() from init to
- realize to avoid memleaks
-References: <20200215154706.19837-1-philmd@redhat.com>
- <20200215154706.19837-2-philmd@redhat.com>
- <CAFEAcA9cZHWziyk6VzfaxrqjCNNOmnmSkB=uuGJMp0TL521mAQ@mail.gmail.com>
- <8c4570e1-cd9b-9d33-2756-5c223df282ee@redhat.com>
- <CAFEAcA-hyEVPeT1wakaft6m3_WD9XG3eYFAwJJgoHRAZ1nntag@mail.gmail.com>
- <e530629d-c029-1d7c-b5b7-cdbbeb397a4d@redhat.com>
- <CAFEAcA-KzWv=_kZUPNE6yyUSA36XY+q91ihJ_xh4euJ9RsyaLA@mail.gmail.com>
- <c2ae28d4-3864-dfc6-2033-93bbd7aa865e@redhat.com>
- <b9f520ba-d279-6a46-1142-e82f415f3e8a@redhat.com>
- <CAFEAcA8AD30UPqDxZ6myimhsYsgRu9A8pTCnq7WoAXewKUDN8g@mail.gmail.com>
-Date: Tue, 18 Feb 2020 10:29:44 +0100
-In-Reply-To: <CAFEAcA8AD30UPqDxZ6myimhsYsgRu9A8pTCnq7WoAXewKUDN8g@mail.gmail.com>
- (Peter Maydell's message of "Mon, 17 Feb 2020 17:27:13 +0000")
-Message-ID: <87v9o4gs53.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=j/EdDI2CtMVN9fdl6+h7xbjhrRwwWIt4TPFM6oFFcSc=;
+ b=SBT0J6GFs9xYnHb4AJuPuZO72htGZYByykmLRfcDgIN1P6g83nbo1RbzN4f0mlbIaEoWKx
+ 9Hj9x9ZC+Vb6kEIjz4+wdzbnJzvQaTGpeZ2beRYnC+wxdgO8VIDzcxoLI6kWD5dHNU9wMf
+ e6XXYgkpLYJfw3CjvMnN0lTkdPqimWs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-b80yVCO9MFGFs92ugQ3B5w-1; Tue, 18 Feb 2020 04:32:22 -0500
+Received: by mail-wr1-f71.google.com with SMTP id j4so10493450wrs.13
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:32:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d11KEHy00cHcmoOZmfkiJiWUsKxIDwvg0E/JJImsCd0=;
+ b=G8Iw2T0L1Gx6dTm3AL6yiT+xrECuOKRqjUKo8iAzkZ6R1kYhLZBKVFmkRWQEioJADw
+ 26DI4srxfEwpVAVvq3UR84kP3H08jbV6yK5O6/TuX4t73k14hBf8FWBFZAIaTsNwhxwC
+ ZKM4lgQ7WeRqNVsgvbY0tBDfCtPe8uvQkWiK4tfRJ1UzmeOGVtv1Hh/2bnuXozFZ9lPa
+ bu8s/F04BJNQuweYpDw6zKnI/9w+x+E5qM0+Qfq9K4ZD4oNTUdGUt1dSYVLBEZedgQaD
+ 3lIxw0d+ABa2J1FzWEzsFsSRVEwyCIHYWPRUjY5TZupsT+5xPEfrICqSNC8284GhIjjT
+ wXig==
+X-Gm-Message-State: APjAAAVsg2yXwa/+iOKLipahCWCbEtXG70UDOilQk9bF6i8nwgiavzVT
+ 0/2vTgTJtuPB9iBIhuRizqMPpMEpvOj72yLARwhYw+fkyOoA11tVAGgtlKb/5nawqoW80LVQJlA
+ mseDuWcEpDxaAgVA=
+X-Received: by 2002:adf:82c7:: with SMTP id 65mr856660wrc.374.1582018340713;
+ Tue, 18 Feb 2020 01:32:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx9id1CWf2xhCK3EiBxDYX01GhrBUWLw9cUnpB3oa1H+kt5xUR4QkVSDP5FsO7wy003N72TxQ==
+X-Received: by 2002:adf:82c7:: with SMTP id 65mr856594wrc.374.1582018340337;
+ Tue, 18 Feb 2020 01:32:20 -0800 (PST)
+Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id v8sm5146891wrw.2.2020.02.18.01.32.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 01:32:19 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/13] trivial: Detect and remove superfluous semicolons in C
+ code
+Date: Tue, 18 Feb 2020 10:32:04 +0100
+Message-Id: <20200218093217.25156-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: MRpMCXrdNUedAX-w8Hxm2w-1
+X-MC-Unique: b80yVCO9MFGFs92ugQ3B5w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,63 +86,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
- David Hildenbrand <david@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Luc noticed a superfluous trailing semicolon:
+https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg04593.html
 
-> On Mon, 17 Feb 2020 at 17:20, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->> Quick check with TYPE_BITBAND which is a SysBus device, we have:
->>
->> static void bitband_realize(DeviceState *dev, Error **errp)
->> {
->>      BitBandState *s =3D BITBAND(dev);
->>
->>      if (!s->source_memory) {
->>          error_setg(errp, "source-memory property not set");
->>          return;
->>      }
->>
->>      address_space_init(&s->source_as, s->source_memory, "bitband-source=
-");
->> }
->>
->> Do we need the equivalent:
->>
->> static void bitband_unrealize(DeviceState *dev, Error **errp)
->> {
->>      BitBandState *s =3D BITBAND(dev);
->>
->>      address_space_destroy(&s->source_as);
->> }
->>
->> Or instead mark the device user_creatable=3Dfalse because of the link to=
- a
->> TYPE_MEMORY_REGION?
->
-> I don't believe that this device is user-creatable. The
-> base class sysbus_device_class_init() sets user_creatable
-> to false by default for all sysbus devices, and a sysbus
-> device which wants to opt into being user-created has to
-> set it to true.
+Prevent that by modifying checkpatch.pl and clean the codebase.
 
-As far as I can tell, you additionally have to
-machine_class_allow_dynamic_sysbus_dev().  Sysbus is special.
+Philippe Mathieu-Daud=C3=A9 (13):
+  scripts/checkpatch.pl: Detect superfluous semicolon in C code
+  audio/alsaaudio: Remove superfluous semicolons
+  block: Remove superfluous semicolons
+  block/io_uring: Remove superfluous semicolon
+  hw/arm/xlnx-versal: Remove superfluous semicolon
+  hw/m68k/next-cube: Remove superfluous semicolon
+  hw/scsi/esp: Remove superfluous semicolon
+  hw/vfio/display: Remove superfluous semicolon
+  migration/multifd: Remove superfluous semicolon
+  ui/input-barrier: Remove superfluous semicolon
+  target/i386/whpx: Remove superfluous semicolon
+  tests/qtest/libqos/qgraph: Remove superfluous semicolons
+  contrib/rdmacm-mux: Remove superfluous semicolon
 
-> Also the device's type name string is "ARM,bitband-memory"
-> and the -device option at least does not like the comma
-> in the middle of the name, so I don't know how you'd
-> create it on the command line even if it wasn't marked
-> not user-creatable.
+ audio/alsaaudio.c           | 4 ++--
+ block.c                     | 4 ++--
+ block/io_uring.c            | 2 +-
+ contrib/rdmacm-mux/main.c   | 2 +-
+ hw/arm/xlnx-versal-virt.c   | 2 +-
+ hw/m68k/next-cube.c         | 2 +-
+ hw/scsi/esp.c               | 2 +-
+ hw/vfio/display.c           | 2 +-
+ migration/multifd.c         | 2 +-
+ target/i386/whpx-all.c      | 2 +-
+ tests/qtest/libqos/qgraph.c | 4 ++--
+ ui/input-barrier.c          | 2 +-
+ scripts/checkpatch.pl       | 5 +++++
+ 13 files changed, 20 insertions(+), 15 deletions(-)
 
-Double the comma.
-
-If I remember correctly, the use of comma in type comes from IEEE-1275.
-It's quite inappropriate for QEMU.
+--=20
+2.21.1
 
 
