@@ -2,41 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18F416245F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:17:26 +0100 (CET)
-Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC0316247E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:27:56 +0100 (CET)
+Received: from localhost ([::1]:60176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zwT-0004gw-NK
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:17:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48915)
+	id 1j406d-0005NC-3o
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <f.gruenbichler@proxmox.com>) id 1j3zvB-00035f-So
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:16:08 -0500
+ (envelope-from <quintela@redhat.com>) id 1j405Z-0004Il-54
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:26:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <f.gruenbichler@proxmox.com>) id 1j3zv9-0007uc-8m
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:16:05 -0500
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:58770)
+ (envelope-from <quintela@redhat.com>) id 1j405X-0003oT-2e
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:26:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40542
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1j3zv3-0007qI-Jm; Tue, 18 Feb 2020 05:15:57 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id B7E91436DF;
- Tue, 18 Feb 2020 11:08:12 +0100 (CET)
-From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC qemu 6/6] mirror: move some checks to QMP
-Date: Tue, 18 Feb 2020 11:07:40 +0100
-Message-Id: <20200218100740.2228521-7-f.gruenbichler@proxmox.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200218100740.2228521-1-f.gruenbichler@proxmox.com>
-References: <20200218100740.2228521-1-f.gruenbichler@proxmox.com>
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j405W-0003nc-Ur
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:26:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582021606;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WCbpsxfqY1cpcRs6F3FX91X4AibwQQ5zYMBSxvZ3+WE=;
+ b=ZLl8UsiOOJ1AEzP4AhnYPy9h5BpE3T/puxux205zy8HpGjiIRqWlVqmTb0ICR3P4m4DSEq
+ PA480muQtzOcuphURaJZoFap2asSLBBnmAlEiT91ah/NSlTC55h1BhmbOJcFfPu0jjbb0Y
+ FNsxpm5wrzzGVk6VK3Zub7h6QgDqGkk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-i5yuJSj2Nw65KIRjq2BZbw-1; Tue, 18 Feb 2020 05:26:42 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C36D107ACCA;
+ Tue, 18 Feb 2020 10:26:40 +0000 (UTC)
+Received: from redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F1E18CCC5;
+ Tue, 18 Feb 2020 10:26:27 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH RESEND 01/13] scripts/checkpatch.pl: Detect superfluous
+ semicolon in C code
+In-Reply-To: <20200218094402.26625-2-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 18 Feb 2020 10:43:50
+ +0100")
+References: <20200218094402.26625-1-philmd@redhat.com>
+ <20200218094402.26625-2-philmd@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Tue, 18 Feb 2020 11:26:23 +0100
+Message-ID: <87zhdgnqcw.fsf@secure.laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: i5yuJSj2Nw65KIRjq2BZbw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.186.127.180
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,440 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, "Edgar
+ E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-and assert the passing conditions in block/mirror.c. while incremental
-mode was never available for drive-mirror, it makes the interface more
-uniform w.r.t. backup block jobs.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+> Display error when a commit contains superfluous semicolon:
+>
+>   $ git show 6663a0a3376 | scripts/checkpatch.pl -q -
+>   ERROR: superfluous trailing semicolon
+>   #276: FILE: block/io_uring.c:186:
+>   +                ret =3D -ENOSPC;;
+>   total: 1 errors, 1 warnings, 485 lines checked
+>
+> Reported-by: Luc Michel <luc.michel@greensocs.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Signed-off-by: Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com>
----
- block/mirror.c             | 28 +++------------
- blockdev.c                 | 29 +++++++++++++++
- tests/qemu-iotests/284.out | 72 +++++++++++++++++++-------------------
- 3 files changed, 70 insertions(+), 59 deletions(-)
-
-diff --git a/block/mirror.c b/block/mirror.c
-index d6aca2874e..7a3373fca7 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1562,31 +1562,13 @@ static BlockJob *mirror_start_job(
-     Error *local_err =3D NULL;
-     int ret;
-=20
--    if (sync_mode =3D=3D MIRROR_SYNC_MODE_INCREMENTAL) {
--        error_setg(errp, "Sync mode '%s' not supported",
--                   MirrorSyncMode_str(sync_mode));
--        return NULL;
--    } else if (sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
--        if (!bitmap) {
--            error_setg(errp, "Must provide a valid bitmap name for '%s'"
--                       " sync mode",
--                       MirrorSyncMode_str(sync_mode));
--            return NULL;
--        }
--    } else if (bitmap) {
--        error_setg(errp,
--                   "sync mode '%s' is not compatible with bitmaps",
--                   MirrorSyncMode_str(sync_mode));
--        return NULL;
--    }
-+    /* QMP interface protects us from these cases */
-+    assert(sync_mode !=3D MIRROR_SYNC_MODE_INCREMENTAL);
-+    assert((bitmap && sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) ||
-+           (!bitmap && sync_mode !=3D MIRROR_SYNC_MODE_BITMAP));
-+    assert(!(bitmap && granularity));
-=20
-     if (bitmap) {
--        if (granularity) {
--            error_setg(errp, "granularity (%d)"
--                       "cannot be specified when a bitmap is provided",
--                       granularity);
--            return NULL;
--        }
-         granularity =3D bdrv_dirty_bitmap_granularity(bitmap);
-=20
-         if (bitmap_mode !=3D BITMAP_SYNC_MODE_NEVER) {
-diff --git a/blockdev.c b/blockdev.c
-index 23df9f76ba..87bde0a4f4 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3847,7 +3847,36 @@ static void blockdev_mirror_common(const char *job=
-_id, BlockDriverState *bs,
-         sync =3D MIRROR_SYNC_MODE_FULL;
-     }
-=20
-+    if ((sync =3D=3D MIRROR_SYNC_MODE_BITMAP) ||
-+        (sync =3D=3D MIRROR_SYNC_MODE_INCREMENTAL)) {
-+        /* done before desugaring 'incremental' to print the right messa=
-ge */
-+        if (!has_bitmap) {
-+            error_setg(errp, "Must provide a valid bitmap name for "
-+                       "'%s' sync mode", MirrorSyncMode_str(sync));
-+            return;
-+        }
-+    }
-+
-+    if (sync =3D=3D MIRROR_SYNC_MODE_INCREMENTAL) {
-+        if (has_bitmap_mode &&
-+            bitmap_mode !=3D BITMAP_SYNC_MODE_ON_SUCCESS) {
-+            error_setg(errp, "Bitmap sync mode must be '%s' "
-+                       "when using sync mode '%s'",
-+                       BitmapSyncMode_str(BITMAP_SYNC_MODE_ON_SUCCESS),
-+                       MirrorSyncMode_str(sync));
-+            return;
-+        }
-+        has_bitmap_mode =3D true;
-+        sync =3D MIRROR_SYNC_MODE_BITMAP;
-+        bitmap_mode =3D BITMAP_SYNC_MODE_ON_SUCCESS;
-+    }
-+
-     if (has_bitmap) {
-+        if (sync !=3D MIRROR_SYNC_MODE_BITMAP) {
-+            error_setg(errp, "Sync mode '%s' not supported with bitmap."=
-,
-+                       MirrorSyncMode_str(sync));
-+            return;
-+        }
-         if (granularity) {
-             error_setg(errp, "Granularity and bitmap cannot both be set"=
-);
-             return;
-diff --git a/tests/qemu-iotests/284.out b/tests/qemu-iotests/284.out
-index 9b7408b6d6..06a2e29058 100644
---- a/tests/qemu-iotests/284.out
-+++ b/tests/qemu-iotests/284.out
-@@ -2681,45 +2681,45 @@ qemu_img compare "TEST_DIR/PID-img" "TEST_DIR/PID=
--fmirror3" =3D=3D> Identical, OK!
- -- Sync mode incremental tests --
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap-mode": "on-success"=
-, "device": "drive0", "filter-node-name": "mirror-top", "job-id": "api_jo=
-b", "sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'incremental' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap-mode": "always", "d=
-evice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", =
-"sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'incremental' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap-mode": "never", "de=
-vice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "=
-sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'incremental' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"device": "drive0", "filter=
--node-name": "mirror-top", "job-id": "api_job", "sync": "incremental", "t=
-arget": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Sync mode 'incremental' not=
- supported"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'incremental' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-=
-top", "job-id": "api_job", "sync": "incremental", "target": "mirror_targe=
-t"}}
- {"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "always", "device": "drive0", "filter-node-name": "mirror-top"=
-, "job-id": "api_job", "sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap sync mode must be 'o=
-n-success' when using sync mode 'incremental'"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "never", "device": "drive0", "filter-node-name": "mirror-top",=
- "job-id": "api_job", "sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap sync mode must be 'o=
-n-success' when using sync mode 'incremental'"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "dev=
-ice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "s=
-ync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "always", "device": "drive0", "filter-node-name": "mirror-top", =
-"job-id": "api_job", "sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Sync mode 'incremental' not=
- supported"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap sync mode must be 'o=
-n-success' when using sync mode 'incremental'"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "never", "device": "drive0", "filter-node-name": "mirror-top", "=
-job-id": "api_job", "sync": "incremental", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Sync mode 'incremental' not=
- supported"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap sync mode must be 'o=
-n-success' when using sync mode 'incremental'"}}
-=20
- -- Sync mode bitmap tests --
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap-mode": "on-success"=
-, "device": "drive0", "filter-node-name": "mirror-top", "job-id": "api_jo=
-b", "sync": "bitmap", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'bitmap' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap-mode": "always", "d=
-evice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", =
-"sync": "bitmap", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'bitmap' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap-mode": "never", "de=
-vice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "=
-sync": "bitmap", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-+{"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'bitmap' sync mode"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"device": "drive0", "filter=
--node-name": "mirror-top", "job-id": "api_job", "sync": "bitmap", "target=
-": "mirror_target"}}
- {"error": {"class": "GenericError", "desc": "Must provide a valid bitmap=
- name for 'bitmap' sync mode"}}
-@@ -2751,28 +2751,28 @@ qemu_img compare "TEST_DIR/PID-img" "TEST_DIR/PID=
--fmirror3" =3D=3D> Identical, OK!
- {"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-=
-top", "job-id": "api_job", "sync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "always", "device": "drive0", "filter-node-name": "mirror-top"=
-, "job-id": "api_job", "sync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "never", "device": "drive0", "filter-node-name": "mirror-top",=
- "job-id": "api_job", "sync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "dev=
-ice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "s=
-ync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-to=
-p", "job-id": "api_job", "sync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'full' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "always", "device": "drive0", "filter-node-name": "mirror-top", =
-"job-id": "api_job", "sync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'full' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "never", "device": "drive0", "filter-node-name": "mirror-top", "=
-job-id": "api_job", "sync": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'full' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "devic=
-e": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "syn=
-c": "full", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- -- Sync mode top tests --
-=20
-@@ -2786,28 +2786,28 @@ qemu_img compare "TEST_DIR/PID-img" "TEST_DIR/PID=
--fmirror3" =3D=3D> Identical, OK!
- {"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-=
-top", "job-id": "api_job", "sync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "always", "device": "drive0", "filter-node-name": "mirror-top"=
-, "job-id": "api_job", "sync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "never", "device": "drive0", "filter-node-name": "mirror-top",=
- "job-id": "api_job", "sync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "dev=
-ice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "s=
-ync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-to=
-p", "job-id": "api_job", "sync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'full' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "always", "device": "drive0", "filter-node-name": "mirror-top", =
-"job-id": "api_job", "sync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'full' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "never", "device": "drive0", "filter-node-name": "mirror-top", "=
-job-id": "api_job", "sync": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'full' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "devic=
-e": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "syn=
-c": "top", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'full' not suppor=
-ted with bitmap."}}
-=20
- -- Sync mode none tests --
-=20
-@@ -2821,26 +2821,26 @@ qemu_img compare "TEST_DIR/PID-img" "TEST_DIR/PID=
--fmirror3" =3D=3D> Identical, OK!
- {"error": {"class": "GenericError", "desc": "Cannot specify bitmap sync =
-mode without a bitmap"}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-=
-top", "job-id": "api_job", "sync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "always", "device": "drive0", "filter-node-name": "mirror-top"=
-, "job-id": "api_job", "sync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "bit=
-map-mode": "never", "device": "drive0", "filter-node-name": "mirror-top",=
- "job-id": "api_job", "sync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "Dirty bitmap 'bitmap404' no=
-t found"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap404", "dev=
-ice": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "s=
-ync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "on-success", "device": "drive0", "filter-node-name": "mirror-to=
-p", "job-id": "api_job", "sync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'none' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "always", "device": "drive0", "filter-node-name": "mirror-top", =
-"job-id": "api_job", "sync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'none' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "bitma=
-p-mode": "never", "device": "drive0", "filter-node-name": "mirror-top", "=
-job-id": "api_job", "sync": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "sync mode 'none' is not com=
-patible with bitmaps"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
- {"execute": "blockdev-mirror", "arguments": {"bitmap": "bitmap0", "devic=
-e": "drive0", "filter-node-name": "mirror-top", "job-id": "api_job", "syn=
-c": "none", "target": "mirror_target"}}
--{"error": {"class": "GenericError", "desc": "bitmap-mode must be specifi=
-ed if a bitmap is provided"}}
-+{"error": {"class": "GenericError", "desc": "Sync mode 'none' not suppor=
-ted with bitmap."}}
-=20
---=20
-2.20.1
-
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
