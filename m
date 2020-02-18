@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F18162E9D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:33:20 +0100 (CET)
-Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1DA162E9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:32:38 +0100 (CET)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j47gM-00036r-2F
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:33:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
+	id 1j47fh-000278-63
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:32:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j47dS-0000q8-Kx
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:20 -0500
+ (envelope-from <olaf@aepfle.de>) id 1j47e0-0001EX-GH
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j47dR-0008JB-BM
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:18 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38247)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1j47dR-0008Hd-4G; Tue, 18 Feb 2020 13:30:17 -0500
-Received: by mail-ot1-x342.google.com with SMTP id z9so20495891oth.5;
- Tue, 18 Feb 2020 10:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=VTHuOYkRScccjYac4c/SHiXCBRs8ZpyUXnseZG9ugcI=;
- b=lJstfHNtZEpeKsA26Zqa3T/gEZc8whTjTtsUf2OBazVMQDASUjJz8ExsaBL5KCwX0F
- GNaVwUMSXQ7orDp0tBazNkFpboeVCDI2BKIFNIkxK35IVXUaXOftUeTheR51Yz7rqKh5
- tucZkIucfdhLzuN8frz2LE4I3px++xXCqY33/2Fr4g9PWlmUQJFyifn7qhaE0mx6K+wu
- S/tV24QnMcTwrQeYrAoD4oAG8gK0FS0M8FuS1hfOeHbPOTwg9BK4npC/TigGygp6qH7L
- 099hs4isIKbRZ5SJuEzJzVPbDIQELt64PxZLWGuxLReU/HuRDChtMcOHF25sZJQbr5y8
- nLXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=VTHuOYkRScccjYac4c/SHiXCBRs8ZpyUXnseZG9ugcI=;
- b=TizNpxZFP+t+pzTCVKpYbT2Vm3bCR9zkX4WXC58uKL3JjkxTzTU6t4SbojEuo+PI0u
- all48xiKAl+dOe8cRiFlH4qoC9R7D9snhIi70g7lVRVZvj8OaxfYgfWaheuluh7tSL6X
- cbUbhZwV6OgDnR4fgJF/LbjGo+g3U8k/b9jgM/Ou2oSNlhBEJCQTLWTBoczbjcAgmyxH
- FToBQKnPs6kcQd9WPqc29Vr6ZCNCoyssNHchnXPIf6m9mxoZuV0Zu3/m0iBlxzEGhnP4
- gpHu36WLJfcg/mJTPEolDiopIMS4utcC3L2Gx+5Rjfpp4lMtGi2t0IZ9ST5c6oSgk6o7
- nrIg==
-X-Gm-Message-State: APjAAAV0L56GI9t/ELkYmsOSzeicAuB2LhEJ8QVxSpbD1gpt9g1B1sgN
- 6X/P/3cUXG1r9gfD65sYs55BrhbnuMEv3n8N6tg=
-X-Google-Smtp-Source: APXvYqxco0Gm+QxHeej5X/OnuQE5moVO5CB9vU/6aRyMOqAyBDqeGGTQ6DNE1WR5pRqk8QW4PhUbIArDe59XuUAJRPc=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr15961226otk.64.1582050616312; 
- Tue, 18 Feb 2020 10:30:16 -0800 (PST)
+ (envelope-from <olaf@aepfle.de>) id 1j47dz-0000wx-DL
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:52 -0500
+Received: from mo6-p01-ob.smtp.rzone.de ([2a01:238:20a:202:5301::1]:19988)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <olaf@aepfle.de>) id 1j47dy-0000pU-NW
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582050647;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=MI0EOsyM7oCJvD1r2skPvfflowkJhRKxQU4Q67vswFU=;
+ b=Is6h8k8D8JfLFXqHjcSQkd90ZASZ+tsAU7xGhdLukIYroc/JxsU/YxqXaePV7ESYSy
+ 0EEIl0eZhC9bvyBtz7k5akbcOOBYsYg4Cke/6df+kcgJhxqLfeqzvfiGNpuYm0dzw6FC
+ ib6/H1k43vII5ze4uTUQg7+Bi4JfU6UZsffXP4+9ziPF0YpkN7wRLqzAmlFbSKNgn0jp
+ NmOZHyBabqfkCZ5JJ/KH7FTY/OoiEecW6Rxg6nC3weqhpZwXNdNpAZKEjULt3pMdSEWf
+ BCdghQvA/2INjUYuSFUTHOSCDWY9h+MubcNkjLjHDo5XvoihSUS/h3z+808M/FAyI7YU
+ 7Y9w==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QED/SSGq+wjGiUC4AUztn93FPS2dyuYMlkjQ=="
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 46.1.12 SBL|AUTH)
+ with ESMTPSA id 605caew1IIUkEqf
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 18 Feb 2020 19:30:46 +0100 (CET)
+Date: Tue, 18 Feb 2020 19:30:39 +0100
+From: Olaf Hering <olaf@aepfle.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] hw/i386: disable smbus migration for xenfv
+Message-ID: <20200218193040.1612bf26.olaf@aepfle.de>
+In-Reply-To: <b1313071-0eae-0465-4b3f-85c49c77a256@redhat.com>
+References: <20200113174521.3336-1-olaf@aepfle.de>
+ <20200116180321.24968-1-olaf@aepfle.de>
+ <0335edd2-3d33-88f8-2ab4-4791f7289885@redhat.com>
+ <20200117102244.22edd8a6.olaf@aepfle.de>
+ <ea3a65c3-bd69-7815-6893-cb1cd8b9cfd6@redhat.com>
+ <20200117140616.18cb8c45.olaf@aepfle.de>
+ <CACCGGhCO_OqPq__t+V9RrFMYhXCJ5N4PPkq9CASJULV2rTkT-g@mail.gmail.com>
+ <20200127100951.0803d167.olaf@aepfle.de>
+ <20200218182728.4b7f17b7.olaf@aepfle.de>
+ <b1313071-0eae-0465-4b3f-85c49c77a256@redhat.com>
+X-Mailer: Claws Mail 2019.12.31 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Tue, 18 Feb 2020 10:30:15 -0800 (PST)
-In-Reply-To: <1b1e6027-b59b-939d-c0ad-791be60f18ae@redhat.com>
-References: <cover.1580290069.git.fthain@telegraphics.com.au>
- <1b1e6027-b59b-939d-c0ad-791be60f18ae@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 18 Feb 2020 19:30:15 +0100
-Message-ID: <CAL1e-=iCY9FaPdDHB4ms37dckQp+YKoWniA22jQ7eOq__jobpA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/14] Fixes for DP8393X SONIC device emulation
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000008802059edddd95"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/FS72whMJ3j.JQ/eCDRWgKDN"; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 2a01:238:20a:202:5301::1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,190 +71,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Finn Thain <fthain@telegraphics.com.au>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Paul Durrant <pdurrant@gmail.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000008802059edddd95
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/FS72whMJ3j.JQ/eCDRWgKDN
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, February 4, 2020, Jason Wang <jasowang@redhat.com> wrote:
+Am Tue, 18 Feb 2020 18:37:09 +0100
+schrieb Paolo Bonzini <pbonzini@redhat.com>:
 
->
-> On 2020/1/29 =E4=B8=8B=E5=8D=885:27, Finn Thain wrote:
->
->> Hi All,
->>
->> There are bugs in the emulated dp8393x device that can stop packet
->> reception in a Linux/m68k guest (q800 machine).
->>
->> With a Linux/m68k v5.5 guest (q800), it's possible to remotely trigger
->> an Oops by sending ping floods.
->>
->> With a Linux/mips guest (magnum machine), the driver fails to probe
->> the dp8393x device.
->>
->> With a NetBSD/arc 5.1 guest (magnum), the bugs in the device can be
->> fatal to the guest kernel.
->>
->> Whilst debugging the device, I found that the receiver algorithm
->> differs from the one described in the National Semiconductor
->> datasheet.
->>
->> This patch series resolves these bugs.
->>
->> AFAIK, all bugs in the Linux sonic driver were fixed in Linux v5.5.
->> ---
->> Changed since v1:
->>   - Minor revisions as described beneath commit logs.
->>   - Dropped patches 4/10 and 7/10.
->>   - Added 5 new patches.
->>
->> Changed since v2:
->>   - Minor revisions as described beneath commit logs.
->>   - Dropped patch 13/13.
->>   - Added 2 new patches.
->>
->> Changed since v3:
->>   - Replaced patch 13/14 with patch suggested by Philippe Mathieu-Daud=
-=C3=A9.
->>
->>
->> Finn Thain (14):
->>    dp8393x: Mask EOL bit from descriptor addresses
->>    dp8393x: Always use 32-bit accesses
->>    dp8393x: Clean up endianness hacks
->>    dp8393x: Have dp8393x_receive() return the packet size
->>    dp8393x: Update LLFA and CRDA registers from rx descriptor
->>    dp8393x: Clear RRRA command register bit only when appropriate
->>    dp8393x: Implement packet size limit and RBAE interrupt
->>    dp8393x: Don't clobber packet checksum
->>    dp8393x: Use long-word-aligned RRA pointers in 32-bit mode
->>    dp8393x: Pad frames to word or long word boundary
->>    dp8393x: Clear descriptor in_use field to release packet
->>    dp8393x: Always update RRA pointers and sequence numbers
->>    dp8393x: Don't reset Silicon Revision register
->>    dp8393x: Don't stop reception upon RBE interrupt assertion
->>
->>   hw/net/dp8393x.c | 202 +++++++++++++++++++++++++++++++----------------
->>   1 file changed, 134 insertions(+), 68 deletions(-)
->>
->
->
-> Applied.
->
->
-Hi, Jason,
+> On 18/02/20 18:27, Olaf Hering wrote:
+> > The approach below (making 'xenfv' an alias of 'pc') does not work:
+> > xen_enabled() is false when pc_i440fx_3_1_machine_options runs. =20
+> Don't use an alias, copy the 3.1 code into the xenfv machine type and/or
+> call the 3.1 functions from the xenfv machine type.
 
-I generally have some reservations towards patches that did not receive any
-R-bs. I think we should hear from Herve in this case, to confirm that this
-change doesn't cause other problems while solving the original ones.
+Since pci_create_simple must be called after pc_init1, the change appears t=
+o be as simple as this:
 
-I hope this is not the case.
+@@ -949,6 +953,7 @@ DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
+ #ifdef CONFIG_XEN
+ static void xenfv_machine_options(MachineClass *m)
+ {
++    pc_i440fx_3_1_machine_options(m);
+     m->desc =3D "Xen Fully-virtualized PC";
+     m->max_cpus =3D HVM_MAX_VCPUS;
+     m->default_machine_opts =3D "accel=3Dxen";
 
-Regards,
-Aleksandar
+There will likely be an argument about making xenfv compatible with 3.1 or =
+4.2. I guess the only consensus will be configure option.
 
+Olaf
 
+--Sig_/FS72whMJ3j.JQ/eCDRWgKDN
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
 
+-----BEGIN PGP SIGNATURE-----
 
-> Thanks
->
->
->
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl5MLVAACgkQ86SN7mm1
+DoBCEg/+MBdA/4LL0IjaKfr/maHPipVMEuniIpHdUpUzLFqzQEPmeBtPqN1vsgXH
+62U/owsB3lOYb032FSLDT74ND9IBp5Zap7YeKr8jq858mhhsdxMboAMyTxTjEcYa
+tdACX6iYBmFl0wAbbPPxo/hPCUYh4FnJ+O+ndV4ZrY6WaxoMIDgcepTBdCwlV2sW
+tm9d86sVSg4mj/VHA9+/9BXxWC/ErDpXZlRdAfkRzzDN9XN+e5EgXLo8Rbyw44Ai
+G3Hb752gJe63ZvlvW5fVt2I2tEWCRVVlrcOwqcWoGenVGL0XMC914m18fnevxVk8
+YG9xWuUJrsLK9o3K6O6VI83vVzxK+0NG34DcZslGP1ewuCC8wl57oqYblTAOkvlN
+vPDsSpLlQN6e9Q74+71SspQMJbnlA9MAG/821VlXkQ6hhjxmZhdO0tczxbHovoS8
+aoEbF4TAaG6dMLtecW/gihIMrIJ9gnrcPkCcMUed8E+eNes8JoJoWomweXZkDpBH
+HM9h+TELnRo2pqTUV93VLxXhJJ66WdSz9kpcWSa7YIUBq1oW9ICSDnK7goIOO0N8
+SzYMXLV+Z9GtXrjo2LpE9AJGV8rpamp1FxRDtC4rIKGltUy3EBtmvtUjb6IghCkF
+e8TlYWyXafjuHDDMztiGy7tj4iS1qeHrdkuNo7H2pwftNvSQtjc=
+=AqL/
+-----END PGP SIGNATURE-----
 
---000000000000008802059edddd95
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Tuesday, February 4, 2020, Jason Wang &lt;<a href=3D"mailto:jaso=
-wang@redhat.com">jasowang@redhat.com</a>&gt; wrote:<br><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><br>
-On 2020/1/29 =E4=B8=8B=E5=8D=885:27, Finn Thain wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Hi All,<br>
-<br>
-There are bugs in the emulated dp8393x device that can stop packet<br>
-reception in a Linux/m68k guest (q800 machine).<br>
-<br>
-With a Linux/m68k v5.5 guest (q800), it&#39;s possible to remotely trigger<=
-br>
-an Oops by sending ping floods.<br>
-<br>
-With a Linux/mips guest (magnum machine), the driver fails to probe<br>
-the dp8393x device.<br>
-<br>
-With a NetBSD/arc 5.1 guest (magnum), the bugs in the device can be<br>
-fatal to the guest kernel.<br>
-<br>
-Whilst debugging the device, I found that the receiver algorithm<br>
-differs from the one described in the National Semiconductor<br>
-datasheet.<br>
-<br>
-This patch series resolves these bugs.<br>
-<br>
-AFAIK, all bugs in the Linux sonic driver were fixed in Linux v5.5.<br>
----<br>
-Changed since v1:<br>
-=C2=A0 - Minor revisions as described beneath commit logs.<br>
-=C2=A0 - Dropped patches 4/10 and 7/10.<br>
-=C2=A0 - Added 5 new patches.<br>
-<br>
-Changed since v2:<br>
-=C2=A0 - Minor revisions as described beneath commit logs.<br>
-=C2=A0 - Dropped patch 13/13.<br>
-=C2=A0 - Added 2 new patches.<br>
-<br>
-Changed since v3:<br>
-=C2=A0 - Replaced patch 13/14 with patch suggested by Philippe Mathieu-Daud=
-=C3=A9.<br>
-<br>
-<br>
-Finn Thain (14):<br>
-=C2=A0 =C2=A0dp8393x: Mask EOL bit from descriptor addresses<br>
-=C2=A0 =C2=A0dp8393x: Always use 32-bit accesses<br>
-=C2=A0 =C2=A0dp8393x: Clean up endianness hacks<br>
-=C2=A0 =C2=A0dp8393x: Have dp8393x_receive() return the packet size<br>
-=C2=A0 =C2=A0dp8393x: Update LLFA and CRDA registers from rx descriptor<br>
-=C2=A0 =C2=A0dp8393x: Clear RRRA command register bit only when appropriate=
-<br>
-=C2=A0 =C2=A0dp8393x: Implement packet size limit and RBAE interrupt<br>
-=C2=A0 =C2=A0dp8393x: Don&#39;t clobber packet checksum<br>
-=C2=A0 =C2=A0dp8393x: Use long-word-aligned RRA pointers in 32-bit mode<br>
-=C2=A0 =C2=A0dp8393x: Pad frames to word or long word boundary<br>
-=C2=A0 =C2=A0dp8393x: Clear descriptor in_use field to release packet<br>
-=C2=A0 =C2=A0dp8393x: Always update RRA pointers and sequence numbers<br>
-=C2=A0 =C2=A0dp8393x: Don&#39;t reset Silicon Revision register<br>
-=C2=A0 =C2=A0dp8393x: Don&#39;t stop reception upon RBE interrupt assertion=
-<br>
-<br>
-=C2=A0 hw/net/dp8393x.c | 202 ++++++++++++++++++++++++++++++<wbr>+---------=
--------<br>
-=C2=A0 1 file changed, 134 insertions(+), 68 deletions(-)<br>
-</blockquote>
-<br>
-<br>
-Applied.<br>
-<br></blockquote><div><br></div><div>Hi, Jason,</div><div><br></div><div>I =
-generally have some reservations towards patches that did not receive any R=
--bs. I think we should hear from Herve in this case, to confirm that this c=
-hange doesn&#39;t cause other problems while solving the original ones.</di=
-v><div><br></div><div>I hope this is not the case.</div><div><br></div><div=
->Regards,</div><div>Aleksandar</div><div><br></div><div><br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">
-Thanks<br>
-<br>
-<br>
-</blockquote>
-
---000000000000008802059edddd95--
+--Sig_/FS72whMJ3j.JQ/eCDRWgKDN--
 
