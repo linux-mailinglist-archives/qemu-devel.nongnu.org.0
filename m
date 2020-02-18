@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACA8162E97
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:31:54 +0100 (CET)
-Received: from localhost ([::1]:40010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F18162E9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:33:20 +0100 (CET)
+Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j47ez-0001OP-6N
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:31:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33086)
+	id 1j47gM-00036r-2F
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:33:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rdunlap@infradead.org>) id 1j47dK-0000n9-Uw
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:12 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j47dS-0000q8-Kx
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rdunlap@infradead.org>) id 1j47dJ-00082Z-FP
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:10 -0500
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133]:48592)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rdunlap@infradead.org>)
- id 1j47dJ-0007tG-9l
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=wMqtvVtD8RrRuein7/mpaQL8yemoq3/xOYht63VaNdA=; b=m5/39nMtZTbYmnxnpWfY0UNdUI
- 0cb6S1TlahYe11rJEWIN+zmbDpQpiSOGLTAUTINGruiYBtzQHBG7aPKjRDowRpNJzckUjM6Y9feZ5
- qUVuhmjjHaQiRwcu7n6gVcN65e2NmZmrSXwFwGEOM/vFhvRaEz/abbKA67iZvrj4S5vT8bqzjKvmD
- v901S0XF0zfdcbhHNwszhXNUfoJm1Ya4Y/4nf+4EasGQlZ/XM5i96YBf0NaxXRSHXLJ4Rn0mPRWEj
- RHOnvgSjqdWppzpwmq1woWR9r8Bc5Y8MVFTty3jXN1qxJAF+4OSKRgr4bteHIE9ijEdL9bunVdgYO
- YjCNixcg==;
-Received: from [2601:1c0:6280:3f0::19c2]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j47dA-0005i6-G1; Tue, 18 Feb 2020 18:30:00 +0000
-Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
-References: <20200218151812.7816-1-geert+renesas@glider.be>
- <20200218151812.7816-5-geert+renesas@glider.be>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
-Date: Tue, 18 Feb 2020 10:29:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j47dR-0008JB-BM
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:30:18 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38247)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1j47dR-0008Hd-4G; Tue, 18 Feb 2020 13:30:17 -0500
+Received: by mail-ot1-x342.google.com with SMTP id z9so20495891oth.5;
+ Tue, 18 Feb 2020 10:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=VTHuOYkRScccjYac4c/SHiXCBRs8ZpyUXnseZG9ugcI=;
+ b=lJstfHNtZEpeKsA26Zqa3T/gEZc8whTjTtsUf2OBazVMQDASUjJz8ExsaBL5KCwX0F
+ GNaVwUMSXQ7orDp0tBazNkFpboeVCDI2BKIFNIkxK35IVXUaXOftUeTheR51Yz7rqKh5
+ tucZkIucfdhLzuN8frz2LE4I3px++xXCqY33/2Fr4g9PWlmUQJFyifn7qhaE0mx6K+wu
+ S/tV24QnMcTwrQeYrAoD4oAG8gK0FS0M8FuS1hfOeHbPOTwg9BK4npC/TigGygp6qH7L
+ 099hs4isIKbRZ5SJuEzJzVPbDIQELt64PxZLWGuxLReU/HuRDChtMcOHF25sZJQbr5y8
+ nLXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=VTHuOYkRScccjYac4c/SHiXCBRs8ZpyUXnseZG9ugcI=;
+ b=TizNpxZFP+t+pzTCVKpYbT2Vm3bCR9zkX4WXC58uKL3JjkxTzTU6t4SbojEuo+PI0u
+ all48xiKAl+dOe8cRiFlH4qoC9R7D9snhIi70g7lVRVZvj8OaxfYgfWaheuluh7tSL6X
+ cbUbhZwV6OgDnR4fgJF/LbjGo+g3U8k/b9jgM/Ou2oSNlhBEJCQTLWTBoczbjcAgmyxH
+ FToBQKnPs6kcQd9WPqc29Vr6ZCNCoyssNHchnXPIf6m9mxoZuV0Zu3/m0iBlxzEGhnP4
+ gpHu36WLJfcg/mJTPEolDiopIMS4utcC3L2Gx+5Rjfpp4lMtGi2t0IZ9ST5c6oSgk6o7
+ nrIg==
+X-Gm-Message-State: APjAAAV0L56GI9t/ELkYmsOSzeicAuB2LhEJ8QVxSpbD1gpt9g1B1sgN
+ 6X/P/3cUXG1r9gfD65sYs55BrhbnuMEv3n8N6tg=
+X-Google-Smtp-Source: APXvYqxco0Gm+QxHeej5X/OnuQE5moVO5CB9vU/6aRyMOqAyBDqeGGTQ6DNE1WR5pRqk8QW4PhUbIArDe59XuUAJRPc=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr15961226otk.64.1582050616312; 
+ Tue, 18 Feb 2020 10:30:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200218151812.7816-5-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Tue, 18 Feb 2020 10:30:15 -0800 (PST)
+In-Reply-To: <1b1e6027-b59b-939d-c0ad-791be60f18ae@redhat.com>
+References: <cover.1580290069.git.fthain@telegraphics.com.au>
+ <1b1e6027-b59b-939d-c0ad-791be60f18ae@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 18 Feb 2020 19:30:15 +0100
+Message-ID: <CAL1e-=iCY9FaPdDHB4ms37dckQp+YKoWniA22jQ7eOq__jobpA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] Fixes for DP8393X SONIC device emulation
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000008802059edddd95"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:7c80:54:e::133
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,176 +73,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- linux-doc@vger.kernel.org, Marc Zyngier <marc.zyngier@arm.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>
+Cc: "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Finn Thain <fthain@telegraphics.com.au>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Geert,
+--000000000000008802059edddd95
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Just a few comments. Please see below.
+On Tuesday, February 4, 2020, Jason Wang <jasowang@redhat.com> wrote:
 
+>
+> On 2020/1/29 =E4=B8=8B=E5=8D=885:27, Finn Thain wrote:
+>
+>> Hi All,
+>>
+>> There are bugs in the emulated dp8393x device that can stop packet
+>> reception in a Linux/m68k guest (q800 machine).
+>>
+>> With a Linux/m68k v5.5 guest (q800), it's possible to remotely trigger
+>> an Oops by sending ping floods.
+>>
+>> With a Linux/mips guest (magnum machine), the driver fails to probe
+>> the dp8393x device.
+>>
+>> With a NetBSD/arc 5.1 guest (magnum), the bugs in the device can be
+>> fatal to the guest kernel.
+>>
+>> Whilst debugging the device, I found that the receiver algorithm
+>> differs from the one described in the National Semiconductor
+>> datasheet.
+>>
+>> This patch series resolves these bugs.
+>>
+>> AFAIK, all bugs in the Linux sonic driver were fixed in Linux v5.5.
+>> ---
+>> Changed since v1:
+>>   - Minor revisions as described beneath commit logs.
+>>   - Dropped patches 4/10 and 7/10.
+>>   - Added 5 new patches.
+>>
+>> Changed since v2:
+>>   - Minor revisions as described beneath commit logs.
+>>   - Dropped patch 13/13.
+>>   - Added 2 new patches.
+>>
+>> Changed since v3:
+>>   - Replaced patch 13/14 with patch suggested by Philippe Mathieu-Daud=
+=C3=A9.
+>>
+>>
+>> Finn Thain (14):
+>>    dp8393x: Mask EOL bit from descriptor addresses
+>>    dp8393x: Always use 32-bit accesses
+>>    dp8393x: Clean up endianness hacks
+>>    dp8393x: Have dp8393x_receive() return the packet size
+>>    dp8393x: Update LLFA and CRDA registers from rx descriptor
+>>    dp8393x: Clear RRRA command register bit only when appropriate
+>>    dp8393x: Implement packet size limit and RBAE interrupt
+>>    dp8393x: Don't clobber packet checksum
+>>    dp8393x: Use long-word-aligned RRA pointers in 32-bit mode
+>>    dp8393x: Pad frames to word or long word boundary
+>>    dp8393x: Clear descriptor in_use field to release packet
+>>    dp8393x: Always update RRA pointers and sequence numbers
+>>    dp8393x: Don't reset Silicon Revision register
+>>    dp8393x: Don't stop reception upon RBE interrupt assertion
+>>
+>>   hw/net/dp8393x.c | 202 +++++++++++++++++++++++++++++++----------------
+>>   1 file changed, 134 insertions(+), 68 deletions(-)
+>>
+>
+>
+> Applied.
+>
+>
+Hi, Jason,
 
-On 2/18/20 7:18 AM, Geert Uytterhoeven wrote:
-> Document the GPIO Aggregator, and the two typical use-cases.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> ---
-> v5:
->   - Add Reviewed-by, Tested-by,
->   - Fix inconsistent indentation.
-> 
-> v4:
->   - Add Reviewed-by,
->   - Drop controversial GPIO repeater,
->   - Clarify industrial control use case,
->   - Fix typo s/communicated/communicate/,
->   - Replace abstract frobnicator example by concrete door example with
->     gpio-line-names,
-> 
-> v3:
->   - New.
-> ---
->  .../admin-guide/gpio/gpio-aggregator.rst      | 102 ++++++++++++++++++
->  Documentation/admin-guide/gpio/index.rst      |   1 +
->  2 files changed, 103 insertions(+)
->  create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
-> 
-> diff --git a/Documentation/admin-guide/gpio/gpio-aggregator.rst b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-> new file mode 100644
-> index 0000000000000000..114f72be33c2571e
-> --- /dev/null
-> +++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-> @@ -0,0 +1,102 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +GPIO Aggregator
-> +===============
-> +
-> +The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
+I generally have some reservations towards patches that did not receive any
+R-bs. I think we should hear from Herve in this case, to confirm that this
+change doesn't cause other problems while solving the original ones.
 
-"allows" really wants an object following the verb [although the kernel sources
-and docs have many cases of it not having an object].  Something like
+I hope this is not the case.
 
-                       allows {you, one, someone, users, a user} to aggregate
-
-> +gpio_chip.  This supports the following use cases.
-> +
-> +
-> +Aggregating GPIOs using Sysfs
-> +-----------------------------
-> +
-> +GPIO controllers are exported to userspace using /dev/gpiochip* character
-> +devices.  Access control to these devices is provided by standard UNIX file
-> +system permissions, on an all-or-nothing basis: either a GPIO controller is
-> +accessible for a user, or it is not.
-> +
-> +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
-> +them into a new gpio_chip, which can be assigned to a group or user using
-> +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
-> +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
-> +GPIO controller, and no longer needs to care about which GPIOs to grab and
-> +which not, reducing the attack surface.
-> +
-> +Aggregated GPIO controllers are instantiated and destroyed by writing to
-> +write-only attribute files in sysfs.
-> +
-> +    /sys/bus/platform/drivers/gpio-aggregator/
-> +
-> +	"new_device" ...
-> +		Userspace may ask the kernel to instantiate an aggregated GPIO
-> +		controller by writing a string describing the GPIOs to
-> +		aggregate to the "new_device" file, using the format
-> +
-> +		.. code-block:: none
-> +
-> +		    [<gpioA>] [<gpiochipB> <offsets>] ...
-> +
-> +		Where:
-> +
-> +		    "<gpioA>" ...
-> +			    is a GPIO line name,
-> +
-> +		    "<gpiochipB>" ...
-> +			    is a GPIO chip label or name, and
-> +
-> +		    "<offsets>" ...
-> +			    is a comma-separated list of GPIO offsets and/or
-> +			    GPIO offset ranges denoted by dashes.
-> +
-> +		Example: Instantiate a new GPIO aggregator by aggregating GPIO
-> +		19 of "e6052000.gpio" and GPIOs 20-21 of "gpiochip2" into a new
-> +		gpio_chip:
-> +
-> +		.. code-block:: bash
-> +
-> +		    echo 'e6052000.gpio 19 gpiochip2 20-21' > new_device
-> +
-
-Does the above command tell the user that the new device is named
-"gpio-aggregator.0", as used below?
+Regards,
+Aleksandar
 
 
-> +	"delete_device" ...
-> +		Userspace may ask the kernel to destroy an aggregated GPIO
-> +		controller after use by writing its device name to the
-> +		"delete_device" file.
-> +
-> +		Example: Destroy the previously-created aggregated GPIO
-> +		controller "gpio-aggregator.0":
-> +
-> +		.. code-block:: bash
-> +
-> +		    echo gpio-aggregator.0 > delete_device
-> +
-> +
-> +Generic GPIO Driver
-> +-------------------
-> +
-> +The GPIO Aggregator can also be used as a generic driver for a simple
-> +GPIO-operated device described in DT, without a dedicated in-kernel driver.
-> +This is useful in industrial control, and is not unlike e.g. spidev, which
-> +allows to communicate with an SPI device from userspace.
-
-   allows {choose an object} to communicate
-
-> +
-> +Binding a device to the GPIO Aggregator is performed either by modifying the
-> +gpio-aggregator driver, or by writing to the "driver_override" file in Sysfs.
-> +
-> +Example: If "door" is a GPIO-operated device described in DT, using its own
-> +compatible value::
-> +
-> +	door {
-> +		compatible = "myvendor,mydoor";
-> +
-> +		gpios = <&gpio2 19 GPIO_ACTIVE_HIGH>,
-> +			<&gpio2 20 GPIO_ACTIVE_LOW>;
-> +		gpio-line-names = "open", "lock";
-> +	};
-> +
-> +it can be bound to the GPIO Aggregator by either:
-> +
-> +1. Adding its compatible value to ``gpio_aggregator_dt_ids[]``,
-> +2. Binding manually using "driver_override":
-> +
-> +.. code-block:: bash
-> +
-> +    echo gpio-aggregator > /sys/bus/platform/devices/door/driver_override
-> +    echo door > /sys/bus/platform/drivers/gpio-aggregator/bind
 
 
-HTH. Thanks.
--- 
-~Randy
+> Thanks
+>
+>
+>
 
+--000000000000008802059edddd95
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, February 4, 2020, Jason Wang &lt;<a href=3D"mailto:jaso=
+wang@redhat.com">jasowang@redhat.com</a>&gt; wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><br>
+On 2020/1/29 =E4=B8=8B=E5=8D=885:27, Finn Thain wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Hi All,<br>
+<br>
+There are bugs in the emulated dp8393x device that can stop packet<br>
+reception in a Linux/m68k guest (q800 machine).<br>
+<br>
+With a Linux/m68k v5.5 guest (q800), it&#39;s possible to remotely trigger<=
+br>
+an Oops by sending ping floods.<br>
+<br>
+With a Linux/mips guest (magnum machine), the driver fails to probe<br>
+the dp8393x device.<br>
+<br>
+With a NetBSD/arc 5.1 guest (magnum), the bugs in the device can be<br>
+fatal to the guest kernel.<br>
+<br>
+Whilst debugging the device, I found that the receiver algorithm<br>
+differs from the one described in the National Semiconductor<br>
+datasheet.<br>
+<br>
+This patch series resolves these bugs.<br>
+<br>
+AFAIK, all bugs in the Linux sonic driver were fixed in Linux v5.5.<br>
+---<br>
+Changed since v1:<br>
+=C2=A0 - Minor revisions as described beneath commit logs.<br>
+=C2=A0 - Dropped patches 4/10 and 7/10.<br>
+=C2=A0 - Added 5 new patches.<br>
+<br>
+Changed since v2:<br>
+=C2=A0 - Minor revisions as described beneath commit logs.<br>
+=C2=A0 - Dropped patch 13/13.<br>
+=C2=A0 - Added 2 new patches.<br>
+<br>
+Changed since v3:<br>
+=C2=A0 - Replaced patch 13/14 with patch suggested by Philippe Mathieu-Daud=
+=C3=A9.<br>
+<br>
+<br>
+Finn Thain (14):<br>
+=C2=A0 =C2=A0dp8393x: Mask EOL bit from descriptor addresses<br>
+=C2=A0 =C2=A0dp8393x: Always use 32-bit accesses<br>
+=C2=A0 =C2=A0dp8393x: Clean up endianness hacks<br>
+=C2=A0 =C2=A0dp8393x: Have dp8393x_receive() return the packet size<br>
+=C2=A0 =C2=A0dp8393x: Update LLFA and CRDA registers from rx descriptor<br>
+=C2=A0 =C2=A0dp8393x: Clear RRRA command register bit only when appropriate=
+<br>
+=C2=A0 =C2=A0dp8393x: Implement packet size limit and RBAE interrupt<br>
+=C2=A0 =C2=A0dp8393x: Don&#39;t clobber packet checksum<br>
+=C2=A0 =C2=A0dp8393x: Use long-word-aligned RRA pointers in 32-bit mode<br>
+=C2=A0 =C2=A0dp8393x: Pad frames to word or long word boundary<br>
+=C2=A0 =C2=A0dp8393x: Clear descriptor in_use field to release packet<br>
+=C2=A0 =C2=A0dp8393x: Always update RRA pointers and sequence numbers<br>
+=C2=A0 =C2=A0dp8393x: Don&#39;t reset Silicon Revision register<br>
+=C2=A0 =C2=A0dp8393x: Don&#39;t stop reception upon RBE interrupt assertion=
+<br>
+<br>
+=C2=A0 hw/net/dp8393x.c | 202 ++++++++++++++++++++++++++++++<wbr>+---------=
+-------<br>
+=C2=A0 1 file changed, 134 insertions(+), 68 deletions(-)<br>
+</blockquote>
+<br>
+<br>
+Applied.<br>
+<br></blockquote><div><br></div><div>Hi, Jason,</div><div><br></div><div>I =
+generally have some reservations towards patches that did not receive any R=
+-bs. I think we should hear from Herve in this case, to confirm that this c=
+hange doesn&#39;t cause other problems while solving the original ones.</di=
+v><div><br></div><div>I hope this is not the case.</div><div><br></div><div=
+>Regards,</div><div>Aleksandar</div><div><br></div><div><br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+Thanks<br>
+<br>
+<br>
+</blockquote>
+
+--000000000000008802059edddd95--
 
