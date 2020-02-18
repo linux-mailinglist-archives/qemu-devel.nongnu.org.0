@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F441629F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 16:56:27 +0100 (CET)
-Received: from localhost ([::1]:37474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A87D1629CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 16:48:50 +0100 (CET)
+Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j45EY-0005GP-8f
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 10:56:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40899)
+	id 1j457B-0001Ak-LA
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 10:48:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40055)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j45Dl-0004Qy-WA
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:55:38 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4562-0000E5-UT
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:47:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j45Dk-0001Qu-TC
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:55:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33424)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j45Dk-0001QU-NY
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:55:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j45Dj-0001MN-Fy
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 15:55:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7723C2E8048
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 15:55:35 +0000 (UTC)
+ (envelope-from <imammedo@redhat.com>) id 1j4561-0005Za-Oh
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:47:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37756
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4561-0005ZA-KZ
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:47:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582040856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MqzvczSd7hsfKd5wUqF8qpa0Jcq9c4LI8xf3e+uUOpQ=;
+ b=HChLM/OwUPCWATTpFTDgtpwy8+UPMAchgwgLKuFvrn3NplxmbiCG/5LuBnKpiCe6oi0hSZ
+ 4t0hz8GaXqXfztbsBChOhX3hnCjb5UayJtmFPGlpvtmZFPgemy4GYLQfalWqYJ+xGdfFrP
+ S/unLh1SmL0hOProEQcdOkubl4yEVuE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-w1R2-YJIMMS7ZizDkqD8dQ-1; Tue, 18 Feb 2020 10:47:29 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3687DB49;
+ Tue, 18 Feb 2020 15:47:28 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE4BB60BE1;
+ Tue, 18 Feb 2020 15:47:27 +0000 (UTC)
+Date: Tue, 18 Feb 2020 16:47:25 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: no-reply@patchew.org
+Subject: Re: [PATCH v5 00/79] refactor main RAM allocation to use hostmem
+ backend
+Message-ID: <20200218164725.106c5666@redhat.com>
+In-Reply-To: <158197229663.4691.11682540765175903321@a1bbccc8075a>
+References: <20200217173452.15243-1-imammedo@redhat.com>
+ <158197229663.4691.11682540765175903321@a1bbccc8075a>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Feb 2020 15:46:48 -0000
-From: Julien Freche <1855072@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jfreche rth
-X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
-X-Launchpad-Bug-Modifier: Julien Freche (jfreche)
-References: <157545185401.7205.1743602467950204624.malonedeb@gac.canonical.com>
-Message-Id: <158204080866.14689.7591265880078015242.malone@soybean.canonical.com>
-Subject: [Bug 1855072] Re: ARM: HCR.TVM traps are not implemented
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 94c424bc945134f8c7f15e0ca60765c959ec3dda
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: w1R2-YJIMMS7ZizDkqD8dQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,32 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1855072 <1855072@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you! I also tested AArch32 and the code works. Ship it!
+On Mon, 17 Feb 2020 12:44:57 -0800 (PST)
+no-reply@patchew.org wrote:
 
--- =
+> Patchew URL: https://patchew.org/QEMU/20200217173452.15243-1-imammedo@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+[...]
+> 8/79 Checking commit 363d60235895 (alpha/dp264: use memdev for RAM)
+> ERROR: spaces required around that '*' (ctx:WxV)
+> #30: FILE: hw/alpha/alpha_sys.h:14:
+> +PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
+>                                                                       ^
+false positive
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1855072
+[...]
+> 66/79 Checking commit 37756d65c749 (ppc/{ppc440_bamboo, sam460ex}: use memdev for RAM)
+> WARNING: Block comments use a leading /* on a separate line
+> #50: FILE: hw/ppc/ppc4xx_devs.c:669:
+> +/* Split RAM between SDRAM banks.
 
-Title:
-  ARM: HCR.TVM traps are not implemented
+fixed up in v6 posted as reply to this patch
 
-Status in QEMU:
-  In Progress
+[...]
 
-Bug description:
-  On AARCH64, setting HCR.TVM to 1 is supposed to trap all writes to
-  CTLR_EL1, TTBR0_EL1, TTBR1_EL1, TCR_EL1, ESR_EL1, FAR_EL1, AFSR0_EL1,
-  AFSR1_EL1, MAIR_EL1, AMAIR_EL1, and CONTEXTIDR_EL1. However, it
-  currently has no effect (QEMU emulator version 4.1.1).
-
-  It is also likely that TRVM will not trap, but, I didn't verify this.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1855072/+subscriptions
 
