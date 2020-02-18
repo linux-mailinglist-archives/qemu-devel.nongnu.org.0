@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CE1162F88
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:13:40 +0100 (CET)
-Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32AF162F8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:13:58 +0100 (CET)
+Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j48JO-0000jQ-1l
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:13:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46553)
+	id 1j48Jh-0001Ri-R9
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:13:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j48Fv-0004pq-OK
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:04 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j48Fw-0004sT-V5
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j48Fu-0001iD-MZ
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:03 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:32972)
+ (envelope-from <richard.henderson@linaro.org>) id 1j48Fv-0001kM-P9
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:04 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46948)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j48Fu-0001gU-Gi
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:02 -0500
-Received: by mail-pl1-x641.google.com with SMTP id ay11so8468591plb.0
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 11:10:02 -0800 (PST)
+ id 1j48Fv-0001ip-Jo
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:03 -0500
+Received: by mail-pf1-x442.google.com with SMTP id k29so11103507pfp.13
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 11:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hM3BmODxHsfSDsqzi/dhi4yKt4/pOP8vyrMHfxPPoU8=;
- b=IMBlvJvTdEw1le/3ggdyZaL/x4azzyTn9ALiuudKi/gYoDduoPBbtbgN0FTMOgO1j8
- qVHFGBwbMq3b4Rjrb2l5g9rTthaiXLYucS6ZH6XlZmYwpmB4Q8WKlDdXauqVl8fWQwpK
- zFdeJintzrAHSRklojRfLwFZWLU32CwF5usFIZ8WrhmFKSS9SqcrmQVzfyOXZFhIALff
- mkEU4zCbV2Lu0xPZwhu9AYL7KB2OP0UJimvuwmi2ZCNGv+UzmlHFYT58sSFolgyILC7d
- 8fWWsl7FETkgJ/L5COdZOHId4kR95hk4l/Klh9d/BBCsSs7GDoB952t1RvzzPE7Mw2EX
- j5eg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/9wXoDEsxSRqmYUkdBOvS37ZtLP9FiINAczvKHAmVVI=;
+ b=aEHSaFmaqt9CFosgT/kRgfwaWvMLlgf5q66LGeQpwPZ5HnyvrtsdP4PSUY/eK+UwRW
+ P+JG2oHhdfvb2Gmcrr1BjAMmtV8STZL9o3ulG10eNKdXLq1DYg8Vklo2chMa0bGln01Z
+ 07oT1VwpjM76KnjAy9OODZ8XpoBg2VzICDjTjVp3hzh7But+dFfk1ex/5SLhrwtSOL58
+ UsSWjkJnMMJB7yVmbRPP9OV/dMwbTspDbcfh1HBbo6yBEgttNDktUdqyuPgHdG9nzZLi
+ SYuxaf/Zd96gCUeB45PeX/pBHwtDYpjdwGLpeE3eijJfEosEbx0AvuHztjX45A2l6Bwd
+ G75g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hM3BmODxHsfSDsqzi/dhi4yKt4/pOP8vyrMHfxPPoU8=;
- b=Hef0j5b9VwvJIhiUwv1TadGbQZyZyPrRq4JSCG6KYqCD47HMVthAKU+TB086AJMM5k
- exk+rPTZplsu4Tbkq5sklF8fuRINzUJXIB12Mf2DY2M8NftpRzgI1j01qwJXyxTp2JIq
- 8RaEKZBS3Aw/uu98UavSXc2Afz818bWXskgCiecC50HjSbzh9UWKwLJsovEIqUwWjh7+
- UnnJKEF+0nSrrsrS6E1amPw8MZn7kgWXtSCpPQ7TJKpIqodFvPPi7SVLhwWlEDxIzU+k
- 8yibyqhzKYJMy7vUHD8TqCVIEPDZhUTmgz7uZNmEyhY/N/NZNi503NuNi/6T9LpjElr5
- 0ELw==
-X-Gm-Message-State: APjAAAWwXEwbMzWIZINM5tpuFKLFuPpZ5E/wu6JMJuiBqxofzo3uhl1o
- 7b+XmnD6lwTNiheUAo8VLTZ+5mmgBg4=
-X-Google-Smtp-Source: APXvYqzwklJcSgoSdHaSqvx8RKsQc1p1Q22c2iq2bKRgvxb4pHdapH4BPPehl2gblNB0+WBCCxlwrA==
-X-Received: by 2002:a17:902:204:: with SMTP id
- 4mr22688063plc.266.1582053000912; 
- Tue, 18 Feb 2020 11:10:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/9wXoDEsxSRqmYUkdBOvS37ZtLP9FiINAczvKHAmVVI=;
+ b=exHpOPpeAzFmus7h9XF21XXoS8z8mOURGbpixWf6TcBpLSUFaICtO2BY+2Aum7VaeN
+ ZnOTvdNEEUl2Z24wc7iubfM5fdpRC/t6X3yH3Ds3Vg48bUTVR3ukrTnnZQawx6cWI9bT
+ D30kfplgexpIfx+/dghnZR8Lm1zwEjlOio+U9f4oTV6lNb4lCN43FAGViIc3q2x7BZGj
+ GuGxPFbmWfleq72zjy0tK1Xo1adWZwuzI4NROD1JAHQ2Dnl/0dJ9w2KDqOhYRbrHBHGC
+ LZGMN71ri4skA8TNt6gzDYLKaovMPtrXRpckN6X69d/RUUONaaEnt1C7j3ygbmo4/wIb
+ eGRw==
+X-Gm-Message-State: APjAAAVtedhv+7RP4jBnn4DE4ehxZRd9dtrsCKnOKOyEurR4eGCIV8uE
+ vtBrnt4C0t+/ISlOloOcQ7bQKupwfQc=
+X-Google-Smtp-Source: APXvYqw78+9JNq5dLj/70koAtgEhQWjUo19WlAolc4YYqKQDmXz7fJEobq20fRNUZFpa14eAA1iVqg==
+X-Received: by 2002:a62:6409:: with SMTP id y9mr22994459pfb.30.1582053002266; 
+ Tue, 18 Feb 2020 11:10:02 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id i68sm5139399pfe.173.2020.02.18.11.09.59
+ by smtp.gmail.com with ESMTPSA id i68sm5139399pfe.173.2020.02.18.11.10.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 11:10:00 -0800 (PST)
+ Tue, 18 Feb 2020 11:10:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/7] target/arm: Honor more HCR_EL2 traps
-Date: Tue, 18 Feb 2020 11:09:51 -0800
-Message-Id: <20200218190958.745-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 1/7] target/arm: Set ID_MMFR4.HPDS for aarch64_max_initfn
+Date: Tue, 18 Feb 2020 11:09:52 -0800
+Message-Id: <20200218190958.745-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200218190958.745-1-richard.henderson@linaro.org>
+References: <20200218190958.745-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,35 +82,26 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: 20200214175116.9164-1-peter.maydell@linaro.org
-("arm: ARMv8.1- and v8.4-PMU, ID reg cleanup, [H]ACTLR2")
+We had set this for aarch32-only in arm_max_initfn, but
+failed to set the same bit for aarch64.
 
-Patch 1 is a latent error that I noticed while reviewing
-Peter's patch set.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu64.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Patches 2 and 3 have already appeared separately on list,
-with patch 2 bearing a v2.  Thus this patch set is labeled v3.
-
-Patch 4 is dependant on Peter's [H]ACTLR2 fix, and the reason
-for the Based-on tag.
-
-
-r~
-
-
-Richard Henderson (7):
-  target/arm: Set ID_MMFR4.HPDS for aarch64_max_initfn
-  target/arm: Honor the HCR_EL2.{TVM,TRVM} bits
-  target/arm: Honor the HCR_EL2.TSW bit
-  target/arm: Honor the HCR_EL2.TACR bit
-  target/arm: Honor the HCR_EL2.TPCP bit
-  target/arm: Honor the HCR_EL2.TPU bit
-  target/arm: Honor the HCR_EL2.TTLB bit
-
- target/arm/cpu64.c  |   1 +
- target/arm/helper.c | 284 ++++++++++++++++++++++++++++++--------------
- 2 files changed, 196 insertions(+), 89 deletions(-)
-
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 32cf8ee98b..32c3e24a3d 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -704,6 +704,7 @@ static void aarch64_max_initfn(Object *obj)
+         cpu->isar.id_mmfr3 = u;
+ 
+         u = cpu->isar.id_mmfr4;
++        u = FIELD_DP32(u, ID_MMFR4, HPDS, 1); /* AA32HPD */
+         u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 implemented */
+         cpu->isar.id_mmfr4 = u;
+ 
 -- 
 2.20.1
 
