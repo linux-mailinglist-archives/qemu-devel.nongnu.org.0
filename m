@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DF31627C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 15:11:16 +0100 (CET)
-Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA521627B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 15:09:23 +0100 (CET)
+Received: from localhost ([::1]:35720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j43al-0004Rl-9K
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 09:11:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52814)
+	id 1j43Yw-0000OB-Op
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 09:09:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j43Xi-0006s5-7Z
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:07 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j43Xe-0006pK-Pw
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j43Xg-0001QZ-Vv
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:06 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57985
+ (envelope-from <kwolf@redhat.com>) id 1j43Xd-0001OA-Gh
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49489
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j43Xg-0001Pq-Sv
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:04 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j43Xd-0001Nz-DI
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582034883;
+ s=mimecast20190719; t=1582034881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nkOXPRIsDTQhN6JSN/pT5QywP8scoyncfNOfkExAeFM=;
- b=V/hXx/gxEvbLyroflYsh5Kd6aLNkIlMO4dtHf1BY6Lr63/1f/Iq7EwXOr33ftq+nuFOtu6
- nmt5Uh11LwY2m3eP5DgAtNRwhC5knkAriG0ntTn26hG8SZzyoEgeRxYO6YZBwa68uejE/d
- MKQnvsbkMpYsk2pGOtbi4QBBDvPaGwM=
+ bh=BoHRYn0ddHGPZPzr3V33ur7osgG+95vDlfAmZvJ+gaU=;
+ b=L73UJ6Ze6/nrLJleL3CC42BVubpEoMc/nMVtHpLgDu2lNCKNOjjKT5MJu98myXMgwvB9Dt
+ g+YbW0rCuVC6IBK1u+g3AmIdtj0k+U3GYmnIhVcK88GRKs/3OJebhdXllLUqdtpZ6veW0s
+ +4Drq2zTKnA/e/l4pzLj55V268ChMzM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-EXUvw9HlOOWoSm1aVrbcsQ-1; Tue, 18 Feb 2020 09:07:58 -0500
+ us-mta-144-hWnM10f4MoKHb5DMA2s0Fg-1; Tue, 18 Feb 2020 09:07:58 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E88561005516;
- Tue, 18 Feb 2020 14:07:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44008801A2B;
+ Tue, 18 Feb 2020 14:07:57 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-181.ams2.redhat.com
  [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5AA28B563;
- Tue, 18 Feb 2020 14:07:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 433D88B740;
+ Tue, 18 Feb 2020 14:07:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/36] qcow2: Fix alignment checks in encrypted images
-Date: Tue, 18 Feb 2020 15:06:49 +0100
-Message-Id: <20200218140722.23876-4-kwolf@redhat.com>
+Subject: [PULL 04/36] block/vvfat: Do not unref qcow on closing backing bdrv
+Date: Tue, 18 Feb 2020 15:06:50 +0100
+Message-Id: <20200218140722.23876-5-kwolf@redhat.com>
 In-Reply-To: <20200218140722.23876-1-kwolf@redhat.com>
 References: <20200218140722.23876-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: EXUvw9HlOOWoSm1aVrbcsQ-1
+X-MC-Unique: hWnM10f4MoKHb5DMA2s0Fg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,76 +75,47 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Hikaru Nishida <hikarupsp@gmail.com>
 
-I/O requests to encrypted media should be aligned to the sector size
-used by the underlying encryption method, not to BDRV_SECTOR_SIZE.
-Fortunately this doesn't break anything at the moment because
-both existing QCRYPTO_BLOCK_*_SECTOR_SIZE have the same value as
-BDRV_SECTOR_SIZE.
+Before this commit, BDRVVVFATState.qcow is unrefed in write_target_close
+on closing backing bdrv of vvfat. However, qcow bdrv is opend as a child
+of vvfat in enable_write_target() so it will be also unrefed on closing
+vvfat itself. This causes use-after-free of qcow on freeing vvfat which
+has backing bdrv and qcow bdrv as children in this order because
+bdrv_close(vvfat) tries to free qcow bdrv after freeing backing bdrv
+as QLIST_FOREACH_SAFE() loop keeps next pointer, but BdrvChild of qcow
+is already freed in bdrv_close(backing bdrv).
 
-The checks in qcow2_co_preadv_encrypted() are also unnecessary because
-they are repeated immediately afterwards in qcow2_co_encdec().
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20200213171646.15876-1-berto@igalia.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Hikaru Nishida <hikarupsp@gmail.com>
+Message-Id: <20200209175156.85748-1-hikarupsp@gmail.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2-threads.c | 12 ++++++++----
- block/qcow2.c         |  2 --
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ block/vvfat.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 8f5a0d1ebe..77bb578cdf 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -246,12 +246,15 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t host_o=
-ffset,
-         .len =3D len,
-         .func =3D func,
-     };
-+    uint64_t sector_size;
-=20
--    assert(QEMU_IS_ALIGNED(guest_offset, BDRV_SECTOR_SIZE));
--    assert(QEMU_IS_ALIGNED(host_offset, BDRV_SECTOR_SIZE));
--    assert(QEMU_IS_ALIGNED(len, BDRV_SECTOR_SIZE));
-     assert(s->crypto);
-=20
-+    sector_size =3D qcrypto_block_get_sector_size(s->crypto);
-+    assert(QEMU_IS_ALIGNED(guest_offset, sector_size));
-+    assert(QEMU_IS_ALIGNED(host_offset, sector_size));
-+    assert(QEMU_IS_ALIGNED(len, sector_size));
-+
-     return len =3D=3D 0 ? 0 : qcow2_co_process(bs, qcow2_encdec_pool_func,=
- &arg);
+diff --git a/block/vvfat.c b/block/vvfat.c
+index 019b8f1341..ab800c4887 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -3124,17 +3124,10 @@ write_target_commit(BlockDriverState *bs, uint64_t =
+offset, uint64_t bytes,
+     return ret;
  }
 =20
-@@ -270,7 +273,8 @@ qcow2_co_encdec(BlockDriverState *bs, uint64_t host_off=
-set,
-  *        will be written to the underlying storage device at
-  *        @host_offset
-  *
-- * @len - length of the buffer (must be a BDRV_SECTOR_SIZE multiple)
-+ * @len - length of the buffer (must be a multiple of the encryption
-+ *        sector size)
-  *
-  * Depending on the encryption method, @host_offset and/or @guest_offset
-  * may be used for generating the initialization vector for
-diff --git a/block/qcow2.c b/block/qcow2.c
-index ef96606f8d..8dcee5efec 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2068,8 +2068,6 @@ qcow2_co_preadv_encrypted(BlockDriverState *bs,
-         goto fail;
-     }
+-static void write_target_close(BlockDriverState *bs) {
+-    BDRVVVFATState* s =3D *((BDRVVVFATState**) bs->opaque);
+-    bdrv_unref_child(s->bs, s->qcow);
+-    g_free(s->qcow_filename);
+-}
+-
+ static BlockDriver vvfat_write_target =3D {
+     .format_name        =3D "vvfat_write_target",
+     .instance_size      =3D sizeof(void*),
+     .bdrv_co_pwritev    =3D write_target_commit,
+-    .bdrv_close         =3D write_target_close,
+ };
 =20
--    assert(QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE));
--    assert(QEMU_IS_ALIGNED(bytes, BDRV_SECTOR_SIZE));
-     if (qcow2_co_decrypt(bs,
-                          file_cluster_offset + offset_into_cluster(s, offs=
-et),
-                          offset, buf, bytes) < 0)
+ static void vvfat_qcow_options(int *child_flags, QDict *child_options,
 --=20
 2.20.1
 
