@@ -2,65 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBAD16270A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:22:32 +0100 (CET)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7C11626F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:15:46 +0100 (CET)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42pa-0008Bl-Pc
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:22:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
+	id 1j42j3-0008IJ-CU
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:15:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1j42gf-00047h-KW
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:13:19 -0500
+ (envelope-from <jianjay.zhou@huawei.com>) id 1j42hZ-0006Ep-54
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:14:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1j42gc-0006cK-T4
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:13:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21136
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jianjay.zhou@huawei.com>) id 1j42hX-0006qG-KA
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:14:12 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2498 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j42gc-0006bl-I6
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:13:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582031593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z5nthzg/7QkIe/ahXszg3m//7XvjE80yHgw6heGrV44=;
- b=RnxaMZo8L30HDkw4Mie1rCaXZOw56tydXnQhYjCHUvD9IIjdIzTh3tr8d8KT2iLXKBOYha
- n2gco/vL06M2vvEkHUz+7bAFqBJUOGJ6gH6JbjI6Q6i/L2NtQgg7yg9NFJU+JfK+iOkuBj
- MKdB5YkQVbtFGXftlz6Bx1O5wuZVHUQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-XOF-Vk5pOKq93faeYZiwig-1; Tue, 18 Feb 2020 08:13:11 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F151C800D48;
- Tue, 18 Feb 2020 13:13:09 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7F117DC8;
- Tue, 18 Feb 2020 13:13:06 +0000 (UTC)
-Date: Tue, 18 Feb 2020 14:13:04 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v3 00/17] s390x: Protected Virtualization support
-Message-ID: <20200218141304.1c6f82b0.cohuck@redhat.com>
-In-Reply-To: <20200214151636.8764-1-frankja@linux.ibm.com>
-References: <20200214151636.8764-1-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.71) (envelope-from <jianjay.zhou@huawei.com>)
+ id 1j42hX-0006mI-3u
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:14:11 -0500
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.56])
+ by Forcepoint Email with ESMTP id 763E98507C88AB9936DF;
+ Tue, 18 Feb 2020 21:13:58 +0800 (CST)
+Received: from DGGEMM528-MBX.china.huawei.com ([169.254.8.16]) by
+ DGGEMM406-HUB.china.huawei.com ([10.3.20.214]) with mapi id 14.03.0439.000;
+ Tue, 18 Feb 2020 21:13:47 +0800
+From: "Zhoujian (jay)" <jianjay.zhou@huawei.com>
+To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RFC: Split EPT huge pages in advance of dirty logging
+Thread-Topic: RFC: Split EPT huge pages in advance of dirty logging
+Thread-Index: AdXmU97BvyK5YKoyS5++my9GnvXVkw==
+Date: Tue, 18 Feb 2020 13:13:47 +0000
+Message-ID: <B2D15215269B544CADD246097EACE7474BAF9AB6@DGGEMM528-MBX.china.huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.173.228.206]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: XOF-Vk5pOKq93faeYZiwig-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 45.249.212.188
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,85 +58,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, mihajlov@linux.ibm.com, qemu-devel@nongnu.org,
- david@redhat.com
+Cc: "Liujinsong \(Paul\)" <liu.jinsong@huawei.com>,
+ "linfeng \(M\)" <linfeng23@huawei.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "wangxin \(U\)" <wangxinxin.wang@huawei.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "Zhoujian \(jay\)" <jianjay.zhou@huawei.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "Huangweidong \(C\)" <weidong.huang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Feb 2020 10:16:19 -0500
-Janosch Frank <frankja@linux.ibm.com> wrote:
+Hi all,
 
-> Most of the QEMU changes for PV are related to the new IPL type with
-> subcodes 8 - 10 and the execution of the necessary Ultravisor calls to
-> IPL secure guests. Note that we can only boot into secure mode from
-> normal mode, i.e. stfle 161 is not active in secure mode.
-> 
-> The other changes related to data gathering for emulation and
-> disabling addressing checks in secure mode, as well as CPU resets.
+We found that the guest will be soft-lockup occasionally when live migratin=
+g a 60 vCPU,
+512GiB huge page and memory sensitive VM. The reason is clear, almost all o=
+f the vCPUs
+are waiting for the KVM MMU spin-lock to create 4K SPTEs when the huge page=
+s are
+write protected. This phenomenon is also described in this patch set:
+https://patchwork.kernel.org/cover/11163459/
+which aims to handle page faults in parallel more efficiently.
 
-Does it make sense to start looking at this series now, or I should I
-wait until review on the kernel side has settled? (I've lost track of
-the state of the interfaces...)
+Our idea is to use the migration thread to touch all of the guest memory in=
+ the
+granularity of 4K before enabling dirty logging. To be more specific, we sp=
+lit all the
+PDPE_LEVEL SPTEs into DIRECTORY_LEVEL SPTEs as the first step, and then spl=
+it all
+the DIRECTORY_LEVEL SPTEs into PAGE_TABLE_LEVEL SPTEs as the following step=
+.
 
-> 
-> V3:
-> 	* Use dedicated functions to access SIDA
-> 	* Smaller cleanups and segfault fixes
-> 	* Error reporting for Ultravisor calls
-> 	* Inject of RC of diag308 subcode 10 fails
-> 
-> V2:
-> 	* Split out cleanups
-> 	* Internal PV state tracking
-> 	* Review feedback
-> 
-> Janosch Frank (17):
->   Header sync
->   s390x: Add missing vcpu reset functions
->   Sync pv
->   s390x: protvirt: Add diag308 subcodes 8 - 10
->   s390x: protvirt: Support unpack facility
->   s390x: protvirt: Add migration blocker
->   s390x: protvirt: Handle diag 308 subcodes 0,1,3,4
->   s390x: protvirt: KVM intercept changes
->   s390: protvirt: Move STSI data over SIDAD
->   s390x: Add SIDA memory ops
->   s390x: protvirt: SCLP interpretation
->   s390x: protvirt: Set guest IPL PSW
->   s390x: protvirt: Move diag 308 data over SIDAD
->   s390x: protvirt: Disable address checks for PV guest IO emulation
->   s390x: protvirt: Move IO control structures over SIDA
->   s390x: protvirt: Handle SIGP store status correctly
->   s390x: For now add unpack feature to GA1
-> 
->  hw/s390x/Makefile.objs              |   1 +
->  hw/s390x/ipl.c                      |  80 +++++++++++++-
->  hw/s390x/ipl.h                      |  33 ++++++
->  hw/s390x/pv.c                       | 160 ++++++++++++++++++++++++++++
->  hw/s390x/pv.h                       |  40 +++++++
->  hw/s390x/s390-virtio-ccw.c          | 136 ++++++++++++++++++++++-
->  hw/s390x/sclp.c                     |  17 +++
->  include/hw/s390x/s390-virtio-ccw.h  |   1 +
->  include/hw/s390x/sclp.h             |   2 +
->  linux-headers/linux/kvm.h           |  48 ++++++++-
->  target/s390x/cpu.c                  |  41 +++++--
->  target/s390x/cpu.h                  |   8 +-
->  target/s390x/cpu_features_def.inc.h |   1 +
->  target/s390x/diag.c                 |  63 +++++++++--
->  target/s390x/gen-features.c         |   1 +
->  target/s390x/helper.c               |   4 +
->  target/s390x/ioinst.c               | 113 ++++++++++++++------
->  target/s390x/kvm-stub.c             |  10 +-
->  target/s390x/kvm.c                  |  89 ++++++++++++++--
->  target/s390x/kvm_s390x.h            |   6 +-
->  target/s390x/mmu_helper.c           |   9 ++
->  target/s390x/sigp.c                 |   1 +
->  22 files changed, 789 insertions(+), 75 deletions(-)
->  create mode 100644 hw/s390x/pv.c
->  create mode 100644 hw/s390x/pv.h
-> 
+However, there is a side effect. It takes more time to clear the D-bits of =
+the last level
+SPTEs when enabling dirty logging, which is held the QEMU BQL and KVM mmu-l=
+ock
+simultaneously. To solve this issue, the idea of dirty logging gradually in=
+ small chunks
+is proposed too, here is the link for v1:
+https://patchwork.kernel.org/patch/11388227/
 
--ENODOC; can you add something under docs/ that describes how you
-configure a pv guest and what the initialization/teardown flow is?
+Under the Intel(R) Xeon(R) Gold 6161 CPU @ 2.20GHz environment, some tests =
+has
+been done with a 60U256G VM which enables numa balancing using the demo we
+written. We start a process which has 60 threads to randomly touch most of =
+the
+memory in VM, meanwhile count the function execution time in VM when live
+migration. The change_prot_numa() is chosen since it will not release the C=
+PU
+unless its work has finished. Here is the number:
 
+                    Original                 The demo we written
+[1]                  > 9s (most of the time)     ~5ms
+Hypervisor cost       > 90%                   ~3%
+
+[1]: execution time of the change_prot_numa() function
+
+If the time in [1] bigger than 20s, it will be result in soft-lockup.
+
+I know it is a little hacking to do so, but my question is: is this worth t=
+rying to split
+EPT huge pages in advance of dirty logging?
+
+Any advice will be appreciated, thanks.
+
+Regards,
+Jay Zhou
 
