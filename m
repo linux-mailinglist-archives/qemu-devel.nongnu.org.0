@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FA71620F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 07:37:17 +0100 (CET)
-Received: from localhost ([::1]:57366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF081620F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 07:35:56 +0100 (CET)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3wVQ-0003DD-NM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 01:37:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
+	id 1j3wU7-0000nc-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 01:35:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3wSX-000803-VX
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:20 -0500
+ id 1j3wSX-000805-Vp
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3wSX-0007C5-0F
+ id 1j3wSW-0007Bv-W9
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:17 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51176)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46486)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3wSW-00078s-Hk
+ id 1j3wSW-000791-I3
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:16 -0500
-Received: by mail-wm1-x329.google.com with SMTP id a5so1545346wmb.0
+Received: by mail-wr1-x443.google.com with SMTP id z7so22413760wrl.13
  for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 22:33:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=frPN5dFAaj2MWYJF/kX/45dwUwTy4qTt8SEaHdZJjwE=;
- b=KnzRxtQ8DHdX58TnhtxZyzWQsX6LWzAokCYtHrmvbKZSCWMEXk3MIWTrSJVST5/KE1
- 45nBFwPLGDZl1Bhf59sv53kDn2LRVFsTRtERG0QbCe5SonMvd75yuQJNKftd130+12Ar
- /CM6yo9xwD6yVLk128hmx886o5oA9kyLuFwoAsHA8fGeb2uomd+kIzSYBy1TSdQFh0sC
- 9mchya3r3tjqlftzr21w5Dh+DYvdY9wN2Kb9TE8lKhydZGHPemW8tdj0Hwr48YvSebGC
- MExACgKXMyobr91VGejDskGCEEERsw/AMhd5PHJtMl+Q1DhiF7YPjBvMOMqymLG1Olaa
- dmFg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ZEnCz22/lMoX438dE+AVCeyGWeT3h5NvPmvnHleFQyA=;
+ b=l6iln52nRqYuloUTsipGqEbsTvYJe3SlJ28+5HGa44iYEIqpLX+vW09TzBVZUQrm74
+ 7oJ/HDdniVc/Puejnf33dYmHLiHhNoN8AkYX+UmvyDfFCqnzXDjux67EMAl/aI6QLACL
+ YG09l09dTvAZbp/whf4H1CVystMvcXbikU2nEBfypgKjVPuV60yqRxmUeWJojFqSLVa3
+ uUBQfKs/cg8kH8gCfHuRre34UkgZuuAC/HZYaQj5X9/2r4rNX1H/HJ9Pf1EMDe2FA2pI
+ bTTiLlVo8EnNfnOyThwESSiPB6Efa7CMPJKy0RlqbUeG0aMCHz4Ic4bDnfofW0R3QQM7
+ pFoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=frPN5dFAaj2MWYJF/kX/45dwUwTy4qTt8SEaHdZJjwE=;
- b=uD56hzwGlFcf1KxXpmj02HhL41oS6xdgJQjdUsqjhfU8clJdZW8qi49EZXX6P6E/Y0
- S3wJI6rVqYEy8pfHN2ZPTQerEnTgbF7nGCU1JyKAaqJd/E/avUGc9rAX0IoyopYaPM2g
- wAS2NkIX25B34qXdMXYr/f3RCmceqFlge/7RrdVox+3QcVigmTImCSWkZim/YUQeKSfI
- 9n9Giw2O6Ku8bCGMqGwAxkhyear6Ym3aPdZ3Qs8DIVKzvtv5fMKcHyzokwEC9aW0Og39
- qyJ7HEln4QiG4AWCOSbsFmm8izzm+ayjKQ9TC99fIrtKYFZd7SQjGrYy1oNDBzlAIlmq
- zURw==
-X-Gm-Message-State: APjAAAVdgdAr8w044Gn3liUI+5kdWCaARCZcEeroQnfcNtwVtYkKr7Cg
- bcnA2fWo6dkDH4dNPgdcspo=
-X-Google-Smtp-Source: APXvYqxIf2oKkm04Tz7S8RiLaFH34IKcn/sDWdi+Eq3FFVxhq443G4FD6Cf3O8WAGIzeLfPXDqILQg==
-X-Received: by 2002:a1c:6389:: with SMTP id x131mr1080177wmb.174.1582007637526; 
- Mon, 17 Feb 2020 22:33:57 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ZEnCz22/lMoX438dE+AVCeyGWeT3h5NvPmvnHleFQyA=;
+ b=TJHuFabst6fN7kQzRSPw/3Hi2HHPXQlJDUGCAJJMIqbnQCnicjnQ0M7LGe7F/tSNUG
+ T9fgNiMI1qutZHzRraYw0d1JAJyMQPsSx0Oe7dE3mjlGgPNTeU/XDuIQ2rdgQ+OzsboN
+ tRGdxPTVhQvPfnQThu1uLqIS9sGUZZXeQQDgYJxL0mxatqkSzjk1ddM2k3ZgOGtidLVx
+ PcmyBFIwuU3rM/JxNFDvLaqT54b+aIY6hNOFiksToO7T0aOj70ZLoZdldftRtSSYII/U
+ 4FiYHuFFmYhAOOskLbGoagmjLRdCth+c6lX0f6dQvFwFxeRaIFui0VznRhpQ0imC+1zP
+ jVzg==
+X-Gm-Message-State: APjAAAU6OgdL+hahEhFSlOHLjdrjGxEGy66pgei+F25QpXROq2zJEtG1
+ fZIL/duB98NREqKQA0gBzh0=
+X-Google-Smtp-Source: APXvYqzBmrRQq+e/Uo5HTRLbcne9TquDRtGvVgpwh0YoWASbhAKH29BTLWxDWuB/kxV7gVgvDCk1rw==
+X-Received: by 2002:a5d:560d:: with SMTP id l13mr774391wrv.222.1582007638595; 
+ Mon, 17 Feb 2020 22:33:58 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id y7sm4374683wrr.56.2020.02.17.22.33.56
+ by smtp.gmail.com with ESMTPSA id y7sm4374683wrr.56.2020.02.17.22.33.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 22:33:57 -0800 (PST)
+ Mon, 17 Feb 2020 22:33:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
  Sven Schnelle <svens@stackframe.org>
-Subject: [PATCH v2 0/4] hw/hppa/dino: Fix Coverity 1419387 / 1419393 / 1419394
-Date: Tue, 18 Feb 2020 07:33:51 +0100
-Message-Id: <20200218063355.18577-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/4] hw/hppa/dino: Add comments with register name
+Date: Tue, 18 Feb 2020 07:33:52 +0100
+Message-Id: <20200218063355.18577-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200218063355.18577-1-f4bug@amsat.org>
+References: <20200218063355.18577-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,24 +89,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Easy fix for the overrun reported by Coverity.
+Add a comment with the name of each register in the 0x800-0x8ff range.
 
-Since v1:
-- Fixed description to cover CID 1419387 (reported by Peter)
-  (no code change)
+Acked-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/hppa/dino.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Supersedes: <20200213234148.8434-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (4):
-  hw/hppa/dino: Add comments with register name
-  hw/hppa/dino: Fix reg800_keep_bits overrun (CID 1419387 1419393
-    1419394)
-  hw/hppa/dino: Fix bitmask for the PCIROR register
-  hw/hppa/dino: Do not accept accesses to registers 0x818 and 0x82c
-
- hw/hppa/dino.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
-
+diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
+index 9797a7f0d9..c237ad3b1b 100644
+--- a/hw/hppa/dino.c
++++ b/hw/hppa/dino.c
+@@ -85,18 +85,18 @@
+ 
+ #define DINO800_REGS ((DINO_TLTIM - DINO_GMASK) / 4)
+ static const uint32_t reg800_keep_bits[DINO800_REGS] = {
+-            MAKE_64BIT_MASK(0, 1),
+-            MAKE_64BIT_MASK(0, 7),
+-            MAKE_64BIT_MASK(0, 7),
+-            MAKE_64BIT_MASK(0, 8),
+-            MAKE_64BIT_MASK(0, 7),
+-            MAKE_64BIT_MASK(0, 9),
+-            MAKE_64BIT_MASK(0, 32),
+-            MAKE_64BIT_MASK(0, 8),
+-            MAKE_64BIT_MASK(0, 30),
+-            MAKE_64BIT_MASK(0, 25),
+-            MAKE_64BIT_MASK(0, 22),
+-            MAKE_64BIT_MASK(0, 9),
++    MAKE_64BIT_MASK(0, 1),  /* GMASK */
++    MAKE_64BIT_MASK(0, 7),  /* PAMR */
++    MAKE_64BIT_MASK(0, 7),  /* PAPR */
++    MAKE_64BIT_MASK(0, 8),  /* DAMODE */
++    MAKE_64BIT_MASK(0, 7),  /* PCICMD */
++    MAKE_64BIT_MASK(0, 9),  /* PCISTS */
++    MAKE_64BIT_MASK(0, 32), /* Undefined */
++    MAKE_64BIT_MASK(0, 8),  /* MLTIM */
++    MAKE_64BIT_MASK(0, 30), /* BRDG_FEAT */
++    MAKE_64BIT_MASK(0, 25), /* PCIROR */
++    MAKE_64BIT_MASK(0, 22), /* PCIWOR */
++    MAKE_64BIT_MASK(0, 9),  /* TLTIM */
+ };
+ 
+ typedef struct DinoState {
 -- 
 2.21.1
 
