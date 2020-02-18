@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F6E1624C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:42:40 +0100 (CET)
-Received: from localhost ([::1]:60694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5F91624B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:36:55 +0100 (CET)
+Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j40Kt-0007La-MA
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:42:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51997)
+	id 1j40FK-0003Ws-R4
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:36:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j40De-00010V-Rn
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:11 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j40Dk-00019z-3R
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j40Dd-0007KI-NA
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46746
+ (envelope-from <mreitz@redhat.com>) id 1j40Di-0007M6-OH
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:15 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21980
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j40Dd-0007K4-Il
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:09 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j40Di-0007Lr-KM
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582022109;
+ s=mimecast20190719; t=1582022114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7YTYv8AieZotQAw9UExylWnb2sFwtVYrQjgy0Kvcwkk=;
- b=c3vIEEPFFiuqJR7JqCESrNopcQhnD/ZphHK8R8K5IejjwLGZHzQS3W9ho9AZdkPzDxcN50
- ZPeJr0DoRonyvLrMYuHpDAl+pdcSVW76s1wfwXksNuOORhmRRbGpyaUvVnwQPuX7Z4Yu5S
- yOoOVRR+CGWgOCPHYb4J8DXmK4/XFCQ=
+ bh=yvBWi2s6/tJLBi+ftR5NPxjefGGwG5hSWq/ZKgtM+YU=;
+ b=X3Tq+UJdZkk9h6C3KM2fV3aDM5H+gqVSZPzQK4MIwU/YffmlsQWkYaW2dOI6V8fLnWuEpS
+ nNfyWvZLknYzIErbVLe7ngXW1ThM1mSQphCU52fkTXQLfqrVeypiD5IsdhF185buCsQrrn
+ qmtlnFNCe0IWwYKq1ebjpYLRIoCloZI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-Dasi2l6kOVqs5jJYA2RjGg-1; Tue, 18 Feb 2020 05:35:07 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-44-qbxdX0FsOdCmAzmznA_8ug-1; Tue, 18 Feb 2020 05:35:10 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 849038010F8;
- Tue, 18 Feb 2020 10:35:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AF8D18A6EC3;
+ Tue, 18 Feb 2020 10:35:09 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CBE01BC6D;
- Tue, 18 Feb 2020 10:35:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2CBE5D9E2;
+ Tue, 18 Feb 2020 10:35:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 03/19] block: Drop bdrv_is_first_non_filter()
-Date: Tue, 18 Feb 2020 11:34:38 +0100
-Message-Id: <20200218103454.296704-4-mreitz@redhat.com>
+Subject: [PATCH v4 04/19] iotests: Let 041 use -blockdev for quorum children
+Date: Tue, 18 Feb 2020 11:34:39 +0100
+Message-Id: <20200218103454.296704-5-mreitz@redhat.com>
 In-Reply-To: <20200218103454.296704-1-mreitz@redhat.com>
 References: <20200218103454.296704-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: Dasi2l6kOVqs5jJYA2RjGg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: qbxdX0FsOdCmAzmznA_8ug-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,70 +76,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is unused now.  (And it was ugly because it needed to explore all BDS
-chains from the top.)
+Using -drive with default options means that a virtio-blk drive will be
+created that has write access to the to-be quorum children.  Quorum
+should have exclusive write access to them, so we should use -blockdev
+instead.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c               | 26 --------------------------
- include/block/block.h |  1 -
- 2 files changed, 27 deletions(-)
+ tests/qemu-iotests/041 | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index 998bb41a5b..f6731fa9be 100644
---- a/block.c
-+++ b/block.c
-@@ -6235,32 +6235,6 @@ bool bdrv_recurse_is_first_non_filter(BlockDriverSta=
-te *bs,
-     return false;
- }
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 43556b9727..aa7d54d968 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -885,7 +885,10 @@ class TestRepairQuorum(iotests.QMPTestCase):
+             # Assign a node name to each quorum image in order to manipula=
+te
+             # them
+             opts =3D "node-name=3Dimg%i" % self.IMAGES.index(i)
+-            self.vm =3D self.vm.add_drive(i, opts)
++            opts +=3D ',driver=3D%s' % iotests.imgfmt
++            opts +=3D ',file.driver=3Dfile'
++            opts +=3D ',file.filename=3D%s' % i
++            self.vm =3D self.vm.add_blockdev(opts)
 =20
--/* This function checks if the candidate is the first non filter bs down i=
-t's
-- * bs chain. Since we don't have pointers to parents it explore all bs cha=
-ins
-- * from the top. Some filters can choose not to pass down the recursion.
-- */
--bool bdrv_is_first_non_filter(BlockDriverState *candidate)
--{
--    BlockDriverState *bs;
--    BdrvNextIterator it;
--
--    /* walk down the bs forest recursively */
--    for (bs =3D bdrv_first(&it); bs; bs =3D bdrv_next(&it)) {
--        bool perm;
--
--        /* try to recurse in this top level bs */
--        perm =3D bdrv_recurse_is_first_non_filter(bs, candidate);
--
--        /* candidate is the first non filter */
--        if (perm) {
--            bdrv_next_cleanup(&it);
--            return true;
--        }
--    }
--
--    return false;
--}
--
- BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
-                                         const char *node_name, Error **err=
-p)
- {
-diff --git a/include/block/block.h b/include/block/block.h
-index 78026679ab..a6c0f6668e 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -394,7 +394,6 @@ int bdrv_amend_options(BlockDriverState *bs_new, QemuOp=
-ts *opts,
- /* external snapshots */
- bool bdrv_recurse_is_first_non_filter(BlockDriverState *bs,
-                                       BlockDriverState *candidate);
--bool bdrv_is_first_non_filter(BlockDriverState *candidate);
+         self.vm.launch()
 =20
- /* check if a named node can be replaced when doing drive-mirror */
- BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
 --=20
 2.24.1
 
