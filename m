@@ -2,103 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769CF163332
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 21:39:50 +0100 (CET)
-Received: from localhost ([::1]:41704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C86163379
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 21:51:32 +0100 (CET)
+Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j49en-0008Pq-9i
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 15:39:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37444)
+	id 1j49q7-0004lZ-JB
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 15:51:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sunilmut@microsoft.com>) id 1j49di-0007qp-Kq
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 15:38:45 -0500
+ (envelope-from <bounces@canonical.com>) id 1j49pI-0004Kw-6d
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 15:50:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sunilmut@microsoft.com>) id 1j49dg-00086Q-1m
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 15:38:41 -0500
-Received: from mail-dm6nam12on2130.outbound.protection.outlook.com
- ([40.107.243.130]:52192 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sunilmut@microsoft.com>)
- id 1j49dc-00080h-04
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 15:38:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fQbwPZVNdB8jIS41CZfBwCQbp+NMXQNKzCu+VVmWkTXYuc27Ob3+O/xnokkwXuoMm6JiU0j6bWUX0L2dJW/u3b1qJttW3JIc3A/+DAkxAPbU0lO0DW5AKuPqbQcgbCyY0fU50Fg8xMXJtvV5N1+8wo78dqAFAA7RV+aXimtnqD4up03nM3S0JCRIFlKlgjNh5kdRm3jS4sXZo521BDuSUa29/9cNkLqy9sx5DzW47UGEKxLFiA/ppHPHHen2ifc+eZDC+qSW1lSPC2cTiScUIMRblmQQ9mJGzvUMHauGn2XloGaUk+uelzGFUlD1hWdePTzyYDGkqr07DrYkhJ6g0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XYAHfB2idGwCtyAFEOGIsSmTojx/57/Mv4GnJqGZzzs=;
- b=QNI7AIIlxtubtr6hvfM+CC5ehKbJ2F3kLouaBOlL6hzd03ia027x1/h94Cc/XHLP0jgPNeYHO1j2OhYmIpQCyB+H80MPB4EDIU+dBRG402Qg7yEVrmavm40WZAe8WdGp2ehxRFaEvVwiUXsh276zsdb1UDF4eq1HG9wQk2f5euEtSnfnyaMvHp5jj77mqUWcaJ6Ab+4MEv1eYWgaZUqezDMzM8BNEJLBNQyeJEI+RN7kc/zoo1tBvDQWoEAAQ+O4j5y8aQyuPdGvCmQR7Lpq9hFBoZ2ZztAQ74JwsDZuyrBdcr1/oYWHwxO9AGZ0hWM0SeLuzCXTbrHD9mfsHWjJyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XYAHfB2idGwCtyAFEOGIsSmTojx/57/Mv4GnJqGZzzs=;
- b=OAiOHA0f08QC3AwAfIPRpb2Jkjtn9mEs3LXEn+xFeIRJiM92lGe7O/ZS6nAkR+OoS6SVG0oXKTDRLJojrEvEtUrnRQl5QjY+nxsetRPPyFVbUBsO/AvqI1QkiDDr3nR6zMals49P1bO7WV5CI3Svwpwc9i4L7rSB3syxGg52xqc=
-Received: from SN4PR2101MB0880.namprd21.prod.outlook.com (10.167.151.161) by
- SN4PR2101MB0734.namprd21.prod.outlook.com (10.167.151.153) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.3; Tue, 18 Feb 2020 20:38:32 +0000
-Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
- ([fe80::15c9:bf73:c204:7cb7]) by SN4PR2101MB0880.namprd21.prod.outlook.com
- ([fe80::15c9:bf73:c204:7cb7%9]) with mapi id 15.20.2750.000; Tue, 18 Feb 2020
- 20:38:32 +0000
-From: Sunil Muthuswamy <sunilmut@microsoft.com>
-To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
-CC: Stefan Weil <sw@weilnetz.de>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "Justin Terry (SF)" <juterry@microsoft.com>
-Subject: [PATCH] WHPX: Assigning maintainer for Windows Hypervisor Platform
-Thread-Topic: [PATCH] WHPX: Assigning maintainer for Windows Hypervisor
- Platform
-Thread-Index: AdXmmxkvbI0n3XG6RKSCtw/4QRCyRQ==
-Date: Tue, 18 Feb 2020 20:38:32 +0000
-Message-ID: <SN4PR2101MB0880E245954826FD91C9D67DC0110@SN4PR2101MB0880.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=sunilmut@microsoft.com; 
-x-originating-ip: [2001:4898:80e8:2:7c34:6d8c:67e9:f949]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 260126d2-6b75-4d75-0ff3-08d7b4b28528
-x-ms-traffictypediagnostic: SN4PR2101MB0734:|SN4PR2101MB0734:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN4PR2101MB0734D8BD6AE8A2C022CC2A37C0110@SN4PR2101MB0734.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:296;
-x-forefront-prvs: 031763BCAF
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(366004)(376002)(39860400002)(136003)(346002)(189003)(199004)(2906002)(107886003)(81166006)(8936002)(5660300002)(9686003)(4326008)(55016002)(478600001)(8676002)(81156014)(316002)(8990500004)(54906003)(6506007)(66946007)(186003)(86362001)(10290500003)(33656002)(64756008)(71200400001)(4744005)(66446008)(66476007)(7696005)(66556008)(76116006)(52536014)(110136005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:SN4PR2101MB0734;
- H:SN4PR2101MB0880.namprd21.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VXeLlGZRby2U8dOV6ZIuvYfIWbma4DUSoTWcuZVUWldX4bsOB+cle6Du2JSIpFcIHBK05CJOLBHViz69yPlSdr6dT9W9JOxsvmP6GN9l9Vq0EKEEaFCcY1jygYdjbqVZTV1ARZURy9ffliUR7yz/6Ycr8qp3x+tUomeaasV8v3KFJUaRl0AC6+gKBrhnUisOGVGOj+h+10thcXvj5MnYptyAJhpKJ4KLn+XGhN034qOcEUo2M91GZrcx68IUlqKTNMJ/gT88VxosBYDjq32htLfpytsce/7luMsyTzIdULEvcXO0HTS5wSEkclWkklb1YmbKgAxoPeXYpvTNFcre1hoisoz81RoyBD6CwU8hrivAsoOxwM2xPsuNHmM7VA6haHGKqI5YG6vl4F/tNB3XbcF/9rUTAcycXj/gWErFPTcTdZrhc+i0WpxOfPHzGA0m
-x-ms-exchange-antispam-messagedata: LHggxMVn35Ikz2ENz1MSf7pwoiUirkLQvIxz0MXPJ5KY6VAYx1VFpRYg6SHiQeFkQdbFx2VVmOT2eDigz8WzOF6Gd5n+74/5/bIGNbNY1Qa0PyWzKcGAs5yvHpXdO6u4x9pm8kYOP+6QEm3oxcEsN0i6/oy4uOedl4I7CrkTZn4B1vohRZlpibZhndQTM1WEMDYajMxHLe5G8w9vKLxvMA==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <bounces@canonical.com>) id 1j49pH-0002x6-3N
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 15:50:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36660)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j49pG-0002uI-T4
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 15:50:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j49pF-0004uQ-C7
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 20:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 43BA62E80C9
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 20:50:37 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 260126d2-6b75-4d75-0ff3-08d7b4b28528
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2020 20:38:32.6368 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GRenDl46slwhsbbB2QfIq9fwM6GZlLTd29HvwdgNX54o+VFMStS+Az1whkYh3FwISN06AW0TsdWCDG63+/l+tZ3A2AeXEtG4wgvpW6ZUsxo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR2101MB0734
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.243.130
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Feb 2020 20:41:06 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jfreche rth
+X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <158198492915.29307.8701397558481624318.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158205846632.24807.15939250980651953749.malone@gac.canonical.com>
+Subject: [Bug 1863685] Re: ARM: HCR.TSW traps are not implemented
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3c30d1e4872e739b0216cdea6eb5c02bf454f987
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -107,33 +65,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1863685 <1863685@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I can't think of any reason that DACR would have an incorrect
+register value.  It would be treated as any other system register,
+and there's only one code path involved.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1740a4fddc..9b3ba4e1b5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -404,6 +404,14 @@ S: Supported
- F: target/i386/kvm.c
- F: scripts/kvm/vmxcap
-=20
-+WHPX CPUs
-+M: Sunil Muthuswamy <sunilmut@microsoft.com>
-+S: Supported
-+F: target/i386/whpx-all.c
-+F: target/i386/whp-dispatch.h
-+F: accel/stubs/whpx-stub.c
-+F: include/sysemu/whpx.h
-+
- Guest CPU Cores (Xen)
- ---------------------
- X86 Xen CPUs
---=20
-2.17.1
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863685
+
+Title:
+  ARM: HCR.TSW traps are not implemented
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  On 32-bit and 64-bit ARM platforms, setting HCR.TSW is supposed to
+  "Trap data or unified cache maintenance instructions that operate by
+  Set/Way." Quoting the ARM manual:
+
+  If EL1 is using AArch64 state, accesses to DC ISW, DC CSW, DC CISW are tr=
+apped to EL2, reported using EC syndrome value 0x18.
+  If EL1 is using AArch32 state, accesses to DCISW, DCCSW, DCCISW are trapp=
+ed to EL2, reported using EC syndrome value 0x03.
+
+  However, QEMU does not trap those instructions/registers. This was
+  tested on the branch master of the git repo.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863685/+subscriptions
 
