@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A5E1623D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:48:22 +0100 (CET)
-Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F211623DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:50:55 +0100 (CET)
+Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zUL-0006rK-ET
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:48:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43209)
+	id 1j3zWo-0002Ww-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:50:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3zQM-00014d-9f
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:15 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3zQP-0001Dj-9J
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3zQL-0005pg-9T
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28587
+ (envelope-from <philmd@redhat.com>) id 1j3zQO-0005s3-8F
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:17 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60262
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zQL-0005pF-5m
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:13 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zQO-0005rl-4h
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582019052;
+ s=mimecast20190719; t=1582019055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZU7fveF1nmznN+St3KEHVmWeNf346k9KkwUIERJBNlc=;
- b=FBuP2m39Ei0u5yezOGWskeu39oWChFC0pyaj2rfFkmB/w3/gu6MaCBGvA1g8wJTuB3Wn9L
- 5bkE+jmN1SVmm7b1zR6Q+dLjp34l452wqTJFEYxcxJqmpPbiRu8kxSD8MB2PdifvKeD7mv
- A8x+hnVpW+gV6YNH9QTXIBxPrlFUjFs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-mthIcPaDMA6RRZQSUAqd6g-1; Tue, 18 Feb 2020 04:44:11 -0500
-Received: by mail-wm1-f72.google.com with SMTP id g138so230410wmg.8
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:44:10 -0800 (PST)
+ bh=O50p9vS8lAM1KgCOESGEUWsExX65Aroq2vWKbIYHyYM=;
+ b=beJmDIntki0QCRq/p+q1l1wFUMoCpRBdFJHepydra6qn4Zvr7fmRGh+MWMVNLIUmhmLApQ
+ xEA0kVR5WSOx4Ra8q7USPEnTGtpekjdQoaglYJZBlr42P60+1gXL76nuu54l0OtX7FPbvc
+ yJ7TRFYwlG6Enl+hKj/UlG2lxGvLtNk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-zNg3nNoNMae5v2bdTSCvNg-1; Tue, 18 Feb 2020 04:44:13 -0500
+Received: by mail-wm1-f70.google.com with SMTP id f66so870728wmf.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:44:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ajGEvpxvLQVL8Fd5Rt9Hd36QOTmv1kRHcUMcc2d9U3U=;
- b=JNI94fDYuhyn6q8Wzaufgw+vZoWwRW4DKNbPnvbXlzIA45CffBMUi6gdWsU6W2O3Tn
- y0/Ld8ztzLMOD7L7tnRYlgqzMf3MShOTsz8Tf1ak0weAFzDPPXIuXGBfPxUX27nYl8/r
- y8wuRSTMlFinLvAst8E2NCUBtvYDaY8ZE8PK2BoRl1S9gJ9793Jph6uhXJD2I605tmyq
- 2dQKaDVksXr6VBoLHzsRnARF/apQy+pzwyKQ1T3gYMA1j6rYyn6X3I82QAX9BMxlxuMy
- v0K21YmCwcucBvPqtyWiyGfJaFEBcjJa22C9eCdp4o//wf3KtEI6UDF1YMf6JFi9suTB
- JkTA==
-X-Gm-Message-State: APjAAAVnHxVmHqQS+2fCH8c4+wY8YMCSW8YDoY2Sb7xV0wac/zLiCWqX
- hx/tLkrf0NkIsgQWxmHHg8hkFyqrLUXyrTLkN5khYzqTW47xPoUSvMRtysD16Ci0kqH6EtwA9wE
- wXc3dkOK4yLKkJRE=
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr2205619wmi.116.1582019049853; 
- Tue, 18 Feb 2020 01:44:09 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwB3rGLxQZLgg+OP0hNSeyQWsU6nFZjDKtPoOMnFmWEI1CmOX2tYvfjrMRtNoIZv/SUqeisfQ==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr2205584wmi.116.1582019049667; 
- Tue, 18 Feb 2020 01:44:09 -0800 (PST)
+ bh=5tYW7J9DRdD0EtwNm+zUUQ5S0X5D36o436wq58i4uWY=;
+ b=BmHjyMLAkspVepH6xYkZY0dvuBFqZ6xx/6/Mue5fhklOhcoG/tNBQx5sLS9XPeTM4P
+ RhJw6H3s39cEQnZZ7egRY5zF3Jmzcwiv5PqDPX2ql3GDFwgUvALwXB2L8rE/zMvjJ6iw
+ svkPK5FHWPjpX+SDzkOW2I4r6HQoMG/4FNUxARAkIXqTAvxkcR8+93IHsN+vlJHSy9GQ
+ hEsGQM+pW7Cgpjh99OdNCQfhulUeSjfgC8MqiLXDLrM7mAWlUz/hDACUhTRG30oQglde
+ oJomJ/3zNOOwZxoKHItAtv9/C0FkSLzOpf8gTqYxoOa/+fp/niLRRXEzGjqZu1/ACYRb
+ PxoA==
+X-Gm-Message-State: APjAAAXH4z6lfZVDXkokJ9TZx8wg2GovVE6HLuIXVHSs0ZqIu9ROTMsM
+ MoJf+9zpjNmC4g/OGGUaHcB8G7BzG7H/aED61kI9mOifW2/2iLANUshmsOQNUqfQePCq6JiVNra
+ cadrTXdnd6XzTVgk=
+X-Received: by 2002:adf:8b54:: with SMTP id v20mr28935345wra.390.1582019051874; 
+ Tue, 18 Feb 2020 01:44:11 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxMtdGZ9ZNI7NaaHAT7y+lFX7mMTPGE38ySlsJjVzxj2/xLbNLLthxR5dkf47Vg3kq+jdf8sg==
+X-Received: by 2002:adf:8b54:: with SMTP id v20mr28935311wra.390.1582019051646; 
+ Tue, 18 Feb 2020 01:44:11 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id z10sm2735588wmk.31.2020.02.18.01.44.07
+ by smtp.gmail.com with ESMTPSA id z10sm2735588wmk.31.2020.02.18.01.44.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 01:44:09 -0800 (PST)
+ Tue, 18 Feb 2020 01:44:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND 02/13] audio/alsaaudio: Remove superfluous semicolons
-Date: Tue, 18 Feb 2020 10:43:51 +0100
-Message-Id: <20200218094402.26625-3-philmd@redhat.com>
+Subject: [PATCH RESEND 03/13] block: Remove superfluous semicolons
+Date: Tue, 18 Feb 2020 10:43:52 +0100
+Message-Id: <20200218094402.26625-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200218094402.26625-1-philmd@redhat.com>
 References: <20200218094402.26625-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: mthIcPaDMA6RRZQSUAqd6g-1
+X-MC-Unique: zNg3nNoNMae5v2bdTSCvNg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,7 +93,6 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
  Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?= <DirtY.iCE.hu@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
@@ -108,38 +107,33 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 286a5d201e4
+Fixes: 132ada80c4a
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-Cc: "K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <DirtY.iCE.hu@gmail.com>
----
- audio/alsaaudio.c | 4 ++--
+ block.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index a23a5a0b60..a8e62542f9 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -819,7 +819,7 @@ static size_t alsa_read(HWVoiceIn *hw, void *buf, size_=
-t len)
-             switch (nread) {
-             case 0:
-                 trace_alsa_read_zero(len);
--                return pos;;
-+                return pos;
-=20
-             case -EPIPE:
-                 if (alsa_recover(alsa->handle)) {
-@@ -835,7 +835,7 @@ static size_t alsa_read(HWVoiceIn *hw, void *buf, size_=
-t len)
-             default:
-                 alsa_logerr(nread, "Failed to read %zu frames to %p\n",
-                             len, dst);
--                return pos;;
-+                return pos;
+diff --git a/block.c b/block.c
+index 9c810534d6..9db0b973fe 100644
+--- a/block.c
++++ b/block.c
+@@ -2435,13 +2435,13 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState =
+*child_bs,
+     if (bdrv_get_aio_context(child_bs) !=3D ctx) {
+         ret =3D bdrv_try_set_aio_context(child_bs, ctx, &local_err);
+         if (ret < 0 && child_role->can_set_aio_ctx) {
+-            GSList *ignore =3D g_slist_prepend(NULL, child);;
++            GSList *ignore =3D g_slist_prepend(NULL, child);
+             ctx =3D bdrv_get_aio_context(child_bs);
+             if (child_role->can_set_aio_ctx(child, ctx, &ignore, NULL)) {
+                 error_free(local_err);
+                 ret =3D 0;
+                 g_slist_free(ignore);
+-                ignore =3D g_slist_prepend(NULL, child);;
++                ignore =3D g_slist_prepend(NULL, child);
+                 child_role->set_aio_ctx(child, ctx, &ignore);
              }
-         }
-=20
+             g_slist_free(ignore);
 --=20
 2.21.1
 
