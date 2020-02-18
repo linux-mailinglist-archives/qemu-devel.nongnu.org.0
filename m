@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B401626CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:08:35 +0100 (CET)
-Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FE11626F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:14:09 +0100 (CET)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42c6-0003PV-Kb
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:08:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40502)
+	id 1j42hU-00055s-4h
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:14:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1j42JB-0006NJ-7F
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:49:04 -0500
+ (envelope-from <eblake@redhat.com>) id 1j42NN-00057A-Rj
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:53:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1j42JA-0004LW-1F
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:49:00 -0500
-Received: from 7.mo179.mail-out.ovh.net ([46.105.61.94]:59725)
+ (envelope-from <eblake@redhat.com>) id 1j42NM-0006Lj-Sb
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:53:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35671
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1j42J8-0004II-SC
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:48:59 -0500
-Received: from player157.ha.ovh.net (unknown [10.108.42.202])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7589A1598ED
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 13:48:55 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player157.ha.ovh.net (Postfix) with ESMTPSA id 44536F80E943;
- Tue, 18 Feb 2020 12:48:51 +0000 (UTC)
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200217021217.95766-1-aik@ozlabs.ru>
- <8e67117e-e74a-fb5c-226b-78e62ac26291@kaod.org>
- <44499677-3099-56c6-7249-afa8eccc7668@ozlabs.ru>
- <bdfb7d07-c5fd-c21e-f812-4a0a747b02c3@kaod.org>
- <0c21bb33-e6c0-c117-c9e7-dda16d3b13a5@ozlabs.ru>
- <4a8261b3-3842-869c-0997-b997229ff3f6@ozlabs.ru>
- <20649920-f867-7193-e86e-89b42ec6ae97@kaod.org>
-Message-ID: <474f7204-fcee-ae4b-eb9a-d5d0a987c4a2@kaod.org>
-Date: Tue, 18 Feb 2020 13:48:48 +0100
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j42NM-0006Ld-Ow
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:53:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582030400;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Y+vgxiuwyMVTg5NR5Th+R/L1QP8fpIPJqnqj2lUfPw=;
+ b=iagMSk94QBxWAVTIN6vuHB10qVfOJZl19unmJBtkxYjtNkhGGoyTRQS0qfrSf93gl6Unvr
+ sT4G01cHMBUpJDva3Yg/Os0LxjORtd1WJiw+Cd6rKamohb3aGdL4ypNaaj/UkAlDFjUtrE
+ 35hgnuu6myJ6aLGTk1Xpmlfo7j2gXJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-NV8WQpgLOFOwndTE7TGlpg-1; Tue, 18 Feb 2020 07:53:16 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A84B9107ACC7;
+ Tue, 18 Feb 2020 12:53:15 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15E7E19E9C;
+ Tue, 18 Feb 2020 12:53:15 +0000 (UTC)
+Subject: Re: [PATCH v2 32/33] block: Pass BdrvChildRole in remaining cases
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-33-mreitz@redhat.com>
+ <f4607467-cc6e-ce10-4afa-c2c2f8fb116f@redhat.com>
+ <1b8cc66d-dc0e-bfa8-c060-4decdfa1242a@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <1b65896d-5fa9-5eb9-e0f5-f9ae2fef53fd@redhat.com>
+Date: Tue, 18 Feb 2020 06:53:14 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20649920-f867-7193-e86e-89b42ec6ae97@kaod.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1b8cc66d-dc0e-bfa8-c060-4decdfa1242a@redhat.com>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 15940209409176668992
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrjeekgdeghecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuhffvfhfkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: NV8WQpgLOFOwndTE7TGlpg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.61.94
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,99 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/20 10:40 AM, C=C3=A9dric Le Goater wrote:
-> On 2/18/20 10:10 AM, Alexey Kardashevskiy wrote:
+On 2/18/20 6:01 AM, Max Reitz wrote:
+
 >>
->>
->> On 18/02/2020 20:05, Alexey Kardashevskiy wrote:
->>>
->>>
->>> On 18/02/2020 18:12, C=C3=A9dric Le Goater wrote:
->>>> On 2/18/20 1:30 AM, Alexey Kardashevskiy wrote:
->>>>>
->>>>>
->>>>> On 17/02/2020 20:48, C=C3=A9dric Le Goater wrote:
->>>>>> On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
->>>>>>> The following changes since commit 05943fb4ca41f626078014c0327781=
-815c6584c5:
->>>>>>>
->>>>>>>   ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +1=
-100)
->>>>>>>
->>>>>>> are available in the Git repository at:
->>>>>>>
->>>>>>>   git@github.com:aik/qemu.git tags/qemu-slof-20200217
->>>>>>>
->>>>>>> for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d02=
-98aac2:
->>>>>>>
->>>>>>>   pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100)
->>>>>>>
->>>>>>> ----------------------------------------------------------------
->>>>>>> Alexey Kardashevskiy (1):
->>>>>>>       pseries: Update SLOF firmware image
->>>>>>>
->>>>>>>  pc-bios/README   |   2 +-
->>>>>>>  pc-bios/slof.bin | Bin 931032 -> 968560 bytes
->>>>>>>  roms/SLOF        |   2 +-
->>>>>>>  3 files changed, 2 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>>
->>>>>>> *** Note: this is not for master, this is for pseries
->>>>>>>
->>>>>>
->>>>>> Hello Alexey,
->>>>>>
->>>>>> QEMU fails to boot from disk. See below.
->>>>>
->>>>>
->>>>> It does boot mine (fedora 30, ubuntu 18.04), see below. I believe I
->>>>> could have broken something but I need more detail. Thanks,
->>>>
->>>> fedora31 boots but not ubuntu 19.10. Could it be GRUB version 2.04 ?=
-=20
->>>
->>>
->>> No, not that either:
->>
->>
->> but it might be because of power9 - I only tried power8, rsyncing the
->> image to a p9 machine now...
+>> Is it worth an assert(role) somewhere now that you've converted all
+>> callers to pass at least one role?
 >=20
-> Here is the disk :=20
+> Well, as the commit message states, block_job_add_bdrv() in blockjob.c
+> still passes BdrvChildRole=3D0 to bdrv_root_attach_child().  So it depend=
+s
+> on what function we=E2=80=99re looking at.
 >=20
-> Disk /dev/sda: 50 GiB, 53687091200 bytes, 104857600 sectors
-> Disk model: QEMU HARDDISK  =20
-> Units: sectors of 1 * 512 =3D 512 bytes
-> Sector size (logical/physical): 512 bytes / 512 bytes
-> I/O size (minimum/optimal): 512 bytes / 512 bytes
-> Disklabel type: gpt
-> Disk identifier: 27DCE458-231A-4981-9FF1-983F87C2902D
+> I suppose we could add such an assertion to bdrv_attach_child() because
+> we could expect all BDSs to pass some role for their children.
 >=20
-> Device         Start       End   Sectors Size Type
-> /dev/sda1       2048     16383     14336   7M PowerPC PReP boot
-> /dev/sda2      16384 100679679 100663296  48G Linux filesystem
-> /dev/sda3  100679680 104857566   4177887   2G Linux swap
->=20
->
-> GPT ?=20
+> OTOH, maybe a BDS has a legitimate reason not to: Maybe it just wants to
+> take some permissions on some BDS without having any real relationship
+> to it.  Right now, some block jobs do that, well, except they do so
+> through the back door of adding the child BDS to the block job object
+> (which then passes no child role).  So maybe I=E2=80=99d actually rather =
+not add
+> such an assertion anywhere.
 
-For the failure, I bisected up to :
+Fair enough - you have more knowledge of which callers remain that still=20
+have a legitimate reason to not request a role.
 
-f12149908705 ("ext2: Read all 64bit of inode number")
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Also, commit e05b681b32df ("disk-label: Try ext2 filesystem when
-booting from GPT partition") adds a weird "slash not found"
-message :
-
-Trying to load:  from: /pci@800000020000000/scsi@1/disk@100000000000000 .=
-..  slash  not found   Successfully loaded
-
-Thanks,
-
-C.
 
