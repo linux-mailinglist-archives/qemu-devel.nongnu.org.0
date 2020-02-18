@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4719B16240A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:57:16 +0100 (CET)
-Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5878162416
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:00:24 +0100 (CET)
+Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zcx-0006ue-9y
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:57:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45636)
+	id 1j3zfz-0003wP-U1
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:00:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1j3zbN-0004QZ-U6
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:55:38 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j3zeJ-00022L-Pc
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:58:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1j3zbM-0003Ae-Kd
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:55:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29098
+ (envelope-from <dgilbert@redhat.com>) id 1j3zeI-0004SD-Ou
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:58:39 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33059
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1j3zbM-00039i-Fe
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:55:36 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3zeI-0004Rl-Jt
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:58:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582019736;
+ s=mimecast20190719; t=1582019918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7cJzAc12RVZRNEnjQBJhzyiL3IOCizN0eERxIa09ET0=;
- b=ZEG1ofHs+LC6qQawtVNyVTFn7I5L3wzfANjepgtTM0wg7agrQuLo9PJ8DzDwg10AXaf3cX
- G/Kc3ftXvO3xnPFzJgT8FzeTSHTMbMtb3kcJx83jD72C4UdoXwesITDvKhFkq8XhxTmYGd
- D8165w+Rv8i4Av2wjd9zxO/XwWVqcb0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-psAqnPbNNi6zQBjjnYtLDg-1; Tue, 18 Feb 2020 04:55:33 -0500
-Received: by mail-wr1-f70.google.com with SMTP id 50so10575288wrc.2
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:55:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=HgFqoSoARH3uk7odBpEdG6HCEcZqvIBJgyeE0i3cD20=;
- b=eD2Kd0RxifdrMI0dAX2BzL8tD27fUllQI5sIpmLdR7Kjs04e+ff34nty2anGlDuJG/
- mpIZj+zhALMbeVaLXy82nXV3eY+1x+aYQRdRL/Q/LBeIEbRDuKMMzzBG9t+wgn4hqJ1X
- zRhJHtIWrLx1p+eYQGc03HOSPx/NjHP7G8AjdQvRBgg33a3M5kxkaUBzB/xkM7gQ8J5G
- H0PtVv7iZ1g12dQXL/r6OYfwg2ieQY7k97/PoRKa2TjUmFH64IXXiY34dDxbcnRhbbXt
- I0iawzqFNkCPNjfde2MdWc1q8l3IlR8QUS1YVdU46GkDF5kafvT/GEElC98OwNZootZx
- 5stQ==
-X-Gm-Message-State: APjAAAUdHSJQK9Nft/crYn2kOzgc98PD3+a2iTC1bo1A0eR8CBf5LMAr
- CLA/U6LH+4snSTZk/Gsq5z6wvtZ9mbazukYS9AZf4Pn8yQGEiAoD3xpq/uiYuKI6YR3qWkK7Bwo
- S4xurVvMqU3PUkBI=
-X-Received: by 2002:adf:a453:: with SMTP id e19mr27305872wra.305.1582019732646; 
- Tue, 18 Feb 2020 01:55:32 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzZIgwzQofXO7sILwU2QL82ipDu8k4lihQNI4Pu2DEIWsf5g/MijuhSe9qBXuQpibLr2FwL4A==
-X-Received: by 2002:adf:a453:: with SMTP id e19mr27305806wra.305.1582019732327; 
- Tue, 18 Feb 2020 01:55:32 -0800 (PST)
-Received: from steredhat (host209-4-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.4.209])
- by smtp.gmail.com with ESMTPSA id 25sm2912651wmi.32.2020.02.18.01.55.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 01:55:31 -0800 (PST)
-Date: Tue, 18 Feb 2020 10:55:28 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH RESEND 04/13] block/io_uring: Remove superfluous semicolon
-Message-ID: <20200218095528.3i26z4shmvqznput@steredhat>
+ bh=IkHt848DxWWkhO1vgEArZ549QARmKfZARkw1A+Y7GNY=;
+ b=Tsj85fQEflC+QD9WV+syiJeLTJfdm3WV1Y+Hg4NIpesAlbbADYBVj0K9N6bQ4HjvosURUG
+ wztNKRzouc9Au0ha3kE7pFVf7NICHm13DDks0qyx0cmJnjjKLspS6VCVyo8b9WVJHfBfw0
+ PhP210hrZFeHUv+qrfk7AqHWPH6YO1Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-IPj_3_YnNmmEd9W9ixlS7g-1; Tue, 18 Feb 2020 04:58:31 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A5E98010E5;
+ Tue, 18 Feb 2020 09:58:29 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6773E5DA60;
+ Tue, 18 Feb 2020 09:58:08 +0000 (UTC)
+Date: Tue, 18 Feb 2020 09:58:06 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH RESEND 08/13] hw/vfio/display: Remove superfluous semicolon
+Message-ID: <20200218095806.GK3080@work-vm>
 References: <20200218094402.26625-1-philmd@redhat.com>
- <20200218094402.26625-5-philmd@redhat.com>
+ <20200218094402.26625-9-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200218094402.26625-5-philmd@redhat.com>
-X-MC-Unique: psAqnPbNNi6zQBjjnYtLDg-1
+In-Reply-To: <20200218094402.26625-9-philmd@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: IPj_3_YnNmmEd9W9ixlS7g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
@@ -97,7 +81,6 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Yuval Shaia <yuval.shaia.ml@gmail.com>,
  Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
@@ -108,37 +91,35 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 18, 2020 at 10:43:53AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Fixes: 6663a0a3376
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> Fixes: 8b818e059bf
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
-> Cc: Stefano Garzarella <sgarzare@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  block/io_uring.c | 2 +-
+>  hw/vfio/display.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-
-Thanks,
-Stefano
-
 >=20
-> diff --git a/block/io_uring.c b/block/io_uring.c
-> index 56892fd1ab..a3142ca989 100644
-> --- a/block/io_uring.c
-> +++ b/block/io_uring.c
-> @@ -187,7 +187,7 @@ static void luring_process_completions(LuringState *s=
-)
->                      ret =3D 0;
->                  }
->              } else {
-> -                ret =3D -ENOSPC;;
-> +                ret =3D -ENOSPC;
->              }
->          }
->  end:
+> diff --git a/hw/vfio/display.c b/hw/vfio/display.c
+> index a5a608c5b2..f4977c66e1 100644
+> --- a/hw/vfio/display.c
+> +++ b/hw/vfio/display.c
+> @@ -287,7 +287,7 @@ static void vfio_display_dmabuf_update(void *opaque)
+>      VFIOPCIDevice *vdev =3D opaque;
+>      VFIODisplay *dpy =3D vdev->dpy;
+>      VFIODMABuf *primary, *cursor;
+> -    bool free_bufs =3D false, new_cursor =3D false;;
+> +    bool free_bufs =3D false, new_cursor =3D false;
+> =20
+>      primary =3D vfio_display_get_dmabuf(vdev, DRM_PLANE_TYPE_PRIMARY);
+>      if (primary =3D=3D NULL) {
 > --=20
 > 2.21.1
 >=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
