@@ -2,66 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC6C162B58
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:06:20 +0100 (CET)
-Received: from localhost ([::1]:38690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3FB162B56
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:06:10 +0100 (CET)
+Received: from localhost ([::1]:38682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j46KB-0003B0-Up
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50200)
+	id 1j46K1-0002pq-AY
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:06:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j46Id-0001N2-7X
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:04:44 -0500
+ (envelope-from <erosca@de.adit-jv.com>) id 1j46If-0001NV-DZ
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:04:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j46Ib-00006p-IR
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:04:43 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53388
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <erosca@de.adit-jv.com>) id 1j46Id-00008F-AV
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:04:45 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:47387)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j46Ib-00006E-BE
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:04:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582045480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=myoy6JXUj+nllLguLBu0pbrMScpLHj+hvPz2cBoFfwQ=;
- b=UH7ko+f4trgXbXGlV/GDio0sD41P5VLf00cMx7WQNQIOdQqfJPtlz3OfSTPNZVA6W69RKW
- O1DprDa5rsK0dEPyD4uwDrL/HlL9Bz9IfpwfYJqDL1QzX2zWwGFsvuexM2GTGHmqt/i1U2
- QVRf8HGy3TVwflkClENYWAPFLwnHP1k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-kRxAve1uN0qQW492QmwBRg-1; Tue, 18 Feb 2020 12:04:34 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <erosca@de.adit-jv.com>)
+ id 1j46Id-0008Vm-4Z
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:04:43 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+ by smtp1.de.adit-jv.com (Postfix) with ESMTP id 2C33D3C057C;
+ Tue, 18 Feb 2020 18:04:37 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+ by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OHopyV6qEM96; Tue, 18 Feb 2020 18:04:31 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2A68107ACC9;
- Tue, 18 Feb 2020 17:04:32 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64A4C90533;
- Tue, 18 Feb 2020 17:04:28 +0000 (UTC)
-Date: Tue, 18 Feb 2020 18:04:26 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 07/13] hw/arm/bcm2836: QOM'ify more by adding
- class_init() to each SoC type
-Message-ID: <20200218180426.008080b4@redhat.com>
-In-Reply-To: <20200217114533.17779-8-f4bug@amsat.org>
-References: <20200217114533.17779-1-f4bug@amsat.org>
- <20200217114533.17779-8-f4bug@amsat.org>
+ by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5F1653C00C5;
+ Tue, 18 Feb 2020 18:04:31 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 18 Feb
+ 2020 18:04:30 +0100
+Date: Tue, 18 Feb 2020 18:04:27 +0100
+From: Eugeniu Rosca <erosca@de.adit-jv.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v5 0/5] gpio: Add GPIO Aggregator
+Message-ID: <20200218170427.GA7423@lxhi-065.adit-jv.com>
+References: <20200218151812.7816-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: kRxAve1uN0qQW492QmwBRg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200218151812.7816-1-geert+renesas@glider.be>
+X-Originating-IP: [10.72.93.66]
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 93.241.18.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,229 +60,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Eugeniu Rosca <erosca@de.adit-jv.com>, Eugeniu Rosca <roscaeugeniu@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-doc@vger.kernel.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ linux-gpio@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexander Graf <graf@amazon.com>, Phil Reid <preid@electromag.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Feb 2020 12:45:27 +0100
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+Hi Geert,
 
-> Remove usage of TypeInfo::class_data. Instead fill the fields in
-> the corresponding class_init().
->=20
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/bcm2836.c | 109 ++++++++++++++++++++++-------------------------
->  1 file changed, 51 insertions(+), 58 deletions(-)
->=20
-> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-> index 24109fef1d..683d04d6ea 100644
-> --- a/hw/arm/bcm2836.c
-> +++ b/hw/arm/bcm2836.c
-> @@ -16,57 +16,30 @@
->  #include "hw/arm/raspi_platform.h"
->  #include "hw/sysbus.h"
-> =20
-> -typedef struct BCM283XInfo BCM283XInfo;
-> -
->  typedef struct BCM283XClass {
->      /*< private >*/
->      DeviceClass parent_class;
->      /*< public >*/
-> -    const BCM283XInfo *info;
-> -} BCM283XClass;
-> -
-> -struct BCM283XInfo {
-> -    const char *name;
+On Tue, Feb 18, 2020 at 04:18:07PM +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+> 
+> Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+> them as a new gpiochip.  This is useful for implementing access control,
+> and assigning a set of GPIOs to a specific user.  Furthermore, this
+> simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+> can just grab the full GPIO controller, and no longer needs to care
+> about which GPIOs to grab and which not, reducing the attack surface.
+> 
+> Recently, other use cases have been discovered[1]:
+>   - Describing simple GPIO-operated devices in DT, and using the GPIO
+>     Aggregator as a generic GPIO driver for userspace, which is useful
+>     for industrial control.
+> 
+> Changes compared to v4[2]:
+>   - Add Reviewed-by, Tested-by,
+>   - Fix inconsistent indentation in documentation.
 
->      const char *cpu_type;
+I confirm that the diff between v4 and v5 comprises whitespace only.
+Thanks for your time to develop this useful functionality!
 
-probably could be cleaned up by using machine->cpu_type/machine_class->defa=
-ult_cpu_type
-(no need to change this patch as it's separate issue)
-
-
->      hwaddr peri_base; /* Peripheral base address seen by the CPU */
->      hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
->      int clusterid;
-> -};
-> +} BCM283XClass;
-> =20
->  #define BCM283X_CLASS(klass) \
->      OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
->  #define BCM283X_GET_CLASS(obj) \
->      OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
-> =20
-> -static const BCM283XInfo bcm283x_socs[] =3D {
-> -    {
-> -        .name =3D TYPE_BCM2836,
-> -        .cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7"),
-> -        .peri_base =3D 0x3f000000,
-> -        .ctrl_base =3D 0x40000000,
-> -        .clusterid =3D 0xf,
-> -    },
-> -#ifdef TARGET_AARCH64
-> -    {
-> -        .name =3D TYPE_BCM2837,
-> -        .cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a53"),
-> -        .peri_base =3D 0x3f000000,
-> -        .ctrl_base =3D 0x40000000,
-> -        .clusterid =3D 0x0,
-> -    },
-> -#endif
-> -};
-> -
->  static void bcm2836_init(Object *obj)
->  {
->      BCM283XState *s =3D BCM283X(obj);
->      BCM283XClass *bc =3D BCM283X_GET_CLASS(obj);
-> -    const BCM283XInfo *info =3D bc->info;
->      int n;
-> =20
->      for (n =3D 0; n < BCM283X_NCPUS; n++) {
->          object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
-> -                                sizeof(s->cpu[n].core), info->cpu_type,
-> +                                sizeof(s->cpu[n].core), bc->cpu_type,
->                                  &error_abort, NULL);
->      }
-> =20
-> @@ -85,7 +58,6 @@ static void bcm2836_realize(DeviceState *dev, Error **e=
-rrp)
->  {
->      BCM283XState *s =3D BCM283X(dev);
->      BCM283XClass *bc =3D BCM283X_GET_CLASS(dev);
-> -    const BCM283XInfo *info =3D bc->info;
->      Object *obj;
->      Error *err =3D NULL;
->      int n;
-> @@ -119,7 +91,7 @@ static void bcm2836_realize(DeviceState *dev, Error **=
-errp)
->      }
-> =20
->      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
-> -                            info->peri_base, 1);
-> +                            bc->peri_base, 1);
-> =20
->      /* bcm2836 interrupt controller (and mailboxes, etc.) */
->      object_property_set_bool(OBJECT(&s->control), true, "realized", &err=
-);
-> @@ -128,7 +100,7 @@ static void bcm2836_realize(DeviceState *dev, Error *=
-*errp)
->          return;
->      }
-> =20
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, info->ctrl_base);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, bc->ctrl_base);
-> =20
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
->          qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-irq", 0));
-> @@ -137,11 +109,11 @@ static void bcm2836_realize(DeviceState *dev, Error=
- **errp)
-> =20
->      for (n =3D 0; n < BCM283X_NCPUS; n++) {
->          /* TODO: this should be converted to a property of ARM_CPU */
-> -        s->cpu[n].core.mp_affinity =3D (info->clusterid << 8) | n;
-> +        s->cpu[n].core.mp_affinity =3D (bc->clusterid << 8) | n;
-> =20
->          /* set periphbase/CBAR value for CPU-local registers */
->          object_property_set_int(OBJECT(&s->cpu[n].core),
-> -                                info->peri_base,
-> +                                bc->peri_base,
->                                  "reset-cbar", &err);
->          if (err) {
->              error_propagate(errp, err);
-> @@ -190,38 +162,59 @@ static Property bcm2836_props[] =3D {
->  static void bcm283x_class_init(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(oc);
-> -    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> =20
-> -    bc->info =3D data;
-> -    dc->realize =3D bcm2836_realize;
-> -    device_class_set_props(dc, bcm2836_props);
->      /* Reason: Must be wired up in code (see raspi_init() function) */
->      dc->user_creatable =3D false;
->  }
-> =20
-> -static const TypeInfo bcm283x_type_info =3D {
-> -    .name =3D TYPE_BCM283X,
-> -    .parent =3D TYPE_DEVICE,
-> -    .instance_size =3D sizeof(BCM283XState),
-> -    .instance_init =3D bcm2836_init,
-> -    .class_size =3D sizeof(BCM283XClass),
-> -    .abstract =3D true,
-> +static void bcm2836_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> +
-> +    bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7");
-> +    bc->peri_base =3D 0x3f000000;
-> +    bc->ctrl_base =3D 0x40000000;
-> +    bc->clusterid =3D 0xf;
-> +    dc->realize =3D bcm2836_realize;
-> +    device_class_set_props(dc, bcm2836_props);
->  };
-> =20
-> -static void bcm2836_register_types(void)
-> +#ifdef TARGET_AARCH64
-> +static void bcm2837_class_init(ObjectClass *oc, void *data)
->  {
-> -    int i;
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> =20
-> -    type_register_static(&bcm283x_type_info);
-> -    for (i =3D 0; i < ARRAY_SIZE(bcm283x_socs); i++) {
-> -        TypeInfo ti =3D {
-> -            .name =3D bcm283x_socs[i].name,
-> -            .parent =3D TYPE_BCM283X,
-> -            .class_init =3D bcm283x_class_init,
-> -            .class_data =3D (void *) &bcm283x_socs[i],
-> -        };
-> -        type_register(&ti);
-> +    bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a53");
-> +    bc->peri_base =3D 0x3f000000;
-> +    bc->ctrl_base =3D 0x40000000;
-> +    bc->clusterid =3D 0x0;
-> +    dc->realize =3D bcm2836_realize;
-> +    device_class_set_props(dc, bcm2836_props);
-both children do use the same values for almost all fields.
-I'd set in children class_init()s only cpu_type/clusterid
-and keep common bits in base class.
-
-
-> +};
-> +#endif
-> +
-> +static const TypeInfo bcm283x_types[] =3D {
-> +    {
-> +        .name           =3D TYPE_BCM2836,
-> +        .parent         =3D TYPE_BCM283X,
-> +        .class_init     =3D bcm2836_class_init,
-> +#ifdef TARGET_AARCH64
-> +    }, {
-> +        .name           =3D TYPE_BCM2837,
-> +        .parent         =3D TYPE_BCM283X,
-> +        .class_init     =3D bcm2837_class_init,
-> +#endif
-> +    }, {
-> +        .name           =3D TYPE_BCM283X,
-> +        .parent         =3D TYPE_DEVICE,
-> +        .instance_size  =3D sizeof(BCM283XState),
-> +        .instance_init  =3D bcm2836_init,
-> +        .class_size     =3D sizeof(BCM283XClass),
-> +        .class_init     =3D bcm283x_class_init,
-> +        .abstract       =3D true,
->      }
-> -}
-> +};
-> =20
-> -type_init(bcm2836_register_types)
-> +DEFINE_TYPES(bcm283x_types)
-
+-- 
+Best Regards
+Eugeniu Rosca
 
