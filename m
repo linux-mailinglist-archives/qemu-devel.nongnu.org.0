@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9795C16245E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:17:25 +0100 (CET)
-Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0F5162467
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:19:00 +0100 (CET)
+Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zwS-0004eM-HW
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:17:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48863)
+	id 1j3zxz-0008Ph-RI
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:18:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <f.gruenbichler@proxmox.com>) id 1j3zv7-0002xu-EQ
+ (envelope-from <f.gruenbichler@proxmox.com>) id 1j3zv7-0002xx-KW
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:16:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <f.gruenbichler@proxmox.com>) id 1j3zv6-0007tE-E1
+ (envelope-from <f.gruenbichler@proxmox.com>) id 1j3zv6-0007tZ-Kk
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:16:01 -0500
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:44942)
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:25357)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <f.gruenbichler@proxmox.com>)
- id 1j3zv3-0007qN-8f; Tue, 18 Feb 2020 05:15:57 -0500
+ id 1j3zv3-0007qM-98; Tue, 18 Feb 2020 05:15:57 -0500
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 4722E41A82;
- Tue, 18 Feb 2020 11:08:08 +0100 (CET)
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 486FA41CAA;
+ Tue, 18 Feb 2020 11:08:09 +0100 (CET)
 From: =?UTF-8?q?Fabian=20Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC qemu 3/6] mirror: add check for bitmap-mode without bitmap
-Date: Tue, 18 Feb 2020 11:07:37 +0100
-Message-Id: <20200218100740.2228521-4-f.gruenbichler@proxmox.com>
+Subject: [RFC qemu 4/6] mirror: switch to bdrv_dirty_bitmap_merge_internal
+Date: Tue, 18 Feb 2020 11:07:38 +0100
+Message-Id: <20200218100740.2228521-5-f.gruenbichler@proxmox.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200218100740.2228521-1-f.gruenbichler@proxmox.com>
 References: <20200218100740.2228521-1-f.gruenbichler@proxmox.com>
@@ -54,31 +54,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-as one without the other does not make much sense with the current set
-of modes.
+since sync_bitmap is busy at the point of merging, and we checked access
+beforehand.
 
 Signed-off-by: Fabian Gr=C3=BCnbichler <f.gruenbichler@proxmox.com>
 ---
- blockdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ block/mirror.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 8f7b7ba5eb..23df9f76ba 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3868,6 +3868,9 @@ static void blockdev_mirror_common(const char *job_=
-id, BlockDriverState *bs,
-         if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_ALLOW_RO, errp))=
- {
-             return;
+diff --git a/block/mirror.c b/block/mirror.c
+index 40d174a625..d6aca2874e 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -735,8 +735,8 @@ static int mirror_exit_common(Job *job)
+              job->ret =3D=3D 0 && ret =3D=3D 0)) {
+             /* Success; synchronize copy back to sync. */
+             bdrv_clear_dirty_bitmap(s->sync_bitmap, NULL);
+-            bdrv_merge_dirty_bitmap(s->sync_bitmap, s->dirty_bitmap,
+-                                    NULL, &error_abort);
++            bdrv_dirty_bitmap_merge_internal(s->sync_bitmap, s->dirty_bi=
+tmap,
++                                             NULL, true);
          }
-+    } else if (has_bitmap_mode) {
-+        error_setg(errp, "Cannot specify bitmap sync mode without a bitm=
-ap");
-+        return;
+     }
+     bdrv_release_dirty_bitmap(s->dirty_bitmap);
+@@ -1727,8 +1727,8 @@ static BlockJob *mirror_start_job(
      }
 =20
-     if (has_replaces) {
+     if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
+-        bdrv_merge_dirty_bitmap(s->dirty_bitmap, s->sync_bitmap,
+-                                NULL, &local_err);
++        bdrv_dirty_bitmap_merge_internal(s->dirty_bitmap, s->sync_bitmap=
+,
++                                         NULL, true);
+         if (local_err) {
+             goto fail;
+         }
 --=20
 2.20.1
 
