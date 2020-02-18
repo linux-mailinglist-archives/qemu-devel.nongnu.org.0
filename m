@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1348B162327
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C75162328
 	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:15:31 +0100 (CET)
-Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3yyY-00030p-2V
+	id 1j3yyY-00030f-Be
 	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:15:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39003)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j3yxN-0001RP-J9
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j3yxN-0001RO-HV
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:14:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j3yxM-0000uB-JN
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j3yxM-0000u5-IF
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:14:17 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:43356 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:43358 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j3yxM-0000s0-7R; Tue, 18 Feb 2020 04:14:16 -0500
+ id 1j3yxM-0000s1-7D; Tue, 18 Feb 2020 04:14:16 -0500
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 0B5C2A03D0A6D8553D26;
+ by Forcepoint Email with ESMTP id 0727F7A2547525B3808B;
  Tue, 18 Feb 2020 17:14:08 +0800 (CST)
 Received: from HGHY4C002233111.china.huawei.com (10.133.205.93) by
  DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 18 Feb 2020 17:13:59 +0800
+ 14.3.439.0; Tue, 18 Feb 2020 17:14:00 +0800
 From: <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>, <jcmvbkbc@gmail.com>,
  <crwulff@gmail.com>, <marex@denx.de>, <edgar.iglesias@gmail.com>,
  <david@gibson.dropbear.id.au>
-Subject: [PATCH 1/3] hw/nios2:fix leak of fdevice tree blob
-Date: Tue, 18 Feb 2020 17:11:52 +0800
-Message-ID: <20200218091154.21696-2-kuhn.chenqun@huawei.com>
+Subject: [PATCH 2/3] hw/ppc/virtex_ml507:fix leak of fdevice tree blob
+Date: Tue, 18 Feb 2020 17:11:53 +0800
+Message-ID: <20200218091154.21696-3-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.14.1.windows.1
 In-Reply-To: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
 References: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
@@ -67,17 +67,17 @@ We should free it after cpu_physical_memory_write().
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
- hw/nios2/boot.c | 1 +
+ hw/ppc/virtex_ml507.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
-index 46b8349876..88224aa84c 100644
---- a/hw/nios2/boot.c
-+++ b/hw/nios2/boot.c
-@@ -109,6 +109,7 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
-     }
- 
-     cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 91dd00ee91..4eef70069f 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -188,6 +188,7 @@ static int xilinx_load_device_tree(hwaddr addr,
+     if (r < 0)
+         fprintf(stderr, "couldn't set /chosen/bootargs\n");
+     cpu_physical_memory_write(addr, fdt, fdt_size);
 +    g_free(fdt);
      return fdt_size;
  }
