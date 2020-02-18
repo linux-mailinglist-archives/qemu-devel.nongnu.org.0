@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1281624BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:40:05 +0100 (CET)
-Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889041624C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:41:58 +0100 (CET)
+Received: from localhost ([::1]:60680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j40IO-0002P7-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:40:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52187)
+	id 1j40KD-0005yE-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:41:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j40Dv-0001hP-KD
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:28 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j40Dy-0001o3-Bf
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j40Du-0007R8-BL
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40393
+ (envelope-from <mreitz@redhat.com>) id 1j40Dx-0007TS-5m
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44325
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j40Du-0007Qk-6c
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:26 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j40Dx-0007TK-1e
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:35:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582022125;
+ s=mimecast20190719; t=1582022128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9aPVtQzc7vjGemDWS1kpzm+7k6kudt5hwR47rSwH8tM=;
- b=VgXQg1/Bt2oVYfgkHjnypFThHJfUwc3Cg/DZdlxZbNLN+RfBdd6LIsiicgQ0V/fHoBP9Tf
- EG6kOUYia4pBg8Y4K6CXTBmv0+TPFOiZkPY/qZr7UPkRR5iV2KKjGKT3Eaq3e1VJv7+8ao
- u+O9OssdLs5IbwR8iA10PeA/K8RitvQ=
+ bh=wrJiiw5y0UxtoIosHElrm5q85GG0zS+pG2zOdvNiYJM=;
+ b=JscX5uoJuAKfkGq3K2842QWoSZu+SLlQINememDVEZY4J7cDFlQtejgBfnWB3P2ZAXIFtl
+ QRKp6MDk5KyXTgtS1ecmuwxui+jQ60/rJmDirvblguhQzV5bymjGa0Kskuo1PuwhN//y6I
+ SzpHseXgsZ0pOAq/tBmDIP6E2vTi67o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-dJ2bKjQKMgyGbJbaCEmcVQ-1; Tue, 18 Feb 2020 05:35:22 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-375-McHMmTziN6yKRI3RhE8RHw-1; Tue, 18 Feb 2020 05:35:25 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01F9413FB;
- Tue, 18 Feb 2020 10:35:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF966477;
+ Tue, 18 Feb 2020 10:35:23 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6877D384;
- Tue, 18 Feb 2020 10:35:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AC2860BE1;
+ Tue, 18 Feb 2020 10:35:23 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 08/19] quorum: Implement .bdrv_recurse_can_replace()
-Date: Tue, 18 Feb 2020 11:34:43 +0100
-Message-Id: <20200218103454.296704-9-mreitz@redhat.com>
+Subject: [PATCH v4 09/19] block: Use bdrv_recurse_can_replace()
+Date: Tue, 18 Feb 2020 11:34:44 +0100
+Message-Id: <20200218103454.296704-10-mreitz@redhat.com>
 In-Reply-To: <20200218103454.296704-1-mreitz@redhat.com>
 References: <20200218103454.296704-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: dJ2bKjQKMgyGbJbaCEmcVQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: McHMmTziN6yKRI3RhE8RHw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,87 +77,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/quorum.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+Let check_to_replace_node() use the more specialized
+bdrv_recurse_can_replace() instead of
+bdrv_recurse_is_first_non_filter(), which is too restrictive (or, in the
+case of quorum, sometimes not restrictive enough).
 
-diff --git a/block/quorum.c b/block/quorum.c
-index 17b439056f..3ece6e4382 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -813,6 +813,59 @@ static bool quorum_recurse_is_first_non_filter(BlockDr=
-iverState *bs,
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/block.c b/block.c
+index 553ccff216..7efe8f3b03 100644
+--- a/block.c
++++ b/block.c
+@@ -6273,6 +6273,17 @@ bool bdrv_recurse_can_replace(BlockDriverState *bs,
      return false;
  }
 =20
-+static bool quorum_recurse_can_replace(BlockDriverState *bs,
-+                                       BlockDriverState *to_replace)
-+{
-+    BDRVQuorumState *s =3D bs->opaque;
-+    int i;
-+
-+    for (i =3D 0; i < s->num_children; i++) {
-+        /*
-+         * We have no idea whether our children show the same data as
-+         * this node (@bs).  It is actually highly likely that
-+         * @to_replace does not, because replacing a broken child is
-+         * one of the main use cases here.
-+         *
-+         * We do know that the new BDS will match @bs, so replacing
-+         * any of our children by it will be safe.  It cannot change
-+         * the data this quorum node presents to its parents.
-+         *
-+         * However, replacing @to_replace by @bs in any of our
-+         * children's chains may change visible data somewhere in
-+         * there.  We therefore cannot recurse down those chains with
-+         * bdrv_recurse_can_replace().
-+         * (More formally, bdrv_recurse_can_replace() requires that
-+         * @to_replace will be replaced by something matching the @bs
-+         * passed to it.  We cannot guarantee that.)
-+         *
-+         * Thus, we can only check whether any of our immediate
-+         * children matches @to_replace.
-+         *
-+         * (In the future, we might add a function to recurse down a
-+         * chain that checks that nothing there cares about a change
-+         * in data from the respective child in question.  For
-+         * example, most filters do not care when their child's data
-+         * suddenly changes, as long as their parents do not care.)
-+         */
-+        if (s->children[i]->bs =3D=3D to_replace) {
-+            /*
-+             * We now have to ensure that there is no other parent
-+             * that cares about replacing this child by a node with
-+             * potentially different data.
-+             * We do so by checking whether there are any other parents
-+             * at all, which is stricter than necessary, but also very
-+             * simple.  (We may decide to implement something more
-+             * complex and permissive when there is an actual need for
-+             * it.)
-+             */
-+            return QLIST_FIRST(&to_replace->parents) =3D=3D s->children[i]=
- &&
-+                QLIST_NEXT(s->children[i], next_parent) =3D=3D NULL;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static int quorum_valid_threshold(int threshold, int num_children, Error *=
-*errp)
++/*
++ * Check whether the given @node_name can be replaced by a node that
++ * has the same data as @parent_bs.  If so, return @node_name's BDS;
++ * NULL otherwise.
++ *
++ * @node_name must be a (recursive) *child of @parent_bs (or this
++ * function will return NULL).
++ *
++ * The result (whether the node can be replaced or not) is only valid
++ * for as long as no graph or permission changes occur.
++ */
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+                                         const char *node_name, Error **err=
+p)
  {
-=20
-@@ -1164,6 +1217,7 @@ static BlockDriver bdrv_quorum =3D {
-=20
-     .is_filter                          =3D true,
-     .bdrv_recurse_is_first_non_filter   =3D quorum_recurse_is_first_non_fi=
-lter,
-+    .bdrv_recurse_can_replace           =3D quorum_recurse_can_replace,
-=20
-     .strong_runtime_opts                =3D quorum_strong_runtime_opts,
- };
+@@ -6297,8 +6308,11 @@ BlockDriverState *check_to_replace_node(BlockDriverS=
+tate *parent_bs,
+      * Another benefit is that this tests exclude backing files which are
+      * blocked by the backing blockers.
+      */
+-    if (!bdrv_recurse_is_first_non_filter(parent_bs, to_replace_bs)) {
+-        error_setg(errp, "Only top most non filter can be replaced");
++    if (!bdrv_recurse_can_replace(parent_bs, to_replace_bs)) {
++        error_setg(errp, "Cannot replace '%s' by a node mirrored from '%s'=
+, "
++                   "because it cannot be guaranteed that doing so would no=
+t "
++                   "lead to an abrupt change of visible data",
++                   node_name, parent_bs->node_name);
+         to_replace_bs =3D NULL;
+         goto out;
+     }
 --=20
 2.24.1
 
