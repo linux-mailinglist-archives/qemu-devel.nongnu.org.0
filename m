@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02049164D2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:59:44 +0100 (CET)
-Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38DF164BFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:35:10 +0100 (CET)
+Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4TdP-00070N-1V
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:59:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54182)
+	id 1j4TFe-0006D9-2g
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:35:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1j4Tc6-0005YG-5s
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:58:23 -0500
+ (envelope-from <peterx@redhat.com>) id 1j4TEj-0005lL-Lf
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:34:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1j4Tc5-00011n-0y
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:58:22 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27135
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1j4TEi-0005Qd-5b
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:34:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26751
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j4Tc4-00011X-Ts
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:58:20 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j4TEi-0005Q5-1B
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:34:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582135100;
+ s=mimecast20190719; t=1582133651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mu8dDkybuf2T+R1N1p6pN4YYhyHyt5cpP3dEJdBPbk4=;
- b=GtUhCyqCJD5hSXoX5EyuYu5IWTUqP1yaACMaSbB5+QKF/OtTCzzkanbFgSIuNMur+lqZOW
- kPoSFYA2z7uaNyuAccb3LFaP6nZoulga2jhUM51Sb3MfFBtBwSwiKAcGPiLvIlptzdyBEm
- G83oVqxn6wxQeHwRxQ0eCmJVf9rzld0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-zl7HuAHENJekxVdW5BqJzA-1; Wed, 19 Feb 2020 12:58:16 -0500
-X-MC-Unique: zl7HuAHENJekxVdW5BqJzA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDCA7801E74;
- Wed, 19 Feb 2020 17:58:14 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FA8990761;
- Wed, 19 Feb 2020 17:58:14 +0000 (UTC)
-Date: Wed, 19 Feb 2020 16:54:25 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] util/async: make bh_aio_poll() O(1)
-Message-ID: <20200219165425.GB1089598@stefanha-x1.localdomain>
-References: <20200219100045.1074381-1-stefanha@redhat.com>
- <ad80faf5-7e77-739e-36d7-8d88101b9d59@redhat.com>
+ bh=xVBQC95Vtlqllm+O2m5fTeAcVqhFSKFjA4eN6gL2wMQ=;
+ b=PerqAXUolwSTqiwja2nBoFeqLA0nIe50S2HnW0vc9Y5dMzAlurge2FuFA0JJUOLDHEErqT
+ AvJPi7oQ5yZRbRdTi5k0K9BKdOm2R6WrCYaJNinh/Uwpf2qP10hywHc+xe4bEN7AtEyl6G
+ XWv+PxsvmWGeU1XglrT1ocFDIINv3Pc=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-JQ4kZf1mNmm0c_hdL8S04Q-1; Wed, 19 Feb 2020 12:34:09 -0500
+Received: by mail-qk1-f199.google.com with SMTP id t17so745143qkg.16
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 09:34:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Gb9XZIg+nMVIrINUAFL4uCF6pFd6pCh0ClCNEL8xXnQ=;
+ b=NqEYsgV0/TneEV3lpBUSDxlZ/Qc0/150ioZoBgm+qHWAWwAcRTkmRqkSwFssLMTBT0
+ 8gi1c9EGWLbybJEhcslH5h4KQDWHCgHONqhcN6Rs4vH58dJMNbA/yekelU7Iv8OuATD4
+ jEg+dl7Qdu3MWqvb7rhHnFiQB4t45YUnsUeE3qotCHZzG407V2c27A5DdTdbKU4TO43W
+ QZcaLmjtTf3GNK9JeAJXhmvg/U9EGm0kd/m9trTvQquMifHdffF89/kkuoXriEvlkRHa
+ ELk/doabQsV1zRGn0jNXU3YUEHmammKp8sC1QI14TlCECPPW7jVMSzh0K9TEhTFqv10G
+ 0chw==
+X-Gm-Message-State: APjAAAVg+8pwWQyKmR+jBiKQqxljDGj4KOpWIdaP8AsLffX7Xx2bppJ9
+ em79/ch5/Lb7HBv0qyFZkvk/FGIWzyjCc5R9LBNjBvygHsElBNalym+RG7VXSdBjU4zjtxsgJAs
+ x7LDXp8trAvwZN0s=
+X-Received: by 2002:a0c:fe8e:: with SMTP id d14mr22117427qvs.106.1582133649162; 
+ Wed, 19 Feb 2020 09:34:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxP3NZywaH2iy4b78nNrDeVcduVG9h7BuAnvagjNPOlOszifBzRlLglriB0yiCtQeqYHz3B6g==
+X-Received: by 2002:a0c:fe8e:: with SMTP id d14mr22117404qvs.106.1582133648879; 
+ Wed, 19 Feb 2020 09:34:08 -0800 (PST)
+Received: from xz-x1 ([104.156.64.75])
+ by smtp.gmail.com with ESMTPSA id c45sm343589qtd.43.2020.02.19.09.34.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2020 09:34:08 -0800 (PST)
+Date: Wed, 19 Feb 2020 12:34:06 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 fixed 01/16] util: vfio-helpers: Factor out and fix
+ processing of existing ram blocks
+Message-ID: <20200219173406.GB34517@xz-x1>
+References: <20200212134254.11073-1-david@redhat.com>
+ <20200212134254.11073-2-david@redhat.com>
+ <20200218220001.GE7090@xz-x1>
+ <88dcdda3-e9a9-ca46-3e53-ab5b8d2d0936@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ad80faf5-7e77-739e-36d7-8d88101b9d59@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <88dcdda3-e9a9-ca46-3e53-ab5b8d2d0936@redhat.com>
+X-MC-Unique: JQ4kZf1mNmm0c_hdL8S04Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oC1+HKm2/end4ao3"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,120 +90,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---oC1+HKm2/end4ao3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Feb 19, 2020 at 09:43:02AM +0100, David Hildenbrand wrote:
+> On 18.02.20 23:00, Peter Xu wrote:
+> > On Wed, Feb 12, 2020 at 02:42:39PM +0100, David Hildenbrand wrote:
+> >> Factor it out into common code when a new notifier is registered, just
+> >> as done with the memory region notifier. This allows us to have the
+> >> logic about how to process existing ram blocks at a central place (whi=
+ch
+> >> will be extended soon).
+> >>
+> >> Just like when adding a new ram block, we have to register the max_len=
+gth
+> >> for now. We don't have a way to get notified about resizes yet, and so=
+me
+> >> memory would not be mapped when growing the ram block.
+> >>
+> >> Note: Currently, ram blocks are only "fake resized". All memory
+> >> (max_length) is accessible.
+> >>
+> >> We can get rid of a bunch of functions in stubs/ram-block.c . Print th=
+e
+> >> warning from inside qemu_vfio_ram_block_added().
+>=20
+> [...]
+>=20
+> >>  #include "exec/ramlist.h"
+> >>  #include "exec/cpu-common.h"
+> >> =20
+> >> -void *qemu_ram_get_host_addr(RAMBlock *rb)
+> >> -{
+> >> -    return 0;
+> >> -}
+> >> -
+> >> -ram_addr_t qemu_ram_get_offset(RAMBlock *rb)
+> >> -{
+> >> -    return 0;
+> >> -}
+> >> -
+> >> -ram_addr_t qemu_ram_get_used_length(RAMBlock *rb)
+> >> -{
+> >> -    return 0;
+> >> -}
+> >=20
+> > Maybe put into another patch?
+> >=20
+> > Actually I'm thinking whether it would worth to do...  They're still
+> > declared in include/exec/cpu-common.h, so logically who includes the
+> > header but linked against stubs can still call this function.  So
+> > keeping them there still make sense to me.
+>=20
+> Why keep dead code around? If you look closely, the stubs really only
+> contain what's strictly necessary to make current code compile, not any
+> available ramblock related function.
 
-On Wed, Feb 19, 2020 at 12:09:48PM +0100, Paolo Bonzini wrote:
-> Really a great idea, though I have some remarks on the implementation bel=
-ow.
->=20
-> On 19/02/20 11:00, Stefan Hajnoczi wrote:
-> > + * Each aio_bh_poll() call carves off a slice of the BH list.  This wa=
-y newly
-> > + * scheduled BHs are not processed until the next aio_bh_poll() call. =
- This
-> > + * concept extends to nested aio_bh_poll() calls because slices are ch=
-ained
-> > + * together.
->=20
-> This is the tricky part so I would expand a bit on why it's needed:
->=20
-> /*
->  * Each aio_bh_poll() call carves off a slice of the BH list, so that
->  * newly scheduled BHs are not processed until the next aio_bh_poll()
->  * call.  All active aio_bh_poll() calls chained their slices together
->  * in a list, so that nested aio_bh_poll() calls process all scheduled
->  * bottom halves.
->  */
-
-Thanks, will fix in v2.
-
-> > +struct BHListSlice {
-> > +    QEMUBH *first_bh;
-> > +    BHListSlice *next;
-> > +};
-> > +
->=20
-> Using QLIST and QSLIST removes the need to create your own lists, since
-> you can use QSLIST_MOVE_ATOMIC and QSLIST_INSERT_HEAD_ATOMIC.  For exampl=
-e:
->=20
-> struct BHListSlice {
->     QSLIST_HEAD(, QEMUBH) first_bh;
->     QLIST_ENTRY(BHListSlice) next;
-> };
->=20
-> ...
->=20
->     QSLIST_HEAD(, QEMUBH) active_bh;
->     QLIST_HEAD(, BHListSlice) bh_list;
-
-I thought about this but chose the explicit tail pointer approach
-because it lets aio_compute_timeout() and aio_ctx_check() iterate over
-both the active BH list and slices in a single for loop :).  But
-thinking about it more, maybe it can still be done by replacing
-active_bh with a permanently present first BHListSlice element.
-
->=20
-> Related to this, in the aio_bh_poll() loop:
->=20
->     for (s =3D ctx->bh_list.next; s; s =3D s->next) {
->     }
->=20
-> You can actually do the removal inside the loop.  This is slightly more
-> efficient since you can remove slices early from the nested
-> aio_bh_poll().  Not that it's relevant for performance, but I think the
-> FIFO order for slices is also more intuitive than LIFO.
->=20
-> Putting this idea together with the QLIST one, you would get:
->=20
->     /*
->      * If a bottom half causes a recursive call, this slice will be
->      * removed by the nested aio_bh_poll().
->      */
->     QSLIST_MOVE_ATOMIC(&slice.first_bh, ctx->active_bh);
->     QLIST_INSERT_TAIL(&ctx->bh_list, slice);
->     while ((s =3D QLIST_FIRST(&ctx->bh_list)) {
->         while ((bh =3D aio_bh_dequeue(&s, &flags))) {
->         }
->         QLIST_REMOVE_HEAD(s, next);
->     }
-
-Cool, reusing "queue.h" is nice.
+Seems correct.  Then it's fine.
 
 >=20
-> >  /* Multiple occurrences of aio_bh_poll cannot be called concurrently.
-> >   * The count in ctx->list_lock is incremented before the call, and is
-> >   * not affected by the call.
+> I don't see a good reason for a separate patch either (after all, we're
+> removing the last users in this patch), but if more people agree, I can
+> move it to a separate patch.
+> [...]
 >=20
-> The second sentence is now stale.
+> >> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+> >> index 813f7ec564..71e02e7f35 100644
+> >> --- a/util/vfio-helpers.c
+> >> +++ b/util/vfio-helpers.c
+> >> @@ -376,8 +376,13 @@ static void qemu_vfio_ram_block_added(RAMBlockNot=
+ifier *n,
+> >>                                        void *host, size_t size)
+> >>  {
+> >>      QEMUVFIOState *s =3D container_of(n, QEMUVFIOState, ram_notifier)=
+;
+> >> +    int ret;
+> >> +
+> >>      trace_qemu_vfio_ram_block_added(s, host, size);
+> >> -    qemu_vfio_dma_map(s, host, size, false, NULL);
+> >> +    ret =3D qemu_vfio_dma_map(s, host, size, false, NULL);
+> >> +    if (ret) {
+> >> +        error_report("qemu_vfio_dma_map(%p, %zu) failed: %d", host, s=
+ize, ret);
+> >> +    }
+> >=20
+> > Irrelevant change (another patch)?
+>=20
+> This is the error that was printed in qemu_vfio_init_ramblock(). Not
+> moving it in this patch would mean we would stop printing the error.
+> [...]
+>=20
+> >> -
+> >>  static void qemu_vfio_open_common(QEMUVFIOState *s)
+> >>  {
+> >>      qemu_mutex_init(&s->lock);
+> >>      s->ram_notifier.ram_block_added =3D qemu_vfio_ram_block_added;
+> >>      s->ram_notifier.ram_block_removed =3D qemu_vfio_ram_block_removed=
+;
+> >> -    ram_block_notifier_add(&s->ram_notifier);
+> >>      s->low_water_mark =3D QEMU_VFIO_IOVA_MIN;
+> >>      s->high_water_mark =3D QEMU_VFIO_IOVA_MAX;
+> >> -    qemu_ram_foreach_block(qemu_vfio_init_ramblock, s);
+> >> +    ram_block_notifier_add(&s->ram_notifier);
+> >=20
+> > Pure question: this looks like a good improvement, however do you know
+> > why HAX and SEV do not need to init ramblock?
+>=20
+> They register very early (e.g., at accel init time), before any ram
+> blocks are added.
 
-Thanks, will fix in v2.
+That's what I thought but I did feel like it's tricky (not anything
+about this patch, though).  Say, I don't see how that's guaranteed
+that accel init will always happen before creating any ramblocks.
 
-Stefan
+Anyway, your patch looks good from that point of view. :)
 
---oC1+HKm2/end4ao3
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5NaEEACgkQnKSrs4Gr
-c8hgVwgAmXimS3GZsCIqTlzXhi7Xu5bmF2wdJ/AH7xiil92p9v88IzXlQUT+Rgam
-ywEvBPxXZSk8F0ouSqHK/s/EWJrFFUZLMtapaCMtLa44oS27vfc+5KI2TmRtcU9e
-c3zW8xTT0EN8Eg+st8JjslWXuzVDhrDYfLvS3Gz8BMPaU5t/luYXp4UyVYTJQUd/
-zbbe6J8AdJrfXDt5AAs2LNI/82rpBrkBlIYOQZMwz7teZ7Eivr6OPEILArID8h5H
-mHZf5rW7eoRryZJOiqDGdo6PkuVQakocikx4yLDJO8sgwBO+N3TTwoWMAgEvvbyc
-eDpJmXpB0RIUOmb8RmA6Ivrev2aHpQ==
-=ozi2
------END PGP SIGNATURE-----
-
---oC1+HKm2/end4ao3--
+--=20
+Peter Xu
 
 
