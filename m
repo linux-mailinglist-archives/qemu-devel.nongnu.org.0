@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB07164AB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:39:59 +0100 (CET)
-Received: from localhost ([::1]:56014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E12164A96
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:37:24 +0100 (CET)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SOD-0001ZF-WA
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:39:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37663)
+	id 1j4SLj-0004cY-DV
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:37:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4RwK-0004JH-E1
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:09 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4RwL-0004Kb-UU
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4RwI-00018c-Bn
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50525
+ (envelope-from <imammedo@redhat.com>) id 1j4RwK-0001By-LL
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20173
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwI-00018I-8A
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:06 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwK-0001Ar-HV
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128665;
+ s=mimecast20190719; t=1582128667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sYXuDbjJcUSvNaDuoVXNHT9Sh856w+KlNFUz7bVm8lU=;
- b=Ae/bA9wt9dg/fY+y/7L2cgH4CaMg2mdjNbrmAhxse3b6D0da6kZuncQtEG1PdkGivLP/Cx
- g8SX2dQYyYy8PxBy9UZGYAG7vYxVmrjSJe2Xyj+CSMzAA4L+koUo+JON2zKR9q11cNCxIQ
- RTGVk/fjO9kUpMelJAYJ+nRouBXPa80=
+ bh=wWOxBdwwJS+axvTwSu8q2fvEDjTV9+XPuVhs3w54fcM=;
+ b=X+fulLvjh/u10KBdllC7V76eW/RY3wZenW/G3cR1AFXWbKx8F1SUYmsFa2dOHakv7O8IYv
+ jLE67z4sEXh3T+Gn1KJcANbwrnEbIej/hkbEukHYG53mYjWXMrg8dseOqc4Q3sPUTU32KE
+ cH2uJG0N4v8wmC5S1oX9ifod/ytopMk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-7E0frVd_NhGiQEV86rJCWA-1; Wed, 19 Feb 2020 11:11:04 -0500
+ us-mta-37-UX75a831PwCIFWwqhFi5Fw-1; Wed, 19 Feb 2020 11:11:05 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F5A0801F95
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CDB318B9FEB
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:04 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE35F48;
- Wed, 19 Feb 2020 16:11:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA6DC8ECF3;
+ Wed, 19 Feb 2020 16:11:03 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 57/79] mips/mips_r4k: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:31 -0500
-Message-Id: <20200219160953.13771-58-imammedo@redhat.com>
+Subject: [PATCH v6 58/79] ppc/e500: drop RAM size fixup
+Date: Wed, 19 Feb 2020 11:09:32 -0500
+Message-Id: <20200219160953.13771-59-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 7E0frVd_NhGiQEV86rJCWA-1
+X-MC-Unique: UX75a831PwCIFWwqhFi5Fw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -76,74 +76,82 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported.
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
+
+While at it, replace usage of global ram_size with
+machine->ram_size
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/mips/mips_r4k.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+v2:
+ * fix format string cousing build failure on 32-bit host
+   (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+---
+ hw/ppc/e500.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index b2aec434c3..258cd91578 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -171,13 +171,11 @@ static const int sector_len =3D 32 * KiB;
- static
- void mips_r4k_init(MachineState *machine)
- {
--    ram_addr_t ram_size =3D machine->ram_size;
-     const char *kernel_filename =3D machine->kernel_filename;
-     const char *kernel_cmdline =3D machine->kernel_cmdline;
-     const char *initrd_filename =3D machine->initrd_filename;
-     char *filename;
-     MemoryRegion *address_space_mem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *bios;
-     MemoryRegion *iomem =3D g_new(MemoryRegion, 1);
-     MemoryRegion *isa_io =3D g_new(MemoryRegion, 1);
-@@ -203,14 +201,12 @@ void mips_r4k_init(MachineState *machine)
-     qemu_register_reset(main_cpu_reset, reset_info);
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 886442e54f..960024b611 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -906,12 +906,14 @@ void ppce500_init(MachineState *machine)
 =20
-     /* allocate RAM */
--    if (ram_size > 256 * MiB) {
-+    if (machine->ram_size > 256 * MiB) {
-         error_report("Too much memory for this machine: %" PRId64 "MB,"
-                      " maximum 256MB", ram_size / MiB);
-         exit(1);
+     env =3D firstenv;
+=20
+-    /* Fixup Memory size on a alignment boundary */
+-    ram_size &=3D ~(RAM_SIZES_ALIGN - 1);
+-    machine->ram_size =3D ram_size;
++    if (!QEMU_IS_ALIGNED(machine->ram_size, RAM_SIZES_ALIGN)) {
++        error_report("RAM size must be multiple of %" PRIu64, RAM_SIZES_AL=
+IGN);
++        exit(EXIT_FAILURE);
++    }
+=20
+     /* Register Memory */
+-    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram", ram_s=
+ize);
++    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram",
++                                         machine->ram_size);
+     memory_region_add_subregion(address_space_mem, 0, ram);
+=20
+     dev =3D qdev_create(NULL, "e500-ccsr");
+@@ -1083,7 +1085,7 @@ void ppce500_init(MachineState *machine)
+         kernel_base =3D cur_base;
+         kernel_size =3D load_image_targphys(machine->kernel_filename,
+                                           cur_base,
+-                                          ram_size - cur_base);
++                                          machine->ram_size - cur_base);
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'",
+                          machine->kernel_filename);
+@@ -1097,7 +1099,7 @@ void ppce500_init(MachineState *machine)
+     if (machine->initrd_filename) {
+         initrd_base =3D (cur_base + INITRD_LOAD_PAD) & ~INITRD_PAD_MASK;
+         initrd_size =3D load_image_targphys(machine->initrd_filename, init=
+rd_base,
+-                                          ram_size - initrd_base);
++                                          machine->ram_size - initrd_base)=
+;
+=20
+         if (initrd_size < 0) {
+             error_report("could not load initial ram disk '%s'",
+@@ -1115,7 +1117,7 @@ void ppce500_init(MachineState *machine)
+      * ensures enough space between kernel and initrd.
+      */
+     dt_base =3D (loadaddr + payload_size + DTC_LOAD_PAD) & ~DTC_PAD_MASK;
+-    if (dt_base + DTB_MAX_SIZE > ram_size) {
++    if (dt_base + DTB_MAX_SIZE > machine->ram_size) {
+             error_report("not enough memory for device tree");
+             exit(1);
      }
--    memory_region_allocate_system_memory(ram, NULL, "mips_r4k.ram", ram_si=
-ze);
--
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-=20
-     memory_region_init_io(iomem, NULL, &mips_qemu_ops,
-                           NULL, "mips-qemu", 0x10000);
-@@ -261,7 +257,7 @@ void mips_r4k_init(MachineState *machine)
-     g_free(filename);
-=20
-     if (kernel_filename) {
--        loaderparams.ram_size =3D ram_size;
-+        loaderparams.ram_size =3D machine->ram_size;
-         loaderparams.kernel_filename =3D kernel_filename;
-         loaderparams.kernel_cmdline =3D kernel_cmdline;
-         loaderparams.initrd_filename =3D initrd_filename;
-@@ -316,7 +312,7 @@ static void mips_machine_init(MachineClass *mc)
- #else
-     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24Kf");
- #endif
--
-+    mc->default_ram_id =3D "mips_r4k.ram";
- }
-=20
- DEFINE_MACHINE("mips", mips_machine_init)
 --=20
 2.18.1
 
