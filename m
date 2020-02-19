@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157021638EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 02:04:35 +0100 (CET)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33C0163923
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 02:14:07 +0100 (CET)
+Received: from localhost ([::1]:43954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Dn0-0005k7-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 20:04:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37727)
+	id 1j4DwE-0004yy-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 20:14:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4DdF-00017G-P1
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:31 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j4Duj-00046M-Od
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 20:12:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4DdE-0001Ir-9g
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:29 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:56125 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4DdD-0001Ev-Tx; Tue, 18 Feb 2020 19:54:28 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48MfPV5vDXz9sSX; Wed, 19 Feb 2020 11:54:22 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582073662;
- bh=+jNmPKQFwt6qcFTEPaXoxgeQZgx5X3I9Q0aV8FzdT9Y=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p58SB0+yXgCDBD/TflqfiWMbkZ8wQv87uiQtkn1ELXxUIZsYDGjObu+xaAlFE+Qwy
- 2El8U3lglyJK975Sn4MfCD06aQmvqz6fMBmDVvNICsAUjDPJUIn0hYOa7GpXqrglFd
- or9XsYtKOTjnTpH3Us4INVuaFo6Db1+Wsqov2a3M=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: groug@kaod.org,
-	philmd@redhat.com,
-	qemu-devel@nongnu.org,
-	clg@kaod.org
-Subject: [PATCH v3 11/12] target/ppc: Streamline construction of VRMA SLB entry
-Date: Wed, 19 Feb 2020 11:54:13 +1100
-Message-Id: <20200219005414.15635-12-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200219005414.15635-1-david@gibson.dropbear.id.au>
-References: <20200219005414.15635-1-david@gibson.dropbear.id.au>
+ (envelope-from <alistair23@gmail.com>) id 1j4Dui-0001hv-6B
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 20:12:33 -0500
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:32866)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j4Duh-0001hL-UO; Tue, 18 Feb 2020 20:12:32 -0500
+Received: by mail-lj1-x243.google.com with SMTP id y6so25214417lji.0;
+ Tue, 18 Feb 2020 17:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Uc1rnFArpCrnrzRHRbrRKPXAtcLPWZhS6Dh9jV3fr98=;
+ b=fC8atTUUcwQUtlrQ3llBUGK62W9sc2NKjni3JO24HSZJXkt30PAYDViG3v2szM9F8Y
+ vBZ3NnZJ9rtKHf3WySFilPH3GnAfu4GSxheUEEptXtZvrDfopjPr75SG/PGSzwEkn1IN
+ 5GaDoHlG7h1Em4F2VVOoGUN+cqOcnBTFKk8DOabq6EbHjq0ExfTpglsqd7UOLE3gwKor
+ FJTakfXiS3BdsqrCqjIxQ6HdpYGSWaIqr07mfIvkAttx2rloDVVxiMDCZv3Gep6mpmwj
+ sd9GJrTVdslB5Io9RjcDEbNjM12Lg4gKZ9C+TwGtkr7o+YImZmnfVx/BuXX2JbBW3Hmt
+ ih/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Uc1rnFArpCrnrzRHRbrRKPXAtcLPWZhS6Dh9jV3fr98=;
+ b=uTxrLtOUsO/WOl4TNMKLuC0koEO4T5m1H5MBAzsurS5HLugoIWWuzTOCIizElax9u2
+ Sbjg4iR3cUIc1tTeLJR97CvnM9MOgZof0LaRd5qPh/xKfA5zdX4Up29M1EqjB2v32Bu7
+ 9TJH6owC/NFGMq3G4GXDJc2qijNLXT04Cm4S2Gh5e8nOGRgWo/gPxi/4MAx6knWqEhqb
+ PIJFRJT4IkPR5IcGHMPnUTj6judrOCj5YYmv0zRzuMrNkwNsAtTctIu4cfMFHyTKvWzQ
+ PY4vmirPCaOV75SnHDQde5S+88bmaxpf8C8A099mcRgsrnl1XaDsbjmsX6BEd5OpiLJI
+ A72g==
+X-Gm-Message-State: APjAAAU+qncRYLiAR5hUXXlFsaoyPGFI/+Ak/MEMw2MaL91fvgoDP26o
+ 8MmOn0IVMFYVn4ocDF/fwvgC4+k1Gk1xVVot86c=
+X-Google-Smtp-Source: APXvYqynZMmaKkJBsEo6H45GxcOmQ4R8MCmjGLXLeVo+g7XsmWvOxMB0bH9lxjQUj+AdBxYN8qXOgmE4UPBNfxbS/PQ=
+X-Received: by 2002:a2e:a36a:: with SMTP id i10mr13978247ljn.107.1582074749973; 
+ Tue, 18 Feb 2020 17:12:29 -0800 (PST)
 MIME-Version: 1.0
+References: <20200210081240.11481-1-zhiwei_liu@c-sky.com>
+ <20200210081240.11481-3-zhiwei_liu@c-sky.com>
+ <CAKmqyKORm9dfkgSOe0WR1aDBzJyMq9YP9+bBPwkeX2J2jYmLAg@mail.gmail.com>
+ <0eb6836a-b133-b3b1-6ef6-74dd341b1dd5@c-sky.com>
+In-Reply-To: <0eb6836a-b133-b3b1-6ef6-74dd341b1dd5@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 18 Feb 2020 17:05:04 -0800
+Message-ID: <CAKmqyKOhaHLcixnX2edge=t9xOYR7Sq486+ky1xd_OmWLO54Gw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] target/riscv: configure and turn on vector
+ extension from command line
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,134 +76,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, paulus@samba.org,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When in VRMA mode (i.e. a guest thinks it has the MMU off, but the
-hypervisor is still applying translation) we use a special SLB entry,
-rather than looking up an SLBE by address as we do when guest translation
-is on.
+On Tue, Feb 18, 2020 at 4:46 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Hi, Alistair
+>
+> On 2020/2/19 6:34, Alistair Francis wrote:
+> > On Mon, Feb 10, 2020 at 12:12 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrot=
+e:
+> >> Vector extension is default on only for "any" cpu. It can be turned
+> >> on by command line "-cpu rv64,v=3Dtrue,vlen=3D128,elen=3D64,vext_spec=
+=3Dv0.7.1".
+> >>
+> >> vlen is the vector register length, default value is 128 bit.
+> >> elen is the max operator size in bits, default value is 64 bit.
+> >> vext_spec is the vector specification version, default value is v0.7.1=
+.
+> >> Thest properties and cpu can be specified with other values.
+> >>
+> >> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> > This looks fine to me. Shouldn't this be the last patch though?
+> Yes=EF=BC=8C it should be the last patch.
+> > As in
+> > once the vector extension has been added to QEMU you can turn it on
+> > from the command line. Right now this turns it on but it isn't
+> > implemented.
+> Maybe I should just add fields in RISCVCPU structure. And never open the
+> vector extension on or add configure properties until the implementation
+> is ready.
 
-We build that special entry in ppc_hash64_update_vrma() along with some
-logic for handling some non-VRMA cases.  Split the actual build of the
-VRMA SLBE into a separate helper and streamline it a bit.
+Yes, I think that is a good idea.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- target/ppc/mmu-hash64.c | 79 ++++++++++++++++++++---------------------
- 1 file changed, 38 insertions(+), 41 deletions(-)
+>
+> It's still a little awkward as the reviewers will not be able to test
+> the patch until the
+> last patch.
 
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 170a78bd2e..06cfff9860 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -789,6 +789,39 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
-     }
- }
-=20
-+static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
-+{
-+    CPUPPCState *env =3D &cpu->env;
-+    target_ulong lpcr =3D env->spr[SPR_LPCR];
-+    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
-+    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LLP_=
-MASK);
-+    int i;
-+
-+    /*
-+     * Make one up. Mostly ignore the ESID which will not be needed
-+     * for translation
-+     */
-+    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
-+        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sps[=
-i];
-+
-+        if (!sps->page_shift) {
-+            break;
-+        }
-+
-+        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
-+            slb->esid =3D SLB_ESID_V;
-+            slb->vsid =3D vsid;
-+            slb->sps =3D sps;
-+            return 0;
-+        }
-+    }
-+
-+    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
-+                 TARGET_FMT_lx"\n", lpcr);
-+
-+    return -1;
-+}
-+
- int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-                                 int rwx, int mmu_idx)
- {
-@@ -1044,53 +1077,17 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
-arget_ulong ptex,
- static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
- {
-     CPUPPCState *env =3D &cpu->env;
--    const PPCHash64SegmentPageSizes *sps =3D NULL;
--    target_ulong esid, vsid, lpcr;
-     ppc_slb_t *slb =3D &env->vrma_slb;
--    uint32_t vrmasd;
--    int i;
--
--    /* First clear it */
--    slb->esid =3D slb->vsid =3D 0;
--    slb->sps =3D NULL;
-=20
-     /* Is VRMA enabled ? */
-     if (ppc_hash64_use_vrma(env)) {
--        return;
--    }
--
--    /*
--     * Make one up. Mostly ignore the ESID which will not be needed
--     * for translation
--     */
--    lpcr =3D env->spr[SPR_LPCR];
--    vsid =3D SLB_VSID_VRMA;
--    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
--    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
--    esid =3D SLB_ESID_V;
--
--    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
--        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->sps=
-[i];
--
--        if (!sps1->page_shift) {
--            break;
--        }
--
--        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
--            sps =3D sps1;
--            break;
--        }
--    }
--
--    if (!sps) {
--        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
--                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
--        return;
-+        if (build_vrma_slbe(cpu, slb) =3D=3D 0)
-+            return;
-     }
-=20
--    slb->vsid =3D vsid;
--    slb->esid =3D esid;
--    slb->sps =3D sps;
-+    /* Otherwise, clear it to indicate error */
-+    slb->esid =3D slb->vsid =3D 0;
-+    slb->sps =3D NULL;
- }
-=20
- void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
---=20
-2.24.1
+I understand, but I don't think anyone is going to want to test the
+extension half way through it being added to QEMU. This way we can
+start to merge patches even without full support as users can't turn
+it on.
 
+Alistair
+
+>
+> > Alistair
+> >
+> >> ---
+> >>   target/riscv/cpu.c | 48 ++++++++++++++++++++++++++++++++++++++++++++=
+--
+> >>   target/riscv/cpu.h |  8 ++++++++
+> >>   2 files changed, 54 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> >> index 8c86ebc109..95fdb6261e 100644
+> >> --- a/target/riscv/cpu.c
+> >> +++ b/target/riscv/cpu.c
+> >> @@ -98,6 +98,11 @@ static void set_priv_version(CPURISCVState *env, in=
+t priv_ver)
+> >>       env->priv_ver =3D priv_ver;
+> >>   }
+> >>
+> >> +static void set_vext_version(CPURISCVState *env, int vext_ver)
+> >> +{
+> >> +    env->vext_ver =3D vext_ver;
+> >> +}
+> >> +
+> >>   static void set_feature(CPURISCVState *env, int feature)
+> >>   {
+> >>       env->features |=3D (1ULL << feature);
+> >> @@ -113,7 +118,7 @@ static void set_resetvec(CPURISCVState *env, int r=
+esetvec)
+> >>   static void riscv_any_cpu_init(Object *obj)
+> >>   {
+> >>       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> >> -    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> >> +    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU | =
+RVV);
+> >>       set_priv_version(env, PRIV_VERSION_1_11_0);
+> >>       set_resetvec(env, DEFAULT_RSTVEC);
+> >>   }
+> >> @@ -320,6 +325,7 @@ static void riscv_cpu_realize(DeviceState *dev, Er=
+ror **errp)
+> >>       CPURISCVState *env =3D &cpu->env;
+> >>       RISCVCPUClass *mcc =3D RISCV_CPU_GET_CLASS(dev);
+> >>       int priv_version =3D PRIV_VERSION_1_11_0;
+> >> +    int vext_version =3D VEXT_VERSION_0_07_1;
+> >>       target_ulong target_misa =3D 0;
+> >>       Error *local_err =3D NULL;
+> >>
+> >> @@ -343,8 +349,18 @@ static void riscv_cpu_realize(DeviceState *dev, E=
+rror **errp)
+> >>               return;
+> >>           }
+> >>       }
+> >> -
+> >> +    if (cpu->cfg.vext_spec) {
+> >> +        if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
+> >> +            vext_version =3D VEXT_VERSION_0_07_1;
+> >> +        } else {
+> >> +            error_setg(errp,
+> >> +                       "Unsupported vector spec version '%s'",
+> >> +                       cpu->cfg.vext_spec);
+> >> +            return;
+> >> +        }
+> >> +    }
+> >>       set_priv_version(env, priv_version);
+> >> +    set_vext_version(env, vext_version);
+> >>       set_resetvec(env, DEFAULT_RSTVEC);
+> >>
+> >>       if (cpu->cfg.mmu) {
+> >> @@ -409,6 +425,30 @@ static void riscv_cpu_realize(DeviceState *dev, E=
+rror **errp)
+> >>           if (cpu->cfg.ext_u) {
+> >>               target_misa |=3D RVU;
+> >>           }
+> >> +        if (cpu->cfg.ext_v) {
+> >> +            target_misa |=3D RVV;
+> >> +            if (!is_power_of_2(cpu->cfg.vlen)) {
+> >> +                error_setg(errp,
+> >> +                       "Vector extension VLEN must be power of 2");
+> >> +                return;
+> >> +            }
+> >> +            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
+> >> +                error_setg(errp,
+> >> +                       "Vector extension implementation only supports=
+ VLEN "
+> >> +                       "in the range [128, %d]", RV_VLEN_MAX);
+> >> +                return;
+> >> +            }
+> >> +            if (!is_power_of_2(cpu->cfg.elen)) {
+> >> +                error_setg(errp,
+> >> +                       "Vector extension ELEN must be power of 2");
+> >> +                return;
+> >> +            }
+> >> +            if (cpu->cfg.elen > 64) {
+> >> +                error_setg(errp,
+> >> +                       "Vector extension ELEN must <=3D 64");
+> >> +                return;
+> >> +            }
+> >> +        }
+> >>
+> >>           set_misa(env, RVXLEN | target_misa);
+> >>       }
+> >> @@ -444,10 +484,14 @@ static Property riscv_cpu_properties[] =3D {
+> >>       DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
+> >>       DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+> >>       DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+> >> +    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
+> >>       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+> >>       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> >>       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> >>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+> >> +    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> >> +    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+> >> +    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+> >>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+> >>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> >>       DEFINE_PROP_END_OF_LIST(),
+> >> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> >> index 07e63016a7..bf2b4b55af 100644
+> >> --- a/target/riscv/cpu.h
+> >> +++ b/target/riscv/cpu.h
+> >> @@ -64,6 +64,7 @@
+> >>   #define RVA RV('A')
+> >>   #define RVF RV('F')
+> >>   #define RVD RV('D')
+> >> +#define RVV RV('V')
+> >>   #define RVC RV('C')
+> >>   #define RVS RV('S')
+> >>   #define RVU RV('U')
+> >> @@ -82,6 +83,8 @@ enum {
+> >>   #define PRIV_VERSION_1_10_0 0x00011000
+> >>   #define PRIV_VERSION_1_11_0 0x00011100
+> >>
+> >> +#define VEXT_VERSION_0_07_1 0x00000701
+> >> +
+> >>   #define TRANSLATE_PMP_FAIL 2
+> >>   #define TRANSLATE_FAIL 1
+> >>   #define TRANSLATE_SUCCESS 0
+> >> @@ -118,6 +121,7 @@ struct CPURISCVState {
+> >>       target_ulong badaddr;
+> >>
+> >>       target_ulong priv_ver;
+> >> +    target_ulong vext_ver;
+> >>       target_ulong misa;
+> >>       target_ulong misa_mask;
+> >>
+> >> @@ -226,12 +230,16 @@ typedef struct RISCVCPU {
+> >>           bool ext_c;
+> >>           bool ext_s;
+> >>           bool ext_u;
+> >> +        bool ext_v;
+> >>           bool ext_counters;
+> >>           bool ext_ifencei;
+> >>           bool ext_icsr;
+> >>
+> >>           char *priv_spec;
+> >>           char *user_spec;
+> >> +        char *vext_spec;
+> >> +        uint16_t vlen;
+> >> +        uint16_t elen;
+> >>           bool mmu;
+> >>           bool pmp;
+> >>       } cfg;
+> >> --
+> >> 2.23.0
+> >>
+>
 
