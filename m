@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5302B164168
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:21:44 +0100 (CET)
-Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67E61641A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:23:00 +0100 (CET)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MUB-0002Ug-C2
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:21:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53370)
+	id 1j4MVP-0005lJ-Mx
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:22:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MPn-0003dw-7E
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:15 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4MPe-0003aU-Vz
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MPk-0005Fg-EO
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:09 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:40357)
+ (envelope-from <laurent@vivier.eu>) id 1j4MPd-000579-V2
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:02 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:37851)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPX-0004s3-Lj; Wed, 19 Feb 2020 05:16:55 -0500
+ id 1j4MPa-00050Z-Pg; Wed, 19 Feb 2020 05:16:59 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mjjzx-1jkar72j4F-00lBPA; Wed, 19 Feb 2020 11:16:38 +0100
+ id 1MHnZQ-1jH4062Uz8-00ErOT; Wed, 19 Feb 2020 11:16:40 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/17] target/i386/whpx: Remove superfluous semicolon
-Date: Wed, 19 Feb 2020 11:16:05 +0100
-Message-Id: <20200219101612.1033925-11-laurent@vivier.eu>
+Subject: [PULL 11/17] tests/qtest/libqos/qgraph: Remove superfluous semicolons
+Date: Wed, 19 Feb 2020 11:16:06 +0100
+Message-Id: <20200219101612.1033925-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fkHa02snvuJQT1kC46g80W+yqWWgilAKPwOIMaZZ0rfIXJl3zFW
- BRJvL0sHaJrlWTI636tFdxcZk5MTKE89WpJPgkNQxOo6QmkNuaepT2apNVG15I+aeSNIcKf
- LjjKWDkYdoau+4cpLTeelCwYHvIb9K5rYa34X9tBOxd2+bn556wXIajXdo+idIXme71V8lU
- ZUjWu+EP17IbBWUUsyovw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6lzzjanm2QQ=:GUiRVkqhwiQKhZZmYv4lUz
- U3WJdTbu7Sm1xzFslXtWrl2dGKXZjuJI/gfSKA3lWa4Djwbn6c1gLkvn4NjLry0/TgoZE5uus
- T+Dkq+9LdXJrZKXyDQ89NSe9e6B1IAK/XfYlZZa4svjg8tlOoU94rJXRO+2IuvDs+c0c8M7yU
- DMGiMjdsvuOknedGzkdVUh3ZkK6l8z+7ESIfizC4efHlnAAT6q8ICGEXbdlFK/j7fUyUp3Z1j
- UKYK2lzZCwtFZVRG6YTIzGq2V/wnOlexUhaoMYAcs9Az/GcC9p8LwdXLjsUPJDfDSZ9JF8Kou
- O2VOGDydoEKmrv9NbqkbxgElieYDApDsS0VnR5GlpR5OgPu0mWg7w/nO4mI/mOTZ9lSYPnGxX
- zV5rREj1/OBGQi6gzN2kUtk1dkWjrOZGrCTbtTgCIoWktELxRRx/f7qCi/bWwYA59e9sPGrbl
- r56Sgj2gxf512cWEXP59/lywJpIyO5IV/ksWtjYIejW9+qtPZtnuldnrAu0LbFVcy1W/FQfrz
- e9NjEj++O60GnQhzzSIYo6111ZYgUwXJtFj7M7ODXM+2h+qYa8kx0ywWJ9NhLpnIr1yWI2HFe
- JBRUjFcqazlogaHqUo5sOTreud4/PxK/2lP44riO3hnsf2HUyGkpel1rfFydlvVb14hnciFeC
- qQ6jBqPgBhpeyVuXNOMNXIqv5GHF1kxguLX4kUy+VP8wTrKHTgoidL1kX/mMBkpVQ6TFioj5k
- BjcdOi7RBDOTJkfh42BuYyUmHz2LCaz/jnptSMV4H3ebAvcW6qEvJcGfO5xJU+F08ocpnECy6
- +Oo47RPX0K+S00CYoNmcaw3I3rVYgdDFvCOlBdCV13c2PqYLFxEy5uXrQNvs5+LA63MBAoK
+X-Provags-ID: V03:K1:JpUVUNN+S0+cpEQ7Ukn+HanppYJnz1MOzhIPtY9bWWbtdRnlNeW
+ fjmIzxWyibl5/aaGjt/3Edg+TX35x3OMfs9jkkp0lWrOWeKWGYYZEV71XfZUHhO+kXj5IpG
+ RsVNYTu7vEFqBSZVfY0U66m6UasYctRfJOKM5sGpObgMNIORDVcSsWjUhqWHysEREbhwSrf
+ 0lynHRHLcq1aaZsVnYy1w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6VzeMLdb83I=:dcixetq2v7BjSE39LhHLZb
+ SlPSv938kldCjaw+Xl59xA+Rm9aVV5LXOfkqnNkyCd87DhhVd3KamGTTd+g2dEpgzO9te7K9n
+ hVRXu6w+f0cSHsZ3GwaA33nYwh/AEMzvONqlzTfvHoNpSdCEXOSM/Vaf3Ce9JoDCiOyN/wRVE
+ BdOLErc7SNcstp0jMxWpHcjjJzztxbdLclwsavzuN1q2Q4y11QzMsNipswGU4RnOxjFj9j1aI
+ QzX4V8v1oUHkwn5cqAoPiElHcbQfiM6VLRSucLIcBD8oz8y6yv5WNQKbCk6Fk49bc1cIreuEn
+ GPFrCXvgSUwe97hka79PZPYsy+TsX3EBiwIm02KbsgeO9j+GKDf+fzCk39BIJeT9tl2vVR8N9
+ eNs9Uajobg3xnXyZE+ZtDvnJIRygUK5uoM0zeh3UALO5HiMxRdg6IirDfSTPb5WfTcP4FaM7j
+ o1/mG70nIXVB4Wcy7muuUGYgA0fBLR62JY4X5AsRZSxKUCR62XcTZj3eiouOSFGuugGL/50It
+ ZPekopFAG5wSLpaBg4rYHO/usOnN4lwujP7tyQiauBwoW8twayiYIoFftGoCt9oN6dH/M8vj2
+ 07/7nr1sicikV0dFEk/YIRoMx36A5wByLNe4WYgtqqewoh4AY/paHJJQxQZDeuDwGxh+qIRnC
+ +pmkzVmKVRgSDy9qGDYeqBCw/ZVy5Wqwc1PnbOmho8/T+qui8Z7t+DI8VutZ45Q+MJVb7HqoM
+ Uv38HchWPngc6lP05zNTVvcfXShsesjscX0EcalDZBNrCkz6fn1Y18hFZPkP3tJFqGvoXpRfy
+ nV8h3JikpueruaW4d7qFy1gsgqyhIUGNZmgAh5psE9B0iwJoV93UHcDYcYqqixG/zvG7zLP
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,30 +86,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fixes: 812d49f2a3e
+Fixes: fc281c80202
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20200218094402.26625-12-philmd@redhat.com>
+Message-Id: <20200218094402.26625-13-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/i386/whpx-all.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/libqos/qgraph.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
-index 3ed2aa1892a1..35601b81766f 100644
---- a/target/i386/whpx-all.c
-+++ b/target/i386/whpx-all.c
-@@ -511,7 +511,7 @@ static void whpx_get_registers(CPUState *cpu)
-     /* WHvX64RegisterPat - Skipped */
+diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+index 7a7ae2a19edc..ca01de07437b 100644
+--- a/tests/qtest/libqos/qgraph.c
++++ b/tests/qtest/libqos/qgraph.c
+@@ -474,7 +474,7 @@ QOSEdgeType qos_graph_edge_get_type(QOSGraphEdge *edge)
+     if (!edge) {
+         return -1;
+     }
+-    return edge->type;;
++    return edge->type;
+ }
  
-     assert(whpx_register_names[idx] == WHvX64RegisterSysenterCs);
--    env->sysenter_cs = vcxt.values[idx++].Reg64;;
-+    env->sysenter_cs = vcxt.values[idx++].Reg64;
-     assert(whpx_register_names[idx] == WHvX64RegisterSysenterEip);
-     env->sysenter_eip = vcxt.values[idx++].Reg64;
-     assert(whpx_register_names[idx] == WHvX64RegisterSysenterEsp);
+ char *qos_graph_edge_get_dest(QOSGraphEdge *edge)
+@@ -590,7 +590,7 @@ void qos_add_test(const char *name, const char *interface,
+                   QOSTestFunc test_func, QOSGraphTestOptions *opts)
+ {
+     QOSGraphNode *node;
+-    char *test_name = g_strdup_printf("%s-tests/%s", interface, name);;
++    char *test_name = g_strdup_printf("%s-tests/%s", interface, name);
+     QOSGraphTestOptions def_opts = { };
+ 
+     if (!opts) {
 -- 
 2.24.1
 
