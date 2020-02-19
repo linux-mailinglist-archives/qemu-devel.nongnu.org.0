@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58053164A81
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:35:01 +0100 (CET)
-Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA441164A75
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:32:17 +0100 (CET)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SJQ-0008Uw-5H
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:35:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37572)
+	id 1j4SGm-0002bd-K8
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:32:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37509)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4Rw9-0003sK-H6
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:58 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4Rw4-0003f6-QL
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rw8-00011N-49
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46778
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j4Rw3-0000y6-Ho
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:52 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27145
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rw8-00010w-04
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:56 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rw3-0000xi-Dl
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128655;
+ s=mimecast20190719; t=1582128650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fbHtck9bYWOh2h5DliBXfKyRPrkxlnngFXq7M0JiOnU=;
- b=EO4+Dusv15HrVsTOkmul1RFR0XHf0vy5B4RjJEBg89J19DzoA9Oj8HFusQGo14bDQ4kEo5
- GT0jGVax24OCRqaem1p0LBbPPhRygkMUPMJMYS/hDELILoQA6T6eG3r0yyU4fKGHZv3uaM
- nHT+lErJ1ISynodCBfnUsMwmZFZGYSg=
+ bh=4mNsQ9XWjm+fSGV4BVtYfLqJwb4B0rhJuq5JM1H0ro0=;
+ b=hglaHZhvPpxrI8ifVJro4h1bVu6EBXUERtqYY6gZTLSO7Kox/1Zat3Zd84OYaMIa0AxOvF
+ Art03QxEDifdiHHTkk/8/4HCCzTsOmNMWVyYVodxGKBa4ejVpKvG+mkcP3tdJtI2OXaAE1
+ I7efIYgVFBOx9sKr1FC7OSR4bn56mik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-CHJild6xOiy65rkZt8DK4A-1; Wed, 19 Feb 2020 11:10:44 -0500
+ us-mta-174-X1ZeSQSsMRewigCKZ_dAkQ-1; Wed, 19 Feb 2020 11:10:47 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA886B0DF1;
- Wed, 19 Feb 2020 16:10:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7FC31B2C9A8;
+ Wed, 19 Feb 2020 16:10:46 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A96A848;
- Wed, 19 Feb 2020 16:10:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F3BD48;
+ Wed, 19 Feb 2020 16:10:45 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 41/79] hppa: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:15 -0500
-Message-Id: <20200219160953.13771-42-imammedo@redhat.com>
+Subject: [PATCH v6 43/79] x86/pc: use memdev for RAM
+Date: Wed, 19 Feb 2020 11:09:17 -0500
+Message-Id: <20200219160953.13771-44-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: CHJild6xOiy65rkZt8DK4A-1
+X-MC-Unique: X1ZeSQSsMRewigCKZ_dAkQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +70,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, deller@gmx.de, rth@twiddle.net
+Cc: Paolo Bonzini <pbonzini@redhat.com>, rth@twiddle.net, ehabkost@redhat.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,55 +84,72 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
+CC: mst@redhat.com
+CC: pbonzini@redhat.com
 CC: rth@twiddle.net
-CC: deller@gmx.de
+CC: ehabkost@redhat.com
 ---
- hw/hppa/machine.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ hw/i386/pc.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index d8755ec422..67181e75ba 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -71,14 +71,11 @@ static void machine_hppa_init(MachineState *machine)
-     uint64_t kernel_entry =3D 0, kernel_low, kernel_high;
-     MemoryRegion *addr_space =3D get_system_memory();
-     MemoryRegion *rom_region;
--    MemoryRegion *ram_region;
-     MemoryRegion *cpu_region;
-     long i;
-     unsigned int smp_cpus =3D machine->smp.cpus;
-     SysBusDevice *s;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 2ddce4230a..6ab4acb0c6 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -937,7 +937,7 @@ void pc_memory_init(PCMachineState *pcms,
+                     MemoryRegion **ram_memory)
+ {
+     int linux_boot, i;
+-    MemoryRegion *ram, *option_rom_mr;
++    MemoryRegion *option_rom_mr;
+     MemoryRegion *ram_below_4g, *ram_above_4g;
+     FWCfgState *fw_cfg;
+     MachineState *machine =3D MACHINE(pcms);
+@@ -950,22 +950,20 @@ void pc_memory_init(PCMachineState *pcms,
 =20
--    ram_size =3D machine->ram_size;
--
-     /* Create CPUs.  */
-     for (i =3D 0; i < smp_cpus; i++) {
-         char *name =3D g_strdup_printf("cpu%ld-io-eir", i);
-@@ -97,10 +94,8 @@ static void machine_hppa_init(MachineState *machine)
-         error_report("RAM size is currently restricted to 3GB");
-         exit(EXIT_FAILURE);
-     }
--    ram_region =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ram_region, OBJECT(machine),
--                                         "ram", ram_size);
--    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
-+    memory_region_add_subregion_overlap(addr_space, 0, machine->ram, -1);
-+
+     linux_boot =3D (machine->kernel_filename !=3D NULL);
 =20
-     /* Init Lasi chip */
-     lasi_init(addr_space);
-@@ -298,6 +293,7 @@ static void machine_hppa_machine_init(MachineClass *mc)
-     mc->is_default =3D 1;
-     mc->default_ram_size =3D 512 * MiB;
-     mc->default_boot_order =3D "cd";
-+    mc->default_ram_id =3D "ram";
- }
+-    /* Allocate RAM.  We allocate it as a single memory region and use
+-     * aliases to address portions of it, mostly for backwards compatibili=
+ty
+-     * with older qemus that used qemu_ram_alloc().
++    /*
++     * Split single memory region and use aliases to address portions of i=
+t,
++     * done for backwards compatibility with older qemus.
+      */
+-    ram =3D g_malloc(sizeof(*ram));
+-    memory_region_allocate_system_memory(ram, NULL, "pc.ram",
+-                                         machine->ram_size);
+-    *ram_memory =3D ram;
++    *ram_memory =3D machine->ram;
+     ram_below_4g =3D g_malloc(sizeof(*ram_below_4g));
+-    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
++    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->=
+ram,
+                              0, x86ms->below_4g_mem_size);
+     memory_region_add_subregion(system_memory, 0, ram_below_4g);
+     e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
+     if (x86ms->above_4g_mem_size > 0) {
+         ram_above_4g =3D g_malloc(sizeof(*ram_above_4g));
+-        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g", ram,
++        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
++                                 machine->ram,
+                                  x86ms->below_4g_mem_size,
+                                  x86ms->above_4g_mem_size);
+         memory_region_add_subregion(system_memory, 0x100000000ULL,
+@@ -1952,6 +1950,7 @@ static void pc_machine_class_init(ObjectClass *oc, vo=
+id *data)
+     mc->default_cpu_type =3D TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported =3D true;
+     mc->numa_mem_supported =3D true;
++    mc->default_ram_id =3D "pc.ram";
 =20
- DEFINE_MACHINE("hppa", machine_hppa_machine_init)
+     object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
+         pc_machine_get_device_memory_region_size, NULL,
 --=20
 2.18.1
 
