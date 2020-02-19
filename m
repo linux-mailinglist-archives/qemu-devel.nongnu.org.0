@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24E2164B59
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:02:37 +0100 (CET)
-Received: from localhost ([::1]:56760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADC8164B67
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:04:22 +0100 (CET)
+Received: from localhost ([::1]:56834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Sk8-0007aD-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:02:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
+	id 1j4Slp-0002s4-9S
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:04:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1j4SIW-0007Wc-Q3
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:34:06 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1j4SNf-0001Ub-5S
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1j4SIV-0003Vu-Hp
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:34:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50011
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j4SIV-0003Vk-DS
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:34:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582130043;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y5ND+7Foj/vfBWx9tZOlgNPfHZDV86R3yGWjbV5M09s=;
- b=CrBTwGqcCclDWABegx5p/kzyPJcK1QkUqFGaNR7imvqZF/VZ7+ZxNE9YLe9oALLZtaTmpW
- HTZ2gcOKbovbaVZ1rEVFPSSWH77TbRecaEyKO7RLZjVVMeNdZCKqfd62mTqmhzY5CqoAzS
- MTq+mw8qmVA7OtGbzLAKB0cNX6g9eJI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-8IqnUWF0N-i32me2zDJGQA-1; Wed, 19 Feb 2020 11:33:55 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 522EF1005512
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:33:54 +0000 (UTC)
-Received: from kh066.redhat.com (ovpn-205-79.brq.redhat.com [10.40.205.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE28560BE1;
- Wed, 19 Feb 2020 16:33:52 +0000 (UTC)
-From: Oksana Vohchana <ovoshcha@redhat.com>
+ (envelope-from <robert.foley@linaro.org>) id 1j4SNd-0007EV-QY
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:22 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41085)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
+ id 1j4SNd-0007DU-ID
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:21 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id j9so318269pfa.8
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 08:39:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+sXaLRbgfWs+KG5a/pFiZ/MnZmujcMivIdyDGLfFfmA=;
+ b=vNkfg+pvX52MmYfnqe5QS/Pe0+4d/pHFLm/PcKADmHew/sGdYfzNk121bYD2s3PQww
+ 1yseRE89Wpvma4NW9ndBDsCxX4kasrYCt/AcGSqfyzWr+sxX/+7SogFT20/9wg3D3Gb9
+ kmC4CK4NdaCvBU6dBk9hr10Z9YIiPMT4+dmg9SZXm+LXsaydFKKYRctg/bUKDDyWIN2e
+ DTmZXvpcj4AuonIvcnv3aLlyjNtRUKNht1LQ0rjiw8HYshgkl++uYHt0A4eJqjrWGCxf
+ p9njpiKDPHnpSlqSjBkHqLBEHaRhckwsmZnqGh1WtZPi+r6ArM4h+OxLv3rQjCHfz39d
+ 86VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+sXaLRbgfWs+KG5a/pFiZ/MnZmujcMivIdyDGLfFfmA=;
+ b=Jbm3M6zu+T8aGT/UWWL70gGaVVmZeiGPq6OAJyFl3ATMCwAo40f87F3pzMSvOLBsme
+ 4e+5/8pwwhya+H6Fzew1upT0/1GiXgHPDe53nhcB7fC5md+yBKYhoeP8tnjWL8/+yqyq
+ c8uaP2x8HM0YuVd7YGUhcAjCbrihTIuoIJWAJnheYknGXXU3DW7B+66qgfWCIOL4SXe4
+ sXazf+y0jpHDDkmpFrFiKleY3TD4GTH8+ip14P7j8akOaXSJE3NLZUXQ55whHsqhxeFZ
+ 3J/HUiEXKLbveeewxHT9S2XmjADAUknG1laGxobuATrVISSMAfFhJ7CwY8uIbpu0o0io
+ aVuQ==
+X-Gm-Message-State: APjAAAVVRWx5KEGHQyWyTl4031lIZgtpYS5Wod25JZcSU9dSv35fGvQ1
+ wSMDLYwNb7wmjn9pwlMijErV9cdBLsI=
+X-Google-Smtp-Source: APXvYqxT887kXZzpuXgArF4tSnRn5cqnxrpJVd1tn6Ql9PtQnNP5vINKuB8uzv2OFwB+PCFPFSYx+A==
+X-Received: by 2002:a65:4305:: with SMTP id j5mr29900100pgq.315.1582130359613; 
+ Wed, 19 Feb 2020 08:39:19 -0800 (PST)
+Received: from Rfoley-MA01.hsd1.ma.comcast.net
+ ([2601:199:4480:60c0:3cc2:5eb7:e248:ad23])
+ by smtp.gmail.com with ESMTPSA id a69sm112362pfa.129.2020.02.19.08.39.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2020 08:39:18 -0800 (PST)
+From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] Updates send_fd_scm function
-Date: Wed, 19 Feb 2020 18:33:43 +0200
-Message-Id: <20200219163344.27651-3-ovoshcha@redhat.com>
-In-Reply-To: <20200219163344.27651-1-ovoshcha@redhat.com>
-References: <20200219163344.27651-1-ovoshcha@redhat.com>
+Subject: [PATCH v2 00/14] tests/vm: Add support for aarch64 VMs
+Date: Wed, 19 Feb 2020 11:35:23 -0500
+Message-Id: <20200219163537.22098-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 8IqnUWF0N-i32me2zDJGQA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,117 +77,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, ehabkost@redhat.com, wainersm@redhat.com,
- crosa@redhat.com
+Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
+ peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A qemu-iotest uses for FD-migration test a helper program "socket_scm_helpe=
-r".
-And it makes some problems if you didn't build it with a QEMU. And now we c=
-an
-use new methods for the socket that allow us to send a file/socket descript=
-or
-(with access and permissions) from one process to another.
+This is version 2 of the patch series to 
+add support for aarch64 VMs.  
+ - Ubuntu 18.04 aarch64 VM
+ - CentOS 8 aarch64 VM
 
-Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
----
- python/qemu/machine.py | 56 +++++++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 22 deletions(-)
+V1: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg01180.html
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 8c5bd64795..0936b71856 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -173,19 +173,24 @@ class QEMUMachine(object):
-         """
-         return sock.sendmsg([msg], [(socket.SOL_SOCKET, socket.SCM_RIGHTS,=
- array.array("i", fds))])
-=20
--    def send_fd_scm(self, fd=3DNone, file_path=3DNone):
-+    def send_fd_scm(self, fd=3DNone, file_path=3DNone, data=3DNone):
-         """
--        Send an fd or file_path to socket_scm_helper.
-+        Can be used in two different cases.
-+        Send an fd or file_path to socket_scm_helper or
-+        provide data and fd to send it to the socket.
-=20
--        Exactly one of fd and file_path must be given.
-+        Exactly one of fd and file_path must be given to the case of socke=
-t_scm_helper
-         If it is file_path, the helper will open that file and pass its ow=
-n fd.
-+
-+        To second case need adds data that include a QMP request and fd
-         """
-         # In iotest.py, the qmp should always use unix socket.
-         assert self._qmp.is_scm_available()
--        if self._socket_scm_helper is None:
--            raise QEMUMachineError("No path to socket_scm_helper set")
--        if not os.path.exists(self._socket_scm_helper):
--            raise QEMUMachineError("%s does not exist" %
-+        if data is None:
-+            if self._socket_scm_helper is None:
-+                raise QEMUMachineError("No path to socket_scm_helper set o=
-r data not provided")
-+            if not os.path.exists(self._socket_scm_helper):
-+                raise QEMUMachineError("%s does not exist" %
-                                    self._socket_scm_helper)
-=20
-         # This did not exist before 3.4, but since then it is
-@@ -195,24 +200,31 @@ class QEMUMachine(object):
-             if fd is not None:
-                 os.set_inheritable(fd, True)
-=20
--        fd_param =3D ["%s" % self._socket_scm_helper,
--                    "%d" % self._qmp.get_sock_fd()]
-+        if data is None:
-+            fd_param =3D ["%s" % self._socket_scm_helper,
-+                        "%d" % self._qmp.get_sock_fd()]
-+            if file_path is not None:
-+                assert fd is None
-+                fd_param.append(file_path)
-+            else:
-+                assert fd is not None
-+                fd_param.append(str(fd))
-=20
--        if file_path is not None:
--            assert fd is None
--            fd_param.append(file_path)
--        else:
--            assert fd is not None
--            fd_param.append(str(fd))
-+            devnull =3D open(os.path.devnull, 'rb')
-+            proc =3D subprocess.Popen(fd_param, stdin=3Ddevnull, stdout=3D=
-subprocess.PIPE,
-+                                    stderr=3Dsubprocess.STDOUT, close_fds=
-=3DFalse)
-+            output =3D proc.communicate()[0]
-+            if output:
-+                LOG.debug(output)
-=20
--        devnull =3D open(os.path.devnull, 'rb')
--        proc =3D subprocess.Popen(fd_param, stdin=3Ddevnull, stdout=3Dsubp=
-rocess.PIPE,
--                                stderr=3Dsubprocess.STDOUT, close_fds=3DFa=
-lse)
--        output =3D proc.communicate()[0]
--        if output:
--            LOG.debug(output)
-+            return proc.returncode
-=20
--        return proc.returncode
-+        else:
-+            sock_fd =3D socket.fromfd(self._qmp.get_sock_fd(), socket.AF_U=
-NIX, socket.SOCK_STREAM)
-+            fds_param =3D [fd, self._qmp.get_sock_fd()]
-+            self._send_fds(sock_fd, data, fds_param)
-+            self._recv_fds(sock_fd)
-+            return self
-=20
-     @staticmethod
-     def _remove_if_exists(path):
---=20
-2.21.1
+Changes in version 2
+- Most changes relate to the patch: "Add workaround to consume console".
+   - We changed this patch to make it cleaner.
+   - We added a ConsoleSocket, which slots in for the current console socket
+     with the difference being that we drain this socket in the background on a
+     callback basis.  
+   - We also made the logging of the console to file optional
+ - Relocated the log file path and name. For example:
+   ~/.cache/qemu-vm/ubuntu.aarch64.install.log 
+- Made one fix for a hang issue we were seeing.
+  - The issue was a timing problem around a reboot where the
+     ubuntu.aarch64 script assumed the reboot guaranteed that 
+     the next successful command would occur after the reboot.
+   - The fix is to simply make it more deterministic by shutting down the
+     VM and restarting it instead of issuing the reboot.
+- Made a few changes to CentOS VM to update its dependencies properly.
+- We made a few changes related to latin1 vs utf-8.
+  We found in some cases the latin1 is needed for chars coming out of the i
+  socket which do not have a utf-8 equivalent.
+
+Robert Foley (14):
+  tests/vm: use $(PYTHON) consistently
+  tests/vm: Debug mode shows ssh output.
+  tests/vm: increased max timeout for vm boot.
+  tests/vm: give wait_ssh() option to wait for root
+  tests/vm: Added gen_cloud_init_iso() to basevm.py
+  tests/vm: Add workaround to consume console
+  tests/vm: Add configuration to basevm.py
+  tests/vm: Added configuration file support
+  tests/vm: add --boot-console switch
+  tests/vm: Add ability to select QEMU from current build.
+  tests/vm: allow wait_ssh() to specify command
+  tests/vm: Added a new script for ubuntu.aarch64.
+  tests/vm: Added a new script for centos.aarch64.
+  tests/vm: change scripts to use self._config
+
+ python/qemu/console_socket.py     | 162 ++++++++++++++++
+ python/qemu/machine.py            |  12 +-
+ tests/vm/Makefile.include         |  20 +-
+ tests/vm/aarch64vm.py             | 100 ++++++++++
+ tests/vm/basevm.py                | 294 +++++++++++++++++++++++++-----
+ tests/vm/centos                   |  33 +---
+ tests/vm/centos-8-aarch64.ks      |  51 ++++++
+ tests/vm/centos.aarch64           | 224 +++++++++++++++++++++++
+ tests/vm/conf_example_aarch64.yml |  51 ++++++
+ tests/vm/conf_example_x86.yml     |  50 +++++
+ tests/vm/fedora                   |  17 +-
+ tests/vm/freebsd                  |  16 +-
+ tests/vm/netbsd                   |  19 +-
+ tests/vm/openbsd                  |  17 +-
+ tests/vm/ubuntu.aarch64           | 117 ++++++++++++
+ tests/vm/ubuntu.i386              |  37 +---
+ 16 files changed, 1069 insertions(+), 151 deletions(-)
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+
+-- 
+2.17.1
 
 
