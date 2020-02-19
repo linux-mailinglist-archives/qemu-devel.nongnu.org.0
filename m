@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F0D164071
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 10:31:44 +0100 (CET)
-Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EF4164079
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 10:34:34 +0100 (CET)
+Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Lhn-0000vg-04
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 04:31:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45600)
+	id 1j4LkY-0003Lf-1J
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 04:34:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4Lgn-0000Ia-Ko
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:30:42 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4LjR-0002hv-Tr
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:33:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4Lgm-000617-KU
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:30:41 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:56939)
+ (envelope-from <laurent@vivier.eu>) id 1j4LjQ-0000GK-U9
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:33:25 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:56397)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4Lgh-0005tP-4K; Wed, 19 Feb 2020 04:30:36 -0500
+ id 1j4LjQ-0000Ez-LR; Wed, 19 Feb 2020 04:33:24 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1McpeM-1jeEjN3zuM-00Zu53; Wed, 19 Feb 2020 10:30:16 +0100
-Subject: Re: [PATCH 3/3] hw/xtensa/xtfpga:fix leak of fdevice tree blob
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mj8eD-1jgjPi03hV-00fB4m; Wed, 19 Feb 2020 10:33:15 +0100
+Subject: Re: [PATCH 1/3] hw/nios2:fix leak of fdevice tree blob
 To: kuhn.chenqun@huawei.com, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
  jcmvbkbc@gmail.com, crwulff@gmail.com, marex@denx.de,
  edgar.iglesias@gmail.com, david@gibson.dropbear.id.au
 References: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
- <20200218091154.21696-4-kuhn.chenqun@huawei.com>
+ <20200218091154.21696-2-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,34 +72,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <43b55e06-cc95-9e12-d3f6-fc03a702d28b@vivier.eu>
-Date: Wed, 19 Feb 2020 10:30:12 +0100
+Message-ID: <dd5daa65-ce76-ec35-9c83-d9a14aec08b4@vivier.eu>
+Date: Wed, 19 Feb 2020 10:33:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200218091154.21696-4-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200218091154.21696-2-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:D6msGcNANjzeYJ5v+VJqXTreD9w9Qa4GTl4jc7ysJqV8X2PcF/W
- FQ1vXqLzEU/Z9eNhvW1oWpgAXBCGGGvzhGuHK2meubolzXEktG0E6gVEWXjpfnT2aPLzPjG
- 7mXLdSswycst93uLLHPcM/n71rmfmuSZtyr3bza4l+cbkAoYe1QGs2evdgB7lFvjVNk5/gD
- pBnibNnPxapQqcZBhFVbQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OA7l5i/EMx0=:RCgOQyMral7F96SojKWOkQ
- Ho8sy2CQBbfgzninxK4dDMOYYToaUylv+Crhije/4vNYYNDGoaK1V5BrInxPpL4PpMB051/LR
- wzuoeaGltgu2ZKo+4q/jCwMWTUnwuHhQRQLKoaXvLbD3HlDBj7Jy5V8qZX4kKRqCrAH9nwrWw
- /QYX1GTkUExIO46EmOSPzyWgzTm0RQKs6ZZCMTG2elIscyIkGRuOItATHIj36tgaPybcmsGdE
- I5Db3XrRkmK1EgHhiSctqwMmPIA/x716owDt3QACApWNLbGwdxfh9LwwEnBAdi979XWh0E1VA
- BAfTpUtX4GRsSCtCT18mUqJmVrsNS01PF+35U+9rhAoXIcby8fUxdJIXKsmgPyGXCEUvyCA2s
- ClL7wtrE6iu2M6c8aEMy6ICGyzIzGdXw77KNobln83aK+V2yMxQcvwkpnsO0J5ObdBxImrlJR
- 7dbp+3lon4M3+F+g7/j+8sRY5cXTMLedNNwGPBq+wlbb/geUbGe6NThL4eK7qZls0HurgkrmQ
- JxwE3yH79pIsuAoG2EZNin00VdyWq/XJCGxE+8VYVsRaMKkvUWYQQYGawY/TwxIFOyqMjVCGf
- gd5KgTFhOPava+4DxJcUBBl9TSN73GEGaVj6GIgaINkzlcWK0gJa6Z0vq0T0edeEWgGFYxOMY
- eZwwkc9+BRISeH+AamQ+PO05QTFhZQJIctDakjc7QIT37uW1DT+M+4OKpzDaqVdK7C9/1VXXc
- JXABc+xiALwe95+CBFqHclFfUm2xa6U1AWPZTn5fWHGB/Bdquq3uOwEveSqXIoWyYEFUwF6lA
- ywA8zmvXFdKfnlHeTCMICozayN8CvmV09Mfqx8tY6CGCiBQqN/xhWCGDhx26gBA6yus77rV
+X-Provags-ID: V03:K1:ALkcF1KhMko347O882/h6VAQqlnRjl3CAljYEk/l+rLdFFMVwa8
+ PHthbMeI8rI7pEDuhPdQ2NL0NsoirEQqjrhoo6EpEnH19Nbv58UCZomDZQeFaQsolj8hY8F
+ 7+8q5BO2Ng8HL4uOhOYpr2EfCqmTwgAV9cxD8ToUCCJgfqlFGiAIKoM9iiGIWU1TEv0Jxf/
+ kigDrFkA9gOAcMYyc4XJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ew5kKQk+hoY=:C54o6r24JXTFPMpQyLAV6g
+ cZIdovNImw9KB0Wt6sE5kzrvwGvm17qn7YRMdg6YZIX9iRxwra8V+0onpEk8YCx0OSMM995DF
+ XIaMIf2TcgUe6Z+d9eMtSO7FIfhJIazK99b27VwSyTRWOuhjKQ++vY4M41NKeQ9ZmJ2fCte8h
+ EUY8qvZJ9wpSWCrxGUdua7P/Iec1aG9kSbcsZE3ceCNUNZofd51aGj/Xg2z8EaEzZgjrHPDSX
+ AbTjOxoZEULjl6lYqNmY3/DT3wa7o1G8tIcft1XWBik/vzXkAaXYYjuwsdNcDZMokA2B66L9b
+ 8p/gFpWrBBy8B2nCTG4JKqWW+w8NCftnSlNfqs7AvhhM45q+j5vRET9ejgEr69IAC/4xKVLVa
+ GDL2gpK4g4L6Jv/FgaNQnc2APg8R+SmHSCRvwsI7Yqwnc+htUS/M1VT+sTInuXrIq/YT716+h
+ li2GkVSmdGaeUZ1fCldfkWNkAC/msfV+c0pm3IWbRP5YtsWzfXSZrivoCxNe3S8FhE+qIm+d3
+ aCWjGT50W1baM0wWLCiWyH1ZvIYzRRZBtyNPGOaUKsCAQk7aPCkvPsuH4qAe+tWvJ0sqzU78m
+ 01CIfpcAmjPafNr00qbLpMVaSy0RWi2UDdHqc6Rle3xJho3is3dT/Fq3gyojJsnYjAi+fuZDp
+ Ma/NRZzyHSFLwnpQE87X/Qc0BkSqBnsU0NzfILe/VbnhSz0vn0OQY07kWGlzVw0mdFQvoV3jK
+ WAe2E4s6wJkkpghk+bezUvQMZIkqZl+bVk/m0FdW6opnU0oL+MIlMaiVszkgrVBd1GRBjYSOT
+ +Dkdb3ry2P3xBo/9GjsGqcDIFgCxHXZHGk8UGZaz05v+BmwoIyyXqywVTrBeOOsrZA8vS/3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,22 +125,26 @@ Le 18/02/2020 à 10:11, kuhn.chenqun@huawei.com a écrit :
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
->  hw/xtensa/xtfpga.c | 1 +
+>  hw/nios2/boot.c | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
-> index 8e2dd1327a..60ccc74f5f 100644
-> --- a/hw/xtensa/xtfpga.c
-> +++ b/hw/xtensa/xtfpga.c
-> @@ -380,6 +380,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
->              cur_tagptr = put_tag(cur_tagptr, BP_TAG_FDT,
->                                   sizeof(dtb_addr), &dtb_addr);
->              cur_lowmem = QEMU_ALIGN_UP(cur_lowmem + fdt_size, 4 * KiB);
-> +            g_free(fdt);
->          }
->  #else
->          if (dtb_filename) {
+> diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+> index 46b8349876..88224aa84c 100644
+> --- a/hw/nios2/boot.c
+> +++ b/hw/nios2/boot.c
+> @@ -109,6 +109,7 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+>      }
+>  
+>      cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
+> +    g_free(fdt);
+>      return fdt_size;
+>  }
+>  
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my trivial-patches branch.
+
+Thanks,
+Laurent
+
 
