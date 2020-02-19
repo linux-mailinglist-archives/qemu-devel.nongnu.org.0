@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CCF1638CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:58:30 +0100 (CET)
-Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918861638AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:47:37 +0100 (CET)
+Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Dh7-0008KK-Lu
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:58:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
+	id 1j4DWa-0007Zc-1V
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:47:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j4Cwx-00083O-Hp
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:10:48 -0500
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1j4DVh-0007A0-LC
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:46:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j4Cww-0006uT-3M
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:10:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:32774)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j4Cwv-0006tk-U9
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:10:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j4Cwu-0005qW-6A
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 00:10:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2388A2E80C0
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 00:10:44 +0000 (UTC)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1j4DVf-0000iW-0I
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:46:41 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:48236)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1j4DVe-0000ez-F6; Tue, 18 Feb 2020 19:46:38 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436292|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.348929-0.0276323-0.623439;
+ DS=CONTINUE|ham_system_inform|0.536313-0.000101925-0.463585;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03297; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=8; RT=8; SR=0; TI=SMTPD_---.GpVazkk_1582073190; 
+Received: from 192.168.3.18(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.GpVazkk_1582073190)
+ by smtp.aliyun-inc.com(10.147.41.121);
+ Wed, 19 Feb 2020 08:46:31 +0800
+Subject: Re: [PATCH v4 2/4] target/riscv: configure and turn on vector
+ extension from command line
+To: Alistair Francis <alistair23@gmail.com>
+References: <20200210081240.11481-1-zhiwei_liu@c-sky.com>
+ <20200210081240.11481-3-zhiwei_liu@c-sky.com>
+ <CAKmqyKORm9dfkgSOe0WR1aDBzJyMq9YP9+bBPwkeX2J2jYmLAg@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <0eb6836a-b133-b3b1-6ef6-74dd341b1dd5@c-sky.com>
+Date: Wed, 19 Feb 2020 08:46:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 19 Feb 2020 00:01:47 -0000
-From: Dustin Spicuzza <dustin@virtualroadside.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dustin-virtualroadside
-X-Launchpad-Bug-Reporter: Dustin Spicuzza (dustin-virtualroadside)
-X-Launchpad-Bug-Modifier: Dustin Spicuzza (dustin-virtualroadside)
-Message-Id: <158207050809.30858.5545792366181447140.malonedeb@wampee.canonical.com>
-Subject: [Bug 1863819] [NEW] repeated KVM single step crashes leaks into SMP
- guest and crashes guest application
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d149ff8d74021ba68dc6a0cae8e44165e7027616
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Tue, 18 Feb 2020 19:57:12 -0500
+In-Reply-To: <CAKmqyKORm9dfkgSOe0WR1aDBzJyMq9YP9+bBPwkeX2J2jYmLAg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,148 +58,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863819 <1863819@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi, Alistair
 
-Guest: Windows 7 x64
-Host: Ubuntu 18.04.4 (kernel 5.3.0-40-generic)
-QEMU: master 6c599282f8ab382fe59f03a6cae755b89561a7b3
+On 2020/2/19 6:34, Alistair Francis wrote:
+> On Mon, Feb 10, 2020 at 12:12 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> Vector extension is default on only for "any" cpu. It can be turned
+>> on by command line "-cpu rv64,v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+>>
+>> vlen is the vector register length, default value is 128 bit.
+>> elen is the max operator size in bits, default value is 64 bit.
+>> vext_spec is the vector specification version, default value is v0.7.1.
+>> Thest properties and cpu can be specified with other values.
+>>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> This looks fine to me. Shouldn't this be the last patch though?
+Yes， it should be the last patch.
+> As in
+> once the vector extension has been added to QEMU you can turn it on
+> from the command line. Right now this turns it on but it isn't
+> implemented.
+Maybe I should just add fields in RISCVCPU structure. And never open the
+vector extension on or add configure properties until the implementation 
+is ready.
 
-If I try to use GDB to repeatedly single-step a userspace process while
-running a KVM guest, the userspace process will eventually crash with a
-0x80000004 exception (single step). This is easily reproducible on a
-Windows guest, I've not tried another guest type but I've been told it's
-the same there also.
+It's still a little awkward as the reviewers will not be able to test 
+the patch until the
+last patch.
 
-On a Ubuntu 16 host with an older kernel, this will hang the entire
-machine. However, it seems it may have been fixed by
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3D5cc244a20b86090c087073c124284381cdf47234
-?
+> Alistair
+>
+>> ---
+>>   target/riscv/cpu.c | 48 ++++++++++++++++++++++++++++++++++++++++++++--
+>>   target/riscv/cpu.h |  8 ++++++++
+>>   2 files changed, 54 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 8c86ebc109..95fdb6261e 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -98,6 +98,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+>>       env->priv_ver = priv_ver;
+>>   }
+>>
+>> +static void set_vext_version(CPURISCVState *env, int vext_ver)
+>> +{
+>> +    env->vext_ver = vext_ver;
+>> +}
+>> +
+>>   static void set_feature(CPURISCVState *env, int feature)
+>>   {
+>>       env->features |= (1ULL << feature);
+>> @@ -113,7 +118,7 @@ static void set_resetvec(CPURISCVState *env, int resetvec)
+>>   static void riscv_any_cpu_init(Object *obj)
+>>   {
+>>       CPURISCVState *env = &RISCV_CPU(obj)->env;
+>> -    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+>> +    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU | RVV);
+>>       set_priv_version(env, PRIV_VERSION_1_11_0);
+>>       set_resetvec(env, DEFAULT_RSTVEC);
+>>   }
+>> @@ -320,6 +325,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>       CPURISCVState *env = &cpu->env;
+>>       RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+>>       int priv_version = PRIV_VERSION_1_11_0;
+>> +    int vext_version = VEXT_VERSION_0_07_1;
+>>       target_ulong target_misa = 0;
+>>       Error *local_err = NULL;
+>>
+>> @@ -343,8 +349,18 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>               return;
+>>           }
+>>       }
+>> -
+>> +    if (cpu->cfg.vext_spec) {
+>> +        if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
+>> +            vext_version = VEXT_VERSION_0_07_1;
+>> +        } else {
+>> +            error_setg(errp,
+>> +                       "Unsupported vector spec version '%s'",
+>> +                       cpu->cfg.vext_spec);
+>> +            return;
+>> +        }
+>> +    }
+>>       set_priv_version(env, priv_version);
+>> +    set_vext_version(env, vext_version);
+>>       set_resetvec(env, DEFAULT_RSTVEC);
+>>
+>>       if (cpu->cfg.mmu) {
+>> @@ -409,6 +425,30 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>           if (cpu->cfg.ext_u) {
+>>               target_misa |= RVU;
+>>           }
+>> +        if (cpu->cfg.ext_v) {
+>> +            target_misa |= RVV;
+>> +            if (!is_power_of_2(cpu->cfg.vlen)) {
+>> +                error_setg(errp,
+>> +                       "Vector extension VLEN must be power of 2");
+>> +                return;
+>> +            }
+>> +            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
+>> +                error_setg(errp,
+>> +                       "Vector extension implementation only supports VLEN "
+>> +                       "in the range [128, %d]", RV_VLEN_MAX);
+>> +                return;
+>> +            }
+>> +            if (!is_power_of_2(cpu->cfg.elen)) {
+>> +                error_setg(errp,
+>> +                       "Vector extension ELEN must be power of 2");
+>> +                return;
+>> +            }
+>> +            if (cpu->cfg.elen > 64) {
+>> +                error_setg(errp,
+>> +                       "Vector extension ELEN must <= 64");
+>> +                return;
+>> +            }
+>> +        }
+>>
+>>           set_misa(env, RVXLEN | target_misa);
+>>       }
+>> @@ -444,10 +484,14 @@ static Property riscv_cpu_properties[] = {
+>>       DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
+>>       DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+>>       DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+>> +    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
+>>       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>>       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>>       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+>>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+>> +    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+>> +    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+>> +    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+>>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+>>       DEFINE_PROP_END_OF_LIST(),
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 07e63016a7..bf2b4b55af 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -64,6 +64,7 @@
+>>   #define RVA RV('A')
+>>   #define RVF RV('F')
+>>   #define RVD RV('D')
+>> +#define RVV RV('V')
+>>   #define RVC RV('C')
+>>   #define RVS RV('S')
+>>   #define RVU RV('U')
+>> @@ -82,6 +83,8 @@ enum {
+>>   #define PRIV_VERSION_1_10_0 0x00011000
+>>   #define PRIV_VERSION_1_11_0 0x00011100
+>>
+>> +#define VEXT_VERSION_0_07_1 0x00000701
+>> +
+>>   #define TRANSLATE_PMP_FAIL 2
+>>   #define TRANSLATE_FAIL 1
+>>   #define TRANSLATE_SUCCESS 0
+>> @@ -118,6 +121,7 @@ struct CPURISCVState {
+>>       target_ulong badaddr;
+>>
+>>       target_ulong priv_ver;
+>> +    target_ulong vext_ver;
+>>       target_ulong misa;
+>>       target_ulong misa_mask;
+>>
+>> @@ -226,12 +230,16 @@ typedef struct RISCVCPU {
+>>           bool ext_c;
+>>           bool ext_s;
+>>           bool ext_u;
+>> +        bool ext_v;
+>>           bool ext_counters;
+>>           bool ext_ifencei;
+>>           bool ext_icsr;
+>>
+>>           char *priv_spec;
+>>           char *user_spec;
+>> +        char *vext_spec;
+>> +        uint16_t vlen;
+>> +        uint16_t elen;
+>>           bool mmu;
+>>           bool pmp;
+>>       } cfg;
+>> --
+>> 2.23.0
+>>
 
-It's not clear to me whether this is a KVM or a QEMU bug. A TCG guest
-does not crash the userspace process in the same way, but it does hang
-the VM.
-
-I've tried a variety of QEMU versions (3.0, 4.2, master) and they all
-exhibit the same behavior. I'm happy to dig into this more if someone
-can point me in the right direction.
-
-Here's the outline for reproducing the bug:
-
-* Compile iloop.cpp (attached) as a 32-bit application using MSVC
-* Start Windows 7 x64 guest under GDB
-  * Pass '-enable-kvm -smp 4,cores=3D2 -gdb tcp::4567' to QEMU along with o=
-ther typical options
-
-(need to get CR3 to ensure we're in the right application context -- if the=
-re's an easier way to do this I'd love to hear it!)
-* Install WinDBG on guest
-* Copy SysInternals LiveKD to guest
-* Start iloop.exe in guest, note loop address
-* Run LiveKD from administrative prompt
-  * livekd64.exe -w
-* In WinDBG:
-  * !process 0 0
-  * Search for iloop.exe, note DirBase (this is CR3)
-
-In GDB:
-* Execute 'target remote tcp::4567'
-* Execute 'c'
-* Hit CTRL-C to pause the VM
-* Execute 'p/x $cr3'
-  .. continue if not equal to DirBase in WinDBG, keep stopping until it is =
-equal
-* Once $cr3 is correct value, if you 'stepi' a few times you'll note the pr=
-ocess going in a loop, it should keep hitting the address echoed to the con=
-sole by iloop.exe
-
-Crash the process from GDB:
-* Execute 'stepi 100000000'
-* Watch the process, eventually it'll die with an 0x80000004 error
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "iloop.cpp"
-   https://bugs.launchpad.net/bugs/1863819/+attachment/5329416/+files/iloop=
-.cpp
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863819
-
-Title:
-  repeated KVM single step crashes leaks into SMP guest and crashes
-  guest application
-
-Status in QEMU:
-  New
-
-Bug description:
-  Guest: Windows 7 x64
-  Host: Ubuntu 18.04.4 (kernel 5.3.0-40-generic)
-  QEMU: master 6c599282f8ab382fe59f03a6cae755b89561a7b3
-
-  If I try to use GDB to repeatedly single-step a userspace process
-  while running a KVM guest, the userspace process will eventually crash
-  with a 0x80000004 exception (single step). This is easily reproducible
-  on a Windows guest, I've not tried another guest type but I've been
-  told it's the same there also.
-
-  On a Ubuntu 16 host with an older kernel, this will hang the entire
-  machine. However, it seems it may have been fixed by
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D5cc244a20b86090c087073c124284381cdf47234
-  ?
-
-  It's not clear to me whether this is a KVM or a QEMU bug. A TCG guest
-  does not crash the userspace process in the same way, but it does hang
-  the VM.
-
-  I've tried a variety of QEMU versions (3.0, 4.2, master) and they all
-  exhibit the same behavior. I'm happy to dig into this more if someone
-  can point me in the right direction.
-
-  Here's the outline for reproducing the bug:
-
-  * Compile iloop.cpp (attached) as a 32-bit application using MSVC
-  * Start Windows 7 x64 guest under GDB
-    * Pass '-enable-kvm -smp 4,cores=3D2 -gdb tcp::4567' to QEMU along with=
- other typical options
-
-  (need to get CR3 to ensure we're in the right application context -- if t=
-here's an easier way to do this I'd love to hear it!)
-  * Install WinDBG on guest
-  * Copy SysInternals LiveKD to guest
-  * Start iloop.exe in guest, note loop address
-  * Run LiveKD from administrative prompt
-    * livekd64.exe -w
-  * In WinDBG:
-    * !process 0 0
-    * Search for iloop.exe, note DirBase (this is CR3)
-
-  In GDB:
-  * Execute 'target remote tcp::4567'
-  * Execute 'c'
-  * Hit CTRL-C to pause the VM
-  * Execute 'p/x $cr3'
-    .. continue if not equal to DirBase in WinDBG, keep stopping until it i=
-s equal
-  * Once $cr3 is correct value, if you 'stepi' a few times you'll note the =
-process going in a loop, it should keep hitting the address echoed to the c=
-onsole by iloop.exe
-
-  Crash the process from GDB:
-  * Execute 'stepi 100000000'
-  * Watch the process, eventually it'll die with an 0x80000004 error
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863819/+subscriptions
 
