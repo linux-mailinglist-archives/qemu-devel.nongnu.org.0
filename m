@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E78B164AF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:49:55 +0100 (CET)
-Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653DB164AD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:44:58 +0100 (CET)
+Received: from localhost ([::1]:56202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SXq-0006sp-6z
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:49:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37808)
+	id 1j4ST3-0004hm-EF
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:44:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4RwX-0004ne-GB
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:22 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4RwT-0004bt-5q
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4RwW-0001Td-DH
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43117
+ (envelope-from <imammedo@redhat.com>) id 1j4RwR-0001MN-Nn
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50584
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwW-0001SU-90
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:20 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwR-0001M3-JC
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128679;
+ s=mimecast20190719; t=1582128675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MyyH/O/aATUGgcmHzInkbZymc7rhyP3lnamU2rQlAc8=;
- b=h1fM/4fcDt+vPQi0SSpDeqyO86cl587oUahh/W7J1XfNEU+0euUnEv7jmmzvs8xXLETBbd
- cpLMuY9gBx7NaQNd7RcPecGQaLPqVrsPVb2TSOKiARf3CDp3axkX/fM1cITWRer2IJGO2k
- Wys4vx84LZ0UjWauJztngijsIwZjTEw=
+ bh=7j1ZdeXTZC2HT7RhMlC+KQtGsCs/myjVSvJQGGbJblY=;
+ b=SxWd7GXTAm/4wB9clA8rfqdzbVANpclyqBSPB8iaW2wZfAJsp0z6J5ree0NB5EsWDxvqEH
+ WU5wlv5+aiydoIeJtV8hjktfcMsuuUfZ3we8eNoqdOdVdMV4A4LBGJcp/gM5JbK89MyY23
+ SC/4Jf4+rRWRo+WHDeKnHiL+4GpSocM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-nzbfAibJPCCddT85OwJ8FQ-1; Wed, 19 Feb 2020 11:11:09 -0500
+ us-mta-190-ebcgsxANOASjoWb0ydMgnA-1; Wed, 19 Feb 2020 11:11:10 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF26A2733
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3200410B01C7
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:09 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8ADA9051B;
- Wed, 19 Feb 2020 16:11:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3B1090526;
+ Wed, 19 Feb 2020 16:11:08 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 62/79] ppc/pnv: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:36 -0500
-Message-Id: <20200219160953.13771-63-imammedo@redhat.com>
+Subject: [PATCH v6 63/79] ppc/ppc405_boards: add RAM size checks
+Date: Wed, 19 Feb 2020 11:09:37 -0500
+Message-Id: <20200219160953.13771-64-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: nzbfAibJPCCddT85OwJ8FQ-1
+X-MC-Unique: ebcgsxANOASjoWb0ydMgnA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,56 +75,180 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If user provided non-sense RAM size, board will ignore it
+and continue running with fixed RAM size.
+
+Also RAM is going to be allocated by generic code, so it
+won't be possible for board to fix CLI.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
+
+PS:
+move fixed RAM size into mc->default_ram_size, so that
+generic code will know how much to allocate.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/ppc/pnv.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+v2:
+  * fix format string causing build failure on 32-bit host
+    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+v3:
+  * use size_to_str() to pretty print size in MiB
+    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>/
+     BALATON Zoltan <balaton@eik.bme.hu>)
+---
+ hw/ppc/ppc405_boards.c | 39 ++++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 139c857b1e..ea20a1dc3e 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -690,7 +690,6 @@ static void pnv_init(MachineState *machine)
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 1f721feed6..057882a5d2 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -40,6 +40,7 @@
+ #include "qemu/error-report.h"
+ #include "hw/loader.h"
+ #include "exec/address-spaces.h"
++#include "qemu/cutils.h"
+=20
+ #define BIOS_FILENAME "ppc405_rom.bin"
+ #define BIOS_SIZE (2 * MiB)
+@@ -137,7 +138,7 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem, ui=
+nt32_t base)
+=20
+ static void ref405ep_init(MachineState *machine)
  {
-     PnvMachineState *pnv =3D PNV_MACHINE(machine);
-     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
--    MemoryRegion *ram;
-     char *fw_filename;
-     long fw_size;
-     int i;
-@@ -702,11 +701,7 @@ static void pnv_init(MachineState *machine)
-     if (machine->ram_size < (1 * GiB)) {
-         warn_report("skiboot may not work with < 1GB of RAM");
-     }
--
--    ram =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ram, NULL, "pnv.ram",
--                                         machine->ram_size);
--    memory_region_add_subregion(get_system_memory(), 0, ram);
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+-    ram_addr_t ram_size =3D machine->ram_size;
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     const char *kernel_filename =3D machine->kernel_filename;
+     const char *kernel_cmdline =3D machine->kernel_cmdline;
+     const char *initrd_filename =3D machine->initrd_filename;
+@@ -161,15 +162,21 @@ static void ref405ep_init(MachineState *machine)
+     DriveInfo *dinfo;
+     MemoryRegion *sysmem =3D get_system_memory();
 =20
-     /*
-      * Create our simple PNOR device
-@@ -1976,6 +1971,7 @@ static void pnv_machine_class_init(ObjectClass *oc, v=
-oid *data)
-      * enough to fit the maximum initrd size at it's load address
-      */
-     mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
-+    mc->default_ram_id =3D "pnv.ram";
-     ispc->print_info =3D pnv_pic_print_info;
++    if (machine->ram_size !=3D mc->default_ram_size) {
++        char *sz =3D size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
++
+     /* XXX: fix this */
+     memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405ep.=
+ram",
+-                                         0x08000000);
++                                         machine->ram_size);
+     ram_bases[0] =3D 0;
+-    ram_sizes[0] =3D 0x08000000;
++    ram_sizes[0] =3D machine->ram_size;
+     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
+     ram_bases[1] =3D 0x00000000;
+     ram_sizes[1] =3D 0x00000000;
+-    ram_size =3D 128 * MiB;
+     env =3D ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+                         33333333, &pic, kernel_filename =3D=3D NULL ? 0 : =
+1);
+     /* allocate SRAM */
+@@ -227,7 +234,7 @@ static void ref405ep_init(MachineState *machine)
+     if (linux_boot) {
+         memset(&bd, 0, sizeof(bd));
+         bd.bi_memstart =3D 0x00000000;
+-        bd.bi_memsize =3D ram_size;
++        bd.bi_memsize =3D machine->ram_size;
+         bd.bi_flashstart =3D -bios_size;
+         bd.bi_flashsize =3D -bios_size;
+         bd.bi_flashoffset =3D 0;
+@@ -255,7 +262,7 @@ static void ref405ep_init(MachineState *machine)
+         kernel_base =3D KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+         kernel_size =3D load_image_targphys(kernel_filename, kernel_base,
+-                                          ram_size - kernel_base);
++                                          machine->ram_size - kernel_base)=
+;
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
+@@ -266,7 +273,7 @@ static void ref405ep_init(MachineState *machine)
+         if (initrd_filename) {
+             initrd_base =3D INITRD_LOAD_ADDR;
+             initrd_size =3D load_image_targphys(initrd_filename, initrd_ba=
+se,
+-                                              ram_size - initrd_base);
++                                              machine->ram_size - initrd_b=
+ase);
+             if (initrd_size < 0) {
+                 error_report("could not load initial ram disk '%s'",
+                              initrd_filename);
+@@ -304,6 +311,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *=
+data)
 =20
-     object_class_property_add_bool(oc, "hb-mode",
+     mc->desc =3D "ref405ep";
+     mc->init =3D ref405ep_init;
++    mc->default_ram_size =3D 0x08000000;
+ }
+=20
+ static const TypeInfo ref405ep_type =3D {
+@@ -408,7 +416,7 @@ static void taihu_cpld_init(MemoryRegion *sysmem, uint3=
+2_t base)
+=20
+ static void taihu_405ep_init(MachineState *machine)
+ {
+-    ram_addr_t ram_size =3D machine->ram_size;
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     const char *kernel_filename =3D machine->kernel_filename;
+     const char *initrd_filename =3D machine->initrd_filename;
+     char *filename;
+@@ -425,10 +433,14 @@ static void taihu_405ep_init(MachineState *machine)
+     int fl_idx;
+     DriveInfo *dinfo;
+=20
+-    /* RAM is soldered to the board so the size cannot be changed */
+-    ram_size =3D 0x08000000;
++    if (machine->ram_size !=3D mc->default_ram_size) {
++        char *sz =3D size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
+     memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
+-                                         ram_size);
++                                         machine->ram_size);
+=20
+     ram_bases[0] =3D 0;
+     ram_sizes[0] =3D 0x04000000;
+@@ -500,7 +512,7 @@ static void taihu_405ep_init(MachineState *machine)
+         kernel_base =3D KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+         kernel_size =3D load_image_targphys(kernel_filename, kernel_base,
+-                                          ram_size - kernel_base);
++                                          machine->ram_size - kernel_base)=
+;
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
+@@ -509,7 +521,7 @@ static void taihu_405ep_init(MachineState *machine)
+         if (initrd_filename) {
+             initrd_base =3D INITRD_LOAD_ADDR;
+             initrd_size =3D load_image_targphys(initrd_filename, initrd_ba=
+se,
+-                                              ram_size - initrd_base);
++                                              machine->ram_size - initrd_b=
+ase);
+             if (initrd_size < 0) {
+                 error_report("could not load initial ram disk '%s'",
+                              initrd_filename);
+@@ -533,6 +545,7 @@ static void taihu_class_init(ObjectClass *oc, void *dat=
+a)
+=20
+     mc->desc =3D "taihu";
+     mc->init =3D taihu_405ep_init;
++    mc->default_ram_size =3D 0x08000000;
+ }
+=20
+ static const TypeInfo taihu_type =3D {
 --=20
 2.18.1
 
