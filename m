@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEAB1638C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:57:19 +0100 (CET)
-Received: from localhost ([::1]:43732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955DE1638D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:59:26 +0100 (CET)
+Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Dfy-0005wD-9F
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:57:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37725)
+	id 1j4Di1-0000oO-La
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:59:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4DdF-00017F-OO
+ (envelope-from <dgibson@ozlabs.org>) id 1j4DdG-00017o-Cp
  for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4DdE-0001Il-7D
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:29 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45041 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1j4DdE-0001JU-Uj
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:30 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43469 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4DdD-0001Et-Rc; Tue, 18 Feb 2020 19:54:28 -0500
+ id 1j4DdE-0001FY-HP; Tue, 18 Feb 2020 19:54:28 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48MfPV3qstz9sSR; Wed, 19 Feb 2020 11:54:22 +1100 (AEDT)
+ id 48MfPV6njYz9sSY; Wed, 19 Feb 2020 11:54:22 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582073662;
- bh=HirC5LnAA2uH/j722kBhQYsc7XAq/CG4RjWXhAM+wiE=;
+ bh=WcopKWbeJrTfAJK2is2PCME4szvJP+9rw9WA+6Ed6OY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IuAHvI0sUnj0MVnGCGbqXWx7VQq+OlAQhcTrLfUgVf14v3J1uhByBG3JuPHUUoWJq
- kJRJz1I0dWarIH97w272e2/AtL8vzzfU1LdkEsUUGAyrLDXDIlRpnL3tzMNUyBcgkZ
- S3bO00SnwMKLuhtXb7l+YloLNiFygKZO96u6XR+8=
+ b=HkNQMOxChb01BQDZmxNaCFH5p9Wco1zkyTey78x0zK2MvO8kffJq1N9964sPvKuLd
+ EoruMPCULVDUosPRvU92oQmG1AO4Fwz0+z5LejT/xmfUVZblj7CpRKxK4XLpLiOi0R
+ D+8FgaRMz+s1N3go7yv7AFAq7VWBiFb0TnLgrjs4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: groug@kaod.org,
 	philmd@redhat.com,
 	qemu-devel@nongnu.org,
 	clg@kaod.org
-Subject: [PATCH v3 10/12] target/ppc: Only calculate RMLS derived RMA limit on
- demand
-Date: Wed, 19 Feb 2020 11:54:12 +1100
-Message-Id: <20200219005414.15635-11-david@gibson.dropbear.id.au>
+Subject: [PATCH v3 12/12] target/ppc: Don't store VRMA SLBE persistently
+Date: Wed, 19 Feb 2020 11:54:14 +1100
+Message-Id: <20200219005414.15635-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219005414.15635-1-david@gibson.dropbear.id.au>
 References: <20200219005414.15635-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,76 +62,111 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the LPCR is written, we update the env->rmls field with the RMA limi=
-t
-it implies.  Simplify things by just calculating the value directly from
-the LPCR value when we need it.
+Currently, we construct the SLBE used for VRMA translations when the LPCR
+is written (which controls some bits in the SLBE), then use it later for
+translations.
 
-It's possible this is a little slower, but it's unlikely to be significan=
-t,
-since this is only for real mode accesses in a translation configuration
-that's not used very often, and the whole thing is behind the qemu TLB
-anyway.  Therefore, keeping the number of state variables down and not
-having to worry about making sure it's always in sync seems the better
-option.
+This is a bit complex and confusing - simplify it by simply constructing
+the SLBE directly from the LPCR when we need it.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h        | 1 -
- target/ppc/mmu-hash64.c | 8 +++++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ target/ppc/cpu.h        |  3 ---
+ target/ppc/mmu-hash64.c | 27 ++++++---------------------
+ 2 files changed, 6 insertions(+), 24 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 8077fdb068..f9871b1233 100644
+index f9871b1233..5a55fb02bd 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -1046,7 +1046,6 @@ struct CPUPPCState {
+@@ -1044,9 +1044,6 @@ struct CPUPPCState {
+     uint32_t flags;
+     uint64_t insns_flags;
      uint64_t insns_flags2;
- #if defined(TARGET_PPC64)
-     ppc_slb_t vrma_slb;
--    target_ulong rmls;
- #endif
+-#if defined(TARGET_PPC64)
+-    ppc_slb_t vrma_slb;
+-#endif
 =20
      int error_code;
+     uint32_t pending_interrupts;
 diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index e6f24be93e..170a78bd2e 100644
+index 06cfff9860..d93dcf3a08 100644
 --- a/target/ppc/mmu-hash64.c
 +++ b/target/ppc/mmu-hash64.c
-@@ -842,8 +842,10 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vad=
-dr eaddr,
-=20
-             goto skip_slb_search;
-         } else {
-+            target_ulong limit =3D rmls_limit(cpu);
-+
-             /* Emulated old-style RMO mode, bounds check against RMLS */
--            if (raddr >=3D env->rmls) {
-+            if (raddr >=3D limit) {
-                 if (rwx =3D=3D 2) {
-                     ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
-                 } else {
-@@ -1005,8 +1007,9 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
+@@ -827,6 +827,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
+r eaddr,
+ {
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
++    ppc_slb_t vrma_slbe;
+     ppc_slb_t *slb;
+     unsigned apshift;
+     hwaddr ptex;
+@@ -865,8 +866,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
+r eaddr,
+             }
+         } else if (ppc_hash64_use_vrma(env)) {
+             /* Emulated VRMA mode */
+-            slb =3D &env->vrma_slb;
+-            if (!slb->sps) {
++            slb =3D &vrma_slbe;
++            if (build_vrma_slbe(cpu, slb) !=3D 0) {
+                 /* Invalid VRMA setup, machine check */
+                 cs->exception_index =3D POWERPC_EXCP_MCHECK;
+                 env->error_code =3D 0;
+@@ -1014,6 +1015,7 @@ skip_slb_search:
+ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr=
+)
+ {
+     CPUPPCState *env =3D &cpu->env;
++    ppc_slb_t vrma_slbe;
+     ppc_slb_t *slb;
+     hwaddr ptex, raddr;
+     ppc_hash_pte64_t pte;
+@@ -1035,8 +1037,8 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
 pu, target_ulong addr)
+             return raddr | env->spr[SPR_HRMOR];
+         } else if (ppc_hash64_use_vrma(env)) {
+             /* Emulated VRMA mode */
+-            slb =3D &env->vrma_slb;
+-            if (!slb->sps) {
++            slb =3D &vrma_slbe;
++            if (build_vrma_slbe(cpu, slb) !=3D 0) {
                  return -1;
              }
          } else {
-+            target_ulong limit =3D rmls_limit(cpu);
-             /* Emulated old-style RMO mode, bounds check against RMLS */
--            if (raddr >=3D env->rmls) {
-+            if (raddr >=3D limit) {
-                 return -1;
-             }
-             return raddr | env->spr[SPR_RMOR];
-@@ -1096,7 +1099,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong v=
-al)
+@@ -1074,29 +1076,12 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
+arget_ulong ptex,
+     cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
+ }
+=20
+-static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
+-{
+-    CPUPPCState *env =3D &cpu->env;
+-    ppc_slb_t *slb =3D &env->vrma_slb;
+-
+-    /* Is VRMA enabled ? */
+-    if (ppc_hash64_use_vrma(env)) {
+-        if (build_vrma_slbe(cpu, slb) =3D=3D 0)
+-            return;
+-    }
+-
+-    /* Otherwise, clear it to indicate error */
+-    slb->esid =3D slb->vsid =3D 0;
+-    slb->sps =3D NULL;
+-}
+-
+ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+ {
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
      CPUPPCState *env =3D &cpu->env;
 =20
      env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
--    env->rmls =3D rmls_limit(cpu);
-     ppc_hash64_update_vrma(cpu);
+-    ppc_hash64_update_vrma(cpu);
  }
 =20
+ void helper_store_lpcr(CPUPPCState *env, target_ulong val)
 --=20
 2.24.1
 
