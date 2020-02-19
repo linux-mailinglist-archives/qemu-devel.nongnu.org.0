@@ -2,65 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0D1164A53
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:28:59 +0100 (CET)
-Received: from localhost ([::1]:55800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE254164A30
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:24:47 +0100 (CET)
+Received: from localhost ([::1]:55722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SDa-0004tu-8U
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:28:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37595)
+	id 1j4S9W-0004uf-N9
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4RwA-0003w5-SX
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:59 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1j4Rvr-00038Z-6N
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rw9-00012T-Jj
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:58 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21377
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rw9-000123-Fj
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SYg7ZBYi6gj1nQP0aLyEqxTXVeao+bU4aAgvkW4CQPE=;
- b=Yy/D7io5zzg7FOGOxKv8PI1xOigsPWBFnTejDiMmUO/4eWk6e3RrkgxHMx5VeNm4lMXRjK
- 46zZaK7CC6CHsjvF4Rwnzfl1pjrd7GPU4I3SB0hJUlXboXS0XqwLg5zlt91pVZHTSEhBUk
- VkWZ7U+R+kMVhGoWHh0mGFg63gPOD0Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-5W2fGKzCMZyGW7RLysd_7Q-1; Wed, 19 Feb 2020 11:10:55 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EAA018B9FBE
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:10:54 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E78648;
- Wed, 19 Feb 2020 16:10:53 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 50/79] mips/boston: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:24 -0500
-Message-Id: <20200219160953.13771-51-imammedo@redhat.com>
-In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
-References: <20200219160953.13771-1-imammedo@redhat.com>
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1j4Rvo-0000oR-PV
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:39 -0500
+Received: from mail-db5eur01on071a.outbound.protection.outlook.com
+ ([2a01:111:f400:fe02::71a]:27110
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1j4Rvl-0000ir-NL; Wed, 19 Feb 2020 11:10:33 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GLMDWSUQ0Wnyvd8ZcWmkSqoUy6ClwTj50XDfKuFbsEjP/ECprGopi9CX/1bwBR/ymff9f2S/nhZyI2YluQU9lU2TRMFadSp/WvsGPcwK8jCahDB8ugfx3KfD3+1ClAf37OUCv/BhEEW/xe3eYP9SINb4HaY8b/j2rWUddzSOipCPSqR3/RDJzVMod4iiJ0WRtJipYl4WOz33pmS2txZegGmfzNZ09yAG1Xq7VheQR4AvkRfew42VavdkJOHQpTSnfz7jVOgnvRpzXJNj7RQyIIM5up4qy/QAz3C03hrk1x7s3pVxsDD3Y3cKe7EqFMfH1h25JficIu7f6TT/bPJX6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tnNkbqG+Beit3a1l3QFOwxwd81okpXpAFs83mB9GWjE=;
+ b=UWe03vOhm40QP+h+XXJSxmjETPPITDy5MGizZ8EVce5Ww7/8ooPDhOla2693VQBcja+bbprRR2IJSctNkxwopc3xuyauFmHw29+nPWC/Uh2OQ9n0WG/aDAkZSWSR1mBtkouGbxIt/J7dMm0v/NBxIxio8mWB9WK23A05nc0cHKzprYIVVq11exONc+mLY2gpHrV5S/SC6K/tndbzOBBZLJK3UMxbfof8qU6Y9FTmz5/Yj6FybiRe7GPRwkgLtC9HUE46GIpFv+fO+1A98hN0C1uzYgQTp6Pj7gSIYT4fP1qLh82iwdrZ/U7bEofgDqheU+APMcC3abymk2Z7JzuBBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tnNkbqG+Beit3a1l3QFOwxwd81okpXpAFs83mB9GWjE=;
+ b=OkmFzFQO5C7jGh4yl89BW1X2eRxDhokIi9F09VB5ZItfNvFGsNqvu9ZGaaIuYQd7ZNjpzZOUKxXq8XKs14FJ+JaGg95L7VxWoldO8I8XxpU7DXWL9b0bpkGO4dGvxkxfpuKvX2l2cP2qmR7JKqtxHURFWfJnciOa3RVd2lCVMUg=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
+ AM6PR08MB4643.eurprd08.prod.outlook.com (10.255.97.212) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.27; Wed, 19 Feb 2020 16:10:31 +0000
+Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
+ ([fe80::1883:da16:865a:139d]) by AM6PR08MB5048.eurprd08.prod.outlook.com
+ ([fe80::1883:da16:865a:139d%5]) with mapi id 15.20.2729.032; Wed, 19 Feb 2020
+ 16:10:31 +0000
+Subject: Re: [PATCH v2 19/22] qemu-iotests/199: prepare for new test-cases
+ addition
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
+ <20200217150246.29180-20-vsementsov@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Organization: Virtuozzo
+Message-ID: <fc384dff-93b3-28e8-aaef-fe83ad872902@virtuozzo.com>
+Date: Wed, 19 Feb 2020 19:10:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+In-Reply-To: <20200217150246.29180-20-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR0701CA0083.eurprd07.prod.outlook.com
+ (2603:10a6:3:64::27) To AM6PR08MB5048.eurprd08.prod.outlook.com
+ (2603:10a6:20b:ee::31)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 5W2fGKzCMZyGW7RLysd_7Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Received: from [172.16.24.225] (185.231.240.5) by
+ HE1PR0701CA0083.eurprd07.prod.outlook.com (2603:10a6:3:64::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.9 via Frontend Transport; Wed, 19 Feb 2020 16:10:30 +0000
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 80825db8-859d-4f89-6eed-08d7b5563e0b
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4643:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4643AE08D673F074BCF1B0C1F4100@AM6PR08MB4643.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Forefront-PRVS: 0318501FAE
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(136003)(39850400004)(366004)(346002)(396003)(376002)(189003)(199004)(31686004)(8936002)(66946007)(66556008)(8676002)(2906002)(36916002)(316002)(81166006)(81156014)(66476007)(54906003)(16576012)(6486002)(36756003)(5660300002)(16526019)(186003)(26005)(53546011)(52116002)(44832011)(2616005)(956004)(4326008)(31696002)(86362001)(478600001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4643;
+ H:AM6PR08MB5048.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8c/P9ZlR9n4bKEIpE7OXpMKB3fX61o8Off7W4G2iY3POo/fQSbhljph7BOVABrh4RUEshxrYyiyqUWOqEldLQLtJ/DGInoNwNJRUstorYft2AsHCo03TWEcW6g6KDDYvvv4M4J/tQCyODkN5FFuX7YRuphKqB9mS1zcTgYF5Ghorg4rTZ7RkSOes2dX9Fz11EXR1RjlbJmqPsaArdb2wi6eDyyTVBYmjX5hJkBVKuVLLCfsisivN4UyChk3dRAkzhbOscvya5o67gLOvLbVR70in7DZH+p9JzZ7mcz1eAuO/KWMamGly36MVrgEqo0NcnYAB+izhdGDd3RvXumlWcjnJFG9UwV+46tHv6j1S1v23ezMwlLbLMItEFiGASSqrJR8GvO4L2XjER5KIGwNWzmOULYWY7Wh5IAahtGYKVFf1G09g2+FKornjPHRtSvxd
+X-MS-Exchange-AntiSpam-MessageData: VXGywGyorgZP7u48LwfU8vBTIGjwSDkmfP+ZiZoezAAMjqGyktRjix5xG1S4A9AVMm7EYWP8svB46646QAOCevU3Tuy5n8789LWmPkrp1dbySd+4W1SDRE0hzXujEPIkQC2wDdD3YbHsEd7JvsI+xw==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80825db8-859d-4f89-6eed-08d7b5563e0b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2020 16:10:31.0595 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IrJKHnnsf83z2wbVg8knujBQGQnNdWJPr7xaX0vk/dFQriE8lLhafBDz28HcsmlPUI+qg3vvO/XER4pF7v/NMncistl86k0ieEjZc40hKuU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4643
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:111:f400:fe02::71a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,66 +112,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ dgilbert@redhat.com, qemu-block@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+On 17/02/2020 18:02, Vladimir Sementsov-Ogievskiy wrote:
+> Move future common part to start_postcopy() method. Move checking
+> number of bitmaps to check_bitmap().
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/199 | 36 +++++++++++++++++++++++-------------
+>   1 file changed, 23 insertions(+), 13 deletions(-)
+> 
+> diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
+> index 9a6e8dcb9d..969620b103 100755
+> --- a/tests/qemu-iotests/199
+> +++ b/tests/qemu-iotests/199
+> @@ -29,6 +29,8 @@ disk_b = os.path.join(iotests.test_dir, 'disk_b')
+>   size = '256G'
+>   fifo = os.path.join(iotests.test_dir, 'mig_fifo')
+>   
+> +granularity = 512
+> +nb_bitmaps = 15
+>   
+>   GiB = 1024 * 1024 * 1024
+>   
+> @@ -61,6 +63,15 @@ def event_dist(e1, e2):
+>       return event_seconds(e2) - event_seconds(e1)
+>   
+>   
+> +def check_bitmaps(vm, count):
+> +    result = vm.qmp('query-block')
+> +
+> +    if count == 0:
+> +        assert 'dirty-bitmaps' not in result['return'][0]
+> +    else:
+> +        assert len(result['return'][0]['dirty-bitmaps']) == count
+> +
+> +
+>   class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>       def tearDown(self):
+>           if debug:
+> @@ -101,10 +112,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>           self.vm_a_events = []
+>           self.vm_b_events = []
+>   
+> -    def test_postcopy(self):
+> -        granularity = 512
+> -        nb_bitmaps = 15
+> -
+> +    def start_postcopy(self):
+> +        """ Run migration until RESUME event on target. Return this event. """
+>           for i in range(nb_bitmaps):
+>               result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
+>                                      name='bitmap{}'.format(i),
+> @@ -119,10 +128,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>   
+>           result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+>                                  node='drive0', name='bitmap0')
+> -        discards1_sha256 = result['return']['sha256']
+> +        self.discards1_sha256 = result['return']['sha256']
+>   
+>           # Check, that updating the bitmap by discards works
+> -        assert discards1_sha256 != empty_sha256
+> +        assert self.discards1_sha256 != empty_sha256
+>   
+>           # We want to calculate resulting sha256. Do it in bitmap0, so, disable
+>           # other bitmaps
+> @@ -135,7 +144,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>   
+>           result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+>                                  node='drive0', name='bitmap0')
+> -        all_discards_sha256 = result['return']['sha256']
+> +        self.all_discards_sha256 = result['return']['sha256']
+>   
+>           # Now, enable some bitmaps, to be updated during migration
+>           for i in range(2, nb_bitmaps, 2):
+> @@ -160,6 +169,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>   
+>           e_resume = self.vm_b.event_wait('RESUME')
+>           self.vm_b_events.append(e_resume)
+> +        return e_resume
+> +
+> +    def test_postcopy_success(self):
+> +        e_resume = self.start_postcopy()
+>   
+>           # enabled bitmaps should be updated
+>           apply_discards(self.vm_b, discards2)
+> @@ -180,18 +193,15 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>               print('downtime:', downtime)
+>               print('postcopy_time:', postcopy_time)
+>   
+> -        # Assert that bitmap migration is finished (check that successor bitmap
+> -        # is removed)
+> -        result = self.vm_b.qmp('query-block')
+> -        assert len(result['return'][0]['dirty-bitmaps']) == nb_bitmaps
+> +        check_bitmaps(self.vm_b, nb_bitmaps)
+>   
+>           # Check content of migrated bitmaps. Still, don't waste time checking
+>           # every bitmap
+>           for i in range(0, nb_bitmaps, 5):
+>               result = self.vm_b.qmp('x-debug-block-dirty-bitmap-sha256',
+>                                      node='drive0', name='bitmap{}'.format(i))
+> -            sha256 = discards1_sha256 if i % 2 else all_discards_sha256
+> -            self.assert_qmp(result, 'return/sha256', sha256)
+> +            sha = self.discards1_sha256 if i % 2 else self.all_discards_sha256
+> +            self.assert_qmp(result, 'return/sha256', sha)
+>   
+>   
+>   if __name__ == '__main__':
+> 
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/mips/boston.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 0df3a7755a..98ecd25e8e 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -427,7 +427,7 @@ static void boston_mach_init(MachineState *machine)
-     DeviceState *dev;
-     BostonState *s;
-     Error *err =3D NULL;
--    MemoryRegion *flash, *ddr, *ddr_low_alias, *lcd, *platreg;
-+    MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
-     MemoryRegion *sys_mem =3D get_system_memory();
-     XilinxPCIEHost *pcie2;
-     PCIDevice *ahci;
-@@ -473,14 +473,12 @@ static void boston_mach_init(MachineState *machine)
-     memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
-     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
-=20
--    ddr =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
--                                         machine->ram_size);
--    memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
-+    memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram,=
- 0);
-=20
-     ddr_low_alias =3D g_new(MemoryRegion, 1);
-     memory_region_init_alias(ddr_low_alias, NULL, "boston_low.ddr",
--                             ddr, 0, MIN(machine->ram_size, (256 * MiB)));
-+                             machine->ram, 0,
-+                             MIN(machine->ram_size, (256 * MiB)));
-     memory_region_add_subregion_overlap(sys_mem, 0, ddr_low_alias, 0);
-=20
-     xilinx_pcie_init(sys_mem, 0,
-@@ -552,6 +550,7 @@ static void boston_mach_class_init(MachineClass *mc)
-     mc->init =3D boston_mach_init;
-     mc->block_default_type =3D IF_IDE;
-     mc->default_ram_size =3D 1 * GiB;
-+    mc->default_ram_id =3D "boston.ddr";
-     mc->max_cpus =3D 16;
-     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("I6400");
- }
---=20
-2.18.1
-
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+-- 
+With the best regards,
+Andrey Shinkevich
 
