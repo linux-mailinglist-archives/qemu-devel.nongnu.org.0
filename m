@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD4B1641AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:23:07 +0100 (CET)
-Received: from localhost ([::1]:48454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E852164215
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:29:06 +0100 (CET)
+Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MVW-00063e-M8
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:23:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53465)
+	id 1j4MbJ-0000Ur-7q
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:29:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54600)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1j4MPq-0003g7-TW
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:17 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j4MV5-00063s-Ka
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:22:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1j4MPp-0005O9-IJ
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:14 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39269)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1j4MPp-0005Kl-DH
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:13 -0500
-Received: by mail-ot1-f67.google.com with SMTP id 77so22578804oty.6
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 02:17:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GJAqVwXdCZXPTne0AiTX4Fk1uxObKIcjDphAbJJ660k=;
- b=GjB4EWWCy+XOF7cjspH19iyHv3nbnC82rxaAEOwyMTvnn6+LNJTen8t4XfL77TPelg
- ZjOUhqVWuh4qIvRpPjm+yngEyrdwIbKkez6EvDaOM3gkt/EvirpZpAC8vAH6wkmx/Dmb
- m8PoPZyBrp20PDXtLjsBVKGr0sEv3g1NQZ3/MFuXOdYDud+lgAgNRNqt+Ls7Ro1sCTg0
- rwbFAoH12idjjlTxTKw8j8Djr0oz2qH+ysA+RxvGhnz8qC7jy36GtBRdlLCZBbos9w5k
- Qpl3sVH0r5jdnB174meyYPn3XAvCvBbdy6Tz/HAtyDSuZ9K8J0K6f523tGdhgiUTe4Rx
- VBIw==
-X-Gm-Message-State: APjAAAU6/IxX0x89FeuHa0ryLY1nJgDjKYwfxAPfWQ9c9T24npoNFE0E
- Ht4JP32yJEWv3nBRrHcJ60D4TPSRHUdfdKPYGY4=
-X-Google-Smtp-Source: APXvYqzZrdQJH/Cfn4il9kL1X9oAi45ce4JPx5PKjIVPqq1ze44X+v1H30gqpKR+Zhq1zOgAfO3sVmnLElkeTuTigJI=
-X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr4220978otk.145.1582107430981; 
- Wed, 19 Feb 2020 02:17:10 -0800 (PST)
+ (envelope-from <kwolf@redhat.com>) id 1j4MV3-0001HJ-M6
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:22:39 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51331
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j4MV3-0001H1-HQ
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:22:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582107756;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/ctl2ZdV8MSv09MTzfPOj0vBsPQmUTa/8D9nmv1vB/M=;
+ b=IqaI7Ny6cy0Kyl1SL8IXPRRRXapuUAqdAW+lb9+MydV4eS86OPgGgV6Uf6lVVUNORuMx+K
+ 5UyT9XrOjJwRw3ajmfbbclAk9uXCrTSPy5KPWPArk/f2eBGU2jAQIl2KgBAB5MUq7NvBeQ
+ ITQ3TKfbX1gFM/Qmf4iepab128mrSso=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104--T-r6MwUMuOH8ELyaesQGQ-1; Wed, 19 Feb 2020 05:22:33 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30CE21005516;
+ Wed, 19 Feb 2020 10:22:32 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27EC55C13C;
+ Wed, 19 Feb 2020 10:22:27 +0000 (UTC)
+Date: Wed, 19 Feb 2020 11:22:26 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 3/4] qmp: Move dispatcher to a coroutine
+Message-ID: <20200219102226.GA6464@linux.fritz.box>
+References: <20200121181122.15941-1-kwolf@redhat.com>
+ <20200121181122.15941-4-kwolf@redhat.com>
+ <87lfp1sc8d.fsf@dusky.pond.sub.org>
+ <20200217123454.GF6309@linux.fritz.box>
+ <87r1ysc7d4.fsf@dusky.pond.sub.org>
+ <20200218152931.GG6157@linux.fritz.box>
+ <87tv3nt0cu.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be>
- <20200218151812.7816-3-geert+renesas@glider.be>
-In-Reply-To: <20200218151812.7816-3-geert+renesas@glider.be>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 19 Feb 2020 11:17:00 +0100
-Message-ID: <CAMuHMdVzkN5c1P3=xD5BzC=R-O8fWJfMRdDtWxcTLO0TUy5n1Q@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] gpiolib: Add support for GPIO line table lookup
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87tv3nt0cu.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: -T-r6MwUMuOH8ELyaesQGQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.67
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,128 +78,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <marc.zyngier@arm.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Currently GPIOs can only be referred to by GPIO controller and offset in
-> GPIO lookup tables.
->
-> Add support for looking them up by line name.
-> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-> that this field can have two meanings, and update the kerneldoc and
-> GPIO_LOOKUP*() macros.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Am 19.02.2020 um 10:03 hat Markus Armbruster geschrieben:
+> >> >>   @@ -246,8 +287,15 @@ void monitor_qmp_bh_dispatcher(void *data)
+> >> >>            }
+> >> >>            qmp_request_free(req_obj);
+> >> >>=20
+> >> >>   -    /* Reschedule instead of looping so the main loop stays resp=
+onsive */
+> >> >>   -    qemu_bh_schedule(qmp_dispatcher_bh);
+> >> >>   +        /*
+> >> >>   +         * Yield and reschedule so the main loop stays responsiv=
+e.
+> >> >>   +         *
+> >> >>   +         * Move back to iohandler_ctx so that nested event loops=
+ for
+> >> >>   +         * qemu_aio_context don't start new monitor commands.
+> >> >>=20
+> >> >> Can you explain this sentence for dummies?
+> >> >
+> >> > Nested event loops (i.e. AIO_WAIT_WHILE) poll qemu_aio_context, so i=
+f we
+> >> > are scheduled there, the next iteration of the monitor dispatcher lo=
+op
+> >> > could start from a nested event loop. If we are scheduled in
+> >> > iohandler_ctx, then only the actual main loop will reenter the corou=
+tine
+> >> > and nested event loops ignore it.
+> >> >
+> >> > I'm not sure if or why this is actually important, but this matches
+> >> > scheduling the dispatcher BH in iohandler_ctx in the code before thi=
+s
+> >> > patch.
+> >> >
+> >> > If we didn't do this, we could end up starting monitor requests in m=
+ore
+> >> > places than before, and who knows what that would mean.
+> >>=20
+> >> Let me say it in my own words, to make sure I got it.  I'm going to
+> >> ignore special cases like "not using I/O thread" and exec-oob.
+> >>=20
+> >> QMP monitor I/O happens in mon_iothread, in iohandler_ctx (I think).
+> >> This pushes requests onto the monitor's qmp_requests queue.
+> >
+> > mon_iothread (like all iothreads) has a separate AioContext, which
+> > doesn't have a name, but can be accessed with
+> > iothread_get_aio_context(mon_iothread).
+>=20
+> Got it.
+>=20
+> @iohandler_ctx and @qemu_aio_context both belong to the main loop.
+>=20
+> @qemu_aio_context is for general "run in the main loop" use.  It is
+> polled both in the actual main loop and event loops nested in it.  I
+> figure "both" to keep things responsive.
+>=20
+> @iohandler_ctx is for "I/O handlers" (whatever those are).  It is polled
+> only in the actual main loop.  I figure this means "I/O handlers" may
+> get delayed while a nested event loop runs.  But better starve a bit
+> than run in unexpected places.
+>=20
+> >> Before this patch, the dispatcher runs in a bottom half in the main
+> >> thread, in qemu_aio_context.
+> >
+> > The dispatcher BH is what is scheduled in iohandler_ctx. This means tha=
+t
+> > the BH is run from the main loop, but not from nested event loops.
+>=20
+> Got it.
+>=20
+> >> The patch moves it to a coroutine running in the main thread.  It runs
+> >> in iohandler_ctx, but switches to qemu_aio_context for executing comma=
+nd
+> >> handlers.
+> >>=20
+> >> We want to keep command handlers running in qemu_aio_context, as befor=
+e
+> >> this patch.
+> >
+> > "Running in AioContext X" is kind of a sloppy term, and I'm afraid it
+> > might be more confusing than helpful here. What this means is that the
+> > code is run while holding the lock of the AioContext, and it registers
+> > its BHs, callbacks etc. in that AioContext so it will be called from th=
+e
+> > event loop of the respective thread.
+> >
+> > Before this patch, command handlers can't really use callbacks without =
+a
+> > nested event loop because they are synchronous.
+>=20
+> I figure an example for such a nested event loop is BDRV_POLL_WHILE() in
+> bdrv_truncate(), which runs in the command handler for block_resize.
+> True?
 
-> --- a/include/linux/gpio/machine.h
-> +++ b/include/linux/gpio/machine.h
-> @@ -20,8 +20,9 @@ enum gpio_lookup_flags {
->
->  /**
->   * struct gpiod_lookup - lookup table
-> - * @chip_label: name of the chip the GPIO belongs to
-> - * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO
-> + * @key: either the name of the chip the GPIO belongs to, or the GPIO line name
-> + * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO, or
-> + *              U16_MAX to indicate that @key is a GPIO line name
->   * @con_id: name of the GPIO from the device's point of view
->   * @idx: index of the GPIO in case several GPIOs share the same name
->   * @flags: bitmask of gpio_lookup_flags GPIO_* values
-> @@ -30,7 +31,7 @@ enum gpio_lookup_flags {
->   * functions using platform data.
->   */
->  struct gpiod_lookup {
-> -       const char *chip_label;
-> +       const char *key;
->         u16 chip_hwnum;
->         const char *con_id;
->         unsigned int idx;
+Yes. I think most nested event loops are in the block layer, and they
+use the BDRV_POLL_WHILE() or AIO_WAIT_WHILE() macros today.
 
-This needs an update in the documentation:
+> >                                                 The BQL is held, which
+> > is equivalent to holding the qemu_aio_context lock.
+>=20
+> Why is it equivalent?  Are they always taken together?
 
---- a/Documentation/driver-api/gpio/board.rst
-+++ b/Documentation/driver-api/gpio/board.rst
-@@ -113,13 +113,15 @@ files that desire to do so need to include the
-following header::
- GPIOs are mapped by the means of tables of lookups, containing instances of the
- gpiod_lookup structure. Two macros are defined to help declaring such
-mappings::
+I guess ideally they would be. In practice, we neglect the
+qemu_aio_context lock and rely on the BQL for everything in the main
+thread. So maybe I should say the BQL replaces the AioContext lock for
+the main context rather than being equivalent.
 
--       GPIO_LOOKUP(chip_label, chip_hwnum, con_id, flags)
--       GPIO_LOOKUP_IDX(chip_label, chip_hwnum, con_id, idx, flags)
-+       GPIO_LOOKUP(key, chip_hwnum, con_id, flags)
-+       GPIO_LOOKUP_IDX(key, chip_hwnum, con_id, idx, flags)
+> >                                                     But other than that=
+,
+> > all of the definition of "running in an AioContext" doesn't really appl=
+y.
+> >
+> > Now with coroutines, you assign them an AioContext, which is the contex=
+t
+> > in which BHs reentering the coroutine will be scheduled, e.g. from
+> > explicit aio_co_schedule(), after qemu_co_sleep_ns() or after waiting
+> > for a lock like a CoMutex.
+> >
+> > qemu_aio_context is what most (if not all) of the existing QMP handlers
+> > use when they run a nested event loop,
+>=20
+> bdrv_truncate() appears to use bdrv_get_aio_context(), which is the
+> BlockDriverState's AioContext if set, else @qemu_aio_context.
 
- where
+Right, the BDRV_POLL_WHILE() macro allows waiting for something in a
+different AioContext from the main context. This works because of the
+aio_wait_kick() in bdrv_truncate_co_entry(), which schedules a BH in the
+main context, and this is what BDRV_POLL_WHILE() is waiting for.
 
--  - chip_label is the label of the gpiod_chip instance providing the GPIO
--  - chip_hwnum is the hardware number of the GPIO within the chip
-+  - key is either the label of the gpiod_chip instance providing the GPIO, or
-+    the GPIO line name
-+  - chip_hwnum is the hardware number of the GPIO within the chip, or U16_MAX
-+    to indicate that key is a GPIO line name
-   - con_id is the name of the GPIO function from the device point of view. It
-        can be NULL, in which case it will match any function.
-   - idx is the index of the GPIO within the function.
+So the command handler runs in the main context (and thread), whereas
+the bdrv_co_truncate() runs in the AioContext (and thread) of the BDS.
 
+> >                                        so running the coroutine in this
+> > context while calling the handlers will make the transition the easiest=
+.
+>=20
+> In the case of block_resize: running it in a coroutine makes
+> bdrv_truncate() use that coroutine instead of creating one together with
+> a nested event loop.  "That coroutine" uses @qemu_aio_context.  So does
+> the nested event loop, *except* when the BlockDriverState has an
+> AioContext.
+>=20
+> I have no idea when a BlockDriverState has an AioContext.  Can you help?
 
-Furthermore, a few drivers populate the gpiod_lookup members directly,
-instead of using the convenience macros:
+When it's used with a dataplane device, i.e. is tied a separate
+iothread.
 
-    arch/arm/mach-integrator/impd1.c
-    drivers/i2c/busses/i2c-i801.c
-    drivers/mfd/sm501.c
+The fact that the coroutine fastpath (not only in bdrv_truncate(), but
+also everywhere else) assumes that we're already in the right AioContext
+might be a bug.
 
-Either they have to be updated s/chip_label/key/, or start using the macros,
-e.g.
+If this is the only problem in v5, please consider applying only patches
+1-3 (with the infrastructure) so that Marc-Andr=E9's screendump patch gets
+its dependency resolved, and I'll send a separate series for converting
+block_resize that fixes this problem (probably by explicitly
+rescheduling the coroutine into the BDS context and back in the
+coroutine path).
 
---- a/drivers/i2c/busses/i2c-i801.c
-+++ b/drivers/i2c/busses/i2c-i801.c
-@@ -1444,9 +1444,9 @@ static int i801_add_mux(struct i801_priv *priv)
-                return -ENOMEM;
-        lookup->dev_id = "i2c-mux-gpio";
-        for (i = 0; i < mux_config->n_gpios; i++) {
--               lookup->table[i].chip_label = mux_config->gpio_chip;
--               lookup->table[i].chip_hwnum = mux_config->gpios[i];
--               lookup->table[i].con_id = "mux";
-+               lookup->table[i] = (struct gpiod_lookup)
-+                       GPIO_LOOKUP(mux_config->gpio_chip,
-+                                   mux_config->gpios[i], "mux", 0);
-        }
-        gpiod_add_lookup_table(lookup);
-        priv->lookup = lookup;
+> >> We want to run the rest in iohandler_ctx to ensure dispatching happens
+> >> only in the main loop, as before this patch.
+> >>=20
+> >> Correct?
+> >
+> > This part is correct.
+>=20
+> Alright, let me try again, so you can point out the next level of my
+> ignorance :)
+>=20
+> QMP monitor I/O happens in I/O thread @mon_iothread, in the I/O thread's
+> AioContext.  The I/O thread's event loop polls monitor I/O.  The read
+> handler pushes requests onto the monitor's qmp_requests queue.
+>=20
+> The dispatcher pops requests off these queues, and runs command
+> handlers for them.
+>=20
+> Before this patch, the dispatcher runs in a bottom half in the main
+> thread with the BQL[*] held, in @iohandler_ctx context.  The latter
+> ensures dispatch happens only from the main loop, not nested event
+> loops.
+>=20
+> The command handlers don't care for the AioContext; they're synchronous.
+> If they need AIO internally, they have to set up a nested event loop.
+> When they do, they pick the AioContext explicitly, so they still don't
+> rely on the current context.
 
-Do you have any preference?
-Thanks!
+They do rely on being run in the main thread, but the exact context
+doesn't matter. (In theory, running them in the thread of the block
+node's AioContext would be fine, too, but the monitor can't know what
+that is.)
 
-Gr{oetje,eeting}s,
+See the AIO_WAIT_WHILE() documentation for details.
 
-                        Geert
+> The patch moves the dispatcher to a coroutine running in the main
+> thread.  It runs in iohandler_ctx, but switches to qemu_aio_context for
+> executing command handlers.
+>=20
+> The dispatcher keeps running in @iohandler_ctx.  Good.
+>=20
+> The command handlers now run in @qemu_aio_context.  Doesn't matter
+> because "command handlers don't care for the AioContext".  Except when a
+> command handler has a fast path like bdrv_truncate() has.  For those,
+> @iohandler_ctx is generally not what we want.  @qemu_aio_context is.
+> "Generally", since every one needs to be inspected for AioContext
+> shenanigans.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Except for the bug that the specific code in bdrv_trunate() wants
+to run the coroutine in the BDS AioContext, which may be different from
+qemu_aio_context...
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+But I think the theory is right, for those commands that don't
+potentially schedule a coroutine in a different AioContext.
+
+Kevin
+
 
