@@ -2,43 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5891646AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:17:44 +0100 (CET)
-Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63F71646BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:18:59 +0100 (CET)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4QAZ-0006rm-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:17:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47211)
+	id 1j4QBm-0000FZ-S6
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <w.bumiller@proxmox.com>) id 1j4Q91-0005uN-UI
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:16:08 -0500
+ (envelope-from <olaf@aepfle.de>) id 1j4QAm-0007le-EB
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <w.bumiller@proxmox.com>) id 1j4Q90-0003cp-SU
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:16:07 -0500
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:50120)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <w.bumiller@proxmox.com>)
- id 1j4Q8x-0003U8-Hy; Wed, 19 Feb 2020 09:16:03 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id DD62641928;
- Wed, 19 Feb 2020 15:07:40 +0100 (CET)
-Date: Wed, 19 Feb 2020 15:07:39 +0100
-From: Wolfgang Bumiller <w.bumiller@proxmox.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v5 2/4] vl: Initialise main loop earlier
-Message-ID: <20200219140739.tfn7p5xsbxofoajq@olga.proxmox.com>
-References: <20200218154036.28562-1-kwolf@redhat.com>
- <20200218154036.28562-3-kwolf@redhat.com>
+ (envelope-from <olaf@aepfle.de>) id 1j4QAl-0005re-9e
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:56 -0500
+Received: from mo6-p01-ob.smtp.rzone.de ([2a01:238:20a:202:5301::5]:34796)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <olaf@aepfle.de>) id 1j4QAk-0005lo-Jx
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582121871;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=UVPNF82+RNhZgt/NAaYu9NHVoKzqzHa3nZyXizsjufw=;
+ b=kfmKJAVD474XR/V2x975cfXnZztlfyOiTHfDAyQXMfWf1iPRzRFWHcTuXfzgr+rpg9
+ O768ufXeDEYRBlGjH5gR2R2Xpxlm6uoGphG0L3pzRg2kA40G8ybG/UVWK7Gc0z5sQQOa
+ yJvI1CDCtxlkh03CR8+EfL1dM8cVwll0y5TNgcgv9e/6cPQpO5qUzid5/7VavlMGZGcE
+ zpBYRlV/XIx93iRuPRj9fHW1MLxzNu94R+1K3LNJbbCKp8nxeUPZ7zyX5tAMzvmhDDNY
+ fbidnR39XOXigpn4q2N9JnddEJCH4jUlIWJAnFG7MGsGZ1H7ots9zytUKPo4I3S3imLp
+ 32kw==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QED/SSGq+wjGiUC4AUztn93FPS2dyuYMlkjQ=="
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 46.1.12 SBL|AUTH)
+ with ESMTPSA id 605caew1JEHnIQR
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 19 Feb 2020 15:17:49 +0100 (CET)
+Date: Wed, 19 Feb 2020 15:14:59 +0100
+From: Olaf Hering <olaf@aepfle.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] hw/i386: disable smbus migration for xenfv
+Message-ID: <20200219151459.5a6b9690.olaf@aepfle.de>
+In-Reply-To: <20200219123530.11064fc5.olaf@aepfle.de>
+References: <20200113174521.3336-1-olaf@aepfle.de>
+ <20200116180321.24968-1-olaf@aepfle.de>
+ <0335edd2-3d33-88f8-2ab4-4791f7289885@redhat.com>
+ <20200219123530.11064fc5.olaf@aepfle.de>
+X-Mailer: Claws Mail 2019.12.31 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20200218154036.28562-3-kwolf@redhat.com>
-User-Agent: NeoMutt/20180716
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/As7/Ds2mdVShl99YKe.=4/u"; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.186.127.180
+X-Received-From: 2a01:238:20a:202:5301::5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,67 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- armbru@redhat.com
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Paul Durrant <paul@xen.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 18, 2020 at 04:40:34PM +0100, Kevin Wolf wrote:
-> We want to be able to use qemu_aio_context in the monitor
-> initialisation.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  vl.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/vl.c b/vl.c
-> index 794f2e5733..98bc51e089 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -2894,6 +2894,11 @@ int main(int argc, char **argv, char **envp)
->      runstate_init();
->      precopy_infrastructure_init();
->      postcopy_infrastructure_init();
-> +
-> +    if (qemu_init_main_loop(&main_loop_err)) {
-> +        error_report_err(main_loop_err);
-> +        exit(1);
-> +    }
->      monitor_init_globals();
+--Sig_/As7/Ds2mdVShl99YKe.=4/u
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This is a tiny bit scary, as we now have around 1kloc of code between
-here and os_daemonize() where in the future we may accidentally cause
-the aio context's on-demand thread pool to spawn before fork()ing
-(silently losing the threads again - we did have such an issue right
-there in monitor_init_globals() in the past)
+Am Wed, 19 Feb 2020 12:35:30 +0100
+schrieb Olaf Hering <olaf@aepfle.de>:
 
-For *now* it should be fine since currently that wouldn't have worked,
-but we may need to keep an eye out for that in future patches.
-Basically, not everything we do between here and os_daemonize() way down
-below is actually allowed to freely use the main loop's aio context even
-if now it already exists from this point onward.
+> Is any of the things done by pc_i440fx_5_0_machine_options and
+> pc_i440fx_machine_options a desired, or even breaking, change for the
+> current result of pc_xen_hvm_init?
 
-I wonder if aio_get_thread_pool() should check the daemonization state
-(maybe with some debug #ifdef)?
+I tried to follow a few of the initialized members:
 
-> =20
->      if (qcrypto_init(&err) < 0) {
-> @@ -3811,11 +3816,6 @@ int main(int argc, char **argv, char **envp)
->      qemu_unlink_pidfile_notifier.notify =3D qemu_unlink_pidfile;
->      qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
-> =20
-> -    if (qemu_init_main_loop(&main_loop_err)) {
-> -        error_report_err(main_loop_err);
-> -        exit(1);
-> -    }
-> -
->  #ifdef CONFIG_SECCOMP
->      olist =3D qemu_find_opts_err("sandbox", NULL);
->      if (olist) {
-> --=20
-> 2.20.1
+default_nic_model, perhaps the involved code paths are not called, so the N=
+ULL pointer does not matter.
 
+pvh_enabled, does this mean the PVH domU type? If yes, this would be lost w=
+hen xenfv is locked at v3.1.
+
+
+Olaf
+
+--Sig_/As7/Ds2mdVShl99YKe.=4/u
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl5NQuMACgkQ86SN7mm1
+DoC4pQ/9E0iPzaAKczFTEpr7rDGUiIQ5nO/0atPPa48IFlkkDKBinBX2g2gugtku
+ssY3rbs/r/DCBXuGHtaMJovGtSIWnpKI+l+ak9kJZ8tSPCIQKFF1P5tiO2RsUwOP
+PlMnOmRwBiiMcgNHxoT/02FzuU79u/eUKjQBoZaJhAWQp/PDEPl4zN5FM1jOj9r0
+zZw0QrV+Jf4zeLQ73LaQyPMVghILS+T/Z4CLIwSwX6Ibdno8Nc1AIfxuV4+Ept8m
+dRVYQornS7c77RwpxK5ALe803H7p6AY2gUhyHQ7fGlDi2tuvhZBSb2e68yVwkjyf
+zVRP9+8BoFEuiE2WQIyg0JOpl4tx2A+z16Wi0VKCPmdhUV8AQjooS+JyIA10kKmI
+Ud8lisQYgQZqCwEmtix14xHz0fOmRbuoauYjJdaP1mXXCchZ+EfKyvXSAeuw/LAz
+vUZQVuswx5QcyUxEpkgEGVr88syyRddjMOds/BDjKoJap71n1xKcOH8LojHHy+v/
++1MkN5877YA51FmGEE1RXcvW3m52mEKCjWIJ4o0TqiWupFh+jeRyOZItD9vDyGgr
+UWznV8DDBZeFD7UY2wIOvdsL/RFCQlsLU98QQVPkaA19w+dgRcGRbsX4H4FICigB
+UrS7zVHdEl1mCZSjodlCO587LXDElZPpT7jiWZwbWK/axLPr+mE=
+=ZA+P
+-----END PGP SIGNATURE-----
+
+--Sig_/As7/Ds2mdVShl99YKe.=4/u--
 
