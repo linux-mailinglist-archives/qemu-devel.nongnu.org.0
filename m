@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC79164A1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:22:43 +0100 (CET)
-Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552AF164A3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:26:12 +0100 (CET)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4S7W-0000HS-Lz
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:22:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
+	id 1j4SAt-0007WN-30
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:26:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4Rvo-00034a-5P
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:37 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4Rvx-0003Mu-4T
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rvm-0000kA-PE
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49191
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j4Rvv-0000tw-VQ
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:45 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40376
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rvm-0000jv-KR
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:34 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rvv-0000tW-RC
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128634;
+ s=mimecast20190719; t=1582128643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4L0n/xrmv70XvKV4puOz1Ny33ZPqsclw2ds5h38UCAg=;
- b=JecjkhmT5RVzNuwNoMSNvqBhEHt+KSDvv3PM44rw7FStLi/5V0MO+mhP9OrmftSylHBFaW
- LdTMV7P2znajY9251VQGprVC1kLUD7dUk6nAmMeYHTpmhEI+3PCOq1UFGeDz4k+jWMJRMJ
- RsP+x15TEYjE1SoSAIQFntGSbZ1PFME=
+ bh=WYYB93Ncg3s9FGfu+M5M6/kCMxg0tXo1aPdpEt4OP0o=;
+ b=HLoyP4kSozb+eNKab7aqTB3KzmID7K3zq4Y4PW35JQ3qO5fcGNsaPPkAaeGXJTQIFbgOay
+ XDekkjHNEhb/1HV0Z73FCb+ez5UVOr95dRQkH+xrLyXP2hrnup/bvROenyF7v7v50gLH8V
+ pr/5lnSRG2K3/tarW/bgdMUYit8eUE0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-IDkAox2kPBq7ZYEWcBUrdw-1; Wed, 19 Feb 2020 11:10:31 -0500
+ us-mta-117-1sPzvz9nOpKUnlTBpDnfMw-1; Wed, 19 Feb 2020 11:10:33 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2FEA10CE78D;
- Wed, 19 Feb 2020 16:10:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B95B8024CF;
+ Wed, 19 Feb 2020 16:10:32 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF22B90795;
- Wed, 19 Feb 2020 16:10:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08BFA48;
+ Wed, 19 Feb 2020 16:10:30 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 29/79] arm/raspi: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:03 -0500
-Message-Id: <20200219160953.13771-30-imammedo@redhat.com>
+Subject: [PATCH v6 30/79] arm/sbsa-ref: use memdev for RAM
+Date: Wed, 19 Feb 2020 11:09:04 -0500
+Message-Id: <20200219160953.13771-31-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: IDkAox2kPBq7ZYEWcBUrdw-1
+X-MC-Unique: 1sPzvz9nOpKUnlTBpDnfMw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,8 +72,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- Andrew.Baumann@microsoft.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, radoslaw.biernacki@linaro.org,
+ leif.lindholm@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,7 +81,7 @@ memory_region_allocate_system_memory() API is going away, so
 replace it with memdev allocated MemoryRegion. The later is
 initialized by generic code, so board only needs to opt in
 to memdev scheme by providing
-    MachineClass::default_ram_id
+  MachineClass::default_ram_id
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
@@ -89,64 +89,46 @@ Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-CC: Andrew.Baumann@microsoft.com
-CC: philmd@redhat.com
-
-v5:
-      * fixed rebase conflicts once more
-v4:
-      * fixed rebase conflicts
+CC: radoslaw.biernacki@linaro.org
+CC: leif.lindholm@linaro.org
 ---
- hw/arm/raspi.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/arm/sbsa-ref.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 90ad9b8115..acd2bb794d 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -39,7 +39,6 @@ typedef struct RaspiMachineState {
-     MachineState parent_obj;
-     /*< public >*/
-     BCM283XState soc;
--    MemoryRegion ram;
- } RaspiMachineState;
-=20
- typedef struct RaspiMachineClass {
-@@ -277,16 +276,14 @@ static void raspi_machine_init(MachineState *machine)
-         exit(1);
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 9b5bcb5634..1cba9fc302 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -593,7 +593,6 @@ static void sbsa_ref_init(MachineState *machine)
+     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     MemoryRegion *sysmem =3D get_system_memory();
+     MemoryRegion *secure_sysmem =3D g_new(MemoryRegion, 1);
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     bool firmware_loaded;
+     const CPUArchIdList *possible_cpus;
+     int n, sbsa_max_cpus;
+@@ -685,9 +684,8 @@ static void sbsa_ref_init(MachineState *machine)
+         object_unref(cpuobj);
      }
 =20
--    /* Allocate and map RAM */
--    memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
+-    memory_region_allocate_system_memory(ram, NULL, "sbsa-ref.ram",
 -                                         machine->ram_size);
-     /* FIXME: Remove when we have custom CPU address space support */
--    memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ram, 0=
-);
-+    memory_region_add_subregion_overlap(get_system_memory(), 0,
-+                                        machine->ram, 0);
+-    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base, ra=
+m);
++    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base,
++                                machine->ram);
 =20
-     /* Setup the SOC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc=
-),
-                             board_soc_type(board_rev), &error_abort, NULL)=
-;
--    object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ram)=
-,
-+    object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(machine-=
->ram),
-                                    &error_abort);
-     object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
-                             &error_abort);
-@@ -324,6 +321,7 @@ static void raspi_machine_class_init(ObjectClass *oc, v=
-oid *data)
+     create_fdt(sms);
+=20
+@@ -785,6 +783,7 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *=
+data)
+     mc->block_default_type =3D IF_IDE;
      mc->no_cdrom =3D 1;
-     mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D cores_count(boa=
-rd_rev);
-     mc->default_ram_size =3D board_ram_size(board_rev);
-+    mc->default_ram_id =3D "ram";
-     if (board_version(board_rev) =3D=3D 2) {
-         mc->ignore_memory_transaction_failures =3D true;
-     }
+     mc->default_ram_size =3D 1 * GiB;
++    mc->default_ram_id =3D "sbsa-ref.ram";
+     mc->default_cpus =3D 4;
+     mc->possible_cpu_arch_ids =3D sbsa_ref_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props =3D sbsa_ref_cpu_index_to_props;
 --=20
 2.18.1
 
