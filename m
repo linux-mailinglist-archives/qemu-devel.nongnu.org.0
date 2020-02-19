@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BD2164B66
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:04:16 +0100 (CET)
-Received: from localhost ([::1]:56820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEF7164B71
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:05:33 +0100 (CET)
+Received: from localhost ([::1]:56882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Slj-0002bK-S9
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:04:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41913)
+	id 1j4Smz-00056W-10
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:05:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1j4SO9-0002kh-7L
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:54 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1j4SOA-0002pw-UT
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1j4SO8-0007yi-8Y
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:53 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36643)
+ (envelope-from <robert.foley@linaro.org>) id 1j4SO9-0007zx-Tp
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:54 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38207)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1j4SO8-0007y5-2W
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:52 -0500
-Received: by mail-pl1-x636.google.com with SMTP id a6so290648plm.3
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 08:39:52 -0800 (PST)
+ id 1j4SO9-0007zO-Nn
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:53 -0500
+Received: by mail-pl1-x634.google.com with SMTP id t6so285333plj.5
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 08:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AK6voT7klf41ScUCFY9SIwj/Ejz8/BionSSI8Z7kz7w=;
- b=WSZ1+EZ6MPm26Ma07Mp/WtlRLng2BoKnjv+/9/CU8ZcDnyugbylW08wRLLv3i50JmG
- pt6TivRN+1KAgyXAPKi65lbhx1xQVCtnpqGAF2YTl/D97/mM02TOIBk+ppI9BAjSAsB1
- NzA8vO6IijahNWuDJ3svPFjI0HxKN4CH5ijRjcSHyjVk6Fmt03RKXH1fwLjXAq+Y+mBy
- cftEI7O32BZZkAjKi1TzwzUcujJIO40HSyOJGWsT5ww/yHYYmgkyQprNq8FNE4yzo0Bf
- wqakNJkfyBdz66DKKBLHPa/139Jn2sFop2FyeNoK6ccClWRRCOrPYeEtD5bOWeHaTwL0
- COHw==
+ bh=yQ3ZiDck9TzFgYxsZULoxW3XRdOrweY+xSvjOe2by5c=;
+ b=bzmPi3jZ+1BBc3nQpP0QhJiCHk9wFOLMkO8ci6dKpKTXJGTKPFADfqYQrm+OoEeSiZ
+ te1KGDTyktKWiojvFAJAiAam9VC9Z0X2rXuuPrt2zmY3aHFlNNoXEhhDqj77UBF7uyCw
+ 7urHk92yyp5MdAvjMzvOfrDaAozfD/KyXOJ57Hu8GeofDvBDIvbfsGHdLLP/Wk5H1m66
+ 6okFgAZsEc2ynK1Ag2Hxk6aB+f50phn9XekZB43Md5webK0lPLytA1Xo0urDie+fd+OL
+ x/wc1I00JSxS4M+Y1EPvWFgqauw/PltqCaPHSEirwS9HHXzqZJkXQj3tCACsg1uLFfv8
+ ZmLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AK6voT7klf41ScUCFY9SIwj/Ejz8/BionSSI8Z7kz7w=;
- b=l6q1ftwRa8HDqigCfGhMPJI9xWe7uUIVBKEF3AxhCvgRXhgi+DtF0tqpVU10o76YK0
- PKkJypPjnO3xGt8+ux0htUNdVvPDUqkdMpm2djUY/nuLnUMUZDNrjvi4YQ09uLhGYAzd
- 7qA+nAlw8yGCM/+Dkop0nOYrYXk+EMPjS28HLiqqvEaUH0ka1b3PZGYf4w/UmxVdRLJg
- 0xFYlRuwC1dDn8Qw95J0GdymCii0cRaco2lixS6MCVoRGkf8AucimzR/IpHQdl3I0GzL
- IyBX0qGqmR5LJsVy7mhry8aNdAh6Prx8vvP3FrE1cUIO+GD1IoDzztKWF+3WjCprdjEE
- vcGg==
-X-Gm-Message-State: APjAAAXPkK6UX/i4+FVLR/zO6ycrw0/+PZXidraosHKmn/Oop6gvlAFR
- E2g2UKBsOl3eLMmJ4xmmShZETXz3XvU=
-X-Google-Smtp-Source: APXvYqxZ/XT1iY7SidHMP1LZ0t93S0p60BqvBf/cn9IER2LvDlIVVcp5Gt7Amd4Z2yafvMBTfHIviA==
-X-Received: by 2002:a17:90a:7345:: with SMTP id
- j5mr9337899pjs.69.1582130390725; 
- Wed, 19 Feb 2020 08:39:50 -0800 (PST)
+ bh=yQ3ZiDck9TzFgYxsZULoxW3XRdOrweY+xSvjOe2by5c=;
+ b=reP/EWr2KDXFO+awzrzWtlnHvgHBs8RYz7mbO6cwGmGwYKZ/zINLoo2T3Shq4ZTD14
+ pdI1eJ/FMUzN03bLRi8d7xlaaf12+pb9sF5N9+Am3QMjjCNOBXLvCBgKkLaIPOD5DjA4
+ Lmbm06/jeL5I80M4umwjTpNsdYnStv7HECpmn5gIeWb7LfplRJ7z3tK6doSlJdCl6DR6
+ gv1391HGmhX9VxPUIe/z+Fd24EWESr/nt2bZC1+g1xW4TPNXdYWhtDTxEEOVhdbh+NoF
+ cqovqEOMRgJ/PH32ZyJhnafIYODFal3ijVU1uaTjY6ANMDK5/vaL6l4vDKGwebdyQOsa
+ LWww==
+X-Gm-Message-State: APjAAAUdr58xmGQuGWjwJWXJqPzcPBl25BkekJ2VMapN4HA349oxR0x3
+ ypu9mhyvxDdpX6A7TPD1GgMfrmsFtN0=
+X-Google-Smtp-Source: APXvYqwqQDE2gZLRa5M5tjYOZ0UCQxV3q3kLyJ8gU2Hi21Db1t4rdFOSeoYF5J6G2LN5fSbrA/9wKQ==
+X-Received: by 2002:a17:90a:8545:: with SMTP id a5mr9525559pjw.3.1582130392452; 
+ Wed, 19 Feb 2020 08:39:52 -0800 (PST)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:3cc2:5eb7:e248:ad23])
- by smtp.gmail.com with ESMTPSA id a69sm112362pfa.129.2020.02.19.08.39.49
+ by smtp.gmail.com with ESMTPSA id a69sm112362pfa.129.2020.02.19.08.39.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 08:39:50 -0800 (PST)
+ Wed, 19 Feb 2020 08:39:51 -0800 (PST)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/14] tests/vm: increased max timeout for vm boot.
-Date: Wed, 19 Feb 2020 11:35:26 -0500
-Message-Id: <20200219163537.22098-4-robert.foley@linaro.org>
+Subject: [PATCH v2 04/14] tests/vm: give wait_ssh() option to wait for root
+Date: Wed, 19 Feb 2020 11:35:27 -0500
+Message-Id: <20200219163537.22098-5-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200219163537.22098-1-robert.foley@linaro.org>
 References: <20200219163537.22098-1-robert.foley@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::636
+X-Received-From: 2607:f8b0:4864:20::634
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,42 +84,43 @@ Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add change to increase timeout waiting for VM to boot.
-Needed for some emulation cases where it can take longer
-than 5 minutes to boot.
+Allow wait_ssh to wait for root user to be ready.
+This solves the issue where we perform a wait_ssh()
+successfully, but the root user is not yet ready
+to be logged in.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
 ---
- tests/vm/basevm.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/vm/basevm.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index c99725b8c0..5ca445e29a 100644
+index 5ca445e29a..7f26892268 100644
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -57,6 +57,10 @@ class BaseVM(object):
-     poweroff = "poweroff"
-     # enable IPv6 networking
-     ipv6 = True
-+    # Scale up some timeouts under TCG.
-+    # 4 is arbitrary, but greater than 2,
-+    # since we found we need to wait more than twice as long.
-+    tcg_ssh_timeout_multiplier = 4
-     def __init__(self, debug=False, vcpus=None):
-         self._guest = None
-         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
-@@ -309,6 +313,9 @@ class BaseVM(object):
+@@ -312,7 +312,7 @@ class BaseVM(object):
+     def print_step(self, text):
          sys.stderr.write("### %s ...\n" % text)
  
-     def wait_ssh(self, seconds=300):
-+        # Allow more time for VM to boot under TCG.
-+        if not kvm_available(self.arch):
-+            seconds *= self.tcg_ssh_timeout_multiplier
-         starttime = datetime.datetime.now()
+-    def wait_ssh(self, seconds=300):
++    def wait_ssh(self, wait_root=False, seconds=300):
+         # Allow more time for VM to boot under TCG.
+         if not kvm_available(self.arch):
+             seconds *= self.tcg_ssh_timeout_multiplier
+@@ -320,7 +320,10 @@ class BaseVM(object):
          endtime = starttime + datetime.timedelta(seconds=seconds)
          guest_up = False
+         while datetime.datetime.now() < endtime:
+-            if self.ssh("exit 0") == 0:
++            if wait_root and self.ssh_root("exit 0") == 0:
++                guest_up = True
++                break
++            elif self.ssh("exit 0") == 0:
+                 guest_up = True
+                 break
+             seconds = (endtime - datetime.datetime.now()).total_seconds()
 -- 
 2.17.1
 
