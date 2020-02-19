@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5953164596
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 14:33:17 +0100 (CET)
-Received: from localhost ([::1]:52654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FD41645AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 14:37:28 +0100 (CET)
+Received: from localhost ([::1]:52706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4PTY-0002ap-Ky
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 08:33:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39392)
+	id 1j4PXb-00052s-M2
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 08:37:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40337)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j4PRj-0001Df-EE
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 08:31:25 -0500
+ (envelope-from <eblake@redhat.com>) id 1j4PWo-0004Hd-6o
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 08:36:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j4PRh-0006aX-In
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 08:31:22 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23471
+ (envelope-from <eblake@redhat.com>) id 1j4PWn-00025Y-2j
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 08:36:38 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25078
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j4PRh-0006ZT-An
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 08:31:21 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j4PWm-00025A-UB
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 08:36:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582119080;
+ s=mimecast20190719; t=1582119396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ILmUHEW6soqnqSDSbCXN9T5GP/0M4VgjRZchziPQ3nM=;
- b=E5y7UMjy071lvWBgZdetly9PgdOUyB3THQj6L4edfFFko3ieqdd3Dak0qurrJ0Pz6gX2Qd
- szJeNrJDQxdHV4JHb3bj4m1V7+LGcR9EXTsxO+Jz4rBjEoN4iEg57OHwKhGzJFS3bQxnHF
- bGDHpPC+w5b3fjBamDOhB8edHFEMvrI=
+ bh=35605hvCqFOb0sXOAmr/SzpwnKw4GdCFhnUiMZbLPZM=;
+ b=UGOSGM/eRPCZyLrdjcj5U/1yElXyPljETF0JrCV4ldXU9IWZDcR3BHIzWw5/bFDDG1UHkn
+ FYjc7Nu2c3g/F/Lxbd4aFxTRA+bJzmjxQGYAgeAw5MEDV6v4cgCpARi3bs+IqNassmojoA
+ XMM63DpYZwudcB0tO1Jj+sl6ZV7WMM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-A0F-WgKyMyG43vwQ_qtzpQ-1; Wed, 19 Feb 2020 08:31:12 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-361-ih6DST4fPhKU1zArX1F8zg-1; Wed, 19 Feb 2020 08:36:28 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 674D518A8C91;
- Wed, 19 Feb 2020 13:31:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48B24107B270;
+ Wed, 19 Feb 2020 13:36:27 +0000 (UTC)
 Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02335171D6;
- Wed, 19 Feb 2020 13:31:08 +0000 (UTC)
-Subject: Re: [PATCH v2 0/2] finish qemu-nbd --partition deprecation
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20200123164650.1741798-1-eblake@redhat.com>
- <b3fe3a5b-0692-fb35-55ec-281fc2699e98@redhat.com>
- <2bc36642-3ba6-b44b-c89d-959e04795d20@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51DC38ED01;
+ Wed, 19 Feb 2020 13:36:23 +0000 (UTC)
+Subject: Re: [PATCH v2 00/22] Fix error handling during bitmap postcopy
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
+ <33fa0ba7-714f-c78d-8ca5-1e15dcef5ac4@virtuozzo.com>
+ <f44bfdb9-0ddc-3b1a-0279-7e9ebd9f399f@redhat.com>
+ <b0e67ac9-987b-811e-f0ac-7a9c92a2771a@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <e6eab244-bc56-051b-20bf-24e217903805@redhat.com>
-Date: Wed, 19 Feb 2020 07:31:07 -0600
+Message-ID: <633ea62c-dad6-9cd6-1490-7a827f036417@redhat.com>
+Date: Wed, 19 Feb 2020 07:36:22 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <2bc36642-3ba6-b44b-c89d-959e04795d20@redhat.com>
+In-Reply-To: <b0e67ac9-987b-811e-f0ac-7a9c92a2771a@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: A0F-WgKyMyG43vwQ_qtzpQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: ih6DST4fPhKU1zArX1F8zg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,41 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- "libvirt-list@redhat.com" <libvirt-list@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ quintela@redhat.com, qemu-stable@nongnu.org, dgilbert@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/20 4:53 AM, Max Reitz wrote:
-> On 31.01.20 18:11, Eric Blake wrote:
->> ping
->=20
-> Do you want further review or is J=C3=A1n=E2=80=99s sufficient for you?
+On 2/19/20 7:25 AM, Andrey Shinkevich wrote:
+> 
+> 
+> On 18/02/2020 23:57, Eric Blake wrote:
+>> On 2/18/20 2:02 PM, Andrey Shinkevich wrote:
+>>> qemu-iotests:$ ./check -qcow2
+>>> PASSED
+>>> (except always failed 261 and 272)
+>>
+>> Have you reported those failures on the threads that introduced those 
+>> tests?
+>>
+> 
+> Not yet unfortunately. I have not investigated the case.
+> "$ ./check -qcow2 261" dumps
+> 
+> +od: unrecognized option '--endian=big'
+> +Try 'od --help' for more information.
+> +od: invalid -N argument '--endian=big'
+> +qemu-img: Could not open 'TEST_DIR/t.IMGFMT': IMGFMT header exceeds 
+> cluster size
 
-Commit 0bc16997 has already landed, so no further review will show in=20
-git history. But you're always welcome to raise issues that might result=20
-in follow-up patches.
+Which version of od are you using?  I do recall wondering whether 
+reliance on the GNU coreutils extension --endian=big was going to cause 
+problems later - well, here we are, it's later :)
 
->=20
-> Also, I wonder whether it would make a good GSoC/Outreachy/... project
-> to add partition reading support to the raw block driver, or whether
-> that=E2=80=99s a bad idea. O:-)
+https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06781.html
 
-Personally, I think that since nbdkit already provides a good partition=20
-filter [1], any other implementation of a partition filter is duplicated=20
-effort.  The only reason to teach qemu how to access an arbitrary=20
-partition is if it makes serving that arbitrary partition to a guest=20
-more efficient than what is currently possible by pointing qemu at an=20
-NBD server run by nbdkit with its partition filter.  But in general, you=20
-are more likely to want qemu to serve an entire disk image file to the=20
-guest (and let the guest interpret partitions embedded within that file)=20
-than to have qemu serve a single partition to a guest (and have the=20
-guest treat that partition as a bare disk), so I don't see it as=20
-something that would be frequently used or needed in qemu.
+> 
+> and "$ ./check -qcow2 272" dumps
+> 
+> +od: unrecognized option '--endian=big'
+> +Try 'od --help' for more information.
+> +od: invalid -N argument '--endian=big'
 
-[1] http://libguestfs.org/nbdkit-partition-filter.1.html
+Yay, same problem for both tests.  Fix common.rc once, and both tests 
+should start working for you.
 
---=20
+> +qemu-io: can't open device .../qemu/tests/qemu-iotests/scratch/t.qcow2: 
+> Image is not in qcow2 format
+> 
+
+-- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
