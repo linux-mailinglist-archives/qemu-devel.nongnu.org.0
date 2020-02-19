@@ -2,86 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCECB1646A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:16:14 +0100 (CET)
-Received: from localhost ([::1]:53350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E0D1646BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:18:50 +0100 (CET)
+Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Q97-0005g8-Nl
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:16:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47057)
+	id 1j4QBd-0008PL-5P
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:18:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farosas@linux.ibm.com>) id 1j4Q8F-000529-Ho
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:15:20 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1j4QAI-00071P-FN
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farosas@linux.ibm.com>) id 1j4Q8E-0002fG-82
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:15:19 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10660
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1j4QAH-0005FI-A2
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:26 -0500
+Received: from mail-eopbgr140098.outbound.protection.outlook.com
+ ([40.107.14.98]:37188 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
- id 1j4Q8E-0002dz-34; Wed, 19 Feb 2020 09:15:18 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01JE9hb6109983; Wed, 19 Feb 2020 09:15:11 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2y93keqa01-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2020 09:15:11 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01JEA4e0111363;
- Wed, 19 Feb 2020 09:15:10 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2y93keq9yb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2020 09:15:10 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01JEALlc031712;
- Wed, 19 Feb 2020 14:15:10 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2y68974rd5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2020 14:15:10 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01JEF9Iv49807760
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Feb 2020 14:15:09 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4145BAC05F;
- Wed, 19 Feb 2020 14:15:09 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A3D16AC067;
- Wed, 19 Feb 2020 14:15:08 +0000 (GMT)
-Received: from localhost (unknown [9.86.26.230])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Wed, 19 Feb 2020 14:15:08 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>, groug@kaod.org,
- philmd@redhat.com, qemu-devel@nongnu.org, clg@kaod.org
-Subject: Re: [PATCH v3 01/12] ppc: Remove stub support for 32-bit hypervisor
- mode
-In-Reply-To: <20200219005414.15635-2-david@gibson.dropbear.id.au>
-References: <20200219005414.15635-1-david@gibson.dropbear.id.au>
- <20200219005414.15635-2-david@gibson.dropbear.id.au>
-Date: Wed, 19 Feb 2020 11:15:01 -0300
-Message-ID: <878skyd5p6.fsf@linux.ibm.com>
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1j4QAD-000588-NP; Wed, 19 Feb 2020 09:17:22 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FA+hNI1WcxRZ6mbrJrAevsol1vMBprCwC+lPa9zRJM/B/q2Nax6FF2xKGe/7/6P7k6O90D2Uw+g6VKVhYoQ+KSQodG4hC+ifE8b7SrXvct+2/I1JRk6dRWFGO5r0aLGT0aKSuRiObmPRO2llLQiRsIaql0dhXO4aIm++JJa0eMY5kx1+Wb02uyqdst01r+zRZsmGFDApRJB7DOj/EBhAoHcByhIron/QhEkw+sY3kxWqtxggSTbfe5ySqBEYFBlb8Gpr7ej1nLtOQk8fXPQ0aV2iD7QUvbZTElCSNKNFC7LQRZ1KTMO458emeAB4bMPU9drReMi0XRaMfGaLRi+Etw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Luub5suF3QvRCiH/havKBgJ9HgGJLa0lnwJj40SXWBE=;
+ b=F/tU/AEWU2nl8GLozLJgEY6bhFWYCgqEZK6vSNYMRzFA2Ou3MlLxWHkW2st5LFml2hnqcWeIHh2b3E2MQn7bIQ2hkWaxdfvfVzn9uQ1lzOrvzGGuId8qGgD5qNzlMlHSmWzx9TP0pqsFTBagJrrKixeNHq7IsFTcIVb64e5ltqQQLXqNN0CHmNhYlp7nphrDmvSwK7L6mKBgeaIsvM5JaO502TDgt1lWpz28NxgYEVIyoDJOEFIcyJ8U0e8bPl7c61pL9jQbPy6ejusWMZH8ycQVzNAHaB9PTR2TWmDC0yfKBpVxdONbYaxPxq0fyFMWpYxq7X8srzN2U/O64XeVDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Luub5suF3QvRCiH/havKBgJ9HgGJLa0lnwJj40SXWBE=;
+ b=JCZmN7HSMgd2Jrn5INrvgQ0/bZyZzbmhwhC2skGAu3ae54Bd8/dnhplxfbasbh+2khilFWNW5vwIChsUlvrD1VcLnwd/NaOX1128gXK1TdpJcunN67ZZPim6CYKy3BdS6j/rHNospGR0c94hB4SBs8ez7n+RhqSptBTTcNSSWSI=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
+ AM6PR08MB4615.eurprd08.prod.outlook.com (20.178.91.224) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.27; Wed, 19 Feb 2020 14:17:18 +0000
+Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
+ ([fe80::1883:da16:865a:139d]) by AM6PR08MB5048.eurprd08.prod.outlook.com
+ ([fe80::1883:da16:865a:139d%5]) with mapi id 15.20.2729.032; Wed, 19 Feb 2020
+ 14:17:18 +0000
+Subject: Re: [PATCH v2 15/22] qemu-iotests/199: improve performance: set
+ bitmap by discard
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
+ <20200217150246.29180-16-vsementsov@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Organization: Virtuozzo
+Message-ID: <3885ce91-af10-1cc8-19ed-b8e44be4238f@virtuozzo.com>
+Date: Wed, 19 Feb 2020 17:17:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+In-Reply-To: <20200217150246.29180-16-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1P191CA0011.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::21)
+ To AM6PR08MB5048.eurprd08.prod.outlook.com
+ (2603:10a6:20b:ee::31)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-19_03:2020-02-19,
- 2020-02-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- clxscore=1015 phishscore=0 mlxlogscore=999 impostorscore=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=1 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002190109
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Received: from [172.16.24.225] (185.231.240.5) by
+ HE1P191CA0011.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.18 via Frontend Transport; Wed, 19 Feb 2020 14:17:18 +0000
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 71143baa-93d0-4176-58f0-08d7b5466d7a
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4615:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4615FB9F5529FB3A5B06587DF4100@AM6PR08MB4615.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:101;
+X-Forefront-PRVS: 0318501FAE
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(346002)(39850400004)(376002)(136003)(396003)(366004)(189003)(199004)(2906002)(66476007)(8676002)(81166006)(66946007)(5660300002)(81156014)(8936002)(6486002)(44832011)(16576012)(54906003)(66556008)(186003)(31686004)(16526019)(36756003)(316002)(53546011)(478600001)(36916002)(26005)(31696002)(956004)(86362001)(2616005)(4326008)(52116002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4615;
+ H:AM6PR08MB5048.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IZRPxMwTRuZjQcJsqH+GkeMGZoFhXF48s6se2fx5tpBcqeCq+mutZnIQ/8P5RfIDfptT219woIh3L63exid4yqQQQjjrAEqc78Gg4duAqhRnNFtCL9B6nzKmVCpOUVR+w1DMd+neww+seb2XjmCfo4JrL5Yvpr0AftA7QayxECyyATVNrscS+VD7aKLjgxyGfnwN6SzvjMfDM5FKwZtJMGj/fjkMY/2VRx7VPl5XKLNpYX1oIZLDNL4MuTxBth/eiziUtFv1vmXcUMohOMQ8d3xAXHKQ82woYbmfeb8CporIMG4MAzgRJ8fKLxN7Tgrp2to0xzJaScz21rW3r5SPTY9wARLkI9MXWB8+HAqMcrl66d6JNptWcMhouR5Rg+wEOudv37T+uQWnTx6K71zs/oSFVUiSiaTdNKqPJ/s6I5n0g86jYGFPTBeVf5aBBSDj
+X-MS-Exchange-AntiSpam-MessageData: KP/Lmw+a2uwMgiKXIEJLUDw+oipjNhKiJCkdxPH01MnRyV4ZMWICvrTdJyKIL9ly72Zkq9w8ruFKYCJEY9uvWxAs/miCGvbeVsJQkhZF1VTqPIi31lgOE0WbB/9/WNOgViauSC2gm84+vd6zy6mjiQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71143baa-93d0-4176-58f0-08d7b5466d7a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2020 14:17:18.7196 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j3DxWtFIFTfxXTZ1+WvxzWNME5utsC2xMDFAOKErTsEQR56Ov/rGK39oK7E1fg+JE+N50L4/+uArSwfMoAI0+f20OyyXSywcgQIIrq+lhLo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4615
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.14.98
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,121 +111,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-ppc@nongnu.org, paulus@samba.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ dgilbert@redhat.com, qemu-block@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
-
-> a4f30719a8cd, way back in 2007 noted that "PowerPC hypervisor mode is not
-> fundamentally available only for PowerPC 64" and added a 32-bit version
-> of the MSR[HV] bit.
->
-> But nothing was ever really done with that; there is no meaningful support
-> for 32-bit hypervisor mode 13 years later.  Let's stop pretending and just
-> remove the stubs.
->
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-
+On 17/02/2020 18:02, Vladimir Sementsov-Ogievskiy wrote:
+> Discard dirties dirty-bitmap as well as write, but works faster. Let's
+> use it instead.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  target/ppc/cpu.h                | 21 +++++++--------------
->  target/ppc/translate_init.inc.c |  6 +++---
->  2 files changed, 10 insertions(+), 17 deletions(-)
->
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index b283042515..8077fdb068 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -24,8 +24,6 @@
->  #include "exec/cpu-defs.h"
->  #include "cpu-qom.h"
->  
-> -/* #define PPC_EMULATE_32BITS_HYPV */
-> -
->  #define TCG_GUEST_DEFAULT_MO 0
->  
->  #define TARGET_PAGE_BITS_64K 16
-> @@ -300,13 +298,12 @@ typedef struct ppc_v3_pate_t {
->  #define MSR_SF   63 /* Sixty-four-bit mode                            hflags */
->  #define MSR_TAG  62 /* Tag-active mode (POWERx ?)                            */
->  #define MSR_ISF  61 /* Sixty-four-bit interrupt mode on 630                  */
-> -#define MSR_SHV  60 /* hypervisor state                               hflags */
-> +#define MSR_HV   60 /* hypervisor state                               hflags */
->  #define MSR_TS0  34 /* Transactional state, 2 bits (Book3s)                  */
->  #define MSR_TS1  33
->  #define MSR_TM   32 /* Transactional Memory Available (Book3s)               */
->  #define MSR_CM   31 /* Computation mode for BookE                     hflags */
->  #define MSR_ICM  30 /* Interrupt computation mode for BookE                  */
-> -#define MSR_THV  29 /* hypervisor state for 32 bits PowerPC           hflags */
->  #define MSR_GS   28 /* guest state for BookE                                 */
->  #define MSR_UCLE 26 /* User-mode cache lock enable for BookE                 */
->  #define MSR_VR   25 /* altivec available                            x hflags */
-> @@ -401,10 +398,13 @@ typedef struct ppc_v3_pate_t {
->  
->  #define msr_sf   ((env->msr >> MSR_SF)   & 1)
->  #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
-> -#define msr_shv  ((env->msr >> MSR_SHV)  & 1)
-> +#if defined(TARGET_PPC64)
-> +#define msr_hv   ((env->msr >> MSR_HV)   & 1)
-> +#else
-> +#define msr_hv   (0)
-> +#endif
->  #define msr_cm   ((env->msr >> MSR_CM)   & 1)
->  #define msr_icm  ((env->msr >> MSR_ICM)  & 1)
-> -#define msr_thv  ((env->msr >> MSR_THV)  & 1)
->  #define msr_gs   ((env->msr >> MSR_GS)   & 1)
->  #define msr_ucle ((env->msr >> MSR_UCLE) & 1)
->  #define msr_vr   ((env->msr >> MSR_VR)   & 1)
-> @@ -449,16 +449,9 @@ typedef struct ppc_v3_pate_t {
->  
->  /* Hypervisor bit is more specific */
->  #if defined(TARGET_PPC64)
-> -#define MSR_HVB (1ULL << MSR_SHV)
-> -#define msr_hv  msr_shv
-> -#else
-> -#if defined(PPC_EMULATE_32BITS_HYPV)
-> -#define MSR_HVB (1ULL << MSR_THV)
-> -#define msr_hv  msr_thv
-> +#define MSR_HVB (1ULL << MSR_HV)
->  #else
->  #define MSR_HVB (0ULL)
-> -#define msr_hv  (0)
-> -#endif
->  #endif
->  
->  /* DSISR */
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-> index 53995f62ea..a0d0eaabf2 100644
-> --- a/target/ppc/translate_init.inc.c
-> +++ b/target/ppc/translate_init.inc.c
-> @@ -8804,7 +8804,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
->                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
->                          PPC2_TM | PPC2_PM_ISA206;
->      pcc->msr_mask = (1ull << MSR_SF) |
-> -                    (1ull << MSR_SHV) |
-> +                    (1ull << MSR_HV) |
->                      (1ull << MSR_TM) |
->                      (1ull << MSR_VR) |
->                      (1ull << MSR_VSX) |
-> @@ -9017,7 +9017,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
->                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
->                          PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
->      pcc->msr_mask = (1ull << MSR_SF) |
-> -                    (1ull << MSR_SHV) |
-> +                    (1ull << MSR_HV) |
->                      (1ull << MSR_TM) |
->                      (1ull << MSR_VR) |
->                      (1ull << MSR_VSX) |
-> @@ -9228,7 +9228,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
->                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
->                          PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
->      pcc->msr_mask = (1ull << MSR_SF) |
-> -                    (1ull << MSR_SHV) |
-> +                    (1ull << MSR_HV) |
->                      (1ull << MSR_TM) |
->                      (1ull << MSR_VR) |
->                      (1ull << MSR_VSX) |
+>   tests/qemu-iotests/199 | 31 ++++++++++++++++++++-----------
+>   1 file changed, 20 insertions(+), 11 deletions(-)
+> 
+> diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
+> index 6599fc6fb4..d78f81b71c 100755
+> --- a/tests/qemu-iotests/199
+> +++ b/tests/qemu-iotests/199
+> @@ -67,8 +67,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>           os.mkfifo(fifo)
+>           qemu_img('create', '-f', iotests.imgfmt, disk_a, size)
+>           qemu_img('create', '-f', iotests.imgfmt, disk_b, size)
+> -        self.vm_a = iotests.VM(path_suffix='a').add_drive(disk_a)
+> -        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b)
+> +        self.vm_a = iotests.VM(path_suffix='a').add_drive(disk_a,
+> +                                                          'discard=unmap')
+> +        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b,
+> +                                                          'discard=unmap')
+>           self.vm_b.add_incoming("exec: cat '" + fifo + "'")
+>           self.vm_a.launch()
+>           self.vm_b.launch()
+> @@ -78,7 +80,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>           self.vm_b_events = []
+>   
+>       def test_postcopy(self):
+> -        write_size = 0x40000000
+> +        discard_size = 0x40000000
+>           granularity = 512
+>           chunk = 4096
+>   
+> @@ -86,25 +88,32 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>                                  name='bitmap', granularity=granularity)
+>           self.assert_qmp(result, 'return', {})
+>   
+> +        result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+> +                               node='drive0', name='bitmap')
+> +        empty_sha256 = result['return']['sha256']
+> +
+>           s = 0
+> -        while s < write_size:
+> -            self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
+> +        while s < discard_size:
+> +            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+>               s += 0x10000
+>           s = 0x8000
+> -        while s < write_size:
+> -            self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
+> +        while s < discard_size:
+> +            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+>               s += 0x10000
+>   
+>           result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
+>                                  node='drive0', name='bitmap')
+>           sha256 = result['return']['sha256']
+>   
+> +        # Check, that updating the bitmap by discards works
+> +        assert sha256 != empty_sha256
+> +
+>           result = self.vm_a.qmp('block-dirty-bitmap-clear', node='drive0',
+>                                  name='bitmap')
+>           self.assert_qmp(result, 'return', {})
+>           s = 0
+> -        while s < write_size:
+> -            self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
+> +        while s < discard_size:
+> +            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+>               s += 0x10000
+>   
+>           caps = [{'capability': 'dirty-bitmaps', 'state': True},
+> @@ -126,8 +135,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>           self.vm_b_events.append(e_resume)
+>   
+>           s = 0x8000
+> -        while s < write_size:
+> -            self.vm_b.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
+> +        while s < discard_size:
+> +            self.vm_b.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+>               s += 0x10000
+>   
+>           match = {'data': {'status': 'completed'}}
+> 
+
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+-- 
+With the best regards,
+Andrey Shinkevich
 
