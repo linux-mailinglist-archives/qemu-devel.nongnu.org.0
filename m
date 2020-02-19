@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFB01649F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:19:35 +0100 (CET)
-Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35060164A2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:24:07 +0100 (CET)
+Received: from localhost ([::1]:55680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4S4U-0001Ui-Bj
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:19:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
+	id 1j4S8s-0003hT-6W
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:24:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4Rvg-0002m0-Kw
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:29 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4Rvi-0002sc-Ui
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rvf-0000ea-7p
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46662
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j4Rvh-0000hU-KX
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:30 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57534
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rvf-0000eJ-3m
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:27 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rvh-0000h8-G5
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128626;
+ s=mimecast20190719; t=1582128629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z8oEDREQU+NKiuKFkduCLRcQfeb/eVAbSy+8cstM9OI=;
- b=C52wGUB+cZ0LYVB9eCzLo2B0bJQ6g8GmQebOJfko1fPVWZx+wT8mOKiQ5RNcV8kOZsQEz/
- A1Y4lFHXmeSkgGj4k0npYD9+OQ1tkNsRY9zWF84AsZrwac5GYPWMIYchPyVtxRJNOrJLmy
- 9m+5UfKUr4I2uICpe5SCPfu/Z1SCPrA=
+ bh=ax+DOhJKfFpyRg/pVMlvnxKPSrWwAJk0bt6JXLu4PDo=;
+ b=ZR7yge/ud/7CvpUUpiqfKDARNtcx/M+3mzVaGqISCFOxwsXBc+G9XJFVinw0N5P83RVWCW
+ Ka36QXtvXZTPfSdtmhGbHJG5ozxXX2rOW5zh60WosURyQ1Us22EGoKZtUXQItedd+Ppd8H
+ YcSMjCevXSYgzYl4M6Jb2zQQjTQ12iQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-qhkFgH8kOtadwDt8R4VgnQ-1; Wed, 19 Feb 2020 11:10:23 -0500
+ us-mta-171-8MHG5PpgMNCZ5CtwYb43fA-1; Wed, 19 Feb 2020 11:10:27 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F3D4802C81
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:10:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E5E08024CE
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:10:23 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF05F6E3EE;
- Wed, 19 Feb 2020 16:10:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB7F286CCC;
+ Wed, 19 Feb 2020 16:10:22 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 22/79] arm/mps2-tz: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:08:56 -0500
-Message-Id: <20200219160953.13771-23-imammedo@redhat.com>
+Subject: [PATCH v6 23/79] arm/mps2: use memdev for RAM
+Date: Wed, 19 Feb 2020 11:08:57 -0500
+Message-Id: <20200219160953.13771-24-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: qhkFgH8kOtadwDt8R4VgnQ-1
+X-MC-Unique: 8MHG5PpgMNCZ5CtwYb43fA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,18 +96,15 @@ Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 v2:
   * fix format string causing build failure on 32-bit host
     (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
-v4:
-  * move default_ram_size to mps2tz_class_init()
-    (Andrew Jones <drjones@redhat.com>)
 ---
- hw/arm/mps2-tz.c | 15 +++++++++++----
+ hw/arm/mps2.c | 15 +++++++++++----
  1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index f8b620bcc6..a8dea7dde1 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -39,6 +39,7 @@
+diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+index d002b126d3..f246213206 100644
+--- a/hw/arm/mps2.c
++++ b/hw/arm/mps2.c
+@@ -24,6 +24,7 @@
 =20
  #include "qemu/osdep.h"
  #include "qemu/units.h"
@@ -115,15 +112,15 @@ index f8b620bcc6..a8dea7dde1 100644
  #include "qapi/error.h"
  #include "qemu/error-report.h"
  #include "hw/arm/boot.h"
-@@ -79,7 +80,6 @@ typedef struct {
+@@ -55,7 +56,6 @@ typedef struct {
      MachineState parent;
 =20
-     ARMSSE iotkit;
+     ARMv7MState armv7m;
 -    MemoryRegion psram;
-     MemoryRegion ssram[3];
+     MemoryRegion ssram1;
      MemoryRegion ssram1_m;
-     MPS2SCC scc;
-@@ -388,6 +388,13 @@ static void mps2tz_common_init(MachineState *machine)
+     MemoryRegion ssram23;
+@@ -118,6 +118,13 @@ static void mps2_common_init(MachineState *machine)
          exit(1);
      }
 =20
@@ -134,30 +131,30 @@ index f8b620bcc6..a8dea7dde1 100644
 +        exit(EXIT_FAILURE);
 +    }
 +
-     sysbus_init_child_obj(OBJECT(machine), "iotkit", &mms->iotkit,
-                           sizeof(mms->iotkit), mmc->armsse_type);
-     iotkitdev =3D DEVICE(&mms->iotkit);
-@@ -458,9 +465,7 @@ static void mps2tz_common_init(MachineState *machine)
-      * tradeoffs. For QEMU they're all just RAM, though. We arbitrarily
-      * call the 16MB our "system memory", as it's the largest lump.
+     /* The FPGA images have an odd combination of different RAMs,
+      * because in hardware they are different implementations and
+      * connected to different buses, giving varying performance/size
+@@ -146,9 +153,7 @@ static void mps2_common_init(MachineState *machine)
+      * This is of no use for QEMU so we don't implement it (as if
+      * zbt_boot_ctrl is always zero).
       */
 -    memory_region_allocate_system_memory(&mms->psram,
 -                                         NULL, "mps.ram", 16 * MiB);
--    memory_region_add_subregion(system_memory, 0x80000000, &mms->psram);
-+    memory_region_add_subregion(system_memory, 0x80000000, machine->ram);
+-    memory_region_add_subregion(system_memory, 0x21000000, &mms->psram);
++    memory_region_add_subregion(system_memory, 0x21000000, machine->ram);
 =20
-     /* The overflow IRQs for all UARTs are ORed together.
-      * Tx, Rx and "combined" IRQs are sent to the NVIC separately.
-@@ -642,6 +647,8 @@ static void mps2tz_class_init(ObjectClass *oc, void *da=
-ta)
+     switch (mmc->fpga_type) {
+     case FPGA_AN385:
+@@ -338,6 +343,8 @@ static void mps2_class_init(ObjectClass *oc, void *data=
+)
 =20
-     mc->init =3D mps2tz_common_init;
-     iic->check =3D mps2_tz_idau_check;
+     mc->init =3D mps2_common_init;
+     mc->max_cpus =3D 1;
 +    mc->default_ram_size =3D 16 * MiB;
 +    mc->default_ram_id =3D "mps.ram";
  }
 =20
- static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+ static void mps2_an385_class_init(ObjectClass *oc, void *data)
 --=20
 2.18.1
 
