@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E001641FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:24:31 +0100 (CET)
-Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0669916421C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:29:38 +0100 (CET)
+Received: from localhost ([::1]:48641 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MWs-00018i-8k
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53545)
+	id 1j4Mbp-0001IQ-41
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:29:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MPu-0003i3-LE
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:20 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4MQ2-0003sz-K3
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MPt-0005Uu-B1
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:18 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:44969)
+ (envelope-from <laurent@vivier.eu>) id 1j4MQ1-0005jH-JH
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:26 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:34575)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPl-0005Gl-TE; Wed, 19 Feb 2020 05:17:10 -0500
+ id 1j4MPp-0005N6-QG; Wed, 19 Feb 2020 05:17:14 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mk178-1jkK0e0YCu-00kMBz; Wed, 19 Feb 2020 11:16:48 +0100
+ id 1N6LMN-1jWvt50T6H-016gGs; Wed, 19 Feb 2020 11:16:50 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/17] hw/net/rocker: Report unimplemented feature with
- qemu_log_mask(UNIMP)
-Date: Wed, 19 Feb 2020 11:16:10 +0100
-Message-Id: <20200219101612.1033925-16-laurent@vivier.eu>
+Subject: [PULL 16/17] hw/nios2:fix leak of fdevice tree blob
+Date: Wed, 19 Feb 2020 11:16:11 +0100
+Message-Id: <20200219101612.1033925-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:duAcb355ECFPnNuZgkT11wz2BIZvCxzcAZlcm39hkXWB3RYN+Lv
- 1TbbRN/Dcextyh8eKlj0fCir7CJsYi4jJCFxLZd/CC41HCDKH1Xi0fuZ4NCIO5/+U9jDEal
- nLPv2L1ODWfjOK4qBrLi8uBfCBKlUMSqA3cSG4CiGIYyO5ssOxc5skVMs+bH7moZS8+AcS3
- rmM7+LpOPDntiil4qFaeA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mdaeES3PDsM=:b/BG0e9SXww0sJCuQ8MCTT
- QE2qVIEL0RXs+i+4U7i4jL4h/89O+KyO8qx/A6rQ5h/dQFLi7y9PFLnj2xmBfRyl35p/jNb3l
- 9vD9yVvPaB1D7uqmWfl1r/WtOvekYFyKf8i45MzHqlVc7+WiSuftQFQ633w/efaU1SAYdliU+
- SzpuvRuwV0HI3BqhV8GDORTCoP/6lNsNn1IN+52LM0B0Mnhks/NBDwvHGHif2DFE4SmrTxV/h
- ZdGwHSLO0ry/aQ8qcxBQ6ok0ExT+9WoOZ53zqC4hVjqmWSN816ga2+THoye/q+St54pc83E1/
- WLfS9B7ZXWdSDgHNqtGCbTByX671QeBr3QZRrBOEOuKiDtcpNNtv1tSTfxuCQm81xBSegV08j
- a4pUE0MFRYqYc9Z3r+Hh0WtgLsIRfnsHzErw/Y662EgJO+mxyxiakpV1x4Yl2Rx5nVcXV2D2H
- yvSothDc4Y2+t+7VGS/WciPGQ6W5e6OZMFK56uJ6lchoK+KBYEYJaqXeFW40Qh71bciPFmVA8
- DEvfXicO6fGUMwNAwhMvU8yysxwz/58cNwpsY3t/oUHIO+/j0eJ4dlfN2GfEaa64+vp7HOmh2
- q2DvY/zXXc8b4bZId+8lmUcA4kMUrwyw9/djxXxGB6CFxvZP9Tr+XQb3+eFfvBmkCp5aGC4Ij
- OuRZA8ctEAr0Kc8c+an1K5++Jbm8vHCyeVjS0H8RK61NJN05sjP3+7DioMy5pPvW8yPeC9oNw
- Ov4UtfGU+YCeQQeBGk7s2JviPBDplQ6E/0EUk4kbQzAtm6uCXsZi8kzYrk+jEipn+K5gyCDn0
- 54IW3HB8kmuL1fR0JNwL6XXXgVB2ee7Yglcx/gXwHmUlYSxTW//aAw+Lkylt8XfmqObunby
+X-Provags-ID: V03:K1:V4NW0Cfty6gcVkThdoEhaGL1nZCXMiXRMOUudoULVW+euwTxQSJ
+ 70VGnLGFEyow/yWgzGydQoK4mih2hDHqrxAVPDO5/Et85fzhS9p317woqhGdjIu9hpJij/d
+ roY8bpX11SuJ+zVFK0MXuNwkMk7A74iF1zZfJpGqInesuu1yF0+QrptL8FD5cZ89D+123LT
+ U7v1SaAMYxD6auoNpuz9Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Qo6RIilQvSI=:MR/4+Kac0ZOkyA9zF0wV3N
+ JtCAMYarL6x7pbPFkge74S9pezob3grjmKKLq5Oab59NErOnrDVC9ybRI8K2MBDT4qNECzTGS
+ NGHiigfzKACRBWzzGnH0Lq9UG2Q8bRvUi/RrbxHYD7/Kfidu2Y5EPmy1p8UCOcNsceDz64Ytu
+ LXbNoDSGyS9o7K0WdZfFIyNCBung3TYObfjszEkDmTS46bkU//YY78YCSEJjE84fbZw9lb7jI
+ Zv8oUtDC052XioqJ0MvvtW5g0NL7YuKk9tdI+VyT426UG6r/Gb0fvqQH5/j5pp8gIXpwiOs03
+ QVsGNLc7x8PJJSflv/z8DXNMgIosVRKHQhHbe+uhRE8JQ5TzKHN7DE8sq/8E67XSeLM9VyZ/g
+ JfaXsRY4UiUwBN3y1RHOkQsPmL5xAwWEnJHOikl/Ns/1WX5PwiqZ3y+////uob3U1Q/BrasjM
+ x7hfD6OiK+g5HEGEBGpgl6fu9CSZvtdRsIv7NKNfkPEyHI5oLvrcgyR92WweK67TfH41189i7
+ fTIJGF8srSzi05o0Fl/XMaQThZ6ILFD7DxbQRSjK7CZA0/vwAUkhAeZV/dPmDsDELcqPwNrB9
+ Hij57OdqbUlcIBoLKfXIVD20PBAtgbXDWqxsrvqnA+Xi7SbxugzL6/lDQ50VazYvTuQzcBZMg
+ JTzGQKMLI+2kZQra+tFQz8JVDPJ+EQD16Gtlo1/+Gi7QC2dSCp6ZgV9pVWLgjjR4FReOAd/T4
+ 7LEvW5AeFYfYC/6De/OdJOpaa3Xra15hOfL1niubUG+qqtUhyl1usxecLls7237KCp+KpQSrF
+ lhC1kwqKcGkLLjPU1Mgu/yLsm5PwpfOWFsJ895pLUMJxcheNTVWIrVi6a2oEn7dnyU35XEO
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,86 +74,40 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Jiri Pirko <jiri@resnulli.us>, Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
  Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Chen Qun <kuhn.chenqun@huawei.com>, Richard Henderson <rth@twiddle.net>,
  Kevin Wolf <kwolf@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
  Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Max Reitz <mreitz@redhat.com>, Euler Robot <euler.robot@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-Fix warnings reported by Clang static code analyzer:
+The device tree blob returned by load_device_tree is malloced.
+We should free it after cpu_physical_memory_write().
 
-    CC      hw/net/rocker/rocker.o
-  hw/net/rocker/rocker.c:213:9: warning: Value stored to 'tx_tso_mss' is never read
-          tx_tso_mss = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_MSS]);
-          ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/net/rocker/rocker.c:217:9: warning: Value stored to 'tx_tso_hdr_len' is never read
-          tx_tso_hdr_len = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_HDR_LEN]);
-          ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/net/rocker/rocker.c:255:9: warning: Value stored to 'tx_l3_csum_off' is never read
-          tx_l3_csum_off += tx_tso_mss = tx_tso_hdr_len = 0;
-          ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Fixes: dc488f888
-Reported-by: Clang Static Analyzer
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200217101637.27558-1-philmd@redhat.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200218091154.21696-2-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/rocker/rocker.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ hw/nios2/boot.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-index 81dd3b5f141d..15d66f6cbcf0 100644
---- a/hw/net/rocker/rocker.c
-+++ b/hw/net/rocker/rocker.c
-@@ -27,6 +27,7 @@
- #include "qemu/iov.h"
- #include "qemu/module.h"
- #include "qemu/bitops.h"
-+#include "qemu/log.h"
- 
- #include "rocker.h"
- #include "rocker_hw.h"
-@@ -207,14 +208,22 @@ static int tx_consume(Rocker *r, DescInfo *info)
- 
-     if (tlvs[ROCKER_TLV_TX_L3_CSUM_OFF]) {
-         tx_l3_csum_off = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_L3_CSUM_OFF]);
-+        qemu_log_mask(LOG_UNIMP, "rocker %s: L3 not implemented"
-+                                 " (cksum off: %u)\n",
-+                      __func__, tx_l3_csum_off);
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 46b834987691..88224aa84c8b 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -109,6 +109,7 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
      }
  
-     if (tlvs[ROCKER_TLV_TX_TSO_MSS]) {
-         tx_tso_mss = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_MSS]);
-+        qemu_log_mask(LOG_UNIMP, "rocker %s: TSO not implemented (MSS: %u)\n",
-+                      __func__, tx_tso_mss);
-     }
+     cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
++    g_free(fdt);
+     return fdt_size;
+ }
  
-     if (tlvs[ROCKER_TLV_TX_TSO_HDR_LEN]) {
-         tx_tso_hdr_len = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_HDR_LEN]);
-+        qemu_log_mask(LOG_UNIMP, "rocker %s: TSO not implemented"
-+                                 " (hdr length: %u)\n",
-+                      __func__, tx_tso_hdr_len);
-     }
- 
-     rocker_tlv_for_each_nested(tlv_frag, tlvs[ROCKER_TLV_TX_FRAGS], rem) {
-@@ -249,12 +258,6 @@ static int tx_consume(Rocker *r, DescInfo *info)
-         iovcnt++;
-     }
- 
--    if (iovcnt) {
--        /* XXX perform Tx offloads */
--        /* XXX   silence compiler for now */
--        tx_l3_csum_off += tx_tso_mss = tx_tso_hdr_len = 0;
--    }
--
-     err = fp_port_eg(r->fp_port[port], iov, iovcnt);
- 
- err_too_many_frags:
 -- 
 2.24.1
 
