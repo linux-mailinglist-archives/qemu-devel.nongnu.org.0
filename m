@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55879164162
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:21:27 +0100 (CET)
-Received: from localhost ([::1]:48398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D95A164158
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:19:57 +0100 (CET)
+Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MTu-0001Ya-9O
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53248)
+	id 1j4MSS-00071F-70
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:19:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MPd-0003VN-4P
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:02 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4MPn-0003e4-8Q
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MPb-00053Y-Ur
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:01 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:48735)
+ (envelope-from <laurent@vivier.eu>) id 1j4MPl-0005IH-WE
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:11 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:57205)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPY-0004wJ-KJ; Wed, 19 Feb 2020 05:16:57 -0500
+ id 1j4MPl-0005Cn-Hs; Wed, 19 Feb 2020 05:17:09 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MA844-1jBX864Afq-00BZbZ; Wed, 19 Feb 2020 11:16:25 +0100
+ id 1N8G6I-1jZPnm3yCm-014DQd; Wed, 19 Feb 2020 11:16:27 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/17] scripts/checkpatch.pl: Detect superfluous semicolon in C
- code
-Date: Wed, 19 Feb 2020 11:15:58 +0100
-Message-Id: <20200219101612.1033925-4-laurent@vivier.eu>
+Subject: [PULL 04/17] audio/alsaaudio: Remove superfluous semicolons
+Date: Wed, 19 Feb 2020 11:15:59 +0100
+Message-Id: <20200219101612.1033925-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IXjQSl0/la5Z164rm+NUocD7xxaoxaSU6n1TNuuHRPZySrnB6ZK
- ERe9mV2ShoYfilQNcB/XWW26hyR3PLF4xK4+AmGpRcGl3/5CD9liea+WM0dbL9DOi+qkCeP
- QuR2bJN3cFWKOsZNa6YfHyJndq8+/GWKYzTDzP5C74KkPHePbTCmVZg4fwhAC7USJnIHXFj
- bF47FrPpZzFc5ljlKUGag==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AkDA87X+Y5E=:6ksXsQXRv/pp0BO0P6vdkL
- o/cUtpoes6GpFbmnioboLNgjaKlV4Dhc7/87lXiP++/TDvJGwn5TySJ3ZoJM69bl67Uh0L4S7
- jALtHU25lPO1+uif/yuHJBLir6mDnfGbLhezdXcuHLwhv7m4sTS2PWIWA3A9burkzV0jGmMC+
- OvAQumCZj8zS1BuLtg8cQFGFb6tB4qiMXbtACVYcMIo5t7lKDLgirJOrZ2GXpg/6To6V6GCwF
- //Gs7Tp0epABuZsTCsxeQJNIT/qJjsiMq2MSpvHIATR+mTIXkPYIfHLQjWliyKmGHhAS5g3ca
- Jj/Xh0A3fl1J0myDlkrFjVXprYc5IfWmYhS7AmRnDtzclQI07atDTXK6YE6njQVBwPgA2geLK
- zFi+sZgY2L4uEo17kUiNm2dIDEVRWTDQMEeg9UQd3hzictBTULpxJdYGpMhIY34AQ9s12AHx9
- dgqfVWxZ0AGDHeOPn+P9LEaQ0CleOfpuIBsvPElMrw4IMKQHAr1/HKx7cm/SjOlxf2smfsDbR
- 4s7qJQPn/vvxXvJSVacsEJTUoCp+3e036hYnbqNVlKfi4WkhU3puasGfDAk0K/1sdsmm3cHVE
- xdz7EdAhPu2HxPg9px1WILlj5xJ+pRFKhxYE9Rf30RkFDxdTw9u1SaXt0sg+dbQD5fErstm6B
- s4UEzPDCssKhyJyvhJfYAvLgvuZi1C6DChw1wk8ZjtKIW1C5agBWBcnKXk2nIHwW4LdwgqJYv
- oUniudlqOJq5RndusmdFVoHV7eGkkfZb83gISD1duhCvAxvXycl/OXK3DYnbC/cIe+awVbCt2
- ixwyqBRUOydiBRtsVzi6p/iMLnqGZ0FzObvMiR2E1DbfNcJkGXVSIVOF1xqOebA0tj8uUrj
+X-Provags-ID: V03:K1:YLibFIpZuSQgUlfjKxWHzCGGzkzdZqeA+J1NPtaqKX3dof7T9YQ
+ atnabY9tD6WWwlISncER7PKliwcQz8ZEfu31p7eb3muO7uiSkG/MiFtWKBwDzARgQtkyQqq
+ iLNbN85O5fe4CzRYOMUiEQ/1Ka2p1ZpgOzHtCYLs/o7hW9mAajgu2vTnn+bJx0lbgt6uvVF
+ C76EO0Z4ERETqoIp868nw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3I0iL+lMVTY=:VCzKQXR5Xg/eAVWb074EU1
+ PyX03r8ReNRQpHWI+8HEZbOMe5aNlySG1/kHRsHSpo2T7ZAurz7dUkCs4QvtDW5pAEP+1wrxs
+ 2uh3+A7sl4nS483hdhPapjgHDqv091x9Y5cMufdRE9dm6KEHC6Xjt7Kk0NKylXGgRJbbj3rq1
+ ouckDsNL9nHl0rL69ip+TXPSTHQeqpm0LDiS7LBQvCSgqo6Ty1lyAKAz2h33H8Cz870EC7aFw
+ egISIpgTy7TMpVY6tPmNP18V9KTkqIJcP7tkh2V6fzG3zxInJiQQqrNd7BDTz+GfKk8kzgl9B
+ 1DUTbfuYjhZwDJ+OOJSSa1DlaCS+MW9DqTBLMSN6bN4jv6AXkFEkqMzjJiqR3DU2IpgN3X412
+ lHarYtfXAi50yNZvHWiLf+Oez6Pmh0kzJaksVUPdrP5wQwrfVZUqoZaoVD31g27ZFLRkxCInQ
+ Jg/6Be2vFkmCTHhY+JgmzqwkwnLqy7jTmHoNbGfN+Tn1WSSgcpd2eqiT7MchSBQyCIAKZnhAP
+ 3iDCMoRVpv+aXI0+0uRjQrNpDQGzNkEviSj2OyAtsAQ5rJ7okkxJYuAjGQPgsoeNRVuFoIYcx
+ qIIvLzw1UR9Q1GqLSSk3ejPTt8o8y3dD9PcRYZXIMwL0KVnOgeBNgwNqIghYC2xiE0NyvXgUk
+ g2kQd2+6RAthmnhSrEEl3jDecnmbndB2ygzxxbMyOyHIN9iG5XlHAMB/X3SbFugilHPMHlc91
+ wo5iw9aId9jzu5ab1bVDBbhEFHtZNcLBg+db1zQXW9Rwube8n0KgvX5AzTpBwVYRwfADTncPS
+ rATP9/fLxGHY2OseOtVLnnUrgwN9ROMfZx6kVDWYJ+UEwwAPPyqL2RRsElaO5JhjWk9jbvw
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,48 +80,45 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
  Thomas Huth <huth@tuxfamily.org>, Chris Wulff <crwulff@gmail.com>,
  Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Display error when a commit contains superfluous semicolon:
-
-  $ git show 6663a0a3376 | scripts/checkpatch.pl -q -
-  ERROR: superfluous trailing semicolon
-  #276: FILE: block/io_uring.c:186:
-  +                ret = -ENOSPC;;
-  total: 1 errors, 1 warnings, 485 lines checked
-
-Reported-by: Luc Michel <luc.michel@greensocs.com>
+Fixes: 286a5d201e4
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-Id: <20200218094402.26625-2-philmd@redhat.com>
+Message-Id: <20200218094402.26625-3-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/checkpatch.pl | 5 +++++
- 1 file changed, 5 insertions(+)
+ audio/alsaaudio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index ce43a306f867..11512a8a09b8 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1830,6 +1830,11 @@ sub process {
- 			ERROR("suspicious ; after while (0)\n" . $herecurr);
- 		}
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index a23a5a0b60a1..a8e62542f97e 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -819,7 +819,7 @@ static size_t alsa_read(HWVoiceIn *hw, void *buf, size_t len)
+             switch (nread) {
+             case 0:
+                 trace_alsa_read_zero(len);
+-                return pos;;
++                return pos;
  
-+# Check superfluous trailing ';'
-+		if ($line =~ /;;$/) {
-+			ERROR("superfluous trailing semicolon\n" . $herecurr);
-+		}
-+
- # Check relative indent for conditionals and blocks.
- 		if ($line =~ /\b(?:(?:if|while|for)\s*\(|do\b)/ && $line !~ /^.\s*#/ && $line !~ /\}\s*while\s*/) {
- 			my ($s, $c) = ($stat, $cond);
+             case -EPIPE:
+                 if (alsa_recover(alsa->handle)) {
+@@ -835,7 +835,7 @@ static size_t alsa_read(HWVoiceIn *hw, void *buf, size_t len)
+             default:
+                 alsa_logerr(nread, "Failed to read %zu frames to %p\n",
+                             len, dst);
+-                return pos;;
++                return pos;
+             }
+         }
+ 
 -- 
 2.24.1
 
