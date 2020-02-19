@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918861638AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:47:37 +0100 (CET)
-Received: from localhost ([::1]:43654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DEE1638C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:57:15 +0100 (CET)
+Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4DWa-0007Zc-1V
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:47:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1j4Dfu-0005wM-US
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:57:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37600)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1j4DVh-0007A0-LC
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:46:42 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j4DdC-00016e-TV
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1j4DVf-0000iW-0I
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:46:41 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:48236)
+ (envelope-from <dgibson@ozlabs.org>) id 1j4DdB-0001EC-FA
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 19:54:26 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:57935 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1j4DVe-0000ez-F6; Tue, 18 Feb 2020 19:46:38 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436292|-1; CH=green;
- DM=CONTINUE|CONTINUE|true|0.348929-0.0276323-0.623439;
- DS=CONTINUE|ham_system_inform|0.536313-0.000101925-0.463585;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03297; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=8; RT=8; SR=0; TI=SMTPD_---.GpVazkk_1582073190; 
-Received: from 192.168.3.18(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.GpVazkk_1582073190)
- by smtp.aliyun-inc.com(10.147.41.121);
- Wed, 19 Feb 2020 08:46:31 +0800
-Subject: Re: [PATCH v4 2/4] target/riscv: configure and turn on vector
- extension from command line
-To: Alistair Francis <alistair23@gmail.com>
-References: <20200210081240.11481-1-zhiwei_liu@c-sky.com>
- <20200210081240.11481-3-zhiwei_liu@c-sky.com>
- <CAKmqyKORm9dfkgSOe0WR1aDBzJyMq9YP9+bBPwkeX2J2jYmLAg@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <0eb6836a-b133-b3b1-6ef6-74dd341b1dd5@c-sky.com>
-Date: Wed, 19 Feb 2020 08:46:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j4DdA-0001Cm-LC; Tue, 18 Feb 2020 19:54:25 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48MfPS4Ld7z9sRk; Wed, 19 Feb 2020 11:54:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1582073660;
+ bh=+c3wOHpkfNGLUUmeq46udJQateiBN3iJmmWlgCOK/hk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BERtYjkMpu9HV4isRGeV+uu0mUIteSYpLKDQDUAlycby+THuxm6MNIp3eZXjLh+/H
+ cOScHgF4MR9MT6YBkmY1p+uzXKeDsZIvrdGoN6SD87u6SLjt1M9eHDoVxiYIyztTt3
+ x4RMohldBQnoF1rX1QWPoAyg+9M2cgdOYC4pBnT8=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: groug@kaod.org,
+	philmd@redhat.com,
+	qemu-devel@nongnu.org,
+	clg@kaod.org
+Subject: [PATCH v3 00/12] target/ppc: Correct some errors with real mode
+ handling
+Date: Wed, 19 Feb 2020 11:54:02 +1100
+Message-Id: <20200219005414.15635-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKORm9dfkgSOe0WR1aDBzJyMq9YP9+bBPwkeX2J2jYmLAg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,195 +56,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, paulus@samba.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Alistair
+POWER "book S" (server class) cpus have a concept of "real mode" where
+MMU translation is disabled... sort of.  In fact this can mean a bunch
+of slightly different things when hypervisor mode and other
+considerations are present.
 
-On 2020/2/19 6:34, Alistair Francis wrote:
-> On Mon, Feb 10, 2020 at 12:12 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->> Vector extension is default on only for "any" cpu. It can be turned
->> on by command line "-cpu rv64,v=true,vlen=128,elen=64,vext_spec=v0.7.1".
->>
->> vlen is the vector register length, default value is 128 bit.
->> elen is the max operator size in bits, default value is 64 bit.
->> vext_spec is the vector specification version, default value is v0.7.1.
->> Thest properties and cpu can be specified with other values.
->>
->> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> This looks fine to me. Shouldn't this be the last patch though?
-Yes， it should be the last patch.
-> As in
-> once the vector extension has been added to QEMU you can turn it on
-> from the command line. Right now this turns it on but it isn't
-> implemented.
-Maybe I should just add fields in RISCVCPU structure. And never open the
-vector extension on or add configure properties until the implementation 
-is ready.
+We had some errors in edge cases here, so clean some things up and
+correct them.
 
-It's still a little awkward as the reviewers will not be able to test 
-the patch until the
-last patch.
+Changes since v2:
+ * Removed 32-bit hypervisor stubs more completely
+ * Minor polish based on review comments
+Changes since RFCv1:
+ * Add a number of extra patches taking advantage of the initial
+   cleanups
 
-> Alistair
->
->> ---
->>   target/riscv/cpu.c | 48 ++++++++++++++++++++++++++++++++++++++++++++--
->>   target/riscv/cpu.h |  8 ++++++++
->>   2 files changed, 54 insertions(+), 2 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 8c86ebc109..95fdb6261e 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -98,6 +98,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
->>       env->priv_ver = priv_ver;
->>   }
->>
->> +static void set_vext_version(CPURISCVState *env, int vext_ver)
->> +{
->> +    env->vext_ver = vext_ver;
->> +}
->> +
->>   static void set_feature(CPURISCVState *env, int feature)
->>   {
->>       env->features |= (1ULL << feature);
->> @@ -113,7 +118,7 @@ static void set_resetvec(CPURISCVState *env, int resetvec)
->>   static void riscv_any_cpu_init(Object *obj)
->>   {
->>       CPURISCVState *env = &RISCV_CPU(obj)->env;
->> -    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
->> +    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU | RVV);
->>       set_priv_version(env, PRIV_VERSION_1_11_0);
->>       set_resetvec(env, DEFAULT_RSTVEC);
->>   }
->> @@ -320,6 +325,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>       CPURISCVState *env = &cpu->env;
->>       RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
->>       int priv_version = PRIV_VERSION_1_11_0;
->> +    int vext_version = VEXT_VERSION_0_07_1;
->>       target_ulong target_misa = 0;
->>       Error *local_err = NULL;
->>
->> @@ -343,8 +349,18 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>               return;
->>           }
->>       }
->> -
->> +    if (cpu->cfg.vext_spec) {
->> +        if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
->> +            vext_version = VEXT_VERSION_0_07_1;
->> +        } else {
->> +            error_setg(errp,
->> +                       "Unsupported vector spec version '%s'",
->> +                       cpu->cfg.vext_spec);
->> +            return;
->> +        }
->> +    }
->>       set_priv_version(env, priv_version);
->> +    set_vext_version(env, vext_version);
->>       set_resetvec(env, DEFAULT_RSTVEC);
->>
->>       if (cpu->cfg.mmu) {
->> @@ -409,6 +425,30 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>           if (cpu->cfg.ext_u) {
->>               target_misa |= RVU;
->>           }
->> +        if (cpu->cfg.ext_v) {
->> +            target_misa |= RVV;
->> +            if (!is_power_of_2(cpu->cfg.vlen)) {
->> +                error_setg(errp,
->> +                       "Vector extension VLEN must be power of 2");
->> +                return;
->> +            }
->> +            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
->> +                error_setg(errp,
->> +                       "Vector extension implementation only supports VLEN "
->> +                       "in the range [128, %d]", RV_VLEN_MAX);
->> +                return;
->> +            }
->> +            if (!is_power_of_2(cpu->cfg.elen)) {
->> +                error_setg(errp,
->> +                       "Vector extension ELEN must be power of 2");
->> +                return;
->> +            }
->> +            if (cpu->cfg.elen > 64) {
->> +                error_setg(errp,
->> +                       "Vector extension ELEN must <= 64");
->> +                return;
->> +            }
->> +        }
->>
->>           set_misa(env, RVXLEN | target_misa);
->>       }
->> @@ -444,10 +484,14 @@ static Property riscv_cpu_properties[] = {
->>       DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
->>       DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
->>       DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->> +    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
->>       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->>       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->>       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->> +    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
->> +    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->> +    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
->>       DEFINE_PROP_END_OF_LIST(),
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index 07e63016a7..bf2b4b55af 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -64,6 +64,7 @@
->>   #define RVA RV('A')
->>   #define RVF RV('F')
->>   #define RVD RV('D')
->> +#define RVV RV('V')
->>   #define RVC RV('C')
->>   #define RVS RV('S')
->>   #define RVU RV('U')
->> @@ -82,6 +83,8 @@ enum {
->>   #define PRIV_VERSION_1_10_0 0x00011000
->>   #define PRIV_VERSION_1_11_0 0x00011100
->>
->> +#define VEXT_VERSION_0_07_1 0x00000701
->> +
->>   #define TRANSLATE_PMP_FAIL 2
->>   #define TRANSLATE_FAIL 1
->>   #define TRANSLATE_SUCCESS 0
->> @@ -118,6 +121,7 @@ struct CPURISCVState {
->>       target_ulong badaddr;
->>
->>       target_ulong priv_ver;
->> +    target_ulong vext_ver;
->>       target_ulong misa;
->>       target_ulong misa_mask;
->>
->> @@ -226,12 +230,16 @@ typedef struct RISCVCPU {
->>           bool ext_c;
->>           bool ext_s;
->>           bool ext_u;
->> +        bool ext_v;
->>           bool ext_counters;
->>           bool ext_ifencei;
->>           bool ext_icsr;
->>
->>           char *priv_spec;
->>           char *user_spec;
->> +        char *vext_spec;
->> +        uint16_t vlen;
->> +        uint16_t elen;
->>           bool mmu;
->>           bool pmp;
->>       } cfg;
->> --
->> 2.23.0
->>
+David Gibson (12):
+  ppc: Remove stub support for 32-bit hypervisor mode
+  ppc: Remove stub of PPC970 HID4 implementation
+  target/ppc: Correct handling of real mode accesses with vhyp on hash
+    MMU
+  target/ppc: Introduce ppc_hash64_use_vrma() helper
+  spapr, ppc: Remove VPM0/RMLS hacks for POWER9
+  target/ppc: Remove RMOR register from POWER9 & POWER10
+  target/ppc: Use class fields to simplify LPCR masking
+  target/ppc: Streamline calculation of RMA limit from LPCR[RMLS]
+  target/ppc: Correct RMLS table
+  target/ppc: Only calculate RMLS derived RMA limit on demand
+  target/ppc: Streamline construction of VRMA SLB entry
+  target/ppc: Don't store VRMA SLBE persistently
+
+ hw/ppc/spapr_cpu_core.c         |   6 +-
+ target/ppc/cpu-qom.h            |   1 +
+ target/ppc/cpu.h                |  25 +--
+ target/ppc/mmu-hash64.c         | 329 ++++++++++++--------------------
+ target/ppc/translate_init.inc.c |  60 ++++--
+ 5 files changed, 175 insertions(+), 246 deletions(-)
+
+--=20
+2.24.1
 
 
