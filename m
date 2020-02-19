@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B28164658
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:07:53 +0100 (CET)
-Received: from localhost ([::1]:53222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C781164656
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:07:34 +0100 (CET)
+Received: from localhost ([::1]:53214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Q11-00086T-Nl
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:07:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45325)
+	id 1j4Q0j-0007SC-JS
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:07:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farosas@linux.ibm.com>) id 1j4Q01-0006lf-1f
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:06:50 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4Pzi-0006A6-JK
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:06:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farosas@linux.ibm.com>) id 1j4Pzv-00045W-OT
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:06:48 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37940
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
- id 1j4Pzv-000458-K0; Wed, 19 Feb 2020 09:06:43 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01JDxT7M115483; Wed, 19 Feb 2020 09:06:29 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y8ubyxtts-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2020 09:06:29 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01JE03Uw132873;
- Wed, 19 Feb 2020 09:06:28 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y8ubyxtt8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2020 09:06:28 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01JE5TCl008074;
- Wed, 19 Feb 2020 14:06:28 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04dal.us.ibm.com with ESMTP id 2y6896vpdv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Feb 2020 14:06:28 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01JE6RHB54395256
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Feb 2020 14:06:27 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 50C6EAC059;
- Wed, 19 Feb 2020 14:06:27 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 99FFCAC05E;
- Wed, 19 Feb 2020 14:06:26 +0000 (GMT)
-Received: from localhost (unknown [9.86.26.230])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Wed, 19 Feb 2020 14:06:26 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>, groug@kaod.org,
- philmd@redhat.com, qemu-devel@nongnu.org, clg@kaod.org
-Subject: Re: [PATCH v3 04/12] target/ppc: Introduce ppc_hash64_use_vrma()
- helper
-In-Reply-To: <20200219005414.15635-5-david@gibson.dropbear.id.au>
-References: <20200219005414.15635-1-david@gibson.dropbear.id.au>
- <20200219005414.15635-5-david@gibson.dropbear.id.au>
-Date: Wed, 19 Feb 2020 11:06:20 -0300
-Message-ID: <87blpud63n.fsf@linux.ibm.com>
+ (envelope-from <philmd@redhat.com>) id 1j4Pzh-0003xc-J7
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:06:30 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45228
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4Pzh-0003xJ-FA
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:06:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582121188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nfmkL0gZhjyWIvC5i+PLRpP20pvIBHPE9rw6j4CBAYE=;
+ b=AcjUbfVJltfuT67/Anh0e+nWq4qm45n5kPa9c64FYsX/uJ2ocCq9YYG/KrodY0u2iBQTky
+ OhmTkTmoC3a5L4vXZ0dfkx6ORkUHYvaxkFRR1hZEpiQDSDypORW8m1IN7FUCte+B/J4aiD
+ vD6uammhpcmAYzeSRv+4V8qSxflx7D0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-VBr-3b2_POiTgMkbsG6JGw-1; Wed, 19 Feb 2020 09:06:26 -0500
+Received: by mail-wr1-f71.google.com with SMTP id l1so108182wrt.4
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 06:06:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ro2XegLXeefIG2q8mBH68H69OIBwTGs7JRtCzLjFCNw=;
+ b=IN9gROfJ+7k5dKzWJ7M0hoHzgmLKCdB3Ft4SvJSqWJiWgWaKxdug/UAuLpbGJ64wKy
+ 9FEcPnzKLTTOjCsFSa+VPHGeu8PwUYlWthsNvcq/jiDL1y2X2rQLCto8kmaDIQHj3htI
+ SWQUm0CVKEJLtX5ig8lkq/5yZesbrfrivIuQfqlwZas2D2mqWIoNwmHxNUM0OzqxngRw
+ yabM4T6V4Gp8SpOtBg+LlNRgczVwE8p6gzai61+RYP/JtditnSoDN48Q46vKqliB8If8
+ QUCmADM33EmYVs9Bodhx/huPhBuEcPuKtBG17kBHI1Xts2q6MiKlvz3tjie8lcLujPNq
+ oGGA==
+X-Gm-Message-State: APjAAAX28/hFddeuvpavbqyaeBuATWvsz1WVxgq8buUAEGShvcm+NmVq
+ A30O+hveT66+/KoFrh/McS2Frs1GQ6KJKbYNOcsCToqxODqln0hcR+kPlsCeyDHEhTTXsgOPDQd
+ tktZinGpOAs00CgU=
+X-Received: by 2002:a1c:a74d:: with SMTP id q74mr9719707wme.152.1582121185362; 
+ Wed, 19 Feb 2020 06:06:25 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzGCCFonsD4CRdIIwD40sfs0XlmEf95ow3h7dnf0KnhFriVOtAuNnLxCjILQ3rFekFG15i9kQ==
+X-Received: by 2002:a1c:a74d:: with SMTP id q74mr9719696wme.152.1582121185181; 
+ Wed, 19 Feb 2020 06:06:25 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id v17sm2970570wrt.91.2020.02.19.06.06.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Feb 2020 06:06:24 -0800 (PST)
+Subject: Re: [PATCH v5 79/79] tests:numa-test: use explicit memdev to specify
+ node RAM
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20200217173452.15243-1-imammedo@redhat.com>
+ <20200217173452.15243-80-imammedo@redhat.com>
+ <1da9a872-dd64-dd1d-7858-caf263631484@redhat.com>
+ <20200219140030.4e68d053@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a384bc9c-44bc-268a-5a0f-63bccea1542a@redhat.com>
+Date: Wed, 19 Feb 2020 15:06:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200219140030.4e68d053@redhat.com>
+Content-Language: en-US
+X-MC-Unique: VBr-3b2_POiTgMkbsG6JGw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-19_03:2020-02-19,
- 2020-02-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 clxscore=1011 suspectscore=1 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002190108
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,149 +94,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-ppc@nongnu.org, paulus@samba.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
+On 2/19/20 2:00 PM, Igor Mammedov wrote:
+> On Tue, 18 Feb 2020 18:51:34 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>=20
+>> On 2/17/20 6:34 PM, Igor Mammedov wrote:
+>>> Follow up patches will remove automatic RAM distribution
+>>> between nodes and will make default machine types require
+>>> "memdev" option instead of legacy "mem" option.
+>>
+>> Can we keep this patch for the follow up?
+> memdev for numa was there for along time, just untested.
+> With this all numa tests switch to it instead of using
+> legacy option (+ a test for legacy option).
+> I don't think the patch should delayed along with numa
+> cleanups.
 
-> When running guests under a hypervisor, the hypervisor obviously needs to
-> be protected from guest accesses even if those are in what the guest
-> considers real mode (translation off).  The POWER hardware provides two
-> ways of doing that: The old way has guest real mode accesses simply offset
-> and bounds checked into host addresses.  It works, but requires that a
-> significant chunk of the guest's memory - the RMA - be physically
-> contiguous in the host, which is pretty inconvenient.  The new way, known
-> as VRMA, has guest real mode accesses translated in roughly the normal way
-> but with some special parameters.
->
-> In POWER7 and POWER8 the LPCR[VPM0] bit selected between the two modes, b=
-ut
-> in POWER9 only VRMA mode is supported
+I guess what confuses me is "Follow up patches *will* remove..."
 
-... when translation is off, right? Because I see in the 3.0 ISA that
-LPCR[VPM1] is still there.
+>=20
+> It of-cause could be posted as standalone patch as well,
+> I'll leave it upto Paolo whether to merge it or not.
+>  =20
+>>>
+>>> Make tests to follow new rules and add an additional test
+>>> for legacy "mem" option on old machine type, to make sure
+>>> it won't regress in the future.
+>>>
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> Acked-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>
+>=20
 
-> and LPCR[VPM0] no longer exists.  We
-> handle that difference in behaviour in ppc_hash64_set_isi().. but not in
-> other places that we blindly check LPCR[VPM0].
->
-> Correct those instances with a new helper to tell if we should be in VRMA
-> mode.
->
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  target/ppc/mmu-hash64.c | 41 +++++++++++++++++++----------------------
->  1 file changed, 19 insertions(+), 22 deletions(-)
->
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index 5fabd93c92..d878180df5 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -668,6 +668,19 @@ unsigned ppc_hash64_hpte_page_shift_noslb(PowerPCCPU=
- *cpu,
->      return 0;
->  }
->=20=20
-> +static bool ppc_hash64_use_vrma(CPUPPCState *env)
-> +{
-> +    switch (env->mmu_model) {
-> +    case POWERPC_MMU_3_00:
-> +        /* ISAv3.0 (POWER9) always uses VRMA, the VPM0 field and RMOR
-> +         * register no longer exist */
-> +        return true;
-> +
-> +    default:
-> +        return !!(env->spr[SPR_LPCR] & LPCR_VPM0);
-> +    }
-> +}
-> +
->  static void ppc_hash64_set_isi(CPUState *cs, uint64_t error_code)
->  {
->      CPUPPCState *env =3D &POWERPC_CPU(cs)->env;
-> @@ -676,15 +689,7 @@ static void ppc_hash64_set_isi(CPUState *cs, uint64_=
-t error_code)
->      if (msr_ir) {
->          vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM1);
->      } else {
-> -        switch (env->mmu_model) {
-> -        case POWERPC_MMU_3_00:
-> -            /* Field deprecated in ISAv3.00 - interrupts always go to hy=
-perv */
-> -            vpm =3D true;
-> -            break;
-> -        default:
-> -            vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM0);
-> -            break;
-> -        }
-> +        vpm =3D ppc_hash64_use_vrma(env);
->      }
->      if (vpm && !msr_hv) {
->          cs->exception_index =3D POWERPC_EXCP_HISI;
-> @@ -702,15 +707,7 @@ static void ppc_hash64_set_dsi(CPUState *cs, uint64_=
-t dar, uint64_t dsisr)
->      if (msr_dr) {
->          vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM1);
->      } else {
-> -        switch (env->mmu_model) {
-> -        case POWERPC_MMU_3_00:
-> -            /* Field deprecated in ISAv3.00 - interrupts always go to hy=
-perv */
-> -            vpm =3D true;
-> -            break;
-> -        default:
-> -            vpm =3D !!(env->spr[SPR_LPCR] & LPCR_VPM0);
-> -            break;
-> -        }
-> +        vpm =3D ppc_hash64_use_vrma(env);
->      }
->      if (vpm && !msr_hv) {
->          cs->exception_index =3D POWERPC_EXCP_HDSI;
-> @@ -799,7 +796,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
-r eaddr,
->              if (!(eaddr >> 63)) {
->                  raddr |=3D env->spr[SPR_HRMOR];
->              }
-> -        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
-> +        } else if (ppc_hash64_use_vrma(env)) {
->              /* Emulated VRMA mode */
->              slb =3D &env->vrma_slb;
->              if (!slb->sps) {
-> @@ -967,7 +964,7 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu=
-, target_ulong addr)
->          } else if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
->              /* In HV mode, add HRMOR if top EA bit is clear */
->              return raddr | env->spr[SPR_HRMOR];
-> -        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
-> +        } else if (ppc_hash64_use_vrma(env)) {
->              /* Emulated VRMA mode */
->              slb =3D &env->vrma_slb;
->              if (!slb->sps) {
-> @@ -1056,8 +1053,7 @@ static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
->      slb->sps =3D NULL;
->=20=20
->      /* Is VRMA enabled ? */
-> -    lpcr =3D env->spr[SPR_LPCR];
-> -    if (!(lpcr & LPCR_VPM0)) {
-> +    if (ppc_hash64_use_vrma(env)) {
-
-Shouldn't this be !ppc_hash64_use_vrma(env)?
-
-And a comment about the original code: all other places that check
-LPCR_VPM0 do it after verifying that translation is off, except here
-(ppc_hash64_update_vrma). Could that be an issue?
-
->          return;
->      }
->=20=20
-> @@ -1065,6 +1061,7 @@ static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
->       * Make one up. Mostly ignore the ESID which will not be needed
->       * for translation
->       */
-> +    lpcr =3D env->spr[SPR_LPCR];
->      vsid =3D SLB_VSID_VRMA;
->      vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
->      vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
 
