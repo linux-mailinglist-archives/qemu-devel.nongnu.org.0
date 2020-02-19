@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADC8164B67
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:04:22 +0100 (CET)
-Received: from localhost ([::1]:56834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B06164B57
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:02:30 +0100 (CET)
+Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Slp-0002s4-9S
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:04:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41815)
+	id 1j4Sk1-0007Ik-7Y
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:02:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1j4SNf-0001Ub-5S
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:24 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1j4SO5-0002Z0-C5
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1j4SNd-0007EV-QY
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:22 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41085)
+ (envelope-from <robert.foley@linaro.org>) id 1j4SO4-0007vk-Et
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:49 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:40166)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1j4SNd-0007DU-ID
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:21 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id j9so318269pfa.8
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 08:39:21 -0800 (PST)
+ id 1j4SO4-0007vI-8e
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:39:48 -0500
+Received: by mail-pf1-x431.google.com with SMTP id b185so321717pfb.7
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 08:39:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+sXaLRbgfWs+KG5a/pFiZ/MnZmujcMivIdyDGLfFfmA=;
- b=vNkfg+pvX52MmYfnqe5QS/Pe0+4d/pHFLm/PcKADmHew/sGdYfzNk121bYD2s3PQww
- 1yseRE89Wpvma4NW9ndBDsCxX4kasrYCt/AcGSqfyzWr+sxX/+7SogFT20/9wg3D3Gb9
- kmC4CK4NdaCvBU6dBk9hr10Z9YIiPMT4+dmg9SZXm+LXsaydFKKYRctg/bUKDDyWIN2e
- DTmZXvpcj4AuonIvcnv3aLlyjNtRUKNht1LQ0rjiw8HYshgkl++uYHt0A4eJqjrWGCxf
- p9njpiKDPHnpSlqSjBkHqLBEHaRhckwsmZnqGh1WtZPi+r6ArM4h+OxLv3rQjCHfz39d
- 86VA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pmyPbYDPgMfj7iewXRlwREPC4GaTkOAO8bGCy51JlgY=;
+ b=me9bIlsoI9mi9isAShNfpwuA3sKkAuaDhcHsLJfUCKQx43EUxvuiDzlM8C4NBbaqCe
+ pWcWjDd+5nfbN4PS7XtSC1W6iwJ0+c+u0UpjJPwgNVOa8zt+x9gAR9w6SvKjbsxkHrH+
+ JOeHw6dUOJZJKbG9hoAAEYyHfzRWi2Bj9/GLmQPFD4Enw7m2UkzM33V3RmWdbYw6gPtD
+ aH/0jWNX0NOyO6SHYsYkIJNHkCgvBHpDI5cdm8dqUhpz12VNsxWMZxRP4l2IlKGp+T5E
+ IXDDDShhQf6qYsHIhznckgFc390aA4V2hRrFQdOUs4MRC44GgBTFUU/tJ/wdJL7d1KSF
+ 3cUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+sXaLRbgfWs+KG5a/pFiZ/MnZmujcMivIdyDGLfFfmA=;
- b=Jbm3M6zu+T8aGT/UWWL70gGaVVmZeiGPq6OAJyFl3ATMCwAo40f87F3pzMSvOLBsme
- 4e+5/8pwwhya+H6Fzew1upT0/1GiXgHPDe53nhcB7fC5md+yBKYhoeP8tnjWL8/+yqyq
- c8uaP2x8HM0YuVd7YGUhcAjCbrihTIuoIJWAJnheYknGXXU3DW7B+66qgfWCIOL4SXe4
- sXazf+y0jpHDDkmpFrFiKleY3TD4GTH8+ip14P7j8akOaXSJE3NLZUXQ55whHsqhxeFZ
- 3J/HUiEXKLbveeewxHT9S2XmjADAUknG1laGxobuATrVISSMAfFhJ7CwY8uIbpu0o0io
- aVuQ==
-X-Gm-Message-State: APjAAAVVRWx5KEGHQyWyTl4031lIZgtpYS5Wod25JZcSU9dSv35fGvQ1
- wSMDLYwNb7wmjn9pwlMijErV9cdBLsI=
-X-Google-Smtp-Source: APXvYqxT887kXZzpuXgArF4tSnRn5cqnxrpJVd1tn6Ql9PtQnNP5vINKuB8uzv2OFwB+PCFPFSYx+A==
-X-Received: by 2002:a65:4305:: with SMTP id j5mr29900100pgq.315.1582130359613; 
- Wed, 19 Feb 2020 08:39:19 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pmyPbYDPgMfj7iewXRlwREPC4GaTkOAO8bGCy51JlgY=;
+ b=KZCFzHY/owSeCIYQ3lUVoZc4iZ3MVdZvVtv5iS+d+Z7LVRDxZwGnmafWk0z3gj02c6
+ HzTneNbVx1knXb0J77G1VtDzLiQ41gTxS+AvPhqUH6QrHbLKCTXYmQ96Yo9gCa8pP4sH
+ 3jRPiUreh0Aqhz9+0enASHXUxkQxoo4+tTLTvoRDo+3FdPnYaXuXVKPJ24WBBuJPT7mp
+ RDqdkM/PcHAhoqH/Gh8sTrfVaCfsmxkBX5LiXmWjxj4Fqu9fggn5KBBM3WWFWYNpNQ2E
+ 4WQIIj1sVwJrFDGVRCRTMvQ1tf47IUghnWNjrbs+7DBAf9GF/Rnr03Xu+cZkaTDF2MEC
+ im/w==
+X-Gm-Message-State: APjAAAWG8HBViVIa/atdswFo7udEOFUld9sygJ0GmnlLPAAWJjh6AaTi
+ DaMfbL4k7t8fFUf7YKnDNCxzTlkWLKo=
+X-Google-Smtp-Source: APXvYqzwXSINC6ZBEIjCZB79xAeW7IjB3zJj95Ws1yUKeTUUZ0no53AqJNm56W1NISBHsKTr5IPMog==
+X-Received: by 2002:a63:7453:: with SMTP id e19mr1077790pgn.50.1582130387017; 
+ Wed, 19 Feb 2020 08:39:47 -0800 (PST)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:3cc2:5eb7:e248:ad23])
- by smtp.gmail.com with ESMTPSA id a69sm112362pfa.129.2020.02.19.08.39.17
+ by smtp.gmail.com with ESMTPSA id a69sm112362pfa.129.2020.02.19.08.39.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Feb 2020 08:39:18 -0800 (PST)
+ Wed, 19 Feb 2020 08:39:46 -0800 (PST)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/14] tests/vm: Add support for aarch64 VMs
-Date: Wed, 19 Feb 2020 11:35:23 -0500
-Message-Id: <20200219163537.22098-1-robert.foley@linaro.org>
+Subject: [PATCH v2 01/14] tests/vm: use $(PYTHON) consistently
+Date: Wed, 19 Feb 2020 11:35:24 -0500
+Message-Id: <20200219163537.22098-2-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200219163537.22098-1-robert.foley@linaro.org>
+References: <20200219163537.22098-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42e
+X-Received-From: 2607:f8b0:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,74 +84,29 @@ Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is version 2 of the patch series to 
-add support for aarch64 VMs.  
- - Ubuntu 18.04 aarch64 VM
- - CentOS 8 aarch64 VM
+Change Makefile.include to use $(PYTHON) so for vm-boot-ssh to be
+consistent with other cases like vm-build.
 
-V1: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg01180.html
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+---
+ tests/vm/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in version 2
-- Most changes relate to the patch: "Add workaround to consume console".
-   - We changed this patch to make it cleaner.
-   - We added a ConsoleSocket, which slots in for the current console socket
-     with the difference being that we drain this socket in the background on a
-     callback basis.  
-   - We also made the logging of the console to file optional
- - Relocated the log file path and name. For example:
-   ~/.cache/qemu-vm/ubuntu.aarch64.install.log 
-- Made one fix for a hang issue we were seeing.
-  - The issue was a timing problem around a reboot where the
-     ubuntu.aarch64 script assumed the reboot guaranteed that 
-     the next successful command would occur after the reboot.
-   - The fix is to simply make it more deterministic by shutting down the
-     VM and restarting it instead of issuing the reboot.
-- Made a few changes to CentOS VM to update its dependencies properly.
-- We made a few changes related to latin1 vs utf-8.
-  We found in some cases the latin1 is needed for chars coming out of the i
-  socket which do not have a utf-8 equivalent.
-
-Robert Foley (14):
-  tests/vm: use $(PYTHON) consistently
-  tests/vm: Debug mode shows ssh output.
-  tests/vm: increased max timeout for vm boot.
-  tests/vm: give wait_ssh() option to wait for root
-  tests/vm: Added gen_cloud_init_iso() to basevm.py
-  tests/vm: Add workaround to consume console
-  tests/vm: Add configuration to basevm.py
-  tests/vm: Added configuration file support
-  tests/vm: add --boot-console switch
-  tests/vm: Add ability to select QEMU from current build.
-  tests/vm: allow wait_ssh() to specify command
-  tests/vm: Added a new script for ubuntu.aarch64.
-  tests/vm: Added a new script for centos.aarch64.
-  tests/vm: change scripts to use self._config
-
- python/qemu/console_socket.py     | 162 ++++++++++++++++
- python/qemu/machine.py            |  12 +-
- tests/vm/Makefile.include         |  20 +-
- tests/vm/aarch64vm.py             | 100 ++++++++++
- tests/vm/basevm.py                | 294 +++++++++++++++++++++++++-----
- tests/vm/centos                   |  33 +---
- tests/vm/centos-8-aarch64.ks      |  51 ++++++
- tests/vm/centos.aarch64           | 224 +++++++++++++++++++++++
- tests/vm/conf_example_aarch64.yml |  51 ++++++
- tests/vm/conf_example_x86.yml     |  50 +++++
- tests/vm/fedora                   |  17 +-
- tests/vm/freebsd                  |  16 +-
- tests/vm/netbsd                   |  19 +-
- tests/vm/openbsd                  |  17 +-
- tests/vm/ubuntu.aarch64           | 117 ++++++++++++
- tests/vm/ubuntu.i386              |  37 +---
- 16 files changed, 1069 insertions(+), 151 deletions(-)
- create mode 100644 python/qemu/console_socket.py
- create mode 100644 tests/vm/aarch64vm.py
- create mode 100644 tests/vm/centos-8-aarch64.ks
- create mode 100755 tests/vm/centos.aarch64
- create mode 100644 tests/vm/conf_example_aarch64.yml
- create mode 100644 tests/vm/conf_example_x86.yml
- create mode 100755 tests/vm/ubuntu.aarch64
-
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 9e7c46a473..778e506755 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -80,7 +80,7 @@ vm-boot-serial-%: $(IMAGES_DIR)/%.img
+ 
+ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
+ 	$(call quiet-command, \
+-		$(SRC_PATH)/tests/vm/$* \
++		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
+ 		$(if $(J),--jobs $(J)) \
+ 		--image "$<" \
+ 		--interactive \
 -- 
 2.17.1
 
