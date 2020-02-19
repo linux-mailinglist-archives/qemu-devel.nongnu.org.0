@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE614164A7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:34:48 +0100 (CET)
-Received: from localhost ([::1]:55916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3528E164A85
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:35:39 +0100 (CET)
+Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SJD-0007w1-Vi
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:34:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
+	id 1j4SK2-00016M-72
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:35:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4Rw8-0003qd-R1
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:57 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4RwC-00041F-Io
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rw7-000113-Of
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:56 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59212
+ (envelope-from <imammedo@redhat.com>) id 1j4Rw9-00011x-0Q
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:00 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55214
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rw7-00010k-Ju
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:55 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rw8-00011c-Se
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128655;
+ s=mimecast20190719; t=1582128656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RvzDzCLroL8ZQYu0S3xDnyf0sc9quNuUaGJMW+M8050=;
- b=JWoqZ6Ze+dVHPzikhSVky560IihzTT8cXNS2Mma5ZoLs/YAF/oaXQQbrpHcSSe/AXxdqre
- ahPqT889U2K5xUjOIM4W7IgEoDSimfZ51aCWOuHNnJdXeSSX6uMI2jXbEjaZTYGhkH+Lbj
- 0bnK6Fmedes0ZIo3EwRcILqq0j8i3yM=
+ bh=z//QpzTQCOC5SMA/0cilewHk7hrp6uKkSGm7/CFDye4=;
+ b=M4jULzJw8Zt+STSWcXpMldXEgBJTli+FQZ49DIfC0wceJFhWaq/D54MhhZ4Rk/19xdcwlt
+ th84SQDvrf5MfOrH5M6OoyyHvR9w6eldksNCHv2UUwmTpgdOONb3QXL35BwfcX3XG0yNvJ
+ 9+TnSytjDAu6qzJoQ2IqarruutOPc5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-UAjcENQWMR-wyRtb53ZztQ-1; Wed, 19 Feb 2020 11:10:53 -0500
+ us-mta-366-ONxiC4cLMuSLsi6RuN99Lg-1; Wed, 19 Feb 2020 11:10:54 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C5FC802B84
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:10:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54874801A0D
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:10:53 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA10048;
- Wed, 19 Feb 2020 16:10:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A483C8ECF3;
+ Wed, 19 Feb 2020 16:10:52 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 48/79] m68k/mcf5208: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:22 -0500
-Message-Id: <20200219160953.13771-49-imammedo@redhat.com>
+Subject: [PATCH v6 49/79] m68k/next-cube: use memdev for RAM
+Date: Wed, 19 Feb 2020 11:09:23 -0500
+Message-Id: <20200219160953.13771-50-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: UAjcENQWMR-wyRtb53ZztQ-1
+X-MC-Unique: ONxiC4cLMuSLsi6RuN99Lg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -88,42 +88,40 @@ Acked-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/m68k/mcf5208.c | 5 ++---
+ hw/m68k/next-cube.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index a999c21982..31622c71cb 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -234,7 +234,6 @@ static void mcf5208evb_init(MachineState *machine)
-     qemu_irq *pic;
-     MemoryRegion *address_space_mem =3D get_system_memory();
-     MemoryRegion *rom =3D g_new(MemoryRegion, 1);
+diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+index e5343348d0..cd93d9e367 100644
+--- a/hw/m68k/next-cube.c
++++ b/hw/m68k/next-cube.c
+@@ -860,7 +860,6 @@ static void next_cube_init(MachineState *machine)
+ {
+     M68kCPU *cpu;
+     CPUM68KState *env;
 -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *sram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *rom =3D g_new(MemoryRegion, 1);
+     MemoryRegion *mmiomem =3D g_new(MemoryRegion, 1);
+     MemoryRegion *scrmem =3D g_new(MemoryRegion, 1);
+@@ -893,8 +892,7 @@ static void next_cube_init(MachineState *machine)
+     memcpy(ns->rtc.ram, rtc_ram2, 32);
 =20
-     cpu =3D M68K_CPU(cpu_create(machine->cpu_type));
-@@ -249,8 +248,7 @@ static void mcf5208evb_init(MachineState *machine)
-     memory_region_add_subregion(address_space_mem, 0x00000000, rom);
+     /* 64MB RAM starting at 0x04000000  */
+-    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_size);
+-    memory_region_add_subregion(sysmem, 0x04000000, ram);
++    memory_region_add_subregion(sysmem, 0x04000000, machine->ram);
 =20
-     /* DRAM at 0x40000000 */
--    memory_region_allocate_system_memory(ram, NULL, "mcf5208.ram", ram_siz=
-e);
--    memory_region_add_subregion(address_space_mem, 0x40000000, ram);
-+    memory_region_add_subregion(address_space_mem, 0x40000000, machine->ra=
-m);
-=20
-     /* Internal SRAM.  */
-     memory_region_init_ram(sram, NULL, "mcf5208.sram", 16 * KiB, &error_fa=
-tal);
-@@ -354,6 +352,7 @@ static void mcf5208evb_machine_init(MachineClass *mc)
-     mc->init =3D mcf5208evb_init;
-     mc->is_default =3D 1;
-     mc->default_cpu_type =3D M68K_CPU_TYPE_NAME("m5208");
-+    mc->default_ram_id =3D "mcf5208.ram";
+     /* Framebuffer */
+     dev =3D qdev_create(NULL, TYPE_NEXTFB);
+@@ -967,6 +965,7 @@ static void next_machine_class_init(ObjectClass *oc, vo=
+id *data)
+     mc->desc =3D "NeXT Cube";
+     mc->init =3D next_cube_init;
+     mc->default_ram_size =3D RAM_SIZE;
++    mc->default_ram_id =3D "next.ram";
+     mc->default_cpu_type =3D M68K_CPU_TYPE_NAME("m68040");
  }
 =20
- DEFINE_MACHINE("mcf5208evb", mcf5208evb_machine_init)
 --=20
 2.18.1
 
