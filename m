@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9E8164AE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:47:27 +0100 (CET)
-Received: from localhost ([::1]:56258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AD2164B43
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:59:56 +0100 (CET)
+Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SVS-0001Um-Ly
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:47:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41159)
+	id 1j4ShX-0003Hq-Ou
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:59:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1j4SIP-0007F1-Tp
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:33:58 -0500
+ (envelope-from <ovoshcha@redhat.com>) id 1j4SIT-0007Ou-5p
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:34:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1j4SIO-0003RJ-7J
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:33:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59972
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <ovoshcha@redhat.com>) id 1j4SIR-0003TP-TJ
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:34:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58135
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j4SIO-0003Qp-3B
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:33:56 -0500
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j4SIR-0003T6-Os
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:33:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582130035;
+ s=mimecast20190719; t=1582130039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UW2YJMWqg7N+PSqPap1qQzEuiRMH3WsQdq2V7QM1JZ8=;
- b=fxgOiUxU8g1fS/IhhVHGiY7hV+09Bz8DSb+oDXhP1Cpqmb9m/Ty/sHAW+YeOBXS/gcmqQt
- YLThrvbZYEnlFK9uUHk35AoURGSVcJS1S8svWkCuIkouViJI/RGyIR8Uz8kdtfjIeSFr/E
- FKFCuq2a3G5p96lC/72UDXIUnMkGqzE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ycKK3EZ7C0Wdt+5RE3QVwYTEvg2h7ONgXeE2mgOLxJg=;
+ b=CiBvmbq+jpYwAsNHvcUfE5+nJv+RG0wzGA4b70Y3v/865y3MMCJyeqRHFqXOW4LnRDlRwj
+ Eo/DBITy+jwGrFmPIdB8gFN3ROeL/TQ7Zw39FAk2F4z3Ml78eUMO7CFFzr8kc355tbRQii
+ geZgLaxt4MFNUtx0H5aB1C/haRK3A2g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-rodx5PikP1au1mJILPvS1w-1; Wed, 19 Feb 2020 11:33:50 -0500
+ us-mta-214-uMpzDTJxMjGwzNImdCmXpA-1; Wed, 19 Feb 2020 11:33:53 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DA5F107ACC5
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:33:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47953101FC67
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:33:52 +0000 (UTC)
 Received: from kh066.redhat.com (ovpn-205-79.brq.redhat.com [10.40.205.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9449760BE1;
- Wed, 19 Feb 2020 16:33:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8090560BE1;
+ Wed, 19 Feb 2020 16:33:50 +0000 (UTC)
 From: Oksana Vohchana <ovoshcha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] Migration mechanism with FD
-Date: Wed, 19 Feb 2020 18:33:41 +0200
-Message-Id: <20200219163344.27651-1-ovoshcha@redhat.com>
+Subject: [PATCH 1/3] Adding functions _send_fds and _recv_fds
+Date: Wed, 19 Feb 2020 18:33:42 +0200
+Message-Id: <20200219163344.27651-2-ovoshcha@redhat.com>
+In-Reply-To: <20200219163344.27651-1-ovoshcha@redhat.com>
+References: <20200219163344.27651-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: rodx5PikP1au1mJILPvS1w-1
+X-MC-Unique: uMpzDTJxMjGwzNImdCmXpA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,21 +75,59 @@ Cc: philmd@redhat.com, ehabkost@redhat.com, wainersm@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To test migration through the file descriptor we should build and provide
-a path to socket_scm_helper file. This way is inconvenient for acceptance
-testing.
-This series provides new functions to receive and send messages over a UNIX
-socket. And adds a new migration test.
+It provides new possibilities to send or receive data through the Unix doma=
+in
+socket file descriptor.
+This is useful for obtaining a socket that belongs to a different network
+namespace.
 
-Oksana Vohchana (3):
-  Adding functions _send_fds and _recv_fds
-  Updates send_fd_scm function
-  Acceptance test: FD migration
+Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+---
+ python/qemu/machine.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
- python/qemu/machine.py        | 74 ++++++++++++++++++++++++-----------
- tests/acceptance/migration.py | 20 ++++++++++
- 2 files changed, 72 insertions(+), 22 deletions(-)
-
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 183d8f3d38..8c5bd64795 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -24,6 +24,7 @@ import subprocess
+ import shutil
+ import socket
+ import tempfile
++import array
+=20
+ from . import qmp
+=20
+@@ -155,6 +156,23 @@ class QEMUMachine(object):
+         self._args.append(','.join(options))
+         return self
+=20
++    def _recv_fds(self, sock, msglen=3D8192, maxfds=3D4096):
++        """
++        Function from https://docs.python.org/3/library/socket.html#socket=
+.socket.recvmsg
++        """
++        fds =3D array.array("i")
++        msg, ancdata, flags, addr =3D sock.recvmsg(msglen, socket.CMSG_LEN=
+(maxfds * fds.itemsize))
++        for cmsg_level, cmsg_type, cmsg_data in ancdata:
++            if cmsg_level =3D=3D socket.SOL_SOCKET and cmsg_type =3D=3D so=
+cket.SCM_RIGHTS:
++                fds.frombytes(cmsg_data[:len(cmsg_data) - (len(cmsg_data) =
+% fds.itemsize)])
++        return msg, list(fds)
++
++    def _send_fds(self, sock, msg, fds):
++        """
++        Function from https://docs.python.org/3/library/socket.html#socket=
+.socket.sendmsg
++        """
++        return sock.sendmsg([msg], [(socket.SOL_SOCKET, socket.SCM_RIGHTS,=
+ array.array("i", fds))])
++
+     def send_fd_scm(self, fd=3DNone, file_path=3DNone):
+         """
+         Send an fd or file_path to socket_scm_helper.
 --=20
 2.21.1
 
