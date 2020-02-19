@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2198B1643A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 12:48:18 +0100 (CET)
-Received: from localhost ([::1]:51296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9B61643E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 13:06:56 +0100 (CET)
+Received: from localhost ([::1]:51510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Npx-0007Cg-7A
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 06:48:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47531)
+	id 1j4O7z-0006SO-CC
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 07:06:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kchamart@redhat.com>) id 1j4NoA-0006Hh-3W
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 06:46:27 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j4O7I-00060G-Ab
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 07:06:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1j4No8-0004Xc-AZ
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 06:46:26 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45724
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1j4No8-0004XB-6Y
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 06:46:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582112783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GMHTra8XgW0Lfzs5jPKH7c0H1FtCNmxKAFmw26cbOVE=;
- b=eTtTFkcUZhNuuurpkKxsD0V4dkJaCgiKs5PnbfIe1nlrTtM6TaOHlDzjmlB+b8zMuurYEJ
- sFijK12LlbFEfgkt8IpLyLdB1tUts1qRI2caKw3o12bsHOHUa0w5J0vQHGYPc9VR89Uixk
- iozeuSvre549kBRvoArFHBySRfKWp0E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-WcdFAUNaOKqF1uodmu8N7w-1; Wed, 19 Feb 2020 06:46:15 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 419D2800D50;
- Wed, 19 Feb 2020 11:46:14 +0000 (UTC)
-Received: from paraplu.localdomain (unknown [10.36.118.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F369D19E9C;
- Wed, 19 Feb 2020 11:46:12 +0000 (UTC)
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: kchamart@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] qemu-cpu-models.rst: Document -noTSX, mds-no, taa-no,
- and tsx-ctrl
-Date: Wed, 19 Feb 2020 12:46:07 +0100
-Message-Id: <20200219114607.1855-3-kchamart@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1j4O7G-0003mP-Qp
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 07:06:11 -0500
+Resent-Date: Wed, 19 Feb 2020 07:06:11 -0500
+Resent-Message-Id: <E1j4O7G-0003mP-Qp@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21135)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j4O7G-0003kI-JV
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 07:06:10 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1582113958; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AO1jeayMnbVmBidxeAAc0R3z794nnPcLPzONaCGA6nsNOV4N1243uIzqcnwJD5KOLdhXAK+hlLtjNoR1OIBiBY+ZZlLwCfn1jXWzv2S7iOIn5uTOvJGTfFYt/D6QUhrcGKel6pACojEATqgE5q6tz84jRtIX4HcJ435ci12c/B0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1582113958;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=cEj/fXiEehXa0ohiRB3h626C+Vm1/oLeAWxJwBNvB0U=; 
+ b=deS9a0gUGEJVICwRcfXzAn45oSlHKCnbsGmESt1A3tmfx8/JDGTz+JImKMqFqQv8Kfy91QaIZkcecT2+0sCr96eNyELyNmoAfHI7AgD21nOW+oW6ReMV3j1Oo6g1xmL8CS8jiJbufA6+IVrmvNSXxGtfHeH+8d17nbinj8Sug+A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1582113956138352.924249662605;
+ Wed, 19 Feb 2020 04:05:56 -0800 (PST)
 In-Reply-To: <20200219114607.1855-1-kchamart@redhat.com>
-References: <20200219114607.1855-1-kchamart@redhat.com>
+Subject: Re: [PATCH v2 0/2] This small series does two things:
+Message-ID: <158211395491.21924.8902047009395541691@a1bbccc8075a>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: WcdFAUNaOKqF1uodmu8N7w-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kchamart@redhat.com
+Date: Wed, 19 Feb 2020 04:05:56 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,147 +64,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, kchamart@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Add the '-noTSX' variants for CascadeLake and SkyLake.
-
-- Document the three MSR bits: 'mds-no', 'taa-no', and 'tsx-ctrl'
-
-  Two confusing things about 'mds-no' (and the first point applies to
-  the other two MSRs too):
-
-  (1) The 'mds-no' bit will _not_ show up in the guest's /proc/cpuinfo.
-      Rather it is used to fill in the guest's sysfs:
-
-        /sys/devices/system/cpu/vulnerabilities/mds:Not affected
-
-      Paolo confirmed on IRC as such.
-
-  (2) There are _three_ variants[+] of CascadeLake CPUs, with different
-      stepping levels: 5, 6, and 7.  To quote wikichip.org[*]:
-
-        "note that while steppings 6 & 7 are fully mitigated, earlier
-        stepping 5 is not protected against MSBDS, MLPDS, nor MDSUM"
-
-      The above is also indicated in the Intel's document[+], as
-      indicated by "No" under the three columns of MFBDS, MSBDS, and
-      MLPDS.
-
-  I've expressed this in the docs without belabouring the details.
-
-      [+] https://software.intel.com/security-software-guidance/insights/pr=
-ocessors-affected-microarchitectural-data-sampling
-      [*] https://en.wikichip.org/wiki/intel/microarchitectures/cascade_lak=
-e#Key_changes_from_Skylake
-
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
----
-[Retaining the change-log from the Texinfo-variant of this patch, which
-is now no-longer needed:
-https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg06455.html]
-
-v3:
- - Address feedback from Paolo
- - Add URL to the deep-dive on Intel's MDS
-v2:
- - Address feedback from DanPB
- - Add sections on 'taa-no' and 'tsx-ctrl'
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
----
- docs/system/qemu-cpu-models.rst | 61 ++++++++++++++++++++++++++++++---
- 1 file changed, 56 insertions(+), 5 deletions(-)
-
-diff --git a/docs/system/qemu-cpu-models.rst b/docs/system/qemu-cpu-models.=
-rst
-index 2332fba1f9..5030dbef64 100644
---- a/docs/system/qemu-cpu-models.rst
-+++ b/docs/system/qemu-cpu-models.rst
-@@ -51,15 +51,18 @@ mixture of host CPU models between machines, if live mi=
-gration
- compatibility is required, use the newest CPU model that is compatible
- across all desired hosts.
-=20
-+* Intel Xeon Processor (Cascade Lake, 2019), with "stepping" levels 6 or
-+  7 only.  (The Cascade Lake Xeon processor with *stepping 5 is
-+  vulnerable to MDS variants*.)
-+
-+  * ``Cascadelake-Server``
-+  * ``Cascadelake-Server-noTSX``
-+
- * Intel Xeon Processor (Skylake, 2016)
-=20
-   * ``Skylake-Server``
-   * ``Skylake-Server-IBRS``
--
--* Intel Core Processor (Skylake, 2015)
--
--  * ``Skylake-Client``
--  * ``Skylake-Client-IBRS``
-+  * ``Skylake-Server-IBRS-noTSX``
-=20
- * Intel Core Processor (Broadwell, 2014)
-=20
-@@ -172,6 +175,54 @@ features are included if using "Host passthrough" or "=
-Host model".
-   Requires the host CPU microcode to support this feature before it
-   can be used for guest CPUs.
-=20
-+``mds-no``
-+  Recommended to inform the guest OS that the host is *not* vulnerable
-+  to any of the MDS variants ([MFBDS] CVE-2018-12130, [MLPDS]
-+  CVE-2018-12127, [MSBDS] CVE-2018-12126).
-+
-+  This is an MSR (Model-Specific Register) feature rather than a CPUID fea=
-ture,
-+  so it will not appear in the Linux ``/proc/cpuinfo`` in the host or
-+  guest.  Instead, the host kernel uses it to populate the MDS
-+  vulnerability file in ``sysfs``.
-+
-+  So it should only be enabled for VMs if the host reports @code{Not
-+  affected} in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
-+
-+``taa-no``
-+  Recommended to inform that the guest that the host is ``not``
-+  vulnerable to CVE-2019-11135, TSX Asynchronous Abort (TAA).
-+
-+  This too is an MSR feature, so it does not show up in the Linux
-+  ``/proc/cpuinfo`` in the host or guest.
-+
-+  It should only be enabled for VMs if the host reports ``Not affected``
-+  in the ``/sys/devices/system/cpu/vulnerabilities/tsx_async_abort``
-+  file.
-+
-+``tsx-ctrl``
-+  Recommended to inform the guest that it can disable the Intel TSX
-+  (Transactional Synchronization Extensions) feature; or, if the
-+  processor is vulnerable, use the Intel VERW instruction (a
-+  processor-level instruction that performs checks on memory access) as
-+  a mitigation for the TAA vulnerability.  (For details, refer to this
-+  `Intel's deep-dive into
-+  MDS <https://software.intel.com/security-software-guidance/insights/deep=
--dive-intel-analysis-microarchitectural-data-sampling>`_.)
-+
-+  Expose this to the guest OS if and only if: (a) the host has TSX
-+  enabled; *and* (b) the guest has ``rtm`` CPU flag enabled.
-+
-+  By disabling TSX, KVM-based guests can avoid paying the price of
-+  mitigting TSX-based attacks.
-+
-+  Note that ``tsx-ctrl`` too is an MSR feature, so it does not show
-+  up in the Linux ``/proc/cpuinfo`` in the host or guest.
-+
-+  To validate that Intel TSX is indeed disabled for the guest, there are
-+  two ways: (a) check for the *absence* of ``rtm`` in the guest's
-+  ``/proc/cpuinfo``; or (b) the
-+  ``/sys/devices/system/cpu/vulnerabilities/tsx_async_abort`` file in
-+  the guest should report ``Mitigation: TSX disabled``.
-+
-=20
- Preferred CPU models for AMD x86 hosts
- --------------------------------------
---=20
-2.21.0
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxOTExNDYwNy4xODU1
+LTEta2NoYW1hcnRAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
+bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
+b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogICAgcmFpc2UgQ2Fs
+bGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJy
+b3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAn
+Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1hODM1NjRlNGVjNjc0NjlhOGU0ZjQ2ZmVjZjQ1YzMxZics
+ICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICct
+LXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0n
+LCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19F
+TlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3Bh
+dGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdics
+ICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtN2JveWZqaHEvc3JjL2RvY2tlci1zcmMuMjAy
+MC0wMi0xOS0wNy4wMy41MC45MDk6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywg
+Jy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtbWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhp
+dCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9
+YTgzNTY0ZTRlYzY3NDY5YThlNGY0NmZlY2Y0NWMzMWYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVu
+XSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRl
+c3Rlci10bXAtN2JveWZqaHEvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0Bm
+ZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgMm00LjU4M3MKdXNlciAgICAwbTcuNjA3cwoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAyMTkx
+MTQ2MDcuMTg1NS0xLWtjaGFtYXJ0QHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVk
+b3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
