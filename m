@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3528E164A85
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:35:39 +0100 (CET)
-Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47D7164A8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:36:35 +0100 (CET)
+Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SK2-00016M-72
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:35:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37602)
+	id 1j4SKw-000339-RJ
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:36:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37632)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4RwC-00041F-Io
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:01 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4RwG-0004D4-Kk
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rw9-00011x-0Q
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55214
+ (envelope-from <imammedo@redhat.com>) id 1j4RwE-00014l-8v
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:04 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47271
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rw8-00011c-Se
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:56 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwE-00014U-4z
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128656;
+ s=mimecast20190719; t=1582128661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z//QpzTQCOC5SMA/0cilewHk7hrp6uKkSGm7/CFDye4=;
- b=M4jULzJw8Zt+STSWcXpMldXEgBJTli+FQZ49DIfC0wceJFhWaq/D54MhhZ4Rk/19xdcwlt
- th84SQDvrf5MfOrH5M6OoyyHvR9w6eldksNCHv2UUwmTpgdOONb3QXL35BwfcX3XG0yNvJ
- 9+TnSytjDAu6qzJoQ2IqarruutOPc5Q=
+ bh=zJoF9bjb/rYr/5dHOfhWXVu17dCwj5n+YUorzMMtRNo=;
+ b=aHAbsXNsSR7gmyq1V7gWOGCgyCPj7at2DkuRwE9BaZc8XX1x2fjtWdnzQ6oybP0WFikROe
+ 3swtIiUYVNNsROS65cvVV9mly76dhqxQJ9+2th/94qpfVrqum1GPtxIS93U9wGpdp70zFJ
+ twYpNFh5lKadFJvBJFcImijNbWnguoQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-ONxiC4cLMuSLsi6RuN99Lg-1; Wed, 19 Feb 2020 11:10:54 -0500
+ us-mta-199-h2bPrD0sPV-zPWZzn1Y14g-1; Wed, 19 Feb 2020 11:10:58 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54874801A0D
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:10:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A25E68EDE42;
+ Wed, 19 Feb 2020 16:10:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A483C8ECF3;
- Wed, 19 Feb 2020 16:10:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 991D58ECF3;
+ Wed, 19 Feb 2020 16:10:54 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 49/79] m68k/next-cube: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:23 -0500
-Message-Id: <20200219160953.13771-50-imammedo@redhat.com>
+Subject: [PATCH v6 51/79] mips/mips_fulong2e: drop RAM size fixup
+Date: Wed, 19 Feb 2020 11:09:25 -0500
+Message-Id: <20200219160953.13771-52-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ONxiC4cLMuSLsi6RuN99Lg-1
+X-MC-Unique: h2bPrD0sPV-zPWZzn1Y14g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,57 +72,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: amarkovic@wavecomp.com, Paolo Bonzini <pbonzini@redhat.com>,
+ aleksandar.rikalo@rt-rk.com, philmd@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported.
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/m68k/next-cube.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+v2:
+ * fix format string cousing build failure on 32-bit host
+   (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+v3:
+ * since size is ifxed, just hardcode 256Mb value as text
+   in error message
+   (BALATON Zoltan <balaton@eik.bme.hu>)
 
-diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-index e5343348d0..cd93d9e367 100644
---- a/hw/m68k/next-cube.c
-+++ b/hw/m68k/next-cube.c
-@@ -860,7 +860,6 @@ static void next_cube_init(MachineState *machine)
- {
-     M68kCPU *cpu;
-     CPUM68KState *env;
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *rom =3D g_new(MemoryRegion, 1);
-     MemoryRegion *mmiomem =3D g_new(MemoryRegion, 1);
-     MemoryRegion *scrmem =3D g_new(MemoryRegion, 1);
-@@ -893,8 +892,7 @@ static void next_cube_init(MachineState *machine)
-     memcpy(ns->rtc.ram, rtc_ram2, 32);
+CC: philmd@redhat.com
+CC: amarkovic@wavecomp.com
+CC: aurelien@aurel32.net
+CC: aleksandar.rikalo@rt-rk.com
+CC: balaton@eik.bme.hu
+---
+ hw/mips/mips_fulong2e.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 2e043cbb98..cf00211bd2 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -296,7 +296,6 @@ static void mips_fulong2e_init(MachineState *machine)
+     MemoryRegion *address_space_mem =3D get_system_memory();
+     MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+-    ram_addr_t ram_size =3D machine->ram_size;
+     long bios_size;
+     uint8_t *spd_data;
+     Error *err =3D NULL;
+@@ -315,10 +314,14 @@ static void mips_fulong2e_init(MachineState *machine)
+     qemu_register_reset(main_cpu_reset, cpu);
 =20
-     /* 64MB RAM starting at 0x04000000  */
--    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_size);
--    memory_region_add_subregion(sysmem, 0x04000000, ram);
-+    memory_region_add_subregion(sysmem, 0x04000000, machine->ram);
+     /* TODO: support more than 256M RAM as highmem */
+-    ram_size =3D 256 * MiB;
++    if (machine->ram_size !=3D 256 * MiB) {
++        error_report("Invalid RAM size, should be 256MB");
++        exit(EXIT_FAILURE);
++    }
 =20
-     /* Framebuffer */
-     dev =3D qdev_create(NULL, TYPE_NEXTFB);
-@@ -967,6 +965,7 @@ static void next_machine_class_init(ObjectClass *oc, vo=
-id *data)
-     mc->desc =3D "NeXT Cube";
-     mc->init =3D next_cube_init;
-     mc->default_ram_size =3D RAM_SIZE;
-+    mc->default_ram_id =3D "next.ram";
-     mc->default_cpu_type =3D M68K_CPU_TYPE_NAME("m68040");
- }
+     /* allocate RAM */
+-    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram", ram_si=
+ze);
++    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram",
++                                         machine->ram_size);
+     memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+                            &error_fatal);
+     memory_region_set_readonly(bios, true);
+@@ -332,7 +335,7 @@ static void mips_fulong2e_init(MachineState *machine)
+      */
 =20
+     if (kernel_filename) {
+-        loaderparams.ram_size =3D ram_size;
++        loaderparams.ram_size =3D machine->ram_size;
+         loaderparams.kernel_filename =3D kernel_filename;
+         loaderparams.kernel_cmdline =3D kernel_cmdline;
+         loaderparams.initrd_filename =3D initrd_filename;
+@@ -378,7 +381,7 @@ static void mips_fulong2e_init(MachineState *machine)
+     }
+=20
+     /* Populate SPD eeprom data */
+-    spd_data =3D spd_data_generate(DDR, ram_size, &err);
++    spd_data =3D spd_data_generate(DDR, machine->ram_size, &err);
+     if (err) {
+         warn_report_err(err);
+     }
 --=20
 2.18.1
 
