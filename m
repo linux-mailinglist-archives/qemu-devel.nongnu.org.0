@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A00816420F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:27:33 +0100 (CET)
-Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E001641FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:24:31 +0100 (CET)
+Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MZo-0006C2-3E
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:27:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53761)
+	id 1j4MWs-00018i-8k
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:24:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MQ1-0003pA-6P
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:26 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4MPu-0003i3-LE
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MQ0-0005gA-5d
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:25 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:37233)
+ (envelope-from <laurent@vivier.eu>) id 1j4MPt-0005Uu-B1
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:18 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:44969)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPr-0005QD-OV; Wed, 19 Feb 2020 05:17:17 -0500
+ id 1j4MPl-0005Gl-TE; Wed, 19 Feb 2020 05:17:10 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Ma1D8-1iyzBS13pM-00VyXT; Wed, 19 Feb 2020 11:16:46 +0100
+ id 1Mk178-1jkK0e0YCu-00kMBz; Wed, 19 Feb 2020 11:16:48 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/17] hw/block/pflash_cfi02: Remove unneeded variable
- assignment
-Date: Wed, 19 Feb 2020 11:16:09 +0100
-Message-Id: <20200219101612.1033925-15-laurent@vivier.eu>
+Subject: [PULL 15/17] hw/net/rocker: Report unimplemented feature with
+ qemu_log_mask(UNIMP)
+Date: Wed, 19 Feb 2020 11:16:10 +0100
+Message-Id: <20200219101612.1033925-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Dxie9fE4aO1Ap0NisYSSBxy1S8tUWdf5yk3MyaM9JfKjnFxYqoq
- 2hD7PVg0NFuZgkpFhsQ9yGop0OcjPSh799HgFs4FOxnuh0lSPSJreYzn6ekmaS0kbqjljfp
- zZh6jYCAP8ux/OM0pZ0rXy3/PzwOTJmRdz8QQZvyyfaGXgK7RhUnUovQX2suG4JQjIx8eIt
- yHeNWFbU3BHEJAXoCNrUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B3IAv8Co/H8=:HPzUeOqRPMojhWZUq0apTr
- YQj3hqnC0QXlquy3P7xVyk+XN2A81PY+iAL1ItvyyccFCa2sy+WQzd6RV83py4i42HNdGEWxv
- WudIrRWKMgrHsEEe8K3Gyi5UIxypp9eNZ5vkeKqpTjJsjzPScH6jQG/tDKHID/dmWYIkIZjTw
- Og3dtMHQ2xjjvBhZ/REFQ2vgWg/AX/28uurrrQjl4lQopYyDOhdOgIKtmPCq7hvNeTod0YOJj
- CyxRg0Qr95YUmgGSnO10N4zFe0Ixp4vkykIDZYip/HrAcpMgGTN2V/MOnFd1qYQeDWyX9/af4
- 2d4GO/G1TCSspasET1Q3sKYDHSntz7Rc4t7x0pwEDkp1VWbeW7wN5qCJatoX54w6Q85CwCqWe
- M2M208JGIs364I25O2fqlY37ytmg7alT4r7M3s/yAOn4e1j3IqfpUI2xbSmHifZ8uc+n6d7ez
- Eq+ynJaMJ963Xz/3kL3k50NRiu5GGCgSNqy90+LrmOhFOddXhNM8hicyK5fMMoxUXz/Qfd7jT
- NeDOdZGtCGSNcS7FKPfxUUo3cgPBPiDEwh+GAMSxqm/sTduM6l0ZV5n26xphaSCXXxvlcody3
- aQSmicRXnnf1vAM1LwiSdqcZaTY3coZ/1cQoVvJVLbu9ccAYsG5/l4vp4iSiS2rnITiG5mtIr
- T7EDFWvbG+dWclZF4o8me0fL4sILFLmYHCf3EerGMdhGdpvmlNXJaruLxpIIUEZjMl7qftILS
- Z8xpX6fhLSOH2r01xG//IEcDWHqIRT2WfjkFWd9cxFy/bwM7h0QVK7T8+75RRRgC0JSvOEz7c
- bdAIhZSJ4G7Xkxo9SBOuzsE7XySRoPxkmNJUeJTRdHX5kMpf7KvTiWTb0ck1KxwUzC+HMbt
+X-Provags-ID: V03:K1:duAcb355ECFPnNuZgkT11wz2BIZvCxzcAZlcm39hkXWB3RYN+Lv
+ 1TbbRN/Dcextyh8eKlj0fCir7CJsYi4jJCFxLZd/CC41HCDKH1Xi0fuZ4NCIO5/+U9jDEal
+ nLPv2L1ODWfjOK4qBrLi8uBfCBKlUMSqA3cSG4CiGIYyO5ssOxc5skVMs+bH7moZS8+AcS3
+ rmM7+LpOPDntiil4qFaeA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mdaeES3PDsM=:b/BG0e9SXww0sJCuQ8MCTT
+ QE2qVIEL0RXs+i+4U7i4jL4h/89O+KyO8qx/A6rQ5h/dQFLi7y9PFLnj2xmBfRyl35p/jNb3l
+ 9vD9yVvPaB1D7uqmWfl1r/WtOvekYFyKf8i45MzHqlVc7+WiSuftQFQ633w/efaU1SAYdliU+
+ SzpuvRuwV0HI3BqhV8GDORTCoP/6lNsNn1IN+52LM0B0Mnhks/NBDwvHGHif2DFE4SmrTxV/h
+ ZdGwHSLO0ry/aQ8qcxBQ6ok0ExT+9WoOZ53zqC4hVjqmWSN816ga2+THoye/q+St54pc83E1/
+ WLfS9B7ZXWdSDgHNqtGCbTByX671QeBr3QZRrBOEOuKiDtcpNNtv1tSTfxuCQm81xBSegV08j
+ a4pUE0MFRYqYc9Z3r+Hh0WtgLsIRfnsHzErw/Y662EgJO+mxyxiakpV1x4Yl2Rx5nVcXV2D2H
+ yvSothDc4Y2+t+7VGS/WciPGQ6W5e6OZMFK56uJ6lchoK+KBYEYJaqXeFW40Qh71bciPFmVA8
+ DEvfXicO6fGUMwNAwhMvU8yysxwz/58cNwpsY3t/oUHIO+/j0eJ4dlfN2GfEaa64+vp7HOmh2
+ q2DvY/zXXc8b4bZId+8lmUcA4kMUrwyw9/djxXxGB6CFxvZP9Tr+XQb3+eFfvBmkCp5aGC4Ij
+ OuRZA8ctEAr0Kc8c+an1K5++Jbm8vHCyeVjS0H8RK61NJN05sjP3+7DioMy5pPvW8yPeC9oNw
+ Ov4UtfGU+YCeQQeBGk7s2JviPBDplQ6E/0EUk4kbQzAtm6uCXsZi8kzYrk+jEipn+K5gyCDn0
+ 54IW3HB8kmuL1fR0JNwL6XXXgVB2ee7Yglcx/gXwHmUlYSxTW//aAw+Lkylt8XfmqObunby
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +75,87 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Jiri Pirko <jiri@resnulli.us>, Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
  Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>, Chris Wulff <crwulff@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix warning reported by Clang static code analyzer:
+Fix warnings reported by Clang static code analyzer:
 
-    CC      hw/block/pflash_cfi02.o
-  hw/block/pflash_cfi02.c:311:5: warning: Value stored to 'ret' is never read
-      ret = -1;
-      ^     ~~
+    CC      hw/net/rocker/rocker.o
+  hw/net/rocker/rocker.c:213:9: warning: Value stored to 'tx_tso_mss' is never read
+          tx_tso_mss = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_MSS]);
+          ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/net/rocker/rocker.c:217:9: warning: Value stored to 'tx_tso_hdr_len' is never read
+          tx_tso_hdr_len = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_HDR_LEN]);
+          ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/net/rocker/rocker.c:255:9: warning: Value stored to 'tx_l3_csum_off' is never read
+          tx_l3_csum_off += tx_tso_mss = tx_tso_hdr_len = 0;
+          ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Fixes: dc488f888
 Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200215161557.4077-4-philmd@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200217101637.27558-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/block/pflash_cfi02.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/net/rocker/rocker.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 7c4744c020c1..12f18d401a85 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -308,7 +308,6 @@ static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int width)
-     hwaddr boff;
-     uint64_t ret;
+diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
+index 81dd3b5f141d..15d66f6cbcf0 100644
+--- a/hw/net/rocker/rocker.c
++++ b/hw/net/rocker/rocker.c
+@@ -27,6 +27,7 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "qemu/bitops.h"
++#include "qemu/log.h"
  
--    ret = -1;
-     /* Lazy reset to ROMD mode after a certain amount of read accesses */
-     if (!pfl->rom_mode && pfl->wcycle == 0 &&
-         ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
+ #include "rocker.h"
+ #include "rocker_hw.h"
+@@ -207,14 +208,22 @@ static int tx_consume(Rocker *r, DescInfo *info)
+ 
+     if (tlvs[ROCKER_TLV_TX_L3_CSUM_OFF]) {
+         tx_l3_csum_off = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_L3_CSUM_OFF]);
++        qemu_log_mask(LOG_UNIMP, "rocker %s: L3 not implemented"
++                                 " (cksum off: %u)\n",
++                      __func__, tx_l3_csum_off);
+     }
+ 
+     if (tlvs[ROCKER_TLV_TX_TSO_MSS]) {
+         tx_tso_mss = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_MSS]);
++        qemu_log_mask(LOG_UNIMP, "rocker %s: TSO not implemented (MSS: %u)\n",
++                      __func__, tx_tso_mss);
+     }
+ 
+     if (tlvs[ROCKER_TLV_TX_TSO_HDR_LEN]) {
+         tx_tso_hdr_len = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_HDR_LEN]);
++        qemu_log_mask(LOG_UNIMP, "rocker %s: TSO not implemented"
++                                 " (hdr length: %u)\n",
++                      __func__, tx_tso_hdr_len);
+     }
+ 
+     rocker_tlv_for_each_nested(tlv_frag, tlvs[ROCKER_TLV_TX_FRAGS], rem) {
+@@ -249,12 +258,6 @@ static int tx_consume(Rocker *r, DescInfo *info)
+         iovcnt++;
+     }
+ 
+-    if (iovcnt) {
+-        /* XXX perform Tx offloads */
+-        /* XXX   silence compiler for now */
+-        tx_l3_csum_off += tx_tso_mss = tx_tso_hdr_len = 0;
+-    }
+-
+     err = fp_port_eg(r->fp_port[port], iov, iovcnt);
+ 
+ err_too_many_frags:
 -- 
 2.24.1
 
