@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F8C164209
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:26:45 +0100 (CET)
-Received: from localhost ([::1]:48556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B401164211
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:27:57 +0100 (CET)
+Received: from localhost ([::1]:48586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MZ3-0004o2-23
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:26:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53542)
+	id 1j4MaC-00075q-Gf
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:27:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MPu-0003hz-KV
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:20 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4MPw-0003jM-Hd
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MPt-0005Uw-Aa
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:18 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:42177)
+ (envelope-from <laurent@vivier.eu>) id 1j4MPv-0005Yq-5Z
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:20 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:53445)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPl-0005E5-Hi; Wed, 19 Feb 2020 05:17:09 -0500
+ id 1j4MPg-00058H-Mq; Wed, 19 Feb 2020 05:17:06 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mg6qO-1jfMBg2Api-00hce9; Wed, 19 Feb 2020 11:16:42 +0100
+ id 1MgNxZ-1jf54V1bP5-00htd2; Wed, 19 Feb 2020 11:16:44 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/17] contrib/rdmacm-mux: Remove superfluous semicolon
-Date: Wed, 19 Feb 2020 11:16:07 +0100
-Message-Id: <20200219101612.1033925-13-laurent@vivier.eu>
+Subject: [PULL 13/17] hw/display/qxl: Remove unneeded variable assignment
+Date: Wed, 19 Feb 2020 11:16:08 +0100
+Message-Id: <20200219101612.1033925-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tJgVAAVMMn3+c37OfdxkHmZOyXt9X6EcTglyXr1fuQBoEdhAVfv
- sSAEFbkmOLKx1MnWQuebAB/3B/0J1g0b3XB+l8Hky2y8nK91SwawqTEPLuaCK+KSF7YPdmP
- A23tOegJ5ZIBBgxNy15tTrCt2Ajt7w3rlgj3AB6RcfFNWVsLeZFZx68tuWElhhwQH5PPgCY
- V1RLYHRHd6aCYzkxo2LTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+QcXR4QTgtk=:U6b93kl51Kv7yde5H/nmOK
- LI3W02JsmyYCzCE5C/Wv6oSfKt+ph00XatFeyBNZ9azvK1z1qgQtyMAPj6Mz8hlDB0UBLRtz2
- YpygeQWm/mvyaL5YCLSE4dQMPphlgJCTo8jQ3EXqghKbn4lX6p+HSjyMT78PxgXXTAmZmQsGE
- RZz1ai2Ge0cm+clsaC5Qk1Q3nN3r3kLHaHxhXEXDSl9IcIvJyG0m6wASsTAsAAQrFhDR50cr6
- lQ7Zmvv2KeUApCX23RoAePtD0xXZEdtrC6+VasDNKio7yWW0zMLygYhvHsA796Tncf+r9svtm
- oPBg4Z0DwJD5Rn7lhCDmByHzvjUI7JaOncoaeUMDg5Rhg7x+8w0bPV2dGXH9yf21xJVMt8tfC
- XMuZh/t+IsRrQ8B9bZzluPKGrqlVaMQtOM9vb+qm/lg+b1gPbFMlRgPdVk4W75fEAG2hiQaLj
- A2zeSAtyk1FBZ2QhAxiyC+e5h0vKJhxbAuu6XP1mU6usilBl27BdIrl9vEmg6yL0S78nzEvT/
- XMwfWNzwHpIIWTHXb+/4QJFiqW3H0gd4sY96DPslyCp+l7ehy/4q7vk1X3OgknRT0SET8zll9
- JOK/eW8knT6dmSVY2PLtXBehJGTGp5YXSXbFRuhekrXrGuOYNYzj1Cv+syUv0s0v8kKDxQufH
- 2QcARE2HXtwKFn2pJBf2ekjWTdAyyP+3Ip4zH0LeoPSXxl6DudW9BAA6vxfLp1hVmNYZFpb3d
- hTmMkJC7F0Get90/vxWIa/SFpJllSfo1x0EKxtz8rMBXjG0edb/vY1bH9sAmmF4xgdMMpAVwK
- STqjqGmInJXjII8NbF31OvxjnxE+ADJxCaQKNUP3u5QFJYn3dkoXK2kxPlp6BWwWRm2ejLm
+X-Provags-ID: V03:K1:xmLVze4fF2jn6gChYFmBkC8c3RIbPEY5H4J7Y5UtgnxBWgF54AD
+ Ag+q0XW/9deubnLuPJBpDdoCAX6siUjw26WVfuE9L3m9B5PbLPCZ6zUXmhCZy6neiMYW3vw
+ 97AZdpCVPLOwz0axZF79dSOpgOu+iRs+yVSUpeQ+TOztIzY0JMz6SgbKCYGM1UTlLcy47gH
+ Ga05RO73lqgiGlq6ez7bg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D8XpsZO1UK8=:OIz4CJMjqrC+YhdCUvi4EU
+ wRh1hONtNA3tWUsqmkvPhVk4IqAC2jW7SAbZxSXeTCrZyoGg9TpK8hSPa6MHGkiQDnMHv9Dkr
+ to9LU0Sdza4sxyIAvx+IJYdfmuuKMZltaI7xtiOLbxjFjz3kLiB6Ly0NG3TwrJwP+c/1ziT8c
+ 5Ph/d8cc2Z3cffAPTIBzc29NEbn78Sjv6zFF+JfhgRG/BUTYA51OmMpAQ7xQl3VoeQWO/QcNI
+ mwhG3bXAJxtGKfqPUDJKKLC8ryhlt+rrpvaEEnz8bQkw96Zvq4GnaN+vdRVYDt5kxHnwMo8Rv
+ DR7f5fiov5m1NU46nH7vh8piupQNWIVlIlMhsUUon1TUKbPnBdLZTVxaHGfHZ06uqK2OnM9GO
+ pu4fYTV2uHgNWljCeKCJz/x3x/q1cWRd+IWxbMPLXG+aKbg0J4Qds8szTat/34jiXN2DLKrkR
+ dxbIDw9KJrFSxfOsajRByGEwqNcPzgGi4+BCgQxyzkYqj0fPAHuGMUd4Kxh8cYfyJSpuYOpGr
+ WScn+8yAbtm/tgCINF4WJbw609cuMiEPYmsLSpNCEUd+zfVCu2AcgJXmb2mpnYyx+GFqrUhTy
+ jT0bW5KqrpD/D8aYjcu9LQ7muGIuLi7NMEAqsdkMsbYTMpQjMr9L1hiPBksrEIJ0AWqP2lcsd
+ iY1uNT0Fbr81OnsvAcElMtEMba/tCGb55F8CdzyCZXJmCfieybKUbWbDKcTXkP90xgonfoni6
+ LJxU0aw7OFS75n2E7D52tlGj3jxF9vzgGZ7eQXDcQ9SGKTjDfySF6/Yi1nhBSwzg6/t8w6EqT
+ nIxwqZX1SWyatARb+OFh80FtKS6YdPpQ3TPn76Mh2lbWW5Rn7Zz3WwtDIJjZmQAMlLWdWNl
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,13 +69,12 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Yuval Shaia <yuval.shaia.ml@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- qemu-trivial@nongnu.org,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Jiri Pirko <jiri@resnulli.us>, Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
  Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
  Thomas Huth <huth@tuxfamily.org>, Chris Wulff <crwulff@gmail.com>,
@@ -86,30 +85,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fixes: a5d2f6f8773
+Fix warning reported by Clang static code analyzer:
+
+  hw/display/qxl.c:1634:14: warning: Value stored to 'orig_io_port' during its initialization is never read
+      uint32_t orig_io_port = io_port;
+               ^~~~~~~~~~~~   ~~~~~~~
+
+Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20200218094402.26625-14-philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200215161557.4077-3-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- contrib/rdmacm-mux/main.c | 2 +-
+ hw/display/qxl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/rdmacm-mux/main.c b/contrib/rdmacm-mux/main.c
-index de53048f0619..bd82abbad35e 100644
---- a/contrib/rdmacm-mux/main.c
-+++ b/contrib/rdmacm-mux/main.c
-@@ -490,7 +490,7 @@ static int read_and_process(int fd)
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 64884da70857..21a43a1d5ec2 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -1631,7 +1631,7 @@ static void ioport_write(void *opaque, hwaddr addr,
+     PCIQXLDevice *d = opaque;
+     uint32_t io_port = addr;
+     qxl_async_io async = QXL_SYNC;
+-    uint32_t orig_io_port = io_port;
++    uint32_t orig_io_port;
  
- static int accept_all(void)
- {
--    int fd, rc = 0;;
-+    int fd, rc = 0;
- 
-     pthread_rwlock_wrlock(&server.lock);
- 
+     if (d->guest_bug && io_port != QXL_IO_RESET) {
+         return;
 -- 
 2.24.1
 
