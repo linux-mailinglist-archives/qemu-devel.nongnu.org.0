@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1009164653
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:06:29 +0100 (CET)
-Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E32164657
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:07:43 +0100 (CET)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Pzg-0005UP-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:06:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45079)
+	id 1j4Q0s-0007kf-Gr
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:07:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45141)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j4Pyd-0004fS-B4
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:05:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4Pyr-0004yu-Gj
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:05:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j4Pyb-0003KS-Lw
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:05:23 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23585
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j4Pyq-0003V9-Bl
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:05:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53536
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4Pyb-0003KH-IL
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:05:21 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4Pyq-0003Uu-7j
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:05:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582121121;
+ s=mimecast20190719; t=1582121135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VURb56jSJeSSmuXiINylfn0O8PsQqqdPT+PX9QVfuqQ=;
- b=PX61hH6Pt3YrY/55mhTZkKd7Vea7d4iXoRQVaOZZIIyZO1RpxZemFwln77+H6cxEYuoupe
- 0rkcvUrqyPIj1S3+UVVYZPyQOx4QtneqvqFONHyr06EfX5ovizRVBwaMI+ylAAPzDZfZbJ
- foIdRLyslNuE9/Iem3oV0ZTuibu3b1U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-joF5ZoBpNb6aKvw3zekpmQ-1; Wed, 19 Feb 2020 09:05:17 -0500
-Received: by mail-wr1-f72.google.com with SMTP id n23so87788wra.20
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 06:05:17 -0800 (PST)
+ bh=apzKWK5uZTf8M2StR4pijR0+yKU0Ny4AGHu8OqjuKiw=;
+ b=Sx/eMQ13PaNxN6YxeCO7Qgb85fMKpv1OUkq4aU2fGKKb9Gw89Q6fieLvGjt0HMItY3D2TV
+ qUpiIiOeeuoTWvs9WvRoGdZmWunsAvJR9bFP1gvipqR3o097XwQJ+ddx3hRpLWK30qYnwy
+ MQF4nNp/g+3/pBn7sG/RKbY5af2Yxe0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-cNQZ-Df9Pxi4J4d3yF2lrQ-1; Wed, 19 Feb 2020 09:05:33 -0500
+Received: by mail-wr1-f69.google.com with SMTP id a12so90589wrn.19
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 06:05:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=eXdCP/nSuu0LJSAq2sejrTsWe8arPQYhzjIsG/eOX3o=;
- b=mbpon+k4rV0tVg1A5iGzQ4AbDA/jVoFUOjRu0Pw/n85JjhTcoIGWVAXdztuS5dxc+I
- n4JOZ2k6k3rSk2vVeGB0TRHA7c+QPIhKXH57msOUNMfRyHMvHdjmp0n24QOdTdYUJtVi
- tS450/k9pbQ/toLsI2JZkMr67bLwaTARyryAsneVeSuokt6miXGHNHn7ksf7dBpFr5JN
- otH/MBrnRRvXFb1np8wHcTeA2eVO0TMaT2r5x1jqv+KbDxPLcd5jFIWOFagWZhZtskNz
- P7WOBTcUTq0vX1Ygdml9BcbGUQOvGN0XQlZ39gGpLwyRSOagMKyLtRdV4vtj9diPVIyX
- IHnA==
-X-Gm-Message-State: APjAAAU8pBoWgSWAzrOPdIFe46I4iq5BwOkCOO96z4sU5hoxSQUa5f+F
- JSVkH5W9exBsO8GdfOebDizgjZLzpz1/K1iVJ0sf6TPHQMDC6wJAX9MLlQ5Gykm2EEUr8e4P1i9
- 70CCp1i894eN1NB4=
-X-Received: by 2002:a1c:44d:: with SMTP id 74mr10700022wme.53.1582121116228;
- Wed, 19 Feb 2020 06:05:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx1124rfTdGMfK4dxx36eaeUe0oiG/peucZMarD5jZnIMDmVr14lIdpbO+H2FKsgdcrCGkaDw==
-X-Received: by 2002:a1c:44d:: with SMTP id 74mr10699997wme.53.1582121115919;
- Wed, 19 Feb 2020 06:05:15 -0800 (PST)
+ bh=dgs8atEpt4g/fFXdHr6myLHPvbpWZRxcdEty+bYudg8=;
+ b=KyvxFkTj2/oWDzHM/2RU/Kv131O9+fsxjVpC/JABNgZgmJRdOc50TGSTlL3GBK3VTs
+ Z5K9dsIztkP3rMZcAQjCvisfr0+D0qDPXWQhyp9JW75EpgLX7uvR/y67Hm5NnDBJFfQt
+ vsJGagozjcVS1sVcNn2Uk0sGJ7zwhCI0IxsLo0+bUyqyxVCB0VbVRcYW8VizYhaMBw3e
+ mfuELxnJAPVhLkTEPjjJWVlbBQT98JkAcOPsXcYvWRLHmH8El4tnh7nAsj1A8EnpAZYg
+ 04daBYXBcuvQgtouDSHmb7oXUlg/A3qntplpBG9IIf0tbqs5rzg2nbhwBl6nX3KGTOPE
+ XmcA==
+X-Gm-Message-State: APjAAAVGUwn7udntDkEzLUc0sxsyGqiYJrehAQvfEU7C7ITnO4xfIbO2
+ LA9QA/I48/k3e6naIQUAk8ZBmCYo3gLW9BEomXWRClX9RcKl2bAjuy4Ey9Tb+8BOGlBgigAzjak
+ ddbfPepZEAnARZn0=
+X-Received: by 2002:a5d:4651:: with SMTP id j17mr36738033wrs.237.1582121132506; 
+ Wed, 19 Feb 2020 06:05:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxF5Wrf6wa9C5iMLAMiruf8bRNaG5Gt/t+Jlb4eZeN67CgSwjmg6usrab01EkgjbB5j2s+kMA==
+X-Received: by 2002:a5d:4651:: with SMTP id j17mr36738010wrs.237.1582121132274; 
+ Wed, 19 Feb 2020 06:05:32 -0800 (PST)
 Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id q130sm3397812wme.19.2020.02.19.06.05.14
+ by smtp.gmail.com with ESMTPSA id m21sm3134323wmi.27.2020.02.19.06.05.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Feb 2020 06:05:14 -0800 (PST)
-Subject: Re: [PATCH v5 11/79] arm/collie: use memdev for RAM
+ Wed, 19 Feb 2020 06:05:31 -0800 (PST)
+Subject: Re: [PATCH v5 27/79] arm/palm: use memdev for RAM
 To: Igor Mammedov <imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-12-imammedo@redhat.com>
- <6ab7280b-cc57-e714-6908-163bab7c898c@redhat.com>
- <20200219144402.51cf1213@redhat.com>
+ <20200217173452.15243-28-imammedo@redhat.com>
+ <e9302ce2-2d10-f3c5-25b6-6b9eee291192@redhat.com>
+ <20200219144430.5151535f@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <312e18b0-3b77-245e-bfd5-0045b6748ec0@redhat.com>
-Date: Wed, 19 Feb 2020 15:05:13 +0100
+Message-ID: <bdaf8937-3662-6988-2c1f-b0c1a257a075@redhat.com>
+Date: Wed, 19 Feb 2020 15:05:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200219144402.51cf1213@redhat.com>
+In-Reply-To: <20200219144430.5151535f@redhat.com>
 Content-Language: en-US
-X-MC-Unique: joF5ZoBpNb6aKvw3zekpmQ-1
+X-MC-Unique: cNQZ-Df9Pxi4J4d3yF2lrQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,12 +98,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/19/20 2:44 PM, Igor Mammedov wrote:
-> On Tue, 18 Feb 2020 18:16:14 +0100
+> On Tue, 18 Feb 2020 18:22:06 +0100
 > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 >=20
->> Hi Igor,
->>
->> On 2/17/20 6:33 PM, Igor Mammedov wrote:
+>> On 2/17/20 6:34 PM, Igor Mammedov wrote:
 >>> memory_region_allocate_system_memory() API is going away, so
 >>> replace it with memdev allocated MemoryRegion. The later is
 >>> initialized by generic code, so board only needs to opt in
@@ -114,20 +111,8 @@ On 2/19/20 2:44 PM, Igor Mammedov wrote:
 >>> RAM memory region.
 >>>
 >>> PS:
->>>    - while at it add check for user supplied RAM size and error
->>>      out if it mismatches board expected value.
->>>    - introduce RAM_ADDR_UFMT to avoid build errors on 32-bit hosts
->>>      when specifying format string for ram_addr_t type
->>
->> Since v3 the 2nd comment is not valid anymore (also in other patches
->> from this series).
->=20
-> I looks like the last remnant of RAM_ADDR_UFMT
-> I'll remove it in v6
-
-Thanks.
-
->=20
+>>>    while at it add check for user supplied RAM size and error
+>>>    out if it mismatches board expected value.
 >>>
 >>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 >>> Reviewed-by: Andrew Jones <drjones@redhat.com>
@@ -135,83 +120,82 @@ Thanks.
 >>> v2:
 >>>     * fix format string causing build failure on 32-bit host
 >>>       (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
->>> v3:
->>>     * instead of RAM_ADDR_UFMT adding use size_to_str()
->>>        Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>> ---
->>>    hw/arm/collie.c | 17 ++++++++++++-----
->>>    1 file changed, 12 insertions(+), 5 deletions(-)
 >>>
->>> diff --git a/hw/arm/collie.c b/hw/arm/collie.c
->>> index 970a4405cc..024893fc9e 100644
->>> --- a/hw/arm/collie.c
->>> +++ b/hw/arm/collie.c
->>> @@ -10,6 +10,7 @@
->>>     */
->>>    #include "qemu/osdep.h"
->>>    #include "qemu/units.h"
+>>> CC: balrogg@gmail.com
+>>> ---
+>>>    hw/arm/palm.c | 20 ++++++++++++++------
+>>>    1 file changed, 14 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/hw/arm/palm.c b/hw/arm/palm.c
+>>> index 72eca8cc55..388b2629a5 100644
+>>> --- a/hw/arm/palm.c
+>>> +++ b/hw/arm/palm.c
+>>> @@ -31,6 +31,7 @@
+>>>    #include "hw/loader.h"
+>>>    #include "exec/address-spaces.h"
+>>>    #include "cpu.h"
 >>> +#include "qemu/cutils.h"
->>>    #include "hw/sysbus.h"
->>>    #include "hw/boards.h"
->>>    #include "strongarm.h"
->>> @@ -20,20 +21,24 @@
 >>>   =20
->>>    static struct arm_boot_info collie_binfo =3D {
->>>        .loader_start =3D SA_SDCS0,
->>> -    .ram_size =3D 0x20000000,
+>>>    static uint64_t static_read(void *opaque, hwaddr offset, unsigned si=
+ze)
+>>>    {
+>>> @@ -181,7 +182,6 @@ static void palmte_gpio_setup(struct omap_mpu_state=
+_s *cpu)
+>>>   =20
+>>>    static struct arm_boot_info palmte_binfo =3D {
+>>>        .loader_start =3D OMAP_EMIFF_BASE,
+>>> -    .ram_size =3D 0x02000000,
 >>
->> This doesn't seem correct, this field is used do_cpu_reset() ->
->> set_kernel_args() (see hw/arm/boot.c).
->=20
+>> Again, this is incorrect. Used by hw/arm/boot::do_cpu_reset().
 > Thanks,
-> fixed in v6.
->=20
-> I'll respin series as already several amended patches accumulated by this=
- time.
+> fixed in v6
 
 With the arm_boot_info ram_size unmodified, please add
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 >=20
 >>
+>>>        .board_id =3D 0x331,
 >>>    };
 >>>   =20
->>>    static void collie_init(MachineState *machine)
->>>    {
->>>        StrongARMState *s;
->>>        DriveInfo *dinfo;
->>> -    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
+>>> @@ -195,15 +195,21 @@ static void palmte_init(MachineState *machine)
+>>>        static uint32_t cs2val =3D 0x0000e1a0;
+>>>        static uint32_t cs3val =3D 0xe1a0e1a0;
+>>>        int rom_size, rom_loaded =3D 0;
+>>> -    MemoryRegion *dram =3D g_new(MemoryRegion, 1);
 >>> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
->>> +
+>>>        MemoryRegion *flash =3D g_new(MemoryRegion, 1);
+>>>        MemoryRegion *cs =3D g_new(MemoryRegion, 4);
+>>>   =20
+>>> -    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
+>>> -                                         palmte_binfo.ram_size);
+>>> -    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE, dr=
+am);
 >>> +    if (machine->ram_size !=3D mc->default_ram_size) {
 >>> +        char *sz =3D size_to_str(mc->default_ram_size);
 >>> +        error_report("Invalid RAM size, should be %s", sz);
 >>> +        g_free(sz);
 >>> +        exit(EXIT_FAILURE);
 >>> +    }
+>>> +
+>>> +    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE,
+>>> +                                machine->ram);
 >>>   =20
->>>        s =3D sa1110_init(machine->cpu_type);
+>>> -    mpu =3D omap310_mpu_init(dram, machine->cpu_type);
+>>> +    mpu =3D omap310_mpu_init(machine->ram, machine->cpu_type);
 >>>   =20
->>> -    memory_region_allocate_system_memory(sdram, NULL, "strongarm.sdram=
-",
->>> -                                         collie_binfo.ram_size);
->>> -    memory_region_add_subregion(get_system_memory(), SA_SDCS0, sdram);
->>> +    memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine=
-->ram);
->>>   =20
->>>        dinfo =3D drive_get(IF_PFLASH, 0, 0);
->>>        pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
->>> @@ -57,6 +62,8 @@ static void collie_machine_init(MachineClass *mc)
->>>        mc->init =3D collie_init;
+>>>        /* External Flash (EMIFS) */
+>>>        memory_region_init_ram(flash, NULL, "palmte.flash", flash_size,
+>>> @@ -265,6 +271,8 @@ static void palmte_machine_init(MachineClass *mc)
+>>>        mc->init =3D palmte_init;
 >>>        mc->ignore_memory_transaction_failures =3D true;
->>>        mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("sa1110");
->>> +    mc->default_ram_size =3D 0x20000000;
->>> +    mc->default_ram_id =3D "strongarm.sdram";
+>>>        mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("ti925t");
+>>> +    mc->default_ram_size =3D 0x02000000;
+>>> +    mc->default_ram_id =3D "omap1.dram";
 >>>    }
 >>>   =20
->>>    DEFINE_MACHINE("collie", collie_machine_init)
+>>>    DEFINE_MACHINE("cheetah", palmte_machine_init)
 >>>   =20
->>
 >>
 >=20
 
