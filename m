@@ -2,58 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63F71646BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:18:59 +0100 (CET)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCECB1646A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 15:16:14 +0100 (CET)
+Received: from localhost ([::1]:53350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4QBm-0000FZ-S6
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:18:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
+	id 1j4Q97-0005g8-Nl
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 09:16:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <olaf@aepfle.de>) id 1j4QAm-0007le-EB
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:57 -0500
+ (envelope-from <farosas@linux.ibm.com>) id 1j4Q8F-000529-Ho
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:15:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <olaf@aepfle.de>) id 1j4QAl-0005re-9e
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:56 -0500
-Received: from mo6-p01-ob.smtp.rzone.de ([2a01:238:20a:202:5301::5]:34796)
+ (envelope-from <farosas@linux.ibm.com>) id 1j4Q8E-0002fG-82
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:15:19 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10660
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <olaf@aepfle.de>) id 1j4QAk-0005lo-Jx
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 09:17:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582121871;
- s=strato-dkim-0002; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=UVPNF82+RNhZgt/NAaYu9NHVoKzqzHa3nZyXizsjufw=;
- b=kfmKJAVD474XR/V2x975cfXnZztlfyOiTHfDAyQXMfWf1iPRzRFWHcTuXfzgr+rpg9
- O768ufXeDEYRBlGjH5gR2R2Xpxlm6uoGphG0L3pzRg2kA40G8ybG/UVWK7Gc0z5sQQOa
- yJvI1CDCtxlkh03CR8+EfL1dM8cVwll0y5TNgcgv9e/6cPQpO5qUzid5/7VavlMGZGcE
- zpBYRlV/XIx93iRuPRj9fHW1MLxzNu94R+1K3LNJbbCKp8nxeUPZ7zyX5tAMzvmhDDNY
- fbidnR39XOXigpn4q2N9JnddEJCH4jUlIWJAnFG7MGsGZ1H7ots9zytUKPo4I3S3imLp
- 32kw==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QED/SSGq+wjGiUC4AUztn93FPS2dyuYMlkjQ=="
-X-RZG-CLASS-ID: mo00
-Received: from sender by smtp.strato.de (RZmta 46.1.12 SBL|AUTH)
- with ESMTPSA id 605caew1JEHnIQR
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 19 Feb 2020 15:17:49 +0100 (CET)
-Date: Wed, 19 Feb 2020 15:14:59 +0100
-From: Olaf Hering <olaf@aepfle.de>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2] hw/i386: disable smbus migration for xenfv
-Message-ID: <20200219151459.5a6b9690.olaf@aepfle.de>
-In-Reply-To: <20200219123530.11064fc5.olaf@aepfle.de>
-References: <20200113174521.3336-1-olaf@aepfle.de>
- <20200116180321.24968-1-olaf@aepfle.de>
- <0335edd2-3d33-88f8-2ab4-4791f7289885@redhat.com>
- <20200219123530.11064fc5.olaf@aepfle.de>
-X-Mailer: Claws Mail 2019.12.31 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+ (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
+ id 1j4Q8E-0002dz-34; Wed, 19 Feb 2020 09:15:18 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01JE9hb6109983; Wed, 19 Feb 2020 09:15:11 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2y93keqa01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2020 09:15:11 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01JEA4e0111363;
+ Wed, 19 Feb 2020 09:15:10 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2y93keq9yb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2020 09:15:10 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01JEALlc031712;
+ Wed, 19 Feb 2020 14:15:10 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2y68974rd5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Feb 2020 14:15:10 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01JEF9Iv49807760
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Feb 2020 14:15:09 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4145BAC05F;
+ Wed, 19 Feb 2020 14:15:09 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A3D16AC067;
+ Wed, 19 Feb 2020 14:15:08 +0000 (GMT)
+Received: from localhost (unknown [9.86.26.230])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Wed, 19 Feb 2020 14:15:08 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, groug@kaod.org,
+ philmd@redhat.com, qemu-devel@nongnu.org, clg@kaod.org
+Subject: Re: [PATCH v3 01/12] ppc: Remove stub support for 32-bit hypervisor
+ mode
+In-Reply-To: <20200219005414.15635-2-david@gibson.dropbear.id.au>
+References: <20200219005414.15635-1-david@gibson.dropbear.id.au>
+ <20200219005414.15635-2-david@gibson.dropbear.id.au>
+Date: Wed, 19 Feb 2020 11:15:01 -0300
+Message-ID: <878skyd5p6.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/As7/Ds2mdVShl99YKe.=4/u"; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 2a01:238:20a:202:5301::5
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-19_03:2020-02-19,
+ 2020-02-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0
+ clxscore=1015 phishscore=0 mlxlogscore=999 impostorscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=1 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002190109
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,57 +93,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Paul Durrant <paul@xen.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: lvivier@redhat.com, qemu-ppc@nongnu.org, paulus@samba.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/As7/Ds2mdVShl99YKe.=4/u
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-Am Wed, 19 Feb 2020 12:35:30 +0100
-schrieb Olaf Hering <olaf@aepfle.de>:
+> a4f30719a8cd, way back in 2007 noted that "PowerPC hypervisor mode is not
+> fundamentally available only for PowerPC 64" and added a 32-bit version
+> of the MSR[HV] bit.
+>
+> But nothing was ever really done with that; there is no meaningful support
+> for 32-bit hypervisor mode 13 years later.  Let's stop pretending and just
+> remove the stubs.
+>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-> Is any of the things done by pc_i440fx_5_0_machine_options and
-> pc_i440fx_machine_options a desired, or even breaking, change for the
-> current result of pc_xen_hvm_init?
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-I tried to follow a few of the initialized members:
-
-default_nic_model, perhaps the involved code paths are not called, so the N=
-ULL pointer does not matter.
-
-pvh_enabled, does this mean the PVH domU type? If yes, this would be lost w=
-hen xenfv is locked at v3.1.
-
-
-Olaf
-
---Sig_/As7/Ds2mdVShl99YKe.=4/u
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl5NQuMACgkQ86SN7mm1
-DoC4pQ/9E0iPzaAKczFTEpr7rDGUiIQ5nO/0atPPa48IFlkkDKBinBX2g2gugtku
-ssY3rbs/r/DCBXuGHtaMJovGtSIWnpKI+l+ak9kJZ8tSPCIQKFF1P5tiO2RsUwOP
-PlMnOmRwBiiMcgNHxoT/02FzuU79u/eUKjQBoZaJhAWQp/PDEPl4zN5FM1jOj9r0
-zZw0QrV+Jf4zeLQ73LaQyPMVghILS+T/Z4CLIwSwX6Ibdno8Nc1AIfxuV4+Ept8m
-dRVYQornS7c77RwpxK5ALe803H7p6AY2gUhyHQ7fGlDi2tuvhZBSb2e68yVwkjyf
-zVRP9+8BoFEuiE2WQIyg0JOpl4tx2A+z16Wi0VKCPmdhUV8AQjooS+JyIA10kKmI
-Ud8lisQYgQZqCwEmtix14xHz0fOmRbuoauYjJdaP1mXXCchZ+EfKyvXSAeuw/LAz
-vUZQVuswx5QcyUxEpkgEGVr88syyRddjMOds/BDjKoJap71n1xKcOH8LojHHy+v/
-+1MkN5877YA51FmGEE1RXcvW3m52mEKCjWIJ4o0TqiWupFh+jeRyOZItD9vDyGgr
-UWznV8DDBZeFD7UY2wIOvdsL/RFCQlsLU98QQVPkaA19w+dgRcGRbsX4H4FICigB
-UrS7zVHdEl1mCZSjodlCO587LXDElZPpT7jiWZwbWK/axLPr+mE=
-=ZA+P
------END PGP SIGNATURE-----
-
---Sig_/As7/Ds2mdVShl99YKe.=4/u--
+> ---
+>  target/ppc/cpu.h                | 21 +++++++--------------
+>  target/ppc/translate_init.inc.c |  6 +++---
+>  2 files changed, 10 insertions(+), 17 deletions(-)
+>
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index b283042515..8077fdb068 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -24,8 +24,6 @@
+>  #include "exec/cpu-defs.h"
+>  #include "cpu-qom.h"
+>  
+> -/* #define PPC_EMULATE_32BITS_HYPV */
+> -
+>  #define TCG_GUEST_DEFAULT_MO 0
+>  
+>  #define TARGET_PAGE_BITS_64K 16
+> @@ -300,13 +298,12 @@ typedef struct ppc_v3_pate_t {
+>  #define MSR_SF   63 /* Sixty-four-bit mode                            hflags */
+>  #define MSR_TAG  62 /* Tag-active mode (POWERx ?)                            */
+>  #define MSR_ISF  61 /* Sixty-four-bit interrupt mode on 630                  */
+> -#define MSR_SHV  60 /* hypervisor state                               hflags */
+> +#define MSR_HV   60 /* hypervisor state                               hflags */
+>  #define MSR_TS0  34 /* Transactional state, 2 bits (Book3s)                  */
+>  #define MSR_TS1  33
+>  #define MSR_TM   32 /* Transactional Memory Available (Book3s)               */
+>  #define MSR_CM   31 /* Computation mode for BookE                     hflags */
+>  #define MSR_ICM  30 /* Interrupt computation mode for BookE                  */
+> -#define MSR_THV  29 /* hypervisor state for 32 bits PowerPC           hflags */
+>  #define MSR_GS   28 /* guest state for BookE                                 */
+>  #define MSR_UCLE 26 /* User-mode cache lock enable for BookE                 */
+>  #define MSR_VR   25 /* altivec available                            x hflags */
+> @@ -401,10 +398,13 @@ typedef struct ppc_v3_pate_t {
+>  
+>  #define msr_sf   ((env->msr >> MSR_SF)   & 1)
+>  #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
+> -#define msr_shv  ((env->msr >> MSR_SHV)  & 1)
+> +#if defined(TARGET_PPC64)
+> +#define msr_hv   ((env->msr >> MSR_HV)   & 1)
+> +#else
+> +#define msr_hv   (0)
+> +#endif
+>  #define msr_cm   ((env->msr >> MSR_CM)   & 1)
+>  #define msr_icm  ((env->msr >> MSR_ICM)  & 1)
+> -#define msr_thv  ((env->msr >> MSR_THV)  & 1)
+>  #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+>  #define msr_ucle ((env->msr >> MSR_UCLE) & 1)
+>  #define msr_vr   ((env->msr >> MSR_VR)   & 1)
+> @@ -449,16 +449,9 @@ typedef struct ppc_v3_pate_t {
+>  
+>  /* Hypervisor bit is more specific */
+>  #if defined(TARGET_PPC64)
+> -#define MSR_HVB (1ULL << MSR_SHV)
+> -#define msr_hv  msr_shv
+> -#else
+> -#if defined(PPC_EMULATE_32BITS_HYPV)
+> -#define MSR_HVB (1ULL << MSR_THV)
+> -#define msr_hv  msr_thv
+> +#define MSR_HVB (1ULL << MSR_HV)
+>  #else
+>  #define MSR_HVB (0ULL)
+> -#define msr_hv  (0)
+> -#endif
+>  #endif
+>  
+>  /* DSISR */
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+> index 53995f62ea..a0d0eaabf2 100644
+> --- a/target/ppc/translate_init.inc.c
+> +++ b/target/ppc/translate_init.inc.c
+> @@ -8804,7 +8804,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+>                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+>                          PPC2_TM | PPC2_PM_ISA206;
+>      pcc->msr_mask = (1ull << MSR_SF) |
+> -                    (1ull << MSR_SHV) |
+> +                    (1ull << MSR_HV) |
+>                      (1ull << MSR_TM) |
+>                      (1ull << MSR_VR) |
+>                      (1ull << MSR_VSX) |
+> @@ -9017,7 +9017,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+>                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+>                          PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
+>      pcc->msr_mask = (1ull << MSR_SF) |
+> -                    (1ull << MSR_SHV) |
+> +                    (1ull << MSR_HV) |
+>                      (1ull << MSR_TM) |
+>                      (1ull << MSR_VR) |
+>                      (1ull << MSR_VSX) |
+> @@ -9228,7 +9228,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+>                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+>                          PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
+>      pcc->msr_mask = (1ull << MSR_SF) |
+> -                    (1ull << MSR_SHV) |
+> +                    (1ull << MSR_HV) |
+>                      (1ull << MSR_TM) |
+>                      (1ull << MSR_VR) |
+>                      (1ull << MSR_VSX) |
 
