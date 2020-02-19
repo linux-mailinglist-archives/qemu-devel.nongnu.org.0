@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A01E164A3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:26:33 +0100 (CET)
-Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF47316499D
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:14:05 +0100 (CET)
+Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SBE-0000F9-1x
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:26:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37474)
+	id 1j4RzA-0000YZ-L6
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:14:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37091)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4Rvz-0003Rz-Uy
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:48 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4RvU-0002Db-Hg
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rvy-0000vO-LS
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21610
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j4RvT-0000Y9-5e
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:16 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35563
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rvy-0000v7-HJ
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:46 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RvT-0000Xy-19
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:10:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128646;
+ s=mimecast20190719; t=1582128614;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hMl7aD3JZsyZdonSZBzV++mKT/kKs4Z1AKiWq9RW1AI=;
- b=fqjClr7uNrK1CbMmBMEy+f7OJ2JQsfxliHwPwypdBjpBZ7f58fFvKiMCuqhgfK74zuAX67
- QVqaX5D4WwCJm2XFenjC3uIiSXQnM4QFryOmzs7uDibSctanJwRcmgqLJf4WuDClE5a9t4
- d8FafjJh3+rrogMrhHNUOjPS+ZHc8yI=
+ bh=V+zaD2IgVVkgyQgNB7cHMaNThnjhY5Zndgs/1n3SnwI=;
+ b=Ul+5JCMDfzPVSb80BEztinM9+1LwEe4gtE5w2906h+3SbaQBO/wlleAGyDomrw1U+31if3
+ 3fZFvwk7knJluw9m7/sYXGwj5uvOr+NDCHX0sTGA8Ue751RiXkcEqTUOtrjk2xAmzxEgZg
+ MmB5IymzWrbZTM8Yu5gEzH14h9gBi7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-DMTjMTtVNMWigJRjS1Ny6w-1; Wed, 19 Feb 2020 11:10:11 -0500
+ us-mta-347-VxIudnHgOeKbhXEC7R5w3Q-1; Wed, 19 Feb 2020 11:10:12 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AC0518C8B90;
- Wed, 19 Feb 2020 16:10:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D8A88E111C;
+ Wed, 19 Feb 2020 16:10:11 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2329348;
- Wed, 19 Feb 2020 16:10:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7246B48;
+ Wed, 19 Feb 2020 16:10:10 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 11/79] arm/collie: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:08:45 -0500
-Message-Id: <20200219160953.13771-12-imammedo@redhat.com>
+Subject: [PATCH v6 12/79] arm/cubieboard: use memdev for RAM
+Date: Wed, 19 Feb 2020 11:08:46 -0500
+Message-Id: <20200219160953.13771-13-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: DMTjMTtVNMWigJRjS1Ny6w-1
+X-MC-Unique: VxIudnHgOeKbhXEC7R5w3Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,8 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org,
- philmd@redhat.com
+Cc: b.galvani@gmail.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,74 +84,93 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 PS:
- - while at it add check for user supplied RAM size and error
-   out if it mismatches board expected value.
+While at it, get rid of no longer needed CubieBoardState wrapper.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6:
-  * drop '.ram_size =3D 0x20000000'  removal from collie_binfo
-    as arm_load_kernel() depends on it.
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
-v2:
-  * fix format string causing build failure on 32-bit host
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
-v3:
-  * instead of RAM_ADDR_UFMT adding use size_to_str()
-     Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-CC: philmd@redhat.com
-CC: richard.henderson@linaro.org
+CC: b.galvani@gmail.com
 ---
- hw/arm/collie.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ hw/arm/cubieboard.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/hw/arm/collie.c b/hw/arm/collie.c
-index 970a4405cc..4992084a3f 100644
---- a/hw/arm/collie.c
-+++ b/hw/arm/collie.c
-@@ -10,6 +10,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "hw/sysbus.h"
- #include "hw/boards.h"
- #include "strongarm.h"
-@@ -27,13 +28,18 @@ static void collie_init(MachineState *machine)
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 6dc2f1d6b6..089f9a30c1 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -28,52 +28,42 @@ static struct arm_boot_info cubieboard_binfo =3D {
+     .board_id =3D 0x1008,
+ };
+=20
+-typedef struct CubieBoardState {
+-    AwA10State *a10;
+-    MemoryRegion sdram;
+-} CubieBoardState;
+-
+ static void cubieboard_init(MachineState *machine)
  {
-     StrongARMState *s;
-     DriveInfo *dinfo;
--    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-+
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        char *sz =3D size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
+-    CubieBoardState *s =3D g_new(CubieBoardState, 1);
++    AwA10State *a10 =3D AW_A10(object_new(TYPE_AW_A10));
+     Error *err =3D NULL;
 =20
-     s =3D sa1110_init(machine->cpu_type);
+-    s->a10 =3D AW_A10(object_new(TYPE_AW_A10));
+-
+-    object_property_set_int(OBJECT(&s->a10->emac), 1, "phy-addr", &err);
++    object_property_set_int(OBJECT(&a10->emac), 1, "phy-addr", &err);
+     if (err !=3D NULL) {
+         error_reportf_err(err, "Couldn't set phy address: ");
+         exit(1);
+     }
 =20
--    memory_region_allocate_system_memory(sdram, NULL, "strongarm.sdram",
--                                         collie_binfo.ram_size);
--    memory_region_add_subregion(get_system_memory(), SA_SDCS0, sdram);
-+    memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ra=
-m);
+-    object_property_set_int(OBJECT(&s->a10->timer), 32768, "clk0-freq", &e=
+rr);
++    object_property_set_int(OBJECT(&a10->timer), 32768, "clk0-freq", &err)=
+;
+     if (err !=3D NULL) {
+         error_reportf_err(err, "Couldn't set clk0 frequency: ");
+         exit(1);
+     }
 =20
-     dinfo =3D drive_get(IF_PFLASH, 0, 0);
-     pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
-@@ -57,6 +63,8 @@ static void collie_machine_init(MachineClass *mc)
-     mc->init =3D collie_init;
-     mc->ignore_memory_transaction_failures =3D true;
-     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("sa1110");
-+    mc->default_ram_size =3D 0x20000000;
-+    mc->default_ram_id =3D "strongarm.sdram";
+-    object_property_set_int(OBJECT(&s->a10->timer), 24000000, "clk1-freq",
+-                            &err);
++    object_property_set_int(OBJECT(&a10->timer), 24000000, "clk1-freq", &e=
+rr);
+     if (err !=3D NULL) {
+         error_reportf_err(err, "Couldn't set clk1 frequency: ");
+         exit(1);
+     }
+=20
+-    object_property_set_bool(OBJECT(s->a10), true, "realized", &err);
++    object_property_set_bool(OBJECT(a10), true, "realized", &err);
+     if (err !=3D NULL) {
+         error_reportf_err(err, "Couldn't realize Allwinner A10: ");
+         exit(1);
+     }
+=20
+-    memory_region_allocate_system_memory(&s->sdram, NULL, "cubieboard.ram"=
+,
+-                                         machine->ram_size);
+     memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
+-                                &s->sdram);
++                                machine->ram);
+=20
+     /* TODO create and connect IDE devices for ide_drive_get() */
+=20
+     cubieboard_binfo.ram_size =3D machine->ram_size;
+-    arm_load_kernel(&s->a10->cpu, machine, &cubieboard_binfo);
++    arm_load_kernel(&a10->cpu, machine, &cubieboard_binfo);
  }
 =20
- DEFINE_MACHINE("collie", collie_machine_init)
+ static void cubieboard_machine_init(MachineClass *mc)
+@@ -84,6 +74,7 @@ static void cubieboard_machine_init(MachineClass *mc)
+     mc->block_default_type =3D IF_IDE;
+     mc->units_per_default_bus =3D 1;
+     mc->ignore_memory_transaction_failures =3D true;
++    mc->default_ram_id =3D "cubieboard.ram";
+ }
+=20
+ DEFINE_MACHINE("cubieboard", cubieboard_machine_init)
 --=20
 2.18.1
 
