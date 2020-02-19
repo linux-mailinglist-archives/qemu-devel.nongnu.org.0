@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20848164B1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:54:45 +0100 (CET)
-Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF73164AF2
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:49:53 +0100 (CET)
+Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4ScW-0001Ad-4H
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:54:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39190)
+	id 1j4SXo-0006qJ-2O
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:49:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j4S3w-0001wd-6Y
+ (envelope-from <david@redhat.com>) id 1j4S3w-0001wc-6T
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:19:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j4S3u-0004WD-CH
+ (envelope-from <david@redhat.com>) id 1j4S3u-0004W8-C9
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:18:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28755
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40505
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j4S3t-0004VE-CL
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j4S3t-0004VL-Cd
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:18:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582129135;
@@ -27,40 +27,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NIbpoTPRIugC/AN/kKqRGy1bAH0u75EO9suDLoHM/2Q=;
- b=DQwBr8kltc01EN9sxSwraxmRIY9rLN9IdZS0h0oWRYwTmTCGDYJNsRheoYhji2DZxslenU
- k7Nfe57TzdRFyztm0hPH/fJhKhuGGOUFFGxk5pAOUtrcFO7pFv/5bqrZnlBmltYq+Szb3k
- WsywBOglY3MKRj/kw5wswgo8S+7v/Hs=
+ bh=rDj0rqRKbNwsakpSuBu9vsIVn5D5FKYcv2n7kjz126Y=;
+ b=KKV66SCA4wYn/LosBARLuZQrKW9MAf0j9anPDN6gZO7i66Y1tbDdWfGvAYa4ankiHXlViR
+ qZwNKJPbFdf9d8cOcGjWEhCBONRq2BHLneaDiEjgM2fGa1Kt1rhO8L7mY+wfBQbD9j/u+G
+ fmX4edkfBnOC/wUYtxIsEyQ1KOPO+KI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-JoMmZ0zCMwWKVlXeSeCHBg-1; Wed, 19 Feb 2020 11:18:51 -0500
+ us-mta-184-15J9vNFfONi61L6fE_p7JQ-1; Wed, 19 Feb 2020 11:18:53 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AC858C8333;
- Wed, 19 Feb 2020 16:18:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95C7B18AB2F7;
+ Wed, 19 Feb 2020 16:18:52 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-116-151.ams2.redhat.com [10.36.116.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB4B689F13;
- Wed, 19 Feb 2020 16:18:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBAF3811F8;
+ Wed, 19 Feb 2020 16:18:50 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/13] migrate/ram: Get rid of "place_source" in
+Subject: [PATCH v1 08/13] migrate/ram: Simplify host page handling in
  ram_load_postcopy()
-Date: Wed, 19 Feb 2020 17:17:19 +0100
-Message-Id: <20200219161725.115218-8-david@redhat.com>
+Date: Wed, 19 Feb 2020 17:17:20 +0100
+Message-Id: <20200219161725.115218-9-david@redhat.com>
 In-Reply-To: <20200219161725.115218-1-david@redhat.com>
 References: <20200219161725.115218-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: JoMmZ0zCMwWKVlXeSeCHBg-1
+X-MC-Unique: 15J9vNFfONi61L6fE_p7JQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,58 +78,131 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's always the same value.
+Add two new helper functions. This will in come handy once we want to
+handle ram block resizes while postcopy is active.
 
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Cc: Juan Quintela <quintela@redhat.com>
 Cc: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/ram.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ migration/ram.c | 52 ++++++++++++++++++++++++++++---------------------
+ 1 file changed, 30 insertions(+), 22 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index cbd54947fb..75014717f6 100644
+index 75014717f6..80a4e4a9ea 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -3119,7 +3119,6 @@ static int ram_load_postcopy(QEMUFile *f)
+@@ -2734,6 +2734,20 @@ static inline void *host_from_ram_block_offset(RAMBl=
+ock *block,
+     return block->host + offset;
+ }
+=20
++static void *host_page_from_ram_block_offset(RAMBlock *block,
++                                             ram_addr_t offset)
++{
++    /* Note: Explicitly no check against offset_in_ramblock(). */
++    return (void *)QEMU_ALIGN_DOWN((uintptr_t)block->host + offset,
++                                   block->page_size);
++}
++
++static ram_addr_t host_page_offset_from_ram_block_offset(RAMBlock *block,
++                                                         ram_addr_t offset=
+)
++{
++    return ((uintptr_t)block->host + offset) & (block->page_size - 1);
++}
++
+ static inline void *colo_cache_from_block_offset(RAMBlock *block,
+                                                  ram_addr_t offset)
+ {
+@@ -3111,13 +3125,12 @@ static int ram_load_postcopy(QEMUFile *f)
+     MigrationIncomingState *mis =3D migration_incoming_get_current();
+     /* Temporary page that is later 'placed' */
+     void *postcopy_host_page =3D mis->postcopy_tmp_page;
+-    void *this_host =3D NULL;
++    void *host_page =3D NULL;
+     bool all_zero =3D false;
+     int target_pages =3D 0;
+=20
+     while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
          ram_addr_t addr;
-         void *host =3D NULL;
+-        void *host =3D NULL;
          void *page_buffer =3D NULL;
--        void *place_source =3D NULL;
          RAMBlock *block =3D NULL;
          uint8_t ch;
-         int len;
-@@ -3188,7 +3187,6 @@ static int ram_load_postcopy(QEMUFile *f)
-                 place_needed =3D true;
-                 target_pages =3D 0;
+@@ -3142,9 +3155,12 @@ static int ram_load_postcopy(QEMUFile *f)
+         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
+                      RAM_SAVE_FLAG_COMPRESS_PAGE)) {
+             block =3D ram_block_from_stream(f, flags);
++            if (!block) {
++                ret =3D -EINVAL;
++                break;
++            }
+=20
+-            host =3D host_from_ram_block_offset(block, addr);
+-            if (!host) {
++            if (!offset_in_ramblock(block, addr)) {
+                 error_report("Illegal RAM offset " RAM_ADDR_FMT, addr);
+                 ret =3D -EINVAL;
+                 break;
+@@ -3162,21 +3178,18 @@ static int ram_load_postcopy(QEMUFile *f)
+              * of a host page in one chunk.
+              */
+             page_buffer =3D postcopy_host_page +
+-                          ((uintptr_t)host & (block->page_size - 1));
++                          host_page_offset_from_ram_block_offset(block, ad=
+dr);
+             /* If all TP are zero then we can optimise the place */
+             if (target_pages =3D=3D 1) {
+                 all_zero =3D true;
+-                this_host =3D (void *)QEMU_ALIGN_DOWN((uintptr_t)host,
+-                                                    block->page_size);
+-            } else {
++                host_page =3D host_page_from_ram_block_offset(block, addr)=
+;
++            } else if (host_page !=3D host_page_from_ram_block_offset(bloc=
+k,
++                                                                    addr))=
+ {
+                 /* not the 1st TP within the HP */
+-                if (QEMU_ALIGN_DOWN((uintptr_t)host, block->page_size) !=
+=3D
+-                    (uintptr_t)this_host) {
+-                    error_report("Non-same host page %p/%p",
+-                                  host, this_host);
+-                    ret =3D -EINVAL;
+-                    break;
+-                }
++                error_report("Non-same host page %p/%p", host_page,
++                             host_page_from_ram_block_offset(block, addr))=
+;
++                ret =3D -EINVAL;
++                break;
              }
--            place_source =3D postcopy_host_page;
+=20
+             /*
+@@ -3255,15 +3268,10 @@ static int ram_load_postcopy(QEMUFile *f)
          }
 =20
-         switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
-@@ -3220,7 +3218,7 @@ static int ram_load_postcopy(QEMUFile *f)
-                  * buffer to make sure the buffer is valid when
-                  * placing the page.
-                  */
--                qemu_get_buffer_in_place(f, (uint8_t **)&place_source,
-+                qemu_get_buffer_in_place(f, (uint8_t **)&postcopy_host_pag=
-e,
-                                          TARGET_PAGE_SIZE);
-             }
-             break;
-@@ -3265,8 +3263,8 @@ static int ram_load_postcopy(QEMUFile *f)
-                 ret =3D postcopy_place_page_zero(mis, place_dest,
-                                                block);
+         if (!ret && place_needed) {
+-            /* This gets called at the last target page in the host page *=
+/
+-            void *place_dest =3D (void *)QEMU_ALIGN_DOWN((uintptr_t)host,
+-                                                       block->page_size);
+-
+             if (all_zero) {
+-                ret =3D postcopy_place_page_zero(mis, place_dest,
+-                                               block);
++                ret =3D postcopy_place_page_zero(mis, host_page, block);
              } else {
--                ret =3D postcopy_place_page(mis, place_dest,
--                                          place_source, block);
-+                ret =3D postcopy_place_page(mis, place_dest, postcopy_host=
+-                ret =3D postcopy_place_page(mis, place_dest, postcopy_host=
 _page,
-+                                          block);
++                ret =3D postcopy_place_page(mis, host_page, postcopy_host_=
+page,
+                                           block);
              }
          }
-     }
 --=20
 2.24.1
 
