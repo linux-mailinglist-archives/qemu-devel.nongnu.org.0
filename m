@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E22164BE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:30:11 +0100 (CET)
-Received: from localhost ([::1]:57422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A93C164D2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 18:59:58 +0100 (CET)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4TAo-0003ke-Q5
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:30:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49970)
+	id 1j4Tdd-0007X9-LK
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 12:59:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54099)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4T9f-0002yo-VV
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:29:01 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j4Tbw-0005Jm-Ed
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:58:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4T9b-0007rA-4z
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:28:56 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56469
+ (envelope-from <stefanha@redhat.com>) id 1j4Tbu-0000wO-Nx
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:58:11 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37140
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4T9b-0007pN-1Z
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:28:55 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j4Tbu-0000vN-KI
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 12:58:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582133334;
+ s=mimecast20190719; t=1582135089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rTG8ruVU7tabXZi8VGNaYjEx46GO6jNCKq6JXI/lN/E=;
- b=Ld4MlqPrqdTQvxY2McFWJu6jqUFMGXOgyuJtq4gs5wE+ISc2xugdh8txGgpqvgK8THVEta
- QsEXtYipJxsMM31F3ytLq2X6zPrO+VwMVWKiYVRnc+B6txEfaxZxKni2h9LZ6PiRU1sKUt
- 0d/7BF6IIbg2PP1zSaz4M1OtaRkc2n0=
+ bh=aoMcZECwJyOP1Gq85SIjQEettvg8amgYeWvqcmYe9nc=;
+ b=FX2cxlfvf5hAfGGDuubDsw3KNktpvpdMxvFpn5ao+DRXI33Lge/R69ggLRqtyA+8TjzKR3
+ aWm6DUjRsK1U8LcIZFqJtGeBmkrCZLK6I0Y3mUIEN1qOEq69fkaN65L0D73RZr7T7Umpx0
+ Gw+Cacj6FzTQ+Z2C7tZl7xZtd+cDDzI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-4PjexRUoOySKvT-O3p6BSw-1; Wed, 19 Feb 2020 12:28:50 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-96-CU0ZuIcaNweg1sy6yK-aoQ-1; Wed, 19 Feb 2020 12:58:00 -0500
+X-MC-Unique: CU0ZuIcaNweg1sy6yK-aoQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9E7BDB60;
- Wed, 19 Feb 2020 17:28:48 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E75CB5C13C;
- Wed, 19 Feb 2020 17:28:46 +0000 (UTC)
-Date: Wed, 19 Feb 2020 18:28:45 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 07/13] hw/arm/bcm2836: QOM'ify more by adding
- class_init() to each SoC type
-Message-ID: <20200219182845.4541db2e@redhat.com>
-In-Reply-To: <effdb318-dff9-e861-7bc6-8db65f15ad00@redhat.com>
-References: <20200217114533.17779-1-f4bug@amsat.org>
- <20200217114533.17779-8-f4bug@amsat.org>
- <20200218180426.008080b4@redhat.com>
- <effdb318-dff9-e861-7bc6-8db65f15ad00@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53F14107ACC5;
+ Wed, 19 Feb 2020 17:57:59 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AF9648;
+ Wed, 19 Feb 2020 17:57:58 +0000 (UTC)
+Date: Wed, 19 Feb 2020 15:14:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v3] virtio: increase virtqueue size for virtio-scsi and
+ virtio-blk
+Message-ID: <20200219151416.GJ1078625@stefanha-x1.localdomain>
+References: <20200214074648.958-1-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 4PjexRUoOySKvT-O3p6BSw-1
+In-Reply-To: <20200214074648.958-1-dplotnikov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NgG1H2o5aFKkgPy/"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,253 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Luc Michel <luc.michel@greensocs.com>
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Feb 2020 18:39:49 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+--NgG1H2o5aFKkgPy/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 2/18/20 6:04 PM, Igor Mammedov wrote:
-> > On Mon, 17 Feb 2020 12:45:27 +0100
-> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> >  =20
-> >> Remove usage of TypeInfo::class_data. Instead fill the fields in
-> >> the corresponding class_init().
-> >>
-> >> Cc: Igor Mammedov <imammedo@redhat.com>
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >> ---
-> >>   hw/arm/bcm2836.c | 109 ++++++++++++++++++++++-----------------------=
---
-> >>   1 file changed, 51 insertions(+), 58 deletions(-)
-> >>
-> >> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-> >> index 24109fef1d..683d04d6ea 100644
-> >> --- a/hw/arm/bcm2836.c
-> >> +++ b/hw/arm/bcm2836.c
-> >> @@ -16,57 +16,30 @@
-> >>   #include "hw/arm/raspi_platform.h"
-> >>   #include "hw/sysbus.h"
-> >>  =20
-> >> -typedef struct BCM283XInfo BCM283XInfo;
-> >> -
-> >>   typedef struct BCM283XClass {
-> >>       /*< private >*/
-> >>       DeviceClass parent_class;
-> >>       /*< public >*/
-> >> -    const BCM283XInfo *info;
-> >> -} BCM283XClass;
-> >> -
-> >> -struct BCM283XInfo {
-> >> -    const char *name; =20
-> >  =20
-> >>       const char *cpu_type; =20
-> >=20
-> > probably could be cleaned up by using machine->cpu_type/machine_class->=
-default_cpu_type
-> > (no need to change this patch as it's separate issue) =20
+On Fri, Feb 14, 2020 at 10:46:48AM +0300, Denis Plotnikov wrote:
+> The goal is to reduce the amount of requests issued by a guest on
+> 1M reads/writes. This rises the performance up to 4% on that kind of
+> disk access pattern.
 >=20
-> Hmm the core_type is tied to the SoC, not to the machine. The machine=20
-> only selects a SoC and gets the cpu cores that come with it. The problem=
-=20
-> is QEMU does not provide interface to select SoC from cmdline, only CPU.
+> The maximum chunk size to be used for the guest disk accessing is
+> limited with seg_max parameter, which represents the max amount of
+> pices in the scatter-geather list in one guest disk request.
 >=20
-> >=20
-> >  =20
-> >>       hwaddr peri_base; /* Peripheral base address seen by the CPU */
-> >>       hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
-> >>       int clusterid;
-> >> -};
-> >> +} BCM283XClass;
-> >>  =20
-> >>   #define BCM283X_CLASS(klass) \
-> >>       OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
-> >>   #define BCM283X_GET_CLASS(obj) \
-> >>       OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
-> >>  =20
-> >> -static const BCM283XInfo bcm283x_socs[] =3D {
-> >> -    {
-> >> -        .name =3D TYPE_BCM2836,
-> >> -        .cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7"),
-> >> -        .peri_base =3D 0x3f000000,
-> >> -        .ctrl_base =3D 0x40000000,
-> >> -        .clusterid =3D 0xf,
-> >> -    },
-> >> -#ifdef TARGET_AARCH64
-> >> -    {
-> >> -        .name =3D TYPE_BCM2837,
-> >> -        .cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a53"),
-> >> -        .peri_base =3D 0x3f000000,
-> >> -        .ctrl_base =3D 0x40000000,
-> >> -        .clusterid =3D 0x0,
-> >> -    },
-> >> -#endif
-> >> -};
-> >> -
-> >>   static void bcm2836_init(Object *obj)
-> >>   {
-> >>       BCM283XState *s =3D BCM283X(obj);
-> >>       BCM283XClass *bc =3D BCM283X_GET_CLASS(obj);
-> >> -    const BCM283XInfo *info =3D bc->info;
-> >>       int n;
-> >>  =20
-> >>       for (n =3D 0; n < BCM283X_NCPUS; n++) {
-> >>           object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
-> >> -                                sizeof(s->cpu[n].core), info->cpu_typ=
-e,
-> >> +                                sizeof(s->cpu[n].core), bc->cpu_type,
-> >>                                   &error_abort, NULL);
-> >>       }
-> >>  =20
-> >> @@ -85,7 +58,6 @@ static void bcm2836_realize(DeviceState *dev, Error =
-**errp)
-> >>   {
-> >>       BCM283XState *s =3D BCM283X(dev);
-> >>       BCM283XClass *bc =3D BCM283X_GET_CLASS(dev);
-> >> -    const BCM283XInfo *info =3D bc->info;
-> >>       Object *obj;
-> >>       Error *err =3D NULL;
-> >>       int n;
-> >> @@ -119,7 +91,7 @@ static void bcm2836_realize(DeviceState *dev, Error=
- **errp)
-> >>       }
-> >>  =20
-> >>       sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
-> >> -                            info->peri_base, 1);
-> >> +                            bc->peri_base, 1);
-> >>  =20
-> >>       /* bcm2836 interrupt controller (and mailboxes, etc.) */
-> >>       object_property_set_bool(OBJECT(&s->control), true, "realized", =
-&err);
-> >> @@ -128,7 +100,7 @@ static void bcm2836_realize(DeviceState *dev, Erro=
-r **errp)
-> >>           return;
-> >>       }
-> >>  =20
-> >> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, info->ctrl_base);
-> >> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, bc->ctrl_base);
-> >>  =20
-> >>       sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
-> >>           qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-irq", 0));
-> >> @@ -137,11 +109,11 @@ static void bcm2836_realize(DeviceState *dev, Er=
-ror **errp)
-> >>  =20
-> >>       for (n =3D 0; n < BCM283X_NCPUS; n++) {
-> >>           /* TODO: this should be converted to a property of ARM_CPU *=
-/
-> >> -        s->cpu[n].core.mp_affinity =3D (info->clusterid << 8) | n;
-> >> +        s->cpu[n].core.mp_affinity =3D (bc->clusterid << 8) | n;
-> >>  =20
-> >>           /* set periphbase/CBAR value for CPU-local registers */
-> >>           object_property_set_int(OBJECT(&s->cpu[n].core),
-> >> -                                info->peri_base,
-> >> +                                bc->peri_base,
-> >>                                   "reset-cbar", &err);
-> >>           if (err) {
-> >>               error_propagate(errp, err);
-> >> @@ -190,38 +162,59 @@ static Property bcm2836_props[] =3D {
-> >>   static void bcm283x_class_init(ObjectClass *oc, void *data)
-> >>   {
-> >>       DeviceClass *dc =3D DEVICE_CLASS(oc);
-> >> -    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> >>  =20
-> >> -    bc->info =3D data;
-> >> -    dc->realize =3D bcm2836_realize;
-> >> -    device_class_set_props(dc, bcm2836_props);
-> >>       /* Reason: Must be wired up in code (see raspi_init() function) =
-*/
-> >>       dc->user_creatable =3D false;
-> >>   }
-> >>  =20
-> >> -static const TypeInfo bcm283x_type_info =3D {
-> >> -    .name =3D TYPE_BCM283X,
-> >> -    .parent =3D TYPE_DEVICE,
-> >> -    .instance_size =3D sizeof(BCM283XState),
-> >> -    .instance_init =3D bcm2836_init,
-> >> -    .class_size =3D sizeof(BCM283XClass),
-> >> -    .abstract =3D true,
-> >> +static void bcm2836_class_init(ObjectClass *oc, void *data)
-> >> +{
-> >> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> >> +    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> >> +
-> >> +    bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7");
-> >> +    bc->peri_base =3D 0x3f000000;
-> >> +    bc->ctrl_base =3D 0x40000000;
-> >> +    bc->clusterid =3D 0xf;
-> >> +    dc->realize =3D bcm2836_realize;
-> >> +    device_class_set_props(dc, bcm2836_props);
-> >>   };
-> >>  =20
-> >> -static void bcm2836_register_types(void)
-> >> +#ifdef TARGET_AARCH64
-> >> +static void bcm2837_class_init(ObjectClass *oc, void *data)
-> >>   {
-> >> -    int i;
-> >> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> >> +    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> >>  =20
-> >> -    type_register_static(&bcm283x_type_info);
-> >> -    for (i =3D 0; i < ARRAY_SIZE(bcm283x_socs); i++) {
-> >> -        TypeInfo ti =3D {
-> >> -            .name =3D bcm283x_socs[i].name,
-> >> -            .parent =3D TYPE_BCM283X,
-> >> -            .class_init =3D bcm283x_class_init,
-> >> -            .class_data =3D (void *) &bcm283x_socs[i],
-> >> -        };
-> >> -        type_register(&ti);
-> >> +    bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a53");
-> >> +    bc->peri_base =3D 0x3f000000;
-> >> +    bc->ctrl_base =3D 0x40000000;
-> >> +    bc->clusterid =3D 0x0;
-> >> +    dc->realize =3D bcm2836_realize;
-> >> +    device_class_set_props(dc, bcm2836_props); =20
-> > both children do use the same values for almost all fields.
-> > I'd set in children class_init()s only cpu_type/clusterid
-> > and keep common bits in base class. =20
+> Since seg_max is virqueue_size dependent, increasing the virtqueue
+> size increases seg_max, which, in turn, increases the maximum size
+> of data to be read/write from a guest disk.
 >=20
-> Yes so far, but then the BCM2711/BCM2838 for raspi4 changes all fields.
+> More details in the original problem statment:
+> https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
+>=20
+> Suggested-by: Denis V. Lunev <den@openvz.org>
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+>=20
+> ---
+>=20
+> v3:
+>   * typos fixed
+>=20
+> v2:
+>   * seg_max default value changing removed
+> ---
+>  hw/block/virtio-blk.c | 2 +-
+>  hw/core/machine.c     | 2 ++
+>  hw/scsi/virtio-scsi.c | 2 +-
+>  3 files changed, 4 insertions(+), 2 deletions(-)
 
-I this case, maybe add this as justification to commit message.
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
-With that change
-  Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Stefan
 
->=20
-> >  =20
-> >> +};
-> >> +#endif
-> >> +
-> >> +static const TypeInfo bcm283x_types[] =3D {
-> >> +    {
-> >> +        .name           =3D TYPE_BCM2836,
-> >> +        .parent         =3D TYPE_BCM283X,
-> >> +        .class_init     =3D bcm2836_class_init,
-> >> +#ifdef TARGET_AARCH64
-> >> +    }, {
-> >> +        .name           =3D TYPE_BCM2837,
-> >> +        .parent         =3D TYPE_BCM283X,
-> >> +        .class_init     =3D bcm2837_class_init,
-> >> +#endif
-> >> +    }, {
-> >> +        .name           =3D TYPE_BCM283X,
-> >> +        .parent         =3D TYPE_DEVICE,
-> >> +        .instance_size  =3D sizeof(BCM283XState),
-> >> +        .instance_init  =3D bcm2836_init,
-> >> +        .class_size     =3D sizeof(BCM283XClass),
-> >> +        .class_init     =3D bcm283x_class_init,
-> >> +        .abstract       =3D true,
-> >>       }
-> >> -}
-> >> +};
-> >>  =20
-> >> -type_init(bcm2836_register_types)
-> >> +DEFINE_TYPES(bcm283x_types) =20
-> >  =20
->=20
+--NgG1H2o5aFKkgPy/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5NUMgACgkQnKSrs4Gr
+c8i32Af/b3yKup0k8k+MZPXrxYV8oQkiTpBuHdtOH8wceXUMWvDeXJBGbixtJqr+
+H1udQ2JVezNrOR+ZI/R0I8ZxSCfM9Zabqesn0QyYKAsURzajmaemMUdW4AYf8H0u
+oIpyg7jcLn0yVX7hjEg2vtg+xvgjNofq9SCT+H+8dRkuv7lmxoVl6pq9V710A91k
+ew063dldBOLcbeVbJpzqRi2kg6WMubZacFYxOHLmNBK+1GS1aNKGBIiZ1KKEqhw4
+k6amBFGb+8W6IAMpElmUTqi6wyL6oTcw3hSmHlCLtaVqYzvfQ0WNoxo5PkvEfkhk
+zRjSvNgQVa3m3DZkMz/tLvaquqoCsA==
+=QAsH
+-----END PGP SIGNATURE-----
+
+--NgG1H2o5aFKkgPy/--
 
 
