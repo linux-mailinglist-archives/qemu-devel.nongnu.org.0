@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0669916421C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:29:38 +0100 (CET)
-Received: from localhost ([::1]:48641 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67F01641F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:24:09 +0100 (CET)
+Received: from localhost ([::1]:48496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Mbp-0001IQ-41
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:29:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53812)
+	id 1j4MWW-0000XF-Ov
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:24:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MQ2-0003sz-K3
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:27 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4MQ8-0004Ax-Rp
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MQ1-0005jH-JH
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:26 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:34575)
+ (envelope-from <laurent@vivier.eu>) id 1j4MQ3-0005oo-Sb
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:17:32 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:43541)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPp-0005N6-QG; Wed, 19 Feb 2020 05:17:14 -0500
+ id 1j4MPu-0005VQ-Iy; Wed, 19 Feb 2020 05:17:18 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N6LMN-1jWvt50T6H-016gGs; Wed, 19 Feb 2020 11:16:50 +0100
+ id 1McHM2-1jaONM07IK-00cgh9; Wed, 19 Feb 2020 11:16:52 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/17] hw/nios2:fix leak of fdevice tree blob
-Date: Wed, 19 Feb 2020 11:16:11 +0100
-Message-Id: <20200219101612.1033925-17-laurent@vivier.eu>
+Subject: [PULL 17/17] hw/xtensa/xtfpga:fix leak of fdevice tree blob
+Date: Wed, 19 Feb 2020 11:16:12 +0100
+Message-Id: <20200219101612.1033925-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:V4NW0Cfty6gcVkThdoEhaGL1nZCXMiXRMOUudoULVW+euwTxQSJ
- 70VGnLGFEyow/yWgzGydQoK4mih2hDHqrxAVPDO5/Et85fzhS9p317woqhGdjIu9hpJij/d
- roY8bpX11SuJ+zVFK0MXuNwkMk7A74iF1zZfJpGqInesuu1yF0+QrptL8FD5cZ89D+123LT
- U7v1SaAMYxD6auoNpuz9Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Qo6RIilQvSI=:MR/4+Kac0ZOkyA9zF0wV3N
- JtCAMYarL6x7pbPFkge74S9pezob3grjmKKLq5Oab59NErOnrDVC9ybRI8K2MBDT4qNECzTGS
- NGHiigfzKACRBWzzGnH0Lq9UG2Q8bRvUi/RrbxHYD7/Kfidu2Y5EPmy1p8UCOcNsceDz64Ytu
- LXbNoDSGyS9o7K0WdZfFIyNCBung3TYObfjszEkDmTS46bkU//YY78YCSEJjE84fbZw9lb7jI
- Zv8oUtDC052XioqJ0MvvtW5g0NL7YuKk9tdI+VyT426UG6r/Gb0fvqQH5/j5pp8gIXpwiOs03
- QVsGNLc7x8PJJSflv/z8DXNMgIosVRKHQhHbe+uhRE8JQ5TzKHN7DE8sq/8E67XSeLM9VyZ/g
- JfaXsRY4UiUwBN3y1RHOkQsPmL5xAwWEnJHOikl/Ns/1WX5PwiqZ3y+////uob3U1Q/BrasjM
- x7hfD6OiK+g5HEGEBGpgl6fu9CSZvtdRsIv7NKNfkPEyHI5oLvrcgyR92WweK67TfH41189i7
- fTIJGF8srSzi05o0Fl/XMaQThZ6ILFD7DxbQRSjK7CZA0/vwAUkhAeZV/dPmDsDELcqPwNrB9
- Hij57OdqbUlcIBoLKfXIVD20PBAtgbXDWqxsrvqnA+Xi7SbxugzL6/lDQ50VazYvTuQzcBZMg
- JTzGQKMLI+2kZQra+tFQz8JVDPJ+EQD16Gtlo1/+Gi7QC2dSCp6ZgV9pVWLgjjR4FReOAd/T4
- 7LEvW5AeFYfYC/6De/OdJOpaa3Xra15hOfL1niubUG+qqtUhyl1usxecLls7237KCp+KpQSrF
- lhC1kwqKcGkLLjPU1Mgu/yLsm5PwpfOWFsJ895pLUMJxcheNTVWIrVi6a2oEn7dnyU35XEO
+X-Provags-ID: V03:K1:2d2DdnBIT4QzL6xniwXm6iBbRodr9Z9EJgRhZyD11lTxEOZi5ih
+ jzkXcdw805ZSlb6qs8qrMskTlO9hiW7BdZveZ84yjog/lIFx1wRSYviWMpcjXcPI0zgAubW
+ NXKwC90SodKEbaHPzlw6hOApbQf9VEM90b94R7XuCuiutC24oWen4Tz8gyudsuQGxB/EIfE
+ FbJTPSbTwBM0rX0y4XZuA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ARdIMovQ8QM=:/udeQ+opwPyE+3PMD2T7+V
+ LV1U6CoLgQ6itRUERxmiE70V3DBGdEpWWaMs9IB3K6bXN4f1/BByhpLE9O+36Ar4pPe1HwvIH
+ TOXgnrH/qnnWVCIEUe2rTH/h5wIPATlnj8sdzWb3qJnGHJZ1fRNH4dLx6zppMCTxCYZvpJgOe
+ eeV55IDrlwpTr72z5x2LI88zvd0sInaReVNpp89HjCf9P/99WQHaqVEx4viTpHCpes20Fpcmz
+ 4wm76XRFL//ozV/V+TRQ19ouAd8LfuFNYkXoNkj5Yq8BSsVlRdhruTH2zHfjDJovglTb0OzMZ
+ zeo7Lq5T1YgbRPBaO2nPSCQR51p0qEXqEpgsDMvKlj/1gSV5Eza8uHgoZ+KK+guCQcJl3xKs0
+ RTUIs7GaNcJsmJo3cxdvpO7MKCX5BNeEtx3SrgwjXIqT3LogOnNGwtU0C1Z9m4jwYEbElEUgV
+ zJZeSSJ8nQ+wjcYatF3hE+tJ9PDd3TVFob3RXuGDkZS0mD72NS8RYRhJ8eWXWPUUpNcW71ngP
+ f8shO4TBD2W8uoShLtCpe9Bz+f0vMkL1z9/8Aihhy2A3tVFesQi1WzcjgLdGsn8j8gdY593Rk
+ PTUKcEhlHnId5M9KkGzPxjXGpLsLFnWCXVIiPu+OasCTE+UTfmQkcB9WIbRBfLMUqAFJWO4Dk
+ IIhi8BzCaYWpWqzuwa5955FTb9kYgtchip15rCD4ZxPV2cTKHQ99wOE6H6Utlnvj7osOJsEG9
+ 5J3rPAECW7z7U6AMb754HNcxu3XmyQuhRV3ujJdcV2iE6tK4S2omcn6b0pE9sopU03yXkm+oF
+ ZHND4497IU9FXGHMi6zCtg9ZP+50YP7QCiwPQQPY+4+/yUo1ouO6KBbko3Kj7FFOmaNhqDz
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,25 +89,26 @@ We should free it after cpu_physical_memory_write().
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200218091154.21696-2-kuhn.chenqun@huawei.com>
+Message-Id: <20200218091154.21696-4-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/nios2/boot.c | 1 +
+ hw/xtensa/xtfpga.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
-index 46b834987691..88224aa84c8b 100644
---- a/hw/nios2/boot.c
-+++ b/hw/nios2/boot.c
-@@ -109,6 +109,7 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
-     }
- 
-     cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
-+    g_free(fdt);
-     return fdt_size;
- }
- 
+diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
+index 8e2dd1327a46..60ccc74f5f1d 100644
+--- a/hw/xtensa/xtfpga.c
++++ b/hw/xtensa/xtfpga.c
+@@ -380,6 +380,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
+             cur_tagptr = put_tag(cur_tagptr, BP_TAG_FDT,
+                                  sizeof(dtb_addr), &dtb_addr);
+             cur_lowmem = QEMU_ALIGN_UP(cur_lowmem + fdt_size, 4 * KiB);
++            g_free(fdt);
+         }
+ #else
+         if (dtb_filename) {
 -- 
 2.24.1
 
