@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6825164ABC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:40:43 +0100 (CET)
-Received: from localhost ([::1]:56090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DFA164AEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:48:32 +0100 (CET)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SOw-0003T6-Va
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:40:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37754)
+	id 1j4SWV-0003Xn-AM
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:48:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4RwU-0004el-AE
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:19 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4RwV-0004iT-MI
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4RwT-0001NY-6B
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:18 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55341
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j4RwU-0001Ov-FK
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47462
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwT-0001NF-26
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:17 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4RwU-0001OI-Am
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582128676;
+ s=mimecast20190719; t=1582128677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uJB+YFHObrCYN81ZH0sVWGq+LkcleFBAAYvtKS11+W0=;
- b=cHHXux1an9k4uySP2RhEw0bpZhEFYTS4T4eLRPrwY8qIIA6qOFXZ8CIWbDvl8H0Bf3Xi0h
- Alv+nY9WzOaJudHGbxqm3CMGT56YmmbyiNkoxHnpTG0aarWJxGb79Au8QntWzLmY95BOhs
- SITKENVY8aa7rIHAksItFV1i+k+pNIc=
+ bh=3tY/FN3zW+PMga61oMdiDkt6pkqxSjv/nQ+M0t/RaKw=;
+ b=W7CfcqetmuwDzzxmWJqDBQXD4r2Uox+RQZj1axX/FlarGH1PoC8OgdQqhViwmanKrKbin1
+ Smnvf+NLhX1BdkjfM60wXbM2ciVhlhKw1ypMzCdELRmQ5SBlNYDaCI4i4Jqtxfsln5yrHn
+ keMXMyMjRlKbwAeugAO54x44bBu/4IU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-ixtjyUGANeqYpncF7XYW9w-1; Wed, 19 Feb 2020 11:11:14 -0500
+ us-mta-314-Euk2F8YVOEiMHUzBAQo8eQ-1; Wed, 19 Feb 2020 11:11:15 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC1BE10BABD1
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6D09802591
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:14 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25FC348;
- Wed, 19 Feb 2020 16:11:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 215688ECF3;
+ Wed, 19 Feb 2020 16:11:13 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 67/79] ppc/spapr: use memdev for RAM
-Date: Wed, 19 Feb 2020 11:09:41 -0500
-Message-Id: <20200219160953.13771-68-imammedo@redhat.com>
+Subject: [PATCH v6 68/79] ppc/virtex_ml507: use memdev for RAM
+Date: Wed, 19 Feb 2020 11:09:42 -0500
+Message-Id: <20200219160953.13771-69-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ixtjyUGANeqYpncF7XYW9w-1
+X-MC-Unique: Euk2F8YVOEiMHUzBAQo8eQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,49 +84,80 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/ppc/spapr.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/ppc/virtex_ml507.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index c9b2e0a5e0..4d90f99195 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2634,7 +2634,6 @@ static void spapr_machine_init(MachineState *machine)
-     PCIHostState *phb;
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 91dd00ee91..b6f4507dcf 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -193,7 +193,6 @@ static int xilinx_load_device_tree(hwaddr addr,
+=20
+ static void virtex_init(MachineState *machine)
+ {
+-    ram_addr_t ram_size =3D machine->ram_size;
+     const char *kernel_filename =3D machine->kernel_filename;
+     const char *kernel_cmdline =3D machine->kernel_cmdline;
+     hwaddr initrd_base =3D 0;
+@@ -204,7 +203,6 @@ static void virtex_init(MachineState *machine)
+     CPUPPCState *env;
+     hwaddr ram_base =3D 0;
+     DriveInfo *dinfo;
+-    MemoryRegion *phys_ram =3D g_new(MemoryRegion, 1);
+     qemu_irq irq[32], *cpu_irq;
+     int kernel_size;
      int i;
-     MemoryRegion *sysmem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     hwaddr node0_size =3D spapr_node0_size(machine);
-     long load_limit, fw_size;
-     char *filename;
-@@ -2813,10 +2812,8 @@ static void spapr_machine_init(MachineState *machine=
-)
-         kvmppc_enable_h_page_init();
-     }
+@@ -221,8 +219,7 @@ static void virtex_init(MachineState *machine)
 =20
--    /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "ppc_spapr.ram",
--                                         machine->ram_size);
--    memory_region_add_subregion(sysmem, 0, ram);
-+    /* map RAM */
-+    memory_region_add_subregion(sysmem, 0, machine->ram);
+     qemu_register_reset(main_cpu_reset, cpu);
 =20
-     /* always allocate the device memory information */
-     machine->device_memory =3D g_malloc0(sizeof(*machine->device_memory));
-@@ -4400,6 +4397,7 @@ static void spapr_machine_class_init(ObjectClass *oc,=
- void *data)
-     mc->no_parallel =3D 1;
-     mc->default_boot_order =3D "";
-     mc->default_ram_size =3D 512 * MiB;
-+    mc->default_ram_id =3D "ppc_spapr.ram";
-     mc->default_display =3D "std";
-     mc->kvm_type =3D spapr_kvm_type;
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRIDGE)=
+-    memory_region_allocate_system_memory(phys_ram, NULL, "ram", ram_size);
+-    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
++    memory_region_add_subregion(address_space_mem, ram_base, machine->ram)=
 ;
+=20
+     dinfo =3D drive_get(IF_PFLASH, 0, 0);
+     pflash_cfi01_register(PFLASH_BASEADDR, "virtex.flash", FLASH_SIZE,
+@@ -265,7 +262,7 @@ static void virtex_init(MachineState *machine)
+             /* If we failed loading ELF's try a raw image.  */
+             kernel_size =3D load_image_targphys(kernel_filename,
+                                               boot_offset,
+-                                              ram_size);
++                                              machine->ram_size);
+             boot_info.bootstrap_pc =3D boot_offset;
+             high =3D boot_info.bootstrap_pc + kernel_size + 8192;
+         }
+@@ -276,7 +273,7 @@ static void virtex_init(MachineState *machine)
+         if (machine->initrd_filename) {
+             initrd_base =3D high =3D ROUND_UP(high, 4);
+             initrd_size =3D load_image_targphys(machine->initrd_filename,
+-                                              high, ram_size - high);
++                                              high, machine->ram_size - hi=
+gh);
+=20
+             if (initrd_size < 0) {
+                 error_report("couldn't load ram disk '%s'",
+@@ -290,7 +287,7 @@ static void virtex_init(MachineState *machine)
+         boot_info.fdt =3D high + (8192 * 2);
+         boot_info.fdt &=3D ~8191;
+=20
+-        xilinx_load_device_tree(boot_info.fdt, ram_size,
++        xilinx_load_device_tree(boot_info.fdt, machine->ram_size,
+                                 initrd_base, initrd_size,
+                                 kernel_cmdline);
+     }
+@@ -302,6 +299,7 @@ static void virtex_machine_init(MachineClass *mc)
+     mc->desc =3D "Xilinx Virtex ML507 reference design";
+     mc->init =3D virtex_init;
+     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("440-xilinx");
++    mc->default_ram_id =3D "ram";
+ }
+=20
+ DEFINE_MACHINE("virtex-ml507", virtex_machine_init)
 --=20
 2.18.1
 
