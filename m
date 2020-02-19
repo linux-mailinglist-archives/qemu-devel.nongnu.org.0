@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA465164A7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:34:33 +0100 (CET)
-Received: from localhost ([::1]:55904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5429C164AE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 17:47:52 +0100 (CET)
+Received: from localhost ([::1]:56270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4SIy-0007Fw-Re
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:34:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37944)
+	id 1j4SVr-0002HI-6y
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 11:47:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j4Rwo-00059D-92
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:39 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j4Rwp-0005CP-Uj
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j4Rwk-0001cG-0v
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47127
+ (envelope-from <imammedo@redhat.com>) id 1j4Rwo-0001eI-PX
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22223
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rwi-0001aj-W5
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:33 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j4Rwo-0001ab-8w
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 11:11:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582128689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=//zYQxrlOPLGGJ2M/X0qZqb7Udk4IsxR6OPbv5I6dAE=;
- b=iahHEdxmeSe+dMfFbG89X9EKu6SUxbQ/a8NfPnNJr2THWFgTqvcbGV2ZNQU0FhX1vHCqst
- C4W2mH6uAYK/ROi5pGneOSTwy+2PeWGaCYlOw7bk4F79HzOANPNk60eaQpI9017ppbLN9D
- Ty4A3YIrqsEGKa0PhZpifIDSCJ+62fY=
+ bh=BhL6wDZMTJlCC/+zSovXHHAVffVw675LJ/IHtNrYAFM=;
+ b=Hm8ihlBONMlW75DinVtecivBcTcNGXWDcPN1JVK3xCcgOgOdDLiesRFoAG3D0dJdKRA3hY
+ aRXwYA3ctsQO6+yDm8sPCK/IioAOrln2zyvl6ZCah5RFeQUVYsLITOaUsQDMCNYHjivduX
+ L73XqdTy1FXv83hqbhPSIsiqAbb3Mew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-FRWjjerpNk-U-pnrIq8WyQ-1; Wed, 19 Feb 2020 11:11:23 -0500
+ us-mta-67-P5pSoMtpPQGO4LHANW6LtQ-1; Wed, 19 Feb 2020 11:11:24 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F19B610BABE8;
- Wed, 19 Feb 2020 16:11:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF253100550E
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 16:11:22 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB6EB48;
- Wed, 19 Feb 2020 16:11:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4941048;
+ Wed, 19 Feb 2020 16:11:22 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 73/79] exec: cleanup
- qemu_minrampagesize()/qemu_maxrampagesize()
-Date: Wed, 19 Feb 2020 11:09:47 -0500
-Message-Id: <20200219160953.13771-74-imammedo@redhat.com>
+Subject: [PATCH v6 74/79] exec: drop bogus mem_path from
+ qemu_ram_alloc_from_fd()
+Date: Wed, 19 Feb 2020 11:09:48 -0500
+Message-Id: <20200219160953.13771-75-imammedo@redhat.com>
 In-Reply-To: <20200219160953.13771-1-imammedo@redhat.com>
 References: <20200219160953.13771-1-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: FRWjjerpNk-U-pnrIq8WyQ-1
+X-MC-Unique: P5pSoMtpPQGO4LHANW6LtQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -72,108 +73,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, aik@ozlabs.ru, mdroth@linux.vnet.ibm.com,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, rth@twiddle.net,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since all RAM is backed by hostmem backends, drop
-global -mem-path invariant and simplify code.
+Function will report error that will mention global mem_path,
+which was valid the only if legacy -mem-path was used and
+only in case of main RAM.
+
+However it doesn't work with hostmem backends
+(for example:
+"
+  qemu: -object memory-backend-file,id=3Dram0,size=3D128M,mem-path=3Dfoo:
+    backing store (null) size 0x200000 does not match 'size' option 0x80000=
+00
+")
+and couldn't possibly work in general FD case the function
+is supposed to handle.
+
+Taking in account that main RAM was converted into
+memory-backend-foo object, there is no point in printing
+file name (from inappropriate place) as failing path is
+a part of backend's error message.
+
+Hence drop bogus mem_path usage from qemu_ram_alloc_from_fd(),
+it's a job of its user to add file name to error message if applicable.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4:
-  * fix access to uninitialized pagesize/hpsize
-    (David Gibson <david@gibson.dropbear.id.au>)
-
-CC: thuth@redhat.com
-CC: aik@ozlabs.ru
-CC: mdroth@linux.vnet.ibm.com
-CC: david@gibson.dropbear.id.au
-CC: qemu-ppc@nongnu.org
-CC: pbonzini@redhat.com
-CC: rth@twiddle.net
----
- exec.c | 49 ++++---------------------------------------------
- 1 file changed, 4 insertions(+), 45 deletions(-)
+ exec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/exec.c b/exec.c
-index 8e9cc3b47c..d85a8689d4 100644
+index d85a8689d4..6ebff8bd3a 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -1667,59 +1667,18 @@ static int find_max_backend_pagesize(Object *obj, v=
-oid *opaque)
- long qemu_minrampagesize(void)
- {
-     long hpsize =3D LONG_MAX;
--    long mainrampagesize;
--    Object *memdev_root;
--    MachineState *ms =3D MACHINE(qdev_get_machine());
--
--    mainrampagesize =3D qemu_mempath_getpagesize(mem_path);
--
--    /* it's possible we have memory-backend objects with
--     * hugepage-backed RAM. these may get mapped into system
--     * address space via -numa parameters or memory hotplug
--     * hooks. we want to take these into account, but we
--     * also want to make sure these supported hugepage
--     * sizes are applicable across the entire range of memory
--     * we may boot from, so we take the min across all
--     * backends, and assume normal pages in cases where a
--     * backend isn't backed by hugepages.
--     */
--    memdev_root =3D object_resolve_path("/objects", NULL);
--    if (memdev_root) {
--        object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsi=
-ze);
--    }
--    if (hpsize =3D=3D LONG_MAX) {
--        /* No additional memory regions found =3D=3D> Report main RAM page=
- size */
--        return mainrampagesize;
--    }
--
--    /* If NUMA is disabled or the NUMA nodes are not backed with a
--     * memory-backend, then there is at least one node using "normal" RAM,
--     * so if its page size is smaller we have got to report that size inst=
-ead.
--     */
--    if (hpsize > mainrampagesize &&
--        (ms->numa_state =3D=3D NULL ||
--         ms->numa_state->num_nodes =3D=3D 0 ||
--         ms->numa_state->nodes[0].node_memdev =3D=3D NULL)) {
--        static bool warned;
--        if (!warned) {
--            error_report("Huge page support disabled (n/a for main memory)=
-.");
--            warned =3D true;
--        }
--        return mainrampagesize;
--    }
-+    Object *memdev_root =3D object_resolve_path("/objects", NULL);
+@@ -2307,9 +2307,9 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, Mem=
+oryRegion *mr,
+     size =3D HOST_PAGE_ALIGN(size);
+     file_size =3D get_file_size(fd);
+     if (file_size > 0 && file_size < size) {
+-        error_setg(errp, "backing store %s size 0x%" PRIx64
++        error_setg(errp, "backing store size 0x%" PRIx64
+                    " does not match 'size' option 0x" RAM_ADDR_FMT,
+-                   mem_path, file_size, size);
++                   file_size, size);
+         return NULL;
+     }
 =20
-+    object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize);
-     return hpsize;
- }
-=20
- long qemu_maxrampagesize(void)
- {
--    long pagesize =3D qemu_mempath_getpagesize(mem_path);
-+    long pagesize =3D 0;
-     Object *memdev_root =3D object_resolve_path("/objects", NULL);
-=20
--    if (memdev_root) {
--        object_child_foreach(memdev_root, find_max_backend_pagesize,
--                             &pagesize);
--    }
-+    object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesize=
-);
-     return pagesize;
- }
- #else
 --=20
 2.18.1
 
