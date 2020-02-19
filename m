@@ -2,44 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4925A164072
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 10:32:46 +0100 (CET)
-Received: from localhost ([::1]:47834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91851640E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 10:55:11 +0100 (CET)
+Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4Lin-0001zi-Bi
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 04:32:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45767)
+	id 1j4M4U-0003Ac-7r
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 04:55:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j4Lhu-0001Nb-R4
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:31:51 -0500
+ (envelope-from <vkuznets@redhat.com>) id 1j4M3l-0002j7-Sh
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:54:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j4Lht-0007Mh-GK
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:31:50 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:38146 helo=huawei.com)
+ (envelope-from <vkuznets@redhat.com>) id 1j4M3j-000623-U3
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:54:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20395
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j4Lht-0007Hj-5a
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:31:49 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 1F5BABD63FBF78B98F31;
- Wed, 19 Feb 2020 17:31:44 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.216) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 19 Feb 2020 17:31:36 +0800
-From: <pannengyuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH] migration/savevm: release gslist after dump_vmstate_json
-Date: Wed, 19 Feb 2020 17:47:05 +0800
-Message-ID: <20200219094705.8960-1-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
+ (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1j4M3j-00060E-IQ
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 04:54:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582106059;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1N88VF8Ut/hyyLVBXajE9yPdmQZ8AflrwK7IfSmC29I=;
+ b=gHRISgfJc2od8sXa6V6PvE6U9Qt6wi3oSQRyP4pZAhuh9OI+G/QkuFIZ9PfCQTgsHrbWmY
+ t/a+HDAjsNU2i88+blG8EgzSymVcOQciyRFdbt2m73LbhSUz8YguVK9Ikq502FR09EgXtN
+ C6fgrn0EiFLJSx4ewpcD/LI+Yh5D5jY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-5p4MMMVJO76ubnNupUt-Uw-1; Wed, 19 Feb 2020 04:54:17 -0500
+Received: by mail-wm1-f71.google.com with SMTP id g26so1382608wmk.6
+ for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 01:54:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=+590MGy8slvCwOcarh/x5+GjQgQiBdCOw3lnRNEYUq8=;
+ b=k139txOdjmFXheJAekzCNANtgtRI2NHzat6fmBrdgdsdz2FJ9/MUKVCmq1LNjnlUpW
+ s3xHx1f9Jue8PTQuttdTDTuKVf8Q26KYKoIft3bzmKK7vyk5kWFthPVMm0tNV/AjND7Q
+ Mkv+4tl1dDbPgex34TSyrR7r9MprnsxY1WCAaM9+L+ca0Uc4ODpcTZ23/oqL3pEJSlzw
+ 1WI35lKgXUxe7KeqADPY9JHgE9OaRrE9UZ9eOA26n8phA+mBOg5ckW05f6WOBzG6t+Si
+ G8OK24EIAWE2SKyh5gyEZ6pRnypcH95rIjUcgDcakMrDgVogOmmRc/Ci/LEYmLf2FVZ+
+ wB1Q==
+X-Gm-Message-State: APjAAAXeBLlUbINXcZBencPLV7PW4oo4jsmNw+aQd8URWnt9FlB6gB+t
+ LoDBSdKapX5bwrVFceqvSqS7RmU735p455MDaxXx2vM24A35Vvm4wlEUrd9TtZ40M6VM1P75a/t
+ 4V/DrubollYAsraY=
+X-Received: by 2002:a5d:5273:: with SMTP id l19mr36731482wrc.175.1582106056575; 
+ Wed, 19 Feb 2020 01:54:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxztJqRwkbVqb4PRGgJGnIqDWtAG3o0PybRen6hTmJaEvGmq984n2y6ghWTKyEO5UUMDCh4Rg==
+X-Received: by 2002:a5d:5273:: with SMTP id l19mr36731437wrc.175.1582106056175; 
+ Wed, 19 Feb 2020 01:54:16 -0800 (PST)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id t128sm2361371wmf.28.2020.02.19.01.54.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Feb 2020 01:54:15 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH RFC] target/i386: filter out VMX_PIN_BASED_POSTED_INTR
+ when enabling SynIC
+In-Reply-To: <d5a3159d-4cab-ef94-bbfc-e9120324cd3e@redhat.com>
+References: <20200218144415.94722-1-vkuznets@redhat.com>
+ <9b4b46c2-e2cf-a3d5-70e4-c8772bf6734f@redhat.com>
+ <87k14j962l.fsf@vitty.brq.redhat.com>
+ <d5a3159d-4cab-ef94-bbfc-e9120324cd3e@redhat.com>
+Date: Wed, 19 Feb 2020 10:54:14 +0100
+Message-ID: <878sky9a2h.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
+X-MC-Unique: 5p4MMMVJO76ubnNupUt-Uw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.175.104.216]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,65 +90,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
- qemu-devel@nongnu.org, euler.robot@huawei.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>, Liran Alon <liran.alon@oracle.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-'list' forgot to free at the end of dump_vmstate_json_to_file(), although it's called only once, but seems like a clean code.
+> On 18/02/20 18:08, Vitaly Kuznetsov wrote:
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>=20
+>>> On 18/02/20 15:44, Vitaly Kuznetsov wrote:
+>>>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>>>> ---
+>>>> RFC: This is somewhat similar to eVMCS breakage and it is likely possi=
+ble
+>>>> to fix this in KVM. I decided to try QEMU first as this is a single
+>>>> control and unlike eVMCS we don't need to keep a list of things to dis=
+able.
+>>>
+>>> I think you should disable "virtual-interrupt delivery" instead (which
+>>> in turn requires "process posted interrupts" to be zero).  That is the
+>>> one that is incompatible with AutoEOI interrupts.
+>>=20
+>> I'm fighting the symptoms, not the cause :-) My understanding is that
+>> when SynIC is enabled for CPU0 KVM does
+>>=20
+>> kvm_vcpu_update_apicv()
+>> =09vmx_refresh_apicv_exec_ctrl()
+>> =09=09pin_controls_set()
+>>=20
+>> for *all* vCPUs (KVM_REQ_APICV_UPDATE). I'm not sure why
+>> SECONDARY_EXEC_APIC_REGISTER_VIRT/SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY
+>> are not causing problems and only PIN_BASED_POSTED_INTR does as we clear
+>> them all (not very important atm).
+>
+> Let's take a step back, what is the symptom, i.e. how does it fail?
 
-Fix the leak as follow:
-Direct leak of 16 byte(s) in 1 object(s) allocated from:
-    #0 0x7fb946abd768 in __interceptor_malloc (/lib64/libasan.so.5+0xef768)
-    #1 0x7fb945eca445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
-    #2 0x7fb945ee2066 in g_slice_alloc (/lib64/libglib-2.0.so.0+0x6a066)
-    #3 0x7fb945ee3139 in g_slist_prepend (/lib64/libglib-2.0.so.0+0x6b139)
-    #4 0x5585db591581 in object_class_get_list_tramp /mnt/sdb/qemu-new/qemu/qom/object.c:1084
-    #5 0x5585db590f66 in object_class_foreach_tramp /mnt/sdb/qemu-new/qemu/qom/object.c:1028
-    #6 0x7fb945eb35f7 in g_hash_table_foreach (/lib64/libglib-2.0.so.0+0x3b5f7)
-    #7 0x5585db59110c in object_class_foreach /mnt/sdb/qemu-new/qemu/qom/object.c:1038
-    #8 0x5585db5916b6 in object_class_get_list /mnt/sdb/qemu-new/qemu/qom/object.c:1092
-    #9 0x5585db335ca0 in dump_vmstate_json_to_file /mnt/sdb/qemu-new/qemu/migration/savevm.c:638
-    #10 0x5585daa5bcbf in main /mnt/sdb/qemu-new/qemu/vl.c:4420
-    #11 0x7fb941204812 in __libc_start_main ../csu/libc-start.c:308
-    #12 0x5585da29420d in _start (/mnt/sdb/qemu-new/qemu/build/x86_64-softmmu/qemu-system-x86_64+0x27f020d)
+I just do
 
-Indirect leak of 7472 byte(s) in 467 object(s) allocated from:
-    #0 0x7fb946abd768 in __interceptor_malloc (/lib64/libasan.so.5+0xef768)
-    #1 0x7fb945eca445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
-    #2 0x7fb945ee2066 in g_slice_alloc (/lib64/libglib-2.0.so.0+0x6a066)
-    #3 0x7fb945ee3139 in g_slist_prepend (/lib64/libglib-2.0.so.0+0x6b139)
-    #4 0x5585db591581 in object_class_get_list_tramp /mnt/sdb/qemu-new/qemu/qom/object.c:1084
-    #5 0x5585db590f66 in object_class_foreach_tramp /mnt/sdb/qemu-new/qemu/qom/object.c:1028
-    #6 0x7fb945eb35f7 in g_hash_table_foreach (/lib64/libglib-2.0.so.0+0x3b5f7)
-    #7 0x5585db59110c in object_class_foreach /mnt/sdb/qemu-new/qemu/qom/object.c:1038
-    #8 0x5585db5916b6 in object_class_get_list /mnt/sdb/qemu-new/qemu/qom/object.c:1092
-    #9 0x5585db335ca0 in dump_vmstate_json_to_file /mnt/sdb/qemu-new/qemu/migration/savevm.c:638
-    #10 0x5585daa5bcbf in main /mnt/sdb/qemu-new/qemu/vl.c:4420
-    #11 0x7fb941204812 in __libc_start_main ../csu/libc-start.c:308
-    #12 0x5585da29420d in _start (/mnt/sdb/qemu-new/qemu/build/x86_64-softmmu/qemu-system-x86_64+0x27f020d)
+~/qemu/x86_64-softmmu/qemu-system-x86_64 -machine q35,accel=3Dkvm -cpu host=
+,hv_vpindex,hv_synic -smp 2 -m 16384 -vnc :0
+and get
+qemu-system-x86_64: error: failed to set MSR 0x48d to 0xff00000016
+qemu-system-x86_64: /root/qemu/target/i386/kvm.c:2684: kvm_buf_set_msrs: As=
+sertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+Aborted
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
- migration/savevm.c | 1 +
- 1 file changed, 1 insertion(+)
+(it works with '-smp 1' or without 'hv_synic')
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index f19cb9ec7a..60e6ea8a8d 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -665,6 +665,7 @@ void dump_vmstate_json_to_file(FILE *out_file)
-     }
-     fprintf(out_file, "\n}\n");
-     fclose(out_file);
-+    g_slist_free(list);
- }
- 
- static uint32_t calculate_new_instance_id(const char *idstr)
--- 
-2.18.2
+> Because thinking more about it, since we have separate VMCS we can set
+> PIN_BASED_POSTED_INTR and SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY just fine
+> in the vmcs02.
+> The important part is to unconditionally call
+> vmx_deliver_nested_posted_interrupt.
+>
+> Something like
+>
+> =09if (kvm_x86_ops->deliver_posted_interrupt(vcpu, vector)) {
+>                 kvm_lapic_set_irr(vector, apic);
+>                 kvm_make_request(KVM_REQ_EVENT, vcpu);
+>                 kvm_vcpu_kick(vcpu);
+>         }
+>
+> and in vmx_deliver_posted_interrupt
+>
+>         r =3D vmx_deliver_nested_posted_interrupt(vcpu, vector);
+>         if (!r)
+>                 return 0;
+>
+> =09if (!vcpu->arch.apicv_active)
+>                 return -1;
+>         ...
+>         return 0;
+
+Sound like a plan, let me try playing with it.
+
+--=20
+Vitaly
 
 
