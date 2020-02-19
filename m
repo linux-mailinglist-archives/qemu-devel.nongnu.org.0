@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D216E164160
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:21:14 +0100 (CET)
-Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FBD164155
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 11:19:31 +0100 (CET)
+Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4MTh-0001AQ-Qm
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:21:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53091)
+	id 1j4MRz-00061a-Tg
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 05:19:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4MPV-0003HB-4J
+ (envelope-from <laurent@vivier.eu>) id 1j4MPV-0003HJ-6q
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:16:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4MPS-0004ok-Bu
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:16:51 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:44133)
+ (envelope-from <laurent@vivier.eu>) id 1j4MPS-0004ow-ES
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 05:16:52 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:48843)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j4MPP-0004kW-U2; Wed, 19 Feb 2020 05:16:48 -0500
+ id 1j4MPS-0004nj-4N; Wed, 19 Feb 2020 05:16:50 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M5g68-1j77Hq3oh0-007Btt; Wed, 19 Feb 2020 11:16:29 +0100
+ id 1MX0Xf-1ixb8x3bzt-00XLSA; Wed, 19 Feb 2020 11:16:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/17] hw/arm/xlnx-versal: Remove superfluous semicolon
-Date: Wed, 19 Feb 2020 11:16:00 +0100
-Message-Id: <20200219101612.1033925-6-laurent@vivier.eu>
+Subject: [PULL 06/17] hw/m68k/next-cube: Remove superfluous semicolon
+Date: Wed, 19 Feb 2020 11:16:01 +0100
+Message-Id: <20200219101612.1033925-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200219101612.1033925-1-laurent@vivier.eu>
 References: <20200219101612.1033925-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0UIaGymRkHOi2DF4lkrvQbjocJ0VXLaz83FHsdOiumnOiiA1zHi
- LIhV4jNl/px6A4GtPrTRho0kYUTAI3Od93K1c5BZ5afLvIEVCAAeJA6HIwgsBN0dlKUvT6k
- aO99u8WR0pGgEZOuXBOakFLhxtsGMsbyTvGANEx5N33KelG6S/Rc16t1m8qj5SQnMAGhz4E
- QprhmyVDnmkWg8o7b64ZA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LErVUMfUeNE=:hppZXitRdXM4wjlR2gIdh2
- 1dtI5dXUv9Jp8Nx04NdkI3sNFJrTldxXXwJoYlirzeUbtFGtk09k3+6+qwcmql4QBYgbDuJGM
- WxETmvirw4SeR1UEmDyTBBdZpg5eVgGHaxc3iz9NvilcIG3VRhvuPr7HycSGUH0398r8Vf4Vl
- kStSX/o7ZES/Y5PU0zkvQ2QInxtvHLsQMSZVayvyhhAQJT44LUcUbz1DJI64XZXpUTvi5SPng
- izJmUHcR5qMAZBQSXBCp6tnGo1hG77j581TA2RmwxoeDoWjx2DmXhEcZHGnxUYRLx55mKoWys
- 6kXiE80W2NGo4UUIsrQY9/Djf7XHDyBg6Y8Aw/dRt2rp9IqXfJsgtBGpK54pDyO1/BBVGVrUZ
- NDOzFSM8f/wPxnp86YWToEI/wNWU0hRqZCju5W6kACXRF3zQxalk9DTMB8AwALyKf/vIFedCc
- ImikLPDOZRgz8xM1+Z0Y7TFkFMmEbTsPFVg9wLaApsM6JgGiMi63rYfP8R9V06eWEiMvrE5lc
- oUngbJUHs5xVzWP8ViZBXKBk7wI2t2oNHM7q3Cj/s+ta4L9P4MTdjmcowjDyLiCtMnTJ4U5eN
- ORcrSjOmsCMNATt3DQYPw1fQJZqMac1wULduwNmilKWL8OK1FfMR+lASbP9H1ayxDoNwEUvoI
- o+A1MG7UMVQLPoPuAzz4D8EXGaz3T42WSoU/Pd1b2bHXV1QQ13CihydIrEpq+UFtwXYLi5jI7
- Qdmso8A+sgnXYQ+uxr53REL9d7ZfJ0XZy7Hdp118kx8f1D4VEifE+WmKcJ1Tcp5GRKwbH0f6j
- 1MJ/lenEmsPcgHBjHLNHFLQubrWkIMsMbG/zqSLnlD7+fAtTDckpE40JELJDFSbpDWgQjtr
+X-Provags-ID: V03:K1:YwU/YVllBHraEo0Cl8lzUR9IjE0X30kvnGnRfWTuXIFMN2jYT7O
+ XrRa4UbDum2mg5AgM704YkBwjUL7jVd7UXk5rBz3BWJQlaFpZ5EwIQs4N5qr0d106HQtpUn
+ LMkn+IN+eRdJBgxUOeW/jBH8U0FjMbuD4qT46mC46Zuhzi3qBYJnrdIIhuJSj+mo23nW7Ue
+ CGcxfihqg5LiTzw7PX/hg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GditWF4XCtQ=:lufd1/0JL3gK9oH6/mi4XW
+ n/nIxxMlhQP6oUwHoFT6KhXpVzEZMd5hV52T6YO1hd2mVuJ3JkCuSlB5V/wzj5TUtF5Ar3EB9
+ 8ma888wx0hkbC0SlRC5n4Z1N8TUMVlWzS+2t3YrA/6Ggj0EO8rSU06xzfZBEgFO+/rqWKR7PO
+ qpVudWx/PItAVnk1z9PtdzTMa9VmQOzTFdHYOt1f7Aif/fvE2qMYcExF1l30SxVW2YK4YZhv/
+ dM+X0jCtT6MdWKA3Ci5IqfK4Eq3Fu2e2H4fobysDmYf8ImaFG083KETrNurgRavkpetbxmk32
+ bwB0glkkvx7H7Y/gK74mLVD+id31/3iaZ//caUCUqYFBu4AmOeEv/Unv2FnEQ5VD7K9ymNVVM
+ /TUB5UAahLSujwjnoVkobFyc0GjmwVYOy0KogqW03zBGIskT9NOWVibdUkSkQUzvVFyhjFvyg
+ nr3DC6IkcSwAUkXwsHq3RAWvCm77nsF5ljN66IJ5nkwPvtbynn3VX5KJ2RLRZUvxKlpRNGCiU
+ aAxSOzXwl9BxkCNDCDApct6iLN+uAO20P3Nci6zLZAeVvhiAASzJ/rkdQxAEUxmX/a0Ak8SHw
+ 4jcYWo9y7wzMAmK9XC7ukOBL+vp1g9bn9Kmr8hwRS0ORCipP5zof05FWG2IBq8TRcYF5Tq6Ap
+ gii4VdzQbsoqV8aKCqz0lnECnDk6/2z66JuvQAJs/oL9AUi/37vvUSD8ohIL/sdTb7951YDTW
+ XXJncEPhNolYEP8CK7Q0hEK5ECPmOfSFs5k5Iu63+/My8V+XH+cEhYw80q2E+/Ukpdzkk72n0
+ yTVwzDHyU4C8zUK+aWJiw1GGH5IabmOLn7xOq2oP7Mu/SuNynbsPNVV1GKmYa/4fc7jns3I
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,30 +86,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fixes: 6f16da53ffe
+Fixes: 956a78118bf
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20200218094402.26625-6-philmd@redhat.com>
+Message-Id: <20200218094402.26625-7-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/arm/xlnx-versal-virt.c | 2 +-
+ hw/m68k/next-cube.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 462493c46711..0d2e3bdda169 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -350,7 +350,7 @@ static void create_virtio_regions(VersalVirt *s)
-     int i;
- 
-     for (i = 0; i < NUM_VIRTIO_TRANSPORT; i++) {
--        char *name = g_strdup_printf("virtio%d", i);;
-+        char *name = g_strdup_printf("virtio%d", i);
-         hwaddr base = MM_TOP_RSVD + i * virtio_mmio_size;
-         int irq = VERSAL_RSVD_IRQ_FIRST + i;
-         MemoryRegion *mr;
+diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+index e5343348d076..350c6fec78f9 100644
+--- a/hw/m68k/next-cube.c
++++ b/hw/m68k/next-cube.c
+@@ -734,7 +734,7 @@ void next_irq(void *opaque, int number, int level)
+     switch (number) {
+     /* level 3 - floppy, kbd/mouse, power, ether rx/tx, scsi, clock */
+     case NEXT_FD_I:
+-        shift = 7;;
++        shift = 7;
+         break;
+     case NEXT_KBD_I:
+         shift = 3;
 -- 
 2.24.1
 
