@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42814165E93
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:19:52 +0100 (CET)
-Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF8C165E81
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:16:38 +0100 (CET)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4lk7-0004Ti-8S
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:19:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56355)
+	id 1j4lgz-0006ov-8d
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:16:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56388)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j4lXc-00066g-5x
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:57 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4lXd-00067M-UO
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j4lXa-0005dB-8N
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34810
+ (envelope-from <philmd@redhat.com>) id 1j4lXc-0005em-1f
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32140
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lXa-0005bL-27
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lXa-0005bv-6x
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582204012;
+ s=mimecast20190719; t=1582204013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gva/oijUn2ukqqFeWUu5GYV/ONiMfg1SXT6HuIycNbc=;
- b=BprNefb0a5nrJoeVazx4d/BDq9xFbFY1DkG0KAmdpVQNabycvrnAB2LK+F0UbDV8GfjsxA
- qAt4Db5u0ZAsSM7hmPWkgXgY+aRK7YG7NOPRw0aNU1LpavK5Hp8Ad7Oel0DaHtdnIH5uFN
- SZHy7QF4A2UdPaOSw9BAFNI4pLAtPIo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-jhGHXd59N96uovvU4eJdBQ-1; Thu, 20 Feb 2020 08:06:47 -0500
-Received: by mail-wr1-f71.google.com with SMTP id p8so1714155wrw.5
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:47 -0800 (PST)
+ bh=mnDlGhkDMc438YGrbvBovs3YxQJGj712XxeOh8S513U=;
+ b=bXzFcujiUy8WThLAzWiyrVojuXhqpd51Xvn+J2tRCvL8TH2DdyGhwQTqowbuj7edFVT/ZR
+ /Bn/AkdrraGHTAklTb6bcWdmzsgNzFNf5l3ipQS+X1slezfWLZ3PwKNwCu3YQqjLETpVVL
+ 3KsXvf0D2XG1BQk6yW+fB9PaaxwQXrQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-cMDgiJUsPiORV_ejrrfMPQ-1; Thu, 20 Feb 2020 08:06:51 -0500
+Received: by mail-wr1-f69.google.com with SMTP id 50so1721328wrc.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=epBBiJe/BiipnhOxinjfU345ql1651dsm1KJ2Eg1l+8=;
- b=NNNXJLYFQNSx1pzcjH68Cc/mzX3aOiaZhE6zGeVv5KUAg3a2s+OvE+JXPVkknDZV8A
- ppzDjzBT4mJ7K2O9lfWlI6gT4MW5GYgRM7sv19M/8MunZHpK8uC/zDlu7k9kKkZ8E7IU
- nmgOjwxmQJgJZrm0OWAhg9wsDfaSEALBf3FiRimY/Atr/GL9BTvbpU/+PhalIBXYVv8Z
- 38nNFczikKOm3L/BVb4AS5oY4ohXnwKhERPbRXtGkZDrPn7B74jX0Afr/ffEZrfir4ql
- 5Ilg7hayjZNHnpBd0fNY3BAKRRQo5k1OQcCxWn8hIWT/OjlofNADIWQ3ldbOqIqNCWmk
- //VA==
-X-Gm-Message-State: APjAAAXo1DPOiQMrbQLId0sY92cDnuMhci5zbZ8DCYgC5crHnHF6c6t7
- qaB0rJEOrBwTC/7M6Iw64IyCEnT9CHNHlgktYMuOwl42G9iKKI44Af7hDhxj9yUuHYSF83Ei7dB
- 7o1SUhRY5fNzSKpI=
-X-Received: by 2002:a05:600c:295d:: with SMTP id
- n29mr4504805wmd.101.1582204006819; 
- Thu, 20 Feb 2020 05:06:46 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyzyX5Y7gdzaTOQjQ/rcWnepNEp6tk5YfOUODjdV1i7lhwV6s1r0NC2sbtsj+sn6/vQEc+xMg==
-X-Received: by 2002:a05:600c:295d:: with SMTP id
- n29mr4504765wmd.101.1582204006470; 
- Thu, 20 Feb 2020 05:06:46 -0800 (PST)
+ bh=U6IlttQWg5GixafQJKz3fjDa/v6plglwkRJYH67W75E=;
+ b=TrlOYIYqb3piVS48NoxVhY1+nLdo37HAtkhy0GOLS/kO56o1UfyfCvehM8EGXUPAtc
+ uEU1nA/6gFvOtsLSIQ0T3jRKufOU2Fa6E+r4Ok+51TKafo5E8gjEWDat8mjiiDnUaT/M
+ EQAHv8sooaI7AgTsBur1kCNyO9H4yWkG+KBeQm9UVs/O41P11jTVG+ioFvoFb3niYwqa
+ R9cPZwh6kq2EJqCPbA38OdNGBj24r/jO3rBJSp7SbUYHvZbC1YhgY+MH7U50mnONulq2
+ QFX0lIHmYo6zel4I4K3H+k4KHhXM1ItbAVqaAKhRBr5AKYaFx4sMCP8ppRn8+fkkMAZx
+ 9rtQ==
+X-Gm-Message-State: APjAAAVoN2PsbKGXF8/Jg5mWB/knTbqkqO4TAHULQIfo2LulepMK8y/T
+ ViH9sYdGHvzmUSeuqz8zuIDikP+bagcBq+b+xNVlRUMd6YHIO2my06YGKwo8TuGxj81Ta4Oqlm9
+ vAaRh7Wov+xVM4bY=
+X-Received: by 2002:adf:cd92:: with SMTP id q18mr41684788wrj.261.1582204010381; 
+ Thu, 20 Feb 2020 05:06:50 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyVav3x+evHlrydubRXhyXAQPy/0YGFnLq+pw2hyskD3NJLge6kmK8LKicTlkzB4cX/rXzZiw==
+X-Received: by 2002:adf:cd92:: with SMTP id q18mr41684732wrj.261.1582204010138; 
+ Thu, 20 Feb 2020 05:06:50 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.06.42
+ by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.06.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 05:06:45 -0800 (PST)
+ Thu, 20 Feb 2020 05:06:49 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 14/20] hw/virtio: Let vhost_memory_map() use a boolean
+Subject: [PATCH v3 15/20] exec: Let address_space_unmap() use a boolean
  'is_write' argument
-Date: Thu, 20 Feb 2020 14:05:42 +0100
-Message-Id: <20200220130548.29974-15-philmd@redhat.com>
+Date: Thu, 20 Feb 2020 14:05:43 +0100
+Message-Id: <20200220130548.29974-16-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200220130548.29974-1-philmd@redhat.com>
 References: <20200220130548.29974-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: jhGHXd59N96uovvU4eJdBQ-1
+X-MC-Unique: cMDgiJUsPiORV_ejrrfMPQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,48 +121,45 @@ Convert it to a boolean type.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/virtio/vhost.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/exec/memory.h | 2 +-
+ exec.c                | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 9edfadc81d..0d226dae10 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -294,7 +294,7 @@ static int vhost_dev_has_iommu(struct vhost_dev *dev)
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index afee185eae..1614d9a02c 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2329,7 +2329,7 @@ void *address_space_map(AddressSpace *as, hwaddr addr=
+,
+  * @is_write: indicates the transfer direction
+  */
+ void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
+-                         int is_write, hwaddr access_len);
++                         bool is_write, hwaddr access_len);
+=20
+=20
+ /* Internal functions, part of the implementation of address_space_read.  =
+*/
+diff --git a/exec.c b/exec.c
+index 01437be691..16974d4f4b 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3598,11 +3598,11 @@ void *address_space_map(AddressSpace *as,
  }
 =20
- static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
--                              hwaddr *plen, int is_write)
-+                              hwaddr *plen, bool is_write)
+ /* Unmaps a memory region previously mapped by address_space_map().
+- * Will also mark the memory as dirty if is_write =3D=3D 1.  access_len gi=
+ves
++ * Will also mark the memory as dirty if is_write is true.  access_len giv=
+es
+  * the amount of memory that was actually read or written by the caller.
+  */
+ void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
+-                         int is_write, hwaddr access_len)
++                         bool is_write, hwaddr access_len)
  {
-     if (!vhost_dev_has_iommu(dev)) {
-         return cpu_physical_memory_map(addr, plen, is_write);
-@@ -1012,21 +1012,21 @@ static int vhost_virtqueue_start(struct vhost_dev *=
-dev,
-=20
-     vq->desc_size =3D s =3D l =3D virtio_queue_get_desc_size(vdev, idx);
-     vq->desc_phys =3D a;
--    vq->desc =3D vhost_memory_map(dev, a, &l, 0);
-+    vq->desc =3D vhost_memory_map(dev, a, &l, false);
-     if (!vq->desc || l !=3D s) {
-         r =3D -ENOMEM;
-         goto fail_alloc_desc;
-     }
-     vq->avail_size =3D s =3D l =3D virtio_queue_get_avail_size(vdev, idx);
-     vq->avail_phys =3D a =3D virtio_queue_get_avail_addr(vdev, idx);
--    vq->avail =3D vhost_memory_map(dev, a, &l, 0);
-+    vq->avail =3D vhost_memory_map(dev, a, &l, false);
-     if (!vq->avail || l !=3D s) {
-         r =3D -ENOMEM;
-         goto fail_alloc_avail;
-     }
-     vq->used_size =3D s =3D l =3D virtio_queue_get_used_size(vdev, idx);
-     vq->used_phys =3D a =3D virtio_queue_get_used_addr(vdev, idx);
--    vq->used =3D vhost_memory_map(dev, a, &l, 1);
-+    vq->used =3D vhost_memory_map(dev, a, &l, true);
-     if (!vq->used || l !=3D s) {
-         r =3D -ENOMEM;
-         goto fail_alloc_used;
+     if (buffer !=3D bounce.buffer) {
+         MemoryRegion *mr;
 --=20
 2.21.1
 
