@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6377716609F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 16:13:29 +0100 (CET)
-Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A61166091
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 16:12:20 +0100 (CET)
+Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4nW4-00067d-Es
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 10:13:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
+	id 1j4nUx-0004Be-1w
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 10:12:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1j4nTd-0002m8-RQ
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 10:10:59 -0500
+ (envelope-from <ovoshcha@redhat.com>) id 1j4nTd-0002l8-Bk
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 10:10:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1j4nTb-0006sz-LC
+ (envelope-from <ovoshcha@redhat.com>) id 1j4nTc-0006ut-8K
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 10:10:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28030
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33548
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j4nTb-0006ri-HC
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 10:10:55 -0500
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j4nTc-0006tJ-4U
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 10:10:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582211455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=heDlndT4Vn36W18ursSUZuZUPiNVz/9nzMrCO7RbA5E=;
- b=S5SVQy/3N83sN1KFtt3C5Qo5ZHXKPLmi94ozI6iTOAIem/rSFPMUqni7+czYTheBWQaOEJ
- eX6D6ys1yIpdlXzhtcfapVkmK3cDRrfqMrVjQqGOkpaeBLSQaLSscdFaHiCd+TWdP64HxY
- YuzPKNMgPtN/+HvTJOWDXk90cmrnuGo=
+ bh=mk7mxObj+F1rSmq9Vu2WnQwTKR+cBHHEHHwDVqoXI+8=;
+ b=KnYgvZDTdLDJvTG1FvXcDIiEoDziEYkvTHnWIWoZy5hn/UPqGgpVv4H5g/D9nAZSUg3Ci/
+ D6OoxH04JQ+0De/7kGxpokl/jVFClj9ZWuBbMNXTs73KIEkzwK4rmY1eS6yzLIrJJzxoTD
+ CaJQpf4C49akpS/1C5MXkskcJ+4iWsc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-vSbbs7lWMvWHTW8IDydEdQ-1; Thu, 20 Feb 2020 10:10:50 -0500
+ us-mta-239-zkZelA5ZMVe5PEtslRxB_w-1; Thu, 20 Feb 2020 10:10:52 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 104B58017CC
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 15:10:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23945800D4E
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 15:10:51 +0000 (UTC)
 Received: from kh066.redhat.com (ovpn-204-205.brq.redhat.com [10.40.204.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67BB18ECFC;
- Thu, 20 Feb 2020 15:10:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E7B08ECFC;
+ Thu, 20 Feb 2020 15:10:49 +0000 (UTC)
 From: Oksana Vohchana <ovoshcha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] Updates send_fd_scm function
-Date: Thu, 20 Feb 2020 17:10:38 +0200
-Message-Id: <20200220151039.20552-3-ovoshcha@redhat.com>
+Subject: [PATCH v2 3/3] Acceptance test: FD migration
+Date: Thu, 20 Feb 2020 17:10:39 +0200
+Message-Id: <20200220151039.20552-4-ovoshcha@redhat.com>
 In-Reply-To: <20200220151039.20552-1-ovoshcha@redhat.com>
 References: <20200220151039.20552-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: vSbbs7lWMvWHTW8IDydEdQ-1
+X-MC-Unique: zkZelA5ZMVe5PEtslRxB_w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,115 +76,50 @@ Cc: ovoshcha@redhat.com, philmd@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A qemu-iotest uses for FD-migration test a helper program "socket_scm_helpe=
-r".
-And it makes some problems if you didn't build it with a QEMU. And now we c=
-an
-use new methods for the socket that allow us to send a file/socket descript=
-or
-(with access and permissions) from one process to another.
+Adds a new migration test through the file descriptor.
 
 Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
 ---
- python/qemu/machine.py | 64 ++++++++++++++++++++++++++----------------
- 1 file changed, 40 insertions(+), 24 deletions(-)
+ tests/acceptance/migration.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 976316e5f5..906ca118db 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -179,20 +179,27 @@ class QEMUMachine(object):
-         return sock.sendmsg([msg], [(socket.SOL_SOCKET, socket.SCM_RIGHTS,
-                                       array.array("i", fds))])
+diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+index a8367ca023..7f4879ce5d 100644
+--- a/tests/acceptance/migration.py
++++ b/tests/acceptance/migration.py
+@@ -10,7 +10,10 @@
+ # later.  See the COPYING file in the top-level directory.
 =20
--    def send_fd_scm(self, fd=3DNone, file_path=3DNone):
-+    def send_fd_scm(self, fd=3DNone, file_path=3DNone, data=3DNone):
-         """
--        Send an fd or file_path to socket_scm_helper.
-+        Can be used in two different cases.
-+        Send an fd or file_path to socket_scm_helper or
-+        provide data and fd to send it to the socket.
 =20
--        Exactly one of fd and file_path must be given.
--        If it is file_path, the helper will open that file and pass its ow=
-n fd.
-+        Exactly one of fd and file_path must be given to the case of
-+        socket_scm_helper. If it is file_path, the helper will open that f=
-ile
-+        and pass its own fd.
++import os
+ import tempfile
++from socket import socketpair, AF_UNIX, SOCK_STREAM
 +
-+        To second case need adds data that include a QMP request and fd
+ from avocado_qemu import Test
+ from avocado import skipUnless
+=20
+@@ -75,3 +78,21 @@ class Migration(Test):
          """
-         # In iotest.py, the qmp should always use unix socket.
-         assert self._qmp.is_scm_available()
--        if self._socket_scm_helper is None:
--            raise QEMUMachineError("No path to socket_scm_helper set")
--        if not os.path.exists(self._socket_scm_helper):
--            raise QEMUMachineError("%s does not exist" %
--                                   self._socket_scm_helper)
-+        if data is None:
-+            if self._socket_scm_helper is None:
-+                raise QEMUMachineError(
-+                    "No path to socket_scm_helper set or data provided")
-+            if not os.path.exists(self._socket_scm_helper):
-+                raise QEMUMachineError("%s does not exist" %
-+                                       self._socket_scm_helper)
-=20
-         # This did not exist before 3.4, but since then it is
-         # mandatory for our purpose
-@@ -201,24 +208,33 @@ class QEMUMachine(object):
-             if fd is not None:
-                 os.set_inheritable(fd, True)
-=20
--        fd_param =3D ["%s" % self._socket_scm_helper,
--                    "%d" % self._qmp.get_sock_fd()]
-+        if data is None:
-+            fd_param =3D ["%s" % self._socket_scm_helper,
-+                        "%d" % self._qmp.get_sock_fd()]
-+            if file_path is not None:
-+                assert fd is None
-+                fd_param.append(file_path)
-+            else:
-+                assert fd is not None
-+                fd_param.append(str(fd))
-=20
--        if file_path is not None:
--            assert fd is None
--            fd_param.append(file_path)
--        else:
--            assert fd is not None
--            fd_param.append(str(fd))
-+            devnull =3D open(os.path.devnull, 'rb')
-+            proc =3D subprocess.Popen(fd_param, stdin=3Ddevnull,
-+                                    stdout=3Dsubprocess.PIPE,
-+                                    stderr=3Dsubprocess.STDOUT, close_fds=
-=3DFalse)
-+            output =3D proc.communicate()[0]
-+            if output:
-+                LOG.debug(output)
-=20
--        devnull =3D open(os.path.devnull, 'rb')
--        proc =3D subprocess.Popen(fd_param, stdin=3Ddevnull, stdout=3Dsubp=
-rocess.PIPE,
--                                stderr=3Dsubprocess.STDOUT, close_fds=3DFa=
-lse)
--        output =3D proc.communicate()[0]
--        if output:
--            LOG.debug(output)
-+            return proc.returncode
-=20
--        return proc.returncode
-+        else:
-+            sock_fd =3D socket.fromfd(self._qmp.get_sock_fd(), socket.AF_U=
-NIX,
-+                                    socket.SOCK_STREAM)
-+            fds_param =3D [fd, self._qmp.get_sock_fd()]
-+            self._send_fds(sock_fd, data, fds_param)
-+            self._recv_fds(sock_fd)
-+            return self
-=20
-     @staticmethod
-     def _remove_if_exists(path):
+         free_port =3D self._get_free_port()
+         dest_uri =3D 'exec:nc -l localhost %u' % free_port
++
++    def test_migration_with_fd(self):
++        opaque =3D 'fd-migration'
++        data_to_send =3D b"{\"execute\": \"getfd\",  \"arguments\": \
++                        {\"fdname\": \"fd-migration\"}}"
++        send_socket, recv_socket =3D socketpair(AF_UNIX, SOCK_STREAM)
++        fd1 =3D send_socket.fileno()
++        fd2 =3D recv_socket.fileno()
++        os.set_inheritable(fd2, True)
++
++        source_vm =3D self.get_vm()
++        source_vm.launch()
++        source_vm.send_fd_scm(fd=3Dfd1, data=3Ddata_to_send)
++
++        dest_vm =3D self.get_vm('-incoming', 'fd:%s' % fd2)
++        dest_vm.launch()
++        source_vm.qmp('migrate', uri=3D'fd:%s' % opaque)
++        self.assert_migration(source_vm, dest_vm)
 --=20
 2.21.1
 
