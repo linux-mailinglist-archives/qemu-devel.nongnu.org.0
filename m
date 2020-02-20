@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49965165EA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:22:53 +0100 (CET)
-Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75696165E8D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:18:20 +0100 (CET)
+Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4ln2-0007Yt-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:22:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
+	id 1j4lid-0001rn-F9
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:18:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1j4lh4-0008Ez-Vg
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:16:43 -0500
+ (envelope-from <eblake@redhat.com>) id 1j4lhB-0008L7-Le
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:16:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1j4lh3-00024h-Ud
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:16:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55186)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1j4lh3-000232-Mv; Thu, 20 Feb 2020 08:16:41 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01KDE0O4036958; Thu, 20 Feb 2020 08:16:39 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y99pftrxr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Feb 2020 08:16:39 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01KDF0NQ070482;
- Thu, 20 Feb 2020 08:16:39 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y99pftrww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Feb 2020 08:16:38 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01KDFUEW022132;
- Thu, 20 Feb 2020 13:16:37 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 2y68978232-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Feb 2020 13:16:37 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01KDGa3H31654346
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Feb 2020 13:16:36 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D5F17805E;
- Thu, 20 Feb 2020 13:16:36 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C84137805C;
- Thu, 20 Feb 2020 13:16:34 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.146.44])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 20 Feb 2020 13:16:34 +0000 (GMT)
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH] s390/sclp: improve special wait psw logic
-Date: Thu, 20 Feb 2020 14:16:22 +0100
-Message-Id: <1582204582-22995-1-git-send-email-borntraeger@de.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-20_04:2020-02-19,
- 2020-02-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 mlxscore=0 phishscore=0 clxscore=1011 bulkscore=0
- impostorscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=900
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002200100
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+ (envelope-from <eblake@redhat.com>) id 1j4lhA-0002Ad-FE
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:16:49 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24688
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j4lhA-00029q-AU
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:16:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582204607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ru3ADtcHYP8MfN/oIVe5nGPDlqA+ClJ+343y1IgOloY=;
+ b=CSck3AKETPRi+rIlgust7ZVO+ImhQAT8qP4QFovK2zrcRgBT5xmmY19+ROetim4nhJzvpR
+ eV697Mg5X/tWObbzDzaesNEh8/vi4ICqTCzPiS7OkfM9WrKvv4WMvL0AYbOD18C+2lBuuQ
+ bjH6yL443mmL7UlvWE2/1sH3da2Wp6Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-RcZlOOoRPWG_gnpP3lfEWQ-1; Thu, 20 Feb 2020 08:16:45 -0500
+X-MC-Unique: RcZlOOoRPWG_gnpP3lfEWQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D202C1005510;
+ Thu, 20 Feb 2020 13:16:41 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1755B8B570;
+ Thu, 20 Feb 2020 13:16:28 +0000 (UTC)
+Subject: Re: [PATCH v3 02/20] hw: Remove unnecessary cast when calling
+ dma_memory_read()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200220130548.29974-1-philmd@redhat.com>
+ <20200220130548.29974-3-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <68120807-6f6b-1602-8208-fd76d64e74bc@redhat.com>
+Date: Thu, 20 Feb 2020 07:16:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200220130548.29974-3-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,37 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.vnet.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, kvm@vger.kernel.org,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Paul Durrant <paul@xen.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a special quiesce PSW that we check for "shutdown". Otherwise disabled
-wait is detected as "crashed". Architecturally we must only check PSW bits
-116-127. Fix this.
+On 2/20/20 7:05 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since its introduction in commit d86a77f8abb, dma_memory_read()
+> always accepted void pointer argument. Remove the unnecessary
+> casts.
+>=20
+> This commit was produced with the included Coccinelle script
+> scripts/coccinelle/exec_rw_const.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>   scripts/coccinelle/exec_rw_const.cocci | 15 +++++++++++++++
+>   hw/arm/smmu-common.c                   |  3 +--
+>   hw/arm/smmuv3.c                        | 10 ++++------
+>   hw/sd/sdhci.c                          | 15 +++++----------
+>   4 files changed, 25 insertions(+), 18 deletions(-)
+>   create mode 100644 scripts/coccinelle/exec_rw_const.cocci
+>=20
+> diff --git a/scripts/coccinelle/exec_rw_const.cocci b/scripts/coccinell=
+e/exec_rw_const.cocci
+> new file mode 100644
+> index 0000000000..a0054f009d
+> --- /dev/null
+> +++ b/scripts/coccinelle/exec_rw_const.cocci
+> @@ -0,0 +1,15 @@
+> +// Usage:
+> +//  spatch --sp-file scripts/coccinelle/exec_rw_const.cocci --dir . --=
+in-place
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
----
- target/s390x/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This command line should also use '--macro-file=20
+scripts/cocci-macro-file.h' to cover more of the code base (Coccinelle=20
+skips portions of the code that uses macros it doesn't recognize).
 
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index a3a4916..6808dfd 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -89,7 +89,7 @@ hwaddr s390_cpu_get_phys_addr_debug(CPUState *cs, vaddr vaddr)
- static inline bool is_special_wait_psw(uint64_t psw_addr)
- {
-     /* signal quiesce */
--    return psw_addr == 0xfffUL;
-+    return (psw_addr & 0xfffUL) == 0xfffUL;
- }
- 
- void s390_handle_wait(S390CPU *cpu)
--- 
-1.8.3.1
+
+> @@ -726,13 +724,10 @@ static void get_adma_description(SDHCIState *s, A=
+DMADescr *dscr)
+>           }
+>           break;
+>       case SDHC_CTRL_ADMA2_64:
+> -        dma_memory_read(s->dma_as, entry_addr,
+> -                        (uint8_t *)(&dscr->attr), 1);
+> -        dma_memory_read(s->dma_as, entry_addr + 2,
+> -                        (uint8_t *)(&dscr->length), 2);
+> +        dma_memory_read(s->dma_as, entry_addr, (&dscr->attr), 1);
+> +        dma_memory_read(s->dma_as, entry_addr + 2, (&dscr->length), 2)=
+;
+
+The () around &dscr->length are now pointless.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
