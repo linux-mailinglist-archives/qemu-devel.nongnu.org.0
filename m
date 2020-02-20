@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C154A166230
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:20:05 +0100 (CET)
-Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2246166222
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:18:13 +0100 (CET)
+Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4oYW-0005ds-QV
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:20:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55225)
+	id 1j4oWh-0002FS-Sd
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:18:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4oQW-0000ez-42
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:11:57 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j4oRz-0003YR-6m
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4oQU-0007Ep-7K
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:11:48 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32110
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1j4oRx-0007ag-PK
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45119
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oQU-0007DF-2x
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:11:46 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oRx-0007aO-Lc
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582215096;
+ s=mimecast20190719; t=1582215197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qUx1jkzn2LXx673KdYZrWkQgEj1mTKxfCWKAh53agL8=;
- b=iiJ3OhKs/O7XE9oWSfzq+F1sdhAPA+DMv/+Z4jBulBAFjO/KyU6KiyCwD24+F0CA6jFVtT
- rmU4/GOlKAmg227cKrG62TIH/GNqneUYtL0d2X03y3/rvUjqRGptE+UbJFuRiPPZjy9R17
- IbrHkQBI8EstY+hWI66bmFBgttpbfu4=
+ bh=+P3c9IeuuFwlbAjzYnXXV2dOknHwBFRWXj5QywQJiVY=;
+ b=RVK4cPx38G5bOKprqvX2LD/xp1woJOPK8qQLYlPpaFECHm34dEfIyfI2INlzi1b0G586o1
+ FyJEKmEo9o15t5wbGm9AhmOq7dqDbZAhIDwALU2run8tcmKr4/DlrdYXubGIAcerjymw02
+ 1yNUp3duKJmX7KSL7HWCEn3dPlpuHbg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-TKwBCt8NOOuT1vOKRkTYkg-1; Thu, 20 Feb 2020 11:11:32 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-405-bybKC1oHNrKMtRHhzmRFSQ-1; Thu, 20 Feb 2020 11:13:12 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3BD7802700;
- Thu, 20 Feb 2020 16:11:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F12B5800D48;
+ Thu, 20 Feb 2020 16:13:10 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C03F5DA7B;
- Thu, 20 Feb 2020 16:11:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 598AD19481;
+ Thu, 20 Feb 2020 16:13:09 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/18] iscsi: Drop iscsi_co_create_opts()
-Date: Thu, 20 Feb 2020 17:07:05 +0100
-Message-Id: <20200220160710.533297-14-mreitz@redhat.com>
+Subject: [PULL 14/18] iotests: Add test for image creation fallback
+Date: Thu, 20 Feb 2020 17:07:06 +0100
+Message-Id: <20200220160710.533297-15-mreitz@redhat.com>
 In-Reply-To: <20200220160710.533297-1-mreitz@redhat.com>
 References: <20200220160710.533297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: TKwBCt8NOOuT1vOKRkTYkg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: bybKC1oHNrKMtRHhzmRFSQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,100 +76,124 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generic fallback implementation effectively does the same.
-
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200122164532.178040-5-mreitz@redhat.com>
+Message-Id: <20200122164532.178040-6-mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+[mreitz: Added a note that NBD does not support resizing, which is why
+         the second case is expected to fail]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/iscsi.c | 56 ---------------------------------------------------
- 1 file changed, 56 deletions(-)
+ tests/qemu-iotests/259     | 62 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/259.out | 14 +++++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 77 insertions(+)
+ create mode 100755 tests/qemu-iotests/259
+ create mode 100644 tests/qemu-iotests/259.out
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index c8feaa2f0e..682abd8e09 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2164,58 +2164,6 @@ static int coroutine_fn iscsi_co_truncate(BlockDrive=
-rState *bs, int64_t offset,
-     return 0;
- }
-=20
--static int coroutine_fn iscsi_co_create_opts(const char *filename, QemuOpt=
-s *opts,
--                                             Error **errp)
--{
--    int ret =3D 0;
--    int64_t total_size =3D 0;
--    BlockDriverState *bs;
--    IscsiLun *iscsilun =3D NULL;
--    QDict *bs_options;
--    Error *local_err =3D NULL;
--
--    bs =3D bdrv_new();
--
--    /* Read out options */
--    total_size =3D DIV_ROUND_UP(qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE=
-, 0),
--                              BDRV_SECTOR_SIZE);
--    bs->opaque =3D g_new0(struct IscsiLun, 1);
--    iscsilun =3D bs->opaque;
--
--    bs_options =3D qdict_new();
--    iscsi_parse_filename(filename, bs_options, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        ret =3D -EINVAL;
--    } else {
--        ret =3D iscsi_open(bs, bs_options, 0, NULL);
--    }
--    qobject_unref(bs_options);
--
--    if (ret !=3D 0) {
--        goto out;
--    }
--    iscsi_detach_aio_context(bs);
--    if (iscsilun->type !=3D TYPE_DISK) {
--        ret =3D -ENODEV;
--        goto out;
--    }
--    if (bs->total_sectors < total_size) {
--        ret =3D -ENOSPC;
--        goto out;
--    }
--
--    ret =3D 0;
--out:
--    if (iscsilun->iscsi !=3D NULL) {
--        iscsi_destroy_context(iscsilun->iscsi);
--    }
--    g_free(bs->opaque);
--    bs->opaque =3D NULL;
--    bdrv_unref(bs);
--    return ret;
--}
--
- static int iscsi_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
- {
-     IscsiLun *iscsilun =3D bs->opaque;
-@@ -2486,8 +2434,6 @@ static BlockDriver bdrv_iscsi =3D {
-     .bdrv_parse_filename    =3D iscsi_parse_filename,
-     .bdrv_file_open         =3D iscsi_open,
-     .bdrv_close             =3D iscsi_close,
--    .bdrv_co_create_opts    =3D iscsi_co_create_opts,
--    .create_opts            =3D &iscsi_create_opts,
-     .bdrv_reopen_prepare    =3D iscsi_reopen_prepare,
-     .bdrv_reopen_commit     =3D iscsi_reopen_commit,
-     .bdrv_co_invalidate_cache =3D iscsi_co_invalidate_cache,
-@@ -2525,8 +2471,6 @@ static BlockDriver bdrv_iser =3D {
-     .bdrv_parse_filename    =3D iscsi_parse_filename,
-     .bdrv_file_open         =3D iscsi_open,
-     .bdrv_close             =3D iscsi_close,
--    .bdrv_co_create_opts    =3D iscsi_co_create_opts,
--    .create_opts            =3D &iscsi_create_opts,
-     .bdrv_reopen_prepare    =3D iscsi_reopen_prepare,
-     .bdrv_reopen_commit     =3D iscsi_reopen_commit,
-     .bdrv_co_invalidate_cache  =3D iscsi_co_invalidate_cache,
+diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
+new file mode 100755
+index 0000000000..62e29af05f
+--- /dev/null
++++ b/tests/qemu-iotests/259
+@@ -0,0 +1,62 @@
++#!/usr/bin/env bash
++#
++# Test generic image creation fallback (by using NBD)
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=3Dmreitz@redhat.com
++
++seq=3D$(basename $0)
++echo "QA output created by $seq"
++
++status=3D1=09# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt raw
++_supported_proto nbd
++_supported_os Linux
++
++
++_make_test_img 64M
++
++echo
++echo '--- Testing creation ---'
++
++$QEMU_IMG create -f qcow2 "$TEST_IMG" 64M | _filter_img_create
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info
++
++echo
++echo '--- Testing creation for which the node would need to grow ---'
++
++# NBD does not support resizing, so this will fail
++$QEMU_IMG create -f qcow2 -o preallocation=3Dmetadata "$TEST_IMG" 64M 2>&1=
+ \
++    | _filter_img_create
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
+new file mode 100644
+index 0000000000..ffed19c2a0
+--- /dev/null
++++ b/tests/qemu-iotests/259.out
+@@ -0,0 +1,14 @@
++QA output created by 259
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++
++--- Testing creation ---
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3Dqcow2 size=3D67108864
++image: TEST_DIR/t.IMGFMT
++file format: qcow2
++virtual size: 64 MiB (67108864 bytes)
++disk size: unavailable
++
++--- Testing creation for which the node would need to grow ---
++qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver d=
+oes not support resize
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3Dqcow2 size=3D67108864 preallocation=
+=3Dmetadata
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 818380a8f0..b17711d17d 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -273,6 +273,7 @@
+ 256 rw auto quick
+ 257 rw
+ 258 rw quick
++259 rw auto quick
+ 260 rw quick
+ 261 rw
+ 262 rw quick migration
 --=20
 2.24.1
 
