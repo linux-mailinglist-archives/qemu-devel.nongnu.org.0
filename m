@@ -2,63 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E7D166693
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 19:49:56 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F9E1666BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 19:59:22 +0100 (CET)
+Received: from localhost ([::1]:48018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4qtX-0000yQ-TV
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 13:49:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52359)
+	id 1j4r2f-0005L4-Lk
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 13:59:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j4qsl-0000KQ-0X
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:49:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4r1n-0004tb-63
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:58:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j4qsj-0004nN-Rw
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:49:06 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45988)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j4qsj-0004mA-Kw; Thu, 20 Feb 2020 13:49:05 -0500
-Received: by mail-lj1-x244.google.com with SMTP id e18so5278409ljn.12;
- Thu, 20 Feb 2020 10:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=71TT2HpdSHLsDhX9J/G2ZIHBB+dHYvP1+1iIDro8cH4=;
- b=SM4iNG8hPNBALFGOsFKyC9r0Hq9S7V0LGNn96OVqtOt5zONcMcqECWt/GgI2bQ1q1C
- Q9t7zy74RvM7EmoSTa5lTHj8M3WcQE1431rIunJs7wb4uRE1W414GhPhHgCfxZGVmuCg
- suuNemisXcmhKFoZk6IBlRWe+KtbueKv3iRq1jFek+ttviyBO4FYRpBjYA03Fim31R9I
- SsKiJ6f1RRPak15QxGtvaynM1ZP3YW9rUnlfaiy/dXZCxpUMrwFAzuPh0YehUwwSD8qF
- XW4NISPWCJ33IjZSUe50c5uD/v0pGdotBbD6AKZEkH/9hMZ4FYN3WmQoTnbpMzXroBlB
- ZFPQ==
+ (envelope-from <philmd@redhat.com>) id 1j4r1m-0001r4-4P
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:58:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33417
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4r1m-0001qi-1S
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:58:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582225105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E/ISRqWUQ9crFu8+Rj92wrQO2n/nJhQkjiD6L0oia/0=;
+ b=iVvsDssyrR5alhtslHqGf38vjTvBogu68yCGR8yh4Z7NGPtRmx2i/wBRqeZb/MfNvwTRe1
+ Qx8JMLbF0rOpnkD/dBEYSiwPS6cbk6V/ic1JwJ+7ncLekDGvS4RRnIicBAOk6kGu6oEdIk
+ xWtuG9DG+oqKJs/q0C5Q2n0VsCLxdB4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-FL7XgtwOMF6duOjL25w7jg-1; Thu, 20 Feb 2020 13:57:57 -0500
+Received: by mail-ed1-f72.google.com with SMTP id h24so3328896edw.23
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 10:57:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=71TT2HpdSHLsDhX9J/G2ZIHBB+dHYvP1+1iIDro8cH4=;
- b=nBWtvJGTSdiWjGXeHbjk0YXfhOJzxibuDi7u8VZYQ58bNSMTmlQQP0UchQnL79iScE
- T4kzSE1bDMVTVRBwiyGKBpoR+HRk+xHZR8fOxhyRJzJR44k4WFft160tbxRjihcf0cgW
- rXdLPj3ffWetU/8V7WPV3+lJCNdm5aK7/ixb/kYRsnOPtydiOxM0dBowa2OICxXg73Yz
- wUIqDz3I4jzPIXqa9v7x1EMXR5xUMjpzUQVvkQbjqauNKAd3XlQGs7qxaXnQ7KPBEh39
- 7mHh+1WW5B6rz8ggaFCSEM9UdiKk+G1VReZKVfveDwiX427F9s0+UpMcqZ/Gko4kLh5i
- XLoA==
-X-Gm-Message-State: APjAAAVaN4tZFjRDK6bPAZYcgFC4KFJYsU6PeYWKOoZL4oAfKDQONKh5
- HrSsfnBsZ2wrKJWnRAkEv+dn14fTTURLzzoikg4=
-X-Google-Smtp-Source: APXvYqwlFnd3DphkB9k9WTNmuFgtbussvdoLKY2UTBPmDdcYa07uvu8/Z5bRIFsZ87Vx/zhkWYbWx6bYQb8kf6fWvuQ=
-X-Received: by 2002:a2e:7609:: with SMTP id r9mr19668707ljc.238.1582224543639; 
- Thu, 20 Feb 2020 10:49:03 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+PtlgtaIhxq7h+o4lI5bSBjKgkyOqgUBIzSUB2rcEfo=;
+ b=P3T3JCe8/thcRXOs3rPPvTVJ3/UKD+Slyi9qoG1q7qC0gDPLZq/I94rcRFbE7xZPN1
+ fUwVjhDHn9LMTdedxO5I+i+kYT0902+KH/BTkJRNqDjpLIwGj5Yzqi7Q3DjotErEYyH2
+ i3YDwZj3FtkMaJr2Oj3bW0mttKNiejhF/Hod4L7ZSa6QAyAVYUkkL/ZLU889mPL7Ob5H
+ lZ2TW8S1nS2S297n1HQR2BapQqy+zOmJacFb8rxdZ7f+93ZBB6vPmR8jo22VskeDITQz
+ rOUPZxvz32S7uQoOkPV7EOm401Da1AlrhuN+HlfmqA09lLAhQFDSzqH5h/VCxkLxDlAD
+ NGYg==
+X-Gm-Message-State: APjAAAXEGttymih+l6lBnTXr8XeFp3m/YfVK1U8h1QQ03phT1//Xt0nF
+ D5sdDgvqsBdpgK+faUbWW6p9Gn3sSpr6p/BiMoVttfrHtqjtMykZO16kXSrRF7ROkTAQb9HLUkh
+ SMGpPFPKSMwq6+c8=
+X-Received: by 2002:a5d:534d:: with SMTP id t13mr45856219wrv.77.1582224697544; 
+ Thu, 20 Feb 2020 10:51:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxwHEpFtElVbSDe5Ae+zfavfLcY5zOx6GVksQwzST1Q9rxU6f3vBb8StdREQ5qjrNVW96g1kA==
+X-Received: by 2002:a5d:534d:: with SMTP id t13mr45856194wrv.77.1582224697238; 
+ Thu, 20 Feb 2020 10:51:37 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id n3sm268218wmc.27.2020.02.20.10.51.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Feb 2020 10:51:36 -0800 (PST)
+Subject: Re: [PATCH v2 2/2] hw: move timer_new from init() into realize() to
+ avoid memleaks
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Pan Nengyuan <pannengyuan@huawei.com>
+References: <20200217032127.46508-1-pannengyuan@huawei.com>
+ <20200217032127.46508-3-pannengyuan@huawei.com>
+ <CAFEAcA_AxCVaAgho3g2q=kCifSdhz9Qi72eoVAM9gRjb3-_Sog@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <747a3358-09af-d4fa-9150-57ad3e349f24@redhat.com>
+Date: Thu, 20 Feb 2020 19:51:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <62fcfe747245cf8edcabcbe8f1f0b59be035fad6.1579584948.git.alistair.francis@wdc.com>
-In-Reply-To: <62fcfe747245cf8edcabcbe8f1f0b59be035fad6.1579584948.git.alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 20 Feb 2020 10:41:35 -0800
-Message-ID: <CAKmqyKPGJQMqW7ZbWBYRDUxH_PRRSvUW6tEwBAdW+MTE-RG5+w@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] target/riscv: Correctly implement TSR trap
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+In-Reply-To: <CAFEAcA_AxCVaAgho3g2q=kCifSdhz9Qi72eoVAM9gRjb3-_Sog@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: FL7XgtwOMF6duOjL25w7jg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,46 +95,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, mav2-rk.cave-ayland@ilande.co.uk,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 20, 2020 at 9:43 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> As reported in: https://bugs.launchpad.net/qemu/+bug/1851939 we weren't
-> correctly handling illegal instructions based on the value of MSTATUS_TSR
-> and the current privledge level.
->
-> This patch fixes the issue raised in the bug by raising an illegal
-> instruction if TSR is set and we are in S-Mode.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On 2/20/20 6:56 PM, Peter Maydell wrote:
+> On Mon, 17 Feb 2020 at 03:22, <pannengyuan@huawei.com> wrote:
+>>
+>> From: Pan Nengyuan <pannengyuan@huawei.com>
+>>
+>> There are some memleaks when we call 'device_list_properties'. This patc=
+h move timer_new from init into realize to fix it.
+>> Meanwhile, do the null check in mos6522_reset() to avoid null deref if w=
+e move timer_new into realize().
+>>
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+>=20
+>> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+>> index 19e154b870..980eda7599 100644
+>> --- a/hw/misc/mos6522.c
+>> +++ b/hw/misc/mos6522.c
+>> @@ -465,11 +465,15 @@ static void mos6522_reset(DeviceState *dev)
+>>       s->timers[0].frequency =3D s->frequency;
+>>       s->timers[0].latch =3D 0xffff;
+>>       set_counter(s, &s->timers[0], 0xffff);
+>> -    timer_del(s->timers[0].timer);
+>> +    if (s->timers[0].timer) {
+>> +        timer_del(s->timers[0].timer);
+>> +    }
+>>
+>>       s->timers[1].frequency =3D s->frequency;
+>>       s->timers[1].latch =3D 0xffff;
+>> -    timer_del(s->timers[1].timer);
+>> +    if (s->timers[1].timer) {
+>> +        timer_del(s->timers[1].timer);
+>> +    }
+>>   }
+>=20
+> What code path calls a device 'reset' method on a device
+> that has not yet been realized ? I wasn't expecting that
+> to be valid...
 
-@Palmer Dabbelt  Ping!
+This is not valid. What I understood while reviewing this patch is on=20
+reset the timer is removed from the timers list. But this patch miss=20
+setting timer =3D NULL in case the device is reset multiple times, here=20
+can happen a NULL deref.
 
-Alistair
+>=20
+> thanks
+> -- PMM
+>=20
 
-> ---
->  target/riscv/op_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index 331cc36232..eed8eea6f2 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -83,7 +83,7 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
->      }
->
->      if (env->priv_ver >= PRIV_VERSION_1_10_0 &&
-> -        get_field(env->mstatus, MSTATUS_TSR)) {
-> +        get_field(env->mstatus, MSTATUS_TSR) && !(env->priv >= PRV_M)) {
->          riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
->      }
->
-> --
-> 2.24.1
->
 
