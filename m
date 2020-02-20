@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B69165A15
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:24:43 +0100 (CET)
-Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C936165A19
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:26:08 +0100 (CET)
+Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i4Y-0000WN-6i
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:24:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
+	id 1j4i5v-0003cD-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:26:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4i1X-00048z-4i
+ (envelope-from <laurent@vivier.eu>) id 1j4i1X-00049k-QW
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4i1W-00088v-4T
+ (envelope-from <laurent@vivier.eu>) id 1j4i1W-00089H-Ql
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:35 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:38107)
+Received: from mout.kundenserver.de ([217.72.192.75]:48947)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1V-000886-Rn
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1W-00088h-Ho
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:34 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M5PRT-1j3sXF3qgX-001VXL; Thu, 20 Feb 2020 10:20:57 +0100
+ id 1M7KKA-1j5oTF2Oqq-007o8U; Thu, 20 Feb 2020 10:20:57 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/13] linux-user: Implement membarrier syscall
-Date: Thu, 20 Feb 2020 10:20:41 +0100
-Message-Id: <20200220092053.1510215-2-laurent@vivier.eu>
+Subject: [PULL 02/13] linux-user: implement getsockopt SO_RCVTIMEO and
+ SO_SNDTIMEO
+Date: Thu, 20 Feb 2020 10:20:42 +0100
+Message-Id: <20200220092053.1510215-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
 References: <20200220092053.1510215-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pCfKeP0sdaMCzYW0ZbJkVeNq0bI4maMyKzmKSjuSrcmKZI1xGFd
- 7C0K27YLuS00xrsNInms9G+O2K4tRcQaeqxSzBCcXis/AMu7vyx2Kr6O/6NNP6tFi9qzFPM
- 0bn3Qxis0smc/6WJeUPkTZ4uRk7k1lNcycdY2bN38S6KFWUO/kgouKgcDK11cf+J6Uyc1gd
- cqHwqEvkBII+PJAllSNAw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QHo6oa5FLIk=:eUQqno9qkdHaBHO60/r+WJ
- uu6febSZaNZW1CIWMRshqWUF3RwlrxB+y81w8BFH18yOaME2/0KdgJE5I5N8+5odZSfAvPkT0
- ZvzZ3Ke/Xi+n6u2LpWmyhSqc8aiqSh3m9acynt79yoQzK4bMnL9wq5rILGV3f4azLp0sF/+qP
- uvMI+5oG0iMZR8sDf5q9AAQ97I5yGVTvbAQDFAXQRHBA2y3oSKdxZDxr0LjMPQKR4Y5l/OyOf
- C/O+oFyWxM1k7rHH0mpDBp6LJabac5Gf3Ea6HmgeMUgr1deo3/9vl+fxonUb0KH+Egh7/RVsN
- j+7b+HzTB+JmGBzCUDqdSUiZTSphSD4/iW7j5NUkJDTCh+FExz2yR04tOy3h/aVvX5IJgoP7X
- OfHvlnCbYC0ljhJi0FMGkK9G/uLhA3RDydaXf1QWWiFvmnnBQKFiuWdiEijMWA9RGXxhfiEzl
- mi6y++Cc09Z/gAdSAAuFDiVn8OucmdaAclDVR2AGRq4xipMoLoNUr0JRJ1u6nvJOnE78PLCkZ
- vFwBIDDpSSZz2qj37iHo0DZMy2L6M4nxOrLZUXbDO+lYRVjpml0SHm4GXye5Q3iFbI+wOHF9P
- X2nTYWTqDJb2+yGiHuqdYmQgn7tvJJhNaGFJ2l1qOzDsm+58Ebcu90a3whxgHOIVINQmU/R4b
- tBn1aJNOEzLee8NYEdHlPH8vX3/b6LDuMeRgPzn1H9ZwEjkEbl8Ldi6fu+2MPu1ak1YJhEEDH
- LrwJaEXmrbgakEa6/BW6SRk5WchhiMt/1Tr1R1oFdEKVmbdc0edJobzVg2v/u2VZhi35Vxtu2
- Uu3QkXpTnRoAPhHtgYsfRAnVn8/Mj+YpJ3LULmaFdYp7eNB1zwZ+Fn4NUdw1Ajfh1KDgz+9
+X-Provags-ID: V03:K1:piuR98raXOCQseHB9gJlYbGRMo6LpwDMndEJ/p23L8vng4uA3Cs
+ iXwZaTtEQFdAH3WMFENYmv5hkQBMFtI867KilwQYwURNkvaHI1NSmwqOk3rC4GdFMKgbubI
+ ixGllbIHsNhxY1cfqb6N0NLf4JIG5ke++lHnx7LBE+btLnkw0NzqGYsbZ4tRlYiSrm3Lug/
+ 1W8r1BB3EysUwSeRGE6zA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cAtAgkIHimU=:GAHb8SLqGq8CA8ucX02zTy
+ H0wDVa7W9CbB24XnNRjzWHJIE2SgYXS2Ps9jFuYuQVjF2Z728do5TOojywz1glbu62YpYkepi
+ f3XNNPeqlvFfn/bkBT9IBkdNeJFEcIVg54VNTGbIhqtltCr2bbxLa2FSswOMFP9j8CMUNQOCi
+ 3eRNu2QC20qyRcm0MaO5McNZ4hBnQU1Ri1zbIxGYr514CE4S+gf1TECvgR6Xku0c9xZG2MKt9
+ 3l3zT3o/+HpcE7Qo7vFEwU+UOSSVNmER5DqxjNoF0sU30zT9aL2yKXdMkawD9UCT5vsHa3c9w
+ 9mDIFRYBBUBHGDsHH5jsS4Mbaebm2Ll3UjLaKz3oQwlUYedyD1uNMpkBblm+EdgXliPlPag29
+ MEGMuCM44uS0TylO2ZHadTY54cZk90s5QEoYI2NrEcjimNVoXuxLBAdssmjdIJwQZUTnZ/AdG
+ Jsebd4ukpym+EB1hlkuAlsIxtVxP1ZcSZd38avnxd9Hu4f6ILj3NdwzqO+PyXL4xCBgo4sczA
+ rTMqP/sRlEEU+DCcaS1PTGRXGsTpupk7NqswtheHKXRrlejTamXIB4ES4ldexv1cGojZ8iLJk
+ 9oe/VS7BtvSUSUaSIF0DN6B98tVQUeZRZuOdY8RyNLiItAtkxmopkzpHsAzEwqoGvUzMP7ntG
+ NM1+E1OtUHqrl6OsiaLpc08eUQcbexiDXhaX4XIwKiVJ6VmmK3y1QHKEJIyYscD2ApZVS0stz
+ /LAVYAzobkqoYykSA11yoPJtGdx+9E8YB9mnI5kGRc0iC/dr+/SMydN3OkMQxFRWJLYtHNAaz
+ zjd8yAospFudzlZNpQ9bddoj5fMvq32kTyVve3MpQYZS7BIhI24Um6iIZ0LR/nMpMxXBOdr
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,37 +76,61 @@ From: Andreas Schwab <schwab@suse.de>
 
 Signed-off-by: Andreas Schwab <schwab@suse.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <mvmpnomohfm.fsf@suse.de>
+Message-Id: <mvmlfzaoh9p.fsf@suse.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ linux-user/syscall.c | 36 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index c930577686da..7aaa9d96397c 100644
+index 7aaa9d96397c..9fa722f2388d 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -334,6 +334,9 @@ _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
- _syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
-           unsigned int, mask, struct target_statx *, statxbuf)
- #endif
-+#if defined(TARGET_NR_membarrier) && defined(__NR_membarrier)
-+_syscall2(int, membarrier, int, cmd, int, flags)
-+#endif
- 
- static bitmask_transtbl fcntl_flags_tbl[] = {
-   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
-@@ -12090,6 +12093,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         unlock_user(p, arg1, 0);
-         return ret;
- #endif
-+#if defined TARGET_NR_membarrier && defined __NR_membarrier
-+    case TARGET_NR_membarrier:
-+        return get_errno(membarrier(arg1, arg2));
-+#endif
- 
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+@@ -2310,10 +2310,42 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
+         level = SOL_SOCKET;
+         switch (optname) {
+         /* These don't just return a single integer */
+-        case TARGET_SO_RCVTIMEO:
+-        case TARGET_SO_SNDTIMEO:
+         case TARGET_SO_PEERNAME:
+             goto unimplemented;
++        case TARGET_SO_RCVTIMEO: {
++            struct timeval tv;
++            socklen_t tvlen;
++
++            optname = SO_RCVTIMEO;
++
++get_timeout:
++            if (get_user_u32(len, optlen)) {
++                return -TARGET_EFAULT;
++            }
++            if (len < 0) {
++                return -TARGET_EINVAL;
++            }
++
++            tvlen = sizeof(tv);
++            ret = get_errno(getsockopt(sockfd, level, optname,
++                                       &tv, &tvlen));
++            if (ret < 0) {
++                return ret;
++            }
++            if (len > sizeof(struct target_timeval)) {
++                len = sizeof(struct target_timeval);
++            }
++            if (copy_to_user_timeval(optval_addr, &tv)) {
++                return -TARGET_EFAULT;
++            }
++            if (put_user_u32(len, optlen)) {
++                return -TARGET_EFAULT;
++            }
++            break;
++        }
++        case TARGET_SO_SNDTIMEO:
++            optname = SO_SNDTIMEO;
++            goto get_timeout;
+         case TARGET_SO_PEERCRED: {
+             struct ucred cr;
+             socklen_t crlen;
 -- 
 2.24.1
 
