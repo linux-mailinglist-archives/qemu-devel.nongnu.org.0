@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89366165717
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 06:41:29 +0100 (CET)
-Received: from localhost ([::1]:36440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCBA16571F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 06:44:25 +0100 (CET)
+Received: from localhost ([::1]:36448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4eaW-0008RW-59
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 00:41:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53499)
+	id 1j4edM-0001Ms-HK
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 00:44:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <waynli329@gmail.com>) id 1j4eZV-0007xD-4n
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 00:40:26 -0500
+ (envelope-from <hsp.cat7@gmail.com>) id 1j4ecb-0000i2-3G
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 00:43:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <waynli329@gmail.com>) id 1j4eZT-0001f9-W7
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 00:40:25 -0500
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:38232)
+ (envelope-from <hsp.cat7@gmail.com>) id 1j4ecZ-0002nl-EL
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 00:43:37 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39374)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <waynli329@gmail.com>) id 1j4eZT-0001ee-P3
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 00:40:23 -0500
-Received: by mail-io1-xd35.google.com with SMTP id s24so3329185iog.5
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 21:40:22 -0800 (PST)
+ (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>)
+ id 1j4ecU-0002lV-Oe; Thu, 20 Feb 2020 00:43:30 -0500
+Received: by mail-ot1-x341.google.com with SMTP id 77so2569196oty.6;
+ Wed, 19 Feb 2020 21:43:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=XpUvSMXyRD3z5fSJMN3JcEX0vjhaxC0G5oiclnrjVn8=;
- b=SH75W5cBzrJ39+WKUvCaBcbNRrRMKFmQeCLt6Mi9HG3Oa0nV8p1XlbWClo3V7Todse
- xt6c8JpPOUn+UwpdNJektmKamB/qA3xOBT19SjodYeJNJs5X+zOyn4GNqPRTcdNYFhqA
- Pgk0cCdUlIWopUMDwMSmtslscletfVyOTvCj15bF9AAeGmKF/zCPW3CefRTGf4KkPTnB
- 4hu50H5ram0ZXJ/gjdG5ELMMPcqCKhcKgGRLR4qAB2RiCCzq6l5SY4Xlb7K1nH5ei3Je
- nOA4Ht4dRGJCe7azk7AkceMS1ixHa/jg4IJmBHHRfUiiTzWY9AewicANDVCicfitxUl0
- gr+Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K9bC3NaZCTcev60UV2PMeKYRdafUok1hs8UpWCqY4Qk=;
+ b=ALo6EFBeQoW6VDzkkdDFhZyQmCbD7cEoaGdxXTwk9q/gCuLMPpEtTkCM34Hd2gdAg+
+ ZWKd27V8oXLCjJ8zRTMCukuzWlkTVNqMTgpnJgM+9DcQZnly+Rway07RMXJ03d0Ae3wI
+ 1EDEYIqFmYYuJH+A8j8BFVTxPrbXZCPA2u5jTLvqcoKK4aWgUs3WsPyrI0naPNETN9lg
+ cuyD7EaxsN+Fe1MPQ5dtjxE89ULDySSpg0zVCc4WA1Y6M/aHinskmK+gioVK+YvxMcTy
+ XZqAAcKzCIK8NQJvz9DkmiuyqY9/2E03hB4YXaW03VVe8MWpMrDPyo9QJLff6aJ2/XVa
+ 5GxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=XpUvSMXyRD3z5fSJMN3JcEX0vjhaxC0G5oiclnrjVn8=;
- b=pmd1eN/wzmeTFMcbJXmV8zEj3d1Wm0c1ZLbG3XmL0/1ew3L6VhC/6ja6zMKMO8Qr3a
- V7HnCW0fx+dhrKleaPAn5nOc4bXuDugxpb5bRymXSzoLfapxZjxhD+O/oyh8HxHFbq0h
- 8qUqfgzTON8ANKSkTHNIsanIdsUAfv8C105n19fwnGH4gT7X0nhVaFKxbnjvRSKpo2NE
- E0m/qmTqzfD8VoCruzAQRV9nl4m+gz2yS9uGjECGHPGIy7aMrW5cVc5ObBEPqmv65R86
- mRWfe5T1gq8ECgik+M5gUyAPKlkWCd62pcn2E7qrjev5uTAztfQ7twkUKoa4OVZxmbJ+
- PGZw==
-X-Gm-Message-State: APjAAAWyGjfdott1HqtKENzv46meLhBgKh8Pj99Gkjh3AZn5pSegmgab
- ocjC9swRgUeJLz1R69KdcVFWx03utzvx47yaJBy0pw==
-X-Google-Smtp-Source: APXvYqxaHbg9wGrhPDC7KY9h4/T6gJtOK/cjPOQuHZ/cm5bMXyegNG4BJPnQF+hwTrK2/cIW5aXbEGRonidH9XKFVMo=
-X-Received: by 2002:a5d:9c4e:: with SMTP id 14mr23106426iof.166.1582177221738; 
- Wed, 19 Feb 2020 21:40:21 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K9bC3NaZCTcev60UV2PMeKYRdafUok1hs8UpWCqY4Qk=;
+ b=dB5GWxgqUsyd+HLyvyyPTxagFwL6J8mwgT3XIqUvsIOkeoWb1QwGQLpxDzB2gQo1fj
+ vkT6TwluDOj5AzUqL/dL+xC1UF7gm6Av7uxmefeUo838e//J6RLpvMCH3v60qwK+5vkb
+ cru0amEYAathyfm4qAblz1Kgg9/fnqgcfeOtBwN8FjN7Ulk6RW8JkuEG7R73kkfO6Nzo
+ XrE0mkZxW4f/2rk+2UQCpIp7rTIN+YYS1hBVHwFEVFKYqgbZmR5WudUMXA/VkUbwUrST
+ AlRi0NRQoVW5rJDAM1s98n3U0A6ko7/3hnySbJv7uH+xvdf/AQMkj3zzVcibtOfClqjC
+ 3vBQ==
+X-Gm-Message-State: APjAAAU5Il38898gjwlcI2KGgxTJjxDsyHN95tASEPvWiMIcOjnKUUrN
+ iLAqtZUBsQ8jsqHmKmngF5N/sW7iAmKG7rQha34=
+X-Google-Smtp-Source: APXvYqxuH7ATmBKSr9HI7qgtx2hyamzF1bnskBeGwmwe9QYu1GDAl/EV3Y680HlFFbLQBrBESG4h+fgtOlh4v+EZ84k=
+X-Received: by 2002:a9d:22:: with SMTP id 31mr20935730ota.173.1582177409775;
+ Wed, 19 Feb 2020 21:43:29 -0800 (PST)
 MIME-Version: 1.0
-From: Wayne Li <waynli329@gmail.com>
-Date: Wed, 19 Feb 2020 23:40:10 -0600
-Message-ID: <CAM2K0npCdHfCeMCKO9TX_ifQGDZFFNyMEKH2qByYL9SnXnaPmw@mail.gmail.com>
-Subject: 
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000460395059efb57af"
+References: <20200218171702.979F074637D@zero.eik.bme.hu>
+ <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
+ <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
+ <CABLmASGhqbao0ngRAoHA7KBFA5CoMXLwaVh9wzv1Ec022FRjbQ@mail.gmail.com>
+ <alpine.BSF.2.22.395.2002192001540.88848@zero.eik.bme.hu>
+In-Reply-To: <alpine.BSF.2.22.395.2002192001540.88848@zero.eik.bme.hu>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Thu, 20 Feb 2020 06:43:18 +0100
+Message-ID: <CABLmASHhefWbz+wdbDmL_jLi9ad6HdWbEdFGc8f8Ei+Asy2fXw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: multipart/alternative; boundary="0000000000007b3bae059efb6221"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d35
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,66 +74,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paul Clarke <pc@us.ibm.com>, Programmingkid <programmingkidx@gmail.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000460395059efb57af
+--0000000000007b3bae059efb6221
 Content-Type: text/plain; charset="UTF-8"
 
-Dear QEMU list members,
+On Wed, Feb 19, 2020 at 8:28 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
-This will kind of be a repost but I'd like to post my question again
-because I've gained some more knowledge that makes me feel that my question
-would be easier to answer.  So we developed a custom-made QEMU VM that
-emulates a custom machine that has an e5500 processor.  I'm running this VM
-on a T4240-RDB board which has an e6500 processor and I'm trying to get the
-VM running with KVM enabled.  The problem I'm having is the program counter
-refuses to increment at all.  It just stays at the address 0xFFFFFFFC.  On
-a run without KVM enabled, the VM will also start executing at this same
-address but the program counter beings to increment immediately.  I know
-this is a custom QEMU VM and maybe some of the startup stuff we do could be
-causing problems, but what could possibly stop the program counter from
-incrementing altogether?
+> On Wed, 19 Feb 2020, Howard Spoelstra wrote:
+> > I tested with the current ppc-for-5.0 branch and with v1 of the hardfloat
+> > patches applied on top of that. There is a noticeable speed improvement
+> in
+> > Linux and OSX hosts. Windows 10 host doesn't seem to be impressed at
+> all. I
+> > saw no obvious glitches so far. The fpu performance on OSX hosts seems
+> very
+> > slow. This was not always the case in the past, when it was on par with
+> > Linux performance.
+>
+> Interesting, thanks for the measurements.
+>
+> > Below are my results.
+> >
+> > Best,
+> > Howard
+> >
+> > Host Linux (Fedora 31):
+> > Mac OS tests: 9.2 with MacBench 5.0
+> > Baseline(100%): G3 300Mhz
+> > 5.0 branch + hardfloat patches: cpu 193%, fpu 86%
+> > 5.0 branch: cpu 188%, fpu 57%
+>
+> Here there's a difference in cpu value before and after patch which I
+> can't explain (only changed FPU stuff so it should not change others) but
+> also not seen in other measurements so this could be some external
+> influence such as something else using CPU while running test? Unless this
+> happens consistently I'd put it down to measurement error.
+>
 
-Also, I do have another side question.  When running with KVM enabled, I
-see the kernel-level ioctl call KVM_RUN running and then returning over and
-over again (by the way before the VM kinda grinds to a halt I only see QEMU
-make the KVM_RUN call twice, but the kernel-level ioctl function is being
-called over and over again for some reason).  And each time the KVM_RUN
-call returns, the return-from-interrupt takes the VM to the address
-0xFFFFFFFC.  What is the KVM_RUN ioctl call used for?  Why is it being
-called over and over again?  Maybe if I understood this better I'd be able
-to figure out what's stopping my program counter from incrementing.
+  Yes, I would put that cpu value down to some fluctuation in the test
 
--Thanks, Wayne Li
+>
+> > Mac OSX tests: 10.5 with Skidmarks 4.0 test
+> > Baseline(100%): G4 1.0Ghz.
+> > 5.0 branch + hardfloat patches: Int:131 FP:11 Vec:15
+> > 5.0 branch: Int:131 FP:9 Vec:11
+> >
+> > Host OSX Sierra:
+> > Mac OS tests: 9.2 with MacBench 5.0
+> > Baseline(100%): G3 300Mhz
+> > 5.0 branch + hardfloat patches: cpu 199%, fpu 66%
+> > 5.0 branch: cpu 199%, fpu 40%
+> > Mac OSX tests: 10.5 with Skidmarks 4.0 test
+> > Baseline(100%): G4 1.0Ghz.
+> > 5.0 branch + hardfloat patches: Int:129 PF:11 Vec:14
+>
+> These values seem to match Linux measurement above so don't seem slower
+> although MacOS9 seems to be slower (66 vs. 86) so either this depends on
+> the ops used or something else.
+>
 
---000000000000460395059efb57af
+ Yes, the baseline speed for the fpu in Mac OS 9.2 is relatively low.
+
+>
+> > 5.0 branch: Int:129 FP:8 Vec:9
+> >
+> > Host Windows 10:
+> > Mac OS tests: 9.2 with MacBench 5.0
+> > Baseline(100%): G3 300Mhz
+> > 5.0 branch + hardfloat patches: cpu 180%, fpu 54%
+>
+
+ new run 5.0 branch + hardfloat patches: cpu 184%, fpu 54%
+
+> 5.0 branch: cpu 199%, fpu 40%
+>
+
+ new run 5.0 branch: cpu 184%, fpu 56%
+
+It seems I misreported (copy/past without changing the values) the earlier
+Windows-based results with Mac OS 9.2 guest. As said above (and this now
+seems to confirm) Windows is not impressed at all and perhaps a bit slower
+even.
+Windows builds are particularly sensitive to any other activity on the
+system. Moving the qemu window drops performance considerably. Perhaps due
+to SDL not running in its own thread?
+
+>
+> Here there's again difference in cpu value but the other way so maybe if
+> the cause is external CPU usage then this again may be an outlying
+> measurement? You could retake these two to verify if you get same numbers
+> again. The fpu value does seem to improve just not as much as the others
+> and it's also lower to start with. I wonder why.
+>
+
+
+> > Mac OSX tests: 10.5 with Skidmarks 4.0 test
+> > Baseline(100%): G4 1.0Ghz.
+> > 5.0 branch + hardfloat patches: Int:130 FP:9 Vec:10
+> > 5.0 branch: Int:130 FP:10 Vec:11
+> >
+> > All tests done on the same host with v1 of the hardfloat patches
+> > Intel i7-4770K at 3.50Ghz. 32Gb memory
+> > All guests set to 1024x768 and "thousands" of colors.
+>
+> Does it mean this host machine were rebooted into these OSes or these were
+> run in a VM. In case using VM, were all three running in VM or one was on
+> host (I'd guess OSX host with Linux and Windows VMs).
+>
+> > Linux and OSX (with brew) use default compilers.
+> > Windows build cross-compiled from Fedora with x86_64-win64-mingw32
+>
+> I assume Linux and OSX were 64 bit builds, is Windows 32 bit or 64 bit
+> exe?
+>
+
+No virtualisation. I run all on the same bare metal, so booted into these
+three separately from separate SSDs. You might guess OSX Sierra is running
+on less "official" hardware and you would be right. All qemu builds were 64
+bit.
+
+Best,
+Howard
+
+--0000000000007b3bae059efb6221
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Dear QEMU list members,<div><br></div><div>This will kind =
-of be a repost but I&#39;d like to post my question again because I&#39;ve =
-gained some more knowledge that makes me feel that my question would be eas=
-ier to answer.=C2=A0 So we developed a custom-made QEMU VM that emulates a =
-custom machine that has an e5500 processor.=C2=A0 I&#39;m running this VM o=
-n a T4240-RDB board which has an e6500 processor and I&#39;m trying to get =
-the VM running with KVM enabled.=C2=A0 The problem I&#39;m having is the pr=
-ogram counter refuses to increment at all.=C2=A0 It just stays at the addre=
-ss 0xFFFFFFFC.=C2=A0 On a run without KVM enabled, the VM will also start e=
-xecuting at this same address but the program counter beings to increment i=
-mmediately.=C2=A0 I know this is a custom QEMU VM and maybe some of the sta=
-rtup stuff we do could be causing problems, but what could possibly stop th=
-e program counter from incrementing altogether?</div><div><br></div><div>Al=
-so, I do have another side question.=C2=A0 When running with KVM enabled, I=
- see the kernel-level ioctl call KVM_RUN running and then returning over an=
-d over again (by the way before the VM kinda grinds to a halt I only see QE=
-MU make the KVM_RUN call twice, but the kernel-level ioctl function is bein=
-g called over and over again for some reason).=C2=A0 And each time the KVM_=
-RUN call returns, the return-from-interrupt takes the VM to the address 0xF=
-FFFFFFC.=C2=A0 What is the KVM_RUN ioctl call used for?=C2=A0 Why is it bei=
-ng called over and over again?=C2=A0 Maybe if I understood this better I&#3=
-9;d be able to figure out what&#39;s stopping my program counter from incre=
-menting.</div><div><br></div><div>-Thanks, Wayne Li</div></div>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 19, 2020 at 8:28 PM BALAT=
+ON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu">balaton@eik.bme.hu</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On We=
+d, 19 Feb 2020, Howard Spoelstra wrote:<br>
+&gt; I tested with the current ppc-for-5.0 branch and with v1 of the hardfl=
+oat<br>
+&gt; patches applied on top of that. There is a noticeable speed improvemen=
+t in<br>
+&gt; Linux and OSX hosts. Windows 10 host doesn&#39;t seem to be impressed =
+at all. I<br>
+&gt; saw no obvious glitches so far. The fpu performance on OSX hosts seems=
+ very<br>
+&gt; slow. This was not always the case in the past, when it was on par wit=
+h<br>
+&gt; Linux performance.<br>
+<br>
+Interesting, thanks for the measurements.<br>
+<br>
+&gt; Below are my results.<br>
+&gt;<br>
+&gt; Best,<br>
+&gt; Howard<br>
+&gt;<br>
+&gt; Host Linux (Fedora 31):<br>
+&gt; Mac OS tests: 9.2 with MacBench 5.0<br>
+&gt; Baseline(100%): G3 300Mhz<br>
+&gt; 5.0 branch + hardfloat patches: cpu 193%, fpu 86%<br>
+&gt; 5.0 branch: cpu 188%, fpu 57%<br>
+<br>
+Here there&#39;s a difference in cpu value before and after patch which I <=
+br>
+can&#39;t explain (only changed FPU stuff so it should not change others) b=
+ut <br>
+also not seen in other measurements so this could be some external <br>
+influence such as something else using CPU while running test? Unless this =
+<br>
+happens consistently I&#39;d put it down to measurement error.<br></blockqu=
+ote><div><br></div><div>=C2=A0 Yes, I would put that cpu value down to some=
+ fluctuation in the test</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+<br>
+&gt; Mac OSX tests: 10.5 with Skidmarks 4.0 test<br>
+&gt; Baseline(100%): G4 1.0Ghz.<br>
+&gt; 5.0 branch + hardfloat patches: Int:131 FP:11 Vec:15<br>
+&gt; 5.0 branch: Int:131 FP:9 Vec:11<br>
+&gt;<br>
+&gt; Host OSX Sierra:<br>
+&gt; Mac OS tests: 9.2 with MacBench 5.0<br>
+&gt; Baseline(100%): G3 300Mhz<br>
+&gt; 5.0 branch + hardfloat patches: cpu 199%, fpu 66%<br>
+&gt; 5.0 branch: cpu 199%, fpu 40%<br>
+&gt; Mac OSX tests: 10.5 with Skidmarks 4.0 test<br>
+&gt; Baseline(100%): G4 1.0Ghz.<br>
+&gt; 5.0 branch + hardfloat patches: Int:129 PF:11 Vec:14<br>
+<br>
+These values seem to match Linux measurement above so don&#39;t seem slower=
+ <br>
+although MacOS9 seems to be slower (66 vs. 86) so either this depends on <b=
+r>
+the ops used or something else.<br></blockquote><div><br></div><div>=C2=A0Y=
+es, the baseline speed for the fpu in Mac OS 9.2 is relatively low.=C2=A0 <=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; 5.0 branch: Int:129 FP:8 Vec:9<br>
+&gt;<br>
+&gt; Host Windows 10:<br>
+&gt; Mac OS tests: 9.2 with MacBench 5.0<br>
+&gt; Baseline(100%): G3 300Mhz<br>
+&gt; 5.0 branch + hardfloat patches: cpu 180%, fpu 54%<br></blockquote><div=
+><br></div><div>=C2=A0new run
+5.0 branch + hardfloat patches: cpu 184%, fpu 54%</div><div><br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+&gt; 5.0 branch: cpu 199%, fpu 40%<br></blockquote><div><br></div><div>=C2=
+=A0new run
+5.0 branch: cpu 184%, fpu 56% <br></div><div><br></div><div>It seems I misr=
+eported (copy/past without changing the values) the earlier Windows-based r=
+esults with Mac OS 9.2=20
+guest. As said above (and this now seems to confirm) Windows is not impress=
+ed at=20
+all and perhaps a bit slower even. <br></div><div>Windows builds are partic=
+ularly sensitive to any other activity on the system. Moving the qemu windo=
+w drops performance considerably. Perhaps due to SDL not running in its own=
+ thread?<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Here there&#39;s again difference in cpu value but the other way so maybe i=
+f <br>
+the cause is external CPU usage then this again may be an outlying <br>
+measurement? You could retake these two to verify if you get same numbers <=
+br>
+again. The fpu value does seem to improve just not as much as the others <b=
+r>
+and it&#39;s also lower to start with. I wonder why.<br></blockquote><br><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; Mac OSX tests: 10.5 with Skidmarks 4.0 test<br>
+&gt; Baseline(100%): G4 1.0Ghz.<br>
+&gt; 5.0 branch + hardfloat patches: Int:130 FP:9 Vec:10<br>
+&gt; 5.0 branch: Int:130 FP:10 Vec:11<br>
+&gt;<br>
+&gt; All tests done on the same host with v1 of the hardfloat patches<br>
+&gt; Intel i7-4770K at 3.50Ghz. 32Gb memory<br>
+&gt; All guests set to 1024x768 and &quot;thousands&quot; of colors.<br>
+<br>
+Does it mean this host machine were rebooted into these OSes or these were =
+<br>
+run in a VM. In case using VM, were all three running in VM or one was on <=
+br>
+host (I&#39;d guess OSX host with Linux and Windows VMs).<br>
+<br>
+&gt; Linux and OSX (with brew) use default compilers.<br>
+&gt; Windows build cross-compiled from Fedora with x86_64-win64-mingw32<br>
+<br>
+I assume Linux and OSX were 64 bit builds, is Windows 32 bit or 64 bit <br>
+exe?<br></blockquote><div>=C2=A0</div><div>No virtualisation. I run all on =
+the same bare metal, so booted into=20
+these three separately from separate SSDs. You might guess OSX Sierra is
+ running on less &quot;official&quot; hardware and you would be right. All =
+qemu=20
+builds were 64 bit.</div><div><br></div><div>Best,</div><div>Howard<br></di=
+v></div></div>
 
---000000000000460395059efb57af--
+--0000000000007b3bae059efb6221--
 
