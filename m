@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13CB166214
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:16:17 +0100 (CET)
-Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D160166221
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:18:04 +0100 (CET)
+Received: from localhost ([::1]:45294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4oUr-00071C-0t
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:16:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55556)
+	id 1j4oWZ-0001sh-2M
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:18:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4oSH-00045A-Cj
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:38 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j4oSS-0004Ry-Jt
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4oSG-0007ic-C7
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:37 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48304
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1j4oSR-0007jc-EF
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32046
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oSG-0007iQ-2C
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:36 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oSR-0007jY-AS
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582215215;
+ s=mimecast20190719; t=1582215226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D/RFWb//vwRXnJ50nvQetO6VIazhkUzCowSW8Gse64g=;
- b=a3+u+fR1U9u7SOTizhpD6XsvgAYLE0BvGt+iKO3GV89LFaqrpZjhz4Z9W5di5+gBaVbtf0
- 64JmvbvtpTgldxDBMSlsKW452xMvmFrJcbtfkl5ws0dWL/U6dE9ojD5/dXqnpapk5b+Avn
- FKwXFNDQY1IOBrlLTpGC9QFxCSHH2y8=
+ bh=JgzQoCkToAaLJGU81K+sbb7vCdZYQlGr8ipRHTLnR4o=;
+ b=N94aifm8xxXoWLnOdkx84MKIx3sqVBMcqbGlSu8Ch9zsJRJ4yVqcv7vS4a30bqmWKbhlPG
+ AiNVhyGRAFrVcFwljLwkEVHGHYztYY1bUMwt08O4/RCzrfYbYKCMQAvHM4BZPoev8NJFoo
+ GqD4f27eZPCB9EsRQhy6tGHr3X718v8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-IRn26HcEMyyuG-rXbjH7Vg-1; Thu, 20 Feb 2020 11:13:28 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-13-97MWK5_zPqGW3VSV-RO6Aw-1; Thu, 20 Feb 2020 11:13:41 -0500
+X-MC-Unique: 97MWK5_zPqGW3VSV-RO6Aw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88F38800D4E;
- Thu, 20 Feb 2020 16:13:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15741DB62;
+ Thu, 20 Feb 2020 16:13:40 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A76CF87B0A;
- Thu, 20 Feb 2020 16:13:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 517DA60C87;
+ Thu, 20 Feb 2020 16:13:35 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/18] iotests: Test convert -n -B to backing-less target
-Date: Thu, 20 Feb 2020 17:07:08 +0100
-Message-Id: <20200220160710.533297-17-mreitz@redhat.com>
+Subject: [PULL 17/18] block: Fix VM size field width in snapshot dump
+Date: Thu, 20 Feb 2020 17:07:09 +0100
+Message-Id: <20200220160710.533297-18-mreitz@redhat.com>
 In-Reply-To: <20200220160710.533297-1-mreitz@redhat.com>
 References: <20200220160710.533297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: IRn26HcEMyyuG-rXbjH7Vg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +76,49 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This must not crash.
+When printing the snapshot list (e.g. with qemu-img snapshot -l), the VM
+size field is only seven characters wide.  As of de38b5005e9, this is
+not necessarily sufficient: We generally print three digits, and this
+may require a decimal point.  Also, the unit field grew from something
+as plain as "M" to " MiB".  This means that number and unit may take up
+eight characters in total; but we also want spaces in front.
 
+Considering previously the maximum width was four characters and the
+field width was chosen to be three characters wider, let us adjust the
+field width to be eleven now.
+
+Fixes: de38b5005e946aa3714963ea4c501e279e7d3666
+Buglink: https://bugs.launchpad.net/qemu/+bug/1859989
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200121155915.98232-3-mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
+Message-Id: <20200117105859.241818-2-mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/122     | 14 ++++++++++++++
- tests/qemu-iotests/122.out |  5 +++++
- 2 files changed, 19 insertions(+)
+ block/qapi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
-index dfa350936f..f7a3ae684a 100755
---- a/tests/qemu-iotests/122
-+++ b/tests/qemu-iotests/122
-@@ -276,6 +276,20 @@ $QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG=
-".orig
+diff --git a/block/qapi.c b/block/qapi.c
+index 3f09477cc5..afd9f3b4a7 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -664,7 +664,7 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
+     char *sizing =3D NULL;
 =20
- $QEMU_IMG compare "$TEST_IMG" "$TEST_IMG".orig
-=20
-+echo
-+echo '=3D=3D=3D -n -B to an image without a backing file =3D=3D=3D'
-+echo
-+
-+# Base for the output
-+TEST_IMG=3D"$TEST_IMG".base _make_test_img 64M
-+
-+# Output that does have $TEST_IMG.base set as its (implicit) backing file
-+TEST_IMG=3D"$TEST_IMG".orig _make_test_img 64M
-+
-+# Convert with -n, which should not confuse -B with "target BDS has a
-+# backing file"
-+$QEMU_IMG convert -O $IMGFMT -B "$TEST_IMG".base -n "$TEST_IMG" "$TEST_IMG=
-".orig
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index 849b6cc2ef..1a35951a80 100644
---- a/tests/qemu-iotests/122.out
-+++ b/tests/qemu-iotests/122.out
-@@ -228,4 +228,9 @@ Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=
-=3D67108864
- wrote 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- Images are identical.
-+
-+=3D=3D=3D -n -B to an image without a backing file =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=3D67108864
- *** done
+     if (!sn) {
+-        qemu_printf("%-10s%-20s%7s%20s%15s",
++        qemu_printf("%-10s%-20s%11s%20s%15s",
+                     "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK");
+     } else {
+         ti =3D sn->date_sec;
+@@ -679,7 +679,7 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
+                  (int)(secs % 60),
+                  (int)((sn->vm_clock_nsec / 1000000) % 1000));
+         sizing =3D size_to_str(sn->vm_state_size);
+-        qemu_printf("%-10s%-20s%7s%20s%15s",
++        qemu_printf("%-10s%-20s%11s%20s%15s",
+                     sn->id_str, sn->name,
+                     sizing,
+                     date_buf,
 --=20
 2.24.1
 
