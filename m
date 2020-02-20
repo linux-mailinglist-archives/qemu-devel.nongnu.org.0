@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8E8165E05
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:01:26 +0100 (CET)
-Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC50165E31
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:06:34 +0100 (CET)
+Received: from localhost ([::1]:41192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4lSH-0003KQ-UK
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:01:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54294)
+	id 1j4lXF-0003zc-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54337)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1j4lP6-0006ce-4Q
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 07:58:10 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1j4lP8-0006gp-MN
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 07:58:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1j4lP5-0006ib-2x
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 07:58:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20718)
+ (envelope-from <frankja@linux.ibm.com>) id 1j4lP6-0006jm-Im
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 07:58:10 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47696)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1j4lP4-0006bj-Q7
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 07:58:07 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ id 1j4lP6-0006dw-8J
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 07:58:08 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01KCsJIZ066108
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 07:57:55 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y8ubg8881-1
+ 01KCs4S0009966
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 07:57:57 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y8ubb8d08-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 07:57:55 -0500
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 07:57:57 -0500
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 20 Feb 2020 12:57:53 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Thu, 20 Feb 2020 12:57:55 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 20 Feb 2020 12:57:51 -0000
+ Thu, 20 Feb 2020 12:57:52 -0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 01KCusIw40108336
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01KCvpxF54984810
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Feb 2020 12:56:54 GMT
+ Thu, 20 Feb 2020 12:57:51 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 115B9AE053;
+ by IMSVA (Postfix) with ESMTP id 67570AE04D;
+ Thu, 20 Feb 2020 12:57:51 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5F81BAE051;
  Thu, 20 Feb 2020 12:57:50 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF20BAE04D;
- Thu, 20 Feb 2020 12:57:48 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.185.143])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 20 Feb 2020 12:57:48 +0000 (GMT)
+ Thu, 20 Feb 2020 12:57:50 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/16] s390x: protvirt: Handle SIGP store status correctly
-Date: Thu, 20 Feb 2020 07:56:36 -0500
+Subject: [PATCH v4 15/16] s390x: Add unpack feature to GA1
+Date: Thu, 20 Feb 2020 07:56:37 -0500
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200220125638.7241-1-frankja@linux.ibm.com>
 References: <20200220125638.7241-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20022012-0020-0000-0000-000003ABEB5A
+x-cbid: 20022012-0028-0000-0000-000003DCC0B6
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20022012-0021-0000-0000-00002203F0DB
-Message-Id: <20200220125638.7241-15-frankja@linux.ibm.com>
+x-cbparentid: 20022012-0029-0000-0000-000024A1D0A8
+Message-Id: <20200220125638.7241-16-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-20_03:2020-02-19,
  2020-02-20 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 suspectscore=1 mlxscore=0 mlxlogscore=683 bulkscore=0
- malwarescore=0 spamscore=0 impostorscore=0 phishscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 mlxscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=924 suspectscore=1
+ spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002200097
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
@@ -95,42 +95,58 @@ Cc: qemu-s390x@nongnu.org, mihajlov@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Status storing is not done by QEMU anymore, but is handled by SIE.
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- target/s390x/helper.c | 4 ++++
- target/s390x/sigp.c   | 1 +
- 2 files changed, 5 insertions(+)
+ target/s390x/gen-features.c | 1 +
+ target/s390x/kvm.c          | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index a3a49164e4..3800c4b395 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -246,6 +246,10 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch)
-     hwaddr len = sizeof(*sa);
-     int i;
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index 6278845b12..8ddeebc544 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] = {
+     S390_FEAT_GROUP_MSA_EXT_9,
+     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
+     S390_FEAT_ETOKEN,
++    S390_FEAT_UNPACK,
+ };
  
-+    if (cpu->env.pv) {
-+        return 0;
+ /* Default features (in order of release)
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index 31dd49729b..5b6a7ca466 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -154,6 +154,7 @@ static int cap_ri;
+ static int cap_gs;
+ static int cap_hpage_1m;
+ static int cap_vcpu_resets;
++static int cap_protected;
+ 
+ static int active_cmma;
+ 
+@@ -346,6 +347,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
+     cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
+     cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
++    cap_protected = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
+ 
+     if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
+         || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
+@@ -2394,6 +2396,11 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+         clear_bit(S390_FEAT_BPB, model->features);
+     }
+ 
++    /* we do have the IPL enhancements */
++    if (cap_protected) {
++        set_bit(S390_FEAT_UNPACK, model->features);
 +    }
 +
-     sa = cpu_physical_memory_map(addr, &len, 1);
-     if (!sa) {
-         return -EFAULT;
-diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-index c604f17710..e1c8071464 100644
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -497,6 +497,7 @@ void do_stop_interrupt(CPUS390XState *env)
-     if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
-         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-     }
-+    /* Storing will occur on next SIE entry for protected VMs */
-     if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
-         s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
-     }
+     /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
+     set_bit(S390_FEAT_ZPCI, model->features);
+     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
 -- 
 2.20.1
 
