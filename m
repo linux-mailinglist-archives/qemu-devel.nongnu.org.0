@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C847D1655AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:31:51 +0100 (CET)
-Received: from localhost ([::1]:35368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F1F1655B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:33:42 +0100 (CET)
+Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4cZ4-0001wc-Rm
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:31:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41289)
+	id 1j4car-00054T-IA
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:33:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cR7-0004bl-Mq
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:39 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cRA-0004hr-Ck
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cR6-0008Kk-4O
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:37 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38161 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cR8-0008OG-QJ
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:40 -0500
+Received: from ozlabs.org ([203.11.71.1]:39081)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4cR5-0008II-Pk; Wed, 19 Feb 2020 22:23:36 -0500
+ id 1j4cR8-0008LZ-E4; Wed, 19 Feb 2020 22:23:38 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NKg070d5z9sSV; Thu, 20 Feb 2020 14:23:24 +1100 (AEDT)
+ id 48NKg13CWcz9sSc; Thu, 20 Feb 2020 14:23:25 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582169004;
- bh=RRBYOYs77/SsmZjN3ZGuK3pIJMM/GJemM7kFf49sycw=;
+ d=gibson.dropbear.id.au; s=201602; t=1582169005;
+ bh=/AkTT+ugkeVoIN+7JAwU/EPjvumM4GWvTt+5ak8RmnE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Wwif7NwtdB4TenzmNsZ+RjNOtlGou4nM59pKCANpYKw8raH90KfoJiimXDUIBO3e/
- URQDR1/UQgzrkoU0gFA0o4VQH3MgVtZtrIGOfnvHPVPKEqn69MVHAww874dP+phv2Y
- 84iiD9NrGJ5LbmLQfqKZF9tF7mqfgmP7tiJJ2yOc=
+ b=V+Hfp7eLFrRXopvCRvz6nO7ARk1rSqQEwuo7ETrNxWt/BHBEfRDwIwEhLSfCIZKho
+ q8mvz/TI5/sHg0M/9hK6W+342h23K3FG0AEiNMuPfI0WpBJZ6s72SQ31Fg7PmV+d8P
+ osXrhrcWP1v+1okxpm26CYrJC4Nt0EcD6dw5y6xI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	groug@kaod.org,
 	clg@kaod.org
-Subject: [PATCH v5 08/18] target/ppc: Streamline calculation of RMA limit from
- LPCR[RMLS]
-Date: Thu, 20 Feb 2020 14:23:06 +1100
-Message-Id: <20200220032317.96884-9-david@gibson.dropbear.id.au>
+Subject: [PATCH v5 11/18] target/ppc: Streamline construction of VRMA SLB entry
+Date: Thu, 20 Feb 2020 14:23:09 +1100
+Message-Id: <20200220032317.96884-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220032317.96884-1-david@gibson.dropbear.id.au>
 References: <20200220032317.96884-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,133 +66,123 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we use a big switch statement in ppc_hash64_update_rmls() to wo=
-rk
-out what the right RMA limit is based on the LPCR[RMLS] field.  There's n=
-o
-formula for this - it's just an arbitrary mapping defined by the existing
-CPU implementations - but we can make it a bit more readable by using a
-lookup table rather than a switch.  In addition we can use the MiB/GiB
-symbols to make it a bit clearer.
+When in VRMA mode (i.e. a guest thinks it has the MMU off, but the
+hypervisor is still applying translation) we use a special SLB entry,
+rather than looking up an SLBE by address as we do when guest translation
+is on.
 
-While there we add a bit of clarity and rationale to the comment about
-what happens if the LPCR[RMLS] doesn't contain a valid value.
+We build that special entry in ppc_hash64_update_vrma() along with some
+logic for handling some non-VRMA cases.  Split the actual build of the
+VRMA SLBE into a separate helper and streamline it a bit.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/mmu-hash64.c | 71 ++++++++++++++++++++---------------------
- 1 file changed, 35 insertions(+), 36 deletions(-)
+ target/ppc/mmu-hash64.c | 74 +++++++++++++++++++----------------------
+ 1 file changed, 34 insertions(+), 40 deletions(-)
 
 diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 8acd1f78ae..4e6c1f722b 100644
+index 203a41cca1..ac21c14f68 100644
 --- a/target/ppc/mmu-hash64.c
 +++ b/target/ppc/mmu-hash64.c
-@@ -18,6 +18,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
-@@ -757,6 +758,39 @@ static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr=
- ptex, uint64_t pte1)
-     stb_phys(CPU(cpu)->as, base + offset, (pte1 & 0xff) | 0x80);
+@@ -791,6 +791,35 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
+     }
  }
 =20
-+static target_ulong rmls_limit(PowerPCCPU *cpu)
++static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
 +{
 +    CPUPPCState *env =3D &cpu->env;
-+    /*
-+     * This is the full 4 bits encoding of POWER8. Previous
-+     * CPUs only support a subset of these but the filtering
-+     * is done when writing LPCR
-+     */
-+    const target_ulong rma_sizes[] =3D {
-+        [0] =3D 0,
-+        [1] =3D 16 * GiB,
-+        [2] =3D 1 * GiB,
-+        [3] =3D 64 * MiB,
-+        [4] =3D 256 * MiB,
-+        [5] =3D 0,
-+        [6] =3D 0,
-+        [7] =3D 128 * MiB,
-+        [8] =3D 32 * MiB,
-+    };
-+    target_ulong rmls =3D (env->spr[SPR_LPCR] & LPCR_RMLS) >> LPCR_RMLS_=
-SHIFT;
++    target_ulong lpcr =3D env->spr[SPR_LPCR];
++    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
++    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LLP_=
+MASK);
++    int i;
 +
-+    if (rmls < ARRAY_SIZE(rma_sizes)) {
-+        return rma_sizes[rmls];
-+    } else {
-+        /*
-+         * Bad value, so the OS has shot itself in the foot.  Return a
-+         * 0-sized RMA which we expect to trigger an immediate DSI or
-+         * ISI
-+         */
-+        return 0;
++    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
++        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sps[=
+i];
++
++        if (!sps->page_shift) {
++            break;
++        }
++
++        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
++            slb->esid =3D SLB_ESID_V;
++            slb->vsid =3D vsid;
++            slb->sps =3D sps;
++            return 0;
++        }
 +    }
++
++    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
++                 TARGET_FMT_lx"\n", lpcr);
++
++    return -1;
 +}
 +
  int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
                                  int rwx, int mmu_idx)
  {
-@@ -1006,41 +1040,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, ta=
-rget_ulong ptex,
-     cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
-LUSH;
- }
-=20
--static void ppc_hash64_update_rmls(PowerPCCPU *cpu)
--{
--    CPUPPCState *env =3D &cpu->env;
--    uint64_t lpcr =3D env->spr[SPR_LPCR];
--
--    /*
--     * This is the full 4 bits encoding of POWER8. Previous
--     * CPUs only support a subset of these but the filtering
--     * is done when writing LPCR
--     */
--    switch ((lpcr & LPCR_RMLS) >> LPCR_RMLS_SHIFT) {
--    case 0x8: /* 32MB */
--        env->rmls =3D 0x2000000ull;
--        break;
--    case 0x3: /* 64MB */
--        env->rmls =3D 0x4000000ull;
--        break;
--    case 0x7: /* 128MB */
--        env->rmls =3D 0x8000000ull;
--        break;
--    case 0x4: /* 256MB */
--        env->rmls =3D 0x10000000ull;
--        break;
--    case 0x2: /* 1GB */
--        env->rmls =3D 0x40000000ull;
--        break;
--    case 0x1: /* 16GB */
--        env->rmls =3D 0x400000000ull;
--        break;
--    default:
--        /* What to do here ??? */
--        env->rmls =3D 0;
--    }
--}
--
+@@ -1046,53 +1075,18 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
+arget_ulong ptex,
  static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
  {
      CPUPPCState *env =3D &cpu->env;
-@@ -1099,7 +1098,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong v=
-al)
-     CPUPPCState *env =3D &cpu->env;
+-    const PPCHash64SegmentPageSizes *sps =3D NULL;
+-    target_ulong esid, vsid, lpcr;
+     ppc_slb_t *slb =3D &env->vrma_slb;
+-    uint32_t vrmasd;
+-    int i;
+-
+-    /* First clear it */
+-    slb->esid =3D slb->vsid =3D 0;
+-    slb->sps =3D NULL;
 =20
-     env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
--    ppc_hash64_update_rmls(cpu);
-+    env->rmls =3D rmls_limit(cpu);
-     ppc_hash64_update_vrma(cpu);
+     /* Is VRMA enabled ? */
+     if (ppc_hash64_use_vrma(env)) {
+-        return;
+-    }
+-
+-    /*
+-     * Make one up. Mostly ignore the ESID which will not be needed
+-     * for translation
+-     */
+-    lpcr =3D env->spr[SPR_LPCR];
+-    vsid =3D SLB_VSID_VRMA;
+-    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
+-    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
+-    esid =3D SLB_ESID_V;
+-
+-    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
+-        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->sps=
+[i];
+-
+-        if (!sps1->page_shift) {
+-            break;
+-        }
+-
+-        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
+-            sps =3D sps1;
+-            break;
++        if (build_vrma_slbe(cpu, slb) =3D=3D 0) {
++            return;
+         }
+     }
+=20
+-    if (!sps) {
+-        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
+-                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
+-        return;
+-    }
+-
+-    slb->vsid =3D vsid;
+-    slb->esid =3D esid;
+-    slb->sps =3D sps;
++    /* Otherwise, clear it to indicate error */
++    slb->esid =3D slb->vsid =3D 0;
++    slb->sps =3D NULL;
  }
 =20
+ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
 --=20
 2.24.1
 
