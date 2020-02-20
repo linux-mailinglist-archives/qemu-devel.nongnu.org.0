@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50913165594
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:24:49 +0100 (CET)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988F216559C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:26:43 +0100 (CET)
+Received: from localhost ([::1]:35278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4cSG-0006LO-CH
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:24:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41173)
+	id 1j4cU6-0001bj-JC
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:26:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cR3-0004ag-QM
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cR4-0004ah-1C
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cR2-0008HX-Cr
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cR2-0008Hu-Jo
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:33 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:50637)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56693 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4cR1-0008Dh-Oy; Wed, 19 Feb 2020 22:23:32 -0500
+ id 1j4cR1-0008Dk-Lq; Wed, 19 Feb 2020 22:23:32 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NKg00jgfz9sSH; Thu, 20 Feb 2020 14:23:23 +1100 (AEDT)
+ id 48NKg00350z9sRt; Thu, 20 Feb 2020 14:23:23 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582169004;
- bh=0XtAOj+IPH/LQ0YgUYFF29i4CjYf+GIk9oJOXyBM6Mg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QgiXPc0b84gdiJQz/sKvEyfB7ma50mtKcuuDjKqfVZLGX0Gp/ICmlXKTfDPUf5OqT
- LG6ARof5T/IKrfBzh88C/IZQHo1JPDH6khGvfvVWqRPoNTd5zJKKBfLd12z12xts5v
- vljAzlEIzlYH+xlLvvxxKe6fW33gwTWC3G1F3iXE=
-Date: Thu, 20 Feb 2020 14:13:26 +1100
+ bh=FFr8QTXtG4J8rnGCRYb/tmkP97s+UaHKY8wEmJk8kxU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=OTr3aJxZIvgj77qXrLJDPJ6mLqAu//khGSpUKXhi69Nb06G87fPYttERFZM0DDTI/
+ 2uX1yKX/LVIgRINXo2cYk9m3WPD4g9bzofChwSgQnrtDedX8fUPKd4EZg4hrizZIc4
+ 9IraXRm1nwpuKZuvdvFxizvV2cZZZQB0NBmJJ5gk=
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH v3 11/12] target/ppc: Streamline construction of VRMA SLB
- entry
-Message-ID: <20200220031326.GN1764@umbus.fritz.box>
-References: <20200219005414.15635-1-david@gibson.dropbear.id.au>
- <20200219005414.15635-12-david@gibson.dropbear.id.au>
- <875zg2d4sx.fsf@linux.ibm.com>
+To: qemu-ppc@nongnu.org,
+	groug@kaod.org,
+	clg@kaod.org
+Subject: [PATCH v5 00/18] target/ppc: Correct some errors with real mode
+ handling
+Date: Thu, 20 Feb 2020 14:22:58 +1100
+Message-Id: <20200220032317.96884-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mkHYMT4O8DyWoHkb"
-Content-Disposition: inline
-In-Reply-To: <875zg2d4sx.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -57,95 +55,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, groug@kaod.org, qemu-devel@nongnu.org, paulus@samba.org,
- clg@kaod.org, qemu-ppc@nongnu.org, philmd@redhat.com
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, paulus@samba.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+POWER "book S" (server class) cpus have a concept of "real mode" where
+MMU translation is disabled... sort of.  In fact this can mean a bunch
+of slightly different things when hypervisor mode and other
+considerations are present.
 
---mkHYMT4O8DyWoHkb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We had some errors in edge cases here, so clean some things up and
+correct them.
 
-On Wed, Feb 19, 2020 at 11:34:22AM -0300, Fabiano Rosas wrote:
-> David Gibson <david@gibson.dropbear.id.au> writes:
->=20
->=20
-> Hi, just a nitpick, feel free to ignore.
->=20
-> > When in VRMA mode (i.e. a guest thinks it has the MMU off, but the
-> > hypervisor is still applying translation) we use a special SLB entry,
-> > rather than looking up an SLBE by address as we do when guest translati=
-on
-> > is on.
-> >
-> > We build that special entry in ppc_hash64_update_vrma() along with some
-> > logic for handling some non-VRMA cases.  Split the actual build of the
-> > VRMA SLBE into a separate helper and streamline it a bit.
-> >
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  target/ppc/mmu-hash64.c | 79 ++++++++++++++++++++---------------------
-> >  1 file changed, 38 insertions(+), 41 deletions(-)
-> >
-> > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> > index 170a78bd2e..06cfff9860 100644
-> > --- a/target/ppc/mmu-hash64.c
-> > +++ b/target/ppc/mmu-hash64.c
-> > @@ -789,6 +789,39 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
-> >      }
-> >  }
-> > =20
-> > +static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
-> > +{
-> > +    CPUPPCState *env =3D &cpu->env;
-> > +    target_ulong lpcr =3D env->spr[SPR_LPCR];
-> > +    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
-> > +    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LL=
-P_MASK);
-> > +    int i;
-> > +
-> > +    /*
-> > +     * Make one up. Mostly ignore the ESID which will not be needed
-> > +     * for translation
-> > +     */
->=20
-> I find this comment a bit vague. I suggest we either leave it behind or
-> make it more precise. The ISA says:
->=20
-> "translation of effective addresses to virtual addresses use the SLBE
-> values in Figure 18 instead of the entry in the SLB corresponding to the
-> ESID"
+Some of those limitations caused problems with calculating the size of
+the Real Mode Area of pseries guests, so continue on to clean up and
+correct those calculations as well.
 
-Yeah, it wasn't very helpful in its initial location, and it's even
-less helpful here.  I've dropped it.
+Changes since v4:
+ * Some tiny cosmetic fixes to the original patches
+ * Added a bunch of extra patches correcting RMA calculation
+Changes since v3:
+ * Fix style errors reported by checkpatch
+Changes since v2:
+ * Removed 32-bit hypervisor stubs more completely
+ * Minor polish based on review comments
+Changes since RFCv1:
+ * Add a number of extra patches taking advantage of the initial
+   cleanups
+
+David Gibson (18):
+  ppc: Remove stub support for 32-bit hypervisor mode
+  ppc: Remove stub of PPC970 HID4 implementation
+  target/ppc: Correct handling of real mode accesses with vhyp on hash
+    MMU
+  target/ppc: Introduce ppc_hash64_use_vrma() helper
+  spapr, ppc: Remove VPM0/RMLS hacks for POWER9
+  target/ppc: Remove RMOR register from POWER9 & POWER10
+  target/ppc: Use class fields to simplify LPCR masking
+  target/ppc: Streamline calculation of RMA limit from LPCR[RMLS]
+  target/ppc: Correct RMLS table
+  target/ppc: Only calculate RMLS derived RMA limit on demand
+  target/ppc: Streamline construction of VRMA SLB entry
+  target/ppc: Don't store VRMA SLBE persistently
+  spapr: Don't use weird units for MIN_RMA_SLOF
+  spapr,ppc: Simplify signature of kvmppc_rma_size()
+  spapr: Don't attempt to clamp RMA to VRMA constraint
+  spapr: Don't clamp RMA to 16GiB on new machine types
+  spapr: Clean up RMA size calculation
+  spapr: Fold spapr_node0_size() into its only caller
+
+ hw/ppc/spapr.c                  | 124 ++++++------
+ hw/ppc/spapr_cpu_core.c         |   6 +-
+ hw/ppc/spapr_hcall.c            |   4 +-
+ include/hw/ppc/spapr.h          |   4 +-
+ target/ppc/cpu-qom.h            |   1 +
+ target/ppc/cpu.h                |  25 +--
+ target/ppc/kvm.c                |   5 +-
+ target/ppc/kvm_ppc.h            |   7 +-
+ target/ppc/mmu-hash64.c         | 327 ++++++++++++--------------------
+ target/ppc/translate_init.inc.c |  63 ++++--
+ 10 files changed, 252 insertions(+), 314 deletions(-)
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.24.1
 
---mkHYMT4O8DyWoHkb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5N+VYACgkQbDjKyiDZ
-s5InRQ//QX1vIePut03v3ID0pZe50WKC6yET8toa9D4SBqQPGvUsMLr1b4b1aqAC
-rR741dovzZX2/aEtqIwA1z6+a+3JDd0wwE3kG7dtmG5Du3Jw+YCGCFIu1FNmU3il
-IukuzgrKlABfp9O2mqHRcgOZ4f/JgX8Z2sfZYH18FzvOXy18mThIzqnfJ0ponG2a
-oRC2k5b1usjh/IlwzQVrbvZPfUQKcFTDH504GRSwbw2hlrR7EQbzO330YMqqyMUr
-OW765eRtrTgqVG5/gF351IGTxAPPfrnaaEQVKxxDzuE3FGSQEoY+obGF1HUYfUxx
-0vSZfKLjM9IXvAwViIWANt8NK8yM0E/tGUFe4CMQigTwMwLP8sJj0xM6KhA6MBMm
-3YtYIqydA73z6+tu52EIQhTQx3Qt5W3VcHVcY+hktfQqErNj3N+D5i2b8tYIHExh
-pWzul67901Ivu5f4llJm+sVfwj9RlpyNuHQSMU24zuDLDI2dqdvRCnPc8Q9a5TVz
-C0rlIhxOinMT2Pf674wnj3q2SVGa3V3P5rJTUkVY4FwWBtE9YK8gOeiuJ4sN7Nog
-KRW7TXa8MDQOVnrWbrac8BGIF3WHimmmHfnYP15jAF+lDAtom2+FqsT1AGa3DDyz
-5icwyBR8Aws3TCF1S+tTavkDJaFKoSxMjclpm70JqnrqrUnUq1M=
-=3UqX
------END PGP SIGNATURE-----
-
---mkHYMT4O8DyWoHkb--
 
