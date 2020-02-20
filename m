@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551A316562D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 05:18:46 +0100 (CET)
-Received: from localhost ([::1]:35856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50D8165628
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 05:16:50 +0100 (CET)
+Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4dIT-0000WH-E2
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 23:18:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45160)
+	id 1j4dGb-0005mI-Pv
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 23:16:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1j4dBp-0004it-Km
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:54 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j4dBs-0004pt-4l
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1j4dBo-0005ym-8p
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:53 -0500
-Received: from mail-co1nam11on2136.outbound.protection.outlook.com
- ([40.107.220.136]:38881 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1j4dBq-0005zM-4a
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:56 -0500
+Received: from mail-co1nam11on2112.outbound.protection.outlook.com
+ ([40.107.220.112]:43264 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j4dBo-0005yE-1M
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:52 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j4dBp-0005yw-Qd
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:54 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nv+xxriYYwLFsE0vPctSzxC1XaZILi/gSyuflYyYrR4GXzG+M63gtHakK+PqG7H2wMRQCYmqrPhZtw8dyxOEJ6+5vE/qyh5emur8P5UPDHEJGdCmRqRYwSf+VZyC6cWPI+F/OCrQAAUiYy7YVWDtyP0ogtxsZyn/EwLLP0yiBzdV+x6xiT2GSgC1R7Y6A6KUmdnpifStt3hVzZo5puESEgefI0asKaXppoMUyEnqYpXgRV/pqGCF/YDoJjuxNdxkWR7c+15qlb+967C1PIXVP4UepFyC9CNcv502t7pvE1q86eMzcLW+Hc6FRDHrNGdmpwE6ZifsOjfoKjGMUV+iGQ==
+ b=SANbYjw2KSIVZvFOc7R9jtLaZfdU7ynBPLJyJ3xybRpDXAWftuht8ztcMbXvMdcGYhanxNK9Mts+FWFDbeHoiz8PKTZMz8VfghXbjuwMZuty5LlWlCJtBhRAwt7wIB80RO0rMPcV13lsJ0XN8RxD0WSvGnCf03A0qWN1xLsNTRlq2Z/hsZ2MXNopwtuKC++CVI+hhVGXle3/FdoiliOuvKLlf158UW2T+riUoXA3WCCTfWICptyaWZ/Bp+4+94Ye7Fb88UhOo0NGJwREF/McPpDStDj+gMktaHHwIiDxgFOGD0s/L1lCLUS6TOWXCjoZgnmA3ZHIq1+z3HaIraPr8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mei/PwbkBSQufSePufMMwe+jUEtXu7nmimV/wjXZnVo=;
- b=WilPD05UeH/cNxeM6XGx0Z30DkkRAt4te2dQVf9z008p2lPIsDsrxX5LStTq3KZ33NwP8Up06fe27+ZvMDgFVmOKP+igJb/nk/frU0ZDwgWMpPiCu/TQ/qTJJEEMJYltcUQGyRZWLbkSLN7g/nTMkeJNiFwZ9flb5jpPUpya/bfbOyk4CB+v7t+GPZqkZoE42x5r49p4qc+3yu5gVsBOuTQZPXoEq5KPMeD560O75H0LQfQN6FdB6k1IDgmRfKHFWgwGXdzhSwk3j9MfTaKeHEFBkc1PvMXOtKG56SJZUNBMbJCjQKqZxcWwPLCWIUFjlRnuPniH584JkD9jmWnCkw==
+ bh=YBeT1i7EFoLuNeX3ijuHxlFAa7ma81S31ZdABHnJlg8=;
+ b=dyDjTYWaVTZPy8YSammjwkHXzeXUy3tZ2DOJacI6EnZrokKiiPX/ldxSe5C838GITZ7XYBmEwA9eMYt1yxVPlQM+mT0Q/eCeJZLu88Aylh481DFRS9PJUemg1JdHZ56+TZEQKzezqlBYFxVwdWovPaVd7icaJFBrcBtcaBOWFhIh29tdReJ3RlcuB7cr1lxswqXbd28aGTaReaU4NLvj+E5nIcXZKz77hATS5uUa3ezvr1p7ulMmK8UiVZMyVCd7DXEL0xfWoo2tyOmwe7yjpvLKhDkl2urRGZDe5edMaby5drpKqvY5eSQG6pZ7TKvKey8xXkULRqO1tbj5K+1izA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mei/PwbkBSQufSePufMMwe+jUEtXu7nmimV/wjXZnVo=;
- b=loG11b++BZXum6FjrBNP2vO0tb9J0L1N7JDBAe+XH/zJ7b/29UprmZqvqbfQWovxsAsnvpqsqvPcHU0qt42db1KDGzIsJZ970n+Dq9hsBJj3TZS8z+K4WatCdlTHgDHEc9LY+gRI08RleJLMSiBGEkzf2idyMEx2Ry4iYcSbgTA=
+ bh=YBeT1i7EFoLuNeX3ijuHxlFAa7ma81S31ZdABHnJlg8=;
+ b=m2gTwG3FIYTJfUK29SGUCFRCEQqhSDuWiT261UeHStCIH3AuLgko6g/75avbY6l4/e5Or89mKq+U4+FJV0mlZj8qKvtDTAhTipSm+h/KCwneDXy0ccHkWTLfRqThnwGRPhrdFbhWv4spbqRfHWTlewwTQI+WMTn/UrOtVcRz6Xs=
 Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB3807.namprd03.prod.outlook.com (2603:10b6:805:6a::20)
@@ -48,9 +48,9 @@ Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  04:11:51 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 15/22] fuzz: support for fork-based fuzzing.
-Date: Wed, 19 Feb 2020 23:11:11 -0500
-Message-ID: <20200220041118.23264-16-alxndr@bu.edu>
+Subject: [PATCH v10 16/22] fuzz: add support for qos-assisted fuzz targets
+Date: Wed, 19 Feb 2020 23:11:12 -0500
+Message-ID: <20200220041118.23264-17-alxndr@bu.edu>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200220041118.23264-1-alxndr@bu.edu>
 References: <20200220041118.23264-1-alxndr@bu.edu>
@@ -63,18 +63,18 @@ MIME-Version: 1.0
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR0102CA0048.prod.exchangelabs.com (2603:10b6:208:25::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.17 via Frontend Transport; Thu, 20 Feb 2020 04:11:50 +0000
+ 15.20.2750.17 via Frontend Transport; Thu, 20 Feb 2020 04:11:51 +0000
 X-Mailer: git-send-email 2.25.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2f9835a9-ac58-4346-91ae-08d7b5bb02d5
+X-MS-Office365-Filtering-Correlation-Id: 7798a1ad-5370-42b2-13b7-08d7b5bb035c
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3807:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB3807B70BB8A6CC5824144E16BA130@SN6PR03MB3807.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3807B9EDCB8107DA5B1D949EBA130@SN6PR03MB3807.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
 X-Forefront-PRVS: 031996B7EF
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(346002)(136003)(396003)(39860400002)(376002)(366004)(199004)(189003)(36756003)(86362001)(81166006)(75432002)(8676002)(2616005)(478600001)(81156014)(8936002)(66476007)(5660300002)(6916009)(66556008)(66946007)(54906003)(956004)(316002)(786003)(6486002)(6666004)(7696005)(16526019)(186003)(26005)(4326008)(1076003)(2906002)(52116002);
+ SFS:(10019020)(4636009)(346002)(136003)(396003)(39860400002)(376002)(366004)(199004)(189003)(36756003)(86362001)(81166006)(75432002)(8676002)(2616005)(478600001)(81156014)(8936002)(66476007)(5660300002)(6916009)(66556008)(66946007)(54906003)(956004)(316002)(786003)(6486002)(6666004)(7696005)(16526019)(186003)(26005)(4326008)(1076003)(2906002)(52116002)(2004002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:SN6PR03MB3807;
  H:SN6PR03MB3871.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -82,19 +82,19 @@ Received-SPF: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XaNnWtAiEy/FygM5/dJZw7yu3T0T+MTkd/bfDb8X2a46SRqkUEaCYQyhV8xDdMGEceRag0gnXYE2luONqJ2r15NHfD+ZU8F+8QJ9t0hw1GeFB2aFiMmDwn82pgOeymke0griPG0YxO7UC7sCpxQGKd8R0ga0kBPtszv4I/DyCe75aOKlk2N6SV8mVIh1F24kXXSfmu45cy5cV+Ll/MOLYcYNJ1P/qzsrX+FxCKMZELlx1UGx+NimOfX2/b9rSwTqi3C1khddjMYnYvizQaOJ+BqS4+BHVUSBsHgeKmD6pjRz9TIJoxj646JTc2q74uRdHLjSGTcd4gC7bJPL1Z2LOtMbBZT3nGy6WnCKQBSZ6b1+Q9EEjYkaF84YLWhnYgzpZsFcnwmKiT/C3G4EibWpaG6xfbwNkyx3dVISPEhkFUqB0Yk/NdazJGkX3ug9tvoF
-X-MS-Exchange-AntiSpam-MessageData: c62w1J0FlraQ7nFAQ5RiTjPEuK9ZhNPq3oWgMYI/HjIXLBBajCxVNoA18CUAVCq/uirfG9X4oPz0/d4Gsl9QaPNWv6lEGlVD4MbDLWF5znHFOmGJKk3PlvjamD2WI6+45WUa6GMh+IKV37ccJcphbA==
+X-Microsoft-Antispam-Message-Info: MttYXIC9odsSZ7wAPiqqJk9xb7JXpmDrLI9Yk8FShs2IXH5pUULGMrBvNJttKD9UULnpE350e7Udf2LnD/uVuxmnPvWvPIb9RR4mMNofq/w85BnunFMj6ZuTHPCZXgER3NQfFASn8EHfdiFhapH2IiRNHR3sfAHqKQSxXiT8sGRy7tL7Cxzxv+XYndXr1BC299baIpz/CTDAO/9Ahwe5eSP96SFtH1LUjMjvi6gcCCUXbjOorje+0FYlixdDNLZoPEGIF36in9IrJA6C84Fjd0vW0PFBtHlC8e/JAo3BU6rup2bcIIATepVD3l1A+xF79jCZtQd41lRu1HWoozf/a6ZRMOaBomfrXel+7hVAnEeaCRLPZHRguJB3U2DZyQDcW9xN8HxMbBPBBvhf25T/zKThVUHbRHtz71NEA6Is25TzDVoWlPOuzLvma5lJNiQaDKPSiwF8iPvOIU4oSI4mwTj12vZdIIZ1JR9iyuM2xOKZIVfvo2ZCZm+bQE2YxT5xDbUCdup9V+4+UCASv8e8XBYG9uIz6FAJMfieVaojLSNhQjYYPk71Qi98DWG6yVW/
+X-MS-Exchange-AntiSpam-MessageData: lVf8AnlFN0eO/NSc+UECGIf3sKTVRXacUmAf3gshZgJ4x/NGdicpiZNQRQAch5OOZdAqa1AE6YzXoNo9i+MWipc+M7BFSIsqC2f757LTPTpHU3EL5aCJ2TjZVBUjJi0Z87/f9Bcxgw94FCIu7hzHtQ==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f9835a9-ac58-4346-91ae-08d7b5bb02d5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 04:11:50.9605 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7798a1ad-5370-42b2-13b7-08d7b5bb035c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 04:11:51.7981 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e7LDwtSHd98E5ZzB9JGY3RdltKem+1UG2IpqGtVI7NVI/KV38KXDzaxsE4dpI+Ns
+X-MS-Exchange-CrossTenant-UserPrincipalName: zqv+PW9a8rvoXPjIrydaz4tHJCWfWny6KO4ax4BcQD4k8H26vKiWgx///ruc+tba
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3807
 X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
-X-Received-From: 40.107.220.136
+X-Received-From: 40.107.220.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,119 +112,289 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fork() is a simple way to ensure that state does not leak in between
-fuzzing runs. Unfortunately, the fuzzer mutation engine relies on
-bitmaps which contain coverage information for each fuzzing run, and
-these bitmaps should be copied from the child to the parent(where the
-mutation occurs). These bitmaps are created through compile-time
-instrumentation and they are not shared with fork()-ed processes, by
-default. To address this, we create a shared memory region, adjust its
-size and map it _over_ the counter region. Furthermore, libfuzzer
-doesn't generally expose the globals that specify the location of the
-counters/coverage bitmap. As a workaround, we rely on a custom linker
-script which forces all of the bitmaps we care about to be placed in a
-contiguous region, which is easy to locate and mmap over.
-
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/qtest/fuzz/Makefile.include |  5 +++
- tests/qtest/fuzz/fork_fuzz.c      | 55 +++++++++++++++++++++++++++++++
- tests/qtest/fuzz/fork_fuzz.h      | 23 +++++++++++++
- tests/qtest/fuzz/fork_fuzz.ld     | 37 +++++++++++++++++++++
- 4 files changed, 120 insertions(+)
- create mode 100644 tests/qtest/fuzz/fork_fuzz.c
- create mode 100644 tests/qtest/fuzz/fork_fuzz.h
- create mode 100644 tests/qtest/fuzz/fork_fuzz.ld
+ tests/qtest/fuzz/Makefile.include |   2 +
+ tests/qtest/fuzz/qos_fuzz.c       | 234 ++++++++++++++++++++++++++++++
+ tests/qtest/fuzz/qos_fuzz.h       |  33 +++++
+ 3 files changed, 269 insertions(+)
+ create mode 100644 tests/qtest/fuzz/qos_fuzz.c
+ create mode 100644 tests/qtest/fuzz/qos_fuzz.h
 
 diff --git a/tests/qtest/fuzz/Makefile.include b/tests/qtest/fuzz/Makefile.=
 include
-index 8632bb89f4..a90915d56d 100644
+index a90915d56d..e3bdd33ff4 100644
 --- a/tests/qtest/fuzz/Makefile.include
 +++ b/tests/qtest/fuzz/Makefile.include
-@@ -2,5 +2,10 @@ QEMU_PROG_FUZZ=3Dqemu-fuzz-$(TARGET_NAME)$(EXESUF)
+@@ -1,8 +1,10 @@
+ QEMU_PROG_FUZZ=3Dqemu-fuzz-$(TARGET_NAME)$(EXESUF)
 =20
  fuzz-obj-y +=3D tests/qtest/libqtest.o
++fuzz-obj-y +=3D $(libqos-obj-y)
  fuzz-obj-y +=3D tests/qtest/fuzz/fuzz.o # Fuzzer skeleton
-+fuzz-obj-y +=3D tests/qtest/fuzz/fork_fuzz.o
+ fuzz-obj-y +=3D tests/qtest/fuzz/fork_fuzz.o
++fuzz-obj-y +=3D tests/qtest/fuzz/qos_fuzz.o
 =20
  FUZZ_CFLAGS +=3D -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
-+
-+# Linker Script to force coverage-counters into known regions which we can=
- mark
-+# shared
-+FUZZ_LDFLAGS +=3D -Xlinker -T$(SRC_PATH)/tests/qtest/fuzz/fork_fuzz.ld
-diff --git a/tests/qtest/fuzz/fork_fuzz.c b/tests/qtest/fuzz/fork_fuzz.c
+=20
+diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
 new file mode 100644
-index 0000000000..2bd0851903
+index 0000000000..bbb17470ff
 --- /dev/null
-+++ b/tests/qtest/fuzz/fork_fuzz.c
-@@ -0,0 +1,55 @@
++++ b/tests/qtest/fuzz/qos_fuzz.c
+@@ -0,0 +1,234 @@
 +/*
-+ * Fork-based fuzzing helpers
++ * QOS-assisted fuzzing helpers
 + *
-+ * Copyright Red Hat Inc., 2019
++ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail=
+.com>
 + *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License version 2 as published by the Free Software Foundation.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
 + *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licens=
+es/>
 + */
 +
 +#include "qemu/osdep.h"
-+#include "fork_fuzz.h"
++#include "qemu/units.h"
++#include "qapi/error.h"
++#include "qemu-common.h"
++#include "exec/memory.h"
++#include "exec/address-spaces.h"
++#include "sysemu/sysemu.h"
++#include "qemu/main-loop.h"
++
++#include "tests/qtest/libqtest.h"
++#include "tests/qtest/libqos/malloc.h"
++#include "tests/qtest/libqos/qgraph.h"
++#include "tests/qtest/libqos/qgraph_internal.h"
++#include "tests/qtest/libqos/qos_external.h"
++
++#include "fuzz.h"
++#include "qos_fuzz.h"
++
++#include "qapi/qapi-commands-machine.h"
++#include "qapi/qapi-commands-qom.h"
++#include "qapi/qmp/qlist.h"
 +
 +
-+void counter_shm_init(void)
++void *fuzz_qos_obj;
++QGuestAllocator *fuzz_qos_alloc;
++
++static const char *fuzz_target_name;
++static char **fuzz_path_vec;
++
++/*
++ * Replaced the qmp commands with direct qmp_marshal calls.
++ * Probably there is a better way to do this
++ */
++static void qos_set_machines_devices_available(void)
 +{
-+    char *shm_path =3D g_strdup_printf("/qemu-fuzz-cntrs.%d", getpid());
-+    int fd =3D shm_open(shm_path, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
-+    g_free(shm_path);
++    QDict *req =3D qdict_new();
++    QObject *response;
++    QDict *args =3D qdict_new();
++    QList *lst;
++    Error *err =3D NULL;
 +
-+    if (fd =3D=3D -1) {
-+        perror("Error: ");
-+        exit(1);
-+    }
-+    if (ftruncate(fd, &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START) =3D=
-=3D -1) {
-+        perror("Error: ");
-+        exit(1);
-+    }
-+    /* Copy what's in the counter region to the shm.. */
-+    void *rptr =3D mmap(NULL ,
-+            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START,
-+            PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-+    memcpy(rptr,
-+           &__FUZZ_COUNTERS_START,
-+           &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
++    qmp_marshal_query_machines(NULL, &response, &err);
++    assert(!err);
++    lst =3D qobject_to(QList, response);
++    apply_to_qlist(lst, true);
 +
-+    munmap(rptr, &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START);
++    qobject_unref(response);
 +
-+    /* And map the shm over the counter region */
-+    rptr =3D mmap(&__FUZZ_COUNTERS_START,
-+            &__FUZZ_COUNTERS_END - &__FUZZ_COUNTERS_START,
-+            PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED, fd, 0);
 +
-+    close(fd);
++    qdict_put_str(req, "execute", "qom-list-types");
++    qdict_put_str(args, "implements", "device");
++    qdict_put_bool(args, "abstract", true);
++    qdict_put_obj(req, "arguments", (QObject *) args);
 +
-+    if (!rptr) {
-+        perror("Error: ");
-+        exit(1);
-+    }
++    qmp_marshal_qom_list_types(args, &response, &err);
++    assert(!err);
++    lst =3D qobject_to(QList, response);
++    apply_to_qlist(lst, false);
++    qobject_unref(response);
++    qobject_unref(req);
 +}
 +
++static char **current_path;
 +
-diff --git a/tests/qtest/fuzz/fork_fuzz.h b/tests/qtest/fuzz/fork_fuzz.h
-new file mode 100644
-index 0000000000..9ecb8b58ef
---- /dev/null
-+++ b/tests/qtest/fuzz/fork_fuzz.h
-@@ -0,0 +1,23 @@
++void *qos_allocate_objects(QTestState *qts, QGuestAllocator **p_alloc)
++{
++    return allocate_objects(qts, current_path + 1, p_alloc);
++}
++
++static const char *qos_build_main_args(void)
++{
++    char **path =3D fuzz_path_vec;
++    QOSGraphNode *test_node;
++    GString *cmd_line =3D g_string_new(path[0]);
++    void *test_arg;
++
++    if (!path) {
++        fprintf(stderr, "QOS Path not found\n");
++        abort();
++    }
++
++    /* Before test */
++    current_path =3D path;
++    test_node =3D qos_graph_get_node(path[(g_strv_length(path) - 1)]);
++    test_arg =3D test_node->u.test.arg;
++    if (test_node->u.test.before) {
++        test_arg =3D test_node->u.test.before(cmd_line, test_arg);
++    }
++    /* Prepend the arguments that we need */
++    g_string_prepend(cmd_line,
++            TARGET_NAME " -display none -machine accel=3Dqtest -m 64 ");
++    return cmd_line->str;
++}
++
 +/*
-+ * Fork-based fuzzing helpers
++ * This function is largely a copy of qos-test.c:walk_path. Since walk_pat=
+h
++ * is itself a callback, its a little annoying to add another argument/lay=
+er of
++ * indirection
++ */
++static void walk_path(QOSGraphNode *orig_path, int len)
++{
++    QOSGraphNode *path;
++    QOSGraphEdge *edge;
++
++    /* etype set to QEDGE_CONSUMED_BY so that machine can add to the comma=
+nd line */
++    QOSEdgeType etype =3D QEDGE_CONSUMED_BY;
++
++    /* twice QOS_PATH_MAX_ELEMENT_SIZE since each edge can have its arg */
++    char **path_vec =3D g_new0(char *, (QOS_PATH_MAX_ELEMENT_SIZE * 2));
++    int path_vec_size =3D 0;
++
++    char *after_cmd, *before_cmd, *after_device;
++    GString *after_device_str =3D g_string_new("");
++    char *node_name =3D orig_path->name, *path_str;
++
++    GString *cmd_line =3D g_string_new("");
++    GString *cmd_line2 =3D g_string_new("");
++
++    path =3D qos_graph_get_node(node_name); /* root */
++    node_name =3D qos_graph_edge_get_dest(path->path_edge); /* machine nam=
+e */
++
++    path_vec[path_vec_size++] =3D node_name;
++    path_vec[path_vec_size++] =3D qos_get_machine_type(node_name);
++
++    for (;;) {
++        path =3D qos_graph_get_node(node_name);
++        if (!path->path_edge) {
++            break;
++        }
++
++        node_name =3D qos_graph_edge_get_dest(path->path_edge);
++
++        /* append node command line + previous edge command line */
++        if (path->command_line && etype =3D=3D QEDGE_CONSUMED_BY) {
++            g_string_append(cmd_line, path->command_line);
++            g_string_append(cmd_line, after_device_str->str);
++            g_string_truncate(after_device_str, 0);
++        }
++
++        path_vec[path_vec_size++] =3D qos_graph_edge_get_name(path->path_e=
+dge);
++        /* detect if edge has command line args */
++        after_cmd =3D qos_graph_edge_get_after_cmd_line(path->path_edge);
++        after_device =3D qos_graph_edge_get_extra_device_opts(path->path_e=
+dge);
++        before_cmd =3D qos_graph_edge_get_before_cmd_line(path->path_edge)=
+;
++        edge =3D qos_graph_get_edge(path->name, node_name);
++        etype =3D qos_graph_edge_get_type(edge);
++
++        if (before_cmd) {
++            g_string_append(cmd_line, before_cmd);
++        }
++        if (after_cmd) {
++            g_string_append(cmd_line2, after_cmd);
++        }
++        if (after_device) {
++            g_string_append(after_device_str, after_device);
++        }
++    }
++
++    path_vec[path_vec_size++] =3D NULL;
++    g_string_append(cmd_line, after_device_str->str);
++    g_string_free(after_device_str, true);
++
++    g_string_append(cmd_line, cmd_line2->str);
++    g_string_free(cmd_line2, true);
++
++    /*
++     * here position 0 has <arch>/<machine>, position 1 has <machine>.
++     * The path must not have the <arch>, qtest_add_data_func adds it.
++     */
++    path_str =3D g_strjoinv("/", path_vec + 1);
++
++    /* Check that this is the test we care about: */
++    char *test_name =3D strrchr(path_str, '/') + 1;
++    if (strcmp(test_name, fuzz_target_name) =3D=3D 0) {
++        /*
++         * put arch/machine in position 1 so run_one_test can do its work
++         * and add the command line at position 0.
++         */
++        path_vec[1] =3D path_vec[0];
++        path_vec[0] =3D g_string_free(cmd_line, false);
++
++        fuzz_path_vec =3D path_vec;
++    } else {
++        g_free(path_vec);
++    }
++
++    g_free(path_str);
++}
++
++static const char *qos_get_cmdline(FuzzTarget *t)
++{
++    /*
++     * Set a global variable that we use to identify the qos_path for our
++     * fuzz_target
++     */
++    fuzz_target_name =3D t->name;
++    qos_set_machines_devices_available();
++    qos_graph_foreach_test_path(walk_path);
++    return qos_build_main_args();
++}
++
++void fuzz_add_qos_target(
++        FuzzTarget *fuzz_opts,
++        const char *interface,
++        QOSGraphTestOptions *opts
++        )
++{
++    qos_add_test(fuzz_opts->name, interface, NULL, opts);
++    fuzz_opts->get_init_cmdline =3D qos_get_cmdline;
++    fuzz_add_target(fuzz_opts);
++}
++
++void qos_init_path(QTestState *s)
++{
++    fuzz_qos_obj =3D qos_allocate_objects(s , &fuzz_qos_alloc);
++}
+diff --git a/tests/qtest/fuzz/qos_fuzz.h b/tests/qtest/fuzz/qos_fuzz.h
+new file mode 100644
+index 0000000000..477f11b02b
+--- /dev/null
++++ b/tests/qtest/fuzz/qos_fuzz.h
+@@ -0,0 +1,33 @@
++/*
++ * QOS-assisted fuzzing helpers
 + *
 + * Copyright Red Hat Inc., 2019
 + *
@@ -234,67 +404,29 @@ index 0000000000..9ecb8b58ef
 + * This work is licensed under the terms of the GNU GPL, version 2 or late=
 r.
 + * See the COPYING file in the top-level directory.
-+ *
 + */
 +
-+#ifndef FORK_FUZZ_H
-+#define FORK_FUZZ_H
++#ifndef _QOS_FUZZ_H_
++#define _QOS_FUZZ_H_
 +
-+extern uint8_t __FUZZ_COUNTERS_START;
-+extern uint8_t __FUZZ_COUNTERS_END;
++#include "tests/qtest/fuzz/fuzz.h"
++#include "tests/qtest/libqos/qgraph.h"
 +
-+void counter_shm_init(void);
++int qos_fuzz(const unsigned char *Data, size_t Size);
++void qos_setup(void);
++
++extern void *fuzz_qos_obj;
++extern QGuestAllocator *fuzz_qos_alloc;
++
++void fuzz_add_qos_target(
++        FuzzTarget *fuzz_opts,
++        const char *interface,
++        QOSGraphTestOptions *opts
++        );
++
++void qos_init_path(QTestState *);
 +
 +#endif
-+
-diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
-new file mode 100644
-index 0000000000..b23a59f194
---- /dev/null
-+++ b/tests/qtest/fuzz/fork_fuzz.ld
-@@ -0,0 +1,37 @@
-+/* We adjust linker script modification to place all of the stuff that nee=
-ds to
-+ * persist across fuzzing runs into a contiguous seciton of memory. Then, =
-it is
-+ * easy to re-map the counter-related memory as shared.
-+*/
-+
-+SECTIONS
-+{
-+  .data.fuzz_start : ALIGN(4K)
-+  {
-+      __FUZZ_COUNTERS_START =3D .;
-+      __start___sancov_cntrs =3D .;
-+      *(_*sancov_cntrs);
-+      __stop___sancov_cntrs =3D .;
-+
-+      /* Lowest stack counter */
-+      *(__sancov_lowest_stack);
-+  }
-+  .data.fuzz_ordered :
-+  {
-+      /* Coverage counters. They're not necessary for fuzzing, but are use=
-ful
-+       * for analyzing the fuzzing performance
-+       */
-+      __start___llvm_prf_cnts =3D .;
-+      *(*llvm_prf_cnts);
-+      __stop___llvm_prf_cnts =3D .;
-+
-+      /* Internal Libfuzzer TracePC object which contains the ValueProfile=
-Map */
-+      FuzzerTracePC*(.bss*);
-+  }
-+  .data.fuzz_end : ALIGN(4K)
-+  {
-+      __FUZZ_COUNTERS_END =3D .;
-+  }
-+}
-+/* Dont overwrite the SECTIONS in the default linker script. Instead inser=
-t the
-+ * above into the default script */
-+INSERT AFTER .data;
 --=20
 2.25.0
 
