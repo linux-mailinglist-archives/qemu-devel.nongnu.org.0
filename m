@@ -2,160 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895881654B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 02:51:53 +0100 (CET)
-Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C931654D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 03:09:17 +0100 (CET)
+Received: from localhost ([::1]:34854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4b0K-0000xg-CE
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 20:51:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60172)
+	id 1j4bHA-00079J-JO
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 21:09:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1j4az0-0000Mj-Ph
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 20:50:36 -0500
+ (envelope-from <crosa@redhat.com>) id 1j4bF9-0004gw-9a
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 21:07:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1j4ayy-000334-FH
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 20:50:30 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:36454)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1j4ayy-00031A-0n
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 20:50:28 -0500
-Received: by mail-pl1-x633.google.com with SMTP id a6so895023plm.3
- for <qemu-devel@nongnu.org>; Wed, 19 Feb 2020 17:50:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZSQuAJ3n2VfXKVmLthiXQ/IFlOhraljm+fqzMDveLSs=;
- b=rFhPaQLmyHb5se1tv6MhsPP6w4zMnQ3pTPPaFMJg5Aevjuv5NlcgSc8K9etUa7mbxn
- 1FnXos8PXBgQ8di/4bsDYDyDPJPLejyvxPJ6/5s7d80nChV+UelRGQ01iuY6CQANU62V
- cyiuwDU3suAoOrvpOM4yRZ9kDU5riZ8LiqXxP5fMMZhTJ34opFRTUH1r6huUkC28xs2e
- iHEI9XbEToR7QFiUfw7z+BqZEhgVExzQp3k9t1fxcKbYUzKzTyiCT8nvAuwbg4pEPWzq
- 18MqpHr3in2Ti05nLexkUmQrXD7YEC4t4U+fjaB0zk6HMx60j2ArO+n7Z+LAGB5kWNhy
- yJOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ZSQuAJ3n2VfXKVmLthiXQ/IFlOhraljm+fqzMDveLSs=;
- b=SPh7LolRee9QvJKVV8ygKTV8bmpMXzCRkuPbdvfr3TQyVsEyW9RTt/QLB/XGgYIkJV
- px9IdWWIlqQqNnuAN+IAvsFkQKNPB3EJu0BTnd33QGxsUN4Pf/ntnHo7dxx3RJl0XCt+
- PtZ6XWHoATeD66RGD3ImRr0oH0wwcDJPFYoMmFEP9Lpd+o6E2aFM+qMjvOqPeG23pXRT
- 4sJ22Xa92C1r6A4XR5I6rX58tSazGHo5hQ937iWaAxW8a0Zj1iZzYmT8S0jnpL9XjoJt
- my8BMASt8TZbY+BAuYksBeVji1JCaK1qY9/n2tohgDb4YPd8Yfe7NSwxcGckaRtk/go9
- +HTA==
-X-Gm-Message-State: APjAAAVVAdqJeFQFG6mbD3SrtHoMN3v/tgUTpImgFYXofDX2K96dgtqF
- auOCiHUz7Vc+gjbVXbyV5n2Ysnk7hOA=
-X-Google-Smtp-Source: APXvYqyZLn9k1XZxvUGsH2hyw0pOAJIIVCHwpNO0p+YxJ4JMjP85a7iWU+oPG0zuDmLnlQRaSokSow==
-X-Received: by 2002:a17:902:8b81:: with SMTP id
- ay1mr26584112plb.275.1582163425541; 
- Wed, 19 Feb 2020 17:50:25 -0800 (PST)
-Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id d24sm898388pfq.75.2020.02.19.17.50.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Feb 2020 17:50:24 -0800 (PST)
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200217021217.95766-1-aik@ozlabs.ru>
- <8e67117e-e74a-fb5c-226b-78e62ac26291@kaod.org>
- <44499677-3099-56c6-7249-afa8eccc7668@ozlabs.ru>
- <bdfb7d07-c5fd-c21e-f812-4a0a747b02c3@kaod.org>
- <0c21bb33-e6c0-c117-c9e7-dda16d3b13a5@ozlabs.ru>
- <4a8261b3-3842-869c-0997-b997229ff3f6@ozlabs.ru>
- <20649920-f867-7193-e86e-89b42ec6ae97@kaod.org>
- <474f7204-fcee-ae4b-eb9a-d5d0a987c4a2@kaod.org>
- <74ccc95e-d4bb-e540-5d63-ab057c504806@kaod.org>
- <4914aaf9-18e9-54e7-c71c-d2aeb9b573f4@ozlabs.ru>
- <67b9d53f-110a-47c7-b6c9-d1cf9ace3e3b@ozlabs.ru>
- <d77a4310-9f0e-0c1e-8408-50e195462fed@kaod.org>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Autocrypt: addr=aik@ozlabs.ru; keydata=
- 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
-Message-ID: <c6d5bc21-9234-646f-18e3-d445486a4098@ozlabs.ru>
-Date: Thu, 20 Feb 2020 12:50:20 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+ (envelope-from <crosa@redhat.com>) id 1j4bF6-0005pw-Uj
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 21:07:11 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26461
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1j4bF6-0005pe-Pm
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 21:07:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582164428;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XaQPYq/v3CXiYfgvL/YFGiyYoAdrCuYwpIFfBbZvh8I=;
+ b=Y/nCEMAT/43BL/JeyfhYAV+TXGp9L/9BLx5zgtuBJzly50jI5X3TM67GjKMIasB8vjH9Fm
+ iReCugpSjVDs/FblaTxf8ZqhDVhh171NsofhbWmj2O+shsHuhlCV6vaGGxysyABVEEaVM7
+ +jrT3J+1kx4eBqPXwgwg27V23yRx+iI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-487cRl_EMQ6Tz27h4w2xvg-1; Wed, 19 Feb 2020 21:07:01 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ED25189F760;
+ Thu, 20 Feb 2020 02:07:00 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-120-89.rdu2.redhat.com
+ [10.10.120.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A36119C4F;
+ Thu, 20 Feb 2020 02:06:55 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 0/3] Acceptance test: Add "boot_linux" acceptance test
+Date: Wed, 19 Feb 2020 21:06:49 -0500
+Message-Id: <20200220020652.16276-1-crosa@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d77a4310-9f0e-0c1e-8408-50e195462fed@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::633
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 487cRl_EMQ6Tz27h4w2xvg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -167,251 +68,334 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This acceptance test, validates that a full blown Linux guest can
+successfully boot in QEMU.  In this specific case, the guest chosen is
+Fedora version 31.  It covers the following architectures and
+machine types:
 
+ * x86_64, pc-i440fx and pc-q35 machine types, with TCG and KVM as
+   accelerators
 
-On 19/02/2020 18:18, Cédric Le Goater wrote:
-> On 2/19/20 7:44 AM, Alexey Kardashevskiy wrote:
->>
->>
->> On 19/02/2020 12:20, Alexey Kardashevskiy wrote:
->>>
->>>
->>> On 18/02/2020 23:59, Cédric Le Goater wrote:
->>>> On 2/18/20 1:48 PM, Cédric Le Goater wrote:
->>>>> On 2/18/20 10:40 AM, Cédric Le Goater wrote:
->>>>>> On 2/18/20 10:10 AM, Alexey Kardashevskiy wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 18/02/2020 20:05, Alexey Kardashevskiy wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> On 18/02/2020 18:12, Cédric Le Goater wrote:
->>>>>>>>> On 2/18/20 1:30 AM, Alexey Kardashevskiy wrote:
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> On 17/02/2020 20:48, Cédric Le Goater wrote:
->>>>>>>>>>> On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
->>>>>>>>>>>> The following changes since commit 05943fb4ca41f626078014c0327781815c6584c5:
->>>>>>>>>>>>
->>>>>>>>>>>>   ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +1100)
->>>>>>>>>>>>
->>>>>>>>>>>> are available in the Git repository at:
->>>>>>>>>>>>
->>>>>>>>>>>>   git@github.com:aik/qemu.git tags/qemu-slof-20200217
->>>>>>>>>>>>
->>>>>>>>>>>> for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d0298aac2:
->>>>>>>>>>>>
->>>>>>>>>>>>   pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100)
->>>>>>>>>>>>
->>>>>>>>>>>> ----------------------------------------------------------------
->>>>>>>>>>>> Alexey Kardashevskiy (1):
->>>>>>>>>>>>       pseries: Update SLOF firmware image
->>>>>>>>>>>>
->>>>>>>>>>>>  pc-bios/README   |   2 +-
->>>>>>>>>>>>  pc-bios/slof.bin | Bin 931032 -> 968560 bytes
->>>>>>>>>>>>  roms/SLOF        |   2 +-
->>>>>>>>>>>>  3 files changed, 2 insertions(+), 2 deletions(-)
->>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>> *** Note: this is not for master, this is for pseries
->>>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Hello Alexey,
->>>>>>>>>>>
->>>>>>>>>>> QEMU fails to boot from disk. See below.
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> It does boot mine (fedora 30, ubuntu 18.04), see below. I believe I
->>>>>>>>>> could have broken something but I need more detail. Thanks,
->>>>>>>>>
->>>>>>>>> fedora31 boots but not ubuntu 19.10. Could it be GRUB version 2.04 ? 
->>>>>>>>
->>>>>>>>
->>>>>>>> No, not that either:
->>>>>>>
->>>>>>>
->>>>>>> but it might be because of power9 - I only tried power8, rsyncing the
->>>>>>> image to a p9 machine now...
->>>>>>
->>>>>> Here is the disk : 
->>>>>>
->>>>>> Disk /dev/sda: 50 GiB, 53687091200 bytes, 104857600 sectors
->>>>>> Disk model: QEMU HARDDISK   
->>>>>> Units: sectors of 1 * 512 = 512 bytes
->>>>>> Sector size (logical/physical): 512 bytes / 512 bytes
->>>>>> I/O size (minimum/optimal): 512 bytes / 512 bytes
->>>>>> Disklabel type: gpt
->>>>>> Disk identifier: 27DCE458-231A-4981-9FF1-983F87C2902D
->>>>>>
->>>>>> Device         Start       End   Sectors Size Type
->>>>>> /dev/sda1       2048     16383     14336   7M PowerPC PReP boot
->>>>>> /dev/sda2      16384 100679679 100663296  48G Linux filesystem
->>>>>> /dev/sda3  100679680 104857566   4177887   2G Linux swap
->>>>>>
->>>>>>
->>>>>> GPT ? 
->>>>>
->>>>> For the failure, I bisected up to :
->>>>>
->>>>> f12149908705 ("ext2: Read all 64bit of inode number")
->>>>
->>>> Here is a possible fix for it. I did some RPN on my hp28s in the past 
->>>> but I am not forth fluent.
->>>
->>>
->>> you basically zeroed the top bits by shifting them too far right :)
->>>
->>> The proper fix I think is:
->>>
->>> -  32 lshift or
->>> +  20 lshift or
->>>
->>> I keep forgetting it is all in hex. Can you please give it a try? My
->>> 128GB disk does not expose this problem somehow. Thanks,
->>
->> Better try this one please:
->>
->> https://github.com/aik/SLOF/tree/ext4
-> Tested with the same image. Looks good. 
+ * aarch64 and virt machine type, with TCG and KVM as accelerators
 
+ * ppc64 and pseries machine type with TCG as accelerator
 
-Thanks for testing. But it is still bizarre behaviour, why do we end up
-there anyway...
+ * s390x and s390-ccw-virtio machine type with TCG as accelerator
 
+This has been tested on x86_64, ppc64le and aarch64 hosts and has been
+running reliably (in my experience) on Travis CI.
 
->> What I still do not understand is why GRUB is using ext2 from SLOF, it
->> should parse ext4 itself :-/
-> 
-> Here is the fs information.
-> 
-> 
-> Filesystem volume name:   <none>
-> Last mounted on:          /
-> Filesystem UUID:          8d53f6b4-ffc2-4d8f-bd09-67ac97d7b0c5
-> Filesystem magic number:  0xEF53
-> Filesystem revision #:    1 (dynamic)
-> Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent flex_bg sparse_super large_file huge_file uninit_bg dir_nlink extra_isize
+Git:
+  - URI: https://github.com/clebergnu/qemu/tree/test_boot_linux_v9
+  - Remote: https://github.com/clebergnu/qemu
+  - Branch: test_boot_linux_v9
 
+Travis CI:
+  - Build: https://travis-ci.org/clebergnu/qemu/builds/652694503
 
-huh, this one does not have 64bit like mine, I blindly assumed that by
-2020 everything would be using that. Well that explains the bug. And
-yours also has uninit_bg (the whole idea of this flag is not obvious but
-ok).
+Previous version:
+  - v8: https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04095.html
+  - v7: https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg00220.html
+  - v6: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01202.html
+  - v5: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04652.html
+  - v4: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg02032.html
+  - v3: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg01677.html
+  - v2: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg04318.html
+  - v1: http://lists.nongnu.org/archive/html/qemu-devel/2018-09/msg02530.ht=
+ml
 
+Changes from v8:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-> Filesystem flags:         unsigned_directory_hash 
-> Default mount options:    user_xattr acl
-> Filesystem state:         clean
-> Errors behavior:          Continue
-> Filesystem OS type:       Linux
-> Inode count:              3127296
-> Block count:              12582912
-> Reserved block count:     552210
-> Free blocks:              7907437
-> Free inodes:              2863361
-> First block:              0
-> Block size:               4096
-> Fragment size:            4096
+* Renamed "BLD_DIR" to "BUILD_DIR", "SRC_DIR" to "SOURCE_DIR" and dropped
+  "LNK_DIR" variables on tests/acceptance/avocado_qemu/__init__.py
 
+* Changed memory allocation to 1024 MB, so that it puts less pressure on
+  the host memory, and should be compatible with 32bit hosts (I've found
+  no significant effects to the test times)
 
-Mine here has:
-Group descriptor size:    64
+* Explicitly enabled TCG and skip tests if it's not available
 
-so there is no "hi" part and this is what my fix now handles (0x32 vs.
-0x20 was not the problem actually).
+* Added tags for when accel is TCG ("accel:tcg")
 
-Did you do this on purpose or the installer did it? :)
+* Added additional tags for "pc" alias, that is, "pc-i440fx"
 
-Anyway, I'd like to get this particular disk image to understand why on
-earth it is using the ext2 package from SLOF. Thanks,
+* Renamed tests to make the machine type and accellerator more explicit:
+  - BootLinuxX8664.test_pc =3D> BootLinuxX8664.test_pc_i440fx_tcg
+  - BootLinuxX8664.test_pc_kvm =3D> BootLinuxX8664.test_pc_i440fx_kvm
+  - BootLinuxX8664.test_q35 =3D> BootLinuxX8664.test_pc_q35_tcg
+  - BootLinuxX8664.test_kvm_q35 =3D> BootLinuxX8664.test_pc_q35_kvm
+  - BootLinuxAarch64.test_virt =3D> BootLinuxAarch64.test_virt_tcg
+  - BootLinuxAarch64.test_kvm_virt =3D> BootLinuxAarch64.test_virt_kvm
+  - BootLinuxPPC64.test_pseries =3D> BootLinuxPPC64.test_pseries_tcg
+  - BootLinuxS390X.test_s390_ccw_virtio =3D> BootLinuxS390X.test_s390_ccw_v=
+irtio_tcg
 
+* Renamed target "get-vmimage" to "get-vm-images", and added a help
+  entry under "check-help".
 
-> Reserved GDT blocks:      1021
-> Blocks per group:         32768
-> Fragments per group:      32768
-> Inodes per group:         8144
-> Inode blocks per group:   509
-> Flex block group size:    16
-> Filesystem created:       Wed Dec 14 15:40:55 2016
-> Last mount time:          Wed Feb 19 08:06:52 2020
-> Last write time:          Wed Feb 19 08:06:46 2020
-> Mount count:              1863
-> Maximum mount count:      -1
-> Last checked:             Fri Nov 23 19:09:13 2018
-> Check interval:           0 (<none>)
-> Lifetime writes:          883 GB
-> Reserved blocks uid:      0 (user root)
-> Reserved blocks gid:      0 (group root)
-> First inode:              11
-> Inode size:	          256
-> Required extra isize:     28
-> Desired extra isize:      28
-> Journal inode:            8
-> Default directory hash:   half_md4
-> Directory Hash Seed:      f7cb5863-4885-47b6-b24b-369df6a3b1a4
-> Journal backup:           inode blocks
-> Journal features:         journal_incompat_revoke
-> Journal size:             128M
-> Journal length:           32768
-> Journal sequence:         0x0004beb2
-> 
-> Thanks,
-> 
-> C.
-> 
->>
->>>
->>>
->>>>
->>>> "slash not found" is still there though. 
->>
->>
->> Yeah I see these but they are harmless as far as I can tell.
->>
->>
->>
->>>>
->>>> Cheers,
->>>>
->>>> C.
->>>>
->>>>
->>>> From 92dc9f6dc7c6434419306d5a382adb42169b712a Mon Sep 17 00:00:00 2001
->>>> From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
->>>> Date: Tue, 18 Feb 2020 13:54:54 +0100
->>>> Subject: [PATCH] ext2: Fix 64bit inode number
->>>> MIME-Version: 1.0
->>>> Content-Type: text/plain; charset=UTF-8
->>>> Content-Transfer-Encoding: 8bit
->>>>
->>>> Fixes: f12149908705 ("ext2: Read all 64bit of inode number")
->>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>> ---
->>>>  slof/fs/packages/ext2-files.fs | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/slof/fs/packages/ext2-files.fs b/slof/fs/packages/ext2-files.fs
->>>> index b6a7880bd88e..f1d9fdfd67e2 100644
->>>> --- a/slof/fs/packages/ext2-files.fs
->>>> +++ b/slof/fs/packages/ext2-files.fs
->>>> @@ -152,7 +152,7 @@ CONSTANT /ext4-ee
->>>>    dup
->>>>    8 + l@-le               \ reads bg_inode_table_lo
->>>>    swap 28 + l@-le         \ reads bg_inode_table_hi
->>>> -  32 lshift or
->>>> +  32 rshift or
->>>>    block-size @ *          \ # in group, inode table
->>>>    swap inode-size @ * + xlsplit seek drop  inode @ inode-size @ read drop
->>>>  ;
->>>>
->>>
->>
-> 
+* Bumped pycdlib version to 1.9.0, which contains an endianess bug that
+  was seen on s390x hosts.
 
--- 
-Alexey
+Changes from v7:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+This version drops a number of commits that had been already reviewed
+and have been merged:
+
+ * Dropped commit "Acceptance tests: use relative location for tests",
+   already present in the latest master.
+
+ * Dropped commit "Acceptance tests: use avocado tags for machine type",
+   already present in the latest master.
+
+ * Dropped commit: "Acceptance tests: introduce utility method for tags
+   unique vals", already present in the latest master.
+
+With regards to the handling of the build directory, and the usage of
+a qemu-img binary from the build tree, the following changed:
+
+ * Dropped commit "Acceptance tests: add the build directory to the
+   system PATH", because the qemu-img binary to be used is now
+   explicitly defined, instead of relying on the modification of the
+   PATH environment variable.
+
+ * Dropped commit "Acceptance tests: depend on qemu-img", replaced by
+   explicitly setting the qemu-img binary to be used for snapshot
+   generation.  Also, the newly added "--enable-tools" configure line
+   on Travis CI makes sure that a matching qemu-img binary is
+   available on CI.
+
+ * Dropped commit "Acceptance tests: keep a stable reference to the
+   QEMU build dir", replaced by a different approach that introduces
+   variables tracking the build dir, source dir and link (from build
+   to source) dir.
+
+ * New commit "Acceptance tests: introduce BLD_DIR, SRC_DIR and
+   LNK_DIR".
+
+ * New commit "Acceptance tests: add make targets to download images",
+   that downloads the cloud images, aka vmimages, before the test
+   execution itself.
+
+ * New commit "[TO BE REMOVED] Use Avocado master branch + vmimage fix"
+   to facilitate the review/test of this version.
+
+Additionally:
+
+  * The check for the availability of kvm now makes use of the
+    strengthened qemu.accel.kvm_available() and passes the QEMU binary
+    as an argument to make sure KVM support is compiled into that
+    binary.
+
+ * The timeout was increased to 900 seconds.  This is just one extra
+   step to avoid false negatives on very slow systems.  As a
+   comparison, on Travis CI, on a x86_64 host, the slowest test takes
+   around 250 seconds (boot_linux.py:BootLinuxAarch64.test_virt).  On
+   x86_64 systems with KVM enabled, my experience is that a test will
+   take around 15 seconds.
+
+Changes from v6:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * Bumped Fedora to most recently released version (31).
+
+ * Included new architectures (ppc64 and s390x), consolidating all
+   tests into the same commit.
+
+ * New commit: "Acceptance tests: use avocado tags for machine type"
+
+ * New commit: "Acceptance tests: introduce utility method for tags
+   unique vals"
+
+ * New commit: "Acceptance test x86_cpu_model_versions: use default
+   vm", needed to normalize the use of the machine type tags
+
+ * Added a lot of leniency to the test setup (and reliability to the
+   test/job), canceling the test if there are any failures while
+   downloading/preparing the boot images.
+
+ * Made use of Avocado's data drainer a regular feature (dropped the
+   commit with RFC) and squashed it.
+
+ * Bumped pycdlib version to 1.8.0
+
+ * Dropped explicit "--enable-slirp=3Dgit" (added on v5) to Travis CI
+   configure line, as the default configuration on Travis CI now
+   results in user networking capabilities.
+
+Changes from v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * Added explicit "--enable-slirp=3Dgit" to Travis CI configure line, as
+   these tests depend on "-netdev user" like networking.
+
+ * Bumped Fedora to most recently released version (30).
+
+ * Changed "checksum" parameter to 'sha256' and use the same hashes as
+   provided by the Fedora project (instead of using Avocado's default
+   sha1 and compute and use a different hash value).
+
+ * New commit: Add "boot_linux" test for aarch64 and virt machine type
+
+ * New commit: [RFC]: use Avocado data drainer for console logging
+
+Changes from v4:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * New commit "Acceptance tests: use relative location for tests"
+
+ * New commit "Acceptance tests: keep a stable reference to the QEMU build =
+dir"
+
+ * Pinned the Fedora 29 image by adding a checksum.  The goal is to
+   never allow more than one component to change at a time (the one
+   allowed to change is QEMU itself).  Updates to the image should be
+   manual. (Based on comments from Cornelia)
+
+ * Moved the downloading of the Fedora 29 cloud image to the test
+   setUp() method, canceling the test if the image can not be
+   downloaded.
+
+ * Removed the ":avocado: enable" tag, given that Avocado versions
+   68.0 and later operate on a "recursive by default" manner, that
+   is able to correctly identify this as an Avocado test.
+
+Changes from v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * New patch "Acceptance tests: depend on qemu-img"
+
+Known Issues on v3 (no longer applicable):
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * A recent TCG performance regression[1] affects this test in a
+   number of ways:
+   - The test execution may timeout by itself
+   - The generation of SSH host keys in the guest's first boot is also
+     affected (possibly also a timeout)
+   - The cloud-init "phone home" feature attempts to read the host keys
+     and fails, causing the test to timeout and fail
+
+   These are not observed anymore once the fix[2] is applied.
+
+[1] - https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg00338.html
+[2] - https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg01129.html
+
+Changes from v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * Updated the tag to include the "arch:" key, in a similar fashion as to
+   the tests in the "Acceptance Tests: target architecture support":
+   - https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg00369.html
+
+ * Renamed the test method name to test_x86_64_pc, again, similarly to the
+   boot_linux_console.py tests in the series mentioned before.
+
+ * Set the machine type explicitly, again similarly to the
+   boot_linux_console.py tests in the series mentioned before.
+
+ * Added messages after the launch of the VM, to let test runners know
+   the test know waits for a boot confirmation from the the guest (Eduardo)=
+.
+
+ * Updated commit message to reflect the fact that this version does
+   not allow for parameterization of the guest OS, version, etc.
+
+ * Dropped the RFC prefix on patch "RFC: Acceptance tests: add the
+   build directory to the system PATH"
+
+ * Changed the comments on "RFC: Acceptance tests: add the build
+   directory to the system PATH" to make it clear the addition of a
+   the build directory to the PATH may influence other utility code.
+
+Changes from v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ * The commit message was adjusted, removing the reference to the
+   avocado.utils.vmimage encoding issue on previous Avocado versions
+   (<=3D 64.0) and the fix that would (and was) included in Avocado
+   version 65.0.
+
+ * Effectively added pycdlib=3D=3D1.6.0 to the requirements.txt file,
+   added on a56931eef3, and adjusted the commit message was also
+   to reflect that.
+
+ * Updated the default version of the guest OS, from Fedora 28 to 29.
+   Besides possible improvements in the (virtual) hardware coverage,
+   it brings a performance improvement in the order of 20% to the
+   test.
+
+ * Removed all direct parameters usage.  Because some parameters and
+   its default values implemented in the test would prevent it from
+   running on some environments.  Example: the "accel" parameter had a
+   default value of "kvm", which would prevent this test, that boots a
+   x86_64 OS, from running on a host arch different than x86_64.  I
+   recognize that it's desirable to make tests reusable and
+   parameterized (that was the reason for the first version doing so),
+   but the mechanism to be used to define the architectures that a
+   given test should support is still an open issue, and has been
+   discussed in other threads.  I'll follow up those discussions with
+   a proposal, and until then, removing those aspects from this test
+   implementation seemed to be the best option.  A caveat: this test
+   currently adds the same tag (x86_64) and follows other assumptions
+   made on "boot_linux_console.py", that is, that a x86_64 target
+   binary will be used to run it.  If a user is in an environment that
+   does not have a x86_64 target binary, it could filter those tests
+   out with: "avocado run --filter-by-tags=3D'-x86_64' tests/acceptance".
+
+ * Removed most arguments to the QEMU command line for pretty much the
+   same reasons described above, and by following the general
+   perception that I could grasp from other discussions that QEMU
+   defaults should preferrably be used.  This test, as well as others,
+   can and should be extended later to allow for different test
+   scenarios by passing well documented parameter values.  That is,
+   they should respect well-known parameters such as "accel" mentioned
+   above, so that the same test can run with KVM or TCG.
+
+ * Changed the value of the memory argument to 1024, which based on
+   my experimentations and observations is the minimum amount of RAM
+   for the Fedora 29 cloud image to sucessfully boot on QEMU.  I know
+   there's no such thing as a "one size fits all", specially for QEMU,
+   but this makes me wonder wether a x86_64 machine type shouldn't
+   have its default_ram_size bumped to a number practical enough to
+   run modern operating systems.
+
+ * Added a new patch "RFC: Acceptance tests: add the build directory
+   to the system PATH", which is supposed to gather feedback on how to
+   enable the use of built binaries, such as qemu-img, to code used by
+   the test code.  The specific situation here is that the vmimage,
+   part of the avocado.utils libraries, makes use of qemu-img to create
+   snapshot files.  Even though we could require qemu-img to be installed
+   as a dependency of tests, system wide, it actually goes against the
+   goal of testing all QEMU things from the source/build tree.  This
+   became aparent with tests running on environments such as Travis CI,
+   which don't necessarily have qemu-img available elsewhere.
+
+Cleber Rosa (3):
+  Acceptance tests: introduce BUILD_DIR and SOURCE_DIR
+  Acceptance test: add "boot_linux" tests
+  Acceptance tests: add make targets to download images
+
+ .travis.yml                               |   2 +-
+ tests/Makefile.include                    |  19 +-
+ tests/acceptance/avocado_qemu/__init__.py |  25 ++-
+ tests/acceptance/boot_linux.py            | 215 ++++++++++++++++++++++
+ tests/requirements.txt                    |   3 +-
+ 5 files changed, 254 insertions(+), 10 deletions(-)
+ create mode 100644 tests/acceptance/boot_linux.py
+
+--=20
+2.21.1
+
 
