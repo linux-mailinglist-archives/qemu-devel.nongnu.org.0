@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BEF16559F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:27:26 +0100 (CET)
-Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D1F1655B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:33:55 +0100 (CET)
+Received: from localhost ([::1]:35403 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4cUn-0003BQ-Hl
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:27:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
+	id 1j4cb4-0005SS-65
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:33:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cRU-0005cy-FV
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:24:01 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cRA-0004hA-02
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cRT-0000L2-B2
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:24:00 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58279 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cR6-0008Lo-Ml
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:39 -0500
+Received: from ozlabs.org ([203.11.71.1]:49191)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4cRT-0008MX-0c; Wed, 19 Feb 2020 22:23:59 -0500
+ id 1j4cR6-0008IB-AM; Wed, 19 Feb 2020 22:23:36 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NKg250nsz9sSk; Thu, 20 Feb 2020 14:23:26 +1100 (AEDT)
+ id 48NKg03ztqz9sSQ; Thu, 20 Feb 2020 14:23:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582169006;
- bh=GyzBZMDoAMPRnJCvIsnfxFsMHlBhNBqGfLr4nb9ELlM=;
+ d=gibson.dropbear.id.au; s=201602; t=1582169004;
+ bh=GpG7JIVsiHpMpesoVJsSFbR7MFKVdTtNyC10o80HfXM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P9l/S2XupeblVRk6FAraFfTj56Bl+B4I9PdBWu5OQ5aVh+1VhCQGmo8iCPSc7D+M1
- 1TYuIuOODHoZARciHmZnugdzmMnu1M6LSkz3Db4oJXU1vJXdCH2n3oEG031ikjRX19
- czyqRXPmtSqHLxUZ01KTlbymj0PopsHTGaWq9+Rw=
+ b=NQqanpmEFWysOwRm2YLPYflYVs/ZQMaqreoK7+H1+hmM5p79DCEHWlw3k9ViENuKu
+ ECTxqLLb6zrrcSO7jewHBZqBgoeLzbAXxi18A6XII005HzVJooG/NAzG4U0iyQFF5I
+ tfQjPZW1jELUdPfEGzpF+xiBKfijNWMwjMy3mnks=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	groug@kaod.org,
 	clg@kaod.org
-Subject: [PATCH v5 18/18] spapr: Fold spapr_node0_size() into its only caller
-Date: Thu, 20 Feb 2020 14:23:16 +1100
-Message-Id: <20200220032317.96884-19-david@gibson.dropbear.id.au>
+Subject: [PATCH v5 03/18] target/ppc: Correct handling of real mode accesses
+ with vhyp on hash MMU
+Date: Thu, 20 Feb 2020 14:23:01 +1100
+Message-Id: <20200220032317.96884-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220032317.96884-1-david@gibson.dropbear.id.au>
 References: <20200220032317.96884-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,93 +68,139 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Real Mode Area (RMA) needs to fit within the NUMA node owning memory
-at address 0.  That's usually node 0, but can be a later one if there are
-some nodes which have no memory (only CPUs).
-
-This is currently handled by the spapr_node0_size() helper.  It has only
-one caller, so there's not a lot of point splitting it out.  It's also
-extremely easy to misread the code as clamping to the size of the smalles=
+On ppc we have the concept of virtual hypervisor ("vhyp") mode, where we
+only model the non-hypervisor-privileged parts of the cpu.  Essentially w=
+e
+model the hypervisor's behaviour from the point of view of a guest OS, bu=
 t
-node rather than the first node with any memory.
+we don't model the hypervisor's execution.
 
-So, fold it into the caller, and add some commentary to make it a bit
-clearer exactly what it's doing.
+In particular, in this mode, qemu's notion of target physical address is
+a guest physical address from the vcpu's point of view.  So accesses in
+guest real mode don't require translation.  If we were modelling the
+hypervisor mode, we'd need to translate the guest physical address into
+a host physical address.
+
+Currently, we handle this sloppily: we rely on setting up the virtual LPC=
+R
+and RMOR registers so that GPAs are simply HPAs plus an offset, which we
+set to zero.  This is already conceptually dubious, since the LPCR and RM=
+OR
+registers don't exist in the non-hypervisor portion of the CPU.  It gets
+worse with POWER9, where RMOR and LPCR[VPM0] no longer exist at all.
+
+Clean this up by explicitly handling the vhyp case.  While we're there,
+remove some unnecessary nesting of if statements that made the logic to
+select the correct real mode behaviour a bit less clear than it could be.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ target/ppc/mmu-hash64.c | 60 ++++++++++++++++++++++++-----------------
+ 1 file changed, 35 insertions(+), 25 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f0354b699d..9ba645c9cb 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -296,20 +296,6 @@ static void spapr_populate_pa_features(SpaprMachineS=
-tate *spapr,
-     _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_si=
-ze)));
- }
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 3e0be4d55f..392f90e0ae 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -789,27 +789,30 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, va=
+ddr eaddr,
+          */
+         raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
 =20
--static hwaddr spapr_node0_size(MachineState *machine)
--{
--    if (machine->numa_state->num_nodes) {
--        int i;
--        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
--            if (machine->numa_state->nodes[i].node_mem) {
--                return MIN(pow2floor(machine->numa_state->nodes[i].node_=
-mem),
--                           machine->ram_size);
--            }
--        }
--    }
--    return machine->ram_size;
--}
--
- static void add_str(GString *s, const gchar *s1)
- {
-     g_string_append_len(s, s1, strlen(s1) + 1);
-@@ -2652,10 +2638,24 @@ static hwaddr spapr_rma_size(SpaprMachineState *s=
-papr, Error **errp)
- {
-     MachineState *machine =3D MACHINE(spapr);
-     hwaddr rma_size =3D machine->ram_size;
--    hwaddr node0_size =3D spapr_node0_size(machine);
-=20
-     /* RMA has to fit in the first NUMA node */
--    rma_size =3D MIN(rma_size, node0_size);
-+    if (machine->numa_state->num_nodes) {
-+        /*
-+         * It's possible for there to be some zero-memory nodes first
-+         * in the list.  We need the RMA to fit inside the memory of
-+         * the first node which actually has some memory.
-+         */
-+        int i;
-+
-+        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
-+            if (machine->numa_state->nodes[i].node_mem !=3D 0) {
-+                rma_size =3D MIN(rma_size,
-+                               machine->numa_state->nodes[i].node_mem);
-+                break;
+-        /* In HV mode, add HRMOR if top EA bit is clear */
+-        if (msr_hv || !env->has_hv_mode) {
++        if (cpu->vhyp) {
++            /*
++             * In virtual hypervisor mode, there's nothing to do:
++             *   EA =3D=3D GPA =3D=3D qemu guest address
++             */
++        } else if (msr_hv || !env->has_hv_mode) {
++            /* In HV mode, add HRMOR if top EA bit is clear */
+             if (!(eaddr >> 63)) {
+                 raddr |=3D env->spr[SPR_HRMOR];
+             }
+-        } else {
+-            /* Otherwise, check VPM for RMA vs VRMA */
+-            if (env->spr[SPR_LPCR] & LPCR_VPM0) {
+-                slb =3D &env->vrma_slb;
+-                if (slb->sps) {
+-                    goto skip_slb_search;
+-                }
+-                /* Not much else to do here */
++        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
++            /* Emulated VRMA mode */
++            slb =3D &env->vrma_slb;
++            if (!slb->sps) {
++                /* Invalid VRMA setup, machine check */
+                 cs->exception_index =3D POWERPC_EXCP_MCHECK;
+                 env->error_code =3D 0;
+                 return 1;
+-            } else if (raddr < env->rmls) {
+-                /* RMA. Check bounds in RMLS */
+-                raddr |=3D env->spr[SPR_RMOR];
+-            } else {
+-                /* The access failed, generate the approriate interrupt =
+*/
 +            }
-+        }
-+    }
-=20
-     /*
-      * VRMA access is via a special 1TiB SLB mapping, so the RMA can
-@@ -2672,6 +2672,11 @@ static hwaddr spapr_rma_size(SpaprMachineState *sp=
-apr, Error **errp)
-         spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
-     }
-=20
-+    /*
-+     * RMA size must be a power of 2
-+     */
-+    rma_size =3D pow2floor(rma_size);
 +
-     if (rma_size < (MIN_RMA_SLOF * MiB)) {
-         error_setg(errp,
- "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real Mode Area)",
++            goto skip_slb_search;
++        } else {
++            /* Emulated old-style RMO mode, bounds check against RMLS */
++            if (raddr >=3D env->rmls) {
+                 if (rwx =3D=3D 2) {
+                     ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
+                 } else {
+@@ -821,6 +824,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
+r eaddr,
+                 }
+                 return 1;
+             }
++
++            raddr |=3D env->spr[SPR_RMOR];
+         }
+         tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_M=
+ASK,
+                      PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
+@@ -953,22 +958,27 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
+pu, target_ulong addr)
+         /* In real mode the top 4 effective address bits are ignored */
+         raddr =3D addr & 0x0FFFFFFFFFFFFFFFULL;
+=20
+-        /* In HV mode, add HRMOR if top EA bit is clear */
+-        if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
++        if (cpu->vhyp) {
++            /*
++             * In virtual hypervisor mode, there's nothing to do:
++             *   EA =3D=3D GPA =3D=3D qemu guest address
++             */
++            return raddr;
++        } else if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
++            /* In HV mode, add HRMOR if top EA bit is clear */
+             return raddr | env->spr[SPR_HRMOR];
+-        }
+-
+-        /* Otherwise, check VPM for RMA vs VRMA */
+-        if (env->spr[SPR_LPCR] & LPCR_VPM0) {
++        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
++            /* Emulated VRMA mode */
+             slb =3D &env->vrma_slb;
+             if (!slb->sps) {
+                 return -1;
+             }
+-        } else if (raddr < env->rmls) {
+-            /* RMA. Check bounds in RMLS */
+-            return raddr | env->spr[SPR_RMOR];
+         } else {
+-            return -1;
++            /* Emulated old-style RMO mode, bounds check against RMLS */
++            if (raddr >=3D env->rmls) {
++                return -1;
++            }
++            return raddr | env->spr[SPR_RMOR];
+         }
+     } else {
+         slb =3D slb_lookup(cpu, addr);
 --=20
 2.24.1
 
