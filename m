@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C454E165A2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:28:42 +0100 (CET)
-Received: from localhost ([::1]:38506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF74165A1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:27:18 +0100 (CET)
+Received: from localhost ([::1]:38482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i8P-0000L6-SD
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:28:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51917)
+	id 1j4i73-0006Ja-Oj
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:27:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4i1f-0004K1-JI
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:45 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4i1d-0008Dg-To
+ (envelope-from <laurent@vivier.eu>) id 1j4i1e-0004JT-Tp
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:43 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:39223)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <laurent@vivier.eu>) id 1j4i1d-0008DR-Kc
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:42 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:54659)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1d-0008Cw-JT
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1c-0008CW-PP
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:41 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M3DaN-1j1fcD0kDl-003hOh; Thu, 20 Feb 2020 10:21:04 +0100
+ id 1MhToz-1jiBN53l3r-00efmD; Thu, 20 Feb 2020 10:21:05 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/13] linux-user: Add support for getting/setting specified
- alsa timer parameters using ioctls
-Date: Thu, 20 Feb 2020 10:20:50 +0100
-Message-Id: <20200220092053.1510215-11-laurent@vivier.eu>
+Subject: [PULL 11/13] linux-user: Add support for selecting alsa timer using
+ ioctl
+Date: Thu, 20 Feb 2020 10:20:51 +0100
+Message-Id: <20200220092053.1510215-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
 References: <20200220092053.1510215-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HzZhndg5ZHKVQtGiplVuO+I35TBuhPsAh5n9CNPY1976L9HVNdL
- 5UeozEC33LPx3gaHolxKwdpRWzvta74zaH5DaNvkySdO/CCnwfz6wCI9NW7Q+n9O1/g1+7d
- VkfC8F4duDh4g9CkB1AfyU2S4iR6S5SBlCJG6mKd9kBQOqS/N3ST7Wb+ociBLLHO+allJ/c
- uBb3pIuTD6ih85ne4JWKQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yxFNRAfb7og=:sUFaJHaQpOyAjNsVSKrh2K
- FCTsK1QW8gwdFK5ApqKjf1KzO3cc19Re1oeXFQ7WdVe3zM2NQOl5tpchSnR0TGIiaLz2xBO5Z
- GrSTPkrsFAaVX43Sy3q2blmxpDdcrwQpZkI+Jkhj/5pLEQKljYAooTIIpBIOnSH8+bWoeNsR+
- iOdKccbfbLt9aEwJ1tJAoqE4z3c1jnAfWYW6DON70GH4GFY4W/WcvX4WL828TLxrkzoUtUXdv
- nATHrFoWNghkgodrwGRIb8usRUQnELXouzgWDNDR1hXJ5CVDx3wexGRbGFLQwuzQKNrY8mOa7
- pTm3kUxuUK2LcSd9VGr8owNL+AfzA0EQygxTLOg8j6yst/kcHAfLsIIfDYfMeggz7M1TC/Y61
- hWNpgS6XvdM7RwX/Qk7zP0oR3nmsSUn9vuDLjfNf2rol7h0RhFlFKn6Bz3LQSa65m1+zdizsi
- bVJEb2anmP8NUfY6dsXfO6a+FkVyO9KYpKSQvBcnZ0iac87vSoYHFExsafGN+Pkmhlbo8lnZj
- Z2f08TaXiUy7+zPhdSyWfN57Q0fwn9LbW6qhcFkBH/Ikr+v3N58IZQ5Mts2dvyaq4tKbnOxPN
- MUVs8s5nzWcg9yNCXdKe2ISBB8IjrE01ItOiFsiWs8x8Yu9S7rIE5w/0gB3FdYHCBAMrSAtMt
- AI6ZopNyO8U2FFdkANlIIHvXU6RX/MdQjUcPdJrkeDvAfAzcjgP320XOeLu7Zu1b1/3U0LRrG
- xsi+69UYq5XiuYpDU5yeyhBZdxx/AAalPisR9E0rIRO9NlxD6s2IdaFJEDah8hu6nH/dBPBV9
- l9FFv3NmLHWh8JkQeSauzvCVNDBU3j34VjSB14VR8Q3Fb3F5lMnvaCBQrqUmdabtahh4ZDO
+X-Provags-ID: V03:K1:VrObjhoNrIFwaIgz/64Qicb2frRIBmdftNNWFBXMbhJJqs6E4j+
+ G5IqYaOyYpFrmRaM8OlkOisCSSuIK+LSgSP4WhKXCq6GnsFfvsHK1TzqfllKe44BePP8Fo8
+ MdXt0ydQRKEkwdVeL/WZI2csBtrPQ05iCgiNjbxZTSaGUrZ5En9d/BrGTHvEm046hgtT9qK
+ 792teOxHskLFwRrMdGw6A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4SJrr0qnfYE=:uxYkYYVdOsEFrRcrBxBRHU
+ zHyy0W2HtzSrROR3JOX86HhAxZKaCVdMdQtTxJtPu9Q0w9xVBuY1+atv5ew1EkIiC/V7whD4y
+ 0kG3iMvyHMNsYKiG5UnHRegY+2AR8IdtxZaKxprZKXqKwwXm3LUBtOK22VBkYAzm1ZYdLX0WU
+ TQVMhYn9O1QWPoCNJQw1UellmJqUmMfNEfSo0J4V89rTRpn5IdR8ylVEBW1WmKfZWL+gR1++D
+ 0vxvv0sF8Zo0GsXqAFP89WjJKKjtjQR9A67IFhOCMuffm+cll2CKEZOwr6xIzD/KZW3Y34lkR
+ Qu2gaYEjpf8tzvrL3Y/IC86Rui/CEObRp/d9ADwJmq64WK//+b84MuWxgQV3553I9PDb5vzlK
+ xMMTj+A4uow1dwl4AwotFJ8c3+HBIv1CiAPeuKKwwdGT4irmk2Vb9mqSIKhL05n+/2sH4JeiS
+ pwS5MPAjp+4b/MSjs4MVb85IixGC24Se6wW5WkZFklXiZ45jqpV9s/9fe9lMZUijLAjrkzL2M
+ qLcwTq1lLihFPLabU6OHkw8l+djK8hKT7kkmz5iBVtcOO4JWtYG25vvXFd6TGSO/Rv0q2Qy5T
+ x+qfxQSvnWIjrKqBEY7n1cDsh1FKF7u0hEjCmx+rWkVejooWWWzVehCv7vafUGgVA5oTQkozP
+ uvcKhSGnNnVNiQbvUGk+sDFje/aZXbqlGrGWnd62Nzo6n12M0v30uI23CM6HGOPbhDhJDTCzF
+ ccqnwuBtQlaJTl1gIa6j4387Ap/AAs+C1+DWEX30V2NHhnwA1y5RY9cu6a2WOq7TDR/PbX7oy
+ Ja5nvS9sXTFcJgASei7Dz7BCJQpLexKCKcEsXlxWWzwmMUlT0ie19OuJUMwQN9gvzMLOmZS
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,203 +74,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 
-This patch implements functionalities of following ioctls:
+This patch implements functionality of following ioctl:
 
-SNDRV_TIMER_IOCTL_GINFO - Getting information about specified timer
+SNDRV_TIMER_IOCTL_SELECT - Selecting timer
 
-    Read information about the specified timer. The information about the
-    timer is returned in the following structure:
+    Selects the timer which id is specified. The timer id is specified in the
+    following strcuture:
 
-        struct snd_timer_ginfo {
-            struct snd_timer_id tid;      /* requested timer ID */
-            unsigned int flags;           /* timer flags - SNDRV_TIMER_FLG_* */
-            int card;                     /* card number */
-            unsigned char id[64];         /* timer identification */
-            unsigned char name[80];       /* timer name */
-            unsigned long reserved0;      /* reserved for future use */
-            unsigned long resolution;     /* average period resolution in ns */
-            unsigned long resolution_min; /* minimal period resolution in ns */
-            unsigned long resolution_max; /* maximal period resolution in ns */
-            unsigned int clients;         /* active timer clients */
-            unsigned char reserved[32];   /* reserved */
-        };
-
-    A pointer to this structure should be passed as the third ioctl's argument.
-    Before calling the ioctl, the field "tid" should be initialized with the id
-    information for the timer which information is to be obtained. After the
-    ioctl call, the rest of the structure fields are filled with values from
-    the timer device with the specified id. If there is no device with the
-    specified id, the error ENODEV ("No such device") is returned.
-
-SNDRV_TIMER_IOCTL_GPARAMS - Setting precise period duration
-
-    Sets timer precise period duration numerator and denominator in seconds. The
-    period duration is set in the following structure:
-
-        struct snd_timer_gparams {
-            struct snd_timer_id tid;    /* requested timer ID */
-            unsigned long period_num;   /* period duration - numerator */
-            unsigned long period_den;   /* period duration - denominator */
-            unsigned char reserved[32]; /* reserved */
-        };
-
-    A pointer to this structure should be passed as the third ioctl's argument.
-    Before calling the ioctl, the field "tid" should be initialized with the id
-    information for the timer which period duration is to be set. Also, the
-    fileds "period_num" and "period_den" should be filled with the period
-    duration numerator and denominator values that are to be set respectively.
-    If there is no device with the specified id, the error ENODEV ("No such
-    device") is returned.
-
-SNDRV_TIMER_IOCTL_GSTATUS - Getting current period resolution
-
-    Read timer current period resolution in nanoseconds and period resolution
-    numerator and denominator in seconds. The period resolution information is
-    returned in the following structure:
-
-    struct snd_timer_gstatus {
-        struct snd_timer_id tid;        /* requested timer ID */
-        unsigned long resolution;       /* current period resolution in ns */
-        unsigned long resolution_num;   /* period resolution - numerator */
-        unsigned long resolution_den;   /* period resolution - denominator */
-        unsigned char reserved[32];     /* reserved for future use */
+    struct snd_timer_select {
+        struct snd_timer_id id;         /* timer ID */
+        unsigned char reserved[32];     /* reserved */
     };
 
     A pointer to this structure should be passed as the third ioctl's argument.
     Before calling the ioctl, the field "tid" should be initialized with the id
-    information for the timer which period resolution is to be obtained. After
-    the ioctl call, the rest of the structure fields are filled with values
-    from the timer device with the specified id. If there is no device with the
-    specified id, the error ENODEV ("No such device") is returned.
+    information for the timer which is to be selected. If there is no timer
+    device with the specified id, the error ENODEV ("No such device") is
+    returned.
 
 Implementation notes:
 
-    All ioctls in this patch have pointer to some kind of a structure as their
-    third argument. That is the reason why corresponding definitions were added
-    in 'linux-user/syscall_types.h'. All of these strcutures have some fields
-    that are of type 'unsigned long'. That is the reason why separate target
-    structures were defined in 'linux-user/syscall_defs.h'. Also, all of the
-    structures have a field with type 'struct snd_timer_id' which is the reason
-    why a separate target structure 'struct target_snd_timer_id' was also
-    defined. The rest of the implementation was straightforward.
+    Ioctl implemented in this patch has a pointer to a
+    'struct snd_timer_select' as its third argument.
+    That is the reason why a corresponding definition
+    was added in 'linux-user/syscall_types.h'. The rest
+    of the implementation was straightforward.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Message-Id: <1579117007-7565-10-git-send-email-Filip.Bozuta@rt-rk.com>
+Message-Id: <1579117007-7565-11-git-send-email-Filip.Bozuta@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h        |  6 ++++++
- linux-user/syscall_defs.h  | 43 ++++++++++++++++++++++++++++++++++++++
- linux-user/syscall_types.h | 26 +++++++++++++++++++++++
- 3 files changed, 75 insertions(+)
+ linux-user/ioctls.h        | 2 ++
+ linux-user/syscall_defs.h  | 7 +++++++
+ linux-user/syscall_types.h | 4 ++++
+ 3 files changed, 13 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 950e99617dcc..150aa680b018 100644
+index 150aa680b018..8313af3672c6 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -464,6 +464,12 @@
-   IOCTL(SNDRV_TIMER_IOCTL_PVERSION, IOC_R, MK_PTR(TYPE_INT))
-   IOCTL(SNDRV_TIMER_IOCTL_NEXT_DEVICE, IOC_RW,
-         MK_PTR(MK_STRUCT(STRUCT_snd_timer_id)))
-+  IOCTL(SNDRV_TIMER_IOCTL_GINFO, IOC_RW,
-+        MK_PTR(MK_STRUCT(STRUCT_snd_timer_ginfo)))
-+  IOCTL(SNDRV_TIMER_IOCTL_GPARAMS, IOC_W,
-+        MK_PTR(MK_STRUCT(STRUCT_snd_timer_gparams)))
-+  IOCTL(SNDRV_TIMER_IOCTL_GSTATUS, IOC_RW,
-+        MK_PTR(MK_STRUCT(STRUCT_snd_timer_gstatus)))
+@@ -470,6 +470,8 @@
+         MK_PTR(MK_STRUCT(STRUCT_snd_timer_gparams)))
+   IOCTL(SNDRV_TIMER_IOCTL_GSTATUS, IOC_RW,
+         MK_PTR(MK_STRUCT(STRUCT_snd_timer_gstatus)))
++  IOCTL(SNDRV_TIMER_IOCTL_SELECT, IOC_W,
++        MK_PTR(MK_STRUCT(STRUCT_snd_timer_select)))
  
    IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
    IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index eb00358b5437..c714e8b67b6e 100644
+index c714e8b67b6e..cac9228a37d0 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -2437,10 +2437,53 @@ struct target_statfs64 {
+@@ -2474,6 +2474,11 @@ struct target_snd_timer_gstatus {
+     unsigned char reserved[32];
+ };
  
- #define TARGET_SOUND_MIXER_WRITE_RECSRC	TARGET_MIXER_WRITE(SOUND_MIXER_RECSRC)
- 
-+struct target_snd_timer_id {
-+    int dev_class;
-+    int dev_sclass;
-+    int card;
-+    int device;
-+    int subdevice;
-+};
-+
-+struct target_snd_timer_ginfo {
-+    struct target_snd_timer_id tid;
-+    unsigned int flags;
-+    int card;
-+    unsigned char id[64];
-+    unsigned char name[80];
-+    abi_ulong reserved0;
-+    abi_ulong resolution;
-+    abi_ulong resolution_min;
-+    abi_ulong resolution_max;
-+    unsigned int clients;
-+    unsigned char reserved[32];
-+};
-+
-+struct target_snd_timer_gparams {
-+    struct target_snd_timer_id tid;
-+    abi_ulong period_num;
-+    abi_ulong period_den;
-+    unsigned char reserved[32];
-+};
-+
-+struct target_snd_timer_gstatus {
-+    struct target_snd_timer_id tid;
-+    abi_ulong resolution;
-+    abi_ulong resolution_num;
-+    abi_ulong resolution_den;
++struct target_snd_timer_select {
++    struct target_snd_timer_id id;
 +    unsigned char reserved[32];
 +};
 +
  /* alsa timer ioctls */
  #define TARGET_SNDRV_TIMER_IOCTL_PVERSION     TARGET_IOR('T', 0x00, int)
  #define TARGET_SNDRV_TIMER_IOCTL_NEXT_DEVICE  TARGET_IOWR('T', 0x01,           \
-                                                 struct snd_timer_id)
-+#define TARGET_SNDRV_TIMER_IOCTL_GINFO        TARGET_IOWR('T', 0x03,           \
-+                                                struct target_snd_timer_ginfo)
-+#define TARGET_SNDRV_TIMER_IOCTL_GPARAMS      TARGET_IOW('T', 0x04,            \
-+                                                struct target_snd_timer_gparams)
-+#define TARGET_SNDRV_TIMER_IOCTL_GSTATUS      TARGET_IOWR('T', 0x05,           \
-+                                                struct target_snd_timer_gstatus)
+@@ -2484,6 +2489,8 @@ struct target_snd_timer_gstatus {
+                                                 struct target_snd_timer_gparams)
+ #define TARGET_SNDRV_TIMER_IOCTL_GSTATUS      TARGET_IOWR('T', 0x05,           \
+                                                 struct target_snd_timer_gstatus)
++#define TARGET_SNDRV_TIMER_IOCTL_SELECT       TARGET_IOW('T', 0x10,            \
++                                                struct target_snd_timer_select)
  
  /* vfat ioctls */
  #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
 diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 4c3a65cfc030..adcfa2822468 100644
+index adcfa2822468..81bc71938241 100644
 --- a/linux-user/syscall_types.h
 +++ b/linux-user/syscall_types.h
-@@ -90,6 +90,32 @@ STRUCT(snd_timer_id,
-        TYPE_INT, /* device */
-        TYPE_INT) /* subdevice */
+@@ -116,6 +116,10 @@ STRUCT(snd_timer_gstatus,
+        TYPE_ULONG, /* resolution_den */
+        MK_ARRAY(TYPE_CHAR, 32)) /* reserved */
  
-+STRUCT(snd_timer_ginfo,
-+       MK_STRUCT(STRUCT_snd_timer_id), /* tid */
-+       TYPE_INT, /* flags */
-+       TYPE_INT, /* card */
-+       MK_ARRAY(TYPE_CHAR, 64), /* id */
-+       MK_ARRAY(TYPE_CHAR, 80), /* name */
-+       TYPE_ULONG, /* reserved0 */
-+       TYPE_ULONG, /* resolution */
-+       TYPE_ULONG, /* resolution_min */
-+       TYPE_ULONG, /* resolution_max */
-+       TYPE_INT, /* clients */
-+       MK_ARRAY(TYPE_CHAR, 32)) /* reserved */
-+
-+STRUCT(snd_timer_gparams,
-+       MK_STRUCT(STRUCT_snd_timer_id), /* tid */
-+       TYPE_ULONG, /* period_num */
-+       TYPE_ULONG, /* period_den */
-+       MK_ARRAY(TYPE_CHAR, 32)) /* reserved */
-+
-+STRUCT(snd_timer_gstatus,
-+       MK_STRUCT(STRUCT_snd_timer_id), /* tid */
-+       TYPE_ULONG, /* resolution */
-+       TYPE_ULONG, /* resolution_num */
-+       TYPE_ULONG, /* resolution_den */
++STRUCT(snd_timer_select,
++       MK_STRUCT(STRUCT_snd_timer_id), /* id */
 +       MK_ARRAY(TYPE_CHAR, 32)) /* reserved */
 +
  /* loop device ioctls */
