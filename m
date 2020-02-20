@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7564E165FE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 15:43:50 +0100 (CET)
-Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2B6165FFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 15:51:37 +0100 (CET)
+Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4n3L-00079i-W7
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 09:43:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43217)
+	id 1j4nAt-0003HO-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 09:51:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1j4n2O-0006IA-Bp
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:42:49 -0500
+ (envelope-from <berto@igalia.com>) id 1j4n9J-00029I-KE
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:49:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1j4n2N-0004C5-BW
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:42:48 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33502)
+ (envelope-from <berto@igalia.com>) id 1j4n9I-0000h3-8j
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:49:57 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:48095)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1j4n2N-0004BJ-6m; Thu, 20 Feb 2020 09:42:47 -0500
-Received: by mail-pg1-x544.google.com with SMTP id 6so2059071pgk.0;
- Thu, 20 Feb 2020 06:42:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:in-reply-to:references;
- bh=r6loH1PyKYFmFT1PyHXkle7Gr60M16j3Lz2hlEr7IGI=;
- b=drUwT/isZRTc82AE05qbvlzN7+kh0TJp9W+rZIyIivG/G7UtkpDitytNJqCY9+ULju
- BnODFiz36auh7a4PcLcQt8JRzHYcpl5YciB0jiEgUiPh+bvEx2nBbKZjJiDGw/5EH9SL
- BEtaXBGKurwi4ZBn2XVE5uTcIkalIitXCRuFYGdWGkwVZAzdejGRnjf/nSTzJbzW3TZd
- IfdeJgJi5wgbNnuGfLz9/8GEK17RiZl17L+nKu4eHW3f5K74WVQO1725NRKsGKhMAZZN
- 90j3h05L7Lw62wQtxBhLtoYsZkrp68Y8ZWL1GoVUqaCClDCXVnz2k7OumNtJbAGaufV+
- fEDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references;
- bh=r6loH1PyKYFmFT1PyHXkle7Gr60M16j3Lz2hlEr7IGI=;
- b=izKfMKB55/f6dxhT7NrJktcWZETfxFEFb8bS57qCQdFA7KM2zNDBZzyJSFtaA3VWfF
- bTrPt+PWJeme0aWgLrZ6WYdgv3BOdFYj4MbHQutp8RhISlmRnmJ+rvFjDvOIKLAnhtKI
- olBpnjyMfyPHQ4Z/KAPrMCDw8zYvwaFl2ilVaY9dArqbDbuB1UUVjwfa78hHAiUyjIIV
- rWmhTykR54WeZmg3gb22cyg7Bwn3xlqDc9TrRZuB5E2am8EOTkOQq5iI750p4znI1/ve
- mYekV33XUrJOlxNTJtnL6W7dF4+mWs1hsrQ8yAtRKf+9W1/TF/AxszHD55Bu1cqaZoU/
- z6eg==
-X-Gm-Message-State: APjAAAWjEbqVmnE0UagpnMYzXPaHy1VEB1PZc5WOLOaNPRI7pfmp6eW2
- FAz/bF6eVHwZ/02QM0FvL2Y=
-X-Google-Smtp-Source: APXvYqzbX+FwUWSVQVndxIpoaJNZxZRvpPQknhSS5dIX3zNyNa4qPJAnOjTPU9HyPeu2gZr/YHBZVA==
-X-Received: by 2002:a62:19d1:: with SMTP id 200mr31038643pfz.26.1582209765834; 
- Thu, 20 Feb 2020 06:42:45 -0800 (PST)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id v9sm3837140pja.26.2020.02.20.06.42.45
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Thu, 20 Feb 2020 06:42:45 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 2/2] riscv: sifive_u: Update BIOS_FILENAME for 32-bit
-Date: Thu, 20 Feb 2020 06:42:38 -0800
-Message-Id: <1582209758-2996-2-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1582209758-2996-1-git-send-email-bmeng.cn@gmail.com>
-References: <1582209758-2996-1-git-send-email-bmeng.cn@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1j4n9H-0000fc-Vn; Thu, 20 Feb 2020 09:49:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=fQkzJIea36FdyDd6mr4Bb/OS+w3aVY+XM89Gc7SHzgg=; 
+ b=ZX87Ud0YVJFeOX2XlcHJxtdPWlobJ9tQu10xvXjabsbKT4qFNYEMHQYHgPaHmVaaGOXzPNhvQYuYJ91QfLWdUdffOkF2FN0nrga0XlSpAMcKNNBjKuO4LykzH6Q6Qizr/NmXUdFPk/lsvo0ZKScsoi/olN5mYE4Ri9pSGlgNjhkDv93A1kbUn8/Q/m4EgCHB5hgyELUc8SDD4ueIa9/hq6xpbZg4F080ozgNdaFNbl1y2rIHA4Qwr8JBHD7ul+qsHhO/XbFHm5VQqavNylKNEVIEzC1AzHgZDVIRWfnQpS+UIHrb2vW/CftBxkalacvF6uR8BKnww3dyrtBJHedejg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1j4n9E-0006IK-Gq; Thu, 20 Feb 2020 15:49:52 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1j4n9E-0000Hy-7R; Thu, 20 Feb 2020 15:49:52 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v3 05/27] qcow2: Document the Extended L2 Entries
+ feature
+In-Reply-To: <3a946970-5a26-6c40-a212-0aefdccef509@redhat.com>
+References: <cover.1577014346.git.berto@igalia.com>
+ <0b884ddcd0ac3a3c0b8cdd9d09c74566ac107c9a.1577014346.git.berto@igalia.com>
+ <3a946970-5a26-6c40-a212-0aefdccef509@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 20 Feb 2020 15:49:52 +0100
+Message-ID: <w51mu9db9f3.fsf@maestria.local.igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,38 +59,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update BIOS_FILENAME to consider 32-bit bios image file name.
+On Thu 20 Feb 2020 03:28:17 PM CET, Eric Blake wrote:
+>> +An image uses Extended L2 Entries if bit 3 is set on the incompatible_features
+>> +field of the header.
+>> +
+>> +In these images standard data clusters are divided into 32 subclusters of the
+>> +same size. They are contiguous and start from the beginning of the cluster.
+>> +Subclusters can be allocated independently and the L2 entry contains information
+>> +indicating the status of each one of them. Compressed data clusters don't have
+>> +subclusters so they are treated like in images without this feature.
+>
+> Grammar; I'd suggest:
+>
+> ...don't have subclusters, so they are treated the same as in images 
+> without this feature.
 
-Tested booting Linux v5.5 32-bit image (built from rv32_defconfig
-plus CONFIG_SOC_SIFIVE) with the default 32-bit bios image.
+Ok
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+> Are they truly the same, or do you still need to document that the
+> extra 64 bits of the extended L2 entry are all zero?
 
- hw/riscv/sifive_u.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+It is documented later in the same patch ("Subcluster Allocation Bitmap
+for compressed clusters").
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index ca561d3..371133e 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -57,7 +57,11 @@
- 
- #include <libfdt.h>
- 
--#define BIOS_FILENAME "opensbi-riscv64-sifive_u-fw_jump.bin"
-+#if defined(TARGET_RISCV32)
-+# define BIOS_FILENAME "opensbi-riscv32-sifive_u-fw_jump.bin"
-+#else
-+# define BIOS_FILENAME "opensbi-riscv64-sifive_u-fw_jump.bin"
-+#endif
- 
- static const struct MemmapEntry {
-     hwaddr base;
--- 
-2.7.4
+By the way, this series treats an L2 entry as invalid if any of those
+bits is not zero, but I think I'll change that. Conceivably those bits
+could be used for a future compatible feature, but it can only be
+compatible if the previous versions ignore those bits.
 
+>> +        32 -  63    Subcluster reads as zeros (one bit per subcluster)
+>> +
+>> +                    1: the subcluster reads as zeros. In this case the
+>> +                       allocation status bit must be unset. The host
+>> +                       cluster offset field may or may not be set.
+>
+> Why must the allocation bit be unset?  When we preallocate, we want a
+> cluster to reserve space, but still read as zero, so the combination
+> of both bits set makes sense to me.
+
+Since 00 means unallocated and 01 allocated, there are two options left
+to represent the "reads as zero" case: 10 and 11.
+
+I think that one could argue for either one and there is no "right"
+choice. I chose the former because I understood the allocation bit as
+"the guest visible data is obtained from the raw data in that
+subcluster" but the other option also makes sense.
+
+Berto
 
