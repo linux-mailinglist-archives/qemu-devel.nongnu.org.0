@@ -2,93 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB3F1659EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:11:53 +0100 (CET)
-Received: from localhost ([::1]:38330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388D7165A0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:23:05 +0100 (CET)
+Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4hs8-0001Nu-IR
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:11:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50752)
+	id 1j4i2x-0005wO-LM
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:23:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4hrJ-0000cU-2r
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:11:01 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4i1a-0004CP-4a
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4hrI-000294-2T
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:11:01 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25387
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4hrH-00028q-Un
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:11:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582189859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EWpMUXTtg+cfAcdlYqXmRGGNnAtse9lf3m51CRzd5Ww=;
- b=el6WZQLG03sK1Nvo/aoKommTd084izQ6LtmJUiusgkvlUdqSt9SDnPh1fpYCclR1bqwKJ9
- xySUabtZIsVEcyK8w4zDN7myjyZFoZ2l1lV4ALmqmVt9mrDHzjVxT2eo6oAasta/bkkx7m
- +tmIh81yf2AoKKfzX5fUKypjGzWmdHU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-tw5uUou-PlmFppKf3ILa-Q-1; Thu, 20 Feb 2020 04:10:55 -0500
-X-MC-Unique: tw5uUou-PlmFppKf3ILa-Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7180E107ACC4;
- Thu, 20 Feb 2020 09:10:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3A2619C4F;
- Thu, 20 Feb 2020 09:10:52 +0000 (UTC)
-Subject: Re: [PATCH v2 6/7] block/block-copy: reduce intersecting request lock
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191127180840.11937-1-vsementsov@virtuozzo.com>
- <20191127180840.11937-7-vsementsov@virtuozzo.com>
- <1ae71183-4732-fbe6-62d5-58252f01d2d6@redhat.com>
- <d1f5f953-8dfe-2f27-c00a-9e0d7070a13e@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <76ce73f2-fef9-27e6-4552-29e846fa313f@redhat.com>
-Date: Thu, 20 Feb 2020 10:10:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <laurent@vivier.eu>) id 1j4i1Z-0008BE-2u
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:38 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:56091)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1Y-0008AK-PE
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:37 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N1PLB-1jSiw719z9-012mF7; Thu, 20 Feb 2020 10:20:56 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/13] Linux user for 5.0 patches
+Date: Thu, 20 Feb 2020 10:20:40 +0100
+Message-Id: <20200220092053.1510215-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <d1f5f953-8dfe-2f27-c00a-9e0d7070a13e@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="t7U1zxQuxPWBtRnQpEvtfpd4683k5WZHB"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:08T70wEGxAgWTX2bD7kTnBFkT/wr0NtjfiuWvGRT+akwKkqrzh3
+ r7N0bs4+pGujl+KJ3ouvVS4R6WiWk+ZqSZLlddMSe7k9Fl/aTp0qbBLuSZWQ9gyVD666wqt
+ HRbqkEU1dAlspG4HFyb+zYCW7NUuCXdM5hw+h33Ol2YRd27vRiG6FBVn6KcVIty1diFKw37
+ m4pX4TQr5KTgDCDoMCEBw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qyxhE3iSE2E=:oB+MHEdEkR16mzweyS5gI4
+ u5OGz2FUNte1/BDI0pOkDmFxfqrrvFZqEoW6t7fBBrRqm103gBvdvF/2iE0tXiCpdPaSkjCMe
+ 6UjQULLan1vd/sjkCpSQUpIoaOdo50+6hUK931yyIHckYnc/tqq567jFMlOdt7CzMTX12nSaD
+ 8Ig2sMNlfqqtz6L1Xqy2YsnOog74eCkYke8aq3oL+j1bIOTC9P5TYi0ZOZBdbQJCiTvZZqLSe
+ 8fvKHDI5dp2DpRsuXTCwLmBz5AmIME/EGITIjFSFGBk+4HFVmpLYTyn56WWX4WFgKLW0Edyp7
+ W5nKxzfcSFoXIo3Dr7s77oYDCLLwaKsQ+IzQ3ECjwGuWH9N9WyD0o3Pme3ajK5fMizY2YjRAu
+ p+7+iQWIqKK0Ynx1C6L1KRJPKVrsQSotO9AFrgl40bj0LN2T9aj3c0FmPrwMX4KEMxe6yOrZo
+ XmyQY77Vew/waTgp6551tF+spnbhVZSeDcREW71aw0ReF+b9iRfml54pCTLSVSmkA7akW2pQr
+ JWuW0kp5hToX/lrhHUIh7CkVRRRNew6+QedsTr/XF/pUb1W0HkvVQxaOgrG4hXHX69dNvTnDi
+ 8A3NvZmaJ1LrsP09yEC4A21v76LPDIBhLmqFrgbvCs/kXDlWvcRWQJ1vNPBKmoO61caGkUs4D
+ sw6L26NAxoUJB2XA8/7MixyoeTWW4HzRVkHW2EcmkbgmNFoSEpfm4tSwcVZyQNKyqxnBStVad
+ sySjAqUxe5uT3PNefBSp/hsNWl+oBs3V+/SbZQvJQmanprvUy4esP972FVUhDgHs4uB06YEWj
+ 32lPWaDF6knP/rHauJFAeLtTD7CKLKp+R+UpDjlET4P+wSA4lpU/O19QDwMZFyCMPt+qzRa
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,65 +62,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---t7U1zxQuxPWBtRnQpEvtfpd4683k5WZHB
-Content-Type: multipart/mixed; boundary="hmQlgePSpul5e8Q43gPgFCEWwoXbOLcd0"
+The following changes since commit 6c599282f8ab382fe59f03a6cae755b89561a7b3:
 
---hmQlgePSpul5e8Q43gPgFCEWwoXbOLcd0
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2020-02-15-v2' into staging (2020-02-17 13:32:25 +0000)
 
-On 20.02.20 08:21, Vladimir Sementsov-Ogievskiy wrote:
-> 17.02.2020 16:38, Max Reitz wrote:
->> On 27.11.19 19:08, Vladimir Sementsov-Ogievskiy wrote:
+are available in the Git repository at:
 
-[...]
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
 
->>> +=A0=A0=A0=A0=A0=A0=A0 if (!block_copy_wait_one(s, start, bytes)) {
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* No dirty bits and nothing to wait=
-: the whole request
->>> is done */
->>
->> Wouldn=92t it make more sense to keep block_copy_wait_one() a loop (i.e.=
-,
->> keep it as block_copy_wait_inflight_reqs()) that returns whether it
->> waited or not?=A0 Because I suppose if we had to wait for anything, we
->> might as well wait for everything in the range.
->=20
-> No, we don't need to wait all. If some dirty bits appeared we may start
-> copy them
-> immediately, not waiting for others.
+for you to fetch changes up to 045823a98c30fbcafa6d6b61a28b284de7038f07:
 
-OK, especially considering you=92re aiming for block_copy(0, disk_size)
-eventually.
+  linux-user: Add support for selected alsa timer instructions using ioctls (2020-02-19 11:17:40 +0100)
 
-Max
+----------------------------------------------------------------
+Implement membarrier, SO_RCVTIMEO and SO_SNDTIMEO
+Disable by default build of fdt, slirp and tools with linux-user
+Improve strace and use qemu_log to send trace to a file
+Add partial ALSA ioctl supports
 
+----------------------------------------------------------------
 
---hmQlgePSpul5e8Q43gPgFCEWwoXbOLcd0--
+Andreas Schwab (2):
+  linux-user: Implement membarrier syscall
+  linux-user: implement getsockopt SO_RCVTIMEO and SO_SNDTIMEO
 
---t7U1zxQuxPWBtRnQpEvtfpd4683k5WZHB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Filip Bozuta (5):
+  linux-user: Add support for getting alsa timer version and id
+  linux-user: Add support for getting/setting specified alsa timer
+    parameters using ioctls
+  linux-user: Add support for selecting alsa timer using ioctl
+  linux-user: Add support for getting/setting selected alsa timer
+    parameters using ioctls
+  linux-user: Add support for selected alsa timer instructions using
+    ioctls
 
------BEGIN PGP SIGNATURE-----
+Helge Deller (1):
+  linux-user/strace: Improve output of various syscalls
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5OTRoACgkQ9AfbAGHV
-z0CTHwgAnqzetZhrJMis3HOJIvyMmrb7pm0Yp6dUrnFCuSyFHveOH6Gqnf7IPeuV
-Y+YpHJS4ZxOXMiIO0cqocZlsXjgbKgtBdzBoYI+3MyTQXcvqBOojFtylhu7F2iiF
-MP3sOD1krQXJ3bDGwPwwFQXmPGiwejmXy9GGO10IZKaeHF89lQsw87SDzr8mYdmN
-aGqgzFvUnKw1mQ00u5fY09l1ATFrHB2h1d9aCW+m3MdXcvahN50PY7mbxgsHv489
-tfReB7gP92zzg/UFX2DV6j4hy8qOxPRy+FKmkMKqgDsqQWEZ1PIe3IVJJX+UC6LF
-2Z/3SfmisH5INgGHB9AO62eW0lwLzg==
-=KvSY
------END PGP SIGNATURE-----
+Josh Kunz (3):
+  linux-user: Use `qemu_log' for non-strace logging
+  linux-user: Use `qemu_log' for strace
+  linux-user: remove gemu_log from the linux-user tree
 
---t7U1zxQuxPWBtRnQpEvtfpd4683k5WZHB--
+Laurent Vivier (1):
+  configure: linux-user doesn't need neither fdt nor slirp
+
+Philippe Mathieu-Daudé (1):
+  configure: Avoid compiling system tools on user build by default
+
+ configure                  |  22 +-
+ include/qemu/log.h         |   2 +
+ linux-user/arm/cpu_loop.c  |   5 +-
+ linux-user/fd-trans.c      |  55 +++--
+ linux-user/ioctls.h        |  21 ++
+ linux-user/main.c          |  39 +--
+ linux-user/qemu.h          |   2 -
+ linux-user/signal.c        |   2 +-
+ linux-user/strace.c        | 479 +++++++++++++++++++------------------
+ linux-user/strace.list     |  52 ++--
+ linux-user/syscall.c       |  92 +++++--
+ linux-user/syscall_defs.h  |  84 +++++++
+ linux-user/syscall_types.h |  66 +++++
+ linux-user/vm86.c          |   3 +-
+ util/log.c                 |   2 +
+ 15 files changed, 600 insertions(+), 326 deletions(-)
+
+-- 
+2.24.1
 
 
