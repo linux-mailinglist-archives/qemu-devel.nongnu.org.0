@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2631116639C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:58:03 +0100 (CET)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AF01663D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 18:05:59 +0100 (CET)
+Received: from localhost ([::1]:46480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4p9F-0004G2-O4
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:58:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34987)
+	id 1j4pGw-0002p3-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 12:05:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35820)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jusual@redhat.com>) id 1j4p7X-0001bE-UD
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:56:16 -0500
+ (envelope-from <cohuck@redhat.com>) id 1j4pC1-00065J-Rc
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 12:00:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jusual@redhat.com>) id 1j4p7W-0003cK-AX
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:56:15 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22363
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1j4pC0-0004qh-Fs
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 12:00:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40949
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jusual@redhat.com>) id 1j4p7W-0003c7-7A
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:56:14 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j4pC0-0004qE-1f
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 12:00:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582217772;
+ s=mimecast20190719; t=1582218050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MR2xy9h3+TeHGqE8C15PVFs0Ntc53grKi8YbA0xN9Zw=;
- b=fotyVy9T4QF7XSofAeqzCGd6zYpQdC1gzCIoKLdorURqUR6rk7nRQGjHqn+cEmx+GfEzfz
- ZmALoYrGzpNI0QR8rtUM9ST3vThSYEAU8OI4QNeEKuyUsTSyj7ie1by0Ltx1KLx/jlkFe9
- TUsFt8b0AXJdb3GFk3lBFyHYaaQI92A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OJcu7yzotCqXAIIF1n3chgEH6Bm5wyhOiS4p2lsHnkQ=;
+ b=i3HlwWNW4J7T70SjaTBynFgSaJMbL6dCay2jLFoGSVz/uM64gHLbYWwCEv+L1xSB6dId+e
+ S5Al9ZHd65LeocaU6QVtRNCA0sREhydXE3zdSgbbtAMefYjS4Hf/Wg2VWczkM9M9qc35No
+ /DdGC9unQGmRF9tfzvMCMs2luqJmUJo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-ygaaks2SNqup-B5kczDP1g-1; Thu, 20 Feb 2020 11:56:10 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-19-E7hkzVT9PMaNOo1k5GKEBw-1; Thu, 20 Feb 2020 12:00:48 -0500
+X-MC-Unique: E7hkzVT9PMaNOo1k5GKEBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81A7E107ACC4
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 16:56:09 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-204-157.brq.redhat.com
- [10.40.204.157])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E21684BCC;
- Thu, 20 Feb 2020 16:56:01 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qdev-monitor: Forbid repeated device_del
-Date: Thu, 20 Feb 2020 17:55:56 +0100
-Message-Id: <20200220165556.39388-1-jusual@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D8741088382;
+ Thu, 20 Feb 2020 17:00:47 +0000 (UTC)
+Received: from gondolin (ovpn-205-37.brq.redhat.com [10.40.205.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC52860BE1;
+ Thu, 20 Feb 2020 17:00:42 +0000 (UTC)
+Date: Thu, 20 Feb 2020 18:00:40 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH] s390/sclp: improve special wait psw logic
+Message-ID: <20200220180040.1f69bec8.cohuck@redhat.com>
+In-Reply-To: <1582204582-22995-1-git-send-email-borntraeger@de.ibm.com>
+References: <1582204582-22995-1-git-send-email-borntraeger@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ygaaks2SNqup-B5kczDP1g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,41 +72,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Janosch Frank <frankja@linux.vnet.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, qemu-s390x <qemu-s390x@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Device unplug can be done asynchronously. Thus, sending the second
-device_del before the previous unplug is complete may lead to
-unexpected results. On PCIe devices, this cancels the hot-unplug
-process.
+On Thu, 20 Feb 2020 14:16:22 +0100
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
----
- qdev-monitor.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> There is a special quiesce PSW that we check for "shutdown". Otherwise disabled
+> wait is detected as "crashed". Architecturally we must only check PSW bits
+> 116-127. Fix this.
+> 
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  target/s390x/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 8ce71a206b..8a2a9538cd 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -887,6 +887,12 @@ void qmp_device_del(const char *id, Error **errp)
- {
-     DeviceState *dev =3D find_device_state(id, errp);
-     if (dev !=3D NULL) {
-+        if (dev->pending_deleted_event) {
-+            error_setg(errp, "Device %s is already in the "
-+                             "process of unplug", id);
-+            return;
-+        }
-+
-         qdev_unplug(dev, errp);
-     }
- }
---=20
-2.24.1
+Thanks, applied.
 
 
