@@ -2,64 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A7C16622F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:20:02 +0100 (CET)
-Received: from localhost ([::1]:45324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97DD1661FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:12:46 +0100 (CET)
+Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4oYT-0005TM-BV
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:20:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55610)
+	id 1j4oRS-0001PH-1M
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4oSX-0004f0-St
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:55 -0500
+ (envelope-from <berto@igalia.com>) id 1j4oNQ-0002zQ-3p
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:08:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4oSW-0007kw-JL
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33724
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oSW-0007kc-GA
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582215232;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3uo7IzQcHLLPvInEIDQM2gitcHRMOb4KBi9jO0ZWKgM=;
- b=SjUUBiyS9GZUeL5R/pqPtU6gVJT8OSUAExMNvcedUrwkJhjM86Ic8p9Bmu77LQ3uoEn/kg
- wygWKEzhmjeXiJ6Pt+NyaXIMBpOZiEuZBqJp69vM0tUlbpWeSLqIB9e3WNTEIIrndWbUhf
- Upxs2QLamKorelJqv7+5WMQQFn/jyrk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-mT73dgz0PO-s3A6N2w84DA-1; Thu, 20 Feb 2020 11:13:49 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EBA61005512;
- Thu, 20 Feb 2020 16:13:48 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18CCC5C1B0;
- Thu, 20 Feb 2020 16:13:46 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 18/18] iotests: Test snapshot -l field separation
-Date: Thu, 20 Feb 2020 17:07:10 +0100
-Message-Id: <20200220160710.533297-19-mreitz@redhat.com>
-In-Reply-To: <20200220160710.533297-1-mreitz@redhat.com>
-References: <20200220160710.533297-1-mreitz@redhat.com>
+ (envelope-from <berto@igalia.com>) id 1j4oNP-0005Bu-44
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:08:35 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:40872)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1j4oNO-0005AG-Qk; Thu, 20 Feb 2020 11:08:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=hHLDK0HiF64asg23VXQhJ6lsflpkSRdjEezE2oT1vUo=; 
+ b=BTf5jMc649kbt07iinXk9MnqqstsHz5Y3vK4xlzvMP6QHb2zNc78f0hn33KWUzxTfB9PzGo07sq1wo/H1YCOlxscaeL8qizNXW4mOVQ7xqg5mPB/lnR7HosH7MHP5JptPn8afus49RDSzKLl8hjzpO+kH0ZhhFemZAuebKxvDVM/t8o6M974wP4YakExmESIuXPIxAEn98+Nk8w0xwlFs8yQvUcUG7dy3n92dW+wJksQVOGaplsmfAasSaBH0aro5IGftH7FQIDS3MLmvW06ktRN2G4BOFvkjDg1Itea+G9qEMgkVYx3fA8hZVP40r15BnUwY3Ytm05tI4i0x8Qcaw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1j4oNM-0005LQ-Go; Thu, 20 Feb 2020 17:08:32 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1j4oNM-0005To-5H; Thu, 20 Feb 2020 17:08:32 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v3 04/27] qcow2: Add get_l2_entry() and set_l2_entry()
+In-Reply-To: <aca66606-11df-56df-e20a-a966d9c151c3@redhat.com>
+References: <cover.1577014346.git.berto@igalia.com>
+ <a1be1f4311da643b439cb5e1924b0ddfb052f338.1577014346.git.berto@igalia.com>
+ <aca66606-11df-56df-e20a-a966d9c151c3@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 20 Feb 2020 17:08:32 +0100
+Message-ID: <w51h7zlb5rz.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: mT73dgz0PO-s3A6N2w84DA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,134 +58,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test that all fields in "qemu-img snapshot -l"s output are
-separated by spaces.
+On Thu 20 Feb 2020 04:22:24 PM CET, Eric Blake wrote:
+>> +++ b/block/qcow2.h
+>
+> scripts/git.orderfile can be used to hoist this part of the patch to
+> the front of the message (as it is more valuable to review first).
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200117105859.241818-3-mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-[mreitz: Renamed test from 284 to 286]
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/286     | 76 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/286.out |  8 ++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 85 insertions(+)
- create mode 100755 tests/qemu-iotests/286
- create mode 100644 tests/qemu-iotests/286.out
+I didn't know that git had this feature, thanks for the tip!
 
-diff --git a/tests/qemu-iotests/286 b/tests/qemu-iotests/286
-new file mode 100755
-index 0000000000..f14445ba4a
---- /dev/null
-+++ b/tests/qemu-iotests/286
-@@ -0,0 +1,76 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img snapshot -l
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D$(basename "$0")
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.qemu
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+# Internal snapshots are (currently) impossible with refcount_bits=3D1,
-+# and generally impossible with external data files
-+_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
-+
-+_make_test_img 64M
-+
-+# Should be so long as to take up the whole field width
-+sn_name=3Dabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
-+
-+# More memory will give us a larger VM state, i.e. one above 1 MB.
-+# This way, we get a number with a decimal point.
-+qemu_comm_method=3Dmonitor _launch_qemu -m 512 "$TEST_IMG"
-+
-+_send_qemu_cmd $QEMU_HANDLE "savevm $sn_name" '(qemu)'
-+_send_qemu_cmd $QEMU_HANDLE 'quit' '(qemu)'
-+wait=3Dyes _cleanup_qemu
-+
-+# Check that all fields are separated by spaces.
-+# We first collapse all space sequences into one space each;
-+# then we turn every space-separated field into a '.';
-+# and finally, we name the '.'s so the output is not just a confusing
-+# sequence of dots.
-+
-+echo 'Output structure:'
-+$QEMU_IMG snapshot -l "$TEST_IMG" | tail -n 1 | tr -s ' ' \
-+    | sed -e 's/\S\+/./g' \
-+    | sed -e 's/\./(snapshot ID)/' \
-+          -e 's/\./(snapshot name)/' \
-+          -e 's/\./(VM state size value)/' \
-+          -e 's/\./(VM state size unit)/' \
-+          -e 's/\./(snapshot date)/' \
-+          -e 's/\./(snapshot time)/' \
-+          -e 's/\./(VM clock)/'
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/286.out b/tests/qemu-iotests/286.out
-new file mode 100644
-index 0000000000..39ff07e12c
---- /dev/null
-+++ b/tests/qemu-iotests/286.out
-@@ -0,0 +1,8 @@
-+QA output created by 286
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-+QEMU X.Y.Z monitor - type 'help' for more information
-+(qemu) savevm abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
-+(qemu) quit
-+Output structure:
-+(snapshot ID) (snapshot name) (VM state size value) (VM state size unit) (=
-snapshot date) (snapshot time) (VM clock)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index b17711d17d..0317667695 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -292,3 +292,4 @@
- 281 rw quick
- 283 auto quick
- 284 rw
-+286 rw quick
---=20
-2.24.1
-
+Berto
 
