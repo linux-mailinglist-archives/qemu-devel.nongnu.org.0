@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D160166221
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:18:04 +0100 (CET)
-Received: from localhost ([::1]:45294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A7C16622F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:20:02 +0100 (CET)
+Received: from localhost ([::1]:45324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4oWZ-0001sh-2M
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:18:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55569)
+	id 1j4oYT-0005TM-BV
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:20:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4oSS-0004Ry-Jt
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:49 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j4oSX-0004f0-St
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4oSR-0007jc-EF
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32046
+ (envelope-from <mreitz@redhat.com>) id 1j4oSW-0007kw-JL
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33724
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oSR-0007jY-AS
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:47 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oSW-0007kc-GA
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582215226;
+ s=mimecast20190719; t=1582215232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JgzQoCkToAaLJGU81K+sbb7vCdZYQlGr8ipRHTLnR4o=;
- b=N94aifm8xxXoWLnOdkx84MKIx3sqVBMcqbGlSu8Ch9zsJRJ4yVqcv7vS4a30bqmWKbhlPG
- AiNVhyGRAFrVcFwljLwkEVHGHYztYY1bUMwt08O4/RCzrfYbYKCMQAvHM4BZPoev8NJFoo
- GqD4f27eZPCB9EsRQhy6tGHr3X718v8=
+ bh=3uo7IzQcHLLPvInEIDQM2gitcHRMOb4KBi9jO0ZWKgM=;
+ b=SjUUBiyS9GZUeL5R/pqPtU6gVJT8OSUAExMNvcedUrwkJhjM86Ic8p9Bmu77LQ3uoEn/kg
+ wygWKEzhmjeXiJ6Pt+NyaXIMBpOZiEuZBqJp69vM0tUlbpWeSLqIB9e3WNTEIIrndWbUhf
+ Upxs2QLamKorelJqv7+5WMQQFn/jyrk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-97MWK5_zPqGW3VSV-RO6Aw-1; Thu, 20 Feb 2020 11:13:41 -0500
-X-MC-Unique: 97MWK5_zPqGW3VSV-RO6Aw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-491-mT73dgz0PO-s3A6N2w84DA-1; Thu, 20 Feb 2020 11:13:49 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15741DB62;
- Thu, 20 Feb 2020 16:13:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EBA61005512;
+ Thu, 20 Feb 2020 16:13:48 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 517DA60C87;
- Thu, 20 Feb 2020 16:13:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18CCC5C1B0;
+ Thu, 20 Feb 2020 16:13:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 17/18] block: Fix VM size field width in snapshot dump
-Date: Thu, 20 Feb 2020 17:07:09 +0100
-Message-Id: <20200220160710.533297-18-mreitz@redhat.com>
+Subject: [PULL 18/18] iotests: Test snapshot -l field separation
+Date: Thu, 20 Feb 2020 17:07:10 +0100
+Message-Id: <20200220160710.533297-19-mreitz@redhat.com>
 In-Reply-To: <20200220160710.533297-1-mreitz@redhat.com>
 References: <20200220160710.533297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: mT73dgz0PO-s3A6N2w84DA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,49 +76,128 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When printing the snapshot list (e.g. with qemu-img snapshot -l), the VM
-size field is only seven characters wide.  As of de38b5005e9, this is
-not necessarily sufficient: We generally print three digits, and this
-may require a decimal point.  Also, the unit field grew from something
-as plain as "M" to " MiB".  This means that number and unit may take up
-eight characters in total; but we also want spaces in front.
+Add a test that all fields in "qemu-img snapshot -l"s output are
+separated by spaces.
 
-Considering previously the maximum width was four characters and the
-field width was chosen to be three characters wider, let us adjust the
-field width to be eleven now.
-
-Fixes: de38b5005e946aa3714963ea4c501e279e7d3666
-Buglink: https://bugs.launchpad.net/qemu/+bug/1859989
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200117105859.241818-2-mreitz@redhat.com>
+Message-Id: <20200117105859.241818-3-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+[mreitz: Renamed test from 284 to 286]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qapi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/286     | 76 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/286.out |  8 ++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 85 insertions(+)
+ create mode 100755 tests/qemu-iotests/286
+ create mode 100644 tests/qemu-iotests/286.out
 
-diff --git a/block/qapi.c b/block/qapi.c
-index 3f09477cc5..afd9f3b4a7 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -664,7 +664,7 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
-     char *sizing =3D NULL;
-=20
-     if (!sn) {
--        qemu_printf("%-10s%-20s%7s%20s%15s",
-+        qemu_printf("%-10s%-20s%11s%20s%15s",
-                     "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK");
-     } else {
-         ti =3D sn->date_sec;
-@@ -679,7 +679,7 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
-                  (int)(secs % 60),
-                  (int)((sn->vm_clock_nsec / 1000000) % 1000));
-         sizing =3D size_to_str(sn->vm_state_size);
--        qemu_printf("%-10s%-20s%7s%20s%15s",
-+        qemu_printf("%-10s%-20s%11s%20s%15s",
-                     sn->id_str, sn->name,
-                     sizing,
-                     date_buf,
+diff --git a/tests/qemu-iotests/286 b/tests/qemu-iotests/286
+new file mode 100755
+index 0000000000..f14445ba4a
+--- /dev/null
++++ b/tests/qemu-iotests/286
+@@ -0,0 +1,76 @@
++#!/usr/bin/env bash
++#
++# Test qemu-img snapshot -l
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq=3D$(basename "$0")
++echo "QA output created by $seq"
++
++status=3D1=09# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++. ./common.qemu
++
++_supported_fmt qcow2
++_supported_proto file
++# Internal snapshots are (currently) impossible with refcount_bits=3D1,
++# and generally impossible with external data files
++_unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
++
++_make_test_img 64M
++
++# Should be so long as to take up the whole field width
++sn_name=3Dabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
++
++# More memory will give us a larger VM state, i.e. one above 1 MB.
++# This way, we get a number with a decimal point.
++qemu_comm_method=3Dmonitor _launch_qemu -m 512 "$TEST_IMG"
++
++_send_qemu_cmd $QEMU_HANDLE "savevm $sn_name" '(qemu)'
++_send_qemu_cmd $QEMU_HANDLE 'quit' '(qemu)'
++wait=3Dyes _cleanup_qemu
++
++# Check that all fields are separated by spaces.
++# We first collapse all space sequences into one space each;
++# then we turn every space-separated field into a '.';
++# and finally, we name the '.'s so the output is not just a confusing
++# sequence of dots.
++
++echo 'Output structure:'
++$QEMU_IMG snapshot -l "$TEST_IMG" | tail -n 1 | tr -s ' ' \
++    | sed -e 's/\S\+/./g' \
++    | sed -e 's/\./(snapshot ID)/' \
++          -e 's/\./(snapshot name)/' \
++          -e 's/\./(VM state size value)/' \
++          -e 's/\./(VM state size unit)/' \
++          -e 's/\./(snapshot date)/' \
++          -e 's/\./(snapshot time)/' \
++          -e 's/\./(VM clock)/'
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/286.out b/tests/qemu-iotests/286.out
+new file mode 100644
+index 0000000000..39ff07e12c
+--- /dev/null
++++ b/tests/qemu-iotests/286.out
+@@ -0,0 +1,8 @@
++QA output created by 286
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++QEMU X.Y.Z monitor - type 'help' for more information
++(qemu) savevm abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
++(qemu) quit
++Output structure:
++(snapshot ID) (snapshot name) (VM state size value) (VM state size unit) (=
+snapshot date) (snapshot time) (VM clock)
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index b17711d17d..0317667695 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -292,3 +292,4 @@
+ 281 rw quick
+ 283 auto quick
+ 284 rw
++286 rw quick
 --=20
 2.24.1
 
