@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05B8165631
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 05:19:42 +0100 (CET)
-Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CA116563A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 05:21:03 +0100 (CET)
+Received: from localhost ([::1]:35894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4dJO-00025F-0M
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 23:19:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45081)
+	id 1j4dKg-0003uE-7o
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 23:21:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1j4dBi-0004O1-IB
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:47 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j4dBj-0004QY-Al
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1j4dBh-0005x0-GE
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:46 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j4dBi-0005x7-0W
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:47 -0500
 Received: from mail-co1nam11on2125.outbound.protection.outlook.com
  ([40.107.220.125]:2574 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j4dBh-0005wh-8y
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j4dBh-0005wh-Po
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:45 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hxoS2300CNo26rfOKfm1hkk/B1bisCBT56gDAcuLdAeo+3Kd/RLdBwnHXXnLLk9vY2E2ElgN4CFg9kktqAD4XNo7p4gUPQRHTjF5rHXZlIWgAK9YsGhnckwFcg4uJAEs9I8Wmu80ank/ro3NCbNfHlP4LdMzAcDQSPOhepflYQ2pB5UElyEaqOdrV5N1oizPqvv1KQMko8BGhTf/wV0dtl+volcqpSOEZYTmNVyozhpS5ZAEIgbmMF7aYxPD/qQ8GRNT23NUZblpZMIMDFN7PbFTNCtFU7Dv5QgpqzAKknLeGADxY6QXrzd2q6CtLdUMkKyNCKcjNhGSDrb0x7t10Q==
+ b=aRhaQeetz1rME/WsCKe0xQj0wr82DwuJjb3R3I+Ut9UZtHcp5mordANnh1VyOS4uN6k8RPtggtrdwrtI+0XBYbYg7CmB5gMh6Y8EfkeP6SXQOpoQmJ8ry/ZKsKbACDGO9sElz+wt/ETlZUD/GLG2CawyIoMHznkjx/7meKkLhwwFk0DUtRZu6KMPXMNFTjLntZ0BDtPf9/SP2UmcgsJXHoW+8xCazid2J9eZkTtMc0NFdQ5vSGiYFsRO10ixC3MZwPkB098Ha/cZH91iCXKnSz2aSiLg1+cqhjwTHjBQAV5v30R5ada12/FRVne/AaD1mIr74AUg1nswevGYMg6zAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aAidgwmCx9R0FC/cXsWTjZAqBx55lZLV5BnNnzQDp9s=;
- b=Zu6PRV4MP8zrsoayHZW/YvjcVFdQeIlyIQOgsqYDwYty2MyRCPT6SE7Z1dY0+JHyS0NjI6lsajvAF+/smtHBALQBr3mhZ24raMJlozuQ3s6DbbdrTUqH5XUA1zN4p/naSQKf2a+7oOCC56ziGQHpkOnLNXC1zPZb3WP7yW+mklO6oznO97gJeMPVbAp00VV86OX2SP68sbwTCw0okCYIGEs1vmrGsdAXr+ZTrfsFiT34GjVNAThl6Duey2IjLfqCh2PVHe78/JqAjm1haacb9dOhuWa3YwIT1A+9PMFSOWDNKDlBL1nHws8muWxXu0plD/BugEjFMD7ACqF5Sb+FYw==
+ bh=5YXO4KxSPPP4hgjTRMldQ4BoMfOC/VUpzyw0Wj+2Xdc=;
+ b=n3bhz16Mi8II33ymzs4/jG9aXNMHsUwxvi7X0xGYstwSbQ88CMy+nSnBx/XFMiI1AXwDgE6524IZboCu6PHhSCWfQ/Yxc10HxVeSVtGHCTMBnXh9B1rJTD1VKXgVRjE6bH6s57B8W5odayoKDk44UFE98BF8wr+uBi+6Jag1IjHqPvTkKayfieFZe2l03OHdp59Pjxt7ycTlhZioaWRGB8+k5JPAyzvQ3Ryclal93hr+jweaFBNa16NjotJMMBMkJDAezGhE6tWgLNyoq2B4XCTbMQ7OobsaG/w21IDhJ2Z5zUJ+2xKNJCofBpNeV0KKJaAoHZpBOzu35wp6+IoIfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aAidgwmCx9R0FC/cXsWTjZAqBx55lZLV5BnNnzQDp9s=;
- b=cs6ENqWrLR16MhFntNZiRO3RwMeCHgyNO099ua9o1vMoZRrtbZTLp8iYkGToQPMUr/fM5zQUkGJRLqVpbuCTEsvmlsoEud4iW2ASntjkbsu5Rmn+ek79cmF4w4eO6koEsZ5PKXe/QoKkI7ImcN7Bfjm/0AVIgCxjx6mduvzknfk=
+ bh=5YXO4KxSPPP4hgjTRMldQ4BoMfOC/VUpzyw0Wj+2Xdc=;
+ b=vvPS9cuCGIes+bhaqY32J8mma5tkz1nSTfvpobrLsCZpQoafYQUC3Bj5OiekfPj+FyGBwBKspjQiH8duZz3cZsCMakfleNw0bd9NpDg5SAFOzENxvF+o/xu0dxcAML6ByXjl8GiCs+CUzHBLLIFrnEee4xIVwHRW4mfyCvRPphk=
 Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB3807.namprd03.prod.outlook.com (2603:10b6:805:6a::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.22; Thu, 20 Feb
- 2020 04:11:43 +0000
+ 2020 04:11:44 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2729.033; Thu, 20 Feb 2020
- 04:11:43 +0000
+ 04:11:44 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 08/22] qtest: add in-process incoming command handler
-Date: Wed, 19 Feb 2020 23:11:04 -0500
-Message-ID: <20200220041118.23264-9-alxndr@bu.edu>
+Subject: [PATCH v10 09/22] libqos: rename i2c_send and i2c_recv
+Date: Wed, 19 Feb 2020 23:11:05 -0500
+Message-ID: <20200220041118.23264-10-alxndr@bu.edu>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200220041118.23264-1-alxndr@bu.edu>
 References: <20200220041118.23264-1-alxndr@bu.edu>
@@ -63,15 +63,15 @@ MIME-Version: 1.0
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR0102CA0048.prod.exchangelabs.com (2603:10b6:208:25::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.17 via Frontend Transport; Thu, 20 Feb 2020 04:11:42 +0000
+ 15.20.2750.17 via Frontend Transport; Thu, 20 Feb 2020 04:11:43 +0000
 X-Mailer: git-send-email 2.25.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69fe034c-10d7-4149-06dc-08d7b5bafe6f
+X-MS-Office365-Filtering-Correlation-Id: 44458d61-3f77-444d-c138-08d7b5bafef6
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3807:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB38078086006CF18F5858BC51BA130@SN6PR03MB3807.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB38079908E5C108AA05A8A48DBA130@SN6PR03MB3807.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
 X-Forefront-PRVS: 031996B7EF
 X-Forefront-Antispam-Report: SFV:NSPM;
  SFS:(10019020)(4636009)(346002)(136003)(396003)(39860400002)(376002)(366004)(199004)(189003)(36756003)(86362001)(81166006)(75432002)(8676002)(2616005)(478600001)(81156014)(8936002)(66476007)(5660300002)(6916009)(66556008)(66946007)(54906003)(956004)(316002)(786003)(6486002)(6666004)(7696005)(16526019)(186003)(26005)(4326008)(1076003)(2906002)(52116002);
@@ -82,15 +82,15 @@ Received-SPF: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xo5auTmm4Z1rAlhLrR6TT4rCsoxoahjWzO7itMRbmB3yJ+VrI+HJLb8wk/L6VETMMdreNUpcDkEG+GkEGYrIxK2jgZDgNEfLG3PTSwRT7IVpSS7fhai+TMvqdbh4kKl1aBe3Ge5ugI9bW8uRpb8R/RXw/VvFmoD0y2oNBNq4WMdZHlqDMuZInFTl+FruizgWgA6Uuk5/626wffQaaBRWA3xycpB2U0B4iRaWMjB5duqME9KWm21+ql48WYZiVil7f+ZuuMk9SvlAgiDkO7L8KDqHoryFHc3C9qHhuvexD7wSOm/LemAf+clcdeHLLi7hjs/60GEZw0y9MEST3HCu/3tcXyRWXK8yQGDhECSwACzUGr3/h2dE2Tf0cmqTFWdVGvH2QwiREXUMzRbOI1qHovZdlX21vhpIuYQ020n5QOr7RwEvJ8fsuuNg7v3DTv3N
-X-MS-Exchange-AntiSpam-MessageData: EmT+RYNJS4FYnEcPq1qvBkRRZR2SS1rQC0afr3pAwyNEkwKJb9XXUG1T8NtCyvX6gxszhnr2enK5rGRcOyvrPljkZ5vkkgiXb6XMPBavfdpCXKHUqo4MtVfVX5lcdSrkObc0h1Uv+xDIt26pha+dLw==
+X-Microsoft-Antispam-Message-Info: 3+uANi6RwOdDrdNFgLrJY9Yzc41aRBi7tMBM7CHlZY843RpTl/XY6A/nIazJlYqkXdRC14p/G2NM49Meb2b7Oc2hRdfuVASO0ymWznEUlm6nae6+OEHaL+ec6LsPrwRm6/0Tc5JkLBAC41g70UKuZD9ayYmqSXign3wicxxHLQaMSS+Fn1hxa11eUkkyFMHJ+bwH4/5/j1GU2gYVcB9xbFmP1drBMTOphxnxKwslcJiwK4Se6IZVJ/aGoGbJ5Q2nA95Z6szKyRq3diUS7LqyoEB2yQd0QoraPmPRlX4WUQ8sCBF7BRP+JizOpU2tqSf3Bhswj0hr4ZoK+EBY7ZAVSOVJr3+E0b1zqlwC9N6MuXX+tE/uK970WhCXPR3rlb2/tRtpG9bOvI6UDP1OysASkP5Rn8f7z10dx7G7Bc5qzSwdyeQ8HeA58XlSmePvUbhX
+X-MS-Exchange-AntiSpam-MessageData: x7eZx84WryVQrpjQrU5K5af71TvBf2jhZ9C6Hj/FUmJ6eua9bOV/7slaiSFlA/+128HpO5YZEmpFC0TqSylziWo/BcogeD/EnOg5K5qGEdhMrtPzm5uLwcTiwpHGegqBrQOmffBUuHKeZp35Jq1xbg==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69fe034c-10d7-4149-06dc-08d7b5bafe6f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 04:11:43.5696 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44458d61-3f77-444d-c138-08d7b5bafef6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 04:11:44.4891 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l5Jli7XPMR3UoFRODyuOtREXh2W2gCmcwIjytHgyZDIDYq8HudJqPunl2x175VTs
+X-MS-Exchange-CrossTenant-UserPrincipalName: va060kG9o2iFv4LoQgYGn1uwuzn92J8XdB7LUeG57WDwPjhgP+UO5J+ouSFNJBEY
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3807
 X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
@@ -112,50 +112,110 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The handler allows a qtest client to send commands to the server by
-directly calling a function, rather than using a file/CharBackend
+The names i2c_send and i2c_recv collide with functions defined in
+hw/i2c/core.c. This causes an error when linking against libqos and
+softmmu simultaneously (for example when using qtest inproc). Rename the
+libqos functions to avoid this.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- include/sysemu/qtest.h |  1 +
- qtest.c                | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
+ tests/qtest/libqos/i2c.c   | 10 +++++-----
+ tests/qtest/libqos/i2c.h   |  4 ++--
+ tests/qtest/pca9552-test.c | 10 +++++-----
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/include/sysemu/qtest.h b/include/sysemu/qtest.h
-index e2f1047fd7..eedd3664f0 100644
---- a/include/sysemu/qtest.h
-+++ b/include/sysemu/qtest.h
-@@ -28,5 +28,6 @@ void qtest_server_init(const char *qtest_chrdev, const ch=
-ar *qtest_log, Error **
+diff --git a/tests/qtest/libqos/i2c.c b/tests/qtest/libqos/i2c.c
+index 156114e745..38f800dbab 100644
+--- a/tests/qtest/libqos/i2c.c
++++ b/tests/qtest/libqos/i2c.c
+@@ -10,12 +10,12 @@
+ #include "libqos/i2c.h"
+ #include "libqtest.h"
 =20
- void qtest_server_set_send_handler(void (*send)(void *, const char *),
-                                  void *opaque);
-+void qtest_server_inproc_recv(void *opaque, const char *buf);
-=20
- #endif
-diff --git a/qtest.c b/qtest.c
-index 938c3746d6..ad6eb6a526 100644
---- a/qtest.c
-+++ b/qtest.c
-@@ -803,3 +803,16 @@ bool qtest_driver(void)
+-void i2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
++void qi2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
  {
-     return qtest_chr.chr !=3D NULL;
+     i2cdev->bus->send(i2cdev->bus, i2cdev->addr, buf, len);
  }
-+
-+void qtest_server_inproc_recv(void *dummy, const char *buf)
-+{
-+    static GString *gstr;
-+    if (!gstr) {
-+        gstr =3D g_string_new(NULL);
-+    }
-+    g_string_append(gstr, buf);
-+    if (gstr->str[gstr->len - 1] =3D=3D '\n') {
-+        qtest_process_inbuf(NULL, gstr);
-+        g_string_truncate(gstr, 0);
-+    }
-+}
+=20
+-void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
++void qi2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
+ {
+     i2cdev->bus->recv(i2cdev->bus, i2cdev->addr, buf, len);
+ }
+@@ -23,8 +23,8 @@ void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t =
+len)
+ void i2c_read_block(QI2CDevice *i2cdev, uint8_t reg,
+                     uint8_t *buf, uint16_t len)
+ {
+-    i2c_send(i2cdev, &reg, 1);
+-    i2c_recv(i2cdev, buf, len);
++    qi2c_send(i2cdev, &reg, 1);
++    qi2c_recv(i2cdev, buf, len);
+ }
+=20
+ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+@@ -33,7 +33,7 @@ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+     uint8_t *cmd =3D g_malloc(len + 1);
+     cmd[0] =3D reg;
+     memcpy(&cmd[1], buf, len);
+-    i2c_send(i2cdev, cmd, len + 1);
++    qi2c_send(i2cdev, cmd, len + 1);
+     g_free(cmd);
+ }
+=20
+diff --git a/tests/qtest/libqos/i2c.h b/tests/qtest/libqos/i2c.h
+index 945b65b34c..c65f087834 100644
+--- a/tests/qtest/libqos/i2c.h
++++ b/tests/qtest/libqos/i2c.h
+@@ -47,8 +47,8 @@ struct QI2CDevice {
+ void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr)=
+;
+ void add_qi2c_address(QOSGraphEdgeOptions *opts, QI2CAddress *addr);
+=20
+-void i2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
+-void i2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
++void qi2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
++void qi2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
+=20
+ void i2c_read_block(QI2CDevice *dev, uint8_t reg,
+                     uint8_t *buf, uint16_t len);
+diff --git a/tests/qtest/pca9552-test.c b/tests/qtest/pca9552-test.c
+index 4b800d3c3e..d80ed93cd3 100644
+--- a/tests/qtest/pca9552-test.c
++++ b/tests/qtest/pca9552-test.c
+@@ -32,22 +32,22 @@ static void receive_autoinc(void *obj, void *data, QGue=
+stAllocator *alloc)
+=20
+     pca9552_init(i2cdev);
+=20
+-    i2c_send(i2cdev, &reg, 1);
++    qi2c_send(i2cdev, &reg, 1);
+=20
+     /* PCA9552_LS0 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x54);
+=20
+     /* PCA9552_LS1 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x55);
+=20
+     /* PCA9552_LS2 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x55);
+=20
+     /* PCA9552_LS3 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x54);
+ }
+=20
 --=20
 2.25.0
 
