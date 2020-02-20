@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6965A165A17
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:25:52 +0100 (CET)
-Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E4C165A28
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:28:39 +0100 (CET)
+Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i5f-0002nI-Ej
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:25:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
+	id 1j4i8M-00006d-Lq
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:28:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j4i4P-00017u-7Y
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:24:34 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4i77-000755-Rd
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:27:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j4i4J-000102-CB
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:24:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42991
+ (envelope-from <philmd@redhat.com>) id 1j4i76-0002BN-ND
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:27:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45449
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j4i4J-0000zX-22
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:24:27 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4i76-0002Av-Ij
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:27:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582190665;
+ s=mimecast20190719; t=1582190840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ryCUbgIe8KsZ1D8uUWBYI1LF9vZcPPEDDkxnFAX4H7A=;
- b=gL2MyiDwZRZm6Spo7a6vvUjezVSoskO5OZnFNRyxm3mMWk3+xmJQWI4bnkOf31hL+OiMPG
- 6unfaaCAFrtKgqGjVrRTCe1drhhUVtHiXO9qcFdIs5cxuAgZl8Hf2uN9jt3RUehmwXyM3M
- OEoAUZ1nyhs9CFdCIuJFctJsGweVXBc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-x0fypKa-POyPfpWfcZE3kg-1; Thu, 20 Feb 2020 04:24:24 -0500
-Received: by mail-wr1-f72.google.com with SMTP id o6so1466366wrp.8
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 01:24:24 -0800 (PST)
+ bh=LtMorEAYApZkhDnAczB4MvTDkA55XdDs0OLOj6RgD0c=;
+ b=M14yqPwOeD+j1VxzY8nSv/ESEjj/xq5RHGNf5VQgi/teggePzq3BHshypOuWe/jwi/Z6xV
+ Im/8V0qeutS4eTcSHvcOmWugs3Mz7+GQstDP/P6S6PgwKASLbNAps1/aQL/NOgTMQgYFLN
+ R8enEiduILfWso3dI2w0sify9aAN/uM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-VaUdvtj_P6-RtzHVw_iYYw-1; Thu, 20 Feb 2020 04:27:17 -0500
+Received: by mail-ed1-f72.google.com with SMTP id n12so2223606edq.13
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 01:27:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=20J2xNJndwD0uRSo76vE5fqmNGT6NiOBpd0H4BNpJXs=;
- b=ca3Xp4EEeWg4qZmxEQB1DHpUlbyowOG7NNWAwWn1Ct9CF6oYm9qQM+6pgVNyFHaWsq
- ROD0YEfg0O7JaYq6h4QtHXT5BEHtcyeHVWrFhPLRt+zuN0T0Gub2HYgjiHFz1ltwEA2l
- avGhAqB//15V59/+80AdD1ZBsiSfVr7eZ5UpvEV/TB0zjkYfIQKUwG58zuql2TrKeOSy
- 4+c/VnXNRuNfyWjFViLsHMpigZld5avcikI6tgb8ql3P6J3cchnrnJ2WmOzmV1k2RPnV
- bYx41sZpOfz+D7b99bKRWQAO+PYqQgmRlGrvhZGmrwTQUBpqx+hMolGFIoYQRkAoSqlR
- WpPQ==
-X-Gm-Message-State: APjAAAVuoQo2ps77G54t9KorcnhyE4aog98HSJtaqRKbpLK2SZA8cQ5z
- ZCntybynzLgXw7OCEtxEi95X4/A2Tja65iengjmqXzjRcClM7De32qRraZ3qfG44tbQWEB4aFOs
- UBk8dG4+Zi9tDrlQ=
-X-Received: by 2002:a1c:6408:: with SMTP id y8mr3294327wmb.130.1582190663235; 
- Thu, 20 Feb 2020 01:24:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxErA+v6CThtewt0oOBLJXzaudgsibdEYgcKQcqWTtHx1g3/BUEkzmEv9QAC87+tIcz8drbbQ==
-X-Received: by 2002:a1c:6408:: with SMTP id y8mr3294291wmb.130.1582190662896; 
- Thu, 20 Feb 2020 01:24:22 -0800 (PST)
-Received: from [131.159.204.89] (w204-2h-v4.eduroam.dynamic.rbg.tum.de.
- [131.159.204.89])
- by smtp.gmail.com with ESMTPSA id t131sm3863346wmb.13.2020.02.20.01.24.22
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EpCqc0cjKzBAXDO299Y8JUpfdPXRmgF0sVsdTblKd2w=;
+ b=VEqQJbqY8jOEjb69r00wsgT3aGc6g/e+vjvrEc1iVvB4UiaU8Xz7hjOM8Ib4DOObpd
+ g9bx/JKbvPTFpkbtVBo+++6opE8i2EUGXe0jbR32TxDKAqUzuV74a/Qcti9yQXgnYLo1
+ JGWmYLLO4Qs0hdck3hPZVKTKyCIjm4pyIEspHMVHsZdAaOZjB9nju9J+1M5+qFqx6FKn
+ mVx+PN2k+N/LSAy0tbUPlkD1/6LstB7/SRFSSRmm4jSbCRg0e+o73P4MY4HGgNF8UutH
+ 5YPRvZtOQ29c/zLJUi5TZ56MSJk+HXsoBh8XGVhmnP+tjMj9JK0wMy17WrBhp/+qtzBk
+ Ji/g==
+X-Gm-Message-State: APjAAAUcqVMglS2I7K8SK8sy2SbzE3SFyTltRJqRlKAh/YN3R2B6Cvyq
+ L8bC/x8gh3YX5L9/1KIwAWWYwBSJzvbfTQW3dRezTkqzMGcus4bxSX+JY5R4/qBNm2h9rwneY+w
+ gavfTdgtMHc718jQ=
+X-Received: by 2002:aa7:da5a:: with SMTP id w26mr27866546eds.274.1582190836751; 
+ Thu, 20 Feb 2020 01:27:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyto2WPHavrVXyXInS5dQLU5BfS0kx18Q0Ft3ALok7ktpfD2SGyEv+VlrJUC7qgWDheoY2vkw==
+X-Received: by 2002:aa7:da5a:: with SMTP id w26mr27866495eds.274.1582190836356; 
+ Thu, 20 Feb 2020 01:27:16 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id i11sm65915eds.23.2020.02.20.01.27.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Feb 2020 01:24:22 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v1 07/13] migrate/ram: Get rid of "place_source" in
- ram_load_postcopy()
-Date: Thu, 20 Feb 2020 10:24:19 +0100
-Message-Id: <5DD859C1-9FF5-4488-8928-43B83D8AD677@redhat.com>
-References: <20200219204730.GB37550@xz-x1>
-In-Reply-To: <20200219204730.GB37550@xz-x1>
-To: Peter Xu <peterx@redhat.com>
-X-Mailer: iPhone Mail (17D50)
-X-MC-Unique: x0fypKa-POyPfpWfcZE3kg-1
+ Thu, 20 Feb 2020 01:27:15 -0800 (PST)
+Subject: Re: [PATCH v2] Avoid address_space_rw() with a constant is_write
+ argument
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200218112457.22712-1-peter.maydell@linaro.org>
+ <f87dbeeb-2259-9eb9-45c7-a30819eec2ee@redhat.com>
+Message-ID: <31660c9b-ad1c-5d3f-b6db-fba69ee5e563@redhat.com>
+Date: Thu, 20 Feb 2020 10:27:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <f87dbeeb-2259-9eb9-45c7-a30819eec2ee@redhat.com>
+Content-Language: en-US
+X-MC-Unique: VaUdvtj_P6-RtzHVw_iYYw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,75 +93,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/18/20 1:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 2/18/20 12:24 PM, Peter Maydell wrote:
+>> The address_space_rw() function allows either reads or writes
+>> depending on the is_write argument passed to it; this is useful
+>> when the direction of the access is determined programmatically
+>> (as for instance when handling the KVM_EXIT_MMIO exit reason).
+>> Under the hood it just calls either address_space_write() or
+>> address_space_read_full().
+>>
+>> We also use it a lot with a constant is_write argument, though,
+>> which has two issues:
+>> =C2=A0 * when reading "address_space_rw(..., 1)" this is less
+>> =C2=A0=C2=A0=C2=A0 immediately clear to the reader as being a write than
+>> =C2=A0=C2=A0=C2=A0 "address_space_write(...)"
+>> =C2=A0 * calling address_space_rw() bypasses the optimization
+>> =C2=A0=C2=A0=C2=A0 in address_space_read() that fast-paths reads of a
+>> =C2=A0=C2=A0=C2=A0 fixed length
+>>
+>> This commit was produced with the included Coccinelle script
+>> scripts/coccinelle/as-rw-const.patch.
 
+Script is "scripts/coccinelle/as_rw_const.cocci".
 
-> Am 19.02.2020 um 21:47 schrieb Peter Xu <peterx@redhat.com>:
->=20
-> =EF=BB=BFOn Wed, Feb 19, 2020 at 05:17:19PM +0100, David Hildenbrand wrot=
-e:
->> It's always the same value.
->=20
-> I guess not, because...
->=20
->>=20
->> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->> Cc: Juan Quintela <quintela@redhat.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+I plan to respin this patch (fixed) in a larger series.
+
+>>
+>> Two lines in hw/net/dp8393x.c that Coccinelle produced that
+>> were over 80 characters were re-wrapped by hand.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 >> ---
->> migration/ram.c | 8 +++-----
->> 1 file changed, 3 insertions(+), 5 deletions(-)
->>=20
->> diff --git a/migration/ram.c b/migration/ram.c
->> index cbd54947fb..75014717f6 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -3119,7 +3119,6 @@ static int ram_load_postcopy(QEMUFile *f)
->>         ram_addr_t addr;
->>         void *host =3D NULL;
->>         void *page_buffer =3D NULL;
->> -        void *place_source =3D NULL;
->>         RAMBlock *block =3D NULL;
->>         uint8_t ch;
->>         int len;
->> @@ -3188,7 +3187,6 @@ static int ram_load_postcopy(QEMUFile *f)
->>                 place_needed =3D true;
->>                 target_pages =3D 0;
->>             }
->> -            place_source =3D postcopy_host_page;
->>         }
->>=20
->>         switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
->> @@ -3220,7 +3218,7 @@ static int ram_load_postcopy(QEMUFile *f)
->>                  * buffer to make sure the buffer is valid when
->>                  * placing the page.
->>                  */
->> -                qemu_get_buffer_in_place(f, (uint8_t **)&place_source,
->=20
-> ... it can be modified inside the call.
-
-Very right, will drop this patch! Thanks!
-
->=20
-> I feel like this patch could even fail the QEMU unit test.  It would
-> be good to mention what tests have been carried out in the cover
-> letter or with RFC tag if no test is done yet.
-
-I test all code I share. This survives =E2=80=9Emake check=E2=80=9C. I assu=
-me all tests send small pages where =E2=80=9Ematches_target_page_size=3D=3D=
-true=E2=80=9C, so the tests did not catch this.
-
-I even spent the last day getting avocado-vt to work and ran multiple (obvi=
-ously not all) migration tests, including postcopy, so your suggestions hav=
-e already been considered ...
-
-Could have mentioned that in the cover letter, yes.
+>> I could break this down into separate patches by submaintainer,
+>> but the patch is not that large and I would argue that it's
+>> better for the project if we can try to avoid introducing too
+>> much friction into the process of doing 'safe' tree-wide
+>> minor refactorings.
+>>
+>> v1->v2: put the coccinelle script in scripts/coccinelle rather
+>> than just in the commit message.
+>> ---
+>> =C2=A0 accel/kvm/kvm-all.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +--
+>> =C2=A0 dma-helpers.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 4 +-
+>> =C2=A0 exec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +-
+>> =C2=A0 hw/dma/xlnx-zdma.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++---
+>> =C2=A0 hw/net/dp8393x.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
+68 ++++++++++++++--------------
+>> =C2=A0 hw/net/i82596.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 25 +++++-----
+>> =C2=A0 hw/net/lasi_i82596.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
+>> =C2=A0 hw/ppc/pnv_lpc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 8 ++--
+>> =C2=A0 hw/s390x/css.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 12 ++---
+>> =C2=A0 qtest.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 52 ++++++++++-----------
+>> =C2=A0 target/i386/hvf/x86_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 12 ++---
+>> =C2=A0 scripts/coccinelle/as_rw_const.cocci | 30 ++++++++++++
+>> =C2=A0 12 files changed, 133 insertions(+), 104 deletions(-)
+>> =C2=A0 create mode 100644 scripts/coccinelle/as_rw_const.cocci
 
 
