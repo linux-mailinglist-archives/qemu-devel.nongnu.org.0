@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5751666B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 19:57:14 +0100 (CET)
-Received: from localhost ([::1]:48004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0B01666C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 20:03:01 +0100 (CET)
+Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4r0b-0003c9-KE
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 13:57:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53479)
+	id 1j4r6C-0008Qv-Ag
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 14:03:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j4qzn-0003Ah-Cg
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:56:24 -0500
+ (envelope-from <wainersm@redhat.com>) id 1j4r52-0007Xa-OG
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 14:01:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j4qzm-0000kR-BW
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:56:23 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30052
+ (envelope-from <wainersm@redhat.com>) id 1j4r51-0003Xq-MP
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 14:01:48 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55741
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4qzm-0000k6-7t
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:56:22 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j4r51-0003XR-Hb
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 14:01:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582224981;
+ s=mimecast20190719; t=1582225306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iT5jnh/RGs2ZGHgycpWLwzHDAEekyLVNBki5EoWb+fY=;
- b=c5cOmu9V2oXIPXMGKYp7K2YetJPucnqFZiXJakHNdHWk3fhRhHfydRIldT8RNWjsB6PtM1
- 7Oyfbb0j1CNrs0+oWbCfw07S0jmFqCB0+jVkS4JvhzWkex/qtmmbyP8IOnNjM1KYHnejjK
- lHLUg0gfkk/q11Y47GnGntOPdNQKLr4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-5EwsKp3JObyLheroGPXlFA-1; Thu, 20 Feb 2020 13:55:11 -0500
-Received: by mail-wm1-f70.google.com with SMTP id u11so1206581wmb.4
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 10:55:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=38kovK2RFHGYw22ulqBrLKdnZnFJdmfF2rny7axMScg=;
- b=BUq/+d1lUb19mWWyOLHkmPiUvjOdjD5/xD/ig9LNDliIFdkHSGc40ZFxYaMZT9SvoW
- jlSNWpMLxLwqsLv4qbJiA8Dj3h7Szny8ydHOiiRCpjqOpTU4rJ4qEl8GYR09IaffcyzP
- UD3kBsNK3e/QMjJEF2ladgbhdc4XaKnN/MeRtbhRkgnwCK0NfgNx/hR+HZcCt/ELEAFK
- ngb+QSFJnsaSkMHbNdcfYTll9P7IvetpZp3hcmcQUzvhwbJj1KKhYcuj2lixlbzi2nsb
- DfmxHj5HpxcF0sUD8ZiO7ZUrWCyKPXLr/NY8M3qde8P3jc3uFSFCu5GYmvKRctxOt6vW
- D0DA==
-X-Gm-Message-State: APjAAAVtuXSnoRTcXvvF21caAT3jQSXM/5AiLPk6r6HlFTrOGDvm2eVO
- smNJ65fhW/JnUM7lQumodN25ld4f4Seq0FOnwPNVWxSLsZwu5fhRD0vUyIQaopujNpknODPrFYd
- ZrddjkzZFmpFjSts=
-X-Received: by 2002:a1c:a70b:: with SMTP id q11mr5773772wme.108.1582224910343; 
- Thu, 20 Feb 2020 10:55:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyO3Yb7vrZyhR4/mDMMfCIi6SuUZgrSTG5FgkQ1TOUr9ueeWM8u0EC291p/o2gYmYE2BXVtLQ==
-X-Received: by 2002:a1c:a70b:: with SMTP id q11mr5773751wme.108.1582224910127; 
- Thu, 20 Feb 2020 10:55:10 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id v131sm289240wme.23.2020.02.20.10.55.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Feb 2020 10:55:09 -0800 (PST)
-Subject: Re: [PATCH] tcg: gdbstub: Fix single-step issue on arm target
-To: Laurent Vivier <laurent@vivier.eu>, Changbin Du <changbin.du@gmail.com>,
- alex.bennee@linaro.org
-References: <20200220155834.21905-1-changbin.du@gmail.com>
- <269f16b4-e843-1058-4c3b-f11de45b04e1@redhat.com>
- <2f66143c-daa8-2f1d-0593-424791d81fd0@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d0aa7696-e5b4-3258-0441-05f07520fded@redhat.com>
-Date: Thu, 20 Feb 2020 19:55:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=DkUW03mX3pKmHWyykJx+C8HxuQOVehBXtSV/vvUlrwA=;
+ b=TEtiHUImK+Zpf4f7M6MTB3Irxmk9XQ96NTxdD0LC35mPLJ5TKjWjmwJtM1lYy3xT9Cxt+o
+ 4hM1h2NZ48sa6Eo2RhMwFJxltLbieoJYHEBUORCF2dzsb/MHzV+l+tlKknAezU663bfUNo
+ vMwv6sJgcZP06Z7ZgrjOgmUsbAlE9kw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-X-Z5kQLtNMG4HV1SlGJyEQ-1; Thu, 20 Feb 2020 13:54:36 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 535CB800D5F
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 18:54:35 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-92.gru2.redhat.com
+ [10.97.116.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B1711001281;
+ Thu, 20 Feb 2020 18:54:33 +0000 (UTC)
+Subject: Re: [PATCH v1 1/4] Acceptance test: add address as param
+To: Oksana Vohchana <ovoshcha@redhat.com>, qemu-devel@nongnu.org
+References: <20200214145235.4378-1-ovoshcha@redhat.com>
+ <20200214145235.4378-2-ovoshcha@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <b1a29475-8a7b-a4cf-47e9-d453b5b3fb8a@redhat.com>
+Date: Thu, 20 Feb 2020 15:54:31 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <2f66143c-daa8-2f1d-0593-424791d81fd0@vivier.eu>
+In-Reply-To: <20200214145235.4378-2-ovoshcha@redhat.com>
 Content-Language: en-US
-X-MC-Unique: 5EwsKp3JObyLheroGPXlFA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: X-Z5kQLtNMG4HV1SlGJyEQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -94,58 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: philmd@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/20/20 7:06 PM, Laurent Vivier wrote:
-> Le 20/02/2020 =C3=A0 18:47, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
-=A0:
->> On 2/20/20 4:58 PM, Changbin Du wrote:
->>> Recently when debugging an arm32 system on qemu, I found sometimes the
->>> single-step command (stepi) is not working. This can be reproduced by
->>> below steps:
->>>  =C2=A0 1) start qemu-system-arm -s -S .. and wait for gdb connection.
->>>  =C2=A0 2) start gdb and connect to qemu. In my case, gdb gets a wrong =
-value
->>>  =C2=A0=C2=A0=C2=A0=C2=A0 (0x60) for PC.
->>>  =C2=A0 3) After connected, type 'stepi' and expect it will stop at nex=
-t ins.
->>>
->>> But, it has never stopped. This because:
->>>  =C2=A0 1) We doesn't report =E2=80=98vContSupported=E2=80=99 feature t=
-o gdb explicitly and gdb
->>>  =C2=A0=C2=A0=C2=A0=C2=A0 think we do not support it. In this case, gdb=
- use a software
->>> breakpoint
->>>  =C2=A0=C2=A0=C2=A0=C2=A0 to emulate single-step.
->>>  =C2=A0 2) Since gdb gets a wrong initial value of PC, then gdb inserts=
- a
->>>  =C2=A0=C2=A0=C2=A0=C2=A0 breakpoint to wrong place (PC+4).
->>>
->>> Since we do support =E2=80=98vContSupported=E2=80=99 query command, so =
-let's tell gdb
->>> that
->>> we support it.
->>>
->>> Before this change, gdb send below 'Z0' packet to implement single-step=
-:
->>> gdb_handle_packet: Z0,4,4
->>>
->>> After this change, gdb send "vCont;s.." which is expected:
->>> gdb_handle_packet: vCont?
->>> put_packet: vCont;c;C;s;S
->>> gdb_handle_packet: vCont;s:p1.1;c:p1.-1
->>
->> You actually fixed this for all architectures :)
->>
->> This has been annoying me on MIPS since more than a year...
->=20
-> The problem started with an update of QEMU or of GDB?
->=20
-> At one point it seemed to work, so what happened?
+Hi Oksana,
 
-I'd say gdb. I can try different combinations of QEMU/gdb but I won't do=20
-that soon.
+On 2/14/20 12:52 PM, Oksana Vohchana wrote:
+> Provides param address in _get_free_port()
+> because by default it takes free port only on the localhost
+>
+> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+> ---
+>   tests/acceptance/migration.py | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+> index a8367ca023..e4c39b85a1 100644
+> --- a/tests/acceptance/migration.py
+> +++ b/tests/acceptance/migration.py
+> @@ -52,8 +52,8 @@ class Migration(Test):
+>           source_vm.qmp('migrate', uri=src_uri)
+>           self.assert_migration(source_vm, dest_vm)
+>   
+> -    def _get_free_port(self):
+> -        port = network.find_free_port()
+> +    def _get_free_port(self, address='localhost'):
+> +        port = network.find_free_port(address=address)
+
+Looks good to me, but:
+
+- This patch is out of order, it should be followed by patches 03 and 04.
+
+- You could have described in the cover letter (or in the commit) your 
+intention with this change.
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+Thanks!
+
+- Wainer
+
+>           if port is None:
+>               self.cancel('Failed to find a free port')
+>           return port
 
 
