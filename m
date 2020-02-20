@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524E9165CD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 12:33:03 +0100 (CET)
-Received: from localhost ([::1]:40200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6444B165CD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 12:36:11 +0100 (CET)
+Received: from localhost ([::1]:40234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4k4k-0003bV-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 06:33:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41895)
+	id 1j4k7m-0005UF-GQ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 06:36:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42260)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j4k3s-0003AE-N3
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 06:32:09 -0500
+ (envelope-from <cohuck@redhat.com>) id 1j4k6s-0004Vx-PV
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 06:35:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j4k3r-0002w5-QF
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 06:32:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34112
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1j4k6r-00054j-NL
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 06:35:14 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57866
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j4k3r-0002uq-M1
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 06:32:07 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j4k6r-00053y-J8
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 06:35:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582198326;
+ s=mimecast20190719; t=1582198513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QWVB1EwMWCtwKFBhcpbo7xi/6/S5cmCGv79iOGlT5xw=;
- b=FUVkzQQPPvQRbsNppcrkXHZeSl2g462U7Icui67sjXZk3mCBEcNauNipPoP/uOa6EJCEBW
- 5q0eF9Za5LLqG4+no1k1ohP0gME8cZ6OhLnRyEeBXoMbGX0/jAKxlcdWEvIuY5/NJTlv6m
- hqM705Se+6zKNKX2zPPSz4wpqhrpETs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-THszYAmjN_abvTjqK2grDQ-1; Thu, 20 Feb 2020 06:32:05 -0500
-X-MC-Unique: THszYAmjN_abvTjqK2grDQ-1
-Received: by mail-wm1-f71.google.com with SMTP id d4so498981wmd.7
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 03:32:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QWVB1EwMWCtwKFBhcpbo7xi/6/S5cmCGv79iOGlT5xw=;
- b=GFYgr5B8D09eOvzTDHxcI30+ACZSPnaMlQKFz4z1OGTciRQixQUcLZm3jBw//bdHca
- Eccd6Xi1PpcwoJERBVtdiBcPOv3ep21fXW9J3ptVKXZuJsAX5Yg/SBU0BnfH8K45F5i2
- tQdpfIMhjFgzeVgM3hQmPOAsR72OlkSjM75bYTPB8jkD2gPFf5XxtwjIT0s1JC7mBgIr
- 2BWSkpyffQEHudKNbRiXcLmyFk5Z30ZHhwj55I6q4SX+wk7TGOBvH+own71uLH49EaaL
- l9Kn9bi3sD6MwN/b1FPhJ7lvN0ya8bglkp1Ue9Lx6r4C40PEjlToZk8GE5v6qXY3+6fB
- rVOg==
-X-Gm-Message-State: APjAAAWvrefco7yucvoOHo1QKoM+n2yw53AT0Mx5e2UIUsPwlkW79nEU
- k0bLxmxxSbVBm/hnoAeLbBhiDIjtFRNQsd9hdtFr37fQtUna0zT67NpAJSoXaPAfQmod+70YM/4
- NWmohrWsufiYBFtw=
-X-Received: by 2002:a1c:3906:: with SMTP id g6mr4171979wma.49.1582198324271;
- Thu, 20 Feb 2020 03:32:04 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwsoI898pHRfDhuvY3JvyY0B/1bK61gq6BrS8ThT8yE8p9feUNDHNl/G1Axzr0++wyymYpNOw==
-X-Received: by 2002:a1c:3906:: with SMTP id g6mr4171938wma.49.1582198324020;
- Thu, 20 Feb 2020 03:32:04 -0800 (PST)
-Received: from [10.201.49.12] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
- by smtp.gmail.com with ESMTPSA id a13sm4118958wrp.93.2020.02.20.03.32.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Feb 2020 03:32:03 -0800 (PST)
-Subject: Re: [PATCH] Avoid cpu_physical_memory_rw() with a constant is_write
- argument
-To: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>
-References: <20200218132023.22936-1-philmd@redhat.com>
- <87e06de3-179b-54a1-3451-39a0a30b65f0@weilnetz.de>
- <CAFEAcA9Jr2Yi1K8_9MGUJYt8C=OcKbWDh1UJjTQG1EspLux3JQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <86e6b3cf-f137-4980-739e-61690a9249c2@redhat.com>
-Date: Thu, 20 Feb 2020 12:32:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=vInPSb0E28anbWFW9CYHdjoOs+aV2xFdbT/VWE+wstI=;
+ b=Df+Ji0Z1BUGXRyuX/VmRbgaPPG2njmBhsoi5SbkYweJgNzyQNuDlGtETEYpQSMKXgfa4BS
+ kn2KABJAamVkOjYhtR4l7C156zQjPj4dUbAtk4DqACht+m2cK9CFA7nW3rvpwMsJBVCLmr
+ +QuGIMb2LJKqHuG6TOhWdgXDk+CyFZI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-aWcVqFkCNuesIU4a1yyqNw-1; Thu, 20 Feb 2020 06:35:09 -0500
+X-MC-Unique: aWcVqFkCNuesIU4a1yyqNw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3FEC107ACC5;
+ Thu, 20 Feb 2020 11:35:07 +0000 (UTC)
+Received: from gondolin (ovpn-205-37.brq.redhat.com [10.40.205.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6981387B11;
+ Thu, 20 Feb 2020 11:35:01 +0000 (UTC)
+Date: Thu, 20 Feb 2020 12:34:49 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v3 16/17] s390x: protvirt: Handle SIGP store status
+ correctly
+Message-ID: <20200220123449.5f8a6011.cohuck@redhat.com>
+In-Reply-To: <cf0c8c3c-06d9-cc49-886e-c54281759dff@linux.ibm.com>
+References: <20200214151636.8764-1-frankja@linux.ibm.com>
+ <20200214151636.8764-17-frankja@linux.ibm.com>
+ <20200220120244.2ea06cec.cohuck@redhat.com>
+ <cf0c8c3c-06d9-cc49-886e-c54281759dff@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9Jr2Yi1K8_9MGUJYt8C=OcKbWDh1UJjTQG1EspLux3JQ@mail.gmail.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/dKDB.S6ynSEyph+n+rOTjvu";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,27 +74,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-s390x@nongnu.org, mihajlov@linux.ibm.com, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/02/20 19:49, Peter Maydell wrote:
-> Depending on which way we go we would either want to remove these
-> casts, or not.
-> 
-> I guess that we have more cases of 'void*', and that would
-> certainly be the easier way to convert (otherwise we probably
-> need to add a bunch of new casts to uint8_t* in various callsites),
-> but I don't have a strong opinion. Paolo ?
+--Sig_/dKDB.S6ynSEyph+n+rOTjvu
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I agree we should use void* (possibly const).
+On Thu, 20 Feb 2020 12:30:28 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Paolo
+> On 2/20/20 12:02 PM, Cornelia Huck wrote:
+> > On Fri, 14 Feb 2020 10:16:35 -0500
+> > Janosch Frank <frankja@linux.ibm.com> wrote:
+> >  =20
+> >> Status storing is not done by QEMU anymore, but is handled by SIE.
+> >>
+> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >>  target/s390x/helper.c | 4 ++++
+> >>  target/s390x/sigp.c   | 1 +
+> >>  2 files changed, 5 insertions(+)
+> >>
+> >> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+> >> index a3a49164e4..3800c4b395 100644
+> >> --- a/target/s390x/helper.c
+> >> +++ b/target/s390x/helper.c
+> >> @@ -246,6 +246,10 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, =
+bool store_arch)
+> >>      hwaddr len =3D sizeof(*sa);
+> >>      int i;
+> >> =20
+> >> +    if (cpu->env.pv) {
+> >> +        return 0;
+> >> +    }
+> >> +
+> >>      sa =3D cpu_physical_memory_map(addr, &len, 1);
+> >>      if (!sa) {
+> >>          return -EFAULT;
+> >> diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+> >> index c604f17710..da0cfb97de 100644
+> >> --- a/target/s390x/sigp.c
+> >> +++ b/target/s390x/sigp.c
+> >> @@ -497,6 +497,7 @@ void do_stop_interrupt(CPUS390XState *env)
+> >>      if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) =3D=3D 0) {
+> >>          qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> >>      }
+> >> +    /* Storing will occur on next SIE entry for fmt 4 */ =20
+> >=20
+> > What's fmt 4? =20
+>=20
+> PVMs are using a FMT 4 SCB instead of the normal format 2 one.
+>=20
+> So I guess this should read:
+> /* Storing will occur on next SIE entry for protected VMs */
+
+Better :)
+
+>=20
+> >  =20
+> >>      if (cpu->env.sigp_order =3D=3D SIGP_STOP_STORE_STATUS) {
+> >>          s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
+> >>      } =20
+> >=20
+> >  =20
+>=20
+>=20
+
+
+--Sig_/dKDB.S6ynSEyph+n+rOTjvu
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl5ObtkACgkQ3s9rk8bw
+L68CTg/9ELlIfeFAN39zg9BRtchdtGAwtV/DN7t036MZnIXJJ+poqDChEZfyuVmp
+dGuu1HgePaNLA25mbM2INWcJFa+unognpMOkSIaxk/8p/JI2iRaqH7oGsJhqrCo3
+GXCksYnlPg5LefaweKdxy55fYXenz5j2ku8KuTxl6wsAoTq/ZptkiFkmRgKv4+dI
+SLMjfXpGRqQHGUEEMysY0EAGYSUlFl1FQhkV4SW/0Lt62uWyjl5eR8BsSPgiZh7M
+JvG8J/Ns3mP4xAVd6er74KpyarGp81OvKuVUsmXxDnH3hUFjNOGfxHIWhRdbMTFD
+o87hMxytYljbjridivWGnLtlKNSCeV589Q533hv0s7C/KoLyhOES1Pzjb2A1ekj+
+jP8sDpDiJBhfzGmhjBfOcNw6WgiZtu/4kyKGKyC+mFSVhgqgYWQ46FMcZvFwFVKE
+XF8YpHk1Sq4ne2Lg38w6IMqFQB8na6x/LxoDmxplJo9XwluGOtq5TCsgcuHF39+Y
+QEOQVkwsNalHZ5FHbj3rYYGaZjVL/LG2+TJYswQSerMthvUleDEUz90IqEfkKCIU
+ILA+q0he1v0EUX+dwH0v2gqMDJSExkwTSWN7H89Vs/zzdmzmG0R9gqcHuQ0O+GAb
+W0FT5ggev3d1vz+syv8GdHQSeH1J0dnhcb9yyzLDQRf/GgadqV0=
+=gnq4
+-----END PGP SIGNATURE-----
+
+--Sig_/dKDB.S6ynSEyph+n+rOTjvu--
 
 
