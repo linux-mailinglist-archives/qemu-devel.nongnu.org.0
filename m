@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13A2165E64
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:12:36 +0100 (CET)
-Received: from localhost ([::1]:41676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E060165E5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:10:34 +0100 (CET)
+Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4ld5-00073L-UT
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:12:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55704)
+	id 1j4lb7-0003Yi-56
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:10:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j4lWw-0004RW-SS
+ (envelope-from <philmd@redhat.com>) id 1j4lX0-0004ay-6a
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j4lWv-0004st-Hl
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:14 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32604
+ (envelope-from <philmd@redhat.com>) id 1j4lWy-0004vs-VL
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:18 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60433
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lWv-0004sZ-DX
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:13 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lWy-0004vY-RQ
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582203973;
+ s=mimecast20190719; t=1582203976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3U8RUDrkQxMnVOOW0OCE6S37E2RIVx9bINi/XXS02Y4=;
- b=KhxgHIVkUDuYVOm6JJkYCP8eRrERMOLmKZp5leu6GoT3BE/JhOzqX8lxi+SuN/SB7ILW+M
- PtHgWmJ1KxL9idIj7Cuf1fNOWN8YfyEpdhWzcnWG7ei537OPD78hyGX0zfCf5nE2tN1y5z
- +WflVHg5RZ7f5VlOYp8N/3ZchaE7VJU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-IDHSw1WzOTybIF6eoIfNsA-1; Thu, 20 Feb 2020 08:06:11 -0500
-Received: by mail-wm1-f70.google.com with SMTP id f66so577573wmf.9
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:11 -0800 (PST)
+ bh=kamW98p66sN+eur3Q7AqsRMR1uwJ8MHCAydSaAKz21s=;
+ b=BhM6j2TFlxilShmuQPG5GLYUxvP0mmPW+ZSUvi0Ddl9fdEqtLJUsOCn1HuTqCuKoVm0Rtd
+ 196j19umV8AZsPmrFilPrfDdmx6Dwk0frkW3cjjIP4L6GyDu8qVgf7CnPGVOBCw2Un1hMH
+ z+2zK6Lji9ZBlEHGJKtFlZbih2bFqV0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-4dUiJntRMn6ktmMCFzlW2A-1; Thu, 20 Feb 2020 08:06:13 -0500
+Received: by mail-wm1-f69.google.com with SMTP id z7so583498wmi.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uQu7r5A36ZEekF4m32GxNBlLjnOkqxofIVmsz5VZ5cY=;
- b=HNiVRgjKa5TfvREPD2uz2fVayBbaQeMS7r2nUrGme3LlIgSdJdFY313gLU0bUdi0Rh
- Vdf07u7L7/wAjFgrHPQtx1bCwINiC6wZBHQWisqC8qWiRxCSyc/YEoE3621pc4MacstF
- +Apj7kA7UbiZRev2m2zemOY1ANqHkm7a7aCFXs5wCuD5mSZVG76xKRAumFwjQAsk/OVW
- J02FAyiS59EE36oC4YJbR2BTV78x+6LLzmCYXtybL1xd0pwB7gkuHo72J98IKNaYov6W
- BFys4g7j+koDSb7D5McPg3TIiwclJ9z9YNwmtmK+D45g2nIzlrcAC+gOTItB0vYY/EDO
- SUvg==
-X-Gm-Message-State: APjAAAWp+HAdj6geYIoGwnQA8NQ5AJt0lGkXRlN3Cfl8IcMluzEvJ+jL
- 0np/7+79eyMWlZXee0kzullKgHM9wu4pJm25mR6U8oKALSwX4FmKC1puCr0LByqlQHNc5pLQ7Ot
- I54voRBdMnt7I7N4=
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr4784713wmi.152.1582203968767; 
- Thu, 20 Feb 2020 05:06:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyE66uIDK1qcY0whocMHGuc5UiGXXzMSpfPUxCMQ6ki2ViRoHWEoIvgwkFHTsmW7YQNGkg7QA==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr4784676wmi.152.1582203968575; 
- Thu, 20 Feb 2020 05:06:08 -0800 (PST)
+ bh=HHWlfXnpQqqcljyzd6YNAX2WRGDbItCch3DvOI+vpOQ=;
+ b=CQfKH4QGDTQjHunwmV8Nmaa2IR9e+3GcJ333Yeh0DDgV2gXtr7JqoPa+MEUlrs3Hop
+ 9q+INz7/8hkDwzFdvPtPW+5F3jrpUOt4o6wrtI+A/V//O9KJQVlP1+w3HjQAdcn29is7
+ CDuuFRxlHBjxgFPNKvBk59G+/jvKIvXkwx9YuUSYrSm2fXlhNzFu4Lr3o4X6DaCuZt9L
+ MtK712Al3tMrIdMOGp+fO5mhssKHJJREgqQyU4NF4mY2YzPq0u7NlrPQg3MOwZM0/XF4
+ E9lg/BNityn8iSfZfVJGFotd5mHeDiuwbhqGmdwAJFgfjhEL7sHwt1nCtMWGx12vFoBn
+ +mLA==
+X-Gm-Message-State: APjAAAU7AZYl/URxefs2V2ZABsxOIq1zB8ELFYAD+KYhAvY4Ek0FboAe
+ PgCRMIcx/+YN+tA+rH1tWw4+mbrlBZxSbyyLES0uIsNxFDzdValrH4ypEunLtmgn5O2TB2AauUa
+ iBlIuIob4UEoFYLA=
+X-Received: by 2002:adf:e781:: with SMTP id n1mr45107538wrm.56.1582203972575; 
+ Thu, 20 Feb 2020 05:06:12 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxKBcX8rH6rx55ITZPEmcOIUOejSB/5dplr56Z6ALR3ecPn0w2hMCkhVWEBs3126xsvrTMCAw==
+X-Received: by 2002:adf:e781:: with SMTP id n1mr45107502wrm.56.1582203972354; 
+ Thu, 20 Feb 2020 05:06:12 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.06.05
+ by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.06.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 05:06:08 -0800 (PST)
+ Thu, 20 Feb 2020 05:06:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 04/20] exec: Rename ram_ptr variable
-Date: Thu, 20 Feb 2020 14:05:32 +0100
-Message-Id: <20200220130548.29974-5-philmd@redhat.com>
+Subject: [PATCH v3 05/20] exec: Let flatview API take void pointer arguments
+Date: Thu, 20 Feb 2020 14:05:33 +0100
+Message-Id: <20200220130548.29974-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200220130548.29974-1-philmd@redhat.com>
 References: <20200220130548.29974-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: IDHSw1WzOTybIF6eoIfNsA-1
+X-MC-Unique: 4dUiJntRMn6ktmMCFzlW2A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
@@ -115,95 +115,110 @@ Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we are going to use a different 'ptr' variable, rename the 'ram
-pointer' variable.
+Only flatview_[read/write]_continue use a byte pointer to increment
+an offset. For the users, we are only dealing with a blob buffer.
+Use a void pointer argument. This will let us simplify the
+address_space API in the next commit.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- exec.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ include/exec/memory.h |  2 +-
+ exec.c                | 14 ++++++++------
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e85b7de99a..6f8084f45e 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2336,7 +2336,7 @@ void address_space_unmap(AddressSpace *as, void *buff=
+er, hwaddr len,
+ MemTxResult address_space_read_full(AddressSpace *as, hwaddr addr,
+                                     MemTxAttrs attrs, uint8_t *buf, hwaddr=
+ len);
+ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+-                                   MemTxAttrs attrs, uint8_t *buf,
++                                   MemTxAttrs attrs, void *buf,
+                                    hwaddr len, hwaddr addr1, hwaddr l,
+                                    MemoryRegion *mr);
+ void *qemu_map_ram_ptr(RAMBlock *ram_block, ram_addr_t addr);
 diff --git a/exec.c b/exec.c
-index 02b4e6ea41..06e386dc72 100644
+index 06e386dc72..980cc0e2b2 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -3151,7 +3151,7 @@ static MemTxResult flatview_write_continue(FlatView *=
-fv, hwaddr addr,
+@@ -2780,9 +2780,9 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, =
+vaddr len,
+ }
+=20
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+-                                 MemTxAttrs attrs, uint8_t *buf, hwaddr le=
+n);
++                                 MemTxAttrs attrs, void *buf, hwaddr len);
+ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs at=
+trs,
+-                                  const uint8_t *buf, hwaddr len);
++                                  const void *buf, hwaddr len);
+ static bool flatview_access_valid(FlatView *fv, hwaddr addr, hwaddr len,
+                                   bool is_write, MemTxAttrs attrs);
+=20
+@@ -3147,7 +3147,7 @@ static bool prepare_mmio_access(MemoryRegion *mr)
+ /* Called within RCU critical section.  */
+ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+                                            MemTxAttrs attrs,
+-                                           const uint8_t *buf,
++                                           const void *ptr,
                                             hwaddr len, hwaddr addr1,
                                             hwaddr l, MemoryRegion *mr)
  {
--    uint8_t *ptr;
-+    uint8_t *ram_ptr;
+@@ -3155,6 +3155,7 @@ static MemTxResult flatview_write_continue(FlatView *=
+fv, hwaddr addr,
      uint64_t val;
      MemTxResult result =3D MEMTX_OK;
      bool release_lock =3D false;
-@@ -3167,8 +3167,8 @@ static MemTxResult flatview_write_continue(FlatView *=
-fv, hwaddr addr,
-                                                    size_memop(l), attrs);
-         } else {
-             /* RAM case */
--            ptr =3D qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
--            memcpy(ptr, buf, l);
-+            ram_ptr =3D qemu_ram_ptr_length(mr->ram_block, addr1, &l, fals=
-e);
-+            memcpy(ram_ptr, buf, l);
-             invalidate_and_set_dirty(mr, addr1, l);
-         }
++    const uint8_t *buf =3D ptr;
 =20
-@@ -3215,7 +3215,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwad=
-dr addr,
+     for (;;) {
+         if (!memory_access_is_direct(mr, true)) {
+@@ -3194,7 +3195,7 @@ static MemTxResult flatview_write_continue(FlatView *=
+fv, hwaddr addr,
+=20
+ /* Called from RCU critical section.  */
+ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs at=
+trs,
+-                                  const uint8_t *buf, hwaddr len)
++                                  const void *buf, hwaddr len)
+ {
+     hwaddr l;
+     hwaddr addr1;
+@@ -3211,7 +3212,7 @@ static MemTxResult flatview_write(FlatView *fv, hwadd=
+r addr, MemTxAttrs attrs,
+=20
+ /* Called within RCU critical section.  */
+ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+-                                   MemTxAttrs attrs, uint8_t *buf,
++                                   MemTxAttrs attrs, void *ptr,
                                     hwaddr len, hwaddr addr1, hwaddr l,
                                     MemoryRegion *mr)
  {
--    uint8_t *ptr;
-+    uint8_t *ram_ptr;
+@@ -3219,6 +3220,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwad=
+dr addr,
      uint64_t val;
      MemTxResult result =3D MEMTX_OK;
      bool release_lock =3D false;
-@@ -3230,8 +3230,8 @@ MemTxResult flatview_read_continue(FlatView *fv, hwad=
-dr addr,
-             stn_he_p(buf, l, val);
-         } else {
-             /* RAM case */
--            ptr =3D qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
--            memcpy(buf, ptr, l);
-+            ram_ptr =3D qemu_ram_ptr_length(mr->ram_block, addr1, &l, fals=
-e);
-+            memcpy(buf, ram_ptr, l);
-         }
++    uint8_t *buf =3D ptr;
 =20
-         if (release_lock) {
-@@ -3329,7 +3329,7 @@ static inline MemTxResult address_space_write_rom_int=
-ernal(AddressSpace *as,
-                                                            enum write_rom_=
-type type)
+     for (;;) {
+         if (!memory_access_is_direct(mr, false)) {
+@@ -3256,7 +3258,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwad=
+dr addr,
+=20
+ /* Called from RCU critical section.  */
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+-                                 MemTxAttrs attrs, uint8_t *buf, hwaddr le=
+n)
++                                 MemTxAttrs attrs, void *buf, hwaddr len)
  {
      hwaddr l;
--    uint8_t *ptr;
-+    uint8_t *ram_ptr;
      hwaddr addr1;
-     MemoryRegion *mr;
-=20
-@@ -3343,14 +3343,14 @@ static inline MemTxResult address_space_write_rom_i=
-nternal(AddressSpace *as,
-             l =3D memory_access_size(mr, l, addr1);
-         } else {
-             /* ROM/RAM case */
--            ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-+            ram_ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-             switch (type) {
-             case WRITE_DATA:
--                memcpy(ptr, buf, l);
-+                memcpy(ram_ptr, buf, l);
-                 invalidate_and_set_dirty(mr, addr1, l);
-                 break;
-             case FLUSH_CACHE:
--                flush_icache_range((uintptr_t)ptr, (uintptr_t)ptr + l);
-+                flush_icache_range((uintptr_t)ram_ptr, (uintptr_t)ram_ptr =
-+ l);
-                 break;
-             }
-         }
 --=20
 2.21.1
 
