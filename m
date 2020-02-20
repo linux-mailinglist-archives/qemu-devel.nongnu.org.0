@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5472B1661FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:12:24 +0100 (CET)
-Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C69816621F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:17:59 +0100 (CET)
+Received: from localhost ([::1]:45290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4oR5-0000WX-DM
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:12:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54939)
+	id 1j4oWU-0001f4-4b
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:17:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4oOZ-0005Hc-TA
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:09:49 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j4oOj-0005im-E0
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:09:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4oOY-00068J-GG
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:09:47 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36726
+ (envelope-from <mreitz@redhat.com>) id 1j4oOi-0006Bb-Bm
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:09:57 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48921
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oOY-000682-Av
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:09:46 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oOi-0006BQ-87
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:09:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582214985;
+ s=mimecast20190719; t=1582214995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MttArOFtWxbQbyc/L7DWpav82OCvI7dSnQyTC0YOVBQ=;
- b=NjXb+xSFRRjtm309iFF0D/9w67rl+8wlJ4+XtK0HFRDFrCgqWOz4J62SczaSx9ON8oNGY3
- IArupLcamw/l3bLmosny+OZ1zowQYay1UfWgjwDQGVzgV58k+Xw9vMAf3UxeLyu2BxN9nZ
- YJcNVzXqzSMeIYrE/vJfMlLAZbKelX8=
+ bh=cxlR7vKbANcUPIfyDMHCSg6ZxhMzW1WqgzZTqXEeqG4=;
+ b=LMgw5oHbQH5Ifnoo3S+Z+bH17L8tK8XpWG69aI7AN3rfWLcmJgwK7v2QOSz0jK+RC21J9e
+ sTUyb8+uugu5w37Rx1bOpAk5xFU7BwChpYfBIPnQF2JMdH/A+ezlBRF7uYvsPkLQd8cxWW
+ 9TSpP4pjaeY4WvjuIl+jia6RB0HYMCU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-yxSDvBd5NqqcQDFqwopwXQ-1; Thu, 20 Feb 2020 11:09:41 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-372-h7Nv1wEEPNeyXLPm67D9cw-1; Thu, 20 Feb 2020 11:09:51 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01067477;
- Thu, 20 Feb 2020 16:09:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A52A71005512;
+ Thu, 20 Feb 2020 16:09:50 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35CF9101D489;
- Thu, 20 Feb 2020 16:09:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C71A291820;
+ Thu, 20 Feb 2020 16:09:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/18] block/backup-top: fix flags handling
-Date: Thu, 20 Feb 2020 17:07:00 +0100
-Message-Id: <20200220160710.533297-9-mreitz@redhat.com>
+Subject: [PULL 09/18] iotests/279: Fix for non-qcow2 formats
+Date: Thu, 20 Feb 2020 17:07:01 +0100
+Message-Id: <20200220160710.533297-10-mreitz@redhat.com>
 In-Reply-To: <20200220160710.533297-1-mreitz@redhat.com>
 References: <20200220160710.533297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: yxSDvBd5NqqcQDFqwopwXQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: h7Nv1wEEPNeyXLPm67D9cw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -75,104 +75,54 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+First, driver=3Dqcow2 will not work so well with non-qcow2 formats (and
+this test claims to support qcow, qed, and vmdk).
 
-backup-top "supports" write-unchanged, by skipping CBW operation in
-backup_top_co_pwritev. But it forgets to do the same in
-backup_top_co_pwrite_zeroes, as well as declare support for
-BDRV_REQ_WRITE_UNCHANGED.
+Second, vmdk will always report the backing file format to be vmdk.
+Filter that out so the output looks like for all other formats.
 
-Fix this, and, while being here, declare also support for flags
-supported by source child.
+Third, the flat vmdk subformats do not support backing files, so they
+will not work with this test.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200207161231.32707-1-vsementsov@virtuozzo.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20191219144243.1763246-1-mreitz@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/backup-top.c | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+ tests/qemu-iotests/279 | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index fa78f3256d..1bfb360bd3 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -48,11 +48,17 @@ static coroutine_fn int backup_top_co_preadv(
- }
+diff --git a/tests/qemu-iotests/279 b/tests/qemu-iotests/279
+index 6682376808..30d29b1cb2 100755
+--- a/tests/qemu-iotests/279
++++ b/tests/qemu-iotests/279
+@@ -38,6 +38,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow qcow2 vmdk qed
+ _supported_proto file
+ _supported_os Linux
++_unsupported_imgopts "subformat=3DmonolithicFlat" \
++                     "subformat=3DtwoGbMaxExtentFlat" \
 =20
- static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t offs=
-et,
--                                       uint64_t bytes)
-+                                       uint64_t bytes, BdrvRequestFlags fl=
-ags)
- {
-     BDRVBackupTopState *s =3D bs->opaque;
--    uint64_t end =3D QEMU_ALIGN_UP(offset + bytes, s->bcs->cluster_size);
--    uint64_t off =3D QEMU_ALIGN_DOWN(offset, s->bcs->cluster_size);
-+    uint64_t off, end;
-+
-+    if (flags & BDRV_REQ_WRITE_UNCHANGED) {
-+        return 0;
-+    }
-+
-+    off =3D QEMU_ALIGN_DOWN(offset, s->bcs->cluster_size);
-+    end =3D QEMU_ALIGN_UP(offset + bytes, s->bcs->cluster_size);
+ TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
+ TEST_IMG=3D"$TEST_IMG.mid" _make_test_img -b "$TEST_IMG.base"
+@@ -45,11 +47,12 @@ _make_test_img -b "$TEST_IMG.mid"
 =20
-     return block_copy(s->bcs, off, end - off, NULL);
- }
-@@ -60,7 +66,7 @@ static coroutine_fn int backup_top_cbw(BlockDriverState *=
-bs, uint64_t offset,
- static int coroutine_fn backup_top_co_pdiscard(BlockDriverState *bs,
-                                                int64_t offset, int bytes)
- {
--    int ret =3D backup_top_cbw(bs, offset, bytes);
-+    int ret =3D backup_top_cbw(bs, offset, bytes, 0);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -71,7 +77,7 @@ static int coroutine_fn backup_top_co_pdiscard(BlockDrive=
-rState *bs,
- static int coroutine_fn backup_top_co_pwrite_zeroes(BlockDriverState *bs,
-         int64_t offset, int bytes, BdrvRequestFlags flags)
- {
--    int ret =3D backup_top_cbw(bs, offset, bytes);
-+    int ret =3D backup_top_cbw(bs, offset, bytes, flags);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -84,11 +90,9 @@ static coroutine_fn int backup_top_co_pwritev(BlockDrive=
-rState *bs,
-                                               uint64_t bytes,
-                                               QEMUIOVector *qiov, int flag=
-s)
- {
--    if (!(flags & BDRV_REQ_WRITE_UNCHANGED)) {
--        int ret =3D backup_top_cbw(bs, offset, bytes);
--        if (ret < 0) {
--            return ret;
--        }
-+    int ret =3D backup_top_cbw(bs, offset, bytes, flags);
-+    if (ret < 0) {
-+        return ret;
-     }
+ echo
+ echo '=3D=3D qemu-img info --backing-chain =3D=3D'
+-_img_info --backing-chain | _filter_img_info
++_img_info --backing-chain | _filter_img_info | grep -v 'backing file forma=
+t'
 =20
-     return bdrv_co_pwritev(bs->backing, offset, bytes, qiov, flags);
-@@ -196,8 +200,13 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverSt=
-ate *source,
-         return NULL;
-     }
+ echo
+ echo '=3D=3D qemu-img info --backing-chain --image-opts =3D=3D'
+-TEST_IMG=3D"driver=3Dqcow2,file.driver=3Dfile,file.filename=3D$TEST_IMG" _=
+img_info --backing-chain --image-opts | _filter_img_info
++TEST_IMG=3D"driver=3D$IMGFMT,file.driver=3Dfile,file.filename=3D$TEST_IMG"=
+ _img_info --backing-chain --image-opts \
++    | _filter_img_info | grep -v 'backing file format'
 =20
--    top->total_sectors =3D source->total_sectors;
-     state =3D top->opaque;
-+    top->total_sectors =3D source->total_sectors;
-+    top->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED |
-+            (BDRV_REQ_FUA & source->supported_write_flags);
-+    top->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
-+            ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-+             source->supported_zero_flags);
-=20
-     bdrv_ref(target);
-     state->target =3D bdrv_attach_child(top, target, "target", &child_file=
-, errp);
+ # success, all done
+ echo "*** done"
 --=20
 2.24.1
 
