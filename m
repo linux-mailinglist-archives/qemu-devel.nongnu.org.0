@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7C91666BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 20:00:31 +0100 (CET)
-Received: from localhost ([::1]:48030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D21166764
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 20:45:01 +0100 (CET)
+Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4r3m-0006cl-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 14:00:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53915)
+	id 1j4rkp-0007bo-QL
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 14:44:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j4r2o-0005s4-0z
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:59:31 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j4rk1-00077l-16
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 14:44:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j4r2m-0002O6-My
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:59:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36814
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1j4rjx-0001Lg-Rg
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 14:44:08 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24117
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j4r2m-0002Nn-In
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 13:59:28 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j4rjx-0001Kj-HX
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 14:44:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582225168;
+ s=mimecast20190719; t=1582227843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ObHJuCnXM6kiOAPAFICQRBS8Kmm/lIzLPfJKFvSmLwU=;
- b=W7t0zvv0ukF3oGiZMljMSljwC8vZ0ULEVROYmv6XJ1zQA4gBk6R6jfLBsvgeQ17PglILCe
- EMc+EvN+aKAUuICmLK80gyFeg25sgO4eSNouE+zBLQqOrfuHn4MJpL+0YrEt858Pklv2WO
- Id9m2CNJdgaoGV+ZH9FBZ1d7iokEWlw=
+ bh=j3i76gdIZRfvhWNwHfZ7IXpDljAFaxsjVHh4RcyQ8kA=;
+ b=dKTFR537Py8AAdZvk/2jDtT68sf2iUZxm/t6yOAqQaMeUrgarXENT1oJF8tWXu7ucI80JU
+ WlLXLLrhEw+vwpx5PCnHkmAI9YoR608mlw8GXpsxSkQ/WJfCzipJWSi9ObV00DBThSVxWF
+ 7f0HuNzbiMRFa8hgL54E4fKKlOU9B3o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-OLWWdSBgNQSp2h2-jvuBYg-1; Thu, 20 Feb 2020 13:58:44 -0500
-X-MC-Unique: OLWWdSBgNQSp2h2-jvuBYg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-398-k5BLm4uyOOSORW7BDIMneA-1; Thu, 20 Feb 2020 14:43:59 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52613A1F4B;
- Thu, 20 Feb 2020 18:58:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A48EC184B122;
+ Thu, 20 Feb 2020 19:43:57 +0000 (UTC)
 Received: from work-vm (unknown [10.36.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 021D55C1D8;
- Thu, 20 Feb 2020 18:58:29 +0000 (UTC)
-Date: Thu, 20 Feb 2020 18:58:27 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B32689F28;
+ Thu, 20 Feb 2020 19:43:54 +0000 (UTC)
+Date: Thu, 20 Feb 2020 19:43:52 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 07/13] migrate/ram: Get rid of "place_source" in
- ram_load_postcopy()
-Message-ID: <20200220185827.GH2836@work-vm>
-References: <20200219204730.GB37550@xz-x1>
- <5DD859C1-9FF5-4488-8928-43B83D8AD677@redhat.com>
+To: Daniel Cho <danielcho@qnap.com>
+Subject: Re: The issues about architecture of the COLO checkpoint
+Message-ID: <20200220194352.GI2836@work-vm>
+References: <51f95ec9ed4a4cc682e63abf1414979b@intel.com>
+ <b440cfb28e6c4aa38d79b93ed04a106f@intel.com>
+ <CA+XQNE78cE-wMtNZBrXa+HQmuXmRGtjKJr_0JXaYPCEFEhXgwQ@mail.gmail.com>
+ <20200213103752.GE2960@work-vm>
+ <CA+XQNE7i15fTmwN6UL_fNi1e2sEb5v6+T05FaYdy0nS-DFC9HA@mail.gmail.com>
+ <e820e35d-5b8a-18c8-736b-6c38cff9798e@intel.com>
+ <CA+XQNE49wq2nRKJ0CA4uHDZ4OUEbFGPKBfAWB4+UwPYgiZkrCw@mail.gmail.com>
+ <5d030380-76d6-67c6-39a1-82c197e320b4@intel.com>
+ <CA+XQNE6riKARXtP9oZaQjK9Gqgfh-+Ae8qX+WsWhGfMB0hf8tg@mail.gmail.com>
+ <CA+XQNE6hdz1rZBvb1p=LFU1KtZbp5KGMxtz9Y_jWy9tZSNE-0Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5DD859C1-9FF5-4488-8928-43B83D8AD677@redhat.com>
+In-Reply-To: <CA+XQNE6hdz1rZBvb1p=LFU1KtZbp5KGMxtz9Y_jWy9tZSNE-0Q@mail.gmail.com>
 User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: k5BLm4uyOOSORW7BDIMneA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,83 +81,533 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
+* Daniel Cho (danielcho@qnap.com) wrote:
+> Hi Hailiang,
 >=20
->=20
-> > Am 19.02.2020 um 21:47 schrieb Peter Xu <peterx@redhat.com>:
-> >=20
-> > =EF=BB=BFOn Wed, Feb 19, 2020 at 05:17:19PM +0100, David Hildenbrand wr=
-ote:
-> >> It's always the same value.
-> >=20
-> > I guess not, because...
-> >=20
-> >>=20
-> >> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >> Cc: Juan Quintela <quintela@redhat.com>
-> >> Cc: Peter Xu <peterx@redhat.com>
-> >> Signed-off-by: David Hildenbrand <david@redhat.com>
-> >> ---
-> >> migration/ram.c | 8 +++-----
-> >> 1 file changed, 3 insertions(+), 5 deletions(-)
-> >>=20
-> >> diff --git a/migration/ram.c b/migration/ram.c
-> >> index cbd54947fb..75014717f6 100644
-> >> --- a/migration/ram.c
-> >> +++ b/migration/ram.c
-> >> @@ -3119,7 +3119,6 @@ static int ram_load_postcopy(QEMUFile *f)
-> >>         ram_addr_t addr;
-> >>         void *host =3D NULL;
-> >>         void *page_buffer =3D NULL;
-> >> -        void *place_source =3D NULL;
-> >>         RAMBlock *block =3D NULL;
-> >>         uint8_t ch;
-> >>         int len;
-> >> @@ -3188,7 +3187,6 @@ static int ram_load_postcopy(QEMUFile *f)
-> >>                 place_needed =3D true;
-> >>                 target_pages =3D 0;
-> >>             }
-> >> -            place_source =3D postcopy_host_page;
-> >>         }
-> >>=20
-> >>         switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
-> >> @@ -3220,7 +3218,7 @@ static int ram_load_postcopy(QEMUFile *f)
-> >>                  * buffer to make sure the buffer is valid when
-> >>                  * placing the page.
-> >>                  */
-> >> -                qemu_get_buffer_in_place(f, (uint8_t **)&place_source=
-,
-> >=20
-> > ... it can be modified inside the call.
->=20
-> Very right, will drop this patch! Thanks!
->=20
-> >=20
-> > I feel like this patch could even fail the QEMU unit test.  It would
-> > be good to mention what tests have been carried out in the cover
-> > letter or with RFC tag if no test is done yet.
->=20
-> I test all code I share. This survives =E2=80=9Emake check=E2=80=9C. I as=
-sume all tests send small pages where =E2=80=9Ematches_target_page_size=3D=
-=3Dtrue=E2=80=9C, so the tests did not catch this.
->=20
-> I even spent the last day getting avocado-vt to work and ran multiple (ob=
-viously not all) migration tests, including postcopy, so your suggestions h=
-ave already been considered ...
+> I have already patched the file to my branch, but there is a problem whil=
+e
+> doing migration.
+> Here is the error message from SVM
+> "qemu-system-x86_64: /root/download/qemu-4.1.0/memory.c:1079:
+> memory_region_transaction_commit: Assertion `qemu_mutex_iothread_locked()=
+'
+> failed."
 
-A test on Power or aarch might catch this one; where they normally
-have larger pages.
+It's probably worth getting the full backtrace.
 
 Dave
 
-> Could have mentioned that in the cover letter, yes.
+> Do you have this problem?
 >=20
+> Best regards,
+> Daniel Cho
+>=20
+> Daniel Cho <danielcho@qnap.com> =E6=96=BC 2020=E5=B9=B42=E6=9C=8820=E6=97=
+=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8811:49=E5=AF=AB=E9=81=93=EF=BC=9A
+>=20
+> > Hi Zhang,
+> >
+> > Thanks, I will configure on code for testing first.
+> > However, if you have free time, could you please send the patch file to
+> > us, Thanks.
+> >
+> > Best Regard,
+> > Daniel Cho
+> >
+> >
+> > Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2020=E5=B9=B42=E6=9C=8820=
+=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8811:07=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> >
+> >>
+> >> On 2/18/2020 5:22 PM, Daniel Cho wrote:
+> >>
+> >> Hi Hailiang,
+> >> Thanks for your help. If we have any problems we will contact you for
+> >> your favor.
+> >>
+> >>
+> >> Hi Zhang,
+> >>
+> >> " If colo-compare got a primary packet without related secondary packe=
+t
+> >> in a certain time , it will automatically trigger checkpoint.  "
+> >> As you said, the colo-compare will trigger checkpoint, but does it nee=
+d
+> >> to limit checkpoint times?
+> >> There is a problem about doing many checkpoints while we use fio to
+> >> random write files. Then it will cause low throughput on PVM.
+> >> Is this situation is normal on COLO?
+> >>
+> >>
+> >> Hi Daniel,
+> >>
+> >> The checkpoint time is designed to be user adjustable based on user
+> >> environment(workload/network status/business conditions...).
+> >>
+> >> In net/colo-compare.c
+> >>
+> >> /* TODO: Should be configurable */
+> >> #define REGULAR_PACKET_CHECK_MS 3000
+> >>
+> >> If you need, I can send a patch for this issue. Make users can change =
+the
+> >> value by QMP and qemu monitor commands.
+> >>
+> >> Thanks
+> >>
+> >> Zhang Chen
+> >>
+> >>
+> >>
+> >> Best regards,
+> >> Daniel Cho
+> >>
+> >> Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2020=E5=B9=B42=E6=9C=8817=
+=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=881:36=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> >>
+> >>>
+> >>> On 2/15/2020 11:35 AM, Daniel Cho wrote:
+> >>>
+> >>> Hi Dave,
+> >>>
+> >>> Yes, I agree with you, it does need a timeout.
+> >>>
+> >>>
+> >>> Hi Daniel and Dave,
+> >>>
+> >>> Current colo-compare already have the timeout mechanism.
+> >>>
+> >>> Named packet_check_timer,  It will scan primary packet queue to make
+> >>> sure all the primary packet not stay too long time.
+> >>>
+> >>> If colo-compare got a primary packet without related secondary packet=
+ in
+> >>> a certain time , it will automatic trigger checkpoint.
+> >>>
+> >>> https://github.com/qemu/qemu/blob/master/net/colo-compare.c#L847
+> >>>
+> >>>
+> >>> Thanks
+> >>>
+> >>> Zhang Chen
+> >>>
+> >>>
+> >>>
+> >>> Hi Hailiang,
+> >>>
+> >>> We base on qemu-4.1.0 for using COLO feature, in your patch, we found=
+ a
+> >>> lot of difference  between your version and ours.
+> >>> Could you give us a latest release version which is close your
+> >>> developing code?
+> >>>
+> >>> Thanks.
+> >>>
+> >>> Regards
+> >>> Daniel Cho
+> >>>
+> >>> Dr. David Alan Gilbert <dgilbert@redhat.com> =E6=96=BC 2020=E5=B9=B42=
+=E6=9C=8813=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=886:38=E5=AF=AB=E9=
+=81=93=EF=BC=9A
+> >>>
+> >>>> * Daniel Cho (danielcho@qnap.com) wrote:
+> >>>> > Hi Hailiang,
+> >>>> >
+> >>>> > 1.
+> >>>> >     OK, we will try the patch
+> >>>> > =E2=80=9C0001-COLO-Optimize-memory-back-up-process.patch=E2=80=9D,
+> >>>> > and thanks for your help.
+> >>>> >
+> >>>> > 2.
+> >>>> >     We understand the reason to compare PVM and SVM's packet.
+> >>>> However, the
+> >>>> > empty of SVM's packet queue might happened on setting COLO feature
+> >>>> and SVM
+> >>>> > broken.
+> >>>> >
+> >>>> > On situation 1 ( setting COLO feature ):
+> >>>> >     We could force do checkpoint after setting COLO feature finish=
+,
+> >>>> then it
+> >>>> > will protect the state of PVM and SVM . As the Zhang Chen said.
+> >>>> >
+> >>>> > On situation 2 ( SVM broken ):
+> >>>> >     COLO will do failover for PVM, so it might not cause any wrong=
+ on
+> >>>> PVM.
+> >>>> >
+> >>>> > However, those situations are our views, so there might be a big
+> >>>> difference
+> >>>> > between reality and our views.
+> >>>> > If we have any wrong views and opinions, please let us know, and
+> >>>> correct
+> >>>> > us.
+> >>>>
+> >>>> It does need a timeout; the SVM being broken or being in a state whe=
+re
+> >>>> it never sends the corresponding packet (because of a state differen=
+ce)
+> >>>> can happen and COLO needs to timeout when the packet hasn't arrived
+> >>>> after a while and trigger the checkpoint.
+> >>>>
+> >>>> Dave
+> >>>>
+> >>>> > Thanks.
+> >>>> >
+> >>>> > Best regards,
+> >>>> > Daniel Cho
+> >>>> >
+> >>>> > Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2020=E5=B9=B42=E6=9C=
+=8813=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8810:17=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+> >>>> >
+> >>>> > > Add cc Jason Wang, he is a network expert.
+> >>>> > >
+> >>>> > > In case some network things goes wrong.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Thanks
+> >>>> > >
+> >>>> > > Zhang Chen
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > *From:* Zhang, Chen
+> >>>> > > *Sent:* Thursday, February 13, 2020 10:10 AM
+> >>>> > > *To:* 'Zhanghailiang' <zhang.zhanghailiang@huawei.com>; Daniel C=
+ho
+> >>>> <
+> >>>> > > danielcho@qnap.com>
+> >>>> > > *Cc:* Dr. David Alan Gilbert <dgilbert@redhat.com>;
+> >>>> qemu-devel@nongnu.org
+> >>>> > > *Subject:* RE: The issues about architecture of the COLO checkpo=
+int
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > For the issue 2:
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > COLO need use the network packets to confirm PVM and SVM in the
+> >>>> same state,
+> >>>> > >
+> >>>> > > Generally speaking, we can=E2=80=99t send PVM packets without co=
+mpared with
+> >>>> SVM
+> >>>> > > packets.
+> >>>> > >
+> >>>> > > But to prevent jamming, I think COLO can do force checkpoint and
+> >>>> send the
+> >>>> > > PVM packets in this case.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Thanks
+> >>>> > >
+> >>>> > > Zhang Chen
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > *From:* Zhanghailiang <zhang.zhanghailiang@huawei.com>
+> >>>> > > *Sent:* Thursday, February 13, 2020 9:45 AM
+> >>>> > > *To:* Daniel Cho <danielcho@qnap.com>
+> >>>> > > *Cc:* Dr. David Alan Gilbert <dgilbert@redhat.com>;
+> >>>> qemu-devel@nongnu.org;
+> >>>> > > Zhang, Chen <chen.zhang@intel.com>
+> >>>> > > *Subject:* RE: The issues about architecture of the COLO checkpo=
+int
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Hi,
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > 1.       After re-walked through the codes, yes, you are right,
+> >>>> actually,
+> >>>> > > after the first migration, we will keep dirty log on in primary
+> >>>> side,
+> >>>> > >
+> >>>> > > And only send the dirty pages in PVM to SVM. The ram cache in
+> >>>> secondary
+> >>>> > > side is always a backup of PVM, so we don=E2=80=99t have to
+> >>>> > >
+> >>>> > > Re-send the none-dirtied pages.
+> >>>> > >
+> >>>> > > The reason why the first checkpoint takes longer time is we have=
+ to
+> >>>> backup
+> >>>> > > the whole VM=E2=80=99s ram into ram cache, that is colo_init_ram=
+_cache().
+> >>>> > >
+> >>>> > > It is time consuming, but I have optimized in the second patch
+> >>>> > > =E2=80=9C0001-COLO-Optimize-memory-back-up-process.patch=E2=80=
+=9D which you can
+> >>>> find in my
+> >>>> > > previous reply.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Besides, I found that, In my previous reply =E2=80=9CWe can only=
+ copy the
+> >>>> pages
+> >>>> > > that dirtied by PVM and SVM in last checkpoint.=E2=80=9D,
+> >>>> > >
+> >>>> > > We have done this optimization in current upstream codes.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > 2=EF=BC=8EI don=E2=80=99t quite understand this question. For CO=
+LO, we always need
+> >>>> both
+> >>>> > > network packets of PVM=E2=80=99s and SVM=E2=80=99s to compare be=
+fore send this
+> >>>> packets to
+> >>>> > > client.
+> >>>> > >
+> >>>> > > It depends on this to decide whether or not PVM and SVM are in s=
+ame
+> >>>> state.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Thanks,
+> >>>> > >
+> >>>> > > hailiang
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > *From:* Daniel Cho [mailto:danielcho@qnap.com <danielcho@qnap.co=
+m>]
+> >>>> > > *Sent:* Wednesday, February 12, 2020 4:37 PM
+> >>>> > > *To:* Zhang, Chen <chen.zhang@intel.com>
+> >>>> > > *Cc:* Zhanghailiang <zhang.zhanghailiang@huawei.com>; Dr. David
+> >>>> Alan
+> >>>> > > Gilbert <dgilbert@redhat.com>; qemu-devel@nongnu.org
+> >>>> > > *Subject:* Re: The issues about architecture of the COLO checkpo=
+int
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Hi Hailiang,
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Thanks for your replaying and explain in detail.
+> >>>> > >
+> >>>> > > We will try to use the attachments to enhance memory copy.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > However, we have some questions for your replying.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > 1.  As you said, "for each checkpoint, we have to send the whole
+> >>>> PVM's
+> >>>> > > pages To SVM", why the only first checkpoint will takes more pau=
+se
+> >>>> time?
+> >>>> > >
+> >>>> > > In our observing, the first checkpoint will take more time for
+> >>>> pausing,
+> >>>> > > then other checkpoints will takes a few time for pausing. Does i=
+t
+> >>>> means
+> >>>> > > only the first checkpoint will send the whole pages to SVM, and =
+the
+> >>>> other
+> >>>> > > checkpoints send the dirty pages to SVM for reloading?
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > 2. We notice the COLO-COMPARE component will stuck the packet un=
+til
+> >>>> > > receive packets from PVM and SVM, as this rule, when we add the
+> >>>> > > COLO-COMPARE to PVM, its network will stuck until SVM start. So =
+it
+> >>>> is an
+> >>>> > > other issue to make PVM stuck while setting COLO feature. With t=
+his
+> >>>> issue,
+> >>>> > > could we let colo-compare to pass the PVM's packet when the SVM'=
+s
+> >>>> packet
+> >>>> > > queue is empty? Then, the PVM's network won't stock, and "if PVM
+> >>>> runs
+> >>>> > > firstly, it still need to wait for The network packets from SVM =
+to
+> >>>> > > compare before send it to client side" won't happened either.
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Best regard,
+> >>>> > >
+> >>>> > > Daniel Cho
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2020=E5=B9=B42=E6=
+=9C=8812=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=881:45=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> >>>> > >
+> >>>> > >
+> >>>> > >
+> >>>> > > > -----Original Message-----
+> >>>> > > > From: Zhanghailiang <zhang.zhanghailiang@huawei.com>
+> >>>> > > > Sent: Wednesday, February 12, 2020 11:18 AM
+> >>>> > > > To: Dr. David Alan Gilbert <dgilbert@redhat.com>; Daniel Cho
+> >>>> > > > <danielcho@qnap.com>; Zhang, Chen <chen.zhang@intel.com>
+> >>>> > > > Cc: qemu-devel@nongnu.org
+> >>>> > > > Subject: RE: The issues about architecture of the COLO checkpo=
+int
+> >>>> > > >
+> >>>> > > > Hi,
+> >>>> > > >
+> >>>> > > > Thank you Dave,
+> >>>> > > >
+> >>>> > > > I'll reply here directly.
+> >>>> > > >
+> >>>> > > > -----Original Message-----
+> >>>> > > > From: Dr. David Alan Gilbert [mailto:dgilbert@redhat.com]
+> >>>> > > > Sent: Wednesday, February 12, 2020 1:48 AM
+> >>>> > > > To: Daniel Cho <danielcho@qnap.com>; chen.zhang@intel.com;
+> >>>> > > > Zhanghailiang <zhang.zhanghailiang@huawei.com>
+> >>>> > > > Cc: qemu-devel@nongnu.org
+> >>>> > > > Subject: Re: The issues about architecture of the COLO checkpo=
+int
+> >>>> > > >
+> >>>> > > >
+> >>>> > > > cc'ing in COLO people:
+> >>>> > > >
+> >>>> > > >
+> >>>> > > > * Daniel Cho (danielcho@qnap.com) wrote:
+> >>>> > > > > Hi everyone,
+> >>>> > > > >      We have some issues about setting COLO feature. Hope
+> >>>> somebody
+> >>>> > > > > could give us some advice.
+> >>>> > > > >
+> >>>> > > > > Issue 1:
+> >>>> > > > >      We dynamic to set COLO feature for PVM(2 core, 16G
+> >>>> memory),  but
+> >>>> > > > > the Primary VM will pause a long time(based on memory size) =
+for
+> >>>> > > > > waiting SVM start. Does it have any idea to reduce the pause
+> >>>> time?
+> >>>> > > > >
+> >>>> > > >
+> >>>> > > > Yes, we do have some ideas to optimize this downtime.
+> >>>> > > >
+> >>>> > > > The main problem for current version is, for each checkpoint, =
+we
+> >>>> have to
+> >>>> > > > send the whole PVM's pages
+> >>>> > > > To SVM, and then copy the whole VM's state into SVM from ram
+> >>>> cache, in
+> >>>> > > > this process, we need both of them be paused.
+> >>>> > > > Just as you said, the downtime is based on memory size.
+> >>>> > > >
+> >>>> > > > So firstly, we need to reduce the sending data while do
+> >>>> checkpoint,
+> >>>> > > actually,
+> >>>> > > > we can migrate parts of PVM's dirty pages in background
+> >>>> > > > While both of VMs are running. And then we load these pages in=
+to
+> >>>> ram
+> >>>> > > > cache (backup memory) in SVM temporarily. While do checkpoint,
+> >>>> > > > We just send the last dirty pages of PVM to slave side and the=
+n
+> >>>> copy the
+> >>>> > > ram
+> >>>> > > > cache into SVM. Further on, we don't have
+> >>>> > > > To send the whole PVM's dirty pages, we can only send the page=
+s
+> >>>> that
+> >>>> > > > dirtied by PVM or SVM during two checkpoints. (Because
+> >>>> > > > If one page is not dirtied by both PVM and SVM, the data of th=
+is
+> >>>> pages
+> >>>> > > will
+> >>>> > > > keep same in SVM, PVM, backup memory). This method can reduce
+> >>>> > > > the time that consumed in sending data.
+> >>>> > > >
+> >>>> > > > For the second problem, we can reduce the memory copy by two
+> >>>> methods,
+> >>>> > > > first one, we don't have to copy the whole pages in ram cache,
+> >>>> > > > We can only copy the pages that dirtied by PVM and SVM in last
+> >>>> > > checkpoint.
+> >>>> > > > Second, we can use userfault missing function to reduce the
+> >>>> > > > Time consumed in memory copy. (For the second time, in theory,=
+ we
+> >>>> can
+> >>>> > > > reduce time consumed in memory into ms level).
+> >>>> > > >
+> >>>> > > > You can find the first optimization in attachment, it is based=
+ on
+> >>>> an old
+> >>>> > > qemu
+> >>>> > > > version (qemu-2.6), it should not be difficult to rebase it
+> >>>> > > > Into master or your version. And please feel free to send the =
+new
+> >>>> > > version if
+> >>>> > > > you want into community ;)
+> >>>> > > >
+> >>>> > > >
+> >>>> > >
+> >>>> > > Thanks Hailiang!
+> >>>> > > By the way, Do you have time to push the patches to upstream?
+> >>>> > > I think this is a better and faster option.
+> >>>> > >
+> >>>> > > Thanks
+> >>>> > > Zhang Chen
+> >>>> > >
+> >>>> > > > >
+> >>>> > > > > Issue 2:
+> >>>> > > > >      In
+> >>>> > > > > https://github.com/qemu/qemu/blob/master/migration/colo.c#L5=
+03,
+> >>>> > > > > could we move start_vm() before Line 488? Because at first
+> >>>> checkpoint
+> >>>> > > > > PVM will wait for SVM's reply, it cause PVM stop for a while=
+.
+> >>>> > > > >
+> >>>> > > >
+> >>>> > > > No, that makes no sense, because if PVM runs firstly, it still
+> >>>> need to
+> >>>> > > wait for
+> >>>> > > > The network packets from SVM to compare before send it to clie=
+nt
+> >>>> side.
+> >>>> > > >
+> >>>> > > >
+> >>>> > > > Thanks,
+> >>>> > > > Hailiang
+> >>>> > > >
+> >>>> > > > >      We set the COLO feature on running VM, so we hope the
+> >>>> running VM
+> >>>> > > > > could continuous service for users.
+> >>>> > > > > Do you have any suggestions for those issues?
+> >>>> > > > >
+> >>>> > > > > Best regards,
+> >>>> > > > > Daniel Cho
+> >>>> > > > --
+> >>>> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >>>> > >
+> >>>> > >
+> >>>> --
+> >>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >>>>
+> >>>>
 --
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
