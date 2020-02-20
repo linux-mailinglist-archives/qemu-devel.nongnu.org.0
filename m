@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD91165812
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 07:56:54 +0100 (CET)
-Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE43116582A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 08:07:54 +0100 (CET)
+Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4flV-0005IE-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 01:56:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
+	id 1j4fwA-0000gz-0i
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 02:07:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j4fkP-0004j5-Mu
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 01:55:46 -0500
+ (envelope-from <bounces@canonical.com>) id 1j4fv8-0000HX-9H
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 02:06:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j4fkO-0005Zb-J9
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 01:55:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23576
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j4fkO-0005ZN-FC
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 01:55:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582181744;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IJPoNQUbR9RRoPB45E+StQ4CvNnakAZc8GlNER0UANU=;
- b=b9SwACyVMRO5GMwOuw5EzgWghuQWA9/lUY/K4N6ZpVg3v9GF8eHwNFyBb0JZLkgWaWzlqh
- jCXXA0IeOIJ8itWGPgWKu7On6/NCJBTFOoahlqzYYPA698a4xBD2LaGqgSypvXO/WHDsj4
- HwzMQ4oOBpXz2/iQb37cnE07Voz0c/g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-c3AHMeO-PTycAMIoigWBqg-1; Thu, 20 Feb 2020 01:55:42 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF06F107ACCA;
- Thu, 20 Feb 2020 06:55:40 +0000 (UTC)
-Received: from [10.72.12.159] (ovpn-12-159.pek2.redhat.com [10.72.12.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3BC7790D6;
- Thu, 20 Feb 2020 06:55:35 +0000 (UTC)
-Subject: Re: [PATCH v4 00/14] Fixes for DP8393X SONIC device emulation
-To: Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Finn Thain <fthain@telegraphics.com.au>
-References: <cover.1580290069.git.fthain@telegraphics.com.au>
- <CAL1e-=iOQ52y0vbXAYaYDKqoepD09xO2=3d55WM32=9TFwFzAg@mail.gmail.com>
- <alpine.LNX.2.22.394.2002191150440.8@nippy.intranet>
- <CAL1e-=gaVz5K=JMg+iN53weESLORKEuXRJvq-SFqU7FERojP8Q@mail.gmail.com>
- <CAL1e-=iUHwE2_h0dxOE6vN_FoyRWyYA6LbL++T9BSB9X8heEcA@mail.gmail.com>
- <67b0565e-9f2c-7ef0-aca6-01cba798fad4@vivier.eu>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <b115af70-12bb-12f4-1d97-bbb8fbe5c67f@redhat.com>
-Date: Thu, 20 Feb 2020 14:55:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bounces@canonical.com>) id 1j4fv7-0003I4-2Z
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 02:06:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55962)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j4fv6-0003HA-TJ
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 02:06:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j4fv4-00037F-RZ
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 07:06:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C86192E804A
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 07:06:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <67b0565e-9f2c-7ef0-aca6-01cba798fad4@vivier.eu>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: c3AHMeO-PTycAMIoigWBqg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 20 Feb 2020 06:56:35 -0000
+From: Charlie Sharpsteen <1823790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher pmaydell
+ sharpie tobijk zebul666
+X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
+X-Launchpad-Bug-Modifier: Charlie Sharpsteen (sharpie)
+References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158218179584.15014.8035488158904399320.malone@soybean.canonical.com>
+Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
+ tight loop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e959176a1f09dbcfa7eaa30d7ebd677ce00f7a1f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,94 +68,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
+Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Laurent's patch worked for me as well.
 
-On 2020/2/19 =E4=B8=8B=E5=8D=883:55, Laurent Vivier wrote:
-> Le 19/02/2020 =C3=A0 02:57, Aleksandar Markovic a =C3=A9crit=C2=A0:
->> 2:54 AM Sre, 19.02.2020. Aleksandar Markovic
->> <aleksandar.m.mail@gmail.com <mailto:aleksandar.m.mail@gmail.com>> =D1=
-=98=D0=B5
->> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->>> 2:06 AM Sre, 19.02.2020. Finn Thain <fthain@telegraphics.com.au
->> <mailto:fthain@telegraphics.com.au>> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=
-=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->>>> On Tue, 18 Feb 2020, Aleksandar Markovic wrote:
->>>>
->>>>> On Wednesday, January 29, 2020, Finn Thain
->> <fthain@telegraphics.com.au <mailto:fthain@telegraphics.com.au>>
->>>>> wrote:
->>>>>
->>>>>> Hi All,
->>>>>>
->>>>>> There are bugs in the emulated dp8393x device that can stop packet
->>>>>> reception in a Linux/m68k guest (q800 machine).
->>>>>>
->>>>>> With a Linux/m68k v5.5 guest (q800), it's possible to remotely
->> trigger
->>>>>> an Oops by sending ping floods.
->>>>>>
->>>>>> With a Linux/mips guest (magnum machine), the driver fails to probe
->>>>>> the dp8393x device.
->>>>>>
->>>>>> With a NetBSD/arc 5.1 guest (magnum), the bugs in the device can be
->>>>>> fatal to the guest kernel.
->>>>>>
->>>>>> Whilst debugging the device, I found that the receiver algorithm
->>>>>> differs from the one described in the National Semiconductor
->>>>>> datasheet.
->>>>>>
->>>>>> This patch series resolves these bugs.
->>>>>>
->>>>>> AFAIK, all bugs in the Linux sonic driver were fixed in Linux v5.5.
->>>>>> ---
->>>>>
->>>>> Herve,
->>>>>
->>>>> Do your Jazz tests pass with these changes?
->>>>>
->>>> AFAIK those tests did not expose the NetBSD panic that is caused by
->>>> mainline QEMU (mentioned above).
->>>>
->>>> I have actually run the tests you requested (Herv=C3=A9 described them=
- in an
->>>> earlier thread). There was no regression. Quite the reverse -- it's no
->>>> longer possible to remotely crash the NetBSD kernel.
->>>>
->>>> Apparently my testing was also the first time that the jazzsonic drive=
-r
->>>> (from the Linux/mips Magnum port) was tested successfully with QEMU. I=
-t
->>>> doesn't work in mainline QEMU.
->>>>
->>> Well, I appologize if I missed all these facts. I just did not notice
->> them, at least not in this form. And, yes, some "Tested-by:" by Herve
->> would be desirable and nice.
->> Or, perhaps, even "Reviewed-by:".
->>
-> It would be nice to have this merged before next release because q800
-> machine networking is not reliable without them.
+I grabbed the source for the Debian 10 qemu-user-static package,
+qemu_3.1+dfsg-8+deb10u3, applied the patch and re-built the qemu-arm-
+static binary. Copying the new binary into a Docker image based on
+arm32v7/debian:10-slim allowed /sbin/init to bring up the container with
+a responsive systemctl command.
 
+Prior to the patch, systemd did not start any services inside the
+container and systemctl would hang when executed directly.
 
-I will send the pull request that contains this series before the end of=20
-this week.
+Thanks!
+-Charlie
 
-Thanks
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823790
 
->
-> And thank you to Finn for all his hard work on this device emulation.
->
-> Laurent
+Title:
+  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
 
+Status in QEMU:
+  Confirmed
 
+Bug description:
+  While building Debian images for embedded ARM target systems I
+  detected that QEMU seems to force newer systemd daemons into a tight
+  loop.
 
->
+  My setup is the following:
 
+  Host machine: Ubuntu 18.04, amd64
+  LXD container: Debian Buster, arm64, systemd 241
+  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
+.1+dfsg-7)
+
+  To easily reproduce the issue I have created the following repository:
+  https://github.com/lueschem/edi-qemu
+
+  The call where systemd gets looping is the following:
+  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
+no=3D34 (Numerical result out of range)
+
+  Furthermore I also verified that the issue is not related to LXD.
+  The same behavior can be reproduced using systemd-nspawn.
+
+  This issue reported against systemd seems to be related:
+  https://github.com/systemd/systemd/issues/11557
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
 
