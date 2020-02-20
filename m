@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2246166222
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:18:13 +0100 (CET)
-Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AC1166243
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 17:21:48 +0100 (CET)
+Received: from localhost ([::1]:45418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4oWh-0002FS-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:18:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
+	id 1j4oaB-0007yx-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 11:21:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55493)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j4oRz-0003YR-6m
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:20 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j4oS9-0003yh-5i
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j4oRx-0007ag-PK
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45119
+ (envelope-from <mreitz@redhat.com>) id 1j4oS8-0007dN-3W
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42998
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oRx-0007aO-Lc
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:17 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j4oS7-0007c0-Up
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 11:13:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582215197;
+ s=mimecast20190719; t=1582215207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+P3c9IeuuFwlbAjzYnXXV2dOknHwBFRWXj5QywQJiVY=;
- b=RVK4cPx38G5bOKprqvX2LD/xp1woJOPK8qQLYlPpaFECHm34dEfIyfI2INlzi1b0G586o1
- FyJEKmEo9o15t5wbGm9AhmOq7dqDbZAhIDwALU2run8tcmKr4/DlrdYXubGIAcerjymw02
- 1yNUp3duKJmX7KSL7HWCEn3dPlpuHbg=
+ bh=GZxh2QIKv+rwCE1aHIlFEa2Fw2OaGQEvH1Pxdw3tUPM=;
+ b=EeNFbwraEP4zTMRzMa3g6/0cfP29rSFNpcLcSj+aI8U7eLDPX3hAO7ZXlvCk7hrImsYVNp
+ 01yeGX0vrygVD/z3OUeVkCAe5oi1U+Q4H+ZJSKm46+eHaaq4YNYi3zPuOMmQmRuNouDGGR
+ WnelVKot1wSSwMJTkRztT+gNxGvQ6PE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-bybKC1oHNrKMtRHhzmRFSQ-1; Thu, 20 Feb 2020 11:13:12 -0500
+ us-mta-293-4zZhL8nNNhm0a3zR39MXbg-1; Thu, 20 Feb 2020 11:13:22 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F12B5800D48;
- Thu, 20 Feb 2020 16:13:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B7A4DB60;
+ Thu, 20 Feb 2020 16:13:21 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 598AD19481;
- Thu, 20 Feb 2020 16:13:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B9C919756;
+ Thu, 20 Feb 2020 16:13:19 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/18] iotests: Add test for image creation fallback
-Date: Thu, 20 Feb 2020 17:07:06 +0100
-Message-Id: <20200220160710.533297-15-mreitz@redhat.com>
+Subject: [PULL 15/18] qemu-img: Fix convert -n -B for backing-less targets
+Date: Thu, 20 Feb 2020 17:07:07 +0100
+Message-Id: <20200220160710.533297-16-mreitz@redhat.com>
 In-Reply-To: <20200220160710.533297-1-mreitz@redhat.com>
 References: <20200220160710.533297-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: bybKC1oHNrKMtRHhzmRFSQ-1
+X-MC-Unique: 4zZhL8nNNhm0a3zR39MXbg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,124 +76,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+s.target_has_backing does not reflect whether the target BDS has a
+backing file; it only tells whether we should use a backing file during
+conversion (specified by -B).
+
+As such, if you use convert -n, the target does not necessarily actually
+have a backing file, and then dereferencing out_bs->backing fails here.
+
+When converting to an existing file, we should set
+target_backing_sectors to a negative value, because first, as the
+comment explains, this value is only used for optimization, so it is
+always fine to do that.
+
+Second, we use this value to determine where the target must be
+initialized to zeroes (overlays are initialized to zero after the end of
+their backing file).  When converting to an existing file, we cannot
+assume that to be true.
+
+Cc: qemu-stable@nongnu.org
+Fixes: 351c8efff9ad809c822d55620df54d575d536f68
+       ("qemu-img: Special post-backing convert handling")
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200122164532.178040-6-mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-[mreitz: Added a note that NBD does not support resizing, which is why
-         the second case is expected to fail]
+Message-Id: <20200121155915.98232-2-mreitz@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/259     | 62 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/259.out | 14 +++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 77 insertions(+)
- create mode 100755 tests/qemu-iotests/259
- create mode 100644 tests/qemu-iotests/259.out
+ qemu-img.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
-new file mode 100755
-index 0000000000..62e29af05f
---- /dev/null
-+++ b/tests/qemu-iotests/259
-@@ -0,0 +1,62 @@
-+#!/usr/bin/env bash
-+#
-+# Test generic image creation fallback (by using NBD)
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dmreitz@redhat.com
-+
-+seq=3D$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt raw
-+_supported_proto nbd
-+_supported_os Linux
-+
-+
-+_make_test_img 64M
-+
-+echo
-+echo '--- Testing creation ---'
-+
-+$QEMU_IMG create -f qcow2 "$TEST_IMG" 64M | _filter_img_create
-+$QEMU_IMG info "$TEST_IMG" | _filter_img_info
-+
-+echo
-+echo '--- Testing creation for which the node would need to grow ---'
-+
-+# NBD does not support resizing, so this will fail
-+$QEMU_IMG create -f qcow2 -o preallocation=3Dmetadata "$TEST_IMG" 64M 2>&1=
- \
-+    | _filter_img_create
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
-new file mode 100644
-index 0000000000..ffed19c2a0
---- /dev/null
-+++ b/tests/qemu-iotests/259.out
-@@ -0,0 +1,14 @@
-+QA output created by 259
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-+
-+--- Testing creation ---
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3Dqcow2 size=3D67108864
-+image: TEST_DIR/t.IMGFMT
-+file format: qcow2
-+virtual size: 64 MiB (67108864 bytes)
-+disk size: unavailable
-+
-+--- Testing creation for which the node would need to grow ---
-+qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver d=
-oes not support resize
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3Dqcow2 size=3D67108864 preallocation=
-=3Dmetadata
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 818380a8f0..b17711d17d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -273,6 +273,7 @@
- 256 rw auto quick
- 257 rw
- 258 rw quick
-+259 rw auto quick
- 260 rw quick
- 261 rw
- 262 rw quick migration
+diff --git a/qemu-img.c b/qemu-img.c
+index 0faf2cd2f5..804630a368 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2523,7 +2523,7 @@ static int img_convert(int argc, char **argv)
+         }
+     }
+=20
+-    if (s.target_has_backing) {
++    if (s.target_has_backing && s.target_is_new) {
+         /* Errors are treated as "backing length unknown" (which means
+          * s.target_backing_sectors has to be negative, which it will
+          * be automatically).  The backing file length is used only
 --=20
 2.24.1
 
