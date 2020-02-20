@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F1F1655B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:33:42 +0100 (CET)
-Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD86A1655AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 04:32:02 +0100 (CET)
+Received: from localhost ([::1]:35370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4car-00054T-IA
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:33:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41422)
+	id 1j4cZF-0002Jb-S3
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 22:32:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41388)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cRA-0004hr-Ck
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cR9-0004ga-Pr
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4cR8-0008OG-QJ
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:40 -0500
-Received: from ozlabs.org ([203.11.71.1]:39081)
+ (envelope-from <dgibson@ozlabs.org>) id 1j4cR8-0008Np-Gf
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 22:23:39 -0500
+Received: from ozlabs.org ([203.11.71.1]:58371)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4cR8-0008LZ-E4; Wed, 19 Feb 2020 22:23:38 -0500
+ id 1j4cR8-0008Kc-4P; Wed, 19 Feb 2020 22:23:38 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NKg13CWcz9sSc; Thu, 20 Feb 2020 14:23:25 +1100 (AEDT)
+ id 48NKg12dMkz9sSY; Thu, 20 Feb 2020 14:23:25 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582169005;
- bh=/AkTT+ugkeVoIN+7JAwU/EPjvumM4GWvTt+5ak8RmnE=;
+ bh=/gYCLL/Jk6TTuPaJCqEEFdhUfEKdZ2BLlTEIKLhOQP8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V+Hfp7eLFrRXopvCRvz6nO7ARk1rSqQEwuo7ETrNxWt/BHBEfRDwIwEhLSfCIZKho
- q8mvz/TI5/sHg0M/9hK6W+342h23K3FG0AEiNMuPfI0WpBJZ6s72SQ31Fg7PmV+d8P
- osXrhrcWP1v+1okxpm26CYrJC4Nt0EcD6dw5y6xI=
+ b=WL5zyLIkqdSFt24TjxqU9HWZCpTaaILt0qXt6clbGtcL8+QBdEOpkdZCP4PnMMfi2
+ jf6gmSq1Iwg930gNLCnGZAZafuyhhDidORlgIMkKvj4rJaS+6D58WXS/41iTZXq2s1
+ GZrAa7iPS86pSx7r/BYKyYhKwnszQpdZkaCSMtFw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org,
 	groug@kaod.org,
 	clg@kaod.org
-Subject: [PATCH v5 11/18] target/ppc: Streamline construction of VRMA SLB entry
-Date: Thu, 20 Feb 2020 14:23:09 +1100
-Message-Id: <20200220032317.96884-12-david@gibson.dropbear.id.au>
+Subject: [PATCH v5 12/18] target/ppc: Don't store VRMA SLBE persistently
+Date: Thu, 20 Feb 2020 14:23:10 +1100
+Message-Id: <20200220032317.96884-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220032317.96884-1-david@gibson.dropbear.id.au>
 References: <20200220032317.96884-1-david@gibson.dropbear.id.au>
@@ -66,123 +66,112 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When in VRMA mode (i.e. a guest thinks it has the MMU off, but the
-hypervisor is still applying translation) we use a special SLB entry,
-rather than looking up an SLBE by address as we do when guest translation
-is on.
+Currently, we construct the SLBE used for VRMA translations when the LPCR
+is written (which controls some bits in the SLBE), then use it later for
+translations.
 
-We build that special entry in ppc_hash64_update_vrma() along with some
-logic for handling some non-VRMA cases.  Split the actual build of the
-VRMA SLBE into a separate helper and streamline it a bit.
+This is a bit complex and confusing - simplify it by simply constructing
+the SLBE directly from the LPCR when we need it.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu-hash64.c | 74 +++++++++++++++++++----------------------
- 1 file changed, 34 insertions(+), 40 deletions(-)
+ target/ppc/cpu.h        |  3 ---
+ target/ppc/mmu-hash64.c | 28 ++++++----------------------
+ 2 files changed, 6 insertions(+), 25 deletions(-)
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index f9871b1233..5a55fb02bd 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1044,9 +1044,6 @@ struct CPUPPCState {
+     uint32_t flags;
+     uint64_t insns_flags;
+     uint64_t insns_flags2;
+-#if defined(TARGET_PPC64)
+-    ppc_slb_t vrma_slb;
+-#endif
+=20
+     int error_code;
+     uint32_t pending_interrupts;
 diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 203a41cca1..ac21c14f68 100644
+index ac21c14f68..f8bf92aa2e 100644
 --- a/target/ppc/mmu-hash64.c
 +++ b/target/ppc/mmu-hash64.c
-@@ -791,6 +791,35 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
-     }
- }
-=20
-+static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
-+{
-+    CPUPPCState *env =3D &cpu->env;
-+    target_ulong lpcr =3D env->spr[SPR_LPCR];
-+    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
-+    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LLP_=
-MASK);
-+    int i;
-+
-+    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
-+        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sps[=
-i];
-+
-+        if (!sps->page_shift) {
-+            break;
-+        }
-+
-+        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
-+            slb->esid =3D SLB_ESID_V;
-+            slb->vsid =3D vsid;
-+            slb->sps =3D sps;
-+            return 0;
-+        }
-+    }
-+
-+    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
-+                 TARGET_FMT_lx"\n", lpcr);
-+
-+    return -1;
-+}
-+
- int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-                                 int rwx, int mmu_idx)
+@@ -825,6 +825,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
+r eaddr,
  {
-@@ -1046,53 +1075,18 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
-arget_ulong ptex,
- static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
++    ppc_slb_t vrma_slbe;
+     ppc_slb_t *slb;
+     unsigned apshift;
+     hwaddr ptex;
+@@ -863,8 +864,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vadd=
+r eaddr,
+             }
+         } else if (ppc_hash64_use_vrma(env)) {
+             /* Emulated VRMA mode */
+-            slb =3D &env->vrma_slb;
+-            if (!slb->sps) {
++            slb =3D &vrma_slbe;
++            if (build_vrma_slbe(cpu, slb) !=3D 0) {
+                 /* Invalid VRMA setup, machine check */
+                 cs->exception_index =3D POWERPC_EXCP_MCHECK;
+                 env->error_code =3D 0;
+@@ -1012,6 +1013,7 @@ skip_slb_search:
+ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr=
+)
  {
      CPUPPCState *env =3D &cpu->env;
--    const PPCHash64SegmentPageSizes *sps =3D NULL;
--    target_ulong esid, vsid, lpcr;
-     ppc_slb_t *slb =3D &env->vrma_slb;
--    uint32_t vrmasd;
--    int i;
--
--    /* First clear it */
--    slb->esid =3D slb->vsid =3D 0;
--    slb->sps =3D NULL;
-=20
-     /* Is VRMA enabled ? */
-     if (ppc_hash64_use_vrma(env)) {
--        return;
--    }
--
--    /*
--     * Make one up. Mostly ignore the ESID which will not be needed
--     * for translation
--     */
--    lpcr =3D env->spr[SPR_LPCR];
--    vsid =3D SLB_VSID_VRMA;
--    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
--    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
--    esid =3D SLB_ESID_V;
--
--    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
--        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->sps=
-[i];
--
--        if (!sps1->page_shift) {
--            break;
--        }
--
--        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
--            sps =3D sps1;
--            break;
-+        if (build_vrma_slbe(cpu, slb) =3D=3D 0) {
-+            return;
-         }
-     }
-=20
--    if (!sps) {
--        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
--                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
--        return;
--    }
--
--    slb->vsid =3D vsid;
--    slb->esid =3D esid;
--    slb->sps =3D sps;
-+    /* Otherwise, clear it to indicate error */
-+    slb->esid =3D slb->vsid =3D 0;
-+    slb->sps =3D NULL;
++    ppc_slb_t vrma_slbe;
+     ppc_slb_t *slb;
+     hwaddr ptex, raddr;
+     ppc_hash_pte64_t pte;
+@@ -1033,8 +1035,8 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
+pu, target_ulong addr)
+             return raddr | env->spr[SPR_HRMOR];
+         } else if (ppc_hash64_use_vrma(env)) {
+             /* Emulated VRMA mode */
+-            slb =3D &env->vrma_slb;
+-            if (!slb->sps) {
++            slb =3D &vrma_slbe;
++            if (build_vrma_slbe(cpu, slb) !=3D 0) {
+                 return -1;
+             }
+         } else {
+@@ -1072,30 +1074,12 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
+arget_ulong ptex,
+     cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
  }
 =20
+-static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
+-{
+-    CPUPPCState *env =3D &cpu->env;
+-    ppc_slb_t *slb =3D &env->vrma_slb;
+-
+-    /* Is VRMA enabled ? */
+-    if (ppc_hash64_use_vrma(env)) {
+-        if (build_vrma_slbe(cpu, slb) =3D=3D 0) {
+-            return;
+-        }
+-    }
+-
+-    /* Otherwise, clear it to indicate error */
+-    slb->esid =3D slb->vsid =3D 0;
+-    slb->sps =3D NULL;
+-}
+-
  void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+ {
+     PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+     CPUPPCState *env =3D &cpu->env;
+=20
+     env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+-    ppc_hash64_update_vrma(cpu);
+ }
+=20
+ void helper_store_lpcr(CPUPPCState *env, target_ulong val)
 --=20
 2.24.1
 
