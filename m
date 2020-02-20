@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388D7165A0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:23:05 +0100 (CET)
-Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B69165A15
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:24:43 +0100 (CET)
+Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i2x-0005wO-LM
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:23:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51851)
+	id 1j4i4Y-0000WN-6i
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:24:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4i1a-0004CP-4a
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:39 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4i1X-00048z-4i
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4i1Z-0008BE-2u
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:38 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:56091)
+ (envelope-from <laurent@vivier.eu>) id 1j4i1W-00088v-4T
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:38107)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1Y-0008AK-PE
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:37 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1V-000886-Rn
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:34 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N1PLB-1jSiw719z9-012mF7; Thu, 20 Feb 2020 10:20:56 +0100
+ id 1M5PRT-1j3sXF3qgX-001VXL; Thu, 20 Feb 2020 10:20:57 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/13] Linux user for 5.0 patches
-Date: Thu, 20 Feb 2020 10:20:40 +0100
-Message-Id: <20200220092053.1510215-1-laurent@vivier.eu>
+Subject: [PULL 01/13] linux-user: Implement membarrier syscall
+Date: Thu, 20 Feb 2020 10:20:41 +0100
+Message-Id: <20200220092053.1510215-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
+References: <20200220092053.1510215-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:08T70wEGxAgWTX2bD7kTnBFkT/wr0NtjfiuWvGRT+akwKkqrzh3
- r7N0bs4+pGujl+KJ3ouvVS4R6WiWk+ZqSZLlddMSe7k9Fl/aTp0qbBLuSZWQ9gyVD666wqt
- HRbqkEU1dAlspG4HFyb+zYCW7NUuCXdM5hw+h33Ol2YRd27vRiG6FBVn6KcVIty1diFKw37
- m4pX4TQr5KTgDCDoMCEBw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qyxhE3iSE2E=:oB+MHEdEkR16mzweyS5gI4
- u5OGz2FUNte1/BDI0pOkDmFxfqrrvFZqEoW6t7fBBrRqm103gBvdvF/2iE0tXiCpdPaSkjCMe
- 6UjQULLan1vd/sjkCpSQUpIoaOdo50+6hUK931yyIHckYnc/tqq567jFMlOdt7CzMTX12nSaD
- 8Ig2sMNlfqqtz6L1Xqy2YsnOog74eCkYke8aq3oL+j1bIOTC9P5TYi0ZOZBdbQJCiTvZZqLSe
- 8fvKHDI5dp2DpRsuXTCwLmBz5AmIME/EGITIjFSFGBk+4HFVmpLYTyn56WWX4WFgKLW0Edyp7
- W5nKxzfcSFoXIo3Dr7s77oYDCLLwaKsQ+IzQ3ECjwGuWH9N9WyD0o3Pme3ajK5fMizY2YjRAu
- p+7+iQWIqKK0Ynx1C6L1KRJPKVrsQSotO9AFrgl40bj0LN2T9aj3c0FmPrwMX4KEMxe6yOrZo
- XmyQY77Vew/waTgp6551tF+spnbhVZSeDcREW71aw0ReF+b9iRfml54pCTLSVSmkA7akW2pQr
- JWuW0kp5hToX/lrhHUIh7CkVRRRNew6+QedsTr/XF/pUb1W0HkvVQxaOgrG4hXHX69dNvTnDi
- 8A3NvZmaJ1LrsP09yEC4A21v76LPDIBhLmqFrgbvCs/kXDlWvcRWQJ1vNPBKmoO61caGkUs4D
- sw6L26NAxoUJB2XA8/7MixyoeTWW4HzRVkHW2EcmkbgmNFoSEpfm4tSwcVZyQNKyqxnBStVad
- sySjAqUxe5uT3PNefBSp/hsNWl+oBs3V+/SbZQvJQmanprvUy4esP972FVUhDgHs4uB06YEWj
- 32lPWaDF6knP/rHauJFAeLtTD7CKLKp+R+UpDjlET4P+wSA4lpU/O19QDwMZFyCMPt+qzRa
+X-Provags-ID: V03:K1:pCfKeP0sdaMCzYW0ZbJkVeNq0bI4maMyKzmKSjuSrcmKZI1xGFd
+ 7C0K27YLuS00xrsNInms9G+O2K4tRcQaeqxSzBCcXis/AMu7vyx2Kr6O/6NNP6tFi9qzFPM
+ 0bn3Qxis0smc/6WJeUPkTZ4uRk7k1lNcycdY2bN38S6KFWUO/kgouKgcDK11cf+J6Uyc1gd
+ cqHwqEvkBII+PJAllSNAw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QHo6oa5FLIk=:eUQqno9qkdHaBHO60/r+WJ
+ uu6febSZaNZW1CIWMRshqWUF3RwlrxB+y81w8BFH18yOaME2/0KdgJE5I5N8+5odZSfAvPkT0
+ ZvzZ3Ke/Xi+n6u2LpWmyhSqc8aiqSh3m9acynt79yoQzK4bMnL9wq5rILGV3f4azLp0sF/+qP
+ uvMI+5oG0iMZR8sDf5q9AAQ97I5yGVTvbAQDFAXQRHBA2y3oSKdxZDxr0LjMPQKR4Y5l/OyOf
+ C/O+oFyWxM1k7rHH0mpDBp6LJabac5Gf3Ea6HmgeMUgr1deo3/9vl+fxonUb0KH+Egh7/RVsN
+ j+7b+HzTB+JmGBzCUDqdSUiZTSphSD4/iW7j5NUkJDTCh+FExz2yR04tOy3h/aVvX5IJgoP7X
+ OfHvlnCbYC0ljhJi0FMGkK9G/uLhA3RDydaXf1QWWiFvmnnBQKFiuWdiEijMWA9RGXxhfiEzl
+ mi6y++Cc09Z/gAdSAAuFDiVn8OucmdaAclDVR2AGRq4xipMoLoNUr0JRJ1u6nvJOnE78PLCkZ
+ vFwBIDDpSSZz2qj37iHo0DZMy2L6M4nxOrLZUXbDO+lYRVjpml0SHm4GXye5Q3iFbI+wOHF9P
+ X2nTYWTqDJb2+yGiHuqdYmQgn7tvJJhNaGFJ2l1qOzDsm+58Ebcu90a3whxgHOIVINQmU/R4b
+ tBn1aJNOEzLee8NYEdHlPH8vX3/b6LDuMeRgPzn1H9ZwEjkEbl8Ldi6fu+2MPu1ak1YJhEEDH
+ LrwJaEXmrbgakEa6/BW6SRk5WchhiMt/1Tr1R1oFdEKVmbdc0edJobzVg2v/u2VZhi35Vxtu2
+ Uu3QkXpTnRoAPhHtgYsfRAnVn8/Mj+YpJ3LULmaFdYp7eNB1zwZ+Fn4NUdw1Ajfh1KDgz+9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,78 +63,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
+Cc: Andreas Schwab <schwab@suse.de>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6c599282f8ab382fe59f03a6cae755b89561a7b3:
+From: Andreas Schwab <schwab@suse.de>
 
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2020-02-15-v2' into staging (2020-02-17 13:32:25 +0000)
+Signed-off-by: Andreas Schwab <schwab@suse.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <mvmpnomohfm.fsf@suse.de>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-are available in the Git repository at:
-
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
-
-for you to fetch changes up to 045823a98c30fbcafa6d6b61a28b284de7038f07:
-
-  linux-user: Add support for selected alsa timer instructions using ioctls (2020-02-19 11:17:40 +0100)
-
-----------------------------------------------------------------
-Implement membarrier, SO_RCVTIMEO and SO_SNDTIMEO
-Disable by default build of fdt, slirp and tools with linux-user
-Improve strace and use qemu_log to send trace to a file
-Add partial ALSA ioctl supports
-
-----------------------------------------------------------------
-
-Andreas Schwab (2):
-  linux-user: Implement membarrier syscall
-  linux-user: implement getsockopt SO_RCVTIMEO and SO_SNDTIMEO
-
-Filip Bozuta (5):
-  linux-user: Add support for getting alsa timer version and id
-  linux-user: Add support for getting/setting specified alsa timer
-    parameters using ioctls
-  linux-user: Add support for selecting alsa timer using ioctl
-  linux-user: Add support for getting/setting selected alsa timer
-    parameters using ioctls
-  linux-user: Add support for selected alsa timer instructions using
-    ioctls
-
-Helge Deller (1):
-  linux-user/strace: Improve output of various syscalls
-
-Josh Kunz (3):
-  linux-user: Use `qemu_log' for non-strace logging
-  linux-user: Use `qemu_log' for strace
-  linux-user: remove gemu_log from the linux-user tree
-
-Laurent Vivier (1):
-  configure: linux-user doesn't need neither fdt nor slirp
-
-Philippe Mathieu-Daudé (1):
-  configure: Avoid compiling system tools on user build by default
-
- configure                  |  22 +-
- include/qemu/log.h         |   2 +
- linux-user/arm/cpu_loop.c  |   5 +-
- linux-user/fd-trans.c      |  55 +++--
- linux-user/ioctls.h        |  21 ++
- linux-user/main.c          |  39 +--
- linux-user/qemu.h          |   2 -
- linux-user/signal.c        |   2 +-
- linux-user/strace.c        | 479 +++++++++++++++++++------------------
- linux-user/strace.list     |  52 ++--
- linux-user/syscall.c       |  92 +++++--
- linux-user/syscall_defs.h  |  84 +++++++
- linux-user/syscall_types.h |  66 +++++
- linux-user/vm86.c          |   3 +-
- util/log.c                 |   2 +
- 15 files changed, 600 insertions(+), 326 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index c930577686da..7aaa9d96397c 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -334,6 +334,9 @@ _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
+ _syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
+           unsigned int, mask, struct target_statx *, statxbuf)
+ #endif
++#if defined(TARGET_NR_membarrier) && defined(__NR_membarrier)
++_syscall2(int, membarrier, int, cmd, int, flags)
++#endif
+ 
+ static bitmask_transtbl fcntl_flags_tbl[] = {
+   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
+@@ -12090,6 +12093,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         unlock_user(p, arg1, 0);
+         return ret;
+ #endif
++#if defined TARGET_NR_membarrier && defined __NR_membarrier
++    case TARGET_NR_membarrier:
++        return get_errno(membarrier(arg1, arg2));
++#endif
+ 
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
 -- 
 2.24.1
 
