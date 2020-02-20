@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C936165A19
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:26:08 +0100 (CET)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E05165A12
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:23:19 +0100 (CET)
+Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i5v-0003cD-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:26:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
+	id 1j4i3C-0006Pt-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:23:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4i1X-00049k-QW
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:36 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4i1Y-0004Al-Mj
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4i1W-00089H-Ql
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:35 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:48947)
+ (envelope-from <laurent@vivier.eu>) id 1j4i1X-00089t-JK
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:36 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:52351)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1W-00088h-Ho
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:34 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1X-000898-AZ
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:35 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M7KKA-1j5oTF2Oqq-007o8U; Thu, 20 Feb 2020 10:20:57 +0100
+ id 1MowbA-1jnQkG1JQk-00qSYm; Thu, 20 Feb 2020 10:20:58 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] linux-user: implement getsockopt SO_RCVTIMEO and
- SO_SNDTIMEO
-Date: Thu, 20 Feb 2020 10:20:42 +0100
-Message-Id: <20200220092053.1510215-3-laurent@vivier.eu>
+Subject: [PULL 03/13] configure: linux-user doesn't need neither fdt nor slirp
+Date: Thu, 20 Feb 2020 10:20:43 +0100
+Message-Id: <20200220092053.1510215-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
 References: <20200220092053.1510215-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:piuR98raXOCQseHB9gJlYbGRMo6LpwDMndEJ/p23L8vng4uA3Cs
- iXwZaTtEQFdAH3WMFENYmv5hkQBMFtI867KilwQYwURNkvaHI1NSmwqOk3rC4GdFMKgbubI
- ixGllbIHsNhxY1cfqb6N0NLf4JIG5ke++lHnx7LBE+btLnkw0NzqGYsbZ4tRlYiSrm3Lug/
- 1W8r1BB3EysUwSeRGE6zA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cAtAgkIHimU=:GAHb8SLqGq8CA8ucX02zTy
- H0wDVa7W9CbB24XnNRjzWHJIE2SgYXS2Ps9jFuYuQVjF2Z728do5TOojywz1glbu62YpYkepi
- f3XNNPeqlvFfn/bkBT9IBkdNeJFEcIVg54VNTGbIhqtltCr2bbxLa2FSswOMFP9j8CMUNQOCi
- 3eRNu2QC20qyRcm0MaO5McNZ4hBnQU1Ri1zbIxGYr514CE4S+gf1TECvgR6Xku0c9xZG2MKt9
- 3l3zT3o/+HpcE7Qo7vFEwU+UOSSVNmER5DqxjNoF0sU30zT9aL2yKXdMkawD9UCT5vsHa3c9w
- 9mDIFRYBBUBHGDsHH5jsS4Mbaebm2Ll3UjLaKz3oQwlUYedyD1uNMpkBblm+EdgXliPlPag29
- MEGMuCM44uS0TylO2ZHadTY54cZk90s5QEoYI2NrEcjimNVoXuxLBAdssmjdIJwQZUTnZ/AdG
- Jsebd4ukpym+EB1hlkuAlsIxtVxP1ZcSZd38avnxd9Hu4f6ILj3NdwzqO+PyXL4xCBgo4sczA
- rTMqP/sRlEEU+DCcaS1PTGRXGsTpupk7NqswtheHKXRrlejTamXIB4ES4ldexv1cGojZ8iLJk
- 9oe/VS7BtvSUSUaSIF0DN6B98tVQUeZRZuOdY8RyNLiItAtkxmopkzpHsAzEwqoGvUzMP7ntG
- NM1+E1OtUHqrl6OsiaLpc08eUQcbexiDXhaX4XIwKiVJ6VmmK3y1QHKEJIyYscD2ApZVS0stz
- /LAVYAzobkqoYykSA11yoPJtGdx+9E8YB9mnI5kGRc0iC/dr+/SMydN3OkMQxFRWJLYtHNAaz
- zjd8yAospFudzlZNpQ9bddoj5fMvq32kTyVve3MpQYZS7BIhI24Um6iIZ0LR/nMpMxXBOdr
+X-Provags-ID: V03:K1:g7jr1Oo7TNJ4RBbjS0H77mSIjtitZ5qtY+rdDJQQz/1VooACeUV
+ Hb7CNL73FXPMYgxA3QQgpSljXFG78xCZvUnsC6nV+OvQTEeeCq+/Kh+bTcQ5k9FtV/anZ6J
+ kfB0nOgd7y5pPX/mQJwyb9jIQ/g4D1KOZKi++XMq5LCotfxSmN3XGkIYEED8wsYE76HNWyI
+ jE3T/QjdKn2QXMABa6ZaA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:95K06Bnstkc=:AX8wqXNtMP1PuZKv1YWtgP
+ hIAOgZM8TMyJXSlfY3h44g4AFS0ss4MglauqoKrxOEwDU/iYcaKnMiWuwUlaQpS7Kr43GJ1MU
+ S5C0CSUMz5NLjJ+DilyAEnCFb3T5a+D8/lY3KPeaIns68R8vbQWx+0YbWgtyvRNu6lOfdG1zo
+ rd2dMKhiKWLNsRm88rNzT4cdbEIC7lz4EL2kebx97SCScLnuOBLpVPaWIPDtKxkexTZeM0he9
+ tf/DfNPxAISr+969pD+8QudK2M3LP5iZ0dN8cb9g5RgezTjnz8WbH2X+rXieIZIT7Hl86j8U4
+ 251oGTOigM00OD9KmbteSe0tAYHtIjcqa7aP38x2tdNyDPgRpstcKD8XsQNO155+WSdFdHyCS
+ 4C5eMDAZWWYjPEssiY0x9S9smL3ewV6Ov1UaApAihFRqvuOtkBvmEHiTpfFK6aoU0ciJt1HiL
+ a1nGXRfB4o4KEeh6ldPuOeniJH6RYgjQfZvUftGwBw24OFn/mM07SsF8T2W4umD5b5RUwu7Yj
+ 5yi1mWxXXDnl4k2qYl/GCSYUvYjsIyZrd66xqGJh/Y2Uvrwz51gZ0mlx+hsoy3dPcPbQcfW+p
+ kFejWVKbT0CXTn6EsnsXTxq9pmstBYJWvqe2cO9/sKdI6fGyDeFH3OtIYMLK/UQf/xrvrg5Sm
+ pEmHcBopqdYe6Cr6AuPCht+yeDwcAvWfOUDrFFYXl4qE7JidV8pvy7/r4NIr1hRKvovMnoHQD
+ E4nKOeVAw/xerAE/G/iTWEAP79hjh0FSKzfKzSJh/7NbcnIbDtODTsNkDn9l7l2f1khpUTzsl
+ NpE1MKNXa4ZfhZKbGIeyDsVkuNOtP0XtMfpR3mkttHzNLBqgTcrJDBYenAoCoHl+MO7EqKK
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,73 +64,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andreas Schwab <schwab@suse.de>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
  Laurent Vivier <laurent@vivier.eu>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Schwab <schwab@suse.de>
+From: Laurent Vivier <lvivier@redhat.com>
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <mvmlfzaoh9p.fsf@suse.de>
+if softmmu is not enabled, we disable by default fdt and
+slirp as they are only used by -softmmu targets.
+
+A side effect is the git submodules are not cloned
+if they are not needed.
+
+Clone and build can be forced with --enable-fdt and
+--enable-slirp.
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190621130544.18860-1-lvivier@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+ configure | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 7aaa9d96397c..9fa722f2388d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2310,10 +2310,42 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
-         level = SOL_SOCKET;
-         switch (optname) {
-         /* These don't just return a single integer */
--        case TARGET_SO_RCVTIMEO:
--        case TARGET_SO_SNDTIMEO:
-         case TARGET_SO_PEERNAME:
-             goto unimplemented;
-+        case TARGET_SO_RCVTIMEO: {
-+            struct timeval tv;
-+            socklen_t tvlen;
+diff --git a/configure b/configure
+index 6f5d85094965..5f5f4befb9f6 100755
+--- a/configure
++++ b/configure
+@@ -4135,6 +4135,11 @@ elif test "$fdt" != "yes" ; then
+   fdt=no
+ fi
+ 
++# fdt is only required when building softmmu targets
++if test -z "$fdt" -a "$softmmu" != "yes" ; then
++    fdt="no"
++fi
 +
-+            optname = SO_RCVTIMEO;
+ if test "$fdt" != "no" ; then
+   fdt_libs="-lfdt"
+   # explicitly check for libfdt_env.h as it is missing in some stable installs
+@@ -6078,6 +6083,11 @@ fi
+ ##########################################
+ # check for slirp
+ 
++# slirp is only required when building softmmu targets
++if test -z "$slirp" -a "$softmmu" != "yes" ; then
++    slirp="no"
++fi
 +
-+get_timeout:
-+            if (get_user_u32(len, optlen)) {
-+                return -TARGET_EFAULT;
-+            }
-+            if (len < 0) {
-+                return -TARGET_EINVAL;
-+            }
-+
-+            tvlen = sizeof(tv);
-+            ret = get_errno(getsockopt(sockfd, level, optname,
-+                                       &tv, &tvlen));
-+            if (ret < 0) {
-+                return ret;
-+            }
-+            if (len > sizeof(struct target_timeval)) {
-+                len = sizeof(struct target_timeval);
-+            }
-+            if (copy_to_user_timeval(optval_addr, &tv)) {
-+                return -TARGET_EFAULT;
-+            }
-+            if (put_user_u32(len, optlen)) {
-+                return -TARGET_EFAULT;
-+            }
-+            break;
-+        }
-+        case TARGET_SO_SNDTIMEO:
-+            optname = SO_SNDTIMEO;
-+            goto get_timeout;
-         case TARGET_SO_PEERCRED: {
-             struct ucred cr;
-             socklen_t crlen;
+ case "$slirp" in
+   "" | yes)
+     if $pkg_config slirp; then
 -- 
 2.24.1
 
