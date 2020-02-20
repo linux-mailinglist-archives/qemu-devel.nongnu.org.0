@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4F51669BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 22:22:01 +0100 (CET)
-Received: from localhost ([::1]:49358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C53D1669CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 22:28:20 +0100 (CET)
+Received: from localhost ([::1]:49426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4tGi-0006bR-Gb
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 16:22:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47248)
+	id 1j4tMp-0000DE-AP
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 16:28:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j4tFt-0005kN-2D
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 16:21:10 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j4tJK-0007WN-G4
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 16:24:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j4tFr-0002J9-MU
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 16:21:08 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37345)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j4tFr-0002It-HE
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 16:21:07 -0500
-Received: by mail-oi1-x242.google.com with SMTP id q84so29085481oic.4
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 13:21:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YnFfOr1DIkvANCIdmIygvtIPcgNJtHgZY1pV50qrnYA=;
- b=auj4Et6Tlciab+LGElZTFsjgvl+7Tp5wVj0gxombpiXDbUKQWfDD14pfhUUn+X+Msk
- Bu0nCaGg0omAmKFreWQLLAP7L1T7d0/LB/l/dWuVCNfC1yROalZn+uapY6AvCYv4rPht
- tCyc0Lemk965i2UYwsrd3hz1J82OKNWtsGWTg22y0uAJWfIQmsT5YLM7eugsu0Hs19yN
- +L770TAoWYA3hO8wWFhy2xliGPYiIzwebGjVUjtSACw93blrO6p5lK9VXtnlJLrUXz3h
- nXgE0oVuMHJSb/tobgiOn/eZ35nK8GT2YQxQCVAyCjb277ME7hjiMSgTm6yngx6QXDxi
- pDMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YnFfOr1DIkvANCIdmIygvtIPcgNJtHgZY1pV50qrnYA=;
- b=VyXkIx6FcbAc9VmThnNtxtgk9G2IGVgYABFm+mM9TSBbIAPpQDVw+3qt/ggyR8Zmea
- lrDXlHaRyhe7JS43PYAlr9MmyKquOOt9P5FtEjMZ4ZFpgDH0tZImMHYwjRvmb6MFzyCc
- JTEexAcf0Xxrdy1wYHq4hrgChnVgYZABiyGWtQTff56zhoeWuaTRAOaB7jHmtu41PQCx
- v6svL8yLFb79XYGxrMedx7LF8r+gsAYoWI0a8zKMS3VXkqEVJhUfVEEpkHx/ha8GJHdR
- /nIJPuo0NamGkB6VqexTWEV70BqEQormTzM3AvJjO87M2QzxRTxV9unrDSKi03zn+P25
- KuBA==
-X-Gm-Message-State: APjAAAXVf7KKLYVRN+3RIMEA/nOkwGQ5+G2FetAY4i/BAHq4hZl3RErE
- JT6rzEHpUvUIkBLFyZYdBQL3/sCXQSOBUmgqb089qQ==
-X-Google-Smtp-Source: APXvYqyAWkDygDzhAcQ8nyQ/oH+J+ckMAQXNsF0P9nfHdr1pYvsB8W9ZhwPSx6GpRVKCC1bPvGrU3YyBGjyqlGjGuYc=
-X-Received: by 2002:a54:4f16:: with SMTP id e22mr3695887oiy.170.1582233666323; 
- Thu, 20 Feb 2020 13:21:06 -0800 (PST)
+ (envelope-from <luc.michel@greensocs.com>) id 1j4tJJ-0003bv-8I
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 16:24:42 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:53820)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1j4tJI-0003at-Oy
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 16:24:41 -0500
+Received: from [172.17.10.10] (unknown [172.17.10.10])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 2FAC096EF0;
+ Thu, 20 Feb 2020 21:24:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1582233878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E2+GvqGgc0KF8tC4g5IqXNm00U4cG1gjzvVSOGO/rJk=;
+ b=0G0UsF0J3UFloF2ZvQnpv+Acqfg4TQ7XJ4GWBL5nSXn/w56fG7KccBBpOn+b0VTipwMGb5
+ 4nSaQ+OUHTZVPVh+cfTtobFV+NhlXmgu+zgRXbLKyl1PcAhXOI9ZbvY1waMwKn1nzTWS3x
+ pqTtzfZYQbgllYRYU8EjjogU8OhiNA8=
+Subject: Re: [PATCH] tcg: gdbstub: Fix single-step issue on arm target
+To: Changbin Du <changbin.du@gmail.com>, alex.bennee@linaro.org,
+ philmd@redhat.com
+References: <20200220155834.21905-1-changbin.du@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <ddc8b36f-da30-faac-cab2-fad882841159@greensocs.com>
+Date: Thu, 20 Feb 2020 22:24:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200217032127.46508-1-pannengyuan@huawei.com>
- <20200217032127.46508-3-pannengyuan@huawei.com>
- <CAFEAcA_AxCVaAgho3g2q=kCifSdhz9Qi72eoVAM9gRjb3-_Sog@mail.gmail.com>
- <747a3358-09af-d4fa-9150-57ad3e349f24@redhat.com>
-In-Reply-To: <747a3358-09af-d4fa-9150-57ad3e349f24@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 Feb 2020 21:20:55 +0000
-Message-ID: <CAFEAcA8ovMyTGNB_NA8ybPLdnneKjvNFY=qyP0DEFS9cmUJo-g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hw: move timer_new from init() into realize() to
- avoid memleaks
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200220155834.21905-1-changbin.du@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-PH
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1582233878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E2+GvqGgc0KF8tC4g5IqXNm00U4cG1gjzvVSOGO/rJk=;
+ b=ZcbEvze2stqntpqjfLubrXJoSeWgfmah2NYJVZoka1OTycf7kLKVV7Fu5nahcXK6zMQo/5
+ PtNb92rpELgUMD5MoA5MRE253cNUhSM1gAJzesHveXYRnycJhjnmcYFbd3vvu9HNiivUOq
+ Q8WDNsvd0paGNlZM5cRQRuQC9vlr5/w=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582233878; a=rsa-sha256; cv=none;
+ b=HEL4p1dejSyLnFQJqigSto0KlHvWcqqpWAJHOfK47oj+DDN+oL3VXVS7+aW/Pe8xjO3xj4
+ RYtQybQQWTb1s9VtZZn5neCBB9lOsVrRzAYUvgNszp55VcTfWGK3bXw+jOnMnNYHruaWyn
+ tcYx+6MhUOttkx7kQ9EgSBjmMimeEDc=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,104 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Alistair Francis <alistair@alistair23.me>,
- Pan Nengyuan <pannengyuan@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>,
- mav2-rk.cave-ayland@ilande.co.uk, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Feb 2020 at 18:52, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 2/20/20 6:56 PM, Peter Maydell wrote:
-> > On Mon, 17 Feb 2020 at 03:22, <pannengyuan@huawei.com> wrote:
-> >>
-> >> From: Pan Nengyuan <pannengyuan@huawei.com>
-> >>
-> >> There are some memleaks when we call 'device_list_properties'. This pa=
-tch move timer_new from init into realize to fix it.
-> >> Meanwhile, do the null check in mos6522_reset() to avoid null deref if=
- we move timer_new into realize().
-> >>
-> >> Reported-by: Euler Robot <euler.robot@huawei.com>
-> >> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> >> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >
-> >
-> >> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> >> index 19e154b870..980eda7599 100644
-> >> --- a/hw/misc/mos6522.c
-> >> +++ b/hw/misc/mos6522.c
-> >> @@ -465,11 +465,15 @@ static void mos6522_reset(DeviceState *dev)
-> >>       s->timers[0].frequency =3D s->frequency;
-> >>       s->timers[0].latch =3D 0xffff;
-> >>       set_counter(s, &s->timers[0], 0xffff);
-> >> -    timer_del(s->timers[0].timer);
-> >> +    if (s->timers[0].timer) {
-> >> +        timer_del(s->timers[0].timer);
-> >> +    }
-> >>
-> >>       s->timers[1].frequency =3D s->frequency;
-> >>       s->timers[1].latch =3D 0xffff;
-> >> -    timer_del(s->timers[1].timer);
-> >> +    if (s->timers[1].timer) {
-> >> +        timer_del(s->timers[1].timer);
-> >> +    }
-> >>   }
-> >
-> > What code path calls a device 'reset' method on a device
-> > that has not yet been realized ? I wasn't expecting that
-> > to be valid...
->
-> This is not valid. What I understood while reviewing this patch is on
-> reset the timer is removed from the timers list. But this patch miss
-> setting timer =3D NULL in case the device is reset multiple times, here
-> can happen a NULL deref.
+Hi,
 
-I should have checked the APIs here.
+On 2/20/20 4:58 PM, Changbin Du wrote:
+> Recently when debugging an arm32 system on qemu, I found sometimes the
+> single-step command (stepi) is not working. This can be reproduced by
+> below steps:
+>  1) start qemu-system-arm -s -S .. and wait for gdb connection.
+>  2) start gdb and connect to qemu. In my case, gdb gets a wrong value
+>     (0x60) for PC.
+>  3) After connected, type 'stepi' and expect it will stop at next ins.
+>=20
+> But, it has never stopped. This because:
+>  1) We doesn't report =E2=80=98vContSupported=E2=80=99 feature to gdb e=
+xplicitly and gdb
+>     think we do not support it. In this case, gdb use a software breakp=
+oint
+>     to emulate single-step.
+>  2) Since gdb gets a wrong initial value of PC, then gdb inserts a
+>     breakpoint to wrong place (PC+4).
+>=20
+> Since we do support =E2=80=98vContSupported=E2=80=99 query command, so =
+let's tell gdb that
+> we support it.
+>=20
+> Before this change, gdb send below 'Z0' packet to implement single-step=
+:
+> gdb_handle_packet: Z0,4,4
+>=20
+> After this change, gdb send "vCont;s.." which is expected:
+> gdb_handle_packet: vCont?
+> put_packet: vCont;c;C;s;S
+> gdb_handle_packet: vCont;s:p1.1;c:p1.-1
+I'm curious, I never experienced this behaviour from GDB. What GDB and
+QEMU versions are you using?
 
-timer_new() allocates memory and initialises a timer.
-timer_del() removes a timer from any list it is on, but
-does not deallocate memory. It's the function you call
-to stop a timer (and arguably timer_stop() would be a
-better name for it).
-If you created the timer with timer_init(), then the
-code to clean it up is:
- (1) call timer_del() to make sure it's not on any
-list of active timers
- (2) call timer_free()
+On my side (GDB 9.1), even without 'vContSupported+' in the 'qSupported'
+answer, GDB sends a 'vCont?' packet on the first stepi:
 
-So:
- * the mos6522_reset code is fine as it is
- * if we wanted cleanup code that undoes the timer_new
-   then that would be a timer_del() + timer_free().
-   This would go in unrealize if the timer_new is put
-   in realize, but...
- * ...like the other devices touched in this patch,
-   mos6522 isn't user-creatable, so if realize succeeds
-   it won't ever be destroyed; so we don't need to
-   do that. (This is a little harder to check than
-   with most of these devices, since mos6522 is an
-   abstract base class for some other devices, but
-   I think it's correct.)
+0x00000000 in ?? ()
+(gdb) si
+Sending packet: $m0,4#fd...Ack
+Packet received: 00000000
+Sending packet: $vCont?#49...Ack
+Packet received: vCont;c;C;s;S
+Packet vCont (verbose-resume) is supported
+Sending packet: $vCont;s:p1.1;c:p1.-1#f7...Ack
+Packet received: T05thread:p01.01;
 
-Side notes:
- * for new code, rather than using timer_new() or one
-   of its sibling functions, prefer timer_init(),
-   timer_init_ns(), etc. These take a pointer to a
-   pre-existing QEMUTimer, typically one you have
-   directly embedded in the device state struct. So
-   they don't need to be freed on unrealize (though
-   you do still want to make sure the timer is not
-   on an active list with timer_del() before the memory
-   in the device state struct goes away).
- * maybe timer_free() should call timer_del(),
-   rather than obliging the caller to?
+Your second issue (wrong PC value) should be investigated though. Does
+it happen on QEMU vanilla? Do you have a way to reproduce this bug?
 
-thanks
--- PMM
+Anyway after re-reading the GDB remote protocol documentation, I think
+your patch is right, the feature should be advertised.
+
+However I think your commit message needs some modifications. This fix
+is not specific to ARM or TCG, but to the gdbstub itself. You also
+mention this bug you have with PC, which is not related to the bug you
+are fixing here. Could you rewrite it in a more generic way? You simply
+need to emphasis the effect of advertising the 'vContSupported+' feature
+on GDB.
+
+Thanks.
+
+--=20
+Luc
 
