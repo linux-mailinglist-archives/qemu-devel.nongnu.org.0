@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90339165E40
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:08:29 +0100 (CET)
-Received: from localhost ([::1]:41510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99647165E4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:08:52 +0100 (CET)
+Received: from localhost ([::1]:41544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4lZ6-0007OR-Hv
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:08:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55531)
+	id 1j4lZT-0008B6-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:08:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j4lWn-00049Q-8s
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:06 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4lWu-0004L1-Hj
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j4lWm-0004js-4a
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58098
+ (envelope-from <philmd@redhat.com>) id 1j4lWs-0004pp-TV
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:12 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31490
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lWl-0004ii-Hi
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:03 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lWs-0004ny-P9
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582203963;
+ s=mimecast20190719; t=1582203968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IAmYFDb/7MmwCRG3sYs3ce3Q6pXzhe5z0UwykWSueMI=;
- b=NFYSq2XmFEBftztS7K9h4zMRMP0HIyrdtcDs+U/5DugU1sCBRCNzA4OdTUPHO/bwwYp9Et
- Bb7TjP3F9Hv+K/hWZZc5TAlyiHDbg9dXrsNzTvqQL3LLucr7E+ksmsRUVZ3mnm9Q+S+/dC
- JoAzCeIH7x6xK9ZWpW6+EjNaefPCZ9A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-TaKAPs3YMTCaXzg6MOeUTA-1; Thu, 20 Feb 2020 08:05:59 -0500
-Received: by mail-wm1-f72.google.com with SMTP id p2so579353wma.3
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:05:58 -0800 (PST)
+ bh=2dyL776lIMWtwu3QHoE9WDBeqqqUYswvxKzWPwHYPB4=;
+ b=JCvJ16maPY37AqOfLAfiw+cJdb9rrxvgOiTkH2CWeSdoumPkFJgWVEhhKXCPsQQZurxK5e
+ 90x/aX+AR0+DKFgfcTK+5GAcGLKxNzkQL7fWMo0rKPjUKLvp9XqR2IA1wimsT2gZ3WPaM5
+ tsqW3Zy96sL9H+8tbBVnn9F074RiVnI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-KodaD4z6Ove54oQYbyvvxg-1; Thu, 20 Feb 2020 08:06:02 -0500
+X-MC-Unique: KodaD4z6Ove54oQYbyvvxg-1
+Received: by mail-wr1-f72.google.com with SMTP id o9so1713641wrw.14
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4cFZx3MMvL5YTnq3TreW86G7x/AmeK47tUPtRXUhNQM=;
- b=ZMc4N/Z7/9unndrYG4e9WUdb6haWxEic1NvN/Q9IUtWDQsSldOoaQIyizVcWd9STJe
- U52zGMIECoCKKsjnJl/3xswZI7XpREuXF9CYiY0wwwo+VhygMqCeDEmipXOdNRfEZmka
- uhWVjNE2tyG0mBp4oR0pUuZU/muqcMft3phfF80SlDYNjxEqNB1CBa5byolLx6kv44Df
- 3lc92Y37sgLKWNLFTLbU99Sp80UantZeV+zthOm7bh1O+MsT73Zp1/lBNWWpkDieOn1D
- o8TuxRsbZx9DhpKXCnY71hEHUcsEsN0WwVSCdS90ej9VyuDETJp7r2unyYFJkL4u/gus
- 8WVg==
-X-Gm-Message-State: APjAAAUOU4p83pPak5oPpTZkLTots8HCZ3kgS4I0H+Gva3LdnqtM1TvS
- YeXo6N065ouPa40OAoxQAiIDBMYOttDdTse5mvkGKd4lCTLcwX05dfqJTmLypRo4uWDdjnNi8y8
- zNaUJiDDQywqPl+M=
-X-Received: by 2002:a05:600c:3d1:: with SMTP id
- z17mr4707527wmd.90.1582203957911; 
- Thu, 20 Feb 2020 05:05:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw5jcBfwQCBB55iS//J5oZ4nyff+vZw9LvNNuT8fCe2PE+cfM3f9N7yqnDLu5ddD34rthBOSw==
-X-Received: by 2002:a05:600c:3d1:: with SMTP id
- z17mr4707497wmd.90.1582203957647; 
- Thu, 20 Feb 2020 05:05:57 -0800 (PST)
+ bh=JJNOlxhz3YaDnBzT0LwFaaq/SOy/0tsQ/KrZZBdtHoE=;
+ b=jhI+Xt+HK5VXjfmPRcm5CWuuiv0UjuycVk5JmRRkWEu1pN76l/FNscUTPPDnJo4hVb
+ HLE8l2qYX3FmPbb7PTApE/1GEpT9Khz8rrdK/dsVVY62xoSjXIQy8mAwLOcLx860yIJB
+ 2+iryi9MEJtXINbrgYCts7Ce3jOXDcDUPGQSzpq7p4JIwzwLdJugv/fbP7ArDyI5+iyN
+ 99LbR6ae2EtDh5LCzEGhjFOZXzGqaF3K5JJBUMwg4LzZ6zyZYnUkxyynmCprpzkEX0c8
+ yugqmayd8W2zeA8nWdQlsMQk9MoBpFQpbM4GgkMsFueF5iwHVTa32/56JZ4hfnf26FM5
+ impg==
+X-Gm-Message-State: APjAAAUJRZWkUZzleKaWZ86uufwUVV4FNC0/3vBXduPnYG3kZy4Wuf3x
+ zDFWk7cVwoxG6j13HWV29W1t18myFRPlwD/07yFtHYXl1mvVr+JiR48S2LV4oI0vL4cQBGz5Ggk
+ KTQ89v41IDEyYsh8=
+X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr4485845wmj.175.1582203961576; 
+ Thu, 20 Feb 2020 05:06:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz8KNQ719hweoepCwU/16r5sB1wpPqBKHDZc0xAJklXBupLNm7eWc89eDGk1e864X9IS4bitQ==
+X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr4485824wmj.175.1582203961311; 
+ Thu, 20 Feb 2020 05:06:01 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.05.53
+ by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.05.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 05:05:57 -0800 (PST)
+ Thu, 20 Feb 2020 05:06:00 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 01/20] scripts/git.orderfile: Display Cocci scripts before
- code modifications
-Date: Thu, 20 Feb 2020 14:05:29 +0100
-Message-Id: <20200220130548.29974-2-philmd@redhat.com>
+Subject: [PATCH v3 02/20] hw: Remove unnecessary cast when calling
+ dma_memory_read()
+Date: Thu, 20 Feb 2020 14:05:30 +0100
+Message-Id: <20200220130548.29974-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200220130548.29974-1-philmd@redhat.com>
 References: <20200220130548.29974-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: TaKAPs3YMTCaXzg6MOeUTA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,29 +116,148 @@ Cc: Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we use a Coccinelle semantic script to do automatic
-code modifications, it makes sense to look at the semantic
-patch first.
+Since its introduction in commit d86a77f8abb, dma_memory_read()
+always accepted void pointer argument. Remove the unnecessary
+casts.
+
+This commit was produced with the included Coccinelle script
+scripts/coccinelle/exec_rw_const.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- scripts/git.orderfile | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/coccinelle/exec_rw_const.cocci | 15 +++++++++++++++
+ hw/arm/smmu-common.c                   |  3 +--
+ hw/arm/smmuv3.c                        | 10 ++++------
+ hw/sd/sdhci.c                          | 15 +++++----------
+ 4 files changed, 25 insertions(+), 18 deletions(-)
+ create mode 100644 scripts/coccinelle/exec_rw_const.cocci
 
-diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-index 1f747b583a..7cf22e0bf5 100644
---- a/scripts/git.orderfile
-+++ b/scripts/git.orderfile
-@@ -22,6 +22,9 @@ Makefile*
- qapi/*.json
- qga/*.json
-=20
-+# semantic patches
-+*.cocci
+diff --git a/scripts/coccinelle/exec_rw_const.cocci b/scripts/coccinelle/ex=
+ec_rw_const.cocci
+new file mode 100644
+index 0000000000..a0054f009d
+--- /dev/null
++++ b/scripts/coccinelle/exec_rw_const.cocci
+@@ -0,0 +1,15 @@
++// Usage:
++//  spatch --sp-file scripts/coccinelle/exec_rw_const.cocci --dir . --in-p=
+lace
 +
- # headers
- *.h
++// Remove useless cast
++@@
++expression E1, E2, E3, E4;
++type T;
++@@
++(
++- dma_memory_read(E1, E2, (T *)E3, E4)
+++ dma_memory_read(E1, E2, E3, E4)
++|
++- dma_memory_write(E1, E2, (T *)E3, E4)
+++ dma_memory_write(E1, E2, E3, E4)
++)
+diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+index 23eb117041..0f2573f004 100644
+--- a/hw/arm/smmu-common.c
++++ b/hw/arm/smmu-common.c
+@@ -74,8 +74,7 @@ static int get_pte(dma_addr_t baseaddr, uint32_t index, u=
+int64_t *pte,
+     dma_addr_t addr =3D baseaddr + index * sizeof(*pte);
 =20
+     /* TODO: guarantee 64-bit single-copy atomicity */
+-    ret =3D dma_memory_read(&address_space_memory, addr,
+-                          (uint8_t *)pte, sizeof(*pte));
++    ret =3D dma_memory_read(&address_space_memory, addr, pte, sizeof(*pte)=
+);
+=20
+     if (ret !=3D MEMTX_OK) {
+         info->type =3D SMMU_PTW_ERR_WALK_EABT;
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 8b5f157dc7..57a79df55b 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -279,8 +279,7 @@ static int smmu_get_ste(SMMUv3State *s, dma_addr_t addr=
+, STE *buf,
+=20
+     trace_smmuv3_get_ste(addr);
+     /* TODO: guarantee 64-bit single-copy atomicity */
+-    ret =3D dma_memory_read(&address_space_memory, addr,
+-                          (void *)buf, sizeof(*buf));
++    ret =3D dma_memory_read(&address_space_memory, addr, buf, sizeof(*buf)=
+);
+     if (ret !=3D MEMTX_OK) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Cannot fetch pte at address=3D0x%"PRIx64"\n", addr)=
+;
+@@ -301,8 +300,7 @@ static int smmu_get_cd(SMMUv3State *s, STE *ste, uint32=
+_t ssid,
+=20
+     trace_smmuv3_get_cd(addr);
+     /* TODO: guarantee 64-bit single-copy atomicity */
+-    ret =3D dma_memory_read(&address_space_memory, addr,
+-                           (void *)buf, sizeof(*buf));
++    ret =3D dma_memory_read(&address_space_memory, addr, buf, sizeof(*buf)=
+);
+     if (ret !=3D MEMTX_OK) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Cannot fetch pte at address=3D0x%"PRIx64"\n", addr)=
+;
+@@ -406,8 +404,8 @@ static int smmu_find_ste(SMMUv3State *s, uint32_t sid, =
+STE *ste,
+         l2_ste_offset =3D sid & ((1 << s->sid_split) - 1);
+         l1ptr =3D (dma_addr_t)(strtab_base + l1_ste_offset * sizeof(l1std)=
+);
+         /* TODO: guarantee 64-bit single-copy atomicity */
+-        ret =3D dma_memory_read(&address_space_memory, l1ptr,
+-                              (uint8_t *)&l1std, sizeof(l1std));
++        ret =3D dma_memory_read(&address_space_memory, l1ptr, &l1std,
++                              sizeof(l1std));
+         if (ret !=3D MEMTX_OK) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "Could not read L1PTR at 0X%"PRIx64"\n", l1ptr);
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 69dc3e6b90..d5abdaad41 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -701,8 +701,7 @@ static void get_adma_description(SDHCIState *s, ADMADes=
+cr *dscr)
+     hwaddr entry_addr =3D (hwaddr)s->admasysaddr;
+     switch (SDHC_DMA_TYPE(s->hostctl1)) {
+     case SDHC_CTRL_ADMA2_32:
+-        dma_memory_read(s->dma_as, entry_addr, (uint8_t *)&adma2,
+-                        sizeof(adma2));
++        dma_memory_read(s->dma_as, entry_addr, &adma2, sizeof(adma2));
+         adma2 =3D le64_to_cpu(adma2);
+         /* The spec does not specify endianness of descriptor table.
+          * We currently assume that it is LE.
+@@ -713,8 +712,7 @@ static void get_adma_description(SDHCIState *s, ADMADes=
+cr *dscr)
+         dscr->incr =3D 8;
+         break;
+     case SDHC_CTRL_ADMA1_32:
+-        dma_memory_read(s->dma_as, entry_addr, (uint8_t *)&adma1,
+-                        sizeof(adma1));
++        dma_memory_read(s->dma_as, entry_addr, &adma1, sizeof(adma1));
+         adma1 =3D le32_to_cpu(adma1);
+         dscr->addr =3D (hwaddr)(adma1 & 0xFFFFF000);
+         dscr->attr =3D (uint8_t)extract32(adma1, 0, 7);
+@@ -726,13 +724,10 @@ static void get_adma_description(SDHCIState *s, ADMAD=
+escr *dscr)
+         }
+         break;
+     case SDHC_CTRL_ADMA2_64:
+-        dma_memory_read(s->dma_as, entry_addr,
+-                        (uint8_t *)(&dscr->attr), 1);
+-        dma_memory_read(s->dma_as, entry_addr + 2,
+-                        (uint8_t *)(&dscr->length), 2);
++        dma_memory_read(s->dma_as, entry_addr, (&dscr->attr), 1);
++        dma_memory_read(s->dma_as, entry_addr + 2, (&dscr->length), 2);
+         dscr->length =3D le16_to_cpu(dscr->length);
+-        dma_memory_read(s->dma_as, entry_addr + 4,
+-                        (uint8_t *)(&dscr->addr), 8);
++        dma_memory_read(s->dma_as, entry_addr + 4, (&dscr->addr), 8);
+         dscr->addr =3D le64_to_cpu(dscr->addr);
+         dscr->attr &=3D (uint8_t) ~0xC0;
+         dscr->incr =3D 12;
 --=20
 2.21.1
 
