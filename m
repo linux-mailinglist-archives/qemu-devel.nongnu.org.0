@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E263165E73
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:15:00 +0100 (CET)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42814165E93
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 14:19:52 +0100 (CET)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4lfP-0003cW-AJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:14:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56234)
+	id 1j4lk7-0004Ti-8S
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 08:19:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j4lXT-0005p9-C8
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:48 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4lXc-00066g-5x
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j4lXS-0005Tb-A2
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52180
+ (envelope-from <philmd@redhat.com>) id 1j4lXa-0005dB-8N
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34810
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lXS-0005TM-5v
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:46 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4lXa-0005bL-27
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 08:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582204005;
+ s=mimecast20190719; t=1582204012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uVwVVeCugJs7pFiHvYs+kcICDXTPSCqBYYCEtvte3CI=;
- b=ev0u4fSYVUKmNRoJ8NvKdcw3O0r671WtNM6ZzRv8/729K0rp+x5Zc8/mXn9rE1GYA5eXnx
- JmKk1yS83SKVg5wi8QXsSc40PkpeNs66FQI0oPbhLhC714omVqAeI1kAQra/wYqrEroZHo
- S1frQDdgXnoZyidDSMJtsxwzKV5dgbQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-2gMKBlwcPoSX8GiqKNPZUQ-1; Thu, 20 Feb 2020 08:06:44 -0500
-Received: by mail-wr1-f69.google.com with SMTP id z15so1725714wrw.0
- for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:43 -0800 (PST)
+ bh=gva/oijUn2ukqqFeWUu5GYV/ONiMfg1SXT6HuIycNbc=;
+ b=BprNefb0a5nrJoeVazx4d/BDq9xFbFY1DkG0KAmdpVQNabycvrnAB2LK+F0UbDV8GfjsxA
+ qAt4Db5u0ZAsSM7hmPWkgXgY+aRK7YG7NOPRw0aNU1LpavK5Hp8Ad7Oel0DaHtdnIH5uFN
+ SZHy7QF4A2UdPaOSw9BAFNI4pLAtPIo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-jhGHXd59N96uovvU4eJdBQ-1; Thu, 20 Feb 2020 08:06:47 -0500
+Received: by mail-wr1-f71.google.com with SMTP id p8so1714155wrw.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 05:06:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UKC5US0FVl1pIv+lPWy76t1kr1KKdCp1Se8AoBMs7qQ=;
- b=i1RaU8MMHUDGuzn6U7bSvnCnhiXR9ZY4zBeZM0rmUTD3lVaHZAGxoXQoIE2x9FmLlH
- Tbj9ve3tglXcKIjjlQ6uzNhs0xWs9ySR8kBCUGWRfSbS9H73RuWaYz8Kb3A8MqeyBUFp
- ZYWp9whpiBfCfpSzmSnT98NQ2J/Yv4lNypPeTx/D9VQyo13gG9sbFYm/QTzX6QeQqQbE
- n/JyXCegf9dO2zv+1uP9vDKPbZ8rY+1tuR/Kq+LvadiM55cW5FKHc12Geq0rhz5H0nIi
- XbJY/bk6AilLxVKta+eYWejsFM5EO2uU+We0ManasTb7UXy6Vp04c3gc5tyUDQEm49Nt
- xWqA==
-X-Gm-Message-State: APjAAAXTQMmwHmvTAGbV0O/eBnUhER8BnAgp4bEmViY43ZKKldHKa/qn
- OkId4jpZggyqwETEfbHE8dQEtdNIZW6pjkGQmrgalpt0MRuOnoRtS7+cwTc5TlLffhJFr+iQDkp
- asU6kna18Jpi+/VU=
-X-Received: by 2002:a5d:4c84:: with SMTP id z4mr43731109wrs.423.1582204002760; 
- Thu, 20 Feb 2020 05:06:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwqHc8xSBLutdUhIzf/cdvh5+i6wOt8LjaLS6C9c63Yasey84Mhi4F8A6DvfBLGaafXEkCiSQ==
-X-Received: by 2002:a5d:4c84:: with SMTP id z4mr43731080wrs.423.1582204002528; 
- Thu, 20 Feb 2020 05:06:42 -0800 (PST)
+ bh=epBBiJe/BiipnhOxinjfU345ql1651dsm1KJ2Eg1l+8=;
+ b=NNNXJLYFQNSx1pzcjH68Cc/mzX3aOiaZhE6zGeVv5KUAg3a2s+OvE+JXPVkknDZV8A
+ ppzDjzBT4mJ7K2O9lfWlI6gT4MW5GYgRM7sv19M/8MunZHpK8uC/zDlu7k9kKkZ8E7IU
+ nmgOjwxmQJgJZrm0OWAhg9wsDfaSEALBf3FiRimY/Atr/GL9BTvbpU/+PhalIBXYVv8Z
+ 38nNFczikKOm3L/BVb4AS5oY4ohXnwKhERPbRXtGkZDrPn7B74jX0Afr/ffEZrfir4ql
+ 5Ilg7hayjZNHnpBd0fNY3BAKRRQo5k1OQcCxWn8hIWT/OjlofNADIWQ3ldbOqIqNCWmk
+ //VA==
+X-Gm-Message-State: APjAAAXo1DPOiQMrbQLId0sY92cDnuMhci5zbZ8DCYgC5crHnHF6c6t7
+ qaB0rJEOrBwTC/7M6Iw64IyCEnT9CHNHlgktYMuOwl42G9iKKI44Af7hDhxj9yUuHYSF83Ei7dB
+ 7o1SUhRY5fNzSKpI=
+X-Received: by 2002:a05:600c:295d:: with SMTP id
+ n29mr4504805wmd.101.1582204006819; 
+ Thu, 20 Feb 2020 05:06:46 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyzyX5Y7gdzaTOQjQ/rcWnepNEp6tk5YfOUODjdV1i7lhwV6s1r0NC2sbtsj+sn6/vQEc+xMg==
+X-Received: by 2002:a05:600c:295d:: with SMTP id
+ n29mr4504765wmd.101.1582204006470; 
+ Thu, 20 Feb 2020 05:06:46 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.06.38
+ by smtp.gmail.com with ESMTPSA id b67sm4594690wmc.38.2020.02.20.05.06.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Feb 2020 05:06:41 -0800 (PST)
+ Thu, 20 Feb 2020 05:06:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 13/20] hw/virtio: Let virtqueue_map_iovec() use a boolean
+Subject: [PATCH v3 14/20] hw/virtio: Let vhost_memory_map() use a boolean
  'is_write' argument
-Date: Thu, 20 Feb 2020 14:05:41 +0100
-Message-Id: <20200220130548.29974-14-philmd@redhat.com>
+Date: Thu, 20 Feb 2020 14:05:42 +0100
+Message-Id: <20200220130548.29974-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200220130548.29974-1-philmd@redhat.com>
 References: <20200220130548.29974-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: 2gMKBlwcPoSX8GiqKNPZUQ-1
+X-MC-Unique: jhGHXd59N96uovvU4eJdBQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -121,41 +124,48 @@ Convert it to a boolean type.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/virtio/virtio.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/virtio/vhost.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 2c5410e981..9d06dbe3ef 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -1293,7 +1293,7 @@ static void virtqueue_undo_map_desc(unsigned int out_=
-num, unsigned int in_num,
-=20
- static void virtqueue_map_iovec(VirtIODevice *vdev, struct iovec *sg,
-                                 hwaddr *addr, unsigned int num_sg,
--                                int is_write)
-+                                bool is_write)
- {
-     unsigned int i;
-     hwaddr len;
-@@ -1317,8 +1317,9 @@ static void virtqueue_map_iovec(VirtIODevice *vdev, s=
-truct iovec *sg,
-=20
- void virtqueue_map(VirtIODevice *vdev, VirtQueueElement *elem)
- {
--    virtqueue_map_iovec(vdev, elem->in_sg, elem->in_addr, elem->in_num, 1)=
-;
--    virtqueue_map_iovec(vdev, elem->out_sg, elem->out_addr, elem->out_num,=
- 0);
-+    virtqueue_map_iovec(vdev, elem->in_sg, elem->in_addr, elem->in_num, tr=
-ue);
-+    virtqueue_map_iovec(vdev, elem->out_sg, elem->out_addr, elem->out_num,
-+                                                                        fa=
-lse);
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 9edfadc81d..0d226dae10 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -294,7 +294,7 @@ static int vhost_dev_has_iommu(struct vhost_dev *dev)
  }
 =20
- static void *virtqueue_alloc_element(size_t sz, unsigned out_num, unsigned=
- in_num)
+ static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+-                              hwaddr *plen, int is_write)
++                              hwaddr *plen, bool is_write)
+ {
+     if (!vhost_dev_has_iommu(dev)) {
+         return cpu_physical_memory_map(addr, plen, is_write);
+@@ -1012,21 +1012,21 @@ static int vhost_virtqueue_start(struct vhost_dev *=
+dev,
+=20
+     vq->desc_size =3D s =3D l =3D virtio_queue_get_desc_size(vdev, idx);
+     vq->desc_phys =3D a;
+-    vq->desc =3D vhost_memory_map(dev, a, &l, 0);
++    vq->desc =3D vhost_memory_map(dev, a, &l, false);
+     if (!vq->desc || l !=3D s) {
+         r =3D -ENOMEM;
+         goto fail_alloc_desc;
+     }
+     vq->avail_size =3D s =3D l =3D virtio_queue_get_avail_size(vdev, idx);
+     vq->avail_phys =3D a =3D virtio_queue_get_avail_addr(vdev, idx);
+-    vq->avail =3D vhost_memory_map(dev, a, &l, 0);
++    vq->avail =3D vhost_memory_map(dev, a, &l, false);
+     if (!vq->avail || l !=3D s) {
+         r =3D -ENOMEM;
+         goto fail_alloc_avail;
+     }
+     vq->used_size =3D s =3D l =3D virtio_queue_get_used_size(vdev, idx);
+     vq->used_phys =3D a =3D virtio_queue_get_used_addr(vdev, idx);
+-    vq->used =3D vhost_memory_map(dev, a, &l, 1);
++    vq->used =3D vhost_memory_map(dev, a, &l, true);
+     if (!vq->used || l !=3D s) {
+         r =3D -ENOMEM;
+         goto fail_alloc_used;
 --=20
 2.21.1
 
