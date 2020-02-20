@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2F3165A14
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:24:43 +0100 (CET)
-Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42296165A0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:23:05 +0100 (CET)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i4Y-0000Ve-1t
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:24:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51883)
+	id 1j4i2y-0005p1-3G
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:23:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4i1d-0004HU-Ll
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:42 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j4i1Y-0004Am-NJ
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4i1c-0008Cc-55
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:41 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:40855)
+ (envelope-from <laurent@vivier.eu>) id 1j4i1X-00089d-7a
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:36 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:59341)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1b-0008CE-SA
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:40 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1W-00088z-VF
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:35 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MwgOK-1jO26u3hYA-00y7XU; Thu, 20 Feb 2020 10:21:03 +0100
+ id 1MulVd-1jM6Au2Cdn-00rowL; Thu, 20 Feb 2020 10:21:03 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/13] linux-user: remove gemu_log from the linux-user tree
-Date: Thu, 20 Feb 2020 10:20:48 +0100
-Message-Id: <20200220092053.1510215-9-laurent@vivier.eu>
+Subject: [PULL 09/13] linux-user: Add support for getting alsa timer version
+ and id
+Date: Thu, 20 Feb 2020 10:20:49 +0100
+Message-Id: <20200220092053.1510215-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
 References: <20200220092053.1510215-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jaXcrerx7Sf1J2/KAshvpJej0DPSRikz8QYveZdkx0RE7tkrj+h
- yP9BDC4x6hRStjBmBASgYcXE31RoL0wLG3uxKypWzO9br/1H/V5L/WcrisCFv30wc6OZI7I
- pk8FVjVBvK51sjH5utFpL2mniWZCjGJaXAe5+lQnrEzkAZ0t8pbmMr+i46kBkZIm+byZHr2
- yf+s9VNKu73PPPSaslqXg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qS/B/DBv5nE=:CzV72reGOi9BJmymo6aidW
- e8SRuVLTuZQaeZ9AHviErZ+7AZgicJ5nCWTisO4CopukYsDpJ8nr8qx6mlVAsAy8zJV6xaend
- eUzUqU8FjDFKk/unxnoHc508J/yl6bTXRBEpdAfYfk+dBS+Q1tU0iicceAApdGQTIqXPxx+Gu
- Q7Hl60HRkgY5QjmBibBDFys/N90A2mbvfwHJMm7PjT7aIrI5IxNZGYC8vo0XJoUXBRCFivZg9
- r83BCnMUVFlY5EqPz6zAhdI7Wichryn5IjSXoGMoa5CeIESxuVRr8rYL7+vrf5uvtOaCWDyph
- TTRx2LXWm/Ayxh1UNrIz3r8BtsSduiGszf0lCB0fn4U3RzVFaLoenqmjrONXKpDliw0Mttc3b
- RduTtECXzp/qyIrtn+KG/2LzNdZZC+NcRAAMfzYGOInVfkBq5e8D0mtM2yQoAxjVPyT9uP5d+
- ImqQIbGqmpTyckzd8R4JmlhGvYzG6n2XMKLXFGIGcOg9e11nHpKaPspLxzx/AMKDVEJdbpVrm
- GhbZdPvAvp0LIoi5cyiIyABZZu6yeIKborVS4Xc4ubbnyaLDbQEcncyZeBHHegz/fJXFz9nMa
- NPycAF9DmqtSKFifMFBV3KCGPVMdPM0QwUMHaAu7YNcgkROS7XR+MNb7DSZFiuvfgTIHDKjzE
- GG1XNwt4DhHkCmvRfccip5NF7imeVYDcfGhXOtoLtwDASa8vOjcRZ/H2KiyhS9SlpjmUawtSk
- TUZQhuCwEuwmIlFlDIdv4y+VVbpexPBCC/dwQls+T8nzg+uKzmJ0ZgPr/IcFs9x5WIFIE5LmU
- I5VdUc6WnfFfgWZ/q769YKyD30KajeeWPD4cGbrLzT18t72BBKp4IxTOs2BQtZtYYlNWCzM
+X-Provags-ID: V03:K1:VktzNMEVk9unQhdlGz6zUqy6vDEkqd15Fku5KPo/cKBbzRZkcBO
+ Ya4dzWwBBzO995cnyaY/Pxe+mnI+fWyIRoGol+XwymOvy6eHaR6qo1Lad0cYtA+kDdf38G+
+ DaSwe2FktVGu0bUXQH3SrjCddkRt1tuOG0kTFaXjH4sVqM8qwrMZ+qYh7SU94f3o3u/vwtS
+ /m9EJy50rMTSDycz6MA/w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JPYZZbwfSfE=:QHU43bNIHsGoluuF5/Lj0O
+ VfCMIt/6PrmQSuNSBJLPyi5T8KE+HLRUA886IJpcyuBektw5wkCNUZbx+Ucs3Lvbuq+sx2qyi
+ BBQM0Sygmah27zBTFuOZsCRnh38O1HmZEAyvdakB/zqN6onjlg8s5Jxb3tPW8yo2FQlkSYYhd
+ jMfUWbboCCSV3ORJA8pkOINQOFK+UhgsQsAtpo6gHN0HOR0XDxEVtZjSQoHf/njwlYS0RPjlc
+ 2MkA9SGtJ8toY1CyNVMo/yxyJg2mXSz2jhArBt0yHy0tkM7zeNbIcw3nLC5Z7sGHjTooq2H2m
+ Xf3mYCoxHCGuF/cQrIjHaBo1S4iMQa68kis2wW57tAQPh1OHSPJUVhIWL00yaXs1WJngb9+zX
+ VbWScimHcYZ61bSqOgCyYx2Fbw59dTlqmS68BLqkHIJyPPhcsoMBDH+bzChfU8fWyjG4g/Sl0
+ N3ftChEbDjzYempu24duLvDZRprrqWIaqhPi2QD5WUiU5W7tQy7OltSgU4xXUhXEqtEXmaXbL
+ NsUpH6duSZUDKyuixNxNCpAvcOJ9170Mc78X6SvSD5B9AoBNLgcvjWCDXFKqgXaOLx4xAd++8
+ 3NYaYktgslewihgDek/AzKGOQ2joif5rHqqih6kJ6AMW2ThR4RqK6RiHRz2xZQDq4ezkEC2nr
+ zyjjMk/Vis0RZsNsLP+Wd/V80jxfaOGVrYDwQOovagY72RHJ8I7X/oqR5Dw4f4wyNI5HBLOGz
+ 9HsCvfNA/aYPuEBeZ6Mxo5YYYPQnBenGlQtPjtTnIvusXgeiAxhafD7uZXrml9qs35xYNBrPP
+ FhTiLBl32S82e8aMSjnxlCJirFobDQu9srvkaoLh90ZjvZlDjBsT4+qJ8+VUZPMH3pbI4Cj
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,58 +65,136 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Josh Kunz <jkz@google.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Filip Bozuta <Filip.Bozuta@rt-rk.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Josh Kunz <jkz@google.com>
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 
-Now that all uses have been migrated to `qemu_log' it is no longer
-needed.
+This patch implements functionalities of following ioctls:
+
+SNDRV_TIMER_IOCTL_PVERSION - Getting the sound timer version
+
+    Read the sound timer version. The third ioctl's argument is
+    a pointer to an int in which the specified timers version
+    is returned.
+
+SNDRV_TIMER_IOCTL_NEXT_DEVICE - Getting id information about next timer
+
+    Read id information about the next timer device from the sound timer
+    device list. The id infomration is returned in the following structure:
+
+        struct snd_timer_id {
+            int dev_class;    /* timer device class number */
+            int dev_sclass;   /* slave device class number (unused) */
+            int card;         /* card number */
+            int device;       /* device number */
+            int subdevice;    /* sub-device number */
+        };
+
+    The devices in the sound timer device list are arranged by the fields
+    of this structure respectively (first by dev_class number, then by
+    card number, ...). A pointer to this structure should be passed as
+    the third ioctl's argument. Before calling the ioctl, the parameters
+    of this structure should be initialized in relation to the next timer
+    device which information is to be obtained. For example, if a wanted
+    timer device has the device class number equal to or bigger then 2,
+    the field dev_class should be initialized to 2. After the ioctl call,
+    the structure fields are filled with values from the next device in
+    the sound timer device list. If there is no next device in the list,
+    the structure is filled with "zero" id values (in that case all
+    fields are filled with value -1).
+
+Implementation notes:
+
+    The ioctl 'SNDRV_TIMER_IOCTL_NEXT_DEVICE' has a pointer to a
+    'struct snd_timer_id' as its third argument. That is the reason why
+    corresponding definition is added in 'linux-user/syscall_types.h'.
+    Since all elements of this structure are of type 'int', the rest of
+    the implementation was straightforward.
+
+    The line '#include <linux/rtc.h>' was added to recognize
+    preprocessor definitions for these ioctls. This needs to be
+    done only once in this series of commits. Also, the content
+    of this file (with respect to ioctl definitions) remained
+    unchanged for a long time, therefore there is no need to
+    worry about supporting older Linux kernel version.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Josh Kunz <jkz@google.com>
-Message-Id: <20200204025416.111409-4-jkz@google.com>
+Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Message-Id: <1579117007-7565-8-git-send-email-Filip.Bozuta@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c | 9 ---------
- linux-user/qemu.h | 1 -
- 2 files changed, 10 deletions(-)
+ linux-user/ioctls.h        | 4 ++++
+ linux-user/syscall.c       | 1 +
+ linux-user/syscall_defs.h  | 5 +++++
+ linux-user/syscall_types.h | 7 +++++++
+ 4 files changed, 17 insertions(+)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 8f1d07cdd6a7..22578b163364 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -112,15 +112,6 @@ const char *qemu_uname_release;
-    by remapping the process stack directly at the right place */
- unsigned long guest_stack_size = 8 * 1024 * 1024UL;
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 73dcc761e642..950e99617dcc 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -461,6 +461,10 @@
+   IOCTL(SOUND_MIXER_WRITE_LOUD, IOC_W, MK_PTR(TYPE_INT))
+   IOCTL(SOUND_MIXER_WRITE_RECSRC, IOC_W, MK_PTR(TYPE_INT))
  
--void gemu_log(const char *fmt, ...)
--{
--    va_list ap;
--
--    va_start(ap, fmt);
--    vfprintf(stderr, fmt, ap);
--    va_end(ap);
--}
--
- #if defined(TARGET_I386)
- int cpu_get_pic_interrupt(CPUX86State *env)
- {
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 2421dc7afd7a..792c74290f8d 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -211,7 +211,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-                     abi_long arg2, abi_long arg3, abi_long arg4,
-                     abi_long arg5, abi_long arg6, abi_long arg7,
-                     abi_long arg8);
--void gemu_log(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
- extern __thread CPUState *thread_cpu;
- void cpu_loop(CPUArchState *env);
- const char *target_strerror(int err);
++  IOCTL(SNDRV_TIMER_IOCTL_PVERSION, IOC_R, MK_PTR(TYPE_INT))
++  IOCTL(SNDRV_TIMER_IOCTL_NEXT_DEVICE, IOC_RW,
++        MK_PTR(MK_STRUCT(STRUCT_snd_timer_id)))
++
+   IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
+   IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(HDIO_GET_MULTCOUNT, IOC_R, MK_PTR(TYPE_INT))
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 274e10e0ee6b..8d27d1080752 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -111,6 +111,7 @@
+ #include <linux/netlink.h>
+ #include <linux/if_alg.h>
+ #include <linux/rtc.h>
++#include <sound/asound.h>
+ #include "linux_loop.h"
+ #include "uname.h"
+ 
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 9b61ae8547dd..eb00358b5437 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2437,6 +2437,11 @@ struct target_statfs64 {
+ 
+ #define TARGET_SOUND_MIXER_WRITE_RECSRC	TARGET_MIXER_WRITE(SOUND_MIXER_RECSRC)
+ 
++/* alsa timer ioctls */
++#define TARGET_SNDRV_TIMER_IOCTL_PVERSION     TARGET_IOR('T', 0x00, int)
++#define TARGET_SNDRV_TIMER_IOCTL_NEXT_DEVICE  TARGET_IOWR('T', 0x01,           \
++                                                struct snd_timer_id)
++
+ /* vfat ioctls */
+ #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
+ #define TARGET_VFAT_IOCTL_READDIR_SHORT   TARGET_IORU('r', 2)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 5ba4155047ba..4c3a65cfc030 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -83,6 +83,13 @@ STRUCT(buffmem_desc,
+ STRUCT(mixer_info,
+        MK_ARRAY(TYPE_CHAR, 16), MK_ARRAY(TYPE_CHAR, 32), TYPE_INT, MK_ARRAY(TYPE_INT, 10))
+ 
++STRUCT(snd_timer_id,
++       TYPE_INT, /* dev_class */
++       TYPE_INT, /* dev_sclass */
++       TYPE_INT, /* card */
++       TYPE_INT, /* device */
++       TYPE_INT) /* subdevice */
++
+ /* loop device ioctls */
+ STRUCT(loop_info,
+        TYPE_INT,                 /* lo_number */
 -- 
 2.24.1
 
