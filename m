@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79328165634
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 05:20:10 +0100 (CET)
-Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F82165627
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 05:16:05 +0100 (CET)
+Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4dJp-0002gw-Hn
-	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 23:20:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45190)
+	id 1j4dFs-0004X2-AF
+	for lists+qemu-devel@lfdr.de; Wed, 19 Feb 2020 23:16:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1j4dBs-0004qQ-Ax
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:57 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j4dBt-0004t6-9s
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1j4dBr-0005zd-6m
- for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:56 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j4dBr-0005zu-Pw
+ for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:57 -0500
 Received: from mail-co1nam11on2112.outbound.protection.outlook.com
  ([40.107.220.112]:43264 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j4dBq-0005yw-Vd
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j4dBr-0005yw-GJ
  for qemu-devel@nongnu.org; Wed, 19 Feb 2020 23:11:55 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gT1JJ4ILKqw/S/9Nh4cXJ/oAA92AAPt17C1XteS9+/v9qJBIk44muL5r8e/nrQ8Lp7JCZQNBXC9sr8GBUFRWPhvVrN6bI/IFgHp+EmGfmhFhVSbmmCFSqOaqXLO1sa+y2MCQMWLzBiGcrVRyAtXJLs1hqDAbqwTzxGDG3VQ59WJSOXwAZagKNv2FieLiHft0q+GrTfcYZpD5PUXNtBm44xhNYQrzLPaX3D/d4LEF1hwqonlMmMRQS8XZqwYWcUdNRSGaJ8Fyfry+JXLGajRrlhKuMcHrUHcJ7VrfoghJV6yQXBeIctCdLzrxqSPG76DIYgQ7wmGQDJQnJHu33tbc5g==
+ b=PyIp+Zu3Dtpdepbjjb87Vn4z2G9dP9jrcxSmTbkVUciLiffoTTdMJYrlmGemcRH260V36SuWJlFVtExTmGQfvBQ6IU/DuugA1wQILshppgVWSEDxkm5Uu3PNv028xeK4JJGjAwXthSNSsKaAobusfDv9LskxOM9pV2XGEulkM8/86tiDPEJ6SLy6slXopYA+kZpW28QPUypAM4qjDk13r3aguK6dgtEWBaymaPmFtc1JnZFahlLaCA2ZJ/tKVVLZw+2CcVSaqM4wx0WEzLPyycC5P3JIpWTMJwb5ifDE8Us1zwp1t7QdptEytXyA0H21xvNU2IwoIdGCK4cTtExiUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4qEoOG0s+esv4vMARQiW1Asy+2QVle7snAp3psZBg58=;
- b=fQiCFcMmZu61sgvXM5u2mpaBH40Wf1w/LDRUk3v4Ncp+OAnDoL+3pp1UY5JdJIZUtqSqaf2VUj/CloLFBaXp2/WmXGb7Nr+befUtPebA8aGlb+3xN9Fzo653y2kaCygnl1dPTcDoegxQ9VjSafq8bQNqO4xXrzeFNayM3S8sOcUTbmNhRjhVMHh5lQ5S5MvF63yHtY7qohuPJUEQKNPlyb05+Kdiexj1NoPgZrjI+KlivFB0Acmy53ySa6XHAmDa10i9NqGzVvJC3uAuHW1mex8GjfNtMvBhAczQk2SELkM4LumGrySZ+C4/re6O616iNo0nBNfiAQIYYvZrSdfLyw==
+ bh=IyIAbRvmMQLD2Sd3PBj5IaicBDwUApyRERMIDt1SmF8=;
+ b=VPT4MPFeNKXf1FKC6ooaGn0pH0x/XzzKFU3PPSrVGx5RHHnU8dM5FH1Xl3SmJJnI4etG/9G66xsv6/EwNm08ThemIp5nHg5j1dXExwFCk+pa0mW/G9mwXQ9jlzTgfWABkVqLrQQXgmTCprMMaTXABtveRBuk+CpzkWoTc6TvwI+Y+se/NaSkz3i8Gste4SdL0BSGE3F+X8O7CULZzJ+r25ppqZWQv3GI4Z/XgRpAYcEHZlZ3x1wV+Y/Cb+nu0g74Qazw2lj4s+gpWYM87XZPMY9/X1wZ6rgl3MF2VI3CIj2TJMpXdmmDDFCGugicaxSLnnPi+KG0SJOM9XSsfXvpQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4qEoOG0s+esv4vMARQiW1Asy+2QVle7snAp3psZBg58=;
- b=KnKJPKCcT16nEoZD21zZPIiTX2UJzMa/gJY3Bnh/i+GfmkX69a/nOZxnPzir347G3U4OUMzzgIh77CbfXmpB5CV97JFbL+RgozgmD4E1HdBsqOKUAiQoed5I73/ochJzhM2kWtnDE0dO0mZBKm/nR0pzbAvjBw0AVKi19tTk1fA=
+ bh=IyIAbRvmMQLD2Sd3PBj5IaicBDwUApyRERMIDt1SmF8=;
+ b=VI+MSpak11CesCaKTab+bxBF/Ij9YsmwrMrQ0pdUEQoxsxEYNxFeRg2TvON5QFKPLEdfkY6orF3CA16hNwyWujCyZY1RSrAVMqITfJ+hz/0BkDizSIswcEDc6U04JkOHHbO7fPvDVL3ky+YsbhgcntHoN6AAOgKHW49hOIbsApM=
 Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB3807.namprd03.prod.outlook.com (2603:10b6:805:6a::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.22; Thu, 20 Feb
- 2020 04:11:53 +0000
+ 2020 04:11:54 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2729.033; Thu, 20 Feb 2020
- 04:11:53 +0000
+ 04:11:54 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 18/22] fuzz: add configure flag --enable-fuzzing
-Date: Wed, 19 Feb 2020 23:11:14 -0500
-Message-ID: <20200220041118.23264-19-alxndr@bu.edu>
+Subject: [PATCH v10 19/22] fuzz: add i440fx fuzz targets
+Date: Wed, 19 Feb 2020 23:11:15 -0500
+Message-ID: <20200220041118.23264-20-alxndr@bu.edu>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200220041118.23264-1-alxndr@bu.edu>
 References: <20200220041118.23264-1-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-ClientProxiedBy: BL0PR0102CA0048.prod.exchangelabs.com
  (2603:10b6:208:25::25) To SN6PR03MB3871.namprd03.prod.outlook.com
  (2603:10b6:805:6d::32)
@@ -63,15 +63,15 @@ MIME-Version: 1.0
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR0102CA0048.prod.exchangelabs.com (2603:10b6:208:25::25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.17 via Frontend Transport; Thu, 20 Feb 2020 04:11:52 +0000
+ 15.20.2750.17 via Frontend Transport; Thu, 20 Feb 2020 04:11:53 +0000
 X-Mailer: git-send-email 2.25.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 262bf4e2-6009-410f-3671-08d7b5bb0464
+X-MS-Office365-Filtering-Correlation-Id: dd9ebf2e-7322-44a6-da72-08d7b5bb04f5
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3807:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB3807ED5355D0EF21F63E1855BA130@SN6PR03MB3807.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:962;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3807F80E7EB75CEFC55D6D43BA130@SN6PR03MB3807.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-Forefront-PRVS: 031996B7EF
 X-Forefront-Antispam-Report: SFV:NSPM;
  SFS:(10019020)(4636009)(346002)(136003)(396003)(39860400002)(376002)(366004)(199004)(189003)(36756003)(86362001)(81166006)(75432002)(8676002)(2616005)(478600001)(81156014)(8936002)(66476007)(5660300002)(6916009)(66556008)(66946007)(54906003)(956004)(316002)(786003)(6486002)(6666004)(7696005)(16526019)(186003)(26005)(4326008)(1076003)(2906002)(52116002);
@@ -82,15 +82,15 @@ Received-SPF: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: e/jJNjp/CFSBRq+w0xgidfTyUPvTuyTsc0wQv2vsqqn+dCi/9qFLg3N5nQf0Gr00UrSAi6YnVW2YXNA2QkNJPa82jYXhXevCrcZ+5BqIP5eIsKUFuAT/78QfwRnjN7VlD7HKKsI+2CpT03FgDeuhfs0vtby56senuoEqWorsKyxnqJYDDcWc3f/KgSO/6OOOQmpqEg0vtVaH6TpPVn5DUmH76bh1Tv8cFggD3b0a9sf4CD8Ixv5tRC98iL14LaSTdpXiCVaM73QTONh+yVzD++q+KmXSmibaeWAPPvKSrwwhyRsfUNTS8tr19bX2IxvyJUbfq3i9MvycWQBXXSKycx09T505nUBpKfgU32PNIF6OLYrRriRuMkgnfpfX+BedBFL9HEou9oPlaWfmQwrPIIaZZVN1nbPZDLJd8l91PocmCXW9ORDBY1xWNS8zKa0u
-X-MS-Exchange-AntiSpam-MessageData: 2NQaPO2fG7U25jzt3htZSI/0E5CIOvoVxuI3bUo0IXW3ZHbIudChRp+urdWEYRqKVCmeaYivxUNiQWi4CgFOLWr25ftXpaMjKzrKtctSMpgotS0BYLL3qD6LHx0gOrsMj2o4XxgTPXSSOHB4CkV5ow==
+X-Microsoft-Antispam-Message-Info: eR18C5+WKT32LFsCpcfJr7daJ+BZI++TZJT2gMEvP7fGLa407/cqI9DFakA1BZ0PD7urnq4nA6ipHILnE/bovt5B53C/gwv8k/YRMIOxAHi5gUZ0uVgdyoEc7jU8ZHVLKS52oSPm9Js1RoxYViP3KhAJH5PNda3GOsp827rZ8JZF20omyoLkoaBn4ERjLqsII8Yz6GhdYEmU9y+hosUmn90pK9FY1uChEfV+OgayaoAOMZaVS+b7U6rSINmXOaztMo3AIqMLmvP58iA8iGtEbyVURpO/31Pta5uxnLBsXB1HjA5geQVVvhU7/FBekEvY80jQN1paGDfeiJxIQXQb8ll6/PZ0veNRllQmdqsRL+KOS4Cw4I+Tqq8Oxrk8+8UPIFN78QO24kjSWEFMHvCmloyCpJ7q3MU5or9uuByr5N7QJGirGo2MtgnOrR+oNpDL
+X-MS-Exchange-AntiSpam-MessageData: 66bBpz+R5ewrDLOSC+VRXoo84dYx+ZGhXMb++KbhjmdopNillcl2R7lACJGr+BtACpJOcavXNLr8JBWqyk1aeWifox/Zv07CPOG71JCWrAV6Ui3BoPu8TCn1VhYbwyYzoovZoW63HMJpVFAbvFz3vw==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 262bf4e2-6009-410f-3671-08d7b5bb0464
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 04:11:53.5431 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd9ebf2e-7322-44a6-da72-08d7b5bb04f5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2020 04:11:54.4946 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ePOF4SaV9ZqseA0jkZB4Sd3C3HCSaCDwb9+ekD5AhHs6FBQhBDrtJT2S31tCGSJ8
+X-MS-Exchange-CrossTenant-UserPrincipalName: hN7r6MxjEGZuYoaPVTdspiRs2TJwm85h4eoP6emQxyY0LuIxdNcv/i+YXpJl3UB2
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3807
 X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
@@ -106,113 +106,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ darren.kenny@oracle.com, Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These three targets should simply fuzz reads/writes to a couple ioports,
+but they mostly serve as examples of different ways to write targets.
+They demonstrate using qtest and qos for fuzzing, as well as using
+rebooting and forking to reset state, or not resetting it at all.
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- configure | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ tests/qtest/fuzz/Makefile.include |   3 +
+ tests/qtest/fuzz/i440fx_fuzz.c    | 193 ++++++++++++++++++++++++++++++
+ 2 files changed, 196 insertions(+)
+ create mode 100644 tests/qtest/fuzz/i440fx_fuzz.c
 
-diff --git a/configure b/configure
-index 115dc38085..bd873177ad 100755
---- a/configure
-+++ b/configure
-@@ -505,6 +505,7 @@ debug_mutex=3D"no"
- libpmem=3D""
- default_devices=3D"yes"
- plugins=3D"no"
-+fuzzing=3D"no"
+diff --git a/tests/qtest/fuzz/Makefile.include b/tests/qtest/fuzz/Makefile.=
+include
+index e3bdd33ff4..38b8cdd9f1 100644
+--- a/tests/qtest/fuzz/Makefile.include
++++ b/tests/qtest/fuzz/Makefile.include
+@@ -6,6 +6,9 @@ fuzz-obj-y +=3D tests/qtest/fuzz/fuzz.o # Fuzzer skeleton
+ fuzz-obj-y +=3D tests/qtest/fuzz/fork_fuzz.o
+ fuzz-obj-y +=3D tests/qtest/fuzz/qos_fuzz.o
 =20
- supported_cpu=3D"no"
- supported_os=3D"no"
-@@ -635,6 +636,15 @@ int main(void) { return 0; }
- EOF
- }
++# Targets
++fuzz-obj-y +=3D tests/qtest/fuzz/i440fx_fuzz.o
++
+ FUZZ_CFLAGS +=3D -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
 =20
-+write_c_fuzzer_skeleton() {
-+    cat > $TMPC <<EOF
-+#include <stdint.h>
-+#include <sys/types.h>
-+int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size);
-+int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) { return 0; }
-+EOF
+ # Linker Script to force coverage-counters into known regions which we can=
+ mark
+diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.=
+c
+new file mode 100644
+index 0000000000..ab5f112584
+--- /dev/null
++++ b/tests/qtest/fuzz/i440fx_fuzz.c
+@@ -0,0 +1,193 @@
++/*
++ * I440FX Fuzzing Target
++ *
++ * Copyright Red Hat Inc., 2019
++ *
++ * Authors:
++ *  Alexander Bulekov   <alxndr@bu.edu>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++
++#include "qemu/main-loop.h"
++#include "tests/qtest/libqtest.h"
++#include "tests/qtest/libqos/pci.h"
++#include "tests/qtest/libqos/pci-pc.h"
++#include "fuzz.h"
++#include "fuzz/qos_fuzz.h"
++#include "fuzz/fork_fuzz.h"
++
++
++#define I440FX_PCI_HOST_BRIDGE_CFG 0xcf8
++#define I440FX_PCI_HOST_BRIDGE_DATA 0xcfc
++
++/*
++ * the input to the fuzzing functions below is a buffer of random bytes. w=
+e
++ * want to convert these bytes into a sequence of qtest or qos calls. to d=
+o
++ * this we define some opcodes:
++ */
++enum action_id {
++    WRITEB,
++    WRITEW,
++    WRITEL,
++    READB,
++    READW,
++    READL,
++    ACTION_MAX
++};
++
++static void i440fx_fuzz_qtest(QTestState *s,
++        const unsigned char *Data, size_t Size) {
++    /*
++     * loop over the Data, breaking it up into actions. each action has an
++     * opcode, address offset and value
++     */
++    typedef struct QTestFuzzAction {
++        uint8_t opcode;
++        uint8_t addr;
++        uint32_t value;
++    } QTestFuzzAction;
++    QTestFuzzAction a;
++
++    while (Size >=3D sizeof(a)) {
++        /* make a copy of the action so we can normalize the values in-pla=
+ce */
++        memcpy(&a, Data, sizeof(a));
++        /* select between two i440fx Port IO addresses */
++        uint16_t addr =3D a.addr % 2 ? I440FX_PCI_HOST_BRIDGE_CFG :
++                                      I440FX_PCI_HOST_BRIDGE_DATA;
++        switch (a.opcode % ACTION_MAX) {
++        case WRITEB:
++            qtest_outb(s, addr, (uint8_t)a.value);
++            break;
++        case WRITEW:
++            qtest_outw(s, addr, (uint16_t)a.value);
++            break;
++        case WRITEL:
++            qtest_outl(s, addr, (uint32_t)a.value);
++            break;
++        case READB:
++            qtest_inb(s, addr);
++            break;
++        case READW:
++            qtest_inw(s, addr);
++            break;
++        case READL:
++            qtest_inl(s, addr);
++            break;
++        }
++        /* Move to the next operation */
++        Size -=3D sizeof(a);
++        Data +=3D sizeof(a);
++    }
++    flush_events(s);
 +}
 +
- if check_define __linux__ ; then
-   targetos=3D"Linux"
- elif check_define _WIN32 ; then
-@@ -1545,6 +1555,10 @@ for opt do
-   ;;
-   --disable-containers) use_containers=3D"no"
-   ;;
-+  --enable-fuzzing) fuzzing=3Dyes
-+  ;;
-+  --disable-fuzzing) fuzzing=3Dno
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -6035,6 +6049,15 @@ EOF
-   fi
- fi
-=20
-+##########################################
-+# checks for fuzzer
-+if test "$fuzzing" =3D "yes" ; then
-+  write_c_fuzzer_skeleton
-+  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=3Daddress,fuzzer" ""; th=
-en
-+      have_fuzzer=3Dyes
-+  fi
-+fi
++static void i440fx_fuzz_qos(QTestState *s,
++        const unsigned char *Data, size_t Size) {
++    /*
++     * Same as i440fx_fuzz_qtest, but using QOS. devfn is incorporated int=
+o the
++     * value written over Port IO
++     */
++    typedef struct QOSFuzzAction {
++        uint8_t opcode;
++        uint8_t offset;
++        int devfn;
++        uint32_t value;
++    } QOSFuzzAction;
 +
- ##########################################
- # check for libpmem
-=20
-@@ -6621,6 +6644,7 @@ echo "libpmem support   $libpmem"
- echo "libudev           $libudev"
- echo "default devices   $default_devices"
- echo "plugin support    $plugins"
-+echo "fuzzing support   $fuzzing"
-=20
- if test "$supported_cpu" =3D "no"; then
-     echo
-@@ -7456,6 +7480,16 @@ fi
- if test "$sheepdog" =3D "yes" ; then
-   echo "CONFIG_SHEEPDOG=3Dy" >> $config_host_mak
- fi
-+if test "$fuzzing" =3D "yes" ; then
-+  if test "$have_fuzzer" =3D "yes"; then
-+    FUZZ_LDFLAGS=3D" -fsanitize=3Daddress,fuzzer"
-+    FUZZ_CFLAGS=3D" -fsanitize=3Daddress,fuzzer"
-+    CFLAGS=3D" -fsanitize=3Daddress,fuzzer-no-link"
-+  else
-+    error_exit "Your compiler doesn't support -fsanitize=3Daddress,fuzzer"
-+    exit 1
-+  fi
-+fi
-=20
- if test "$plugins" =3D "yes" ; then
-     echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
-@@ -7556,6 +7590,11 @@ if test "$libudev" !=3D "no"; then
-     echo "CONFIG_LIBUDEV=3Dy" >> $config_host_mak
-     echo "LIBUDEV_LIBS=3D$libudev_libs" >> $config_host_mak
- fi
-+if test "$fuzzing" !=3D "no"; then
-+    echo "CONFIG_FUZZ=3Dy" >> $config_host_mak
-+    echo "FUZZ_CFLAGS=3D$FUZZ_CFLAGS" >> $config_host_mak
-+    echo "FUZZ_LDFLAGS=3D$FUZZ_LDFLAGS" >> $config_host_mak
-+fi
-=20
- if test "$edk2_blobs" =3D "yes" ; then
-   echo "DECOMPRESS_EDK2_BLOBS=3Dy" >> $config_host_mak
++    static QPCIBus *bus;
++    if (!bus) {
++        bus =3D qpci_new_pc(s, fuzz_qos_alloc);
++    }
++
++    QOSFuzzAction a;
++    while (Size >=3D sizeof(a)) {
++        memcpy(&a, Data, sizeof(a));
++        switch (a.opcode % ACTION_MAX) {
++        case WRITEB:
++            bus->config_writeb(bus, a.devfn, a.offset, (uint8_t)a.value);
++            break;
++        case WRITEW:
++            bus->config_writew(bus, a.devfn, a.offset, (uint16_t)a.value);
++            break;
++        case WRITEL:
++            bus->config_writel(bus, a.devfn, a.offset, (uint32_t)a.value);
++            break;
++        case READB:
++            bus->config_readb(bus, a.devfn, a.offset);
++            break;
++        case READW:
++            bus->config_readw(bus, a.devfn, a.offset);
++            break;
++        case READL:
++            bus->config_readl(bus, a.devfn, a.offset);
++            break;
++        }
++        Size -=3D sizeof(a);
++        Data +=3D sizeof(a);
++    }
++    flush_events(s);
++}
++
++static void i440fx_fuzz_qos_fork(QTestState *s,
++        const unsigned char *Data, size_t Size) {
++    if (fork() =3D=3D 0) {
++        i440fx_fuzz_qos(s, Data, Size);
++        _Exit(0);
++    } else {
++        wait(NULL);
++    }
++}
++
++static const char *i440fx_qtest_argv =3D TARGET_NAME " -machine accel=3Dqt=
+est"
++                                       "-m 0 -display none";
++static const char *i440fx_argv(FuzzTarget *t)
++{
++    return i440fx_qtest_argv;
++}
++
++static void fork_init(void)
++{
++    counter_shm_init();
++}
++
++static void register_pci_fuzz_targets(void)
++{
++    /* Uses simple qtest commands and reboots to reset state */
++    fuzz_add_target(&(FuzzTarget){
++                .name =3D "i440fx-qtest-reboot-fuzz",
++                .description =3D "Fuzz the i440fx using raw qtest commands=
+ and"
++                               "rebooting after each run",
++                .get_init_cmdline =3D i440fx_argv,
++                .fuzz =3D i440fx_fuzz_qtest});
++
++    /* Uses libqos and forks to prevent state leakage */
++    fuzz_add_qos_target(&(FuzzTarget){
++                .name =3D "i440fx-qos-fork-fuzz",
++                .description =3D "Fuzz the i440fx using raw qtest commands=
+ and"
++                               "rebooting after each run",
++                .pre_vm_init =3D &fork_init,
++                .fuzz =3D i440fx_fuzz_qos_fork,},
++                "i440FX-pcihost",
++                &(QOSGraphTestOptions){}
++                );
++
++    /*
++     * Uses libqos. Doesn't do anything to reset state. Note that if we we=
+re to
++     * reboot after each run, we would also have to redo the qos-related
++     * initialization (qos_init_path)
++     */
++    fuzz_add_qos_target(&(FuzzTarget){
++                .name =3D "i440fx-qos-noreset-fuzz",
++                .description =3D "Fuzz the i440fx using raw qtest commands=
+ and"
++                               "rebooting after each run",
++                .fuzz =3D i440fx_fuzz_qos,},
++                "i440FX-pcihost",
++                &(QOSGraphTestOptions){}
++                );
++}
++
++fuzz_target_init(register_pci_fuzz_targets);
 --=20
 2.25.0
 
