@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA53165A29
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:28:40 +0100 (CET)
-Received: from localhost ([::1]:38504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6965A165A17
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 10:25:52 +0100 (CET)
+Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4i8N-0000DD-5i
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:28:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51935)
+	id 1j4i5f-0002nI-Ej
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 04:25:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j4i1g-0004M3-Fb
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:45 -0500
+ (envelope-from <david@redhat.com>) id 1j4i4P-00017u-7Y
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:24:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j4i1f-0008EN-7z
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:44 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:41847)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j4i1e-0008DV-Ob
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:21:43 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MEVqu-1jFCQ40vDm-00G1LU; Thu, 20 Feb 2020 10:21:06 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] linux-user: Add support for selected alsa timer
- instructions using ioctls
-Date: Thu, 20 Feb 2020 10:20:53 +0100
-Message-Id: <20200220092053.1510215-14-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
-References: <20200220092053.1510215-1-laurent@vivier.eu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JvK0QtNJZ9KpkuooMB2cdSBLneSIiuwLh8Ash4Di14Y9wtSAnry
- G0Feg9JcNA3ojyXn6GoQ2q1Nt4mGNLt9Xbq/ru3Z3kB0arlQGHsbaaKkZsRiRlaTWoXqH4w
- eaghHI6fuXWW4TM8nPz+23igwPmVHUFDhSWL5EU2GgTZeq+QGyXgGFLKcf5TG//bPsX2QQ6
- TzVpF1Hlp4z6jaLM6X2Ig==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QJWI2yYaMxM=:jxDy3dfsAHLnQa+BgKSvHp
- VI4CmMNnQTnsiUxqB+mkILEOyWYQ9Nws9B9MF8Ii33gGDn5Pqn4ql43oMDYCnrc+10YIjrJ3p
- Toc6zTRj/jn9yDSnRvrlX0VhSBF/e6An1WjHkNt2vVez7QhQW1UX7q8OKx7qDbFTX/sY9uOGN
- SCmq1HREolbkCRoOwW15CmZqk07airUZEzn7NIpkPeGxCV/ZDmLWjrgKGSsIL9Xo7ixfMwNN/
- BhJ8m8dljFclKUX6CRZVHVjCPaoIhhJxoChIGmJ8+gqCIeejlqBLSdeVdC9F1m8FXs2mmQWW1
- 4ahj8oe2elaA5wfpYwiI/mS7uBrg7R33tLef6vsBj4imnc7CNvjMDdURXRzGrvIiInlPqywVO
- RWTWicSDBMTrb9JJ95kdNqUYGmMjKteHloR7j2x7hiP1rStAg0uIHYygflNStnAdcjTfc7+17
- uJzAdy7fiINIh1tlaaJjTAbzltj+LmPYkKh382gkhepQlTlOtpyZsakxiv2tU6WJWY7q2gZ9A
- kOak51uvPO7YcjiAR6TMNaMd1wR0RwuRzzyTVK03DnQ1wJgfiDuhwyenNgBL1xJXo4f4Clpxi
- Bb3opcIfecPvxPFEYBtaUnRnKl+lDsWwD3vfoPLw5A1XfbrY/3PVnkzth00PhViWeBTUITp6+
- 6GgEnLX/Vfq6px6sue46x0RKB3DAuOXaw5bC+5wk9ccrLbnFEiH6HpmKFuxWexfnmsZvbiUDl
- UQ3znYNGicIKp1W+YW/F5O4PyaU4+nc9rAsD2JaIiSgoAWeSwA7bavhmfVU1IFSc9dgV64Ku1
- S9lPOwAEC1dxoQ5xLyrauYMX0AxwvMlTKYY2nmE1KPergi6rve9rg2GxYawa8VqZTtMTyXq
+ (envelope-from <david@redhat.com>) id 1j4i4J-000102-CB
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:24:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42991
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j4i4J-0000zX-22
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 04:24:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582190665;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ryCUbgIe8KsZ1D8uUWBYI1LF9vZcPPEDDkxnFAX4H7A=;
+ b=gL2MyiDwZRZm6Spo7a6vvUjezVSoskO5OZnFNRyxm3mMWk3+xmJQWI4bnkOf31hL+OiMPG
+ 6unfaaCAFrtKgqGjVrRTCe1drhhUVtHiXO9qcFdIs5cxuAgZl8Hf2uN9jt3RUehmwXyM3M
+ OEoAUZ1nyhs9CFdCIuJFctJsGweVXBc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-x0fypKa-POyPfpWfcZE3kg-1; Thu, 20 Feb 2020 04:24:24 -0500
+Received: by mail-wr1-f72.google.com with SMTP id o6so1466366wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 20 Feb 2020 01:24:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=20J2xNJndwD0uRSo76vE5fqmNGT6NiOBpd0H4BNpJXs=;
+ b=ca3Xp4EEeWg4qZmxEQB1DHpUlbyowOG7NNWAwWn1Ct9CF6oYm9qQM+6pgVNyFHaWsq
+ ROD0YEfg0O7JaYq6h4QtHXT5BEHtcyeHVWrFhPLRt+zuN0T0Gub2HYgjiHFz1ltwEA2l
+ avGhAqB//15V59/+80AdD1ZBsiSfVr7eZ5UpvEV/TB0zjkYfIQKUwG58zuql2TrKeOSy
+ 4+c/VnXNRuNfyWjFViLsHMpigZld5avcikI6tgb8ql3P6J3cchnrnJ2WmOzmV1k2RPnV
+ bYx41sZpOfz+D7b99bKRWQAO+PYqQgmRlGrvhZGmrwTQUBpqx+hMolGFIoYQRkAoSqlR
+ WpPQ==
+X-Gm-Message-State: APjAAAVuoQo2ps77G54t9KorcnhyE4aog98HSJtaqRKbpLK2SZA8cQ5z
+ ZCntybynzLgXw7OCEtxEi95X4/A2Tja65iengjmqXzjRcClM7De32qRraZ3qfG44tbQWEB4aFOs
+ UBk8dG4+Zi9tDrlQ=
+X-Received: by 2002:a1c:6408:: with SMTP id y8mr3294327wmb.130.1582190663235; 
+ Thu, 20 Feb 2020 01:24:23 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxErA+v6CThtewt0oOBLJXzaudgsibdEYgcKQcqWTtHx1g3/BUEkzmEv9QAC87+tIcz8drbbQ==
+X-Received: by 2002:a1c:6408:: with SMTP id y8mr3294291wmb.130.1582190662896; 
+ Thu, 20 Feb 2020 01:24:22 -0800 (PST)
+Received: from [131.159.204.89] (w204-2h-v4.eduroam.dynamic.rbg.tum.de.
+ [131.159.204.89])
+ by smtp.gmail.com with ESMTPSA id t131sm3863346wmb.13.2020.02.20.01.24.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Feb 2020 01:24:22 -0800 (PST)
+From: David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v1 07/13] migrate/ram: Get rid of "place_source" in
+ ram_load_postcopy()
+Date: Thu, 20 Feb 2020 10:24:19 +0100
+Message-Id: <5DD859C1-9FF5-4488-8928-43B83D8AD677@redhat.com>
+References: <20200219204730.GB37550@xz-x1>
+In-Reply-To: <20200219204730.GB37550@xz-x1>
+To: Peter Xu <peterx@redhat.com>
+X-Mailer: iPhone Mail (17D50)
+X-MC-Unique: x0fypKa-POyPfpWfcZE3kg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,95 +88,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@rt-rk.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 
-This patch implements functionalities of following ioctls:
 
-SNDRV_TIMER_IOCTL_START - Start selected alsa timer
+> Am 19.02.2020 um 21:47 schrieb Peter Xu <peterx@redhat.com>:
+>=20
+> =EF=BB=BFOn Wed, Feb 19, 2020 at 05:17:19PM +0100, David Hildenbrand wrot=
+e:
+>> It's always the same value.
+>=20
+> I guess not, because...
+>=20
+>>=20
+>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>> Cc: Juan Quintela <quintela@redhat.com>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>> migration/ram.c | 8 +++-----
+>> 1 file changed, 3 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index cbd54947fb..75014717f6 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -3119,7 +3119,6 @@ static int ram_load_postcopy(QEMUFile *f)
+>>         ram_addr_t addr;
+>>         void *host =3D NULL;
+>>         void *page_buffer =3D NULL;
+>> -        void *place_source =3D NULL;
+>>         RAMBlock *block =3D NULL;
+>>         uint8_t ch;
+>>         int len;
+>> @@ -3188,7 +3187,6 @@ static int ram_load_postcopy(QEMUFile *f)
+>>                 place_needed =3D true;
+>>                 target_pages =3D 0;
+>>             }
+>> -            place_source =3D postcopy_host_page;
+>>         }
+>>=20
+>>         switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
+>> @@ -3220,7 +3218,7 @@ static int ram_load_postcopy(QEMUFile *f)
+>>                  * buffer to make sure the buffer is valid when
+>>                  * placing the page.
+>>                  */
+>> -                qemu_get_buffer_in_place(f, (uint8_t **)&place_source,
+>=20
+> ... it can be modified inside the call.
 
-    Starts the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be started. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
+Very right, will drop this patch! Thanks!
 
-SNDRV_TIMER_IOCTL_STOP - Stop selected alsa timer
+>=20
+> I feel like this patch could even fail the QEMU unit test.  It would
+> be good to mention what tests have been carried out in the cover
+> letter or with RFC tag if no test is done yet.
 
-    Stops the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be stopped. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
+I test all code I share. This survives =E2=80=9Emake check=E2=80=9C. I assu=
+me all tests send small pages where =E2=80=9Ematches_target_page_size=3D=3D=
+true=E2=80=9C, so the tests did not catch this.
 
-SNDRV_TIMER_IOCTL_CONTINUE - Continue selected alsa timer
+I even spent the last day getting avocado-vt to work and ran multiple (obvi=
+ously not all) migration tests, including postcopy, so your suggestions hav=
+e already been considered ...
 
-    Continues the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be continued. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
-
-SNDRV_TIMER_IOCTL_PAUSE - Pause selected alsa timer
-
-    Pauses the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be paused. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
-
-Implementation notes:
-
-    Since all of the implemented ioctls have NULL as their third argument,
-    their implementation was straightforward.
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Message-Id: <1579117007-7565-13-git-send-email-Filip.Bozuta@rt-rk.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/ioctls.h       | 4 ++++
- linux-user/syscall_defs.h | 4 ++++
- 2 files changed, 8 insertions(+)
-
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index de6948796367..0defa1d8c18d 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -477,6 +477,10 @@
-         MK_PTR(MK_STRUCT(STRUCT_snd_timer_params)))
-   IOCTL(SNDRV_TIMER_IOCTL_STATUS, IOC_R,
-         MK_PTR(MK_STRUCT(STRUCT_snd_timer_status)))
-+  IOCTL(SNDRV_TIMER_IOCTL_START, 0, TYPE_NULL)
-+  IOCTL(SNDRV_TIMER_IOCTL_STOP, 0, TYPE_NULL)
-+  IOCTL(SNDRV_TIMER_IOCTL_CONTINUE, 0, TYPE_NULL)
-+  IOCTL(SNDRV_TIMER_IOCTL_PAUSE, 0, TYPE_NULL)
- 
-   IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
-   IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index cf34129fc3ac..152ec637cba6 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2516,6 +2516,10 @@ struct target_snd_timer_status {
-                                                 struct snd_timer_params)
- #define TARGET_SNDRV_TIMER_IOCTL_STATUS       TARGET_IOR('T', 0x14,            \
-                                                 struct target_snd_timer_status)
-+#define TARGET_SNDRV_TIMER_IOCTL_START        TARGET_IO('T', 0xa0)
-+#define TARGET_SNDRV_TIMER_IOCTL_STOP         TARGET_IO('T', 0xa1)
-+#define TARGET_SNDRV_TIMER_IOCTL_CONTINUE     TARGET_IO('T', 0xa2)
-+#define TARGET_SNDRV_TIMER_IOCTL_PAUSE        TARGET_IO('T', 0xa3)
- 
- /* vfat ioctls */
- #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
--- 
-2.24.1
+Could have mentioned that in the cover letter, yes.
 
 
