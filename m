@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B672C165FA1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 15:21:48 +0100 (CET)
-Received: from localhost ([::1]:43280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76485165FB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Feb 2020 15:29:47 +0100 (CET)
+Received: from localhost ([::1]:43398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4mi3-00020T-Og
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 09:21:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39791)
+	id 1j4mpm-0008P6-8y
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 09:29:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kchamart@redhat.com>) id 1j4mgj-0000Tg-3F
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:20:26 -0500
+ (envelope-from <eblake@redhat.com>) id 1j4moW-0007mu-P3
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:28:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1j4mgh-0004lX-FH
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:20:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41484
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j4moU-0000zJ-Gu
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:28:27 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51020
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1j4mgf-0004iw-IM
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:20:23 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j4moU-0000yv-9J
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 09:28:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582208419;
+ s=mimecast20190719; t=1582208905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oC2io4jWcJ+P0+jSW8rMj0gfeIQtPm0V5XgHvGW7gDY=;
- b=V/l74BRUlQnmFq2UKx1xreoLBwXaiKINwmOLOP57FK8STOHwhJXjp2DgeenCJv8ufJSbHX
- 59SAcC4BAVesUnSyMIzh+ghLbi3cr9wq/Sz+CmwqPAfg9QROmmiYgUA3GucqwJ55yXm5XI
- k1ursG44azgfBaNrofIz2JRI6R0rsWs=
+ bh=lR3lwpEW6s1UVCXXUeu0vvXjUHIsQfD1vBxZ+6Lc1R8=;
+ b=LOCY7mIIH3s0guy3/V+d+R1gIFUOW5VyXm74IPKLgvb+u+g4nXQjlTUvrlkUZK7JDZLtu/
+ bxazo79hAXv456ZtMIe1CJ8pVgeZiQXyuzJl8kUWlNd1kSnVUuO+KlPSmoWEhbqwTl6g1b
+ FXs2YO/1ViVUfzttoTPpBkypVwiTsDM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-P1iWA778NmuEA0ZzcllU_A-1; Thu, 20 Feb 2020 09:20:13 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-106-gydX_HEUOOqNRvpGOChuqA-1; Thu, 20 Feb 2020 09:28:21 -0500
+X-MC-Unique: gydX_HEUOOqNRvpGOChuqA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F114F1088387;
- Thu, 20 Feb 2020 14:20:11 +0000 (UTC)
-Received: from paraplu.localdomain (unknown [10.36.118.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 003AC87B0D;
- Thu, 20 Feb 2020 14:20:09 +0000 (UTC)
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] qemu-cpu-models.rst: Document -noTSX, mds-no, taa-no,
- and tsx-ctrl
-Date: Thu, 20 Feb 2020 15:20:01 +0100
-Message-Id: <20200220142001.20774-3-kchamart@redhat.com>
-In-Reply-To: <20200220142001.20774-1-kchamart@redhat.com>
-References: <20200220142001.20774-1-kchamart@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4F8A1005512;
+ Thu, 20 Feb 2020 14:28:19 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E7CA1001B2C;
+ Thu, 20 Feb 2020 14:28:18 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 05/27] qcow2: Document the Extended L2 Entries
+ feature
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1577014346.git.berto@igalia.com>
+ <0b884ddcd0ac3a3c0b8cdd9d09c74566ac107c9a.1577014346.git.berto@igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3a946970-5a26-6c40-a212-0aefdccef509@redhat.com>
+Date: Thu, 20 Feb 2020 08:28:17 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: P1iWA778NmuEA0ZzcllU_A-1
+In-Reply-To: <0b884ddcd0ac3a3c0b8cdd9d09c74566ac107c9a.1577014346.git.berto@igalia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,152 +76,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, kchamart@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Add the '-noTSX' variants for CascadeLake and SkyLake.
+On 12/22/19 5:36 AM, Alberto Garcia wrote:
+> Subcluster allocation in qcow2 is implemented by extending the
+> existing L2 table entries and adding additional information to
+> indicate the allocation status of each subcluster.
+> 
+> This patch documents the changes to the qcow2 format and how they
+> affect the calculation of the L2 cache size.
+> 
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>   docs/interop/qcow2.txt | 68 ++++++++++++++++++++++++++++++++++++++++--
+>   docs/qcow2-cache.txt   | 19 +++++++++++-
+>   2 files changed, 83 insertions(+), 4 deletions(-)
 
-- Document the three MSR bits: 'mds-no', 'taa-no', and 'tsx-ctrl'
+This adds a new feature bit; where is the corresponding patch to qcow2.c 
+to advertise the feature bit name in the optional feature name table?
 
-  Two confusing things about 'mds-no' (and the first point applies to
-  the other two MSRs too):
+/me reads ahead
 
-  (1) The 'mds-no' bit will _not_ show up in the guest's /proc/cpuinfo.
-      Rather it is used to fill in the guest's sysfs:
+good, patch 25 covers it.  Quick comment added there as a result.
 
-        /sys/devices/system/cpu/vulnerabilities/mds:Not affected
 
-      Paolo confirmed on IRC as such.
+> +== Extended L2 Entries ==
+> +
+> +An image uses Extended L2 Entries if bit 3 is set on the incompatible_features
+> +field of the header.
+> +
+> +In these images standard data clusters are divided into 32 subclusters of the
+> +same size. They are contiguous and start from the beginning of the cluster.
+> +Subclusters can be allocated independently and the L2 entry contains information
+> +indicating the status of each one of them. Compressed data clusters don't have
+> +subclusters so they are treated like in images without this feature.
 
-  (2) There are _three_ variants[+] of CascadeLake CPUs, with different
-      stepping levels: 5, 6, and 7.  To quote wikichip.org[*]:
+Grammar; I'd suggest:
 
-        "note that while steppings 6 & 7 are fully mitigated, earlier
-        stepping 5 is not protected against MSBDS, MLPDS, nor MDSUM"
+...don't have subclusters, so they are treated the same as in images 
+without this feature.
 
-      The above is also indicated in the Intel's document[+], as
-      indicated by "No" under the three columns of MFBDS, MSBDS, and
-      MLPDS.
+Are they truly the same, or do you still need to document that the extra 
+64 bits of the extended L2 entry are all zero?
 
-  I've expressed this in the docs without belabouring the details.
+> +
+> +The size of an extended L2 entry is 128 bits so the number of entries per table
+> +is calculated using this formula:
+> +
+> +    l2_entries = (cluster_size / (2 * sizeof(uint64_t)))
+> +
+> +The first 64 bits have the same format as the standard L2 table entry described
+> +in the previous section, with the exception of bit 0 of the standard cluster
+> +descriptor.
+> +
+> +The last 64 bits contain a subcluster allocation bitmap with this format:
+> +
+> +Subcluster Allocation Bitmap (for standard clusters):
+> +
+> +    Bit  0 -  31:   Allocation status (one bit per subcluster)
+> +
+> +                    1: the subcluster is allocated. In this case the
+> +                       host cluster offset field must contain a valid
+> +                       offset.
+> +                    0: the subcluster is not allocated. In this case
+> +                       read requests shall go to the backing file or
+> +                       return zeros if there is no backing file data.
+> +
+> +                    Bits are assigned starting from the most significant one.
+> +                    (i.e. bit x is used for subcluster 31 - x)
+> +
 
-      [+] https://software.intel.com/security-software-guidance/insights/pr=
-ocessors-affected-microarchitectural-data-sampling
-      [*] https://en.wikichip.org/wiki/intel/microarchitectures/cascade_lak=
-e#Key_changes_from_Skylake
+Missing trailing '.'
 
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
----
----
-[Retaining parts of the change-log from the Texinfo-variant of this patch,
-which is now no-longer needed:
-https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg06455.html]
+> +        32 -  63    Subcluster reads as zeros (one bit per subcluster)
+> +
+> +                    1: the subcluster reads as zeros. In this case the
+> +                       allocation status bit must be unset. The host
+> +                       cluster offset field may or may not be set.
 
-v3:
- - Makefile, Sphinx and related fixes (Peter Maydell)
- - Address feedback from Paolo
- - Add URL to the deep-dive on Intel's MDS
-v2:
- - Address feedback from DanPB
- - Add sections on 'taa-no' and 'tsx-ctrl'
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
----
- docs/system/qemu-cpu-models.rst | 57 +++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+Why must the allocation bit be unset?  When we preallocate, we want a 
+cluster to reserve space, but still read as zero, so the combination of 
+both bits set makes sense to me.
 
-diff --git a/docs/system/qemu-cpu-models.rst b/docs/system/qemu-cpu-models.=
-rst
-index a189d6a9da..946e90e1dc 100644
---- a/docs/system/qemu-cpu-models.rst
-+++ b/docs/system/qemu-cpu-models.rst
-@@ -61,15 +61,24 @@ mixture of host CPU models between machines, if live mi=
-gration
- compatibility is required, use the newest CPU model that is compatible
- across all desired hosts.
-=20
-+* Intel Xeon Processor (Cascade Lake, 2019), with "stepping" levels 6 or
-+  7 only.  (The Cascade Lake Xeon processor with *stepping 5 is
-+  vulnerable to MDS variants*.)
-+
-+  * ``Cascadelake-Server``
-+  * ``Cascadelake-Server-noTSX``
-+
- * Intel Xeon Processor (Skylake, 2016)
-=20
-   * ``Skylake-Server``
-   * ``Skylake-Server-IBRS``
-+  * ``Skylake-Server-IBRS-noTSX``
-=20
- * Intel Core Processor (Skylake, 2015)
-=20
-   * ``Skylake-Client``
-   * ``Skylake-Client-IBRS``
-+  * ``Skylake-Client-noTSX-IBRS}``
-=20
- * Intel Core Processor (Broadwell, 2014)
-=20
-@@ -182,6 +191,54 @@ features are included if using "Host passthrough" or "=
-Host model".
-   Requires the host CPU microcode to support this feature before it
-   can be used for guest CPUs.
-=20
-+``mds-no``
-+  Recommended to inform the guest OS that the host is *not* vulnerable
-+  to any of the MDS variants ([MFBDS] CVE-2018-12130, [MLPDS]
-+  CVE-2018-12127, [MSBDS] CVE-2018-12126).
-+
-+  This is an MSR (Model-Specific Register) feature rather than a CPUID fea=
-ture,
-+  so it will not appear in the Linux ``/proc/cpuinfo`` in the host or
-+  guest.  Instead, the host kernel uses it to populate the MDS
-+  vulnerability file in ``sysfs``.
-+
-+  So it should only be enabled for VMs if the host reports @code{Not
-+  affected} in the ``/sys/devices/system/cpu/vulnerabilities/mds`` file.
-+
-+``taa-no``
-+  Recommended to inform that the guest that the host is ``not``
-+  vulnerable to CVE-2019-11135, TSX Asynchronous Abort (TAA).
-+
-+  This too is an MSR feature, so it does not show up in the Linux
-+  ``/proc/cpuinfo`` in the host or guest.
-+
-+  It should only be enabled for VMs if the host reports ``Not affected``
-+  in the ``/sys/devices/system/cpu/vulnerabilities/tsx_async_abort``
-+  file.
-+
-+``tsx-ctrl``
-+  Recommended to inform the guest that it can disable the Intel TSX
-+  (Transactional Synchronization Extensions) feature; or, if the
-+  processor is vulnerable, use the Intel VERW instruction (a
-+  processor-level instruction that performs checks on memory access) as
-+  a mitigation for the TAA vulnerability.  (For details, refer to this
-+  `Intel's deep-dive into
-+  MDS <https://software.intel.com/security-software-guidance/insights/deep=
--dive-intel-analysis-microarchitectural-data-sampling>`_.)
-+
-+  Expose this to the guest OS if and only if: (a) the host has TSX
-+  enabled; *and* (b) the guest has ``rtm`` CPU flag enabled.
-+
-+  By disabling TSX, KVM-based guests can avoid paying the price of
-+  mitigting TSX-based attacks.
-+
-+  Note that ``tsx-ctrl`` too is an MSR feature, so it does not show
-+  up in the Linux ``/proc/cpuinfo`` in the host or guest.
-+
-+  To validate that Intel TSX is indeed disabled for the guest, there are
-+  two ways: (a) check for the *absence* of ``rtm`` in the guest's
-+  ``/proc/cpuinfo``; or (b) the
-+  ``/sys/devices/system/cpu/vulnerabilities/tsx_async_abort`` file in
-+  the guest should report ``Mitigation: TSX disabled``.
-+
-=20
- Preferred CPU models for AMD x86 hosts
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---=20
-2.21.0
+> +                    0: no effect.
+> +
+> +                    Bits are assigned starting from the most significant one.
+> +                    (i.e. bit x is used for subcluster 63 - x)
+
+and again.
+
+> +
+> +Subcluster Allocation Bitmap (for compressed clusters):
+> +
+> +    Bit  0 -  63:   Reserved (set to 0)
+> +                    Compressed clusters don't have subclusters,
+> +                    so this field is not used.
+>   
+>   == Snapshots ==
+>   
+> diff --git a/docs/qcow2-cache.txt b/docs/qcow2-cache.txt
+> index d57f409861..04eb4ce2f1 100644
+> --- a/docs/qcow2-cache.txt
+> +++ b/docs/qcow2-cache.txt
+> @@ -1,6 +1,6 @@
+>   qcow2 L2/refcount cache configuration
+>   =====================================
+> -Copyright (C) 2015, 2018 Igalia, S.L.
+> +Copyright (C) 2015, 2018-2019 Igalia, S.L.
+
+Our review is late; you could add 2020 if desired, now.
+
+>   Author: Alberto Garcia <berto@igalia.com>
+>   
+>   This work is licensed under the terms of the GNU GPL, version 2 or
+> @@ -222,3 +222,20 @@ support this functionality, and is 0 (disabled) on other platforms.
+>   This functionality currently relies on the MADV_DONTNEED argument for
+>   madvise() to actually free the memory. This is a Linux-specific feature,
+>   so cache-clean-interval is not supported on other systems.
+> +
+> +
+> +Extended L2 Entries
+> +-------------------
+> +All numbers shown in this document are valid for qcow2 images with normal
+> +64-bit L2 entries.
+> +
+> +Images with extended L2 entries need twice as much L2 metadata, so the L2
+> +cache size must be twice as large for the same disk space.
+> +
+> +   disk_size = l2_cache_size * cluster_size / 16
+> +
+> +i.e.
+> +
+> +   l2_cache_size = disk_size * 16 / cluster_size
+> +
+> +Refcount blocks are not affected by this.
+> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
