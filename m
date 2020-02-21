@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F361682DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:12:14 +0100 (CET)
-Received: from localhost ([::1]:60592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC576168320
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:19:22 +0100 (CET)
+Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5AuT-0005EL-9n
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:12:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44656)
+	id 1j5B1N-0000mk-NA
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:19:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j5AtW-0004QU-Jd
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:11:15 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1j5B0T-0000KS-Gy
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:18:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j5AtV-0007Bc-H7
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:11:14 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44230)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j5AtV-0007BJ-CP
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:11:13 -0500
-Received: by mail-oi1-x243.google.com with SMTP id d62so2048375oia.11
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:11:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZK17Xbja1c7DR9dFtnie1g2nFDB3v+CHLpa8VD3WOII=;
- b=Qpn/yq2LJC5midgWGcFtun3gRL2oZ/jeXVnRaINTfl3dSm5wgZiBE0orYxfnBOF3Rd
- ttF+3itiEyoZLU71domAJ6tUw7MRStZQTODqqdA0MEb6uYI9uwuiZEgeRWV0za01X2HD
- TKOy7+dZOfSv9DG+oq26cT/4dSGGzAUTKRTe0rqdCR6yE1p/np4CesmsGAJAsXKR3RNK
- rbd8qfGL+Uj9Lk5biD714ksL12oedUkffjIT6mg/HDwMezbzIe5AO1+JW1KT/6pa75HU
- zvJEee4Btfd5QYN/pgfrRvkiasTjFOfBrgFDHfZHFahpq6z0roitIjAw106Ojx/e7LMJ
- yjNw==
+ (envelope-from <pbonzini@redhat.com>) id 1j5B0R-0001yr-S7
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:18:24 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38379
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j5B0R-0001yL-Io
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:18:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582301902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q0xjK74zSUFCwt8OF3Yea/n1e7ICvhOOW+chIMMjhEc=;
+ b=ExUNYQAahrpqkHRDb9LbkstA5RZCQ4U2v4nzp6MCi6lbKZ9WfQ79zQvbz77pyn3fU1/XNk
+ BZvtwDYog3v1X3uu8U6+fn9sCWP4FrNcXlkmv05Smvla0A+sQLr58++4psMbU6Hp7R+kLm
+ tbzmijs7Gy+k1OugfoovctVQIZYziQQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-Uz8d_7y6P9aSO_53mHT2Xg-1; Fri, 21 Feb 2020 11:18:20 -0500
+X-MC-Unique: Uz8d_7y6P9aSO_53mHT2Xg-1
+Received: by mail-wm1-f71.google.com with SMTP id g138so778648wmg.8
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:18:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZK17Xbja1c7DR9dFtnie1g2nFDB3v+CHLpa8VD3WOII=;
- b=t5e/PZYqzYvoJXp0mEHZhF+z1oNsYIJqpQbFiAzRL0P8g1UKRI4bLA5ZsJhPK9UDzC
- MseS5cIvHPJd+Y85KLP+Yw8FO32d2F0CucACx62LVvO3Is6w5eM70aEdESDjcRt46sAO
- LqjeQ2nRtTDHVrLB2x4X9F6nXFQOKWpbpdPwhRoH491xQtuLe8zYfj3J/iprKyqR+v2W
- sA5qN8fH6PVcvbPwYYNVy1U/2mRjXPxB/oCM5ePukjAaFKNzjq2GJ6FounLpwGhbZtP4
- WFo/O6G4TUVx0ZuJNhFpmhVOZ0rZVbuc8Z0UBK4c9OIO/jm3vFXPGb/YVlVk98af7aa7
- 4JIg==
-X-Gm-Message-State: APjAAAV/fHs4tD6RLWey/ebYvfUcri/R/ozeOGYTpVx/2XT4SH0spv0a
- +qSORzjyxsGL0M+xZh0/v3sFCUmCZ+wjQ1tA+BQ0dA==
-X-Google-Smtp-Source: APXvYqzChA1TpAuSjmX4920FUcrrhPHUHkPGzuILqh/pwWqjFfGFGWpAQ1zfx9nBr5HX6dcRr11/N5z9vZQDNcwTlNI=
-X-Received: by 2002:aca:b2c5:: with SMTP id b188mr2601246oif.163.1582301472380; 
- Fri, 21 Feb 2020 08:11:12 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q0xjK74zSUFCwt8OF3Yea/n1e7ICvhOOW+chIMMjhEc=;
+ b=UA/CWfPcCjxrj4Sa7l4afMqTqyMV8WdodhmAAzpGrV158BMO/khn7ixpmPoMaJ5Dtu
+ PALeQWF5ERruwyvoa3X97+hVq4rqsf3cR8CXXbxaL4SVD0BDJoTRiSlZXmqjBBc0DVUn
+ dwB5Yi9CbOv5yj/eK1fg51QyDX+L/NmejOV6mT/kNzr/5zcnO5z/Dy9756keKrJ29IBz
+ vhN8eF3O82uJ5xtTGthA/Z8uRaQGxjSEVpPuJFAHQQoeKUt81IgRgvjKeCYfy01AUG6B
+ yzIxSBAhT1xTLaEQ2h8cYZiwSHuwJ7/f5p3v7Q+H0XyGiEPhkEKAKbfMYjMgOHeUeYZQ
+ ACAQ==
+X-Gm-Message-State: APjAAAVoGrHmGcwbhfUKV50NttWMuDe9Glw4itPAVjVNrcdID2t44yFi
+ HjeUvMfB8rI68ajw33ZOV9gmZFxjgfurZrfaw2TqnD7hdQHkiNnsSDq57UvQ7wa+HXTxU1IQko9
+ F6k+RDa638tnc5Gk=
+X-Received: by 2002:a1c:e28a:: with SMTP id z132mr4509410wmg.157.1582301899430; 
+ Fri, 21 Feb 2020 08:18:19 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwalSJeIsujrCiSrroW52rvPnU7Y1jjcr44eQ5sxyID6MDwSNltrBO1Sf5fPBlPSESlmimAKQ==
+X-Received: by 2002:a1c:e28a:: with SMTP id z132mr4509398wmg.157.1582301899200; 
+ Fri, 21 Feb 2020 08:18:19 -0800 (PST)
+Received: from [192.168.178.40] ([151.20.135.128])
+ by smtp.gmail.com with ESMTPSA id c74sm4644627wmd.26.2020.02.21.08.18.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Feb 2020 08:18:18 -0800 (PST)
+Subject: Re: [PATCH] target: i386: Check float overflow about register stack
+To: Chen Gang <chengang@emindsoft.com.cn>
+References: <20200221034547.5215-1-chengang@emindsoft.com.cn>
+ <a5533719-7ef1-938b-e52c-20711e65417f@redhat.com>
+ <900fd511-72f0-675d-4a7e-d228b2ade9c7@emindsoft.com.cn>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d893eac5-0b7a-ddfe-2acf-a6f27ab48ccf@redhat.com>
+Date: Fri, 21 Feb 2020 17:18:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20200218171702.979F074637D@zero.eik.bme.hu>
- <d9d4fba7-2dcf-8f09-8f3a-7e0408c297b6@linaro.org>
- <alpine.BSF.2.22.395.2002211643480.45267@zero.eik.bme.hu>
-In-Reply-To: <alpine.BSF.2.22.395.2002211643480.45267@zero.eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Feb 2020 16:11:01 +0000
-Message-ID: <CAFEAcA-teH7KXACL=5m0-X+g692EXKtqOy9d_uGjw6XA8S3vzA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+In-Reply-To: <900fd511-72f0-675d-4a7e-d228b2ade9c7@emindsoft.com.cn>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,39 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- John Arbuckle <programmingkidx@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Paul Clarke <pc@us.ibm.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, Chen Gang <gang.chen.5i5j@gmail.com>,
+ ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 Feb 2020 at 16:05, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> On Thu, 20 Feb 2020, Richard Henderson wrote:
-> > On 2/18/20 9:10 AM, BALATON Zoltan wrote:
-> >> +    DEFINE_PROP_BOOL("hardfloat", PowerPCCPU, hardfloat, true),
-> >
-> > I would also prefer a different name here -- perhaps x-no-fp-fi.
->
-> What's wrong with hardfloat? That's how the code refers to this so if
-> anyone searches what it does would turn up some meaningful results.
+On 21/02/20 15:09, Chen Gang wrote:
+>> -    /* XXX: test fptags too */
+>> +    if (env->fptags[env->fpstt]) {
+>> +        env->fpus |= 0x4100; /* Empty */
+>> +        return;
+>> +    }
+>> +
+> For fpop overflow, this fix is enough, but for me, we still need
+> foverflow to check fpush/fld*_ST0 overflow.
+> 
+> Don't you think we need check fpush/f[i]ld*_ST0 overflow?
 
-This prompted me to check what you're using the property for.
-The cover letter says:
-> This patch implements a simple way to keep the inexact flag set for
-> hardfloat while still allowing to revert to softfloat for workloads
-> that need more accurate albeit slower emulation. (Set hardfloat
-> property of CPU, i.e. -cpu name,hardfloat=false for that.)
+After fld/fild or any other push, FXAM ST0 should not return empty in my
+opinion.
 
-I think that is the wrong approach. Enabling use of the host
-FPU should not affect the accuracy of the emulation, which
-should remain bitwise-correct. We should only be using the
-host FPU to the extent that we can do that without discarding
-accuracy. As far as I'm aware that's how the hardfloat support
-for other guest CPUs that use it works.
+Paolo
 
-thanks
--- PMM
 
