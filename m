@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3CC167EE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:43:20 +0100 (CET)
-Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F675167EC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:37:18 +0100 (CET)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58aN-0004LK-RY
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:43:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33027)
+	id 1j58UX-00020G-53
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:37:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j58Jk-00032G-7U
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:10 -0500
+ (envelope-from <philmd@redhat.com>) id 1j58Jk-00032F-4S
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j58Jj-0007RN-5f
+ (envelope-from <philmd@redhat.com>) id 1j58Jj-0007RH-5i
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22231
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35685
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j58Jj-0007Oj-1D
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j58Jj-0007Oa-0x
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582291560;
+ s=mimecast20190719; t=1582291559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5T5CduJWWeyulUp96IrLHjkVcZCM4TVxlB75vuVfrRw=;
- b=MPDRbaJt0UXHpo2U3tqM+kZVpHf7rZIrwjzgl7jpIAKEySbliBTzKwuIu4WkTSX+DGw0XW
- cEOJ7d+9DulLCltrMkqmtf8LQnlDNS2dqBIIlr75uL+lgpHF+aQ0h8jRRJ0SAmdHHgriVg
- vuQ/+2J9FGMtImFvIpnqMU2yvHM6+iY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-bNMQGqbIM16C8xULoLOYtA-1; Fri, 21 Feb 2020 08:25:55 -0500
-X-MC-Unique: bNMQGqbIM16C8xULoLOYtA-1
-Received: by mail-wr1-f71.google.com with SMTP id 50so1027437wrc.2
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=paBsMW5zAXDjF5puyoeLRSe8b4xNuuGDm59bJb4U3bc=;
+ b=BhZCArZELnxL5NNxFJykcCsDTgONQZW+nHj79P/LNy4vqxcgDQmYyM8eshdJWpz3x4CeQu
+ xnsYobzHj90eD9q42aGvNQ94Dr+EjlWPFBFGT6NUvxyvPKopgIy1EYBvx6WMf5jIdDai3r
+ Z++CXNtaQwU1Jxg+YRRtLKBuIMPcFHs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-h-SMVGyhNY2VKFwkOT-6jg-1; Fri, 21 Feb 2020 08:25:55 -0500
+X-MC-Unique: h-SMVGyhNY2VKFwkOT-6jg-1
+Received: by mail-wr1-f70.google.com with SMTP id t6so1025459wru.3
  for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:25:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=atTSmIAqNTRT8dPM6uxyh8sGk3r2t5Xb9izRkbykMAQ=;
- b=ob1IoG5yWFb0xmtEwvcOv8esZlxes/OGtjX2bwapDO/+4eKGjKogmsRdVxx3HP/aye
- sQ0fpJrv2ZnTJz3isecfFL5oNZGCoJWBFmSH7wBamf1gvkVrrjNfEJAe2SC60CGK2q0P
- pHesl0gmK/WWt6lGo/lpA0IZiRvprIgKxFWFb4563FmQZlAUSf5lWCm3x8vHCJuWEzLF
- BfBZVhI9EugB6oZLLavRJ/+wTPDa6c6xGd0tDy5qZzBqSflLKCR8/76BsSWfC3FUz4Sr
- yRuUOGne0jyP9kTutlVm5tf9v087PujMy9LZO6b/vBTjwn4SQteUfcdLIfRf44g4B/Th
- XQeQ==
-X-Gm-Message-State: APjAAAVsq4bTlhMZcAu44MfL+HA3fNzoQKkx9AWBBSXm3bZSYKddIine
- Qk2cpysY2geTlX5sEE+wAJk6Q9zVM+tq1TYZl1m5/FVXLpM/qma/NPa/Z13xhqyQgwtkDRNddaq
- GIsMOd4tyP+TVuPA=
-X-Received: by 2002:a05:600c:34b:: with SMTP id
- u11mr3868536wmd.69.1582291553007; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6JNTk73NjeTv3OroNAfG3ztm3tllZwoLmRJFD7uZjK0=;
+ b=r42kOHdwy7uHgp20YeLoB4tk16GbGNCF8Xaqp5gr8fuMJnZLb2WFKCYznOlNGkTg9O
+ PSMDlEfAT6YwNCqlLc8ZmNWwKG/RSMVCTAz0b0DZvMuX1IQrvl3CqW5sVl1T5rHjKcYw
+ pWTedDGSoj0xzOldSJvY4r5CjOwURpewTcFyeBV1cYYaXZlakgNgeLZmvhr0WwqYRpgv
+ leXeD8rk/swUf9s20FdmTMH9O5z3kUpkokzqGJs4qLaguZCzC0PMA0XvX30mrUHQqByT
+ Iu08/7tzP8B1k1m6mhPcP31p9gwQVgAH9buYHby6IFHGIbEFNMTLWdSBd48OuiXoyMGy
+ uaag==
+X-Gm-Message-State: APjAAAUb/9rDq5a0ssfoIhI94Ist1xekZ1NSN7izWYNav9+977Q9D8Ri
+ ds8PckWgjR/lmUrArs29UYM+PnBPFaG5hdFKmLgjEsTn8370RwmtlfKMTADLYT94+MdzDh2bZ2A
+ 5021zhJBfBpwOc/o=
+X-Received: by 2002:a1c:1d13:: with SMTP id d19mr4054148wmd.163.1582291553724; 
  Fri, 21 Feb 2020 05:25:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz2FFXBSLJIq7VA5W46RvUZEwhHhf5nIX2OZ5pPuGptRGT67YlWcbH/8bYbGkEecwdyk1cmfQ==
-X-Received: by 2002:a05:600c:34b:: with SMTP id
- u11mr3868461wmd.69.1582291552302; 
- Fri, 21 Feb 2020 05:25:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzPjY8oFbGxLJLxgcK4v5NODWlpzzhdcwfRsmRXufRcVp1f1WdUGi5RdTT5vnCn6cmusuzFaA==
+X-Received: by 2002:a1c:1d13:: with SMTP id d19mr4054114wmd.163.1582291553379; 
+ Fri, 21 Feb 2020 05:25:53 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id t13sm3947679wrw.19.2020.02.21.05.25.51
+ by smtp.gmail.com with ESMTPSA id t13sm3947679wrw.19.2020.02.21.05.25.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:25:51 -0800 (PST)
+ Fri, 21 Feb 2020 05:25:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw: More dma_memory_read/write() API cleanup
-Date: Fri, 21 Feb 2020 14:25:47 +0100
-Message-Id: <20200221132550.22156-1-philmd@redhat.com>
+Subject: [PATCH 1/3] hw/dma/sparc32_dma: Make espdma_memory_[read/write] static
+Date: Fri, 21 Feb 2020 14:25:48 +0100
+Message-Id: <20200221132550.22156-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200221132550.22156-1-philmd@redhat.com>
+References: <20200221132550.22156-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -75,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,26 +96,52 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following up "global exec/memory/dma APIs cleanup"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg681475.html
+No code use the espdma_memory_[read/write] functions outside
+of hw/dma/sparc32_dma.c, make them static.
 
-Few more cleanups in PCNET & SCSI ESP devices.
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ include/hw/sparc/sparc32_dma.h | 2 --
+ hw/dma/sparc32_dma.c           | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-Philippe Mathieu-Daud=C3=A9 (3):
-  hw/dma/sparc32_dma: Make espdma_memory_[read/write] static
-  hw/scsi/esp: Let ESPDMAMemoryReadWriteFunc take void pointer and
-    size_t
-  hw/net/pcnet: Let phys_mem_read/write take void pointer and boolean
-
- hw/net/pcnet.h                 |  4 ++--
- include/hw/scsi/esp.h          |  2 +-
- include/hw/sparc/sparc32_dma.h |  6 ++----
- hw/dma/sparc32_dma.c           |  8 ++++----
- hw/net/pcnet-pci.c             |  5 +++--
- hw/net/pcnet.c                 | 16 ++++++++--------
- hw/scsi/esp-pci.c              |  6 +++---
- 7 files changed, 23 insertions(+), 24 deletions(-)
-
+diff --git a/include/hw/sparc/sparc32_dma.h b/include/hw/sparc/sparc32_dma.=
+h
+index ab42c5421b..b3811b617d 100644
+--- a/include/hw/sparc/sparc32_dma.h
++++ b/include/hw/sparc/sparc32_dma.h
+@@ -61,7 +61,5 @@ void ledma_memory_read(void *opaque, hwaddr addr,
+                        uint8_t *buf, int len, int do_bswap);
+ void ledma_memory_write(void *opaque, hwaddr addr,
+                         uint8_t *buf, int len, int do_bswap);
+-void espdma_memory_read(void *opaque, uint8_t *buf, int len);
+-void espdma_memory_write(void *opaque, uint8_t *buf, int len);
+=20
+ #endif
+diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
+index 3e4da0c47f..c9e313938c 100644
+--- a/hw/dma/sparc32_dma.c
++++ b/hw/dma/sparc32_dma.c
+@@ -142,7 +142,7 @@ static void dma_set_irq(void *opaque, int irq, int leve=
+l)
+     }
+ }
+=20
+-void espdma_memory_read(void *opaque, uint8_t *buf, int len)
++static void espdma_memory_read(void *opaque, uint8_t *buf, int len)
+ {
+     DMADeviceState *s =3D opaque;
+     IOMMUState *is =3D (IOMMUState *)s->iommu;
+@@ -152,7 +152,7 @@ void espdma_memory_read(void *opaque, uint8_t *buf, int=
+ len)
+     s->dmaregs[1] +=3D len;
+ }
+=20
+-void espdma_memory_write(void *opaque, uint8_t *buf, int len)
++static void espdma_memory_write(void *opaque, uint8_t *buf, int len)
+ {
+     DMADeviceState *s =3D opaque;
+     IOMMUState *is =3D (IOMMUState *)s->iommu;
 --=20
 2.21.1
 
