@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE944167BF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 12:26:02 +0100 (CET)
-Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A398F167BFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 12:27:33 +0100 (CET)
+Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j56RV-0005m8-Nv
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 06:26:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
+	id 1j56Sy-0000i5-Np
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 06:27:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j56QT-0005HI-4r
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:24:58 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j56R3-0005ly-0Q
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:25:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j56QR-0001KS-Ub
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:24:56 -0500
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:43062)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j56QR-0001KF-ON
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:24:55 -0500
-Received: by mail-oi1-x235.google.com with SMTP id p125so1221458oif.10
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 03:24:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EgAZycLEfx+7C1qQmiAFZYVbrmB8ARjrjq7Lxb2iX3k=;
- b=x0Qd9pPOiV3lvghklEE2SE531bdHZJoXHmwOUXAjx4z3Se3CNJv/ePzskOOEJygrZ8
- OP26gLJQYnX/9d4QZGGtOYrRwHl1Fk71HZFbNwr5Fx5ERSADcm19DKrTyLHflbg/BHZn
- zH1ZircOOO0RE0kj81hv64IdK5Y/cgp2WprQd2Zy4U/EKZaGwV8eINeHrbbmqgwz4ZI+
- oquUnpl1NW31KFnt/D9NJV7E9vpc//ELlChd1N29Yh+GUbv4lVQoKjL97CPz4b0etn58
- 5Y3ImfCeX+zRYiM7KmzNy4D9oZsuMTYLrChsjAlPN0S/HPTkFjuOgQ6PHUKzuPqvrhpa
- pv0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EgAZycLEfx+7C1qQmiAFZYVbrmB8ARjrjq7Lxb2iX3k=;
- b=NbYgICFGUnRHjWmAJJ3s607TLoGSsXodf5IBQ1KU7Bl2yfTAOPpYegqExU1SMIgnvQ
- NGpZj8CJ9yHz9FCRAeCZvcVeWm+dW3CxTaEh0uDTU+c5vIr3wozM6mugHdPxx/qMsLVV
- sFEjRp0yQnp2WPlSqg8aQZutNySkWszl4dtpYHszP8BVGQcto7FH4TAN1CWN0bIo/SoX
- TYDSlaE/vy3A/pCjAYkIMh8O4M2dRVAg7jIQ40jZZ+KTcBqaPCOtBY6YAq2drv47J1wb
- B2z1oG2DKAFAmeafGwRZ9I4vZwFQUxnEyT6nJt1V6pLUwOR9Z9unwoG0fEceRh6x/rcl
- TchQ==
-X-Gm-Message-State: APjAAAXoe2jocCqEerHrXonS/bsKiyE4W0JyKAO5rTiRV1OyKJbbExB4
- 7rm2tNaGQWig2sIn6eu9u6+BSDF479F+duxpgCHwJw==
-X-Google-Smtp-Source: APXvYqxm02MR2fwggAEV1c2gr2BWFt6oRDZ44GeNNPgVSNvfX17EuhVamqpQZIFdMl+nZ5apqcnfKITpJxE1J0K1Xog=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr1585193oid.98.1582284294772;
- Fri, 21 Feb 2020 03:24:54 -0800 (PST)
+ (envelope-from <stefanha@redhat.com>) id 1j56R1-0001dA-BA
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:25:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41263
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j56R1-0001bG-6j
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:25:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582284330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6Wp+feoApaRedcuxvS3R/XvLKR4dhX67cLkWnuwm0yk=;
+ b=LesQgUd7CmwfKua+WDtQUrQ6k+PskNubBkvkA0RJfCv+Ew4nFBarVmzSZBiza17y8Flwvf
+ mWDH0vJKn1XW46bVRO7P9NQtNfxDd9pVgidjM7DDqMqr2wVh8CX9MklY8kMgMPjr24ySlW
+ rWUa9T8FloRkVLwz9uz7yt5MFsHVxEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-8es5yceoPRerE33itSnxwQ-1; Fri, 21 Feb 2020 06:25:28 -0500
+X-MC-Unique: 8es5yceoPRerE33itSnxwQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BBA310CE7AE;
+ Fri, 21 Feb 2020 11:25:27 +0000 (UTC)
+Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5974A5D9C5;
+ Fri, 21 Feb 2020 11:25:24 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] luks: add qemu-img measure support
+Date: Fri, 21 Feb 2020 11:25:18 +0000
+Message-Id: <20200221112522.1497712-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20200220092053.1510215-1-laurent@vivier.eu>
-In-Reply-To: <20200220092053.1510215-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Feb 2020 11:24:44 +0000
-Message-ID: <CAFEAcA9rSYLv4ojpf02t9_oYLXBJp=1iRkPV-Fz2-p9zZ4zgOg@mail.gmail.com>
-Subject: Re: [PULL 00/13] Linux user for 5.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::235
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +68,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Feb 2020 at 09:22, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 6c599282f8ab382fe59f03a6cae755b89561a7b3:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2020-02-15-v2' into staging (2020-02-17 13:32:25 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
->
-> for you to fetch changes up to 045823a98c30fbcafa6d6b61a28b284de7038f07:
->
->   linux-user: Add support for selected alsa timer instructions using ioctls (2020-02-19 11:17:40 +0100)
->
-> ----------------------------------------------------------------
-> Implement membarrier, SO_RCVTIMEO and SO_SNDTIMEO
-> Disable by default build of fdt, slirp and tools with linux-user
-> Improve strace and use qemu_log to send trace to a file
-> Add partial ALSA ioctl supports
+djQ6CiAqIFRoaXMgcmV2aXNpb24gaXMgd2hhdCBHZXJtYW4gc3BlYWtlcnMgY2FsbCAiZGFzIFTD
+vHBmZWxjaGVuIGF1ZiBkZW0gSSIuICAiVGhlCiAgIGljaW5nIG9uIHRoZSBjYWtlIiBpcyB0aGUg
+RW5nbGlzaCBlcXVpdmFsZW50LiAgU2luY2UgSSBsaWtlIGNha2UgYW5kIGRvbid0CiAgIHdhbnQg
+aXQgdG8gYmUgaGFsZi1iYWtlZCwgYW5kIGJlY2F1c2UgSSBsaWtlIG15IG1ldGFwaG9ycyBzaGFr
+ZW4sIG5vdAogICBzdGlycmVkLCBJIHdlbnQgYWhlYWQgd2l0aCB0aGUgZXh0cmEgcmV2aXNpb24g
+c28gSSBjb3VsZCB3cml0ZSB0aGlzIG1lc3NhZ2UuCiAqIFVzZSBnX2F1dG9wdHIoUUNyeXB0b0Js
+b2NrKSB0byBtYWtlIHRoZSBjb2RlIG1vcmUgY29uY2lzZSBbTWF4XQogKiBVc2UgbG9jYWxfZXJy
+IGNvbnNpc3RlbnRseSBbTWF4XQogKiBGb2xkZWQgaW4gTWF4J3MgUmV2aWV3ZWQtYnkgdGFncwp2
+MzoKICogTW92ZSBwYXlsb2FkIG9mZnNldCBjYWxjdWxhdGlvbiBmdW5jdGlvbiB0byBjcnlwdG8v
+YmxvY2suYyBbTWF4XQogKiBaZXJvL3VuYWxsb2NhdGVkIGJsb2NrcyBhbHdheXMgcmVxdWlyZSBk
+aXNrIHNwYWNlIG9uIGVuY3J5cHRlZCBmaWxlcyBbTWF4XQogKiBVcGRhdGUgcWVtdS1pb3Rlc3Rz
+IDE3OCBvdXRwdXQgd2hlbiBjaGFuZ2luZyBxZW11LWltZyBtZWFzdXJlIGNvbW1hbmQtbGluZQog
+ICBvcHRpb25zCgp2MjoKICogRml4IHVpbnQ2NF90IDwtPiBzaXplX3QgdHlwZSBtaXNtYXRjaCBp
+biBibG9ja19jcnlwdG9fbWVhc3VyZSgpIHNvIHRoYXQKICAgMzItYml0IGJ1aWxkcyBwYXNzCgpU
+aGlzIHBhdGNoIHNlcmllcyBhZGRzIHFlbXUtaW1nIG1lYXN1cmUgc3VwcG9ydCB0byB0aGUgImx1
+a3MiIGJsb2NrIGRyaXZlci4gIFdlCmp1c3QgbmVlZCB0byB0YWtlIGludG8gYWNjb3VudCB0aGUg
+TFVLUyBoZWFkZXIgd2hlbiBzaXppbmcgdGhlIGltYWdlLgoKU3RlZmFuIEhham5vY3ppICg0KToK
+ICBsdWtzOiBleHRyYWN0IHFjcnlwdG9fYmxvY2tfY2FsY3VsYXRlX3BheWxvYWRfb2Zmc2V0KCkK
+ICBsdWtzOiBpbXBsZW1lbnQgLmJkcnZfbWVhc3VyZSgpCiAgcWVtdS1pbWc6IGFsbG93IHFlbXUt
+aW1nIG1lYXN1cmUgLS1vYmplY3Qgd2l0aG91dCBhIGZpbGVuYW1lCiAgaW90ZXN0czogYWRkIDI4
+MiBsdWtzIHFlbXUtaW1nIG1lYXN1cmUgdGVzdAoKIGJsb2NrL2NyeXB0by5jICAgICAgICAgICAg
+ICAgICAgIHwgNjIgKysrKysrKysrKysrKysrKysrKysrCiBibG9jay9xY293Mi5jICAgICAgICAg
+ICAgICAgICAgICB8IDc0ICsrKysrKystLS0tLS0tLS0tLS0tLS0tLS0KIGNyeXB0by9ibG9jay5j
+ICAgICAgICAgICAgICAgICAgIHwgMzYgKysrKysrKysrKysrKwogaW5jbHVkZS9jcnlwdG8vYmxv
+Y2suaCAgICAgICAgICAgfCAyMiArKysrKysrKwogcWVtdS1pbWcuYyAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgNiArLS0KIHRlc3RzL3FlbXUtaW90ZXN0cy8xNzggICAgICAgICAgIHwgIDIgKy0K
+IHRlc3RzL3FlbXUtaW90ZXN0cy8xNzgub3V0LnFjb3cyIHwgIDggKy0tCiB0ZXN0cy9xZW11LWlv
+dGVzdHMvMTc4Lm91dC5yYXcgICB8ICA4ICstLQogdGVzdHMvcWVtdS1pb3Rlc3RzLzI4MiAgICAg
+ICAgICAgfCA5MyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogdGVzdHMvcWVtdS1p
+b3Rlc3RzLzI4Mi5vdXQgICAgICAgfCAzMCArKysrKysrKysrKwogdGVzdHMvcWVtdS1pb3Rlc3Rz
+L2dyb3VwICAgICAgICAgfCAgMSArCiAxMSBmaWxlcyBjaGFuZ2VkLCAyNzQgaW5zZXJ0aW9ucygr
+KSwgNjggZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA3NTUgdGVzdHMvcWVtdS1pb3Rlc3Rz
+LzI4MgogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3FlbXUtaW90ZXN0cy8yODIub3V0CgotLSAK
+Mi4yNC4xCgo=
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
--- PMM
 
