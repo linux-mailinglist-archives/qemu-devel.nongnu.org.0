@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D14167E2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:15:09 +0100 (CET)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E18D167E36
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:16:04 +0100 (CET)
+Received: from localhost ([::1]:57316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5896-0001ze-FH
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:15:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56539)
+	id 1j589z-0002j7-GE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:16:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j582A-0006hR-Gx
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:00 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j582E-0006iZ-7P
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j5829-0002Zc-Aq
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:58 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39956)
+ (envelope-from <peter.maydell@linaro.org>) id 1j582A-0002bU-Ck
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:02 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:33353)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j5829-0002YC-4R
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:57 -0500
-Received: by mail-wr1-x432.google.com with SMTP id t3so1983166wru.7
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:57 -0800 (PST)
+ id 1j582A-0002a9-60
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:58 -0500
+Received: by mail-wm1-x333.google.com with SMTP id m10so5157548wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nvzeMWUSUjCUFT9WRsYP0rykgD3WLIPD7Ig/88Et8tY=;
- b=Nfo2QmVemaqSnFMOj7L3uFoFV2aSeRgi4UqeSxEQWD8fS1K4Maq8wWEjlpSVl4Dn9W
- ipOsAgHKQu8v5czeF2RCJn8kNDXunzXP+ujxmEDsYbbQFjBoastQFewY7ndg5lHyC6fO
- NVk9rNV62Kl5kfu8NQ8z1sktpYIvvKck4ETIcwdA8YqoqEauS1NTpx3nBVK87g6chjEy
- t+evPldeBrUhrFEMb+DV6mE39PIGEn8fwuYuJNYR3HH/M2+oQOlzFSxnjbxxym5Y3yBe
- qvfE7EOcECSheNNM5f5TLKHxqgB+pNvQDhN0kScODJcEzWrXs0Zh2v0nuZiqg+1CjfKf
- 3sSA==
+ bh=w1YmYCcAKRBV1EX92vhM6AptB/gtkq7KXvJqv02+0/4=;
+ b=s5GZtK5q4skwH/fcsDQhTuvnjwKdeuabFxbjd0n7oJvtEdGRKVJW8dN7u3nv8vMMlk
+ hYdcwO10xhNPNpJmM8OTb8oh1N4k8Y62gIK7AeGs5h4JZN+z0WrQ/u0MYEBek9QyZkEn
+ XHCGRPT63yec2F/RliFJP0XR5N75NTKptR3Convnqfn/DKEoPfG1YuwJhi7WpXK3tXFS
+ USRSr12yz0m/bsUDmgCBBq2/RZ0gxivCwC0yg1hp0UIJafRXMbgOF/dGYnOFnIuZYP+9
+ LAOBGoqImMpETsf1nk/WtqW5S4xJ/8oDr19svsEuBgpbbCkCcTaZxCvWBkv0aa77HeEY
+ mmnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nvzeMWUSUjCUFT9WRsYP0rykgD3WLIPD7Ig/88Et8tY=;
- b=XjQoUbFWC7F0D468Qg6HgeTQ+83AuScko1zTqyDACZOz2VbvrY1KqZfbAOg0sjYEX0
- WI83rLCmEXhyoENt8MviKB8wxclHofWnz/ziiDU+Yfcs5Y7DpU21I7/Zp0wXP2KWTpDd
- Lgvnk7dvdx9KekHcUmB+eGYndSoSPvu0pWhReOblyGcx4mqY9GCQxGQST/NlLTG/IbFf
- 5i/fI0cwVDENdQYUDm4WFJqKrd8J0u9sfnuJnJRdz75JOeOvX40ChXj5xa/y4zt5M+r6
- wAPRcSZQ6iQDwne5KWjUPTqrRiGjZXsEVP3JsbOc7ibZsETwHlDOVwbG0ZROZ0PwA8E3
- 1lZA==
-X-Gm-Message-State: APjAAAVLF/HKbSsY9GR1aGETCADFFetKCWgG8DT9qs75dhDxWzwpyE6y
- YjIwI+JGnjh900Ksea0rlRRPQF3d8zXk5Q==
-X-Google-Smtp-Source: APXvYqyGdteC5MQmaPv0JTAq1Cycp8lyGv6Dr7ehWb2RWg1fnyrgXvESiLwZ/zcrCtRWbRSpvL0aJQ==
-X-Received: by 2002:adf:e683:: with SMTP id r3mr51503006wrm.38.1582290475808; 
- Fri, 21 Feb 2020 05:07:55 -0800 (PST)
+ bh=w1YmYCcAKRBV1EX92vhM6AptB/gtkq7KXvJqv02+0/4=;
+ b=cIuzNj9voNX7zIuGNkEjTK9wVuZPR872ZK+CxBXRN23FvbhSHIfDqusV3uF09EnsFW
+ FqhLMdOlZv0/xItaOGmLL+wGjJN4FsCa9hvEVMeA8Lyl/195ljaNpRjMdkX4ETWhTw6w
+ 7ZCSlPWqrZ+Ewp5IZdwHpDtkz2tcQdj3afS6v8h3AkJ8cZhTov9/MRyoMjVUhm1dZcx8
+ tZqJn53eWVrVKE6lTpLb+zwyrUpKxLNltsIatkai/ppn2/QOAiEkQk25FKs17R/I//pA
+ 3Bbfz18ZPHf4Yf/Ei5dkXRiChvu+XnkD4hRpa+y5nb+y6iTVAHyKtYd45UleNlLsnEZ3
+ 7ztg==
+X-Gm-Message-State: APjAAAV3a6uvY+a7v7LBwzmdrNA4FpeP4HGap8LHXt7Fg2p4qtb7T0Cf
+ D6ugWbV0hM5ERVqX6z72KcVclcrVt5Eopw==
+X-Google-Smtp-Source: APXvYqyYxMNFn8RarhmAthdqVSRsbGbrPw8/vBDz3qQi+24Rcv3IKiMgPki5R05U1UA5iAgY13NpIg==
+X-Received: by 2002:a1c:5f41:: with SMTP id t62mr3922182wmb.42.1582290476756; 
+ Fri, 21 Feb 2020 05:07:56 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.54
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:07:55 -0800 (PST)
+ Fri, 21 Feb 2020 05:07:56 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/52] target/arm: Fix select for aa64_va_parameters_both
-Date: Fri, 21 Feb 2020 13:06:59 +0000
-Message-Id: <20200221130740.7583-12-peter.maydell@linaro.org>
+Subject: [PULL 12/52] target/arm: Remove ttbr1_valid check from
+ get_phys_addr_lpae
+Date: Fri, 21 Feb 2020 13:07:00 +0000
+Message-Id: <20200221130740.7583-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,82 +84,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Select should always be 0 for a regime with one range.
+Now that aa64_va_parameters_both sets select based on the number
+of ranges in the regime, the ttbr1_valid check is redundant.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200216194343.21331-3-richard.henderson@linaro.org
+Message-id: 20200216194343.21331-4-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 46 +++++++++++++++++++++++----------------------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ target/arm/helper.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 366dbcf460d..b09a5012841 100644
+index b09a5012841..eec7b01ab35 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10241,13 +10241,8 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-     bool tbi, tbid, epd, hpd, using16k, using64k;
-     int select, tsz;
- 
--    /*
--     * Bit 55 is always between the two regions, and is canonical for
--     * determining if address tagging is enabled.
--     */
--    select = extract64(va, 55, 1);
--
-     if (!regime_has_2_ranges(mmu_idx)) {
-+        select = 0;
-         tsz = extract32(tcr, 0, 6);
-         using64k = extract32(tcr, 14, 1);
-         using16k = extract32(tcr, 15, 1);
-@@ -10260,23 +10255,30 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-             tbid = extract32(tcr, 29, 1);
-         }
-         epd = false;
--    } else if (!select) {
--        tsz = extract32(tcr, 0, 6);
--        epd = extract32(tcr, 7, 1);
--        using64k = extract32(tcr, 14, 1);
--        using16k = extract32(tcr, 15, 1);
--        tbi = extract64(tcr, 37, 1);
--        hpd = extract64(tcr, 41, 1);
--        tbid = extract64(tcr, 51, 1);
+@@ -10390,7 +10390,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+     TCR *tcr = regime_tcr(env, mmu_idx);
+     int ap, ns, xn, pxn;
+     uint32_t el = regime_el(env, mmu_idx);
+-    bool ttbr1_valid;
+     uint64_t descaddrmask;
+     bool aarch64 = arm_el_is_aa64(env, el);
+     bool guarded = false;
+@@ -10405,14 +10404,11 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+         param = aa64_va_parameters(env, address, mmu_idx,
+                                    access_type != MMU_INST_FETCH);
+         level = 0;
+-        ttbr1_valid = regime_has_2_ranges(mmu_idx);
+         addrsize = 64 - 8 * param.tbi;
+         inputsize = 64 - param.tsz;
      } else {
--        int tg = extract32(tcr, 30, 2);
--        using16k = tg == 1;
--        using64k = tg == 3;
--        tsz = extract32(tcr, 16, 6);
--        epd = extract32(tcr, 23, 1);
--        tbi = extract64(tcr, 38, 1);
--        hpd = extract64(tcr, 42, 1);
--        tbid = extract64(tcr, 52, 1);
-+        /*
-+         * Bit 55 is always between the two regions, and is canonical for
-+         * determining if address tagging is enabled.
-+         */
-+        select = extract64(va, 55, 1);
-+        if (!select) {
-+            tsz = extract32(tcr, 0, 6);
-+            epd = extract32(tcr, 7, 1);
-+            using64k = extract32(tcr, 14, 1);
-+            using16k = extract32(tcr, 15, 1);
-+            tbi = extract64(tcr, 37, 1);
-+            hpd = extract64(tcr, 41, 1);
-+            tbid = extract64(tcr, 51, 1);
-+        } else {
-+            int tg = extract32(tcr, 30, 2);
-+            using16k = tg == 1;
-+            using64k = tg == 3;
-+            tsz = extract32(tcr, 16, 6);
-+            epd = extract32(tcr, 23, 1);
-+            tbi = extract64(tcr, 38, 1);
-+            hpd = extract64(tcr, 42, 1);
-+            tbid = extract64(tcr, 52, 1);
-+        }
+         param = aa32_va_parameters(env, address, mmu_idx);
+         level = 1;
+-        /* There is no TTBR1 for EL2 */
+-        ttbr1_valid = (el != 2);
+         addrsize = (mmu_idx == ARMMMUIdx_Stage2 ? 40 : 32);
+         inputsize = addrsize - param.tsz;
      }
-     tsz = MIN(tsz, 39);  /* TODO: ARMv8.4-TTST */
-     tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
+@@ -10429,7 +10425,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+     if (inputsize < addrsize) {
+         target_ulong top_bits = sextract64(address, inputsize,
+                                            addrsize - inputsize);
+-        if (-top_bits != param.select || (param.select && !ttbr1_valid)) {
++        if (-top_bits != param.select) {
+             /* The gap between the two regions is a Translation fault */
+             fault_type = ARMFault_Translation;
+             goto do_fault;
 -- 
 2.20.1
 
