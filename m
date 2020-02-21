@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6EF167E75
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:25:05 +0100 (CET)
-Received: from localhost ([::1]:57564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6707F167E86
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:27:48 +0100 (CET)
+Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58Ii-0000DE-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:25:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56819)
+	id 1j58LL-000401-DU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:27:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j582V-0007VJ-Im
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:20 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j582W-0007Yr-PO
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j582U-000362-Gk
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:19 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42010)
+ (envelope-from <peter.maydell@linaro.org>) id 1j582V-00036y-PW
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:20 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40380)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j582U-00035h-AP
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:18 -0500
-Received: by mail-wr1-x444.google.com with SMTP id k11so1984905wrd.9
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:18 -0800 (PST)
+ id 1j582V-00036M-Jf
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:19 -0500
+Received: by mail-wm1-x335.google.com with SMTP id t14so1774601wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JZA6WWoqNvxJ8t7RB0a9zhQRcd4pYujNBUcXHYtibLo=;
- b=GFYANrnzRAH4Ceb53VS3wMUVL76i37br/wfLhM2cU54NCz6Nv4y8tFGyz8/li5dzww
- U9pF9/u0pJfieitDmJicMbzOZnw2s7dcC9oIoaPaiUmgIJh6b7N5jRtEeVwz//ovcrsR
- JMyOPD3Sq/Qp3AcrpTbTs9vYUcWGkwOuCms2GY0vFJb2ISYfwTDBtm6bI/Rm89a1JIRi
- w+TKHaqrAfIDPtbzJktM6f3ZP5THQ4LXfM80L0uO/tNgBIys505M4CIB1aiq6H/JFBrD
- /E54xqxW9IfnerU0Ib19assSmgJkMkVEdh/WVXYSoq771AbLnrBQtiRYY5BusO+k1RHt
- NJ+w==
+ bh=9YDEWfTgYbtJnejtZ5TxG4cpNRlX/38cACEqimzClc0=;
+ b=JPCbO69M6gUgiN5X1o1Oo7L7typeOWAVGP8vCfx9+qlIUg3BYwkwBjyp82X+4oBrjd
+ cSJSnV9L3jRUTJiQ5buVN5stpTAzyvFrQFRQLpv8BtwPGDmznpxoLHc5lT1nb6tMWN1y
+ KYPMaLkjpLTRb9hFTgPWnHnMFMJXzDlbWuJ7dH+FqzHmUO5iheQwo4RvrcqJlT0fCKVa
+ WpxQJoUrlgWZi8DrY5j7jgjvHJ2LuMyZn4Ok4oIS8lEgzljZR9NBzrKReHzzkPy6jMQJ
+ koFqXo70T2zDCEexf5LeeDGJ5Pg7RwzOyzSCqNqxUK/9hIFffdbE4+Vxh4bLA4eYADUr
+ SKIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JZA6WWoqNvxJ8t7RB0a9zhQRcd4pYujNBUcXHYtibLo=;
- b=saVfRK2Rx4Caxuzpf72cfExH+O3V3hNyY1sybROdOfGgQGfijblKDkO/H7xKnl33XF
- IBNsB1WofTLRBcaFUAiriweOc+a/OduqKNuQ0g6PZH22KE8tIyf4z+YwZZw4ay8gruMn
- rKS8e89F7LaP88TGVMrOKMRO4l6hmv+/ZIjKrTt9dcmSYA13n+eFzkL/CvKxEbYvwq/1
- YJL9WqJNPqEdHNn2HBq9EVFRAY+f0uZ9MdsuiWSitA+BRObb4sT3D9yWEWqwn/yfS9ms
- DEC/Vf/YAV49ByblJJA4uUlBZCDg8XZbyItb5eTA7FZiw31zvkCc0KIVsO21OArifnlp
- aHpg==
-X-Gm-Message-State: APjAAAVeMF7pbzljnE5DxGrsFEz3fafzzwp2HyeKbWzNJAc1qretttZk
- 6Bo1BtWloGLAqXenapsVUseQKTp64gAysg==
-X-Google-Smtp-Source: APXvYqyZ7uCMCW+UANk5+sM+nF4zzE2mgPNuzSGRRtvva6BBtA5xZSA68ubIayFraQvWUjHryZuuAg==
-X-Received: by 2002:a5d:6987:: with SMTP id g7mr47294161wru.422.1582290496812; 
- Fri, 21 Feb 2020 05:08:16 -0800 (PST)
+ bh=9YDEWfTgYbtJnejtZ5TxG4cpNRlX/38cACEqimzClc0=;
+ b=VrTjBJ7dbwS7hg59E/pltJ4G79Znu47W5hK3LtVGZ33y2trrvh6N16SYFNJELakLav
+ UzH+5LEPWK8MZvXhRXtGtUHw3d3h4duvSsD3Tjq1TkM2h+eao/XPxN53LtDjlxgtqEfa
+ Sgyv79ZdhJTpIT33R9w9Ll2J3Ofh0VzQKJaM0/ahMXo4nopsCVmKKX16lUhrbAMF3GrA
+ PijbY2nu72XQvEOlR/ty2iWHdAqahmfdfda4q52AI7gtVxyZBGFPtg4j94aWfIqyN0Fg
+ b2zpc3FCIHi44S8SBJOnd5fMILBefBFoyv+zcXSs5Ybv022FGpx13RHtXD1dVYJEQDoa
+ v7Ug==
+X-Gm-Message-State: APjAAAUKdNZS47c2d5xrOgbpfCBOHlQdplS1rsfwwg4eJfL7MY1oYiMv
+ O028v9ZWy5yN9r3qxrpRqOzQvJkZ1dKqsw==
+X-Google-Smtp-Source: APXvYqwr9PLOlTfS00vDi5LDQRaDlePGn/g3SWRWlS2ql60Cqf0AyGykLFMlQkUY5MpVY3g0yD6xHw==
+X-Received: by 2002:a1c:f003:: with SMTP id a3mr3871204wmb.41.1582290498041;
+ Fri, 21 Feb 2020 05:08:18 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.15
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:08:16 -0800 (PST)
+ Fri, 21 Feb 2020 05:08:17 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/52] target/arm: Provide ARMv8.4-PMU in '-cpu max'
-Date: Fri, 21 Feb 2020 13:07:16 +0000
-Message-Id: <20200221130740.7583-29-peter.maydell@linaro.org>
+Subject: [PULL 29/52] target/arm: Correct definition of PMCRDP
+Date: Fri, 21 Feb 2020 13:07:17 +0000
+Message-Id: <20200221130740.7583-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,35 +82,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the ID register bits to provide ARMv8.4-PMU (and implicitly
-also ARMv8.1-PMU) in the 'max' CPU.
+The PMCR_EL0.DP bit is bit 5, which is 0x20, not 0x10.  0x10 is 'X'.
+Correct our #define of PMCRDP and add the missing PMCRX.
 
+We do have the correct behaviour for handling the DP bit being
+set, so this fixes a guest-visible bug.
+
+Fixes: 033614c47de
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200214175116.9164-16-peter.maydell@linaro.org
+Message-id: 20200214175116.9164-17-peter.maydell@linaro.org
 ---
- target/arm/cpu64.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/arm/helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index f8f74a7ecda..c9452894035 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -703,6 +703,14 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
-         cpu->id_mmfr3 = u;
- 
-+        u = cpu->isar.id_aa64dfr0;
-+        u = FIELD_DP64(u, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
-+        cpu->isar.id_aa64dfr0 = u;
-+
-+        u = cpu->isar.id_dfr0;
-+        u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
-+        cpu->isar.id_dfr0 = u;
-+
-         /*
-          * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
-          * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 72c9c7e694a..e868b08cc18 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1017,7 +1017,8 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
+ #define PMCRN_MASK  0xf800
+ #define PMCRN_SHIFT 11
+ #define PMCRLC  0x40
+-#define PMCRDP  0x10
++#define PMCRDP  0x20
++#define PMCRX   0x10
+ #define PMCRD   0x8
+ #define PMCRC   0x4
+ #define PMCRP   0x2
 -- 
 2.20.1
 
