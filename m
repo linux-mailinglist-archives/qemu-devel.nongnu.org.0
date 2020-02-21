@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4676A167EE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:44:39 +0100 (CET)
-Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156DD167ECB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:38:40 +0100 (CET)
+Received: from localhost ([::1]:57938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58be-0006sD-Aw
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:44:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33030)
+	id 1j58Vr-0004cL-4w
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:38:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j58Jm-00032H-BM
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:16 -0500
+ (envelope-from <philmd@redhat.com>) id 1j58Jk-00032r-Lk
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j58Jj-0007Ra-6d
+ (envelope-from <philmd@redhat.com>) id 1j58Jj-0007RA-5J
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36135
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24507
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j58Jj-0007Og-2Q
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j58Jj-0007Oi-0R
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582291560;
@@ -27,46 +27,46 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=knm7izTn3QMDeqGkdlsTr7WEWsDthOUVCNGPYSj8q90=;
- b=NsS9t5eStfytKrs/RU3KxSl9FKLEAtVvNpG4QHATDbDQ3EVM/wO2wqKPApyta+4oeO06Or
- nFfbOFlzyWMu4etxSfxu+7yskexLYrPqD3yP0r3c5hyRzuzDKdbXvIy1bfS7HF7AT6xjs0
- vJWU476KRhLXNS+dcz+m/M5KuO8yXNs=
+ bh=cMOXko/4H0FB0S7u3dYzICgeqoNZW5DiwbZ8PiLJoXI=;
+ b=CDGCXH604QY7wRTvtKgJiPnNmS6hgCSdAEmsS5J4EEiPmn2c4VmiYHoPsGcdohT9OOobR0
+ XnyCi8jIBgggeKFSg1m18Xa86FYcTDv6Xpp0LbtmMvVeQhCRMcPza9i33SOcQNOpgtY4bf
+ HnqNZ3xJpNoV2bUOWvUmULHD49I9ALA=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-YqpKcDUDPIW-g4P1ZVooCQ-1; Fri, 21 Feb 2020 08:25:56 -0500
-X-MC-Unique: YqpKcDUDPIW-g4P1ZVooCQ-1
-Received: by mail-wm1-f70.google.com with SMTP id p26so607904wmg.5
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:25:56 -0800 (PST)
+ us-mta-301-N3A-jZskOpi5RdEk2JQk_A-1; Fri, 21 Feb 2020 08:25:58 -0500
+X-MC-Unique: N3A-jZskOpi5RdEk2JQk_A-1
+Received: by mail-wm1-f70.google.com with SMTP id q125so571169wme.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:25:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i4tc3X06KlldR4fgJ2DnHVlEIqgio/XYk4CRiPLhiQE=;
- b=gR5CdJGedQ4sPtC6OWhRBNDYAoL/qMtNUtjZzmzDJsshX258PoINMqg1axsSB9RpY7
- QHBuJVGTizkmLEAWY41NwVdeZ3UlI777JmoVqBcn2Z5K+KbkO3BWSh4gHq2f263fNMzr
- gwHLvTfxK+Se9lUakLtfB1MLSoHPhuI4pBW9QF1udbAa5kw3fb/t2J3ui48jt/xj05q7
- 2Gjy7FD8XNBqGu0fePwY3m5fntrpOBa8LUTv3blOLxGXhmNeZnYR8J1DOYUEg+95eec0
- rvUkCJPNwjAdBkHhbMF68gDYa7O8T28pXWl/eCWvJPS7tCjBoZuxcY+Vr30RzmtuK6Qa
- d1Hg==
-X-Gm-Message-State: APjAAAWSwUeVnR0t91x5EYqkPp2q45fCO7NLKm1/j8b520PM4j84Y6es
- pMSa+rmFN2EBzYbE9A9zmYY6RMJLLJerq0T5QIsX8qho+d8DZjtaT8gQfjN+RgnmQfkyW84DX+v
- heg3jIS0Vsj+ygV8=
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr47793227wrv.316.1582291555172; 
- Fri, 21 Feb 2020 05:25:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwBkWPDof7tB9gbioJ+go7V27Hj14HlPsHFiHSeDJLh2zDSwQS68e2jbTp1o8eVzNT4n3wk7w==
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr47793197wrv.316.1582291554961; 
- Fri, 21 Feb 2020 05:25:54 -0800 (PST)
+ bh=hcg1mTPNvTqu5kw0kpHNtRAtcOajm8vfSJTKD9bWkbM=;
+ b=P08dPs+cqYM0TQd2gLLTluIZx5W+983qBCx1bQUP9LUkPTHIWuz+o9Cygc2LmIhphW
+ L8T0PVza/usMLArJz0V/4kDETyI0/r0SYcrv7ONMw24MZ7FuZDYzQUam+eRRJ5FnW4Te
+ v03H1wepEAlgNzmcFAxczjGg6O0Lv6cflSwatrwwSmPKBMgACOjJ8rJexJ6f/Lo4KO7c
+ LFA1S/3Nufb4pF0ZA1LbFztAJ2DbrFZSS4E7uMa13dbKouoJNiEQAeNP4a12anzvWYVp
+ e9V03yexY9pntsX3JOqEbfkmnvD3eywX6ke4IpRbeewx3k/NUyrp4l8UdPAOaN0qdTdY
+ b7yQ==
+X-Gm-Message-State: APjAAAXDCEh0qOrss6f4ZfifsGZuuwaI3+LEfexu9CC9FXNy98Fz4KoW
+ LLpKk6mXTDRevKeVBqwoe5rX6uA2hSlmkCNkFPBBzYOllZ8XJEQ9YxsaqWf+hEZhN6bI8Y+b7nI
+ IDXSVJV8aGcDWRuc=
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr49130629wrp.1.1582291557231; 
+ Fri, 21 Feb 2020 05:25:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyZ8zRwQjRSOapQpvHA7eWW8PLfsp1CYzT1rJ38J4VZUnRLds4ZKYRE30wnQupHSJYRW3+npQ==
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr49130596wrp.1.1582291556925; 
+ Fri, 21 Feb 2020 05:25:56 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id t13sm3947679wrw.19.2020.02.21.05.25.53
+ by smtp.gmail.com with ESMTPSA id t13sm3947679wrw.19.2020.02.21.05.25.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:25:54 -0800 (PST)
+ Fri, 21 Feb 2020 05:25:55 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/scsi/esp: Let ESPDMAMemoryReadWriteFunc take void
- pointer and size_t
-Date: Fri, 21 Feb 2020 14:25:49 +0100
-Message-Id: <20200221132550.22156-3-philmd@redhat.com>
+Subject: [PATCH 3/3] hw/net/pcnet: Let phys_mem_read/write take void pointer
+ and boolean
+Date: Fri, 21 Feb 2020 14:25:50 +0100
+Message-Id: <20200221132550.22156-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200221132550.22156-1-philmd@redhat.com>
 References: <20200221132550.22156-1-philmd@redhat.com>
@@ -98,91 +98,206 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ESPDMAMemoryReadWriteFunc handlers end calling
+Both PCNetState::phys_mem_read/write handlers end calling
 dma_memory_read/write, which both take void pointers (since
-introduced in commit d86a77f8). The ESPDMAMemoryReadWriteFunc
+introduced in commit d86a77f8). The PCNetState phys_mem_read/write
 handlers can take a void pointer too.
+As the length is always a sizeof(), use a size_t type.
+The 'do_bswap' is used as a boolean argument. Use an explicit
+boolean type.
 
-All calls to these handlers in hw/scsi/esp.c use an unsigned
-length. Use size_t type.
+The changes in hw/net/pcnet.c are produced using the following
+Coccinelle script:
+
+    @@
+    expression E1, E2, E3, E4;
+    @@
+    (
+    - s->phys_mem_read(E1, E2, (void *)(E3), E4, 0);
+    + s->phys_mem_read(E1, E2, E3, E4, false);
+    |
+    - s->phys_mem_write(E1, E2, (void *)(E3), E4, 0);
+    + s->phys_mem_write(E1, E2, E3, E4, false);
+    |
+    - s->phys_mem_read(E1, E2, (void *)(E3), E4, 1);
+    + s->phys_mem_read(E1, E2, E3, E4, true);
+    |
+    - s->phys_mem_write(E1, E2, (void *)(E3), E4, 1);
+    + s->phys_mem_write(E1, E2, E3, E4, true);
+    )
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/scsi/esp.h | 2 +-
- hw/dma/sparc32_dma.c  | 4 ++--
- hw/scsi/esp-pci.c     | 6 +++---
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ hw/net/pcnet.h                 |  4 ++--
+ include/hw/sparc/sparc32_dma.h |  4 ++--
+ hw/dma/sparc32_dma.c           |  4 ++--
+ hw/net/pcnet-pci.c             |  5 +++--
+ hw/net/pcnet.c                 | 16 ++++++++--------
+ 5 files changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-index 6ba47dac41..fff0ebc4d4 100644
---- a/include/hw/scsi/esp.h
-+++ b/include/hw/scsi/esp.h
-@@ -6,7 +6,7 @@
+diff --git a/hw/net/pcnet.h b/hw/net/pcnet.h
+index f49b213c57..3f15e6f065 100644
+--- a/hw/net/pcnet.h
++++ b/hw/net/pcnet.h
+@@ -47,9 +47,9 @@ struct PCNetState_st {
+     uint8_t buffer[4096];
+     qemu_irq irq;
+     void (*phys_mem_read)(void *dma_opaque, hwaddr addr,
+-                         uint8_t *buf, int len, int do_bswap);
++                          void *buf, size_t len, bool do_bswap);
+     void (*phys_mem_write)(void *dma_opaque, hwaddr addr,
+-                          uint8_t *buf, int len, int do_bswap);
++                           const void *buf, size_t len, bool do_bswap);
+     DeviceState *dma_opaque;
+     int tx_busy;
+     int looptest;
+diff --git a/include/hw/sparc/sparc32_dma.h b/include/hw/sparc/sparc32_dma.=
+h
+index b3811b617d..db42f7440d 100644
+--- a/include/hw/sparc/sparc32_dma.h
++++ b/include/hw/sparc/sparc32_dma.h
+@@ -58,8 +58,8 @@ typedef struct SPARC32DMAState {
 =20
- /* esp.c */
- #define ESP_MAX_DEVS 7
--typedef void (*ESPDMAMemoryReadWriteFunc)(void *opaque, uint8_t *buf, int =
-len);
-+typedef void (*ESPDMAMemoryReadWriteFunc)(void *opaque, void *buf, size_t =
-len);
+ /* sparc32_dma.c */
+ void ledma_memory_read(void *opaque, hwaddr addr,
+-                       uint8_t *buf, int len, int do_bswap);
++                       void *buf, size_t len, bool do_bswap);
+ void ledma_memory_write(void *opaque, hwaddr addr,
+-                        uint8_t *buf, int len, int do_bswap);
++                        const void *buf, size_t len, bool do_bswap);
 =20
- #define ESP_REGS 16
- #define TI_BUFSZ 16
+ #endif
 diff --git a/hw/dma/sparc32_dma.c b/hw/dma/sparc32_dma.c
-index c9e313938c..fbe58b8fea 100644
+index fbe58b8fea..629f9830f7 100644
 --- a/hw/dma/sparc32_dma.c
 +++ b/hw/dma/sparc32_dma.c
-@@ -142,7 +142,7 @@ static void dma_set_irq(void *opaque, int irq, int leve=
-l)
-     }
- }
+@@ -72,7 +72,7 @@ enum {
 =20
--static void espdma_memory_read(void *opaque, uint8_t *buf, int len)
-+static void espdma_memory_read(void *opaque, void *buf, size_t len)
+ /* Note: on sparc, the lance 16 bit bus is swapped */
+ void ledma_memory_read(void *opaque, hwaddr addr,
+-                       uint8_t *buf, int len, int do_bswap)
++                       void *buf, size_t len, bool do_bswap)
  {
      DMADeviceState *s =3D opaque;
      IOMMUState *is =3D (IOMMUState *)s->iommu;
-@@ -152,7 +152,7 @@ static void espdma_memory_read(void *opaque, uint8_t *b=
-uf, int len)
-     s->dmaregs[1] +=3D len;
+@@ -93,7 +93,7 @@ void ledma_memory_read(void *opaque, hwaddr addr,
  }
 =20
--static void espdma_memory_write(void *opaque, uint8_t *buf, int len)
-+static void espdma_memory_write(void *opaque, void *buf, size_t len)
+ void ledma_memory_write(void *opaque, hwaddr addr,
+-                        uint8_t *buf, int len, int do_bswap)
++                        const void *buf, size_t len, bool do_bswap)
  {
      DMADeviceState *s =3D opaque;
      IOMMUState *is =3D (IOMMUState *)s->iommu;
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index d5a1f9e017..8f11c4a2d2 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -242,7 +242,7 @@ static uint64_t esp_pci_io_read(void *opaque, hwaddr ad=
-dr,
-     return ret;
+diff --git a/hw/net/pcnet-pci.c b/hw/net/pcnet-pci.c
+index d1f31e0272..4e4d60b046 100644
+--- a/hw/net/pcnet-pci.c
++++ b/hw/net/pcnet-pci.c
+@@ -167,13 +167,14 @@ static const MemoryRegionOps pcnet_mmio_ops =3D {
+ };
+=20
+ static void pci_physical_memory_write(void *dma_opaque, hwaddr addr,
+-                                      uint8_t *buf, int len, int do_bswap)
++                                      const void *buf, size_t len,
++                                      bool do_bswap)
+ {
+     pci_dma_write(dma_opaque, addr, buf, len);
  }
 =20
--static void esp_pci_dma_memory_rw(PCIESPState *pci, uint8_t *buf, int len,
-+static void esp_pci_dma_memory_rw(PCIESPState *pci, void *buf, size_t len,
-                                   DMADirection dir)
+ static void pci_physical_memory_read(void *dma_opaque, hwaddr addr,
+-                                     uint8_t *buf, int len, int do_bswap)
++                                     void *buf, size_t len, bool do_bswap)
  {
-     dma_addr_t addr;
-@@ -278,13 +278,13 @@ static void esp_pci_dma_memory_rw(PCIESPState *pci, u=
-int8_t *buf, int len,
+     pci_dma_read(dma_opaque, addr, buf, len);
+ }
+diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
+index f3f18d8598..d669ca2aa3 100644
+--- a/hw/net/pcnet.c
++++ b/hw/net/pcnet.c
+@@ -305,14 +305,14 @@ static inline void pcnet_tmd_load(PCNetState *s, stru=
+ct pcnet_TMD *tmd,
+             int16_t length;
+             int16_t status;
+         } xda;
+-        s->phys_mem_read(s->dma_opaque, addr, (void *)&xda, sizeof(xda), 0=
+);
++        s->phys_mem_read(s->dma_opaque, addr, &xda, sizeof(xda), false);
+         tmd->tbadr =3D le32_to_cpu(xda.tbadr) & 0xffffff;
+         tmd->length =3D le16_to_cpu(xda.length);
+         tmd->status =3D (le32_to_cpu(xda.tbadr) >> 16) & 0xff00;
+         tmd->misc =3D le16_to_cpu(xda.status) << 16;
+         tmd->res =3D 0;
+     } else {
+-        s->phys_mem_read(s->dma_opaque, addr, (void *)tmd, sizeof(*tmd), 0=
+);
++        s->phys_mem_read(s->dma_opaque, addr, tmd, sizeof(*tmd), false);
+         le32_to_cpus(&tmd->tbadr);
+         le16_to_cpus((uint16_t *)&tmd->length);
+         le16_to_cpus((uint16_t *)&tmd->status);
+@@ -339,7 +339,7 @@ static inline void pcnet_tmd_store(PCNetState *s, const=
+ struct pcnet_TMD *tmd,
+                                 ((tmd->status & 0xff00) << 16));
+         xda.length =3D cpu_to_le16(tmd->length);
+         xda.status =3D cpu_to_le16(tmd->misc >> 16);
+-        s->phys_mem_write(s->dma_opaque, addr, (void *)&xda, sizeof(xda), =
+0);
++        s->phys_mem_write(s->dma_opaque, addr, &xda, sizeof(xda), false);
+     } else {
+         struct {
+             uint32_t tbadr;
+@@ -358,7 +358,7 @@ static inline void pcnet_tmd_store(PCNetState *s, const=
+ struct pcnet_TMD *tmd,
+             xda.tbadr =3D xda.misc;
+             xda.misc =3D tmp;
+         }
+-        s->phys_mem_write(s->dma_opaque, addr, (void *)&xda, sizeof(xda), =
+0);
++        s->phys_mem_write(s->dma_opaque, addr, &xda, sizeof(xda), false);
      }
  }
 =20
--static void esp_pci_dma_memory_read(void *opaque, uint8_t *buf, int len)
-+static void esp_pci_dma_memory_read(void *opaque, void *buf, size_t len)
- {
-     PCIESPState *pci =3D opaque;
-     esp_pci_dma_memory_rw(pci, buf, len, DMA_DIRECTION_TO_DEVICE);
+@@ -371,14 +371,14 @@ static inline void pcnet_rmd_load(PCNetState *s, stru=
+ct pcnet_RMD *rmd,
+             int16_t buf_length;
+             int16_t msg_length;
+ =09} rda;
+-        s->phys_mem_read(s->dma_opaque, addr, (void *)&rda, sizeof(rda), 0=
+);
++        s->phys_mem_read(s->dma_opaque, addr, &rda, sizeof(rda), false);
+         rmd->rbadr =3D le32_to_cpu(rda.rbadr) & 0xffffff;
+         rmd->buf_length =3D le16_to_cpu(rda.buf_length);
+         rmd->status =3D (le32_to_cpu(rda.rbadr) >> 16) & 0xff00;
+         rmd->msg_length =3D le16_to_cpu(rda.msg_length);
+         rmd->res =3D 0;
+     } else {
+-        s->phys_mem_read(s->dma_opaque, addr, (void *)rmd, sizeof(*rmd), 0=
+);
++        s->phys_mem_read(s->dma_opaque, addr, rmd, sizeof(*rmd), false);
+         le32_to_cpus(&rmd->rbadr);
+         le16_to_cpus((uint16_t *)&rmd->buf_length);
+         le16_to_cpus((uint16_t *)&rmd->status);
+@@ -405,7 +405,7 @@ static inline void pcnet_rmd_store(PCNetState *s, struc=
+t pcnet_RMD *rmd,
+                                 ((rmd->status & 0xff00) << 16));
+         rda.buf_length =3D cpu_to_le16(rmd->buf_length);
+         rda.msg_length =3D cpu_to_le16(rmd->msg_length);
+-        s->phys_mem_write(s->dma_opaque, addr, (void *)&rda, sizeof(rda), =
+0);
++        s->phys_mem_write(s->dma_opaque, addr, &rda, sizeof(rda), false);
+     } else {
+         struct {
+             uint32_t rbadr;
+@@ -424,7 +424,7 @@ static inline void pcnet_rmd_store(PCNetState *s, struc=
+t pcnet_RMD *rmd,
+             rda.rbadr =3D rda.msg_length;
+             rda.msg_length =3D tmp;
+         }
+-        s->phys_mem_write(s->dma_opaque, addr, (void *)&rda, sizeof(rda), =
+0);
++        s->phys_mem_write(s->dma_opaque, addr, &rda, sizeof(rda), false);
+     }
  }
 =20
--static void esp_pci_dma_memory_write(void *opaque, uint8_t *buf, int len)
-+static void esp_pci_dma_memory_write(void *opaque, void *buf, size_t len)
- {
-     PCIESPState *pci =3D opaque;
-     esp_pci_dma_memory_rw(pci, buf, len, DMA_DIRECTION_FROM_DEVICE);
 --=20
 2.21.1
 
