@@ -2,112 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3889F168251
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 16:50:35 +0100 (CET)
-Received: from localhost ([::1]:60120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A82168230
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 16:48:08 +0100 (CET)
+Received: from localhost ([::1]:60086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5AZW-0001TN-8M
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 10:50:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40015)
+	id 1j5AX9-0007ph-Uf
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 10:48:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j5AVP-0006OP-IU
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:21 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j5AVP-0006OU-Ju
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j5AVN-0004wS-Kj
+ (envelope-from <mreitz@redhat.com>) id 1j5AVO-00053Z-NU
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31244
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27236
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j5AVN-0004qK-EL
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:17 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j5AVO-00050u-Hg
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582299976;
+ s=mimecast20190719; t=1582299978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6mICQkkeEC0YGQP/FKYanTAxjvKARRhFQTYmxDQ+z14=;
- b=Ct+1+xLKyVwgkOWfqMI26Y5v5rFeJ+/xuY8EEf4tZ/nnUBjy3LPkzItwm1GgqX1fo1Snda
- rLFHQpBw/UCAn7qSnHfIVSZ82PZMOO4vGsM9L0vghXYCwG2vNIsHmdcpp2V4H9vksR6xTl
- YKU+6CmKJAFS/2/K7pCh4ZIiyGNKCEg=
+ bh=t54TSZAdz79Xk9Y345bP2ctUnXQi4UrIeqiG9mBAWn0=;
+ b=Wl7vs4ryjgc1fZHFewuXWaSs0hQzJ1nM6J/rGm5p9UyFG/o4XYi0DLqpr9K+qeLu8UA6Z7
+ 0XN7/dLOL44BTzfxj1iOa8j0hT7E5wJorSOEWt0ybZ0lWsF92rzqJVCDGey82OYQ0/zioS
+ jSmnB0gsXJwe4Ft6BzN2SxpQY2whA+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-pGWPV0k5NvSWTkUD13yK4w-1; Fri, 21 Feb 2020 10:46:15 -0500
-X-MC-Unique: pGWPV0k5NvSWTkUD13yK4w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-293-gy-AL1oCPF-s9Qc-4D-nQw-1; Fri, 21 Feb 2020 10:46:16 -0500
+X-MC-Unique: gy-AL1oCPF-s9Qc-4D-nQw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0164107ACC5;
- Fri, 21 Feb 2020 15:46:13 +0000 (UTC)
-Received: from [10.36.117.197] (ovpn-117-197.ams2.redhat.com [10.36.117.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 235E227090;
- Fri, 21 Feb 2020 15:46:05 +0000 (UTC)
-Subject: Re: [PATCH v1 05/13] migrate/ram: Handle RAM block resizes during
- precopy
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200219161725.115218-1-david@redhat.com>
- <20200219161725.115218-6-david@redhat.com> <20200221151447.GF2931@work-vm>
- <d6552c8b-fc3e-18be-216c-2c66591faa0a@redhat.com>
- <20200221154017.GG2931@work-vm>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <d1dc0df9-c4c9-d737-d84c-c5d47ca86040@redhat.com>
-Date: Fri, 21 Feb 2020 16:46:05 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84EC313E4;
+ Fri, 21 Feb 2020 15:46:14 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72E0E8B57E;
+ Fri, 21 Feb 2020 15:46:11 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 22/27] qcow2: Clear the L2 bitmap when allocating a
+ compressed cluster
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1577014346.git.berto@igalia.com>
+ <410dd2fcfc6d0a177e3aea669cbc8f665f0df20a.1577014346.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <e6e3773a-47e3-9620-7e0c-56240388a88f@redhat.com>
+Date: Fri, 21 Feb 2020 16:46:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200221154017.GG2931@work-vm>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <410dd2fcfc6d0a177e3aea669cbc8f665f0df20a.1577014346.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -122,282 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Shannon Zhao <shannon.zhao@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.02.20 16:40, Dr. David Alan Gilbert wrote:
-> * David Hildenbrand (david@redhat.com) wrote:
->> On 21.02.20 16:14, Dr. David Alan Gilbert wrote:
->>> * David Hildenbrand (david@redhat.com) wrote:
->>>> Resizing while migrating is dangerous and does not work as expected.
->>>> The whole migration code works on the usable_length of ram blocks and =
-does
->>>> not expect this to change at random points in time.
->>>>
->>>> In the case of precopy, the ram block size must not change on the sour=
-ce,
->>>> after syncing the RAM block list in ram_save_setup(), so as long as th=
-e
->>>> guest is still running on the source.
->>>>
->>>> Resizing can be trigger *after* (but not during) a reset in
->>>> ACPI code by the guest
->>>> - hw/arm/virt-acpi-build.c:acpi_ram_update()
->>>> - hw/i386/acpi-build.c:acpi_ram_update()
->>>>
->>>> Use the ram block notifier to get notified about resizes. Let's simply
->>>> cancel migration and indicate the reason. We'll continue running on th=
-e
->>>> source. No harm done.
->>>>
->>>> Update the documentation. Postcopy will be handled separately.
->>>>
->>>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>>> Cc: Juan Quintela <quintela@redhat.com>
->>>> Cc: Eduardo Habkost <ehabkost@redhat.com>
->>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
->>>> Cc: Igor Mammedov <imammedo@redhat.com>
->>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->>>> Cc: Richard Henderson <richard.henderson@linaro.org>
->>>> Cc: Shannon Zhao <shannon.zhao@linaro.org>
->>>> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>> Cc: Peter Xu <peterx@redhat.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>  exec.c                |  5 +++--
->>>>  include/exec/memory.h | 10 ++++++----
->>>>  migration/migration.c |  9 +++++++--
->>>>  migration/migration.h |  1 +
->>>>  migration/ram.c       | 41 +++++++++++++++++++++++++++++++++++++++++
->>>>  5 files changed, 58 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/exec.c b/exec.c
->>>> index b75250e773..8b015821d6 100644
->>>> --- a/exec.c
->>>> +++ b/exec.c
->>>> @@ -2120,8 +2120,9 @@ static int memory_try_enable_merging(void *addr,=
- size_t len)
->>>>      return qemu_madvise(addr, len, QEMU_MADV_MERGEABLE);
->>>>  }
->>>> =20
->>>> -/* Only legal before guest might have detected the memory size: e.g. =
-on
->>>> - * incoming migration, or right after reset.
->>>> +/*
->>>> + * Resizing RAM while migrating can result in the migration being can=
-celed.
->>>> + * Care has to be taken if the guest might have already detected the =
-memory.
->>>>   *
->>>>   * As memory core doesn't know how is memory accessed, it is up to
->>>>   * resize callback to update device state and/or add assertions to de=
-tect
->>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
->>>> index e85b7de99a..de111347e8 100644
->>>> --- a/include/exec/memory.h
->>>> +++ b/include/exec/memory.h
->>>> @@ -113,7 +113,7 @@ typedef struct IOMMUNotifier IOMMUNotifier;
->>>>  #define RAM_SHARED     (1 << 1)
->>>> =20
->>>>  /* Only a portion of RAM (used_length) is actually used, and migrated=
-.
->>>> - * This used_length size can change across reboots.
->>>> + * Resizing RAM while migrating can result in the migration being can=
-celed.
->>>>   */
->>>>  #define RAM_RESIZEABLE (1 << 2)
->>>> =20
->>>> @@ -843,7 +843,9 @@ void memory_region_init_ram_shared_nomigrate(Memor=
-yRegion *mr,
->>>>   *                                     RAM.  Accesses into the region=
- will
->>>>   *                                     modify memory directly.  Only =
-an initial
->>>>   *                                     portion of this RAM is actuall=
-y used.
->>>> - *                                     The used size can change acros=
-s reboots.
->>>> + *                                     Changing the size while migrat=
-ing
->>>> + *                                     can result in the migration be=
-ing
->>>> + *                                     canceled.
->>>>   *
->>>>   * @mr: the #MemoryRegion to be initialized.
->>>>   * @owner: the object that tracks the region's reference count
->>>> @@ -1464,8 +1466,8 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr=
-);
->>>> =20
->>>>  /* memory_region_ram_resize: Resize a RAM region.
->>>>   *
->>>> - * Only legal before guest might have detected the memory size: e.g. =
-on
->>>> - * incoming migration, or right after reset.
->>>> + * Resizing RAM while migrating can result in the migration being can=
-celed.
->>>> + * Care has to be taken if the guest might have already detected the =
-memory.
->>>>   *
->>>>   * @mr: a memory region created with @memory_region_init_resizeable_r=
-am.
->>>>   * @newsize: the new size the region
->>>> diff --git a/migration/migration.c b/migration/migration.c
->>>> index 8fb68795dc..ac9751dbe5 100644
->>>> --- a/migration/migration.c
->>>> +++ b/migration/migration.c
->>>> @@ -175,13 +175,18 @@ void migration_object_init(void)
->>>>      }
->>>>  }
->>>> =20
->>>> +void migration_cancel(void)
->>>> +{
->>>> +    migrate_fd_cancel(current_migration);
->>>> +}
->>>> +
->>>>  void migration_shutdown(void)
->>>>  {
->>>>      /*
->>>>       * Cancel the current migration - that will (eventually)
->>>>       * stop the migration using this structure
->>>>       */
->>>> -    migrate_fd_cancel(current_migration);
->>>> +    migration_cancel();
->>>>      object_unref(OBJECT(current_migration));
->>>>  }
->>>> =20
->>>> @@ -2019,7 +2024,7 @@ void qmp_migrate(const char *uri, bool has_blk, =
-bool blk,
->>>> =20
->>>>  void qmp_migrate_cancel(Error **errp)
->>>>  {
->>>> -    migrate_fd_cancel(migrate_get_current());
->>>> +    migration_cancel();
->>>>  }
->>>> =20
->>>>  void qmp_migrate_continue(MigrationStatus state, Error **errp)
->>>> diff --git a/migration/migration.h b/migration/migration.h
->>>> index 8473ddfc88..79fd74afa5 100644
->>>> --- a/migration/migration.h
->>>> +++ b/migration/migration.h
->>>> @@ -343,5 +343,6 @@ int foreach_not_ignored_block(RAMBlockIterFunc fun=
-c, void *opaque);
->>>>  void migration_make_urgent_request(void);
->>>>  void migration_consume_urgent_request(void);
->>>>  bool migration_rate_limit(void);
->>>> +void migration_cancel(void);
->>>> =20
->>>>  #endif
->>>> diff --git a/migration/ram.c b/migration/ram.c
->>>> index ed23ed1c7c..57f32011a3 100644
->>>> --- a/migration/ram.c
->>>> +++ b/migration/ram.c
->>>> @@ -52,6 +52,7 @@
->>>>  #include "migration/colo.h"
->>>>  #include "block.h"
->>>>  #include "sysemu/sysemu.h"
->>>> +#include "sysemu/runstate.h"
->>>>  #include "savevm.h"
->>>>  #include "qemu/iov.h"
->>>>  #include "multifd.h"
->>>> @@ -3710,8 +3711,48 @@ static SaveVMHandlers savevm_ram_handlers =3D {
->>>>      .resume_prepare =3D ram_resume_prepare,
->>>>  };
->>>> =20
->>>> +static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host=
-,
->>>> +                                      size_t old_size, size_t new_siz=
-e)
->>>> +{
->>>> +    ram_addr_t offset;
->>>> +    Error *err =3D NULL;
->>>> +    RAMBlock *rb =3D qemu_ram_block_from_host(host, false, &offset);
->>>> +
->>>> +    if (ramblock_is_ignored(rb)) {
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    /*
->>>> +     * Some resizes are triggered on the migration target by precopy =
-code,
->>>> +     * when synchronizing RAM block sizes. In these cases, the VM is =
-not
->>>> +     * running and migration is not idle. We have to ignore these res=
-izes,
->>>> +     * as we only care about resizes during precopy on the migration =
-source.
->>>> +     * This handler is always registered, so ignore when migration is=
- idle.
->>>> +     */
->>>> +    if (migration_is_idle() || !runstate_is_running() ||
->>>> +        postcopy_is_running()) {
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    /*
->>>> +     * Precopy code cannot deal with the size of ram blocks changing =
-at
->>>> +     * random points in time. We're still running on the source, abor=
-t
->>>> +     * the migration and continue running here. Make sure to wait unt=
-il
->>>> +     * migration was canceled.
->>>> +     */
->>>> +    error_setg(&err, "RAM block '%s' resized during precopy.", rb->id=
-str);
->>>> +    migrate_set_error(migrate_get_current(), err);
->>>> +    error_free(err);
->>>> +    migration_cancel();
->>>> +}
->>>> +
->>>> +static RAMBlockNotifier ram_mig_ram_notifier =3D {
->>>> +    .ram_block_resized =3D ram_mig_ram_block_resized,
->>>> +};
->>>> +
->>>>  void ram_mig_init(void)
->>>>  {
->>>>      qemu_mutex_init(&XBZRLE.lock);
->>>>      register_savevm_live("ram", 0, 4, &savevm_ram_handlers, &ram_stat=
-e);
->>>> +    ram_block_notifier_add(&ram_mig_ram_notifier);
->>>
->>> Can we avoid the question of the 'is_idle' checks by doing this
->>> registration in save_setup/load_setup and unregistering in
->>> save_cleanup/load_cleanup?
->>
->> Well, I figured it out now :)
->>
->> migration_is_idle() is enough to handle it in this patch.
->>
->>>
->>> That means if we land in the handler we know we're in either an incomin=
-g
->>> or outgoing migration and then you just have to check which?
->>
->> Can save/load race with other QEMU code that might register/unregister
->> notifiers? I want to avoid having to introduce locking just for that.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g
+Content-Type: multipart/mixed; boundary="CfkDGBP2eoY7WjxL4NxRheY2HDx2vDcQ0"
+
+--CfkDGBP2eoY7WjxL4NxRheY2HDx2vDcQ0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 22.12.19 12:37, Alberto Garcia wrote:
+> Compressed clusters always have the bitmap part of the extended L2
+> entry set to 0.
 >=20
-> <looks at code> It looks like it can; qemu_savevm_state_setup
-> is called from near the top of migration_thread, so I don't
-> think it's holding locks at that point; and all the existing notifier
-> changes on this notifier seem to be done from either init or vfio_open
-> which I guess is under the big lock (?)
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2-cluster.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Yes, same as actual resizes AFAIK (which could otherwise also race with
-(un)registration when traversing the list). So I'd prefer to not
-register the notifier dynamically for now. (at least makes it easier for
-me :) )
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---=20
-Thanks,
+--CfkDGBP2eoY7WjxL4NxRheY2HDx2vDcQ0--
 
-David / dhildenb
+--xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5P+0AACgkQ9AfbAGHV
+z0BH7wf/eFdOGOleI0Ta9lG0qZ007pXBfFlHK7flHA6g4SMI7iBZD7aGiJAC6xN9
+sw+s0gjdDeG4ybPbZFodrDIPTnl66TnGXujTR4w8RfgoFbFhd+4sRXZilspw6beU
++RwsTjKHSO/aUJ0yPCU7CDdyg3LkkyWPjOgcYE14bQzuD+/CFS8NYL3dzkmAoK9H
+zqZg0mvgXhgUNg8PKMvxXcv80zov6KbcdxXM21Mo8CpSaxGMmm9fcUd1vvgGHhYy
+/3T2aqgRXoqm5zc4/fc7bqNj4J5X0rxXBeCX524aQzpwRIfNL7b3sZfGJ43vOJY6
+Nl6wrrhiCIng0UDGwjbgsx0SazO1bQ==
+=3mWI
+-----END PGP SIGNATURE-----
+
+--xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g--
 
 
