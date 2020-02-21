@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD72167CC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 12:52:00 +0100 (CET)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505C7167D1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 13:07:43 +0100 (CET)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j56qd-0004iA-Lx
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 06:51:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41166)
+	id 1j575q-0002lD-DK
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 07:07:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <changbin.du@gmail.com>) id 1j56pu-0004GU-Mk
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:51:15 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j5755-0002GA-F3
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:06:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <changbin.du@gmail.com>) id 1j56pt-0006at-Fh
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:51:14 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33943)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <changbin.du@gmail.com>)
- id 1j56pt-0006aT-7f
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:51:13 -0500
-Received: by mail-pf1-x441.google.com with SMTP id i6so1096497pfc.1
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 03:51:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qbzjQ5AyuM014TuI2Kg5dK/S/2sXeBj4i5PIb923gIE=;
- b=OLkDBmKGI3m9mmyOEbdX38NiiaOmyZN35313RlDoyUtbJqrKxLf0wsUGGEab5ZLk0T
- j7dgfbDujcHPxZZJROoTE3zTZKLTRFaJaXogKULg2IGJ9XkYJeFWRMLWcUHHHTWxzgiY
- BXqjoNs8kFafJxsz4+rd6R+1bJHgaMk//BczQFlC62JFH2IZtg0WsP3q3uKYDKjPXzwO
- xB8tl4M4D3JCGiPgSFGsmNoP0FrrVWcTk1jxgDQNDtJpE8ZvbNEWGMBf/piMye/k/p4g
- VAfPkpy+sSOoMC87mGEeSkYThwpbT7rP33fDEfbqrXDunExU0kkuypfp+J/g+egge1Ze
- nBZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qbzjQ5AyuM014TuI2Kg5dK/S/2sXeBj4i5PIb923gIE=;
- b=n1ysE1520mVgjuU1pgHImBl0KdJZzM86Y++ZrDGe2e2fOliWIQEmUiavsfAc/q6IdZ
- ejuEPkqZE6Gm4WpMCrjG1JmW4SDMVZnvTqiEZ1cGzzp5rY2AjOS571dIRt5HgEkFJHRp
- YEaPIcuXws1RsE2NqAmRs/9u6ds9qRuwcvLax8slfYKItKjKceFHVwjeg2d4J6//183m
- bx4rUqXt7/7C33nKJmCIrUkY5smoRCAQ9n6XaCknMD71mvzBCseVbEHjit6naoy9b5Aq
- M/TXboEIOYoREeDGAai1JR2Xp9dFq80C55HA/1zIGzU8lLF/BtUrI5sGJT6JhNdDGphB
- CBng==
-X-Gm-Message-State: APjAAAU4Qhg4hZ0hFn4T5IJ71ptC7Czeu4xjKrz/uTS/vNm+1TDqEQ97
- 7GUNwp4bN9zA8nUVO1LgQng=
-X-Google-Smtp-Source: APXvYqz/lg9PDmkgNAqCA9xaKLShKaRKDMF4qL8acFlt5GOS8GRCLDBYNAOiVAPEk9x/nBmudJXaSw==
-X-Received: by 2002:a63:be09:: with SMTP id l9mr16257584pgf.439.1582285871833; 
- Fri, 21 Feb 2020 03:51:11 -0800 (PST)
-Received: from mail.google.com ([149.248.10.52])
- by smtp.gmail.com with ESMTPSA id p16sm2300781pgi.50.2020.02.21.03.51.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 03:51:11 -0800 (PST)
-Date: Fri, 21 Feb 2020 19:51:04 +0800
-From: Changbin Du <changbin.du@gmail.com>
-To: Luc Michel <luc.michel@greensocs.com>
-Subject: Re: [PATCH] tcg: gdbstub: Fix single-step issue on arm target
-Message-ID: <20200221115104.x3af4cfjin553jun@mail.google.com>
-References: <20200220155834.21905-1-changbin.du@gmail.com>
- <ddc8b36f-da30-faac-cab2-fad882841159@greensocs.com>
+ (envelope-from <dgibson@ozlabs.org>) id 1j5753-0006QG-Oh
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:06:55 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46363 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j5752-0006PM-Oo; Fri, 21 Feb 2020 07:06:53 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48P9DT21MHz9sRl; Fri, 21 Feb 2020 23:06:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1582286809;
+ bh=7yiE9tM4tZSUoIHyLnqj8IMvNXIyLkJ0rmHI3PDnCbI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hOcyIWkUO6P1JGuuiRgPQxoEKVXI/aPXtg9TtHNKHzCSFEiGpvgSAA1ykm6U2jRYD
+ L6JfueGq6HOQabLaTFTWWbpI3ADiJymQ4t0mQM01mMZKBs76X0rwU4rHO6tPZgQjNb
+ PoSEtdGZWfSxy36FfUQTu/QlcjVObW0x2jrV5So8=
+Date: Fri, 21 Feb 2020 16:43:57 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+Message-ID: <20200221054357.GE2298@umbus.fritz.box>
+References: <20200217021217.95766-1-aik@ozlabs.ru>
+ <60c5712e-beb7-e536-1252-642dcf88beec@redhat.com>
+ <0beab4e0-da3d-48fb-062a-de7a6c244c3f@redhat.com>
+ <20200217224647.GA26464@umbus.fritz.box>
+ <38cfa5c3-2563-7aaa-b1db-c7dd2f053d3c@redhat.com>
+ <7f9d26fe-1ad0-9ccf-dd00-9aad7491d36d@ozlabs.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AsxXAMtlQ5JHofzM"
 Content-Disposition: inline
-In-Reply-To: <ddc8b36f-da30-faac-cab2-fad882841159@greensocs.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+In-Reply-To: <7f9d26fe-1ad0-9ccf-dd00-9aad7491d36d@ozlabs.ru>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,59 +59,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, philmd@redhat.com,
- alex.bennee@linaro.org, qemu-devel@nongnu.org,
- Changbin Du <changbin.du@gmail.com>
+Cc: qemu-ppc@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 20, 2020 at 10:24:37PM +0100, Luc Michel wrote:
-> I'm curious, I never experienced this behaviour from GDB. What GDB and
-> QEMU versions are you using?
-> 
-> On my side (GDB 9.1), even without 'vContSupported+' in the 'qSupported'
-> answer, GDB sends a 'vCont?' packet on the first stepi:
-> 
-> 0x00000000 in ?? ()
-> (gdb) si
-> Sending packet: $m0,4#fd...Ack
-> Packet received: 00000000
-> Sending packet: $vCont?#49...Ack
-> Packet received: vCont;c;C;s;S
-> Packet vCont (verbose-resume) is supported
-> Sending packet: $vCont;s:p1.1;c:p1.-1#f7...Ack
-> Packet received: T05thread:p01.01;
-> 
-> Your second issue (wrong PC value) should be investigated though. Does
-> it happen on QEMU vanilla? Do you have a way to reproduce this bug?
-> 
-Just confirmed this issue. This is an endianness problem for gdb. I was
-debugging an big-endian elf and my host cpu is little-endian. QEMU gdbstub
-always uses host cpu endian but gdb client treats it as big-endian by
-inspecting elf info.
 
-I can mannually set it to little-endian but it is painful. The gdb complains
-abount invalid opcode error in debuginfo.
+--AsxXAMtlQ5JHofzM
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I also noticed that someoneelse has already tried to resolve this issue.
-https://patchwork.kernel.org/patch/9528947/
+On Fri, Feb 21, 2020 at 03:09:46PM +1100, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 18/02/2020 16:48, Philippe Mathieu-Daud=E9 wrote:
+> > On 2/17/20 11:46 PM, David Gibson wrote:
+> >> On Mon, Feb 17, 2020 at 11:24:11AM +0100, Philippe Mathieu-Daud=E9 wro=
+te:
+> >>> On 2/17/20 10:26 AM, Philippe Mathieu-Daud=E9 wrote:
+> >>>> Hi Alexey,
+> >>>>
+> >>>> On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
+> >>>>> The following changes since commit
+> >>>>> 05943fb4ca41f626078014c0327781815c6584c5:
+> >>>>>
+> >>>>> =A0=A0=A0 ppc: free 'fdt' after reset the machine (2020-02-17 11:27=
+:23
+> >>>>> +1100)
+> >>>>>
+> >>>>> are available in the Git repository at:
+> >>>>>
+> >>>>> =A0=A0=A0 git@github.com:aik/qemu.git tags/qemu-slof-20200217
+> >>>>>
+> >>>>> for you to fetch changes up to
+> >>>>> ea9a03e5aa023c5391bab5259898475d0298aac2:
+> >>>>>
+> >>>>> =A0=A0=A0 pseries: Update SLOF firmware image (2020-02-17 13:08:59 =
++1100)
+> >>>>>
+> >>>>> ----------------------------------------------------------------
+> >>>>> Alexey Kardashevskiy (1):
+> >>>>> =A0=A0=A0=A0=A0=A0=A0 pseries: Update SLOF firmware image
+> >>>>>
+> >>>>> =A0=A0 pc-bios/README=A0=A0 |=A0=A0 2 +-
+> >>>>> =A0=A0 pc-bios/slof.bin | Bin 931032 -> 968560 bytes
+> >>>>> =A0=A0 roms/SLOF=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 2 +-
+> >>>>> =A0=A0 3 files changed, 2 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> I only received the cover, not the patch, have you posted it?
+> >>>
+> >>> OK I see the SLOF binary is almost 1MB. Maybe this got blocked by spam
+> >>> filter. FYI you can use 'git-format-patch --no-binary' to emit the pa=
+tch
+> >>> with the commit description but without the content.
+> >>
+> >> Generally Alexey sends SLOF updates to me just as pull requests
+> >> without patches in full, because a huge slab of base64 encoded
+> >> firmware isn't particularly illuminating.
+> >=20
+> > I understand, this is why I later suggested Alexey to use
+> > 'git-format-patch --no-binary', because Laszlo uses it for EDK2
+> > submodule, this allow to quickly review the change on the list (without
+> > posting the base64), see:
+> >=20
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg624429.html
+> > (pull-request cover)
+> >=20
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg624432.html
+> > "roms/edk2: update submodule"
+> >=20
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg624435.html
+> > "pc-bios: refresh edk2 build artifacts"
+>=20
+> I am not quite sure where to fit this "git-format-patch". I run now "git
+> request-pull" and "git send-email" so am I expected to run format-patch
+> and post it as a patchset but with the pull request mail as a cover
+> letter? This does not seem very useful though. For today, I'll add the
+> change log to the pull request mail. Thanks,
 
-> Anyway after re-reading the GDB remote protocol documentation, I think
-> your patch is right, the feature should be advertised.
-> 
-> However I think your commit message needs some modifications. This fix
-> is not specific to ARM or TCG, but to the gdbstub itself. You also
-> mention this bug you have with PC, which is not related to the bug you
-> are fixing here. Could you rewrite it in a more generic way? You simply
-> need to emphasis the effect of advertising the 'vContSupported+' feature
-> on GDB.
-> 
-> Thanks.
-> 
-> -- 
-> Luc
+Most git format-patch options can also be passed to git send-email,
+and it will pass them through.
 
--- 
-Cheers,
-Changbin Du
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--AsxXAMtlQ5JHofzM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5PbhsACgkQbDjKyiDZ
+s5LPSg//ZLjow2phXk1pj056eHAZUlboeQS5gD9/s5kZGplbgD5MDyLscNzZG2Jk
+ckVPCPxkpfoQObuzpqo5aKiqP9MTAFl2f5CUBEZKbKEAYJSNb3JjlqHm2Kgk8WHS
+MKAMLH5Fo3MMqWAdWLoY0hrag3AIgC5ziinfb+XWtkQVKeGfyhyQytnduXm/sUPm
+PWRPXMxJ2v1s5K4DgT8w1DoIWvljNc3I6jiIb6IQLcLF7TnJL4hu0XSKtnfKSAcA
+t0uDJ+7pLFezuRJHt+VYR3BNGM1VILbTsUS18wGQO/yVTMG17vqJR0gfxTEXZq8+
+eqXK9a8NT6fNw60t8omhv/dFAOwe1gGJ7Ioo+gFxCvrTbTcHQu50VjLyK+c6P0iY
+SlRqz7QkhnO5/1JuwebQipKYKDQwijRDJapiNH5fn/TOJTjAeuYJ2tW0BwwEPqVe
+zUeJPwXm94JNQtNQOq1B8FNyIrNVWbP5mpDVz23wmjBlloLwLn8smnqM6uRq5KSW
+mfNDTlJ7CWblip9TpF7GkQf8REumhymYUdfSWK0YZGbmMd+vu7YiR1KHtXni3zTX
+p/l1KcG5EnJhkLMr/s+ZBglKLXXIOGwmxKIRZ2C7VHAB1HhjGzdKoC8qFWmb9AnJ
+xVCOxW5jlfaMVDXr1E+alqs/RdKjjSdoONkhiNwdW3o8BcFW3RA=
+=wTsQ
+-----END PGP SIGNATURE-----
+
+--AsxXAMtlQ5JHofzM--
 
