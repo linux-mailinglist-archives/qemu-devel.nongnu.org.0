@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C92167EDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:41:40 +0100 (CET)
-Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D4C167EBC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:36:00 +0100 (CET)
+Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58Yl-0001XF-TQ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:41:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32945)
+	id 1j58TH-0007ug-Qk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j58JV-0002rx-RM
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:56 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j58JV-0002qf-E6
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j58JU-0007Ir-4b
+ (envelope-from <dgilbert@redhat.com>) id 1j58JU-0007Iq-4e
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29573
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43132
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j58JT-0007Hr-V3
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j58JU-0007G2-0H
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582291550;
+ s=mimecast20190719; t=1582291548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uX9UesRfQ5VevuWklXMAkSBnSnsaUKk6WMwfeYmvayw=;
- b=Gt8BQl0Gp1OOPAwTX4+NURk8CmYVJg/WTY11vQc7DzHMBYyU2tM/5g6YcZhkClN+XKVO4b
- elurKyWXVlCmzoaE9oIoIejdJFtb3ABgrUWsA6QDfBHVJZXxG027bAxWdD+/XvnfpPAVHb
- wjTvIoD4K7CllHisN96rYrlNGVxe/Qk=
+ bh=APsBDV8v6Rdge5cAZAlMpEcC2lgAY5iiZWQDzi9u8nc=;
+ b=evWnp0PDFCucCmsZfeI8H60C0P1myf4+bQRnRO3M8euuF2Z3znBZNlu4ksEKCdNnCvJIc3
+ i/d1WlAPGdR/NdFqI3w2G+/0CG1HJIu2t90v2XB85TJzCyzhjWdAhNLk9ELYYpyrPjXvef
+ pJdy0A1YUDeUOBIObeOLC/t9C6aLQ3k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-eYrySuXtP06viUveA0SgSA-1; Fri, 21 Feb 2020 08:25:45 -0500
-X-MC-Unique: eYrySuXtP06viUveA0SgSA-1
+ us-mta-44-5pDVRltmPA2LhNeijndJZA-1; Fri, 21 Feb 2020 08:25:46 -0500
+X-MC-Unique: 5pDVRltmPA2LhNeijndJZA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67956107ACC5;
- Fri, 21 Feb 2020 13:25:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBFB18017DF;
+ Fri, 21 Feb 2020 13:25:45 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6135F84BCC;
- Fri, 21 Feb 2020 13:25:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3D778B740;
+ Fri, 21 Feb 2020 13:25:44 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, philmd@redhat.com, yangx.jy@cn.fujitsu.com,
  mrezanin@redhat.com
-Subject: [PULL 3/6] tools/virtiofsd/passthrough_ll: Remove unneeded variable
- assignment
-Date: Fri, 21 Feb 2020 13:25:33 +0000
-Message-Id: <20200221132536.38364-4-dgilbert@redhat.com>
+Subject: [PULL 4/6] tools/virtiofsd/fuse_lowlevel: Fix fuse_out_header::error
+ value
+Date: Fri, 21 Feb 2020 13:25:34 +0000
+Message-Id: <20200221132536.38364-5-dgilbert@redhat.com>
 In-Reply-To: <20200221132536.38364-1-dgilbert@redhat.com>
 References: <20200221132536.38364-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,8 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,48 +79,37 @@ From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Fix warning reported by Clang static code analyzer:
 
-    CC      tools/virtiofsd/passthrough_ll.o
-  tools/virtiofsd/passthrough_ll.c:925:9: warning: Value stored to 'newfd' =
-is never read
-          newfd =3D -1;
-          ^       ~~
-  tools/virtiofsd/passthrough_ll.c:942:9: warning: Value stored to 'newfd' =
-is never read
-          newfd =3D -1;
-          ^       ~~
+    CC      tools/virtiofsd/fuse_lowlevel.o
+  tools/virtiofsd/fuse_lowlevel.c:195:9: warning: Value stored to 'error' i=
+s never read
+          error =3D -ERANGE;
+          ^       ~~~~~~~
 
-Fixes: 7c6b66027
+Fixes: 3db2876
 Reported-by: Clang Static Analyzer
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 2 --
- 1 file changed, 2 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index e9e71d5fc2..02ff01fad0 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -922,7 +922,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pare=
-nt, const char *name,
-     inode =3D lo_find(lo, &e->attr);
-     if (inode) {
-         close(newfd);
--        newfd =3D -1;
-     } else {
-         inode =3D calloc(1, sizeof(struct lo_inode));
-         if (!inode) {
-@@ -939,7 +938,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pare=
-nt, const char *name,
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 704c0369b2..2dd36ec03b 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -192,7 +192,7 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int erro=
+r, struct iovec *iov,
 =20
-         inode->nlookup =3D 1;
-         inode->fd =3D newfd;
--        newfd =3D -1;
-         inode->key.ino =3D e->attr.st_ino;
-         inode->key.dev =3D e->attr.st_dev;
-         pthread_mutex_init(&inode->plock_mutex, NULL);
+     if (error <=3D -1000 || error > 0) {
+         fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
+-        error =3D -ERANGE;
++        out.error =3D -ERANGE;
+     }
+=20
+     iov[0].iov_base =3D &out;
 --=20
 2.24.1
 
