@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F309167E05
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:09:15 +0100 (CET)
-Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA65167E0F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:11:20 +0100 (CET)
+Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j583O-0008AQ-Lg
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:09:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56393)
+	id 1j585O-0003RX-W9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:11:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j581z-0006Tg-6A
+ (envelope-from <peter.maydell@linaro.org>) id 1j581z-0006Th-Sz
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j581x-0002Rx-W4
+ (envelope-from <peter.maydell@linaro.org>) id 1j581y-0002Sy-RO
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:47 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52264)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41725)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j581x-0002RY-P3
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:45 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p9so1734402wmc.2
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:45 -0800 (PST)
+ id 1j581y-0002S1-LN
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:46 -0500
+Received: by mail-wr1-x429.google.com with SMTP id c9so1984161wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nzHzFg20+dv2Qj6R5QZ1RVKcfKZ0HBelWmrraQzT7AY=;
- b=Os/lQ0pxQoLY0DtDVn92hJvBYKr2+5kiTz+XfLeqsCAgKTb7Tz3XM6rcfj2SeFoGQk
- EujgAyRRy628bC6flc3UYyDSTySFZNgQlOZYoseAsk+2p7ZCaNgGdlAT3eIWRPXFe+u7
- QdA1/ASpRxQuZRqwk7jH+JgTwVREI+jrphmiiwP5wAiMm5aUIE485z02WWNqnZiUebtf
- JjjmAcRe+8fZWjwVu65mwGf5nEX5jRD7g4DhFI3SXaymBVOe9sv+NsKCDdWxqjl3rxmo
- oj98iOQX3lr+JM8KWYLVh5TCncpeGkS1RqbgGIDjpoQkZAWaCI4i9WzrLNbTf3g6/bsV
- oykg==
+ bh=liKE80VVvI3xFYB7GeLv6rT6WhoDLIG/p/+a4APFNGA=;
+ b=F7cgiyUfqcfdTAau1Et6xpUEu5B3oVvLi9j1vmcHa5Alm0cCsJ2HHfar2fcILyY3zW
+ 06KAXNe2QR++HqH0rYdB5IWG9EaOMsbKPORti0jdigEUPGnG2aRetKWNrumc5+d/Hx/F
+ FLddP0bQIpKc3dEbaGGrubSVEj+XKeLBIolEaU4C6ciuJj1SIeNusJUT7VrqvM+mXIvR
+ sjJLiT1O6Iw/yHHvHipVXv5FqKr/HbLc6+8odktHDqOeFbK+C0PGPcxlHaZYGWIzXKyV
+ APBy3DtBq5gUYtXtBwamyt8CuPcd+1APvV0Bktu8xXBSOhhsQjDr/GLFImuJiYrlIbx3
+ GRKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nzHzFg20+dv2Qj6R5QZ1RVKcfKZ0HBelWmrraQzT7AY=;
- b=HizEOG/V/iw8Kui90u5XYVAiQVxHj0Ns7/fSOtIhEOOALmuhqNj9kb0nYxlRa1DeiH
- LD4dsep7QcegUpXDLgR3h1d9Xsc5VjmZPN0x/MWVpnIuPNlM7TMYhG22qSu4YicnpojW
- U8a8ejo+f7xtYGPO1oCCdNQ9DD9Zklels5gTomFODQ3um4I/jbB7HeBPlVJykUhMG+Jq
- 5WW8RYgkp2+Ow33fVHgzZV6Zckxwewa2RQHnL7BoRWda99GGjCiLPkHZ3LhlMqxK6mAM
- 7RwaqIe9A/KRpFeb0U2zidAX+D9xXy7tubvuGzEdp0mtSq3fymeREzHRcfUgQJly+fTk
- T95g==
-X-Gm-Message-State: APjAAAXmqQwQauZFVGqiJg85rhonCFRzJCpVBSubuuqfE98c3BEtDolZ
- q7/yn8Yku9qF0DMVxVuVUtmcbrlVzo2p9A==
-X-Google-Smtp-Source: APXvYqwtuPcCf53T9ZsqGTy0Y2x7iviqx8hUf6aY4Tipe+VUPUtTv0c4lD7ool4KKFHpxO5WkpR8KQ==
-X-Received: by 2002:a1c:20d6:: with SMTP id g205mr3959431wmg.38.1582290463793; 
- Fri, 21 Feb 2020 05:07:43 -0800 (PST)
+ bh=liKE80VVvI3xFYB7GeLv6rT6WhoDLIG/p/+a4APFNGA=;
+ b=V+L0lwhUS16rHr01+/mzwL12KYThiKsMN2c6nIH//TNxLhXw4ZyviB2J8AkGmTXBhc
+ 4q7asY0hnPOHxG67hiPVZTGWne2RZShXZxWDV/4hn+d9Ea1nL38HSg1/hBFEHChI09vW
+ tzzFH5Z9sRYRH50pCViIhpvr2mQ2TewMgwzVEXCHH7APcWYKIs7Kzethg4QrUr1cOshT
+ DTlMbCQCJ5YLJcBr+0z2YGnTYHH17mqdx7kYyFw03G06amxY4yNV4FD8TWh6XWTxM3vq
+ f5DGVGb2fFs3xaJKEW1DYvSgaLbOrel5XF+FDITuD36n2rVjlt/iyNcpQW1uzQF7Yf1s
+ pgFQ==
+X-Gm-Message-State: APjAAAVu6Kl9RliM1MTp87wOpW5jDEAMi3Nf8U9iG8KeP2aXspxkmZOt
+ gAsXXNU2hovChWpThXSAvqOIXyyx5jBDIg==
+X-Google-Smtp-Source: APXvYqwLecQJJL9Tiu+o7FhiDRZje5DvZLb/97dMmwnGH8Sr4ccFgTcsGDylLHX71b1klOgWNp9aww==
+X-Received: by 2002:adf:f084:: with SMTP id n4mr48353401wro.200.1582290465278; 
+ Fri, 21 Feb 2020 05:07:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.42
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:07:43 -0800 (PST)
+ Fri, 21 Feb 2020 05:07:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/52] aspeed/scu: Create separate write callbacks
-Date: Fri, 21 Feb 2020 13:06:49 +0000
-Message-Id: <20200221130740.7583-2-peter.maydell@linaro.org>
+Subject: [PULL 02/52] aspeed/scu: Implement chip ID register
+Date: Fri, 21 Feb 2020 13:06:50 +0000
+Message-Id: <20200221130740.7583-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,142 +84,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-This splits the common write callback into separate ast2400 and ast2500
-implementations. This makes it clearer when implementing differing
-behaviour.
+This returns a fixed but non-zero value for the chip id.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200121013302.43839-2-joel@jms.id.au
+Message-id: 20200121013302.43839-3-joel@jms.id.au
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/aspeed_scu.c | 80 +++++++++++++++++++++++++++++++-------------
- 1 file changed, 57 insertions(+), 23 deletions(-)
+ hw/misc/aspeed_scu.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index ce2f9562d4c..6cb388330a8 100644
+index 6cb388330a8..9d7482a9df1 100644
 --- a/hw/misc/aspeed_scu.c
 +++ b/hw/misc/aspeed_scu.c
-@@ -232,8 +232,47 @@ static uint64_t aspeed_scu_read(void *opaque, hwaddr offset, unsigned size)
-     return s->regs[reg];
- }
+@@ -77,6 +77,8 @@
+ #define CPU2_BASE_SEG4       TO_REG(0x110)
+ #define CPU2_BASE_SEG5       TO_REG(0x114)
+ #define CPU2_CACHE_CTRL      TO_REG(0x118)
++#define CHIP_ID0             TO_REG(0x150)
++#define CHIP_ID1             TO_REG(0x154)
+ #define UART_HPLL_CLK        TO_REG(0x160)
+ #define PCIE_CTRL            TO_REG(0x180)
+ #define BMC_MMIO_CTRL        TO_REG(0x184)
+@@ -115,6 +117,8 @@
+ #define AST2600_HW_STRAP2_PROT    TO_REG(0x518)
+ #define AST2600_RNG_CTRL          TO_REG(0x524)
+ #define AST2600_RNG_DATA          TO_REG(0x540)
++#define AST2600_CHIP_ID0          TO_REG(0x5B0)
++#define AST2600_CHIP_ID1          TO_REG(0x5B4)
  
--static void aspeed_scu_write(void *opaque, hwaddr offset, uint64_t data,
--                             unsigned size)
-+static void aspeed_ast2400_scu_write(void *opaque, hwaddr offset,
-+                                     uint64_t data, unsigned size)
-+{
-+    AspeedSCUState *s = ASPEED_SCU(opaque);
-+    int reg = TO_REG(offset);
-+
-+    if (reg >= ASPEED_SCU_NR_REGS) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
-+                      __func__, offset);
-+        return;
-+    }
-+
-+    if (reg > PROT_KEY && reg < CPU2_BASE_SEG1 &&
-+            !s->regs[PROT_KEY]) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: SCU is locked!\n", __func__);
-+    }
-+
-+    trace_aspeed_scu_write(offset, size, data);
-+
-+    switch (reg) {
-+    case PROT_KEY:
-+        s->regs[reg] = (data == ASPEED_SCU_PROT_KEY) ? 1 : 0;
-+        return;
-+    case SILICON_REV:
-+    case FREQ_CNTR_EVAL:
-+    case VGA_SCRATCH1 ... VGA_SCRATCH8:
-+    case RNG_DATA:
-+    case FREE_CNTR4:
-+    case FREE_CNTR4_EXT:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
-+                      __func__, offset);
-+        return;
-+    }
-+
-+    s->regs[reg] = data;
-+}
-+
-+static void aspeed_ast2500_scu_write(void *opaque, hwaddr offset,
-+                                     uint64_t data, unsigned size)
- {
-     AspeedSCUState *s = ASPEED_SCU(opaque);
-     int reg = TO_REG(offset);
-@@ -257,25 +296,11 @@ static void aspeed_scu_write(void *opaque, hwaddr offset, uint64_t data,
-     case PROT_KEY:
-         s->regs[reg] = (data == ASPEED_SCU_PROT_KEY) ? 1 : 0;
-         return;
--    case CLK_SEL:
--        s->regs[reg] = data;
--        break;
-     case HW_STRAP1:
--        if (ASPEED_IS_AST2500(s->regs[SILICON_REV])) {
--            s->regs[HW_STRAP1] |= data;
--            return;
--        }
--        /* Jump to assignment below */
--        break;
-+        s->regs[HW_STRAP1] |= data;
-+        return;
-     case SILICON_REV:
--        if (ASPEED_IS_AST2500(s->regs[SILICON_REV])) {
--            s->regs[HW_STRAP1] &= ~data;
--        } else {
--            qemu_log_mask(LOG_GUEST_ERROR,
--                          "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
--                          __func__, offset);
--        }
--        /* Avoid assignment below, we've handled everything */
-+        s->regs[HW_STRAP1] &= ~data;
-         return;
-     case FREQ_CNTR_EVAL:
-     case VGA_SCRATCH1 ... VGA_SCRATCH8:
-@@ -291,9 +316,18 @@ static void aspeed_scu_write(void *opaque, hwaddr offset, uint64_t data,
-     s->regs[reg] = data;
- }
+ #define AST2600_CLK TO_REG(0x40)
  
--static const MemoryRegionOps aspeed_scu_ops = {
-+static const MemoryRegionOps aspeed_ast2400_scu_ops = {
-     .read = aspeed_scu_read,
--    .write = aspeed_scu_write,
-+    .write = aspeed_ast2400_scu_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+    .valid.unaligned = false,
-+};
+@@ -182,6 +186,8 @@ static const uint32_t ast2500_a1_resets[ASPEED_SCU_NR_REGS] = {
+      [CPU2_BASE_SEG1]  = 0x80000000U,
+      [CPU2_BASE_SEG4]  = 0x1E600000U,
+      [CPU2_BASE_SEG5]  = 0xC0000000U,
++     [CHIP_ID0]        = 0x1234ABCDU,
++     [CHIP_ID1]        = 0x88884444U,
+      [UART_HPLL_CLK]   = 0x00001903U,
+      [PCIE_CTRL]       = 0x0000007BU,
+      [BMC_DEV_ID]      = 0x00002402U
+@@ -307,6 +313,8 @@ static void aspeed_ast2500_scu_write(void *opaque, hwaddr offset,
+     case RNG_DATA:
+     case FREE_CNTR4:
+     case FREE_CNTR4_EXT:
++    case CHIP_ID0:
++    case CHIP_ID1:
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
+                       __func__, offset);
+@@ -620,6 +628,8 @@ static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset,
+     case AST2600_RNG_DATA:
+     case AST2600_SILICON_REV:
+     case AST2600_SILICON_REV2:
++    case AST2600_CHIP_ID0:
++    case AST2600_CHIP_ID1:
+         /* Add read only registers here */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
+@@ -648,6 +658,9 @@ static const uint32_t ast2600_a0_resets[ASPEED_AST2600_SCU_NR_REGS] = {
+     [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
+     [AST2600_SDRAM_HANDSHAKE]   = 0x00000040,  /* SoC completed DRAM init */
+     [AST2600_HPLL_PARAM]        = 0x1000405F,
++    [AST2600_CHIP_ID0]          = 0x1234ABCD,
++    [AST2600_CHIP_ID1]          = 0x88884444,
 +
-+static const MemoryRegionOps aspeed_ast2500_scu_ops = {
-+    .read = aspeed_scu_read,
-+    .write = aspeed_ast2500_scu_write,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid.min_access_size = 4,
-     .valid.max_access_size = 4,
-@@ -469,7 +503,7 @@ static void aspeed_2400_scu_class_init(ObjectClass *klass, void *data)
-     asc->calc_hpll = aspeed_2400_scu_calc_hpll;
-     asc->apb_divider = 2;
-     asc->nr_regs = ASPEED_SCU_NR_REGS;
--    asc->ops = &aspeed_scu_ops;
-+    asc->ops = &aspeed_ast2400_scu_ops;
- }
+ };
  
- static const TypeInfo aspeed_2400_scu_info = {
-@@ -489,7 +523,7 @@ static void aspeed_2500_scu_class_init(ObjectClass *klass, void *data)
-     asc->calc_hpll = aspeed_2500_scu_calc_hpll;
-     asc->apb_divider = 4;
-     asc->nr_regs = ASPEED_SCU_NR_REGS;
--    asc->ops = &aspeed_scu_ops;
-+    asc->ops = &aspeed_ast2500_scu_ops;
- }
- 
- static const TypeInfo aspeed_2500_scu_info = {
+ static void aspeed_ast2600_scu_reset(DeviceState *dev)
 -- 
 2.20.1
 
