@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C06C167EA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:32:17 +0100 (CET)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044E8167EBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:35:52 +0100 (CET)
+Received: from localhost ([::1]:57854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58Pg-0002Xo-FN
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:32:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56990)
+	id 1j58T8-0007Q1-04
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:35:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j582e-0007ua-NJ
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:29 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j582g-0007z0-Ao
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j582d-0003Hw-Mr
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:28 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46965)
+ (envelope-from <peter.maydell@linaro.org>) id 1j582e-0003LI-T6
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:30 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45255)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j582d-0003GV-GU
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:27 -0500
-Received: by mail-wr1-x435.google.com with SMTP id z7so1969081wrl.13
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:27 -0800 (PST)
+ id 1j582e-0003J2-M1
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:28 -0500
+Received: by mail-wr1-x435.google.com with SMTP id g3so1979405wrs.12
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=t9tzjIw7N1XSr73asGVBDssmnE7SvvmIcOpn2v7YIf0=;
- b=pYgqCxHezS+bau4Uy2dCB/kdEHpdBTpGWw7LN21n53skMgZDXegbAEJJuX04zW/O8k
- jZ8bIaHbosJPn1etS5bhDxrPyqe1h5tCFxG15K05MuXQ3T33sd2MXFlumuDFeqNSprrZ
- J6J7uikWIHZSJM5fnJkMKZTq9eHwjRqvnHjqK86nOEkKO6v7WFkpBuiyWkgkuHKk7vYE
- cr01YsvDeE3vuoM71hncxeDOuBLw9A0VMdPmEjSmKa9Xn85pmxGZ6umgtOht5FIBYDQk
- k3PRvZ3AYMaqvLbUu5Tv5T/R8q8/ZtWmrPtJ/x4Sv8cf4vy+nN8NBQ364sSr/0qaCJDy
- UYVw==
+ bh=H0G7hXnYvNjV+3hg2JTTqmpRPLVuBfK7HJumeWhX01g=;
+ b=meTFDMpHcmCtVdBg/0lVITSarUn7N2NIPdPgMrLfRzBB68GnBLA6U0nw7b/8W17h2t
+ srkuzT5CW1ezBH6rDwA9XOniRqkoqiI8HS4SvGkCPucNm/K6wImd7Cq+FKUO2XgzPNwC
+ o3lmRjDzpugjJqCoXCDRs44GNX2RnaJr3T1Z9KIdBvygsEutsyOc0Ttn09hX1HBMhhmh
+ UL/6XLCHniHrZP1ukwKrAvCYaUcwCCqML4VOvS8ZjeOuV3gokoLrD1p1teUTVvhI2n3b
+ Y5BAUIJNkocakokyo73+sypMjqQe9+8OvsG4t/wfUVG3suVfQ37s9mHILAwRTnEm9gr7
+ dAHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t9tzjIw7N1XSr73asGVBDssmnE7SvvmIcOpn2v7YIf0=;
- b=JFE2wgoJQhAIez0hbbnUCogKcgDnrjBnVr7AM3gKb7wgBTPBXqEUAJFIsojGSYS1vs
- RJ4RlMXfBWkpqE/X0zaqBAiHV5HYaYnB/XWaiZ0wRsfRxFvhH4nBK40HWb5F17n3dpxs
- Rp+/sl/fUYSINf62nqdpLwlhuLJD+ZAGvwZekFdlecKK/1ju5o33khkYXKvLtkHcqZIW
- Yi2TTYB9q52sLGKtAMaUCycefa/NMmj+2oqR7sV5+Wl/IEP5bsW3fIp+VVktDnudIqA9
- iDESWDwVSwuH4k6+FLTvzfXSB9qycnoa14I4UT6APeoXuj8zbZpYnnvDa5ftUz6qCksv
- AzRw==
-X-Gm-Message-State: APjAAAWJiDlc1lcc3olrKpdQ6q3zwXf9rGz/v0cWMkrEEETFKYq9TPwE
- ldoVkTCpD4R78xjPs3sVSMMVF3AhEFBz0Q==
-X-Google-Smtp-Source: APXvYqwBJ3SNO1TXs9p7aO+hm5weDGJo1uV9jBq/0aO+cerqbTqkQ/FWDQO64m5y9QpKBG+1FBsLnA==
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr48553137wrm.293.1582290506138; 
- Fri, 21 Feb 2020 05:08:26 -0800 (PST)
+ bh=H0G7hXnYvNjV+3hg2JTTqmpRPLVuBfK7HJumeWhX01g=;
+ b=J7vnQg5AXrpLXdQSH/fgcNlkKWMjYQcZ/RkDU/aeyCFm31TjUFxjnpuWFEp8aPZXxb
+ ESwiS8bNn3t2w7sQ+EF+WBr33lhv87as9eo8oR7EfPhRxMFTe0/j1zDqI5fvNQ4MPyeF
+ VjKtLqWkAsSU2TjDfAgvfY/8vi1i8J8MPonMP4glKhDmnMcZNe6SZjiLR3l/z3WE4p2k
+ Z7yNKtrz3A1sxI83NqSNBIwh2SwCBX0mZ/txNjyK93TymgYkbqJjy6WOPd6FAhF+Gzk6
+ yJFiIIi5yPTlTADuOr3xKe5oN/B58i0B7IYf7L4x2UjrbT3JkGYEJCXQJ072N5VzHJt6
+ 4CIQ==
+X-Gm-Message-State: APjAAAVtf1NS9LkJxJ4QFm5dyclcqeFVufrj1zB0FucZWcQVsP/FGSDO
+ VNJ/84ylqK7khRtwq98QcJqYJxMTmul+7w==
+X-Google-Smtp-Source: APXvYqzomLCJYx/cL2Y3xPl6H+nCgLDgGY1Dpcl3zg/Gy0QiI2KGkeC0vp4hL3w58VtjseA/gvieEg==
+X-Received: by 2002:a5d:6703:: with SMTP id o3mr46559849wru.235.1582290507235; 
+ Fri, 21 Feb 2020 05:08:27 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.25
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:08:25 -0800 (PST)
+ Fri, 21 Feb 2020 05:08:26 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/52] hcd-ehci: Introduce "companion-enable" sysbus property
-Date: Fri, 21 Feb 2020 13:07:24 +0000
-Message-Id: <20200221130740.7583-37-peter.maydell@linaro.org>
+Subject: [PULL 37/52] arm: allwinner: Wire up USB ports
+Date: Fri, 21 Feb 2020 13:07:25 +0000
+Message-Id: <20200221130740.7583-38-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -83,31 +83,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-We'll use this property in a follow-up patch to insantiate an EHCI
-bus with companion support.
+Instantiate EHCI and OHCI controllers on Allwinner A10. OHCI ports are
+modeled as companions of the respective EHCI ports.
+
+With this patch applied, USB controllers are discovered and instantiated
+when booting the cubieboard machine with a recent Linux kernel.
+
+ehci-platform 1c14000.usb: EHCI Host Controller
+ehci-platform 1c14000.usb: new USB bus registered, assigned bus number 1
+ehci-platform 1c14000.usb: irq 26, io mem 0x01c14000
+ehci-platform 1c14000.usb: USB 2.0 started, EHCI 1.00
+ehci-platform 1c1c000.usb: EHCI Host Controller
+ehci-platform 1c1c000.usb: new USB bus registered, assigned bus number 2
+ehci-platform 1c1c000.usb: irq 31, io mem 0x01c1c000
+ehci-platform 1c1c000.usb: USB 2.0 started, EHCI 1.00
+ohci-platform 1c14400.usb: Generic Platform OHCI controller
+ohci-platform 1c14400.usb: new USB bus registered, assigned bus number 3
+ohci-platform 1c14400.usb: irq 27, io mem 0x01c14400
+ohci-platform 1c1c400.usb: Generic Platform OHCI controller
+ohci-platform 1c1c400.usb: new USB bus registered, assigned bus number 4
+ohci-platform 1c1c400.usb: irq 32, io mem 0x01c1c400
+usb 2-1: new high-speed USB device number 2 using ehci-platform
+usb-storage 2-1:1.0: USB Mass Storage device detected
+scsi host1: usb-storage 2-1:1.0
+usb 3-1: new full-speed USB device number 2 using ohci-platform
+input: QEMU QEMU USB Mouse as /devices/platform/soc/1c14400.usb/usb3/3-1/3-1:1.0/0003:0627:0001.0001/input/input0
 
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20200217204812.9857-3-linux@roeck-us.net
+Message-id: 20200217204812.9857-4-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/usb/hcd-ehci-sysbus.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/arm/allwinner-a10.h |  6 +++++
+ hw/arm/allwinner-a10.c         | 43 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
 
-diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
-index 8d4738565e5..b22fb258be7 100644
---- a/hw/usb/hcd-ehci-sysbus.c
-+++ b/hw/usb/hcd-ehci-sysbus.c
-@@ -33,6 +33,8 @@ static const VMStateDescription vmstate_ehci_sysbus = {
+diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
+index 40d0b1d9c05..8af724548f0 100644
+--- a/include/hw/arm/allwinner-a10.h
++++ b/include/hw/arm/allwinner-a10.h
+@@ -8,12 +8,16 @@
+ #include "hw/intc/allwinner-a10-pic.h"
+ #include "hw/net/allwinner_emac.h"
+ #include "hw/ide/ahci.h"
++#include "hw/usb/hcd-ohci.h"
++#include "hw/usb/hcd-ehci.h"
  
- static Property ehci_sysbus_properties[] = {
-     DEFINE_PROP_UINT32("maxframes", EHCISysBusState, ehci.maxframes, 128),
-+    DEFINE_PROP_BOOL("companion-enable", EHCISysBusState, ehci.companion_enable,
-+                     false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+ #include "target/arm/cpu.h"
  
+ 
+ #define AW_A10_SDRAM_BASE       0x40000000
+ 
++#define AW_A10_NUM_USB          2
++
+ #define TYPE_AW_A10 "allwinner-a10"
+ #define AW_A10(obj) OBJECT_CHECK(AwA10State, (obj), TYPE_AW_A10)
+ 
+@@ -28,6 +32,8 @@ typedef struct AwA10State {
+     AwEmacState emac;
+     AllwinnerAHCIState sata;
+     MemoryRegion sram_a;
++    EHCISysBusState ehci[AW_A10_NUM_USB];
++    OHCISysBusState ohci[AW_A10_NUM_USB];
+ } AwA10State;
+ 
+ #endif
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 1cde1656116..2ae9c15311c 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -24,11 +24,15 @@
+ #include "hw/arm/allwinner-a10.h"
+ #include "hw/misc/unimp.h"
+ #include "sysemu/sysemu.h"
++#include "hw/boards.h"
++#include "hw/usb/hcd-ohci.h"
+ 
+ #define AW_A10_PIC_REG_BASE     0x01c20400
+ #define AW_A10_PIT_REG_BASE     0x01c20c00
+ #define AW_A10_UART0_REG_BASE   0x01c28000
+ #define AW_A10_EMAC_BASE        0x01c0b000
++#define AW_A10_EHCI_BASE        0x01c14000
++#define AW_A10_OHCI_BASE        0x01c14400
+ #define AW_A10_SATA_BASE        0x01c18000
+ 
+ static void aw_a10_init(Object *obj)
+@@ -49,6 +53,17 @@ static void aw_a10_init(Object *obj)
+ 
+     sysbus_init_child_obj(obj, "sata", &s->sata, sizeof(s->sata),
+                           TYPE_ALLWINNER_AHCI);
++
++    if (machine_usb(current_machine)) {
++        int i;
++
++        for (i = 0; i < AW_A10_NUM_USB; i++) {
++            sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
++                                  sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
++            sysbus_init_child_obj(obj, "ohci[*]", OBJECT(&s->ohci[i]),
++                                  sizeof(s->ohci[i]), TYPE_SYSBUS_OHCI);
++        }
++    }
+ }
+ 
+ static void aw_a10_realize(DeviceState *dev, Error **errp)
+@@ -121,6 +136,34 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     serial_mm_init(get_system_memory(), AW_A10_UART0_REG_BASE, 2,
+                    qdev_get_gpio_in(dev, 1),
+                    115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
++
++    if (machine_usb(current_machine)) {
++        int i;
++
++        for (i = 0; i < AW_A10_NUM_USB; i++) {
++            char bus[16];
++
++            sprintf(bus, "usb-bus.%d", i);
++
++            object_property_set_bool(OBJECT(&s->ehci[i]), true,
++                                     "companion-enable", &error_fatal);
++            object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized",
++                                     &error_fatal);
++            sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
++                            AW_A10_EHCI_BASE + i * 0x8000);
++            sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
++                               qdev_get_gpio_in(dev, 39 + i));
++
++            object_property_set_str(OBJECT(&s->ohci[i]), bus, "masterbus",
++                                    &error_fatal);
++            object_property_set_bool(OBJECT(&s->ohci[i]), true, "realized",
++                                     &error_fatal);
++            sysbus_mmio_map(SYS_BUS_DEVICE(&s->ohci[i]), 0,
++                            AW_A10_OHCI_BASE + i * 0x8000);
++            sysbus_connect_irq(SYS_BUS_DEVICE(&s->ohci[i]), 0,
++                               qdev_get_gpio_in(dev, 64 + i));
++        }
++    }
+ }
+ 
+ static void aw_a10_class_init(ObjectClass *oc, void *data)
 -- 
 2.20.1
 
