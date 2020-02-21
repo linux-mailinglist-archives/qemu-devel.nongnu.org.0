@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF43168396
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:34:21 +0100 (CET)
-Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02501683B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:38:15 +0100 (CET)
+Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BFr-0002ey-Ky
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:34:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49435)
+	id 1j5BJe-0000Iv-NR
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:38:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david.edmondson@oracle.com>) id 1j5BER-00013X-C2
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:32:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1j5BFI-0002fq-EP
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:33:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.edmondson@oracle.com>) id 1j5BEQ-0000ND-CQ
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:32:51 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:45414)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
- id 1j5BEN-0000LM-Lo; Fri, 21 Feb 2020 11:32:47 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGVe7Q104073;
- Fri, 21 Feb 2020 16:32:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=dMx0ZLYFM2GPQghj/Kt4dIRM5hEYlRsBsdw8Mdx6+Io=;
- b=XsQbS9dowjIo17DY2krbmseQCzb6AvOeBgq/XKj9Po5e/7x8ftNmymllUMAKC0L406xd
- lNaYioeVHo00RiLAvqxglzm0slRANeCyW1vcdicaI2ug79/kx7p336YPhFlOTLETtmV/
- puk8sY7TGyR2kV8QAXSkQFVlqG241IMvDSGdR2sEKU7V5Wecv+0zYu/ZJVqwxESQ+mMK
- 81VB7F4+BWRQQidt2jlbWYdB0z3OFot3q1ZD3GyLnNnj8Az4mAZ1Sw9ntinJEDeuqAtH
- Z0GShLdk2B1SeSJ1eNJlh2YUOOu/URili0QEgGErfYFhat4uJIymKyJFhIgH9f7cRRqG WA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2y8udkskbh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Feb 2020 16:32:45 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGVhn8086015;
- Fri, 21 Feb 2020 16:32:44 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2y8ud710wb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Feb 2020 16:32:44 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01LGWi7Q019999;
- Fri, 21 Feb 2020 16:32:44 GMT
-Received: from disaster-area.hh.sledj.net (/81.187.26.238)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 21 Feb 2020 08:32:43 -0800
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 42591949;
- Fri, 21 Feb 2020 16:32:39 +0000 (UTC)
-From: David Edmondson <david.edmondson@oracle.com>
+ (envelope-from <philmd@redhat.com>) id 1j5BFG-0000n0-JW
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:33:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36772
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j5BFG-0000me-FD
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:33:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582302821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wXH6buGbOPhKCWB/KVR+J3wk1Wee9B4Tm+VBngLJ41E=;
+ b=XzjINIJ8X081FZZOIB7NKnAnD8XQ5SyAYV3KvlNz33KQ5XA/Hk57E4OKr5IiJs3MpUwDoH
+ Zlwv5uqottpjbPCfXPWHkI2RLVLqAtbfoRCNk1ehiIxd7xpfcwetiQV4xdutA4svaAaOgv
+ O0x+JTnDWbp0RWJLxWUhSpoqqbv8N3w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-CqC4uns-MMq6H-EHp8E9tA-1; Fri, 21 Feb 2020 11:33:40 -0500
+X-MC-Unique: CqC4uns-MMq6H-EHp8E9tA-1
+Received: by mail-wr1-f71.google.com with SMTP id c6so1234619wrm.18
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:33:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+wtlMqiYMfAtECyCFeq4h5JvYyRA49l8lzkwzoiW88E=;
+ b=mavpUFO44IhyXSAm2+Hz+Qx5MnxhEZJlpSfVDSh4Uoc5QvHQBZh8vX44JeNXIWId2P
+ w1KUjtLzZ4KBidwfDLhZ1xoWXbV4VZeBceU8qKJpSepLTSjTFGqypnPb+VJmvv1TjQ9V
+ nWg9ZV4MEZauy//r/4PHQtfKMlaiWF9I/qG4590ESzLesqb6GgyNRBYElPrQBYUi7Hnh
+ 7T9MOUIQQtXE0VGFsRRVyl9/KZSQQ6ZIaxbu+l1/ime/A4mQ1Vi0DwghfeGZQuKvDZNL
+ f2L1ELbJYiYQAbX9uGeasoRge0OzzKAdmSxMSG8kqMc/8hJAQ5J6Wmkcrhe0QqJ5D1em
+ GIiQ==
+X-Gm-Message-State: APjAAAUVH/CWUAjE9hvIGItP/3rGoqdbpfiNbYBvh2oBn6nGCq7mrgn2
+ RHfLyw6PsIwbSpSRUmOqI4+laLDGtVswq5tSc6ciMo/55a0YAUOG08bahsqY1+reH7eC3Jw1Bjy
+ +5lx4M+t4DWzoxHA=
+X-Received: by 2002:a5d:6411:: with SMTP id z17mr52257866wru.57.1582302818494; 
+ Fri, 21 Feb 2020 08:33:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw/P0AiFwTiT7z/wiXEONKmFEX/+8KKpJaNr4hGDqfwDZfa9AgZLuHo195clbdhIrrAhDaBiQ==
+X-Received: by 2002:a5d:6411:: with SMTP id z17mr52257842wru.57.1582302818224; 
+ Fri, 21 Feb 2020 08:33:38 -0800 (PST)
+Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id c15sm4522493wrt.1.2020.02.21.08.33.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Feb 2020 08:33:37 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] block/curl: HTTP header field names are case
- insensitive
-Date: Fri, 21 Feb 2020 16:32:38 +0000
-Message-Id: <20200221163238.60688-3-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200221163238.60688-1-david.edmondson@oracle.com>
-References: <20200221163238.60688-1-david.edmondson@oracle.com>
+Subject: [PATCH] accel/kvm: Check ioctl(KVM_SET_USER_MEMORY_REGION) return
+ value
+Date: Fri, 21 Feb 2020 17:33:36 +0100
+Message-Id: <20200221163336.2362-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0
- mlxlogscore=999 suspectscore=1 adultscore=0 spamscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002210124
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 suspectscore=1
- spamscore=0 priorityscore=1501 adultscore=0 mlxscore=0 clxscore=1015
- malwarescore=0 mlxlogscore=999 phishscore=0 impostorscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002210123
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,38 +87,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: kvm@vger.kernel.org, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RFC 7230 section 3.2 indicates that HTTP header field names are case
-insensitive.
+kvm_vm_ioctl() can fail, check its return value, and log an error
+when it failed. This fixes Coverity CID 1412229:
 
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+  Unchecked return value (CHECKED_RETURN)
+
+  check_return: Calling kvm_vm_ioctl without checking return value
+
+Reported-by: Coverity (CID 1412229)
+Fixes: 235e8982ad3 ("support using KVM_MEM_READONLY flag for regions")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- block/curl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ accel/kvm/kvm-all.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index f9ffb7f4e2bf..1421e8fb9815 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -216,11 +216,11 @@ static size_t curl_header_cb(void *ptr, size_t size, size_t nmemb, void *opaque)
-     size_t realsize = size * nmemb;
-     const char *header = (char *)ptr;
-     const char *end = header + realsize;
--    const char *accept_ranges = "Accept-Ranges:";
-+    const char *accept_ranges = "accept-ranges:";
-     const char *bytes = "bytes";
- 
-     if (realsize >= strlen(accept_ranges)
--        && strncmp(header, accept_ranges, strlen(accept_ranges)) == 0) {
-+        && g_ascii_strncasecmp(header, accept_ranges, strlen(accept_ranges)) == 0) {
- 
-         char *p = strchr(header, ':') + 1;
- 
--- 
-2.24.1
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index c111312dfd..6df3a4d030 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -308,13 +308,23 @@ static int kvm_set_user_memory_region(KVMMemoryListen=
+er *kml, KVMSlot *slot, boo
+         /* Set the slot size to 0 before setting the slot to the desired
+          * value. This is needed based on KVM commit 75d61fbc. */
+         mem.memory_size =3D 0;
+-        kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
++        ret =3D kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
++        if (ret < 0) {
++            goto err;
++        }
+     }
+     mem.memory_size =3D slot->memory_size;
+     ret =3D kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
+     slot->old_flags =3D mem.flags;
++err:
+     trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
+                               mem.memory_size, mem.userspace_addr, ret);
++    if (ret < 0) {
++        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=3D%d,"
++                     " start=3D0x%" PRIx64 ", size=3D0x%" PRIx64 ": %s",
++                     __func__, mem.slot, slot->start_addr,
++                     (uint64_t)mem.memory_size, strerror(errno));
++    }
+     return ret;
+ }
+=20
+--=20
+2.21.1
 
 
