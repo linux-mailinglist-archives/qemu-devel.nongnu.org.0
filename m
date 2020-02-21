@@ -2,57 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A661683C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:40:02 +0100 (CET)
-Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428901683B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:37:39 +0100 (CET)
+Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BLN-0003lC-Pj
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:40:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50554)
+	id 1j5BJ4-0007Bf-94
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:37:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rdunlap@infradead.org>) id 1j5BHB-0005Kp-58
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:44 -0500
+ (envelope-from <peterx@redhat.com>) id 1j5BHM-0005Rb-H4
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rdunlap@infradead.org>) id 1j5BH9-0001xt-W2
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:41 -0500
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133]:58110)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rdunlap@infradead.org>)
- id 1j5BH9-0001tX-Ol
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=VL6gh0yPQIpT2nL/+Hwg/Bl1b1dNG3KY79WqjmhXwG8=; b=Lu16Wnf5xgjg6FezgS0tFqeKPj
- tlX0AdWRAo+cJ0QadzQvCTV+iqpD+UiJ1/PoWHBXN7Gh9a7iwm9TaHSyOBR+VNkDfmyAI6fN3zZ+o
- qeDro/A338xHvEvS+VdB4v/IJhZ7AULjdBU89/ts77smD2uAZAO7OrKiRAlEbjb8yQRLZIlsh8zkl
- 50knhHs5T3HhvaQOa/3MWH/A1HEysEYc7nfq6LOFdVgnuQk8K8ZXmUrfIfdWMZKO6Q4bjLiRh4x6W
- fCn+I1hd+RZBkAFhgQUKthDC80MHPcJpcdn8RPy/1bp3yJqXKBlwtazHGOgzlbq15la9d9d1dnDeW
- wbqfYF8Q==;
-Received: from [2601:1c0:6280:3f0::19c2]
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j5BGx-0008Nu-4M; Fri, 21 Feb 2020 16:35:27 +0000
-Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20200218151812.7816-1-geert+renesas@glider.be>
- <20200218151812.7816-5-geert+renesas@glider.be>
- <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
- <CAMuHMdUFV0nbfrpxY60av2x+UUN62wDiVLbcEG83133aqfFcUQ@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <98997c64-9486-ee64-32df-3172e518b70d@infradead.org>
-Date: Fri, 21 Feb 2020 08:35:24 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <peterx@redhat.com>) id 1j5BHL-00021t-Aw
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:52 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27377
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j5BHK-00020n-EO
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582302950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UK11XP7TSSFY6WpmViyYU3Oki9eboLAaOS5r4pRlNNg=;
+ b=hR06ts5vfuzQd8h/Npzsczime83ze0EpumHbzuC3Mq9aBZvg64/Stu6zEovu12ZV/69GP/
+ atFK2d78dSnM2js4hfxcUyCWA8+ARsb8qhj1CxKik3eCX0GbeyVqhdJU+7/uAuoAs+E1z1
+ gojiYnK8Grv5J5YjbKsdh4nwxndICFQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-hEx8qVJxMX-zb-VHuUXBxw-1; Fri, 21 Feb 2020 11:35:48 -0500
+X-MC-Unique: hEx8qVJxMX-zb-VHuUXBxw-1
+Received: by mail-qk1-f200.google.com with SMTP id o185so2067514qke.21
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:35:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qffL0KWKEw4UH1MXGx5Q2R/FW7snG92lwRBho7jdmxs=;
+ b=JUpBwWhGX0ogZF209b0EKVKQszPDQCOPGuqzzoPKiGif6NTkgS3NRSUkXDjkjfu9QQ
+ BS6Ck+9VaxkBw3TUnm5uA2ZLPWQLSTxzyQatKpQ/c6hzDXvV93QOKuv4rFEjVtU9YthL
+ J41h6Hn1dYBsya6GZMrvUGDrxnd70z3ydDxyvRdtjEkenlr1KZEQgCfFW2SBIypxVrpP
+ bG+MyETDsuYvChrCMd3+255mRhTjqw9M0qAi6p3Jy8TOcY9kiJUgZtlr7l12iK2pt9CQ
+ eA7Fg8fmZNExtvkLmaQu7q9FsRb0dFYq+JxWa8hGun4M38OqTxJanN/9oeGnazENGdye
+ FhlQ==
+X-Gm-Message-State: APjAAAUWhbM9ngBHebbw9ZNSJJHatPWcFje91NqTtu5wA1QS/p6VC8wx
+ znvbK+9S5BOuZbPQEqYt7LgXsjiKX5Fh9fiH8qsbs61fOTqZZ3leFb+WfO+bz9bL6Gy1NTWgOeW
+ r3VApH5VyU1L3aoU=
+X-Received: by 2002:a05:620a:1650:: with SMTP id
+ c16mr35120290qko.346.1582302947748; 
+ Fri, 21 Feb 2020 08:35:47 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyHL5WBM42q1R76NceXg6J1L28mvnSUXo2M4fgQx7HgXCtPYDJmO9gGO16bG8gmhePg1Ld4Og==
+X-Received: by 2002:a05:620a:1650:: with SMTP id
+ c16mr35120260qko.346.1582302947509; 
+ Fri, 21 Feb 2020 08:35:47 -0800 (PST)
+Received: from xz-x1 (CPEf81d0fb19163-CMf81d0fb19160.cpe.net.fido.ca.
+ [72.137.123.47])
+ by smtp.gmail.com with ESMTPSA id g9sm1745787qkl.11.2020.02.21.08.35.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Feb 2020 08:35:46 -0800 (PST)
+Date: Fri, 21 Feb 2020 11:35:44 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 05/13] migrate/ram: Handle RAM block resizes during
+ precopy
+Message-ID: <20200221163544.GC37727@xz-x1>
+References: <20200219161725.115218-1-david@redhat.com>
+ <20200219161725.115218-6-david@redhat.com>
+ <3c3d4d50-a30d-b4e9-6256-4656f4e78cf6@redhat.com>
+ <20200220201719.GC15253@xz-x1>
+ <f72b81f6-1972-12b5-8113-95dc4094205b@redhat.com>
+ <eacd48d3-4bce-bdd4-941d-3c098cb29034@redhat.com>
+ <81ca5783-97d5-555c-c361-9b5b0ec144b3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUFV0nbfrpxY60av2x+UUN62wDiVLbcEG83133aqfFcUQ@mail.gmail.com>
+In-Reply-To: <81ca5783-97d5-555c-c361-9b5b0ec144b3@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:7c80:54:e::133
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,32 +96,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Shannon Zhao <shannon.zhao@linaro.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/20 8:34 AM, Geert Uytterhoeven wrote:
-> Hi Randy,
-> 
+On Fri, Feb 21, 2020 at 11:19:58AM +0100, David Hildenbrand wrote:
 
-Hi Geert,
-Those changes look good. Thanks.
+[...]
 
--- 
-~Randy
+> Lol, man this code is confusing.
+
+(Yes in many places it is...)
+
+>=20
+> So, migration_is_idle() really only checks current_migration, not
+> current_incoming.
+>=20
+> I didn't expect to be knees deep in migration code at this point ...
+>=20
+> if (migration_is_idle()) {
+> =09return:
+> }
+
+Yes this seems to work too for postcopy, though may worth add a
+comment showing the fact...  Thanks,
+
+--=20
+Peter Xu
 
 
