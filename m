@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A82168230
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 16:48:08 +0100 (CET)
-Received: from localhost ([::1]:60086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C10168256
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 16:52:54 +0100 (CET)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5AX9-0007ph-Uf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 10:48:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
+	id 1j5Abl-0003bM-HF
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 10:52:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j5AVP-0006OU-Ju
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:20 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j5AaZ-00039W-R2
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:51:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j5AVO-00053Z-NU
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27236
+ (envelope-from <dgilbert@redhat.com>) id 1j5AaY-0007Ms-1c
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:51:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31010
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j5AVO-00050u-Hg
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:46:18 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j5AaX-0007KA-Te
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:51:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582299978;
+ s=mimecast20190719; t=1582300297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=t54TSZAdz79Xk9Y345bP2ctUnXQi4UrIeqiG9mBAWn0=;
- b=Wl7vs4ryjgc1fZHFewuXWaSs0hQzJ1nM6J/rGm5p9UyFG/o4XYi0DLqpr9K+qeLu8UA6Z7
- 0XN7/dLOL44BTzfxj1iOa8j0hT7E5wJorSOEWt0ybZ0lWsF92rzqJVCDGey82OYQ0/zioS
- jSmnB0gsXJwe4Ft6BzN2SxpQY2whA+c=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M425/NvPxR7SuzQbKlRFUt1hl97UAVY8Ynvoe9wvVeU=;
+ b=i/RqTYRJTV5ejLSw2UvZC2B5H1eMAEMKSeu9Nf4FEranZG6CZRji7Texz9Uhu5TOzCAXav
+ NClB+E5yZpadSgLQ2+cLMAnV2silvP5IM/18quNiMwxAOj635ey+qYFeiBIbMP6nYbcIEK
+ MJViGeR56hBN2WSiuRhCBXPCZtQtH9Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-gy-AL1oCPF-s9Qc-4D-nQw-1; Fri, 21 Feb 2020 10:46:16 -0500
-X-MC-Unique: gy-AL1oCPF-s9Qc-4D-nQw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-434-gVDs0QNrNcewnKbC_rhOpw-1; Fri, 21 Feb 2020 10:51:35 -0500
+X-MC-Unique: gVDs0QNrNcewnKbC_rhOpw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84EC313E4;
- Fri, 21 Feb 2020 15:46:14 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72E0E8B57E;
- Fri, 21 Feb 2020 15:46:11 +0000 (UTC)
-Subject: Re: [RFC PATCH v3 22/27] qcow2: Clear the L2 bitmap when allocating a
- compressed cluster
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <cover.1577014346.git.berto@igalia.com>
- <410dd2fcfc6d0a177e3aea669cbc8f665f0df20a.1577014346.git.berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e6e3773a-47e3-9620-7e0c-56240388a88f@redhat.com>
-Date: Fri, 21 Feb 2020 16:46:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71162106BC24;
+ Fri, 21 Feb 2020 15:51:34 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D39287B08;
+ Fri, 21 Feb 2020 15:51:16 +0000 (UTC)
+Date: Fri, 21 Feb 2020 15:51:13 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 06/13] migrate/ram: Discard new RAM when growing RAM
+ blocks and the VM is stopped
+Message-ID: <20200221155113.GH2931@work-vm>
+References: <20200219161725.115218-1-david@redhat.com>
+ <20200219161725.115218-7-david@redhat.com>
+ <85682e4d-956f-080d-7c22-bcb292e67adf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <410dd2fcfc6d0a177e3aea669cbc8f665f0df20a.1577014346.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <85682e4d-956f-080d-7c22-bcb292e67adf@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,52 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g
-Content-Type: multipart/mixed; boundary="CfkDGBP2eoY7WjxL4NxRheY2HDx2vDcQ0"
-
---CfkDGBP2eoY7WjxL4NxRheY2HDx2vDcQ0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 22.12.19 12:37, Alberto Garcia wrote:
-> Compressed clusters always have the bitmap part of the extended L2
-> entry set to 0.
+* David Hildenbrand (david@redhat.com) wrote:
+> On 19.02.20 17:17, David Hildenbrand wrote:
+> > In case we grow our RAM after ram_postcopy_incoming_init() (e.g., when
+> > synchronizing the RAM block state with the migration source), the resiz=
+ed
+> > part would not get discarded. Let's perform that when being notified
+> > about a resize while postcopy has been advised and the guest is not
+> > running yet.
+> >=20
+> > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > Cc: Juan Quintela <quintela@redhat.com>
+> > Cc: Peter Xu <peterx@redhat.com>
+> > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > ---
+> >  migration/ram.c | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >=20
+> > diff --git a/migration/ram.c b/migration/ram.c
+> > index 57f32011a3..cbd54947fb 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -3722,6 +3722,25 @@ static void ram_mig_ram_block_resized(RAMBlockNo=
+tifier *n, void *host,
+> >          return;
+> >      }
+> > =20
+> > +    /*
+> > +     * Especially at the start of precopy on the migration target, bef=
+ore
+> > +     * starting postcopy, we synchronize the RAM block sizes. Let's ma=
+ke sure
+> > +     * that any resizes before starting the guest are properly handled=
+ by
+> > +     * postcopy. Note: All other postcopy handling (e.g., registering =
+handlers,
+> > +     * disabling THP) happens after all resizes (e.g., during precopy)=
+ were
+> > +     * performed.
+> > +     */
 >=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block/qcow2-cluster.c | 3 +++
->  1 file changed, 3 insertions(+)
+> I think it would be clearer to do a
+>=20
+> ps >=3D POSTCOPY_INCOMING_ADVISE && ps < POSTCOPY_INCOMING_RUNNING
+>=20
+> We really only want to do something when psotcopy has been advised but
+> the guest is not running yet.
+>=20
+> Will look into that as I find ways to actually test this :)
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Should that be < POSTCOPY_INCOMING_LISTENING - i.e. before the
+userfaultfd has been enabled on the region?
 
+Dave
 
---CfkDGBP2eoY7WjxL4NxRheY2HDx2vDcQ0--
-
---xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5P+0AACgkQ9AfbAGHV
-z0BH7wf/eFdOGOleI0Ta9lG0qZ007pXBfFlHK7flHA6g4SMI7iBZD7aGiJAC6xN9
-sw+s0gjdDeG4ybPbZFodrDIPTnl66TnGXujTR4w8RfgoFbFhd+4sRXZilspw6beU
-+RwsTjKHSO/aUJ0yPCU7CDdyg3LkkyWPjOgcYE14bQzuD+/CFS8NYL3dzkmAoK9H
-zqZg0mvgXhgUNg8PKMvxXcv80zov6KbcdxXM21Mo8CpSaxGMmm9fcUd1vvgGHhYy
-/3T2aqgRXoqm5zc4/fc7bqNj4J5X0rxXBeCX524aQzpwRIfNL7b3sZfGJ43vOJY6
-Nl6wrrhiCIng0UDGwjbgsx0SazO1bQ==
-=3mWI
------END PGP SIGNATURE-----
-
---xS3sZXebDaWQaTroQGSnCsT0LE4ZeBE1g--
+>=20
+> --=20
+> Thanks,
+>=20
+> David / dhildenb
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
