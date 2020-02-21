@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF461679B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 10:47:38 +0100 (CET)
-Received: from localhost ([::1]:54522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9378A1679C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 10:49:26 +0100 (CET)
+Received: from localhost ([::1]:54562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j54uH-0004yc-J1
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 04:47:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33255)
+	id 1j54w1-0007vS-LZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 04:49:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1j54sX-0003oU-Ko
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:45:50 -0500
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1j54sh-0003qu-MZ
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:46:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1j54sU-0001LW-0w
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:45:47 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:56765)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1j54sg-00020A-On
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:45:59 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:48765)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1j54sQ-0000om-Cb; Fri, 21 Feb 2020 04:45:44 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1274412|-1; CH=green;
- DM=CONTINUE|CONTINUE|true|0.222334-0.0414369-0.736229;
- DS=CONTINUE|ham_system_inform|0.0303549-0.00256146-0.967084;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16378; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ id 1j54sg-0001hZ-Ck; Fri, 21 Feb 2020 04:45:58 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1012324|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.0847261-0.00699878-0.908275;
+ DS=CONTINUE|ham_system_inform|0.0300927-0.000453369-0.969454;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03311; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
  RN=9; RT=9; SR=0; TI=SMTPD_---.GqUN7u9_1582278331; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.GqUN7u9_1582278331)
- by smtp.aliyun-inc.com(10.147.43.95); Fri, 21 Feb 2020 17:45:32 +0800
+ by smtp.aliyun-inc.com(10.147.43.95); Fri, 21 Feb 2020 17:45:52 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: richard.henderson@linaro.org, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v5 0/4] target-riscv: support vector extension part 1
-Date: Fri, 21 Feb 2020 17:45:27 +0800
-Message-Id: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
+Subject: [PATCH v5 1/4] target/riscv: add vector extension field in
+ CPURISCVState
+Date: Fri, 21 Feb 2020 17:45:28 +0800
+Message-Id: <20200221094531.61894-2-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
+References: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
@@ -55,65 +58,49 @@ Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the first part of v5 patchset. The changelog of v5 is only coverd
-the part1.
+The 32 vector registers will be viewed as a continuous memory block.
+It avoids the convension between element index and (regno, offset).
+Thus elements can be directly accessed by offset from the first vector
+base address.
 
-Features:
-  * support specification riscv-v-spec-0.7.1.
-  * support basic vector extension.
-  * support Zvlsseg.
-  * support Zvamo.
-  * not support Zvediv as it is changing.
-  * SLEN always equals VLEN.
-  * element width support 8bit, 16bit, 32bit, 64bit.
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/riscv/cpu.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Changelog:
-
-v5
-  * vector registers as direct fields in RISCVCPUState.
-  * mov the properties to last patch.
-  * check RVV in vs().
-  * check if rs1 is x0 in vsetvl/vsetvli.
-  * check VILL, EDIV, RESERVED fileds in vsetvl.
-v4
-  * adjust max vlen to 512 bits.
-  * check maximum on elen(64bits).
-  * check minimum on vlen(128bits).
-  * check if rs1 is x0 in vsetvl/vsetvli.
-  * use gen_goto_tb in vsetvli instead of exit_tb.
-  * fixup fetch vlmax from rs2, not env->vext.type.
-v3
-  * support VLEN configure from qemu command line.
-  * support ELEN configure from qemu command line.
-  * support vector specification version configure from qemu command line.
-  * only default on for "any" cpu, others turn on from command line.
-  * use a continous memory block for vector register description.
-V2
-  * use float16_compare{_quiet}
-  * only use GETPC() in outer most helper
-  * add ctx.ext_v Property
-
-LIU Zhiwei (4):
-  target/riscv: add vector extension field in CPURISCVState
-  target/riscv: implementation-defined constant parameters
-  target/riscv: support vector extension csr
-  target/riscv: add vector configure instruction
-
- MAINTAINERS                             |  1 +
- target/riscv/Makefile.objs              |  2 +-
- target/riscv/cpu.c                      |  7 +++
- target/riscv/cpu.h                      | 78 ++++++++++++++++++++++---
- target/riscv/cpu_bits.h                 | 15 +++++
- target/riscv/csr.c                      | 75 +++++++++++++++++++++++-
- target/riscv/helper.h                   |  2 +
- target/riscv/insn32.decode              |  5 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 69 ++++++++++++++++++++++
- target/riscv/translate.c                | 17 +++++-
- target/riscv/vector_helper.c            | 53 +++++++++++++++++
- 11 files changed, 312 insertions(+), 12 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
- create mode 100644 target/riscv/vector_helper.c
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index de0a8d893a..2e8d01c155 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -64,6 +64,7 @@
+ #define RVA RV('A')
+ #define RVF RV('F')
+ #define RVD RV('D')
++#define RVV RV('V')
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
+@@ -93,9 +94,20 @@ typedef struct CPURISCVState CPURISCVState;
+ 
+ #include "pmp.h"
+ 
++#define RV_VLEN_MAX 512
++
+ struct CPURISCVState {
+     target_ulong gpr[32];
+     uint64_t fpr[32]; /* assume both F and D extensions */
++
++    /* vector coprocessor state. */
++    uint64_t vreg[32 * RV_VLEN_MAX / 64] QEMU_ALIGNED(16);
++    target_ulong vxrm;
++    target_ulong vxsat;
++    target_ulong vl;
++    target_ulong vstart;
++    target_ulong vtype;
++
+     target_ulong pc;
+     target_ulong load_res;
+     target_ulong load_val;
 -- 
 2.23.0
 
