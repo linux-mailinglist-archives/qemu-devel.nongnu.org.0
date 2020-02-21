@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6027166DDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 04:38:50 +0100 (CET)
-Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159EA166DE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 04:41:38 +0100 (CET)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4z9N-00041l-QP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 22:38:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48718)
+	id 1j4zC3-00080B-Vv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 22:41:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4z7p-0001vy-FB
+ (envelope-from <dgibson@ozlabs.org>) id 1j4z7p-0001wh-Nb
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4z7o-00086W-4K
+ (envelope-from <dgibson@ozlabs.org>) id 1j4z7o-00087F-G4
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:13 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57821 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:57973)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4z7n-0007xJ-PG; Thu, 20 Feb 2020 22:37:12 -0500
+ id 1j4z7o-0007xP-3w; Thu, 20 Feb 2020 22:37:12 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NxwC2yr6z9sRk; Fri, 21 Feb 2020 14:36:59 +1100 (AEDT)
+ id 48NxwC4r2xz9sRs; Fri, 21 Feb 2020 14:36:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582256219;
- bh=DEHDVMalz9zs15THZDn1i6nHVsdLT9AX731WB3rmaXk=;
+ bh=glsWacbQzsnQT3+iIZDewPKdOZbmjTYn71tJzXu43KU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hBgRM5sZDlWBwD68nrPnTOeu23WhYAiq4VVQAys6GxMY5a+JBZCUZG8sgXihVX9yk
- Y/8xTyMDPKKt9TF3EhILQa5wjfDVxOfUAyaKgrjWns90UzN1ROhvx0TzIKCXzpWHsy
- mNnqrz8EehgiYJ/MSqLg5qw7yYbw28W9/CpnKPXY=
+ b=VGx7KG7pTlRLBaQC0d8e7WW/r/lvZOdOrQXlCwhyXKyZtUSg1HsdpIXfh38y3+MSs
+ JFlfIVxk7NpQSTWOdHhxBUk7cbckVy5Tq8tQmE/FKJ0FYaByLqV9fMY0sK7q78Fg2E
+ lpXURm4kuc8+8v3Q8yLP5JDP7HDBPwB36rB5zhzU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/20] mem: move nvdimm_device_list to utilities
-Date: Fri, 21 Feb 2020 14:36:35 +1100
-Message-Id: <20200221033650.444386-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/20] nvdimm: add uuid property to nvdimm
+Date: Fri, 21 Feb 2020 14:36:36 +1100
+Message-Id: <20200221033650.444386-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200221033650.444386-1-david@gibson.dropbear.id.au>
 References: <20200221033650.444386-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,125 +62,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 
-nvdimm_device_list is required for parsing the list for devices
-in subsequent patches. Move it to common utility area.
+For ppc64, PAPR requires the nvdimm device to have UUID property
+set in the device tree. Add an option to get it from the user.
 
 Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <158131055857.2897.15658377276504711773.stgit@lep8c.aus.stgla=
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <158131056931.2897.14057087440721445976.stgit@lep8c.aus.stgla=
 bs.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/acpi/nvdimm.c            | 28 +---------------------------
- include/qemu/nvdimm-utils.h |  7 +++++++
- util/Makefile.objs          |  1 +
- util/nvdimm-utils.c         | 29 +++++++++++++++++++++++++++++
- 4 files changed, 38 insertions(+), 27 deletions(-)
- create mode 100644 include/qemu/nvdimm-utils.h
- create mode 100644 util/nvdimm-utils.c
+ hw/mem/nvdimm.c         | 40 ++++++++++++++++++++++++++++++++++++++++
+ include/hw/mem/nvdimm.h |  7 +++++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 9fdad6dc3f..5219dd0e2e 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -32,33 +32,7 @@
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/mem/nvdimm.h"
--
--static int nvdimm_device_list(Object *obj, void *opaque)
--{
--    GSList **list =3D opaque;
--
--    if (object_dynamic_cast(obj, TYPE_NVDIMM)) {
--        *list =3D g_slist_append(*list, DEVICE(obj));
--    }
--
--    object_child_foreach(obj, nvdimm_device_list, opaque);
--    return 0;
--}
--
--/*
-- * inquire NVDIMM devices and link them into the list which is
-- * returned to the caller.
-- *
-- * Note: it is the caller's responsibility to free the list to avoid
-- * memory leak.
-- */
--static GSList *nvdimm_get_device_list(void)
--{
--    GSList *list =3D NULL;
--
--    object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
--    return list;
--}
-+#include "qemu/nvdimm-utils.h"
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 39f1426d1f..8e426d24bb 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -69,11 +69,51 @@ out:
+     error_propagate(errp, local_err);
+ }
 =20
- #define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)         =
-    \
-    { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0x=
-ff, \
-diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
-new file mode 100644
-index 0000000000..4b8b198ba7
---- /dev/null
-+++ b/include/qemu/nvdimm-utils.h
-@@ -0,0 +1,7 @@
-+#ifndef NVDIMM_UTILS_H
-+#define NVDIMM_UTILS_H
-+
-+#include "qemu/osdep.h"
-+
-+GSList *nvdimm_get_device_list(void);
-+#endif
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 11262aafaf..6b38b67cf1 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -20,6 +20,7 @@ util-obj-y +=3D envlist.o path.o module.o
- util-obj-y +=3D host-utils.o
- util-obj-y +=3D bitmap.o bitops.o hbitmap.o
- util-obj-y +=3D fifo8.o
-+util-obj-y +=3D nvdimm-utils.o
- util-obj-y +=3D cacheinfo.o
- util-obj-y +=3D error.o qemu-error.o
- util-obj-y +=3D qemu-print.o
-diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
-new file mode 100644
-index 0000000000..5cc768ca47
---- /dev/null
-+++ b/util/nvdimm-utils.c
-@@ -0,0 +1,29 @@
-+#include "qemu/nvdimm-utils.h"
-+#include "hw/mem/nvdimm.h"
-+
-+static int nvdimm_device_list(Object *obj, void *opaque)
++static void nvdimm_get_uuid(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
 +{
-+    GSList **list =3D opaque;
++    NVDIMMDevice *nvdimm =3D NVDIMM(obj);
++    char *value =3D NULL;
 +
-+    if (object_dynamic_cast(obj, TYPE_NVDIMM)) {
-+        *list =3D g_slist_append(*list, DEVICE(obj));
++    value =3D qemu_uuid_unparse_strdup(&nvdimm->uuid);
++
++    visit_type_str(v, name, &value, errp);
++    g_free(value);
++}
++
++
++static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
++{
++    NVDIMMDevice *nvdimm =3D NVDIMM(obj);
++    Error *local_err =3D NULL;
++    char *value;
++
++    visit_type_str(v, name, &value, &local_err);
++    if (local_err) {
++        goto out;
 +    }
 +
-+    object_child_foreach(obj, nvdimm_device_list, opaque);
-+    return 0;
++    if (qemu_uuid_parse(value, &nvdimm->uuid) !=3D 0) {
++        error_setg(errp, "Property '%s.%s' has invalid value",
++                   object_get_typename(obj), name);
++        goto out;
++    }
++    g_free(value);
++
++out:
++    error_propagate(errp, local_err);
 +}
 +
-+/*
-+ * inquire NVDIMM devices and link them into the list which is
-+ * returned to the caller.
-+ *
-+ * Note: it is the caller's responsibility to free the list to avoid
-+ * memory leak.
-+ */
-+GSList *nvdimm_get_device_list(void)
-+{
-+    GSList *list =3D NULL;
 +
-+    object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
-+    return list;
-+}
+ static void nvdimm_init(Object *obj)
+ {
+     object_property_add(obj, NVDIMM_LABEL_SIZE_PROP, "int",
+                         nvdimm_get_label_size, nvdimm_set_label_size, NU=
+LL,
+                         NULL, NULL);
++
++    object_property_add(obj, NVDIMM_UUID_PROP, "QemuUUID", nvdimm_get_uu=
+id,
++                        nvdimm_set_uuid, NULL, NULL, NULL);
+ }
+=20
+ static void nvdimm_finalize(Object *obj)
+diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+index 523a9b3d4a..4807ca615b 100644
+--- a/include/hw/mem/nvdimm.h
++++ b/include/hw/mem/nvdimm.h
+@@ -25,6 +25,7 @@
+=20
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/acpi/bios-linker-loader.h"
++#include "qemu/uuid.h"
+=20
+ #define NVDIMM_DEBUG 0
+ #define nvdimm_debug(fmt, ...)                                \
+@@ -49,6 +50,7 @@
+                                                TYPE_NVDIMM)
+=20
+ #define NVDIMM_LABEL_SIZE_PROP "label-size"
++#define NVDIMM_UUID_PROP       "uuid"
+ #define NVDIMM_UNARMED_PROP    "unarmed"
+=20
+ struct NVDIMMDevice {
+@@ -83,6 +85,11 @@ struct NVDIMMDevice {
+      * the guest write persistence.
+      */
+     bool unarmed;
++
++    /*
++     * The PPC64 - spapr requires each nvdimm device have a uuid.
++     */
++    QemuUUID uuid;
+ };
+ typedef struct NVDIMMDevice NVDIMMDevice;
+=20
 --=20
 2.24.1
 
