@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3A4166DF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 04:42:55 +0100 (CET)
-Received: from localhost ([::1]:51766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EB7166DDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 04:38:49 +0100 (CET)
+Received: from localhost ([::1]:51684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4zDK-0002Qn-BJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 22:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48533)
+	id 1j4z9M-0003t2-E3
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 22:38:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48467)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4z7l-0001sX-S9
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:11 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j4z7l-0001sT-1F
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4z7k-0007xa-HT
- for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:09 -0500
-Received: from ozlabs.org ([203.11.71.1]:46879)
+ (envelope-from <dgibson@ozlabs.org>) id 1j4z7j-0007vL-Th
+ for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:08 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41281 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4z7k-0007aU-5b; Thu, 20 Feb 2020 22:37:08 -0500
+ id 1j4z7j-0007aV-Gd; Thu, 20 Feb 2020 22:37:07 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NxwB1CSsz9sRl; Fri, 21 Feb 2020 14:36:57 +1100 (AEDT)
+ id 48NxwB2f3jz9sSH; Fri, 21 Feb 2020 14:36:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582256218;
- bh=CxclaawKdP2BlYleNSqR08kWhjqPO+qnvQ+nGmAoM8A=;
- h=From:To:Cc:Subject:Date:From;
- b=c2P421BuMJwl18Sc0z/t/fpXbv/ThLVTTGYCr9sz4YfnZvY/3FZVtysOYmmv3xNPP
- A16ThdInbfCVSVhopzGYzSvbqRt0zEgUd10r9BoCX5JvFmWCmCX2ZEYUSSonThxxsM
- NHBtEFqiucL+bJ41awWmutbUSUAjJnwBh/fPLTrE=
+ bh=d7Oo57xSePtAPZw1vQ7lnHZ7unAZbPpu/m8dqU1L7nw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dv7wkvEmGHVXsHYtvYksRg+uDgfll02Cu61CeFeowuWQsnIrzkWtNajHaCwqDPaKh
+ lfLXR3Dv6r2H66TvJS8VB2Q8aq3LpPI9d75LDhfVN/TgvLxe620dy6Wfwi3AgXNRGG
+ yiLaB61kV8PPqd8EYxX3pmNC7duubP4P7lX8hKgs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/20] ppc-for-5.0 queue 20200221
-Date: Fri, 21 Feb 2020 14:36:30 +1100
-Message-Id: <20200221033650.444386-1-david@gibson.dropbear.id.au>
+Subject: [PULL 01/20] spapr/rtas: Print message from "ibm,os-term"
+Date: Fri, 21 Feb 2020 14:36:31 +1100
+Message-Id: <20200221033650.444386-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200221033650.444386-1-david@gibson.dropbear.id.au>
+References: <20200221033650.444386-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,107 +53,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7afee874f1b27abc998b8b747d16b77cb63987=
-16:
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-=
-request' into staging (2020-02-20 16:51:19 +0000)
+The "ibm,os-term" RTAS call has a single parameter which is a pointer to
+a message from the guest kernel about the termination cause; this prints
+it.
 
-are available in the Git repository at:
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20200203032044.118585-1-aik@ozlabs.ru>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_rtas.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200221
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 883fe28465..656fdd2216 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -345,6 +345,13 @@ static void rtas_ibm_os_term(PowerPCCPU *cpu,
+                             target_ulong args,
+                             uint32_t nret, target_ulong rets)
+ {
++    target_ulong msgaddr =3D rtas_ld(args, 0);
++    char msg[512];
++
++    cpu_physical_memory_read(msgaddr, msg, sizeof(msg) - 1);
++    msg[sizeof(msg) - 1] =3D 0;
++
++    error_report("OS terminated: %s", msg);
+     qemu_system_guest_panicked(NULL);
+=20
+     rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+--=20
+2.24.1
 
-for you to fetch changes up to 438bafcac55308eef4f9029c94dbadd2c7ac3bb7:
-
-  hw/ppc/virtex_ml507:fix leak of fdevice tree blob (2020-02-21 09:15:04 =
-+1100)
-
-----------------------------------------------------------------
-ppc patch queue 2020-02-21
-
-Here's the next patch of ppc target patches.  Highlights are:
-  * Some fixes for CAS / unplug interactions
-  * Remove some leaks of device trees
-  * Some fixes for the PHB3 and PHB4 devices
-  * Support for NVDIMMs on the pseries machine type
-  * Assorted other fixes and cleanups
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (2):
-      spapr/rtas: Print message from "ibm,os-term"
-      spapr: Allow changing offset for -kernel image
-
-BALATON Zoltan (4):
-      target/ppc/cpu.h: Remove duplicate includes
-      target/ppc: Fix typo in comments
-      target/ppc/cpu.h: Move fpu related members closer in cpu env
-      target/ppc/cpu.h: Clean up comments in the struct CPUPPCState defin=
-ition
-
-Chen Qun (1):
-      hw/ppc/virtex_ml507:fix leak of fdevice tree blob
-
-Greg Kurz (5):
-      pnv/phb3: Convert 1u to 1ull
-      pnv/phb4: Fix error path in pnv_pec_realize()
-      pnv/phb3: Add missing break statement
-      spapr: Don't use spapr_drc_needed() in CAS code
-      spapr: Fix handling of unplugged devices during CAS and migration
-
-Laurent Vivier (2):
-      qtest: Fix rtas dependencies
-      ppc/pnv: Fix PCI_EXPRESS dependency
-
-Michael S. Tsirkin (1):
-      ppc: function to setup latest class options
-
-Pan Nengyuan (1):
-      ppc: free 'fdt' after reset the machine
-
-Shivaprasad G Bhat (4):
-      mem: move nvdimm_device_list to utilities
-      nvdimm: add uuid property to nvdimm
-      spapr: Add NVDIMM device support
-      spapr: Add Hcalls to support PAPR NVDIMM device
-
- default-configs/ppc64-softmmu.mak  |   1 +
- hw/acpi/nvdimm.c                   |  28 +--
- hw/mem/Kconfig                     |   2 +-
- hw/mem/nvdimm.c                    |  40 ++++
- hw/pci-host/pnv_phb3_msi.c         |   2 +-
- hw/pci-host/pnv_phb3_pbcq.c        |   1 +
- hw/pci-host/pnv_phb4_pec.c         |   2 +-
- hw/ppc/Kconfig                     |   4 +-
- hw/ppc/Makefile.objs               |   2 +-
- hw/ppc/e500.c                      |   1 +
- hw/ppc/pnv.c                       |   2 +
- hw/ppc/spapr.c                     | 116 +++++++--
- hw/ppc/spapr_drc.c                 |  62 ++++-
- hw/ppc/spapr_events.c              |   4 +
- hw/ppc/spapr_hcall.c               |  14 +-
- hw/ppc/spapr_nvdimm.c              | 475 +++++++++++++++++++++++++++++++=
-++++++
- hw/ppc/spapr_rtas.c                |   7 +
- hw/ppc/virtex_ml507.c              |   1 +
- include/hw/mem/nvdimm.h            |   7 +
- include/hw/ppc/spapr.h             |   9 +-
- include/hw/ppc/spapr_drc.h         |  13 +-
- include/hw/ppc/spapr_nvdimm.h      |  37 +++
- include/qemu/nvdimm-utils.h        |   7 +
- qtest.c                            |   5 +-
- target/ppc/cpu.h                   | 148 +++++-------
- target/ppc/fpu_helper.c            |   4 +-
- target/ppc/translate/fp-impl.inc.c |   6 +-
- util/Makefile.objs                 |   1 +
- util/nvdimm-utils.c                |  29 +++
- 29 files changed, 864 insertions(+), 166 deletions(-)
- create mode 100644 hw/ppc/spapr_nvdimm.c
- create mode 100644 include/hw/ppc/spapr_nvdimm.h
- create mode 100644 include/qemu/nvdimm-utils.h
- create mode 100644 util/nvdimm-utils.c
 
