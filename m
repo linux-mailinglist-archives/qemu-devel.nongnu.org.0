@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4665F168524
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 18:37:11 +0100 (CET)
-Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4650A168511
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 18:35:31 +0100 (CET)
+Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5CEf-0004zb-6K
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 12:37:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38009)
+	id 1j5CD4-00027r-8A
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 12:35:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j5C8l-00062E-9E
+ (envelope-from <philmd@redhat.com>) id 1j5C8m-00064G-6G
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j5C8i-0007wm-US
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:03 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49247
+ (envelope-from <philmd@redhat.com>) id 1j5C8k-0007xw-N6
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:04 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20533
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j5C8i-0007wN-OW
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:00 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j5C8k-0007xP-Ig
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582306260;
+ s=mimecast20190719; t=1582306261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=afJ5QT7JVzOtThcnGpLQB0AFRR8aew0iyQodV15f1pQ=;
- b=I59Vr6sJAabXg48GywPjpA/pQlKo9W3YqdnuODeL+VrvqTcYpdtc4SL1RVUc9q8CXfYi3N
- qFUYkPFsiSTAdhL3dH6fQoKH7r2u9wfqrkURPQdnE83CMfoJgOb4szdHX8t9p+UryOrteU
- +ndSD2h4oUnybvdlYrAXGuKg2XHKjwI=
+ bh=Zf2WsS+Rv67/jMvGBPvIRKzoIHeTqtx2fA55QRMOVeM=;
+ b=QgOuHREf8xHII39mOydHZCcwrPCfrOCaFk90n6wNj2+wHkiow85D4zT8ml5E53bRLIAm3x
+ cP/VmCPFNrMFO9oQ64Kq3t2Haa1b1Lcx3HBrdaueBVXbxMvvPGPkYE/7PGzz4S79BQOHsX
+ m8mYRB4I/yDaiX0sXZYxSo4LwHoVZto=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-dlyVfWeBPuyqVqI-arndyg-1; Fri, 21 Feb 2020 12:30:58 -0500
-X-MC-Unique: dlyVfWeBPuyqVqI-arndyg-1
-Received: by mail-wr1-f69.google.com with SMTP id z15so1333238wrw.0
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 09:30:58 -0800 (PST)
+ us-mta-212-ZKOHCS3MO-ahAlmti-8ltg-1; Fri, 21 Feb 2020 12:31:00 -0500
+X-MC-Unique: ZKOHCS3MO-ahAlmti-8ltg-1
+Received: by mail-wr1-f69.google.com with SMTP id m15so1296020wrs.22
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 09:31:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Fc5MkCFdS3Or+k1ZhQt3xGzx43hkZES9oGLOhGzJcLc=;
- b=QIGgKKFOv3zjAAt6ZRq4f11qqY4HDpW6dh3Bo3Ho7KjvNYojw+H5WX8SEB7rnScx/d
- +VOFVOwoDoE687Gbt9NX2CTIG+iJRW9eq2JzNVh5bE0SdYNWM+ZLPYgDK0owegsgiaA/
- lw0l9iHJeHtYKUtowIAME1GjZdfh9dVPnvvOeOGdZC4bHO1W1Xbj58i+tKYkP1+RBQ15
- /K7RnaoFfcMIwQnZU9ejRoqDvCHKs8fm+KtA6Q9laMGNaQr4CdsKWvYH1RIIYX4VJwVW
- FdvIjDBGVyjzgw4t00+TlSMqxlgmkZmvMzbe5RTT9BH+WSOqv9LSR1x8T/o5xon+RiFl
- lbTA==
-X-Gm-Message-State: APjAAAWMFLzDtvLiIZoRBpkTpijBN57sKTYXJRCw0FNpPFsz5ETyBQMl
- 0OClXOYiSjrW7bqG+bZ9DVHtibqukbs9vVsCuZ1kDHP17/C4Mh3jTd9kjRt7hLJ2PVnZQwIi/BO
- PNq+dMmJJhcWYYPY=
-X-Received: by 2002:a05:6000:118e:: with SMTP id
- g14mr52664572wrx.39.1582306256924; 
- Fri, 21 Feb 2020 09:30:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwjhXndrol42jRI6VSKf8OKkOybYlXmNYGlliC9ipyAqSi46spch1TCPAR30w+hrejrKIHiSw==
-X-Received: by 2002:a05:6000:118e:: with SMTP id
- g14mr52664528wrx.39.1582306256497; 
- Fri, 21 Feb 2020 09:30:56 -0800 (PST)
+ bh=kEZCU8SMVeWrFaW4f8SskHzoBJoLksHA5LudhJgZBAs=;
+ b=VyFThK+uB3tfOunco8sHMx5cZHbQM8hMpEArCqQqeY9pPdxMDwAZsFHhyQs8wYEivM
+ 9CoJhT1DTQEIkUpioRFTXa+Bik2SYr0knFXGy3I39DP/5yk2e4nDEPFbcLx91d08Kv/6
+ w7YztNwOLWWlpQhdL/MYOcNPxNDXBnr9nxncAToMXNfUwDNBop7io0SnQK6Niaz7KwON
+ iv7TYJtQWB6NaDfLNfr7cOQBTObxDn8cUxTtZyYOwk73VclBHCVQ38A68M2Vsa1EbLRe
+ iiKl3Tcu4KNFP6LRXIagaEANRI31JwtDdTQRs+t37spGI2g6rFRBGP/orXdI4pcTokI1
+ 3Vtw==
+X-Gm-Message-State: APjAAAU+EcvdNhEfOLqGq1eb7MFgnEWyjJBnLu1/hakpOVxcp8lbDnp8
+ CH0aFYPJSMb9M/QTW/Wu/Lb9sZOeadRwXMLKXLcKLVrSgyKva/zc/n3EhYmddG6D8LiaM4oHOR6
+ haRyIEFp4EE4CTAo=
+X-Received: by 2002:adf:edd0:: with SMTP id v16mr48855695wro.310.1582306259069; 
+ Fri, 21 Feb 2020 09:30:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxLjsZ7pMGOPIjvUZ886X5oZJeXEr39Z4xA7MlsHceESPee+5Hs9pw7468ZjEUoGKjIVYKtFQ==
+X-Received: by 2002:adf:edd0:: with SMTP id v16mr48855657wro.310.1582306258912; 
+ Fri, 21 Feb 2020 09:30:58 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id h18sm5000871wrv.78.2020.02.21.09.30.54
+ by smtp.gmail.com with ESMTPSA id h18sm5000871wrv.78.2020.02.21.09.30.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 09:30:55 -0800 (PST)
+ Fri, 21 Feb 2020 09:30:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] hw/arm: Let devices own the MemoryRegion they create
-Date: Fri, 21 Feb 2020 18:30:44 +0100
-Message-Id: <20200221173049.18134-3-philmd@redhat.com>
+Subject: [PATCH 3/7] hw/char: Let devices own the MemoryRegion they create
+Date: Fri, 21 Feb 2020 18:30:45 +0100
+Message-Id: <20200221173049.18134-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200221173049.18134-1-philmd@redhat.com>
 References: <20200221173049.18134-1-philmd@redhat.com>
@@ -78,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,424 +115,38 @@ to set the correct ownership.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/arm/exynos4210.c    | 14 +++++++-------
- hw/arm/fsl-imx25.c     | 14 +++++++-------
- hw/arm/fsl-imx31.c     | 10 +++++-----
- hw/arm/fsl-imx6.c      | 10 +++++-----
- hw/arm/fsl-imx6ul.c    | 14 +++++++-------
- hw/arm/msf2-soc.c      |  8 ++++----
- hw/arm/nrf51_soc.c     |  2 +-
- hw/arm/stm32f205_soc.c | 10 +++++-----
- hw/arm/stm32f405_soc.c | 13 +++++++------
- hw/arm/xlnx-zynqmp.c   | 13 ++++++-------
- 10 files changed, 54 insertions(+), 54 deletions(-)
+ hw/char/serial.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 59a27bdd68..d4b05336ee 100644
---- a/hw/arm/exynos4210.c
-+++ b/hw/arm/exynos4210.c
-@@ -305,28 +305,28 @@ static void exynos4210_realize(DeviceState *socdev, E=
-rror **errp)
-     /*** Memory ***/
-=20
-     /* Chip-ID and OMR */
--    memory_region_init_io(&s->chipid_mem, NULL, &exynos4210_chipid_and_omr=
-_ops,
--        NULL, "exynos4210.chipid", sizeof(chipid_and_omr));
-+    memory_region_init_io(&s->chipid_mem, OBJECT(socdev),
-+                          &exynos4210_chipid_and_omr_ops, NULL,
-+                          "exynos4210.chipid", sizeof(chipid_and_omr));
-     memory_region_add_subregion(system_mem, EXYNOS4210_CHIPID_ADDR,
-                                 &s->chipid_mem);
-=20
-     /* Internal ROM */
--    memory_region_init_ram(&s->irom_mem, NULL, "exynos4210.irom",
-+    memory_region_init_ram(&s->irom_mem, OBJECT(socdev), "exynos4210.irom"=
-,
-                            EXYNOS4210_IROM_SIZE, &error_fatal);
-     memory_region_set_readonly(&s->irom_mem, true);
-     memory_region_add_subregion(system_mem, EXYNOS4210_IROM_BASE_ADDR,
-                                 &s->irom_mem);
-     /* mirror of iROM */
--    memory_region_init_alias(&s->irom_alias_mem, NULL, "exynos4210.irom_al=
-ias",
--                             &s->irom_mem,
--                             0,
-+    memory_region_init_alias(&s->irom_alias_mem, OBJECT(socdev),
-+                             "exynos4210.irom_alias", &s->irom_mem, 0,
-                              EXYNOS4210_IROM_SIZE);
-     memory_region_set_readonly(&s->irom_alias_mem, true);
-     memory_region_add_subregion(system_mem, EXYNOS4210_IROM_MIRROR_BASE_AD=
-DR,
-                                 &s->irom_alias_mem);
-=20
-     /* Internal RAM */
--    memory_region_init_ram(&s->iram_mem, NULL, "exynos4210.iram",
-+    memory_region_init_ram(&s->iram_mem, OBJECT(socdev), "exynos4210.iram"=
-,
-                            EXYNOS4210_IRAM_SIZE, &error_fatal);
-     memory_region_add_subregion(system_mem, EXYNOS4210_IRAM_BASE_ADDR,
-                                 &s->iram_mem);
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index da3471b395..a77c873cfe 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -247,16 +247,16 @@ static void fsl_imx25_realize(DeviceState *dev, Error=
- **errp)
-     }
-=20
-     /* initialize 2 x 16 KB ROM */
--    memory_region_init_rom(&s->rom[0], NULL,
--                           "imx25.rom0", FSL_IMX25_ROM0_SIZE, &err);
-+    memory_region_init_rom(&s->rom[0], OBJECT(dev), "imx25.rom0",
-+                           FSL_IMX25_ROM0_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 9298881af9..2ab8b69e03 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -997,7 +997,7 @@ static void serial_io_realize(DeviceState *dev, Error *=
+*errp)
          return;
      }
-     memory_region_add_subregion(get_system_memory(), FSL_IMX25_ROM0_ADDR,
-                                 &s->rom[0]);
--    memory_region_init_rom(&s->rom[1], NULL,
--                           "imx25.rom1", FSL_IMX25_ROM1_SIZE, &err);
-+    memory_region_init_rom(&s->rom[1], OBJECT(dev), "imx25.rom1",
-+                           FSL_IMX25_ROM1_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -265,8 +265,8 @@ static void fsl_imx25_realize(DeviceState *dev, Error *=
-*errp)
-                                 &s->rom[1]);
 =20
-     /* initialize internal RAM (128 KB) */
--    memory_region_init_ram(&s->iram, NULL, "imx25.iram", FSL_IMX25_IRAM_SI=
-ZE,
--                           &err);
-+    memory_region_init_ram(&s->iram, OBJECT(dev), "imx25.iram",
-+                           FSL_IMX25_IRAM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -275,7 +275,7 @@ static void fsl_imx25_realize(DeviceState *dev, Error *=
-*errp)
-                                 &s->iram);
-=20
-     /* internal RAM (128 KB) is aliased over 128 MB - 128 KB */
--    memory_region_init_alias(&s->iram_alias, NULL, "imx25.iram_alias",
-+    memory_region_init_alias(&s->iram_alias, OBJECT(dev), "imx25.iram_alia=
-s",
-                              &s->iram, 0, FSL_IMX25_IRAM_ALIAS_SIZE);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX25_IRAM_ALIAS_=
-ADDR,
-                                 &s->iram_alias);
-diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
-index 55e90d104b..d5057ea49b 100644
---- a/hw/arm/fsl-imx31.c
-+++ b/hw/arm/fsl-imx31.c
-@@ -206,7 +206,7 @@ static void fsl_imx31_realize(DeviceState *dev, Error *=
-*errp)
-     }
-=20
-     /* On a real system, the first 16k is a `secure boot rom' */
--    memory_region_init_rom(&s->secure_rom, NULL, "imx31.secure_rom",
-+    memory_region_init_rom(&s->secure_rom, OBJECT(dev), "imx31.secure_rom"=
-,
-                            FSL_IMX31_SECURE_ROM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -216,7 +216,7 @@ static void fsl_imx31_realize(DeviceState *dev, Error *=
-*errp)
-                                 &s->secure_rom);
-=20
-     /* There is also a 16k ROM */
--    memory_region_init_rom(&s->rom, NULL, "imx31.rom",
-+    memory_region_init_rom(&s->rom, OBJECT(dev), "imx31.rom",
-                            FSL_IMX31_ROM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -226,8 +226,8 @@ static void fsl_imx31_realize(DeviceState *dev, Error *=
-*errp)
-                                 &s->rom);
-=20
-     /* initialize internal RAM (16 KB) */
--    memory_region_init_ram(&s->iram, NULL, "imx31.iram", FSL_IMX31_IRAM_SI=
-ZE,
--                           &err);
-+    memory_region_init_ram(&s->iram, OBJECT(dev), "imx31.iram",
-+                           FSL_IMX31_IRAM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -236,7 +236,7 @@ static void fsl_imx31_realize(DeviceState *dev, Error *=
-*errp)
-                                 &s->iram);
-=20
-     /* internal RAM (16 KB) is aliased over 256 MB - 16 KB */
--    memory_region_init_alias(&s->iram_alias, NULL, "imx31.iram_alias",
-+    memory_region_init_alias(&s->iram_alias, OBJECT(dev), "imx31.iram_alia=
-s",
-                              &s->iram, 0, FSL_IMX31_IRAM_ALIAS_SIZE);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX31_IRAM_ALIAS_=
-ADDR,
-                                 &s->iram_alias);
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index ecc62855f2..ecbd7ce399 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -405,7 +405,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **=
-errp)
-     }
-=20
-     /* ROM memory */
--    memory_region_init_rom(&s->rom, NULL, "imx6.rom",
-+    memory_region_init_rom(&s->rom, OBJECT(dev), "imx6.rom",
-                            FSL_IMX6_ROM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -415,7 +415,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **=
-errp)
-                                 &s->rom);
-=20
-     /* CAAM memory */
--    memory_region_init_rom(&s->caam, NULL, "imx6.caam",
-+    memory_region_init_rom(&s->caam, OBJECT(dev), "imx6.caam",
-                            FSL_IMX6_CAAM_MEM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -425,8 +425,8 @@ static void fsl_imx6_realize(DeviceState *dev, Error **=
-errp)
-                                 &s->caam);
-=20
-     /* OCRAM memory */
--    memory_region_init_ram(&s->ocram, NULL, "imx6.ocram", FSL_IMX6_OCRAM_S=
-IZE,
--                           &err);
-+    memory_region_init_ram(&s->ocram, OBJECT(dev), "imx6.ocram",
-+                           FSL_IMX6_OCRAM_SIZE, &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-@@ -435,7 +435,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **=
-errp)
-                                 &s->ocram);
-=20
-     /* internal OCRAM (256 KB) is aliased over 1 MB */
--    memory_region_init_alias(&s->ocram_alias, NULL, "imx6.ocram_alias",
-+    memory_region_init_alias(&s->ocram_alias, OBJECT(dev), "imx6.ocram_ali=
-as",
-                              &s->ocram, 0, FSL_IMX6_OCRAM_ALIAS_SIZE);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6_OCRAM_ALIAS_=
-ADDR,
-                                 &s->ocram_alias);
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index c405b68d1d..ddb6655678 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -543,7 +543,7 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error =
-**errp)
-     /*
-      * ROM memory
-      */
--    memory_region_init_rom(&s->rom, NULL, "imx6ul.rom",
-+    memory_region_init_rom(&s->rom, OBJECT(dev), "imx6ul.rom",
-                            FSL_IMX6UL_ROM_SIZE, &error_abort);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_ROM_ADDR,
-                                 &s->rom);
-@@ -551,7 +551,7 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error =
-**errp)
-     /*
-      * CAAM memory
-      */
--    memory_region_init_rom(&s->caam, NULL, "imx6ul.caam",
-+    memory_region_init_rom(&s->caam, OBJECT(dev), "imx6ul.caam",
-                            FSL_IMX6UL_CAAM_MEM_SIZE, &error_abort);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_CAAM_MEM_A=
-DDR,
-                                 &s->caam);
-@@ -559,17 +559,17 @@ static void fsl_imx6ul_realize(DeviceState *dev, Erro=
-r **errp)
-     /*
-      * OCRAM memory
-      */
--    memory_region_init_ram(&s->ocram, NULL, "imx6ul.ocram",
--                           FSL_IMX6UL_OCRAM_MEM_SIZE,
--                           &error_abort);
-+    memory_region_init_ram(&s->ocram, OBJECT(dev), "imx6ul.ocram",
-+                           FSL_IMX6UL_OCRAM_MEM_SIZE, &error_abort);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_OCRAM_MEM_=
-ADDR,
-                                 &s->ocram);
-=20
-     /*
-      * internal OCRAM (128 KB) is aliased over 512 KB
-      */
--    memory_region_init_alias(&s->ocram_alias, NULL, "imx6ul.ocram_alias",
--                             &s->ocram, 0, FSL_IMX6UL_OCRAM_ALIAS_SIZE);
-+    memory_region_init_alias(&s->ocram_alias, OBJECT(dev),
-+                             "imx6ul.ocram_alias", &s->ocram, 0,
-+                             FSL_IMX6UL_OCRAM_ALIAS_SIZE);
-     memory_region_add_subregion(get_system_memory(),
-                                 FSL_IMX6UL_OCRAM_ALIAS_ADDR, &s->ocram_ali=
-as);
+-    memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
++    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial"=
+, 8);
+     sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
  }
-diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
-index 8f84692e64..291bf8df43 100644
---- a/hw/arm/msf2-soc.c
-+++ b/hw/arm/msf2-soc.c
-@@ -96,7 +96,7 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Erro=
-r **errp)
-     MemoryRegion *nvm_alias =3D g_new(MemoryRegion, 1);
-     MemoryRegion *sram =3D g_new(MemoryRegion, 1);
-=20
--    memory_region_init_rom(nvm, NULL, "MSF2.eNVM", s->envm_size,
-+    memory_region_init_rom(nvm, OBJECT(dev_soc), "MSF2.eNVM", s->envm_size=
-,
-                            &error_fatal);
-     /*
-      * On power-on, the eNVM region 0x60000000 is automatically
-@@ -104,13 +104,13 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, =
-Error **errp)
-      * start address (0x0). We do not support remapping other eNVM,
-      * eSRAM and DDR regions by guest(via Sysreg) currently.
-      */
--    memory_region_init_alias(nvm_alias, NULL, "MSF2.eNVM",
--                             nvm, 0, s->envm_size);
-+    memory_region_init_alias(nvm_alias, OBJECT(dev_soc), "MSF2.eNVM", nvm,=
- 0,
-+                             s->envm_size);
-=20
-     memory_region_add_subregion(system_memory, ENVM_BASE_ADDRESS, nvm);
-     memory_region_add_subregion(system_memory, 0, nvm_alias);
-=20
--    memory_region_init_ram(sram, NULL, "MSF2.eSRAM", s->esram_size,
-+    memory_region_init_ram(sram, OBJECT(dev_soc), "MSF2.eSRAM", s->esram_s=
-ize,
-                            &error_fatal);
-     memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
-=20
-diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
-index 4817a76ae0..57eff63f0d 100644
---- a/hw/arm/nrf51_soc.c
-+++ b/hw/arm/nrf51_soc.c
-@@ -165,7 +165,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Err=
-or **errp)
-     }
-=20
-     /* STUB Peripherals */
--    memory_region_init_io(&s->clock, NULL, &clock_ops, NULL,
-+    memory_region_init_io(&s->clock, OBJECT(dev_soc), &clock_ops, NULL,
-                           "nrf51_soc.clock", 0x1000);
-     memory_region_add_subregion_overlap(&s->container,
-                                         NRF51_IOMEM_BASE, &s->clock, -1);
-diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
-index 627fd446f5..ac6bd66a34 100644
---- a/hw/arm/stm32f205_soc.c
-+++ b/hw/arm/stm32f205_soc.c
-@@ -93,10 +93,10 @@ static void stm32f205_soc_realize(DeviceState *dev_soc,=
- Error **errp)
-     MemoryRegion *flash =3D g_new(MemoryRegion, 1);
-     MemoryRegion *flash_alias =3D g_new(MemoryRegion, 1);
-=20
--    memory_region_init_ram(flash, NULL, "STM32F205.flash", FLASH_SIZE,
--                           &error_fatal);
--    memory_region_init_alias(flash_alias, NULL, "STM32F205.flash.alias",
--                             flash, 0, FLASH_SIZE);
-+    memory_region_init_ram(flash, OBJECT(dev_soc), "STM32F205.flash",
-+                           FLASH_SIZE, &error_fatal);
-+   memory_region_init_alias(flash_alias, OBJECT(dev_soc),
-+                            "STM32F205.flash.alias", flash, 0, FLASH_SIZE)=
-;
-=20
-     memory_region_set_readonly(flash, true);
-     memory_region_set_readonly(flash_alias, true);
-@@ -104,7 +104,7 @@ static void stm32f205_soc_realize(DeviceState *dev_soc,=
- Error **errp)
-     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
-     memory_region_add_subregion(system_memory, 0, flash_alias);
-=20
--    memory_region_init_ram(sram, NULL, "STM32F205.sram", SRAM_SIZE,
-+    memory_region_init_ram(sram, OBJECT(dev_soc), "STM32F205.sram", SRAM_S=
-IZE,
-                            &error_fatal);
-     memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
-=20
-diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
-index 9bcad97853..4dea1f95ff 100644
---- a/hw/arm/stm32f405_soc.c
-+++ b/hw/arm/stm32f405_soc.c
-@@ -95,14 +95,15 @@ static void stm32f405_soc_realize(DeviceState *dev_soc,=
- Error **errp)
-     Error *err =3D NULL;
-     int i;
-=20
--    memory_region_init_ram(&s->flash, NULL, "STM32F405.flash", FLASH_SIZE,
--                           &err);
-+    memory_region_init_ram(&s->flash, OBJECT(dev_soc), "STM32F405.flash",
-+                           FLASH_SIZE, &err);
-     if (err !=3D NULL) {
-         error_propagate(errp, err);
-         return;
-     }
--    memory_region_init_alias(&s->flash_alias, NULL, "STM32F405.flash.alias=
-",
--                             &s->flash, 0, FLASH_SIZE);
-+    memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
-+                             "STM32F405.flash.alias", &s->flash, 0,
-+                             FLASH_SIZE);
-=20
-     memory_region_set_readonly(&s->flash, true);
-     memory_region_set_readonly(&s->flash_alias, true);
-@@ -110,8 +111,8 @@ static void stm32f405_soc_realize(DeviceState *dev_soc,=
- Error **errp)
-     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->fla=
-sh);
-     memory_region_add_subregion(system_memory, 0, &s->flash_alias);
-=20
--    memory_region_init_ram(&s->sram, NULL, "STM32F405.sram", SRAM_SIZE,
--                           &err);
-+    memory_region_init_ram(&s->sram, OBJECT(dev_soc), "STM32F405.sram",
-+                           SRAM_SIZE, &err);
-     if (err !=3D NULL) {
-         error_propagate(errp, err);
-         return;
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index cab0160ae9..1b28e943cd 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -318,9 +318,9 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error=
+@@ -1106,8 +1106,9 @@ static void serial_mm_realize(DeviceState *dev, Error=
  **errp)
-         ddr_low_size =3D XLNX_ZYNQMP_MAX_LOW_RAM_SIZE;
-         ddr_high_size =3D ram_size - XLNX_ZYNQMP_MAX_LOW_RAM_SIZE;
-=20
--        memory_region_init_alias(&s->ddr_ram_high, NULL,
--                                 "ddr-ram-high", s->ddr_ram,
--                                  ddr_low_size, ddr_high_size);
-+        memory_region_init_alias(&s->ddr_ram_high, OBJECT(dev),
-+                                 "ddr-ram-high", s->ddr_ram, ddr_low_size,
-+                                 ddr_high_size);
-         memory_region_add_subregion(get_system_memory(),
-                                     XLNX_ZYNQMP_HIGH_RAM_START,
-                                     &s->ddr_ram_high);
-@@ -330,16 +330,15 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Err=
-or **errp)
-         ddr_low_size =3D ram_size;
+         return;
      }
 =20
--    memory_region_init_alias(&s->ddr_ram_low, NULL,
--                             "ddr-ram-low", s->ddr_ram,
--                              0, ddr_low_size);
-+    memory_region_init_alias(&s->ddr_ram_low, OBJECT(dev), "ddr-ram-low",
-+                             s->ddr_ram, 0, ddr_low_size);
-     memory_region_add_subregion(get_system_memory(), 0, &s->ddr_ram_low);
-=20
-     /* Create the four OCM banks */
-     for (i =3D 0; i < XLNX_ZYNQMP_NUM_OCM_BANKS; i++) {
-         char *ocm_name =3D g_strdup_printf("zynqmp.ocm_ram_bank_%d", i);
-=20
--        memory_region_init_ram(&s->ocm_ram[i], NULL, ocm_name,
-+        memory_region_init_ram(&s->ocm_ram[i], OBJECT(dev), ocm_name,
-                                XLNX_ZYNQMP_OCM_RAM_SIZE, &error_fatal);
-         memory_region_add_subregion(get_system_memory(),
-                                     XLNX_ZYNQMP_OCM_RAM_0_ADDRESS +
+-    memory_region_init_io(&s->io, NULL, &serial_mm_ops[smm->endianness], s=
+mm,
+-                          "serial", 8 << smm->regshift);
++    memory_region_init_io(&s->io, OBJECT(dev),
++                          &serial_mm_ops[smm->endianness], smm, "serial",
++                          8 << smm->regshift);
+     sysbus_init_mmio(SYS_BUS_DEVICE(smm), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
+ }
 --=20
 2.21.1
 
