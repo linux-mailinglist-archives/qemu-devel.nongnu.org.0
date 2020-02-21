@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7CD167DF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:07:23 +0100 (CET)
-Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF1F167E07
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:09:21 +0100 (CET)
+Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j581a-00060G-Hk
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:07:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56115)
+	id 1j583U-0008Er-LU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:09:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j580n-0005Uc-1W
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:06:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j581y-0006Tf-Uj
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j580m-0001Rz-3O
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:06:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35177
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j580l-0001Rn-Vr
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:06:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582290391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6oloexiJP1nW3zyjudqbh590kp97Lih1IZhdsUxlerw=;
- b=a2+CpXnRZduzILdA/EdcFQf5Wic39q0vJm3mER3e408l4iXTBvmp4XtLL40GFASo4RAXEm
- aBlpelq+NqpjKTEyCfvJuSOuAd7PbtGZ5LoTIbSGfUteNa7d1uIa/vJEMLPRtN9setG0ge
- ZQYouqzJHvRAcsMpzNz85O71qd/CyNQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-2lKHwCDgP1-5poTpUgOQRg-1; Fri, 21 Feb 2020 08:06:29 -0500
-X-MC-Unique: 2lKHwCDgP1-5poTpUgOQRg-1
-Received: by mail-wr1-f70.google.com with SMTP id s13so982838wrb.21
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:06:29 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1j581x-0002RU-0o
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:46 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53628)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j581w-0002Qp-Ng
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:44 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id s10so1729475wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uak+wgbrDrO5b+AF4G+eImQuRv3ZApWhUwS034srXT4=;
+ b=IVAzbqvgnymki1tZlrYXIP5WorQUtSKwUNgklI3PVFMg1n6JYKJwBdSssTowDBVP0w
+ Mf64uBUh6Ioq0hssdMCxlbwsOzFwp9L3PFvB8crTdMVq1xa3JXWsB7OBAGx8rhTcR6dO
+ 8WWzOtaY3IjfbHE8/VIodWGEsGlpGa2dy25InJnVO5hufBIRvUJGAvgaksR8bTHwwDN/
+ ZMLG1rCFrCZhOGFWvBpV7FxusT5bhVpSb9TbwcGdiuh/NrTTsOl+oi15QZmZ3VurYm+L
+ UWPuww0ZdeF5YSODlpo5A1pHUzm8ZXM863JGESW8olobOupN1uR/ReA+1sQj5Hj+pde8
+ Am6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LN16A1JR1h1LPQmNXlvB2zaapJeu++hOFHgo38e1o+E=;
- b=IGk6YnKCKIvvZIO+6giCkxsV7PuDJVk+9h7Q/8o2q9uDL/1PFwBVSXRfN9ifLALIi1
- CIsSpfln0HoNJb57BgY+L1/QENcA2D43Wi+mvYVcbLHuUIa8av0yMLsEQ1GZVmGOGpXL
- h2ssLSC6aBu2BFDgINBuLYcTQlZp02rMo0fdQ2CKAvVd4VAR4MkCajtUeXI3g/9T/496
- gbEFmCV6MTf3ANzSwGkrfTUiyWqxQO+l7YaxFhkdbSQGvuUZBIDAyWw8c/T3vPjxHZwq
- wXlerClQIPoLABhf+tU33v4LKXr11BBz7QMvr0mY3gKGhNEo16tyXk45ZZt863QzsCW3
- fA7w==
-X-Gm-Message-State: APjAAAVVL+OBkySr9D19kBPcOqeczhIjEny6a5z2rL/2cgfaUoYtsh7D
- m1ePCfzk1AFJ5h9/Vo+0LtWzpXO/KkOWB8D9VwcGjgp5b2g8h22y3DnYyQqkh6+Hw3ILgT1bG7o
- xzM66ZT6RXvZv2LE=
-X-Received: by 2002:a7b:cd92:: with SMTP id y18mr3921703wmj.133.1582290388731; 
- Fri, 21 Feb 2020 05:06:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxb5y1m6GS75VROutn2CL+lyuTGJRkfk7JIM2WfD7XXTBxbX2ERsiwpwF17y0HyHuud751U1g==
-X-Received: by 2002:a7b:cd92:: with SMTP id y18mr3921636wmj.133.1582290388062; 
- Fri, 21 Feb 2020 05:06:28 -0800 (PST)
-Received: from [192.168.178.40] ([151.20.135.128])
- by smtp.gmail.com with ESMTPSA id l15sm3889376wrv.39.2020.02.21.05.06.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Feb 2020 05:06:27 -0800 (PST)
-Subject: Re: [PATCH 5/5] aio-posix: make AioHandler dispatch O(1) with epoll
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20200214171712.541358-1-stefanha@redhat.com>
- <20200214171712.541358-6-stefanha@redhat.com>
- <38c8e61b-377b-07bd-f55b-a1a773b72701@redhat.com>
- <20200221125948.GI1484511@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <425318ef-0b19-983b-b2ea-93754c48cb8d@redhat.com>
-Date: Fri, 21 Feb 2020 14:06:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=uak+wgbrDrO5b+AF4G+eImQuRv3ZApWhUwS034srXT4=;
+ b=hUwY8Mn72Fo+mSt5Vptx1qYDBAl0COjVGj/uc/eDNPmitty75bojoVzAfnVqA/G8xw
+ 6HJHFOYk0rRhLRhbzq6c4fvhlOiU3vMadSFHfM7PqMFPZzE5D3g8sHHeKQWOEx0Lcgp1
+ XV6QDH7hXsi7oBbTY0I4QabB72ZebHTfIwneGtZvqhzolXS0sSbl0/r67zyReTNkZcMe
+ aMKvLrf15btA2l2TyoXL+Yd+zctWBWRhYyf/vxJMk8E6pFfWzMCvQckPROvl/cT3lbkS
+ 1fLEEOwhGz2x+SkkKqWf8QsK5hSvL+evjfsUIXhZQC1amKWAE5OhG/flJyvQeV5d9v/l
+ SkKg==
+X-Gm-Message-State: APjAAAUs/J/o8d2pj6KEX7VS4sM5lb4+f/S56qSVJcLXepiBSPzi4HBu
+ qqEXf43qEfHGJUzWKYOqR3xRQFZk5itMIA==
+X-Google-Smtp-Source: APXvYqyi0+e+WEseyZuJSkfbVnKExsYYRYmY2yMHx6vat1EAk4M6Bls7ZIz8XzjsDVtWswiZ/4ygHg==
+X-Received: by 2002:a7b:cf39:: with SMTP id m25mr3798988wmg.146.1582290462756; 
+ Fri, 21 Feb 2020 05:07:42 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Feb 2020 05:07:42 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/52] target-arm queue
+Date: Fri, 21 Feb 2020 13:06:48 +0000
+Message-Id: <20200221130740.7583-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200221125948.GI1484511@stefanha-x1.localdomain>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,40 +77,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/02/20 13:59, Stefan Hajnoczi wrote:
-> 1. It doesn't crash if the node is currently not on a list.
-> 2. It clears the node's linked list pointers so that future linked
->    list operations (like QLIST_SAFE_REMOVE()) aren't accidentally
->    performed on stale pointers.
->
-> The node has a long lifespan and will be inserted into ready_lists
-> multiple times.  We need to safely remove it from ready_list to protect
-> against a corruption the next time the node is inserted into a
-> ready_list again:
+Big pullreq this week, though none of the new features are
+particularly earthshaking. Most of the bulk is from code cleanup
+patches from me or rth.
 
-Ah, so the one I singled out is for (2) (we know the node is currently
-on a list), while the one below is for (1).  Would it make sense to move
-(2) to Q*_REMOVE_*?  We can do it separately after this pull request.
+thanks
+-- PMM
 
->   /* Add a handler to a ready list */
->   static void add_ready_handler(AioHandlerList *ready_list,
->                                 AioHandler *node,
->                                 int revents)
->   {
->       QLIST_SAFE_REMOVE(node, node_ready); /* remove from nested parent's=
- list */
->       ^---- would cause corruption if node->node_ready was stale!
->=20
-> Would you like me to add a comment?
-No, it's okay.
+The following changes since commit b651b80822fa8cb66ca30087ac7fbc75507ae5d2:
 
-Paolo
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.0-pull-request' into staging (2020-02-20 17:35:42 +0000)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200221
+
+for you to fetch changes up to 270a679b3f950d7c4c600f324aab8bff292d0971:
+
+  target/arm: Add missing checks for fpsp_v2 (2020-02-21 12:54:25 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * aspeed/scu: Implement chip ID register
+ * hw/misc/iotkit-secctl: Fix writing to 'PPC Interrupt Clear' register
+ * mainstone: Make providing flash images non-mandatory
+ * z2: Make providing flash images non-mandatory
+ * Fix failures to flush SVE high bits after AdvSIMD INS/ZIP/UZP/TRN/TBL/TBX/EXT
+ * Minor performance improvement: spend less time recalculating hflags values
+ * Code cleanup to isar_feature function tests
+ * Implement ARMv8.1-PMU and ARMv8.4-PMU extensions
+ * Bugfix: correct handling of PMCR_EL0.LC bit
+ * Bugfix: correct definition of PMCRDP
+ * Correctly implement ACTLR2, HACTLR2
+ * allwinner: Wire up USB ports
+ * Vectorize emulation of USHL, SSHL, PMUL*
+ * xilinx_spips: Correct the number of dummy cycles for the FAST_READ_4 cmd
+ * sh4: Fix PCI ISA IO memory subregion
+ * Code cleanup to use more isar_feature tests and fewer ARM_FEATURE_* tests
+
+----------------------------------------------------------------
+Francisco Iglesias (1):
+      xilinx_spips: Correct the number of dummy cycles for the FAST_READ_4 cmd
+
+Guenter Roeck (6):
+      mainstone: Make providing flash images non-mandatory
+      z2: Make providing flash images non-mandatory
+      hw: usb: hcd-ohci: Move OHCISysBusState and TYPE_SYSBUS_OHCI to include file
+      hcd-ehci: Introduce "companion-enable" sysbus property
+      arm: allwinner: Wire up USB ports
+      sh4: Fix PCI ISA IO memory subregion
+
+Joel Stanley (2):
+      aspeed/scu: Create separate write callbacks
+      aspeed/scu: Implement chip ID register
+
+Peter Maydell (21):
+      target/arm: Add _aa32_ to isar_feature functions testing 32-bit ID registers
+      target/arm: Check aa32_pan in take_aarch32_exception(), not aa64_pan
+      target/arm: Add isar_feature_any_fp16 and document naming/usage conventions
+      target/arm: Define and use any_predinv isar_feature test
+      target/arm: Factor out PMU register definitions
+      target/arm: Add and use FIELD definitions for ID_AA64DFR0_EL1
+      target/arm: Use FIELD macros for clearing ID_DFR0 PERFMON field
+      target/arm: Define an aa32_pmu_8_1 isar feature test function
+      target/arm: Add _aa64_ and _any_ versions of pmu_8_1 isar checks
+      target/arm: Stop assuming DBGDIDR always exists
+      target/arm: Move DBGDIDR into ARMISARegisters
+      target/arm: Read debug-related ID registers from KVM
+      target/arm: Implement ARMv8.1-PMU extension
+      target/arm: Implement ARMv8.4-PMU extension
+      target/arm: Provide ARMv8.4-PMU in '-cpu max'
+      target/arm: Correct definition of PMCRDP
+      target/arm: Correct handling of PMCR_EL0.LC bit
+      target/arm: Test correct register in aa32_pan and aa32_ats1e1 checks
+      target/arm: Use isar_feature function for testing AA32HPD feature
+      target/arm: Use FIELD_EX32 for testing 32-bit fields
+      target/arm: Correctly implement ACTLR2, HACTLR2
+
+Philippe Mathieu-Daudé (1):
+      hw/misc/iotkit-secctl: Fix writing to 'PPC Interrupt Clear' register
+
+Richard Henderson (21):
+      target/arm: Flush high bits of sve register after AdvSIMD EXT
+      target/arm: Flush high bits of sve register after AdvSIMD TBL/TBX
+      target/arm: Flush high bits of sve register after AdvSIMD ZIP/UZP/TRN
+      target/arm: Flush high bits of sve register after AdvSIMD INS
+      target/arm: Use bit 55 explicitly for pauth
+      target/arm: Fix select for aa64_va_parameters_both
+      target/arm: Remove ttbr1_valid check from get_phys_addr_lpae
+      target/arm: Split out aa64_va_parameter_tbi, aa64_va_parameter_tbid
+      target/arm: Vectorize USHL and SSHL
+      target/arm: Convert PMUL.8 to gvec
+      target/arm: Convert PMULL.64 to gvec
+      target/arm: Convert PMULL.8 to gvec
+      target/arm: Rename isar_feature_aa32_simd_r32
+      target/arm: Use isar_feature_aa32_simd_r32 more places
+      target/arm: Set MVFR0.FPSP for ARMv5 cpus
+      target/arm: Add isar_feature_aa32_simd_r16
+      target/arm: Rename isar_feature_aa32_fpdp_v2
+      target/arm: Add isar_feature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
+      target/arm: Perform fpdp_v2 check first
+      target/arm: Replace ARM_FEATURE_VFP3 checks with fp{sp, dp}_v3
+      target/arm: Add missing checks for fpsp_v2
+
+ hw/usb/hcd-ohci.h              |  16 ++
+ include/hw/arm/allwinner-a10.h |   6 +
+ target/arm/cpu.h               | 173 ++++++++++++---
+ target/arm/helper-sve.h        |   2 +
+ target/arm/helper.h            |  21 +-
+ target/arm/internals.h         |  47 +++-
+ target/arm/translate.h         |   6 +
+ hw/arm/allwinner-a10.c         |  43 ++++
+ hw/arm/mainstone.c             |  11 +-
+ hw/arm/z2.c                    |   6 -
+ hw/intc/armv7m_nvic.c          |  30 +--
+ hw/misc/aspeed_scu.c           |  93 ++++++--
+ hw/misc/iotkit-secctl.c        |   2 +-
+ hw/sh4/sh_pci.c                |  11 +-
+ hw/ssi/xilinx_spips.c          |   2 +-
+ hw/usb/hcd-ehci-sysbus.c       |   2 +
+ hw/usb/hcd-ohci.c              |  15 --
+ linux-user/arm/signal.c        |   4 +-
+ linux-user/elfload.c           |   4 +-
+ target/arm/arch_dump.c         |  11 +-
+ target/arm/cpu.c               | 175 +++++++--------
+ target/arm/cpu64.c             |  58 +++--
+ target/arm/debug_helper.c      |   6 +-
+ target/arm/helper.c            | 472 +++++++++++++++++++++++------------------
+ target/arm/kvm32.c             |  25 +++
+ target/arm/kvm64.c             |  46 ++++
+ target/arm/m_helper.c          |  11 +-
+ target/arm/machine.c           |   3 +-
+ target/arm/neon_helper.c       | 117 ----------
+ target/arm/pauth_helper.c      |   3 +-
+ target/arm/translate-a64.c     |  92 ++++----
+ target/arm/translate-vfp.inc.c | 263 ++++++++++++++---------
+ target/arm/translate.c         | 356 ++++++++++++++++++++++++++-----
+ target/arm/vec_helper.c        | 211 ++++++++++++++++++
+ target/arm/vfp_helper.c        |   2 +-
+ 35 files changed, 1564 insertions(+), 781 deletions(-)
 
