@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3EC168232
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 16:48:14 +0100 (CET)
-Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38101681A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 16:30:32 +0100 (CET)
+Received: from localhost ([::1]:59738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5AXF-00083Y-B6
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 10:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48990)
+	id 1j5AG7-0008GW-WD
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 10:30:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j54Zp-0006eu-70
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:26:30 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j5AEs-0007Kc-FH
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:29:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j54Zm-0005ro-SO
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:26:29 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43348)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j54Zm-0005kR-Mn
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 04:26:26 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j54Zl-0001i1-1q
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 09:26:25 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0CD102E80C0
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 09:26:25 +0000 (UTC)
+ (envelope-from <stefanha@redhat.com>) id 1j5AEr-0001v6-4R
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:29:13 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52051
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j5AEr-0001uU-0t
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 10:29:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582298951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5oGiI9Ez6zBo1YbY2paGvIgRUjI17CEfivu6Tunwdj4=;
+ b=axcKzau1ujxDKFBVpAHSuzW9EeHRd28sCN+Qou9vAfrgrErujcNbUQeMZC2Vxm0eXlxFww
+ vNmP8OCWVx05zcVcHJaiFqpfGxjEEM0nbFjB3SlKhmKfQTGrVoeXpeMl7uKnL5eIAcyjSV
+ Cgc4L7omIiosTle6iqLbNr34XsGmnwo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-6g36JQMhMBKUbRsy3X4KnQ-1; Fri, 21 Feb 2020 10:29:07 -0500
+X-MC-Unique: 6g36JQMhMBKUbRsy3X4KnQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5DFA801E66;
+ Fri, 21 Feb 2020 15:29:06 +0000 (UTC)
+Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A924627096;
+ Fri, 21 Feb 2020 15:29:03 +0000 (UTC)
+Date: Fri, 21 Feb 2020 15:29:02 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 5/5] aio-posix: make AioHandler dispatch O(1) with epoll
+Message-ID: <20200221152902.GC1511783@stefanha-x1.localdomain>
+References: <20200214171712.541358-1-stefanha@redhat.com>
+ <20200214171712.541358-6-stefanha@redhat.com>
+ <38c8e61b-377b-07bd-f55b-a1a773b72701@redhat.com>
+ <20200221125948.GI1484511@stefanha-x1.localdomain>
+ <425318ef-0b19-983b-b2ea-93754c48cb8d@redhat.com>
+ <20200221144708.GD1501077@stefanha-x1.localdomain>
+ <607d1b80-f66f-6519-b3e5-af48e1a65900@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 21 Feb 2020 09:15:39 -0000
-From: Jezze <jens.nyberg@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gnif jens-nyberg
-X-Launchpad-Bug-Reporter: Geoffrey McRae (gnif)
-X-Launchpad-Bug-Modifier: Jezze (jens-nyberg)
-References: <150774787109.964.13450141235232669497.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158227653971.29547.18415763087314659504.malone@chaenomeles.canonical.com>
-Subject: [Bug 1722884] Re: keyboard input while mouse moving triggers mouse
- failure
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 921388ec79aa10e891b9a9b34e84400ef4f78664
+In-Reply-To: <607d1b80-f66f-6519-b3e5-af48e1a65900@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QRj9sO5tAVLaXnSD"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Fri, 21 Feb 2020 10:46:40 -0500
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,51 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1722884 <1722884@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I tried to look into this as well. One finding I have made is that the
-problem happens for -display gtk but not with -display sdl so I'm
-thinking it might not be reading of data from the ps2 controller that is
-problematic but the writing to it. I will need to investigate further.
+--QRj9sO5tAVLaXnSD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Fri, Feb 21, 2020 at 04:04:10PM +0100, Paolo Bonzini wrote:
+> On 21/02/20 15:47, Stefan Hajnoczi wrote:
+> >>>       QLIST_SAFE_REMOVE(node, node_ready); /* remove from nested pare=
+nt's list */
+> >>>       ^---- would cause corruption if node->node_ready was stale!
+> >>>
+> >>> Would you like me to add a comment?
+> >> No, it's okay.
+> > Are you happy with this series?
+>=20
+> Yes.  Let's keep the Q*_REMOVE cleanup on the todo list.  I'd keep
+> Q*_SAFE_REMOVE, but clear the pointer unconditionally in Q*_REMOVE so
+> that we can have something like Q*_IN_LIST too.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1722884
+QLIST_IS_INSERTED() is part of this patch series, although I can rename
+it to Q*_IN_LIST() and cover all linked list variants. :)
 
-Title:
-  keyboard input while mouse moving triggers mouse failure
+> > Shall I include it in my next pull request or do you want to merge it?
+>=20
+> No, it's yours.
 
-Status in QEMU:
-  New
+Thanks!
 
-Bug description:
-  When QEMU is getting a ton of mouse input events if keys are pressed
-  on the keyboard the scan code will be corrupted causing erroneous
-  behavior. I have confirmed this problem in the latest version in git
-  (530049bc1dcc24c1178a29d99ca08b6dd08413e0).
+Stefan
 
-  After the erroneous behavior the operating system issues a keyboard
-  reset which prevents the mouse from functioning until the operating
-  system is restarted.
+--QRj9sO5tAVLaXnSD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  This seems to only occur if the PS2 mouse is being used as the input,
-  the tablet input device doesn't exhibit this behavior.
+-----BEGIN PGP SIGNATURE-----
 
-  The same problem was reported here also:
-  https://openxt.atlassian.net/browse/OXT-562
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5P9z4ACgkQnKSrs4Gr
+c8gAhAf8DYlnsM35zMCy3OSEpf+J1340nHCjwekImTvtNf8vVnZd+65vZZW9qH4C
+NktEZkpOck0uKa0E+jAVnfxAfHVGgZsG1oqONWe+2Pb0G3vk1n5PAccLJ/ZCYikC
+algWnLhl+Of3BOCj4ryJ6vqOAUfvcLmnNEBkzdvvPO680wZ5jULN/nYLnJlDg1+e
+OiM4fpTDwZBR/LHslHujebmoxN2NdIZcNb8U+9DPFvUFV4tBAYCiTcEIFe7YgfUs
+PrMm73xocHzrjI1wPabhu99nTs20mL66iD690KLnBi4fmLcOBa+loOnDUKYT1tN0
+8sBNrbEfw3DG7gvnKFIK2XuXvNJY5w==
+=37zH
+-----END PGP SIGNATURE-----
 
-  Host  : Debian 9
-  CPU   : Ryzen 1700X
-  RAM   : 16GB
-  Kernel: 4.12.0-0.bpo.2-amd64
+--QRj9sO5tAVLaXnSD--
 
-  Guest : Windows 10 (KVM)
-  RAM   : 8GB (1GB Huge pages)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1722884/+subscriptions
 
