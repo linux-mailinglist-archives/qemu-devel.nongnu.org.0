@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123BA167E69
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:22:51 +0100 (CET)
-Received: from localhost ([::1]:57510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6EF167E75
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:25:05 +0100 (CET)
+Received: from localhost ([::1]:57564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58GY-0005DY-2k
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:22:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56810)
+	id 1j58Ii-0000DE-Jh
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:25:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j582U-0007Sv-P4
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j582V-0007VJ-Im
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j582T-00035L-Ap
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:18 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37066)
+ (envelope-from <peter.maydell@linaro.org>) id 1j582U-000362-Gk
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:19 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42010)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j582T-00034w-3Q
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:17 -0500
-Received: by mail-wm1-x343.google.com with SMTP id a6so1777892wme.2
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:17 -0800 (PST)
+ id 1j582U-00035h-AP
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:18 -0500
+Received: by mail-wr1-x444.google.com with SMTP id k11so1984905wrd.9
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FgrSznS6GQA2r5mNaBbVlZPpkueYI11Yncfhcl8nXSI=;
- b=TWqNjT1oW4nBL+siIovxN33o+NgO5a+tqblWw8YdCWdkmqq/9S1NxRafrrOc2AcBUx
- URAhxMxcMa/1JeASX7LCg5s7r+XFOWgt36IsFkj6GJDqAS72+VWbpt+iPIDnMTpgz99H
- 1mH+2Fol6x+63UeYR6n0QrhKuePBVKzj0bl8e/IzkIVnJPdcymiYPgTSCWQBXbouju+y
- v1YBse5lIsLF2OoLMS/AWpGbJ/kJLxh3Ha4dCfH8K9Nt1HLB0/lkJfE/EMnuca0/E3+g
- ICEUC2mZXmYbZVIJfMsQlY6Bw/IF+wytaQOZRMN1uFApcMIxwoq4eJLZraSjUX/r6MKm
- Anow==
+ bh=JZA6WWoqNvxJ8t7RB0a9zhQRcd4pYujNBUcXHYtibLo=;
+ b=GFYANrnzRAH4Ceb53VS3wMUVL76i37br/wfLhM2cU54NCz6Nv4y8tFGyz8/li5dzww
+ U9pF9/u0pJfieitDmJicMbzOZnw2s7dcC9oIoaPaiUmgIJh6b7N5jRtEeVwz//ovcrsR
+ JMyOPD3Sq/Qp3AcrpTbTs9vYUcWGkwOuCms2GY0vFJb2ISYfwTDBtm6bI/Rm89a1JIRi
+ w+TKHaqrAfIDPtbzJktM6f3ZP5THQ4LXfM80L0uO/tNgBIys505M4CIB1aiq6H/JFBrD
+ /E54xqxW9IfnerU0Ib19assSmgJkMkVEdh/WVXYSoq771AbLnrBQtiRYY5BusO+k1RHt
+ NJ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FgrSznS6GQA2r5mNaBbVlZPpkueYI11Yncfhcl8nXSI=;
- b=bx9yFmAmKd35r06WlUgRMynoKypDgqgn4wRsNlf8E9KTpvJVcbv3n7NBiTHZK9Kv9b
- LFlyD705H52/bJsQbv0LXV3H4CoAt4GJsYRnoSvL1AphvKo7ED64RcVbCPakGzKNcs2O
- XBO8XMymSD3CPjKNQiBoJ+wz358TcY4sEp24lryz7a21YnSkaVuiJX76Luqwka0rzS6f
- 1F2JFAvAykf2eaUXA4fOPh7PqJB0grvS438KKf7qeIvbPtIg9H8s1X0cQJsEZGQ3ckQB
- d6VwSbIhUo9RmaX/nMr3rAt2DLIa+HK4kuRNntDZaL+KG+InL3XMbAnNi/368wjFfmr/
- IZsw==
-X-Gm-Message-State: APjAAAXSbGj4d6TkDy8qHAXxiDCjV8xHtjChb70GU9dU315x4DrGfqT9
- MMDKxC0x7uE0mWZ2RWVjVhwsshpXr1IcEA==
-X-Google-Smtp-Source: APXvYqyXIucbqCKyD0rnmJc6s2WICrYIgd6sWDnDvNhIuKaVxkn5/1n+BrA89ebcKwYQYPICITKTcA==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr3702295wmk.131.1582290495626; 
- Fri, 21 Feb 2020 05:08:15 -0800 (PST)
+ bh=JZA6WWoqNvxJ8t7RB0a9zhQRcd4pYujNBUcXHYtibLo=;
+ b=saVfRK2Rx4Caxuzpf72cfExH+O3V3hNyY1sybROdOfGgQGfijblKDkO/H7xKnl33XF
+ IBNsB1WofTLRBcaFUAiriweOc+a/OduqKNuQ0g6PZH22KE8tIyf4z+YwZZw4ay8gruMn
+ rKS8e89F7LaP88TGVMrOKMRO4l6hmv+/ZIjKrTt9dcmSYA13n+eFzkL/CvKxEbYvwq/1
+ YJL9WqJNPqEdHNn2HBq9EVFRAY+f0uZ9MdsuiWSitA+BRObb4sT3D9yWEWqwn/yfS9ms
+ DEC/Vf/YAV49ByblJJA4uUlBZCDg8XZbyItb5eTA7FZiw31zvkCc0KIVsO21OArifnlp
+ aHpg==
+X-Gm-Message-State: APjAAAVeMF7pbzljnE5DxGrsFEz3fafzzwp2HyeKbWzNJAc1qretttZk
+ 6Bo1BtWloGLAqXenapsVUseQKTp64gAysg==
+X-Google-Smtp-Source: APXvYqyZ7uCMCW+UANk5+sM+nF4zzE2mgPNuzSGRRtvva6BBtA5xZSA68ubIayFraQvWUjHryZuuAg==
+X-Received: by 2002:a5d:6987:: with SMTP id g7mr47294161wru.422.1582290496812; 
+ Fri, 21 Feb 2020 05:08:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.14
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:08:14 -0800 (PST)
+ Fri, 21 Feb 2020 05:08:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/52] target/arm: Implement ARMv8.4-PMU extension
-Date: Fri, 21 Feb 2020 13:07:15 +0000
-Message-Id: <20200221130740.7583-28-peter.maydell@linaro.org>
+Subject: [PULL 28/52] target/arm: Provide ARMv8.4-PMU in '-cpu max'
+Date: Fri, 21 Feb 2020 13:07:16 +0000
+Message-Id: <20200221130740.7583-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,130 +81,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ARMv8.4-PMU extension adds:
- * one new required event, STALL
- * one new system register PMMIR_EL1
-
-(There are also some more L1-cache related events, but since
-we don't implement any cache we don't provide these, in the
-same way we don't provide the base-PMUv3 cache events.)
-
-The STALL event "counts every attributable cycle on which no
-attributable instruction or operation was sent for execution on this
-PE".  QEMU doesn't stall in this sense, so this is another
-always-reads-zero event.
-
-The PMMIR_EL1 register is a read-only register providing
-implementation-specific information about the PMU; currently it has
-only one field, SLOTS, which defines behaviour of the STALL_SLOT PMU
-event.  Since QEMU doesn't implement the STALL_SLOT event, we can
-validly make the register read zero.
+Set the ID register bits to provide ARMv8.4-PMU (and implicitly
+also ARMv8.1-PMU) in the 'max' CPU.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200214175116.9164-15-peter.maydell@linaro.org
+Message-id: 20200214175116.9164-16-peter.maydell@linaro.org
 ---
- target/arm/cpu.h    | 18 ++++++++++++++++++
- target/arm/helper.c | 22 +++++++++++++++++++++-
- 2 files changed, 39 insertions(+), 1 deletion(-)
+ target/arm/cpu64.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e043932fcb1..cfa9fd6c1b9 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3519,6 +3519,13 @@ static inline bool isar_feature_aa32_pmu_8_1(const ARMISARegisters *id)
-         FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) != 0xf;
- }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index f8f74a7ecda..c9452894035 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -703,6 +703,14 @@ static void aarch64_max_initfn(Object *obj)
+         u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
+         cpu->id_mmfr3 = u;
  
-+static inline bool isar_feature_aa32_pmu_8_4(const ARMISARegisters *id)
-+{
-+    /* 0xf means "non-standard IMPDEF PMU" */
-+    return FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) >= 5 &&
-+        FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) != 0xf;
-+}
++        u = cpu->isar.id_aa64dfr0;
++        u = FIELD_DP64(u, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
++        cpu->isar.id_aa64dfr0 = u;
 +
- /*
-  * 64-bit feature tests via id registers.
-  */
-@@ -3704,6 +3711,12 @@ static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
-         FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
- }
- 
-+static inline bool isar_feature_aa64_pmu_8_4(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 5 &&
-+        FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
-+}
++        u = cpu->isar.id_dfr0;
++        u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
++        cpu->isar.id_dfr0 = u;
 +
- /*
-  * Feature tests for "does this exist in either 32-bit or 64-bit?"
-  */
-@@ -3722,6 +3735,11 @@ static inline bool isar_feature_any_pmu_8_1(const ARMISARegisters *id)
-     return isar_feature_aa64_pmu_8_1(id) || isar_feature_aa32_pmu_8_1(id);
- }
- 
-+static inline bool isar_feature_any_pmu_8_4(const ARMISARegisters *id)
-+{
-+    return isar_feature_aa64_pmu_8_4(id) || isar_feature_aa32_pmu_8_4(id);
-+}
-+
- /*
-  * Forward to the above feature tests given an ARMCPU pointer.
-  */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2fe09c1d604..72c9c7e694a 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1130,6 +1130,12 @@ static bool pmu_8_1_events_supported(CPUARMState *env)
-     return cpu_isar_feature(any_pmu_8_1, env_archcpu(env));
- }
- 
-+static bool pmu_8_4_events_supported(CPUARMState *env)
-+{
-+    /* For events which are supported in any v8.1 PMU */
-+    return cpu_isar_feature(any_pmu_8_4, env_archcpu(env));
-+}
-+
- static uint64_t zero_event_get_count(CPUARMState *env)
- {
-     /* For events which on QEMU never fire, so their count is always zero */
-@@ -1170,6 +1176,11 @@ static const pm_event pm_events[] = {
-       .get_count = zero_event_get_count,
-       .ns_per_count = zero_event_ns_per,
-     },
-+    { .number = 0x03c, /* STALL */
-+      .supported = pmu_8_4_events_supported,
-+      .get_count = zero_event_get_count,
-+      .ns_per_count = zero_event_ns_per,
-+    },
- };
- 
- /*
-@@ -1178,7 +1189,7 @@ static const pm_event pm_events[] = {
-  * should first be updated to something sparse instead of the current
-  * supported_event_map[] array.
-  */
--#define MAX_EVENT_ID 0x24
-+#define MAX_EVENT_ID 0x3c
- #define UNSUPPORTED_EVENT UINT16_MAX
- static uint16_t supported_event_map[MAX_EVENT_ID + 1];
- 
-@@ -6414,6 +6425,15 @@ static void define_pmu_regs(ARMCPU *cpu)
-         };
-         define_arm_cp_regs(cpu, v81_pmu_regs);
-     }
-+    if (cpu_isar_feature(any_pmu_8_4, cpu)) {
-+        static const ARMCPRegInfo v84_pmmir = {
-+            .name = "PMMIR_EL1", .state = ARM_CP_STATE_BOTH,
-+            .opc0 = 3, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 6,
-+            .access = PL1_R, .accessfn = pmreg_access, .type = ARM_CP_CONST,
-+            .resetvalue = 0
-+        };
-+        define_one_arm_cp_reg(cpu, &v84_pmmir);
-+    }
- }
- 
- /* We don't know until after realize whether there's a GICv3
+         /*
+          * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
+          * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
 -- 
 2.20.1
 
