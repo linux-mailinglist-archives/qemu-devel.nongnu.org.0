@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C976B167FB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 15:11:41 +0100 (CET)
-Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB992167F80
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 15:03:27 +0100 (CET)
+Received: from localhost ([::1]:58626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j591o-0008Bd-Tx
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 09:11:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42597)
+	id 1j58tr-0003th-2M
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 09:03:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j590w-0007Mp-ED
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:10:47 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j58t5-0003LR-20
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:02:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j590v-0002Xi-Av
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:10:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43918)
+ (envelope-from <peter.maydell@linaro.org>) id 1j58t3-00069z-SU
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:02:38 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37161)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j590v-0002Wv-54
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:10:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j590t-0003cG-SW
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 14:10:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D1AD92E80C3
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 14:10:43 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j58t3-00069H-Mk
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:02:37 -0500
+Received: by mail-oi1-x242.google.com with SMTP id q84so1653996oic.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 06:02:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ustmWK5mEvdAZcOBmaOSg4VtBioTYnOuWkx56ShVqRc=;
+ b=ksSrv+JQp6iia60+jXznBn1bDqYQPbMAYUjTQvr4KXPkqeSD2mwVnvhvOCiEd0nYMO
+ +fX3gUUCsG9jjZzmzjrXMHiRcjpNmmuHttONuw+J+gqM1rbz70fXx123EtxWjaiyUmoZ
+ QdwQXxqrzk+7yloQ46ZuZ2no4EmQOrZiRX9c3/FS4Uq6QmCtL0plHzM83fzklhUBE/kf
+ r91ZvTUhs0Oo4BE8652GkH8ZZXdXIwahEzUHL5SfSWE9AytFKP9tlQ8unhXEMNj1IH3m
+ wAlHaVkOqR53LXl85gOguvTn7u31lxWsKdGQbG9uoioc+M98IBpDaQeYFFm6EOlg8UDB
+ kNew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ustmWK5mEvdAZcOBmaOSg4VtBioTYnOuWkx56ShVqRc=;
+ b=saDLLFUpPVt+Joa48uAUC/03Speu+3S329ry2RRbj37K1d64N+ht5Ttp4iqOcvhggd
+ Ylxe+s8W8QHmAGbSWFLCTxjDNgAELM3XfKQhS10dA7xVzfvhABiN1WchL58RdeHTMpOK
+ rvEaeErj9wcyvffD39nn+ttP+gURxWCpW6hXawqUijAXjbzAn+svzJ6b/vkfv/qfNlZD
+ 7D+dkk8+4jktGuuIwH/END6rO3OeNEtxNX7zy6d/zEsHvw/i1kNojuzmTDwl/J4d56w9
+ ipwoug5VtRvT9ynbV1Z6/Rh8R3jqUSTdELv9PJh4DlCmKJigsOD1SgemQRGRWUpQVB/3
+ jdng==
+X-Gm-Message-State: APjAAAVOO3zzQLZ1meJF9tLEENRZQaOfl4fUyij4Q4AUyrkeuAjAwJnR
+ f6dUGHRoBMlrra9FaOWsX4xBIXWGeHX0FVlVZBrWGg==
+X-Google-Smtp-Source: APXvYqxvQrgBavFAgPw3aYQcPGAqf36Tburz54dTfddYLHWZdLHBm1Io041OmFxhvi9reM6KXIqY2QZldRyCnxIkqSg=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr2070195oic.48.1582293756639; 
+ Fri, 21 Feb 2020 06:02:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 21 Feb 2020 14:01:37 -0000
-From: Daniel Berrange <1863601@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: adioracle berrange laurent-vivier
-X-Launchpad-Bug-Reporter: Aditya prakash (adioracle)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <158193843490.28688.11268116902795457320.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158229369773.24223.17859333082093702261.malone@gac.canonical.com>
-Subject: [Bug 1863601] Re: unable to type "|" character in french keyboard.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: be7a1516447ca32289e70044b13607713d39e58d
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+References: <20200217131248.28273-1-gengdongjiu@huawei.com>
+ <20200217131248.28273-10-gengdongjiu@huawei.com>
+In-Reply-To: <20200217131248.28273-10-gengdongjiu@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Feb 2020 14:02:25 +0000
+Message-ID: <CAFEAcA9MaRDKNovYjH1FJXTbAVOL3JaA20Sc_Haa3XjnRNkGvg@mail.gmail.com>
+Subject: Re: [PATCH v24 09/10] target-arm: kvm64: handle SIGBUS signal from
+ kernel or KVM
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,43 +74,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863601 <1863601@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Zheng Xiang <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
+ James Morse <james.morse@arm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Actually you explicitly do *NOT* want to select any keymap in virt-
-manager in general. Picking a keymap disables the VNC protocol extension
-for raw scancodes. This means that QEMU has to do keymap <-> scancode
-conversion. In such a setup the host OS desktop keymap, the QEMU keymap
-and the guest OS keymap all have to match perfectly to avoid bad
-conversions.
+On Mon, 17 Feb 2020 at 13:10, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+>
+> Add a SIGBUS signal handler. In this handler, it checks the SIGBUS type,
+> translates the host VA delivered by host to guest PA, then fills this PA
+> to guest APEI GHES memory, then notifies guest according to the SIGBUS
+> type.
+>
+> When guest accesses the poisoned memory, it will generate a Synchronous
+> External Abort(SEA). Then host kernel gets an APEI notification and calls
+> memory_failure() to unmapped the affected page in stage 2, finally
+> returns to guest.
+>
+> Guest continues to access the PG_hwpoison page, it will trap to KVM as
+> stage2 fault, then a SIGBUS_MCEERR_AR synchronous signal is delivered to
+> Qemu, Qemu records this error address into guest APEI GHES memory and
+> notifes guest using Synchronous-External-Abort(SEA).
+>
+> In order to inject a vSEA, we introduce the kvm_inject_arm_sea() function
+> in which we can setup the type of exception and the syndrome information.
+> When switching to guest, the target vcpu will jump to the synchronous
+> external abort vector table entry.
+>
+> The ESR_ELx.DFSC is set to synchronous external abort(0x10), and the
+> ESR_ELx.FnV is set to not valid(0x1), which will tell guest that FAR is
+> not valid and hold an UNKNOWN value. These values will be set to KVM
+> register structures through KVM_SET_ONE_REG IOCTL.
+>
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
 
-By *not* selecting a keymap, virt-manager gets raw scancodes on the
-local host OS desktop and passes them unmodified to QEMU, which then
-passes them on to the guest OS. In this case, the guest OS keymap is the
-only thing that has todo conversions & this should be reliable.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-The only reason to select a keymap for QEMU is if you need to use legacy
-VNC clients which don't support the raw scancode protocol extension.
-This shouldn't be required if using virt-manager only. Ideally virt-
-manager should not even show this config option by default.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863601
-
-Title:
-  unable to type "|" character in french keyboard.
-
-Status in QEMU:
-  New
-
-Bug description:
-  Unable to type "|" character when using french keyboard. It is
-  displaying "<" instead of "|" while pressing AltGr+6 from my keyboard.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863601/+subscriptions
+thanks
+-- PMM
 
