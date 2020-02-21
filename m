@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02501683B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:38:15 +0100 (CET)
-Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E25C1683A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:36:08 +0100 (CET)
+Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BJe-0000Iv-NR
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:38:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49857)
+	id 1j5BHb-0004ju-4v
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:36:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50061)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j5BFI-0002fq-EP
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:33:45 -0500
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1j5BFo-0003P6-3Q
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:34:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j5BFG-0000n0-JW
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:33:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36772
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j5BFG-0000me-FD
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:33:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582302821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wXH6buGbOPhKCWB/KVR+J3wk1Wee9B4Tm+VBngLJ41E=;
- b=XzjINIJ8X081FZZOIB7NKnAnD8XQ5SyAYV3KvlNz33KQ5XA/Hk57E4OKr5IiJs3MpUwDoH
- Zlwv5uqottpjbPCfXPWHkI2RLVLqAtbfoRCNk1ehiIxd7xpfcwetiQV4xdutA4svaAaOgv
- O0x+JTnDWbp0RWJLxWUhSpoqqbv8N3w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-CqC4uns-MMq6H-EHp8E9tA-1; Fri, 21 Feb 2020 11:33:40 -0500
-X-MC-Unique: CqC4uns-MMq6H-EHp8E9tA-1
-Received: by mail-wr1-f71.google.com with SMTP id c6so1234619wrm.18
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:33:39 -0800 (PST)
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1j5BFm-00016r-Rb
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:34:16 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36931)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1j5BFm-00016P-NQ
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:34:14 -0500
+Received: by mail-oi1-f196.google.com with SMTP id q84so2155116oic.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:34:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+wtlMqiYMfAtECyCFeq4h5JvYyRA49l8lzkwzoiW88E=;
- b=mavpUFO44IhyXSAm2+Hz+Qx5MnxhEZJlpSfVDSh4Uoc5QvHQBZh8vX44JeNXIWId2P
- w1KUjtLzZ4KBidwfDLhZ1xoWXbV4VZeBceU8qKJpSepLTSjTFGqypnPb+VJmvv1TjQ9V
- nWg9ZV4MEZauy//r/4PHQtfKMlaiWF9I/qG4590ESzLesqb6GgyNRBYElPrQBYUi7Hnh
- 7T9MOUIQQtXE0VGFsRRVyl9/KZSQQ6ZIaxbu+l1/ime/A4mQ1Vi0DwghfeGZQuKvDZNL
- f2L1ELbJYiYQAbX9uGeasoRge0OzzKAdmSxMSG8kqMc/8hJAQ5J6Wmkcrhe0QqJ5D1em
- GIiQ==
-X-Gm-Message-State: APjAAAUVH/CWUAjE9hvIGItP/3rGoqdbpfiNbYBvh2oBn6nGCq7mrgn2
- RHfLyw6PsIwbSpSRUmOqI4+laLDGtVswq5tSc6ciMo/55a0YAUOG08bahsqY1+reH7eC3Jw1Bjy
- +5lx4M+t4DWzoxHA=
-X-Received: by 2002:a5d:6411:: with SMTP id z17mr52257866wru.57.1582302818494; 
- Fri, 21 Feb 2020 08:33:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw/P0AiFwTiT7z/wiXEONKmFEX/+8KKpJaNr4hGDqfwDZfa9AgZLuHo195clbdhIrrAhDaBiQ==
-X-Received: by 2002:a5d:6411:: with SMTP id z17mr52257842wru.57.1582302818224; 
- Fri, 21 Feb 2020 08:33:38 -0800 (PST)
-Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id c15sm4522493wrt.1.2020.02.21.08.33.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 08:33:37 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] accel/kvm: Check ioctl(KVM_SET_USER_MEMORY_REGION) return
- value
-Date: Fri, 21 Feb 2020 17:33:36 +0100
-Message-Id: <20200221163336.2362-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q0P9tu6IOsuIOQ9cj+JFMIkV9AXW3CYPDjGH2uYPm8M=;
+ b=VgkQ5FKw5T6havLsFdbDwyp98hOH1GPW0meFiOsFFtOiHyyzBQyJDVvuUFqQuE+xzc
+ rQsMqIRCqWi3co+Ec8GQ+7HAOK41LZOV1wkdmEPjpmGfOaMdHrFI+eo3lgXppu0BDOpo
+ Kv+YVQTyKhmHJTRXd66v4vzhDCySSA7LSuJdwiUuulZvA+0kAHWVwgE+7DB3YBXHeJLp
+ r5HpTTTllU2JHTu8jlFxSDICne55mKme4t06JzxFYM5jHANl+Gcg8mzP90O99Dwtf8ql
+ 78vAqtaXfCZsXxv7rdVBGVEd9Yw16vXlsFEWA3xFB3zfP+uYlqf5ZO7+Q7I8qNobj46J
+ Di+Q==
+X-Gm-Message-State: APjAAAXdhGFFIyOq4shFaU4sOwfQVMmb+Uba+xcnkmDeWVKuH8ff3fk8
+ r/2fsIp9ge9FipBJdY8bJyIkhLjewZTWaUKx02Y=
+X-Google-Smtp-Source: APXvYqzPNoAH+zVsto1+IiOMGfW8xsdQo0YD/gttJz8Iqi71pUo1KidDfXV90s/3JMzKKHdE/I36dl+GbJbfTmLaY4E=
+X-Received: by 2002:aca:c4d2:: with SMTP id u201mr2773907oif.54.1582302853428; 
+ Fri, 21 Feb 2020 08:34:13 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20200218151812.7816-1-geert+renesas@glider.be>
+ <20200218151812.7816-5-geert+renesas@glider.be>
+ <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
+In-Reply-To: <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 21 Feb 2020 17:34:02 +0100
+Message-ID: <CAMuHMdUFV0nbfrpxY60av2x+UUN62wDiVLbcEG83133aqfFcUQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 209.85.167.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,58 +64,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Alexey Kardashevskiy <aik@ozlabs.ru>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_vm_ioctl() can fail, check its return value, and log an error
-when it failed. This fixes Coverity CID 1412229:
+Hi Randy,
 
-  Unchecked return value (CHECKED_RETURN)
+On Tue, Feb 18, 2020 at 7:30 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 2/18/20 7:18 AM, Geert Uytterhoeven wrote:
+> > Document the GPIO Aggregator, and the two typical use-cases.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-  check_return: Calling kvm_vm_ioctl without checking return value
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
+> > @@ -0,0 +1,102 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +GPIO Aggregator
+> > +===============
+> > +
+> > +The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
+>
+> "allows" really wants an object following the verb [although the kernel sources
+> and docs have many cases of it not having an object].  Something like
+>
+>                        allows {you, one, someone, users, a user} to aggregate
 
-Reported-by: Coverity (CID 1412229)
-Fixes: 235e8982ad3 ("support using KVM_MEM_READONLY flag for regions")
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- accel/kvm/kvm-all.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Changing to:
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c111312dfd..6df3a4d030 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -308,13 +308,23 @@ static int kvm_set_user_memory_region(KVMMemoryListen=
-er *kml, KVMSlot *slot, boo
-         /* Set the slot size to 0 before setting the slot to the desired
-          * value. This is needed based on KVM commit 75d61fbc. */
-         mem.memory_size =3D 0;
--        kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-+        ret =3D kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-+        if (ret < 0) {
-+            goto err;
-+        }
-     }
-     mem.memory_size =3D slot->memory_size;
-     ret =3D kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-     slot->old_flags =3D mem.flags;
-+err:
-     trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
-                               mem.memory_size, mem.userspace_addr, ret);
-+    if (ret < 0) {
-+        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=3D%d,"
-+                     " start=3D0x%" PRIx64 ", size=3D0x%" PRIx64 ": %s",
-+                     __func__, mem.slot, slot->start_addr,
-+                     (uint64_t)mem.memory_size, strerror(errno));
-+    }
-     return ret;
- }
-=20
---=20
-2.21.1
+    provides a mechanism to aggregate GPIOs
 
+> > +gpio_chip.  This supports the following use cases.
+> > +
+> > +
+> > +Aggregating GPIOs using Sysfs
+> > +-----------------------------
+> > +
+> > +GPIO controllers are exported to userspace using /dev/gpiochip* character
+> > +devices.  Access control to these devices is provided by standard UNIX file
+> > +system permissions, on an all-or-nothing basis: either a GPIO controller is
+> > +accessible for a user, or it is not.
+> > +
+> > +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+
+Changing to:
+
+    provides access control for a set of one or more GPIOs
+
+> > +them into a new gpio_chip, which can be assigned to a group or user using
+> > +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> > +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> > +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> > +which not, reducing the attack surface.
+
+> > +Generic GPIO Driver
+> > +-------------------
+> > +
+> > +The GPIO Aggregator can also be used as a generic driver for a simple
+> > +GPIO-operated device described in DT, without a dedicated in-kernel driver.
+> > +This is useful in industrial control, and is not unlike e.g. spidev, which
+> > +allows to communicate with an SPI device from userspace.
+>
+>    allows {choose an object} to communicate
+
+Changing to:
+
+    allows the user to communicate
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
