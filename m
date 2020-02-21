@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6390167F1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:52:53 +0100 (CET)
-Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7A1167ED2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:40:16 +0100 (CET)
+Received: from localhost ([::1]:57984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58jc-0001Mb-Sg
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32915)
+	id 1j58XP-0007Ib-W5
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:40:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j58JT-0002mq-Ut
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:53 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j58JO-0007Dw-PS
+ (envelope-from <dgilbert@redhat.com>) id 1j58JR-0002ml-F0
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28644
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgilbert@redhat.com>) id 1j58JO-0007Dp-P0
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36356
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j58JO-00079w-Jo
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j58JO-0007CQ-Gw
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582291543;
+ s=mimecast20190719; t=1582291545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1nwUdvT0Ryvn0nDx9c3g1DWkP++mcmbDXXlxbjBWa0Y=;
- b=aVLnHb0rxvcewymeQM7jEjsDWxobPeP4q8IvDUwPi/2UnkNE2hDiMZIRRJVrDAos7+yO/D
- u1Lp2CY8JFVhY0AB8tW4AhY6VEWx5fk6ByFZV0mgf5F6WVPbMrVe6QgnvaSIDlr8yPegUN
- SGArefSGeFfGdZjEBsX9Zc+kypzSHdg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ou82nfRlLTKFiiP9tvRubo3I4987Bvtv3Cz7XMNiIrg=;
+ b=Nk29l1ARcTi18y2/oM6ztUOfVdA40fHOjhoGWU9oesUBwttzrrotsong8VVeHv2zSUUYHu
+ Ge1dr6zgE4CRyyHBJVFkx6aI2/wkILJmdlPpVvG8m6yxcsQNSG0kPwVJBe1VM3epL+rlhk
+ FKFcgvBWYxbof5ZdKAewfnIB6i3XLw0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-7Tvyli1YPOyb1L81XBuSeA-1; Fri, 21 Feb 2020 08:25:41 -0500
-X-MC-Unique: 7Tvyli1YPOyb1L81XBuSeA-1
+ us-mta-357-Hx0QJl4DP0KZBPwJI8IjRg-1; Fri, 21 Feb 2020 08:25:42 -0500
+X-MC-Unique: Hx0QJl4DP0KZBPwJI8IjRg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C4EA800D4E;
- Fri, 21 Feb 2020 13:25:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2C4CDB23;
+ Fri, 21 Feb 2020 13:25:41 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 543FA8B740;
- Fri, 21 Feb 2020 13:25:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9C3A8B745;
+ Fri, 21 Feb 2020 13:25:40 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, philmd@redhat.com, yangx.jy@cn.fujitsu.com,
  mrezanin@redhat.com
-Subject: [PULL 0/6] virtiofs queue
-Date: Fri, 21 Feb 2020 13:25:30 +0000
-Message-Id: <20200221132536.38364-1-dgilbert@redhat.com>
+Subject: [PULL 1/6] virtiofsd: Help message fix for 'seconds'
+Date: Fri, 21 Feb 2020 13:25:31 +0000
+Message-Id: <20200221132536.38364-2-dgilbert@redhat.com>
+In-Reply-To: <20200221132536.38364-1-dgilbert@redhat.com>
+References: <20200221132536.38364-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +77,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The following changes since commit b651b80822fa8cb66ca30087ac7fbc75507ae5d2=
-:
+second should be seconds.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.0-pul=
-l-request' into staging (2020-02-20 17:35:42 +0000)
+Reported-by: Christophe de Dinechin <dinechin@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tools/virtiofsd/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20200221
-
-for you to fetch changes up to 5bb8e8beedb47fc0d0a44957a154918c4f4afc80:
-
-  docs: Fix virtiofsd.1 location (2020-02-21 13:05:27 +0000)
-
-----------------------------------------------------------------
-virtiofs pull 20200221
-
-Mostly minor cleanups.
-Miroslav's fixes a make install corner case.
-Philippe's set includes an error corner case fix.
-
-----------------------------------------------------------------
-Dr. David Alan Gilbert (1):
-      virtiofsd: Help message fix for 'seconds'
-
-Miroslav Rezanina (1):
-      docs: Fix virtiofsd.1 location
-
-Philippe Mathieu-Daud=C3=A9 (3):
-      tools/virtiofsd/passthrough_ll: Remove unneeded variable assignment
-      tools/virtiofsd/passthrough_ll: Remove unneeded variable assignment
-      tools/virtiofsd/fuse_lowlevel: Fix fuse_out_header::error value
-
-Xiao Yang (1):
-      virtiofsd: Remove fuse.h and struct fuse_module
-
- Makefile                         |    2 +-
- tools/virtiofsd/fuse.h           | 1229 ----------------------------------=
-----
- tools/virtiofsd/fuse_i.h         |   16 -
- tools/virtiofsd/fuse_lowlevel.c  |    2 +-
- tools/virtiofsd/helper.c         |    2 +-
- tools/virtiofsd/passthrough_ll.c |    4 -
- 6 files changed, 3 insertions(+), 1252 deletions(-)
- delete mode 100644 tools/virtiofsd/fuse.h
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 0801cf752c..819c2bc13c 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -165,7 +165,7 @@ void fuse_cmdline_help(void)
+            "                               enable/disable readirplus\n"
+            "                               default: readdirplus except wit=
+h "
+            "cache=3Dnone\n"
+-           "    -o timeout=3D<number>        I/O timeout (second)\n"
++           "    -o timeout=3D<number>        I/O timeout (seconds)\n"
+            "                               default: depends on cache=3D op=
+tion.\n"
+            "    -o writeback|no_writeback  enable/disable writeback cache\=
+n"
+            "                               default: no_writeback\n"
+--=20
+2.24.1
 
 
