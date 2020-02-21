@@ -2,30 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4724B16803B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 15:31:31 +0100 (CET)
-Received: from localhost ([::1]:59068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCF4168075
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 15:39:34 +0100 (CET)
+Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j59L0-0003z3-Cd
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 09:31:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49391)
+	id 1j59Sn-0007YE-6g
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 09:39:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j59K8-0003W8-5V
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:30:37 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j59Rc-0006dL-Ev
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:38:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j59K6-0000e5-UW
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:30:36 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:50089)
+ (envelope-from <laurent@vivier.eu>) id 1j59Rb-0005OY-8L
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:38:20 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:59213)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j59K4-0000Zr-9X; Fri, 21 Feb 2020 09:30:32 -0500
+ id 1j59RY-0005Kc-QV; Fri, 21 Feb 2020 09:38:17 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MGzI3-1jHVWA2ZVr-00E7qq; Fri, 21 Feb 2020 15:29:50 +0100
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N79hs-1jWQFE3Hmm-017Y5B; Fri, 21 Feb 2020 15:37:41 +0100
+Subject: Re: [PATCH v2 00/20] linux-user: generate syscall_nr.sh
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200219220333.1411905-1-laurent@vivier.eu>
  <CAFEAcA8g+uRrGuNLdURegmpjRLtk=vVC9zUE1+QVKRitPjJy7A@mail.gmail.com>
+ <CAFEAcA9xfrevtS=KupC1H2oMCG3p2LUqDvKN9KX-cW12OhJbGA@mail.gmail.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,33 +71,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PATCH v2 00/20] linux-user: generate syscall_nr.sh
-Message-ID: <6050c10c-5911-ac76-f79e-5966e5e1faf6@vivier.eu>
-Date: Fri, 21 Feb 2020 15:29:45 +0100
+Message-ID: <90b5e8f8-60dc-f953-491b-46022f078ed1@vivier.eu>
+Date: Fri, 21 Feb 2020 15:37:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8g+uRrGuNLdURegmpjRLtk=vVC9zUE1+QVKRitPjJy7A@mail.gmail.com>
+In-Reply-To: <CAFEAcA9xfrevtS=KupC1H2oMCG3p2LUqDvKN9KX-cW12OhJbGA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:t6dy6vbREfQ92u1nf4ffM9RoxAkl5pdqtfzOsmj2f8h9fND7aUQ
- S0KrDuAHOPlq6AeUr1JYZWkFDCsJfIK/CyBfPvwYp4yt7+Q5FmL4eOVBT+Lv1HexNAPSHKI
- zGUDCNbe6nTNGxnhPp9D082OeTq4LYU/RY2GOKmTC0hvWMJ39qmxzyIiqWW02Gok8bhEedl
- Ay7YbgxehYc1r7K+GJJ9g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7O0qZyIxQkM=:2SL4r5ITNj0Yv5rSzYj0UB
- ELbIaOkjUYNsfGFvf9axTpJyRhMtDCd70Z79a3WUt+uBciy4lJ6hpDuky2ZePDrdwMHErYN9T
- 7svJKpuO2Xv/VLVvakxINuRzJDKOO/5flVZYHLh+SqxZlbj63vO3qnq6RAvss7kmO3c9RQL3k
- +Nqn44pIPDlSmGe+bSN1Fsns4uTZe0QhI6yVH1dtrqjEy0hcZtz3ie5zz0pkMMGLjN4A9u5e+
- rJMXsk8qVM2ZWQKeL3upAeFROmd8/nBqCAw/SJf8u2LsnEtP44vKkrhCZFT7Fjq0pt6GXGUuO
- TaniWv8SUj1PyYyoyH70pm8uIHdbfpd6S4sdZVNQWTyadf8gXaxEGKjlXl6jSO00zsBpMUU/v
- tsAbdLQrHoew74uSjjyUmLxO5CaMksZQqUU4N5XIZTKw6zi7GC3WLGNSCTcsZGUX5lybSiBfL
- 2zIOTqDycZKUG6GTWdia2toOUe5/gJfbjynmp1VKHoypqtBXh/2DVXIOxHMYEm2tS8y9wwK5J
- j7MyYvbXQpHbm1UGuhUNOjNN6OtNiGdj+4Mw0GnUSjf7J46PhL6xG/iRfDCbwuUh4qjx7k1ri
- JR9dQX5RD9xi/EIjvZ5Iazs49Rb4QfPGSboEjQ0UX1FKVHbW72XDUiy0hd0r+bP54yLp4vP7t
- oEkiKYvdZKAx33gfvSLTc/S08Nh+qzD/IxH3e9xB/QDxGMK+GaPVGQRAxjcs1Mdv+bn9vlAMK
- /EY+D0fkvHagzwgSChjW/N1VXh2slXpwFFMZKF45PSSaNwmV29IIF5PcGd+AII82YBmkFFd3e
- b27ODydVFZJRx5q7DDZxAT+sFito2Z9aSh7DiybsMdi4govy23o/ToFV75PKThNKfuo7myb
+X-Provags-ID: V03:K1:iPM0v2+l70TGhENRsoSOGVa6UwAOKBo806MARg2EikVZxQBaRUP
+ 4mvy3ypj6AApy1bmyQ4Ffe8f3j9+C4v2x5Ix88NePCbsbaf69AuJOpaij2PoY2C5Vt3BvFr
+ 9/8ECg+EmhFKMIV2z4SsKtEVPCFR581Cq6Pl1byQM7v9qhaSxiqkw989gbkj0Iaw1FwjtBZ
+ ppss+3eh8pLwEhn/qi+UQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VC2HYPIZdWQ=:p5zHD68X8MwgIzZDqxFD5a
+ BYR+bLk3f11E2BYBHdsgoccvUfwHuv4/o7ck/ccMlkOeNqzOF8kFbrBADBIJ7ZvCpJNrmVeEU
+ YsgBFSfzhe6k8fd5nM5ToQQfpFkFB3tdt1EAwiMGL5wxFrDKIMOaQ60r282DSpuS6UWfSB6xX
+ 2svDmoHIC5RYjncwi7rlHU6TZFgaXSr0/RLVUjQgIqrnlJ/WmjdvLDjO73ixlG2v3GyAz/INC
+ pJgMI+lIDjSn7WBCFVCkOABjfrXj6Z0JzZg5+Y/yEiag/L4z5r3zERISu3S3TtxMT/YlKLUNd
+ tWcSVpMUQMNP+xAo/FjVy5r9O+2at7S6lDtFvi6WDk/qm95+VAeUZmnf4eAz27qmhhdZKeJus
+ HzUmldO0FsTFqcMh3M1YyLXPV7YJXTouJjXumCpYYsgqbhyFOEaxf2FmPKCk2Cb+ajMAEL7jd
+ W3TzBWuqKvjww0fefnaPTlC05ENRtoTddmfBxdns/Ra7+bzDHXf5ysNi4inOEtax1eB76sZ8d
+ RKt/OdjIQaczr9KIplIV5fxOkWHte+jNlux0c0UYSHmOddchkjdWCWB6dbURHKM9ngeHVQ6kq
+ nY3BpjGN2+2GfOu6UwtkuMGlWfB+dvFWjvy/xfWSzotnsOXS4IRUGy4JUrv3RHBSD6XR4KJVa
+ XyXJkrxP4oV4YRFapDa4SglMPE2wJutRle0MvlCl+Xr/qHa7ABe/yNa93agh8yCc4EOiy2qkg
+ qLzKLijkz+4K5EUU4DFH8yHuR2itvggrODn2byGlrUz4eQzw6pWlzMG2ObI/E98HajvJglAcW
+ 59B5LgckWYIQLrA/S4FtS+9L7b+m0LODHnlkzwthammvyY+9iU8Rc142JRkabgm1saR6rzv
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,86 +118,39 @@ Cc: Cornelia Huck <cohuck@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/02/2020 à 14:45, Peter Maydell a écrit :
-> On Wed, 19 Feb 2020 at 22:07, Laurent Vivier <laurent@vivier.eu> wrote:
+Le 21/02/2020 à 14:56, Peter Maydell a écrit :
+> On Fri, 21 Feb 2020 at 13:45, Peter Maydell <peter.maydell@linaro.org> wrote:
 >>
->> This series copies the files syscall.tbl from linux v5.5 and generates
->> the file syscall_nr.h from them.
+>> On Wed, 19 Feb 2020 at 22:07, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>
+>>> This series copies the files syscall.tbl from linux v5.5 and generates
+>>> the file syscall_nr.h from them.
+>>>
+>>> This is done for all the QEMU targets that have a syscall.tbl
+>>> in the linux source tree: mips, mips64, i386, x86_64, sparc, s390x,
+>>> ppc, arm, microblaze, sh4, xtensa, m68k, hppa and alpha.
+>>>
+>>> tilegx and cris are depecrated in linux (tilegx has no maintainer in QEMU)
+>>>
+>>> aarch64, nios2, openrisc and riscv have no syscall.tbl in linux.
 >>
->> This is done for all the QEMU targets that have a syscall.tbl
->> in the linux source tree: mips, mips64, i386, x86_64, sparc, s390x,
->> ppc, arm, microblaze, sh4, xtensa, m68k, hppa and alpha.
->>
->> tilegx and cris are depecrated in linux (tilegx has no maintainer in QEMU)
->>
->> aarch64, nios2, openrisc and riscv have no syscall.tbl in linux.
+>> Is it the case that all our architectures either:
+>>  (1) have a syscall.tbl
+>>  (2) are using the asm-generic common numbering system ?
 > 
-> Is it the case that all our architectures either:
->  (1) have a syscall.tbl
->  (2) are using the asm-generic common numbering system ?
-
-Yes, for what I see archs that have not been converted to syscall.tbl
-are the ones using asm-generic common numbering system.
-
+> I think that for asm-generic we should be able to generate
+> the syscall_nr.h by suitably defining a __SYSCALL macro
+> before #including linux-headers/asm-whatever/unistd.h --
+> They basically define syscall numbers like this:
+> #define __NR_setxattr 5
+> __SYSCALL(__NR_setxattr, sys_setxattr)
 > 
-> Though even if they do use asm-generic there's awkwardness
-> still around whether they have extra arch-specific syscalls
-> and what features of the asm-generic/unistd.h they select,
-> so I'm not sure whether it helps us much to know that they're
-> sharing a basically common numbering system.
-> 
-> It does suggest that future architectures are unlikely to have
-> a syscall.tbl unless somebody pushes for one to be generated
-> for asm-generic users.
+> so a C program that just did the autogeneration has the
+> info it needs.
 
-I agree.
-
-> 
->> It seems there is a bug in QEMU that forces to disable manually arch_prctl
->> with i386 target: do_arch_prctl() is only defined with TARGET_ABI32 but
->> TARGET_ABI32 is never defined with TARGET_I386 (nor TARGET_X86_64).
-> 
-> TARGET_ABI32 for x86 would mean the x32 "32-bit APIs
-> on a 64-bit CPU", which we don't implement. But the
-> guards on do_arch_prctl() are
-> #if defined(TARGET_I386) && !defined(TARGET_ABI32)
-> 
-> where the !TARGET_ABI32 check seems like it's unnecessary but
-> harmless (we never define it for x86), so what causes a problem?
-
-Yes, my conclusion was too quick.
-
-The error is:
-
-  CC      i386-linux-user/linux-user/syscall.o
-linux-user/syscall.c: In function 'do_syscall1':
-linux-user/syscall.c:10208:2: error: #error unreachable
-10208 | #error unreachable
-      |  ^~~~~
-
-So something defines TARGET_ABI32:
-
-include/exec/user/abitypes.h
-
- 42 #ifdef TARGET_ABI32
-...
- 54 #else
-...
- 60 /* for consistency, define ABI32 too */
- 61 #if TARGET_ABI_BITS == 32
- 62 #define TARGET_ABI32 1
- 63 #endif
-...
- 70 #endif
-
-TARGET_ABI32 is always defined if TARGET_ABI_BITS is 32 (and i386 is 32bit)
-
-An the problem is more complex.
-
-do_arch_prctl() uses TARGET_ARCH_SET_GS, TARGET_ARCH_SET_FS,
-TARGET_ARCH_GET_GS and TARGET_ARCH_GET_FS that are defined in
-linux-user/x86_64/target_syscall.h and not in i386.
+Thank you for the hint. I will have a look.
 
 Thanks,
 Laurent
+
 
