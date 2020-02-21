@@ -2,71 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7A2166FA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 07:32:49 +0100 (CET)
-Received: from localhost ([::1]:52764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E074166FAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 07:37:08 +0100 (CET)
+Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j51rk-00071E-PY
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 01:32:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
+	id 1j51vv-0000he-Eh
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 01:37:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j51qI-0006Ys-F9
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:31:19 -0500
+ (envelope-from <miaoyubo@huawei.com>) id 1j51uY-0007xb-KI
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:35:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j51qG-0005jr-O3
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:31:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49958
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <miaoyubo@huawei.com>) id 1j51uX-0003LV-DB
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:35:42 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:57168 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j51qG-0005fv-EI
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:31:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582266675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bejW9W78OuIHRx0tVUTMDFA33x2UKfUN6LOoW6YpgF8=;
- b=at0MQCKMscBhk80WaCshIvXu8kOrL/YiyPkrmV50ijtxUF7wtAVWz/yja0m2jF06OoukF1
- 6cNue5T9ZrJBQ4C/o0QTOBDx6rYnzm8nkTtrJMaGDvkorBmvhD1yvJlzJLLM6thaL2TRGo
- fGATncJw4GdZE6IW1ly2T97mW3Q8SR0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-RVHNvhNfM2uvDNjuMP19vQ-1; Fri, 21 Feb 2020 01:31:11 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED882801E66;
- Fri, 21 Feb 2020 06:31:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
- [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 54FB060BE0;
- Fri, 21 Feb 2020 06:31:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C440611386A6; Fri, 21 Feb 2020 07:31:06 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] console: make QMP screendump use coroutine
-References: <20200113144848.2168018-1-marcandre.lureau@redhat.com>
- <87a75dn1gd.fsf@dusky.pond.sub.org>
- <CAJ+F1C+M3yPreBLOHXkt16b5aghesT7qYkEPbS_3Dm7vGTaMKA@mail.gmail.com>
- <87blptckoi.fsf@dusky.pond.sub.org> <20200220201155.GJ2836@work-vm>
-Date: Fri, 21 Feb 2020 07:31:06 +0100
-In-Reply-To: <20200220201155.GJ2836@work-vm> (David Alan Gilbert's message of
- "Thu, 20 Feb 2020 20:11:55 +0000")
-Message-ID: <87k14ga1ud.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <miaoyubo@huawei.com>) id 1j51uX-0002xR-0p
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:35:41 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id AFBC153E82FE7FA24D6F;
+ Fri, 21 Feb 2020 14:35:30 +0800 (CST)
+Received: from DESKTOP-D7EVK5B.china.huawei.com (10.173.221.29) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.439.0; Fri, 21 Feb 2020 14:35:22 +0800
+From: Yubo Miao <miaoyubo@huawei.com>
+To: <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>
+Subject: [RFC v3 0/3] pci_expander_brdige:acpi:Support pxb-pcie for ARM
+Date: Fri, 21 Feb 2020 14:35:09 +0800
+Message-ID: <20200221063512.1104-1-miaoyubo@huawei.com>
+X-Mailer: git-send-email 2.24.1.windows.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: RVHNvhNfM2uvDNjuMP19vQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
+X-Originating-IP: [10.173.221.29]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,52 +51,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: imammedo@redhat.com, miaoyubo@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+From: miaoyubo <miaoyubo@huawei.com>
 
-> * Markus Armbruster (armbru@redhat.com) wrote:
-[...]
->> Collecting several users before building infrastructure makes sense when
->> the design of the infrastructure isn't obvious, or when the need for it
->> is in doubt.
->>=20
->> Neither is the case for running QMP handlers in a coroutine: QMP
->> commands blocking the main loop is without doubt a problem we need to
->> solve, and the way to solve it was obvious enough for Kevin to do it
->> with one user: block_resize.  A second one quickly followed: screendump.
->>=20
->> The only part that's different for HMP, I think, is "need".
->>=20
->> Is HMP blocking the main loop a problem?
->>=20
->> If yes, is it serious enough to justify solving it?
->
-> I don't mind if HMP blocks for a small time while doing something, but
-> not if it can hang if the guest (or something else like it) misbehaves.
-> Not if it's something you might need to issue another command to recover
-> from.
+Currently pxb-pcie is not supported by arm, the reason for it is
+pxb-pcie is not described in DSDT table and only one main host bridge
+is described in acpi tables, which means it is not impossible to
+present different io numas for different devices, especially
+host-passthrough devices.
 
-The issue isn't HMP being unavailable while a command executes.  The
-issue is HMP stopping the main loop while a command executes.
+This series of patches make arm to support PXB-PCIE.
 
-Stopping the main loop not only stops everything running there, it can
-also stop other threads when they synchronize with the main loop via the
-Big QEMU Lock.
+Users can configure pxb-pcie with certain numa, Example command
+is:
 
-The obvious example is a command accessing a remote filesystem.  Special
-case: NFS with the hard option can hang indefinitely.
+   -device pxb-pcie,id=3Dpci.7,bus_nr=3D128,numa_node=3D0,bus=3Dpcie.0,ad=
+dr=3D0x9
 
-screendump does that, and also waits for asynchronous gfx_update() with
-qxl devices.  Networking again, with a different peer.
+Since the bus of pxb-pcie is root bus, devices could not be plugged
+into pxb-pcie directly,pcie-root-port or pci-bridge should be defined
+and plugged on pxb-pcie, then the device could be plugged onto the
+pcie-root-port or pci-bridge.
 
-We already decided that QMP commands stopping the main loop is serious.
+With the patches,io numa could be presented to the guest by define a
+pxb-pcie with the numa and plug the device on it.
 
-To say it's not serious for HMP amounts to "don't do that then, use
-QMP".  Which may be fair.  Not for me to decide, though.
+miaoyubo (3):
+  acpi:Extract two APIs from acpi_dsdt_add_pci
+  acpi:pci-expender-bus: Add pxb support for arm
+  ACPI/unit-test: Add a new test for pxb-pcie for arm
+
+ hw/arm/virt-acpi-build.c       | 240 ++++++++++++++++++++++++---------
+ hw/pci-host/gpex.c             |   4 +
+ include/hw/arm/virt.h          |   7 +
+ tests/data/acpi/virt/DSDT.pxb  | Bin 0 -> 34209 bytes
+ tests/qtest/bios-tables-test.c |  54 +++++++-
+ 5 files changed, 238 insertions(+), 67 deletions(-)
+ create mode 100644 tests/data/acpi/virt/DSDT.pxb
+
+--=20
+2.19.1
+
 
 
