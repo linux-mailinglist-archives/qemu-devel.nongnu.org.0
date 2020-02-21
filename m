@@ -2,89 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428901683B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:37:39 +0100 (CET)
-Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FB81683D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:42:15 +0100 (CET)
+Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BJ4-0007Bf-94
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:37:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50579)
+	id 1j5BNW-00065q-VE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:42:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1j5BHM-0005Rb-H4
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:53 -0500
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1j5BKu-0003mK-QR
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:39:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1j5BHL-00021t-Aw
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:52 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27377
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j5BHK-00020n-EO
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:35:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582302950;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UK11XP7TSSFY6WpmViyYU3Oki9eboLAaOS5r4pRlNNg=;
- b=hR06ts5vfuzQd8h/Npzsczime83ze0EpumHbzuC3Mq9aBZvg64/Stu6zEovu12ZV/69GP/
- atFK2d78dSnM2js4hfxcUyCWA8+ARsb8qhj1CxKik3eCX0GbeyVqhdJU+7/uAuoAs+E1z1
- gojiYnK8Grv5J5YjbKsdh4nwxndICFQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-hEx8qVJxMX-zb-VHuUXBxw-1; Fri, 21 Feb 2020 11:35:48 -0500
-X-MC-Unique: hEx8qVJxMX-zb-VHuUXBxw-1
-Received: by mail-qk1-f200.google.com with SMTP id o185so2067514qke.21
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:35:48 -0800 (PST)
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1j5BKt-0003zb-NL
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:39:32 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:45873)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1j5BKt-0003yx-IY
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:39:31 -0500
+Received: by mail-ot1-f67.google.com with SMTP id 59so2502556otp.12
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 08:39:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qffL0KWKEw4UH1MXGx5Q2R/FW7snG92lwRBho7jdmxs=;
- b=JUpBwWhGX0ogZF209b0EKVKQszPDQCOPGuqzzoPKiGif6NTkgS3NRSUkXDjkjfu9QQ
- BS6Ck+9VaxkBw3TUnm5uA2ZLPWQLSTxzyQatKpQ/c6hzDXvV93QOKuv4rFEjVtU9YthL
- J41h6Hn1dYBsya6GZMrvUGDrxnd70z3ydDxyvRdtjEkenlr1KZEQgCfFW2SBIypxVrpP
- bG+MyETDsuYvChrCMd3+255mRhTjqw9M0qAi6p3Jy8TOcY9kiJUgZtlr7l12iK2pt9CQ
- eA7Fg8fmZNExtvkLmaQu7q9FsRb0dFYq+JxWa8hGun4M38OqTxJanN/9oeGnazENGdye
- FhlQ==
-X-Gm-Message-State: APjAAAUWhbM9ngBHebbw9ZNSJJHatPWcFje91NqTtu5wA1QS/p6VC8wx
- znvbK+9S5BOuZbPQEqYt7LgXsjiKX5Fh9fiH8qsbs61fOTqZZ3leFb+WfO+bz9bL6Gy1NTWgOeW
- r3VApH5VyU1L3aoU=
-X-Received: by 2002:a05:620a:1650:: with SMTP id
- c16mr35120290qko.346.1582302947748; 
- Fri, 21 Feb 2020 08:35:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyHL5WBM42q1R76NceXg6J1L28mvnSUXo2M4fgQx7HgXCtPYDJmO9gGO16bG8gmhePg1Ld4Og==
-X-Received: by 2002:a05:620a:1650:: with SMTP id
- c16mr35120260qko.346.1582302947509; 
- Fri, 21 Feb 2020 08:35:47 -0800 (PST)
-Received: from xz-x1 (CPEf81d0fb19163-CMf81d0fb19160.cpe.net.fido.ca.
- [72.137.123.47])
- by smtp.gmail.com with ESMTPSA id g9sm1745787qkl.11.2020.02.21.08.35.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 08:35:46 -0800 (PST)
-Date: Fri, 21 Feb 2020 11:35:44 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 05/13] migrate/ram: Handle RAM block resizes during
- precopy
-Message-ID: <20200221163544.GC37727@xz-x1>
-References: <20200219161725.115218-1-david@redhat.com>
- <20200219161725.115218-6-david@redhat.com>
- <3c3d4d50-a30d-b4e9-6256-4656f4e78cf6@redhat.com>
- <20200220201719.GC15253@xz-x1>
- <f72b81f6-1972-12b5-8113-95dc4094205b@redhat.com>
- <eacd48d3-4bce-bdd4-941d-3c098cb29034@redhat.com>
- <81ca5783-97d5-555c-c361-9b5b0ec144b3@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4BgZBtTDREnYAapVdHrqgQ9W3R4CTcWbIkMjaCPQlXs=;
+ b=KXUVpLbi3u3qAL/PfQGiydOxkmaeXY+F9DSerLxflqhSj09QHARVAssIHY0+9Jmsid
+ 1tM13M/mgK1t2SB2yoyjVvErcCjhkroBJGxp+Yvoy83b4A/dmIAEWW7Sx37osHN4T6e2
+ 7vFXYjBJEZle2TG/njMEu9V2tg8HPIuaUAWCXbsoB/2I+teQ5tPqKIR3PQWWObh7T26c
+ 7DfGfXoklfxt9ttEj1ZmJk7VvF25OSBELwtPPeFJG8IAsOmqoxIgO3Rwcyy3/cbCSIZU
+ wWPYnt22r6s3oqC79IJos5rB/7lrWmOHjf9x5vCxJxYvPoHjiX590RpeK1typBh5seuD
+ +qPg==
+X-Gm-Message-State: APjAAAUPVyrepWU7JHB+2bL6/jqsPf3FQ1LqPyiUs1D1v3ABbF59fJ3W
+ e6YgPmR+L60rJezAM6YwwGmDCNYTp4YjsVkIvuQ=
+X-Google-Smtp-Source: APXvYqyHdwKbUhPCfLeqiqCgnHSzlLvGxUb88yDmpTUxNb9KdZfgkLsmdvKxBtKDh+BkPpxepYgxvBCP9OOjR7Ep3ks=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr29016938ots.250.1582303170916; 
+ Fri, 21 Feb 2020 08:39:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <81ca5783-97d5-555c-c361-9b5b0ec144b3@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+References: <20200218151812.7816-1-geert+renesas@glider.be>
+In-Reply-To: <20200218151812.7816-1-geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 21 Feb 2020 17:39:19 +0100
+Message-ID: <CAMuHMdWo_JBpBeS72RkZBwuWyMhMj79=9ErFdXcLSqC2rOhJDg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/5] gpio: Add GPIO Aggregator
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 209.85.210.67
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,39 +63,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Shannon Zhao <shannon.zhao@linaro.org>, Igor Mammedov <imammedo@redhat.com>,
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 21, 2020 at 11:19:58AM +0100, David Hildenbrand wrote:
+Hi Linus and Bartosz,
 
-[...]
+On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+>
+> Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+> them as a new gpiochip.  This is useful for implementing access control,
+> and assigning a set of GPIOs to a specific user.  Furthermore, this
+> simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+> can just grab the full GPIO controller, and no longer needs to care
+> about which GPIOs to grab and which not, reducing the attack surface.
 
-> Lol, man this code is confusing.
+Do you have any more comments, before I respin and post v6?
 
-(Yes in many places it is...)
+Thanks, and have a niec weekend!
 
->=20
-> So, migration_is_idle() really only checks current_migration, not
-> current_incoming.
->=20
-> I didn't expect to be knees deep in migration code at this point ...
->=20
-> if (migration_is_idle()) {
-> =09return:
-> }
+Gr{oetje,eeting}s,
 
-Yes this seems to work too for postcopy, though may worth add a
-comment showing the fact...  Thanks,
+                        Geert
 
---=20
-Peter Xu
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
