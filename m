@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8B167E22
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:13:13 +0100 (CET)
-Received: from localhost ([::1]:57250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A36167E17
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:11:56 +0100 (CET)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j587E-00072A-J0
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:13:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
+	id 1j585z-0004aY-Oo
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:11:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j5825-0006bu-Sn
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j5827-0006f3-7u
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j5824-0002W8-SW
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:53 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36596)
+ (envelope-from <peter.maydell@linaro.org>) id 1j5825-0002Wp-Pz
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:55 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45946)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j5824-0002Vm-Mu
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:52 -0500
-Received: by mail-wm1-x341.google.com with SMTP id p17so1776516wma.1
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:52 -0800 (PST)
+ id 1j5825-0002WM-Ja
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:53 -0500
+Received: by mail-wr1-x442.google.com with SMTP id g3so1977158wrs.12
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DxdO7EU52xd3l5dM1HO6ldFtWdD2ROmRpEMpsBaKfGc=;
- b=w4KI827aC8d2X/kqG1eJviq5sBTgfcslYEyuzjtlK6vi6zkX6r+YdujR7Lf9SxHu0l
- YwHBHxoE9e3+bIMt6RMnLgexFgvRGkQtPj5tooT25WUYoctU7c/IjUyi6JA29su++1WR
- Yj+nYIgRkS7BQc6jrrDpec1qI+/QddIK23kg7XmWQXWTGlr1022IuBAiaf+zvvRQl6x5
- YlgzQu/opojExWBaobwOEcnail5MWWJxCKByfhDjLnq2M1sa+moekq3ECrgHlxCnZkZN
- 8cgFYVR2ImTOkwaoA1K93C+cSSUdD6e1y1EvV942kgkaCv6uIREibhDxSF6y3fXVGgSC
- po8g==
+ bh=B8FETunjdDzohDWrvxwGEHSQ/75b6YPRtF3e06IhvLQ=;
+ b=e+gDthJf8CtX/fw9I0E6R7UjxY6ekWZg77lR+BHzWHoSXwey9pr9ny69Sbem3hAdcu
+ Vc9bdxNn3BTXIpGqXz+JYbXfqG+3Dbp5nbfaZhwZgSQHBSfOQMOdL6bROwVFsApizhXh
+ 0EF43GkHWtharvEVqXchS/f6W+Nrscal+awsyb40VKO3zjIt/9YwIe9le0ztWyYfPyPk
+ UEM859eLG8+DJsHtJT8pZdWnpepRcmmu9GeeelsjLEwfgl4Bd+Saaf1qKXUK1eAaqx8J
+ UNs+FFPU76LOzXvxm/+g62hM6I/x8lZA0pOwdM9qpcgAqJ3xcDHGw1IRBOi1WLBhWTMI
+ Qt3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DxdO7EU52xd3l5dM1HO6ldFtWdD2ROmRpEMpsBaKfGc=;
- b=sSZLXi/H3ZR0leoffympUA5RCz3cpgRPYl7ysLnjZ7GPb0H5psbHpktHGpEkzYNQkz
- 125t2EWhoLuTLAD8VKoOLga20VFdR2DrYe+/NXc/c1fDxXZoMPjJIdyqaKXMQeNUSEi1
- rPv2P3Ff5pXFYtZsgtE3J8ElTCTs8ycX5sobEmoL+GdKQGVHIVHe4C3npQTyTgGEnGpx
- u/xXZf0B+aki1zEFE5TJgU6YiAYVV/gCXEi9Y/sIabJx/TNvH5HIRrp7npVZFcE9NCTf
- y+5QOmlZioR3UdJpK9ZrTOsnLv4LRBBmiPf2727dQSns6VXYgcsrDm+m3l7G0KbUsZM1
- mpfw==
-X-Gm-Message-State: APjAAAWggwqiGDvVtcvFzDvve/Z55ivgXTefTB+x1rk9hsqfFHzDJpOU
- 1sDq8PGLWo437ZIKAXL7fRx4oBJCN6E1JQ==
-X-Google-Smtp-Source: APXvYqwHHQTlduBU9Fiz62M8sK5flmled3nrVC4c+ie65EBSYAder/uPOie4vcYv+brI7xep1dFA2A==
-X-Received: by 2002:a1c:238e:: with SMTP id j136mr3736756wmj.17.1582290471292; 
- Fri, 21 Feb 2020 05:07:51 -0800 (PST)
+ bh=B8FETunjdDzohDWrvxwGEHSQ/75b6YPRtF3e06IhvLQ=;
+ b=WbqtZ75DQceHsYU7xtBB98/RUro21nKiccmbrDRtAbBZZfTSji2SB+7RP8vqQgnYBi
+ F2TbWzKo265emkPMV9vPY3aGxw7byrtRdZpZq408qIuJfNIrQRnca2uTa0p44OzUEc4M
+ xpa6o6fiGdK8JElKpzdAGazFtvjuxH4bUSRiSgmYwvx4yvQh2uHCKX4YDeCb5rbOwuuB
+ Q/TK9MtPP9BE0pp1nnBx8hmrqcMZjHsOcBu2g+HXdWkgp1XmNKPV9nF7SqJ7DASBDvMo
+ L3vbphko2MFTnFDDW3gEpBvXEFGjXqeq3tFGaO7CmuWWRrWwX5Vip2n6O1BW1u4GYR0s
+ uyvg==
+X-Gm-Message-State: APjAAAVvaY4YRCcgBPsRUEz1molNatpBLx/qybJ4l7s5Qsb76/5T/4wG
+ 2nZS0Z4X1GNxOGfZZuDUJ6NFKXcSYw2tXw==
+X-Google-Smtp-Source: APXvYqxnbIoXnB0IlBm/kWORNwpdz/3c1o7+qEsvXWbdeyiSbuAMmLv+jjt+mhXGl0TLP3PclxDL2g==
+X-Received: by 2002:a5d:6703:: with SMTP id o3mr46556882wru.235.1582290472303; 
+ Fri, 21 Feb 2020 05:07:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.49
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:07:50 -0800 (PST)
+ Fri, 21 Feb 2020 05:07:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/52] target/arm: Flush high bits of sve register after
- AdvSIMD TBL/TBX
-Date: Fri, 21 Feb 2020 13:06:55 +0000
-Message-Id: <20200221130740.7583-8-peter.maydell@linaro.org>
+Subject: [PULL 08/52] target/arm: Flush high bits of sve register after
+ AdvSIMD ZIP/UZP/TRN
+Date: Fri, 21 Feb 2020 13:06:56 +0000
+Message-Id: <20200221130740.7583-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,7 +87,7 @@ From: Richard Henderson <richard.henderson@linaro.org>
 Writes to AdvSIMD registers flush the bits above 128.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200214194643.23317-3-richard.henderson@linaro.org
+Message-id: 20200214194643.23317-4-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
@@ -95,17 +95,17 @@ Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 620a4290671..096a854aed7 100644
+index 096a854aed7..b83d09dbcd7 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -6964,6 +6964,7 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
+@@ -7054,6 +7054,7 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
      tcg_temp_free_i64(tcg_resl);
      write_vec_element(s, tcg_resh, rd, 1, MO_64);
      tcg_temp_free_i64(tcg_resh);
 +    clear_vec_high(s, true, rd);
  }
  
- /* ZIP/UZP/TRN
+ /*
 -- 
 2.20.1
 
