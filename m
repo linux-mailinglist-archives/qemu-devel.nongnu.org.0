@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130F11683EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:46:04 +0100 (CET)
-Received: from localhost ([::1]:33122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3611683F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:47:13 +0100 (CET)
+Received: from localhost ([::1]:33140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BRD-0003su-15
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:46:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52765)
+	id 1j5BSK-0005RC-Fu
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:47:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j5BOc-0008LF-GJ
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:23 -0500
+ (envelope-from <david@redhat.com>) id 1j5BOk-0008Tt-CI
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j5BOb-0006wl-JA
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:22 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22151
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j5BOi-000720-OJ
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:30 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58182
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j5BOb-0006wH-Fb
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:21 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j5BOi-00071D-K9
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582303401;
+ s=mimecast20190719; t=1582303408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EJq972UhjpkmcHCdnxALNgVTNAc8KQY0NgduEwRuRMw=;
- b=TMte7PXMRgeBvjjqGpkijBcwBVNomDC4irfCe/ZZvKj7ddEM2kb4MUBPlUiLyVepAZMURl
- XUXxDYf6gaiYsAu5BNl2H9W7hEEH6Z3PR3OKWZkA4HTqr7QExubEq58/CIQUAtTKGoIVB1
- /AA/uLKrOFkBdwvIXdVv84g2oKd6Yd8=
+ bh=oSpIC4s3HSGkb/fEaqI9Wa68N6FuVmUTMLk4XGNwK2w=;
+ b=apJCFcbbjVz6bIhTTyd5F/svDI8GVmeY9mlBZmXLn5/7vjBk/VtvIg+ZHrvE61aLhGn29m
+ vbeKt+h6RTMvbfmfuWHfkVigjkDtVtj4wJTfGUVcxOuhtILOSFcUZ0+xkFefJixDxUw6vH
+ 6PociMQa70BmASWjB6Q0f0/FooyPjYA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-yv3BARUZPWKVHwrPkxlv-w-1; Fri, 21 Feb 2020 11:43:19 -0500
-X-MC-Unique: yv3BARUZPWKVHwrPkxlv-w-1
+ us-mta-451-MFN_7wcYPhqIyMKYA_atkA-1; Fri, 21 Feb 2020 11:43:24 -0500
+X-MC-Unique: MFN_7wcYPhqIyMKYA_atkA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72924800D4E;
- Fri, 21 Feb 2020 16:43:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B4B4801A1F;
+ Fri, 21 Feb 2020 16:43:23 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-197.ams2.redhat.com [10.36.117.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B3055C105;
- Fri, 21 Feb 2020 16:43:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1BC25C105;
+ Fri, 21 Feb 2020 16:43:18 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/13] exec: Relax range check in ram_block_discard_range()
-Date: Fri, 21 Feb 2020 17:41:57 +0100
-Message-Id: <20200221164204.105570-7-david@redhat.com>
+Subject: [PATCH v2 07/13] migration/ram: Discard RAM when growing RAM blocks
+ after ram_postcopy_incoming_init()
+Date: Fri, 21 Feb 2020 17:41:58 +0100
+Message-Id: <20200221164204.105570-8-david@redhat.com>
 In-Reply-To: <20200221164204.105570-1-david@redhat.com>
 References: <20200221164204.105570-1-david@redhat.com>
 MIME-Version: 1.0
@@ -78,45 +79,85 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to make use of ram_block_discard_range() in the RAM block resize
-callback when growing a RAM block, *before* used_length is changed.
-Let's relax the check. We always have a reserved mapping for the whole
-max_length, so we cannot corrupt unrelated data.
+In case we grow our RAM after ram_postcopy_incoming_init() (e.g., when
+synchronizing the RAM block state with the migration source), the resized
+part would not get discarded. Let's perform that when being notified
+about a resize while postcopy has been advised, but is not listening
+yet. With precopy, the process is as following:
 
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+1. VM created
+- RAM blocks are created
+2. Incomming migration started
+- Postcopy is advised
+- All pages in RAM blocks are discarded
+3. Precopy starts
+- RAM blocks are resized to match the size on the migration source.
+- RAM pages from precopy stream are loaded
+- Uffd handler is registered, postcopy starts listening
+3. Guest started, postcopy running
+- Pagefaults get resolved, pages get placed
+
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
 Cc: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- exec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ migration/ram.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index 8b015821d6..8737acedab 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3915,7 +3915,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t st=
-art, size_t length)
-         goto err;
+diff --git a/migration/ram.c b/migration/ram.c
+index 39c7d1c4a6..d5a4d69e1c 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3714,6 +3714,7 @@ static SaveVMHandlers savevm_ram_handlers =3D {
+ static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host,
+                                       size_t old_size, size_t new_size)
+ {
++    PostcopyState ps =3D postcopy_state_get();
+     ram_addr_t offset;
+     Error *err =3D NULL;
+     RAMBlock *rb =3D qemu_ram_block_from_host(host, false, &offset);
+@@ -3734,6 +3735,35 @@ static void ram_mig_ram_block_resized(RAMBlockNotifi=
+er *n, void *host,
+         error_free(err);
+         migration_cancel();
      }
++
++    switch (ps) {
++    case POSTCOPY_INCOMING_ADVISE:
++        /*
++         * Update what ram_postcopy_incoming_init()->init_range() does at =
+the
++         * time postcopy was advised. Syncing RAM blocks with the source w=
+ill
++         * result in RAM resizes.
++         */
++        if (old_size < new_size) {
++            if (ram_discard_range(rb->idstr, old_size, new_size - old_size=
+)) {
++                error_report("RAM block '%s' discard of resized RAM failed=
+",
++                             rb->idstr);
++            }
++        }
++        break;
++    case POSTCOPY_INCOMING_NONE:
++    case POSTCOPY_INCOMING_RUNNING:
++    case POSTCOPY_INCOMING_END:
++        /*
++         * Once our guest is running, postcopy does no longer care about
++         * resizes. When growing, the new memory was not available on the
++         * source, no handler needed.
++         */
++        break;
++    default:
++        error_report("RAM block '%s' resized during postcopy state: %d",
++                     rb->idstr, ps);
++        exit(-1);
++    }
+ }
 =20
--    if ((start + length) <=3D rb->used_length) {
-+    if ((start + length) <=3D rb->max_length) {
-         bool need_madvise, need_fallocate;
-         if (!QEMU_IS_ALIGNED(length, rb->page_size)) {
-             error_report("ram_block_discard_range: Unaligned length: %zx",
-@@ -3982,7 +3982,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t st=
-art, size_t length)
-     } else {
-         error_report("ram_block_discard_range: Overrun block '%s' (%" PRIu=
-64
-                      "/%zx/" RAM_ADDR_FMT")",
--                     rb->idstr, start, length, rb->used_length);
-+                     rb->idstr, start, length, rb->max_length);
-     }
-=20
- err:
+ static RAMBlockNotifier ram_mig_ram_notifier =3D {
 --=20
 2.24.1
 
