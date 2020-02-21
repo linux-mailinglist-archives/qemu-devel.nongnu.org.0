@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE601167E98
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:29:56 +0100 (CET)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B12F167E96
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:29:54 +0100 (CET)
+Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58NP-0007LJ-SE
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:29:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56913)
+	id 1j58NN-0007C1-At
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:29:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j582b-0007mD-Fi
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:26 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j582c-0007q2-TZ
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j582a-0003DQ-ER
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:25 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54442)
+ (envelope-from <peter.maydell@linaro.org>) id 1j582b-0003EI-Kl
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:26 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37603)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j582a-0003By-86
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:24 -0500
-Received: by mail-wm1-x335.google.com with SMTP id n3so1726051wmk.4
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:24 -0800 (PST)
+ id 1j582b-0003Dh-ED
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:25 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w15so1998682wru.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=VpFi9ia1qLZ3xYtg0o1IQedP9GIh+OffzPSN9uWqPKI=;
- b=UwXYwoa3cPc+cUb74Qzy2tfbgswAMf9vj6Rs8RdJmI9ShU2itOh0gErIACSZ7p6j3g
- Dh9iDIEykS8hbCTrZbqk5CChd97oFAwzrJwH+3ZEvVhExsS8i/hPZp7z0bwk19IPvIOl
- H9Hj6GD/xP6Df/SbiYPF4NlCekLQDN8X9bNFoA4RiN67qr8Ta0crRr6YMN5rI+nOPMHA
- /HbZaPTDeCNh9bUXSun0qe96M6ZvvgcNTIPWOMNXjiLhmPGDB80yjcGhTE3nYWX8iSn/
- 2isqr30XU+4H4ED1OMGQtz/dqpeuUZy5KWmyQapyguX6KfYR9bWPcHtZs4fL1o1OWOQ7
- 2WaA==
+ bh=bB3JhtGyxiZSnQrMH3G4ul64IiYEPWbc6FcCjlU/wjY=;
+ b=QSgF97U4BSdNF6VMo6tCZt0e9VHNduJgwOQPGwc+0QGo8rtGxOe5XVuvFqZmGNJ0Si
+ X6PT4IhNVwllk6z72l97E6w8WbUKZqJE+VyIY/+uka2T5kGLdv4gKlwi4D4oMy5HDM63
+ XzBW0QVkSCbQyXx6xq3AcADp1SNjp1Pv2jsIBButA77aH22MRXayDZv3kcAocbD9POo0
+ xJbDpzVKHtR5WndKfxGl5iaBB07na7YL6WihlP+semyZoim4noX4bbuV0solvBAS+tCP
+ HzKTjR5ucTJkKpuVk45yPUEjvYkEviuciMhDj7aABp1nX/O9vq5CxdxEmdQHy185Wk4J
+ h9tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VpFi9ia1qLZ3xYtg0o1IQedP9GIh+OffzPSN9uWqPKI=;
- b=PWJlL3QjNj2pwA9Db3Axwe0Y5oFGCcjFC1qvpY9nFOzE2eWwUSxtxNSw2ipcIHfvXO
- Dz29rIO3XBMUUdjElteOQqZW7mLvJEavgB8l7JSyyqOJbxkpURJMle4yELKqNPYTrmVP
- bW/ORwrkDt/5QVn2ZOqirFSdz7H/g2E0ESPb/w+d1bD7b4tXOvU+UJkIWaf1MIwtP5kr
- T2Wr+R3Morzi58ba0I+cMQiYAeTU1DL+OzhtvAFzkc6JMScpDGQm09vIXgBivIJ+1jux
- L2f7nSzBFdDQUqjC6cwYl2YvoZA6DRe0WwAMWcG5xUaV0VTdwl5orFXg8WHDpo1ClzPn
- sD3A==
-X-Gm-Message-State: APjAAAU/GqnQ7GWingrJSNmjSTbHzAjiq7EatBRq897emBcj6FIgbf7s
- nWck+51pJWjdlwxy5Xvkn4WMlsQmGFMFLw==
-X-Google-Smtp-Source: APXvYqxzlPczsDuYAk4VVMRP1w+5gbUMN5M/hyJUIQhf+nXlxosNtPmxap0L6CoWyXqknrJ94XGptA==
-X-Received: by 2002:a7b:cd1a:: with SMTP id f26mr3618095wmj.184.1582290502618; 
- Fri, 21 Feb 2020 05:08:22 -0800 (PST)
+ bh=bB3JhtGyxiZSnQrMH3G4ul64IiYEPWbc6FcCjlU/wjY=;
+ b=c3WAXXMf9x1DSkVuVSLPfchb9j+am7FeyRIVoaKo3ZZN+Q6dDSEYSbMJ+QruFhTVrk
+ fB+bnsYrNBJtQaXHY7CRP5WVWHtFKK0sQIhv5V/IWhrKFJvBKaGt2o0DGZgx4Pd2u+VT
+ gWbVwhPLyVZQNdbbCrst6OrH7udVaq/8sAzYrjr2lqLA0gpj/HZstpxUQMDKtHb7Ckhn
+ 1mGs/FB6IaZ5UJOOZovMmUfwYtlMUSTAeh/BmTm/tfKd7Llvs5JR0ARNwXVczy64XPq9
+ jO2J//QbEzoZKyR66qTflr5/FNj4DsUyK8aoggivaBDTh2vHjAUpx5ef6Bi2oWEm17vC
+ 2sNw==
+X-Gm-Message-State: APjAAAVtrMmUqBGMui/zrZ7cSaXxHvqmjgJI/cXIvcwSVnWGDfgHBx+S
+ covWk+ly+KbvBS4wn079gBFflfoskopBbw==
+X-Google-Smtp-Source: APXvYqwKKa1DubV8VKFejEVNwsHEjrKQJIUHWajQ49HwhJ3ivFbzyv7l+YtuTVaz9leRhvOOqgVLxQ==
+X-Received: by 2002:a5d:6987:: with SMTP id g7mr47294765wru.422.1582290504068; 
+ Fri, 21 Feb 2020 05:08:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.21
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:08:22 -0800 (PST)
+ Fri, 21 Feb 2020 05:08:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/52] target/arm: Use FIELD_EX32 for testing 32-bit fields
-Date: Fri, 21 Feb 2020 13:07:21 +0000
-Message-Id: <20200221130740.7583-34-peter.maydell@linaro.org>
+Subject: [PULL 34/52] target/arm: Correctly implement ACTLR2, HACTLR2
+Date: Fri, 21 Feb 2020 13:07:22 +0000
+Message-Id: <20200221130740.7583-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,82 +81,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cut-and-paste errors mean we're using FIELD_EX64() to extract fields from
-some 32-bit ID register fields. Use FIELD_EX32() instead. (This makes
-no difference in behaviour, it's just more consistent.)
+The ACTLR2 and HACTLR2 AArch32 system registers didn't exist in ARMv7
+or the original ARMv8.  They were later added as optional registers,
+whose presence is signaled by the ID_MMFR4.AC2 field.  From ARMv8.2
+they are mandatory (ie ID_MMFR4.AC2 must be non-zero).
 
+We implemented HACTLR2 in commit 0e0456ab8895a5e85, but we
+incorrectly made it exist for all v8 CPUs, and we didn't implement
+ACTLR2 at all.
+
+Sort this out by implementing both registers only when they are
+supposed to exist, and setting the ID_MMFR4 bit for -cpu max.
+
+Note that this removes HACTLR2 from our Cortex-A53, -A47 and -A72
+CPU models; this is correct, because those CPUs do not implement
+this register.
+
+Fixes: 0e0456ab8895a5e85
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200214175116.9164-21-peter.maydell@linaro.org
+Message-id: 20200214175116.9164-22-peter.maydell@linaro.org
 ---
- target/arm/cpu.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ target/arm/cpu.h    |  5 +++++
+ target/arm/cpu.c    |  1 +
+ target/arm/cpu64.c  |  4 ++++
+ target/arm/helper.c | 32 +++++++++++++++++++++++---------
+ 4 files changed, 33 insertions(+), 9 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 276030a5cf3..c6af3290caf 100644
+index c6af3290caf..b4c83a1cb52 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3453,18 +3453,18 @@ static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
- static inline bool isar_feature_aa32_fp_d32(const ARMISARegisters *id)
- {
-     /* Return true if D16-D31 are implemented */
--    return FIELD_EX64(id->mvfr0, MVFR0, SIMDREG) >= 2;
-+    return FIELD_EX32(id->mvfr0, MVFR0, SIMDREG) >= 2;
+@@ -3531,6 +3531,11 @@ static inline bool isar_feature_aa32_hpd(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_mmfr4, ID_MMFR4, HPDS) != 0;
  }
  
- static inline bool isar_feature_aa32_fpshvec(const ARMISARegisters *id)
- {
--    return FIELD_EX64(id->mvfr0, MVFR0, FPSHVEC) > 0;
-+    return FIELD_EX32(id->mvfr0, MVFR0, FPSHVEC) > 0;
- }
- 
- static inline bool isar_feature_aa32_fpdp(const ARMISARegisters *id)
- {
-     /* Return true if CPU supports double precision floating point */
--    return FIELD_EX64(id->mvfr0, MVFR0, FPDP) > 0;
-+    return FIELD_EX32(id->mvfr0, MVFR0, FPDP) > 0;
- }
- 
++static inline bool isar_feature_aa32_ac2(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->id_mmfr4, ID_MMFR4, AC2) != 0;
++}
++
  /*
-@@ -3474,32 +3474,32 @@ static inline bool isar_feature_aa32_fpdp(const ARMISARegisters *id)
+  * 64-bit feature tests via id registers.
   */
- static inline bool isar_feature_aa32_fp16_spconv(const ARMISARegisters *id)
- {
--    return FIELD_EX64(id->mvfr1, MVFR1, FPHP) > 0;
-+    return FIELD_EX32(id->mvfr1, MVFR1, FPHP) > 0;
- }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index c46bb5a5c09..9f618e120aa 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2718,6 +2718,7 @@ static void arm_max_initfn(Object *obj)
  
- static inline bool isar_feature_aa32_fp16_dpconv(const ARMISARegisters *id)
- {
--    return FIELD_EX64(id->mvfr1, MVFR1, FPHP) > 1;
-+    return FIELD_EX32(id->mvfr1, MVFR1, FPHP) > 1;
- }
+             t = cpu->isar.id_mmfr4;
+             t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
++            t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
+             cpu->isar.id_mmfr4 = t;
+         }
+ #endif
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 8430d432943..0929401a4dd 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -703,6 +703,10 @@ static void aarch64_max_initfn(Object *obj)
+         u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
+         cpu->isar.id_mmfr3 = u;
  
- static inline bool isar_feature_aa32_vsel(const ARMISARegisters *id)
- {
--    return FIELD_EX64(id->mvfr2, MVFR2, FPMISC) >= 1;
-+    return FIELD_EX32(id->mvfr2, MVFR2, FPMISC) >= 1;
- }
++        u = cpu->isar.id_mmfr4;
++        u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
++        cpu->isar.id_mmfr4 = u;
++
+         u = cpu->isar.id_aa64dfr0;
+         u = FIELD_DP64(u, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
+         cpu->isar.id_aa64dfr0 = u;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 19d749a1913..1ac09f387ed 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6862,6 +6862,27 @@ static const ARMCPRegInfo ats1cp_reginfo[] = {
+ };
+ #endif
  
- static inline bool isar_feature_aa32_vcvt_dr(const ARMISARegisters *id)
++/*
++ * ACTLR2 and HACTLR2 map to ACTLR_EL1[63:32] and
++ * ACTLR_EL2[63:32]. They exist only if the ID_MMFR4.AC2 field
++ * is non-zero, which is never for ARMv7, optionally in ARMv8
++ * and mandatorily for ARMv8.2 and up.
++ * ACTLR2 is banked for S and NS if EL3 is AArch32. Since QEMU's
++ * implementation is RAZ/WI we can ignore this detail, as we
++ * do for ACTLR.
++ */
++static const ARMCPRegInfo actlr2_hactlr2_reginfo[] = {
++    { .name = "ACTLR2", .state = ARM_CP_STATE_AA32,
++      .cp = 15, .opc1 = 0, .crn = 1, .crm = 0, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST,
++      .resetvalue = 0 },
++    { .name = "HACTLR2", .state = ARM_CP_STATE_AA32,
++      .cp = 15, .opc1 = 4, .crn = 1, .crm = 0, .opc2 = 3,
++      .access = PL2_RW, .type = ARM_CP_CONST,
++      .resetvalue = 0 },
++    REGINFO_SENTINEL
++};
++
+ void register_cp_regs_for_features(ARMCPU *cpu)
  {
--    return FIELD_EX64(id->mvfr2, MVFR2, FPMISC) >= 2;
-+    return FIELD_EX32(id->mvfr2, MVFR2, FPMISC) >= 2;
- }
+     /* Register all the coprocessor registers based on feature bits */
+@@ -7623,15 +7644,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             REGINFO_SENTINEL
+         };
+         define_arm_cp_regs(cpu, auxcr_reginfo);
+-        if (arm_feature(env, ARM_FEATURE_V8)) {
+-            /* HACTLR2 maps to ACTLR_EL2[63:32] and is not in ARMv7 */
+-            ARMCPRegInfo hactlr2_reginfo = {
+-                .name = "HACTLR2", .state = ARM_CP_STATE_AA32,
+-                .cp = 15, .opc1 = 4, .crn = 1, .crm = 0, .opc2 = 3,
+-                .access = PL2_RW, .type = ARM_CP_CONST,
+-                .resetvalue = 0
+-            };
+-            define_one_arm_cp_reg(cpu, &hactlr2_reginfo);
++        if (cpu_isar_feature(aa32_ac2, cpu)) {
++            define_arm_cp_regs(cpu, actlr2_hactlr2_reginfo);
+         }
+     }
  
- static inline bool isar_feature_aa32_vrint(const ARMISARegisters *id)
- {
--    return FIELD_EX64(id->mvfr2, MVFR2, FPMISC) >= 3;
-+    return FIELD_EX32(id->mvfr2, MVFR2, FPMISC) >= 3;
- }
- 
- static inline bool isar_feature_aa32_vminmaxnm(const ARMISARegisters *id)
- {
--    return FIELD_EX64(id->mvfr2, MVFR2, FPMISC) >= 4;
-+    return FIELD_EX32(id->mvfr2, MVFR2, FPMISC) >= 4;
- }
- 
- static inline bool isar_feature_aa32_pan(const ARMISARegisters *id)
 -- 
 2.20.1
 
