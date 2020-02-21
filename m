@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C31168398
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:34:33 +0100 (CET)
-Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5D01683AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:36:32 +0100 (CET)
+Received: from localhost ([::1]:32866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BG4-0002y6-3x
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:34:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49444)
+	id 1j5BHz-0005M6-7w
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:36:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david.edmondson@oracle.com>) id 1j5BER-00013m-Sx
+ (envelope-from <david.edmondson@oracle.com>) id 1j5BER-00013g-IS
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:32:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.edmondson@oracle.com>) id 1j5BEQ-0000NQ-QE
+ (envelope-from <david.edmondson@oracle.com>) id 1j5BEQ-0000NJ-Hx
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:32:51 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:35738)
+Received: from userp2130.oracle.com ([156.151.31.86]:35766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
- id 1j5BEN-0000Ku-Vo; Fri, 21 Feb 2020 11:32:48 -0500
+ id 1j5BEN-0000LA-LS; Fri, 21 Feb 2020 11:32:47 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGV8qP024374;
- Fri, 21 Feb 2020 16:32:43 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGV5bH024253;
+ Fri, 21 Feb 2020 16:32:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=2MzMi46/tMJi+rQ/nsvPFHejON11ccmxncORRhmLF5c=;
- b=sefo+oHkSef9RpBdqxZ2AqWMKfrtZyocpWWSNpy19bY3Jq6CGqddFBym5R3jh3vhPnkZ
- f0G78C2p4MOnf086B6NZSjX7dJ6UOe+Dexv/C4riHR6oCt9AEaD7SZ1709iX2iDLOFd+
- gKe5hrDjlKjT2udMotDeUnxoQGx0wP36FPRPb6rJthYIic36pJkiDIrVSSMwLdmc2mfR
- dU8/OxbJUQcAHmw0GGQoK0SlVSNvcku0MbTi2pGp7adjbZtF3E3CBZL6xih46ZdAPs4s
- bPpWwt3Ooag3zHZVVfcn/v1soIHvT0AyiUm8CdxLEjjTKxSJj2XXdmCfiR05hU5F7x1R tQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2y8uddhm1g-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=iBNQeoHxQwvpeGKNBw3AigaYz1rA0uTaMhD0FMSxPgc=;
+ b=pUD9bgOKifQOoVZmcncUcje5RrJYt8BHUT/MCXqc39xboQPh+wrXpx2SQPxBSAl3qMiy
+ VzNgIh020iwyhMoy0on5BUvtYUhT3YPobBhoofSPAJus8MRqSlbIYFEk0RZ/ROHhLwM6
+ JpyX69C1akN/jYNRnrlKSUXwCNuGYr5O9NSNaHRxO/YvxqLDxh2lBD5tE8KJ/mcQAXi8
+ 6HwiV2FGRElDnD/vVsOLgxCraap4IXB0fW7D3fg6SjCutiGIi3Y2zyR01rvjP7fCZI9c
+ Piz/eHixEx2eIfByL1VRqos0NjOgpK6MBAvD6jfZyBXmZjQen6XsZQZllTRJjilcUx0+ aA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2y8uddhm1n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Feb 2020 16:32:43 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGVtbJ122918;
- Fri, 21 Feb 2020 16:32:42 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2y8ud95724-1
+ Fri, 21 Feb 2020 16:32:45 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01LGVsXX124539;
+ Fri, 21 Feb 2020 16:32:44 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2y8udnskst-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Feb 2020 16:32:42 +0000
+ Fri, 21 Feb 2020 16:32:44 +0000
 Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01LGWf5r002398;
- Fri, 21 Feb 2020 16:32:42 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01LGWhpL019996;
+ Fri, 21 Feb 2020 16:32:43 GMT
 Received: from disaster-area.hh.sledj.net (/81.187.26.238)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 21 Feb 2020 08:32:41 -0800
+ with ESMTP ; Fri, 21 Feb 2020 08:32:42 -0800
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 7be09f15;
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id a95ab626;
  Fri, 21 Feb 2020 16:32:39 +0000 (UTC)
 From: David Edmondson <david.edmondson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] block/curl: Improve HTTP header parsing
-Date: Fri, 21 Feb 2020 16:32:36 +0000
-Message-Id: <20200221163238.60688-1-david.edmondson@oracle.com>
+Subject: [PATCH v2 1/2] block/curl: HTTP header fields allow whitespace around
+ values
+Date: Fri, 21 Feb 2020 16:32:37 +0000
+Message-Id: <20200221163238.60688-2-david.edmondson@oracle.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200221163238.60688-1-david.edmondson@oracle.com>
+References: <20200221163238.60688-1-david.edmondson@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=595 mlxscore=0
- adultscore=0 spamscore=0 suspectscore=1 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002210124
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=996
+ phishscore=0 suspectscore=1 mlxscore=0 malwarescore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002210124
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9538
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  impostorscore=0
- mlxlogscore=654 malwarescore=0 mlxscore=0 suspectscore=1
+ mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=1
  priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
  clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002210123
@@ -93,25 +97,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An HTTP object store of my acquaintance returns "accept-ranges: bytes"
-(all lower case) as a header, causing the QEMU curl backend to refuse
-to talk to it. RFC 7230 says that HTTP headers are case insensitive,
-so update the curl backend accordingly.
+RFC 7230 section 3.2 indicates that whitespace is permitted between
+the field name and field value and after the field value.
 
-At the same time, allow for arbitrary white space around the HTTP
-header field value, as required by the RFC.
-
-v2:
-- strncasecmp -> g_ascii_strncasecmp (Philippe).
-- isspace -> g_ascii_isspace, for good measure.
-
-David Edmondson (2):
-  block/curl: HTTP header fields allow whitespace around values
-  block/curl: HTTP header field names are case insensitive
-
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+---
  block/curl.c | 31 +++++++++++++++++++++++++++----
  1 file changed, 27 insertions(+), 4 deletions(-)
 
+diff --git a/block/curl.c b/block/curl.c
+index f86299378e38..f9ffb7f4e2bf 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -214,11 +214,34 @@ static size_t curl_header_cb(void *ptr, size_t size, size_t nmemb, void *opaque)
+ {
+     BDRVCURLState *s = opaque;
+     size_t realsize = size * nmemb;
+-    const char *accept_line = "Accept-Ranges: bytes";
++    const char *header = (char *)ptr;
++    const char *end = header + realsize;
++    const char *accept_ranges = "Accept-Ranges:";
++    const char *bytes = "bytes";
+ 
+-    if (realsize >= strlen(accept_line)
+-        && strncmp((char *)ptr, accept_line, strlen(accept_line)) == 0) {
+-        s->accept_range = true;
++    if (realsize >= strlen(accept_ranges)
++        && strncmp(header, accept_ranges, strlen(accept_ranges)) == 0) {
++
++        char *p = strchr(header, ':') + 1;
++
++        /* Skip whitespace between the header name and value. */
++        while (p < end && *p && g_ascii_isspace(*p)) {
++            p++;
++        }
++
++        if (end - p >= strlen(bytes)
++            && strncmp(p, bytes, strlen(bytes)) == 0) {
++
++            /* Check that there is nothing but whitespace after the value. */
++            p += strlen(bytes);
++            while (p < end && *p && g_ascii_isspace(*p)) {
++                p++;
++            }
++
++            if (p == end || !*p) {
++                s->accept_range = true;
++            }
++        }
+     }
+ 
+     return realsize;
 -- 
 2.24.1
 
