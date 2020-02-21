@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDAC167E08
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:09:21 +0100 (CET)
-Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B282167E10
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:11:20 +0100 (CET)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j583U-0008J6-Sb
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:09:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56422)
+	id 1j585P-0003Lb-C9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:11:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56435)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j5820-0006Ts-Rk
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:49 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j5821-0006UA-TR
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j581z-0002Tc-SA
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:48 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37637)
+ (envelope-from <peter.maydell@linaro.org>) id 1j5820-0002U7-RX
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:49 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44155)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j581z-0002T9-M3
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:47 -0500
-Received: by mail-wr1-x434.google.com with SMTP id w15so1996176wru.4
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:47 -0800 (PST)
+ id 1j5820-0002Tj-LS
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:07:48 -0500
+Received: by mail-wr1-x444.google.com with SMTP id m16so1974598wrx.11
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:07:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LnZwcALAQoLYwtLg7hngxVlKU2Xi0Rug4qNNkDV9UPk=;
- b=oi8PnEj8oSnxe9G6eaPjm6z7AAaUB77jlRhs87NTI4MZR9S5mLP1PAvzXEFA58AZic
- h+dkWtOC58rvvEPpehoJlEBXd6xge+fg84/rkCqwc9XlhKs93kBX22Ddz/Mx/Ei7iHig
- kmJMzqhRiXvatS72dRpZqVbxne5BDV3GBuImMNyCyb37vli1tM7X4dYx9sC2DpOPzD2+
- wqXLvDKsZ9hc+F4ogk/OGzYmYtoXZcFZzPzXSl6ND/GGseZ6DDwHN7l8z2YYtY6J7QSD
- 34sTetIoRSxm/G6r5f7Yudf4fLOej1HK1DNxAzsrrD2wbV6CQdsi1NphKPWWkgsySP71
- zPoA==
+ bh=CH19MfiE/v2T7HEX2v6F3oXsrclEX9/NAMZTm7XbSuc=;
+ b=V5rKSUSa3NoY6J0K/3r1WBTfdW58Dc8IJV83TJYgCCtxHcoE1mN1H4QIXLqjxGccR8
+ ORuJH+ct4/Qaq4FYJx4/aawrDGzHfdFBaPYo37qEj7eulB14/Vv6DErwZnNwYjXbIJxJ
+ Ct5OEXI5EBu5UA+UTZVWdgujbZLQkTul1WXDyxswXKXWGSSM6z/WhYPf5xCscLH1JcZB
+ qg9hMtsCqBmY7FcA0pGeG4InIVs7b/E67fEp1ysiaAmeXAz1Cdj3nZ1bL2eLnMEEbhxD
+ QwrihcR2b1dVaeU/45L3yhZ/74eBrr2o5AonBWMV/NdPj6kxPupz1UlIZ9F1lBT5Krtv
+ oi6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LnZwcALAQoLYwtLg7hngxVlKU2Xi0Rug4qNNkDV9UPk=;
- b=mZEKf+WxAKXFpraY0Z7qwrCXOBDZOs449IH22/s+RH5rcYlGFtxguYmk1Gww88Vrpu
- 1MRAmVsXOnuMI56sVSsiZq6BsTMx9VVYLwF6KxeZHGvsn0hAn5yxKZMqRa79D17ccQ8E
- bAn3IeVXeGAwkNOLfd89TsVvFjLAzGcFhSF+5zbYnAKVyMeka3CTAYL3BVfjzKxe24+N
- NUedCaW0a2q/Zd3K6gwFF0KSPrxJHHIWQqBTmEejhGFmjljWYaJIwMLSAf1peXZTA9v7
- 9SUDODs/h3cMtqRgpomFYn5ZUnoAUZXCIg0QmewAFgMEe9iPc1qQSAfMaLU+PofPo1a/
- g3DA==
-X-Gm-Message-State: APjAAAWtsBkj8c+5LaF9G0We5RfhtFSu1RKrwRtfvepPuqk7cX63orSv
- Xuq5Q57kMAgNURFEltcatjeFY7wydjwbLQ==
-X-Google-Smtp-Source: APXvYqxoDFtzxcohHAYxsNP/Z6z+V68R3ci6PT+sYafanxsIRT2cqDggdSmEm+aSIyI0iT4R4B8CEw==
-X-Received: by 2002:a5d:65c6:: with SMTP id e6mr21378938wrw.45.1582290466416; 
- Fri, 21 Feb 2020 05:07:46 -0800 (PST)
+ bh=CH19MfiE/v2T7HEX2v6F3oXsrclEX9/NAMZTm7XbSuc=;
+ b=lTlsl8lcjTBkBD/ntptY1sE1FtTs0KzxDnI80wrIuXJRwlt3wLGKUj8Xvb2tt0YcSi
+ eG0bwy+TKdfyG5S4chihtee7qgdC/gAlqPfO4Ccxa+LDCNUcxaH9aVSVvjV2hWYoecRI
+ 4Qe8fDNuPPILcmKODdXpRwgeDofmjDIt5+mXmReTv3xG0nHXgG4Rzs89uSC/Z35R7R+u
+ ZYBovatWYBUsHDlIpmHDVSbSxL/euTZ/ewlt0T8EISXoDf6yzAuEmUo/4fyQuy60CvuS
+ b2edAdqbr1S/0o3KsGrddEupHAHesZwu1GF9SHt8vEP6cJJAAiMJMGhPpKPV4ZxgyFKq
+ d9gg==
+X-Gm-Message-State: APjAAAVjaWx110htZfK1qufVFZux0YUhxcMew097gw17IR4iaWIk0ESw
+ rG04ivYDJfv0EotNYNKjcmMIok8tOFA/mg==
+X-Google-Smtp-Source: APXvYqyvalDmHXL4QM+9PdfpDLTvd2MHnEhr7gZCgg0j6H//u8knKln1QRmOf3QJ2sYU+vQCX/dLjQ==
+X-Received: by 2002:adf:b605:: with SMTP id f5mr46475467wre.383.1582290467353; 
+ Fri, 21 Feb 2020 05:07:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.45
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.07.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:07:45 -0800 (PST)
+ Fri, 21 Feb 2020 05:07:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/52] hw/misc/iotkit-secctl: Fix writing to 'PPC Interrupt
- Clear' register
-Date: Fri, 21 Feb 2020 13:06:51 +0000
-Message-Id: <20200221130740.7583-4-peter.maydell@linaro.org>
+Subject: [PULL 04/52] mainstone: Make providing flash images non-mandatory
+Date: Fri, 21 Feb 2020 13:06:52 +0000
+Message-Id: <20200221130740.7583-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,38 +82,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Guenter Roeck <linux@roeck-us.net>
 
-Fix warning reported by Clang static code analyzer:
+Up to now, the mainstone machine only boots if two flash images are
+provided. This is not really necessary; the machine can boot from initrd
+or from SD without it. At the same time, having to provide dummy flash
+images is a nuisance and does not add any real value. Make it optional.
 
-    CC      hw/misc/iotkit-secctl.o
-  hw/misc/iotkit-secctl.c:343:9: warning: Value stored to 'value' is never read
-          value &= 0x00f000f3;
-          ^        ~~~~~~~~~~
-
-Fixes: b3717c23e1c
-Reported-by: Clang Static Analyzer
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200217132922.24607-1-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200217210824.18513-1-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/iotkit-secctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/mainstone.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/hw/misc/iotkit-secctl.c b/hw/misc/iotkit-secctl.c
-index 609869821a1..9fdb82056a8 100644
---- a/hw/misc/iotkit-secctl.c
-+++ b/hw/misc/iotkit-secctl.c
-@@ -340,7 +340,7 @@ static MemTxResult iotkit_secctl_s_write(void *opaque, hwaddr addr,
-         qemu_set_irq(s->sec_resp_cfg, s->secrespcfg);
-         break;
-     case A_SECPPCINTCLR:
--        value &= 0x00f000f3;
-+        s->secppcintstat &= ~(value & 0x00f000f3);
-         foreach_ppc(s, iotkit_secctl_ppc_update_irq_clear);
-         break;
-     case A_SECPPCINTEN:
+diff --git a/hw/arm/mainstone.c b/hw/arm/mainstone.c
+index b01ce3ce08c..6e64dfab506 100644
+--- a/hw/arm/mainstone.c
++++ b/hw/arm/mainstone.c
+@@ -138,19 +138,10 @@ static void mainstone_common_init(MemoryRegion *address_space_mem,
+     /* There are two 32MiB flash devices on the board */
+     for (i = 0; i < 2; i ++) {
+         dinfo = drive_get(IF_PFLASH, 0, i);
+-        if (!dinfo) {
+-            if (qtest_enabled()) {
+-                break;
+-            }
+-            error_report("Two flash images must be given with the "
+-                         "'pflash' parameter");
+-            exit(1);
+-        }
+-
+         if (!pflash_cfi01_register(mainstone_flash_base[i],
+                                    i ? "mainstone.flash1" : "mainstone.flash0",
+                                    MAINSTONE_FLASH,
+-                                   blk_by_legacy_dinfo(dinfo),
++                                   dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+                                    sector_len, 4, 0, 0, 0, 0, be)) {
+             error_report("Error registering flash memory");
+             exit(1);
 -- 
 2.20.1
 
