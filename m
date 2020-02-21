@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5CB167EA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:32:16 +0100 (CET)
-Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038E8167EB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:35:13 +0100 (CET)
+Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58Pf-0002T7-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:32:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
+	id 1j58SV-0006Gq-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:35:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j582r-0008Qd-Ts
+ (envelope-from <peter.maydell@linaro.org>) id 1j582s-0008RX-Fw
  for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j582p-0003vB-Lp
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:40 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40846)
+ (envelope-from <peter.maydell@linaro.org>) id 1j582q-0003vt-9K
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:42 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36716)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j582p-0003uO-Eg
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:39 -0500
-Received: by mail-wm1-x341.google.com with SMTP id t14so1775901wmi.5
+ id 1j582q-0003uq-1q
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:08:40 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p17so1779882wma.1
  for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lZW5fWoykryTlZydn2qsBAZbMdQAuH2IlE0NMzkYoxo=;
- b=UPhK4mvbVdgdJyzUg4GXrcs2LpeYxYqRHQKCInWWnAze3CJJxS694x7smWL6HvKypD
- xTQ8p1OrOv8lTHSN7i5/v1uFoWP6SKFbdjyFfP4zfL/e5m2hAuLRIuK62uQLrj3Cqj9Q
- TeTfQ3xjNKDdxR/4I/AL9LcDTZfNgf3tx8lb6GCx8CazZQfu6+Ajz2jQNbvEGmxxSQp+
- 4xaElV5ip6C7mp8mFgWR4HAXnzOIiqzTfdAvbI0fLP+00blisEl6HPfWGAJQKAflYD53
- V5RPGgDGziF729e7nP0TX7rUtpzslW8mmzjehnKpe0401cGq74RXs66Q9LIG2AYFXnYy
- MnIA==
+ bh=qNihTLJediBrpCJBoB3GKxR0uHRMJ0laKIeFV/sWBeE=;
+ b=MQNFbY16pR61Fbjdgajdp8bn+FGLccb/PkMZWosIdY4SAadvddq0jIdAPHDKdDy+Ql
+ v7Gtlem7iRujBC/wKzSY28U7cYtJ7CbLldih9Zdp1piKVtnLoGO75YbzHoT/CDC5UEbc
+ 0d/oJRFrbKGAxk6E5k9LEOzx5ak8pv5NAZl+/9AxRZJ0c1rma2VUWin2qU/tXrdECyWF
+ QPJYErNG97d4Og9fRDEdIiMgCj2nYOEwAMjuEvncDQU+a7PdunvlGQGrmQEoFegO6BG9
+ csZkDAl/9w8pnPAh/drWm/0ebXF2SeHQSqFSlFm8OTuqCdsQmgq+dwBOkIyCmFIFVKvF
+ 0Lkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lZW5fWoykryTlZydn2qsBAZbMdQAuH2IlE0NMzkYoxo=;
- b=rBcK6jFlrbcdykCdV1Mav7p6Ad7ctfYfy6N0tbXgTJWImMPuq61qfm7k1oVvo1isee
- ot0XiXQeJ0LdYxjarWrDuI+av3URtqAyAlxzWYjLI+ZJYoBW4r3kt/QeWSVmVEFQKswS
- 62zdabYmUkVeYFC+z/cgn6Fo+zcIit/YbG0od6r67c65AoVaTDhlpsk5s6CVrZSQu09Q
- jkmD+ND4u12D3j3F4ZAIYAmqDFfn+Ejl3ZCOv1XVsWiwNBHPNexZH8Qo1cnmShV0uwPa
- 6teZ5T/YVoMYfZydx+pAAjkgFOS3ZLKBHdY61ZK0V6A4f96D8aLmK1GqpD/Vwzl5KmNg
- NHlg==
-X-Gm-Message-State: APjAAAW6PG9xlrx8PF/ZeZ1I5yYgy1Feh3EVXCH1esg2iw6ll3MD+bnh
- 1aecDbaXzUC4M/ztaVm+GJFs2mjrwGolAg==
-X-Google-Smtp-Source: APXvYqxmY55aOoQB7Shl8XAQLuabCU3devn0W6wItchx7L5yRzXuUq8cRWUC0xeBPupd0NX3TmAxKQ==
-X-Received: by 2002:a1c:9849:: with SMTP id a70mr3722500wme.76.1582290517687; 
- Fri, 21 Feb 2020 05:08:37 -0800 (PST)
+ bh=qNihTLJediBrpCJBoB3GKxR0uHRMJ0laKIeFV/sWBeE=;
+ b=FbzFj8ZvdyDCRIbPrzExBs6+vSFNxZt057YIFHWNmgTpKX9gCOXtef+pYzIM5OSBOd
+ WXaVcbQWeHR4cfcKqrBjIwHhqeN00uGIbs191ZDlFUKc7exjYeHLTOWNxDGk2tHCRmAC
+ OK8ZFWqa1VJXlt4zPJhuME6ndsSfY9f03zX+1mcJKGOHBY5PFmh0j5GXz+Mq1AyMv8+B
+ KCMz0IlDZLLfSA9qLcoljKlGVYOcn0Q9taLOd+mmhgy4I6wT/zMEIzyPQay3ptcFy9mB
+ S4uA5TAgCJzXqUEtrULRho+GPjGZYjOqL/lUtX5H0u3AWCHgk63IsJKqg/o+s5GjjY6Q
+ msVw==
+X-Gm-Message-State: APjAAAUBdOsKmHiDgG4HCmF6jtqHldNm11GinNBTjDSkOCXUlIW9m3ef
+ 7bv24z80F+J1Aq2HbZU/7PrGx9dpkdAWGA==
+X-Google-Smtp-Source: APXvYqx5egBCnPoTjWD6En80pTQKzB770C5vu20n5DldSuDJ7IhqZB7tabP5lZR0LhOmETT2K4Y1EQ==
+X-Received: by 2002:a1c:2093:: with SMTP id g141mr3778986wmg.142.1582290518683; 
+ Fri, 21 Feb 2020 05:08:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.36
+ by smtp.gmail.com with ESMTPSA id p15sm3598892wma.40.2020.02.21.05.08.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:08:37 -0800 (PST)
+ Fri, 21 Feb 2020 05:08:38 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/52] target/arm: Use isar_feature_aa32_simd_r32 more places
-Date: Fri, 21 Feb 2020 13:07:33 +0000
-Message-Id: <20200221130740.7583-46-peter.maydell@linaro.org>
+Subject: [PULL 46/52] target/arm: Set MVFR0.FPSP for ARMv5 cpus
+Date: Fri, 21 Feb 2020 13:07:34 +0000
+Message-Id: <20200221130740.7583-47-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200221130740.7583-1-peter.maydell@linaro.org>
 References: <20200221130740.7583-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,101 +83,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Many uses of ARM_FEATURE_VFP3 are testing for the number of simd
-registers implemented.  Use the proper test vs MVFR0.SIMDReg.
+We are going to convert FEATURE tests to ISAR tests,
+so FPSP needs to be set for these cpus, like we have
+already for FPDP.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200214181547.21408-4-richard.henderson@linaro.org
-[PMM: fix typo in commit message]
+Message-id: 20200214181547.21408-5-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c       |  9 ++++-----
- target/arm/helper.c    | 13 ++++++-------
- target/arm/translate.c |  2 +-
- 3 files changed, 11 insertions(+), 13 deletions(-)
+ target/arm/cpu.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 9f618e120aa..8085268a539 100644
+index 8085268a539..2eadf4dcb8b 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1009,11 +1009,10 @@ static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+@@ -1872,10 +1872,11 @@ static void arm926_initfn(Object *obj)
+      */
+     cpu->isar.id_isar1 = FIELD_DP32(cpu->isar.id_isar1, ID_ISAR1, JAZELLE, 1);
+     /*
+-     * Similarly, we need to set MVFR0 fields to enable double precision
+-     * and short vector support even though ARMv5 doesn't have this register.
++     * Similarly, we need to set MVFR0 fields to enable vfp and short vector
++     * support even though ARMv5 doesn't have this register.
+      */
+     cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
++    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSP, 1);
+     cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPDP, 1);
+ }
  
-     if (flags & CPU_DUMP_FPU) {
-         int numvfpregs = 0;
--        if (arm_feature(env, ARM_FEATURE_VFP)) {
--            numvfpregs += 16;
--        }
--        if (arm_feature(env, ARM_FEATURE_VFP3)) {
--            numvfpregs += 16;
-+        if (cpu_isar_feature(aa32_simd_r32, cpu)) {
-+            numvfpregs = 32;
-+        } else if (arm_feature(env, ARM_FEATURE_VFP)) {
-+            numvfpregs = 16;
-         }
-         for (i = 0; i < numvfpregs; i++) {
-             uint64_t v = *aa32_vfp_dreg(env, i);
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 1ac09f387ed..79db169e046 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -50,10 +50,10 @@ static void switch_mode(CPUARMState *env, int mode);
+@@ -1914,10 +1915,11 @@ static void arm1026_initfn(Object *obj)
+      */
+     cpu->isar.id_isar1 = FIELD_DP32(cpu->isar.id_isar1, ID_ISAR1, JAZELLE, 1);
+     /*
+-     * Similarly, we need to set MVFR0 fields to enable double precision
+-     * and short vector support even though ARMv5 doesn't have this register.
++     * Similarly, we need to set MVFR0 fields to enable vfp and short vector
++     * support even though ARMv5 doesn't have this register.
+      */
+     cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
++    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSP, 1);
+     cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPDP, 1);
  
- static int vfp_gdb_get_reg(CPUARMState *env, uint8_t *buf, int reg)
- {
--    int nregs;
-+    ARMCPU *cpu = env_archcpu(env);
-+    int nregs = cpu_isar_feature(aa32_simd_r32, cpu) ? 32 : 16;
- 
-     /* VFP data registers are always little-endian.  */
--    nregs = arm_feature(env, ARM_FEATURE_VFP3) ? 32 : 16;
-     if (reg < nregs) {
-         stq_le_p(buf, *aa32_vfp_dreg(env, reg));
-         return 8;
-@@ -78,9 +78,9 @@ static int vfp_gdb_get_reg(CPUARMState *env, uint8_t *buf, int reg)
- 
- static int vfp_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
- {
--    int nregs;
-+    ARMCPU *cpu = env_archcpu(env);
-+    int nregs = cpu_isar_feature(aa32_simd_r32, cpu) ? 32 : 16;
- 
--    nregs = arm_feature(env, ARM_FEATURE_VFP3) ? 32 : 16;
-     if (reg < nregs) {
-         *aa32_vfp_dreg(env, reg) = ldq_le_p(buf);
-         return 8;
-@@ -906,8 +906,7 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-             /* VFPv3 and upwards with NEON implement 32 double precision
-              * registers (D0-D31).
-              */
--            if (!arm_feature(env, ARM_FEATURE_NEON) ||
--                    !arm_feature(env, ARM_FEATURE_VFP3)) {
-+            if (!cpu_isar_feature(aa32_simd_r32, env_archcpu(env))) {
-                 /* D32DIS [30] is RAO/WI if D16-31 are not implemented. */
-                 value |= (1 << 30);
-             }
-@@ -7812,7 +7811,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-     } else if (arm_feature(env, ARM_FEATURE_NEON)) {
-         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
-                                  51, "arm-neon.xml", 0);
--    } else if (arm_feature(env, ARM_FEATURE_VFP3)) {
-+    } else if (cpu_isar_feature(aa32_simd_r32, cpu)) {
-         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
-                                  35, "arm-vfp3.xml", 0);
-     } else if (arm_feature(env, ARM_FEATURE_VFP)) {
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index ea6e984da65..79880adaad2 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -2612,7 +2612,7 @@ static int disas_dsp_insn(DisasContext *s, uint32_t insn)
- #define VFP_SREG(insn, bigbit, smallbit) \
-   ((VFP_REG_SHR(insn, bigbit - 1) & 0x1e) | (((insn) >> (smallbit)) & 1))
- #define VFP_DREG(reg, insn, bigbit, smallbit) do { \
--    if (arm_dc_feature(s, ARM_FEATURE_VFP3)) { \
-+    if (dc_isar_feature(aa32_simd_r32, s)) { \
-         reg = (((insn) >> (bigbit)) & 0x0f) \
-               | (((insn) >> ((smallbit) - 4)) & 0x10); \
-     } else { \
+     {
 -- 
 2.20.1
 
