@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5C8167F4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:53:49 +0100 (CET)
-Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3CC167EE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:43:20 +0100 (CET)
+Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58kW-0002Yh-D0
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:53:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32969)
+	id 1j58aN-0004LK-RY
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:43:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j58Ja-0002xA-H6
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:03 -0500
+ (envelope-from <philmd@redhat.com>) id 1j58Jk-00032G-7U
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j58JY-0007M6-Iq
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:57 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44615
+ (envelope-from <philmd@redhat.com>) id 1j58Jj-0007RN-5f
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22231
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j58JY-0007Kn-En
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:25:56 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j58Jj-0007Oj-1D
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:26:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582291554;
+ s=mimecast20190719; t=1582291560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SW3lAstK1rmsyHibnDejOI0DENRkAykxJehfAUoooGg=;
- b=YKbjYSa+wGU+wkCEHTO83SJdud0buBJAODWzr4WFxfuulzRzWt5fmIbKUdof8K4vFnbGBy
- Mn5AUG7O/XAM3IDUepyCmWzk3h735JbSbF3VZDOej88DXVwki+kAbpMjMD2VlzLKPjT627
- Q9mi3a1ljDozNrqurj9ebufzu02514Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-q1OkKKHMP_W7vkKtHUVkWg-1; Fri, 21 Feb 2020 08:25:52 -0500
-X-MC-Unique: q1OkKKHMP_W7vkKtHUVkWg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E932E1005510;
- Fri, 21 Feb 2020 13:25:50 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF1C184BCC;
- Fri, 21 Feb 2020 13:25:47 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, philmd@redhat.com, yangx.jy@cn.fujitsu.com,
- mrezanin@redhat.com
-Subject: [PULL 6/6] docs: Fix virtiofsd.1 location
-Date: Fri, 21 Feb 2020 13:25:36 +0000
-Message-Id: <20200221132536.38364-7-dgilbert@redhat.com>
-In-Reply-To: <20200221132536.38364-1-dgilbert@redhat.com>
-References: <20200221132536.38364-1-dgilbert@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5T5CduJWWeyulUp96IrLHjkVcZCM4TVxlB75vuVfrRw=;
+ b=MPDRbaJt0UXHpo2U3tqM+kZVpHf7rZIrwjzgl7jpIAKEySbliBTzKwuIu4WkTSX+DGw0XW
+ cEOJ7d+9DulLCltrMkqmtf8LQnlDNS2dqBIIlr75uL+lgpHF+aQ0h8jRRJ0SAmdHHgriVg
+ vuQ/+2J9FGMtImFvIpnqMU2yvHM6+iY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-bNMQGqbIM16C8xULoLOYtA-1; Fri, 21 Feb 2020 08:25:55 -0500
+X-MC-Unique: bNMQGqbIM16C8xULoLOYtA-1
+Received: by mail-wr1-f71.google.com with SMTP id 50so1027437wrc.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:25:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=atTSmIAqNTRT8dPM6uxyh8sGk3r2t5Xb9izRkbykMAQ=;
+ b=ob1IoG5yWFb0xmtEwvcOv8esZlxes/OGtjX2bwapDO/+4eKGjKogmsRdVxx3HP/aye
+ sQ0fpJrv2ZnTJz3isecfFL5oNZGCoJWBFmSH7wBamf1gvkVrrjNfEJAe2SC60CGK2q0P
+ pHesl0gmK/WWt6lGo/lpA0IZiRvprIgKxFWFb4563FmQZlAUSf5lWCm3x8vHCJuWEzLF
+ BfBZVhI9EugB6oZLLavRJ/+wTPDa6c6xGd0tDy5qZzBqSflLKCR8/76BsSWfC3FUz4Sr
+ yRuUOGne0jyP9kTutlVm5tf9v087PujMy9LZO6b/vBTjwn4SQteUfcdLIfRf44g4B/Th
+ XQeQ==
+X-Gm-Message-State: APjAAAVsq4bTlhMZcAu44MfL+HA3fNzoQKkx9AWBBSXm3bZSYKddIine
+ Qk2cpysY2geTlX5sEE+wAJk6Q9zVM+tq1TYZl1m5/FVXLpM/qma/NPa/Z13xhqyQgwtkDRNddaq
+ GIsMOd4tyP+TVuPA=
+X-Received: by 2002:a05:600c:34b:: with SMTP id
+ u11mr3868536wmd.69.1582291553007; 
+ Fri, 21 Feb 2020 05:25:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz2FFXBSLJIq7VA5W46RvUZEwhHhf5nIX2OZ5pPuGptRGT67YlWcbH/8bYbGkEecwdyk1cmfQ==
+X-Received: by 2002:a05:600c:34b:: with SMTP id
+ u11mr3868461wmd.69.1582291552302; 
+ Fri, 21 Feb 2020 05:25:52 -0800 (PST)
+Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id t13sm3947679wrw.19.2020.02.21.05.25.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Feb 2020 05:25:51 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw: More dma_memory_read/write() API cleanup
+Date: Fri, 21 Feb 2020 14:25:47 +0100
+Message-Id: <20200221132550.22156-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,41 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+Following up "global exec/memory/dma APIs cleanup"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg681475.html
 
-Patch 6a7e2bbee5 docs: add virtiofsd(1) man page introduced new man
-page virtiofsd.1. Unfortunately, wrong file location is used as
-source for install command. This cause installation of docs fail.
+Few more cleanups in PCNET & SCSI ESP devices.
 
-Fixing wrong location so installation is successful.
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/dma/sparc32_dma: Make espdma_memory_[read/write] static
+  hw/scsi/esp: Let ESPDMAMemoryReadWriteFunc take void pointer and
+    size_t
+  hw/net/pcnet: Let phys_mem_read/write take void pointer and boolean
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-Message-Id: <1608747495.7195569.1581513386780.JavaMail.zimbra@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/pcnet.h                 |  4 ++--
+ include/hw/scsi/esp.h          |  2 +-
+ include/hw/sparc/sparc32_dma.h |  6 ++----
+ hw/dma/sparc32_dma.c           |  8 ++++----
+ hw/net/pcnet-pci.c             |  5 +++--
+ hw/net/pcnet.c                 | 16 ++++++++--------
+ hw/scsi/esp-pci.c              |  6 +++---
+ 7 files changed, 23 insertions(+), 24 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index b5a7377cb1..146a91bc3e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -865,7 +865,7 @@ ifdef CONFIG_VIRTFS
- =09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1 "$(DES=
-TDIR)$(mandir)/man1"
- endif
- ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
--=09$(INSTALL_DATA) docs/interop/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtiofsd.1 "$(DESTDIR)$(man=
-dir)/man1"
- endif
-=20
- install-datadir:
 --=20
-2.24.1
+2.21.1
 
 
