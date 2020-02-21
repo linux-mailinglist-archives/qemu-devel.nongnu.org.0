@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C49A168821
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 21:12:17 +0100 (CET)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367DD16881E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 21:11:58 +0100 (CET)
+Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5Eem-00060R-Ki
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 15:12:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48963)
+	id 1j5EeT-0005F4-86
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 15:11:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j5EdC-0003yF-SK
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 15:10:42 -0500
+ (envelope-from <eblake@redhat.com>) id 1j5Ed0-0003XM-S1
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 15:10:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j5EdB-00085b-NF
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 15:10:38 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25825
+ (envelope-from <eblake@redhat.com>) id 1j5Ecz-0007yB-Jx
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 15:10:26 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46004
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j5EdB-00084M-J7
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 15:10:37 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j5Ecz-0007xx-En
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 15:10:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582315837;
+ s=mimecast20190719; t=1582315825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3sjOmSCHMfvrvRVy91WQ7NLjtvUcMcmS76ybToQDiQc=;
- b=Di6bsgnzdn0vGueR4ja+kxQDEjX7p85v4lSJHEmWENcDKABugGMfY4isXAB31HrN5Imn1q
- lFHCVbL7txN5Zkdn8klobc46HCLTinKJ7hbJGf1Qj1ftx3UxjQAWW5l5TpZXXxgOF6ZVn3
- 3joBug1Mq/m0Atyc0B87xl+HlKtF4H0=
+ bh=3zde20pgsMLHMvVL3qmplhL/PnwnuNoaKndBghhwWpA=;
+ b=gUQZhhKkq+PWkih7xeS3rWjmL7xsSf0SDMPIawxKfnCZmSzjHEmozrihyXj05ad7kFzvA/
+ BXrGqxqVAu2P3WHUP49wnJ8b8jgchuHe5ehdniouyKo6mjmmeV274m6K44ublMdiid/xmf
+ N7UdaHERyCvjlem9Eahu0Z3NwQBtB68=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-LxNFeqckMxOPWnh1Ktw5Eg-1; Fri, 21 Feb 2020 15:10:31 -0500
-X-MC-Unique: LxNFeqckMxOPWnh1Ktw5Eg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-360-3Oj7uv-0OqCQflE6sGzLqw-1; Fri, 21 Feb 2020 15:10:23 -0500
+X-MC-Unique: 3Oj7uv-0OqCQflE6sGzLqw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F77B107ACC5;
- Fri, 21 Feb 2020 20:10:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB23C107ACC7;
+ Fri, 21 Feb 2020 20:10:21 +0000 (UTC)
 Received: from [10.3.116.90] (ovpn-116-90.phx2.redhat.com [10.3.116.90])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E1279077F;
- Fri, 21 Feb 2020 20:10:08 +0000 (UTC)
-Subject: Re: [PATCH v7 01/11] qapi/error: add (Error **errp) cleaning APIs
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA12E5C1D4;
+ Fri, 21 Feb 2020 20:10:15 +0000 (UTC)
+Subject: Re: [PATCH v7 02/11] error: auto propagated local_err
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Markus Armbruster <armbru@redhat.com>
 References: <20200131130118.1716-1-vsementsov@virtuozzo.com>
- <20200131130118.1716-2-vsementsov@virtuozzo.com>
- <87d0a88k6d.fsf@dusky.pond.sub.org>
- <7856fcbb-8c01-aba3-a11b-63058c117362@virtuozzo.com>
+ <20200131130118.1716-3-vsementsov@virtuozzo.com>
+ <87mu9c70x1.fsf@dusky.pond.sub.org>
+ <278458e5-c62c-8eaa-672f-cc70bbc15304@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <b7c3dc22-99fd-6165-75e5-f148157e5e8d@redhat.com>
-Date: Fri, 21 Feb 2020 08:25:35 -0600
+Message-ID: <0e367f8d-2292-a493-a65a-06e92d7b779e@redhat.com>
+Date: Fri, 21 Feb 2020 08:29:49 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <7856fcbb-8c01-aba3-a11b-63058c117362@virtuozzo.com>
+In-Reply-To: <278458e5-c62c-8eaa-672f-cc70bbc15304@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -90,64 +90,83 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/20 3:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+On 2/21/20 3:42 AM, Vladimir Sementsov-Ogievskiy wrote:
 
->>> +static inline void warn_report_errp(Error **errp)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 assert(errp && *errp);
->>> +=C2=A0=C2=A0=C2=A0 warn_report_err(*errp);
->>> +=C2=A0=C2=A0=C2=A0 *errp =3D NULL;
->>> +}
->>> +
+>>> +#define ERRP_AUTO_PROPAGATE()=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 \
+>>> +=C2=A0=C2=A0=C2=A0 g_auto(ErrorPropagator) _auto_errp_prop =3D {.errp =
+=3D errp};=C2=A0 \
+>>> +=C2=A0=C2=A0=C2=A0 errp =3D ((errp =3D=3D NULL || *errp =3D=3D error_f=
+atal)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 \
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ? &=
+_auto_errp_prop.local_err : errp)
 >>> +
 >>> =C2=A0 /*
->>> =C2=A0=C2=A0 * Just like error_setg(), except you get to specify the er=
-ror class.
->>> =C2=A0=C2=A0 * Note: use of error classes other than ERROR_CLASS_GENERI=
-C_ERROR is
+>>> =C2=A0=C2=A0 * Special error destination to abort on error.
+>>> =C2=A0=C2=A0 * See error_setg() and error_propagate() for details.
 >>
->> These appear to be unused apart from the Coccinelle script in PATCH 03.
->>
->> They are used in the full "[RFC v5 000/126] error: auto propagated
->> local_err" series.=C2=A0 Options:
->>
->> 1. Pick a few more patches into this part I series, so these guys come
->> =C2=A0=C2=A0=C2=A0 with users.
+>> *errp =3D=3D error_fatal tests *errp =3D=3D NULL, which is not what you =
+want.
+>> You need to test errp =3D=3D &error_fatal, just like error_handle_fatal(=
+).
 >=20
-> It needs some additional effort for this series.. But it's possible. Stil=
-l,
-> I think that we at least should not pull out patches which should be in
-> future series (for example from ppc or block/)..
->=20
+> Oops, great bug) And nobody noticed before) Of course, you are right.
 
->> 2. Punt this patch to the first part that has users, along with the
->> =C2=A0=C2=A0=C2=A0 part of the Coccinelle script that deals with them.
+Sorry I missed it in my earlier looks.
+
 >=20
-> But coccinelle script would be wrong, if we drop this part from it. I=20
-> think,
-> that after commit which adds coccinelle script, it should work with any=
+>>
+>> Superfluous parenthesis around the first operand of ?:.
+>>
+>> Wouldn't
+>>
+>> =C2=A0=C2=A0=C2=A0 #define ERRP_AUTO_PROPAGATE()=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 g_auto(ErrorPropagator) _auto=
+_errp_prop =3D {.errp =3D errp};=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!errp || errp =3D=3D &err=
+or_fatal) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 errp =
+=3D &_auto_errp_prop.local_err;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>
+>> be clearer?
+>>
+>=20
+> Hmm, notation with "if" will allow omitting ';' after macro invocation,=
 =20
-> file,
-> not only subset of these series.
->=20
-> So, it's probably OK for now to drop these functions, forcing their=20
-> addition if
-> coccinelle script will be applied where these functions are needed. We=20
-> can, for
-> example comment these three functions.
->=20
-> Splitting coccinelle script into two parts, which will be in different=20
-> series will
-> not help any patch-porting processes.
+> which seems not good..
 
-Splitting the coccinelle script across multiple patches is actually=20
-quite reviewable, and still easy to backport.  Consider this series by=20
-Philippe:
+Then wrap it:
 
-https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05554.html
+g_auto(ErrorPropagator) _auto_errp_prop =3D {.errp =3D errp}; \
+do { \
+   if (!errp || errp =3D=3D &error_fata) {
+     errp =3D &_auto_errp_prop.local_err; \
+   } \
+while (0)
 
-which makes multiple additions to scripts/coccinelle/exec_rw_const.cocci=20
-over the course of the series.
+
+> And if I'm not wrong we've already discussed it somewhere in previous=20
+> versions.
+
+The original use of ?: stems from my suggestion on an earlier revision=20
+when we were still trying to pack everything into two consecutive=20
+declaration lines, rather than a declaration and a statement (as ?: is=20
+necessary for conditionals in declarations).  But since then, we decided=20
+to go with a statement (we require a C99 compiler, so declaration after=20
+statement is supported by our compiler, even if our coding style=20
+currently avoids it where possible), so as long as we support=20
+statements, we might as well go with a legible statement instead of=20
+insisting on the compact ?: form.
 
 --=20
 Eric Blake, Principal Software Engineer
