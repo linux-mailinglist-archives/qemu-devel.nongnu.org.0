@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FD816850D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 18:33:49 +0100 (CET)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92ADB16851B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 18:36:06 +0100 (CET)
+Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5CBQ-0008Ov-Gc
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 12:33:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38051)
+	id 1j5CDd-0003Jt-L9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 12:36:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j5C8m-00065x-Va
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1j5C8p-0006CG-FK
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j5C8l-0007yi-UR
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22650
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j5C8o-000807-B9
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:07 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54570
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j5C8l-0007yM-Pm
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:03 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j5C8o-0007zf-78
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 12:31:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582306263;
+ s=mimecast20190719; t=1582306265;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l2pPJB7dVv53xB+pM6ByHDe1JdpbC3cSQ0yop2iaXBM=;
- b=CVqh4gPK64BU+2r+AAn8/4KtAaYQxnGvkFzRzYr493HlwxZo8GAu90IuE5vfPcpZTX0Mlh
- 1AxG40C5D6l9w0RoICfJe6YmDDJ86jETpLbq213KBwlPtWz78FIT++1pHiNXowUe3VXGsQ
- h3bvkOpam5KpAJyli08nA8GEwwTaBdc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-xiPfrd_HMey2i75zoVhZIg-1; Fri, 21 Feb 2020 12:31:01 -0500
-X-MC-Unique: xiPfrd_HMey2i75zoVhZIg-1
-Received: by mail-wm1-f69.google.com with SMTP id f207so854794wme.6
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 09:31:01 -0800 (PST)
+ bh=VEFA07cxDExgBn425ggzA1li5B5q1BBqRYxz1LjraoI=;
+ b=HItnXlY0Kxdz/YhP2oWzPJMnZLpaqZ6/kQ5MJ0Lkzr3PE2WbLu9gZCvblZ/r9uI4OMwVwb
+ 4RQhotmbmxVx+drvaTQyEa1oeNhupW6/C3eep7pkTPte6Y2NDSQj8jryM1hLfIxfSvzG5T
+ yo6kiW9qG2qe1lvVJd0XK1ekcf5+kow=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-Rw44Jy64Ovm_wcKR-QPNYQ-1; Fri, 21 Feb 2020 12:31:03 -0500
+X-MC-Unique: Rw44Jy64Ovm_wcKR-QPNYQ-1
+Received: by mail-wm1-f71.google.com with SMTP id y125so2067579wmg.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 09:31:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1tNyRzGC0EsXOg8ox9ROXwfpcEcBwuRdTCHdqcdRxTY=;
- b=KUP0Y3wRDw2bKfJjWOMPOtHNTW3nxCMsKEzUbpK2zQeGDf33YCIT4ivapzMXOxfYwG
- 11vJ8yD1jIQu1adozGMvu+8K35ev0+HDQYxGf6XmXKTjjH5Rr+FPi1VYkf8bRMMK6hi4
- VKBfTQlAoo9hWcZS/gad8DX7ZYcH8go8wtikCaPox5+Bdz++yRvv+RXUeKdebyh+pXCU
- jGnyCpyPHGGbTpFsM7u923BgB82QdS/sS6OhAbor0I881RnxJTD14ML3O/qt8nFTdVKN
- t+jfETsQfBebCwr2YxCazam3n0N4Sd3hC33jeBEgTYmUhpklUgimaI3q0WyLdCsQnR+Z
- GEgg==
-X-Gm-Message-State: APjAAAU3qpfHY6dnlumdGEru1XK+6JEGHyRWCpxVfP4D+O7nuDamp+M4
- Q1aDDf6yjGQRJcAyPz1woDfC4wL0W/Ku7yIMU8ZBI0S7X+HkMRdVWxjj4gmkwMqEDeZ3SO6GUMi
- reGvHIYDfPagRc6c=
-X-Received: by 2002:adf:f091:: with SMTP id n17mr48035246wro.387.1582306260616; 
- Fri, 21 Feb 2020 09:31:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxAW+qR5XRP7uwi7KWjtLc+Ik1gy311YfEvXAKKV0p8ZnHFE0EazAPFpnBibOLVdwTqQTE/UQ==
-X-Received: by 2002:adf:f091:: with SMTP id n17mr48035215wro.387.1582306260447; 
- Fri, 21 Feb 2020 09:31:00 -0800 (PST)
+ bh=EJXr99FJ98twgvm41idHKUIEhs+PYW203OES1NY0r5o=;
+ b=ZdYUSxsRWw8k8bVxI/JpQVgBvo3jllUmnzKVjKjLvwzBnAj5F75IJnE3rGk6QVQA++
+ Da15nz7jb0aaNIWjrEL/Do7somTrt+mCXKmaPwRzEVKh+yVvqpMn2BoA9KdqYvwyJO5O
+ 1eMiDaTIq3zxkkzWPHbVKogntYkQVlLBxlQ3IGxEfFEGIVY88Bzid7HouWPqbJ93wFxo
+ YbV8KaQcAAdVvs/qqrDgs6Fglc442ZuNbr2TKxtnJW8XT3A8xJ+YlAqsX7rHWKI2pPFW
+ LZBYh5vPRb1LQ01601vaR76kRnqh9U3to2qiLuFIwQD8xrVg2OUFgSBBUoCueMHeEpCm
+ c38g==
+X-Gm-Message-State: APjAAAUStpd3nD92//bGGV/hUGk2jnuqWM34AgZq6XRx3MRZTPWj2EHi
+ I8tqAIOelkHrfA46yTUwnklVLJCuzM4t56DwZAosyiCc7HpYEa+0Iua4dCwAy9gt8K+SESh7rpE
+ 4aWxCf/Iu4mdCqxM=
+X-Received: by 2002:a1c:e388:: with SMTP id a130mr4895515wmh.176.1582306262287; 
+ Fri, 21 Feb 2020 09:31:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzxKK4rofAtrCdp/lELRI9WruL74WpqyFZLmhDMq/d7/UXqXq6F7h1gVJASQwbnvwlXqxfsag==
+X-Received: by 2002:a1c:e388:: with SMTP id a130mr4895477wmh.176.1582306261997; 
+ Fri, 21 Feb 2020 09:31:01 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id h18sm5000871wrv.78.2020.02.21.09.30.59
+ by smtp.gmail.com with ESMTPSA id h18sm5000871wrv.78.2020.02.21.09.31.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 09:30:59 -0800 (PST)
+ Fri, 21 Feb 2020 09:31:01 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] hw/core: Let devices own the MemoryRegion they create
-Date: Fri, 21 Feb 2020 18:30:46 +0100
-Message-Id: <20200221173049.18134-5-philmd@redhat.com>
+Subject: [PATCH 5/7] hw/display: Let devices own the MemoryRegion they create
+Date: Fri, 21 Feb 2020 18:30:47 +0100
+Message-Id: <20200221173049.18134-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200221173049.18134-1-philmd@redhat.com>
 References: <20200221173049.18134-1-philmd@redhat.com>
@@ -77,7 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,25 +116,80 @@ to set the correct ownership.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/core/platform-bus.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/display/cg3.c        | 4 ++--
+ hw/display/g364fb.c     | 5 +++--
+ hw/display/macfb.c      | 4 ++--
+ hw/display/vmware_vga.c | 4 ++--
+ 4 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/hw/core/platform-bus.c b/hw/core/platform-bus.c
-index 22c5f76dd0..d494e5cec1 100644
---- a/hw/core/platform-bus.c
-+++ b/hw/core/platform-bus.c
-@@ -187,7 +187,8 @@ static void platform_bus_realize(DeviceState *dev, Erro=
-r **errp)
-     d =3D SYS_BUS_DEVICE(dev);
-     pbus =3D PLATFORM_BUS_DEVICE(dev);
+diff --git a/hw/display/cg3.c b/hw/display/cg3.c
+index 4fb67c6b1c..db2e291d16 100644
+--- a/hw/display/cg3.c
++++ b/hw/display/cg3.c
+@@ -315,8 +315,8 @@ static void cg3_realizefn(DeviceState *dev, Error **err=
+p)
+         }
+     }
 =20
--    memory_region_init(&pbus->mmio, NULL, "platform bus", pbus->mmio_size)=
-;
-+    memory_region_init(&pbus->mmio, OBJECT(dev), "platform bus",
-+                       pbus->mmio_size);
-     sysbus_init_mmio(d, &pbus->mmio);
+-    memory_region_init_ram(&s->vram_mem, NULL, "cg3.vram", s->vram_size,
+-                           &error_fatal);
++    memory_region_init_ram(&s->vram_mem, OBJECT(dev), "cg3.vram",
++                           s->vram_size, &error_fatal);
+     memory_region_set_log(&s->vram_mem, true, DIRTY_MEMORY_VGA);
+     sysbus_init_mmio(sbd, &s->vram_mem);
 =20
-     pbus->used_irqs =3D bitmap_new(pbus->num_irqs);
+diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
+index 55185c95c6..28785cceda 100644
+--- a/hw/display/g364fb.c
++++ b/hw/display/g364fb.c
+@@ -477,8 +477,9 @@ static void g364fb_init(DeviceState *dev, G364State *s)
+=20
+     s->con =3D graphic_console_init(dev, 0, &g364fb_ops, s);
+=20
+-    memory_region_init_io(&s->mem_ctrl, NULL, &g364fb_ctrl_ops, s, "ctrl",=
+ 0x180000);
+-    memory_region_init_ram_ptr(&s->mem_vram, NULL, "vram",
++    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &g364fb_ctrl_ops, s,
++                          "ctrl", 0x180000);
++    memory_region_init_ram_ptr(&s->mem_vram, OBJECT(dev), "vram",
+                                s->vram_size, s->vram);
+     vmstate_register_ram(&s->mem_vram, dev);
+     memory_region_set_log(&s->mem_vram, true, DIRTY_MEMORY_VGA);
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index 8bff16d535..b68faff4bb 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -362,8 +362,8 @@ static void macfb_common_realize(DeviceState *dev, Macf=
+bState *s, Error **errp)
+         return;
+     }
+=20
+-    memory_region_init_io(&s->mem_ctrl, NULL, &macfb_ctrl_ops, s, "macfb-c=
+trl",
+-                          0x1000);
++    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
++                          "macfb-ctrl", 0x1000);
+=20
+     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram"=
+,
+                                      MACFB_VRAM_SIZE, errp);
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index 58ea82e3e5..79574e3c46 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -1238,8 +1238,8 @@ static void vmsvga_init(DeviceState *dev, struct vmsv=
+ga_state_s *s,
+     s->vga.con =3D graphic_console_init(dev, 0, &vmsvga_ops, s);
+=20
+     s->fifo_size =3D SVGA_FIFO_SIZE;
+-    memory_region_init_ram(&s->fifo_ram, NULL, "vmsvga.fifo", s->fifo_size=
+,
+-                           &error_fatal);
++    memory_region_init_ram(&s->fifo_ram, OBJECT(dev), "vmsvga.fifo",
++                           s->fifo_size, &error_fatal);
+     s->fifo_ptr =3D memory_region_get_ram_ptr(&s->fifo_ram);
+=20
+     vga_common_init(&s->vga, OBJECT(dev));
 --=20
 2.21.1
 
