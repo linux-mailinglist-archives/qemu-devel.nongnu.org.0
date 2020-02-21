@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED97A167DAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 13:46:11 +0100 (CET)
-Received: from localhost ([::1]:56364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1E6167DE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:02:37 +0100 (CET)
+Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j57h5-0006kT-0z
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 07:46:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51333)
+	id 1j57wz-0003kp-0L
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:02:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j57fe-0005xt-Fy
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:44:43 -0500
+ (envelope-from <bounces@canonical.com>) id 1j57vO-0002s4-OA
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:01:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j57fd-0008NF-Al
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:44:42 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37625)
+ (envelope-from <bounces@canonical.com>) id 1j57vN-0002zH-9S
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:00:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34172)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j57fd-0008Mx-3n
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:44:41 -0500
-Received: by mail-ot1-x342.google.com with SMTP id b3so1868048otp.4
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 04:44:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Djx9rl/AfYCC77uS8T0Ho/X4cM5kemGxOv/M/pC4lzo=;
- b=aoVvETrncyOg8+zBL5ZR9o45GtbY/WcZ2aYe5o54JoQOhuO1Fi4FdoEGXrjMnB+58c
- qjfXF1xczVFLqKOsiflOL4Wo8kNYRjj+4lz5MbxWiGPOaApSztCKlQBTv4vPVn0SsGtO
- ZIWXkc+WIAXuTvTkHGACsy05RxiUyM0OsIw4ALugdGSO92vDspBj2Om5B/wYjkhLexC7
- 2BxnswkB9HE3zwHewzfY0d5nIUyF4z3GLqLhkjoUA+DOe4fO8rC9Fn6hdZy66Kpr1eEe
- 1oMPlEB6N557OQevrb013wGRBkH5Zqwb03MdOyeWNSelPcHRl2ROz89X7nwWn6quvsJy
- D94A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Djx9rl/AfYCC77uS8T0Ho/X4cM5kemGxOv/M/pC4lzo=;
- b=ZtRJcHTPJctnnQhUTzXndvMUWJIu/Dmci6Kf37LwfyOvR1I28hFOpKFHVscMKqSOE7
- Ep8fVSEKucGqr76LIBQzU84ZCiXbz7/fFeawqe4eHYaPDUBj2ZzorTxA+t3XtzhB1tGq
- uFXcznz+8SR/aGuYtQeJ1l9bCVOcta2QbM5tRXcxtRxYO0jQ4dlW+ZjfcdXooQB7ly7g
- ppeqeDEhBeV8O3YbkAfHUeuERUoO1RjFUc7BEh/m/jSIyMYmM+RzYpBnLtKA/zQ9VSd9
- Vb/rmdaC//J0iqFJsHCq6seg404hk/bdnftPUCfwTEYNVcM3sGp1Ojih2BS2tMQ6nC+h
- 254A==
-X-Gm-Message-State: APjAAAUdAUjoGFP9Z7EhxwVeLcutEsbdGwgNu74WeHLPF8WbfBGXhQiw
- FOcG61xKgWKfothA8vtLi5rgasEu473mheLaKyC4pg==
-X-Google-Smtp-Source: APXvYqydOA4NFDvJgIWSMb+0aRatercC8Y5pDUDYzLKZz16uBG/eGT7DUciuXYsBcmqZbn1lYHiPNep9kMF24KModYc=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr28281012ota.232.1582289080384; 
- Fri, 21 Feb 2020 04:44:40 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j57vL-0002y7-DP
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:00:55 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j57vJ-0005Wp-PY
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 13:00:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C021F2E80C0
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 13:00:53 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200220060108.143668-1-gshan@redhat.com>
- <f3c8adba729d050ba2144cc9c834fe82@kernel.org>
- <CAFEAcA8inLO75XOcCO3bUiiJQyZT+nqmp1be+z6ZtQx2a=68+g@mail.gmail.com>
- <fda602ae-43d5-728c-a5bb-f607f0acd3df@redhat.com>
- <CAFEAcA-VB1t2XDuAHgq_p2Fz8NQ+3HFgyNOzRjk8BjixNJb0qg@mail.gmail.com>
- <eedbac05-5a17-82e6-3cdc-c3b21983545b@redhat.com>
-In-Reply-To: <eedbac05-5a17-82e6-3cdc-c3b21983545b@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Feb 2020 12:44:29 +0000
-Message-ID: <CAFEAcA-bHCLQGkFucY5RAY-mw9wFdDeOqCkcv0xgSRg-EYh9ew@mail.gmail.com>
-Subject: Re: [PATCH] hw/char/pl011: Output characters using best-effort mode
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Feb 2020 12:53:20 -0000
+From: Daniel Berrange <1863601@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: adioracle berrange
+X-Launchpad-Bug-Reporter: Aditya prakash (adioracle)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <158193843490.28688.11268116902795457320.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158228960016.30106.12417749386847495120.malone@wampee.canonical.com>
+Subject: [Bug 1863601] Re: unable to type "|" character in french keyboard.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9e644fe8c738b9732329f0c168a24a9470b20c7c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,37 +64,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gavin Shan <gshan@redhat.com>, Marc Zyngier <maz@kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- Shan Gavin <shan.gavin@gmail.com>
+Reply-To: Bug 1863601 <1863601@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 Feb 2020 at 11:44, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 21/02/20 11:21, Peter Maydell wrote:
-> > Before you do that, I would suggest investigating:
-> >  * is this a problem we've already had on x86 and that there is a
-> >    standard solution for
-> Disconnected sockets always lose data (see tcp_chr_write in
-> chardev/char-socket.c).
->
-> For connected sockets, 8250 does at most 4 retries (each retry is
-> triggered by POLLOUT|POLLHUP).  After these four retries the output
-> chardev is considered broken, just like in Gavin's patch, and only a
-> reset will restart the output.
->
-> >  * should this be applicable to more than just the socket chardev?
-> >    What's special about the socket chardev?
->
-> For 8250 there's no difference between socket and everything else.
+Can you provide the QEMU command line (/var/log/libvirt/qemu/$GUEST.log)
 
-Interesting, I didn't know our 8250 emulation had this
-retry-and-drop-data logic. Is it feasible to put it into
-the chardev layer instead, so that every serial device
-can get it without having to manually implement it?
+-- =
 
-thanks
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863601
+
+Title:
+  unable to type "|" character in french keyboard.
+
+Status in QEMU:
+  New
+
+Bug description:
+  Unable to type "|" character when using french keyboard. It is
+  displaying "<" instead of "|" while pressing AltGr+6 from my keyboard.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863601/+subscriptions
 
