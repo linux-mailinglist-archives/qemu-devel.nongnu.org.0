@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52677167B6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 11:57:19 +0100 (CET)
-Received: from localhost ([::1]:55250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0672167B95
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 12:12:25 +0100 (CET)
+Received: from localhost ([::1]:55376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j55zi-0001Bu-CK
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 05:57:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56929)
+	id 1j56EK-00066j-QS
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 06:12:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60741)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1j55yr-0000kX-ED
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 05:56:26 -0500
+ (envelope-from <bounces@canonical.com>) id 1j56DO-0005fJ-PA
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:11:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1j55yq-0004pQ-BI
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 05:56:25 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38785)
+ (envelope-from <bounces@canonical.com>) id 1j56DN-0007i3-IA
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:11:26 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38626)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j55yq-0004ov-4n
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 05:56:24 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id a9so1277181wmj.3
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 02:56:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bcRi750Lp2d08cvBZefYbVt8o+FJBZHBK546knWc/t8=;
- b=u1t5g7c127bq8XgHQwLpJArEpP6Zb6LfTu6Bw9/AH7CZ/URHwCJHPFoS0f5jbFeNln
- Ec7fY0TgUeSwyl9fKvfLTfFN2UrQfpzCkuag3R9HUWHpntlFyyxowvH1qZLexURYfUyj
- F/oNqwY6G1RIvZcvdTpE0yggfJ5zA/u43wQ7yoKcUOoFsXEeACzsqWohAr/U3REAj6lp
- r/mtmk08hBCKqNK++UqVSMaXjKZUBmeOKV9Ow7A9+J7r3qBgfVhE0pHpUUPl2tzPK++T
- 0TESSVHoW6Gow2M3dgdBmjoKyqW5Yvn/jMwbYaIXCeX7gPOHqz2veyQvBxi9i2Prhpr3
- jNhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bcRi750Lp2d08cvBZefYbVt8o+FJBZHBK546knWc/t8=;
- b=Z+KhJcJRRz9l86xPXExW+U9yA7nHRe6QyEWgurgPWnD8fmSe6oVzG494F94vyBb37K
- mM6k8BZLZJKdBejrc1osWGdhTMx0Yb4oLU8ERFWyMVrIpbvN1wJ7VVYV5szZN/BwWMoT
- t3jMveJW62GirToP3JJRa5UhrXNRoIX1W4JQjxaCLb11SRUL+1vwjfjHQimCS7JzHgg5
- XGXZBmmaSQ36l3oC9fwwevGIdNGaV4FLLnnLvqM1QwlnwfTpAg7cT+qt13NtBm5bT2uZ
- unNEJoae7HyWtLQT6DyECRywEOy9iEcIHkFQ85n6di2ceZDiQdkviayrYoYeXlCCDegs
- LLIA==
-X-Gm-Message-State: APjAAAVKrJh24W692Jf2HZkjXtT3yU9nMMwmfVJMelwRzvA0DTuNKz7R
- agYpPoW3151WgeJZoBFHvonBxSkXsx84Aw==
-X-Google-Smtp-Source: APXvYqxTVYY+HsWX2MXEm3S8Gp55EOUZzb0mDa+ncxEUDBmgTBasmsfxjt5JTyq9g99g9blN3wyVWA==
-X-Received: by 2002:a05:600c:2c44:: with SMTP id
- r4mr3044573wmg.140.1582282583038; 
- Fri, 21 Feb 2020 02:56:23 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id z8sm3493006wrv.74.2020.02.21.02.56.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 02:56:22 -0800 (PST)
-Date: Fri, 21 Feb 2020 10:56:20 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [GSoC/Outreachy] Arduino complete setup visualization and
- emulation
-Message-ID: <20200221105620.GD1484511@stefanha-x1.localdomain>
-References: <CAAdtpL524K2QFSU9ZK2zbW_EJyiDPJ=efhwRWVzCpsJUP6HioA@mail.gmail.com>
- <20200211105119.GA422372@stefanha-x1.localdomain>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j56DN-0007gm-Cj
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 06:11:25 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j56DL-00086Y-Tz
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 11:11:23 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E1F4A2E80C7
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 11:11:23 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="F8dlzb82+Fcn6AgP"
-Content-Disposition: inline
-In-Reply-To: <20200211105119.GA422372@stefanha-x1.localdomain>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Feb 2020 10:58:19 -0000
+From: Geoffrey McRae <1722884@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gnif jens-nyberg
+X-Launchpad-Bug-Reporter: Geoffrey McRae (gnif)
+X-Launchpad-Bug-Modifier: Geoffrey McRae (gnif)
+References: <150774787109.964.13450141235232669497.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158228269973.24464.10218693734899292824.malone@gac.canonical.com>
+Subject: [Bug 1722884] Re: keyboard input while mouse moving triggers mouse
+ failure
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 78110c046027edc35dbeb973667dbc8685b709a0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,47 +65,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joaquin de Andres <me@xcancerberox.com.ar>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Michael Rolnik <mrolnik@gmail.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Reply-To: Bug 1722884 <1722884@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I tracked this down and fixed it last year, your issue is unrelated.
 
---F8dlzb82+Fcn6AgP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+https://github.com/qemu/qemu/commit/143c04c7e0639e53086519592ead15d2556bfbf2
+#diff-3b5bd599c018d558b135bd19647a00c6
 
-On Tue, Feb 11, 2020 at 10:51:19AM +0000, Stefan Hajnoczi wrote:
-> On Mon, Feb 10, 2020 at 08:58:28PM +0100, Philippe Mathieu-Daud=E9 wrote:
+https://github.com/qemu/qemu/commit/7abe7eb29494b4e4a11ec99ae5623083409a2f1e
+#diff-3b5bd599c018d558b135bd19647a00c6
 
-Ping?
+-- =
 
-QEMU has been accepted as a mentoring organization.  Please post a final
-version of this project idea on the wiki:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1722884
 
-  https://wiki.qemu.org/Google_Summer_of_Code_2020
+Title:
+  keyboard input while mouse moving triggers mouse failure
 
-Thanks,
-Stefan
+Status in QEMU:
+  New
 
---F8dlzb82+Fcn6AgP
-Content-Type: application/pgp-signature; name="signature.asc"
+Bug description:
+  When QEMU is getting a ton of mouse input events if keys are pressed
+  on the keyboard the scan code will be corrupted causing erroneous
+  behavior. I have confirmed this problem in the latest version in git
+  (530049bc1dcc24c1178a29d99ca08b6dd08413e0).
 
------BEGIN PGP SIGNATURE-----
+  After the erroneous behavior the operating system issues a keyboard
+  reset which prevents the mouse from functioning until the operating
+  system is restarted.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5Pt1QACgkQnKSrs4Gr
-c8iLUQgAw/9F/BumsE/sU1RGhjYHWn+v8hCj+0lLaG/uhAOte8ksWhwCnd7nIWHT
-9xL09MxYz0GIDONuF7EhwjReeJ+Sqxnn3SrJq+8o9mQ42JvS31X+/ZIh2VDYQtPc
-BDRxWPIkZFsKdjtwnTzExObisiCg0jl5oOq7+y0CtDJm16w/5rGJ7tiKfOg+VVjH
-TChzAGyx9IMLeybTwath8ZgJecDTSgq+FdvgT3TvtpbQeBffjnqBO6YDAh2nAfU0
-i3h18Gnsuk72wqUhnNf7N/Id+KNQvXqNhDXqKSehWQOkYL+MBev2gkqaBxlg3u70
-JA2TP2TCRm4v8OfnFkPztY+LqZ5Cbw==
-=UaYM
------END PGP SIGNATURE-----
+  This seems to only occur if the PS2 mouse is being used as the input,
+  the tablet input device doesn't exhibit this behavior.
 
---F8dlzb82+Fcn6AgP--
+  The same problem was reported here also:
+  https://openxt.atlassian.net/browse/OXT-562
+
+  Host  : Debian 9
+  CPU   : Ryzen 1700X
+  RAM   : 16GB
+  Kernel: 4.12.0-0.bpo.2-amd64
+
+  Guest : Windows 10 (KVM)
+  RAM   : 8GB (1GB Huge pages)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1722884/+subscriptions
 
