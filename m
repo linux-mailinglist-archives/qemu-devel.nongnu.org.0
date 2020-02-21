@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC66167F1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:52:27 +0100 (CET)
-Received: from localhost ([::1]:58288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E820167F57
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:55:45 +0100 (CET)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58jC-0000gF-Eu
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:52:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37343)
+	id 1j58mO-0004KF-3n
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:55:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1j58iG-0008FN-Ho
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:51:29 -0500
+ (envelope-from <stefanha@gmail.com>) id 1j58jt-00027b-5c
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:53:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1j58iF-0000eQ-Eo
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:51:28 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36185)
+ (envelope-from <stefanha@gmail.com>) id 1j58js-0001QK-AP
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:53:09 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34621)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j58iF-0000dk-85
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:51:27 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so1960946wma.1
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:51:27 -0800 (PST)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j58js-0001Py-4D
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:53:08 -0500
+Received: by mail-wr1-x441.google.com with SMTP id n10so2190463wrm.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Wp27tGuH6LiuX37IEvtQEB6wra31P5dXVPBwD1mrzAA=;
- b=oUP0DZSyWu2jEhNEdeWU/vAKqBBgrDNvs/3S0Pg5CtRzGJhNOen7zl5WXYIk12E24T
- SGKhBJrYpyPhzMnlBUuilwYwAkzlXGWgkvrjv/0GwhnWuur1R75T6j/Eg+IKvcELgs6N
- TIGJTYegbJAPnKzWC0FeDiTHEGlVmaQZWzkU0RTU6RaacfSHyyhLXxdinDj4DY0ffcfN
- J+Mbn4sOAjGJjqIMwLBpEtu4vNDErL4SiOFvrOYOv+QbiTmW8oCyShAvklsWFynrTJqy
- a+fB/pYCJ0Ka2i+TEuy5481UcOXnCFoDe3WVuPJ4+kxz6stKW2xgfSuWvRZqOP103pal
- ePIQ==
+ bh=i7PbMVv2unDSnNzciIQ4e2ziSyGgFxQmv+PdpIn8FtI=;
+ b=JXOXK2hdbDpuhUDxgwX+t+2IUNFDxxJtteQCwAa2MUtZVdNPukQ7W5hwZKV1nphUzl
+ EkU6ODhWFhrASEkzV/Cxq751FVxsF8l32d3peT+8znrZD5CnU9tSytWydOobRBiU3I1v
+ 9n0akflKU9kp+WcEo9v987tqr+DyXYYvKDAxwc1ZrkiPLDgW8gJ/n4PzxxWdu0Oe79sz
+ XABo3nLkzeIpGQMKZEnN3wRNztMZxi7CjScSlAlaIqGdidTw7gxRzp+61t1uq/Yj9k/I
+ gQHBaIDrE4r8TPBb4li1kQtoR7mTiuwn2STogRf0Ho6zqbkp6pU5TL+xhImJ/CVo1a8g
+ hP0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Wp27tGuH6LiuX37IEvtQEB6wra31P5dXVPBwD1mrzAA=;
- b=mR3PK4SYTw2ytwkr8qCCTFmzlkFsH5PMZ0d6fLGx1twXJZl4KDiHj21VKkrq83wGPZ
- zRHdCN5wJiVKa8hohqPVOH95O8dBHvNr1lfKc0W8JQnfOJIO+3jwJt/yUce1CMz0K2Lb
- oy6p5d4/2ta/Uy4zCg2JmG9ctXUGX/X9Ojk5Q3I0Z5DnzCM6LPPXLywILVm5/niE+SdU
- 7zNq1m+euvF7E8NG/AwTL9XgoKNMfAGqJFYdu1Wsj+xX9s0X6qEFhmIT+JRiwD6gV8xd
- 3+nl9eJZpPL1P1ssrRzElRoSE+BUivI+4DAwJ1Ztn+y0rFijl/H+ufWS2qzlZfIsbm0U
- NaDQ==
-X-Gm-Message-State: APjAAAVKvtHI1comZX+uKJyqCvgQBv7xnhnYeVkJEY9k78ObT7vlpSrv
- VaqOkEO+yMldNc9NyYLJrEo=
-X-Google-Smtp-Source: APXvYqwFBoOdIS7o2VVd+pu4MVX8ZBOMIKMRw9xT7zoX75v3VgyeSfFpWH286r1+Q9eX5Jy2Sn5sSQ==
-X-Received: by 2002:a7b:c242:: with SMTP id b2mr3924228wmj.19.1582293086047;
- Fri, 21 Feb 2020 05:51:26 -0800 (PST)
+ bh=i7PbMVv2unDSnNzciIQ4e2ziSyGgFxQmv+PdpIn8FtI=;
+ b=QTiw6vYsRi6siHANzZPbwbcEWMBZVAMOF52WUisqTepSiSjTnzJDgyOu7aV9zzetcX
+ Oxaq7a2qxYDthWxWg/2hmYHPcSXW52CYH07CjQnxVdeE6z1Ey+9PDlBnfhChkVfX3NPt
+ cD8aUTiQ+bG8Fv4o1jtXPUdzxATyFqtNZPeLw4InfvwSIUn3RXlMfBEhNY05aQEEzFAv
+ U9nIyiRF3BvQzHVy3dL2YwMm55yhXxGZwm88PbwpmvkVash86tNXSuyt+WmS1bkzJCmT
+ 6F+YBe7C9R2/Xq/zVItxfoKfwAZkB/JPdSHziTZpYy8WuMpOW+zl6dGdZ8UBQAX1k8iC
+ RjOQ==
+X-Gm-Message-State: APjAAAWAdDhc1g2W6WcXBCSkZ41FLp6TBYopxLY+dBnplHz2l1FcTkHA
+ NGg+DxhSQSUusgWmvsaWFjk=
+X-Google-Smtp-Source: APXvYqw+zqkEN1fQPFcC+cbxY/pYaMjFAf78/0nUKHHqevxkIVy7yFRGpw5IO+/4s4TuPf+nUd0hOQ==
+X-Received: by 2002:adf:db84:: with SMTP id u4mr49706394wri.317.1582293187238; 
+ Fri, 21 Feb 2020 05:53:07 -0800 (PST)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id m3sm4064283wrs.53.2020.02.21.05.51.24
+ by smtp.gmail.com with ESMTPSA id o15sm4225134wra.83.2020.02.21.05.53.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:51:25 -0800 (PST)
-Date: Fri, 21 Feb 2020 13:51:24 +0000
+ Fri, 21 Feb 2020 05:53:06 -0800 (PST)
+Date: Fri, 21 Feb 2020 13:53:05 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] rcu_queue: add QSLIST functions
-Message-ID: <20200221135124.GM1484511@stefanha-x1.localdomain>
-References: <20200220103828.24525-1-pbonzini@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH] qdev-monitor: Forbid repeated device_del
+Message-ID: <20200221135305.GN1484511@stefanha-x1.localdomain>
+References: <20200220165556.39388-1-jusual@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="q8dntDJTu318bll0"
+ protocol="application/pgp-signature"; boundary="i6vqABX3nJKXLk01"
 Content-Disposition: inline
-In-Reply-To: <20200220103828.24525-1-pbonzini@redhat.com>
+In-Reply-To: <20200220165556.39388-1-jusual@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---q8dntDJTu318bll0
+--i6vqABX3nJKXLk01
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 20, 2020 at 11:38:28AM +0100, Paolo Bonzini wrote:
-> QSLIST is the only family of lists for which we do not have RCU-friendly =
-accessors,
-> add them.
+On Thu, Feb 20, 2020 at 05:55:56PM +0100, Julia Suvorova wrote:
+> Device unplug can be done asynchronously. Thus, sending the second
+> device_del before the previous unplug is complete may lead to
+> unexpected results. On PCIe devices, this cancels the hot-unplug
+> process.
 >=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
 > ---
->  include/qemu/queue.h     | 15 +++++++++++--
->  include/qemu/rcu_queue.h | 47 ++++++++++++++++++++++++++++++++++++++++
->  tests/Makefile.include   |  2 ++
->  tests/test-rcu-list.c    | 16 ++++++++++++++
->  tests/test-rcu-slist.c   |  2 ++
->  5 files changed, 80 insertions(+), 2 deletions(-)
->  create mode 100644 tests/test-rcu-slist.c
+>  qdev-monitor.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Stefan
-
---q8dntDJTu318bll0
+--i6vqABX3nJKXLk01
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5P4FsACgkQnKSrs4Gr
-c8jHLgf9FsIYPAXfY05DCMx6pnEzmxoqNwYCi/IA/ZqGfG/qdW4bp5QIKH7TVEoi
-GA9PoCP+pEYs4oLfo/p54KaI8ElbXOB1z5z3lGmSmH/owiA8oSZhOfjASUb6izke
-VjwkE47tuxcALDRveeNtmq2vfcx7Ro3ze1JWGPBdhjDaxCKducPwn00SGAc/Wkbs
-y8wVHZTFw5IYi0egcZLV3YwA1Z5Kbw/xChNY6vhjv54PVmBA6QekxDQ37/BxNrJC
-yPwfLCLZP+2Y5Jz8Degs9YR+vPu1EWM51wcvE2w8Y/JO1cGQ/mf/89UyERNF9H1c
-jd49/s3qn8KJJimV1ImpzYbe55BQ5g==
-=iH11
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5P4MEACgkQnKSrs4Gr
+c8jsRQf+NbfChvyiuR3/C1Oo3XgKxxmN+Q/bMJWFOlbn7ZdBqjQJOKNZiI5mf8iS
+F76Pz2KH2MiDNdTZ89eXKohlYvEA7AUU08ur9asmEAnmmJ/7ja+eLZcYOuiac3LA
+hWK8iF34Gxo5reui8KEDu4DEneJtjPlA2Bx/HfAFPbBZtLxU57F09/yefHqUr5Cx
+j2+QSqlhBYN2nvh859vFNb4U5tIujPhsEza9NssW3lgLTLShPAs0RnESsUyA6I4I
+Idyh1WbD5ghFpFYIk8k0p0cXEw8yDZoy2sLIOtImwg54eWp3Xv0yFgEciTA9lOiB
+HUE+zw7+jYD/GXIebAnwsPygF5D+9A==
+=j8eS
 -----END PGP SIGNATURE-----
 
---q8dntDJTu318bll0--
+--i6vqABX3nJKXLk01--
 
