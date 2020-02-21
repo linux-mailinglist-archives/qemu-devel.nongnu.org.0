@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E03167F71
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 15:00:08 +0100 (CET)
-Received: from localhost ([::1]:58474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C976B167FB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 15:11:41 +0100 (CET)
+Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58qd-0002Ke-Mf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 09:00:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39312)
+	id 1j591o-0008Bd-Tx
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 09:11:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j58ph-0001aL-MX
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:59:10 -0500
+ (envelope-from <bounces@canonical.com>) id 1j590w-0007Mp-ED
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:10:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j58pg-0004gb-2H
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:59:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47487
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j58pf-0004g1-Pl
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:59:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582293546;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+UsL+0IdZ8pm8ASYC8IW+IZRGNpwRCajZf4t6eS+LTc=;
- b=LcyOizn192cPCmrEPXtVfhhXAlyDNqxmNmnskysT5iQG/6esMIizKG8FcCpxdj1TnpWeuo
- e0XLFgkn6mKVWrfj+C1JWJcq9o2qqHnMM948eo4eLq3xmQUATMCXoCK4DP2LJ45kou5LDU
- 20+WZoksrbNWTC60i82qujhCwXnvKUc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-QH54lq8NPf2N6R_xj6d1pQ-1; Fri, 21 Feb 2020 08:59:02 -0500
-X-MC-Unique: QH54lq8NPf2N6R_xj6d1pQ-1
-Received: by mail-wr1-f72.google.com with SMTP id u8so1052479wrp.10
- for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:59:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2rBuoukEfWGSnOn46gcwr6yCc/JAOvC6dSwgmTsDYIs=;
- b=oItyZIbNTt1CG5ik1dml3OKKsfTROst77wQlSckgNwukxheawtw9ndSx/G46D2ebG/
- JnnFTOvlmS0fuNzWQD1yZfjv9e5W5nt3zXnq9uJAE0kBfxL5HePTgjCUSIdJ+G+jjDQ6
- ZFT+/Qjagy3CCyXrUntyZb2B7Q62XFdWqALHknOh2v83gxO68LttCTP0SFDWfnKksfBu
- GU/OmQIhmqXIw6ncq5obWuOd2V8VlC+nT3UDK55VIAaCfKx1T0uL4++iXpLnTaMT9PwN
- QjreWDhikmOFP396SQTsr752TaalAqGJwM9sYUpV0cBq6AqHLD5cKdUtIW7KWCp68ZJu
- R9VA==
-X-Gm-Message-State: APjAAAXsrDkfdCoi1XasD5P340kwWjvrzLu5GsEOcrVIdq25xWMhyB3g
- RNiwPnjFAOryoXTcv84F/B48e8BdMjXAoTkLXAwRb2smCWl06r4lXmLni/XNJ93qKGhp8QKPbXY
- pPuv2JRcXJLcS0gw=
-X-Received: by 2002:adf:f10b:: with SMTP id r11mr49134832wro.307.1582293541520; 
- Fri, 21 Feb 2020 05:59:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqypEzMOriaeWRFsZbGwHrwP7nDKNUA8D9iiO/RVraMwoSXIp+9bNX8Hv9xjDIICf2LERprmSw==
-X-Received: by 2002:adf:f10b:: with SMTP id r11mr49134806wro.307.1582293541258; 
- Fri, 21 Feb 2020 05:59:01 -0800 (PST)
-Received: from [192.168.178.40] ([151.20.135.128])
- by smtp.gmail.com with ESMTPSA id t12sm3990012wrq.97.2020.02.21.05.59.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Feb 2020 05:59:00 -0800 (PST)
-Subject: Re: [PATCH] qdev-monitor: Forbid repeated device_del
-To: Stefan Hajnoczi <stefanha@gmail.com>, Julia Suvorova <jusual@redhat.com>
-References: <20200220165556.39388-1-jusual@redhat.com>
- <20200221135305.GN1484511@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4898f063-e1e8-cd08-961b-4a776d3f8a5b@redhat.com>
-Date: Fri, 21 Feb 2020 14:58:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1j590v-0002Xi-Av
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:10:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43918)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j590v-0002Wv-54
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 09:10:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j590t-0003cG-SW
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 14:10:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D1AD92E80C3
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 14:10:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200221135305.GN1484511@stefanha-x1.localdomain>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Feb 2020 14:01:37 -0000
+From: Daniel Berrange <1863601@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: adioracle berrange laurent-vivier
+X-Launchpad-Bug-Reporter: Aditya prakash (adioracle)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <158193843490.28688.11268116902795457320.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158229369773.24223.17859333082093702261.malone@gac.canonical.com>
+Subject: [Bug 1863601] Re: unable to type "|" character in french keyboard.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: be7a1516447ca32289e70044b13607713d39e58d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,29 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1863601 <1863601@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/02/20 14:53, Stefan Hajnoczi wrote:
-> On Thu, Feb 20, 2020 at 05:55:56PM +0100, Julia Suvorova wrote:
->> Device unplug can be done asynchronously. Thus, sending the second
->> device_del before the previous unplug is complete may lead to
->> unexpected results. On PCIe devices, this cancels the hot-unplug
->> process.
->>
->> Signed-off-by: Julia Suvorova <jusual@redhat.com>
->> ---
->>  qdev-monitor.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->=20
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
+Actually you explicitly do *NOT* want to select any keymap in virt-
+manager in general. Picking a keymap disables the VNC protocol extension
+for raw scancodes. This means that QEMU has to do keymap <-> scancode
+conversion. In such a setup the host OS desktop keymap, the QEMU keymap
+and the guest OS keymap all have to match perfectly to avoid bad
+conversions.
 
-Queued, thanks.
+By *not* selecting a keymap, virt-manager gets raw scancodes on the
+local host OS desktop and passes them unmodified to QEMU, which then
+passes them on to the guest OS. In this case, the guest OS keymap is the
+only thing that has todo conversions & this should be reliable.
 
-Paolo
+The only reason to select a keymap for QEMU is if you need to use legacy
+VNC clients which don't support the raw scancode protocol extension.
+This shouldn't be required if using virt-manager only. Ideally virt-
+manager should not even show this config option by default.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863601
+
+Title:
+  unable to type "|" character in french keyboard.
+
+Status in QEMU:
+  New
+
+Bug description:
+  Unable to type "|" character when using french keyboard. It is
+  displaying "<" instead of "|" while pressing AltGr+6 from my keyboard.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863601/+subscriptions
 
