@@ -2,58 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D588D166FDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 07:52:53 +0100 (CET)
-Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C4F166FEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 08:02:29 +0100 (CET)
+Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j52BA-0005Mx-MG
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 01:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53378)
+	id 1j52KS-0008Qf-Ir
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 02:02:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jianjay.zhou@huawei.com>) id 1j52A8-0004ts-9i
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:51:50 -0500
+ (envelope-from <yangx.jy@cn.fujitsu.com>) id 1j52IZ-0007UP-3b
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 02:00:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jianjay.zhou@huawei.com>) id 1j52A6-00048K-0l
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:51:48 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2446 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jianjay.zhou@huawei.com>)
- id 1j52A5-0003h8-Bg
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 01:51:45 -0500
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.57])
- by Forcepoint Email with ESMTP id 3237DF21558FF78B883E;
- Fri, 21 Feb 2020 14:51:39 +0800 (CST)
-Received: from DGGEMM528-MBX.china.huawei.com ([169.254.8.16]) by
- DGGEMM406-HUB.china.huawei.com ([10.3.20.214]) with mapi id 14.03.0439.000;
- Fri, 21 Feb 2020 14:51:32 +0800
-From: "Zhoujian (jay)" <jianjay.zhou@huawei.com>
-To: Peter Xu <peterx@redhat.com>, Ben Gardon <bgardon@google.com>
-Subject: RE: RFC: Split EPT huge pages in advance of dirty logging
-Thread-Topic: RFC: Split EPT huge pages in advance of dirty logging
-Thread-Index: AdXmU97BvyK5YKoyS5++my9GnvXVk///1+yA//428yCAA1S3gP/+abuggAMs8gCAAAvPAP/+rAew
-Date: Fri, 21 Feb 2020 06:51:32 +0000
-Message-ID: <B2D15215269B544CADD246097EACE7474BB061B9@DGGEMM528-MBX.china.huawei.com>
-References: <B2D15215269B544CADD246097EACE7474BAF9AB6@DGGEMM528-MBX.china.huawei.com>
- <20200218174311.GE1408806@xz-x1>
- <B2D15215269B544CADD246097EACE7474BAFF835@DGGEMM528-MBX.china.huawei.com>
- <20200219171919.GA34517@xz-x1>
- <B2D15215269B544CADD246097EACE7474BB03772@DGGEMM528-MBX.china.huawei.com>
- <CANgfPd-P_=GqcMiwLSSkUhZDt42aMLUsCJt+CPdUN5yR3RLHmQ@mail.gmail.com>
- <20200220181708.GE2905@xz-x1>
-In-Reply-To: <20200220181708.GE2905@xz-x1>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.173.228.206]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <yangx.jy@cn.fujitsu.com>) id 1j52IT-0001o2-Bv
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 02:00:31 -0500
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:14359
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <yangx.jy@cn.fujitsu.com>) id 1j52IS-00016S-5Y
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 02:00:25 -0500
+X-IronPort-AV: E=Sophos;i="5.70,467,1574092800"; d="scan'208";a="83680987"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 21 Feb 2020 15:00:12 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+ by cn.fujitsu.com (Postfix) with ESMTP id C231550A997B;
+ Fri, 21 Feb 2020 14:50:32 +0800 (CST)
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.85) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1395.4; Fri, 21 Feb 2020 15:00:09 +0800
+Received: from Fedora-30.g08.fujitsu.local (10.167.220.106) by
+ G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ id 14.3.439.0; Fri, 21 Feb 2020 15:00:10 +0800
+From: Xiao Yang <yangx.jy@cn.fujitsu.com>
+To: <virtio-fs@redhat.com>
+Subject: [PATCH] virtiofsd: Remove fuse.h and struct fuse_module
+Date: Fri, 21 Feb 2020 14:55:15 +0800
+Message-ID: <20200221065515.4476-1-yangx.jy@cn.fujitsu.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.187
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: C231550A997B.AC73D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: yangx.jy@cn.fujitsu.com
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 183.91.158.132
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,230 +58,1292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Junaid Shahid <junaids@google.com>,
- "Liujinsong \(Paul\)" <liu.jinsong@huawei.com>,
- "linfeng \(M\)" <linfeng23@huawei.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "wangxin \(U\)" <wangxinxin.wang@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "Huangweidong \(C\)" <weidong.huang@huawei.com>
+Cc: qemu-devel@nongnu.org, Xiao Yang <yangx.jy@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgWHUgW21haWx0
-bzpwZXRlcnhAcmVkaGF0LmNvbV0NCj4gU2VudDogRnJpZGF5LCBGZWJydWFyeSAyMSwgMjAyMCAy
-OjE3IEFNDQo+IFRvOiBCZW4gR2FyZG9uIDxiZ2FyZG9uQGdvb2dsZS5jb20+DQo+IENjOiBaaG91
-amlhbiAoamF5KSA8amlhbmpheS56aG91QGh1YXdlaS5jb20+OyBKdW5haWQgU2hhaGlkDQo+IDxq
-dW5haWRzQGdvb2dsZS5jb20+OyBrdm1Admdlci5rZXJuZWwub3JnOyBxZW11LWRldmVsQG5vbmdu
-dS5vcmc7DQo+IHBib256aW5pQHJlZGhhdC5jb207IGRnaWxiZXJ0QHJlZGhhdC5jb207IHF1aW50
-ZWxhQHJlZGhhdC5jb207DQo+IExpdWppbnNvbmcgKFBhdWwpIDxsaXUuamluc29uZ0BodWF3ZWku
-Y29tPjsgbGluZmVuZyAoTSkNCj4gPGxpbmZlbmcyM0BodWF3ZWkuY29tPjsgd2FuZ3hpbiAoVSkg
-PHdhbmd4aW54aW4ud2FuZ0BodWF3ZWkuY29tPjsNCj4gSHVhbmd3ZWlkb25nIChDKSA8d2VpZG9u
-Zy5odWFuZ0BodWF3ZWkuY29tPg0KPiBTdWJqZWN0OiBSZTogUkZDOiBTcGxpdCBFUFQgaHVnZSBw
-YWdlcyBpbiBhZHZhbmNlIG9mIGRpcnR5IGxvZ2dpbmcNCj4gDQo+IE9uIFRodSwgRmViIDIwLCAy
-MDIwIGF0IDA5OjM0OjUyQU0gLTA4MDAsIEJlbiBHYXJkb24gd3JvdGU6DQo+ID4gT24gVGh1LCBG
-ZWIgMjAsIDIwMjAgYXQgNTo1MyBBTSBaaG91amlhbiAoamF5KSA8amlhbmpheS56aG91QGh1YXdl
-aS5jb20+DQo+IHdyb3RlOg0KPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+ID4gPiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiBGcm9tOiBQZXRlciBYdSBbbWFpbHRvOnBldGVyeEBy
-ZWRoYXQuY29tXQ0KPiA+ID4gPiBTZW50OiBUaHVyc2RheSwgRmVicnVhcnkgMjAsIDIwMjAgMTox
-OSBBTQ0KPiA+ID4gPiBUbzogWmhvdWppYW4gKGpheSkgPGppYW5qYXkuemhvdUBodWF3ZWkuY29t
-Pg0KPiA+ID4gPiBDYzoga3ZtQHZnZXIua2VybmVsLm9yZzsgcWVtdS1kZXZlbEBub25nbnUub3Jn
-Ow0KPiA+ID4gPiBwYm9uemluaUByZWRoYXQuY29tOyBkZ2lsYmVydEByZWRoYXQuY29tOyBxdWlu
-dGVsYUByZWRoYXQuY29tOw0KPiA+ID4gPiBMaXVqaW5zb25nIChQYXVsKSA8bGl1LmppbnNvbmdA
-aHVhd2VpLmNvbT47IGxpbmZlbmcgKE0pDQo+ID4gPiA+IDxsaW5mZW5nMjNAaHVhd2VpLmNvbT47
-IHdhbmd4aW4gKFUpDQo+IDx3YW5neGlueGluLndhbmdAaHVhd2VpLmNvbT47DQo+ID4gPiA+IEh1
-YW5nd2VpZG9uZyAoQykgPHdlaWRvbmcuaHVhbmdAaHVhd2VpLmNvbT4NCj4gPiA+ID4gU3ViamVj
-dDogUmU6IFJGQzogU3BsaXQgRVBUIGh1Z2UgcGFnZXMgaW4gYWR2YW5jZSBvZiBkaXJ0eSBsb2dn
-aW5nDQo+ID4gPiA+DQo+ID4gPiA+IE9uIFdlZCwgRmViIDE5LCAyMDIwIGF0IDAxOjE5OjA4UE0g
-KzAwMDAsIFpob3VqaWFuIChqYXkpIHdyb3RlOg0KPiA+ID4gPiA+IEhpIFBldGVyLA0KPiA+ID4g
-PiA+DQo+ID4gPiA+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiA+ID4g
-RnJvbTogUGV0ZXIgWHUgW21haWx0bzpwZXRlcnhAcmVkaGF0LmNvbV0NCj4gPiA+ID4gPiA+IFNl
-bnQ6IFdlZG5lc2RheSwgRmVicnVhcnkgMTksIDIwMjAgMTo0MyBBTQ0KPiA+ID4gPiA+ID4gVG86
-IFpob3VqaWFuIChqYXkpIDxqaWFuamF5Lnpob3VAaHVhd2VpLmNvbT4NCj4gPiA+ID4gPiA+IENj
-OiBrdm1Admdlci5rZXJuZWwub3JnOyBxZW11LWRldmVsQG5vbmdudS5vcmc7DQo+ID4gPiA+IHBi
-b256aW5pQHJlZGhhdC5jb207DQo+ID4gPiA+ID4gPiBkZ2lsYmVydEByZWRoYXQuY29tOyBxdWlu
-dGVsYUByZWRoYXQuY29tOyBMaXVqaW5zb25nIChQYXVsKQ0KPiA+ID4gPiA+ID4gPGxpdS5qaW5z
-b25nQGh1YXdlaS5jb20+OyBsaW5mZW5nIChNKSA8bGluZmVuZzIzQGh1YXdlaS5jb20+Ow0KPiA+
-ID4gPiA+ID4gd2FuZ3hpbiAoVSkgPHdhbmd4aW54aW4ud2FuZ0BodWF3ZWkuY29tPjsgSHVhbmd3
-ZWlkb25nIChDKQ0KPiA+ID4gPiA+ID4gPHdlaWRvbmcuaHVhbmdAaHVhd2VpLmNvbT4NCj4gPiA+
-ID4gPiA+IFN1YmplY3Q6IFJlOiBSRkM6IFNwbGl0IEVQVCBodWdlIHBhZ2VzIGluIGFkdmFuY2Ug
-b2YgZGlydHkNCj4gPiA+ID4gPiA+IGxvZ2dpbmcNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBP
-biBUdWUsIEZlYiAxOCwgMjAyMCBhdCAwMToxMzo0N1BNICswMDAwLCBaaG91amlhbiAoamF5KSB3
-cm90ZToNCj4gPiA+ID4gPiA+ID4gSGkgYWxsLA0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
-PiBXZSBmb3VuZCB0aGF0IHRoZSBndWVzdCB3aWxsIGJlIHNvZnQtbG9ja3VwIG9jY2FzaW9uYWxs
-eQ0KPiA+ID4gPiA+ID4gPiB3aGVuIGxpdmUgbWlncmF0aW5nIGEgNjAgdkNQVSwgNTEyR2lCIGh1
-Z2UgcGFnZSBhbmQgbWVtb3J5DQo+ID4gPiA+ID4gPiA+IHNlbnNpdGl2ZSBWTS4gVGhlIHJlYXNv
-biBpcyBjbGVhciwgYWxtb3N0IGFsbCBvZiB0aGUgdkNQVXMNCj4gPiA+ID4gPiA+ID4gYXJlIHdh
-aXRpbmcgZm9yIHRoZSBLVk0gTU1VIHNwaW4tbG9jayB0byBjcmVhdGUgNEsgU1BURXMNCj4gPiA+
-ID4gPiA+ID4gd2hlbiB0aGUgaHVnZSBwYWdlcyBhcmUgd3JpdGUgcHJvdGVjdGVkLiBUaGlzDQo+
-ID4gPiA+ID4gPiBwaGVub21lbm9uIGlzIGFsc28gZGVzY3JpYmVkIGluIHRoaXMgcGF0Y2ggc2V0
-Og0KPiA+ID4gPiA+ID4gPiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL2NvdmVyLzExMTYz
-NDU5Lw0KPiA+ID4gPiA+ID4gPiB3aGljaCBhaW1zIHRvIGhhbmRsZSBwYWdlIGZhdWx0cyBpbiBw
-YXJhbGxlbCBtb3JlIGVmZmljaWVudGx5Lg0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiBP
-dXIgaWRlYSBpcyB0byB1c2UgdGhlIG1pZ3JhdGlvbiB0aHJlYWQgdG8gdG91Y2ggYWxsIG9mIHRo
-ZQ0KPiA+ID4gPiA+ID4gPiBndWVzdCBtZW1vcnkgaW4gdGhlIGdyYW51bGFyaXR5IG9mIDRLIGJl
-Zm9yZSBlbmFibGluZyBkaXJ0eQ0KPiA+ID4gPiA+ID4gPiBsb2dnaW5nLiBUbyBiZSBtb3JlIHNw
-ZWNpZmljLCB3ZSBzcGxpdCBhbGwgdGhlIFBEUEVfTEVWRUwNCj4gPiA+ID4gPiA+ID4gU1BURXMg
-aW50byBESVJFQ1RPUllfTEVWRUwgU1BURXMgYXMgdGhlIGZpcnN0IHN0ZXAsIGFuZCB0aGVuDQo+
-ID4gPiA+ID4gPiA+IHNwbGl0IGFsbCB0aGUgRElSRUNUT1JZX0xFVkVMIFNQVEVzIGludG8NCj4g
-PiA+ID4gPiA+IFBBR0VfVEFCTEVfTEVWRUwgU1BURXMgYXMgdGhlIGZvbGxvd2luZyBzdGVwLg0K
-PiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IElJVUMsIFFFTVUgd2lsbCBwcmVmZXIgdG8gdXNlIGh1
-Z2UgcGFnZXMgZm9yIGFsbCB0aGUgYW5vbnltb3VzDQo+ID4gPiA+ID4gPiByYW1ibG9ja3MgKHBs
-ZWFzZSByZWZlciB0byByYW1fYmxvY2tfYWRkKToNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAg
-ICAgICAgIHFlbXVfbWFkdmlzZShuZXdfYmxvY2stPmhvc3QsIG5ld19ibG9jay0+bWF4X2xlbmd0
-aCwNCj4gPiA+ID4gPiA+IFFFTVVfTUFEVl9IVUdFUEFHRSk7DQo+ID4gPiA+ID4NCj4gPiA+ID4g
-PiBZZXMsIHlvdSdyZSByaWdodA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
-QW5vdGhlciBhbHRlcm5hdGl2ZSBJIGNhbiB0aGluayBvZiBpcyB0byBhZGQgYW4gZXh0cmENCj4g
-PiA+ID4gPiA+IHBhcmFtZXRlciB0byBRRU1VIHRvIGV4cGxpY2l0bHkgZGlzYWJsZSBodWdlIHBh
-Z2VzIChzbyB0aGF0DQo+ID4gPiA+ID4gPiBjYW4gZXZlbiBiZSBNQURWX05PSFVHRVBBR0UgaW5z
-dGVhZCBvZiBNQURWX0hVR0VQQUdFKS4NCj4gPiA+ID4gPiA+IEhvd2V2ZXIgdGhhdA0KPiA+ID4g
-PiBzaG91bGQgYWxzbw0KPiA+ID4gPiA+ID4gZHJhZyBkb3duIHRoZSBwZXJmb3JtYW5jZSBmb3Ig
-dGhlIHdob2xlIGxpZmVjeWNsZSBvZiB0aGUgVk0uDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBGcm9t
-IHRoZSBwZXJmb3JtYW5jZSBwb2ludCBvZiB2aWV3LCBpdCBpcyBiZXR0ZXIgdG8ga2VlcCB0aGUN
-Cj4gPiA+ID4gPiBodWdlIHBhZ2VzIHdoZW4gdGhlIFZNIGlzIG5vdCBpbiB0aGUgbGl2ZSBtaWdy
-YXRpb24gc3RhdGUuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IEEgM3JkIG9wdGlvbiBpcyB0byBt
-YWtlIGEgUU1QDQo+ID4gPiA+ID4gPiBjb21tYW5kIHRvIGR5bmFtaWNhbGx5IHR1cm4gaHVnZSBw
-YWdlcyBvbi9vZmYgZm9yIHJhbWJsb2Nrcw0KPiBnbG9iYWxseS4NCj4gPiA+ID4gPg0KPiA+ID4g
-PiA+IFdlJ3JlIHNlYXJjaGluZyBhIGR5bmFtaWMgbWV0aG9kIHRvby4NCj4gPiA+ID4gPiBXZSBw
-bGFuIHRvIGFkZCB0d28gbmV3IGZsYWdzIGZvciBlYWNoIG1lbW9yeSBzbG90LCBzYXkNCj4gPiA+
-ID4gPiBLVk1fTUVNX0ZPUkNFX1BUX0RJUkVDVE9SWV9QQUdFUyBhbmQNCj4gPiA+ID4gPiBLVk1f
-TUVNX0ZPUkNFX1BUX1BBR0VfVEFCTEVfUEFHRVMuIFRoZXNlIGZsYWdzIGNhbiBiZSBzZXQNCj4g
-PiA+ID4gPiB0aHJvdWdoIEtWTV9TRVRfVVNFUl9NRU1PUllfUkVHSU9OIGlvY3RsLg0KPiANCj4g
-WzFdDQo+IA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhlIG1hcHBpbmdfbGV2ZWwgd2hpY2ggaXMg
-Y2FsbGVkIGJ5IHRkcF9wYWdlX2ZhdWx0IGluIHRoZQ0KPiA+ID4gPiA+IGtlcm5lbCBzaWRlIHdp
-bGwgcmV0dXJuIFBUX0RJUkVDVE9SWV9MRVZFTCBpZiB0aGUNCj4gPiA+ID4gS1ZNX01FTV9GT1JD
-RV9QVF9ESVJFQ1RPUllfUEFHRVMNCj4gPiA+ID4gPiBmbGFnIG9mIHRoZSBtZW1vcnkgc2xvdCBp
-cyBzZXQsIGFuZCByZXR1cm4gUFRfUEFHRV9UQUJMRV9MRVZFTA0KPiA+ID4gPiA+IGlmIHRoZSBL
-Vk1fTUVNX0ZPUkNFX1BUX1BBR0VfVEFCTEVfUEFHRVMgZmxhZyBpcyBzZXQuDQo+ID4gPiA+ID4N
-Cj4gPiA+ID4gPiBUaGUga2V5IHN0ZXBzIHRvIHNwbGl0IHRoZSBodWdlIHBhZ2VzIGluIGFkdmFu
-Y2Ugb2YgZW5hYmxpbmcNCj4gPiA+ID4gPiBkaXJ0eSBsb2cgaXMgYXMgZm9sbG93czoNCj4gPiA+
-ID4gPiAxLiBUaGUgbWlncmF0aW9uIHRocmVhZCBpbiB1c2VyIHNwYWNlIHVzZXMNCj4gPiA+ID4g
-S1ZNX1NFVF9VU0VSX01FTU9SWV9SRUdJT04NCj4gPiA+ID4gPiBpb2N0bCB0byBzZXQgdGhlIEtW
-TV9NRU1fRk9SQ0VfUFRfRElSRUNUT1JZX1BBR0VTIGZsYWcgZm9yIGVhY2gNCj4gPiA+ID4gbWVt
-b3J5DQo+ID4gPiA+ID4gc2xvdC4NCj4gPiA+ID4gPiAyLiBUaGUgbWlncmF0aW9uIHRocmVhZCBj
-b250aW51ZXMgdG8gdXNlIHRoZQ0KPiA+ID4gPiA+IEtWTV9TUExJVF9IVUdFX1BBR0VTIGlvY3Rs
-ICh3aGljaCBpcyBuZXdseSBhZGRlZCkgdG8gZG8gdGhlDQo+ID4gPiA+ID4gc3BsaXR0aW5nIG9m
-IGxhcmdlIHBhZ2VzIGluIHRoZSBrZXJuZWwgc2lkZS4NCj4gPiA+ID4gPiAzLiBBIG5ldyB2Q1BV
-IGlzIGNyZWF0ZWQgdGVtcG9yYWxseShkbyBzb21lIGluaXRpYWxpemF0aW9uIGJ1dA0KPiA+ID4g
-PiA+IHdpbGwgbm90DQo+ID4gPiA+ID4gcnVuKSB0byBoZWxwIHRvIGRvIHRoZSB3b3JrLCBpLmUu
-IGFzIHRoZSBwYXJhbWV0ZXIgb2YgdGhlIHRkcF9wYWdlX2ZhdWx0Lg0KPiA+ID4gPiA+IDQuIENv
-bGxlY3QgdGhlIEdQQSByYW5nZXMgb2YgYWxsIHRoZSBtZW1vcnkgc2xvdHMgd2l0aCB0aGUNCj4g
-PiA+ID4gPiBLVk1fTUVNX0ZPUkNFX1BUX0RJUkVDVE9SWV9QQUdFUyBmbGFnIHNldC4NCj4gPiA+
-ID4gPiA1LiBTcGxpdCB0aGUgMUcgaHVnZSBwYWdlcyhjb2xsZWN0ZWQgaW4gc3RlcCA0KSBpbnRv
-IDJNIGJ5DQo+ID4gPiA+ID4gY2FsbGluZyB0ZHBfcGFnZV9mYXVsdCwgc2luY2UgdGhlIG1hcHBp
-bmdfbGV2ZWwgd2lsbCByZXR1cm4NCj4gPiA+ID4gPiBQVF9ESVJFQ1RPUllfTEVWRUwuIEhlcmUg
-aXMgdGhlIG1haW4gZGlmZmVyZW5jZSBmcm9tIHRoZSB1c3VhbA0KPiA+ID4gPiA+IHBhdGggd2hp
-Y2ggaXMgY2F1c2VkIGJ5IHRoZSBHdWVzdCBzaWRlKEVQVCB2aW9sYXRpb24vbWlzY29uZmlnDQo+
-ID4gPiA+ID4gZXRjKSwgd2UgY2FsbCBpdCBkaXJlY3RseSBpbiB0aGUgaHlwZXJ2aXNvciBzaWRl
-Lg0KPiA+ID4gPiA+IDYuIERvIHNvbWUgY2xlYW51cHMsIGkuZS4gZnJlZSB0aGUgdkNQVSByZWxh
-dGVkIHJlc291cmNlcyA3LiBUaGUNCj4gPiA+ID4gPiBLVk1fU1BMSVRfSFVHRV9QQUdFUyBpb2N0
-bCByZXR1cm5lZCB0byB0aGUgdXNlciBzcGFjZSBzaWRlLg0KPiA+ID4gPiA+IDguIFVzaW5nIEtW
-TV9NRU1fRk9SQ0VfUFRfUEFHRV9UQUJMRV9QQUdFUyBpbnN0cmVhZCBvZg0KPiA+ID4gPiA+IEtW
-TV9NRU1fRk9SQ0VfUFRfRElSRUNUT1JZX1BBR0VTIHRvIHJlcGVhdCBzdGVwIDEgfiBzdGVwIDcs
-IGluDQo+ID4gPiA+ID4gc3RlcA0KPiA+ID4gPiA1DQo+ID4gPiA+ID4gdGhlIDJNIGh1Z2UgcGFn
-ZXMgd2lsbCBiZSBzcGxpdHRlZCBpbnRvIDRLIHBhZ2VzLg0KPiA+ID4gPiA+IDkuIENsZWFyIHRo
-ZSBLVk1fTUVNX0ZPUkNFX1BUX0RJUkVDVE9SWV9QQUdFUyBhbmQNCj4gPiA+ID4gPiBLVk1fTUVN
-X0ZPUkNFX1BUX1BBR0VfVEFCTEVfUEFHRVMgZmxhZ3MgZm9yIGVhY2ggbWVtb3J5DQo+IHNsb3Qu
-DQo+ID4gPiA+ID4gMTAuIFRoZW4gdGhlIG1pZ3JhdGlvbiB0aHJlYWQgY2FsbHMgdGhlIGxvZ19z
-dGFydCBpb2N0bCB0bw0KPiA+ID4gPiA+IGVuYWJsZSB0aGUgZGlydHkgbG9nZ2luZywgYW5kIHRo
-ZSByZW1haW5pbmcgdGhpbmcgaXMgdGhlIHNhbWUuDQo+ID4gPiA+DQo+ID4gPiA+IEknbSBub3Qg
-c3VyZS4uLiBJIHRoaW5rIGl0IHdvdWxkIGJlIGdvb2QgaWYgdGhlcmUgaXMgYSB3YXkgdG8gaGF2
-ZQ0KPiA+ID4gPiBmaW5lciBncmFudWxhcml0eSBjb250cm9sIG9uIHVzaW5nIGh1Z2UgcGFnZXMg
-Zm9yIGFueSBwcm9jZXNzLA0KPiA+ID4gPiB0aGVuIEtWTSBjYW4gZGlyZWN0bHkgbGV2ZXJhZ2Ug
-dGhhdCBiZWNhdXNlIEtWTSBwYWdlIHRhYmxlcyBzaG91bGQNCj4gPiA+ID4gYWx3YXlzIHJlc3Bl
-Y3QgdGhlIG1tIGNvbmZpZ3VyYXRpb25zIG9uIHRoZXNlIChzbyBlLmcuIHdoZW4gaHVnZSBwYWdl
-DQo+IHNwbGl0LCBLVk0gZ2V0cyBub3RpZmljYXRpb25zIHZpYSBtbXUgbm90aWZpZXJzKS4NCj4g
-PiA+ID4gSGF2ZSB5b3UgdGhvdWdodCBvZiBzdWNoIGEgbW9yZSBnZW5lcmFsIHdheT8NCj4gPiA+
-DQo+ID4gPiBJIGRpZCBoYXZlIHRob3VnaHQgb2YgdGhpcywgaWYgd2Ugc3BsaXQgdGhlIGh1Z2Ug
-cGFnZXMgaW50byA0SyBvZiBhDQo+ID4gPiBwcm9jZXNzLCBJJ20gYWZyYWlkIGl0IHdpbGwgbm90
-IGJlIHdvcmthYmxlIGZvciB0aGUgaHVnZSBwYWdlcw0KPiA+ID4gc2hhcmluZyBzY2VuYXJpbywg
-ZS5nLiBEUERLLCBTUERLIGV0Yy4gU28sIG9ubHkgc3BsaXQgdGhlIEVQVCBwYWdlDQo+ID4gPiB0
-YWJsZSBhbmQga2VlcCB0aGUgVk0gcHJvY2VzcyBwYWdlIHRhYmxlIChlLmcuIHFlbXUpIHVudG91
-Y2hlZCBpcyB0aGUNCj4gZ29hbC4NCj4gDQo+IEFoIEkgc2VlIHlvdXIgcG9pbnQgbm93Lg0KPiAN
-Cj4gPiA+DQo+ID4gPiA+DQo+ID4gPiA+IChBbmQgSSBqdXN0IG5vdGljZWQgdGhhdCBNQURWX05P
-SFVHRVBBR0UgaXMgb25seSBhIGhpbnQgdG8NCj4gPiA+ID4ga2h1Z2VwYWdlZCBhbmQgcHJvYmFi
-bHkgd29uJ3Qgc3BsaXQgYW55IGh1Z2UgcGFnZSBhdCBhbGwgYWZ0ZXINCj4gPiA+ID4gbWFkdmlz
-ZSgpIHJldHVybnMuLikgVG8gdGVsbCB0aGUgdHJ1dGggSSdtIHN0aWxsIGNvbmZ1c2VkIG9uIGhv
-dw0KPiA+ID4gPiBzcGxpdCBvZiBodWdlIHBhZ2VzIGhlbHBlZCBpbiB5b3VyIGNhc2UuLi4NCj4g
-PiA+DQo+ID4gPiBJJ20gc29ycnkgaWYgdGhlIG1lYW5pbmcgaXMgbm90IGV4cHJlc3NlZCBjbGVh
-cmx5LCBhbmQgdGhhbmtzIGZvciB5b3VyDQo+IHBhdGllbmNlLg0KPiA+ID4NCj4gPiA+ID4gSWYg
-SSByZWFkIGl0IHJpZ2h0IHRoZSB0ZXN0IHJlZHVjZWQgc29tZSBleGVjdXRpb24gdGltZSBmcm9t
-IDlzIHRvDQo+ID4gPiA+IGEgZmV3IG1zIGFmdGVyIHlvdXIgc3BsaXR0aW9uIG9mIGh1Z2UgcGFn
-ZXMuDQo+ID4gPg0KPiA+ID4gWWVzDQo+ID4gPg0KPiA+ID4gPiBUaGUgdGhpbmcgaXMgSSBkb24n
-dCBzZWUgaG93IHNwbGl0IG9mIGh1Z2UgcGFnZXMgY291bGQgc29sdmUgdGhlDQo+ID4gPiA+IG1t
-dV9sb2NrIGNvbnRlbnRpb24gd2l0aCB0aGUgaHVnZSBWTSwgYmVjYXVzZSBJTU8gZXZlbiBpZiB3
-ZSBzcGxpdA0KPiA+ID4gPiB0aGUgaHVnZSBwYWdlcyBpbnRvIHNtYWxsZXIgb25lcywgdGhvc2Ug
-cGFnZXMgc2hvdWxkIHN0aWxsIGJlDQo+ID4gPiA+IHdyaXRlLXByb3RlY3RlZCBhbmQgbmVlZCBt
-ZXJlbHkgdGhlIHNhbWUgbnVtYmVyIG9mIHBhZ2UgZmF1bHRzIHRvDQo+ID4gPiA+IHJlc29sdmUg
-d2hlbiBhY2Nlc3NlZC93cml0dGVuPyBBbmQgSSB0aG91Z2h0IHRoYXQgc2hvdWxkIG9ubHkgYmUN
-Cj4gPiA+ID4gZml4ZWQgd2l0aCBzb2x1dGlvbnMgbGlrZSB3aGF0IEJlbiBoYXMgcHJvcG9zZWQg
-d2l0aCB0aGUgTU1VDQo+ID4gPiA+IHJld29yay4gQ291bGQgeW91IHNob3cgbWUgd2hhdCBJJ3Zl
-IG1pc3NlZD8NCj4gPiA+DQo+ID4gPiBMZXQgbWUgdHJ5IHRvIGRlc2NyaWJlIHRoZSByZWFzb24g
-b2YgbW11X2xvY2sgY29udGVudGlvbiBtb3JlDQo+ID4gPiBjbGVhcmx5IGFuZCB0aGUgZWZmb3J0
-IHdlIHRyaWVkIHRvIGRvLi4uDQo+ID4gPiBUaGUgaHVnZSBWTSBvbmx5IGhhcyBFUFQgPj0gbGV2
-ZWwgMiBzcHRlcywgYW5kIGxldmVsIDEgc3B0ZXMgZG9uJ3QNCj4gPiA+IGV4aXN0IGF0IHRoZSBi
-ZWdpbm5pbmcuIFdyaXRlIHByb3RlY3QgYWxsIHRoZSBodWdlIHBhZ2VzIHdpbGwNCj4gPiA+IHRy
-aWdnZXIgRVBUIHZpb2xhdGlvbiB0byBjcmVhdGUgbGV2ZWwgMSBzcHRlcyBmb3IgYWxsIHRoZSB2
-Q1BVcw0KPiA+ID4gd2hpY2ggd2FudCB0byB3cml0ZSB0aGUgY29udGVudCBvZiB0aGUgbWVtb3J5
-LiBEaWZmZXJlbnQgdkNQVSB3cml0ZQ0KPiA+ID4gdGhlIGRpZmZlcmVudCBhcmVhcyBvZiB0aGUg
-bWVtb3J5LCBidXQgdGhleSBuZWVkIHRoZSBzYW1lDQo+ID4gPiBrdm0tPm1tdV9sb2NrIHRvIGNy
-ZWF0ZSB0aGUgbGV2ZWwgMSBzcHRlcywgdGhpcyBzaXR1YXRpb24gd2lsbCBiZQ0KPiA+ID4gd29y
-c2UgaWYgdGhlIG51bWJlciBvZiB2Q1BVIGFuZCB0aGUgbWVtb3J5IG9mIFZNIGlzIGxhcmdlKGlu
-IG91cg0KPiA+ID4gY2FzZSA2MFU1MTJHKSwgbWVhbndoaWxlIHRoZSBWTSBoYXMgbWVtb3J5LXdy
-aXRlLWludGVuc2l2ZSB3b3JrIHRvDQo+ID4gPiBkby4gSW4gb3JkZXIgdG8gcmVkdWNlIHRoZSBt
-bXVfbG9jayBjb250ZW50aW9uLCB3ZSB0cnkgdG86IHdyaXRlDQo+ID4gPiBwcm90ZWN0IFZNIG1l
-bW9yeSBncmFkdWFsbHkgaW4gc21hbGwgY2h1bmtzLCBzdWNoIGFzIDFHIG9yIDJNLiBVc2luZw0K
-PiA+ID4gYSB2Q1BVIHRlbXBvcmFyeSBjcmVhdGVseSBieSBtaWdyYXRpb24gdGhyZWFkIHRvIHNw
-bGl0IDFHIHRvIDJNIGFzDQo+ID4gPiB0aGUgZmlyc3Qgc3RlcCwgYW5kIHRvIHNwbGl0IDJNIHRv
-IDRLIGFzIHRoZSBzZWNvbmQgc3RlcCAodGhpcyBpcyBhDQo+ID4gPiBsaXR0bGUgaGFja2luZy4u
-LmFuZCBJIGRvIG5vdCBrbm93IGFueSBzaWRlIGVmZmVjdCB3aWxsIGJlIHRyaWdnZXJlZCBpbmRl
-ZWQpLg0KPiA+ID4gQ29tcGFyaW5nIHRvIHdyaXRlIHByb3RlY3QgYWxsIFZNIG1lbW9yeSBpbiBv
-bmUgZ28sIHRoZSB3cml0ZQ0KPiA+ID4gcHJvdGVjdGVkIHJhbmdlIGlzIGxpbWl0ZWQgaW4gdGhp
-cyB3YXkgYW5kIG9ubHkgdGhlIHZDUFVzIHdyaXRlIHRoaXMNCj4gPiA+IGxpbWl0ZWQgcmFuZ2Ug
-d2lsbCBiZSBpbnZvbHZlZCB0byB0YWtlIHRoZSBtbXVfbG9jay4gVGhlIGNvbnRlbnRpb24NCj4g
-PiA+IHdpbGwgYmUgcmVkdWNlZCBzaW5jZSB0aGUgbWVtb3J5IHJhbmdlIGlzIHNtYWxsIGFuZCB0
-aGUgbnVtYmVyIG9mDQo+ID4gPiB2Q1BVIGludm9sdmVkIGlzIHNtYWxsIHRvby4NCj4gPiA+DQo+
-ID4gPiBPZiBjb3Vyc2UsIGl0IHdpbGwgdGFrZSBzb21lIGV4dHJhIHRpbWUgdG8gc3BsaXQgYWxs
-IHRoZSBodWdlIHBhZ2VzDQo+ID4gPiBpbnRvIDRLIHBhZ2UgYmVmb3JlIHRoZSByZWFsIG1pZ3Jh
-dGlvbiBzdGFydGVkLCBhYm91dCA2MHMgZm9yIDUxMkcgaW4gbXkNCj4gZXhwZXJpbWVudC4NCj4g
-PiA+DQo+ID4gPiBEdXJpbmcgdGhlIG1lbW9yeSBpdGVyYXRpdmUgY29weSBwaGFzZSwgUE1MIHdp
-bGwgZG8gdGhlIGRpcnR5DQo+ID4gPiBsb2dnaW5nIHdvcmsgKG5vdCB3cml0ZSBwcm90ZWN0ZWQg
-Y2FzZSBmb3IgNEspLCBvciBJSVJDIHVzaW5nDQo+ID4gPiBmYXN0X3BhZ2VfZmF1bHQgdG8gbWFy
-ayBwYWdlIGRpcnR5IGlmIFBNTCBpcyBub3Qgc3VwcG9ydGVkLCB3aGljaCBjYXNlIHRoZQ0KPiBt
-bXVfbG9jayBkb2VzIG5vdCBuZWVkZWQuDQo+IA0KPiBZZXMgSSBtaXNzZWQgYm90aCBvZiB0aGVz
-ZS4gIFRoYW5rcyBmb3IgZXhwbGFpbmluZyENCj4gDQo+IFRoZW4gaXQgbWFrZXMgc2Vuc2UgYXQg
-bGVhc3QgdG8gbWUgd2l0aCB5b3VyIGlkZWEuIFRob3VnaCBpbnN0ZWFkIG9mIHRoZQ0KPiBLVk1f
-TUVNX0ZPUkNFX1BUXyogbmFtaW5nIFsxXSwgd2UgY2FuIGFsc28gZW1iZWQgYWxsb3dlZCBwYWdl
-IHNpemVzDQo+IGZvciB0aGUgbWVtc2xvdCBpbnRvIHRoZSBmbGFncyB1c2luZyBhIGZldyBiaXRz
-LCB3aXRoIGFub3RoZXIgbmV3IGt2bSBjYXAuDQoNClRoYW5rcyBmb3IgdGhpcyBzdWdnZXN0aW9u
-Lg0KDQo+ID4gPg0KPiA+ID4gUmVnYXJkcywNCj4gPiA+IEpheSBaaG91DQo+ID4NCj4gPiAoQWgg
-SSB0b3AtcG9zdGVkIEknbSBzb3JyeS4gUmUtc2VuZGluZyBhdCB0aGUgYm90dG9tLikNCj4gPg0K
-PiA+IEZXSVcsIHdlIGN1cnJlbnRseSBkbyB0aGlzIGVhZ2VyIHNwbGl0dGluZyBhdCBHb29nbGUg
-Zm9yIGxpdmUNCj4gPiBtaWdyYXRpb24uIFdoZW4gdGhlIGxvZy1kaXJ0eS1tZW1vcnkgZmxhZyBp
-cyBzZXQgb24gYSBtZW1zbG90IHdlDQo+ID4gZWFnZXJseSBzcGxpdCBhbGwgcGFnZXMgaW4gdGhl
-IHNsb3QgZG93biB0byA0ayBncmFudWxhcml0eS4NCj4gPiBBcyBKYXkgc2FpZCwgdGhpcyBkb2Vz
-IG5vdCBjYXVzZSBjcmlwcGxpbmcgbG9jayBjb250ZW50aW9uIGJlY2F1c2UgdGhlDQo+ID4gdkNQ
-VSBwYWdlIGZhdWx0cyBnZW5lcmF0ZWQgYnkgd3JpdGUgcHJvdGVjdGlvbiAvIHNwbGl0dGluZyBj
-YW4gYmUNCj4gPiByZXNvbHZlZCBpbiB0aGUgZmFzdCBwYWdlIGZhdWx0IHBhdGggd2l0aG91dCBh
-Y3F1aXJpbmcgdGhlIE1NVSBsb2NrLg0KPiA+IEkgYmVsaWV2ZSArSnVuYWlkIFNoYWhpZCB0cmll
-ZCB0byB1cHN0cmVhbSB0aGlzIGFwcHJvYWNoIGF0IHNvbWUgcG9pbnQNCj4gPiBpbiB0aGUgcGFz
-dCwgYnV0IHRoZSBwYXRjaCBzZXQgZGlkbid0IG1ha2UgaXQgaW4uIChUaGlzIHdhcyBiZWZvcmUg
-bXkNCj4gPiB0aW1lLCBzbyBJJ20gaG9waW5nIGhlIGhhcyBhIGxpbmsuKSANCg0KSSB0cmllZCB0
-byBnb29nbGUgdGhlICJlYWdlcmx5IHNwbGl0ICIgYXBwcm9hY2ggdXNpbmcgdGhlIGtleXdvcmRz
-IGxpa2UNCiIgZWFnZXIgc3BsaXR0aW5nICIsICIgZWFnZXIgc3BsaXR0aW5nIGxpdmUgbWlncmF0
-aW9uICIgb3IgYWRkIHRoZSBuYW1lIG9mDQp0aGUgYXV0aG9yLCBidXQgdW5mb3J0dW5hdGVseSBu
-byByZWxldmFudCBsaW5rcyB3ZXJlIGZvdW5kLi4uDQpCdXQgc3RpbGwgdGhhbmtzIGZvciB0aGlz
-IGluZm9ybWF0aW9uLg0KDQpSZWdhcmRzLA0KSmF5IFpob3UNCg0KPj4gSSBoYXZlbid0IGRvbmUg
-dGhlIGFuYWx5c2lzIHRvDQo+ID4ga25vdyBpZiBlYWdlciBzcGxpdHRpbmcgaXMgbW9yZSBvciBs
-ZXNzIGVmZmljaWVudCB3aXRoIHBhcmFsbGVsDQo+ID4gc2xvdy1wYXRoIHBhZ2UgZmF1bHRzLCBi
-dXQgaXQncyBkZWZpbml0ZWx5IGZhc3RlciB1bmRlciB0aGUgTU1VIGxvY2suDQo+IA0KPiBZZXMs
-IHRvdGFsbHkgYWdyZWVkLiAgVGhvdWdoIGNvbXBhcmluZyB0byBlYWdlciBzcGxpdHRpbmcgKHdo
-aWNoIG1pZ2h0IHN0aWxsDQo+IG5lZWQgYSBuZXcgY2FwYWJpbGlsaXR5IGZvciB0aGUgY2hhbmdl
-ZCBiZWhhdmlvciBhZnRlciBhbGwsIG5vdCBzdXJlLi4uKSwgdGhlDQo+IHBlci1tZW1zbG90IGhp
-bnQgc29sdXRpb24gbG9va3Mgc2xpZ2h0bHkgbmljZXIgdG8gbWUsIGltaG8sIGJlY2F1c2UgaXQg
-Y2FuIG9mZmVyDQo+IG1vcmUgbWVjaGFuaXNtIHRoYW4gcG9saWN5Lg0KPiANCj4gVGhhbmtzLA0K
-PiANCj4gLS0NCj4gUGV0ZXIgWHUNCg0K
+All code in fuse.h and struct fuse_module are not used by virtiofsd
+so removing them is safe.
+
+Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
+---
+ tools/virtiofsd/fuse.h   | 1229 --------------------------------------
+ tools/virtiofsd/fuse_i.h |   16 -
+ 2 files changed, 1245 deletions(-)
+ delete mode 100644 tools/virtiofsd/fuse.h
+
+diff --git a/tools/virtiofsd/fuse.h b/tools/virtiofsd/fuse.h
+deleted file mode 100644
+index aba13fef2d..0000000000
+--- a/tools/virtiofsd/fuse.h
++++ /dev/null
+@@ -1,1229 +0,0 @@
+-/*
+- * FUSE: Filesystem in Userspace
+- * Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
+- *
+- * This program can be distributed under the terms of the GNU LGPLv2.
+- * See the file COPYING.LIB.
+- */
+-
+-#ifndef FUSE_H_
+-#define FUSE_H_
+-
+-/*
+- *
+- * This file defines the library interface of FUSE
+- *
+- * IMPORTANT: you should define FUSE_USE_VERSION before including this header.
+- */
+-
+-#include "fuse_common.h"
+-
+-#include <fcntl.h>
+-#include <sys/stat.h>
+-#include <sys/statvfs.h>
+-#include <sys/types.h>
+-#include <sys/uio.h>
+-#include <time.h>
+-
+-/*
+- * Basic FUSE API
+- */
+-
+-/** Handle for a FUSE filesystem */
+-struct fuse;
+-
+-/**
+- * Readdir flags, passed to ->readdir()
+- */
+-enum fuse_readdir_flags {
+-    /**
+-     * "Plus" mode.
+-     *
+-     * The kernel wants to prefill the inode cache during readdir.  The
+-     * filesystem may honour this by filling in the attributes and setting
+-     * FUSE_FILL_DIR_FLAGS for the filler function.  The filesystem may also
+-     * just ignore this flag completely.
+-     */
+-    FUSE_READDIR_PLUS = (1 << 0),
+-};
+-
+-enum fuse_fill_dir_flags {
+-    /**
+-     * "Plus" mode: all file attributes are valid
+-     *
+-     * The attributes are used by the kernel to prefill the inode cache
+-     * during a readdir.
+-     *
+-     * It is okay to set FUSE_FILL_DIR_PLUS if FUSE_READDIR_PLUS is not set
+-     * and vice versa.
+-     */
+-    FUSE_FILL_DIR_PLUS = (1 << 1),
+-};
+-
+-/**
+- * Function to add an entry in a readdir() operation
+- *
+- * The *off* parameter can be any non-zero value that enables the
+- * filesystem to identify the current point in the directory
+- * stream. It does not need to be the actual physical position. A
+- * value of zero is reserved to indicate that seeking in directories
+- * is not supported.
+- *
+- * @param buf the buffer passed to the readdir() operation
+- * @param name the file name of the directory entry
+- * @param stat file attributes, can be NULL
+- * @param off offset of the next entry or zero
+- * @param flags fill flags
+- * @return 1 if buffer is full, zero otherwise
+- */
+-typedef int (*fuse_fill_dir_t)(void *buf, const char *name,
+-                               const struct stat *stbuf, off_t off,
+-                               enum fuse_fill_dir_flags flags);
+-/**
+- * Configuration of the high-level API
+- *
+- * This structure is initialized from the arguments passed to
+- * fuse_new(), and then passed to the file system's init() handler
+- * which should ensure that the configuration is compatible with the
+- * file system implementation.
+- */
+-struct fuse_config {
+-    /**
+-     * If `set_gid` is non-zero, the st_gid attribute of each file
+-     * is overwritten with the value of `gid`.
+-     */
+-    int set_gid;
+-    unsigned int gid;
+-
+-    /**
+-     * If `set_uid` is non-zero, the st_uid attribute of each file
+-     * is overwritten with the value of `uid`.
+-     */
+-    int set_uid;
+-    unsigned int uid;
+-
+-    /**
+-     * If `set_mode` is non-zero, the any permissions bits set in
+-     * `umask` are unset in the st_mode attribute of each file.
+-     */
+-    int set_mode;
+-    unsigned int umask;
+-
+-    /**
+-     * The timeout in seconds for which name lookups will be
+-     * cached.
+-     */
+-    double entry_timeout;
+-
+-    /**
+-     * The timeout in seconds for which a negative lookup will be
+-     * cached. This means, that if file did not exist (lookup
+-     * retuned ENOENT), the lookup will only be redone after the
+-     * timeout, and the file/directory will be assumed to not
+-     * exist until then. A value of zero means that negative
+-     * lookups are not cached.
+-     */
+-    double negative_timeout;
+-
+-    /**
+-     * The timeout in seconds for which file/directory attributes
+-     * (as returned by e.g. the `getattr` handler) are cached.
+-     */
+-    double attr_timeout;
+-
+-    /**
+-     * Allow requests to be interrupted
+-     */
+-    int intr;
+-
+-    /**
+-     * Specify which signal number to send to the filesystem when
+-     * a request is interrupted.  The default is hardcoded to
+-     * USR1.
+-     */
+-    int intr_signal;
+-
+-    /**
+-     * Normally, FUSE assigns inodes to paths only for as long as
+-     * the kernel is aware of them. With this option inodes are
+-     * instead remembered for at least this many seconds.  This
+-     * will require more memory, but may be necessary when using
+-     * applications that make use of inode numbers.
+-     *
+-     * A number of -1 means that inodes will be remembered for the
+-     * entire life-time of the file-system process.
+-     */
+-    int remember;
+-
+-    /**
+-     * The default behavior is that if an open file is deleted,
+-     * the file is renamed to a hidden file (.fuse_hiddenXXX), and
+-     * only removed when the file is finally released.  This
+-     * relieves the filesystem implementation of having to deal
+-     * with this problem. This option disables the hiding
+-     * behavior, and files are removed immediately in an unlink
+-     * operation (or in a rename operation which overwrites an
+-     * existing file).
+-     *
+-     * It is recommended that you not use the hard_remove
+-     * option. When hard_remove is set, the following libc
+-     * functions fail on unlinked files (returning errno of
+-     * ENOENT): read(2), write(2), fsync(2), close(2), f*xattr(2),
+-     * ftruncate(2), fstat(2), fchmod(2), fchown(2)
+-     */
+-    int hard_remove;
+-
+-    /**
+-     * Honor the st_ino field in the functions getattr() and
+-     * fill_dir(). This value is used to fill in the st_ino field
+-     * in the stat(2), lstat(2), fstat(2) functions and the d_ino
+-     * field in the readdir(2) function. The filesystem does not
+-     * have to guarantee uniqueness, however some applications
+-     * rely on this value being unique for the whole filesystem.
+-     *
+-     * Note that this does *not* affect the inode that libfuse
+-     * and the kernel use internally (also called the "nodeid").
+-     */
+-    int use_ino;
+-
+-    /**
+-     * If use_ino option is not given, still try to fill in the
+-     * d_ino field in readdir(2). If the name was previously
+-     * looked up, and is still in the cache, the inode number
+-     * found there will be used.  Otherwise it will be set to -1.
+-     * If use_ino option is given, this option is ignored.
+-     */
+-    int readdir_ino;
+-
+-    /**
+-     * This option disables the use of page cache (file content cache)
+-     * in the kernel for this filesystem. This has several affects:
+-     *
+-     * 1. Each read(2) or write(2) system call will initiate one
+-     *    or more read or write operations, data will not be
+-     *    cached in the kernel.
+-     *
+-     * 2. The return value of the read() and write() system calls
+-     *    will correspond to the return values of the read and
+-     *    write operations. This is useful for example if the
+-     *    file size is not known in advance (before reading it).
+-     *
+-     * Internally, enabling this option causes fuse to set the
+-     * `direct_io` field of `struct fuse_file_info` - overwriting
+-     * any value that was put there by the file system.
+-     */
+-    int direct_io;
+-
+-    /**
+-     * This option disables flushing the cache of the file
+-     * contents on every open(2).  This should only be enabled on
+-     * filesystems where the file data is never changed
+-     * externally (not through the mounted FUSE filesystem).  Thus
+-     * it is not suitable for network filesystems and other
+-     * intermediate filesystems.
+-     *
+-     * NOTE: if this option is not specified (and neither
+-     * direct_io) data is still cached after the open(2), so a
+-     * read(2) system call will not always initiate a read
+-     * operation.
+-     *
+-     * Internally, enabling this option causes fuse to set the
+-     * `keep_cache` field of `struct fuse_file_info` - overwriting
+-     * any value that was put there by the file system.
+-     */
+-    int kernel_cache;
+-
+-    /**
+-     * This option is an alternative to `kernel_cache`. Instead of
+-     * unconditionally keeping cached data, the cached data is
+-     * invalidated on open(2) if if the modification time or the
+-     * size of the file has changed since it was last opened.
+-     */
+-    int auto_cache;
+-
+-    /**
+-     * The timeout in seconds for which file attributes are cached
+-     * for the purpose of checking if auto_cache should flush the
+-     * file data on open.
+-     */
+-    int ac_attr_timeout_set;
+-    double ac_attr_timeout;
+-
+-    /**
+-     * If this option is given the file-system handlers for the
+-     * following operations will not receive path information:
+-     * read, write, flush, release, fsync, readdir, releasedir,
+-     * fsyncdir, lock, ioctl and poll.
+-     *
+-     * For the truncate, getattr, chmod, chown and utimens
+-     * operations the path will be provided only if the struct
+-     * fuse_file_info argument is NULL.
+-     */
+-    int nullpath_ok;
+-
+-    /**
+-     * The remaining options are used by libfuse internally and
+-     * should not be touched.
+-     */
+-    int show_help;
+-    char *modules;
+-    int debug;
+-};
+-
+-
+-/**
+- * The file system operations:
+- *
+- * Most of these should work very similarly to the well known UNIX
+- * file system operations.  A major exception is that instead of
+- * returning an error in 'errno', the operation should return the
+- * negated error value (-errno) directly.
+- *
+- * All methods are optional, but some are essential for a useful
+- * filesystem (e.g. getattr).  Open, flush, release, fsync, opendir,
+- * releasedir, fsyncdir, access, create, truncate, lock, init and
+- * destroy are special purpose methods, without which a full featured
+- * filesystem can still be implemented.
+- *
+- * In general, all methods are expected to perform any necessary
+- * permission checking. However, a filesystem may delegate this task
+- * to the kernel by passing the `default_permissions` mount option to
+- * `fuse_new()`. In this case, methods will only be called if
+- * the kernel's permission check has succeeded.
+- *
+- * Almost all operations take a path which can be of any length.
+- */
+-struct fuse_operations {
+-    /**
+-     * Get file attributes.
+-     *
+-     * Similar to stat().  The 'st_dev' and 'st_blksize' fields are
+-     * ignored. The 'st_ino' field is ignored except if the 'use_ino'
+-     * mount option is given. In that case it is passed to userspace,
+-     * but libfuse and the kernel will still assign a different
+-     * inode for internal use (called the "nodeid").
+-     *
+-     * `fi` will always be NULL if the file is not currently open, but
+-     * may also be NULL if the file is open.
+-     */
+-    int (*getattr)(const char *, struct stat *, struct fuse_file_info *fi);
+-
+-    /**
+-     * Read the target of a symbolic link
+-     *
+-     * The buffer should be filled with a null terminated string.  The
+-     * buffer size argument includes the space for the terminating
+-     * null character. If the linkname is too long to fit in the
+-     * buffer, it should be truncated. The return value should be 0
+-     * for success.
+-     */
+-    int (*readlink)(const char *, char *, size_t);
+-
+-    /**
+-     * Create a file node
+-     *
+-     * This is called for creation of all non-directory, non-symlink
+-     * nodes.  If the filesystem defines a create() method, then for
+-     * regular files that will be called instead.
+-     */
+-    int (*mknod)(const char *, mode_t, dev_t);
+-
+-    /**
+-     * Create a directory
+-     *
+-     * Note that the mode argument may not have the type specification
+-     * bits set, i.e. S_ISDIR(mode) can be false.  To obtain the
+-     * correct directory type bits use  mode|S_IFDIR
+-     */
+-    int (*mkdir)(const char *, mode_t);
+-
+-    /** Remove a file */
+-    int (*unlink)(const char *);
+-
+-    /** Remove a directory */
+-    int (*rmdir)(const char *);
+-
+-    /** Create a symbolic link */
+-    int (*symlink)(const char *, const char *);
+-
+-    /**
+-     * Rename a file
+-     *
+-     * *flags* may be `RENAME_EXCHANGE` or `RENAME_NOREPLACE`. If
+-     * RENAME_NOREPLACE is specified, the filesystem must not
+-     * overwrite *newname* if it exists and return an error
+-     * instead. If `RENAME_EXCHANGE` is specified, the filesystem
+-     * must atomically exchange the two files, i.e. both must
+-     * exist and neither may be deleted.
+-     */
+-    int (*rename)(const char *, const char *, unsigned int flags);
+-
+-    /** Create a hard link to a file */
+-    int (*link)(const char *, const char *);
+-
+-    /**
+-     * Change the permission bits of a file
+-     *
+-     * `fi` will always be NULL if the file is not currenlty open, but
+-     * may also be NULL if the file is open.
+-     */
+-    int (*chmod)(const char *, mode_t, struct fuse_file_info *fi);
+-
+-    /**
+-     * Change the owner and group of a file
+-     *
+-     * `fi` will always be NULL if the file is not currenlty open, but
+-     * may also be NULL if the file is open.
+-     *
+-     * Unless FUSE_CAP_HANDLE_KILLPRIV is disabled, this method is
+-     * expected to reset the setuid and setgid bits.
+-     */
+-    int (*chown)(const char *, uid_t, gid_t, struct fuse_file_info *fi);
+-
+-    /**
+-     * Change the size of a file
+-     *
+-     * `fi` will always be NULL if the file is not currenlty open, but
+-     * may also be NULL if the file is open.
+-     *
+-     * Unless FUSE_CAP_HANDLE_KILLPRIV is disabled, this method is
+-     * expected to reset the setuid and setgid bits.
+-     */
+-    int (*truncate)(const char *, off_t, struct fuse_file_info *fi);
+-
+-    /**
+-     * Open a file
+-     *
+-     * Open flags are available in fi->flags. The following rules
+-     * apply.
+-     *
+-     *  - Creation (O_CREAT, O_EXCL, O_NOCTTY) flags will be
+-     *    filtered out / handled by the kernel.
+-     *
+-     *  - Access modes (O_RDONLY, O_WRONLY, O_RDWR, O_EXEC, O_SEARCH)
+-     *    should be used by the filesystem to check if the operation is
+-     *    permitted.  If the ``-o default_permissions`` mount option is
+-     *    given, this check is already done by the kernel before calling
+-     *    open() and may thus be omitted by the filesystem.
+-     *
+-     *  - When writeback caching is enabled, the kernel may send
+-     *    read requests even for files opened with O_WRONLY. The
+-     *    filesystem should be prepared to handle this.
+-     *
+-     *  - When writeback caching is disabled, the filesystem is
+-     *    expected to properly handle the O_APPEND flag and ensure
+-     *    that each write is appending to the end of the file.
+-     *
+-     *  - When writeback caching is enabled, the kernel will
+-     *    handle O_APPEND. However, unless all changes to the file
+-     *    come through the kernel this will not work reliably. The
+-     *    filesystem should thus either ignore the O_APPEND flag
+-     *    (and let the kernel handle it), or return an error
+-     *    (indicating that reliably O_APPEND is not available).
+-     *
+-     * Filesystem may store an arbitrary file handle (pointer,
+-     * index, etc) in fi->fh, and use this in other all other file
+-     * operations (read, write, flush, release, fsync).
+-     *
+-     * Filesystem may also implement stateless file I/O and not store
+-     * anything in fi->fh.
+-     *
+-     * There are also some flags (direct_io, keep_cache) which the
+-     * filesystem may set in fi, to change the way the file is opened.
+-     * See fuse_file_info structure in <fuse_common.h> for more details.
+-     *
+-     * If this request is answered with an error code of ENOSYS
+-     * and FUSE_CAP_NO_OPEN_SUPPORT is set in
+-     * `fuse_conn_info.capable`, this is treated as success and
+-     * future calls to open will also succeed without being send
+-     * to the filesystem process.
+-     *
+-     */
+-    int (*open)(const char *, struct fuse_file_info *);
+-
+-    /**
+-     * Read data from an open file
+-     *
+-     * Read should return exactly the number of bytes requested except
+-     * on EOF or error, otherwise the rest of the data will be
+-     * substituted with zeroes.  An exception to this is when the
+-     * 'direct_io' mount option is specified, in which case the return
+-     * value of the read system call will reflect the return value of
+-     * this operation.
+-     */
+-    int (*read)(const char *, char *, size_t, off_t, struct fuse_file_info *);
+-
+-    /**
+-     * Write data to an open file
+-     *
+-     * Write should return exactly the number of bytes requested
+-     * except on error.  An exception to this is when the 'direct_io'
+-     * mount option is specified (see read operation).
+-     *
+-     * Unless FUSE_CAP_HANDLE_KILLPRIV is disabled, this method is
+-     * expected to reset the setuid and setgid bits.
+-     */
+-    int (*write)(const char *, const char *, size_t, off_t,
+-                 struct fuse_file_info *);
+-
+-    /**
+-     * Get file system statistics
+-     *
+-     * The 'f_favail', 'f_fsid' and 'f_flag' fields are ignored
+-     */
+-    int (*statfs)(const char *, struct statvfs *);
+-
+-    /**
+-     * Possibly flush cached data
+-     *
+-     * BIG NOTE: This is not equivalent to fsync().  It's not a
+-     * request to sync dirty data.
+-     *
+-     * Flush is called on each close() of a file descriptor, as opposed to
+-     * release which is called on the close of the last file descriptor for
+-     * a file.  Under Linux, errors returned by flush() will be passed to
+-     * userspace as errors from close(), so flush() is a good place to write
+-     * back any cached dirty data. However, many applications ignore errors
+-     * on close(), and on non-Linux systems, close() may succeed even if flush()
+-     * returns an error. For these reasons, filesystems should not assume
+-     * that errors returned by flush will ever be noticed or even
+-     * delivered.
+-     *
+-     * NOTE: The flush() method may be called more than once for each
+-     * open().  This happens if more than one file descriptor refers to an
+-     * open file handle, e.g. due to dup(), dup2() or fork() calls.  It is
+-     * not possible to determine if a flush is final, so each flush should
+-     * be treated equally.  Multiple write-flush sequences are relatively
+-     * rare, so this shouldn't be a problem.
+-     *
+-     * Filesystems shouldn't assume that flush will be called at any
+-     * particular point.  It may be called more times than expected, or not
+-     * at all.
+-     *
+-     * [close]:
+-     * http://pubs.opengroup.org/onlinepubs/9699919799/functions/close.html
+-     */
+-    int (*flush)(const char *, struct fuse_file_info *);
+-
+-    /**
+-     * Release an open file
+-     *
+-     * Release is called when there are no more references to an open
+-     * file: all file descriptors are closed and all memory mappings
+-     * are unmapped.
+-     *
+-     * For every open() call there will be exactly one release() call
+-     * with the same flags and file handle.  It is possible to
+-     * have a file opened more than once, in which case only the last
+-     * release will mean, that no more reads/writes will happen on the
+-     * file.  The return value of release is ignored.
+-     */
+-    int (*release)(const char *, struct fuse_file_info *);
+-
+-    /*
+-     * Synchronize file contents
+-     *
+-     * If the datasync parameter is non-zero, then only the user data
+-     * should be flushed, not the meta data.
+-     */
+-    int (*fsync)(const char *, int, struct fuse_file_info *);
+-
+-    /** Set extended attributes */
+-    int (*setxattr)(const char *, const char *, const char *, size_t, int);
+-
+-    /** Get extended attributes */
+-    int (*getxattr)(const char *, const char *, char *, size_t);
+-
+-    /** List extended attributes */
+-    int (*listxattr)(const char *, char *, size_t);
+-
+-    /** Remove extended attributes */
+-    int (*removexattr)(const char *, const char *);
+-
+-    /*
+-     * Open directory
+-     *
+-     * Unless the 'default_permissions' mount option is given,
+-     * this method should check if opendir is permitted for this
+-     * directory. Optionally opendir may also return an arbitrary
+-     * filehandle in the fuse_file_info structure, which will be
+-     * passed to readdir, releasedir and fsyncdir.
+-     */
+-    int (*opendir)(const char *, struct fuse_file_info *);
+-
+-    /*
+-     * Read directory
+-     *
+-     * The filesystem may choose between two modes of operation:
+-     *
+-     * 1) The readdir implementation ignores the offset parameter, and
+-     * passes zero to the filler function's offset.  The filler
+-     * function will not return '1' (unless an error happens), so the
+-     * whole directory is read in a single readdir operation.
+-     *
+-     * 2) The readdir implementation keeps track of the offsets of the
+-     * directory entries.  It uses the offset parameter and always
+-     * passes non-zero offset to the filler function.  When the buffer
+-     * is full (or an error happens) the filler function will return
+-     * '1'.
+-     */
+-    int (*readdir)(const char *, void *, fuse_fill_dir_t, off_t,
+-                   struct fuse_file_info *, enum fuse_readdir_flags);
+-
+-    /**
+-     *  Release directory
+-     */
+-    int (*releasedir)(const char *, struct fuse_file_info *);
+-
+-    /**
+-     * Synchronize directory contents
+-     *
+-     * If the datasync parameter is non-zero, then only the user data
+-     * should be flushed, not the meta data
+-     */
+-    int (*fsyncdir)(const char *, int, struct fuse_file_info *);
+-
+-    /**
+-     * Initialize filesystem
+-     *
+-     * The return value will passed in the `private_data` field of
+-     * `struct fuse_context` to all file operations, and as a
+-     * parameter to the destroy() method. It overrides the initial
+-     * value provided to fuse_main() / fuse_new().
+-     */
+-    void *(*init)(struct fuse_conn_info *conn, struct fuse_config *cfg);
+-
+-    /**
+-     * Clean up filesystem
+-     *
+-     * Called on filesystem exit.
+-     */
+-    void (*destroy)(void *private_data);
+-
+-    /**
+-     * Check file access permissions
+-     *
+-     * This will be called for the access() system call.  If the
+-     * 'default_permissions' mount option is given, this method is not
+-     * called.
+-     *
+-     * This method is not called under Linux kernel versions 2.4.x
+-     */
+-    int (*access)(const char *, int);
+-
+-    /**
+-     * Create and open a file
+-     *
+-     * If the file does not exist, first create it with the specified
+-     * mode, and then open it.
+-     *
+-     * If this method is not implemented or under Linux kernel
+-     * versions earlier than 2.6.15, the mknod() and open() methods
+-     * will be called instead.
+-     */
+-    int (*create)(const char *, mode_t, struct fuse_file_info *);
+-
+-    /**
+-     * Perform POSIX file locking operation
+-     *
+-     * The cmd argument will be either F_GETLK, F_SETLK or F_SETLKW.
+-     *
+-     * For the meaning of fields in 'struct flock' see the man page
+-     * for fcntl(2).  The l_whence field will always be set to
+-     * SEEK_SET.
+-     *
+-     * For checking lock ownership, the 'fuse_file_info->owner'
+-     * argument must be used.
+-     *
+-     * For F_GETLK operation, the library will first check currently
+-     * held locks, and if a conflicting lock is found it will return
+-     * information without calling this method.  This ensures, that
+-     * for local locks the l_pid field is correctly filled in. The
+-     * results may not be accurate in case of race conditions and in
+-     * the presence of hard links, but it's unlikely that an
+-     * application would rely on accurate GETLK results in these
+-     * cases.  If a conflicting lock is not found, this method will be
+-     * called, and the filesystem may fill out l_pid by a meaningful
+-     * value, or it may leave this field zero.
+-     *
+-     * For F_SETLK and F_SETLKW the l_pid field will be set to the pid
+-     * of the process performing the locking operation.
+-     *
+-     * Note: if this method is not implemented, the kernel will still
+-     * allow file locking to work locally.  Hence it is only
+-     * interesting for network filesystems and similar.
+-     */
+-    int (*lock)(const char *, struct fuse_file_info *, int cmd, struct flock *);
+-
+-    /**
+-     * Change the access and modification times of a file with
+-     * nanosecond resolution
+-     *
+-     * This supersedes the old utime() interface.  New applications
+-     * should use this.
+-     *
+-     * `fi` will always be NULL if the file is not currenlty open, but
+-     * may also be NULL if the file is open.
+-     *
+-     * See the utimensat(2) man page for details.
+-     */
+-    int (*utimens)(const char *, const struct timespec tv[2],
+-                   struct fuse_file_info *fi);
+-
+-    /**
+-     * Map block index within file to block index within device
+-     *
+-     * Note: This makes sense only for block device backed filesystems
+-     * mounted with the 'blkdev' option
+-     */
+-    int (*bmap)(const char *, size_t blocksize, uint64_t *idx);
+-
+-    /**
+-     * Ioctl
+-     *
+-     * flags will have FUSE_IOCTL_COMPAT set for 32bit ioctls in
+-     * 64bit environment.  The size and direction of data is
+-     * determined by _IOC_*() decoding of cmd.  For _IOC_NONE,
+-     * data will be NULL, for _IOC_WRITE data is out area, for
+-     * _IOC_READ in area and if both are set in/out area.  In all
+-     * non-NULL cases, the area is of _IOC_SIZE(cmd) bytes.
+-     *
+-     * If flags has FUSE_IOCTL_DIR then the fuse_file_info refers to a
+-     * directory file handle.
+-     *
+-     * Note : the unsigned long request submitted by the application
+-     * is truncated to 32 bits.
+-     */
+-    int (*ioctl)(const char *, unsigned int cmd, void *arg,
+-                 struct fuse_file_info *, unsigned int flags, void *data);
+-
+-    /**
+-     * Poll for IO readiness events
+-     *
+-     * Note: If ph is non-NULL, the client should notify
+-     * when IO readiness events occur by calling
+-     * fuse_notify_poll() with the specified ph.
+-     *
+-     * Regardless of the number of times poll with a non-NULL ph
+-     * is received, single notification is enough to clear all.
+-     * Notifying more times incurs overhead but doesn't harm
+-     * correctness.
+-     *
+-     * The callee is responsible for destroying ph with
+-     * fuse_pollhandle_destroy() when no longer in use.
+-     */
+-    int (*poll)(const char *, struct fuse_file_info *,
+-                struct fuse_pollhandle *ph, unsigned *reventsp);
+-
+-    /*
+-     * Write contents of buffer to an open file
+-     *
+-     * Similar to the write() method, but data is supplied in a
+-     * generic buffer.  Use fuse_buf_copy() to transfer data to
+-     * the destination.
+-     *
+-     * Unless FUSE_CAP_HANDLE_KILLPRIV is disabled, this method is
+-     * expected to reset the setuid and setgid bits.
+-     */
+-    int (*write_buf)(const char *, struct fuse_bufvec *buf, off_t off,
+-                     struct fuse_file_info *);
+-
+-    /*
+-     *  Store data from an open file in a buffer
+-     *
+-     * Similar to the read() method, but data is stored and
+-     * returned in a generic buffer.
+-     *
+-     * No actual copying of data has to take place, the source
+-     * file descriptor may simply be stored in the buffer for
+-     * later data transfer.
+-     *
+-     * The buffer must be allocated dynamically and stored at the
+-     * location pointed to by bufp.  If the buffer contains memory
+-     * regions, they too must be allocated using malloc().  The
+-     * allocated memory will be freed by the caller.
+-     */
+-    int (*read_buf)(const char *, struct fuse_bufvec **bufp, size_t size,
+-                    off_t off, struct fuse_file_info *);
+-    /**
+-     * Perform BSD file locking operation
+-     *
+-     * The op argument will be either LOCK_SH, LOCK_EX or LOCK_UN
+-     *
+-     * Nonblocking requests will be indicated by ORing LOCK_NB to
+-     * the above operations
+-     *
+-     * For more information see the flock(2) manual page.
+-     *
+-     * Additionally fi->owner will be set to a value unique to
+-     * this open file.  This same value will be supplied to
+-     * ->release() when the file is released.
+-     *
+-     * Note: if this method is not implemented, the kernel will still
+-     * allow file locking to work locally.  Hence it is only
+-     * interesting for network filesystems and similar.
+-     */
+-    int (*flock)(const char *, struct fuse_file_info *, int op);
+-
+-    /**
+-     * Allocates space for an open file
+-     *
+-     * This function ensures that required space is allocated for specified
+-     * file.  If this function returns success then any subsequent write
+-     * request to specified range is guaranteed not to fail because of lack
+-     * of space on the file system media.
+-     */
+-    int (*fallocate)(const char *, int, off_t, off_t, struct fuse_file_info *);
+-
+-    /**
+-     * Copy a range of data from one file to another
+-     *
+-     * Performs an optimized copy between two file descriptors without the
+-     * additional cost of transferring data through the FUSE kernel module
+-     * to user space (glibc) and then back into the FUSE filesystem again.
+-     *
+-     * In case this method is not implemented, glibc falls back to reading
+-     * data from the source and writing to the destination. Effectively
+-     * doing an inefficient copy of the data.
+-     */
+-    ssize_t (*copy_file_range)(const char *path_in,
+-                               struct fuse_file_info *fi_in, off_t offset_in,
+-                               const char *path_out,
+-                               struct fuse_file_info *fi_out, off_t offset_out,
+-                               size_t size, int flags);
+-
+-    /**
+-     * Find next data or hole after the specified offset
+-     */
+-    off_t (*lseek)(const char *, off_t off, int whence,
+-                   struct fuse_file_info *);
+-};
+-
+-/*
+- * Extra context that may be needed by some filesystems
+- *
+- * The uid, gid and pid fields are not filled in case of a writepage
+- * operation.
+- */
+-struct fuse_context {
+-    /** Pointer to the fuse object */
+-    struct fuse *fuse;
+-
+-    /** User ID of the calling process */
+-    uid_t uid;
+-
+-    /** Group ID of the calling process */
+-    gid_t gid;
+-
+-    /** Process ID of the calling thread */
+-    pid_t pid;
+-
+-    /** Private filesystem data */
+-    void *private_data;
+-
+-    /** Umask of the calling process */
+-    mode_t umask;
+-};
+-
+-/**
+- * Main function of FUSE.
+- *
+- * This is for the lazy.  This is all that has to be called from the
+- * main() function.
+- *
+- * This function does the following:
+- *   - parses command line options, and handles --help and
+- *     --version
+- *   - installs signal handlers for INT, HUP, TERM and PIPE
+- *   - registers an exit handler to unmount the filesystem on program exit
+- *   - creates a fuse handle
+- *   - registers the operations
+- *   - calls either the single-threaded or the multi-threaded event loop
+- *
+- * Most file systems will have to parse some file-system specific
+- * arguments before calling this function. It is recommended to do
+- * this with fuse_opt_parse() and a processing function that passes
+- * through any unknown options (this can also be achieved by just
+- * passing NULL as the processing function). That way, the remaining
+- * options can be passed directly to fuse_main().
+- *
+- * fuse_main() accepts all options that can be passed to
+- * fuse_parse_cmdline(), fuse_new(), or fuse_session_new().
+- *
+- * Option parsing skips argv[0], which is assumed to contain the
+- * program name. This element must always be present and is used to
+- * construct a basic ``usage: `` message for the --help
+- * output. argv[0] may also be set to the empty string. In this case
+- * the usage message is suppressed. This can be used by file systems
+- * to print their own usage line first. See hello.c for an example of
+- * how to do this.
+- *
+- * Note: this is currently implemented as a macro.
+- *
+- * The following error codes may be returned from fuse_main():
+- *   1: Invalid option arguments
+- *   2: No mount point specified
+- *   3: FUSE setup failed
+- *   4: Mounting failed
+- *   5: Failed to daemonize (detach from session)
+- *   6: Failed to set up signal handlers
+- *   7: An error occured during the life of the file system
+- *
+- * @param argc the argument counter passed to the main() function
+- * @param argv the argument vector passed to the main() function
+- * @param op the file system operation
+- * @param private_data Initial value for the `private_data`
+- *            field of `struct fuse_context`. May be overridden by the
+- *            `struct fuse_operations.init` handler.
+- * @return 0 on success, nonzero on failure
+- *
+- * Example usage, see hello.c
+- */
+-/*
+- * int fuse_main(int argc, char *argv[], const struct fuse_operations *op,
+- * void *private_data);
+- */
+-#define fuse_main(argc, argv, op, private_data) \
+-    fuse_main_real(argc, argv, op, sizeof(*(op)), private_data)
+-
+-/*
+- * More detailed API
+- */
+-
+-/**
+- * Print available options (high- and low-level) to stdout.  This is
+- * not an exhaustive list, but includes only those options that may be
+- * of interest to an end-user of a file system.
+- *
+- * The function looks at the argument vector only to determine if
+- * there are additional modules to be loaded (module=foo option),
+- * and attempts to call their help functions as well.
+- *
+- * @param args the argument vector.
+- */
+-void fuse_lib_help(struct fuse_args *args);
+-
+-/**
+- * Create a new FUSE filesystem.
+- *
+- * This function accepts most file-system independent mount options
+- * (like context, nodev, ro - see mount(8)), as well as the
+- * FUSE-specific mount options from mount.fuse(8).
+- *
+- * If the --help option is specified, the function writes a help text
+- * to stdout and returns NULL.
+- *
+- * Option parsing skips argv[0], which is assumed to contain the
+- * program name. This element must always be present and is used to
+- * construct a basic ``usage: `` message for the --help output. If
+- * argv[0] is set to the empty string, no usage message is included in
+- * the --help output.
+- *
+- * If an unknown option is passed in, an error message is written to
+- * stderr and the function returns NULL.
+- *
+- * @param args argument vector
+- * @param op the filesystem operations
+- * @param op_size the size of the fuse_operations structure
+- * @param private_data Initial value for the `private_data`
+- *            field of `struct fuse_context`. May be overridden by the
+- *            `struct fuse_operations.init` handler.
+- * @return the created FUSE handle
+- */
+-#if FUSE_USE_VERSION == 30
+-struct fuse *fuse_new_30(struct fuse_args *args,
+-                         const struct fuse_operations *op, size_t op_size,
+-                         void *private_data);
+-#define fuse_new(args, op, size, data) fuse_new_30(args, op, size, data)
+-#else
+-struct fuse *fuse_new(struct fuse_args *args, const struct fuse_operations *op,
+-                      size_t op_size, void *private_data);
+-#endif
+-
+-/**
+- * Mount a FUSE file system.
+- *
+- * @param mountpoint the mount point path
+- * @param f the FUSE handle
+- *
+- * @return 0 on success, -1 on failure.
+- **/
+-int fuse_mount(struct fuse *f, const char *mountpoint);
+-
+-/**
+- * Unmount a FUSE file system.
+- *
+- * See fuse_session_unmount() for additional information.
+- *
+- * @param f the FUSE handle
+- **/
+-void fuse_unmount(struct fuse *f);
+-
+-/**
+- * Destroy the FUSE handle.
+- *
+- * NOTE: This function does not unmount the filesystem.  If this is
+- * needed, call fuse_unmount() before calling this function.
+- *
+- * @param f the FUSE handle
+- */
+-void fuse_destroy(struct fuse *f);
+-
+-/**
+- * FUSE event loop.
+- *
+- * Requests from the kernel are processed, and the appropriate
+- * operations are called.
+- *
+- * For a description of the return value and the conditions when the
+- * event loop exits, refer to the documentation of
+- * fuse_session_loop().
+- *
+- * @param f the FUSE handle
+- * @return see fuse_session_loop()
+- *
+- * See also: fuse_loop_mt()
+- */
+-int fuse_loop(struct fuse *f);
+-
+-/**
+- * Flag session as terminated
+- *
+- * This function will cause any running event loops to exit on
+- * the next opportunity.
+- *
+- * @param f the FUSE handle
+- */
+-void fuse_exit(struct fuse *f);
+-
+-/**
+- * Get the current context
+- *
+- * The context is only valid for the duration of a filesystem
+- * operation, and thus must not be stored and used later.
+- *
+- * @return the context
+- */
+-struct fuse_context *fuse_get_context(void);
+-
+-/**
+- * Check if the current request has already been interrupted
+- *
+- * @return 1 if the request has been interrupted, 0 otherwise
+- */
+-int fuse_interrupted(void);
+-
+-/**
+- * Invalidates cache for the given path.
+- *
+- * This calls fuse_lowlevel_notify_inval_inode internally.
+- *
+- * @return 0 on successful invalidation, negative error value otherwise.
+- *         This routine may return -ENOENT to indicate that there was
+- *         no entry to be invalidated, e.g., because the path has not
+- *         been seen before or has been forgotten; this should not be
+- *         considered to be an error.
+- */
+-int fuse_invalidate_path(struct fuse *f, const char *path);
+-
+-/**
+- * The real main function
+- *
+- * Do not call this directly, use fuse_main()
+- */
+-int fuse_main_real(int argc, char *argv[], const struct fuse_operations *op,
+-                   size_t op_size, void *private_data);
+-
+-/**
+- * Start the cleanup thread when using option "remember".
+- *
+- * This is done automatically by fuse_loop_mt()
+- * @param fuse struct fuse pointer for fuse instance
+- * @return 0 on success and -1 on error
+- */
+-int fuse_start_cleanup_thread(struct fuse *fuse);
+-
+-/**
+- * Stop the cleanup thread when using option "remember".
+- *
+- * This is done automatically by fuse_loop_mt()
+- * @param fuse struct fuse pointer for fuse instance
+- */
+-void fuse_stop_cleanup_thread(struct fuse *fuse);
+-
+-/**
+- * Iterate over cache removing stale entries
+- * use in conjunction with "-oremember"
+- *
+- * NOTE: This is already done for the standard sessions
+- *
+- * @param fuse struct fuse pointer for fuse instance
+- * @return the number of seconds until the next cleanup
+- */
+-int fuse_clean_cache(struct fuse *fuse);
+-
+-/*
+- * Stacking API
+- */
+-
+-/**
+- * Fuse filesystem object
+- *
+- * This is opaque object represents a filesystem layer
+- */
+-struct fuse_fs;
+-
+-/*
+- * These functions call the relevant filesystem operation, and return
+- * the result.
+- *
+- * If the operation is not defined, they return -ENOSYS, with the
+- * exception of fuse_fs_open, fuse_fs_release, fuse_fs_opendir,
+- * fuse_fs_releasedir and fuse_fs_statfs, which return 0.
+- */
+-
+-int fuse_fs_getattr(struct fuse_fs *fs, const char *path, struct stat *buf,
+-                    struct fuse_file_info *fi);
+-int fuse_fs_rename(struct fuse_fs *fs, const char *oldpath, const char *newpath,
+-                   unsigned int flags);
+-int fuse_fs_unlink(struct fuse_fs *fs, const char *path);
+-int fuse_fs_rmdir(struct fuse_fs *fs, const char *path);
+-int fuse_fs_symlink(struct fuse_fs *fs, const char *linkname, const char *path);
+-int fuse_fs_link(struct fuse_fs *fs, const char *oldpath, const char *newpath);
+-int fuse_fs_release(struct fuse_fs *fs, const char *path,
+-                    struct fuse_file_info *fi);
+-int fuse_fs_open(struct fuse_fs *fs, const char *path,
+-                 struct fuse_file_info *fi);
+-int fuse_fs_read(struct fuse_fs *fs, const char *path, char *buf, size_t size,
+-                 off_t off, struct fuse_file_info *fi);
+-int fuse_fs_read_buf(struct fuse_fs *fs, const char *path,
+-                     struct fuse_bufvec **bufp, size_t size, off_t off,
+-                     struct fuse_file_info *fi);
+-int fuse_fs_write(struct fuse_fs *fs, const char *path, const char *buf,
+-                  size_t size, off_t off, struct fuse_file_info *fi);
+-int fuse_fs_write_buf(struct fuse_fs *fs, const char *path,
+-                      struct fuse_bufvec *buf, off_t off,
+-                      struct fuse_file_info *fi);
+-int fuse_fs_fsync(struct fuse_fs *fs, const char *path, int datasync,
+-                  struct fuse_file_info *fi);
+-int fuse_fs_flush(struct fuse_fs *fs, const char *path,
+-                  struct fuse_file_info *fi);
+-int fuse_fs_statfs(struct fuse_fs *fs, const char *path, struct statvfs *buf);
+-int fuse_fs_opendir(struct fuse_fs *fs, const char *path,
+-                    struct fuse_file_info *fi);
+-int fuse_fs_readdir(struct fuse_fs *fs, const char *path, void *buf,
+-                    fuse_fill_dir_t filler, off_t off,
+-                    struct fuse_file_info *fi, enum fuse_readdir_flags flags);
+-int fuse_fs_fsyncdir(struct fuse_fs *fs, const char *path, int datasync,
+-                     struct fuse_file_info *fi);
+-int fuse_fs_releasedir(struct fuse_fs *fs, const char *path,
+-                       struct fuse_file_info *fi);
+-int fuse_fs_create(struct fuse_fs *fs, const char *path, mode_t mode,
+-                   struct fuse_file_info *fi);
+-int fuse_fs_lock(struct fuse_fs *fs, const char *path,
+-                 struct fuse_file_info *fi, int cmd, struct flock *lock);
+-int fuse_fs_flock(struct fuse_fs *fs, const char *path,
+-                  struct fuse_file_info *fi, int op);
+-int fuse_fs_chmod(struct fuse_fs *fs, const char *path, mode_t mode,
+-                  struct fuse_file_info *fi);
+-int fuse_fs_chown(struct fuse_fs *fs, const char *path, uid_t uid, gid_t gid,
+-                  struct fuse_file_info *fi);
+-int fuse_fs_truncate(struct fuse_fs *fs, const char *path, off_t size,
+-                     struct fuse_file_info *fi);
+-int fuse_fs_utimens(struct fuse_fs *fs, const char *path,
+-                    const struct timespec tv[2], struct fuse_file_info *fi);
+-int fuse_fs_access(struct fuse_fs *fs, const char *path, int mask);
+-int fuse_fs_readlink(struct fuse_fs *fs, const char *path, char *buf,
+-                     size_t len);
+-int fuse_fs_mknod(struct fuse_fs *fs, const char *path, mode_t mode,
+-                  dev_t rdev);
+-int fuse_fs_mkdir(struct fuse_fs *fs, const char *path, mode_t mode);
+-int fuse_fs_setxattr(struct fuse_fs *fs, const char *path, const char *name,
+-                     const char *value, size_t size, int flags);
+-int fuse_fs_getxattr(struct fuse_fs *fs, const char *path, const char *name,
+-                     char *value, size_t size);
+-int fuse_fs_listxattr(struct fuse_fs *fs, const char *path, char *list,
+-                      size_t size);
+-int fuse_fs_removexattr(struct fuse_fs *fs, const char *path, const char *name);
+-int fuse_fs_bmap(struct fuse_fs *fs, const char *path, size_t blocksize,
+-                 uint64_t *idx);
+-int fuse_fs_ioctl(struct fuse_fs *fs, const char *path, unsigned int cmd,
+-                  void *arg, struct fuse_file_info *fi, unsigned int flags,
+-                  void *data);
+-int fuse_fs_poll(struct fuse_fs *fs, const char *path,
+-                 struct fuse_file_info *fi, struct fuse_pollhandle *ph,
+-                 unsigned *reventsp);
+-int fuse_fs_fallocate(struct fuse_fs *fs, const char *path, int mode,
+-                      off_t offset, off_t length, struct fuse_file_info *fi);
+-ssize_t fuse_fs_copy_file_range(struct fuse_fs *fs, const char *path_in,
+-                                struct fuse_file_info *fi_in, off_t off_in,
+-                                const char *path_out,
+-                                struct fuse_file_info *fi_out, off_t off_out,
+-                                size_t len, int flags);
+-off_t fuse_fs_lseek(struct fuse_fs *fs, const char *path, off_t off, int whence,
+-                    struct fuse_file_info *fi);
+-void fuse_fs_init(struct fuse_fs *fs, struct fuse_conn_info *conn,
+-                  struct fuse_config *cfg);
+-void fuse_fs_destroy(struct fuse_fs *fs);
+-
+-int fuse_notify_poll(struct fuse_pollhandle *ph);
+-
+-/**
+- * Create a new fuse filesystem object
+- *
+- * This is usually called from the factory of a fuse module to create
+- * a new instance of a filesystem.
+- *
+- * @param op the filesystem operations
+- * @param op_size the size of the fuse_operations structure
+- * @param private_data Initial value for the `private_data`
+- *            field of `struct fuse_context`. May be overridden by the
+- *            `struct fuse_operations.init` handler.
+- * @return a new filesystem object
+- */
+-struct fuse_fs *fuse_fs_new(const struct fuse_operations *op, size_t op_size,
+-                            void *private_data);
+-
+-/**
+- * Factory for creating filesystem objects
+- *
+- * The function may use and remove options from 'args' that belong
+- * to this module.
+- *
+- * For now the 'fs' vector always contains exactly one filesystem.
+- * This is the filesystem which will be below the newly created
+- * filesystem in the stack.
+- *
+- * @param args the command line arguments
+- * @param fs NULL terminated filesystem object vector
+- * @return the new filesystem object
+- */
+-typedef struct fuse_fs *(*fuse_module_factory_t)(struct fuse_args *args,
+-                                                 struct fuse_fs *fs[]);
+-/**
+- * Register filesystem module
+- *
+- * If the "-omodules=*name*_:..." option is present, filesystem
+- * objects are created and pushed onto the stack with the *factory_*
+- * function.
+- *
+- * @param name_ the name of this filesystem module
+- * @param factory_ the factory function for this filesystem module
+- */
+-#define FUSE_REGISTER_MODULE(name_, factory_) \
+-    fuse_module_factory_t fuse_module_##name_##_factory = factory_
+-
+-/** Get session from fuse object */
+-struct fuse_session *fuse_get_session(struct fuse *f);
+-
+-/**
+- * Open a FUSE file descriptor and set up the mount for the given
+- * mountpoint and flags.
+- *
+- * @param mountpoint reference to the mount in the file system
+- * @param options mount options
+- * @return the FUSE file descriptor or -1 upon error
+- */
+-int fuse_open_channel(const char *mountpoint, const char *options);
+-
+-#endif /* FUSE_H_ */
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 4e47e5880d..1240828208 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -10,7 +10,6 @@
+ #define FUSE_I_H
+ 
+ #define FUSE_USE_VERSION 31
+-#include "fuse.h"
+ #include "fuse_lowlevel.h"
+ 
+ struct fv_VuDev;
+@@ -82,21 +81,6 @@ struct fuse_chan {
+     struct fv_QueueInfo *qi;
+ };
+ 
+-/**
+- * Filesystem module
+- *
+- * Filesystem modules are registered with the FUSE_REGISTER_MODULE()
+- * macro.
+- *
+- */
+-struct fuse_module {
+-    char *name;
+-    fuse_module_factory_t factory;
+-    struct fuse_module *next;
+-    struct fusemod_so *so;
+-    int ctr;
+-};
+-
+ int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *iov,
+                                int count);
+ void fuse_free_req(fuse_req_t req);
+-- 
+2.21.0
+
+
+
 
