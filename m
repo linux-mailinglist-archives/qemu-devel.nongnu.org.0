@@ -2,65 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DFA168409
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:49:52 +0100 (CET)
-Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B116842A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 17:53:18 +0100 (CET)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5BUr-0001FA-Ts
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:49:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52985)
+	id 1j5BYD-0007XB-Bf
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 11:53:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j5BP2-0000UH-Tf
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:50 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j5BQ2-0002pX-CD
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:44:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j5BP1-0007Av-Lv
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:48 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30570
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1j5BQ0-0008Bo-VV
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:44:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52086
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j5BP1-0007AZ-Hq
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:43:47 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j5BQ0-00089q-QG
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 11:44:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582303427;
+ s=mimecast20190719; t=1582303488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iN/iIsf5KW8kt8ZFOB0qJCWWVyHiN82SW45bVtrhFO8=;
- b=LsyGNpz7EeAthSG7lGMesGULjYY6gdas+BC0NKzPd/HK/eOibtwpXULNI1nun2WwDQUTqC
- 3DTeUBaDJFI1tef0t5K/JevD6oq+KeplIO8OnOmCEl06kKfYHYl7T2iSYwuErdLgGPUKtT
- 7wx+MCzwgSn1io1deziNtqDCza3kzAg=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0vyJRtbTq+CUiQrc4NlMHbEPb3Xz5qA4rKjg3BGuXcY=;
+ b=MXZd8m/7BXwAr1P7A26vBT9Bl1hSM7x6NijZGEAnUz8okktdNpRqKfBAId6GfVuuvv2UfA
+ N16m+7xxXh+6lwl3s5Jc2gWiBcGpyNM9u6Wl0Comsxb2MB8ADJoMo/R5pL5ICMQOoJlqyZ
+ FFdkwJ0nDctOa3Rpt1tin8XGcmIVZbM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-RU53FHqHMqKNdV34k6A8Fw-1; Fri, 21 Feb 2020 11:43:45 -0500
-X-MC-Unique: RU53FHqHMqKNdV34k6A8Fw-1
+ us-mta-333-ubHw6AuVMZ6TOWaio5Fqgg-1; Fri, 21 Feb 2020 11:44:41 -0500
+X-MC-Unique: ubHw6AuVMZ6TOWaio5Fqgg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C758E1083E81;
- Fri, 21 Feb 2020 16:43:44 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-117-197.ams2.redhat.com [10.36.117.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD4995C105;
- Fri, 21 Feb 2020 16:43:42 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/13] migration/ram: Tolerate partially changed mappings
- in postcopy code
-Date: Fri, 21 Feb 2020 17:42:04 +0100
-Message-Id: <20200221164204.105570-14-david@redhat.com>
-In-Reply-To: <20200221164204.105570-1-david@redhat.com>
-References: <20200221164204.105570-1-david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B87571400;
+ Fri, 21 Feb 2020 16:44:39 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C26AC790CF;
+ Fri, 21 Feb 2020 16:44:36 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 25/27] qcow2: Add the 'extended_l2' option and the
+ QCOW2_INCOMPAT_EXTL2 bit
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1577014346.git.berto@igalia.com>
+ <a4892ab10ae557f30dd901d218f06239bca2cd7a.1577014346.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <473b1907-cba7-2056-d20e-9e2ccf86f3ac@redhat.com>
+Date: Fri, 21 Feb 2020 17:44:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <a4892ab10ae557f30dd901d218f06239bca2cd7a.1577014346.git.berto@igalia.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="N53qvd1DRkWjMWMiHWFuO0cWWnDL6QAyJ"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,121 +99,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we partially change mappings (esp., mmap over parts of an existing
-mmap like qemu_ram_remap() does) where we have a userfaultfd handler
-registered, the handler will implicitly be unregistered from the parts that
-changed.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--N53qvd1DRkWjMWMiHWFuO0cWWnDL6QAyJ
+Content-Type: multipart/mixed; boundary="FUUtEgHxLvE9wH2MKR3Un1Hu8fvcEqSf2"
 
-Trying to place pages onto mappings where there is no longer a handler
-registered will fail. Let's make sure that any waiter is woken up - we
-have to do that manually.
+--FUUtEgHxLvE9wH2MKR3Un1Hu8fvcEqSf2
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Let's also document how UFFDIO_UNREGISTER will handle this scenario.
+On 22.12.19 12:37, Alberto Garcia wrote:
+> Now that the implementation of subclusters is complete we can finally
+> add the necessary options to create and read images with this feature,
+> which we call "extended L2 entries".
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block/qcow2.c                    |  65 ++++++++++++++++++--
+>  block/qcow2.h                    |   8 ++-
+>  include/block/block_int.h        |   1 +
+>  qapi/block-core.json             |   7 +++
+>  tests/qemu-iotests/031.out       |   8 +--
+>  tests/qemu-iotests/036.out       |   4 +-
+>  tests/qemu-iotests/049.out       | 102 +++++++++++++++----------------
+>  tests/qemu-iotests/060.out       |   1 +
+>  tests/qemu-iotests/061.out       |  20 +++---
+>  tests/qemu-iotests/065           |  18 ++++--
+>  tests/qemu-iotests/082.out       |  48 ++++++++++++---
+>  tests/qemu-iotests/085.out       |  38 ++++++------
+>  tests/qemu-iotests/144.out       |   4 +-
+>  tests/qemu-iotests/182.out       |   2 +-
+>  tests/qemu-iotests/185.out       |   8 +--
+>  tests/qemu-iotests/198.out       |   2 +
+>  tests/qemu-iotests/206.out       |   4 ++
+>  tests/qemu-iotests/242.out       |   5 ++
+>  tests/qemu-iotests/255.out       |   8 +--
+>  tests/qemu-iotests/273.out       |   9 ++-
+>  tests/qemu-iotests/common.filter |   1 +
+>  21 files changed, 245 insertions(+), 118 deletions(-)
 
-This is mainly a preparation for RAM blocks with resizable allcoations,
-where the mapping of the invalid RAM range will change. The source will
-keep sending pages that are outside of the new (shrunk) RAM size. We have
-to treat these pages like they would have been migrated, but can
-essentially simply drop the content (ignore the placement error).
+With the .qapi versions adjusted to match $next_release, and with the
+bit fixed to be at index 4 instead of 3 (and with the iotests rebases
+that always become necessary[1]):
 
-Keep printing a warning on EINVAL, to avoid hiding other (programming)
-issues. ENOENT is unique.
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Andrea Arcangeli <aarcange@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- migration/postcopy-ram.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+[1] e.g. 280 fails now =E2=80=93 I suppose qemu_img_log should filter just =
+like
+the bash tests do, but then again, I=E2=80=99d rather drop that function
+altogether anyway
+(https://lists.nongnu.org/archive/html/qemu-block/2019-10/msg00136.html)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index c68caf4e42..f023830b9a 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -506,6 +506,12 @@ static int cleanup_range(RAMBlock *rb, void *opaque)
-     range_struct.start =3D (uintptr_t)host_addr;
-     range_struct.len =3D length;
-=20
-+    /*
-+     * In case the mapping was partially changed since we enabled userfaul=
-t
-+     * (e.g., via qemu_ram_remap()), the userfaultfd handler was already r=
-emoved
-+     * for the mappings that changed. Unregistering will, however, still w=
-ork
-+     * and ignore mappings without a registered handler.
-+     */
-     if (ioctl(mis->userfault_fd, UFFDIO_UNREGISTER, &range_struct)) {
-         error_report("%s: userfault unregister %s", __func__, strerror(err=
-no));
-=20
-@@ -1180,6 +1186,17 @@ int postcopy_ram_incoming_setup(MigrationIncomingSta=
-te *mis)
-     return 0;
- }
-=20
-+static int qemu_ufd_wake_ioctl(int userfault_fd, void *host_addr,
-+                               uint64_t pagesize)
-+{
-+    struct uffdio_range range =3D {
-+        .start =3D (uint64_t)(uintptr_t)host_addr,
-+        .len =3D pagesize,
-+    };
-+
-+    return ioctl(userfault_fd, UFFDIO_WAKE, &range);
-+}
-+
- static int qemu_ufd_copy_ioctl(int userfault_fd, void *host_addr,
-                                void *from_addr, uint64_t pagesize, RAMBloc=
-k *rb)
- {
-@@ -1198,6 +1215,26 @@ static int qemu_ufd_copy_ioctl(int userfault_fd, voi=
-d *host_addr,
-         zero_struct.mode =3D 0;
-         ret =3D ioctl(userfault_fd, UFFDIO_ZEROPAGE, &zero_struct);
-     }
-+
-+    /*
-+     * When the mapping gets partially changed (e.g., qemu_ram_remap()) be=
-fore
-+     * we try to place a page, the userfaultfd handler will be removed for=
- the
-+     * changed mappings and placing pages will fail. We can safely ignore =
-this,
-+     * because mappings that changed on the destination don't need data fr=
-om the
-+     * source (e.g., qemu_ram_remap()). Wake up any waiter waiting for tha=
-t page
-+     * (unlikely but possible). Waking up waiters is always possible, even
-+     * without a registered userfaultfd handler.
-+     *
-+     * Old kernels report EINVAL, new kernels report ENOENT in case there =
-is
-+     * no longer a userfaultfd handler for a mapping.
-+     */
-+    if (ret && (errno =3D=3D ENOENT || errno =3D=3D EINVAL)) {
-+        if (errno =3D=3D EINVAL) {
-+            warn_report("%s: Failed to place page %p. Waking up any waiter=
-s.",
-+                         __func__, host_addr);
-+        }
-+        ret =3D qemu_ufd_wake_ioctl(userfault_fd, host_addr, pagesize);
-+    }
-     if (!ret) {
-         ramblock_recv_bitmap_set_range(rb, host_addr,
-                                        pagesize / qemu_target_page_size())=
-;
---=20
-2.24.1
+
+--FUUtEgHxLvE9wH2MKR3Un1Hu8fvcEqSf2--
+
+--N53qvd1DRkWjMWMiHWFuO0cWWnDL6QAyJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5QCPMACgkQ9AfbAGHV
+z0Aq2AgAnbUs50ezPtmjsYNpBOcCgM3Q4i/Yb8koCRQB1AVfw6rwQjaMesfuQXxh
+qySZTLjTM7j+gSOiGL7MzDKpLRVQ4BnWijQg1Hpex+9rjoxWFC/031inSP9jU/zZ
+xJWoT0HcqA4d4FCmcSgsM+Gh/oyxMyOgYom9U4s+lXc7zXmnEVEdJb9MNZviBC9g
+eqm9MvHMJ5t8fOp38nKx/Hpf0bYcyo58EvWeH14/VSl8fFiZXBmlV+vEjjJjgW2O
+PZvZXxt5och41gbZYKT8oRWxtZ2rM51jh12MvCKf/O0u2UpqLxtY5d9HRfppStGm
+DPd85dblP9kbTuyv4AG0dxvHDZ6kAA==
+=smEk
+-----END PGP SIGNATURE-----
+
+--N53qvd1DRkWjMWMiHWFuO0cWWnDL6QAyJ--
 
 
