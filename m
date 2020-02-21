@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BCA167DD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:01:37 +0100 (CET)
-Received: from localhost ([::1]:56652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7CD167DF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:07:23 +0100 (CET)
+Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j57vz-0002oX-O7
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:01:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54134)
+	id 1j581a-00060G-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:07:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1j57uL-0001x9-KO
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:59:54 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1j580n-0005Uc-1W
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:06:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1j57uK-0001kx-NV
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 07:59:53 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45826)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1j57uK-0001jV-GQ; Fri, 21 Feb 2020 07:59:52 -0500
-Received: by mail-wr1-x442.google.com with SMTP id g3so1946811wrs.12;
- Fri, 21 Feb 2020 04:59:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ic3TvMR6sY3dYWACWQNCTqlhOmpqqdXsiEb0ZyUjNC0=;
- b=cgf3Td1cQy/95jueOLliGhjHCs0VTanfSRpktp4mS7wOxRHWem903iCDBn6TSxe/Jp
- dlFTwatnIG+jK9trXciiCrZDdfi/EDbigJdYM9v97oD6MGI+3V4r90ZV4Dpts61I/Mru
- aT4CblgEGvPFM9f5aVhUKzjf5nZYSzLSjJnhrFc0VL5lNyrPSA7sQLLjNiw/0/nU1MPf
- Nj+1qYkeK6AyL3XZVqqMzoheyvsJjz/6ml5kUhhEJ44IzKuIF3pNbZ7xPdq/P+S62cC4
- QEdFEEehC9XH8xz3nsatSaYenaTKSidFKz/d/2LBFTkoVLnoBid5qfw41yfalKdkR17l
- 890g==
+ (envelope-from <pbonzini@redhat.com>) id 1j580m-0001Rz-3O
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:06:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35177
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j580l-0001Rn-Vr
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:06:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582290391;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6oloexiJP1nW3zyjudqbh590kp97Lih1IZhdsUxlerw=;
+ b=a2+CpXnRZduzILdA/EdcFQf5Wic39q0vJm3mER3e408l4iXTBvmp4XtLL40GFASo4RAXEm
+ aBlpelq+NqpjKTEyCfvJuSOuAd7PbtGZ5LoTIbSGfUteNa7d1uIa/vJEMLPRtN9setG0ge
+ ZQYouqzJHvRAcsMpzNz85O71qd/CyNQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-2lKHwCDgP1-5poTpUgOQRg-1; Fri, 21 Feb 2020 08:06:29 -0500
+X-MC-Unique: 2lKHwCDgP1-5poTpUgOQRg-1
+Received: by mail-wr1-f70.google.com with SMTP id s13so982838wrb.21
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:06:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ic3TvMR6sY3dYWACWQNCTqlhOmpqqdXsiEb0ZyUjNC0=;
- b=JB04Dp7agbHX1QnZdr40pRHrLe0nVRnhWMYqZnc8cfj5m59oZNrBFn8wFtDNIb7Bwf
- TkQyyqZYecJXcEYZmGcLyDCUUz6Wfz4E4XnfzJ/fxqFL+b+vGVW8hVlRGTQsfiHLDxqV
- qK/kGvhBG9d17hUMSo/Mt6BnGO2jPFwAJCuImS1cHuQNLOdCelvpHMWQByUePg4aKeZE
- R10WwnVPYFAot7K4uZd2OC66bWqCzlZGSV6cuejaLIGW4BOXfSfhmC3k4g6dvwvFPcXB
- dUGPH5UfiLiWGiSc7L5rsRB2NSGYFQ9zHAJH13i7CbZcEmfp1d86fR0YCJoAq9OC8n1E
- aRNA==
-X-Gm-Message-State: APjAAAXOjcvsXXTMKEuS4F9Z7sE41+dhHfY3NZSBrpFdigIuoz13401F
- J3AMXS7mLqjra5BzGJk87oU=
-X-Google-Smtp-Source: APXvYqwVC8ELesI7xmCNH4alde2S0KO7gj/VGbVD8Zb2aSBBBIhEvO+7StatIf659cTGxMo9LYCI6g==
-X-Received: by 2002:adf:b193:: with SMTP id q19mr48080779wra.78.1582289991062; 
- Fri, 21 Feb 2020 04:59:51 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id h205sm3861712wmf.25.2020.02.21.04.59.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 04:59:49 -0800 (PST)
-Date: Fri, 21 Feb 2020 12:59:48 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LN16A1JR1h1LPQmNXlvB2zaapJeu++hOFHgo38e1o+E=;
+ b=IGk6YnKCKIvvZIO+6giCkxsV7PuDJVk+9h7Q/8o2q9uDL/1PFwBVSXRfN9ifLALIi1
+ CIsSpfln0HoNJb57BgY+L1/QENcA2D43Wi+mvYVcbLHuUIa8av0yMLsEQ1GZVmGOGpXL
+ h2ssLSC6aBu2BFDgINBuLYcTQlZp02rMo0fdQ2CKAvVd4VAR4MkCajtUeXI3g/9T/496
+ gbEFmCV6MTf3ANzSwGkrfTUiyWqxQO+l7YaxFhkdbSQGvuUZBIDAyWw8c/T3vPjxHZwq
+ wXlerClQIPoLABhf+tU33v4LKXr11BBz7QMvr0mY3gKGhNEo16tyXk45ZZt863QzsCW3
+ fA7w==
+X-Gm-Message-State: APjAAAVVL+OBkySr9D19kBPcOqeczhIjEny6a5z2rL/2cgfaUoYtsh7D
+ m1ePCfzk1AFJ5h9/Vo+0LtWzpXO/KkOWB8D9VwcGjgp5b2g8h22y3DnYyQqkh6+Hw3ILgT1bG7o
+ xzM66ZT6RXvZv2LE=
+X-Received: by 2002:a7b:cd92:: with SMTP id y18mr3921703wmj.133.1582290388731; 
+ Fri, 21 Feb 2020 05:06:28 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxb5y1m6GS75VROutn2CL+lyuTGJRkfk7JIM2WfD7XXTBxbX2ERsiwpwF17y0HyHuud751U1g==
+X-Received: by 2002:a7b:cd92:: with SMTP id y18mr3921636wmj.133.1582290388062; 
+ Fri, 21 Feb 2020 05:06:28 -0800 (PST)
+Received: from [192.168.178.40] ([151.20.135.128])
+ by smtp.gmail.com with ESMTPSA id l15sm3889376wrv.39.2020.02.21.05.06.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Feb 2020 05:06:27 -0800 (PST)
 Subject: Re: [PATCH 5/5] aio-posix: make AioHandler dispatch O(1) with epoll
-Message-ID: <20200221125948.GI1484511@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@gmail.com>
 References: <20200214171712.541358-1-stefanha@redhat.com>
  <20200214171712.541358-6-stefanha@redhat.com>
  <38c8e61b-377b-07bd-f55b-a1a773b72701@redhat.com>
+ <20200221125948.GI1484511@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <425318ef-0b19-983b-b2ea-93754c48cb8d@redhat.com>
+Date: Fri, 21 Feb 2020 14:06:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EdRE1UL8d3mMOE6m"
-Content-Disposition: inline
-In-Reply-To: <38c8e61b-377b-07bd-f55b-a1a773b72701@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+In-Reply-To: <20200221125948.GI1484511@stefanha-x1.localdomain>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,62 +96,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 21/02/20 13:59, Stefan Hajnoczi wrote:
+> 1. It doesn't crash if the node is currently not on a list.
+> 2. It clears the node's linked list pointers so that future linked
+>    list operations (like QLIST_SAFE_REMOVE()) aren't accidentally
+>    performed on stale pointers.
+>
+> The node has a long lifespan and will be inserted into ready_lists
+> multiple times.  We need to safely remove it from ready_list to protect
+> against a corruption the next time the node is inserted into a
+> ready_list again:
 
---EdRE1UL8d3mMOE6m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah, so the one I singled out is for (2) (we know the node is currently
+on a list), while the one below is for (1).  Would it make sense to move
+(2) to Q*_REMOVE_*?  We can do it separately after this pull request.
 
-On Wed, Feb 19, 2020 at 12:13:40PM +0100, Paolo Bonzini wrote:
-> On 14/02/20 18:17, Stefan Hajnoczi wrote:
-> > +    while ((node =3D QLIST_FIRST(ready_list))) {
-> > +        QLIST_SAFE_REMOVE(node, node_ready);
+>   /* Add a handler to a ready list */
+>   static void add_ready_handler(AioHandlerList *ready_list,
+>                                 AioHandler *node,
+>                                 int revents)
+>   {
+>       QLIST_SAFE_REMOVE(node, node_ready); /* remove from nested parent's=
+ list */
+>       ^---- would cause corruption if node->node_ready was stale!
 >=20
-> Why does this need safe remove?
+> Would you like me to add a comment?
+No, it's okay.
 
-Yes, it's necessary.  QLIST_SAFE_REMOVE() has two properties that make
-it "safe":
-1. It doesn't crash if the node is currently not on a list.
-2. It clears the node's linked list pointers so that future linked
-   list operations (like QLIST_SAFE_REMOVE()) aren't accidentally
-   performed on stale pointers.
+Paolo
 
-The node has a long lifespan and will be inserted into ready_lists
-multiple times.  We need to safely remove it from ready_list to protect
-against a corruption the next time the node is inserted into a
-ready_list again:
-
-  /* Add a handler to a ready list */
-  static void add_ready_handler(AioHandlerList *ready_list,
-                                AioHandler *node,
-                                int revents)
-  {
-      QLIST_SAFE_REMOVE(node, node_ready); /* remove from nested parent's l=
-ist */
-      ^---- would cause corruption if node->node_ready was stale!
-
-Would you like me to add a comment?
-
-Stefan
-
---EdRE1UL8d3mMOE6m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5P1EQACgkQnKSrs4Gr
-c8gQpwf/YKcopWjCIC4LQ6VVLNkWY+/saQwwCSWwsXV3PUpuHE6mlNdPxjVElEzp
-t09vKlUhB47fG/acZPvixCeVi8Hz9vBdd/ayin9L6kE4kgm5FoTrxA89R6KhqcZU
-d0C4UZhfUl6DH1V/6rhivBlB4HOkVx0BzXcbbLOeS0ralpyQJFuBf/PYRbkz4zZX
-WX4jtRWei3zv4wppMq2OXyDJdk/wGjo0soXR6acObDudOIVrIGzHlO1zFBq0hsty
-xufzLUjffPemF777cmj5dj0NEZG96ge8LqpaITkg/IVwF0k7cGb5MT+igaVoTxfm
-sWixRt3UVsHW3Nh3Sxh22pho7pDy0w==
-=XjKt
------END PGP SIGNATURE-----
-
---EdRE1UL8d3mMOE6m--
 
