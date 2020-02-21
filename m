@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C4D167EE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:44:06 +0100 (CET)
-Received: from localhost ([::1]:58080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DD1167EF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 14:48:07 +0100 (CET)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j58b7-0005na-B4
-	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:44:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34769)
+	id 1j58f0-0002yD-Pp
+	for lists+qemu-devel@lfdr.de; Fri, 21 Feb 2020 08:48:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1j58SJ-0006zu-4M
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:35:00 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j58cJ-00005S-0P
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:45:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1j58SI-0006rB-2m
- for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:34:59 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38265)
+ (envelope-from <peter.maydell@linaro.org>) id 1j58cH-00067v-Pp
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:45:18 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39901)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1j58SH-0006pA-SF; Fri, 21 Feb 2020 08:34:58 -0500
-Received: by mail-wm1-x342.google.com with SMTP id a9so1888707wmj.3;
- Fri, 21 Feb 2020 05:34:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Wv1/ZQnIXazRWHwrWJzB9MJ5uoGKSJJT8HApB07yMVU=;
- b=eBG9gyOA5BfmJxJxHzXdKK2G4PzbMARB0h+RgCzWt2iNTONC/567QROJOx0kuaG+l2
- jkEK90S5YQkVU3ebXrlt7REqwpLq8sAEk60TZrmYNa2fz7LpR+C5jNvsE+ij7w/JbWsf
- X9EcUcnqspuSywm0HIptPfommoxJVDlAyu3zjviCTn2/SbCbDALBLdlADLk0NfWt4CXe
- sjIfuMT0vPHN3G9xY17Hx61X6n39eUXLyxAhxfc1YbCo++GM+6I33Og7MentMw3bRlKg
- PT464F7mXP5jwCGQV6hy07rRTJWMmyxuzdT/RyLFZwT+m9LL+u7f9X94NVHtGQcK4Q8M
- 64ZQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j58cG-00067X-KR
+ for qemu-devel@nongnu.org; Fri, 21 Feb 2020 08:45:17 -0500
+Received: by mail-oi1-x243.google.com with SMTP id z2so1597447oih.6
+ for <qemu-devel@nongnu.org>; Fri, 21 Feb 2020 05:45:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eOupqd6YXJtD+YxBCsZKyOzpLNDW0wdwI/Ic5Znl4YQ=;
+ b=y5KYQgdMDGOgzQMnuPj+LH1umqjrmhglkP/iWiJcoDVYJsQ6wetqLcs4490fHv6vuZ
+ I26MLh1iMOGhpmaDHs7W52Votxum1VxcJkT5YxKUXYj67Nw+mZvtL/VCwW0aSe5zeaTj
+ lCsJYD4oEZAJ1xbbk4YyoAvU2i5S2rXx4Fwjr4LT3XVl+d15A4wc2Ja6Z8xnXBuQbA4a
+ REMI4olTrJUEUVqeNhqvC5/I8YUMyeTJtMJuukWUHe+6gkaZ/RcrfJl5rmm/A8shEGPm
+ uDshkmz44qPVBdL6+Ae9J9BPmgaEoeteUXCs8kUu9VL6/wUpiHVXN7I0D4sDpHMB1s5S
+ ju3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Wv1/ZQnIXazRWHwrWJzB9MJ5uoGKSJJT8HApB07yMVU=;
- b=snXSswtp3IO47wWd6ab62bkwahcacD9630U39YvTA1WTJ7yH9B3V34dkEIaTz1Sihj
- m3vkCIZeDcQrHPtq8jNBe2k+dRDqJ/OW65gJxxfmEVE3YpLB50zn8+Ln3wqNJOPiM/ar
- kww26zjLZcSJLhCdtdaJoAqSQr5U4QRvuAEh9RLD5oOilv9CDXq/Yzg6bjf48a5oGZob
- W2d3k8M1OxWrCTaak2fj5C0tt+P3rBUBT0Qa+Cj12PqmEvk+zHIY5G/a1uXpyvMq0JAg
- xlk3EvExm7WnosaB4rIcsVNR3LD5zosOBO6AAOBsNczf+f/QlqaLqEMw+q0KtV3eoEd4
- IkOw==
-X-Gm-Message-State: APjAAAXrqZm83bZWsJU/J4/uFjHdhsdpZQCv2310+J2qWl8ZOtvc/i66
- 40gxj1P7iJtV+IWAS+4QUT6AEcW+2WOdqQ==
-X-Google-Smtp-Source: APXvYqwAPMDswV+F/TqUTRGK70GzwDjr75bJ9DBLpXqDaywSnatvq8/mVPFsh+1DLtZ8/knbomPbgA==
-X-Received: by 2002:a7b:cb46:: with SMTP id v6mr4170612wmj.117.1582292096597; 
- Fri, 21 Feb 2020 05:34:56 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id o15sm4160718wra.83.2020.02.21.05.34.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Feb 2020 05:34:55 -0800 (PST)
-Date: Fri, 21 Feb 2020 13:34:54 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] aio-posix: avoid reacquiring rcu_read_lock() when polling
-Message-ID: <20200221133454.GJ1484511@stefanha-x1.localdomain>
-References: <20200218182708.914552-1-stefanha@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eOupqd6YXJtD+YxBCsZKyOzpLNDW0wdwI/Ic5Znl4YQ=;
+ b=dt00PdsjtowwlUjfcoOA58IRYE6i7ou27FSyw+j4GdGcQvuYL0wQAMZ+uhe/dvXcCO
+ AafqZ/SqIQcEVChM6se+zlQFRVuxjx8nGn/kiPCKP5PJ+N2trLk25/6HailjK40r+aL3
+ uK+RAd/8CbGCweARM8kFqoEH1swTtNxP+CJ1SjnxI+NO3Qsc1GsH9feoJvwX31WLbykz
+ hYH1+VAvIZ6Idm+EANe3/0FLNHcBJ4FTCHWA6nBO/38FGfi7yh0eE2Ipfyis/mQqcqYO
+ NJKdSM3LZy5Jw1DG2x15YcWHkjdDm2ru427K79JJRpDHcPlvwKgDUEUL7SNiy5Gq14F0
+ 8DVQ==
+X-Gm-Message-State: APjAAAUKbnF9mvXPHgVXo9d9pTnww+Mg9Aj/u8i2xxHp1p5RfgbENXRk
+ N4uRnp9N5kYGaxYF221aUjefOK11QZZoRA7QLbabTw==
+X-Google-Smtp-Source: APXvYqzi/K5dRZXhjHqEJ8PRb7I8Z4uvk4RQ0B4XG3fqEJq2AM/8MZ4HW2bo7VUZIYImrdPa5JuTC9X4c++e/6y6afM=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr2015776oic.48.1582292715712; 
+ Fri, 21 Feb 2020 05:45:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/0U0QBNx7JIUZLHm"
-Content-Disposition: inline
-In-Reply-To: <20200218182708.914552-1-stefanha@redhat.com>
+References: <20200219220333.1411905-1-laurent@vivier.eu>
+In-Reply-To: <20200219220333.1411905-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Feb 2020 13:45:04 +0000
+Message-ID: <CAFEAcA8g+uRrGuNLdURegmpjRLtk=vVC9zUE1+QVKRitPjJy7A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/20] linux-user: generate syscall_nr.sh
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,48 +72,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 19 Feb 2020 at 22:07, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> This series copies the files syscall.tbl from linux v5.5 and generates
+> the file syscall_nr.h from them.
+>
+> This is done for all the QEMU targets that have a syscall.tbl
+> in the linux source tree: mips, mips64, i386, x86_64, sparc, s390x,
+> ppc, arm, microblaze, sh4, xtensa, m68k, hppa and alpha.
+>
+> tilegx and cris are depecrated in linux (tilegx has no maintainer in QEMU)
+>
+> aarch64, nios2, openrisc and riscv have no syscall.tbl in linux.
 
---/0U0QBNx7JIUZLHm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Is it the case that all our architectures either:
+ (1) have a syscall.tbl
+ (2) are using the asm-generic common numbering system ?
 
-On Tue, Feb 18, 2020 at 06:27:08PM +0000, Stefan Hajnoczi wrote:
-> The first rcu_read_lock/unlock() is expensive.  Nested calls are cheap.
->=20
-> This optimization increases IOPS from 73k to 162k with a Linux guest
-> that has 2 virtio-blk,num-queues=3D1 and 99 virtio-blk,num-queues=3D32
-> devices.
->=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  util/aio-posix.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+Though even if they do use asm-generic there's awkwardness
+still around whether they have extra arch-specific syscalls
+and what features of the asm-generic/unistd.h they select,
+so I'm not sure whether it helps us much to know that they're
+sharing a basically common numbering system.
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+It does suggest that future architectures are unlikely to have
+a syscall.tbl unless somebody pushes for one to be generated
+for asm-generic users.
 
-Stefan
+> It seems there is a bug in QEMU that forces to disable manually arch_prctl
+> with i386 target: do_arch_prctl() is only defined with TARGET_ABI32 but
+> TARGET_ABI32 is never defined with TARGET_I386 (nor TARGET_X86_64).
 
---/0U0QBNx7JIUZLHm
-Content-Type: application/pgp-signature; name="signature.asc"
+TARGET_ABI32 for x86 would mean the x32 "32-bit APIs
+on a 64-bit CPU", which we don't implement. But the
+guards on do_arch_prctl() are
+#if defined(TARGET_I386) && !defined(TARGET_ABI32)
 
------BEGIN PGP SIGNATURE-----
+where the !TARGET_ABI32 check seems like it's unnecessary but
+harmless (we never define it for x86), so what causes a problem?
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5P3H4ACgkQnKSrs4Gr
-c8gavgf8ChDbvWqFhh4KLO9A+ktqb2x5FKri6kowcsMOIHfW40u5uMQI91biTZnk
-oYoURpHQC40fVGwJpG6uPS+9f5PPqQzl7AKlo8Te45MZP94QmUWFxcra8CDnsCbe
-RKafHjNUYM3HRxiNnVO5ua9+UPWmu1xyG0NvnvXZ7c8VgWhKuA0ho4zdvLWZLna6
-Ic0TcfbPRg/n0hZH1NTYLqt5obLlTaX2hzvW1cjzKLJ7mXKuHo9it3+6cvr2e2xj
-qMaRxYYDP0y6eY2WIjIPk+nLiK/VBvcq3uq3wp2hMQbuvxFyaieumf51qhznBcJZ
-9hWc04Ba9zpq3kxpR1OX1y9m+eqFMA==
-=cs9W
------END PGP SIGNATURE-----
-
---/0U0QBNx7JIUZLHm--
+thanks
+-- PMM
 
