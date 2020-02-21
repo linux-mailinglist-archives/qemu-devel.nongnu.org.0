@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0C2166E00
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 04:45:43 +0100 (CET)
-Received: from localhost ([::1]:51806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6954166DFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Feb 2020 04:43:51 +0100 (CET)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4zG2-00078Q-PU
-	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 22:45:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
+	id 1j4zEE-0003no-S0
+	for lists+qemu-devel@lfdr.de; Thu, 20 Feb 2020 22:43:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4z81-0002HX-QA
+ (envelope-from <dgibson@ozlabs.org>) id 1j4z81-0002HZ-QV
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4z7z-0008OY-Ex
+ (envelope-from <dgibson@ozlabs.org>) id 1j4z7z-0008Oi-Eu
  for qemu-devel@nongnu.org; Thu, 20 Feb 2020 22:37:24 -0500
-Received: from ozlabs.org ([203.11.71.1]:49617)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56509 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4z7x-00087W-K5; Thu, 20 Feb 2020 22:37:22 -0500
+ id 1j4z7x-00087k-Lt; Thu, 20 Feb 2020 22:37:22 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48NxwH2SYVz9sSY; Fri, 21 Feb 2020 14:37:02 +1100 (AEDT)
+ id 48NxwH576Fz9sSR; Fri, 21 Feb 2020 14:37:03 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582256223;
- bh=679p0oB90Jzdlrd9gKZJDXD9oLUKx+0Uo2DSC+DQzZE=;
+ bh=BPtxECqm+DoofpUACmvk5YCWgbDZRCEcXzjUqAUFNNM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h3iZ76KYrJaZvZ0aWP7m5yztFVAkFQ1Y8Dqw4ZHyjofk8h2Ci2Bm0TMrkHA6MuCBA
- Zi7HLWgvuguZrHFHcZSqEHZq88OfTYNP/JnadZp1dcyijlmQPny//ZD9h0kWKu+lvp
- qz4QQdfzPOf99uus6KqCfNaK90secBkmOt1S77/I=
+ b=D/39LhHa36N0WW6vMShfVyZjQHYQJfu2tJZkYuLbQ7Yum5rmsc9KI+MORRtVRz2B9
+ zydE4vC/SbpSybusQkhWgDWn7rBFH9Yd9bWyDzXslliLbzzup+gvFWu99EaeAN+2zb
+ A6HYZF4JKz5CHK5Zh8c1XdX5qA+fvK5tdpqziwvQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/20] spapr: Allow changing offset for -kernel image
-Date: Fri, 21 Feb 2020 14:36:43 +1100
-Message-Id: <20200221033650.444386-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/20] target/ppc: Fix typo in comments
+Date: Fri, 21 Feb 2020 14:36:44 +1100
+Message-Id: <20200221033650.444386-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200221033650.444386-1-david@gibson.dropbear.id.au>
 References: <20200221033650.444386-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,153 +53,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Fabiano Rosas <farosas@linux.ibm.com>, aik@ozlabs.ru,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-This allows moving the kernel in the guest memory. The option is useful
-for step debugging (as Linux is linked at 0x0); it also allows loading
-grub which is normally linked to run at 0x20000.
+"Deferred" was misspelled as "differed" in some comments, correct this
+typo,
 
-This uses the existing kernel address by default.
-
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-Id: <20200203032943.121178-6-aik@ozlabs.ru>
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-Id: <20200214155748.0896B745953@zero.eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c         | 38 +++++++++++++++++++++++++++++++-------
- include/hw/ppc/spapr.h |  1 +
- 2 files changed, 32 insertions(+), 7 deletions(-)
+ target/ppc/fpu_helper.c            | 4 ++--
+ target/ppc/translate/fp-impl.inc.c | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index cb220fde45..828e2cc135 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1064,7 +1064,7 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
-r, void *fdt)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index dc383242f7..ae43b08eb5 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -293,7 +293,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, b=
+ool set_fpcc,
+         env->error_code =3D POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |=3D FP_FEX;
+-        /* Exception is differed */
++        /* Exception is deferred */
      }
-=20
-     if (spapr->kernel_size) {
--        uint64_t kprop[2] =3D { cpu_to_be64(KERNEL_LOAD_ADDR),
-+        uint64_t kprop[2] =3D { cpu_to_be64(spapr->kernel_addr),
-                               cpu_to_be64(spapr->kernel_size) };
-=20
-         _FDT(fdt_setprop(fdt, chosen, "qemu,boot-kernel",
-@@ -1252,7 +1252,8 @@ void *spapr_build_fdt(SpaprMachineState *spapr, boo=
-l reset, size_t space)
-     /* Build memory reserve map */
-     if (reset) {
-         if (spapr->kernel_size) {
--            _FDT((fdt_add_mem_rsv(fdt, KERNEL_LOAD_ADDR, spapr->kernel_s=
-ize)));
-+            _FDT((fdt_add_mem_rsv(fdt, spapr->kernel_addr,
-+                                  spapr->kernel_size)));
-         }
-         if (spapr->initrd_size) {
-             _FDT((fdt_add_mem_rsv(fdt, spapr->initrd_base,
-@@ -1285,7 +1286,9 @@ void *spapr_build_fdt(SpaprMachineState *spapr, boo=
-l reset, size_t space)
-=20
- static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
- {
--    return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
-+    SpaprMachineState *spapr =3D opaque;
-+
-+    return (addr & 0x0fffffff) + spapr->kernel_addr;
  }
 =20
- static void emulate_spapr_hypercall(PPCVirtualHypervisor *vhyp,
-@@ -2967,14 +2970,15 @@ static void spapr_machine_init(MachineState *mach=
-ine)
-         uint64_t lowaddr =3D 0;
+@@ -644,7 +644,7 @@ static void do_float_check_status(CPUPPCState *env, u=
+intptr_t raddr)
 =20
-         spapr->kernel_size =3D load_elf(kernel_filename, NULL,
--                                      translate_kernel_address, NULL,
-+                                      translate_kernel_address, spapr,
-                                       NULL, &lowaddr, NULL, NULL, 1,
-                                       PPC_ELF_MACHINE, 0, 0);
-         if (spapr->kernel_size =3D=3D ELF_LOAD_WRONG_ENDIAN) {
-             spapr->kernel_size =3D load_elf(kernel_filename, NULL,
--                                          translate_kernel_address, NULL=
-, NULL,
-+                                          translate_kernel_address, spap=
-r, NULL,
-                                           &lowaddr, NULL, NULL, 0,
--                                          PPC_ELF_MACHINE, 0, 0);
-+                                          PPC_ELF_MACHINE,
-+                                          0, 0);
-             spapr->kernel_le =3D spapr->kernel_size > 0;
-         }
-         if (spapr->kernel_size < 0) {
-@@ -2988,7 +2992,7 @@ static void spapr_machine_init(MachineState *machin=
-e)
-             /* Try to locate the initrd in the gap between the kernel
-              * and the firmware. Add a bit of space just in case
-              */
--            spapr->initrd_base =3D (KERNEL_LOAD_ADDR + spapr->kernel_siz=
-e
-+            spapr->initrd_base =3D (spapr->kernel_addr + spapr->kernel_s=
-ize
-                                   + 0x1ffff) & ~0xffff;
-             spapr->initrd_size =3D load_image_targphys(initrd_filename,
-                                                      spapr->initrd_base,
-@@ -3234,6 +3238,18 @@ static void spapr_set_vsmt(Object *obj, Visitor *v=
-, const char *name,
-     visit_type_uint32(v, name, (uint32_t *)opaque, errp);
+     if (cs->exception_index =3D=3D POWERPC_EXCP_PROGRAM &&
+         (env->error_code & POWERPC_EXCP_FP)) {
+-        /* Differred floating-point exception after target FPR update */
++        /* Deferred floating-point exception after target FPR update */
+         if (fp_exceptions_enabled(env)) {
+             raise_exception_err_ra(env, cs->exception_index,
+                                    env->error_code, raddr);
+diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp=
+-impl.inc.c
+index d8e27bf4d5..9f7868ee28 100644
+--- a/target/ppc/translate/fp-impl.inc.c
++++ b/target/ppc/translate/fp-impl.inc.c
+@@ -781,7 +781,7 @@ static void gen_mtfsb1(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
  }
 =20
-+static void spapr_get_kernel_addr(Object *obj, Visitor *v, const char *n=
-ame,
-+                                  void *opaque, Error **errp)
-+{
-+    visit_type_uint64(v, name, (uint64_t *)opaque, errp);
-+}
-+
-+static void spapr_set_kernel_addr(Object *obj, Visitor *v, const char *n=
-ame,
-+                                  void *opaque, Error **errp)
-+{
-+    visit_type_uint64(v, name, (uint64_t *)opaque, errp);
-+}
-+
- static char *spapr_get_ic_mode(Object *obj, Error **errp)
- {
-     SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
-@@ -3339,6 +3355,14 @@ static void spapr_instance_init(Object *obj)
-     object_property_add_bool(obj, "vfio-no-msix-emulation",
-                              spapr_get_msix_emulation, NULL, NULL);
+@@ -817,7 +817,7 @@ static void gen_mtfsf(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+     tcg_temp_free_i64(t1);
+ }
+@@ -850,7 +850,7 @@ static void gen_mtfsfi(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+ }
 =20
-+    object_property_add(obj, "kernel-addr", "uint64", spapr_get_kernel_a=
-ddr,
-+                        spapr_set_kernel_addr, NULL, &spapr->kernel_addr=
-,
-+                        &error_abort);
-+    object_property_set_description(obj, "kernel-addr",
-+                                    stringify(KERNEL_LOAD_ADDR)
-+                                    " for -kernel is the default",
-+                                    NULL);
-+    spapr->kernel_addr =3D KERNEL_LOAD_ADDR;
-     /* The machine class defines the default interrupt controller mode *=
-/
-     spapr->irq =3D smc->irq;
-     object_property_add_str(obj, "ic-mode", spapr_get_ic_mode,
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index d557fc1f35..09110961a5 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -162,6 +162,7 @@ struct SpaprMachineState {
-     void *fdt_blob;
-     long kernel_size;
-     bool kernel_le;
-+    uint64_t kernel_addr;
-     uint32_t initrd_base;
-     long initrd_size;
-     uint64_t rtc_offset; /* Now used only during incoming migration */
 --=20
 2.24.1
 
