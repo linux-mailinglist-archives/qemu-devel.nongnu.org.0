@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0DE168D75
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Feb 2020 09:06:03 +0100 (CET)
-Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0F0168D86
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Feb 2020 09:10:46 +0100 (CET)
+Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5PnW-0007MM-8q
-	for lists+qemu-devel@lfdr.de; Sat, 22 Feb 2020 03:06:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57457)
+	id 1j5Ps5-00086X-Q5
+	for lists+qemu-devel@lfdr.de; Sat, 22 Feb 2020 03:10:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1j5Pjk-0002BC-HO
- for qemu-devel@nongnu.org; Sat, 22 Feb 2020 03:02:10 -0500
+ (envelope-from <yi.l.liu@intel.com>) id 1j5Pjk-0002BD-Ub
+ for qemu-devel@nongnu.org; Sat, 22 Feb 2020 03:02:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1j5Pji-00081e-Re
+ (envelope-from <yi.l.liu@intel.com>) id 1j5Pji-000826-Vb
  for qemu-devel@nongnu.org; Sat, 22 Feb 2020 03:02:08 -0500
-Received: from mga12.intel.com ([192.55.52.136]:36223)
+Received: from mga12.intel.com ([192.55.52.136]:36228)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1j5Pji-0007tv-Hy
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1j5Pji-0007zv-M1
  for qemu-devel@nongnu.org; Sat, 22 Feb 2020 03:02:06 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -26,16 +26,16 @@ Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  22 Feb 2020 00:01:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,471,1574150400"; d="scan'208";a="240547665"
+X-IronPort-AV: E=Sophos;i="5.70,471,1574150400"; d="scan'208";a="240547668"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga006.jf.intel.com with ESMTP; 22 Feb 2020 00:01:56 -0800
 From: Liu Yi L <yi.l.liu@intel.com>
 To: qemu-devel@nongnu.org,
 	alex.williamson@redhat.com,
 	peterx@redhat.com
-Subject: [RFC v3.1 05/22] hw/pci: add pci_device_setup_iommu
-Date: Sat, 22 Feb 2020 00:07:06 -0800
-Message-Id: <1582358843-51931-6-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v3.1 06/22] vfio/pci: init HostIOMMUContext per-container
+Date: Sat, 22 Feb 2020 00:07:07 -0800
+Message-Id: <1582358843-51931-7-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1582358843-51931-1-git-send-email-yi.l.liu@intel.com>
 References: <1582358843-51931-1-git-send-email-yi.l.liu@intel.com>
@@ -61,11 +61,10 @@ Cc: kevin.tian@intel.com, yi.l.liu@intel.com, Yi Sun <yi.y.sun@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HostIOMMUContext was introduced to provide an explicit way for vIOMMU
-emulators call into pass-through components (e.g. VFIO). vIOMMU needs
-to get the HostIOMMUContext before using it. This patch adds a new
-callback in PCIDevice, which would be set by pass-through components,
-and be used by vIOMMU emulators to get HostIOMMUContext.
+After confirming dual stage DMA translation support with kernel by
+checking VFIO_TYPE1_NESTING_IOMMU, VFIO inits HostIOMMUContet instance
+and exposes it to PCI layer. Thus vIOMMU emualtors may make use of
+such capability by leveraging the ops provided by HostIOMMUContext.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -73,72 +72,128 @@ Cc: Peter Xu <peterx@redhat.com>
 Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Yi Sun <yi.y.sun@linux.intel.com>
 Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Liu, Yi L <yi.l.liu@intel.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 ---
- hw/pci/pci.c         | 10 ++++++++++
- include/hw/pci/pci.h |  6 ++++++
- 2 files changed, 16 insertions(+)
+ hw/vfio/common.c              | 11 +++++++++++
+ hw/vfio/pci.c                 | 21 +++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |  2 ++
+ 3 files changed, 34 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index e1ed667..3166cc3 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2695,6 +2695,16 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque)
-     bus->iommu_opaque = opaque;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index be1a9e5..9ab62a6 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1179,10 +1179,15 @@ static int vfio_get_iommu_type(VFIOContainer *container,
+     return -EINVAL;
  }
  
-+void pci_device_setup_iommu(PCIDevice *dev, PCIHostIOMMUFunc fn)
-+{
-+    dev->host_iommu_fn = fn;
-+}
++static struct HostIOMMUOps vfio_host_icx_ops = {
++/* To be added later */
++};
 +
-+void pci_device_unset_iommu(PCIDevice *dev)
-+{
-+    dev->host_iommu_fn = NULL;
-+}
-+
- static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+ static int vfio_init_container(VFIOContainer *container, int group_fd,
+                                Error **errp)
  {
-     Range *range = opaque;
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 2acd832..e44eefb 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -8,6 +8,7 @@
- #include "hw/isa/isa.h"
+     int iommu_type, ret;
++    uint64_t flags = 0;
  
- #include "hw/pci/pcie.h"
+     iommu_type = vfio_get_iommu_type(container, errp);
+     if (iommu_type < 0) {
+@@ -1210,6 +1215,11 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+         return -errno;
+     }
+ 
++    if (iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
++        host_iommu_ctx_init(&container->host_icx,
++                            flags, &vfio_host_icx_ops);
++    }
++
+     container->iommu_type = iommu_type;
+     return 0;
+ }
+@@ -1456,6 +1466,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+         }
+ 
+         trace_vfio_disconnect_container(container->fd);
++        host_iommu_ctx_destroy(&container->host_icx);
+         close(container->fd);
+         g_free(container);
+ 
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 5e75a95..df79675 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2712,11 +2712,20 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+     vdev->req_enabled = false;
+ }
+ 
++static HostIOMMUContext *vfio_host_dma_iommu(PCIDevice *pdev)
++{
++    VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOContainer *container = vdev->vbasedev.group->container;
++
++    return &container->host_icx;
++}
++
+ static void vfio_realize(PCIDevice *pdev, Error **errp)
+ {
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
+     VFIODevice *vbasedev_iter;
+     VFIOGroup *group;
++    VFIOContainer *container;
+     char *tmp, *subsys, group_path[PATH_MAX], *group_name;
+     Error *err = NULL;
+     ssize_t len;
+@@ -3028,6 +3037,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     vfio_register_req_notifier(vdev);
+     vfio_setup_resetfn_quirk(vdev);
+ 
++    container = vdev->vbasedev.group->container;
++    if (container->host_icx.ops) {
++        pci_device_setup_iommu(pdev, vfio_host_dma_iommu);
++    }
++
+     return;
+ 
+ out_deregister:
+@@ -3072,9 +3086,16 @@ static void vfio_instance_finalize(Object *obj)
+ static void vfio_exitfn(PCIDevice *pdev)
+ {
+     VFIOPCIDevice *vdev = PCI_VFIO(pdev);
++    VFIOContainer *container;
+ 
+     vfio_unregister_req_notifier(vdev);
+     vfio_unregister_err_notifier(vdev);
++
++    container = vdev->vbasedev.group->container;
++    if (container->host_icx.ops) {
++        pci_device_unset_iommu(pdev);
++    }
++
+     pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+     if (vdev->irqchip_change_notifier.notify) {
+         kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index fd56420..36abe04 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -26,6 +26,7 @@
+ #include "qemu/notify.h"
+ #include "ui/console.h"
+ #include "hw/display/ramfb.h"
 +#include "hw/iommu/host_iommu_context.h"
- 
- extern bool pci_available;
- 
-@@ -248,6 +249,7 @@ typedef void (*MSIVectorReleaseNotifier)(PCIDevice *dev, unsigned int vector);
- typedef void (*MSIVectorPollNotifier)(PCIDevice *dev,
-                                       unsigned int vector_start,
-                                       unsigned int vector_end);
-+typedef HostIOMMUContext *(*PCIHostIOMMUFunc)(PCIDevice *);
- 
- enum PCIReqIDType {
-     PCI_REQ_ID_INVALID = 0,
-@@ -356,6 +358,8 @@ struct PCIDevice {
- 
-     /* ID of standby device in net_failover pair */
-     char *failover_pair_id;
-+    /* Callback to get host iommu context */
-+    PCIHostIOMMUFunc host_iommu_fn;
- };
- 
- void pci_register_bar(PCIDevice *pci_dev, int region_num,
-@@ -488,6 +492,8 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void *, int);
- 
- AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
- void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
-+void pci_device_setup_iommu(PCIDevice *dev, PCIHostIOMMUFunc fn);
-+void pci_device_unset_iommu(PCIDevice *dev);
- 
- static inline void
- pci_set_byte(uint8_t *config, uint8_t val)
+ #ifdef CONFIG_LINUX
+ #include <linux/vfio.h>
+ #endif
+@@ -71,6 +72,7 @@ typedef struct VFIOContainer {
+     MemoryListener listener;
+     MemoryListener prereg_listener;
+     unsigned iommu_type;
++    HostIOMMUContext host_icx;
+     Error *error;
+     bool initialized;
+     unsigned long pgsizes;
 -- 
 2.7.4
 
