@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9EB1696F2
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Feb 2020 10:06:17 +0100 (CET)
-Received: from localhost ([::1]:50976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A50169714
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Feb 2020 10:52:53 +0100 (CET)
+Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5nDM-0001XR-3j
-	for lists+qemu-devel@lfdr.de; Sun, 23 Feb 2020 04:06:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49086)
+	id 1j5nwR-00060j-UK
+	for lists+qemu-devel@lfdr.de; Sun, 23 Feb 2020 04:52:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j5nCG-0000ro-23
- for qemu-devel@nongnu.org; Sun, 23 Feb 2020 04:05:08 -0500
+ (envelope-from <randrianasulu@gmail.com>) id 1j5nva-0005Vh-Rg
+ for qemu-devel@nongnu.org; Sun, 23 Feb 2020 04:51:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j5nCF-0000TC-2D
- for qemu-devel@nongnu.org; Sun, 23 Feb 2020 04:05:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35486
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j5nCE-0000Sd-Tn
- for qemu-devel@nongnu.org; Sun, 23 Feb 2020 04:05:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582448705;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9+qfRDJ631+3BrpIbQmZINXk2gQQnyP0CW4SShz+z8s=;
- b=QBuTCP5Y9dynw5qtXOWBMyNMf/6J2V5cpUJR1heGJ204Jze4o3TBPGHBZnuJRjii0jZU1C
- 6VQNPp+toTwtPicvp3lznMAwfiC3I7r6mFtpupzrt/3WW6Otwt4q1ANnwHJ4NW/I16ZEln
- TkSm0T7cemk68ccKyDAHmFm0BWVqiU0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-2szrkMDIOwOICHv8vDH9sg-1; Sun, 23 Feb 2020 04:05:04 -0500
-X-MC-Unique: 2szrkMDIOwOICHv8vDH9sg-1
-Received: by mail-wm1-f69.google.com with SMTP id m4so1789234wmi.5
- for <qemu-devel@nongnu.org>; Sun, 23 Feb 2020 01:05:04 -0800 (PST)
+ (envelope-from <randrianasulu@gmail.com>) id 1j5nvZ-0005VP-OK
+ for qemu-devel@nongnu.org; Sun, 23 Feb 2020 04:51:58 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43459)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <randrianasulu@gmail.com>)
+ id 1j5nvZ-0005Qb-GY; Sun, 23 Feb 2020 04:51:57 -0500
+Received: by mail-pf1-x443.google.com with SMTP id s1so3702906pfh.10;
+ Sun, 23 Feb 2020 01:51:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:user-agent:mime-version
+ :content-transfer-encoding:content-disposition:message-id;
+ bh=UQ4dvZt+jMCUME16c1I5p16WcL1pU6h1f4GhYRJ/LIg=;
+ b=Qbl/uSPg9mascv5z9HGDhVU/ByjE6ov35gqMbmPEJwu5WTNLttqU3HFVU7SbaUEjZR
+ TRWcm80xv7KKFZ7lZtDSC01WugkH+eDZHZKYTwU/fOkEgHQvu41+cpFrOpHslrkdm7ZA
+ qMSUrRkoU2uY2vbXmUXHfwmf14xvARS49JzvNEbFSwycdFul2IKY6ay404MzBMSbVAk6
+ D5oiIYJdWWb5LnWDiNl7R5+fUdUKNndwJjz+blnIdeu1FCcrXE2Gk+dkyARv8b4hoD2B
+ /Z3t6sky0l+kYHvPwTnOSi/gcTZjWp+xaNRJk4XIOrJRdtKOti0E2cA+RRci+W/Ct4yd
+ y0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9+qfRDJ631+3BrpIbQmZINXk2gQQnyP0CW4SShz+z8s=;
- b=WM/woX/I6K70SpGx8XqlUYfTtyZ+e9Jc1Y+Fn6MQ5NXN/r15/8gmaOPXixoZ3zXXO9
- W4ZqQ0K3HqdPdkKdWYuA32qa34UkzchqDcxepzYhd/N5MqJfznovkiwk2EPbKcjk2I/r
- Sn7PP+MdtjZiw9WP+NUgTShrjtzgT1UWlrcDpSJ7mfgBTCjd004Mpoydek61sRBDzqZq
- X4zm1RZ0c0nuabCxLOEu2i8myoAtkFM/BrIzyBUBI12S98Sudo50hXkKa3Q4CV0W9R48
- kNH/0AAwooIUi5WBP/C+owbk5VBxwAEIVv0YKndovkGWrn3XHM4TRQYYFl55p98k099b
- 9dig==
-X-Gm-Message-State: APjAAAW+W2UJ8mWbY0Wmt8iiNKhF10JS/1g968qEnvH+gVlRTg6PrvZS
- mJNQvW44nEm8I74HUjD8zRPY0qkYV558L/S1eQLuvsx0wsRm/IB0K6CVdmwZorbPglq4nA+7Qan
- mavqU8gM8Yd+x3LA=
-X-Received: by 2002:a7b:c416:: with SMTP id k22mr15868212wmi.10.1582448703172; 
- Sun, 23 Feb 2020 01:05:03 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyITY7Qxt5lA0/QWLVp60oNQOPXzXfoCcVMOHbTs40SM+MbNUVweR2hRsFcxTU3r5XAUUkhWg==
-X-Received: by 2002:a7b:c416:: with SMTP id k22mr15868151wmi.10.1582448702893; 
- Sun, 23 Feb 2020 01:05:02 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:ec41:5e57:ff4d:8e51?
- ([2001:b07:6468:f312:ec41:5e57:ff4d:8e51])
- by smtp.gmail.com with ESMTPSA id o2sm12051784wmh.46.2020.02.23.01.04.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Feb 2020 01:05:02 -0800 (PST)
-Subject: Re: [PATCH v3 2/3] hw: Make MachineClass::is_default a boolean type
-To: "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>
-References: <20200207130453.16666-1-philmd@redhat.com>
- <20200207130453.16666-3-philmd@redhat.com>
- <20200207091138-mutt-send-email-mst@kernel.org>
- <16ec9b38-94e4-bd2d-a47f-83a27289ab47@vivier.eu>
- <20200207092450-mutt-send-email-mst@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9dfd96b4-e924-5803-2d8b-182458fc936b@redhat.com>
-Date: Sun, 23 Feb 2020 10:04:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:from:to:subject:date:user-agent:mime-version
+ :content-transfer-encoding:content-disposition:message-id;
+ bh=UQ4dvZt+jMCUME16c1I5p16WcL1pU6h1f4GhYRJ/LIg=;
+ b=HpHniaC5pjL7r4BtKwiPC2DC3T568zTq1cgjf02sp4o81xQwfY6qdg16NdhTiG6zvT
+ 3R3p1ANMC0t+SWTtCxWnwAoTy8mPZJlQu3zHUWpiOLclAFhoa8zvgpnpDKUvaPAKRHtQ
+ aiDQnshz3kz9I9pwbKu2x6J8KQ4S4OVqdMnEpr0ckReQU1YrFIub0oDJAVYiHKNkooHw
+ yYMmriyZR8sIyrCdk2m9ShZSsd568ccyPUsQ1t5lyzzSUKuu42peHZj2qeMQXoGHuayL
+ JFh7NXG4iXJF6QQap/O3Ch1fSjIddd5nH7Jas3DAIEN+V0UwH2sj0PxR2AFWZ7vr9Dg4
+ 6/tA==
+X-Gm-Message-State: APjAAAUVylSaSA0zDl0kdFPgwrvqT40PExS9bguhBvA1x0Ybcu6oO342
+ XMHTRhnPnwERRNUXEf0dx/Y=
+X-Google-Smtp-Source: APXvYqxPNvBW3PRNXGHHYYVdRv106eogkJRiRKH7dDOhFrhEogkiVJaYhUUXqYWgtq89rAabEBmouw==
+X-Received: by 2002:a63:f103:: with SMTP id f3mr45923823pgi.394.1582451515968; 
+ Sun, 23 Feb 2020 01:51:55 -0800 (PST)
+Received: from [192.168.1.100] ([176.116.252.109])
+ by smtp.gmail.com with ESMTPSA id b42sm8422910pjc.27.2020.02.23.01.51.54
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 23 Feb 2020 01:51:55 -0800 (PST)
+From: Andrew Randrianasulu <randrianasulu@gmail.com>
+To: hsp.cat7@gmail.com, qemu-devel@nongnu.org,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
+Subject: Re: [PATCH v4] Implement the Screamer sound chip for the mac99
+ machine type
+Date: Sun, 23 Feb 2020 12:43:37 +0300
+User-Agent: KMail/1.9.10
 MIME-Version: 1.0
-In-Reply-To: <20200207092450-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Disposition: inline
+Message-Id: <202002231243.37654.randrianasulu@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,49 +79,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Jia Liu <proljc@gmail.com>, qemu-trivial@nongnu.org,
- Helge Deller <deller@gmx.de>, Magnus Damm <magnus.damm@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/02/20 15:25, Michael S. Tsirkin wrote:
->>>> @@ -841,7 +841,7 @@ static void sun4v_class_init(ObjectClass *oc, void *data)
->>>>      mc->desc = "Sun4v platform";
->>>>      mc->init = sun4v_init;
->>>>      mc->block_default_type = IF_IDE;
->>>> -    mc->max_cpus = 1; /* XXX for now */
->>>> +    mc->max_cpus = true; /* XXX for now */
->>
->> and here ^^
->>
->> Thanks,
->> Laurent
-> 
-> Ooh good catch. Which probably means we don't have a unit test for these
+Just thought I must share my uneducated guess on issue reported at
 
-"= true" just becomes "= 1".
+https://www.emaculation.com/forum/viewtopic.php?f=34&t=9820
+> Please note that running with 1024Mb of memory will make sound stop working in Mac OS 9.x. So run with less memory.
+> As will running without virtual memory.
 
-Paolo
-
+My guess this has something to do with device memory regions, may be because Linux  always uses Virtual memory
+(MMU, address translation), as well as Mac OS X 10.x - this little issue was unnoticed until recently ?
 
