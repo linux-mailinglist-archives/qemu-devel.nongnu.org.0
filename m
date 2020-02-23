@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061E8169A3F
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Feb 2020 22:26:26 +0100 (CET)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542E9169A9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 00:12:12 +0100 (CET)
+Received: from localhost ([::1]:57626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j5ylc-0001GN-IX
-	for lists+qemu-devel@lfdr.de; Sun, 23 Feb 2020 16:26:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58390)
+	id 1j60Pz-0002hD-Ac
+	for lists+qemu-devel@lfdr.de; Sun, 23 Feb 2020 18:12:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j5yko-0000p2-0z
- for qemu-devel@nongnu.org; Sun, 23 Feb 2020 16:25:35 -0500
+ (envelope-from <philmd@redhat.com>) id 1j60Oj-0001Hr-UQ
+ for qemu-devel@nongnu.org; Sun, 23 Feb 2020 18:10:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j5ykm-0003hk-98
- for qemu-devel@nongnu.org; Sun, 23 Feb 2020 16:25:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42585
+ (envelope-from <philmd@redhat.com>) id 1j60Oi-00089N-KK
+ for qemu-devel@nongnu.org; Sun, 23 Feb 2020 18:10:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57075
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j5ykm-0003hV-13
- for qemu-devel@nongnu.org; Sun, 23 Feb 2020 16:25:32 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j60Oh-000885-Vp
+ for qemu-devel@nongnu.org; Sun, 23 Feb 2020 18:10:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582493131;
+ s=mimecast20190719; t=1582499451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kjJBK8EO57Kkis0js0dYCK68MHLgDGJhoa4v0JLnBCE=;
- b=cD65hkG7U3EPUTKfdIPcMau3oJ5tpKQsm/dY4CAeiPMQ6ZsCs/qjhXIl5bc3ov+NeNyTuA
- 9JOQAAgEgYZEq74gr6Ibsr1pyEepGYGN8AHzkZUS2Gm9104wV23jsJuRG4Ij+A6FG8pLk2
- zEi7/O5DF2TTQP8aV7PA6te8+izAJEg=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-j54VEzxDOqCGt05e7ob2Yg-1; Sun, 23 Feb 2020 16:25:29 -0500
-X-MC-Unique: j54VEzxDOqCGt05e7ob2Yg-1
-Received: by mail-qv1-f71.google.com with SMTP id ce2so6613227qvb.23
- for <qemu-devel@nongnu.org>; Sun, 23 Feb 2020 13:25:29 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2JtFWCLlvKrPzw6359S9afKJXhhVBFgj6XfWSRDbCzY=;
+ b=FogAYnP4osWlAFWRv+rP2WmXRzx1usCE+adUToT1UaZQu6DX8cFUr8PTRaehc7nlpqc/yG
+ 3gvqBx6JtXTKHedT6ZZDp2TNs+rhzIC6bTRYiE6LoYt4g+VasfQpiQJs4uprxYgiZACm3/
+ q48r+q78tQYzB/xJSfsU7g75nM/y0Yg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-lAfzy-ciNJa2VvsI_RdcGQ-1; Sun, 23 Feb 2020 18:10:49 -0500
+X-MC-Unique: lAfzy-ciNJa2VvsI_RdcGQ-1
+Received: by mail-wr1-f71.google.com with SMTP id z1so977276wrs.9
+ for <qemu-devel@nongnu.org>; Sun, 23 Feb 2020 15:10:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pDDoQQOrOYeC/NLDoSF1kjMPYpzkJ3XIoYGsRACZR0A=;
- b=R2yVmWs7e1BAEec98z5ek0fzn3afQ31VGDa8aTBy19fvwgZi0z0JWjD1VjeBmhyYmW
- uIEluWoiwGrRQe3xLDsl8IcmA5V/Bx2+ASwPlQWFTdP4SYKW2fj4uKF7SkTpoz6HKjaK
- UJs3NsRVYB/+2e3cTF7IIHIVffk9d5Fk/LfIJSfhVf7r+Pwn9GlQUdppDHuiLZN+tK72
- Zv1UcGaWEgZrJjWseSriX14HE0hkA3IOlVW6s4vbMjo6d1k2rSel3q+kYUI9+Uw9AJLy
- ukmIKbqVWr3p9Q5hjWeAFJkbyfjnIJ7/IkyGkWvIRDAKEF6tZN5eougPjDvZd3SLlfaN
- XTfw==
-X-Gm-Message-State: APjAAAVxSrtzs6Wl1zDUlEvRlUQFtuDfNKAH99QHxq3FESjqV5Jk2y/W
- LQl8HLoCqgO+D4hsayOxuktMP7z7+fxQnF4MlaedjXtLL8NipwZDCnWjUxgFyt2PpMlfKjaOftF
- LU+9Fxw6e4kEhBhg=
-X-Received: by 2002:ad4:48c6:: with SMTP id v6mr40085751qvx.207.1582493128649; 
- Sun, 23 Feb 2020 13:25:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzOjhAJ4YJC09/n5DtyF/iGRO7seGpjNKO8TQJ8ZQv5+XgiBu7EJSuQbb7ii3Yo5cXLf39x7Q==
-X-Received: by 2002:ad4:48c6:: with SMTP id v6mr40085740qvx.207.1582493128431; 
- Sun, 23 Feb 2020 13:25:28 -0800 (PST)
-Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
- by smtp.gmail.com with ESMTPSA id
- s42sm5039478qtk.87.2020.02.23.13.25.24
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r73RMxZRMG+NmOKyR3pA63JKzPvw0kuX26+4+fo0u6k=;
+ b=CuF/HFJNMONe5cJBailSN6+tz9XNTwJ8RkomHSy8Wd3Ngjr6qxbbrbIJPifWkvQPLY
+ VFs8NvBNeYqtqUlBbI2YBwhVJk0+0fqJIulg5vGZLWrLM9YO9ne1au0UsvAOHYmM3wQ+
+ tB/f1ojhjw/5eZz9o7BQsai3eumSOGQgDBL/ge/gFaQX44FHRuDTsUI7duAI1TzgfDh5
+ iswch/U6W5w7P+Mp+qp2G5JVdv7NeM8AjGNagZBdpZvYYCKo1S7nULRtDMU2WPZV1veV
+ xpDqLXeWaUQpQ/mWGIbXYUtCHJEe1OOf7mPnse/e6sask6yyiBqI+Fi3ormhDhXQdgxz
+ kCmg==
+X-Gm-Message-State: APjAAAV47mYeQA29NYR7qWbSvMaTxq+3GmxeSzYLLC521Z33B2XIwRIp
+ vVeHy1sPTxciX/it8lrNBSyPsx9XBnAvVSyyBvTQvdJII6v2vmgy7/QfRsUdr6Lx9kkjlTjFTU/
+ gD9OJjbirNF+onC8=
+X-Received: by 2002:a05:600c:299:: with SMTP id
+ 25mr18350043wmk.68.1582499447906; 
+ Sun, 23 Feb 2020 15:10:47 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwRR2QcjHY5wzv5ITqtwhlIu6dQ65kERAg2OHxjt7EdpPNvV+QAqS1dn4GqrazGjFTftx5m+w==
+X-Received: by 2002:a05:600c:299:: with SMTP id
+ 25mr18350022wmk.68.1582499447603; 
+ Sun, 23 Feb 2020 15:10:47 -0800 (PST)
+Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id r6sm15777598wrp.95.2020.02.23.15.10.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2020 13:25:27 -0800 (PST)
-Date: Sun, 23 Feb 2020 16:25:22 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: miaoyubo <miaoyubo@huawei.com>
-Subject: Re: [RFC v3 3/3] ACPI/unit-test: Add a new test for pxb-pcie for arm
-Message-ID: <20200223162502-mutt-send-email-mst@kernel.org>
-References: <20200221063512.1104-1-miaoyubo@huawei.com>
- <20200221063512.1104-4-miaoyubo@huawei.com>
- <20200221061811-mutt-send-email-mst@kernel.org>
- <817d9cb2699d4294a2ba4ae949079eea@huawei.com>
+ Sun, 23 Feb 2020 15:10:47 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw/arm/gumstix: Trivial cleanups
+Date: Mon, 24 Feb 2020 00:10:42 +0100
+Message-Id: <20200223231044.8003-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <817d9cb2699d4294a2ba4ae949079eea@huawei.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,101 +87,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Xiexiangyou <xiexiangyou@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 22, 2020 at 09:40:07AM +0000, miaoyubo wrote:
->=20
-> > -----Original Message-----
-> > From: Michael S. Tsirkin [mailto:mst@redhat.com]
-> > Sent: Friday, February 21, 2020 7:19 PM
-> > To: miaoyubo <miaoyubo@huawei.com>
-> > Cc: peter.maydell@linaro.org; shannon.zhaosl@gmail.com; Xiexiangyou
-> > <xiexiangyou@huawei.com>; imammedo@redhat.com;
-> > qemu-devel@nongnu.org
-> > Subject: Re: [RFC v3 3/3] ACPI/unit-test: Add a new test for pxb-pcie f=
-or arm
-> >=20
-> > On Fri, Feb 21, 2020 at 02:35:12PM +0800, Yubo Miao wrote:
-> > > From: miaoyubo <miaoyubo@huawei.com>
-> > >
-> > > Currently, pxb-pcie could be defined by the cmdline like
-> > >     --device pxb-pcie,id=3Dpci.9,bus_nr=3D128 However pxb-pcie is not
-> > > described in acpi tables for arm.
-> > >
-> > > The formal two patches support pxb-pcie for arm, escpcially the
-> > > specification for pxb-pcie in DSDT table.
-> > >
-> > > Add a testcase to make sure the ACPI table is correct for guest.
-> > >
-> > > Signed-off-by: miaoyubo <miaoyubo@huawei.com>
-> >=20
-> >=20
-> > Please look at the top of tests/qtest/bios-tables-test.c for how to add=
- or
-> > update tests.
-> >=20
->=20
-> Thanks for replying, I didn't notice that, I would follow the steps to re=
-build this patch.
->=20
-> > > ---
-> > >  tests/data/acpi/virt/DSDT.pxb  | Bin 0 -> 34209 bytes
-> > > tests/qtest/bios-tables-test.c |  54 +++++++++++++++++++++++++++++---=
--
-> > >  2 files changed, 48 insertions(+), 6 deletions(-)  create mode 10064=
-4
-> > > tests/data/acpi/virt/DSDT.pxb
-> > >
-> > > diff --git a/tests/data/acpi/virt/DSDT.pxb
-> > > b/tests/data/acpi/virt/DSDT.pxb new file mode 100644 index
-> > >
-> > 0000000000000000000000000000000000000000..4eea3192c75ff28f7054d626
-> > a936
-> > > 3ca025b6c0ad
-> > > GIT binary patch
-> >=20
-> > I can't read this.
-> >=20
->=20
-> I just have a question that is:=20
-> I just rebuild this aml with tests/data/acpi/rebuild-expected-aml.sh
-> and git send it or send the aml with attachment?
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-git send it pls
+Two house keeping patches while looking at the Gumstix boards,
+to make the code slightly more readable/documented.
 
+Philippe Mathieu-Daud=C3=A9 (2):
+  hw/arm/gumstix: Simplify since the machines are little-endian only
+  hw/arm/gumstix: Use the IEC binary prefix definitions
 
-> > > literal 34209
-> > >
-> > zcmeI*cXU+szJ~D)1PGxe5PG+us9-{<Do8R35G4>YGz}UAMT!L#ks?x*Dx!d5hoIP
-> > d
-> > >
-> > z?}}o>iWL;GW5HgrlKbvVM&HM??^)~qbMIProvd|8p2_U*%qO!m?AgcPkRQ(<w
-> > r)WX
-> > >
-> > zR3DKyBsMVKK5tZUEMJ#Z3xXj0I{cizY-H-_vUpxu>HL<ltgNimvVn#9^>bszg^Hd*
-> > >
-> > zYT59@{GfDxK}u{$QSzH5MFX?4va_qcnOYVriD$G-YqqdX5KgQUqzA#0T0ymH9a
-> > J-P
-> > > zt=3D#;Qdf_)p=3DV$jH6t9{xXmH68P3ev)8EFlwrs(=3DX$_(9dxJh>6UU8FZi5vcVla=
-%Bp
-> > >
-> > zz50)g^-pXvw4i9XAYFAU@nN}Xb+t___n%u<uhU$chBua*GNL5;Gf3Q8mfgX>w)`
-> > 8L
-> > >
-> > z7F4goX88!*;pB+$X8&bG_2BOj*;OO*!h6xx&B+mI)uU#l*o>||BPVi3ji?#5Y(|dH
-> > >
-> > z=3DoUF6C2B^h&FJPcx<}5a88su#W_0%%JtAk+ikeZ+X7unGJtJq-j+)WHX7uzKy&`9
-> > %
-> >=20
-> > ...
->=20
-> Regards,
-> Miao
+ hw/arm/gumstix.c | 42 ++++++++++++++----------------------------
+ 1 file changed, 14 insertions(+), 28 deletions(-)
+
+--=20
+2.21.1
 
 
