@@ -2,49 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A057216A034
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 09:39:14 +0100 (CET)
-Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1105516A040
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 09:43:40 +0100 (CET)
+Received: from localhost ([::1]:33146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j69Gj-0003Jb-Nm
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 03:39:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
+	id 1j69L1-0007Sh-4F
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 03:43:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57782)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gengdongjiu@huawei.com>) id 1j69Ft-0002RT-P5
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 03:38:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1j69Iw-0005E2-NG
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 03:41:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gengdongjiu@huawei.com>) id 1j69Fs-0001CY-PD
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 03:38:21 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:48640 helo=huawei.com)
+ (envelope-from <philmd@redhat.com>) id 1j69Iv-0003UG-Et
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 03:41:30 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54555
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
- id 1j69Fq-00014d-8l; Mon, 24 Feb 2020 03:38:18 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 2F8C1EA6E341EB8B89D9;
- Mon, 24 Feb 2020 16:38:09 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS406-HUB.china.huawei.com
- (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Mon, 24 Feb 2020
- 16:38:02 +0800
-Subject: Re: [PATCH v24 00/10] Add ARMv8 RAS virtualization support in QEMU
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200217131248.28273-1-gengdongjiu@huawei.com>
- <CAFEAcA9xd8fHiigZFFM7Symh0Mkm-jQ_aGJ7ifRCrXZvFY4DqQ@mail.gmail.com>
-From: gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <acd194e5-81d8-afa7-fb6d-6b7d744b5d81@huawei.com>
-Date: Mon, 24 Feb 2020 16:37:44 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.3.0
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j69Iv-0003Tt-Bo
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 03:41:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582533688;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OwmCxfaSC8BnNrb2l2gUmkelLJJswti0t2MykcFmdug=;
+ b=WDRVE28umE3aiMESD9xetED1joyF9iz0zNLx6UAOPEcWJSq5tU3nkqDWZ1Ua+Gfaef43uX
+ YJcSm5Yv4EGiwt7KTXLfX0wW7ma+cS5FNBWOE0owFXA3ypO8gROeoHNXYvKM3X9vV/ES4L
+ IwVCSFYvP74Qfg414mCPA6pJGau/z0s=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-mgAzNq2NOJGB6ak4tQ5RJg-1; Mon, 24 Feb 2020 03:41:25 -0500
+X-MC-Unique: mgAzNq2NOJGB6ak4tQ5RJg-1
+Received: by mail-ed1-f72.google.com with SMTP id y23so6156103edt.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 00:41:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QBXkf4oEF9/VUOQA1C13p3RtrE2RbrIhkBgJqdINYaQ=;
+ b=DqpULJk2ksDH/Kq/kFGM5DGAn/A/bAILGCtIAd9Uf1Jjn+HVtBisD0qCimiNpm+xSZ
+ dRef/NaWH23MXdxUzCstRWK5BV9aQr50Z6xGCWw0P+HyWiwngf79PY64JGTq7ebUwKyP
+ K3q4Hho5l3Se0chEsoIRKteKr8Ux0nyYcofBMDGvu4U1+ybIc3CwTjjsbiWswSdSDTNN
+ zUw6hxXF+89xtqAixIyYOsgUuTMGRTI9yZ+NXULQ98iha/apWyQ2xwBQ0Y00mXY68adf
+ jr9zAE0RKiymMc8eV8NUNIoe9DcSlvYEHpJcL5nOWNwD2+wu0jIKwb7qc4drmerbZLXu
+ Yqsw==
+X-Gm-Message-State: APjAAAW8vLbPSWEw0MxYYFpescIb7TdKaGpVl4uyK7nTY1X87Lguy7F4
+ TyQzHzbT26EDiYCcVDZqjCWWJqzlDZBKb1nOZ2Zw3E6C1Eyj3bVP7fvOcRlRFEQEjcfIRwOA2uI
+ Yofdk7EuQLECWEDY=
+X-Received: by 2002:a05:6402:12d2:: with SMTP id
+ k18mr45569438edx.253.1582533683865; 
+ Mon, 24 Feb 2020 00:41:23 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxOGh+dfdlmcIFGuW4DQoq6GXbQjzq9z9udpk8NPvZ4XRdmnTWFOvKOhns6rCMNnRnzkDOruA==
+X-Received: by 2002:a05:6402:12d2:: with SMTP id
+ k18mr45569404edx.253.1582533683487; 
+ Mon, 24 Feb 2020 00:41:23 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id g4sm907219edl.6.2020.02.24.00.41.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Feb 2020 00:41:22 -0800 (PST)
+Subject: Re: [PATCH] hw/arm: Use TYPE_PL011 to create serial port
+To: Gavin Shan <gshan@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20200224041633.97345-1-gshan@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ea5d13ba-e736-2c73-f2c0-6e42e512afa2@redhat.com>
+Date: Mon, 24 Feb 2020 09:41:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9xd8fHiigZFFM7Symh0Mkm-jQ_aGJ7ifRCrXZvFY4DqQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200224041633.97345-1-gshan@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,48 +92,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
- qemu-arm <qemu-arm@nongnu.org>, James Morse <james.morse@arm.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <rth@twiddle.net>, Laszlo Ersek <lersek@redhat.com>, Igor
- Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: peter.maydell@linaro.org, radoslaw.biernacki@linaro.org,
+ alistair@alistair23.me, shan.gavin@gmail.com, edgar.iglesias@gmail.com,
+ leif@nuviainc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/2/21 22:09, Peter Maydell wrote:
-> On Mon, 17 Feb 2020 at 13:10, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
->>
->> In the ARMv8 platform, the CPU error types includes synchronous external abort(SEA) and SError Interrupt (SEI). If exception happens in guest, host does not know the detailed information of guest, so it is expected that guest can do the recovery.
->> For example, if an exception happens in a guest user-space application, host does
->> not know which application encounters errors, only guest knows it.
->>
->> For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify userspace.
->> After user space gets the notification, it will record the CPER into guest GHES
->> buffer and inject an exception or IRQ to guest.
->>
->> In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we will
->> treat it as a synchronous exception, and notify guest with ARMv8 SEA
->> notification type after recording CPER into guest.
-> 
-> Hi; I have reviewed the remaining arm bit of this series (patch 9),
-> and made some comments on patch 1. Still to be reviewed are
-> patches 4, 5, 6, 8: I'm going to assume that Michael or Igor
-> will look at those.
+On 2/24/20 5:16 AM, Gavin Shan wrote:
+> This uses TYPE_PL011 when creating the serial port, to make the code
+> a bit more atomatic.
 
-Thanks very much for Peter's review.
-Michael/Igor, hope you can review patches 4, 5, 6, 8, thank you very much in advance.
+Do you mean aUtomatic? I'm not sure this automate the code, but using=20
+the TYPE definition is definitively cleaner.
 
+With description fixed:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> 
-> thanks
-> -- PMM
-> 
-> .
-> 
+>=20
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>   hw/arm/sbsa-ref.c    | 3 ++-
+>   hw/arm/virt.c        | 3 ++-
+>   hw/arm/xlnx-versal.c | 3 ++-
+>   3 files changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index 9b5bcb5634..df0a165047 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -39,6 +39,7 @@
+>   #include "hw/pci-host/gpex.h"
+>   #include "hw/qdev-properties.h"
+>   #include "hw/usb.h"
+> +#include "hw/char/pl011.h"
+>   #include "net/net.h"
+>  =20
+>   #define RAMLIMIT_GB 8192
+> @@ -409,7 +410,7 @@ static void create_uart(const SBSAMachineState *sms, =
+int uart,
+>   {
+>       hwaddr base =3D sbsa_ref_memmap[uart].base;
+>       int irq =3D sbsa_ref_irqmap[uart];
+> -    DeviceState *dev =3D qdev_create(NULL, "pl011");
+> +    DeviceState *dev =3D qdev_create(NULL, TYPE_PL011);
+>       SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
+>  =20
+>       qdev_prop_set_chr(dev, "chardev", chr);
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index f788fe27d6..d0da513737 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -71,6 +71,7 @@
+>   #include "hw/mem/pc-dimm.h"
+>   #include "hw/mem/nvdimm.h"
+>   #include "hw/acpi/generic_event_device.h"
+> +#include "hw/char/pl011.h"
+>  =20
+>   #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+>       static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+> @@ -724,7 +725,7 @@ static void create_uart(const VirtMachineState *vms, =
+int uart,
+>       int irq =3D vms->irqmap[uart];
+>       const char compat[] =3D "arm,pl011\0arm,primecell";
+>       const char clocknames[] =3D "uartclk\0apb_pclk";
+> -    DeviceState *dev =3D qdev_create(NULL, "pl011");
+> +    DeviceState *dev =3D qdev_create(NULL, TYPE_PL011);
+>       SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
+>  =20
+>       qdev_prop_set_chr(dev, "chardev", chr);
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index 1cf3daaf4f..403fc7b881 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -22,6 +22,7 @@
+>   #include "hw/misc/unimp.h"
+>   #include "hw/intc/arm_gicv3_common.h"
+>   #include "hw/arm/xlnx-versal.h"
+> +#include "hw/char/pl011.h"
+>  =20
+>   #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
+>   #define GEM_REVISION        0x40070106
+> @@ -144,7 +145,7 @@ static void versal_create_uarts(Versal *s, qemu_irq *=
+pic)
+>           DeviceState *dev;
+>           MemoryRegion *mr;
+>  =20
+> -        dev =3D qdev_create(NULL, "pl011");
+> +        dev =3D qdev_create(NULL, TYPE_PL011);
+>           s->lpd.iou.uart[i] =3D SYS_BUS_DEVICE(dev);
+>           qdev_prop_set_chr(dev, "chardev", serial_hd(i));
+>           object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_=
+fatal);
+>=20
 
 
