@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB2A16A860
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:33:20 +0100 (CET)
-Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF69B16A883
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:37:53 +0100 (CET)
+Received: from localhost ([::1]:37428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6EnP-0004dH-7l
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:33:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50551)
+	id 1j6Ero-0005EW-VN
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:37:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50589)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j6Ekj-0001Na-R1
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:35 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j6Ekl-0001S6-VI
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j6Eki-0001uw-8h
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39994
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1j6Ekk-0001vq-Eh
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:35 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54500
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j6Eki-0001rt-4h
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:32 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j6Ekk-0001vX-BC
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582554631;
+ s=mimecast20190719; t=1582554633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jcbAvH7+FUscnbAd3TKaAwZuIg4wq6vi18Fa0KSvaY0=;
- b=O/8ncsN3pZv6OI86izVdS7VPVqOeF8vGXgY44weksHbAZNFBG8mFGacwYSlf9ggOMFpQ28
- 5Ba1jzR0Ek1F5t4kXG/iJ0aBGy8K2OXqR+k6B6gn80sa07+tBYJRuY9FQw8qdxkKE/GVv2
- pL2EDcJrDHGwHo72huKcL7AwqzyCkbw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dPKIsCcQthcgEF3vGr1fM/jPzSM0CtjEd4BHQRSKfJ4=;
+ b=F4vmrqb+Hhq1HFyDvfXbd87IieD5ZG4yCg7Qy4RdJNG1bIhOmBT/XfFgzmOmPTEoKPNYix
+ 5XjzoKrDTNuY8Bmvd4DFWYTGqu4NBl+4+8sY4pHb08V/EKveHG5q9EMNGi8Ecry/HE4ZC/
+ /+M8ryi41VFD+BSh6kauxOYvG3kP7GE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-ezeyaaJ8Or6cs2U2WAwksw-1; Mon, 24 Feb 2020 09:30:27 -0500
-X-MC-Unique: ezeyaaJ8Or6cs2U2WAwksw-1
+ us-mta-31-RJwVTZe1OpCPKLC6K2xmQw-1; Mon, 24 Feb 2020 09:30:30 -0500
+X-MC-Unique: RJwVTZe1OpCPKLC6K2xmQw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE3CF801E72;
- Mon, 24 Feb 2020 14:30:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4AE918AB2C2;
+ Mon, 24 Feb 2020 14:30:28 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-134.ams2.redhat.com
  [10.36.117.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC4F5C114;
- Mon, 24 Feb 2020 14:30:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1259191835;
+ Mon, 24 Feb 2020 14:30:26 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 00/20] Add qemu-storage-daemon
-Date: Mon, 24 Feb 2020 15:29:48 +0100
-Message-Id: <20200224143008.13362-1-kwolf@redhat.com>
+Subject: [PATCH v2 01/20] qemu-storage-daemon: Add barebone tool
+Date: Mon, 24 Feb 2020 15:29:49 +0100
+Message-Id: <20200224143008.13362-2-kwolf@redhat.com>
+In-Reply-To: <20200224143008.13362-1-kwolf@redhat.com>
+References: <20200224143008.13362-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
@@ -57,7 +60,7 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,122 +77,200 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds a new tool 'qemu-storage-daemon', which can be used to
-export and perform operations on block devices. There is some overlap
-between qemu-img/qemu-nbd and the new qemu-storage-daemon, but there are
-a few important differences:
+This adds a new binary qemu-storage-daemon that doesn't yet do more than
+some typical initialisation for tools and parsing the basic command
+options --version, --help and --trace.
 
-* The qemu-storage-daemon has QMP support. The command set is obviously
-  restricted compared to the system emulator because there is no guest,
-  but all of the block operations that are not tied to gues devices are
-  present.
+Even though this doesn't add any options yet that create things (like
+--object or --blockdev), already document that we're planning to process
+them in the order they are given on the command line rather than trying
+(and failing, like vl.c) to resolve dependencies between options
+automatically.
 
-  This means that it can access advanced options or operations that the
-  qemu-img command line doesn't expose. For example, blockdev-create is
-  a lot more powerful than 'qemu-img create', and qemu-storage-daemon
-  allows to execute it without starting a guest.
-
-  Compared to qemu-nbd it means that, for example, block jobs can now be
-  executed on the server side, and backing chains shared by multiple VMs
-  can be modified this way.
-
-* The existing tools all have a separately invented one-off syntax for
-  the job at hand, which usually comes with restrictions compared to the
-  system emulator. qemu-storage-daemon shares the same syntax with the
-  system emulator for most options and prefers QAPI based interfaces
-  where possible (such as --blockdev), so it should be easy to make use
-  of in libvirt.
-
-  The exception is --chardev, for which not clear design for a QAPIfied
-  command line exists yet. We'll consider this interface unstable until
-  we've figured out how to solve it. For now it just uses the same
-  QemuOpts-based code as the system emulator.
-
-* While this series implements only NBD exports, the storage daemon is
-  intended to serve multiple protocols and its syntax reflects this. In
-  the past, we had proposals to add new one-off tools for exporting over
-  new protocols like FUSE or TCMU.
-
-  With a generic storage daemon, additional export methods have a home
-  without adding a new tool for each of them.
-
-The plan is to merge qemu-storage-daemon as an experimental feature with
-a reduced API stability promise in 5.0.
-
-Kevin Wolf (20):
-  qemu-storage-daemon: Add barebone tool
-  stubs: Add arch_type
-  block: Move system emulator QMP commands to block/qapi-sysemu.c
-  block: Move common QMP commands to block-core QAPI module
-  block: Move sysemu QMP commands to QAPI block module
-  qemu-storage-daemon: Add --blockdev option
-  qapi: Flatten object-add
-  qemu-storage-daemon: Add --object option
-  qemu-storage-daemon: Add --nbd-server option
-  blockdev-nbd: Boxed argument type for nbd-server-add
-  qemu-storage-daemon: Add --export option
-  qemu-storage-daemon: Add main loop
-  qemu-storage-daemon: Add --chardev option
-  stubs: Update monitor stubs for qemu-storage-daemon
-  qapi: Create 'pragma' module
-  monitor: Create QAPIfied monitor_init()
-  qmp: Fail gracefully if chardev is already in use
-  hmp: Fail gracefully if chardev is already in use
-  monitor: Add allow_hmp parameter to monitor_init()
-  qemu-storage-daemon: Add --monitor option
-
- qapi/block-core.json                 | 730 +++++++++++++--------------
- qapi/block.json                      | 512 +++++++++++--------
- qapi/control.json                    |  37 ++
- qapi/pragma.json                     |  24 +
- qapi/qapi-schema.json                |  25 +-
- qapi/qom.json                        |  12 +-
- qapi/transaction.json                |   2 +-
- configure                            |   2 +-
- include/block/nbd.h                  |   1 +
- include/monitor/monitor.h            |   6 +-
- include/qom/object_interfaces.h      |   7 +
- include/sysemu/arch_init.h           |   2 +
- block/qapi-sysemu.c                  | 590 ++++++++++++++++++++++
- blockdev-nbd.c                       |  40 +-
- blockdev.c                           | 559 --------------------
- chardev/char.c                       |   8 +-
- gdbstub.c                            |   2 +-
- hw/block/xen-block.c                 |  11 +-
- monitor/hmp-cmds.c                   |  21 +-
- monitor/hmp.c                        |   8 +-
- monitor/misc.c                       |   2 +
- monitor/monitor.c                    |  86 ++--
- monitor/qmp-cmds.c                   |   2 +-
- monitor/qmp.c                        |  11 +-
- qemu-storage-daemon.c                | 340 +++++++++++++
- qom/qom-qmp-cmds.c                   |  42 +-
- stubs/arch_type.c                    |   4 +
- stubs/monitor-core.c                 |  21 +
- stubs/monitor.c                      |  17 +-
- tests/test-util-sockets.c            |   4 +-
- scripts/qapi/gen.py                  |   5 +
- Makefile                             |  37 ++
- Makefile.objs                        |   9 +
- block/Makefile.objs                  |   4 +-
- monitor/Makefile.objs                |   2 +
- qapi/Makefile.objs                   |   7 +-
- qemu-deprecated.texi                 |   4 +
- qom/Makefile.objs                    |   1 +
- storage-daemon/Makefile.objs         |   1 +
- storage-daemon/qapi/Makefile.objs    |   1 +
- storage-daemon/qapi/qapi-schema.json |  26 +
- stubs/Makefile.objs                  |   2 +
- 42 files changed, 1955 insertions(+), 1272 deletions(-)
- create mode 100644 qapi/pragma.json
- create mode 100644 block/qapi-sysemu.c
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ configure             |   2 +-
+ qemu-storage-daemon.c | 127 ++++++++++++++++++++++++++++++++++++++++++
+ Makefile              |   1 +
+ 3 files changed, 129 insertions(+), 1 deletion(-)
  create mode 100644 qemu-storage-daemon.c
- create mode 100644 stubs/arch_type.c
- create mode 100644 stubs/monitor-core.c
- create mode 100644 storage-daemon/Makefile.objs
- create mode 100644 storage-daemon/qapi/Makefile.objs
- create mode 100644 storage-daemon/qapi/qapi-schema.json
 
+diff --git a/configure b/configure
+index d57261e3ad..c9ea8cc8fb 100755
+--- a/configure
++++ b/configure
+@@ -6257,7 +6257,7 @@ tools=3D""
+ if test "$want_tools" =3D "yes" ; then
+   tools=3D"qemu-img\$(EXESUF) qemu-io\$(EXESUF) qemu-edid\$(EXESUF) $tools=
+"
+   if [ "$linux" =3D "yes" -o "$bsd" =3D "yes" -o "$solaris" =3D "yes" ] ; =
+then
+-    tools=3D"qemu-nbd\$(EXESUF) $tools"
++    tools=3D"qemu-nbd\$(EXESUF) qemu-storage-daemon\$(EXESUF) $tools"
+   fi
+   if [ "$ivshmem" =3D "yes" ]; then
+     tools=3D"ivshmem-client\$(EXESUF) ivshmem-server\$(EXESUF) $tools"
+diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
+new file mode 100644
+index 0000000000..fc4aef572b
+--- /dev/null
++++ b/qemu-storage-daemon.c
+@@ -0,0 +1,127 @@
++/*
++ * QEMU storage daemon
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ * Copyright (c) 2019 Kevin Wolf <kwolf@redhat.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++
++#include <getopt.h>
++
++#include "block/block.h"
++#include "crypto/init.h"
++
++#include "qapi/error.h"
++#include "qemu-common.h"
++#include "qemu-version.h"
++#include "qemu/config-file.h"
++#include "qemu/error-report.h"
++#include "qemu/log.h"
++#include "qemu/main-loop.h"
++#include "qemu/module.h"
++
++#include "trace/control.h"
++
++static void help(void)
++{
++    printf(
++"Usage: %s [options]\n"
++"QEMU storage daemon\n"
++"\n"
++"  -h, --help             display this help and exit\n"
++"  -T, --trace [[enable=3D]<pattern>][,events=3D<file>][,file=3D<file>]\n"
++"                         specify tracing options\n"
++"  -V, --version          output version information and exit\n"
++"\n"
++QEMU_HELP_BOTTOM "\n",
++    error_get_progname());
++}
++
++static void process_options(int argc, char *argv[])
++{
++    int c;
++
++    static const struct option long_options[] =3D {
++        {"help", no_argument, NULL, 'h'},
++        {"trace", required_argument, NULL, 'T'},
++        {"version", no_argument, NULL, 'V'},
++        {0, 0, 0, 0}
++    };
++
++    /*
++     * In contrast to the system emulator, options are processed in the or=
+der
++     * they are given on the command lines. This means that things must be
++     * defined first before they can be referenced in another option.
++     */
++    while ((c =3D getopt_long(argc, argv, "hT:V", long_options, NULL)) !=
+=3D -1) {
++        switch (c) {
++        case '?':
++            exit(EXIT_FAILURE);
++        case 'h':
++            help();
++            exit(EXIT_SUCCESS);
++        case 'T':
++            {
++                char *trace_file =3D trace_opt_parse(optarg);
++                trace_init_file(trace_file);
++                g_free(trace_file);
++                break;
++            }
++        case 'V':
++            printf("qemu-storage-daemon version "
++                   QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\n");
++            exit(EXIT_SUCCESS);
++        default:
++            g_assert_not_reached();
++        }
++    }
++    if (optind !=3D argc) {
++        error_report("Unexpected argument: %s", argv[optind]);
++        exit(EXIT_FAILURE);
++    }
++}
++
++int main(int argc, char *argv[])
++{
++#ifdef CONFIG_POSIX
++    signal(SIGPIPE, SIG_IGN);
++#endif
++
++    error_init(argv[0]);
++    qemu_init_exec_dir(argv[0]);
++
++    module_call_init(MODULE_INIT_QOM);
++    module_call_init(MODULE_INIT_TRACE);
++    qemu_add_opts(&qemu_trace_opts);
++    qcrypto_init(&error_fatal);
++    bdrv_init();
++
++    if (!trace_init_backends()) {
++        return EXIT_FAILURE;
++    }
++    qemu_set_log(LOG_TRACE);
++
++    qemu_init_main_loop(&error_fatal);
++    process_options(argc, argv);
++
++    return EXIT_SUCCESS;
++}
+diff --git a/Makefile b/Makefile
+index 146a91bc3e..44b3c8a342 100644
+--- a/Makefile
++++ b/Makefile
+@@ -573,6 +573,7 @@ qemu-img.o: qemu-img-cmds.h
+ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y=
+) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y=
+) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) =
+$(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++qemu-storage-daemon$(EXESUF): qemu-storage-daemon.o $(authz-obj-y) $(block=
+-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+=20
+ qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+=20
 --=20
 2.20.1
 
