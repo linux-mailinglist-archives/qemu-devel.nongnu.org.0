@@ -2,116 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F7F16AFE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:02:08 +0100 (CET)
-Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279C616B034
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:24:01 +0100 (CET)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6IzX-0001Au-HD
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:02:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34623)
+	id 1j6JKi-0007yN-7I
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:24:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j6Iyb-0000gs-8i
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:01:10 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j6JJt-0007UA-Uo
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j6IyY-0008Vp-OR
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:01:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31655
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j6IyY-0008TI-F9
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:01:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582570865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zfMd2WMhwZJQ7H8rImltnLQJwqFzfJktU/DwmcD0VSQ=;
- b=g95+c+BPjOOBi6rCA7T91CQOn7IxeRT9JxVKugCqiVPXD5q361A198NQUbnqiAEAdoITe8
- Ty8yoMpbmdnh6dKaxNkaEb/N8mrIw/YqLhq1BbpeJSeCrkll754lwmpETzthhsVJD0zCwk
- Ah2ARGYQjMbcO894yeLyipcXFIIqvgg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-B7h8GBrqOpuBgp0jFK-KZw-1; Mon, 24 Feb 2020 13:59:26 -0500
-X-MC-Unique: B7h8GBrqOpuBgp0jFK-KZw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D995418B5F6A;
- Mon, 24 Feb 2020 18:59:24 +0000 (UTC)
-Received: from [10.36.116.78] (ovpn-116-78.ams2.redhat.com [10.36.116.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34D481001B2C;
- Mon, 24 Feb 2020 18:59:11 +0000 (UTC)
-Subject: Re: [PATCH v2 00/13] migrate/ram: Fix resizing RAM blocks while
- migrating
-From: David Hildenbrand <david@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-References: <20200221164204.105570-1-david@redhat.com>
- <20200221180440.GE37727@xz-x1>
- <d10b53cc-89f3-042b-9889-d16ea7572f42@redhat.com>
- <20200224174515.GJ37727@xz-x1>
- <39ced494-023b-e020-e986-218919063af5@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <0ffb449a-84a3-3555-e0c1-0bc842977bb2@redhat.com>
-Date: Mon, 24 Feb 2020 19:59:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <alistair23@gmail.com>) id 1j6JJs-0008Gc-Bt
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:09 -0500
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:34613)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j6JJs-0008Fb-2T; Mon, 24 Feb 2020 14:23:08 -0500
+Received: by mail-lj1-x241.google.com with SMTP id x7so11424724ljc.1;
+ Mon, 24 Feb 2020 11:23:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=f+WrzGPi9LdZONqGSGEOmJiNSYp/XVgP1eRp33dxT5E=;
+ b=O36wpSYxykerRRrDngn5t9HPZPRN4c1w+FsEjUo68wlEJggAjS/QZpJe9Cnx9EHw6M
+ U4EXU+XbWY347xyNqlx69Y1p7BInSdyLzDUuB5grThI3trrdrWVk7AOI9ZgptJFvieUj
+ vfxB7iCcZrZUtNArCG6ybBYMPQNLDAb9pKFlgoPRAA1EyGWMUQOZ0rPvZo4porMYXPa7
+ 5c+JHo92BVB8uSCF4YXxuW4eoLvcrw4griel0AzsLIxBJ6R2G0/N6aTDb8SJZbJnHU/e
+ 7hLH4RBjRHn69wfMB0TfFf6zGXHtYACoKS6hAKx0LyZiXNXEvLHUVDbjqzh/gIPChjZ0
+ oD3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=f+WrzGPi9LdZONqGSGEOmJiNSYp/XVgP1eRp33dxT5E=;
+ b=hOvc3VLSEa5o8t0YadjsJAuRb3IMO27S7yBBvY/xGO2GnxLjKovEWa2wKiVCKQCML+
+ ZZemJ3k9Bzxj1wnl2srwD32rdJc+mpRCMJsGTinNLmwCuaPpGN0stZVe38UNqJXN1bQ/
+ dE+7BVqIildNYeeqOeHmZjR5RyaoaF7Wfv1THasNo+uAtN3Yw+/2XGF2O+5QUBlnJycJ
+ EXmV0fnD02xXlwWHIOuOTTj1Q+n/MD39125qsp/cur1clYv8hnf2om8KqKo/XHEYFiu9
+ qWc+ITV4tSi9hvlMaws92TCswe/YnrcC+KcZT/cYg8MvhKMuk8Cv8XO/nkTlcdEv2wUX
+ XFXg==
+X-Gm-Message-State: APjAAAXshcAz89Ya8qTAbBOI+0Qeg8o5SirUClVN/bGMxUtiBLU66XIg
+ jY1Ajd+YafzIQjXvRUBGBL0qLiqJvlNGZIoBP9Q=
+X-Google-Smtp-Source: APXvYqzLnLC4GhMRWq6GXhx3yy3Dw3K6JggHRJsuHbm3iPLKOPxVnL9oW5RBS58JIZ6vPxiqr95O/kIre1w/HJlXXe8=
+X-Received: by 2002:a2e:7818:: with SMTP id t24mr30576516ljc.195.1582572186344; 
+ Mon, 24 Feb 2020 11:23:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <39ced494-023b-e020-e986-218919063af5@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <1582551584-20093-1-git-send-email-bmeng.cn@gmail.com>
+ <1582551584-20093-5-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1582551584-20093-5-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 24 Feb 2020 11:15:30 -0800
+Message-ID: <CAKmqyKMkrg0fjO5yA-sz1Qva2ET9fmT28tFYfDzhtc=53Hrd+A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] gitlab-ci.yml: Add jobs to build OpenSBI firmware
+ binaries
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,111 +74,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Shannon Zhao <shannon.zhao@linaro.org>, Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.02.20 19:44, David Hildenbrand wrote:
-> On 24.02.20 18:45, Peter Xu wrote:
->> On Mon, Feb 24, 2020 at 10:09:19AM +0100, David Hildenbrand wrote:
->>> On 21.02.20 19:04, Peter Xu wrote:
->>>> On Fri, Feb 21, 2020 at 05:41:51PM +0100, David Hildenbrand wrote:
->>>>> I was now able to actually test resizing while migrating. I am using the
->>>>> prototype of virtio-mem to test (which also makes use of resizable
->>>>> allocations). Things I was able to reproduce:
->>>>
->>>> The test cases cover quite a lot.  Thanks for doing that.
->>>>
->>>>> - Resize while still running on the migration source. Migration is canceled
->>>>> -- Test case for "migraton/ram: Handle RAM block resizes during precopy"
->>>>
->>>>> - Resize (grow+shrink) on the migration target during postcopy migration
->>>>>   (when syncing RAM blocks), while not yet running on the target
->>>>> -- Test case for "migration/ram: Discard new RAM when growing RAM blocks
->>>>>    and the VM is stopped", and overall RAM size synchronization. Seems to
->>>>>    work just fine.
->>>>
->>>> This won't be able to trigger without virtio-mem, right?
->>>
->>> AFAIK all cases can also be triggered without virtio-mem (not just that
->>> easily :) ). This case would be "RAM block is bigger on source than on
->>> destination.".
->>>
->>>>
->>>> And I'm also curious on how to test this even with virtio-mem.  Is
->>>> that a QMP command to extend/shrink virtio-mem?
->>>
->>> Currently, there is a single qom property that can be modifed via
->>> QMP/HMP - "requested-size". With resizable resizable memory backends,
->>> increasing the requested size will also implicitly grow the RAM block.
->>> Shrinking the requested size will currently result in shrinking the RAM
->>> block on the next reboot.
->>>
->>> So, to trigger growing of a RAM block (assuming requested-size was
->>> smaller before, e.g., 1000M)
->>>
->>> echo "qom-set vm1 requested-size 6000M" | sudo nc -U $MON
->>>
->>> To trigger shrinking (assuming requested-size was bigger before)
->>>
->>> echo "qom-set vm1 requested-size 100M" | sudo nc -U $MON
->>> echo 'system_reset' | sudo nc -U $MON
->>>
->>>
->>> Placing these at the right spots during a migration allows to test this
->>> very reliably.
->>
->> I see, thanks for the context.  The question was majorly about when
->> you say "during postcopy migration (when syncing RAM blocks), while
->> not yet running on the target" - it's not easy to do so imho, because:
-> 
-> This case is very easy to trigger, even with acpi. Simply have a ram
-> block on the source be bigger than one on the target. The sync code
-> (migration/ram.c:qemu_ram_resize()) will perform the resize during
-> precopy. Postcopy misses to discard the additional memory.
-> 
-> Maybe my description was confusing. But this really just triggers when
-> 
-> - Postcopy is advised and discards memory on all ram blocks
-> - Precopy grows the RAM block when syncing the RAM block sizes with the
-> source
-> 
-> Postcopy misses to discard the new RAM.
-> 
->>
->>   - it's a very short transition period between precopy and postcopy,
->>     so I was curious about how you made sure that the grow/shrink
->>     happened exactly during that period
->>
->>   - during the period, IIUC it was still in the main thread, which
->>     means logically QEMU should not be able to respond to any QMP/HMP
->>     command at all...  So even if you send a command, I think it'll
->>     only be executed later after the transition completes
->>
->>   - this I'm not sure, but ... even for virtio-mem, the resizing can
->>     only happen after guest ack it, right?  During the precopy to
->>     postcopy transition period, the VM is stopped, AFAICT, so
->>     logically we can't trigger resizing during the transition
+On Mon, Feb 24, 2020 at 5:40 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Add two GitLab jobs to build the OpenSBI firmware binaries.
+>
+> The first job builds a Docker image with the packages requisite
+> to build OpenSBI, and stores this image in the GitLab registry.
+> The second job pulls the image from the registry and builds the
+> OpenSBI firmware binaries.
+>
+> The docker image is only rebuilt if the GitLab YAML or the
+> Dockerfile is updated. The second job is only built when the
+> roms/opensbi/ submodule is updated, when a git-ref starts with
+> 'opensbi' or when the last commit contains 'OpenSBI'. The files
+> generated are archived in the artifacts.zip file.
+>
+> With OpenSBI v0.6, it took 2 minutes 56 seconds to build
+> the docker image, and 1 minute 24 seconds to generate the
+> artifacts.zip with the firmware binaries (filesize: 111KiB).
+>
+> See: https://gitlab.com/lbmeng/qemu/pipelines/120520138
+>
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Regarding that question: Resizes will happen without guest interaction
-(e.g., during a reboot, or when increasing the requested size). In the
-future, there are theoretical plans to have resizes that can be
-triggered by guest interaction/request to some extend as well.
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
--- 
-Thanks,
+Alistair
 
-David / dhildenb
-
+>
+> ---
+>
+> Changes in v2:
+> - new patch: Add GitLab jobs to build OpenSBI firmware binaries
+>
+>  .gitlab-ci-opensbi.yml          | 63 +++++++++++++++++++++++++++++++++++=
+++++++
+>  .gitlab-ci.d/opensbi/Dockerfile | 33 +++++++++++++++++++++
+>  .gitlab-ci.yml                  |  1 +
+>  3 files changed, 97 insertions(+)
+>  create mode 100644 .gitlab-ci-opensbi.yml
+>  create mode 100644 .gitlab-ci.d/opensbi/Dockerfile
+>
+> diff --git a/.gitlab-ci-opensbi.yml b/.gitlab-ci-opensbi.yml
+> new file mode 100644
+> index 0000000..dd051c0
+> --- /dev/null
+> +++ b/.gitlab-ci-opensbi.yml
+> @@ -0,0 +1,63 @@
+> +docker-opensbi:
+> + stage: build
+> + rules: # Only run this job when the Dockerfile is modified
+> + - changes:
+> +   - .gitlab-ci-opensbi.yml
+> +   - .gitlab-ci.d/opensbi/Dockerfile
+> +   when: always
+> + image: docker:19.03.1
+> + services:
+> + - docker:19.03.1-dind
+> + variables:
+> +  GIT_DEPTH: 3
+> +  IMAGE_TAG: $CI_REGISTRY_IMAGE:opensbi-cross-build
+> +  # We don't use TLS
+> +  DOCKER_HOST: tcp://docker:2375
+> +  DOCKER_TLS_CERTDIR: ""
+> + before_script:
+> + - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGIST=
+RY
+> + script:
+> + - docker pull $IMAGE_TAG || true
+> + - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COM=
+MIT_SHA
+> +                                        --tag $IMAGE_TAG .gitlab-ci.d/op=
+ensbi
+> + - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+> + - docker push $IMAGE_TAG
+> +
+> +build-opensbi:
+> + rules: # Only run this job when ...
+> + - changes: # ... roms/opensbi/ is modified (submodule updated)
+> +   - roms/opensbi/*
+> +   when: always
+> + - if: '$CI_COMMIT_REF_NAME =3D~ /^opensbi/' # or the branch/tag starts =
+with 'opensbi'
+> +   when: always
+> + - if: '$CI_COMMIT_MESSAGE =3D~ /opensbi/i' # or last commit description=
+ contains 'OpenSBI'
+> +   when: always
+> + artifacts:
+> +   paths: # 'artifacts.zip' will contains the following files:
+> +   - pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+> +   - pc-bios/opensbi-riscv32-virt-fw_jump.bin
+> +   - pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+> +   - pc-bios/opensbi-riscv64-virt-fw_jump.bin
+> +   - opensbi32-virt-stdout.log
+> +   - opensbi32-virt-stderr.log
+> +   - opensbi64-virt-stdout.log
+> +   - opensbi64-virt-stderr.log
+> +   - opensbi32-sifive_u-stdout.log
+> +   - opensbi32-sifive_u-stderr.log
+> +   - opensbi64-sifive_u-stdout.log
+> +   - opensbi64-sifive_u-stderr.log
+> + image: $CI_REGISTRY_IMAGE:opensbi-cross-build
+> + variables:
+> +   GIT_DEPTH: 3
+> + script: # Clone the required submodules and build OpenSBI
+> + - git submodule update --init roms/opensbi
+> + - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
+> + - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
+> + - make -j${JOBS} -C roms/opensbi clean
+> + - make -j${JOBS} -C roms opensbi32-virt 2>&1 1>opensbi32-virt-stdout.lo=
+g | tee -a opensbi32-virt-stderr.log >&2
+> + - make -j${JOBS} -C roms/opensbi clean
+> + - make -j${JOBS} -C roms opensbi64-virt 2>&1 1>opensbi64-virt-stdout.lo=
+g | tee -a opensbi64-virt-stderr.log >&2
+> + - make -j${JOBS} -C roms/opensbi clean
+> + - make -j${JOBS} -C roms opensbi32-sifive_u 2>&1 1>opensbi32-sifive_u-s=
+tdout.log | tee -a opensbi32-sifive_u-stderr.log >&2
+> + - make -j${JOBS} -C roms/opensbi clean
+> + - make -j${JOBS} -C roms opensbi64-sifive_u 2>&1 1>opensbi64-sifive_u-s=
+tdout.log | tee -a opensbi64-sifive_u-stderr.log >&2
+> diff --git a/.gitlab-ci.d/opensbi/Dockerfile b/.gitlab-ci.d/opensbi/Docke=
+rfile
+> new file mode 100644
+> index 0000000..4ba8a4d
+> --- /dev/null
+> +++ b/.gitlab-ci.d/opensbi/Dockerfile
+> @@ -0,0 +1,33 @@
+> +#
+> +# Docker image to cross-compile OpenSBI firmware binaries
+> +#
+> +FROM ubuntu:18.04
+> +
+> +MAINTAINER Bin Meng <bmeng.cn@gmail.com>
+> +
+> +# Install packages required to build OpenSBI
+> +RUN apt update \
+> +    && \
+> +    \
+> +    DEBIAN_FRONTEND=3Dnoninteractive \
+> +    apt install --assume-yes --no-install-recommends \
+> +        build-essential \
+> +        ca-certificates \
+> +        git \
+> +        make \
+> +        wget \
+> +    && \
+> +    \
+> +    rm -rf /var/lib/apt/lists/*
+> +
+> +# Manually install the kernel.org "Crosstool" based toolchains for gcc-8=
+.3
+> +RUN wget -O - \
+> +    https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64=
+/8.3.0/x86_64-gcc-8.3.0-nolibc-riscv32-linux.tar.xz \
+> +    | tar -C /opt -xJ
+> +RUN wget -O - \
+> +    https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64=
+/8.3.0/x86_64-gcc-8.3.0-nolibc-riscv64-linux.tar.xz \
+> +    | tar -C /opt -xJ
+> +
+> +# Export the toolchains to the system path
+> +ENV PATH=3D"/opt/gcc-8.3.0-nolibc/riscv32-linux/bin:${PATH}"
+> +ENV PATH=3D"/opt/gcc-8.3.0-nolibc/riscv64-linux/bin:${PATH}"
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index c15e394..4c3a72b 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -1,5 +1,6 @@
+>  include:
+>    - local: '/.gitlab-ci-edk2.yml'
+> +  - local: '/.gitlab-ci-opensbi.yml'
+>
+>  before_script:
+>   - apt-get update -qq
+> --
+> 2.7.4
+>
+>
 
