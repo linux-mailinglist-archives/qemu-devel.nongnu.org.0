@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1024116B1F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:17:37 +0100 (CET)
-Received: from localhost ([::1]:43590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C14C16B24D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:29:32 +0100 (CET)
+Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6L6e-0007hx-1m
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:17:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50925)
+	id 1j6LIB-0004FA-C7
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:29:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kmt-00088z-Ij
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:12 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kn5-0000DG-KE
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kms-00040k-Ct
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:11 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:42542)
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kn4-0004CN-8x
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:23 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:54132)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Kms-0003za-42
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:10 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqcnW017744;
- Mon, 24 Feb 2020 20:57:05 GMT
+ id 1j6Kn3-00042p-W6
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:22 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKraG9164141;
+ Mon, 24 Feb 2020 20:57:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=0B1eKZbJOs4Nl5F0dscdR1L40vi/ljBXpJqgDQFRAwQ=;
- b=Vv9oZXb0GeHp71ZaCdHjE6yoEf/BrRA61FgRrSgIjma0ZiByv5kP6xgsh7R9icq7AMNf
- NZnTQ+DceZTYhkAXON3MVFjUVCyX1NU894ExlvgmIKqMyXvO6K4zMMaDoe6wbgWhYMUE
- /u4xAYq3wYDyiSAjSla0rSxMdI2HJSb71dMtFUIlnv9RGKFeYmzD63TPxzoFyV7v8Ykp
- auwd8lRT52wjRInBdGy77m1m2aLckkINOSqo1/4IqDLGFrh+hZBfC8MmngAh2+6dvHLA
- aU3HzKZDZqPDYlcifkEbMxS5nRgT9YC94CDrbXIhOq/lyTmCW2giA2HCwyr5bVtgc3dc cA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 2yavxrhyky-1
+ bh=r33JqoYyvd7qRET/DSaqmHS6AvTJ0RmaWoQwJRwosSY=;
+ b=wPejLVWQJV0EispF7OgFGpqA8zm6wRQeDTIdM/mf7smtF3048/87zIK1fG2upe+p0fK6
+ h7JguyfHvUAXKYbO7rL/G5hndPqKXLWHXdeHVltCb+jRkkiXtNn23lIft3s8qm4+kDcI
+ /sXFFzu0vB2pFnwLoFnql0TfgxdV80El5kOaWcUL4On2odH5opytvEc2tEXouwlfHym0
+ Udtfn3+FDYJvgPUDkgAhukf5QqiQQnS74dFKJ4MZsQJbdHGuSHDW2e0gh8/clMN3x0LJ
+ Zg5mWbwWQuqy2dmCuMEAdC+tuowE9fhF5eHLPFv3ihsqFhnWmVYMnTz2FsJXe6Nefl7m VQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2ybvr4p99a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:57:04 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKucBb072957;
- Mon, 24 Feb 2020 20:57:04 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2ybduv6dxf-1
+ Mon, 24 Feb 2020 20:57:07 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqoFK172448;
+ Mon, 24 Feb 2020 20:57:06 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2ybdshkss5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:57:04 +0000
+ Mon, 24 Feb 2020 20:57:06 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKv3h1028883;
- Mon, 24 Feb 2020 20:57:03 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKv42U028905;
+ Mon, 24 Feb 2020 20:57:05 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:57:03 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:57:04 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 43/50] multi-process/mig: Load VMSD in the proxy object
-Date: Mon, 24 Feb 2020 15:55:34 -0500
-Message-Id: <728f5cdb2108ccfd0916c1efcc8c7dab99daf6ad.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 44/50] multi-process/mig: refactor runstate_check into
+ common file
+Date: Mon, 24 Feb 2020 15:55:35 -0500
+Message-Id: <99597f15a6e42c34b5a2e7f88430ed56c89feb76.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -63,21 +64,21 @@ In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=1
- mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240154
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- lowpriorityscore=0
- spamscore=0 clxscore=1015 suspectscore=1 bulkscore=0 mlxlogscore=999
- malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=1 spamscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2002240153
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ spamscore=0
+ clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,96 +103,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-The Proxy object loads the VMSD of remote process in source
-and send it to the remote process in the destination
+runstate_check file is refactored into vl-parse.c
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/proxy/qemu-proxy.c    | 50 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/io/mpqemu-link.h |  1 +
- 2 files changed, 51 insertions(+)
+ Makefile.objs             |  2 ++
+ include/sysemu/runstate.h |  2 ++
+ runstate.c                | 36 ++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c              | 10 ----------
+ stubs/runstate-check.c    |  3 +++
+ 5 files changed, 43 insertions(+), 10 deletions(-)
+ create mode 100644 runstate.c
 
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 19f0dbb..1649f60 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -581,12 +581,62 @@ static int proxy_post_save(void *opaque)
+diff --git a/Makefile.objs b/Makefile.objs
+index 65009da..cf2200d 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -40,6 +40,7 @@ remote-pci-obj-$(CONFIG_MPQEMU) += blockdev.o
+ remote-pci-obj-$(CONFIG_MPQEMU) += qdev-monitor.o
+ remote-pci-obj-$(CONFIG_MPQEMU) += bootdevice.o
+ remote-pci-obj-$(CONFIG_MPQEMU) += iothread.o
++remote-pci-obj-$(CONFIG_MPQEMU) += runstate.o
+ 
+ ##############################################################
+ # remote-lsi-obj-y is code used to implement remote LSI device
+@@ -103,6 +104,7 @@ qemu-seccomp.o-libs := $(SECCOMP_LIBS)
+ common-obj-$(CONFIG_FDT) += device_tree.o
+ 
+ common-obj-y += vl-parse.o
++common-obj-y += runstate.o
+ 
+ #######################################################################
+ # qapi
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+index f760094..ece939f 100644
+--- a/include/sysemu/runstate.h
++++ b/include/sysemu/runstate.h
+@@ -4,6 +4,8 @@
+ #include "qapi/qapi-types-run-state.h"
+ #include "qemu/notify.h"
+ 
++extern RunState current_run_state;
++
+ bool runstate_check(RunState state);
+ void runstate_set(RunState new_state);
+ int runstate_is_running(void);
+diff --git a/runstate.c b/runstate.c
+new file mode 100644
+index 0000000..273345a
+--- /dev/null
++++ b/runstate.c
+@@ -0,0 +1,36 @@
++/*
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "sysemu/runstate.h"
++
++/***********************************************************/
++/* QEMU state */
++
++RunState current_run_state = RUN_STATE_PRECONFIG;
++
++bool runstate_check(RunState state)
++{
++    return current_run_state == state;
++}
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 42d5682..d95ee2f 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -620,11 +620,6 @@ static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
      return 0;
  }
  
-+static int proxy_post_load(void *opaque, int version_id)
-+{
-+    MigrationIncomingState *mis = migration_incoming_get_current();
-+    PCIProxyDev *pdev = opaque;
-+    QEMUFile *f_remote;
-+    MPQemuMsg msg = {0};
-+    Error *err = NULL;
-+    QIOChannel *ioc;
-+    uint64_t size;
-+    uint8_t byte;
-+    int fd[2];
-+
-+    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
-+        return -1;
-+    }
-+
-+    ioc = qio_channel_new_fd(fd[0], &err);
-+    if (err) {
-+        error_report_err(err);
-+        return -1;
-+    }
-+
-+    qio_channel_set_name(QIO_CHANNEL(ioc), "proxy-migration-channel");
-+
-+    f_remote = qemu_fopen_channel_output(ioc);
-+
-+    msg.cmd = START_MIG_IN;
-+    msg.bytestream = 0;
-+    msg.num_fds = 1;
-+    msg.fds[0] = fd[1];
-+
-+    mpqemu_msg_send(&msg, pdev->mpqemu_link->com);
-+
-+    size = pdev->migsize;
-+
-+    while (size) {
-+        byte = qemu_get_byte(mis->from_src_file);
-+        qemu_put_byte(f_remote, byte);
-+        size--;
-+    }
-+
-+    qemu_fflush(f_remote);
-+    qemu_fclose(f_remote);
-+
-+    close(fd[1]);
-+
-+    return 0;
-+}
-+
- const VMStateDescription vmstate_pci_proxy_device = {
-     .name = "PCIProxyDevice",
-     .version_id = 2,
-     .minimum_version_id = 1,
-     .pre_save = proxy_pre_save,
-     .post_save = proxy_post_save,
-+    .post_load = proxy_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_PCI_DEVICE(parent_dev, PCIProxyDev),
-         VMSTATE_UINT64(migsize, PCIProxyDev),
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index b42c003..01371fc 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -64,6 +64,7 @@ typedef enum {
-     MMIO_RETURN,
-     DEVICE_RESET,
-     START_MIG_OUT,
-+    START_MIG_IN,
-     MAX,
- } mpqemu_cmd_t;
+-/***********************************************************/
+-/* QEMU state */
+-
+-static RunState current_run_state = RUN_STATE_PRECONFIG;
+-
+ /* We use RUN_STATE__MAX but any invalid value will do */
+ static RunState vmstop_requested = RUN_STATE__MAX;
+ static QemuMutex vmstop_lock;
+@@ -732,11 +727,6 @@ static const RunStateTransition runstate_transitions_def[] = {
  
+ static bool runstate_valid_transitions[RUN_STATE__MAX][RUN_STATE__MAX];
+ 
+-bool runstate_check(RunState state)
+-{
+-    return current_run_state == state;
+-}
+-
+ bool runstate_store(char *str, size_t size)
+ {
+     const char *state = RunState_str(current_run_state);
+diff --git a/stubs/runstate-check.c b/stubs/runstate-check.c
+index 2ccda2b..3038bcb 100644
+--- a/stubs/runstate-check.c
++++ b/stubs/runstate-check.c
+@@ -1,6 +1,9 @@
+ #include "qemu/osdep.h"
+ 
+ #include "sysemu/runstate.h"
++
++#pragma weak runstate_check
++
+ bool runstate_check(RunState state)
+ {
+     return state == RUN_STATE_PRELAUNCH;
 -- 
 1.8.3.1
 
