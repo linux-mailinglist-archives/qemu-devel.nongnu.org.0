@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9220B16B2C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:39:39 +0100 (CET)
-Received: from localhost ([::1]:44240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F27D16B32C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:52:02 +0100 (CET)
+Received: from localhost ([::1]:44574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6LRy-00058u-Iq
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:39:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52947)
+	id 1j6Ldx-0007Sy-Gz
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:52:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6Kqb-0006T1-U2
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:01:06 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j6L3l-0004Lh-6N
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:14:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6KqZ-0006xl-S7
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:01:01 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47911
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6KqZ-0006xW-MH
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:00:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582578059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ehvKGAPOosWcWjM7c+JiX7hQcGnYtgAyaHGeajZW5eI=;
- b=AIODBflUUnbXb3OmUAQz4Ph5ud5cEFXC3uIYJ+6CLMXNyUsGBSoy0cgdOhnf+bVoVKCdm9
- OYF+k53GnfktUDF6Ck88i3af/Zq90opX36XKNbx/smo7mxl9DCay+RR0lce7Jy9OIEWosK
- XaAVLCrh8u33JcnuPzGbil31wx+I3FY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-l-4UszzkNuyJgQ6-BFxxGw-1; Mon, 24 Feb 2020 16:00:52 -0500
-X-MC-Unique: l-4UszzkNuyJgQ6-BFxxGw-1
-Received: by mail-wm1-f70.google.com with SMTP id k21so148713wmi.2
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 13:00:52 -0800 (PST)
+ (envelope-from <alistair23@gmail.com>) id 1j6L3j-0005Zp-Qk
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:14:37 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:46707)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j6L3j-0005Zj-Ic; Mon, 24 Feb 2020 16:14:35 -0500
+Received: by mail-lj1-x242.google.com with SMTP id x14so11667575ljd.13;
+ Mon, 24 Feb 2020 13:14:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DpmcIpYkhMd8gIVEQLN/V4ghbiYvOSH+iuTZEKEuNnc=;
+ b=F7F7Dutopk7w0aRMQ6iP5Pqksz6i3byJFhvgOUdr16q28oPfJyuSU3en4+hjxniWMI
+ GkSS4zzkrv3wHOiQZULTJp6TSPOTgVbe07kku8BZPIR9vAl2/+c+SeIBDWiPyXN9gvoi
+ DObcI6UAtNimHvWCGiyUXjsHdO4RQONvdjC/+F6i4UlgOYuoK0hncTMX8TLeO3F0GS3o
+ 1OWksr/Jk2ElK3pFrUTrXgmLTSetsN5h7sko/Kiw+nRZnYYJ74zrfoXaTyFWAi1OsK0Q
+ eAmHQH4fj8OVyiG7RJkebbcMLGBft/9k3v9N3TzBsI92vJlOQkIvHK7rYUhJOMClWrGx
+ rEQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YaYqhOso/0SethG4mmMAwY9GG/8uI+Dgyw1r6dW2mU0=;
- b=Ot1r4mCUPr7Cc2HqpybLAQywn2dpqaJtLvhfKt3MCMM/jVwJTeoLm16W5zFmQLLXf9
- Eo7JHybXWbyVbpJjQvhrM5W3JYdc/jFw7mUf2P5ZxY2kRC3wihHLlYnvomVKhTQ0wk1z
- czDMSiJ93S0BH8N/uxyQQr7Daa3Tlh6Vplw6GKgracrZU0KZRRgaHeiXj1y79vTDdoc0
- YV/581QsMJjqlUm2E6XnTX8N8PNGqryhwXL9Jcn6BdJhMSUItqBO7zdVksxZ728D+Us4
- fyFac6gZDVWmSWhDD14L7LKuJw+VWivB7LO9na0KBEtLOEosE4pHUdVgFWOzxxC+5o2x
- TtfQ==
-X-Gm-Message-State: APjAAAVz2d7JszEGzbBndEcid40ZjEFQEB/STurVbrbdux3JUafLG77I
- tbsyOXdJVIVfuG1y0YJOX6FgrLRUaTG0qi9dSPon74sLaEgPpOjikQ3b9qzgnwSr2JF/k2z9T+5
- H9UCJ2pLZWEkkFWU=
-X-Received: by 2002:a7b:c14d:: with SMTP id z13mr873501wmi.71.1582578050778;
- Mon, 24 Feb 2020 13:00:50 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxj4xEE3tb64O3s0QY/0hFnZ/dJiaS9DHJ/+eXlD+Y1/44wd4icBTPo+NadppqvBxEgVHmAYw==
-X-Received: by 2002:a7b:c14d:: with SMTP id z13mr873475wmi.71.1582578050428;
- Mon, 24 Feb 2020 13:00:50 -0800 (PST)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id z14sm3632948wru.31.2020.02.24.13.00.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 13:00:49 -0800 (PST)
-Subject: Re: [PATCH] tests/acceptance: Count multiple Tux logos displayed on
- framebuffer
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200201204751.17810-1-f4bug@amsat.org>
- <CAL1e-=jqy1bcY-bt0hFxn+X_FQ095kqa__hRMUV1Bs0FjG8SiQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <65cb0397-baea-e18b-c549-c05efe55ecc1@redhat.com>
-Date: Mon, 24 Feb 2020 22:00:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DpmcIpYkhMd8gIVEQLN/V4ghbiYvOSH+iuTZEKEuNnc=;
+ b=s9IdfWnjVKCx8jTfhJl1yc83wtVjF2IhXPYLfoBGIeK/23deXw1sKZcvpGenyEpbEr
+ 7IBkNEP1Zj6bvHMGfoWWE0BqG6UTZoA867fYQt8RK1dtzTaSpCTvOcaY92HIfLcKpEoB
+ jz3mRD6quoYSiDbkCGVmGu2wo4PhbbiaA9omm67cFAW3eAIy3e6y2XX8LrarQqn39Pt5
+ VJBcxF2bOsgSL4bDqxqp0+MdRUm2Ek1YY9/qEPo7LOERwY//6gzwO4u0TZp1AjAR4MUg
+ x1YlAV4NaxrHx5RzjgHGqdSLG8oDLVrWCBRQm7DzG1QDJ9ZADhuo3iK0oNps2QcARRLQ
+ /6IA==
+X-Gm-Message-State: APjAAAUDNw83fN1K82NA4DP5tmICpfey5SsatzEtHjgWwGD7/GxhtMr4
+ WncZScT/KnPV6atrX5sWVGXx1hcyudUhQJahg0I=
+X-Google-Smtp-Source: APXvYqxo8vWrZ4h0ZITPEgSpVyhHcSLU2Pp1EYpZ66GiL7AwYRAxEB99CYU6VGO42G185akg61IsJG+clmZs10lwmAU=
+X-Received: by 2002:a2e:a36a:: with SMTP id i10mr30572614ljn.107.1582578873907; 
+ Mon, 24 Feb 2020 13:14:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jqy1bcY-bt0hFxn+X_FQ095kqa__hRMUV1Bs0FjG8SiQ@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <1581861317-30977-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1581861317-30977-1-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 24 Feb 2020 13:06:55 -0800
+Message-ID: <CAKmqyKNw6bwiWKbT=0_Yy4CZNrnSjUtyU_TL0G2HMq1WKstK4g@mail.gmail.com>
+Subject: Re: [PATCH v2] riscv: sifive_u: Add a "serial" property for board
+ serial number
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,294 +71,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:Stellaris" <qemu-arm@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- Leon Alrae <leon.alrae@imgtec.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
+On Sun, Feb 16, 2020 at 5:56 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> At present the board serial number is hard-coded to 1, and passed
+> to OTP model during initialization. Firmware (FSBL, U-Boot) uses
+> the serial number to generate a unique MAC address for the on-chip
+> ethernet controller. When multiple QEMU 'sifive_u' instances are
+> created and connected to the same subnet, they all have the same
+> MAC address hence it creates a unusable network.
+>
+> A new "serial" property is introduced to specify the board serial
+> number. When not given, the default serial number 1 is used.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> ---
+>
+> Changes in v2:
+> - Move setting OTP serial number property from riscv_sifive_u_soc_init()
+>   to riscv_sifive_u_soc_realize(), to fix the 'check-qtest-riscv' error.
+>   I am not really sure why doing so could fix the 'make check' error.
+>   The v1 patch worked fine and nothing seems wrong.
+>
+>  hw/riscv/sifive_u.c         | 21 ++++++++++++++++++++-
+>  include/hw/riscv/sifive_u.h |  1 +
+>  2 files changed, 21 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 0e12b3c..ca561d3 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -34,6 +34,7 @@
+>  #include "qemu/log.h"
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
+> +#include "qapi/visitor.h"
+>  #include "hw/boards.h"
+>  #include "hw/loader.h"
+>  #include "hw/sysbus.h"
+> @@ -434,7 +435,6 @@ static void riscv_sifive_u_soc_init(Object *obj)
+>                            TYPE_SIFIVE_U_PRCI);
+>      sysbus_init_child_obj(obj, "otp", &s->otp, sizeof(s->otp),
+>                            TYPE_SIFIVE_U_OTP);
+> -    qdev_prop_set_uint32(DEVICE(&s->otp), "serial", OTP_SERIAL);
+>      sysbus_init_child_obj(obj, "gem", &s->gem, sizeof(s->gem),
+>                            TYPE_CADENCE_GEM);
+>  }
+> @@ -453,6 +453,18 @@ static void sifive_u_set_start_in_flash(Object *obj, bool value, Error **errp)
+>      s->start_in_flash = value;
+>  }
+>
+> +static void sifive_u_get_serial(Object *obj, Visitor *v, const char *name,
+> +                                void *opaque, Error **errp)
+> +{
+> +    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
+> +}
+> +
+> +static void sifive_u_set_serial(Object *obj, Visitor *v, const char *name,
+> +                                void *opaque, Error **errp)
+> +{
+> +    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
 
-On 2/24/20 9:54 PM, Aleksandar Markovic wrote:
-> On Sat, Feb 1, 2020 at 9:48 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->>
->> Add a test that verifies that each core properly displays the Tux
->> logo on the framebuffer device.
->>
->=20
-> Philippe,
->=20
-> I would like to select this patch for the next MIPS queue, scheduled
-> in next few days.
->=20
-> It looks to me there are no prerequisites for this patch to be applied
-> on current master, but I may be wrong. Philippe, is this correct or
-> not (selecting the patch for the queue independently on other similar
-> or any other patches not yet in master)?
+This is a little confusing. Maybe it's worth adding a comment that
+opaque is s->serial?
 
-You are correct, there are no prerequisites.
+Either that or change opaque to be SiFiveUState *s and then access
+serial via the struct.
 
-If you want to quickly run a SMP test with:
+> +}
+> +
+>  static void riscv_sifive_u_machine_instance_init(Object *obj)
+>  {
+>      SiFiveUState *s = RISCV_U_MACHINE(obj);
+> @@ -464,11 +476,17 @@ static void riscv_sifive_u_machine_instance_init(Object *obj)
+>                                      "Set on to tell QEMU's ROM to jump to " \
+>                                      "flash. Otherwise QEMU will jump to DRAM",
+>                                      NULL);
+> +
+> +    s->serial = OTP_SERIAL;
+> +    object_property_add(obj, "serial", "uint32", sifive_u_get_serial,
+> +                        sifive_u_set_serial, NULL, &s->serial, NULL);
+> +    object_property_set_description(obj, "serial", "Board serial number", NULL);
+>  }
+>
+>  static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>  {
+>      MachineState *ms = MACHINE(qdev_get_machine());
+> +    SiFiveUState *us = RISCV_U_MACHINE(ms);
 
-"avocado --show=3Dapp run -t mips:smp tests/acceptance"
+I don't think the Soc should access the machine like this. What if we
+use this Soc on a different machine?
 
-(see below...)
+There should be a SoC "serial" property that is set before realise as well.
 
->=20
-> Thanks again!
-> Aleksandar
->=20
->=20
->> We simply follow the OpenCV "Template Matching with Multiple Objects"
->> tutorial, replacing Lionel Messi by Tux:
->> https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
->>
->> When OpenCV and NumPy are installed, this test can be run using:
->>
->>    $ avocado --show=3Dapp,framebuffer \
->>      run -t cpu:i6400 \
->>      tests/acceptance/machine_mips_malta.py
->>    JOB ID     : 54f3d8efd8674f289b8aa01a87f5d70c5814544c
->>    JOB LOG    : avocado/job-results/job-2020-02-01T20.52-54f3d8e/job.log
->>     (1/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer=
-.test_mips_malta_i6400_framebuffer_logo_1core:
->>    framebuffer: found Tux at position (x, y) =3D (0, 0)
->>    PASS (3.37 s)
->>     (2/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer=
-.test_mips_malta_i6400_framebuffer_logo_7cores:
->>    framebuffer: found Tux at position (x, y) =3D (0, 0)
->>    framebuffer: found Tux at position (x, y) =3D (88, 0)
->>    framebuffer: found Tux at position (x, y) =3D (176, 0)
->>    framebuffer: found Tux at position (x, y) =3D (264, 0)
->>    framebuffer: found Tux at position (x, y) =3D (352, 0)
->>    framebuffer: found Tux at position (x, y) =3D (440, 0)
->>    framebuffer: found Tux at position (x, y) =3D (528, 0)
->>    PASS (5.80 s)
->>     (3/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer=
-.test_mips_malta_i6400_framebuffer_logo_8cores:
->>    framebuffer: found Tux at position (x, y) =3D (0, 0)
->>    framebuffer: found Tux at position (x, y) =3D (88, 0)
->>    framebuffer: found Tux at position (x, y) =3D (176, 0)
->>    framebuffer: found Tux at position (x, y) =3D (264, 0)
->>    framebuffer: found Tux at position (x, y) =3D (352, 0)
->>    framebuffer: found Tux at position (x, y) =3D (440, 0)
->>    framebuffer: found Tux at position (x, y) =3D (528, 0)
->>    framebuffer: found Tux at position (x, y) =3D (616, 0)
->>    PASS (6.67 s)
->>    RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
-0 | CANCEL 0
->>    JOB TIME   : 16.79 s
->>
->> If the AVOCADO_CV2_SCREENDUMP_PNG_PATH environment variable is set, the
->> test will save the screenshot with matched squares to it.
->>
->> Test inspired by the following post:
->> https://www.mips.com/blog/how-to-run-smp-linux-in-qemu-on-a-mips64-relea=
-se-6-cpu/
->> Kernel built with the following Docker file:
->> https://github.com/philmd/qemu-testing-blob/blob/malta_i6400/mips/malta/=
-mips64el/Dockerfile
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->> The resulting match can be visualised at https://pasteboard.co/ISIj6ZA.p=
-ng
->> Generated using:
->>
->>    $ AVOCADO_CV2_SCREENDUMP_PNG_PATH=3D/tmp/screendump_matched.png \
->>      avocado --show=3Dapp run -t cpu:i6400 \
->>      tests/acceptance/machine_mips_malta.py
->>    JOB ID     : 54f3d8efd8674f289b8aa01a87f5d70c5814544c
->>    JOB LOG    : avocado/job-results/job-2020-02-01T20.52-54f3d8e/job.log
->>     (1/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer=
-.test_mips_malta_i6400_framebuffer_logo_1core: PASS (3.37 s)
->>     (2/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer=
-.test_mips_malta_i6400_framebuffer_logo_7cores: PASS (5.80 s)
->>     (3/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer=
-.test_mips_malta_i6400_framebuffer_logo_8cores: PASS (6.67 s)
->>    RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
-0 | CANCEL 0
->>    JOB TIME   : 16.79 s
->> ---
->>   MAINTAINERS                            |   1 +
->>   tests/acceptance/machine_mips_malta.py | 116 +++++++++++++++++++++++++
->>   2 files changed, 117 insertions(+)
->>   create mode 100644 tests/acceptance/machine_mips_malta.py
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 4ceb1ad882..65a3dfb564 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -983,6 +983,7 @@ F: hw/mips/mips_malta.c
->>   F: hw/mips/gt64xxx_pci.c
->>   F: include/hw/southbridge/piix.h
->>   F: tests/acceptance/linux_ssh_mips_malta.py
->> +F: tests/acceptance/machine_mips_malta.py
->>
->>   Mipssim
->>   M: Aleksandar Markovic <amarkovic@wavecomp.com>
->> diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/m=
-achine_mips_malta.py
->> new file mode 100644
->> index 0000000000..2764143d15
->> --- /dev/null
->> +++ b/tests/acceptance/machine_mips_malta.py
->> @@ -0,0 +1,116 @@
->> +# Functional tests for the MIPS Malta board
->> +#
->> +# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
->> +# See the COPYING file in the top-level directory.
->> +#
->> +# SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +import os
->> +import gzip
->> +import logging
->> +
->> +from avocado import skipUnless
->> +from avocado_qemu import Test
->> +from avocado_qemu import wait_for_console_pattern
->> +from avocado.utils import archive
->> +
->> +
->> +NUMPY_AVAILABLE =3D True
->> +try:
->> +    import numpy as np
->> +except ImportError:
->> +    NUMPY_AVAILABLE =3D False
->> +
->> +CV2_AVAILABLE =3D True
->> +try:
->> +    import cv2
->> +except ImportError:
->> +    CV2_AVAILABLE =3D False
->> +
->> +
->> +@skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
->> +@skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
->> +class MaltaMachineFramebuffer(Test):
->> +
->> +    timeout =3D 30
->> +
->> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
->> +
->> +    def do_test_i6400_framebuffer_logo(self, cpu_cores_count):
->> +        """
->> +        Boot Linux kernel and check Tux logo is displayed on the frameb=
-uffer.
->> +        """
->> +        screendump_path =3D os.path.join(self.workdir, 'screendump.pbm'=
-)
->> +
->> +        kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/ra=
-w/'
->> +                      'a5966ca4b5/mips/malta/mips64el/'
->> +                      'vmlinux-4.7.0-rc1.I6400.gz')
->> +        kernel_hash =3D '096f50c377ec5072e6a366943324622c312045f6'
->> +        kernel_path_gz =3D self.fetch_asset(kernel_url, asset_hash=3Dke=
-rnel_hash)
->> +        kernel_path =3D self.workdir + "vmlinux"
->> +        archive.gzip_uncompress(kernel_path_gz, kernel_path)
->> +
->> +        tuxlogo_url =3D ('https://github.com/torvalds/linux/raw/v2.6.12=
-/'
->> +                       'drivers/video/logo/logo_linux_vga16.ppm')
->> +        tuxlogo_hash =3D '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
->> +        tuxlogo_path =3D self.fetch_asset(tuxlogo_url, asset_hash=3Dtux=
-logo_hash)
->> +
->> +        self.vm.set_console()
->> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
->> +                               'clocksource=3DGIC console=3Dtty0 consol=
-e=3DttyS0')
->> +        self.vm.add_args('-kernel', kernel_path,
->> +                         '-cpu', 'I6400',
->> +                         '-smp', '%u' % cpu_cores_count,
->> +                         '-vga', 'std',
->> +                         '-append', kernel_command_line)
->> +        self.vm.launch()
->> +        framebuffer_ready =3D 'Console: switching to colour frame buffe=
-r device'
->> +        wait_for_console_pattern(self, framebuffer_ready,
->> +                                 failure_message=3D'Kernel panic - not =
-syncing')
->> +        self.vm.command('human-monitor-command', command_line=3D'stop')
->> +        self.vm.command('human-monitor-command',
->> +                        command_line=3D'screendump %s' % screendump_pat=
-h)
->> +        logger =3D logging.getLogger('framebuffer')
->> +
->> +        match_threshold =3D 0.95
->> +        screendump_bgr =3D cv2.imread(screendump_path, cv2.IMREAD_COLOR=
-)
->> +        tuxlogo_bgr =3D cv2.imread(tuxlogo_path, cv2.IMREAD_COLOR)
->> +        result =3D cv2.matchTemplate(screendump_bgr, tuxlogo_bgr,
->> +                                   cv2.TM_CCOEFF_NORMED)
->> +        loc =3D np.where(result >=3D match_threshold)
->> +        tuxlogo_count =3D 0
->> +        h, w =3D tuxlogo_bgr.shape[:2]
->> +        debug_png =3D os.getenv('AVOCADO_CV2_SCREENDUMP_PNG_PATH')
->> +        for tuxlogo_count, pt in enumerate(zip(*loc[::-1]), start=3D1):
->> +            logger.debug('found Tux at position (x, y) =3D %s', pt)
->> +            cv2.rectangle(screendump_bgr, pt,
->> +                          (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
->> +        if debug_png:
->> +            cv2.imwrite(debug_png, screendump_bgr)
->> +        self.assertGreaterEqual(tuxlogo_count, cpu_cores_count)
->> +
->> +    def test_mips_malta_i6400_framebuffer_logo_1core(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dmachine:malta
->> +        :avocado: tags=3Dcpu:i6400
->> +        """
->> +        self.do_test_i6400_framebuffer_logo(1)
->> +
->> +    def test_mips_malta_i6400_framebuffer_logo_7cores(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dmachine:malta
->> +        :avocado: tags=3Dcpu:i6400
+Alistair
 
-You might want to add this tag here (or similar):
-
-             :avocado: tags=3Dmips:smp
-
->> +        """
->> +        self.do_test_i6400_framebuffer_logo(7)
->> +
->> +    def test_mips_malta_i6400_framebuffer_logo_8cores(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dmachine:malta
->> +        :avocado: tags=3Dcpu:i6400
-
-And here:
-
-             :avocado: tags=3Dmips:smp
-
-Anyway we can add that later.
-
-Regards,
-
-Phil.
-
->> +        """
->> +        self.do_test_i6400_framebuffer_logo(8)
->> --
->> 2.21.1
->>
->>
->=20
-
+>      SiFiveUSoCState *s = RISCV_U_SOC(dev);
+>      const struct MemmapEntry *memmap = sifive_u_memmap;
+>      MemoryRegion *system_memory = get_system_memory();
+> @@ -554,6 +572,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>      object_property_set_bool(OBJECT(&s->prci), true, "realized", &err);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].base);
+>
+> +    qdev_prop_set_uint32(DEVICE(&s->otp), "serial", us->serial);
+>      object_property_set_bool(OBJECT(&s->otp), true, "realized", &err);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->otp), 0, memmap[SIFIVE_U_OTP].base);
+>
+> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> index 82667b5..7cf742e 100644
+> --- a/include/hw/riscv/sifive_u.h
+> +++ b/include/hw/riscv/sifive_u.h
+> @@ -59,6 +59,7 @@ typedef struct SiFiveUState {
+>      int fdt_size;
+>
+>      bool start_in_flash;
+> +    uint32_t serial;
+>  } SiFiveUState;
+>
+>  enum {
+> --
+> 2.7.4
+>
+>
 
