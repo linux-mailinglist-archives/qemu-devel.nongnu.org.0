@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C549516B41D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:34:40 +0100 (CET)
-Received: from localhost ([::1]:45496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D76416B432
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:40:02 +0100 (CET)
+Received: from localhost ([::1]:45616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6MJD-0007Ps-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:34:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38933)
+	id 1j6MOP-0005OQ-NC
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:40:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1j6MD4-00065P-6R
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:28:19 -0500
+ (envelope-from <peterx@redhat.com>) id 1j6MD1-00062j-QX
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:28:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1j6MD3-0008Cn-0j
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:28:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56463
+ (envelope-from <peterx@redhat.com>) id 1j6MCz-0008BB-MY
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:28:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35573
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1j6MD1-0008BX-PA
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:28:16 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j6MCz-0008Au-Ha
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:28:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582583294;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1582583292;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sfPB5TpnY3oGZn07xohGC7FCr3H98PkvPpnhvVa9Elg=;
- b=XC6bN25hivUtZPTnuMC0XK9SbTBkviEst3HbjsOMM97U6JL9KZWx6EDgU06/RHydUzMF0h
- Bs3Q+EII1poU9piQvWPnJZC/HCIrL2bM/O+k/z8dPULgd5p/ZI+i4aZjyKYFzQt1xulzVI
- A7niGDnnNRg12xMDqGS1RNhCaE/iKgs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-DVLYaDESO1myMv1glPgHwA-1; Mon, 24 Feb 2020 17:28:10 -0500
-X-MC-Unique: DVLYaDESO1myMv1glPgHwA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 065841084420;
- Mon, 24 Feb 2020 22:28:09 +0000 (UTC)
-Received: from localhost.localdomain (vpn2-54-79.bne.redhat.com [10.64.54.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 534911001902;
- Mon, 24 Feb 2020 22:28:06 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm: Use TYPE_PL011 to create serial port
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20200224041633.97345-1-gshan@redhat.com>
- <ea5d13ba-e736-2c73-f2c0-6e42e512afa2@redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <1ac61bd1-024c-f596-73c7-6d9488c9fd50@redhat.com>
-Date: Tue, 25 Feb 2020 09:28:04 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ bh=zgI1K+21peNRJDmnDadGsOvelt93XQuoWiPQeH5ctyI=;
+ b=Vm01wojig9notzgV9uWO/27Q3kUdT3T6KmfNamkGOdU1RRvrY8o2ORN53kDfMHs2QOREFt
+ H/TJ9uCn+DUtVqpwYp5GrHLc6bkC7/E3wXqc+6Kqsa8KcwbDrsvmzIM6uE7aqFxM1xzsYf
+ gf9LNs2aSWHSmd2SHRrfSkVH9MuTPCc=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-tqBPDoZpP12uaH8XuM8Y3Q-1; Mon, 24 Feb 2020 17:28:10 -0500
+X-MC-Unique: tqBPDoZpP12uaH8XuM8Y3Q-1
+Received: by mail-qt1-f200.google.com with SMTP id t4so12376392qtd.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:28:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=olLjovBa1OUDw4zqoxz3s1flPeig+b61lXv7UqNAknY=;
+ b=DSsgLHknEN8lndcCHnsKO97O9PqtUjWB/ITUiQXnORrLa54PwjNQ5Ofmyic3PkThnA
+ AnCXqjpTJznDY/59tVbr3+KhKK8T5RfKIqQIb5VcNyH/3czuAM/Eqh/2XdKiDgqE++N8
+ emD+Q2h7AUEOhog+jv0qBOo2nKvlRDA7NT8+9z22jgAzw6AVnezY+lAa3pp+5R39ewsK
+ XIZk8e+4KWS83yFeSZWrPHDtE+sE9eAP134ZlYmYzM0cYWEsQvN0CbIEmbwPNC4voPvg
+ tMwsrlEFWLIJva7AQH62HkBe9PmdbajWd86UGFEuFpzxg0MH5BtMjoQtMxA+PIn4LfjX
+ gIvw==
+X-Gm-Message-State: APjAAAVD1cb7Yi025n6M9LcbCZQmwSA7dEqhDtdEiFjI52zz5HpBBt3S
+ lq6M1NtAXadj19ECxA5jYUXLyC+hobsp9WgEulLpfFdo9V5TNQqYyCs/dM+/bSR9DFMO6f+2iFj
+ 1d/SmRc+cqvf9hzc=
+X-Received: by 2002:aed:2266:: with SMTP id o35mr50250275qtc.392.1582583289881; 
+ Mon, 24 Feb 2020 14:28:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwHMhrwa4OWzkQCr8ve81WReztE7GcW2JtmBOOFZZk4TbpQbSj111jWOaKr+BtngR10iUtvEQ==
+X-Received: by 2002:aed:2266:: with SMTP id o35mr50250261qtc.392.1582583289679; 
+ Mon, 24 Feb 2020 14:28:09 -0800 (PST)
+Received: from xz-x1 ([104.156.64.75])
+ by smtp.gmail.com with ESMTPSA id o16sm1318176qke.35.2020.02.24.14.28.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Feb 2020 14:28:08 -0800 (PST)
+Date: Mon, 24 Feb 2020 17:28:07 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 07/13] migration/ram: Discard RAM when growing RAM
+ blocks after ram_postcopy_incoming_init()
+Message-ID: <20200224222807.GD113102@xz-x1>
+References: <20200221164204.105570-1-david@redhat.com>
+ <20200221164204.105570-8-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ea5d13ba-e736-2c73-f2c0-6e42e512afa2@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200221164204.105570-8-david@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,110 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, radoslaw.biernacki@linaro.org,
- alistair@alistair23.me, shan.gavin@gmail.com, edgar.iglesias@gmail.com,
- leif@nuviainc.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/20 7:41 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 2/24/20 5:16 AM, Gavin Shan wrote:
->> This uses TYPE_PL011 when creating the serial port, to make the code
->> a bit more atomatic.
+On Fri, Feb 21, 2020 at 05:41:58PM +0100, David Hildenbrand wrote:
+> In case we grow our RAM after ram_postcopy_incoming_init() (e.g., when
+> synchronizing the RAM block state with the migration source), the resized
+> part would not get discarded. Let's perform that when being notified
+> about a resize while postcopy has been advised, but is not listening
+> yet. With precopy, the process is as following:
 >=20
-> Do you mean aUtomatic? I'm not sure this automate the code, but using the=
- TYPE definition is definitively cleaner.
+> 1. VM created
+> - RAM blocks are created
+> 2. Incomming migration started
+> - Postcopy is advised
+> - All pages in RAM blocks are discarded
+> 3. Precopy starts
+> - RAM blocks are resized to match the size on the migration source.
+> - RAM pages from precopy stream are loaded
+> - Uffd handler is registered, postcopy starts listening
+> 3. Guest started, postcopy running
+> - Pagefaults get resolved, pages get placed
 >=20
-> With description fixed:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Sure, v2 was just posted with the commit log improved according to
-your comments.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Thanks,
-Gavin
-
->>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> ---
->> =C2=A0 hw/arm/sbsa-ref.c=C2=A0=C2=A0=C2=A0 | 3 ++-
->> =C2=A0 hw/arm/virt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
->> =C2=A0 hw/arm/xlnx-versal.c | 3 ++-
->> =C2=A0 3 files changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
->> index 9b5bcb5634..df0a165047 100644
->> --- a/hw/arm/sbsa-ref.c
->> +++ b/hw/arm/sbsa-ref.c
->> @@ -39,6 +39,7 @@
->> =C2=A0 #include "hw/pci-host/gpex.h"
->> =C2=A0 #include "hw/qdev-properties.h"
->> =C2=A0 #include "hw/usb.h"
->> +#include "hw/char/pl011.h"
->> =C2=A0 #include "net/net.h"
->> =C2=A0 #define RAMLIMIT_GB 8192
->> @@ -409,7 +410,7 @@ static void create_uart(const SBSAMachineState *sms,=
- int uart,
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hwaddr base =3D sbsa_ref_memmap[uart].bas=
-e;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int irq =3D sbsa_ref_irqmap[uart];
->> -=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D qdev_create(NULL, "pl011");
->> +=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D qdev_create(NULL, TYPE_PL011);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_chr(dev, "chardev", chr);
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index f788fe27d6..d0da513737 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -71,6 +71,7 @@
->> =C2=A0 #include "hw/mem/pc-dimm.h"
->> =C2=A0 #include "hw/mem/nvdimm.h"
->> =C2=A0 #include "hw/acpi/generic_event_device.h"
->> +#include "hw/char/pl011.h"
->> =C2=A0 #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static void virt_##major##_##minor##_clas=
-s_init(ObjectClass *oc, \
->> @@ -724,7 +725,7 @@ static void create_uart(const VirtMachineState *vms,=
- int uart,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int irq =3D vms->irqmap[uart];
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char compat[] =3D "arm,pl011\0arm,p=
-rimecell";
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char clocknames[] =3D "uartclk\0apb=
-_pclk";
->> -=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D qdev_create(NULL, "pl011");
->> +=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D qdev_create(NULL, TYPE_PL011);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_chr(dev, "chardev", chr);
->> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
->> index 1cf3daaf4f..403fc7b881 100644
->> --- a/hw/arm/xlnx-versal.c
->> +++ b/hw/arm/xlnx-versal.c
->> @@ -22,6 +22,7 @@
->> =C2=A0 #include "hw/misc/unimp.h"
->> =C2=A0 #include "hw/intc/arm_gicv3_common.h"
->> =C2=A0 #include "hw/arm/xlnx-versal.h"
->> +#include "hw/char/pl011.h"
->> =C2=A0 #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
->> =C2=A0 #define GEM_REVISION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x=
-40070106
->> @@ -144,7 +145,7 @@ static void versal_create_uarts(Versal *s, qemu_irq =
-*pic)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceState *dev;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion *mr;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev =3D qdev_create(NULL, "p=
-l011");
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev =3D qdev_create(NULL, TY=
-PE_PL011);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->lpd.iou.uart[i=
-] =3D SYS_BUS_DEVICE(dev);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_chr=
-(dev, "chardev", serial_hd(i));
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_a=
-dd_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
->>
->=20
+--=20
+Peter Xu
 
 
