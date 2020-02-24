@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0D616B1E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:15:03 +0100 (CET)
-Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4945716B193
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:09:36 +0100 (CET)
+Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6L4A-00048J-TP
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50789)
+	id 1j6Kyt-0001V8-BK
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:09:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kmf-0007VN-Tn
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:59 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kmi-0007ch-OQ
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kme-0003jn-1Z
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:57 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:44798)
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kmg-0003nF-1G
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:00 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:42134)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Kmd-0003ih-OW
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:55 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrXG6032136;
- Mon, 24 Feb 2020 20:56:51 GMT
+ id 1j6Kmf-0003kw-OR
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:57 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqUPP017525;
+ Mon, 24 Feb 2020 20:56:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=vpe0/c5G0MXd4JAhsy6/u+S1fhUP7KtMyY9f4+3J9y0=;
- b=uykGE8go7EUwEw0hPoulYcC8MArfUGyM7lglFb7LD0RmG/br2pOVg+YuNJxKoZbKSPvJ
- BxWcdiD7LkL0E1mA1Ed/ZkC623UJlHGbS19T6vz3uW4DtD4naD3+yejUVDBOCv7EHSrr
- /S8SKPcYUR6gCaVG8rBJyQoZKD+ZVKHgNQ5v3cNStnMt25fIYCl82bYJEZrwI3Ivbk2N
- 7ElRFkPzgSebxb7IQfWfV+ya3P5dwU9fyVF3Zh4lZJkQPV/dGTdHki/JtW68L66079yF
- oBJIjmQK+jUkl94GCLReh/WbLh5UxzVyGaDbvMHd+RMk9VVcDiQSKYiTa+VVVdyKXDAl Pg== 
+ bh=zLulNEkGTL6hvzFyUvsPGZwgerJXllkvju3Y73iqWZY=;
+ b=Zn4z+O7TmUCpg2da5a3b0kOvAlJQlifth2YLeqTAP3P+U92jbm0loXaFeEAEUTO0at9n
+ lgPxnIicAh9jrIcOnPbKxGXl5w0x66UJt15v8r+KZdtO44cgTQrcwvRWpFxolVXh8yHT
+ nWR35Kt6xfTHLuTrW20iyRMxawYBEjs6OLxsp1c9XeAULfAsEsAztBmTYyl+XuOEY2Ay
+ d6kDFCeyLhjlHNRFA9L2G9KmWW77DhPtBDnNugN8ii95xK0B4p9ekXav/WvMusxqNWOT
+ P0T/LSTJ/V06UpLPqRslhx3XXTENQHgdRUzEEdcv/KN0U9j6EtmGi3al2+oJT32hZ7wr gQ== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2yauqua0pk-1
+ by userp2120.oracle.com with ESMTP id 2yavxrhyj9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:50 +0000
+ Mon, 24 Feb 2020 20:56:52 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq5u5171230;
- Mon, 24 Feb 2020 20:56:50 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2ybdshksbm-1
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq5mi171139;
+ Mon, 24 Feb 2020 20:56:52 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2ybdshkscj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:50 +0000
+ Mon, 24 Feb 2020 20:56:52 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKunv2028718;
- Mon, 24 Feb 2020 20:56:49 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKuo60009640;
+ Mon, 24 Feb 2020 20:56:50 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:56:49 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:56:50 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 34/50] multi-process/mon: choose HMP commands based on
- target
-Date: Mon, 24 Feb 2020 15:55:25 -0500
-Message-Id: <bf5c4efc14dc27a778509ff31190c82862af9fa1.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 35/50] multi-process/mon: stub functions to enable QMP
+ module for remote process
+Date: Mon, 24 Feb 2020 15:55:26 -0500
+Message-Id: <e7020dab604bc6ed90d3b2e0fca8954745dd98dd.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -66,19 +66,19 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  suspectscore=1 spamscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=964 adultscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2002240153
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- bulkscore=0
- clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240153
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1015 suspectscore=1 bulkscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,342 +101,830 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-
-Add "targets" field to HMP command definition to select the targets
-which would be supported by each command
+QMP module doesn't need some functions to run independently on the
+remote processes. However, these functions are necessary for
+compilation. Therefore, these functions are stub'ed out. The
+stub functions raise an assert if QEMU is built in debug mode
+(--enable-debug).
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hmp-commands-info.hx | 10 ++++++++++
- hmp-commands.hx      | 20 ++++++++++++++++++++
- scripts/hxtool       | 44 ++++++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 72 insertions(+), 2 deletions(-)
- mode change 100644 => 100755 scripts/hxtool
+ accel/stubs/tcg-stub.c |  10 +++
+ configure              |   4 ++
+ include/qemu-common.h  |   8 +++
+ stubs/gdbstub.c        |  23 +++++++
+ stubs/migration.c      | 162 +++++++++++++++++++++++++++++++++++++++++++++++++
+ stubs/monitor.c        |  31 ++++++++++
+ stubs/net-stub.c       |  69 +++++++++++++++++++++
+ stubs/qapi-misc.c      |  41 +++++++++++++
+ stubs/qapi-target.c    |  55 +++++++++++++++++
+ stubs/ui-stub.c        | 130 +++++++++++++++++++++++++++++++++++++++
+ stubs/vl-stub.c        |  92 ++++++++++++++++++++++++++++
+ 11 files changed, 625 insertions(+)
+ create mode 100644 stubs/migration.c
+ create mode 100644 stubs/qapi-misc.c
+ create mode 100644 stubs/qapi-target.c
+ create mode 100644 stubs/ui-stub.c
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 257ee7d..631cc76 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -19,6 +19,7 @@ ETEXI
-         .params     = "",
-         .help       = "show the version of QEMU",
-         .cmd        = hmp_info_version,
-+        .targets    = "scsi",
-         .flags      = "p",
-     },
- 
-@@ -48,6 +49,7 @@ ETEXI
-         .params     = "",
-         .help       = "show the character devices",
-         .cmd        = hmp_info_chardev,
-+        .targets    = "scsi",
-         .flags      = "p",
-     },
- 
-@@ -64,6 +66,7 @@ ETEXI
-         .help       = "show info of one block device or all block devices "
-                       "(-n: show named nodes; -v: show details)",
-         .cmd        = hmp_info_block,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -78,6 +81,7 @@ ETEXI
-         .params     = "",
-         .help       = "show block device statistics",
-         .cmd        = hmp_info_blockstats,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -92,6 +96,7 @@ ETEXI
-         .params     = "",
-         .help       = "show progress of ongoing block device operations",
-         .cmd        = hmp_info_block_jobs,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -167,6 +172,7 @@ ETEXI
-         .params     = "",
-         .help       = "show the command line history",
-         .cmd        = hmp_info_history,
-+        .targets    = "scsi",
-         .flags      = "p",
-     },
- 
-@@ -224,6 +230,7 @@ ETEXI
-         .params     = "",
-         .help       = "show PCI info",
-         .cmd        = hmp_info_pci,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -630,6 +637,7 @@ ETEXI
-         .params     = "",
-         .help       = "show device tree",
-         .cmd        = hmp_info_qtree,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -644,6 +652,7 @@ ETEXI
-         .params     = "",
-         .help       = "show qdev device model list",
-         .cmd        = hmp_info_qdm,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -658,6 +667,7 @@ ETEXI
-         .params     = "[path]",
-         .help       = "show QOM composition tree",
-         .cmd        = hmp_info_qom_tree,
-+        .targets    = "scsi",
-         .flags      = "p",
-     },
- 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index dc23185..ecc6169 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -49,6 +49,7 @@ ETEXI
-         .params     = "",
-         .help       = "quit the emulator",
-         .cmd        = hmp_quit,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -82,6 +83,7 @@ ETEXI
-         .params     = "device size",
-         .help       = "resize a block image",
-         .cmd        = hmp_block_resize,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -99,6 +101,7 @@ ETEXI
-         .params     = "device [speed [base]]",
-         .help       = "copy data from a backing file into a block device",
-         .cmd        = hmp_block_stream,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -113,6 +116,7 @@ ETEXI
-         .params     = "device speed",
-         .help       = "set maximum speed for a background block operation",
-         .cmd        = hmp_block_job_set_speed,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -129,6 +133,7 @@ ETEXI
-                       "\n\t\t\t if you want to abort the operation immediately"
-                       "\n\t\t\t instead of keep running until data is in sync)",
-         .cmd        = hmp_block_job_cancel,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -143,6 +148,7 @@ ETEXI
-         .params     = "device",
-         .help       = "stop an active background block operation",
-         .cmd        = hmp_block_job_complete,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -158,6 +164,7 @@ ETEXI
-         .params     = "device",
-         .help       = "pause an active background block operation",
-         .cmd        = hmp_block_job_pause,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -172,6 +179,7 @@ ETEXI
-         .params     = "device",
-         .help       = "resume a paused background block operation",
-         .cmd        = hmp_block_job_resume,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -186,6 +194,7 @@ ETEXI
-         .params     = "[-f] device",
-         .help       = "eject a removable medium (use -f to force it)",
-         .cmd        = hmp_eject,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -200,6 +209,7 @@ ETEXI
-         .params     = "device",
-         .help       = "remove host block device",
-         .cmd        = hmp_drive_del,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -219,6 +229,7 @@ ETEXI
-         .params     = "device filename [format [read-only-mode]]",
-         .help       = "change a removable medium, optional format",
-         .cmd        = hmp_change,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -732,6 +743,7 @@ ETEXI
-         .help       = "add device, like -device on the command line",
-         .cmd        = hmp_device_add,
-         .command_completion = device_add_completion,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -747,6 +759,7 @@ ETEXI
-         .help       = "remove device",
-         .cmd        = hmp_device_del,
-         .command_completion = device_del_completion,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -1351,6 +1364,7 @@ ETEXI
-                       "The -c flag requests QEMU to compress backup data\n\t\t\t"
-                       "(if the target format supports it).\n\t\t\t",
-         .cmd        = hmp_drive_backup,
-+        .targets    = "scsi",
-     },
- STEXI
- @item drive_backup
-@@ -1368,6 +1382,7 @@ ETEXI
-                       "[,readonly=on|off][,copy-on-read=on|off]",
-         .help       = "add drive to PCI storage controller",
-         .cmd        = hmp_drive_add,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -1816,6 +1831,7 @@ ETEXI
-         .help       = "add chardev",
-         .cmd        = hmp_chardev_add,
-         .command_completion = chardev_add_completion,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -1831,6 +1847,7 @@ ETEXI
-         .params     = "id args",
-         .help       = "change chardev",
-         .cmd        = hmp_chardev_change,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -1848,6 +1865,7 @@ ETEXI
-         .help       = "remove chardev",
-         .cmd        = hmp_chardev_remove,
-         .command_completion = chardev_remove_completion,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -1864,6 +1882,7 @@ ETEXI
-         .help       = "send a break on chardev",
-         .cmd        = hmp_chardev_send_break,
-         .command_completion = chardev_remove_completion,
-+        .targets    = "scsi",
-     },
- 
- STEXI
-@@ -1940,6 +1959,7 @@ ETEXI
-         .params     = "[subcommand]",
-         .help       = "show various information about the system state",
-         .cmd        = hmp_info_help,
-+        .targets    = "scsi",
-         .sub_table  = hmp_info_cmds,
-         .flags      = "p",
-     },
-diff --git a/scripts/hxtool b/scripts/hxtool
-old mode 100644
-new mode 100755
-index 0003e7b..802cbd4
---- a/scripts/hxtool
-+++ b/scripts/hxtool
-@@ -10,7 +10,14 @@ hxtoh()
-             STEXI*|ETEXI*|SRST*|ERST*) flag=$(($flag^1))
-             ;;
-             *)
--            test $flag -eq 1 && printf "%s\n" "$str"
-+            # Skip line that has ".targets" as it is for multi-process targets based hmp
-+            # commands generation.
-+            echo $str | grep -q '.targets'
-+            if [ $? -eq 0 ]; then
-+                continue
-+            else
-+                test $flag -eq 1 && printf "%s\n" "$str"
-+            fi
-             ;;
-         esac
-     done
-@@ -84,16 +91,49 @@ hxtotexi()
-             print_texi_heading "$(expr "$str" : "ARCHHEADING(\(.*\),.*)")"
-             ;;
-             *)
--            test $flag -eq 1 && printf '%s\n' "$str"
-+            # Skip line that has ".targets" as it is for multi-process targets based hmp
-+            # commands generation.
-+            echo $str | grep -q '.targetss'
-+            if [ $? -eq 0 ]; then
-+                continue
-+            else
-+                test $flag -eq 1 && printf '%s\n' "$str"
-+            fi
-             ;;
-         esac
-         line=$((line+1))
-     done
+diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+index 9b55fb0..c2d72fe 100644
+--- a/accel/stubs/tcg-stub.c
++++ b/accel/stubs/tcg-stub.c
+@@ -119,3 +119,13 @@ page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
+ void page_collection_unlock(struct page_collection *set)
+ {
  }
- 
-+hxtoh_tgt()
++
++void dump_exec_info(void)
 +{
-+    section=""
-+    flag=1
-+    use_section=0
-+    while read -r str; do
-+        # Print section if it has ".targets" and the second argument passed to the
-+        # script, such as "scsi".
-+        echo "$str" | grep -q -E ".targets.*$1"
-+        if [ $? -eq 0 ]; then
-+            use_section=1
-+            continue
-+        fi
-+        case $str in
-+            HXCOMM*)
-+            ;;
-+            STEXI*|ETEXI*) flag=$(($flag^1)); test $use_section -eq 1 && printf '%s' "$section"; section=""; use_section=0
-+            ;;
-+            *)
-+            test $flag -eq 1 && section="${section} ${str} ${IFS}"
-+            ;;
-+        esac
-+    done
++    qemu_debug_assert(0);
 +}
 +
- case "$1" in
- "-h") hxtoh ;;
- "-t") hxtotexi ;;
-+"-tgt") hxtoh_tgt $2 ;;
- *) exit 1 ;;
- esac
++void dump_opcount_info(void)
++{
++    qemu_debug_assert(0);
++}
+diff --git a/configure b/configure
+index ab1e344..53a2a4b 100755
+--- a/configure
++++ b/configure
+@@ -7512,6 +7512,10 @@ if test "$mpqemu" = "yes" ; then
+   echo "CONFIG_MPQEMU=y" >> $config_host_mak
+ fi
  
++if test "$debug" = "yes" ; then
++  echo "CONFIG_DEBUG=y" >> $config_host_mak
++fi
++
+ if test "$bochs" = "yes" ; then
+   echo "CONFIG_BOCHS=y" >> $config_host_mak
+ fi
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 082da59..09da824 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -10,6 +10,8 @@
+ #ifndef QEMU_COMMON_H
+ #define QEMU_COMMON_H
+ 
++#include <assert.h>
++
+ #define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+ 
+ /* Copyright string for -version arguments, About dialogs, etc */
+@@ -135,4 +137,10 @@ void page_size_init(void);
+  * returned. */
+ bool dump_in_progress(void);
+ 
++#ifdef CONFIG_DEBUG
++#define qemu_debug_assert(x) assert(x)
++#else
++#define qemu_debug_assert(x)
++#endif
++
+ #endif
+diff --git a/stubs/gdbstub.c b/stubs/gdbstub.c
+index 2b7aee5..1e65b54 100644
+--- a/stubs/gdbstub.c
++++ b/stubs/gdbstub.c
+@@ -1,6 +1,29 @@
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "exec/gdbstub.h"       /* xml_builtin */
+ 
++#pragma weak gdbserver_start
++
+ const char *const xml_builtin[][2] = {
+   { NULL, NULL }
+ };
++
++#ifdef CONFIG_USER_ONLY
++
++int gdbserver_start(int port)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++#else
++
++int gdbserver_start(const char *device)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++#endif
+diff --git a/stubs/migration.c b/stubs/migration.c
+new file mode 100644
+index 0000000..28ccf80
+--- /dev/null
++++ b/stubs/migration.c
+@@ -0,0 +1,162 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "migration/misc.h"
++#include "migration/snapshot.h"
++#include "qapi/qapi-types-migration.h"
++#include "qapi/qapi-commands-migration.h"
++#include "qapi/qapi-types-net.h"
++
++MigrationInfo *qmp_query_migrate(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
++                                  Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_migrate_set_parameters(MigrateSetParameters *params, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++MigrationParameters *qmp_query_migrate_parameters(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_migrate_start_postcopy(Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_cancel(Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_continue(MigrationStatus state, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_set_downtime(double value, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_set_speed(int64_t value, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_set_cache_size(int64_t value, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++int64_t qmp_query_migrate_cache_size(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return 0;
++}
++
++void qmp_migrate(const char *uri, bool has_blk, bool blk,
++                 bool has_inc, bool inc, bool has_detach, bool detach,
++                 bool has_resume, bool resume, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_incoming(const char *uri, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_recover(const char *uri, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_migrate_pause(Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_x_colo_lost_heartbeat(Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
++                                Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_xen_set_replication(bool enable, bool primary,
++                             bool has_failover, bool failover,
++                             Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++ReplicationStatus *qmp_query_xen_replication_status(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_xen_colo_do_checkpoint(Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++COLOStatus *qmp_query_colo_status(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void migration_global_dump(Monitor *mon)
++{
++    qemu_debug_assert(0);
++}
++
++int load_snapshot(const char *name, Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++int save_snapshot(const char *name, Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++AnnounceParameters *migrate_announce_params(void)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
+diff --git a/stubs/monitor.c b/stubs/monitor.c
+index a34dc87..190445c 100644
+--- a/stubs/monitor.c
++++ b/stubs/monitor.c
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-emit-events.h"
+ #include "monitor/monitor.h"
+@@ -10,6 +11,24 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/runstate.h"
+ #include "monitor/hmp.h"
++#include "monitor/qdev.h"
++#include "sysemu/blockdev.h"
++#include "sysemu/sysemu.h"
++
++#include "qapi/qapi-types-block-core.h"
++#include "qapi/qapi-commands-block-core.h"
++
++#pragma weak cur_mon
++#pragma weak monitor_vprintf
++#pragma weak monitor_get_fd
++#pragma weak monitor_init
++#pragma weak qapi_event_emit
++#pragma weak monitor_get_cpu_index
++#pragma weak monitor_printf
++#pragma weak monitor_cur_is_qmp
++#pragma weak qmp_device_list_properties
++#pragma weak monitor_init_qmp
++#pragma weak monitor_init_hmp
+ 
+ __thread Monitor *cur_mon;
+ 
+@@ -17,11 +36,13 @@ __thread Monitor *cur_mon;
+ 
+ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
+ {
++    qemu_debug_assert(0);
+     abort();
+ }
+ 
+ int monitor_get_fd(Monitor *mon, const char *name, Error **errp)
+ {
++    qemu_debug_assert(0);
+     error_setg(errp, "only QEMU supports file descriptor passing");
+     return -1;
+ }
+@@ -32,29 +53,39 @@ void monitor_init_qmp(Chardev *chr, bool pretty)
+ 
+ void monitor_init_hmp(Chardev *chr, bool use_readline)
+ {
++    qemu_debug_assert(0);
+ }
+ 
+ void qapi_event_emit(QAPIEvent event, QDict *qdict)
+ {
++    qemu_debug_assert(0);
+ }
+ 
+ int monitor_get_cpu_index(void)
+ {
++    qemu_debug_assert(0);
++
+     return -ENOSYS;
+ }
+ int monitor_printf(Monitor *mon, const char *fmt, ...)
+ {
++    qemu_debug_assert(0);
++
+     return -ENOSYS;
+ }
+ 
+ bool monitor_cur_is_qmp(void)
+ {
++    qemu_debug_assert(0);
++
+     return false;
+ }
+ 
+ ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
+                                                    Error **errp)
+ {
++    qemu_debug_assert(0);
++
+     return NULL;
+ }
+ 
+diff --git a/stubs/net-stub.c b/stubs/net-stub.c
+index cb2274b..962827e 100644
+--- a/stubs/net-stub.c
++++ b/stubs/net-stub.c
+@@ -2,6 +2,9 @@
+ #include "qemu-common.h"
+ #include "net/net.h"
+ 
++#include "qapi/qapi-commands-net.h"
++#include "qapi/qapi-commands-rocker.h"
++
+ int qemu_find_net_clients_except(const char *id, NetClientState **ncs,
+                                  NetClientDriver type, int max)
+ {
+@@ -29,3 +32,69 @@ int qemu_find_nic_model(NICInfo *nd, const char * const *models,
+     return -ENOSYS;
+ }
+ 
++void qmp_set_link(const char *name, bool up, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_netdev_del(const char *id, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
++                                      Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_announce_self(AnnounceParameters *params, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++RockerSwitch *qmp_query_rocker(const char *name, Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++RockerPortList *qmp_query_rocker_ports(const char *name, Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++RockerOfDpaFlowList *qmp_query_rocker_of_dpa_flows(const char *name,
++                                                   bool has_tbl_id,
++                                                   uint32_t tbl_id,
++                                                   Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++RockerOfDpaGroupList *qmp_query_rocker_of_dpa_groups(const char *name,
++                                                     bool has_type,
++                                                     uint8_t type,
++                                                     Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_netdev_add(QDict *qdict, QObject **ret, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void netdev_add(QemuOpts *opts, Error **errp)
++{
++    qemu_debug_assert(0);
++}
+diff --git a/stubs/qapi-misc.c b/stubs/qapi-misc.c
+new file mode 100644
+index 0000000..3eeedd9
+--- /dev/null
++++ b/stubs/qapi-misc.c
+@@ -0,0 +1,41 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "qapi/qapi-commands-misc.h"
++#include "./qapi/qapi-types-dump.h"
++#include "qapi/qapi-commands-dump.h"
++
++void qmp_dump_guest_memory(bool paging, const char *file,
++                           bool has_detach, bool detach,
++                           bool has_begin, int64_t begin, bool has_length,
++                           int64_t length, bool has_format,
++                           DumpGuestMemoryFormat format, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++DumpQueryResult *qmp_query_dump(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++DumpGuestMemoryCapability *qmp_query_dump_guest_memory_capability(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_xen_load_devices_state(const char *filename, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++bool dump_in_progress(void)
++{
++    qemu_debug_assert(0);
++
++    return FALSE;
++}
+diff --git a/stubs/qapi-target.c b/stubs/qapi-target.c
+new file mode 100644
+index 0000000..5d224e4
+--- /dev/null
++++ b/stubs/qapi-target.c
+@@ -0,0 +1,55 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "qapi/qapi-types-misc-target.h"
++#include "qapi/qapi-commands-misc-target.h"
++#include "qapi/qapi-types-machine-target.h"
++#include "qapi/qapi-commands-machine-target.h"
++
++#if defined(TARGET_I386)
++void qmp_rtc_reset_reinjection(Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++SevInfo *qmp_query_sev(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++SevLaunchMeasureInfo *qmp_query_sev_launch_measure(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++SevCapability *qmp_query_sev_capabilities(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++#endif
++
++#if defined(TARGET_S390X) || defined(TARGET_I386) || defined(TARGET_ARM)
++CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
++                                                     CpuModelInfo *model,
++                                                     Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++#endif
++
++#if defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)
++CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++#endif
+diff --git a/stubs/ui-stub.c b/stubs/ui-stub.c
+new file mode 100644
+index 0000000..a5a63ea
+--- /dev/null
++++ b/stubs/ui-stub.c
+@@ -0,0 +1,130 @@
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "ui/console.h"
++#include "ui/input.h"
++#include "ui/qemu-spice.h"
++
++#include "qapi/qapi-types-ui.h"
++#include "qapi/qapi-commands-ui.h"
++
++void qmp_screendump(const char *filename, bool has_device, const char *device,
++                    bool has_head, int64_t head, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++VncInfo *qmp_query_vnc(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++VncInfo2List *qmp_query_vnc_servers(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++MouseInfoList *qmp_query_mice(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_send_key(KeyValueList *keys, bool has_hold_time, int64_t hold_time,
++                  Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void qmp_input_send_event(bool has_device, const char *device,
++                          bool has_head, int64_t head,
++                          InputEventList *events, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void vnc_display_open(const char *id, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++void vnc_display_add_client(const char *id, int csock, bool skipauth)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_input_queue_rel(QemuConsole *src, InputAxis axis, int value)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_input_queue_btn(QemuConsole *src, InputButton btn, bool down)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_input_event_sync(void)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_input_update_buttons(QemuConsole *src, uint32_t *button_map,
++                               uint32_t button_old, uint32_t button_new)
++{
++    qemu_debug_assert(0);
++}
++
++#ifdef CONFIG_SPICE
++
++int using_spice;
++
++SpiceInfo *qmp_query_spice(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++int qemu_spice_migrate_info(const char *hostname, int port, int tls_port,
++                            const char *subject)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++int qemu_spice_display_add_client(int csock, int skipauth, int tls)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++int qemu_spice_set_passwd(const char *passwd, bool fail_if_conn,
++                          bool disconnect_if_conn)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++int qemu_spice_set_pw_expire(time_t expires)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
++
++#endif
++
++int index_from_key(const char *key, size_t key_length)
++{
++    qemu_debug_assert(0);
++
++    return -ENOSYS;
++}
+diff --git a/stubs/vl-stub.c b/stubs/vl-stub.c
+index fff72be..606f078 100644
+--- a/stubs/vl-stub.c
++++ b/stubs/vl-stub.c
+@@ -8,6 +8,12 @@
+ #include "disas/disas.h"
+ #include "sysemu/runstate.h"
+ 
++#include "qapi/qapi-commands-ui.h"
++#include "qapi/qapi-commands-run-state.h"
++#include "sysemu/watchdog.h"
++#include "disas/disas.h"
++#include "audio/audio.h"
++
+ bool tcg_allowed;
+ bool xen_allowed;
+ bool boot_strict;
+@@ -21,6 +27,8 @@ int smp_threads = 1;
+ int icount_align_option;
+ int boot_menu;
+ 
++#pragma weak arch_type
++
+ unsigned int max_cpus;
+ const uint32_t arch_type;
+ const char *mem_path;
+@@ -33,6 +41,11 @@ ram_addr_t ram_size;
+ MachineState *current_machine;
+ QemuUUID qemu_uuid;
+ 
++int singlestep;
++const char *qemu_name;
++int no_shutdown;
++int autostart;
++
+ int runstate_is_running(void)
+ {
+     return 0;
+@@ -77,3 +90,82 @@ void x86_cpu_list(void)
+ {
+ }
+ #endif
++
++void qemu_system_shutdown_request(ShutdownCause reason)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_system_reset_request(ShutdownCause reason)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_system_powerdown_request(void)
++{
++    qemu_debug_assert(0);
++}
++
++void qemu_exit_preconfig_request(void)
++{
++    qemu_debug_assert(0);
++}
++
++bool runstate_needs_reset(void)
++{
++    qemu_debug_assert(0);
++
++    return FALSE;
++}
++
++bool qemu_wakeup_suspend_enabled(void)
++{
++    qemu_debug_assert(0);
++
++    return FALSE;
++}
++
++void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++DisplayOptions *qmp_query_display_options(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++StatusInfo *qmp_query_status(Error **errp)
++{
++    qemu_debug_assert(0);
++
++    return NULL;
++}
++
++void qmp_watchdog_set_action(WatchdogAction action, Error **errp)
++{
++    qemu_debug_assert(0);
++}
++
++int select_watchdog_action(const char *p)
++{
++    qemu_debug_assert(0);
++
++    return -1;
++}
++
++void monitor_disas(Monitor *mon, CPUState *cpu,
++                   target_ulong pc, int nb_insn, int is_physical)
++{
++    qemu_debug_assert(0);
++}
++
++int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
++                      int freq, int bits, int nchannels)
++{
++    qemu_debug_assert(0);
++
++    return -1;
++}
 -- 
 1.8.3.1
 
