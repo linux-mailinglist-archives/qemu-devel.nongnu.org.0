@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E502316B5E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 00:42:30 +0100 (CET)
-Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3898716B5F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 00:45:57 +0100 (CET)
+Received: from localhost ([::1]:46242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6NMr-000720-Va
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 18:42:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47227)
+	id 1j6NQC-0004uB-9m
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 18:45:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j6NIP-0006Wv-Lp
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:54 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j6NIS-0006ds-BQ
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j6NIO-00089M-BL
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:53 -0500
-Received: from ozlabs.org ([203.11.71.1]:45531)
+ (envelope-from <dgibson@ozlabs.org>) id 1j6NIQ-0008Aq-Et
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:56 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:39967)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j6NIN-00086R-VT; Mon, 24 Feb 2020 18:37:52 -0500
+ id 1j6NIQ-00087O-23; Mon, 24 Feb 2020 18:37:54 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48RJQ45mbLz9sSQ; Tue, 25 Feb 2020 10:37:32 +1100 (AEDT)
+ id 48RJQ53F5Dz9sSY; Tue, 25 Feb 2020 10:37:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582587452;
- bh=aBsVfkPLqtLYAJVvSFLlYU9uQn9tdTvG94/i9S6mjsA=;
+ d=gibson.dropbear.id.au; s=201602; t=1582587453;
+ bh=G9vVCBQAxL325dmu2RbgIx5Jm0SP2MYRe+FEiLxyaO4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=McfMWxPW19Kby1wByDIvcbGGCAr5vunIN1oepyQqdBDUXTnrPn8QNWsjlAF7H1r/R
- OpcHyuIfvD2ClHJm2+BkduHkRJGMg3Gy4ZzJdc3wXps9gdCwrl7o3c1Snmvbeo6FJ7
- CndnIwI8NdFjBanBpFRFOkHCay6YAiRp+5W+p6oo=
+ b=fqNIrEhUlo13XwfTVkg6NFgxcCi9A9eViTRF/MgkMPTh1kXOs3EWnYH6K9B2AzMOp
+ M4LZBRiycS1ftX0CAH+ipLbCKHGsAxDXZUDSPaTutH4ub9Od//MpkawHD+NjzTA4AD
+ 71nZefaPzFEH2kwmAVwOl+NNt5a+VUbaM/nW9Dh0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
-Subject: [PATCH v6 13/18] spapr: Don't use weird units for MIN_RMA_SLOF
-Date: Tue, 25 Feb 2020 10:37:19 +1100
-Message-Id: <20200224233724.46415-14-david@gibson.dropbear.id.au>
+Subject: [PATCH v6 14/18] spapr,ppc: Simplify signature of kvmppc_rma_size()
+Date: Tue, 25 Feb 2020 10:37:20 +1100
+Message-Id: <20200224233724.46415-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200224233724.46415-1-david@gibson.dropbear.id.au>
 References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,61 +57,115 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
  Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru, farosas@linux.ibm.com,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Igor Mammedov <imammedo@redhat.com>, paulus@samba.org,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Cedric Le Goater <clg@fr.ibm.com>,
+ paulus@samba.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIN_RMA_SLOF records the minimum about of RMA that the SLOF firmware
-requires.  It lets us give a meaningful error if the RMA ends up too smal=
-l,
-rather than just letting SLOF crash.
+This function calculates the maximum size of the RMA as implied by the
+host's page size of structure of the VRMA (there are a number of other
+constraints on the RMA size which will supersede this one in many
+circumstances).
 
-It's currently stored as a number of megabytes, which is strange for glob=
-al
-constants.  Move that megabyte scaling into the definition of the constan=
-t
-like most other things use.
+The current interface takes the current RMA size estimate, and clamps it
+to the VRMA derived size.  The only current caller passes in an arguably
+wrong value (it will match the current RMA estimate in some but not all
+cases).
 
-Change from M to MiB in the associated message while we're at it.
+We want to fix that, but for now just keep concerns separated by having t=
+he
+KVM helper function just return the VRMA derived limit, and let the calle=
+r
+combine it with other constraints.  We call the new function
+kvmppc_vrma_limit() to more clearly indicate its limited responsibility.
+
+The helper should only ever be called in the KVM enabled case, so replace
+its !CONFIG_KVM stub with an assert() rather than a dummy value.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Cedric Le Goater <clg@fr.ibm.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 ---
- hw/ppc/spapr.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/ppc/spapr.c       | 5 +++--
+ target/ppc/kvm.c     | 5 ++---
+ target/ppc/kvm_ppc.h | 7 +++----
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 828e2cc135..272a270b7a 100644
+index 272a270b7a..b68d80ba69 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -103,7 +103,7 @@
- #define FW_OVERHEAD             0x2800000
- #define KERNEL_LOAD_ADDR        FW_MAX_SIZE
+@@ -1586,8 +1586,9 @@ void spapr_setup_hpt_and_vrma(SpaprMachineState *sp=
+apr)
+     spapr_reallocate_hpt(spapr, hpt_shift, &error_fatal);
 =20
--#define MIN_RMA_SLOF            128UL
-+#define MIN_RMA_SLOF            (128 * MiB)
+     if (spapr->vrma_adjust) {
+-        spapr->rma_size =3D kvmppc_rma_size(spapr_node0_size(MACHINE(spa=
+pr)),
+-                                          spapr->htab_shift);
++        hwaddr vrma_limit =3D kvmppc_vrma_limit(spapr->htab_shift);
++
++        spapr->rma_size =3D MIN(spapr_node0_size(MACHINE(spapr)), vrma_l=
+imit);
+     }
+ }
 =20
- #define PHANDLE_INTC            0x00001111
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 7f44b1aa1a..597f72be1b 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2113,7 +2113,7 @@ void kvmppc_error_append_smt_possible_hint(Error *c=
+onst *errp)
 =20
-@@ -2959,10 +2959,10 @@ static void spapr_machine_init(MachineState *mach=
-ine)
+=20
+ #ifdef TARGET_PPC64
+-uint64_t kvmppc_rma_size(uint64_t current_size, unsigned int hash_shift)
++uint64_t kvmppc_vrma_limit(unsigned int hash_shift)
+ {
+     struct kvm_ppc_smmu_info info;
+     long rampagesize, best_page_shift;
+@@ -2140,8 +2140,7 @@ uint64_t kvmppc_rma_size(uint64_t current_size, uns=
+igned int hash_shift)
          }
      }
 =20
--    if (spapr->rma_size < (MIN_RMA_SLOF * MiB)) {
-+    if (spapr->rma_size < MIN_RMA_SLOF) {
-         error_report(
--            "pSeries SLOF firmware requires >=3D %ldM guest RMA (Real Mo=
-de Area memory)",
--            MIN_RMA_SLOF);
-+            "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real =
-Mode Area memory)",
-+            MIN_RMA_SLOF / MiB);
-         exit(1);
-     }
+-    return MIN(current_size,
+-               1ULL << (best_page_shift + hash_shift - 7));
++    return 1ULL << (best_page_shift + hash_shift - 7);
+ }
+ #endif
 =20
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index 9e4f2357cc..332fa0aa1c 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -47,7 +47,7 @@ void *kvmppc_create_spapr_tce(uint32_t liobn, uint32_t =
+page_shift,
+                               int *pfd, bool need_vfio);
+ int kvmppc_remove_spapr_tce(void *table, int pfd, uint32_t window_size);
+ int kvmppc_reset_htab(int shift_hint);
+-uint64_t kvmppc_rma_size(uint64_t current_size, unsigned int hash_shift)=
+;
++uint64_t kvmppc_vrma_limit(unsigned int hash_shift);
+ bool kvmppc_has_cap_spapr_vfio(void);
+ #endif /* !CONFIG_USER_ONLY */
+ bool kvmppc_has_cap_epr(void);
+@@ -255,10 +255,9 @@ static inline int kvmppc_reset_htab(int shift_hint)
+     return 0;
+ }
+=20
+-static inline uint64_t kvmppc_rma_size(uint64_t current_size,
+-                                       unsigned int hash_shift)
++static inline uint64_t kvmppc_vrma_limit(unsigned int hash_shift)
+ {
+-    return ram_size;
++    g_assert_not_reached();
+ }
+=20
+ static inline bool kvmppc_hpt_needs_host_contiguous_pages(void)
 --=20
 2.24.1
 
