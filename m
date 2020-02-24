@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07B616ACB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 18:10:47 +0100 (CET)
-Received: from localhost ([::1]:39654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEE116AC9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 18:03:57 +0100 (CET)
+Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6HFm-0001RP-UN
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 12:10:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47547)
+	id 1j6H9A-0002fd-FL
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 12:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j6HCY-000718-CW
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 12:07:30 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j6H74-0000x9-Rm
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 12:01:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j6HCU-0007vl-BN
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 12:07:26 -0500
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:34911)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j6HCU-0007tZ-36; Mon, 24 Feb 2020 12:07:22 -0500
-Received: by mail-lj1-x243.google.com with SMTP id q8so10945166ljb.2;
- Mon, 24 Feb 2020 09:07:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=orrvvzInLtQuwUUgLtyXlZ9FER/ZvACaLeTV6qD2WlY=;
- b=Sxc5meTRsoNNB9r+BapQ/KDLbFIx8CfK7pKz+sqLFyKrgKyrleSHFTvp/mN8W72kB8
- 4eVMb8t6Y6hnavHAwdnrXr4vb+MljR8T2sDLUiT5vLAUiPZpObe2l3wBCcd1SWLBEuR4
- Sf1Ad4CkJVgQYP3C9lO6C2aAG9/rMt1VXknwN5d4mGcHsELKXELvxj63nU/myJaafJAR
- c3otTv7JM7FjTw0ZF7yj25v2Q1e3uLefzyXe9nSo2etpb7Xca/ZTuFHtW1LDy4VgKtcy
- Zeha/A1CdV9dpebV0rLJtMqRR1VdUbKdRT4oMUvKOm7cQ4PfulJn3vfinLuMV0g5ESQp
- bf1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=orrvvzInLtQuwUUgLtyXlZ9FER/ZvACaLeTV6qD2WlY=;
- b=cFlDMp+Q66DR85FWIpaQNMcDBotKCnl48fuUSSDWxdCh975DpKX7H/uSDk2aFGJmrQ
- XNCZdIKKbd/LF9rPljpGQBMNeUAz0sv9vL9H3R8N5v9Li/ipaqb5u+8OPTpyRSw4jNOh
- BABSPcYE94n//nUzm/BYk42moRh2F6+dzSmfjiT0lcJ5J++2x/XB+DmtphLb5eqBaNHC
- H9hL4C3YokuKVr2YDGBSgXqsbc0U44kHjA5sWJor8t7YY1+g6QuypGGxZamBEw6UAzmS
- /vzjoWSib2YNZ6BEcarbFxwV1HTFCbz8G9us3rbDGdeN19nAh1C5+Zh0P9LQwmJR4RTv
- HxhQ==
-X-Gm-Message-State: APjAAAUqAJ2MKrBC5u4oeFPDUKy2So1uQvZEbUU7csdvy60tguwkMjuE
- AR+V23uKA8xu+gS4+GqCPhuaIvDhe5Dhw0y/pKQ=
-X-Google-Smtp-Source: APXvYqza5v++LriJ7R0ZevqGdnYeR7uP9vhM7XsrUZ7GZDm5Rc5LlCg9ZudFip6fCPX18L3MWbWhC8aKuwiDgQdtIY8=
-X-Received: by 2002:a2e:8197:: with SMTP id e23mr29587890ljg.250.1582564040727; 
- Mon, 24 Feb 2020 09:07:20 -0800 (PST)
+ (envelope-from <imammedo@redhat.com>) id 1j6H73-0004NV-39
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 12:01:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57973
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6H72-0004M0-Pk
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 12:01:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582563703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=REaGn/Bf8mTXDWPl9OfzpIYoI3Q35VS6vhE4aTOOPdk=;
+ b=QtsekrVHr3Q9HixjQX/ZoLgeVu76HY2TDazyEI2aY5IyX+2LCIl2TB2d8OLEW+ZCFbaKci
+ ibJgQgYDBZVXiGiNWgs7fIh8x/sTib7R7WlvwQ5kJ1XpvOBlQe173YJLI8G66kuJ89tgx3
+ Emcx14rh5Nyzxw6PvZ9+fhoNrH/noq8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-YTAvWCz-PyiGWcrQ9lmKbQ-1; Mon, 24 Feb 2020 12:01:41 -0500
+X-MC-Unique: YTAvWCz-PyiGWcrQ9lmKbQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D6A4DBB3;
+ Mon, 24 Feb 2020 17:01:39 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E85490080;
+ Mon, 24 Feb 2020 17:01:34 +0000 (UTC)
+Date: Mon, 24 Feb 2020 18:01:33 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v4 10/16] hw/i386: Introduce apicid functions inside
+ X86MachineState
+Message-ID: <20200224180133.3a3bdf4c@redhat.com>
+In-Reply-To: <158161785243.48948.11368379114010493667.stgit@naples-babu.amd.com>
+References: <158161767653.48948.10578064482878399556.stgit@naples-babu.amd.com>
+ <158161785243.48948.11368379114010493667.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-References: <20200224041633.97345-1-gshan@redhat.com>
-In-Reply-To: <20200224041633.97345-1-gshan@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 24 Feb 2020 08:59:46 -0800
-Message-ID: <CAKmqyKNTL8Z74aKiM9ve8pDTEKjf3cSq+E+43TQhTUbupfc-oA@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm: Use TYPE_PL011 to create serial port
-To: Gavin Shan <gshan@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,98 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, shan.gavin@gmail.com,
- Edgar Iglesias <edgar.iglesias@gmail.com>, leif@nuviainc.com,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Feb 23, 2020 at 8:17 PM Gavin Shan <gshan@redhat.com> wrote:
->
-> This uses TYPE_PL011 when creating the serial port, to make the code
-> a bit more atomatic.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+On Thu, 13 Feb 2020 12:17:32 -0600
+Babu Moger <babu.moger@amd.com> wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> Introduce model specific apicid functions inside X86MachineState.
+> These functions will be loaded from X86CPUDefinition.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
->  hw/arm/sbsa-ref.c    | 3 ++-
->  hw/arm/virt.c        | 3 ++-
->  hw/arm/xlnx-versal.c | 3 ++-
->  3 files changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index 9b5bcb5634..df0a165047 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -39,6 +39,7 @@
->  #include "hw/pci-host/gpex.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/usb.h"
-> +#include "hw/char/pl011.h"
->  #include "net/net.h"
->
->  #define RAMLIMIT_GB 8192
-> @@ -409,7 +410,7 @@ static void create_uart(const SBSAMachineState *sms, int uart,
->  {
->      hwaddr base = sbsa_ref_memmap[uart].base;
->      int irq = sbsa_ref_irqmap[uart];
-> -    DeviceState *dev = qdev_create(NULL, "pl011");
-> +    DeviceState *dev = qdev_create(NULL, TYPE_PL011);
->      SysBusDevice *s = SYS_BUS_DEVICE(dev);
->
->      qdev_prop_set_chr(dev, "chardev", chr);
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f788fe27d6..d0da513737 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -71,6 +71,7 @@
->  #include "hw/mem/pc-dimm.h"
->  #include "hw/mem/nvdimm.h"
->  #include "hw/acpi/generic_event_device.h"
-> +#include "hw/char/pl011.h"
->
->  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
->      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-> @@ -724,7 +725,7 @@ static void create_uart(const VirtMachineState *vms, int uart,
->      int irq = vms->irqmap[uart];
->      const char compat[] = "arm,pl011\0arm,primecell";
->      const char clocknames[] = "uartclk\0apb_pclk";
-> -    DeviceState *dev = qdev_create(NULL, "pl011");
-> +    DeviceState *dev = qdev_create(NULL, TYPE_PL011);
->      SysBusDevice *s = SYS_BUS_DEVICE(dev);
->
->      qdev_prop_set_chr(dev, "chardev", chr);
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index 1cf3daaf4f..403fc7b881 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -22,6 +22,7 @@
->  #include "hw/misc/unimp.h"
->  #include "hw/intc/arm_gicv3_common.h"
->  #include "hw/arm/xlnx-versal.h"
-> +#include "hw/char/pl011.h"
->
->  #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
->  #define GEM_REVISION        0x40070106
-> @@ -144,7 +145,7 @@ static void versal_create_uarts(Versal *s, qemu_irq *pic)
->          DeviceState *dev;
->          MemoryRegion *mr;
->
-> -        dev = qdev_create(NULL, "pl011");
-> +        dev = qdev_create(NULL, TYPE_PL011);
->          s->lpd.iou.uart[i] = SYS_BUS_DEVICE(dev);
->          qdev_prop_set_chr(dev, "chardev", serial_hd(i));
->          object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
-> --
-> 2.23.0
->
->
+>  include/hw/i386/x86.h |    9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> index 38c2d27910..75c2462770 100644
+> --- a/include/hw/i386/x86.h
+> +++ b/include/hw/i386/x86.h
+> @@ -79,6 +79,15 @@ typedef struct {
+>      uint16_t boot_cpus;
+>      unsigned smp_dies;
+>  
+> +    /* Apic id specific handlers */
+> +    uint32_t (*apicid_from_cpu_idx)(X86CPUTopoInfo *topo_info,
+> +                                    unsigned cpu_index);
+> +    void (*topo_ids_from_apicid)(apic_id_t apicid, X86CPUTopoInfo *topo_info,
+> +                                 X86CPUTopoIDs *topo_ids);
+> +    apic_id_t (*apicid_from_topo_ids)(X86CPUTopoInfo *topo_info,
+> +                                      const X86CPUTopoIDs *topo_ids);
+> +    uint32_t (*apicid_pkg_offset)(X86CPUTopoInfo *topo_info);
+> +
+>      /*
+>       * Address space used by IOAPIC device. All IOAPIC interrupts
+>       * will be translated to MSI messages in the address space.
+> 
+> 
+
+Suggest to move defaults into this patch as well. i.e.
+move parts that replace direct calls with hooks from 12/16
+and set default hooks (i.e. non EPYC ones) in x86's machine_class_init().
+
+This way It's immediately obvious what you are changing and then
+followup EPYC related patch won't be cluttered by non related defaults
+conversion.
+
 
