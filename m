@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C0016B1DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:12:47 +0100 (CET)
-Received: from localhost ([::1]:43464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABFA16B1F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:16:32 +0100 (CET)
+Received: from localhost ([::1]:43578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6L1y-0007St-Ag
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:12:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50507)
+	id 1j6L5b-0006RV-RF
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:16:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50649)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6KmO-0006oh-6V
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:41 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6KmV-00075i-93
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6KmN-0003PN-3z
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:40 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:44328)
+ (envelope-from <jag.raman@oracle.com>) id 1j6KmU-0003Zb-2V
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:47 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:53514)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6KmM-0003OT-Rb
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:39 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKsmt1033177;
- Mon, 24 Feb 2020 20:56:33 GMT
+ id 1j6KmT-0003XD-Pm
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:46 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKraCW164147;
+ Mon, 24 Feb 2020 20:56:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=zaDOAuNzb7bSFTKfgqg9CoM++Bom7NI1IY7I/uCiA4w=;
- b=FwzgAdqgdq2oRBXSuKp0zYKIvSK3DY6vCFhHC0qJ2UWIyIdoXxraL/j4ev9Qao3/+HcU
- geDT9O6Ow8qMm4RpZZlxHRQf+CFNqDcFI1aoFWm57Kl/caa+l8bPooc5Fu8X/up+rK/n
- 5kmPJDSRECHN+RyRasFAVAXHyEhFp9FZaXWS3kuyNHztlrdOBt/OjD26Eq3UYTMgQ07F
- lxz+piRCUGr623xUCJb4ky6umzf5xAeb7tZeAxNImNMZg1GAq3d1+P9h3DCtGEKJIOJm
- IqJBwzOwAoWAiNgEQDecedFANyodEzLOBWEqCWyAk8rSZSWqnZ80y+cgDCES+JQX3Zix gA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2yauqua0mu-1
+ bh=J8Xaz+gGxdaFRzPsqSOpPdy1ej1AcSmDgOKijRk3X8A=;
+ b=Z/Ch88wTpt7hsotSbrTcWr1BnXETGUk2xpAgRC0DJbzk9hpfFGOkBarZphL426zkNN6p
+ fyaVB1TdLgixuasWLupPgimSQ8K0YbltABMbYe4m4q5QlN7wLLRcU00XnwoLc/QZ24Ak
+ 7JEEMerzqBrGZ/YZVWEH2ytN3h9IGYrCgmLAylsfHzggMs4Z/GRgSdVhK3qnH1TkU4QH
+ t3BjRCGnsXRzE3fqMA4tkCFPYgtB74D8n/lptAqSy2UsFWflofe5LcD7kswgLQLFUgy0
+ KKwJFdVo0Vni0osRaotaOwkttiFIvlZxU5nIdmyQ+qP9XtQBpsO4iXcI+sJT4x1nK7P5 /Q== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 2ybvr4p96g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:33 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq5Vx171254;
- Mon, 24 Feb 2020 20:56:33 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2ybdshks1v-1
+ Mon, 24 Feb 2020 20:56:41 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKud0W073024;
+ Mon, 24 Feb 2020 20:56:40 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2ybduv6d8t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:33 +0000
+ Mon, 24 Feb 2020 20:56:40 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKuW94028545;
- Mon, 24 Feb 2020 20:56:32 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKuX0j009417;
+ Mon, 24 Feb 2020 20:56:33 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:56:31 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:56:33 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 23/50] multi-process: remote: add create_done condition
-Date: Mon, 24 Feb 2020 15:55:14 -0500
-Message-Id: <40aa4a8ee828c39081dcec67c029bb665ec3f0d4.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 24/50] multi-process: add processing of remote device
+ command line
+Date: Mon, 24 Feb 2020 15:55:15 -0500
+Message-Id: <48965605c3f49f453b4b4f107bb8c7171eec2af9.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -63,21 +64,21 @@ In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=1 spamscore=0
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002240153
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=1
+ mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240154
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- bulkscore=0
- clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ spamscore=0
+ clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,75 +103,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Do not allow BAR,MMIO handlers and irq setup to run before
-the configuration of the devices completes.
+Add processing of command line options for devices emulated
+in the remote process.
+After remote devices are created along with their proxies,
+signal the proxies to finish the configuration steps.
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- remote/remote-main.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ softmmu/vl.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 455cfb6..ec1ce2c 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -55,6 +55,7 @@
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 94a7b93..79a286c 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -35,6 +35,11 @@
+ #include "sysemu/runstate.h"
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
++#include "qapi/qmp/qdict.h"
++#include "block/qdict.h"
++#include "qapi/qmp/qstring.h"
++#include "qapi/qmp/qjson.h"
++#include "qapi/qmp/qlist.h"
  
- static MPQemuLinkState *mpqemu_link;
- PCIDevice *remote_pci_dev;
-+bool create_done;
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+@@ -2065,10 +2070,35 @@ static int device_help_func(void *opaque, QemuOpts *opts, Error **errp)
+     return qdev_device_help(opts);
+ }
  
- static void process_config_write(MPQemuMsg *msg)
++#if defined(CONFIG_MPQEMU)
++static int rdevice_init_func(void *opaque, QemuOpts *opts, Error **errp)
++{
++    DeviceState *dev;
++
++    dev = qdev_remote_add(opts, errp);
++    if (!dev) {
++        error_setg(errp, "qdev_remote_add failed for device.");
++        return -1;
++    }
++    object_unref(OBJECT(dev));
++    return 0;
++}
++#endif
++
+ static int device_init_func(void *opaque, QemuOpts *opts, Error **errp)
  {
-@@ -332,21 +333,29 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-         process_get_pci_info_msg(remote_pci_dev, msg);
-         break;
-     case PCI_CONFIG_WRITE:
--        process_config_write(msg);
-+        if (create_done) {
-+            process_config_write(msg);
-+        }
-         break;
-     case PCI_CONFIG_READ:
--        process_config_read(msg);
-+        if (create_done) {
-+            process_config_read(msg);
-+        }
-         break;
-     case BAR_WRITE:
--        process_bar_write(msg, &err);
--        if (err) {
--            goto finalize_loop;
-+        if (create_done) {
-+            process_bar_write(msg, &err);
-+            if (err) {
-+                error_report_err(err);
-+            }
-         }
-         break;
-     case BAR_READ:
--        process_bar_read(msg, &err);
--        if (err) {
--            goto finalize_loop;
-+        if (create_done) {
-+            process_bar_read(msg, &err);
-+            if (err) {
-+                error_report_err(err);
-+            }
-         }
-         break;
-     case SYNC_SYSMEM:
-@@ -366,7 +375,7 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-         qemu_mutex_lock_iothread();
-         qemu_run_machine_init_done_notifiers();
-         qemu_mutex_unlock_iothread();
--
-+        create_done = true;
-         break;
-     case DEV_OPTS:
-         if (setup_device(msg, &err)) {
+     DeviceState *dev;
+ 
++#if defined(CONFIG_MPQEMU)
++    const char *remote;
++
++    remote = qemu_opt_get(opts, "remote");
++    if (remote) {
++        /* This will be a remote process */
++        return rdevice_init_func(opaque, opts, errp);
++    }
++#endif
++
+     dev = qdev_device_add(opts, errp);
+     if (!dev && *errp) {
+         error_report_err(*errp);
+@@ -4307,6 +4337,9 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
+     qemu_run_machine_init_done_notifiers();
+ 
++#if defined(CONFIG_MPQEMU)
++    qdev_proxy_fire();
++#endif
+     if (rom_check_and_register_reset() != 0) {
+         error_report("rom check and register reset failed");
+         exit(1);
 -- 
 1.8.3.1
 
