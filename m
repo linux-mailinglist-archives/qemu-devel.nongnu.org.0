@@ -2,88 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667EE16B190
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:08:48 +0100 (CET)
-Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97EB16B162
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:01:33 +0100 (CET)
+Received: from localhost ([::1]:43032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Ky7-0008V1-F1
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:08:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50249)
+	id 1j6Kr6-0005KF-TD
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:01:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Km6-00068n-OL
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6Km4-00063N-MG
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Km4-00030y-Sl
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:22 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:52800)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Km4-0002zN-Ge
+ (envelope-from <philmd@redhat.com>) id 1j6Km2-0002xu-KL
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:20 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrajF164104;
- Mon, 24 Feb 2020 20:56:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references : mime-version : content-type : content-transfer-encoding;
- s=corp-2020-01-29; bh=QIN4OBnH8pfK/FQg/Ngm3RypA/DQPqJb+C20uwyiIM0=;
- b=sNa/T9J2Zx6yUkNSKIBXT1yBluwwIksfec48dOY/lbhun6iUHOdvwEdLA9nzMLCTytFn
- Y/H+YJ8Q8kDO6GYl5P+SLrjm3AGp6PX8Hwgge5Wm0fGBo68kgfyCQhO5ZZ7EMJrUi/tG
- tM3zi95QmgfPKXduR34a0Flks9HUhoh2oaRYD4QcDsmtko9Tfd8MVEvsIXgvAJErZ6C4
- gn3lf4Zcu4BvNsUCO2Ae1PvBQJteg2imUTj/9QsEjoZFJjElysjj0mxmgCjB3pi31uzA
- U/T2gEb9HXrzgf5BRrWGB7F2Zh/3yTg2D/i9FILCP0mE32Rh+2pstrDnrB9Cf61Id3Kd VA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2ybvr4p93g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:14 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKpuFv108591;
- Mon, 24 Feb 2020 20:56:13 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2ybe123sm5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:13 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKuCvE029677;
- Mon, 24 Feb 2020 20:56:12 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:56:11 -0800
-From: Jagannathan Raman <jag.raman@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/50] multi-process: setup a machine object for remote
- device process
-Date: Mon, 24 Feb 2020 15:55:01 -0500
-Message-Id: <c149a5116f8afee0ecfb5503a78de19b01a7daab.1582576372.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
-References: <cover.1582576372.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
-References: <cover.1582576372.git.jag.raman@oracle.com>
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48018
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Km2-0002wv-Dm
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582577777;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aBf1Nz3dO7lmnq6x8HgckUD4/9P7/UEzlUI+mgbV/5Q=;
+ b=Z7IFn7uMULPt+eEx54eV8f1N9jpH0HtqbV/jXBGsuPXv2eqlqXjaJP/arRvd559dcfotUJ
+ SpWvpQM4SwpnHK3GgYRe0Jo1RXXLlp4saq37BttCMSee1NnHQW9gHpDBr8kJ7uom03lYHk
+ jKC4UKb5LHddmKs5AUnaSDXe6MXxLi8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-vv3vpfscMoS28J8ygPcnhA-1; Mon, 24 Feb 2020 15:56:15 -0500
+X-MC-Unique: vv3vpfscMoS28J8ygPcnhA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E001B107ACC4;
+ Mon, 24 Feb 2020 20:56:10 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-205-162.brq.redhat.com [10.40.205.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C390B5C883;
+ Mon, 24 Feb 2020 20:55:52 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH RESEND v2 01/32] memory: Correctly return alias region type
+Date: Mon, 24 Feb 2020 21:55:02 +0100
+Message-Id: <20200224205533.23798-2-philmd@redhat.com>
+In-Reply-To: <20200224205533.23798-1-philmd@redhat.com>
+References: <20200224205533.23798-1-philmd@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- suspectscore=1 malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240153
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240153
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
- 01OKrajF164104
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,265 +71,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair@alistair23.me>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-riscv@nongnu.org, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-remote-machine object sets up various subsystems of the remote device
-process. Instantiate PCI host bridge object and initialize RAM, IO &
-PCI memory regions.
+Since memory region aliases are neither rom nor ram, they are
+described as i/o, which is often incorrect. Return instead the
+type of the original region we are aliasing.
 
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- v4 -> v5:
-  - Refactor notifier code into a common file
-  - Moved global initialization out of object specific code
-  - Added a child property relationship between RemMachineState & RemPCIH=
-ost
+Cc: qemu-trivial@nongnu.org
 
- Makefile.objs                 |  1 +
- exec.c                        |  3 +-
- include/exec/address-spaces.h |  2 ++
- include/remote/machine.h      | 30 ++++++++++++++++
- remote/Makefile.objs          |  1 +
- remote/machine.c              | 84 +++++++++++++++++++++++++++++++++++++=
-++++++
- remote/remote-main.c          |  7 ++++
- util/Makefile.objs            |  2 ++
- 8 files changed, 128 insertions(+), 2 deletions(-)
- create mode 100644 include/remote/machine.h
- create mode 100644 remote/machine.c
+ memory.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index c80e107..aad33fc 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -31,6 +31,7 @@ remote-pci-obj-$(CONFIG_MPQEMU) +=3D block/
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D migration/
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D remote/
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D accel/
-+remote-pci-obj-$(CONFIG_MPQEMU) +=3D util/
+diff --git a/memory.c b/memory.c
+index aeaa8dcc9e..ce1179874e 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2818,6 +2818,9 @@ void address_space_destroy(AddressSpace *as)
 =20
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D cpus-common.o
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D dma-helpers.o
-diff --git a/exec.c b/exec.c
-index e524185..b4c9cc6 100644
---- a/exec.c
-+++ b/exec.c
-@@ -161,7 +161,6 @@ typedef struct subpage_t {
- #define PHYS_SECTION_UNASSIGNED 0
-=20
- static void io_mem_init(void);
--static void memory_map_init(void);
- static void tcg_log_global_after_sync(MemoryListener *listener);
- static void tcg_commit(MemoryListener *listener);
-=20
-@@ -3002,7 +3001,7 @@ static void tcg_commit(MemoryListener *listener)
-     tlb_flush(cpuas->cpu);
- }
-=20
--static void memory_map_init(void)
-+void memory_map_init(void)
+ static const char *memory_region_type(MemoryRegion *mr)
  {
-     system_memory =3D g_malloc(sizeof(*system_memory));
-=20
-diff --git a/include/exec/address-spaces.h b/include/exec/address-spaces.=
-h
-index db8bfa9..56a877b 100644
---- a/include/exec/address-spaces.h
-+++ b/include/exec/address-spaces.h
-@@ -33,6 +33,8 @@ MemoryRegion *get_system_memory(void);
-  */
- MemoryRegion *get_system_io(void);
-=20
-+void memory_map_init(void);
-+
- extern AddressSpace address_space_memory;
- extern AddressSpace address_space_io;
-=20
-diff --git a/include/remote/machine.h b/include/remote/machine.h
-new file mode 100644
-index 0000000..7e9bdbe
---- /dev/null
-+++ b/include/remote/machine.h
-@@ -0,0 +1,30 @@
-+/*
-+ * Remote machine configuration
-+ *
-+ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef REMOTE_MACHINE_H
-+#define REMOTE_MACHINE_H
-+
-+#include "qemu/osdep.h"
-+#include "qom/object.h"
-+#include "hw/boards.h"
-+#include "remote/pcihost.h"
-+#include "qemu/notify.h"
-+
-+typedef struct RemMachineState {
-+    MachineState parent_obj;
-+
-+    RemPCIHost *host;
-+} RemMachineState;
-+
-+#define TYPE_REMOTE_MACHINE "remote-machine"
-+#define REMOTE_MACHINE(obj) \
-+    OBJECT_CHECK(RemMachineState, (obj), TYPE_REMOTE_MACHINE)
-+
-+#endif
-diff --git a/remote/Makefile.objs b/remote/Makefile.objs
-index 2757f5a..13d4c48 100644
---- a/remote/Makefile.objs
-+++ b/remote/Makefile.objs
-@@ -1,2 +1,3 @@
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D remote-main.o
- remote-pci-obj-$(CONFIG_MPQEMU) +=3D pcihost.o
-+remote-pci-obj-$(CONFIG_MPQEMU) +=3D machine.o
-diff --git a/remote/machine.c b/remote/machine.c
-new file mode 100644
-index 0000000..97e4f19
---- /dev/null
-+++ b/remote/machine.c
-@@ -0,0 +1,84 @@
-+/*
-+ * Machine for remote device
-+ *
-+ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include <stdint.h>
-+#include <sys/types.h>
-+
-+#include "qemu/osdep.h"
-+#include "remote/pcihost.h"
-+#include "remote/machine.h"
-+#include "exec/address-spaces.h"
-+#include "exec/memory.h"
-+#include "exec/ioport.h"
-+#include "qemu/thread.h"
-+#include "qom/object.h"
-+#include "qemu/module.h"
-+#include "qapi/error.h"
-+#include "qemu/main-loop.h"
-+#include "qemu-common.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/notify.h"
-+
-+static void remote_machine_init(Object *obj)
-+{
-+    RemMachineState *s =3D REMOTE_MACHINE(obj);
-+    RemPCIHost *rem_host;
-+    MemoryRegion *system_memory, *system_io, *pci_memory;
-+
-+    Error *error_abort =3D NULL;
-+
-+    object_property_add_child(object_get_root(), "machine", obj, &error_=
-abort);
-+    if (error_abort) {
-+        error_report_err(error_abort);
++    if (mr->alias) {
++        return memory_region_type(mr->alias);
 +    }
-+
-+    memory_map_init();
-+
-+    system_memory =3D get_system_memory();
-+    system_io =3D get_system_io();
-+
-+    pci_memory =3D g_new(MemoryRegion, 1);
-+    memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
-+
-+    rem_host =3D REMOTE_HOST_DEVICE(qdev_create(NULL, TYPE_REMOTE_HOST_D=
-EVICE));
-+
-+    rem_host->mr_pci_mem =3D pci_memory;
-+    rem_host->mr_sys_mem =3D system_memory;
-+    rem_host->mr_sys_io =3D system_io;
-+
-+    s->host =3D rem_host;
-+
-+    object_property_add_child(OBJECT(s), "remote-device", OBJECT(rem_hos=
-t),
-+                              &error_abort);
-+    if (error_abort) {
-+        error_report_err(error_abort);
-+        return;
-+    }
-+
-+    qemu_mutex_lock_iothread();
-+    memory_region_add_subregion_overlap(system_memory, 0x0, pci_memory, =
--1);
-+    qemu_mutex_unlock_iothread();
-+
-+    qdev_init_nofail(DEVICE(rem_host));
-+}
-+
-+static const TypeInfo remote_machine =3D {
-+    .name =3D TYPE_REMOTE_MACHINE,
-+    .parent =3D TYPE_MACHINE,
-+    .instance_size =3D sizeof(RemMachineState),
-+    .instance_init =3D remote_machine_init,
-+};
-+
-+static void remote_machine_register_types(void)
-+{
-+    type_register_static(&remote_machine);
-+}
-+
-+type_init(remote_machine_register_types);
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 7c0764a..ecf30e0 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -14,10 +14,17 @@
- #include <stdio.h>
-=20
- #include "qemu/module.h"
-+#include "remote/pcihost.h"
-+#include "remote/machine.h"
-+#include "hw/boards.h"
-+#include "hw/qdev-core.h"
-+#include "qemu/main-loop.h"
-=20
- int main(int argc, char *argv[])
- {
-     module_call_init(MODULE_INIT_QOM);
-=20
-+    current_machine =3D MACHINE(REMOTE_MACHINE(object_new(TYPE_REMOTE_MA=
-CHINE)));
-+
-     return 0;
- }
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 6b38b67..80b2067 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -60,3 +60,5 @@ util-obj-y +=3D guest-random.o
- util-obj-$(CONFIG_GIO) +=3D dbus.o
- dbus.o-cflags =3D $(GIO_CFLAGS)
- dbus.o-libs =3D $(GIO_LIBS)
-+
-+remote-pci-obj-$(CONFIG_MPQEMU) +=3D notify.o
+     if (memory_region_is_ram_device(mr)) {
+         return "ramd";
+     } else if (memory_region_is_romd(mr)) {
 --=20
-1.8.3.1
+2.21.1
 
 
