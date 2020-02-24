@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B54016B32D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:52:13 +0100 (CET)
-Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1CB16B339
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:53:38 +0100 (CET)
+Received: from localhost ([::1]:44608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Le8-0007mk-68
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:52:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
+	id 1j6LfV-0001Kh-SV
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:53:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53876)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6Ksa-0000sQ-NK
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:03:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6Ksl-0001Fh-OP
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:03:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6KsZ-0008NL-J5
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:03:04 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20204
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j6Ksj-0008Vo-8Q
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:03:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28381
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6KsZ-0008Mh-FK
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:03:03 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Ksj-0008Ue-3H
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 16:03:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582578183;
+ s=mimecast20190719; t=1582578192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XVZvi/YHzEh7ylVqPr697ez8p22nG0yVmTeif46TOmw=;
- b=LOcpmxI4gKqqhkmNheMcNGBzbQiq0OcfMlLyG8pBvi1JQpO2BflwkHfjzocD8+e4gV9LDb
- syXWrS2QFjOeqrvAqhHfOlYH7NO/FnP4zyXDudUH0KYpwXKSBzgIHapS++mudlV1QmteT9
- WMyyDC4gPDf/qtX/RPnrowIQu2hXsAE=
+ bh=StqJFGk25DRObG1eUf3VsEaRXrOCmfJGPZ/cwXjxQcU=;
+ b=OTs7s7vnvLnp/HKFx/Ap3N6e8/r58vnl64+tdoBls+fSLrlPe4+R2KJviQParEC+UZ6E+u
+ vXxS7uUJPQmKij/DQbdiaBoXHZb+uVlYX+vqSul3+FXEkGXq/CDw4Sv9Qe9nW4HONJd6Ai
+ d5cpNo7QPEh2jmiJ3BMuJIAj8PnjMXk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-v-AiIWesPt2X2quRXpPcbw-1; Mon, 24 Feb 2020 16:03:01 -0500
-X-MC-Unique: v-AiIWesPt2X2quRXpPcbw-1
+ us-mta-296-DejhcVKnPHCUF0iGsrmtVg-1; Mon, 24 Feb 2020 16:03:10 -0500
+X-MC-Unique: DejhcVKnPHCUF0iGsrmtVg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9C21801E6C;
- Mon, 24 Feb 2020 21:02:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 608991005513;
+ Mon, 24 Feb 2020 21:03:06 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-162.brq.redhat.com [10.40.205.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CEBA5C21B;
- Mon, 24 Feb 2020 21:02:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 392765C21B;
+ Mon, 24 Feb 2020 21:02:57 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH RESEND v2 31/32] hw/net/milkymist-minimac2: Let devices
- own the MemoryRegion they create
-Date: Mon, 24 Feb 2020 21:55:32 +0100
-Message-Id: <20200224205533.23798-32-philmd@redhat.com>
+Subject: [RFC PATCH RESEND v2 32/32] hw/block/onenand: Let devices own the
+ MemoryRegion they create
+Date: Mon, 24 Feb 2020 21:55:33 +0100
+Message-Id: <20200224205533.23798-33-philmd@redhat.com>
 In-Reply-To: <20200224205533.23798-1-philmd@redhat.com>
 References: <20200224205533.23798-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -60,8 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,43 +104,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Avoid orphan memory regions being added in the /unattached QOM
 container.
 
-Note this change break the migration of the LM32 milkymist machine.
+Note this change break the migration of the nSeries machines.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/net/milkymist-minimac2.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/block/onenand.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/milkymist-minimac2.c b/hw/net/milkymist-minimac2.c
-index 1ba01754ee..9582b5f8a3 100644
---- a/hw/net/milkymist-minimac2.c
-+++ b/hw/net/milkymist-minimac2.c
-@@ -473,9 +473,9 @@ static void milkymist_minimac2_realize(DeviceState *dev=
-, Error **errp)
-     sysbus_init_mmio(sbd, &s->regs_region);
+diff --git a/hw/block/onenand.c b/hw/block/onenand.c
+index 898ac563a3..f49db0b2ee 100644
+--- a/hw/block/onenand.c
++++ b/hw/block/onenand.c
+@@ -173,8 +173,8 @@ static int onenand_post_load(void *opaque, int version_=
+id)
 =20
-     /* register buffers memory */
--    memory_region_init_ram_nomigrate(&s->buffers, OBJECT(dev), "milkymist-=
-minimac2.buffers",
-+    memory_region_init_ram(&s->buffers, OBJECT(dev),
-+                           "milkymist-minimac2.buffers",
-                            buffers_size, &error_fatal);
--    vmstate_register_ram_global(&s->buffers);
-     s->rx0_buf =3D memory_region_get_ram_ptr(&s->buffers);
-     s->rx1_buf =3D s->rx0_buf + MINIMAC2_BUFFER_SIZE;
-     s->tx_buf =3D s->rx1_buf + MINIMAC2_BUFFER_SIZE;
-@@ -506,8 +506,8 @@ static const VMStateDescription vmstate_milkymist_minim=
-ac2_mdio =3D {
-=20
- static const VMStateDescription vmstate_milkymist_minimac2 =3D {
-     .name =3D "milkymist-minimac2",
+ static const VMStateDescription vmstate_onenand =3D {
+     .name =3D "onenand",
 -    .version_id =3D 1,
 -    .minimum_version_id =3D 1,
 +    .version_id =3D 2,
 +    .minimum_version_id =3D 2,
+     .pre_save =3D onenand_pre_save,
+     .post_load =3D onenand_post_load,
      .fields =3D (VMStateField[]) {
-         VMSTATE_UINT32_ARRAY(regs, MilkymistMinimac2State, R_MAX),
-         VMSTATE_UINT16_ARRAY(phy_regs, MilkymistMinimac2State, R_PHY_MAX),
+@@ -809,9 +809,8 @@ static void onenand_realize(DeviceState *dev, Error **e=
+rrp)
+     }
+     s->otp =3D memset(g_malloc((64 + 2) << PAGE_SHIFT),
+                     0xff, (64 + 2) << PAGE_SHIFT);
+-    memory_region_init_ram_nomigrate(&s->ram, OBJECT(s), "onenand.ram",
++    memory_region_init_ram(&s->ram, OBJECT(s), "onenand.ram",
+                            0xc000 << s->shift, &error_fatal);
+-    vmstate_register_ram_global(&s->ram);
+     ram =3D memory_region_get_ram_ptr(&s->ram);
+     s->boot[0] =3D ram + (0x0000 << s->shift);
+     s->boot[1] =3D ram + (0x8000 << s->shift);
 --=20
 2.21.1
 
