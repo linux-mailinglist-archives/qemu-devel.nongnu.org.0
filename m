@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948AF16B125
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:50:18 +0100 (CET)
-Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D80216B127
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:50:39 +0100 (CET)
+Received: from localhost ([::1]:42145 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6KgD-0003Oe-Ax
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:50:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48657)
+	id 1j6KgY-0004CY-8M
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:50:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6Kej-0000vS-H2
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:46 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6Kel-00011Z-Cn
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6Kei-000646-Cc
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:45 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54283
+ (envelope-from <philmd@redhat.com>) id 1j6Kek-000661-Cw
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:47 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46121
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Kei-00063j-91
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:44 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Kek-00065P-7c
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582577323;
+ s=mimecast20190719; t=1582577325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pxC+1Wm7lZTcIVTNIaK8R7xk0TXOBYBpGoQjSWP/PII=;
- b=NqVLEnnsg78r+aABrJoVQazeHYfj/FgReavidfMKwPl03+0yYKgULibBPkEeix0UO55Ecw
- wsbeqGHbYLW+CHdmidz53OmnIk53yjrwf/j6dtBabwYDtSoGzrxpnNMER3a72IV1nGTbqB
- Lsn+8G7r6MdNi5igTtCBzNQkPJrxB4c=
+ bh=KKIXWkZQ88WTduFFFkbsC3MYjrqzYmU5aP3tKw4s+ro=;
+ b=EVaqCleLEx4N3hbWnVaxYwZxzK1HcQTlBL4zEXxH0yct1q+26cDyY981YpXqbyPT9MJyMC
+ q57DSxG3lbTv3cE+ZY4TC3GKYkhvrT+lmClnvK7hy0O8UevL9G4X0LEfQVNw4YI+AueXJS
+ z6/BCifpw7AU1u93ia7LqPxDX39fu+w=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-razanunqNReFVWwEx6iCgw-1; Mon, 24 Feb 2020 15:48:39 -0500
-X-MC-Unique: razanunqNReFVWwEx6iCgw-1
-Received: by mail-wm1-f70.google.com with SMTP id g26so236093wmk.6
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 12:48:39 -0800 (PST)
+ us-mta-277-Khfejm_nM5-6X5sipbKpqQ-1; Mon, 24 Feb 2020 15:48:42 -0500
+X-MC-Unique: Khfejm_nM5-6X5sipbKpqQ-1
+Received: by mail-wm1-f70.google.com with SMTP id m4so139619wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 12:48:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gxYYROcVaswdAAx61tJuJg4MU34WxQsacT4wWudpNIs=;
- b=jMaWAx/tOE9fGHG3SCstUFg12aKMQYVvSeZxhQZI39awhm9TCHg314ncQPfZAYFxv8
- uHlwMAmw/gnpoJS25zaaVvshS93JaQkzVh1jhD55iEq4WMHhltpOmMFcvgLISlProo99
- sU1hcQ0XIyRY63u7fB9wTWNy1xwrGrmpIaDDFV6PHtBhs7eoE7iCAwmLPeLz5F5xb4o4
- +2l6bx559+JBwLwoQprbHadGljwRzEkdc4ZBnUQMhWFEN3vb+zZBYAii1h0Ef7GM8y38
- v6PwaB3xAVQKbTlYD3IP/AtlISzbibeSRe4wA298vy6Jl1MqeckG794s3WtaMaQXWwBs
- q/ew==
-X-Gm-Message-State: APjAAAWW6gIItTrbC9P7xYqz1nlF3F592bgf7ZOho163CMibg0GuA3z+
- kBYJPuQvmzzOWwKD7a3pWAaWfwBX3FPEbZE36X/FXkke9bkxR3g4ZwHEnvs2gOk9XbXfRG6Z33C
- K2Xf/C2cFPERUJmI=
-X-Received: by 2002:a1c:988c:: with SMTP id a134mr754281wme.163.1582577318815; 
- Mon, 24 Feb 2020 12:48:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzF5UQ/qMSypEffTZ4LT2TIQPI6VnHE6rztTv1MazMcJxwUbIcYMiiwSsJE1b22ph9AcNyntA==
-X-Received: by 2002:a1c:988c:: with SMTP id a134mr754255wme.163.1582577318492; 
- Mon, 24 Feb 2020 12:48:38 -0800 (PST)
+ bh=pKNOtl8y4WJnqPTmGJ+A9Z44KVpFXaN4HJISuiqMTmo=;
+ b=YLnIqiNWX9pUPIOpRXJdbA57fhJXCP4YbEeCJSeknq6+b7hAf87JE2AiFGyP+reJC4
+ wiUtVo4bD39lERBlC7dJwRqsb2Txouw1JtoaVsses+azCCEUjJgSXLNSCY96pqGPSidS
+ YoByugb63pCCF5Xf9XFhhiYcDd8ObjhY9o/pccO4Ako4KsvXZ+KDBaiA4YhaVsQLNnfT
+ UBjv5O05tL22gF3dtqVe1hDePXt8RaooCqOTtGgUjaxkT5emcalQKx/E9PEyqJMJnaWd
+ CEn0TqMZmHKYr6r//8jqaOM++FIAauA+sd17hW9wCHg0zHlBQwwJ/0fvqG6wads0WpeU
+ yAjQ==
+X-Gm-Message-State: APjAAAX7PWNiNDIgjerxtAw+PQgXYOSlUABvnZrE14VnfUZj0zZmP4Y6
+ vuC5BFKpIew+1InIgnThu+Vx1PeKR2tjOVIlLnhRbgtjaWcRjoRWwKof2QP5POqrJY+1W4e0cZ4
+ 44ux1HjS6xYYqNDE=
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr69172187wrt.343.1582577320904; 
+ Mon, 24 Feb 2020 12:48:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy4MCZfRxgscfc/5ZSigtanCe63LnJ5kZKwhRv/zQemHwh1Jrdht+paqBfLCcFYfOZJBrKrrA==
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr69172166wrt.343.1582577320715; 
+ Mon, 24 Feb 2020 12:48:40 -0800 (PST)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id t81sm863436wmg.6.2020.02.24.12.48.36
+ by smtp.gmail.com with ESMTPSA id t81sm863436wmg.6.2020.02.24.12.48.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 12:48:37 -0800 (PST)
+ Mon, 24 Feb 2020 12:48:40 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH v2 03/32] scripts/cocci: Rename memory-region-{init-ram ->
- housekeeping}
-Date: Mon, 24 Feb 2020 21:47:59 +0100
-Message-Id: <20200224204828.23167-4-philmd@redhat.com>
+Subject: [PATCH v2 04/32] scripts/cocci: Patch to replace
+ memory_region_init_{ram, readonly -> rom}
+Date: Mon, 24 Feb 2020 21:48:00 +0100
+Message-Id: <20200224204828.23167-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200224204828.23167-1-philmd@redhat.com>
 References: <20200224204828.23167-1-philmd@redhat.com>
@@ -119,56 +119,44 @@ Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we are going to add various semantic changes related to the memory
-region API, rename this script to be more generic.
-Add a 'usage' header, and an entry in MAINTAINERS to avoid checkpatch
-warning.
+Add a semantic patch to replace memory_region_init_ram(readonly)
+by memory_region_init_rom().
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- ...t-ram.cocci =3D> memory-region-housekeeping.cocci} | 13 +++++++++++++
- MAINTAINERS                                         |  1 +
- 2 files changed, 14 insertions(+)
- rename scripts/coccinelle/{memory-region-init-ram.cocci =3D> memory-region=
--housekeeping.cocci} (84%)
+ .../memory-region-housekeeping.cocci           | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/scripts/coccinelle/memory-region-init-ram.cocci b/scripts/cocc=
-inelle/memory-region-housekeeping.cocci
-similarity index 84%
-rename from scripts/coccinelle/memory-region-init-ram.cocci
-rename to scripts/coccinelle/memory-region-housekeeping.cocci
-index d290150872..3699c1017e 100644
---- a/scripts/coccinelle/memory-region-init-ram.cocci
+diff --git a/scripts/coccinelle/memory-region-housekeeping.cocci b/scripts/=
+coccinelle/memory-region-housekeeping.cocci
+index 3699c1017e..ee3923d369 100644
+--- a/scripts/coccinelle/memory-region-housekeeping.cocci
 +++ b/scripts/coccinelle/memory-region-housekeeping.cocci
-@@ -1,3 +1,16 @@
-+/*
-+  Usage:
-+
-+    spatch \
-+        --macro-file scripts/cocci-macro-file.h \
-+        --sp-file scripts/coccinelle/memory-region-housekeeping.cocci \
-+        --keep-comments \
-+        --in-place \
-+        --dir .
-+
-+*/
+@@ -11,6 +11,24 @@
+ */
+=20
+=20
++// Replace memory_region_init_ram(readonly) by memory_region_init_rom()
++@@
++expression E1, E2, E3, E4, E5;
++symbol true;
++@@
++(
++- memory_region_init_ram(E1, E2, E3, E4, E5);
+++ memory_region_init_rom(E1, E2, E3, E4, E5);
++  ... WHEN !=3D E1
++- memory_region_set_readonly(E1, true);
++|
++- memory_region_init_ram_nomigrate(E1, E2, E3, E4, E5);
+++ memory_region_init_rom_nomigrate(E1, E2, E3, E4, E5);
++  ... WHEN !=3D E1
++- memory_region_set_readonly(E1, true);
++)
 +
 +
  // Replace by-hand memory_region_init_ram_nomigrate/vmstate_register_ram
  // code sequences with use of the new memory_region_init_ram function.
  // Similarly for the _rom and _rom_device functions.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 195dd58cac..316a8edbb6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1998,6 +1998,7 @@ F: include/exec/ramblock.h
- F: memory.c
- F: include/exec/memory-internal.h
- F: exec.c
-+F: scripts/coccinelle/memory-region-housekeeping.cocci
-=20
- SPICE
- M: Gerd Hoffmann <kraxel@redhat.com>
 --=20
 2.21.1
 
