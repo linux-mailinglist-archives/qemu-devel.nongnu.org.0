@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0922616B3D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:24:10 +0100 (CET)
-Received: from localhost ([::1]:45172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDD416B3D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:24:00 +0100 (CET)
+Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6M93-0005zd-1k
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:24:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
+	id 1j6M8t-0005db-Em
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:23:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7b-00041V-MT
+ (envelope-from <richard.henderson@linaro.org>) id 1j6M7c-00042V-8p
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7Z-0005jh-Ig
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:39 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41730)
+ (envelope-from <richard.henderson@linaro.org>) id 1j6M7a-0005ka-Kx
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:40 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41222)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6M7Z-0005jA-B8
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:37 -0500
-Received: by mail-pg1-x542.google.com with SMTP id 70so5836435pgf.8
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:37 -0800 (PST)
+ id 1j6M7a-0005k1-F3
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:38 -0500
+Received: by mail-pf1-x444.google.com with SMTP id j9so6066832pfa.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Sk0MOHyrllS0IcT8aMOfzN1UEtehTWfA11kplAVqlII=;
- b=uxlYRhCSH4fS8zWfj8VjQDzE3g3bBU/eoB0Vtq5JAmM3GnyuIpRxWGbviTEvhBPt5z
- 7bQ9XP4JsMhy7wq9Juq87Fvo+9dlonqBwvfy/UDnqmokfRaYnKyn9BJ5ArIYd5sT9Lni
- P+aFXA840NgV3/nsAJOAvPPpD8tkJZ3erQMGM7pBgQrSFA7mvbuxkgqvhziviYdCzIaQ
- T349Rsuc0vg/tuJT69bl2YlTR4pBk63TbMi+NMXWChKK99SLUIGJjcs+eAGSTOUQ1RZ8
- F6U/D4plCkjczUamaNFnp9/UW5ItQlvBfBbg2+/wqtVX6uyPzeNMw049L0krORY2v+Xx
- UlWQ==
+ bh=8VBDdJ2XXe8vgr+0Pu3Ei4ErsKpoLGqHBt+iFGkJN3g=;
+ b=w4z1kwQPk/JnG8w6+Gzb05842L5NXu3+w8WpW7vUfNqbqCMHrdqbpeYCQcgMnHQSJL
+ w/eeRExZx6WeEVRuZUOMNoy2nBfCkUbBkGSyUOlC2RU9EvebswVAAQJVFXESkXgl9jfp
+ LhVZs8CDzaQsjN/Wsy00R9Mg5uWmsSstW3lgPWAkjG6aL97/KG+caAXy1Wgh8ghLjjOD
+ NcKRIiddA5BmQxl7Qjg4Lr3sl0pEbFhGFFvNn+8t0tOUV7G2qu1P8uzs33Pm9sWwp7rl
+ cOu58Qv+gdNwnx6DkWFcYrJaPgZTqM9LBfr8rjd39+dykYGt02PEjR3RjykOTVsOn/WB
+ coaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Sk0MOHyrllS0IcT8aMOfzN1UEtehTWfA11kplAVqlII=;
- b=NSaetnvaTX5zf7HXQm1AndGjvDTdTrnUxFHXhxcmcNEXeBJjjm1hIcZgyI3IHvqRIH
- Vm1pzbcVKRi/YsVQkYfWGHcCmx0p/vQ3NEH2TX+TFcI3ndy6Imy7X0Jc2YcKYikeyFdC
- mgz6kuHgMT0Re5l/dQsJvK3te5/7vFaSfFyt8511J874kjnLjhTa4rtxyY2kzLJYLiSg
- VeDE1OOO+UlYRlmZxU2qttFAdJwP5Ywg5paV/UvHr7pakJfXyuYvB7PcRMxBOGg4mfoh
- O8SZBbNzrUaSfLjSlf09T/QaXv8Ldccyf4aZAPX79HkwUmr2rBH4ybYJSlCnq1F9XDZ/
- Mwaw==
-X-Gm-Message-State: APjAAAVASnRE3rSf0gcC0eVYLf2ZD4otLT9GjfpqtR7HQGKJdevr6+N4
- Nf/LYQZrpVmCU0VeCwrlXLovpDUkL3k=
-X-Google-Smtp-Source: APXvYqw9YQFEW9vALio9hD/0U0J/E1oUUJdhZx3Qyy97bUnvHl/7FtsMiW12EIQwpJnPGfHe8wL3Uw==
-X-Received: by 2002:a62:f94d:: with SMTP id g13mr53023785pfm.60.1582582955690; 
- Mon, 24 Feb 2020 14:22:35 -0800 (PST)
+ bh=8VBDdJ2XXe8vgr+0Pu3Ei4ErsKpoLGqHBt+iFGkJN3g=;
+ b=Q91KNZNP7PgZi3K5MjgNIE9M4UU1IsuA7BdxevVHrgwX6cgL+Tr8s1FRUsmCaFdJJA
+ kVXSCUuHdCJqkKxfWVzJIJiBLNpZKU9ptWwiaEeVVhmLumqnvr2wy34Q6y8BYYzAV7nj
+ +iEW+WSHb+AGg/nr8QnZ6YiRCJZRRahD+O6u6fiAsY6FtfDn8CDn35Ceq8IA0TYkXx2p
+ 2nzTBdZO+qHVlzE74ki8VxcFg2CIMe4Z1dMcm/HIXRQRfrWWntaBu+T7q1oyDCTeQMHr
+ Mdqc4mGxcIP2Em9GrSjZUIeYu+tiJXdkC8R+5DL72HK0CL9MN4RF1ZK3uITZN8oY6Ldp
+ 8PxQ==
+X-Gm-Message-State: APjAAAVd3dIux1Qf75H4GWybHO/4lvptCT/JTYDfXUKPt/nNcO8iXQWD
+ J1UFYhoQ+H60sg8YPG8gCz08XbjdpQo=
+X-Google-Smtp-Source: APXvYqz1eBvHybCPueVJTAC+W/5x6Gv2IKC1OMU1dlYTAQrWqbYKshB6SjoBmELU187830899hKDfw==
+X-Received: by 2002:a63:48f:: with SMTP id 137mr8382543pge.245.1582582957128; 
+ Mon, 24 Feb 2020 14:22:37 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.34
+ by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 14:22:35 -0800 (PST)
+ Mon, 24 Feb 2020 14:22:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/17] target/arm: Add isar_feature_aa32_vfp_simd
-Date: Mon, 24 Feb 2020 14:22:16 -0800
-Message-Id: <20200224222232.13807-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/17] target/arm: Rename isar_feature_aa32_fpdp_v2
+Date: Mon, 24 Feb 2020 14:22:17 -0800
+Message-Id: <20200224222232.13807-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200224222232.13807-1-richard.henderson@linaro.org>
 References: <20200224222232.13807-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,286 +79,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use this in the places that were checking ARM_FEATURE_VFP, and
-are obviously testing for the existance of the register set
-as opposed to testing for some particular instruction extension.
+The old name, isar_feature_aa32_fpdp, does not reflect
+that the test includes VFPv2.  We will introduce another
+feature tests for VFPv3.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h        |  9 +++++++++
- hw/intc/armv7m_nvic.c   | 20 ++++++++++----------
- linux-user/arm/signal.c |  4 ++--
- target/arm/arch_dump.c  | 11 ++++++-----
- target/arm/cpu.c        |  4 ++--
- target/arm/helper.c     |  4 ++--
- target/arm/m_helper.c   | 11 ++++++-----
- 7 files changed, 37 insertions(+), 26 deletions(-)
+ target/arm/cpu.h               |  4 ++--
+ target/arm/translate-vfp.inc.c | 40 +++++++++++++++++-----------------
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 65171cb30e..a128d48d40 100644
+index a128d48d40..1e6eac0cd2 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3450,6 +3450,15 @@ static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, FP) == 1;
+@@ -3470,9 +3470,9 @@ static inline bool isar_feature_aa32_fpshvec(const ARMISARegisters *id)
+     return FIELD_EX32(id->mvfr0, MVFR0, FPSHVEC) > 0;
  }
  
-+static inline bool isar_feature_aa32_vfp_simd(const ARMISARegisters *id)
-+{
-+    /*
-+     * Return true if either VFP or SIMD is implemented.
-+     * In this case, a minimum of VFP w/ D0-D15.
-+     */
-+    return FIELD_EX32(id->mvfr0, MVFR0, SIMDREG) > 0;
-+}
-+
- static inline bool isar_feature_aa32_simd_r32(const ARMISARegisters *id)
+-static inline bool isar_feature_aa32_fpdp(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_fpdp_v2(const ARMISARegisters *id)
  {
-     /* Return true if D16-D31 are implemented */
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 22a43e4984..a62587eb3f 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -1262,12 +1262,12 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-     case 0xd84: /* CSSELR */
-         return cpu->env.v7m.csselr[attrs.secure];
-     case 0xd88: /* CPACR */
--        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             return 0;
-         }
-         return cpu->env.v7m.cpacr[attrs.secure];
-     case 0xd8c: /* NSACR */
--        if (!attrs.secure || !arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (!attrs.secure || !cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             return 0;
-         }
-         return cpu->env.v7m.nsacr;
-@@ -1417,7 +1417,7 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-         }
-         return cpu->env.v7m.sfar;
-     case 0xf34: /* FPCCR */
--        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             return 0;
-         }
-         if (attrs.secure) {
-@@ -1444,12 +1444,12 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
-             return value;
-         }
-     case 0xf38: /* FPCAR */
--        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             return 0;
-         }
-         return cpu->env.v7m.fpcar[attrs.secure];
-     case 0xf3c: /* FPDSCR */
--        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             return 0;
-         }
-         return cpu->env.v7m.fpdscr[attrs.secure];
-@@ -1711,13 +1711,13 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
-         }
-         break;
-     case 0xd88: /* CPACR */
--        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             /* We implement only the Floating Point extension's CP10/CP11 */
-             cpu->env.v7m.cpacr[attrs.secure] = value & (0xf << 20);
-         }
-         break;
-     case 0xd8c: /* NSACR */
--        if (attrs.secure && arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (attrs.secure && cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             /* We implement only the Floating Point extension's CP10/CP11 */
-             cpu->env.v7m.nsacr = value & (3 << 10);
-         }
-@@ -1951,7 +1951,7 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
-         break;
+-    /* Return true if CPU supports double precision floating point */
++    /* Return true if CPU supports double precision floating point, VFPv2 */
+     return FIELD_EX32(id->mvfr0, MVFR0, FPDP) > 0;
+ }
+ 
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index ba46e2557a..e94876c30c 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -206,7 +206,7 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
+         return false;
      }
-     case 0xf34: /* FPCCR */
--        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             /* Not all bits here are banked. */
-             uint32_t fpccr_s;
  
-@@ -2005,13 +2005,13 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
-         }
-         break;
-     case 0xf38: /* FPCAR */
--        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             value &= ~7;
-             cpu->env.v7m.fpcar[attrs.secure] = value;
-         }
-         break;
-     case 0xf3c: /* FPDSCR */
--        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             value &= 0x07c00000;
-             cpu->env.v7m.fpdscr[attrs.secure] = value;
-         }
-diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index b0e753801b..d96fc27ce1 100644
---- a/linux-user/arm/signal.c
-+++ b/linux-user/arm/signal.c
-@@ -346,7 +346,7 @@ static void setup_sigframe_v2(struct target_ucontext_v2 *uc,
-     setup_sigcontext(&uc->tuc_mcontext, env, set->sig[0]);
-     /* Save coprocessor signal frame.  */
-     regspace = uc->tuc_regspace;
--    if (arm_feature(env, ARM_FEATURE_VFP)) {
-+    if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
-         regspace = setup_sigframe_v2_vfp(regspace, env);
+-    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
++    if (dp && !dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
      }
-     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
-@@ -671,7 +671,7 @@ static int do_sigframe_return_v2(CPUARMState *env,
  
-     /* Restore coprocessor signal frame */
-     regspace = uc->tuc_regspace;
--    if (arm_feature(env, ARM_FEATURE_VFP)) {
-+    if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
-         regspace = restore_sigframe_v2_vfp(env, regspace);
-         if (!regspace) {
-             return 1;
-diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-index 2345dec3c2..7693e17e96 100644
---- a/target/arm/arch_dump.c
-+++ b/target/arm/arch_dump.c
-@@ -363,9 +363,11 @@ int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-                              int cpuid, void *opaque)
- {
-     struct arm_note note;
--    CPUARMState *env = &ARM_CPU(cs)->env;
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-     DumpState *s = opaque;
--    int ret, i, fpvalid = !!arm_feature(env, ARM_FEATURE_VFP);
-+    int ret, i;
-+    bool fpvalid = cpu_isar_feature(aa32_vfp_simd, cpu);
- 
-     arm_note_init(&note, s, "CORE", 5, NT_PRSTATUS, sizeof(note.prstatus));
- 
-@@ -444,7 +446,6 @@ int cpu_get_dump_info(ArchDumpInfo *info,
- ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
- {
-     ARMCPU *cpu = ARM_CPU(first_cpu);
--    CPUARMState *env = &cpu->env;
-     size_t note_size;
- 
-     if (class == ELFCLASS64) {
-@@ -452,12 +453,12 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-         note_size += AARCH64_PRFPREG_NOTE_SIZE;
- #ifdef TARGET_AARCH64
-         if (cpu_isar_feature(aa64_sve, cpu)) {
--            note_size += AARCH64_SVE_NOTE_SIZE(env);
-+            note_size += AARCH64_SVE_NOTE_SIZE(&cpu->env);
-         }
- #endif
-     } else {
-         note_size = ARM_PRSTATUS_NOTE_SIZE;
--        if (arm_feature(env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             note_size += ARM_VFP_NOTE_SIZE;
-         }
+@@ -339,7 +339,7 @@ static bool trans_VMINMAXNM(DisasContext *s, arg_VMINMAXNM *a)
+         return false;
      }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2eadf4dcb8..be4c2a1253 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -293,7 +293,7 @@ static void arm_cpu_reset(CPUState *s)
-             env->v7m.ccr[M_REG_S] |= R_V7M_CCR_UNALIGN_TRP_MASK;
-         }
  
--        if (arm_feature(env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             env->v7m.fpccr[M_REG_NS] = R_V7M_FPCCR_ASPEN_MASK;
-             env->v7m.fpccr[M_REG_S] = R_V7M_FPCCR_ASPEN_MASK |
-                 R_V7M_FPCCR_LSPEN_MASK | R_V7M_FPCCR_S_MASK;
-@@ -1011,7 +1011,7 @@ static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-         int numvfpregs = 0;
-         if (cpu_isar_feature(aa32_simd_r32, cpu)) {
-             numvfpregs = 32;
--        } else if (arm_feature(env, ARM_FEATURE_VFP)) {
-+        } else if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             numvfpregs = 16;
-         }
-         for (i = 0; i < numvfpregs; i++) {
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 79db169e04..8841cc7fde 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -894,7 +894,7 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-          * ASEDIS [31] and D32DIS [30] are both UNK/SBZP without VFP.
-          * TRCDIS [28] is RAZ/WI since we do not implement a trace macrocell.
-          */
--        if (arm_feature(env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
-             /* VFP coprocessor: cp10 & cp11 [23:20] */
-             mask |= (1 << 31) | (1 << 30) | (0xf << 20);
- 
-@@ -7814,7 +7814,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-     } else if (cpu_isar_feature(aa32_simd_r32, cpu)) {
-         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
-                                  35, "arm-vfp3.xml", 0);
--    } else if (arm_feature(env, ARM_FEATURE_VFP)) {
-+    } else if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
-         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
-                                  19, "arm-vfp.xml", 0);
+-    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
++    if (dp && !dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
      }
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 33d414a684..5e8a795d20 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -738,7 +738,8 @@ static uint32_t v7m_integrity_sig(CPUARMState *env, uint32_t lr)
-      */
-     uint32_t sig = 0xfefa125a;
  
--    if (!arm_feature(env, ARM_FEATURE_VFP) || (lr & R_V7M_EXCRET_FTYPE_MASK)) {
-+    if (!cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))
-+        || (lr & R_V7M_EXCRET_FTYPE_MASK)) {
-         sig |= 1;
+@@ -425,7 +425,7 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
+         return false;
      }
-     return sig;
-@@ -841,7 +842,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
  
-     if (dotailchain) {
-         /* Sanitize LR FType and PREFIX bits */
--        if (!arm_feature(env, ARM_FEATURE_VFP)) {
-+        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
-             lr |= R_V7M_EXCRET_FTYPE_MASK;
-         }
-         lr = deposit32(lr, 24, 8, 0xff);
-@@ -1373,7 +1374,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+-    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
++    if (dp && !dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
  
-     ftype = excret & R_V7M_EXCRET_FTYPE_MASK;
+@@ -488,7 +488,7 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
+         return false;
+     }
  
--    if (!arm_feature(env, ARM_FEATURE_VFP) && !ftype) {
-+    if (!ftype && !cpu_isar_feature(aa32_vfp_simd, cpu)) {
-         qemu_log_mask(LOG_GUEST_ERROR, "M profile: zero FTYPE in exception "
-                       "exit PC value 0x%" PRIx32 " is UNPREDICTABLE "
-                       "if FPU not present\n",
-@@ -2450,7 +2451,7 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-              * SFPA is RAZ/WI from NS. FPCA is RO if NSACR.CP10 == 0,
-              * RES0 if the FPU is not present, and is stored in the S bank
-              */
--            if (arm_feature(env, ARM_FEATURE_VFP) &&
-+            if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env)) &&
-                 extract32(env->v7m.nsacr, 10, 1)) {
-                 env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
-                 env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_FPCA_MASK;
-@@ -2565,7 +2566,7 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-             env->v7m.control[env->v7m.secure] &= ~R_V7M_CONTROL_NPRIV_MASK;
-             env->v7m.control[env->v7m.secure] |= val & R_V7M_CONTROL_NPRIV_MASK;
-         }
--        if (arm_feature(env, ARM_FEATURE_VFP)) {
-+        if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
-             /*
-              * SFPA is RAZ/WI from NS or if no FPU.
-              * FPCA is RO if NSACR.CP10 == 0, RES0 if the FPU is not present.
+-    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
++    if (dp && !dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -1313,7 +1313,7 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -1462,7 +1462,7 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -1827,7 +1827,7 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -1926,7 +1926,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2070,7 +2070,7 @@ static bool trans_VCMP_dp(DisasContext *s, arg_VCMP_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2143,7 +2143,7 @@ static bool trans_VCVT_f64_f16(DisasContext *s, arg_VCVT_f64_f16 *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2209,7 +2209,7 @@ static bool trans_VCVT_f16_f64(DisasContext *s, arg_VCVT_f16_f64 *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2269,7 +2269,7 @@ static bool trans_VRINTR_dp(DisasContext *s, arg_VRINTR_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2330,7 +2330,7 @@ static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2389,7 +2389,7 @@ static bool trans_VRINTX_dp(DisasContext *s, arg_VRINTX_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2417,7 +2417,7 @@ static bool trans_VCVT_sp(DisasContext *s, arg_VCVT_sp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2445,7 +2445,7 @@ static bool trans_VCVT_dp(DisasContext *s, arg_VCVT_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2499,7 +2499,7 @@ static bool trans_VCVT_int_dp(DisasContext *s, arg_VCVT_int_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2539,7 +2539,7 @@ static bool trans_VJCVT(DisasContext *s, arg_VJCVT *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2632,7 +2632,7 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
+@@ -2728,7 +2728,7 @@ static bool trans_VCVT_dp_int(DisasContext *s, arg_VCVT_dp_int *a)
+         return false;
+     }
+ 
+-    if (!dc_isar_feature(aa32_fpdp, s)) {
++    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
+         return false;
+     }
+ 
 -- 
 2.20.1
 
