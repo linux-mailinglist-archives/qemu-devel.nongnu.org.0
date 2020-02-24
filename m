@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8173616A768
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 14:41:41 +0100 (CET)
-Received: from localhost ([::1]:36572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D8B16A7D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:02:12 +0100 (CET)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6DzQ-0003Ua-Gs
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 08:41:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42292)
+	id 1j6EJH-00087H-Ee
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:02:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45862)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luwei.kang@intel.com>) id 1j6Dxy-0001qz-RN
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 08:40:14 -0500
+ (envelope-from <bounces@canonical.com>) id 1j6EIB-0007GB-5D
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:01:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luwei.kang@intel.com>) id 1j6Dxv-0004Jy-6y
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 08:40:10 -0500
-Received: from mga04.intel.com ([192.55.52.120]:21090)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <luwei.kang@intel.com>)
- id 1j6Dxu-0004Ja-V8
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 08:40:07 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2020 05:40:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,480,1574150400"; d="scan'208";a="284354772"
-Received: from snr.bj.intel.com ([10.240.193.90])
- by FMSMGA003.fm.intel.com with ESMTP; 24 Feb 2020 05:40:02 -0800
-From: Luwei Kang <luwei.kang@intel.com>
-To: pbonzini@redhat.com,
-	rth@twiddle.net,
-	ehabkost@redhat.com
-Subject: [PATCH v1 3/3] i386: Mark the 'INTEL_PT' CPUID bit as unmigratable
-Date: Tue, 25 Feb 2020 05:38:32 +0800
-Message-Id: <1582580312-19864-4-git-send-email-luwei.kang@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582580312-19864-1-git-send-email-luwei.kang@intel.com>
-References: <1582580312-19864-1-git-send-email-luwei.kang@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.120
+ (envelope-from <bounces@canonical.com>) id 1j6EI5-0003GH-Vy
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:01:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45546)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j6EI5-0003G1-PI
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:00:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j6EI3-0006g8-C1
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5A0CB2E80C9
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:00:55 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Feb 2020 13:54:01 -0000
+From: Alex <1829242@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h nevilad
+X-Launchpad-Bug-Reporter: Alex (nevilad)
+X-Launchpad-Bug-Modifier: Alex (nevilad)
+References: <155792850856.14868.18260779757728395853.malonedeb@gac.canonical.com>
+Message-Id: <158255244180.29460.15691340714937998156.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1829242] Re: qemu on windows host exits after savevm command
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4cace0a3717c2c6d0afb76f897f7f1e201f9d1ee
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,34 +65,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luwei Kang <luwei.kang@intel.com>, qemu-devel@nongnu.org,
- beeman.strong@intel.com
+Reply-To: Bug 1829242 <1829242@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After expose all the capabilities of Intel PT to KVM guest, the guest Intel
-PT CPUID information may difference with same guest cpu model on differnt
-hardware. It will block the live migration. This patch will mark the Intel
-PT feature as unmigratable.
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-Signed-off-by: Luwei Kang <luwei.kang@intel.com>
----
- target/i386/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+-- =
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4d9e203..caee8b1 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1024,6 +1024,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             .reg = R_EBX,
-         },
-         .tcg_features = TCG_7_0_EBX_FEATURES,
-+        .unmigratable_flags = CPUID_7_0_EBX_INTEL_PT,
-     },
-     [FEAT_7_0_ECX] = {
-         .type = CPUID_FEATURE_WORD,
--- 
-1.8.3.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829242
 
+Title:
+  qemu on windows host exits after savevm command
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  I'm running qemu-system-i386.exe 3.1.0 with this command line:
+  "C:\Program Files\qemu\qemu-system-i386.exe"  -L C:\user\qemu\pc-bios\ -n=
+ame win7 -m 4G -uuid 564db62e-e031-b5cf-5f34-a75f8cefa98e -rtc base=3Dlocal=
+time -accel hax -hdd C:\VirtualMachines\Dev\Win10x64_VS17\swap.qcow "C:\Vir=
+tualMachines\qemu\qemu_win7.qcow"
+  Host OS Windows 10 x64, guest OS Wondows 7 x86.
+
+  Wait till the OS loads, go to compat_monitor0 tab and enter command:
+  savevm loaded_win
+  After a few seconds qemu exits, running it another time and entering comm=
+and:
+  info snapshots
+  says "There is no snapshot available". I've tried rinning it with -accel =
+tcg, with same results. I've tried less memory (1G), same results.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829242/+subscriptions
 
