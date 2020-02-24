@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E00916B1E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:14:33 +0100 (CET)
-Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA7A16B16C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:04:13 +0100 (CET)
+Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6L3g-0002uS-6v
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:14:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50575)
+	id 1j6Ktg-0000mQ-9P
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:04:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6KmS-0006zx-IG
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:45 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6KmA-0006Hc-CV
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6KmR-0003VA-Dt
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26012
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6KmR-0003Ty-7k
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582577802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pxC+1Wm7lZTcIVTNIaK8R7xk0TXOBYBpGoQjSWP/PII=;
- b=SRhIM+TgDp2i5P0dJi6aik0JN29ICMtBUxNYDUrBhLhjX9w5mbkNtjbyfl71eFwDs1dXwT
- /WEKoTIUtThtVFflbItb7/oEuSjdggbSb6n/omcMag3/UqZSRJd0nLzhlKosjObP5pMQm5
- WPqZqYiPozSvtxsYyjrEMr8bT98/RFk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-sOX200VyNxifcfS9zL5_kw-1; Mon, 24 Feb 2020 15:56:40 -0500
-X-MC-Unique: sOX200VyNxifcfS9zL5_kw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6FD6801A10;
- Mon, 24 Feb 2020 20:56:36 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-162.brq.redhat.com [10.40.205.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF3215C21B;
- Mon, 24 Feb 2020 20:56:20 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH RESEND v2 03/32] scripts/cocci: Rename memory-region-{init-ram
- -> housekeeping}
-Date: Mon, 24 Feb 2020 21:55:04 +0100
-Message-Id: <20200224205533.23798-4-philmd@redhat.com>
-In-Reply-To: <20200224205533.23798-1-philmd@redhat.com>
-References: <20200224205533.23798-1-philmd@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (envelope-from <jag.raman@oracle.com>) id 1j6Km8-000351-TI
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:26 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:41130)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
+ id 1j6Km8-000344-KO
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:24 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqZfx017693;
+ Mon, 24 Feb 2020 20:56:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : in-reply-to :
+ references; s=corp-2020-01-29;
+ bh=wu/8BnjW53rP1bdYeOpLZbtZ/ZVmT9UqvX3vg1UFB94=;
+ b=wrw6qbh5vsrgDl4IDNSVVJbc18ldx5Xav5K+54HiZBbieAIIYfbzEDIt2cNcx+Xh3Phv
+ 1Ku6lpxBA0KShjWsW9j75cj+ppvLfTl+NJtLVf41P0zkrXfrrYpH+4U4LGdSz2jMLxHI
+ FFRvPnTRLnQ1O94316nz/Xg9pBs+L8DlGZKmSKVCxN2Y7Umf9mmnUErE7fjch/ivnQU3
+ RkTevJAFjhVtnmzu71gA8F3iYsXNfJmT3aqblSLQR1ZEg4rf80PEDLXqA6piOKZjAv3k
+ KmC3CaOqGWgEfzDsi7r3SFnS1md0+D7Sv5CwRjMrlYvO54NchYUsSnPYlidwJQfvMf8R DQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2yavxrhyeg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 20:56:19 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq5M7171132;
+ Mon, 24 Feb 2020 20:56:19 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2ybdshkrr6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 20:56:19 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKuIwx008020;
+ Mon, 24 Feb 2020 20:56:18 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 24 Feb 2020 12:56:17 -0800
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 14/50] mutli-process: build remote command line args
+Date: Mon, 24 Feb 2020 15:55:05 -0500
+Message-Id: <588dafeecd20f8562f4a0dd68fa4bafbd6ea18bb.1582576372.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=1 spamscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1015 suspectscore=1 bulkscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,86 +89,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>, Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-riscv@nongnu.org, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we are going to add various semantic changes related to the memory
-region API, rename this script to be more generic.
-Add a 'usage' header, and an entry in MAINTAINERS to avoid checkpatch
-warning.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- ...t-ram.cocci =3D> memory-region-housekeeping.cocci} | 13 +++++++++++++
- MAINTAINERS                                         |  1 +
- 2 files changed, 14 insertions(+)
- rename scripts/coccinelle/{memory-region-init-ram.cocci =3D> memory-region=
--housekeeping.cocci} (84%)
+ v4 -> v5:
+  - Added "exec" suboption to get the executable's name
+  - Addressed feedback about variable names
+  - Removed redundant check for spawning a process
 
-diff --git a/scripts/coccinelle/memory-region-init-ram.cocci b/scripts/cocc=
-inelle/memory-region-housekeeping.cocci
-similarity index 84%
-rename from scripts/coccinelle/memory-region-init-ram.cocci
-rename to scripts/coccinelle/memory-region-housekeeping.cocci
-index d290150872..3699c1017e 100644
---- a/scripts/coccinelle/memory-region-init-ram.cocci
-+++ b/scripts/coccinelle/memory-region-housekeeping.cocci
-@@ -1,3 +1,16 @@
-+/*
-+  Usage:
+ hw/proxy/qemu-proxy.c         | 68 +++++++++++++++++++++++++++++++++----------
+ include/hw/proxy/qemu-proxy.h |  2 +-
+ 2 files changed, 54 insertions(+), 16 deletions(-)
+
+diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+index 828bbd7..d792e86 100644
+--- a/hw/proxy/qemu-proxy.c
++++ b/hw/proxy/qemu-proxy.c
+@@ -19,19 +19,50 @@
+ 
+ static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
+ 
++static int add_argv(char *opts_str, char **argv, int argc)
++{
++    int max_args = 64;
 +
-+    spatch \
-+        --macro-file scripts/cocci-macro-file.h \
-+        --sp-file scripts/coccinelle/memory-region-housekeeping.cocci \
-+        --keep-comments \
-+        --in-place \
-+        --dir .
++    if (argc < max_args - 1) {
++        argv[argc++] = opts_str;
++        argv[argc] = 0;
++    } else {
++        return 0;
++    }
 +
-+*/
++    return argc;
++}
 +
++static int make_argv(char *opts_str, char **argv, int argc)
++{
++    int max_args = 64;
 +
- // Replace by-hand memory_region_init_ram_nomigrate/vmstate_register_ram
- // code sequences with use of the new memory_region_init_ram function.
- // Similarly for the _rom and _rom_device functions.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 195dd58cac..316a8edbb6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1998,6 +1998,7 @@ F: include/exec/ramblock.h
- F: memory.c
- F: include/exec/memory-internal.h
- F: exec.c
-+F: scripts/coccinelle/memory-region-housekeeping.cocci
-=20
- SPICE
- M: Gerd Hoffmann <kraxel@redhat.com>
---=20
-2.21.1
++    char *p2 = strtok(opts_str, " ");
++    while (p2 && argc < max_args - 1) {
++        argv[argc++] = p2;
++        p2 = strtok(0, " ");
++    }
++    argv[argc] = 0;
++
++    return argc;
++}
++
+ static int remote_spawn(PCIProxyDev *pdev, const char *opts,
+                         const char *exec_name, Error **errp)
+ {
+-    char *args[3];
+     pid_t rpid;
+     int fd[2] = {-1, -1};
+     Error *local_error = NULL;
++    char *argv[64];
++    int argc = 0;
++    char *sfd;
++    char *exec_dir;
+     int rc = -EINVAL;
+ 
+     if (pdev->managed) {
+         /* Child is forked by external program (such as libvirt). */
+         error_setg(errp, "Remote processed is managed and launched by external program");
+-        return -1;
++        return rc;
+     }
+ 
+     if (!exec_name) {
+@@ -41,32 +72,38 @@ static int remote_spawn(PCIProxyDev *pdev, const char *opts,
+ 
+     if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
+         error_setg(errp, "Unable to create unix socket.");
+-        return -1;
++        return rc;
+     }
++    exec_dir = g_strdup_printf("%s/%s", qemu_get_exec_dir(), exec_name);
++    argc = add_argv(exec_dir, argv, argc);
++    sfd = g_strdup_printf("%d", fd[1]);
++    argc = add_argv(sfd, argv, argc);
++    argc = make_argv((char *)opts, argv, argc);
++
+     /* TODO: Restrict the forked process' permissions and capabilities. */
+     rpid = qemu_fork(&local_error);
+ 
+     if (rpid == -1) {
+         error_setg(errp, "Unable to spawn emulation program.");
+         close(fd[0]);
+-        close(fd[1]);
+-        return -1;
++        goto fail;
+     }
+ 
+     if (rpid == 0) {
+         close(fd[0]);
+ 
+-        args[0] = g_strdup(exec_name);
+-        args[1] = g_strdup_printf("%d", fd[1]);
+-        args[2] = NULL;
+-        execvp(args[0], (char *const *)args);
++        rc = execv(argv[0], (char *const *)argv);
+         exit(1);
+     }
+     pdev->remote_pid = rpid;
++    pdev->socket = fd[0];
++
++    rc = 0;
+ 
++fail:
+     close(fd[1]);
+ 
+-    return 0;
++    return rc;
+ }
+ 
+ static int get_proxy_sock(PCIDevice *dev)
+@@ -177,16 +214,17 @@ static void pci_proxy_dev_register_types(void)
+ type_init(pci_proxy_dev_register_types)
+ 
+ static void init_proxy(PCIDevice *dev, char *command, char *exec_name,
+-                       Error **errp)
++                       bool need_spawn, Error **errp)
+ {
+     PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
+     Error *local_error = NULL;
+ 
+     if (!pdev->managed) {
+-        if (command) {
+-            remote_spawn(pdev, command, exec_name, &local_error);
+-        } else {
+-            return;
++        if (need_spawn) {
++            if (remote_spawn(pdev, command, exec_name, &local_error)) {
++                error_propagate(errp, local_error);
++                return;
++            }
+         }
+     } else {
+         pdev->remote_pid = atoi(pdev->rid);
+diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
+index 28b0114..29fa2e9 100644
+--- a/include/hw/proxy/qemu-proxy.h
++++ b/include/hw/proxy/qemu-proxy.h
+@@ -39,7 +39,7 @@ typedef struct PCIProxyDev {
+ 
+     void (*proxy_ready) (PCIDevice *dev);
+     void (*init_proxy) (PCIDevice *dev, char *command, char *exec_name,
+-                        Error **errp);
++                        bool need_spawn, Error **errp);
+ 
+ } PCIProxyDev;
+ 
+-- 
+1.8.3.1
 
 
