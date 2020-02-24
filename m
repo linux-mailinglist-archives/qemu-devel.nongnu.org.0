@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A582D16B3DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:26:05 +0100 (CET)
-Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDAC16B3D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:24:05 +0100 (CET)
+Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6MAu-0001Ui-MO
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:26:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37821)
+	id 1j6M8y-0005rt-DB
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:24:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7i-0004Gp-91
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:47 -0500
+ (envelope-from <gshan@redhat.com>) id 1j6M7a-0003yY-Bd
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7h-0005qj-3B
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:46 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44407)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6M7g-0005qI-US
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:45 -0500
-Received: by mail-pl1-x644.google.com with SMTP id d9so4608418plo.11
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BR6sc2PsWl2NSv+8xYHc8XwgP3dTmPaC/PPPaHkcT3I=;
- b=DQ2dparviTdEn1mh9O1lQXFqY3QilS/OGLcCZ+Huii0oWHWSzMo2G6iYtJircXbGPC
- /gAs6Dz8gir/vzxWET88fVpkmNSKc9+2luOAiZAjF0Ku+ZxAu4d6PYJwpeTPwXFh5sbL
- WfbVPfeBSClTLbogMwUlHYwdhKFqwxIDs79mlGZwtkLb7rU8oQkS/7vn4aqqy5Bi12jK
- RMKhCYFJiMk6wKsXBKcc+8aHSsbS5aUVr3WOL1zmUoexLsBHUEDkdmR3/YUp1WnIvznY
- wHHoF6y1K2n+o4Xn2vd+RYvHv5u7D+lA+gSZexh7+p0KLkcIlT3EpzoqEcoSlJppmiJ5
- 5TuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BR6sc2PsWl2NSv+8xYHc8XwgP3dTmPaC/PPPaHkcT3I=;
- b=Tr10TcxxPt9iQNmKbz+BIhsCB9ReHaaqnRNCYspgRtgEKhvjOp/F28c8gGYv5QmLi4
- Rf4t4JqEetsu7oyfBIXiRcpUlKQ9bF9PNSD/cd6yBdxY/RlNCh0Gyd5NcpUNf7fCb04g
- c/9U9A8jm8WXl0O7l7a7Mp+dGPkXkPlnxMWXNgD57a5M0kek+3QpwntZ5zQXtQsfOVWi
- btN92ZTsA9t+Rfxlt+qFd0frBRh9FoQvWE3EEius7Nlth9cgk9fMrNLrQ935ix5hLO8R
- YXSDNZ62dz3Y9aykk4u2KclPdJwJp2YASm+8Lrcn3J5XNDbxM6CxcA8Y7Ps7OwUl784p
- l6FQ==
-X-Gm-Message-State: APjAAAWclI+iAr2ASR+UpaI5no/8K9kZz7+f8uU97V0J/4L1Ui5gfSTN
- VvUQg3Wuq9xABM8Lz4Cp9alVYrmF61I=
-X-Google-Smtp-Source: APXvYqyb7t5Cgw7jnuo9osC/qJYgdzVjWov5uP2Cf+UeEWNbr6Qr0dKvubbcol54DIhUKT/nRLdClA==
-X-Received: by 2002:a17:902:8d83:: with SMTP id
- v3mr52983013plo.282.1582582963580; 
- Mon, 24 Feb 2020 14:22:43 -0800 (PST)
-Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
- [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 14:22:42 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <gshan@redhat.com>) id 1j6M7Y-0005j2-H9
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34524
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1j6M7Y-0005iJ-E2
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582582955;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Vl9pzkgL9ZtA2TNJq2XUK0NJTfJBBMQ8TW15Np5+w7o=;
+ b=SZilWybjuMPF2G0EdVFtgtPfZql093Ef+c7Lwe9oxlqppN2/QmkUiyddmcDQhEPots+DLh
+ pPJkVpslvicp3WEIUUpFeX/PpoPoS+JZ+zoJnndWJeFqYigBnnT+i+tbFKQGAb1VFNWNyz
+ H7MSD9G0oR8dBi3ivPpQZdPah7O+pzE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-XNENPwxzNfavfkhQ0h9SZw-1; Mon, 24 Feb 2020 17:22:34 -0500
+X-MC-Unique: XNENPwxzNfavfkhQ0h9SZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8503818A5502;
+ Mon, 24 Feb 2020 22:22:32 +0000 (UTC)
+Received: from localhost.localdomain.com (vpn2-54-79.bne.redhat.com
+ [10.64.54.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0910A9078A;
+ Mon, 24 Feb 2020 22:22:28 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/17] target/arm: Replace ARM_FEATURE_VFP3 checks with
- fp{sp, dp}_v3
-Date: Mon, 24 Feb 2020 14:22:22 -0800
-Message-Id: <20200224222232.13807-8-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200224222232.13807-1-richard.henderson@linaro.org>
-References: <20200224222232.13807-1-richard.henderson@linaro.org>
+Subject: [PATCH v2] hw/arm: Use TYPE_PL011 to create serial port
+Date: Tue, 25 Feb 2020 09:22:23 +1100
+Message-Id: <20200224222223.4128-1-gshan@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,100 +68,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, radoslaw.biernacki@linaro.org,
+ alistair@alistair23.me, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ edgar.iglesias@gmail.com, leif@nuviainc.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sort this check to the start of a trans_* function.
-Merge this with any existing test for fpdp_v2.
+This uses TYPE_PL011 when creating the serial port so that the code
+looks cleaner.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/arm/translate-vfp.inc.c | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+v2: Improved changelog suggested by Phil
+---
+ hw/arm/sbsa-ref.c    | 3 ++-
+ hw/arm/virt.c        | 3 ++-
+ hw/arm/xlnx-versal.c | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index ff30165045..51d46f4302 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -717,7 +717,7 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
-          * VFPv2 allows access to FPSID from userspace; VFPv3 restricts
-          * all ID registers to privileged access only.
-          */
--        if (IS_USER(s) && arm_dc_feature(s, ARM_FEATURE_VFP3)) {
-+        if (IS_USER(s) && dc_isar_feature(aa32_fpsp_v3, s)) {
-             return false;
-         }
-         ignore_vfp_enabled = true;
-@@ -746,7 +746,7 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
-     case ARM_VFP_FPINST:
-     case ARM_VFP_FPINST2:
-         /* Not present in VFPv3 */
--        if (IS_USER(s) || arm_dc_feature(s, ARM_FEATURE_VFP3)) {
-+        if (IS_USER(s) || dc_isar_feature(aa32_fpsp_v3, s)) {
-             return false;
-         }
-         break;
-@@ -1873,12 +1873,12 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- 
-     vd = a->vd;
- 
--    if (!dc_isar_feature(aa32_fpshvec, s) &&
--        (veclen != 0 || s->vec_stride != 0)) {
-+    if (!dc_isar_feature(aa32_fpsp_v3, s)) {
-         return false;
-     }
- 
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP3)) {
-+    if (!dc_isar_feature(aa32_fpshvec, s) &&
-+        (veclen != 0 || s->vec_stride != 0)) {
-         return false;
-     }
- 
-@@ -1923,7 +1923,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
- 
-     vd = a->vd;
- 
--    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
-+    if (!dc_isar_feature(aa32_fpdp_v3, s)) {
-         return false;
-     }
- 
-@@ -1937,10 +1937,6 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
-         return false;
-     }
- 
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP3)) {
--        return false;
--    }
--
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2565,7 +2561,7 @@ static bool trans_VCVT_fix_sp(DisasContext *s, arg_VCVT_fix_sp *a)
-     TCGv_ptr fpst;
-     int frac_bits;
- 
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP3)) {
-+    if (!dc_isar_feature(aa32_fpsp_v3, s)) {
-         return false;
-     }
- 
-@@ -2625,11 +2621,7 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
-     TCGv_ptr fpst;
-     int frac_bits;
- 
--    if (!dc_isar_feature(aa32_fpdp_v2, s)) {
--        return false;
--    }
--
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP3)) {
-+    if (!dc_isar_feature(aa32_fpdp_v3, s)) {
-         return false;
-     }
- 
--- 
-2.20.1
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 9b5bcb5634..df0a165047 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -39,6 +39,7 @@
+ #include "hw/pci-host/gpex.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/usb.h"
++#include "hw/char/pl011.h"
+ #include "net/net.h"
+=20
+ #define RAMLIMIT_GB 8192
+@@ -409,7 +410,7 @@ static void create_uart(const SBSAMachineState *sms, in=
+t uart,
+ {
+     hwaddr base =3D sbsa_ref_memmap[uart].base;
+     int irq =3D sbsa_ref_irqmap[uart];
+-    DeviceState *dev =3D qdev_create(NULL, "pl011");
++    DeviceState *dev =3D qdev_create(NULL, TYPE_PL011);
+     SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
+=20
+     qdev_prop_set_chr(dev, "chardev", chr);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index f788fe27d6..d0da513737 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -71,6 +71,7 @@
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/acpi/generic_event_device.h"
++#include "hw/char/pl011.h"
+=20
+ #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+@@ -724,7 +725,7 @@ static void create_uart(const VirtMachineState *vms, in=
+t uart,
+     int irq =3D vms->irqmap[uart];
+     const char compat[] =3D "arm,pl011\0arm,primecell";
+     const char clocknames[] =3D "uartclk\0apb_pclk";
+-    DeviceState *dev =3D qdev_create(NULL, "pl011");
++    DeviceState *dev =3D qdev_create(NULL, TYPE_PL011);
+     SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
+=20
+     qdev_prop_set_chr(dev, "chardev", chr);
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index 1cf3daaf4f..403fc7b881 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -22,6 +22,7 @@
+ #include "hw/misc/unimp.h"
+ #include "hw/intc/arm_gicv3_common.h"
+ #include "hw/arm/xlnx-versal.h"
++#include "hw/char/pl011.h"
+=20
+ #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
+ #define GEM_REVISION        0x40070106
+@@ -144,7 +145,7 @@ static void versal_create_uarts(Versal *s, qemu_irq *pi=
+c)
+         DeviceState *dev;
+         MemoryRegion *mr;
+=20
+-        dev =3D qdev_create(NULL, "pl011");
++        dev =3D qdev_create(NULL, TYPE_PL011);
+         s->lpd.iou.uart[i] =3D SYS_BUS_DEVICE(dev);
+         qdev_prop_set_chr(dev, "chardev", serial_hd(i));
+         object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fat=
+al);
+--=20
+2.23.0
 
 
