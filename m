@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402BE16B1FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:18:15 +0100 (CET)
-Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC1F16B209
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:19:52 +0100 (CET)
+Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6L7E-0000OB-Vk
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51034)
+	id 1j6L8p-00032f-BY
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:19:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50927)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kn1-0008Up-PW
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:21 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kmt-00089D-LY
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kn0-00049S-9n
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:19 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:54012)
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kms-00040R-BI
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:11 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:45210)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Kn0-0003yH-0d
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:18 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrk6m164205;
- Mon, 24 Feb 2020 20:57:02 GMT
+ id 1j6Kms-0003zI-2F
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:10 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrMsA032061;
+ Mon, 24 Feb 2020 20:57:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=qDYoW1AXMZqQa0NU/wGw7heCo/JWH/fuX33lk6JC2lc=;
- b=C8/eDHw+7CzGJb79ZLNS3sjiwMnvrzC1/QzeCcG3qQtrXU3FbLhcaTU8vsqdPOM16aqy
- va6nOEUXnShHL7bqYmwTXEtoZoLkDlcwyLfv4btZjR31Rh4I+MSAtpY4ZxnNEVHxvx5L
- b1zBQeUispft940of32oAUr5lBSL7cCoHPJDNuYgpw82XArgJcJNNUBG3H5pQTvBjHiI
- Hi8jSw1mDXUrEjMoc7l31WziLIxeLz3ZUu0O3Lu8bxHXLJBmxMDd4IacoRLIjvtAIwia
- s7Ez8gBm7HzeL78nL48fN2KrG+hYu3z+/uQCLEJ+ND2fMvBajViu3Iq1rwzhwY1OacL4 wg== 
+ bh=lmaqRAdO5l0CBs7Nbf1bisuy3QrUQnsM4khCkN3guhY=;
+ b=gNfQKp5s98ZytpVHET8y9aNqcVQzoa9W5LYMXkXJENkXtbdtvgxoYI66XAaV2tjJTYRs
+ vbmWCRtZ38AltjuLIFCoAS4/Pa3o7mKu3nqgKP+2u/NhFL5zJo66YxNGa5d+edkmnFkb
+ lKx30IMKfeyqdOW+rHwbXW2e0qCwVSNzYBDJlAgPQLLCNG+bBd4bSPbKpMotN+9tSmt3
+ OERbVmEJf+0vmW59sUnQ7aL0/My6hRrjwtEKn9JGh7kdhatpfTeaWEtvIjAnHXiNYOJn
+ eKbyFidvCIupo7nqsAHGuyVEardrNMJMyt37m7mAk79qtHkJoUmS8m0ESFFFeYf/DOwE 3g== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2ybvr4p98x-1
+ by userp2130.oracle.com with ESMTP id 2yauqua0r5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:57:02 +0000
+ Mon, 24 Feb 2020 20:57:04 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKucmE072901;
- Mon, 24 Feb 2020 20:57:02 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2ybduv6dv4-1
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKueug073151;
+ Mon, 24 Feb 2020 20:57:03 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 2ybduv6dwu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:57:02 +0000
+ Mon, 24 Feb 2020 20:57:03 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKv0Uf030099;
- Mon, 24 Feb 2020 20:57:00 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKv1Cu028884;
+ Mon, 24 Feb 2020 20:57:01 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:56:59 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:57:01 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 41/50] multi-process/mig: Enable VMSD save in the Proxy
+Subject: [PATCH v5 42/50] multi-process/mig: Send VMSD of remote to the Proxy
  object
-Date: Mon, 24 Feb 2020 15:55:32 -0500
-Message-Id: <f056d73bb7f749171626cb8abc5a317b0ec17845.1582576372.git.jag.raman@oracle.com>
+Date: Mon, 24 Feb 2020 15:55:33 -0500
+Message-Id: <74d6f7b67720a31a53c25164f8d9769c32d8c643.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -71,14 +71,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  engine=8.12.0-2001150001 definitions=main-2002240154
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ bulkscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,214 +101,132 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Collect the VMSD from remote process on the source and save
-it to the channel leading to the destination
+The remote process sends the VMSD to the Proxy object, on the source
+side
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- v4 -> v5:
-  - Using qemu_file_shutdown() instead of qemu_thread_cancel(). Removed patch
-    which introduced qemu_thread_cancel()
+ migration/savevm.c   | 27 +++++++++++++++++++++++++++
+ migration/savevm.h   |  2 ++
+ remote/remote-main.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 72 insertions(+)
 
- hw/proxy/qemu-proxy.c         | 135 ++++++++++++++++++++++++++++++++++++++++++
- include/hw/proxy/qemu-proxy.h |   2 +
- include/io/mpqemu-link.h      |   1 +
- 3 files changed, 138 insertions(+)
-
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index b1b9282..19f0dbb 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -23,6 +23,14 @@
- #include "util/event_notifier-posix.c"
- #include "hw/boards.h"
- #include "include/qemu/log.h"
-+#include "io/channel.h"
-+#include "migration/qemu-file-types.h"
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 1d4220e..09af14d 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2942,3 +2942,30 @@ bool vmstate_check_only_migratable(const VMStateDescription *vmsd)
+ 
+     return !(vmsd && vmsd->unmigratable);
+ }
++
++int qemu_remote_savevm(QEMUFile *f)
++{
++    SaveStateEntry *se;
++    int ret;
++
++    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (!se->vmsd || !vmstate_save_needed(se->vmsd, se->opaque)) {
++            continue;
++        }
++
++        save_section_header(f, se, QEMU_VM_SECTION_FULL);
++
++        ret = vmstate_save(f, se, NULL);
++        if (ret) {
++            qemu_file_set_error(f, ret);
++            return ret;
++        }
++
++        save_section_footer(f, se);
++    }
++
++    qemu_put_byte(f, QEMU_VM_EOF);
++    qemu_fflush(f);
++
++    return 0;
++}
+diff --git a/migration/savevm.h b/migration/savevm.h
+index ba64a7e..0491d3a 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -65,4 +65,6 @@ void qemu_loadvm_state_cleanup(void);
+ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+ int qemu_load_device_state(QEMUFile *f);
+ 
++int qemu_remote_savevm(QEMUFile *f);
++
+ #endif
+diff --git a/remote/remote-main.c b/remote/remote-main.c
+index 58d9905..e97eb76 100644
+--- a/remote/remote-main.c
++++ b/remote/remote-main.c
+@@ -53,6 +53,16 @@
+ #include "qemu/log.h"
+ #include "qemu/cutils.h"
+ #include "remote-opts.h"
 +#include "qapi/error.h"
 +#include "io/channel-util.h"
++
++#include "io/channel.h"
++#include "io/channel-socket.h"
++#include "migration/qemu-file-types.h"
++#include "migration/savevm.h"
 +#include "migration/qemu-file-channel.h"
 +#include "migration/qemu-file.h"
-+#include "migration/migration.h"
-+#include "migration/vmstate.h"
- 
- QEMUTimer *hb_timer;
- static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
-@@ -35,6 +43,9 @@ static void broadcast_init(void);
- static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
-                           unsigned int op);
- 
-+#define PAGE_SIZE qemu_real_host_page_size
-+uint8_t *mig_data;
 +
- static void childsig_handler(int sig, siginfo_t *siginfo, void *ctx)
- {
-     /* TODO: Add proper handler. */
-@@ -460,6 +471,129 @@ static void pci_proxy_dev_inst_init(Object *obj)
-     dev->mem_init = false;
+ #include "monitor/monitor.h"
+ #include "chardev/char.h"
+ #include "sysemu/reset.h"
+@@ -322,6 +332,36 @@ static int setup_device(MPQemuMsg *msg, Error **errp)
+ 
  }
  
-+typedef struct {
-+    QEMUFile *rem;
-+    PCIProxyDev *dev;
-+} proxy_mig_data;
-+
-+static void *proxy_mig_out(void *opaque)
++static void process_start_mig_out(MPQemuMsg *msg)
 +{
-+    proxy_mig_data *data = opaque;
-+    PCIProxyDev *dev = data->dev;
-+    uint8_t byte;
-+    uint64_t data_size = PAGE_SIZE;
-+
-+    mig_data = g_malloc(data_size);
-+
-+    while (true) {
-+        byte = qemu_get_byte(data->rem);
-+
-+        if (qemu_file_get_error(data->rem)) {
-+            break;
-+        }
-+
-+        mig_data[dev->migsize++] = byte;
-+        if (dev->migsize == data_size) {
-+            data_size += PAGE_SIZE;
-+            mig_data = g_realloc(mig_data, data_size);
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static int proxy_pre_save(void *opaque)
-+{
-+    PCIProxyDev *pdev = opaque;
-+    proxy_mig_data *mig_data;
-+    QEMUFile *f_remote;
-+    MPQemuMsg msg = {0};
-+    QemuThread thread;
++    int wait = msg->fds[1];
 +    Error *err = NULL;
 +    QIOChannel *ioc;
-+    uint64_t size;
-+    int fd[2];
++    QEMUFile *f;
 +
-+    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
-+        return -1;
-+    }
-+
-+    ioc = qio_channel_new_fd(fd[0], &err);
++    ioc = qio_channel_new_fd(msg->fds[0], &err);
 +    if (err) {
 +        error_report_err(err);
-+        return -1;
++        return;
 +    }
 +
-+    qio_channel_set_name(QIO_CHANNEL(ioc), "PCIProxyDevice-mig");
++    qio_channel_set_name(QIO_CHANNEL(ioc), "remote-migration-channel");
 +
-+    f_remote = qemu_fopen_channel_input(ioc);
++    f = qemu_fopen_channel_output(ioc);
 +
-+    pdev->migsize = 0;
++    bdrv_drain_all();
++    (void)bdrv_flush_all();
 +
-+    mig_data = g_malloc0(sizeof(proxy_mig_data));
-+    mig_data->rem = f_remote;
-+    mig_data->dev = pdev;
++    (void)qemu_remote_savevm(f);
 +
-+    qemu_thread_create(&thread, "Proxy MIG_OUT", proxy_mig_out, mig_data,
-+                       QEMU_THREAD_DETACHED);
++    qemu_fflush(f);
 +
-+    msg.cmd = START_MIG_OUT;
-+    msg.bytestream = 0;
-+    msg.num_fds = 2;
-+    msg.fds[0] = fd[1];
-+    msg.fds[1] = GET_REMOTE_WAIT;
++    notify_proxy(wait, (uint64_t)qemu_ftell(f));
++    PUT_REMOTE_WAIT(wait);
 +
-+    mpqemu_msg_send(&msg, pdev->mpqemu_link->com);
-+    size = wait_for_remote(msg.fds[1]);
-+    PUT_REMOTE_WAIT(msg.fds[1]);
-+
-+    assert(size != ULLONG_MAX);
-+
-+    /*
-+     * migsize is being update by a separate thread. Using volatile to
-+     * instruct the compiler to fetch the value of this variable from
-+     * memory during every read
-+     */
-+    while (*((volatile uint64_t *)&pdev->migsize) < size) {
-+    }
-+
-+    qemu_file_shutdown(f_remote);
-+
-+    qemu_fclose(f_remote);
-+    close(fd[1]);
-+
-+    return 0;
++    qemu_fclose(f);
 +}
 +
-+static int proxy_post_save(void *opaque)
-+{
-+    MigrationState *ms = migrate_get_current();
-+    PCIProxyDev *pdev = opaque;
-+    uint64_t pos = 0;
-+
-+    while (pos < pdev->migsize) {
-+        qemu_put_byte(ms->to_dst_file, mig_data[pos]);
-+        pos++;
-+    }
-+
-+    qemu_fflush(ms->to_dst_file);
-+
-+    return 0;
-+}
-+
-+const VMStateDescription vmstate_pci_proxy_device = {
-+    .name = "PCIProxyDevice",
-+    .version_id = 2,
-+    .minimum_version_id = 1,
-+    .pre_save = proxy_pre_save,
-+    .post_save = proxy_post_save,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(parent_dev, PCIProxyDev),
-+        VMSTATE_UINT64(migsize, PCIProxyDev),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
  {
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-@@ -471,6 +605,7 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
-     k->config_write = pci_proxy_write_config;
- 
-     dc->reset = proxy_device_reset;
-+    dc->vmsd = &vmstate_pci_proxy_device;
- }
- 
- static const TypeInfo pci_proxy_dev_type_info = {
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index 5de8129..537c227 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -75,6 +75,8 @@ struct PCIProxyDev {
-                         bool need_spawn, Error **errp);
- 
-     ProxyMemoryRegion region[PCI_NUM_REGIONS];
-+
-+    uint64_t migsize;
- };
- 
- typedef struct PCIProxyDevClass {
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index d2234ca..b42c003 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -63,6 +63,7 @@ typedef enum {
-     PROXY_PING,
-     MMIO_RETURN,
-     DEVICE_RESET,
-+    START_MIG_OUT,
-     MAX,
- } mpqemu_cmd_t;
- 
+     MPQemuMsg *msg = NULL;
+@@ -411,6 +451,9 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
+             notify_proxy(msg->fds[0], 0);
+         }
+         break;
++    case START_MIG_OUT:
++        process_start_mig_out(msg);
++        break;
+     default:
+         error_setg(&err, "Unknown command");
+         goto finalize_loop;
 -- 
 1.8.3.1
 
