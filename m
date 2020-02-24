@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85F116A87C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:37:21 +0100 (CET)
-Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6ED616A88B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:38:50 +0100 (CET)
+Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ErI-00043W-Oe
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50775)
+	id 1j6Esj-0007dw-TR
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:38:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j6El5-0001wm-AR
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:56 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j6El7-00021D-5T
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j6El3-0002Mi-UG
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:55 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45566
+ (envelope-from <kwolf@redhat.com>) id 1j6El5-0002NC-GR
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:57 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23928
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j6El3-0002Mb-Pa
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:53 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j6El5-0002N3-CY
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:30:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582554653;
+ s=mimecast20190719; t=1582554655;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=njL4p+O8e20nCibvaiBgf6Oi+xeoYFNnJeIvfkpwLfc=;
- b=JCZbpBijVkKPdj3+f0heHL6M5Xh3IrYsSCt9k6Yi+w+d5yntFXbjLPhkyp22FKsk0+bUGS
- ZbKDBoBTHEywqxbToHrULifzSw0tYrXg22kh8joN5XsyNeU/pky/ygi9dOIkuSk5nV02/8
- SqWhdlgOdwbWF/0D0XWtY85F//AZp/Y=
+ bh=yYfHCSmvHKQJVbaPyMjxeFcUEJwMQfNJRAncsiwZcUk=;
+ b=f53POqkIiKyv4t4w6dnI65HUCRmZ2/zLH9ULhm+0gIs/ZL1zdb05Y6jt1sWUtKX7vvE+8c
+ KzkGeeBPFPEt5Vo+zfJnR7+3NTOwj2vl7ueBE0stTfiSGsnEvXn5UCLIUp09vTxJlwrRAC
+ FHOZNlLz9mrqn/+/U06QxIyS22an2kM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-uh_IhfU7NL6kaNkgj6045w-1; Mon, 24 Feb 2020 09:30:49 -0500
-X-MC-Unique: uh_IhfU7NL6kaNkgj6045w-1
+ us-mta-348-wel-zk7_Mvyg-trXnl954g-1; Mon, 24 Feb 2020 09:30:51 -0500
+X-MC-Unique: wel-zk7_Mvyg-trXnl954g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E3FD8024DF;
- Mon, 24 Feb 2020 14:30:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3A68018B4;
+ Mon, 24 Feb 2020 14:30:50 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-134.ams2.redhat.com
  [10.36.117.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDD995C114;
- Mon, 24 Feb 2020 14:30:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A6125C114;
+ Mon, 24 Feb 2020 14:30:48 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 08/20] qemu-storage-daemon: Add --object option
-Date: Mon, 24 Feb 2020 15:29:56 +0100
-Message-Id: <20200224143008.13362-9-kwolf@redhat.com>
+Subject: [PATCH v2 09/20] qemu-storage-daemon: Add --nbd-server option
+Date: Mon, 24 Feb 2020 15:29:57 +0100
+Message-Id: <20200224143008.13362-10-kwolf@redhat.com>
 In-Reply-To: <20200224143008.13362-1-kwolf@redhat.com>
 References: <20200224143008.13362-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -76,135 +76,182 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a command line option to create user-creatable QOM objects.
+Add a --nbd-server option to qemu-storage-daemon to start the built-in
+NBD server right away. It maps the arguments for nbd-server-start to the
+command line, with the exception that it uses SocketAddress instead of
+SocketAddressLegacy: New interfaces shouldn't use legacy types, and the
+additional nesting would be nasty on the command line.
+
+Example (only with required options):
+
+    --nbd-server addr.type=3Dinet,addr.host=3Dlocalhost,addr.port=3D10809
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-storage-daemon.c | 47 +++++++++++++++++++++++++++++++++++++++++++
+ qapi/block-core.json  | 24 ++++++++++++++++++++++++
+ include/block/nbd.h   |  1 +
+ blockdev-nbd.c        |  5 +++++
+ qemu-storage-daemon.c | 26 +++++++++++++++++++++++++-
  Makefile.objs         |  2 +-
- qom/Makefile.objs     |  1 +
- 3 files changed, 49 insertions(+), 1 deletion(-)
+ 5 files changed, 56 insertions(+), 2 deletions(-)
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b65b6a9f49..f8888f06c8 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5062,6 +5062,27 @@
+              'iothread': 'StrOrNull',
+              '*force': 'bool' } }
+=20
++##
++# @NbdServerOptions:
++#
++# @addr: Address on which to listen.
++# @tls-creds: ID of the TLS credentials object (since 2.6).
++# @tls-authz: ID of the QAuthZ authorization object used to validate
++#             the client's x509 distinguished name. This object is
++#             is only resolved at time of use, so can be deleted and
++#             recreated on the fly while the NBD server is active.
++#             If missing, it will default to denying access (since 4.0).
++#
++# Keep this type consistent with the nbd-server-start arguments. The only
++# intended difference is using SocketAddress instead of SocketAddressLegac=
+y.
++#
++# Since: 4.2
++##
++{ 'struct': 'NbdServerOptions',
++  'data': { 'addr': 'SocketAddress',
++            '*tls-creds': 'str',
++            '*tls-authz': 'str'} }
++
+ ##
+ # @nbd-server-start:
+ #
+@@ -5080,6 +5101,9 @@
+ #
+ # Returns: error if the server is already running.
+ #
++# Keep this type consistent with the NbdServerOptions type. The only inten=
+ded
++# difference is using SocketAddressLegacy instead of SocketAddress.
++#
+ # Since: 1.3.0
+ ##
+ { 'command': 'nbd-server-start',
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 7f46932d80..20363280ae 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -353,6 +353,7 @@ void nbd_client_put(NBDClient *client);
+=20
+ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+                       const char *tls_authz, Error **errp);
++void nbd_server_start_options(NbdServerOptions *arg, Error **errp);
+=20
+ /* nbd_read
+  * Reads @size bytes from @ioc. Returns 0 on success.
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index de2f2ff713..d8c892f7da 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -132,6 +132,11 @@ void nbd_server_start(SocketAddress *addr, const char =
+*tls_creds,
+     nbd_server =3D NULL;
+ }
+=20
++void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
++{
++    nbd_server_start(arg->addr, arg->tls_creds, arg->tls_authz, errp);
++}
++
+ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+                           bool has_tls_creds, const char *tls_creds,
+                           bool has_tls_authz, const char *tls_authz,
 diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index c30caaf59e..0cd8144c81 100644
+index 0cd8144c81..276a412915 100644
 --- a/qemu-storage-daemon.c
 +++ b/qemu-storage-daemon.c
-@@ -33,15 +33,19 @@
+@@ -28,11 +28,14 @@
+ #include <getopt.h>
+=20
+ #include "block/block.h"
++#include "block/nbd.h"
+ #include "crypto/init.h"
+=20
  #include "qapi/error.h"
- #include "qapi/qapi-visit-block-core.h"
+-#include "qapi/qapi-visit-block-core.h"
++#include "qapi/qapi-commands-block.h"
  #include "qapi/qapi-commands-block-core.h"
-+#include "qapi/qmp/qdict.h"
++#include "qapi/qapi-visit-block.h"
++#include "qapi/qapi-visit-block-core.h"
+ #include "qapi/qmp/qdict.h"
  #include "qapi/qobject-input-visitor.h"
 =20
- #include "qemu-common.h"
- #include "qemu-version.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
-+#include "qemu/help_option.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-+#include "qemu/option.h"
-+#include "qom/object_interfaces.h"
-=20
- #include "trace/control.h"
-=20
-@@ -63,12 +67,31 @@ static void help(void)
+@@ -67,6 +70,12 @@ static void help(void)
  "             [,driver specific parameters...]\n"
  "                         configure a block backend\n"
  "\n"
-+"  --object help          list object types that can be added\n"
-+"  --object <type>,help   list properties for the given object type\n"
-+"  --object <type>[,<property>=3D<value>...]\n"
-+"                         create a new object of type <type>, setting\n"
-+"                         properties in the order they are specified. Note=
-\n"
-+"                         that the 'id' property must be set.\n"
-+"                         See the qemu(1) man page for documentation of th=
-e\n"
-+"                         objects that can be added.\n"
++"  --nbd-server addr.type=3Dinet,addr.host=3D<host>,addr.port=3D<port>\n"
++"               [,tls-creds=3D<id>][,tls-authz=3D<id>]\n"
++"  --nbd-server addr.type=3Dunix,addr.path=3D<path>\n"
++"               [,tls-creds=3D<id>][,tls-authz=3D<id>]\n"
++"                         start an NBD server for exporting block nodes\n"
 +"\n"
- QEMU_HELP_BOTTOM "\n",
-     error_get_progname());
- }
+ "  --object help          list object types that can be added\n"
+ "  --object <type>,help   list properties for the given object type\n"
+ "  --object <type>[,<property>=3D<value>...]\n"
+@@ -82,6 +91,7 @@ QEMU_HELP_BOTTOM "\n",
 =20
  enum {
      OPTION_BLOCKDEV =3D 256,
-+    OPTION_OBJECT,
-+};
-+
-+static QemuOptsList qemu_object_opts =3D {
-+    .name =3D "object",
-+    .implied_opt_name =3D "qom-type",
-+    .head =3D QTAILQ_HEAD_INITIALIZER(qemu_object_opts.head),
-+    .desc =3D {
-+        { }
-+    },
++    OPTION_NBD_SERVER,
+     OPTION_OBJECT,
  };
 =20
- static void process_options(int argc, char *argv[])
-@@ -78,6 +101,7 @@ static void process_options(int argc, char *argv[])
+@@ -101,6 +111,7 @@ static void process_options(int argc, char *argv[])
      static const struct option long_options[] =3D {
          {"blockdev", required_argument, NULL, OPTION_BLOCKDEV},
          {"help", no_argument, NULL, 'h'},
-+        {"object", required_argument, NULL, OPTION_OBJECT},
++        {"nbd-server", required_argument, NULL, OPTION_NBD_SERVER},
+         {"object", required_argument, NULL, OPTION_OBJECT},
          {"trace", required_argument, NULL, 'T'},
          {"version", no_argument, NULL, 'V'},
-         {0, 0, 0, 0}
-@@ -121,6 +145,29 @@ static void process_options(int argc, char *argv[])
+@@ -145,6 +156,19 @@ static void process_options(int argc, char *argv[])
                  qapi_free_BlockdevOptions(options);
                  break;
              }
-+        case OPTION_OBJECT:
++        case OPTION_NBD_SERVER:
 +            {
-+                QemuOpts *opts;
-+                const char *type;
-+                QDict *args;
-+                QObject *ret_data =3D NULL;
++                Visitor *v;
++                NbdServerOptions *options;
 +
-+                /* FIXME The keyval parser rejects 'help' arguments, so we=
- must
-+                 * unconditionall try QemuOpts first. */
-+                opts =3D qemu_opts_parse(&qemu_object_opts,
-+                                       optarg, true, &error_fatal);
-+                type =3D qemu_opt_get(opts, "qom-type");
-+                if (type && user_creatable_print_help(type, opts)) {
-+                    exit(EXIT_SUCCESS);
-+                }
-+                qemu_opts_del(opts);
++                v =3D qobject_input_visitor_new_str(optarg, NULL, &error_f=
+atal);
++                visit_type_NbdServerOptions(v, NULL, &options, &error_fata=
+l);
++                visit_free(v);
 +
-+                args =3D keyval_parse(optarg, "qom-type", &error_fatal);
-+                qmp_object_add(args, &ret_data, &error_fatal);
-+                qobject_unref(args);
-+                qobject_unref(ret_data);
++                nbd_server_start_options(options, &error_fatal);
++                qapi_free_NbdServerOptions(options);
 +                break;
 +            }
-         default:
-             g_assert_not_reached();
-         }
+         case OPTION_OBJECT:
+             {
+                 QemuOpts *opts;
 diff --git a/Makefile.objs b/Makefile.objs
-index c7e1b36130..fa92b00427 100644
+index fa92b00427..25ab313690 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -31,7 +31,7 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
- # storage-daemon-obj-y is code used by qemu-storage-daemon (these objects =
-are
+@@ -32,7 +32,7 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
  # used for system emulation, too, but specified separately there)
 =20
--storage-daemon-obj-y =3D block/
-+storage-daemon-obj-y =3D block/ qom/
- storage-daemon-obj-y +=3D blockdev.o iothread.o
+ storage-daemon-obj-y =3D block/ qom/
+-storage-daemon-obj-y +=3D blockdev.o iothread.o
++storage-daemon-obj-y +=3D blockdev.o blockdev-nbd.o iothread.o
 =20
  ######################################################################
-diff --git a/qom/Makefile.objs b/qom/Makefile.objs
-index f9d77350ac..1b45d104ba 100644
---- a/qom/Makefile.objs
-+++ b/qom/Makefile.objs
-@@ -2,3 +2,4 @@ qom-obj-y =3D object.o container.o qom-qobject.o
- qom-obj-y +=3D object_interfaces.o
-=20
- common-obj-$(CONFIG_SOFTMMU) +=3D qom-hmp-cmds.o qom-qmp-cmds.o
-+storage-daemon-obj-y +=3D qom-qmp-cmds.o
+ # Target independent part of system emulation. The long term path is to
 --=20
 2.20.1
 
