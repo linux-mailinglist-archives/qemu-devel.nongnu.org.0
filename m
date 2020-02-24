@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C14516AF6D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 19:41:10 +0100 (CET)
-Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071C916AF82
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 19:43:36 +0100 (CET)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6IfF-0002IS-6f
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 13:41:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60153)
+	id 1j6Ihb-0004b1-3w
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 13:43:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6Ie4-0001gB-BC
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 13:39:57 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6IgP-0003rq-Pq
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 13:42:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6Ie3-0000Nb-8E
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 13:39:56 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:34439)
+ (envelope-from <peter.maydell@linaro.org>) id 1j6IgO-0005mO-Rt
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 13:42:21 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:41726)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6Ie2-0000MU-Vs
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 13:39:55 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id f2so176987pjq.1
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 10:39:54 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6IgO-0005l4-MY
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 13:42:20 -0500
+Received: by mail-oi1-x242.google.com with SMTP id i1so9929785oie.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 10:42:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=zubGseT9wH0F1ENLP7Fhgu5xm4hXEL++f8sLSVYuPcM=;
- b=Wzts5uCdxXl37sV/RTAwXeHqkGXaUR7gyYIXGjI1r4MWf3DrZZMMSjFFWNxJ89sK8Y
- pY4Xyy+EcvLup+bm/TlSPCt5oa1ATgE8fWU+PSd23WruIi99WYLYvYe9UMKnzMk4YGlk
- Sa5G8I0QqNkjjXllS0owNpE633paRfgfFDCM/cdQTRghDnOUOQFmnnmJfX7i0Gqn/mQq
- TF1l5fjw6v3EAxF5zVWiNfKPOCKolnWv+n4y1ChJnW/wGRiYfntacfPirZyVS+3DvEzu
- 32iePuEKnbQE0f5mGJ8g1L80ul4eFNrzV8G2iHCaYNDg6PPg+wCQmHXoiqylUOvjj6sY
- ZL7Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=frW4XW7C9DTZGXxJUUdjq/QcCG5YG62CSZMprWf4x6Y=;
+ b=EStkK0TsxQSuLSG1efUjuQEwGXU+WkgTERGXBN3i+bKNioU2iDXXMgmj5kUXqjAahe
+ dT38pnyNKn12CIrDn6FjFHpq+EWRO9B9kFTgMTgknciZrwgWZeiv2PgFj+1emj4hLeuB
+ 0e6rbeTXs5gMtLKyJwLMAmoWtTBEqXr5WaLf4Z2WK9Qs/0bHatkbwcrxqTr6OfIv4Lp3
+ lzfrdHduqKFUewfRoO6zQG8yzBonU+tRFLyF9CMzlvrsxZsXlUsywjzNQTbhEw/ez3ac
+ TIKAecbyjo6F1so/1s05gvu26SfP0lR9Cj1dx+nCbCLAihcSNKBzv40yzM9B0Lho7ELf
+ tOzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zubGseT9wH0F1ENLP7Fhgu5xm4hXEL++f8sLSVYuPcM=;
- b=A7Y2BbedsO8Li5BUapMqART9ohQweVpdxbwB1wCbyXRdS3cXYmH7ONBubgNLjJs68y
- Tbeko4TzwzXzOcl/N5wBRHb8gkwyiJyMkVbj1uf6doFIrSzsQifT+SmQrRzBMP7CZbNj
- DwF3OdMKkaKPKSdW+x8HAIFXpLYjYh2iRnZZKJFSnJlTfqpSBewljAhfOKiQh0YKaY3o
- Uf8YUDHFlgLhsn6WPQa0ZMg7kanfYFoUaivjLT+Wy9d1Pir8C/k1/AvDTmOyxz2sqYn6
- 7fKrPalZGum0eL+McbThU34WkcpRarvKICj6a28nzy5ZKpSWZkR3DrbC3FaRB6z4jRKp
- aBZg==
-X-Gm-Message-State: APjAAAW++WRXMVQ1Q1ExjqRx4Js5HCtgppAQHu95qFXrWW9hIhL8Mfyg
- j1E6BTjahS/kqcJwuoGMEwW0Ay9DFIs=
-X-Google-Smtp-Source: APXvYqz7X2ibh4Nh5yu9RhANkeZZpbL9f/zQNwIZ3HZOUkaDDrgRzRQvBbw+d1S3ceuM9/bSK3Dlkg==
-X-Received: by 2002:a17:90a:d104:: with SMTP id l4mr533337pju.60.1582569593620; 
- Mon, 24 Feb 2020 10:39:53 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- hg11sm179602pjb.14.2020.02.24.10.39.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 10:39:52 -0800 (PST)
-Subject: Re: [PATCH 3/3] target/arm: Implement v8.4-RCPC
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=frW4XW7C9DTZGXxJUUdjq/QcCG5YG62CSZMprWf4x6Y=;
+ b=PS3U9ETg4ZQV8vKE7I0rA92cvHvnlgzAET7qnZ9sba+ICFiJ2hzR8wVjd9VULhHxsP
+ TOTLXS9ZAlRoHjfeXDPqGHAo5PvVoBzAM1oYOD/7u+RIve2hFzbdhIgBZJSEAoHBOMgk
+ CbOHV/zaNL9coJCf37VGTvygXjOfOXzEbX72EpHmSW2ceiTORwtz5EqN4OSbIdLMwSSQ
+ qyH8x7iLxm2ZymsLbkpH9PkFfQolUddSp7ns3ZLi8TKEuj63WHhDIoyPs5Ifw6CpO8Kz
+ YSHKOcxhPCz/LSP/epN/4DElHoUcbx29hECbNCcnDKX4PMbfnrAbR2c8xdJIl0PHBkCp
+ FMXw==
+X-Gm-Message-State: APjAAAWd2WXOG73PMcRMjMwRw5fa5wci2ZgTzRl3ZURxO+bg/9I8x9vM
+ QFtpc7bFbxCIaa9gHZYV0fzMGZUmT3ZG0vzJHbrJEw==
+X-Google-Smtp-Source: APXvYqw/8DaRUbAlH1OLyRm7MmpRVV4z/mbvh9nJzQxlV4CcTNbdlcpWOCriwfMkzh2xaqBSGllBxCH7uBoDR5OuzRQ=
+X-Received: by 2002:aca:3d7:: with SMTP id 206mr375211oid.98.1582569739730;
+ Mon, 24 Feb 2020 10:42:19 -0800 (PST)
+MIME-Version: 1.0
 References: <20200224172846.13053-1-peter.maydell@linaro.org>
  <20200224172846.13053-4-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <60d47c82-1c7b-9e75-f4fd-fbf752092a82@linaro.org>
-Date: Mon, 24 Feb 2020 10:39:49 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200224172846.13053-4-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ <60d47c82-1c7b-9e75-f4fd-fbf752092a82@linaro.org>
+In-Reply-To: <60d47c82-1c7b-9e75-f4fd-fbf752092a82@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 Feb 2020 18:42:08 +0000
+Message-ID: <CAFEAcA-zDpucXU0fp+JerfhkOBEaHUZtv=05v_Zxuh0U8XTE_w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] target/arm: Implement v8.4-RCPC
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,31 +73,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/20 9:28 AM, Peter Maydell wrote:
-> The v8.4-RCPC extension implements some new instructions:
->  * LDAPUR, LDAPURB, LDAPURH, LDAPRSB, LDAPRSH, LDAPRSW
->  * STLUR, STLURB, STLURH
-> 
-> These are all in a new subgroup of encodings that sits below the
-> top-level "Loads and Stores" group in the Arm ARM.
-> 
-> The STLUR* instructions have standard store-release semantics; the
-> LDAPUR* have Load-AcquirePC semantics, but (as with LDAPR*) we choose
-> to implement them as the slightly stronger Load-Acquire.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/cpu.h           |  5 +++
->  linux-user/elfload.c       |  1 +
->  target/arm/cpu64.c         |  2 +-
->  target/arm/translate-a64.c | 90 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 97 insertions(+), 1 deletion(-)
+On Mon, 24 Feb 2020 at 18:39, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 2/24/20 9:28 AM, Peter Maydell wrote:
+> > The v8.4-RCPC extension implements some new instructions:
+> >  * LDAPUR, LDAPURB, LDAPURH, LDAPRSB, LDAPRSH, LDAPRSW
+> >  * STLUR, STLURB, STLURH
+> >
+> > These are all in a new subgroup of encodings that sits below the
+> > top-level "Loads and Stores" group in the Arm ARM.
+> >
+> > The STLUR* instructions have standard store-release semantics; the
+> > LDAPUR* have Load-AcquirePC semantics, but (as with LDAPR*) we choose
+> > to implement them as the slightly stronger Load-Acquire.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> >  target/arm/cpu.h           |  5 +++
+> >  linux-user/elfload.c       |  1 +
+> >  target/arm/cpu64.c         |  2 +-
+> >  target/arm/translate-a64.c | 90 ++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 97 insertions(+), 1 deletion(-)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I guess your memtag series will need to account for the extra
+loads/stores added by this series, incidentally.
 
-
-r~
+thanks
+-- PMM
 
