@@ -2,90 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D956316A828
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:17:29 +0100 (CET)
-Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5D016A830
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:20:45 +0100 (CET)
+Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6EY4-0003Zd-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:17:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
+	id 1j6EbE-00061N-JX
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:20:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <muriloo@linux.ibm.com>) id 1j6EX7-00035V-MC
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:16:30 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1j6Ea4-0004Ij-1L
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:19:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <muriloo@linux.ibm.com>) id 1j6EX5-0004QK-Ph
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:16:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4472
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <muriloo@linux.ibm.com>)
- id 1j6EX5-0004Py-KI
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:16:27 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01OEFep8106815; Mon, 24 Feb 2020 09:16:24 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yb161ts8p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 09:16:24 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01OEGA51110429;
- Mon, 24 Feb 2020 09:16:23 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yb161ts7x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 09:16:23 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01OEC3kT017577;
- Mon, 24 Feb 2020 14:16:22 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 2yaux6h365-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 14:16:22 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01OEGKQH59244958
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 14:16:21 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC8A0BE054;
- Mon, 24 Feb 2020 14:16:20 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AC3B6BE05A;
- Mon, 24 Feb 2020 14:16:19 +0000 (GMT)
-Received: from localhost (unknown [9.85.197.149])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 24 Feb 2020 14:16:19 +0000 (GMT)
-From: Murilo Opsfelder =?ISO-8859-1?Q?Ara=FAjo?= <muriloo@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 fixed 08/16] util/mmap-alloc: Factor out calculation of
- pagesize to mmap_pagesize()
-Date: Mon, 24 Feb 2020 11:16:16 -0300
-Message-ID: <3378805.CNlBlhNnSm@kermit.br.ibm.com>
-Organization: IBM
-In-Reply-To: <7252629e-6290-5709-ea3c-d215622975ed@redhat.com>
-References: <20200212134254.11073-1-david@redhat.com>
- <94b76367-4730-33a8-59ba-6b1c978ec2ea@redhat.com>
- <7252629e-6290-5709-ea3c-d215622975ed@redhat.com>
+ (envelope-from <ysato@users.sourceforge.jp>) id 1j6Ea2-0005o3-Ga
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:19:31 -0500
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:60383)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1j6Ea2-0005mA-7Y
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:19:30 -0500
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id CBE99E3784;
+ Mon, 24 Feb 2020 23:19:27 +0900 (JST)
+Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
+ [222.8.5.235])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 32E6E24008E;
+ Mon, 24 Feb 2020 23:19:27 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v32 00/22] Add RX archtecture support
+Date: Mon, 24 Feb 2020 23:19:01 +0900
+Message-Id: <20200224141923.82118-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-24_04:2020-02-21,
- 2020-02-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1011
- bulkscore=0 impostorscore=0 adultscore=0 phishscore=0 malwarescore=0
- mlxscore=0 suspectscore=1 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240118
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,82 +51,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: richard.henderson@linaro.org, philmd@redhat.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday, February 24, 2020 7:57:03 AM -03 David Hildenbrand wrote:
-> On 24.02.20 11:50, David Hildenbrand wrote:
-> > On 19.02.20 23:46, Peter Xu wrote:
-> >> On Wed, Feb 12, 2020 at 02:42:46PM +0100, David Hildenbrand wrote:
-> >>> Factor it out and add a comment.
-> >>>
-> >>> Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
-> >>> Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> >>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> >>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> >>> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> >>> Cc: Greg Kurz <groug@kaod.org>
-> >>> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> >>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >>> Cc: Igor Mammedov <imammedo@redhat.com>
-> >>> Signed-off-by: David Hildenbrand <david@redhat.com>
-> >>> ---
-> >>>
-> >>>  util/mmap-alloc.c | 21 ++++++++++++---------
-> >>>  1 file changed, 12 insertions(+), 9 deletions(-)
-> >>>
-> >>> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-> >>> index 27dcccd8ec..82f02a2cec 100644
-> >>> --- a/util/mmap-alloc.c
-> >>> +++ b/util/mmap-alloc.c
-> >>> @@ -82,17 +82,27 @@ size_t qemu_mempath_getpagesize(const char
-> >>> *mem_path)
-> >>>
-> >>>      return qemu_real_host_page_size;
-> >>>
-> >>>  }
-> >>>
-> >>> +static inline size_t mmap_pagesize(int fd)
-> >>> +{
-> >>> +#if defined(__powerpc64__) && defined(__linux__)
-> >>> +    /* Mappings in the same segment must share the same page size */
-> >>> +    return qemu_fd_getpagesize(fd);
-> >>> +#else
-> >>> +    return qemu_real_host_page_size;
-> >>> +#endif
-> >>> +}
-> >>
-> >> Pure question: This will return 4K even for huge pages on x86, is this
-> >> what we want?
-> >
-> > (was asking myself the same question) I *think* it's intended. It's
-> > mainly only used to allocate one additional guard page. The callers of
-> > qemu_ram_mmap() make sure that the size is properly aligned (e.g., to
-> > huge pages).
-> >
-> > Of course, a 4k guard page is sufficient - unless we can't use that
-> > (special case for ppc64 here).
-> >
-> > Thanks!
->
-> We could rename the function to mmap_guard_pagesize(), thoughts?
+Hello.
+This patch series is added Renesas RX target emulation.
 
-The existing qemu_fd_getpagesize() already returns qemu_real_host_page_size for
-non-anonymous mappings (when fd == -1).  I think this new mmap_pagesize() could
-be dropped in favor of qemu_fd_getpagesize().
+Changes for v31.
+Squash minor changes.
 
-A side effect of this change would be guard page using a bit more memory for
-non-anonymous mapping.  Could that be a problem?
+Changes for v30.
+Follow master changes.
+Fix checkpatch error.
 
-What do you think?
+Changes for v29.
+Add target description XML. It required gdb-9.1.
+Follow git master changes.
 
---
-Murilo
+Changes for v28.
+Allow -m option.
+With this option, 16 Mbytes or more can be specified.
+Add example for qemu-doc.
+Fix build error on latest master.
+
+Changes for v27.
+Added RX section to qemu-doc.
+Rebase for master
+
+Changes for v26.
+Rebase for 5.0
+Update machine.json for 5.0
+
+Changes for v25.
+Update commit message.
+Squashed qapi/machine.json changes.
+
+Changes for v24.
+Add note for qapi/machine.json.
+Added Acked-by for 6/22.
+git rebase master.
+
+Changes for v23.
+Follow master changes.
+
+Changes for v22.
+Added some include.
+
+Changes for v21.
+rebase latest master.
+Remove unneeded hmp_info_tlb.
+
+Chanegs for v20.
+Reorderd patches.
+Squashed v19 changes.
+
+Changes for v19.
+Follow tcg changes.
+Cleanup cpu.c.
+simplify rx_cpu_class_by_name and rx_load_image move to rx-virt.
+
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20200224
+
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
+
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-virt.dtb (DeviceTre=
+e)
+
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-virt.dtb -append "earlycon"
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
+  BootLinuxConsoleTest: Test the RX-Virt machine
+
+Richard Henderson (7):
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (12):
+  MAINTAINERS: Add RX
+  qemu/bitops.h: Add extract8 and extract16
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+  qemu-doc.texi: Add RX section.
+
+ qemu-doc.texi                          |   44 +
+ configure                              |   11 +-
+ default-configs/rx-softmmu.mak         |    3 +
+ qapi/machine.json                      |    2 +-
+ include/disas/dis-asm.h                |    5 +
+ include/exec/poison.h                  |    1 +
+ include/hw/char/renesas_sci.h          |   45 +
+ include/hw/intc/rx_icu.h               |   56 +
+ include/hw/registerfields.h            |   32 +-
+ include/hw/rx/rx.h                     |    7 +
+ include/hw/rx/rx62n.h                  |   91 +
+ include/hw/timer/renesas_cmt.h         |   38 +
+ include/hw/timer/renesas_tmr.h         |   53 +
+ include/qemu/bitops.h                  |   38 +
+ include/sysemu/arch_init.h             |    1 +
+ target/rx/cpu-param.h                  |   31 +
+ target/rx/cpu-qom.h                    |   42 +
+ target/rx/cpu.h                        |  181 ++
+ target/rx/helper.h                     |   31 +
+ target/rx/insns.decode                 |  621 ++++++
+ arch_init.c                            |    2 +
+ hw/char/renesas_sci.c                  |  342 ++++
+ hw/intc/rx_icu.c                       |  379 ++++
+ hw/rx/rx-virt.c                        |  144 ++
+ hw/rx/rx62n.c                          |  247 +++
+ hw/timer/renesas_cmt.c                 |  278 +++
+ hw/timer/renesas_tmr.c                 |  458 +++++
+ target/rx/cpu.c                        |  218 +++
+ target/rx/disas.c                      | 1446 ++++++++++++++
+ target/rx/gdbstub.c                    |  112 ++
+ target/rx/helper.c                     |  149 ++
+ target/rx/op_helper.c                  |  470 +++++
+ target/rx/translate.c                  | 2432 ++++++++++++++++++++++++
+ tests/qtest/machine-none-test.c        |    1 +
+ MAINTAINERS                            |   19 +
+ gdb-xml/rx-core.xml                    |   70 +
+ hw/Kconfig                             |    1 +
+ hw/char/Kconfig                        |    3 +
+ hw/char/Makefile.objs                  |    1 +
+ hw/intc/Kconfig                        |    3 +
+ hw/intc/Makefile.objs                  |    1 +
+ hw/rx/Kconfig                          |   14 +
+ hw/rx/Makefile.objs                    |    2 +
+ hw/timer/Kconfig                       |    6 +
+ hw/timer/Makefile.objs                 |    3 +
+ target/rx/Makefile.objs                |   11 +
+ tests/acceptance/boot_linux_console.py |   46 +
+ 47 files changed, 8188 insertions(+), 3 deletions(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu-param.h
+ create mode 100644 target/rx/cpu-qom.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 target/rx/insns.decode
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 gdb-xml/rx-core.xml
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+
+--=20
+2.20.1
+
 
