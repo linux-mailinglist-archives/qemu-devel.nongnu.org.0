@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC1016B15F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:00:02 +0100 (CET)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9381916B14B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:57:45 +0100 (CET)
+Received: from localhost ([::1]:42656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Kpd-0003Be-Le
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:00:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50056)
+	id 1j6KnQ-0007mB-J5
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Klx-0005ni-Dc
+ (envelope-from <jag.raman@oracle.com>) id 1j6Klx-0005nT-Es
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Klw-0002pR-0p
+ (envelope-from <jag.raman@oracle.com>) id 1j6Klw-0002pW-0s
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:13 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:52506)
+Received: from userp2130.oracle.com ([156.151.31.86]:43578)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Klv-0002mw-1J
+ id 1j6Klv-0002mR-1G
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:11 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrZj7164095;
- Mon, 24 Feb 2020 20:56:01 GMT
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrGAA032006;
+ Mon, 24 Feb 2020 20:56:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=wZO3A2sTSI60a6rOgnl5OMupRv+gO+g6Ho8RtvDFics=;
- b=iWZnQyrzIpp1HQdyJc092xe49Gyj4EleomNOdJQ75g6pDWq4dP0flZVa7VayrYbKxhlI
- WajJE6tjdOC4fi9sQEXu+JCmSzP0CNro/Lf4j4pSKDH9Vua1eloQvnQJ5AIABT42Za73
- YTtkNbdOSG+fnC4Xv55aCog7xoe0J10nAQcixyUEGqLTdV4euPUvPFXJ4st+oRGrlDja
- lYLMGaZRWt9HF9xyNXAhkOryoD/xl+41z1eprJyGTyMWrJTToYJNeEhrKGtG+XZjCzqn
- cEmHH06B1UqqZsJsew7nRkDL6culQIV2cgkBxCTRo5vQBjlU6hmdXWHbM40ydqAv3+0a qw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2ybvr4p929-1
+ bh=DWnK2tEiCnMsNUQ42mzfnKipe+sJE3pIp5q1h4XxRSY=;
+ b=CPTSjCZb9tgQ4MMdFHmmRKZB3cBCinU+HPzDXFQ+Sdt8xnLLUQZjT8dIqsknrLtKgyeI
+ D5lTjy0jobo+7/9vmfZJCvaaxJOV5gzoH8z+/DMQodQvzLWqyN5Jnqxoip7Tpw9NI/pz
+ u/oCqGVbI04rUwy6K25TgstIh6vn6XoUcoQXbnOHQ/PeMTgMO+AsZxNRPSoa1+/hQ6yy
+ PgGM+RNgmkWDxpSkquoo4Ev1iALEcoXRtLO4bxLL9fZhVc0xAfSvdb+eamfTb1JLNn/2
+ 6AIx3j0TGsFSYjI0IoqisZJYRe3+DU2z8BABNE3NYZL8kjfQFavJPievxO0XnVVeCryq uw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 2yauqua0hr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:01 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq7Wd088963;
- Mon, 24 Feb 2020 20:56:00 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 2yby5dm9s7-1
+ Mon, 24 Feb 2020 20:56:02 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKptdA108379;
+ Mon, 24 Feb 2020 20:56:02 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 2ybe123s3j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:00 +0000
+ Mon, 24 Feb 2020 20:56:02 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKtwvp028220;
- Mon, 24 Feb 2020 20:55:58 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKu04S007709;
+ Mon, 24 Feb 2020 20:56:00 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:55:58 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:55:59 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/50] multi-process: Refactor machine_init and exit
- notifiers
-Date: Mon, 24 Feb 2020 15:54:53 -0500
-Message-Id: <5087037defe31df3abbcd677d206540247649b83.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 03/50] multi-process: add a command line option for debug
+ file
+Date: Mon, 24 Feb 2020 15:54:54 -0500
+Message-Id: <5b93441cf970aff1072c80ca6487bb36c02558a5.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -64,21 +64,21 @@ In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 bulkscore=0
- suspectscore=1 mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002240153
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
- signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  spamscore=0
- clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=1 malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240153
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ bulkscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,160 +101,44 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Relocate machine_int and exit notifiers into common code
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+
+Can be used with -d rdebug command options when starting qemu.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/sysemu/sysemu.h |  2 ++
- softmmu/vl.c            | 42 ------------------------------------------
- util/notify.c           | 43 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 45 insertions(+), 42 deletions(-)
+ include/qemu/log.h | 1 +
+ util/log.c         | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index dec64fc..2f37e2b 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -17,11 +17,13 @@ extern bool qemu_uuid_set;
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index f4724f7..a039ddb 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -64,6 +64,7 @@ static inline bool qemu_log_separate(void)
+ #define CPU_LOG_PLUGIN     (1 << 18)
+ /* LOG_STRACE is used for user-mode strace logging. */
+ #define LOG_STRACE         (1 << 19)
++#define LOG_REMOTE_DEBUG   (1 << 20)
  
- void qemu_add_exit_notifier(Notifier *notify);
- void qemu_remove_exit_notifier(Notifier *notify);
-+void qemu_run_exit_notifiers(void);
+ /* Lock output for a series of related logs.  Since this is not needed
+  * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+diff --git a/util/log.c b/util/log.c
+index 2da6cb3..1f90e70 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -334,6 +334,8 @@ const QEMULogItem qemu_log_items[] = {
+ #endif
+     { LOG_STRACE, "strace",
+       "log every user-mode syscall, its input, and its result" },
++    { LOG_REMOTE_DEBUG, "rdebug",
++      "log remote debug" },
+     { 0, NULL, NULL },
+ };
  
- extern bool machine_init_done;
- 
- void qemu_add_machine_init_done_notifier(Notifier *notify);
- void qemu_remove_machine_init_done_notifier(Notifier *notify);
-+void qemu_run_machine_init_done_notifiers(void);
- 
- extern int autostart;
- 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 92c7b3a..94a7b93 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -173,12 +173,6 @@ int icount_align_option;
- QemuUUID qemu_uuid;
- bool qemu_uuid_set;
- 
--static NotifierList exit_notifiers =
--    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
--
--static NotifierList machine_init_done_notifiers =
--    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
--
- bool xen_allowed;
- uint32_t xen_domid;
- enum xen_mode xen_mode = XEN_EMULATE;
-@@ -2324,21 +2318,6 @@ static MachineClass *machine_parse(const char *name, GSList *machines)
-     return mc;
- }
- 
--void qemu_add_exit_notifier(Notifier *notify)
--{
--    notifier_list_add(&exit_notifiers, notify);
--}
--
--void qemu_remove_exit_notifier(Notifier *notify)
--{
--    notifier_remove(notify);
--}
--
--static void qemu_run_exit_notifiers(void)
--{
--    notifier_list_notify(&exit_notifiers, NULL);
--}
--
- static const char *pid_file;
- static Notifier qemu_unlink_pidfile_notifier;
- 
-@@ -2349,27 +2328,6 @@ static void qemu_unlink_pidfile(Notifier *n, void *data)
-     }
- }
- 
--bool machine_init_done;
--
--void qemu_add_machine_init_done_notifier(Notifier *notify)
--{
--    notifier_list_add(&machine_init_done_notifiers, notify);
--    if (machine_init_done) {
--        notify->notify(notify, NULL);
--    }
--}
--
--void qemu_remove_machine_init_done_notifier(Notifier *notify)
--{
--    notifier_remove(notify);
--}
--
--static void qemu_run_machine_init_done_notifiers(void)
--{
--    machine_init_done = true;
--    notifier_list_notify(&machine_init_done_notifiers, NULL);
--}
--
- static const QEMUOption *lookup_opt(int argc, char **argv,
-                                     const char **poptarg, int *poptind)
- {
-diff --git a/util/notify.c b/util/notify.c
-index 76bab21..0e7479b 100644
---- a/util/notify.c
-+++ b/util/notify.c
-@@ -15,6 +15,15 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/notify.h"
-+#include "sysemu/sysemu.h"
-+
-+bool machine_init_done;
-+
-+static NotifierList machine_init_done_notifiers =
-+    NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
-+
-+static NotifierList exit_notifiers =
-+    NOTIFIER_LIST_INITIALIZER(exit_notifiers);
- 
- void notifier_list_init(NotifierList *list)
- {
-@@ -74,3 +83,37 @@ int notifier_with_return_list_notify(NotifierWithReturnList *list, void *data)
-     }
-     return ret;
- }
-+
-+void qemu_add_machine_init_done_notifier(Notifier *notify)
-+{
-+    notifier_list_add(&machine_init_done_notifiers, notify);
-+    if (machine_init_done) {
-+        notify->notify(notify, NULL);
-+    }
-+}
-+
-+void qemu_remove_machine_init_done_notifier(Notifier *notify)
-+{
-+    notifier_remove(notify);
-+}
-+
-+void qemu_run_machine_init_done_notifiers(void)
-+{
-+    machine_init_done = true;
-+    notifier_list_notify(&machine_init_done_notifiers, NULL);
-+}
-+
-+void qemu_add_exit_notifier(Notifier *notify)
-+{
-+    notifier_list_add(&exit_notifiers, notify);
-+}
-+
-+void qemu_remove_exit_notifier(Notifier *notify)
-+{
-+    notifier_remove(notify);
-+}
-+
-+void qemu_run_exit_notifiers(void)
-+{
-+    notifier_list_notify(&exit_notifiers, NULL);
-+}
 -- 
 1.8.3.1
 
