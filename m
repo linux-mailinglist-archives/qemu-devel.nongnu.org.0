@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D010C16B14C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:57:47 +0100 (CET)
-Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C1416B160
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:00:04 +0100 (CET)
+Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6KnS-0007s1-Rl
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:57:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50095)
+	id 1j6Kpf-0003Gh-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:00:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Km0-0005sQ-3Z
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:17 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Km4-00063i-Rp
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kly-0002ro-1P
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:16 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:43664)
+ (envelope-from <jag.raman@oracle.com>) id 1j6Km3-0002ys-C6
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:20 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:40968)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Klx-0002qj-OU
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:13 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrdRc032164;
- Mon, 24 Feb 2020 20:56:06 GMT
+ id 1j6Km3-0002xE-34
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:19 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqUse017543;
+ Mon, 24 Feb 2020 20:56:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=4j44/db0z3X4bb/dwPNOT7ZOj0JyKc0JiRVxGFJ1CHM=;
- b=Ucg0/PnkUWn9NvDHAcQ7YXpEG98Gfo8vgoaoqb+soQ7J+go0xAHx0XXJ40jcUip/7gOq
- gDZpOVDX6oYeVlMU9PNLRfhPGyVQ0dR45cLAtDAocg/laUesusyHi+KFokjRwTrhEs3e
- ns0Pv7H8xa6cBjY71x1YOJEJXG/viytIF5Iz2vU+wiN1QRgWfPoVqMikzpac6k7hcUv+
- lv/KhhgW8y3tyPDkYfA1nsxStGtwAoYMAAurz+NObGMi4W5FB9xFl8VIna350+ekOq1j
- oDcUPTFJAiyJNrvAIxj8LWRfCTo5iJOMQrtV9g8nHqfFuwRDgzis9tSV36rluLkIOspS NA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 2yauqua0j1-1
+ bh=qVGAGC6C18wJ+u7koWS8q2G+1agjZ5LGHLUEggWIpvg=;
+ b=Ucysf1QPfWCGisyEL/FZGhAGVkKDpXcLEWm5jk3AU+Mq/83yu0OV0AHbWg2JK4igkFCD
+ LyHV+15ln4vqkRQcC0PiA2aOu88xg1Ao7RoDAWI7VuVh+4/6cHHm5rtqOE7g5YxJ6VFY
+ zvFVxYQQIM4oC7ecvJmZWaV/2aUrX1oE7i4EBscZydZfmpxyEXkgfzjT5awykB3zk1Hl
+ lGSk34fWWdTpib5BO7qqtRpyv/j5mjgIJFM2+1uPqCqxbA9JyMBOt+BO/2ksoVAmxcXw
+ yZXwqcZULi0INMW/WFuAwkTlUK6PYDA0ZJ2e7mAwfp+2x41W2+4Gqom7hTmC5bVDueIP Gg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2yavxrhydm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:06 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq8T9089084;
- Mon, 24 Feb 2020 20:56:05 GMT
+ Mon, 24 Feb 2020 20:56:11 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqhVI017288;
+ Mon, 24 Feb 2020 20:56:11 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2yby5dma30-1
+ by aserp3030.oracle.com with ESMTP id 2ybduv6cq1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:05 +0000
+ Mon, 24 Feb 2020 20:56:10 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKu36i029536;
- Mon, 24 Feb 2020 20:56:03 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKu84e029598;
+ Mon, 24 Feb 2020 20:56:09 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:56:02 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:56:08 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 05/50] multi-process: Add config option for multi-process
- QEMU
-Date: Mon, 24 Feb 2020 15:54:56 -0500
-Message-Id: <4d1ff53bed128a4d211448649bd3557e81774500.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 08/50] multi-process: add functions to synchronize proxy
+ and remote endpoints
+Date: Mon, 24 Feb 2020 15:54:59 -0500
+Message-Id: <3d013f0091ac6babb55f30cadf6ed806c322b7ce.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -64,21 +64,21 @@ In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 bulkscore=0
- suspectscore=1 mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002240153
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=1
+ mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240153
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- bulkscore=0
- clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240153
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1015 suspectscore=1 bulkscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,65 +101,93 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a configuration option to separate multi-process code
+In some cases, for example MMIO read, QEMU has to wait for the remote to
+complete a command before proceeding. An eventfd based mechanism is
+added to synchronize QEMU & remote process.
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- configure | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/io/mpqemu-link.h |  7 +++++++
+ io/mpqemu-link.c         | 41 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
-diff --git a/configure b/configure
-index 48d6f89..ab1e344 100755
---- a/configure
-+++ b/configure
-@@ -506,6 +506,7 @@ libpmem=""
- default_devices="yes"
- plugins="no"
- fuzzing="no"
-+mpqemu="no"
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+index 2f2dd83..ae04fca 100644
+--- a/include/io/mpqemu-link.h
++++ b/include/io/mpqemu-link.h
+@@ -135,4 +135,11 @@ void mpqemu_link_set_callback(MPQemuLinkState *s,
+                               mpqemu_link_callback callback);
+ void mpqemu_start_coms(MPQemuLinkState *s);
  
- supported_cpu="no"
- supported_os="no"
-@@ -1572,6 +1573,10 @@ for opt do
-   ;;
-   --disable-fuzzing) fuzzing=no
-   ;;
-+  --enable-mpqemu) mpqemu=yes
-+  ;;
-+  --disable-mpqemu) mpqemu=no
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1860,6 +1865,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   debug-mutex     mutex debugging support
-   libpmem         libpmem support
-   xkbcommon       xkbcommon support
-+  mpqemu          multi-process QEMU support
- 
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -6690,6 +6696,7 @@ echo "libudev           $libudev"
- echo "default devices   $default_devices"
- echo "plugin support    $plugins"
- echo "fuzzing support   $fuzzing"
-+echo "multiprocess QEMU $mpqemu"
- 
- if test "$supported_cpu" = "no"; then
-     echo
-@@ -7501,6 +7508,10 @@ if test "$libpmem" = "yes" ; then
-   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
- fi
- 
-+if test "$mpqemu" = "yes" ; then
-+  echo "CONFIG_MPQEMU=y" >> $config_host_mak
-+fi
++#define GET_REMOTE_WAIT eventfd(0, EFD_CLOEXEC)
++#define PUT_REMOTE_WAIT(wait) close(wait)
++#define PROXY_LINK_WAIT_DONE 1
 +
- if test "$bochs" = "yes" ; then
-   echo "CONFIG_BOCHS=y" >> $config_host_mak
- fi
++uint64_t wait_for_remote(int efd);
++void notify_proxy(int fd, uint64_t val);
++
+ #endif
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+index bac120b..73b7032 100644
+--- a/io/mpqemu-link.c
++++ b/io/mpqemu-link.c
+@@ -10,6 +10,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
++#include <poll.h>
+ 
+ #include "qemu/module.h"
+ #include "io/mpqemu-link.h"
+@@ -216,6 +217,46 @@ int mpqemu_msg_recv(MPQemuMsg *msg, MPQemuChannel *chan)
+     return rc;
+ }
+ 
++uint64_t wait_for_remote(int efd)
++{
++    struct pollfd pfd = { .fd = efd, .events = POLLIN };
++    uint64_t val;
++    int ret;
++
++    ret = poll(&pfd, 1, 1000);
++
++    switch (ret) {
++    case 0:
++        qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: Timed out\n");
++        /* TODO: Kick-off error recovery */
++        return ULLONG_MAX;
++    case -1:
++        qemu_log_mask(LOG_REMOTE_DEBUG, "Poll error wait_for_remote: %s\n",
++                      strerror(errno));
++        return ULLONG_MAX;
++    default:
++        if (read(efd, &val, sizeof(val)) == -1) {
++            qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: %s\n",
++                          strerror(errno));
++            return ULLONG_MAX;
++        }
++    }
++
++    val = (val == ULLONG_MAX) ? val : (val - 1);
++
++    return val;
++}
++
++void notify_proxy(int efd, uint64_t val)
++{
++    val = (val == ULLONG_MAX) ? val : (val + 1);
++
++    if (write(efd, &val, sizeof(val)) == -1) {
++        qemu_log_mask(LOG_REMOTE_DEBUG, "Error notify_proxy: %s\n",
++                      strerror(errno));
++    }
++}
++
+ static gboolean mpqemu_link_handler_prepare(GSource *gsrc, gint *timeout)
+ {
+     g_assert(timeout);
 -- 
 1.8.3.1
 
