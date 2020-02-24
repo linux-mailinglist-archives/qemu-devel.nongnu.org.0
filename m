@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D2416A583
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 12:53:00 +0100 (CET)
-Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664C416A594
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 12:55:52 +0100 (CET)
+Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6CIF-0005HF-TR
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 06:52:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54623)
+	id 1j6CL1-0000FH-Ef
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 06:55:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6CHI-0004eC-Nq
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 06:52:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6CJx-0007mF-HK
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 06:54:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6CHH-0004Rr-I8
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 06:52:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21543
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j6CJw-0005Wv-C4
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 06:54:45 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47858
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6CHH-0004RY-Ef
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 06:51:59 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6CJw-0005Vw-95
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 06:54:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582545118;
+ s=mimecast20190719; t=1582545283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aYKPlPdCl47DeK3bKtPpf0d1xXE7UG8JlKfRaFMfe+Y=;
- b=dsIWjhGH44V/FJcQixshr+mWuAa0W4PKemD1ZdtMO/XknYtJxX9b1UEV6g4we33lWqWEzz
- iteSOZg2MTdfAIn0QosAQWRWyUbbqaNH5/BtPg8NfXekZ96aiqMeobvkYrCOFQvpt2yv4a
- H3d3H2jLGZq9bpe6lGLKj1K4c2RFXns=
+ bh=9lAZl2l9q15faWurxhUzFvthbni94ghw7tLIRbZAeI4=;
+ b=MV5P7dwZAkhq2MzF8ua3rkSb5N3/l6sqOFcOtSN3wX0VafWpOcAUWCYKAZMAHEGmJ0vqOS
+ qRrBmeQR9KmT+5h13k8rd5bZsvoEEjeYWuqc5EPSUuZG0Ikkk3EgnokcvbEPe1rNvBqk55
+ nmKHIJeCSetH6MbDIdAJKurReuXBxdA=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-UghoXmYPO_2zZeLJu3RItw-1; Mon, 24 Feb 2020 06:51:57 -0500
-X-MC-Unique: UghoXmYPO_2zZeLJu3RItw-1
-Received: by mail-wr1-f69.google.com with SMTP id c6so5460149wrm.18
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 03:51:57 -0800 (PST)
+ us-mta-381-MASo8fKMNGOdIlGZDB5ixw-1; Mon, 24 Feb 2020 06:54:39 -0500
+X-MC-Unique: MASo8fKMNGOdIlGZDB5ixw-1
+Received: by mail-wr1-f69.google.com with SMTP id w6so5479074wrm.16
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 03:54:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=aYKPlPdCl47DeK3bKtPpf0d1xXE7UG8JlKfRaFMfe+Y=;
- b=IazAdGyTchikAYV9ghF+60bgayLE7eBDT2PhP1INkdClJ8zgktvsRoi5hphYXHiktl
- 65gSA2aZKecrOEXvwYz4vGYsmuhBlS2I5qQtibPdJF8L8pUMK0HzmfUXJrvfMUiEB1lg
- vZAgAurXspD5+aknn5HIXbCaL957qNkwL51WLp9w50H89BlMEQ1rF+uHdJmdWqr7lhdp
- Sd4+NlEt6ZWKzYV28vPe0PUCvGVtmsDGtHkj50OwkwzBif7hHMctQggQ5i93gv13nEmG
- c1P/IibNRd9vAvrdsYXjzJ1jP5hsRcOo8hj41BzHQLs1kyifPTmJ5d+8X4GqdltrqDbo
- TM6w==
-X-Gm-Message-State: APjAAAVYePxMhZQK0kp6AgX3j+qLLfkOQDlQzNQSvm8nuplUBCOn/bpN
- PSxdYvfiln0VUTN4HFrFmhALsHIUYRi5s4P1ZAb7KGMkLV9zytNN98OcT6cfwuqebTCNRzETYWH
- LhFehAHXW6IgUDUE=
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr21170767wml.173.1582545116321; 
- Mon, 24 Feb 2020 03:51:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzG2c8Pr2ke7NAEICmAx3Gh1foJeB5uklkWpK5ADEv2nuCBVEMyZk3wklOgnK+S1KBTrzzM2Q==
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr21170744wml.173.1582545116095; 
- Mon, 24 Feb 2020 03:51:56 -0800 (PST)
+ bh=9lAZl2l9q15faWurxhUzFvthbni94ghw7tLIRbZAeI4=;
+ b=I7nwF2yQpnEP4cJiPIVxAeDl59GX3rxnixaTHk7Y7h5oJso3ritIPOkhugSYDT5M5H
+ 2bZb0vm53JSeF9ZwfwzovLAQ/SiCuF7DuIFArDPgc8ZVUWGupwKo2px3xn8aPMfA7I2U
+ bqqLz+A9aH67+wWuZAoeFzJhBlLbFcI++sBM+AqkejmoNsl8n0RLbQ2b+wPIwtUPoRFs
+ JweNcILPjpJkUU3yi2W3OeiwPn1yoyFSicmWIgpfKIky02lhsl7GFp7qa8iQyiFCybsD
+ b4cfZcHNQ2WFsxwiBlMIowx/kza5hh8BRisVrGDr51guG1BMPNDk34/dSr5cNb8P6LxU
+ cRVA==
+X-Gm-Message-State: APjAAAUL3YXaobdgYp+3RVh0U5FeQN7+g/1FNRvoSQjVQKosHYzeADbV
+ o22a+sImuhur46FF/VZAw8WBtTQUipmXHqraGoo8aBahO32MZaSks0Mahg1qlJwnaSU4nwJ2Cim
+ jbS7w2JnWoCifQ3U=
+X-Received: by 2002:a1c:750e:: with SMTP id o14mr16690914wmc.156.1582545278793; 
+ Mon, 24 Feb 2020 03:54:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwsNRJ0OCVLZoNuqXJaLhobXIR6nWXPLP1qjGiMDXm7JoK6daLQiu9F2qN8AUjtcEaOsFLs5g==
+X-Received: by 2002:a1c:750e:: with SMTP id o14mr16690885wmc.156.1582545278551; 
+ Mon, 24 Feb 2020 03:54:38 -0800 (PST)
 Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id l6sm11726692wrb.75.2020.02.24.03.51.55
+ by smtp.gmail.com with ESMTPSA id a62sm18286162wmh.33.2020.02.24.03.54.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 03:51:55 -0800 (PST)
-Subject: Re: [PATCH 1/2] qemu/queue.h: clear linked list pointers on remove
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+ Mon, 24 Feb 2020 03:54:38 -0800 (PST)
+Subject: Re: [PATCH 0/2] qemu/queue.h: clear linked list pointers on remove
+To: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org
 References: <20200224103406.1894923-1-stefanha@redhat.com>
- <20200224103406.1894923-2-stefanha@redhat.com>
+ <158254173238.10132.7761755657862330006@a1bbccc8075a>
+ <20200224113903.GD1896567@stefanha-x1.localdomain>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0a6d15b1-7936-82a2-0d65-a1b77c4c5cc1@redhat.com>
-Date: Mon, 24 Feb 2020 12:51:54 +0100
+Message-ID: <d3fa195d-d6cc-438f-517b-676b2642df71@redhat.com>
+Date: Mon, 24 Feb 2020 12:54:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200224103406.1894923-2-stefanha@redhat.com>
+In-Reply-To: <20200224113903.GD1896567@stefanha-x1.localdomain>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,103 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: fam@euphon.net, pbonzini@redhat.com, stefanha@redhat.com,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/20 11:34 AM, Stefan Hajnoczi wrote:
-> Do not leave stale linked list pointers around after removal.  It's
-> safer to set them to NULL so that use-after-removal results in an
-> immediate segfault.
+On 2/24/20 12:39 PM, Stefan Hajnoczi wrote:
+> On Mon, Feb 24, 2020 at 02:55:33AM -0800, no-reply@patchew.org wrote:
+>> === OUTPUT BEGIN ===
+>> 1/2 Checking commit f913b2430ad3 (qemu/queue.h: clear linked list pointers on remove)
+>> ERROR: do not use assignment in if condition
+>> #65: FILE: include/qemu/queue.h:314:
+>> +    if (((head)->sqh_first = elm->field.sqe_next) == NULL)              \
+>>
+>> total: 1 errors, 0 warnings, 59 lines checked
 > 
-> The RCU queue removal macros are unchanged since nodes may still be
-> traversed after removal.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   include/qemu/queue.h | 19 +++++++++++++++----
->   1 file changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/qemu/queue.h b/include/qemu/queue.h
-> index 294db54eb1..456a5b01ee 100644
-> --- a/include/qemu/queue.h
-> +++ b/include/qemu/queue.h
-> @@ -142,6 +142,8 @@ struct {                                                                \
->                   (elm)->field.le_next->field.le_prev =                   \
->                       (elm)->field.le_prev;                               \
->           *(elm)->field.le_prev = (elm)->field.le_next;                   \
-> +        (elm)->field.le_next = NULL;                                    \
-> +        (elm)->field.le_prev = NULL;                                    \
->   } while (/*CONSTCOND*/0)
+> The same pattern is used elsewhere in this file.  This code comes from
+> BSD and doesn't comply with QEMU's coding style.
 
-OK.
+Checkpatch is right, assigning out of the if statement makes the review 
+easier, and we can avoid the 'elm' null deref:
 
->   
->   /*
-> @@ -225,12 +227,15 @@ struct {                                                                \
->   } while (/*CONSTCOND*/0)
->   
->   #define QSLIST_REMOVE_HEAD(head, field) do {                             \
-> -        (head)->slh_first = (head)->slh_first->field.sle_next;          \
-> +        typeof((head)->slh_first) elm = (head)->slh_first;               \
-> +        (head)->slh_first = elm->field.sle_next;                         \
-> +        elm->field.sle_next = NULL;                                      \
->   } while (/*CONSTCOND*/0)
->   
->   #define QSLIST_REMOVE_AFTER(slistelm, field) do {                       \
-> -        (slistelm)->field.sle_next =                                    \
-> -            QSLIST_NEXT(QSLIST_NEXT((slistelm), field), field);         \
-> +        typeof(slistelm) next = (slistelm)->field.sle_next;             \
-> +        (slistelm)->field.sle_next = next->field.sle_next;              \
-> +        next->field.sle_next = NULL;                                    \
->   } while (/*CONSTCOND*/0)
->   
->   #define QSLIST_REMOVE(head, elm, type, field) do {                      \
-> @@ -241,6 +246,7 @@ struct {                                                                \
->           while (curelm->field.sle_next != (elm))                         \
->               curelm = curelm->field.sle_next;                            \
->           curelm->field.sle_next = curelm->field.sle_next->field.sle_next; \
-> +        (elm)->field.sle_next = NULL;                                   \
->       }                                                                   \
->   } while (/*CONSTCOND*/0)
->   
-> @@ -304,8 +310,10 @@ struct {                                                                \
->   } while (/*CONSTCOND*/0)
->   
->   #define QSIMPLEQ_REMOVE_HEAD(head, field) do {                          \
-> -    if (((head)->sqh_first = (head)->sqh_first->field.sqe_next) == NULL)\
-> +    typeof((head)->sqh_first) elm = (head)->sqh_first;                  \
-> +    if (((head)->sqh_first = elm->field.sqe_next) == NULL)              \
->           (head)->sqh_last = &(head)->sqh_first;                          \
-
-Here you check elm for NULL ...
-
-> +    elm->field.sqe_next = NULL;                                         \
-
-... then you assign it.
-
->   } while (/*CONSTCOND*/0)
->   
->   #define QSIMPLEQ_SPLIT_AFTER(head, elm, field, removed) do {            \
-> @@ -329,6 +337,7 @@ struct {                                                                \
->           if ((curelm->field.sqe_next =                                   \
->               curelm->field.sqe_next->field.sqe_next) == NULL)            \
->                   (head)->sqh_last = &(curelm)->field.sqe_next;           \
-> +        (elm)->field.sqe_next = NULL;                                   \
->       }                                                                   \
->   } while (/*CONSTCOND*/0)
->   
-> @@ -446,6 +455,8 @@ union {                                                                 \
->               (head)->tqh_circ.tql_prev = (elm)->field.tqe_circ.tql_prev; \
->           (elm)->field.tqe_circ.tql_prev->tql_next = (elm)->field.tqe_next; \
->           (elm)->field.tqe_circ.tql_prev = NULL;                          \
-> +        (elm)->field.tqe_circ.tql_next = NULL;                          \
-> +        (elm)->field.tqe_next = NULL;                                   \
->   } while (/*CONSTCOND*/0)
->   
->   /* remove @left, @right and all elements in between from @head */
-> 
+#define QSIMPLEQ_REMOVE_HEAD(head, field) do { \
+-    if (((head)->sqh_first = (head)->sqh_first->field.sqe_next) == NULL)\
++    typeof((head)->sqh_first) elm = (head)->sqh_first; \
++    (head)->sqh_first = elm->field.sqe_next; \
++    if (elm == NULL) { \
+          (head)->sqh_last = &(head)->sqh_first; \
++    } else { \
++        elm->field.sqe_next = NULL; \
++    } \
+  } while (/*CONSTCOND*/0)
 
 
