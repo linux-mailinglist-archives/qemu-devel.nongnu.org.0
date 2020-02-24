@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B7216B22F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:27:40 +0100 (CET)
-Received: from localhost ([::1]:43882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333F416B226
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:25:50 +0100 (CET)
+Received: from localhost ([::1]:43820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6LGN-0000lY-5h
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:27:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
+	id 1j6LEb-0005Ms-6i
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:25:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6KnC-0000KP-99
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:32 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kn1-0008UL-Ja
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kn9-0004Fc-Qd
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:30 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:54250)
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kn0-00049M-8k
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:19 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:42754)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Kn9-00047p-80
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:27 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrwcL164272;
- Mon, 24 Feb 2020 20:57:11 GMT
+ id 1j6Kmz-00048W-W1
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:18 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqU5j017507;
+ Mon, 24 Feb 2020 20:57:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=+1jeGUAaUlIqzn5k0+XSLH8Faol3m+U3usz3h4qw4NQ=;
- b=Cg0yzKu6onqOwRbX6sj4cz2eIZrIqDNqdfIegCuN22l0pIynxeFyI4zZNMMCfrfteQvg
- 1gJ1J7G9fHyEVrHNSVksrKWBpDVI8oaxiHxyCYJ+Zr6AayHYL0SdwarkQ52ohHjMQ3/0
- LADoIo3wXJeYuRsaR1Jd+8hWrREdHLMmjSq6K/Bk7i8/EvAB2pG9YDxyR3KFECKC+6Ue
- +R1KHLcvTF6ffrsPv6xTMQYrV2uKCdpcBUKRb+b/Sd0qG9fumn0O3W2K4IWNQ6g8N7QU
- u6TzNuc9VsDTvgEl7GIeokNsrINUZmlnvcpOl5w8D/56x9vID5CDBf+6H0HzAyjKg02P /w== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2ybvr4p99s-1
+ bh=FTEBWYd3NkF4WCDTS27/EbKwH/jwO+R30SR6MGMPsuc=;
+ b=urlHjnbcCX+++wQbiLgsYEI+U4NGu3K44Nci2gu82cG5jZboqS7sg5rVQVDThdiGeS1f
+ E/Sfw66OE73VeZQ0oYYgp5KrZu4hYog2I9U+v3X1NMDdDNTW9Cj5Lhl+HAYn38bdEgav
+ SPcXLDzHc9SU8HV49JQKRDY34Gr9VsCCoh8jLnDktna2MKjJ+Ep6aSuTyRuFkioZMGJm
+ WJHIDz1kpBN3NHZ34+aEnlyZFYI2gvoXj0UJVisv1IPz9oybf0dRTzea/XKBDhAI8i4m
+ RgZvyY2E28qE7rRmyrXAFfIlBkez4IJMktaZO6BPdl/hpcv1iw40vJLYaJc+X39u+xwk JQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2yavxrhyn2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:57:11 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKpxwk108725;
- Mon, 24 Feb 2020 20:57:10 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2ybe123v1p-1
+ Mon, 24 Feb 2020 20:57:13 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKq54u171131;
+ Mon, 24 Feb 2020 20:57:12 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2ybdshkswv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:57:10 +0000
+ Mon, 24 Feb 2020 20:57:12 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKv9p1009755;
- Mon, 24 Feb 2020 20:57:09 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKvBxq028925;
+ Mon, 24 Feb 2020 20:57:11 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:57:09 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:57:10 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 47/50] multi-process: Enable support for multiple devices
- in remote
-Date: Mon, 24 Feb 2020 15:55:38 -0500
-Message-Id: <cf33de60b827e0cdd3d5fce48eb038cb056dc304.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 48/50] multi-process: Validate incoming commands from Proxy
+Date: Mon, 24 Feb 2020 15:55:39 -0500
+Message-Id: <00737a41c9bc4993ad47e5d4387ac14f1892be40.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -64,21 +63,21 @@ In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- suspectscore=1 malwarescore=0 phishscore=0 bulkscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240153
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=1 spamscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0
- clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240153
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1015 suspectscore=1 bulkscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,211 +102,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Add support to allow multiple devices to be configured in the
-remote process
+Validate the incoming commands to confirm that they would not cause any
+errors in the remote process.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- hw/proxy/qemu-proxy.c         |  4 ++-
- include/hw/proxy/qemu-proxy.h |  3 +++
- include/io/mpqemu-link.h      |  1 +
- qdev-monitor.c                |  2 ++
- remote/remote-main.c          | 62 +++++++++++++++++++++++++++++++++++--------
- 5 files changed, 60 insertions(+), 12 deletions(-)
+ hw/proxy/qemu-proxy.c    |  6 +++-
+ include/io/mpqemu-link.h |  2 ++
+ io/mpqemu-link.c         | 75 +++++++++++++++++++++++++++++++++++++++++++++++-
+ remote/remote-main.c     |  4 +++
+ 4 files changed, 85 insertions(+), 2 deletions(-)
 
 diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 5876957..4d4eff4 100644
+index 4d4eff4..7330094 100644
 --- a/hw/proxy/qemu-proxy.c
 +++ b/hw/proxy/qemu-proxy.c
-@@ -242,7 +242,7 @@ static int set_remote_opts(PCIDevice *dev, QDict *qdict, unsigned int cmd)
-     msg.cmd = cmd;
-     msg.bytestream = 1;
-     msg.size = qstring_get_length(qstr) + 1;
--
-+    msg.id = pdev->id;
+@@ -868,7 +868,11 @@ static void send_bar_access_msg(PCIProxyDev *dev, MemoryRegion *mr,
  
-     wait = eventfd(0, EFD_NONBLOCK);
-     msg.num_fds = 1;
-@@ -404,6 +404,7 @@ static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val, int l,
-     msg.size = sizeof(conf_data);
-     msg.cmd = op;
-     msg.bytestream = 1;
-+    msg.id = dev->id;
+     mpqemu_msg_recv(&ret, mpqemu_link->mmio);
  
-     if (op == PCI_CONFIG_WRITE) {
-         msg.num_fds = 0;
-@@ -710,6 +711,7 @@ static void setup_irqfd(PCIProxyDev *dev)
- 
-     memset(&msg, 0, sizeof(MPQemuMsg));
-     msg.cmd = SET_IRQFD;
-+    msg.id = dev->id;
-     msg.num_fds = 2;
-     msg.fds[0] = event_notifier_get_fd(&dev->intr);
-     msg.fds[1] = event_notifier_get_fd(&dev->resample);
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index 6784298..5ff3aec 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -43,6 +43,9 @@ extern const MemoryRegionOps proxy_default_ops;
- struct PCIProxyDev {
-     PCIDevice parent_dev;
- 
-+    uint64_t id;
-+    uint64_t nr_devices;
-+
-     int n_mr_sections;
-     MemoryRegionSection *mr_sections;
- 
-diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-index beb8293..722f08c 100644
---- a/include/io/mpqemu-link.h
-+++ b/include/io/mpqemu-link.h
-@@ -124,6 +124,7 @@ typedef struct {
- typedef struct {
-     mpqemu_cmd_t cmd;
-     int bytestream;
-+    uint64_t id;
-     size_t size;
- 
-     union {
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 8efa1a8..cda2545 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -735,8 +735,10 @@ DeviceState *qdev_proxy_add(const char *rid, const char *id, char *bus,
-         pdev->mmio_sock = old_pdev->mmio_sock;
-         pdev->remote_pid = old_pdev->remote_pid;
-         pdev->mem_init = true;
-+        pdev->id = old_pdev->nr_devices++;
-     } else {
-         pdev->socket = managed ? socket : -1;
-+        pdev->id =  pdev->nr_devices++;
-     }
-     pdev->managed = managed;
- 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index ab4ad0b..20d160e 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -72,15 +72,23 @@
- 
- static MPQemuLinkState *mpqemu_link;
- 
--PCIDevice *remote_pci_dev;
-+PCIDevice **remote_pci_devs;
-+uint64_t nr_devices;
-+#define MAX_REMOTE_DEVICES 256
-+
- bool create_done;
- 
- static void process_config_write(MPQemuMsg *msg)
- {
-     struct conf_data_msg *conf = (struct conf_data_msg *)msg->data2;
- 
-+    if (msg->id > nr_devices) {
-+        return;
+-    *val = ret.data1.mmio_ret.val;
++    if (!mpqemu_msg_valid(&ret)) {
++        *val = 0;
++    } else {
++        *val = ret.data1.mmio_ret.val;
 +    }
-+
-     qemu_mutex_lock_iothread();
--    pci_default_write_config(remote_pci_dev, conf->addr, conf->val, conf->l);
-+    pci_default_write_config(remote_pci_devs[msg->id], conf->addr, conf->val,
-+                             conf->l);
-     qemu_mutex_unlock_iothread();
  }
  
-@@ -92,8 +100,13 @@ static void process_config_read(MPQemuMsg *msg)
+ void proxy_default_bar_write(void *opaque, hwaddr addr, uint64_t val,
+diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+index 722f08c..2f44f31 100644
+--- a/include/io/mpqemu-link.h
++++ b/include/io/mpqemu-link.h
+@@ -213,4 +213,6 @@ void mpqemu_start_coms(MPQemuLinkState *s);
+ uint64_t wait_for_remote(int efd);
+ void notify_proxy(int fd, uint64_t val);
  
-     wait = msg->fds[0];
++bool mpqemu_msg_valid(MPQemuMsg *msg);
++
+ #endif
+diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+index 07a9be9..298bb58 100644
+--- a/io/mpqemu-link.c
++++ b/io/mpqemu-link.c
+@@ -65,7 +65,7 @@ void mpqemu_link_finalize(MPQemuLinkState *s)
+ void mpqemu_msg_send(MPQemuMsg *msg, MPQemuChannel *chan)
+ {
+     int rc;
+-    uint8_t *data;
++    uint8_t *data = NULL;
+     union {
+         char control[CMSG_SPACE(REMOTE_MAX_FDS * sizeof(int))];
+         struct cmsghdr align;
+@@ -335,3 +335,76 @@ void mpqemu_start_coms(MPQemuLinkState *s)
  
-+    if (msg->id > nr_devices) {
-+        return;
+     g_main_loop_run(s->loop);
+ }
++
++bool mpqemu_msg_valid(MPQemuMsg *msg)
++{
++    if (msg->cmd >= MAX) {
++        return false;
 +    }
 +
-     qemu_mutex_lock_iothread();
--    val = pci_default_read_config(remote_pci_dev, conf->addr, conf->l);
-+    val = pci_default_read_config(remote_pci_devs[msg->id], conf->addr,
-+                                  conf->l);
-     qemu_mutex_unlock_iothread();
- 
-     notify_proxy(wait, val);
-@@ -282,6 +295,13 @@ static int setup_device(MPQemuMsg *msg, Error **errp)
-     }
- 
-     if (!msg->data2) {
-+        error_setg(errp, "Message data is empty");
-+        return rc;
-+    }
-+
-+    if (msg->id > MAX_REMOTE_DEVICES) {
-+        error_setg(errp, "id of the device is larger than max number of "\
-+                         "devices per remote process.");
-         return rc;
-     }
- 
-@@ -319,8 +339,15 @@ static int setup_device(MPQemuMsg *msg, Error **errp)
-                    qstring_get_str(qobject_to_json(QOBJECT(qdict))));
-         goto device_failed;
-     }
-+
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
--        remote_pci_dev = PCI_DEVICE(dev);
-+        if (nr_devices <= msg->id) {
-+            nr_devices = msg->id + 1;
-+            remote_pci_devs = g_realloc(remote_pci_devs,
-+                                        nr_devices * sizeof(PCIDevice *));
++    if (msg->bytestream) {
++        if (!msg->data2) {
++            return false;
 +        }
++    } else {
++        if (msg->data2) {
++            return false;
++        }
++    }
 +
-+        remote_pci_devs[msg->id] = PCI_DEVICE(dev);
-     }
- 
-     notify_proxy(wait, (uint32_t)REMOTE_OK);
-@@ -405,11 +432,17 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
++    /* Verify FDs. */
++    if (msg->num_fds >= REMOTE_MAX_FDS) {
++        return false;
++    }
++    if (msg->num_fds > 0) {
++        for (int i = 0; i < msg->num_fds; i++) {
++            if (fcntl(msg->fds[i], F_GETFL) == -1) {
++                return false;
++            }
++        }
++    }
++
++    /* Verify ID size. */
++    if (msg->id >= UINT64_MAX) {
++        return false;
++    }
++
++    /* Verify message specific fields. */
++    switch (msg->cmd) {
++    case SYNC_SYSMEM:
++        if (msg->num_fds == 0 || msg->bytestream != 0) {
++            return false;
++        }
++        if (msg->size != sizeof(msg->data1)) {
++            return false;
++        }
++        break;
++    case PCI_CONFIG_WRITE:
++    case PCI_CONFIG_READ:
++        if (msg->size != sizeof(struct conf_data_msg)) {
++            return false;
++        }
++        break;
++    case BAR_WRITE:
++    case BAR_READ:
++    case SET_IRQFD:
++    case MMIO_RETURN:
++    case DEVICE_RESET:
++    case RUNSTATE_SET:
++        if (msg->size != sizeof(msg->data1)) {
++            return false;
++        }
++        break;
++    case PROXY_PING:
++    case START_MIG_OUT:
++    case START_MIG_IN:
++        if (msg->size != 0) {
++            return false;
++        }
++        break;
++    default:
++        break;
++    }
++
++    return true;
++}
+diff --git a/remote/remote-main.c b/remote/remote-main.c
+index 20d160e..c4aa3e0 100644
+--- a/remote/remote-main.c
++++ b/remote/remote-main.c
+@@ -435,6 +435,10 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
+     if (msg->id > MAX_REMOTE_DEVICES) {
+         error_setg(&err, "id of the device is larger than max number of "\
+                          "devices per remote process.");
++    }
++
++    if (!mpqemu_msg_valid(msg)) {
++        error_setg(&err, "Message is not valid");
          goto finalize_loop;
      }
  
-+    if (msg->id > MAX_REMOTE_DEVICES) {
-+        error_setg(&err, "id of the device is larger than max number of "\
-+                         "devices per remote process.");
-+        goto finalize_loop;
-+    }
-+
-     switch (msg->cmd) {
-     case INIT:
-         break;
-     case GET_PCI_INFO:
--        process_get_pci_info_msg(remote_pci_dev, msg);
-+        process_get_pci_info_msg(remote_pci_devs[msg->id], msg);
-         break;
-     case PCI_CONFIG_WRITE:
-         if (create_done) {
-@@ -449,12 +482,19 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-         }
-         break;
-     case SET_IRQFD:
--        process_set_irqfd_msg(remote_pci_dev, msg);
--        qdev_machine_creation_done();
--        qemu_mutex_lock_iothread();
--        qemu_run_machine_init_done_notifiers();
--        qemu_mutex_unlock_iothread();
--        create_done = true;
-+        if (msg->id > nr_devices) {
-+            error_setg(&err, "incorrect device id in the message");
-+            goto finalize_loop;
-+        }
-+        process_set_irqfd_msg(remote_pci_devs[msg->id], msg);
-+
-+        if (!create_done) {
-+            qdev_machine_creation_done();
-+            qemu_mutex_lock_iothread();
-+            qemu_run_machine_init_done_notifiers();
-+            qemu_mutex_unlock_iothread();
-+            create_done = true;
-+        }
-         break;
-     case DEV_OPTS:
-         if (setup_device(msg, &err)) {
 -- 
 1.8.3.1
 
