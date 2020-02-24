@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B243216B126
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:50:29 +0100 (CET)
-Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818B116B124
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:50:08 +0100 (CET)
+Received: from localhost ([::1]:42138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6KgO-0003oj-Lp
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:50:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
+	id 1j6Kg2-00038W-SK
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:50:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6Keg-0000n2-Ah
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:43 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6Kef-00060T-9W
+ (envelope-from <philmd@redhat.com>) id 1j6Kef-0000mc-Mr
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28934
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Kef-000609-5a
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <philmd@redhat.com>) id 1j6Kee-0005zb-IU
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:41 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43945
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Kee-0005xJ-EF
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:48:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582577320;
+ s=mimecast20190719; t=1582577319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aBf1Nz3dO7lmnq6x8HgckUD4/9P7/UEzlUI+mgbV/5Q=;
- b=UJiKXsqYoZH39Vy5amsYnhSHCMJV/gludANRIJ09mbCqgVyo36ppRn7P/6pfg79bCmdw79
- eNjUfKhyyIOoF0yozO5EjDzVSf7Hnzww4O9Co8avW9Zw7YZWzQ8dJyo5TXnUsP4SA7hcFA
- VZ08XcQbH5m/T1tYrG0Kknty01Lg6rw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-E_QdaMtbMTSy5Mf8Nm1AAg-1; Mon, 24 Feb 2020 15:48:35 -0500
-X-MC-Unique: E_QdaMtbMTSy5Mf8Nm1AAg-1
-Received: by mail-wr1-f72.google.com with SMTP id c6so6133889wrm.18
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 12:48:35 -0800 (PST)
+ bh=FHdRJiFy2+sRYmNBB/Zm10M7PeGOon/0i7FrH36WST8=;
+ b=ZWIGHcEUiZDuNwtg2v2GKwV08cJ9n44qA5LPGWwETzkCswIojgjIFjdqml6F4BedXbVJGp
+ wv58biN3Y+EIlp00JaExc9sUKOPFX7oyXFHCaeKRnj8kxULaRTtOVDTjWnFLcoYto5e60y
+ SBp3BJt3RkV4OIvL2tax/SgUrpZosTo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464--QQwS5XwMqGtUEUlKIRSuA-1; Mon, 24 Feb 2020 15:48:37 -0500
+X-MC-Unique: -QQwS5XwMqGtUEUlKIRSuA-1
+Received: by mail-wm1-f70.google.com with SMTP id p26so237291wmg.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 12:48:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T9F9enB4mqr+YPnaVrLHGBnKs+NXe+icyfAm27ef64A=;
- b=BKYNsZYGPCTxRzw7n1ZqwLReiMbYj3JtCZQZG9VIJ/bSjXFEh4G+JWChVUw4vZmusP
- BI/xHqlDrV0ch0WMevHHz3TSgg5Uc4uQ2MjThhPbG4XipOxgQy2UpEixmdHtGaCU4rBU
- n78quzIut0oGVAnk58kaHR2h9JZPgnAnBg68mfSRLiTSWzglpDbYnvupFL4bMA8gbAls
- ZwekINYGYsgpYEq7ZtvfgAO0Xt8CLBbLrgVEeRNaFhcCC2za2AsHUqZ8/7gM2OY7wGd8
- WMlXYjXKGGr9zV0j1x7iGrp8XEZ2r7hhkv/Cv/CWXWhvDKI3y2RM9Djw23EJPdiq3D0h
- toVQ==
-X-Gm-Message-State: APjAAAW8SQoMOGgYzQqPnss2rgMsThqmK5UQkpC90bKik8N+2nnl3otE
- xVUh06DMKIR/XZ13hiBHtL/jxNQy9jSYpwUXO1sa41lUtB7bIpsi3HRXkwLocDIVeuH/RNtfw8A
- Q/kWBOG6wSzdyQf4=
-X-Received: by 2002:a7b:c759:: with SMTP id w25mr805780wmk.15.1582577314794;
- Mon, 24 Feb 2020 12:48:34 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwxBizVAfehGk3miduLVPYkPJAIfgR+35+r8qEsbPuDdZQRaeyaOJy4zQqQ4Y2N2h4q3ZdVrQ==
-X-Received: by 2002:a7b:c759:: with SMTP id w25mr805686wmk.15.1582577313662;
- Mon, 24 Feb 2020 12:48:33 -0800 (PST)
+ bh=ZClVMiunKveJxIk817JDRiraYdietQ4sjQAY6VMZbY4=;
+ b=BX09sAXseuS9WyuZbLNG+xmMNqBKVDBuX4rDv7M3/yrBe6UdDVyxN6SffRMWs5H+SB
+ 6s/gS6dWl4h5BwRacHrT7FUKqi3MBWYnhcBb2lTBxLmRVLRIzXbgO/KsKesKOJJ3PbM9
+ hBbyIYyT6i/1qmulz8EXmDja3C75D3RMDbntXmZZMPxCmlcDgUN00HWMwv7yi4EDJ5F2
+ d+sswT53NVxc30/QgdRoWBRlRTMPWyB0xucQvHHs3u3+AATD8K2TPfqBGEMIPNpwS6y1
+ oWDAxeshhALRFgbLC1ovFnOgNRu+CpkQ0QWUCp8JCxsK1zxqNnlxJcv1ZrsxDvQ5VlNB
+ fYVw==
+X-Gm-Message-State: APjAAAWuUkorluQBksnwAZ4UGxfOhim8E04xTk6nCEQFLeE4KJl9s+R/
+ QoZHjTHSi+pEF7eWGgBq+Gjjvj7ig5gizw49w6pRqCPFGsfDe1X89umSNuKSpTMjlo7d3ggMnQB
+ /Yyau38AumXAwcoU=
+X-Received: by 2002:a5d:484f:: with SMTP id n15mr68380866wrs.365.1582577316141; 
+ Mon, 24 Feb 2020 12:48:36 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwxB+Vm+i34MxlUQyPhCSr3BdJbqkJu1QAmnjdIH/eqSCWOoIPFgzbAU0Q5gnonM9PI843rig==
+X-Received: by 2002:a5d:484f:: with SMTP id n15mr68380843wrs.365.1582577315965; 
+ Mon, 24 Feb 2020 12:48:35 -0800 (PST)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id t81sm863436wmg.6.2020.02.24.12.48.31
+ by smtp.gmail.com with ESMTPSA id t81sm863436wmg.6.2020.02.24.12.48.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 12:48:32 -0800 (PST)
+ Mon, 24 Feb 2020 12:48:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH v2 01/32] memory: Correctly return alias region type
-Date: Mon, 24 Feb 2020 21:47:57 +0100
-Message-Id: <20200224204828.23167-2-philmd@redhat.com>
+Subject: [PATCH v2 02/32] memory: Simplify memory_region_init_rom_nomigrate()
+ to ease review
+Date: Mon, 24 Feb 2020 21:47:58 +0100
+Message-Id: <20200224204828.23167-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200224204828.23167-1-philmd@redhat.com>
 References: <20200224204828.23167-1-philmd@redhat.com>
@@ -77,7 +78,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,8 +96,7 @@ Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
  KONRAD Frederic <frederic.konrad@adacore.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
+ qemu-block@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
  Joel Stanley <joel@jms.id.au>, Palmer Dabbelt <palmer@dabbelt.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
@@ -118,31 +118,43 @@ Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since memory region aliases are neither rom nor ram, they are
-described as i/o, which is often incorrect. Return instead the
-type of the original region we are aliasing.
+memory_region_init_rom_nomigrate() has the same content than
+memory_region_init_ram_shared_nomigrate(), with setting the
+readonly mode. The code is easier to review as creating a
+readonly ram/shared/nomigrate region.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-Cc: qemu-trivial@nongnu.org
-
- memory.c | 3 +++
- 1 file changed, 3 insertions(+)
+ memory.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
 diff --git a/memory.c b/memory.c
-index aeaa8dcc9e..ce1179874e 100644
+index ce1179874e..6a327a54ed 100644
 --- a/memory.c
 +++ b/memory.c
-@@ -2818,6 +2818,9 @@ void address_space_destroy(AddressSpace *as)
-=20
- static const char *memory_region_type(MemoryRegion *mr)
+@@ -1659,19 +1659,8 @@ void memory_region_init_rom_nomigrate(MemoryRegion *=
+mr,
+                                       uint64_t size,
+                                       Error **errp)
  {
-+    if (mr->alias) {
-+        return memory_region_type(mr->alias);
-+    }
-     if (memory_region_is_ram_device(mr)) {
-         return "ramd";
-     } else if (memory_region_is_romd(mr)) {
+-    Error *err =3D NULL;
+-    memory_region_init(mr, owner, name, size);
+-    mr->ram =3D true;
++    memory_region_init_ram_shared_nomigrate(mr, owner, name, size, false, =
+errp);
+     mr->readonly =3D true;
+-    mr->terminates =3D true;
+-    mr->destructor =3D memory_region_destructor_ram;
+-    mr->ram_block =3D qemu_ram_alloc(size, false, mr, &err);
+-    mr->dirty_log_mask =3D tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+-    if (err) {
+-        mr->size =3D int128_zero();
+-        object_unparent(OBJECT(mr));
+-        error_propagate(errp, err);
+-    }
+ }
+=20
+ void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
 --=20
 2.21.1
 
