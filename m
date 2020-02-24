@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28F316B414
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:33:04 +0100 (CET)
-Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A5E16B421
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:34:44 +0100 (CET)
+Received: from localhost ([::1]:45500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6MHf-0004rg-NY
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
+	id 1j6MJH-0007eV-Sm
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:34:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7e-00046A-D9
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:43 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j6M7f-00048Y-Es
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7d-0005o0-6C
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:42 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:55947)
+ (envelope-from <richard.henderson@linaro.org>) id 1j6M7e-0005oj-Cw
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:43 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:45684)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6M7d-0005nN-0s
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:41 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id d5so353532pjz.5
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:40 -0800 (PST)
+ id 1j6M7e-0005oE-72
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:42 -0500
+Received: by mail-pf1-x444.google.com with SMTP id 2so6053207pfg.12
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fkzyGWRSXdTJhJxOryRfsTh15ycVqgk6twtD/0ShqhM=;
- b=ZIiZp6BQh+GleQv7Rca9wbyU29s8BiX2n4uTR5x20mHeKhHbeebuX10GFqD2eluxOF
- tRazJJiFtlhw4byypMlQrIcFmTcvKFGF2V9TFs8emCHyF8K4lb41bSseWDu/pdLIx0qr
- 9iAMcK5Wpqmblmz8rsO42bucwfaAHrueDlm40r3zyLML/nqAGtJncI6yfbmERfJFCRSO
- osetWS7UntZ3ANyaQ+XlcLNfvhDUQUPihLW19yKr1ohMyu6QXl14GkFchAr4bsy186/F
- zBu8bro/sGqV5ExjHQ5IKSgWw84psiP8dOw4Ycwn5imVJthVM/XZREnvTzghKm/1BleQ
- KFMQ==
+ bh=LpDXkMJymCkBigdAeSGEBRetKSjrJSWM6nnEjxNkcOs=;
+ b=qLd16HzsDhSXKCYXkXTlKuDt3c3IGFTybZKTVNQZ0oLUH6Q+wFmc3ojgqTmTBF+lga
+ reJBMEOc3d0HGrcJWT+5pwn2YuKZCj7XZZFktyRYUhs1t4j4rUnLOdTd279+hI3k80bV
+ 7RThRAywKqCbT/aTKrIhDoNm2C6MZf+TOEC3UhL1Ol0t3Vm3pWHsjiEbXyRmCZ2ra/Pa
+ 2G6G2HWCRPzSaPEW79O9mQAyX6IG9oQ5EQKhoYUlE1K4dTiQ3dSsZxZT9esq71c5YkvW
+ r+wS9B8Givx3o6jzFYJt8CABwk4oq0ENTfg9MiHRnkRh0xNyLIWCYVvIcODDOxRQPdyO
+ GFhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fkzyGWRSXdTJhJxOryRfsTh15ycVqgk6twtD/0ShqhM=;
- b=CIuvpRQKMWRE0PKZOa9dkOWSZNzMp/13Wh0d16f5KM4Mptb62EWqOVIWhLUuT2mN/6
- V7esvuahbLKnSg/obcKe2AOvcYxEkg0qrXapAdhbJnQMNXt+rLvn9QfGneMVXNP+ezAm
- QK8+AqQ0cEvj1TgMFF0yxGKmyXrI34m3ma6L3MPUHkwExlNHNM2SOIvyVW7aDX0TPMWh
- JEztQA0o8SHazareTmZjOuYDX5wrn1qz1T9wdYZA9l8jZlp/Bo0eOZeBOLB5efAMjT5Y
- tCEbcxG3VVMCkUxl+HnHblXuN/kDFAiBtiRUaOM4ctLoZtBXzPCaKIEDwRQMyJwEQuQp
- ReYw==
-X-Gm-Message-State: APjAAAVEe/5kLPsNRqy/TzRJMnjUJGe9cru/6JAgT0tCQAwUwaF/uKhw
- xfqVA0Wrq3FTeK/YtHEXNnlr1+lKJYE=
-X-Google-Smtp-Source: APXvYqxcBYmHnV+0TierSwaC8cJ2YfYouTi62Gz51hiq27WOJSqS+3lwE5ZjG8EBQUEBbUThYudVww==
-X-Received: by 2002:a17:90b:14a:: with SMTP id
- em10mr1479681pjb.4.1582582959513; 
- Mon, 24 Feb 2020 14:22:39 -0800 (PST)
+ bh=LpDXkMJymCkBigdAeSGEBRetKSjrJSWM6nnEjxNkcOs=;
+ b=HCeAlyaA3NXMvIwIalmKDYQK7jzQxcG0/AfGqydIWq6mrlK4EfF0DWNMHOiPapTLct
+ 4cZnSOlxPyFjSibiqbIiyMxw4VO7DHnCxmtuvzP7TlVE3UZkrval56VPVGcTx3M5xjAi
+ 1V+2HsGgOvm6UA84gUqJjWK/snSY1F7PpSYkucaw1ARnSkSe0a/5taL7XxTzV1LcfetF
+ r2YAXwjyAjlZTMQD0nUbbP/0XoJ9DtFJ76JgYw8N9DzDyakck8ks7Fw8z5CKkIylLsHn
+ vY5t1NqffO8wnAufKzAIbk5D80VT/cADrkRjNXNueKWI/JHzVEzMEevdYd+7EzYMoHWj
+ l2/Q==
+X-Gm-Message-State: APjAAAXrF8sJuT2co9hAjS9tCeW9ITARIK5z/sm3CqIBaEPatYL+yoUy
+ iNNxDmvRwuFQzRyZqYkUsgVNgPzJoKM=
+X-Google-Smtp-Source: APXvYqxUqTghpaDeKoQr9pJhTaH+ZpirDQn9KSLY7+11maLTmtJwJ7cVBJL4eLRqPA3iOo1dWn+RpQ==
+X-Received: by 2002:a63:2842:: with SMTP id o63mr56554627pgo.317.1582582960842; 
+ Mon, 24 Feb 2020 14:22:40 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.38
+ by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 14:22:38 -0800 (PST)
+ Mon, 24 Feb 2020 14:22:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/17] target/arm: Add isar_feature_aa64_fp_simd,
- isar_feature_aa32_vfp
-Date: Mon, 24 Feb 2020 14:22:19 -0800
-Message-Id: <20200224222232.13807-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 05/17] target/arm: Improve ID_AA64PFR0 FP/SIMD validation
+Date: Mon, 24 Feb 2020 14:22:20 -0800
+Message-Id: <20200224222232.13807-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200224222232.13807-1-richard.henderson@linaro.org>
 References: <20200224222232.13807-1-richard.henderson@linaro.org>
@@ -68,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,94 +82,56 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We cannot easily create "any" functions for these, because the
-ID_AA64PFR0 fields for FP and SIMD signal "enabled" with zero.
-Which means that an aarch32-only cpu will return incorrect results
-when testing the aarch64 registers.
-
-To use these, we must either have context or additionally test
-vs ARM_FEATURE_AARCH64.
+When sanity checking id_aa64pfr0, use the raw FP and SIMD fields,
+because the values must match.  Delay the test until we've finished
+modifying the id_aa64pfr0 register.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h     | 11 +++++++++++
- target/arm/cpu.c     |  9 ++++++---
- target/arm/machine.c |  5 +++--
- 3 files changed, 20 insertions(+), 5 deletions(-)
+ target/arm/cpu.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index f7a90f512e..b94d2a5ace 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3494,6 +3494,11 @@ static inline bool isar_feature_aa32_fpdp_v3(const ARMISARegisters *id)
-     return FIELD_EX32(id->mvfr0, MVFR0, FPDP) >= 2;
- }
- 
-+static inline bool isar_feature_aa32_vfp(const ARMISARegisters *id)
-+{
-+    return isar_feature_aa32_fpsp_v2(id) || isar_feature_aa32_fpdp_v2(id);
-+}
-+
- /*
-  * We always set the FP and SIMD FP16 fields to indicate identical
-  * levels of support (assuming SIMD is implemented at all), so
-@@ -3696,6 +3701,12 @@ static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >= 2;
- }
- 
-+static inline bool isar_feature_aa64_fp_simd(const ARMISARegisters *id)
-+{
-+    /* We always set the AdvSIMD and FP fields identically.  */
-+    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, FP) != 0xf;
-+}
-+
- static inline bool isar_feature_aa64_fp16(const ARMISARegisters *id)
- {
-     /* We always set the AdvSIMD and FP fields identically wrt FP16.  */
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index be4c2a1253..5be4c25809 100644
+index 5be4c25809..f10f34b655 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1260,7 +1260,9 @@ void arm_cpu_post_init(Object *obj)
-      * KVM does not currently allow us to lie to the guest about its
-      * ID/feature registers, so the guest always sees what the host has.
-      */
--    if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)
-+        ? cpu_isar_feature(aa64_fp_simd, cpu)
-+        : cpu_isar_feature(aa32_vfp, cpu)) {
-         cpu->has_vfp = true;
-         if (!kvm_enabled()) {
-             qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property);
-@@ -1636,8 +1638,9 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-      * We rely on no XScale CPU having VFP so we can use the same bits in the
-      * TB flags field for VECSTRIDE and XSCALE_CPAR.
-      */
--    assert(!(arm_feature(env, ARM_FEATURE_VFP) &&
--             arm_feature(env, ARM_FEATURE_XSCALE)));
-+    assert(arm_feature(&cpu->env, ARM_FEATURE_AARCH64) ||
-+           !cpu_isar_feature(aa32_vfp_simd, cpu) ||
-+           !arm_feature(env, ARM_FEATURE_XSCALE));
+@@ -1427,17 +1427,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
  
-     if (arm_feature(env, ARM_FEATURE_V7) &&
-         !arm_feature(env, ARM_FEATURE_M) &&
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index 241890ac8c..c5a2114f51 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -9,9 +9,10 @@
- static bool vfp_needed(void *opaque)
- {
-     ARMCPU *cpu = opaque;
--    CPUARMState *env = &cpu->env;
+-    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
+-        cpu->has_vfp != cpu->has_neon) {
+-        /*
+-         * This is an architectural requirement for AArch64; AArch32 is
+-         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
+-         */
+-        error_setg(errp,
+-                   "AArch64 CPUs must have both VFP and Neon or neither");
+-        return;
+-    }
+-
+     if (!cpu->has_vfp) {
+         uint64_t t;
+         uint32_t u;
+@@ -1537,6 +1526,18 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         cpu->isar.mvfr0 = u;
+     }
  
--    return arm_feature(env, ARM_FEATURE_VFP);
-+    return (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)
-+            ? cpu_isar_feature(aa64_fp_simd, cpu)
-+            : cpu_isar_feature(aa32_vfp_simd, cpu));
- }
++    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
++        FIELD_EX64(cpu->isar.id_aa64pfr0, ID_AA64PFR0, FP) !=
++        FIELD_EX64(cpu->isar.id_aa64pfr0, ID_AA64PFR0, ADVSIMD)) {
++        /*
++         * This is an architectural requirement for AArch64.  Not only
++         * both vfp and advsimd or neither, but further both must
++         * support fp16 or neither.
++         */
++        error_setg(errp, "AArch64 CPUs must match VFP and NEON");
++        return;
++    }
++
+     if (arm_feature(env, ARM_FEATURE_M) && !cpu->has_dsp) {
+         uint32_t u;
  
- static int get_fpscr(QEMUFile *f, void *opaque, size_t size,
 -- 
 2.20.1
 
