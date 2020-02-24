@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF5416AA17
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 16:29:31 +0100 (CET)
-Received: from localhost ([::1]:38048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4313F16AA24
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 16:32:45 +0100 (CET)
+Received: from localhost ([::1]:38082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Ffm-0006Lv-DJ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 10:29:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
+	id 1j6Fiu-0007eE-2F
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 10:32:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1j6Fen-0005si-PU
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 10:28:30 -0500
+ (envelope-from <eblake@redhat.com>) id 1j6FhH-0007Ac-8H
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 10:31:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1j6Fem-0001ip-Df
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 10:28:29 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47593
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j6FhD-0003Dx-Jy
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 10:31:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37851
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j6Fem-0001iJ-9l
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 10:28:28 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j6FhD-0003Dn-9x
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 10:30:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582558107;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1582558258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=APoaJ7j1BYzsCA3ibKp+8/nkAt0JXWAIBRYbG5lFGeY=;
- b=AdSU4ssLiRq5Jv0cosNjN2riU6bKFPDJOXzWu2gGpJ5lzAA6INhBaO6pQot+FBWXTqnTWw
- 0v/8Jmku2o3o/JtkwnKWJtEAAJuaHfSseA6wmq0Ary2RRpg41zMP3pt6l4G5xnKk3wjbLs
- vxpi2/Hecw2Km3Cf4QKTNJbRkk+fm/0=
+ bh=nmoEq3RXWdI8CGFYdBJSvwVVvYJ2ve0Vi7IHeg5zS4I=;
+ b=GTCt5+B41xHo64rxJll6bNXbZWvAY2WSkJdwO/8ISLKi9gHPKL5U3UgIGEVv7F/5qk9eCA
+ 1L9tYMqkZWj6rx65iAipvOL8+5GKjmSjwPO4pPknFD1FywJPf4vFh/7QFL3lahy2lXU6n5
+ CgV16aJuUdcVu/CXZMMIureG0oWmE24=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-_Y0wPHMpPm2blQCQyCjNwA-1; Mon, 24 Feb 2020 10:28:15 -0500
-X-MC-Unique: _Y0wPHMpPm2blQCQyCjNwA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-279-Zj0_nHJgPGK5RwQpc3SJSA-1; Mon, 24 Feb 2020 10:30:56 -0500
+X-MC-Unique: Zj0_nHJgPGK5RwQpc3SJSA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 691621005510;
- Mon, 24 Feb 2020 15:28:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C19C19C7F;
- Mon, 24 Feb 2020 15:28:13 +0000 (UTC)
-Date: Mon, 24 Feb 2020 15:28:10 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: A problem with live migration of UEFI virtual machines
-Message-ID: <20200224152810.GX635661@redhat.com>
-References: <tencent_BC7FD00363690990994E90F8@qq.com>
- <87sgjhxbtc.fsf@zen.linaroharston>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6CC618B9FC1;
+ Mon, 24 Feb 2020 15:30:55 +0000 (UTC)
+Received: from [10.3.116.90] (ovpn-116-90.phx2.redhat.com [10.3.116.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 720778B77E;
+ Mon, 24 Feb 2020 15:30:52 +0000 (UTC)
+Subject: Re: [PATCH v31 20/22] Add rx-softmmu
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20200223065102.61652-1-ysato@users.sourceforge.jp>
+ <20200223065102.61652-21-ysato@users.sourceforge.jp>
+ <da7b0c50-4466-a491-8487-2c3a11984077@redhat.com>
+ <598cc17a-9686-e9c5-72b5-5153d29d5a52@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <fa92ac6a-fff9-e2be-ba7e-2463eec01c6c@redhat.com>
+Date: Mon, 24 Feb 2020 09:30:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <87sgjhxbtc.fsf@zen.linaroharston>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <598cc17a-9686-e9c5-72b5-5153d29d5a52@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,67 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: discuss <discuss@edk2.groups.io>,
- "devel@edk2.groups.io" <devel@edk2.groups.io>, qemu-devel@nongnu.org,
- zhoujianjay <zhoujianjay@gmail.com>, wuchenye1995 <wuchenye1995@gmail.com>
+Cc: richard.henderson@linaro.org, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 11, 2020 at 05:39:59PM +0000, Alex Benn=C3=A9e wrote:
+On 2/24/20 9:15 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 2/24/20 4:11 PM, Eric Blake wrote:
+>> On 2/23/20 12:51 AM, Yoshinori Sato wrote:
+>>> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+>>> Message-Id: <20190607091116.49044-17-ysato@users.sourceforge.jp>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> pick ed65c02993 target/rx: Add RX to SysEmuTarget
+>>> pick 01372568ae tests: Add rx to machine-none-test.c
+>>> [PMD: Squashed patches from Richard Henderson modifying
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qapi/common.json and tests/machine=
+-none-test.c]
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>
+>>> +++ b/qapi/machine.json
+>>> @@ -26,7 +26,7 @@
+>>> =C2=A0=C2=A0=C2=A0 'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa'=
+, 'i386',=20
+>>> 'lm32',
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+>>
+>> Missing mention of the new enum member with a 'since 5.0' designation=20
+>> in the documentation.
 >=20
-> wuchenye1995 <wuchenye1995@gmail.com> writes:
->=20
-> > Hi all,
-> >    We found a problem with live migration of UEFI virtual machines due =
-to size of OVMF.fd changes.
-> >    Specifically, the size of OVMF.fd in edk with low version such as ed=
-k-2.0-25 is 2MB while the size of it in higher version such as edk-2.0-30 i=
-s 4MB.
-> >    When we migrate a UEFI virtual machine from the host with low versio=
-n of edk2 to the host with higher one, qemu component will report an error =
-in function qemu_ram_resize while
-> > checking size of ovmf_pcbios: Length mismatch: pc.bios: 0x200000 in !=
-=3D 0x400000: Invalid argument.
-> >    We want to know how to solve this problem after updating the
-> >    version of edk2.
->=20
-> You can only migrate a machine that is identical - so instantiating a
-> empty machine with a different EDK image is bound to cause a problem
-> because the machines don't match.
+> Is this something we can automate? Maybe dumping all the qapi data when=
+=20
+> we do a release, then check the differences before the next release?
 
-I don't believe we are that strict for firmware in general. The firmware
-is loaded when QEMU starts, but that only matters for the original
-source host QEMU. During migration, the memory content of the original
-firmware will be copied during live migration, overwriting whatever the
-target QEMU loaded off disk. This works....provided the memory region
-is the same size on source & target host, which is where the problem
-arises in this case.
+Probably. It's already easy to automate a dump of qmp introspection data=20
+from an arbitrary commit, and diffing the output between the previous=20
+commit release point and the current proposed release should be=20
+technically possible.  Our QAPI generator also generates the docs, which=20
+means it can be enhanced to denote which doc elements are tagged to=20
+which versions.  Might make a good GSOC project.
 
-If there's a risk that newer firmware will be larger than old firmware
-there's only really two options:
-
-  - Keep all firmware images forever, each with a unique versioned
-    filename. This ensures target QEMU will always load the original
-    smaller firmware
-
-  - Add padding to the firmware images. IOW, if the firmware is 2 MB,
-    add zero-padding to the end of the image to round it upto 4 MB
-    (whatever you anticipate the largest size wil be in future).
-
-Distros have often taken the latter approach for QEMU firmware in the
-past. The main issue is that you have to plan ahead of time and get
-this padding right from the very start. You can't add the padding after
-the fact on an existing VM.
-
-Regards,
-Daniel
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
