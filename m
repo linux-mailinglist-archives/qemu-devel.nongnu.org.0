@@ -2,79 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8962D16B597
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 00:31:33 +0100 (CET)
-Received: from localhost ([::1]:46060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC70C16B5D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 00:39:26 +0100 (CET)
+Received: from localhost ([::1]:46106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6NCG-0004ev-KL
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 18:31:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
+	id 1j6NJt-00086l-OB
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 18:39:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47036)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=316f2015f=alistair.francis@wdc.com>)
- id 1j6N9v-0001xI-Jp
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:29:08 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j6NIF-0006DZ-21
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=316f2015f=alistair.francis@wdc.com>)
- id 1j6N9u-0003hN-A2
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:29:07 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:4174)
+ (envelope-from <dgibson@ozlabs.org>) id 1j6NID-00081e-OB
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:42 -0500
+Received: from ozlabs.org ([203.11.71.1]:44273)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=316f2015f=alistair.francis@wdc.com>)
- id 1j6N9u-0003gT-0e; Mon, 24 Feb 2020 18:29:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1582586946; x=1614122946;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WR1s30QTxgrMwzoOjNhcXBMg/VXTr9of7TRctj5C1jE=;
- b=OL1M6bsu+mZEYD0RBtqYJUSFr/lnptJwmNY0k+aKtZ6PBAhcWnKeH5B9
- wlrp1eQgQuUaMKd8TULeNvZeWHCDWN3OD8ptl1IW6LsbWk6zMXspv71a0
- x7z1ntSr6gtVEsB6DwVd/QUNkk4ZwuCgjQ/HrTbUiMknc9zInxIOrTvYc
- u+8w2WLqLqX6Ah2F9xcAkMQz9MQf0B9qflHO4I2okY6KP+RK+vv4xrQVk
- yDYAJwGZcAqclF4sMSluVsMfStTdJoYxvxAMFa94GBq9KVfbJxy/ncQWJ
- a/4qlirsuN+5I+G3t5HvqddvFLNHEgafYmj++l/OgnfjgUvL7mZnacozB Q==;
-IronPort-SDR: Z1btjKQrhNk3gfnN53R0b8AgBJ+E4Ig2m4IPw4VwJF3FEvnX3LLGIoycWlj/nNrSJA9z17232m
- Yz4OcRKE24tvr/+rxSOqjMyYerdArL9kX1+pwjwCAwUdLuLqHtWffeZHiqLxgINmpdou8S131K
- n4Hg+HUMW4IoNItqyf8TA5ImRT876itG0djAJU39jWgtKG06K5g6nLJBfP/UUPrMhiRrzCKMLx
- M4Zi5sruQwP6G0NgP8EBnSUzYBeXbJJyXYDQMaQOoxltqd6Ci6Le4cvRIYLzydbfdkgf16TCx/
- O44=
-X-IronPort-AV: E=Sophos;i="5.70,481,1574092800"; d="scan'208";a="131148352"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 25 Feb 2020 07:29:03 +0800
-IronPort-SDR: EX5DvkacbNYjOFpSZ1+WDz/N8GaIuCSEm1xQKm0qi/lrJcCx32WPGFju/p31kVK63F0YZEL4UB
- KlRzdSngIp7GDFMAQk/qKz0aaET/SHBn5MWqDCog2JdIZHk4AAYhD3BRps4bLUv0Ux4YtZrNfO
- Ch+2emp5CmlGV/6svXrpEdXrZdFDzX20wYLLWq5geHlGz5Ueqs/AZoULj1CL416HxyeLxGz3ni
- 8XRoN2x0mYri5Cw3Tn1YOPLrDI8Y+CqNz9EqzzB8OANsn3MhXRH4J8sK7A6RYHa4yhRbQUKRUX
- aLJYC99HLOUzwyx5V/vPjARS
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2020 15:21:30 -0800
-IronPort-SDR: vRFHye3atgXhC6Dcx4xIWLih/7iFpzder6ER0y3PCuRKjk61zeVHk1KRlXGJOS2PGNEcIlZHPe
- nmvQHNX+JPI1MRHDzP1qRoAj7GTbKFFIlYM+2TzoNeElwhmYA+LgiicTPT0DN6ctAc8VEgPE2P
- 7p1V8wgope565WhuUh5B4oYRvFXn6gM/asVzsBmr8zIlHMC4Zfa9xXMFxHVXlcJkYehLwuNU3H
- XQ6ordH54sFzReaq/ObNHmR/0W2HOpA16KOGavlzP8SlrgLj1O/UAtWpsjl805umUZ15Gd5pqB
- 3i4=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip01.wdc.com with ESMTP; 24 Feb 2020 15:29:03 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org,
-	laurent@vivier.eu
-Subject: [PATCH v2 1/2] linux-user: Protect more syscalls
-Date: Mon, 24 Feb 2020 15:21:54 -0800
-Message-Id: <205d84c5c51c54c8bb6a4a2927b7e1729fe42cdd.1582586444.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <cover.1582586444.git.alistair.francis@wdc.com>
-References: <cover.1582586444.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j6NIC-0007mG-Ri; Mon, 24 Feb 2020 18:37:41 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48RJQ14NPLz9sQt; Tue, 25 Feb 2020 10:37:29 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1582587449;
+ bh=oFITgY0EVz6a8Qvz7LUejHqMbN+eBMDQ3oUKNL29O/s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DXkuB8AE/GVnIKIKGybZzJKutekdDlcl5C54agG1sUwh0bBKW215Ro+9WfFiDmOg9
+ C2bvJT4qr/ZqbrU6PhQrtS8heOMx5S7MBG1zUOXMhLVSoPBxL3JGujfHDiNEosl+Rc
+ DwLZoMXV6EnlcxfUPu8HgCwHxtGUf/gwiZ8CXlX8=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Subject: [PATCH v6 00/18] target/ppc: Correct some errors with real mode
+ handling
+Date: Tue, 25 Feb 2020 10:37:06 +1100
+Message-Id: <20200224233724.46415-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.153.144
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,184 +53,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru, farosas@linux.ibm.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Igor Mammedov <imammedo@redhat.com>, paulus@samba.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New y2038 safe 32-bit architectures (like RISC-V) don't support old
-syscalls with a 32-bit time_t. The kernel defines new *_time64 versions
-of these syscalls. Add some more #ifdefs to syscall.c in linux-user to
-allow us to compile without these old syscalls.
+POWER "book S" (server class) cpus have a concept of "real mode" where
+MMU translation is disabled... sort of.  In fact this can mean a bunch
+of slightly different things when hypervisor mode and other
+considerations are present.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- linux-user/strace.c  |  2 ++
- linux-user/syscall.c | 20 ++++++++++++++++++++
- 2 files changed, 22 insertions(+)
+We had some errors in edge cases here, so clean some things up and
+correct them.
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 4f7130b2ff..6420ccd97b 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -775,6 +775,7 @@ print_syscall_ret_newselect(const struct syscallname *name, abi_long ret)
- #define TARGET_TIME_OOP      3   /* leap second in progress */
- #define TARGET_TIME_WAIT     4   /* leap second has occurred */
- #define TARGET_TIME_ERROR    5   /* clock not synchronized */
-+#ifdef TARGET_NR_adjtimex
- static void
- print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret)
- {
-@@ -813,6 +814,7 @@ print_syscall_ret_adjtimex(const struct syscallname *name, abi_long ret)
- 
-     qemu_log("\n");
- }
-+#endif
- 
- UNUSED static struct flags access_flags[] = {
-     FLAG_GENERIC(F_OK),
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8d27d10807..5a2156f95a 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -742,8 +742,10 @@ safe_syscall3(ssize_t, read, int, fd, void *, buff, size_t, count)
- safe_syscall3(ssize_t, write, int, fd, const void *, buff, size_t, count)
- safe_syscall4(int, openat, int, dirfd, const char *, pathname, \
-               int, flags, mode_t, mode)
-+#if defined(TARGET_NR_wait4)
- safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
-               struct rusage *, rusage)
-+#endif
- safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
-               int, options, struct rusage *, rusage)
- safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
-@@ -780,8 +782,10 @@ safe_syscall4(int, rt_sigtimedwait, const sigset_t *, these, siginfo_t *, uinfo,
-               const struct timespec *, uts, size_t, sigsetsize)
- safe_syscall4(int, accept4, int, fd, struct sockaddr *, addr, socklen_t *, len,
-               int, flags)
-+#if defined(TARGET_NR_nanosleep)
- safe_syscall2(int, nanosleep, const struct timespec *, req,
-               struct timespec *, rem)
-+#endif
- #ifdef TARGET_NR_clock_nanosleep
- safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
-               const struct timespec *, req, struct timespec *, rem)
-@@ -1067,6 +1071,7 @@ static inline abi_long host_to_target_rusage(abi_ulong target_addr,
-     return 0;
- }
- 
-+#ifdef TARGET_NR_setrlimit
- static inline rlim_t target_to_host_rlim(abi_ulong target_rlim)
- {
-     abi_ulong target_rlim_swap;
-@@ -1082,7 +1087,9 @@ static inline rlim_t target_to_host_rlim(abi_ulong target_rlim)
-     
-     return result;
- }
-+#endif
- 
-+#if defined(TARGET_NR_getrlimit) || defined(TARGET_NR_ugetrlimit)
- static inline abi_ulong host_to_target_rlim(rlim_t rlim)
- {
-     abi_ulong target_rlim_swap;
-@@ -1096,6 +1103,7 @@ static inline abi_ulong host_to_target_rlim(rlim_t rlim)
-     
-     return result;
- }
-+#endif
- 
- static inline int target_to_host_resource(int code)
- {
-@@ -1228,6 +1236,7 @@ static inline abi_long host_to_target_timespec64(abi_ulong target_addr,
-     return 0;
- }
- 
-+#if defined(TARGET_NR_settimeofday)
- static inline abi_long copy_from_user_timezone(struct timezone *tz,
-                                                abi_ulong target_tz_addr)
- {
-@@ -1244,6 +1253,7 @@ static inline abi_long copy_from_user_timezone(struct timezone *tz,
- 
-     return 0;
- }
-+#endif
- 
- #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
- #include <mqueue.h>
-@@ -8629,6 +8639,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
-+#if defined(TARGET_NR_gettimeofday)
-     case TARGET_NR_gettimeofday:
-         {
-             struct timeval tv;
-@@ -8639,6 +8650,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
-+#endif
-+#if defined(TARGET_NR_settimeofday)
-     case TARGET_NR_settimeofday:
-         {
-             struct timeval tv, *ptv = NULL;
-@@ -8660,6 +8673,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- 
-             return get_errno(settimeofday(ptv, ptz));
-         }
-+#endif
- #if defined(TARGET_NR_select)
-     case TARGET_NR_select:
- #if defined(TARGET_WANT_NI_OLD_SELECT)
-@@ -9305,6 +9319,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return do_syscall(cpu_env, arg1 & 0xffff, arg2, arg3, arg4, arg5,
-                           arg6, arg7, arg8, 0);
- #endif
-+#if defined(TARGET_NR_wait4)
-     case TARGET_NR_wait4:
-         {
-             int status;
-@@ -9332,6 +9347,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
-+#endif
- #ifdef TARGET_NR_swapoff
-     case TARGET_NR_swapoff:
-         if (!(p = lock_user_string(arg1)))
-@@ -9476,6 +9492,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return do_vm86(cpu_env, arg1, arg2);
- #endif
- #endif
-+#if defined(TARGET_NR_adjtimex)
-     case TARGET_NR_adjtimex:
-         {
-             struct timex host_buf;
-@@ -9491,6 +9508,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
-+#endif
- #if defined(TARGET_NR_clock_adjtime) && defined(CONFIG_CLOCK_ADJTIME)
-     case TARGET_NR_clock_adjtime:
-         {
-@@ -10016,6 +10034,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
-+#if defined(TARGET_NR_nanosleep)
-     case TARGET_NR_nanosleep:
-         {
-             struct timespec req, rem;
-@@ -10026,6 +10045,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
-+#endif
-     case TARGET_NR_prctl:
-         switch (arg1) {
-         case PR_GET_PDEATHSIG:
--- 
-2.25.0
+Some of those limitations caused problems with calculating the size of
+the Real Mode Area of pseries guests, so continue on to clean up and
+correct those calculations as well.
+
+Changes since v5:
+ * Fixed an error in the sense of a test (pointed out by Fabiano Rosas)
+Changes since v4:
+ * Some tiny cosmetic fixes to the original patches
+ * Added a bunch of extra patches correcting RMA calculation
+Changes since v3:
+ * Fix style errors reported by checkpatch
+Changes since v2:
+ * Removed 32-bit hypervisor stubs more completely
+ * Minor polish based on review comments
+Changes since RFCv1:
+ * Add a number of extra patches taking advantage of the initial
+   cleanups
+
+Alexey Kardashevskiy (1):
+  pseries: Update SLOF firmware image
+
+David Gibson (17):
+  ppc: Remove stub support for 32-bit hypervisor mode
+  ppc: Remove stub of PPC970 HID4 implementation
+  target/ppc: Correct handling of real mode accesses with vhyp on hash
+    MMU
+  target/ppc: Introduce ppc_hash64_use_vrma() helper
+  spapr, ppc: Remove VPM0/RMLS hacks for POWER9
+  target/ppc: Remove RMOR register from POWER9 & POWER10
+  target/ppc: Use class fields to simplify LPCR masking
+  target/ppc: Streamline calculation of RMA limit from LPCR[RMLS]
+  target/ppc: Correct RMLS table
+  target/ppc: Only calculate RMLS derived RMA limit on demand
+  target/ppc: Don't store VRMA SLBE persistently
+  spapr: Don't use weird units for MIN_RMA_SLOF
+  spapr,ppc: Simplify signature of kvmppc_rma_size()
+  spapr: Don't attempt to clamp RMA to VRMA constraint
+  spapr: Don't clamp RMA to 16GiB on new machine types
+  spapr: Clean up RMA size calculation
+  spapr: Fold spapr_node0_size() into its only caller
+
+ hw/ppc/spapr.c                  | 124 ++++++------
+ hw/ppc/spapr_cpu_core.c         |   6 +-
+ hw/ppc/spapr_hcall.c            |   4 +-
+ include/hw/ppc/spapr.h          |   4 +-
+ pc-bios/README                  |   2 +-
+ pc-bios/slof.bin                | Bin 931032 -> 968616 bytes
+ roms/SLOF                       |   2 +-
+ target/ppc/cpu-qom.h            |   1 +
+ target/ppc/cpu.h                |  25 +--
+ target/ppc/kvm.c                |   5 +-
+ target/ppc/kvm_ppc.h            |   7 +-
+ target/ppc/mmu-hash64.c         | 327 ++++++++++++--------------------
+ target/ppc/translate_init.inc.c |  63 ++++--
+ 13 files changed, 254 insertions(+), 316 deletions(-)
+
+--=20
+2.24.1
 
 
