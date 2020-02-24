@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CD216B5DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 00:41:15 +0100 (CET)
-Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B0816B5E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 00:42:47 +0100 (CET)
+Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6NLe-0004EX-OV
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 18:41:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47209)
+	id 1j6NN8-0007hk-AK
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 18:42:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j6NIP-0006VX-86
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:54 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j6NIP-0006XY-Sp
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j6NIO-000892-1P
+ (envelope-from <dgibson@ozlabs.org>) id 1j6NIO-00089D-7x
  for qemu-devel@nongnu.org; Mon, 24 Feb 2020 18:37:53 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:38821)
+Received: from ozlabs.org ([2401:3900:2:1::2]:55899)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j6NIN-00083v-Mh; Mon, 24 Feb 2020 18:37:51 -0500
+ id 1j6NIN-00083r-Sv; Mon, 24 Feb 2020 18:37:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48RJQ42Yjgz9sSM; Tue, 25 Feb 2020 10:37:31 +1100 (AEDT)
+ id 48RJQ408xTz9sRs; Tue, 25 Feb 2020 10:37:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582587452;
- bh=/E6r6c1U/O72mbX+roOccD8oy03Pdofs/lMnmoRwM/s=;
+ bh=rDAFrF+FxXEkKz5RpQvXoCfUKYeii7iNDX8QMBQkUKc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jyhHKcNjcjm4McK+vbaMJBjNoV9gyPZ+gU92OmjQ4fJM0C7EtYZiF42zVUyLCtlyH
- 3GBHzVUqlBpyWOBnrVn1MB2RCJ2yIuQ4iRIlOarM7+Bc1/vXUEWUKLBmo8d3dhZPmB
- XYwFFnCTFDRaX92I4A5/PrHkDQeMfYfqE8WLu5G8=
+ b=KvxtTJp4pIBgYh28xOKD0DmLkC61gu9kwamex26hyBp67GPT6creCkYg1L4b9R7fL
+ CsZOTtrpRgfpo0pgtsGcwcUnoBTqWKoLdehHJQLygYh5zmZWC6tO3FflFaWkb/mx6b
+ pndx4O/JsrzYVe9T8HErfoRLWBQrUAXxczRu/gcs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
-Subject: [PATCH v6 10/18] target/ppc: Correct RMLS table
-Date: Tue, 25 Feb 2020 10:37:16 +1100
-Message-Id: <20200224233724.46415-11-david@gibson.dropbear.id.au>
+Subject: [PATCH v6 11/18] target/ppc: Only calculate RMLS derived RMA limit on
+ demand
+Date: Tue, 25 Feb 2020 10:37:17 +1100
+Message-Id: <20200224233724.46415-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200224233724.46415-1-david@gibson.dropbear.id.au>
 References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
@@ -65,47 +66,176 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The table of RMA limits based on the LPCR[RMLS] field is slightly wrong.
-We're missing the RMLS =3D=3D 0 =3D> 256 GiB RMA option, which is availab=
-le on
-POWER8, so add that.
+When the LPCR is written, we update the env->rmls field with the RMA limi=
+t
+it implies.  Simplify things by just calculating the value directly from
+the LPCR value when we need it.
 
-The comment that goes with the table is much more wrong.  We *don't* filt=
-er
-invalid RMLS values when writing the LPCR, and there's not really a
-sensible way to do so.  Furthermore, while in theory the set of RMLS valu=
-es
-is implementation dependent, it seems in practice the same set has been
-available since around POWER4+ up until POWER8, the last model which
-supports RMLS at all.  So, correct that as well.
+It's possible this is a little slower, but it's unlikely to be significan=
+t,
+since this is only for real mode accesses in a translation configuration
+that's not used very often, and the whole thing is behind the qemu TLB
+anyway.  Therefore, keeping the number of state variables down and not
+having to worry about making sure it's always in sync seems the better
+option.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/mmu-hash64.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/ppc/cpu.h        |  1 -
+ target/ppc/mmu-hash64.c | 84 ++++++++++++++++++++---------------------
+ 2 files changed, 40 insertions(+), 45 deletions(-)
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 8077fdb068..f9871b1233 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1046,7 +1046,6 @@ struct CPUPPCState {
+     uint64_t insns_flags2;
+ #if defined(TARGET_PPC64)
+     ppc_slb_t vrma_slb;
+-    target_ulong rmls;
+ #endif
+=20
+     int error_code;
 diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 4f082d775d..dd0df6fd01 100644
+index dd0df6fd01..ac21c14f68 100644
 --- a/target/ppc/mmu-hash64.c
 +++ b/target/ppc/mmu-hash64.c
-@@ -762,12 +762,12 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
+@@ -791,6 +791,35 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
+     }
+ }
+=20
++static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
++{
++    CPUPPCState *env =3D &cpu->env;
++    target_ulong lpcr =3D env->spr[SPR_LPCR];
++    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
++    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LLP_=
+MASK);
++    int i;
++
++    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
++        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sps[=
+i];
++
++        if (!sps->page_shift) {
++            break;
++        }
++
++        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
++            slb->esid =3D SLB_ESID_V;
++            slb->vsid =3D vsid;
++            slb->sps =3D sps;
++            return 0;
++        }
++    }
++
++    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
++                 TARGET_FMT_lx"\n", lpcr);
++
++    return -1;
++}
++
+ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+                                 int rwx, int mmu_idx)
+ {
+@@ -844,8 +873,10 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vad=
+dr eaddr,
+=20
+             goto skip_slb_search;
+         } else {
++            target_ulong limit =3D rmls_limit(cpu);
++
+             /* Emulated old-style RMO mode, bounds check against RMLS */
+-            if (raddr >=3D env->rmls) {
++            if (raddr >=3D limit) {
+                 if (rwx =3D=3D 2) {
+                     ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
+                 } else {
+@@ -1007,8 +1038,9 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
+pu, target_ulong addr)
+                 return -1;
+             }
+         } else {
++            target_ulong limit =3D rmls_limit(cpu);
+             /* Emulated old-style RMO mode, bounds check against RMLS */
+-            if (raddr >=3D env->rmls) {
++            if (raddr >=3D limit) {
+                 return -1;
+             }
+             return raddr | env->spr[SPR_RMOR];
+@@ -1043,53 +1075,18 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
+arget_ulong ptex,
+ static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
  {
      CPUPPCState *env =3D &cpu->env;
-     /*
--     * This is the full 4 bits encoding of POWER8. Previous
--     * CPUs only support a subset of these but the filtering
--     * is done when writing LPCR
-+     * In theory the meanings of RMLS values are implementation
-+     * dependent.  In practice, this seems to have been the set from
-+     * POWER4+..POWER8, and RMLS is no longer supported in POWER9.
-      */
-     const target_ulong rma_sizes[] =3D {
--        [0] =3D 0,
-+        [0] =3D 256 * GiB,
-         [1] =3D 16 * GiB,
-         [2] =3D 1 * GiB,
-         [3] =3D 64 * MiB,
+-    const PPCHash64SegmentPageSizes *sps =3D NULL;
+-    target_ulong esid, vsid, lpcr;
+     ppc_slb_t *slb =3D &env->vrma_slb;
+-    uint32_t vrmasd;
+-    int i;
+-
+-    /* First clear it */
+-    slb->esid =3D slb->vsid =3D 0;
+-    slb->sps =3D NULL;
+=20
+     /* Is VRMA enabled ? */
+-    if (!ppc_hash64_use_vrma(env)) {
+-        return;
+-    }
+-
+-    /*
+-     * Make one up. Mostly ignore the ESID which will not be needed
+-     * for translation
+-     */
+-    lpcr =3D env->spr[SPR_LPCR];
+-    vsid =3D SLB_VSID_VRMA;
+-    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
+-    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
+-    esid =3D SLB_ESID_V;
+-
+-    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
+-        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->sps=
+[i];
+-
+-        if (!sps1->page_shift) {
+-            break;
++    if (ppc_hash64_use_vrma(env)) {
++        if (build_vrma_slbe(cpu, slb) =3D=3D 0) {
++            return;
+         }
+-
+-        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
+-            sps =3D sps1;
+-            break;
+-        }
+-    }
+-
+-    if (!sps) {
+-        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
+-                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
+-        return;
+     }
+=20
+-    slb->vsid =3D vsid;
+-    slb->esid =3D esid;
+-    slb->sps =3D sps;
++    /* Otherwise, clear it to indicate error */
++    slb->esid =3D slb->vsid =3D 0;
++    slb->sps =3D NULL;
+ }
+=20
+ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+@@ -1098,7 +1095,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong v=
+al)
+     CPUPPCState *env =3D &cpu->env;
+=20
+     env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+-    env->rmls =3D rmls_limit(cpu);
+     ppc_hash64_update_vrma(cpu);
+ }
+=20
 --=20
 2.24.1
 
