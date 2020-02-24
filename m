@@ -2,90 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB9A16A864
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:33:56 +0100 (CET)
-Received: from localhost ([::1]:37342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4B416A876
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 15:35:52 +0100 (CET)
+Received: from localhost ([::1]:37380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Enz-0005m7-IJ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49400)
+	id 1j6Epr-0001Su-1V
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 09:35:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <muriloo@linux.ibm.com>) id 1j6EgP-0002Q2-CM
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:26:07 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6Eis-0006qT-AH
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:28:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <muriloo@linux.ibm.com>) id 1j6EgO-0007rW-1X
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:26:05 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8294
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <muriloo@linux.ibm.com>)
- id 1j6EgN-0007r2-Rx
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:26:03 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01OEOtmr046066; Mon, 24 Feb 2020 09:25:59 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yb1c6acwk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 09:25:59 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01OEP8NG047787;
- Mon, 24 Feb 2020 09:25:59 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yb1c6acvf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 09:25:59 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01OEPBAA025757;
- Mon, 24 Feb 2020 14:25:57 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma01wdc.us.ibm.com with ESMTP id 2yaux643hj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 14:25:57 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01OEPuEg50659590
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 14:25:56 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 85E1ABE053;
- Mon, 24 Feb 2020 14:25:56 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 09EB8BE054;
- Mon, 24 Feb 2020 14:25:54 +0000 (GMT)
-Received: from localhost (unknown [9.85.197.149])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 24 Feb 2020 14:25:54 +0000 (GMT)
-From: Murilo Opsfelder =?ISO-8859-1?Q?Ara=FAjo?= <muriloo@linux.ibm.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 fixed 08/16] util/mmap-alloc: Factor out calculation of
- pagesize to mmap_pagesize()
-Date: Mon, 24 Feb 2020 11:25:52 -0300
-Message-ID: <4591604.1lD6THJHVr@kermit.br.ibm.com>
-Organization: IBM
-In-Reply-To: <3378805.CNlBlhNnSm@kermit.br.ibm.com>
-References: <20200212134254.11073-1-david@redhat.com>
- <7252629e-6290-5709-ea3c-d215622975ed@redhat.com>
- <3378805.CNlBlhNnSm@kermit.br.ibm.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j6Eir-0000kA-4C
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:28:38 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38098)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6Eiq-0000jy-Tw
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 09:28:37 -0500
+Received: by mail-oi1-x244.google.com with SMTP id r137so9081291oie.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 06:28:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dw3CxszVkLAu2ZRX8gCPmNiiUMcSwj7RzrSUwqQhNQo=;
+ b=dcE8gqPZfcp2iDlczUiUGK8sJv1mZ9KiS7FKuBGRODzinEJeUs2kHF0ndeJa/vV7hl
+ vsROW3Q5Ji8LJvVtAWEoCJJSZUkmzW/OCjQqgPXRAs9//tNvzAl4/crD1AO4c1MNL7nW
+ 4Mijki9uLNnCAWBdU6Dg8qjiHQExGdXT6000zMwVnpYfP8gJgj0b4Yj1rzxoEsBSm2bF
+ AzhN6TZhtukwkRIEByW+PiHdoVRDuJ06bDlVyo4Og6lm6bqgEGWhq9PQ/k8Ob2rVKqIc
+ O1b9W9KN8TXCAwjpFwt9zBq8dAyArZvtI14mOmiIHqvJ8iYkP1Oz2/NEKXFIXirjqi+t
+ Km6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dw3CxszVkLAu2ZRX8gCPmNiiUMcSwj7RzrSUwqQhNQo=;
+ b=Y8I9TlATZN/QWlZ7KOIpvFENkevMtIiCOf595qGNVGR31HlIo3rHqpIue5uppNGiSr
+ MATp3xN75+ErRnjqzP28cPU6rx/PjnwyTqn7Ve04HBYwM13vZbNiUZNi/QglyW8+ykA8
+ KThc1b+QJHS+Lv0kMNGyccaiQVTWhZwwGpFR36VQ8EEPcBCL4XU/t8K47UxS5xnwpcV0
+ 4cl53XU6ZEo5tkUML9nrZTN/sNOoR41DNG/hBrN9EuJ4DtLZ2IXjX8GyCt0/WPxiVCfz
+ +Vnu/WkKMHVs/XQyktj4/rxpXANxAGiAXmAgW+y5lBPeyeonxGOt3TdprUpaPMA6RAii
+ +VCA==
+X-Gm-Message-State: APjAAAXTidqP9wz575Gs/fNQY1bbY1bc/GYKfN/Co8FqcaMyb/wAIzse
+ tVyQC+5aHqoxvDnJw70JeiBbBfU8Aq0SjtnW1VcTZQ==
+X-Google-Smtp-Source: APXvYqzM1pRKh4uZqEbVm5r+fsJ+YQmtA3NZlVAuk8O1EF2zHZGIqNBt66qeVcvO8H/yxMYOM4OOGi3Sndsc7MmQYag=
+X-Received: by 2002:a05:6808:3b2:: with SMTP id
+ n18mr12346948oie.146.1582554515826; 
+ Mon, 24 Feb 2020 06:28:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-24_04:2020-02-21,
- 2020-02-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 impostorscore=0 suspectscore=1 adultscore=0
- mlxlogscore=999 bulkscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
- spamscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240119
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+References: <20200223132750.69480-1-ysato@users.sourceforge.jp>
+ <20200223132750.69480-24-ysato@users.sourceforge.jp>
+In-Reply-To: <20200223132750.69480-24-ysato@users.sourceforge.jp>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 Feb 2020 14:28:24 +0000
+Message-ID: <CAFEAcA-1Uu2EAHt7d7bhRQC5o9wqmX_DNg6B6S5wsqSA9joTVQ@mail.gmail.com>
+Subject: Re: [PATCH v31 23/23] fix warning.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,97 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday, February 24, 2020 11:16:16 AM -03 Murilo Opsfelder Ara=FAjo wrot=
-e:
-> On Monday, February 24, 2020 7:57:03 AM -03 David Hildenbrand wrote:
-> > On 24.02.20 11:50, David Hildenbrand wrote:
-> > > On 19.02.20 23:46, Peter Xu wrote:
-> > >> On Wed, Feb 12, 2020 at 02:42:46PM +0100, David Hildenbrand wrote:
-> > >>> Factor it out and add a comment.
-> > >>>
-> > >>> Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
-> > >>> Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> > >>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > >>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> > >>> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> > >>> Cc: Greg Kurz <groug@kaod.org>
-> > >>> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> > >>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > >>> Cc: Igor Mammedov <imammedo@redhat.com>
-> > >>> Signed-off-by: David Hildenbrand <david@redhat.com>
-> > >>> ---
-> > >>>
-> > >>>  util/mmap-alloc.c | 21 ++++++++++++---------
-> > >>>  1 file changed, 12 insertions(+), 9 deletions(-)
-> > >>>
-> > >>> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-> > >>> index 27dcccd8ec..82f02a2cec 100644
-> > >>> --- a/util/mmap-alloc.c
-> > >>> +++ b/util/mmap-alloc.c
-> > >>> @@ -82,17 +82,27 @@ size_t qemu_mempath_getpagesize(const char
-> > >>> *mem_path)
-> > >>>
-> > >>>      return qemu_real_host_page_size;
-> > >>>
-> > >>>  }
-> > >>>
-> > >>> +static inline size_t mmap_pagesize(int fd)
-> > >>> +{
-> > >>> +#if defined(__powerpc64__) && defined(__linux__)
-> > >>> +    /* Mappings in the same segment must share the same page size =
-*/
-> > >>> +    return qemu_fd_getpagesize(fd);
-> > >>> +#else
-> > >>> +    return qemu_real_host_page_size;
-> > >>> +#endif
-> > >>> +}
-> > >>
-> > >> Pure question: This will return 4K even for huge pages on x86, is th=
-is
-> > >> what we want?
-> > >
-> > > (was asking myself the same question) I *think* it's intended. It's
-> > > mainly only used to allocate one additional guard page. The callers of
-> > > qemu_ram_mmap() make sure that the size is properly aligned (e.g., to
-> > > huge pages).
-> > >
-> > > Of course, a 4k guard page is sufficient - unless we can't use that
-> > > (special case for ppc64 here).
-> > >
-> > > Thanks!
-> >
-> > We could rename the function to mmap_guard_pagesize(), thoughts?
+On Sun, 23 Feb 2020 at 13:33, Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
 >
-> The existing qemu_fd_getpagesize() already returns qemu_real_host_page_si=
-ze
-> for non-anonymous mappings (when fd =3D=3D -1).  I think this new
-> mmap_pagesize() could be dropped in favor of qemu_fd_getpagesize().
-
-s/non-//
-
-I mean "for anonymous mappings".
-
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  hw/rx/rx-virt.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> A side effect of this change would be guard page using a bit more memory =
-for
-> non-anonymous mapping.  Could that be a problem?
+> diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+> index 6cf7936201..4ee6647728 100644
+> --- a/hw/rx/rx-virt.c
+> +++ b/hw/rx/rx-virt.c
+> @@ -90,8 +90,10 @@ static void rxvirt_init(MachineState *machine)
 >
-> What do you think?
->
-> --
-> Murilo
+>      /* Load kernel and dtb */
+>      if (kernel_filename) {
+> -        /* The kernel image is loaded into
+> -           the latter half of the SDRAM space. */
+> +        /*
+> +          The kernel image is loaded into
+> +          the latter half of the SDRAM space.
+> +        */
 
+The comment format we prefer is described in CODING_STYLE.rst;
+for block comments, and it looks like this:
+    /*
+     * Leading and closing slash-star and star-slash
+     * on their own line; each other line has a star
+     * in the left column.
+     */
 
-=2D-
-Murilo
+thanks
+-- PMM
 
