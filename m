@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CB416B149
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:56:20 +0100 (CET)
-Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D375216B158
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 21:58:49 +0100 (CET)
+Received: from localhost ([::1]:42816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Km2-0005Aj-On
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:56:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49839)
+	id 1j6KoS-00017t-Px
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 15:58:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j6Kkj-0004FT-F8
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:54:59 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kly-0005qp-IE
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j6Kkh-0001u6-V7
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:54:57 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37958
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j6Kkh-0001tR-NH
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:54:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582577694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6K1JtV4gFatNx6fclJhan2IxP0U1IT1OUFL1keLDKw0=;
- b=EuC0P6Du2nSgVm0BrxW87OF+0ghE+FwBVBqhm5Kd4u11kjJ/zf+v6fECmrFHU1zPVt0+r+
- UuUt+LDNqw4eudy14rQHKb8hFtzRu8iGtOttOhyRJzX75DXuNIbGKewP/BEQ13fS+ZuZjh
- O13HkhKk3pc/QF14yLUtd2NfqAP3oZ4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-XpoKj48JN5uaAv3tW0Bp-Q-1; Mon, 24 Feb 2020 15:54:52 -0500
-X-MC-Unique: XpoKj48JN5uaAv3tW0Bp-Q-1
-Received: by mail-wm1-f72.google.com with SMTP id t17so239163wmi.7
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 12:54:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=RUbfglZGBDQ5VYlapAdq0sdboJ7KkM4XZ+LALa9Op2Q=;
- b=feDW7IOHLALR7yLp34RbxJ920qmxGTmKoebwdjIcPwOr01nUhgzsQ2QTbPqJiDgc6j
- nPw44AzYn0er1PrZRHRRy1pkCqlI/Pr8ohaFJoLzpIeufMrQMZZne5SC4Ev5aDKlf77G
- zUVwRDwRGpY0zRnUxs2nJOcXNj9vdyqQJjVD4fP59rrXF71TD1qobActwAyGNCPiHIMi
- Vfnf1xrvUA5JBjaNnY3CwvFQIIuQyarHpNqsSv/zQ2g5kd7Tambl8EosPgrNn1T65Sre
- POIo5BsA18IbZ5g4h9yzEaI49NueOdBQkwNZ0V9TxYmYfZwyxkfTiHzu0BFJ5jIqrzly
- Demw==
-X-Gm-Message-State: APjAAAUNaoZtSkgy3DMVEVaWGImrnWN6Ep9ESL5CzTpE6LFx1gBkHRHB
- 5c07MhOVpc23qWH4y4IZQzPzHCQquzW2rBiaJ9klu2QvM/XvR1ZziiflUviC7uTQHcUBxwMZtU3
- XmAQNofs1sMk9RLs=
-X-Received: by 2002:adf:db84:: with SMTP id u4mr69615028wri.317.1582577691705; 
- Mon, 24 Feb 2020 12:54:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwJCttnSpxBeic0hXYOK6IABuTTOahjg3WPr6TXrvvyYSw4uYJ4va1xzkJjQe9PqB6WLFbZtA==
-X-Received: by 2002:adf:db84:: with SMTP id u4mr69615002wri.317.1582577691465; 
- Mon, 24 Feb 2020 12:54:51 -0800 (PST)
-Received: from [192.168.3.122] (p5B0C6CE1.dip0.t-ipconnect.de. [91.12.108.225])
- by smtp.gmail.com with ESMTPSA id e22sm822263wme.45.2020.02.24.12.54.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 12:54:50 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2 00/13] migrate/ram: Fix resizing RAM blocks while
- migrating
-Date: Mon, 24 Feb 2020 21:54:50 +0100
-Message-Id: <57BD35A8-67F2-4218-A05C-ACDFB752E6E3@redhat.com>
-References: <20200224200428.GM37727@xz-x1>
-In-Reply-To: <20200224200428.GM37727@xz-x1>
-To: Peter Xu <peterx@redhat.com>
-X-Mailer: iPhone Mail (17D50)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (envelope-from <jag.raman@oracle.com>) id 1j6Klw-0002q2-FR
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:14 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:40790)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
+ id 1j6Klw-0002oH-5s
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:56:12 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqdVt017760;
+ Mon, 24 Feb 2020 20:56:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=7UjjuP2FmuYTT4iXis61TQAn6g0dDfgnNX5xcejwkxw=;
+ b=J0FqSJotdsGB0iM67K3lHah4+V2MdIrj7pjxiqQ3SLe6OEz+BZAKa9ghbSFVu2kfgBCY
+ jYCYz2n/Ely+XaBLiMWX/cQYjOo2Uf66cnmAq1afGYqrDOjfLd6TUXoDFPHeEA5sMcb+
+ PhjmoXXE/EoICDd2QUwz7FG44lKBl9gebHvljvIuwRGCN5i4oigt/8PwQcjYvtBMj0S6
+ 9Ew2hKwuvKt6bh2pBvmqAs7yH/WA498Pm5zPrGCHS7wq4xigPqJqyS5XNbrXiGCoJNJd
+ EZZFxbZuafsVJtJciQNVOKQmglTw4wMQ+pK3ujj2kKDBLfMLKa5nklpAAKqFnzD3Hlu/ Fw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2yavxrhycs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 20:56:00 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqWXO016815;
+ Mon, 24 Feb 2020 20:55:59 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 2ybduv6ccj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 20:55:59 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01OKttcl028200;
+ Mon, 24 Feb 2020 20:55:55 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 24 Feb 2020 12:55:54 -0800
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/50] Initial support for multi-process qemu
+Date: Mon, 24 Feb 2020 15:54:51 -0500
+Message-Id: <cover.1582576372.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002240153
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ lowpriorityscore=0
+ spamscore=0 clxscore=1015 suspectscore=0 bulkscore=0 mlxlogscore=999
+ malwarescore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,140 +84,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhao@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello
+  
+Started with the presentation in October 2017 made by Marc-Andre (Red Hat)
+and Konrad Wilk (Oracle) [1], and continued by Jag's BoF at KVM Forum 2018,
+the multi-process project is now available and presented in this patchset.
+This first series enables the emulation of lsi53c895a in a separate process.
+
+We posted the Proof Of Concept patches [2] before the BoF session in 2018.
+Subsequently, we posted RFC v1 [3], RFC v2 [4], RFC v3 [5] and RFC v4 [6].
+
+John & Elena presented the status of this project in KVM Forum 2019. We
+appreciate the in-person and email feedback we received to improve this
+patchset. We also received valuable feedback and direction on future
+improvements from the bi-weekly KVM community conference. We have
+incorporated all the feedback in the current version of the series, v5.
+
+Following people contributed to this patchset:
+
+John G Johnson <john.g.johnson@oracle.com>
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+
+For full concept writeup about QEMU disaggregation, refer to
+docs/devel/qemu-multiprocess.rst. Please refer to
+docs/qemu-multiprocess.txt for usage information.
+
+We are planning on making the following improvements in the future to the experimental
+Qemu multi-process:
+ - Asynchronous communication channel;
+ - Performance improvements;
+ - Libvirt support;
+ - Enforcement of security policies and privileges control;
+
+We welcome all your ideas, concerns, and questions for this patchset.
+
+Thank you!
 
 
-> Am 24.02.2020 um 21:04 schrieb Peter Xu <peterx@redhat.com>:
->=20
-> =EF=BB=BFOn Mon, Feb 24, 2020 at 08:34:16PM +0100, David Hildenbrand wrot=
-e:
->>=20
->>=20
->>>> Am 24.02.2020 um 20:19 schrieb Peter Xu <peterx@redhat.com>:
->>>=20
->>> =EF=BB=BFOn Mon, Feb 24, 2020 at 07:59:10PM +0100, David Hildenbrand wr=
-ote:
->>>>> On 24.02.20 19:44, David Hildenbrand wrote:
->>>>> On 24.02.20 18:45, Peter Xu wrote:
->>>>>> On Mon, Feb 24, 2020 at 10:09:19AM +0100, David Hildenbrand wrote:
->>>>>>> On 21.02.20 19:04, Peter Xu wrote:
->>>>>>>> On Fri, Feb 21, 2020 at 05:41:51PM +0100, David Hildenbrand wrote:
->>>>>>>>> I was now able to actually test resizing while migrating. I am us=
-ing the
->>>>>>>>> prototype of virtio-mem to test (which also makes use of resizabl=
-e
->>>>>>>>> allocations). Things I was able to reproduce:
->>>>>>>>=20
->>>>>>>> The test cases cover quite a lot.  Thanks for doing that.
->>>>>>>>=20
->>>>>>>>> - Resize while still running on the migration source. Migration i=
-s canceled
->>>>>>>>> -- Test case for "migraton/ram: Handle RAM block resizes during p=
-recopy"
->>>>>>>>=20
->>>>>>>>> - Resize (grow+shrink) on the migration target during postcopy mi=
-gration
->=20
-> [2]
->=20
->>>>>>>>> (when syncing RAM blocks), while not yet running on the target
->>>>>>>>> -- Test case for "migration/ram: Discard new RAM when growing RAM=
- blocks
->>>>>>>>>  and the VM is stopped", and overall RAM size synchronization. Se=
-ems to
->>>>>>>>>  work just fine.
->>>>>>>>=20
->>>>>>>> This won't be able to trigger without virtio-mem, right?
->>>>>>>=20
->>>>>>> AFAIK all cases can also be triggered without virtio-mem (not just =
-that
->>>>>>> easily :) ). This case would be "RAM block is bigger on source than=
- on
->>>>>>> destination.".
->>>>>>>=20
->>>>>>>>=20
->>>>>>>> And I'm also curious on how to test this even with virtio-mem.  Is
->>>>>>>> that a QMP command to extend/shrink virtio-mem?
->>>>>>>=20
->>>>>>> Currently, there is a single qom property that can be modifed via
->>>>>>> QMP/HMP - "requested-size". With resizable resizable memory backend=
-s,
->>>>>>> increasing the requested size will also implicitly grow the RAM blo=
-ck.
->>>>>>> Shrinking the requested size will currently result in shrinking the=
- RAM
->>>>>>> block on the next reboot.
->>>>>>>=20
->>>>>>> So, to trigger growing of a RAM block (assuming requested-size was
->>>>>>> smaller before, e.g., 1000M)
->>>>>>>=20
->>>>>>> echo "qom-set vm1 requested-size 6000M" | sudo nc -U $MON
->>>>>>>=20
->>>>>>> To trigger shrinking (assuming requested-size was bigger before)
->>>>>>>=20
->>>>>>> echo "qom-set vm1 requested-size 100M" | sudo nc -U $MON
->>>>>>> echo 'system_reset' | sudo nc -U $MON
->>>>>>>=20
->>>>>>>=20
->>>>>>> Placing these at the right spots during a migration allows to test =
-this
->>>>>>> very reliably.
->>>>>>=20
->>>>>> I see, thanks for the context.  The question was majorly about when
->>>>>> you say "during postcopy migration (when syncing RAM blocks), while
->>>>>> not yet running on the target" - it's not easy to do so imho, becaus=
-e:
->>>>>=20
->>>>> This case is very easy to trigger, even with acpi. Simply have a ram
->>>>> block on the source be bigger than one on the target. The sync code
->>>>> (migration/ram.c:qemu_ram_resize()) will perform the resize during
->=20
-> [1]
->=20
->>>>> precopy. Postcopy misses to discard the additional memory.
->>>=20
->>> But when resizing happens during precopy, we should cancel this
->>> migration directly?  Hmm?...
->>=20
->> ?
->>=20
->> We are talking about the migration target, not the source. Please have a=
- look at the RAM block size sync code I mentioned. That=E2=80=98s probably =
-faster than me having to explain it (and obviously failing to do so :) ).
->=20
-> OK finally I noticed you meant migration/ram.c:ram_load_precopy() [1]
-> not qemu_ram_resize().
+[1]: http://events17.linuxfoundation.org/sites/events/files/slides/KVM%20FORUM%20multi-process.pdf
+[1]: https://www.youtube.com/watch?v=Kq1-coHh7lg
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
 
-Right, the single invocation of qemu_ram_resize() in that file/function.
+Elena Ufimtseva (23):
+  multi-process: add a command line option for debug file
+  multi-process: introduce proxy object
+  mutli-process: build remote command line args
+  multi-process: configure remote side devices
+  multi-process: add qdev_proxy_add to create proxy devices
+  multi-process: remote: add setup_devices msg processing
+  multi-process: remote: use fd for socket from parent process
+  multi-process: remote: add create_done condition
+  multi-process: add processing of remote device command line
+  multi-process: refractor vl.c code
+  multi-process: add remote option
+  multi-process: add remote options parser
+  multi-process: add parse_cmdline in remote process
+  multi-process: send heartbeat messages to remote
+  multi-process: handle heartbeat messages in remote process
+  multi-process/mon: choose HMP commands based on target
+  multi-process/mig: Load VMSD in the proxy object
+  multi-process/mig: refactor runstate_check into common file
+  multi-process/mig: Synchronize runstate of remote process
+  multi-process/mig: Restore the VMSD in remote process
+  multi-process: Enable support for multiple devices in remote
+  multi-process: Validate incoming commands from Proxy
+  multi-process: add configure and usage information
 
-> And at [2] I think you meant during precopy
-> migration, not postcopy.
+Jagannathan Raman (26):
+  multi-process: memory: alloc RAM from file at offset
+  multi-process: Refactor machine_init and exit notifiers
+  multi-process: Add stub functions to facilate build of multi-process
+  multi-process: Add config option for multi-process QEMU
+  multi-process: build system for remote device process
+  multi-process: define mpqemu-link object
+  multi-process: add functions to synchronize proxy and remote endpoints
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: setup memory manager for remote device
+  multi-process: remote process initialization
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+  multi-process: Introduce build flags to separate remote process code
+  multi-process: Use separate MMIO communication channel
+  multi-process: perform device reset in the remote process
+  multi-process/mon: stub functions to enable QMP module for remote
+    process
+  multi-process/mon: enable QMP module support in the remote process
+  multi-process/mon: Refactor monitor/chardev functions out of vl.c
+  multi-process/mon: Initialize QMP module for remote processes
+  multi-process: prevent duplicate memory initialization in remote
+  multi-process/mig: build migration module in the remote process
+  multi-process/mig: Enable VMSD save in the Proxy object
+  multi-process/mig: Send VMSD of remote to the Proxy object
 
-The precopy stage when postcopy was advised. Yes, it=E2=80=98s confusing :)
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
 
-> Those are probably the things that made me
-> confused.  And yes we need to consider this case.  Thanks,
+ Makefile                         |    2 +
+ Makefile.objs                    |   45 ++
+ Makefile.target                  |  105 +++-
+ accel/Makefile.objs              |    2 +
+ accel/stubs/kvm-stub.c           |    5 +
+ accel/stubs/tcg-stub.c           |  107 ++++
+ backends/Makefile.objs           |    2 +
+ block/Makefile.objs              |    2 +
+ chardev/char.c                   |   14 +
+ configure                        |   15 +
+ docs/devel/index.rst             |    1 +
+ docs/devel/qemu-multiprocess.rst | 1102 ++++++++++++++++++++++++++++++++++++++
+ docs/qemu-multiprocess.txt       |   86 +++
+ exec.c                           |   31 +-
+ hmp-commands-info.hx             |   10 +
+ hmp-commands.hx                  |   25 +-
+ hw/Makefile.objs                 |    7 +
+ hw/block/Makefile.objs           |    2 +
+ hw/core/Makefile.objs            |   19 +
+ hw/nvram/Makefile.objs           |    2 +
+ hw/pci/Makefile.objs             |    4 +
+ hw/proxy/memory-sync.c           |  212 ++++++++
+ hw/proxy/qemu-proxy.c            |  906 +++++++++++++++++++++++++++++++
+ hw/scsi/Makefile.objs            |    2 +
+ include/chardev/char.h           |    1 +
+ include/exec/address-spaces.h    |    2 +
+ include/exec/ram_addr.h          |    4 +-
+ include/hw/pci/pci_ids.h         |    3 +
+ include/hw/proxy/memory-sync.h   |   37 ++
+ include/hw/proxy/qemu-proxy.h    |  107 ++++
+ include/hw/qdev-core.h           |    2 +
+ include/io/mpqemu-link.h         |  218 ++++++++
+ include/monitor/monitor.h        |    2 +
+ include/monitor/qdev.h           |   26 +
+ include/qemu-common.h            |    8 +
+ include/qemu/log.h               |    1 +
+ include/qemu/mmap-alloc.h        |    3 +-
+ include/remote/iohub.h           |   50 ++
+ include/remote/machine.h         |   32 ++
+ include/remote/memory.h          |   20 +
+ include/remote/pcihost.h         |   45 ++
+ include/sysemu/runstate.h        |    3 +
+ include/sysemu/sysemu.h          |    2 +
+ io/Makefile.objs                 |    2 +
+ io/mpqemu-link.c                 |  410 ++++++++++++++
+ memory.c                         |    2 +-
+ migration/Makefile.objs          |   13 +
+ migration/savevm.c               |   63 +++
+ migration/savevm.h               |    3 +
+ monitor/Makefile.objs            |    4 +
+ monitor/misc.c                   |   84 +--
+ monitor/monitor-internal.h       |   38 ++
+ monitor/monitor.c                |   40 +-
+ net/Makefile.objs                |    2 +
+ qapi/Makefile.objs               |    2 +
+ qdev-monitor.c                   |  259 ++++++++-
+ qemu-options.hx                  |   21 +
+ qom/Makefile.objs                |    4 +
+ remote/Makefile.objs             |    6 +
+ remote/iohub.c                   |  148 +++++
+ remote/machine.c                 |   99 ++++
+ remote/memory.c                  |   63 +++
+ remote/pcihost.c                 |   64 +++
+ remote/remote-main.c             |  625 +++++++++++++++++++++
+ remote/remote-opts.c             |  115 ++++
+ remote/remote-opts.h             |   15 +
+ rules.mak                        |    2 +-
+ runstate.c                       |   41 ++
+ scripts/hxtool                   |   44 +-
+ softmmu/vl.c                     |  299 ++++-------
+ stubs/audio.c                    |   12 +
+ stubs/gdbstub.c                  |   23 +
+ stubs/machine-init-done.c        |    4 +
+ stubs/migration.c                |  211 ++++++++
+ stubs/monitor.c                  |   72 +++
+ stubs/net-stub.c                 |  121 +++++
+ stubs/qapi-misc.c                |   43 ++
+ stubs/qapi-target.c              |   55 ++
+ stubs/replay.c                   |   26 +
+ stubs/runstate-check.c           |    3 +
+ stubs/ui-stub.c                  |  130 +++++
+ stubs/vl-stub.c                  |  195 +++++++
+ stubs/vmstate.c                  |   19 +
+ stubs/xen-mapcache.c             |   22 +
+ ui/Makefile.objs                 |    2 +
+ util/Makefile.objs               |    2 +
+ util/log.c                       |    2 +
+ util/mmap-alloc.c                |    7 +-
+ util/notify.c                    |   43 ++
+ util/oslib-posix.c               |    2 +-
+ vl-parse.c                       |  164 ++++++
+ vl.h                             |   43 ++
+ 92 files changed, 6698 insertions(+), 245 deletions(-)
+ create mode 100644 docs/devel/qemu-multiprocess.rst
+ create mode 100644 docs/qemu-multiprocess.txt
+ create mode 100644 hw/proxy/memory-sync.c
+ create mode 100644 hw/proxy/qemu-proxy.c
+ create mode 100644 include/hw/proxy/memory-sync.h
+ create mode 100644 include/hw/proxy/qemu-proxy.h
+ create mode 100644 include/io/mpqemu-link.h
+ create mode 100644 include/remote/iohub.h
+ create mode 100644 include/remote/machine.h
+ create mode 100644 include/remote/memory.h
+ create mode 100644 include/remote/pcihost.h
+ create mode 100644 io/mpqemu-link.c
+ create mode 100644 remote/Makefile.objs
+ create mode 100644 remote/iohub.c
+ create mode 100644 remote/machine.c
+ create mode 100644 remote/memory.c
+ create mode 100644 remote/pcihost.c
+ create mode 100644 remote/remote-main.c
+ create mode 100644 remote/remote-opts.c
+ create mode 100644 remote/remote-opts.h
+ create mode 100644 runstate.c
+ mode change 100644 => 100755 scripts/hxtool
+ create mode 100644 stubs/audio.c
+ create mode 100644 stubs/migration.c
+ create mode 100644 stubs/net-stub.c
+ create mode 100644 stubs/qapi-misc.c
+ create mode 100644 stubs/qapi-target.c
+ create mode 100644 stubs/ui-stub.c
+ create mode 100644 stubs/vl-stub.c
+ create mode 100644 stubs/xen-mapcache.c
+ create mode 100644 vl-parse.c
+ create mode 100644 vl.h
 
-Thanks for having a look!
-
->=20
-> --=20
-> Peter Xu
->=20
+-- 
+1.8.3.1
 
 
