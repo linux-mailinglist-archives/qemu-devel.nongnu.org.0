@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99DB4169E8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 07:37:16 +0100 (CET)
-Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B24169ED7
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 07:56:15 +0100 (CET)
+Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j67Mh-00059W-58
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 01:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47023)
+	id 1j67f4-000521-QG
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 01:56:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j67Lp-0004hY-1d
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 01:36:22 -0500
+ (envelope-from <zhang.zhanghailiang@huawei.com>) id 1j67dk-0003Fy-Hz
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 01:54:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j67Ln-0003n7-P2
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 01:36:20 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2726 helo=huawei.com)
+ (envelope-from <zhang.zhanghailiang@huawei.com>) id 1j67dj-0006CV-GE
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 01:54:52 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:52406 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j67Ln-0003fO-Cu; Mon, 24 Feb 2020 01:36:19 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id DF75691D35F7E514D6B0;
- Mon, 24 Feb 2020 14:36:12 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.216) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 24 Feb 2020 14:36:03 +0800
-From: <pannengyuan@huawei.com>
-To: <pbonzini@redhat.com>, <rth@twiddle.net>, <ehabkost@redhat.com>
-Subject: [PATCH] target/i386/hax-posix: fix two 'format-truncation' compile
- warnings
-Date: Mon, 24 Feb 2020 14:51:39 +0800
-Message-ID: <20200224065139.19567-1-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
+ (Exim 4.71) (envelope-from <zhang.zhanghailiang@huawei.com>)
+ id 1j67dj-00064u-3n
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 01:54:51 -0500
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 099D253108E2A250BA89;
+ Mon, 24 Feb 2020 14:54:46 +0800 (CST)
+Received: from huawei.com (10.133.214.142) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 24 Feb 2020
+ 14:54:37 +0800
+From: zhanghailiang <zhang.zhanghailiang@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH V2 0/8] Optimize VM's downtime while do checkpoint in COLO
+Date: Mon, 24 Feb 2020 14:54:06 +0800
+Message-ID: <20200224065414.36524-1-zhang.zhanghailiang@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.104.216]
+Content-Type: text/plain
+X-Originating-IP: [10.133.214.142]
 X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,99 +52,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, euler.robot@huawei.com,
- Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: danielcho@qnap.com, zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+This series try to  tries to reduce VM's pause time while do checkpoint i=
+n COLO state.
 
-Fix compile warnings:
-/mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-posix.c:124:56: error: =E2=
-=80=98%02d=E2=80=99 directive output may be truncated writing between 2 a=
-nd 11 bytes into a region of size 3 [-Werror=3Dformat-truncation=3D]
-     snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d", vm_id);
-                                                        ^~~~
-/mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-posix.c:124:41: note: di=
-rective argument in the range [-2147483648, 64]
-     snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d", vm_id);
-                                         ^~~~~~~~~~~~~~~~~~~~
-In file included from /usr/include/stdio.h:873,
-                 from /mnt/sdb/qemu-new/qemu_test/qemu/include/qemu/osdep=
-.h:99,
-                 from /mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-po=
-six.c:14:
-/usr/include/bits/stdio2.h:67:10: note: =E2=80=98__builtin___snprintf_chk=
-=E2=80=99 output between 17 and 26 bytes into a destination of size 17
-   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        __bos (__s), __fmt, __va_arg_pack ());
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-posix.c: In function =E2=
-=80=98hax_vcpu_devfs_string=E2=80=99:
-/mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-posix.c:143:55: error: =E2=
-=80=98%02d=E2=80=99 directive output may be truncated writing between 2 a=
-nd 11 bytes into a region of size 10 [-Werror=3Dformat-truncation=3D]
-     snprintf(name, sizeof HAX_VCPU_DEVFS, "/dev/hax_vm%02d/vcpu%02d",
-                                                       ^~~~
-/mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-posix.c:143:43: note: di=
-rective argument in the range [-2147483648, 64]
-     snprintf(name, sizeof HAX_VCPU_DEVFS, "/dev/hax_vm%02d/vcpu%02d",
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-/mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-posix.c:143:43: note: di=
-rective argument in the range [-2147483648, 64]
-In file included from /usr/include/stdio.h:873,
-                 from /mnt/sdb/qemu-new/qemu_test/qemu/include/qemu/osdep=
-.h:99,
-                 from /mnt/sdb/qemu-new/qemu_test/qemu/target/i386/hax-po=
-six.c:14:
-/usr/include/bits/stdio2.h:67:10: note: =E2=80=98__builtin___snprintf_chk=
-=E2=80=99 output between 21 and 39 bytes into a destination of size 21
-   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        __bos (__s), __fmt, __va_arg_pack ());
+Here, we use two methods to reduce the downtime during COLO stage:
+The first one is to reduce the time of backup PVM's memory into cache,
+Instread of doing this once time backup all PVM's memory when VM is stopp=
+ed, we backup
+them during the live migration time.
 
-We know that we have checked the vm_id and vcpu_id in the first(less than=
- 0x40), it will never be truncated in snprintf().
-Thus, this patch add an assertion to clear this false-positive warning.
+Secondly, we reduced the total number of dirty pages while do checkpoint =
+with VM been paused,
+instead of sending all dirty pages while VM been pause, it sends part of =
+dirty pages
+during the gap time of two checkpoints when SVM and PVM are running.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
- target/i386/hax-posix.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+V1 -> V2:
+- Fix tested problem found by Daniel Cho
+- Fix a degradation after rebase to master (first patch)
 
-diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
-index a5426a6dac..197d5bc0f9 100644
---- a/target/i386/hax-posix.c
-+++ b/target/i386/hax-posix.c
-@@ -121,7 +121,8 @@ static char *hax_vm_devfs_string(int vm_id)
-         return NULL;
-     }
-=20
--    snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d", vm_id);
-+    int len =3D snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d"=
-, vm_id);
-+    assert(len < sizeof HAX_VM_DEVFS);
-     return name;
- }
-=20
-@@ -140,8 +141,9 @@ static char *hax_vcpu_devfs_string(int vm_id, int vcp=
-u_id)
-         return NULL;
-     }
-=20
--    snprintf(name, sizeof HAX_VCPU_DEVFS, "/dev/hax_vm%02d/vcpu%02d",
--             vm_id, vcpu_id);
-+    int len =3D snprintf(name, sizeof HAX_VCPU_DEVFS, "/dev/hax_vm%02d/v=
-cpu%02d",
-+                       vm_id, vcpu_id);
-+    assert(len < sizeof HAX_VCPU_DEVFS);
-     return name;
- }
-=20
---=20
-2.18.2
+Please review, thanks.
+
+Hailiang Zhang (8):
+  migration: fix COLO broken caused by a previous commit
+  migration/colo: wrap incoming checkpoint process into new helper
+  savevm: Don't call colo_init_ram_cache twice
+  COLO: Optimize memory back-up process
+  ram/colo: only record bitmap of dirty pages in COLO stage
+  migration: recognize COLO as part of activating process
+  COLO: Migrate dirty pages during the gap of checkpointing
+  migration/colo: Only flush ram cache while do checkpoint
+
+ migration/colo.c       | 337 +++++++++++++++++++++++++----------------
+ migration/migration.c  |   7 +-
+ migration/migration.h  |   1 +
+ migration/ram.c        |  78 +++++++---
+ migration/ram.h        |   2 +
+ migration/trace-events |   1 +
+ qapi/migration.json    |   4 +-
+ 7 files changed, 269 insertions(+), 161 deletions(-)
+
+--
+2.21.0
+
 
 
