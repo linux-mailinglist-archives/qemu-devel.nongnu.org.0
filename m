@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D377716B3F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:29:16 +0100 (CET)
-Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0922616B3D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 23:24:10 +0100 (CET)
+Received: from localhost ([::1]:45172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6MDz-00078s-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:29:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37640)
+	id 1j6M93-0005zd-1k
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 17:24:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7Z-0003yK-EZ
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:38 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j6M7b-00041V-MT
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6M7Y-0005ih-6W
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:37 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:34248)
+ (envelope-from <richard.henderson@linaro.org>) id 1j6M7Z-0005jh-Ig
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:39 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41730)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6M7Y-0005iE-1Z
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:36 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id i6so6079073pfc.1
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:35 -0800 (PST)
+ id 1j6M7Z-0005jA-B8
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 17:22:37 -0500
+Received: by mail-pg1-x542.google.com with SMTP id 70so5836435pgf.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:22:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NdhOCLWIrz3fKIXemltzqY1AnfnjgmcetiILUwX+2Hc=;
- b=AQ0nbMbbKnOeXsuYdonsMfDDDPEJjkI38Uzua9Vt26W3gFIcZspa0QnA8fAqDipIpB
- 87NkJClQkVnM0wsekdo+cCMIFK+V4+nQuLHMiLLXJ7dOZyhzTviRwjdV0pVjXRirJsr5
- SIpt4EaeZ6Z2o1IUjH8cbk3UiQVnr6sZuT8apcOD8BMVqLA9TqIWuflksMCK0DjNXI8q
- aVsCNsBDU0B8UJ764Zf7m5/FpDca5pmrr2Hsuj0QRnqpMcrlw8BkY5+WxAp0lKMRm3WV
- 4babYVtAAUVWX0tmFP/zsYlmsdj3cmf7qy21ifmYPRQOPCu1OMqkOmX9BSx4eGyC6Mn3
- cDdA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Sk0MOHyrllS0IcT8aMOfzN1UEtehTWfA11kplAVqlII=;
+ b=uxlYRhCSH4fS8zWfj8VjQDzE3g3bBU/eoB0Vtq5JAmM3GnyuIpRxWGbviTEvhBPt5z
+ 7bQ9XP4JsMhy7wq9Juq87Fvo+9dlonqBwvfy/UDnqmokfRaYnKyn9BJ5ArIYd5sT9Lni
+ P+aFXA840NgV3/nsAJOAvPPpD8tkJZ3erQMGM7pBgQrSFA7mvbuxkgqvhziviYdCzIaQ
+ T349Rsuc0vg/tuJT69bl2YlTR4pBk63TbMi+NMXWChKK99SLUIGJjcs+eAGSTOUQ1RZ8
+ F6U/D4plCkjczUamaNFnp9/UW5ItQlvBfBbg2+/wqtVX6uyPzeNMw049L0krORY2v+Xx
+ UlWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NdhOCLWIrz3fKIXemltzqY1AnfnjgmcetiILUwX+2Hc=;
- b=f2EEFxR7Vt+CEjfcVB5+/a8VSIc7Dq6AALuvpm2G+pnz3tP0inXZlmkx5IzKAMOo4Z
- 9b/Lgbj049114Zp3YY42MfMJv01V6SLaUsWQS4S06MprjG59pSDG9vbGnXyxPFenvGyg
- j0UMCGgOxLAL66Nj67fc5K6hr8l/Pcy1o/dSSLWtnE0xvzggoZsRJ20NqjQfmhyLpIUZ
- RvdOF+kAKlKyl2Xs2Z1LzA8Y8rZGPdc9eXB//Xbsb8rjW3Ro4f1bSVqofrSF7drg3wIJ
- 4bRkBkFSM+Q325yO1hGDUA8FDL5zBSCKSJflX8cV8dMll7a2tounvMM5mslkRrbfPAEy
- Tt+A==
-X-Gm-Message-State: APjAAAXIOAeUf1/LZGNLpHqCBNirWjMA3hFdAszmGfTfaCutpZl3oAsG
- J8LUYY5FyEwU++ABw4zM0fFGgOeqWcw=
-X-Google-Smtp-Source: APXvYqzDdMCbzbXGMlzHprNKacJERGBQvsx5nYlMY2km95VUtQlvMIoLqQsClsTCPcGTqJHCA8j38g==
-X-Received: by 2002:a62:5bc3:: with SMTP id
- p186mr31464637pfb.162.1582582954575; 
- Mon, 24 Feb 2020 14:22:34 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Sk0MOHyrllS0IcT8aMOfzN1UEtehTWfA11kplAVqlII=;
+ b=NSaetnvaTX5zf7HXQm1AndGjvDTdTrnUxFHXhxcmcNEXeBJjjm1hIcZgyI3IHvqRIH
+ Vm1pzbcVKRi/YsVQkYfWGHcCmx0p/vQ3NEH2TX+TFcI3ndy6Imy7X0Jc2YcKYikeyFdC
+ mgz6kuHgMT0Re5l/dQsJvK3te5/7vFaSfFyt8511J874kjnLjhTa4rtxyY2kzLJYLiSg
+ VeDE1OOO+UlYRlmZxU2qttFAdJwP5Ywg5paV/UvHr7pakJfXyuYvB7PcRMxBOGg4mfoh
+ O8SZBbNzrUaSfLjSlf09T/QaXv8Ldccyf4aZAPX79HkwUmr2rBH4ybYJSlCnq1F9XDZ/
+ Mwaw==
+X-Gm-Message-State: APjAAAVASnRE3rSf0gcC0eVYLf2ZD4otLT9GjfpqtR7HQGKJdevr6+N4
+ Nf/LYQZrpVmCU0VeCwrlXLovpDUkL3k=
+X-Google-Smtp-Source: APXvYqw9YQFEW9vALio9hD/0U0J/E1oUUJdhZx3Qyy97bUnvHl/7FtsMiW12EIQwpJnPGfHe8wL3Uw==
+X-Received: by 2002:a62:f94d:: with SMTP id g13mr53023785pfm.60.1582582955690; 
+ Mon, 24 Feb 2020 14:22:35 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.33
+ by smtp.gmail.com with ESMTPSA id o6sm13897097pgg.37.2020.02.24.14.22.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 14:22:33 -0800 (PST)
+ Mon, 24 Feb 2020 14:22:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/17] target/arm: vfp feature and decodetree cleanup
-Date: Mon, 24 Feb 2020 14:22:15 -0800
-Message-Id: <20200224222232.13807-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/17] target/arm: Add isar_feature_aa32_vfp_simd
+Date: Mon, 24 Feb 2020 14:22:16 -0800
+Message-Id: <20200224222232.13807-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200224222232.13807-1-richard.henderson@linaro.org>
+References: <20200224222232.13807-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42a
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,60 +82,282 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main goal of the patchset is to move the ARM_FEATURE_VFP test from
-outside of the disas_vfp_insn() to inside each of the trans_* functions,
-so that we get the proper ISA check for each case.  At the end of that,
-it is easy to eliminate all of the remaining tests vs ARM_FEATURE_VFP*
-in favor of the preferred ISAR tests.  Finally, there are a couple of
-cleanups to vfp.decode to make things a bit more legible.
+Use this in the places that were checking ARM_FEATURE_VFP, and
+are obviously testing for the existance of the register set
+as opposed to testing for some particular instruction extension.
 
-Changes for v2:
-  * Replace aa32_simd_r16 by aa32_vfp_simd.
-  * Add aa64_fp_simd, aa32_vfp.
-  * Improve aa64 has_vfp/has_neon check.
-  * Fix some "any" tests.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h        |  9 +++++++++
+ hw/intc/armv7m_nvic.c   | 20 ++++++++++----------
+ linux-user/arm/signal.c |  4 ++--
+ target/arm/arch_dump.c  | 11 ++++++-----
+ target/arm/cpu.c        |  4 ++--
+ target/arm/helper.c     |  4 ++--
+ target/arm/m_helper.c   | 11 ++++++-----
+ 7 files changed, 37 insertions(+), 26 deletions(-)
 
-
-r~
-
-
-Richard Henderson (17):
-  target/arm: Add isar_feature_aa32_vfp_simd
-  target/arm: Rename isar_feature_aa32_fpdp_v2
-  target/arm: Add isar_feature_aa32_{fpsp_v2,fpsp_v3,fpdp_v3}
-  target/arm: Add isar_feature_aa64_fp_simd, isar_feature_aa32_vfp
-  target/arm: Improve ID_AA64PFR0 FP/SIMD validation
-  target/arm: Perform fpdp_v2 check first
-  target/arm: Replace ARM_FEATURE_VFP3 checks with fp{sp,dp}_v3
-  target/arm: Add missing checks for fpsp_v2
-  target/arm: Replace ARM_FEATURE_VFP4 with isar_feature_aa32_simdfmac
-  target/arm: Remove ARM_FEATURE_VFP check from disas_vfp_insn
-  target/arm: Move VLLDM and VLSTM to vfp.decode
-  target/arm: Move the vfp decodetree calls next to the base isa
-  linux-user/arm: Replace ARM_FEATURE_VFP* tests for HWCAP
-  target/arm: Remove ARM_FEATURE_VFP*
-  target/arm: Add formats for some vfp 2 and 3-register insns
-  target/arm: Split VFM decode
-  target/arm: Split VMINMAXNM decode
-
- target/arm/cpu.h               |  57 ++++-
- target/arm/vfp-uncond.decode   |  12 +-
- target/arm/vfp.decode          | 153 +++++------
- hw/intc/armv7m_nvic.c          |  20 +-
- linux-user/arm/signal.c        |   4 +-
- linux-user/elfload.c           |  23 +-
- target/arm/arch_dump.c         |  11 +-
- target/arm/cpu.c               |  67 ++---
- target/arm/cpu64.c             |   3 -
- target/arm/helper.c            |   4 +-
- target/arm/kvm32.c             |   5 -
- target/arm/kvm64.c             |   1 -
- target/arm/m_helper.c          |  11 +-
- target/arm/machine.c           |   5 +-
- target/arm/translate-vfp.inc.c | 448 ++++++++++++++++++++-------------
- target/arm/translate.c         | 122 +++------
- 16 files changed, 498 insertions(+), 448 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 65171cb30e..a128d48d40 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3450,6 +3450,15 @@ static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, FP) == 1;
+ }
+ 
++static inline bool isar_feature_aa32_vfp_simd(const ARMISARegisters *id)
++{
++    /*
++     * Return true if either VFP or SIMD is implemented.
++     * In this case, a minimum of VFP w/ D0-D15.
++     */
++    return FIELD_EX32(id->mvfr0, MVFR0, SIMDREG) > 0;
++}
++
+ static inline bool isar_feature_aa32_simd_r32(const ARMISARegisters *id)
+ {
+     /* Return true if D16-D31 are implemented */
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 22a43e4984..a62587eb3f 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -1262,12 +1262,12 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
+     case 0xd84: /* CSSELR */
+         return cpu->env.v7m.csselr[attrs.secure];
+     case 0xd88: /* CPACR */
+-        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             return 0;
+         }
+         return cpu->env.v7m.cpacr[attrs.secure];
+     case 0xd8c: /* NSACR */
+-        if (!attrs.secure || !arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (!attrs.secure || !cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             return 0;
+         }
+         return cpu->env.v7m.nsacr;
+@@ -1417,7 +1417,7 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
+         }
+         return cpu->env.v7m.sfar;
+     case 0xf34: /* FPCCR */
+-        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             return 0;
+         }
+         if (attrs.secure) {
+@@ -1444,12 +1444,12 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
+             return value;
+         }
+     case 0xf38: /* FPCAR */
+-        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             return 0;
+         }
+         return cpu->env.v7m.fpcar[attrs.secure];
+     case 0xf3c: /* FPDSCR */
+-        if (!arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             return 0;
+         }
+         return cpu->env.v7m.fpdscr[attrs.secure];
+@@ -1711,13 +1711,13 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+         }
+         break;
+     case 0xd88: /* CPACR */
+-        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             /* We implement only the Floating Point extension's CP10/CP11 */
+             cpu->env.v7m.cpacr[attrs.secure] = value & (0xf << 20);
+         }
+         break;
+     case 0xd8c: /* NSACR */
+-        if (attrs.secure && arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (attrs.secure && cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             /* We implement only the Floating Point extension's CP10/CP11 */
+             cpu->env.v7m.nsacr = value & (3 << 10);
+         }
+@@ -1951,7 +1951,7 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+         break;
+     }
+     case 0xf34: /* FPCCR */
+-        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             /* Not all bits here are banked. */
+             uint32_t fpccr_s;
+ 
+@@ -2005,13 +2005,13 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+         }
+         break;
+     case 0xf38: /* FPCAR */
+-        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             value &= ~7;
+             cpu->env.v7m.fpcar[attrs.secure] = value;
+         }
+         break;
+     case 0xf3c: /* FPDSCR */
+-        if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             value &= 0x07c00000;
+             cpu->env.v7m.fpdscr[attrs.secure] = value;
+         }
+diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
+index b0e753801b..d96fc27ce1 100644
+--- a/linux-user/arm/signal.c
++++ b/linux-user/arm/signal.c
+@@ -346,7 +346,7 @@ static void setup_sigframe_v2(struct target_ucontext_v2 *uc,
+     setup_sigcontext(&uc->tuc_mcontext, env, set->sig[0]);
+     /* Save coprocessor signal frame.  */
+     regspace = uc->tuc_regspace;
+-    if (arm_feature(env, ARM_FEATURE_VFP)) {
++    if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
+         regspace = setup_sigframe_v2_vfp(regspace, env);
+     }
+     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
+@@ -671,7 +671,7 @@ static int do_sigframe_return_v2(CPUARMState *env,
+ 
+     /* Restore coprocessor signal frame */
+     regspace = uc->tuc_regspace;
+-    if (arm_feature(env, ARM_FEATURE_VFP)) {
++    if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
+         regspace = restore_sigframe_v2_vfp(env, regspace);
+         if (!regspace) {
+             return 1;
+diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
+index 2345dec3c2..7693e17e96 100644
+--- a/target/arm/arch_dump.c
++++ b/target/arm/arch_dump.c
+@@ -363,9 +363,11 @@ int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+                              int cpuid, void *opaque)
+ {
+     struct arm_note note;
+-    CPUARMState *env = &ARM_CPU(cs)->env;
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
+     DumpState *s = opaque;
+-    int ret, i, fpvalid = !!arm_feature(env, ARM_FEATURE_VFP);
++    int ret, i;
++    bool fpvalid = cpu_isar_feature(aa32_vfp_simd, cpu);
+ 
+     arm_note_init(&note, s, "CORE", 5, NT_PRSTATUS, sizeof(note.prstatus));
+ 
+@@ -444,7 +446,6 @@ int cpu_get_dump_info(ArchDumpInfo *info,
+ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+ {
+     ARMCPU *cpu = ARM_CPU(first_cpu);
+-    CPUARMState *env = &cpu->env;
+     size_t note_size;
+ 
+     if (class == ELFCLASS64) {
+@@ -452,12 +453,12 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+         note_size += AARCH64_PRFPREG_NOTE_SIZE;
+ #ifdef TARGET_AARCH64
+         if (cpu_isar_feature(aa64_sve, cpu)) {
+-            note_size += AARCH64_SVE_NOTE_SIZE(env);
++            note_size += AARCH64_SVE_NOTE_SIZE(&cpu->env);
+         }
+ #endif
+     } else {
+         note_size = ARM_PRSTATUS_NOTE_SIZE;
+-        if (arm_feature(env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             note_size += ARM_VFP_NOTE_SIZE;
+         }
+     }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2eadf4dcb8..be4c2a1253 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -293,7 +293,7 @@ static void arm_cpu_reset(CPUState *s)
+             env->v7m.ccr[M_REG_S] |= R_V7M_CCR_UNALIGN_TRP_MASK;
+         }
+ 
+-        if (arm_feature(env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             env->v7m.fpccr[M_REG_NS] = R_V7M_FPCCR_ASPEN_MASK;
+             env->v7m.fpccr[M_REG_S] = R_V7M_FPCCR_ASPEN_MASK |
+                 R_V7M_FPCCR_LSPEN_MASK | R_V7M_FPCCR_S_MASK;
+@@ -1011,7 +1011,7 @@ static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+         int numvfpregs = 0;
+         if (cpu_isar_feature(aa32_simd_r32, cpu)) {
+             numvfpregs = 32;
+-        } else if (arm_feature(env, ARM_FEATURE_VFP)) {
++        } else if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             numvfpregs = 16;
+         }
+         for (i = 0; i < numvfpregs; i++) {
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 79db169e04..8841cc7fde 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -894,7 +894,7 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+          * ASEDIS [31] and D32DIS [30] are both UNK/SBZP without VFP.
+          * TRCDIS [28] is RAZ/WI since we do not implement a trace macrocell.
+          */
+-        if (arm_feature(env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
+             /* VFP coprocessor: cp10 & cp11 [23:20] */
+             mask |= (1 << 31) | (1 << 30) | (0xf << 20);
+ 
+@@ -7814,7 +7814,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+     } else if (cpu_isar_feature(aa32_simd_r32, cpu)) {
+         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
+                                  35, "arm-vfp3.xml", 0);
+-    } else if (arm_feature(env, ARM_FEATURE_VFP)) {
++    } else if (cpu_isar_feature(aa32_vfp_simd, cpu)) {
+         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
+                                  19, "arm-vfp.xml", 0);
+     }
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 33d414a684..5e8a795d20 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -738,7 +738,8 @@ static uint32_t v7m_integrity_sig(CPUARMState *env, uint32_t lr)
+      */
+     uint32_t sig = 0xfefa125a;
+ 
+-    if (!arm_feature(env, ARM_FEATURE_VFP) || (lr & R_V7M_EXCRET_FTYPE_MASK)) {
++    if (!cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))
++        || (lr & R_V7M_EXCRET_FTYPE_MASK)) {
+         sig |= 1;
+     }
+     return sig;
+@@ -841,7 +842,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
+ 
+     if (dotailchain) {
+         /* Sanitize LR FType and PREFIX bits */
+-        if (!arm_feature(env, ARM_FEATURE_VFP)) {
++        if (!cpu_isar_feature(aa32_vfp_simd, cpu)) {
+             lr |= R_V7M_EXCRET_FTYPE_MASK;
+         }
+         lr = deposit32(lr, 24, 8, 0xff);
+@@ -1373,7 +1374,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+ 
+     ftype = excret & R_V7M_EXCRET_FTYPE_MASK;
+ 
+-    if (!arm_feature(env, ARM_FEATURE_VFP) && !ftype) {
++    if (!ftype && !cpu_isar_feature(aa32_vfp_simd, cpu)) {
+         qemu_log_mask(LOG_GUEST_ERROR, "M profile: zero FTYPE in exception "
+                       "exit PC value 0x%" PRIx32 " is UNPREDICTABLE "
+                       "if FPU not present\n",
+@@ -2450,7 +2451,7 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+              * SFPA is RAZ/WI from NS. FPCA is RO if NSACR.CP10 == 0,
+              * RES0 if the FPU is not present, and is stored in the S bank
+              */
+-            if (arm_feature(env, ARM_FEATURE_VFP) &&
++            if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env)) &&
+                 extract32(env->v7m.nsacr, 10, 1)) {
+                 env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
+                 env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_FPCA_MASK;
+@@ -2565,7 +2566,7 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+             env->v7m.control[env->v7m.secure] &= ~R_V7M_CONTROL_NPRIV_MASK;
+             env->v7m.control[env->v7m.secure] |= val & R_V7M_CONTROL_NPRIV_MASK;
+         }
+-        if (arm_feature(env, ARM_FEATURE_VFP)) {
++        if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
+             /*
+              * SFPA is RAZ/WI from NS or if no FPU.
+              * FPCA is RO if NSACR.CP10 == 0, RES0 if the FPU is not present.
 -- 
 2.20.1
 
