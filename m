@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628BE16B228
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:26:08 +0100 (CET)
-Received: from localhost ([::1]:43840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487CE16B223
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 22:23:59 +0100 (CET)
+Received: from localhost ([::1]:43776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6LEt-00065K-DR
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:26:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50885)
+	id 1j6LCo-0001yT-8r
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 16:23:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50985)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kmn-0007pM-BF
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:06 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kmy-0008LT-Bd
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j6Kmm-0003wQ-2k
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:05 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:45050)
+ (envelope-from <jag.raman@oracle.com>) id 1j6Kmx-00046k-4a
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:16 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:53952)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j6Kml-0003vM-Ps
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:04 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKrQVM032081;
- Mon, 24 Feb 2020 20:56:58 GMT
+ id 1j6Kmw-0003wV-So
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 15:57:15 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKra5g164127;
+ Mon, 24 Feb 2020 20:57:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=kNFIpLb5KqA13nmBN7fGm+89ZBH0qWuchoDbUdd84xU=;
- b=kvIchio4+AHvgs6csXqgac69kxcaowpGanOObtQ5ZKE86G/qqUkw2c6I/pkTD5f2pxKR
- UHYSc9Mf1TN++KV24uSvG12lv1oKLZ2VtEYHiUHeIwniQkizQAXlNWwDPdThLQ2+aU07
- LX/qB9YO2r5sOYLJtRdJoUOJCGiL6QL+FezxfysQwmJYvC6/CjeJQnxyPp7drwxNbgdu
- hEN7OaiqFQo+bX9Nj+EB1qM+H4tcNJ+BtZZg+vNF264my3ovsisA9onjrpB8jk1N5at8
- n8LT+eK846BfHrJuzAppk67PKqoLv5QN4Q7m272SIaq4nH/VHnsOU37sezgsEVyk0bYl bA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2yauqua0q5-1
+ bh=myWcMfhqdAjSR8DPI97VT7FmO1ksEv3G863ka95yyYA=;
+ b=FzqvCtzWqarBraJ7cSrwP8UoNkyL2seuFi6pe/9ufXzd6v1jQJygyK5w/dzahaS3oK3y
+ nAW0yJObdw3y51DwrLMNycbrVNdMSAoMs1yu8auOnv1QSigW417qSllHJamTClwPorhB
+ Gr7zLb4pNVKKgl1QsxRVDRdlW37h3Gali6tL5oI5ZsUZRj3CZPjHqwDZHtHrEyf+AYGd
+ HUaPkBpkozVaqZO7Mxof+A6fTsXNjpr4l6q+cg6lZjch6Cxwyq9sDcdfHY8LMJ+SiUQ+
+ TCOzhXKAd/Jcs5mrKdytpbXKw/r4R18HaKRGT1Ejd00vyuDef+SWTmydrcI5Roz6rhkD rg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2ybvr4p989-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 20:56:59 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKqKQl171766;
+ Mon, 24 Feb 2020 20:56:59 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 2ybdshksj8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 24 Feb 2020 20:56:58 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01OKufLC073328;
- Mon, 24 Feb 2020 20:56:57 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2ybduv6dnr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Feb 2020 20:56:57 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKutDM030075;
- Mon, 24 Feb 2020 20:56:55 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 01OKuvc5030086;
+ Mon, 24 Feb 2020 20:56:57 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 24 Feb 2020 12:56:55 -0800
+ with ESMTP ; Mon, 24 Feb 2020 12:56:56 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 38/50] multi-process/mon: Initialize QMP module for remote
- processes
-Date: Mon, 24 Feb 2020 15:55:29 -0500
-Message-Id: <5dde2ceee2e0867302b411857baaa3b6d99668e6.1582576372.git.jag.raman@oracle.com>
+Subject: [PATCH v5 39/50] multi-process: prevent duplicate memory
+ initialization in remote
+Date: Mon, 24 Feb 2020 15:55:30 -0500
+Message-Id: <c341ebff323d15a535b9a5a30aca1b9b6897bb51.1582576372.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
@@ -64,21 +64,21 @@ In-Reply-To: <cover.1582576372.git.jag.raman@oracle.com>
 References: <cover.1582576372.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=1
- mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002240154
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=1 spamscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240153
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9541
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- bulkscore=0
- clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ spamscore=0
+ clxscore=1015 adultscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=1 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002240153
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,78 +101,85 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When multiple controllers are configured in a remote process,
+it's better for the memory to be managed by only one of the proxy
+objects for that process, in order to conserve file descriptors. Added
+"mem_int" flag for this purpose.
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- remote/remote-main.c | 11 +++++++++++
- remote/remote-opts.c | 10 ++++++++++
- 2 files changed, 21 insertions(+)
+ hw/proxy/qemu-proxy.c         | 13 ++++++++++++-
+ include/hw/proxy/qemu-proxy.h |  1 +
+ qdev-monitor.c                |  2 +-
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 23fc0df..58d9905 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -56,6 +56,7 @@
- #include "monitor/monitor.h"
- #include "chardev/char.h"
- #include "sysemu/reset.h"
-+#include "vl.h"
+diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+index 741f02a..b1b9282 100644
+--- a/hw/proxy/qemu-proxy.c
++++ b/hw/proxy/qemu-proxy.c
+@@ -453,6 +453,13 @@ static void proxy_device_reset(DeviceState *dev)
+     close(wait);
+ }
  
- static MPQemuLinkState *mpqemu_link;
- 
-@@ -436,6 +437,8 @@ int main(int argc, char *argv[])
- 
-     module_call_init(MODULE_INIT_QOM);
- 
-+    monitor_init_globals();
++static void pci_proxy_dev_inst_init(Object *obj)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(obj);
 +
-     bdrv_init_with_whitelist();
- 
-     if (qemu_init_main_loop(&err)) {
-@@ -453,6 +456,8 @@ int main(int argc, char *argv[])
- 
-     qemu_add_opts(&qemu_device_opts);
-     qemu_add_opts(&qemu_drive_opts);
-+    qemu_add_opts(&qemu_chardev_opts);
-+    qemu_add_opts(&qemu_mon_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-     qemu_add_drive_opts(&qemu_common_drive_opts);
-     qemu_add_drive_opts(&qemu_drive_opts);
-@@ -483,6 +488,12 @@ int main(int argc, char *argv[])
- 
-     mpqemu_link_set_callback(mpqemu_link, process_msg);
- 
-+    qemu_opts_foreach(qemu_find_opts("chardev"),
-+                      chardev_init_func, NULL, &error_fatal);
++    dev->mem_init = false;
++}
 +
-+    qemu_opts_foreach(qemu_find_opts("mon"),
-+                      mon_init_func, NULL, &error_fatal);
-+
-     mpqemu_start_coms(mpqemu_link);
+ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+ {
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -470,6 +477,7 @@ static const TypeInfo pci_proxy_dev_type_info = {
+     .name          = TYPE_PCI_PROXY_DEV,
+     .parent        = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PCIProxyDev),
++    .instance_init = pci_proxy_dev_inst_init,
+     .class_size    = sizeof(PCIProxyDevClass),
+     .class_init    = pci_proxy_dev_class_init,
+     .interfaces = (InterfaceInfo[]) {
+@@ -566,7 +574,10 @@ static void init_proxy(PCIDevice *dev, char *command, char *exec_name,
+     mpqemu_init_channel(pdev->mpqemu_link, &pdev->mpqemu_link->mmio,
+                         pdev->mmio_sock);
  
-     return 0;
-diff --git a/remote/remote-opts.c b/remote/remote-opts.c
-index 565e641..e22ad5c 100644
---- a/remote/remote-opts.c
-+++ b/remote/remote-opts.c
-@@ -82,6 +82,16 @@ void parse_cmdline(int argc, char **argv, char **envp)
-                     exit(1);
-                 }
-                 break;
-+            case QEMU_OPTION_qmp:
-+                monitor_parse(optarg, "control", false);
-+                break;
-+            case QEMU_OPTION_monitor:
-+                if (!strncmp(optarg, "stdio", 5)) {
-+                    warn_report("STDIO not supported in remote process");
-+                } else if (strncmp(optarg, "none", 4)) {
-+                    monitor_parse(optarg, "readline", false);
-+                }
-+                break;
-             default:
-                 break;
-             }
+-    configure_memory_sync(pdev->sync, pdev->mpqemu_link);
++    if (!pdev->mem_init) {
++        pdev->mem_init = true;
++        configure_memory_sync(pdev->sync, pdev->mpqemu_link);
++    }
+ }
+ 
+ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
+index 2a2c732..5de8129 100644
+--- a/include/hw/proxy/qemu-proxy.h
++++ b/include/hw/proxy/qemu-proxy.h
+@@ -49,6 +49,7 @@ struct PCIProxyDev {
+     MPQemuLinkState *mpqemu_link;
+ 
+     RemoteMemSync *sync;
++    bool mem_init;
+     struct kvm_irqfd irqfd;
+ 
+     EventNotifier intr;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 27b2ddc..f120509 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -732,9 +732,9 @@ DeviceState *qdev_proxy_add(const char *rid, const char *id, char *bus,
+         pdev->socket = old_pdev->socket;
+         pdev->mmio_sock = old_pdev->mmio_sock;
+         pdev->remote_pid = old_pdev->remote_pid;
++        pdev->mem_init = true;
+     } else {
+         pdev->socket = managed ? socket : -1;
+-
+     }
+     pdev->managed = managed;
+ 
 -- 
 1.8.3.1
 
