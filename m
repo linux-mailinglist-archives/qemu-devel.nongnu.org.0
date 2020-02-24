@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E99F16B6F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:58:27 +0100 (CET)
-Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2FC16B70F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 02:15:03 +0100 (CET)
+Received: from localhost ([::1]:47063 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6OYM-0003oh-3r
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:58:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1j6OoQ-000885-Al
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 20:15:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1j6OWq-00023v-1R
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:52 -0500
+ (envelope-from <stefanrin@gmail.com>) id 1j6Cxm-0007KA-37
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 07:35:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1j6OWo-0007p4-RF
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:51 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24148
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j6OWo-0007ni-MA
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582592210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ioKiR0424ftBjD7lpbVOIDL2uezKt3IXhOhLa6WO5o4=;
- b=O58cOD03zsNR/gpyUvhkds2cTDjX3Qr8U8hkvv/s9JsB0GzorAZk/AGdufZnM3E4cWL7Az
- 2WunkYktjRu1atFBX7h6/v3FCcZV9CO468yR1id+3IkF3Mubv2tMlUNR/KNvYiA6iEvyfP
- fRHqw3P1kjzizhgKMtbb3LyYu+ZUors=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-yjBk6Y9WNzCmdhx0L8enYw-1; Mon, 24 Feb 2020 19:56:48 -0500
-X-MC-Unique: yjBk6Y9WNzCmdhx0L8enYw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A45E213E2;
- Tue, 25 Feb 2020 00:56:47 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-182.bos.redhat.com [10.18.17.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B647289F30;
- Tue, 25 Feb 2020 00:56:46 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] iotests: add hmp helper with logging
-Date: Mon, 24 Feb 2020 19:56:39 -0500
-Message-Id: <20200225005641.5478-5-jsnow@redhat.com>
-In-Reply-To: <20200225005641.5478-1-jsnow@redhat.com>
-References: <20200225005641.5478-1-jsnow@redhat.com>
+ (envelope-from <stefanrin@gmail.com>) id 1j6Cxk-0007Um-S0
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 07:35:54 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:42958)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanrin@gmail.com>)
+ id 1j6Cxi-0007TA-1g; Mon, 24 Feb 2020 07:35:50 -0500
+Received: by mail-io1-xd42.google.com with SMTP id z1so10050437iom.9;
+ Mon, 24 Feb 2020 04:35:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :content-transfer-encoding;
+ bh=IoKrnU5wlsNsgz6KvO+wF5EOEafsdIsaofsmdcmtqP0=;
+ b=BkiYonQiep0tatWxVn7a2wbdYiv4PkTrZtFnekQNKS0etGLpn8crlRb6ruA/szSRLb
+ 3Ah9dJjUfUWWuiZ37CnANBew2pkE5gzEuxYM081cZL/W/5vnMApTJLsRKJ4mtk0s/rmm
+ USogk+3ClIwmSG+i3PL4Zt6hCGcKGACLAcxp3JgyFJkorcodI32B87vsg+HLIxn00EV5
+ UzINviUQobNUOX6ATJ4AzcDzUZt/uGmBc8fDEPvjh9yxv77u2MPoGh0iBSFMGeq6kp4q
+ jchmnN6IiNDME9yyoBZ3aqFVdJJHhol0RLPW2dQ5AfaVY8HkhyLCY4pB6xiv/OeYqmst
+ tUUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:content-transfer-encoding;
+ bh=IoKrnU5wlsNsgz6KvO+wF5EOEafsdIsaofsmdcmtqP0=;
+ b=NQyOkcvFDs7aBnwtjcz7g4YptkqW0ha3EAZhdGzKvTr5v0WU+QkuRTvciD+zRm+akw
+ GzRqEJz1JsWclk1TtHIOrYCqkt6haEHalhx818JSsf6PQBe2p7N8mVvFWtIwHgnLSenV
+ 6cskK20MrwRTeDCQVagh+LPUMhVH+97T5g4tjjvXoHnHRLaSEMO8ikF+aEcmBOWOCWRs
+ 7v3S6TmqC1MUSnuYXIt+qempGQYnSJi2WBJvkqmJZAPF/eB/yQZb4RPYw6ozRUMSEAd9
+ KbW3wt/gTwug2HUI5BRT3H32Rk8wi4op+fGYJglszR5Z8NhO6ow2ubsXbcVh45KIUD1u
+ p+TA==
+X-Gm-Message-State: APjAAAVDvc4Dn8EK6wQIpiumFOjwBQg4sAuCN6PdmAMHR4SsccBOU/D5
+ KAXAqfvJHU/y5ZOiMWUKYbQZU/uwz5Wo3DDTzutUtC02
+X-Google-Smtp-Source: APXvYqwpyY38gpwaHyLZf/O02to5Uruhhq1m/qifI3h3x3ZZeYGV/Vf0B2bGQTB736E5ni4+lMZf5GrtWk2Eg32VAQc=
+X-Received: by 2002:a6b:fd1a:: with SMTP id c26mr49073528ioi.214.1582547748225; 
+ Mon, 24 Feb 2020 04:35:48 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <CAAxjCEzHQz4cG_8m7S6=CwCBoN5daQs+KVyuU5GL5Tq3Bky1NA@mail.gmail.com>
+In-Reply-To: <CAAxjCEzHQz4cG_8m7S6=CwCBoN5daQs+KVyuU5GL5Tq3Bky1NA@mail.gmail.com>
+From: Stefan Ring <stefanrin@gmail.com>
+Date: Mon, 24 Feb 2020 13:35:36 +0100
+Message-ID: <CAAxjCEx79Fkjw9tFbSMo+b1LGv2LNivLRXf1GS9JsYnXrNVVkQ@mail.gmail.com>
+Subject: Re: Strange data corruption issue with gluster (libgfapi) and ZFS
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org, integration@gluster.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d42
+X-Mailman-Approved-At: Mon, 24 Feb 2020 20:12:27 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,63 +73,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- pkrempa@redhat.com, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just a mild cleanup while I was here.
+On Thu, Feb 20, 2020 at 10:19 AM Stefan Ring <stefanrin@gmail.com> wrote:
+>
+> Hi,
+>
+> I have a very curious problem on an oVirt-like virtualization host
+> whose storage lives on gluster (as qcow2).
+>
+> The problem is that of the writes done by ZFS, whose sizes according
+> to blktrace are a mixture of 8, 16, 24, ... 256 (512 byte)
+> blocks,sometimes the first 4KB or more, but at least the first 4KB,
+> end up zeroed out when read back later from storage. To clarify: ZFS
+> is only used in the guest. In my current test scenario, I write
+> approx. 3GB to the guest machine, which takes roughly a minute.
+> Actually it=E2=80=99s around 35 GB which gets compressed down to 3GB by l=
+z4.
+> Within that, I end up with close to 100 data errors when I read it
+> back from storage afterwards (zpool scrub).
+>
+> There are quite a few machines running on this host, and we have not
+> experienced other problems so far. So right now, only ZFS is able to
+> trigger this for some reason. The guest has 8 virtual cores. I also
+> tried writing directly to the affected device from user space in
+> patterns mimicking what I see in blktrace, but so far have been unable
+> to trigger the same issue that way. Of the many ZFS knobs, I know at
+> least one that makes a huge difference: When I set
+> zfs_vdev_async_write_max_active to 1 (as opposed to 2 or 10), the
+> error count goes through the roof (11.000). Curiously, when I switch
+> off ZFS compression, the data amount written increases almost
+> 10-fold,while the absolute error amount drops to close to, but not
+> entirely,zero. Which I guess supports my suspicion that this must be
+> somehow related to timing.
+>
+> Switching the guest storage driver between scsi and virtio does not
+> make a difference.
+>
+> Switching the storage backend to file on glusterfs-fuse does make a
+> difference, i.e. the problem disappears.
+>
+> Any hints? I'm still trying to investigate a few things, but what bugs
+> me most that only ZFS seems to trigger this behavior, although I am
+> almost sure that ZFS is not really at fault here.
+>
+> Software versions used:
+>
+> Host
+> kernel 3.10.0-957.12.1.el7.x86_64
+> qemu-kvm-ev-2.12.0-18.el7_6.3.1.x86_64
+> glusterfs-api-5.6-1.el7.x86_64
+>
+> Guest
+> kernel 3.10.0-1062.12.1.el7.x86_64
+> kmod-zfs-0.8.3-1.el7.x86_64 (from the official ZoL binaries)
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/iotests.py | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+I can actually reproduce this on my Fedora 31 home machine with 3 VMs.
+All 3 running CentOS 7.7. Two for glusterd, one for ZFS. Briefly, I
+also got rid of the 2 glusterd VMs altogether, i.e. running glusterd
+(the Fedora version) directly on the host, and it would still occur.
+So my impression is that the server side of GlusterFS does not matter
+much =E2=80=93 I=E2=80=99ve seen it happen on 4.x, 6.x, 7.2 and 7.3. Also, =
+as it
+happens in the same way on a Fedora 31 qemu as well as a CentOS 7 one,
+the qemu version is equally irrelevant.
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 8815052eb5..5d2990a0e4 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -525,23 +525,27 @@ def add_incoming(self, addr):
-         self._args.append(addr)
-         return self
-=20
-+    def hmp(self, command_line, log=3DFalse):
-+        cmd =3D 'human-monitor-command'
-+        kwargs =3D { 'command-line': command_line }
-+        if log:
-+            return self.qmp_log(cmd, **kwargs)
-+        return self.qmp(cmd, **kwargs)
-+
-     def pause_drive(self, drive, event=3DNone):
-         '''Pause drive r/w operations'''
-         if not event:
-             self.pause_drive(drive, "read_aio")
-             self.pause_drive(drive, "write_aio")
-             return
--        self.qmp('human-monitor-command',
--                    command_line=3D'qemu-io %s "break %s bp_%s"' % (drive,=
- event, drive))
-+        self.hmp('qemu-io %s "break %s bp_%s"' % (drive, event, drive))
-=20
-     def resume_drive(self, drive):
--        self.qmp('human-monitor-command',
--                    command_line=3D'qemu-io %s "remove_break bp_%s"' % (dr=
-ive, drive))
-+        self.hmp('qemu-io %s "remove_break bp_%s"' % (drive, drive))
-=20
--    def hmp_qemu_io(self, drive, cmd):
-+    def hmp_qemu_io(self, drive, cmd, log=3DFalse):
-         '''Write to a given drive using an HMP command'''
--        return self.qmp('human-monitor-command',
--                        command_line=3D'qemu-io %s "%s"' % (drive, cmd))
-+        return self.hmp('qemu-io %s "%s"' % (drive, cmd), log=3Dlog)
-=20
-     def flatten_qmp_object(self, obj, output=3DNone, basestr=3D''):
-         if output is None:
---=20
-2.21.1
+The main conclusion so far is that it has to do with growing the qcow2
+image. With a fully pre-populated image, I cannot trigger it.
 
+I poked around a little in the glfs api integration, but trying to
+make sense of two unknown asynchronous io systems (QEMU's and
+GlusterFS's) interacting with each other is demanding a bit much for a
+single weekend ;). The one thing I did verify so far is that there is
+only one thread ever calling qemu_gluster_co_rw. As already stated in
+the original post, the problem only occurs with multiple parallel
+write requests happening.
+
+What I plan to do next is look at the block ranges being written in
+the hope of finding overlaps there.
 
