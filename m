@@ -2,81 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BE916B058
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:35:29 +0100 (CET)
-Received: from localhost ([::1]:41404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E7816B06B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:44:11 +0100 (CET)
+Received: from localhost ([::1]:41490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6JVn-0004u1-SH
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:35:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38291)
+	id 1j6JeE-0000oZ-23
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:44:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j6JUm-0004D7-Af
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:34:25 -0500
+ (envelope-from <sunilmut@microsoft.com>) id 1j6JdO-0000MH-VX
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:43:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j6JUk-0007dX-Kg
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:34:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21200
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j6JUk-0007ct-DC
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:34:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582572861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jb0c2F+YSikYIsMBUY30S9egOU3zx5kv3u542ujLNmc=;
- b=QfFSbr6QuDEkHwAxHvm9cNo9iIoE2AS1wZhn3P/olOYhIQY4IhI4qpt1eam0fCk+KIMIYH
- KpnIe3wxkka+xZpDVOTKoRr8bBvZXLQ8ccS5FPgMShQAMrpcN9qxGrI9a/eW3OBZ/wYAUE
- top+00EtV/R9rnKChvHcgP/3DXErmw4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-ZvO6vnqNPumzEd9A4jAPzg-1; Mon, 24 Feb 2020 14:34:19 -0500
-X-MC-Unique: ZvO6vnqNPumzEd9A4jAPzg-1
-Received: by mail-wm1-f70.google.com with SMTP id u11so171478wmb.4
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 11:34:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=vQMv5+37+7m/6PEUe9PB+C3Xdm5icRYZqfPv0GWSAPA=;
- b=TuMReh8N8aQtgnY6B9MpeP+gtBf2IrBgVaPFTixD2lTafSds3Bv6UP4neOsD2Ff6JR
- C3aF9mSuFm2qdoz3i/+labiFj9wPDBFdwuq3XbQYJI9XwJU5HaQZ3/lSPCWcViLBFtH5
- lpV45W4gxne8DJkNnxcTTC/QVnbPxbowCu8+ica1V8Z37G2y/j7p3ipL/EcQHNsjYAOD
- PO+2jDrPvBbXBSgEZTU1wyP8dyvV9Agw/Uv9hZ7xH6eewIrmN331fdySdBp/lM2eYC59
- I/8Fj6XG+tE1ckycMzTHNelclhkqZjpHFprsqFlWyTwpwiw9h2vjDRiGu2jjb5/l3cm7
- Y6TQ==
-X-Gm-Message-State: APjAAAVd31Y08HBzxL8rdjgRsFHrsQ0J+7lMSQU9T70IGniFtTkX7iXr
- RoJvwLK6O+pI6DqxtI3mPG+Qv24nNbiCnp55c/htO2sMyRuYekeUDrWpg0QS1XB4z7GMDMo2anb
- 9CoFDo2vWuHBZGwk=
-X-Received: by 2002:adf:e683:: with SMTP id r3mr72144980wrm.38.1582572858668; 
- Mon, 24 Feb 2020 11:34:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx5yKKvTl/2ciGjLuk73hTr9Cz5N2bQs7vL4oXQT0rAq9IDVHCDskdwyeYF4XElAjl/1ljYSA==
-X-Received: by 2002:adf:e683:: with SMTP id r3mr72144936wrm.38.1582572858324; 
- Mon, 24 Feb 2020 11:34:18 -0800 (PST)
-Received: from [192.168.3.122] (p5B0C6CE1.dip0.t-ipconnect.de. [91.12.108.225])
- by smtp.gmail.com with ESMTPSA id f11sm590990wml.3.2020.02.24.11.34.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 11:34:17 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2 00/13] migrate/ram: Fix resizing RAM blocks while
- migrating
-Date: Mon, 24 Feb 2020 20:34:16 +0100
-Message-Id: <B6F48284-E18C-4FAF-B45D-7E8D142B18AA@redhat.com>
-References: <20200224191856.GK37727@xz-x1>
-In-Reply-To: <20200224191856.GK37727@xz-x1>
-To: Peter Xu <peterx@redhat.com>
-X-Mailer: iPhone Mail (17D50)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ (envelope-from <sunilmut@microsoft.com>) id 1j6JdM-0005xq-VY
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:43:18 -0500
+Received: from mail-bn8nam11on2098.outbound.protection.outlook.com
+ ([40.107.236.98]:35808 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sunilmut@microsoft.com>)
+ id 1j6JdM-0005x5-MT
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:43:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XfZvCu8J8AwELT78T1oHeSSqWeHky3PhroJiqPaxAaBDvBNYGtOvPqchERJ0Ov8H4OsEmRTLkGSoqZ0GWrqOJFt450JIZRxGfjz8SxYkcAGgzWm60LOPWzSN9i4M/3fzDApr9k7aTuoUGSlF1iU1XKfzto9zTJE0gyC2mKslUjfspt0zQe9mG5ecd8luLDpH0NQmWQOJZiwri39oEJzB9hKc6ZuswWFYMUVcYvDMwuJBPP13lVO8lold9AurFeNvvhQq34zRKuuXeq2RTJw0cFFQWwza0gemLFNdZyPqutwB0jMx9q78nJs7TWQlTQsjZdPBxI/wKLGxF9QcpKAWoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KHzTyMDEzMrVm4dY8vGZdsyzWQLZHISsnr6rZmlJk9s=;
+ b=VkfrU+f+RNPd/EF4Ij9LyPRbh9YXFKfwBjA9jzav3jGUc5ejf6gMPRwqOthOHnjpfGYyUGcc+9wRhy0D4KiNxl0N2v2hNoWXaSYExtQWWO4x+YtIS9DeuTnQaaUWV0PlKwYSJeIS/EPs/bMmwW5xDzDFrfc6EcdIK5ybDcMYN/YZ/DSRDrzVVAyaYQKshNEBqUCxyq8X1GQTn8FWnzTi4oWqcI7wEXS+5mIW/PCHjg+iRtG+MhnJ+XG4sduo4kkrFTJiYVdTem7i0LDUDxIlp9UjexSI4l6e/AZwMjkraayFMI1DwSeulJ/1mcuzbjcJ0epfqeEc8cxw71GDXdot9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KHzTyMDEzMrVm4dY8vGZdsyzWQLZHISsnr6rZmlJk9s=;
+ b=GIuTOwgusLr+on+5ZCBSvS9qRmWRbKO6to9dHVsyZaJWPm1rGa/nOwmvSmmfOEQpxRvaZb3+Isr4WRi5gEAtgGS/9AQXcxqM+Sk543T68EmPihD3VYfNx6J1Nl8/OE2wZGVCl93Et57MHMSe3KDQlqV3jgys73/iBlAbvzc97CE=
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ (2603:10b6:803:51::33) by SN4PR2101MB0736.namprd21.prod.outlook.com
+ (2603:10b6:803:51::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.14; Mon, 24 Feb
+ 2020 19:43:14 +0000
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::15c9:bf73:c204:7cb7]) by SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::15c9:bf73:c204:7cb7%9]) with mapi id 15.20.2750.021; Mon, 24 Feb 2020
+ 19:43:14 +0000
+From: Sunil Muthuswamy <sunilmut@microsoft.com>
+To: Stefan Weil <sw@weilnetz.de>, "Justin Terry (SF)" <juterry@microsoft.com>, 
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, Eduardo
+ Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <rth@twiddle.net>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [EXTERNAL] Re: [PATCH] WHPX: Assigning maintainer for Windows
+ Hypervisor Platform
+Thread-Topic: [EXTERNAL] Re: [PATCH] WHPX: Assigning maintainer for Windows
+ Hypervisor Platform
+Thread-Index: AdXmmxkvbI0n3XG6RKSCtw/4QRCyRQAAgE9wABh4YAAAD08KsABT+sQAAK9KW5A=
+Date: Mon, 24 Feb 2020 19:43:14 +0000
+Message-ID: <SN4PR2101MB08803B0317F0F5314535136CC0EC0@SN4PR2101MB0880.namprd21.prod.outlook.com>
+References: <SN4PR2101MB0880E245954826FD91C9D67DC0110@SN4PR2101MB0880.namprd21.prod.outlook.com>
+ <BN8PR21MB1297D3D88C41B6AFADE36DCCB6110@BN8PR21MB1297.namprd21.prod.outlook.com>
+ <ecc9b0c5-7cd7-1f8d-d10c-bee7aff8fa01@redhat.com>
+ <BN8PR21MB12974CEDAEC173FC8CD626DFB6100@BN8PR21MB1297.namprd21.prod.outlook.com>
+ <6b5c046a-af4b-8adf-e3a2-64d904c9ff16@weilnetz.de>
+In-Reply-To: <6b5c046a-af4b-8adf-e3a2-64d904c9ff16@weilnetz.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=sunilmut@microsoft.com; 
+x-originating-ip: [2001:4898:80e8:9:5493:668f:681d:c7d6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 87b7dd10-ea73-46ff-286f-08d7b961c9f8
+x-ms-traffictypediagnostic: SN4PR2101MB0736:|SN4PR2101MB0736:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN4PR2101MB07366D98AB40E5EC588A3EEDC0EC0@SN4PR2101MB0736.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-forefront-prvs: 032334F434
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(346002)(366004)(136003)(39860400002)(376002)(396003)(199004)(189003)(9686003)(110136005)(5660300002)(6506007)(10290500003)(55016002)(8676002)(8990500004)(86362001)(53546011)(2906002)(52536014)(478600001)(66946007)(66556008)(66446008)(4326008)(33656002)(7696005)(8936002)(4744005)(64756008)(316002)(71200400001)(186003)(76116006)(81156014)(81166006)(66476007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:SN4PR2101MB0736;
+ H:SN4PR2101MB0880.namprd21.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: K4+2vylZk0/IsGIKic0DWgU+PTpxrXaXkhjgUj8VOihIbTlCHc5hJHT0tHDtnG41jooJEH4h5PfUacy93y9xAlFuyyfRBgXewBp2mwrwHrA1ogq+TGhDS5JC057l6ftjU+xIP8f0ze+bvVyLAeA8glatf4z4+q8a6UrFWG2sJDprUk0tzzI4pX5PBICZ5AWcXggGIn7lXecCc/yMqO2aLXM44Lf2MMnXpRPLy07itbc9bewjIKZGPDh3TRFPyOqEnUlc2HkkYj72kSUSswCC45Qr8oqoiIGhWfCfOiDvn06XK2sp3kidd+PCsEaIl9fTqiD76hYEfPfF99IUoiGYiXc0Qkeog2WwmfamfO4/W6psmqBvNqTiF/5GjoLVRWvmlEQn0H8XF2vp6DBimJpMQ5UdTA4Xbn3L1epIwPWRpzIrhN78TFQvY+uEKrTlVadZ
+x-ms-exchange-antispam-messagedata: HZPBnHA5TghyGLLDAJtU5aZPBV4Rnj5NqiqGAUZKU4bhwvxOs8ZSWXqUY7Pq2wYZLeNS/rZ1Mgh0foIRO/fe9jTS3Cd47OW1/mDtLwUzD8RIccWpb5oFoxbTf35T0e4PW2odQL+q9sa//nGSjvRigm3FarTzfhp2itU1y9HhZjvalrBfPABlazdy+jMkgmVJixaCd2v/OrvpfWIwEVTtGA==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87b7dd10-ea73-46ff-286f-08d7b961c9f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2020 19:43:14.6355 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DpmM4720Im5TKvRTL1vOTRP+RX/JlD9c/N27xuB+oKAaRYpT5zMiRuy3DUgfqq927dkbWUFCtugK064P99vA7Nik7MVv3yhqlfoDFVvenjs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR2101MB0736
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 40.107.236.98
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,105 +116,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhao@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> Am 24.02.2020 um 20:19 schrieb Peter Xu <peterx@redhat.com>:
->=20
-> =EF=BB=BFOn Mon, Feb 24, 2020 at 07:59:10PM +0100, David Hildenbrand wrot=
-e:
->>> On 24.02.20 19:44, David Hildenbrand wrote:
->>> On 24.02.20 18:45, Peter Xu wrote:
->>>> On Mon, Feb 24, 2020 at 10:09:19AM +0100, David Hildenbrand wrote:
->>>>> On 21.02.20 19:04, Peter Xu wrote:
->>>>>> On Fri, Feb 21, 2020 at 05:41:51PM +0100, David Hildenbrand wrote:
->>>>>>> I was now able to actually test resizing while migrating. I am usin=
-g the
->>>>>>> prototype of virtio-mem to test (which also makes use of resizable
->>>>>>> allocations). Things I was able to reproduce:
->>>>>>=20
->>>>>> The test cases cover quite a lot.  Thanks for doing that.
->>>>>>=20
->>>>>>> - Resize while still running on the migration source. Migration is =
-canceled
->>>>>>> -- Test case for "migraton/ram: Handle RAM block resizes during pre=
-copy"
->>>>>>=20
->>>>>>> - Resize (grow+shrink) on the migration target during postcopy migr=
-ation
->>>>>>>  (when syncing RAM blocks), while not yet running on the target
->>>>>>> -- Test case for "migration/ram: Discard new RAM when growing RAM b=
-locks
->>>>>>>   and the VM is stopped", and overall RAM size synchronization. See=
-ms to
->>>>>>>   work just fine.
->>>>>>=20
->>>>>> This won't be able to trigger without virtio-mem, right?
->>>>>=20
->>>>> AFAIK all cases can also be triggered without virtio-mem (not just th=
-at
->>>>> easily :) ). This case would be "RAM block is bigger on source than o=
-n
->>>>> destination.".
->>>>>=20
->>>>>>=20
->>>>>> And I'm also curious on how to test this even with virtio-mem.  Is
->>>>>> that a QMP command to extend/shrink virtio-mem?
->>>>>=20
->>>>> Currently, there is a single qom property that can be modifed via
->>>>> QMP/HMP - "requested-size". With resizable resizable memory backends,
->>>>> increasing the requested size will also implicitly grow the RAM block=
-.
->>>>> Shrinking the requested size will currently result in shrinking the R=
-AM
->>>>> block on the next reboot.
->>>>>=20
->>>>> So, to trigger growing of a RAM block (assuming requested-size was
->>>>> smaller before, e.g., 1000M)
->>>>>=20
->>>>> echo "qom-set vm1 requested-size 6000M" | sudo nc -U $MON
->>>>>=20
->>>>> To trigger shrinking (assuming requested-size was bigger before)
->>>>>=20
->>>>> echo "qom-set vm1 requested-size 100M" | sudo nc -U $MON
->>>>> echo 'system_reset' | sudo nc -U $MON
->>>>>=20
->>>>>=20
->>>>> Placing these at the right spots during a migration allows to test th=
-is
->>>>> very reliably.
->>>>=20
->>>> I see, thanks for the context.  The question was majorly about when
->>>> you say "during postcopy migration (when syncing RAM blocks), while
->>>> not yet running on the target" - it's not easy to do so imho, because:
->>>=20
->>> This case is very easy to trigger, even with acpi. Simply have a ram
->>> block on the source be bigger than one on the target. The sync code
->>> (migration/ram.c:qemu_ram_resize()) will perform the resize during
->>> precopy. Postcopy misses to discard the additional memory.
->=20
-> But when resizing happens during precopy, we should cancel this
-> migration directly?  Hmm?...
-
-?
-
-We are talking about the migration target, not the source. Please have a lo=
-ok at the RAM block size sync code I mentioned. That=E2=80=98s probably fas=
-ter than me having to explain it (and obviously failing to do so :) ).
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBTdGVmYW4gV2VpbCA8c3dAd2Vp
+bG5ldHouZGU+DQo+IFNlbnQ6IFRodXJzZGF5LCBGZWJydWFyeSAyMCwgMjAyMCAxMTo1NCBQTQ0K
+PiBUbzogSnVzdGluIFRlcnJ5IChTRikgPGp1dGVycnlAbWljcm9zb2Z0LmNvbT47IFBoaWxpcHBl
+IE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT47IFN1bmlsIE11dGh1c3dhbXkNCj4g
+PHN1bmlsbXV0QG1pY3Jvc29mdC5jb20+OyBFZHVhcmRvIEhhYmtvc3QgPGVoYWJrb3N0QHJlZGhh
+dC5jb20+OyBQYW9sbyBCb256aW5pIDxwYm9uemluaUByZWRoYXQuY29tPjsgUmljaGFyZCBIZW5k
+ZXJzb24NCj4gPHJ0aEB0d2lkZGxlLm5ldD4NCj4gQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0K
+PiBTdWJqZWN0OiBSZTogW0VYVEVSTkFMXSBSZTogW1BBVENIXSBXSFBYOiBBc3NpZ25pbmcgbWFp
+bnRhaW5lciBmb3IgV2luZG93cyBIeXBlcnZpc29yIFBsYXRmb3JtDQo+IA0KPiBBbSAxOS4wMi4y
+MCB1bSAxNjo1MCBzY2hyaWViIEp1c3RpbiBUZXJyeSAoU0YpOg0KPiANCj4gDQo+IEhlbGxvIEp1
+c3RpbiwgaGVsbG8gU3VuaWwsDQo+IA0KPiBqdXN0IGEgcmVtaW5kZXI6IHdlIHN0aWxsIGhhdmUg
+dGhlIHByb2JsZW0gd2l0aCB0aGUgcHJvcHJpZXRhcnkgbGljZW5zZQ0KPiBmb3IgdGhlIHJlcXVp
+cmVkIE1pY3Jvc29mdCBoZWFkZXIgZmlsZXMuDQo+IA0KPiBDYW4geW91IGVzdGltYXRlIHdoZW4g
+dGhpcyB3aWxsIGJlIHNvbHZlZD8NCj4gDQoNClRoYW5rcyBmb3IgdGhlIHJlbWluZGVyLCBTdGVm
+YW4uIFllcywgYWdyZWVkIHRoaXMgcHJvYmxlbSBzdGlsbCBleGlzdHMuIFdlIGZvbGxvd2VkIHVw
+IHdpdGgNCnRoZSBTREsgdGVhbSBhbmQgdGhlIGxlZ2FsIHRlYW0gZW5kIG9mIGxhc3QgeWVhci4g
+SSB3aWxsIG51ZGdlIHRoZW0gYWdhaW4gZm9yIGFuIHVwZGF0ZQ0KaGVyZS4NCg0KPiBSZWdhcmRz
+LA0KPiBTdGVmYW4NCj4gDQoNCg==
 
