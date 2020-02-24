@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D4516B028
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:20:07 +0100 (CET)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0931816B035
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:25:03 +0100 (CET)
+Received: from localhost ([::1]:41328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6JGw-0006NE-AB
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:20:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36778)
+	id 1j6JLi-0000du-4D
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:25:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1j6JFv-0005qd-Q9
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:19:05 -0500
+ (envelope-from <groug@kaod.org>) id 1j6JKc-0008BY-1s
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1j6JFu-0003Tw-8p
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:19:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21391
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j6JFu-0003S0-4B
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:19:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582571941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=29JgnxfB+87cOx2QZcNbV6/2vpnOOXDT53wEP80EEJY=;
- b=KKwOrWRlAXH86RibOwWCvEbD/nHH2G37eqSgQ1V1AV8gtiW61He/ybXTWnmDE/sIceJbo/
- 9KBIilwStCZCdfpGvkTLxPhqm5XA/xVx6VdNRPNEGltSWWHgf0Q4FmtRYjlT+ZyVRQTQu5
- MAsw/29FpCNura7tFXOIwwplM7onTqY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-mxMqojOXOOKTnsmIFLDSOQ-1; Mon, 24 Feb 2020 14:18:59 -0500
-X-MC-Unique: mxMqojOXOOKTnsmIFLDSOQ-1
-Received: by mail-qv1-f69.google.com with SMTP id c1so9974922qvw.17
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 11:18:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4NuNQ7H0skUF+g6r33M42mAbTradAOXlw8Oc/mFe8tQ=;
- b=shucIXETZoDwbNhM0X4BqoKaO+Nbi8XjPlWMkx6EhSEa4y6t+ThW6eEeosvcr2iGCF
- EC1WWiK4A53Hl3+K27GtY7NEobEDIDaX0EektC2pOfaXQO20746t8AT95XgbJlTm/sDi
- 2DGB104d2zZsmNO9rJVawC0TtRfocA7Hn+iMmqnCz/PsFUY154cui6ZD0G5+/2PWWW1t
- j1cvHKOjqHopscqC0Bt5u2QhiXGEbhuu1YS+Yy6uzpDvf6hKkWFU+7WYrFkXeMf7h7+R
- B1qa29BCxow/D/r9b4tIVx7CyuuMA5owu73rVfdjy5KbphCNNRVmX+QHPXgcJtI/yu49
- TQrw==
-X-Gm-Message-State: APjAAAWTuMULbhr/aGwNveyGYZwxda60balvs/sXOnaJpzr//mlQkSyD
- MxvmV4ofs3H0hECD4knp+4HpfbLRr4USyyJB74/YjNOfDZOT2KBBkcrvQgmYpQO63By1BCM9cns
- uZbaCZnMzNExcluc=
-X-Received: by 2002:a37:a744:: with SMTP id q65mr9512891qke.354.1582571939026; 
- Mon, 24 Feb 2020 11:18:59 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyYuwSG9IMaJId06ZM9DE53mOTDCl+yBUutUEYHs4nCs2I1BTfowpo5vymfwG5rfv1uWeAQuA==
-X-Received: by 2002:a37:a744:: with SMTP id q65mr9512848qke.354.1582571938669; 
- Mon, 24 Feb 2020 11:18:58 -0800 (PST)
-Received: from xz-x1 ([104.156.64.75])
- by smtp.gmail.com with ESMTPSA id d9sm6248724qtw.32.2020.02.24.11.18.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 11:18:57 -0800 (PST)
-Date: Mon, 24 Feb 2020 14:18:56 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 00/13] migrate/ram: Fix resizing RAM blocks while
- migrating
-Message-ID: <20200224191856.GK37727@xz-x1>
-References: <20200221164204.105570-1-david@redhat.com>
- <20200221180440.GE37727@xz-x1>
- <d10b53cc-89f3-042b-9889-d16ea7572f42@redhat.com>
- <20200224174515.GJ37727@xz-x1>
- <39ced494-023b-e020-e986-218919063af5@redhat.com>
- <0ffb449a-84a3-3555-e0c1-0bc842977bb2@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1j6JKa-0000LG-JY
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:53 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18848)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j6JKa-0000KG-Bc
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:52 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01OJL1mD124494
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:23:51 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yax381x7h-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 14:23:50 -0500
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Mon, 24 Feb 2020 19:23:48 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 24 Feb 2020 19:23:45 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01OJNi4v59179040
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Feb 2020 19:23:44 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 73F404C04A;
+ Mon, 24 Feb 2020 19:23:44 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C9464C044;
+ Mon, 24 Feb 2020 19:23:44 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.1.90])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 24 Feb 2020 19:23:44 +0000 (GMT)
+Subject: [PATCH] spapr: Handle pending hot plug/unplug requests at CAS
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Mon, 24 Feb 2020 20:23:43 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-In-Reply-To: <0ffb449a-84a3-3555-e0c1-0bc842977bb2@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20022419-0016-0000-0000-000002E9E1A7
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20022419-0017-0000-0000-0000334D0A74
+Message-Id: <158257222352.4102917.8984214333937947307.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-24_10:2020-02-21,
+ 2020-02-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ bulkscore=0 spamscore=0 suspectscore=2 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 clxscore=1034 phishscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002240141
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,129 +88,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Shannon Zhao <shannon.zhao@linaro.org>, Igor Mammedov <imammedo@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 24, 2020 at 07:59:10PM +0100, David Hildenbrand wrote:
-> On 24.02.20 19:44, David Hildenbrand wrote:
-> > On 24.02.20 18:45, Peter Xu wrote:
-> >> On Mon, Feb 24, 2020 at 10:09:19AM +0100, David Hildenbrand wrote:
-> >>> On 21.02.20 19:04, Peter Xu wrote:
-> >>>> On Fri, Feb 21, 2020 at 05:41:51PM +0100, David Hildenbrand wrote:
-> >>>>> I was now able to actually test resizing while migrating. I am usin=
-g the
-> >>>>> prototype of virtio-mem to test (which also makes use of resizable
-> >>>>> allocations). Things I was able to reproduce:
-> >>>>
-> >>>> The test cases cover quite a lot.  Thanks for doing that.
-> >>>>
-> >>>>> - Resize while still running on the migration source. Migration is =
-canceled
-> >>>>> -- Test case for "migraton/ram: Handle RAM block resizes during pre=
-copy"
-> >>>>
-> >>>>> - Resize (grow+shrink) on the migration target during postcopy migr=
-ation
-> >>>>>   (when syncing RAM blocks), while not yet running on the target
-> >>>>> -- Test case for "migration/ram: Discard new RAM when growing RAM b=
-locks
-> >>>>>    and the VM is stopped", and overall RAM size synchronization. Se=
-ems to
-> >>>>>    work just fine.
-> >>>>
-> >>>> This won't be able to trigger without virtio-mem, right?
-> >>>
-> >>> AFAIK all cases can also be triggered without virtio-mem (not just th=
-at
-> >>> easily :) ). This case would be "RAM block is bigger on source than o=
-n
-> >>> destination.".
-> >>>
-> >>>>
-> >>>> And I'm also curious on how to test this even with virtio-mem.  Is
-> >>>> that a QMP command to extend/shrink virtio-mem?
-> >>>
-> >>> Currently, there is a single qom property that can be modifed via
-> >>> QMP/HMP - "requested-size". With resizable resizable memory backends,
-> >>> increasing the requested size will also implicitly grow the RAM block=
-.
-> >>> Shrinking the requested size will currently result in shrinking the R=
-AM
-> >>> block on the next reboot.
-> >>>
-> >>> So, to trigger growing of a RAM block (assuming requested-size was
-> >>> smaller before, e.g., 1000M)
-> >>>
-> >>> echo "qom-set vm1 requested-size 6000M" | sudo nc -U $MON
-> >>>
-> >>> To trigger shrinking (assuming requested-size was bigger before)
-> >>>
-> >>> echo "qom-set vm1 requested-size 100M" | sudo nc -U $MON
-> >>> echo 'system_reset' | sudo nc -U $MON
-> >>>
-> >>>
-> >>> Placing these at the right spots during a migration allows to test th=
-is
-> >>> very reliably.
-> >>
-> >> I see, thanks for the context.  The question was majorly about when
-> >> you say "during postcopy migration (when syncing RAM blocks), while
-> >> not yet running on the target" - it's not easy to do so imho, because:
-> >=20
-> > This case is very easy to trigger, even with acpi. Simply have a ram
-> > block on the source be bigger than one on the target. The sync code
-> > (migration/ram.c:qemu_ram_resize()) will perform the resize during
-> > precopy. Postcopy misses to discard the additional memory.
+If a hot plug or unplug request is pending at CAS, we currently trigger
+a CAS reboot, which severely increases the guest boot time. This is
+because SLOF doesn't handle hot plug events and we had no way to fix
+the FDT that gets presented to the guest.
 
-But when resizing happens during precopy, we should cancel this
-migration directly?  Hmm?...
+We can do better thanks to recent changes in QEMU and SLOF:
 
-> >=20
-> > Maybe my description was confusing. But this really just triggers when
-> >=20
-> > - Postcopy is advised and discards memory on all ram blocks
-> > - Precopy grows the RAM block when syncing the RAM block sizes with the
-> > source
-> >=20
-> > Postcopy misses to discard the new RAM.
-> >=20
-> >>
-> >>   - it's a very short transition period between precopy and postcopy,
-> >>     so I was curious about how you made sure that the grow/shrink
-> >>     happened exactly during that period
-> >>
-> >>   - during the period, IIUC it was still in the main thread, which
-> >>     means logically QEMU should not be able to respond to any QMP/HMP
-> >>     command at all...  So even if you send a command, I think it'll
-> >>     only be executed later after the transition completes
-> >>
-> >>   - this I'm not sure, but ... even for virtio-mem, the resizing can
-> >>     only happen after guest ack it, right?  During the precopy to
-> >>     postcopy transition period, the VM is stopped, AFAICT, so
-> >>     logically we can't trigger resizing during the transition
->=20
-> Regarding that question: Resizes will happen without guest interaction
-> (e.g., during a reboot, or when increasing the requested size). In the
-> future, there are theoretical plans to have resizes that can be
-> triggered by guest interaction/request to some extend as well.
+- we now return a full FDT to SLOF during CAS
 
-I see.  I was thinking about shrinking case which should probably need
-an acknowledgement from the guest, but yes increasing seems to be fine
-even without it.  Thanks,
+- SLOF was fixed to correctly detect any device that was either added or
+  removed since boot time and to update its internal DT accordingly.
 
---=20
-Peter Xu
+The right solution is to process all pending hot plug/unplug requests
+during CAS: convert hot plugged devices to cold plugged devices and
+remove the hot unplugged ones, which is exactly what spapr_drc_reset()
+does. Also clear all hot plug events that are currently queued since
+they're no longer relevant.
+
+Note that SLOF cannot currently populate hot plugged PCI bridges or PHBs
+at CAS. Until this limitation is lifted, SLOF will reset the machine when
+this scenario occurs : this will allow the FDT to be fully processed when
+SLOF is started again (ie. the same effect as the CAS reboot that would
+occur anyway without this patch).
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/ppc/spapr_events.c  |   13 +++++++++++++
+ hw/ppc/spapr_hcall.c   |   11 +++++------
+ include/hw/ppc/spapr.h |    1 +
+ 3 files changed, 19 insertions(+), 6 deletions(-)
+
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index 8b32b7eea526..2afd1844e4d4 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -983,6 +983,19 @@ void spapr_clear_pending_events(SpaprMachineState *spapr)
+     }
+ }
+ 
++void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr)
++{
++    SpaprEventLogEntry *entry = NULL, *next_entry;
++
++    QTAILQ_FOREACH_SAFE(entry, &spapr->pending_events, next, next_entry) {
++        if (spapr_event_log_entry_type(entry) == RTAS_LOG_TYPE_HOTPLUG) {
++            QTAILQ_REMOVE(&spapr->pending_events, entry, next);
++            g_free(entry->extended_log);
++            g_free(entry);
++        }
++    }
++}
++
+ void spapr_events_init(SpaprMachineState *spapr)
+ {
+     int epow_irq = SPAPR_IRQ_EPOW;
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 6db3dbde9c92..5992849c1664 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1640,7 +1640,7 @@ static uint32_t cas_check_pvr(SpaprMachineState *spapr, PowerPCCPU *cpu,
+     return best_compat;
+ }
+ 
+-static bool spapr_transient_dev_before_cas(void)
++static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
+ {
+     Object *drc_container;
+     ObjectProperty *prop;
+@@ -1658,10 +1658,11 @@ static bool spapr_transient_dev_before_cas(void)
+                                                           prop->name, NULL));
+ 
+         if (spapr_drc_transient(drc)) {
+-            return true;
++            spapr_drc_reset(drc);
+         }
+     }
+-    return false;
++
++    spapr_clear_pending_hotplug_events(spapr);
+ }
+ 
+ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+@@ -1834,9 +1835,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+ 
+     spapr_irq_update_active_intc(spapr);
+ 
+-    if (spapr_transient_dev_before_cas()) {
+-        spapr->cas_reboot = true;
+-    }
++    spapr_handle_transient_dev_before_cas(spapr);
+ 
+     if (!spapr->cas_reboot) {
+         void *fdt;
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 09110961a589..a4216935a148 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -824,6 +824,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
+ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+                           Error **errp);
+ void spapr_clear_pending_events(SpaprMachineState *spapr);
++void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
+ int spapr_max_server_number(SpaprMachineState *spapr);
+ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+                       uint64_t pte0, uint64_t pte1);
 
 
