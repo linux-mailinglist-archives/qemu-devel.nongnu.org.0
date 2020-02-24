@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279C616B034
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:24:01 +0100 (CET)
-Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACD116B026
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Feb 2020 20:17:56 +0100 (CET)
+Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6JKi-0007yN-7I
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:24:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37205)
+	id 1j6JEo-0005Dx-Vn
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 14:17:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j6JJt-0007UA-Uo
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:11 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j6JE4-0004ca-U5
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:17:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j6JJs-0008Gc-Bt
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:23:09 -0500
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:34613)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j6JJs-0008Fb-2T; Mon, 24 Feb 2020 14:23:08 -0500
-Received: by mail-lj1-x241.google.com with SMTP id x7so11424724ljc.1;
- Mon, 24 Feb 2020 11:23:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=f+WrzGPi9LdZONqGSGEOmJiNSYp/XVgP1eRp33dxT5E=;
- b=O36wpSYxykerRRrDngn5t9HPZPRN4c1w+FsEjUo68wlEJggAjS/QZpJe9Cnx9EHw6M
- U4EXU+XbWY347xyNqlx69Y1p7BInSdyLzDUuB5grThI3trrdrWVk7AOI9ZgptJFvieUj
- vfxB7iCcZrZUtNArCG6ybBYMPQNLDAb9pKFlgoPRAA1EyGWMUQOZ0rPvZo4porMYXPa7
- 5c+JHo92BVB8uSCF4YXxuW4eoLvcrw4griel0AzsLIxBJ6R2G0/N6aTDb8SJZbJnHU/e
- 7hLH4RBjRHn69wfMB0TfFf6zGXHtYACoKS6hAKx0LyZiXNXEvLHUVDbjqzh/gIPChjZ0
- oD3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=f+WrzGPi9LdZONqGSGEOmJiNSYp/XVgP1eRp33dxT5E=;
- b=hOvc3VLSEa5o8t0YadjsJAuRb3IMO27S7yBBvY/xGO2GnxLjKovEWa2wKiVCKQCML+
- ZZemJ3k9Bzxj1wnl2srwD32rdJc+mpRCMJsGTinNLmwCuaPpGN0stZVe38UNqJXN1bQ/
- dE+7BVqIildNYeeqOeHmZjR5RyaoaF7Wfv1THasNo+uAtN3Yw+/2XGF2O+5QUBlnJycJ
- EXmV0fnD02xXlwWHIOuOTTj1Q+n/MD39125qsp/cur1clYv8hnf2om8KqKo/XHEYFiu9
- qWc+ITV4tSi9hvlMaws92TCswe/YnrcC+KcZT/cYg8MvhKMuk8Cv8XO/nkTlcdEv2wUX
- XFXg==
-X-Gm-Message-State: APjAAAXshcAz89Ya8qTAbBOI+0Qeg8o5SirUClVN/bGMxUtiBLU66XIg
- jY1Ajd+YafzIQjXvRUBGBL0qLiqJvlNGZIoBP9Q=
-X-Google-Smtp-Source: APXvYqzLnLC4GhMRWq6GXhx3yy3Dw3K6JggHRJsuHbm3iPLKOPxVnL9oW5RBS58JIZ6vPxiqr95O/kIre1w/HJlXXe8=
-X-Received: by 2002:a2e:7818:: with SMTP id t24mr30576516ljc.195.1582572186344; 
- Mon, 24 Feb 2020 11:23:06 -0800 (PST)
+ (envelope-from <no-reply@patchew.org>) id 1j6JE2-0001Lz-QV
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 14:17:08 -0500
+Resent-Date: Mon, 24 Feb 2020 14:17:07 -0500
+Resent-Message-Id: <E1j6JE2-0001Lz-QV@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21125)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j6JE1-0001JH-FM; Mon, 24 Feb 2020 14:17:06 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1582571810; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=oEbDLCyhVrnMQTNpasLjnjC0ctFwkmoAB/SThLRP8caIgTlZlfe7/zZx5xzdNc+uZFI8MpPVrawOmN+6DYAXoHbg2gNutZV6LmCviD0/ctn+AFoWArLU4QBXULkq9lOR9fs6I2sgi9zRhd+4f1jZ7h3I7dVDsbC61i05ErJXJco=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1582571810;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=w4rZ9K+FDadgh4A3FjLDkqDk9zsbozG/qn0aox1kzhE=; 
+ b=QKO5s/sd8ZVGUXa5U+xscM31k4m/8S0ozJ+KEMlYnuhHw0ty/8CUv1xY8z82iVz/h/5BkEeDwMa0WBVKcvUWxPd0z9eQxWhxWLitoXE6bRqEA4dUNSTcocaxopq4ArSsh5zBxtSyl4mTNWUpwfvH+c1cd203luvIZcsUM5bVcFU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1582571808840430.0547574500098;
+ Mon, 24 Feb 2020 11:16:48 -0800 (PST)
+In-Reply-To: <20200224170301.246623-1-damien.hedde@greensocs.com>
+Subject: Re: [PATCH v7 0/9] Clock framework API
+Message-ID: <158257180673.10132.9769642807925986716@a1bbccc8075a>
 MIME-Version: 1.0
-References: <1582551584-20093-1-git-send-email-bmeng.cn@gmail.com>
- <1582551584-20093-5-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1582551584-20093-5-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 24 Feb 2020 11:15:30 -0800
-Message-ID: <CAKmqyKMkrg0fjO5yA-sz1Qva2ET9fmT28tFYfDzhtc=53Hrd+A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] gitlab-ci.yml: Add jobs to build OpenSBI firmware
- binaries
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::241
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: damien.hedde@greensocs.com
+Date: Mon, 24 Feb 2020 11:16:48 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,192 +63,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: damien.hedde@greensocs.com, peter.maydell@linaro.org, berrange@redhat.com,
+ ehabkost@redhat.com, alistair@alistair23.me, mark.burton@greensocs.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, philmd@redhat.com, edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 24, 2020 at 5:40 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Add two GitLab jobs to build the OpenSBI firmware binaries.
->
-> The first job builds a Docker image with the packages requisite
-> to build OpenSBI, and stores this image in the GitLab registry.
-> The second job pulls the image from the registry and builds the
-> OpenSBI firmware binaries.
->
-> The docker image is only rebuilt if the GitLab YAML or the
-> Dockerfile is updated. The second job is only built when the
-> roms/opensbi/ submodule is updated, when a git-ref starts with
-> 'opensbi' or when the last commit contains 'OpenSBI'. The files
-> generated are archived in the artifacts.zip file.
->
-> With OpenSBI v0.6, it took 2 minutes 56 seconds to build
-> the docker image, and 1 minute 24 seconds to generate the
-> artifacts.zip with the firmware binaries (filesize: 111KiB).
->
-> See: https://gitlab.com/lbmeng/qemu/pipelines/120520138
->
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
->
-> ---
->
-> Changes in v2:
-> - new patch: Add GitLab jobs to build OpenSBI firmware binaries
->
->  .gitlab-ci-opensbi.yml          | 63 +++++++++++++++++++++++++++++++++++=
-++++++
->  .gitlab-ci.d/opensbi/Dockerfile | 33 +++++++++++++++++++++
->  .gitlab-ci.yml                  |  1 +
->  3 files changed, 97 insertions(+)
->  create mode 100644 .gitlab-ci-opensbi.yml
->  create mode 100644 .gitlab-ci.d/opensbi/Dockerfile
->
-> diff --git a/.gitlab-ci-opensbi.yml b/.gitlab-ci-opensbi.yml
-> new file mode 100644
-> index 0000000..dd051c0
-> --- /dev/null
-> +++ b/.gitlab-ci-opensbi.yml
-> @@ -0,0 +1,63 @@
-> +docker-opensbi:
-> + stage: build
-> + rules: # Only run this job when the Dockerfile is modified
-> + - changes:
-> +   - .gitlab-ci-opensbi.yml
-> +   - .gitlab-ci.d/opensbi/Dockerfile
-> +   when: always
-> + image: docker:19.03.1
-> + services:
-> + - docker:19.03.1-dind
-> + variables:
-> +  GIT_DEPTH: 3
-> +  IMAGE_TAG: $CI_REGISTRY_IMAGE:opensbi-cross-build
-> +  # We don't use TLS
-> +  DOCKER_HOST: tcp://docker:2375
-> +  DOCKER_TLS_CERTDIR: ""
-> + before_script:
-> + - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGIST=
-RY
-> + script:
-> + - docker pull $IMAGE_TAG || true
-> + - docker build --cache-from $IMAGE_TAG --tag $CI_REGISTRY_IMAGE:$CI_COM=
-MIT_SHA
-> +                                        --tag $IMAGE_TAG .gitlab-ci.d/op=
-ensbi
-> + - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-> + - docker push $IMAGE_TAG
-> +
-> +build-opensbi:
-> + rules: # Only run this job when ...
-> + - changes: # ... roms/opensbi/ is modified (submodule updated)
-> +   - roms/opensbi/*
-> +   when: always
-> + - if: '$CI_COMMIT_REF_NAME =3D~ /^opensbi/' # or the branch/tag starts =
-with 'opensbi'
-> +   when: always
-> + - if: '$CI_COMMIT_MESSAGE =3D~ /opensbi/i' # or last commit description=
- contains 'OpenSBI'
-> +   when: always
-> + artifacts:
-> +   paths: # 'artifacts.zip' will contains the following files:
-> +   - pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
-> +   - pc-bios/opensbi-riscv32-virt-fw_jump.bin
-> +   - pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
-> +   - pc-bios/opensbi-riscv64-virt-fw_jump.bin
-> +   - opensbi32-virt-stdout.log
-> +   - opensbi32-virt-stderr.log
-> +   - opensbi64-virt-stdout.log
-> +   - opensbi64-virt-stderr.log
-> +   - opensbi32-sifive_u-stdout.log
-> +   - opensbi32-sifive_u-stderr.log
-> +   - opensbi64-sifive_u-stdout.log
-> +   - opensbi64-sifive_u-stderr.log
-> + image: $CI_REGISTRY_IMAGE:opensbi-cross-build
-> + variables:
-> +   GIT_DEPTH: 3
-> + script: # Clone the required submodules and build OpenSBI
-> + - git submodule update --init roms/opensbi
-> + - export JOBS=3D$(($(getconf _NPROCESSORS_ONLN) + 1))
-> + - echo "=3D=3D=3D Using ${JOBS} simultaneous jobs =3D=3D=3D"
-> + - make -j${JOBS} -C roms/opensbi clean
-> + - make -j${JOBS} -C roms opensbi32-virt 2>&1 1>opensbi32-virt-stdout.lo=
-g | tee -a opensbi32-virt-stderr.log >&2
-> + - make -j${JOBS} -C roms/opensbi clean
-> + - make -j${JOBS} -C roms opensbi64-virt 2>&1 1>opensbi64-virt-stdout.lo=
-g | tee -a opensbi64-virt-stderr.log >&2
-> + - make -j${JOBS} -C roms/opensbi clean
-> + - make -j${JOBS} -C roms opensbi32-sifive_u 2>&1 1>opensbi32-sifive_u-s=
-tdout.log | tee -a opensbi32-sifive_u-stderr.log >&2
-> + - make -j${JOBS} -C roms/opensbi clean
-> + - make -j${JOBS} -C roms opensbi64-sifive_u 2>&1 1>opensbi64-sifive_u-s=
-tdout.log | tee -a opensbi64-sifive_u-stderr.log >&2
-> diff --git a/.gitlab-ci.d/opensbi/Dockerfile b/.gitlab-ci.d/opensbi/Docke=
-rfile
-> new file mode 100644
-> index 0000000..4ba8a4d
-> --- /dev/null
-> +++ b/.gitlab-ci.d/opensbi/Dockerfile
-> @@ -0,0 +1,33 @@
-> +#
-> +# Docker image to cross-compile OpenSBI firmware binaries
-> +#
-> +FROM ubuntu:18.04
-> +
-> +MAINTAINER Bin Meng <bmeng.cn@gmail.com>
-> +
-> +# Install packages required to build OpenSBI
-> +RUN apt update \
-> +    && \
-> +    \
-> +    DEBIAN_FRONTEND=3Dnoninteractive \
-> +    apt install --assume-yes --no-install-recommends \
-> +        build-essential \
-> +        ca-certificates \
-> +        git \
-> +        make \
-> +        wget \
-> +    && \
-> +    \
-> +    rm -rf /var/lib/apt/lists/*
-> +
-> +# Manually install the kernel.org "Crosstool" based toolchains for gcc-8=
-.3
-> +RUN wget -O - \
-> +    https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64=
-/8.3.0/x86_64-gcc-8.3.0-nolibc-riscv32-linux.tar.xz \
-> +    | tar -C /opt -xJ
-> +RUN wget -O - \
-> +    https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64=
-/8.3.0/x86_64-gcc-8.3.0-nolibc-riscv64-linux.tar.xz \
-> +    | tar -C /opt -xJ
-> +
-> +# Export the toolchains to the system path
-> +ENV PATH=3D"/opt/gcc-8.3.0-nolibc/riscv32-linux/bin:${PATH}"
-> +ENV PATH=3D"/opt/gcc-8.3.0-nolibc/riscv64-linux/bin:${PATH}"
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index c15e394..4c3a72b 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -1,5 +1,6 @@
->  include:
->    - local: '/.gitlab-ci-edk2.yml'
-> +  - local: '/.gitlab-ci-opensbi.yml'
->
->  before_script:
->   - apt-get update -qq
-> --
-> 2.7.4
->
->
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIyNDE3MDMwMS4yNDY2
+MjMtMS1kYW1pZW4uaGVkZGVAZ3JlZW5zb2NzLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWls
+ZWQgdGhlIGRvY2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRl
+c3RpbmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2Vy
+IGluc3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtl
+IGRvY2tlci1pbWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3Qt
+bWluZ3dAZmVkb3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIEND
+ICAgICAgbmV0L3RyYWNlLm8KICBDQyAgICAgIHVpL3RyYWNlLm8KCldhcm5pbmcsIHRyZWF0ZWQg
+YXMgZXJyb3I6Ci90bXAvcWVtdS10ZXN0L3NyYy9kb2NzL2RldmVsL2Nsb2Nrcy5yc3Q6NjM6VW5l
+eHBlY3RlZCBpbmRlbnRhdGlvbi4KICBDQyAgICAgIGh3L2NvcmUvdHJhY2UubwogIENDICAgICAg
+aHcvZGlzcGxheS90cmFjZS5vCi0tLQogIENDICAgICAgc3R1YnMvZHVtcC5vCiAgQ0MgICAgICBz
+dHVicy9lcnJvci1wcmludGYubwogIENDICAgICAgc3R1YnMvZmRzZXQubwptYWtlOiAqKiogW01h
+a2VmaWxlOjEwNjE6IGRvY3MvZGV2ZWwvaW5kZXguaHRtbF0gRXJyb3IgMgptYWtlOiAqKiogV2Fp
+dGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwg
+bGFzdCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxt
+b2R1bGU+Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3Vi
+cHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2Nr
+ZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD04OWRiZDlhNzA4
+NjY0ZGE1ODRmY2VmMjBkMDkxZThjYicsICctdScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0Jywg
+J3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScs
+ICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScs
+ICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAv
+Y2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6
+L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTJ2
+aDJmejMzL3NyYy9kb2NrZXItc3JjLjIwMjAtMDItMjQtMTQuMTQuMTAuODkwOi92YXIvdG1wL3Fl
+bXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3
+J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJl
+bD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTg5ZGJkOWE3MDg2NjRkYTU4NGZjZWYyMGQwOTFlOGNi
+Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVj
+dG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTJ2aDJmejMzL3NyYycKbWFrZTogKioq
+IFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDJtMzYuODgz
+cwp1c2VyICAgIDBtOC4wNzVzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8yMDIwMDIyNDE3MDMwMS4yNDY2MjMtMS1kYW1pZW4uaGVkZGVAZ3Jl
+ZW5zb2NzLmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0t
+CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
+dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
+dC5jb20=
 
