@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BC916C0D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:30:21 +0100 (CET)
-Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C4516C0C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:28:48 +0100 (CET)
+Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZLw-0002yw-3X
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:30:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
+	id 1j6ZKR-0007v9-4t
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:28:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0N-0003o2-R5
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:06 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0M-0003dC-Nv
+ (envelope-from <mst@redhat.com>) id 1j6Z0L-0003hL-Tr
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:03 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46341)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0M-0003cY-FV
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:02 -0500
-Received: by mail-wr1-x432.google.com with SMTP id j7so1907813wrp.13
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l/9/y1Knrb83VzdnWxvw9Mf1qvHaX+Xp+yQrIHClHg0=;
- b=kMN5IePzrVVBbIgsgwZjY4m+UQF6Iuar5KvF11ImgNQCP+OYyLytazYmpDaF4au6Gt
- OiZ+Lqz7iB2cDPRKQc0KZE4SRIAbm5Wqj2anOlpOTjVJEM7OcRCSgnQQP5nXx5DvcjmH
- kkXTT6fRY0xFPmq3zsKg5TwnXhVL74hjclELQmsPC3uAMZQ13eEbzXw17WaqedGg/5fj
- J+u/VmX4Xmu9oMYDX2/35OjWCp4VyoiDw3d5GSixUvWDuoJRyPx50kcLq6TBVc9A2Xwm
- SfAmLqO2esVOVKErKsHDE4cqEcDW926M6wuM8dJL52azhoooGBKqbxjgcLy2NB2ALvaM
- tiQA==
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mst@redhat.com>) id 1j6Z0G-0003YL-Fe
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33046
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6Z0G-0003Wy-B0
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582632474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MUV6MdpemBBMuJvYonDAbRJQvhuEwsBrq+PN3s5psdA=;
+ b=dgc/Ew3R2lue+OU9eMoEmVEh8ok657T4R0WsfoelCgmzl17DXeyJ56rjA2HN9hAAcj4/D6
+ qRZH4xX2pK0mVM6CtLR1HmvlkgqA4P+lL2gLdx+CK4XUjtryiWMnwnCcnAY0vX38wMgN7U
+ sVDNTljMbWr1/gkM4aRLcgc5p9TVFAI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-0T3C7xF6PiOaA5f5mExtWw-1; Tue, 25 Feb 2020 07:07:52 -0500
+X-MC-Unique: 0T3C7xF6PiOaA5f5mExtWw-1
+Received: by mail-qv1-f72.google.com with SMTP id cp3so12622617qvb.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l/9/y1Knrb83VzdnWxvw9Mf1qvHaX+Xp+yQrIHClHg0=;
- b=L/bgCBgHRJOtxFJTIsXB1UP/lyI+JLw0CHjipumMqWxkuXKONIJJ3voA/jr6Mth1jw
- MHXSxpO1jYT5RJHHvtEHGgPm+HVtjjSw3RkIoF6hVSqO074qlwGNPa7MOBVVEBoSzjgg
- nt00y7g/umLitl3VW6BuLGdqUED5wECZI8iaGGN/gDPRxRUsPrZHUxeJm76z1IzPR9+6
- sd0ZhVvQZII6IV6XGbu59xJ26woQqxq+yWB3YKZRTnIkCBtXShO23bR+U/P9Og1RbuoY
- wsClxSMdGLXmmOdUa6fKVvZi26b8mAbzM7GJpiYbn50HJszJ8awFS6Wapnh10LB/tcLz
- xxuw==
-X-Gm-Message-State: APjAAAUEfuLnevf2X0rJBb5eYSGislOcX9ul9BbrUJTpKsO7uXkLQkZY
- A5jbH2bGB2+83NQPxv9MA6I+6sHO
-X-Google-Smtp-Source: APXvYqxHZs5YFJ/zgdpXatTJHEoZb4exn/F6XEAXLPorjqKSS1xHZqd8LYLlywe25qv01/htg9Geeg==
-X-Received: by 2002:a5d:4651:: with SMTP id j17mr74001095wrs.237.1582632481186; 
- Tue, 25 Feb 2020 04:08:01 -0800 (PST)
-Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:08:00 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 128/136] hw/input/milkymist-softusb: Let devices own the
- MemoryRegion they create
-Date: Tue, 25 Feb 2020 13:07:26 +0100
-Message-Id: <1582632454-16491-26-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4ssfqURimZVQE3PLVMknFWonjbS7Sj8ozSgUIZ0veYI=;
+ b=BHSRRkxPVhDawv9XRp9V28HpB5Hct6O+b3wXWnIyMxsqPizd6CS0kqISzKB7R7Q0Ux
+ glomTZtM91P4a9Ul6SA5MPwrQIe6Pa3p1xFLm6YLS5Or5XSjI9gmdynf+IJk4fE5Y/d6
+ Ek9CSFqkHxZWr1Up0E1kk35bUYlmuu+03LKsvyo3ls/Vu85p1XROOK2u8E/ui0jDzBZr
+ 3hO1ydBgARQn7so8kJaBEgbhLt3E8sq0HX9a8G6YLhpo0F+ynLCEqS65Y+6dRjJvtYoX
+ AOdDz98f0/NSJoHJLyHl9ClWC3t0NlrhGZVAPxL1cKV9B6UT228UIfhzXZLx4HEMcdNV
+ QkCQ==
+X-Gm-Message-State: APjAAAUWIdSCjlofquouLfa2EXz1tA9qfBpjH9KrxtMd+eLzCAmZ8fp+
+ OzHl9Khjp3JOO8kihPYsTprRseRaP0owwaBiXJCwpQLVm/5DSHaCXGS+SHdQMQaM1YPz2cM5jYn
+ UBELF1KnAQsH9Gd0=
+X-Received: by 2002:ac8:3489:: with SMTP id w9mr55168526qtb.181.1582632472063; 
+ Tue, 25 Feb 2020 04:07:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxSzewph2kK7Xh+wmI+nYMrQIDbdXdJIiY29Ng1FXT7JlynhgnLARF2ltrWPk6TCV7X9Ujm6w==
+X-Received: by 2002:ac8:3489:: with SMTP id w9mr55168501qtb.181.1582632471840; 
+ Tue, 25 Feb 2020 04:07:51 -0800 (PST)
+Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
+ by smtp.gmail.com with ESMTPSA id
+ w21sm7803526qth.17.2020.02.25.04.07.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 04:07:50 -0800 (PST)
+Date: Tue, 25 Feb 2020 07:07:46 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH v2 3/3] Lift max memory slots limit imposed by vhost-user
+Message-ID: <20200225070027-mutt-send-email-mst@kernel.org>
+References: <1579143426-18305-1-git-send-email-raphael.norwitz@nutanix.com>
+ <1579143426-18305-4-git-send-email-raphael.norwitz@nutanix.com>
+ <20200206032332-mutt-send-email-mst@kernel.org>
+ <20200209174335.GA15050@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::432
+In-Reply-To: <20200209174335.GA15050@localhost.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,57 +91,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Prerna Saxena <prerna.saxena@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Sun, Feb 09, 2020 at 12:43:35PM -0500, Raphael Norwitz wrote:
+> > > The current feature implementation does not work with postcopy migrat=
+ion
+> > > and cannot be enabled if the VHOST_USER_PROTOCOL_F_REPLY_ACK feature =
+has
+> > > also been negotiated.
+> >=20
+> > Hmm what would it take to lift the restrictions?
+> > conflicting features like this makes is very hard for users to make
+> > an informed choice what to support.
+> >
+>=20
+> We would need a setup with a backend which supports these features (REPLY=
+_ACK
+> and postcopy migration). At first glance it looks like DPDK could work bu=
+t
+> I'm not sure how easy it will be to test postcopy migration with the reso=
+urces
+> we have.
 
-Avoid orphan memory regions being added in the /unattached QOM
-container.
+Yes, DPDK works with postcopy. I understand it's of no
+immediate interest to you but I'm afraid it just becomes too messy
+if everyone keeps breaking it.
+VHOST_USER_PROTOCOL_F_REPLY_ACK was added by a contributor from
+nutanix, surely you can ping them internally for a test-case :).
+=20
 
-Note this change break the migration of the LM32 milkymist machine.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-31-philmd@redhat.com>
-Supersedes: <20200221173049.18134-1-philmd@redhat.com>
----
- hw/input/milkymist-softusb.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/hw/input/milkymist-softusb.c b/hw/input/milkymist-softusb.c
-index 7deeb12..72bc7ba 100644
---- a/hw/input/milkymist-softusb.c
-+++ b/hw/input/milkymist-softusb.c
-@@ -259,13 +259,11 @@ static void milkymist_softusb_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(sbd, &s->regs_region);
- 
-     /* register pmem and dmem */
--    memory_region_init_ram_nomigrate(&s->pmem, OBJECT(s), "milkymist-softusb.pmem",
-+    memory_region_init_ram(&s->pmem, OBJECT(s), "milkymist-softusb.pmem",
-                            s->pmem_size, &error_fatal);
--    vmstate_register_ram_global(&s->pmem);
-     sysbus_init_mmio(sbd, &s->pmem);
--    memory_region_init_ram_nomigrate(&s->dmem, OBJECT(s), "milkymist-softusb.dmem",
-+    memory_region_init_ram(&s->dmem, OBJECT(s), "milkymist-softusb.dmem",
-                            s->dmem_size, &error_fatal);
--    vmstate_register_ram_global(&s->dmem);
-     s->dmem_ptr = memory_region_get_ram_ptr(&s->dmem);
-     sysbus_init_mmio(sbd, &s->dmem);
- 
-@@ -275,8 +273,8 @@ static void milkymist_softusb_realize(DeviceState *dev, Error **errp)
- 
- static const VMStateDescription vmstate_milkymist_softusb = {
-     .name = "milkymist-softusb",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32_ARRAY(regs, MilkymistSoftUsbState, R_MAX),
-         VMSTATE_HID_KEYBOARD_DEVICE(hid_kbd, MilkymistSoftUsbState),
--- 
-1.8.3.1
-
+--=20
+MST
 
 
