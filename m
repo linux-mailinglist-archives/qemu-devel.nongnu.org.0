@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC1216C1C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:10:26 +0100 (CET)
-Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0780716C231
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:24:20 +0100 (CET)
+Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Zyj-0008Ir-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:10:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
+	id 1j6aCB-0007kQ-1I
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0M-0003lL-VG
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:04 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0T-0003xA-1Z
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003c8-Si
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:02 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53401)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0R-0003fc-Ui
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:08 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53396)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0L-0003az-Hm
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
-Received: by mail-wm1-x333.google.com with SMTP id t79so1237984wmt.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:01 -0800 (PST)
+ id 1j6Z0R-0003eb-Lm
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:07 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id t79so1238192wmt.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9ph3STgQjKk5oaNbdTlejspLDxctf6PfbtEr82fU/bI=;
- b=dgY3PQvUa3mnh6lz595d4P75TllLIQopadteSIl7ofKkoMNtvoWC8aWs3WpKpOEq2p
- yTNKenGLePA3ki37urmBbM6o/pwycEqbSXob7phSoSHX7LvS57dhyF8bfoFZVKN+58J8
- /TBA7qsgNi3LAy+RhqOJrppV5VWUei83LkbrME1sbiJDSXFJBhiecatPxzvIFY00q4+6
- J/jeGaeYl4P0V01fhcWGARPXhROL3ksRtSeaj5F97Rmj+p0mz/7fY/r5FCfJxbjJ6r7q
- 4mYTp35fnK9t2+fwpQMi4ojESX2BOKOyFZT+bemnWaE1+ssBIVyoAUOFsDY133RBfr5r
- O+og==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=V5wH7aHM1S33hAp9O25CXZ9ZRApLVbQXaWr8cTEbif8=;
+ b=IF5PoHm8PEv9CvRZccY387IlD9nq5mN0wrTrGiLDWgBRlg7zX5+arQWWRKj8DV39OX
+ Dv8z3ckhXQ/j6vEW4VWwyCsK38+/OLo4q08f0cPBjbeoLeSqdh5/OkrG3n4xLHivnDJb
+ KZruasgdysTIcjEJPeH/mo8K9Plpi+qagVpNlLFkCQy2wx1B5PjzUHrWwR8931bCCRZt
+ gZtLxct9DQe5ynm16EmGRRAZiOE0LGa7F3tVGz7wA5VExUChpJpCTXsRhtWFZlRqsIzJ
+ r7wRfsX/MJYrYWcKM+AZ+zrfUX9Yo79KM+Qck9R+PVXlJR0m2GcOoeeYjMFhhUL+rS01
+ jk9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9ph3STgQjKk5oaNbdTlejspLDxctf6PfbtEr82fU/bI=;
- b=Ti8QpBVGrWIm0ki3/KT1GIGEkwx5x9VJqYKQAXHUBb5j5aT/54yQLxGIirXZOEt6BB
- a/KaOb8DzYwp5O0bgqdEvnTa0Fxr65maHJ5J7ynq+djQJQ8VhIVFykpMFbqwYdSZPNLB
- VD9WUrP0t05rxSl+dW8zSEC0+i4ilZYFf6lm3EWLI0WRnkgSHSAdmbzqWOsoEoT89j49
- eqxCstbRObgi7ch1KxUOOiCq8pDcWPf4u0Rb24YX1ErppQivs3I6Yz6qgjbaDC7SmCFY
- YxwwrQD5BU6UJKvW+ajRLxFa9aRQpmfVS8uJKeey5i3DagbirdNpF4p+VryoewqCCzsv
- 164w==
-X-Gm-Message-State: APjAAAWL2VM4shwOikZcu8Vg1qXe0YiGmfeHJj7lmzXKw7m26/fZ3Gs7
- cWUmznYVleTukYDjoVv7PAI13Zgx
-X-Google-Smtp-Source: APXvYqyIxj6RIgsnO7wgKIHaDMRzJrjx0QmIBSrUFXjB0peB5hNy0dlkSk2jTE3p5xzLMqh+Frxe0g==
-X-Received: by 2002:a1c:2089:: with SMTP id g131mr4745478wmg.63.1582632480269; 
- Tue, 25 Feb 2020 04:08:00 -0800 (PST)
+ :in-reply-to:references;
+ bh=V5wH7aHM1S33hAp9O25CXZ9ZRApLVbQXaWr8cTEbif8=;
+ b=sy3wG3Emo6LDeMREM8GUf41d/VWdk0OzxPHsMBC836H+1/ymTk8/Knac3rmGGu6PNl
+ 3+XjaNbECrLJgTAld75lp/DOUp4ajk08ot4xBbzS/SwzeRwg2ulcCQk9FaSbuvOfFd41
+ xLT2HU7S98YgIcx5jbYAptT2Fxl3/ZQLM1RNNF8/y6CEsyIxnG6aQeILEdZ8Mp9S/voz
+ YwysmofU3eS99L5C5HWOUycfwoOE7HTCViPGTlXxx+C1+9hf9SkgasbGT6JaOYpOAHkp
+ bcf8cBKNHjGkfzz5b9no+UXLPPa0WnkKbc4DNmuBFi6WmpjXXkvmJZT9l4GYni5siS2C
+ /l2g==
+X-Gm-Message-State: APjAAAXhhVLgyyNi5aGLcycw2JYHH9FsjTqs5nHFPM/KLZm+nlSOorH7
+ S+eMJRQaXN4hMLl+soI2eyGNwYaq
+X-Google-Smtp-Source: APXvYqzbsr5DeuRJa36pmzOB/IrHyHvBKIxlGYOP9tn+R4Q5ZzvwfPs00R9ZUhPH/OrwMe3Y/HMt/g==
+X-Received: by 2002:a7b:c750:: with SMTP id w16mr4932277wmk.46.1582632484264; 
+ Tue, 25 Feb 2020 04:08:04 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.59
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.03
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:59 -0800 (PST)
+ Tue, 25 Feb 2020 04:08:03 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 127/136] hw/input/milkymist-softusb: Remove unused 'pmem_ptr'
- field
-Date: Tue, 25 Feb 2020 13:07:25 +0100
-Message-Id: <1582632454-16491-25-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 131/136] memory: batch allocate ioeventfds[] in
+ address_space_update_ioeventfds()
+Date: Tue, 25 Feb 2020 13:07:29 +0100
+Message-Id: <1582632454-16491-29-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,42 +75,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-In commit 029ad4bcf3 we removed softusb_{read, write}_pmem(),
-we can also remove the 'pmem_ptr' field.
+Reallocing the ioeventfds[] array each time an element is added is very
+expensive as the number of ioeventfds increases.  Batch allocate instead
+to amortize the cost of realloc.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-30-philmd@redhat.com>
-Supersedes: <20200221173049.18134-1-philmd@redhat.com>
+This patch reduces Linux guest boot times from 362s to 140s when there
+are 2 virtio-blk devices with 1 virtqueue and 99 virtio-blk devices with
+32 virtqueues.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200218182226.913977-1-stefanha@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/input/milkymist-softusb.c | 2 --
- 1 file changed, 2 deletions(-)
+ memory.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/hw/input/milkymist-softusb.c b/hw/input/milkymist-softusb.c
-index 3e0a7eb..7deeb12 100644
---- a/hw/input/milkymist-softusb.c
-+++ b/hw/input/milkymist-softusb.c
-@@ -64,7 +64,6 @@ struct MilkymistSoftUsbState {
-     MemoryRegion dmem;
-     qemu_irq irq;
+diff --git a/memory.c b/memory.c
+index aeaa8dc..09be40e 100644
+--- a/memory.c
++++ b/memory.c
+@@ -794,10 +794,19 @@ static void address_space_update_ioeventfds(AddressSpace *as)
+     FlatView *view;
+     FlatRange *fr;
+     unsigned ioeventfd_nb = 0;
+-    MemoryRegionIoeventfd *ioeventfds = NULL;
++    unsigned ioeventfd_max;
++    MemoryRegionIoeventfd *ioeventfds;
+     AddrRange tmp;
+     unsigned i;
  
--    void *pmem_ptr;
-     void *dmem_ptr;
- 
-     /* device properties */
-@@ -263,7 +262,6 @@ static void milkymist_softusb_realize(DeviceState *dev, Error **errp)
-     memory_region_init_ram_nomigrate(&s->pmem, OBJECT(s), "milkymist-softusb.pmem",
-                            s->pmem_size, &error_fatal);
-     vmstate_register_ram_global(&s->pmem);
--    s->pmem_ptr = memory_region_get_ram_ptr(&s->pmem);
-     sysbus_init_mmio(sbd, &s->pmem);
-     memory_region_init_ram_nomigrate(&s->dmem, OBJECT(s), "milkymist-softusb.dmem",
-                            s->dmem_size, &error_fatal);
++    /*
++     * It is likely that the number of ioeventfds hasn't changed much, so use
++     * the previous size as the starting value, with some headroom to avoid
++     * gratuitous reallocations.
++     */
++    ioeventfd_max = QEMU_ALIGN_UP(as->ioeventfd_nb, 4);
++    ioeventfds = g_new(MemoryRegionIoeventfd, ioeventfd_max);
++
+     view = address_space_get_flatview(as);
+     FOR_EACH_FLAT_RANGE(fr, view) {
+         for (i = 0; i < fr->mr->ioeventfd_nb; ++i) {
+@@ -806,8 +815,11 @@ static void address_space_update_ioeventfds(AddressSpace *as)
+                                              int128_make64(fr->offset_in_region)));
+             if (addrrange_intersects(fr->addr, tmp)) {
+                 ++ioeventfd_nb;
+-                ioeventfds = g_realloc(ioeventfds,
+-                                          ioeventfd_nb * sizeof(*ioeventfds));
++                if (ioeventfd_nb > ioeventfd_max) {
++                    ioeventfd_max = MAX(ioeventfd_max * 2, 4);
++                    ioeventfds = g_realloc(ioeventfds,
++                            ioeventfd_max * sizeof(*ioeventfds));
++                }
+                 ioeventfds[ioeventfd_nb-1] = fr->mr->ioeventfds[i];
+                 ioeventfds[ioeventfd_nb-1].addr = tmp;
+             }
 -- 
 1.8.3.1
 
