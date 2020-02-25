@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E0C16BF73
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:18:28 +0100 (CET)
-Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2071D16BF7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:21:45 +0100 (CET)
+Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YEN-0000LN-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1j6YHY-0002iN-7R
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:21:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41378)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6YCp-0007xP-1G
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:16:54 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6YGZ-0001xq-0q
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:20:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6YCl-0006kY-IC
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:16:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36687
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j6YGX-0007Ao-1j
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:20:42 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44170
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6YCl-0006ik-Ex
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:16:47 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6YGW-00078T-HH
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:20:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582629406;
+ s=mimecast20190719; t=1582629639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3BnY+u7s79rAmYLt+X2g5zqRZ/vhE6dNcKt11EC2/4E=;
- b=heVOrsH/fE/LOHo9rei3rKHCNgd5b8XzPbMfs1jwUvJjn+mb7BWuIIg09spM7IwzDGDLrV
- wtREqeThCHTFaMkC/6oHrSKvWG1OliI0gX1YOzKpB0ciVZXjlOUVkmzH9z25npdh5tSf5h
- Tk9ulE5E2RLLjZX+5obPr+HETfMUy48=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-8ijIKFoiP7SU5Ay0omzqCQ-1; Tue, 25 Feb 2020 06:16:44 -0500
-X-MC-Unique: 8ijIKFoiP7SU5Ay0omzqCQ-1
-Received: by mail-wm1-f70.google.com with SMTP id g138so715300wmg.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:16:44 -0800 (PST)
+ bh=1LlKKdL4DaKWeVsmQPadwMBS4Z8kHikh7mfaA90+CJc=;
+ b=DCZpdhDwa7dTqdqBF/pJfTw+xjJBA6Du3CYTetvh3u/DLxyIKd4cFkIwbNXbZNkI0BmKNH
+ U1yF3UoMGxOp5r8tn3Bo6BtHUqbswlOCYRfaxZ+IRyCm3IB6r6OmgQohMyQjsGaN261BpI
+ slZB09pfkox0s+YSSHpHzpD4KAPoXPI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-NnQkYodhMdGXwGrhGPmIGg-1; Tue, 25 Feb 2020 06:20:34 -0500
+X-MC-Unique: NnQkYodhMdGXwGrhGPmIGg-1
+Received: by mail-wr1-f69.google.com with SMTP id n23so7139837wra.20
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:20:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mybTY2JMYN6zflQVzeyGn4UvK2wvHyf2BrGcCFX1Jl8=;
- b=clv8wOolYnbC3czijHTcsILbtKXJIvQ4s/fjYrWmXnjiibWYZxbd9bzezK+yTQkUAa
- oL3UqUeHHMI854rmEfr8GdVkfu6bX2hhT2KzE5+Cw07Mfr7WKkVxlznd1CB2WdsK1/eN
- rgB+BVO1ITrP99quaSXQM142bhVVF7nEbz7RSvZLpowmKYwjUxMqhDVtDEBGgzFDcv48
- YLbEopU0+ZDEE2sWvy54MHUmssMPpO3D+b2Cn7Nccyhpf+aMA4Bab5xXCEZFjcsXyui7
- qVv7X/73BP4S9RUlhdXTUi/taO+/N4qRNwaGxHgdEXnWtbw1fqLf4vazCiAD0f399ppC
- QVDA==
-X-Gm-Message-State: APjAAAWgTk7HW6einQ/bXyxZsTkjRXMnSCT1WLMyBFsqF+3uVI9wnbt9
- 06aTBvPxldrduGQKU6YtHeqMNemYLUG3BuQQpCA25Axc3GvMCD5xxLfUwgklzaH/a1kkabJKWlb
- GJt25fd2oGHxiyaY=
-X-Received: by 2002:adf:c445:: with SMTP id a5mr1777298wrg.14.1582629403733;
- Tue, 25 Feb 2020 03:16:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyjIQfd/kPRxuwRCkxqYF8ia2cNean9hsKYlHTZi9oRlrGSkzkDFOUkfllGF0zTOSJpl7TYIA==
-X-Received: by 2002:adf:c445:: with SMTP id a5mr1777273wrg.14.1582629403547;
- Tue, 25 Feb 2020 03:16:43 -0800 (PST)
+ bh=vvCfD7/rNLbdZdQItEDS2uieFhqDbYFswtqRvUcezs8=;
+ b=mpLbM2/B9r1MmlIQ5IspiKpVhTcpbNVy88o49C2PdjFIOk0XfEYBwlz7xag6aPCSTP
+ Hl+HXPhhbaiUQ+76RSagNTeTKTOoQPFMEcHskYp+qSO3nkxvAFaIVjnYu+nnkIQxM3mY
+ porH5dYHRyvPTcAODfDZNOs5Dw/QThV84XxQfe2F17DU5kZIleHAlzDDnqIieo5PNKC4
+ jRZl3pi++GePTO3pxPSHP699gSiZMyVQrsmIl5davVMQx/O/qrYsA/J64B9tlM03qH2J
+ k8A0Io3Z0waXOBmvXMEFPq50HJIB0ZLu/HDtMP9x3ESaRjn1mM8CU2IWzazXK64O5gZC
+ B7ww==
+X-Gm-Message-State: APjAAAUwuOwMV+QTwjA5piDx1dYZWGMdI1HTQZuxYvFr0zOLEu+ov06O
+ wfkpL6TE/wmu851bpS3RJel+u+KhZCeP1XQyjnqRLJ1EkBRVaYnzDq9KFJE/R8fxNzfX9mJfaMP
+ 1nU6zPRgMViZ2p5U=
+X-Received: by 2002:a5d:514b:: with SMTP id u11mr72026908wrt.322.1582629633354; 
+ Tue, 25 Feb 2020 03:20:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy2W6aGoNtSV6nnZeAHGWDrDD0iU4TeJXDpKsJBuGhP39N9z3y6xfvHeIwr7Az73oRRWhLLpQ==
+X-Received: by 2002:a5d:514b:: with SMTP id u11mr72026882wrt.322.1582629633073; 
+ Tue, 25 Feb 2020 03:20:33 -0800 (PST)
 Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id r6sm23898793wrq.92.2020.02.25.03.16.42
+ by smtp.gmail.com with ESMTPSA id y8sm3631022wma.10.2020.02.25.03.20.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:16:42 -0800 (PST)
-Subject: Re: [PATCH 1/2] hw/arm/gumstix: Simplify since the machines are
- little-endian only
+ Tue, 25 Feb 2020 03:20:32 -0800 (PST)
+Subject: Re: [PATCH 2/2] hw/arm/gumstix: Use the IEC binary prefix definitions
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200223231044.8003-1-philmd@redhat.com>
- <20200223231044.8003-2-philmd@redhat.com>
- <CAFEAcA_H7aWjtoky=o2uKpNjZnebuskn-fFUMXbq=Gja5vyaBA@mail.gmail.com>
+ <20200223231044.8003-3-philmd@redhat.com>
+ <CAFEAcA8MSO4YMEq2FqvpJKUVYE_1CqaB2KLD1YN-YebOhJVgEg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9ac5c707-c34f-b374-d910-e5d73ba8c327@redhat.com>
-Date: Tue, 25 Feb 2020 12:16:41 +0100
+Message-ID: <63b97fb9-02c9-2be4-73e7-19807a2d6aeb@redhat.com>
+Date: Tue, 25 Feb 2020 12:20:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_H7aWjtoky=o2uKpNjZnebuskn-fFUMXbq=Gja5vyaBA@mail.gmail.com>
+In-Reply-To: <CAFEAcA8MSO4YMEq2FqvpJKUVYE_1CqaB2KLD1YN-YebOhJVgEg@mail.gmail.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,42 +99,131 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/20 12:12 PM, Peter Maydell wrote:
+On 2/25/20 12:16 PM, Peter Maydell wrote:
 > On Sun, 23 Feb 2020 at 23:10, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
 com> wrote:
 >>
 >> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >>
->> As the Connex and Verdex machines only boot in little-endian,
->> we can simplify the code.
+>> IEC binary prefixes ease code review: the unit is explicit.
+>>
+>> Add a comment describing the Connex uses a Numonyx RC28F128J3F75
+>> flash, and the Verdex uses a Micron RC28F256P30TFA.
+>>
+>> Correct the Verdex machine description (we model the 'Pro' board).
 >>
 >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>=20
+> This patch is doing somewhat more than the commit Subject line
+> suggests. I don't think it's particularly strongly in need
+> of splitting into more patches, but could you make the
+> subject line a bit closer to what the patch is doing?
+>=20
 >> ---
->=20
->>   static void gumstix_machine_init(void)
+>>   hw/arm/gumstix.c | 23 +++++++++--------------
+>>   1 file changed, 9 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
+>> index 94904d717b..ca918fda0c 100644
+>> --- a/hw/arm/gumstix.c
+>> +++ b/hw/arm/gumstix.c
+>> @@ -35,6 +35,7 @@
+>>    */
+>>
+>>   #include "qemu/osdep.h"
+>> +#include "qemu/units.h"
+>>   #include "qemu/error-report.h"
+>>   #include "hw/arm/pxa.h"
+>>   #include "net/net.h"
+>> @@ -45,18 +46,14 @@
+>>   #include "sysemu/qtest.h"
+>>   #include "cpu.h"
+>>
+>> -static const int sector_len =3D 128 * 1024;
+>> +static const int sector_len =3D 128 * KiB;
+>>
+>>   static void connex_init(MachineState *machine)
 >>   {
->> +    if (target_words_bigendian()) {
->> +        return;
->> +    }
+>>       PXA2xxState *cpu;
+>>       DriveInfo *dinfo;
+>> -    MemoryRegion *address_space_mem =3D get_system_memory();
+>>
+>> -    uint32_t connex_rom =3D 0x01000000;
+>> -    uint32_t connex_ram =3D 0x04000000;
+>> -
+>> -    cpu =3D pxa255_init(address_space_mem, connex_ram);
+>> +    cpu =3D pxa255_init(get_system_memory(), 64 * MiB);
+>>
+>>       dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>>       if (!dinfo && !qtest_enabled()) {
+>> @@ -65,7 +62,8 @@ static void connex_init(MachineState *machine)
+>>           exit(1);
+>>       }
+>>
+>> -    if (!pflash_cfi01_register(0x00000000, "connext.rom", connex_rom,
+>> +    /* Numonyx RC28F128J3F75 */
+>> +    if (!pflash_cfi01_register(0x00000000, "connext.rom", 16 * MiB,
+>>                                  dinfo ? blk_by_legacy_dinfo(dinfo) : NU=
+LL,
+>>                                  sector_len, 2, 0, 0, 0, 0, 0)) {
+>>           error_report("Error registering flash memory");
 >=20
-> I don't think we really need to do this, do we? We don't
-> in any of the other arm boards that just assume little-endian.
-> I think TARGET_WORDS_BIGENDIAN will only be true on Arm for
-> the BE linux-user targets, never for softmmu.
+> Previously the variable names were helpfully acting as a
+> bit of documentation of what the 64MB and 16MB things were.
+> Perhaps we could instead have
 >=20
-> Also, there's a warning comment in the header file for
-> the declaration of target_words_bigendian() that says
-> you probably don't want to use it...
+> #define CONNEX_ROM_SIZE (16 * MiB)
+> #define CONNEX_RAM_SIZE (64 * MiB)
+>=20
+> and then use those?
 
-Yes you (and the comment) are right, we should not use this call in=20
-target-specific code.
+OK.
+
+FYI long term plan for the pflash API is to use a white-list of tested=20
+flash models, and restrict models when boards have flash soldered.
 
 >=20
-> If you drop this, then otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-Thanks!
-
+>> @@ -81,12 +79,8 @@ static void verdex_init(MachineState *machine)
+>>   {
+>>       PXA2xxState *cpu;
+>>       DriveInfo *dinfo;
+>> -    MemoryRegion *address_space_mem =3D get_system_memory();
+>>
+>> -    uint32_t verdex_rom =3D 0x02000000;
+>> -    uint32_t verdex_ram =3D 0x10000000;
+>> -
+>> -    cpu =3D pxa270_init(address_space_mem, verdex_ram, machine->cpu_typ=
+e);
+>> +    cpu =3D pxa270_init(get_system_memory(), 256 * MiB, machine->cpu_ty=
+pe);
+>>
+>>       dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>>       if (!dinfo && !qtest_enabled()) {
+>> @@ -95,7 +89,8 @@ static void verdex_init(MachineState *machine)
+>>           exit(1);
+>>       }
+>>
+>> -    if (!pflash_cfi01_register(0x00000000, "verdex.rom", verdex_rom,
+>> +    /* Micron RC28F256P30TFA */
+>> +    if (!pflash_cfi01_register(0x00000000, "verdex.rom", 32 * MiB,
+>>                                  dinfo ? blk_by_legacy_dinfo(dinfo) : NU=
+LL,
+>>                                  sector_len, 2, 0, 0, 0, 0, 0)) {
+>>           error_report("Error registering flash memory");
+>=20
+> Similarly here.
+>=20
+>> @@ -126,7 +121,7 @@ static void verdex_class_init(ObjectClass *oc, void =
+*data)
+>>   {
+>>       MachineClass *mc =3D MACHINE_CLASS(oc);
+>>
+>> -    mc->desc =3D "Gumstix Verdex (PXA270)";
+>> +    mc->desc =3D "Gumstix Verdex Pro XL6P COMs (PXA270)";
+>>       mc->init =3D verdex_init;
+>>       mc->ignore_memory_transaction_failures =3D true;
+>>       mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("pxa270-c0");
+>> --
 >=20
 > thanks
 > -- PMM
