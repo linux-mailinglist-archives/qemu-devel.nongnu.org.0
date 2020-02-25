@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B285B16C0CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:29:39 +0100 (CET)
-Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E4516C0B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:24:36 +0100 (CET)
+Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZLG-0001GQ-OH
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:29:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49821)
+	id 1j6ZGN-0007sQ-0w
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:24:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001K8-V1
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl9-0001Rt-4y
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl0-0008Oi-DX
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37505)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl5-0000N0-5M
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:19 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54497)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yl0-0008IC-47
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:10 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id l5so10128740wrx.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:10 -0800 (PST)
+ id 1j6Yl4-0000Il-Oo
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id z12so2665332wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dqcIX6d4mXg0667lv0+tfsAloiBk56z9WM/RHf/Ue/M=;
- b=XxEV8U1rl2hRuNyGRqZOVxKbEJIe62x6eufYcK+rQb2sfAryG0t8ViGcbBnuuCykP8
- WkTOvb946s3DqPoOi5OV0K1HeIpjzAaEFvrOCBke5VkYHffY8Z84YrUZFCnoP4Ik0RbS
- IwwrPVgsFMuAUUQhuEHzbpqmUwbxnwE9hXGEKYhcv6uZ6pcpyzw0dTE0g0QxB4faDoUI
- PpFdGvZquzm8kwUA163HRslUecl+Fm59gIQeN+/eg4uz2E3uaU0/Fhz2M5Cy0OM2nms1
- FvqjtBvCdCRsj1N32eYvKqE24cmhFAeBe1CTJpKIj6613c8CjvwLD9eKw6ZiUfq4Uk4l
- i67w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=tAOcwiucq9sZ03S56wSU3BKkO7ecBjXLzXDmBGEz1YQ=;
+ b=AfiSOU+IQ6ayUHzv5eI2pIOnOZoIrW44acTXVj+0a0bKcP3FjL42+7tTWbirabPsJt
+ EZc4ro/X040XtXWi2vWNkjFOhW15orEr8KJDVDHGD4JvFgLiwaDZfoKzqdQR8TloOX9W
+ S4o2UMXfCc6+yPV8k562eayEPgPTg50OSwul0+tz7au/JhEWpgTMTLucNzJ1szhPmKf6
+ 1+ZKSMXXvghWkUkrLCGmAAjVfdkbA+rBumnFoRk3gSRFP2qKctp3VqpnWuGq3i7SY5Lw
+ wA/Y8HMLtzj/kM8wYXPNvmEHNbuUWo2aYAK3TYtKe2ESlmuKclaqisfAPB6ulvNwMi9v
+ xr1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dqcIX6d4mXg0667lv0+tfsAloiBk56z9WM/RHf/Ue/M=;
- b=exF7iGpb6zvCPyFStsKTmuib4VBO0aVkav3q9+3gJ6ivBMJRE+NovNRrFMA1PQHJji
- kEBAZdW1PHwlbvyBUX5E1IajQhmSi44Mlt14yRVYA7tkF1LDegxYWiboveIE+L/Z7SWi
- Cn67EbqxNIK+OLyxPTlAyOH4yOxcPG2JdD+hgVrIFEM22xWsmy3ASgo05q2Jt5Gyoh7m
- 4AYc82T1XQzkUfPyhNA2WI9DUiVRxFnhrSmO2Pq1rdl+EaZaeZC0X25ip+YhYcYurlPe
- Raozwu+baahQSpiFK8ViMef/y/A92K4R3+bVl7r75YHEAMCbxPa+xgpWcdeJ7VdP36IL
- Z1Bw==
-X-Gm-Message-State: APjAAAW46mBNPoNYTJ97H/bDsTrrfsc1Rh1TfGxKMPfMQQJHxZPSTijk
- 78eMj1T7zX5Uox5H5CJlpFOsC/0A
-X-Google-Smtp-Source: APXvYqwFL24VoCttIIMccVal6cQWZx1FCQKDm/cK/9yOEb4UcxEaPcdwXnGd5NX3KduxoCbeskGWyg==
-X-Received: by 2002:adf:afc9:: with SMTP id y9mr8681306wrd.346.1582631528822; 
- Tue, 25 Feb 2020 03:52:08 -0800 (PST)
+ :in-reply-to:references;
+ bh=tAOcwiucq9sZ03S56wSU3BKkO7ecBjXLzXDmBGEz1YQ=;
+ b=eRCbQtQnaLCz+iohYx47WezIhecFl1SxoynhVAPWZT3zOrglVAREGlNK/BuKzBlhp4
+ r1Lsikqu85QBm9ia8I3X7ZhTaasTBFesdATYROSm3ZQnsCW7AlJEpUkWQScgPxzdwE80
+ IwdAt+fSzznGt/P/+m01Qfcd8PhWSW/PiUshpHHaRRkEssKV/Bln7kwOBC7NvvWY+4c+
+ NyNtgBtSawXTxAw5KNOI7l0Z1uSCNaj90Hp7JDGERtUin7y6fgJqwE4QbvltcrEXkirx
+ fZm58yH3nkarhNUwcMpBXJ6blMjUBs/02clrMaQAK5TsZYW5urRtxQgG9M51WgyPDFf9
+ 0PpA==
+X-Gm-Message-State: APjAAAXi3Ieyp2JBZOg7PDc0Jlptj0VamBR8191xmfYBshdEf1BOwhCY
+ +msr/DLxCZ5jqlqBoTn1Zl8Iv8S1
+X-Google-Smtp-Source: APXvYqygfOr0iI6YXcegaIBmsOEhwt+Ho2JUbrChCJl0lVNLzMkUGa3jA99WY22mCS6sdw0Xnb+EnQ==
+X-Received: by 2002:a05:600c:204f:: with SMTP id
+ p15mr5148549wmg.6.1582631533427; 
+ Tue, 25 Feb 2020 03:52:13 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.08
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.12
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:08 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 068/136] ppc/virtex_ml507: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:58 +0100
-Message-Id: <1582631466-13880-68-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 073/136] exec: cleanup
+ qemu_minrampagesize()/qemu_maxrampagesize()
+Date: Tue, 25 Feb 2020 12:50:03 +0100
+Message-Id: <1582631466-13880-73-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,88 +82,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+Since all RAM is backed by hostmem backends, drop
+global -mem-path invariant and simplify code.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-69-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-74-imammedo@redhat.com>
 ---
- hw/ppc/virtex_ml507.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ exec.c | 49 ++++---------------------------------------------
+ 1 file changed, 4 insertions(+), 45 deletions(-)
 
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index 91dd00e..b6f4507 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -193,7 +193,6 @@ static int xilinx_load_device_tree(hwaddr addr,
- 
- static void virtex_init(MachineState *machine)
+diff --git a/exec.c b/exec.c
+index 8e9cc3b..d85a868 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1667,59 +1667,18 @@ static int find_max_backend_pagesize(Object *obj, void *opaque)
+ long qemu_minrampagesize(void)
  {
--    ram_addr_t ram_size = machine->ram_size;
-     const char *kernel_filename = machine->kernel_filename;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     hwaddr initrd_base = 0;
-@@ -204,7 +203,6 @@ static void virtex_init(MachineState *machine)
-     CPUPPCState *env;
-     hwaddr ram_base = 0;
-     DriveInfo *dinfo;
--    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
-     qemu_irq irq[32], *cpu_irq;
-     int kernel_size;
-     int i;
-@@ -221,8 +219,7 @@ static void virtex_init(MachineState *machine)
+     long hpsize = LONG_MAX;
+-    long mainrampagesize;
+-    Object *memdev_root;
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-
+-    mainrampagesize = qemu_mempath_getpagesize(mem_path);
+-
+-    /* it's possible we have memory-backend objects with
+-     * hugepage-backed RAM. these may get mapped into system
+-     * address space via -numa parameters or memory hotplug
+-     * hooks. we want to take these into account, but we
+-     * also want to make sure these supported hugepage
+-     * sizes are applicable across the entire range of memory
+-     * we may boot from, so we take the min across all
+-     * backends, and assume normal pages in cases where a
+-     * backend isn't backed by hugepages.
+-     */
+-    memdev_root = object_resolve_path("/objects", NULL);
+-    if (memdev_root) {
+-        object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize);
+-    }
+-    if (hpsize == LONG_MAX) {
+-        /* No additional memory regions found ==> Report main RAM page size */
+-        return mainrampagesize;
+-    }
+-
+-    /* If NUMA is disabled or the NUMA nodes are not backed with a
+-     * memory-backend, then there is at least one node using "normal" RAM,
+-     * so if its page size is smaller we have got to report that size instead.
+-     */
+-    if (hpsize > mainrampagesize &&
+-        (ms->numa_state == NULL ||
+-         ms->numa_state->num_nodes == 0 ||
+-         ms->numa_state->nodes[0].node_memdev == NULL)) {
+-        static bool warned;
+-        if (!warned) {
+-            error_report("Huge page support disabled (n/a for main memory).");
+-            warned = true;
+-        }
+-        return mainrampagesize;
+-    }
++    Object *memdev_root = object_resolve_path("/objects", NULL);
  
-     qemu_register_reset(main_cpu_reset, cpu);
- 
--    memory_region_allocate_system_memory(phys_ram, NULL, "ram", ram_size);
--    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
-+    memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
- 
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     pflash_cfi01_register(PFLASH_BASEADDR, "virtex.flash", FLASH_SIZE,
-@@ -265,7 +262,7 @@ static void virtex_init(MachineState *machine)
-             /* If we failed loading ELF's try a raw image.  */
-             kernel_size = load_image_targphys(kernel_filename,
-                                               boot_offset,
--                                              ram_size);
-+                                              machine->ram_size);
-             boot_info.bootstrap_pc = boot_offset;
-             high = boot_info.bootstrap_pc + kernel_size + 8192;
-         }
-@@ -276,7 +273,7 @@ static void virtex_init(MachineState *machine)
-         if (machine->initrd_filename) {
-             initrd_base = high = ROUND_UP(high, 4);
-             initrd_size = load_image_targphys(machine->initrd_filename,
--                                              high, ram_size - high);
-+                                              high, machine->ram_size - high);
- 
-             if (initrd_size < 0) {
-                 error_report("couldn't load ram disk '%s'",
-@@ -290,7 +287,7 @@ static void virtex_init(MachineState *machine)
-         boot_info.fdt = high + (8192 * 2);
-         boot_info.fdt &= ~8191;
- 
--        xilinx_load_device_tree(boot_info.fdt, ram_size,
-+        xilinx_load_device_tree(boot_info.fdt, machine->ram_size,
-                                 initrd_base, initrd_size,
-                                 kernel_cmdline);
-     }
-@@ -302,6 +299,7 @@ static void virtex_machine_init(MachineClass *mc)
-     mc->desc = "Xilinx Virtex ML507 reference design";
-     mc->init = virtex_init;
-     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("440-xilinx");
-+    mc->default_ram_id = "ram";
++    object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize);
+     return hpsize;
  }
  
- DEFINE_MACHINE("virtex-ml507", virtex_machine_init)
+ long qemu_maxrampagesize(void)
+ {
+-    long pagesize = qemu_mempath_getpagesize(mem_path);
++    long pagesize = 0;
+     Object *memdev_root = object_resolve_path("/objects", NULL);
+ 
+-    if (memdev_root) {
+-        object_child_foreach(memdev_root, find_max_backend_pagesize,
+-                             &pagesize);
+-    }
++    object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesize);
+     return pagesize;
+ }
+ #else
 -- 
 1.8.3.1
 
