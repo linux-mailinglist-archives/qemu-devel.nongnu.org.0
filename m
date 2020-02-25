@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C386316C138
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:48:37 +0100 (CET)
-Received: from localhost ([::1]:54704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC3416C0E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:34:41 +0100 (CET)
+Received: from localhost ([::1]:54286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Zdc-0006Mo-PU
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:48:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52836)
+	id 1j6ZQ8-0002hs-F7
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:34:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0V-00044n-LD
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:15 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0V-00044O-GK
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0R-0003fn-Vm
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0U-0003hV-Ez
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:11 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54630)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0R-0003em-Me
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:07 -0500
-Received: by mail-wm1-x341.google.com with SMTP id z12so2724207wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:07 -0800 (PST)
+ id 1j6Z0U-0003h3-9G
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:10 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id a9so2897915wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HZHzP8N5auJ+8tEymgxdWqmFlBp/rJEHoVe8+UtDFwI=;
- b=pk/3S4I5aGP52sJuap8cquvcTxBZUdm1CUMMyWfbDIPqo/d8UIjK5k0+50USSS2ZfI
- DQjOFnpd2DjIpVvBM13kPOzZIyALfkZkjVXaDRg2dfWMQcKecvevTn0FWZbV9ApCqiuP
- hyYANFUV2zUm2PtIe1ylKPEw7TaJXaY7hH5upNQTF5VlZXluFkjrhRAW1S945le705Dp
- XXoJccrgb/Y/Nwcpc9VsmoDr2rt/xJNijNNMJQ4R3XRWxN//iTD0mk2Y1pZqWMVi2J8h
- K/gTkFrqbmwngpIXD6GSmZhjOBom/7y5O0EqynczvUsjxEY5YCovcDDKE+XCCwVIClso
- XtwA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=+QntnSwGiMZJz9M5LirsEIfpTxlqSVZPz0auwZeZsmQ=;
+ b=krlXXX0OAzQCaKqynMM6ZpzDE8EfxzfR2nGl3wOhV+Htgc43gjg8EIvh2I9dnBBQH6
+ GAXNjyTcgXZUjZ+vX1Sq77VPdpBeWseuneIiNz9LnVssvpHE3SDvRJzmVDLJcMV2vms5
+ ETC8spvr15gZOOM2DdN70s7wmZTqsemmgGFIjbhyYmW+dDiXy7ooISafkkyqMmU0bR/D
+ A9+b4PZMHaeyu1hYlH/bm4idRiAt1YNXZ7UuH/6nID2ovGpGfjErPc16OzyaRQk6uIKM
+ XeLNlenPIDQi4g2tjp30xklO7MMZbXVT6K37zUG65emYTexmn7ZEi9AM0HHYLvK75fZD
+ SKAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HZHzP8N5auJ+8tEymgxdWqmFlBp/rJEHoVe8+UtDFwI=;
- b=XwinuhvddDtNsYM0IXgP6NmTD8rgLJvIG95h4lsQDSJL23jDa020d7/vQsCtEmkyqR
- IAlf/18+g8+6FBmxn2FJL1hNDWP6Z3TBkQ17LJ/7XepL0MqKNyhvjsvv69uWs8S7EhcP
- 7To7kBIjeYvCc9VSZPXQI5ktk9f7gG45d9vGXHq5LNFRTepOM+qCsHiO1ySwj3q+0JYf
- M7emsH8FQbsYAWgwDZznkYSAfyC7AXpB9S8Cqz69pq1DoXNptARwgMLyC8et9jiPicZt
- C6M7kjkAzMRPfCxvf3E255zCw90nxlF2BSgZe5IGozcAt2Ctiv//GLcHzBy/NqJhu2Ma
- HY2g==
-X-Gm-Message-State: APjAAAUa53CNNKs2fgNw/AdzhA3ChD3meoKP8CwosnXuA5/lfVNQkzr/
- ZmG2jT9VPtN6oFoUiekgEDHXjWuw
-X-Google-Smtp-Source: APXvYqyayTP6cPETYG1uKpasiif4lUOlA8nAhroadBbC/OyHEOU7uMUabDFfALjYv5mBBPZe5hto0w==
-X-Received: by 2002:a1c:f60e:: with SMTP id w14mr4987825wmc.188.1582632485217; 
- Tue, 25 Feb 2020 04:08:05 -0800 (PST)
+ :in-reply-to:references;
+ bh=+QntnSwGiMZJz9M5LirsEIfpTxlqSVZPz0auwZeZsmQ=;
+ b=Pp9RQTGHOihUjvclf6Nj3P+mM9m029KQTepyMLu5RgJVp0w9YDttHiwt/R4pKy3YeA
+ 0reRlyRipjaEhFa8MiEUHhs8cWyRM1jQmoRCck/eDCMWux7OTba43zl4GhTVA4GHaTTT
+ uooSIvhQoULvxyWdhYOdfglugBA5FUgRXyApGBytmEpF+5pJrAE2D5PgQgn+u71ZhG2i
+ do9aMivZLKQiLjmWMoQLArn5lnsObxzwou/mg2RilaIo9ZlvvwkW0PooeIbqhLY2K8CU
+ xjyFtqnfOSXHflw6uxB9nsQgV7A9MVlqqQmXZQ1NAmjZ/ZpuGIdD3D4Xe/RKHhf0GpVF
+ /FHA==
+X-Gm-Message-State: APjAAAXI/qnFeMZyPDlCJ7eIatBH3yQLfRlCKbbh69U+S/UcKTT/0XMm
+ wSnX0/n77zJLPzVBYs1GVJGVd9HQ
+X-Google-Smtp-Source: APXvYqyV4aoKxSrz9M1zfiWtDvTUSC9+pIysCajzZz3sBbJDaCpiDyn4OJSLAB6pwq8FbOQXlS5WBA==
+X-Received: by 2002:a1c:4857:: with SMTP id v84mr5039115wma.8.1582632489044;
+ Tue, 25 Feb 2020 04:08:09 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.04
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.08
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:08:04 -0800 (PST)
+ Tue, 25 Feb 2020 04:08:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 132/136] mem-prealloc: optimize large guest startup
-Date: Tue, 25 Feb 2020 13:07:30 +0100
-Message-Id: <1582632454-16491-30-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 136/136] WHPX: Assigning maintainer for Windows Hypervisor
+ Platform
+Date: Tue, 25 Feb 2020 13:07:34 +0100
+Message-Id: <1582632454-16491-34-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,116 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bauerchen <bauerchen@tencent.com>
+Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: bauerchen <bauerchen@tencent.com>
+From: Sunil Muthuswamy <sunilmut@microsoft.com>
 
-[desc]:
-    Large memory VM starts slowly when using -mem-prealloc, and
-    there are some areas to optimize in current method;
-
-    1、mmap will be used to alloc threads stack during create page
-    clearing threads, and it will attempt mm->mmap_sem for write
-    lock, but clearing threads have hold read lock, this competition
-    will cause threads createion very slow;
-
-    2、methods of calcuating pages for per threads is not well;if we use
-    64 threads to split 160 hugepage,63 threads clear 2page,1 thread
-    clear 34 page,so the entire speed is very slow;
-
-    to solve the first problem,we add a mutex in thread function,and
-    start all threads when all threads finished createion;
-    and the second problem, we spread remainder to other threads,in
-    situation that 160 hugepage and 64 threads, there are 32 threads
-    clear 3 pages,and 32 threads clear 2 pages.
-
-[test]:
-    320G 84c VM start time can be reduced to 10s
-    680G 84c VM start time can be reduced to 18s
-
-Signed-off-by: bauerchen <bauerchen@tencent.com>
-Reviewed-by: Pan Rui <ruippan@tencent.com>
-Reviewed-by: Ivan Ren <ivanren@tencent.com>
-[Simplify computation of the number of pages per thread. - Paolo]
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Message-Id: <SN4PR2101MB0880E245954826FD91C9D67DC0110@SN4PR2101MB0880.namprd21.prod.outlook.com>
+Reviewed-by: Justin Terry (VM) <juterry@microsoft.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/oslib-posix.c | 32 ++++++++++++++++++++++++--------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 5a291cc..897e8f3 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -76,6 +76,10 @@ static MemsetThread *memset_thread;
- static int memset_num_threads;
- static bool memset_thread_failed;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 195dd58..36d94c1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -404,6 +404,14 @@ S: Supported
+ F: target/i386/kvm.c
+ F: scripts/kvm/vmxcap
  
-+static QemuMutex page_mutex;
-+static QemuCond page_cond;
-+static bool threads_created_flag;
++WHPX CPUs
++M: Sunil Muthuswamy <sunilmut@microsoft.com>
++S: Supported
++F: target/i386/whpx-all.c
++F: target/i386/whp-dispatch.h
++F: accel/stubs/whpx-stub.c
++F: include/sysemu/whpx.h
 +
- int qemu_get_thread_id(void)
- {
- #if defined(__linux__)
-@@ -403,6 +407,17 @@ static void *do_touch_pages(void *arg)
-     MemsetThread *memset_args = (MemsetThread *)arg;
-     sigset_t set, oldset;
- 
-+    /*
-+     * On Linux, the page faults from the loop below can cause mmap_sem
-+     * contention with allocation of the thread stacks.  Do not start
-+     * clearing until all threads have been created.
-+     */
-+    qemu_mutex_lock(&page_mutex);
-+    while(!threads_created_flag){
-+        qemu_cond_wait(&page_cond, &page_mutex);
-+    }
-+    qemu_mutex_unlock(&page_mutex);
-+
-     /* unblock SIGBUS */
-     sigemptyset(&set);
-     sigaddset(&set, SIGBUS);
-@@ -451,27 +466,28 @@ static inline int get_memset_num_threads(int smp_cpus)
- static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-                             int smp_cpus)
- {
--    size_t numpages_per_thread;
--    size_t size_per_thread;
-+    size_t numpages_per_thread, leftover;
-     char *addr = area;
-     int i = 0;
- 
-     memset_thread_failed = false;
-+    threads_created_flag = false;
-     memset_num_threads = get_memset_num_threads(smp_cpus);
-     memset_thread = g_new0(MemsetThread, memset_num_threads);
--    numpages_per_thread = (numpages / memset_num_threads);
--    size_per_thread = (hpagesize * numpages_per_thread);
-+    numpages_per_thread = numpages / memset_num_threads;
-+    leftover = numpages % memset_num_threads;
-     for (i = 0; i < memset_num_threads; i++) {
-         memset_thread[i].addr = addr;
--        memset_thread[i].numpages = (i == (memset_num_threads - 1)) ?
--                                    numpages : numpages_per_thread;
-+        memset_thread[i].numpages = numpages_per_thread + (i < leftover);
-         memset_thread[i].hpagesize = hpagesize;
-         qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
-                            do_touch_pages, &memset_thread[i],
-                            QEMU_THREAD_JOINABLE);
--        addr += size_per_thread;
--        numpages -= numpages_per_thread;
-+        addr += memset_thread[i].numpages * hpagesize;
-     }
-+    threads_created_flag = true;
-+    qemu_cond_broadcast(&page_cond);
-+
-     for (i = 0; i < memset_num_threads; i++) {
-         qemu_thread_join(&memset_thread[i].pgthread);
-     }
+ Guest CPU Cores (Xen)
+ ---------------------
+ X86 Xen CPUs
 -- 
 1.8.3.1
-
 
 
