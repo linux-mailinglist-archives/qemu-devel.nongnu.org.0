@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBA916C105
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:38:27 +0100 (CET)
-Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B683A16C14F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:50:37 +0100 (CET)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZTm-0001lw-LQ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50044)
+	id 1j6ZfY-0001yx-Mn
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:50:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50060)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlI-0001nT-8k
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:29 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlJ-0001sD-Tz
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlH-0001Ka-3v
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:28 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54501)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlI-0001Wl-SG
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:29 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44818)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YlG-0001Gn-TB
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:27 -0500
-Received: by mail-wm1-x332.google.com with SMTP id z12so2665995wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:26 -0800 (PST)
+ id 1j6YlI-0001RN-Kp
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:28 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id m16so14334437wrx.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U33IG0nQfGpQvrbD6qZCIIWsG5daKlCOV2RghJ+gDTs=;
- b=pMUDtCufO3AVeq3RI23yPZ+dz9bzzBNaYkeigQ5b7AjLSdyEB9k1IE4yE6/Bt3DuiG
- ciFln1tFbTvidaYVgSgiDco1eYU1+vQI0LPg2nc0LJ41MmAFhMtxMUCbXHw2s2mEMvVW
- iWQcGLT6Ppl0mlmmdBCJwF5TjZ8Cf7TAcavKkZmr9s853x1sATZhtwYd8OySzvEVc5c3
- fcl9V9ZowrI0UawRXOjCimxKhIZ99zQ/TQnxIFHIl/m2nONfNr7qj9h6JgNKpBcMsctg
- DuFjBepCYjAfpx3x2yVHNz7YSTnCpjAkz2saOFGJVQ78WgpfzPYFtIDyduEUe/NxI0of
- ULkA==
+ bh=JMAZIaMNsNrZFFPWfKlMlMKRAGFUPcQHmsKBaJZ/EIM=;
+ b=YocdlLedkukH8TDyyGdanVLlvV0hZfWox1kXQtql0ek8/6ieZRlQn5ABFUhbIfkg5M
+ Pa0ZNGwGzou37uBagmCV4Ikw5zHUkJOUuWNC1LTXwwYc4jDcY/Xpap0wWSJ77knyhZM8
+ zkd5DOsidTNH//Ih/WIz7GlIjrUa4F7PDL1w71p8gD+qMD57ICTXiNPd6rll7+aJNxCy
+ +VASDXb8Vcw+m6YWt0a9VU7S2oEXy0XEvIwO2JyMSWz6YFbRrmvozoLc6esFKtjZ2qtm
+ tsUqNBk501WYxdDIHMybqIR8uVOkgJB7XA11A9bHNjZMoKF4JZPZhNS/q0ld9oqeyz5F
+ s+Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U33IG0nQfGpQvrbD6qZCIIWsG5daKlCOV2RghJ+gDTs=;
- b=QT+K+Forf5KfODC5eqazY1c65mIKkZewGU6D7L8izmC+ZpmcPB8VNXaaKXoRMBER19
- dyZUkksZvhKsomAo161mspwxisCjqd0e4/Viseh9MZb1NeHVw5VCHJq+DOMKZ7k9PaYF
- NZff4YgsJucNE3TPZmqpSqmGuQYQLZYNEE7UJo9Xx1EMjACHlblIyOZR71gNM9366ohj
- Znfil6D2X/xPfPnFyFyn6f6j7pGJUK4/W6HhqEdcLU4lyb5UygGOhW2NDVgCccwkfgcB
- Q+C4Yz8KlPDqBqWngzj09gdQUnFM9XHh3KLWf94U/bQQgPM1Q8Z6MeRko4ZLRWlSunGo
- tbIQ==
-X-Gm-Message-State: APjAAAXzrKkaxQboiDQi0AveubEXc8wRuITrFNfmk0cggSWhZmblAUVk
- SNSHraLYoMra2F1LE5ixB67ir0k7
-X-Google-Smtp-Source: APXvYqzNHALiYH9QmEOgTx0oNpUdfy0Tz6jsSTrX2ny6HlxwZBfozQutN96FA2EGfjohQ7TC/rLuAA==
-X-Received: by 2002:a7b:cf12:: with SMTP id l18mr5213529wmg.66.1582631545733; 
- Tue, 25 Feb 2020 03:52:25 -0800 (PST)
+ bh=JMAZIaMNsNrZFFPWfKlMlMKRAGFUPcQHmsKBaJZ/EIM=;
+ b=tf7NW9c8PUipz4ADIn6uV8IIJntvpdBuOTN4H/CmWE8fTdtRxVBqmX0ftuNMUuCEie
+ wGCRSmOdkVdXjqFuHUPDzwvgpYxY/diPaz7GWfx4XZ8u/w+sx7JFmULLz1c8oS2uUtrS
+ OEYsu8qiSfga/FiZOM2Tqt5ugC0gGJ9ULv96LmAH75WtP+cJjBgMCWHAZ5lEiF67uOdh
+ aeMooPqodG3aoKBj6JeIbUZMw2WVkLE8x5pmbINQ6bKAi9N3erocNIYEZGmvwO2zW+mI
+ BsREF3NuVBbT4iP0rpf21sfGTDndjewnAkKH7zI10A9wAchu2ywZ9W6bYxTOc2MXXbvU
+ YrWw==
+X-Gm-Message-State: APjAAAXt5M43vVTdgn171jAdYgG1czbXL/a4lx84ltFfqh1moe07tv//
+ EE84ENiJ9D0kJia1bfRJYXMvZw0j
+X-Google-Smtp-Source: APXvYqylG7QGQIYdJkxZaPOmLXyCXboAWquAd6RukLm6M28NqICmscu94xRKur7DduQeTBeDYDXvyQ==
+X-Received: by 2002:a5d:678f:: with SMTP id v15mr74289182wru.27.1582631547450; 
+ Tue, 25 Feb 2020 03:52:27 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.24
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:25 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:26 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 085/136] hw/net: Avoid casting non-const pointer,
- use address_space_write()
-Date: Tue, 25 Feb 2020 12:50:15 +0100
-Message-Id: <1582631466-13880-85-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 087/136] exec: Let the cpu_[physical]_memory API use void
+ pointer arguments
+Date: Tue, 25 Feb 2020 12:50:17 +0100
+Message-Id: <1582631466-13880-87-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,80 +85,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The NetReceive prototype gets a const buffer:
-
-  typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
-
-We already have the address_space_write() method to write a const
-buffer to an address space. Use it to avoid:
-
-  hw/net/i82596.c: In function ‘i82596_receive’:
-  hw/net/i82596.c:644:54: error: passing argument 4 of ‘address_space_rw’ discards ‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
-
-This commit was produced with the included Coccinelle script
-scripts/coccinelle/exec_rw_const.
+As we are only dealing with a blob buffer, use a void pointer
+argument. This will let us simplify other APIs.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/net/dp8393x.c                       |  3 +--
- hw/net/i82596.c                        |  4 ++--
- scripts/coccinelle/exec_rw_const.cocci | 14 ++++++++++++++
- 3 files changed, 17 insertions(+), 4 deletions(-)
+ exec.c                    | 8 +++++---
+ include/exec/cpu-all.h    | 2 +-
+ include/exec/cpu-common.h | 2 +-
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index a134d43..580ae44 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -787,8 +787,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     /* Put packet into RBA */
-     DPRINTF("Receive packet at %08x\n", dp8393x_crba(s));
-     address = dp8393x_crba(s);
--    address_space_rw(&s->as, address,
--        MEMTXATTRS_UNSPECIFIED, (uint8_t *)buf, rx_len, 1);
-+    address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED, buf, rx_len);
-     address += rx_len;
-     address_space_rw(&s->as, address,
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)&checksum, 4, 1);
-diff --git a/hw/net/i82596.c b/hw/net/i82596.c
-index 3a0e1ec..a292984 100644
---- a/hw/net/i82596.c
-+++ b/hw/net/i82596.c
-@@ -640,8 +640,8 @@ ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t sz)
-             }
-             rba = get_uint32(rbd + 8);
-             /* printf("rba is 0x%x\n", rba); */
--            address_space_rw(&address_space_memory, rba,
--                MEMTXATTRS_UNSPECIFIED, (void *)buf, num, 1);
-+            address_space_write(&address_space_memory, rba,
-+                                MEMTXATTRS_UNSPECIFIED, buf, num);
-             rba += num;
-             buf += num;
-             len -= num;
-diff --git a/scripts/coccinelle/exec_rw_const.cocci b/scripts/coccinelle/exec_rw_const.cocci
-index 7e42682..87897dd 100644
---- a/scripts/coccinelle/exec_rw_const.cocci
-+++ b/scripts/coccinelle/exec_rw_const.cocci
-@@ -9,6 +9,20 @@
-            --dir .
- */
+diff --git a/exec.c b/exec.c
+index 3d6ee06..58664ac 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3019,11 +3019,12 @@ MemoryRegion *get_system_io(void)
+ /* physical memory access (slow version, mainly for debug) */
+ #if defined(CONFIG_USER_ONLY)
+ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
+-                        uint8_t *buf, target_ulong len, int is_write)
++                        void *ptr, target_ulong len, int is_write)
+ {
+     int flags;
+     target_ulong l, page;
+     void * p;
++    uint8_t *buf = ptr;
  
-+// Use address_space_write instead of casting to non-const
-+@@
-+type T;
-+const T *V;
-+expression E1, E2, E3, E4;
-+@@
-+(
-+- address_space_rw(E1, E2, E3, (T *)V, E4, 1)
-++ address_space_write(E1, E2, E3, V, E4)
-+|
-+- address_space_rw(E1, E2, E3, (void *)V, E4, 1)
-++ address_space_write(E1, E2, E3, V, E4)
-+)
-+
- // Remove useless cast
- @@
- expression E1, E2, E3, E4;
+     while (len > 0) {
+         page = addr & TARGET_PAGE_MASK;
+@@ -3311,7 +3312,7 @@ MemTxResult address_space_rw(AddressSpace *as, hwaddr addr, MemTxAttrs attrs,
+     }
+ }
+ 
+-void cpu_physical_memory_rw(hwaddr addr, uint8_t *buf,
++void cpu_physical_memory_rw(hwaddr addr, void *buf,
+                             hwaddr len, int is_write)
+ {
+     address_space_rw(&address_space_memory, addr, MEMTXATTRS_UNSPECIFIED,
+@@ -3789,10 +3790,11 @@ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+ 
+ /* virtual memory access for debug (includes writing to ROM) */
+ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
+-                        uint8_t *buf, target_ulong len, int is_write)
++                        void *ptr, target_ulong len, int is_write)
+ {
+     hwaddr phys_addr;
+     target_ulong l, page;
++    uint8_t *buf = ptr;
+ 
+     cpu_synchronize_state(cpu);
+     while (len > 0) {
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index e96781a..49e96ca 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -388,7 +388,7 @@ void dump_opcount_info(void);
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
+-                        uint8_t *buf, target_ulong len, int is_write);
++                        void *ptr, target_ulong len, int is_write);
+ 
+ int cpu_exec(CPUState *cpu);
+ 
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 81753bb..55e5740 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -69,7 +69,7 @@ void qemu_ram_unset_migratable(RAMBlock *rb);
+ size_t qemu_ram_pagesize(RAMBlock *block);
+ size_t qemu_ram_pagesize_largest(void);
+ 
+-void cpu_physical_memory_rw(hwaddr addr, uint8_t *buf,
++void cpu_physical_memory_rw(hwaddr addr, void *buf,
+                             hwaddr len, int is_write);
+ static inline void cpu_physical_memory_read(hwaddr addr,
+                                             void *buf, hwaddr len)
 -- 
 1.8.3.1
 
