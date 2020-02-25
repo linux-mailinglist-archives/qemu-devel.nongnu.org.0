@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B66F16C025
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:00:24 +0100 (CET)
-Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94AD16C00E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:56:34 +0100 (CET)
+Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Ysx-0007iW-6w
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:00:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
+	id 1j6YpD-0000jD-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:56:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkL-0000NA-5u
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0000WS-CM
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkH-00066f-5C
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:29 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35849)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkM-0006Is-6I
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:34 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40711)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkG-00062l-U9
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:25 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id p17so2858572wma.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:24 -0800 (PST)
+ id 1j6YkL-0006Dq-UV
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:30 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id t14so2834776wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d7xi3dVIX7J8J64QMOzYiUCiOj+8+itqf0kVFh9ZFA4=;
- b=PpfAJJ9IZTz9Ve/G52dW+av3hQc2qsyHVI5s2rQVdeuqT4ICpVrhmT0ETWLLsOjTrM
- nigTLKEGb3H9lgUult4poIt9TT9twq56KbBh4pzL3iMSUMEEzgPo50uYTaW5t6NPPJDq
- YHSJypct/c+9pEHYqLXT0cwHZfxqN6VC6d5mqWqpa5DM1DIzW/LHQM3R5e62eW9rthXx
- TcYASTp8e+FKVB44DcAYgWIma0QyfC8U2rkSQP/PNbVH2lMRup82DJowKeMw9RmnSqbs
- Iwf/AJtMvmTgOCMjQXKkI1QQhK5z01Tsg4VFze3F+tsbClZpPgiEeCOd/r7Nv3sj2X6W
- bQHA==
+ bh=TmKiV2DAhak+nXW1FExGcGGioFmWvkGA1aDQh50T6bs=;
+ b=Mi53oH4423iJPNLgsNL/szJfWC0pDV0GdSgfoMUvURp7igvcd/BAnPzdkqxuf2QCok
+ ilyOTMD1R+0dGrUx+zrDlWLPZ4510ONAT1zOfnUhtxgCEylkfp6YwJO+1jSquOlire7+
+ 4YDbUiTpmEBm2IWWeSGX77AnPtz8jEcRGulvxN1c8UxvvE2xUFCuEyZwN4vIjrXUziNm
+ kCSz89TBi1SRy/9xP4jGkID2tKjKf/TEJMw21w5L42ZrroNdQDqvJv0NIJW0+DwMvXaY
+ 5spNojamHxh9yNJrBROyEyb7iXHiinH8U+qBqxYBAoMwWuQ4ccdC5sj/xmyadf5fEKDY
+ KG7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d7xi3dVIX7J8J64QMOzYiUCiOj+8+itqf0kVFh9ZFA4=;
- b=GcIeOf9oZyCHq9wvDHapRvmi/H3vvERhb3sXJjhpQ0ZiV5wCC9sgprK2ce8meINJ/5
- BdHTlw9bigdPyaRgSQhWZxbGGwr+Qp+HNe75nEMHaWYXzA7/+5Ap9ZvAmLg7i5fD5BqF
- 25O4BsTZQUoWO8+WzSTp7mGRPOtn26HScwmdkMF9nie4qAbzfUzoYIa/oLQNpCBPp/E2
- mJy4x3717ontcieYgdyMEVntoeJHtp6fQUdCXkuebl18CIqZ4QRH8k55NeV1MG3kc6tg
- L+mlim1kpZaivWKqkUn8JeVZ18hbKxyXyWxc03YeqnS1xiFoLz0ogkHTF6DP3JA1vtuI
- sJFg==
-X-Gm-Message-State: APjAAAWracfG2W6JvfeiGcEWl3xpS4IeniVaZbPxWoilXoNPJnqo3qdF
- FN6IpDYjtJmnVpgaPj5PulQUAKBp
-X-Google-Smtp-Source: APXvYqyQzRdx2KoXCE/Ag7cy9DnZHDLb6VrhW9df1SJy6R2/Url+nTyKDlUl0nrnLoSgBU0bUoIJKg==
-X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr4905192wmj.175.1582631483752; 
- Tue, 25 Feb 2020 03:51:23 -0800 (PST)
+ bh=TmKiV2DAhak+nXW1FExGcGGioFmWvkGA1aDQh50T6bs=;
+ b=tOKSg249+3LBvbMcdnh0EwbGIPgHZdoym1/h3ufJx9SLQ8lDABMm4ywxGZfGZ+FuYe
+ gg3XypJCO9STE5KMUYEkM0SL+Dm04KYPScDaYcASXTAe9FkrJcRDUF3IZf1E6Afmi+J/
+ 66gUZUN0VJXvOU4gcBz56y2r850mNEV4I081HCpvMhZAixxEgtHmZ1YZk5M7QUYkUm+u
+ HjQ2mxCIbxCoo1mwh5xHOlqO/Bjvb+pLfaoxBsKG+P07LKmpuWaspAXTe37971iL4g6U
+ 1ZhD0pwFobOwlp0/zYwrr2fDsJhkO48iYzynVr8Q0i9KQPHV3vM/vBrJgAFJq49TVf5T
+ IVRg==
+X-Gm-Message-State: APjAAAXVoJzryxwn2U/Wk2kTu2ajZBVurlZFYCbFY05LZFFiDH5kRBWv
+ /Ctkv3eGPN+dq7RzZMRzqZs/0P8P
+X-Google-Smtp-Source: APXvYqxD7XVGKo+Ge1Nj5y75VjykfX4KB1BHZ/Fz6HG31QYtv7WiVJmFJxmLvpxonvyGZXc/w5Qsbg==
+X-Received: by 2002:a1c:38c7:: with SMTP id f190mr4805538wma.94.1582631485620; 
+ Tue, 25 Feb 2020 03:51:25 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.22
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.24
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:22 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 018/136] arm/kzm: drop RAM size fixup
-Date: Tue, 25 Feb 2020 12:49:08 +0100
-Message-Id: <1582631466-13880-18-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 020/136] arm/mcimx6ul-evk: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:10 +0100
+Message-Id: <1582631466-13880-20-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -84,47 +84,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-If the user provided too large a RAM size, the code used to
-complain and trim it to the max size.  Now that RAM is allocated by
-generic code, that's no longer possible, so generate an error and
-exit instead.
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
+
+PS:
+  remove no longer needed MCIMX6ULEVK
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Chubb <peter.chubb@data61.csiro.au>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-19-imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200219160953.13771-21-imammedo@redhat.com>
 ---
- hw/arm/kzm.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/arm/mcimx6ul-evk.c | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
 
-diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
-index 1d5ef28..94cbac1 100644
---- a/hw/arm/kzm.c
-+++ b/hw/arm/kzm.c
-@@ -25,6 +25,7 @@
- #include "hw/char/serial.h"
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index e90b393..23a71ed 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -19,15 +19,10 @@
+ #include "qemu/error-report.h"
  #include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
-+#include "qemu/cutils.h"
  
- /* Memory map for Kzm Emulation Baseboard:
-  * 0x00000000-0x7fffffff See i.MX31 SOC for support
-@@ -78,10 +79,10 @@ static void kzm_init(MachineState *machine)
+-typedef struct {
+-    FslIMX6ULState soc;
+-    MemoryRegion ram;
+-} MCIMX6ULEVK;
+-
+ static void mcimx6ul_evk_init(MachineState *machine)
+ {
+     static struct arm_boot_info boot_info;
+-    MCIMX6ULEVK *s = g_new0(MCIMX6ULEVK, 1);
++    FslIMX6ULState *s;
+     int i;
  
-     /* Check the amount of memory is compatible with the SOC */
-     if (machine->ram_size > (FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE)) {
--        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
--                    "reduced to %x", machine->ram_size,
--                    FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE);
--        machine->ram_size = FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE;
-+        char *sz = size_to_str(FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE);
-+        error_report("RAM size more than %s is not supported", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
+     if (machine->ram_size > FSL_IMX6UL_MMDC_SIZE) {
+@@ -43,15 +38,12 @@ static void mcimx6ul_evk_init(MachineState *machine)
+         .nb_cpus = machine->smp.cpus,
+     };
+ 
+-    object_initialize_child(OBJECT(machine), "soc", &s->soc,  sizeof(s->soc),
+-                            TYPE_FSL_IMX6UL, &error_fatal, NULL);
+-
+-    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_fatal);
++    s = FSL_IMX6UL(object_new(TYPE_FSL_IMX6UL));
++    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fatal);
++    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+ 
+-    memory_region_allocate_system_memory(&s->ram, NULL, "mcimx6ul-evk.ram",
+-                                         machine->ram_size);
+-    memory_region_add_subregion(get_system_memory(),
+-                                FSL_IMX6UL_MMDC_ADDR, &s->ram);
++    memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_MMDC_ADDR,
++                                machine->ram);
+ 
+     for (i = 0; i < FSL_IMX6UL_NUM_USDHCS; i++) {
+         BusState *bus;
+@@ -61,7 +53,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
+ 
+         di = drive_get_next(IF_SD);
+         blk = di ? blk_by_legacy_dinfo(di) : NULL;
+-        bus = qdev_get_child_bus(DEVICE(&s->soc.usdhc[i]), "sd-bus");
++        bus = qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
+         carddev = qdev_create(bus, TYPE_SD_CARD);
+         qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
+         object_property_set_bool(OBJECT(carddev), true,
+@@ -69,7 +61,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
      }
  
-     memory_region_allocate_system_memory(&s->ram, NULL, "kzm.ram",
+     if (!qtest_enabled()) {
+-        arm_load_kernel(&s->soc.cpu, machine, &boot_info);
++        arm_load_kernel(&s->cpu, machine, &boot_info);
+     }
+ }
+ 
+@@ -78,5 +70,6 @@ static void mcimx6ul_evk_machine_init(MachineClass *mc)
+     mc->desc = "Freescale i.MX6UL Evaluation Kit (Cortex A7)";
+     mc->init = mcimx6ul_evk_init;
+     mc->max_cpus = FSL_IMX6UL_NUM_CPUS;
++    mc->default_ram_id = "mcimx6ul-evk.ram";
+ }
+ DEFINE_MACHINE("mcimx6ul-evk", mcimx6ul_evk_machine_init)
 -- 
 1.8.3.1
 
