@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2444E16C272
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:35:51 +0100 (CET)
-Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D25E16C277
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:37:14 +0100 (CET)
+Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aNK-00035d-6V
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:35:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38434)
+	id 1j6aOf-00065f-58
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:37:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6a90-0002g7-PR
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:03 -0500
+ (envelope-from <pkrempa@redhat.com>) id 1j6a9d-0003dy-0f
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6a8y-0004V2-7F
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:01 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39462)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6a8x-0004UM-BL
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:20:59 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 77so12028258oty.6
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:20:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CtEMsHBDkcHsELBZP6EN0gh6y5RoeXlZuqtlqlC8x/Y=;
- b=J6+7oWhSTxn+le2NO7qF/9xo9yKFmD//y4tx1qttHmljCru6rK9BzMi7DeshcE/BHI
- +riMPjH9o9kLGlPYPT02LenJJoQ9Eb7VoTBo1PGJ8f7mQQCLPCEB2Wm+4nX9eusxHjl8
- F81SdbaxojaXjV2mktHxWOFExYUzg6G4qZoEmo6Wy0No3fOpWpYy+fP8yoJM5Aabm1Vp
- jQUvvec3v0hZ2KfDs/mgJpMJRD2jAWeDrho0/H1KnfKIDQbMXKfjRE51po9O55YZacZX
- sT7BKw7r0eaks/Q80XGrZ1Ol9cj16FIbQ/FCgngTboPUi01lA4HLNXqvQa4TCSoDSJsO
- imFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CtEMsHBDkcHsELBZP6EN0gh6y5RoeXlZuqtlqlC8x/Y=;
- b=q1PHOaXzCxoFveJw5wrWNV2RIxpChHV9PiY24YWn13lcgWNG90UPevcJWNW4Z9HtPL
- m1t+1GPo+20ODshQ+QelgagmspvZFMHwFVtRucSpazAw7eScN9aqfmuEmF9CUCaJQ/nT
- y2imwm2i1vLt6+JSYe9eOImUqtdFfcf0aLGLKkiled4zCdN03YoTz9+sLJFW/aSMhwl0
- J8PQUEXg/cURZFBdJxVTNO30j6GCWUqvQZmmODuf9g1bBfatQee/JtII9HXPY6hYtulj
- 2O/xSWqItUwfhwO8mb3+DcQKBJi0AxQG8eZ26JGrjRZVWJHl8LSPeaAWVIxQ8aHOPGcu
- zVCA==
-X-Gm-Message-State: APjAAAXi42e/ETokhCKBl+kyEtKtQ7tsMJDTQgh9BR+uaQGVHIOGYmXv
- +5u4H+Z4dMc1RQXh1qGvykdWeKz/MOfcky/sqA/kgw==
-X-Google-Smtp-Source: APXvYqy56smFg/JHnYqTFfaE8NPH9smWNNEqfmGOOH864uGNGtK3fr56f4SpZav5Avhkolq+ry7hwio8Qkh/H3jXJOM=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr44891573otd.91.1582636856070; 
- Tue, 25 Feb 2020 05:20:56 -0800 (PST)
+ (envelope-from <pkrempa@redhat.com>) id 1j6a9b-0004jw-9A
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:40 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41337
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1j6a9b-0004jJ-5D
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582636896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Xv/t6Zo0cGBtney6znCCDmF0+wveWYK2dAj4m2bjOs=;
+ b=MTIgqPIDPnJxX6WWKBXLiZJGwcpd9YV2yBJT5X5HfUTQZMSS8fwq0nv04czuPPonCeiwr/
+ UGCEnnf3y1X7f9tOVWdFZ+QAT+JAYxtefdUbXybiOGQJa6k/DuuO45pEAy9M3CV7yDktr3
+ lxQourJ20UtQ7tGsjPG1uHwlj3iKYn8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-bxQyWYwFOsKyZt_7tBrLcg-1; Tue, 25 Feb 2020 08:21:35 -0500
+X-MC-Unique: bxQyWYwFOsKyZt_7tBrLcg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D135DB61
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 13:21:32 +0000 (UTC)
+Received: from andariel.pipo.sk (ovpn-204-29.brq.redhat.com [10.40.204.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4665DA2C;
+ Tue, 25 Feb 2020 13:21:28 +0000 (UTC)
+Date: Tue, 25 Feb 2020 14:21:25 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 8/9] virStorageFileGetMetadataRecurse: Allow format
+ probing under special circumstances
+Message-ID: <20200225132125.GH3296@andariel.pipo.sk>
+References: <e6d268fcb8b2e92f2cf0c6b29bab3a9f645a7051.1581959449.git.pkrempa@redhat.com>
+ <ef597fda-4b3f-d270-824f-82df391ff223@redhat.com>
+ <20200219164034.GF1011498@angien.pipo.sk>
+ <fa77907b-1378-b4ed-3a40-fa19fe67f7cf@redhat.com>
+ <20200219185740.GA3423556@angien.pipo.sk>
+ <6d228d74-0b74-14e0-60cf-5c69dad2a65b@redhat.com>
+ <20200224133416.GE3296@andariel.pipo.sk>
+ <20200224142415.GP635661@redhat.com>
+ <20200224171046.GA864377@angien.pipo.sk>
+ <20200225125021.GL1148628@redhat.com>
 MIME-Version: 1.0
-References: <20200224222232.13807-1-richard.henderson@linaro.org>
- <20200224222232.13807-5-richard.henderson@linaro.org>
-In-Reply-To: <20200224222232.13807-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Feb 2020 13:20:45 +0000
-Message-ID: <CAFEAcA_Oo2FQ_2BNKgcUHOS5AzHHOahvYq0ZnZ+3_5668MYMtA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/17] target/arm: Add isar_feature_aa64_fp_simd,
- isar_feature_aa32_vfp
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+In-Reply-To: <20200225125021.GL1148628@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,30 +85,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: libvir-list@redhat.com, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Feb 2020 at 22:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We cannot easily create "any" functions for these, because the
-> ID_AA64PFR0 fields for FP and SIMD signal "enabled" with zero.
-> Which means that an aarch32-only cpu will return incorrect results
-> when testing the aarch64 registers.
->
-> To use these, we must either have context or additionally test
-> vs ARM_FEATURE_AARCH64.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h     | 11 +++++++++++
->  target/arm/cpu.c     |  9 ++++++---
->  target/arm/machine.c |  5 +++--
->  3 files changed, 20 insertions(+), 5 deletions(-)
+On Tue, Feb 25, 2020 at 12:50:21 +0000, Daniel Berrange wrote:
+> On Mon, Feb 24, 2020 at 06:10:46PM +0100, Peter Krempa wrote:
+> > On Mon, Feb 24, 2020 at 14:24:15 +0000, Daniel Berrange wrote:
+> > > On Mon, Feb 24, 2020 at 02:34:16PM +0100, Peter Krempa wrote:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+[...]
 
-thanks
--- PMM
+> > > Would there be any downsides to this that did not already exist in th=
+e
+> > > non-blockdev days ?
+> >=20
+> > We can, but the price is that:
+> > 1) we won't allow blockjobs and anything blockdev-related because node
+> > name would be out of our control. This was possible in pre-blockdev era=
+.
+>=20
+> Ok, that's not viable then. We can't switch one regression for a differen=
+t
+> regression.
+>=20
+> > 2) we will lose control of actually telling qemu to NOT open the backin=
+g
+> > file in that case. Distros using only unix permission still have
+> > arbitrary file access under permissions of the qemu process.
+>=20
+> True, but that is at least historically expected behaviour, which can
+> be fixed by setting <backingfile/> in the XML file IIUC.
+
+Yes, but if you specify any <backingStore> including the terminator you
+basically configure the image chain yourselves. The part which is
+configured explicitly will not undergo any form of detection, not even
+looking for the backing file.
+
+> > 3) weird special-case code, because we need to keep some metadata about
+> > the image to do security labelling
+> >=20
+> > > I don't think we can solve the regressions in behaviour of backing fi=
+les
+> > > by doing probing of the backing files in libvirt, because that only w=
+orks
+> > > for the case where libvirt can actually open the file. ie a local fil=
+e on
+> > > disk. We don't have logic for opening backing files on RBD, GlusterFS=
+,
+> > > iSCSI, HTTP, SSH, etc, and nor do we want todo that.
+> >=20
+> > Now we are back in the teritory where we actually do match what would
+> > happen with previously. We don't specify these on the command line with
+> > ehaviour matching what's described above, with the caveats as above.
+> >=20
+> > I kept this behaviour because we couldn't do better. This is in place
+> > even now if the last introspectable image has valid format specified.
+> >=20
+> > We can reconsider how to approach this but ideally separately.
+>=20
+> I'm a little lost as to exactly which scenarios are broken, and which
+> we're fixing.
+>=20
+>  1. file:top.qcow2 -> file:base.raw
+>=20
+>  2. file:top.qcow2 -> file:base.qcow2
+>=20
+>  3. file:top.qcow2 -> file:middle.qcow2 -> file:base.raw
+> =20
+>  4. file:top.qcow2 -> file:middle.qcow2 -> file:base.qcow2
+
+I assume you meant that none of the 'qcow2' files have format of the
+backing file recorded in the metadata.
+
+> IIUC, (1) is working before and now, (2) is working before but
+> broken now, and (3) and (4) were broken before and now.
+
+1) was working before, but is now forbidden
+2) was working before, and is now forbidden
+3,4) were possibly working (without sVirt), or would get permission
+denied reported by qemu during startup, currently they are forbidden by
+a libvirt error message
+
+After this patch:
+1) will be fixed by this patch
+2) will be fixed by this patch
+3, 4) will report a libvirt error rather than relying on sVirt or others
+
+> So (2) is the only one we /must/ to fix
+>=20
+> Am I right that by doing probing in libvirt as per this patch,
+> as well as fixing (2) though, we'll accidentally fix (3) and (4)
+> even though they were always broken before ?
+>
+> This all talks about qcow2 images on the file: protocol driver.
+> What is the situation for, say, the iscsi: protocol driver
+>=20
+>=20
+>  1. iscsi:top.qcow2 -> iscsi:base.raw
+>=20
+>  2. iscsi:top.qcow2 -> iscsi:base.qcow2
+>=20
+>  3. iscsi:top.qcow2 -> iscsi:middle.qcow2 -> iscsi:base.raw
+> =20
+>  4. iscsi:top.qcow2 -> iscsi:middle.qcow2 -> iscsi:base.qcow2
+>=20
+> What was the behaviour of this in the pre-blockdev days and
+> vs current git master ? Is it the same with (1) is working
+> before and now, (2) is working before but broken now, and
+> (3) and (4) were broken before and now.
+
+Pre-blockdev and post-blockdev every scenario of the above is working.
+We can't even inspect the top file for backing store so everything is
+just ignored.
+
+Now what partially changes is when we have something introspectable in
+the way:
+
+1,2) file:top.qcow2 -> iscsi:base.whatever
+
+The current code would report an error if the format was not recorded
+in the overlay (top.qcow2) and we can't introspect the backing file
+we'll reject it.
+
+This can be relaxed though.
+
+3,4) will work if top.qcow2 has the format but any subsequent don't since
+we don't introspect it
+
+> I'm assuming the libvirt probing cannot fix any case other
+> than file: protocol, or host-device: protocol, since we're
+> unable to open any other type of storage.
+
+It fixes also gluster since the backends for that are already
+implemented.
+
+I'll post another rebased version with some updated docs and one fix. We
+can continue there perhaps.
+
 
