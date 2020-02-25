@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0780716C231
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:24:20 +0100 (CET)
-Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB07916C1D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:11:48 +0100 (CET)
+Received: from localhost ([::1]:55326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aCB-0007kQ-1I
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:24:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52798)
+	id 1j6a03-0002TE-Up
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:11:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0T-0003xA-1Z
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:10 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0S-0003wt-Ug
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0R-0003fc-Ui
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0R-0003fX-Uo
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:08 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53396)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34179)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0R-0003eb-Lm
+ id 1j6Z0R-0003ew-Mi
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:07 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id t79so1238192wmt.3
+Received: by mail-wm1-x336.google.com with SMTP id i10so970032wmd.1
  for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=V5wH7aHM1S33hAp9O25CXZ9ZRApLVbQXaWr8cTEbif8=;
- b=IF5PoHm8PEv9CvRZccY387IlD9nq5mN0wrTrGiLDWgBRlg7zX5+arQWWRKj8DV39OX
- Dv8z3ckhXQ/j6vEW4VWwyCsK38+/OLo4q08f0cPBjbeoLeSqdh5/OkrG3n4xLHivnDJb
- KZruasgdysTIcjEJPeH/mo8K9Plpi+qagVpNlLFkCQy2wx1B5PjzUHrWwR8931bCCRZt
- gZtLxct9DQe5ynm16EmGRRAZiOE0LGa7F3tVGz7wA5VExUChpJpCTXsRhtWFZlRqsIzJ
- r7wRfsX/MJYrYWcKM+AZ+zrfUX9Yo79KM+Qck9R+PVXlJR0m2GcOoeeYjMFhhUL+rS01
- jk9w==
+ bh=QL74FXwo5fD2SXPQVC1GZn7aE6A8HimpNFP2yM67+qI=;
+ b=uRMQR5OCpXk3GNJ+wX6EzmWT5zBEOJwJc7ntvhgfhjOpxm+zYTGRCT48BnsUMA2los
+ S6CSswxa7U3PVrdYwFsmBfeLelAewrANgNhQhnNyDEpxZDXkIhYOobazHZL2NiFiQWw6
+ DkGxoDFSDCnLg93GiovPKHbZOFqiiI/vJTFFu5/Nyhb5lxCYoUFYi/wcz3FDw8WGrHo5
+ /8qpLABr4XJCeogP6o+gyQEyL2BOTy4L2UiPWuqNriQ/dQymlSiRqT+R//pA7fMDF/oE
+ KPQfYaiTDc4DMq4wHI5YgYUUDpJ317S4o6ghgHCVEABUm2CGXRjsA2Ib9x6rKalSeXRv
+ tXYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=V5wH7aHM1S33hAp9O25CXZ9ZRApLVbQXaWr8cTEbif8=;
- b=sy3wG3Emo6LDeMREM8GUf41d/VWdk0OzxPHsMBC836H+1/ymTk8/Knac3rmGGu6PNl
- 3+XjaNbECrLJgTAld75lp/DOUp4ajk08ot4xBbzS/SwzeRwg2ulcCQk9FaSbuvOfFd41
- xLT2HU7S98YgIcx5jbYAptT2Fxl3/ZQLM1RNNF8/y6CEsyIxnG6aQeILEdZ8Mp9S/voz
- YwysmofU3eS99L5C5HWOUycfwoOE7HTCViPGTlXxx+C1+9hf9SkgasbGT6JaOYpOAHkp
- bcf8cBKNHjGkfzz5b9no+UXLPPa0WnkKbc4DNmuBFi6WmpjXXkvmJZT9l4GYni5siS2C
- /l2g==
-X-Gm-Message-State: APjAAAXhhVLgyyNi5aGLcycw2JYHH9FsjTqs5nHFPM/KLZm+nlSOorH7
- S+eMJRQaXN4hMLl+soI2eyGNwYaq
-X-Google-Smtp-Source: APXvYqzbsr5DeuRJa36pmzOB/IrHyHvBKIxlGYOP9tn+R4Q5ZzvwfPs00R9ZUhPH/OrwMe3Y/HMt/g==
-X-Received: by 2002:a7b:c750:: with SMTP id w16mr4932277wmk.46.1582632484264; 
- Tue, 25 Feb 2020 04:08:04 -0800 (PST)
+ bh=QL74FXwo5fD2SXPQVC1GZn7aE6A8HimpNFP2yM67+qI=;
+ b=X8Q3XmJDjYUCXtRre6OA73fnTDCjtRF/KFMdMhCcj4gT0THdKhFLScstB8AU4xONmi
+ 4HiEdq4mjDb2Ul8S/wXV9NiGlWJxy6Z+D60UjKl3SCRSsooqveOR8BQXvd7cOhGFffbR
+ hY6iG/fotOCZpwaPsJ017jst2Uzu7GQQIQ3Co8eYPcAfb9X6v0KhysFMnR90NeWrcBHo
+ kOMgHYb1qsjX4XrRp0Dba8HIyKzQox0AYiw+vV9JIdRAXRC8ykZgKwYXE3L1qpb8/5Jb
+ GJd/DkJk9CEPhK5/GrTJhwGfAnWpECXiqGfqpeUtJvnBjTGUNzmL53fu25p1kuqw/77V
+ du1g==
+X-Gm-Message-State: APjAAAVVE0JlRKTrkLKq5LKtoKTIWP+2Tm0Bf3aM9LS3NJThzxLfCSPO
+ 2NDANC7wP9Fq1E8jc5Y+0yPXCg6e
+X-Google-Smtp-Source: APXvYqzH31Mdwsf8F3Fh4FVc+PROgAJgP9ejtaLptQ9UsyJTrZVsnVElKEVmqR680q3E7LxmwCPTOA==
+X-Received: by 2002:a7b:c218:: with SMTP id x24mr4769596wmi.149.1582632486380; 
+ Tue, 25 Feb 2020 04:08:06 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.03
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.05
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:08:03 -0800 (PST)
+ Tue, 25 Feb 2020 04:08:05 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 131/136] memory: batch allocate ioeventfds[] in
- address_space_update_ioeventfds()
-Date: Tue, 25 Feb 2020 13:07:29 +0100
-Message-Id: <1582632454-16491-29-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 133/136] qdev-monitor: Forbid repeated device_del
+Date: Tue, 25 Feb 2020 13:07:31 +0100
+Message-Id: <1582632454-16491-31-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,66 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Julia Suvorova <jusual@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
 
-Reallocing the ioeventfds[] array each time an element is added is very
-expensive as the number of ioeventfds increases.  Batch allocate instead
-to amortize the cost of realloc.
+Device unplug can be done asynchronously. Thus, sending the second
+device_del before the previous unplug is complete may lead to
+unexpected results. On PCIe devices, this cancels the hot-unplug
+process.
 
-This patch reduces Linux guest boot times from 362s to 140s when there
-are 2 virtio-blk devices with 1 virtqueue and 99 virtio-blk devices with
-32 virtqueues.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200218182226.913977-1-stefanha@redhat.com>
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200220165556.39388-1-jusual@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- memory.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ qdev-monitor.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/memory.c b/memory.c
-index aeaa8dc..09be40e 100644
---- a/memory.c
-+++ b/memory.c
-@@ -794,10 +794,19 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-     FlatView *view;
-     FlatRange *fr;
-     unsigned ioeventfd_nb = 0;
--    MemoryRegionIoeventfd *ioeventfds = NULL;
-+    unsigned ioeventfd_max;
-+    MemoryRegionIoeventfd *ioeventfds;
-     AddrRange tmp;
-     unsigned i;
- 
-+    /*
-+     * It is likely that the number of ioeventfds hasn't changed much, so use
-+     * the previous size as the starting value, with some headroom to avoid
-+     * gratuitous reallocations.
-+     */
-+    ioeventfd_max = QEMU_ALIGN_UP(as->ioeventfd_nb, 4);
-+    ioeventfds = g_new(MemoryRegionIoeventfd, ioeventfd_max);
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 8ce71a2..8a2a953 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -887,6 +887,12 @@ void qmp_device_del(const char *id, Error **errp)
+ {
+     DeviceState *dev = find_device_state(id, errp);
+     if (dev != NULL) {
++        if (dev->pending_deleted_event) {
++            error_setg(errp, "Device %s is already in the "
++                             "process of unplug", id);
++            return;
++        }
 +
-     view = address_space_get_flatview(as);
-     FOR_EACH_FLAT_RANGE(fr, view) {
-         for (i = 0; i < fr->mr->ioeventfd_nb; ++i) {
-@@ -806,8 +815,11 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-                                              int128_make64(fr->offset_in_region)));
-             if (addrrange_intersects(fr->addr, tmp)) {
-                 ++ioeventfd_nb;
--                ioeventfds = g_realloc(ioeventfds,
--                                          ioeventfd_nb * sizeof(*ioeventfds));
-+                if (ioeventfd_nb > ioeventfd_max) {
-+                    ioeventfd_max = MAX(ioeventfd_max * 2, 4);
-+                    ioeventfds = g_realloc(ioeventfds,
-+                            ioeventfd_max * sizeof(*ioeventfds));
-+                }
-                 ioeventfds[ioeventfd_nb-1] = fr->mr->ioeventfds[i];
-                 ioeventfds[ioeventfd_nb-1].addr = tmp;
-             }
+         qdev_unplug(dev, errp);
+     }
+ }
 -- 
 1.8.3.1
 
