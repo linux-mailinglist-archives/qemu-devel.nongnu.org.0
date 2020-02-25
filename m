@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C68816C1EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:17:24 +0100 (CET)
-Received: from localhost ([::1]:55462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D4A16C1FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:19:02 +0100 (CET)
+Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6a5T-0003J7-LJ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:17:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52396)
+	id 1j6a73-0006NF-LW
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:19:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52417)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yzz-0003DH-VU
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:41 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z01-0003H0-6K
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yzy-0003Ms-Vd
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:39 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46336)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z00-0003OU-0J
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:41 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33201)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yzy-0003MM-P5
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:38 -0500
-Received: by mail-wr1-x432.google.com with SMTP id j7so1906279wrp.13
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:38 -0800 (PST)
+ id 1j6Yzz-0003Mw-Po
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:39 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id u6so14466968wrt.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dcLy5F+/WldaZ+BIqvhIoR393wJnSMLL9Pg/oXsg+tA=;
- b=pNLp6eS3k7pGWp99rFpo9hNT0iqOumOH+6uDyxMxptRSV0eV+HIQBSZb0Q3J+XeaLQ
- VYMkhO9GCwDV9eTIcdba/4LPTSVtpetjT3j2Tr8SSvH1WP6Ftz6yzfh8pmQQSSHFCm26
- LEXoz4FhNUb2hKbZIpGRIjXHRPZVMIuIySd/UvFDlGiyRl/S2fbGr7lsovkzy5wscKLY
- aZgnkRkMPIZn1acmgyo1kjPd47rWXa/Tc5UG2P6TLLZfWjM8aVT8+3fnjaAkUVEGtVmV
- GLVZNjR27vr5hgBiNGWDN+Ne6y7HxKkkDRkpexndglJbIF08mQ7uRRDHfw5HFwz2xekJ
- wtYg==
+ bh=Cu74x2chVafI6RI3Ym4jTZd4oi7oGabzyHqjT1LUeAk=;
+ b=u9Xqu/elj/DOny4F5ZjHfolAxH7SoO/FxE/l4neLFWC9yIVk+Yam+k65dk96MxTh7d
+ WGUnLtcOFZOTGP0Pqr5zJX+c2a4aX84GmUMIxMOwvX/n6F+Uk9u6bGbpPWUleA6VvArV
+ H3cWdd+A56/CXt1MKkLX6WeiHZRwHaDAoWqVhZ/5QSrKbw2kQGirO4XIJAkFC1yxEc/M
+ yPYSvhtDxwzoYQucNFQU97X8r6KTEJZy55QRXczjyXqxiMohGcT9jlKiKuTguTd+OWx7
+ ek2M8QL+BnHKN23i/MtMQA1lzQHCmsYDMgDcCeyAIxenwH+FHzvebAHv5mrsLMYJkILE
+ 0jqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dcLy5F+/WldaZ+BIqvhIoR393wJnSMLL9Pg/oXsg+tA=;
- b=NHaTnaenTc7VZgXRU7dPmi9gwkEHRWfDUIXxshM3w+xkYaGBzsYaHWHUXedVbdn7G4
- AfMCSmEFNv7pOtT5da7YJ0BCiphBf95RkKYXAaeX3OwhNkLz4n87qXutscW56ZSSxpIX
- bdWyHKG8TvXyYm6fo0/3aXAaqpCgosM2jZVd5UCL0P7I7XMBSa4zGoPSgk8NO1LXPPR1
- RDFbA8kxGjc7w//6Pb//JVDH9zX1OGVOFPtd9N8OOspHrOAqKcJ4PEBYBKJERlROjCu/
- sLyJDm+uo1ICVFzhwWzg7q1P+ibgMpjTzpSDaQqvGpVP9+ZMSL9FVKpX9Mbc1rhROpsl
- j2kg==
-X-Gm-Message-State: APjAAAUCdXTPPGlMRZV4f8WFky7TmJGPJwVLyH0VFL4tMC38TjvcIl0c
- 78cK2HLZWMzLKJckasRltgB12HET
-X-Google-Smtp-Source: APXvYqzrGWfkv8vJVkpEaz1TYGjAO0U77tJx0BQxfSRUn6FJIDjnC5LBCChz/zONjMi7jD4HbFTPRA==
-X-Received: by 2002:adf:fe0a:: with SMTP id n10mr11204107wrr.229.1582632457538; 
- Tue, 25 Feb 2020 04:07:37 -0800 (PST)
+ bh=Cu74x2chVafI6RI3Ym4jTZd4oi7oGabzyHqjT1LUeAk=;
+ b=IhUtn3te8aww3ydvpbCw7Azxi/+nZZpcY4dL4s5JjN8epNISVoNUZ+LD0X+d7ebjqV
+ AvuBdjJ/qb62d+7g1A6OuROr7SrpQC2A0LmXDRFJJ0vTvain7OzPocXJFOlzq3/0HDUj
+ Fro6XLNkHvUQf4s6IIZo0sfhxzOY6YC/SGjno59CdcjRQ45kr6PdTkFK5e0q+YLubfBe
+ hP6APzxm18JARwC2UEDmzMvMM1GEXjBfGp1+V5bDtjhRZk8nvPrM+XBhlwaU6aQnIjbB
+ opw9BFgso8UM+Fhqhqoe+232Kjd1/A0yFv8EzvSThdZ7AFpT1Ie4GjVgphXf3tlDs2tV
+ USJQ==
+X-Gm-Message-State: APjAAAXSaByhNDmFBpLs4WlPo+bO/iU/CCpK4HoziV7bTaI/nLX8RbOi
+ NHZir2kJYGHy0iYxK606ubHbb3Dh
+X-Google-Smtp-Source: APXvYqxcJUoELYZLEOuIFwMp8o3u0al5w947xBUSQP1HjOoUyoQR9D3j6Mwg1NIfsHfsST+cRdTTBw==
+X-Received: by 2002:adf:df0f:: with SMTP id y15mr71518535wrl.26.1582632458489; 
+ Tue, 25 Feb 2020 04:07:38 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.36
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.37
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:36 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 104/136] hw/display: Use memory_region_init_rom() with
- read-only regions
-Date: Tue, 25 Feb 2020 13:07:02 +0100
-Message-Id: <1582632454-16491-2-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 105/136] hw/mips: Use memory_region_init_rom() with read-only
+ regions
+Date: Tue, 25 Feb 2020 13:07:03 +0100
+Message-Id: <1582632454-16491-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,45 +89,86 @@ This commit was produced with the Coccinelle script
 scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-7-philmd@redhat.com>
+Message-Id: <20200224205533.23798-8-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/display/cg3.c | 5 ++---
- hw/display/tcx.c | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ hw/mips/mips_fulong2e.c | 3 +--
+ hw/mips/mips_jazz.c     | 6 ++----
+ hw/mips/mips_mipssim.c  | 3 +--
+ hw/mips/mips_r4k.c      | 3 +--
+ 4 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/hw/display/cg3.c b/hw/display/cg3.c
-index 4fb67c6..a1ede10 100644
---- a/hw/display/cg3.c
-+++ b/hw/display/cg3.c
-@@ -287,9 +287,8 @@ static void cg3_initfn(Object *obj)
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     CG3State *s = CG3(obj);
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 2e043cb..547a7d3 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -319,9 +319,8 @@ static void mips_fulong2e_init(MachineState *machine)
  
--    memory_region_init_ram_nomigrate(&s->rom, obj, "cg3.prom", FCODE_MAX_ROM_SIZE,
--                           &error_fatal);
--    memory_region_set_readonly(&s->rom, true);
-+    memory_region_init_rom_nomigrate(&s->rom, obj, "cg3.prom",
-+                                     FCODE_MAX_ROM_SIZE, &error_fatal);
-     sysbus_init_mmio(sbd, &s->rom);
+     /* allocate RAM */
+     memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram", ram_size);
+-    memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
++    memory_region_init_rom(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+                            &error_fatal);
+-    memory_region_set_readonly(bios, true);
  
-     memory_region_init_io(&s->reg, obj, &cg3_reg_ops, s, "cg3.reg",
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index ca458f9..76de16e 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -755,9 +755,8 @@ static void tcx_initfn(Object *obj)
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     TCXState *s = TCX(obj);
+     memory_region_add_subregion(address_space_mem, 0, ram);
+     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 66fd4d8..cf47335 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -195,9 +195,8 @@ static void mips_jazz_init(MachineState *machine,
+                                          machine->ram_size);
+     memory_region_add_subregion(address_space, 0, ram);
  
--    memory_region_init_ram_nomigrate(&s->rom, obj, "tcx.prom", FCODE_MAX_ROM_SIZE,
--                           &error_fatal);
--    memory_region_set_readonly(&s->rom, true);
-+    memory_region_init_rom_nomigrate(&s->rom, obj, "tcx.prom",
-+                                     FCODE_MAX_ROM_SIZE, &error_fatal);
-     sysbus_init_mmio(sbd, &s->rom);
+-    memory_region_init_ram(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZE,
++    memory_region_init_rom(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZE,
+                            &error_fatal);
+-    memory_region_set_readonly(bios, true);
+     memory_region_init_alias(bios2, NULL, "mips_jazz.bios", bios,
+                              0, MAGNUM_BIOS_SIZE);
+     memory_region_add_subregion(address_space, 0x1fc00000LL, bios);
+@@ -263,9 +262,8 @@ static void mips_jazz_init(MachineState *machine,
+         {
+             /* Simple ROM, so user doesn't have to provide one */
+             MemoryRegion *rom_mr = g_new(MemoryRegion, 1);
+-            memory_region_init_ram(rom_mr, NULL, "g364fb.rom", 0x80000,
++            memory_region_init_rom(rom_mr, NULL, "g364fb.rom", 0x80000,
+                                    &error_fatal);
+-            memory_region_set_readonly(rom_mr, true);
+             uint8_t *rom = memory_region_get_ram_ptr(rom_mr);
+             memory_region_add_subregion(address_space, 0x60000000, rom_mr);
+             rom[0] = 0x10; /* Mips G364 */
+diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
+index b934ca9..3fdbb21 100644
+--- a/hw/mips/mips_mipssim.c
++++ b/hw/mips/mips_mipssim.c
+@@ -169,9 +169,8 @@ mips_mipssim_init(MachineState *machine)
+     /* Allocate RAM. */
+     memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
+                                          ram_size);
+-    memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
++    memory_region_init_rom(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
+                            &error_fatal);
+-    memory_region_set_readonly(bios, true);
  
-     /* 2/STIP : Stippler */
+     memory_region_add_subregion(address_space_mem, 0, ram);
+ 
+diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
+index b2aec43..54b286c 100644
+--- a/hw/mips/mips_r4k.c
++++ b/hw/mips/mips_r4k.c
+@@ -241,9 +241,8 @@ void mips_r4k_init(MachineState *machine)
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     if ((bios_size > 0) && (bios_size <= BIOS_SIZE)) {
+         bios = g_new(MemoryRegion, 1);
+-        memory_region_init_ram(bios, NULL, "mips_r4k.bios", BIOS_SIZE,
++        memory_region_init_rom(bios, NULL, "mips_r4k.bios", BIOS_SIZE,
+                                &error_fatal);
+-        memory_region_set_readonly(bios, true);
+         memory_region_add_subregion(get_system_memory(), 0x1fc00000, bios);
+ 
+         load_image_targphys(filename, 0x1fc00000, BIOS_SIZE);
 -- 
 1.8.3.1
 
