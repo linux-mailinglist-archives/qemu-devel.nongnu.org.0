@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CC316C091
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:17:15 +0100 (CET)
-Received: from localhost ([::1]:53910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0A616C09E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:19:02 +0100 (CET)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Z9G-00020y-Rb
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:17:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
+	id 1j6ZAz-0005p6-Qq
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:19:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-00015p-UY
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:12 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl0-00018U-Rr
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yky-0008FB-MO
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:09 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40405)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Fr-8q
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:10 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:37843)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykx-00081O-A4
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:07 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t3so14352360wru.7
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:59 -0800 (PST)
+ id 1j6Ykx-00081e-Bk
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:08 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id a6so2848011wme.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P+/FlC3j7Lfy2SNrnDoWkd2WrZ5mGK36LS1XmlPHuLE=;
- b=ObB5ZqZ8DaTjBjmTqHW6+JxxkaApiCrJfu5PjnOuk39jWn0ZZUJOC0MrWnluFYDWLJ
- kP70JEHP3kSyFWwL+GEWXju1fickUGKGY1tOnV7uiqjA9L1ueOhDPNiQTfBqDQ4yI708
- gytR/fYgQamAHYm0irjW90sW2atQms0uPh1WF4N6mXel91fKiMtI9OGVQB9p5ZO7Vu5p
- 6GiVWrNYfNuKej6XJGlGvbn2Rl548wEDT+qQN4xA+IeodMQZBjaRLCvOdQrgpKkC7RWI
- w9F3czatxdNRXCPXpAbhz8hXNvy/UJ6Agwhm8roI3VgeAxwpVzjZYRkCB/44VB4ZuBoO
- FarQ==
+ bh=pCVAqTHNc51R2WI1XllI7JCvWYkhYQ1ZbnDn52ZL6EY=;
+ b=isV44Mmsq0PrbryhPr2aElASQXEO3ylZ5Ss7o1/Zgt6V9tuHybVg8ckM2kGb4bEsH8
+ KPbLKwfFjwqj7zqd+VltbJw4elgPM5UFNAZe11O4q48FDIwXlgCDL51P/fuW4QJgX/YK
+ nJBSt7vAvv9c0Ju41HvKybBcSQcXnRIonB78WDS6DKA0b+v3zPHxCUJ+Dyy5lSD59dBd
+ aQ0qwqvAPO/+ta3a5nIZmKYnf2E0b7bk8UIFbVyO1KwkcghpAaW+H9yN6Z/7v2L9y4Ih
+ lDjrr2QOVQeyK72zNL+bYDBzkUWVHynUO4vN2ypWXKCdbAu3f+09M0YyP33AqBxUXHov
+ BkCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=P+/FlC3j7Lfy2SNrnDoWkd2WrZ5mGK36LS1XmlPHuLE=;
- b=Bb104bJUULfXauYVeUKNOiXJanzmrdODUPVUaDebYrLPR6rV9cO2korXScPNS4z+4d
- v3tZL664STrd5dKi/+xNsuNUaQmom6mDvgbvhT2JRWyp+oMdDR03khzDJK94ToshkeTk
- 4G0plMxDiarrCV4xR/gYmol0Is8iOwF9taSAFsC6cs8sUHVIIXCxABx5az7eDRN60SIU
- YJjt6pR+nQpEwOjHwXk1J7gnJFJ+w3Ikxu+mugBk06csuUZYWI3rBGXZdOvmlov4rgC2
- blfacR41bHNn8fgOvUmHhZ2nkVT+KxKkrEu09lDHA80hzU71Z31xUvkNjeX6+Mz9y7JO
- xjvA==
-X-Gm-Message-State: APjAAAVOudEmG8Ny1hG5r7RZhPjjgSYkdGxg9LJQvkMpmbTf7Fpc+wB8
- uNC5tzfnZWCHas9t9Ai6etPL6SJA
-X-Google-Smtp-Source: APXvYqxkfrCbkEFHs6ys8MVovWYm5kDAyAUl4ChJK8NhFtWoeGo9fOMepf3HfXP5QDLXM7Hk+U//ug==
-X-Received: by 2002:adf:f586:: with SMTP id f6mr69865006wro.46.1582631512863; 
- Tue, 25 Feb 2020 03:51:52 -0800 (PST)
+ bh=pCVAqTHNc51R2WI1XllI7JCvWYkhYQ1ZbnDn52ZL6EY=;
+ b=WPxigsUpLAg+I98Z58G+93vc+mWL3arWHfKAGn3aunXI62Qqt3OB701C8rZevm4AkA
+ XxFhkzLPXLIQM8SOpbKFsfdjNk+RtwNCD1ZRKTnI7bvM6N90xqawEpTW7ToSoTbJWQgG
+ 0QaLg6TN4A+12yW3rdGQAM1mPaW2Aq2+1dqLp4jE90s28uLwxDJpyJ7cd097LmFNfRKI
+ a2FhggdlT71d2+P4FPPeTW9H1xAVTVj4OIKwY8GDAyKeYRbu7xS5/3M3jLH+8Cmvxc+6
+ B3ZZETsc3FNljUDJ8J/DsL+OYhj4uz6FiROoewq9NT+tEx277+qpDyyxM9gaInRe6ocN
+ bo2g==
+X-Gm-Message-State: APjAAAUu4EoPPhv5JtLiHdOi1R2rWU4CpNDl5aHNzVwMyuO4FCE+6FxX
+ Ln42+XpOxuMy2G1nyDku9RVy2DHZ
+X-Google-Smtp-Source: APXvYqzQEztQCV4pFUzUP0Y6Vw1ijNRpHS1gWpkuyFD+Lcz2gGprhuZ1ZkVa7ETK+guInNBEKalVtw==
+X-Received: by 2002:a7b:c318:: with SMTP id k24mr5209418wmj.54.1582631513756; 
+ Tue, 25 Feb 2020 03:51:53 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.52
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:52 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 050/136] mips/boston: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:40 +0100
-Message-Id: <1582631466-13880-50-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 051/136] mips/mips_fulong2e: drop RAM size fixup
+Date: Tue, 25 Feb 2020 12:49:41 +0100
+Message-Id: <1582631466-13880-51-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,61 +84,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported.
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-51-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-52-imammedo@redhat.com>
 ---
- hw/mips/boston.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ hw/mips/mips_fulong2e.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 0df3a77..98ecd25 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -427,7 +427,7 @@ static void boston_mach_init(MachineState *machine)
-     DeviceState *dev;
-     BostonState *s;
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 2e043cb..cf00211 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -296,7 +296,6 @@ static void mips_fulong2e_init(MachineState *machine)
+     MemoryRegion *address_space_mem = get_system_memory();
+     MemoryRegion *ram = g_new(MemoryRegion, 1);
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+-    ram_addr_t ram_size = machine->ram_size;
+     long bios_size;
+     uint8_t *spd_data;
      Error *err = NULL;
--    MemoryRegion *flash, *ddr, *ddr_low_alias, *lcd, *platreg;
-+    MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
-     MemoryRegion *sys_mem = get_system_memory();
-     XilinxPCIEHost *pcie2;
-     PCIDevice *ahci;
-@@ -473,14 +473,12 @@ static void boston_mach_init(MachineState *machine)
-     memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
-     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
+@@ -315,10 +314,14 @@ static void mips_fulong2e_init(MachineState *machine)
+     qemu_register_reset(main_cpu_reset, cpu);
  
--    ddr = g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
--                                         machine->ram_size);
--    memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
-+    memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram, 0);
+     /* TODO: support more than 256M RAM as highmem */
+-    ram_size = 256 * MiB;
++    if (machine->ram_size != 256 * MiB) {
++        error_report("Invalid RAM size, should be 256MB");
++        exit(EXIT_FAILURE);
++    }
  
-     ddr_low_alias = g_new(MemoryRegion, 1);
-     memory_region_init_alias(ddr_low_alias, NULL, "boston_low.ddr",
--                             ddr, 0, MIN(machine->ram_size, (256 * MiB)));
-+                             machine->ram, 0,
-+                             MIN(machine->ram_size, (256 * MiB)));
-     memory_region_add_subregion_overlap(sys_mem, 0, ddr_low_alias, 0);
+     /* allocate RAM */
+-    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram", ram_size);
++    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram",
++                                         machine->ram_size);
+     memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+                            &error_fatal);
+     memory_region_set_readonly(bios, true);
+@@ -332,7 +335,7 @@ static void mips_fulong2e_init(MachineState *machine)
+      */
  
-     xilinx_pcie_init(sys_mem, 0,
-@@ -552,6 +550,7 @@ static void boston_mach_class_init(MachineClass *mc)
-     mc->init = boston_mach_init;
-     mc->block_default_type = IF_IDE;
-     mc->default_ram_size = 1 * GiB;
-+    mc->default_ram_id = "boston.ddr";
-     mc->max_cpus = 16;
-     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("I6400");
- }
+     if (kernel_filename) {
+-        loaderparams.ram_size = ram_size;
++        loaderparams.ram_size = machine->ram_size;
+         loaderparams.kernel_filename = kernel_filename;
+         loaderparams.kernel_cmdline = kernel_cmdline;
+         loaderparams.initrd_filename = initrd_filename;
+@@ -378,7 +381,7 @@ static void mips_fulong2e_init(MachineState *machine)
+     }
+ 
+     /* Populate SPD eeprom data */
+-    spd_data = spd_data_generate(DDR, ram_size, &err);
++    spd_data = spd_data_generate(DDR, machine->ram_size, &err);
+     if (err) {
+         warn_report_err(err);
+     }
 -- 
 1.8.3.1
 
