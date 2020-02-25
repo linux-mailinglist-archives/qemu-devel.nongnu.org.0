@@ -2,43 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F8B16F37F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 00:35:11 +0100 (CET)
-Received: from localhost ([::1]:36096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA7716F380
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 00:35:12 +0100 (CET)
+Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6jjK-0008S0-7K
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 18:35:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
+	id 1j6jjL-0008TU-Bm
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 18:35:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <boyarsh@altlinux.org>) id 1j6gW0-0006yw-4T
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:09:14 -0500
+ (envelope-from <mborgerson@gmail.com>) id 1j6h6Q-00013K-76
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:46:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <boyarsh@altlinux.org>) id 1j6gVy-0005tl-PG
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:09:11 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57]:53056)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <boyarsh@altlinux.org>) id 1j6gVy-0005m9-HW
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:09:10 -0500
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
- by vmicros1.altlinux.org (Postfix) with ESMTP id BC83572CCEF;
- Tue, 25 Feb 2020 23:09:07 +0300 (MSK)
-Received: from x230.localdomain (109-252-52-89.nat.spd-mgts.ru [109.252.52.89])
- by imap.altlinux.org (Postfix) with ESMTPSA id 9F9A54A4A2A;
- Tue, 25 Feb 2020 23:09:07 +0300 (MSK)
-Date: Tue, 25 Feb 2020 23:09:14 +0300
-From: "Anton V. Boyarshinov" <boyarsh@altlinux.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] Arithmetic error fixed in EDID generation
-Message-ID: <20200225200914.3ec2c07b@x230.localdomain>
-Organization: ALT Linux
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-alt-linux-gnu)
+ (envelope-from <mborgerson@gmail.com>) id 1j6h6O-0001rD-Tt
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:46:50 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38362)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mborgerson@gmail.com>)
+ id 1j6h6O-0001l7-Me
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:46:48 -0500
+Received: by mail-lj1-f194.google.com with SMTP id w1so416742ljh.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 12:46:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VAYazKpdQeEXlvMSuhH0O0iMMqzpIv56wJ1qUaJvcfQ=;
+ b=QnadqdetqZChDMhcQkM4m+0uyUjKRLsc/bhOtnr4Q8QupPk/eSEOI9NaZS5RrFizzq
+ uMLcgTwiIcf0WRY0iQXBpqIrzoBPvfV8EsPeIHkBI15QT/wBbQewqFHW6wK/9C5EaJ0o
+ Rn+tDFtKEseaCAggWKEhLROA9x2v6PBFOPPRw8nGf3DEFfPwHXphT5ZzGTIxg1N2VFL4
+ Ec4HChxgFuMoJVkXXXpcWyPZuhOtFDFQPpS2Mbo6tjOPD4Kbj6WIp638HgZelPJhh04P
+ Afw6uHungQF5pyzZBkDJRrbFpAxrmvfdqCFIWG7wX2Ng01EAhnfFow4lz7Sbxnv9Oc0M
+ MhCg==
+X-Gm-Message-State: APjAAAUnkv7xPMkF6mPGN0OF33klhXm8Op5T91zLHCRa7wIm0DxeLtlN
+ qutK62rZvl9VtpVD7TEWPkkoMsyq874=
+X-Google-Smtp-Source: ADFU+vsCeuIajc/dOLsrv1r7/tCx1rY/aJ7p/4VIhsu1orJxtAsBko6z236Aj8nZYc+QrXPr4GCuiQ==
+X-Received: by 2002:a2e:8755:: with SMTP id q21mr551514ljj.156.1582663605954; 
+ Tue, 25 Feb 2020 12:46:45 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id z67sm2923844lfa.50.2020.02.25.12.46.45
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2020 12:46:45 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id z9so245933lfa.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 12:46:45 -0800 (PST)
+X-Received: by 2002:a19:7616:: with SMTP id c22mr362529lff.131.1582663605005; 
+ Tue, 25 Feb 2020 12:46:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 194.107.17.57
+References: <20200218101910.6593-1-contact@mborgerson.com>
+ <20200218165343.GB1408806@xz-x1>
+In-Reply-To: <20200218165343.GB1408806@xz-x1>
+From: Matt Borgerson <contact@mborgerson.com>
+Date: Tue, 25 Feb 2020 13:46:34 -0700
+X-Gmail-Original-Message-ID: <CADc=-s4nkB6ieakmiRuogygT7dzjb3q--noAWEALrrSOG+ZN2w@mail.gmail.com>
+Message-ID: <CADc=-s4nkB6ieakmiRuogygT7dzjb3q--noAWEALrrSOG+ZN2w@mail.gmail.com>
+Subject: Re: [PATCH] memory: Fix start offset for bitmap log_clear hook
+To: Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.208.194
 X-Mailman-Approved-At: Tue, 25 Feb 2020 18:34:07 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,39 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shaba@altlinux.org, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To compute screen size in centimeters we should calculate:
-pixels/dpi*2.54
-but not
-pixels*dpi/2540
+[ ping ]
 
-Using wrong formula we actually get 65 DPI and very small fonts.
+Hi Paolo, would you mind taking a quick look at this patch for
+memory.c to consider
+it for merge? This resolves an issue with dirty bits not being cleared
+as expected.
 
-Signed-off-by: Anton V. Boyarshinov <boyarsh@altlinux.org>
----
- hw/display/edid-generate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Here's the Patchwork link: http://patchwork.ozlabs.org/patch/1240121/
 
-diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-index 75c945a948..537e063662 100644
---- a/hw/display/edid-generate.c
-+++ b/hw/display/edid-generate.c
-@@ -360,8 +360,8 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
-     edid[20] = 0xa5;
- 
-     /* screen size: undefined */
--    edid[21] = info->prefx * info->dpi / 2540;
--    edid[22] = info->prefy * info->dpi / 2540;
-+    edid[21] = (uint8_t) ((float) info->prefx / info->dpi * 2.54);
-+    edid[22] = (uint8_t) ((float) info->prefy / info->dpi * 2.54);
- 
-     /* display gamma: 2.2 */
-     edid[23] = 220 - 100;
--- 
-2.21.0
+Thanks for your time!
 
+Matt
 
+On Tue, Feb 18, 2020 at 9:53 AM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Tue, Feb 18, 2020 at 03:19:10AM -0700, Matt Borgerson wrote:
+> > Currently only the final page offset is being passed to the `log_clear`
+> > hook via `memory_region_clear_dirty_bitmap` after it is used as an
+> > iterator in `cpu_physical_memory_test_and_clear_dirty`. This patch
+> > corrects the start address and size of the region.
+> >
+> > Signed-off-by: Matt Borgerson <contact@mborgerson.com>
+>
+> Looks correct, thanks!
+>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+>
+> --
+> Peter Xu
+>
 
