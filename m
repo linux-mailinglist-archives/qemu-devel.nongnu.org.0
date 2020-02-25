@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E538316C37C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:11:27 +0100 (CET)
-Received: from localhost ([::1]:57334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FAB16C3C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:22:03 +0100 (CET)
+Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6avm-0001iK-UI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:11:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44895)
+	id 1j6b62-0006U8-EQ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:22:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6ape-0006zJ-3h
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:05:09 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6atu-0007Di-4V
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:09:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6apa-0005Lv-6a
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:05:05 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44754)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6apZ-0005LU-VT
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:05:02 -0500
-Received: by mail-wr1-x444.google.com with SMTP id m16so14841249wrx.11
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 06:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=JHu7TxloT3KX2waltLkIpVoEDenjAD2ztHiqiak6sYff8A1NSuntmGoDyLY8VDNhxc
- 4UwNDAqo1k1E71E6CxWC0GRb7E3u/2Hfr+wD6em4VgkzgLrIjMrzCd5bA8ooBIZJ5qKt
- a5vSxUdIzaALLCn21nTjk7t1PeOXzgIC6vxlUs4GGCAqTQlFSI/Qi18l3V1Ch9Svo2sj
- iF+4pHYM57RHrdMK0SO3lhp5YhdQNyqVkKg5xeyq2LQYiaWidoeVZEVxf6qqfbTxz1Sa
- 2ogrfof/hBcs6IZ/McLwAAnMn1kLlkZ7TnhsmJsQK21DUEpYa5VOqQ5Ow3NIk5HqKrit
- dm6Q==
+ (envelope-from <philmd@redhat.com>) id 1j6ats-0006YX-Jw
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:09:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50205
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6ats-0006Y5-FF
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:09:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582639767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mplXFz9XhI87VPN32Jx6WUqNvWODeZuWVw5OoOQxrjM=;
+ b=ZEHGxMJDGHNJtCn1EXuyqgLLnNEn83M7OlfoVqMpkTr5XtTUPDw8uZyMxcqEWQsX0irs85
+ NR8S5rI7iTtgogI0a+LGiXiqDUD/pWi27mpuGp0VGAzpx9M1NifyalAdb4cMng2jHLdkWO
+ pNbpajrC2i4RcIYMHB8TS+GXBGbCS4c=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-0p9DoK40MCOtL8S9DmDYtA-1; Tue, 25 Feb 2020 09:09:26 -0500
+X-MC-Unique: 0p9DoK40MCOtL8S9DmDYtA-1
+Received: by mail-wr1-f70.google.com with SMTP id o6so7340460wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 06:09:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=jnh4e30QNXxWWBO7ixlwGWux1yHvHuwfgFhWIjAXU9zYOsTjA370bTacGqzEyMDoI0
- 5V7KJGB4xLat4apMSGVL/XDTbzfLjMTZymbEAUhJHtgrJmOlfmxkP9mh9N0YglZi7D32
- i4hXz43zQL4+ONDcq+7PJepNWanMhsLcTa9r6mjAOcUX+L2+qvo6ZzBhkc4msvh9M7wE
- l57ti+JxOwRUHng74Gttuk/jUpFnFFHoryKcZcjwbjjnbT2Ku/+Vxvt3w/7MWwPoefjf
- gzKIX9ySOx+41AhtwFYcfX7Dafo8E5NLdhFSF1qpVH5Z0lL+VUUqqEywEhSyCUbbuULm
- 3ZcQ==
-X-Gm-Message-State: APjAAAWxDtA0JLsIGxXDQZO7yQmi5/8Ph6EbEJJ2Sm5rEzPg4mT57dxf
- zascV1tCCg6P75kinUS4xa7V7BHHAXURFA==
-X-Google-Smtp-Source: APXvYqwxBz9CYilHgzPbcZX+odzzljyG5lGCLx6LOAj69R07mXb2aiMRDjw8ebExs1QK/mJeUaMHEA==
-X-Received: by 2002:a5d:6284:: with SMTP id k4mr75282963wru.398.1582639500247; 
- Tue, 25 Feb 2020 06:05:00 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f127sm4322136wma.4.2020.02.25.06.04.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 06:04:59 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] docs/devel/qapi-code-gen.txt: Update to new rST
- backend conventions
-Date: Tue, 25 Feb 2020 14:04:37 +0000
-Message-Id: <20200225140437.20609-13-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200225140437.20609-1-peter.maydell@linaro.org>
-References: <20200225140437.20609-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qEoTyBPH0U7wxGlqvxw7ToAiex8GCPJH26NUCkpeNTI=;
+ b=XRKB4aydPgisNEYwnky/T244fVyvXOPUGi7xqphRSvGQ2JUTzsKYqNZiSJbyLqKLDw
+ /FbfY2AiD/TFXDry4Rr/if/e+9x5l15wKHPF39GpwXdekSimiokSj3cCtLBi+zQVcHJm
+ 54DYI9yTQI4LQGzkLzgV9nRi50O2eZGtR2zosSiMzUa05F6HEva34ZZ7vwUlwDuTHRxZ
+ mtHey1pLGPlFgkmJ/g9uR91AXsYPwuW49DBmNg3ARqLsepeyq7B/uFM/BgaP0QXcODOJ
+ aP/zHB1f+sWSBi62JjdQd4gJAt2IN9QR9YyV5GjYeKNbGZIYSoCh8UjHn6KhRNlFrK60
+ tM1g==
+X-Gm-Message-State: APjAAAVadVhFLRaLBMq+p7Z5LHRnPGfT9MJl3XduSGGv3EJX0dRwHpJr
+ 6Tu/Yefi4HouERzVZd/KLkaRii5aF/wLAgn6g1Tnj+HOEG19yFdXLz1m2zXo1nkmDvOFT5bIwCm
+ aw8EmTos39MvoOfw=
+X-Received: by 2002:a1c:610a:: with SMTP id v10mr5365092wmb.44.1582639764586; 
+ Tue, 25 Feb 2020 06:09:24 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyBHkzZErZKgDXtaRKRb3JGQsfuBu03CkA/FyxPWaI0rF/tdd2ERpgquWloOH3fmK2oebJk3A==
+X-Received: by 2002:a1c:610a:: with SMTP id v10mr5365071wmb.44.1582639764355; 
+ Tue, 25 Feb 2020 06:09:24 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id 25sm4358911wmi.32.2020.02.25.06.09.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2020 06:09:23 -0800 (PST)
+Subject: Re: [RFC PATCH v2 2/2] hw/arm/integratorcp: Map a CFI parallel flash
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200223233033.15371-1-f4bug@amsat.org>
+ <20200223233033.15371-3-f4bug@amsat.org>
+ <CAFEAcA9bZJ9X20SX-5J2M6rWEhNC=un3Re3RVhGGHD1qMEdWtw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d8c64ad4-1c72-04fd-400a-ac003b3090cb@redhat.com>
+Date: Tue, 25 Feb 2020 15:09:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <CAFEAcA9bZJ9X20SX-5J2M6rWEhNC=un3Re3RVhGGHD1qMEdWtw@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,179 +94,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the documentation of QAPI document comment syntax to match
-the new rST backend requirements. The principal changes are:
- * whitespace is now significant, and multiline definitions
-   must have their second and subsequent lines indented to
-   match the first line
- * general rST format markup is permitted, not just the small
-   set of markup the old texinfo generator handled. For most
-   things (notably bulleted and itemized lists) the old format
-   is the same as rST was.
- * Specific things that might trip people up:
-   - instead of *bold* and _italic_ rST has **bold** and *italic*
-   - lists need a preceding and following blank line
-   - a lone literal '*' will need to be backslash-escaped to
-     avoid a rST syntax error
- * the old leading '|' for example (literal text) blocks is
-   replaced by the standard rST '::' literal block.
- * headings and subheadings must now be in a freeform
-   documentation comment of their own
- * we support arbitrary levels of sub- and sub-sub-heading, not
-   just a main and sub-heading like the old texinfo generator
+On 2/25/20 1:47 PM, Peter Maydell wrote:
+> On Sun, 23 Feb 2020 at 23:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>>
+>> The Linux kernel displays errors why trying to detect the flash:
+>>
+>>    Linux version 4.16.0 (linus@genomnajs) (gcc version 7.2.1 20171011 (L=
+inaro GCC 7.2-2017.11)) #142 PREEMPT Wed May 9 13:24:55 CEST 2018
+>>    CPU: ARM926EJ-S [41069265] revision 5 (ARMv5TEJ), cr=3D00093177
+>>    CPU: VIVT data cache, VIVT instruction cache
+>>    OF: fdt: Machine model: ARM Integrator/CP
+>>    ...
+>>    of-flash 24000000.flash: Integrator/CP flash protection
+>>    of-flash 24000000.flash: do_map_probe() failed for type cfi_probe
+>>    of-flash 24000000.flash: do_map_probe() failed
+>>
+>> Since we have a CFI pflash model available, wire it.
+>> The kernel properly detects it:
+>>
+>>    of-flash 24000000.flash: Integrator/CP flash protection
+>>    24000000.flash: Found 1 x32 devices at 0x0 in 32-bit bank. Manufactur=
+er ID 0x000000 Chip ID 0x000000
+>>    Intel/Sharp Extended Query Table at 0x0031
+>>    Using buffer write method
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>> v2: Kconfig change was not committed
+>>
+>> RFC because I have no idea of the flash model, its ID code, and which
+>> default CFI family (1 or 2).
+>=20
+> ARM DUI 0102G ("ARM Firmware Suite Reference Guide") helpfully has
+> a few details:
+>=20
+> Device                                  Size  Organization     Flash part
+> Integrator/AP Boot flash               512KB  1x512K block     Atmel AT49=
+LV040
+> Integrator/AP Application flash         32MB  256x128K blocks  Intel 28F3=
+20S3
+> Integrator/CP Boot/Application flash    16MB  64x256K blocks   Intel 28F6=
+40J3A
+>=20
+> (of which we only model the CP.) With luck that's enough to
+> nail down the relevant device properties.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/devel/qapi-code-gen.txt | 90 ++++++++++++++++++++++++------------
- 1 file changed, 61 insertions(+), 29 deletions(-)
+"Intel 28F640J3A" is everything we need, thanks!
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 59d6973e1ec..688eb2a0237 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -795,21 +795,39 @@ See below for more on definition documentation.
- Free-form documentation may be used to provide additional text and
- structuring content.
- 
-+==== Headings and subheadings ====
-+
-+A free-form documentation comment containing a single line
-+which starts with some '=' symbols and then a space defines
-+a section heading:
-+
-+    ##
-+    # = This is a top level heading
-+    ##
-+
-+    ##
-+    # This is a free-form comment which will go under the
-+    # top level heading.
-+    ##
-+
-+    ##
-+    # == This is a second level heading
-+    ##
-+
-+Section headings must always be correctly nested, so you can only
-+define a third-level heading inside a second-level heading, and so
-+on. The documentation generator will catch nesting mistakes and report
-+a syntax error.
- 
- ==== Documentation markup ====
- 
--Comment text starting with '=' is a section title:
-+Documentation comments can use most rST markup. In particular,
-+a '::' literal block can be used for examples:
- 
--    # = Section title
--
--Double the '=' for a subsection title:
--
--    # == Subsection title
--
--'|' denotes examples:
--
--    # | Text of the example, may span
--    # | multiple lines
-+    # ::
-+    #
-+    #   Text of the example, may span
-+    #   multiple lines
- 
- '*' starts an itemized list:
- 
-@@ -825,37 +843,35 @@ A decimal number followed by '.' starts a numbered list:
-     #    multiple lines
-     # 2. Second item
- 
--The actual number doesn't matter.  You could even use '*' instead of
--'2.' for the second item.
-+The actual number doesn't matter.
- 
--Lists can't be nested.  Blank lines are currently not supported within
--lists.
-+Lists of either kind must be preceded and followed by a blank line.
-+If a list item's text spans multiple lines, then the second and
-+subsequent lines must be correctly indented to line up with the
-+first character of the first line.
- 
--Additional whitespace between the initial '#' and the comment text is
--permitted.
--
--*foo* and _foo_ are for strong and emphasis styles respectively (they
--do not work over multiple lines).  @foo is used to reference a name in
--the schema.
-+The usual '**strong**', '*emphasised*' and '``literal``' markup should
-+be used. If you need a single literal '*' you will need to backslash-escape it.
-+As an extension beyond the usual rST syntax, you can also
-+use '@foo' to reference a name in the schema; this is rendered
-+the same way as '``foo``'.
- 
- Example:
- 
- ##
--# = Section
--# == Subsection
--#
--# Some text foo with *strong* and _emphasis_
-+# Some text foo with **bol** and *emphasis*
- # 1. with a list
- # 2. like that
- #
- # And some code:
--# | $ echo foo
--# | -> do this
--# | <- get that
- #
-+# ::
-+#
-+#   $ echo foo
-+#   -> do this
-+#   <- get that
- ##
- 
--
- ==== Definition documentation ====
- 
- Definition documentation, if present, must immediately precede the
-@@ -870,6 +886,12 @@ commands and events), member (for structs and unions), branch (for
- alternates), or value (for enums), and finally optional tagged
- sections.
- 
-+Descriptions of arguments can span multiple lines; if they
-+do then the second and subsequent lines must be indented
-+to line up with the first character of the first line of the
-+description. The parser will report a syntax error if there
-+is insufficient indentation.
-+
- FIXME: the parser accepts these things in almost any order.
- FIXME: union branches should be described, too.
- 
-@@ -883,6 +905,16 @@ The section ends with the start of a new section.
- A 'Since: x.y.z' tagged section lists the release that introduced the
- definition.
- 
-+The text of a section can start on a new line, in
-+which case it must not be indented at all. It can also start
-+on the same line as the 'Note:', 'Returns:', etc tag. In this
-+case if it spans multiple lines then second and subsequent
-+lines must be indented to match the first.
-+
-+An 'Example' or 'Examples' section is automatically rendered
-+entirely as literal fixed-width text. In other sections,
-+the text is formatted, and rST markup can be used.
-+
- For example:
- 
- ##
--- 
-2.20.1
+>=20
+>> @@ -646,6 +649,14 @@ static void integratorcp_init(MachineState *machine=
+)
+>>                             qdev_get_gpio_in_named(icp, ICP_GPIO_MMC_CAR=
+DIN, 0));
+>>       sysbus_create_varargs("pl041", 0x1d000000, pic[25], NULL);
+>>
+>> +    dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>> +    if (!pflash_cfi01_register(0x24000000, "pflash", 16 * MiB,
+>> +                               dinfo ? blk_by_legacy_dinfo(dinfo) : NUL=
+L,
+>> +                               64 * KiB, 4, 0, 0, 0, 0, 0)) {
+>> +        error_report("Error registering flash memory");
+>> +        exit(1);
+>> +    }
+>=20
+> Passing a 'width' argument of 0 means "weird legacy backcompat
+> device that's a bad emulation of a pair of 16-bit devices";
+> we should avoid that for new code, and instead set
+> the width and device-width properties to whatever the
+> hardware has. (This in turn means you can't use the old
+> pflash_cfi01_register() function.)
+
+OK I'll try to document that.
+
+> Should we be using blk_by_legacy_dinfo() in new code?
+> I'm not sure if there's a better way to do this if we don't
+> need to maintain back-compat with old commandline specifications
+> of the flash contents.
+>=20
+> thanks
+> -- PMM
+>=20
 
 
