@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D4A16C1FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:19:02 +0100 (CET)
-Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A7016C189
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:00:39 +0100 (CET)
+Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6a73-0006NF-LW
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:19:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52417)
+	id 1j6ZpG-0001em-2Q
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:00:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z01-0003H0-6K
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:42 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0B-0003Zq-A1
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z00-0003OU-0J
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:41 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33201)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0A-0003VS-7o
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:51 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40833)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yzz-0003Mw-Po
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:39 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id u6so14466968wrt.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:39 -0800 (PST)
+ id 1j6Z0A-0003Ur-0c
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:50 -0500
+Received: by mail-wm1-x331.google.com with SMTP id t14so2884156wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cu74x2chVafI6RI3Ym4jTZd4oi7oGabzyHqjT1LUeAk=;
- b=u9Xqu/elj/DOny4F5ZjHfolAxH7SoO/FxE/l4neLFWC9yIVk+Yam+k65dk96MxTh7d
- WGUnLtcOFZOTGP0Pqr5zJX+c2a4aX84GmUMIxMOwvX/n6F+Uk9u6bGbpPWUleA6VvArV
- H3cWdd+A56/CXt1MKkLX6WeiHZRwHaDAoWqVhZ/5QSrKbw2kQGirO4XIJAkFC1yxEc/M
- yPYSvhtDxwzoYQucNFQU97X8r6KTEJZy55QRXczjyXqxiMohGcT9jlKiKuTguTd+OWx7
- ek2M8QL+BnHKN23i/MtMQA1lzQHCmsYDMgDcCeyAIxenwH+FHzvebAHv5mrsLMYJkILE
- 0jqg==
+ bh=T3ISc51CQNGAqf+zLY8WMizzAxQ1TztanrLB+etFevc=;
+ b=ikbiwhwyP8Kht6iBMgfXSR81pNVCuAKG5wA1w+N96NaluhCs8eHoCHWpJcxmO1YffR
+ jKOofY3iRwUFYCdnqqXqsbVQGf4CdvL8OWtcIHVYgKkc7act8wGWPgMe/LZmsb4bZGAg
+ hse4d6E3F6hmvBAJ9HfWgOEDy2AOsfs47hSuAV3UCZ1X8iVIqasHWiBJx/jU9k8TN2eN
+ vwvNC0dGWDLur2lksGCAM/Y978Yaof2WkHOOmvW9Q7rmfPv72q0Z5iCtjfh7cErfmm/w
+ COtOI+F7e+L2taxSc/jYnvNs8fZaBRGOq6uYvq5wUl/yfGwuAaWu0KhRlwWxwglHkkMZ
+ l6pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Cu74x2chVafI6RI3Ym4jTZd4oi7oGabzyHqjT1LUeAk=;
- b=IhUtn3te8aww3ydvpbCw7Azxi/+nZZpcY4dL4s5JjN8epNISVoNUZ+LD0X+d7ebjqV
- AvuBdjJ/qb62d+7g1A6OuROr7SrpQC2A0LmXDRFJJ0vTvain7OzPocXJFOlzq3/0HDUj
- Fro6XLNkHvUQf4s6IIZo0sfhxzOY6YC/SGjno59CdcjRQ45kr6PdTkFK5e0q+YLubfBe
- hP6APzxm18JARwC2UEDmzMvMM1GEXjBfGp1+V5bDtjhRZk8nvPrM+XBhlwaU6aQnIjbB
- opw9BFgso8UM+Fhqhqoe+232Kjd1/A0yFv8EzvSThdZ7AFpT1Ie4GjVgphXf3tlDs2tV
- USJQ==
-X-Gm-Message-State: APjAAAXSaByhNDmFBpLs4WlPo+bO/iU/CCpK4HoziV7bTaI/nLX8RbOi
- NHZir2kJYGHy0iYxK606ubHbb3Dh
-X-Google-Smtp-Source: APXvYqxcJUoELYZLEOuIFwMp8o3u0al5w947xBUSQP1HjOoUyoQR9D3j6Mwg1NIfsHfsST+cRdTTBw==
-X-Received: by 2002:adf:df0f:: with SMTP id y15mr71518535wrl.26.1582632458489; 
- Tue, 25 Feb 2020 04:07:38 -0800 (PST)
+ bh=T3ISc51CQNGAqf+zLY8WMizzAxQ1TztanrLB+etFevc=;
+ b=pzKU+eNhBhX3prWyMwxg0c7AcN8yvzc5JuSSRH1z9TH6l+1JQ2wkIYEcpp0sXiiRr1
+ sNkBm0laZPK5bJURnOA2Y41kpyKI3fnXDdp4KFaoSuVskIUkGB6zFpxS0vpc+5IIo1kc
+ 2SbdOJDDksOyKfckL3O1fqF5V/6e5iWfIvFCrGtQwyTWpj13TZq510m1y1lKaJKcHbbs
+ Ps2gVBUheLKjr4Ip8kyaszLiRkpXZ/HfSwv6aK8ZbCbb6ffWbVHywDWV+bpYSArEiAdj
+ mO7uFhUcc30sKt2viZRpWyVRNgKCieBsz32ktXdQOtj5SOLoaUxHWYsBhf2ewWJ6OQL3
+ OEVg==
+X-Gm-Message-State: APjAAAUqw64xeqXTbzlXOkvOy2yW1T9+9Fn6+qlL6VNaVOL9qGqYZWmN
+ 3RUbQKrxk4Xor6oWRZrZJYccAIL+
+X-Google-Smtp-Source: APXvYqxnsBvkT+89JDTFi8xNYBC//3whv42YR/W7fSVSvx9GN1BsDMSoYEOtEVsk98CPhhzie5sHHg==
+X-Received: by 2002:a7b:cb93:: with SMTP id m19mr5270757wmi.128.1582632468690; 
+ Tue, 25 Feb 2020 04:07:48 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.37
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.47
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:37 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 105/136] hw/mips: Use memory_region_init_rom() with read-only
- regions
-Date: Tue, 25 Feb 2020 13:07:03 +0100
-Message-Id: <1582632454-16491-3-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 115/136] hw/ppc/ppc405: Use memory_region_init_rom() with
+ read-only regions
+Date: Tue, 25 Feb 2020 13:07:13 +0100
+Message-Id: <1582632454-16491-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,90 +85,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This commit was produced with the Coccinelle script
-scripts/coccinelle/memory-region-housekeeping.cocci.
+The scripts/coccinelle/memory-region-housekeeping.cocci reported:
+* TODO [[view:./hw/ppc/ppc405_boards.c::face=ovl-face1::linb=195::colb=8::cole=30][potential use of memory_region_init_rom*() in  ./hw/ppc/ppc405_boards.c::195]]
+* TODO [[view:./hw/ppc/ppc405_boards.c::face=ovl-face1::linb=464::colb=8::cole=30][potential use of memory_region_init_rom*() in  ./hw/ppc/ppc405_boards.c::464]]
+
+We can indeed replace the memory_region_init_ram() and
+memory_region_set_readonly() calls by memory_region_init_rom().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-8-philmd@redhat.com>
+Message-Id: <20200224205533.23798-18-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/mips/mips_fulong2e.c | 3 +--
- hw/mips/mips_jazz.c     | 6 ++----
- hw/mips/mips_mipssim.c  | 3 +--
- hw/mips/mips_r4k.c      | 3 +--
- 4 files changed, 5 insertions(+), 10 deletions(-)
+ hw/ppc/ppc405_boards.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 2e043cb..547a7d3 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -319,9 +319,8 @@ static void mips_fulong2e_init(MachineState *machine)
- 
-     /* allocate RAM */
-     memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram", ram_size);
--    memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "fulong2e.bios", BIOS_SIZE,
-                            &error_fatal);
--    memory_region_set_readonly(bios, true);
- 
-     memory_region_add_subregion(address_space_mem, 0, ram);
-     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
-diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
-index 66fd4d8..cf47335 100644
---- a/hw/mips/mips_jazz.c
-+++ b/hw/mips/mips_jazz.c
-@@ -195,9 +195,8 @@ static void mips_jazz_init(MachineState *machine,
-                                          machine->ram_size);
-     memory_region_add_subregion(address_space, 0, ram);
- 
--    memory_region_init_ram(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZE,
-                            &error_fatal);
--    memory_region_set_readonly(bios, true);
-     memory_region_init_alias(bios2, NULL, "mips_jazz.bios", bios,
-                              0, MAGNUM_BIOS_SIZE);
-     memory_region_add_subregion(address_space, 0x1fc00000LL, bios);
-@@ -263,9 +262,8 @@ static void mips_jazz_init(MachineState *machine,
-         {
-             /* Simple ROM, so user doesn't have to provide one */
-             MemoryRegion *rom_mr = g_new(MemoryRegion, 1);
--            memory_region_init_ram(rom_mr, NULL, "g364fb.rom", 0x80000,
-+            memory_region_init_rom(rom_mr, NULL, "g364fb.rom", 0x80000,
-                                    &error_fatal);
--            memory_region_set_readonly(rom_mr, true);
-             uint8_t *rom = memory_region_get_ram_ptr(rom_mr);
-             memory_region_add_subregion(address_space, 0x60000000, rom_mr);
-             rom[0] = 0x10; /* Mips G364 */
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index b934ca9..3fdbb21 100644
---- a/hw/mips/mips_mipssim.c
-+++ b/hw/mips/mips_mipssim.c
-@@ -169,9 +169,8 @@ mips_mipssim_init(MachineState *machine)
-     /* Allocate RAM. */
-     memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
-                                          ram_size);
--    memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
-                            &error_fatal);
--    memory_region_set_readonly(bios, true);
- 
-     memory_region_add_subregion(address_space_mem, 0, ram);
- 
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index b2aec43..54b286c 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -241,9 +241,8 @@ void mips_r4k_init(MachineState *machine)
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     if ((bios_size > 0) && (bios_size <= BIOS_SIZE)) {
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 1f721fe..5afe023 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -192,7 +192,7 @@ static void ref405ep_init(MachineState *machine)
+ #endif
+     {
          bios = g_new(MemoryRegion, 1);
--        memory_region_init_ram(bios, NULL, "mips_r4k.bios", BIOS_SIZE,
-+        memory_region_init_rom(bios, NULL, "mips_r4k.bios", BIOS_SIZE,
+-        memory_region_init_ram(bios, NULL, "ef405ep.bios", BIOS_SIZE,
++        memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
                                 &error_fatal);
--        memory_region_set_readonly(bios, true);
-         memory_region_add_subregion(get_system_memory(), 0x1fc00000, bios);
  
-         load_image_targphys(filename, 0x1fc00000, BIOS_SIZE);
+         if (bios_name == NULL)
+@@ -216,7 +216,6 @@ static void ref405ep_init(MachineState *machine)
+             /* Avoid an uninitialized variable warning */
+             bios_size = -1;
+         }
+-        memory_region_set_readonly(bios, true);
+     }
+     /* Register FPGA */
+     ref405ep_fpga_init(sysmem, 0xF0300000);
+@@ -461,7 +460,7 @@ static void taihu_405ep_init(MachineState *machine)
+         if (bios_name == NULL)
+             bios_name = BIOS_FILENAME;
+         bios = g_new(MemoryRegion, 1);
+-        memory_region_init_ram(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
++        memory_region_init_rom(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
+                                &error_fatal);
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+         if (filename) {
+@@ -479,7 +478,6 @@ static void taihu_405ep_init(MachineState *machine)
+             error_report("Could not load PowerPC BIOS '%s'", bios_name);
+             exit(1);
+         }
+-        memory_region_set_readonly(bios, true);
+     }
+     /* Register Linux flash */
+     dinfo = drive_get(IF_PFLASH, 0, fl_idx);
 -- 
 1.8.3.1
 
