@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752EA16C0B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:25:16 +0100 (CET)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A0816C0BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:26:58 +0100 (CET)
+Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZH1-0000ur-CA
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:25:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
+	id 1j6ZIf-0004P7-VA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:26:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6YvC-0003Ki-Vl
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:02:43 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003RJ-Dx
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6YvA-0007lF-Sz
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:02:42 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47080)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z07-0003Sc-9v
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:48 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38099)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6YvA-0007i2-K0
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:02:40 -0500
-Received: by mail-ot1-x343.google.com with SMTP id g64so11785578otb.13
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:02:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OalDj38vAYtArGZEfUFVIwvsdCbBvjJMoAXbjYxn3eU=;
- b=t8iCH6GqFC3kuMAgqjoNXv2AGGVat1EMbI4K3BK4GeoFtaYMgGEd1DD+yrmrUqXnnd
- /KXcrUBlqwjbi7YwesROnT3j9YTnsvCu+PP2EZ7pEvweqLuo3ENskBFxWefimLt9OTpw
- 9JxsOwkJDdvJfyt7uNECy/IKqN9afDzhZz7tMeIIXF/SYLYr6tYvtA9RlJjlZFVxb+v6
- S5+IkC83dOGNo20497xerN3qWJ+z2SjQ3yd1q+TTrEoSHXhysDwsSuLDsYqSV+C1ONYO
- DXwcO8yZBr3+ilQvJZD4FnM4Em3nwz4TE+1Lxsqm0vJ0+vT5XLGD06sAuq/PJCdnaqRD
- 5GyQ==
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1j6Z07-0003Qx-2u
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:47 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id e8so14440500wrm.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zImrZqaCtNdmyup7javw5z/mhdhAiY3TaxeN+q5aFF0=;
+ b=EquZz8uYv+ZyardH0OhVQQEgay72xYV74g71LjVLx2Y32rRavf3dZ0JsYOBDkDQc31
+ chzTL/IPAMaaEF8daRNcfyNzO2F76Xq1JL6KW56oFOaip6lFLSRc1lLLVJV9rx6ZDj8J
+ 9f3i8DAb6HzrqnYoMgiNV9a4IlvOwyggbVPnWdPFm+4d3zkmIPo7aosW7gMaLCVycRQV
+ E8Vza/2BWvZXr7dz9aQbJyyLCFx+GIr2JewQwfePvaJfeGqXJhSiMlaXVlhQV/sWWl5V
+ C1rJThtW+SKZVhy0J7UjhG6pRb0hlIln40K0UcBpkLPNfpF702iX1TkPqnK4aGGe6Vte
+ i7HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OalDj38vAYtArGZEfUFVIwvsdCbBvjJMoAXbjYxn3eU=;
- b=h2q7a/fm6Td6MGIcROvbzvGr1I9SLOhoM36P48NDMrervzY+ZWN4cpqK3qX/Eelj1S
- T/ZC3Pzzs+i95jillMVJqeHGsupAgZ7FikZ9+J/6drq9fKxGqlltExZ+4IByiHWhpZAA
- uWc5g+tp4GBqjaEW9bpjL/rre81aMci4AbNiFeMIic/PWG4+5Gl4F1006XB3s5kJltT0
- IDmUM2iZy87B3Lk2uH3OEzUfg5eEQRtZW7aP9D1CJLIfM8jkwLKA7kNzlgkjyie+S4mc
- O/uykswYbnzlsbU4BrR3Rt3brroZ86B9GCZgpONJLQXyQhwUjQWyIRX6Mv6DWtJkIIFO
- TZ6A==
-X-Gm-Message-State: APjAAAVsNJydf5R5niinkBBb/IhTjX2QapQt2vD4oUyPkGrzgE8+SH99
- xjlKrxF97gTHjtfvX/rPrDDyT9BV798GvmhrFjGMXg==
-X-Google-Smtp-Source: APXvYqwlR5vwE7Z2LfXeWVegK0lvEoYP1rv3WAQrrYnD7PdShTnN4/buvpJhrxxN+Lkw/MrPdtpvLNU6MFE6mNjODz4=
-X-Received: by 2002:a05:6830:1184:: with SMTP id
- u4mr42212075otq.221.1582632158436; 
- Tue, 25 Feb 2020 04:02:38 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=zImrZqaCtNdmyup7javw5z/mhdhAiY3TaxeN+q5aFF0=;
+ b=V4FNyFxqo628Fv8IswoQ5CIlscstxaDqDOmNk6l2CqXS/k1ilceYkuu7pw+vnPQIrO
+ 44ymz0qP+ajH9m33bHQp8fChAVOfQ+BBBMjCQZYHIcxs2C5R9/dksEP5T87LIgwlPZyj
+ aS9S6NwlnwahAHiuISw7MPjlopFUShKjIIL1rKfH3wxM4CMO4Jze5M4p1ItmiiFm7hUF
+ nTmPPC6A6LZYDTC3RJ5oo6LGAD7c8xTisZ5v7QO4K5vAtD0UmWZYWYSQtib4HCNPGNqt
+ p27Px4A+szdzmG7llD+Ztl4KuW2qOcc6KcXzzZoPlEmtxMW1stZif/WRGvbxXwrNVehx
+ ayVw==
+X-Gm-Message-State: APjAAAVNgyKGmS6fTGsiejd/iy/IhZP9TtgZAlPCHCXoswu/NLhYCQ4z
+ H0Ex2SFBrQo5lXm1pOsMagws3Jk+
+X-Google-Smtp-Source: APXvYqxVTLcWwCTML1bVJGByVpbDPrj63kfXi/BL0Og2UhhfZjbkDevXM6FuzpyHSlcBVXL1NoJA5g==
+X-Received: by 2002:a5d:61c8:: with SMTP id q8mr1315616wrv.415.1582632462924; 
+ Tue, 25 Feb 2020 04:07:42 -0800 (PST)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.42
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Feb 2020 04:07:42 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 109/136] hw/ppc: Use memory_region_init_rom() with read-only
+ regions
+Date: Tue, 25 Feb 2020 13:07:07 +0100
+Message-Id: <1582632454-16491-7-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20200218190958.745-1-richard.henderson@linaro.org>
-In-Reply-To: <20200218190958.745-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Feb 2020 12:02:27 +0000
-Message-ID: <CAFEAcA8qzoWxZ7ffqBaOqZ8Kicq7Zz43jRwxkyt7gTLy7kBEiQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] target/arm: Honor more HCR_EL2 traps
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,30 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Feb 2020 at 19:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Based-on: 20200214175116.9164-1-peter.maydell@linaro.org
-> ("arm: ARMv8.1- and v8.4-PMU, ID reg cleanup, [H]ACTLR2")
->
-> Patch 1 is a latent error that I noticed while reviewing
-> Peter's patch set.
->
-> Patches 2 and 3 have already appeared separately on list,
-> with patch 2 bearing a v2.  Thus this patch set is labeled v3.
->
-> Patch 4 is dependant on Peter's [H]ACTLR2 fix, and the reason
-> for the Based-on tag.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I've applied patch 1 to target-arm.next, but feel free
-to keep it in the series if you spin a v4 before I get
-round to doing the next arm pullreq. I've left review
-comments on the rest.
+This commit was produced with the Coccinelle script
+scripts/coccinelle/memory-region-housekeeping.cocci.
 
-thanks
--- PMM
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200224205533.23798-12-philmd@redhat.com>
+Supersedes: <20200221173049.18134-1-philmd@redhat.com>
+---
+ hw/ppc/mac_newworld.c | 3 +--
+ hw/ppc/mac_oldworld.c | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 464d012..566413e 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -156,13 +156,12 @@ static void ppc_core99_init(MachineState *machine)
+     memory_region_add_subregion(get_system_memory(), 0, ram);
+ 
+     /* allocate and load BIOS */
+-    memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
++    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
+                            &error_fatal);
+ 
+     if (bios_name == NULL)
+         bios_name = PROM_FILENAME;
+     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    memory_region_set_readonly(bios, true);
+     memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
+ 
+     /* Load OpenBIOS (ELF) */
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 7318d7e..8b22ff6 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -132,13 +132,12 @@ static void ppc_heathrow_init(MachineState *machine)
+     memory_region_add_subregion(sysmem, 0, ram);
+ 
+     /* allocate and load BIOS */
+-    memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
++    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
+                            &error_fatal);
+ 
+     if (bios_name == NULL)
+         bios_name = PROM_FILENAME;
+     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    memory_region_set_readonly(bios, true);
+     memory_region_add_subregion(sysmem, PROM_ADDR, bios);
+ 
+     /* Load OpenBIOS (ELF) */
+-- 
+1.8.3.1
+
+
 
