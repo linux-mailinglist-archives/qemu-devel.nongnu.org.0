@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E15C16C1B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:08:13 +0100 (CET)
-Received: from localhost ([::1]:55248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6809B16C1C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:09:59 +0100 (CET)
+Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Zwa-0004eK-DU
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:08:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57472)
+	id 1j6ZyI-0007Zc-GK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:09:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j6ZUh-0004v6-MA
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:39:24 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6ZbN-0003JD-9u
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:46:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j6ZUg-00046Q-DV
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:39:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30210
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j6ZUg-00045z-9r
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:39:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582634361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=prlOgWgQ9Ik+E3eF9Wnb1i83rqLIAzGc5kS9vOvkF4o=;
- b=LaclFHkbyTVvUaX1oKImu1lcEsuV9onscLy4+fQP934U5eKkfT4vyxcCoVVoxxVqNoPwJc
- 50mhbMCSz32nlpkwLqXwutRwM0qbjfwf23XW0PJAo+ahLyOqudah6sMp4Add+Wd5mMiJoP
- WNypK9+8s7LAkQA8iwFJzuOX+1gNWxg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-Dk8ekPLXODuX4FaDc2a1-A-1; Tue, 25 Feb 2020 07:39:19 -0500
-X-MC-Unique: Dk8ekPLXODuX4FaDc2a1-A-1
-Received: by mail-wm1-f72.google.com with SMTP id 7so974004wmf.9
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:39:19 -0800 (PST)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6ZbL-0006oF-7J
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:46:17 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52240)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1j6ZbK-0006nj-VK
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:46:15 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p9so2863294wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:46:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pPxevH10GnT3zkZXiLC8U7Qd1oR0WPPy5f2AcvdaE+I=;
+ b=JCyfJTjGbI2oSBDrjd7k9zVhCH6hcAGGqb0azgPhirroQy4DnsKKsjSyuNlKq6tQ7G
+ PWg1a64UTQpi3W6N1DNeAGHN+Eo2hTEuJ26LPaJzbj9k3DMZWervA73tKJyapy2cZ9ak
+ wRkQvyv3LrX+5eLlQTLGNLx/5XlzTiONtoKTr44qrC9TewhAM9K6t72L5YQsEZXBJrTE
+ 77yaHV/OmEYrQQF9rDYflRANY2+dwip0n9ds6HngBnDrvMKZE705A5GHfZI2F07Kj8SV
+ M4rZHwcQeKHZmmtSwjxJ7noN89b7PiS0kt1cuyWupLh6iccqZcoTmW3UZ7dnkxOuEa1T
+ XqyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kztbPaVB/2XMFABxpPNGrrCj9r6pdnumsQimldYZmLg=;
- b=SgWGmV6nOFgMfEgEfwiE1jYF/72CHnrxhBy3pN+vrbAGrGWQlv8PCn/eGxSTpxGMa3
- EZBxSOzTZHjkXPV9qKRs4YV8eXcMEipsYiwHGDNIUe77RxDM7pyuYMdEGB9liGyx8vzy
- wJh8W48t1oETALdxhDqmLuji+Kvg7S3KLZsmc1Vbubg+u6tzoMlbu4DEhJzBiytbLFF8
- nJuKp+y9jzTj9aVk/itTPh38x/WNsdbeZl24VmGooQk7tLetgFqU17g+JnhrMiFGbxv4
- z/MB5DBQldnytT1cvErpt0kyd0PVjj1vCconrfluIJJ1QKZzBcxXUX4jVE+WYX5AdAJ2
- amqg==
-X-Gm-Message-State: APjAAAV5JtWvNByo8JFkWnpdeJkTsHBKZYgSiPL9jZsVF8e7JxooplM+
- /ztcqOnnhpOOfMVWvuK8dHFvbkh1VOxDKP4euBU/mIqA94QymExHDicX03iFwVzRpLNjEHAqyom
- 2WBsa6XbdenyHYWY=
-X-Received: by 2002:a1c:541b:: with SMTP id i27mr5524326wmb.137.1582634358169; 
- Tue, 25 Feb 2020 04:39:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwMxOydfsyqbVFz+9ojWD99h41Ff9l0Bl/3ROeYCCGkjzMVH3uMtzNaJvjeoky0SS3gZviSrg==
-X-Received: by 2002:a1c:541b:: with SMTP id i27mr5524296wmb.137.1582634357874; 
- Tue, 25 Feb 2020 04:39:17 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:3577:1cfe:d98a:5fb6?
- ([2001:b07:6468:f312:3577:1cfe:d98a:5fb6])
- by smtp.gmail.com with ESMTPSA id w8sm3982443wmm.0.2020.02.25.04.39.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:39:17 -0800 (PST)
-Subject: Re: [PATCH RESEND v2 18/32] hw/i386/pc_sysfw: Simplify using
- memory_region_init_alias()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200224205533.23798-1-philmd@redhat.com>
- <20200224205533.23798-19-philmd@redhat.com>
- <532522f3-fc33-4405-1819-fe89c3ed088e@redhat.com>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=pPxevH10GnT3zkZXiLC8U7Qd1oR0WPPy5f2AcvdaE+I=;
+ b=ALKiqt/rplzU5vLcZqSybX8Q353KsRzDGhndG1bzIgE35rXHHVCGN+bcrw4II3osm8
+ 3w7+kSa6ofUJYnuapj2LOsy0FYebdUt7nBQnTw2Mux11wAIwLkwE3f6xSV2VbDS/x8Y6
+ ebGwI6ZZVawfdEd/Bs3e9kVmhQrZLsvsUJzIihDLrtdwIZ/4W+FERD/EfDKe7HdusZf/
+ wMrYI46qdleU8o7z8BfAEUCeHvNL3MAnI9N3Vu1+BOKPha7PSoIPUrBTGukpPMSjvM6j
+ cXGTcyqTLFHueKjF0UbOiA/3Lzlz2lDEWdm7KiuaPIp+QIeTtOuWHk0X9mOKsMJfOYzV
+ HB3w==
+X-Gm-Message-State: APjAAAV+2MrY/9TZjKLw0X+L1F/9SJTcunQCqHWIQ1KlxUI8lVaqvsGP
+ +nmgMExMxuEhjHJN8ncbUFtCI9tZ
+X-Google-Smtp-Source: APXvYqwQZKaHJQsMs8ogtUbUtp1ZsS9II1fm8Edt14zxPw9Azu9XpTdnZWtOBAGkiuLAwbKB9hOlgA==
+X-Received: by 2002:a1c:7d93:: with SMTP id y141mr5087141wmc.111.1582634772808; 
+ Tue, 25 Feb 2020 04:46:12 -0800 (PST)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id g2sm23173959wrw.76.2020.02.25.04.46.12
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Feb 2020 04:46:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <683355b0-cf04-d57a-92aa-500dbf1b94a8@redhat.com>
-Date: Tue, 25 Feb 2020 13:39:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 000/104] Misc patches for 2020-02-25 (refactoring and
+ Coccinelle edition)
+Date: Tue, 25 Feb 2020 13:46:11 +0100
+Message-Id: <1582634771-26661-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <532522f3-fc33-4405-1819-fe89c3ed088e@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,94 +78,289 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>, Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-riscv@nongnu.org, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/02/20 11:05, Philippe Mathieu-Daud=C3=A9 wrote:
->>
->> pc_isa_bios_init() does a manual copy of a part of the BIOS,
->> from a read-only region. We can simplify by directly aliasing
->> the same part.
->>
->> Before:
->>
->> =C2=A0=C2=A0 (qemu) info mtree
->> =C2=A0=C2=A0 memory-region: system
->> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (prio 0, i/o)=
-: system
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (=
-prio 0, ram): alias
->> ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (=
-prio -1, i/o): pci
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000a0000-000000=
-00000bffff (prio 1, i/o): vga-lowmem
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000c0000-000000=
-00000dffff (prio 1, rom): pc.rom
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000e0000-000000=
-00000fffff (prio 1, rom): isa-bios
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000fff00000-00000000ffffffff (=
-prio 0, romd): system.flash0
->>
->> After:
->>
->> =C2=A0=C2=A0 (qemu) info mtree
->> =C2=A0=C2=A0 memory-region: system
->> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (prio 0, i/o)=
-: system
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (=
-prio 0, ram): alias
->> ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (=
-prio -1, i/o): pci
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000a0000-000000=
-00000bffff (prio 1, i/o): vga-lowmem
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000c0000-000000=
-00000dffff (prio 1, rom): pc.rom
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000e0000-000000=
-00000fffff (prio 1, romd): alias
->> isa-bios @system.flash0 00000000000e0000-00000000000fffff
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000fff00000-00000000ffffffff (=
-prio 0, romd): system.flash0
->=20
-> IIUC migrating old -> new is OK, the previous ROM copy is discarded.
->=20
-> What about new -> old, does it require specific handling? Do we care?
+The following changes since commit c1e667d2598b9b3ce62b8e89ed22dd38dfe9f57f:
 
-Old->new is broken because the "isa-bios" memory region is not found.
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-02-24 11:38:54 +0000)
 
-qemu-system-x86_64: Unknown ramblock "isa-bios", cannot accept migration
-qemu-system-x86_64: error while loading state for instance 0x0 of device 'r=
-am'
-qemu-system-x86_64: load of migration failed: Invalid argument
+are available in the git repository at:
 
-Paolo
 
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 9e264985ff0bc86927b44b334bd504687f78659d:
+
+  Merge branch 'exec_rw_const_v4' of https://github.com/philmd/qemu into HEAD (2020-02-25 13:41:48 +0100)
+
+v1->v2: dropped patches 99-130
+
+----------------------------------------------------------------
+
+* device_del fix (Julia)
+* FXAM fix (myself)
+* memdev refactoring (Igor)
+* memory region API cleanups (Peter, Philippe)
+* ioeventfd optimization (Stefan)
+* new WHPX maintainer (Sunil)
+* Large guest startup optimizations (Chen)
+
+----------------------------------------------------------------
+Igor Mammedov (79):
+      numa: remove deprecated -mem-path fallback to anonymous RAM
+      machine: introduce memory-backend property
+      machine: alias -mem-path and -mem-prealloc into memory-foo backend
+      machine: introduce convenience MachineState::ram
+      initialize MachineState::ram in NUMA case
+      vl.c: move -m parsing after memory backends has been processed
+      vl.c: ensure that ram_size matches size of machine.memory-backend
+      alpha/dp264: use memdev for RAM
+      arm/aspeed: actually check RAM size
+      arm/aspeed: use memdev for RAM
+      arm/collie: use memdev for RAM
+      arm/cubieboard: use memdev for RAM
+      arm/digic_boards: use memdev for RAM
+      arm/highbank: use memdev for RAM
+      arm/imx25_pdk: drop RAM size fixup
+      arm/imx25_pdk: use memdev for RAM
+      arm/integratorcp: use memdev for RAM
+      arm/kzm: drop RAM size fixup
+      arm/kzm: use memdev for RAM
+      arm/mcimx6ul-evk: use memdev for RAM
+      arm/mcimx7d-sabre: use memdev for RAM
+      arm/mps2-tz: use memdev for RAM
+      arm/mps2: use memdev for RAM
+      arm/musicpal: use memdev for RAM
+      arm/nseries: use memdev for RAM
+      arm/omap_sx1: use memdev for RAM
+      arm/palm: use memdev for RAM
+      arm/sabrelite: use memdev for RAM
+      arm/raspi: use memdev for RAM
+      arm/sbsa-ref: use memdev for RAM
+      arm/versatilepb: use memdev for RAM
+      arm/vexpress: use memdev for RAM
+      arm/virt: use memdev for RAM
+      arm/xilinx_zynq: drop RAM size fixup
+      arm/xilinx_zynq: use memdev for RAM
+      arm/xlnx-versal-virt: use memdev for RAM
+      arm/xlnx-zcu102: use memdev for RAM
+      s390x/s390-virtio-ccw: use memdev for RAM
+      null-machine: use memdev for RAM
+      cris/axis_dev88: use memdev for RAM
+      hppa: use memdev for RAM
+      x86/microvm: use memdev for RAM
+      x86/pc: use memdev for RAM
+      lm32/lm32_boards: use memdev for RAM
+      lm32/milkymist: use memdev for RAM
+      m68k/an5206: use memdev for RAM
+      m68k/q800: use memdev for RAM
+      m68k/mcf5208: use memdev for RAM
+      m68k/next-cube: use memdev for RAM
+      mips/boston: use memdev for RAM
+      mips/mips_fulong2e: drop RAM size fixup
+      mips/mips_fulong2e: use memdev for RAM
+      mips/mips_jazz: use memdev for RAM
+      mips/mips_jazz: add max ram size check
+      mips/mips_malta: use memdev for RAM
+      mips/mips_mipssim: use memdev for RAM
+      mips/mips_r4k: use memdev for RAM
+      ppc/e500: drop RAM size fixup
+      ppc/e500: use memdev for RAM
+      ppc/mac_newworld: use memdev for RAM
+      ppc/mac_oldworld: use memdev for RAM
+      ppc/pnv: use memdev for RAM
+      ppc/ppc405_boards: add RAM size checks
+      ppc/ppc405_boards: use memdev for RAM
+      ppc/{ppc440_bamboo, sam460ex}: drop RAM size fixup
+      ppc/{ppc440_bamboo, sam460ex}: use memdev for RAM
+      ppc/spapr: use memdev for RAM
+      ppc/virtex_ml507: use memdev for RAM
+      sparc/leon3: use memdev for RAM
+      sparc/sun4m: use memdev for RAM
+      sparc/niagara: use memdev for RAM
+      remove no longer used memory_region_allocate_system_memory()
+      exec: cleanup qemu_minrampagesize()/qemu_maxrampagesize()
+      exec: drop bogus mem_path from qemu_ram_alloc_from_fd()
+      make mem_path local variable
+      hostmem: introduce "prealloc-threads" property
+      hostmem: fix strict bind policy
+      tests/numa-test: make top level args dynamic and g_autofree(cli) cleanups
+      tests:numa-test: use explicit memdev to specify node RAM
+
+Julia Suvorova (1):
+      qdev-monitor: Forbid repeated device_del
+
+Paolo Bonzini (3):
+      target/i386: check for empty register in FXAM
+      Merge tag 'patchew/20200219160953.13771-1-imammedo@redhat.com' of https://github.com/patchew-project/qemu into HEAD
+      Merge branch 'exec_rw_const_v4' of https://github.com/philmd/qemu into HEAD
+
+Peter Maydell (1):
+      Avoid address_space_rw() with a constant is_write argument
+
+Philippe Mathieu-Daudé (19):
+      scripts/git.orderfile: Display Cocci scripts before code modifications
+      hw: Remove unnecessary cast when calling dma_memory_read()
+      exec: Rename ram_ptr variable
+      exec: Let flatview API take void pointer arguments
+      exec: Let the address_space API use void pointer arguments
+      hw/net: Avoid casting non-const pointer, use address_space_write()
+      Remove unnecessary cast when using the address_space API
+      exec: Let the cpu_[physical]_memory API use void pointer arguments
+      Remove unnecessary cast when using the cpu_[physical]_memory API
+      hw/ide/internal: Remove unused DMARestartFunc typedef
+      hw/ide: Let the DMAIntFunc prototype use a boolean 'is_write' argument
+      hw/virtio: Let virtqueue_map_iovec() use a boolean 'is_write' argument
+      hw/virtio: Let vhost_memory_map() use a boolean 'is_write' argument
+      exec: Let address_space_unmap() use a boolean 'is_write' argument
+      Let address_space_rw() calls pass a boolean 'is_write' argument
+      exec: Let cpu_[physical]_memory API use a boolean 'is_write' argument
+      Let cpu_[physical]_memory() calls pass a boolean 'is_write' argument
+      Avoid cpu_physical_memory_rw() with a constant is_write argument
+      accel/kvm: Check ioctl(KVM_SET_USER_MEMORY_REGION) return value
+
+Stefan Hajnoczi (1):
+      memory: batch allocate ioeventfds[] in address_space_update_ioeventfds()
+
+Sunil Muthuswamy (1):
+      WHPX: Assigning maintainer for Windows Hypervisor Platform
+
+bauerchen (1):
+      mem-prealloc: optimize large guest startup
+
+ MAINTAINERS                            |   8 ++
+ accel/kvm/kvm-all.c                    |  18 ++++-
+ backends/hostmem-file.c                |   8 --
+ backends/hostmem-memfd.c               |   1 -
+ backends/hostmem-ram.c                 |   2 -
+ backends/hostmem.c                     |  53 +++++++++----
+ dma-helpers.c                          |   4 +-
+ exec.c                                 | 131 ++++++++++---------------------
+ hw/alpha/alpha_sys.h                   |   2 +-
+ hw/alpha/dp264.c                       |   3 +-
+ hw/alpha/typhoon.c                     |   8 +-
+ hw/arm/aspeed.c                        |  18 ++---
+ hw/arm/boot.c                          |   6 +-
+ hw/arm/collie.c                        |  16 +++-
+ hw/arm/cubieboard.c                    |  25 ++----
+ hw/arm/digic_boards.c                  |  40 +++++-----
+ hw/arm/highbank.c                      |  10 +--
+ hw/arm/imx25_pdk.c                     |  19 ++---
+ hw/arm/integratorcp.c                  |   9 +--
+ hw/arm/kzm.c                           |  18 ++---
+ hw/arm/mcimx6ul-evk.c                  |  25 +++---
+ hw/arm/mcimx7d-sabre.c                 |  25 +++---
+ hw/arm/mps2-tz.c                       |  15 +++-
+ hw/arm/mps2.c                          |  15 +++-
+ hw/arm/musicpal.c                      |  18 +++--
+ hw/arm/nseries.c                       |  32 ++++----
+ hw/arm/omap_sx1.c                      |  20 +++--
+ hw/arm/palm.c                          |  19 +++--
+ hw/arm/raspi.c                         |  10 +--
+ hw/arm/sabrelite.c                     |  23 ++----
+ hw/arm/sbsa-ref.c                      |   7 +-
+ hw/arm/smmu-common.c                   |   3 +-
+ hw/arm/smmuv3.c                        |  10 +--
+ hw/arm/versatilepb.c                   |   7 +-
+ hw/arm/vexpress.c                      |  14 ++--
+ hw/arm/virt.c                          |   7 +-
+ hw/arm/xilinx_zynq.c                   |  20 +++--
+ hw/arm/xlnx-versal-virt.c              |   7 +-
+ hw/arm/xlnx-zcu102.c                   |   7 +-
+ hw/core/machine.c                      |  48 ++++++++++++
+ hw/core/null-machine.c                 |   8 +-
+ hw/core/numa.c                         | 101 +++++++-----------------
+ hw/cris/axis_dev88.c                   |   8 +-
+ hw/display/exynos4210_fimd.c           |   3 +-
+ hw/display/milkymist-tmu2.c            |   8 +-
+ hw/display/omap_dss.c                  |   2 +-
+ hw/display/omap_lcdc.c                 |  10 +--
+ hw/display/ramfb.c                     |   2 +-
+ hw/dma/etraxfs_dma.c                   |  25 +++---
+ hw/dma/rc4030.c                        |  10 +--
+ hw/dma/xlnx-zdma.c                     |  11 +--
+ hw/hppa/machine.c                      |  10 +--
+ hw/i386/microvm.c                      |  12 ++-
+ hw/i386/pc.c                           |  19 +++--
+ hw/ide/ahci.c                          |   2 +-
+ hw/ide/core.c                          |   2 +-
+ hw/ide/macio.c                         |   2 +-
+ hw/ide/pci.c                           |   2 +-
+ hw/lm32/lm32_boards.c                  |  39 ++++++----
+ hw/lm32/milkymist.c                    |  21 +++--
+ hw/m68k/an5206.c                       |   5 +-
+ hw/m68k/mcf5208.c                      |   5 +-
+ hw/m68k/next-cube.c                    |   5 +-
+ hw/m68k/q800.c                         |   6 +-
+ hw/mips/boston.c                       |  11 ++-
+ hw/mips/mips_fulong2e.c                |  15 ++--
+ hw/mips/mips_jazz.c                    |  12 ++-
+ hw/mips/mips_malta.c                   |  10 +--
+ hw/mips/mips_mipssim.c                 |   9 +--
+ hw/mips/mips_r4k.c                     |  12 +--
+ hw/misc/aspeed_sdmc.c                  |  83 +++++++++++++++-----
+ hw/misc/pc-testdev.c                   |   2 +-
+ hw/net/cadence_gem.c                   |  21 +++--
+ hw/net/dp8393x.c                       |  70 +++++++++--------
+ hw/net/i82596.c                        |  25 +++---
+ hw/net/lasi_i82596.c                   |   5 +-
+ hw/nvram/spapr_nvram.c                 |   4 +-
+ hw/ppc/e500.c                          |  17 ++--
+ hw/ppc/e500plat.c                      |   1 +
+ hw/ppc/mac_newworld.c                  |   6 +-
+ hw/ppc/mac_oldworld.c                  |   6 +-
+ hw/ppc/mpc8544ds.c                     |   1 +
+ hw/ppc/pnv.c                           |   8 +-
+ hw/ppc/pnv_lpc.c                       |   8 +-
+ hw/ppc/ppc405_boards.c                 |  48 +++++++-----
+ hw/ppc/ppc440_bamboo.c                 |  12 ++-
+ hw/ppc/ppc440_uc.c                     |   6 +-
+ hw/ppc/ppc4xx_devs.c                   |  67 ++++++++--------
+ hw/ppc/sam460ex.c                      |   6 +-
+ hw/ppc/spapr.c                         |   8 +-
+ hw/ppc/spapr_hcall.c                   |   4 +-
+ hw/ppc/virtex_ml507.c                  |  12 ++-
+ hw/s390x/css.c                         |  12 +--
+ hw/s390x/ipl.c                         |   2 +-
+ hw/s390x/s390-pci-bus.c                |   2 +-
+ hw/s390x/s390-virtio-ccw.c             |   7 +-
+ hw/s390x/virtio-ccw.c                  |   2 +-
+ hw/scsi/vmw_pvscsi.c                   |   8 +-
+ hw/sd/sdhci.c                          |  15 ++--
+ hw/sparc/leon3.c                       |   6 +-
+ hw/sparc/sun4m.c                       |  74 +++++++++---------
+ hw/sparc64/niagara.c                   |   7 +-
+ hw/virtio/vhost.c                      |   8 +-
+ hw/virtio/virtio.c                     |   7 +-
+ hw/xen/xen_pt_graphics.c               |   2 +-
+ include/exec/cpu-all.h                 |   2 +-
+ include/exec/cpu-common.h              |  12 +--
+ include/exec/memory.h                  |  16 ++--
+ include/hw/boards.h                    |  54 +++++--------
+ include/hw/ide/internal.h              |   3 +-
+ include/hw/misc/aspeed_sdmc.h          |   1 +
+ include/hw/ppc/ppc4xx.h                |   9 +--
+ include/sysemu/hostmem.h               |  20 ++++-
+ include/sysemu/numa.h                  |   1 +
+ include/sysemu/sysemu.h                |   2 -
+ memory.c                               |  18 ++++-
+ qdev-monitor.c                         |   6 ++
+ qemu-deprecated.texi                   |   9 ---
+ qtest.c                                |  52 ++++++-------
+ scripts/coccinelle/exec_rw_const.cocci | 111 ++++++++++++++++++++++++++
+ scripts/git.orderfile                  |   3 +
+ softmmu/vl.c                           |  78 +++++++++++++++----
+ target/i386/fpu_helper.c               |   6 +-
+ target/i386/hax-all.c                  |   6 +-
+ target/i386/hvf/vmx.h                  |   7 +-
+ target/i386/hvf/x86_mmu.c              |  12 +--
+ target/i386/whpx-all.c                 |   2 +-
+ target/s390x/excp_helper.c             |   2 +-
+ target/s390x/helper.c                  |   6 +-
+ target/s390x/mmu_helper.c              |   2 +-
+ tests/qtest/numa-test.c                | 138 +++++++++++++++++----------------
+ util/oslib-posix.c                     |  32 ++++++--
+ 132 files changed, 1256 insertions(+), 1044 deletions(-)
+ create mode 100644 scripts/coccinelle/exec_rw_const.cocci
 
