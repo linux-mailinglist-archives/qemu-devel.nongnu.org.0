@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB98416E9C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:16:24 +0100 (CET)
-Received: from localhost ([::1]:58536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7606A16E9D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:18:24 +0100 (CET)
+Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6bwc-0003jp-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:16:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55230)
+	id 1j6byZ-0007ES-EM
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:18:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6btR-0006se-6R
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:13:06 -0500
+ (envelope-from <mst@redhat.com>) id 1j6btT-000700-Tc
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:13:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6btP-0000zy-VN
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:13:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44906
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1j6btS-00011F-Sc
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:13:07 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26811
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6btP-0000zc-RJ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:13:03 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6btS-00010x-Ny
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:13:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582643583;
+ s=mimecast20190719; t=1582643586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xPFSbvv+WtlOtVos+MhqgsZmGBHXKy1YKRq49wrdV60=;
- b=aF79g7JA2YCE8TALamN7bHFhQnYq3xGs0aqC/dFQ7fGl9L8YXUDR0heUqa0V9OQj4eKAci
- 0DNwKHvbr7UVkmaUYWhEv2RK5dcdO439exGV0PySuUNAnI6RsGgEu0LpXqo1wsxA+A37Ea
- Ntv8qAH3MgaqKwYprt5FHUwbDh0c53U=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-ppcYxvESN1Sz_FkfuR6jMA-1; Tue, 25 Feb 2020 10:12:59 -0500
-X-MC-Unique: ppcYxvESN1Sz_FkfuR6jMA-1
-Received: by mail-qv1-f70.google.com with SMTP id d7so13196485qvq.12
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:12:59 -0800 (PST)
+ bh=5Sbkpo7K4fbQQabaezht/7HSdtDe1em0zHLb8IleaCg=;
+ b=Px6uYsCws0IIew7ni92wcOhkvXI3tnIGryZizBZFfW/K+UP/pqukDdrNAUJnDkwkDsEFok
+ 5f2mjWZTiMsPKWU8YelZoWALpr/Va1V55VkZg7vYUhFPtRNwgPJMdAmRQdexBn55cuyNZm
+ xX81Vl/8rAzSNJgT1vVOkZCHku6KsZ8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-LwIT6Wr3M7mzf3HeAQPe6g-1; Tue, 25 Feb 2020 10:13:03 -0500
+X-MC-Unique: LwIT6Wr3M7mzf3HeAQPe6g-1
+Received: by mail-qk1-f197.google.com with SMTP id c206so15297822qkg.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:13:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=X4na6KqmQ3c2V2WTi8kzbZFz4B5BaLaZ+cwVHA5c1dA=;
- b=hg/daR0/t9IDfEo7VNmBKmcrtei3biIm8YlHhNpjnTVt3i2VMykzoHVUZxryaVJqjP
- xFtdL2cWslwAS4S9N26gpKIWFcR20GblccxXd0OQj2lFM1CTo6a6YAM6ZSB2MxXmNQ5p
- yiulXTyWvAH9Uc3gfFtNBEvNK1VTY15RE+qbaNKN9jdPbjIQighB10IIBoLusZdvQQUq
- 4iEBRHkqDXz+77DNz6qTw2aTgxf5zeOgBKLbkcSOaDT1tZ5kB67fQIE3gZ/N/sGdzZOb
- 48kcCsMpfeLALUPncyKugawM6baD1o1mvG610TSSr+j62S0d5e6H+jfZ5J3fELiOHRkc
- 4v7g==
-X-Gm-Message-State: APjAAAW2m/6pfvccmA51k+jhX5tuoGIRwFoyjan7faU0wylEGlNZZRqd
- t2CXXtpG7YXEaLJ276e8B7wNzdA1llRLLsOnGCIKxHSRjlf+g4yOx0zSYdQwEe9I7oNtsto2tuD
- Pk8eGG7S0wBoU0mg=
-X-Received: by 2002:ae9:e413:: with SMTP id q19mr10633883qkc.248.1582643578384; 
- Tue, 25 Feb 2020 07:12:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyLPuQ/KTznrk4ef3sQqRpeSTzBa2ytk7WqONMjboVHht1+25o4ikLuqoSh3FK0QrhUVaG3xg==
-X-Received: by 2002:ae9:e413:: with SMTP id q19mr10633868qkc.248.1582643578189; 
- Tue, 25 Feb 2020 07:12:58 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=HQCVFXmC4HNrtLa78+UIIIU3F1sBdIpmGro+wxgLStc=;
+ b=HEC36zAgkN8m98c2hcAQG4026gUEJ7ZtQYqFhu7/RzDFcEnp9JeOTcHi2qiLsIFJlS
+ Uwd6iVNZ0WxlcEd/qWywthVen4hzzVoXtR8RfpX6RKoK5g/OIilzmWQ5QCBzBM3u9TN3
+ nsFGsf2kX7Yal6JsIG5Rl4zOqkewyTnn/wWAHVDJMNWYXjyM1q7+xqiAxpCj0JeZLVUF
+ PzSil542Jkw7FwlcZdsBn1scHKwG1LGL75YU4lgkFPcYhxXOVYlBshhOelVN4kmZ78J4
+ huFjD2HdoBKtVXjSUA2hO2oqDKyNCwpieMBrKmmyKxMbQ2RWFv7RiJ6D6WEV4oCsJ6kS
+ 4EPw==
+X-Gm-Message-State: APjAAAULieMT1CPN7IXClmBd1qdggsRi/miyDpMO7dFreSa8KdSQDLaZ
+ B4q6C3Rz10k0QF/x8HG+A6g5lzdpFRZmIT3ozC041Fm3oCCq6RYRmpPPL6SPQg/S9wvp8qzuO/h
+ skNOK7jI9COF8gZ0=
+X-Received: by 2002:ac8:7b4c:: with SMTP id m12mr162295qtu.387.1582643582998; 
+ Tue, 25 Feb 2020 07:13:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz1YDo7kjGJFWilPV4mKlxk3PPAchZLKewsrdOkSrp1Qt5Z9/pUYoWbE3+pManT7cmZ8kYWOA==
+X-Received: by 2002:ac8:7b4c:: with SMTP id m12mr162273qtu.387.1582643582790; 
+ Tue, 25 Feb 2020 07:13:02 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- n138sm466755qkn.33.2020.02.25.07.12.55
+ w2sm7679134qto.73.2020.02.25.07.13.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 07:12:57 -0800 (PST)
-Date: Tue, 25 Feb 2020 10:12:54 -0500
+ Tue, 25 Feb 2020 07:13:02 -0800 (PST)
+Date: Tue, 25 Feb 2020 10:12:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/32] vhost-user-fs: convert to the new virtio_delete_queue
- function
-Message-ID: <20200225151210.647797-7-mst@redhat.com>
+Subject: [PULL 07/32] virtio-pmem: do delete rq_vq in virtio_pmem_unrealize
+Message-ID: <20200225151210.647797-8-mst@redhat.com>
 References: <20200225151210.647797-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200225151210.647797-1-mst@redhat.com>
@@ -74,12 +74,11 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,93 +91,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pan Nengyuan <pannengyuan@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Pan Nengyuan <pannengyuan@huawei.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-use the new virtio_delete_queue function to cleanup.
+Similar to other virtio-devices, rq_vq forgot to delete in
+virtio_pmem_unrealize, this patch fix it.  This device has already
+maintained a vq pointer, thus we use the new virtio_delete_queue
+function directly to do the cleanup.
 
+Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200225075554.10835-3-pannengyuan@huawei.com>
+Message-Id: <20200225075554.10835-4-pannengyuan@huawei.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-user-fs.h |  2 ++
- hw/virtio/vhost-user-fs.c         | 15 +++++++++------
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ hw/virtio/virtio-pmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-us=
-er-fs.h
-index 9ff1bdb7cf..6f3030d288 100644
---- a/include/hw/virtio/vhost-user-fs.h
-+++ b/include/hw/virtio/vhost-user-fs.h
-@@ -37,6 +37,8 @@ typedef struct {
-     struct vhost_virtqueue *vhost_vqs;
-     struct vhost_dev vhost_dev;
-     VhostUserState vhost_user;
-+    VirtQueue **req_vqs;
-+    VirtQueue *hiprio_vq;
+diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+index 97287e923b..43399522f5 100644
+--- a/hw/virtio/virtio-pmem.c
++++ b/hw/virtio/virtio-pmem.c
+@@ -130,6 +130,7 @@ static void virtio_pmem_unrealize(DeviceState *dev, Err=
+or **errp)
+     VirtIOPMEM *pmem =3D VIRTIO_PMEM(dev);
 =20
-     /*< public >*/
- } VHostUserFS;
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 4554d123b7..6136768875 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -209,11 +209,12 @@ static void vuf_device_realize(DeviceState *dev, Erro=
-r **errp)
-                 sizeof(struct virtio_fs_config));
-=20
-     /* Hiprio queue */
--    virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-+    fs->hiprio_vq =3D virtio_add_queue(vdev, fs->conf.queue_size, vuf_hand=
-le_output);
-=20
-     /* Request queues */
-+    fs->req_vqs =3D g_new(VirtQueue *, fs->conf.num_request_queues);
-     for (i =3D 0; i < fs->conf.num_request_queues; i++) {
--        virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-+        fs->req_vqs[i] =3D virtio_add_queue(vdev, fs->conf.queue_size, vuf=
-_handle_output);
-     }
-=20
-     /* 1 high prio queue, plus the number configured */
-@@ -230,10 +231,11 @@ static void vuf_device_realize(DeviceState *dev, Erro=
-r **errp)
-=20
- err_virtio:
-     vhost_user_cleanup(&fs->vhost_user);
--    virtio_del_queue(vdev, 0);
-+    virtio_delete_queue(fs->hiprio_vq);
-     for (i =3D 0; i < fs->conf.num_request_queues; i++) {
--        virtio_del_queue(vdev, i + 1);
-+        virtio_delete_queue(fs->req_vqs[i]);
-     }
-+    g_free(fs->req_vqs);
+     host_memory_backend_set_mapped(pmem->memdev, false);
++    virtio_delete_queue(pmem->rq_vq);
      virtio_cleanup(vdev);
-     g_free(fs->vhost_dev.vqs);
-     return;
-@@ -252,10 +254,11 @@ static void vuf_device_unrealize(DeviceState *dev, Er=
-ror **errp)
+ }
 =20
-     vhost_user_cleanup(&fs->vhost_user);
-=20
--    virtio_del_queue(vdev, 0);
-+    virtio_delete_queue(fs->hiprio_vq);
-     for (i =3D 0; i < fs->conf.num_request_queues; i++) {
--        virtio_del_queue(vdev, i + 1);
-+        virtio_delete_queue(fs->req_vqs[i]);
-     }
-+    g_free(fs->req_vqs);
-     virtio_cleanup(vdev);
-     g_free(fs->vhost_dev.vqs);
-     fs->vhost_dev.vqs =3D NULL;
 --=20
 MST
 
