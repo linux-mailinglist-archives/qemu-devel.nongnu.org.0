@@ -2,89 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2748F16BE40
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 11:06:52 +0100 (CET)
-Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E49B16BE54
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 11:10:38 +0100 (CET)
+Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6X75-0001XG-7B
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 05:06:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58898)
+	id 1j6XAj-0005ue-8h
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 05:10:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6X5f-0000Ta-7I
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:05:24 -0500
+ (envelope-from <david@redhat.com>) id 1j6X5w-0000qD-8B
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:05:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6X5d-0004zE-Rs
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:05:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40094
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j6X5v-0005BQ-80
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:05:40 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55099
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6X5d-0004yn-Oe
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:05:21 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j6X5v-0005Ax-2k
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:05:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582625121;
+ s=mimecast20190719; t=1582625138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZSIX1w871Hq6Mxq5SHmwwfbUgY7lZAD25opJKpMAAYI=;
- b=i0YVp+JzNN1I6/B7eeTGqzaQN7KLMcVZmP+4Xi/wjl6ugjNaILv/wbPGnsyXwKZuPZONKp
- 2ZR+0epOLrX9LF97096POMDy9+FEaNndn860YzfGtiJgNecpEZkkygBH9fZX7i42jqxiSk
- GJWAtiDjlzsGXk39Satv0K5WWFrmNy8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-nU12Am4SO4qbVBn9WI0etw-1; Tue, 25 Feb 2020 05:05:19 -0500
-X-MC-Unique: nU12Am4SO4qbVBn9WI0etw-1
-Received: by mail-wr1-f69.google.com with SMTP id n23so7050014wra.20
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 02:05:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JrMl88kPROecXa+gdgRUv+c9C4/VxCb33UuCKxbI6YM=;
- b=V7uAKASsNJUzstaBVTtayu8Rnpgp3kkBPZmdNk6OWQzfGLPS2ENPt3JWzfjeFIjkE9
- IbumUs4n4PYP5YHLCI59OWJpWmy1+ifmuWlg07pwDZObBod9ntrDDAB3t3hUKQbES6ic
- PDyoRyoLk5QN5c+G1X3Dc9UDKzlN449Tu58cMhZ3jjfewbSY6FFSFlBKtAkZXdq+yqb/
- foM+Jche2YsDxE8eYAfTGErooYwv+i1qwN129cy/DfD9awEW0hjmZSTYquXvFLfemNFm
- xQAvWy3IEwazNCMdxjQt/9lZpQ6DTZy5FvkMXZTd68tHWKQUGPay1LXgbrE5D1W14JEf
- On0Q==
-X-Gm-Message-State: APjAAAU8U64aMJyGlr8qX0YSF7ysltZ5lzWcV+I0f9kSGYO4ol1U/XDg
- Gqaatnvrd6qygxdNVNDbhVzaChpdGYdWyl5LdcSIsWrrIEniPxW0umm3j13uTEA0yO9AhEQDoyK
- L14+qt6xKNr6mZdk=
-X-Received: by 2002:a05:6000:1147:: with SMTP id
- d7mr10340045wrx.142.1582625118433; 
- Tue, 25 Feb 2020 02:05:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzYe3l7SDVBJkTUOCevvYRtz1XtiA/cVK6S6Kiv+mhB7y+XmhkOqVf+uCNcqetz/dosbdJByQ==
-X-Received: by 2002:a05:6000:1147:: with SMTP id
- d7mr10340005wrx.142.1582625118150; 
- Tue, 25 Feb 2020 02:05:18 -0800 (PST)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id z25sm3507524wmf.14.2020.02.25.02.05.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2020 02:05:17 -0800 (PST)
-Subject: Re: [PATCH RESEND v2 18/32] hw/i386/pc_sysfw: Simplify using
- memory_region_init_alias()
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200224205533.23798-1-philmd@redhat.com>
- <20200224205533.23798-19-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <532522f3-fc33-4405-1819-fe89c3ed088e@redhat.com>
-Date: Tue, 25 Feb 2020 11:05:15 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=B2CcX57TBFsGepX17jUCEYzU3zV9NBpQIyePX9Q7LRo=;
+ b=MSxNqMx0Nz4nBPP0AU51RlXx7k0MDIZVnj/m3/UAKMiJTsZKXRKhvEZtkE2PcK7pC8F6sG
+ 0hgwMnxTgx57tcFyBdJxYJ4RNQjP4Zw9o7YxUrUqqKno0goSJglIvpPIFkY9fljB8fAMGv
+ CCwagygJhyH2HFjyiY3NAlyP+yeGjz0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292--y_gjAHLO1SvwbnOh7fuYQ-1; Tue, 25 Feb 2020 05:05:34 -0500
+X-MC-Unique: -y_gjAHLO1SvwbnOh7fuYQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F255107BAE4;
+ Tue, 25 Feb 2020 10:05:33 +0000 (UTC)
+Received: from [10.36.117.12] (ovpn-117-12.ams2.redhat.com [10.36.117.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3EEDF5C21B;
+ Tue, 25 Feb 2020 10:05:30 +0000 (UTC)
+Subject: Re: [PATCH v4 08/16] s390x: protvirt: Move STSI data over SIDAD
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200220125638.7241-1-frankja@linux.ibm.com>
+ <20200220125638.7241-9-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <ad3542d2-4efc-599c-92d8-bf1f13389823@redhat.com>
+Date: Tue, 25 Feb 2020 11:05:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200224205533.23798-19-philmd@redhat.com>
+In-Reply-To: <20200220125638.7241-9-frankja@linux.ibm.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,126 +118,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>, Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-riscv@nongnu.org, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-s390x@nongnu.org, mihajlov@linux.ibm.com, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/20 9:55 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> The scripts/coccinelle/memory-region-housekeeping.cocci reported:
-> * TODO [[view:hw/i386/pc_sysfw.c::face=3Dovl-face1::linb=3D67::colb=3D4::=
-cole=3D26][potential use of memory_region_init_rom*() in  hw/i386/pc_sysfw.=
-c::67]]
->=20
-> pc_isa_bios_init() does a manual copy of a part of the BIOS,
-> from a read-only region. We can simplify by directly aliasing
-> the same part.
->=20
-> Before:
->=20
->    (qemu) info mtree
->    memory-region: system
->      0000000000000000-ffffffffffffffff (prio 0, i/o): system
->        0000000000000000-0000000007ffffff (prio 0, ram): alias ram-below-4=
-g @pc.ram 0000000000000000-0000000007ffffff
->        0000000000000000-ffffffffffffffff (prio -1, i/o): pci
->          00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
->          00000000000c0000-00000000000dffff (prio 1, rom): pc.rom
->          00000000000e0000-00000000000fffff (prio 1, rom): isa-bios
->        ...
->        00000000fff00000-00000000ffffffff (prio 0, romd): system.flash0
->=20
-> After:
->=20
->    (qemu) info mtree
->    memory-region: system
->      0000000000000000-ffffffffffffffff (prio 0, i/o): system
->        0000000000000000-0000000007ffffff (prio 0, ram): alias ram-below-4=
-g @pc.ram 0000000000000000-0000000007ffffff
->        0000000000000000-ffffffffffffffff (prio -1, i/o): pci
->          00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
->          00000000000c0000-00000000000dffff (prio 1, rom): pc.rom
->          00000000000e0000-00000000000fffff (prio 1, romd): alias isa-bios=
- @system.flash0 00000000000e0000-00000000000fffff
->        ...
->        00000000fff00000-00000000ffffffff (prio 0, romd): system.flash0
-
-IIUC migrating old -> new is OK, the previous ROM copy is discarded.
-
-What about new -> old, does it require specific handling? Do we care?
-
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 20.02.20 13:56, Janosch Frank wrote:
+> For protected guests, we need to put the STSI emulation results into
+> the SIDA, so SIE will write them into the guest at the next entry.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->   hw/i386/pc_sysfw.c | 24 ++++++------------------
->   1 file changed, 6 insertions(+), 18 deletions(-)
->=20
-> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-> index f5f3f466b0..e864c09ea8 100644
-> --- a/hw/i386/pc_sysfw.c
-> +++ b/hw/i386/pc_sysfw.c
-> @@ -54,31 +54,19 @@ static void pc_isa_bios_init(MemoryRegion *rom_memory=
-,
->                                MemoryRegion *flash_mem,
->                                int ram_size)
->   {
-> -    int isa_bios_size;
-> -    MemoryRegion *isa_bios;
-> -    uint64_t flash_size;
-> -    void *flash_ptr, *isa_bios_ptr;
-> -
-> -    flash_size =3D memory_region_size(flash_mem);
-> +    uint64_t isa_bios_size;
-> +    MemoryRegion *isa_bios =3D g_new(MemoryRegion, 1);
-> +    uint64_t flash_size =3D memory_region_size(flash_mem);
->  =20
->       /* map the last 128KB of the BIOS in ISA space */
->       isa_bios_size =3D MIN(flash_size, 128 * KiB);
-> -    isa_bios =3D g_malloc(sizeof(*isa_bios));
-> -    memory_region_init_ram(isa_bios, NULL, "isa-bios", isa_bios_size,
-> -                           &error_fatal);
-> +    memory_region_init_alias(isa_bios, NULL, "isa-bios", flash_mem,
-> +                             flash_size - isa_bios_size,
-> +                             isa_bios_size);
->       memory_region_add_subregion_overlap(rom_memory,
->                                           0x100000 - isa_bios_size,
->                                           isa_bios,
->                                           1);
-> -
-> -    /* copy ISA rom image from top of flash memory */
-> -    flash_ptr =3D memory_region_get_ram_ptr(flash_mem);
-> -    isa_bios_ptr =3D memory_region_get_ram_ptr(isa_bios);
-> -    memcpy(isa_bios_ptr,
-> -           ((uint8_t*)flash_ptr) + (flash_size - isa_bios_size),
-> -           isa_bios_size);
-> -
-> -    memory_region_set_readonly(isa_bios, true);
->   }
->  =20
->   static PFlashCFI01 *pc_pflash_create(PCMachineState *pcms,
->=20
+>  target/s390x/kvm.c | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index f222836df5..3a5a5146e3 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -1795,11 +1795,16 @@ static int handle_tsch(S390CPU *cpu)
+>  
+>  static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>  {
+> +    CPUS390XState *env = &cpu->env;
+>      SysIB_322 sysib;
+>      int del;
+>  
+> -    if (s390_cpu_virt_mem_read(cpu, addr, ar, &sysib, sizeof(sysib))) {
+> -        return;
+> +    if (env->pv) {
+> +        s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
+> +    } else {
+> +        if (s390_cpu_virt_mem_read(cpu, addr, ar, &sysib, sizeof(sysib))) {
+> +            return;
+> +        }
+>      }
+>      /* Shift the stack of Extended Names to prepare for our own data */
+>      memmove(&sysib.ext_names[1], &sysib.ext_names[0],
+> @@ -1838,7 +1843,11 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>      /* Insert UUID */
+>      memcpy(sysib.vm[0].uuid, &qemu_uuid, sizeof(sysib.vm[0].uuid));
+>  
+> -    s390_cpu_virt_mem_write(cpu, addr, ar, &sysib, sizeof(sysib));
+> +    if (env->pv) {
+> +        s390_cpu_pv_mem_write(cpu, 0, &sysib, sizeof(sysib));
+> +    } else {
+> +        s390_cpu_virt_mem_write(cpu, addr, ar, &sysib, sizeof(sysib));
+> +    }
+>  }
+>  
+>  static int handle_stsi(S390CPU *cpu)
+> 
+
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
