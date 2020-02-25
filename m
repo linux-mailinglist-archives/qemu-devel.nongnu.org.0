@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B193816EA08
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:26:56 +0100 (CET)
-Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E636316E9F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:25:02 +0100 (CET)
+Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6c6p-0006aZ-OV
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:26:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
+	id 1j6c4z-0002ic-T3
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:25:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6bvP-0002c1-EK
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:09 -0500
+ (envelope-from <mst@redhat.com>) id 1j6bvU-0002ki-PF
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6bvO-00020E-7e
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:07 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44416
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1j6bvT-00024e-Pz
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55477
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6bvN-0001zd-RM
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:06 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6bvT-00023r-Kd
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582643705;
+ s=mimecast20190719; t=1582643710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G6c8L9eQw051eaC/4+i0vqRJfgJb3JB+2EyTASZyViM=;
- b=fb5SHJlvHg0pukXcjT5TFqeUs0Ep3aIoxunoaPisPyTgmz5ZHGDk9kvuiENsz9GSvcvB0Z
- ciKEmhDci0hXmT5KwBfOxVimnxq2zkFq4Rayh8UeFsUJA5B0mxPqqKQlMfiqbTY4Aoz5VC
- dU5KDVkPTmYN3clhI412QXkeJMPyec8=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-MJjGBozAOOWPI5MV2Fu4PA-1; Tue, 25 Feb 2020 10:15:03 -0500
-X-MC-Unique: MJjGBozAOOWPI5MV2Fu4PA-1
-Received: by mail-qv1-f72.google.com with SMTP id dr18so13232069qvb.14
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:15:02 -0800 (PST)
+ bh=e+2ubfbEqLiNZyFIpP2Z+jeoSNKaTGCUsXcUvlVb6BQ=;
+ b=SmcH+XmX0bD+93Ggke+LY4VNhmKb2kTI3v1dp/dYrwxdmaa/G5NWk5gP/s/hpLnVO1XapG
+ qkMRFe0BJtFBDgbZcmr7cnAfy6W1Fp5Imx0tRrz2o+Lhc7BnqZiBtPaDYqJ1Enz7u4uRie
+ EiV+KnSrVPNj5SQvDceVzb19o5ZT66Q=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-qNi1Kg1xP-uYtFn2iMONMg-1; Tue, 25 Feb 2020 10:15:08 -0500
+X-MC-Unique: qNi1Kg1xP-uYtFn2iMONMg-1
+Received: by mail-qt1-f200.google.com with SMTP id j5so4857813qtp.19
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:15:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=mLvYfpxhMKRcFnvE2egjwCdKSrBCyKI8mHWugLjsqSQ=;
- b=tgqHwjvNkuZA/FtgFbkwWkJ5nTedmz58bbZXbnQ47SuB0A/TTzAodfM5YP0iffUDo1
- 75ajo7PWjrWxO05W4njJowG5OcEeJ0COdh4ElPud6L/TeiZ67mWN+7+vipX/oHqJ92Iq
- eNmuUnyK/0nRt5B4lHX4+kFxorrFahqHVXnbXqeoxvTaZEnbLpD9qCr9kxwx1x7zQhnw
- rz3DqSpCV0WY94whViWCeXBMYOSRK11SZEk+LsVMmkIUAqld1CIX2z8hWkKIAwePso1z
- QJq1zPXURRFcmkVjCVfPuKVN0HY7lK0ndXflmdnzCnI+yRXCqkJSOOdXnIOkHtbg5tRH
- j1jA==
-X-Gm-Message-State: APjAAAUPCB163SUYUDuSJdGzvrfXeghdgEnJRWglwriiSSicK/iwJ8EH
- Fp1QA1ia/I3BZpmCZ2vhfz+2cOzQ9qh8CnHtp6mc+s7gL9Ik831VA43W9pE5l7wRytgQiK0/b6S
- G8z10161TT0umLmE=
-X-Received: by 2002:a37:a84f:: with SMTP id r76mr9094502qke.101.1582643701996; 
- Tue, 25 Feb 2020 07:15:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzcM8OayS2VzLI0ns83pmppUBHCT9tR2BS8cVl7IPH7aOIZ8CLhUU8BIA2tx5p2TC6SDckCxw==
-X-Received: by 2002:a37:a84f:: with SMTP id r76mr9094469qke.101.1582643701737; 
- Tue, 25 Feb 2020 07:15:01 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=c2crKeR2n2YvQ5rYnZd1NJPOMK8zXZOtMWZi9s0fZkM=;
+ b=ITwrnfjXSD9CgG8dixm1sE50ipHcP4If2m20QBvbHfu7DZvyAC14/zW+iomRpUI/9l
+ rlBO6hgihdcdlZXlzeujWUhw3vpHGjBVWMEtqm4RZg4XTDqYx3FqSMEtB0ztn/1kJx5N
+ PHunoGwYsqiicMShZ745MDjpBA0qjS1wvfAofyNdgWUXYKebel3HAV70S59sjWO9HWXg
+ DhGK1gl3JASTrs2tL9CvKY/HaM7vTTVKZBlEx6q2gvXW9a2VT8NlUheaq5uZCJice1ZZ
+ VPL+zcCu0hvsmUgP2JU/UQJLacEjBrsNKbAt30/UKEz8P2Ib1Zh4Kp0qXCTdx4QxIJIS
+ RCRw==
+X-Gm-Message-State: APjAAAWPrVJu/KOOxPRhieZf5+mo3yD5nww5GasTF4bOad4mjj3hKqwv
+ TAqvZaeBRbZGLSFeSZWd6uHLmFwi0ERGmlreu0jjOsjoXIH/LkiaX/0CEIzWlzQAHotuv1QMk0/
+ EmS4ZI16cmEnPn54=
+X-Received: by 2002:ac8:1a8c:: with SMTP id x12mr56686242qtj.297.1582643707887; 
+ Tue, 25 Feb 2020 07:15:07 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx7LbWoyyK9MoLk8toBltaGld046Gy5z24rpUEqBNjgJR5n4NzAfYJ6FqJ/fdrwFIgWokXShA==
+X-Received: by 2002:ac8:1a8c:: with SMTP id x12mr56686183qtj.297.1582643707487; 
+ Tue, 25 Feb 2020 07:15:07 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- b7sm7668455qtj.78.2020.02.25.07.14.58
+ j127sm7471687qkc.36.2020.02.25.07.15.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 07:15:00 -0800 (PST)
-Date: Tue, 25 Feb 2020 10:14:56 -0500
+ Tue, 25 Feb 2020 07:15:06 -0800 (PST)
+Date: Tue, 25 Feb 2020 10:15:02 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/32] tests/vhost-user-bridge: move to contrib/
-Message-ID: <20200225151210.647797-31-mst@redhat.com>
+Subject: [PULL 31/32] virtiofsd: add it to the tools list
+Message-ID: <20200225151210.647797-32-mst@redhat.com>
 References: <20200225151210.647797-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200225151210.647797-1-mst@redhat.com>
@@ -74,11 +73,12 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,130 +92,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-vhost-user-bridge is not a test. Move it to contrib/ and
-add it to the tools list.
+it will be built only when tools are enabled (always enabled by default)
 
-It will be built only if tools (--enable-tools) and
-vhost-user (--enable-vhost-user) are enabled (both are set
-by default).
-
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200207095412.794912-1-lvivier@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20200207095412.794912-2-lvivier@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- configure                                                     | 3 +++
- Makefile                                                      | 3 +++
- tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c | 0
- Makefile.objs                                                 | 1 +
- contrib/vhost-user-bridge/Makefile.objs                       | 1 +
- docs/devel/migration.rst                                      | 2 +-
- tests/Makefile.include                                        | 1 -
- 7 files changed, 9 insertions(+), 2 deletions(-)
- rename tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c (10=
-0%)
- create mode 100644 contrib/vhost-user-bridge/Makefile.objs
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 48d6f89d57..de2b82b93c 100755
---- a/configure
-+++ b/configure
-@@ -6288,6 +6288,9 @@ if test "$want_tools" =3D "yes" ; then
-   if [ "$curl" =3D "yes" ]; then
-       tools=3D"elf2dmp\$(EXESUF) $tools"
-   fi
-+  if [ "$vhost_user" =3D "yes" ]; then
-+      tools=3D"vhost-user-bridge\$(EXESUF) $tools"
-+  fi
- fi
- if test "$softmmu" =3D yes ; then
-   if test "$linux" =3D yes; then
 diff --git a/Makefile b/Makefile
-index aa9cc0b584..218b8259a4 100644
+index 218b8259a4..ba8ffc9331 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -445,6 +445,7 @@ dummy :=3D $(call unnest-vars,, \
-                 libvhost-user-obj-y \
-                 vhost-user-scsi-obj-y \
-                 vhost-user-blk-obj-y \
-+                vhost-user-bridge-obj-y \
-                 vhost-user-input-obj-y \
-                 vhost-user-gpu-obj-y \
-                 qga-vss-dll-obj-y \
-@@ -688,6 +689,8 @@ vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libv=
-host-user.a
+@@ -327,7 +327,7 @@ HELPERS-y +=3D vhost-user-gpu$(EXESUF)
+ vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
+ endif
+=20
+-ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
++ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG)$(CONFIG_TOOLS),y=
+yyy)
+ HELPERS-y +=3D virtiofsd$(EXESUF)
+ vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
+ endif
+@@ -697,7 +697,7 @@ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADD=
+S)
  =09$(call LINK, $^)
- vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a
+=20
+ # relies on Linux-specific syscalls
+-ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
++ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG)$(CONFIG_TOOLS),y=
+yyy)
+ virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
  =09$(call LINK, $^)
-+vhost-user-bridge$(EXESUF): $(vhost-user-bridge-obj-y) libvhost-user.a
-+=09$(call LINK, $^)
-=20
- rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
- rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
-diff --git a/tests/vhost-user-bridge.c b/contrib/vhost-user-bridge/main.c
-similarity index 100%
-rename from tests/vhost-user-bridge.c
-rename to contrib/vhost-user-bridge/main.c
-diff --git a/Makefile.objs b/Makefile.objs
-index 8a1cbe8000..c282ff77dd 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -107,6 +107,7 @@ vhost-user-scsi.o-cflags :=3D $(LIBISCSI_CFLAGS)
- vhost-user-scsi.o-libs :=3D $(LIBISCSI_LIBS)
- vhost-user-scsi-obj-y =3D contrib/vhost-user-scsi/
- vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
-+vhost-user-bridge-obj-y =3D contrib/vhost-user-bridge/
- rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
- vhost-user-input-obj-y =3D contrib/vhost-user-input/
- vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
-diff --git a/contrib/vhost-user-bridge/Makefile.objs b/contrib/vhost-user-b=
-ridge/Makefile.objs
-new file mode 100644
-index 0000000000..36a8d9b49a
---- /dev/null
-+++ b/contrib/vhost-user-bridge/Makefile.objs
-@@ -0,0 +1 @@
-+vhost-user-bridge-obj-y =3D main.o
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index e88918f763..d00424460e 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -807,7 +807,7 @@ The Linux kernel userfault support works on `/dev/shm` =
-memory and on `hugetlbfs`
- for hugetlbfs which may be a problem in some configurations).
-=20
- The vhost-user code in QEMU supports clients that have Postcopy support,
--and the `vhost-user-bridge` (in `tests/`) and the DPDK package have change=
-s
-+and the `vhost-user-bridge` (in `contrib/`) and the DPDK package have chan=
-ges
- to support postcopy.
-=20
- The client needs to open a userfaultfd and register the areas
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index edcbd475aa..2dc95c52c8 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -588,7 +588,6 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
-=20
- tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
- tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
--tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
-j-y) libvhost-user.a
-=20
- SPEED =3D quick
-=20
+ endif
 --=20
 MST
 
