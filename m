@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A8B16C0AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:22:35 +0100 (CET)
-Received: from localhost ([::1]:54005 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0B816C0AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:20:54 +0100 (CET)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZEQ-0004SM-LR
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:22:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
+	id 1j6ZCn-0000uk-HD
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:20:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001IF-7w
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl3-0001G1-GA
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Ht-FS
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52809)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Fn-8T
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34094)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykz-00084k-0r
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:09 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p9so2680924wmc.2
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:02 -0800 (PST)
+ id 1j6Ykx-00085Q-DD
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:08 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id i10so939791wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xma2+4S55weDzTQ3z96ys9FOf+xrE/zxwn4CakN0mJc=;
- b=Z9rBDafhvdkikLz4WB6k2S1Kj/NoH0LGnbmP83jje5TTFaP3BOrKvQbZCKfJcrw0G0
- K4E8LhrvrWJIAIzNBKHvNoA8TaIVVz+lwFsThhKFqpC4/vbND8Nso2qUYepO+qPWdd3Q
- 99FariPwdkzjOomvIKTw5snEukoPPxGQSann/2l5MuONva3hG6X3W7MCzPNISKkk0BlR
- HF8A06as7QbET8JqlD/95g6Bb4jKrQugJdDgjeo1QsLBasvCNKtGqc0erZxi55gWUHrI
- Lqn2bUIYO0LUF+dd0csR/yOSh3+3ESKuN4uFVwMtNhnRBXi/U2teXd22rF1xEwqyyi9z
- cKVw==
+ bh=mokEQf2xIZXyVf7hgVorPbcUdN09SIKwvfoY1oWCtGE=;
+ b=ijvVQeiV5eZM+Ragq6cDOHnMH5NGBxCvKdsg6NrQFxXKLrrTugEGrh8eNX1v7yoicW
+ NFdcTpieXP1P+UdAdaY9A0bdLkq6TJse+qZLO4JXQMlsGvmrqC/9TKt9JKrfwA9WVf0D
+ Yi8HOQlZFoAIxKnybrawhcTIQP96O+Kb81YYwYsG8COsBFpRb/2/x08+S+KWTjVnAlhQ
+ C2g+YXziVXhWtM0PshtKajxSmA9h9U4V+kmPDnWBUUG3Z1h25siQg00WLkpbAO7YklQc
+ 2uGy5Pmm4+GViw/W8SOIJwmg5IgyODVhJtXgfMYZwSb2DaGyB60S9nits/QPuY2HFPir
+ eujA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xma2+4S55weDzTQ3z96ys9FOf+xrE/zxwn4CakN0mJc=;
- b=poBWW2q9DYpk3DG7Z+i+XO15KvKy2kB1mdhRtd5TDohiptEtH3qdIYFinkjmJq0QD5
- 3MqFC4oeJXiz00i5AbaH89reaCYGgY1jRD6x44piDgyax8CoKPX2z9lPJjwG9W+v3RJt
- XVUzhlNcZ8Q/B/yMUgaz2b4LyQ55AtdQMoH1Kv1gSDmY5CJGmL59grWCITUnBKk4i+k2
- ntoNXtGbHnsiLV8QDO+B8ixAZRBICQS94eOBJVZwEMIJcxyW1Qc5/wBQwDkBZZth4wCw
- nrJzbj33q51GBlRSXJtg4+/WjQ7JR+bYb4uYqbP/e8ac16hvsVLitibXaSya3Wj3UtBz
- SeTw==
-X-Gm-Message-State: APjAAAUKZ65fCNvuCV7FK4JNHbHn2dPc2n0zUb+tzJXIxcmRW+Ocmbwf
- FNMqDwyrZ5Cq2lNcben7bPDn4h5w
-X-Google-Smtp-Source: APXvYqy+qqiwR4wh2iLICQ4MnFC6dygqgRBRnChaOcTsIUh9sCrrL8w24BpeiuYNbXLswmqrS0qP6w==
-X-Received: by 2002:a1c:9ed7:: with SMTP id h206mr4882964wme.67.1582631521240; 
- Tue, 25 Feb 2020 03:52:01 -0800 (PST)
+ bh=mokEQf2xIZXyVf7hgVorPbcUdN09SIKwvfoY1oWCtGE=;
+ b=PBxgFTsD8Rw7tVLBF4YECKVw/3GraGOEG0sl8QndUy042GdYtF6gxpxGpI3gPLWVjK
+ OvhnOBkZIiMjgKoNR8bzsnM5Ke1ikLvkShK9EQnEuCHa/lJHmCbwmoM8cduAgIy5XzNd
+ EkQdRX0FlMzG4KnzZkJxlUhap2HG797P8fxhWggAGokO3yfR7jp1RB20MU3GtYgBCuq4
+ AGc12I6veeyk+XlptTI4+creZWO3etuKD8yM+w2V1axWx/FzWrT4iiBwHRm5qPAt5NYB
+ ow0hRanoJh2CjDZEMAFztWJRr96Oj0HvHaDSa6vGrCtovozUA5oAMPL395MvIBNUKbgo
+ ygAQ==
+X-Gm-Message-State: APjAAAXmKvmLi+uYyVNrYNsngVMinx0w76H4j1vAHLCNeopWGPs19NUD
+ daoiqC+RqV2pKwsskhHG7F4c0VOQ
+X-Google-Smtp-Source: APXvYqwGUhCq7peHmsXHhjixMGoXOFOxpidRSqziplRNM0Dukn5PlZQRK6v+Sn/QdaIobZJXe0Lgxg==
+X-Received: by 2002:a7b:c088:: with SMTP id r8mr4990037wmh.18.1582631522074;
+ Tue, 25 Feb 2020 03:52:02 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.00
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:00 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:01 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 060/136] ppc/mac_newworld: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:50 +0100
-Message-Id: <1582631466-13880-60-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 061/136] ppc/mac_oldworld: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:51 +0100
+Message-Id: <1582631466-13880-61-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,42 +97,42 @@ Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-61-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-62-imammedo@redhat.com>
 ---
- hw/ppc/mac_newworld.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/ppc/mac_oldworld.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 464d012..b8189bf 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -118,7 +118,7 @@ static void ppc_core99_init(MachineState *machine)
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 7318d7e..66e434b 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -91,7 +91,6 @@ static void ppc_heathrow_init(MachineState *machine)
+     CPUPPCState *env = NULL;
      char *filename;
-     IrqLines *openpic_irqs;
-     int linux_boot, i, j, k;
--    MemoryRegion *ram = g_new(MemoryRegion, 1), *bios = g_new(MemoryRegion, 1);
-+    MemoryRegion *bios = g_new(MemoryRegion, 1);
-     hwaddr kernel_base, initrd_base, cmdline_base = 0;
-     long kernel_size, initrd_size;
-     UNINHostState *uninorth_pci;
-@@ -152,8 +152,7 @@ static void ppc_core99_init(MachineState *machine)
+     int linux_boot, i;
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     uint32_t kernel_base, initrd_base, cmdline_base = 0;
+     int32_t kernel_size, initrd_size;
+@@ -127,9 +126,7 @@ static void ppc_heathrow_init(MachineState *machine)
+         exit(1);
      }
  
-     /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "ppc_core99.ram", ram_size);
--    memory_region_add_subregion(get_system_memory(), 0, ram);
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+-    memory_region_allocate_system_memory(ram, NULL, "ppc_heathrow.ram",
+-                                         ram_size);
+-    memory_region_add_subregion(sysmem, 0, ram);
++    memory_region_add_subregion(sysmem, 0, machine->ram);
  
      /* allocate and load BIOS */
-     memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-@@ -586,6 +585,7 @@ static void core99_machine_class_init(ObjectClass *oc, void *data)
- #else
-     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
- #endif
-+    mc->default_ram_id = "ppc_core99.ram";
+     memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
+@@ -446,6 +443,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("750_v3.1");
+     mc->default_display = "std";
      mc->ignore_boot_device_suffixes = true;
-     fwc->get_dev_path = core99_fw_dev_path;
++    mc->default_ram_id = "ppc_heathrow.ram";
+     fwc->get_dev_path = heathrow_fw_dev_path;
  }
+ 
 -- 
 1.8.3.1
 
