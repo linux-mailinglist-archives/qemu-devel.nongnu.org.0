@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B38916C1A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:06:30 +0100 (CET)
-Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E15C16C1B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:08:13 +0100 (CET)
+Received: from localhost ([::1]:55248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Zuv-0001lM-AW
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:06:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55978)
+	id 1j6Zwa-0004eK-DU
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:08:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZKm-0001KE-00
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:29:09 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1j6ZUh-0004v6-MA
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:39:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZKk-0008Ba-PQ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:29:07 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42784)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZKk-0008B0-HZ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:29:06 -0500
-Received: by mail-wr1-x442.google.com with SMTP id p18so10865707wre.9
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=5WxDWJthdvA1X7L0L1YFPMv5HWuuoeCHVHj6QeQTNh4=;
- b=EFJ2KeEbPMk5V6nPRoEUcBEyxv/FmM823G/vM6Sg8l/3GoGMz6w8KdR1VGak9uuMtL
- NtF8xeSMwg7zb+oiv7LwGJTwoo6oMwZP99EJd0HT9/NOthg6sSZZhmoA5+qnxEQtfird
- o0aefk/G7oYCLoA0Uimq9lvCC+eW1ebm0bMxGl5/hixc3/LbWwKXWboptTKpwP1XfIeS
- bLhojPsmvQsUHd8xp3lAiaIwwxh/TaHlAtea+8CN1ntYU6Ksw4a0gHCP96v5kgb7WRwI
- W2ki9VfuJvioKq01fNqzpyTrQC1JbYAfdOaGZjTWWkRr2U97PdTz8hrk/kNdTE/MPvLV
- 45lw==
+ (envelope-from <pbonzini@redhat.com>) id 1j6ZUg-00046Q-DV
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:39:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30210
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j6ZUg-00045z-9r
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:39:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582634361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=prlOgWgQ9Ik+E3eF9Wnb1i83rqLIAzGc5kS9vOvkF4o=;
+ b=LaclFHkbyTVvUaX1oKImu1lcEsuV9onscLy4+fQP934U5eKkfT4vyxcCoVVoxxVqNoPwJc
+ 50mhbMCSz32nlpkwLqXwutRwM0qbjfwf23XW0PJAo+ahLyOqudah6sMp4Add+Wd5mMiJoP
+ WNypK9+8s7LAkQA8iwFJzuOX+1gNWxg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-Dk8ekPLXODuX4FaDc2a1-A-1; Tue, 25 Feb 2020 07:39:19 -0500
+X-MC-Unique: Dk8ekPLXODuX4FaDc2a1-A-1
+Received: by mail-wm1-f72.google.com with SMTP id 7so974004wmf.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:39:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=5WxDWJthdvA1X7L0L1YFPMv5HWuuoeCHVHj6QeQTNh4=;
- b=TFtqLc+wAXt2EqFLk26i+phwcQXavdn0VdX6AsmGXXZzYlT2nLJ6Kn/WmvgTDGLslF
- OUqdNrOOlvPSUapGVtTYXglNnRCebUx9VG8SHur9WLhVmGrdwsPLwwiKcXpWckrRAAeb
- sIytC4FbdIyXQvx8WazEdR5jZxrMLG1YQ6Yubecc0wDHLxtTAAVASxkbfK1y9IiYMGgQ
- su3pUlkrb4Zy6nclI+v3V2y0RneoHSWiwsxj2fYGmrZkx3os6ilZb7w7wYnxpqMKnLfF
- 2D0SLI5bRx8TwPm273k/NfCxh1sGdFAWmo+I7SecIJ7yJuh/3DPOg/5T5bWdnQhV+Kq5
- nDWw==
-X-Gm-Message-State: APjAAAWFCo0BqW8j5pK0fbSjJkqYxxXSWZM+IqoesS7SHuSPfgCoU0tj
- 60WHD4ebtKwhciJ+6zGZ8Pfn+w==
-X-Google-Smtp-Source: APXvYqxzG8GUuGzlTcSyVRVp4TP1D2M2bAYtEkIc753RFtPsADGAW0naTedCPF75CMy7OhnuoHP76g==
-X-Received: by 2002:adf:8b59:: with SMTP id v25mr76054513wra.419.1582633744786; 
- Tue, 25 Feb 2020 04:29:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y185sm4147347wmg.2.2020.02.25.04.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:29:03 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C56E81FF87;
- Tue, 25 Feb 2020 12:29:02 +0000 (GMT)
-References: <20200218142018.7224-1-philmd@redhat.com>
- <20200218142018.7224-4-philmd@redhat.com>
-User-agent: mu4e 1.3.8; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH RESEND 3/3] .travis.yml: Test building with Xcode 11.3
-In-reply-to: <20200218142018.7224-4-philmd@redhat.com>
-Date: Tue, 25 Feb 2020 12:29:02 +0000
-Message-ID: <874kvezw8h.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kztbPaVB/2XMFABxpPNGrrCj9r6pdnumsQimldYZmLg=;
+ b=SgWGmV6nOFgMfEgEfwiE1jYF/72CHnrxhBy3pN+vrbAGrGWQlv8PCn/eGxSTpxGMa3
+ EZBxSOzTZHjkXPV9qKRs4YV8eXcMEipsYiwHGDNIUe77RxDM7pyuYMdEGB9liGyx8vzy
+ wJh8W48t1oETALdxhDqmLuji+Kvg7S3KLZsmc1Vbubg+u6tzoMlbu4DEhJzBiytbLFF8
+ nJuKp+y9jzTj9aVk/itTPh38x/WNsdbeZl24VmGooQk7tLetgFqU17g+JnhrMiFGbxv4
+ z/MB5DBQldnytT1cvErpt0kyd0PVjj1vCconrfluIJJ1QKZzBcxXUX4jVE+WYX5AdAJ2
+ amqg==
+X-Gm-Message-State: APjAAAV5JtWvNByo8JFkWnpdeJkTsHBKZYgSiPL9jZsVF8e7JxooplM+
+ /ztcqOnnhpOOfMVWvuK8dHFvbkh1VOxDKP4euBU/mIqA94QymExHDicX03iFwVzRpLNjEHAqyom
+ 2WBsa6XbdenyHYWY=
+X-Received: by 2002:a1c:541b:: with SMTP id i27mr5524326wmb.137.1582634358169; 
+ Tue, 25 Feb 2020 04:39:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwMxOydfsyqbVFz+9ojWD99h41Ff9l0Bl/3ROeYCCGkjzMVH3uMtzNaJvjeoky0SS3gZviSrg==
+X-Received: by 2002:a1c:541b:: with SMTP id i27mr5524296wmb.137.1582634357874; 
+ Tue, 25 Feb 2020 04:39:17 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:3577:1cfe:d98a:5fb6?
+ ([2001:b07:6468:f312:3577:1cfe:d98a:5fb6])
+ by smtp.gmail.com with ESMTPSA id w8sm3982443wmm.0.2020.02.25.04.39.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2020 04:39:17 -0800 (PST)
+Subject: Re: [PATCH RESEND v2 18/32] hw/i386/pc_sysfw: Simplify using
+ memory_region_init_alias()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200224205533.23798-1-philmd@redhat.com>
+ <20200224205533.23798-19-philmd@redhat.com>
+ <532522f3-fc33-4405-1819-fe89c3ed088e@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <683355b0-cf04-d57a-92aa-500dbf1b94a8@redhat.com>
+Date: Tue, 25 Feb 2020 13:39:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <532522f3-fc33-4405-1819-fe89c3ed088e@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,63 +96,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-block@nongnu.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair@alistair23.me>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-riscv@nongnu.org, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 25/02/20 11:05, Philippe Mathieu-Daud=C3=A9 wrote:
+>>
+>> pc_isa_bios_init() does a manual copy of a part of the BIOS,
+>> from a read-only region. We can simplify by directly aliasing
+>> the same part.
+>>
+>> Before:
+>>
+>> =C2=A0=C2=A0 (qemu) info mtree
+>> =C2=A0=C2=A0 memory-region: system
+>> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (prio 0, i/o)=
+: system
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (=
+prio 0, ram): alias
+>> ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (=
+prio -1, i/o): pci
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000a0000-000000=
+00000bffff (prio 1, i/o): vga-lowmem
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000c0000-000000=
+00000dffff (prio 1, rom): pc.rom
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000e0000-000000=
+00000fffff (prio 1, rom): isa-bios
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000fff00000-00000000ffffffff (=
+prio 0, romd): system.flash0
+>>
+>> After:
+>>
+>> =C2=A0=C2=A0 (qemu) info mtree
+>> =C2=A0=C2=A0 memory-region: system
+>> =C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (prio 0, i/o)=
+: system
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-0000000007ffffff (=
+prio 0, ram): alias
+>> ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000000-ffffffffffffffff (=
+prio -1, i/o): pci
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000a0000-000000=
+00000bffff (prio 1, i/o): vga-lowmem
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000c0000-000000=
+00000dffff (prio 1, rom): pc.rom
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000000e0000-000000=
+00000fffff (prio 1, romd): alias
+>> isa-bios @system.flash0 00000000000e0000-00000000000fffff
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 00000000fff00000-00000000ffffffff (=
+prio 0, romd): system.flash0
+>=20
+> IIUC migrating old -> new is OK, the previous ROM copy is discarded.
+>=20
+> What about new -> old, does it require specific handling? Do we care?
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Old->new is broken because the "isa-bios" memory region is not found.
 
-> We currently run a CI job on macOS Mojave with Xcode 10.
->
-> QEMU policy is to support the two last major OS releases.
-> Add a job building on macOS Catalina, which comes with Xcode 11.
->
-> Split the target list in two, as we don't need to cover twice the
-> same targets.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .travis.yml | 36 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index a2a7fd0dd1..d02a477623 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -269,9 +269,10 @@ matrix:
->=20=20
->      # MacOSX builds - cirrus.yml also tests some MacOS builds including =
-latest Xcode
->=20=20
-> +    # On macOS Mojave, the SDK comes bundled with Xcode 10.
->      - name: "OSX Xcode 10.3"
->        env:
-> -        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softm=
-mu,m68k-softmmu,x86_64-softmmu --extra-cflags=3D-I/usr/local/opt/ncurses/in=
-clude --extra-ldflags=3D-L/usr/local/opt/ncurses/lib"
-> +        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softm=
-mu,m68k-softmmu --extra-cflags=3D-I/usr/local/opt/ncurses/include --extra-l=
-dflags=3D-L/usr/local/opt/ncurses/lib"
->        os: osx
->        osx_image: xcode10.3
->        compiler: clang
-> @@ -301,6 +302,39 @@ matrix:
->          - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.=
-log && exit 1; }
->=20=20
->=20=20
-> +    # On macOS Catalina, the SDK comes bundled with Xcode 11.
-> +    - name: "OSX Xcode 11.3"
-> +      env:
-> +        - CONFIG=3D"--target-list=3Darm-softmmu,ppc64-softmmu,x86_64-sof=
-tmmu --extra-cflags=3D-I/usr/local/opt/ncurses/include --extra-ldflags=3D-L=
-/usr/local/opt/ncurses/lib"
-> +      os: osx
-> +      osx_image: xcode11.3
+qemu-system-x86_64: Unknown ramblock "isa-bios", cannot accept migration
+qemu-system-x86_64: error while loading state for instance 0x0 of device 'r=
+am'
+qemu-system-x86_64: load of migration failed: Invalid argument
 
-Are we duplicating what the latest Xcode on Cirrus is here?
+Paolo
 
---=20
-Alex Benn=C3=A9e
 
