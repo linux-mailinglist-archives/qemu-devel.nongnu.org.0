@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522DF16EA18
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:29:55 +0100 (CET)
-Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B90816E9E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:21:03 +0100 (CET)
+Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6c9i-0002ld-Cd
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56085)
+	id 1j6c18-0002zV-4A
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:21:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6bvG-0002R8-GY
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:59 -0500
+ (envelope-from <mst@redhat.com>) id 1j6bvO-0002ae-8i
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6bvE-0001qY-Kz
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46770
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1j6bvN-0001zN-9d
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:06 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29926
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6bvE-0001pg-Gz
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:56 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6bvN-0001ys-58
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:15:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582643695;
+ s=mimecast20190719; t=1582643704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CczPzEBWhhpjWKucs1+Hoc+p5ZrBciU/h88CuRi6XY8=;
- b=Mv4e5VwrLwN4U1vK4DmfhLhit6xungcAFFdNTWQKS82NtafmEFoxXnrgaMUz5C/y8gJmh0
- Qwgh7cgksyYTZWdiKu0ni4m0bxco8TZxgMMseA+8N+yFOPUgdFDwzM+BPF97nMS32uRJRy
- C7Yr1QIJUDfzU5LTnvsr/AT0WoobLsw=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-RaFU9gQdPBi9U8SyW6i-MQ-1; Tue, 25 Feb 2020 10:14:52 -0500
-X-MC-Unique: RaFU9gQdPBi9U8SyW6i-MQ-1
-Received: by mail-qt1-f198.google.com with SMTP id z25so15190798qto.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:14:52 -0800 (PST)
+ bh=FMRhQ/mUb+ufDOWEKs47dVntkMzI4SGR916thXkoGdQ=;
+ b=itxEuUF8vWYXURK45bSgjKaz0KRRL0GqB1WRnoLUWysDGZtTYMplSYkiXZ+A/q6wXQUR5V
+ WRQFHvWHpmbkJBeG+/Y+WNyj9aYm4l0FGhrtr6lHpjvxf1vUb43ggN1VgjQ1AyWazZks4V
+ vUnfaWRH7412PGkaPCVBNGrCvHTlYuc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-P1TuutaOPLOYV3RwtJKoAA-1; Tue, 25 Feb 2020 10:15:00 -0500
+X-MC-Unique: P1TuutaOPLOYV3RwtJKoAA-1
+Received: by mail-qv1-f69.google.com with SMTP id v3so13249523qvm.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:14:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=i0G0n0Ave2olUcIJuOrc5QTfak11CeuD33nep9puVrE=;
- b=mOopvqu2s1s/hOxMagFwey65cYBErxvt0qbFKbwKfBG3H+/93tnVBxKl3D4uinHzKs
- KUOvoTt9jGDyv1wvFGgHh1bW51U/tD1763KUXS2/BEJw5kzL8wMUFQuTrhg8LXPXHAl9
- yVmIIkO0wWszFAViQ3/6/yVt6suwkPfYJGwz6xr0Y9UimhOpHtGG9nyu4Lvs1ltPtqtK
- OPWNSEqvnTUaj0anlXF74CR1xixKpaVckqj57patEcYBe4IMZmiiH2zBbfeu+oqviJwi
- 87CmAVaCEA9f4Vl0hTRzDbS+kl0qsOREzqFdSZ7lhv7dnLEpTPfPENuInhWZaBG9FORU
- bKGg==
-X-Gm-Message-State: APjAAAVhrnzxB01HkRNGgT9hCsoPztwTfhM42FOapfYIt4ME/QxWkD4s
- 0y1+h/FUDJ3jzZ8VQxseVM7C7sB/xFEO6C+JLB8RjkSzzyuezGVTQg3Tm2sBrGjja1164S4rw1x
- hNMsyWphVwyS4HjU=
-X-Received: by 2002:ac8:498f:: with SMTP id f15mr53954496qtq.123.1582643691373; 
- Tue, 25 Feb 2020 07:14:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwGVt7dN13aXum412QJ+5kYWa+gxbxrriNZS5ebQzvewP5dAOtGXwuFpCAZWY7hhu6OFBN67w==
-X-Received: by 2002:ac8:498f:: with SMTP id f15mr53954472qtq.123.1582643691128; 
- Tue, 25 Feb 2020 07:14:51 -0800 (PST)
+ bh=9KYoAzz21glog7o+enMMiTE7eLNGzgQi6YqNld1TBIY=;
+ b=XXFq6aKKqEVwPmAE/+YFpGrhlbV7nmDPbosSzsmjLheuloMLwP/E+AmkgqjCHYEJJ0
+ NTQ1ob53IAMSBz0vsQkM80vnQjIBBy7k7ay7kJUVdI6Lv7L9izkuCnjwTrmD0s+0rIOJ
+ FbA97tYwALcnza3uKSomeIPaMAzi7DugGrrAXMvH2M7LV3pCGF5/2xP4+H3UKSr6cSk4
+ yHb/zjLCOVDaCc81p5r+DFm85ubJRG3Ci9VTeumsDBifkM0hacEmy6xYiH2jx0mDQFCr
+ 39nyj/18mUSuhoQm3aN3uYRA18DSiuLHyavxWTjPZDifcW86MQU52q7BOM+bLKis2NUW
+ wa8A==
+X-Gm-Message-State: APjAAAXL8hd2YizXoCQ9p9kCpxyj83tL/LO5SZxy8iH0BSLckVseIK9G
+ vzSzYLROqFt0QAfGz2iP4CD2t4f5DloPOffVp7gP26S/HlMuK6zXbKK+WeoQvplmc1H0bB8VXyC
+ GKsn1EJ+xK6NM3IA=
+X-Received: by 2002:ae9:e207:: with SMTP id c7mr54105002qkc.128.1582643696845; 
+ Tue, 25 Feb 2020 07:14:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw6IYjuv6XMdVw6LPfvZxwGdWx2Niu1HKyIUy0enhfAvbYDpcq2+7ls9EkcF1nzaIRCgeDioA==
+X-Received: by 2002:ae9:e207:: with SMTP id c7mr54104926qkc.128.1582643696016; 
+ Tue, 25 Feb 2020 07:14:56 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- i28sm7891147qtc.57.2020.02.25.07.14.48
+ u5sm3133820qkf.32.2020.02.25.07.14.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 07:14:50 -0800 (PST)
-Date: Tue, 25 Feb 2020 10:14:46 -0500
+ Tue, 25 Feb 2020 07:14:55 -0800 (PST)
+Date: Tue, 25 Feb 2020 10:14:51 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/32] acpi: cpuhp: document CPHP_GET_CPU_ID_CMD command
-Message-ID: <20200225151210.647797-29-mst@redhat.com>
+Subject: [PULL 29/32] vhost-user: only set slave channel for first vq
+Message-ID: <20200225151210.647797-30-mst@redhat.com>
 References: <20200225151210.647797-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200225151210.647797-1-mst@redhat.com>
@@ -77,7 +77,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,43 +89,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Adrian Moreno <amorenoz@redhat.com>, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Adrian Moreno <amorenoz@redhat.com>
 
-Commit 3a61c8db9d25 introduced CPHP_GET_CPU_ID_CMD command but
-did not sufficiently describe it. Fix it by adding missing command
-documentation.
+When multiqueue is enabled, a vhost_dev is created for each queue
+pair. However, only one slave channel is needed.
 
-Fixes: 3a61c8db9d25 ("acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command")
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <1580306781-228371-1-git-send-email-imammedo@redhat.com>
+Fixes: 4bbeeba023f2 (vhost-user: add slave-req-fd support)
+Cc: marcandre.lureau@redhat.com
+Signed-off-by: Adrian Moreno <amorenoz@redhat.com>
+Message-Id: <20200121214553.28459-1-amorenoz@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/specs/acpi_cpu_hotplug.txt | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/virtio/vhost-user.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
-txt
-index a8ce5e7402..9bb22d1270 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -94,6 +94,8 @@ write access:
-                register in QEMU
-             2: following writes to 'Command data' register set OST status
-                register in QEMU
-+            3: following reads from 'Command data' and 'Command data 2' re=
-turn
-+               architecture specific CPU ID value for currently selected C=
-PU.
-             other values: reserved
-     [0x6-0x7] reserved
-     [0x8] Command data: (DWORD access)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 2e81f5514f..35baf4f347 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1458,9 +1458,11 @@ static int vhost_user_backend_init(struct vhost_dev =
+*dev, void *opaque)
+                    "VHOST_USER_PROTOCOL_F_LOG_SHMFD feature.");
+     }
+=20
+-    err =3D vhost_setup_slave_channel(dev);
+-    if (err < 0) {
+-        return err;
++    if (dev->vq_index =3D=3D 0) {
++        err =3D vhost_setup_slave_channel(dev);
++        if (err < 0) {
++            return err;
++        }
+     }
+=20
+     u->postcopy_notifier.notify =3D vhost_user_postcopy_notifier;
 --=20
 MST
 
