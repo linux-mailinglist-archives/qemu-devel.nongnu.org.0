@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649AE16C007
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:55:05 +0100 (CET)
-Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3675416C00A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:55:11 +0100 (CET)
+Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Yno-0005eG-EL
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:55:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49069)
+	id 1j6Ynu-0005tt-6T
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:55:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49117)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkC-0000D7-0y
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:20 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkG-0000Eq-AT
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0005gu-0U
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:19 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37841)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0005jO-E2
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:23 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:32858)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yk7-0005QP-GW
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:18 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id a6so2846293wme.2
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:14 -0800 (PST)
+ id 1j6YkB-0005SW-2k
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:19 -0500
+Received: by mail-wm1-x329.google.com with SMTP id m10so2051510wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PyEBmNQ59C7RUBA+p2Y8A9PNvZoLzmNnw5ksrQ9oivE=;
- b=MG217sFA8qa5s8VmZmkNj44c4XUoTy0RSBamEM0jxXJs+N1/GFXEM2tKDjAIr7QqsY
- OcD0isldBiF2s7630RceHgoVAd7YeAYsMJ8g+4YXYVq4prGsOnk7JrpyPSO/3pWwwMWU
- urp64AO935a2QPFQKdCKz4Emp8wlqn8BtbGdaEse1vG+nX0kGh95t1Blp/FDxEJzCQip
- uzWBAPjUxjdDIPEdSR04L0H1hgm7l7RJdi7kXY61TGgtyZi858Td38VIJ0KOYChHrXEl
- ml3mQtgDRKcPEYK4DVMcVWVwZL3TGwl4U3SudapgV30ImpxJXwqB+M3u286as3fcQb+g
- Nuyg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=k0lJWq7Wuwhp8fp4WNPc7Xb1+avMNgYektyhtqNBVM0=;
+ b=U4VAQ500Fqk9DVveAMV73iX6qNAH3bLLijXAY8lSq8dQT2sQdlCEMTMPPI1AvKGLCc
+ opd7S4CYacYYhUCnYRYnMsPUj73rJjZ2Wga5gSlpcOJNC9k2OPSgoAisoI+q/gWM+x7Q
+ VszyZ4fzMoVHPHQccrPEMv5dZGkEYjIR9wezFfjIgzxWFhBbO+QFQaNRksjiwjOwAjIn
+ ewTw0JEcaa55XUWNqhGJDP2tyKViAP1soV+n5+TBmmGrJzlhh/wopJ+y6wsblt0lVpEn
+ PmpPdk2enyluPF5xonj2DCn3qPwcrb6vXig9hu6Llfxg7yFawxtPg5xMZD+IPbmmibem
+ iVEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=PyEBmNQ59C7RUBA+p2Y8A9PNvZoLzmNnw5ksrQ9oivE=;
- b=o50gONqrEJL3uydYKCovqFzq49RhBc9e+JBcQkNgmuj7BE7e4aQsT9nuM54fcpvx7E
- ZJFUZYwXdoPRS7tyDNoqFbdUaimvm9gsj7uepdboPgyhyoJ11Fq9yxGrFNruoXJJ8zXB
- ERPRnNp5Hp/Z64cZf5zZAtdjffzXHnQY+IUc3yhVkjpqTt4h+QtrkbmrYEAKfNaK4kDz
- OPw/3YWTrT8sXL6upI+KX3vfFaGHuIlErRKLS4UlWMftPN7ziUzcriq3XhMvbTmTE1jM
- lU8tEVJB5xc5EI8X1n1vTkJSpPRcLRsNZDn6LdS0ys+saAjVI0F5/6IXBLZHIbw34fRw
- yLjw==
-X-Gm-Message-State: APjAAAX9A6B/cwBqeEXLeFC3Fj22AdjO3AGBjB+N6R5gXSugpVM89hgy
- NWHk+OGn9zGGoEgCnPGzTtkiDC5y
-X-Google-Smtp-Source: APXvYqyl5kZYZstSDtdD2dPmRrOYJjW8CHVBph6wSOvJCe7743il+M40+lqhYvXvfOuVtzuipiwNmQ==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr5067438wmi.116.1582631472993; 
- Tue, 25 Feb 2020 03:51:12 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=k0lJWq7Wuwhp8fp4WNPc7Xb1+avMNgYektyhtqNBVM0=;
+ b=XpjeTXRqdt5YmRrumgC3VLOrOPuy60B+DYxCUhqDLp2g5EMLy5PLfSkVMcgkb/0RSE
+ loQfO8gECXu2cFfupT2au8EiqBgCQJx2u/OF10R/fI2lNVEohey+6Z90ib3JVz25RBmX
+ Hdd8Ltk0iINbwvDXpLTUfcZPW5h8gCT/i9xPrGKRwsWEDF1osyHyrH6FNJCHber7giTN
+ 54kqjkCZ4nt3/YemMmmO3MLJzATRD+oaljbasTEmDZ562qHd0EYEI8wnxkvOtgU6vi6/
+ bRPBoS0UgFjXvt4uuUhqMqQUfsKCht9toJc1I8ehjPGkHpGz3OzGiYb1vZy5r7RDDKWa
+ lUZA==
+X-Gm-Message-State: APjAAAUgJgsGvYqEUF6Jl0RiNuE/+paeM2NsB3UxfyiXHFcRmW9CF0cm
+ maK3tWaVwHtakVvSpl4suFQS5pRb
+X-Google-Smtp-Source: APXvYqxU7xMYJPcMQaX7t8q7CgiHIWbYB1JQUVzek8w7xFpgytok51b1EisuqMR2e/xoRvNPF3/B6w==
+X-Received: by 2002:a05:600c:3d1:: with SMTP id
+ z17mr5149100wmd.90.1582631473928; 
+ Tue, 25 Feb 2020 03:51:13 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.12
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:12 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 007/136] vl.c: ensure that ram_size matches size of
- machine.memory-backend
-Date: Tue, 25 Feb 2020 12:48:57 +0100
-Message-Id: <1582631466-13880-7-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 008/136] alpha/dp264: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:48:58 +0100
+Message-Id: <1582631466-13880-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,43 +85,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Extend set_memory_options() to check that size specified by -m
-matches the size of backend pointed by memory-backend.
-And in case of -m was omitted adjust ram_size to match that
-of explicitly provided backend.
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200219160953.13771-8-imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-9-imammedo@redhat.com>
 ---
- vl.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/alpha/alpha_sys.h | 2 +-
+ hw/alpha/dp264.c     | 3 ++-
+ hw/alpha/typhoon.c   | 8 ++------
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 72ffc06..a7edcba 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2655,6 +2655,21 @@ static void set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
-         exit(EXIT_FAILURE);
-     }
+diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
+index 95033d7..bc0a286 100644
+--- a/hw/alpha/alpha_sys.h
++++ b/hw/alpha/alpha_sys.h
+@@ -11,7 +11,7 @@
+ #include "hw/intc/i8259.h"
  
-+    if (current_machine->ram_memdev_id) {
-+        Object *backend;
-+        ram_addr_t backend_size;
-+
-+        backend = object_resolve_path_type(current_machine->ram_memdev_id,
-+                                           TYPE_MEMORY_BACKEND, NULL);
-+        backend_size = object_property_get_uint(backend, "size",  &error_abort);
-+        if (mem_str && backend_size != ram_size) {
-+                error_report("Size specified by -m option must match size of "
-+                             "explicitly specified 'memory-backend' property");
-+                exit(EXIT_FAILURE);
-+        }
-+        ram_size = backend_size;
-+    }
-+
-     if (!xen_enabled()) {
-         /* On 32-bit hosts, QEMU is limited by virtual address space */
-         if (ram_size > (2047 << 20) && HOST_LONG_BITS == 32) {
+ 
+-PCIBus *typhoon_init(ram_addr_t, ISABus **, qemu_irq *, AlphaCPU *[4],
++PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
+                      pci_map_irq_fn);
+ 
+ /* alpha_pci.c.  */
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index a8f9a89..8d71a30 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -75,7 +75,7 @@ static void clipper_init(MachineState *machine)
+     cpus[0]->env.trap_arg2 = smp_cpus;
+ 
+     /* Init the chipset.  */
+-    pci_bus = typhoon_init(ram_size, &isa_bus, &rtc_irq, cpus,
++    pci_bus = typhoon_init(machine->ram, &isa_bus, &rtc_irq, cpus,
+                            clipper_pci_map_irq);
+ 
+     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
+@@ -183,6 +183,7 @@ static void clipper_machine_init(MachineClass *mc)
+     mc->max_cpus = 4;
+     mc->is_default = 1;
+     mc->default_cpu_type = ALPHA_CPU_TYPE_NAME("ev67");
++    mc->default_ram_id = "ram";
+ }
+ 
+ DEFINE_MACHINE("clipper", clipper_machine_init)
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index 179e1f7..1795e2f 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -58,7 +58,6 @@ typedef struct TyphoonState {
+     TyphoonCchip cchip;
+     TyphoonPchip pchip;
+     MemoryRegion dchip_region;
+-    MemoryRegion ram_region;
+ } TyphoonState;
+ 
+ /* Called when one of DRIR or DIM changes.  */
+@@ -817,8 +816,7 @@ static void typhoon_alarm_timer(void *opaque)
+     cpu_interrupt(CPU(s->cchip.cpu[cpu]), CPU_INTERRUPT_TIMER);
+ }
+ 
+-PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_bus,
+-                     qemu_irq *p_rtc_irq,
++PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+                      AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq)
+ {
+     MemoryRegion *addr_space = get_system_memory();
+@@ -851,9 +849,7 @@ PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_bus,
+ 
+     /* Main memory region, 0x00.0000.0000.  Real hardware supports 32GB,
+        but the address space hole reserved at this point is 8TB.  */
+-    memory_region_allocate_system_memory(&s->ram_region, OBJECT(s), "ram",
+-                                         ram_size);
+-    memory_region_add_subregion(addr_space, 0, &s->ram_region);
++    memory_region_add_subregion(addr_space, 0, ram);
+ 
+     /* TIGbus, 0x801.0000.0000, 1GB.  */
+     /* ??? The TIGbus is used for delivering interrupts, and access to
 -- 
 1.8.3.1
 
