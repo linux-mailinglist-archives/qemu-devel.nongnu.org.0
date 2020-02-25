@@ -2,102 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F2D16F054
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 21:43:37 +0100 (CET)
-Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A96516F047
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 21:41:34 +0100 (CET)
+Received: from localhost ([::1]:34892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6h3I-00081V-CI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 15:43:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
+	id 1j6h1J-0006RM-7X
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 15:41:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j6h1p-0007BT-1v
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:42:06 -0500
+ (envelope-from <lersek@redhat.com>) id 1j6h0D-0005v0-Gn
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:40:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j6h1l-0005GX-LC
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:42:03 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:37457)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j6h1l-0005Bv-Bu
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:42:01 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M3UhO-1j7FB73qDa-000e8d; Tue, 25 Feb 2020 21:36:56 +0100
-Subject: Re: [PATCH v3 0/5] linux-user: Implement x86_64 vsyscalls
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200213032223.14643-1-richard.henderson@linaro.org>
- <01077c2a-e90f-5a91-6e41-2f08e3978789@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <bf0b00e1-b7f8-5095-53eb-9feb03d86e34@vivier.eu>
-Date: Tue, 25 Feb 2020 21:36:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <lersek@redhat.com>) id 1j6h09-000124-Ce
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:40:24 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58312
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1j6h09-0000xi-58
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:40:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582663220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2WCWKphiBS0xj7Sl+tfjRPksqThPH1Gt4fZQI3V0OgU=;
+ b=JM6fE8aasnvxRnGLMSHGKLhZTtImiCkdGaUqSFs7zJ5kZCPadYO0hvJl63JCG0YWUmrRnC
+ Bt5Rqdadym8ZK8hQ7R4sZ1gZ3IYXsHeurmqMSHTPPMXS/VBQOHgoIKnHPX1UFrdpIQ6GEe
+ MlZiHNszNETiMtsyUD5LZWpcoII06Jg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-LGZ7GUFMMUqsum40kIDNYA-1; Tue, 25 Feb 2020 15:40:08 -0500
+X-MC-Unique: LGZ7GUFMMUqsum40kIDNYA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84FBDDB21;
+ Tue, 25 Feb 2020 20:40:06 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-104.ams2.redhat.com
+ [10.36.117.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9A255C13D;
+ Tue, 25 Feb 2020 20:40:01 +0000 (UTC)
+Subject: Re: [edk2-devel] A problem with live migration of UEFI virtual
+ machines
+To: Andrew Fish <afish@apple.com>, devel@edk2.groups.io
+References: <tencent_BC7FD00363690990994E90F8@qq.com>
+ <87sgjhxbtc.fsf@zen.linaroharston> <20200224152810.GX635661@redhat.com>
+ <8b0ec286-9322-ee00-3729-6ec7ee8260a6@redhat.com>
+ <3E8BB07B-8730-4AB8-BCB6-EA183FB589C5@apple.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <465a5a84-cac4-de39-8956-e38771807450@redhat.com>
+Date: Tue, 25 Feb 2020 21:40:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <01077c2a-e90f-5a91-6e41-2f08e3978789@linaro.org>
+In-Reply-To: <3E8BB07B-8730-4AB8-BCB6-EA183FB589C5@apple.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iwTzM5u4xN79zT3M1VGZ9CWA7IDDcAuMurdeo8+mlaJsEavrjcx
- T71rJP1rrKp0tvZuB56Ve6Izxq2ypJG9mJR5131vN9eu3K1bsyU0i+dwJSZkfFHFIFKFu9V
- gcTs56+AhwTi9hi5iR8hfas2WT/SzQydI0l6oZ4BxzEeEScv8Ll78SE9xkk3gQ9U8U5tRmo
- LJyFjVNdj1QbYzyYUGqWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NSMjOlJdxiw=:GyrLTGJyWEQuvCwYedSk79
- iwyl+zIemhFFnms+SwxISygZ7taJoxU48ZqIzNzJsdYQOsocfDkLid5WrpkiH/e2zAnTo0MFI
- 7Xmsdb9tuIIctzwQTz2I6Z+TbWfUDc0z+CD+EwHli21pE42wUgwyB3eP7b8RExN1apG1S3X9K
- 92KYIGGu1+rqylarCrtIRJ2qUmPR8TYdF0UxOaw7wdFUzxMnS3grBFwuQeOgyBfbJ1TBxP8dR
- jMWWImHxli0dPbGfwtPwGhZFCD8KL8rhm6Qllg69UXndYYbE5uJY+5g0dOb08yPgqWWF4OB/r
- SP6flSzE0s0c1lC3xF7AarWrOHF0AtShjaudPele6D/VEvVBQFXRkRHyNX8p2CZI+b7dKi9Ju
- lZUxoWi1qnv7r+IfmBAIHREkKUsKG5LkLZgWHkfY638CpNyIGq1C2BqGMh4ojBsNb0LOSChsS
- sStUQXC2SXBYFGDPMshRhys4So7xnGUq1opkGQKWNMe0V9MOBo7iohbya+Fs9BPpSuDw1g8Se
- Gz/rp/PVJoy7+aL7QyKCbv2Zx87pgGaY9Mw6joXBu3PBjkQPnItszAdyLgkrhnuZIpgWL9yBU
- 2T4a8hn00XRp6BJXJGgO+KK6Bx6Cu9hFwEPMTcVRnpXxUCnj4kfTxow3iJ/FRrxevAaLK3FR1
- oG4tvOVgCkK5Ws5lRSbX8OXBWWtg+NFLsdCKFZ+a7jC/cnpIZ0LKRrqD3piAGaibgTJ6OmfCF
- /Zl/Lymqc/SPey6f8/pc+UlLkZ+o7Sta/H/qAScwL9rUYuL/282d8Bn/ImZE2JIIiAtLmpG5q
- JXrpFtjOidpWb8ryU2EoV+IFrLfoMOvGtzD0sbQF/5pTRNXNNpuFaEobGbIEXI9xSxeo3Y5
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,24 +79,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ zhoujianjay <zhoujianjay@gmail.com>, discuss <discuss@edk2.groups.io>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ wuchenye1995 <wuchenye1995@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/02/2020 à 20:59, Richard Henderson a écrit :
-> On 2/12/20 7:22 PM, Richard Henderson wrote:
->> Changes for v3:
->>
->>   * Add TARGET_VSYSCALL_PAGE define.
->>   * Move the sigsegv goto around.
->>
->> v2: https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg03474.html
->> v1: https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg02841.html
-> 
-> Ping?
+Hi Andrew,
 
-Applied to my linux-user branch.
-I've removed the trailing whitespace reported by checkpatch.pl
+On 02/25/20 19:56, Andrew Fish wrote:
+> Laszlo,
+>=20
+> If I understand this correctly is it not more complicated than just size.=
+ It also assumes the memory layout is the same?
 
-Thanks,
-Laurent
+Yes.
+
+> The legacy BIOS used fixed magic address ranges, but UEFI uses dynamicall=
+y allocated memory so addresses are not fixed. While the UEFI firmware does=
+ try to keep S3 and S4 layouts consistent between boots, I'm not aware of a=
+ny mechanism to keep the memory map address the same between versions of th=
+e firmware?
+
+It's not about RAM, but platform MMIO.
+
+The core of the issue here is that the -D FD_SIZE_4MB and -D FD_SIZE_2MB
+build options (or more directly, the different FD_SIZE_IN_KB macro
+settings) set a bunch of flash-related build-time constant macros, and
+PCDs, differently, in the following files:
+
+- OvmfPkg/OvmfPkg.fdf.inc
+- OvmfPkg/VarStore.fdf.inc
+- OvmfPkg/OvmfPkg*.dsc
+
+As a result, the OVMF_CODE.fd firmware binary will have different
+hard-coded references to the variable store pflash addresses.
+(Guest-physical MMIO addresses that point into the pflash range.)
+
+If someone tries to combine an OVMF_CODE.fd firmware binary from e.g.
+the 4MB build, with a variable store file that was originally
+instantiated from an OVMF_VARS.fd varstore template from the 2MB build,
+then the firmware binary's physical address references and various size
+references will not match the contents / layout of the varstore pflash
+chip, which maps an incompatibly structured varstore file.
+
+For example, "OvmfPkg/VarStore.fdf.inc" describes two incompatible
+EFI_FIRMWARE_VOLUME_HEADER structures (which "build" generates for the
+OVMF_VARS.fd template) between the 4MB (total size) build, and the
+1MB/2MB (total size) build.
+
+The commit message below summarizes the internal layout differences,
+from 1MB/2MB -> 4MB:
+
+https://github.com/tianocore/edk2/commit/b24fca05751f
+
+Excerpt (relevant for OVMF_VARS.fd):
+
+  Description                Compression type                Size [KB]
+  -------------------------  -----------------  ----------------------
+  Non-volatile data storage  open-coded binary    128 ->   528 ( +400)
+                               data
+    Variable store                                 56 ->   256 ( +200)
+    Event log                                       4 ->     4 (   +0)
+    Working block                                   4 ->     4 (   +0)
+    Spare area                                     64 ->   264 ( +200)
+
+Thanks
+Laszlo
+
+
+>> On Feb 25, 2020, at 9:53 AM, Laszlo Ersek <lersek@redhat.com> wrote:
+>>
+>> On 02/24/20 16:28, Daniel P. Berrang=C3=A9 wrote:
+>>> On Tue, Feb 11, 2020 at 05:39:59PM +0000, Alex Benn=C3=A9e wrote:
+>>>>
+>>>> wuchenye1995 <wuchenye1995@gmail.com> writes:
+>>>>
+>>>>> Hi all,
+>>>>>   We found a problem with live migration of UEFI virtual machines
+>>>>>   due to size of OVMF.fd changes.
+>>>>>   Specifically, the size of OVMF.fd in edk with low version such as
+>>>>>   edk-2.0-25 is 2MB while the size of it in higher version such as
+>>>>>   edk-2.0-30 is 4MB.
+>>>>>   When we migrate a UEFI virtual machine from the host with low
+>>>>>   version of edk2 to the host with higher one, qemu component will
+>>>>>   report an error in function qemu_ram_resize while
+>>>>> checking size of ovmf_pcbios: Length mismatch: pc.bios: 0x200000 in
+>>>>> !=3D 0x400000: Invalid argument.
+>>>>>   We want to know how to solve this problem after updating the
+>>>>>   version of edk2.
+>>>>
+>>>> You can only migrate a machine that is identical - so instantiating a
+>>>> empty machine with a different EDK image is bound to cause a problem
+>>>> because the machines don't match.
+>>>
+>>> I don't believe we are that strict for firmware in general. The
+>>> firmware is loaded when QEMU starts, but that only matters for the
+>>> original source host QEMU. During migration, the memory content of the
+>>> original firmware will be copied during live migration, overwriting
+>>> whatever the target QEMU loaded off disk. This works....provided the
+>>> memory region is the same size on source & target host, which is where
+>>> the problem arises in this case.
+>>>
+>>> If there's a risk that newer firmware will be larger than old firmware
+>>> there's only really two options:
+>>>
+>>>  - Keep all firmware images forever, each with a unique versioned
+>>>    filename. This ensures target QEMU will always load the original
+>>>    smaller firmware
+>>>
+>>>  - Add padding to the firmware images. IOW, if the firmware is 2 MB,
+>>>    add zero-padding to the end of the image to round it upto 4 MB
+>>>    (whatever you anticipate the largest size wil be in future).
+>>>
+>>> Distros have often taken the latter approach for QEMU firmware in the
+>>> past. The main issue is that you have to plan ahead of time and get
+>>> this padding right from the very start. You can't add the padding
+>>> after the fact on an existing VM.
+>>
+>> Following up here *too*, just for completeness.
+>>
+>> The query in this thread has been posted three times now (and I have
+>> zero idea why). Each time it generated a different set of responses. For
+>> completes, I'm now going to link the other two threads here (because the
+>> present thread seems to have gotten the most feedback).
+>>
+>> To the OP:
+>>
+>> - please do *NOT* repost the same question once you get an answer. It
+>>  only fragments the discussion and creates confusion. It also doesn't
+>>  hurt if you *confirm* that you understood the answer.
+>>
+>> - Yet further, if your email address has @gmail.com for domain, but your
+>>  msgids contain "tencent", that raises some eyebrows (mine for sure).
+>>  You say "we" in the query, but never identify the organization behind
+>>  the plural pronoun.
+>>
+>> (I've been fuming about the triple-posting of the question for a while
+>> now, but it's only now that, upon seeing how much work Dan has put into
+>> his answer, I've decided that dishing out a bit of netiquette would be
+>> in order.)
+>>
+>> * First posting:
+>> - msgid:      <tencent_F1295F826E46EDFF3D77812B@qq.com <mailto:tencent_F=
+1295F826E46EDFF3D77812B@qq.com>>
+>> - edk2-devel: https://edk2.groups.io/g/devel/message/54146 <https://edk2=
+.groups.io/g/devel/message/54146>
+>> - qemu-devel: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg0=
+2419.html <https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02419.h=
+tml>
+>>
+>>  * my response:
+>>    - msgid:      <12553.1581366059422195003@groups.io <mailto:12553.1581=
+366059422195003@groups.io>>
+>>    - edk2-devel: https://edk2.groups.io/g/devel/message/54161 <https://e=
+dk2.groups.io/g/devel/message/54161>
+>>    - qemu-devel: none, because (as an exception) I used the stupid
+>>                  groups.io <http://groups.io/> web interface to respond,=
+ and so my response
+>>                  never reached qemu-devel
+>>
+>> * Second posting (~4 hours after the first)
+>> - msgid:      <tencent_3CD8845EC159F0161725898B@qq.com <mailto:tencent_3=
+CD8845EC159F0161725898B@qq.com>>
+>> - edk2-devel: https://edk2.groups.io/g/devel/message/54147 <https://edk2=
+.groups.io/g/devel/message/54147>
+>> - qemu-devel: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg0=
+2415.html <https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02415.h=
+tml>
+>>
+>>  * Dave's response:
+>>    - msgid:      <20200220154742.GC2882@work-vm>
+>>    - edk2-devel: https://edk2.groups.io/g/devel/message/54681 <https://e=
+dk2.groups.io/g/devel/message/54681>
+>>    - qemu-devel: https://lists.gnu.org/archive/html/qemu-devel/2020-02/m=
+sg05632.html <https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg0563=
+2.html>
+>>
+>> * Third posting (next day, present thread) -- cross posted to yet
+>>  another list (!), because apparently Dave's feedback and mine had not
+>>  been enough:
+>> - msgid:        <tencent_BC7FD00363690990994E90F8@qq.com <mailto:tencent=
+_BC7FD00363690990994E90F8@qq.com>>
+>> - edk2-devel:   https://edk2.groups.io/g/devel/message/54220 <https://ed=
+k2.groups.io/g/devel/message/54220>
+>> - edk2-discuss: https://edk2.groups.io/g/discuss/message/135 <https://ed=
+k2.groups.io/g/discuss/message/135>
+>> - qemu-devel:   https://lists.gnu.org/archive/html/qemu-devel/2020-02/ms=
+g02735.html <https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02735=
+.html>
+>>
+>> Back on topic: see my response again. The answer is, you can't solve the
+>> problem (specifically with OVMF), and QEMU in fact does you service by
+>> preventing the migration.
+>>
+>> Laszlo
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Groups.io <http://groups.io/> Links: You receive all messages sent to th=
+is group.
+>>
+>> View/Reply Online (#54792): https://edk2.groups.io/g/devel/message/54792=
+ <https://edk2.groups.io/g/devel/message/54792>
+>> Mute This Topic: https://groups.io/mt/71141681/1755084 <https://groups.i=
+o/mt/71141681/1755084>
+>> Group Owner: devel+owner@edk2.groups.io <mailto:devel+owner@edk2.groups.=
+io>
+>> Unsubscribe: https://edk2.groups.io/g/devel/unsub <https://edk2.groups.i=
+o/g/devel/unsub>  [afish@apple.com <mailto:afish@apple.com>]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
+
 
