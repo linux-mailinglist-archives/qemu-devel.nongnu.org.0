@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C4516C0C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:28:48 +0100 (CET)
-Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C276916C0D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:31:37 +0100 (CET)
+Received: from localhost ([::1]:54224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZKR-0007v9-4t
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:28:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
+	id 1j6ZNA-0004xE-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:31:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49781)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6Z0L-0003hL-Tr
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:03 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl3-0001FV-B2
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6Z0G-0003YL-Fe
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33046
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6Z0G-0003Wy-B0
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582632474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MUV6MdpemBBMuJvYonDAbRJQvhuEwsBrq+PN3s5psdA=;
- b=dgc/Ew3R2lue+OU9eMoEmVEh8ok657T4R0WsfoelCgmzl17DXeyJ56rjA2HN9hAAcj4/D6
- qRZH4xX2pK0mVM6CtLR1HmvlkgqA4P+lL2gLdx+CK4XUjtryiWMnwnCcnAY0vX38wMgN7U
- sVDNTljMbWr1/gkM4aRLcgc5p9TVFAI=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-0T3C7xF6PiOaA5f5mExtWw-1; Tue, 25 Feb 2020 07:07:52 -0500
-X-MC-Unique: 0T3C7xF6PiOaA5f5mExtWw-1
-Received: by mail-qv1-f72.google.com with SMTP id cp3so12622617qvb.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:52 -0800 (PST)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008GH-4B
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33800)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1j6Ykx-00086Y-EK
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:08 -0500
+Received: by mail-wr1-x434.google.com with SMTP id z15so6037767wrl.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=mIoNz+eT/hMyD9ZxJzAVhJ/FNd4za+ru1feUPkgFaJc=;
+ b=jGvlDvA6PW09/hFk1cwJBZnJSQQdSCa8IqW08yo3Q5ySqftbt3Cbrcfj3ekgRzoE63
+ qmVXOLS3JzCkglzXuN9SlIDChlQLgoCRuZeoG/8GC2RQAWj0YI8ZImCSgyURm0s7Aqzt
+ 54x/N0DbWJjsPB0yM9CZ2hh+DJnQ0gTahcklb5oHLXnhthS3A+HbWy+Sjj9+GyVMKBaZ
+ FWrQDP9Jzacedziafhbjn7ImYCY3VPvVGxKfw/MVojNnco+IHKARlRhYFNfkUQuDg+V+
+ GxNuWtOLyG9FZVJIpkpE/+vEPvDZh2FnJD0tUEf+h1YCM1YbS9JF7/dsqkkI10MH1ctO
+ 99pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4ssfqURimZVQE3PLVMknFWonjbS7Sj8ozSgUIZ0veYI=;
- b=BHSRRkxPVhDawv9XRp9V28HpB5Hct6O+b3wXWnIyMxsqPizd6CS0kqISzKB7R7Q0Ux
- glomTZtM91P4a9Ul6SA5MPwrQIe6Pa3p1xFLm6YLS5Or5XSjI9gmdynf+IJk4fE5Y/d6
- Ek9CSFqkHxZWr1Up0E1kk35bUYlmuu+03LKsvyo3ls/Vu85p1XROOK2u8E/ui0jDzBZr
- 3hO1ydBgARQn7so8kJaBEgbhLt3E8sq0HX9a8G6YLhpo0F+ynLCEqS65Y+6dRjJvtYoX
- AOdDz98f0/NSJoHJLyHl9ClWC3t0NlrhGZVAPxL1cKV9B6UT228UIfhzXZLx4HEMcdNV
- QkCQ==
-X-Gm-Message-State: APjAAAUWIdSCjlofquouLfa2EXz1tA9qfBpjH9KrxtMd+eLzCAmZ8fp+
- OzHl9Khjp3JOO8kihPYsTprRseRaP0owwaBiXJCwpQLVm/5DSHaCXGS+SHdQMQaM1YPz2cM5jYn
- UBELF1KnAQsH9Gd0=
-X-Received: by 2002:ac8:3489:: with SMTP id w9mr55168526qtb.181.1582632472063; 
- Tue, 25 Feb 2020 04:07:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxSzewph2kK7Xh+wmI+nYMrQIDbdXdJIiY29Ng1FXT7JlynhgnLARF2ltrWPk6TCV7X9Ujm6w==
-X-Received: by 2002:ac8:3489:: with SMTP id w9mr55168501qtb.181.1582632471840; 
- Tue, 25 Feb 2020 04:07:51 -0800 (PST)
-Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
- by smtp.gmail.com with ESMTPSA id
- w21sm7803526qth.17.2020.02.25.04.07.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:07:50 -0800 (PST)
-Date: Tue, 25 Feb 2020 07:07:46 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH v2 3/3] Lift max memory slots limit imposed by vhost-user
-Message-ID: <20200225070027-mutt-send-email-mst@kernel.org>
-References: <1579143426-18305-1-git-send-email-raphael.norwitz@nutanix.com>
- <1579143426-18305-4-git-send-email-raphael.norwitz@nutanix.com>
- <20200206032332-mutt-send-email-mst@kernel.org>
- <20200209174335.GA15050@localhost.localdomain>
-MIME-Version: 1.0
-In-Reply-To: <20200209174335.GA15050@localhost.localdomain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=mIoNz+eT/hMyD9ZxJzAVhJ/FNd4za+ru1feUPkgFaJc=;
+ b=pcZg6LgcvKgPm02dcoPdWb7AtMPLrDu5PVWlTf+xgZS4axySUXFxrEmv/j+KJL5X7b
+ W9xpfIQRYouzJhf4nKr6gPn+zw01JSQMckQ37cKMc9nTAIHfHT6gKO244MtYfKxNbT0T
+ pFxejgNl0i7fKnOf02GlchPjiNB2Fi3oKwQdN1L8Dtf/MjIXWkkYarKslKch9uSbYH5r
+ V6ttgyASNX3FJ7bD1UUaTvz88CBo8arvp7IS9I084aMgQJ9QKlGqZQPqIctOxzb2PS2S
+ QogcVooVu2ZkosN+shZrzgb1wHbQVEZCZA4ctBBECR46ljl+fU0z+FBlgZbzLqQrvbGD
+ zJ9Q==
+X-Gm-Message-State: APjAAAUeDCU7FbM0wYQW53XG0Rtj4ZftKf0ageVnZqOuHRf2GqAGEQ6N
+ MEYjLrQ/wpJKzfvQ/DHkq+iEesA/
+X-Google-Smtp-Source: APXvYqxA+m8qeDfqqY/WCKadw+456xDGvFPPGyFaqi4zsV5DYxBkoahpY0qDH7IoztK9BTGwKMmReg==
+X-Received: by 2002:a5d:484f:: with SMTP id n15mr72627138wrs.365.1582631523887; 
+ Tue, 25 Feb 2020 03:52:03 -0800 (PST)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.02
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Feb 2020 03:52:03 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 063/136] ppc/ppc405_boards: add RAM size checks
+Date: Tue, 25 Feb 2020 12:49:53 +0100
+Message-Id: <1582631466-13880-63-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,38 +74,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Prerna Saxena <prerna.saxena@nutanix.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Feb 09, 2020 at 12:43:35PM -0500, Raphael Norwitz wrote:
-> > > The current feature implementation does not work with postcopy migrat=
-ion
-> > > and cannot be enabled if the VHOST_USER_PROTOCOL_F_REPLY_ACK feature =
-has
-> > > also been negotiated.
-> >=20
-> > Hmm what would it take to lift the restrictions?
-> > conflicting features like this makes is very hard for users to make
-> > an informed choice what to support.
-> >
->=20
-> We would need a setup with a backend which supports these features (REPLY=
-_ACK
-> and postcopy migration). At first glance it looks like DPDK could work bu=
-t
-> I'm not sure how easy it will be to test postcopy migration with the reso=
-urces
-> we have.
+From: Igor Mammedov <imammedo@redhat.com>
 
-Yes, DPDK works with postcopy. I understand it's of no
-immediate interest to you but I'm afraid it just becomes too messy
-if everyone keeps breaking it.
-VHOST_USER_PROTOCOL_F_REPLY_ACK was added by a contributor from
-nutanix, surely you can ping them internally for a test-case :).
-=20
+If user provided non-sense RAM size, board will ignore it
+and continue running with fixed RAM size.
 
---=20
-MST
+Also RAM is going to be allocated by generic code, so it
+won't be possible for board to fix CLI.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
+
+PS:
+move fixed RAM size into mc->default_ram_size, so that
+generic code will know how much to allocate.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-64-imammedo@redhat.com>
+---
+ hw/ppc/ppc405_boards.c | 39 ++++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
+
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 1f721fe..057882a 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -40,6 +40,7 @@
+ #include "qemu/error-report.h"
+ #include "hw/loader.h"
+ #include "exec/address-spaces.h"
++#include "qemu/cutils.h"
+ 
+ #define BIOS_FILENAME "ppc405_rom.bin"
+ #define BIOS_SIZE (2 * MiB)
+@@ -137,7 +138,7 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem, uint32_t base)
+ 
+ static void ref405ep_init(MachineState *machine)
+ {
+-    ram_addr_t ram_size = machine->ram_size;
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     const char *initrd_filename = machine->initrd_filename;
+@@ -161,15 +162,21 @@ static void ref405ep_init(MachineState *machine)
+     DriveInfo *dinfo;
+     MemoryRegion *sysmem = get_system_memory();
+ 
++    if (machine->ram_size != mc->default_ram_size) {
++        char *sz = size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
++
+     /* XXX: fix this */
+     memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405ep.ram",
+-                                         0x08000000);
++                                         machine->ram_size);
+     ram_bases[0] = 0;
+-    ram_sizes[0] = 0x08000000;
++    ram_sizes[0] = machine->ram_size;
+     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
+     ram_bases[1] = 0x00000000;
+     ram_sizes[1] = 0x00000000;
+-    ram_size = 128 * MiB;
+     env = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+                         33333333, &pic, kernel_filename == NULL ? 0 : 1);
+     /* allocate SRAM */
+@@ -227,7 +234,7 @@ static void ref405ep_init(MachineState *machine)
+     if (linux_boot) {
+         memset(&bd, 0, sizeof(bd));
+         bd.bi_memstart = 0x00000000;
+-        bd.bi_memsize = ram_size;
++        bd.bi_memsize = machine->ram_size;
+         bd.bi_flashstart = -bios_size;
+         bd.bi_flashsize = -bios_size;
+         bd.bi_flashoffset = 0;
+@@ -255,7 +262,7 @@ static void ref405ep_init(MachineState *machine)
+         kernel_base = KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+         kernel_size = load_image_targphys(kernel_filename, kernel_base,
+-                                          ram_size - kernel_base);
++                                          machine->ram_size - kernel_base);
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
+@@ -266,7 +273,7 @@ static void ref405ep_init(MachineState *machine)
+         if (initrd_filename) {
+             initrd_base = INITRD_LOAD_ADDR;
+             initrd_size = load_image_targphys(initrd_filename, initrd_base,
+-                                              ram_size - initrd_base);
++                                              machine->ram_size - initrd_base);
+             if (initrd_size < 0) {
+                 error_report("could not load initial ram disk '%s'",
+                              initrd_filename);
+@@ -304,6 +311,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
+ 
+     mc->desc = "ref405ep";
+     mc->init = ref405ep_init;
++    mc->default_ram_size = 0x08000000;
+ }
+ 
+ static const TypeInfo ref405ep_type = {
+@@ -408,7 +416,7 @@ static void taihu_cpld_init(MemoryRegion *sysmem, uint32_t base)
+ 
+ static void taihu_405ep_init(MachineState *machine)
+ {
+-    ram_addr_t ram_size = machine->ram_size;
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+     char *filename;
+@@ -425,10 +433,14 @@ static void taihu_405ep_init(MachineState *machine)
+     int fl_idx;
+     DriveInfo *dinfo;
+ 
+-    /* RAM is soldered to the board so the size cannot be changed */
+-    ram_size = 0x08000000;
++    if (machine->ram_size != mc->default_ram_size) {
++        char *sz = size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
+     memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
+-                                         ram_size);
++                                         machine->ram_size);
+ 
+     ram_bases[0] = 0;
+     ram_sizes[0] = 0x04000000;
+@@ -500,7 +512,7 @@ static void taihu_405ep_init(MachineState *machine)
+         kernel_base = KERNEL_LOAD_ADDR;
+         /* now we can load the kernel */
+         kernel_size = load_image_targphys(kernel_filename, kernel_base,
+-                                          ram_size - kernel_base);
++                                          machine->ram_size - kernel_base);
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
+@@ -509,7 +521,7 @@ static void taihu_405ep_init(MachineState *machine)
+         if (initrd_filename) {
+             initrd_base = INITRD_LOAD_ADDR;
+             initrd_size = load_image_targphys(initrd_filename, initrd_base,
+-                                              ram_size - initrd_base);
++                                              machine->ram_size - initrd_base);
+             if (initrd_size < 0) {
+                 error_report("could not load initial ram disk '%s'",
+                              initrd_filename);
+@@ -533,6 +545,7 @@ static void taihu_class_init(ObjectClass *oc, void *data)
+ 
+     mc->desc = "taihu";
+     mc->init = taihu_405ep_init;
++    mc->default_ram_size = 0x08000000;
+ }
+ 
+ static const TypeInfo taihu_type = {
+-- 
+1.8.3.1
+
 
 
