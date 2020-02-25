@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53B216C1D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:13:07 +0100 (CET)
-Received: from localhost ([::1]:55353 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E7316C1E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:15:02 +0100 (CET)
+Received: from localhost ([::1]:55398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6a1K-0004NN-QX
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59135)
+	id 1j6a3B-0007Lq-9V
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:15:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59196)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcP-0005Rx-GF
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:22 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcR-0005TH-S5
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcM-0007DC-H9
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:20 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44005)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcQ-0007Et-Vf
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:23 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44006)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZcM-0007Cu-Ab
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:18 -0500
-Received: by mail-wr1-x442.google.com with SMTP id r11so14577904wrq.10
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:18 -0800 (PST)
+ id 1j6ZcQ-0007E9-Nc
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:22 -0500
+Received: by mail-wr1-x442.google.com with SMTP id r11so14578166wrq.10
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ehZlOYl+k4JKKy2JqV4YRUh/kizfHcJPE/yTLG5OZt4=;
- b=KPIl2Wx+5QDyiLya+M8sfCr4gzw3NbTs5Cn9cbMIvPOA3VP+MG8KUQFREknhuG1nfr
- BVW31z7t3sdoxUXAbJjJ92FaP375jlHp38MmqKeCE39E6cr0QEzjBNX+jRLpPhe4t5NQ
- qdu+INCYb4dHyc/QBL0sHC3iPcIK8Xhx+IuFbrosvalV1sh0eYnD2Y59AbL2SUejUDWQ
- GV3zU2lWE4k9QsRfKWK+AroDSZbQuejmJrZc3WJNOKcfvmCOEWU3IcwjX1LZJgNGx07u
- lDBF39xvmM1tOFNoXa8S5iitpxlhB4R628w7W5Wi6b9Q1WzXJ1zfmSgeBwN5pOUzt7KC
- LPWA==
+ bh=tZ+q8+KjTsBsafkEv1L9oog5zVBd33ptYwGvTAYVmPc=;
+ b=uCZomt62GTRNms/KFdYdUa9expV/lcusEpBK2bfj1LVOCRKElT2TzJ6BRtB3LFl5ZY
+ DrUOc3ORBts+RiGmsdJ0PZaNt8zyRI1yuw0diQ0tF5sygAHW9WgNBVm5Y1IOwLDIh66Z
+ mIAJ3ymrQqKQ6TDybDSsl7GP7joKU+NxILEqr8JQaBr9QQv6r0/r5w0insB9jm5URM4o
+ gGFm6faDFBjWMSIZsuOoyoMcPD1QSAzXhHlENa1vRZVODKCWczYn8JL+TCLSNt+voqZb
+ U3gxD6OJMfkHHFGuMN1VGViV7qZafyjMOZQXDS70LvlNox8UqZZOTiZ2JXJpTyCXb9Xh
+ lOcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ehZlOYl+k4JKKy2JqV4YRUh/kizfHcJPE/yTLG5OZt4=;
- b=CIDA3jkUkEJ1OJ7p0r6slHcWv43ZSY7RLSp+W/GrkT70st+ejdp5kGKLnQy5j/xWPk
- rxkFG6NRctUR+J/atI6TnKSyAT5ENjy6eAlSmi2q8MANbzZ/NUj+u0FM+UbPVxTMGswo
- uz5bKZNiSThrHDucuZs8LIXYAnJbDQMMDB5RfxbRWQ1a/bOqK+LEOczsOR3gPU5++ZBk
- pTaJLNIETYVXJS3b9uTur19XgStkEITBmVpqMIZLCudoEBrqSbaxCJ3pJo2S7Xb6i5Yi
- QsdXbPLXOAhJ0xTTm+F2BFM8DetrH9rvd/CxxVYwtSfQSeduBH9F1rzBMzzMAuAkOTBN
- i6oQ==
-X-Gm-Message-State: APjAAAWNT7RjXa+wugxK5bTgvjB5CBAf2UXnVFcLujau1A7kZxBKt39u
- ATE8aXzwt3evnBo+0+stS4/+Sg==
-X-Google-Smtp-Source: APXvYqwnt3+dj8I6mwg3kBxLNQgMlzk7kNMq5AJqhAK8VVdY7ybb5C+E2Fx7QCrQlDdCrbIsIYFIhg==
-X-Received: by 2002:adf:ef4c:: with SMTP id c12mr74678723wrp.203.1582634837236; 
- Tue, 25 Feb 2020 04:47:17 -0800 (PST)
+ bh=tZ+q8+KjTsBsafkEv1L9oog5zVBd33ptYwGvTAYVmPc=;
+ b=BooUwj6iIszZ5cbgesRF1xjxMJ3XJL75yPyOvxCuOrqbTl7pxUObeKsQPsQZY55Qvr
+ sbT+0n/F04spDsvW8y19KZGLfny/2hDC07WNfRBva5Zczh79qY2yYllkn1/dHyU6cGv9
+ lIT/6hPa9EqeTJuYsORLRH44pzKI64MaPu5MFCBNLSApJqQGNUoF5bW7gjiMa9sUmN14
+ VMlQMKu73NF0pP5cuUaXuDfS9H98DTkZ1E31yrFDuf4SiauKTbWS4Lna2cDHIXi7ZpqG
+ 5R6370ToqZfS1eb54ah7G4RxSzMm/QzTDT7Z9PAdSd2HafX4d6xqaHqWpPbLbSe/ibIk
+ b7Nw==
+X-Gm-Message-State: APjAAAUJkSwUms+rRyU1FMLBvFnr40SHuPyJDM+a3Br4LxJM9bPuPD4Y
+ TrFXjWMaFGsvuEQPaoG9hCqel8H/Kbg=
+X-Google-Smtp-Source: APXvYqzN5E1Uu9yjg885wODL/JepL8jrTLGzP2uEBsI6zN3ZzUOEcIHHTPZaHGG5ItzHoNwYBU6Xlg==
+X-Received: by 2002:a5d:63c7:: with SMTP id c7mr11142662wrw.115.1582634841265; 
+ Tue, 25 Feb 2020 04:47:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w1sm24513111wro.72.2020.02.25.04.47.11
+ by smtp.gmail.com with ESMTPSA id q3sm3552540wrs.1.2020.02.25.04.47.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:47:14 -0800 (PST)
+ Tue, 25 Feb 2020 04:47:15 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9F5471FF91;
+ by zen.linaroharston (Postfix) with ESMTP id E1DCF1FF96;
  Tue, 25 Feb 2020 12:47:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/19] tests/rcutorture: mild documenting refactor of
- update thread
-Date: Tue, 25 Feb 2020 12:46:55 +0000
-Message-Id: <20200225124710.14152-5-alex.bennee@linaro.org>
+Subject: [PATCH  v3 07/19] travis.yml: single-thread build-tcg stages
+Date: Tue, 25 Feb 2020 12:46:58 +0000
+Message-Id: <20200225124710.14152-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -86,152 +85,43 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
  stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mainly to help with reasoning what the test is trying to do.
-We can move rcu_stress_idx to a local variable as there is only ever
-one updater thread. I've also added an assert to catch the case where
-we end up updating the current structure to itself which is the only
-way I can see the mberror cases we are seeing on Travis.
-
-We shall see if the rcutorture test failures go away now.
+This still seems to be a problem for Travis.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v3
-  - explicit atomic_read/set
-  - rename pipe_count to age
-  - fix whitespace
----
- tests/rcutorture.c | 55 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 37 insertions(+), 18 deletions(-)
+ .travis.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/rcutorture.c b/tests/rcutorture.c
-index 256d24ed5ba..732f03abdaa 100644
---- a/tests/rcutorture.c
-+++ b/tests/rcutorture.c
-@@ -230,13 +230,12 @@ static void uperftest(int nupdaters, int duration)
- #define RCU_STRESS_PIPE_LEN 10
+diff --git a/.travis.yml b/.travis.yml
+index 0612998958b..f4020dcc6c8 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -400,7 +400,7 @@ jobs:
+     - name: "GCC check-tcg (some-softmmu)"
+       env:
+         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
++        - TEST_BUILD_CMD="make build-tcg"
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
- struct rcu_stress {
--    int pipe_count;
-+    int age;  /* how many update cycles while not rcu_stress_current */
-     int mbtest;
- };
+@@ -409,7 +409,7 @@ jobs:
+     - name: "GCC plugins check-tcg (some-softmmu)"
+       env:
+         - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
++        - TEST_BUILD_CMD="make build-tcg"
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
- struct rcu_stress rcu_stress_array[RCU_STRESS_PIPE_LEN] = { { 0 } };
- struct rcu_stress *rcu_stress_current;
--int rcu_stress_idx;
- int n_mberror;
- 
- /* Updates protected by counts_mutex */
-@@ -261,7 +260,7 @@ static void *rcu_read_stress_test(void *arg)
-     while (goflag == GOFLAG_RUN) {
-         rcu_read_lock();
-         p = atomic_rcu_read(&rcu_stress_current);
--        if (p->mbtest == 0) {
-+        if (atomic_read(&p->mbtest) == 0) {
-             n_mberror++;
-         }
-         rcu_read_lock();
-@@ -269,7 +268,7 @@ static void *rcu_read_stress_test(void *arg)
-             garbage++;
-         }
-         rcu_read_unlock();
--        pc = p->pipe_count;
-+        pc = atomic_read(&p->age);
-         rcu_read_unlock();
-         if ((pc > RCU_STRESS_PIPE_LEN) || (pc < 0)) {
-             pc = RCU_STRESS_PIPE_LEN;
-@@ -288,32 +287,52 @@ static void *rcu_read_stress_test(void *arg)
-     return NULL;
- }
- 
-+/*
-+ * Stress Test Updater
-+ *
-+ * The updater cycles around updating rcu_stress_current to point at
-+ * one of the rcu_stress_array_entries and resets it's age. It
-+ * then increments the age of all the other entries. The age
-+ * will be read under an rcu_read_lock() and distribution of values
-+ * calculated. The final result gives an indication of how many
-+ * previously current rcu_stress entries are in flight until the RCU
-+ * cycle complete.
-+ */
- static void *rcu_update_stress_test(void *arg)
- {
--    int i;
--    struct rcu_stress *p;
-+    int i, rcu_stress_idx = 0;
-+    struct rcu_stress *cp = atomic_read(&rcu_stress_current);
- 
-     rcu_register_thread();
--
-     *(struct rcu_reader_data **)arg = &rcu_reader;
-+
-     while (goflag == GOFLAG_INIT) {
-         g_usleep(1000);
-     }
-+
-     while (goflag == GOFLAG_RUN) {
--        i = rcu_stress_idx + 1;
--        if (i >= RCU_STRESS_PIPE_LEN) {
--            i = 0;
-+        struct rcu_stress *p;
-+        rcu_stress_idx++;
-+        if (rcu_stress_idx >= RCU_STRESS_PIPE_LEN) {
-+            rcu_stress_idx = 0;
-         }
--        p = &rcu_stress_array[i];
--        p->mbtest = 0;
-+        p = &rcu_stress_array[rcu_stress_idx];
-+        /* catching up with ourselves would be a bug */
-+        assert(p != cp);
-+        atomic_set(&p->mbtest, 0);
-         smp_mb();
--        p->pipe_count = 0;
--        p->mbtest = 1;
-+        atomic_set(&p->age, 0);
-+        atomic_set(&p->mbtest, 1);
-         atomic_rcu_set(&rcu_stress_current, p);
--        rcu_stress_idx = i;
-+        cp = p;
-+        /*
-+         * New RCU structure is now live, update pipe counts on old
-+         * ones.
-+         */
-         for (i = 0; i < RCU_STRESS_PIPE_LEN; i++) {
-             if (i != rcu_stress_idx) {
--                rcu_stress_array[i].pipe_count++;
-+                atomic_set(&rcu_stress_array[i].age,
-+                           rcu_stress_array[i].age + 1);
-             }
-         }
-         synchronize_rcu();
-@@ -346,7 +365,7 @@ static void stresstest(int nreaders, int duration)
-     int i;
- 
-     rcu_stress_current = &rcu_stress_array[0];
--    rcu_stress_current->pipe_count = 0;
-+    rcu_stress_current->age = 0;
-     rcu_stress_current->mbtest = 1;
-     for (i = 0; i < nreaders; i++) {
-         create_thread(rcu_read_stress_test);
-@@ -376,7 +395,7 @@ static void gtest_stress(int nreaders, int duration)
-     int i;
- 
-     rcu_stress_current = &rcu_stress_array[0];
--    rcu_stress_current->pipe_count = 0;
-+    rcu_stress_current->age = 0;
-     rcu_stress_current->mbtest = 1;
-     for (i = 0; i < nreaders; i++) {
-         create_thread(rcu_read_stress_test);
 -- 
 2.20.1
 
