@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84A0E16C0CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:29:11 +0100 (CET)
-Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A9116C084
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:14:53 +0100 (CET)
+Received: from localhost ([::1]:53860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZKo-0000CD-JF
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:29:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49735)
+	id 1j6Z6x-0006mD-UM
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:14:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl1-0001BX-Rf
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl2-0001C9-3l
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008HY-Fh
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Gl-AL
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:11 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54489)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42507)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykz-00081o-1C
+ id 1j6Yky-000823-Ke
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:09 -0500
-Received: by mail-wm1-x329.google.com with SMTP id z12so2664189wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:58 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id p18so10722127wre.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lnxo56F51J7EzgeqZR4DFFQlJvSN+QdQxsCFdch5LF8=;
- b=Vc+Ssh5h13f1pAqqmax1Js7lLXVTFWJVK1pPYag18qIwbRNDNb+JfoyxUZBe4sfeZP
- E1LsotxS0l4xGfWbqaDfdRDELQyFZ/OkRgCRf7egqWR6IjP6eNUVsVojakquiWhcB4Q0
- g5qvPVGUTvnmagaOPFCyrVK5TvSyk2diaV8XbB8f4EjaNLNuhLcGNes+ddP3ckJXtKvt
- pTUfcCoNTtYYa4STtz5NXSsUmix3hDUD90SKYoEFOFD+luNNKMfI4kdHpLoDyl7gqPHF
- u+e8TWYdYTmWyjeWu6dP6BTi1GRdTzrpQeeRsNIkNErbdHUdqKa3ejW9c6aZmfmNrMmo
- Ud4Q==
+ bh=HZbjw+zNbvyHHDi4Vl4rQmzRhVek9kp6hCCBPtDdrFY=;
+ b=uneqT1asALWacDMeWp8wx7zDL/mAXYZDBcQfX4V4Fb7ncUrmDkBP/yESPOXOev3tsf
+ wcyZhF+N8qLBxk4s4bGC+wqqFKIjVlkb62hsWU8vRHbYoPSHBEgY6ei6JcpY/mnK+Dtu
+ /w4C2dUpcXLrllKt6B3HFkuQbxnNlg0YhQe7v/e1tuhZt/0K571zUPqQp9PJv4twoU0Z
+ 6M5vrTcFslQWBwQk7ZR8S3y8BjtsMMQTQNpbkA+g3xFx6DrzXOWu0v3k6fobTmRjhFgZ
+ FTARsuIdPzHFatLfWeINBeHTrPtMnGGwN9uVuBzehhlL9BTseu45rnIJe/9aZWnok9mV
+ xk0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lnxo56F51J7EzgeqZR4DFFQlJvSN+QdQxsCFdch5LF8=;
- b=MoF/T5LtMt/7XMsTzl+bY+laFM748hDS6IauJQk7X/icfpZgKnCIF63YOxHfpxmSbf
- QzVNjyHrxGMmRW9F48XZqrH3dfeP2tPPf9qdT2pOoH5HM5XmcH62iRkt/rL5bmtE1+Jc
- 0wQ6m1+JSzQ66hVCCFamyzgLSqZCJDHv7ZWR+jM7SH9JOuU+lY0OnHa2Duoh03bMbIxY
- tg7TykNoQD01ISIcvFnIe5diGe+F81asfv1OLEDX/XP6vnrMDIN10jY6aZuB790UuKtE
- nsnkbN9Yrn1ttuNZpkLytCEVOETIoc6wjjGMcZXthnmpDwLfRipXfOChADvQ0hR8jOW2
- 9l/w==
-X-Gm-Message-State: APjAAAWhk7gaHwvtUEmCzGridDRJM+8kBlKZCB95KJbZnsYMnckYn+X4
- BZixd/SNljNGeYY2HpjPDOYN5YIC
-X-Google-Smtp-Source: APXvYqz74FldemUif9h0emVedf3Nx80TN990gMnK0IsuTK1ddmdgcRMLuhfmaOu68qzHVroWDbr58w==
-X-Received: by 2002:a05:600c:204f:: with SMTP id
- p15mr5146838wmg.6.1582631514571; 
- Tue, 25 Feb 2020 03:51:54 -0800 (PST)
+ bh=HZbjw+zNbvyHHDi4Vl4rQmzRhVek9kp6hCCBPtDdrFY=;
+ b=rErL9DuXzKZdwW9r571ACU2e7mRySwFA/X0/jqkILmolWVDbOaw2YNtAa6AVchriO2
+ KPcNxxrtGhSD4mkPeQH0YwBdVKx91Iweu/kMU0p8LTEDY02rGNtA+Yxx3b5kxLKCxQGH
+ UHa8aHrR1IKugSKRcbh5PdFrhJKT5kcaH6EIzWsqS3ZkbbE9J+v4Ltk7DiuVcTE58KqN
+ 1iKuZZwqYExWrDygOXes6BxqobISskINMvx/UAxUYx9jNv1HIrP0ToZ+yotiy5MC1Ztn
+ 4P4MS+fR3CKYkqyOxxqws7JBp44w3vUZNeX19/9HXaIo85tiCsbkM84ptFEXHusMRrWH
+ /gjw==
+X-Gm-Message-State: APjAAAX38i9qSnLlhaqAHDeqG1HIf2Q7542CbzZ+jqhBv8wKTVl4Uew/
+ 7kjNloKn7henqj9HvFUfoxngJU8u
+X-Google-Smtp-Source: APXvYqxPUUc8U2pK4lYYxQSYfCzZizT3mkLvKcdGGewgP75e1JfLVc6DT4NzmLF0XcrgUHp1eYihog==
+X-Received: by 2002:a5d:4687:: with SMTP id u7mr70254129wrq.176.1582631515454; 
+ Tue, 25 Feb 2020 03:51:55 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.53
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.54
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Tue, 25 Feb 2020 03:51:54 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 052/136] mips/mips_fulong2e: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:42 +0100
-Message-Id: <1582631466-13880-52-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 053/136] mips/mips_jazz: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:43 +0100
+Message-Id: <1582631466-13880-53-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,46 +94,50 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-53-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-54-imammedo@redhat.com>
 ---
- hw/mips/mips_fulong2e.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/mips/mips_jazz.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index cf00211..c373ab0 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -294,7 +294,6 @@ static void mips_fulong2e_init(MachineState *machine)
-     const char *initrd_filename = machine->initrd_filename;
-     char *filename;
-     MemoryRegion *address_space_mem = get_system_memory();
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 66fd4d8..85d49cf 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -159,7 +159,6 @@ static void mips_jazz_init(MachineState *machine,
+     ISABus *isa_bus;
+     ISADevice *pit;
+     DriveInfo *fds[MAX_FD];
 -    MemoryRegion *ram = g_new(MemoryRegion, 1);
      MemoryRegion *bios = g_new(MemoryRegion, 1);
-     long bios_size;
-     uint8_t *spd_data;
-@@ -320,13 +319,11 @@ static void mips_fulong2e_init(MachineState *machine)
-     }
+     MemoryRegion *bios2 = g_new(MemoryRegion, 1);
+     SysBusESPState *sysbus_esp;
+@@ -191,9 +190,7 @@ static void mips_jazz_init(MachineState *machine,
+     cc->do_transaction_failed = mips_jazz_do_transaction_failed;
  
      /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram",
+-    memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
 -                                         machine->ram_size);
-     memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+-    memory_region_add_subregion(address_space, 0, ram);
++    memory_region_add_subregion(address_space, 0, machine->ram);
+ 
+     memory_region_init_ram(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZE,
                             &error_fatal);
-     memory_region_set_readonly(bios, true);
- 
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
- 
-     /*
-@@ -402,6 +399,7 @@ static void mips_fulong2e_machine_init(MachineClass *mc)
-     mc->block_default_type = IF_IDE;
-     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("Loongson-2E");
-     mc->default_ram_size = 256 * MiB;
-+    mc->default_ram_id = "fulong2e.ram";
+@@ -393,6 +390,7 @@ static void mips_magnum_class_init(ObjectClass *oc, void *data)
+     mc->init = mips_magnum_init;
+     mc->block_default_type = IF_SCSI;
+     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("R4000");
++    mc->default_ram_id = "mips_jazz.ram";
  }
  
- DEFINE_MACHINE("fulong2e", mips_fulong2e_machine_init)
+ static const TypeInfo mips_magnum_type = {
+@@ -409,6 +407,7 @@ static void mips_pica61_class_init(ObjectClass *oc, void *data)
+     mc->init = mips_pica61_init;
+     mc->block_default_type = IF_SCSI;
+     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("R4000");
++    mc->default_ram_id = "mips_jazz.ram";
+ }
+ 
+ static const TypeInfo mips_pica61_type = {
 -- 
 1.8.3.1
 
