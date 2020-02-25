@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C2116EB94
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 17:41:40 +0100 (CET)
-Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F0216EBB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 17:49:12 +0100 (CET)
+Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6dH9-00026H-QU
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 11:41:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42783)
+	id 1j6dOR-0005Km-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 11:49:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6dDl-0005xq-Bh
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:38:10 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6dN5-0004mr-8f
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:47:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6dDj-0004NR-Te
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:38:09 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45537)
+ (envelope-from <peter.maydell@linaro.org>) id 1j6dN3-0000FJ-7t
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:47:46 -0500
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:40598)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6dDj-0004MV-NY
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:38:07 -0500
-Received: by mail-wr1-x442.google.com with SMTP id g3so15468751wrs.12
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 08:38:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=33klGj+MaqDBW8JE316uDTQOxPupHP/ixtndYnSVbss=;
- b=ERS8oZ0aoeXqGU9Lv2Peo9wy5f5RGbESSWr63i5fm14+tLYa9hGEyAVqdFCeIXZb99
- INiMoSHi/ORGzXAJWUveNPrPFhnNHuVmyUI6DSAYRP/B6LBnuzxH+O+fIyE7jH5EdfSm
- C3ieQa7DaU/tCD+iDCV5ld/zJJGHBT3H8XKSBDYvO9GoUcjM62gLF5CTBv8OY/zTx+dN
- Cq6BFxHbSwIiMUVDTAZNeYlhezRzI3sM3kSxpVT9adcVOyHb6GtNH6/IRJxVfCZFmW5Y
- FLdXVzZ8+ebxV5zW133iHerRx5UX1YxG3gcvk4D6o/VTEDlnBu2IfGlKoD/Ow9yXDkMy
- JO4g==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6dN2-0000EZ-8m
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:47:45 -0500
+Received: by mail-oi1-x231.google.com with SMTP id a142so13174709oii.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 08:47:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4dwWK4Oalew9sPO1oZm+RBYn/JD+GNzYLFg7/WbPqOk=;
+ b=QSWQzkH9hFzr7lo6ybQ+iBqFyiwNTeWofg6D1rih3PKgNPAE7yOerRbJzBKrYw8iSd
+ T5YvWkQDpRgBTsjX0yA5HrUXdKLHXH1RYkKtri+3hMABfLeOa9fNApM6p+WC21+cx6dr
+ iW4owLVr5vZU5Hhn5A90FycIb7PiSckjuGxPJS6bL20370Z/sdm4xZlQARu8OeOjUye/
+ xGpkrWUOOMCOEPBwZboLLVLzEwEza1G5ez/eLX1IU7USFv/vMbiz87c69Fp7EvVjjFJz
+ 2Qw2dHaJbLga/4aPpqFZxPmp79MvVz+3dAERu3ClhdtJkUh0qsgWSbb/XTYOsR+3gAeR
+ QkAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=33klGj+MaqDBW8JE316uDTQOxPupHP/ixtndYnSVbss=;
- b=BlmfQiw15htdS0wI/SpzhEtjgoQtkN6iSmjjEgk1xesQ0ffuQk2jggc/8mwJxuvRBh
- vhH6Tf/oRqzeBJ/lySUB6uwdDOHoixiK5hhLRiaxhK5ASzrZ9/CEiH53TdVWRCTimuf2
- s1JU/bFBML44XjG04Rb+uJn6+OYxbGdCJDO+eNeBEjr9H6B6XPuJ9guGl/DIwcjYSKmk
- 2UV9vxR42YktSCkOKrruKqtulwBxUBk/fgXDvUEUq3LoQTfahjjjCRq/a20+jvBJh/WQ
- enk0N/CZmh5Yiq2OeZ7FldnRPAhyhxYvuJnqp8LEk/CXEFFJiRUOU9DnZMKh8sb99OKN
- ejdw==
-X-Gm-Message-State: APjAAAVUbCEbki5bC40uRFQRiu0goDquiM+VlDj7zuKV6TTWE0D3VkYV
- 9P5GQ7ROO6c92hwQ4MQ5q+2kGXsI
-X-Google-Smtp-Source: APXvYqyPtjUKriSSwaLkX+QCZ+zfGL/1mgLwTIzZt0t0TpyDWi1a2NA3ZHoiWDnLBMfneJTD3JiCOw==
-X-Received: by 2002:adf:f787:: with SMTP id q7mr74031045wrp.297.1582648683289; 
- Tue, 25 Feb 2020 08:38:03 -0800 (PST)
-Received: from donizetti.lan ([2001:b07:6468:f312:3577:1cfe:d98a:5fb6])
- by smtp.gmail.com with ESMTPSA id q6sm18171398wrf.67.2020.02.25.08.38.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 08:38:02 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] qemu-doc: extract common system emulator documentation
- from the PC section
-Date: Tue, 25 Feb 2020 17:37:58 +0100
-Message-Id: <20200225163758.12996-5-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200225163758.12996-1-pbonzini@redhat.com>
-References: <20200225163758.12996-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4dwWK4Oalew9sPO1oZm+RBYn/JD+GNzYLFg7/WbPqOk=;
+ b=lsKQbi4tfzUQvwGHsgNBMhogX0Hu1rFNhuM0OVVibLBx2fQe5bN4ho9BrRYKozgAYY
+ W5mmNrhZtWLY9LW3f3YkViZGF0hgkhi6ZONQjdkc26OE9dLUpRkxhVBHpBdfPHN7459f
+ ghJmS9Tm9ouvufIDNigK6LTpaxKC/lcs0hDQ05m5lq3A4yu02FcZqXLjB7+BX1LAD5bH
+ xcozMb6O5rahAW7oQbCf8rdMJI9XWQKlMv28W7f1Cqj6eYZKQQV7N9t7JDHo+kw5P7kM
+ IjXj0pyLdTHEm1EpBpdTqkI8pRhaElN5QmOOv78SIro05tGBlClkPjPRvTI0yf4GXSUU
+ x7dA==
+X-Gm-Message-State: APjAAAV+X93Rk35Cp6tyXniyN0zh6DOOYgzl2PtUPSS/ASBcIo982Ulr
+ JFxvtLh0SocvnLDHCgX2Y9UNZPuu6hYr5beAP9H9Dw==
+X-Google-Smtp-Source: APXvYqyydfibYTAShjicrHJH3QVAoim7v2QcAs+SANUiLOXVC8M+CsKiVfQoOtUUWM1GsZiePLPfxJ8mZrhHho1dLv4=
+X-Received: by 2002:aca:b2c5:: with SMTP id b188mr4284993oif.163.1582649262896; 
+ Tue, 25 Feb 2020 08:47:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200225151210.647797-1-mst@redhat.com>
+In-Reply-To: <20200225151210.647797-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Feb 2020 16:47:31 +0000
+Message-ID: <CAFEAcA-eDYoyD-Hs6i7b3J+nt92DNUpFo9J+UZJtoxQ49R3i1w@mail.gmail.com>
+Subject: Re: [PULL 00/32] virtio, pc: fixes, features
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::231
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,182 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the section on PC peripherals together with other targets.
-While some x86-specific information remains in the main system
-emulation chapter, it can be tackled more easily a section at a
-time.
+On Tue, 25 Feb 2020 at 15:12, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit 9a8abceb5f01d1066d3a1ac5a33aabcbaeec1860:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-docs-20200225' into staging (2020-02-25 11:03:47 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to afc37debf27ecf34d6bc1d4b52fa0918d0bd3f3c:
+>
+>   Fixed assert in vhost_user_set_mem_table_postcopy (2020-02-25 08:47:47 -0500)
+>
+> ----------------------------------------------------------------
+> virtio, pc: fixes, features
+>
+> New virtio iommu.
+> Unrealize memory leaks.
+> In-band kick/call support.
+> Bugfixes, documentation all over the place.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/system/quickstart.texi |   2 +-
- qemu-doc.texi               | 104 +++++++++++++++++++-----------------
- 2 files changed, 57 insertions(+), 49 deletions(-)
+Hi; this fails to build on OSX:
 
-diff --git a/docs/system/quickstart.texi b/docs/system/quickstart.texi
-index 8cd5b4bc6e..ed7295de7a 100644
---- a/docs/system/quickstart.texi
-+++ b/docs/system/quickstart.texi
-@@ -2,7 +2,7 @@
- @section Quick Start
- @cindex quick start
- 
--Download and uncompress a hard disk image with Linux installed (e.g.
-+Download and uncompress a PC hard disk image with Linux installed (e.g.
- @file{linux.img}) and type:
- 
- @example
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index 169dcd9830..996ee5952b 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -36,8 +36,8 @@
- 
- @menu
- * Introduction::
--* QEMU PC System emulator::
--* QEMU System emulator for non PC targets::
-+* QEMU System emulator::
-+* QEMU System emulator targets::
- * QEMU User space emulator::
- * System requirements::
- * Security::
-@@ -128,36 +128,77 @@ accelerator is required to use more than one host CPU for emulation.
- 
- @end itemize
- 
--
--@node QEMU PC System emulator
--@chapter QEMU PC System emulator
--@cindex system emulation (PC)
-+@node QEMU System emulator
-+@chapter QEMU System emulator
-+@cindex system emulation
- 
- @menu
--* pcsys_introduction:: Introduction
--* pcsys_quickstart::   Quick Start
-+* pcsys_quickstart::   Quick start
- * sec_invocation::     Invocation
- * pcsys_keys::         Keys in the graphical frontends
- * mux_keys::           Keys in the character backend multiplexer
- * pcsys_monitor::      QEMU Monitor
--* cpu_models::         CPU models
- * disk_images::        Disk Images
- * pcsys_network::      Network emulation
--* pcsys_other_devs::   Other Devices
--* direct_linux_boot::  Direct Linux Boot
- * pcsys_usb::          USB emulation
-+* pcsys_ivshmem::      Inter-VM Shared Memory Device
-+* direct_linux_boot::  Direct Linux Boot
- * vnc_security::       VNC security
- * network_tls::        TLS setup for network services
- * gdb_usage::          GDB usage
- @end menu
- 
--@node pcsys_introduction
--@section Introduction
-+@include docs/system/quickstart.texi
-+@include docs/system/invocation.texi
-+@include docs/system/keys.texi
-+@include docs/system/mux-chardev.texi
-+@include docs/system/monitor.texi
-+@include docs/system/images.texi
-+@include docs/system/net.texi
-+@include docs/system/usb.texi
-+@include docs/system/ivshmem.texi
-+@include docs/system/linuxboot.texi
-+@include docs/system/vnc-security.texi
-+@include docs/system/tls.texi
-+@include docs/system/gdb.texi
-+
-+@node QEMU System emulator targets
-+@chapter QEMU System emulator targets
-+@cindex system emulation (PC)
-+
-+QEMU is a generic emulator and it emulates many machines. Most of the
-+options are similar for all machines. Specific information about the
-+various targets are mentioned in the following sections.
-+
-+@menu
-+* x86 (PC) System emulator::
-+* PowerPC System emulator::
-+* Sparc32 System emulator::
-+* Sparc64 System emulator::
-+* MIPS System emulator::
-+* ARM System emulator::
-+* ColdFire System emulator::
-+* Cris System emulator::
-+* Microblaze System emulator::
-+* SH4 System emulator::
-+* Xtensa System emulator::
-+@end menu
-+
-+@node QEMU PC System emulator
-+@section x86 (PC) System emulator
-+@cindex system emulation (PC)
-+
-+@menu
-+* pcsys_devices::      Peripherals
-+* cpu_models::         CPU models
-+@end menu
-+
-+@node pcsys_devices
-+@subsection Peripherals
- 
- @c man begin DESCRIPTION
- 
--The QEMU PC System emulator simulates the
--following peripherals:
-+The QEMU PC System emulator simulates the following peripherals:
- 
- @itemize @minus
- @item
-@@ -223,40 +264,7 @@ CS4231A is the chip used in Windows Sound System and GUSMAX products
- 
- @c man end
- 
--@include docs/system/quickstart.texi
--@include docs/system/invocation.texi
--@include docs/system/keys.texi
--@include docs/system/mux-chardev.texi
--@include docs/system/monitor.texi
- @include docs/system/cpu-models-x86.texi
--@include docs/system/images.texi
--@include docs/system/net.texi
--@include docs/system/usb.texi
--@include docs/system/ivshmem.texi
--@include docs/system/linuxboot.texi
--@include docs/system/vnc-security.texi
--@include docs/system/tls.texi
--@include docs/system/gdb.texi
--
--@node QEMU System emulator for non PC targets
--@chapter QEMU System emulator for non PC targets
--
--QEMU is a generic emulator and it emulates many non PC
--machines. Most of the options are similar to the PC emulator. The
--differences are mentioned in the following sections.
--
--@menu
--* PowerPC System emulator::
--* Sparc32 System emulator::
--* Sparc64 System emulator::
--* MIPS System emulator::
--* ARM System emulator::
--* ColdFire System emulator::
--* Cris System emulator::
--* Microblaze System emulator::
--* SH4 System emulator::
--* Xtensa System emulator::
--@end menu
- 
- @node PowerPC System emulator
- @section PowerPC System emulator
--- 
-2.21.1
+  CC      contrib/libvhost-user/libvhost-user.o
+/Users/pm215/src/qemu-for-merges/contrib/libvhost-user/libvhost-user.c:27:10:
+fatal error: 'sys/eventfd.h' file not found
+#include <sys/eventfd.h>
+         ^~~~~~~~~~~~~~~
+In file included from
+/Users/pm215/src/qemu-for-merges/contrib/vhost-user-bridge/main.c:37:
+/Users/pm215/src/qemu-for-merges/contrib/libvhost-user/libvhost-user.h:21:10:
+fatal error: 'linux/vhost.h' file not found
+#include <linux/vhost.h>
+         ^~~~~~~~~~~~~~~
+1 error generated.
 
+thanks
+-- PMM
 
