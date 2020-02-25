@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6B16EB8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 17:38:56 +0100 (CET)
-Received: from localhost ([::1]:60098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CED16EB92
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 17:40:25 +0100 (CET)
+Received: from localhost ([::1]:60128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6dEV-00060D-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 11:38:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42649)
+	id 1j6dFw-0000PF-OV
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 11:40:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j6dCs-0004bC-Mj
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:37:19 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6dDf-0005sj-4K
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:38:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j6dCp-00041X-3f
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:37:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57525
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j6dCn-00040p-RX
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:37:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582648629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZGX7ZN84XuXzWkU+lJuPw75LH8Kos62AO/JYcGoEofU=;
- b=fuOcR2YSVN2AR1B6LsX/4FlpN/MNTB1O1DMgwKgRHQ60K4+sBne3o78qCCmyjcNEzWF6FM
- qESzELhhppwPFt1L2jQSxdreroDFTuP1FGBRhhVzTBHzhwaBxsJWR7Af9m7rsnVGqg06vA
- xNL59XpdaoTkxpeU17+XkrgkaVawsxY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-D98z1iIKPpmZS9Drkafofg-1; Tue, 25 Feb 2020 11:37:01 -0500
-X-MC-Unique: D98z1iIKPpmZS9Drkafofg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCD0F18C43C0;
- Tue, 25 Feb 2020 16:36:57 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-215.ams2.redhat.com
- [10.36.117.215])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 071A86031E;
- Tue, 25 Feb 2020 16:36:53 +0000 (UTC)
-Subject: Re: [PATCH v4 0/4] luks: add qemu-img measure support
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20200221112522.1497712-1-stefanha@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e435f6d8-a67c-09fd-819d-c5236a32cb70@redhat.com>
-Date: Tue, 25 Feb 2020 17:36:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6dDe-0004Lf-65
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:38:03 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34869)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1j6dDd-0004L0-8n
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 11:38:02 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id w12so15532036wrt.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 08:38:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sD/qPlf4vUdHw1Xk0sS8bF0iY4OPu1u1kkvdhxNUD34=;
+ b=mYRpWbc3u9pXI2/1GRaeXQkQPW+x+cBGklE95dLOH7EyW9/7DkkNOA3nXxs6KASt0+
+ KA4LEeVR9kgBh8ZqGIKf72PB0YxYyrIUxzII1qgZOihHcTcLijGo5oBNunpzJb/L3C/i
+ W8YM/qDX5NuDxPv02C42loEXPf8iKxn0wkksIIUs6XWzeqo/2fBHVk/wgb3pFyz91s4w
+ 15I/f5F5Eq2MB5RHDSb8ckpcP0vbdRSwF/AZMxXkGsOAYIDduTlS8HPIs2avFLrestB5
+ igV6B5Ppc1nbzVaoP5vje6iIoGWzVDJ7WwGYuqSxVrAhYqyuMgErgA1cc1tDuYVvu8oa
+ n1Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=sD/qPlf4vUdHw1Xk0sS8bF0iY4OPu1u1kkvdhxNUD34=;
+ b=XGNqjz+9uF3fgCpL8BslFOV6IptBpCGIMwC/SVtwGjzEE2UxisnD5DLSp8f/SSc7oF
+ l2GWqGoewWeet52qZeI0ELsY1K6/gcA0WPJlosQuZQUQFrzm3Ibr3GbQyioRGzwyfsRC
+ ZmO95d4w/8GG6csHzDryU6ZIhPAglnkfRhivTCPeiengaqJzMo9+4RSlxfxm5ChFRQM3
+ 2rVYpxDnQlb9ZA14q+gIxSXNt72nNvZsmwmuoz0U1aa1r3NJ9P/+CXSgjLZv77CwvMSK
+ CNjEQ9vWWnyroJpurSWqS7FCyiCUj5gvByh75ph93uaC1pHHB+u55s/WwfFx8R4f5s/p
+ sKbA==
+X-Gm-Message-State: APjAAAUXTQBgQuieC7QqWx03AKIYTpkZBeCbOwRQD0v99SIUxNMfbz/w
+ jz1TRoI74zWPR4pgUS9WZsdJPuju
+X-Google-Smtp-Source: APXvYqzIsEUvs2m3/X5y+m5LKn7WE6OFdG21ZTaESsWU5PhJWWbiRErHmwWrW9zgXASDlIl1iZXe9Q==
+X-Received: by 2002:a05:6000:114f:: with SMTP id
+ d15mr37454wrx.130.1582648679566; 
+ Tue, 25 Feb 2020 08:37:59 -0800 (PST)
+Received: from donizetti.lan ([2001:b07:6468:f312:3577:1cfe:d98a:5fb6])
+ by smtp.gmail.com with ESMTPSA id q6sm18171398wrf.67.2020.02.25.08.37.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 08:37:59 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] qemu-doc reorganization
+Date: Tue, 25 Feb 2020 17:37:54 +0100
+Message-Id: <20200225163758.12996-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200221112522.1497712-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8tvf8inkZv2LYmvUrMzS31kg9WKdGT4wU"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,79 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8tvf8inkZv2LYmvUrMzS31kg9WKdGT4wU
-Content-Type: multipart/mixed; boundary="FQ4oKu6Q4lRTrTitW0FKeOzmRfiSJKktQ"
+Prior to rST conversion, reorganize qemu-doc so that PC is handled
+like all other targets and there is a generic "system emulation"
+chapter.
 
---FQ4oKu6Q4lRTrTitW0FKeOzmRfiSJKktQ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This conflicts with the docs/system/cpu-models.texi conversion to
+rST, but I would like to have a review for the third and fourth
+patch while that conversion is finalized.
 
-On 21.02.20 12:25, Stefan Hajnoczi wrote:
-> v4:
->  * This revision is what German speakers call "das T=C3=BCpfelchen auf de=
-m I".  "The
->    icing on the cake" is the English equivalent.  Since I like cake and d=
-on't
->    want it to be half-baked, and because I like my metaphors shaken, not
->    stirred, I went ahead with the extra revision so I could write this me=
-ssage.
+Paolo
 
-:)
+Paolo Bonzini (4):
+  docs: system: remove target OS documentation
+  docs: system: split CPU models doc between MIPS and x86 parts
+  docs: split qemu-doc.texi in multiple files
+  qemu-doc: extract common system emulator documentation from the PC
+    section
 
->  * Use g_autoptr(QCryptoBlock) to make the code more concise [Max]
->  * Use local_err consistently [Max]
->  * Folded in Max's Reviewed-by tags
-> v3:
->  * Move payload offset calculation function to crypto/block.c [Max]
->  * Zero/unallocated blocks always require disk space on encrypted files [=
-Max]
->  * Update qemu-iotests 178 output when changing qemu-img measure command-=
-line
->    options
->=20
-> v2:
->  * Fix uint64_t <-> size_t type mismatch in block_crypto_measure() so tha=
-t
->    32-bit builds pass
->=20
-> This patch series adds qemu-img measure support to the "luks" block drive=
-r.  We
-> just need to take into account the LUKS header when sizing the image.
+ Makefile                                      |   11 +-
+ docs/system/cpu-models-mips.texi              |  200 +++
+ .../cpu-models-x86.texi}                      |  232 ---
+ docs/system/gdb.texi                          |   71 +
+ docs/system/images.texi                       |   88 +
+ docs/system/invocation.texi                   |  240 +++
+ docs/system/ivshmem.texi                      |   60 +
+ docs/system/keys.texi                         |   53 +
+ docs/system/linuxboot.texi                    |   27 +
+ docs/system/monitor.texi                      |   35 +
+ docs/system/mux-chardev.texi                  |   51 +
+ docs/system/net.texi                          |   96 +
+ docs/system/qemu-cpu-models.texi              |   28 +
+ docs/system/quickstart.texi                   |   13 +
+ docs/system/tls.texi                          |  329 ++++
+ docs/system/usb.texi                          |  115 ++
+ docs/system/vnc-security.texi                 |  196 ++
+ qemu-doc.texi                                 | 1572 +----------------
+ 18 files changed, 1668 insertions(+), 1749 deletions(-)
+ create mode 100644 docs/system/cpu-models-mips.texi
+ rename docs/{qemu-cpu-models.texi => system/cpu-models-x86.texi} (71%)
+ create mode 100644 docs/system/gdb.texi
+ create mode 100644 docs/system/images.texi
+ create mode 100644 docs/system/invocation.texi
+ create mode 100644 docs/system/ivshmem.texi
+ create mode 100644 docs/system/keys.texi
+ create mode 100644 docs/system/linuxboot.texi
+ create mode 100644 docs/system/monitor.texi
+ create mode 100644 docs/system/mux-chardev.texi
+ create mode 100644 docs/system/net.texi
+ create mode 100644 docs/system/qemu-cpu-models.texi
+ create mode 100644 docs/system/quickstart.texi
+ create mode 100644 docs/system/tls.texi
+ create mode 100644 docs/system/usb.texi
+ create mode 100644 docs/system/vnc-security.texi
 
-Thanks, applied to my block branch:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-Max
-
-
---FQ4oKu6Q4lRTrTitW0FKeOzmRfiSJKktQ--
-
---8tvf8inkZv2LYmvUrMzS31kg9WKdGT4wU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5VTSQACgkQ9AfbAGHV
-z0CC4wf/cCtK93FTQt7ZNArjsjghSuwBUKLvXn32e6q430rIjVcjBeF+UdJEnFwQ
-iReo3PVM6S7IX5nARjgPqOSxFWR9DcXE/tZzLjNo5R3VmLAP69dTn0t9VN3R4p68
-Ge/YevgjRfMngCHUoOOJWKbfJmeVBZkYMuBh52xDTLsdhuFJpdRezWN8ZkObLY+X
-gdfvsWEBS/rRO3neRf/oTCDIeqE8KijQdO+4qDirjAMVhEx0VmDtbGJOISGhG8gc
-fPTn20RiD5Ve59a5AneVumQjrizIcaivq9iM5+Kf2vgt/1Unv3VgJnACWATIJWjw
-8O63t4I/qzBtlq5OEp9H0yJSHzWxfw==
-=5qig
------END PGP SIGNATURE-----
-
---8tvf8inkZv2LYmvUrMzS31kg9WKdGT4wU--
+-- 
+2.21.1
 
 
