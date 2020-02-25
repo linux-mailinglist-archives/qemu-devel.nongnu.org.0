@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BC916C29F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:43:28 +0100 (CET)
-Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2748A16C294
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:41:44 +0100 (CET)
+Received: from localhost ([::1]:56258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aUh-0007Z8-QG
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:43:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59170)
+	id 1j6aT1-0005T1-6c
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcQ-0005S2-UU
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcQ-0005Rz-5F
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcP-0007EE-NN
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcP-0007Dt-78
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:22 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33564)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52245)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZcP-0007Dj-Hv
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:21 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id u6so14616759wrt.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:21 -0800 (PST)
+ id 1j6ZcN-0007DI-FI
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:19 -0500
+Received: by mail-wm1-x330.google.com with SMTP id p9so2867185wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mRJBG/zc2GQpI0clN99w+344ScpJbk+vuaXsTd83iMo=;
- b=n+AbY7Um9xYuIrtBkAFUKLevPWbgJZdXMshg6eU1D+SJb2q5SS0ezY9ImwPmFXDDGE
- 1H66VkJm8Tj6dDBmkT0AqOkDIjynUBnHOvJZaucKq/dJeik98xE0qfGEi70ojVcRwoFp
- ufRT2CJtSacs1507bXfuumLHfSFNNaExCNqqNw3Y8M2boF24OqCxpmCNvyet7RMFeh+A
- lpQBrriDjxLRZE2BJzkMRSb4nvzdUsj+tB6/IXSzSEhNFoEH0ESBakTAibcUEANw5//5
- qi5V3Optfzhu/J89MGQ/cN5imP3men8337MijfA3LUYG5LwkwexynFrI8b393kVAzKZs
- Cqxg==
+ bh=xk2650h3wDm/dF48W9ZCLpoRo1e5nZQvUV6vRqejydc=;
+ b=BvazD4rQiFWfFCDxTfrXAHYChj5fheyaui8xXIyDSlNBhelM35UVRAa5WxzVb9i+VG
+ OpPM31Lh9TY2J/8VHTaC0sSJc7fyTof1M38K4jDThh0i8u1y/1eA3eOYygAH1q7ahBTW
+ RNrhyDlJyZk2Km+dlYBR5f+fmTq1qP6aWBcHcRQk5SBChthfXHqLtZu9Ci7G7LoWwaW7
+ hQOc7v39+gBE/2BhMHx54r/1md5XbcvZSBzeVhwfjGkB9PhzVqHGXSGfEzuaqKWm1gbJ
+ Dd9LRXEtO4PSqvRMPKkq7TYpGR0vbBLxIh9e+utGhdyWdMnD4m2VY2VIdzhXYb6YlXUq
+ OKHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mRJBG/zc2GQpI0clN99w+344ScpJbk+vuaXsTd83iMo=;
- b=MwAHJX6ylQylHvOf8NgfseMi4dcgT+wrp35mhyqLkp1+h6+T5XR4HyIbS3x+pxCGlr
- YAOwo3lmFI0JIbNUeHHs7Wc3HYmULrbuokYWS92bjS4xljuM4NHyMYquheO2eJt3fzxN
- 56tsBPAwL2xdXyJLE1RA+BZ5/rKA2JccNVifn7vx32LK8A8HQqLbqsoXCNJClR/TJqD9
- 7b5ZAZ/swXNpKYt8w++TOl7Qf+skVdNHIWyLF5Ft6W8QJ0ENJD6KnMqHIRMbrPBLFUGT
- nBVkdTV3wN5DlujVaw39bfvek6Sa4snGwjAAcdyCMNLzxMkTGe9hPdB3gEbbxuBDe0Np
- BesQ==
-X-Gm-Message-State: APjAAAWnU01p+uPh20eu9G+E7ZtSPJ99WaAXdwMVvoAc2QYjqtQiYMgu
- RSjwAZ4MGm/EUHathuIy3iqmCA==
-X-Google-Smtp-Source: APXvYqw5AsC1xNKe6C6Nm/qTuKXOUec0rvULELtvEqno5uTuMCWgdGodrihVZuR2z8udTUv0TwmMMw==
-X-Received: by 2002:adf:f091:: with SMTP id n17mr70531397wro.387.1582634840115; 
- Tue, 25 Feb 2020 04:47:20 -0800 (PST)
+ bh=xk2650h3wDm/dF48W9ZCLpoRo1e5nZQvUV6vRqejydc=;
+ b=Vd4b6jHtAeHAKon+hTWJpiD26PgTTPCy/IEPxVAcY75WV7t9s152nNvv4y6ySWKyTa
+ XCMqXrmIpDQWwFa3uEno22n1gl0Md9l7A2i90iAdP4L5BGVK3VAkLKc111UePmlduhrP
+ m6krOFu6ARV2rVkHP7iIA6PlSHrDDeOZCk/ukCcKjxhntSZoEQXy96wgP12j5z5REAx2
+ iLhN0LdwduS2ez1s+gK5CVa9hNKr9FRYc8nhf1Gbf1ggV0WD5OjE9ESqKnpRV/dG5B2E
+ zPc2m9zaQ8y1XZyC1rrF0zwuldZhGMTnNkKufLHIWynVcHS+YsFSxmE0Rv4Qjj1QKnHh
+ Au+Q==
+X-Gm-Message-State: APjAAAUWR4WZd2CwzkMfX66l4xvrDj+NHjRvZjRgrh4XMcYYGniehqlL
+ hjP0hyuDx/P6xId7eFAPfHR0oA==
+X-Google-Smtp-Source: APXvYqz4oSGS0GogNw9c4Z9Cl1KjlE20fvp+pXUj2suEoXl33YXt6WDFz9sTpQetc0Qml7tUnotjWA==
+X-Received: by 2002:a1c:ddc3:: with SMTP id u186mr5224749wmg.103.1582634838345; 
+ Tue, 25 Feb 2020 04:47:18 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t10sm2666271wru.59.2020.02.25.04.47.12
+ by smtp.gmail.com with ESMTPSA id 133sm4459335wmd.5.2020.02.25.04.47.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 25 Feb 2020 04:47:14 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B726E1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id CB8E61FF93;
  Tue, 25 Feb 2020 12:47:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 05/19] travis.yml: Test the s390-ccw build, too
-Date: Tue, 25 Feb 2020 12:46:56 +0000
-Message-Id: <20200225124710.14152-6-alex.bennee@linaro.org>
+Subject: [PATCH  v3 06/19] travis.yml: Fix Travis YAML configuration warnings
+Date: Tue, 25 Feb 2020 12:46:57 +0000
+Message-Id: <20200225124710.14152-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,57 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- robert.foley@linaro.org, pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, richard.henderson@linaro.org,
- f4bug@amsat.org, robhenry@microsoft.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- aurelien@aurel32.net
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Since we can now use a s390x host on Travis, we can also build and
-test the s390-ccw bios images there. For this we have to make sure
-that roms/SLOF is checked out, too, and then move the generated *.img
-files to the right location before running the tests.
+This fixes the following warnings Travis has detected on the
+YAML configuration:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+- 'on root: missing os, using the default "linux"'
+- 'on root: the key matrix is an alias for jobs, using jobs'
+- 'on jobs.include.python: unexpected sequence, using the first value (3.5)'
+- 'on jobs.include.python: unexpected sequence, using the first value (3.6)'
+
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200206202543.7085-1-thuth@redhat.com>
+Message-Id: <20200207210124.141119-2-wainersm@redhat.com>
 ---
- .travis.yml | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .travis.yml | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index 58870559515..ea13e071795 100644
+index ea13e071795..0612998958b 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -509,6 +509,16 @@ matrix:
-       env:
-         - TEST_CMD="make check check-tcg V=1"
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
-+      script:
-+        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-+        - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-+        - |
-+          if [ "$BUILD_RC" -eq 0 ] ; then
-+              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-+              ${TEST_CMD} ;
-+          else
-+              $(exit $BUILD_RC);
-+          fi
+@@ -1,6 +1,7 @@
+ # The current Travis default is a VM based 16.04 Xenial on GCE
+ # Additional builds with specific requirements for a full VM need to
+ # be added as additional matrix: entries later on
++os: linux
+ dist: xenial
+ language: c
+ compiler:
+@@ -113,7 +114,7 @@ after_script:
+   - if command -v ccache ; then ccache --show-stats ; fi
  
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start with a 'v'.
+ 
+-matrix:
++jobs:
+   include:
+     - name: "GCC static (user)"
+       env:
+@@ -297,8 +298,7 @@ matrix:
+         - CONFIG="--target-list=x86_64-softmmu"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+-      python:
+-        - "3.5"
++      python: 3.5
+ 
+ 
+     - name: "GCC Python 3.6 (x86_64-softmmu)"
+@@ -306,8 +306,7 @@ matrix:
+         - CONFIG="--target-list=x86_64-softmmu"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+       language: python
+-      python:
+-        - "3.6"
++      python: 3.6
+ 
+ 
+     # Acceptance (Functional) tests
 -- 
 2.20.1
 
