@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE50016C0A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:20:17 +0100 (CET)
-Received: from localhost ([::1]:53958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCB316C059
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:09:23 +0100 (CET)
+Received: from localhost ([::1]:53772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZCD-00081b-0l
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:20:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49515)
+	id 1j6Z1e-0004ux-PA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:09:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykh-0000q9-BC
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykh-0000q6-AP
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykd-0007QD-AB
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykd-0007QN-Cc
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38647)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37504)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykd-00079l-1m
+ id 1j6Ykd-0007IF-48
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:47 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id a9so2847425wmj.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:45 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id l5so10127380wrx.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jDn1Evqlhv0edo4aB8U4WodyMKNx8yc9pxEgR9k2D2w=;
- b=AZf3RGEM1dcW0sow0gV38x24yy22jv+mC09Jn85fXGOzYHs1187xo8Un0TqWy2JGpb
- 7hOmRF8PjAwJfhALQ1EN38TLPKFZWZc2oN5Zwr9UmQdRNhlH9hFNv43EdfK9YS3Yvfgj
- Bonr9t/+7zrtqxO6IWKg0UWhSFiuluCOJFxmj45kHsX2vSUEjH43lQjLFWX9oDsVN8Rl
- 11hDJsuyoHjXcqb1B0eHL/7ryeu1OBAGKB0i8mFQx/PXdYWrM96icrx5cD/AFLUrx0XL
- lSXEWXpehVz7fQBs178IiRpvUst5+CnE4u5lkzL8rHhl6z+NcWFXEFfTB+i7jXGrx/Ev
- Orgw==
+ bh=nYheH1M1FZDgO9rIttffb0yGCNjxEvlOTqwWzEb9bFU=;
+ b=g7YbSzmS4EcJTeVypOFvY7+wIyOCOZtVynZB7ZXTEGHJ9uJu8H3s1rUmENFnGTtHvz
+ pceS5U3j4st4r1x+vpV8NfRLekEt0AIiPyy4tr4+ImA3I2Xsb2TBJyFZcI+Lr68xgnOF
+ z37BH2TCV8PkHzbYqsb92CdMlcZfpNi1m9IauagrLXzOoD8vT/x0bfLuxEr9EBiFirtu
+ +e7UiBxGC0uDYhmgObKv+2bIWWWDkuRIazPrItkLGFGYISjSgw0Bj0KtCNASS7g6UGQl
+ xHFxMMho4QimswgWpKMce5QxWhlOVve8KJvZmFocC89bFHp3gqe1B7vId8z5h6j3quqb
+ +5hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jDn1Evqlhv0edo4aB8U4WodyMKNx8yc9pxEgR9k2D2w=;
- b=RHEdgdU1rH34RBxz0IeL2CSXlgodvqGIBU6hi1DBE3oTpvhaTxiI6O+X2ZHbvdIs+9
- h4K0KITal0ttZoUiyK9bqKICo08OklD5WN7Qc73bWIb+3m3NR772jHrXqXUWwk4gLdmM
- UGMJqmLbz+KwZRlVfXodKqSY+XoOonIdsCgNBFMdnoFGg9cwjs5dK82PqG9yLyJL4haB
- 5g+kY/91JX2tAULQLtrc/7WV9ZmKLd/yjQnLJ2hI36UyM40E4nPYlh7YwPPkexnfbXXV
- iAAb5tWv5bp+dguzpbtsv5TFjOqNFz6BWih/fYC6z057xVT6uUWiecLn8Lac4fTXHUSs
- QqFg==
-X-Gm-Message-State: APjAAAUMo/YPADX36ItdsS0S6abBHIQ04XL7pS8OxX1+MnPGonk6XtYO
- nKCCE0nbe8beuNz59MxmQKS0U/7R
-X-Google-Smtp-Source: APXvYqyzTtISsrOFpo6qMzp595X3hNCCkNJ+efaUveB6P0tbfUj3hCMZY9FNU8UpvQL5tIfH03cCxg==
-X-Received: by 2002:a1c:9a0d:: with SMTP id c13mr4832272wme.41.1582631504673; 
- Tue, 25 Feb 2020 03:51:44 -0800 (PST)
+ bh=nYheH1M1FZDgO9rIttffb0yGCNjxEvlOTqwWzEb9bFU=;
+ b=WP/JW3LvnpehAKJRYEw+s/y2+MM6OpGCUcpIjKFX+gy1IQ0rZfPyPCU3345SgUcSSB
+ AiBc/CQSeVSvMIDV7XExwcEJ8MMyMPyI2hGg3AT26AKmv+UE9sVp5jmra023KqLqSU4h
+ Hj4aJQAVQ4DFVP7nU1yzplYxL2ekaO5r0F/DID2xnhwNINhMyWy+ayXiPeZtc75rhXL8
+ rMBTOmzZffMYfG+bddro8XXjTNEkBgLt+hvDJati9ygcjaySJ1NrpwIUnKK8YqzXI6sN
+ 03ZXNd6xLFvYjvwLAVg5XWAgn8mwg/dl7ZlcyWd96Q5LJBNLUleinhFip4qWOXU/Gi9n
+ 6Z4w==
+X-Gm-Message-State: APjAAAXEikQpEDMqySS4/Zxbk94tARF6nu2VetwZocxgvCh1MTKlt1Cr
+ ZsWCqQZClAEQ/JDOoYKtNAr6qN62
+X-Google-Smtp-Source: APXvYqzWxlV3B6uJFrx5lIxry0Oin176Yx68CeIWn7EJMtMdA8f9N5/hNynNo2VNmK3O8PYsozbWYw==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr74403594wrp.54.1582631505640; 
+ Tue, 25 Feb 2020 03:51:45 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.43
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:44 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 041/136] hppa: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:31 +0100
-Message-Id: <1582631466-13880-41-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 042/136] x86/microvm: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:32 +0100
+Message-Id: <1582631466-13880-42-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,53 +93,59 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-42-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-43-imammedo@redhat.com>
 ---
- hw/hppa/machine.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ hw/i386/microvm.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index d8755ec..67181e7 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -71,14 +71,11 @@ static void machine_hppa_init(MachineState *machine)
-     uint64_t kernel_entry = 0, kernel_low, kernel_high;
-     MemoryRegion *addr_space = get_system_memory();
-     MemoryRegion *rom_region;
--    MemoryRegion *ram_region;
-     MemoryRegion *cpu_region;
-     long i;
-     unsigned int smp_cpus = machine->smp.cpus;
-     SysBusDevice *s;
- 
--    ram_size = machine->ram_size;
--
-     /* Create CPUs.  */
-     for (i = 0; i < smp_cpus; i++) {
-         char *name = g_strdup_printf("cpu%ld-io-eir", i);
-@@ -97,10 +94,8 @@ static void machine_hppa_init(MachineState *machine)
-         error_report("RAM size is currently restricted to 3GB");
-         exit(EXIT_FAILURE);
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index d234851..38d8e51 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -167,7 +167,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+ {
+     MachineState *machine = MACHINE(mms);
+     X86MachineState *x86ms = X86_MACHINE(mms);
+-    MemoryRegion *ram, *ram_below_4g, *ram_above_4g;
++    MemoryRegion *ram_below_4g, *ram_above_4g;
+     MemoryRegion *system_memory = get_system_memory();
+     FWCfgState *fw_cfg;
+     ram_addr_t lowmem;
+@@ -214,12 +214,8 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+         x86ms->below_4g_mem_size = machine->ram_size;
      }
--    ram_region = g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ram_region, OBJECT(machine),
--                                         "ram", ram_size);
--    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
-+    memory_region_add_subregion_overlap(addr_space, 0, machine->ram, -1);
-+
  
-     /* Init Lasi chip */
-     lasi_init(addr_space);
-@@ -298,6 +293,7 @@ static void machine_hppa_machine_init(MachineClass *mc)
-     mc->is_default = 1;
-     mc->default_ram_size = 512 * MiB;
-     mc->default_boot_order = "cd";
-+    mc->default_ram_id = "ram";
- }
+-    ram = g_malloc(sizeof(*ram));
+-    memory_region_allocate_system_memory(ram, NULL, "microvm.ram",
+-                                         machine->ram_size);
+-
+     ram_below_4g = g_malloc(sizeof(*ram_below_4g));
+-    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
++    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
+                              0, x86ms->below_4g_mem_size);
+     memory_region_add_subregion(system_memory, 0, ram_below_4g);
  
- DEFINE_MACHINE("hppa", machine_hppa_machine_init)
+@@ -227,7 +223,8 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+ 
+     if (x86ms->above_4g_mem_size > 0) {
+         ram_above_4g = g_malloc(sizeof(*ram_above_4g));
+-        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g", ram,
++        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
++                                 machine->ram,
+                                  x86ms->below_4g_mem_size,
+                                  x86ms->above_4g_mem_size);
+         memory_region_add_subregion(system_memory, 0x100000000ULL,
+@@ -502,6 +499,7 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+     mc->auto_enable_numa_with_memhp = false;
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = false;
++    mc->default_ram_id = "microvm.ram";
+ 
+     /* Avoid relying too much on kernel components */
+     mc->default_kernel_irqchip_split = true;
 -- 
 1.8.3.1
 
