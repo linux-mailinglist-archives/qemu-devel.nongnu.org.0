@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4445616B79A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 03:14:41 +0100 (CET)
-Received: from localhost ([::1]:47722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AE316B797
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 03:14:06 +0100 (CET)
+Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Pk8-0005hm-Ax
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 21:14:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
+	id 1j6PjZ-00046r-K4
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 21:14:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j6PgS-00071q-QF
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 21:10:53 -0500
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j6PgP-0006vZ-SE
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 21:10:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j6PgQ-0008Cd-NF
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 21:10:52 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3249 helo=huawei.com)
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j6PgO-0008A2-Mr
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 21:10:49 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3246 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j6PgN-00085x-Nz; Mon, 24 Feb 2020 21:10:48 -0500
+ id 1j6PgL-0007zV-D8; Mon, 24 Feb 2020 21:10:45 -0500
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id C8804C6C5159483D681F;
+ by Forcepoint Email with ESMTP id A2C5BDFDBD7D69E87A5D;
  Tue, 25 Feb 2020 10:10:42 +0800 (CST)
 Received: from huawei.com (10.133.205.93) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 25 Feb 2020
  10:10:32 +0800
 From: <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 06/13] display/pxa2xx_lcd: Remove redundant statement in
- pxa2xx_palette_parse()
-Date: Tue, 25 Feb 2020 10:09:30 +0800
-Message-ID: <20200225020937.25028-7-kuhn.chenqun@huawei.com>
+Subject: [PATCH 07/13] display/exynos4210_fimd: Remove redundant statement in
+ exynos4210_fimd_update()
+Date: Tue, 25 Feb 2020 10:09:31 +0800
+Message-ID: <20200225020937.25028-8-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.14.1.windows.1
 In-Reply-To: <20200225020937.25028-1-kuhn.chenqun@huawei.com>
 References: <20200225020937.25028-1-kuhn.chenqun@huawei.com>
@@ -53,40 +53,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- zhang.zhanghailiang@huawei.com, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, zhang.zhanghailiang@huawei.com,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-hw/display/pxa2xx_lcd.c:596:9: warning: Value stored to 'format' is never read
-        format = 0;
-        ^        ~
+hw/display/exynos4210_fimd.c:1313:17: warning: Value stored to 'is_dirty' is never read
+                is_dirty = false;
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org
 ---
- hw/display/pxa2xx_lcd.c | 1 -
+ hw/display/exynos4210_fimd.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
-index 05f5f84671..464e93161a 100644
---- a/hw/display/pxa2xx_lcd.c
-+++ b/hw/display/pxa2xx_lcd.c
-@@ -593,7 +593,6 @@ static void pxa2xx_palette_parse(PXA2xxLCDState *s, int ch, int bpp)
-         n = 256;
-         break;
-     default:
--        format = 0;
-         return;
-     }
- 
+diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
+index c1071ecd46..05d3265b76 100644
+--- a/hw/display/exynos4210_fimd.c
++++ b/hw/display/exynos4210_fimd.c
+@@ -1310,7 +1310,6 @@ static void exynos4210_fimd_update(void *opaque)
+                 }
+                 host_fb_addr += inc_size;
+                 fb_line_addr += inc_size;
+-                is_dirty = false;
+             }
+             g_free(snap);
+             blend = true;
 -- 
 2.23.0
 
