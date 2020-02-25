@@ -2,73 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C59F16C23C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:26:11 +0100 (CET)
-Received: from localhost ([::1]:55692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5F716C1E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:15:23 +0100 (CET)
+Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aDy-0002Bp-3N
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:26:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52832)
+	id 1j6a3W-0007zz-25
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:15:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0V-00043z-BD
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:12 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j6Z2J-0007jr-9G
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:10:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0U-0003hN-A5
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:11 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54632)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0U-0003gu-3J
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:10 -0500
-Received: by mail-wm1-x343.google.com with SMTP id z12so2724357wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PIafvyQfHwf8flcgdrRq/WGoQSyodU6qPc8agqHB4HE=;
- b=OXEzyiJBxRQHaXtDrUH1R7xedeSGF96CYA6foLLYIqgZT8p02WDSuSnOSBVfbdHxEj
- Bz6qA/pmV7R10Xx0ZvMqstzBChC/PAmF72uM7yHu4t/q31K65l/LnkkDH9x8b2ES+J6H
- Jk1j0YrU1ICdxSbwC9QQ3F6I5pZ4lxx1130Mr2Pi2MHKjrdS6feIJMNHcgeHvfYh/pGR
- MgqM0HlH7LqMYk6WardFvjDAZIWWYLEWTQUrOsQsaPsSLSmdyK8AF6drHjoPJ0bC7Vjs
- KnskMmtoWQkNofu8QJJ93eHOElf3Xx5Pmm+AqiZBjxVNAjL0HCbX6GGPDDe7M/D3D/Q4
- gXVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PIafvyQfHwf8flcgdrRq/WGoQSyodU6qPc8agqHB4HE=;
- b=Q6fazOCV3RDDmCwalnKnfgfjHY8KFM3Uzy74aE+zi+RTgDTn5f4Y9YBYmiXrfyQFiK
- OA7p3gQgIOy3/TzR/I2ob7zE8Ry/Vyz3G95Yt6aCK/V5s8HX2kqv4QFmei4Ht1GOo9rw
- RVJNteeKfh3Ufl/1s6XjlnDYiUA6vqAuxEKI/n1dOn7oiDKSKuSTcbSkYRBoU+RMQDRA
- IvX8mqei4EwtXEsslN3jcgd6dJj0Jc5e+1rF8pJ9uETSdh1ZvwOT2yZKklJ9+13wg+a1
- iO67ZAx8/RDGOWryvcS9ZMeR70G40jwVvXoaDarZgy2Z+hVWAx4OEx7aqTaTVsFkVo/1
- NJ5Q==
-X-Gm-Message-State: APjAAAUoX4EvDJ09Uxs317KxTxAj4gim2PMZrEDafxrqdj94dgYeiS3K
- 7X5O2DheRJVuk1UALE40O3KR2Xg0
-X-Google-Smtp-Source: APXvYqz4hfx1FnjqcsgHuVlAOejMe1qP4rWMfqaZJz3H8hbWa+XooknxKEO4vv+RGgP11W6pDvd4Ng==
-X-Received: by 2002:a05:600c:2042:: with SMTP id
- p2mr5200251wmg.79.1582632488264; 
- Tue, 25 Feb 2020 04:08:08 -0800 (PST)
-Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.07
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:08:07 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 135/136] accel/kvm: Check ioctl(KVM_SET_USER_MEMORY_REGION)
- return value
-Date: Tue, 25 Feb 2020 13:07:33 +0100
-Message-Id: <1582632454-16491-33-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+ (envelope-from <balaton@eik.bme.hu>) id 1j6Z2H-0004oY-D1
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:10:02 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14670)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1j6Z2H-0004ie-6Z; Tue, 25 Feb 2020 07:10:01 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A055E74637C;
+ Tue, 25 Feb 2020 13:09:49 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7AE1E745953; Tue, 25 Feb 2020 13:09:49 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 78D6E74569F;
+ Tue, 25 Feb 2020 13:09:49 +0100 (CET)
+Date: Tue, 25 Feb 2020 13:09:49 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Programmingkid <programmingkidx@gmail.com>
+Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+In-Reply-To: <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
+Message-ID: <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
+References: <20200218171702.979F074637D@zero.eik.bme.hu>
+ <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
+ <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
+ <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,60 +55,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paul Clarke <pc@us.ibm.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Mon, 24 Feb 2020, Programmingkid wrote:
+> Intel Core i5-2500S CPU @ 2.70GHz.
+[...]
+> Ok, I did test on the G4, here are my results:
+>
+> Git commit: c1e667d2598b9b3ce62b8e89ed22dd38dfe9f57f
+> Mac OS 10.4.3 VM
+> -cpu G4
+> -USB audio device
+>
+> Hardfloat=false
+> Audio sounds bad when playing midi file.
+> Extraction rate: 1.5x
+> Converting rate: 0.7x
+> Total time: 7:24
+>
+> Hardfloat=true
+> Midi audio sounded perfect for about 30 seconds, then it went silent!
+> Extraction rate: 1.4x (slower with hard float)
+> Converting rate: 0.7x (same as without hardfloat)
+> Total time: 7:16 (faster time with hardfloat)
 
-kvm_vm_ioctl() can fail, check its return value, and log an error
-when it failed. This fixes Coverity CID 1412229:
+How is that extraction rate is slower but total time is less than without 
+hardfloat? There must be other factors here than just FP ops. Maybe a 
+better test is to not play the audio just save it to a file so other 
+issues with USB is not influencing the test.
 
-  Unchecked return value (CHECKED_RETURN)
+> When I played sound this second time I hard the same broken audio I 
+> usually hear with the USB audio device with hardfloat set to false. When 
+> playing the same midi file with hardfloat set to true, the audio played 
+> perfectly! It only played for 30 seconds before it went silent.
 
-  check_return: Calling kvm_vm_ioctl without checking return value
+So probably there are at least two problems: FPU emulation is not fast 
+enough to decode audio to fill buffer then there's also something with 
+usb-audio that jams it after a while? I don't think all of this is FPU 
+related.
 
-Reported-by: Coverity (CID 1412229)
-Fixes: 235e8982ad3 ("support using KVM_MEM_READONLY flag for regions")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20200221163336.2362-1-philmd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+> I can give you the full testing suite if you like. I run it on Mac OS 
+> 10.4 but it should compile with gcc on Linux. I will send it to you in a 
+> separate email because it is big.
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c111312..6df3a4d 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -308,13 +308,23 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
-         /* Set the slot size to 0 before setting the slot to the desired
-          * value. This is needed based on KVM commit 75d61fbc. */
-         mem.memory_size = 0;
--        kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-+        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-+        if (ret < 0) {
-+            goto err;
-+        }
-     }
-     mem.memory_size = slot->memory_size;
-     ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-     slot->old_flags = mem.flags;
-+err:
-     trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
-                               mem.memory_size, mem.userspace_addr, ret);
-+    if (ret < 0) {
-+        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
-+                     " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
-+                     __func__, mem.slot, slot->start_addr,
-+                     (uint64_t)mem.memory_size, strerror(errno));
-+    }
-     return ret;
- }
- 
--- 
-1.8.3.1
+Thanks, I'll have a look and see if I can make sense of it but not sure 
+when will I find time.
 
+> I have another idea on how to improve QEMU's performance. What if you 
+> enabled more CPUs for the PowerPC target? Mac OS 9, Mac OS X, and Linux 
+> support multiple CPUs. It might actually be easier to do this than to
 
+Have you tried if it works? I think MTTCG is enabled for PPC64 but not 
+sure about 32 bit PPC. The mac99 machine seems to init multiple CPUs but 
+not sure if they'll use MTTCG. But you could test it to see if it makes 
+any difference.
+
+> improve the FPU. I imagine the performance increase with multiple 
+> emulated CPUs would be much more noticeable.
+
+The Amiga like OSes I'm interested in don't use multiple cores so I'm 
+mainly interested in improving single core performance. Also I'm not sure 
+if (part of) your problem is slow FPU preventing fast enough audio 
+decoding then having multiple CPUs with slow FPU would help as this may 
+use a single thread anyway.
+
+Regards,
+BALATON Zoltan
 
