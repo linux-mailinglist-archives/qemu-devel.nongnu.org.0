@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CBA16C0E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:35:27 +0100 (CET)
-Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E6716C0F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:37:24 +0100 (CET)
+Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZQs-0004EE-GU
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:35:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52491)
+	id 1j6ZSi-0007ge-DG
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:37:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003RG-Df
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003Qp-9l
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z07-0003Sp-BY
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z07-0003Sj-Az
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:48 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41247)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38931)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z07-0003RE-42
+ id 1j6Z07-0003Ra-4H
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:47 -0500
-Received: by mail-wr1-x433.google.com with SMTP id v4so1568155wrs.8
+Received: by mail-wr1-x429.google.com with SMTP id y17so5623095wrn.6
  for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JmVYAUKx6B4rcfz1Vmk6J2gsBKmOvTNh7f2tEhi9Rek=;
- b=FOXAv+hoW1Pd3+NWBe598EfNlATXYOAa1/rERLk4SEfQy9EsMGklE3YH1lVMzMikj1
- 16rw0GjiTWvNsws4M+AvRP5sW8T7sOG3Mw8L3LNIfMGhaS9tZowSb1KF7f3tgFl1hixm
- 80srAaJ+EGOnExjLMphtLhOGXlZOQgt8ivD9EN2rDUdu6a5lt7FNkR8PBvXUmx8rNq5U
- 4OW28fKDp/JRwerw1TCLBjRusPT5iOs2TMwjb9h8tkfqzxP/iTD35dkbRw3jt4HHglGA
- ZJPaPZF+Hw2dsRXACOajrIFEhbPLKA7EMELTZhIxjMdHn+9JjGP0vU1ecFJsJoViZWN4
- LEFg==
+ bh=O1qhX1Ps76szem3mO23rokiaDRG68axNgB/K7kmH7go=;
+ b=AqAiEllTZiWcWR3hDTzTRLNlk44InMCQcPS5K92B0J0LitIoVcUfJ8B+Jun0B/j+EH
+ BNwMuE/8wuAe0mX6Dg2RfcZDQfKZPLKNJzusL9ve7gVU8+wZPdPJc30RxIcanhqe7YGi
+ NTI1cMYnNoeg/YnaCNAj02HxpaqmTEs22jNkR1cZOS2K1BmlQzm6My2pmx+IWDOToiyz
+ MtBNd9GvcXxzbrU3hJ0jU7HWWJMu1adJQh79QlQCvKqDbdRA8Qv79M3dWWlOHnYCjjcD
+ MJxVRUzD4T6xjgz1p6RdPV0P9L0VzcxKhVMDrjMIbhdlEuKhcJcVuIVgw62/KweX9nu9
+ 4dBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JmVYAUKx6B4rcfz1Vmk6J2gsBKmOvTNh7f2tEhi9Rek=;
- b=bEgx2wSizMwb6xft2r7i9rF1Zlwa/9V7BGhxaf0UM+R6ah922NAXvWldhe61QdV8Mu
- Rvt8/0ffVWv6OJJ85kvlI8uRGXQGbj5UScs94rhvb/bH9SFlz2D+gkp8DK0/fdFspqey
- zwXtNqgPs7vNodjhPM5A8vjlXLn+W150wXvjS1LSxwsoxqNuh9NoZjKouxHODRmL9knn
- LSJPUylIDagUFdH7kzpDEGyVUyxiM+c84i4DzJHLhbnYc9zhgNIlUYYjnpA6Z0RsBc/t
- 4VLiYi611jCRULRT10DW6BQuCFxqmC8xT/1acN1uVrwloSYmsyfGiyL9CHS8wKWoUqeV
- HoFQ==
-X-Gm-Message-State: APjAAAUxr9+x+XoV7ZB5bDh06z5Mk/odDZ3F/bPsY9kCxVR/WBisgwNQ
- tGdUUY91mAD6etTQStMBtN22lpQj
-X-Google-Smtp-Source: APXvYqxCFrilPWDeAc1Pn+tAIpRQY1PWLo/xRDsczKzQX1sCEuxYmMRDOqEm6vTzVgi/tU38B9qXrw==
-X-Received: by 2002:adf:ef4c:: with SMTP id c12mr74495277wrp.203.1582632463895; 
- Tue, 25 Feb 2020 04:07:43 -0800 (PST)
+ bh=O1qhX1Ps76szem3mO23rokiaDRG68axNgB/K7kmH7go=;
+ b=JgOeEcvADNz6DrvUmfZYXXOYpgIfqoB3Q685ulM7/x047tgwo48w42DbM62mYhJY6j
+ 20ZVYukWSsW/uC3aZv1vL7FOAatQoOGDJadEnAf1seCR9rRcvYNsxkiImDd1lm8I4Ak5
+ QQmIIJe/PTfcNIaDqDIWWfd6ogHJApra6BrG0wGzIdMzCEdnjyLFfTyjv3wEvuqKTVbJ
+ UboGDzHWEPnFJsFwxET1Et+iSqkKpuNCLpDmSpPpp+IFlcupw2ZgG/6Srs2Lc+wtGiLL
+ qTePsBrVlJE0FaWA5AMcPo1Xkzw3ZfrCFvfJVp0tHeHGrQuj5fXokvN1Uox00f6gDVNN
+ 7lLQ==
+X-Gm-Message-State: APjAAAU+SZcuWUqIlYzNgLpmoZGI2Ae9buBzpRWQrJaj3mAVVqmQ7qSn
+ ktIf8nEUulFxQYlyD3ONsu1oEF+O
+X-Google-Smtp-Source: APXvYqyGUBFEr0XYmsk9zb2qJlxbleH7Yn0ILCD3VNoRbLnP42K3fRXt5h3yvMVo0MTsFKUMTPzVgQ==
+X-Received: by 2002:adf:f581:: with SMTP id f1mr73493786wro.264.1582632464760; 
+ Tue, 25 Feb 2020 04:07:44 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.42
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:43 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 110/136] hw/riscv: Use memory_region_init_rom() with read-only
+Subject: [PULL 111/136] hw/sh4: Use memory_region_init_rom() with read-only
  regions
-Date: Tue, 25 Feb 2020 13:07:08 +0100
-Message-Id: <1582632454-16491-8-git-send-email-pbonzini@redhat.com>
+Date: Tue, 25 Feb 2020 13:07:09 +0100
+Message-Id: <1582632454-16491-9-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,28 +89,26 @@ This commit was produced with the Coccinelle script
 scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-13-philmd@redhat.com>
+Message-Id: <20200224205533.23798-14-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/riscv/sifive_e.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/sh4/shix.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 8a6b034..6f6360a 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -208,9 +208,8 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
+diff --git a/hw/sh4/shix.c b/hw/sh4/shix.c
+index 2fc2915..56c7d29 100644
+--- a/hw/sh4/shix.c
++++ b/hw/sh4/shix.c
+@@ -53,8 +53,7 @@ static void shix_init(MachineState *machine)
+     cpu = SUPERH_CPU(cpu_create(machine->cpu_type));
  
-     /* Flash memory */
--    memory_region_init_ram(&s->xip_mem, NULL, "riscv.sifive.e.xip",
--        memmap[SIFIVE_E_XIP].size, &error_fatal);
--    memory_region_set_readonly(&s->xip_mem, true);
-+    memory_region_init_rom(&s->xip_mem, NULL, "riscv.sifive.e.xip",
-+                           memmap[SIFIVE_E_XIP].size, &error_fatal);
-     memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base,
-         &s->xip_mem);
- }
+     /* Allocate memory space */
+-    memory_region_init_ram(rom, NULL, "shix.rom", 0x4000, &error_fatal);
+-    memory_region_set_readonly(rom, true);
++    memory_region_init_rom(rom, NULL, "shix.rom", 0x4000, &error_fatal);
+     memory_region_add_subregion(sysmem, 0x00000000, rom);
+     memory_region_init_ram(&sdram[0], NULL, "shix.sdram1", 0x01000000,
+                            &error_fatal);
 -- 
 1.8.3.1
 
