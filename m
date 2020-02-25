@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D348C16C078
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:13:21 +0100 (CET)
-Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADF216C06F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:11:24 +0100 (CET)
+Received: from localhost ([::1]:53798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Z5U-0003Rq-T6
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:13:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49568)
+	id 1j6Z3b-0008MN-NW
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:11:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yko-0000uV-R8
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yko-0000vP-Oj
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykg-0007hM-0I
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:53 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37507)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykh-0007t1-AR
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:55 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39815)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykf-0007af-P7
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:49 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id l5so10127539wrx.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:49 -0800 (PST)
+ id 1j6Ykg-0007iR-Nr
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
+Received: by mail-wr1-x431.google.com with SMTP id y17so5561475wrn.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JZ18+psHXsYlBdcmBOszobjy8NTgnnLlqRFdeQO1hMc=;
- b=RkbqVSIp38q4FkPZ0fTF/bW7+IT4Qfvm2EOzRwW2Hq+VCNAMu5LdZnlDCAwZ+e608j
- dxa3sO5QDNCE2z0lgYCeEDnbcdsbVVWZ724ZVhizPLe0AdA2DhNZJod0FKJQdZwC47C5
- SOPC66fegWTw2aeD5/uKheX4oW/ktbEnBl/0zdK3Ggxdd3msLQX4yuen8iGPkEvRLUDu
- TOAq+AEKhysHkpCjbx1hCwOy9NQaVPdE5FOLPnVGSfCfrVSUnoXPj32gYaT325l8lInD
- jWRVdJJrV6tiu3mc3mdldgVEd+DOcm4VYZTcr4lIV2ijiKUSPkwwGkS+RZunANjMQMLt
- TgYw==
+ bh=Frd9kAdV84R9k9k/O1Hor30Emol0j6Z4RBCmBlmORMU=;
+ b=l/NJDvnN9q+AycqU81VHIqwkq9uJ81euJfxHlKaEKtUdHuYKS/itzl9NhK90GseOEb
+ TpLhKfXF47OOELTjGxfmJFZjgbRXL52ZF5hoCGw6pcKIPok/d+e4AJ7ASP68B14WqZcS
+ WBt3nHk5BURAjUVrDGBGjBsYFihJ5ozH94Zh58fLDSEFJAjlUAy+Sr2eBBTZzgzw2tHL
+ eHU/drqBVAZxhNQtrkZbczVa7KZEu3OuvNoM5MlKcwoSGjG+MrAvjqgXQQk/KphXTkys
+ I/PY4lbVFf79PysJ3rnZG60smgq+/sFA2spHO/CSR2SBbc62m/mYiY0Yfbzb96DghYFA
+ N54Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JZ18+psHXsYlBdcmBOszobjy8NTgnnLlqRFdeQO1hMc=;
- b=CwRLYD6RKARfKq2xo672laG1polB7aJs6Q+zmCF4vO6fzTDEpPO5ftpt5mr7LfogED
- rd86S3k6tAJt6WXyIeMCRGn9HnJzynsEpiOpE3tH3izkFfdW4ABMgmhkN011PcUj+JfG
- p3jK010B2CZSnCNNUAwhcF6phQBCIIxi5e7Yz8vlEJ/wTZdLWHmtp3IS4NoMfxehMh+1
- ZTegRC6uejnGDgrcIBhMybf6+H7rOrw5Zjxqgewe46EPo6yoIP748S9DRzci4xOCD0Pp
- T1jG+S82/4MElwH1Q9nEObumKzuzn4rTKQTl6Lz16wpE5bd26Hs6NRX3MULOCqKW2iE/
- 4njg==
-X-Gm-Message-State: APjAAAXymcpJKU2G/h34eRI0t+jXbZH5gJj8G5DWjXTlqXWip9cIeWKM
- dT7vophegYoh/zoWM5iHF4sOpRmn
-X-Google-Smtp-Source: APXvYqzKEcyeOWbWcdDiOcUZz8wkEykMn9C5dHkxZWJoKMTOtk4qMgjldVg7NxBKaw5PBkPwXBR4cA==
-X-Received: by 2002:adf:bbcf:: with SMTP id z15mr73756637wrg.266.1582631508541; 
- Tue, 25 Feb 2020 03:51:48 -0800 (PST)
+ bh=Frd9kAdV84R9k9k/O1Hor30Emol0j6Z4RBCmBlmORMU=;
+ b=qv/FzZmSYtVVehmWu7zDGUtqEnkGpRhKzm9qrDcIRSNimrDI63kBoEmVuLmtPMRtTF
+ B5PXtipzpth5gtk6KDbZQsM6OcVgYbB87ag2ARviZuBzifvBGiwWJI2QQKZxWrYnAUCM
+ +ot0E037oZh6MxaD/y4Q464R5XzyMb75hgbaYt+XT+L+zckQ1vpsE2Db8b+FC7205Ahc
+ JdcU+B7SGbBCcG5RvPEKxZ1VqY+VFSe6Lze7qSQnmy8v2AeDNw6NsdMq8qTtWPDAxWZg
+ JmXsZjfQtWPTXm0aRjXn8smntm2QDzw/VAQ539xCjArB1pOCWrbRsJv9kNxlBVhwJTeu
+ 67YA==
+X-Gm-Message-State: APjAAAV4lYHwbKUZqFEmr+FrgsAwIy//OQecu+01DsUJxy+zt285dpE8
+ YlNvtoEF1P0HTf4WZBOFAHIox8gq
+X-Google-Smtp-Source: APXvYqwKcaKFCchGuGi15U9oG4MDHLVBcEt9xdG/h8HsunTqVZbpKlLmWAen4jRqA6Rm44P1L0ABpw==
+X-Received: by 2002:adf:ef8e:: with SMTP id d14mr14810976wro.316.1582631509521; 
+ Tue, 25 Feb 2020 03:51:49 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.47
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.48
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:47 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 045/136] lm32/milkymist: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:35 +0100
-Message-Id: <1582631466-13880-45-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 046/136] m68k/an5206: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:36 +0100
+Message-Id: <1582631466-13880-46-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,98 +92,45 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-PS:
- while at it add check for user supplied RAM size and error
- out if it mismatches board expected value.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-46-imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200219160953.13771-47-imammedo@redhat.com>
 ---
- hw/lm32/milkymist.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ hw/m68k/an5206.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-index 6d46134..5c72266 100644
---- a/hw/lm32/milkymist.c
-+++ b/hw/lm32/milkymist.c
-@@ -36,6 +36,7 @@
- #include "hw/display/milkymist_tmu2.h"
- #include "lm32.h"
- #include "exec/address-spaces.h"
-+#include "qemu/cutils.h"
- 
- #define BIOS_FILENAME    "mmone-bios.bin"
- #define BIOS_OFFSET      0x00860000
-@@ -82,6 +83,7 @@ static void main_cpu_reset(void *opaque)
- static void
- milkymist_init(MachineState *machine)
- {
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     const char *kernel_filename = machine->kernel_filename;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     const char *initrd_filename = machine->initrd_filename;
-@@ -90,22 +92,27 @@ milkymist_init(MachineState *machine)
-     int kernel_size;
-     DriveInfo *dinfo;
+diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
+index bed43a9..846f4e4 100644
+--- a/hw/m68k/an5206.c
++++ b/hw/m68k/an5206.c
+@@ -33,7 +33,6 @@ static void an5206_init(MachineState *machine)
+     uint64_t elf_entry;
+     hwaddr entry;
      MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *phys_sdram = g_new(MemoryRegion, 1);
-     qemu_irq irq[32];
-     int i;
-     char *bios_filename;
-     ResetInfo *reset_info;
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     MemoryRegion *sram = g_new(MemoryRegion, 1);
  
-+    if (machine->ram_size != mc->default_ram_size) {
-+        char *sz = size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-+
-     /* memory map */
-     hwaddr flash_base   = 0x00000000;
-     size_t flash_sector_size        = 128 * KiB;
-     size_t flash_size               = 32 * MiB;
-     hwaddr sdram_base   = 0x40000000;
--    size_t sdram_size               = 128 * MiB;
+     cpu = M68K_CPU(cpu_create(machine->cpu_type));
+@@ -46,8 +45,7 @@ static void an5206_init(MachineState *machine)
+     env->rambar0 = AN5206_RAMBAR_ADDR | 1;
  
-     hwaddr initrd_base  = sdram_base + 0x1002000;
-     hwaddr cmdline_base = sdram_base + 0x1000000;
--    size_t initrd_max = sdram_size - 0x1002000;
-+    size_t initrd_max = machine->ram_size - 0x1002000;
+     /* DRAM at address zero */
+-    memory_region_allocate_system_memory(ram, NULL, "an5206.ram", ram_size);
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
  
-     reset_info = g_malloc0(sizeof(ResetInfo));
- 
-@@ -116,9 +123,7 @@ milkymist_init(MachineState *machine)
- 
-     cpu_lm32_set_phys_msb_ignore(env, 1);
- 
--    memory_region_allocate_system_memory(phys_sdram, NULL, "milkymist.sdram",
--                                         sdram_size);
--    memory_region_add_subregion(address_space_mem, sdram_base, phys_sdram);
-+    memory_region_add_subregion(address_space_mem, sdram_base, machine->ram);
- 
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     /* Numonyx JS28F256J3F105 */
-@@ -183,7 +188,7 @@ milkymist_init(MachineState *machine)
- 
-         if (kernel_size < 0) {
-             kernel_size = load_image_targphys(kernel_filename, sdram_base,
--                                              sdram_size);
-+                                              machine->ram_size);
-             reset_info->bootstrap_pc = sdram_base;
-         }
- 
-@@ -216,6 +221,8 @@ static void milkymist_machine_init(MachineClass *mc)
-     mc->init = milkymist_init;
-     mc->is_default = 0;
-     mc->default_cpu_type = LM32_CPU_TYPE_NAME("lm32-full");
-+    mc->default_ram_size = 128 * MiB;
-+    mc->default_ram_id = "milkymist.sdram";
+     /* Internal SRAM.  */
+     memory_region_init_ram(sram, NULL, "an5206.sram", 512, &error_fatal);
+@@ -89,6 +87,7 @@ static void an5206_machine_init(MachineClass *mc)
+     mc->desc = "Arnewsh 5206";
+     mc->init = an5206_init;
+     mc->default_cpu_type = M68K_CPU_TYPE_NAME("m5206");
++    mc->default_ram_id = "an5206.ram";
  }
  
- DEFINE_MACHINE("milkymist", milkymist_machine_init)
+ DEFINE_MACHINE("an5206", an5206_machine_init)
 -- 
 1.8.3.1
 
