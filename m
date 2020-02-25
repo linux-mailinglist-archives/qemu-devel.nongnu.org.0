@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFB416B704
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 02:08:36 +0100 (CET)
-Received: from localhost ([::1]:46984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FF316B723
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 02:23:52 +0100 (CET)
+Received: from localhost ([::1]:47160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6OiB-0002DH-SK
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 20:08:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57012)
+	id 1j6Owx-0002I2-F6
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 20:23:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58680)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhang.zhanghailiang@huawei.com>) id 1j6OhT-0001o4-RF
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 20:07:52 -0500
+ (envelope-from <chengang@emindsoft.com.cn>) id 1j6Ow1-0001sl-4f
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 20:22:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhang.zhanghailiang@huawei.com>) id 1j6OhS-000730-LD
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 20:07:51 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2501 helo=huawei.com)
+ (envelope-from <chengang@emindsoft.com.cn>) id 1j6Ow0-0000T1-01
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 20:22:52 -0500
+Received: from regular1.263xmail.com ([211.150.70.203]:35844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhang.zhanghailiang@huawei.com>)
- id 1j6OhS-0006yw-B3
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 20:07:50 -0500
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id 3B976465FEF7CA622B4D;
- Tue, 25 Feb 2020 09:07:44 +0800 (CST)
-Received: from dggeme706-chm.china.huawei.com (10.1.199.102) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 25 Feb 2020 09:07:44 +0800
-Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
- dggeme706-chm.china.huawei.com (10.1.199.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Tue, 25 Feb 2020 09:07:43 +0800
-Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
- dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1713.004;
- Tue, 25 Feb 2020 09:07:43 +0800
-From: Zhanghailiang <zhang.zhanghailiang@huawei.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH V2 7/8] COLO: Migrate dirty pages during the gap of
- checkpointing
-Thread-Topic: [PATCH V2 7/8] COLO: Migrate dirty pages during the gap of
- checkpointing
-Thread-Index: AQHV6t9QEJvH3LTaGEODTAOJsf/S46gp74mAgAEp0vA=
-Date: Tue, 25 Feb 2020 01:07:43 +0000
-Message-ID: <fa49beefefd842289f57d603bee4ab51@huawei.com>
-References: <20200224065414.36524-1-zhang.zhanghailiang@huawei.com>
- <20200224065414.36524-8-zhang.zhanghailiang@huawei.com>
- <6b161824-9765-5c7c-39a0-580b0c65879c@redhat.com>
-In-Reply-To: <6b161824-9765-5c7c-39a0-580b0c65879c@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.214.142]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <chengang@emindsoft.com.cn>)
+ id 1j6Ovz-0000MQ-Lm
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 20:22:51 -0500
+Received: from localhost (unknown [192.168.167.13])
+ by regular1.263xmail.com (Postfix) with ESMTP id 09ED93B7;
+ Tue, 25 Feb 2020 09:22:44 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-SKE-CHECKED: 1
+X-ABS-CHECKED: 1
+Received: from [192.168.1.3] (unknown [223.72.93.93])
+ by smtp.263.net (postfix) whith ESMTP id
+ P15418T139869099652864S1582593763893495_; 
+ Tue, 25 Feb 2020 09:22:44 +0800 (CST)
+X-UNIQUE-TAG: <d1650730b36a58a0bcf32ac371506ee5>
+X-RL-SENDER: chengang@emindsoft.com.cn
+X-SENDER: chengang@emindsoft.com.cn
+X-LOGIN-NAME: chengang@emindsoft.com.cn
+X-FST-TO: gang.chen.5i5j@gmail.com
+X-SENDER-IP: 223.72.93.93
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+Subject: Re: [PATCH] target: i386: Check float overflow about register stack
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20200221034547.5215-1-chengang@emindsoft.com.cn>
+ <a5533719-7ef1-938b-e52c-20711e65417f@redhat.com>
+ <900fd511-72f0-675d-4a7e-d228b2ade9c7@emindsoft.com.cn>
+ <d893eac5-0b7a-ddfe-2acf-a6f27ab48ccf@redhat.com>
+ <f3bea474-468b-5818-9f69-5463be6d9b2a@emindsoft.com.cn>
+ <2ab8ed82-dadd-2d5e-5bbc-69a67ba89e26@redhat.com>
+ <22cf9eb4-7d48-5eb1-5d4e-38d83c0a3f40@emindsoft.com.cn>
+ <487e94c0-ccdf-2317-9ee2-6674aaed0aa8@redhat.com>
+From: Chen Gang <chengang@emindsoft.com.cn>
+Message-ID: <f63932c1-80d4-90df-b3e6-2fb0df172045@emindsoft.com.cn>
+Date: Tue, 25 Feb 2020 09:22:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.188
+In-Reply-To: <487e94c0-ccdf-2317-9ee2-6674aaed0aa8@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 211.150.70.203
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,63 +76,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "danielcho@qnap.com" <danielcho@qnap.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Chen Gang <gang.chen.5i5j@gmail.com>,
+ ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2020/2/24 =E4=B8=8B=E5=8D=888:43, Paolo Bonzini wrote:
+> On 22/02/20 13:25, Chen Gang wrote:
+>> On 2020/2/22 =E4=B8=8B=E5=8D=883:37, Paolo Bonzini wrote:
+>>> On 22/02/20 03:10, Chen Gang wrote:
+>>>> Set C1 to 1 if stack overflow occurred; set to 0 otherwise".
+>>>>
+>>>> In helper_fxam_ST0, I guess, we need "env->fpus |=3D 0x200" (but I d=
+on't
+>>>> know wheter it will be conflict with SIGND(temp)). And we have to st=
+ill
+>>>> need foverflow, because all env->fptags being 0 doesn't mean overflo=
+w.
+>>>
+>>> No, you need to add "env->fpus |=3D 0x200" and "env->fpus &=3D ~0x200=
+"
+>>> directly to fpush, fpop, etc.
+>>>
+>>
+>> OK. The content below is my next TODO, welcome your opinions.
+>>
+>> When overflow occurs, for me, we need keep everything no touch except
+>> set C1 flag.
+>=20
+> No, push will overwrite the top entry if there is overflow.
+>=20
+>> In fxam, we don't clear C1, but keep no touch for clearning
+>> C1 in another places.
+>=20
+> FXAM is neither push nor pop, it just detects an empty slot via fptags.
+>  FXAM should be okay with my patch.
+>=20
 
+OK. I am not quite clear about it, but it fixes the current issues at
+least. Please apply your patch.
 
-> -----Original Message-----
-> From: Eric Blake [mailto:eblake@redhat.com]
-> Sent: Monday, February 24, 2020 11:19 PM
-> To: Zhanghailiang <zhang.zhanghailiang@huawei.com>;
-> qemu-devel@nongnu.org
-> Cc: danielcho@qnap.com; dgilbert@redhat.com; quintela@redhat.com
-> Subject: Re: [PATCH V2 7/8] COLO: Migrate dirty pages during the gap of
-> checkpointing
->=20
-> On 2/24/20 12:54 AM, zhanghailiang wrote:
-> > We can migrate some dirty pages during the gap of checkpointing,
-> > by this way, we can reduce the amount of ram migrated during
-> checkpointing.
-> >
-> > Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
-> > ---
->=20
-> > +++ b/qapi/migration.json
-> > @@ -977,12 +977,14 @@
-> >   #
-> >   # @vmstate-loaded: VM's state has been loaded by SVM.
-> >   #
-> > +# @migrate-ram-background: Send some dirty pages during the gap of
-> COLO checkpoint
->=20
-> Missing a '(since 5.0)' tag.
->=20
+Thanks.
 
-OK, will add this in next version, I forgot to modify it in this version wh=
-ich you reminded
-In previous version. :(
-
-> > +#
-> >   # Since: 2.8
-> >   ##
-> >   { 'enum': 'COLOMessage',
-> >     'data': [ 'checkpoint-ready', 'checkpoint-request', 'checkpoint-rep=
-ly',
-> >               'vmstate-send', 'vmstate-size', 'vmstate-received',
-> > -            'vmstate-loaded' ] }
-> > +            'vmstate-loaded', 'migrate-ram-background' ] }
-> >
-> >   ##
-> >   # @COLOMode:
-> >
->=20
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
 
 
