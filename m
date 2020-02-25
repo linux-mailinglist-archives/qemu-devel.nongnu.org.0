@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 812D216B6AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:27:08 +0100 (CET)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E32A16B6F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:58:57 +0100 (CET)
+Received: from localhost ([::1]:46861 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6O43-00059m-J3
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:27:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52673)
+	id 1j6OYq-0004J1-99
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:58:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farosas@linux.ibm.com>) id 1j6O2N-00031a-3l
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:25:24 -0500
+ (envelope-from <jsnow@redhat.com>) id 1j6OWr-00024H-9j
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farosas@linux.ibm.com>) id 1j6O2L-0000h7-Ll
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:25:22 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19496)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
- id 1j6O2L-0000gm-Dr; Mon, 24 Feb 2020 19:25:21 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01P0JnA7108262; Mon, 24 Feb 2020 19:25:13 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ybu13f62j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 19:25:13 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01P0K61x111750;
- Mon, 24 Feb 2020 19:25:12 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ybu13f61s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Feb 2020 19:25:12 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01P0JCbK001634;
- Tue, 25 Feb 2020 00:25:11 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2yaux6nqyu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 00:25:11 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01P0PA1134341138
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Feb 2020 00:25:10 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68A77AC05E;
- Tue, 25 Feb 2020 00:25:10 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 67958AC05B;
- Tue, 25 Feb 2020 00:25:09 +0000 (GMT)
-Received: from localhost (unknown [9.85.139.151])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
- Tue, 25 Feb 2020 00:25:09 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>, groug@kaod.org,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
-Subject: Re: [PATCH v6 12/18] target/ppc: Don't store VRMA SLBE persistently
-In-Reply-To: <20200224233724.46415-13-david@gibson.dropbear.id.au>
-References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
- <20200224233724.46415-13-david@gibson.dropbear.id.au>
-Date: Mon, 24 Feb 2020 21:25:07 -0300
-Message-ID: <87lfor5x98.fsf@linux.ibm.com>
+ (envelope-from <jsnow@redhat.com>) id 1j6OWq-0007st-6G
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54856
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j6OWq-0007rd-37
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582592211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PpB3Kb7mqPMHKkyi0v6SRrqTGWFNkrLOCQ02rj4Ntl4=;
+ b=a3LXNBVzSUTrReVjb9WC7C7bZYSe0aFxWN/H68D7Tx00pmAJkPLm0pn/gQWGgEfliI9gEC
+ xELpftwm3SaqLXyJuZYUjo0fWpJDyxsDxeAbhx0kCiqW1POMcwmDve9kwCgC/EAU3BLtz5
+ t/hyM7Jzh2TO/ob6AjDloo/+ur7KieY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-SQBsA-_0Ov-Zf-DvAtvjCQ-1; Mon, 24 Feb 2020 19:56:44 -0500
+X-MC-Unique: SQBsA-_0Ov-Zf-DvAtvjCQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 422FE800D53;
+ Tue, 25 Feb 2020 00:56:43 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-182.bos.redhat.com [10.18.17.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1EC4889F30;
+ Tue, 25 Feb 2020 00:56:41 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] block: add block-dirty-bitmap-populate job
+Date: Mon, 24 Feb 2020 19:56:35 -0500
+Message-Id: <20200225005641.5478-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-24_12:2020-02-21,
- 2020-02-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=1
- malwarescore=0 bulkscore=0 phishscore=0 mlxlogscore=959 spamscore=0
- adultscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002250000
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,117 +68,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, paulus@samba.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ pkrempa@redhat.com, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
+Hi,
 
-> Currently, we construct the SLBE used for VRMA translations when the LPCR
-> is written (which controls some bits in the SLBE), then use it later for
-> translations.
->
-> This is a bit complex and confusing - simplify it by simply constructing
-> the SLBE directly from the LPCR when we need it.
->
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+This is a new (very small) block job that writes a pattern into a
+bitmap. The only pattern implemented is the top allocation information.
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+This can be used to "recover" an incremental bitmap chain if an external
+snapshot was taken without creating a new bitmap first: any writes made
+to the image will be reflected by the allocation status and can be
+written back into a bitmap.
 
-> ---
->  target/ppc/cpu.h        |  3 ---
->  target/ppc/mmu-hash64.c | 28 ++++++----------------------
->  2 files changed, 6 insertions(+), 25 deletions(-)
->
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index f9871b1233..5a55fb02bd 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1044,9 +1044,6 @@ struct CPUPPCState {
->      uint32_t flags;
->      uint64_t insns_flags;
->      uint64_t insns_flags2;
-> -#if defined(TARGET_PPC64)
-> -    ppc_slb_t vrma_slb;
-> -#endif
->  
->      int error_code;
->      uint32_t pending_interrupts;
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index ac21c14f68..f8bf92aa2e 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -825,6 +825,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->  {
->      CPUState *cs = CPU(cpu);
->      CPUPPCState *env = &cpu->env;
-> +    ppc_slb_t vrma_slbe;
->      ppc_slb_t *slb;
->      unsigned apshift;
->      hwaddr ptex;
-> @@ -863,8 +864,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
->              }
->          } else if (ppc_hash64_use_vrma(env)) {
->              /* Emulated VRMA mode */
-> -            slb = &env->vrma_slb;
-> -            if (!slb->sps) {
-> +            slb = &vrma_slbe;
-> +            if (build_vrma_slbe(cpu, slb) != 0) {
->                  /* Invalid VRMA setup, machine check */
->                  cs->exception_index = POWERPC_EXCP_MCHECK;
->                  env->error_code = 0;
-> @@ -1012,6 +1013,7 @@ skip_slb_search:
->  hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr)
->  {
->      CPUPPCState *env = &cpu->env;
-> +    ppc_slb_t vrma_slbe;
->      ppc_slb_t *slb;
->      hwaddr ptex, raddr;
->      ppc_hash_pte64_t pte;
-> @@ -1033,8 +1035,8 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr)
->              return raddr | env->spr[SPR_HRMOR];
->          } else if (ppc_hash64_use_vrma(env)) {
->              /* Emulated VRMA mode */
-> -            slb = &env->vrma_slb;
-> -            if (!slb->sps) {
-> +            slb = &vrma_slbe;
-> +            if (build_vrma_slbe(cpu, slb) != 0) {
->                  return -1;
->              }
->          } else {
-> @@ -1072,30 +1074,12 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, target_ulong ptex,
->      cpu->env.tlb_need_flush = TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_FLUSH;
->  }
->  
-> -static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
-> -{
-> -    CPUPPCState *env = &cpu->env;
-> -    ppc_slb_t *slb = &env->vrma_slb;
-> -
-> -    /* Is VRMA enabled ? */
-> -    if (ppc_hash64_use_vrma(env)) {
-> -        if (build_vrma_slbe(cpu, slb) == 0) {
-> -            return;
-> -        }
-> -    }
-> -
-> -    /* Otherwise, clear it to indicate error */
-> -    slb->esid = slb->vsid = 0;
-> -    slb->sps = NULL;
-> -}
-> -
->  void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
->  {
->      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->      CPUPPCState *env = &cpu->env;
->  
->      env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
-> -    ppc_hash64_update_vrma(cpu);
->  }
->  
->  void helper_store_lpcr(CPUPPCState *env, target_ulong val)
+This is useful for e.g. libvirt managing backup chains if a user creates
+an external snapshot outside of libvirt.
+
+Patches 1-2: The new job.
+Patch 3: iotest prerequisite
+Patch 4-5: completely optional cleanup.
+Patch 6: Test.
+
+John Snow (6):
+  block: add bitmap-populate job
+  qmp: expose block-dirty-bitmap-populate
+  iotests: move bitmap helpers into their own file
+  iotests: add hmp helper with logging
+  qmp.py: change event_wait to use a dict
+  iotests: add 287 for block-dirty-bitmap-populate
+
+ qapi/block-core.json          |   66 +
+ qapi/job.json                 |    2 +-
+ qapi/transaction.json         |    2 +
+ include/block/block_int.h     |   21 +
+ block/bitmap-alloc.c          |  207 ++
+ blockdev.c                    |   78 +
+ blockjob.c                    |    3 +-
+ block/Makefile.objs           |    1 +
+ python/qemu/machine.py        |   10 +-
+ tests/qemu-iotests/040        |   12 +-
+ tests/qemu-iotests/257        |  110 +-
+ tests/qemu-iotests/260        |    5 +-
+ tests/qemu-iotests/287        |  233 ++
+ tests/qemu-iotests/287.out    | 4544 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/bitmaps.py |  131 +
+ tests/qemu-iotests/group      |    1 +
+ tests/qemu-iotests/iotests.py |   34 +-
+ 17 files changed, 5321 insertions(+), 139 deletions(-)
+ create mode 100644 block/bitmap-alloc.c
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
+ create mode 100644 tests/qemu-iotests/bitmaps.py
+
+--=20
+2.21.1
+
 
