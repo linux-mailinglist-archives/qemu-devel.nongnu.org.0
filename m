@@ -2,101 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2452F16C373
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:09:29 +0100 (CET)
-Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB42F16C37E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:11:34 +0100 (CET)
+Received: from localhost ([::1]:57340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ats-0005xv-5q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:09:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
+	id 1j6avt-0001uJ-Uu
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:11:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j6aQl-0001yF-Ry
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:39:27 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6apB-0006QW-BE
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:04:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j6aQh-0003xS-ND
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:39:23 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:51777)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j6aQh-0003wZ-DK; Tue, 25 Feb 2020 08:39:19 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MderZ-1jfe854921-00ZctR; Tue, 25 Feb 2020 14:39:09 +0100
-Subject: Re: [PATCH v2 0/2] linux-user: generate syscall_nr.sh for RISC-V
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1582586444.git.alistair.francis@wdc.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <306320d5-b305-1890-3185-05353363cce5@vivier.eu>
-Date: Tue, 25 Feb 2020 14:39:07 +0100
+ (envelope-from <philmd@redhat.com>) id 1j6ap7-0005Bt-KG
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:04:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60009
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6ap7-0005Bc-GD
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:04:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582639472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=40OE/qVOCZxLzmdwYxW8Sc/Tnp2Mxil5cjFkRfrKVVU=;
+ b=UGHgwwiOXMlVH1IJs1ttOIB9nUd1NICDt7lQa9Gl8TANE7c4PJbylvw9HMpCGd5IETMUeY
+ ksUaCw8zn1oerUBGibqbx6f+ImBB2O0yRXBTF/vc+lc18OzukElIsB1dq1/QAhlshmE/gP
+ k+zMFIaAM/K+pMD4pWPqxsg+Rhb0FNw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-R4QX7mnZO-CfWMo_HWfHSQ-1; Tue, 25 Feb 2020 09:04:28 -0500
+X-MC-Unique: R4QX7mnZO-CfWMo_HWfHSQ-1
+Received: by mail-wm1-f69.google.com with SMTP id b205so1075734wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 06:04:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QpQVC0YTSnpItE3bP6VKj3X+7+Htj34XxGnUJIbpLOw=;
+ b=c36DMYl3Q91uxS6/vL26BFczgU126aUBXOf9Y63gvF2aYZ9RBzb3Sp7+UT32OF2uZc
+ EueHhGFdVPXx/hlub53ahWKKUwjI0b5WBzax1vDSFbeka73vBQ0VS0OB9ZdtJHhLsJAJ
+ JzKPWNh0wljfqY+HB6rPt4tEF2vQNqQ1kYzPmYXZA5pyWXU7wzDgsuwV3xUx1KJyBk7D
+ SxfOZc1/LBoP9fmjqZCjunCi2O18n/g8Ygd3uJSYP5x/2NbEVB28jMluRJYhxefxmMMO
+ HLMIWokHjl9Vb2qCCg3GCcMdH40zPH+97JUGNf78128McpMKfXCKhkCxPM3Yn1QelJ63
+ 7cOg==
+X-Gm-Message-State: APjAAAU7nklGhCUKFkn2NugreJmxtF1c6DTugFeoPCnl1/hin+ApAUFv
+ DF1gjHjKQfrJ2a1sR8cVX2aZG8Mi4ga3MFRVDJReOuqISjg0RuQ+81dIocVntUWpjVFAz2KsjiZ
+ wOqZ614upnl4L9Eo=
+X-Received: by 2002:a1c:59c6:: with SMTP id n189mr5441543wmb.178.1582639467066; 
+ Tue, 25 Feb 2020 06:04:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyXBvoa5Ej3WKhj5Z1JvqBsxf10MYOfHZ5MFR/HIa0Ac/wsdqsPpPW6CAnX0EGx4bcnPnmiIQ==
+X-Received: by 2002:a1c:59c6:: with SMTP id n189mr5441514wmb.178.1582639466819; 
+ Tue, 25 Feb 2020 06:04:26 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id f62sm4552538wmf.36.2020.02.25.06.04.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2020 06:04:26 -0800 (PST)
+Subject: Re: [PATCH v3 13/19] qemu/bitops.h: Add extract8 and extract16
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200225124710.14152-1-alex.bennee@linaro.org>
+ <20200225124710.14152-14-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6c91fde6-7aa9-2fb7-779c-4c5fe3139ee7@redhat.com>
+Date: Tue, 25 Feb 2020 15:04:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1582586444.git.alistair.francis@wdc.com>
-Content-Type: multipart/mixed; boundary="------------17E998FEEABEE81D847F8E95"
-Content-Language: fr
-X-Provags-ID: V03:K1:yHakMpK4dNtICglTp42N0h0fWqZUfFufcCVceau3t769sYrpgng
- r6wewy0jrE6kFkttXR0ndnwOlDu1102nossA7RiRM450h0ZHMzTrNZouwBi98undB4UCtdA
- GmEr5UpW0/J455h2CElWtJwvq1xOMH6DDb8G6peaxCNOmCGbEq/J7QZWBEIW3LKw/RM0KV5
- xctCL/0euQTDhsEibASGg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:x2x6S7VRW7Q=:y/EJy8oOLW7Q4iqy4KYznE
- PveQNWtaqUr7uo9Yu6wS+AkkMLnCFV+95RH6TfV4MBg0k71Ishvy/1/LQyo+O43ShBpOiskZa
- KLDVFNVv43LYz4fX8IqZLy+JEORylgrLaAByZ1G4ypEGpQmsRzsJYZ7qXMRZrpHUzRxqKtvwm
- 5FND65cTivT9EfReWzxKOxVKTXYVazQ441FsDhRCVOOkeB6yEKkccIPzWPbAQEey18PyXceBa
- UzYiabeEOrdwUYY6i3dkLQWBJRAmAAQIXjSeCRh7XIFbC9HSJQvjCNFjshNV/SWCRpThMrnjR
- Cr6eVgQdUIfHLAxz1XbTRhWohhAFS+uXXBTjISIYhMtxL6H/2GqikfDF/oCDNXs+zCW5kTPSu
- vkz9ZQWA65Hm51PVvqJQ/n/SGvsNwt7nyUzLLhgT3kOvpPgp+4peHneiBZoaQkiYvCEp5czM8
- Ka3yJaqdNbr4eMpcgr4kA243udNSPlsXBrOlJhbBRv8LyuDETCK3HXs2dpKuxznWfpYzygezG
- 1eZOs7JoUhrYLBgnjlSBNOzNZffbAiqrMyP0uRUY69ljgJuyydh6XrJHNQO0xDS3cKQgxqiT/
- TwJBIfvRSDyjVg4fKQdIRpMd+qPQoB+O+x/lxz8lOL0Ak3XWYaYtfroeX0Kq8SUspM9ulEnHl
- 06MdCOJO3NYHMWVPhxOMMtJaOaf0tRIgpCZxKIcdktV4j2/8nHrZzIbCSzf84aXbqP5w5bRqL
- hebqhyPZ7JAxn9e5u0BeLMaBLik2SKs+8iwS7cdYcI3FHRCsCu0cGjBlGUqhs/Ep+3RfTkBSc
- +8MHHSCozBHh81rhY9LRXzf1LxcV06rEeeGGVcHpmTny39S8Sr2U4pZXyvhIoL1vNVTDZMF
+In-Reply-To: <20200225124710.14152-14-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,99 +93,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@dabbelt.com
+Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ pbonzini@redhat.com, stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org,
+ f4bug@amsat.org, robhenry@microsoft.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, marcandre.lureau@redhat.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------17E998FEEABEE81D847F8E95
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+On 2/25/20 1:47 PM, Alex Benn=C3=A9e wrote:
+> From: Yoshinori Sato <ysato@users.sourceforge.jp>
+>=20
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Message-Id: <20190607091116.49044-10-ysato@users.sourceforge.jp>
 
-Le 25/02/2020 à 00:21, Alistair Francis a écrit :
-> This series updates the RISC-V syscall_nr.sh based on the 5.5 kernel.
-> 
-> There are two parts to this. One is just adding the new syscalls, the
-> other part is updating the RV32 syscalls to match the fact that RV32 is
-> a 64-bit time_t architectures (y2038) safe.
-> 
-> we need to make some changes to syscall.c to avoid warnings/errors
-> during compliling with the new syscall.
-> 
-> I did some RV32 user space testing after applying these patches. I ran the
-> glibc testsuite in userspace and I don't see any regressions.
-> 
-> Alistair Francis (2):
->   linux-user: Protect more syscalls
->   linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
-> 
->  linux-user/riscv/syscall32_nr.h | 314 ++++++++++++++++++++++++++++++++
->  linux-user/riscv/syscall64_nr.h | 303 ++++++++++++++++++++++++++++++
->  linux-user/riscv/syscall_nr.h   | 294 +-----------------------------
->  linux-user/strace.c             |   2 +
->  linux-user/syscall.c            |  20 ++
->  5 files changed, 641 insertions(+), 292 deletions(-)
->  create mode 100644 linux-user/riscv/syscall32_nr.h
->  create mode 100644 linux-user/riscv/syscall64_nr.h
-> 
+^ This tag can go.
 
-I have written a shell script to generate the syscall_nr.h from the
-asm-generic, but as it uses a lot of cpp, tr, sed and grep, the result
-needs to be checked.
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20200212130311.127515-3-ysato@users.sourceforge.jp>
+> ---
+>   include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 38 insertions(+)
+>=20
+> diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+> index 02c1ce6a5d4..f55ce8b320b 100644
+> --- a/include/qemu/bitops.h
+> +++ b/include/qemu/bitops.h
+> @@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int=
+ start, int length)
+>       return (value >> start) & (~0U >> (32 - length));
+>   }
+>  =20
+> +/**
+> + * extract8:
+> + * @value: the value to extract the bit field from
+> + * @start: the lowest bit in the bit field (numbered from 0)
+> + * @length: the length of the bit field
+> + *
+> + * Extract from the 8 bit input @value the bit field specified by the
+> + * @start and @length parameters, and return it. The bit field must
+> + * lie entirely within the 8 bit word. It is valid to request that
+> + * all 8 bits are returned (ie @length 8 and @start 0).
+> + *
+> + * Returns: the value of the bit field extracted from the input value.
+> + */
+> +static inline uint8_t extract8(uint8_t value, int start, int length)
+> +{
+> +    assert(start >=3D 0 && length > 0 && length <=3D 8 - start);
+> +    return extract32(value, start, length);
+> +}
+> +
+> +/**
+> + * extract16:
+> + * @value: the value to extract the bit field from
+> + * @start: the lowest bit in the bit field (numbered from 0)
+> + * @length: the length of the bit field
+> + *
+> + * Extract from the 16 bit input @value the bit field specified by the
+> + * @start and @length parameters, and return it. The bit field must
+> + * lie entirely within the 16 bit word. It is valid to request that
+> + * all 16 bits are returned (ie @length 16 and @start 0).
+> + *
+> + * Returns: the value of the bit field extracted from the input value.
+> + */
+> +static inline uint16_t extract16(uint16_t value, int start, int length)
+> +{
+> +    assert(start >=3D 0 && length > 0 && length <=3D 16 - start);
+> +    return extract32(value, start, length);
+> +}
+> +
+>   /**
+>    * extract64:
+>    * @value: the value to extract the bit field from
+>=20
 
-If it can help, it is in attachment.
-
-Put it in scripts, and run it as:
-
-scripts/gensyscalls.sh /path/to/linux
-
-then check the result with something like "git diff -w"
-
-Thanks,
-Laurent
-
---------------17E998FEEABEE81D847F8E95
-Content-Type: application/x-shellscript;
- name="gensyscalls.sh"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="gensyscalls.sh"
-
-IyEvYmluL3NoCgpsaW51eD0iJDEiCm91dHB1dD0iJDIiCgpUTVA9JChta3RlbXAgLWQpCgpp
-ZiBbICIkbGludXgiID0gIiIgXSA7IHRoZW4KICAgIGVjaG8gIk5lZWRzIHBhdGggdG8gbGlu
-dXggc291cmNlIHRyZWUiIDE+JjIKICAgIGV4aXQgMQpmaQoKaWYgWyAiJG91dHB1dCIgPSAi
-IiBdIDsgdGhlbgogICAgb3V0cHV0PSIkUFdEIgpmaQoKdXBwZXIoKQp7CiAgICBlY2hvICIk
-MSIgfCB0ciAiWzpsb3dlcjpdIiAiWzp1cHBlcjpdIiB8IHRyICJbOnB1bmN0Ol0iICJfIgp9
-CgpxZW11X2FyY2goKQp7CiAgICBjYXNlICIkMSIgaW4KICAgIGFybTY0KQogICAgICAgIGVj
-aG8gImFhcmNoNjQiCiAgICAgICAgOzsKICAgICopCiAgICAgICAgdXBwZXIgIiQxIgogICAg
-ICAgIDs7CiAgICBlc2FjCn0KCnJlYWRfaW5jbHVkZXMoKQp7CiAgICBhcmNoPSQxCiAgICBi
-aXRzPSQyCgogICAgIGNwcCAtUCAtbm9zdGRpbmMgLWZkaXJlY3RpdmVzLW9ubHkgXAogICAg
-ICAgIC1EX1VBUElfQVNNXyQodXBwZXIgJHthcmNofSlfQklUU1BFUkxPTkdfSCBcCiAgICAg
-ICAgLURfX0JJVFNfUEVSX0xPTkc9JHtiaXRzfSBcCiAgICAgICAgLUkke2xpbnV4fS9hcmNo
-LyR7YXJjaH0vaW5jbHVkZS91YXBpLyBcCiAgICAgICAgLUkke2xpbnV4fS9pbmNsdWRlL3Vh
-cGkgXAogICAgICAgIC1JJHtUTVB9IFwKICAgICAgICAiJHtsaW51eH0vYXJjaC8ke2FyY2h9
-L2luY2x1ZGUvdWFwaS9hc20vdW5pc3RkLmgiCn0KCmZpbHRlcl9kZWZpbmVzKCkKewogICAg
-Z3JlcCAtZSAiI2RlZmluZSBfX05SXyIgLWUgIiNkZWZpbmUgX19OUjMyNjQiCn0KCnJlbmFt
-ZV9kZWZpbmVzKCkKewogICAgc2VkICJzLyBfX05SXy8gVEFSR0VUX05SXy9nO3MvKF9fTlJf
-LyhUQVJHRVRfTlJfL2ciCn0KCmV2YWx1YXRlX3ZhbHVlcygpCnsKICAgIHNlZCAicy8jZGVm
-aW5lIFRBUkdFVF9OUl8vUUVNVSBUQVJHRVRfTlJfLyIgfCBcCiAgICBjcHAgLVAgLW5vc3Rk
-aW5jIHwgXAogICAgc2VkICJzL15RRU1VIC8jZGVmaW5lIC8iCn0KCmdlbmVyYXRlX3N5c2Nh
-bGxfbnIoKQp7CiAgICBhcmNoPSQxCiAgICBiaXRzPSQyCiAgICBmaWxlPSIkMyIKICAgIGd1
-YXJkPSIkKHVwcGVyIExJTlVYX1VTRVJfJChxZW11X2FyY2ggJGFyY2gpXyQoYmFzZW5hbWUg
-IiRmaWxlIikpIgoKICAgIChlY2hvICIvKiIKICAgIGVjaG8gIiAqIFRoaXMgZmlsZSBjb250
-YWlucyB0aGUgc3lzdGVtIGNhbGwgbnVtYmVycy4iCiAgICBlY2hvICIgKi8iCiAgICBlY2hv
-ICIjaWZuZGVmICR7Z3VhcmR9IgogICAgZWNobyAiI2RlZmluZSAke2d1YXJkfSIKICAgIGVj
-aG8KICAgIHJlYWRfaW5jbHVkZXMgJGFyY2ggJGJpdHMgfCBmaWx0ZXJfZGVmaW5lcyB8IHJl
-bmFtZV9kZWZpbmVzIHwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGV2YWx1
-YXRlX3ZhbHVlcyB8IHNvcnQgLW4gLWsgMwogICAgZWNobwogICAgZWNobyAiI2VuZGlmIC8q
-ICR7Z3VhcmR9ICovIgogICAgZWNobykgPiAiJGZpbGUiCn0KCm1rZGlyICIkVE1QL2FzbSIK
-PiAiJFRNUC9hc20vYml0c3BlcmxvbmcuaCIKCmdlbmVyYXRlX3N5c2NhbGxfbnIgYXJtNjQg
-NjQgIiRvdXRwdXQvbGludXgtdXNlci9hYXJjaDY0L3N5c2NhbGxfbnIuaCIKZ2VuZXJhdGVf
-c3lzY2FsbF9uciBuaW9zMiAzMiAiJG91dHB1dC9saW51eC11c2VyL25pb3MyL3N5c2NhbGxf
-bnIuaCIKZ2VuZXJhdGVfc3lzY2FsbF9uciBvcGVucmlzYyAzMiAiJG91dHB1dC9saW51eC11
-c2VyL29wZW5yaXNjL3N5c2NhbGxfbnIuaCIKCmdlbmVyYXRlX3N5c2NhbGxfbnIgcmlzY3Yg
-MzIgIiRvdXRwdXQvbGludXgtdXNlci9yaXNjdi9zeXNjYWxsMzJfbnIuaCIKZ2VuZXJhdGVf
-c3lzY2FsbF9uciByaXNjdiA2NCAiJG91dHB1dC9saW51eC11c2VyL3Jpc2N2L3N5c2NhbGw2
-NF9uci5oIgpybSAtZnIgIiRUTVAiCg==
---------------17E998FEEABEE81D847F8E95--
 
