@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B64116C057
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:09:10 +0100 (CET)
-Received: from localhost ([::1]:53768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C1916C02A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:03:01 +0100 (CET)
+Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Z1R-0004cm-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49330)
+	id 1j6YvU-0002cE-Qc
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:03:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkU-0000ar-Rx
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:42 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkP-0006Vs-HA
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkT-0000ZS-5G
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:38 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55316)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0006aI-AJ
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:37 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54495)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkO-0006PZ-M8
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:33 -0500
-Received: by mail-wm1-x329.google.com with SMTP id q9so2664958wmj.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:32 -0800 (PST)
+ id 1j6YkP-0006Sw-HZ
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:34 -0500
+Received: by mail-wm1-x333.google.com with SMTP id z12so2662893wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ni7BFcmeIVVMnmuVlUkskdnbHjwGqcPCtd1ZdP9PuMY=;
- b=IpYaWrq2WJESeucZxY+GiwJ7SoMf5n/K3m5ft5uSJbYxXJw45Ey5VAqWIx0KTVMabM
- wkCeT5s7Lw0vGTUnxC9bUilY4ZXrtMtDPNAyFZRoYsmu09aCoTU2lacg5pET8UoBlzFi
- +SGJtyXxGseJLkJJj4BlnpL97j0KbRRhzQQ3uUOjrpdoP7T9+t7ropvx0Mj6El0ciZIa
- V+ZUaPWJn2MsCtWek+Z4gcL4vMbmnsfP/diT13WMTDvVC7VmMT/s/kCkYsD5299OLrZQ
- H5EEQtgPp9+Q0novGsKrjHWhKgAn9NuE1/mndyU7w8Wln2NkEwp94JZWv8f1Y48QWiYu
- NYKw==
+ bh=rCFtj8zFnpz99LXxIAiXBZd2eJwdFhQQ53mwJk3hpuM=;
+ b=mOPGc9Y27KkLHb3LlcUlupbl1xlbNF/xIDEBFa+I0OwjNOXk/Vz7/wP7AnrVQMKR/f
+ ZyiZb+bkGt6+9+W4CRSPlOIdaZIR1t8Nq2YB0m+NkXmVTnX/Z0kA0lPXeuCtXYrqfy9A
+ PBcdIJtpq5rDGhYEfcIZ1HTwGjIvIpGRVhc0kSTmrkYqSsnhgP6d+Z5kS28pzdT71O0u
+ uGL7nH9XK6pGagc2psmZhACdxLTYXaOEGg5wugIyJCNAAnUxrbaX3eegTwo40PEBFkT6
+ AmS81L/VtdsYJAF05/4xTP7/mAmYo5m4IfF5Gj8Yv2/6bpqcld9SdhxE6Q1OjPQVrMni
+ U90A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ni7BFcmeIVVMnmuVlUkskdnbHjwGqcPCtd1ZdP9PuMY=;
- b=ldPnI+255FWNreCfJKyDbHRwL2JCSsT+Crf+guTe/wIGymApgDJdOyag+SUADsaCDI
- BxsldONM/X2cPDrs7JpjZhdxF0eQFPVD18HTKMOBu1Hi+t111v5GT6eDSG34ZfUaH4SP
- D6fx4ZTOF+5KUlDjberxTwd4mSc2+c3AHqAxbBRXvJtuYnXF1EIs0GcQk3BG5s2vd0BB
- 0Ywsoyvt/MqaRGN25VbhyqfhCGpIG4UdRdANBhXQjAXY+e0lDjaK3tWYkY+njtZ5zVdb
- FwTrxExEoNf+r3yl/LFRXNQqiYqwhaVH44CwI94zDG21GA/5r4UQw4PS/Pup6IFoNpLj
- Y1Rg==
-X-Gm-Message-State: APjAAAUAoE77FLm2RwOb9M+PRmXaOfPGA/7mk/jTeJAnd4BqSe7ZuhTV
- b4xQVZrx32LI3ICJdmFUuLzWSDRh
-X-Google-Smtp-Source: APXvYqxzfOAYXlslJxURJXauk/MuVV3Deov1+VuGdOKJftHmYg27ZLag+R7zzGIMKMOFVcTw2+5mHA==
-X-Received: by 2002:a7b:cd8e:: with SMTP id y14mr5005624wmj.150.1582631491030; 
- Tue, 25 Feb 2020 03:51:31 -0800 (PST)
+ bh=rCFtj8zFnpz99LXxIAiXBZd2eJwdFhQQ53mwJk3hpuM=;
+ b=ZVX3PnkBTCm2MkhM0rS4+DixWFlkEIjhCubxGQ+93fv+X8wY3na1R9geWU76ct48Uh
+ 4Cz74qQiExy/0Ica/BnKNzVCm/z68nczcbiUGsViEr8oQlU02SR5xl18pSu/PlI00umZ
+ OE6WcEixrXSky+Jkn4ovJhwjjjn2S/rGpGRcRjbWt27SfRyBvGUDltHElF0rG2MRDjpx
+ cSX6GuljclBMto8VeqVfsNtt5+Dz1NTSN1E9udMRItBaE0KTSNAwq5b4PzuAwQ76Eo4g
+ 6UFSfy/3LlWCfARyOsqPWPL1BB2Pc86vn8v1XgM/09/4zA1DU7d0rx6MgazSBdT16eh5
+ 5pig==
+X-Gm-Message-State: APjAAAU0NbWBBJj63S840GbutYoskq1/nU6hHMiexhgJNbSK8sZ6lhBn
+ tArk0hWnjaVAXFijpoCMyuG9sJ54
+X-Google-Smtp-Source: APXvYqzAUHgu67kp9OPyhKnUy12zHY+QZr0pju4ObGeXkqmFmAIIJMU0/bkSO6QDVWAOkhByIONvLw==
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr5109312wml.182.1582631492123; 
+ Tue, 25 Feb 2020 03:51:32 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.30
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:30 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 026/136] arm/omap_sx1: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:16 +0100
-Message-Id: <1582631466-13880-26-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 027/136] arm/palm: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:17 +0100
+Message-Id: <1582631466-13880-27-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,40 +98,36 @@ PS:
  out if it mismatches board expected value.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-27-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-28-imammedo@redhat.com>
 ---
- hw/arm/omap_sx1.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ hw/arm/palm.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
-index be24571..2bebab4 100644
---- a/hw/arm/omap_sx1.c
-+++ b/hw/arm/omap_sx1.c
-@@ -35,6 +35,7 @@
- #include "sysemu/qtest.h"
+diff --git a/hw/arm/palm.c b/hw/arm/palm.c
+index 72eca8c..99554bd 100644
+--- a/hw/arm/palm.c
++++ b/hw/arm/palm.c
+@@ -31,6 +31,7 @@
+ #include "hw/loader.h"
  #include "exec/address-spaces.h"
  #include "cpu.h"
 +#include "qemu/cutils.h"
  
- /*****************************************************************************/
- /* Siemens SX1 Cellphone V1 */
-@@ -102,8 +103,8 @@ static struct arm_boot_info sx1_binfo = {
- static void sx1_init(MachineState *machine, const int version)
+ static uint64_t static_read(void *opaque, hwaddr offset, unsigned size)
  {
-     struct omap_mpu_state_s *mpu;
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     MemoryRegion *address_space = get_system_memory();
+@@ -195,15 +196,21 @@ static void palmte_init(MachineState *machine)
+     static uint32_t cs2val = 0x0000e1a0;
+     static uint32_t cs3val = 0xe1a0e1a0;
+     int rom_size, rom_loaded = 0;
 -    MemoryRegion *dram = g_new(MemoryRegion, 1);
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
      MemoryRegion *flash = g_new(MemoryRegion, 1);
      MemoryRegion *cs = g_new(MemoryRegion, 4);
-     static uint32_t cs0val = 0x00213090;
-@@ -115,15 +116,20 @@ static void sx1_init(MachineState *machine, const int version)
-     uint32_t flash_size = flash0_size;
-     int be;
  
+-    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
+-                                         palmte_binfo.ram_size);
+-    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE, dram);
 +    if (machine->ram_size != mc->default_ram_size) {
 +        char *sz = size_to_str(mc->default_ram_size);
 +        error_report("Invalid RAM size, should be %s", sz);
@@ -138,38 +135,23 @@ index be24571..2bebab4 100644
 +        exit(EXIT_FAILURE);
 +    }
 +
-     if (version == 2) {
-         flash_size = flash2_size;
-     }
- 
--    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
--                                         sx1_binfo.ram_size);
--    memory_region_add_subregion(address_space, OMAP_EMIFF_BASE, dram);
-+    memory_region_add_subregion(address_space, OMAP_EMIFF_BASE, machine->ram);
++    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE,
++                                machine->ram);
  
 -    mpu = omap310_mpu_init(dram, machine->cpu_type);
 +    mpu = omap310_mpu_init(machine->ram, machine->cpu_type);
  
      /* External Flash (EMIFS) */
-     memory_region_init_ram(flash, NULL, "omap_sx1.flash0-0", flash_size,
-@@ -223,6 +229,8 @@ static void sx1_machine_v2_class_init(ObjectClass *oc, void *data)
-     mc->init = sx1_init_v2;
+     memory_region_init_ram(flash, NULL, "palmte.flash", flash_size,
+@@ -265,6 +272,8 @@ static void palmte_machine_init(MachineClass *mc)
+     mc->init = palmte_init;
      mc->ignore_memory_transaction_failures = true;
      mc->default_cpu_type = ARM_CPU_TYPE_NAME("ti925t");
-+    mc->default_ram_size = sdram_size;
++    mc->default_ram_size = 0x02000000;
 +    mc->default_ram_id = "omap1.dram";
  }
  
- static const TypeInfo sx1_machine_v2_type = {
-@@ -239,6 +247,8 @@ static void sx1_machine_v1_class_init(ObjectClass *oc, void *data)
-     mc->init = sx1_init_v1;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("ti925t");
-+    mc->default_ram_size = sdram_size;
-+    mc->default_ram_id = "omap1.dram";
- }
- 
- static const TypeInfo sx1_machine_v1_type = {
+ DEFINE_MACHINE("cheetah", palmte_machine_init)
 -- 
 1.8.3.1
 
