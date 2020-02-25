@@ -2,76 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEC816F01C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 21:34:14 +0100 (CET)
-Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F2D16F054
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 21:43:37 +0100 (CET)
+Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6guD-0004yx-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 15:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37927)
+	id 1j6h3I-00081V-CI
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 15:43:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6gsu-0004Nc-KT
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:32:53 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j6h1p-0007BT-1v
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:42:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6gss-0004PT-BQ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:32:51 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53231)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6gss-0004L0-3L
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:32:50 -0500
-Received: by mail-wm1-x341.google.com with SMTP id p9so619134wmc.2
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 12:32:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=54ty86/XXajQXqVquLtgWNqdbYtlxJcUhZ3ui5nduv0=;
- b=ue7ou9G1cGMrPPeWQYu6jFjmNK0du5mdGaV5bsoxVod9f23sMG3MXguDRPMsLxxNC9
- OIbZZhXm4L86iAMQd2BYmpN+GbTMEV+U33rxIOx/5eR54k7cmjKBxNkK/Br7AOxqiN62
- kMsUFRZu1euxqd1wdEcuCl8Nj3epJQAynwu8YnmX8Ae+pHOEDuY+tQrZjxpQtd9DDXJy
- 8nov+V5ulIu+DsDXL3MBMbxnJJ7isbIWI0I+CtTsAqUi//L81M4sQO7R2EGjP8WGiPAP
- 6UUb1Yg0aa2mrxrZ33UAJCFjICPq+EB6sM3Ms+ueecZw8gBCp8dH6kn03W0LEXTWPurM
- Qqdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=54ty86/XXajQXqVquLtgWNqdbYtlxJcUhZ3ui5nduv0=;
- b=CWaHxoNw5N8S19jVCI71O2F/Awca04/i9v+WZaNE7HkiyhLtxpsDZjHf1585DQqeJa
- b8q1ZixRt9SbXrt9OeSwfT+wCII3jiQKwhOggFff7FF23FQVqilMVJrV23yzNE6deWFu
- JGNvPoBwdmHbA4m11DiUnW0mQJlVojobAqmwYbhjXuBRdvk5DbBTx3+A6jO9aEny+DHu
- olYs10bVAVdjrbKJgUPVqh/ipjfpWGE9wPSxe2+mnkSHmRKojkMXKEk7QxW6eKk7bj6C
- xaZASd3glgZ9iyiEzjTrvYod3V94gzjZ0FqaF9F0gzZTkGnyosNdoejWpYDvE93C/PTh
- Gupw==
-X-Gm-Message-State: APjAAAUPHfUbgtyXOR2y+flg05XFXGaXgWKF6x58dWS1tnZ5PhzgdXro
- AzBdHtQL2bBgcgp7Ms0Tx4XP2g==
-X-Google-Smtp-Source: APXvYqz1NhBjAke6gF8Cfs0IIcSZiP86QqfOxZLaudp8tS/WPlItf9rb61uiJhIq5/HAoOexoNAzJg==
-X-Received: by 2002:a05:600c:10d2:: with SMTP id
- l18mr953877wmd.122.1582662768704; 
- Tue, 25 Feb 2020 12:32:48 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x21sm5237479wmi.30.2020.02.25.12.32.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 12:32:47 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A2CA01FF87;
- Tue, 25 Feb 2020 20:32:46 +0000 (GMT)
-References: <20200225143923.22297-1-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.8; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH RISU] aarch64.risu: Add patterns for v8.3-RCPC and
- v8.4-RCPC insns
-In-reply-to: <20200225143923.22297-1-peter.maydell@linaro.org>
-Date: Tue, 25 Feb 2020 20:32:46 +0000
-Message-ID: <87v9nuxv9t.fsf@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1j6h1l-0005GX-LC
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:42:03 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:37457)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j6h1l-0005Bv-Bu
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 15:42:01 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M3UhO-1j7FB73qDa-000e8d; Tue, 25 Feb 2020 21:36:56 +0100
+Subject: Re: [PATCH v3 0/5] linux-user: Implement x86_64 vsyscalls
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200213032223.14643-1-richard.henderson@linaro.org>
+ <01077c2a-e90f-5a91-6e41-2f08e3978789@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
+ WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
+ SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
+ UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
+ Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
+ JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
+ q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
+ RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
+ 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
+ LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
+ dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
+ ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
+ HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
+ rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
+ jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
+ NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
+ WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
+ lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
+ BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
+ gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
+ +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
+ rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
+ 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
+ wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
+ ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
+ d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
+ 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
+ tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
+ inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
+ 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
+ VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
+ US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
+ w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
+ FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
+ hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
+ ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
+ ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
+ OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
+ JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
+ ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
+Message-ID: <bf0b00e1-b7f8-5095-53eb-9feb03d86e34@vivier.eu>
+Date: Tue, 25 Feb 2020 21:36:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <01077c2a-e90f-5a91-6e41-2f08e3978789@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:iwTzM5u4xN79zT3M1VGZ9CWA7IDDcAuMurdeo8+mlaJsEavrjcx
+ T71rJP1rrKp0tvZuB56Ve6Izxq2ypJG9mJR5131vN9eu3K1bsyU0i+dwJSZkfFHFIFKFu9V
+ gcTs56+AhwTi9hi5iR8hfas2WT/SzQydI0l6oZ4BxzEeEScv8Ll78SE9xkk3gQ9U8U5tRmo
+ LJyFjVNdj1QbYzyYUGqWg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NSMjOlJdxiw=:GyrLTGJyWEQuvCwYedSk79
+ iwyl+zIemhFFnms+SwxISygZ7taJoxU48ZqIzNzJsdYQOsocfDkLid5WrpkiH/e2zAnTo0MFI
+ 7Xmsdb9tuIIctzwQTz2I6Z+TbWfUDc0z+CD+EwHli21pE42wUgwyB3eP7b8RExN1apG1S3X9K
+ 92KYIGGu1+rqylarCrtIRJ2qUmPR8TYdF0UxOaw7wdFUzxMnS3grBFwuQeOgyBfbJ1TBxP8dR
+ jMWWImHxli0dPbGfwtPwGhZFCD8KL8rhm6Qllg69UXndYYbE5uJY+5g0dOb08yPgqWWF4OB/r
+ SP6flSzE0s0c1lC3xF7AarWrOHF0AtShjaudPele6D/VEvVBQFXRkRHyNX8p2CZI+b7dKi9Ju
+ lZUxoWi1qnv7r+IfmBAIHREkKUsKG5LkLZgWHkfY638CpNyIGq1C2BqGMh4ojBsNb0LOSChsS
+ sStUQXC2SXBYFGDPMshRhys4So7xnGUq1opkGQKWNMe0V9MOBo7iohbya+Fs9BPpSuDw1g8Se
+ Gz/rp/PVJoy7+aL7QyKCbv2Zx87pgGaY9Mw6joXBu3PBjkQPnItszAdyLgkrhnuZIpgWL9yBU
+ 2T4a8hn00XRp6BJXJGgO+KK6Bx6Cu9hFwEPMTcVRnpXxUCnj4kfTxow3iJ/FRrxevAaLK3FR1
+ oG4tvOVgCkK5Ws5lRSbX8OXBWWtg+NFLsdCKFZ+a7jC/cnpIZ0LKRrqD3piAGaibgTJ6OmfCF
+ /Zl/Lymqc/SPey6f8/pc+UlLkZ+o7Sta/H/qAScwL9rUYuL/282d8Bn/ImZE2JIIiAtLmpG5q
+ JXrpFtjOidpWb8ryU2EoV+IFrLfoMOvGtzD0sbQF/5pTRNXNNpuFaEobGbIEXI9xSxeo3Y5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,76 +109,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 25/02/2020 à 20:59, Richard Henderson a écrit :
+> On 2/12/20 7:22 PM, Richard Henderson wrote:
+>> Changes for v3:
+>>
+>>   * Add TARGET_VSYSCALL_PAGE define.
+>>   * Move the sigsegv goto around.
+>>
+>> v2: https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg03474.html
+>> v1: https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg02841.html
+> 
+> Ping?
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Applied to my linux-user branch.
+I've removed the trailing whitespace reported by checkpatch.pl
 
-> Add patterns for the new instructions in the v8.3-RCPC and
-> v8.4-RCPC extensions.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> This is what I used for testing the RCPC QEMU patches I sent out
-> the other day. Did I get the @ section syntax here right?
-
-Yep ;-)
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
->
->
->  aarch64.risu | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
->
-> diff --git a/aarch64.risu b/aarch64.risu
-> index c4eda7a..8f08cd0 100644
-> --- a/aarch64.risu
-> +++ b/aarch64.risu
-> @@ -3019,3 +3019,35 @@ SM3TT2B A64_V 1100 1110 010 rm:5 10 imm:2 11 rn:5 =
-rd:5
->  XAR A64_V 1100 1110 100 rm:5 imm:6 rn:5 rd:5
->=20=20
->  @
-> +
-> +# v8.3-RCPC instructions
-> +@v8_3_rcpc
-> +
-> +# LDAPR, LDAPRH, LDAPRB
-> +# As usual, the $rn !=3D $rt constraint is risu-imposed, not architectur=
-al
-> +LDAPR A64 sz:2 111000 101 11111 1100 00 rn:5 rt:5 \
-> +!constraints { $rn !=3D 31 && $rn !=3D $rt } \
-> +!memory { align(1 << $sz); reg_plus_imm($rn, 0); }
-> +
-> +@
-> +
-> +# v8.4-RCPC instructions
-> +# As usual, the $rn !=3D $rt constraint is risu-imposed, not architectur=
-al
-> +@v8_4_rcpc
-> +STLUR A64 sz:2 011001 00 0 imm:9 00 rn:5 rt:5 \
-> +!constraints { $rn !=3D 31 && $rn !=3D $rt } \
-> +!memory { align(1 << $sz); reg_plus_imm($rn, $imm); }
-> +
-> +LDAPUR A64 sz:2 011001 01 0 imm:9 00 rn:5 rt:5 \
-> +!constraints { $rn !=3D 31 && $rn !=3D $rt } \
-> +!memory { align(1 << $sz); reg_plus_imm($rn, $imm); }
-> +
-> +LDAPURS64 A64 sz:2 011001 10 0 imm:9 00 rn:5 rt:5 \
-> +!constraints { $rn !=3D 31 && $rn !=3D $rt && $sz !=3D 3 } \
-> +!memory { align(1 << $sz); reg_plus_imm($rn, $imm); }
-> +
-> +LDAPURS32 A64 sz:2 011001 11 0 imm:9 00 rn:5 rt:5 \
-> +!constraints { $rn !=3D 31 && $rn !=3D $rt && $sz < 2 } \
-> +!memory { align(1 << $sz); reg_plus_imm($rn, $imm); }
-> +
-> +@
-
-
---=20
-Alex Benn=C3=A9e
+Thanks,
+Laurent
 
