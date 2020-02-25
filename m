@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FC616C17C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:57:03 +0100 (CET)
-Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EF416C17F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:58:51 +0100 (CET)
+Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Zln-0004b6-1x
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:57:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52522)
+	id 1j6ZnW-0007KC-N8
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:58:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z09-0003Tw-B3
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:50 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0A-0003XA-EA
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003Tj-Aa
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:49 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41240)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z09-0003Un-Br
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:50 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40832)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z08-0003TA-4P
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:48 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v4so1568359wrs.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:48 -0800 (PST)
+ id 1j6Z09-0003U2-4y
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:49 -0500
+Received: by mail-wm1-x330.google.com with SMTP id t14so2884098wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MUTtipDJs5GuUktX0fj9AZXSq7R8/YXYGwDfm8gZ/00=;
- b=e9hoK7woL1gimDbdW4pBZnl3Yi1phoNL34n0iXyqn6XqT+HmoYX9gTDFVmia3nPYhP
- Ex91YHHENBB7D6odNiy1xYK79lw0w+it13x+b7GRnKlHk8cg7zE8tYYvCmY9G0HEZESz
- ZWdi8VydzPHRc6GBBqPw5lYVz9ZSx8XsmGkXzxoK903pj0s8hwM5X7nbrTR8zsyEnsi5
- lExfzp/vvDTmPNmKgta8hedK/XCa4VeVXvuVV/Rqz14xNWr2Es/tecLdc9BW+EDmrcwl
- TA+MUD4Jz1+7qs2zJ50+qfGWwhEmVneKLKx0JhNn7kiP9c4mCxV/5YuljBrxI1rjS9g2
- ZmgA==
+ bh=Sx6gw86N54XNVKLEmPL5JrhmwlCuEFgFKvIZU/MwFMY=;
+ b=tRGTGRSmhp7v2jWe8zAd+LkNG6r7RLlRZG+LpOk21Q1PBWn2av9reVGKC3VqQM1xA6
+ rIiFQjYzqh+RvK7wpbWyht6d4v1vaRd0ndIXpzzP91EXE6TkAht7QHH9sZp+f9rO2pEg
+ JUcqcOZSsc2KK4mH1eieI08FSukpgkTrhrVvGwPn1lAv7I+SVRW2Ko5ZotCs4HnM9xoO
+ kOYy3qdOwNs2kslAMWsiEV7LOhYvLOW/Bm3ersG93ZqdkZxkPIkd+6gBo6wQQ+GH8psL
+ cqjP3r9fqXrAQCamZ1uh8XPVYkBbkXwSf/VzXuKtS8buvcOivseW7raTFE2UkG0FmuZu
+ SMaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MUTtipDJs5GuUktX0fj9AZXSq7R8/YXYGwDfm8gZ/00=;
- b=ZgBVJlpquZi61HSyIzqMKWY54fZjb2xTnhhRj4/s0L9AVmDTqoB6Q8KKKLo/ryE2Qw
- xzb8W2vTAe1ofclck0RKUIujCr1kCxeq2Aj71kDbdRsnQk7d0cB5OQ/Fb1eBuhUMw/Ag
- Kmm0ebL13WoCF9chHHEUxcH0hI3aoPh2uVkz8FJOS+SADWXMhmKVd4vTwZ67V6finWKY
- VP3Ki2oVX+a2oenL7XmirMqwfsruPXZrlJF5nlzqafglOjwOVr6Bapd3EYBPZ/EBMUpW
- 0YEFNTHwjqgMMYsthm/BReEz0Jx8Pl/2hXR1xVIL63XKdCCuu8dHvbk2weTGrt+a0jFQ
- Wa4Q==
-X-Gm-Message-State: APjAAAUtJ521riyPLOfHoJlfe4KXQ4mFpmcaF+c0sysQDL19TceyEJuq
- CfbQG/ULSE1mBGPlpXcxiuvKr1uW
-X-Google-Smtp-Source: APXvYqxLiL8T491NkaBv0rFqk4q4Z0pHBIhAvT1hvHEFLT3xSZEf2JEY9fPzGUDWe2nsEZWiKPq4mg==
-X-Received: by 2002:adf:eb48:: with SMTP id u8mr71896315wrn.283.1582632466943; 
- Tue, 25 Feb 2020 04:07:46 -0800 (PST)
+ bh=Sx6gw86N54XNVKLEmPL5JrhmwlCuEFgFKvIZU/MwFMY=;
+ b=N0cOPLLrbexyLxhdFZPig1Y3QH6AFuJ/pQam3pYF9caqVAfREHcU3CQVshPqvTlAS8
+ ulOXfMabWmfgX4Vk9wbMM7GdBbh8MkAZfs/1rLkuc2/e6suTf9NTVavyxxmGZUcdk3n8
+ U5ClyUSDOeKme1WRgJa4f4Zqcofqb/3WP6mEi8LJPALBPcXG/8roj7DGd35BvTiH3l1E
+ Wie2zdoWeRVa9t+DIRgTrVrGE2MhBLbsrwedj8mocw1bpqcJDftuoeSVfqnXRGULiCHu
+ 2hvZ2UaL/Xi9lnKkEEgFFm6CaVEVMTi9mVmhu5EgaKADiBJOQj1hXW+bPtD39tBWVB4D
+ 8MGQ==
+X-Gm-Message-State: APjAAAXlFfthxrXjMTrYuMJFAaVcjvKjvacTf6Xpey6bU02C4ze8PEak
+ Wza7WTfPH9rf73TV3D/pKxWBkmUX
+X-Google-Smtp-Source: APXvYqzDbdvET0xRSI0mtSYCZA+yeaXda6yLqz2ewQ2vK3K6ExawiYyGBlgK/dj/NMRrjcaW/SrFBw==
+X-Received: by 2002:a1c:964f:: with SMTP id y76mr4899769wmd.62.1582632467728; 
+ Tue, 25 Feb 2020 04:07:47 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.45
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.47
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:46 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 113/136] scripts/cocci: Patch to detect potential use of
- memory_region_init_rom
-Date: Tue, 25 Feb 2020 13:07:11 +0100
-Message-Id: <1582632454-16491-11-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 114/136] hw/arm/stm32: Use memory_region_init_rom() with
+ read-only regions
+Date: Tue, 25 Feb 2020 13:07:12 +0100
+Message-Id: <1582632454-16491-12-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,46 +85,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Add a semantic patch to detect potential replacement of
-memory_region_init_ram(readonly) by memory_region_init_rom().
+The scripts/coccinelle/memory-region-housekeeping.cocci reported:
+* TODO [[view:./hw/arm/stm32f205_soc.c::face=ovl-face1::linb=96::colb=4::cole=26][potential use of memory_region_init_rom*() in  ./hw/arm/stm32f205_soc.c::96]]
+* TODO [[view:./hw/arm/stm32f405_soc.c::face=ovl-face1::linb=98::colb=4::cole=26][potential use of memory_region_init_rom*() in  ./hw/arm/stm32f405_soc.c::98]]
+
+We can indeed replace the memory_region_init_ram() and
+memory_region_set_readonly() calls by memory_region_init_rom().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-16-philmd@redhat.com>
+Message-Id: <20200224205533.23798-17-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- scripts/coccinelle/memory-region-housekeeping.cocci | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/arm/stm32f205_soc.c | 4 +---
+ hw/arm/stm32f405_soc.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/coccinelle/memory-region-housekeeping.cocci b/scripts/coccinelle/memory-region-housekeeping.cocci
-index ee3923d..9cdde71 100644
---- a/scripts/coccinelle/memory-region-housekeeping.cocci
-+++ b/scripts/coccinelle/memory-region-housekeeping.cocci
-@@ -29,6 +29,25 @@ symbol true;
- )
+diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+index 627fd44..2de5627 100644
+--- a/hw/arm/stm32f205_soc.c
++++ b/hw/arm/stm32f205_soc.c
+@@ -93,12 +93,10 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+     MemoryRegion *flash = g_new(MemoryRegion, 1);
+     MemoryRegion *flash_alias = g_new(MemoryRegion, 1);
  
+-    memory_region_init_ram(flash, NULL, "STM32F205.flash", FLASH_SIZE,
++    memory_region_init_rom(flash, NULL, "STM32F205.flash", FLASH_SIZE,
+                            &error_fatal);
+     memory_region_init_alias(flash_alias, NULL, "STM32F205.flash.alias",
+                              flash, 0, FLASH_SIZE);
+-
+-    memory_region_set_readonly(flash, true);
+     memory_region_set_readonly(flash_alias, true);
  
-+@possible_memory_region_init_rom@
-+expression E1, E2, E3, E4, E5;
-+position p;
-+@@
-+(
-+  memory_region_init_ram@p(E1, E2, E3, E4, E5);
-+  ...
-+  memory_region_set_readonly(E1, true);
-+|
-+  memory_region_init_ram_nomigrate@p(E1, E2, E3, E4, E5);
-+  ...
-+  memory_region_set_readonly(E1, true);
-+)
-+@script:python@
-+p << possible_memory_region_init_rom.p;
-+@@
-+cocci.print_main("potential use of memory_region_init_rom*() in ", p)
-+
-+
- // Replace by-hand memory_region_init_ram_nomigrate/vmstate_register_ram
- // code sequences with use of the new memory_region_init_ram function.
- // Similarly for the _rom and _rom_device functions.
+     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
+diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
+index 9bcad97..b8fca13 100644
+--- a/hw/arm/stm32f405_soc.c
++++ b/hw/arm/stm32f405_soc.c
+@@ -95,7 +95,7 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+     Error *err = NULL;
+     int i;
+ 
+-    memory_region_init_ram(&s->flash, NULL, "STM32F405.flash", FLASH_SIZE,
++    memory_region_init_rom(&s->flash, NULL, "STM32F405.flash", FLASH_SIZE,
+                            &err);
+     if (err != NULL) {
+         error_propagate(errp, err);
+@@ -103,8 +103,6 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+     }
+     memory_region_init_alias(&s->flash_alias, NULL, "STM32F405.flash.alias",
+                              &s->flash, 0, FLASH_SIZE);
+-
+-    memory_region_set_readonly(&s->flash, true);
+     memory_region_set_readonly(&s->flash_alias, true);
+ 
+     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->flash);
 -- 
 1.8.3.1
 
