@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0A516C09B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:18:57 +0100 (CET)
-Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC5316C06E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:11:22 +0100 (CET)
+Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZAu-0005gA-TX
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:18:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
+	id 1j6Z3Z-0008Fb-JO
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:11:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl0-00018M-QN
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl0-000189-NQ
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008FW-34
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Fx-4D
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:10 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33054)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33058)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykx-00082e-Eu
+ id 1j6Ykx-00083L-E6
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:08 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id u6so14405659wrt.0
+Received: by mail-wr1-x432.google.com with SMTP id u6so14405702wrt.0
  for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wpeBDqm1mbqimPx7VSOh234xlVHfgBdHQ9PpJAIvLUw=;
- b=h2bdf3sUPY1iPtAug7HLOX3+2Q1ElA/MOhaukzawcXac46IWY3CWFTmrl/VQryRLkS
- 93NETpQISRj9owsrHCH8OVgYXFIo4+vQBrrAMTK/nvMGC85/DQhsQK+ny4kYhe+CtEvD
- D14AeKxSkM3621l8r1zgWdo+XTsdql2sZmF1QB4kPGvX7TXderVCpEXwNe8JKn/VJRCI
- iwYl4OrxII7gVkT7vERe0FVKGf7MnBTimPn6lIRbP+f529y3ZQ79dbKUFA7CZ8tzzgME
- d1xVo8vw2i6QYjCjtd1LKy67aAZSVqjR12vZfkPL4YY445a3jf/h8eBn8cCG3W15cICD
- amdw==
+ bh=ISYF8bE3wZBpQs6aEV6LAzqPTy+sOweNT5V9+csQXHc=;
+ b=BDYC5JFJY1RnuY2XTnALpN+oGtOqR4RDxSLzjEfVGp5CiztULSJzZVSfC3m74nl1pR
+ Rw6VNjCLu/YMMYnYPy/Hq+EL/rG4qAnbG/zWqeYgbDCxaroNkeoP6FWrnTqPnMYjOx8q
+ aoPzGmcX6Q8ShmTyBms/xG+MkVOSrI8S7L5L1eFRyLaIXTHsGZ8pHHDwRhyqskyG1BLb
+ 16ao/CcfFY/1xafuYnhOV8WbtdX0gy5+M3qLTsEVGBqlJI0TQdh7iv8l+u2wXVIalgLH
+ ia4skAtK02VWN1/SW0sLESRsPi7m8m1x3oniHHSzpdoOUZCY46LZtc56BFnldFHoIcM0
+ y6+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wpeBDqm1mbqimPx7VSOh234xlVHfgBdHQ9PpJAIvLUw=;
- b=oIXLWudav61EdoW0s3Qst4wXlDs+dz9SstMN3AR56jxo77Ua4Mc/rCB1oL3owHI+lb
- 9+8g4drHeppJ/m4le9x6BspffHCmIEyyDlSKOmNE15GMRPuBUZang/CVXNj6bJ8yqW9W
- OOe9i2EsInKNyJmejo9fnivv3h9/B0Ero/T0HzBV0bJrp0/heGDBIzP//l4WYQdqK40T
- baVDKx5fp5tY7J3TrEmHtHX3ALge/c3NP3XdxYG7mkpoMfvNvfYioH385oWH19GWnapG
- 1C6zUads4g5SNm0FFBIf75EXFAeCC4NorSP7nUx8Mblay0cB9gT8bNSSKJRdzFpoztP2
- IJIg==
-X-Gm-Message-State: APjAAAXMH3fN0pYjNI0MEq3/CpLPO60kgoDah3+vaSpti4kbASokkGYh
- cs9xTPIWmg35hXAfpm/siG+fqDW3
-X-Google-Smtp-Source: APXvYqxREYLpCce/6USsD+d3+JF3d8noae7o4iz6qygv0JyvcyPPTsTkBZzmyw/+Oe8b7vJdr5xnbw==
-X-Received: by 2002:adf:f349:: with SMTP id e9mr10194252wrp.56.1582631518006; 
+ bh=ISYF8bE3wZBpQs6aEV6LAzqPTy+sOweNT5V9+csQXHc=;
+ b=MGe8UKntLy/wyIrQpKyxe51Jv359AmVhCZbOxrgA8XH3LXLkrnsB5JYiQCGjd07TKt
+ HhIQEzv/qmOCVx1zM9TBXuyq6UYWmaqgLnuxINw89iGWnI6zVKG/gDXH3bSdG/7uGwOJ
+ lJ+bTgZ92QnXrXGXsUo8nKG5zKDS2Lt+FqEVYZYlIqZV+9IR1p2IOZkIYNQkT6rowAhW
+ GnAhJyrbsjIuM9GL9BPbLfRmDdIh5msmRBBYYhzEAgwn+VH2g5qj2KiPcU9qfbafaguk
+ sZwrYR9JwlsaB5A4hKIR9pT59YL2N0ssIE85KUO93DS+dHfzrzg7k8T0DmhVrg8VsbNp
+ Qnbw==
+X-Gm-Message-State: APjAAAWrVOrdN+tQnZuIxuMWmblTCVrgJ0NP5SGKL1b/olvLskRNH39F
+ qfaT6oq3Mfzr1X/w+P6zG6xy5b3u
+X-Google-Smtp-Source: APXvYqySqvOYSZ/XmFVMhpyR3Icy3mPpYyEgAEugs4gU+23gOPSRM64zhxMkkio6vpUVHwGd6EDhFw==
+X-Received: by 2002:adf:ef8e:: with SMTP id d14mr14811813wro.316.1582631518787; 
  Tue, 25 Feb 2020 03:51:58 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.57
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.58
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:57 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 056/136] mips/mips_mipssim: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:46 +0100
-Message-Id: <1582631466-13880-56-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 057/136] mips/mips_r4k: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:47 +0100
+Message-Id: <1582631466-13880-57-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,19 +94,18 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-57-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-58-imammedo@redhat.com>
 ---
- hw/mips/mips_mipssim.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ hw/mips/mips_r4k.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index b934ca9..b2555dd 100644
---- a/hw/mips/mips_mipssim.c
-+++ b/hw/mips/mips_mipssim.c
-@@ -143,14 +143,12 @@ static void mipsnet_init(int base, qemu_irq irq, NICInfo *nd)
- static void
- mips_mipssim_init(MachineState *machine)
+diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
+index b2aec43..258cd91 100644
+--- a/hw/mips/mips_r4k.c
++++ b/hw/mips/mips_r4k.c
+@@ -171,13 +171,11 @@ static const int sector_len = 32 * KiB;
+ static
+ void mips_r4k_init(MachineState *machine)
  {
 -    ram_addr_t ram_size = machine->ram_size;
      const char *kernel_filename = machine->kernel_filename;
@@ -114,28 +113,29 @@ index b934ca9..b2555dd 100644
      const char *initrd_filename = machine->initrd_filename;
      char *filename;
      MemoryRegion *address_space_mem = get_system_memory();
-     MemoryRegion *isa = g_new(MemoryRegion, 1);
 -    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     MemoryRegion *bios = g_new(MemoryRegion, 1);
-     MIPSCPU *cpu;
-     CPUMIPSState *env;
-@@ -167,13 +165,11 @@ mips_mipssim_init(MachineState *machine)
+     MemoryRegion *bios;
+     MemoryRegion *iomem = g_new(MemoryRegion, 1);
+     MemoryRegion *isa_io = g_new(MemoryRegion, 1);
+@@ -203,14 +201,12 @@ void mips_r4k_init(MachineState *machine)
      qemu_register_reset(main_cpu_reset, reset_info);
  
-     /* Allocate RAM. */
--    memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
--                                         ram_size);
-     memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
-                            &error_fatal);
-     memory_region_set_readonly(bios, true);
- 
+     /* allocate RAM */
+-    if (ram_size > 256 * MiB) {
++    if (machine->ram_size > 256 * MiB) {
+         error_report("Too much memory for this machine: %" PRId64 "MB,"
+                      " maximum 256MB", ram_size / MiB);
+         exit(1);
+     }
+-    memory_region_allocate_system_memory(ram, NULL, "mips_r4k.ram", ram_size);
+-
 -    memory_region_add_subregion(address_space_mem, 0, ram);
 +    memory_region_add_subregion(address_space_mem, 0, machine->ram);
  
-     /* Map the BIOS / boot exception handler. */
-     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
-@@ -200,7 +196,7 @@ mips_mipssim_init(MachineState *machine)
-     }
+     memory_region_init_io(iomem, NULL, &mips_qemu_ops,
+                           NULL, "mips-qemu", 0x10000);
+@@ -261,7 +257,7 @@ void mips_r4k_init(MachineState *machine)
+     g_free(filename);
  
      if (kernel_filename) {
 -        loaderparams.ram_size = ram_size;
@@ -143,14 +143,15 @@ index b934ca9..b2555dd 100644
          loaderparams.kernel_filename = kernel_filename;
          loaderparams.kernel_cmdline = kernel_cmdline;
          loaderparams.initrd_filename = initrd_filename;
-@@ -245,6 +241,7 @@ static void mips_mipssim_machine_init(MachineClass *mc)
+@@ -316,7 +312,7 @@ static void mips_machine_init(MachineClass *mc)
  #else
      mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
  #endif
-+    mc->default_ram_id = "mips_mipssim.ram";
+-
++    mc->default_ram_id = "mips_r4k.ram";
  }
  
- DEFINE_MACHINE("mipssim", mips_mipssim_machine_init)
+ DEFINE_MACHINE("mips", mips_machine_init)
 -- 
 1.8.3.1
 
