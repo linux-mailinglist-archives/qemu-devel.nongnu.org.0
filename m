@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94AD16C00E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:56:34 +0100 (CET)
-Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6782716C009
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:55:06 +0100 (CET)
+Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YpD-0000jD-Sv
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:56:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49262)
+	id 1j6Ynp-0005i5-CO
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:55:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0000WS-CM
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0000WQ-B6
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkM-0006Is-6I
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:34 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40711)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkM-0006LU-Lq
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:35 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51566)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkL-0006Dq-UV
+ id 1j6YkM-0006GQ-Dz
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:30 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id t14so2834776wmi.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:26 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id t23so2679164wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TmKiV2DAhak+nXW1FExGcGGioFmWvkGA1aDQh50T6bs=;
- b=Mi53oH4423iJPNLgsNL/szJfWC0pDV0GdSgfoMUvURp7igvcd/BAnPzdkqxuf2QCok
- ilyOTMD1R+0dGrUx+zrDlWLPZ4510ONAT1zOfnUhtxgCEylkfp6YwJO+1jSquOlire7+
- 4YDbUiTpmEBm2IWWeSGX77AnPtz8jEcRGulvxN1c8UxvvE2xUFCuEyZwN4vIjrXUziNm
- kCSz89TBi1SRy/9xP4jGkID2tKjKf/TEJMw21w5L42ZrroNdQDqvJv0NIJW0+DwMvXaY
- 5spNojamHxh9yNJrBROyEyb7iXHiinH8U+qBqxYBAoMwWuQ4ccdC5sj/xmyadf5fEKDY
- KG7w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=jPbd6b7Kd0gmY/mPYS/0kiL57uD/bHKmeLvmiwY7zUE=;
+ b=tnnzK7o/JmqexMKYtQCfkXbuDn6OslNrg0kZs6ATSHpj4vdtAWFuxikOespgklkz/W
+ QyGQPWPDVFv9oTkxYY9NeWlDaTUlTVx1Tonf1pmU3E8ddXjZTIR7zTQCYdJV90ymb2Tf
+ JjDfCCj6V1NSHDxA3lZwfE0+1g/L4YXn/clS4ut9nzXPpzuli7tKslarziwrVqJSS/nH
+ qLJNsT7LP5zaVMo+rVjYS5KUjb9Zc5TZ6RsQ+wWxGc++/ZREKhiDGbZBrspUXBEMy4xd
+ J5/sX53JU+8Utmw7fgzlScOI3WpOsmOW6V8D6iXKIOt0DQuOgOHXVMkX4tvSBr6ClovP
+ 0xbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TmKiV2DAhak+nXW1FExGcGGioFmWvkGA1aDQh50T6bs=;
- b=tOKSg249+3LBvbMcdnh0EwbGIPgHZdoym1/h3ufJx9SLQ8lDABMm4ywxGZfGZ+FuYe
- gg3XypJCO9STE5KMUYEkM0SL+Dm04KYPScDaYcASXTAe9FkrJcRDUF3IZf1E6Afmi+J/
- 66gUZUN0VJXvOU4gcBz56y2r850mNEV4I081HCpvMhZAixxEgtHmZ1YZk5M7QUYkUm+u
- HjQ2mxCIbxCoo1mwh5xHOlqO/Bjvb+pLfaoxBsKG+P07LKmpuWaspAXTe37971iL4g6U
- 1ZhD0pwFobOwlp0/zYwrr2fDsJhkO48iYzynVr8Q0i9KQPHV3vM/vBrJgAFJq49TVf5T
- IVRg==
-X-Gm-Message-State: APjAAAXVoJzryxwn2U/Wk2kTu2ajZBVurlZFYCbFY05LZFFiDH5kRBWv
- /Ctkv3eGPN+dq7RzZMRzqZs/0P8P
-X-Google-Smtp-Source: APXvYqxD7XVGKo+Ge1Nj5y75VjykfX4KB1BHZ/Fz6HG31QYtv7WiVJmFJxmLvpxonvyGZXc/w5Qsbg==
-X-Received: by 2002:a1c:38c7:: with SMTP id f190mr4805538wma.94.1582631485620; 
- Tue, 25 Feb 2020 03:51:25 -0800 (PST)
+ :in-reply-to:references;
+ bh=jPbd6b7Kd0gmY/mPYS/0kiL57uD/bHKmeLvmiwY7zUE=;
+ b=jqbQ7JcpCOPw7g4rsAne6CMPbBwIZj2zawcuGMoHRNXWDOMQwHOOr0QLWgzJMKH58b
+ 4ZV6knEjSU+gbbMxULGhem0o3XhKaDY1z0bgqRzULdrk07x/ngoieR95dmIIkuUdCtCU
+ nndgSuEVSvrO+I9LTDbVo0kbWD7GQlR85tIj0pmwh0VvKeROHUqUY7kEe/Ms6RjJH8mI
+ RyPKZL2Bo2gFv0uf1J9Saat3DlM4GbovBTf/x6XYVqBr+ohuhHBeD614LfjGcga93qQl
+ u0S8pxItZA2SfqLJuCc7wTDLnqgDCy8BXFo4aoCI7poL66umvSj3oVt8MvqPIFPp4tVh
+ 9ruQ==
+X-Gm-Message-State: APjAAAVHaMT+Ds2FYlhxTi3I9g4G95lgZI+vPhVpx+NLHxYEZPXoDZyS
+ e01WZ9zBoNqOtVGsv3Dur8c5sAkh
+X-Google-Smtp-Source: APXvYqyv/+eL8dcLOmtpcnnEHSOu58TDW8nQoXnYtCzS4bUnjR41ZUGTLmknM/zk5Ip6jWieNSgJNA==
+X-Received: by 2002:a05:600c:2481:: with SMTP id
+ 1mr4940241wms.120.1582631489069; 
+ Tue, 25 Feb 2020 03:51:29 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.24
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.28
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:25 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:28 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 020/136] arm/mcimx6ul-evk: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:10 +0100
-Message-Id: <1582631466-13880-20-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 024/136] arm/musicpal: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:14 +0100
+Message-Id: <1582631466-13880-24-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,84 +90,65 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 PS:
-  remove no longer needed MCIMX6ULEVK
+ while at it add check for user supplied RAM size and error
+ out if it mismatches board expected value.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-21-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-25-imammedo@redhat.com>
 ---
- hw/arm/mcimx6ul-evk.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+ hw/arm/musicpal.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
-index e90b393..23a71ed 100644
---- a/hw/arm/mcimx6ul-evk.c
-+++ b/hw/arm/mcimx6ul-evk.c
-@@ -19,15 +19,10 @@
- #include "qemu/error-report.h"
- #include "sysemu/qtest.h"
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index dc551bb..db8b03cb 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -32,6 +32,7 @@
+ #include "sysemu/runstate.h"
+ #include "exec/address-spaces.h"
+ #include "ui/pixel_ops.h"
++#include "qemu/cutils.h"
  
--typedef struct {
--    FslIMX6ULState soc;
--    MemoryRegion ram;
--} MCIMX6ULEVK;
--
- static void mcimx6ul_evk_init(MachineState *machine)
- {
-     static struct arm_boot_info boot_info;
--    MCIMX6ULEVK *s = g_new0(MCIMX6ULEVK, 1);
-+    FslIMX6ULState *s;
+ #define MP_MISC_BASE            0x80002000
+ #define MP_MISC_SIZE            0x00001000
+@@ -1589,16 +1590,21 @@ static void musicpal_init(MachineState *machine)
      int i;
+     unsigned long flash_size;
+     DriveInfo *dinfo;
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     MemoryRegion *address_space_mem = get_system_memory();
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     MemoryRegion *sram = g_new(MemoryRegion, 1);
  
-     if (machine->ram_size > FSL_IMX6UL_MMDC_SIZE) {
-@@ -43,15 +38,12 @@ static void mcimx6ul_evk_init(MachineState *machine)
-         .nb_cpus = machine->smp.cpus,
-     };
++    /* For now we use a fixed - the original - RAM size */
++    if (machine->ram_size != mc->default_ram_size) {
++        char *sz = size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
++
+     cpu = ARM_CPU(cpu_create(machine->cpu_type));
  
--    object_initialize_child(OBJECT(machine), "soc", &s->soc,  sizeof(s->soc),
--                            TYPE_FSL_IMX6UL, &error_fatal, NULL);
--
--    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_fatal);
-+    s = FSL_IMX6UL(object_new(TYPE_FSL_IMX6UL));
-+    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fatal);
-+    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+-    /* For now we use a fixed - the original - RAM size */
+-    memory_region_allocate_system_memory(ram, NULL, "musicpal.ram",
+-                                         MP_RAM_DEFAULT_SIZE);
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
  
--    memory_region_allocate_system_memory(&s->ram, NULL, "mcimx6ul-evk.ram",
--                                         machine->ram_size);
--    memory_region_add_subregion(get_system_memory(),
--                                FSL_IMX6UL_MMDC_ADDR, &s->ram);
-+    memory_region_add_subregion(get_system_memory(), FSL_IMX6UL_MMDC_ADDR,
-+                                machine->ram);
- 
-     for (i = 0; i < FSL_IMX6UL_NUM_USDHCS; i++) {
-         BusState *bus;
-@@ -61,7 +53,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
- 
-         di = drive_get_next(IF_SD);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
--        bus = qdev_get_child_bus(DEVICE(&s->soc.usdhc[i]), "sd-bus");
-+        bus = qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
-         carddev = qdev_create(bus, TYPE_SD_CARD);
-         qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
-         object_property_set_bool(OBJECT(carddev), true,
-@@ -69,7 +61,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
-     }
- 
-     if (!qtest_enabled()) {
--        arm_load_kernel(&s->soc.cpu, machine, &boot_info);
-+        arm_load_kernel(&s->cpu, machine, &boot_info);
-     }
+     memory_region_init_ram(sram, NULL, "musicpal.sram", MP_SRAM_SIZE,
+                            &error_fatal);
+@@ -1714,6 +1720,8 @@ static void musicpal_machine_init(MachineClass *mc)
+     mc->init = musicpal_init;
+     mc->ignore_memory_transaction_failures = true;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("arm926");
++    mc->default_ram_size = MP_RAM_DEFAULT_SIZE;
++    mc->default_ram_id = "musicpal.ram";
  }
  
-@@ -78,5 +70,6 @@ static void mcimx6ul_evk_machine_init(MachineClass *mc)
-     mc->desc = "Freescale i.MX6UL Evaluation Kit (Cortex A7)";
-     mc->init = mcimx6ul_evk_init;
-     mc->max_cpus = FSL_IMX6UL_NUM_CPUS;
-+    mc->default_ram_id = "mcimx6ul-evk.ram";
- }
- DEFINE_MACHINE("mcimx6ul-evk", mcimx6ul_evk_machine_init)
+ DEFINE_MACHINE("musicpal", musicpal_machine_init)
 -- 
 1.8.3.1
 
