@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691B116C2C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:53:11 +0100 (CET)
-Received: from localhost ([::1]:56714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 101B516C2B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:50:30 +0100 (CET)
+Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ae6-0006HI-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:53:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34271)
+	id 1j6abV-0001KD-2D
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:50:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34147)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6Zka-0003xs-2F
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:49 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZkV-0003ms-Dp
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZkY-0004FZ-He
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:47 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37769)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZkU-00046r-7v
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:43 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33643)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZkY-0004Dy-99
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:46 -0500
-Received: by mail-wm1-x343.google.com with SMTP id a6so3052646wme.2
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:55:46 -0800 (PST)
+ id 1j6ZkU-00044r-0y
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:42 -0500
+Received: by mail-wr1-x431.google.com with SMTP id u6so14647548wrt.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k4RkOSmwzwH2dQilc05ZWPR0LyOE7aaRoCCPjbXdJZE=;
- b=lLJD8/8U2pEK6tt9h1UuIe+5luto6aqJ7iVDNz+QI/kNbnb4rgqY30zuM5JMMqFIqw
- RlqsZOPlripJH8/V5WD7S+J8CYFOzQGEBx38zZP+jicQOjwEPdDYnht6SdsW/zonChG2
- A5FOYrBXqUhXcSPTJF9rGtzwO0mVfUcRRboL3ZuuzWcrDZdPAAQArTy22Q7M+JKm+wqZ
- r/Iid0+0lKGzjzAFPRE63b84lgoAybm5chwUaE3IJoYe+Dazz1RvU96UasH2YpQmHCy0
- UB331wPEAQh/67UJyiBGB2uHmPz6Kk2YPZWBdqoHaZPM6Fz+j5kx07YFmKho4tr9mNGs
- 7xLg==
+ bh=py9bcDZz909NEUPFg69hhSHq8thghQZDr3PiUGhEcOg=;
+ b=JhWdVKhBnzZN3VXdrNxeEqtU6f7bJmlP8kAme/ZPKWBW8/pUkbagIf4ZJDn+Vz7T/J
+ mzaU4LKuKHJEx5HWeQs2LF+fF2OeIovwqWS2HZO4gEAxKNlS+6cO/4xlnWr+HM3XAELx
+ kukRsRi2eysjuAl+8C6v/Vl6gk6z/YdXMrZIrysXk4kXZbSWrk5PUmijWlyuhyNrWxb6
+ E0SeHL7fKs4W+WNUQYuXicKfpCTu3ONGzSJnRCt367YWgQAI7Lutp6WuOFwdjj4NrFPX
+ pON3z8pB/f1JIEIPOea6/Yra/uLxJT6IQGFIjb202zziGcYrM8zlOT44Ncn4MLCOdNOR
+ 4k2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k4RkOSmwzwH2dQilc05ZWPR0LyOE7aaRoCCPjbXdJZE=;
- b=fQlTJEp4GbSRcGJu6bVUBPQ17nY4Cef9BE1y+/a7Ct6UbhVtGUo/je2SAW+xI/4Bna
- 1kYV5+ZF2OiE+os1DudvSlGyfRGpWkJCTtm2yQeLM31Hn3C1gMTTgTrdPBhkLYDSDUdC
- REs9QUz9+VyxCJQ8vuZy7OPLyW/LTKyD0kiAntvqZCGaitG68ZfeufVedV0vm3n/RjXg
- R2e9jwh7OTSDI2mGVDxRc83zheFrzK4CxWm/U63vuqLv6L+nvmDUST0gNdSGZLS7xnwO
- eS0+3T3MfMzaZgLY6s2HHgk++4jTwwoLjiih72q6jTwJYX+8LLxPGD5eGTfbM6fLQt9L
- DVMA==
-X-Gm-Message-State: APjAAAUnG/6p1Ya6BBEC5oI3WcTT+oiPbwN189ROZ3vSIG5F0pYSs6eQ
- S1PBPDgR7CeUPd8RX0RjbroDaQ==
-X-Google-Smtp-Source: APXvYqwJkJnbO9/aXL5DdiuIAX5GZT3q4YvEyjq3Ir/LRxRisDv2pXCpeK6xn/wBPArWRf2LBNaTDA==
-X-Received: by 2002:a1c:c208:: with SMTP id s8mr5282583wmf.30.1582635345203;
- Tue, 25 Feb 2020 04:55:45 -0800 (PST)
+ bh=py9bcDZz909NEUPFg69hhSHq8thghQZDr3PiUGhEcOg=;
+ b=DpleG9G4khcjXl2SyPodx6/PouTQ/G9iuHCscLSuWWrmXs3jdCz+pcVysIuKD+oKFM
+ W52r6YCrqtmPfQfj6y9cxjEbvoyBLdclLTKD4eP52lgz/Vx3z1jv3nnmbFx87oDGxG+Q
+ naKgI/4Ex/RSYPbIBTklxlf6C2t2PfWrzVKLsUbj3edg9SB2uRXF3hjOyBBYwLO83FZG
+ d7CWo4SULol/LrneT9LFxJ6vSUe3v9iNhgkN9VYK6IGrCjeWKTy4Bcg++Iuxyf8jzoBq
+ Y8e6vGKhWD6PzLxxYVsCQLtJYMdZwv/sccC5JyHFROFP/NkeGrzyBNz4UIYDN1Fla7lX
+ U/Vg==
+X-Gm-Message-State: APjAAAXhAiWB+LCRmjI6h00lTeejthwlCVivxgqonR89+iUxnvwXYv3j
+ dkYzKNw+NTE/oP4JgX/u22c1Ww==
+X-Google-Smtp-Source: APXvYqxX0ASEKZdRXriBQUaSSGk4F7zZqy/wLhcqy99Iz5WeqficG3hqpLswFlU8YheYmID6Y29bGg==
+X-Received: by 2002:adf:9cca:: with SMTP id h10mr2875933wre.390.1582635340968; 
+ Tue, 25 Feb 2020 04:55:40 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z19sm4022542wmi.35.2020.02.25.04.55.39
+ by smtp.gmail.com with ESMTPSA id e22sm4118189wme.45.2020.02.25.04.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:55:44 -0800 (PST)
+ Tue, 25 Feb 2020 04:55:37 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 88E1C1FF9E;
+ by zen.linaroharston (Postfix) with ESMTP id 9F8AA1FF9F;
  Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/19] target/riscv: progressively load the instruction
- during decode
-Date: Tue, 25 Feb 2020 12:47:05 +0000
-Message-Id: <20200225124710.14152-15-alex.bennee@linaro.org>
+Subject: [PATCH  v3 15/19] tests/plugins: make howvec clean-up after itself.
+Date: Tue, 25 Feb 2020 12:47:06 +0000
+Message-Id: <20200225124710.14152-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,177 +81,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Alistair Francis <Alistair.Francis@wdc.com>, kuhn.chenqun@huawei.com,
- stefanb@linux.vnet.ibm.com, aaron@os.amperecomputing.com, cota@braap.org,
- marcandre.lureau@redhat.com, robert.foley@linaro.org,
- richard.henderson@linaro.org, stefanha@redhat.com, peter.puhov@linaro.org,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, berrange@redhat.com,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, f4bug@amsat.org,
- robhenry@microsoft.com, Palmer Dabbelt <palmer@dabbelt.com>,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The plugin system would throw up a harmless warning when it detected
-that a disassembly of an instruction didn't use all it's bytes. Fix
-the riscv decoder to only load the instruction bytes it needs as it
-needs them.
-
-This drops opcode from the ctx in favour if passing the appropriately
-sized opcode down a few levels of the decode.
+TCG plugins are responsible for their own memory usage and although
+the plugin_exit is tied to the end of execution in this case it is
+still poor practice. Ensure we delete the hash table and related data
+when we are done to be a good plugin citizen.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 ---
 v2
-  - use extract16 for uint16_t opcodes
----
- target/riscv/instmap.h   |  8 ++++----
- target/riscv/translate.c | 40 +++++++++++++++++++++-------------------
- 2 files changed, 25 insertions(+), 23 deletions(-)
+  - re-use counts for g_list_sort() as it modifies list
+  - drop it list
 
-diff --git a/target/riscv/instmap.h b/target/riscv/instmap.h
-index f8ad7d60fd5..40b6d2b64de 100644
---- a/target/riscv/instmap.h
-+++ b/target/riscv/instmap.h
-@@ -344,8 +344,8 @@ enum {
- #define GET_C_LW_IMM(inst)          ((extract32(inst, 6, 1) << 2) \
-                                     | (extract32(inst, 10, 3) << 3) \
-                                     | (extract32(inst, 5, 1) << 6))
--#define GET_C_LD_IMM(inst)          ((extract32(inst, 10, 3) << 3) \
--                                    | (extract32(inst, 5, 2) << 6))
-+#define GET_C_LD_IMM(inst)          ((extract16(inst, 10, 3) << 3) \
-+                                    | (extract16(inst, 5, 2) << 6))
- #define GET_C_J_IMM(inst)           ((extract32(inst, 3, 3) << 1) \
-                                     | (extract32(inst, 11, 1) << 4) \
-                                     | (extract32(inst, 2, 1) << 5) \
-@@ -363,7 +363,7 @@ enum {
- #define GET_C_RD(inst)              GET_RD(inst)
- #define GET_C_RS1(inst)             GET_RD(inst)
- #define GET_C_RS2(inst)             extract32(inst, 2, 5)
--#define GET_C_RS1S(inst)            (8 + extract32(inst, 7, 3))
--#define GET_C_RS2S(inst)            (8 + extract32(inst, 2, 3))
-+#define GET_C_RS1S(inst)            (8 + extract16(inst, 7, 3))
-+#define GET_C_RS2S(inst)            (8 + extract16(inst, 2, 3))
- 
- #endif
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 14dc71156be..d5de7f468a7 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -44,7 +44,6 @@ typedef struct DisasContext {
-     /* pc_succ_insn points to the instruction following base.pc_next */
-     target_ulong pc_succ_insn;
-     target_ulong priv_ver;
--    uint32_t opcode;
-     uint32_t mstatus_fs;
-     uint32_t misa;
-     uint32_t mem_idx;
-@@ -492,45 +491,45 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-     tcg_temp_free_i32(t0);
+squash! tests/plugins: make howvec clean-up after itself.
+---
+ tests/plugin/howvec.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
+
+diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
+index 4ca555e1239..3b9a6939f23 100644
+--- a/tests/plugin/howvec.c
++++ b/tests/plugin/howvec.c
+@@ -163,6 +163,13 @@ static gint cmp_exec_count(gconstpointer a, gconstpointer b)
+     return ea->count > eb->count ? -1 : 1;
  }
  
--static void decode_RV32_64C0(DisasContext *ctx)
-+static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
++static void free_record(gpointer data)
++{
++    InsnExecCount *rec = (InsnExecCount *) data;
++    g_free(rec->insn);
++    g_free(rec);
++}
++
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
  {
--    uint8_t funct3 = extract32(ctx->opcode, 13, 3);
--    uint8_t rd_rs2 = GET_C_RS2S(ctx->opcode);
--    uint8_t rs1s = GET_C_RS1S(ctx->opcode);
-+    uint8_t funct3 = extract16(opcode, 13, 3);
-+    uint8_t rd_rs2 = GET_C_RS2S(opcode);
-+    uint8_t rs1s = GET_C_RS1S(opcode);
+     g_autoptr(GString) report = g_string_new("Instruction Classes:\n");
+@@ -195,30 +202,31 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
  
-     switch (funct3) {
-     case 3:
- #if defined(TARGET_RISCV64)
-         /* C.LD(RV64/128) -> ld rd', offset[7:3](rs1')*/
-         gen_load_c(ctx, OPC_RISC_LD, rd_rs2, rs1s,
--                 GET_C_LD_IMM(ctx->opcode));
-+                 GET_C_LD_IMM(opcode));
- #else
-         /* C.FLW (RV32) -> flw rd', offset[6:2](rs1')*/
-         gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
--                    GET_C_LW_IMM(ctx->opcode));
-+                    GET_C_LW_IMM(opcode));
- #endif
-         break;
-     case 7:
- #if defined(TARGET_RISCV64)
-         /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
-         gen_store_c(ctx, OPC_RISC_SD, rs1s, rd_rs2,
--                  GET_C_LD_IMM(ctx->opcode));
-+                  GET_C_LD_IMM(opcode));
- #else
-         /* C.FSW (RV32) -> fsw rs2', offset[6:2](rs1')*/
-         gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
--                     GET_C_LW_IMM(ctx->opcode));
-+                     GET_C_LW_IMM(opcode));
- #endif
-         break;
-     }
- }
+     counts = g_hash_table_get_values(insns);
+     if (counts && g_list_next(counts)) {
+-        GList *it;
+-
+         g_string_append_printf(report,"Individual Instructions:\n");
++        counts = g_list_sort(counts, cmp_exec_count);
  
--static void decode_RV32_64C(DisasContext *ctx)
-+static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
- {
--    uint8_t op = extract32(ctx->opcode, 0, 2);
-+    uint8_t op = extract16(opcode, 0, 2);
- 
-     switch (op) {
-     case 0:
--        decode_RV32_64C0(ctx);
-+        decode_RV32_64C0(ctx, opcode);
-         break;
-     }
- }
-@@ -709,22 +708,25 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
- /* Include the auto-generated decoder for 16 bit insn */
- #include "decode_insn16.inc.c"
- 
--static void decode_opc(DisasContext *ctx)
-+static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- {
-     /* check for compressed insn */
--    if (extract32(ctx->opcode, 0, 2) != 3) {
-+    if (extract16(opcode, 0, 2) != 3) {
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-             ctx->pc_succ_insn = ctx->base.pc_next + 2;
--            if (!decode_insn16(ctx, ctx->opcode)) {
-+            if (!decode_insn16(ctx, opcode)) {
-                 /* fall back to old decoder */
--                decode_RV32_64C(ctx);
-+                decode_RV32_64C(ctx, opcode);
-             }
+-        it = g_list_sort(counts, cmp_exec_count);
+-
+-        for (i = 0; i < limit && it->next; i++, it = it->next) {
+-            InsnExecCount *rec = (InsnExecCount *) it->data;
+-            g_string_append_printf(report, "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
++        for (i = 0; i < limit && g_list_next(counts);
++             i++, counts = g_list_next(counts)) {
++            InsnExecCount *rec = (InsnExecCount *) counts->data;
++            g_string_append_printf(report,
++                                   "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
+                                    rec->insn,
+                                    rec->count,
+                                    rec->opcode,
+                                    rec->class ?
+                                    rec->class->class : "un-categorised");
          }
-     } else {
-+        uint32_t opcode32 = opcode;
-+        opcode32 = deposit32(opcode32, 16, 16,
-+                             translator_lduw(env, ctx->base.pc_next + 2));
-         ctx->pc_succ_insn = ctx->base.pc_next + 4;
--        if (!decode_insn32(ctx, ctx->opcode)) {
-+        if (!decode_insn32(ctx, opcode32)) {
-             gen_exception_illegal(ctx);
-         }
+-        g_list_free(it);
++        g_list_free(counts);
      }
-@@ -776,9 +778,9 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ 
++    g_hash_table_destroy(insns);
++
+     qemu_plugin_outs(report->str);
+ }
+ 
+ static void plugin_init(void)
  {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPURISCVState *env = cpu->env_ptr;
-+    uint16_t opcode16 = translator_lduw(env, ctx->base.pc_next);
+-    insns = g_hash_table_new(NULL, g_direct_equal);
++    insns = g_hash_table_new_full(NULL, g_direct_equal, NULL, &free_record);
+ }
  
--    ctx->opcode = translator_ldl(env, ctx->base.pc_next);
--    decode_opc(ctx);
-+    decode_opc(env, ctx, opcode16);
-     ctx->base.pc_next = ctx->pc_succ_insn;
- 
-     if (ctx->base.is_jmp == DISAS_NEXT) {
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
 -- 
 2.20.1
 
