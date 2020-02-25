@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC3616C00C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:56:29 +0100 (CET)
-Received: from localhost ([::1]:53532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474C916C018
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:58:34 +0100 (CET)
+Received: from localhost ([::1]:53572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YpA-0000eQ-BL
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:56:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49037)
+	id 1j6Yr8-00046R-43
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:58:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0000Cd-0M
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:22 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0000Ce-14
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yk4-0005LL-A0
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yk7-0005TA-AS
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:18 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46182)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37502)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yk4-0005JL-16
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:12 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id j7so1842690wrp.13
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:11 -0800 (PST)
+ id 1j6Yk4-0005L0-Gq
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:13 -0500
+Received: by mail-wr1-x430.google.com with SMTP id l5so10125413wrx.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sm9s4fIJclBGqO01+rsBfXVbeX0LbLxkuz63t0RjXW4=;
- b=JznjNKOl2wlHOBAVngK2XZiwVT3bGn3EA1pEZwZEFN4qaSlPcdr4DZSZ/YAi//9BFy
- GMI2rIhWFHRdpZSY8KDsuH4gng8Frycb4HcMwtD/UIshHj3Z4xZp/QQOIhiTZPr7+X4y
- FxB3o6l531NjvRqvVQdOy0FNxCdYCnJh91cWEBMhAFkjOHkQcqpQvPYBueaZ13rF/Bda
- 2UFZXQ1PfnjeFDO1t3luVXYcBYpTtcMiLq6yzz9M/pyQ3IgFRUccUw914N29MfkNps1P
- qXz3pYf3EtKHiw2e2O6O7UDcWWYFtz06XcYqpWTn5khLKNmAPXiKL68c/JeH436Pfsgx
- 7DdA==
+ bh=as7CGWOWGXE57oU8YwvSX5tl4J+OWfioOgpjkUNxRR4=;
+ b=pejccUuqch7mz3Bb7nAbh43mUgTX+f/KVn8mNPaHi35DrmZxxNU26Eq4/rqsfVFPVt
+ BH6ww9Al2LTWyGLV3MFGmMB7j7rS9XIaiGxzlL04OC0kdTfNOUulyrHMz5TL+lE8hQwQ
+ sKtEdArbJccXbOTC1U58tZtTBWHajj3TSBDRZnrCzVZOQ8WnYaC3W0p0QqMpR80VOrhy
+ 3c5EgJRfyEuAr3mkeZfF4I3gl0M2MPKsY0q9gkesSMRb8i8KD9xkjHP8csb/22aey3wM
+ NCCstCK/4DyQyKZ7Zk3Wxv+ezQo2MQLww8dKFCudC04BvQ47V87oChiwGFjJrKhziLp/
+ h2PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=sm9s4fIJclBGqO01+rsBfXVbeX0LbLxkuz63t0RjXW4=;
- b=bPkszIQaJ3BmdDGDlWuGbAXuDyu1wVAgsi/ko7SuUKfos7DnrDdNnolzbVicnmSxY7
- GDBz1nhVLmrEehgoFnd8bxY6MElkreMkcwr1Qd/LyjkBJ2KoRsq5lSOyOrrJ+izoCUNf
- /ahYLpAs5tSxRXchLbAPk0q8e2TT336iZuLgxmVMCFFP1D9qC8rD0kZY3hAb1A6RFzUX
- PaWZec04LedmTnpxP4oCs8QxYONyFiS6OYMtl1EU9D9pH6LQOS/KmXm9DKtTS/QowdJW
- pqPuR/2dh9iJxQ4q/ttHJbW1UUcX34zBrWb7aDxWCAa42qT4NwOmUbL5CHnTa3f8c7RF
- X+Rg==
-X-Gm-Message-State: APjAAAWYs0+p87tJvL2sQaGlrk9Vjk4HzRmdVbXbtquDQFGMCPRA0J3n
- 9pMgVdZtj28wwW09Ax1MuFPobwSc
-X-Google-Smtp-Source: APXvYqyPJTXrICb4vzqO3jOgGMleox6sLDo65Br91tjnjNf1C2Qclrl3oR57yoWlKI7FTPptBTGTiQ==
-X-Received: by 2002:a5d:67c7:: with SMTP id n7mr71978863wrw.319.1582631470412; 
- Tue, 25 Feb 2020 03:51:10 -0800 (PST)
+ bh=as7CGWOWGXE57oU8YwvSX5tl4J+OWfioOgpjkUNxRR4=;
+ b=njJQqdq46M6WW4UI2MKpm3WsQ94IVi5/kuNlJu+n8K93K6dFS9WCl5fjZokCyYsKCl
+ vALAR5chrtvTzZGiceqMYUSgFOuF4ulb/qfQqB4q6vo1nKEI+8EPK27iW0kfKt7jm6jY
+ AlSQutHosOCQ0W5LO85uD/Cz/C67euZTQIp5OjJ33+0SZ2uC8LsFnsaP/uEbVX2TJ+rw
+ pouF2wamM14kdBAPVKtD3x957pFiejjQqjSYvrmA7Q34KyBc3AR9PcvN00UpnwV6+JUF
+ z1CdKpnJgaNw7nUcAhrw+OwITtA/C4tU55lI0WtxDjev06Yg7iyp6rLXvnjoWK4oSLB1
+ QHRg==
+X-Gm-Message-State: APjAAAVzCfvBrGW+cRDE7cFDrqcPinrsuvq80fRkRNEdKa8Z761RLIb4
+ 3kePuihL9j7n9OGdm/eMfM4ubwwS
+X-Google-Smtp-Source: APXvYqzW/mqv3y5cBqX72KjIFKL77vw9o+UOqKwP2MwBNvvz0F/pi8RJeecRRk2SJlDrobBuJUy4aA==
+X-Received: by 2002:adf:f586:: with SMTP id f6mr69861127wro.46.1582631471210; 
+ Tue, 25 Feb 2020 03:51:11 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.09
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.10
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:09 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 004/136] machine: introduce convenience MachineState::ram
-Date: Tue, 25 Feb 2020 12:48:54 +0100
-Message-Id: <1582631466-13880-4-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 005/136] initialize MachineState::ram in NUMA case
+Date: Tue, 25 Feb 2020 12:48:55 +0100
+Message-Id: <1582631466-13880-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,131 +80,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-the new field will be used by boards to get access to main
-RAM memory region and will help to save boiler plate in
-boards which often introduce a field or variable just for
-this purpose.
+In case of NUMA there are 2 cases to consider:
+ 1. '-numa node,memdev', the only one that will be available
+    for 5.0 and newer machine types.
 
-Memory region will be equivalent to what currently used
-memory_region_allocate_system_memory() is returning apart
-from that it will come from hostmem backend.
-Followup patches will incrementally switch boards to using
-RAM from MachineState::ram.
+    In this case reuse current behavior, with only difference
+    memdevs are put into MachineState::ram container +
+    a temporary glue to keep memory_region_allocate_system_memory()
+    working until all boards converted.
 
-Patch takes care of non-NUMA case and follow up patch will
-initialize MachineState::ram for NUMA case.
+ 2. fake NUMA ("-numa node mem" and default RAM splitting)
+    the later has been deprecated and will be removed but the former
+    is going to stay available for compat reasons for 5.0 and
+    older machine types
+
+    it takes allocate_system_memory_nonnuma() path, like non-NUMA
+    case and falls under conversion to memdev.  So extend non-NUMA
+    MachineState::ram initialization introduced in previous patch
+    to take care of fake NUMA case.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-5-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-6-imammedo@redhat.com>
 ---
- hw/core/machine.c   | 24 ++++++++++++++++++++++++
- hw/core/numa.c      | 14 +-------------
- include/hw/boards.h | 12 +++++++++++-
- 3 files changed, 36 insertions(+), 14 deletions(-)
+ hw/core/numa.c        | 43 ++++++++++++++++++++++++++++++-------------
+ include/sysemu/numa.h |  1 +
+ vl.c                  |  2 +-
+ 3 files changed, 32 insertions(+), 14 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1a6e485..c8d361b 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -26,6 +26,7 @@
- #include "sysemu/qtest.h"
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
-+#include "migration/vmstate.h"
- 
- GlobalProperty hw_compat_4_2[] = {
-     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
-@@ -1059,10 +1060,33 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
-     g_string_free(s, true);
- }
- 
-+MemoryRegion *machine_consume_memdev(MachineState *machine,
-+                                     HostMemoryBackend *backend)
-+{
-+    MemoryRegion *ret = host_memory_backend_get_memory(backend);
-+
-+    if (memory_region_is_mapped(ret)) {
-+        char *path = object_get_canonical_path_component(OBJECT(backend));
-+        error_report("memory backend %s can't be used multiple times.", path);
-+        g_free(path);
-+        exit(EXIT_FAILURE);
-+    }
-+    host_memory_backend_set_mapped(backend, true);
-+    vmstate_register_ram_global(ret);
-+    return ret;
-+}
-+
- void machine_run_board_init(MachineState *machine)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
- 
-+    if (machine->ram_memdev_id) {
-+        Object *o;
-+        o = object_resolve_path_type(machine->ram_memdev_id,
-+                                     TYPE_MEMORY_BACKEND, NULL);
-+        machine->ram = machine_consume_memdev(machine, MEMORY_BACKEND(o));
-+    }
-+
-     if (machine->numa_state) {
-         numa_complete_configuration(machine);
-         if (machine->numa_state->num_nodes) {
 diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 840e685..8264336 100644
+index 8264336..e6baf2c 100644
 --- a/hw/core/numa.c
 +++ b/hw/core/numa.c
-@@ -817,20 +817,8 @@ void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
-         if (!backend) {
-             continue;
-         }
--        MemoryRegion *seg = host_memory_backend_get_memory(backend);
--
--        if (memory_region_is_mapped(seg)) {
--            char *path = object_get_canonical_path_component(OBJECT(backend));
--            error_report("memory backend %s is used multiple times. Each "
--                         "-numa option must use a different memdev value.",
--                         path);
--            g_free(path);
--            exit(1);
--        }
--
--        host_memory_backend_set_mapped(backend, true);
-+        MemoryRegion *seg = machine_consume_memdev(ms, backend);
-         memory_region_add_subregion(mr, addr, seg);
--        vmstate_register_ram_global(seg);
-         addr += size;
-     }
+@@ -52,6 +52,11 @@ QemuOptsList qemu_numa_opts = {
+ };
+ 
+ static int have_memdevs;
++bool numa_uses_legacy_mem(void)
++{
++    return !have_memdevs;
++}
++
+ static int have_mem;
+ static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
+                              * For all nodes, nodeid < max_numa_nodeid
+@@ -652,6 +657,23 @@ void numa_default_auto_assign_ram(MachineClass *mc, NodeInfo *nodes,
+     nodes[i].node_mem = size - usedmem;
  }
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 8e536ca..ae2b60f 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -73,7 +73,12 @@ void machine_set_cpu_numa_node(MachineState *machine,
-                                Error **errp);
  
- void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
--
-+/*
-+ * Checks that backend isn't used, preps it for exclusive usage and
-+ * returns migratable MemoryRegion provided by backend.
-+ */
-+MemoryRegion *machine_consume_memdev(MachineState *machine,
-+                                     HostMemoryBackend *backend);
++static void numa_init_memdev_container(MachineState *ms, MemoryRegion *ram)
++{
++    int i;
++    uint64_t addr = 0;
++
++    for (i = 0; i < ms->numa_state->num_nodes; i++) {
++        uint64_t size = ms->numa_state->nodes[i].node_mem;
++        HostMemoryBackend *backend = ms->numa_state->nodes[i].node_memdev;
++        if (!backend) {
++            continue;
++        }
++        MemoryRegion *seg = machine_consume_memdev(ms, backend);
++        memory_region_add_subregion(ram, addr, seg);
++        addr += size;
++    }
++}
++
+ void numa_complete_configuration(MachineState *ms)
+ {
+     int i;
+@@ -734,6 +756,12 @@ void numa_complete_configuration(MachineState *ms)
+             exit(1);
+         }
  
- /**
-  * CPUArchId:
-@@ -295,6 +300,11 @@ struct MachineState {
-     bool enable_graphics;
-     char *memory_encryption;
-     char *ram_memdev_id;
-+    /*
-+     * convenience alias to ram_memdev_id backend memory region
-+     * or to numa container memory region
-+     */
-+    MemoryRegion *ram;
-     DeviceMemoryState *device_memory;
++        if (!numa_uses_legacy_mem() && mc->default_ram_id) {
++            ms->ram = g_new(MemoryRegion, 1);
++            memory_region_init(ms->ram, OBJECT(ms), mc->default_ram_id,
++                               ram_size);
++            numa_init_memdev_container(ms, ms->ram);
++        }
+         /* QEMU needs at least all unique node pair distances to build
+          * the whole NUMA distance table. QEMU treats the distance table
+          * as symmetric by default, i.e. distance A->B == distance B->A.
+@@ -800,27 +828,16 @@ void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
+                                           const char *name,
+                                           uint64_t ram_size)
+ {
+-    uint64_t addr = 0;
+-    int i;
+     MachineState *ms = MACHINE(qdev_get_machine());
  
-     ram_addr_t ram_size;
+     if (ms->numa_state == NULL ||
+-        ms->numa_state->num_nodes == 0 || !have_memdevs) {
++        ms->numa_state->num_nodes == 0 || numa_uses_legacy_mem()) {
+         allocate_system_memory_nonnuma(mr, owner, name, ram_size);
+         return;
+     }
+ 
+     memory_region_init(mr, owner, name, ram_size);
+-    for (i = 0; i < ms->numa_state->num_nodes; i++) {
+-        uint64_t size = ms->numa_state->nodes[i].node_mem;
+-        HostMemoryBackend *backend = ms->numa_state->nodes[i].node_memdev;
+-        if (!backend) {
+-            continue;
+-        }
+-        MemoryRegion *seg = machine_consume_memdev(ms, backend);
+-        memory_region_add_subregion(mr, addr, seg);
+-        addr += size;
+-    }
++    numa_init_memdev_container(ms, mr);
+ }
+ 
+ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
+diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
+index ba693cc..ad58ee8 100644
+--- a/include/sysemu/numa.h
++++ b/include/sysemu/numa.h
+@@ -112,5 +112,6 @@ void numa_default_auto_assign_ram(MachineClass *mc, NodeInfo *nodes,
+                                   int nb_nodes, ram_addr_t size);
+ void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,
+                        Error **errp);
++bool numa_uses_legacy_mem(void);
+ 
+ #endif
+diff --git a/vl.c b/vl.c
+index 4dc4803..2103804 100644
+--- a/vl.c
++++ b/vl.c
+@@ -4290,7 +4290,7 @@ int main(int argc, char **argv, char **envp)
+     parse_numa_opts(current_machine);
+ 
+     if (machine_class->default_ram_id && current_machine->ram_size &&
+-        !current_machine->ram_memdev_id) {
++        numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
+         create_default_memdev(current_machine, mem_path, mem_prealloc);
+     }
+     /* do monitor/qmp handling at preconfig state if requested */
 -- 
 1.8.3.1
 
