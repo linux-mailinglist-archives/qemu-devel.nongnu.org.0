@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2965316C0DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:33:07 +0100 (CET)
-Received: from localhost ([::1]:54262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AB716C110
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:39:58 +0100 (CET)
+Received: from localhost ([::1]:54399 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZOc-0008Oe-55
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:33:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49811)
+	id 1j6ZVF-0005I5-9f
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:39:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001Ip-EB
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl7-0001NA-34
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Ik-JD
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41099)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl1-00005T-Hu
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:15 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52812)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykz-0008Ez-7m
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:09 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v4so1507383wrs.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:09 -0800 (PST)
+ id 1j6Yl1-0008Qt-9U
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:11 -0500
+Received: by mail-wm1-x333.google.com with SMTP id p9so2681378wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0GeSPUd+mKg9D1za+RBzaJqkiW6pHjAlr8xTe40NNV0=;
- b=FxnSizaDoNaD0hVWAR5gAEUIKgtITDVWMU15YFsycy2iDdwyD7s0XOgyMuuJFNo08J
- oQ+MUiIgxhht69HB07oxLtdnzdkK3lMBTJDbmgACEtBqyxGYm14Qo5Zpufq21ByIbZ7V
- 1yguG3S6kMCE2R8Cr7wLFGHmUZ2l5zF2yaea2FBIA+ZGSEnBhIuVHkd9i0LLgdHZY+12
- RUpLmMNeruUoGD8e8e/qjo567KmkkWhqki1abzgtzdolO0fS+wwiDPuL4V/v8FV2Aql8
- 3USoIal77xYrdYettIa3tU3nVOCQuugMpgbGMhX7aYTZEH9Gz/DhUE0yc40jZ1I0ghwO
- UI4g==
+ bh=Kib73P+27/DO7Bga5aS2deQLPVXvr2G5OCCqFQFfdfM=;
+ b=ECO2J68MzsJh2dV8YZUTLx8dhf2Q5rOAT6Gjfxkg2Swtsw/5o5zQvRRCbkKITq+Pf5
+ EgypzqM4BFTpzRb4gL89ctyx+69KGzX+OlRdzLzlMfBMAH+wXpKCiLHzmggwsZibAOnp
+ ooapOqbd/iB/qgMhCPuN2da2q1YSwZA7x1mmuZlkC6nlXsjkKrfOBRIGfVff42wcA6Fd
+ 1gmUd49EXwKnyrbY/e+Xn8E/g9qLgtPgSgdIn2leyrfxBgEFWRnAFSJDWyLuGM53HZLO
+ YfTiv40E4O2yf3SgxK/9ybprx2JYMBbi4Nst0l7oqnCIS8+nSqK4QbJgC7ugrmQFLf7y
+ ACWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0GeSPUd+mKg9D1za+RBzaJqkiW6pHjAlr8xTe40NNV0=;
- b=GFfP1Vjfdc1fS/Zl7PD4G6oxUGdo+k3xERorad/iFsF3aVDi6Ytm2XPZfiA2Hvglss
- nVNXwb7uSajThIKjFqMBY++O1pNnc2xbGJgj3tRlkenwNWozrmcRpSamSDOTQwe8oW5I
- fXsDr0KuvGguWE1ytACUE/nQYGCkjYnLbWQces5cryWuajIyUAMFLSQEVxV6FjbE+kis
- q9fk2FUdutmsGBo0sj0ZpKlih9Aj4fQYhrYRLKUV3Q7T2NyE4MjXjghpFwJvgS0lQBBH
- qDG0a3i5eFhDKOxIgVRWkeyijDNpNphCtmlwtrYaiIXpWvTnEUmf6TEbXmjc82uK+y32
- 97xA==
-X-Gm-Message-State: APjAAAUMNhJ+FaUf7SBAiWNR/Y868OtU9PTbH+lS7U0rLPqAq63Lcbz5
- M2yNx5gKk+tnFJv0cEU10rKdkPN2
-X-Google-Smtp-Source: APXvYqzChQ/oJ6neqRqJNcE1nR780F6lp9cpX4kPybYxqxhCDRaEO2objemPsGtLY3plUCAMH2V+dQ==
-X-Received: by 2002:adf:cd92:: with SMTP id q18mr71539552wrj.261.1582631527937; 
- Tue, 25 Feb 2020 03:52:07 -0800 (PST)
+ bh=Kib73P+27/DO7Bga5aS2deQLPVXvr2G5OCCqFQFfdfM=;
+ b=bIWd2Y+laJU6ld8QuLbEnJBXTt4L/rWYhIOcWtzcjMazdG/ZvC4eMRkxil2ugyi/Ir
+ 2tzru/ftyI7mMqKNlh4o5HmMPGDkx5QGnqzPxGde/VgfYMLlMMgoDFK0N0HVfYqsYNaS
+ TVynf7cdAwvNFfLJs8OTz4aeWx4gVS69RUwfWACvzVNfxRkfOTUZj4cSNdY6tgxsNvH2
+ giiXcThcccvUbfcf1RQxnjHuYDN+mg2gFG6n+nWoGPHtwpVoGUHEmEWky/OIrDj5x3vn
+ SSGwJFgJuAtje2ypI9hizkT5FsE8i9u7NtNRwcb7BF2/kfNPo9s3jmhRpplrN8okht6j
+ +5Eg==
+X-Gm-Message-State: APjAAAUuUOkUCt8JR1u/+wv/w59QMdgWAajfvlSq3bJ828G6DCPozMk0
+ 6MRAWQd+gP8OU6m+X3Sxk8e23qou
+X-Google-Smtp-Source: APXvYqx2+7bJLEn1b2H7nwk+Wvzz6VFglQtcMSliKgSHf8wdgJ1cHhJY3fixBlAVj9SO6py/JyFmsQ==
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr5112816wml.182.1582631529920; 
+ Tue, 25 Feb 2020 03:52:09 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.06
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.08
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:07 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:09 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 067/136] ppc/spapr: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:57 +0100
-Message-Id: <1582631466-13880-67-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 069/136] sparc/leon3: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:59 +0100
+Message-Id: <1582631466-13880-69-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,47 +94,45 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-68-imammedo@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-70-imammedo@redhat.com>
 ---
- hw/ppc/spapr.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/sparc/leon3.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index c9b2e0a..4d90f99 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2634,7 +2634,6 @@ static void spapr_machine_init(MachineState *machine)
-     PCIHostState *phb;
-     int i;
-     MemoryRegion *sysmem = get_system_memory();
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index f5a087d..5fa58aa 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -189,7 +189,6 @@ static void leon3_generic_hw_init(MachineState *machine)
+     SPARCCPU *cpu;
+     CPUSPARCState   *env;
+     MemoryRegion *address_space_mem = get_system_memory();
 -    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     hwaddr node0_size = spapr_node0_size(machine);
-     long load_limit, fw_size;
-     char *filename;
-@@ -2813,10 +2812,8 @@ static void spapr_machine_init(MachineState *machine)
-         kvmppc_enable_h_page_init();
+     MemoryRegion *prom = g_new(MemoryRegion, 1);
+     int         ret;
+     char       *filename;
+@@ -251,8 +250,8 @@ static void leon3_generic_hw_init(MachineState *machine)
+         exit(1);
      }
  
--    /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "ppc_spapr.ram",
--                                         machine->ram_size);
--    memory_region_add_subregion(sysmem, 0, ram);
-+    /* map RAM */
-+    memory_region_add_subregion(sysmem, 0, machine->ram);
+-    memory_region_allocate_system_memory(ram, NULL, "leon3.ram", ram_size);
+-    memory_region_add_subregion(address_space_mem, LEON3_RAM_OFFSET, ram);
++    memory_region_add_subregion(address_space_mem, LEON3_RAM_OFFSET,
++                                machine->ram);
  
-     /* always allocate the device memory information */
-     machine->device_memory = g_malloc0(sizeof(*machine->device_memory));
-@@ -4400,6 +4397,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-     mc->no_parallel = 1;
-     mc->default_boot_order = "";
-     mc->default_ram_size = 512 * MiB;
-+    mc->default_ram_id = "ppc_spapr.ram";
-     mc->default_display = "std";
-     mc->kvm_type = spapr_kvm_type;
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRIDGE);
+     /* Allocate BIOS */
+     prom_size = 8 * MiB;
+@@ -358,6 +357,7 @@ static void leon3_generic_machine_init(MachineClass *mc)
+     mc->desc = "Leon-3 generic";
+     mc->init = leon3_generic_hw_init;
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("LEON3");
++    mc->default_ram_id = "leon3.ram";
+ }
+ 
+ DEFINE_MACHINE("leon3_generic", leon3_generic_machine_init)
 -- 
 1.8.3.1
 
