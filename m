@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814A916C12F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:44:43 +0100 (CET)
-Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D3E16C12A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:43:21 +0100 (CET)
+Received: from localhost ([::1]:54468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZZq-0007fq-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
+	id 1j6ZYW-0004Nd-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:43:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003hK-Fa
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003hN-Gd
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0G-0003YG-FA
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0H-0003ZP-CB
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35978)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39218)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0G-0003Wz-85
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:56 -0500
-Received: by mail-wm1-x334.google.com with SMTP id p17so2908786wma.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:56 -0800 (PST)
+ id 1j6Z0H-0003YQ-4f
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id c84so2883249wme.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0qB5VNErbwXYjey+BfcoROqwOhQuwSAxSuLQbmDV+GY=;
- b=n45C3qev3c+V+JNlR5WH11Vi5ldhxbXMuw/SZ/IcjyrihczvsTD5qhCuA7LkW+6JR8
- 1I7Ogu0ng1sKLCI7q9Kfyt4Z4217Tkwnp8dlDoIAnl9ToHgGhphtMR/LrxsSemhdqKXf
- H6PmZv7OZzmpwKB9Je6JsjG1iI1omRXGlXFDAw8F7oXgQB6rRx1JjspM06Sg7TOj0uk/
- a8AzizjEcoqKUeXXB7uDk4VpINXJhyi1UQZw9Fyocsp/mx+895rvfdyIxETWeta123El
- g+1zF3hYwfjlq71B3p9K0mQNmRcBVh4ovbzBLKI0SUfKYf6skBtSTzcFO+cw6RaMFfOQ
- swzQ==
+ bh=z+oRtC/n9wy+AzsoNa8bIYoHlANn/uzBMWqr8FqYh4M=;
+ b=SziYyjow/o0i4p2vup4j7busEqX07uiymHOG3oIS9Pbq5sb5ILq9VaYpTiYsj9sMFC
+ CRyl7e6Geq11nvX+InybCY9L9r8Ue8ODnuJRcxPuuO4LLG7LxYUyts60vscBSYUYy3st
+ qKxWlKnTzEHRQkaojt41jrvmeMtOPtCzcCa+pWZVVgrQk4QaKFEsisFhrCwLqCrZNjNf
+ Uk/cxYyc5D7j4RTstW2ism1/11Tl0jzfhoUcZ2GTvMhw3oomRsMGR6KWrYMh7esBpqZK
+ 8cx+omiP3wsT0BkJniu1YzjO6g+BQTjR4A5oVjVTf0pv6VO4+EMvYMlhbvFqnZUIl6/q
+ VHMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0qB5VNErbwXYjey+BfcoROqwOhQuwSAxSuLQbmDV+GY=;
- b=Bidilz15VUrgB7/RLTUeAcjx5yptr2wGV2FjIVdRz6KfJBCGvoZm4P7FFq7DRKCn89
- GIq9nSTIWtaVtjvz2iaSkHdPvldLA8z0qYUE6KWoxzebXe6Gjd5UjvYSXuEzT31qLL4r
- F8VoBjcopPYsIYL95Wp4fkKFmRcbyKGS4oBU+udNvRigTGEumdZOOzpjizBcvcM8SeFE
- dMjfqBqbVdpgxF3pd8mCCpUeRHCY/AqylIXcIi0ylRoN3Zi9pR963y/LYKb500aHMDTL
- JCcfzjL0SdEtZh3OLKKm3d+80z67wyaleywmr6CGCgyxTVL+dxzqn9aSq4HhfW64RFYc
- VDXg==
-X-Gm-Message-State: APjAAAVZjpTr6Q4pV30BdYG7qxiLFhzBcxQHrp/U4oPYchQAWv+372F+
- JWDoXM+j1WgCH6ADE70xkzRAxq2/
-X-Google-Smtp-Source: APXvYqzrrANnYGOFA0RTy9CnmfDeunXOFTUqVbldY/YOf8WjdQG6eqeWSzsy4Kq9VNfNZdPD6A1KPQ==
-X-Received: by 2002:a1c:f60e:: with SMTP id w14mr4986915wmc.188.1582632473776; 
- Tue, 25 Feb 2020 04:07:53 -0800 (PST)
+ bh=z+oRtC/n9wy+AzsoNa8bIYoHlANn/uzBMWqr8FqYh4M=;
+ b=Z1OHxUoQ93j2pjRBxNcNiAN6P5zgu58abkH3KPpLeRXEvGYuZnfktd+giD7S145k5o
+ GcaNP5Th/NmxahG9G4qfu1OFdjFDh1pqP5XUF7EeLlZLo7g/PEFF09vOpVPBQ+VZ+ho4
+ yqpbPTdjxEaBQ7yxHx64w4VArBkYPSmA56cDMTdtcP2kUDkwP0mjXa7LoRm4tF52gaOd
+ HmNYM8DIKU4knxf6d8BY2M+CzBZLqdqjGzslmH34dY7yoiEumA9GO445AYmBP2W1Noqw
+ AJnIY6C0Ch9Ak+INYxiEcsK6AEr4zSqwhOuZx81QTHraeflNBAxjkUjrb5VFToyXX3vd
+ TSzA==
+X-Gm-Message-State: APjAAAUmpSyqse2XaDJq2LktkutHf8Xksv4mtcNSFBMKA0sU0UbjMM0d
+ KIzkOlu1y6PAImYpLDLiVlGTaknK
+X-Google-Smtp-Source: APXvYqwIwW5slrriXg2+JRSHLxDrWvCBMyfS8Vg9mVNLfeyeO2a7RfKHmSs1R51Cl3gKGFzRqmj0ZQ==
+X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr4885751wmk.131.1582632475620; 
+ Tue, 25 Feb 2020 04:07:55 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.52
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.54
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:53 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:55 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 120/136] scripts/cocci: Patch to let devices own their
- MemoryRegions
-Date: Tue, 25 Feb 2020 13:07:18 +0100
-Message-Id: <1582632454-16491-18-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 122/136] hw/char: Let devices own the MemoryRegion they create
+Date: Tue, 25 Feb 2020 13:07:20 +0100
+Message-Id: <1582632454-16491-20-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,103 +84,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When a device creates a MemoryRegion without setting its ownership,
-the MemoryRegion is added to the machine "/unattached" container in
-the QOM tree.
+Avoid orphan memory regions being added in the /unattached QOM
+container.
 
-Example with the Samsung SMDKC210 board:
-
-  $ arm-softmmu/qemu-system-arm -M smdkc210 -S -monitor stdio
-  (qemu) info qom-tree
-  /machine (smdkc210-machine)
-    /unattached (container)
-      /io[0] (qemu:memory-region)
-      /exynos4210.dram0[0] (qemu:memory-region)
-      /exynos4210.irom[0] (qemu:memory-region)
-      /exynos4210.iram[0] (qemu:memory-region)
-      /exynos4210.chipid[0] (qemu:memory-region)
-      ...
-      /device[26] (exynos4210.uart)
-        /exynos4210.uart[0] (qemu:memory-region)
-    /soc (exynos4210)
-      ^
-       \__ [*]
-
-The irom/iram/chipid regions should go under 'soc' at [*].
-
-Add a semantic patch to let the device own the memory region.
+This commit was produced with the Coccinelle script
+scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-23-philmd@redhat.com>
+Message-Id: <20200224205533.23798-25-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- .../coccinelle/memory-region-housekeeping.cocci    | 56 ++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ hw/char/serial.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/coccinelle/memory-region-housekeeping.cocci b/scripts/coccinelle/memory-region-housekeeping.cocci
-index 5e6b31d..c768d81 100644
---- a/scripts/coccinelle/memory-region-housekeeping.cocci
-+++ b/scripts/coccinelle/memory-region-housekeeping.cocci
-@@ -101,3 +101,59 @@ expression ERRP;
- +memory_region_init_rom_device(MR, NULL, OPS, OPAQUE, NAME, SIZE, ERRP);
-  ...
- -vmstate_register_ram_global(MR);
-+
-+
-+// Device is owner
-+@@
-+typedef DeviceState;
-+identifier device_fn, dev, obj;
-+expression E1, E2, E3, E4, E5;
-+@@
-+static void device_fn(DeviceState *dev, ...)
-+{
-+  ...
-+  Object *obj = OBJECT(dev);
-+  <+...
-+(
-+- memory_region_init(E1, NULL, E2, E3);
-++ memory_region_init(E1, obj, E2, E3);
-+|
-+- memory_region_init_io(E1, NULL, E2, E3, E4, E5);
-++ memory_region_init_io(E1, obj, E2, E3, E4, E5);
-+|
-+- memory_region_init_alias(E1, NULL, E2, E3, E4, E5);
-++ memory_region_init_alias(E1, obj, E2, E3, E4, E5);
-+|
-+- memory_region_init_rom(E1, NULL, E2, E3, E4);
-++ memory_region_init_rom(E1, obj, E2, E3, E4);
-+|
-+- memory_region_init_ram_shared_nomigrate(E1, NULL, E2, E3, E4, E5);
-++ memory_region_init_ram_shared_nomigrate(E1, obj, E2, E3, E4, E5);
-+)
-+  ...+>
-+}
-+@@
-+identifier device_fn, dev;
-+expression E1, E2, E3, E4, E5;
-+@@
-+static void device_fn(DeviceState *dev, ...)
-+{
-+  <+...
-+(
-+- memory_region_init(E1, NULL, E2, E3);
-++ memory_region_init(E1, OBJECT(dev), E2, E3);
-+|
-+- memory_region_init_io(E1, NULL, E2, E3, E4, E5);
-++ memory_region_init_io(E1, OBJECT(dev), E2, E3, E4, E5);
-+|
-+- memory_region_init_alias(E1, NULL, E2, E3, E4, E5);
-++ memory_region_init_alias(E1, OBJECT(dev), E2, E3, E4, E5);
-+|
-+- memory_region_init_rom(E1, NULL, E2, E3, E4);
-++ memory_region_init_rom(E1, OBJECT(dev), E2, E3, E4);
-+|
-+- memory_region_init_ram_shared_nomigrate(E1, NULL, E2, E3, E4, E5);
-++ memory_region_init_ram_shared_nomigrate(E1, OBJECT(dev), E2, E3, E4, E5);
-+)
-+  ...+>
-+}
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 9298881..2ab8b69 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -997,7 +997,7 @@ static void serial_io_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
++    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial", 8);
+     sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
+ }
+@@ -1106,8 +1106,9 @@ static void serial_mm_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    memory_region_init_io(&s->io, NULL, &serial_mm_ops[smm->endianness], smm,
+-                          "serial", 8 << smm->regshift);
++    memory_region_init_io(&s->io, OBJECT(dev),
++                          &serial_mm_ops[smm->endianness], smm, "serial",
++                          8 << smm->regshift);
+     sysbus_init_mmio(SYS_BUS_DEVICE(smm), &s->io);
+     sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
+ }
 -- 
 1.8.3.1
 
