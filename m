@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B515D16C075
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:12:08 +0100 (CET)
-Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C98816C080
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:13:43 +0100 (CET)
+Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Z4J-000150-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:12:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49418)
+	id 1j6Z5q-0004U9-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:13:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykb-0000jK-44
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:49 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykd-0000lf-40
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkX-0006pT-4j
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:45 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35412)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkY-0006rq-4W
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:46 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37849)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkW-0006l9-Tw
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:41 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m3so2664173wmi.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:40 -0800 (PST)
+ id 1j6YkX-0006p3-Jj
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:42 -0500
+Received: by mail-wm1-x334.google.com with SMTP id a6so2847390wme.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WtQV3C8k1Qb8hG/eYTsxWB1Sv2dvZuX6RSL2EeTni/k=;
- b=FVerVPsMUmrhA5oU9EK1fXQrTjextvxCO3j56zzrbLQqCinb8Zh7i4DZlxZDtiJKW8
- FtUD04gcRnJeEAjooDRwrFr79fVbTxFE/ylWCeKfShPzM+Glka7OGh3FKLwokr2bH6B2
- BblixP2hsA2BI7TDu1vCckuMNdubZXCshRoEBYu1QYT+ewL3JrR+ZgCpj+h+rI+hqNMy
- J958J+unXAoS1+d3Wz1Cq8tvmeF9FqrUZMr55EZ+fEKag4ffWfRp97+81JMEivXdxYja
- Rj1ZlLQR8lIvR6+pf/+yJvRZTf2Zi5kGaRjkd6/W9BtI53p655MUR8CrCi+CrlPkIEq1
- OQ5Q==
+ bh=GT6on3p8wEsQiTUGN/RebiRNVDY5uR81qXMFnwv9ZQs=;
+ b=r+xenE+a8x511YTNUeQUYExOL+et//8flPpIQJ2xrE/gGGlxjFHS2q2ZUJ4/09+p5E
+ V3TrF/PcHCkGo5BsPcpaLv38dohT4Y8J5XFY1yvQr+TKIQMxUqgG3kmx6lXMcwjy5K/o
+ b4nKk9XPiSEn2B07ky93ZpG5TieuSuhywImNPp7U35IUVAjlqcMJKRqztCxGRxhKLelj
+ 4NbCkH2qH+UnxdXbsXDxtsrycXYekPIhsuf8/z6EX/R3KnciW69vUTb8EDl5t0C+UOLN
+ 9lhfSFtCZONIEnqI5LCCdBG7eMVACBW1SbX6/jsDij7eRdzMV2YIERAniKXSIi9g1tA3
+ wZmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WtQV3C8k1Qb8hG/eYTsxWB1Sv2dvZuX6RSL2EeTni/k=;
- b=p4DMu+y8QWs3E3PHk2jnVZTtd5wro88Bk4nRvmaHH29xhT02judoTQhUbOs8uvOHf+
- 90hlRQ0lrYawigjHx6KDOE73lZ0xoFXQaD7LvAurY465OkbpkeRbh607vLlZL88Mfi41
- 4Vso3yvydXg9oY9MUj2XFm9kpzIImhXJiTkqhbzVljowuixsr5eXQldrHTBnQTvqle0m
- Akrb+Lug7EiIb7xMSVHVgj3IgeY+sA2nJ3etp2NS0w0qkOEwew+8qew3tws/DDvLIxLv
- 422XNEFbh87yoFdBZGS22ncuJ13TQrYO4DfBMf9CXX2csQMkFDIPM1YUS0R5G2r+sf5I
- L0cg==
-X-Gm-Message-State: APjAAAU+2gQKXYQ7h6KUwMnuSEwQUhWxRXjPTa0wNCmwywKFHA7fH5+X
- CVn0igJ2290qzPu1ntuJyCiHvNXr
-X-Google-Smtp-Source: APXvYqygu7wzCEb/dOKwhtCSNZEmlK02cyiythlJmdegZSa9toshqn/Kq39P4IrZTSW138GojTm4GQ==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr5244801wmi.152.1582631499393; 
- Tue, 25 Feb 2020 03:51:39 -0800 (PST)
+ bh=GT6on3p8wEsQiTUGN/RebiRNVDY5uR81qXMFnwv9ZQs=;
+ b=LiconrgJtP7SAEIckU4XgccY9SC0RbaITRItbaUvDYLb/kY3P/69TJmxHTuIWPhJwF
+ 0TowMaoHm/sq8q4JcF6iMeGpjk6TNYKVc4s0rgT8o+c7MCijnpMuFHdY5/JsWFfOs0+p
+ EoUxIXZ6A5Gi/qMteP3GZtxpcYRkeLThXJv3KmXEawPOeri5DJ/+xUW2DnL7cdlaGaJs
+ ICBPeVnSJX8S+XUm9VxJtXFiGy7bsOWmDQ/rwGt/LoZwlXtpUEhvZSvkrnfz4tOxY56Z
+ ppsKpjkR59a6nf2/IYUrV27oEuOSn96tQVHd1uWYZ2pIHw2AZ6J0UHKdbsVRHUq2G5Kh
+ Ww8Q==
+X-Gm-Message-State: APjAAAVKQAHYwxdozpkZDB0mGHv4WrlQ50u2DdTk6PZm0fM3X+NrG0PA
+ 1IgL6uDMoA83UxLPUvyfewWauubW
+X-Google-Smtp-Source: APXvYqzoYzJu1BOsImkds560HbjfD4eTP5Y+oAtlPQbfWPwblVeEcVDO5jY4dUMPsbvj6RRul19oHg==
+X-Received: by 2002:a1c:bdc5:: with SMTP id n188mr4939572wmf.124.1582631500365; 
+ Tue, 25 Feb 2020 03:51:40 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.38
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.39
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:38 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:39 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 035/136] arm/xilinx_zynq: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:25 +0100
-Message-Id: <1582631466-13880-35-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 036/136] arm/xlnx-versal-virt: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:26 +0100
+Message-Id: <1582631466-13880-36-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,44 +94,47 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-36-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-37-imammedo@redhat.com>
 ---
- hw/arm/xilinx_zynq.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/arm/xlnx-versal-virt.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index f548c44..3d439a4 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -160,7 +160,6 @@ static void zynq_init(MachineState *machine)
- {
-     ARMCPU *cpu;
-     MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *ext_ram = g_new(MemoryRegion, 1);
-     MemoryRegion *ocm_ram = g_new(MemoryRegion, 1);
-     DeviceState *dev;
-     SysBusDevice *busdev;
-@@ -190,9 +189,7 @@ static void zynq_init(MachineState *machine)
-     object_property_set_bool(OBJECT(cpu), true, "realized", &error_fatal);
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 462493c..c137ff4 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -30,7 +30,6 @@ typedef struct VersalVirt {
+     MachineState parent_obj;
  
-     /* DDR remapped to address zero.  */
--    memory_region_allocate_system_memory(ext_ram, NULL, "zynq.ext_ram",
+     Versal soc;
+-    MemoryRegion mr_ddr;
+ 
+     void *fdt;
+     int fdt_size;
+@@ -414,12 +413,9 @@ static void versal_virt_init(MachineState *machine)
+         psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+     }
+ 
+-    memory_region_allocate_system_memory(&s->mr_ddr, NULL, "ddr",
 -                                         machine->ram_size);
--    memory_region_add_subregion(address_space_mem, 0, ext_ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
- 
-     /* 256K of on-chip memory */
-     memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
-@@ -318,6 +315,7 @@ static void zynq_machine_init(MachineClass *mc)
-     mc->no_sdcard = 1;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a9");
-+    mc->default_ram_id = "zynq.ext_ram";
+-
+     sysbus_init_child_obj(OBJECT(machine), "xlnx-ve", &s->soc,
+                           sizeof(s->soc), TYPE_XLNX_VERSAL);
+-    object_property_set_link(OBJECT(&s->soc), OBJECT(&s->mr_ddr),
++    object_property_set_link(OBJECT(&s->soc), OBJECT(machine->ram),
+                              "ddr", &error_abort);
+     object_property_set_int(OBJECT(&s->soc), psci_conduit,
+                             "psci-conduit", &error_abort);
+@@ -473,6 +469,7 @@ static void versal_virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = XLNX_VERSAL_NR_ACPUS;
+     mc->default_cpus = XLNX_VERSAL_NR_ACPUS;
+     mc->no_cdrom = true;
++    mc->default_ram_id = "ddr";
  }
  
- DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
+ static const TypeInfo versal_virt_machine_init_typeinfo = {
 -- 
 1.8.3.1
 
