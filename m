@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815B916C010
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:56:38 +0100 (CET)
-Received: from localhost ([::1]:53538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C14316C01B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:58:43 +0100 (CET)
+Received: from localhost ([::1]:53576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YpJ-0000wC-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:56:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49147)
+	id 1j6YrK-0004L5-Ju
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:58:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkG-0000Gt-W1
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:28 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkL-0000NC-Eg
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkD-0005rq-5c
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:24 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34808)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkH-00069H-Iq
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:29 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40399)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkC-0005nu-Ur
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:21 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id z15so6034874wrl.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:20 -0800 (PST)
+ id 1j6YkH-00060c-B9
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:25 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t3so14350413wru.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IWD2+idtHw0nhgBBfKpVv3ZBllW3r5TcVAjACuqZRiM=;
- b=KLt3+Y/GKZ0l5VEom8EIezqEESEL7KmKe7fSd4VtbqnQaPUN76/YjnEapEgSWD7b/R
- cq0jnYnjoqr/J4Ij1+E79VCkwWe1+qRYM3FAjJr8UBfxP85HRtTpOlycgRXtwdPhLL5L
- LiMUpAR7tJ0OPhdnIw2vEXfUK14LLBKjIP0Q0sMpKEvqmu9YXQeK95pqpt33U0GldHWk
- zj5RJOfBDJ5U4OaahpdDGZ3hQZ917WKq9ISyAfmDiTh0HlVLobYIe0vZiUcGPm2JADtZ
- a53B8TL3rMUYOgS25DO+tkfqDyiLAFT0PNzxvXaJQEnQ3xAClUQzT2Uiuqt50kFD8je+
- YOlg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=flYtEk0ax7P9nTpGQ0D7EhA/r6SXi2jRP9wzLPqR8FM=;
+ b=T6L7/sDrCIcCrNuFbPL5MIl6gCH4nUgDl4xh5wX3IHj48v3gHll1vdY04SWR9pInwG
+ /26jj65ZHBNZcvnnzz6mzw8wPQaYUadRH9iyS4a2NHu9kuTIT8u6kcEcf4s6GzcDFa+F
+ BpL7TbaipLG/on0pseqK2VXEarkEFFjVktGZyRGIITs/4lY5ivpce0LmROn7WdWKn4P0
+ 4WJBJZO75zHlvC7jOAVjBbjr5DODeIIFJFmcwZ7L9hYZFlRIc5FyYMCxFAWjE4blnYJW
+ 19NtL5z946m/oNSzA/UdxvTOZBT7wBKE+2vn9CwKp6Rfx7f9gtlsjybh313/vbNaswZs
+ xx4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IWD2+idtHw0nhgBBfKpVv3ZBllW3r5TcVAjACuqZRiM=;
- b=NdjVgmiaYu48phN2MWQt/9V+8UPM+pS+tGWFXhMyb5C1j3sKzw3Z5n1I0NCgfpfTMf
- cJzdKRfW8cIKlA7uKye+9DGQe9MWdjG1vQfIgRsbCQBt+yBCXJDsOo+A8pjhtw7Ny1s2
- 7g9/bId9gsWwENsHmG5GhAbVmYBVH/evzn6wewORPzWymbsPEfdVvaUs6VyPdd710z0k
- 260sEHlCmPYfkyx7zTBZiiCEI22uGeVb4q2J/HexWBN9TWMgx0eJqhGBvIq9SmI8mlA3
- vR5PyPO/QqB1wl62buvO1PaCQrvjO3nvFkfVdCpsyecv9NaqA7fzednDN+/oi6TENJro
- kKMA==
-X-Gm-Message-State: APjAAAXW/dXX1v4EuTkSUZvRT9r93bdaH77dwYsYLQFTpmF/TKnfQPz6
- fJYf4cejw9kubP0lEnWyktBMfXIS
-X-Google-Smtp-Source: APXvYqw1yjZuzwqFaTT+CD2adfwjUN1GreHSdBye678yADvd5HITDDW/nCJkd+bH/Tt3ZVDr+kvocg==
-X-Received: by 2002:a5d:6191:: with SMTP id j17mr69521528wru.427.1582631479618; 
- Tue, 25 Feb 2020 03:51:19 -0800 (PST)
+ :in-reply-to:references;
+ bh=flYtEk0ax7P9nTpGQ0D7EhA/r6SXi2jRP9wzLPqR8FM=;
+ b=e4TSDzxj9X9Ls67/uUriAyJyMxU3wyFiiEfpkDYLl0Lg1Yu0z9Fhnc3IabNYaKBpKU
+ CGmbEQmW9cfryWFZjDJo4U6+0im/q6bG5nn4Sz5RGaYtc/fur/U2XuyMhdXXYvieGDcP
+ LEVp8CuqHpRfB7mNZmGNcVpDM7g0NzldEx9hX7EJ7Y8YAVcVUHidTOrL1vmihku1RICp
+ wSv4RBfjRVSJaQGpGKFKeymAFI2mGqfLkJU2GH5GTaBLp1c+UF3a8k8kkmCNu0tl1vS8
+ wZ3d595yzLG69sfnD73PA/4fV2cH19yU6aggwvmjv4rFnWu8b7f3RJTqcuDy8G8jQ4Lo
+ Gfdw==
+X-Gm-Message-State: APjAAAV+MigV2ozxnajGqpe0cWnDejBJXd16WFeB8q+yeM2ugTslSCZ5
+ r+bZ1zHPBpy60HbiAktjeHhae1dT
+X-Google-Smtp-Source: APXvYqzvKgGS6w0C9g825XN+EneuTXzvMiBtfHdSTFzQUEZ23Vno4nxGmL3SlVlYsdZysWHzn4rxag==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr74401436wrp.54.1582631482431; 
+ Tue, 25 Feb 2020 03:51:22 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.18
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.21
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:19 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 014/136] arm/highbank: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:04 +0100
-Message-Id: <1582631466-13880-14-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 017/136] arm/integratorcp: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:07 +0100
+Message-Id: <1582631466-13880-17-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,70 +89,51 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-15-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-18-imammedo@redhat.com>
 ---
- hw/arm/highbank.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/arm/integratorcp.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index 518d935..ac9de94 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -236,7 +236,6 @@ enum cxmachines {
-  */
- static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
- {
--    ram_addr_t ram_size = machine->ram_size;
-     DeviceState *dev = NULL;
-     SysBusDevice *busdev;
-     qemu_irq pic[128];
-@@ -247,7 +246,6 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-     qemu_irq cpu_virq[4];
-     qemu_irq cpu_vfiq[4];
-     MemoryRegion *sysram;
--    MemoryRegion *dram;
-     MemoryRegion *sysmem;
-     char *sysboot_filename;
+diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+index 0cd94d9..cc845b8 100644
+--- a/hw/arm/integratorcp.c
++++ b/hw/arm/integratorcp.c
+@@ -585,7 +585,6 @@ static void integratorcp_init(MachineState *machine)
+     Object *cpuobj;
+     ARMCPU *cpu;
+     MemoryRegion *address_space_mem = get_system_memory();
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     MemoryRegion *ram_alias = g_new(MemoryRegion, 1);
+     qemu_irq pic[32];
+     DeviceState *dev, *sic, *icp;
+@@ -605,14 +604,13 @@ static void integratorcp_init(MachineState *machine)
  
-@@ -290,10 +288,8 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-     }
+     cpu = ARM_CPU(cpuobj);
  
-     sysmem = get_system_memory();
--    dram = g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(dram, NULL, "highbank.dram", ram_size);
-     /* SDRAM at address zero.  */
--    memory_region_add_subregion(sysmem, 0, dram);
-+    memory_region_add_subregion(sysmem, 0, machine->ram);
+-    memory_region_allocate_system_memory(ram, NULL, "integrator.ram",
+-                                         ram_size);
+     /* ??? On a real system the first 1Mb is mapped as SSRAM or boot flash.  */
+     /* ??? RAM should repeat to fill physical memory space.  */
+     /* SDRAM at address zero*/
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+     /* And again at address 0x80000000 */
+-    memory_region_init_alias(ram_alias, NULL, "ram.alias", ram, 0, ram_size);
++    memory_region_init_alias(ram_alias, NULL, "ram.alias", machine->ram,
++                             0, ram_size);
+     memory_region_add_subregion(address_space_mem, 0x80000000, ram_alias);
  
-     sysram = g_new(MemoryRegion, 1);
-     memory_region_init_ram(sysram, NULL, "highbank.sysram", 0x8000,
-@@ -387,7 +383,7 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
- 
-     /* TODO create and connect IDE devices for ide_drive_get() */
- 
--    highbank_binfo.ram_size = ram_size;
-+    highbank_binfo.ram_size = machine->ram_size;
-     /* highbank requires a dtb in order to boot, and the dtb will override
-      * the board ID. The following value is ignored, so set it to -1 to be
-      * clear that the value is meaningless.
-@@ -430,6 +426,7 @@ static void highbank_class_init(ObjectClass *oc, void *data)
-     mc->units_per_default_bus = 1;
-     mc->max_cpus = 4;
+     dev = qdev_create(NULL, TYPE_INTEGRATOR_CM);
+@@ -660,6 +658,7 @@ static void integratorcp_machine_init(MachineClass *mc)
+     mc->init = integratorcp_init;
      mc->ignore_memory_transaction_failures = true;
-+    mc->default_ram_id = "highbank.dram";
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("arm926");
++    mc->default_ram_id = "integrator.ram";
  }
  
- static const TypeInfo highbank_type = {
-@@ -448,6 +445,7 @@ static void midway_class_init(ObjectClass *oc, void *data)
-     mc->units_per_default_bus = 1;
-     mc->max_cpus = 4;
-     mc->ignore_memory_transaction_failures = true;
-+    mc->default_ram_id = "highbank.dram";
- }
- 
- static const TypeInfo midway_type = {
+ DEFINE_MACHINE("integratorcp", integratorcp_machine_init)
 -- 
 1.8.3.1
 
