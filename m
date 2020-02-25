@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3BF16EEBE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 20:12:39 +0100 (CET)
-Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7504616EF2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 20:39:44 +0100 (CET)
+Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6fdF-0003iL-Nn
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 14:12:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56811)
+	id 1j6g3T-0007DR-23
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 14:39:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42907)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j6fbT-0002mT-RT
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:10:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6g2G-0006I2-QU
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:38:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j6fbN-0000sY-9Z
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:10:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46477
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j6fbN-0000qr-3e
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:10:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582657840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eFRLIZO3NyVYdo9aS7zUnFRUzGA65Q3i2bOGvdZvdyI=;
- b=IMS8dtKKYOr/0sVWXwf43ClcfQkLccwTlfoOxuvNxopWX3exgA0PeHn1BL9pun9DPGQXjX
- x6YsoD0nEERi/zst4EceViKy6wd9cyNBNTWbgoR8zL6f6+3U2m3vEOBDaAwq7NiECJOXHw
- kS1uESU9d25Hv3FSOG+Dt8dojEhafpA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-U89t3XYSNTes8oyNmG_L0Q-1; Tue, 25 Feb 2020 14:10:38 -0500
-X-MC-Unique: U89t3XYSNTes8oyNmG_L0Q-1
-Received: by mail-ed1-f69.google.com with SMTP id ck15so261505edb.6
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 11:10:38 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1j6g2F-0007UM-Aw
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:38:28 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38277)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6g2F-0007RX-2S
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:38:27 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a9so440761wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 11:38:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f7lizJW39lrCrOSU4Pue7Wc6hbrhiEMu+Lp7n3SwT3I=;
+ b=UxL+IhZtH8qghvDvr4gPV8rzVvFEyD534RRZ9v6vfXVF22iC0BtPNshDHbXlaiLlzv
+ Fvdx8Z40WnMN3YmQcyspH+itMYbEFS9y1/p8c4yGxYJLL0nIM3LdyKZEPs1haRKIi5FS
+ gm+69csvJ05Tj1KHkcwCRr6VRJ6FzupOj/IAlozsXThLD6gHPLj8uMY1nULaF1xmAWJ/
+ F6d+AJRFTFUEbmana168bOnCADZwK7ahiBNAASsxi8NKkSgAGzmix1NwYqpR08KJe0/M
+ /0Xlmsf0E5Xi2xlcxfnXm9jkCQQaj+9YABB9nxzloSxKZCktdxgEkhTbXimnBwtaJKkw
+ XfQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=INC/degVOTdSkbrD26PvxKmGx04Bel5c+TFJDr2h9Pw=;
- b=VEMW3hBvsOYcDiJ1GIc7jZQ8YIqTaGiL7LVaDxD0q4umav0w3mODuVAC9uL9OjEdfL
- RoN6IQM9VYe0uD6yekjFZf0rLr68e8cV8imomeKLpdJPBg8zS5lnqlbvzf0o8z8qIVlp
- kx/XsfM91thxftCxgYXNCzhfG+UObVFPIm2ML5DRzVNX0MjFITapCVe5qsZbE4IgDBcv
- mlFIy3FRdrnA2MInD7xr/BhXHf4jNnVv0wkjBgc2r6rrah6twtIUTAyZ8E2H6nAXpPEm
- Kubf+x+0hxFsBrbuVs382PFMpSmyKCwGz6Khf9G+NNyvdf6n2tSCW9MXYo1M812AV1Ey
- +D5w==
-X-Gm-Message-State: APjAAAVdPbGtxjQ9GhegUXu6fnHGdwegUdK7ylylR0FSyGvVzNLeJh4w
- cnIhoUeu9V27Y2I9bK6H4bGik7zsKhk+UWplGESL7TbYwDs2fuYP5Pe2ROWuqvyPhMTeyfbxrK0
- aiIUOjNcnMiD6u4U9rqpiqudQN+YCPQI=
-X-Received: by 2002:aa7:cf06:: with SMTP id a6mr464521edy.161.1582657836014;
- Tue, 25 Feb 2020 11:10:36 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw6/cClBZW5lMWqEa1eq+4tVxgsXcCr3EgBA3nQSkinqmyzaonHaWK4cg5FA5SMIc11ntumMHmi+avD7J3Z17g=
-X-Received: by 2002:aa7:cf06:: with SMTP id a6mr464506edy.161.1582657835785;
- Tue, 25 Feb 2020 11:10:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=f7lizJW39lrCrOSU4Pue7Wc6hbrhiEMu+Lp7n3SwT3I=;
+ b=JvQs9dkZWsDA5MZE1AKg4OVUtlKupWaw7AazA7cZL0FShO40ACJ+vppnSJOnSuYumu
+ jBh+x/ypANOfYHycMRIVAA71eoyE/PxbfmjXwGKAc78wHtNLUvGI0IhgL7zOUbG/UFcc
+ uWa7s39uxufFyiOBnZTTOutNDiTKHDA1xD7IZBpkzsPwLB8eyLy1O79ct0c3Pnp4hxvP
+ Oh67bgIHd7CrCKC1gxrOJnfOhBpyfV93x1ydlsuuJ6WHZ3XUv/1Ig+u9FoNOh8w67lkF
+ 6Kp9374/MCbC8a6xqsodeQV061QzyZ53kcd0g6ikIbxWu9yC0NOEDq1aE96SLWp2U0x2
+ Jkwg==
+X-Gm-Message-State: APjAAAU+V9DgsQ47f2HBk7IaN+iUxAm1907Huc1Iu5ABf6KMKt0sADca
+ 2Sd5yIWzbQYGJ9jnHsC8svZ6Ww==
+X-Google-Smtp-Source: APXvYqzdu3vj+sgIgBJaxRIaBlxsvI/+PBhMtH3SSCaqqH0N86xNbQ8ZyBgS3u2uvD+jWawmG1eBJQ==
+X-Received: by 2002:a1c:1b11:: with SMTP id b17mr726822wmb.93.1582659505735;
+ Tue, 25 Feb 2020 11:38:25 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g9sm3578527wme.41.2020.02.25.11.38.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 11:38:24 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Implement (trivially) ARMv8.2-TTCNP
+Date: Tue, 25 Feb 2020 19:38:22 +0000
+Message-Id: <20200225193822.18874-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200225154121.21116-1-peter.maydell@linaro.org>
- <5a6757cb-fda2-ba3f-6c24-f09829faf4ab@redhat.com>
- <CAFEAcA-C0o_u8VABdRky7GUCvyiWhkn74cT1UYAtEAAFjGBLAA@mail.gmail.com>
- <6ed08bea-4fcb-08dc-417c-a0f534173a31@redhat.com>
- <CAFEAcA9KmsHS4fnYWvpMMa5SLLUBjiPcOsfmGOHcWopd11M3+g@mail.gmail.com>
- <9f64719b-184c-cd61-1260-f13428ea7369@redhat.com>
- <CAFEAcA9F6jQ7bAp3DuJ+hA48iwi-NtviBxJKQxF-PUD41FyDzg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9F6jQ7bAp3DuJ+hA48iwi-NtviBxJKQxF-PUD41FyDzg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 25 Feb 2020 20:10:24 +0100
-Message-ID: <CABgObfaFyGE7sFsQ62hoLBJLo+DpO8ftznahUM1EHCzPcOEKuw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] docs: Miscellaneous rST conversions
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000001a750a059f6b3ee5"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,90 +76,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001a750a059f6b3ee5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The ARMv8.2-TTCNP extension allows an implementation to optimize by
+sharing TLB entries between multiple cores, provided that software
+declares that it's ready to deal with this by setting a CnP bit in
+the TTBRn_ELx.  It is mandatory from ARMv8.2 onward.
 
-Il mar 25 feb 2020, 19:57 Peter Maydell <peter.maydell@linaro.org> ha
-scritto:
+For QEMU's TLB implementation, sharing TLB entries between different
+cores would not really benefit us and would be a lot of work to
+implement.  So we implement this extension in the "trivial" manner:
+we allow the guest to set and read back the CnP bit, but don't change
+our behaviour (this is an architecturally valid implementation
+choice).
 
-> > The QAPI docs are in other manuals in docs/interop/, aren't they?
->
-> Yes, but until we complete the conversion we can't get
-> rid of the qemu-doc.html output, because that's where the
-> HTML output from the QAPI doc generation goes.
->
+The only code path which looks at the TTBRn_ELx values for the
+long-descriptor format where the CnP bit is defined is already doing
+enough masking to not get confused when the CnP bit at the bottom of
+the register is set, so we can simply add a comment noting why we're
+relying on that mask.
 
-Right.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.c    | 1 +
+ target/arm/cpu64.c  | 2 ++
+ target/arm/helper.c | 4 ++++
+ 3 files changed, 7 insertions(+)
 
-> In general the result is more than acceptable, and I'd rather get a
-> > quick-and-slightly-dirty conversion done quickly than do everything
-> > manually but risk missing 5.0.
->
-> Yeah, seems like a good plan. If the autoconversion works out
-> then I think the main thing which makes "do all this for 5.0"
-> at risk currently is that the qapidoc conversion series needs
-> review and might need overhauling based on that review: it
-> doesn't take many cycles of review-and-fix to push close to
-> the softfreeze deadline.
->
-> What do you want to do with this patchset?
->
-
-This could go in independently. It would make Kashyap's series conflict,
-but I have already rebased it on top.
-
-Perhaps we could have the files in both .texi and (automatically converted)
-.rst versions at the same time in the tree for a short period. If that's
-okay for you, I can post tomorrow a series to do that.
-
-Paolo
-
---0000000000001a750a059f6b3ee5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Il mar 25 feb 2020, 19:57 Peter Maydell &lt;<a href=3D"mailto:=
-peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scritto:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">&gt; The QAPI docs are in other manuals=
- in docs/interop/, aren&#39;t they?<br>
-<br>
-Yes, but until we complete the conversion we can&#39;t get<br>
-rid of the qemu-doc.html output, because that&#39;s where the<br>
-HTML output from the QAPI doc generation goes.<br></blockquote></div></div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Right.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">&gt; In general the result is more than acceptable, and I&#39=
-;d rather get a<br>
-&gt; quick-and-slightly-dirty conversion done quickly than do everything<br=
->
-&gt; manually but risk missing 5.0.<br>
-<br>
-Yeah, seems like a good plan. If the autoconversion works out<br>
-then I think the main thing which makes &quot;do all this for 5.0&quot;<br>
-at risk currently is that the qapidoc conversion series needs<br>
-review and might need overhauling based on that review: it<br>
-doesn&#39;t take many cycles of review-and-fix to push close to<br>
-the softfreeze deadline.<br>
-<br>
-What do you want to do with this patchset?<br></blockquote></div></div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">This could go in independently.=
-=C2=A0<span style=3D"font-family:sans-serif">It would make Kashyap&#39;s se=
-ries conflict, but I have already rebased it on top.</span></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Perhaps we could have the files in bo=
-th .texi and (automatically converted) .rst versions at the same time in th=
-e tree for a short period. If that&#39;s okay for you, I can post tomorrow =
-a series to do that.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Pao=
-lo</div></div>
-
---0000000000001a750a059f6b3ee5--
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2eadf4dcb8b..64dc9509927 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2720,6 +2720,7 @@ static void arm_max_initfn(Object *obj)
+             t = cpu->isar.id_mmfr4;
+             t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+             t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
++            t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+             cpu->isar.id_mmfr4 = t;
+         }
+ #endif
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 0929401a4dd..e4d793a2415 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -679,6 +679,7 @@ static void aarch64_max_initfn(Object *obj)
+ 
+         t = cpu->isar.id_aa64mmfr2;
+         t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
++        t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
+         cpu->isar.id_aa64mmfr2 = t;
+ 
+         /* Replicate the same data to the 32-bit id registers.  */
+@@ -705,6 +706,7 @@ static void aarch64_max_initfn(Object *obj)
+ 
+         u = cpu->isar.id_mmfr4;
+         u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
++        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+         cpu->isar.id_mmfr4 = u;
+ 
+         u = cpu->isar.id_aa64dfr0;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 79db169e046..911baf7bcb7 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10572,6 +10572,10 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+ 
+     /* Now we can extract the actual base address from the TTBR */
+     descaddr = extract64(ttbr, 0, 48);
++    /*
++     * We rely on this masking to clear the RES0 bits at the bottom of the TTBR
++     * and also to mask out CnP (bit 0) which could validly be non-zero.
++     */
+     descaddr &= ~indexmask;
+ 
+     /* The address field in the descriptor goes up to bit 39 for ARMv7
+-- 
+2.20.1
 
 
