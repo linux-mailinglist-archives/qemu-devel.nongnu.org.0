@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3377516C0AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:21:58 +0100 (CET)
-Received: from localhost ([::1]:53996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D5116C058
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:09:20 +0100 (CET)
+Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZDp-00038U-8r
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
+	id 1j6Z1b-0004m4-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:09:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykh-0000s1-Sb
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:56 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yko-0000uT-Tr
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yke-0007So-0S
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33051)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykf-0007ZG-1t
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:52 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41096)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykd-0007Q4-Q9
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:47 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id u6so14404906wrt.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:47 -0800 (PST)
+ id 1j6Yke-0007Tk-QO
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:48 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id v4so1506065wrs.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hpM8ElmGZBnECi1BlrS1EbDP4ehth1GmlWVlNCDrI8Q=;
- b=IWKi1vwoVqvX0xYnJGeuQiIEFLjwoIQYesJvN/OLoTHAtxq4GeRlv+UV9iJu/J9AvA
- 1FPCoJ5ChaAjVJMgqYbJq3bSOjrTmgZXXIOYk5cE3dYQCCs3Ygx4le5nX/L8+5aLN6Ng
- H4E6Nv5Ebmuvu5uUPv4dcF9eS7yMDNZtmAHCqzWj9r+zo3oDnfW3wu98kqWqpFqTL/UF
- 5d6Oz7LYHC1bcoBmCjCpTyVeD4x8I/lZbdNZC2eIPTQlwLexthd25r7roTIi+MzdPhyy
- +BfXvyhJEsOLeU4s/UVB4aVvyOMsKBb/FkwIpr+cEU1nxVbZG/D6k+b1RXSwC6K9OJVs
- /f3A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RflQQugqQD+TmG6zwoLNwhsZIRibctO8/AYIKjncmbQ=;
+ b=Ef2FNZ6AMBIBUVJDT4fQsPqOqhnU+CoHOVhn/FwuSzZPDYI1r+XZm5uGa+r0dRHLeg
+ UY1s7Ef4C31ZKMkUcdtg63+jNI9QSY9L9I8GCpYyL+rKpKDSLIcWTrMlcM4bUv+JmYKf
+ nAPvFjSju1SQV4ruIPrXqN5Fe5hfUF0wwjnBMcGg4XrqdeM3dlzVZsMQirFiZLxZTjTj
+ I6+aMgqQKAjdlcO0YOW2lvH6OSP4P1ECgpk3xgXZIzq8PNn3GlfjX1BZVNlM+UjbJ4rx
+ G5fpvVpwA+9vOT8b79M/HiX9xHp3ugmdkGwGLiE2WUludfRujjU4DvaMcLYS8atHjZ2C
+ C1aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=hpM8ElmGZBnECi1BlrS1EbDP4ehth1GmlWVlNCDrI8Q=;
- b=TK4TDvhRZy61Dbyl3+Q9YCNmRq+QhkCCJK03MgoNlFMmSi259aB/FDPtv+1tpjuspF
- vuZGHFIzCJBaufBF6EzislsuEBdJ3lnY+XkYZ1LZ3tQrhOyFQM1zuBcJtnGq38+g8Cdd
- 5imZVtpHSx23uXrlbLsdZxk/5WQACySJYqN4U+WFsygRgg/IvsdobFIQgycGNyg9DhcR
- cncH6F3sZeOeGBwouv7GTNoXTZI4HhV1CfDKBnYFeCRCG0qPdLJ+AEPQ8WQ6E5syPMCg
- 2ExMMDeB4JnIcqt4HzkQEAO00N9YxyxAVUAVSOaSf+8vA6xdwVz3RnIbVtVU9H4xHzZg
- hE1w==
-X-Gm-Message-State: APjAAAWgC+G2eZcBFo7dK0DOP1Bk+V/ikvbOZ6rg4ns2oY4dC2NUkvYh
- FyNRTN9mkAozWfctoakoUqS8cfpV
-X-Google-Smtp-Source: APXvYqwRNG+tvuCKWV0ZHkIbYK8Rbu+b/rHeXt1T1ryJdW9wl+Nj2l+jpOIbNhFi7qyih83TKoi0Wg==
-X-Received: by 2002:adf:de0b:: with SMTP id b11mr70958935wrm.89.1582631506490; 
- Tue, 25 Feb 2020 03:51:46 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=RflQQugqQD+TmG6zwoLNwhsZIRibctO8/AYIKjncmbQ=;
+ b=CkbEqcsEKVWIInSJ4UMt9js0DaGFtVLtB76KFQHYKBVBlK97z+PXehN/w5VkaVxekq
+ CklXuEafA2WFh4cwE9WCnDN4NT5LmhhZ33PdBbz+axWXyZsQR8xCtMYuC1qusSFU503J
+ dyFmIGECXa1v4k5JVat3bIOyuSWFcjTc/TH7kjxfU1uIkPs4Saj7x8lHXwcmPlBAvOdD
+ FdtwbBr6BfZTi2qpwrEPBWahGmqm9akXyD8gnqUUb5W+es/BNkZ8EYg9zbbhUVPyHdt5
+ Od4reNGp6sO0KK3u2LrlSy5kTB6yjNmzVaDQNevYjtqfs+1Y4Q6z39z7IBRD9oSJ0WSV
+ GjUg==
+X-Gm-Message-State: APjAAAXMKoYwFVPFJTwnrei7IRYiMh88/RYm+3EC/rkLqFEFk7h8Z5/t
+ GDy8sqSiwytJ7DjDGzwD9SgUN+zT
+X-Google-Smtp-Source: APXvYqx6zVC9T3IQQSRFwTuMKgHyHvniGvHtSDXYvgdAimJE+z5v1P7cW8g+NB+ON/lmh/h4GEZwOA==
+X-Received: by 2002:a5d:4687:: with SMTP id u7mr70253391wrq.176.1582631507499; 
+ Tue, 25 Feb 2020 03:51:47 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.45
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:45 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:46 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 043/136] x86/pc: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:33 +0100
-Message-Id: <1582631466-13880-43-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 044/136] lm32/lm32_boards: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:34 +0100
+Message-Id: <1582631466-13880-44-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,65 +92,162 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-44-imammedo@redhat.com>
----
- hw/i386/pc.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+PS:
+ while at it add check for user supplied RAM size and error
+ out if it mismatches board expected value.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2ddce42..6ab4acb 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -937,7 +937,7 @@ void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion **ram_memory)
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200219160953.13771-45-imammedo@redhat.com>
+---
+ hw/lm32/lm32_boards.c | 39 ++++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
+
+diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
+index d1894ad..4e0a98c 100644
+--- a/hw/lm32/lm32_boards.c
++++ b/hw/lm32/lm32_boards.c
+@@ -19,6 +19,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/cutils.h"
+ #include "qemu/error-report.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+@@ -75,22 +76,28 @@ static void main_cpu_reset(void *opaque)
+ 
+ static void lm32_evr_init(MachineState *machine)
  {
-     int linux_boot, i;
--    MemoryRegion *ram, *option_rom_mr;
-+    MemoryRegion *option_rom_mr;
-     MemoryRegion *ram_below_4g, *ram_above_4g;
-     FWCfgState *fw_cfg;
-     MachineState *machine = MACHINE(pcms);
-@@ -950,22 +950,20 @@ void pc_memory_init(PCMachineState *pcms,
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const char *kernel_filename = machine->kernel_filename;
+     LM32CPU *cpu;
+     CPULM32State *env;
+     DriveInfo *dinfo;
+     MemoryRegion *address_space_mem =  get_system_memory();
+-    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
+     qemu_irq irq[32];
+     ResetInfo *reset_info;
+     int i;
  
-     linux_boot = (machine->kernel_filename != NULL);
++    if (machine->ram_size != mc->default_ram_size) {
++        char *sz = size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
++
+     /* memory map */
+     hwaddr flash_base  = 0x04000000;
+     size_t flash_sector_size       = 256 * KiB;
+     size_t flash_size              = 32 * MiB;
+     hwaddr ram_base    = 0x08000000;
+-    size_t ram_size                = 64 * MiB;
+     hwaddr timer0_base = 0x80002000;
+     hwaddr uart0_base  = 0x80006000;
+     hwaddr timer1_base = 0x8000a000;
+@@ -107,9 +114,7 @@ static void lm32_evr_init(MachineState *machine)
  
--    /* Allocate RAM.  We allocate it as a single memory region and use
--     * aliases to address portions of it, mostly for backwards compatibility
--     * with older qemus that used qemu_ram_alloc().
-+    /*
-+     * Split single memory region and use aliases to address portions of it,
-+     * done for backwards compatibility with older qemus.
-      */
--    ram = g_malloc(sizeof(*ram));
--    memory_region_allocate_system_memory(ram, NULL, "pc.ram",
--                                         machine->ram_size);
--    *ram_memory = ram;
-+    *ram_memory = machine->ram;
-     ram_below_4g = g_malloc(sizeof(*ram_below_4g));
--    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
-+    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
-                              0, x86ms->below_4g_mem_size);
-     memory_region_add_subregion(system_memory, 0, ram_below_4g);
-     e820_add_entry(0, x86ms->below_4g_mem_size, E820_RAM);
-     if (x86ms->above_4g_mem_size > 0) {
-         ram_above_4g = g_malloc(sizeof(*ram_above_4g));
--        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g", ram,
-+        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g",
-+                                 machine->ram,
-                                  x86ms->below_4g_mem_size,
-                                  x86ms->above_4g_mem_size);
-         memory_region_add_subregion(system_memory, 0x100000000ULL,
-@@ -1952,6 +1950,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
-     mc->numa_mem_supported = true;
-+    mc->default_ram_id = "pc.ram";
+     reset_info->flash_base = flash_base;
  
-     object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
-         pc_machine_get_device_memory_region_size, NULL,
+-    memory_region_allocate_system_memory(phys_ram, NULL, "lm32_evr.sdram",
+-                                         ram_size);
+-    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
++    memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
+ 
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     /* Spansion S29NS128P */
+@@ -144,7 +149,7 @@ static void lm32_evr_init(MachineState *machine)
+ 
+         if (kernel_size < 0) {
+             kernel_size = load_image_targphys(kernel_filename, ram_base,
+-                                              ram_size);
++                                              machine->ram_size);
+             reset_info->bootstrap_pc = ram_base;
+         }
+ 
+@@ -159,6 +164,7 @@ static void lm32_evr_init(MachineState *machine)
+ 
+ static void lm32_uclinux_init(MachineState *machine)
+ {
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     const char *initrd_filename = machine->initrd_filename;
+@@ -166,18 +172,23 @@ static void lm32_uclinux_init(MachineState *machine)
+     CPULM32State *env;
+     DriveInfo *dinfo;
+     MemoryRegion *address_space_mem =  get_system_memory();
+-    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
+     qemu_irq irq[32];
+     HWSetup *hw;
+     ResetInfo *reset_info;
+     int i;
+ 
++    if (machine->ram_size != mc->default_ram_size) {
++        char *sz = size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
++
+     /* memory map */
+     hwaddr flash_base   = 0x04000000;
+     size_t flash_sector_size        = 256 * KiB;
+     size_t flash_size               = 32 * MiB;
+     hwaddr ram_base     = 0x08000000;
+-    size_t ram_size                 = 64 * MiB;
+     hwaddr uart0_base   = 0x80000000;
+     hwaddr timer0_base  = 0x80002000;
+     hwaddr timer1_base  = 0x80010000;
+@@ -200,9 +211,7 @@ static void lm32_uclinux_init(MachineState *machine)
+ 
+     reset_info->flash_base = flash_base;
+ 
+-    memory_region_allocate_system_memory(phys_ram, NULL,
+-                                         "lm32_uclinux.sdram", ram_size);
+-    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
++    memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
+ 
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     /* Spansion S29NS128P */
+@@ -238,7 +247,7 @@ static void lm32_uclinux_init(MachineState *machine)
+ 
+         if (kernel_size < 0) {
+             kernel_size = load_image_targphys(kernel_filename, ram_base,
+-                                              ram_size);
++                                              machine->ram_size);
+             reset_info->bootstrap_pc = ram_base;
+         }
+ 
+@@ -252,7 +261,7 @@ static void lm32_uclinux_init(MachineState *machine)
+     hw = hwsetup_init();
+     hwsetup_add_cpu(hw, "LM32", 75000000);
+     hwsetup_add_flash(hw, "flash", flash_base, flash_size);
+-    hwsetup_add_ddr_sdram(hw, "ddr_sdram", ram_base, ram_size);
++    hwsetup_add_ddr_sdram(hw, "ddr_sdram", ram_base, machine->ram_size);
+     hwsetup_add_timer(hw, "timer0", timer0_base, timer0_irq);
+     hwsetup_add_timer(hw, "timer1_dev_only", timer1_base, timer1_irq);
+     hwsetup_add_timer(hw, "timer2_dev_only", timer2_base, timer2_irq);
+@@ -288,6 +297,8 @@ static void lm32_evr_class_init(ObjectClass *oc, void *data)
+     mc->init = lm32_evr_init;
+     mc->is_default = 1;
+     mc->default_cpu_type = LM32_CPU_TYPE_NAME("lm32-full");
++    mc->default_ram_size = 64 * MiB;
++    mc->default_ram_id = "lm32_evr.sdram";
+ }
+ 
+ static const TypeInfo lm32_evr_type = {
+@@ -304,6 +315,8 @@ static void lm32_uclinux_class_init(ObjectClass *oc, void *data)
+     mc->init = lm32_uclinux_init;
+     mc->is_default = 0;
+     mc->default_cpu_type = LM32_CPU_TYPE_NAME("lm32-full");
++    mc->default_ram_size = 64 * MiB;
++    mc->default_ram_id = "lm32_uclinux.sdram";
+ }
+ 
+ static const TypeInfo lm32_uclinux_type = {
 -- 
 1.8.3.1
 
