@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FFE316BB25
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 08:43:40 +0100 (CET)
-Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968E716BB20
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 08:42:38 +0100 (CET)
+Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6UsV-0004uB-9T
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 02:43:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41018)
+	id 1j6UrV-0002qX-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 02:42:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j6Uph-0008OM-59
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:46 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j6Upg-0003cC-4V
+ (envelope-from <pannengyuan@huawei.com>) id 1j6Uph-0008O6-1D
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:45 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:55678 helo=huawei.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <pannengyuan@huawei.com>) id 1j6Upg-0003c6-3l
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:44 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:55674 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j6Upf-0003bh-PP
+ id 1j6Upf-0003bZ-ON
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:44 -0500
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A1B0A4B482C74B6EBB24;
+ by Forcepoint Email with ESMTP id 9DAA3AC42AAE15193582;
  Tue, 25 Feb 2020 15:40:41 +0800 (CST)
 Received: from localhost.localdomain (10.175.104.216) by
  DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 25 Feb 2020 15:40:31 +0800
+ 14.3.439.0; Tue, 25 Feb 2020 15:40:33 +0800
 From: Pan Nengyuan <pannengyuan@huawei.com>
 To: <mst@redhat.com>
-Subject: [PATCH 2/4] vhost-user-fs: convert to the new virtio_delete_queue
- function
-Date: Tue, 25 Feb 2020 15:55:52 +0800
-Message-ID: <20200225075554.10835-3-pannengyuan@huawei.com>
+Subject: [PATCH 3/4] virtio-pmem: do delete rq_vq in virtio_pmem_unrealize
+Date: Tue, 25 Feb 2020 15:55:53 +0800
+Message-ID: <20200225075554.10835-4-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200225075554.10835-1-pannengyuan@huawei.com>
 References: <20200225075554.10835-1-pannengyuan@huawei.com>
@@ -54,83 +53,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
- qemu-devel@nongnu.org, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- euler.robot@huawei.com
+Cc: euler.robot@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-use the new virtio_delete_queue function to cleanup.
+Similar to other virtio-deivces, rq_vq forgot to delete in virtio_pmem_unrealize, this patch fix it.
+This device has aleardy maintained a vq pointer, thus we use the new virtio_delete_queue function directly to do the cleanup.
 
+Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/vhost-user-fs.c         | 15 +++++++++------
- include/hw/virtio/vhost-user-fs.h |  2 ++
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ hw/virtio/virtio-pmem.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 4554d123b7..6136768875 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -209,11 +209,12 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-                 sizeof(struct virtio_fs_config));
+diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+index 97287e923b..43399522f5 100644
+--- a/hw/virtio/virtio-pmem.c
++++ b/hw/virtio/virtio-pmem.c
+@@ -130,6 +130,7 @@ static void virtio_pmem_unrealize(DeviceState *dev, Error **errp)
+     VirtIOPMEM *pmem = VIRTIO_PMEM(dev);
  
-     /* Hiprio queue */
--    virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-+    fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
- 
-     /* Request queues */
-+    fs->req_vqs = g_new(VirtQueue *, fs->conf.num_request_queues);
-     for (i = 0; i < fs->conf.num_request_queues; i++) {
--        virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-+        fs->req_vqs[i] = virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-     }
- 
-     /* 1 high prio queue, plus the number configured */
-@@ -230,10 +231,11 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
- 
- err_virtio:
-     vhost_user_cleanup(&fs->vhost_user);
--    virtio_del_queue(vdev, 0);
-+    virtio_delete_queue(fs->hiprio_vq);
-     for (i = 0; i < fs->conf.num_request_queues; i++) {
--        virtio_del_queue(vdev, i + 1);
-+        virtio_delete_queue(fs->req_vqs[i]);
-     }
-+    g_free(fs->req_vqs);
+     host_memory_backend_set_mapped(pmem->memdev, false);
++    virtio_delete_queue(pmem->rq_vq);
      virtio_cleanup(vdev);
-     g_free(fs->vhost_dev.vqs);
-     return;
-@@ -252,10 +254,11 @@ static void vuf_device_unrealize(DeviceState *dev, Error **errp)
+ }
  
-     vhost_user_cleanup(&fs->vhost_user);
- 
--    virtio_del_queue(vdev, 0);
-+    virtio_delete_queue(fs->hiprio_vq);
-     for (i = 0; i < fs->conf.num_request_queues; i++) {
--        virtio_del_queue(vdev, i + 1);
-+        virtio_delete_queue(fs->req_vqs[i]);
-     }
-+    g_free(fs->req_vqs);
-     virtio_cleanup(vdev);
-     g_free(fs->vhost_dev.vqs);
-     fs->vhost_dev.vqs = NULL;
-diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-index 9ff1bdb7cf..6f3030d288 100644
---- a/include/hw/virtio/vhost-user-fs.h
-+++ b/include/hw/virtio/vhost-user-fs.h
-@@ -37,6 +37,8 @@ typedef struct {
-     struct vhost_virtqueue *vhost_vqs;
-     struct vhost_dev vhost_dev;
-     VhostUserState vhost_user;
-+    VirtQueue **req_vqs;
-+    VirtQueue *hiprio_vq;
- 
-     /*< public >*/
- } VHostUserFS;
 -- 
 2.18.2
 
