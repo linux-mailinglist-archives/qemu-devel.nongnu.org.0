@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE10816C275
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:37:03 +0100 (CET)
-Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D6E16C28B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:39:40 +0100 (CET)
+Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aOU-0005oy-Vx
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:37:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55769)
+	id 1j6aR1-0001hr-MK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:39:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6ZIv-00065b-O9
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:27:14 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcJ-0005IK-Dd
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6ZIt-0007Hn-Tb
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:27:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58567
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6ZIt-0007HP-9W
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:27:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582633630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZcTbypC42dQ6dlK/Lg2CQXYk/It2bCFrPSb5/e07vM8=;
- b=gijwGd+JUAf2vI2yfl25RERusyTt++TPpkNXALY/FSqJg5tUziufu43GbFwmECsut6WREh
- EMgRPOV9uDzQnYucoVIQBS6jzBiBPymrK4uwPYZdHIVIY1KGW19t2bh4f7SB4BGVnekfcw
- 6tueqSzt4MfqMpQd2CrJyAHwDodfWf8=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-6QgYLmWYNNuJtUdrsnd3CQ-1; Tue, 25 Feb 2020 07:27:09 -0500
-X-MC-Unique: 6QgYLmWYNNuJtUdrsnd3CQ-1
-Received: by mail-qk1-f198.google.com with SMTP id a10so9727736qkg.11
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:27:09 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcI-0007Av-Er
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:15 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37650)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j6ZcI-0007AQ-8A
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:14 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a6so3025472wme.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GlBEWrYmHPRFA8Vm86nN9N2GJk+iLZ3w8i1wPytFKGY=;
+ b=Gu/AyKWJ2BHrNn9WhmPHTtWPKNEeUMzz4BiqBu6KeoGWPKpmz/Odi5KicyQNh0M5Mp
+ w5GSChKDdBRu1aOU1AgAuXFHqzCul2a1ia3LCqW9TIXmYjdyVtKMN9IkgEY3tZuH82n/
+ lXEj+tahoF8cSFxf7fj6IFu3Z1xB7ejmGR/zPkQJGjJO6v/lajm8p5clP8hL7gc1H3oj
+ 9O5KHW1AzeZoHmaky1akFdLhvaKpGOBuY/HXYs4Rctzey7aMz3BiXZQmhEM0dere9HBK
+ MayXo+S4V+FR5gqeg3XGPHwci11WUlitriRs1z/ppw9Az17kXT51adtMgQqON2/Txroj
+ 0GEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RwtvVoDDgmHjM+kCA/LjhUipmzBC2JpRU7IUD/wuCyY=;
- b=cVMdSVs4uvg8RkN1jKjagRYJn1t5BM+mbICwgD2u0/mdAJyFe1BamQ0zTkL2IMR5dQ
- Ga08pALoqkctvy/dqlUJwGYTCnTmPfJQrF70j20e1lw1oUEe7XPzl0WVpbvoNHaY6i2l
- Frc51YieF0JcqgtYRjq+VLRxJyKwgSXMkw+APAAI7WPWEztmUZTQY5tat3XpiO58wwCv
- Z0CfTFO/lq1vHjC10+aBKl6KxqT83Js/HJ+mHpjzqPgQuKY7dC6VvHjeVXRIydqoD+Lu
- wvTtf3I5fEmNTNyCHfAgq+6rJ6N2OUC77UodXehFkhJkU0omFSBzjZTdXphZvC0HYJw1
- UzXg==
-X-Gm-Message-State: APjAAAWTTedJzOK/F+XjewiNn6YCnJuXmOlNDFJZ/Z3fSKFKf9c1Eezy
- bPjsuhweYi8nPYF7+lX0Xx17s+2MUIxaEYKiIlCA/Z37NdQb2y85ipXocEBU6J65q+D3R39Zk0F
- szbwSvpnp/0X2coU=
-X-Received: by 2002:a05:620a:12a5:: with SMTP id
- x5mr56194392qki.478.1582633627060; 
- Tue, 25 Feb 2020 04:27:07 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw8Cmk7QiY5t1qEin3kff6670s5kqA82XnUIddNzGx3F8TjFvSKqtwWb3Yo1wfXQ43MCht96A==
-X-Received: by 2002:a05:620a:12a5:: with SMTP id
- x5mr56194371qki.478.1582633626813; 
- Tue, 25 Feb 2020 04:27:06 -0800 (PST)
-Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
- by smtp.gmail.com with ESMTPSA id
- p126sm7321512qkd.108.2020.02.25.04.27.04
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GlBEWrYmHPRFA8Vm86nN9N2GJk+iLZ3w8i1wPytFKGY=;
+ b=IoZIw97qXTPIetnLuGPHJzO50S75/RPy1JPoffCflfKww/D6MqstYtISb7isTmZzzD
+ GHVhzpltk2LYrkrw1XcBP0jkoGNIgWqqZ6raCVWyPGt0/4Pdn3me390HuYwPKqbWJyCx
+ LJkdfcERK9S6zGakbF20Ha3TQbTplfoiOddXiVvVDty38YHlDHeI2Oc0bzm1G4qe22Ty
+ dvUki/AsnElwZ8RzuQeNT+CsCTzFmscqyf6cVLC0xUvXYU8lY2Ga/AobPTF6OES9zlLg
+ IGxif5+mNShL0qLAlrjR9Rssrh9rKPlaOddp3kj/2jhyA1EiDgJTb7YjKUNgnqwhC00Q
+ oEJg==
+X-Gm-Message-State: APjAAAVTYWF+gPoDEXDTTTx8GLqeL80gNJJjHq+LHSShvaBPdxhLIPym
+ wrDbojWXadHNd07Y76y77r2Ubg==
+X-Google-Smtp-Source: APXvYqwGmM5Llnn5brJee38dKonnmBgO1xcAXEc0daVSl9jdI5XHV9NcXPlRXB88FMQAZw2FSX2yQQ==
+X-Received: by 2002:a7b:c088:: with SMTP id r8mr5237126wmh.18.1582634833064;
+ Tue, 25 Feb 2020 04:47:13 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b10sm23808009wrt.90.2020.02.25.04.47.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:27:06 -0800 (PST)
-Date: Tue, 25 Feb 2020 07:27:01 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: miaoyubo <miaoyubo@huawei.com>
-Subject: Re: [PATCH v4 2/3] acpi:pci-expender-bus: Add pxb support for arm
-Message-ID: <20200225072522-mutt-send-email-mst@kernel.org>
-References: <20200225015026.940-1-miaoyubo@huawei.com>
- <20200225015026.940-3-miaoyubo@huawei.com>
- <3086f4a2-fb0a-d276-7c76-f06474befa35@redhat.com>
- <c4aa08df40a74dbd876b9acfbbb09809@huawei.com>
+ Tue, 25 Feb 2020 04:47:10 -0800 (PST)
+Received: from zen.home.arpa (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5BF491FF8C;
+ Tue, 25 Feb 2020 12:47:10 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 01/19] tests/tcg: include a skip runner for pauth3 with
+ plugins
+Date: Tue, 25 Feb 2020 12:46:52 +0000
+Message-Id: <20200225124710.14152-2-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
+References: <20200225124710.14152-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <c4aa08df40a74dbd876b9acfbbb09809@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,126 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Xiexiangyou <xiexiangyou@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, robert.foley@linaro.org, pbonzini@redhat.com,
+ stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 25, 2020 at 12:12:12PM +0000, miaoyubo wrote:
->=20
-> > -----Original Message-----
-> > From: Philippe Mathieu-Daud=E9 [mailto:philmd@redhat.com]
-> > Sent: Tuesday, February 25, 2020 5:48 PM
-> > To: miaoyubo <miaoyubo@huawei.com>; peter.maydell@linaro.org;
-> > shannon.zhaosl@gmail.com
-> > Cc: berrange@redhat.com; mst@redhat.com; qemu-devel@nongnu.org;
-> > Xiexiangyou <xiexiangyou@huawei.com>; imammedo@redhat.com
-> > Subject: Re: [PATCH v4 2/3] acpi:pci-expender-bus: Add pxb support for =
-arm
-> >=20
-> > On 2/25/20 2:50 AM, Yubo Miao wrote:
-> > > From: miaoyubo <miaoyubo@huawei.com>
-> > >
-> > > Currently virt machine is not supported by pxb-pcie, and only one mai=
-n
-> > > host bridge described in ACPI tables.
-> > > In this patch,PXB-PCIE is supproted by arm and certain
-> >=20
-> > Typos: "expander" in subject and "supported" here.
-> >=20
->=20
-> Thanks for your reply and sorry for the mistakes.
-> I will check all the subjects and comments.
->=20
-> > > resource is allocated for each pxb-pcie in acpi table.
-> > > The resource for the main host bridge is also reallocated.
-> > >
-> > > Signed-off-by: miaoyubo <miaoyubo@huawei.com>
-> > > ---
-> > >   hw/arm/virt-acpi-build.c | 115
-> > ++++++++++++++++++++++++++++++++++++---
-> > >   hw/arm/virt.c            |   3 +
-> > >   include/hw/arm/virt.h    |   7 +++
-> > >   3 files changed, 118 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c inde=
-x
-> > > 37c34748a6..be1986c60d 100644
-> > > --- a/hw/arm/virt-acpi-build.c
-> > > +++ b/hw/arm/virt-acpi-build.c
-> > > @@ -49,6 +49,8 @@
-> > >   #include "kvm_arm.h"
-> > >   #include "migration/vmstate.h"
-> > >
-> > > +#include "hw/arm/virt.h"
-> > > +#include "hw/pci/pci_bus.h"
-> > >   #define ARM_SPI_BASE 32
-> > >
-> > >       if (use_highmem) {
-> > >           hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].base;
-> > @@
-> > > -746,7 +847,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > VirtMachineState *vms)
-> > >       acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
-> > >                       (irqmap[VIRT_MMIO] + ARM_SPI_BASE),
-> > NUM_VIRTIO_TRANSPORTS);
-> > >       acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] +
-> > ARM_SPI_BASE),
-> > > -                      vms->highmem, vms->highmem_ecam);
-> > > +                      vms->highmem, vms->highmem_ecam, vms);
-> > >       if (vms->acpi_dev) {
-> > >           build_ged_aml(scope, "\\_SB."GED_DEVICE,
-> > >                         HOTPLUG_HANDLER(vms->acpi_dev), diff --git
-> > > a/hw/arm/virt.c b/hw/arm/virt.c index f788fe27d6..6314928671 100644
-> > > --- a/hw/arm/virt.c
-> > > +++ b/hw/arm/virt.c
-> > > @@ -1246,6 +1246,9 @@ static void create_pcie(VirtMachineState *vms)
-> > >       }
-> > >
-> > >       pci =3D PCI_HOST_BRIDGE(dev);
-> > > +
-> > > +    VIRT_MACHINE(qdev_get_machine())->bus =3D pci->bus;
-> > > +
-> > >       if (pci->bus) {
-> > >           for (i =3D 0; i < nb_nics; i++) {
-> > >               NICInfo *nd =3D &nd_table[i]; diff --git
-> > > a/include/hw/arm/virt.h b/include/hw/arm/virt.h index
-> > > 71508bf40c..90f10a1e46 100644
-> > > --- a/include/hw/arm/virt.h
-> > > +++ b/include/hw/arm/virt.h
-> > > @@ -140,6 +140,13 @@ typedef struct {
-> > >       DeviceState *gic;
-> > >       DeviceState *acpi_dev;
-> > >       Notifier powerdown_notifier;
-> > > +    /*
-> > > +     * pointer to devices and objects
-> > > +     * Via going through the bus, all
-> > > +     * pci devices and related objectes
-> >=20
-> > Typo "objects", but I don't understand the comment well.
-> >=20
->=20
-> Sorry for any confusion caused ,I will rewrite the comment=20
-> /* point to the root bus, which is pcie.0 */
-> Does this comment make sense?
+If we have plugins enabled we still need to have built the test to be
+able to run it.
 
-Not really. E.g. it doesn't say what happens if there's more than one root.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
+---
+ tests/tcg/aarch64/Makefile.softmmu-target | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> > > +     * could be gained.
-> > > +     */
-> > > +    PCIBus *bus;
-> > >   } VirtMachineState;
-> > >
-> > >   #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM :
-> > > VIRT_PCIE_ECAM)
-> > >
->=20
-> Regards,
-> Miao
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index d2299b98b76..71f72cfbe34 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -70,4 +70,6 @@ pauth-3:
+ 	$(call skip-test, "BUILD of $@", "missing compiler support")
+ run-pauth-3:
+ 	$(call skip-test, "RUN of pauth-3", "not built")
++run-plugin-pauth-3-with-%:
++	$(call skip-test, "RUN of pauth-3 ($*)", "not built")
+ endif
+-- 
+2.20.1
 
 
