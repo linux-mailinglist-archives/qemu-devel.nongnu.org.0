@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1487A16B964
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 07:01:20 +0100 (CET)
-Received: from localhost ([::1]:49368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0EB16B967
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 07:02:24 +0100 (CET)
+Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6THT-0004B8-4C
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 01:01:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33430)
+	id 1j6TIV-0005dV-BV
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 01:02:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j6TFk-0003IX-5s
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 00:59:32 -0500
+ (envelope-from <kraxel@redhat.com>) id 1j6TGP-0003zZ-1c
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 01:00:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j6TFi-000087-Uz
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 00:59:31 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45401
+ (envelope-from <kraxel@redhat.com>) id 1j6TGN-0000VS-TU
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 01:00:12 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51333
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j6TFi-00007I-QF
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 00:59:30 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j6TGN-0000Tv-Pm
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 01:00:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582610369;
+ s=mimecast20190719; t=1582610411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XhuronV0GXFsGeqvo1Mo0T66P0pNIA6yKLXkJo/kWGA=;
- b=KZTsoiPConBRcGibKWqqmgnA+z368RZ6whBTVmCZnAPTmdhWWGaKfRRS4rvyf9o13vcFnR
- 5wTOeQDgmJle4c3vjAYD0cnlkrxLkfPIDnUOhn0S0O/240sTQ9J4stzoWGj7LGSgP+okl4
- UPgiKJn1CZLGDUf2IOaSfCgYvCv868Q=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xajBEGYWjfHpz6efNBjFQNX4VpyfGfJO9a0s/56wfzA=;
+ b=cDpgg97kKQdtL2dPhz5cV2xS7KWho+Xa5ojy/N44/Pc6EKjdLCpKO07ykRWRDYNAzUr94K
+ jeQlZXQKOnftejEZH7uJCY5DHNc3gg5CC7YWUY+ECwVQUDm8xfRdcbFhaXti/atbmkLBMJ
+ ivmIhx19CEAW+KSMAq8eWdJbn8tqfYY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284--GhtoubgNO6aLjs3aG4KMQ-1; Tue, 25 Feb 2020 00:59:27 -0500
-X-MC-Unique: -GhtoubgNO6aLjs3aG4KMQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-415-EQatYADTN9CjcWr7u5sw7g-1; Tue, 25 Feb 2020 00:59:31 -0500
+X-MC-Unique: EQatYADTN9CjcWr7u5sw7g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D00F5107ACC5;
- Tue, 25 Feb 2020 05:59:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B491800D50;
+ Tue, 25 Feb 2020 05:59:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com
  [10.36.116.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C3FD8ED01;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9183E5D9CD;
  Tue, 25 Feb 2020 05:59:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7D0981747F; Tue, 25 Feb 2020 06:59:20 +0100 (CET)
+ id 845FB9D23; Tue, 25 Feb 2020 06:59:20 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] qxl: map rom r/o, remove shadow.
-Date: Tue, 25 Feb 2020 06:59:18 +0100
-Message-Id: <20200225055920.17261-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Subject: [PATCH 1/2] qxl: map rom r/o
+Date: Tue, 25 Feb 2020 06:59:19 +0100
+Message-Id: <20200225055920.17261-2-kraxel@redhat.com>
+In-Reply-To: <20200225055920.17261-1-kraxel@redhat.com>
+References: <20200225055920.17261-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,16 +80,31 @@ Cc: sstabellini@kernel.org, pmatouse@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Map qxl rom read-only into the guest, so the guest can't tamper with the
+content.  qxl has a shadow copy of the rom to deal with that, but the
+shadow doesn't cover the mode list.  A privilidged user in the guest can
+manipulate the mode list and that to trick qemu into oob reads, leading
+to a DoS via segfault if that read access happens to hit unmapped memory.
 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/display/qxl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Gerd Hoffmann (2):
-  qxl: map rom r/o
-  qxl: drop shadow_rom
-
- hw/display/qxl.h |  2 +-
- hw/display/qxl.c | 27 ++++++++++-----------------
- 2 files changed, 11 insertions(+), 18 deletions(-)
-
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 21a43a1d5ec2..227da69a50d9 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -2136,7 +2136,7 @@ static void qxl_realize_common(PCIQXLDevice *qxl, Err=
+or **errp)
+     pci_set_byte(&config[PCI_INTERRUPT_PIN], 1);
+=20
+     qxl->rom_size =3D qxl_rom_size();
+-    memory_region_init_ram(&qxl->rom_bar, OBJECT(qxl), "qxl.vrom",
++    memory_region_init_rom(&qxl->rom_bar, OBJECT(qxl), "qxl.vrom",
+                            qxl->rom_size, &error_fatal);
+     init_qxl_rom(qxl);
+     init_qxl_ram(qxl);
 --=20
 2.18.2
 
