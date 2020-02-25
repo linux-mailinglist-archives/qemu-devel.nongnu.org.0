@@ -2,49 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF78616B6A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:25:49 +0100 (CET)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812D216B6AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:27:08 +0100 (CET)
+Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6O2m-0002lx-Rq
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:25:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52457)
+	id 1j6O43-00059m-J3
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:27:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j6O1T-0000pJ-Ia
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:24:28 -0500
+ (envelope-from <farosas@linux.ibm.com>) id 1j6O2N-00031a-3l
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:25:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j6O1S-0000MY-AU
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:24:27 -0500
-Received: from ozlabs.org ([203.11.71.1]:33461)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j6O1M-0000Io-04; Mon, 24 Feb 2020 19:24:20 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48RKS02NSDz9sRQ; Tue, 25 Feb 2020 11:24:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582590256;
- bh=ijQfxbE3pJVAj9ZDO7QmVbTk0Y8moMotJj8/X4GVBco=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jr1qKio+U6RLhGeYtW7DtFpKvvCEwow8u6i48ZpsBKIsaRFerfHcGCBP0n0MxuaaO
- pMqfNkEYlXNE6S/cclXCvObsPtBWPLTSa4/Zbsc+wkWfGSH7TFeXMrGu+MHeDWwyvo
- PsX3nNkzrJ5Vzs+PIF3eQcmN9hFOhLUID4OAHQRw=
-Date: Tue, 25 Feb 2020 11:24:03 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH RESEND v2 17/32] hw/ppc/ppc405: Use
- memory_region_init_rom() with read-only regions
-Message-ID: <20200225002403.GD41629@umbus.fritz.box>
-References: <20200224205533.23798-1-philmd@redhat.com>
- <20200224205533.23798-18-philmd@redhat.com>
+ (envelope-from <farosas@linux.ibm.com>) id 1j6O2L-0000h7-Ll
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:25:22 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19496)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
+ id 1j6O2L-0000gm-Dr; Mon, 24 Feb 2020 19:25:21 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01P0JnA7108262; Mon, 24 Feb 2020 19:25:13 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ybu13f62j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Feb 2020 19:25:13 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01P0K61x111750;
+ Mon, 24 Feb 2020 19:25:12 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ybu13f61s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Feb 2020 19:25:12 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01P0JCbK001634;
+ Tue, 25 Feb 2020 00:25:11 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 2yaux6nqyu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2020 00:25:11 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01P0PA1134341138
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Feb 2020 00:25:10 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68A77AC05E;
+ Tue, 25 Feb 2020 00:25:10 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67958AC05B;
+ Tue, 25 Feb 2020 00:25:09 +0000 (GMT)
+Received: from localhost (unknown [9.85.139.151])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue, 25 Feb 2020 00:25:09 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, groug@kaod.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Subject: Re: [PATCH v6 12/18] target/ppc: Don't store VRMA SLBE persistently
+In-Reply-To: <20200224233724.46415-13-david@gibson.dropbear.id.au>
+References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
+ <20200224233724.46415-13-david@gibson.dropbear.id.au>
+Date: Mon, 24 Feb 2020 21:25:07 -0300
+Message-ID: <87lfor5x98.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mJm6k4Vb/yFcL9ZU"
-Content-Disposition: inline
-In-Reply-To: <20200224205533.23798-18-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-24_12:2020-02-21,
+ 2020-02-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=1
+ malwarescore=0 bulkscore=0 phishscore=0 mlxlogscore=959 spamscore=0
+ adultscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002250000
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,123 +91,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-riscv@nongnu.org, Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, paulus@samba.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+David Gibson <david@gibson.dropbear.id.au> writes:
 
---mJm6k4Vb/yFcL9ZU
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Currently, we construct the SLBE used for VRMA translations when the LPCR
+> is written (which controls some bits in the SLBE), then use it later for
+> translations.
+>
+> This is a bit complex and confusing - simplify it by simply constructing
+> the SLBE directly from the LPCR when we need it.
+>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-On Mon, Feb 24, 2020 at 09:55:18PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The scripts/coccinelle/memory-region-housekeeping.cocci reported:
-> * TODO [[view:./hw/ppc/ppc405_boards.c::face=3Dovl-face1::linb=3D195::col=
-b=3D8::cole=3D30][potential use of memory_region_init_rom*() in  ./hw/ppc/p=
-pc405_boards.c::195]]
-> * TODO [[view:./hw/ppc/ppc405_boards.c::face=3Dovl-face1::linb=3D464::col=
-b=3D8::cole=3D30][potential use of memory_region_init_rom*() in  ./hw/ppc/p=
-pc405_boards.c::464]]
->=20
-> We can indeed replace the memory_region_init_ram() and
-> memory_region_set_readonly() calls by memory_region_init_rom().
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
 > ---
->  hw/ppc/ppc405_boards.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 1f721feed6..5afe023253 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -192,7 +192,7 @@ static void ref405ep_init(MachineState *machine)
->  #endif
->      {
->          bios =3D g_new(MemoryRegion, 1);
-> -        memory_region_init_ram(bios, NULL, "ef405ep.bios", BIOS_SIZE,
-> +        memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
->                                 &error_fatal);
-> =20
->          if (bios_name =3D=3D NULL)
-> @@ -216,7 +216,6 @@ static void ref405ep_init(MachineState *machine)
->              /* Avoid an uninitialized variable warning */
->              bios_size =3D -1;
->          }
-> -        memory_region_set_readonly(bios, true);
->      }
->      /* Register FPGA */
->      ref405ep_fpga_init(sysmem, 0xF0300000);
-> @@ -461,7 +460,7 @@ static void taihu_405ep_init(MachineState *machine)
->          if (bios_name =3D=3D NULL)
->              bios_name =3D BIOS_FILENAME;
->          bios =3D g_new(MemoryRegion, 1);
-> -        memory_region_init_ram(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
-> +        memory_region_init_rom(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
->                                 &error_fatal);
->          filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->          if (filename) {
-> @@ -479,7 +478,6 @@ static void taihu_405ep_init(MachineState *machine)
->              error_report("Could not load PowerPC BIOS '%s'", bios_name);
->              exit(1);
->          }
-> -        memory_region_set_readonly(bios, true);
->      }
->      /* Register Linux flash */
->      dinfo =3D drive_get(IF_PFLASH, 0, fl_idx);
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---mJm6k4Vb/yFcL9ZU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5UaSIACgkQbDjKyiDZ
-s5Lb4w//S8uU0kRFHQ8nswAPuIt4XpXe35s7+rfp1Or54+lu13gbVo9vFk7ZpqtH
-CernJi87n72H3oD0v9fi40j/TIjmgQ40kO9rht89HjpS3gPrzvA4ZH5VxhuPOT26
-LFJ2Kb6uTivSMhkTYA+z7kg4zpT0bwhtEFdlaH7aOcF2AmP865aJyxXGfFYdfsnF
-5y59BZ3ZXcyv94XHiWy/oeXneQ3aol/2/7T+E7rgGACy6JHkE0f3B5TV4iDLCd2P
-mdlBgz1sk2DBbMZWDn/tjYRbRFfH2b3bAT0rrQVQfzUFqCmYWlChYDqIxhrysGhT
-Fws+CYVTgwfihZd0T/4xMt4ScI1pPKGVq0QhVMWsEC04De+ed9KUwfk5fh5ODZvs
-m8/U8jkBQ6N+5ou0UkELjEoRA3iPaXh+lGMMcZUmnMohA5bnKpkB6T7TXs0X7eEm
-Fe74XCgAR4s1W4ytov1C+zempita4qHYrJJhV3lf7CqhPhoQZNm19iLSHAiodd4G
-SvCt7hg50yKeGm0zgiyqQI1cAo9lDZG9bi+RK/dMEQCUkJV1pbKd01gXSz4AVXC7
-VxXCxNsL9W/jTupO3fmxlwanfXjWG74BwKQ5K3R1U0TyM7R74Ueqkkp5KQ9RHzUX
-zJjM/r2Xvml7f+iLU6Zxu2GQ0JWVF9WYp6Nav+cl2TrZrhy3MJg=
-=8G+m
------END PGP SIGNATURE-----
-
---mJm6k4Vb/yFcL9ZU--
+>  target/ppc/cpu.h        |  3 ---
+>  target/ppc/mmu-hash64.c | 28 ++++++----------------------
+>  2 files changed, 6 insertions(+), 25 deletions(-)
+>
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index f9871b1233..5a55fb02bd 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1044,9 +1044,6 @@ struct CPUPPCState {
+>      uint32_t flags;
+>      uint64_t insns_flags;
+>      uint64_t insns_flags2;
+> -#if defined(TARGET_PPC64)
+> -    ppc_slb_t vrma_slb;
+> -#endif
+>  
+>      int error_code;
+>      uint32_t pending_interrupts;
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index ac21c14f68..f8bf92aa2e 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -825,6 +825,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+>  {
+>      CPUState *cs = CPU(cpu);
+>      CPUPPCState *env = &cpu->env;
+> +    ppc_slb_t vrma_slbe;
+>      ppc_slb_t *slb;
+>      unsigned apshift;
+>      hwaddr ptex;
+> @@ -863,8 +864,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+>              }
+>          } else if (ppc_hash64_use_vrma(env)) {
+>              /* Emulated VRMA mode */
+> -            slb = &env->vrma_slb;
+> -            if (!slb->sps) {
+> +            slb = &vrma_slbe;
+> +            if (build_vrma_slbe(cpu, slb) != 0) {
+>                  /* Invalid VRMA setup, machine check */
+>                  cs->exception_index = POWERPC_EXCP_MCHECK;
+>                  env->error_code = 0;
+> @@ -1012,6 +1013,7 @@ skip_slb_search:
+>  hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr)
+>  {
+>      CPUPPCState *env = &cpu->env;
+> +    ppc_slb_t vrma_slbe;
+>      ppc_slb_t *slb;
+>      hwaddr ptex, raddr;
+>      ppc_hash_pte64_t pte;
+> @@ -1033,8 +1035,8 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr)
+>              return raddr | env->spr[SPR_HRMOR];
+>          } else if (ppc_hash64_use_vrma(env)) {
+>              /* Emulated VRMA mode */
+> -            slb = &env->vrma_slb;
+> -            if (!slb->sps) {
+> +            slb = &vrma_slbe;
+> +            if (build_vrma_slbe(cpu, slb) != 0) {
+>                  return -1;
+>              }
+>          } else {
+> @@ -1072,30 +1074,12 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, target_ulong ptex,
+>      cpu->env.tlb_need_flush = TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_FLUSH;
+>  }
+>  
+> -static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
+> -{
+> -    CPUPPCState *env = &cpu->env;
+> -    ppc_slb_t *slb = &env->vrma_slb;
+> -
+> -    /* Is VRMA enabled ? */
+> -    if (ppc_hash64_use_vrma(env)) {
+> -        if (build_vrma_slbe(cpu, slb) == 0) {
+> -            return;
+> -        }
+> -    }
+> -
+> -    /* Otherwise, clear it to indicate error */
+> -    slb->esid = slb->vsid = 0;
+> -    slb->sps = NULL;
+> -}
+> -
+>  void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+>  {
+>      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+>      CPUPPCState *env = &cpu->env;
+>  
+>      env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
+> -    ppc_hash64_update_vrma(cpu);
+>  }
+>  
+>  void helper_store_lpcr(CPUPPCState *env, target_ulong val)
 
