@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A7016C189
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:00:39 +0100 (CET)
-Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0647B16C199
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:02:50 +0100 (CET)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZpG-0001em-2Q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:00:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52559)
+	id 1j6ZrN-00054G-1m
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:02:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0B-0003Zq-A1
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:55 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0F-0003bz-6J
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0A-0003VS-7o
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:51 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40833)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0B-0003W6-2q
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:54 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38768)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0A-0003Ur-0c
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:50 -0500
-Received: by mail-wm1-x331.google.com with SMTP id t14so2884156wmi.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:49 -0800 (PST)
+ id 1j6Z0A-0003VO-Rq
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:51 -0500
+Received: by mail-wm1-x334.google.com with SMTP id a9so2896730wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T3ISc51CQNGAqf+zLY8WMizzAxQ1TztanrLB+etFevc=;
- b=ikbiwhwyP8Kht6iBMgfXSR81pNVCuAKG5wA1w+N96NaluhCs8eHoCHWpJcxmO1YffR
- jKOofY3iRwUFYCdnqqXqsbVQGf4CdvL8OWtcIHVYgKkc7act8wGWPgMe/LZmsb4bZGAg
- hse4d6E3F6hmvBAJ9HfWgOEDy2AOsfs47hSuAV3UCZ1X8iVIqasHWiBJx/jU9k8TN2eN
- vwvNC0dGWDLur2lksGCAM/Y978Yaof2WkHOOmvW9Q7rmfPv72q0Z5iCtjfh7cErfmm/w
- COtOI+F7e+L2taxSc/jYnvNs8fZaBRGOq6uYvq5wUl/yfGwuAaWu0KhRlwWxwglHkkMZ
- l6pA==
+ bh=qqLnBWjSJgZ3n5u6pgS71lBorx6+mBOALgKCVorvE1o=;
+ b=WRk+bonr0s6+1F0y6j4T0Yx6eHm+KQXCLbHOZHHeV4wCRYVAvrppPUbmZvXgdsKZWI
+ sCmZEZHCKYuT9EQtavinyP9lAEZsjd6k/9D5fw7/R6ZnDyFYONO2LE5H1ej3i22XBtxt
+ DR5mGewlkwjMrhJ2qYBqS0fJh3ZndMM4Yn4nmlvipQV2PCUrDSBuOWrudIReqtTSuOZt
+ VxFzTZ6JJvPLXvsseoov4LF1hq8SW7oAVPNyM9jrzZ9D48CCTvda0t+iM6w7gfgGxL4Q
+ cw1eyFfRbDyNEr1WFGE/lLVi3LuSd8mfmc0MIB5A7PW4dmEJK1LD7x3H2L+KdP4ExDck
+ MYuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T3ISc51CQNGAqf+zLY8WMizzAxQ1TztanrLB+etFevc=;
- b=pzKU+eNhBhX3prWyMwxg0c7AcN8yvzc5JuSSRH1z9TH6l+1JQ2wkIYEcpp0sXiiRr1
- sNkBm0laZPK5bJURnOA2Y41kpyKI3fnXDdp4KFaoSuVskIUkGB6zFpxS0vpc+5IIo1kc
- 2SbdOJDDksOyKfckL3O1fqF5V/6e5iWfIvFCrGtQwyTWpj13TZq510m1y1lKaJKcHbbs
- Ps2gVBUheLKjr4Ip8kyaszLiRkpXZ/HfSwv6aK8ZbCbb6ffWbVHywDWV+bpYSArEiAdj
- mO7uFhUcc30sKt2viZRpWyVRNgKCieBsz32ktXdQOtj5SOLoaUxHWYsBhf2ewWJ6OQL3
- OEVg==
-X-Gm-Message-State: APjAAAUqw64xeqXTbzlXOkvOy2yW1T9+9Fn6+qlL6VNaVOL9qGqYZWmN
- 3RUbQKrxk4Xor6oWRZrZJYccAIL+
-X-Google-Smtp-Source: APXvYqxnsBvkT+89JDTFi8xNYBC//3whv42YR/W7fSVSvx9GN1BsDMSoYEOtEVsk98CPhhzie5sHHg==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr5270757wmi.128.1582632468690; 
- Tue, 25 Feb 2020 04:07:48 -0800 (PST)
+ bh=qqLnBWjSJgZ3n5u6pgS71lBorx6+mBOALgKCVorvE1o=;
+ b=J6hjB10+evAY8sVS9y9vGK0Zat1gfUzBpDR6NIX7TKFFGmVKmO9k/yHuc0RdEObIBg
+ Y9H71CuxdeaHUJxvMdU/MOgsZsmCU6ZecBLd32kvRUvrLcLxfkzJE+l7BwQtN7eo4GBe
+ jwtrGdl48fm1nB825EPaZ5Q+w7o0+V9bJwO5TXy16oAqA22ggGqLMw2u35nItfneYNTP
+ LkyXXW82lnyFu3De0gTdZJWiDLQ/UP++IVkfbNEapIwWf40ke3rnJmukeO1NRpqQ01oF
+ DVvPUekXPU1frO5ciZE0HbnUvljuuq4JP2miGpNy0+246aZ5mXUs8zvTEiy5au82Q7Hk
+ o4Pw==
+X-Gm-Message-State: APjAAAVoufFc4tiSVhfiOszmgPYTgziE0lC048dwV+n6+b+UpbQQl60t
+ AD0ciSqeyU6TE2eOfidFsywJ/X4Q
+X-Google-Smtp-Source: APXvYqxyfb7NXXm3bq2y3fzc478gYSSjv4yCoc2wgXchk7RtT1OHScNQ76JVeILNTjWUiBBFzMZQEw==
+X-Received: by 2002:a1c:48c1:: with SMTP id v184mr4965078wma.5.1582632469591; 
+ Tue, 25 Feb 2020 04:07:49 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.47
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.48
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:48 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 115/136] hw/ppc/ppc405: Use memory_region_init_rom() with
- read-only regions
-Date: Tue, 25 Feb 2020 13:07:13 +0100
-Message-Id: <1582632454-16491-13-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 116/136] hw/i386/pc_sysfw: Simplify using
+ memory_region_init_alias()
+Date: Tue, 25 Feb 2020 13:07:14 +0100
+Message-Id: <1582632454-16491-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,57 +86,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 The scripts/coccinelle/memory-region-housekeeping.cocci reported:
-* TODO [[view:./hw/ppc/ppc405_boards.c::face=ovl-face1::linb=195::colb=8::cole=30][potential use of memory_region_init_rom*() in  ./hw/ppc/ppc405_boards.c::195]]
-* TODO [[view:./hw/ppc/ppc405_boards.c::face=ovl-face1::linb=464::colb=8::cole=30][potential use of memory_region_init_rom*() in  ./hw/ppc/ppc405_boards.c::464]]
+* TODO [[view:hw/i386/pc_sysfw.c::face=ovl-face1::linb=67::colb=4::cole=26][potential use of memory_region_init_rom*() in  hw/i386/pc_sysfw.c::67]]
 
-We can indeed replace the memory_region_init_ram() and
-memory_region_set_readonly() calls by memory_region_init_rom().
+pc_isa_bios_init() does a manual copy of a part of the BIOS,
+from a read-only region. We can simplify by directly aliasing
+the same part.
+
+Before:
+
+  (qemu) info mtree
+  memory-region: system
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-0000000007ffffff (prio 0, ram): alias ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
+      0000000000000000-ffffffffffffffff (prio -1, i/o): pci
+        00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
+        00000000000c0000-00000000000dffff (prio 1, rom): pc.rom
+        00000000000e0000-00000000000fffff (prio 1, rom): isa-bios
+      ...
+      00000000fff00000-00000000ffffffff (prio 0, romd): system.flash0
+
+After:
+
+  (qemu) info mtree
+  memory-region: system
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-0000000007ffffff (prio 0, ram): alias ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
+      0000000000000000-ffffffffffffffff (prio -1, i/o): pci
+        00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
+        00000000000c0000-00000000000dffff (prio 1, rom): pc.rom
+        00000000000e0000-00000000000fffff (prio 1, romd): alias isa-bios @system.flash0 00000000000e0000-00000000000fffff
+      ...
+      00000000fff00000-00000000ffffffff (prio 0, romd): system.flash0
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-18-philmd@redhat.com>
+Message-Id: <20200224205533.23798-19-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/ppc/ppc405_boards.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/i386/pc_sysfw.c | 24 ++++++------------------
+ 1 file changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 1f721fe..5afe023 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -192,7 +192,7 @@ static void ref405ep_init(MachineState *machine)
- #endif
-     {
-         bios = g_new(MemoryRegion, 1);
--        memory_region_init_ram(bios, NULL, "ef405ep.bios", BIOS_SIZE,
-+        memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
-                                &error_fatal);
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index f5f3f46..e864c09 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -54,31 +54,19 @@ static void pc_isa_bios_init(MemoryRegion *rom_memory,
+                              MemoryRegion *flash_mem,
+                              int ram_size)
+ {
+-    int isa_bios_size;
+-    MemoryRegion *isa_bios;
+-    uint64_t flash_size;
+-    void *flash_ptr, *isa_bios_ptr;
+-
+-    flash_size = memory_region_size(flash_mem);
++    uint64_t isa_bios_size;
++    MemoryRegion *isa_bios = g_new(MemoryRegion, 1);
++    uint64_t flash_size = memory_region_size(flash_mem);
  
-         if (bios_name == NULL)
-@@ -216,7 +216,6 @@ static void ref405ep_init(MachineState *machine)
-             /* Avoid an uninitialized variable warning */
-             bios_size = -1;
-         }
--        memory_region_set_readonly(bios, true);
-     }
-     /* Register FPGA */
-     ref405ep_fpga_init(sysmem, 0xF0300000);
-@@ -461,7 +460,7 @@ static void taihu_405ep_init(MachineState *machine)
-         if (bios_name == NULL)
-             bios_name = BIOS_FILENAME;
-         bios = g_new(MemoryRegion, 1);
--        memory_region_init_ram(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
-+        memory_region_init_rom(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
-                                &error_fatal);
-         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-         if (filename) {
-@@ -479,7 +478,6 @@ static void taihu_405ep_init(MachineState *machine)
-             error_report("Could not load PowerPC BIOS '%s'", bios_name);
-             exit(1);
-         }
--        memory_region_set_readonly(bios, true);
-     }
-     /* Register Linux flash */
-     dinfo = drive_get(IF_PFLASH, 0, fl_idx);
+     /* map the last 128KB of the BIOS in ISA space */
+     isa_bios_size = MIN(flash_size, 128 * KiB);
+-    isa_bios = g_malloc(sizeof(*isa_bios));
+-    memory_region_init_ram(isa_bios, NULL, "isa-bios", isa_bios_size,
+-                           &error_fatal);
++    memory_region_init_alias(isa_bios, NULL, "isa-bios", flash_mem,
++                             flash_size - isa_bios_size,
++                             isa_bios_size);
+     memory_region_add_subregion_overlap(rom_memory,
+                                         0x100000 - isa_bios_size,
+                                         isa_bios,
+                                         1);
+-
+-    /* copy ISA rom image from top of flash memory */
+-    flash_ptr = memory_region_get_ram_ptr(flash_mem);
+-    isa_bios_ptr = memory_region_get_ram_ptr(isa_bios);
+-    memcpy(isa_bios_ptr,
+-           ((uint8_t*)flash_ptr) + (flash_size - isa_bios_size),
+-           isa_bios_size);
+-
+-    memory_region_set_readonly(isa_bios, true);
+ }
+ 
+ static PFlashCFI01 *pc_pflash_create(PCMachineState *pcms,
 -- 
 1.8.3.1
 
