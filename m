@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263C816C0C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:27:48 +0100 (CET)
-Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B285B16C0CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:29:39 +0100 (CET)
+Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZJT-0006Dw-5a
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:27:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49818)
+	id 1j6ZLG-0001GQ-OH
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001JI-Jc
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001K8-V1
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008IP-Ht
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl0-0008Oi-DX
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45615)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37505)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykz-0008Av-2O
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:09 -0500
-Received: by mail-wr1-x429.google.com with SMTP id g3so14326320wrs.12
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:08 -0800 (PST)
+ id 1j6Yl0-0008IC-47
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:10 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id l5so10128740wrx.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QSYz1cirhA+K+7KO0VldIrZ+oSK90drXd3aTnab8eKc=;
- b=aIaC93fsS6QiHNvTT90GugSs2AojHZgEqd+7XFYTQHRkMYCaoPdCwzuujX4Ozml1w5
- dQbUJTI4EjoSl1DkUU5dGnitsu9sG+1NaW4D8MVWD4NsYfET4lsSbB+a5MzoTa9NV+GY
- cU+aTw1GdcdCq30uys4f0jf8D1UYsz8QwknLukJZcqX0AYiLm1z2hNzxMGMIY7oEPjHB
- 48FpMmAOP3ws+reIrMJtPYbqK4e0bm+9HB0jY+LWKz5U+izd/OL2hw05NvC4CN5zUKNN
- HfyIzrYzASGqGHZ3A6x6jvye/epGVxQktpUH0dMUSV/RwA8qIZJhKH6ZZh+V1ZuZc7cN
- wdLA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dqcIX6d4mXg0667lv0+tfsAloiBk56z9WM/RHf/Ue/M=;
+ b=XxEV8U1rl2hRuNyGRqZOVxKbEJIe62x6eufYcK+rQb2sfAryG0t8ViGcbBnuuCykP8
+ WkTOvb946s3DqPoOi5OV0K1HeIpjzAaEFvrOCBke5VkYHffY8Z84YrUZFCnoP4Ik0RbS
+ IwwrPVgsFMuAUUQhuEHzbpqmUwbxnwE9hXGEKYhcv6uZ6pcpyzw0dTE0g0QxB4faDoUI
+ PpFdGvZquzm8kwUA163HRslUecl+Fm59gIQeN+/eg4uz2E3uaU0/Fhz2M5Cy0OM2nms1
+ FvqjtBvCdCRsj1N32eYvKqE24cmhFAeBe1CTJpKIj6613c8CjvwLD9eKw6ZiUfq4Uk4l
+ i67w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=QSYz1cirhA+K+7KO0VldIrZ+oSK90drXd3aTnab8eKc=;
- b=MaYZ2Bw3JFjEYtzH5ipJv7s+j/qM3PfpeQMR/4EtdD5HM4RnY/ASrUI4OM3ZQdP3/v
- 0SNE6Hdy7/Syh1UUj8jQP1bCrrynjtKXgixEZ/wBIgmtIwJT9zqT2epoRGy/Rm7qITHV
- iJy5ZOzFtnDBovuEFZFQUJekjumGuuXTDPwVrQqp8QGXR6Q8iBNcIDGwDlam2XXzIHpF
- DBferDCHq6CDRiiufPROPJL791um+oE/Pok3+j3+CQP47J0GzwugQU1JlUHkgPZcLijy
- DmNy8PtiNs+GHx7IsjlSj1SxiZUzbwmLSBZ0iyQrFduOEgqIH0aLiRwzC2CUkzFkaKCY
- pNpQ==
-X-Gm-Message-State: APjAAAW0YJ/fZxMucjErGlvJj02lRjksUHWakGy1W48/1A+zEs1wxheZ
- GwoPOe7rchxi5AMQ2rogH7LKZCfp
-X-Google-Smtp-Source: APXvYqxrAF1r+9HT8twvT1Abm5024JdVXLjYSaGWB3HAX9/u6QaBCo2bRRuIjatijUpWW7NghzJCHQ==
-X-Received: by 2002:adf:f7c6:: with SMTP id a6mr76129928wrq.164.1582631526904; 
- Tue, 25 Feb 2020 03:52:06 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=dqcIX6d4mXg0667lv0+tfsAloiBk56z9WM/RHf/Ue/M=;
+ b=exF7iGpb6zvCPyFStsKTmuib4VBO0aVkav3q9+3gJ6ivBMJRE+NovNRrFMA1PQHJji
+ kEBAZdW1PHwlbvyBUX5E1IajQhmSi44Mlt14yRVYA7tkF1LDegxYWiboveIE+L/Z7SWi
+ Cn67EbqxNIK+OLyxPTlAyOH4yOxcPG2JdD+hgVrIFEM22xWsmy3ASgo05q2Jt5Gyoh7m
+ 4AYc82T1XQzkUfPyhNA2WI9DUiVRxFnhrSmO2Pq1rdl+EaZaeZC0X25ip+YhYcYurlPe
+ Raozwu+baahQSpiFK8ViMef/y/A92K4R3+bVl7r75YHEAMCbxPa+xgpWcdeJ7VdP36IL
+ Z1Bw==
+X-Gm-Message-State: APjAAAW46mBNPoNYTJ97H/bDsTrrfsc1Rh1TfGxKMPfMQQJHxZPSTijk
+ 78eMj1T7zX5Uox5H5CJlpFOsC/0A
+X-Google-Smtp-Source: APXvYqwFL24VoCttIIMccVal6cQWZx1FCQKDm/cK/9yOEb4UcxEaPcdwXnGd5NX3KduxoCbeskGWyg==
+X-Received: by 2002:adf:afc9:: with SMTP id y9mr8681306wrd.346.1582631528822; 
+ Tue, 25 Feb 2020 03:52:08 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.05
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.08
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:06 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 066/136] ppc/{ppc440_bamboo, sam460ex}: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:56 +0100
-Message-Id: <1582631466-13880-66-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 068/136] ppc/virtex_ml507: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:58 +0100
+Message-Id: <1582631466-13880-68-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,148 +93,79 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20200219160953.13771-67-imammedo@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-69-imammedo@redhat.com>
 ---
- hw/ppc/ppc440_bamboo.c  |  3 ++-
- hw/ppc/ppc4xx_devs.c    | 29 ++++++++++++-----------------
- hw/ppc/sam460ex.c       |  3 ++-
- include/hw/ppc/ppc4xx.h |  2 +-
- 4 files changed, 17 insertions(+), 20 deletions(-)
+ hw/ppc/virtex_ml507.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 7e3bc0e..4c5e9e4 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -202,7 +202,7 @@ static void bamboo_init(MachineState *machine)
-     /* SDRAM controller */
-     memset(ram_bases, 0, sizeof(ram_bases));
-     memset(ram_sizes, 0, sizeof(ram_sizes));
--    ppc4xx_sdram_banks(machine->ram_size, PPC440EP_SDRAM_NR_BANKS, ram_memories,
-+    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
-                        ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
-     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
-     ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memories,
-@@ -289,6 +289,7 @@ static void bamboo_machine_init(MachineClass *mc)
-     mc->desc = "bamboo";
-     mc->init = bamboo_init;
-     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("440epb");
-+    mc->default_ram_id = "ppc4xx.sdram";
- }
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 91dd00e..b6f4507 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -193,7 +193,6 @@ static int xilinx_load_device_tree(hwaddr addr,
  
- DEFINE_MACHINE("bamboo", bamboo_machine_init)
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index d89008a..3376c43 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -666,24 +666,24 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
-         sdram_map_bcr(sdram);
- }
- 
--/* Fill in consecutive SDRAM banks with 'ram_size' bytes of memory.
-+/*
-+ * Split RAM between SDRAM banks.
-  *
-  * sdram_bank_sizes[] must be in descending order, that is sizes[i] > sizes[i+1]
-  * and must be 0-terminated.
-  *
-  * The 4xx SDRAM controller supports a small number of banks, and each bank
-  * must be one of a small set of sizes. The number of banks and the supported
-- * sizes varies by SoC. */
--void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
-+ * sizes varies by SoC.
-+ */
-+void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-                         MemoryRegion ram_memories[],
-                         hwaddr ram_bases[], hwaddr ram_sizes[],
-                         const ram_addr_t sdram_bank_sizes[])
+ static void virtex_init(MachineState *machine)
  {
--    MemoryRegion *ram = g_malloc0(sizeof(*ram));
--    ram_addr_t size_left = ram_size;
-+    ram_addr_t size_left = memory_region_size(ram);
-     ram_addr_t base = 0;
-     ram_addr_t bank_size;
--    int last_bank = 0;
+-    ram_addr_t ram_size = machine->ram_size;
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     hwaddr initrd_base = 0;
+@@ -204,7 +203,6 @@ static void virtex_init(MachineState *machine)
+     CPUPPCState *env;
+     hwaddr ram_base = 0;
+     DriveInfo *dinfo;
+-    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
+     qemu_irq irq[32], *cpu_irq;
+     int kernel_size;
      int i;
-     int j;
+@@ -221,8 +219,7 @@ static void virtex_init(MachineState *machine)
  
-@@ -691,11 +691,15 @@ void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
-         for (j = 0; sdram_bank_sizes[j] != 0; j++) {
-             bank_size = sdram_bank_sizes[j];
-             if (bank_size <= size_left) {
-+                char name[32];
-+
-                 ram_bases[i] = base;
-                 ram_sizes[i] = bank_size;
-                 base += bank_size;
-                 size_left -= bank_size;
--                last_bank = i;
-+                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
-+                memory_region_init_alias(&ram_memories[i], NULL, name, ram,
-+                                         ram_bases[i], ram_sizes[i]);
-                 break;
-             }
+     qemu_register_reset(main_cpu_reset, cpu);
+ 
+-    memory_region_allocate_system_memory(phys_ram, NULL, "ram", ram_size);
+-    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
++    memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
+ 
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     pflash_cfi01_register(PFLASH_BASEADDR, "virtex.flash", FLASH_SIZE,
+@@ -265,7 +262,7 @@ static void virtex_init(MachineState *machine)
+             /* If we failed loading ELF's try a raw image.  */
+             kernel_size = load_image_targphys(kernel_filename,
+                                               boot_offset,
+-                                              ram_size);
++                                              machine->ram_size);
+             boot_info.bootstrap_pc = boot_offset;
+             high = boot_info.bootstrap_pc + kernel_size + 8192;
          }
-@@ -706,7 +710,7 @@ void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
-     }
+@@ -276,7 +273,7 @@ static void virtex_init(MachineState *machine)
+         if (machine->initrd_filename) {
+             initrd_base = high = ROUND_UP(high, 4);
+             initrd_size = load_image_targphys(machine->initrd_filename,
+-                                              high, ram_size - high);
++                                              high, machine->ram_size - high);
  
-     if (size_left) {
--        ram_addr_t used_size = ram_size - size_left;
-+        ram_addr_t used_size = memory_region_size(ram) - size_left;
-         GString *s = g_string_new(NULL);
+             if (initrd_size < 0) {
+                 error_report("couldn't load ram disk '%s'",
+@@ -290,7 +287,7 @@ static void virtex_init(MachineState *machine)
+         boot_info.fdt = high + (8192 * 2);
+         boot_info.fdt &= ~8191;
  
-         for (i = 0; sdram_bank_sizes[i]; i++) {
-@@ -722,15 +726,6 @@ void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
-         g_string_free(s, true);
-         exit(EXIT_FAILURE);
+-        xilinx_load_device_tree(boot_info.fdt, ram_size,
++        xilinx_load_device_tree(boot_info.fdt, machine->ram_size,
+                                 initrd_base, initrd_size,
+                                 kernel_cmdline);
      }
--
--    memory_region_allocate_system_memory(ram, NULL, "ppc4xx.sdram", ram_size);
--
--    for (i = 0; i <= last_bank; i++) {
--        char name[32];
--        snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
--        memory_region_init_alias(&ram_memories[i], NULL, name, ram,
--                                 ram_bases[i], ram_sizes[i]);
--    }
+@@ -302,6 +299,7 @@ static void virtex_machine_init(MachineClass *mc)
+     mc->desc = "Xilinx Virtex ML507 reference design";
+     mc->init = virtex_init;
+     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("440-xilinx");
++    mc->default_ram_id = "ram";
  }
  
- /*****************************************************************************/
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 17d40bd..898453c 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -324,7 +324,7 @@ static void sam460ex_init(MachineState *machine)
-     /* SDRAM controller */
-     /* put all RAM on first bank because board has one slot
-      * and firmware only checks that */
--    ppc4xx_sdram_banks(machine->ram_size, 1, ram_memories, ram_bases, ram_sizes,
-+    ppc4xx_sdram_banks(machine->ram, 1, ram_memories, ram_bases, ram_sizes,
-                        ppc460ex_sdram_bank_sizes);
- 
-     /* FIXME: does 460EX have ECC interrupts? */
-@@ -484,6 +484,7 @@ static void sam460ex_machine_init(MachineClass *mc)
-     mc->init = sam460ex_init;
-     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("460exb");
-     mc->default_ram_size = 512 * MiB;
-+    mc->default_ram_id = "ppc4xx.sdram";
- }
- 
- DEFINE_MACHINE("sam460ex", sam460ex_machine_init)
-diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index b8c8f32..cc19c8d 100644
---- a/include/hw/ppc/ppc4xx.h
-+++ b/include/hw/ppc/ppc4xx.h
-@@ -42,7 +42,7 @@ enum {
- qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
-                        uint32_t dcr_base, int has_ssr, int has_vr);
- 
--void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
-+void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-                         MemoryRegion ram_memories[],
-                         hwaddr ram_bases[], hwaddr ram_sizes[],
-                         const ram_addr_t sdram_bank_sizes[]);
+ DEFINE_MACHINE("virtex-ml507", virtex_machine_init)
 -- 
 1.8.3.1
 
