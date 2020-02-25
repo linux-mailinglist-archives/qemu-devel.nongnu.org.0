@@ -2,96 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231A616C246
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:28:08 +0100 (CET)
-Received: from localhost ([::1]:55778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E968016C1A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:05:58 +0100 (CET)
+Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aFr-0005QG-4q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:28:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34695)
+	id 1j6ZuP-0000js-Qw
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:05:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35595)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jjherne@linux.ibm.com>) id 1j6Zmw-0007Np-Rt
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:58:16 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6ZsQ-0007PS-Bv
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:03:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jjherne@linux.ibm.com>) id 1j6Zmv-00078A-4q
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:58:14 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43974)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jjherne@linux.ibm.com>)
- id 1j6Zmu-00075E-Rx; Tue, 25 Feb 2020 07:58:13 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01PCrU3B051084; Tue, 25 Feb 2020 07:58:11 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yb1b8j88e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 07:58:11 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01PCrhsV052281;
- Tue, 25 Feb 2020 07:58:11 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yb1b8j882-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 07:58:10 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01PCtIEJ014749;
- Tue, 25 Feb 2020 12:58:10 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 2yaux6twb0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 12:58:10 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01PCw8VA60817902
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Feb 2020 12:58:08 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9A52D6E050;
- Tue, 25 Feb 2020 12:58:08 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1C3C06E04C;
- Tue, 25 Feb 2020 12:58:08 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.188.183])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 25 Feb 2020 12:58:07 +0000 (GMT)
-Subject: Re: [PATCH] pc-bios/s390x: Pack ResetInfo struct
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, cohuck@redhat.com
-References: <20200205182126.13010-1-jjherne@linux.ibm.com>
- <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
- <bf3f44b5-f0fe-59f4-9152-54edd8c9822e@linux.ibm.com>
- <941cc201-4c33-0ad3-ecc8-eab2709d350d@de.ibm.com>
- <91910082-ffeb-c588-7434-3de5fbfcbfa6@linux.ibm.com>
- <ab7de201-f466-b95d-50f0-e6f850eee3cd@de.ibm.com>
-From: "Jason J. Herne" <jjherne@linux.ibm.com>
-Organization: IBM
-Message-ID: <29aece69-3b53-6c46-f295-cbc4bf93ff95@linux.ibm.com>
-Date: Tue, 25 Feb 2020 07:58:07 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <peter.maydell@linaro.org>) id 1j6ZsP-00012g-8j
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:03:54 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34481)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6ZsP-00011N-1U
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:03:53 -0500
+Received: by mail-oi1-x244.google.com with SMTP id l136so12442261oig.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Acw6Js8G5cqiyhObPuNAuN3cnonY0/zHBkQOyuuBJU0=;
+ b=zCbUrq2OJlviLLGzmr9QI0s6YRHcpqy6/CN8Zvy6Drs2fOwySwbT++2ZUYGZBlwf7K
+ gV7vwILhtAP9UvuTJtgE27+r1d4/8siO2sac8REPNlPgE+uxAPoihEGKnZJiZL8M7jXm
+ wq69XlhnDwPvcjH+s334uA9jeakCZKtil4WpOSogtVMaCxjReVF5/WKIqw8igYbL5iBc
+ T+t84K2jx8Tmw+nkqbFBwBCe7nXONv/cuF8HrPw/X5m8eI4W33NoULa+XWzwubE7C4j1
+ /0ubKM7OJRrWA3CXKhezYzfNSa2PsBre4e2HDigKr3rNkR3rSDfqYTrvVf9hOrXtoxUB
+ BsZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Acw6Js8G5cqiyhObPuNAuN3cnonY0/zHBkQOyuuBJU0=;
+ b=VAA8YSxkUctbOrgGt6CtLigRvP/MKQ8kX/gmRndTh2mzE40FZZNf4mGTf09/JqeTU9
+ pU1XS6CHyPRtZKEcwPrfJul/yJToMlgHcSEbSkPiBXUZD2T21EOxksPyPJqJyUQyrpK2
+ Pe4WrGVzIGOZpTa4cMxA28jlzk+uvig480e3CbO+bRRQewSgB9q0m9vqMCxvdrbLiDIO
+ XF3UC31GbC2Sdz/KD8CduPsDsQNq2ysnjpSL3PfrsOA8C56yeAXfiCHU+ukawJr6SLfh
+ whNMEHLXI062cquT8VBEEcywmvl1BRtBonq1Fd/eyAgegZovmVrBlKxLz20P5rldaBX8
+ N/Rg==
+X-Gm-Message-State: APjAAAWgmxccl4vO5Jd734lhY+oGGg4M9PakfJKnhGec/UOw/x4wTvzG
+ 9n42Hd9+q0ZDrOf085yPvV8ccj5m4M6BNJWxe+2AKw==
+X-Google-Smtp-Source: APXvYqwbNbtoIHn4XL7njvv1UMt0PKt6RyK+mMea7uNA0Coe0lVhduKHaUHohPRzIVFDaqLJrRIY0YocaVDfBVbe0pA=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr3339127oic.48.1582635831963; 
+ Tue, 25 Feb 2020 05:03:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <ab7de201-f466-b95d-50f0-e6f850eee3cd@de.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-25_04:2020-02-21,
- 2020-02-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- malwarescore=0 phishscore=0 mlxlogscore=964 lowpriorityscore=0 bulkscore=0
- adultscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002250102
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id 01PCrU3B051084
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+References: <1582537164-764-1-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1582537164-764-1-git-send-email-sai.pavan.boddu@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Feb 2020 13:03:40 +0000
+Message-ID: <CAFEAcA9_SvWkqiq67noeHEfkOT7nMX=yHNuikUkBPkM=_bi0jA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Fix number of priority bits for arm boards
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,125 +72,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jjherne@linux.ibm.com
+Cc: Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Anthony Liguori <anthony@codemonkey.ws>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/20 6:13 AM, Christian Borntraeger wrote:
->=20
->=20
-> On 25.02.20 11:23, Jason J. Herne wrote:
->> On 2/13/20 1:24 PM, Christian Borntraeger wrote:
->> ...
->>>>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ip=
-l.c
->>>>> index da13c43cc0..8839226803 100644
->>>>> --- a/pc-bios/s390-ccw/jump2ipl.c
->>>>> +++ b/pc-bios/s390-ccw/jump2ipl.c
->>>>> @@ -18,6 +18,7 @@
->>>>>  =C2=A0=C2=A0 typedef struct ResetInfo {
->>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t ipl_psw;
->>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t ipl_continue;
->>>>> +=C2=A0=C2=A0=C2=A0 uint32_t pad;
->>>>>  =C2=A0=C2=A0 } ResetInfo;
->>>>>  =C2=A0=C2=A0 =C2=A0 static ResetInfo save;
->>>>>
->>>>>
->>>>> also work? If yes, both variants are valid. Either packed or explic=
-it padding.
->>>>>
->>>>
->>>> I don't believe this will work. I think the problem is that we're ov=
-erwriting too much memory when we cast address 0 as a ResetInfo and then =
-overwrite it (*current =3D save). I think we need the struct to be sized =
-at 12-bytes instead of 16.
->>>>
->>>
->>> The idea of the code is that we _save_ the original content from addr=
-ess 0 to save and _restore_ it before jumping into final code. I do not y=
-et understand why this does not work.
->>>
->>
->> I've found the real problem here. Legacy operating systems that expect=
- to start
->> in 32-bit addressing mode can fail if we leave junk in the high halves=
- of our
->> 64-bit registers. This is because some instructions (LA for example) a=
-re
->> bi-modal and operate differently depending on the machine's current ad=
-dressing
->> mode.
->>
->> In the case where we pack the struct, the compiler happens to use the =
-mvc
->> instruction to load/store the current/save memory areas.
->>
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *current =3D save;
->>  =C2=A0 1fc:=C2=A0=C2=A0=C2=A0 e3 10 b0 a8 00 04=C2=A0=C2=A0=C2=A0=C2=A0=
- lg=C2=A0=C2=A0=C2=A0 %r1,168(%r11)
->>  =C2=A0 202:=C2=A0=C2=A0=C2=A0 c0 20 00 00 00 00=C2=A0=C2=A0=C2=A0=C2=A0=
- larl=C2=A0=C2=A0=C2=A0 %r2,202 <jump_to_IPL_2+0x32>
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 20=
-4: R_390_PC32DBL=C2=A0=C2=A0=C2=A0 .bss+0x2
->>  =C2=A0 208:=C2=A0=C2=A0=C2=A0 d2 0b 10 00 20 00=C2=A0=C2=A0=C2=A0=C2=A0=
- mvc=C2=A0=C2=A0=C2=A0 0(12,%r1),0(%r2)
->>
->> Everything works as expected here, our legacy OS boots without issue.
->> However, in the case where we've packed this struct the compiler optim=
-izes the
->> code and uses lmg/stmg instead of mvc to copy the data:
->>
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *current =3D save;
->>  =C2=A0 1fc:=C2=A0=C2=A0=C2=A0 e3 10 b0 a8 00 04=C2=A0=C2=A0=C2=A0=C2=A0=
- lg=C2=A0=C2=A0=C2=A0 %r1,168(%r11)
->>  =C2=A0 202:=C2=A0=C2=A0=C2=A0 c0 20 00 00 00 00=C2=A0=C2=A0=C2=A0=C2=A0=
- larl=C2=A0=C2=A0=C2=A0 %r2,202 <jump_to_IPL_2+0x32>
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 20=
-4: R_390_PC32DBL=C2=A0=C2=A0=C2=A0 .bss+0x2
->>  =C2=A0 208:=C2=A0=C2=A0=C2=A0 eb 23 20 00 00 04=C2=A0=C2=A0=C2=A0=C2=A0=
- lmg=C2=A0=C2=A0=C2=A0 %r2,%r3,0(%r2)
->>  =C2=A0 20e:=C2=A0=C2=A0=C2=A0 eb 23 10 00 00 24=C2=A0=C2=A0=C2=A0=C2=A0=
- stmg=C2=A0=C2=A0=C2=A0 %r2,%r3,0(%r1)
->>
->> Depending on the data being copied, the high halves of the registers m=
-ay contain
->> non-zero values. Example:
->>
->>  =C2=A0=C2=A0=C2=A0 r2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 0x108000080000780=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 74309395999098752
->>  =C2=A0=C2=A0=C2=A0 r3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 0x601001800004368=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 432627142283510632
->>
->> So, by sheer luck of the generated assembler, the patch happens to "fi=
-x" the
->> problem.=C2=A0 A real fix might be to insert inline assembler that cle=
-ars the high
->> halves of the registers before we call ipl() in jump_to_IPL_2(). Can w=
-e think of
->> a better way to do that than 15 LLGTR instructions? :) Let me know you=
-r
->> thoughts
->=20
-> Does sam31 before the ipl() work?
-asm volatile ("sam31\n");
+On Mon, 24 Feb 2020 at 09:44, Sai Pavan Boddu
+<sai.pavan.boddu@xilinx.com> wrote:
+>
+> This patch series implements the mask for unimplemented priority bits in
+> arm-gic. Which will return the expected number of priority bits on read.
+>
+> Changes for V2:
+>     Followed gicv3 code for defining mask for unimplemented bits
+>     Hardcoded num priority bits for A9 and ARM11MPCore boards
+> Changes for V3:
+>     Fixed the code as suggested in V1.
+>     Implemented checks for max and min priority bits.
+>
+> Sai Pavan Boddu (3):
+>   arm_gic: Mask the un-supported priority bits
+>   cpu/a9mpcore: Set number of GIC priority bits to 5
+>   cpu/arm11mpcore: Set number of GIC priority bits to 4
 
-Inserting the above right before ipl(); does not change the outcome, the =
-guest still fails.
+Applied to target-arm.next, thanks. (I tweaked a few of
+the commit messages to give a little more detail.)
 
-This allows the guest to boot.
-
-asm volatile ("llgtr %r2,%r2\n"
-               "llgtr %r3,%r3\n");
-
-My guess as to why sam31 does not work: The legacy OS is eventually doing=
- a sam64 and the=20
-high halves of the registers are not subsequently cleared before use. I c=
-ould be wrong=20
-about this though.
-
-
---=20
--- Jason J. Herne (jjherne@linux.ibm.com)
+-- PMM
 
