@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E52216C03C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:07:19 +0100 (CET)
-Received: from localhost ([::1]:53740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752EA16C0B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:25:16 +0100 (CET)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Yze-0001EH-5q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:07:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49523)
+	id 1j6ZH1-0000ur-CA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:25:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6Ykh-0000rs-RK
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6YvC-0003Ki-Vl
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:02:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6Ykg-0007mY-Ic
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44796
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Ykg-0007fj-EK
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582631509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NPFWnv/Ef9WwpSuw1jcfq/YK7QkVuPURI5RaLd84Zyc=;
- b=MJbJZ3kuQq0xd2ZQIn3gRkSJ12Tnh9Cz1Op+njpXfvzaW1F7KOCWyJ20maUCotSTZc7LhK
- EbAWL4vgQ6HQE/C2rC5Mb8V59jrUPAHDAvN8iwbr4ZGb1t0lYHxJ+rbORRD5BifkTZ4u9k
- 76DorZocLmv88PWvZekyyYxvjo3T+30=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-pC-yLtEAOY-oAKrYQ58sEQ-1; Tue, 25 Feb 2020 06:51:48 -0500
-X-MC-Unique: pC-yLtEAOY-oAKrYQ58sEQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40A07800D5B;
- Tue, 25 Feb 2020 11:51:46 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B10A1001DC2;
- Tue, 25 Feb 2020 11:51:42 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/nios2/boot: Remove dead code (big endian check)
-Date: Tue, 25 Feb 2020 12:51:40 +0100
-Message-Id: <20200225115140.10023-1-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j6YvA-0007lF-Sz
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:02:42 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47080)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6YvA-0007i2-K0
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:02:40 -0500
+Received: by mail-ot1-x343.google.com with SMTP id g64so11785578otb.13
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OalDj38vAYtArGZEfUFVIwvsdCbBvjJMoAXbjYxn3eU=;
+ b=t8iCH6GqFC3kuMAgqjoNXv2AGGVat1EMbI4K3BK4GeoFtaYMgGEd1DD+yrmrUqXnnd
+ /KXcrUBlqwjbi7YwesROnT3j9YTnsvCu+PP2EZ7pEvweqLuo3ENskBFxWefimLt9OTpw
+ 9JxsOwkJDdvJfyt7uNECy/IKqN9afDzhZz7tMeIIXF/SYLYr6tYvtA9RlJjlZFVxb+v6
+ S5+IkC83dOGNo20497xerN3qWJ+z2SjQ3yd1q+TTrEoSHXhysDwsSuLDsYqSV+C1ONYO
+ DXwcO8yZBr3+ilQvJZD4FnM4Em3nwz4TE+1Lxsqm0vJ0+vT5XLGD06sAuq/PJCdnaqRD
+ 5GyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OalDj38vAYtArGZEfUFVIwvsdCbBvjJMoAXbjYxn3eU=;
+ b=h2q7a/fm6Td6MGIcROvbzvGr1I9SLOhoM36P48NDMrervzY+ZWN4cpqK3qX/Eelj1S
+ T/ZC3Pzzs+i95jillMVJqeHGsupAgZ7FikZ9+J/6drq9fKxGqlltExZ+4IByiHWhpZAA
+ uWc5g+tp4GBqjaEW9bpjL/rre81aMci4AbNiFeMIic/PWG4+5Gl4F1006XB3s5kJltT0
+ IDmUM2iZy87B3Lk2uH3OEzUfg5eEQRtZW7aP9D1CJLIfM8jkwLKA7kNzlgkjyie+S4mc
+ O/uykswYbnzlsbU4BrR3Rt3brroZ86B9GCZgpONJLQXyQhwUjQWyIRX6Mv6DWtJkIIFO
+ TZ6A==
+X-Gm-Message-State: APjAAAVsNJydf5R5niinkBBb/IhTjX2QapQt2vD4oUyPkGrzgE8+SH99
+ xjlKrxF97gTHjtfvX/rPrDDyT9BV798GvmhrFjGMXg==
+X-Google-Smtp-Source: APXvYqwlR5vwE7Z2LfXeWVegK0lvEoYP1rv3WAQrrYnD7PdShTnN4/buvpJhrxxN+Lkw/MrPdtpvLNU6MFE6mNjODz4=
+X-Received: by 2002:a05:6830:1184:: with SMTP id
+ u4mr42212075otq.221.1582632158436; 
+ Tue, 25 Feb 2020 04:02:38 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200218190958.745-1-richard.henderson@linaro.org>
+In-Reply-To: <20200218190958.745-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Feb 2020 12:02:27 +0000
+Message-ID: <CAFEAcA8qzoWxZ7ffqBaOqZ8Kicq7Zz43jRwxkyt7gTLy7kBEiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] target/arm: Honor more HCR_EL2 traps
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,57 +72,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jenner <andrew@codesourcery.com>, qemu-trivial@nongnu.org,
- Chris Wulff <crwulff@gmail.com>, Julian Brown <julian@codesourcery.com>,
- Sandra Loosemore <sandra@codesourcery.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We only build the little-endian softmmu configuration (all
-Nios II processors are only little endian). Checking for
-big endian is pointless, remove the unused code.
+On Tue, 18 Feb 2020 at 19:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Based-on: 20200214175116.9164-1-peter.maydell@linaro.org
+> ("arm: ARMv8.1- and v8.4-PMU, ID reg cleanup, [H]ACTLR2")
+>
+> Patch 1 is a latent error that I noticed while reviewing
+> Peter's patch set.
+>
+> Patches 2 and 3 have already appeared separately on list,
+> with patch 2 bearing a v2.  Thus this patch set is labeled v3.
+>
+> Patch 4 is dependant on Peter's [H]ACTLR2 fix, and the reason
+> for the Based-on tag.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/nios2/boot.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+I've applied patch 1 to target-arm.next, but feel free
+to keep it in the series if you spin a v4 before I get
+round to doing the next arm pullreq. I've left review
+comments on the rest.
 
-diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
-index 88224aa84c..000f8205d6 100644
---- a/hw/nios2/boot.c
-+++ b/hw/nios2/boot.c
-@@ -140,16 +140,11 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base=
-,
-     if (kernel_filename) {
-         int kernel_size, fdt_size;
-         uint64_t entry, low, high;
--        int big_endian =3D 0;
--
--#ifdef TARGET_WORDS_BIGENDIAN
--        big_endian =3D 1;
--#endif
-=20
-         /* Boots a kernel elf binary. */
-         kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-                                &entry, &low, &high, NULL,
--                               big_endian, EM_ALTERA_NIOS2, 0, 0);
-+                               0, EM_ALTERA_NIOS2, 0, 0);
-         if ((uint32_t)entry =3D=3D 0xc0000000) {
-             /*
-              * The Nios II processor reference guide documents that the
-@@ -160,7 +155,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
-             kernel_size =3D load_elf(kernel_filename, NULL,
-                                    translate_kernel_address, NULL,
-                                    &entry, NULL, NULL, NULL,
--                                   big_endian, EM_ALTERA_NIOS2, 0, 0);
-+                                   0, EM_ALTERA_NIOS2, 0, 0);
-             boot_info.bootstrap_pc =3D ddr_base + 0xc0000000 +
-                 (entry & 0x07ffffff);
-         } else {
---=20
-2.21.1
-
+thanks
+-- PMM
 
