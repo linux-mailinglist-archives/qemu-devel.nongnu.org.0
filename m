@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C14316C01B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:58:43 +0100 (CET)
-Received: from localhost ([::1]:53576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B66F16C025
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:00:24 +0100 (CET)
+Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YrK-0004L5-Ju
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49184)
+	id 1j6Ysx-0007iW-6w
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:00:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkL-0000NC-Eg
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkL-0000NA-5u
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkH-00069H-Iq
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkH-00066f-5C
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:29 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40399)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35849)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkH-00060c-B9
+ id 1j6YkG-00062l-U9
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:25 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id t3so14350413wru.7
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:25 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id p17so2858572wma.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=flYtEk0ax7P9nTpGQ0D7EhA/r6SXi2jRP9wzLPqR8FM=;
- b=T6L7/sDrCIcCrNuFbPL5MIl6gCH4nUgDl4xh5wX3IHj48v3gHll1vdY04SWR9pInwG
- /26jj65ZHBNZcvnnzz6mzw8wPQaYUadRH9iyS4a2NHu9kuTIT8u6kcEcf4s6GzcDFa+F
- BpL7TbaipLG/on0pseqK2VXEarkEFFjVktGZyRGIITs/4lY5ivpce0LmROn7WdWKn4P0
- 4WJBJZO75zHlvC7jOAVjBbjr5DODeIIFJFmcwZ7L9hYZFlRIc5FyYMCxFAWjE4blnYJW
- 19NtL5z946m/oNSzA/UdxvTOZBT7wBKE+2vn9CwKp6Rfx7f9gtlsjybh313/vbNaswZs
- xx4Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d7xi3dVIX7J8J64QMOzYiUCiOj+8+itqf0kVFh9ZFA4=;
+ b=PpfAJJ9IZTz9Ve/G52dW+av3hQc2qsyHVI5s2rQVdeuqT4ICpVrhmT0ETWLLsOjTrM
+ nigTLKEGb3H9lgUult4poIt9TT9twq56KbBh4pzL3iMSUMEEzgPo50uYTaW5t6NPPJDq
+ YHSJypct/c+9pEHYqLXT0cwHZfxqN6VC6d5mqWqpa5DM1DIzW/LHQM3R5e62eW9rthXx
+ TcYASTp8e+FKVB44DcAYgWIma0QyfC8U2rkSQP/PNbVH2lMRup82DJowKeMw9RmnSqbs
+ Iwf/AJtMvmTgOCMjQXKkI1QQhK5z01Tsg4VFze3F+tsbClZpPgiEeCOd/r7Nv3sj2X6W
+ bQHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=flYtEk0ax7P9nTpGQ0D7EhA/r6SXi2jRP9wzLPqR8FM=;
- b=e4TSDzxj9X9Ls67/uUriAyJyMxU3wyFiiEfpkDYLl0Lg1Yu0z9Fhnc3IabNYaKBpKU
- CGmbEQmW9cfryWFZjDJo4U6+0im/q6bG5nn4Sz5RGaYtc/fur/U2XuyMhdXXYvieGDcP
- LEVp8CuqHpRfB7mNZmGNcVpDM7g0NzldEx9hX7EJ7Y8YAVcVUHidTOrL1vmihku1RICp
- wSv4RBfjRVSJaQGpGKFKeymAFI2mGqfLkJU2GH5GTaBLp1c+UF3a8k8kkmCNu0tl1vS8
- wZ3d595yzLG69sfnD73PA/4fV2cH19yU6aggwvmjv4rFnWu8b7f3RJTqcuDy8G8jQ4Lo
- Gfdw==
-X-Gm-Message-State: APjAAAV+MigV2ozxnajGqpe0cWnDejBJXd16WFeB8q+yeM2ugTslSCZ5
- r+bZ1zHPBpy60HbiAktjeHhae1dT
-X-Google-Smtp-Source: APXvYqzvKgGS6w0C9g825XN+EneuTXzvMiBtfHdSTFzQUEZ23Vno4nxGmL3SlVlYsdZysWHzn4rxag==
-X-Received: by 2002:adf:f3cd:: with SMTP id g13mr74401436wrp.54.1582631482431; 
- Tue, 25 Feb 2020 03:51:22 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=d7xi3dVIX7J8J64QMOzYiUCiOj+8+itqf0kVFh9ZFA4=;
+ b=GcIeOf9oZyCHq9wvDHapRvmi/H3vvERhb3sXJjhpQ0ZiV5wCC9sgprK2ce8meINJ/5
+ BdHTlw9bigdPyaRgSQhWZxbGGwr+Qp+HNe75nEMHaWYXzA7/+5Ap9ZvAmLg7i5fD5BqF
+ 25O4BsTZQUoWO8+WzSTp7mGRPOtn26HScwmdkMF9nie4qAbzfUzoYIa/oLQNpCBPp/E2
+ mJy4x3717ontcieYgdyMEVntoeJHtp6fQUdCXkuebl18CIqZ4QRH8k55NeV1MG3kc6tg
+ L+mlim1kpZaivWKqkUn8JeVZ18hbKxyXyWxc03YeqnS1xiFoLz0ogkHTF6DP3JA1vtuI
+ sJFg==
+X-Gm-Message-State: APjAAAWracfG2W6JvfeiGcEWl3xpS4IeniVaZbPxWoilXoNPJnqo3qdF
+ FN6IpDYjtJmnVpgaPj5PulQUAKBp
+X-Google-Smtp-Source: APXvYqyQzRdx2KoXCE/Ag7cy9DnZHDLb6VrhW9df1SJy6R2/Url+nTyKDlUl0nrnLoSgBU0bUoIJKg==
+X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr4905192wmj.175.1582631483752; 
+ Tue, 25 Feb 2020 03:51:23 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.21
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Tue, 25 Feb 2020 03:51:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 017/136] arm/integratorcp: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:07 +0100
-Message-Id: <1582631466-13880-17-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 018/136] arm/kzm: drop RAM size fixup
+Date: Tue, 25 Feb 2020 12:49:08 +0100
+Message-Id: <1582631466-13880-18-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,60 +84,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If the user provided too large a RAM size, the code used to
+complain and trim it to the max size.  Now that RAM is allocated by
+generic code, that's no longer possible, so generate an error and
+exit instead.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Chubb <peter.chubb@data61.csiro.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-18-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-19-imammedo@redhat.com>
 ---
- hw/arm/integratorcp.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ hw/arm/kzm.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
-index 0cd94d9..cc845b8 100644
---- a/hw/arm/integratorcp.c
-+++ b/hw/arm/integratorcp.c
-@@ -585,7 +585,6 @@ static void integratorcp_init(MachineState *machine)
-     Object *cpuobj;
-     ARMCPU *cpu;
-     MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     MemoryRegion *ram_alias = g_new(MemoryRegion, 1);
-     qemu_irq pic[32];
-     DeviceState *dev, *sic, *icp;
-@@ -605,14 +604,13 @@ static void integratorcp_init(MachineState *machine)
+diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
+index 1d5ef28..94cbac1 100644
+--- a/hw/arm/kzm.c
++++ b/hw/arm/kzm.c
+@@ -25,6 +25,7 @@
+ #include "hw/char/serial.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/sysemu.h"
++#include "qemu/cutils.h"
  
-     cpu = ARM_CPU(cpuobj);
+ /* Memory map for Kzm Emulation Baseboard:
+  * 0x00000000-0x7fffffff See i.MX31 SOC for support
+@@ -78,10 +79,10 @@ static void kzm_init(MachineState *machine)
  
--    memory_region_allocate_system_memory(ram, NULL, "integrator.ram",
--                                         ram_size);
-     /* ??? On a real system the first 1Mb is mapped as SSRAM or boot flash.  */
-     /* ??? RAM should repeat to fill physical memory space.  */
-     /* SDRAM at address zero*/
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-     /* And again at address 0x80000000 */
--    memory_region_init_alias(ram_alias, NULL, "ram.alias", ram, 0, ram_size);
-+    memory_region_init_alias(ram_alias, NULL, "ram.alias", machine->ram,
-+                             0, ram_size);
-     memory_region_add_subregion(address_space_mem, 0x80000000, ram_alias);
+     /* Check the amount of memory is compatible with the SOC */
+     if (machine->ram_size > (FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE)) {
+-        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
+-                    "reduced to %x", machine->ram_size,
+-                    FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE);
+-        machine->ram_size = FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE;
++        char *sz = size_to_str(FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE);
++        error_report("RAM size more than %s is not supported", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
+     }
  
-     dev = qdev_create(NULL, TYPE_INTEGRATOR_CM);
-@@ -660,6 +658,7 @@ static void integratorcp_machine_init(MachineClass *mc)
-     mc->init = integratorcp_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("arm926");
-+    mc->default_ram_id = "integrator.ram";
- }
- 
- DEFINE_MACHINE("integratorcp", integratorcp_machine_init)
+     memory_region_allocate_system_memory(&s->ram, NULL, "kzm.ram",
 -- 
 1.8.3.1
 
