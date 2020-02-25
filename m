@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F32416E9EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:23:09 +0100 (CET)
-Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C6D16EA11
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:28:23 +0100 (CET)
+Received: from localhost ([::1]:58830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6c3A-00085b-3S
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:23:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55936)
+	id 1j6c8E-0000gD-9X
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:28:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57668)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6buz-0001ux-Kn
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:42 -0500
+ (envelope-from <mst@redhat.com>) id 1j6c2A-0006vm-F6
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:22:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6buy-0001hV-D9
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:41 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29634
+ (envelope-from <mst@redhat.com>) id 1j6c27-0005ax-Fa
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:22:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59399
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6buy-0001fh-83
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:40 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6c27-0005ai-AC
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:22:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582643678;
+ s=mimecast20190719; t=1582644122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PaVZ83rgHHJzvD04uhNEPYZywTa4yNbe9G1r2BQHUDs=;
- b=O2jJfMr9NpoOQ+dCOsKPvAPu/5wYTU2+THzKlWBr6dxxbYR0l2zdCZW2ET7eoQWnZPO1yk
- 8oE9FXVYQE3hf6jwe2GXhp8sklJnV6QSUJoSXIdq1Pn4iMIC+A+lLHmW//9hZ6utIvwZGE
- SNT0Z4PdZTLh9dPL1Qq1DQ8qOnnA+Pw=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-RsKhekESMMulHudztwt3GQ-1; Tue, 25 Feb 2020 10:14:36 -0500
-X-MC-Unique: RsKhekESMMulHudztwt3GQ-1
-Received: by mail-qt1-f200.google.com with SMTP id d9so15201930qtq.13
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:14:36 -0800 (PST)
+ bh=nZwaoT8ln7N1pwdGZSi/M96OJjKYOXxCelBD0UpRWYU=;
+ b=gviRT5Ct7Pg0iOApOAwIFI/3L7HcQvFtdrnWd70QRHqZ6vxbXjZnkT/p47IKdV+GPCBZc0
+ KnGpWT6OQZecGyNrjFWYmQfT5ooEll1q73ttgAS1gfSAsgIYSnaK5ZE/7cL0Px5Vd3nFB+
+ nDtPR5T6Aro1UiXQFWgMleOO5SDabD0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-yUJE0GXJO-eAZ6k9OwhudQ-1; Tue, 25 Feb 2020 10:21:59 -0500
+X-MC-Unique: yUJE0GXJO-eAZ6k9OwhudQ-1
+Received: by mail-qk1-f197.google.com with SMTP id d2so1517141qko.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:21:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=BEIFZp6ZV6EMxNZvhYr+RG8aqKLzp8+FfOWRj9nMRTw=;
- b=X5fo05QRanVIPwD9y+FbRjy27dccPkBkFMkkR6ByODXWRarw3i0Bc5yK4Pd6IiW152
- xgZrhS0cNomNrnnBK0nBmlks0zGJ0cHhomz2hDaoARjG0EehMv4BbCyAnCG5dpvRVIy+
- xLuE+9yVGyIQwLm8LxjmcVrr38JvL5zcUS/FAlpREMHUuKS7mwr32hteILCrsCJxcPrA
- b4rud904XXK0HFX7HKYBDqvLDg8gmQE+tpxbRBSzeC8dLUGuaqPZL767r3yyxasDQXBg
- U0rk699TMpuBCuFPJPd3DlYHS8W8Q4lNEcAwwToBlSwh0/DG6eJdsYElp9aL+MA8g2R8
- 46JA==
-X-Gm-Message-State: APjAAAWxJVqbJXhIuXV40R2x4NmKlyZ6Lq94DksTjF6OwKnvaK3a9cL8
- zBqGBOzSxqDD3FEhrqdc5F2jA2hatXUfp/E2HVeDDB4n4Pw//IhF1LgHCZirWCLlaONKA794+Nw
- mlh3Do5YR0qkYpn0=
-X-Received: by 2002:aed:37a4:: with SMTP id j33mr3919252qtb.363.1582643675578; 
- Tue, 25 Feb 2020 07:14:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzTJ0QI3azMUZ1bYT7H35iT1Lt8umIsgba9SBNyIzNGt9m7DpqRQuBfbixJfZZ9V5ppy4Olcg==
-X-Received: by 2002:aed:37a4:: with SMTP id j33mr3919222qtb.363.1582643675326; 
- Tue, 25 Feb 2020 07:14:35 -0800 (PST)
+ bh=XVBUwOrV9AJ3BOstgnwfQS2qsfQvMf0BYM163UrjERk=;
+ b=uIcmAmyfv/gZcqcUGnHRbb9wEd5bzLVT32ln/Ox3/lwHiLUsEnzAq2feRfYa/STuhM
+ WAt4jKOxIi2Tk1GBDCI7C2dCSxCGCD/vsT8vCrTAy0JgiAHvyom6gEgaHZcSlPHDP8+4
+ HeTW6l1jwajyXGZpuRg9Yzea8EzIwF+a8z9ixsgGHJDWzQhgKPGIDw+Ie4nlXDOOcJy2
+ 2DafAnlSk+wKmqfXf+3iR/GwB6XoOt5kj8Nk52Mc3A824EIKTAn9UWE02WxNk12HaWG7
+ swmxnFjZ4TAtzxOT7QvT2JtDxYjyMmaZ3jRK78azzQwhH/O77S9ltfBI8eJ8uM0RgacM
+ t2bQ==
+X-Gm-Message-State: APjAAAUIt0c6N7ua652bJ/uosdSLsBcsgkcMfkPzjV+r7rysIp164xpn
+ rG4IGdTFW2DlB5/CfN2vV05stq8pCO09ibAZ9eCpQbRVWV7zjf7gc2u9MbUrvD2zjC7YZcH2/EG
+ VzPKX3oVeg7MkWBw=
+X-Received: by 2002:ac8:7309:: with SMTP id x9mr56748388qto.338.1582644118196; 
+ Tue, 25 Feb 2020 07:21:58 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzv9zOrNnODNqpU43O6DNRONArzFzC6ICK2uuIBkMuzYv6piGuHdqp/EQ/cTHXLD1o3luy25A==
+X-Received: by 2002:a05:620a:222d:: with SMTP id
+ n13mr58434276qkh.268.1582643680224; 
+ Tue, 25 Feb 2020 07:14:40 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- d1sm7436695qkj.29.2020.02.25.07.14.32
+ o4sm510222qki.26.2020.02.25.07.14.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 07:14:34 -0800 (PST)
-Date: Tue, 25 Feb 2020 10:14:30 -0500
+ Tue, 25 Feb 2020 07:14:39 -0800 (PST)
+Date: Tue, 25 Feb 2020 10:14:35 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/32] libvhost-user: handle NOFD flag in call/kick/err better
-Message-ID: <20200225151210.647797-26-mst@redhat.com>
+Subject: [PULL 26/32] docs: vhost-user: add in-band kick/call messages
+Message-ID: <20200225151210.647797-27-mst@redhat.com>
 References: <20200225151210.647797-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200225151210.647797-1-mst@redhat.com>
@@ -90,122 +91,248 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Johannes Berg <johannes.berg@intel.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+ Johannes Berg <johannes.berg@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Johannes Berg <johannes.berg@intel.com>
 
-The code here is odd, for example will it print out invalid
-file descriptor numbers that were never sent in the message.
+For good reason, vhost-user is currently built asynchronously, that
+way better performance can be obtained. However, for certain use
+cases such as simulation, this is problematic.
 
-Clean that up a bit so it's actually possible to implement
-a device that uses polling.
+Consider an event-based simulation in which both the device and CPU
+have scheduled according to a simulation "calendar". Now, consider
+the CPU sending I/O to the device, over a vring in the vhost-user
+protocol. In this case, the CPU must wait for the vring interrupt
+to have been processed by the device, so that the device is able to
+put an entry onto the simulation calendar to obtain time to handle
+the interrupt. Note that this doesn't mean the I/O is actually done
+at this time, it just means that the handling of it is scheduled
+before the CPU can continue running.
+
+This cannot be done with the asynchronous eventfd based vring kick
+and call design.
+
+Extend the protocol slightly, so that a message can be used for kick
+and call instead, if VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS is
+negotiated. This in itself doesn't guarantee synchronisation, but both
+sides can also negotiate VHOST_USER_PROTOCOL_F_REPLY_ACK and thus get
+a reply to this message by setting the need_reply flag, and ensure
+synchronisation this way.
+
+To really use it in both directions, VHOST_USER_PROTOCOL_F_SLAVE_REQ
+is also needed.
+
+Since it is used for simulation purposes and too many messages on
+the socket can lock up the virtual machine, document that this should
+only be used together with the mentioned features.
 
 Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Message-Id: <20200123081708.7817-5-johannes@sipsolutions.net>
+Message-Id: <20200123081708.7817-6-johannes@sipsolutions.net>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ docs/interop/vhost-user.rst | 122 ++++++++++++++++++++++++++++++------
+ 1 file changed, 104 insertions(+), 18 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/=
-libvhost-user.c
-index 533d55d82a..3abc9689e5 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -948,6 +948,7 @@ static bool
- vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg)
- {
-     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
-+    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 5f8b3a456b..401652397c 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -2,6 +2,7 @@
+ Vhost-user Protocol
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ :Copyright: 2014 Virtual Open Systems Sarl.
++:Copyright: 2019 Intel Corporation
+ :Licence: This work is licensed under the terms of the GNU GPL,
+           version 2 or later. See the COPYING file in the top-level
+           directory.
+@@ -279,6 +280,9 @@ If *master* is unable to send the full message or recei=
+ves a wrong
+ reply it will close the connection. An optional reconnection mechanism
+ can be implemented.
 =20
-     if (index >=3D dev->max_queues) {
-         vmsg_close_fds(vmsg);
-@@ -955,8 +956,12 @@ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg=
-)
-         return false;
-     }
-=20
--    if (vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK ||
--        vmsg->fd_num !=3D 1) {
-+    if (nofd) {
-+        vmsg_close_fds(vmsg);
-+        return true;
-+    }
++If *slave* detects some error such as incompatible features, it may also
++close the connection. This should only happen in exceptional circumstances=
+.
 +
-+    if (vmsg->fd_num !=3D 1) {
-         vmsg_close_fds(vmsg);
-         vu_panic(dev, "Invalid fds in request: %d", vmsg->request);
-         return false;
-@@ -1053,6 +1058,7 @@ static bool
- vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
-     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
-+    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+ Any protocol extensions are gated by protocol feature bits, which
+ allows full backwards compatibility on both master and slave.  As
+ older slaves don't support negotiating protocol features, a feature
+@@ -315,7 +319,8 @@ it until ring is started, or after it has been stopped.
 =20
-     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+ Client must start ring upon receiving a kick (that is, detecting that
+ file descriptor is readable) on the descriptor specified by
+-``VHOST_USER_SET_VRING_KICK``, and stop ring upon receiving
++``VHOST_USER_SET_VRING_KICK`` or receiving the in-band message
++``VHOST_USER_VRING_KICK`` if negotiated, and stop ring upon receiving
+ ``VHOST_USER_GET_VRING_BASE``.
 =20
-@@ -1066,8 +1072,8 @@ vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg=
-)
-         dev->vq[index].kick_fd =3D -1;
-     }
+ While processing the rings (whether they are enabled or not), client
+@@ -767,25 +772,49 @@ When reconnecting:
+ #. Resubmit inflight ``DescStatePacked`` entries in order of their
+    counter value
 =20
--    dev->vq[index].kick_fd =3D vmsg->fds[0];
--    DPRINT("Got kick_fd: %d for vq: %d\n", vmsg->fds[0], index);
-+    dev->vq[index].kick_fd =3D nofd ? -1 : vmsg->fds[0];
-+    DPRINT("Got kick_fd: %d for vq: %d\n", dev->vq[index].kick_fd, index);
++In-band notifications
++---------------------
++
++In some limited situations (e.g. for simulation) it is desirable to
++have the kick, call and error (if used) signals done via in-band
++messages instead of asynchronous eventfd notifications. This can be
++done by negotiating the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS``
++protocol feature.
++
++Note that due to the fact that too many messages on the sockets can
++cause the sending application(s) to block, it is not advised to use
++this feature unless absolutely necessary. It is also considered an
++error to negotiate this feature without also negotiating
++``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` and ``VHOST_USER_PROTOCOL_F_REPLY_ACK`=
+`,
++the former is necessary for getting a message channel from the slave
++to the master, while the latter needs to be used with the in-band
++notification messages to block until they are processed, both to avoid
++blocking later and for proper processing (at least in the simulation
++use case.) As it has no other way of signalling this error, the slave
++should close the connection as a response to a
++``VHOST_USER_SET_PROTOCOL_FEATURES`` message that sets the in-band
++notifications feature flag without the other two.
++
+ Protocol features
+ -----------------
 =20
-     dev->vq[index].started =3D true;
-     if (dev->iface->queue_set_started) {
-@@ -1147,6 +1153,7 @@ static bool
- vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
-     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
-+    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+ .. code:: c
 =20
-     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+-  #define VHOST_USER_PROTOCOL_F_MQ             0
+-  #define VHOST_USER_PROTOCOL_F_LOG_SHMFD      1
+-  #define VHOST_USER_PROTOCOL_F_RARP           2
+-  #define VHOST_USER_PROTOCOL_F_REPLY_ACK      3
+-  #define VHOST_USER_PROTOCOL_F_MTU            4
+-  #define VHOST_USER_PROTOCOL_F_SLAVE_REQ      5
+-  #define VHOST_USER_PROTOCOL_F_CROSS_ENDIAN   6
+-  #define VHOST_USER_PROTOCOL_F_CRYPTO_SESSION 7
+-  #define VHOST_USER_PROTOCOL_F_PAGEFAULT      8
+-  #define VHOST_USER_PROTOCOL_F_CONFIG         9
+-  #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD  10
+-  #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER  11
+-  #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD 12
+-  #define VHOST_USER_PROTOCOL_F_RESET_DEVICE   13
++  #define VHOST_USER_PROTOCOL_F_MQ                    0
++  #define VHOST_USER_PROTOCOL_F_LOG_SHMFD             1
++  #define VHOST_USER_PROTOCOL_F_RARP                  2
++  #define VHOST_USER_PROTOCOL_F_REPLY_ACK             3
++  #define VHOST_USER_PROTOCOL_F_MTU                   4
++  #define VHOST_USER_PROTOCOL_F_SLAVE_REQ             5
++  #define VHOST_USER_PROTOCOL_F_CROSS_ENDIAN          6
++  #define VHOST_USER_PROTOCOL_F_CRYPTO_SESSION        7
++  #define VHOST_USER_PROTOCOL_F_PAGEFAULT             8
++  #define VHOST_USER_PROTOCOL_F_CONFIG                9
++  #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD        10
++  #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER        11
++  #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD       12
++  #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
++  #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
 =20
-@@ -1159,14 +1166,14 @@ vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vm=
-sg)
-         dev->vq[index].call_fd =3D -1;
-     }
+ Master message types
+ --------------------
+@@ -947,7 +976,12 @@ Master message types
+   Bits (0-7) of the payload contain the vring index. Bit 8 is the
+   invalid FD flag. This flag is set when there is no file descriptor
+   in the ancillary data. This signals that polling should be used
+-  instead of waiting for a kick.
++  instead of waiting for the kick. Note that if the protocol feature
++  ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` has been negotiated
++  this message isn't necessary as the ring is also started on the
++  ``VHOST_USER_VRING_KICK`` message, it may however still be used to
++  set an event file descriptor (which will be preferred over the
++  message) or to enable polling.
 =20
--    dev->vq[index].call_fd =3D vmsg->fds[0];
-+    dev->vq[index].call_fd =3D nofd ? -1 : vmsg->fds[0];
+ ``VHOST_USER_SET_VRING_CALL``
+   :id: 13
+@@ -960,7 +994,12 @@ Master message types
+   Bits (0-7) of the payload contain the vring index. Bit 8 is the
+   invalid FD flag. This flag is set when there is no file descriptor
+   in the ancillary data. This signals that polling will be used
+-  instead of waiting for the call.
++  instead of waiting for the call. Note that if the protocol features
++  ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` and
++  ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` have been negotiated this message
++  isn't necessary as the ``VHOST_USER_SLAVE_VRING_CALL`` message can be
++  used, it may however still be used to set an event file descriptor
++  or to enable polling.
 =20
-     /* in case of I/O hang after reconnecting */
--    if (eventfd_write(vmsg->fds[0], 1)) {
-+    if (dev->vq[index].call_fd !=3D -1 && eventfd_write(vmsg->fds[0], 1)) =
-{
-         return -1;
-     }
+ ``VHOST_USER_SET_VRING_ERR``
+   :id: 14
+@@ -972,7 +1011,12 @@ Master message types
 =20
--    DPRINT("Got call_fd: %d for vq: %d\n", vmsg->fds[0], index);
-+    DPRINT("Got call_fd: %d for vq: %d\n", dev->vq[index].call_fd, index);
+   Bits (0-7) of the payload contain the vring index. Bit 8 is the
+   invalid FD flag. This flag is set when there is no file descriptor
+-  in the ancillary data.
++  in the ancillary data. Note that if the protocol features
++  ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` and
++  ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` have been negotiated this message
++  isn't necessary as the ``VHOST_USER_SLAVE_VRING_ERR`` message can be
++  used, it may however still be used to set an event file descriptor
++  (which will be preferred over the message).
 =20
-     return false;
- }
-@@ -1175,6 +1182,7 @@ static bool
- vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
-     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
-+    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+ ``VHOST_USER_GET_QUEUE_NUM``
+   :id: 17
+@@ -1205,6 +1249,20 @@ Master message types
+   Only valid if the ``VHOST_USER_PROTOCOL_F_RESET_DEVICE`` protocol
+   feature is set by the backend.
 =20
-     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
++``VHOST_USER_VRING_KICK``
++  :id: 35
++  :equivalent ioctl: N/A
++  :slave payload: vring state description
++  :master payload: N/A
++
++  When the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` protocol
++  feature has been successfully negotiated, this message may be
++  submitted by the master to indicate that a buffer was added to
++  the vring instead of signalling it using the vring's kick file
++  descriptor or having the slave rely on polling.
++
++  The state.num field is currently reserved and must be set to 0.
++
+ Slave message types
+ -------------------
 =20
-@@ -1187,7 +1195,7 @@ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
-         dev->vq[index].err_fd =3D -1;
-     }
+@@ -1261,6 +1319,34 @@ Slave message types
+   ``VHOST_USER_PROTOCOL_F_HOST_NOTIFIER`` protocol feature has been
+   successfully negotiated.
 =20
--    dev->vq[index].err_fd =3D vmsg->fds[0];
-+    dev->vq[index].err_fd =3D nofd ? -1 : vmsg->fds[0];
++``VHOST_USER_SLAVE_VRING_CALL``
++  :id: 4
++  :equivalent ioctl: N/A
++  :slave payload: vring state description
++  :master payload: N/A
++
++  When the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` protocol
++  feature has been successfully negotiated, this message may be
++  submitted by the slave to indicate that a buffer was used from
++  the vring instead of signalling this using the vring's call file
++  descriptor or having the master relying on polling.
++
++  The state.num field is currently reserved and must be set to 0.
++
++``VHOST_USER_SLAVE_VRING_ERR``
++  :id: 5
++  :equivalent ioctl: N/A
++  :slave payload: vring state description
++  :master payload: N/A
++
++  When the ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` protocol
++  feature has been successfully negotiated, this message may be
++  submitted by the slave to indicate that an error occurred on the
++  specific vring, instead of signalling the error file descriptor
++  set by the master via ``VHOST_USER_SET_VRING_ERR``.
++
++  The state.num field is currently reserved and must be set to 0.
++
+ .. _reply_ack:
 =20
-     return false;
- }
+ VHOST_USER_PROTOCOL_F_REPLY_ACK
 --=20
 MST
 
