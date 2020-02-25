@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F7916C13B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:50:03 +0100 (CET)
-Received: from localhost ([::1]:54772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D6116C168
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:51:41 +0100 (CET)
+Received: from localhost ([::1]:54826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Zf0-0000XL-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:50:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59213)
+	id 1j6Zga-0004H8-7h
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:51:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcS-0005UI-MU
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:25 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcZ-0005fR-Qv
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcR-0007FJ-Na
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:24 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34432)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcY-0007IE-Lr
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:31 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35448)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZcR-0007Ed-HK
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:23 -0500
-Received: by mail-wm1-x342.google.com with SMTP id i10so1040869wmd.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:23 -0800 (PST)
+ id 1j6ZcY-0007Ho-F2
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:30 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w12so14596305wrt.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qYrx6G8+J0oij9Dy1s5nRsl6vpAyTX2kML2yVNSLhuM=;
- b=T0Pdjjl//K5FJFwxjoPqZ0gYkbUq3bjHZIRDUrby2xFwXlja1j5MdD1+N0gZuB021Z
- Gu3ybFlXe73vdCU5BzHZQnepoSKLMxLFzS9bFCDaUj8K+WLprHHm+Go90J91wYfTRQB7
- fdU1zB+I502ZEk236nPnT13jlTXUkGr0EjLCt8gqYxlLERs+cjIFMuw5FIGfk2NqvLvz
- bJv1DIMakx63ae+wrjfpTTBi8q0GouCd5ApGFvAIR5n/kApM2+gPtymlx55eZIaNGBmJ
- sRp1incyofgESNCLIyG97Bcv2sZSEWBpI7llEtXC9uG7uQ5Xc5R9ef9wCTyEo0IHUd+m
- vBRw==
+ bh=PR3MIDvz3PtDDaollGFXmkX1Ue3lMr6ulNQeQQNdSxU=;
+ b=pGw8Lg/xVnYtr0lrehL9FkVN/2n4/Ho6Ly0xoHVrpuo6Ee8DMdaUtWxc46FTb6iSGE
+ akC3scEjRjW0s0Kezy746JiTmHNAftymMKbX3FUmkCPP867woLwwyF29iksFsB/n5Ygs
+ gAlw/Fbvbx99QUzjRbBpY/3/3EIhpSjLKLEUTtiy2kbPtvVlt52YyCD9rvu4TOiuNF5k
+ 1UG2cbC/xJrGSM9lkuT23xERBK8A8haCSSRLohDJNmLOiAhaxzSoPAXTqS8lJKkDNe9M
+ yggpwwqoTR6MqoNYq+cFLwq6p3XeHE0PL2DUGrN269B1KdC1MFXO2go1rZcyjiRdI3FA
+ qDLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qYrx6G8+J0oij9Dy1s5nRsl6vpAyTX2kML2yVNSLhuM=;
- b=tGm19DbX1CqpGCFJS14LmSG7kllrP+AAO9n3NdI9j5BQ9uwTRBaHqW4tNoF8lyQHbE
- qvRr3aDCGUEMorZlQgGfZM8Xji0HOWf1TdHHIu/7tYKFiifNBnL55p/lI1elsPiQMvRK
- STKH0CIqnHpLrZd1Pg7TkxAF7JNLqVKug1dr7vhf+k8arqgNBHwbdcQiPG/qV/ycgXdS
- 5pTws4a/XT8XiQ5Se0dqReT3Fp5tUQQFyVKkwcO8Dq8y8rVv24/zQRdBc3vZNe1H95ph
- jCkIx86YglMhd3cJFuZ2IKhhy+4vtoxbtsAxAJfw8AcJTXQnXC18rHgrKHdH5iK5CugC
- 2SzA==
-X-Gm-Message-State: APjAAAWWQAmwd0CCWexmRAPOo+LjuNdMgSHK+XBnhGDFbSyWYiy/H4eH
- 7/Q6hf23cwtA3QWOmnAFrRjC+A==
-X-Google-Smtp-Source: APXvYqxbE/qEKwzBBk0V7zARHsmHINnaCaefWtBHIstT29snQVH9+mAVFveD78tQLEGwUx/NOF9jng==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr5037107wma.187.1582634842374;
- Tue, 25 Feb 2020 04:47:22 -0800 (PST)
+ bh=PR3MIDvz3PtDDaollGFXmkX1Ue3lMr6ulNQeQQNdSxU=;
+ b=oQ8ZUcmudiXn7HExImOUYFpv1OQQw54QXI/vafxUPfknFAlfEoPH/8JmF4ecbv4NW5
+ jfjtCw0uAkKr26QrA1rTsKfv5jG/br5fNe2iHgudIUISb14wDbYzUTiTjVaUSQ5rSal8
+ z41C43B4eZWhprjKH+iuxLGHOwFOSCCBZWwOmVxgPVPj1J7BRM7VRWD+dFfju2P/EWpt
+ YRsCRmAx9Q8NsRCmc1/vM58b0imMZpPgpiadnT7RAoJIhVce4d46JaLX7eLmMFjYZngk
+ oiuDf/JAwCVaEdjtLuA71iCv4jU4oFJ/4kxiJcAIAzxiUU8bgh+iDYc38Cl+D3rUqBwf
+ vINQ==
+X-Gm-Message-State: APjAAAVLuOvgnI0zv/2mQOv/++nSdNZn5H2QTIcAVsNo5XPWm/q54Oqa
+ GY/3OKSojfHHbA2mbrjYobZsEjVnQdU=
+X-Google-Smtp-Source: APXvYqxTsLyZjePFmAeRk1az1RrY49/ZVZXDsGSwO3uOWeBdohO77zItX9s3F1smAZfWNPk4Fe3kIQ==
+X-Received: by 2002:adf:ee86:: with SMTP id b6mr13478800wro.282.1582634849473; 
+ Tue, 25 Feb 2020 04:47:29 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r28sm667031wra.16.2020.02.25.04.47.13
+ by smtp.gmail.com with ESMTPSA id b10sm23808377wrt.90.2020.02.25.04.47.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:47:15 -0800 (PST)
+ Tue, 25 Feb 2020 04:47:22 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 02B4C1FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 59D041FF9C;
  Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/19] tests/iotests: be a little more forgiving on the
- size test
-Date: Tue, 25 Feb 2020 12:46:59 +0000
-Message-Id: <20200225124710.14152-9-alex.bennee@linaro.org>
+Subject: [PATCH  v3 12/19] tests/plugin: prevent uninitialized warning
+Date: Tue, 25 Feb 2020 12:47:03 +0000
+Message-Id: <20200225124710.14152-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,45 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  robert.foley@linaro.org, pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- Max Reitz <mreitz@redhat.com>, marcandre.lureau@redhat.com,
+ Euler Robot <euler.robot@huawei.com>, richard.henderson@linaro.org,
+ f4bug@amsat.org, robhenry@microsoft.com, marcandre.lureau@redhat.com,
  aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- "open list:Block layer core" <qemu-block@nongnu.org>, aurelien@aurel32.net
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least on ZFS this was failing as 512 was less than or equal to 512.
-I suspect the reason is additional compression done by ZFS and however
-qemu-img gets the actual size.
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-Loosen the criteria to make sure after is not bigger than before and
-also dump the values in the report.
+According to the glibc function requirements, we need initialise
+ the variable. Otherwise there will be compilation warnings:
 
+glib-autocleanups.h:28:3: warning: ‘out’ may be
+used uninitialized in this function [-Wmaybe-uninitialized]
+   g_free (*pp);
+   ^~~~~~~~~~~~
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200206093238.203984-1-kuhn.chenqun@huawei.com>
+[AJB: uses Thomas's single line allocation]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qemu-iotests/214 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/plugin/bb.c   | 6 +++---
+ tests/plugin/insn.c | 3 +--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 3500e0c47a2..6d1324cd157 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -125,9 +125,9 @@ $QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
- sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
-         sed -n '/"actual-size":/ s/[^0-9]//gp')
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index f30bea08dcc..df19fd359df 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -22,9 +22,9 @@ static bool do_inline;
  
--if [ $sizeA -le $sizeB ]
-+if [ $sizeA -lt $sizeB ]
- then
--    echo "Compression ERROR"
-+    echo "Compression ERROR ($sizeA vs $sizeB)"
- fi
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+-    g_autofree gchar *out;
+-    out = g_strdup_printf("bb's: %" PRIu64", insns: %" PRIu64 "\n",
+-                          bb_count, insn_count);
++    g_autofree gchar *out = g_strdup_printf(
++        "bb's: %" PRIu64", insns: %" PRIu64 "\n",
++        bb_count, insn_count);
+     qemu_plugin_outs(out);
+ }
  
- $QEMU_IMG check --output=json "$TEST_IMG" |
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index 0a8f5a0000e..a9a6e412373 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -44,8 +44,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ 
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+-    g_autofree gchar *out;
+-    out = g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
++    g_autofree gchar *out = g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
+     qemu_plugin_outs(out);
+ }
+ 
 -- 
 2.20.1
 
