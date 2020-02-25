@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C75516C38A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:13:08 +0100 (CET)
-Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1575516C3C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:23:11 +0100 (CET)
+Received: from localhost ([::1]:57736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6axP-0004pz-7l
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:13:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46225)
+	id 1j6b78-0007jy-5r
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:23:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1j6awE-0003Ss-MY
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:56 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j6awB-0003Mm-4D
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1j6awD-0007Ys-HA
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:54 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39356)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1j6awD-0007YI-9F
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:53 -0500
-Received: by mail-lj1-x242.google.com with SMTP id o15so14208028ljg.6
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 06:11:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tv/ywrzPiHaYpuFROaU2SIXkdS4zvdd08CRWbl//3rk=;
- b=VOOmWsg28qw87rR74SQwrROd9pKV3W7uojLjkB7dS+e3TM+bJAE55+BhOpuyRiXQwC
- fR8E+PhDgRWPsO0HGDWLEIUCG+lm5dBZxL7t69FxfSuwBkmew7JF+zMU3QHyiL00aC6E
- BYTHvJU0up4EwJzLsloEQgP6B4GIcci7oAQzbdU0YDwLWlCHr8jUD8VFKJ6I0j4pKdW5
- FeSD3PaXpOyAZV/w80f1UT4d4o6aZfU9UQ+K6ftaa96rAoXcMlTASHsxuSb4KPOh+qeq
- OU8orfhQqF0kxicjjqO0zKUSpmaSVhHaMuzQ+XkMggl1xt57nIQ7HKDVwsnAd0x0LJig
- 8w1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tv/ywrzPiHaYpuFROaU2SIXkdS4zvdd08CRWbl//3rk=;
- b=r0u85gKTCbnNWaraa6G9veqSaYbI4clxxmKjmkDi0hN7y2kYGLLq0KOMrmba6gguTY
- Uq2wU3xHHEzNzvBvJxRuRiAq00Kcrc/0bFyXgYtrX0OgEXv2x+wSKvplBCr+jy5uxMY4
- V+4+dcAM6X4utqiiU3F/Or4KmrK/RGJMMBdYC1Gl2CPdkqxOEeQJs1XXbFhiHYCtsFgC
- NMqojPPRwnvIsoUoqt1aJ156El4D5przzN/G2WHUR9DMz5BeO8JDg81gcF5S4DxOZvIj
- udoXXVlPcVdjH9KpyXG3ZrcJdR2Dk63Yrb0I23nn/UyXQshDT4ZhvIBndj/62pR4iR+b
- 5Zfw==
-X-Gm-Message-State: APjAAAXK3z5STlOgKe43TcVrHxC4Lz8PEHRW7YGtUl+OYbTCUECFmOaA
- OmXOTmt10OSkti5VHrsBOBsgPzmD75HKzo/Xtj7blw==
-X-Google-Smtp-Source: APXvYqylmPOhcMYzOUhYCyNb4CelssiqLFGoHDNJrvHN63cnoMypoJ5y9MhwaASIfPinT4PlFATF47NjC82tqqE/FAo=
-X-Received: by 2002:a05:651c:120d:: with SMTP id
- i13mr33560796lja.173.1582639911152; 
- Tue, 25 Feb 2020 06:11:51 -0800 (PST)
+ (envelope-from <imammedo@redhat.com>) id 1j6aw9-0007X4-Gn
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35657
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6aw9-0007Wb-Am
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582639906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GMUOFSvoynEkw0+tPUD1sT0XU9l8i9TQ3rKGSkx9Sj0=;
+ b=XWk73wsuWrXB7c2rOJvZIplr6i5EoxwMaLIxLjLUK9QjstvzPL76EmEwJoUdmhbumTypIF
+ b7MiW5UdKhBFEOe+DqJfUaud1iU6REPW7ZOIE3QG6lcY8NXsRgLXnwKkJ+BkALbb6nf3iD
+ Jofy/wd1Yp0iXzXPKPmN2Uss5S+inxs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-4ewP0dvAOkOoR-QExhingA-1; Tue, 25 Feb 2020 09:11:45 -0500
+X-MC-Unique: 4ewP0dvAOkOoR-QExhingA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3351A1005512;
+ Tue, 25 Feb 2020 14:11:43 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E26C260CD1;
+ Tue, 25 Feb 2020 14:11:35 +0000 (UTC)
+Date: Tue, 25 Feb 2020 15:11:33 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: Re: [PATCH v24 06/10] ACPI: Record the Generic Error Status Block
+ address
+Message-ID: <20200225151133.3c75f611@redhat.com>
+In-Reply-To: <20200217131248.28273-7-gengdongjiu@huawei.com>
+References: <20200217131248.28273-1-gengdongjiu@huawei.com>
+ <20200217131248.28273-7-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-References: <20200225124710.14152-1-alex.bennee@linaro.org>
- <20200225124710.14152-9-alex.bennee@linaro.org>
-In-Reply-To: <20200225124710.14152-9-alex.bennee@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Tue, 25 Feb 2020 09:11:15 -0500
-Message-ID: <CAEyhzFvhbPbc6eBSv7+SfGqVquosuFbRmouwWKJ_MYLFrr8OWA@mail.gmail.com>
-Subject: Re: [PATCH v3 08/19] tests/iotests: be a little more forgiving on the
- size test
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,28 +70,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com,
- "open list:Block layer core" <qemu-block@nongnu.org>, pbonzini@redhat.com,
- stefanb@linux.vnet.ibm.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, robhenry@microsoft.com, f4bug@amsat.org,
- marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, kuhn.chenqun@huawei.com,
- Peter Puhov <peter.puhov@linaro.org>, Max Reitz <mreitz@redhat.com>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ shameerali.kolothum.thodi@huawei.com, jonathan.cameron@huawei.com,
+ pbonzini@redhat.com, lersek@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Feb 2020 at 07:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> At least on ZFS this was failing as 512 was less than or equal to 512.
-> I suspect the reason is additional compression done by ZFS and however
-> qemu-img gets the actual size.
->
-> Loosen the criteria to make sure after is not bigger than before and
-> also dump the values in the report.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On Mon, 17 Feb 2020 21:12:44 +0800
+Dongjiu Geng <gengdongjiu@huawei.com> wrote:
 
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
+> Record the GHEB address via fw_cfg file, when recording
+> a error to CPER, it will use this address to find out
+> Generic Error Data Entries and write the error.
+> 
+> In order to avoid migration failure, make hardware
+> error table address to a part of GED device instead
+> of global variable, then this address will be migrated
+> to target QEMU.
+> 
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
+> ---
+>  hw/acpi/generic_event_device.c         | 18 ++++++++++++++++++
+>  hw/acpi/ghes.c                         | 17 +++++++++++++++++
+>  hw/arm/virt-acpi-build.c               | 10 ++++++++++
+>  include/hw/acpi/generic_event_device.h |  2 ++
+>  include/hw/acpi/ghes.h                 |  6 ++++++
+>  5 files changed, 53 insertions(+)
+> 
+> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+> index 021ed2b..d59607c 100644
+> --- a/hw/acpi/generic_event_device.c
+> +++ b/hw/acpi/generic_event_device.c
+> @@ -234,6 +234,23 @@ static const VMStateDescription vmstate_ged_state = {
+>      }
+>  };
+>  
+> +static bool ghes_needed(void *opaque)
+> +{
+> +    return object_property_get_bool(qdev_get_machine(), "ras", NULL);
+
+Try not to use qdev_get_machine() unless it's the only option.
+
+Following would do the job:
+
+  AcpiGedState *s = opaque
+  return s->ghes_state.ghes_addr_le
+
+> +}
+> +
+> +static const VMStateDescription vmstate_ghes_state = {
+> +    .name = "acpi-ged/ghes",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = ghes_needed,
+> +    .fields      = (VMStateField[]) {
+> +        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
+> +                       vmstate_ghes_state, AcpiGhesState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_acpi_ged = {
+>      .name = "acpi-ged",
+>      .version_id = 1,
+> @@ -244,6 +261,7 @@ static const VMStateDescription vmstate_acpi_ged = {
+>      },
+>      .subsections = (const VMStateDescription * []) {
+>          &vmstate_memhp_state,
+> +        &vmstate_ghes_state,
+>          NULL
+>      }
+>  };
+> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+> index 7a7381d..cea2bff 100644
+> --- a/hw/acpi/ghes.c
+> +++ b/hw/acpi/ghes.c
+> @@ -24,6 +24,8 @@
+>  #include "hw/acpi/ghes.h"
+>  #include "hw/acpi/aml-build.h"
+>  #include "qemu/error-report.h"
+> +#include "hw/acpi/generic_event_device.h"
+> +#include "hw/nvram/fw_cfg.h"
+>  
+>  #define ACPI_GHES_ERRORS_FW_CFG_FILE        "etc/hardware_errors"
+>  #define ACPI_GHES_DATA_ADDR_FW_CFG_FILE     "etc/hardware_errors_addr"
+> @@ -213,3 +215,18 @@ void acpi_build_hest(GArray *table_data, BIOSLinker *linker)
+>      build_header(linker, table_data, (void *)(table_data->data + hest_start),
+>          "HEST", table_data->len - hest_start, 1, NULL, "");
+>  }
+> +
+> +void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
+> +                          GArray *hardware_error)
+> +{
+> +    size_t size = 2 * sizeof(uint64_t) + ACPI_GHES_MAX_RAW_DATA_LENGTH;
+> +    size_t request_block_size = ACPI_GHES_ERROR_SOURCE_COUNT * size;
+> +
+> +    /* Create a read-only fw_cfg file for GHES */
+> +    fw_cfg_add_file(s, ACPI_GHES_ERRORS_FW_CFG_FILE, hardware_error->data,
+> +                    request_block_size);
+why do you calculate request_block_size instead of using hardware_error->len here
+
+> +
+> +    /* Create a read-write fw_cfg file for Address */
+> +    fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
+> +        NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
+> +}
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 12a9a78..d6e7521 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -832,6 +832,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      build_spcr(tables_blob, tables->linker, vms);
+>  
+>      if (vms->ras) {
+
+> +        assert(vms->acpi_dev);
+tables could be built without this device, so I'd drop this line so reader
+won't wonder why it's here.
+
+
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+>          acpi_build_hest(tables_blob, tables->linker);
+> @@ -924,6 +925,7 @@ void virt_acpi_setup(VirtMachineState *vms)
+>  {
+>      AcpiBuildTables tables;
+>      AcpiBuildState *build_state;
+> +    AcpiGedState *acpi_ged_state;
+>  
+>      if (!vms->fw_cfg) {
+>          trace_virt_acpi_setup();
+> @@ -954,6 +956,14 @@ void virt_acpi_setup(VirtMachineState *vms)
+>      fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
+>                      acpi_data_len(tables.tcpalog));
+>  
+> +    if (vms->ras) {
+> +        assert(vms->acpi_dev);
+> +        acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
+> +                                                           NULL));
+lookup is not necessary, just do
+
+           AcpiGedState *acpi_ged_state = ACPI_GED(vms->acpi_dev)
+
+> +        acpi_ghes_add_fw_cfg(&acpi_ged_state->ghes_state,
+> +                             vms->fw_cfg, tables.hardware_errors);
+> +    }
+> +
+>      build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
+>                                               build_state, tables.rsdp,
+>                                               ACPI_BUILD_RSDP_FILE, 0);
+> diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+> index d157eac..037d2b5 100644
+> --- a/include/hw/acpi/generic_event_device.h
+> +++ b/include/hw/acpi/generic_event_device.h
+> @@ -61,6 +61,7 @@
+>  
+>  #include "hw/sysbus.h"
+>  #include "hw/acpi/memory_hotplug.h"
+> +#include "hw/acpi/ghes.h"
+>  
+>  #define ACPI_POWER_BUTTON_DEVICE "PWRB"
+>  
+> @@ -95,6 +96,7 @@ typedef struct AcpiGedState {
+>      GEDState ged_state;
+>      uint32_t ged_event_bitmap;
+>      qemu_irq irq;
+> +    AcpiGhesState ghes_state;
+>  } AcpiGedState;
+>  
+>  void build_ged_aml(Aml *table, const char* name, HotplugHandler *hotplug_dev,
+> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+> index 18debd8..a3420fc 100644
+> --- a/include/hw/acpi/ghes.h
+> +++ b/include/hw/acpi/ghes.h
+> @@ -62,6 +62,12 @@ enum {
+>      ACPI_HEST_SRC_ID_RESERVED,
+>  };
+>  
+> +typedef struct AcpiGhesState {
+> +    uint64_t ghes_addr_le;
+> +} AcpiGhesState;
+> +
+>  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
+>  void acpi_build_hest(GArray *table_data, BIOSLinker *linker);
+> +void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
+> +                          GArray *hardware_errors);
+>  #endif
+
 
