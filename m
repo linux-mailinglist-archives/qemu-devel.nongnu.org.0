@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06AF16EC82
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 18:28:49 +0100 (CET)
-Received: from localhost ([::1]:32850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB53F16EC88
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 18:30:08 +0100 (CET)
+Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6e0m-0004GB-SI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 12:28:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39074)
+	id 1j6e24-0005bQ-0t
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 12:30:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6dxR-00019o-0x
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:25:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6dxX-0001OT-IU
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:25:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6dxP-00084S-Lr
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:25:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46984
+ (envelope-from <philmd@redhat.com>) id 1j6dxW-0008CC-7p
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:25:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25154
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6dxP-00083p-HC
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:25:19 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6dxW-0008Bc-3X
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:25:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582651519;
+ s=mimecast20190719; t=1582651525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E1x/lOM4B825jaBbL2cKvPbjosT9AxJPSDhGOuqBy+g=;
- b=RXuMpNw4Mk7k8PLZUG5k1EfKHqtVLkrXh0ZdLzyyhenDUgoLnC68pwuNqvyRiHhJEiV2LL
- aUD4mF+b5agXLZ9bx8HS4J63tNgK48IR1OXMpmWWUA0RvnDi5YGlu60+WnhGHK1sBBnCAG
- 0yfrNT8GbEbBzODwhsuS1NsY2PnCI5U=
+ bh=dwOy7T6zNBV+JaHegxs0HatnwG/xt++Cu5QA75IMhb4=;
+ b=c00go9ppn0c17DhVczQdY25iFNNQfH2/qkJjWik/9WHs2vrBurODggk1pRsMtrGf8gNxYJ
+ gVhaGnPqkl0LyzmJBqYfK57z14J2YyByFW70K22/U1i2b5rb9oGMIpHwuVfJQD0vCYyQi6
+ RaNS90QSD8udTxutQKqx/Tt1RPuZ/EA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-ASFY5XKzN7icXZUlLjJVGQ-1; Tue, 25 Feb 2020 12:25:15 -0500
-X-MC-Unique: ASFY5XKzN7icXZUlLjJVGQ-1
+ us-mta-113-57o4NEeANhm5xs_CKFI0Rw-1; Tue, 25 Feb 2020 12:25:19 -0500
+X-MC-Unique: 57o4NEeANhm5xs_CKFI0Rw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A57FB8017CC;
- Tue, 25 Feb 2020 17:25:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DD61477;
+ Tue, 25 Feb 2020 17:25:18 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ADA860FC4;
- Tue, 25 Feb 2020 17:25:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26ED161069;
+ Tue, 25 Feb 2020 17:25:14 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] tests/acceptance: Add a test for the integratorcp arm
- machine
-Date: Tue, 25 Feb 2020 18:24:59 +0100
-Message-Id: <20200225172501.29609-3-philmd@redhat.com>
+Subject: [PATCH 3/4] tests/acceptance: Extract boot_integratorcp() from
+ test_integratorcp()
+Date: Tue, 25 Feb 2020 18:25:00 +0100
+Message-Id: <20200225172501.29609-4-philmd@redhat.com>
 In-Reply-To: <20200225172501.29609-1-philmd@redhat.com>
 References: <20200225172501.29609-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,68 +73,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-There is a kernel and initrd available on github which we can use
-for testing this machine.
+As we want to re-use this code, extract it as a new function.
+Since we are using the PL011 serial console, add a Avocado tag
+to ease filtering of tests.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20200131170233.14584-1-thuth@redhat.com>
-[PMD: Renamed test method, moved description from class to method]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- MAINTAINERS                                  |  1 +
- tests/acceptance/machine_arm_integratorcp.py | 43 ++++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 tests/acceptance/machine_arm_integratorcp.py
+ tests/acceptance/machine_arm_integratorcp.py | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 83e5a83418..06ceb57cba 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -614,6 +614,7 @@ S: Maintained
- F: hw/arm/integratorcp.c
- F: hw/misc/arm_integrator_debug.c
- F: include/hw/misc/arm_integrator_debug.h
-+F: tests/acceptance/machine_arm_integratorcp.py
-=20
- MCIMX6UL EVK / i.MX6ul
- M: Peter Maydell <peter.maydell@linaro.org>
 diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptanc=
 e/machine_arm_integratorcp.py
-new file mode 100644
-index 0000000000..d928ed79b4
---- /dev/null
+index d928ed79b4..22afd3b82a 100644
+--- a/tests/acceptance/machine_arm_integratorcp.py
 +++ b/tests/acceptance/machine_arm_integratorcp.py
-@@ -0,0 +1,43 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Thomas Huth <thuth@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+
-+class IntegratorMachine(Test):
-+
-+    timeout =3D 90
+@@ -18,13 +18,7 @@ class IntegratorMachine(Test):
+=20
+     timeout =3D 90
+=20
+-    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code=
+')
+-    def test_integratorcp_console(self):
+-        """
+-        Boots the Linux kernel and checks that the console is operational
+-        :avocado: tags=3Darch:arm
+-        :avocado: tags=3Dmachine:integratorcp
+-        """
++    def boot_integratorcp(self):
+         kernel_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
+                       'arm-test/kernel/zImage.integrator')
+         kernel_hash =3D '0d7adba893c503267c946a3cbdc63b4b54f25468'
+@@ -40,4 +34,14 @@ def test_integratorcp_console(self):
+                          '-initrd', initrd_path,
+                          '-append', 'printk.time=3D0 console=3DttyAMA0')
+         self.vm.launch()
 +
 +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code=
 ')
@@ -142,25 +124,10 @@ index 0000000000..d928ed79b4
 +        Boots the Linux kernel and checks that the console is operational
 +        :avocado: tags=3Darch:arm
 +        :avocado: tags=3Dmachine:integratorcp
++        :avocado: tags=3Ddevice:pl011
 +        """
-+        kernel_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
-+                      'arm-test/kernel/zImage.integrator')
-+        kernel_hash =3D '0d7adba893c503267c946a3cbdc63b4b54f25468'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel_h=
-ash)
-+
-+        initrd_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
-+                      'arm-test/kernel/arm_root.img')
-+        initrd_hash =3D 'b51e4154285bf784e017a37586428332d8c7bd8b'
-+        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Dinitrd_h=
-ash)
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', 'printk.time=3D0 console=3DttyAMA0')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Log in as root')
++        self.boot_integratorcp()
+         wait_for_console_pattern(self, 'Log in as root')
 --=20
 2.21.1
 
