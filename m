@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFDE716C0B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:25:37 +0100 (CET)
-Received: from localhost ([::1]:54060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDEA16C077
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:13:17 +0100 (CET)
+Received: from localhost ([::1]:53834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZHM-0001bL-OH
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:25:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49596)
+	id 1j6Z5Q-0003Jy-RQ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:13:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykq-0000x0-9s
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:04 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-00013f-5y
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykj-00081R-LX
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:00 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33799)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykt-00085s-Tx
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:08 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53265)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yki-0007wW-DQ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:53 -0500
-Received: by mail-wr1-x435.google.com with SMTP id z15so6036860wrl.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:52 -0800 (PST)
+ id 1j6Ykr-00081E-KG
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:02 -0500
+Received: by mail-wm1-x335.google.com with SMTP id t79so1178529wmt.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SgZvYL+Hn5j8x93NoxwcO2mgPavkLnr8s0tZPnErZBQ=;
- b=q8SbGL/nQ3BnU35iSktqL7lprX0eVfksdIJCcIw4d+nDYroMKzBh4tXoG6af9Sar7B
- tw1az3eJmZ6/ywK/ZiGRT6eYGoAX8sxM6dpB3F4Ig589FJ/oi/a7f0uxI1GLaZ6QS0j3
- X3c9PncG82Ao6APAEXApgZTyL2fMYbXlcQStMW31hRkCa9I6sXcRhNUMgiHvEMfV5vyP
- 7hCZrrxQdz9/6XOppyku2EZeq7b5NZzOS9weIO01+hlNfd0SGLMpjzsVgl0Zbl3uVSM3
- tp6lkrHvY2E710f14ZomX0vaMu94fvXzbBaYwqLXI8S2Ox/dXwPsgzX0iiCIuhAXqRPp
- 7qOQ==
+ bh=4crmfNV4jsRN691e2/MvyZO9QauHaSK12p3Pg7oIRAs=;
+ b=WcwF6N2Ixc3j1Q3XHkxlRCVj3jzF2nG5YFYggg97oJ+shHQvDz3CCMZKrq37YqSYXQ
+ x97XUA4dTXgskWfoNrYhpEjZf4tNEy1yGeW8S0ZmK6skfNF5bFNbW3T6Irzk7qoBF4MK
+ r/bbrl0ejVik5UF8ts+0/Nyp6rjMe6+Q2gpvQJbMh7brcbKUoDa0pn8sDSXSFiI+RRhD
+ 4r/RH4yLPivSkPeRlQPPBmb7FgEb6hhYlmXUHNQN4zWYMmt5BGoeG/Gu1sd87VKU5mdl
+ G7A+zeI+4KU94fiEst5giH1/v21uql4TLAS7T4qybsal2nKt6nyjp2kubLunEdo5NLBq
+ mgiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SgZvYL+Hn5j8x93NoxwcO2mgPavkLnr8s0tZPnErZBQ=;
- b=TtUTtN+K+o+WXJGI8e/I+XAb8p3YNDxrrA2jmohIOb9Ra4+Z2dQOpbjW777RqlolIh
- taDMP4SZ1hP6q1IHJl3Pwn7cz/2OYu3sCrUCV9YAAdulcGcXrS6E2FpYoMJkezoUhTTX
- MU8mKZ5+jCiEMLaQNsYt5zrTE96JHwO32ooXzdnM1tV6grsMlwR/PczViYnOoHrorFM8
- q8xNjtau/SJQNHGbYcYx5TEXgWEasolGTwsSNLjJP0DRDQsG+ePfFmIUM6B3RoobV1RA
- 9lyfiipMPNwDK1aalclUMZtRf6J/c1m6Op4QmXFj/LdbF8KYU1o+9AxBFdEHdALoWMyU
- 6dxw==
-X-Gm-Message-State: APjAAAWUZ6dM5ZPUPyWpG9jNDtJWz1jz/pmsrROjA1LivhfX2cGVYWFP
- xFN+dSd++RT8Z8NSb3JQhyHdRXY5
-X-Google-Smtp-Source: APXvYqxxZbOUA1a2cAS4O26cJF06PfQm5n8nDL1AwzghcuS81aaf7lJQuIVWHobctSViWSbDGy8/yQ==
-X-Received: by 2002:a5d:6445:: with SMTP id d5mr72017348wrw.244.1582631511118; 
- Tue, 25 Feb 2020 03:51:51 -0800 (PST)
+ bh=4crmfNV4jsRN691e2/MvyZO9QauHaSK12p3Pg7oIRAs=;
+ b=NHIH0dUxrXnQ2gP6fH43Zpv/788k+mqZFv21Mm8LyZJj5o0BUmlO2wNVNrC4urb73L
+ mcZKp/M5+7a40FpVz72jreoxzngdDclSqGk9NZ5tHNg5ERjETL3em9WM596GiyNBXtVt
+ UGv5V0zY4CRCgk2WjF6mB+mSsC62M3uLsmS5zxyyj7SQVVslzMq7F8zc6zLqzdXdm9RW
+ k3Ry9xPZYrgN0TTL1VQ6zP/AjoIGiskXZk5nccLXFxoh6E+DqZKe3iwLLDaVHPrem+kM
+ HbxrLdfEesTA+EK0U82BLQfJZmk3RJTvzAqdGW8Jm9iXumKozjJOnbLBQa+MAOXRObon
+ w5sg==
+X-Gm-Message-State: APjAAAWYayNARYJ2Fa2PCMoVJG3HCDf4ZQyc7Xv/RZHHGYx3fDVpriiu
+ U5OWiBVITuQV0TTO2xssrlhZVNyA
+X-Google-Smtp-Source: APXvYqxo/whhjSDsNHXrKTKK55SIosOpaVqdd3qunR6+BZq1kiKwEY9hl20BwdPTTSnyOTwdyS4yWg==
+X-Received: by 2002:a7b:c19a:: with SMTP id y26mr5245957wmi.152.1582631512067; 
+ Tue, 25 Feb 2020 03:51:52 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.50
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.51
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:50 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 048/136] m68k/mcf5208: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:38 +0100
-Message-Id: <1582631466-13880-48-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 049/136] m68k/next-cube: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:39 +0100
+Message-Id: <1582631466-13880-49-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,41 +96,41 @@ Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-49-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-50-imammedo@redhat.com>
 ---
- hw/m68k/mcf5208.c | 5 ++---
+ hw/m68k/next-cube.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index a999c21..31622c7 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -234,7 +234,6 @@ static void mcf5208evb_init(MachineState *machine)
-     qemu_irq *pic;
-     MemoryRegion *address_space_mem = get_system_memory();
-     MemoryRegion *rom = g_new(MemoryRegion, 1);
+diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+index e534334..cd93d9e 100644
+--- a/hw/m68k/next-cube.c
++++ b/hw/m68k/next-cube.c
+@@ -860,7 +860,6 @@ static void next_cube_init(MachineState *machine)
+ {
+     M68kCPU *cpu;
+     CPUM68KState *env;
 -    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     MemoryRegion *sram = g_new(MemoryRegion, 1);
+     MemoryRegion *rom = g_new(MemoryRegion, 1);
+     MemoryRegion *mmiomem = g_new(MemoryRegion, 1);
+     MemoryRegion *scrmem = g_new(MemoryRegion, 1);
+@@ -893,8 +892,7 @@ static void next_cube_init(MachineState *machine)
+     memcpy(ns->rtc.ram, rtc_ram2, 32);
  
-     cpu = M68K_CPU(cpu_create(machine->cpu_type));
-@@ -249,8 +248,7 @@ static void mcf5208evb_init(MachineState *machine)
-     memory_region_add_subregion(address_space_mem, 0x00000000, rom);
+     /* 64MB RAM starting at 0x04000000  */
+-    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_size);
+-    memory_region_add_subregion(sysmem, 0x04000000, ram);
++    memory_region_add_subregion(sysmem, 0x04000000, machine->ram);
  
-     /* DRAM at 0x40000000 */
--    memory_region_allocate_system_memory(ram, NULL, "mcf5208.ram", ram_size);
--    memory_region_add_subregion(address_space_mem, 0x40000000, ram);
-+    memory_region_add_subregion(address_space_mem, 0x40000000, machine->ram);
- 
-     /* Internal SRAM.  */
-     memory_region_init_ram(sram, NULL, "mcf5208.sram", 16 * KiB, &error_fatal);
-@@ -354,6 +352,7 @@ static void mcf5208evb_machine_init(MachineClass *mc)
-     mc->init = mcf5208evb_init;
-     mc->is_default = 1;
-     mc->default_cpu_type = M68K_CPU_TYPE_NAME("m5208");
-+    mc->default_ram_id = "mcf5208.ram";
+     /* Framebuffer */
+     dev = qdev_create(NULL, TYPE_NEXTFB);
+@@ -967,6 +965,7 @@ static void next_machine_class_init(ObjectClass *oc, void *data)
+     mc->desc = "NeXT Cube";
+     mc->init = next_cube_init;
+     mc->default_ram_size = RAM_SIZE;
++    mc->default_ram_id = "next.ram";
+     mc->default_cpu_type = M68K_CPU_TYPE_NAME("m68040");
  }
  
- DEFINE_MACHINE("mcf5208evb", mcf5208evb_machine_init)
 -- 
 1.8.3.1
 
