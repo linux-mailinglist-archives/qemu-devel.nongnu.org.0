@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC80316C0CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:29:42 +0100 (CET)
-Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E52216C03C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:07:19 +0100 (CET)
+Received: from localhost ([::1]:53740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZLJ-0001OJ-Oz
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50205)
+	id 1j6Yze-0001EH-5q
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:07:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlU-0002Ks-9N
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:41 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6Ykh-0000rs-RK
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlT-0002DR-94
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:40 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54498)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YlT-0002Ac-0x
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:39 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id z12so2666717wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Trf/mk0jpdqf1s96yCJ2TYHlIrv5Mg6JRkgeQGUFSRo=;
- b=S9rXNKIpQdDaW8HlV5iL+/PPxn6SX+DOwbLcsfapgBUX4NPYqoHSlRPB6I/oWfCFqo
- 0+Q4jwhQXAStaaiflqRIcWh5IJJwhffdMf6Wb278DrLy49fDoiNS/hUgIfAp4GUMdcOr
- JIuXvnNrL4pB2cZd5Kvo5swf54QkBsiqpiGepKPSonIlDvxk9U5eo7mTnQNC8pcMIwwh
- 8JpHjcUWrHfO9Y+P9jZHMEODFrOz8RDP3/CbyO2UY1KASkatv08LcUSeFt6qdlNmVemQ
- pot/sT03Bx0B81D9VvtNBOHnP0TNqMKDvV+ST8oIgcFicJ6CVxbin+hxSIkJrpB1TbUi
- CF9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Trf/mk0jpdqf1s96yCJ2TYHlIrv5Mg6JRkgeQGUFSRo=;
- b=uXdoT+lXIt3qRxgdkS5s/6OfznZ7I4sxWyMNMGnpzFz0Gptt08k8ukWMdK/T9J/U/x
- D8u+rMJvhPYAFvPWMmGNOvjKuiukQI5PXe9I+TuPUoKFRNBgcz3+dbmnC2Xshir91Wxx
- jWSjxJB2f+ogcaJSFX/vvquOhz6KDtO+7AvjUcVJpvkqslazAqFJ+HELB8EomVS1XNhR
- kWA0zRSq1cGBmMLPXdEh6BjTU2AnVGJNLH1lTmjZlAssK5o2MePQWMxnQ9isptW8CQ+D
- 9hwjeOojk2hS/R73CSP7VS59llDiJBmh+tNR8Nwog9JD6thLEIOIBf7OdJr9dEIVWhs8
- ltPg==
-X-Gm-Message-State: APjAAAV3ykaoAFvR7m4B46kuAd+CSsHwlTqQHn7XD4tUDSYnGZ1xuXYb
- t3OO0XeRHPFySBExdnTwmuh7vroo
-X-Google-Smtp-Source: APXvYqxXBKnemSL9tVWUJO7zw4Yj9Tm3bviIb2vU3W8xAyy6aiAUQU3Naw8PipgQZopqgD/t1LuzpQ==
-X-Received: by 2002:a7b:c109:: with SMTP id w9mr4835494wmi.14.1582631557596;
- Tue, 25 Feb 2020 03:52:37 -0800 (PST)
-Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.36
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:37 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1j6Ykg-0007mY-Ic
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44796
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6Ykg-0007fj-EK
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582631509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NPFWnv/Ef9WwpSuw1jcfq/YK7QkVuPURI5RaLd84Zyc=;
+ b=MJbJZ3kuQq0xd2ZQIn3gRkSJ12Tnh9Cz1Op+njpXfvzaW1F7KOCWyJ20maUCotSTZc7LhK
+ EbAWL4vgQ6HQE/C2rC5Mb8V59jrUPAHDAvN8iwbr4ZGb1t0lYHxJ+rbORRD5BifkTZ4u9k
+ 76DorZocLmv88PWvZekyyYxvjo3T+30=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-pC-yLtEAOY-oAKrYQ58sEQ-1; Tue, 25 Feb 2020 06:51:48 -0500
+X-MC-Unique: pC-yLtEAOY-oAKrYQ58sEQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40A07800D5B;
+ Tue, 25 Feb 2020 11:51:46 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B10A1001DC2;
+ Tue, 25 Feb 2020 11:51:42 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 099/136] memory: Correctly return alias region type
-Date: Tue, 25 Feb 2020 12:50:29 +0100
-Message-Id: <1582631466-13880-99-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH] hw/nios2/boot: Remove dead code (big endian check)
+Date: Tue, 25 Feb 2020 12:51:40 +0100
+Message-Id: <20200225115140.10023-1-philmd@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,39 +68,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jenner <andrew@codesourcery.com>, qemu-trivial@nongnu.org,
+ Chris Wulff <crwulff@gmail.com>, Julian Brown <julian@codesourcery.com>,
+ Sandra Loosemore <sandra@codesourcery.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+We only build the little-endian softmmu configuration (all
+Nios II processors are only little endian). Checking for
+big endian is pointless, remove the unused code.
 
-Since memory region aliases are neither rom nor ram, they are
-described as i/o, which is often incorrect. Return instead the
-type of the original region we are aliasing.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-2-philmd@redhat.com>
-Supersedes: <20200221173049.18134-1-philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- memory.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/nios2/boot.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index aeaa8dc..ce11798 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2818,6 +2818,9 @@ void address_space_destroy(AddressSpace *as)
- 
- static const char *memory_region_type(MemoryRegion *mr)
- {
-+    if (mr->alias) {
-+        return memory_region_type(mr->alias);
-+    }
-     if (memory_region_is_ram_device(mr)) {
-         return "ramd";
-     } else if (memory_region_is_romd(mr)) {
--- 
-1.8.3.1
-
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 88224aa84c..000f8205d6 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -140,16 +140,11 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base=
+,
+     if (kernel_filename) {
+         int kernel_size, fdt_size;
+         uint64_t entry, low, high;
+-        int big_endian =3D 0;
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-        big_endian =3D 1;
+-#endif
+=20
+         /* Boots a kernel elf binary. */
+         kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
+                                &entry, &low, &high, NULL,
+-                               big_endian, EM_ALTERA_NIOS2, 0, 0);
++                               0, EM_ALTERA_NIOS2, 0, 0);
+         if ((uint32_t)entry =3D=3D 0xc0000000) {
+             /*
+              * The Nios II processor reference guide documents that the
+@@ -160,7 +155,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+             kernel_size =3D load_elf(kernel_filename, NULL,
+                                    translate_kernel_address, NULL,
+                                    &entry, NULL, NULL, NULL,
+-                                   big_endian, EM_ALTERA_NIOS2, 0, 0);
++                                   0, EM_ALTERA_NIOS2, 0, 0);
+             boot_info.bootstrap_pc =3D ddr_base + 0xc0000000 +
+                 (entry & 0x07ffffff);
+         } else {
+--=20
+2.21.1
 
 
