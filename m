@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D5116C058
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:09:20 +0100 (CET)
-Received: from localhost ([::1]:53770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D348C16C078
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:13:21 +0100 (CET)
+Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Z1b-0004m4-Mu
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:09:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49566)
+	id 1j6Z5U-0003Rq-T6
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:13:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49568)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yko-0000uT-Tr
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yko-0000uV-R8
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykf-0007ZG-1t
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:52 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41096)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykg-0007hM-0I
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:53 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37507)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yke-0007Tk-QO
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:48 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v4so1506065wrs.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:48 -0800 (PST)
+ id 1j6Ykf-0007af-P7
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:49 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id l5so10127539wrx.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RflQQugqQD+TmG6zwoLNwhsZIRibctO8/AYIKjncmbQ=;
- b=Ef2FNZ6AMBIBUVJDT4fQsPqOqhnU+CoHOVhn/FwuSzZPDYI1r+XZm5uGa+r0dRHLeg
- UY1s7Ef4C31ZKMkUcdtg63+jNI9QSY9L9I8GCpYyL+rKpKDSLIcWTrMlcM4bUv+JmYKf
- nAPvFjSju1SQV4ruIPrXqN5Fe5hfUF0wwjnBMcGg4XrqdeM3dlzVZsMQirFiZLxZTjTj
- I6+aMgqQKAjdlcO0YOW2lvH6OSP4P1ECgpk3xgXZIzq8PNn3GlfjX1BZVNlM+UjbJ4rx
- G5fpvVpwA+9vOT8b79M/HiX9xHp3ugmdkGwGLiE2WUludfRujjU4DvaMcLYS8atHjZ2C
- C1aQ==
+ bh=JZ18+psHXsYlBdcmBOszobjy8NTgnnLlqRFdeQO1hMc=;
+ b=RkbqVSIp38q4FkPZ0fTF/bW7+IT4Qfvm2EOzRwW2Hq+VCNAMu5LdZnlDCAwZ+e608j
+ dxa3sO5QDNCE2z0lgYCeEDnbcdsbVVWZ724ZVhizPLe0AdA2DhNZJod0FKJQdZwC47C5
+ SOPC66fegWTw2aeD5/uKheX4oW/ktbEnBl/0zdK3Ggxdd3msLQX4yuen8iGPkEvRLUDu
+ TOAq+AEKhysHkpCjbx1hCwOy9NQaVPdE5FOLPnVGSfCfrVSUnoXPj32gYaT325l8lInD
+ jWRVdJJrV6tiu3mc3mdldgVEd+DOcm4VYZTcr4lIV2ijiKUSPkwwGkS+RZunANjMQMLt
+ TgYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RflQQugqQD+TmG6zwoLNwhsZIRibctO8/AYIKjncmbQ=;
- b=CkbEqcsEKVWIInSJ4UMt9js0DaGFtVLtB76KFQHYKBVBlK97z+PXehN/w5VkaVxekq
- CklXuEafA2WFh4cwE9WCnDN4NT5LmhhZ33PdBbz+axWXyZsQR8xCtMYuC1qusSFU503J
- dyFmIGECXa1v4k5JVat3bIOyuSWFcjTc/TH7kjxfU1uIkPs4Saj7x8lHXwcmPlBAvOdD
- FdtwbBr6BfZTi2qpwrEPBWahGmqm9akXyD8gnqUUb5W+es/BNkZ8EYg9zbbhUVPyHdt5
- Od4reNGp6sO0KK3u2LrlSy5kTB6yjNmzVaDQNevYjtqfs+1Y4Q6z39z7IBRD9oSJ0WSV
- GjUg==
-X-Gm-Message-State: APjAAAXMKoYwFVPFJTwnrei7IRYiMh88/RYm+3EC/rkLqFEFk7h8Z5/t
- GDy8sqSiwytJ7DjDGzwD9SgUN+zT
-X-Google-Smtp-Source: APXvYqx6zVC9T3IQQSRFwTuMKgHyHvniGvHtSDXYvgdAimJE+z5v1P7cW8g+NB+ON/lmh/h4GEZwOA==
-X-Received: by 2002:a5d:4687:: with SMTP id u7mr70253391wrq.176.1582631507499; 
- Tue, 25 Feb 2020 03:51:47 -0800 (PST)
+ bh=JZ18+psHXsYlBdcmBOszobjy8NTgnnLlqRFdeQO1hMc=;
+ b=CwRLYD6RKARfKq2xo672laG1polB7aJs6Q+zmCF4vO6fzTDEpPO5ftpt5mr7LfogED
+ rd86S3k6tAJt6WXyIeMCRGn9HnJzynsEpiOpE3tH3izkFfdW4ABMgmhkN011PcUj+JfG
+ p3jK010B2CZSnCNNUAwhcF6phQBCIIxi5e7Yz8vlEJ/wTZdLWHmtp3IS4NoMfxehMh+1
+ ZTegRC6uejnGDgrcIBhMybf6+H7rOrw5Zjxqgewe46EPo6yoIP748S9DRzci4xOCD0Pp
+ T1jG+S82/4MElwH1Q9nEObumKzuzn4rTKQTl6Lz16wpE5bd26Hs6NRX3MULOCqKW2iE/
+ 4njg==
+X-Gm-Message-State: APjAAAXymcpJKU2G/h34eRI0t+jXbZH5gJj8G5DWjXTlqXWip9cIeWKM
+ dT7vophegYoh/zoWM5iHF4sOpRmn
+X-Google-Smtp-Source: APXvYqzKEcyeOWbWcdDiOcUZz8wkEykMn9C5dHkxZWJoKMTOtk4qMgjldVg7NxBKaw5PBkPwXBR4cA==
+X-Received: by 2002:adf:bbcf:: with SMTP id z15mr73756637wrg.266.1582631508541; 
+ Tue, 25 Feb 2020 03:51:48 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.46
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.47
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:46 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 044/136] lm32/lm32_boards: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:34 +0100
-Message-Id: <1582631466-13880-44-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 045/136] lm32/milkymist: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:35 +0100
+Message-Id: <1582631466-13880-45-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -97,93 +97,42 @@ PS:
  out if it mismatches board expected value.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-45-imammedo@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-46-imammedo@redhat.com>
 ---
- hw/lm32/lm32_boards.c | 39 ++++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
+ hw/lm32/milkymist.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-index d1894ad..4e0a98c 100644
---- a/hw/lm32/lm32_boards.c
-+++ b/hw/lm32/lm32_boards.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
+diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+index 6d46134..5c72266 100644
+--- a/hw/lm32/milkymist.c
++++ b/hw/lm32/milkymist.c
+@@ -36,6 +36,7 @@
+ #include "hw/display/milkymist_tmu2.h"
+ #include "lm32.h"
+ #include "exec/address-spaces.h"
 +#include "qemu/cutils.h"
- #include "qemu/error-report.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
-@@ -75,22 +76,28 @@ static void main_cpu_reset(void *opaque)
  
- static void lm32_evr_init(MachineState *machine)
- {
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     const char *kernel_filename = machine->kernel_filename;
-     LM32CPU *cpu;
-     CPULM32State *env;
-     DriveInfo *dinfo;
-     MemoryRegion *address_space_mem =  get_system_memory();
--    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
-     qemu_irq irq[32];
-     ResetInfo *reset_info;
-     int i;
- 
-+    if (machine->ram_size != mc->default_ram_size) {
-+        char *sz = size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-+
-     /* memory map */
-     hwaddr flash_base  = 0x04000000;
-     size_t flash_sector_size       = 256 * KiB;
-     size_t flash_size              = 32 * MiB;
-     hwaddr ram_base    = 0x08000000;
--    size_t ram_size                = 64 * MiB;
-     hwaddr timer0_base = 0x80002000;
-     hwaddr uart0_base  = 0x80006000;
-     hwaddr timer1_base = 0x8000a000;
-@@ -107,9 +114,7 @@ static void lm32_evr_init(MachineState *machine)
- 
-     reset_info->flash_base = flash_base;
- 
--    memory_region_allocate_system_memory(phys_ram, NULL, "lm32_evr.sdram",
--                                         ram_size);
--    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
-+    memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
- 
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     /* Spansion S29NS128P */
-@@ -144,7 +149,7 @@ static void lm32_evr_init(MachineState *machine)
- 
-         if (kernel_size < 0) {
-             kernel_size = load_image_targphys(kernel_filename, ram_base,
--                                              ram_size);
-+                                              machine->ram_size);
-             reset_info->bootstrap_pc = ram_base;
-         }
- 
-@@ -159,6 +164,7 @@ static void lm32_evr_init(MachineState *machine)
- 
- static void lm32_uclinux_init(MachineState *machine)
+ #define BIOS_FILENAME    "mmone-bios.bin"
+ #define BIOS_OFFSET      0x00860000
+@@ -82,6 +83,7 @@ static void main_cpu_reset(void *opaque)
+ static void
+ milkymist_init(MachineState *machine)
  {
 +    MachineClass *mc = MACHINE_GET_CLASS(machine);
      const char *kernel_filename = machine->kernel_filename;
      const char *kernel_cmdline = machine->kernel_cmdline;
      const char *initrd_filename = machine->initrd_filename;
-@@ -166,18 +172,23 @@ static void lm32_uclinux_init(MachineState *machine)
-     CPULM32State *env;
+@@ -90,22 +92,27 @@ milkymist_init(MachineState *machine)
+     int kernel_size;
      DriveInfo *dinfo;
-     MemoryRegion *address_space_mem =  get_system_memory();
--    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
+     MemoryRegion *address_space_mem = get_system_memory();
+-    MemoryRegion *phys_sdram = g_new(MemoryRegion, 1);
      qemu_irq irq[32];
-     HWSetup *hw;
-     ResetInfo *reset_info;
      int i;
+     char *bios_filename;
+     ResetInfo *reset_info;
  
 +    if (machine->ram_size != mc->default_ram_size) {
 +        char *sz = size_to_str(mc->default_ram_size);
@@ -193,61 +142,48 @@ index d1894ad..4e0a98c 100644
 +    }
 +
      /* memory map */
-     hwaddr flash_base   = 0x04000000;
-     size_t flash_sector_size        = 256 * KiB;
+     hwaddr flash_base   = 0x00000000;
+     size_t flash_sector_size        = 128 * KiB;
      size_t flash_size               = 32 * MiB;
-     hwaddr ram_base     = 0x08000000;
--    size_t ram_size                 = 64 * MiB;
-     hwaddr uart0_base   = 0x80000000;
-     hwaddr timer0_base  = 0x80002000;
-     hwaddr timer1_base  = 0x80010000;
-@@ -200,9 +211,7 @@ static void lm32_uclinux_init(MachineState *machine)
+     hwaddr sdram_base   = 0x40000000;
+-    size_t sdram_size               = 128 * MiB;
  
-     reset_info->flash_base = flash_base;
+     hwaddr initrd_base  = sdram_base + 0x1002000;
+     hwaddr cmdline_base = sdram_base + 0x1000000;
+-    size_t initrd_max = sdram_size - 0x1002000;
++    size_t initrd_max = machine->ram_size - 0x1002000;
  
--    memory_region_allocate_system_memory(phys_ram, NULL,
--                                         "lm32_uclinux.sdram", ram_size);
--    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
-+    memory_region_add_subregion(address_space_mem, ram_base, machine->ram);
+     reset_info = g_malloc0(sizeof(ResetInfo));
+ 
+@@ -116,9 +123,7 @@ milkymist_init(MachineState *machine)
+ 
+     cpu_lm32_set_phys_msb_ignore(env, 1);
+ 
+-    memory_region_allocate_system_memory(phys_sdram, NULL, "milkymist.sdram",
+-                                         sdram_size);
+-    memory_region_add_subregion(address_space_mem, sdram_base, phys_sdram);
++    memory_region_add_subregion(address_space_mem, sdram_base, machine->ram);
  
      dinfo = drive_get(IF_PFLASH, 0, 0);
-     /* Spansion S29NS128P */
-@@ -238,7 +247,7 @@ static void lm32_uclinux_init(MachineState *machine)
+     /* Numonyx JS28F256J3F105 */
+@@ -183,7 +188,7 @@ milkymist_init(MachineState *machine)
  
          if (kernel_size < 0) {
-             kernel_size = load_image_targphys(kernel_filename, ram_base,
--                                              ram_size);
+             kernel_size = load_image_targphys(kernel_filename, sdram_base,
+-                                              sdram_size);
 +                                              machine->ram_size);
-             reset_info->bootstrap_pc = ram_base;
+             reset_info->bootstrap_pc = sdram_base;
          }
  
-@@ -252,7 +261,7 @@ static void lm32_uclinux_init(MachineState *machine)
-     hw = hwsetup_init();
-     hwsetup_add_cpu(hw, "LM32", 75000000);
-     hwsetup_add_flash(hw, "flash", flash_base, flash_size);
--    hwsetup_add_ddr_sdram(hw, "ddr_sdram", ram_base, ram_size);
-+    hwsetup_add_ddr_sdram(hw, "ddr_sdram", ram_base, machine->ram_size);
-     hwsetup_add_timer(hw, "timer0", timer0_base, timer0_irq);
-     hwsetup_add_timer(hw, "timer1_dev_only", timer1_base, timer1_irq);
-     hwsetup_add_timer(hw, "timer2_dev_only", timer2_base, timer2_irq);
-@@ -288,6 +297,8 @@ static void lm32_evr_class_init(ObjectClass *oc, void *data)
-     mc->init = lm32_evr_init;
-     mc->is_default = 1;
-     mc->default_cpu_type = LM32_CPU_TYPE_NAME("lm32-full");
-+    mc->default_ram_size = 64 * MiB;
-+    mc->default_ram_id = "lm32_evr.sdram";
- }
- 
- static const TypeInfo lm32_evr_type = {
-@@ -304,6 +315,8 @@ static void lm32_uclinux_class_init(ObjectClass *oc, void *data)
-     mc->init = lm32_uclinux_init;
+@@ -216,6 +221,8 @@ static void milkymist_machine_init(MachineClass *mc)
+     mc->init = milkymist_init;
      mc->is_default = 0;
      mc->default_cpu_type = LM32_CPU_TYPE_NAME("lm32-full");
-+    mc->default_ram_size = 64 * MiB;
-+    mc->default_ram_id = "lm32_uclinux.sdram";
++    mc->default_ram_size = 128 * MiB;
++    mc->default_ram_id = "milkymist.sdram";
  }
  
- static const TypeInfo lm32_uclinux_type = {
+ DEFINE_MACHINE("milkymist", milkymist_machine_init)
 -- 
 1.8.3.1
 
