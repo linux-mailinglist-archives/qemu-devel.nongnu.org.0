@@ -2,57 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7D616C247
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:28:12 +0100 (CET)
-Received: from localhost ([::1]:55780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B38916C1A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:06:30 +0100 (CET)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aFv-0005dP-KY
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:28:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
+	id 1j6Zuv-0001lM-AW
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:06:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j6Z9K-0003Sb-OO
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:17:20 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZKm-0001KE-00
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:29:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j6Z9H-0001io-JE
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:17:18 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:54075)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j6Z9H-0001hq-8k; Tue, 25 Feb 2020 07:17:15 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MtPzy-1jQ2KM3dU6-00ut5M; Tue, 25 Feb 2020 13:16:25 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 18/21] linux-user,
- scripts: add a script to update syscall.tbl
-Date: Tue, 25 Feb 2020 13:15:50 +0100
-Message-Id: <20200225121553.2191597-19-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200225121553.2191597-1-laurent@vivier.eu>
-References: <20200225121553.2191597-1-laurent@vivier.eu>
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZKk-0008Ba-PQ
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:29:07 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42784)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j6ZKk-0008B0-HZ
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:29:06 -0500
+Received: by mail-wr1-x442.google.com with SMTP id p18so10865707wre.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:29:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5WxDWJthdvA1X7L0L1YFPMv5HWuuoeCHVHj6QeQTNh4=;
+ b=EFJ2KeEbPMk5V6nPRoEUcBEyxv/FmM823G/vM6Sg8l/3GoGMz6w8KdR1VGak9uuMtL
+ NtF8xeSMwg7zb+oiv7LwGJTwoo6oMwZP99EJd0HT9/NOthg6sSZZhmoA5+qnxEQtfird
+ o0aefk/G7oYCLoA0Uimq9lvCC+eW1ebm0bMxGl5/hixc3/LbWwKXWboptTKpwP1XfIeS
+ bLhojPsmvQsUHd8xp3lAiaIwwxh/TaHlAtea+8CN1ntYU6Ksw4a0gHCP96v5kgb7WRwI
+ W2ki9VfuJvioKq01fNqzpyTrQC1JbYAfdOaGZjTWWkRr2U97PdTz8hrk/kNdTE/MPvLV
+ 45lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=5WxDWJthdvA1X7L0L1YFPMv5HWuuoeCHVHj6QeQTNh4=;
+ b=TFtqLc+wAXt2EqFLk26i+phwcQXavdn0VdX6AsmGXXZzYlT2nLJ6Kn/WmvgTDGLslF
+ OUqdNrOOlvPSUapGVtTYXglNnRCebUx9VG8SHur9WLhVmGrdwsPLwwiKcXpWckrRAAeb
+ sIytC4FbdIyXQvx8WazEdR5jZxrMLG1YQ6Yubecc0wDHLxtTAAVASxkbfK1y9IiYMGgQ
+ su3pUlkrb4Zy6nclI+v3V2y0RneoHSWiwsxj2fYGmrZkx3os6ilZb7w7wYnxpqMKnLfF
+ 2D0SLI5bRx8TwPm273k/NfCxh1sGdFAWmo+I7SecIJ7yJuh/3DPOg/5T5bWdnQhV+Kq5
+ nDWw==
+X-Gm-Message-State: APjAAAWFCo0BqW8j5pK0fbSjJkqYxxXSWZM+IqoesS7SHuSPfgCoU0tj
+ 60WHD4ebtKwhciJ+6zGZ8Pfn+w==
+X-Google-Smtp-Source: APXvYqxzG8GUuGzlTcSyVRVp4TP1D2M2bAYtEkIc753RFtPsADGAW0naTedCPF75CMy7OhnuoHP76g==
+X-Received: by 2002:adf:8b59:: with SMTP id v25mr76054513wra.419.1582633744786; 
+ Tue, 25 Feb 2020 04:29:04 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y185sm4147347wmg.2.2020.02.25.04.29.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 04:29:03 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C56E81FF87;
+ Tue, 25 Feb 2020 12:29:02 +0000 (GMT)
+References: <20200218142018.7224-1-philmd@redhat.com>
+ <20200218142018.7224-4-philmd@redhat.com>
+User-agent: mu4e 1.3.8; emacs 27.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH RESEND 3/3] .travis.yml: Test building with Xcode 11.3
+In-reply-to: <20200218142018.7224-4-philmd@redhat.com>
+Date: Tue, 25 Feb 2020 12:29:02 +0000
+Message-ID: <874kvezw8h.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Gdv/WPZYt1nmwfmKJpJEYbhhIw02ojTxT82IaD84fhmBs1O8vrc
- 7smQbrZNRHgv9h92LYJEz7DpnAUUq/852eZBgQJltMbR2o5yRK8r+CvgP5VzIGFr3Rj/ZL2
- qeBtBJykPrZahOWoTtjXfiBSt+IELLheBaNTc9fPcUiZilqyweclljnX2c7OfWy/8IFOLG5
- UJmpXsL9sQXdWA2seiYsQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g+d2sCVJW8k=:ZTZzaOlvE8kVeiPWx+RqzN
- 39aJz3cChlvXVh6+PluuDq7WhR9FvCGPWs26GHq2cX7FqLS+h1UfzKYlh+hS9m7vnTqE1CK8N
- bCFJEPcKx/1zoMgDmcgOWnf+j0tDSIATzzw7R4EoOuD/afckFlldgNQBpycIldOByILb4G/4G
- Hu6J1UgIFkKtILzR/Y/7vOrFhpta9T83cdle5B48K2w58aag6vmbt8UdO9xTSEOmZr6/+O1ea
- d030p1MqJ5VOZVBmZBC6JO4UpPKNbeUOj9Cca67luqUgt67Tc3RRk+AouqTXa5QRt90cRLg1S
- 1bG33B7N5sl7OASCJH1wCuSZKOmiX8Xgen+ZZdtxRAUF4eRLAdpLFQLXupQP5gHEF2pxiHufI
- cMfy4IR5DPkZlaL7d5T5PEhvqzkfkrNIfCGnzjH2JliRtszO1Fl408uSRNIrwIkSb90qhxM/V
- poA8kVtje+7sGmpa4syLCcc1IQFva8p3Ab/nOtxhYO0iRgJz5KEOs5MdKM5EOyOSim4kw8XFL
- K1urRTWg60dsielifNEz9Lusv0C3w2Vzsrq6oZvyt0wyL3f6LrYuYX/CuqnpsjTmiRhPcpAqG
- U5ehwtoerE2XmcfMLZ+jYJ4Jk06sn9JR+8lZ7RMWyGKFLn47z4i7dWSIC6pDsMHiZUppN/f2r
- 3kFtUj4uVPeFwa2IQEm8NUSA8Dn5fIFPRnUK65yobHKlTY/TGeQskZYvIjInWek0UZsUIVAap
- +63oNqBwv9Ce4eKTy+N2y8lbWrSGYUKKjRzKoNogIwudoIjIhk4lMRx+buxGzKAsESo/2eHAr
- wgklgCJPdhkJkF2rllCu/YJXvJk2J4EG1+97kDz3Cd+sd4C2Z7hMYYiGjUb9FbKLzuc3LAX
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,92 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-scripts/update-syscalltbl.sh has the list of syscall.tbl to update and
-can copy them from the linux source directory
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- MAINTAINERS                  |  1 +
- scripts/update-syscalltbl.sh | 49 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100755 scripts/update-syscalltbl.sh
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1740a4fddc14..dac93f447544 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2422,6 +2422,7 @@ S: Maintained
- F: linux-user/
- F: default-configs/*-linux-user.mak
- F: scripts/qemu-binfmt-conf.sh
-+F: scripts/update-syscalltbl.sh
- 
- Tiny Code Generator (TCG)
- -------------------------
-diff --git a/scripts/update-syscalltbl.sh b/scripts/update-syscalltbl.sh
-new file mode 100755
-index 000000000000..2d23e5680075
---- /dev/null
-+++ b/scripts/update-syscalltbl.sh
-@@ -0,0 +1,49 @@
-+TBL_LIST="\
-+arch/alpha/kernel/syscalls/syscall.tbl,linux-user/alpha/syscall.tbl \
-+arch/arm/tools/syscall.tbl,linux-user/arm/syscall.tbl \
-+arch/m68k/kernel/syscalls/syscall.tbl,linux-user/m68k/syscall.tbl \
-+arch/microblaze/kernel/syscalls/syscall.tbl,linux-user/microblaze/syscall.tbl \
-+arch/mips/kernel/syscalls/syscall_n32.tbl,linux-user/mips64/syscall_n32.tbl \
-+arch/mips/kernel/syscalls/syscall_n64.tbl,linux-user/mips64/syscall_n64.tbl \
-+arch/mips/kernel/syscalls/syscall_o32.tbl,linux-user/mips/syscall_o32.tbl \
-+arch/parisc/kernel/syscalls/syscall.tbl,linux-user/hppa/syscall.tbl \
-+arch/powerpc/kernel/syscalls/syscall.tbl,linux-user/ppc/syscall.tbl \
-+arch/s390/kernel/syscalls/syscall.tbl,linux-user/s390x/syscall.tbl \
-+arch/sh/kernel/syscalls/syscall.tbl,linux-user/sh4/syscall.tbl \
-+arch/sparc/kernel/syscalls/syscall.tbl,linux-user/sparc64/syscall.tbl \
-+arch/sparc/kernel/syscalls/syscall.tbl,linux-user/sparc/syscall.tbl \
-+arch/x86/entry/syscalls/syscall_32.tbl,linux-user/i386/syscall_32.tbl \
-+arch/x86/entry/syscalls/syscall_64.tbl,linux-user/x86_64/syscall_64.tbl \
-+arch/xtensa/kernel/syscalls/syscall.tbl,linux-user/xtensa/syscall.tbl\
-+"
-+
-+linux="$1"
-+output="$2"
-+
-+if [ -z "$linux" ] || ! [ -d "$linux" ]; then
-+    cat << EOF
-+usage: update-syscalltbl.sh LINUX_PATH [OUTPUT_PATH]
-+
-+LINUX_PATH      Linux kernel directory to obtain the syscall.tbl from
-+OUTPUT_PATH     output directory, usually the qemu source tree (default: $PWD)
-+EOF
-+    exit 1
-+fi
-+
-+if [ -z "$output" ]; then
-+    output="$PWD"
-+fi
-+
-+for entry in $TBL_LIST; do
-+    OFS="$IFS"
-+    IFS=,
-+    set $entry
-+    src=$1
-+    dst=$2
-+    IFS="$OFS"
-+    if ! cp "$linux/$src" "$output/$dst" ; then
-+        echo "Cannot copy $linux/$src to $output/$dst" 1>&2
-+        exit 1
-+    fi
-+done
-+
--- 
-2.24.1
+> We currently run a CI job on macOS Mojave with Xcode 10.
+>
+> QEMU policy is to support the two last major OS releases.
+> Add a job building on macOS Catalina, which comes with Xcode 11.
+>
+> Split the target list in two, as we don't need to cover twice the
+> same targets.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  .travis.yml | 36 +++++++++++++++++++++++++++++++++++-
+>  1 file changed, 35 insertions(+), 1 deletion(-)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index a2a7fd0dd1..d02a477623 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -269,9 +269,10 @@ matrix:
+>=20=20
+>      # MacOSX builds - cirrus.yml also tests some MacOS builds including =
+latest Xcode
+>=20=20
+> +    # On macOS Mojave, the SDK comes bundled with Xcode 10.
+>      - name: "OSX Xcode 10.3"
+>        env:
+> -        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softm=
+mu,m68k-softmmu,x86_64-softmmu --extra-cflags=3D-I/usr/local/opt/ncurses/in=
+clude --extra-ldflags=3D-L/usr/local/opt/ncurses/lib"
+> +        - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softm=
+mu,m68k-softmmu --extra-cflags=3D-I/usr/local/opt/ncurses/include --extra-l=
+dflags=3D-L/usr/local/opt/ncurses/lib"
+>        os: osx
+>        osx_image: xcode10.3
+>        compiler: clang
+> @@ -301,6 +302,39 @@ matrix:
+>          - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.=
+log && exit 1; }
+>=20=20
+>=20=20
+> +    # On macOS Catalina, the SDK comes bundled with Xcode 11.
+> +    - name: "OSX Xcode 11.3"
+> +      env:
+> +        - CONFIG=3D"--target-list=3Darm-softmmu,ppc64-softmmu,x86_64-sof=
+tmmu --extra-cflags=3D-I/usr/local/opt/ncurses/include --extra-ldflags=3D-L=
+/usr/local/opt/ncurses/lib"
+> +      os: osx
+> +      osx_image: xcode11.3
 
+Are we duplicating what the latest Xcode on Cirrus is here?
+
+--=20
+Alex Benn=C3=A9e
 
