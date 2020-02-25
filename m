@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95ADA16C2B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:48:51 +0100 (CET)
-Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CB316C2C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:51:53 +0100 (CET)
+Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aZu-00076s-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:48:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
+	id 1j6acq-0003vr-Ue
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:51:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZkU-0003ko-Gu
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZkW-0003pC-HL
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZkT-00044m-AP
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:42 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40895)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZkV-0004A9-F8
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:44 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42110)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZkT-00043g-3X
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:41 -0500
-Received: by mail-wm1-x341.google.com with SMTP id t14so3042062wmi.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:55:41 -0800 (PST)
+ id 1j6ZkV-00048g-77
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:43 -0500
+Received: by mail-wr1-x443.google.com with SMTP id p18so10963749wre.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:55:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=33Beb3UWNrnG47QEWUCuKu06Yy/rgf1M+3g9PXxe6cI=;
- b=hPGpctcecNWVS6r7SWnEe9n3xT4/g2BzygzWIxO5t+WNO5n/oeOd7O8hzgU/NeL8un
- Za5ZkmKPSppXWi4Kjt1kcmuYRDVBPLqI7WPfYfv/B1yOLPgtVRcAPpkNcQpIdsM4pfCD
- d9aYY9WaOsqpVp11WQr5klYvdov9FLJl/zdjCy3kuEdS1Fg6SbBP8O60WPkyANYqsf5s
- 0oP49k3VNi0aeoD0N5OtbOUW07BEQcqjDnnynK0FAMw1mWJ5nmOJeY6hWo00mkltXY2c
- nm0dxzu0KkpJWVv/xEjD8vPJNL5fn5nZ6XGogz68p0gDWv7szw/s5RW9eWFnH0krgtY9
- VGBw==
+ bh=EBaGCMW6W6S2Wg/FY9JiNSNkk1jY3/TyEWd55UX+4ek=;
+ b=Wlc/hzHXbGUzouldUtC2d3w93tY3tBXwVYf7DnxH2x1Ww7rQwpHCNMwF46GPpJ/kxf
+ QcJZpGIWgur4DasbTEOcFuWzjjwUDfVUX13yv+OOdsoXT9w9eDh2jtq+cQ78wyLkZqwF
+ kszseq0rmPJnqbCWWJpBIY4UsrEB8togkUpuUdCVjDV+dlCYD7zc37kZIDXBrikVd8gd
+ I6kEy1i+g6Jg243zPs3roeM6ysSfofsvIkn4tIDvt4tYrwJlQ3N8Ac7fTR3kNnngMAin
+ oIbqmzQylyOlfGHQM0DrDTNfffS2u11OJ8/Um/PGtd8ATfkGH82TavfAMTA8JEruFzX/
+ svUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=33Beb3UWNrnG47QEWUCuKu06Yy/rgf1M+3g9PXxe6cI=;
- b=a8IEvy96L49+gID+law8rB8qlw16I6wfUfcvBBB0cR54FRiUM9UFjY4aYzIr3GJTQW
- sBWSCU/KWGuV8l9oZw6RDDQ7DcYy2FOg6NUWxL4HEANe9QqfpbmpPUWzWe5ucOVih94t
- OgUH1twuaWea7uro6yzvMTGFh95uokPdnKhsj3agTwUzYe3MIBCbSVcm5UyrHarjOXEn
- 54+SB9YMHhALrJII0mMObCJG1ctf0eSNfyZpiJ0yZr0Yv+q9kJVX/+yDz//zY+51YKm+
- f5rbUZ5Thho2vhgwCYJjrq5GdSDYWuJHaroqwjl8G+FIq1nxAVe+LG0wGM5fcqRiFxr2
- YbDg==
-X-Gm-Message-State: APjAAAUNmI22Q7T1FsB6xA1ijpkUlAJqaP4aL4RCETjoXnT5u7Fidmbi
- aV4IZIRZ70eyWPjuTO79n/bBXA==
-X-Google-Smtp-Source: APXvYqwgCsuveY3EsQFWO6ZotEa+054ejPSyDchPKiCf/uXDm+0elXO3x67zTqF5cpRUqSDmER6GPg==
-X-Received: by 2002:a05:600c:2283:: with SMTP id
- 3mr5244353wmf.100.1582635339975; 
- Tue, 25 Feb 2020 04:55:39 -0800 (PST)
+ bh=EBaGCMW6W6S2Wg/FY9JiNSNkk1jY3/TyEWd55UX+4ek=;
+ b=tlJeHupX/Fo+alj3eg3SMML0m5O36XJRxiQECuGSNmz8R7ZvNp2mYjB94pXu/Q1HBa
+ nUXKoGroRiSC7YxrsS7G4NU/rBn4e3ZYlxFPgwzD+wjD3OQ3coBaU4IWWwAsqzHAGzYS
+ ysmGKwW64hFWEf3PAhi6M5pcZb1wAxam1jHkoanKrqKuDofd3DE9d5fj+0ZPxpMqc6b5
+ w26hxGwmyunGdLP1q+86QiS5gFesN4towrlg4YaEo/bUAkNiryVlhrMdEzmSZggahUR+
+ 2JLs1tIT2bKpGS0bc+lIz3ADuNQj1CzB8y74lTXKRlyf1u1GJxPB5F4l1b76Vxg6CkN5
+ nSvg==
+X-Gm-Message-State: APjAAAUmTh4ezTEfQBMJBusKBvrfPuqpcO13r4n+S/0jNZKMLpT/NqnG
+ e0FaH6pihmCabpsJSl5DeVuJUA==
+X-Google-Smtp-Source: APXvYqxKmpx+NcYJEQZfvMqGSjgBhUfvDVxPbOXA3ZI+qNbeuqQAqGcuMU77aHy01/2sOonnetE/fw==
+X-Received: by 2002:adf:f18e:: with SMTP id h14mr14710204wro.51.1582635342188; 
+ Tue, 25 Feb 2020 04:55:42 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o4sm22856681wrx.25.2020.02.25.04.55.37
+ by smtp.gmail.com with ESMTPSA id v16sm3964669wml.11.2020.02.25.04.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 25 Feb 2020 04:55:37 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B5F4E1FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id CE1961FFA6;
  Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 16/19] tests/tcg: give debug builds a little bit longer
-Date: Tue, 25 Feb 2020 12:47:07 +0000
-Message-Id: <20200225124710.14152-17-alex.bennee@linaro.org>
+Subject: [PATCH  v3 17/19] tcg: save vaddr temp for plugin usage
+Date: Tue, 25 Feb 2020 12:47:08 +0000
+Message-Id: <20200225124710.14152-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,42 +85,95 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- aurelien@aurel32.net
+ qemu-stable@nongnu.org, marcandre.lureau@redhat.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When combined with heavy plugins we occasionally hit the timeouts.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+While do_gen_mem_cb does copy (via extu_tl_i64) vaddr into a new temp
+this won't help if the vaddr temp gets clobbered by the actual
+load/store op. To avoid this clobbering we explicitly copy vaddr
+before the op to ensure it is live my the time we do the
+instrumentation.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Emilio G. Cota <cota@braap.org>
+Cc: qemu-stable@nongnu.org
 ---
- tests/tcg/Makefile.target | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tcg/tcg-op.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 3c7421a356e..b3cff3cad1a 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -79,7 +79,7 @@ QEMU_OPTS=
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 7d782002e3f..e2e25ebf7db 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2794,13 +2794,26 @@ static void tcg_gen_req_mo(TCGBar type)
+     }
+ }
  
- # If TCG debugging is enabled things are a lot slower
- ifeq ($(CONFIG_DEBUG_TCG),y)
--TIMEOUT=45
-+TIMEOUT=60
- else
- TIMEOUT=15
- endif
-@@ -137,7 +137,7 @@ PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
- $(foreach p,$(PLUGINS), \
- 	$(foreach t,$(TESTS),\
- 		$(eval run-plugin-$(t)-with-$(p): $t $p) \
--		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=30) \
-+		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=60) \
- 		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
- endif
++static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
++{
++#ifdef CONFIG_PLUGIN
++    if (tcg_ctx->plugin_insn != NULL) {
++        /* Save a copy of the vaddr for use after a load.  */
++        TCGv temp = tcg_temp_new();
++        tcg_gen_mov_tl(temp, vaddr);
++        return temp;
++    }
++#endif
++    return vaddr;
++}
++
+ static inline void plugin_gen_mem_callbacks(TCGv vaddr, uint16_t info)
+ {
+ #ifdef CONFIG_PLUGIN
+-    if (tcg_ctx->plugin_insn == NULL) {
+-        return;
++    if (tcg_ctx->plugin_insn != NULL) {
++        plugin_gen_empty_mem_callback(vaddr, info);
++        tcg_temp_free(vaddr);
+     }
+-    plugin_gen_empty_mem_callback(vaddr, info);
+ #endif
+ }
+ 
+@@ -2822,6 +2835,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
+@@ -2868,6 +2882,7 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+         memop &= ~MO_BSWAP;
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
+@@ -2905,6 +2920,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
+ 
+@@ -2967,6 +2983,7 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         memop &= ~MO_BSWAP;
+     }
+ 
++    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
+     plugin_gen_mem_callbacks(addr, info);
  
 -- 
 2.20.1
