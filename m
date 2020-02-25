@@ -2,112 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D7816BDDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 10:51:16 +0100 (CET)
-Received: from localhost ([::1]:51276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168EC16BDE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 10:52:09 +0100 (CET)
+Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Wrz-000669-VD
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 04:51:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56561)
+	id 1j6Wsq-0007Ic-55
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 04:52:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j6Wr1-0005Qf-PB
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:50:16 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j6Ws0-0006Tv-Fl
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:51:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j6Wqx-00053g-Nh
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:50:15 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28734
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j6Wqx-00052O-Js
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:50:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582624211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=viB8R8BSFA9XvpJYOgc31GjWOS4d3zTerumn9ZoIef4=;
- b=b4o8BnKbsrD0Cg9yCUn1eKME/BiOWFEgIGvzqN7HY6hwbthcuqW5AwmYukn/qmm2O5ApKU
- fXcz1cuSF58FxoOT2tGZTUCWv3SzVb77te34nbgEmuO4d36TZzw+u9i3mj/sXeg77MSNMA
- CCiBbAON71t8WjSgiIS3RXlwu0W4S7s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-WaD2fWbNM8e2v3c-409XSg-1; Tue, 25 Feb 2020 04:50:06 -0500
-X-MC-Unique: WaD2fWbNM8e2v3c-409XSg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B166107ACCA;
- Tue, 25 Feb 2020 09:50:05 +0000 (UTC)
-Received: from [10.36.117.12] (ovpn-117-12.ams2.redhat.com [10.36.117.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64FA49296A;
- Tue, 25 Feb 2020 09:50:04 +0000 (UTC)
-Subject: Re: [PATCH v4 04/16] s390x: protvirt: Add migration blocker
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200220125638.7241-1-frankja@linux.ibm.com>
- <20200220125638.7241-5-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <52fd13cf-3de6-5a4f-d675-cb1961433dc6@redhat.com>
-Date: Tue, 25 Feb 2020 10:50:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200220125638.7241-5-frankja@linux.ibm.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j6Wrz-0005Ty-I4
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:51:16 -0500
+Received: from mail-eopbgr00100.outbound.protection.outlook.com
+ ([40.107.0.100]:9927 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1j6Wrx-0005Q5-IR; Tue, 25 Feb 2020 04:51:13 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GP0jrS5OcU8HZN9ek1L0sBz0KE3cv6MDrZT6xlvS6lpX3d7pMc9VXX2yFrBddx8VLjlps7n/CBwoCRpXzlkLVSGZoZgFFGyaWw2Fg4HeUo8V+M/o1kc9i81Y0xbHVqz65ByVZzYCgMKivDAcBov+C+Jgsu45CTz7no7I345G3E51ipDkBw1oJhbD5V2a01U2uZ7N27Rs9XK1BIcLPHo2xb8FSGC81zDSgwSi8AoehtUYv4quMEdWtmnxOPiPGBED+57nLh0RCrfQtKtMnNnXuzoKHngOchxMrBsGtZ8hnOuZM7X63IqtiWRa25PsVlCWJz6Kfys70ES04ieP1UvKzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xl2pCaR7v9sNXFQs4x9Vbrs+U3hGH4zw0dRG26AahNg=;
+ b=ngDBaMWeef8TqWYSuoF+BuVNAbk1QlyDNxOSGvhbd2icNCs0vq4ZXLoJMFO5BthIP+qlB7ai5ZjelHLZjzJQ+jK1Gqqi2YaCB8WMuZ9wJTqmwy61KrfPM6aM6CMOSG86tENTRhrzgGqJxtrLFamX99gSLAKp9DkPpI6kDTqrJw7Y/gYHoa+RqtazaAB6cG/Xm9orqgB1CKtbv+BGUaUgukeKnGb+U2wMNmhefcenRSPSXPsFxfXvLLC9QprLZyWjwBDVLnHlVPErQWOv9PRNvm6ma2XCQBXqzJAVVgztzskySr6lxmmtctltH4vlrVjJEJZ3ILhh2nNDvnn+4q32eA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xl2pCaR7v9sNXFQs4x9Vbrs+U3hGH4zw0dRG26AahNg=;
+ b=gq2h8BvGGkhwvrr3RBoOWkV8mkwEQue36ehrWyKYbEWQy0zkP1KRa86YXNsViA+Km6lB63lPJ6j+oW3JVZ6Af09q/HPQ2Gt8jqMO9oH+K1j0Ln4kCWJeCNrQoiyrX1qTMK4SMizloKS3R5pbFofkwja34xuWqK0mxlT/axvPdpU=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3926.eurprd08.prod.outlook.com (20.179.1.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.21; Tue, 25 Feb 2020 09:51:10 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::e05a:63af:818c:b664]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::e05a:63af:818c:b664%4]) with mapi id 15.20.2750.021; Tue, 25 Feb 2020
+ 09:51:10 +0000
+Subject: Re: [PATCH v7 03/11] scripts: add coccinelle script to use auto
+ propagated errp
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200131130118.1716-1-vsementsov@virtuozzo.com>
+ <20200131130118.1716-4-vsementsov@virtuozzo.com>
+ <87v9nxwulz.fsf@dusky.pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200225125107800
+Message-ID: <b4b0a029-372d-08e7-c126-2d8e67043dd7@virtuozzo.com>
+Date: Tue, 25 Feb 2020 12:51:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <87v9nxwulz.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-ClientProxiedBy: HE1PR09CA0086.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::30) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR09CA0086.eurprd09.prod.outlook.com (2603:10a6:7:3d::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.18 via Frontend Transport; Tue, 25 Feb 2020 09:51:09 +0000
+X-Tagtoolbar-Keys: D20200225125107800
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b1cc2b0a-108f-4818-49c4-08d7b9d83e34
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3926:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3926CA2FA23815534642DE3EC1ED0@AM6PR08MB3926.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0324C2C0E2
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(39850400004)(396003)(346002)(136003)(366004)(376002)(199004)(189003)(52116002)(2616005)(31686004)(31696002)(26005)(81166006)(4744005)(86362001)(7416002)(8676002)(8936002)(81156014)(16576012)(316002)(66556008)(16526019)(54906003)(66946007)(186003)(4326008)(36756003)(6486002)(956004)(66476007)(478600001)(2906002)(6916009)(5660300002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3926;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6xR2H0HSk5gvgClAkpyF5fsaWdHCUkkOADqEfmBP8tHoBfy6xfNNIC6vhgoUyxiGFIY6c0t0d9h1DWh1seRQaoYrAd9rghQJl31OIgGfliX2gl4zlSCjG4vqinHtbZUVGmaMgSNUhIP2dZWWlfiQ+BawgxWxxnJCJLoscxsQ2eULAkfP6BwC27jTf2jyoZVLBpvMscRZoibRXmujqhrqZ4OS3g1Mw4JHOdvSfrT4QGlBxDOW6rmntc10dKBUCtiOtY6bBMNB5RCbqIYdLfTC5/rXjSpfw/84Nv3vNG4hHseqXQ+diMboSlNNFRLHLI0IIZ5l/KRNkhFLrbPu9blVfFPOQG35glqZa8Un1TxH/x3b4f0u/itt1qATs3EY9Bf5nQwtKEUhFJVMloSeKjNY9oVoBRDGWmvswCBORIqPW6xj9Sk/XJ/qncE0vcvz3rj9
+X-MS-Exchange-AntiSpam-MessageData: npkfNXQtwCCTIj99rjj4yKOkTbCwdkSS2MTkFiqjVPhZyYa/4Qj1xn76Mg1c6+UAtX0n8xTsiXIA3JhhBz8Um0YXDIAjfXKlalTjACYIPMYCdOu7OJh4hRerRyvpVrPDKW6aVNfYoge+EuUtyiMwOQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1cc2b0a-108f-4818-49c4-08d7b9d83e34
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2020 09:51:10.5532 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AOzOnd3s0MiCTpqFPSCJQs6mvobjV9wGh/0lwbp4Att01kYELZeHIRqwazhieNAAWP5TEGepX+ieVLGp0k9CUVfViiCC75NwebiJfbFDbv0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3926
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.0.100
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,75 +111,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, mihajlov@linux.ibm.com, cohuck@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.02.20 13:56, Janosch Frank wrote:
-> Migration is not yet supported.
+23.02.2020 11:55, Markus Armbruster wrote:
+>> +|
+>> +-    warn_report_err(local_err);
+>> ++    warn_report_errp(errp);
+> Likewise.
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  hw/s390x/s390-virtio-ccw.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index aa974d294e..6fba8d9331 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -42,6 +42,9 @@
->  #include "hw/s390x/tod.h"
->  #include "sysemu/sysemu.h"
->  #include "hw/s390x/pv.h"
-> +#include "migration/blocker.h"
-> +
-> +static Error *pv_mig_blocker;
->  
->  S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
->  {
-> @@ -387,6 +390,7 @@ static void s390_machine_reset(MachineState *machine)
->      CPUState *cs, *t;
->      S390CPU *cpu;
->      S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-> +    static Error *local_err;
->  
->      /* get the reset parameters, reset them once done */
->      s390_ipl_get_reset_request(&cs, &reset_type);
-> @@ -436,13 +440,20 @@ static void s390_machine_reset(MachineState *machine)
->          }
->          run_on_cpu(cs, s390_do_cpu_reset, RUN_ON_CPU_NULL);
->  
-> -        if (s390_machine_protect(ms)) {
-> +        if (!pv_mig_blocker) {
-> +            error_setg(&pv_mig_blocker,
-> +                       "protected VMs are currently not migrateable.");
-> +        }
-> +        migrate_add_blocker(pv_mig_blocker, &local_err);
-> +        if (!local_err && s390_machine_protect(ms)) {
->              s390_machine_inject_pv_error(cs);
-> -            s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
-> -            return;
-> +            migrate_del_blocker(pv_mig_blocker);
-> +            goto pv_err;
->          }
+> What about error_reportf_err(), warn_reportf_err()?
 
-I'm sorry, but that looks ... a little to interesting to me. Why can't
-you register/unregister the blocker where you actually perform the
-switch to/from PV?
+Hmm I'm afraid, we don't have corresponding cases to update..
 
->  
->          run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
-> +pv_err:
-> +        s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
->          break;
->      default:
->          g_assert_not_reached();
-> 
-
+We can still handle them here, but, then, should we use nonexistent error_reportf_errp, so if it matched, we'll have compilation error?
+Or may be coccinelle has some kind of "abort()" on the match, to error-out that "please define error_reportf_errp and update coccinelle script first"...
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Best regards,
+Vladimir
 
