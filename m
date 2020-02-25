@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B4616BB1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 08:42:17 +0100 (CET)
-Received: from localhost ([::1]:49976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC8E16BB62
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 08:57:18 +0100 (CET)
+Received: from localhost ([::1]:50222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6UrA-0001tu-KC
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 02:42:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
+	id 1j6V5h-00025F-D9
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 02:57:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j6Upm-00009J-9Y
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:51 -0500
+ (envelope-from <dovgaluk@ispras.ru>) id 1j6V4u-0001eC-RP
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:56:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j6Upl-0003dx-6p
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:50 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:55772 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j6Upk-0003dM-RH
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:40:49 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id ADAF1A2DFF4E42C25089;
- Tue, 25 Feb 2020 15:40:46 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.216) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 25 Feb 2020 15:40:38 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <mst@redhat.com>
-Subject: [PATCH 4/4] virtio-crypto: do delete ctrl_vq in
- virtio_crypto_device_unrealize
-Date: Tue, 25 Feb 2020 15:55:54 +0800
-Message-ID: <20200225075554.10835-5-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200225075554.10835-1-pannengyuan@huawei.com>
-References: <20200225075554.10835-1-pannengyuan@huawei.com>
+ (envelope-from <dovgaluk@ispras.ru>) id 1j6V4s-0001KG-II
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:56:28 -0500
+Received: from mail.ispras.ru ([83.149.199.45]:44672)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1j6V4s-0001JX-6M
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:56:26 -0500
+Received: from mail.ispras.ru (localhost [127.0.0.1])
+ by mail.ispras.ru (Postfix) with ESMTPSA id C054BC0101;
+ Tue, 25 Feb 2020 10:56:22 +0300 (MSK)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.216]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date: Tue, 25 Feb 2020 10:56:22 +0300
+From: dovgaluk <dovgaluk@ispras.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: Race condition in overlayed qcow2?
+In-Reply-To: <b408733f-a0d7-62ab-8862-8d70d7148e5f@virtuozzo.com>
+References: <2fb9fb4840d5aa92a716487f83ceb36c@ispras.ru>
+ <0afe41fc-cc09-5682-a667-574c44fd6da3@virtuozzo.com>
+ <5891b48a131321be62a4a311253da44c@ispras.ru>
+ <af246719-910b-1394-2f18-b88e3daa9c81@virtuozzo.com>
+ <0cbd2c7a-44e1-272f-9995-1ff7e2fb9e36@virtuozzo.com>
+ <b3405d429e42bdf03177db1b8f7531ee@ispras.ru>
+ <b5811027-388a-98db-fe73-93230b5e29ae@virtuozzo.com>
+ <5fe1747e6e7b818d93fd9a7fd0434bed@ispras.ru>
+ <99ed3129-9460-dbad-0441-95bad08d5636@virtuozzo.com>
+ <796f18ec7246b8d07ac5d6bb59dca71f@ispras.ru>
+ <b408733f-a0d7-62ab-8862-8d70d7148e5f@virtuozzo.com>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <ac41c395f09a4101b7403e4116beba6a@ispras.ru>
+X-Sender: dovgaluk@ispras.ru
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 83.149.199.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,55 +60,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, euler.robot@huawei.com,
- Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to other virtio-deivces, ctrl_vq forgot to delete in virtio_crypto_device_unrealize, this patch fix it.
-This device has aleardy maintained vq pointers. Thus, we use the new virtio_delete_queue function directly to do the cleanup.
+Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2020-02-25 10=
+:27:
+> 25.02.2020 8:58, dovgaluk wrote:
+>> Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2020-02-21=
+ 16:23:
+>>> 21.02.2020 15:35, dovgaluk wrote:
+>>>> Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2020-02-=
+21 13:09:
+>>>>> 21.02.2020 12:49, dovgaluk wrote:
+>>>>>> Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2020-0=
+2-20 12:36:
+>>>>>=20
+>>>>> So, preadv in file-posix.c returns different results for the same
+>>>>> offset, for file which is always opened in RO mode? Sounds=20
+>>>>> impossible
+>>>>> :)
+>>>>=20
+>>>> True.
+>>>> Maybe my logging is wrong?
+>>>>=20
+>>>> static ssize_t
+>>>> qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t=20
+>>>> offset)
+>>>> {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 ssize_t res =3D preadv(fd, iov, nr_iov, off=
+set);
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 qemu_log("preadv %x %"PRIx64"\n", fd, (uint=
+64_t)offset);
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 int i;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 uint32_t sum =3D 0;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 int cnt =3D 0;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0 ; i < nr_iov ; ++i) {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int j;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (j =3D 0 ; j < =
+(int)iov[i].iov_len ; ++j)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 sum +=3D ((uint8_t*)iov[i].iov_base)[j];
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 ++cnt;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 qemu_log("size: %x sum: %x\n", cnt, sum);
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 assert(cnt =3D=3D res);
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 return res;
+>>>> }
+>>>>=20
+>>>=20
+>>> Hmm, I don't see any issues here..
+>>>=20
+>>> Are you absolutely sure, that all these reads are from backing file,
+>>> which is read-only and never changed (may be by other processes)?
+>>=20
+>> Yes, I made a copy and compared the files with binwalk.
+>>=20
+>>> 2. guest modifies buffers during operation (you can catch it if
+>>> allocate personal buffer for preadv, than calculate checksum, then
+>>> memcpy to guest buffer)
+>>=20
+>> I added the following to the qemu_preadv:
+>>=20
+>>  =C2=A0=C2=A0=C2=A0 // do it again
+>>  =C2=A0=C2=A0=C2=A0 unsigned char *buf =3D g_malloc(cnt);
+>>  =C2=A0=C2=A0=C2=A0 struct iovec v =3D {buf, cnt};
+>>  =C2=A0=C2=A0=C2=A0 res =3D preadv(fd, &v, 1, offset);
+>>  =C2=A0=C2=A0=C2=A0 assert(cnt =3D=3D res);
+>>  =C2=A0=C2=A0=C2=A0 uint32_t sum2 =3D 0;
+>>  =C2=A0=C2=A0=C2=A0 for (i =3D 0 ; i < cnt ; ++i)
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sum2 +=3D buf[i];
+>>  =C2=A0=C2=A0=C2=A0 g_free(buf);
+>>  =C2=A0=C2=A0=C2=A0 qemu_log("--- sum2 =3D %x\n", sum2);
+>>  =C2=A0=C2=A0=C2=A0 assert(sum2 =3D=3D sum);
+>>=20
+>> These two reads give different results.
+>> But who can modify the buffer while qcow2 workers filling it with data=
+=20
+>> from the disk?
+>>=20
+>=20
+> As far as I know, it's guest's buffer, and guest may modify it during
+> the operation. So, it may be winxp :)
 
-The leak stack:
-Direct leak of 10752 byte(s) in 3 object(s) allocated from:
-    #0 0x7f4c024b1970 in __interceptor_calloc (/lib64/libasan.so.5+0xef970)
-    #1 0x7f4c018be49d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
-    #2 0x55a2f8017279 in virtio_add_queue /mnt/sdb/qemu-new/qemu_test/qemu/hw/virtio/virtio.c:2333
-    #3 0x55a2f8057035 in virtio_crypto_device_realize /mnt/sdb/qemu-new/qemu_test/qemu/hw/virtio/virtio-crypto.c:814
-    #4 0x55a2f8005d80 in virtio_device_realize /mnt/sdb/qemu-new/qemu_test/qemu/hw/virtio/virtio.c:3531
-    #5 0x55a2f8497d1b in device_set_realized /mnt/sdb/qemu-new/qemu_test/qemu/hw/core/qdev.c:891
-    #6 0x55a2f8b48595 in property_set_bool /mnt/sdb/qemu-new/qemu_test/qemu/qom/object.c:2238
-    #7 0x55a2f8b54fad in object_property_set_qobject /mnt/sdb/qemu-new/qemu_test/qemu/qom/qom-qobject.c:26
-    #8 0x55a2f8b4de2c in object_property_set_bool /mnt/sdb/qemu-new/qemu_test/qemu/qom/object.c:1390
-    #9 0x55a2f80609c9 in virtio_crypto_pci_realize /mnt/sdb/qemu-new/qemu_test/qemu/hw/virtio/virtio-crypto-pci.c:58
+True, but normally the guest won't do it.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Cc: "Gonglei (Arei)" <arei.gonglei@huawei.com>
----
- hw/virtio/virtio-crypto.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+But I noticed that DMA operation which causes the problems has the=20
+following set of the buffers:
+dma read sg size 20000 offset: c000fe00
+--- sg: base: 2eb1000 len: 1000
+--- sg: base: 3000000 len: 1000
+--- sg: base: 2eb2000 len: 3000
+--- sg: base: 3000000 len: 1000
+--- sg: base: 2eb5000 len: b000
+--- sg: base: 3040000 len: 1000
+--- sg: base: 2f41000 len: 3000
+--- sg: base: 3000000 len: 1000
+--- sg: base: 2f44000 len: 4000
+--- sg: base: 3000000 len: 1000
+--- sg: base: 2f48000 len: 2000
+--- sg: base: 3000000 len: 1000
+--- sg: base: 3000000 len: 1000
+--- sg: base: 3000000 len: 1000
 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 7351ab0a19..4c65114de5 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -831,12 +831,13 @@ static void virtio_crypto_device_unrealize(DeviceState *dev, Error **errp)
- 
-     max_queues = vcrypto->multiqueue ? vcrypto->max_queues : 1;
-     for (i = 0; i < max_queues; i++) {
--        virtio_del_queue(vdev, i);
-+        virtio_delete_queue(vcrypto->vqs[i].dataq);
-         q = &vcrypto->vqs[i];
-         qemu_bh_delete(q->dataq_bh);
-     }
- 
-     g_free(vcrypto->vqs);
-+    virtio_delete_queue(vcrypto->ctrl_vq);
- 
-     virtio_cleanup(vdev);
-     cryptodev_backend_set_used(vcrypto->cryptodev, false);
--- 
-2.18.2
 
+It means that one DMA transaction performs multiple reads into the same=20
+address.
+And no races is possible, when there is only one qcow2 worker.
+When there are many of them - they can fill this buffer simultaneously.
+
+Pavel Dovgalyuk
 
