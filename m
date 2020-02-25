@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8C916C0E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:35:03 +0100 (CET)
-Received: from localhost ([::1]:54290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2965316C0DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:33:07 +0100 (CET)
+Received: from localhost ([::1]:54262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZQU-0003Of-Em
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:35:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49812)
+	id 1j6ZOc-0008Oe-55
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:33:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001Iv-FU
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001Ip-EB
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Ia-Iu
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Ik-JD
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51576)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41099)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykz-000879-34
+ id 1j6Ykz-0008Ez-7m
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:09 -0500
-Received: by mail-wm1-x335.google.com with SMTP id t23so2681163wmi.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:05 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id v4so1507383wrs.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7HmcCPOMdMhr/kyGIt2JW8uV4wc8/OhGNTYl4tEX7pQ=;
- b=qrwWi4UXABWyEew6OXdwaDO1dxPLd+ET+u94sqPyL+gR3osz5gpPja11qF6EmN7a42
- iQn2HsKmxlJfNZ2H6LBFS1qEENkig/RuB6KCXhTSJPqtbGhCWv4aMSGEJ29XjSl8g6Oy
- v9KePMcouPADGWpHTtrhXA5SLAOzElNvEhWGB27pFt7fDofH/qfyPLgsfeKCgIR2Ia/0
- Bqb8a6G6BhXY5BdtvmGihonzNeWfXtosNzPihPts6BAZ0CWx9VbQk4qKM3lzuWk3wgOO
- SpPtZ/9BBRoPU3dr6mhbWBf/K7Mo4ZPYmnc7Z+GYCZ/nW0qUN4nJ51TdNysvMhLmuzcL
- cf1g==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0GeSPUd+mKg9D1za+RBzaJqkiW6pHjAlr8xTe40NNV0=;
+ b=FxnSizaDoNaD0hVWAR5gAEUIKgtITDVWMU15YFsycy2iDdwyD7s0XOgyMuuJFNo08J
+ oQ+MUiIgxhht69HB07oxLtdnzdkK3lMBTJDbmgACEtBqyxGYm14Qo5Zpufq21ByIbZ7V
+ 1yguG3S6kMCE2R8Cr7wLFGHmUZ2l5zF2yaea2FBIA+ZGSEnBhIuVHkd9i0LLgdHZY+12
+ RUpLmMNeruUoGD8e8e/qjo567KmkkWhqki1abzgtzdolO0fS+wwiDPuL4V/v8FV2Aql8
+ 3USoIal77xYrdYettIa3tU3nVOCQuugMpgbGMhX7aYTZEH9Gz/DhUE0yc40jZ1I0ghwO
+ UI4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=7HmcCPOMdMhr/kyGIt2JW8uV4wc8/OhGNTYl4tEX7pQ=;
- b=IQ0oZlFgmwqhx1DDvagXzLx5NcAugPh0zXi+z92Robu4QGnf8SFcuM4Foss7JFBJxo
- Z+AhiqAgyeZS24w+5dubF+DrGrkSATrNDED2D3Irfp0G3NKE+ztd2waX86kwH4QFrhFl
- tX8Atx8WpdpjigqhoHwAqwzbAsB4Gwc/hfUExDNxNhBhmwkoDGFPiXmUi23qb8oFJpow
- h+JAxzHVPmk+4qYz1fnarqt7w880McV1B+EalTEdzcEV2mrftuK2PcKyrFiHUIb9Zg1u
- VmaXS5XQDUGBiQHc4Tg5ndwz9wEnrMC32XDZfeRZEo/CJKlOKgJPwTAuz1hLbv+xOK1o
- 6a0g==
-X-Gm-Message-State: APjAAAV4hUCIrZqRBzhZE5rfh9Y1EWSkVS66GIkKDn1otMFK316qtyzj
- HDY37iJvKH6py3m3pzLVSSOJhVuL
-X-Google-Smtp-Source: APXvYqysaD/fIWTMwT2YjbY96Vtx23jCq4B1dpqkzc+C5sVI1UJZ6JQ2GHg4yw0eBk4hpFSIAAJ5Ng==
-X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr4908727wmj.175.1582631524788; 
- Tue, 25 Feb 2020 03:52:04 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=0GeSPUd+mKg9D1za+RBzaJqkiW6pHjAlr8xTe40NNV0=;
+ b=GFfP1Vjfdc1fS/Zl7PD4G6oxUGdo+k3xERorad/iFsF3aVDi6Ytm2XPZfiA2Hvglss
+ nVNXwb7uSajThIKjFqMBY++O1pNnc2xbGJgj3tRlkenwNWozrmcRpSamSDOTQwe8oW5I
+ fXsDr0KuvGguWE1ytACUE/nQYGCkjYnLbWQces5cryWuajIyUAMFLSQEVxV6FjbE+kis
+ q9fk2FUdutmsGBo0sj0ZpKlih9Aj4fQYhrYRLKUV3Q7T2NyE4MjXjghpFwJvgS0lQBBH
+ qDG0a3i5eFhDKOxIgVRWkeyijDNpNphCtmlwtrYaiIXpWvTnEUmf6TEbXmjc82uK+y32
+ 97xA==
+X-Gm-Message-State: APjAAAUMNhJ+FaUf7SBAiWNR/Y868OtU9PTbH+lS7U0rLPqAq63Lcbz5
+ M2yNx5gKk+tnFJv0cEU10rKdkPN2
+X-Google-Smtp-Source: APXvYqzChQ/oJ6neqRqJNcE1nR780F6lp9cpX4kPybYxqxhCDRaEO2objemPsGtLY3plUCAMH2V+dQ==
+X-Received: by 2002:adf:cd92:: with SMTP id q18mr71539552wrj.261.1582631527937; 
+ Tue, 25 Feb 2020 03:52:07 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.03
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.06
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:04 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:07 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 064/136] ppc/ppc405_boards: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:54 +0100
-Message-Id: <1582631466-13880-64-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 067/136] ppc/spapr: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:57 +0100
+Message-Id: <1582631466-13880-67-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,79 +92,48 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-PS:
-in ref405ep alias RAM into ram_memories[] to avoid re-factoring
-its user ppc405ep_init(), which would be invasive and out of
-scope this patch.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-65-imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200219160953.13771-68-imammedo@redhat.com>
 ---
- hw/ppc/ppc405_boards.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ hw/ppc/spapr.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 057882a..de93c40 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -170,8 +170,8 @@ static void ref405ep_init(MachineState *machine)
-     }
- 
-     /* XXX: fix this */
--    memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405ep.ram",
--                                         machine->ram_size);
-+    memory_region_init_alias(&ram_memories[0], NULL, "ef405ep.ram.alias",
-+                             machine->ram, 0, machine->ram_size);
-     ram_bases[0] = 0;
-     ram_sizes[0] = machine->ram_size;
-     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
-@@ -312,6 +312,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
-     mc->desc = "ref405ep";
-     mc->init = ref405ep_init;
-     mc->default_ram_size = 0x08000000;
-+    mc->default_ram_id = "ef405ep.ram";
- }
- 
- static const TypeInfo ref405ep_type = {
-@@ -424,7 +425,6 @@ static void taihu_405ep_init(MachineState *machine)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c9b2e0a..4d90f99 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2634,7 +2634,6 @@ static void spapr_machine_init(MachineState *machine)
+     PCIHostState *phb;
+     int i;
      MemoryRegion *sysmem = get_system_memory();
-     MemoryRegion *bios;
-     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
--    MemoryRegion *ram = g_malloc0(sizeof(*ram));
-     hwaddr ram_bases[2], ram_sizes[2];
-     long bios_size;
-     target_ulong kernel_base, initrd_base;
-@@ -439,18 +439,16 @@ static void taihu_405ep_init(MachineState *machine)
-         g_free(sz);
-         exit(EXIT_FAILURE);
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     hwaddr node0_size = spapr_node0_size(machine);
+     long load_limit, fw_size;
+     char *filename;
+@@ -2813,10 +2812,8 @@ static void spapr_machine_init(MachineState *machine)
+         kvmppc_enable_h_page_init();
      }
--    memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
+ 
+-    /* allocate RAM */
+-    memory_region_allocate_system_memory(ram, NULL, "ppc_spapr.ram",
 -                                         machine->ram_size);
+-    memory_region_add_subregion(sysmem, 0, ram);
++    /* map RAM */
++    memory_region_add_subregion(sysmem, 0, machine->ram);
  
-     ram_bases[0] = 0;
-     ram_sizes[0] = 0x04000000;
-     memory_region_init_alias(&ram_memories[0], NULL,
--                             "taihu_405ep.ram-0", ram, ram_bases[0],
-+                             "taihu_405ep.ram-0", machine->ram, ram_bases[0],
-                              ram_sizes[0]);
-     ram_bases[1] = 0x04000000;
-     ram_sizes[1] = 0x04000000;
-     memory_region_init_alias(&ram_memories[1], NULL,
--                             "taihu_405ep.ram-1", ram, ram_bases[1],
-+                             "taihu_405ep.ram-1", machine->ram, ram_bases[1],
-                              ram_sizes[1]);
-     ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
-                   33333333, &pic, kernel_filename == NULL ? 0 : 1);
-@@ -546,6 +544,7 @@ static void taihu_class_init(ObjectClass *oc, void *data)
-     mc->desc = "taihu";
-     mc->init = taihu_405ep_init;
-     mc->default_ram_size = 0x08000000;
-+    mc->default_ram_id = "taihu_405ep.ram";
- }
- 
- static const TypeInfo taihu_type = {
+     /* always allocate the device memory information */
+     machine->device_memory = g_malloc0(sizeof(*machine->device_memory));
+@@ -4400,6 +4397,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     mc->no_parallel = 1;
+     mc->default_boot_order = "";
+     mc->default_ram_size = 512 * MiB;
++    mc->default_ram_id = "ppc_spapr.ram";
+     mc->default_display = "std";
+     mc->kvm_type = spapr_kvm_type;
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRIDGE);
 -- 
 1.8.3.1
 
