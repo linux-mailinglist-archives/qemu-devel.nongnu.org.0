@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917FE16B7FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 04:16:35 +0100 (CET)
-Received: from localhost ([::1]:48364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A221016B802
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 04:19:54 +0100 (CET)
+Received: from localhost ([::1]:48438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Qi2-0004xv-Ls
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 22:16:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46464)
+	id 1j6QlF-00010I-P4
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 22:19:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6Qfw-0002yZ-Fq
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 22:14:25 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j6Qfx-0002yd-76
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 22:14:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6Qfv-0005NP-JJ
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 22:14:24 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:55326)
+ (envelope-from <richard.henderson@linaro.org>) id 1j6Qfw-0005Nh-6S
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 22:14:25 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36142)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6Qfv-0005Mm-Dg
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 22:14:23 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id d5so628354pjz.5
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 19:14:22 -0800 (PST)
+ id 1j6Qfw-0005NL-1V
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 22:14:24 -0500
+Received: by mail-pl1-x641.google.com with SMTP id a6so4894920plm.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 19:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oi7EF/ZZDkkxyzeBMO90cI5DXKAzhVbrdZpsDYTxfKg=;
- b=Msg+2ZlYfJZwBjEgd96JTAJxLDFY5epMzcgYf5k97yRLi9+WiX8dRiggeU/kcLwmE5
- XFRIvxjmLCU9Izv0CBs7ZbTSPfI0oXqEpJrbB+B1u6qtzu9yDO2ngmGIsx7pzCowpbJx
- eSGp843R6RUQ0kW2kA7AB3S1uSu4FTg2rt5ZZxkfxMJsdcOTa6MLPLh4vm9ausfmjP3p
- Otb/NN375+Bo8s2UDsG7bXiq9YUooiITR9Yj4QlDMOlK4zuTRx8RrDUzLAqYwiUo6kLy
- x/m/2I4qD1KpgnlNsmIDsLWLIrqXgLb63VNC/2Rtxrs8Gji5g0Wo1fFfDGxRatJYVzqe
- lzxQ==
+ bh=+H7GpCgYZHS/IW315wViv17HgfT/NtNKXlKqXRLBSps=;
+ b=Te07B5xBZN1kP0q1x/cXkOyyjpYcyqFvd2MnJaUsHPx/z462Mr9BigvmgCaxVwSHjC
+ 7bilDqYP2cdo5M/W6PRdpwSF2rKCbjhGgReQS2uU/Rph6IV79bz3xRALh86X4U6XBMMw
+ C2m7CGgiPOadoIGTPeS3Qxk4aDKFUB7+8jZCpuEIJqTjtz7ZGEhyGi7oxAMjuFITZwLA
+ chURZGnTLA389QWQ5HxUY3Tv7WuSbMmmSFyp/BtWd3MQmA/JX1JNihtSSib5nJjDOUn6
+ xy4Yye1JTPAkzWUJl6EMvLZbiOFr/YC1SlexMUwSotk8lFg0UyfC5rZahmHLUCoi9LfQ
+ 9MDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oi7EF/ZZDkkxyzeBMO90cI5DXKAzhVbrdZpsDYTxfKg=;
- b=H16EMveP88DwvCDKlDrYggRtnWz9XsCRv5pq7xSEbgkqpBJQFtf/wZvSZGv3MELeY3
- w9+PndXzvPg26RKUQf5Ux6LGKVOFWNrASnj9dom8rqC8OjFlQr0PK850v/M4WEtRNOyg
- 4KKtPQ94OOY6aBRJTfdaCQN1gagjb+IC3BdfMLhUSBO3JBhf4LB+zIq2anlHTeYIn/fp
- hpd5ZyvRDXRcYzYcn47D4xLD9w4PcKD/iccsQmjp7kA/ZKIf6wTktBZBHh8/qwXkYevo
- V7fwxZSq12fzeJC2p8zQ+5kyUzn82QRR5d1nZiyEqJniigiWVVSXAQjIuQJ6Ax/DlYxx
- oMZw==
-X-Gm-Message-State: APjAAAVXg6HTeQtY4M/srjLxDcPVVmuo9Te4zfX1gcsQyTk39ruM0AUQ
- cDT38/JeBU+VTFAUf25rNRjrzla5yA0=
-X-Google-Smtp-Source: APXvYqxSyQSvj5IHQYi5W6GBqa0MvffO8UAJufdNLhMvsnTfp68mFN2K9X5FolwEvZ+bXvOyRope/Q==
-X-Received: by 2002:a17:902:b212:: with SMTP id
- t18mr51805731plr.135.1582600461555; 
- Mon, 24 Feb 2020 19:14:21 -0800 (PST)
+ bh=+H7GpCgYZHS/IW315wViv17HgfT/NtNKXlKqXRLBSps=;
+ b=LrebtAI8jYnzGyfafHFZkgin9vPoRP4RoCA2E5RBtTBdWnCvmPqW2uJnwulhABwg07
+ Rkew6Rrn8nLTrl9dmLhOMcpoOj4W5wjs8KunNBlO5QvRMkLJ5v0wZnc18LUTDS9nOaqr
+ x2boO1hNiB5n0+t/97FpRHgXGdzZB/HbaeSrHCCtMzC+NdWHzABVPd40dY6Ej01Xz4Wk
+ pLlmIt+n63W4AAzQpxdfDItoH4C9MelhntOd/pEox9GqckGSMkRiNv3fMo+8TdWb9F2h
+ rS79Uhfp8fr9eoklHTaiW1rmMqaoui8wgO6OChn6p9QtDh9ytikQnZzSrJ87MLA+kfw2
+ Gw1g==
+X-Gm-Message-State: APjAAAUCOZkQfdGUsd4hKKsVqw24BfzGiH5HxnIlaR6SelM1cP+NHJlt
+ MJpyUcqHNs8ajLbYlyHCxyqasvf5gaE=
+X-Google-Smtp-Source: APXvYqxVW0JybJVcHmryWXPSmJZTSsIeIAOC+lsnYSGPr/5d0hU6Ch4Iz2brxMOrNsObytnwIWuzEg==
+X-Received: by 2002:a17:90a:af81:: with SMTP id
+ w1mr2741808pjq.14.1582600462711; 
+ Mon, 24 Feb 2020 19:14:22 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id q66sm14975242pfq.27.2020.02.24.19.14.20
+ by smtp.gmail.com with ESMTPSA id q66sm14975242pfq.27.2020.02.24.19.14.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 19:14:20 -0800 (PST)
+ Mon, 24 Feb 2020 19:14:22 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] target/arm: Clean address for DC ZVA
-Date: Mon, 24 Feb 2020 19:14:12 -0800
-Message-Id: <20200225031414.15649-5-richard.henderson@linaro.org>
+Subject: [PATCH 7/8] target/arm: Check addresses for disabled regimes
+Date: Mon, 24 Feb 2020 19:14:13 -0800
+Message-Id: <20200225031414.15649-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225031414.15649-1-richard.henderson@linaro.org>
 References: <20200225031222.15434-1-richard.henderson@linaro.org>
@@ -68,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +84,58 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This data access was forgotten when we added support for cleaning
-addresses of TBI information.
+We fail to validate the upper bits of a virtual address on a
+translation disabled regime, as per AArch64.TranslateAddressS1Off.
 
-Fixes: 3a471103ac1823ba
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/helper.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 596bf4cf73..24c1fbd262 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1784,7 +1784,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-         return;
-     case ARM_CP_DC_ZVA:
-         /* Writes clear the aligned block of memory which rt points into. */
--        tcg_rt = cpu_reg(s, rt);
-+        tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
-         gen_helper_dc_zva(cpu_env, tcg_rt);
-         return;
-     default:
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 7cf6642210..2867adea29 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11615,7 +11615,38 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+     /* Definitely a real MMU, not an MPU */
+ 
+     if (regime_translation_disabled(env, mmu_idx)) {
+-        /* MMU disabled. */
++        /*
++         * MMU disabled.  S1 addresses are still checked for bounds.
++         * C.f. AArch64.TranslateAddressS1Off.
++         */
++        if (is_a64(env) && mmu_idx != ARMMMUIdx_Stage2) {
++            int pamax = arm_pamax(env_archcpu(env));
++            uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
++            int addrtop, tbi;
++
++            tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
++            if (access_type == MMU_INST_FETCH) {
++                tbi &= ~aa64_va_parameter_tbid(tcr, mmu_idx);
++            }
++            tbi = (tbi >> extract64(address, 55, 1)) & 1;
++            addrtop = (tbi ? 55 : 63);
++
++            if (extract64(address, pamax, addrtop - pamax + 1) != 0) {
++                fi->type = ARMFault_AddressSize;
++                fi->level = 0;
++                fi->stage2 = false;
++                return 1;
++            }
++
++            /*
++             * The ARM pseudocode copies bits [51:0] to addrdesc.paddress.
++             * Except for TBI, we've just validated everything above PAMax
++             * is zero.  So we only need to drop TBI.
++             */
++            if (tbi) {
++                address = extract64(address, 0, 56);
++            }
++        }
+         *phys_ptr = address;
+         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+         *page_size = TARGET_PAGE_SIZE;
 -- 
 2.20.1
 
