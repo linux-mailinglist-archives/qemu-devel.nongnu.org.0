@@ -2,57 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4864416BE45
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 11:08:33 +0100 (CET)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9500916BE5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 11:13:08 +0100 (CET)
+Received: from localhost ([::1]:51764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6X8i-0004WA-CR
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 05:08:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59279)
+	id 1j6XD9-0008GJ-MI
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 05:13:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1j6X7j-0003VV-1b
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:07:32 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6XC5-0007S0-FB
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:12:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1j6X7h-0006Vu-B2
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:07:30 -0500
-Received: from mail.ispras.ru ([83.149.199.45]:35408)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1j6X7g-0006Uo-Uv
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:07:29 -0500
-Received: from PASHAISP (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5F51AC010D;
- Tue, 25 Feb 2020 13:07:26 +0300 (MSK)
-From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
-To: <stefanha@redhat.com>,
-	<kwolf@redhat.com>
-References: <2fb9fb4840d5aa92a716487f83ceb36c@ispras.ru>
- <0afe41fc-cc09-5682-a667-574c44fd6da3@virtuozzo.com>
- <5891b48a131321be62a4a311253da44c@ispras.ru>
- <af246719-910b-1394-2f18-b88e3daa9c81@virtuozzo.com>
- <0cbd2c7a-44e1-272f-9995-1ff7e2fb9e36@virtuozzo.com>
- <b3405d429e42bdf03177db1b8f7531ee@ispras.ru>
- <b5811027-388a-98db-fe73-93230b5e29ae@virtuozzo.com>
- <5fe1747e6e7b818d93fd9a7fd0434bed@ispras.ru>
- <99ed3129-9460-dbad-0441-95bad08d5636@virtuozzo.com>
- <796f18ec7246b8d07ac5d6bb59dca71f@ispras.ru>
- <b408733f-a0d7-62ab-8862-8d70d7148e5f@virtuozzo.com>
- <ac41c395f09a4101b7403e4116beba6a@ispras.ru>
- <e11be78b-9461-6068-969a-2f242ef5ada0@virtuozzo.com> 
-In-Reply-To: 
-Subject: RE: Race condition in overlayed qcow2?
-Date: Tue, 25 Feb 2020 13:07:27 +0300
-Message-ID: <004b01d5ebc3$626dc9d0$27495d70$@ru>
+ (envelope-from <philmd@redhat.com>) id 1j6XC4-0008RE-5S
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:12:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32596
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6XC4-0008Qz-26
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:12:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582625519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z89AUevcBbbfepqU8ufYMjCxbl3BVjLSlW4FTRV6e6A=;
+ b=OOeOa/KQmekRpKEzaD7wbHKfewFPWemtyZzoC7oF6GiCXt37Cqc6nCLURRo074US4GXYEG
+ FvY0gfwnh2QhYYD3LPx1azpZKastgsttYyyiSm5BuAEEAHtPCRFOC1FMKhifiOkvEQKTKN
+ e6/6/3Z+PclVbBnSf8xikIGwRT1//wU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-166-aEOJdBGTME-7h8q7wIS42Q-1; Tue, 25 Feb 2020 05:11:55 -0500
+X-MC-Unique: aEOJdBGTME-7h8q7wIS42Q-1
+Received: by mail-wr1-f70.google.com with SMTP id w6so7058173wrm.16
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 02:11:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2hg7Hfx7/td+/CIjmQYClbMLavqUkQGymLApvhUP9ZI=;
+ b=gv/PR9GyP1ubk73Hfnyami5ghfA65M+taeDn21tmD7ivwpNdKhiQl1XbQCCZzkpKmo
+ 4QHSIoGv31B6YLwn++VKvnjp9wDo7IfUuXog9P0g4hEGwaw/IMClngD/RoqMt47LSBuh
+ b8x0hyz1VuNIG/dFNW9+zI4R/SfpC/jKWeVpBb14mypRIT7cde00Q4LqSFoUo9ULYVLg
+ KfW7y2uj51RuZTCRs/XS2kVZUdvlLZcTwp/ZRy/I6qi6ohVKqwA70efpgKI8Lf62MPhL
+ Xm+Es1T1WOQh4tlk6gthyfOn2Dk+SJgyS8qX+PV/vG+KwBNg7xNr/ksrU4j74uTtT9xb
+ lsLA==
+X-Gm-Message-State: APjAAAWlOCOfebPUNzQP3Mhbhf7S12fvoXIONDHt0zzfgXhNthNrx6Hq
+ JKowcmvjOZlq/nuxZ51Ao3SlZUyt/p9L1whcZfI2cDO/VvK8V+/cN2oDUuMotYKcUPXu80jgpiO
+ nocXd0ZWoQUfCgmU=
+X-Received: by 2002:a1c:7205:: with SMTP id n5mr4649418wmc.9.1582625514469;
+ Tue, 25 Feb 2020 02:11:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqztiO19ISSyiZpjOC1h9Ae3L4OQj6GFtJyt1yCzZqFJ7FlD3WtdrTK8lU8NUduLrKwEvWzNdg==
+X-Received: by 2002:a1c:7205:: with SMTP id n5mr4649392wmc.9.1582625514178;
+ Tue, 25 Feb 2020 02:11:54 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id l6sm3325069wmg.42.2020.02.25.02.11.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2020 02:11:53 -0800 (PST)
+Subject: Re: [PATCH 09/13] dma/xlnx-zdma: Remove redundant statement in
+ zdma_write_dst()
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <20200225020937.25028-1-kuhn.chenqun@huawei.com>
+ <20200225020937.25028-10-kuhn.chenqun@huawei.com>
+ <6d31ac16-adc6-235e-8784-51bf86e33b72@redhat.com>
+ <7412CDE03601674DA8197E2EBD8937E83B661BD7@dggemm531-mbx.china.huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8ceb7ecc-8edc-0ced-8171-6200ded0dd05@redhat.com>
+Date: Tue, 25 Feb 2020 11:11:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B661BD7@dggemm531-mbx.china.huawei.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Office Outlook 12.0
-Content-Language: ru
-Thread-Index: AdXrvKYTDoJE5CcfR9OYxlMvrY2RZwAAEq2QAAF32FA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 83.149.199.45
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,187 +96,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Vladimir Sementsov-Ogievskiy' <vsementsov@virtuozzo.com>,
- 'Pavel Dovgalyuk' <dovgaluk@ispras.ru>, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CC'ing Stefan due to the same question back in 2010:
+On 2/25/20 11:01 AM, Chenqun (kuhn) wrote:
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daud=C3=A9 [mailto:philmd@redhat.com]
+>> Sent: Tuesday, February 25, 2020 5:36 PM
+>> To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-
+>> devel@nongnu.org; qemu-trivial@nongnu.org
+>> Cc: peter.maydell@linaro.org; Zhanghailiang
+>> <zhang.zhanghailiang@huawei.com>; Alistair Francis <alistair@alistair23.=
+me>;
+>> qemu-arm@nongnu.org
+>> Subject: Re: [PATCH 09/13] dma/xlnx-zdma: Remove redundant statement in
+>> zdma_write_dst()
+>>
+>> On 2/25/20 3:09 AM, kuhn.chenqun@huawei.com wrote:
+>>> From: Chen Qun <kuhn.chenqun@huawei.com>
+>>>
+>>> Clang static code analyzer show warning:
+>>> hw/dma/xlnx-zdma.c:399:13: warning: Value stored to 'dst_type' is never
+>> read
+>>>               dst_type =3D FIELD_EX32(s->dsc_dst.words[3],
+>> ZDMA_CH_DST_DSCR_WORD3,
+>>>               ^
+>> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>
+>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>>> ---
+>>> Cc: Alistair Francis <alistair@alistair23.me>
+>>> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>>> Cc: qemu-arm@nongnu.org
+>>> ---
+>>>    hw/dma/xlnx-zdma.c | 2 --
+>>>    1 file changed, 2 deletions(-)
+>>>
+>>> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c index
+>>> 8fb83f5b07..45355c5d59 100644
+>>> --- a/hw/dma/xlnx-zdma.c
+>>> +++ b/hw/dma/xlnx-zdma.c
+>>> @@ -396,8 +396,6 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t
+>> *buf, uint32_t len)
+>>>                zdma_load_descriptor(s, next, &s->dsc_dst);
+>>>                dst_size =3D FIELD_EX32(s->dsc_dst.words[2],
+>> ZDMA_CH_DST_DSCR_WORD2,
+>>>                                      SIZE);
+>>> -            dst_type =3D FIELD_EX32(s->dsc_dst.words[3],
+>> ZDMA_CH_DST_DSCR_WORD3,
+>>> -                                  TYPE);
+>>
+>> Maybe move dst_type to this if() statement now?
+>>
+> Sorry, I don't follow you.   I didn't find where I could move dst_type.
+> Do you mean to move the first dst_type to the if().
+> Modify it like this:
+>      while (len) {
+>          dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WO=
+RD2,
+>                                SIZE);
+>          if (dst_size =3D=3D 0 && ptype =3D=3D PT_MEM) {
+>              uint64_t next;
+>              dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSC=
+R_WORD3,
+>                                TYPE);
+>              next =3D zdma_update_descr_addr(s, dst_type,
+>                                            R_ZDMA_CH_DST_CUR_DSCR_LSB);
+>              zdma_load_descriptor(s, next, &s->dsc_dst);
+>              dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSC=
+R_WORD2,
+>                                    SIZE);
+>          }
+>         ...
+>     }
 
-https://lists.gnu.org/archive/html/qemu-devel/2010-09/msg01996.html
+No, like this:
 
-I also encountered this with Windows guest.
-E.g., there were the requests like:
-
-Read 2000 bytes:
-addr=3DA, size=3D1000
-addr=3DA, size=3D1000
-
-I.e. reading 1000 bytes in real, but the purpose of such request is =
-unclear.
-
-Pavel Dovgalyuk
-
-
-> -----Original Message-----
-> From: Pavel Dovgalyuk [mailto:dovgaluk@ispras.ru]
-> Sent: Tuesday, February 25, 2020 12:27 PM
-> To: 'kwolf@redhat.com'
-> Cc: 'qemu-devel@nongnu.org'; 'mreitz@redhat.com'; 'Vladimir =
-Sementsov-Ogievskiy'
-> Subject: RE: Race condition in overlayed qcow2?
->=20
-> Kevin, what do you think about it?
->=20
-> What guest is intended to receive, when it requests multiple reads to =
-the same buffer in a
-> single DMA transaction?
->=20
-> Should it be the first SG part? The last one?
-> Or just a random set of bytes? (Then why it is reading this data in =
-that case?)
->=20
-> Pavel Dovgalyuk
->=20
-> > -----Original Message-----
-> > From: Vladimir Sementsov-Ogievskiy [mailto:vsementsov@virtuozzo.com]
-> > Sent: Tuesday, February 25, 2020 12:19 PM
-> > To: dovgaluk
-> > Cc: qemu-devel@nongnu.org; mreitz@redhat.com; kwolf@redhat.com
-> > Subject: Re: Race condition in overlayed qcow2?
-> >
-> > 25.02.2020 10:56, dovgaluk wrote:
-> > > Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB =
-2020-02-25 10:27:
-> > >> 25.02.2020 8:58, dovgaluk wrote:
-> > >>> Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB =
-2020-02-21 16:23:
-> > >>>> 21.02.2020 15:35, dovgaluk wrote:
-> > >>>>> Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB =
-2020-02-21 13:09:
-> > >>>>>> 21.02.2020 12:49, dovgaluk wrote:
-> > >>>>>>> Vladimir Sementsov-Ogievskiy =D0=BF=D0=B8=D1=81=D0=B0=D0=BB =
-2020-02-20 12:36:
-> > >>>>>>
-> > >>>>>> So, preadv in file-posix.c returns different results for the =
-same
-> > >>>>>> offset, for file which is always opened in RO mode? Sounds =
-impossible
-> > >>>>>> :)
-> > >>>>>
-> > >>>>> True.
-> > >>>>> Maybe my logging is wrong?
-> > >>>>>
-> > >>>>> static ssize_t
-> > >>>>> qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t =
-offset)
-> > >>>>> {
-> > >>>>>      ssize_t res =3D preadv(fd, iov, nr_iov, offset);
-> > >>>>>      qemu_log("preadv %x %"PRIx64"\n", fd, (uint64_t)offset);
-> > >>>>>      int i;
-> > >>>>>      uint32_t sum =3D 0;
-> > >>>>>      int cnt =3D 0;
-> > >>>>>      for (i =3D 0 ; i < nr_iov ; ++i) {
-> > >>>>>          int j;
-> > >>>>>          for (j =3D 0 ; j < (int)iov[i].iov_len ; ++j)
-> > >>>>>          {
-> > >>>>>              sum +=3D ((uint8_t*)iov[i].iov_base)[j];
-> > >>>>>              ++cnt;
-> > >>>>>          }
-> > >>>>>      }
-> > >>>>>      qemu_log("size: %x sum: %x\n", cnt, sum);
-> > >>>>>      assert(cnt =3D=3D res);
-> > >>>>>      return res;
-> > >>>>> }
-> > >>>>>
-> > >>>>
-> > >>>> Hmm, I don't see any issues here..
-> > >>>>
-> > >>>> Are you absolutely sure, that all these reads are from backing =
-file,
-> > >>>> which is read-only and never changed (may be by other =
-processes)?
-> > >>>
-> > >>> Yes, I made a copy and compared the files with binwalk.
-> > >>>
-> > >>>> 2. guest modifies buffers during operation (you can catch it if
-> > >>>> allocate personal buffer for preadv, than calculate checksum, =
-then
-> > >>>> memcpy to guest buffer)
-> > >>>
-> > >>> I added the following to the qemu_preadv:
-> > >>>
-> > >>>      // do it again
-> > >>>      unsigned char *buf =3D g_malloc(cnt);
-> > >>>      struct iovec v =3D {buf, cnt};
-> > >>>      res =3D preadv(fd, &v, 1, offset);
-> > >>>      assert(cnt =3D=3D res);
-> > >>>      uint32_t sum2 =3D 0;
-> > >>>      for (i =3D 0 ; i < cnt ; ++i)
-> > >>>          sum2 +=3D buf[i];
-> > >>>      g_free(buf);
-> > >>>      qemu_log("--- sum2 =3D %x\n", sum2);
-> > >>>      assert(sum2 =3D=3D sum);
-> > >>>
-> > >>> These two reads give different results.
-> > >>> But who can modify the buffer while qcow2 workers filling it =
-with data from the disk?
-> > >>>
-> > >>
-> > >> As far as I know, it's guest's buffer, and guest may modify it =
-during
-> > >> the operation. So, it may be winxp :)
-> > >
-> > > True, but normally the guest won't do it.
-> > >
-> > > But I noticed that DMA operation which causes the problems has the =
-following set of the
-> > buffers:
-> > > dma read sg size 20000 offset: c000fe00
-> > > --- sg: base: 2eb1000 len: 1000
-> > > --- sg: base: 3000000 len: 1000
-> > > --- sg: base: 2eb2000 len: 3000
-> > > --- sg: base: 3000000 len: 1000
-> > > --- sg: base: 2eb5000 len: b000
-> > > --- sg: base: 3040000 len: 1000
-> > > --- sg: base: 2f41000 len: 3000
-> > > --- sg: base: 3000000 len: 1000
-> > > --- sg: base: 2f44000 len: 4000
-> > > --- sg: base: 3000000 len: 1000
-> > > --- sg: base: 2f48000 len: 2000
-> > > --- sg: base: 3000000 len: 1000
-> > > --- sg: base: 3000000 len: 1000
-> > > --- sg: base: 3000000 len: 1000
-> > >
-> > >
-> > > It means that one DMA transaction performs multiple reads into the =
-same address.
-> > > And no races is possible, when there is only one qcow2 worker.
-> > > When there are many of them - they can fill this buffer =
-simultaneously.
-> > >
-> >
-> > Hmm, actually if guest start parallel reads into same buffer from =
-different offsets, races
-> are
-> > possible anyway, as different requests run in parallel even with one =
-worker, because
-> > MAX_WORKERS is per-request value, not total... But several workers =
-may increase probability
-> of
-> > races or introduce new ones.
-> >
-> > So, actually, several workers of one request can write to the same =
-buffer only if guest
-> > provides broken iovec, which references the same buffer several =
-times (if it is possible at
-> > all).
-> >
-> >
-> >
-> > --
-> > Best regards,
-> > Vladimir
+-- >8 --
+@@ -373,7 +373,7 @@ static uint64_t zdma_update_descr_addr(XlnxZDMA *s,=20
+bool type,
+  static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+  {
+      uint32_t dst_size, dlen;
+-    bool dst_intr, dst_type;
++    bool dst_intr;
+      unsigned int ptype =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0,=20
+POINT_TYPE);
+      unsigned int rw_mode =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, MOD=
+E);
+      unsigned int burst_type =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_DATA_AT=
+TR,
+@@ -387,17 +387,17 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t=20
+*buf, uint32_t len)
+      while (len) {
+          dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WOR=
+D2,
+                                SIZE);
+-        dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD=
+3,
+-                              TYPE);
+          if (dst_size =3D=3D 0 && ptype =3D=3D PT_MEM) {
+              uint64_t next;
++            bool dst_type;
++
++            dst_type =3D FIELD_EX32(s->dsc_dst.words[3],=20
+ZDMA_CH_DST_DSCR_WORD3,
++                                  TYPE);
+              next =3D zdma_update_descr_addr(s, dst_type,
+                                            R_ZDMA_CH_DST_CUR_DSCR_LSB);
+              zdma_load_descriptor(s, next, &s->dsc_dst);
+              dst_size =3D FIELD_EX32(s->dsc_dst.words[2],=20
+ZDMA_CH_DST_DSCR_WORD2,
+                                    SIZE);
+-            dst_type =3D FIELD_EX32(s->dsc_dst.words[3],=20
+ZDMA_CH_DST_DSCR_WORD3,
+-                                  TYPE);
+          }
+---
 
 
