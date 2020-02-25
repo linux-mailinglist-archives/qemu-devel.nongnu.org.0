@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCCD16E9E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:20:06 +0100 (CET)
-Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D156216E9E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 16:21:47 +0100 (CET)
+Received: from localhost ([::1]:58684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6c0D-0001Qz-T0
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:20:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55640)
+	id 1j6c1q-0004ym-Qb
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 10:21:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55682)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6buW-0000oh-Nd
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:14 -0500
+ (envelope-from <mst@redhat.com>) id 1j6bub-0000vY-Q6
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6buV-0001Rd-9V
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:12 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39901
+ (envelope-from <mst@redhat.com>) id 1j6bua-0001Ty-6a
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:17 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41486
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6buV-0001RF-5N
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:11 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6bua-0001TH-2m
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 10:14:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582643649;
+ s=mimecast20190719; t=1582643654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tfB6vgxyzAB71+dIm3jms7txlRQYEIaRwa1XJn1djKE=;
- b=YYlpNOpe+iEm5ZVz7RPSsHQxKkR5ltSx9u87bDOU28DtS0MjO9DpQYd9BU2VELnDY0tSl3
- i4d+bfeBRvnqgCxZ0+yirTj8un1dgnE0f90amC7px4RaTtfy+fev1HMIoY+UEsO+F0z/8l
- CdYezBEBDU6fxdPtyCXP1B8gvVYBnhU=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-FM88SSIFOaeNtvsGFWt9EA-1; Tue, 25 Feb 2020 10:14:06 -0500
-X-MC-Unique: FM88SSIFOaeNtvsGFWt9EA-1
-Received: by mail-qt1-f197.google.com with SMTP id x8so15203404qtq.14
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:14:06 -0800 (PST)
+ bh=mH6Uh7KB+qDOlqySuiYCwzhwjo90oVgrXa4q2w401+k=;
+ b=PL5rCmf6X6W48oX6r72hYCx/6zX42tbuPQXSGbRQciQsYMsbJHYqcdkkYymSTByzqst12E
+ 0SDckxRU+M1rRYc4rFa0vfXUhoQqfrj64T0kHrezf5I5eaPqqK0BkTrrw/Dwpy3m5r7aUM
+ Cu2NTjjk8bNmrgRPogmDG5sCXJ3nZsM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-140-ewVEFSeKP0qgnAewsi8Vag-1; Tue, 25 Feb 2020 10:14:10 -0500
+X-MC-Unique: ewVEFSeKP0qgnAewsi8Vag-1
+Received: by mail-qv1-f69.google.com with SMTP id l1so13231501qvu.13
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 07:14:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XGike9/092nOdP42PsYQlAuujche/x1Md0Prv3YFBIc=;
- b=lHdEdu3cSCDMm2k/yF4O7Ptdtk1gWF7q03H0N6p3XEiio9FvGOG/jmjaA+5K+JqPmK
- QgSvS2Le2+QYVqALzkl8eReIaZVYHxsfdsCcbNmmdrp2XeMDafLSSI0fEXufLZtj6xvN
- 8G2PfNE3XbjLA0zQzsHEq9l2wCpPr1OVYNdFXqFQCe9UsUVqV0fGP9K3Q9/S4HhV9Ntd
- K5SsugTo7lam+KbLYyU63WFnC3Y9Y6PR8WUKIcj82uW0ZPfMo6U7qoqaq3ONuKFQrvT/
- 0uniVJwN2YnDO+KCWmW7FugU4lSsB1VclUtGrF4sXOpAJHZvAw/qC3Xiph4UGFhgSA4s
- QZHA==
-X-Gm-Message-State: APjAAAVFC0EFyTQhNRxJIt1NlagxyuwkVl4pNiUJj3ibiV1PD0ppQ6et
- Wcvw3xPHkNdBTXwNyHk5M75nn4YB6fbq2lUymuYTSFODQcRO7wwtaG62y+wNNK7krGfynViBuDy
- znTEPD0h4x7jtazg=
-X-Received: by 2002:ad4:4e09:: with SMTP id dl9mr50610915qvb.137.1582643645292; 
- Tue, 25 Feb 2020 07:14:05 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyQFcU9yHqTSX//5UtoPAjNEXVVTBlywml229kJ3cSw06/8yVtuUq3TlpRZMIv1uI8Jeozi2g==
-X-Received: by 2002:ad4:4e09:: with SMTP id dl9mr50610877qvb.137.1582643644938; 
- Tue, 25 Feb 2020 07:14:04 -0800 (PST)
+ bh=L8WBI983W+7RiE8lzDwmxcDHbYbc+B58tFNCqwSyA9I=;
+ b=kuy3jiN+Ggx/h/AM4fE6V+FQZrpCIlS2oTp2yDCAMlH8EkCnatNAfPdCrPM0OqoDEw
+ /X5zOQMu4HRPSuXiTcjh8vLLKJ/lw1uGaHoMU7MzKsMx729ejUWE0wIRsWCLME6pCGi2
+ u8LYsyg6BUlgOrLy6nw1v8+iyaE8TRc0FEVnGxMxXIstiY3ODRVGKcV+8iQzM/0JHcwT
+ DN2qq7PbK7UahrXeJq3XRES9heufTRDZzMbOxWoFSMqh1TVJV9SrjH2PSUwW9j1yRZu9
+ IMAS0wL9fM3coFyqOly2rAWnhdCqlfit7aa5DlKAtGFvAvQ+9vrOQhuGxzPqzBIhNHWx
+ JJ8w==
+X-Gm-Message-State: APjAAAU1Gqp8GMTdLj+wBylah722P/bmMPWakixkgRKJRCJsVKm3KP2F
+ tbIZRLNHgV1uKdisltb5gtdNlLmgxIpp3T8vpp95LhARr6xd3RHmbnVgA/Hj7IgSwncUkI1djAB
+ I2dJ0yGCupx2xbFk=
+X-Received: by 2002:a05:620a:31b:: with SMTP id
+ s27mr57671603qkm.105.1582643649530; 
+ Tue, 25 Feb 2020 07:14:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyq5g0qqU0QIGP+YNqaqREIX7kOrG4ar1aZMSyZTr1Ao89ktkh4eaPwLdriWS993Si5s5T2FA==
+X-Received: by 2002:a05:620a:31b:: with SMTP id
+ s27mr57671570qkm.105.1582643649255; 
+ Tue, 25 Feb 2020 07:14:09 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- y197sm7412603qka.65.2020.02.25.07.14.02
+ l19sm7379730qkl.3.2020.02.25.07.14.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 07:14:04 -0800 (PST)
-Date: Tue, 25 Feb 2020 10:14:00 -0500
+ Tue, 25 Feb 2020 07:14:08 -0800 (PST)
+Date: Tue, 25 Feb 2020 10:14:05 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/32] virtio-iommu-pci: Add virtio iommu pci support
-Message-ID: <20200225151210.647797-20-mst@redhat.com>
+Subject: [PULL 20/32] hw/arm/virt: Add the virtio-iommu device tree mappings
+Message-ID: <20200225151210.647797-21-mst@redhat.com>
 References: <20200225151210.647797-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200225151210.647797-1-mst@redhat.com>
@@ -77,8 +79,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,207 +91,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-This patch adds virtio-iommu-pci, which is the pci proxy for
-the virtio-iommu device.
+Adds the "virtio,pci-iommu" node in the host bridge node and
+the RID mapping, excluding the IOMMU RID.
 
-Currently non DT integration is not yet supported by the kernel.
-So the machine must implement a hotplug handler for the
-virtio-iommu-pci device that creates the device tree iommu-map
-bindings as documented in kernel documentation:
-
-Documentation/devicetree/bindings/virtio/iommu.txt
+This is done in the virtio-iommu-pci hotplug handler which
+gets called only if no firmware is loaded or if -no-acpi is
+passed on the command line. As non DT integration is
+not yet supported by the kernel we must make sure we
+are in DT mode. This limitation will be removed as soon
+as the topology description feature gets supported.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Message-Id: <20200214132745.23392-9-eric.auger@redhat.com>
+Message-Id: <20200214132745.23392-10-eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/pci/pci.h             |   1 +
- include/hw/virtio/virtio-iommu.h |   1 +
- hw/virtio/virtio-iommu-pci.c     | 104 +++++++++++++++++++++++++++++++
- qdev-monitor.c                   |   1 +
- hw/virtio/Makefile.objs          |   1 +
- 5 files changed, 108 insertions(+)
- create mode 100644 hw/virtio/virtio-iommu-pci.c
+ include/hw/arm/virt.h |  2 ++
+ hw/arm/virt.c         | 57 +++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 52 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 2acd8321af..cfedf5a995 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -86,6 +86,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_VIRTIO_9P          0x1009
- #define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
- #define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
-+#define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
-=20
- #define PCI_VENDOR_ID_REDHAT             0x1b36
- #define PCI_DEVICE_ID_REDHAT_BRIDGE      0x0001
-diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-io=
-mmu.h
-index ae88f730cf..6f67f1020a 100644
---- a/include/hw/virtio/virtio-iommu.h
-+++ b/include/hw/virtio/virtio-iommu.h
-@@ -25,6 +25,7 @@
- #include "hw/pci/pci.h"
-=20
- #define TYPE_VIRTIO_IOMMU "virtio-iommu-device"
-+#define TYPE_VIRTIO_IOMMU_PCI "virtio-iommu-device-base"
- #define VIRTIO_IOMMU(obj) \
-         OBJECT_CHECK(VirtIOIOMMU, (obj), TYPE_VIRTIO_IOMMU)
-=20
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-new file mode 100644
-index 0000000000..3dfbf55b47
---- /dev/null
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -0,0 +1,104 @@
-+/*
-+ * Virtio IOMMU PCI Bindings
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ * Written by Eric Auger
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 or
-+ *  (at your option) any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "virtio-pci.h"
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 71508bf40c..02f500cb8e 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -125,8 +125,10 @@ typedef struct {
+     bool virt;
+     int32_t gic_version;
+     VirtIOMMUType iommu;
++    uint16_t virtio_iommu_bdf;
+     struct arm_boot_info bootinfo;
+     MemMapEntry *memmap;
++    char *pciehb_nodename;
+     const int *irqmap;
+     int smp_cpus;
+     void *fdt;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index f788fe27d6..cfe317922f 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -32,6 +32,7 @@
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qemu/option.h"
++#include "monitor/qdev.h"
+ #include "qapi/error.h"
+ #include "hw/sysbus.h"
+ #include "hw/boards.h"
+@@ -54,6 +55,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "hw/pci-host/gpex.h"
++#include "hw/virtio/virtio-pci.h"
+ #include "hw/arm/sysbus-fdt.h"
+ #include "hw/platform-bus.h"
+ #include "hw/qdev-properties.h"
+@@ -71,6 +73,7 @@
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/acpi/generic_event_device.h"
 +#include "hw/virtio/virtio-iommu.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
-+
-+typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
-+
-+/*
-+ * virtio-iommu-pci: This extends VirtioPCIProxy.
-+ *
-+ */
-+#define VIRTIO_IOMMU_PCI(obj) \
-+        OBJECT_CHECK(VirtIOIOMMUPCI, (obj), TYPE_VIRTIO_IOMMU_PCI)
-+
-+struct VirtIOIOMMUPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VirtIOIOMMU vdev;
-+};
-+
-+static Property virtio_iommu_pci_properties[] =3D {
-+    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **err=
-p)
+=20
+ #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+@@ -1180,6 +1183,30 @@ static void create_smmu(const VirtMachineState *vms,
+     g_free(node);
+ }
+=20
++static void create_virtio_iommu_dt_bindings(VirtMachineState *vms, Error *=
+*errp)
 +{
-+    VirtIOIOMMUPCI *dev =3D VIRTIO_IOMMU_PCI(vpci_dev);
-+    DeviceState *vdev =3D DEVICE(&dev->vdev);
++    const char compat[] =3D "virtio,pci-iommu";
++    uint16_t bdf =3D vms->virtio_iommu_bdf;
++    char *node;
 +
-+    if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
-+        MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
++    vms->iommu_phandle =3D qemu_fdt_alloc_phandle(vms->fdt);
 +
-+        error_setg(errp,
-+                   "%s machine fails to create iommu-map device tree bindi=
-ngs",
-+                   mc->name);
-+        error_append_hint(errp,
-+                          "Check you machine implements a hotplug handler =
-"
-+                          "for the virtio-iommu-pci device\n");
-+        error_append_hint(errp, "Check the guest is booted without FW or w=
-ith "
-+                          "-no-acpi\n");
-+        return;
++    node =3D g_strdup_printf("%s/virtio_iommu@%d", vms->pciehb_nodename, b=
+df);
++    qemu_fdt_add_subnode(vms->fdt, node);
++    qemu_fdt_setprop(vms->fdt, node, "compatible", compat, sizeof(compat))=
+;
++    qemu_fdt_setprop_sized_cells(vms->fdt, node, "reg",
++                                 1, bdf << 8, 1, 0, 1, 0,
++                                 1, 0, 1, 0);
++
++    qemu_fdt_setprop_cell(vms->fdt, node, "#iommu-cells", 1);
++    qemu_fdt_setprop_cell(vms->fdt, node, "phandle", vms->iommu_phandle);
++    g_free(node);
++
++    qemu_fdt_setprop_cells(vms->fdt, vms->pciehb_nodename, "iommu-map",
++                           0x0, vms->iommu_phandle, 0x0, bdf,
++                           bdf + 1, vms->iommu_phandle, bdf + 1, 0xffff - =
+bdf);
++}
++
+ static void create_pcie(VirtMachineState *vms)
+ {
+     hwaddr base_mmio =3D vms->memmap[VIRT_PCIE_MMIO].base;
+@@ -1258,7 +1285,7 @@ static void create_pcie(VirtMachineState *vms)
+         }
+     }
+=20
+-    nodename =3D g_strdup_printf("/pcie@%" PRIx64, base);
++    nodename =3D vms->pciehb_nodename =3D g_strdup_printf("/pcie@%" PRIx64=
+, base);
+     qemu_fdt_add_subnode(vms->fdt, nodename);
+     qemu_fdt_setprop_string(vms->fdt, nodename,
+                             "compatible", "pci-host-ecam-generic");
+@@ -1301,13 +1328,16 @@ static void create_pcie(VirtMachineState *vms)
+     if (vms->iommu) {
+         vms->iommu_phandle =3D qemu_fdt_alloc_phandle(vms->fdt);
+=20
+-        create_smmu(vms, pci->bus);
+-
+-        qemu_fdt_setprop_cells(vms->fdt, nodename, "iommu-map",
+-                               0x0, vms->iommu_phandle, 0x0, 0x10000);
++        switch (vms->iommu) {
++        case VIRT_IOMMU_SMMUV3:
++            create_smmu(vms, pci->bus);
++            qemu_fdt_setprop_cells(vms->fdt, nodename, "iommu-map",
++                                   0x0, vms->iommu_phandle, 0x0, 0x10000);
++            break;
++        default:
++            g_assert_not_reached();
++        }
+     }
+-
+-    g_free(nodename);
+ }
+=20
+ static void create_platform_bus(VirtMachineState *vms)
+@@ -1976,6 +2006,13 @@ static void virt_machine_device_plug_cb(HotplugHandl=
+er *hotplug_dev,
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         virt_memory_plug(hotplug_dev, dev, errp);
+     }
++    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
++        PCIDevice *pdev =3D PCI_DEVICE(dev);
++
++        vms->iommu =3D VIRT_IOMMU_VIRTIO;
++        vms->virtio_iommu_bdf =3D pci_get_bdf(pdev);
++        create_virtio_iommu_dt_bindings(vms, errp);
 +    }
-+    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-+    object_property_set_link(OBJECT(dev),
-+                             OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-+                             "primary-bus", errp);
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+}
-+
-+static void virtio_iommu_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    VirtioPCIClass *k =3D VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k =3D PCI_DEVICE_CLASS(klass);
-+    k->realize =3D virtio_iommu_pci_realize;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    device_class_set_props(dc, virtio_iommu_pci_properties);
-+    pcidev_k->vendor_id =3D PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id =3D PCI_DEVICE_ID_VIRTIO_IOMMU;
-+    pcidev_k->revision =3D VIRTIO_PCI_ABI_VERSION;
-+    pcidev_k->class_id =3D PCI_CLASS_OTHERS;
-+    dc->hotpluggable =3D false;
-+}
-+
-+static void virtio_iommu_pci_instance_init(Object *obj)
-+{
-+    VirtIOIOMMUPCI *dev =3D VIRTIO_IOMMU_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VIRTIO_IOMMU);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info =3D {
-+    .base_name             =3D TYPE_VIRTIO_IOMMU_PCI,
-+    .generic_name          =3D "virtio-iommu-pci",
-+    .transitional_name     =3D "virtio-iommu-pci-transitional",
-+    .non_transitional_name =3D "virtio-iommu-pci-non-transitional",
-+    .instance_size =3D sizeof(VirtIOIOMMUPCI),
-+    .instance_init =3D virtio_iommu_pci_instance_init,
-+    .class_init    =3D virtio_iommu_pci_class_init,
-+};
-+
-+static void virtio_iommu_pci_register(void)
-+{
-+    virtio_pci_types_register(&virtio_iommu_pci_info);
-+}
-+
-+type_init(virtio_iommu_pci_register)
-+
-+
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 8ce71a206b..dbbe92dfa1 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -67,6 +67,7 @@ static const QDevAlias qdev_alias_table[] =3D {
-     { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_S390X },
-     { "virtio-input-host-pci", "virtio-input-host",
-             QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
-+    { "virtio-iommu-pci", "virtio-iommu", QEMU_ARCH_ALL & ~QEMU_ARCH_S390X=
- },
-     { "virtio-keyboard-ccw", "virtio-keyboard", QEMU_ARCH_S390X },
-     { "virtio-keyboard-pci", "virtio-keyboard",
-             QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-index 2fd9da7410..4e4d39a0a4 100644
---- a/hw/virtio/Makefile.objs
-+++ b/hw/virtio/Makefile.objs
-@@ -29,6 +29,7 @@ obj-$(CONFIG_VIRTIO_INPUT_HOST) +=3D virtio-input-host-pc=
-i.o
- obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input-pci.o
- obj-$(CONFIG_VIRTIO_RNG) +=3D virtio-rng-pci.o
- obj-$(CONFIG_VIRTIO_BALLOON) +=3D virtio-balloon-pci.o
-+obj-$(CONFIG_VIRTIO_IOMMU) +=3D virtio-iommu-pci.o
- obj-$(CONFIG_VIRTIO_9P) +=3D virtio-9p-pci.o
- obj-$(CONFIG_VIRTIO_SCSI) +=3D virtio-scsi-pci.o
- obj-$(CONFIG_VIRTIO_BLK) +=3D virtio-blk-pci.o
+ }
+=20
+ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_=
+dev,
+@@ -1992,7 +2029,13 @@ static HotplugHandler *virt_machine_get_hotplug_hand=
+ler(MachineState *machine,
+        (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
+         return HOTPLUG_HANDLER(machine);
+     }
++    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
++        VirtMachineState *vms =3D VIRT_MACHINE(machine);
+=20
++        if (!vms->bootinfo.firmware_loaded || !acpi_enabled) {
++            return HOTPLUG_HANDLER(machine);
++        }
++    }
+     return NULL;
+ }
+=20
 --=20
 MST
 
