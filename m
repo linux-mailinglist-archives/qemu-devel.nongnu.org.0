@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B0016C338
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:04:37 +0100 (CET)
-Received: from localhost ([::1]:56948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A2516C34C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:07:43 +0100 (CET)
+Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6apA-0005jc-BK
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:04:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37559)
+	id 1j6asA-0002Tv-2V
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:07:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1j6a2w-0008I1-Qf
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:50 -0500
+ (envelope-from <mst@redhat.com>) id 1j6a2z-0008SO-Se
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1j6a2s-0002BT-SZ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:46 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:57256)
+ (envelope-from <mst@redhat.com>) id 1j6a2w-0002CP-7W
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:49 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20793
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1j6a2m-00022u-MM; Tue, 25 Feb 2020 08:14:37 -0500
-Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
- [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 611BC96F53;
- Tue, 25 Feb 2020 13:14:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1582636468;
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6a2w-0002CH-1K
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582636485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HBdezKQlElS6Poj9kARTllYO42WnV/QmAowvM6zuyh0=;
- b=f1EsQ/Sw1Q5k5Vz8r+0biIdVRmitHVZIN13xSaAluYwbGe0GmaQEaQRw74U6cGOdK3okIe
- vnWlSicumkwnZ7voqYWlcht24N7a8Om6YX487UEtcRShrT8Wikop4LSS6oJPspwKJm0gDM
- ltLYIIGeF+oORJlBIJRazZJTzJX2Als=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 5/9] docs/clocks: add device's clock documentation
-Date: Tue, 25 Feb 2020 14:14:18 +0100
-Message-Id: <20200225131422.53368-6-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200225131422.53368-1-damien.hedde@greensocs.com>
-References: <20200225131422.53368-1-damien.hedde@greensocs.com>
+ bh=nWOgPUNM9ydOC7jW+BxD/QLDodYpiHiWwfzfnOjNX9U=;
+ b=c5ZuIO+lVXlw2XpCnyROu2oHQBsfXsyqM6X0QUyGf8HK37yYwEMmopXM0mfCyg0iZ7BVDD
+ F25OhCH/CK6a+teKCKkkJbHsMVMJndpIAiONMVzWdsYzQgLsFI8ekZGGN3IIyoyUW2162I
+ oyEwHf/zJGSguA9fdkj/I13mFb8cdtw=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-Popxpqu6NPq6MZdwZmQDuw-1; Tue, 25 Feb 2020 08:14:43 -0500
+X-MC-Unique: Popxpqu6NPq6MZdwZmQDuw-1
+Received: by mail-qv1-f72.google.com with SMTP id k2so12806597qvu.22
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:14:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=edHHNehR64MnjZYjYoL7hkoPUd5pXkiBWEMDkddZqw0=;
+ b=Zavblwzu88Wj6E9NMQuXurnOvaJLsB9b7YEe5PXg+biVVZzB8IZxK7oNr2cukUedFq
+ ifk2DWzeuGPmTRnvcMgfrKPWeSTOiLSBc73+dtWXpbsqsGqc3p9ErLnCGoKSit8aS+w2
+ dXamXCpL/sP++FKb8pldYqq2aMq+HhRlgPsi9qdTbO1ALD148rlUq+/KsrqrpsfH5e7Q
+ BAAWNhYacrABpfFVEK3kCFasv4XNS+NqV6IPHR9yIo8zM3KKtcsaAljX6jlU3T8BtLm+
+ dfvg3ETsvPK+0ihgQxVd0OtwqTAhjKErSxbwB+9d0jKbTwijgf5FgfYtlcNDjP8FoJ2y
+ 7prQ==
+X-Gm-Message-State: APjAAAWyp5vplKWGs/8x5ihtehVsAjbxaFqNdj0/DcApaLH3wctfmnBx
+ tNRIDC8d5epqy0fi3Yvy6tXIkRQDd8kkZu566y2vdhWzonXtrZXfIqdNIU8O8y5UKOtJqrhv9cK
+ VHQglLJ5zflXaZX4=
+X-Received: by 2002:a05:620a:14b8:: with SMTP id
+ x24mr31393145qkj.210.1582636481694; 
+ Tue, 25 Feb 2020 05:14:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz1W5hNNFlpzw6iMohI1xlrr0poWX5FoB4FRoSTEN6gOGymuuGzeP2UORH6Eok+GAb6GvkGOA==
+X-Received: by 2002:a05:620a:14b8:: with SMTP id
+ x24mr31393100qkj.210.1582636481335; 
+ Tue, 25 Feb 2020 05:14:41 -0800 (PST)
+Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
+ by smtp.gmail.com with ESMTPSA id
+ u5sm2997895qkf.32.2020.02.25.05.14.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 05:14:40 -0800 (PST)
+Date: Tue, 25 Feb 2020 08:14:35 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yubo Miao <miaoyubo@huawei.com>
+Subject: Re: [PATCH v4 2/3] acpi:pci-expender-bus: Add pxb support for arm
+Message-ID: <20200225081151-mutt-send-email-mst@kernel.org>
+References: <20200225015026.940-1-miaoyubo@huawei.com>
+ <20200225015026.940-3-miaoyubo@huawei.com>
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1582636468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HBdezKQlElS6Poj9kARTllYO42WnV/QmAowvM6zuyh0=;
- b=xi2I88jl09uSfCl8QyHnxIDOqdR+bQos6d3zlpZLwX4w2um+VNJsdTHrxOVZmCZrqGqCnf
- oJrTQesf9zgp9U1XaIq93mbBQomNsK8HXxVpaQ2D7ZHQFXEr4bWAbt9zSWes/yLKywwtU9
- OfSFv/KDd/y8Okey3IbLQ2TeAi4MUnI=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582636468; a=rsa-sha256; cv=none;
- b=TiJXcmxHuiayB9MB5BiiKo9+xLWeHstZWGAm2Yj2mLC78AjHxlUYGhOBZeAe8vMFxQkhk+
- N+4Keokc6UcEn6/yN34eLDEHbqGWgG3SAJrV8NDnbd1ZzZ8Delbz7Tb7I1alsBDty6PE23
- rE1KrfwPgRqmW6MBHK1BJsLejmaI+EU=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-X-Spam: Yes
+In-Reply-To: <20200225015026.940-3-miaoyubo@huawei.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,480 +90,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, ehabkost@redhat.com, pbonzini@redhat.com,
- alistair@alistair23.me, mark.burton@greensocs.com, qemu-arm@nongnu.org,
- marcandre.lureau@redhat.com, edgar.iglesias@gmail.com, philmd@redhat.com
+Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the documentation about the clock inputs and outputs in devices.
+On Tue, Feb 25, 2020 at 09:50:25AM +0800, Yubo Miao wrote:
+> From: miaoyubo <miaoyubo@huawei.com>
+>=20
+> Currently virt machine is not supported by pxb-pcie,
+> and only one main host bridge described in ACPI tables.
+> In this patch,PXB-PCIE is supproted by arm and certain
+> resource is allocated for each pxb-pcie in acpi table.
+> The resource for the main host bridge is also reallocated.
+>=20
+> Signed-off-by: miaoyubo <miaoyubo@huawei.com>
+> ---
+>  hw/arm/virt-acpi-build.c | 115 ++++++++++++++++++++++++++++++++++++---
+>  hw/arm/virt.c            |   3 +
+>  include/hw/arm/virt.h    |   7 +++
+>  3 files changed, 118 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 37c34748a6..be1986c60d 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -49,6 +49,8 @@
+>  #include "kvm_arm.h"
+>  #include "migration/vmstate.h"
+> =20
+> +#include "hw/arm/virt.h"
+> +#include "hw/pci/pci_bus.h"
+>  #define ARM_SPI_BASE 32
+> =20
+>  static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
+> @@ -266,19 +268,116 @@ static void acpi_dsdt_add_pci_osc(Aml *dev, Aml *s=
+cope)
+>  }
+> =20
+>  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> -                              uint32_t irq, bool use_highmem, bool highm=
+em_ecam)
+> +                              uint32_t irq, bool use_highmem, bool highm=
+em_ecam,
+> +                              VirtMachineState *vms)
+>  {
+>      int ecam_id =3D VIRT_ECAM_ID(highmem_ecam);
+> -    Aml *method, *crs;
+> +    Aml *method, *crs, *dev;
+> +    int count =3D 0;
+>      hwaddr base_mmio =3D memmap[VIRT_PCIE_MMIO].base;
+>      hwaddr size_mmio =3D memmap[VIRT_PCIE_MMIO].size;
+>      hwaddr base_pio =3D memmap[VIRT_PCIE_PIO].base;
+>      hwaddr size_pio =3D memmap[VIRT_PCIE_PIO].size;
+>      hwaddr base_ecam =3D memmap[ecam_id].base;
+>      hwaddr size_ecam =3D memmap[ecam_id].size;
+> +    /*
+> +     * 0x600000 would be enough for pxb device
 
-This is based on the original work of Frederic Konrad.
+It's not clear where does pxb come in here.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
+> +     * if it is too small, there is no enough space
+> +     * for a pcie device plugged in a pcie-root port
+> +     */
+> +    hwaddr size_addr =3D 0x600000;
+> +    hwaddr size_io =3D 0x4000;
 
-v8:
- + fix list indentation
- + reduce title size
+Please explain how are memory and io partitioned.
+Looks like you are forcing a very specific layout here,
+but it's not documented anywhere, which
+can cause issues like running out of memory where
+we previously were ok.
 
-v7:
- + update ClockIn/Out types
- + switch to rst format
----
- docs/devel/clocks.rst | 360 ++++++++++++++++++++++++++++++++++++++++++
- docs/devel/index.rst  |   1 +
- 2 files changed, 361 insertions(+)
- create mode 100644 docs/devel/clocks.rst
 
-diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-new file mode 100644
-index 0000000000..d3c0146bd2
---- /dev/null
-+++ b/docs/devel/clocks.rst
-@@ -0,0 +1,360 @@
-+Modeling a clock tree in QEMU
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+What are clocks
-+---------------
-+
-+Clocks are QOM objects developed for the purpose of modeling the
-+distribution of clocks in QEMU.
-+
-+They allow us to model the clock distribution of a platform and detect
-+configuration errors in the clock tree such as badly configured PLL, clo=
-ck
-+source selection or disabled clock.
-+
-+The object is *Clock* and its QOM name is ``CLOCK``.
-+
-+Clocks are typically used with devices where they are used to model inpu=
-ts
-+and outputs. They are created in a similar way as gpios. Inputs and outp=
-uts
-+of different devices can be connect together.
-+
-+In these cases a Clock object is a child of a Device object but this is =
-not
-+a requirement. Clocks can be independent of devices. For example it is p=
-ossible
-+to create a clock outside of any device to model the main clock source o=
-f a
-+machine.
-+
-+Here is an example of clocks::
-+
-+    +---------+      +----------------------+   +--------------+
-+    | Clock 1 |      |       Device B       |   |   Device C   |
-+    |         |      | +-------+  +-------+ |   | +-------+    |
-+    |         |>>-+-->>|Clock 2|  |Clock 3|>>--->>|Clock 6|    |
-+    +---------+   |  | | (in)  |  | (out) | |   | | (in)  |    |
-+                  |  | +-------+  +-------+ |   | +-------+    |
-+                  |  |            +-------+ |   +--------------+
-+                  |  |            |Clock 4|>>
-+                  |  |            | (out) | |   +--------------+
-+                  |  |            +-------+ |   |   Device D   |
-+                  |  |            +-------+ |   | +-------+    |
-+                  |  |            |Clock 5|>>--->>|Clock 7|    |
-+                  |  |            | (out) | |   | | (in)  |    |
-+                  |  |            +-------+ |   | +-------+    |
-+                  |  +----------------------+   |              |
-+                  |                             | +-------+    |
-+                  +----------------------------->>|Clock 8|    |
-+                                                | | (in)  |    |
-+                                                | +-------+    |
-+                                                +--------------+
-+
-+Clocks are defined in include/hw/clock.h header and device related funct=
-ions
-+are defined in include/hw/qdev-clock.h header.
-+
-+The clock state
-+---------------
-+
-+The state of a clock is its period; it is stored as an integer represent=
-ing
-+it in 2^-32ns unit. The special value of 0 is used to represent the cloc=
-k being
-+inactive or gated. The clocks do not model the signal itself (pin toggli=
-ng)
-+or other properties such as the duty cycle.
-+
-+All clocks contain this state: outputs as well as inputs. It allows to f=
-etch
-+the current period of a clock at any time. When a clock is updated, the
-+value is immediately propagated to all connected clocks in the tree.
-+
-+To ease interaction with clocks. Helpers with a unit suffix are defined =
-for
-+every clock state setter or getter. They are:
-+
-+- ``_ns`` for handling periods in nanosecond,
-+- ``_hz`` for handling frequencies in hertz.
-+
-+The 0 period value is converted to 0 in hertz and vice versa. 0 always m=
-eans
-+that the clock is disabled.
-+
-+Adding a new a clock
-+--------------------
-+
-+Adding clocks to a device must be done during the init method of the Dev=
-ice
-+instance.
-+
-+To add an input clock to a device, the function qdev_init_clock_in must =
-be used.
-+It takes the name, a callback and an opaque parameter for the callback (=
-this will
-+be explained in a following section below).
-+Output is more simple, only the name is required. Typically::
-+
-+    qdev_init_clock_in(DEVICE(dev), "clk_in", clk_in_callback, dev);
-+    qdev_init_clock_out(DEVICE(dev), "clk_out");
-+
-+Both functions return the created Clock pointer, which should be saved i=
-n the
-+device's state structure for further use.
-+
-+These objects will be automatically deleted by the QOM reference mechani=
-sm.
-+
-+Note that it is possible to create a static array describing clock input=
-s and
-+outputs. The function ``qdev_init_clocks()`` must be called with the arr=
-ay as
-+parameter to initialize the clocks: it has the same behaviour as calling=
- the
-+``qdev_init_clock_in/out()`` for each clock in the array. To ease the ar=
-ray
-+construction, some macros are defined in include/hw/qdev-clock.h.
-+As an example, the following creates 2 clocks to a device: one input and=
- one
-+output.
-+
-+::
-+
-+    /* device structure containing pointer to the clock objects */
-+    typedef struct MyDeviceState {
-+        DeviceState parent_obj;
-+        Clock *clk_in;
-+        Clock *clk_out;
-+    } MyDeviceState;
-+
-+    /*
-+     * callback for the input clock (see "Callback on input clock
-+     * change" section below for more information).
-+     */
-+    static void clk_in_callback(void *opaque);
-+
-+    /*
-+     * static array describing clocks:
-+     * + a clock input named "clk_in", whose pointer is stored in
-+     *   clk_in field of a MyDeviceState structure with callback
-+     *   clk_in_callback.
-+     * + a clock output named "clk_out" whose pointer is stored in
-+     *   clk_out field of a MyDeviceState structure.
-+     */
-+    static const ClockPortInitArray mydev_clocks =3D {
-+        QDEV_CLOCK_IN(MyDeviceState, clk_in, clk_in_callback),
-+        QDEV_CLOCK_OUT(MyDeviceState, clk_out),
-+        QDEV_CLOCK_END
-+    };
-+
-+    /* device initialization function */
-+    static void mydev_init(Object *obj)
-+    {
-+        /* cast to MyDeviceState */
-+        MyDeviceState *mydev =3D MYDEVICE(obj);
-+        /* create and fill the pointer fields in the MyDeviceState */
-+        qdev_init_clocks(mydev, mydev_clocks);
-+        [...]
-+    }
-+
-+An alternative way to create a clock is to simply call
-+``object_new(TYPE_CLOCK)``. In that case the clock will neither be an in=
-put nor
-+an output of a device. After the whole QOM hieracrhy of the clock has be=
-en set
-+``clock_setup_canonical_path()`` should be called.
-+
-+At creation, the period of the clock is 0: the clock is disabled. You ca=
-n
-+change it using ``clock_set[_ns|_hz]()``.
-+
-+Note that if you are creating a clock with a fixed period which will nev=
-er
-+change (for example the main clock source of a board), then you'll have
-+nothing else to do. This value will be propagated to other clocks when
-+connecting the clocks together and devices will fetch the right value du=
-ring
-+the first reset.
-+
-+Retrieving clocks from a device
-+-------------------------------
-+
-+``qdev_get_clock_in()`` and ``dev_get_clock_out()`` are available to get=
- the clock inputs or outputs of a device. For example::
-+
-+    Clock *clk =3D qdev_get_clock_in(DEVICE(mydev), "clk_in");
-+
-+or::
-+
-+    Clock *clk =3D qdev_get_clock_out(DEVICE(mydev), "clk_out");
-+
-+Connecting two clocks together
-+------------------------------
-+
-+To connect two clocks together, use the ``clock_set_source()`` function.
-+Given two clocks ``clk1``, and ``clk2``, ``clock_set_source(clk2, clk1);=
-``
-+configure ``clk2`` to follow the ``clk1`` period changes. Every time ``c=
-lk1``
-+is updated, ``clk2`` will be updated too.
-+
-+When connecting clock between devices, prefer using the
-+``qdev_connect_clock_in()`` function set the source of an input device c=
-lock.
-+For example, to connect the input clock ``clk2`` of ``devB`` to the outp=
-ut
-+clock ``clk1`` of ``devA``, do::
-+
-+    qdev_connect_clock_in(devB, "clk2", qdev_get_clock_out(devA, "clk1")=
-)
-+
-+We used ``qdev_get_clock_out()`` above, but any clock can drive an input=
- clock,
-+even another input clock. The following diagram shows some
-+examples of connections. Note also that a clock can drive several other =
-clocks.
-+
-+::
-+
-+  +------------+  +--------------------------------------------------+
-+  |  Device A  |  |                   Device B                       |
-+  |            |  |               +---------------------+            |
-+  |            |  |               |       Device C      |            |
-+  |  +-------+ |  | +-------+     | +-------+ +-------+ |  +-------+ |
-+  |  |Clock 1|>>-->>|Clock 2|>>+-->>|Clock 3| |Clock 5|>>>>|Clock 6|>>
-+  |  | (out) | |  | | (in)  |  |  | | (in)  | | (out) | |  | (out) | |
-+  |  +-------+ |  | +-------+  |  | +-------+ +-------+ |  +-------+ |
-+  +------------+  |            |  +---------------------+            |
-+                  |            |                                     |
-+                  |            |  +--------------+                   |
-+                  |            |  |   Device D   |                   |
-+                  |            |  | +-------+    |                   |
-+                  |            +-->>|Clock 4|    |                   |
-+                  |               | | (in)  |    |                   |
-+                  |               | +-------+    |                   |
-+                  |               +--------------+                   |
-+                  +--------------------------------------------------+
-+
-+In the above example, when *Clock 1* is updated by *Device A*, three clo=
-cks gets the new clock period value: *Clock 2*, Clock 3* and *Clock 4*.
-+
-+It is not possible to disconnect a clock or to change the clock connecti=
-on
-+after it is done.
-+
-+Unconnected input clocks
-+------------------------
-+
-+A newly created input clock is disabled (period of 0). It means the cloc=
-k will
-+be considered as disabled until the period is updated. If the clock rema=
-ins
-+unconnected it will always keep its initial value of 0. If this is not t=
-he
-+wanted behaviour, ``clock_set()``, ``clock_set_ns()`` or ``clock_set_hz(=
-)``
-+should be called on the Clock object during device instance init. For ex=
-ample::
-+
-+    clk =3D qdev_init_clock_in(DEVICE(dev), "clk-in", clk_in_callback,
-+                             dev);
-+    /* set initial value to 10ns / 100MHz */
-+    clock_set_ns(clk, 10);
-+
-+Fetching clock frequency/period
-+-------------------------------
-+
-+To get the current state of a clock, the function ``clock_get()``,
-+``clock_get_ns()`` or ``clock_get_hz()`` must be used.
-+
-+It is also possible to register a callback on clock frequency changes.
-+Here is an example::
-+
-+    void clock_callback(void *opaque) {
-+        MyDeviceState *s =3D (MyDeviceState *) opaque;
-+        /*
-+         * opaque may not be the device state pointer, but most
-+         * probably it is. (It depends on what is given to the
-+         * qdev_init_clock_in function)
-+         */
-+
-+        /* do something with the new period */
-+        fprintf(stdout, "device new period is %" PRIu64 "ns\n",
-+                        clock_get_ns(dev->my_clk_input));
-+    }
-+
-+Changing a clock period
-+-----------------------
-+
-+A device can change its outputs using the ``clock_update()``,
-+``clock_update_ns()`` or ``clock_update_hz()`` function. It will trigger
-+updates on every connected input.
-+
-+For example, let's say that we have an output clock *clkout* and we have=
- a
-+pointer to it in the device state because we did the following in init p=
-hase::
-+
-+    dev->clkout =3D qdev_init_clock_out(DEVICE(dev), "clkout");
-+
-+Then at any time (apart from the cases listed below), it is possible to
-+change the clock value by doing::
-+
-+    clock_update_hz(dev->clkout, 1000 * 1000 * 1000); /* 1Ghz */
-+
-+Because updating a clock may trigger any side effects through connected =
-clocks
-+and their callbacks, this operation must be done while holding the qemu =
-io lock.
-+
-+For the same reason, one can updates clocks only when it is allowed to h=
-ave
-+side effects on other objects. In consequence, it is forbidden:
-++ during migration,
-++ and in the enter phase of reset.
-+
-+Note that calling ``clock_update[_ns|_hz]()`` is equivalent to call
-+``clock_set[_ns|_hz]()`` (with the same arguments) then ``clock_propagat=
-e()`` on
-+the clock. Thus, setting the clock value can separated from triggering t=
-he
-+side-effects. This is often required to factorize code to handle reset a=
-nd
-+migration in devices.
-+
-+Aliasing clocks
-+---------------
-+
-+Sometimes, one needs to forward, or inherit, a clock from another device=
-.
-+Typically, when doing device composition, a device might expose a sub-de=
-vice's
-+clock without interfering with it.
-+The function ``qdev_alias_clock()`` can be used to achieve this behaviou=
-r. Note
-+that it is possible to expose the clock under a different name. This wor=
-ks for
-+both inputs and outputs.
-+
-+For example, if device B is a child of device A, ``device_a_instance_ini=
-t()``
-+may do something like this::
-+
-+    void device_a_instance_init(Object *obj)
-+    {
-+        AState *A =3D DEVICE_A(obj);
-+        BState *B;
-+        /* create B object as child of A */
-+        [...]
-+        qdev_alias_clock(B, "clk", A, "b_clk");
-+        /*
-+         * Now A has a clock "b_clk" which is an alias to
-+         * the clock "clk" of its child B.
-+         */
-+    }
-+
-+This function does not return any clock object. The new clock has the sa=
-me
-+direction (input or output) as the original one. This function only adds=
- a link
-+to the existing clock. In the above example, B object remains the only o=
-bject
-+allowed to use the clock and device A must not try to change the clock p=
-eriod
-+or set a callback to the clock. Here follows a diagram describing the ex=
-ample
-+with an input clock::
-+
-+    +--------------------------+
-+    |        Device A          |
-+    |         +--------------+ |
-+    |         |   Device B   | |
-+    |         | +-------+    | |
-+    >>"b_clk">>>| "clk" |    | |
-+    |  (in)   | |  (in) |    | |
-+    |         | +-------+    | |
-+    |         +--------------+ |
-+    +--------------------------+
-+
-+Migration
-+---------
-+
-+Clock state are not migrated automatically. Every device must handle its
-+clock migration. Alias clocks must not be migrated.
-+
-+To ensure clock states are restored correctly during migration, there is=
- two
-+solutions.
-+
-+Clocks states can be migrated by adding an entry into the device
-+vmstate description. To this purpose, the ``VMSTATE_CLOCK`` macro define=
-s
-+such an entry and should be used. This is typically used to migrate an i=
-nput
-+clock state. The following example describes it::
-+
-+    MyDeviceState {
-+        DeviceState parent_obj;
-+        [...] /* some fields */
-+        Clock *clk;
-+    };
-+
-+    VMStateDescription my_device_vmstate =3D {
-+        .name =3D "my_device",
-+        .fields =3D (VMStateField[]) {
-+            [...], /* other migrated fields */
-+            VMSTATE_CLOCK(clk, MyDeviceState),
-+            VMSTATE_END_OF_LIST()
-+        }
-+    };
-+
-+The second solution is to restore the clock state using information alre=
-ady
-+at our disposal. This can be used to restore output clocks states using =
-the
-+device state. The functions ``clock_set[_ns|_hz]()`` can be used during
-+``post_load()`` migration callback.
-+
-+When adding a clock support to an existing device, if you care about mig=
-ration
-+compatibility. To this end, you can use ``clock_set()`` in a ``pre_load(=
-)``
-+function to setup a default value in case the source virtual machine doe=
-s not
-+send the clock state. You may also need to use a vmstate subsection.
-+
-+Care should be taken not to use ``clock_update[_ns|_hz]()`` or
-+``clock_propagate()`` during the whole migration procedure because it wi=
-ll
-+trigger side effects to other devices in an unknown state.
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 4dc2ca8d71..f9c8c668ee 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -25,3 +25,4 @@ Contents:
-    tcg-plugins
-    bitops
-    reset
-+   clocks
---=20
-2.25.1
+>      int nr_pcie_buses =3D size_ecam / PCIE_MMCFG_SIZE_MIN;
+> +    PCIBus *bus =3D VIRT_MACHINE(vms)->bus;
+> +
+> +    if (bus) {
+> +        QLIST_FOREACH(bus, &bus->child, sibling) {
+> +            uint8_t bus_num =3D pci_bus_num(bus);
+> +            uint8_t numa_node =3D pci_bus_numa_node(bus);
+> +
+> +            if (!pci_bus_is_root(bus)) {
+> +                continue;
+> +            }
+> +            /*
+> +             * Coded up the MIN of the busNr defined for pxb-pcie,
+> +             * the MIN - 1 would be the MAX bus number for the main
+> +             * host bridge.
+> +             */
+> +            if (bus_num < nr_pcie_buses) {
+> +                nr_pcie_buses =3D bus_num;
+> +            }
+> +            count++;
+> +            dev =3D aml_device("PC%.02X", bus_num);
+> +            aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08"))=
+);
+> +            aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03"))=
+);
+> +            aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> +            aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+> +            aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+> +            aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+> +            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+> +            aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Devic=
+e")));
+
+how do you know it's a pxb device?
+
+> +            if (numa_node !=3D NUMA_NODE_UNASSIGNED) {
+> +                method =3D aml_method("_PXM", 0, AML_NOTSERIALIZED);
+> +                aml_append(method, aml_return(aml_int(numa_node)));
+> +                aml_append(dev, method);
+> +            }
+> +
+> +            acpi_dsdt_add_pci_route_table(dev, scope, irq);
+> +
+> +            method =3D aml_method("_CBA", 0, AML_NOTSERIALIZED);
+> +            aml_append(method, aml_return(aml_int(base_ecam)));
+> +            aml_append(dev, method);
+> +
+> +            method =3D aml_method("_CRS", 0, AML_NOTSERIALIZED);
+> +            Aml *rbuf =3D aml_resource_template();
+> +            aml_append(rbuf,
+> +                       aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED,
+> +                                           AML_POS_DECODE, 0x0000,
+> +                                           bus_num, bus_num + 1, 0x0000,
+> +                                           2));
+> +            aml_append(rbuf,
+> +                       aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+> +                                        AML_MAX_FIXED, AML_NON_CACHEABLE=
+,
+> +                                        AML_READ_WRITE, 0x0000,
+> +                                        base_mmio + size_mmio -
+> +                                        size_addr * count,
+> +                                        base_mmio + size_mmio - 1 -
+> +                                        size_addr * (count - 1),
+> +                                        0x0000, size_addr));
+> +            aml_append(rbuf,
+> +                       aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
+> +                       AML_POS_DECODE, AML_ENTIRE_RANGE,
+> +                       0x0000, size_pio - size_io * count,
+> +                       size_pio - 1 - size_io * (count - 1),
+> +                       base_pio, size_io));
+> +
+> +            if (use_highmem) {
+> +                hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].ba=
+se;
+> +                hwaddr size_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].si=
+ze;
+> +
+> +                aml_append(rbuf,
+> +                       aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+> +                                        AML_MAX_FIXED, AML_NON_CACHEABLE=
+,
+> +                                        AML_READ_WRITE, 0x0000,
+> +                                        base_mmio_high + size_mmio_high =
+-
+> +                                        size_addr * count,
+> +                                        base_mmio_high + size_mmio_high =
+-
+> +                                        1 - size_addr * (count - 1),
+> +                                        0x0000, size_addr));
+> +            }
+> +
+> +            aml_append(method, aml_name_decl("RBUF", rbuf));
+> +            aml_append(method, aml_return(rbuf));
+> +            aml_append(dev, method);
+> +
+> +            acpi_dsdt_add_pci_osc(dev, scope);
+> +
+> +            aml_append(scope, dev);
+> +
+> +        }
+> +    }
+> =20
+> -    Aml *dev =3D aml_device("%s", "PCI0");
+> +    dev =3D aml_device("%s", "PCI0");
+>      aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
+>      aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+>      aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+> @@ -302,11 +401,13 @@ static void acpi_dsdt_add_pci(Aml *scope, const Mem=
+MapEntry *memmap,
+>      aml_append(rbuf,
+>          aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+>                           AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base=
+_mmio,
+> -                         base_mmio + size_mmio - 1, 0x0000, size_mmio));
+> +                         base_mmio + size_mmio - 1 - size_addr * count,
+> +                         0x0000, size_mmio - size_addr * count));
+>      aml_append(rbuf,
+>          aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+> -                     AML_ENTIRE_RANGE, 0x0000, 0x0000, size_pio - 1, bas=
+e_pio,
+> -                     size_pio));
+> +                     AML_ENTIRE_RANGE, 0x0000, 0x0000,
+> +                     size_pio - 1 - size_io * count, base_pio,
+> +                     size_pio - size_io * count));
+> =20
+>      if (use_highmem) {
+>          hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].base;
+> @@ -746,7 +847,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+>      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+>                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANS=
+PORTS);
+>      acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
+> -                      vms->highmem, vms->highmem_ecam);
+> +                      vms->highmem, vms->highmem_ecam, vms);
+>      if (vms->acpi_dev) {
+>          build_ged_aml(scope, "\\_SB."GED_DEVICE,
+>                        HOTPLUG_HANDLER(vms->acpi_dev),
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index f788fe27d6..6314928671 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1246,6 +1246,9 @@ static void create_pcie(VirtMachineState *vms)
+>      }
+> =20
+>      pci =3D PCI_HOST_BRIDGE(dev);
+> +
+> +    VIRT_MACHINE(qdev_get_machine())->bus =3D pci->bus;
+> +
+>      if (pci->bus) {
+>          for (i =3D 0; i < nb_nics; i++) {
+>              NICInfo *nd =3D &nd_table[i];
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 71508bf40c..90f10a1e46 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -140,6 +140,13 @@ typedef struct {
+>      DeviceState *gic;
+>      DeviceState *acpi_dev;
+>      Notifier powerdown_notifier;
+> +    /*
+> +     * pointer to devices and objects
+> +     * Via going through the bus, all
+> +     * pci devices and related objectes
+> +     * could be gained.
+> +     */
+> +    PCIBus *bus;
+>  } VirtMachineState;
+> =20
+>  #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
+> --=20
+> 2.19.1
+>=20
 
 
