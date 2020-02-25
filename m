@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D3E16C12A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:43:21 +0100 (CET)
-Received: from localhost ([::1]:54468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A0216C0D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:32:18 +0100 (CET)
+Received: from localhost ([::1]:54230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZYW-0004Nd-Tm
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:43:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52653)
+	id 1j6ZNp-0006Tn-QC
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:32:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003hN-Gd
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:02 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0S-0003wl-TU
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0H-0003ZP-CB
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39218)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0R-0003fP-Rz
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:08 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0H-0003YQ-4f
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:57 -0500
-Received: by mail-wm1-x331.google.com with SMTP id c84so2883249wme.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:57 -0800 (PST)
+ id 1j6Z0R-0003eZ-K8
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:07 -0500
+Received: by mail-wm1-x336.google.com with SMTP id p9so2739626wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z+oRtC/n9wy+AzsoNa8bIYoHlANn/uzBMWqr8FqYh4M=;
- b=SziYyjow/o0i4p2vup4j7busEqX07uiymHOG3oIS9Pbq5sb5ILq9VaYpTiYsj9sMFC
- CRyl7e6Geq11nvX+InybCY9L9r8Ue8ODnuJRcxPuuO4LLG7LxYUyts60vscBSYUYy3st
- qKxWlKnTzEHRQkaojt41jrvmeMtOPtCzcCa+pWZVVgrQk4QaKFEsisFhrCwLqCrZNjNf
- Uk/cxYyc5D7j4RTstW2ism1/11Tl0jzfhoUcZ2GTvMhw3oomRsMGR6KWrYMh7esBpqZK
- 8cx+omiP3wsT0BkJniu1YzjO6g+BQTjR4A5oVjVTf0pv6VO4+EMvYMlhbvFqnZUIl6/q
- VHMw==
+ bh=ketsX9szEN/yEwdCDikauA8vhBP8YwqgK84yBa4Gy64=;
+ b=HYRoj2i7ddw6Dw98VO5bDlJQMY8g5khqD2AbIxBp1lpe0PwfzuxcwKbgOLk0Y9mxJ2
+ sUsJVMQsKGnrIzXWN0Yg7mP/ahYdbpEpsbAl/vzvZsMHem7lZXdBnCBKMPoQQoRLi3Wm
+ cMoC5itNQgMBhgFTZa0/8AOURuyTwNz+9jxNsMIlhoh8+mAHy5SaQ2vrlEwVVNe0Pox5
+ MRwpVcatyeHMwfcMHFBFWyBBguxGG8IW+fXoQrogeyzA3ONopPzky8CY08xES6MQCxCT
+ JSamgDNMTihs5lnioIfCoRED83whB3mM9U6nUxYiuIPrg4ei2qt4a+lkDnwWli02tLkA
+ Ma/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=z+oRtC/n9wy+AzsoNa8bIYoHlANn/uzBMWqr8FqYh4M=;
- b=Z1OHxUoQ93j2pjRBxNcNiAN6P5zgu58abkH3KPpLeRXEvGYuZnfktd+giD7S145k5o
- GcaNP5Th/NmxahG9G4qfu1OFdjFDh1pqP5XUF7EeLlZLo7g/PEFF09vOpVPBQ+VZ+ho4
- yqpbPTdjxEaBQ7yxHx64w4VArBkYPSmA56cDMTdtcP2kUDkwP0mjXa7LoRm4tF52gaOd
- HmNYM8DIKU4knxf6d8BY2M+CzBZLqdqjGzslmH34dY7yoiEumA9GO445AYmBP2W1Noqw
- AJnIY6C0Ch9Ak+INYxiEcsK6AEr4zSqwhOuZx81QTHraeflNBAxjkUjrb5VFToyXX3vd
- TSzA==
-X-Gm-Message-State: APjAAAUmpSyqse2XaDJq2LktkutHf8Xksv4mtcNSFBMKA0sU0UbjMM0d
- KIzkOlu1y6PAImYpLDLiVlGTaknK
-X-Google-Smtp-Source: APXvYqwIwW5slrriXg2+JRSHLxDrWvCBMyfS8Vg9mVNLfeyeO2a7RfKHmSs1R51Cl3gKGFzRqmj0ZQ==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr4885751wmk.131.1582632475620; 
- Tue, 25 Feb 2020 04:07:55 -0800 (PST)
+ bh=ketsX9szEN/yEwdCDikauA8vhBP8YwqgK84yBa4Gy64=;
+ b=CHEaNiNNVC3b+NHiZdTyqRKU57kGmZz82unoGwXPigGP3gRcLKL78/hqFsCOYMYvjt
+ iNVSgrodwBLeYgf8cFcJoX5/Cm8OYvhk3AOAe60TXXJjIJw7yu8nyL4lD2XJCxRSPtD0
+ zX+zfyVoPeklXIbis0untHqb00ZpL1o0WGzRqRTZ6cyHhwp2JEx3u+5+BwU1y6tt6WFX
+ 5BxMIw2rjtO21QvHrlyaJWmiuP5BZ8BgUtFOZPk7mj1eThmqlGbQ+RiHzEAAF6fLNtTL
+ HouN00337yY0Y3yyctt/YNsm8y8sWaqistiZmdlWHuQQGvcGM+e8q05XP3vSfNVPVVvj
+ gS9w==
+X-Gm-Message-State: APjAAAXxscXHTe8zabwDV+up9qWZnG6GRBiA99d+wMRFnMjRq6zy3HGJ
+ wyyuctwoGlwS7nWOdcl5GsWCX09U
+X-Google-Smtp-Source: APXvYqzzwd/78vdfxRunoGHJ00bnzhcjsfwYuv8ueKn3YJiCik9me54bJdLhILKVjGq8emSA6NLhdA==
+X-Received: by 2002:a1c:6755:: with SMTP id b82mr4795907wmc.127.1582632482201; 
+ Tue, 25 Feb 2020 04:08:02 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.54
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:55 -0800 (PST)
+ Tue, 25 Feb 2020 04:08:01 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 122/136] hw/char: Let devices own the MemoryRegion they create
-Date: Tue, 25 Feb 2020 13:07:20 +0100
-Message-Id: <1582632454-16491-20-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 129/136] hw/net/milkymist-minimac2: Let devices own the
+ MemoryRegion they create
+Date: Tue, 25 Feb 2020 13:07:27 +0100
+Message-Id: <1582632454-16491-27-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,41 +88,42 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 Avoid orphan memory regions being added in the /unattached QOM
 container.
 
-This commit was produced with the Coccinelle script
-scripts/coccinelle/memory-region-housekeeping.cocci.
+Note this change break the migration of the LM32 milkymist machine.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-25-philmd@redhat.com>
+Message-Id: <20200224205533.23798-32-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/char/serial.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/net/milkymist-minimac2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 9298881..2ab8b69 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -997,7 +997,7 @@ static void serial_io_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+diff --git a/hw/net/milkymist-minimac2.c b/hw/net/milkymist-minimac2.c
+index 1ba0175..9582b5f 100644
+--- a/hw/net/milkymist-minimac2.c
++++ b/hw/net/milkymist-minimac2.c
+@@ -473,9 +473,9 @@ static void milkymist_minimac2_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->regs_region);
  
--    memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
-+    memory_region_init_io(&s->io, OBJECT(dev), &serial_io_ops, s, "serial", 8);
-     sysbus_init_mmio(SYS_BUS_DEVICE(sio), &s->io);
-     sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
- }
-@@ -1106,8 +1106,9 @@ static void serial_mm_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+     /* register buffers memory */
+-    memory_region_init_ram_nomigrate(&s->buffers, OBJECT(dev), "milkymist-minimac2.buffers",
++    memory_region_init_ram(&s->buffers, OBJECT(dev),
++                           "milkymist-minimac2.buffers",
+                            buffers_size, &error_fatal);
+-    vmstate_register_ram_global(&s->buffers);
+     s->rx0_buf = memory_region_get_ram_ptr(&s->buffers);
+     s->rx1_buf = s->rx0_buf + MINIMAC2_BUFFER_SIZE;
+     s->tx_buf = s->rx1_buf + MINIMAC2_BUFFER_SIZE;
+@@ -506,8 +506,8 @@ static const VMStateDescription vmstate_milkymist_minimac2_mdio = {
  
--    memory_region_init_io(&s->io, NULL, &serial_mm_ops[smm->endianness], smm,
--                          "serial", 8 << smm->regshift);
-+    memory_region_init_io(&s->io, OBJECT(dev),
-+                          &serial_mm_ops[smm->endianness], smm, "serial",
-+                          8 << smm->regshift);
-     sysbus_init_mmio(SYS_BUS_DEVICE(smm), &s->io);
-     sysbus_init_irq(SYS_BUS_DEVICE(smm), &smm->serial.irq);
- }
+ static const VMStateDescription vmstate_milkymist_minimac2 = {
+     .name = "milkymist-minimac2",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32_ARRAY(regs, MilkymistMinimac2State, R_MAX),
+         VMSTATE_UINT16_ARRAY(phy_regs, MilkymistMinimac2State, R_PHY_MAX),
 -- 
 1.8.3.1
 
