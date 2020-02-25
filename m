@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9215616C0E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:34:57 +0100 (CET)
-Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F72216C0D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:33:04 +0100 (CET)
+Received: from localhost ([::1]:54260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZQO-0003ET-Jw
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:34:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49989)
+	id 1j6ZOZ-0008F7-3T
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:33:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlD-0001cb-Js
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:25 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlC-00010U-As
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlD-0001b6-45
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:23 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40410)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlC-0000zg-7Q
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:23 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55329)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YlC-0000uK-39
+ id 1j6YlC-0000yO-0f
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:22 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t3so14354064wru.7
+Received: by mail-wm1-x330.google.com with SMTP id q9so2667847wmj.5
  for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=lSFQaFhN+qAp/G2LZxELsn5XyL1xck7wejFaofuOvhg=;
- b=p1Pwr7pY76jWtn+Wr7f0E0JOAGOpLaI6PACaTncFytOW977Sq4SvTe90sCbmLS1XJM
- 5XEcw6i3vXtHgzBeUd+DuEMpaXzeQKxOPRSg0ICk2t4mr7ZsSTGPNWpYFFx8SH3ups/q
- 2gfGJ73z2gOdVQiQHgG5Xjj4nqrQBCK96kBOD+CHrGE+ck/GUeiW1UOVeAdhO2T4pZfR
- phrojU2mg6gJnroZUA2BNesxN/yXrFIALAshs0B8XZjzfeMLSZXSkO+SzQV8ZomF/mlc
- pdJOsbrIZWQ5YhBIOR2jICaM8yEc0IWdZ0z1wiiNYwMoV848m8ueda+I2qQlzjWJs0x9
- mpRA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4vmp7Ik2Ty/GsDRbd5YaNqN8aD/hfUDWlirfLWtK1uk=;
+ b=SL2b0iRKR+uJktTD0kUh3Nawl2dH7a/IZ96DgQ2AWv4n1rCPIYPzXVC6qqUXOJ+EVj
+ m6zwxbE1v5BbDa2LHbpcnosH8mS5sFIu0W4380hyLu7XE3PisG5OGTSI6RYXzzObcblr
+ 4e55G5yRZg5KtKuAJZAqT9R2L8jG9sgfK7aXoBFIVccolCcr8RkLqPKUytCMsThovII/
+ C6sZ91aqz6xYzzJLztDELm7/yKFDs3yDev9fY3usRkAsjhDVgkCVbf36+fPmvLG7MTWN
+ ro8L8s6EPQQ+Rhxax6+w7HrnbDUaXnAwdVWuicCTG+FeaPIVDlvbvBCr2kHARuV9o72T
+ qkQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=lSFQaFhN+qAp/G2LZxELsn5XyL1xck7wejFaofuOvhg=;
- b=c4VWBgox4Gp7j/6kxK3Tt4ffHZY45SHO1I+FtLrYrF/AUz3B41im8PmSgTJa5gqrxY
- LHLe3dVW63q0DyMO56rsmhpP3Bpj5/ipHpH0PuQ4gOiAZ9Z+YIiVzwaU2QLSJiJAt6Df
- gOsqTKO63lBimzMbBFiGthB8FIbIcMcIhFX4YnjDofqTcnKnjNgYKhcbdUS+UxyGj+wE
- gA5BFVzOjml6gLNRwkItCnC6nxwVrJbTyJgMWgDSTVkEaDWgzTfaHpNrNR4MFZt92IpC
- DiTOhH6YWhn2jNny6bc/LpxUDM/k3cR9az/QgF3cSfcduPPMSbeClLzyCGN8FVpMJUuu
- XRbg==
-X-Gm-Message-State: APjAAAVvuG4Iqj6FczxEK8E8b72vews6Y1fw2+kLagHFbImb5l2nFEW4
- OSZk76RU8ugyh80GSukTkpeHHpqk
-X-Google-Smtp-Source: APXvYqyrw4h296egFUS5wPqMe2FXyyLVRYGFthLM8TRreG8HpiOdL1AGqpg+GDO5rAx8cqcdozupqg==
-X-Received: by 2002:adf:f288:: with SMTP id k8mr76995394wro.301.1582631539819; 
- Tue, 25 Feb 2020 03:52:19 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=4vmp7Ik2Ty/GsDRbd5YaNqN8aD/hfUDWlirfLWtK1uk=;
+ b=G84j6fxBEvL/n8yesR1FiQa+RNgQA4g/9JD9jbaX3coNwn5mg9gi8roTLD+tYA8k6C
+ mqo60yUT7t7u6wCABOnm5aMcQQFQF/uampqiDttUbatiPjU/r7Uw0SVJRibLOPVBEnYS
+ VKpMHe0uKoDV1VDXKckeusGINwUA4Y8gY7ucphGF0Mu0qCjSW0kUhefYdqbn6WRF50zF
+ coWeUUhOCwSnLLtGTzF1Q3wMmGHeqVn+Lm5fcX3RpSG/J2iORgxSmFQJfbD7lWk3TBlY
+ +eS136SLEfILqTyw0tWqm3Svvb2Iin2/TVBxedmNfhEfCB/wdIoPnmeYSrp1/RTAmwZT
+ hTDw==
+X-Gm-Message-State: APjAAAXnKS8ycwE+YQzgFUdXS53tcQG7a0EpKwKLg1q00JgUz1sR3Uu3
+ pl5PzZjJvLzkE26v5HGytDa1XTNX
+X-Google-Smtp-Source: APXvYqzmQiOK+nF39VHlztdXYgsg8x3t8rHp58Rls5yE94mh1roSH+78QYGgBreHj1t3iWFVZnaGQw==
+X-Received: by 2002:a1c:9a0d:: with SMTP id c13mr4835418wme.41.1582631540774; 
+ Tue, 25 Feb 2020 03:52:20 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.18
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.19
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:19 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:20 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 079/136] tests:numa-test: use explicit memdev to specify node
- RAM
-Date: Tue, 25 Feb 2020 12:50:09 +0100
-Message-Id: <1582631466-13880-79-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 080/136] scripts/git.orderfile: Display Cocci scripts before
+ code modifications
+Date: Tue, 25 Feb 2020 12:50:10 +0100
+Message-Id: <1582631466-13880-80-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,131 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Considering that legacy "mem" option is deprecated, use memdev
-in tests and add an additional test for legacy "mem" option
-on old machine type, to make sure it won't regress in the future.
+When we use a Coccinelle semantic script to do automatic
+code modifications, it makes sense to look at the semantic
+patch first.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200219160953.13771-80-imammedo@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/numa-test.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ scripts/git.orderfile | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index 35999ea..2f9b7f6 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -25,9 +25,8 @@ static void test_mon_explicit(const void *data)
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
+diff --git a/scripts/git.orderfile b/scripts/git.orderfile
+index 1f747b5..7cf22e0 100644
+--- a/scripts/git.orderfile
++++ b/scripts/git.orderfile
+@@ -22,6 +22,9 @@ Makefile*
+ qapi/*.json
+ qga/*.json
  
--    cli = make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=0,cpus=0-3 "
--                   "-numa node,nodeid=1,cpus=4-7 ");
-+    cli = make_cli(data, "-smp 8 -numa node,nodeid=0,memdev=ram,cpus=0-3 "
-+                         "-numa node,nodeid=1,cpus=4-7");
-     qts = qtest_init(cli);
- 
-     s = qtest_hmp(qts, "info numa");
-@@ -37,13 +36,13 @@ static void test_mon_explicit(const void *data)
-     qtest_quit(qts);
- }
- 
--static void test_mon_default(const void *data)
-+static void test_def_cpu_split(const void *data)
- {
-     QTestState *qts;
-     g_autofree char *s = NULL;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 8 -numa node -numa node");
-+    cli = make_cli(data, "-smp 8 -numa node,memdev=ram -numa node");
-     qts = qtest_init(cli);
- 
-     s = qtest_hmp(qts, "info numa");
-@@ -60,7 +59,7 @@ static void test_mon_partial(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=0,cpus=0-1 "
-+                   "-numa node,nodeid=0,memdev=ram,cpus=0-1 "
-                    "-numa node,nodeid=1,cpus=4-5 ");
-     qts = qtest_init(cli);
- 
-@@ -87,7 +86,8 @@ static void test_query_cpus(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
- 
--    cli = make_cli(data, "-smp 8 -numa node,cpus=0-3 -numa node,cpus=4-7");
-+    cli = make_cli(data, "-smp 8 -numa node,memdev=ram,cpus=0-3 "
-+                         "-numa node,cpus=4-7");
-     qts = qtest_init(cli);
-     cpus = get_cpus(qts, &resp);
-     g_assert(cpus);
-@@ -125,7 +125,7 @@ static void pc_numa_cpu(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-cpu pentium -smp 8,sockets=2,cores=2,threads=2 "
--        "-numa node,nodeid=0 -numa node,nodeid=1 "
-+        "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,socket-id=0 "
-         "-numa cpu,node-id=0,socket-id=1,core-id=0 "
-         "-numa cpu,node-id=0,socket-id=1,core-id=1,thread-id=0 "
-@@ -178,7 +178,7 @@ static void spapr_numa_cpu(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-smp 4,cores=4 "
--        "-numa node,nodeid=0 -numa node,nodeid=1 "
-+        "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=0,core-id=0 "
-         "-numa cpu,node-id=0,core-id=1 "
-         "-numa cpu,node-id=0,core-id=2 "
-@@ -223,7 +223,7 @@ static void aarch64_numa_cpu(const void *data)
-     g_autofree char *cli = NULL;
- 
-     cli = make_cli(data, "-smp 2 "
--        "-numa node,nodeid=0 -numa node,nodeid=1 "
-+        "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,thread-id=0 "
-         "-numa cpu,node-id=0,thread-id=1");
-     qts = qtest_init(cli);
-@@ -270,7 +270,7 @@ static void pc_dynamic_cpu_cfg(const void *data)
- 
-     /* create 2 numa nodes */
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
--        " 'arguments': { 'type': 'node', 'nodeid': 0 } }")));
-+        " 'arguments': { 'type': 'node', 'nodeid': 0, 'memdev': 'ram' } }")));
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-         " 'arguments': { 'type': 'node', 'nodeid': 1 } }")));
- 
-@@ -542,13 +542,19 @@ int main(int argc, char **argv)
-     g_autoptr(GString) args = g_string_new(NULL);
-     const char *arch = qtest_get_arch();
- 
-+    if (g_str_equal(arch, "ppc64")) {
-+        g_string_append(args, " -object memory-backend-ram,id=ram,size=512M");
-+    } else {
-+        g_string_append(args, " -object memory-backend-ram,id=ram,size=128M");
-+    }
++# semantic patches
++*.cocci
 +
-     if (g_str_equal(arch, "aarch64")) {
-         g_string_append(args, " -machine virt");
-     }
+ # headers
+ *.h
  
-     g_test_init(&argc, &argv, NULL);
- 
--    qtest_add_data_func("/numa/mon/default", args, test_mon_default);
-+    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split);
-     qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_explicit);
-     qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_partial);
-     qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_cpus);
 -- 
 1.8.3.1
 
