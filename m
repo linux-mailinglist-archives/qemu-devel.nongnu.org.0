@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E217116C124
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:41:49 +0100 (CET)
-Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814A916C12F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:44:43 +0100 (CET)
+Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZX2-00012P-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:41:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52618)
+	id 1j6ZZq-0007fq-Iv
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:44:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0H-0003fm-6d
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003hK-Fa
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0F-0003Xf-W0
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:57 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41251)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0G-0003YG-FA
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35978)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0F-0003Wn-Pq
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:55 -0500
-Received: by mail-wr1-x436.google.com with SMTP id v4so1568670wrs.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:55 -0800 (PST)
+ id 1j6Z0G-0003Wz-85
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:56 -0500
+Received: by mail-wm1-x334.google.com with SMTP id p17so2908786wma.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SyTyh+hj9dmzFdqGJju4vMBemsN0R3gcjG95CgJjbDY=;
- b=RvsvpgTHHwOwjzyTrPCUn16p59NkUj5T5iqo7ico88OL/RtoDfR6/wCJ5j9rQZQ7Rq
- h70VID1/4joR0JGa4Weu8PDBwFtnnvtelf1bqQ6dtjzihW96eR123OTkYPyfKTjmbKCz
- zuuCEbWjBDJ/NkecHC56qJc/6LhKtyIoXzRKCZ2qkoXWT9gnRn8chekgDTNRRq2/w4pA
- W93Km/L8p2uBlG6TeHV6pGb/E5EmjgNXqQQIJkw6BWPKRgYie/M6WaPcrWCjLACD0rh/
- k9AviHkleEqCJy4O+7rweCRx4VMytvCkI0Chud1WL+HecrxpkBe/jtPhO4ehFEUKg8E/
- aH0Q==
+ bh=0qB5VNErbwXYjey+BfcoROqwOhQuwSAxSuLQbmDV+GY=;
+ b=n45C3qev3c+V+JNlR5WH11Vi5ldhxbXMuw/SZ/IcjyrihczvsTD5qhCuA7LkW+6JR8
+ 1I7Ogu0ng1sKLCI7q9Kfyt4Z4217Tkwnp8dlDoIAnl9ToHgGhphtMR/LrxsSemhdqKXf
+ H6PmZv7OZzmpwKB9Je6JsjG1iI1omRXGlXFDAw8F7oXgQB6rRx1JjspM06Sg7TOj0uk/
+ a8AzizjEcoqKUeXXB7uDk4VpINXJhyi1UQZw9Fyocsp/mx+895rvfdyIxETWeta123El
+ g+1zF3hYwfjlq71B3p9K0mQNmRcBVh4ovbzBLKI0SUfKYf6skBtSTzcFO+cw6RaMFfOQ
+ swzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SyTyh+hj9dmzFdqGJju4vMBemsN0R3gcjG95CgJjbDY=;
- b=V7DtqYBW7QYXmlnxiX7oU4qZ+C/JgcgctCVpXcPiYfNhS5gF2OgqtxW5GCdvR4YUuf
- jaZEcZHG3wD7fVM+YQab+GVJwrGFE8xy5YGghAKl4X+XSzJjIWI7RIcePm0RRwSwYZOW
- 5mIX5ep8VuUw6xbSBNs4xuWdtYABR3elWVAvE/MOKKW3siqYWaLT0FVmW/eXWdIQ5TR2
- wu6wQ/BM36RmP549ZedmqzqIJCNR826hYmKfqVTwYs4liU8vBLDCj3zbP51KwQzAGDy5
- MtK7OGNglPwWVHf4xAjQQZcJK9hvECVHUzFuLTHGSnPd8gWwdQngHCaehzW4ta+RPBxO
- bfEg==
-X-Gm-Message-State: APjAAAWif9aIzjXMaKGSEdDKUNb5NhuuiQ+t2LQQkSLVJzNdyCJzOCC3
- G/P3p7RYNySQCyse6/Ggtve3btg0
-X-Google-Smtp-Source: APXvYqy1k6HEDYS8rAy16Lds+OX0p4tAKPeNoo/Ak+mKNLCKpwUSSldraB5OO0NKLzRT12NlkXtcGw==
-X-Received: by 2002:adf:fe89:: with SMTP id l9mr14845777wrr.373.1582632472434; 
- Tue, 25 Feb 2020 04:07:52 -0800 (PST)
+ bh=0qB5VNErbwXYjey+BfcoROqwOhQuwSAxSuLQbmDV+GY=;
+ b=Bidilz15VUrgB7/RLTUeAcjx5yptr2wGV2FjIVdRz6KfJBCGvoZm4P7FFq7DRKCn89
+ GIq9nSTIWtaVtjvz2iaSkHdPvldLA8z0qYUE6KWoxzebXe6Gjd5UjvYSXuEzT31qLL4r
+ F8VoBjcopPYsIYL95Wp4fkKFmRcbyKGS4oBU+udNvRigTGEumdZOOzpjizBcvcM8SeFE
+ dMjfqBqbVdpgxF3pd8mCCpUeRHCY/AqylIXcIi0ylRoN3Zi9pR963y/LYKb500aHMDTL
+ JCcfzjL0SdEtZh3OLKKm3d+80z67wyaleywmr6CGCgyxTVL+dxzqn9aSq4HhfW64RFYc
+ VDXg==
+X-Gm-Message-State: APjAAAVZjpTr6Q4pV30BdYG7qxiLFhzBcxQHrp/U4oPYchQAWv+372F+
+ JWDoXM+j1WgCH6ADE70xkzRAxq2/
+X-Google-Smtp-Source: APXvYqzrrANnYGOFA0RTy9CnmfDeunXOFTUqVbldY/YOf8WjdQG6eqeWSzsy4Kq9VNfNZdPD6A1KPQ==
+X-Received: by 2002:a1c:f60e:: with SMTP id w14mr4986915wmc.188.1582632473776; 
+ Tue, 25 Feb 2020 04:07:53 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.51
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.52
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:51 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 119/136] hw/arm: Remove unnecessary
- memory_region_set_readonly() on ROM alias
-Date: Tue, 25 Feb 2020 13:07:17 +0100
-Message-Id: <1582632454-16491-17-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 120/136] scripts/cocci: Patch to let devices own their
+ MemoryRegions
+Date: Tue, 25 Feb 2020 13:07:18 +0100
+Message-Id: <1582632454-16491-18-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,54 +85,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This commit was produced with the Coccinelle script
-scripts/coccinelle/memory-region-housekeeping.cocci.
+When a device creates a MemoryRegion without setting its ownership,
+the MemoryRegion is added to the machine "/unattached" container in
+the QOM tree.
+
+Example with the Samsung SMDKC210 board:
+
+  $ arm-softmmu/qemu-system-arm -M smdkc210 -S -monitor stdio
+  (qemu) info qom-tree
+  /machine (smdkc210-machine)
+    /unattached (container)
+      /io[0] (qemu:memory-region)
+      /exynos4210.dram0[0] (qemu:memory-region)
+      /exynos4210.irom[0] (qemu:memory-region)
+      /exynos4210.iram[0] (qemu:memory-region)
+      /exynos4210.chipid[0] (qemu:memory-region)
+      ...
+      /device[26] (exynos4210.uart)
+        /exynos4210.uart[0] (qemu:memory-region)
+    /soc (exynos4210)
+      ^
+       \__ [*]
+
+The irom/iram/chipid regions should go under 'soc' at [*].
+
+Add a semantic patch to let the device own the memory region.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-22-philmd@redhat.com>
+Message-Id: <20200224205533.23798-23-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/arm/exynos4210.c    | 1 -
- hw/arm/stm32f205_soc.c | 1 -
- hw/arm/stm32f405_soc.c | 1 -
- 3 files changed, 3 deletions(-)
+ .../coccinelle/memory-region-housekeeping.cocci    | 56 ++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 3af6502..4e1fd7e 100644
---- a/hw/arm/exynos4210.c
-+++ b/hw/arm/exynos4210.c
-@@ -320,7 +320,6 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
-                              &s->irom_mem,
-                              0,
-                              EXYNOS4210_IROM_SIZE);
--    memory_region_set_readonly(&s->irom_alias_mem, true);
-     memory_region_add_subregion(system_mem, EXYNOS4210_IROM_MIRROR_BASE_ADDR,
-                                 &s->irom_alias_mem);
- 
-diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
-index 2de5627..6e93726 100644
---- a/hw/arm/stm32f205_soc.c
-+++ b/hw/arm/stm32f205_soc.c
-@@ -97,7 +97,6 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
-                            &error_fatal);
-     memory_region_init_alias(flash_alias, NULL, "STM32F205.flash.alias",
-                              flash, 0, FLASH_SIZE);
--    memory_region_set_readonly(flash_alias, true);
- 
-     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
-     memory_region_add_subregion(system_memory, 0, flash_alias);
-diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
-index b8fca13..d590cd0 100644
---- a/hw/arm/stm32f405_soc.c
-+++ b/hw/arm/stm32f405_soc.c
-@@ -103,7 +103,6 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
-     }
-     memory_region_init_alias(&s->flash_alias, NULL, "STM32F405.flash.alias",
-                              &s->flash, 0, FLASH_SIZE);
--    memory_region_set_readonly(&s->flash_alias, true);
- 
-     memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, &s->flash);
-     memory_region_add_subregion(system_memory, 0, &s->flash_alias);
+diff --git a/scripts/coccinelle/memory-region-housekeeping.cocci b/scripts/coccinelle/memory-region-housekeeping.cocci
+index 5e6b31d..c768d81 100644
+--- a/scripts/coccinelle/memory-region-housekeeping.cocci
++++ b/scripts/coccinelle/memory-region-housekeeping.cocci
+@@ -101,3 +101,59 @@ expression ERRP;
+ +memory_region_init_rom_device(MR, NULL, OPS, OPAQUE, NAME, SIZE, ERRP);
+  ...
+ -vmstate_register_ram_global(MR);
++
++
++// Device is owner
++@@
++typedef DeviceState;
++identifier device_fn, dev, obj;
++expression E1, E2, E3, E4, E5;
++@@
++static void device_fn(DeviceState *dev, ...)
++{
++  ...
++  Object *obj = OBJECT(dev);
++  <+...
++(
++- memory_region_init(E1, NULL, E2, E3);
+++ memory_region_init(E1, obj, E2, E3);
++|
++- memory_region_init_io(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_io(E1, obj, E2, E3, E4, E5);
++|
++- memory_region_init_alias(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_alias(E1, obj, E2, E3, E4, E5);
++|
++- memory_region_init_rom(E1, NULL, E2, E3, E4);
+++ memory_region_init_rom(E1, obj, E2, E3, E4);
++|
++- memory_region_init_ram_shared_nomigrate(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_ram_shared_nomigrate(E1, obj, E2, E3, E4, E5);
++)
++  ...+>
++}
++@@
++identifier device_fn, dev;
++expression E1, E2, E3, E4, E5;
++@@
++static void device_fn(DeviceState *dev, ...)
++{
++  <+...
++(
++- memory_region_init(E1, NULL, E2, E3);
+++ memory_region_init(E1, OBJECT(dev), E2, E3);
++|
++- memory_region_init_io(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_io(E1, OBJECT(dev), E2, E3, E4, E5);
++|
++- memory_region_init_alias(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_alias(E1, OBJECT(dev), E2, E3, E4, E5);
++|
++- memory_region_init_rom(E1, NULL, E2, E3, E4);
+++ memory_region_init_rom(E1, OBJECT(dev), E2, E3, E4);
++|
++- memory_region_init_ram_shared_nomigrate(E1, NULL, E2, E3, E4, E5);
+++ memory_region_init_ram_shared_nomigrate(E1, OBJECT(dev), E2, E3, E4, E5);
++)
++  ...+>
++}
 -- 
 1.8.3.1
 
