@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8B916C08A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:15:38 +0100 (CET)
-Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8D416C095
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:17:48 +0100 (CET)
+Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Z7h-0007wT-Lm
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:15:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49441)
+	id 1j6Z9n-00037X-N9
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:17:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykd-0000lg-3W
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykd-0000md-Dl
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkY-0006vc-SY
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:46 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39093)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkZ-00071S-Gq
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:47 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38654)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkY-0006qJ-DU
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:42 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id c84so2833211wme.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:42 -0800 (PST)
+ id 1j6YkZ-0006ul-9Z
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:43 -0500
+Received: by mail-wm1-x332.google.com with SMTP id a9so2847316wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+mJK3OqxktkOAWxnxWkaALqDjs9dEYFvgQPqxO7ZMJk=;
- b=Z4zQS3jAv0bMtAO/gHwRsql1enZKoYoggDk80pJO3oQJ7sUCX1ZkqVhhB++UqYY+Mp
- UYyE4fDHjt9U8qQQCMMTCh6D9RmNLiYBvxs7C2FtMn2d26pzkE8mSNaf5cnqNjA/hrwQ
- YPKRqmZmO9K2m8BDifyZbwV4VEkQDRV8os+ddQAqxjU01zk8evTEubM91WMKau7JqrGA
- nBxQQLaCs92gEeAitdVonPOB1/1Dm7H6nOtB/+0t+tJ6hkau2gMQHLa/BQINbFlQW9FC
- ZAOztztOADVm2p+MarHQdClrXY3BtKFHoJdw17BwRIfkAqWutkLK0GWfE6ILIRhsUH6P
- ioEA==
+ bh=EF1xxDl20iyMhk1ftjp9b02tb0F6Nx8GjS3T9tHjvyw=;
+ b=vGetfByxwgBaTrHblfZFuUYcGpdoyOdJUFxe0n8C6IrgIDpXQr4NC3Eel9rrNzV5+Z
+ qfiC56z8sAPhlHo3NhnadunEizOpseZeHoRoMgobimnPAUHZjtR1FR7epEIEjWU9Tr+u
+ kw1TahW6BWo8l7X0yxaGq+Y2qy2LcxgUe5EhoGZ5mSIHimeTe3NmSRHsCqxZc/Z0W3vS
+ 32JnYZ7C9LpziwuUukohj0lsShYMtAb9c4VcYZhGnrJyx698VNTkyG6CLStBdABrHvLl
+ rpN7E8JhVQ3Ub0zCnBGtooArLPwB4oKBDCzqz8IPS9BSj3BsmR9dnBbpUBwHWoKcU278
+ 27aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+mJK3OqxktkOAWxnxWkaALqDjs9dEYFvgQPqxO7ZMJk=;
- b=oQvk6uDk6Jq0syssWLx5lmnEQzNzuGFkMOvZep7MHujxDTTcasW9hlwcDOSpwG4Br6
- odU84PNW9fMynSjeWdyUykAVoTCnECYcBxgjVHvD5f09omuoK0RdXiL1ZlGEhsySfPy2
- 2pIU+oT4gRBSR/zWLEqQ0nY0a0JFrQbJg8Z29DWRLIOTvlHBshC4ncnpp8Qh/hqC2b/x
- GUgQJZ5y5SUjfEk9E4nYttWVQ3uJeWuYOLXp/WqJNBug8Fv33gVOdVgGopj6GxHda2mR
- JQHBHNzolFLNjW9nfZtKZ3jRjx6L0yQef5HmkNrBR8XOD4nTNi1vkuDmZR5rFMgBhUPu
- 2+bg==
-X-Gm-Message-State: APjAAAXPFM3FdzIY7EuozWSXOGWfyq7gV0DThnZUolLPpZ4ZZCMe8BQe
- p1m/r/r9q7CXCMmBxMxTCZAi1lZc
-X-Google-Smtp-Source: APXvYqz+d8ro9113LDhzyT7DR2cIy9YqI2lgtW9tiQnxMuJZhlL5MAb1P3EfzA4yYCO/Ska/h8FgMA==
-X-Received: by 2002:a1c:e488:: with SMTP id b130mr4772327wmh.108.1582631501237; 
- Tue, 25 Feb 2020 03:51:41 -0800 (PST)
+ bh=EF1xxDl20iyMhk1ftjp9b02tb0F6Nx8GjS3T9tHjvyw=;
+ b=JnuEAqDoR1odG7FmjfVapNSOCHd3lgxigbJ2p4SojAKzD5Y6DJRzRP8KXczN8gpzhn
+ qFPeCc8ikAMzZjv0dGAdvEyNZe4Zm6iJ4TtwtGPg2G2XJSpe5MI/2Nk78ggvvcj1fcAc
+ LFvr0lHjLcEotqIZCN55Box9ECNrNvAtp6s9mUDvKSA1d4poY3iA6gMAzsk0B1KzJqtq
+ Xl+k4r3ZnIGURL0ko5HDw7Th0vfDFSTkYNeUoszVcgS7fmiyQ9e7Id2MVa+4ns1EIDoy
+ ZYtwkQbFV3DsK+iWhRPPs1YL0v6iLSnGkHmXCVi9Lprl56cQXIpaj1loxWI5G8cDmpVd
+ UHGg==
+X-Gm-Message-State: APjAAAWnbAbOk0k2KWz8NGDms0kvkucHEbB6IhHZMLFgCfYVvmyQqTBl
+ 5bb9/LlV5VI9HAe6usT8+PhpfEeO
+X-Google-Smtp-Source: APXvYqyrz7+e11O0/5bVoICh0a/UKA9qof4SlHhGZUTkx761cDcK7TZfq1TxIMhZCCvkW3DNpRxWHA==
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr4830674wmi.14.1582631502111;
+ Tue, 25 Feb 2020 03:51:42 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.40
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.41
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:40 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:41 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 037/136] arm/xlnx-zcu102: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:27 +0100
-Message-Id: <1582631466-13880-37-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 038/136] s390x/s390-virtio-ccw: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:28 +0100
+Message-Id: <1582631466-13880-38-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,48 +94,53 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Tested-by: Halil Pasic <pasic@linux.ibm.com>
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-38-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-39-imammedo@redhat.com>
 ---
- hw/arm/xlnx-zcu102.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/s390x/s390-virtio-ccw.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 53cfe7c..bd645ad 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -28,7 +28,6 @@ typedef struct XlnxZCU102 {
-     MachineState parent_obj;
- 
-     XlnxZynqMPState soc;
--    MemoryRegion ddr_ram;
- 
-     bool secure;
-     bool virt;
-@@ -87,13 +86,10 @@ static void xlnx_zcu102_init(MachineState *machine)
-                  ram_size);
-     }
- 
--    memory_region_allocate_system_memory(&s->ddr_ram, NULL, "ddr-ram",
--                                         ram_size);
--
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-                             TYPE_XLNX_ZYNQMP, &error_abort, NULL);
- 
--    object_property_set_link(OBJECT(&s->soc), OBJECT(&s->ddr_ram),
-+    object_property_set_link(OBJECT(&s->soc), OBJECT(machine->ram),
-                          "ddr-ram", &error_abort);
-     object_property_set_bool(OBJECT(&s->soc), s->secure, "secure",
-                              &error_fatal);
-@@ -211,6 +207,7 @@ static void xlnx_zcu102_machine_class_init(ObjectClass *oc, void *data)
-     mc->ignore_memory_transaction_failures = true;
-     mc->max_cpus = XLNX_ZYNQMP_NUM_APU_CPUS + XLNX_ZYNQMP_NUM_RPU_CPUS;
-     mc->default_cpus = XLNX_ZYNQMP_NUM_APU_CPUS;
-+    mc->default_ram_id = "ddr-ram";
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e759eb5..a89cf4c 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -154,14 +154,12 @@ static void virtio_ccw_register_hcalls(void)
+                                    virtio_ccw_hcall_early_printk);
  }
  
- static const TypeInfo xlnx_zcu102_machine_init_typeinfo = {
+-static void s390_memory_init(ram_addr_t mem_size)
++static void s390_memory_init(MemoryRegion *ram)
+ {
+     MemoryRegion *sysmem = get_system_memory();
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     Error *local_err = NULL;
+ 
+     /* allocate RAM for core */
+-    memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_size);
+     memory_region_add_subregion(sysmem, 0, ram);
+ 
+     /*
+@@ -245,7 +243,7 @@ static void ccw_init(MachineState *machine)
+ 
+     s390_sclp_init();
+     /* init memory + setup max page size. Required for the CPU model */
+-    s390_memory_init(machine->ram_size);
++    s390_memory_init(machine->ram);
+ 
+     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+     s390_init_cpus(machine);
+@@ -471,6 +469,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+     hc->plug = s390_machine_device_plug;
+     hc->unplug_request = s390_machine_device_unplug_request;
+     nc->nmi_monitor_handler = s390_nmi;
++    mc->default_ram_id = "s390.ram";
+ }
+ 
+ static inline bool machine_get_aes_key_wrap(Object *obj, Error **errp)
 -- 
 1.8.3.1
 
