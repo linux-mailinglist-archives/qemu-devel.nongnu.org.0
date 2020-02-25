@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A0816C0BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:26:58 +0100 (CET)
-Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BC916C0D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:30:21 +0100 (CET)
+Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZIf-0004P7-VA
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:26:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
+	id 1j6ZLw-0002yw-3X
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:30:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003RJ-Dx
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:49 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0N-0003o2-R5
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z07-0003Sc-9v
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:48 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38099)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0M-0003dC-Nv
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:03 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46341)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z07-0003Qx-2u
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:47 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id e8so14440500wrm.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:44 -0800 (PST)
+ id 1j6Z0M-0003cY-FV
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:02 -0500
+Received: by mail-wr1-x432.google.com with SMTP id j7so1907813wrp.13
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zImrZqaCtNdmyup7javw5z/mhdhAiY3TaxeN+q5aFF0=;
- b=EquZz8uYv+ZyardH0OhVQQEgay72xYV74g71LjVLx2Y32rRavf3dZ0JsYOBDkDQc31
- chzTL/IPAMaaEF8daRNcfyNzO2F76Xq1JL6KW56oFOaip6lFLSRc1lLLVJV9rx6ZDj8J
- 9f3i8DAb6HzrqnYoMgiNV9a4IlvOwyggbVPnWdPFm+4d3zkmIPo7aosW7gMaLCVycRQV
- E8Vza/2BWvZXr7dz9aQbJyyLCFx+GIr2JewQwfePvaJfeGqXJhSiMlaXVlhQV/sWWl5V
- C1rJThtW+SKZVhy0J7UjhG6pRb0hlIln40K0UcBpkLPNfpF702iX1TkPqnK4aGGe6Vte
- i7HA==
+ bh=l/9/y1Knrb83VzdnWxvw9Mf1qvHaX+Xp+yQrIHClHg0=;
+ b=kMN5IePzrVVBbIgsgwZjY4m+UQF6Iuar5KvF11ImgNQCP+OYyLytazYmpDaF4au6Gt
+ OiZ+Lqz7iB2cDPRKQc0KZE4SRIAbm5Wqj2anOlpOTjVJEM7OcRCSgnQQP5nXx5DvcjmH
+ kkXTT6fRY0xFPmq3zsKg5TwnXhVL74hjclELQmsPC3uAMZQ13eEbzXw17WaqedGg/5fj
+ J+u/VmX4Xmu9oMYDX2/35OjWCp4VyoiDw3d5GSixUvWDuoJRyPx50kcLq6TBVc9A2Xwm
+ SfAmLqO2esVOVKErKsHDE4cqEcDW926M6wuM8dJL52azhoooGBKqbxjgcLy2NB2ALvaM
+ tiQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zImrZqaCtNdmyup7javw5z/mhdhAiY3TaxeN+q5aFF0=;
- b=V4FNyFxqo628Fv8IswoQ5CIlscstxaDqDOmNk6l2CqXS/k1ilceYkuu7pw+vnPQIrO
- 44ymz0qP+ajH9m33bHQp8fChAVOfQ+BBBMjCQZYHIcxs2C5R9/dksEP5T87LIgwlPZyj
- aS9S6NwlnwahAHiuISw7MPjlopFUShKjIIL1rKfH3wxM4CMO4Jze5M4p1ItmiiFm7hUF
- nTmPPC6A6LZYDTC3RJ5oo6LGAD7c8xTisZ5v7QO4K5vAtD0UmWZYWYSQtib4HCNPGNqt
- p27Px4A+szdzmG7llD+Ztl4KuW2qOcc6KcXzzZoPlEmtxMW1stZif/WRGvbxXwrNVehx
- ayVw==
-X-Gm-Message-State: APjAAAVNgyKGmS6fTGsiejd/iy/IhZP9TtgZAlPCHCXoswu/NLhYCQ4z
- H0Ex2SFBrQo5lXm1pOsMagws3Jk+
-X-Google-Smtp-Source: APXvYqxVTLcWwCTML1bVJGByVpbDPrj63kfXi/BL0Og2UhhfZjbkDevXM6FuzpyHSlcBVXL1NoJA5g==
-X-Received: by 2002:a5d:61c8:: with SMTP id q8mr1315616wrv.415.1582632462924; 
- Tue, 25 Feb 2020 04:07:42 -0800 (PST)
+ bh=l/9/y1Knrb83VzdnWxvw9Mf1qvHaX+Xp+yQrIHClHg0=;
+ b=L/bgCBgHRJOtxFJTIsXB1UP/lyI+JLw0CHjipumMqWxkuXKONIJJ3voA/jr6Mth1jw
+ MHXSxpO1jYT5RJHHvtEHGgPm+HVtjjSw3RkIoF6hVSqO074qlwGNPa7MOBVVEBoSzjgg
+ nt00y7g/umLitl3VW6BuLGdqUED5wECZI8iaGGN/gDPRxRUsPrZHUxeJm76z1IzPR9+6
+ sd0ZhVvQZII6IV6XGbu59xJ26woQqxq+yWB3YKZRTnIkCBtXShO23bR+U/P9Og1RbuoY
+ wsClxSMdGLXmmOdUa6fKVvZi26b8mAbzM7GJpiYbn50HJszJ8awFS6Wapnh10LB/tcLz
+ xxuw==
+X-Gm-Message-State: APjAAAUEfuLnevf2X0rJBb5eYSGislOcX9ul9BbrUJTpKsO7uXkLQkZY
+ A5jbH2bGB2+83NQPxv9MA6I+6sHO
+X-Google-Smtp-Source: APXvYqxHZs5YFJ/zgdpXatTJHEoZb4exn/F6XEAXLPorjqKSS1xHZqd8LYLlywe25qv01/htg9Geeg==
+X-Received: by 2002:a5d:4651:: with SMTP id j17mr74001095wrs.237.1582632481186; 
+ Tue, 25 Feb 2020 04:08:01 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.42
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.00
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:42 -0800 (PST)
+ Tue, 25 Feb 2020 04:08:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 109/136] hw/ppc: Use memory_region_init_rom() with read-only
- regions
-Date: Tue, 25 Feb 2020 13:07:07 +0100
-Message-Id: <1582632454-16491-7-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 128/136] hw/input/milkymist-softusb: Let devices own the
+ MemoryRegion they create
+Date: Tue, 25 Feb 2020 13:07:26 +0100
+Message-Id: <1582632454-16491-26-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,55 +85,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This commit was produced with the Coccinelle script
-scripts/coccinelle/memory-region-housekeeping.cocci.
+Avoid orphan memory regions being added in the /unattached QOM
+container.
+
+Note this change break the migration of the LM32 milkymist machine.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-12-philmd@redhat.com>
+Message-Id: <20200224205533.23798-31-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/ppc/mac_newworld.c | 3 +--
- hw/ppc/mac_oldworld.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ hw/input/milkymist-softusb.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 464d012..566413e 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -156,13 +156,12 @@ static void ppc_core99_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), 0, ram);
+diff --git a/hw/input/milkymist-softusb.c b/hw/input/milkymist-softusb.c
+index 7deeb12..72bc7ba 100644
+--- a/hw/input/milkymist-softusb.c
++++ b/hw/input/milkymist-softusb.c
+@@ -259,13 +259,11 @@ static void milkymist_softusb_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->regs_region);
  
-     /* allocate and load BIOS */
--    memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-                            &error_fatal);
+     /* register pmem and dmem */
+-    memory_region_init_ram_nomigrate(&s->pmem, OBJECT(s), "milkymist-softusb.pmem",
++    memory_region_init_ram(&s->pmem, OBJECT(s), "milkymist-softusb.pmem",
+                            s->pmem_size, &error_fatal);
+-    vmstate_register_ram_global(&s->pmem);
+     sysbus_init_mmio(sbd, &s->pmem);
+-    memory_region_init_ram_nomigrate(&s->dmem, OBJECT(s), "milkymist-softusb.dmem",
++    memory_region_init_ram(&s->dmem, OBJECT(s), "milkymist-softusb.dmem",
+                            s->dmem_size, &error_fatal);
+-    vmstate_register_ram_global(&s->dmem);
+     s->dmem_ptr = memory_region_get_ram_ptr(&s->dmem);
+     sysbus_init_mmio(sbd, &s->dmem);
  
-     if (bios_name == NULL)
-         bios_name = PROM_FILENAME;
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_set_readonly(bios, true);
-     memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
+@@ -275,8 +273,8 @@ static void milkymist_softusb_realize(DeviceState *dev, Error **errp)
  
-     /* Load OpenBIOS (ELF) */
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 7318d7e..8b22ff6 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -132,13 +132,12 @@ static void ppc_heathrow_init(MachineState *machine)
-     memory_region_add_subregion(sysmem, 0, ram);
- 
-     /* allocate and load BIOS */
--    memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-+    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-                            &error_fatal);
- 
-     if (bios_name == NULL)
-         bios_name = PROM_FILENAME;
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    memory_region_set_readonly(bios, true);
-     memory_region_add_subregion(sysmem, PROM_ADDR, bios);
- 
-     /* Load OpenBIOS (ELF) */
+ static const VMStateDescription vmstate_milkymist_softusb = {
+     .name = "milkymist-softusb",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32_ARRAY(regs, MilkymistSoftUsbState, R_MAX),
+         VMSTATE_HID_KEYBOARD_DEVICE(hid_kbd, MilkymistSoftUsbState),
 -- 
 1.8.3.1
 
