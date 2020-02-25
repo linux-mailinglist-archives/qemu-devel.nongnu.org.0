@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92F316C2BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:51:37 +0100 (CET)
-Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077C516C307
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:58:24 +0100 (CET)
+Received: from localhost ([::1]:56850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aca-0003V7-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:51:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39882)
+	id 1j6aj9-0002FA-2f
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:58:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6aJa-0004L2-VX
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:32:02 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j6aiJ-0001Pc-GT
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:57:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6aJX-0001TH-Ei
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:31:58 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20435
+ (envelope-from <imammedo@redhat.com>) id 1j6aiH-0002k6-P5
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:57:30 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36229
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6aJX-0001Rd-9z
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:31:55 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6aiH-0002jv-Gz
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:57:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582637514;
+ s=mimecast20190719; t=1582639048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uTsJ/8+pgAJA8aCEg9n/FH0oFAs/lK8brgom/Sq5Y68=;
- b=Q+4VDCDFZI/82btVxKjX7Abz6myGpx6wTagDLkRSyAlqNGbpA59jO2e1a0x22nH5luY4tQ
- iY8hFe9ZeiNh4RRf2iUTB2yaf+dF2X1p2Y08YZ89KgYSYNTPzy9ol27DiYVygr2rJP6dtp
- TEAjxPau4dP8XpuoXjm+Y30bwKhcfO8=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-ilsNRPbbPeO2tmxaGBArsw-1; Tue, 25 Feb 2020 08:31:51 -0500
-X-MC-Unique: ilsNRPbbPeO2tmxaGBArsw-1
-Received: by mail-qv1-f72.google.com with SMTP id cp3so12886375qvb.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:31:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bdDMtQeb45LkMtjpYYrGARJmB+J3Cf2I9ttM8Mqc1LA=;
- b=X0yT+PqNqoB30wCjmCri3MF43zqeq+pEvYRJ6VfLGAM97XTRomYgP/x4rrKQJ/FVCe
- vb11y7z9ndB8cBWJ0N89t/+PjGEpv492IXqmaAG8H389or9v2SJDrJdmYyKC77SUP+KV
- KOuWcpNkPucEqaIbzknipL9TX6cSp2aDVVAiBr/u1J7nWUR8ab4VNQkcQSeUk6/IO21d
- i90DOttnjAnPZ/DCTZTkFoaj31kh/BX6vi2ZYz/7mpKfoQevgRpfpnqSdTLjcojsjaK2
- JJhZmN9WTsarkjSMNRPhaRpOa5TbUGVfQuqeffvpMXxgxYTQCT2kMacYGzXJ2IM/9ML6
- Iuyw==
-X-Gm-Message-State: APjAAAXhF4qxx0Hwx+M8Jan8w0W27NSwOI1w0DILubwfATsoQQHTFaTC
- pB+xHjw2iHLPYBWuUdIaGYoROHztfInLkvgrJXVdZzowfKuZKpqxwmksYwfBWpOJ6o1fLeww5OP
- QlDgcdz/YrxKq2gs=
-X-Received: by 2002:a05:6214:38c:: with SMTP id
- l12mr50614390qvy.224.1582637511171; 
- Tue, 25 Feb 2020 05:31:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyE+xzwFNoH8U60ZdPkEe7q9JnNVz0eZkP1aFKf03/+dH5f6d3W27+/p2/nFzOlVApD0Wnnzw==
-X-Received: by 2002:a05:6214:38c:: with SMTP id
- l12mr50614367qvy.224.1582637510971; 
- Tue, 25 Feb 2020 05:31:50 -0800 (PST)
-Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
- by smtp.gmail.com with ESMTPSA id
- t37sm7793929qth.0.2020.02.25.05.31.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 05:31:50 -0800 (PST)
-Date: Tue, 25 Feb 2020 08:31:46 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: pannengyuan@huawei.com
-Subject: Re: [PATCH 2/2] vhost-use-blk: convert to new virtio_delete_queue
-Message-ID: <20200225083133-mutt-send-email-mst@kernel.org>
-References: <20200213012807.45552-1-pannengyuan@huawei.com>
- <20200213012807.45552-3-pannengyuan@huawei.com>
+ bh=7u5oyKfwsQp27bsa1IAdlRDT3QgLdAO2qyRAcmzr55s=;
+ b=O+XLYenn4TAA/vBnZQYKFmarxIUjPp+RCV1vbUEwFcYy0PIoOa9PsL30dFStUAfS3LsTKz
+ q0HSRLuxORvO+dygZVZYzWpDCMvNxI6lt7ns6E8UkUsmj7tpBO6f6bTWUnY63iNlJnEaWo
+ KewKstdc/HfrzCnPfh1o+igTGzRIVms=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-yqzhWlsOPaSQZmysm31UDA-1; Tue, 25 Feb 2020 08:57:24 -0500
+X-MC-Unique: yqzhWlsOPaSQZmysm31UDA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D649477;
+ Tue, 25 Feb 2020 13:57:21 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6582F65E80;
+ Tue, 25 Feb 2020 13:57:14 +0000 (UTC)
+Date: Tue, 25 Feb 2020 14:57:12 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: Re: [PATCH v24 04/10] ACPI: Build related register address fields
+ via hardware error fw_cfg blob
+Message-ID: <20200225145712.4dd410d2@redhat.com>
+In-Reply-To: <20200225094804.3ae51b86@redhat.com>
+References: <20200217131248.28273-1-gengdongjiu@huawei.com>
+ <20200217131248.28273-5-gengdongjiu@huawei.com>
+ <20200225094804.3ae51b86@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200213012807.45552-3-pannengyuan@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,82 +71,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: fam@euphon.net, peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ shameerali.kolothum.thodi@huawei.com, jonathan.cameron@huawei.com,
+ pbonzini@redhat.com, lersek@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 13, 2020 at 09:28:07AM +0800, pannengyuan@huawei.com wrote:
-> From: Pan Nengyuan <pannengyuan@huawei.com>
->=20
-> use the new virtio_delete_queue function to cleanup.
->=20
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+On Tue, 25 Feb 2020 09:48:04 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-typo in subject use-blk->user-blk
+> On Mon, 17 Feb 2020 21:12:42 +0800
+> Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+> 
+> > This patch builds error_block_address and read_ack_register fields
+> > in hardware errors table , the error_block_address points to Generic
+> > Error Status Block(GESB) via bios_linker. The max size for one GESB
+> > is 1kb in bytes, For more detailed information, please refer to  
+> 
+> s/1kb in bytes/1Kb/
+> 
+> > document: docs/specs/acpi_hest_ghes.rst
+> > 
+> > Now we only support one Error source, if necessary, we can extend to
+> > support more.
+> > 
+> > Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> > Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> > Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---  
+>
+
+On the second glance,
 
 
-> ---
->  hw/block/vhost-user-blk.c          | 11 +++++++----
->  include/hw/virtio/vhost-user-blk.h |  1 +
->  2 files changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 2eba8b9db0..ed6a5cc03b 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -420,9 +420,10 @@ static void vhost_user_blk_device_realize(DeviceStat=
-e *dev, Error **errp)
->      virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK,
->                  sizeof(struct virtio_blk_config));
-> =20
-> +    s->virtqs =3D g_new0(VirtQueue *, s->num_queues);
->      for (i =3D 0; i < s->num_queues; i++) {
-> -        virtio_add_queue(vdev, s->queue_size,
-> -                         vhost_user_blk_handle_output);
-> +        s->virtqs[i] =3D virtio_add_queue(vdev, s->queue_size,
-> +                                        vhost_user_blk_handle_output);
->      }
-> =20
->      s->inflight =3D g_new0(struct vhost_inflight, 1);
-> @@ -461,8 +462,9 @@ virtio_err:
->      g_free(s->vqs);
->      g_free(s->inflight);
->      for (i =3D 0; i < s->num_queues; i++) {
-> -        virtio_del_queue(vdev, i);
-> +        virtio_delete_queue(s->virtqs[i]);
->      }
-> +    g_free(s->virtqs);
->      virtio_cleanup(vdev);
->      vhost_user_cleanup(&s->vhost_user);
->  }
-> @@ -482,8 +484,9 @@ static void vhost_user_blk_device_unrealize(DeviceSta=
-te *dev, Error **errp)
->      g_free(s->inflight);
-> =20
->      for (i =3D 0; i < s->num_queues; i++) {
-> -        virtio_del_queue(vdev, i);
-> +        virtio_delete_queue(s->virtqs[i]);
->      }
-> +    g_free(s->virtqs);
->      virtio_cleanup(vdev);
->      vhost_user_cleanup(&s->vhost_user);
->  }
-> diff --git a/include/hw/virtio/vhost-user-blk.h b/include/hw/virtio/vhost=
--user-blk.h
-> index 108bfadeeb..f68911f6f0 100644
-> --- a/include/hw/virtio/vhost-user-blk.h
-> +++ b/include/hw/virtio/vhost-user-blk.h
-> @@ -37,6 +37,7 @@ typedef struct VHostUserBlk {
->      struct vhost_inflight *inflight;
->      VhostUserState vhost_user;
->      struct vhost_virtqueue *vqs;
-> +    VirtQueue **virtqs;
->      guint watch;
->      bool connected;
->  } VHostUserBlk;
-> --=20
-> 2.21.0.windows.1
->=20
+[...]
+> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> > index bd5f771..6819fcf 100644
+> > --- a/hw/arm/virt-acpi-build.c
+> > +++ b/hw/arm/virt-acpi-build.c
+> > @@ -48,6 +48,7 @@
+> >  #include "sysemu/reset.h"
+> >  #include "kvm_arm.h"
+> >  #include "migration/vmstate.h"
+> > +#include "hw/acpi/ghes.h"
+> >  
+> >  #define ARM_SPI_BASE 32
+> >  
+> > @@ -830,6 +831,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+> >      acpi_add_table(table_offsets, tables_blob);
+> >      build_spcr(tables_blob, tables->linker, vms);
+> >  
+> > +    if (vms->ras) {
+
+> > +        acpi_add_table(table_offsets, tables_blob);
+that doesn't look right, it's for tables that  should be referenced
+from XSDT
+
+> > +        build_ghes_error_table(tables->hardware_errors, tables->linker);
+
+but this table isn't pointed by XSDT directly.
+
+I suggest to move acpi_add_table() to the patch that adds acpi_build_hest()
+
+> > +    }
+> > +
+> >      if (ms->numa_state->num_nodes > 0) {
+> >          acpi_add_table(table_offsets, tables_blob);
+> >          build_srat(tables_blob, tables->linker, vms);
+[...]
 
 
