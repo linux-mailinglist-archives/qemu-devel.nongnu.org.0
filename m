@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA92416C0C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:27:51 +0100 (CET)
-Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC80316C0CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:29:42 +0100 (CET)
+Received: from localhost ([::1]:54174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZJW-0006O2-W1
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:27:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50156)
+	id 1j6ZLJ-0001OJ-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:29:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlR-0002Bf-OJ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:38 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlU-0002Ks-9N
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlQ-00023W-JQ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:37 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55382)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlT-0002DR-94
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:40 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54498)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YlQ-000228-BR
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:36 -0500
-Received: by mail-wm1-x341.google.com with SMTP id q9so2668699wmj.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:36 -0800 (PST)
+ id 1j6YlT-0002Ac-0x
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:39 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id z12so2666717wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Jor9jpTp+5pWMuC6CCCrbht9VdaHvp6JocNHSYpHXR8=;
- b=tGx9FlFSwKLsKOdUi47qITlXSb9f4vYWkdyQCiL16stAEuwhDp+O35hmn69K2aUBGE
- bftevVEn8qIH5ejRHp3qorusTJX/T3fTHwqxT0RWuVA+l9fuo2zMFl5CaE83fhxLK/rd
- nDMIlsgonPskgfTNgPL/LwiYswEsFjHO+1S/6ItgHdLZUepk3PxGCTCw07SznSfT5+58
- +h67m4Zx7LGj9vkndTfO303lJb7J94RSbIFaI/TYzZgZW20N6uuHPshmaH4AzOEdPR91
- Bkrw39D9+s5B+GeeCqbDnW9G6yPE/FNQRQU1ZdTGAMJu42lEbPzgeDmDiuiKOoZnOkeI
- L0Bw==
+ bh=Trf/mk0jpdqf1s96yCJ2TYHlIrv5Mg6JRkgeQGUFSRo=;
+ b=S9rXNKIpQdDaW8HlV5iL+/PPxn6SX+DOwbLcsfapgBUX4NPYqoHSlRPB6I/oWfCFqo
+ 0+Q4jwhQXAStaaiflqRIcWh5IJJwhffdMf6Wb278DrLy49fDoiNS/hUgIfAp4GUMdcOr
+ JIuXvnNrL4pB2cZd5Kvo5swf54QkBsiqpiGepKPSonIlDvxk9U5eo7mTnQNC8pcMIwwh
+ 8JpHjcUWrHfO9Y+P9jZHMEODFrOz8RDP3/CbyO2UY1KASkatv08LcUSeFt6qdlNmVemQ
+ pot/sT03Bx0B81D9VvtNBOHnP0TNqMKDvV+ST8oIgcFicJ6CVxbin+hxSIkJrpB1TbUi
+ CF9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Jor9jpTp+5pWMuC6CCCrbht9VdaHvp6JocNHSYpHXR8=;
- b=jJwuCFm0TZQmLKESIIgw/dXmge0IkHYER3NRoyne08DTW65ipeyJUboHitKeD9G7VF
- +Ta528ekv1icMO4HKWfwpFoUH+dEXdTmnscUaQ+nl74+7njO5B65vNLhfydwS8hjfR8N
- e7EtGwDzG7pdipF1eZeTPdm6K1V89GOzaHca67+o1iuYRRv63wqDyQNl9yai0Rnkyk5z
- 34ukF+KkLUVhO+IXqAXj7KRealm5IUrT+8Lr/kSkIAUxGuLqQg1yKlifyuihp9oqI9Hq
- NrEJ6tGIPoAdhcfPMKZoiRHATcqVHTwPQieIc1fSoiXmxQ5kBQKKsaFjST4goDK67cUX
- NA9g==
-X-Gm-Message-State: APjAAAVNf+Px4fTcCu3yqR9tOspvEIczkl9/o6zMZAL7xOrUoWBE47j6
- k3QMva04pC+QNJW1k9yq+HKeTQbx
-X-Google-Smtp-Source: APXvYqzUDkYwDuA2ZVyw+GGC8yu7js8WR+E2kh3buJbjzce0mQzCIKXBtAmks9X7WX8FJ5j86FpXSQ==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr4890417wmc.36.1582631555033; 
- Tue, 25 Feb 2020 03:52:35 -0800 (PST)
+ bh=Trf/mk0jpdqf1s96yCJ2TYHlIrv5Mg6JRkgeQGUFSRo=;
+ b=uXdoT+lXIt3qRxgdkS5s/6OfznZ7I4sxWyMNMGnpzFz0Gptt08k8ukWMdK/T9J/U/x
+ D8u+rMJvhPYAFvPWMmGNOvjKuiukQI5PXe9I+TuPUoKFRNBgcz3+dbmnC2Xshir91Wxx
+ jWSjxJB2f+ogcaJSFX/vvquOhz6KDtO+7AvjUcVJpvkqslazAqFJ+HELB8EomVS1XNhR
+ kWA0zRSq1cGBmMLPXdEh6BjTU2AnVGJNLH1lTmjZlAssK5o2MePQWMxnQ9isptW8CQ+D
+ 9hwjeOojk2hS/R73CSP7VS59llDiJBmh+tNR8Nwog9JD6thLEIOIBf7OdJr9dEIVWhs8
+ ltPg==
+X-Gm-Message-State: APjAAAV3ykaoAFvR7m4B46kuAd+CSsHwlTqQHn7XD4tUDSYnGZ1xuXYb
+ t3OO0XeRHPFySBExdnTwmuh7vroo
+X-Google-Smtp-Source: APXvYqxXBKnemSL9tVWUJO7zw4Yj9Tm3bviIb2vU3W8xAyy6aiAUQU3Naw8PipgQZopqgD/t1LuzpQ==
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr4835494wmi.14.1582631557596;
+ Tue, 25 Feb 2020 03:52:37 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.34
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.36
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:34 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 096/136] exec: Let cpu_[physical]_memory API use a boolean
- 'is_write' argument
-Date: Tue, 25 Feb 2020 12:50:26 +0100
-Message-Id: <1582631466-13880-96-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 099/136] memory: Correctly return alias region type
+Date: Tue, 25 Feb 2020 12:50:29 +0100
+Message-Id: <1582631466-13880-99-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +84,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The 'is_write' argument is either 0 or 1.
-Convert it to a boolean type.
+Since memory region aliases are neither rom nor ram, they are
+described as i/o, which is often incorrect. Return instead the
+type of the original region we are aliasing.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200224205533.23798-2-philmd@redhat.com>
+Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- exec.c                    | 10 +++++-----
- include/exec/cpu-all.h    |  2 +-
- include/exec/cpu-common.h |  6 +++---
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ memory.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index ec6e460..758af30 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3019,7 +3019,7 @@ MemoryRegion *get_system_io(void)
- /* physical memory access (slow version, mainly for debug) */
- #if defined(CONFIG_USER_ONLY)
- int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
--                        void *ptr, target_ulong len, int is_write)
-+                        void *ptr, target_ulong len, bool is_write)
+diff --git a/memory.c b/memory.c
+index aeaa8dc..ce11798 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2818,6 +2818,9 @@ void address_space_destroy(AddressSpace *as)
+ 
+ static const char *memory_region_type(MemoryRegion *mr)
  {
-     int flags;
-     target_ulong l, page;
-@@ -3313,7 +3313,7 @@ MemTxResult address_space_rw(AddressSpace *as, hwaddr addr, MemTxAttrs attrs,
- }
- 
- void cpu_physical_memory_rw(hwaddr addr, void *buf,
--                            hwaddr len, int is_write)
-+                            hwaddr len, bool is_write)
- {
-     address_space_rw(&address_space_memory, addr, MEMTXATTRS_UNSPECIFIED,
-                      buf, len, is_write);
-@@ -3632,14 +3632,14 @@ void address_space_unmap(AddressSpace *as, void *buffer, hwaddr len,
- 
- void *cpu_physical_memory_map(hwaddr addr,
-                               hwaddr *plen,
--                              int is_write)
-+                              bool is_write)
- {
-     return address_space_map(&address_space_memory, addr, plen, is_write,
-                              MEMTXATTRS_UNSPECIFIED);
- }
- 
- void cpu_physical_memory_unmap(void *buffer, hwaddr len,
--                               int is_write, hwaddr access_len)
-+                               bool is_write, hwaddr access_len)
- {
-     return address_space_unmap(&address_space_memory, buffer, len, is_write, access_len);
- }
-@@ -3790,7 +3790,7 @@ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
- 
- /* virtual memory access for debug (includes writing to ROM) */
- int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
--                        void *ptr, target_ulong len, int is_write)
-+                        void *ptr, target_ulong len, bool is_write)
- {
-     hwaddr phys_addr;
-     target_ulong l, page;
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 49e96ca..49384bb 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -388,7 +388,7 @@ void dump_opcount_info(void);
- #endif /* !CONFIG_USER_ONLY */
- 
- int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
--                        void *ptr, target_ulong len, int is_write);
-+                        void *ptr, target_ulong len, bool is_write);
- 
- int cpu_exec(CPUState *cpu);
- 
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 55e5740..d127d84 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -70,7 +70,7 @@ size_t qemu_ram_pagesize(RAMBlock *block);
- size_t qemu_ram_pagesize_largest(void);
- 
- void cpu_physical_memory_rw(hwaddr addr, void *buf,
--                            hwaddr len, int is_write);
-+                            hwaddr len, bool is_write);
- static inline void cpu_physical_memory_read(hwaddr addr,
-                                             void *buf, hwaddr len)
- {
-@@ -83,9 +83,9 @@ static inline void cpu_physical_memory_write(hwaddr addr,
- }
- void *cpu_physical_memory_map(hwaddr addr,
-                               hwaddr *plen,
--                              int is_write);
-+                              bool is_write);
- void cpu_physical_memory_unmap(void *buffer, hwaddr len,
--                               int is_write, hwaddr access_len);
-+                               bool is_write, hwaddr access_len);
- void cpu_register_map_client(QEMUBH *bh);
- void cpu_unregister_map_client(QEMUBH *bh);
- 
++    if (mr->alias) {
++        return memory_region_type(mr->alias);
++    }
+     if (memory_region_is_ram_device(mr)) {
+         return "ramd";
+     } else if (memory_region_is_romd(mr)) {
 -- 
 1.8.3.1
 
