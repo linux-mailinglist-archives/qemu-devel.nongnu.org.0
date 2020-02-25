@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E6716C0F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:37:24 +0100 (CET)
-Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287DF16C174
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:55:15 +0100 (CET)
+Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZSi-0007ge-DG
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52486)
+	id 1j6Zk2-0001hr-5W
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:55:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003Qp-9l
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z08-0003RB-CH
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z07-0003Sj-Az
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z07-0003Su-CO
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:48 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38931)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38101)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z07-0003Ra-4H
+ id 1j6Z07-0003S0-5k
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:07:47 -0500
-Received: by mail-wr1-x429.google.com with SMTP id y17so5623095wrn.6
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:45 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id e8so14440703wrm.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O1qhX1Ps76szem3mO23rokiaDRG68axNgB/K7kmH7go=;
- b=AqAiEllTZiWcWR3hDTzTRLNlk44InMCQcPS5K92B0J0LitIoVcUfJ8B+Jun0B/j+EH
- BNwMuE/8wuAe0mX6Dg2RfcZDQfKZPLKNJzusL9ve7gVU8+wZPdPJc30RxIcanhqe7YGi
- NTI1cMYnNoeg/YnaCNAj02HxpaqmTEs22jNkR1cZOS2K1BmlQzm6My2pmx+IWDOToiyz
- MtBNd9GvcXxzbrU3hJ0jU7HWWJMu1adJQh79QlQCvKqDbdRA8Qv79M3dWWlOHnYCjjcD
- MJxVRUzD4T6xjgz1p6RdPV0P9L0VzcxKhVMDrjMIbhdlEuKhcJcVuIVgw62/KweX9nu9
- 4dBQ==
+ bh=OifddG7eBEwuqFmuHehG7p0OX65v47ZqzFjv51Ba2gI=;
+ b=dsgxcJ1gT8on91f3jXNLVYVDzpvnOHek7S2i67C5NeX4HKQ7CNcfFiSUrPPow1BtEW
+ 5BPehJFvU6Qp2jbkTHOzwjuC40i3+GvSh0q6OGNS9KwAkA6f2sBgaQVQ/LkVrRuKd//P
+ lP97BG+f0yUi54fbEzWH0idPDM1uHWAizrTpUvSVF8cDpOaXZKjOb8lxyGMdgseJTD+i
+ j8BucknuILZnMZYqb3q7aDSYM/pNHt+YRksxMz8gN9Sfcq0WUG6W1EEX7lKqV6mb+czf
+ t7Z+ElzHpVqjVXWSD4s1lK/R5NvzREsezBP85wT6n4jE8YqPc2u+oPT5zQYncj07dvJo
+ kx8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=O1qhX1Ps76szem3mO23rokiaDRG68axNgB/K7kmH7go=;
- b=JgOeEcvADNz6DrvUmfZYXXOYpgIfqoB3Q685ulM7/x047tgwo48w42DbM62mYhJY6j
- 20ZVYukWSsW/uC3aZv1vL7FOAatQoOGDJadEnAf1seCR9rRcvYNsxkiImDd1lm8I4Ak5
- QQmIIJe/PTfcNIaDqDIWWfd6ogHJApra6BrG0wGzIdMzCEdnjyLFfTyjv3wEvuqKTVbJ
- UboGDzHWEPnFJsFwxET1Et+iSqkKpuNCLpDmSpPpp+IFlcupw2ZgG/6Srs2Lc+wtGiLL
- qTePsBrVlJE0FaWA5AMcPo1Xkzw3ZfrCFvfJVp0tHeHGrQuj5fXokvN1Uox00f6gDVNN
- 7lLQ==
-X-Gm-Message-State: APjAAAU+SZcuWUqIlYzNgLpmoZGI2Ae9buBzpRWQrJaj3mAVVqmQ7qSn
- ktIf8nEUulFxQYlyD3ONsu1oEF+O
-X-Google-Smtp-Source: APXvYqyGUBFEr0XYmsk9zb2qJlxbleH7Yn0ILCD3VNoRbLnP42K3fRXt5h3yvMVo0MTsFKUMTPzVgQ==
-X-Received: by 2002:adf:f581:: with SMTP id f1mr73493786wro.264.1582632464760; 
- Tue, 25 Feb 2020 04:07:44 -0800 (PST)
+ bh=OifddG7eBEwuqFmuHehG7p0OX65v47ZqzFjv51Ba2gI=;
+ b=POwLICEr2l5fJuMHUn6UwnWEGht7j+FBYVLk8O678PvrsNktemGg6U6z3YIDso+e0d
+ ATXCAetItku/OJjGhPJjvCSaPxIvIgGYr6ChCjk7H37pzx0lD08+FSz6g+Ki2bFdEsLy
+ CyXCefd10+jm1AFdAbZEypknGuGa303iBMGurlvp/3vQNSHYs5ragb7InBJ4BNfTk2PS
+ hBIk67fs52fKvY+l1NalTxv86gTW3L05FzbbRDIjfW4pB76TCtS9wF2PY1Dp3P2ePRzN
+ hGrkvkQuK7zeby20FNOSjq53Hu3Mr45MmB6IdK6CWZtOaK4H7VSu8hDf1LBGBQcnnxEi
+ A4EQ==
+X-Gm-Message-State: APjAAAWwR8Zpv9aw4DKQn3rhjsQcvz2JsbUUP93dUnqJZL+sYM2qLyD0
+ W4bKtchn05UmN3QTwohctyBBG96n
+X-Google-Smtp-Source: APXvYqw63lfHfAxKO1ZfsrxqcjgpRbQnGOpe0h8OrWRoMc5EobIrutvCBaF/ZnDYkD4tjU9C+6UKWQ==
+X-Received: by 2002:adf:fe83:: with SMTP id l3mr76152236wrr.41.1582632465662; 
+ Tue, 25 Feb 2020 04:07:45 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.43
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:44 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 111/136] hw/sh4: Use memory_region_init_rom() with read-only
+Subject: [PULL 112/136] hw/sparc: Use memory_region_init_rom() with read-only
  regions
-Date: Tue, 25 Feb 2020 13:07:09 +0100
-Message-Id: <1582632454-16491-9-git-send-email-pbonzini@redhat.com>
+Date: Tue, 25 Feb 2020 13:07:10 +0100
+Message-Id: <1582632454-16491-10-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,26 +89,26 @@ This commit was produced with the Coccinelle script
 scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-14-philmd@redhat.com>
+Message-Id: <20200224205533.23798-15-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/sh4/shix.c | 3 +--
+ hw/sparc/leon3.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/sh4/shix.c b/hw/sh4/shix.c
-index 2fc2915..56c7d29 100644
---- a/hw/sh4/shix.c
-+++ b/hw/sh4/shix.c
-@@ -53,8 +53,7 @@ static void shix_init(MachineState *machine)
-     cpu = SUPERH_CPU(cpu_create(machine->cpu_type));
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index f5a087d..23d0bdb 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -256,8 +256,7 @@ static void leon3_generic_hw_init(MachineState *machine)
  
-     /* Allocate memory space */
--    memory_region_init_ram(rom, NULL, "shix.rom", 0x4000, &error_fatal);
--    memory_region_set_readonly(rom, true);
-+    memory_region_init_rom(rom, NULL, "shix.rom", 0x4000, &error_fatal);
-     memory_region_add_subregion(sysmem, 0x00000000, rom);
-     memory_region_init_ram(&sdram[0], NULL, "shix.sdram1", 0x01000000,
-                            &error_fatal);
+     /* Allocate BIOS */
+     prom_size = 8 * MiB;
+-    memory_region_init_ram(prom, NULL, "Leon3.bios", prom_size, &error_fatal);
+-    memory_region_set_readonly(prom, true);
++    memory_region_init_rom(prom, NULL, "Leon3.bios", prom_size, &error_fatal);
+     memory_region_add_subregion(address_space_mem, LEON3_PROM_OFFSET, prom);
+ 
+     /* Load boot prom */
 -- 
 1.8.3.1
 
