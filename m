@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBD016C032
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:04:59 +0100 (CET)
-Received: from localhost ([::1]:53700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1A716C05C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:09:47 +0100 (CET)
+Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YxO-000608-02
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:04:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49257)
+	id 1j6Z22-0005xk-Mq
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:09:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0000WL-Ap
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0000WM-BQ
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkM-0006Ia-5n
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkM-0006Ik-64
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:34 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52797)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51563)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkL-0006DF-UK
+ id 1j6YkL-0006F2-U5
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:30 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id p9so2678901wmc.2
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:26 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id t23so2679044wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XJKoDouvuy15HLlMmWlJHtnGaWVw4HBogC02qHedvtM=;
- b=rINhlWsF7vUf1GUmbmsslwtDOkPAWBO/LnaEtAr8DKdBMb08Ww6w/2lu9pSfemsKtR
- b1iN2R4xfnPTYaVc4DGbhMJnQCUH1Ll/RU+fnQ4WW8ogykj5JElfJD18OYmxVVhFaWri
- us6H5vBTqWxJZ4YMS2tiapNKwGPKPrT9ZqeNLI8rWjsgQ1FsLMLvDXpUjBgobHX+Q5RT
- PJrxg/FjI2SD3/qCMIw8M130APye3NTBBhBsrLgDM83uxwl+P0R6mJ59UtlOA+eOu+as
- 8hbxutzdNPLraPXb3dM9+NbtduS4K6ZmV8x6WSX8vT4eWlDWXmENi0CRAdumpJg0xnWC
- 7hbA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=WnuXdvaUbWNGuH9SX/umKTGFF9M6WOjsGW3BABTIhKU=;
+ b=HqJEaVt5kNZDAYMFO8H8XpVfQwfyB5Dqb5N5fRVDWygFKSv+Gaz5bXqQHCteLksReS
+ jSPV2i570WlNPAmpymdgYUezcE0qMzBfy7NMy/drFs+OoWTNsCKDuoG7+Zaw2qKDTfcO
+ 1I84mE6BmFX+MsftbBIPQiiKkyHAmioQHde+op/599bACOfOwSgXBtpdnKXqkRTQPTl9
+ 4FiI76nPD46275HeGjoTA4vDujftHArJ0zLT6kHbSEThNW5VfzkQIX/3nO3eNeMLEY+n
+ tgt/32IiTsm96KXCHbnDBiJnOuf4lP91B65V4Ij+WSOx4C6SqYI/gRUcBVwoU/MlcBfP
+ ndjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XJKoDouvuy15HLlMmWlJHtnGaWVw4HBogC02qHedvtM=;
- b=HmzL3HMz+tAuCRvmS2rcPSMrQVL0FQkaQGTAEySp3ZtDun/2ni7O8IIV6Zoim8zcjK
- Jc+lTRxVh3T+dS1RuG5NT30NN1moY6FE1RsawxfXhaNkhZoRdap3ALczMQQ9tExjXkWh
- N3qQSsXsJdjThURuQZxxcPA9fjnrReOz3UkDKyF6gjWRXCgbQ/ZueIbm39LOC17NvVSV
- O5vbFdMUREsKj2PRgCQSYaSZZz6zNdDVARQU/7oBQVUPaUHeyocaRGZxJF3OgDzCcrO/
- DnMnCt4qH/eBKn+WvZ/VS1JzixQVGuh8gfbNQezYv1vw4hS89bKWTp0dkKzYxBCqFvRV
- /KWg==
-X-Gm-Message-State: APjAAAXCMmWdoibuV4kKAuzEViQbFfWZdLwfR7pGp+MErDi3GpV9xscT
- IUyAcL6ZNcgX1UISz2G2NbYyIqaP
-X-Google-Smtp-Source: APXvYqyhZTt5w8E/bvLoztzDsmNFEHrSvnrvySO0hBRls0sBprbjEtrKD4HubXBbZhi2t1UhSZM+qA==
-X-Received: by 2002:a1c:1f51:: with SMTP id f78mr4918823wmf.60.1582631484864; 
- Tue, 25 Feb 2020 03:51:24 -0800 (PST)
+ :in-reply-to:references;
+ bh=WnuXdvaUbWNGuH9SX/umKTGFF9M6WOjsGW3BABTIhKU=;
+ b=qHpjCPqRCbu9Fz2LLKHC2Pw1a1ga+8Y7hUNLqxZJ95VTkHOXFrJHF/yv168neuuY/v
+ /Jy25K55tiMjBE1sVE/M5QhKQFtoWgXqowJsXAC/yxnwnaLi9cJM2aWbtf9RK33dWusb
+ OrDH5jKzPvvAxGlySl00iu43UseYQFXL7dyXePaKXbThgqMCSwS8Zw/qbf4t3t+Ist98
+ 6wVc9ZMGhunOWfj/RidrUeqSJ0ZPTl16hdaEJgkadJM0dwm1o3m1Az/WOilfg0+84qJK
+ HHyb00es8tzA9KrHdhXBO4DDXETU1cHRswQEs1NMrFN0Vd45qjKdUEQtT4il9A95Xkdz
+ mmXQ==
+X-Gm-Message-State: APjAAAXmNBu0f9ju1x/xGeTwwlR9NqswKqJGLBXzlkL6B7/R+nF9vy5L
+ qt6SRe3mws2zuUJ1Btb3VcBhbAe+
+X-Google-Smtp-Source: APXvYqxjaWdoWORkLjYZiN3XdwRXH5zddY81feBbr7TipFJyxwNX1MVLHftQyjB9Km5HyeK5ysfwSQ==
+X-Received: by 2002:a1c:4d18:: with SMTP id o24mr4888413wmh.35.1582631486509; 
+ Tue, 25 Feb 2020 03:51:26 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.23
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:24 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 019/136] arm/kzm: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:09 +0100
-Message-Id: <1582631466-13880-19-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 021/136] arm/mcimx7d-sabre: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:11 +0100
+Message-Id: <1582631466-13880-21-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,57 +88,84 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Chubb <peter.chubb@data61.csiro.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-20-imammedo@redhat.com>
----
- hw/arm/kzm.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+PS:
+ remove no longer needed MCIMX7Sabre
 
-diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
-index 94cbac1..34f6bcb 100644
---- a/hw/arm/kzm.c
-+++ b/hw/arm/kzm.c
-@@ -52,7 +52,6 @@
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-22-imammedo@redhat.com>
+---
+ hw/arm/mcimx7d-sabre.c | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
+
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index 0d1f62d..de1e264 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -21,15 +21,10 @@
+ #include "qemu/error-report.h"
+ #include "sysemu/qtest.h"
  
- typedef struct IMX31KZM {
-     FslIMX31State soc;
+-typedef struct {
+-    FslIMX7State soc;
 -    MemoryRegion ram;
-     MemoryRegion ram_alias;
- } IMX31KZM;
+-} MCIMX7Sabre;
+-
+ static void mcimx7d_sabre_init(MachineState *machine)
+ {
+     static struct arm_boot_info boot_info;
+-    MCIMX7Sabre *s = g_new0(MCIMX7Sabre, 1);
++    FslIMX7State *s;
+     int i;
  
-@@ -85,10 +84,8 @@ static void kzm_init(MachineState *machine)
-         exit(EXIT_FAILURE);
-     }
+     if (machine->ram_size > FSL_IMX7_MMDC_SIZE) {
+@@ -45,15 +40,12 @@ static void mcimx7d_sabre_init(MachineState *machine)
+         .nb_cpus = machine->smp.cpus,
+     };
  
--    memory_region_allocate_system_memory(&s->ram, NULL, "kzm.ram",
+-    object_initialize_child(OBJECT(machine), "soc",
+-                            &s->soc, sizeof(s->soc),
+-                            TYPE_FSL_IMX7, &error_fatal, NULL);
+-    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_fatal);
++    s = FSL_IMX7(object_new(TYPE_FSL_IMX7));
++    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fatal);
++    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+ 
+-    memory_region_allocate_system_memory(&s->ram, NULL, "mcimx7d-sabre.ram",
 -                                         machine->ram_size);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX31_SDRAM0_ADDR,
--                                &s->ram);
+-    memory_region_add_subregion(get_system_memory(),
+-                                FSL_IMX7_MMDC_ADDR, &s->ram);
++    memory_region_add_subregion(get_system_memory(), FSL_IMX7_MMDC_ADDR,
 +                                machine->ram);
  
-     /* initialize the alias memory if any */
-     for (i = 0, ram_size = machine->ram_size, alias_offset = 0;
-@@ -108,7 +105,8 @@ static void kzm_init(MachineState *machine)
+     for (i = 0; i < FSL_IMX7_NUM_USDHCS; i++) {
+         BusState *bus;
+@@ -63,7 +55,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
  
-         if (size < ram[i].size) {
-             memory_region_init_alias(&s->ram_alias, NULL, "ram.alias",
--                                     &s->ram, alias_offset, ram[i].size - size);
-+                                     machine->ram,
-+                                     alias_offset, ram[i].size - size);
-             memory_region_add_subregion(get_system_memory(),
-                                         ram[i].addr + size, &s->ram_alias);
-         }
-@@ -140,6 +138,7 @@ static void kzm_machine_init(MachineClass *mc)
-     mc->desc = "ARM KZM Emulation Baseboard (ARM1136)";
-     mc->init = kzm_init;
-     mc->ignore_memory_transaction_failures = true;
-+    mc->default_ram_id = "kzm.ram";
+         di = drive_get_next(IF_SD);
+         blk = di ? blk_by_legacy_dinfo(di) : NULL;
+-        bus = qdev_get_child_bus(DEVICE(&s->soc.usdhc[i]), "sd-bus");
++        bus = qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
+         carddev = qdev_create(bus, TYPE_SD_CARD);
+         qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
+         object_property_set_bool(OBJECT(carddev), true,
+@@ -71,7 +63,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
+     }
+ 
+     if (!qtest_enabled()) {
+-        arm_load_kernel(&s->soc.cpu[0], machine, &boot_info);
++        arm_load_kernel(&s->cpu[0], machine, &boot_info);
+     }
  }
  
- DEFINE_MACHINE("kzm", kzm_machine_init)
+@@ -80,5 +72,6 @@ static void mcimx7d_sabre_machine_init(MachineClass *mc)
+     mc->desc = "Freescale i.MX7 DUAL SABRE (Cortex A7)";
+     mc->init = mcimx7d_sabre_init;
+     mc->max_cpus = FSL_IMX7_NUM_CPUS;
++    mc->default_ram_id = "mcimx7d-sabre.ram";
+ }
+ DEFINE_MACHINE("mcimx7d-sabre", mcimx7d_sabre_machine_init)
 -- 
 1.8.3.1
 
