@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9210616C203
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:21:19 +0100 (CET)
-Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D130016C21F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:22:51 +0100 (CET)
+Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6a9G-00021Z-Hn
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:21:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52711)
+	id 1j6aAk-0004zj-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:22:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0N-0003lj-4F
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0N-0003m7-91
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003cJ-Ti
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0L-0003bz-RW
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:03 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40566)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55466)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0L-0003Zc-Fz
+ id 1j6Z0L-0003aA-Fm
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:01 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t3so14415742wru.7
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:58 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id q9so2725889wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:07:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PoXSTHzZhLJC7qI3DvyyIZhGpE5rZzcJUPG/3Jp3XA4=;
- b=nwYHNnAqpHSLF+dgyjRYEw4WS3tS6PWd6gSG+I0IcDeCkYM4cOs+c5Mrm+4OyyTGmx
- WIrL6/LAn+l337JM33NRslFl/vMQ2UZkVvx2X1NxQYQL1ip5nfpEIfGpHyTGC8c1JRSe
- LI+0vgtRslfKjEBd/UgZxzpWp30w0rJOu0pZJUCd7sBX8zjR/cJco0p9wFPJsAa9Zg/Z
- +YLqk5Lg53eMSxKpgENmUQdzZxL1llzFgPub4N3jcGoRY2V/oNNNdNTVccr4qvZ/RVa/
- lI3RH8YJa4b1kzOF0q6yso55WjlBU6Z3L4IReYD6hHNMzrL3Y5ytXJawnK4OClXK6Jx8
- ykCQ==
+ bh=csaz6EWYSUAGW56iw1bBi4B8rdtTGAfL4TV0/l5kdm0=;
+ b=RoJylWQGsk8qWfU/LQS10QCexk88DwoH2/S7s6zXbFqACkUwGGYFWE3lVsQ79W9RQe
+ gefoIlxyPhgBkjYXqNBCCy6TwZNLIndwEC44xgRFcnuaR8xVlOXUUM9kEuJ54wWXe5qS
+ BMzcxsk0gLWMBzc4VILQkAqtzE+TUgoezdw3X6KLn+tDOtIrpv0uPrZ/mGSiZP2a84Yl
+ O1u6GsCTW4bZpoxoRKe31D3sQDCg0URsylhnu2bwoZ+Sxnun715odrRPxkiJbnxsy9BW
+ LkPaIIDhNLfHkCFYJWRKs4WVhMi900v/D6TfzUw/MO7iZ4+K6G2pWkXDVYxc/hKsUwDU
+ QJkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PoXSTHzZhLJC7qI3DvyyIZhGpE5rZzcJUPG/3Jp3XA4=;
- b=NXOO3O48qk8kFMMr1DDqK8OeYTs/njye1/SyYnH/cbW3jLWG3QMKkckH0/4tnTBsDc
- JJxt3Gc+yzZypLhLYciE4IOx4DZ6PdVu8h0ewjDo7LPOTuacQgb+AkhNVd2Dw2zn5WiR
- Hr994/hqxMxaSMrO0byq98+7R2j8ZNGefEr3yvi5yaEvsrGyDGlD2CIoCiPpf+ZiT2jk
- jnnV3LmVJIoEbiUiTA1iw53W3KyS4TDHJLiRcZnmJIRgi3YA1r6F2d0+aNxZdaCYC34D
- g3DoUrhSAdWRddgF6nhx3Fxh9Qv5VUB4WpnAaLl6A1y0I7RKYzwhiA0eeL4kzii7sPAQ
- yOHw==
-X-Gm-Message-State: APjAAAU7XXOUkaoaqis99ny4gFgtdpHIeioO0AgemCJ84MISG732NnJL
- qQILBbTOMiNWagaPozKl1NTtU2+f
-X-Google-Smtp-Source: APXvYqyc3Dqv99jff+FlknVG411oIn3b3s4RW+gAofLkFYrEz3QxkhzRqlI1eTqG6TYv0TH0MgsSHQ==
-X-Received: by 2002:a5d:61c8:: with SMTP id q8mr1316886wrv.415.1582632477247; 
- Tue, 25 Feb 2020 04:07:57 -0800 (PST)
+ bh=csaz6EWYSUAGW56iw1bBi4B8rdtTGAfL4TV0/l5kdm0=;
+ b=WphTFHAaP00L+B4mYptofTuXx/QlKaI2efteETQRzNcbLl24KcutwV4kDrA5TaqNsH
+ MtUjq4tedmPpOFoXqkRNhskQuNc9mEj0c4L88/+b104lyGeyR7xahZH0r1tSb2nQL5IK
+ 68TWWE9DH0MLxHOAYmJC7AIBlWcIstlBQWv7+N24paLiuM9Yw7LimKcuAbehmJIjFrEy
+ 2izUB8wfaPv7ckL82wioQ+ZrbqqRGOC4tkmDdWCrJ/pRUfe/nhM2DfYgKZeSpXlne7ss
+ eEENfggKNZhDdiC07Qr1Y9dBMvGekMXrnzohOLGsdsG/EK46rEztIqDXoEBbDdY9ng8F
+ sEsw==
+X-Gm-Message-State: APjAAAVow9P9hBNS18r0LS07+jE495HJsNqM3qaI3AhWEEfRW31IIkjK
+ jgoDm+9tw+l8RnKWQGnUBOrK+ix8
+X-Google-Smtp-Source: APXvYqzObSq+S1DCv7i4wfcKhV5Gi3t9TwGZQvf6psz+m3jcDiToxljk8h3xgxW2cgPAJId4eQkJvw==
+X-Received: by 2002:a05:600c:2042:: with SMTP id
+ p2mr5199379wmg.79.1582632478209; 
+ Tue, 25 Feb 2020 04:07:58 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.56
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.07.57
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:07:56 -0800 (PST)
+ Tue, 25 Feb 2020 04:07:57 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 124/136] hw/display: Let devices own the MemoryRegion they
- create
-Date: Tue, 25 Feb 2020 13:07:22 +0100
-Message-Id: <1582632454-16491-22-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 125/136] hw/dma: Let devices own the MemoryRegion they create
+Date: Tue, 25 Feb 2020 13:07:23 +0100
+Message-Id: <1582632454-16491-23-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,42 +92,42 @@ This commit was produced with the Coccinelle script
 scripts/coccinelle/memory-region-housekeeping.cocci.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224205533.23798-27-philmd@redhat.com>
+Message-Id: <20200224205533.23798-28-philmd@redhat.com>
 Supersedes: <20200221173049.18134-1-philmd@redhat.com>
 ---
- hw/display/g364fb.c | 3 ++-
- hw/display/macfb.c  | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ hw/dma/i8257.c  | 2 +-
+ hw/dma/rc4030.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/g364fb.c b/hw/display/g364fb.c
-index 55185c9..adcba96 100644
---- a/hw/display/g364fb.c
-+++ b/hw/display/g364fb.c
-@@ -477,7 +477,8 @@ static void g364fb_init(DeviceState *dev, G364State *s)
+diff --git a/hw/dma/i8257.c b/hw/dma/i8257.c
+index bad8deb..ef15c06 100644
+--- a/hw/dma/i8257.c
++++ b/hw/dma/i8257.c
+@@ -553,7 +553,7 @@ static void i8257_realize(DeviceState *dev, Error **errp)
+     I8257State *d = I8257(dev);
+     int i;
  
-     s->con = graphic_console_init(dev, 0, &g364fb_ops, s);
+-    memory_region_init_io(&d->channel_io, NULL, &channel_io_ops, d,
++    memory_region_init_io(&d->channel_io, OBJECT(dev), &channel_io_ops, d,
+                           "dma-chan", 8 << d->dshift);
+     memory_region_add_subregion(isa_address_space_io(isa),
+                                 d->base, &d->channel_io);
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+index c4cf823..f62eb3d 100644
+--- a/hw/dma/rc4030.c
++++ b/hw/dma/rc4030.c
+@@ -679,9 +679,9 @@ static void rc4030_realize(DeviceState *dev, Error **errp)
+     s->periodic_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+                                      rc4030_periodic_timer, s);
  
--    memory_region_init_io(&s->mem_ctrl, NULL, &g364fb_ctrl_ops, s, "ctrl", 0x180000);
-+    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &g364fb_ctrl_ops, s,
-+                          "ctrl", 0x180000);
-     memory_region_init_ram_ptr(&s->mem_vram, NULL, "vram",
-                                s->vram_size, s->vram);
-     vmstate_register_ram(&s->mem_vram, dev);
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 8bff16d..b68faff 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -362,8 +362,8 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-         return;
-     }
+-    memory_region_init_io(&s->iomem_chipset, NULL, &rc4030_ops, s,
++    memory_region_init_io(&s->iomem_chipset, o, &rc4030_ops, s,
+                           "rc4030.chipset", 0x300);
+-    memory_region_init_io(&s->iomem_jazzio, NULL, &jazzio_ops, s,
++    memory_region_init_io(&s->iomem_jazzio, o, &jazzio_ops, s,
+                           "rc4030.jazzio", 0x00001000);
  
--    memory_region_init_io(&s->mem_ctrl, NULL, &macfb_ctrl_ops, s, "macfb-ctrl",
--                          0x1000);
-+    memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
-+                          "macfb-ctrl", 0x1000);
- 
-     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
-                                      MACFB_VRAM_SIZE, errp);
+     memory_region_init_iommu(&s->dma_mr, sizeof(s->dma_mr),
 -- 
 1.8.3.1
 
