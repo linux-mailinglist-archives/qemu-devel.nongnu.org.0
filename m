@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D471016C2D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:55:36 +0100 (CET)
-Received: from localhost ([::1]:56810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2444E16C272
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:35:51 +0100 (CET)
+Received: from localhost ([::1]:56028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6agR-0007sD-Px
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:55:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37494)
+	id 1j6aNK-00035d-6V
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:35:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1j6a2r-00087I-Bp
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:42 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6a90-0002g7-PR
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1j6a2p-00029K-VY
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:14:41 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:57276)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1j6a2m-00023e-NE; Tue, 25 Feb 2020 08:14:37 -0500
-Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
- [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id DABC796F58;
- Tue, 25 Feb 2020 13:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1582636471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BY1+FZJ6Sc88VMCwdRv2dHSvQOitapgHxjmgcsZpkn8=;
- b=M8yNqi+RvEHXXXwjvfY1Wov13PFLjm2pa+fm8jYVC6pLe7bDyIs+HJh+hxHRPgGwL776s6
- 8hmf5SoHb1KiQj99hsXbsuj5kx6es4CqV4/Y6DZT+yq8OqVcSO5+5iArUN4Yo2SHaq3+5Z
- giY4o3Yr+0Ou9nXdHQIhLTja/jiM7qY=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 9/9] qdev-monitor: print the device's clock with info qtree
-Date: Tue, 25 Feb 2020 14:14:22 +0100
-Message-Id: <20200225131422.53368-10-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200225131422.53368-1-damien.hedde@greensocs.com>
-References: <20200225131422.53368-1-damien.hedde@greensocs.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j6a8y-0004V2-7F
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:01 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39462)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6a8x-0004UM-BL
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:20:59 -0500
+Received: by mail-ot1-x343.google.com with SMTP id 77so12028258oty.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CtEMsHBDkcHsELBZP6EN0gh6y5RoeXlZuqtlqlC8x/Y=;
+ b=J6+7oWhSTxn+le2NO7qF/9xo9yKFmD//y4tx1qttHmljCru6rK9BzMi7DeshcE/BHI
+ +riMPjH9o9kLGlPYPT02LenJJoQ9Eb7VoTBo1PGJ8f7mQQCLPCEB2Wm+4nX9eusxHjl8
+ F81SdbaxojaXjV2mktHxWOFExYUzg6G4qZoEmo6Wy0No3fOpWpYy+fP8yoJM5Aabm1Vp
+ jQUvvec3v0hZ2KfDs/mgJpMJRD2jAWeDrho0/H1KnfKIDQbMXKfjRE51po9O55YZacZX
+ sT7BKw7r0eaks/Q80XGrZ1Ol9cj16FIbQ/FCgngTboPUi01lA4HLNXqvQa4TCSoDSJsO
+ imFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CtEMsHBDkcHsELBZP6EN0gh6y5RoeXlZuqtlqlC8x/Y=;
+ b=q1PHOaXzCxoFveJw5wrWNV2RIxpChHV9PiY24YWn13lcgWNG90UPevcJWNW4Z9HtPL
+ m1t+1GPo+20ODshQ+QelgagmspvZFMHwFVtRucSpazAw7eScN9aqfmuEmF9CUCaJQ/nT
+ y2imwm2i1vLt6+JSYe9eOImUqtdFfcf0aLGLKkiled4zCdN03YoTz9+sLJFW/aSMhwl0
+ J8PQUEXg/cURZFBdJxVTNO30j6GCWUqvQZmmODuf9g1bBfatQee/JtII9HXPY6hYtulj
+ 2O/xSWqItUwfhwO8mb3+DcQKBJi0AxQG8eZ26JGrjRZVWJHl8LSPeaAWVIxQ8aHOPGcu
+ zVCA==
+X-Gm-Message-State: APjAAAXi42e/ETokhCKBl+kyEtKtQ7tsMJDTQgh9BR+uaQGVHIOGYmXv
+ +5u4H+Z4dMc1RQXh1qGvykdWeKz/MOfcky/sqA/kgw==
+X-Google-Smtp-Source: APXvYqy56smFg/JHnYqTFfaE8NPH9smWNNEqfmGOOH864uGNGtK3fr56f4SpZav5Avhkolq+ry7hwio8Qkh/H3jXJOM=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr44891573otd.91.1582636856070; 
+ Tue, 25 Feb 2020 05:20:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1582636471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BY1+FZJ6Sc88VMCwdRv2dHSvQOitapgHxjmgcsZpkn8=;
- b=EEDnW8UBwiQZD+e+/XYQpHeb/s9ZPlZTfyy4ZO5ZaNPCVy4Nmu0gQhuhs/rziLElWsJ3dl
- Sp0VM4mFArIjohO1ZyYtsOzVwe0ziwTYIHMdLXiFaS//FSj+MkxhuhBhOEhJ9OCYaIk4Ru
- kF2ybIvx6FG+q4FdalrsZPRvvygUhG8=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582636471; a=rsa-sha256; cv=none;
- b=pX5nhivfIYc00FbkaBWiQQJw+1evdMG1mBgssoNSe5OdoaBrsyx4BjAGAxG5qL4Jybd499
- FbHC3/laR+Yi/k9YnN5xpHOpOuE4ykYdjl1HAjVsX19xiOhc1KGTnph2QeyNOqTfJmfyoO
- qpurQ2hTu0qob50kSrWwhsu/Zpy/Cg8=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+References: <20200224222232.13807-1-richard.henderson@linaro.org>
+ <20200224222232.13807-5-richard.henderson@linaro.org>
+In-Reply-To: <20200224222232.13807-5-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Feb 2020 13:20:45 +0000
+Message-ID: <CAFEAcA_Oo2FQ_2BNKgcUHOS5AzHHOahvYq0ZnZ+3_5668MYMtA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/17] target/arm: Add isar_feature_aa64_fp_simd,
+ isar_feature_aa32_vfp
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,93 +74,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, ehabkost@redhat.com, pbonzini@redhat.com,
- alistair@alistair23.me, mark.burton@greensocs.com, qemu-arm@nongnu.org,
- marcandre.lureau@redhat.com, edgar.iglesias@gmail.com, philmd@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This prints the clocks attached to a DeviceState when using
-"info qtree" monitor command. For every clock, it displays the
-direction, the name and if the clock is forwarded. For input clock,
-it displays also the frequency.
+On Mon, 24 Feb 2020 at 22:22, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We cannot easily create "any" functions for these, because the
+> ID_AA64PFR0 fields for FP and SIMD signal "enabled" with zero.
+> Which means that an aarch32-only cpu will return incorrect results
+> when testing the aarch64 registers.
+>
+> To use these, we must either have context or additionally test
+> vs ARM_FEATURE_AARCH64.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h     | 11 +++++++++++
+>  target/arm/cpu.c     |  9 ++++++---
+>  target/arm/machine.c |  5 +++--
+>  3 files changed, 20 insertions(+), 5 deletions(-)
 
-This is based on the original work of Frederic Konrad.
-
-Here follows a sample of `info qtree` output on xilinx_zynq machine
-after linux boot with only one uart clocked:
-> bus: main-system-bus
->  type System
->  [...]
->  dev: cadence_uart, id ""
->    gpio-out "sysbus-irq" 1
->    clock-in "refclk" freq_hz=3D0.000000e+00
->    chardev =3D ""
->    mmio 00000000e0001000/0000000000001000
->  dev: cadence_uart, id ""
->    gpio-out "sysbus-irq" 1
->    clock-in "refclk" freq_hz=3D1.375661e+07
->    chardev =3D "serial0"
->    mmio 00000000e0000000/0000000000001000
->  [...]
->  dev: xilinx,zynq_slcr, id ""
->    clock-out "uart1_ref_clk" freq_hz=3D0.000000e+00
->    clock-out "uart0_ref_clk" freq_hz=3D1.375661e+07
->    clock-in "ps_clk" freq_hz=3D3.333333e+07
->    mmio 00000000f8000000/0000000000001000
-
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
 
-v7:
- + print output clocks frequencies too
- + add sample of qtree message above
- + display frequencies in floating-point
----
- qdev-monitor.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 8ce71a206b..1d84b4e416 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -38,6 +38,7 @@
- #include "migration/misc.h"
- #include "migration/migration.h"
- #include "qemu/cutils.h"
-+#include "hw/clock.h"
-=20
- /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -736,6 +737,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev=
-, int indent)
-     ObjectClass *class;
-     BusState *child;
-     NamedGPIOList *ngl;
-+    NamedClockList *ncl;
-=20
-     qdev_printf("dev: %s, id \"%s\"\n", object_get_typename(OBJECT(dev))=
-,
-                 dev->id ? dev->id : "");
-@@ -750,6 +752,13 @@ static void qdev_print(Monitor *mon, DeviceState *de=
-v, int indent)
-                         ngl->num_out);
-         }
-     }
-+    QLIST_FOREACH(ncl, &dev->clocks, node) {
-+        qdev_printf("clock-%s%s \"%s\" freq_hz=3D%e\n",
-+                    ncl->output ? "out" : "in",
-+                    ncl->alias ? " (alias)" : "",
-+                    ncl->name,
-+                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
-+    }
-     class =3D object_get_class(OBJECT(dev));
-     do {
-         qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
---=20
-2.25.1
-
+thanks
+-- PMM
 
