@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C1916C02A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:03:01 +0100 (CET)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AD816C033
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:05:04 +0100 (CET)
+Received: from localhost ([::1]:53704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6YvU-0002cE-Qc
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:03:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
+	id 1j6YxT-0006DF-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:05:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkT-0000ZS-5G
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:38 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkX-0000fF-2A
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0006aI-AJ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:37 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54495)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkT-0006ej-6Y
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:40 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50784)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkP-0006Sw-HZ
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:34 -0500
-Received: by mail-wm1-x333.google.com with SMTP id z12so2662893wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:33 -0800 (PST)
+ id 1j6YkR-0006Wz-9a
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:37 -0500
+Received: by mail-wm1-x333.google.com with SMTP id a5so2683992wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rCFtj8zFnpz99LXxIAiXBZd2eJwdFhQQ53mwJk3hpuM=;
- b=mOPGc9Y27KkLHb3LlcUlupbl1xlbNF/xIDEBFa+I0OwjNOXk/Vz7/wP7AnrVQMKR/f
- ZyiZb+bkGt6+9+W4CRSPlOIdaZIR1t8Nq2YB0m+NkXmVTnX/Z0kA0lPXeuCtXYrqfy9A
- PBcdIJtpq5rDGhYEfcIZ1HTwGjIvIpGRVhc0kSTmrkYqSsnhgP6d+Z5kS28pzdT71O0u
- uGL7nH9XK6pGagc2psmZhACdxLTYXaOEGg5wugIyJCNAAnUxrbaX3eegTwo40PEBFkT6
- AmS81L/VtdsYJAF05/4xTP7/mAmYo5m4IfF5Gj8Yv2/6bpqcld9SdhxE6Q1OjPQVrMni
- U90A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=U5kFGAIJC6XbMJAjuz4YlirYUr1fp+EN3cTHmi55J7k=;
+ b=CEjjrBl1VDADTFUROdro99P3ZjBiY+SGsugsEHKleK1bgdHw+ow7hqm4Udw6NeVQx6
+ jf5VkTt3Y0hRsaBrJ2EgGt0OVnSro77aFGewqXnh+nibOclUA8fCi9fX2RLpfniSfnL7
+ +eobvBxX3psLjz8GQ/XZI9HX2Isiv8A3ixkOTcYIwllqakSG/bkOPCCv2rbRawcluY02
+ +z3iQm+HZWv8aAfH2q5a/rxDG6ajEn3Ak6r+hqlGs2eymfNBNzCSw+UQo+zBxp5HhjCO
+ 5cEqRmIG869vTTTGGIgUY+frJyKgm0IL/tUROaSZ39+XH3cgtMW6HLpbSwoglwGqO4bj
+ bhXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rCFtj8zFnpz99LXxIAiXBZd2eJwdFhQQ53mwJk3hpuM=;
- b=ZVX3PnkBTCm2MkhM0rS4+DixWFlkEIjhCubxGQ+93fv+X8wY3na1R9geWU76ct48Uh
- 4Cz74qQiExy/0Ica/BnKNzVCm/z68nczcbiUGsViEr8oQlU02SR5xl18pSu/PlI00umZ
- OE6WcEixrXSky+Jkn4ovJhwjjjn2S/rGpGRcRjbWt27SfRyBvGUDltHElF0rG2MRDjpx
- cSX6GuljclBMto8VeqVfsNtt5+Dz1NTSN1E9udMRItBaE0KTSNAwq5b4PzuAwQ76Eo4g
- 6UFSfy/3LlWCfARyOsqPWPL1BB2Pc86vn8v1XgM/09/4zA1DU7d0rx6MgazSBdT16eh5
- 5pig==
-X-Gm-Message-State: APjAAAU0NbWBBJj63S840GbutYoskq1/nU6hHMiexhgJNbSK8sZ6lhBn
- tArk0hWnjaVAXFijpoCMyuG9sJ54
-X-Google-Smtp-Source: APXvYqzAUHgu67kp9OPyhKnUy12zHY+QZr0pju4ObGeXkqmFmAIIJMU0/bkSO6QDVWAOkhByIONvLw==
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr5109312wml.182.1582631492123; 
- Tue, 25 Feb 2020 03:51:32 -0800 (PST)
+ :in-reply-to:references;
+ bh=U5kFGAIJC6XbMJAjuz4YlirYUr1fp+EN3cTHmi55J7k=;
+ b=LZwg+9uAE9/H+fZyY5dusHpETeCX58nV+OkoF7rTqeaZYWRTPOd9cyW59t36es6t8y
+ C/u+ex8eSltO/goXSR2JHGzET6SSTkxKwD7JgSRpdmou9fOyQjoKJU2Er/QAY1dRGqFA
+ Z5LVKlkZJXeyRBDyGI6QLAGHVI6leojqF/Y3sNpqVU8q6j2tPfvmgoKMb6AmsbQ69x5N
+ l+JTdqC7ZvZLkbSffT9TO1FnAgncCMBJ19HX04vqy2C4DHrwYt1Xgp4WPPRorzKGf5KU
+ weOt90TmujUVzBYpOW9Get0Y2nvnkRLWXm/aIDAtyR3iAJtPJH/EzarUSxVb+RxRg+XU
+ vNjQ==
+X-Gm-Message-State: APjAAAVHifu9aa/vHhiijPUZFfkf49haUBTQIglxkro2JNc5YZBTtbca
+ JqOit0YUqiCTIJFNzET8E/S/Hb7H
+X-Google-Smtp-Source: APXvYqxKD0iD3S8RSRNvq5qAsZZdiyD3Od/TRz2jByFfH9sT7EquOL+OmChl9q8pRak4YOMFq9EA/Q==
+X-Received: by 2002:a1c:4d18:: with SMTP id o24mr4888972wmh.35.1582631493121; 
+ Tue, 25 Feb 2020 03:51:33 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.31
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.32
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:31 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:32 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 027/136] arm/palm: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:17 +0100
-Message-Id: <1582631466-13880-27-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 028/136] arm/sabrelite: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:18 +0100
+Message-Id: <1582631466-13880-28-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::333
@@ -94,64 +89,91 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 PS:
- while at it add check for user supplied RAM size and error
- out if it mismatches board expected value.
+ remove no longer needed IMX6Sabrelite
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-28-imammedo@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-29-imammedo@redhat.com>
 ---
- hw/arm/palm.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ hw/arm/sabrelite.c | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/hw/arm/palm.c b/hw/arm/palm.c
-index 72eca8c..99554bd 100644
---- a/hw/arm/palm.c
-+++ b/hw/arm/palm.c
-@@ -31,6 +31,7 @@
- #include "hw/loader.h"
- #include "exec/address-spaces.h"
- #include "cpu.h"
-+#include "qemu/cutils.h"
+diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+index 96cc455..e31694b 100644
+--- a/hw/arm/sabrelite.c
++++ b/hw/arm/sabrelite.c
+@@ -19,11 +19,6 @@
+ #include "qemu/error-report.h"
+ #include "sysemu/qtest.h"
  
- static uint64_t static_read(void *opaque, hwaddr offset, unsigned size)
+-typedef struct IMX6Sabrelite {
+-    FslIMX6State soc;
+-    MemoryRegion ram;
+-} IMX6Sabrelite;
+-
+ static struct arm_boot_info sabrelite_binfo = {
+     /* DDR memory start */
+     .loader_start = FSL_IMX6_MMDC_ADDR,
+@@ -45,7 +40,7 @@ static void sabrelite_reset_secondary(ARMCPU *cpu,
+ 
+ static void sabrelite_init(MachineState *machine)
  {
-@@ -195,15 +196,21 @@ static void palmte_init(MachineState *machine)
-     static uint32_t cs2val = 0x0000e1a0;
-     static uint32_t cs3val = 0xe1a0e1a0;
-     int rom_size, rom_loaded = 0;
--    MemoryRegion *dram = g_new(MemoryRegion, 1);
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     MemoryRegion *flash = g_new(MemoryRegion, 1);
-     MemoryRegion *cs = g_new(MemoryRegion, 4);
+-    IMX6Sabrelite *s = g_new0(IMX6Sabrelite, 1);
++    FslIMX6State *s;
+     Error *err = NULL;
  
--    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
--                                         palmte_binfo.ram_size);
--    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE, dram);
-+    if (machine->ram_size != mc->default_ram_size) {
-+        char *sz = size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE,
+     /* Check the amount of memory is compatible with the SOC */
+@@ -55,19 +50,16 @@ static void sabrelite_init(MachineState *machine)
+         exit(1);
+     }
+ 
+-    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
+-                            TYPE_FSL_IMX6, &error_abort, NULL);
+-
+-    object_property_set_bool(OBJECT(&s->soc), true, "realized", &err);
++    s = FSL_IMX6(object_new(TYPE_FSL_IMX6));
++    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fatal);
++    object_property_set_bool(OBJECT(s), true, "realized", &err);
+     if (err != NULL) {
+         error_report("%s", error_get_pretty(err));
+         exit(1);
+     }
+ 
+-    memory_region_allocate_system_memory(&s->ram, NULL, "sabrelite.ram",
+-                                         machine->ram_size);
+     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
+-                                &s->ram);
 +                                machine->ram);
  
--    mpu = omap310_mpu_init(dram, machine->cpu_type);
-+    mpu = omap310_mpu_init(machine->ram, machine->cpu_type);
+     {
+         /*
+@@ -78,7 +70,7 @@ static void sabrelite_init(MachineState *machine)
+         /* Add the sst25vf016b NOR FLASH memory to first SPI */
+         Object *spi_dev;
  
-     /* External Flash (EMIFS) */
-     memory_region_init_ram(flash, NULL, "palmte.flash", flash_size,
-@@ -265,6 +272,8 @@ static void palmte_machine_init(MachineClass *mc)
-     mc->init = palmte_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("ti925t");
-+    mc->default_ram_size = 0x02000000;
-+    mc->default_ram_id = "omap1.dram";
+-        spi_dev = object_resolve_path_component(OBJECT(&s->soc), "spi1");
++        spi_dev = object_resolve_path_component(OBJECT(s), "spi1");
+         if (spi_dev) {
+             SSIBus *spi_bus;
+ 
+@@ -109,7 +101,7 @@ static void sabrelite_init(MachineState *machine)
+     sabrelite_binfo.secondary_cpu_reset_hook = sabrelite_reset_secondary;
+ 
+     if (!qtest_enabled()) {
+-        arm_load_kernel(&s->soc.cpu[0], machine, &sabrelite_binfo);
++        arm_load_kernel(&s->cpu[0], machine, &sabrelite_binfo);
+     }
  }
  
- DEFINE_MACHINE("cheetah", palmte_machine_init)
+@@ -119,6 +111,7 @@ static void sabrelite_machine_init(MachineClass *mc)
+     mc->init = sabrelite_init;
+     mc->max_cpus = FSL_IMX6_NUM_CPUS;
+     mc->ignore_memory_transaction_failures = true;
++    mc->default_ram_id = "sabrelite.ram";
+ }
+ 
+ DEFINE_MACHINE("sabrelite", sabrelite_machine_init)
 -- 
 1.8.3.1
 
