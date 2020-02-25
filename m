@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D25E16C277
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:37:14 +0100 (CET)
-Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3907416C281
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:38:57 +0100 (CET)
+Received: from localhost ([::1]:56122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aOf-00065f-58
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:37:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38494)
+	id 1j6aQK-0008KX-8V
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:38:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1j6a9d-0003dy-0f
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:42 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j6aBm-0007sf-OB
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:23:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1j6a9b-0004jw-9A
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41337
+ (envelope-from <imammedo@redhat.com>) id 1j6aBk-0005FX-Rp
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:23:54 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60576
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1j6a9b-0004jJ-5D
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:21:39 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6aBk-0005FG-O5
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:23:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582636896;
+ s=mimecast20190719; t=1582637032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Xv/t6Zo0cGBtney6znCCDmF0+wveWYK2dAj4m2bjOs=;
- b=MTIgqPIDPnJxX6WWKBXLiZJGwcpd9YV2yBJT5X5HfUTQZMSS8fwq0nv04czuPPonCeiwr/
- UGCEnnf3y1X7f9tOVWdFZ+QAT+JAYxtefdUbXybiOGQJa6k/DuuO45pEAy9M3CV7yDktr3
- lxQourJ20UtQ7tGsjPG1uHwlj3iKYn8=
+ bh=eDwDbaBrloN0/9UIxTHB+r5PAkSFUSrWWrBgDy0DRks=;
+ b=NUVSMwXQlyOLWo2u3w6yTrjT3C7UpQni0C95wjBsQsDbYhWEHy7q29RUFTyYdQPqmODYc7
+ CjSKSCDNPvXMljpaN+p7aZwS+3SHNdTm9dpZlV5lWruQjFuqMb6vvbCBikUoY4kTO9YJuw
+ BVqmk3cTc0UmgM9W4tDHk3TbWp3zqPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-bxQyWYwFOsKyZt_7tBrLcg-1; Tue, 25 Feb 2020 08:21:35 -0500
-X-MC-Unique: bxQyWYwFOsKyZt_7tBrLcg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-210-CYrY3AgSPbeUcNsH9vOCFw-1; Tue, 25 Feb 2020 08:23:48 -0500
+X-MC-Unique: CYrY3AgSPbeUcNsH9vOCFw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D135DB61
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 13:21:32 +0000 (UTC)
-Received: from andariel.pipo.sk (ovpn-204-29.brq.redhat.com [10.40.204.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4665DA2C;
- Tue, 25 Feb 2020 13:21:28 +0000 (UTC)
-Date: Tue, 25 Feb 2020 14:21:25 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 8/9] virStorageFileGetMetadataRecurse: Allow format
- probing under special circumstances
-Message-ID: <20200225132125.GH3296@andariel.pipo.sk>
-References: <e6d268fcb8b2e92f2cf0c6b29bab3a9f645a7051.1581959449.git.pkrempa@redhat.com>
- <ef597fda-4b3f-d270-824f-82df391ff223@redhat.com>
- <20200219164034.GF1011498@angien.pipo.sk>
- <fa77907b-1378-b4ed-3a40-fa19fe67f7cf@redhat.com>
- <20200219185740.GA3423556@angien.pipo.sk>
- <6d228d74-0b74-14e0-60cf-5c69dad2a65b@redhat.com>
- <20200224133416.GE3296@andariel.pipo.sk>
- <20200224142415.GP635661@redhat.com>
- <20200224171046.GA864377@angien.pipo.sk>
- <20200225125021.GL1148628@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B86E2101FC6E;
+ Tue, 25 Feb 2020 13:23:45 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3227B5C1D6;
+ Tue, 25 Feb 2020 13:23:38 +0000 (UTC)
+Date: Tue, 25 Feb 2020 14:23:36 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: Re: [PATCH v24 05/10] ACPI: Build Hardware Error Source Table
+Message-ID: <20200225142336.16b7fc40@redhat.com>
+In-Reply-To: <20200217131248.28273-6-gengdongjiu@huawei.com>
+References: <20200217131248.28273-1-gengdongjiu@huawei.com>
+ <20200217131248.28273-6-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200225125021.GL1148628@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,142 +69,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, QEMU <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ shameerali.kolothum.thodi@huawei.com, jonathan.cameron@huawei.com,
+ pbonzini@redhat.com, lersek@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 25, 2020 at 12:50:21 +0000, Daniel Berrange wrote:
-> On Mon, Feb 24, 2020 at 06:10:46PM +0100, Peter Krempa wrote:
-> > On Mon, Feb 24, 2020 at 14:24:15 +0000, Daniel Berrange wrote:
-> > > On Mon, Feb 24, 2020 at 02:34:16PM +0100, Peter Krempa wrote:
+On Mon, 17 Feb 2020 21:12:43 +0800
+Dongjiu Geng <gengdongjiu@huawei.com> wrote:
 
-[...]
+> This patch builds Hardware Error Source Table(HEST) via fw_cfg blobs.
+> Now it only supports ARMv8 SEA, a type of Generic Hardware Error
+> Source version 2(GHESv2) error source. Afterwards, we can extend
+> the supported types if needed. For the CPER section, currently it
+> is memory section because kernel mainly wants userspace to handle
+> the memory errors.
+> 
+> This patch follows the spec ACPI 6.2 to build the Hardware Error
+> Source table. For more detailed information, please refer to
+> document: docs/specs/acpi_hest_ghes.rst
+> 
+> build_ghes_hw_error_notification() helper will help to add Hardware
+> Error Notification to ACPI tables without using packed C structures
+> and avoid endianness issues as API doesn't need explicit conversion.
+> 
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
+> ---
+>  hw/acpi/ghes.c           | 126 +++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/arm/virt-acpi-build.c |   1 +
+>  include/hw/acpi/ghes.h   |  39 +++++++++++++++
+>  3 files changed, 166 insertions(+)
+> 
+> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+> index e1b3f8f..7a7381d 100644
+> --- a/hw/acpi/ghes.c
+> +++ b/hw/acpi/ghes.c
+> @@ -23,6 +23,7 @@
+>  #include "qemu/units.h"
+>  #include "hw/acpi/ghes.h"
+>  #include "hw/acpi/aml-build.h"
+> +#include "qemu/error-report.h"
+>  
+>  #define ACPI_GHES_ERRORS_FW_CFG_FILE        "etc/hardware_errors"
+>  #define ACPI_GHES_DATA_ADDR_FW_CFG_FILE     "etc/hardware_errors_addr"
+> @@ -33,6 +34,42 @@
+>  /* Now only support ARMv8 SEA notification type error source */
+>  #define ACPI_GHES_ERROR_SOURCE_COUNT        1
+>  
+> +/* Generic Hardware Error Source version 2 */
+> +#define ACPI_GHES_SOURCE_GENERIC_ERROR_V2   10
+> +
+> +/* Address offset in Generic Address Structure(GAS) */
+> +#define GAS_ADDR_OFFSET 4
+> +
+> +/*
+> + * Hardware Error Notification
+> + * ACPI 4.0: 17.3.2.7 Hardware Error Notification
+> + * Composes dummy Hardware Error Notification descriptor of specified type
+> + */
+> +static void build_ghes_hw_error_notification(GArray *table, const uint8_t type)
+> +{
+> +    /* Type */
+> +    build_append_int_noprefix(table, type, 1);
+> +    /*
+> +     * Length:
+> +     * Total length of the structure in bytes
+> +     */
+> +    build_append_int_noprefix(table, 28, 1);
+> +    /* Configuration Write Enable */
+> +    build_append_int_noprefix(table, 0, 2);
+> +    /* Poll Interval */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Vector */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Switch To Polling Threshold Value */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Switch To Polling Threshold Window */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Error Threshold Value */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Error Threshold Window */
+> +    build_append_int_noprefix(table, 0, 4);
+> +}
+> +
+>  /*
+>   * Build table for the hardware error fw_cfg blob.
+>   * Initialize "etc/hardware_errors" and "etc/hardware_errors_addr" fw_cfg blobs.
+> @@ -87,3 +124,92 @@ void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker)
+>      bios_linker_loader_write_pointer(linker, ACPI_GHES_DATA_ADDR_FW_CFG_FILE,
+>          0, sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE, 0);
+>  }
+> +
+> +/* Build Generic Hardware Error Source version 2 (GHESv2) */
+> +static void build_ghes_v2(GArray *table_data, int source_id, BIOSLinker *linker)
+> +{
+> +    uint64_t address_offset;
+> +    /*
+> +     * Type:
+> +     * Generic Hardware Error Source version 2(GHESv2 - Type 10)
+> +     */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_SOURCE_GENERIC_ERROR_V2, 2);
+> +    /* Source Id */
+> +    build_append_int_noprefix(table_data, source_id, 2);
+> +    /* Related Source Id */
+> +    build_append_int_noprefix(table_data, 0xffff, 2);
+> +    /* Flags */
+> +    build_append_int_noprefix(table_data, 0, 1);
+> +    /* Enabled */
+> +    build_append_int_noprefix(table_data, 1, 1);
+> +
+> +    /* Number of Records To Pre-allocate */
+> +    build_append_int_noprefix(table_data, 1, 4);
+> +    /* Max Sections Per Record */
+> +    build_append_int_noprefix(table_data, 1, 4);
+> +    /* Max Raw Data Length */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
+> +
+> +    address_offset = table_data->len;
+> +    /* Error Status Address */
+> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
+> +                     4 /* QWord access */, 0);
+> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+> +        address_offset + GAS_ADDR_OFFSET, sizeof(uint64_t),
+> +        ACPI_GHES_ERRORS_FW_CFG_FILE, source_id * sizeof(uint64_t));
+> +
+> +    switch (source_id) {
+> +    case ACPI_HEST_SRC_ID_SEA:
+> +        /*
+> +         * Notification Structure
+> +         * Now only enable ARMv8 SEA notification type
+> +         */
+> +        build_ghes_hw_error_notification(table_data, ACPI_GHES_NOTIFY_SEA);
+> +        break;
+> +    default:
+> +        error_report("Not support this error source");
+> +        abort();
+> +    }
+> +
+> +    /* Error Status Block Length */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
+> +
+> +    /*
+> +     * Read Ack Register
+> +     * ACPI 6.1: 18.3.2.8 Generic Hardware Error Source
+> +     * version 2 (GHESv2 - Type 10)
+> +     */
+> +    address_offset = table_data->len;
+> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
+> +                     4 /* QWord access */, 0);
+> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+> +        address_offset + GAS_ADDR_OFFSET,
+> +        sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE,
+> +        (ACPI_GHES_ERROR_SOURCE_COUNT + source_id) * sizeof(uint64_t));
+> +
+> +    /*
+> +     * Read Ack Preserve field
+> +     * We only provide the first bit in Read Ack Register to OSPM to write
+> +     * while the other bits are preserved.
+> +     */
+> +    build_append_int_noprefix(table_data, ~0x1ULL, 8);
+> +    /* Read Ack Write */
+> +    build_append_int_noprefix(table_data, 0x1, 8);
+> +}
+> +
+> +/* Build Hardware Error Source Table */
+> +void acpi_build_hest(GArray *table_data, BIOSLinker *linker)
+> +{
+> +    uint64_t hest_start = table_data->len;
+> +
+> +    /* Hardware Error Source Table header*/
+> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +
+> +    /* Error Source Count */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_ERROR_SOURCE_COUNT, 4);
+> +
+> +    build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
+> +
+> +    build_header(linker, table_data, (void *)(table_data->data + hest_start),
+> +        "HEST", table_data->len - hest_start, 1, NULL, "");
+                                                          ^^^
+is there any particular reason to make it empty instead of putting NULL there
+so that QEMU would use default value?
 
-> > > Would there be any downsides to this that did not already exist in th=
-e
-> > > non-blockdev days ?
-> >=20
-> > We can, but the price is that:
-> > 1) we won't allow blockjobs and anything blockdev-related because node
-> > name would be out of our control. This was possible in pre-blockdev era=
-.
->=20
-> Ok, that's not viable then. We can't switch one regression for a differen=
-t
-> regression.
->=20
-> > 2) we will lose control of actually telling qemu to NOT open the backin=
-g
-> > file in that case. Distros using only unix permission still have
-> > arbitrary file access under permissions of the qemu process.
->=20
-> True, but that is at least historically expected behaviour, which can
-> be fixed by setting <backingfile/> in the XML file IIUC.
-
-Yes, but if you specify any <backingStore> including the terminator you
-basically configure the image chain yourselves. The part which is
-configured explicitly will not undergo any form of detection, not even
-looking for the backing file.
-
-> > 3) weird special-case code, because we need to keep some metadata about
-> > the image to do security labelling
-> >=20
-> > > I don't think we can solve the regressions in behaviour of backing fi=
-les
-> > > by doing probing of the backing files in libvirt, because that only w=
-orks
-> > > for the case where libvirt can actually open the file. ie a local fil=
-e on
-> > > disk. We don't have logic for opening backing files on RBD, GlusterFS=
-,
-> > > iSCSI, HTTP, SSH, etc, and nor do we want todo that.
-> >=20
-> > Now we are back in the teritory where we actually do match what would
-> > happen with previously. We don't specify these on the command line with
-> > ehaviour matching what's described above, with the caveats as above.
-> >=20
-> > I kept this behaviour because we couldn't do better. This is in place
-> > even now if the last introspectable image has valid format specified.
-> >=20
-> > We can reconsider how to approach this but ideally separately.
->=20
-> I'm a little lost as to exactly which scenarios are broken, and which
-> we're fixing.
->=20
->  1. file:top.qcow2 -> file:base.raw
->=20
->  2. file:top.qcow2 -> file:base.qcow2
->=20
->  3. file:top.qcow2 -> file:middle.qcow2 -> file:base.raw
-> =20
->  4. file:top.qcow2 -> file:middle.qcow2 -> file:base.qcow2
-
-I assume you meant that none of the 'qcow2' files have format of the
-backing file recorded in the metadata.
-
-> IIUC, (1) is working before and now, (2) is working before but
-> broken now, and (3) and (4) were broken before and now.
-
-1) was working before, but is now forbidden
-2) was working before, and is now forbidden
-3,4) were possibly working (without sVirt), or would get permission
-denied reported by qemu during startup, currently they are forbidden by
-a libvirt error message
-
-After this patch:
-1) will be fixed by this patch
-2) will be fixed by this patch
-3, 4) will report a libvirt error rather than relying on sVirt or others
-
-> So (2) is the only one we /must/ to fix
->=20
-> Am I right that by doing probing in libvirt as per this patch,
-> as well as fixing (2) though, we'll accidentally fix (3) and (4)
-> even though they were always broken before ?
->
-> This all talks about qcow2 images on the file: protocol driver.
-> What is the situation for, say, the iscsi: protocol driver
->=20
->=20
->  1. iscsi:top.qcow2 -> iscsi:base.raw
->=20
->  2. iscsi:top.qcow2 -> iscsi:base.qcow2
->=20
->  3. iscsi:top.qcow2 -> iscsi:middle.qcow2 -> iscsi:base.raw
-> =20
->  4. iscsi:top.qcow2 -> iscsi:middle.qcow2 -> iscsi:base.qcow2
->=20
-> What was the behaviour of this in the pre-blockdev days and
-> vs current git master ? Is it the same with (1) is working
-> before and now, (2) is working before but broken now, and
-> (3) and (4) were broken before and now.
-
-Pre-blockdev and post-blockdev every scenario of the above is working.
-We can't even inspect the top file for backing store so everything is
-just ignored.
-
-Now what partially changes is when we have something introspectable in
-the way:
-
-1,2) file:top.qcow2 -> iscsi:base.whatever
-
-The current code would report an error if the format was not recorded
-in the overlay (top.qcow2) and we can't introspect the backing file
-we'll reject it.
-
-This can be relaxed though.
-
-3,4) will work if top.qcow2 has the format but any subsequent don't since
-we don't introspect it
-
-> I'm assuming the libvirt probing cannot fix any case other
-> than file: protocol, or host-device: protocol, since we're
-> unable to open any other type of storage.
-
-It fixes also gluster since the backends for that are already
-implemented.
-
-I'll post another rebased version with some updated docs and one fix. We
-can continue there perhaps.
+> +}
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 6819fcf..12a9a78 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -834,6 +834,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      if (vms->ras) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+> +        acpi_build_hest(tables_blob, tables->linker);
+>      }
+>  
+>      if (ms->numa_state->num_nodes > 0) {
+> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+> index 50379b0..18debd8 100644
+> --- a/include/hw/acpi/ghes.h
+> +++ b/include/hw/acpi/ghes.h
+> @@ -24,5 +24,44 @@
+>  
+>  #include "hw/acpi/bios-linker-loader.h"
+>  
+> +/*
+> + * Values for Hardware Error Notification Type field
+> + */
+> +enum AcpiGhesNotifyType {
+> +    /* Polled */
+> +    ACPI_GHES_NOTIFY_POLLED = 0,
+> +    /* External Interrupt */
+> +    ACPI_GHES_NOTIFY_EXTERNAL = 1,
+> +    /* Local Interrupt */
+> +    ACPI_GHES_NOTIFY_LOCAL = 2,
+> +    /* SCI */
+> +    ACPI_GHES_NOTIFY_SCI = 3,
+> +    /* NMI */
+> +    ACPI_GHES_NOTIFY_NMI = 4,
+> +    /* CMCI, ACPI 5.0: 18.3.2.7, Table 18-290 */
+> +    ACPI_GHES_NOTIFY_CMCI = 5,
+> +    /* MCE, ACPI 5.0: 18.3.2.7, Table 18-290 */
+> +    ACPI_GHES_NOTIFY_MCE = 6,
+> +    /* GPIO-Signal, ACPI 6.0: 18.3.2.7, Table 18-332 */
+> +    ACPI_GHES_NOTIFY_GPIO = 7,
+> +    /* ARMv8 SEA, ACPI 6.1: 18.3.2.9, Table 18-345 */
+> +    ACPI_GHES_NOTIFY_SEA = 8,
+> +    /* ARMv8 SEI, ACPI 6.1: 18.3.2.9, Table 18-345 */
+> +    ACPI_GHES_NOTIFY_SEI = 9,
+> +    /* External Interrupt - GSIV, ACPI 6.1: 18.3.2.9, Table 18-345 */
+> +    ACPI_GHES_NOTIFY_GSIV = 10,
+> +    /* Software Delegated Exception, ACPI 6.2: 18.3.2.9, Table 18-383 */
+> +    ACPI_GHES_NOTIFY_SDEI = 11,
+> +    /* 12 and greater are reserved */
+> +    ACPI_GHES_NOTIFY_RESERVED = 12
+> +};
+> +
+> +enum {
+> +    ACPI_HEST_SRC_ID_SEA = 0,
+> +    /* future ids go here */
+> +    ACPI_HEST_SRC_ID_RESERVED,
+> +};
+> +
+>  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
+> +void acpi_build_hest(GArray *table_data, BIOSLinker *linker);
+>  #endif
 
 
