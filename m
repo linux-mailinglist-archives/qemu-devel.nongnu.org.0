@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D1B16B6F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:58:37 +0100 (CET)
-Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E99F16B6F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:58:27 +0100 (CET)
+Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6OYW-00044R-4t
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:58:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
+	id 1j6OYM-0003oh-3r
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:58:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1j6OWw-0002Cx-7S
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:59 -0500
+ (envelope-from <jsnow@redhat.com>) id 1j6OWq-00023v-1R
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1j6OWt-00086N-6a
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:58 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36082
+ (envelope-from <jsnow@redhat.com>) id 1j6OWo-0007p4-RF
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:51 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24148
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j6OWt-00084t-2S
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:55 -0500
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j6OWo-0007ni-MA
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:56:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582592214;
+ s=mimecast20190719; t=1582592210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c/wCudtQMl0134+X0MXUafJH6n/tbZq25GtZ65dP+LY=;
- b=JMMc3oxIdahjK+MgfXJU7IGqsZkYnhthMiMU4NmRlEfUmY8gQzWuUCvTr6MZ0DF9OdQED8
- gKzXXWdEkEpJcPslU1A4IMeoeYIZ+2rbwyDacL+NvInkwRdSZItC/blqN1aNUrD2h8iRot
- /x5KVj7JcssWQkBBeS7dYOEzSJSJvaU=
+ bh=ioKiR0424ftBjD7lpbVOIDL2uezKt3IXhOhLa6WO5o4=;
+ b=O58cOD03zsNR/gpyUvhkds2cTDjX3Qr8U8hkvv/s9JsB0GzorAZk/AGdufZnM3E4cWL7Az
+ 2WunkYktjRu1atFBX7h6/v3FCcZV9CO468yR1id+3IkF3Mubv2tMlUNR/KNvYiA6iEvyfP
+ fRHqw3P1kjzizhgKMtbb3LyYu+ZUors=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-MieQXN5tOp-L7Ka33cXJeQ-1; Mon, 24 Feb 2020 19:56:47 -0500
-X-MC-Unique: MieQXN5tOp-L7Ka33cXJeQ-1
+ us-mta-410-yjBk6Y9WNzCmdhx0L8enYw-1; Mon, 24 Feb 2020 19:56:48 -0500
+X-MC-Unique: yjBk6Y9WNzCmdhx0L8enYw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A23D1007268;
- Tue, 25 Feb 2020 00:56:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A45E213E2;
+ Tue, 25 Feb 2020 00:56:47 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-182.bos.redhat.com [10.18.17.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC7911CB;
- Tue, 25 Feb 2020 00:56:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B647289F30;
+ Tue, 25 Feb 2020 00:56:46 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] iotests: move bitmap helpers into their own file
-Date: Mon, 24 Feb 2020 19:56:38 -0500
-Message-Id: <20200225005641.5478-4-jsnow@redhat.com>
+Subject: [PATCH 4/6] iotests: add hmp helper with logging
+Date: Mon, 24 Feb 2020 19:56:39 -0500
+Message-Id: <20200225005641.5478-5-jsnow@redhat.com>
 In-Reply-To: <20200225005641.5478-1-jsnow@redhat.com>
 References: <20200225005641.5478-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -78,280 +78,54 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Just a mild cleanup while I was here.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/257        | 110 +---------------------------
- tests/qemu-iotests/bitmaps.py | 131 ++++++++++++++++++++++++++++++++++
- 2 files changed, 132 insertions(+), 109 deletions(-)
- create mode 100644 tests/qemu-iotests/bitmaps.py
+ tests/qemu-iotests/iotests.py | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
-index 004a433b8b..2a81f9e30c 100755
---- a/tests/qemu-iotests/257
-+++ b/tests/qemu-iotests/257
-@@ -24,120 +24,12 @@ import os
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 8815052eb5..5d2990a0e4 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -525,23 +525,27 @@ def add_incoming(self, addr):
+         self._args.append(addr)
+         return self
 =20
- import iotests
- from iotests import log, qemu_img
-+from bitmaps import EmulatedBitmap, GROUPS
++    def hmp(self, command_line, log=3DFalse):
++        cmd =3D 'human-monitor-command'
++        kwargs =3D { 'command-line': command_line }
++        if log:
++            return self.qmp_log(cmd, **kwargs)
++        return self.qmp(cmd, **kwargs)
++
+     def pause_drive(self, drive, event=3DNone):
+         '''Pause drive r/w operations'''
+         if not event:
+             self.pause_drive(drive, "read_aio")
+             self.pause_drive(drive, "write_aio")
+             return
+-        self.qmp('human-monitor-command',
+-                    command_line=3D'qemu-io %s "break %s bp_%s"' % (drive,=
+ event, drive))
++        self.hmp('qemu-io %s "break %s bp_%s"' % (drive, event, drive))
 =20
- SIZE =3D 64 * 1024 * 1024
- GRANULARITY =3D 64 * 1024
+     def resume_drive(self, drive):
+-        self.qmp('human-monitor-command',
+-                    command_line=3D'qemu-io %s "remove_break bp_%s"' % (dr=
+ive, drive))
++        self.hmp('qemu-io %s "remove_break bp_%s"' % (drive, drive))
 =20
+-    def hmp_qemu_io(self, drive, cmd):
++    def hmp_qemu_io(self, drive, cmd, log=3DFalse):
+         '''Write to a given drive using an HMP command'''
+-        return self.qmp('human-monitor-command',
+-                        command_line=3D'qemu-io %s "%s"' % (drive, cmd))
++        return self.hmp('qemu-io %s "%s"' % (drive, cmd), log=3Dlog)
 =20
--class Pattern:
--    def __init__(self, byte, offset, size=3DGRANULARITY):
--        self.byte =3D byte
--        self.offset =3D offset
--        self.size =3D size
--
--    def bits(self, granularity):
--        lower =3D self.offset // granularity
--        upper =3D (self.offset + self.size - 1) // granularity
--        return set(range(lower, upper + 1))
--
--
--class PatternGroup:
--    """Grouping of Pattern objects. Initialize with an iterable of Pattern=
-s."""
--    def __init__(self, patterns):
--        self.patterns =3D patterns
--
--    def bits(self, granularity):
--        """Calculate the unique bits dirtied by this pattern grouping"""
--        res =3D set()
--        for pattern in self.patterns:
--            res |=3D pattern.bits(granularity)
--        return res
--
--
--GROUPS =3D [
--    PatternGroup([
--        # Batch 0: 4 clusters
--        Pattern('0x49', 0x0000000),
--        Pattern('0x6c', 0x0100000),   # 1M
--        Pattern('0x6f', 0x2000000),   # 32M
--        Pattern('0x76', 0x3ff0000)]), # 64M - 64K
--    PatternGroup([
--        # Batch 1: 6 clusters (3 new)
--        Pattern('0x65', 0x0000000),   # Full overwrite
--        Pattern('0x77', 0x00f8000),   # Partial-left (1M-32K)
--        Pattern('0x72', 0x2008000),   # Partial-right (32M+32K)
--        Pattern('0x69', 0x3fe0000)]), # Adjacent-left (64M - 128K)
--    PatternGroup([
--        # Batch 2: 7 clusters (3 new)
--        Pattern('0x74', 0x0010000),   # Adjacent-right
--        Pattern('0x69', 0x00e8000),   # Partial-left  (1M-96K)
--        Pattern('0x6e', 0x2018000),   # Partial-right (32M+96K)
--        Pattern('0x67', 0x3fe0000,
--                2*GRANULARITY)]),     # Overwrite [(64M-128K)-64M)
--    PatternGroup([
--        # Batch 3: 8 clusters (5 new)
--        # Carefully chosen such that nothing re-dirties the one cluster
--        # that copies out successfully before failure in Group #1.
--        Pattern('0xaa', 0x0010000,
--                3*GRANULARITY),       # Overwrite and 2x Adjacent-right
--        Pattern('0xbb', 0x00d8000),   # Partial-left (1M-160K)
--        Pattern('0xcc', 0x2028000),   # Partial-right (32M+160K)
--        Pattern('0xdd', 0x3fc0000)]), # New; leaving a gap to the right
--]
--
--
--class EmulatedBitmap:
--    def __init__(self, granularity=3DGRANULARITY):
--        self._bits =3D set()
--        self.granularity =3D granularity
--
--    def dirty_bits(self, bits):
--        self._bits |=3D set(bits)
--
--    def dirty_group(self, n):
--        self.dirty_bits(GROUPS[n].bits(self.granularity))
--
--    def clear(self):
--        self._bits =3D set()
--
--    def clear_bits(self, bits):
--        self._bits -=3D set(bits)
--
--    def clear_bit(self, bit):
--        self.clear_bits({bit})
--
--    def clear_group(self, n):
--        self.clear_bits(GROUPS[n].bits(self.granularity))
--
--    @property
--    def first_bit(self):
--        return sorted(self.bits)[0]
--
--    @property
--    def bits(self):
--        return self._bits
--
--    @property
--    def count(self):
--        return len(self.bits)
--
--    def compare(self, qmp_bitmap):
--        """
--        Print a nice human-readable message checking that a bitmap as repo=
-rted
--        by the QMP interface has as many bits set as we expect it to.
--        """
--
--        name =3D qmp_bitmap.get('name', '(anonymous)')
--        log("=3D Checking Bitmap {:s} =3D".format(name))
--
--        want =3D self.count
--        have =3D qmp_bitmap['count'] // qmp_bitmap['granularity']
--
--        log("expecting {:d} dirty sectors; have {:d}. {:s}".format(
--            want, have, "OK!" if want =3D=3D have else "ERROR!"))
--        log('')
--
--
- class Drive:
-     """Represents, vaguely, a drive attached to a VM.
-     Includes format, graph, and device information."""
-diff --git a/tests/qemu-iotests/bitmaps.py b/tests/qemu-iotests/bitmaps.py
-new file mode 100644
-index 0000000000..522fc25171
---- /dev/null
-+++ b/tests/qemu-iotests/bitmaps.py
-@@ -0,0 +1,131 @@
-+# Bitmap-related helper utilities
-+#
-+# Copyright (c) 2020 John Snow for Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+# owner=3Djsnow@redhat.com
-+
-+from iotests import log
-+
-+GRANULARITY =3D 64 * 1024
-+
-+
-+class Pattern:
-+    def __init__(self, byte, offset, size=3DGRANULARITY):
-+        self.byte =3D byte
-+        self.offset =3D offset
-+        self.size =3D size
-+
-+    def bits(self, granularity):
-+        lower =3D self.offset // granularity
-+        upper =3D (self.offset + self.size - 1) // granularity
-+        return set(range(lower, upper + 1))
-+
-+
-+class PatternGroup:
-+    """Grouping of Pattern objects. Initialize with an iterable of Pattern=
-s."""
-+    def __init__(self, patterns):
-+        self.patterns =3D patterns
-+
-+    def bits(self, granularity):
-+        """Calculate the unique bits dirtied by this pattern grouping"""
-+        res =3D set()
-+        for pattern in self.patterns:
-+            res |=3D pattern.bits(granularity)
-+        return res
-+
-+
-+GROUPS =3D [
-+    PatternGroup([
-+        # Batch 0: 4 clusters
-+        Pattern('0x49', 0x0000000),
-+        Pattern('0x6c', 0x0100000),   # 1M
-+        Pattern('0x6f', 0x2000000),   # 32M
-+        Pattern('0x76', 0x3ff0000)]), # 64M - 64K
-+    PatternGroup([
-+        # Batch 1: 6 clusters (3 new)
-+        Pattern('0x65', 0x0000000),   # Full overwrite
-+        Pattern('0x77', 0x00f8000),   # Partial-left (1M-32K)
-+        Pattern('0x72', 0x2008000),   # Partial-right (32M+32K)
-+        Pattern('0x69', 0x3fe0000)]), # Adjacent-left (64M - 128K)
-+    PatternGroup([
-+        # Batch 2: 7 clusters (3 new)
-+        Pattern('0x74', 0x0010000),   # Adjacent-right
-+        Pattern('0x69', 0x00e8000),   # Partial-left  (1M-96K)
-+        Pattern('0x6e', 0x2018000),   # Partial-right (32M+96K)
-+        Pattern('0x67', 0x3fe0000,
-+                2*GRANULARITY)]),     # Overwrite [(64M-128K)-64M)
-+    PatternGroup([
-+        # Batch 3: 8 clusters (5 new)
-+        # Carefully chosen such that nothing re-dirties the one cluster
-+        # that copies out successfully before failure in Group #1.
-+        Pattern('0xaa', 0x0010000,
-+                3*GRANULARITY),       # Overwrite and 2x Adjacent-right
-+        Pattern('0xbb', 0x00d8000),   # Partial-left (1M-160K)
-+        Pattern('0xcc', 0x2028000),   # Partial-right (32M+160K)
-+        Pattern('0xdd', 0x3fc0000)]), # New; leaving a gap to the right
-+]
-+
-+
-+class EmulatedBitmap:
-+    def __init__(self, granularity=3DGRANULARITY):
-+        self._bits =3D set()
-+        self.granularity =3D granularity
-+
-+    def dirty_bits(self, bits):
-+        self._bits |=3D set(bits)
-+
-+    def dirty_group(self, n):
-+        self.dirty_bits(GROUPS[n].bits(self.granularity))
-+
-+    def clear(self):
-+        self._bits =3D set()
-+
-+    def clear_bits(self, bits):
-+        self._bits -=3D set(bits)
-+
-+    def clear_bit(self, bit):
-+        self.clear_bits({bit})
-+
-+    def clear_group(self, n):
-+        self.clear_bits(GROUPS[n].bits(self.granularity))
-+
-+    @property
-+    def first_bit(self):
-+        return sorted(self.bits)[0]
-+
-+    @property
-+    def bits(self):
-+        return self._bits
-+
-+    @property
-+    def count(self):
-+        return len(self.bits)
-+
-+    def compare(self, qmp_bitmap):
-+        """
-+        Print a nice human-readable message checking that a bitmap as repo=
-rted
-+        by the QMP interface has as many bits set as we expect it to.
-+        """
-+
-+        name =3D qmp_bitmap.get('name', '(anonymous)')
-+        log("=3D Checking Bitmap {:s} =3D".format(name))
-+
-+        want =3D self.count
-+        have =3D qmp_bitmap['count'] // qmp_bitmap['granularity']
-+
-+        log("expecting {:d} dirty sectors; have {:d}. {:s}".format(
-+            want, have, "OK!" if want =3D=3D have else "ERROR!"))
-+        log('')
+     def flatten_qmp_object(self, obj, output=3DNone, basestr=3D''):
+         if output is None:
 --=20
 2.21.1
 
