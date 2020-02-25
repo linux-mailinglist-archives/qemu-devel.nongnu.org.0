@@ -2,83 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA33A16EC1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 18:07:15 +0100 (CET)
-Received: from localhost ([::1]:60758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CC116EC20
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 18:08:58 +0100 (CET)
+Received: from localhost ([::1]:60790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6dfu-0006Um-OH
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 12:07:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45131)
+	id 1j6dhZ-00089P-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 12:08:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j6daH-0000RD-5e
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:01:26 -0500
+ (envelope-from <groug@kaod.org>) id 1j6dei-0005TB-Vh
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:06:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j6daG-0004Wp-3t
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:01:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43502
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <groug@kaod.org>) id 1j6def-0006j4-4G
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:06:00 -0500
+Received: from 5.mo173.mail-out.ovh.net ([46.105.40.148]:49764)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j6daF-0004Wf-VF
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:01:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582650083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W+V9EAKGQNYz6krmgcIbT+mmpIxAE1UKd9LX7WpYoYQ=;
- b=C0DSc8F2kVJeollxP0GsTkPSDSAmNoodkd/Pvw3PFimOgF4/aiEuymkHJHJ0znqMIhIrED
- a40WcqPC2oTj+1pz1bo1iUXGE2s5j5sMSD8EvCAt4CqoB907aVxYnGl+GUcXQkXxMUDuYd
- ZJ1rbmSi0s2kkcGJCu284G+ZCWwjLSg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-kFd45B0mMH6p7dFEoPHIcQ-1; Tue, 25 Feb 2020 12:01:19 -0500
-X-MC-Unique: kFd45B0mMH6p7dFEoPHIcQ-1
-Received: by mail-wm1-f69.google.com with SMTP id f66so22021wmf.9
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 09:01:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=W+V9EAKGQNYz6krmgcIbT+mmpIxAE1UKd9LX7WpYoYQ=;
- b=BvKVdQ58+4ZxiEUbq5lU7mz3bB5lLUmB2YZAMx019+EZszYSw9p5eiMEReEKdnydSA
- OjsTcuUfgW++itQmVfJa+mmnKSuC0tyftHbx47UXpms8LKI8gEJNYJnBFA1am01ZTOKT
- LJA8lSecINDDaKBPMIB59AHKonNml4h1AMELU4qA1ZbQGqhkla7ewFZliIcG4+fRUdeW
- +XpfBuaQx5utTZsjvZCTzoxVot8EV9YA9sxEtWWiYJ3Ll6W3oXBhgpxIOM1niqG/D2dL
- JQMIzpRbTb0Zy+a5BI6q63Wn4iJZVfN1m6rqZa/Uapkc6TlANlswYwaFG/y44pYoS8y6
- ml6w==
-X-Gm-Message-State: APjAAAVuEyxbbNimwcC+SDmD7qWfbxM8zzxZVg4+2GDEcw/4fMomJIh0
- MbIFS2zpgzSbTNt63m6b5mqqCOsKoiDcI0s3fKijv9n5QZwdFVMN3kNqMVcN0DndMLiKLdDmPK0
- lL6Fs+ZCu1wgYyl8=
-X-Received: by 2002:adf:e949:: with SMTP id m9mr118361wrn.342.1582650078401;
- Tue, 25 Feb 2020 09:01:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxV33VibyDtjydYzaMNS3kOga/lt3g5pRyBWmbKawKU7eUHLZJ7S5CJgQiuHQI43Vatpzonyw==
-X-Received: by 2002:adf:e949:: with SMTP id m9mr118334wrn.342.1582650078151;
- Tue, 25 Feb 2020 09:01:18 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:3577:1cfe:d98a:5fb6?
- ([2001:b07:6468:f312:3577:1cfe:d98a:5fb6])
- by smtp.gmail.com with ESMTPSA id s1sm24396824wro.66.2020.02.25.09.01.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2020 09:01:17 -0800 (PST)
-Subject: Re: [PATCH 0/4] docs: Miscellaneous rST conversions
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20200225154121.21116-1-peter.maydell@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5a6757cb-fda2-ba3f-6c24-f09829faf4ab@redhat.com>
-Date: Tue, 25 Feb 2020 18:01:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j6dee-0006i4-UX
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 12:05:57 -0500
+Received: from player696.ha.ovh.net (unknown [10.110.208.220])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 5DB1C130C21
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 18:05:54 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player696.ha.ovh.net (Postfix) with ESMTPSA id 69D75FCED3A6;
+ Tue, 25 Feb 2020 17:05:36 +0000 (UTC)
+Date: Tue, 25 Feb 2020 18:05:31 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v6 09/18] target/ppc: Streamline calculation of RMA
+ limit from LPCR[RMLS]
+Message-ID: <20200225180531.6551ce59@bahia.home>
+In-Reply-To: <20200224233724.46415-10-david@gibson.dropbear.id.au>
+References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
+ <20200224233724.46415-10-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200225154121.21116-1-peter.maydell@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 6048897252239383014
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrledvgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucffohhmrghinhepghhnuhdrohhrghenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieeliedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 46.105.40.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,41 +57,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru, farosas@linux.ibm.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org, clg@kaod.org,
+ Paolo Bonzini <pbonzini@redhat.com>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/02/20 16:41, Peter Maydell wrote:
-> This patchset converts some texi files used in qemu-doc.texi to rST:
-> 
->  * docs/security.texi
->  * qemu-tech.texi
->  * qemu-deprecated.texi
-> 
-> which all end up as sections of the "system" manual.
-> 
-> In all cases, these pieces of the documentation are part of
-> the qemu-doc HTML file, but not included in the qemu.1 manpage,
-> so they are just a straightforward format conversion.
-> 
-> security and deprecated are pure conversions with only
-> changes to the formatting, not to the contents.
-> 
-> For qemu-tech.texi, a large part of it was an extremely out of
-> date and partial attempt to document the limitations of our
-> CPU emulation. Apart from a change to the Xtensa section in
-> 2012, no part of the actual text seems to have been updated
-> since 2008. I judged it better to simply dump this rather
-> than carry it over. Creating an actually accurate section
-> about the limitations of the various guest architectures
-> is probably easier done from scratch if we want it and are
-> prepared to actually keep it up to date this time...
+On Tue, 25 Feb 2020 10:37:15 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-I assume these are not meant to be applied now, except patch 2?
-For what it's worth, security.texi can be converted just fine with:
+> Currently we use a big switch statement in ppc_hash64_update_rmls() to wo=
+rk
+> out what the right RMA limit is based on the LPCR[RMLS] field.  There's no
+> formula for this - it's just an arbitrary mapping defined by the existing
+> CPU implementations - but we can make it a bit more readable by using a
+> lookup table rather than a switch.  In addition we can use the MiB/GiB
+> symbols to make it a bit clearer.
+>=20
+> While there we add a bit of clarity and rationale to the comment about
+> what happens if the LPCR[RMLS] doesn't contain a valid value.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  target/ppc/mmu-hash64.c | 71 ++++++++++++++++++++---------------------
+>  1 file changed, 35 insertions(+), 36 deletions(-)
+>=20
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 0ef330a614..4f082d775d 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -18,6 +18,7 @@
+>   * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+>   */
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+>  #include "exec/helper-proto.h"This tool was originally developed to fix =
+Linux CPU throttling issues affecting Lenovo T480 / T480s / X1C6 as describ=
+ed here.
+> @@ -757,6 +758,39 @@ static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr=
+ ptex, uint64_t pte1)
+>      stb_phys(CPU(cpu)->as, base + offset, (pte1 & 0xff) | 0x80);
+>  }
+> =20
+> +static target_ulong rmls_limit(PowerPCCPU *cpu)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    /*
+> +     * This is the full 4 bits encoding of POWER8. Previous
+> +     * CPUs only support a subset of these but the filtering
+> +     * is done when writing LPCR
+> +     */
+> +    const target_ulong rma_sizes[] =3D {
+> +        [0] =3D 0,
+> +        [1] =3D 16 * GiB,
+> +        [2] =3D 1 * GiB,
+> +        [3] =3D 64 * MiB,
+> +        [4] =3D 256 * MiB,
+> +        [5] =3D 0,
+> +        [6] =3D 0,
+> +        [7] =3D 128 * MiB,
+> +        [8] =3D 32 * MiB,
+> +    };
+> +    target_ulong rmls =3D (env->spr[SPR_LPCR] & LPCR_RMLS) >> LPCR_RMLS_=
+SHIFT;
+> +
+> +    if (rmls < ARRAY_SIZE(rma_sizes)) {
 
-makeinfo -o - --docbook security.texi  | pandoc -f docbook -t rst
+This condition is always true since the RMLS field is 4-bit long... I guess
+you want to check that RMLS encodes a valid RMA size instead.
 
-Paolo
+    if (rma_sizes[rmls]) {
+
+> +        return rma_sizes[rmls];
+> +    } else {
+> +        /*
+> +         * Bad value, so the OS has shot itself in the foot.  Return a
+> +         * 0-sized RMA which we expect to trigger an immediate DSI or
+> +         * ISI
+> +         */
+> +        return 0;
+> +    }
+> +}
+> +
+>  int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+>                                  int rwx, int mmu_idx)
+>  {
+> @@ -1006,41 +1040,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, ta=
+rget_ulong ptex,
+>      cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
+>  }
+> =20
+> -static void ppc_hash64_update_rmls(PowerPCCPU *cpu)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    uint64_t lpcr =3D env->spr[SPR_LPCR];
+> -
+> -    /*
+> -     * This is the full 4 bits encoding of POWER8. Previous
+> -     * CPUs only support a subset of these but the filtering
+> -     * is done when writing LPCR
+> -     */
+> -    switch ((lpcr & LPCR_RMLS) >> LPCR_RMLS_SHIFT) {
+> -    case 0x8: /* 32MB */
+> -        env->rmls =3D 0x2000000ull;
+> -        break;
+> -    case 0x3: /* 64MB */
+> -        env->rmls =3D 0x4000000ull;
+> -        break;
+> -    case 0x7: /* 128MB */
+> -        env->rmls =3D 0x8000000ull;
+> -        break;
+> -    case 0x4: /* 256MB */
+> -        env->rmls =3D 0x10000000ull;
+> -        break;
+> -    case 0x2: /* 1GB */
+> -        env->rmls =3D 0x40000000ull;
+> -        break;
+> -    case 0x1: /* 16GB */
+> -        env->rmls =3D 0x400000000ull;
+> -        break;
+> -    default:
+> -        /* What to do here ??? */
+> -        env->rmls =3D 0;
+> -    }
+> -}
+> -
+>  static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+> @@ -1099,7 +1098,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong v=
+al)
+>      CPUPPCState *env =3D &cpu->env;
+> =20
+>      env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+> -    ppc_hash64_update_rmls(cpu);
+> +    env->rmls =3D rmls_limit(cpu);
+>      ppc_hash64_update_vrma(cpu);
+>  }
+> =20
 
 
