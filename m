@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3907416C281
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:38:57 +0100 (CET)
-Received: from localhost ([::1]:56122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E879516C2B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:47:42 +0100 (CET)
+Received: from localhost ([::1]:56452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aQK-0008KX-8V
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:38:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
+	id 1j6aYo-0005Bv-10
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j6aBm-0007sf-OB
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:23:56 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6aC8-000099-Dc
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:24:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j6aBk-0005FX-Rp
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:23:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60576
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6aBk-0005FG-O5
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:23:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582637032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eDwDbaBrloN0/9UIxTHB+r5PAkSFUSrWWrBgDy0DRks=;
- b=NUVSMwXQlyOLWo2u3w6yTrjT3C7UpQni0C95wjBsQsDbYhWEHy7q29RUFTyYdQPqmODYc7
- CjSKSCDNPvXMljpaN+p7aZwS+3SHNdTm9dpZlV5lWruQjFuqMb6vvbCBikUoY4kTO9YJuw
- BVqmk3cTc0UmgM9W4tDHk3TbWp3zqPE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-CYrY3AgSPbeUcNsH9vOCFw-1; Tue, 25 Feb 2020 08:23:48 -0500
-X-MC-Unique: CYrY3AgSPbeUcNsH9vOCFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B86E2101FC6E;
- Tue, 25 Feb 2020 13:23:45 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3227B5C1D6;
- Tue, 25 Feb 2020 13:23:38 +0000 (UTC)
-Date: Tue, 25 Feb 2020 14:23:36 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Dongjiu Geng <gengdongjiu@huawei.com>
-Subject: Re: [PATCH v24 05/10] ACPI: Build Hardware Error Source Table
-Message-ID: <20200225142336.16b7fc40@redhat.com>
-In-Reply-To: <20200217131248.28273-6-gengdongjiu@huawei.com>
-References: <20200217131248.28273-1-gengdongjiu@huawei.com>
- <20200217131248.28273-6-gengdongjiu@huawei.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j6aC7-0005Kj-77
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:24:16 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43746)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6aC7-0005KD-1J
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:24:15 -0500
+Received: by mail-ot1-x342.google.com with SMTP id p8so11986966oth.10
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:24:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ot8NRkQt35gxhegDfjY2Ls4qHNEIri5ew5LERrF3RU0=;
+ b=UB3Qr7DwCstya4xBCGfwY6Y+XPOK7S1am82iGO/rXQEnq3e+zViMENgIrQFnps6ITW
+ NlY8LJW1QvfKjq7liQbzFdX/lXKIVB3H4qv7/sp5AvqwV6mI/vJbMhTEK8s0eRhneYE2
+ 2uYfZqh7FvLPrRtMWD//IBcRnMjNWrsaMcFxldhhms8PHyrtnFPlyL4OtbGJ0yZ5JrSV
+ vypUZC4HFAt3BPPaaeT8dXzx6ZGNQrOcKKb0kn7/Nnjaykgx4q/8S4wU45uzasL2YrPj
+ yjPrYPx/W+tRvcz2YU0N2ZKgY6pygi1x66GlLFyedKmHr0qEzfbodEXXrnsrBmuYG0T6
+ aMgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ot8NRkQt35gxhegDfjY2Ls4qHNEIri5ew5LERrF3RU0=;
+ b=SfE7I8xvilbgRSMa+YmKEDpQVu0jL/zDI+fXsAYQbN1A3af4WTkPu2KxVnZmsyciRy
+ 7qOKNghAyTk1Z5yjJvIuxKO0PUtyZQ57Jsl5wXXEMAXlZo5fNYb8pQG0NKBJePQHcR/y
+ kJbLUDy7dpNNYTh8HuuW5+vcmu95Gr2yAMBRaiUWDwQeiGOm2CJ945Zf/c8EShXVRMtm
+ pBs2QwnbX6JYawX+p33OpypAUkvNO5yNn9IrSzbz8RwTI/AYnG4tKMQ/pE8wKs0IgtOR
+ 5ITxoBHiL6WE9c+jYRVg9gKtx6XHa1rbtggzilarGJv+QQbfZK5Xb85sdncWo3S4cRJy
+ mJsg==
+X-Gm-Message-State: APjAAAU3BPxDp5IyK0wyG5VT0l0hpl6iR9p/h8j70dYvfYm2zEEwvExj
+ gCGT/NoM+D2uLH0pVHov3elML4mPRCnM2krwW5vG8A==
+X-Google-Smtp-Source: APXvYqyPn562kWFQQjg1uqGwr/sGxJv2QwcY/BMvOvCpN8eIzRr6hpLv1v15/aIdkp37eF5BgUVgpyRGa+o+yIukLtw=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr45019832ota.232.1582637052673; 
+ Tue, 25 Feb 2020 05:24:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200224222232.13807-1-richard.henderson@linaro.org>
+ <20200224222232.13807-6-richard.henderson@linaro.org>
+In-Reply-To: <20200224222232.13807-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Feb 2020 13:24:01 +0000
+Message-ID: <CAFEAcA9WZbZj_hPemTGr+Rkh--VmZt1eis189+ExuPVNipgo_A@mail.gmail.com>
+Subject: Re: [PATCH v2 05/17] target/arm: Improve ID_AA64PFR0 FP/SIMD
+ validation
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,254 +74,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com,
- kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
- shameerali.kolothum.thodi@huawei.com, jonathan.cameron@huawei.com,
- pbonzini@redhat.com, lersek@redhat.com, rth@twiddle.net
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Feb 2020 21:12:43 +0800
-Dongjiu Geng <gengdongjiu@huawei.com> wrote:
-
-> This patch builds Hardware Error Source Table(HEST) via fw_cfg blobs.
-> Now it only supports ARMv8 SEA, a type of Generic Hardware Error
-> Source version 2(GHESv2) error source. Afterwards, we can extend
-> the supported types if needed. For the CPER section, currently it
-> is memory section because kernel mainly wants userspace to handle
-> the memory errors.
-> 
-> This patch follows the spec ACPI 6.2 to build the Hardware Error
-> Source table. For more detailed information, please refer to
-> document: docs/specs/acpi_hest_ghes.rst
-> 
-> build_ghes_hw_error_notification() helper will help to add Hardware
-> Error Notification to ACPI tables without using packed C structures
-> and avoid endianness issues as API doesn't need explicit conversion.
-> 
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
+On Mon, 24 Feb 2020 at 22:22, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> When sanity checking id_aa64pfr0, use the raw FP and SIMD fields,
+> because the values must match.  Delay the test until we've finished
+> modifying the id_aa64pfr0 register.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/acpi/ghes.c           | 126 +++++++++++++++++++++++++++++++++++++++++++++++
->  hw/arm/virt-acpi-build.c |   1 +
->  include/hw/acpi/ghes.h   |  39 +++++++++++++++
->  3 files changed, 166 insertions(+)
-> 
-> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-> index e1b3f8f..7a7381d 100644
-> --- a/hw/acpi/ghes.c
-> +++ b/hw/acpi/ghes.c
-> @@ -23,6 +23,7 @@
->  #include "qemu/units.h"
->  #include "hw/acpi/ghes.h"
->  #include "hw/acpi/aml-build.h"
-> +#include "qemu/error-report.h"
->  
->  #define ACPI_GHES_ERRORS_FW_CFG_FILE        "etc/hardware_errors"
->  #define ACPI_GHES_DATA_ADDR_FW_CFG_FILE     "etc/hardware_errors_addr"
-> @@ -33,6 +34,42 @@
->  /* Now only support ARMv8 SEA notification type error source */
->  #define ACPI_GHES_ERROR_SOURCE_COUNT        1
->  
-> +/* Generic Hardware Error Source version 2 */
-> +#define ACPI_GHES_SOURCE_GENERIC_ERROR_V2   10
-> +
-> +/* Address offset in Generic Address Structure(GAS) */
-> +#define GAS_ADDR_OFFSET 4
-> +
-> +/*
-> + * Hardware Error Notification
-> + * ACPI 4.0: 17.3.2.7 Hardware Error Notification
-> + * Composes dummy Hardware Error Notification descriptor of specified type
-> + */
-> +static void build_ghes_hw_error_notification(GArray *table, const uint8_t type)
-> +{
-> +    /* Type */
-> +    build_append_int_noprefix(table, type, 1);
-> +    /*
-> +     * Length:
-> +     * Total length of the structure in bytes
-> +     */
-> +    build_append_int_noprefix(table, 28, 1);
-> +    /* Configuration Write Enable */
-> +    build_append_int_noprefix(table, 0, 2);
-> +    /* Poll Interval */
-> +    build_append_int_noprefix(table, 0, 4);
-> +    /* Vector */
-> +    build_append_int_noprefix(table, 0, 4);
-> +    /* Switch To Polling Threshold Value */
-> +    build_append_int_noprefix(table, 0, 4);
-> +    /* Switch To Polling Threshold Window */
-> +    build_append_int_noprefix(table, 0, 4);
-> +    /* Error Threshold Value */
-> +    build_append_int_noprefix(table, 0, 4);
-> +    /* Error Threshold Window */
-> +    build_append_int_noprefix(table, 0, 4);
-> +}
-> +
->  /*
->   * Build table for the hardware error fw_cfg blob.
->   * Initialize "etc/hardware_errors" and "etc/hardware_errors_addr" fw_cfg blobs.
-> @@ -87,3 +124,92 @@ void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker)
->      bios_linker_loader_write_pointer(linker, ACPI_GHES_DATA_ADDR_FW_CFG_FILE,
->          0, sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE, 0);
->  }
-> +
-> +/* Build Generic Hardware Error Source version 2 (GHESv2) */
-> +static void build_ghes_v2(GArray *table_data, int source_id, BIOSLinker *linker)
-> +{
-> +    uint64_t address_offset;
-> +    /*
-> +     * Type:
-> +     * Generic Hardware Error Source version 2(GHESv2 - Type 10)
-> +     */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_SOURCE_GENERIC_ERROR_V2, 2);
-> +    /* Source Id */
-> +    build_append_int_noprefix(table_data, source_id, 2);
-> +    /* Related Source Id */
-> +    build_append_int_noprefix(table_data, 0xffff, 2);
-> +    /* Flags */
-> +    build_append_int_noprefix(table_data, 0, 1);
-> +    /* Enabled */
-> +    build_append_int_noprefix(table_data, 1, 1);
-> +
-> +    /* Number of Records To Pre-allocate */
-> +    build_append_int_noprefix(table_data, 1, 4);
-> +    /* Max Sections Per Record */
-> +    build_append_int_noprefix(table_data, 1, 4);
-> +    /* Max Raw Data Length */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
-> +
-> +    address_offset = table_data->len;
-> +    /* Error Status Address */
-> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
-> +                     4 /* QWord access */, 0);
-> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> +        address_offset + GAS_ADDR_OFFSET, sizeof(uint64_t),
-> +        ACPI_GHES_ERRORS_FW_CFG_FILE, source_id * sizeof(uint64_t));
-> +
-> +    switch (source_id) {
-> +    case ACPI_HEST_SRC_ID_SEA:
+>  target/arm/cpu.c | 23 ++++++++++++-----------
+>  1 file changed, 12 insertions(+), 11 deletions(-)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 5be4c25809..f10f34b655 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1427,17 +1427,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
+> -        cpu->has_vfp != cpu->has_neon) {
+> -        /*
+> -         * This is an architectural requirement for AArch64; AArch32 is
+> -         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
+> -         */
+> -        error_setg(errp,
+> -                   "AArch64 CPUs must have both VFP and Neon or neither");
+> -        return;
+> -    }
+> -
+>      if (!cpu->has_vfp) {
+>          uint64_t t;
+>          uint32_t u;
+> @@ -1537,6 +1526,18 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          cpu->isar.mvfr0 = u;
+>      }
+>
+> +    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
+> +        FIELD_EX64(cpu->isar.id_aa64pfr0, ID_AA64PFR0, FP) !=
+> +        FIELD_EX64(cpu->isar.id_aa64pfr0, ID_AA64PFR0, ADVSIMD)) {
 > +        /*
-> +         * Notification Structure
-> +         * Now only enable ARMv8 SEA notification type
+> +         * This is an architectural requirement for AArch64.  Not only
+> +         * both vfp and advsimd or neither, but further both must
+> +         * support fp16 or neither.
 > +         */
-> +        build_ghes_hw_error_notification(table_data, ACPI_GHES_NOTIFY_SEA);
-> +        break;
-> +    default:
-> +        error_report("Not support this error source");
-> +        abort();
+> +        error_setg(errp, "AArch64 CPUs must match VFP and NEON");
+> +        return;
 > +    }
 > +
-> +    /* Error Status Block Length */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
-> +
-> +    /*
-> +     * Read Ack Register
-> +     * ACPI 6.1: 18.3.2.8 Generic Hardware Error Source
-> +     * version 2 (GHESv2 - Type 10)
-> +     */
-> +    address_offset = table_data->len;
-> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
-> +                     4 /* QWord access */, 0);
-> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> +        address_offset + GAS_ADDR_OFFSET,
-> +        sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE,
-> +        (ACPI_GHES_ERROR_SOURCE_COUNT + source_id) * sizeof(uint64_t));
-> +
-> +    /*
-> +     * Read Ack Preserve field
-> +     * We only provide the first bit in Read Ack Register to OSPM to write
-> +     * while the other bits are preserved.
-> +     */
-> +    build_append_int_noprefix(table_data, ~0x1ULL, 8);
-> +    /* Read Ack Write */
-> +    build_append_int_noprefix(table_data, 0x1, 8);
-> +}
-> +
-> +/* Build Hardware Error Source Table */
-> +void acpi_build_hest(GArray *table_data, BIOSLinker *linker)
-> +{
-> +    uint64_t hest_start = table_data->len;
-> +
-> +    /* Hardware Error Source Table header*/
-> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> +
-> +    /* Error Source Count */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_ERROR_SOURCE_COUNT, 4);
-> +
-> +    build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
-> +
-> +    build_header(linker, table_data, (void *)(table_data->data + hest_start),
-> +        "HEST", table_data->len - hest_start, 1, NULL, "");
-                                                          ^^^
-is there any particular reason to make it empty instead of putting NULL there
-so that QEMU would use default value?
+>      if (arm_feature(env, ARM_FEATURE_M) && !cpu->has_dsp) {
+>          uint32_t u;
 
-> +}
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 6819fcf..12a9a78 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -834,6 +834,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      if (vms->ras) {
->          acpi_add_table(table_offsets, tables_blob);
->          build_ghes_error_table(tables->hardware_errors, tables->linker);
-> +        acpi_build_hest(tables_blob, tables->linker);
->      }
->  
->      if (ms->numa_state->num_nodes > 0) {
-> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
-> index 50379b0..18debd8 100644
-> --- a/include/hw/acpi/ghes.h
-> +++ b/include/hw/acpi/ghes.h
-> @@ -24,5 +24,44 @@
->  
->  #include "hw/acpi/bios-linker-loader.h"
->  
-> +/*
-> + * Values for Hardware Error Notification Type field
-> + */
-> +enum AcpiGhesNotifyType {
-> +    /* Polled */
-> +    ACPI_GHES_NOTIFY_POLLED = 0,
-> +    /* External Interrupt */
-> +    ACPI_GHES_NOTIFY_EXTERNAL = 1,
-> +    /* Local Interrupt */
-> +    ACPI_GHES_NOTIFY_LOCAL = 2,
-> +    /* SCI */
-> +    ACPI_GHES_NOTIFY_SCI = 3,
-> +    /* NMI */
-> +    ACPI_GHES_NOTIFY_NMI = 4,
-> +    /* CMCI, ACPI 5.0: 18.3.2.7, Table 18-290 */
-> +    ACPI_GHES_NOTIFY_CMCI = 5,
-> +    /* MCE, ACPI 5.0: 18.3.2.7, Table 18-290 */
-> +    ACPI_GHES_NOTIFY_MCE = 6,
-> +    /* GPIO-Signal, ACPI 6.0: 18.3.2.7, Table 18-332 */
-> +    ACPI_GHES_NOTIFY_GPIO = 7,
-> +    /* ARMv8 SEA, ACPI 6.1: 18.3.2.9, Table 18-345 */
-> +    ACPI_GHES_NOTIFY_SEA = 8,
-> +    /* ARMv8 SEI, ACPI 6.1: 18.3.2.9, Table 18-345 */
-> +    ACPI_GHES_NOTIFY_SEI = 9,
-> +    /* External Interrupt - GSIV, ACPI 6.1: 18.3.2.9, Table 18-345 */
-> +    ACPI_GHES_NOTIFY_GSIV = 10,
-> +    /* Software Delegated Exception, ACPI 6.2: 18.3.2.9, Table 18-383 */
-> +    ACPI_GHES_NOTIFY_SDEI = 11,
-> +    /* 12 and greater are reserved */
-> +    ACPI_GHES_NOTIFY_RESERVED = 12
-> +};
-> +
-> +enum {
-> +    ACPI_HEST_SRC_ID_SEA = 0,
-> +    /* future ids go here */
-> +    ACPI_HEST_SRC_ID_RESERVED,
-> +};
-> +
->  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
-> +void acpi_build_hest(GArray *table_data, BIOSLinker *linker);
->  #endif
+This check is supposed to be "did the user accidentally specify
+some incompatible settings on their '-cpu,+this,-that' option?".
+By making it check the actual ID register values, you're turning
+it into also a check on "does the implementation specify sane
+ID register values", which (a) is useful for TCG but ought to
+be an assert and (b) we shouldn't be checking for KVM in case
+the h/w is giving us dubious ID values.
 
+thanks
+-- PMM
 
