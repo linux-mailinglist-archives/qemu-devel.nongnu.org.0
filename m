@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAF416C03D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:07:21 +0100 (CET)
-Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E11016C034
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:05:05 +0100 (CET)
+Received: from localhost ([::1]:53702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Yzg-0001Ie-LB
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:07:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49388)
+	id 1j6YxT-0006BS-Ie
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:05:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkY-0000g4-Tx
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:47 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykd-0000lc-3P
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkU-0006in-Rl
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:42 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50786)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkV-0006jZ-2o
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:45 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51564)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkT-0006a2-6R
+ id 1j6YkU-0006d5-Qq
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:38 -0500
-Received: by mail-wm1-x335.google.com with SMTP id a5so2684071wmb.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:35 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id t23so2679550wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CTTFfm6kpk15IXed/dHp2uCDWcAZEmvsLW5IBEMbozs=;
- b=oxhaMgXru29GbqQujgW6IQOD3+QXW+dukIhrymvHCNd2OTXf0ouyMKHHkEiCN7xZnr
- tqCgMCVcO2wBJky5oj9728ctcPTKdaZalMjHeNIhbpzSb+q90JgaXrNx9ysXK4w7jQJa
- prhYKnz6CGaD63YpKefiKXk7U8HwI0G67ZcbU37TDlsjeLUXTO6c/SpEsdWqpqqFXV3j
- ab6V993z8hVHIDKQ/vL99DviNuMIxHmfOvJMFVBxJwSAw/mlW/zio/tvV11G9qelJ7E9
- /r5Ba/XVIbXInvi2mJkxdbTeqhB515j4+rA8LH5KUGCANp+dXcF2wh3lEV+f/GoPZcbN
- 8mrQ==
+ bh=RK0hIr5Ap0dSYFPrObFtlV7JGHjRjPQBlcIJTCr7OgE=;
+ b=FjxikahyKkUTxR7uyv2+9FBN2YXo4YbSQOPef2ZBIE8YGPx184h2LX1ueuq67gEOf+
+ JTKQsIiiRR28RAkBNwo1tTzNo62ObEQ9laR1sowJFkmvlrcgX/tCmJAwkGbyCpMZi0ZL
+ Rfeu3Tmo3kCEou+VIAalpOtmU4zfUuqJ/mXIK/A/rJahcKSZHNpvP/XlSG6NEjjFdkGv
+ Oyv3N2gwLW28Q7CLzP3ACN5B0sMc9UlXm0+lYC+Wej7l7y2FYljbEuElM9Hz6QaeWrni
+ pT2iOTECq4+uvM/GWzaV0UaKdnbiN+MbuTAiTzGOyHeX/nr4RBUL92giVIRPnCQBVzQK
+ KtUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CTTFfm6kpk15IXed/dHp2uCDWcAZEmvsLW5IBEMbozs=;
- b=JCyfxg/ZQm6Plzv9cUKxNsxgSlBVceL8Hxha0jZu+BzoxnhiW9yZBm0dD0n5fASkY1
- f/TMShf+z9euWI/fQlq/s8Z3cyrCSWtku6YqpAXgvLTqGo2CNkvZfDHeVWxzvmUbv+KQ
- Dc0OPZvJGMMsCE+K4afxfLrp1nL6JuM1Z9VH2dP09OBEFE9SL4ps3VeSTpHJbOZF1MpX
- ZE/kxVbW8XmQ7RYxwQuJwe78wy5bOfGysTAKk0dMSXb7dr2tKYY5WTXiUvi0EylNtLdF
- KJD539c8QXpzdLceRADpaFX3mIQu5dGk8A+Cf3Wuxs6cSSKF6Ypwzk77TG3HkAjeG0wP
- k5NA==
-X-Gm-Message-State: APjAAAXxmTpsUFUix8W6ShJktgNIGqy0KMRlX5p5La5RzdmAnmCcuHUT
- rDoTx/jaDSzuTSREUv2TAnHKsOrx
-X-Google-Smtp-Source: APXvYqx6Y9SAX1IS36+IDs2VWoWi/BxEY2JDYLrzRdKtmhntqswZyTyw/e/rAtoxg18BVM3Mwuzzug==
-X-Received: by 2002:a05:600c:224a:: with SMTP id
- a10mr4955762wmm.143.1582631494113; 
+ bh=RK0hIr5Ap0dSYFPrObFtlV7JGHjRjPQBlcIJTCr7OgE=;
+ b=YPEW5XfzCbfobF0s+m6P3yjmqN22yRp8Qjn+GEwfPT3xv6VOu6QFGjtxUGksJrvpJ1
+ mRJuiaJdByxtwtFtQGh4d+3MqzUFmWMVTa2KMo79qR2DgXo0JnkcUyhrlbhSkBdivCux
+ bXnlCAQ67G5OsWlB2TTzYgKnJlXSl/sVWF1gApCjOTioz7+75lZB60gzBi25h2AsmHf6
+ +ZgjLUcK/jj2T6j4tkMj3GPd1gjbTW48lYwJKxYG1x/5juoVpU0uUDgzYs/bPz7YQsWe
+ zAfQEKgvYDbGlW6r+NbETDEKeavHjlNkOiZwZXgkrZHLoLgAQJ8xNE5/XRA8mf3ndeZs
+ +xvQ==
+X-Gm-Message-State: APjAAAU78puXZbdVz7KhOJG6VZCVrGXq9JLlM8TkWXz0PKnND+WKmhs6
+ /D9OM+AWwt5Qpgfe4w5slXlZjWVS
+X-Google-Smtp-Source: APXvYqxn4bW2KHPiVjmjQGAnhReUZaS1VtU38u9pHquP4+8OkSLd0IvQdRMNqO2iRJ60lbamxFX1Lw==
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr4830065wmi.14.1582631494894;
  Tue, 25 Feb 2020 03:51:34 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.33
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:33 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:34 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 029/136] arm/raspi: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:19 +0100
-Message-Id: <1582631466-13880-29-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 030/136] arm/sbsa-ref: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:20 +0100
+Message-Id: <1582631466-13880-30-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,58 +88,50 @@ memory_region_allocate_system_memory() API is going away, so
 replace it with memdev allocated MemoryRegion. The later is
 initialized by generic code, so board only needs to opt in
 to memdev scheme by providing
-    MachineClass::default_ram_id
+  MachineClass::default_ram_id
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-30-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-31-imammedo@redhat.com>
 ---
- hw/arm/raspi.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/arm/sbsa-ref.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 90ad9b8..acd2bb7 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -39,7 +39,6 @@ typedef struct RaspiMachineState {
-     MachineState parent_obj;
-     /*< public >*/
-     BCM283XState soc;
--    MemoryRegion ram;
- } RaspiMachineState;
- 
- typedef struct RaspiMachineClass {
-@@ -277,16 +276,14 @@ static void raspi_machine_init(MachineState *machine)
-         exit(1);
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 9b5bcb5..1cba9fc 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -593,7 +593,6 @@ static void sbsa_ref_init(MachineState *machine)
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     MemoryRegion *sysmem = get_system_memory();
+     MemoryRegion *secure_sysmem = g_new(MemoryRegion, 1);
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     bool firmware_loaded;
+     const CPUArchIdList *possible_cpus;
+     int n, sbsa_max_cpus;
+@@ -685,9 +684,8 @@ static void sbsa_ref_init(MachineState *machine)
+         object_unref(cpuobj);
      }
  
--    /* Allocate and map RAM */
--    memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
+-    memory_region_allocate_system_memory(ram, NULL, "sbsa-ref.ram",
 -                                         machine->ram_size);
-     /* FIXME: Remove when we have custom CPU address space support */
--    memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ram, 0);
-+    memory_region_add_subregion_overlap(get_system_memory(), 0,
-+                                        machine->ram, 0);
+-    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base, ram);
++    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base,
++                                machine->ram);
  
-     /* Setup the SOC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-                             board_soc_type(board_rev), &error_abort, NULL);
--    object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ram),
-+    object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(machine->ram),
-                                    &error_abort);
-     object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
-                             &error_abort);
-@@ -324,6 +321,7 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
+     create_fdt(sms);
+ 
+@@ -785,6 +783,7 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *data)
+     mc->block_default_type = IF_IDE;
      mc->no_cdrom = 1;
-     mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
-     mc->default_ram_size = board_ram_size(board_rev);
-+    mc->default_ram_id = "ram";
-     if (board_version(board_rev) == 2) {
-         mc->ignore_memory_transaction_failures = true;
-     }
+     mc->default_ram_size = 1 * GiB;
++    mc->default_ram_id = "sbsa-ref.ram";
+     mc->default_cpus = 4;
+     mc->possible_cpu_arch_ids = sbsa_ref_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props = sbsa_ref_cpu_index_to_props;
 -- 
 1.8.3.1
 
