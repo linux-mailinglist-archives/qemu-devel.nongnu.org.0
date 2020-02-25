@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13F316EE7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 19:58:23 +0100 (CET)
-Received: from localhost ([::1]:33884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D39416EED8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 20:16:43 +0100 (CET)
+Received: from localhost ([::1]:34074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6fPS-0005oM-N9
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 13:58:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54369)
+	id 1j6fhC-00065T-AZ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 14:16:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39953)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6fO6-00058A-AD
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 13:56:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1j6fgA-0005cC-KZ
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:15:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6fO4-0006X7-Tm
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 13:56:58 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41858)
+ (envelope-from <bounces@canonical.com>) id 1j6fg9-0000iy-2M
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:15:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44544)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6fO4-0006Vg-Nt
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 13:56:56 -0500
-Received: by mail-ot1-x343.google.com with SMTP id r27so506044otc.8
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 10:56:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U1d4tFTmLO6n/q7x9hbFt+N0XA3a2/2/bSfmUKjkDrI=;
- b=kudObjUyiLmiR+V3WayThJY2M48OT3TS/dE2An7X6iSuv1GV6aLG+6F2Dz7j9Cz4gs
- ekHN9OK6fX4QU1DwJ1rrkuxCKmiF7ISMASRFFnnaDjIjzi1Ul+Skrxx7kX3jvUAdrrO0
- dbyTygPe9tc04xhplKiM9KqXq63raz1t5Td7dnvGem2ZDggyGLTg3A1LuKV8EKK3nH8/
- RlAIwDy7DrWYQL17cLpizzDyhKkVFWsfaKoMgFF2X+aEeurVM8oOqVZJmS3jCWpk9YtX
- WKTgpScZSC4HjqFmWMiUO39+KU2PNmpdOCSEB23+vZWj0sHfWXy9nmFldoIx4VkPU4Gq
- +GaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U1d4tFTmLO6n/q7x9hbFt+N0XA3a2/2/bSfmUKjkDrI=;
- b=jEnbvYIwQDRhhcWpos7FExCzuWr5jNJQ4oh+M7VLk37wTTyB2mfbcwq+eNxj3xNtST
- 6MEtL9HLbktnY4dBW6EcA1jed4dE4wGLNUFyqJYHo2bF1GxZ6PAmUgl7eTD1kIYlpwxa
- OmjkMaO0byTi/8CT1NpHJIluNPCdc8cFC8y7iv5P+sMT3dbI5Hh+FdVhl/EsJ+evk/6F
- V8il4AxDwufVxWGkkNjUdf0iymvgQ3iyZnwKj1klh3lQEPSaVnjsyxlrd93TQM08W0R4
- XS2czEWEJz7unhFJJ0ATD64k3Xoi607pe2QPMVElABJO9w66zh1oyfscEcYgJhHXEUcy
- F5fQ==
-X-Gm-Message-State: APjAAAXCopVn/UmOQ1Yp+/jFhHsNaXH21zZ+U+S3RIwtiz8+ZlJZkEkK
- OpNH/+d6lXFMB5riS4meaAZ3HfAcAQASRlHh/z/AyQ==
-X-Google-Smtp-Source: APXvYqzi/C7FkdrGzFgxEbkn7NGskIDBBDJVqL9TOPo/8qkcE/QO1I2Ri6/Q+KsJGMZJd/MuybBTkvo6L6VD0EMQ3NA=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr18506otq.97.1582657015757; 
- Tue, 25 Feb 2020 10:56:55 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j6fg8-0000g2-Rv
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 14:15:37 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j6fg7-0002wL-6T
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 19:15:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2A4E22E80C3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 19:15:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200225154121.21116-1-peter.maydell@linaro.org>
- <5a6757cb-fda2-ba3f-6c24-f09829faf4ab@redhat.com>
- <CAFEAcA-C0o_u8VABdRky7GUCvyiWhkn74cT1UYAtEAAFjGBLAA@mail.gmail.com>
- <6ed08bea-4fcb-08dc-417c-a0f534173a31@redhat.com>
- <CAFEAcA9KmsHS4fnYWvpMMa5SLLUBjiPcOsfmGOHcWopd11M3+g@mail.gmail.com>
- <9f64719b-184c-cd61-1260-f13428ea7369@redhat.com>
-In-Reply-To: <9f64719b-184c-cd61-1260-f13428ea7369@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Feb 2020 18:56:44 +0000
-Message-ID: <CAFEAcA9F6jQ7bAp3DuJ+hA48iwi-NtviBxJKQxF-PUD41FyDzg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] docs: Miscellaneous rST conversions
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 25 Feb 2020 19:09:38 -0000
+From: Dustin Spicuzza <dustin@virtualroadside.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dustin-virtualroadside
+X-Launchpad-Bug-Reporter: Dustin Spicuzza (dustin-virtualroadside)
+X-Launchpad-Bug-Modifier: Dustin Spicuzza (dustin-virtualroadside)
+References: <158207050809.30858.5545792366181447140.malonedeb@wampee.canonical.com>
+Message-Id: <158265777897.19007.10444433640166044587.malone@chaenomeles.canonical.com>
+Subject: [Bug 1863819] Re: repeated KVM single step crashes leaks into SMP
+ guest and crashes guest application
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 44b5926ffcda5fa0be43e8b648eba5aedea4520f
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,64 +66,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1863819 <1863819@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Feb 2020 at 18:28, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 25/02/20 18:59, Peter Maydell wrote:
-> > My assumption was that we would attack this by:
-> >  * converting chunks of the documentation which are in qemu-doc.texi
-> >    but which aren't in the qemu.1 manpage (basically in the way this
-> >    series is doing)
-> >  * get the qapidoc generation conversion reviewed and into
-> >    master (since at the moment it outputs into files included
-> >    from qemu-doc)
->
-> The QAPI docs are in other manuals in docs/interop/, aren't they?
+Some experimentation with newer kernels indicate that this is most
+likely a KVM bug.
 
-Yes, but until we complete the conversion we can't get
-rid of the qemu-doc.html output, because that's where the
-HTML output from the QAPI doc generation goes.
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-> > Incidentally:
-> >> makeinfo -o - --docbook security.texi  | pandoc -f docbook -t rst
-> > security texi was the really easy one here. I had to do more
-> > manual formatting fixups on qemu-deprecated.texi which I'm
-> > sceptical would have worked out as nicely done automatically.
->
-> The automated conversion of qemu-deprecated.texi is indeed bad because
-> the titles in the source are missing @code{...} to activate monospaced
-> characters.
+-- =
 
-To be fair on the automated conversion, the markup in the
-source texinfo here is suboptimal :-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863819
 
-> > The automatic conversion rune also doesn't seem to get quotes
-> > and apostrophes right: it has turned "guest B's disk image" into
-> > something with a smartquote character in it, for instance.
->
-> We probably don't want smartquotes at all, so you'd use "-t rst+smart"
-> as the destination.  Also pandoc does not use the "::" at the end of the
-> previous paragraph.  That can be fixed with for example
->
->   perl -e '$/=undef; $_ = <>; s/:\n\n::/::/g; print'
->
-> In general the result is more than acceptable, and I'd rather get a
-> quick-and-slightly-dirty conversion done quickly than do everything
-> manually but risk missing 5.0.
+Title:
+  repeated KVM single step crashes leaks into SMP guest and crashes
+  guest application
 
-Yeah, seems like a good plan. If the autoconversion works out
-then I think the main thing which makes "do all this for 5.0"
-at risk currently is that the qapidoc conversion series needs
-review and might need overhauling based on that review: it
-doesn't take many cycles of review-and-fix to push close to
-the softfreeze deadline.
+Status in QEMU:
+  Invalid
 
-What do you want to do with this patchset?
+Bug description:
+  Guest: Windows 7 x64
+  Host: Ubuntu 18.04.4 (kernel 5.3.0-40-generic)
+  QEMU: master 6c599282f8ab382fe59f03a6cae755b89561a7b3
 
-thanks
--- PMM
+  If I try to use GDB to repeatedly single-step a userspace process
+  while running a KVM guest, the userspace process will eventually crash
+  with a 0x80000004 exception (single step). This is easily reproducible
+  on a Windows guest, I've not tried another guest type but I've been
+  told it's the same there also.
+
+  On a Ubuntu 16 host with an older kernel, this will hang the entire
+  machine. However, it seems it may have been fixed by
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D5cc244a20b86090c087073c124284381cdf47234
+  ?
+
+  It's not clear to me whether this is a KVM or a QEMU bug. A TCG guest
+  does not crash the userspace process in the same way, but it does hang
+  the VM.
+
+  I've tried a variety of QEMU versions (3.0, 4.2, master) and they all
+  exhibit the same behavior. I'm happy to dig into this more if someone
+  can point me in the right direction.
+
+  Here's the outline for reproducing the bug:
+
+  * Compile iloop.cpp (attached) as a 32-bit application using MSVC
+  * Start Windows 7 x64 guest under GDB
+    * Pass '-enable-kvm -smp 4,cores=3D2 -gdb tcp::4567' to QEMU along with=
+ other typical options
+
+  (need to get CR3 to ensure we're in the right application context -- if t=
+here's an easier way to do this I'd love to hear it!)
+  * Install WinDBG on guest
+  * Copy SysInternals LiveKD to guest
+  * Start iloop.exe in guest, note loop address
+  * Run LiveKD from administrative prompt
+    * livekd64.exe -w
+  * In WinDBG:
+    * !process 0 0
+    * Search for iloop.exe, note DirBase (this is CR3)
+
+  In GDB:
+  * Execute 'target remote tcp::4567'
+  * Execute 'c'
+  * Hit CTRL-C to pause the VM
+  * Execute 'p/x $cr3'
+    .. continue if not equal to DirBase in WinDBG, keep stopping until it i=
+s equal
+  * Once $cr3 is correct value, if you 'stepi' a few times you'll note the =
+process going in a loop, it should keep hitting the address echoed to the c=
+onsole by iloop.exe
+
+  Crash the process from GDB:
+  * Execute 'stepi 100000000'
+  * Watch the process, eventually it'll die with an 0x80000004 error
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863819/+subscriptions
 
