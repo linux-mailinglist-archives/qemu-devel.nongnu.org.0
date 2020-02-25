@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE35C16B6A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:25:49 +0100 (CET)
-Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07C216B6A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:25:39 +0100 (CET)
+Received: from localhost ([::1]:46592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6O2m-0002lu-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:25:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52475)
+	id 1j6O2b-0002TZ-OS
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:25:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j6O1U-0000rl-F3
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:24:29 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j6O1S-0000mS-Dm
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:24:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j6O1T-0000Mr-Ak
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:24:28 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36027 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1j6O1R-0000MB-9F
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:24:26 -0500
+Received: from ozlabs.org ([203.11.71.1]:45553)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j6O1N-0000Iv-L5; Mon, 24 Feb 2020 19:24:21 -0500
+ id 1j6O1M-0000Iq-0F; Mon, 24 Feb 2020 19:24:20 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48RKS00vBDz9sPk; Tue, 25 Feb 2020 11:24:16 +1100 (AEDT)
+ id 48RKS01rmzz9sPK; Tue, 25 Feb 2020 11:24:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1582590256;
- bh=cun3UG0RH1Z9pqffGg41V0R5H4abPrUo0JHVCdwl8DM=;
+ bh=QB8oFSFaYoTX8Rx05o4U8QAJPl+c6DRspslzdATSPv4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d6NhK1hYXytACCdz50B0nIeq/pqkhsGd9Cf4y/mFfwuua8B8tNulEvn1q6IHWfhkx
- h6uWw/oUL++nq3fSHxWM/g9cH3oKEBM8m8G+uNe1FFyjYknckA5CcLy38hzzMnIMtn
- Y+aT9dz84IxlX7OLrT9CbyTe8PBYED7vp2S5MasQ=
-Date: Tue, 25 Feb 2020 11:23:23 +1100
+ b=EIS6g4wc5HG9jscHdglTXT8XM8ciZTrxjmwHjIQwC3S8rIPIkvtw/7/JDCx1PwCZN
+ t1Y7w21xw+l/VgvFp+QLpgRSqB35L24vmsQFBcUMrFFyD1vbTuzaVuvfSf1eax0ALd
+ hbWnomDgyjHNHjpifw7rdWTPMkcKjrYMbszh1AaA=
+Date: Tue, 25 Feb 2020 11:23:45 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH RESEND v2 10/32] hw/pci-host: Use
- memory_region_init_rom() with read-only regions
-Message-ID: <20200225002323.GB41629@umbus.fritz.box>
+Subject: Re: [PATCH RESEND v2 11/32] hw/ppc: Use memory_region_init_rom()
+ with read-only regions
+Message-ID: <20200225002345.GC41629@umbus.fritz.box>
 References: <20200224205533.23798-1-philmd@redhat.com>
- <20200224205533.23798-11-philmd@redhat.com>
+ <20200224205533.23798-12-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PmA2V3Z32TCmWXqI"
+ protocol="application/pgp-signature"; boundary="nmemrqcdn5VTmUEE"
 Content-Disposition: inline
-In-Reply-To: <20200224205533.23798-11-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <20200224205533.23798-12-philmd@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,12 +84,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---PmA2V3Z32TCmWXqI
+--nmemrqcdn5VTmUEE
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 24, 2020 at 09:55:11PM +0100, Philippe Mathieu-Daud=E9 wrote:
+On Mon, Feb 24, 2020 at 09:55:12PM +0100, Philippe Mathieu-Daud=E9 wrote:
 > This commit was produced with the Coccinelle script
 > scripts/coccinelle/memory-region-housekeeping.cocci.
 >=20
@@ -98,28 +98,48 @@ On Mon, Feb 24, 2020 at 09:55:11PM +0100, Philippe Mathieu-Daud=E9 wrote:
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/pci-host/prep.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  hw/ppc/mac_newworld.c | 3 +--
+>  hw/ppc/mac_oldworld.c | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> index 1aff72bec6..1a02e9a670 100644
-> --- a/hw/pci-host/prep.c
-> +++ b/hw/pci-host/prep.c
-> @@ -325,9 +325,8 @@ static void raven_realize(PCIDevice *d, Error **errp)
->      d->config[0x0D] =3D 0x10; // latency_timer
->      d->config[0x34] =3D 0x00; // capabilities_pointer
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 464d012103..566413e479 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -156,13 +156,12 @@ static void ppc_core99_init(MachineState *machine)
+>      memory_region_add_subregion(get_system_memory(), 0, ram);
 > =20
-> -    memory_region_init_ram_nomigrate(&s->bios, OBJECT(s), "bios", BIOS_S=
-IZE,
-> -                           &error_fatal);
-> -    memory_region_set_readonly(&s->bios, true);
-> +    memory_region_init_rom_nomigrate(&s->bios, OBJECT(s), "bios", BIOS_S=
-IZE,
-> +                                     &error_fatal);
->      memory_region_add_subregion(get_system_memory(), (uint32_t)(-BIOS_SI=
-ZE),
->                                  &s->bios);
->      if (s->bios_name) {
+>      /* allocate and load BIOS */
+> -    memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
+> +    memory_region_init_rom(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
+>                             &error_fatal);
+> =20
+>      if (bios_name =3D=3D NULL)
+>          bios_name =3D PROM_FILENAME;
+>      filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+> -    memory_region_set_readonly(bios, true);
+>      memory_region_add_subregion(get_system_memory(), PROM_ADDR, bios);
+> =20
+>      /* Load OpenBIOS (ELF) */
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 7318d7e9b4..8b22ff60b8 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -132,13 +132,12 @@ static void ppc_heathrow_init(MachineState *machine)
+>      memory_region_add_subregion(sysmem, 0, ram);
+> =20
+>      /* allocate and load BIOS */
+> -    memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
+> +    memory_region_init_rom(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
+>                             &error_fatal);
+> =20
+>      if (bios_name =3D=3D NULL)
+>          bios_name =3D PROM_FILENAME;
+>      filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+> -    memory_region_set_readonly(bios, true);
+>      memory_region_add_subregion(sysmem, PROM_ADDR, bios);
+> =20
+>      /* Load OpenBIOS (ELF) */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -127,25 +147,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---PmA2V3Z32TCmWXqI
+--nmemrqcdn5VTmUEE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5UaPsACgkQbDjKyiDZ
-s5Jz/BAAyL0YcNW8OyEoEcaBBOAUlpAd/mqoO8OMFJMygGZtJ4Sgqi7l2Z6uC0I7
-G22idvtISCYsuylCjvkVJg96QHuXGdnMyBR+g8CvU4lZcYkBKAD2d0mK2LYzq32q
-89TdYgtkHZl5fQQf2zLkdqJqzfBIjFQ7/v5tEAvirPgdfX0Vpj7r/AEIxTgfXmh3
-6RojUYtqB1iWjLF7AJi4LY0ZPdR5d+Ia2+Uz7tTQPnc6bPKeYS+dWmHkkQV8IWrH
-TLfAnmtOQ+hH1RBXTb0TvPhYP0AIjcdaG9ZKyE1X/JLmvnjZcSU5okOv2RMY26D5
-RhyJf0Z6V7rN6Y/FFapF6hML0hE9zqJMm11s3yq1IG3LH8ZmFrBJu8YB8+nDbtuk
-p/vhuFjoGHuKwadYD4Q63iYvCJIJIQZkgXB0I1m32sMF16M8Y4DM8N1Tticaa37E
-f4EWX0Sn/Jadxah62JUNPrHpqHLo4MaS2YWpR4+mc/MlAhVOyony5viRqQeuLlKq
-apJILrBlbOsZ73Fd/zdwwgyYLAwuZ1TC2DxxJayjBKDdc5aAAtmnrD+aQnZQSnum
-qu2AGC53z2+bpNQ5gKJz4IjXYi/DrOGEw42VPArpa+B366Sbn0g0DNiE2bGsoUXl
-KgWAg1Q31OLCf4Rb1RGJvLd8mes5SNwiHdSmqISZE9nBs5L7Wp8=
-=g5T0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5UaRAACgkQbDjKyiDZ
+s5KqNRAAwHe0vYT9rKDx9BpcgQAO3s4kkrzffvgcGNe9AVt7B6T75Q+kf6bS+0oU
+yhLP9NJFkwjH1hzbyLE0sNKQjWpUdguJh7KYlC248qV8UnozdFXpEp4vYo6ZzLev
+6EF7LqLRS4gIR1t7SP9DMeRHUIY5NGTWmDJMU2WrmGT3/gEMZ3MWyVVlOSMr3lD8
+butF2PhAdrRUZL5H/IiXcbLIgeCzDw24+WwI8MppW1llereWfRgXL++j6OZnG5mr
+Xd1MsivbWZN1lRzORhhhY9eFLvmZk3B54gemMCuGPCX85iafqohFZQTkeq6QHeH0
+dyBQ1KkgTHQJOZ8+o8V+zUIzDhOjiTFMZJ2w7z90BiNBt2wqvHYoUGTY9I9tqtdq
+TWOoOWkWxElc+HMMEWAq6z9Zxp/QhuPzQ0LqQovmeAGwLwPsuWc1oBE2yhnPDvYP
+d1PS8t9+RObBgT8qGFR5X20qpzQErRCU7Vh3exBLRcjjwcj73yJ2RNDaXuOgZfwv
+cjyKY5xi3FtNLX/F6Wus4TbC0nddcKs4I/3i/MoSUrAXhw1hFxhuNZ0gHteI0EZf
+21L1XBnMUzz1m43uaIyyJTCU4ppEY8+/dlV0h/bcpWP0JvP7+YmLd3Bv5KFlrGxz
+c+NDW3O63gw9R7IB3QOYVSlQBIQrnqAjikQVt82hMWbQoh/yz7c=
+=Ji33
 -----END PGP SIGNATURE-----
 
---PmA2V3Z32TCmWXqI--
+--nmemrqcdn5VTmUEE--
 
