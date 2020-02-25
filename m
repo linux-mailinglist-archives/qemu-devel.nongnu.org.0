@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E4516C0B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:24:36 +0100 (CET)
-Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EAB16C099
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:18:54 +0100 (CET)
+Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZGN-0007sQ-0w
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:24:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49921)
+	id 1j6ZAr-0005UW-6A
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:18:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl9-0001Rt-4y
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:23 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlB-0001Wh-0i
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl5-0000N0-5M
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:19 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54497)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl7-0000WT-1A
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:20 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42506)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Yl4-0000Il-Oo
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:14 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id z12so2665332wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:14 -0800 (PST)
+ id 1j6Yl5-0000Nf-Pm
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:16 -0500
+Received: by mail-wr1-x429.google.com with SMTP id p18so10723241wre.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=tAOcwiucq9sZ03S56wSU3BKkO7ecBjXLzXDmBGEz1YQ=;
- b=AfiSOU+IQ6ayUHzv5eI2pIOnOZoIrW44acTXVj+0a0bKcP3FjL42+7tTWbirabPsJt
- EZc4ro/X040XtXWi2vWNkjFOhW15orEr8KJDVDHGD4JvFgLiwaDZfoKzqdQR8TloOX9W
- S4o2UMXfCc6+yPV8k562eayEPgPTg50OSwul0+tz7au/JhEWpgTMTLucNzJ1szhPmKf6
- 1+ZKSMXXvghWkUkrLCGmAAjVfdkbA+rBumnFoRk3gSRFP2qKctp3VqpnWuGq3i7SY5Lw
- wA/Y8HMLtzj/kM8wYXPNvmEHNbuUWo2aYAK3TYtKe2ESlmuKclaqisfAPB6ulvNwMi9v
- xr1A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ck5X4vl1RGKGfpbpG5MISitEJJgkamTLoZojb/ILQQc=;
+ b=WOUy6dlc89fPR79czCKS4c0SNuzvd/UJVnIVeXs4o6Ofng1vyQPTROqTnuv0czFSfp
+ 02T4LTaUMcMvNqBN0USWe5EBisNzRejjb/MM4srcGVI0aUmF+NnldkeAUtOYpq7FL52/
+ UPJzQXUgTqc+iAh6jeuyzBREpyOR83w+ktDQz2u+lIroODhCwKBzSBiaw1KYWNTEFxVl
+ bmEOyi46iMTC2xGGrZm0iN2JU8Fmo6n+jVsVaEfkiItNFJ+JA8Q4dzzilUkNgPMaPDBL
+ pbymPFg3Tf7O6Hnvu4/uDIDES8LV7jzKCFqfU4mCxRcBqXuJEy+3rKm8cH/d5MbDxYE7
+ JyXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=tAOcwiucq9sZ03S56wSU3BKkO7ecBjXLzXDmBGEz1YQ=;
- b=eRCbQtQnaLCz+iohYx47WezIhecFl1SxoynhVAPWZT3zOrglVAREGlNK/BuKzBlhp4
- r1Lsikqu85QBm9ia8I3X7ZhTaasTBFesdATYROSm3ZQnsCW7AlJEpUkWQScgPxzdwE80
- IwdAt+fSzznGt/P/+m01Qfcd8PhWSW/PiUshpHHaRRkEssKV/Bln7kwOBC7NvvWY+4c+
- NyNtgBtSawXTxAw5KNOI7l0Z1uSCNaj90Hp7JDGERtUin7y6fgJqwE4QbvltcrEXkirx
- fZm58yH3nkarhNUwcMpBXJ6blMjUBs/02clrMaQAK5TsZYW5urRtxQgG9M51WgyPDFf9
- 0PpA==
-X-Gm-Message-State: APjAAAXi3Ieyp2JBZOg7PDc0Jlptj0VamBR8191xmfYBshdEf1BOwhCY
- +msr/DLxCZ5jqlqBoTn1Zl8Iv8S1
-X-Google-Smtp-Source: APXvYqygfOr0iI6YXcegaIBmsOEhwt+Ho2JUbrChCJl0lVNLzMkUGa3jA99WY22mCS6sdw0Xnb+EnQ==
-X-Received: by 2002:a05:600c:204f:: with SMTP id
- p15mr5148549wmg.6.1582631533427; 
- Tue, 25 Feb 2020 03:52:13 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ck5X4vl1RGKGfpbpG5MISitEJJgkamTLoZojb/ILQQc=;
+ b=a3IOHFXuJO+qiUw4uedvRRIx8/GWtCbtkydFHnJkpfvkd+ef2FTU/JUa7ayFX+4+9H
+ 9cK6kujEGmM7UXXVut+ktxxr35uQsGHcThBEHFVMBOnYwV3lmt1Eq478AOYTS7jdZ81B
+ k0GDaTUnzrFU9feMWAmJGTFb0J93cZ2lUo/HdF5fKwrfuLwXXVkrrmLYL/3i2lRwE32M
+ PaqrTfzIMrftUXuCxvAHh1jUp06aLr64VTNOzXSYMfaEWYsmXx7sznBZKiGxsdHA8GEm
+ px3RYuvQcmjCTHe66UcjfI6a3GgpMp5hZRZaQqgyga+4UnoFYzYcYtRZzgTY8tb0Khj2
+ mk3g==
+X-Gm-Message-State: APjAAAVC4c58U0n1IKnOEj7i28IdU2nbHgT3Ad4Fz4dBoQlZXlN2iI7S
+ mXPfUglUMDpmgmYLGStYFHX0mW/Z
+X-Google-Smtp-Source: APXvYqyRhIgoiWskYVIm5EjBcuvPIFBCB/ZX1GlrLav8F2Fj2EtBb2DSsR9I3892uPiA8LjFTQYUAQ==
+X-Received: by 2002:adf:de0b:: with SMTP id b11mr70961422wrm.89.1582631534457; 
+ Tue, 25 Feb 2020 03:52:14 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.12
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:12 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 073/136] exec: cleanup
- qemu_minrampagesize()/qemu_maxrampagesize()
-Date: Tue, 25 Feb 2020 12:50:03 +0100
-Message-Id: <1582631466-13880-73-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 074/136] exec: drop bogus mem_path from qemu_ram_alloc_from_fd()
+Date: Tue, 25 Feb 2020 12:50:04 +0100
+Message-Id: <1582631466-13880-74-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,85 +84,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Since all RAM is backed by hostmem backends, drop
-global -mem-path invariant and simplify code.
+Function will report error that will mention global mem_path,
+which was valid the only if legacy -mem-path was used and
+only in case of main RAM.
+
+However it doesn't work with hostmem backends
+(for example:
+"
+  qemu: -object memory-backend-file,id=ram0,size=128M,mem-path=foo:
+    backing store (null) size 0x200000 does not match 'size' option 0x8000000
+")
+and couldn't possibly work in general FD case the function
+is supposed to handle.
+
+Taking in account that main RAM was converted into
+memory-backend-foo object, there is no point in printing
+file name (from inappropriate place) as failing path is
+a part of backend's error message.
+
+Hence drop bogus mem_path usage from qemu_ram_alloc_from_fd(),
+it's a job of its user to add file name to error message if applicable.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-74-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-75-imammedo@redhat.com>
 ---
- exec.c | 49 ++++---------------------------------------------
- 1 file changed, 4 insertions(+), 45 deletions(-)
+ exec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/exec.c b/exec.c
-index 8e9cc3b..d85a868 100644
+index d85a868..6ebff8b 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -1667,59 +1667,18 @@ static int find_max_backend_pagesize(Object *obj, void *opaque)
- long qemu_minrampagesize(void)
- {
-     long hpsize = LONG_MAX;
--    long mainrampagesize;
--    Object *memdev_root;
--    MachineState *ms = MACHINE(qdev_get_machine());
--
--    mainrampagesize = qemu_mempath_getpagesize(mem_path);
--
--    /* it's possible we have memory-backend objects with
--     * hugepage-backed RAM. these may get mapped into system
--     * address space via -numa parameters or memory hotplug
--     * hooks. we want to take these into account, but we
--     * also want to make sure these supported hugepage
--     * sizes are applicable across the entire range of memory
--     * we may boot from, so we take the min across all
--     * backends, and assume normal pages in cases where a
--     * backend isn't backed by hugepages.
--     */
--    memdev_root = object_resolve_path("/objects", NULL);
--    if (memdev_root) {
--        object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize);
--    }
--    if (hpsize == LONG_MAX) {
--        /* No additional memory regions found ==> Report main RAM page size */
--        return mainrampagesize;
--    }
--
--    /* If NUMA is disabled or the NUMA nodes are not backed with a
--     * memory-backend, then there is at least one node using "normal" RAM,
--     * so if its page size is smaller we have got to report that size instead.
--     */
--    if (hpsize > mainrampagesize &&
--        (ms->numa_state == NULL ||
--         ms->numa_state->num_nodes == 0 ||
--         ms->numa_state->nodes[0].node_memdev == NULL)) {
--        static bool warned;
--        if (!warned) {
--            error_report("Huge page support disabled (n/a for main memory).");
--            warned = true;
--        }
--        return mainrampagesize;
--    }
-+    Object *memdev_root = object_resolve_path("/objects", NULL);
+@@ -2307,9 +2307,9 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+     size = HOST_PAGE_ALIGN(size);
+     file_size = get_file_size(fd);
+     if (file_size > 0 && file_size < size) {
+-        error_setg(errp, "backing store %s size 0x%" PRIx64
++        error_setg(errp, "backing store size 0x%" PRIx64
+                    " does not match 'size' option 0x" RAM_ADDR_FMT,
+-                   mem_path, file_size, size);
++                   file_size, size);
+         return NULL;
+     }
  
-+    object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize);
-     return hpsize;
- }
- 
- long qemu_maxrampagesize(void)
- {
--    long pagesize = qemu_mempath_getpagesize(mem_path);
-+    long pagesize = 0;
-     Object *memdev_root = object_resolve_path("/objects", NULL);
- 
--    if (memdev_root) {
--        object_child_foreach(memdev_root, find_max_backend_pagesize,
--                             &pagesize);
--    }
-+    object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesize);
-     return pagesize;
- }
- #else
 -- 
 1.8.3.1
 
