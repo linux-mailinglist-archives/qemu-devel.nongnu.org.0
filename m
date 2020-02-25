@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37AC16BE42
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 11:07:42 +0100 (CET)
-Received: from localhost ([::1]:51634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C28816BE56
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 11:11:36 +0100 (CET)
+Received: from localhost ([::1]:51724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6X7t-0002zO-RP
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 05:07:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59050)
+	id 1j6XBf-0006sa-6n
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 05:11:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6X6K-0001Y7-EG
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:06:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6X7I-0002v0-Sw
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:07:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6X6J-0005To-31
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:06:04 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36707)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6X6I-0005TA-TR
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:06:03 -0500
-Received: by mail-oi1-x232.google.com with SMTP id c16so12014231oic.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 02:06:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3wgkzP3gT0NkgSoIuJVlNrdgthhGYigiRR+LWKZjltc=;
- b=N6U4dznSTre+e3tToGQNnCowtb0ocKN96PcZHyf/uDHDnIAjcLMPkeQezRt6hiZdyz
- xfXe4IE59HWxGUG5YEHQ3Yrev85ofYJkNyokHrmifsi7O6xljKStharrh0XSJl1aLAWv
- +96XyM0RjQz2Ubg0CniY7cRT78IW8e4Tqmhs575ZoH1jwaF1egzMUbG1/TId657eYvPG
- mIrxQ25ZuncDwzOT2/9Pl3aLzwtI+4oSQtEvjN9safjZli+klHEd6B9C8oZngnwb6dkf
- uw/LiXQbXzmLJ1M8mMktXPOt0zODrSrJ+31Qh8DUdeosr9583iQdx98aMSMue3yjUyTf
- RY8Q==
+ (envelope-from <philmd@redhat.com>) id 1j6X7H-0006Hb-Nb
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:07:04 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23907
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6X7H-0006Fr-Jh
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 05:07:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582625223;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aAVFyfs4g5GxcXuqRdZQLMND38l/oAcAlYf10NCJQR8=;
+ b=fYcA9SDIuTtr51dbEj9uwutYEJ3ouxL/SrMDt8s+z8CJeSzWq/M9Wr3Kg+nVEC0AXm+9Ht
+ TNsVKJnxts4lqsWs1M/lnOnIIOikP4RY9g/napDm5jJGnYKvNvvvANLclscYmvAEFNiLco
+ PIiPxPfbMhwmyCeZ3DeQ8lni3HvLOQQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-JrrLN1jiNWC_GxaU0EHR2Q-1; Tue, 25 Feb 2020 05:07:01 -0500
+X-MC-Unique: JrrLN1jiNWC_GxaU0EHR2Q-1
+Received: by mail-wr1-f72.google.com with SMTP id m15so7014609wrs.22
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 02:07:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3wgkzP3gT0NkgSoIuJVlNrdgthhGYigiRR+LWKZjltc=;
- b=Cge6n6wrcZ1Su2hyeB7+WC4FErX+4lmjqdLur6S2vf2NtZwFw7IGqLhHKDSf9UvfoK
- oSU2/D9vAzCrZZxXd18V/i4vOVvPPPqNKhgX7ht6OfV/T64kcQG639UdoywKXFIBCHTg
- B7pei2JMhn9FfYRyj7Cuel+I8/7HoQRW5GZEv+PuZXct6wW50HGswM62SvpJBs6W2rKz
- 7NAVRNTx2rsQC4Zaw+PwPEKxTYbqMTLzfOLkcrmCLLzopHwHCvfrdozYzN11j0zykWYs
- +k/GhgqxlGQbAFIQ2aO8Cf9Peae0WFFEokR/Em8gwkZN4DyJwguJggcqvNkgCeeUsqFR
- JNeA==
-X-Gm-Message-State: APjAAAU6yZzROhZ48YrZzBvpk+Gz0j5vWK/C9xuTJKR3M3OGfLF2qr9E
- rXHV6em8nuX2Ssf2EEk88NnkxseQH51qblxKcASZCw==
-X-Google-Smtp-Source: APXvYqx+YANwDFfknZqSM6rK3kEIHyx4eDHuD88tFbAArT/CQeJ58oC19cZEKr78W+KjJ8UzpiAKyEwz19cG35GT5gM=
-X-Received: by 2002:aca:b2c5:: with SMTP id b188mr2806802oif.163.1582625161900; 
- Tue, 25 Feb 2020 02:06:01 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hQGPjfoLLazHW3K7+BJ1ZENnkqspNGzw0HjTnAJXqEg=;
+ b=l4eB0IAY9tx0AMu26hRSfhfVUnuCD1DoajB2EYbE3BtPA8ZT7LkkU/fsJRVNwfuBPd
+ x563EA8zhycwhFXYGEPALb1qEmr2o2zdSRUOz5nWph5GipsRQN+2xqnzZ/36Tb8errZ4
+ bGCfDf276qRY4cM+SzcJIh+CpfPLzqBlGTOegVnu6ELw1LxpFpJjXLxAPGnx5qrbDn+E
+ HDlnkduE6s5dCRjvb6DYfjrakfV8B4QkeKprlqcldcm2oZojJKma6ytrUuEIjex5z1Wv
+ k/C7xbKj3dvnCBAXp1FJgFkQWwZJUkQ5K2B5Wp0hHNgOEYlccppEe26tuvZEYA+/Fenl
+ fufg==
+X-Gm-Message-State: APjAAAVlDi4JFBzadGdGQ/xFpRuq9f/vc3ef1uvr30wzawq6nBB4jFxi
+ 48erwViAp4oztUEriR2aWpqsW4DQDhB4Xj638/DdJj37QYajxYfDX2cQAn+9vMetCH4BIAkm7BC
+ Cf0SCIypM7nyqZvk=
+X-Received: by 2002:a1c:2089:: with SMTP id g131mr4173712wmg.63.1582625220262; 
+ Tue, 25 Feb 2020 02:07:00 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxLs/h8mAF1Op5pv4Ayz9cSffiHJ1ZoERiw+LFk22QlNcgChr+JwBfIroUj/z2+iIKIVjbOFA==
+X-Received: by 2002:a1c:2089:: with SMTP id g131mr4173615wmg.63.1582625219047; 
+ Tue, 25 Feb 2020 02:06:59 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id a13sm23608201wrp.93.2020.02.25.02.06.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Feb 2020 02:06:58 -0800 (PST)
+Subject: Re: [PATCH 0/2] qemu/queue.h: clear linked list pointers on remove
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20200224103406.1894923-1-stefanha@redhat.com>
+ <158254173238.10132.7761755657862330006@a1bbccc8075a>
+ <20200224113903.GD1896567@stefanha-x1.localdomain>
+ <d3fa195d-d6cc-438f-517b-676b2642df71@redhat.com>
+ <20200225090534.GB4178@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <031a3ba8-eed0-834a-0b5c-5e77d0429f34@redhat.com>
+Date: Tue, 25 Feb 2020 11:06:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200220160710.533297-1-mreitz@redhat.com>
- <20200220160710.533297-12-mreitz@redhat.com>
-In-Reply-To: <20200220160710.533297-12-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Feb 2020 10:05:50 +0000
-Message-ID: <CAFEAcA8YFHy9uf5WXP0qwkRkcxgC1ufOYDXQExsV8AVgU5OReQ@mail.gmail.com>
-Subject: Re: [PULL 11/18] block: Generic file creation fallback
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+In-Reply-To: <20200225090534.GB4178@stefanha-x1.localdomain>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,97 +95,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: fam@euphon.net, Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Feb 2020 at 16:11, Max Reitz <mreitz@redhat.com> wrote:
->
-> If a protocol driver does not support image creation, we can see whether
-> maybe the file exists already.  If so, just truncating it will be
-> sufficient.
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> Message-Id: <20200122164532.178040-3-mreitz@redhat.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+On 2/25/20 10:05 AM, Stefan Hajnoczi wrote:
+> On Mon, Feb 24, 2020 at 12:54:37PM +0100, Philippe Mathieu-Daud=E9 wrote:
+>> On 2/24/20 12:39 PM, Stefan Hajnoczi wrote:
+>>> On Mon, Feb 24, 2020 at 02:55:33AM -0800, no-reply@patchew.org wrote:
+>>>> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
+>>>> 1/2 Checking commit f913b2430ad3 (qemu/queue.h: clear linked list poin=
+ters on remove)
+>>>> ERROR: do not use assignment in if condition
+>>>> #65: FILE: include/qemu/queue.h:314:
+>>>> +    if (((head)->sqh_first =3D elm->field.sqe_next) =3D=3D NULL)     =
+         \
+>>>>
+>>>> total: 1 errors, 0 warnings, 59 lines checked
+>>>
+>>> The same pattern is used elsewhere in this file.  This code comes from
+>>> BSD and doesn't comply with QEMU's coding style.
+>>
+>> Checkpatch is right, assigning out of the if statement makes the review
+>> easier, and we can avoid the 'elm' null deref:
+>=20
+> The rest of the file uses if ((a =3D b) =3D=3D NULL), so making it
+> inconsistent in this one instance isn't very satisfying.
+>=20
+>> #define QSIMPLEQ_REMOVE_HEAD(head, field) do { \
+>> -    if (((head)->sqh_first =3D (head)->sqh_first->field.sqe_next) =3D=
+=3D NULL)\
+>> +    typeof((head)->sqh_first) elm =3D (head)->sqh_first; \
+>> +    (head)->sqh_first =3D elm->field.sqe_next; \
+>> +    if (elm =3D=3D NULL) { \
+>=20
+> The previous line would have segfaulted if elm was NULL so this check
+> doesn't make sense.
+>=20
+> This macro assumes there is at least one element in the list.
 
-Hi; Coverity thinks there's a memory leak in the error
-codepaths in this function (CID 1419884): is it right?
+Ah good point, thanks.
 
-> +static int bdrv_create_file_fallback(const char *filename, BlockDriver *drv,
-> +                                     QemuOpts *opts, Error **errp)
-> +{
-> +    BlockBackend *blk;
-> +    QDict *options = qdict_new();
+>=20
+> The point of the check is to fix up the sqh_last pointer in the head
+> when the final element is removed from the list.
+>=20
+>>           (head)->sqh_last =3D &(head)->sqh_first; \
+>> +    } else { \
+>> +        elm->field.sqe_next =3D NULL; \
+>> +    } \
+>>   } while (/*CONSTCOND*/0)
 
-We create the QDict here...
-
-> +    int64_t size = 0;
-> +    char *buf = NULL;
-> +    PreallocMode prealloc;
->      Error *local_err = NULL;
->      int ret;
->
-> +    size = qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
-> +    buf = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
-> +    prealloc = qapi_enum_parse(&PreallocMode_lookup, buf,
-> +                               PREALLOC_MODE_OFF, &local_err);
-> +    g_free(buf);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return -EINVAL;
-
-...but here and in other error return paths we don't
-free it (I think that might need a qobject_unref() but
-am not sure).
-
-> +    }
-> +
-> +    if (prealloc != PREALLOC_MODE_OFF) {
-> +        error_setg(errp, "Unsupported preallocation mode '%s'",
-> +                   PreallocMode_str(prealloc));
-> +        return -ENOTSUP;
-> +    }
-
-(You could probably postpone qdict_new() to here to avoid
-having to change the error handling paths above this point, but
-you still need to deal with the error path for blk_new_open failing.)
-
-> +
-> +    qdict_put_str(options, "driver", drv->format_name);
-> +
-> +    blk = blk_new_open(filename, NULL, options,
-> +                       BDRV_O_RDWR | BDRV_O_RESIZE, errp);
-> +    if (!blk) {
-> +        error_prepend(errp, "Protocol driver '%s' does not support image "
-> +                      "creation, and opening the image failed: ",
-> +                      drv->format_name);
-> +        return -EINVAL;
-> +    }
-
-I guess for error-paths after blk_new_open() succeeds
-that the blk object owns the options dictionary and
-will deal with unreffing it for us?
-
-> +
-> +    size = create_file_fallback_truncate(blk, size, errp);
-> +    if (size < 0) {
-> +        ret = size;
-> +        goto out;
-> +    }
-> +
-> +    ret = create_file_fallback_zero_first_sector(blk, size, errp);
-> +    if (ret < 0) {
-> +        goto out;
-> +    }
-> +
-> +    ret = 0;
-> +out:
-> +    blk_unref(blk);
-> +    return ret;
-> +}
-
-thanks
--- PMM
 
