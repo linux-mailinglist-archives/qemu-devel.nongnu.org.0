@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4A316C297
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:42:11 +0100 (CET)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B801416C2A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:44:59 +0100 (CET)
+Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aTT-0005zK-1K
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:42:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59259)
+	id 1j6aWA-00016P-Pc
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:44:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcY-0005bS-C0
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:31 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcZ-0005eu-LB
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcW-0007H6-67
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:29 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54050)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcY-0007Hx-E5
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:31 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41587)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZcV-0007GX-1U
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:27 -0500
-Received: by mail-wm1-x343.google.com with SMTP id t79so1366696wmt.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:26 -0800 (PST)
+ id 1j6ZcY-0007HO-7d
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:30 -0500
+Received: by mail-wr1-x444.google.com with SMTP id v4so1718409wrs.8
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4d2JrUPmJz37MvIYKDE4vOLfs/ja0Fe0BZeISYiAcVI=;
- b=eMi08feMDeth2FqrHF+Dl21qn7NuBH3xvfxYDGp11sliJn4P91PYlp5bZhvTfWv/yy
- Z9Qog5qlf9Ewqmdl/JxGBhBGqEwnh2SwCWwQK586MMSDhnVzS8jhAlqgrrUbxfa84JBJ
- 8zSknaIh6BluoanrXGckIewg3KTDasBmdhaob8jYDnQeObylmuHkQEB4P3DzdzeZCE7S
- uTUAiXoVluYzGZYo8xEG6Avylyj04lsMy6DtdNdsIRlIuxURs3eSANIMgTox1Iv/XY1Y
- CheiRAkaMAsbH6BnHMoY0af4lyMEvOgSZIzH7Q96OXGJJuJTWi1DusZm1ul9KNkxmwQV
- E88w==
+ bh=pTDgnQcfNCGcBS0F93StqkN1izWdDQLZMDSB8zlG3xk=;
+ b=Imk4u4Wc32o+iCTKJ7UwXjcmaeocL5hw3ixbEtirkawjc8IAecLUHp7O7zVnbo14Zc
+ K71H/4vPuohge6KJD9h5KvMu/oE9RYLE7+ybKL3PE9dXfqbuRbvxEdYvCl3RdVqi709V
+ w2nlqBRUxFDMfkQQl0dor1v0a+IZZ+uF354mDT8mjGSF+YztedBgcYyFTfGmsywFdK/G
+ F27mujrMq0PM8Ky5HrGw+VNu1SczXUuXRjHAgDnINLYSD9yfnNza3D/E7uyIUBLElOFb
+ Xzzm1qTHKgmCPzT2S+6+eqb8hC8YdPpotiIK6tGKFaNyQfRu7bemIAGzyTN5Mu2d3HzE
+ Xyhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4d2JrUPmJz37MvIYKDE4vOLfs/ja0Fe0BZeISYiAcVI=;
- b=gZlgeopA93lIbbS91StA6yWLv/fr+sKB2ExbIvmizsfJpO2fv+CMSe8DEajoQ0Borl
- VKgzQE/K4lagyBNtKJYly3TSqzKJXd9Oh2ZNyV5UNAMku8toWluo9i/JEWNrIHHPor2r
- FYnjOpjO9L6HKJI23TsssbfzCBPsVzVn49tumi/0AQTGuuUi4Ld/RD7Z37sM/ZnIZhuC
- SGpV4aZfcS/kf0L1HIG2yAF8jj1N3sfPMTHhUVmiadnhY8P98NHjb8SzMXjn3Q5EzF/d
- sYOirWzxMH5kJb8UoNTiJvX411kkUykaHciJQPwOsnh7tpV5PFT2Hma5sYzd9JTqp0wb
- TIjw==
-X-Gm-Message-State: APjAAAX3tuddXaeXfdd9lG+iWtZ86K8E8nfzKLFnzHVviRdQ95cEwg7h
- RC70W5vyPt9z8cYjnYIcAs7/hg==
-X-Google-Smtp-Source: APXvYqwgQ3EnUxEyvQZ7AAHSU8d4YpzqQSSShaVIKpEj7chIY2dC4Y0VNuf4iY2MR2uvf+LzDMILoQ==
-X-Received: by 2002:a7b:ce18:: with SMTP id m24mr5214555wmc.123.1582634845862; 
- Tue, 25 Feb 2020 04:47:25 -0800 (PST)
+ bh=pTDgnQcfNCGcBS0F93StqkN1izWdDQLZMDSB8zlG3xk=;
+ b=mLpQZkEU7lRzoNOmKBlkaTkcx2xnc9x9wz/zSYUlMLETWLJmJCIbIEf9q2IRtdIMm3
+ 8vW1kT/ZHcagsLOVDy9y045tP0rzJ9RGdDCBwnypvFY0/xnOH+9nghQQltfTFvQZGCnL
+ hR3H/bHJM0nSYkD/sK1xOalZwRyRIUs1FaKDMcQkrWmzEYw90RuhCgdoEDdVGx5onL6B
+ nqZD+TgSivx8yh1yAkN9B8495cnPvbdBDiryKF3rI4XP00L66v423r/7jibcFZ+Gdrv1
+ 7HGFrKNvOZoMg55IrWhBHgj6Kv2tjrSj48vfx9zhFSKxFWkBHTInzAVc331caE92pYHo
+ vVYg==
+X-Gm-Message-State: APjAAAWN9R80MSvanxEzOZmTLCuHXqVI3jCKZDuf0jQZD/pT6ThNOIkd
+ AD/k7IacQ+xSab4+yeF+BZqPxw==
+X-Google-Smtp-Source: APXvYqwXlhlAk1DpqSNo6Oq+j63MJ5OL0/xpWMa/bWRCNQVFzSMpzIdariVmsGaXVZzIXUw8mhBkjw==
+X-Received: by 2002:adf:e949:: with SMTP id m9mr9185217wrn.342.1582634848552; 
+ Tue, 25 Feb 2020 04:47:28 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s1sm23459047wro.66.2020.02.25.04.47.14
+ by smtp.gmail.com with ESMTPSA id a9sm25082882wrn.3.2020.02.25.04.47.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:47:20 -0800 (PST)
+ Tue, 25 Feb 2020 04:47:22 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2BB131FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 709411FF9D;
  Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 10/19] docs/devel: document query handle lifetimes
-Date: Tue, 25 Feb 2020 12:47:01 +0000
-Message-Id: <20200225124710.14152-11-alex.bennee@linaro.org>
+Subject: [PATCH  v3 13/19] qemu/bitops.h: Add extract8 and extract16
+Date: Tue, 25 Feb 2020 12:47:04 +0000
+Message-Id: <20200225124710.14152-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,48 +83,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
  stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I forgot to document the lifetime of handles in the developer
-documentation. Do so now.
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
 
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190607091116.49044-10-ysato@users.sourceforge.jp>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Message-Id: <20200212130311.127515-3-ysato@users.sourceforge.jp>
 ---
- docs/devel/tcg-plugins.rst | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 718eef00f22..a05990906cc 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -51,8 +51,17 @@ about how QEMU's translation works to the plugins. While there are
- conceptions such as translation time and translation blocks the
- details are opaque to plugins. The plugin is able to query select
- details of instructions and system configuration only through the
--exported *qemu_plugin* functions. The types used to describe
--instructions and events are opaque to the plugins themselves.
-+exported *qemu_plugin* functions.
-+
-+Query Handle Lifetime
-+---------------------
-+
-+Each callback provides an opaque anonymous information handle which
-+can usually be further queried to find out information about a
-+translation, instruction or operation. The handles themselves are only
-+valid during the lifetime of the callback so it is important that any
-+information that is needed is extracted during the callback and saved
-+by the plugin.
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 02c1ce6a5d4..f55ce8b320b 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int start, int length)
+     return (value >> start) & (~0U >> (32 - length));
+ }
  
- Usage
- =====
++/**
++ * extract8:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 8 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 8 bit word. It is valid to request that
++ * all 8 bits are returned (ie @length 8 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint8_t extract8(uint8_t value, int start, int length)
++{
++    assert(start >= 0 && length > 0 && length <= 8 - start);
++    return extract32(value, start, length);
++}
++
++/**
++ * extract16:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 16 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 16 bit word. It is valid to request that
++ * all 16 bits are returned (ie @length 16 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint16_t extract16(uint16_t value, int start, int length)
++{
++    assert(start >= 0 && length > 0 && length <= 16 - start);
++    return extract32(value, start, length);
++}
++
+ /**
+  * extract64:
+  * @value: the value to extract the bit field from
 -- 
 2.20.1
 
