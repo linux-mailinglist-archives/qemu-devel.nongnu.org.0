@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3675416C00A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:55:11 +0100 (CET)
-Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8F916C023
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:00:16 +0100 (CET)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Ynu-0005tt-6T
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:55:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49117)
+	id 1j6Ysp-0007QI-Fa
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:00:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkG-0000Eq-AT
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:28 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkF-0000Ev-Jy
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0005jO-E2
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0005j6-Cn
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:23 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:32858)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkB-0005SW-2k
+ id 1j6YkB-0005Tu-0m
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:19 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m10so2051510wmc.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:15 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id z12so2661911wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k0lJWq7Wuwhp8fp4WNPc7Xb1+avMNgYektyhtqNBVM0=;
- b=U4VAQ500Fqk9DVveAMV73iX6qNAH3bLLijXAY8lSq8dQT2sQdlCEMTMPPI1AvKGLCc
- opd7S4CYacYYhUCnYRYnMsPUj73rJjZ2Wga5gSlpcOJNC9k2OPSgoAisoI+q/gWM+x7Q
- VszyZ4fzMoVHPHQccrPEMv5dZGkEYjIR9wezFfjIgzxWFhBbO+QFQaNRksjiwjOwAjIn
- ewTw0JEcaa55XUWNqhGJDP2tyKViAP1soV+n5+TBmmGrJzlhh/wopJ+y6wsblt0lVpEn
- PmpPdk2enyluPF5xonj2DCn3qPwcrb6vXig9hu6Llfxg7yFawxtPg5xMZD+IPbmmibem
- iVEw==
+ bh=YY43ANmrO7kgR48GobRQagfarNd+y5OAvVPvc2CleoI=;
+ b=raWeujoeC2E9nXzMK47n9juzqUHGhIMz+gG1UgCnONTzLVX9YNNl9v/SxNVqTvxbe9
+ G+Va6TmssZtWRv8WerudJ76P7v/7FfNLkcNgv4o1IqNkDPv/rG0iQhypZSeV+22aoVen
+ qcuUHJxZXX2WaEFUaW5zt20PGIX95EQjHnYVgDbafSJO3m0MLPBc+X0IvOU+JhMthvAZ
+ NVW9hUmLegkAUBjuGOcyvhv0M4S0iDQ8bIZTOMryl/IvVuzYwwlYNw8qKYg6utUhNdGU
+ jIlFzLIIQAMg7jjMi/ifXTnwPcGSBnlarDztJOneAL6U5PaIeFsJljB27O/mgDAFr4bc
+ dx0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=k0lJWq7Wuwhp8fp4WNPc7Xb1+avMNgYektyhtqNBVM0=;
- b=XpjeTXRqdt5YmRrumgC3VLOrOPuy60B+DYxCUhqDLp2g5EMLy5PLfSkVMcgkb/0RSE
- loQfO8gECXu2cFfupT2au8EiqBgCQJx2u/OF10R/fI2lNVEohey+6Z90ib3JVz25RBmX
- Hdd8Ltk0iINbwvDXpLTUfcZPW5h8gCT/i9xPrGKRwsWEDF1osyHyrH6FNJCHber7giTN
- 54kqjkCZ4nt3/YemMmmO3MLJzATRD+oaljbasTEmDZ562qHd0EYEI8wnxkvOtgU6vi6/
- bRPBoS0UgFjXvt4uuUhqMqQUfsKCht9toJc1I8ehjPGkHpGz3OzGiYb1vZy5r7RDDKWa
- lUZA==
-X-Gm-Message-State: APjAAAUgJgsGvYqEUF6Jl0RiNuE/+paeM2NsB3UxfyiXHFcRmW9CF0cm
- maK3tWaVwHtakVvSpl4suFQS5pRb
-X-Google-Smtp-Source: APXvYqxU7xMYJPcMQaX7t8q7CgiHIWbYB1JQUVzek8w7xFpgytok51b1EisuqMR2e/xoRvNPF3/B6w==
-X-Received: by 2002:a05:600c:3d1:: with SMTP id
- z17mr5149100wmd.90.1582631473928; 
- Tue, 25 Feb 2020 03:51:13 -0800 (PST)
+ bh=YY43ANmrO7kgR48GobRQagfarNd+y5OAvVPvc2CleoI=;
+ b=QHIv8lytkC2j56XtNPXEvT/Bb2sU1Fk9VR+r5KOWcHuOS/xBmbT2DPxi/grTBWUb0L
+ UiZ7cX2f3ZJ6tymAJb9Pr/zHxnFGa9vvBYwtA7k274IJyX0d5fnss6IKUywp6bnaCHIo
+ tzThJD3T4ut/grFLtIHNSgYfvAvx72STcyIaKajTtPWPYBiyYr0ioqbrqHHnqFl5WlPV
+ wJd6sxRGLjY74+jyNH69sJipGUqrHSPBrwIE65N/3ZxiuQManp01ppxmpM7w+e0Hgwv3
+ /Ox6PKQmpgSp/D3SudyRWqlFdaSFzCsYTdQajtJHxOkS4DKu/CqSqwFnzxuQgxZavAPV
+ 2lfg==
+X-Gm-Message-State: APjAAAWhA9gKacjHL/2Xe1r1CQHq22OgfPzGnfnCKOLmQ8jMeSGTOYv5
+ wy9Ezy7UzbiO94KNEraCeSoR/h15
+X-Google-Smtp-Source: APXvYqwqoXcUvw5ATI9/YJPeKONQtqSAuuUJoth8z9oDE4nb+EmIwe+iYFq1DctMcwfIv34LjLQIEw==
+X-Received: by 2002:a1c:3b09:: with SMTP id i9mr4859112wma.31.1582631474950;
+ Tue, 25 Feb 2020 03:51:14 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:13 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:14 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 008/136] alpha/dp264: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:48:58 +0100
-Message-Id: <1582631466-13880-8-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 009/136] arm/aspeed: actually check RAM size
+Date: Tue, 25 Feb 2020 12:48:59 +0100
+Message-Id: <1582631466-13880-9-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,92 +84,281 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+It's supposed that SOC will check if "-m" provided
+RAM size is valid by setting "ram-size" property and
+then board would read back valid (possibly corrected
+value) to map RAM MemoryReging with valid size.
+It isn't doing so, since check is called only
+indirectly from
+  aspeed_sdmc_reset()->asc->compute_conf()
+or much later when guest writes to configuration
+register.
+
+So depending on "-m" value QEMU end-ups with a warning
+and an invalid MemoryRegion size allocated and mapped.
+(examples:
+ -M ast2500-evb -m 1M
+    0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
+      0000000080000000-00000000800fffff (prio 0, ram): ram
+      0000000080100000-00000000bfffffff (prio 0, i/o): max_ram
+ -M ast2500-evb -m 3G
+    0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
+      0000000080000000-000000013fffffff (prio 0, ram): ram
+      [DETECTED OVERFLOW!] 0000000140000000-00000000bfffffff (prio 0, i/o): max_ram
+)
+On top of that sdmc falls back and reports to guest
+"default" size, it thinks machine should have.
+
+This patch makes ram-size check actually work and
+changes behavior from a warning later on during
+machine reset to error_fatal at the moment SOC.ram-size
+is set so user will have to fix RAM size on CLI
+to start machine.
+
+It also gets out of the way mutable ram-size logic,
+so we could consolidate RAM allocation logic around
+pre-allocated hostmem backend (supplied by user or
+auto created by generic machine code depending on
+supplied -m/mem-path/mem-prealloc options.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-9-imammedo@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-10-imammedo@redhat.com>
 ---
- hw/alpha/alpha_sys.h | 2 +-
- hw/alpha/dp264.c     | 3 ++-
- hw/alpha/typhoon.c   | 8 ++------
- 3 files changed, 5 insertions(+), 8 deletions(-)
+ hw/arm/aspeed.c               | 13 +++----
+ hw/misc/aspeed_sdmc.c         | 83 +++++++++++++++++++++++++++++++++----------
+ include/hw/misc/aspeed_sdmc.h |  1 +
+ 3 files changed, 70 insertions(+), 27 deletions(-)
 
-diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
-index 95033d7..bc0a286 100644
---- a/hw/alpha/alpha_sys.h
-+++ b/hw/alpha/alpha_sys.h
-@@ -11,7 +11,7 @@
- #include "hw/intc/i8259.h"
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a17843f..805bebd 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -204,8 +204,12 @@ static void aspeed_machine_init(MachineState *machine)
  
+     sc = ASPEED_SOC_GET_CLASS(&bmc->soc);
  
--PCIBus *typhoon_init(ram_addr_t, ISABus **, qemu_irq *, AlphaCPU *[4],
-+PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
-                      pci_map_irq_fn);
++    /*
++     * This will error out if isize is not supported by memory controller.
++     */
+     object_property_set_uint(OBJECT(&bmc->soc), ram_size, "ram-size",
+-                             &error_abort);
++                             &error_fatal);
++
+     object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap1, "hw-strap1",
+                             &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap2, "hw-strap2",
+@@ -228,13 +232,6 @@ static void aspeed_machine_init(MachineState *machine)
+     object_property_set_bool(OBJECT(&bmc->soc), true, "realized",
+                              &error_abort);
  
- /* alpha_pci.c.  */
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index a8f9a89..8d71a30 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -75,7 +75,7 @@ static void clipper_init(MachineState *machine)
-     cpus[0]->env.trap_arg2 = smp_cpus;
+-    /*
+-     * Allocate RAM after the memory controller has checked the size
+-     * was valid. If not, a default value is used.
+-     */
+-    ram_size = object_property_get_uint(OBJECT(&bmc->soc), "ram-size",
+-                                        &error_abort);
+-
+     memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size);
+     memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
+     memory_region_add_subregion(get_system_memory(),
+diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+index 9c18479..7b466bf 100644
+--- a/hw/misc/aspeed_sdmc.c
++++ b/hw/misc/aspeed_sdmc.c
+@@ -17,6 +17,9 @@
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "trace.h"
++#include "qemu/units.h"
++#include "qemu/cutils.h"
++#include "qapi/visitor.h"
  
-     /* Init the chipset.  */
--    pci_bus = typhoon_init(ram_size, &isa_bus, &rtc_irq, cpus,
-+    pci_bus = typhoon_init(machine->ram, &isa_bus, &rtc_irq, cpus,
-                            clipper_pci_map_irq);
- 
-     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
-@@ -183,6 +183,7 @@ static void clipper_machine_init(MachineClass *mc)
-     mc->max_cpus = 4;
-     mc->is_default = 1;
-     mc->default_cpu_type = ALPHA_CPU_TYPE_NAME("ev67");
-+    mc->default_ram_id = "ram";
+ /* Protection Key Register */
+ #define R_PROT            (0x00 / 4)
+@@ -160,14 +163,9 @@ static int ast2400_rambits(AspeedSDMCState *s)
+     case 512:
+         return ASPEED_SDMC_DRAM_512MB;
+     default:
++        g_assert_not_reached();
+         break;
+     }
+-
+-    /* use a common default */
+-    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 256M",
+-                s->ram_size);
+-    s->ram_size = 256 << 20;
+-    return ASPEED_SDMC_DRAM_256MB;
  }
  
- DEFINE_MACHINE("clipper", clipper_machine_init)
-diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
-index 179e1f7..1795e2f 100644
---- a/hw/alpha/typhoon.c
-+++ b/hw/alpha/typhoon.c
-@@ -58,7 +58,6 @@ typedef struct TyphoonState {
-     TyphoonCchip cchip;
-     TyphoonPchip pchip;
-     MemoryRegion dchip_region;
--    MemoryRegion ram_region;
- } TyphoonState;
- 
- /* Called when one of DRIR or DIM changes.  */
-@@ -817,8 +816,7 @@ static void typhoon_alarm_timer(void *opaque)
-     cpu_interrupt(CPU(s->cchip.cpu[cpu]), CPU_INTERRUPT_TIMER);
+ static int ast2500_rambits(AspeedSDMCState *s)
+@@ -182,14 +180,9 @@ static int ast2500_rambits(AspeedSDMCState *s)
+     case 1024:
+         return ASPEED_SDMC_AST2500_1024MB;
+     default:
++        g_assert_not_reached();
+         break;
+     }
+-
+-    /* use a common default */
+-    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
+-                s->ram_size);
+-    s->ram_size = 512 << 20;
+-    return ASPEED_SDMC_AST2500_512MB;
  }
  
--PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_bus,
--                     qemu_irq *p_rtc_irq,
-+PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
-                      AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq)
+ static int ast2600_rambits(AspeedSDMCState *s)
+@@ -204,14 +197,9 @@ static int ast2600_rambits(AspeedSDMCState *s)
+     case 2048:
+         return ASPEED_SDMC_AST2600_2048MB;
+     default:
++        g_assert_not_reached();
+         break;
+     }
+-
+-    /* use a common default */
+-    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
+-                s->ram_size);
+-    s->ram_size = 1024 << 20;
+-    return ASPEED_SDMC_AST2600_1024MB;
+ }
+ 
+ static void aspeed_sdmc_reset(DeviceState *dev)
+@@ -225,6 +213,51 @@ static void aspeed_sdmc_reset(DeviceState *dev)
+     s->regs[R_CONF] = asc->compute_conf(s, 0);
+ }
+ 
++static void aspeed_sdmc_get_ram_size(Object *obj, Visitor *v, const char *name,
++                                     void *opaque, Error **errp)
++{
++    AspeedSDMCState *s = ASPEED_SDMC(obj);
++    int64_t value = s->ram_size;
++
++    visit_type_int(v, name, &value, errp);
++}
++
++static void aspeed_sdmc_set_ram_size(Object *obj, Visitor *v, const char *name,
++                                     void *opaque, Error **errp)
++{
++    int i;
++    char *sz;
++    int64_t value;
++    Error *local_err = NULL;
++    AspeedSDMCState *s = ASPEED_SDMC(obj);
++    AspeedSDMCClass *asc = ASPEED_SDMC_GET_CLASS(s);
++
++    visit_type_int(v, name, &value, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    for (i = 0; asc->valid_ram_sizes[i]; i++) {
++        if (value == asc->valid_ram_sizes[i]) {
++            s->ram_size = value;
++            return;
++        }
++    }
++
++    sz = size_to_str(value);
++    error_setg(&local_err, "Invalid RAM size %s", sz);
++    g_free(sz);
++    error_propagate(errp, local_err);
++}
++
++static void aspeed_sdmc_initfn(Object *obj)
++{
++    object_property_add(obj, "ram-size", "int",
++                        aspeed_sdmc_get_ram_size, aspeed_sdmc_set_ram_size,
++                        NULL, NULL, NULL);
++}
++
+ static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
  {
-     MemoryRegion *addr_space = get_system_memory();
-@@ -851,9 +849,7 @@ PCIBus *typhoon_init(ram_addr_t ram_size, ISABus **isa_bus,
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+@@ -249,7 +282,6 @@ static const VMStateDescription vmstate_aspeed_sdmc = {
+ };
  
-     /* Main memory region, 0x00.0000.0000.  Real hardware supports 32GB,
-        but the address space hole reserved at this point is 8TB.  */
--    memory_region_allocate_system_memory(&s->ram_region, OBJECT(s), "ram",
--                                         ram_size);
--    memory_region_add_subregion(addr_space, 0, &s->ram_region);
-+    memory_region_add_subregion(addr_space, 0, ram);
+ static Property aspeed_sdmc_properties[] = {
+-    DEFINE_PROP_UINT64("ram-size", AspeedSDMCState, ram_size, 0),
+     DEFINE_PROP_UINT64("max-ram-size", AspeedSDMCState, max_ram_size, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+@@ -268,6 +300,7 @@ static const TypeInfo aspeed_sdmc_info = {
+     .name = TYPE_ASPEED_SDMC,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(AspeedSDMCState),
++    .instance_init = aspeed_sdmc_initfn,
+     .class_init = aspeed_sdmc_class_init,
+     .class_size = sizeof(AspeedSDMCClass),
+     .abstract   = true,
+@@ -298,6 +331,9 @@ static void aspeed_2400_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+     s->regs[reg] = data;
+ }
  
-     /* TIGbus, 0x801.0000.0000, 1GB.  */
-     /* ??? The TIGbus is used for delivering interrupts, and access to
++static const uint64_t
++aspeed_2400_ram_sizes[] = { 64 * MiB, 128 * MiB, 256 * MiB, 512 * MiB, 0};
++
+ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -307,6 +343,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
+     asc->max_ram_size = 512 << 20;
+     asc->compute_conf = aspeed_2400_sdmc_compute_conf;
+     asc->write = aspeed_2400_sdmc_write;
++    asc->valid_ram_sizes = aspeed_2400_ram_sizes;
+ }
+ 
+ static const TypeInfo aspeed_2400_sdmc_info = {
+@@ -351,6 +388,9 @@ static void aspeed_2500_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+     s->regs[reg] = data;
+ }
+ 
++static const uint64_t
++aspeed_2500_ram_sizes[] = { 128 * MiB, 256 * MiB, 512 * MiB, 1024 * MiB, 0};
++
+ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -360,6 +400,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
+     asc->max_ram_size = 1024 << 20;
+     asc->compute_conf = aspeed_2500_sdmc_compute_conf;
+     asc->write = aspeed_2500_sdmc_write;
++    asc->valid_ram_sizes = aspeed_2500_ram_sizes;
+ }
+ 
+ static const TypeInfo aspeed_2500_sdmc_info = {
+@@ -404,6 +445,9 @@ static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
+     s->regs[reg] = data;
+ }
+ 
++static const uint64_t
++aspeed_2600_ram_sizes[] = { 256 * MiB, 512 * MiB, 1024 * MiB, 2048 * MiB, 0};
++
+ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -413,6 +457,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
+     asc->max_ram_size = 2048 << 20;
+     asc->compute_conf = aspeed_2600_sdmc_compute_conf;
+     asc->write = aspeed_2600_sdmc_write;
++    asc->valid_ram_sizes = aspeed_2600_ram_sizes;
+ }
+ 
+ static const TypeInfo aspeed_2600_sdmc_info = {
+diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
+index 5dbde59..cea1e67 100644
+--- a/include/hw/misc/aspeed_sdmc.h
++++ b/include/hw/misc/aspeed_sdmc.h
+@@ -40,6 +40,7 @@ typedef struct AspeedSDMCClass {
+     SysBusDeviceClass parent_class;
+ 
+     uint64_t max_ram_size;
++    const uint64_t *valid_ram_sizes;
+     uint32_t (*compute_conf)(AspeedSDMCState *s, uint32_t data);
+     void (*write)(AspeedSDMCState *s, uint32_t reg, uint32_t data);
+ } AspeedSDMCClass;
 -- 
 1.8.3.1
 
