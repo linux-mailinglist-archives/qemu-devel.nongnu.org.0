@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F72216C0D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:33:04 +0100 (CET)
-Received: from localhost ([::1]:54260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396ED16C135
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:46:47 +0100 (CET)
+Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZOZ-0008F7-3T
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49980)
+	id 1j6Zbq-0003Em-3S
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:46:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlD-0001b6-45
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:23 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlG-0001iT-9y
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlC-0000zg-7Q
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:23 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55329)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YlE-00019r-8t
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:26 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36611)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YlC-0000yO-0f
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:22 -0500
-Received: by mail-wm1-x330.google.com with SMTP id q9so2667847wmj.5
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:21 -0800 (PST)
+ id 1j6YlE-00017O-2d
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:24 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so2861444wma.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4vmp7Ik2Ty/GsDRbd5YaNqN8aD/hfUDWlirfLWtK1uk=;
- b=SL2b0iRKR+uJktTD0kUh3Nawl2dH7a/IZ96DgQ2AWv4n1rCPIYPzXVC6qqUXOJ+EVj
- m6zwxbE1v5BbDa2LHbpcnosH8mS5sFIu0W4380hyLu7XE3PisG5OGTSI6RYXzzObcblr
- 4e55G5yRZg5KtKuAJZAqT9R2L8jG9sgfK7aXoBFIVccolCcr8RkLqPKUytCMsThovII/
- C6sZ91aqz6xYzzJLztDELm7/yKFDs3yDev9fY3usRkAsjhDVgkCVbf36+fPmvLG7MTWN
- ro8L8s6EPQQ+Rhxax6+w7HrnbDUaXnAwdVWuicCTG+FeaPIVDlvbvBCr2kHARuV9o72T
- qkQg==
+ bh=JImAuaX0wkn2tgnJiEdNQRpcHEBlhK4sGVLX4H6xCw8=;
+ b=QHCdvcjqY1H/UAXJAGfHofJE+Y/CnFahTQXE5EDRXE/WErwn4pjqoNWA81/p38b6uZ
+ dFxNZbNo1xEwVq3HVaIJb4fMQMvKbx9NAFdZw+4uhdRM9WCndnYSveIVHah0kmMwB9H8
+ P93Km4Grzqz5NMWy3qb7ttQTR4jljUDs961gEsiTWA3XRasrmDcYlwEVn28rqicxa821
+ 8mA2bYDYPXxYUeCWSMrhnNU5T4aRk70EtYq8dlQb0YwRICYvsFblI1tSgTOKtrWnKOZ/
+ 5zgNLMTOn9GgGUsNpAH4B65g3xBJ+hNKdKKs8uunVRJWofOaGVrE9lJ9JwTRc0f6sf9w
+ /3EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4vmp7Ik2Ty/GsDRbd5YaNqN8aD/hfUDWlirfLWtK1uk=;
- b=G84j6fxBEvL/n8yesR1FiQa+RNgQA4g/9JD9jbaX3coNwn5mg9gi8roTLD+tYA8k6C
- mqo60yUT7t7u6wCABOnm5aMcQQFQF/uampqiDttUbatiPjU/r7Uw0SVJRibLOPVBEnYS
- VKpMHe0uKoDV1VDXKckeusGINwUA4Y8gY7ucphGF0Mu0qCjSW0kUhefYdqbn6WRF50zF
- coWeUUhOCwSnLLtGTzF1Q3wMmGHeqVn+Lm5fcX3RpSG/J2iORgxSmFQJfbD7lWk3TBlY
- +eS136SLEfILqTyw0tWqm3Svvb2Iin2/TVBxedmNfhEfCB/wdIoPnmeYSrp1/RTAmwZT
- hTDw==
-X-Gm-Message-State: APjAAAXnKS8ycwE+YQzgFUdXS53tcQG7a0EpKwKLg1q00JgUz1sR3Uu3
- pl5PzZjJvLzkE26v5HGytDa1XTNX
-X-Google-Smtp-Source: APXvYqzmQiOK+nF39VHlztdXYgsg8x3t8rHp58Rls5yE94mh1roSH+78QYGgBreHj1t3iWFVZnaGQw==
-X-Received: by 2002:a1c:9a0d:: with SMTP id c13mr4835418wme.41.1582631540774; 
- Tue, 25 Feb 2020 03:52:20 -0800 (PST)
+ bh=JImAuaX0wkn2tgnJiEdNQRpcHEBlhK4sGVLX4H6xCw8=;
+ b=M6diK6eop6Gi4ICxVYh0XVcG8vMBExppPu1z8Q0h6d36haUSo2bJsPOfdXLQsXFxVR
+ WVekjLuhLl5X5gMzlk3LFvuAnR1TMD7bV++FrYg7/lVHifMvz+/NUEP+xh6u/743zPkQ
+ l6LmK5xvQy5chzSszn9NjQ7yLY7mfN/6l+PQgT2kmrkB24LBZsGCu6qty7AjCKqDhN7A
+ lVY+eK4ooTaEdOwoVbBfNg8bnU3g1xjbUlgto7WGl8HAjwZVJvsjljxYsLWqwwoL9Rc6
+ tOz+PBqhiXtrZ3a3gaFOadNhpLPzBynYh+TxgCHNb62QxzezQYpuN/oRhGW20haaAhIV
+ bPGw==
+X-Gm-Message-State: APjAAAX7QvuymOivKLy8W9028PUJJvNAEioU8plhUtf/+JM0kNCgON5U
+ zmxrTZiBJ4/e2vlDorpw/NUrcqkG
+X-Google-Smtp-Source: APXvYqxLVD/T6Vy7Q4Y6uLaGb/vp23ayxpXVpNX1BIuYEnxMWUYOIRcQkSDc0AoWuX3W5eiuWEBSog==
+X-Received: by 2002:a1c:67c3:: with SMTP id b186mr4889330wmc.36.1582631542612; 
+ Tue, 25 Feb 2020 03:52:22 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.19
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.52.21
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:52:20 -0800 (PST)
+ Tue, 25 Feb 2020 03:52:21 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 080/136] scripts/git.orderfile: Display Cocci scripts before
- code modifications
-Date: Tue, 25 Feb 2020 12:50:10 +0100
-Message-Id: <1582631466-13880-80-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 082/136] exec: Rename ram_ptr variable
+Date: Tue, 25 Feb 2020 12:50:12 +0100
+Message-Id: <1582631466-13880-82-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,29 +84,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When we use a Coccinelle semantic script to do automatic
-code modifications, it makes sense to look at the semantic
-patch first.
+As we are going to use a different 'ptr' variable, rename the 'ram
+pointer' variable.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- scripts/git.orderfile | 3 +++
- 1 file changed, 3 insertions(+)
+ exec.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-index 1f747b5..7cf22e0 100644
---- a/scripts/git.orderfile
-+++ b/scripts/git.orderfile
-@@ -22,6 +22,9 @@ Makefile*
- qapi/*.json
- qga/*.json
+diff --git a/exec.c b/exec.c
+index 8e9cc3b..08a30f6 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3151,7 +3151,7 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+                                            hwaddr len, hwaddr addr1,
+                                            hwaddr l, MemoryRegion *mr)
+ {
+-    uint8_t *ptr;
++    uint8_t *ram_ptr;
+     uint64_t val;
+     MemTxResult result = MEMTX_OK;
+     bool release_lock = false;
+@@ -3167,8 +3167,8 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+                                                    size_memop(l), attrs);
+         } else {
+             /* RAM case */
+-            ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+-            memcpy(ptr, buf, l);
++            ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
++            memcpy(ram_ptr, buf, l);
+             invalidate_and_set_dirty(mr, addr1, l);
+         }
  
-+# semantic patches
-+*.cocci
-+
- # headers
- *.h
+@@ -3215,7 +3215,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+                                    hwaddr len, hwaddr addr1, hwaddr l,
+                                    MemoryRegion *mr)
+ {
+-    uint8_t *ptr;
++    uint8_t *ram_ptr;
+     uint64_t val;
+     MemTxResult result = MEMTX_OK;
+     bool release_lock = false;
+@@ -3230,8 +3230,8 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
+             stn_he_p(buf, l, val);
+         } else {
+             /* RAM case */
+-            ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+-            memcpy(buf, ptr, l);
++            ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
++            memcpy(buf, ram_ptr, l);
+         }
  
+         if (release_lock) {
+@@ -3329,7 +3329,7 @@ static inline MemTxResult address_space_write_rom_internal(AddressSpace *as,
+                                                            enum write_rom_type type)
+ {
+     hwaddr l;
+-    uint8_t *ptr;
++    uint8_t *ram_ptr;
+     hwaddr addr1;
+     MemoryRegion *mr;
+ 
+@@ -3343,14 +3343,14 @@ static inline MemTxResult address_space_write_rom_internal(AddressSpace *as,
+             l = memory_access_size(mr, l, addr1);
+         } else {
+             /* ROM/RAM case */
+-            ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
++            ram_ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
+             switch (type) {
+             case WRITE_DATA:
+-                memcpy(ptr, buf, l);
++                memcpy(ram_ptr, buf, l);
+                 invalidate_and_set_dirty(mr, addr1, l);
+                 break;
+             case FLUSH_CACHE:
+-                flush_icache_range((uintptr_t)ptr, (uintptr_t)ptr + l);
++                flush_icache_range((uintptr_t)ram_ptr, (uintptr_t)ram_ptr + l);
+                 break;
+             }
+         }
 -- 
 1.8.3.1
 
