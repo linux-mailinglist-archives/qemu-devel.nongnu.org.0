@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FED516B695
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:17:38 +0100 (CET)
-Received: from localhost ([::1]:46476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8694416B65D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 01:11:26 +0100 (CET)
+Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Nur-0007sY-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:17:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
+	id 1j6Nor-0004gv-2Y
+	for lists+qemu-devel@lfdr.de; Mon, 24 Feb 2020 19:11:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j6Nu0-0007QX-Qy
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:16:47 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j6Nnl-00043z-75
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:10:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j6Nty-0003Ch-BC
- for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:16:44 -0500
-Received: from ozlabs.org ([203.11.71.1]:45995)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j6Ntw-000389-0Z; Mon, 24 Feb 2020 19:16:41 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48RKH73jC0z9sPk; Tue, 25 Feb 2020 11:16:35 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582589795;
- bh=Lic4duJHgMwwwMnb+0ihHuQeo+JLKZYSCq5TVAsi5tc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lV5ms+NdbVTXzIJPaoUiQ9gVQkDWJM6jbdnNGPWpXjZNdn9TTzszAxRS4bLuL4fxb
- lh2JZe9YWI1VviNQh0/EtbHd14vyj9fAeGye07urgy0gf1quiLslpwes5mgg/ivnBt
- JqtTJxU31uHCHCN0Oy3+WovJjUgiEk0ykRbwHecI=
-Date: Tue, 25 Feb 2020 10:44:28 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Rework hash<->radix transitions at CAS
-Message-ID: <20200224234428.GA41629@umbus.fritz.box>
-References: <158160831807.3339719.7059822505220975954.stgit@bahia.lan>
- <20200213222835.GG124369@umbus.fritz.box>
- <20200214191900.7e4f91fc@bahia.lan>
- <20200218232105.GG1764@umbus.fritz.box>
- <20200224121827.59f85580@bahia.home>
+ (envelope-from <alistair23@gmail.com>) id 1j6Nnj-0007cP-8O
+ for qemu-devel@nongnu.org; Mon, 24 Feb 2020 19:10:17 -0500
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:44928)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j6Nni-0007bl-RJ; Mon, 24 Feb 2020 19:10:15 -0500
+Received: by mail-lj1-x241.google.com with SMTP id q8so12045543ljj.11;
+ Mon, 24 Feb 2020 16:10:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2CU5awjyWBi7wI0IEPR/D7QgQQ8EIg4J7okTZYOGlIg=;
+ b=vXBzamBoABysVly6Fjb1iybYA5cyMfgOGHz5BNKgjq6pniLMnT91XG+YAwCLKich8n
+ hV6o6gwKN9NdKkBfuf4oBRbgAQDK/PGQOzMAgP+4nmy5WvP5Dgc6YMYk0Bcm/zcm20Cp
+ H4ld5n7mqw5odwqQnOhxO890hC6q/ILdOY0dz9wQEED6LWBv4dZhA983pwSqz9rLb1Uo
+ IcXyc8PtlGXP9svMvKd4wKIstQE7/hewM+6iQsOKLXEHf0y4xMO3iMI7ktRNwaGNllZz
+ 17fmhBSrSiOTMNBoxim3I0ImwzH1Q1Fua6ZtfAG6+xgvqvzeTvpax/GmqpWGM5GiyXph
+ ku9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2CU5awjyWBi7wI0IEPR/D7QgQQ8EIg4J7okTZYOGlIg=;
+ b=XDB2SHZHfSjYdEbON3g1/gCbSBnovT7qM1KNIYc7/WGhAWy2AkoK5o0QBPDwmoHsbP
+ aPNgfSN6dEq5+3zCjeWq3aPNNpkL1dhum08PmacnIoOsW/Sg8DRLjs1VNsqY8uivRN2Y
+ bCdXPIK9dJpEzZz6gRenGYyip+MhSWxsP6y5UkG1/X/KlC9XdzLQLPX5gaLYSsyNGtJA
+ +PnPNck3oMBtd7U372QvmGky404wfgZGgK3NR5+88vKybKbqK+E8FNbPh7/gq27a0rZS
+ A+mBI8CjiUlt40A/LUpjNOjK35WtBYqVHvLMd+Zk0CncLxSF8rurg0Q4LhY+J/d+JWYw
+ I+Jg==
+X-Gm-Message-State: APjAAAVQc2/fmA03NkD/nUoXBiEdh5yBFa9dS7O9tB4YaEowt9lxOYEb
+ OHUIzBXQhKKxRN8FERQdYvq+DDfGXqSoEU9nJqk=
+X-Google-Smtp-Source: APXvYqw2eIPhuI3fG0BPMlRQI9hqHsZcfrWDMyHbo/HwnI3w5d65Kthu+u50Uh+FewBw5JykheeMILfiJ597rEiYBj0=
+X-Received: by 2002:a2e:b4ac:: with SMTP id q12mr29876885ljm.285.1582589413132; 
+ Mon, 24 Feb 2020 16:10:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
-In-Reply-To: <20200224121827.59f85580@bahia.home>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+References: <20200224170301.246623-1-damien.hedde@greensocs.com>
+ <20200224170301.246623-2-damien.hedde@greensocs.com>
+In-Reply-To: <20200224170301.246623-2-damien.hedde@greensocs.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 24 Feb 2020 16:02:38 -0800
+Message-ID: <CAKmqyKP1LR3e5TmUvNWKub21sA7q6u2fK=saEH93i64furcpTQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/9] hw/core/clock: introduce clock object
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,370 +71,466 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Burton <mark.burton@greensocs.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Feb 24, 2020 at 9:05 AM Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> This object may be used to represent a clock inside a clock tree.
+>
+> A clock may be connected to another clock so that it receives update,
+> through a callback, whenever the source/parent clock is updated.
+>
+> Although only the root clock of a clock tree controls the values
+> (represented as periods) of all clocks in tree, each clock holds
+> a local state containing the current value so that it can be fetched
+> independently. It will allows us to fullfill migration requirements
+> by migrating each clock independently of others.
+>
+> This is based on the original work of Frederic Konrad.
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> --
+>
+> v7:
+> + merge ClockIn & ClockOut into a single type Clock
+> + switch clock state to a period with 2^-32ns unit
+> + add some Hz and ns helpers
+> + propagate clock period when setting the source so that
+>   clocks with fixed period are easy to handle.
+> ---
+>  include/hw/clock.h    | 216 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/core/clock.c       | 131 +++++++++++++++++++++++++
+>  hw/core/Makefile.objs |   2 +
+>  hw/core/trace-events  |   7 ++
+>  4 files changed, 356 insertions(+)
+>  create mode 100644 include/hw/clock.h
+>  create mode 100644 hw/core/clock.c
+>
+> diff --git a/include/hw/clock.h b/include/hw/clock.h
+> new file mode 100644
+> index 0000000000..30ac9a9946
+> --- /dev/null
+> +++ b/include/hw/clock.h
+> @@ -0,0 +1,216 @@
+> +/*
+> + * Hardware Clocks
+> + *
+> + * Copyright GreenSocs 2016-2020
+> + *
+> + * Authors:
+> + *  Frederic Konrad
+> + *  Damien Hedde
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QEMU_HW_CLOCK_H
+> +#define QEMU_HW_CLOCK_H
+> +
+> +#include "qom/object.h"
+> +#include "qemu/queue.h"
+> +
+> +#define TYPE_CLOCK "clock"
+> +#define CLOCK(obj) OBJECT_CHECK(Clock, (obj), TYPE_CLOCK)
+> +
+> +typedef void ClockCallback(void *opaque);
+> +
+> +/*
+> + * clock store a value representing the clock's period in 2^-32ns unit.
+> + * It can represent:
+> + *  + periods from 2^-32ns up to 4seconds
+> + *  + frequency from ~0.25Hz 2e10Ghz
+> + * Resolution of frequency representation decreases with frequency:
+> + * + at 100MHz, resolution is ~2mHz
+> + * + at 1Ghz,   resolution is ~0.2Hz
+> + * + at 10Ghz,  resolution is ~20Hz
+> + */
+> +#define CLOCK_SECOND (1000000000llu << 32)
+> +
+> +/*
+> + * macro helpers to convert to hertz / nanosecond
+> + */
+> +#define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_SECOND / 1000000000llu))
+> +#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_SECOND / 1000000000llu))
+> +#define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_SECOND / (hz) : 0u)
+> +#define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_SECOND / (per) : 0u)
+> +
+> +/**
+> + * Clock:
+> + * @parent_obj: parent class
+> + * @period: unsigned integer representing the period of the clock
+> + * @canonical_path: clock path string cache (used for trace purpose)
+> + * @callback: called when clock changes
+> + * @callback_opaque: argument for @callback
+> + * @source: source (or parent in clock tree) of the clock
+> + * @children: list of clocks connected to this one (it is their source)
+> + * @sibling: structure used to form a clock list
+> + */
+> +
+> +typedef struct Clock Clock;
+> +
+> +struct Clock {
+> +    /*< private >*/
+> +    Object parent_obj;
+> +
+> +    /* all fields are private and should not be modified directly */
+> +
+> +    /* fields */
+> +    uint64_t period;
+> +    char *canonical_path;
+> +    ClockCallback *callback;
+> +    void *callback_opaque;
+> +
+> +    /* Clocks are organized in a clock tree */
+> +    Clock *source;
+> +    QLIST_HEAD(, Clock) children;
+> +    QLIST_ENTRY(Clock) sibling;
+> +};
+> +
+> +/**
+> + * clock_setup_canonical_path:
+> + * @clk: clock
+> + *
+> + * compute the canonical path of the clock (used by log messages)
+> + */
+> +void clock_setup_canonical_path(Clock *clk);
+> +
+> +/**
+> + * clock_add_callback:
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+s/clock_add_callback/clock_set_callback/g
 
-On Mon, Feb 24, 2020 at 12:18:27PM +0100, Greg Kurz wrote:
-> On Wed, 19 Feb 2020 10:21:05 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Fri, Feb 14, 2020 at 07:19:00PM +0100, Greg Kurz wrote:
-> > > On Fri, 14 Feb 2020 09:28:35 +1100
-> > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > >=20
-> > > > On Thu, Feb 13, 2020 at 04:38:38PM +0100, Greg Kurz wrote:
-> > > > > Until the CAS negotiation is over, an HPT can be allocated on thr=
-ee
-> > > > > different paths:
-> > > > >=20
-> > > > > 1) during machine reset if the host doesn't support radix,
-> > > > >=20
-> > > > > 2) during CAS if the guest wants hash and doesn't support HPT res=
-izing,
-> > > > >    in which case we pre-emptively resize the HPT to accomodate ma=
-xram,
-> > > > >=20
-> > > > > 3) during CAS if no CAS reboot was requested, the guest wants has=
-h but
-> > > > >    we're currently configured for radix.
-> > > > >=20
-> > > > > Depending on the various combinations of host or guest MMU suppor=
-t,
-> > > > > HPT resizing guest support and the possibility of a CAS reboot, it
-> > > > > is quite hard to know which of these allocates the HPT that will
-> > > > > be ultimately used by the guest that wants to do hash. Also, some=
- of
-> > > > > them have bugs:
-> > > > >=20
-> > > > > - 2) calls spapr_reallocate_hpt() instead of spapr_setup_hpt_and_=
-vrma()
-> > > > >   and thus doesn't update the VRMA size, even though we've just e=
-xtended
-> > > > >   the HPT. Not sure what issues this can cause,
-> > > > >=20
-> > > > > - 3) doesn't check for HPT resizing support and will always alloc=
-ate a
-> > > > >   small HPT based on the initial RAM size. This caps the total am=
-ount of
-> > > > >   RAM the guest can see, especially if maxram is much higher than=
- the
-> > > > >   initial ram.
-> > > > >=20
-> > > > > We only support guests that do CAS and we already assume that the=
- HPT
-> > > > > isn't being used when we do the pre-emptive resizing at CAS. It t=
-hus
-> > > > > seems reasonable to only allocate the HPT at the end of CAS, when=
- no
-> > > > > CAS reboot was requested.
-> > > > >=20
-> > > > > Consolidate the logic so that we only create the HPT during 3), i=
-e.
-> > > > > when we're done with the CAS reboot cycles, and ensure HPT resizi=
-ng
-> > > > > is taken into account. This fixes the radix->hash transition for
-> > > > > all cases.
-> > > >=20
-> > > > Uh.. I'm pretty sure this can't work for KVM on a POWER8 host.  We
-> > > > need the HPT at all times there, or there's nowhere to put VRMA
-> > > > entries, so we can't run even in real mode.
-> > > >=20
-> > >=20
-> > > Well it happens to be working anyway because KVM automatically
-> > > creates an HPT (default size 16MB) in kvmppc_hv_setup_htab_rma()
-> > > if QEMU didn't do so already... Would a comment to emphasize this
-> > > be enough or do you prefer I don't drop the HPT allocation currently
-> > > performed at machine reset ?
-> >=20
-> > Relying on the automatic allocation is not a good idea.  With host
-> > kernels before HPT resizing, once that automatic allocation happens,
-> > we can't change the HPT size *at all*, even with a reset or CAS.
-> >=20
->=20
-> Ah ok I see. With these older host kernels, we need QEMU to allocate the
-> HPT to fit ms->maxram_size, which KVM doesn't know about, or we'll have
-> troubles with VMs that would need a bigger HPT.
+> + * @clk: the clock to register the callback into
+> + * @cb: the callback function
+> + * @opaque: the argument to the callback
+> + *
+> + * Register a callback called on every clock update.
+> + */
+> +void clock_set_callback(Clock *clk, ClockCallback *cb, void *opaque);
+> +
+> +/**
+> + * clock_clear_callback:
+> + * @clk: the clock to delete the callback from
+> + *
+> + * Unregister the callback registered with clock_set_callback.
+> + */
+> +void clock_clear_callback(Clock *clk);
+> +
+> +/**
+> + * clock_set_source:
+> + * @clk: the clock.
+> + * @src: the source clock
+> + *
+> + * Setup @src as the clock source of @clk. The current @src period
+> + * value is also copied to @clk and its subtree but not callback is
 
-Exactly.
+s/not/no/g
 
-> And I guess we want to
-> support bigger VMs with pre-4.11 host kernels.
+> + * called.
+> + * Further @src update will be propagated to @clk and its subtree.
+> + */
+> +void clock_set_source(Clock *clk, Clock *src);
+> +
+> +/**
+> + * clock_set:
+> + * @clk: the clock to initialize.
+> + * @value: the clock's value, 0 means unclocked
+> + *
+> + * Set the local cached period value of @clk to @value.
+> + */
+> +void clock_set(Clock *clk, uint64_t value);
+> +
+> +static inline void clock_set_hz(Clock *clk, unsigned hz)
+> +{
+> +    clock_set(clk, CLOCK_PERIOD_FROM_HZ(hz));
+> +}
+> +
+> +static inline void clock_set_ns(Clock *clk, unsigned ns)
+> +{
+> +    clock_set(clk, CLOCK_PERIOD_FROM_NS(ns));
+> +}
+> +
+> +/**
+> + * clock_propagate:
+> + * @clk: the clock
+> + *
+> + * Propagate the clock period that has been previsouly configured using
 
-Well, with the usual sizing rules, a 16MiB HPT only supports a 2GiB
-guest, so it doesn't have to be a particularly large VM to trip this.
+s/previsouly/previously/g
 
->=20
-> > So, yes, the current code is annoyingly complex, but it's that way for
-> > a reason.
-> >=20
->=20
-> My motivation here is to get rid of CAS reboot... it definitely needs more
-> thinking on my side.
+> + * @clock_set(). This will update recursively all connected clocks.
+> + * It is an error to call this function on a clock which has a source.
+> + * Note: this function must not be called during device inititialization
+> + * or migration.
+> + */
+> +void clock_propagate(Clock *clk);
+> +
+> +/**
+> + * clock_update:
+> + * @clk: the clock to update.
+> + * @value: the new clock's value, 0 means unclocked
+> + *
+> + * Update the @clk to the new @value. All connected clocks will be informed
+> + * of this update. This is equivalent to call @clock_set() then
+> + * @clock_propagate().
+> + */
+> +static inline void clock_update(Clock *clk, uint64_t value)
+> +{
+> +    clock_set(clk, value);
+> +    clock_propagate(clk);
+> +}
+> +
+> +static inline void clock_update_hz(Clock *clk, unsigned hz)
+> +{
+> +    clock_update(clk, CLOCK_PERIOD_FROM_HZ(hz));
+> +}
+> +
+> +static inline void clock_update_ns(Clock *clk, unsigned ns)
+> +{
+> +    clock_update(clk, CLOCK_PERIOD_FROM_NS(ns));
+> +}
+> +
+> +/**
+> + * clock_get:
+> + * @clk: the clk to fetch the clock
+> + *
+> + * @return: the current period.
+> + */
+> +static inline uint64_t clock_get(const Clock *clk)
+> +{
+> +    return clk->period;
+> +}
+> +
+> +static inline unsigned clock_get_hz(Clock *clk)
+> +{
+> +    return CLOCK_PERIOD_TO_HZ(clock_get(clk));
+> +}
+> +
+> +static inline unsigned clock_get_ns(Clock *clk)
+> +{
+> +    return CLOCK_PERIOD_TO_NS(clock_get(clk));
+> +}
+> +
+> +/**
+> + * clock_is_enabled:
+> + * @clk: a clock
+> + *
+> + * @return: true if the clock is running.
+> + */
+> +static inline bool clock_is_enabled(const Clock *clk)
+> +{
+> +    return clock_get(clk) != 0;
+> +}
+> +
+> +static inline void clock_init(Clock *clk, uint64_t value)
+> +{
+> +    clock_set(clk, value);
+> +}
+> +static inline void clock_init_hz(Clock *clk, uint64_t value)
+> +{
+> +    clock_set_hz(clk, value);
+> +}
+> +static inline void clock_init_ns(Clock *clk, uint64_t value)
+> +{
+> +    clock_set_ns(clk, value);
+> +}
+> +
+> +#endif /* QEMU_HW_CLOCK_H */
+> diff --git a/hw/core/clock.c b/hw/core/clock.c
+> new file mode 100644
+> index 0000000000..4ba5765b05
+> --- /dev/null
+> +++ b/hw/core/clock.c
+> @@ -0,0 +1,131 @@
+> +/*
+> + * Hardware Clocks
+> + *
+> + * Copyright GreenSocs 2016-2020
+> + *
+> + * Authors:
+> + *  Frederic Konrad
+> + *  Damien Hedde
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/clock.h"
+> +#include "trace.h"
+> +
+> +#define CLOCK_PATH(_clk) (_clk->canonical_path)
+> +
+> +void clock_setup_canonical_path(Clock *clk)
+> +{
+> +    g_free(clk->canonical_path);
+> +    clk->canonical_path = object_get_canonical_path(OBJECT(clk));
+> +}
+> +
+> +void clock_set_callback(Clock *clk, ClockCallback *cb, void *opaque)
+> +{
+> +    clk->callback = cb;
+> +    clk->callback_opaque = opaque;
+> +}
+> +
+> +void clock_clear_callback(Clock *clk)
+> +{
+> +    clock_set_callback(clk, NULL, NULL);
+> +}
+> +
+> +void clock_set(Clock *clk, uint64_t period)
+> +{
+> +    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_NS(clk->period),
+> +                    CLOCK_PERIOD_TO_NS(period));
+> +    clk->period = period;
+> +}
+> +
+> +static void clock_propagate_period(Clock *clk, bool call_callbacks)
+> +{
+> +    Clock *child;
+> +
+> +    QLIST_FOREACH(child, &clk->children, sibling) {
+> +        if (child->period != clk->period) {
+> +            child->period = clk->period;
+> +            trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
+> +                               CLOCK_PERIOD_TO_NS(clk->period),
+> +                               call_callbacks);
+> +            if (call_callbacks && child->callback) {
+> +                child->callback(child->callback_opaque);
+> +            }
+> +            clock_propagate_period(child, call_callbacks);
+> +        }
+> +    }
+> +}
+> +
+> +void clock_propagate(Clock *clk)
+> +{
+> +    assert(clk->source == NULL);
+> +    trace_clock_propagate(CLOCK_PATH(clk));
+> +    clock_propagate_period(clk, true);
+> +}
+> +
+> +void clock_set_source(Clock *clk, Clock *src)
+> +{
+> +    /* changing clock source is not supported */
+> +    assert(!clk->source);
+> +
+> +    trace_clock_set_source(CLOCK_PATH(clk), CLOCK_PATH(src));
+> +
+> +    clk->period = src->period;
+> +    QLIST_INSERT_HEAD(&src->children, clk, sibling);
+> +    clk->source = src;
+> +    clock_propagate_period(clk, false);
+> +}
+> +
+> +static void clock_disconnect(Clock *clk)
+> +{
+> +    if (clk->source == NULL) {
+> +        return;
+> +    }
+> +
+> +    trace_clock_disconnect(CLOCK_PATH(clk));
+> +
+> +    clk->source = NULL;
+> +    QLIST_REMOVE(clk, sibling);
+> +}
+> +
+> +static void clock_initfn(Object *obj)
+> +{
+> +    Clock *clk = CLOCK(obj);
+> +
+> +    QLIST_INIT(&clk->children);
+> +}
+> +
+> +static void clock_finalizefn(Object *obj)
+> +{
+> +    Clock *clk = CLOCK(obj);
+> +    Clock *child, *next;
+> +
+> +    /* clear our list of children */
+> +    QLIST_FOREACH_SAFE(child, &clk->children, sibling, next) {
+> +        clock_disconnect(child);
+> +    }
+> +
+> +    /* remove us from source's chidlren list */
 
-Yeah, I think so.
+s/chidlren/children/g
 
->=20
-> > > > > The guest can theoretically call CAS several times, without a CAS
-> > > > > reboot in between. Linux guests don't do that, but better safe th=
-an
-> > > > > sorry, let's ensure we can also handle the symmetrical hash->radix
-> > > > > transition correctly: free the HPT and set the GR bit in PATE.
-> > > > > An helper is introduced for the latter since this is already what
-> > > > > we do during machine reset when going for radix.
-> > > > >=20
-> > > > > As a bonus, this removes one user of spapr->cas_reboot, which we
-> > > > > want to get rid of in the future.
-> > > > >=20
-> > > > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > > > ---
-> > > > >  hw/ppc/spapr.c         |   25 +++++++++++++++-----
-> > > > >  hw/ppc/spapr_hcall.c   |   59 ++++++++++++++++++++--------------=
---------------
-> > > > >  include/hw/ppc/spapr.h |    1 +
-> > > > >  3 files changed, 44 insertions(+), 41 deletions(-)
-> > > > >=20
-> > > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > > > index 828e2cc1359a..88bc0e4e3ca1 100644
-> > > > > --- a/hw/ppc/spapr.c
-> > > > > +++ b/hw/ppc/spapr.c
-> > > > > @@ -1573,9 +1573,19 @@ void spapr_setup_hpt_and_vrma(SpaprMachine=
-State *spapr)
-> > > > >  {
-> > > > >      int hpt_shift;
-> > > > > =20
-> > > > > +    /*
-> > > > > +     * HPT resizing is a bit of a special case, because when ena=
-bled
-> > > > > +     * we assume an HPT guest will support it until it says it
-> > > > > +     * doesn't, instead of assuming it won't support it until it=
- says
-> > > > > +     * it does.  Strictly speaking that approach could break for
-> > > > > +     * guests which don't make a CAS call, but those are so old =
-we
-> > > > > +     * don't care about them.  Without that assumption we'd have=
- to
-> > > > > +     * make at least a temporary allocation of an HPT sized for =
-max
-> > > > > +     * memory, which could be impossibly difficult under KVM HV =
-if
-> > > > > +     * maxram is large.
-> > > > > +     */
-> > > > >      if ((spapr->resize_hpt =3D=3D SPAPR_RESIZE_HPT_DISABLED)
-> > > > > -        || (spapr->cas_reboot
-> > > > > -            && !spapr_ovec_test(spapr->ov5_cas, OV5_HPT_RESIZE))=
-) {
-> > > > > +        || !spapr_ovec_test(spapr->ov5_cas, OV5_HPT_RESIZE)) {
-> > > > >          hpt_shift =3D spapr_hpt_shift_for_ramsize(MACHINE(spapr)=
-->maxram_size);
-> > > > >      } else {
-> > > > >          uint64_t current_ram_size;
-> > > > > @@ -1604,6 +1614,12 @@ static int spapr_reset_drcs(Object *child,=
- void *opaque)
-> > > > >      return 0;
-> > > > >  }
-> > > > > =20
-> > > > > +void spapr_reset_patb_entry(SpaprMachineState *spapr)
-> > > > > +{
-> > > > > +    spapr->patb_entry =3D PATE1_GR;
-> > > > > +    spapr_set_all_lpcrs(LPCR_HR | LPCR_UPRT, LPCR_HR | LPCR_UPRT=
-);
-> > > > > +}
-> > > > > +
-> > > > >  static void spapr_machine_reset(MachineState *machine)
-> > > > >  {
-> > > > >      SpaprMachineState *spapr =3D SPAPR_MACHINE(machine);
-> > > > > @@ -1624,10 +1640,7 @@ static void spapr_machine_reset(MachineSta=
-te *machine)
-> > > > >           * without a HPT because KVM will start them in radix mo=
-de.
-> > > > >           * Set the GR bit in PATE so that we know there is no HP=
-T.
-> > > > >           */
-> > > > > -        spapr->patb_entry =3D PATE1_GR;
-> > > > > -        spapr_set_all_lpcrs(LPCR_HR | LPCR_UPRT, LPCR_HR | LPCR_=
-UPRT);
-> > > > > -    } else {
-> > > > > -        spapr_setup_hpt_and_vrma(spapr);
-> > > > > +        spapr_reset_patb_entry(spapr);
-> > > > >      }
-> > > > > =20
-> > > > >      qemu_devices_reset();
-> > > > > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> > > > > index b8bb66b5c0d4..57ddf0fa6d05 100644
-> > > > > --- a/hw/ppc/spapr_hcall.c
-> > > > > +++ b/hw/ppc/spapr_hcall.c
-> > > > > @@ -1677,6 +1677,7 @@ static target_ulong h_client_architecture_s=
-upport(PowerPCCPU *cpu,
-> > > > >      bool raw_mode_supported =3D false;
-> > > > >      bool guest_xive;
-> > > > >      CPUState *cs;
-> > > > > +    int maxshift =3D spapr_hpt_shift_for_ramsize(MACHINE(spapr)-=
->maxram_size);
-> > > > > =20
-> > > > >      /* CAS is supposed to be called early when only the boot vCP=
-U is active. */
-> > > > >      CPU_FOREACH(cs) {
-> > > > > @@ -1739,36 +1740,6 @@ static target_ulong h_client_architecture_=
-support(PowerPCCPU *cpu,
-> > > > > =20
-> > > > >      guest_xive =3D spapr_ovec_test(ov5_guest, OV5_XIVE_EXPLOIT);
-> > > > > =20
-> > > > > -    /*
-> > > > > -     * HPT resizing is a bit of a special case, because when ena=
-bled
-> > > > > -     * we assume an HPT guest will support it until it says it
-> > > > > -     * doesn't, instead of assuming it won't support it until it=
- says
-> > > > > -     * it does.  Strictly speaking that approach could break for
-> > > > > -     * guests which don't make a CAS call, but those are so old =
-we
-> > > > > -     * don't care about them.  Without that assumption we'd have=
- to
-> > > > > -     * make at least a temporary allocation of an HPT sized for =
-max
-> > > > > -     * memory, which could be impossibly difficult under KVM HV =
-if
-> > > > > -     * maxram is large.
-> > > > > -     */
-> > > > > -    if (!guest_radix && !spapr_ovec_test(ov5_guest, OV5_HPT_RESI=
-ZE)) {
-> > > > > -        int maxshift =3D spapr_hpt_shift_for_ramsize(MACHINE(spa=
-pr)->maxram_size);
-> > > > > -
-> > > > > -        if (spapr->resize_hpt =3D=3D SPAPR_RESIZE_HPT_REQUIRED) {
-> > > > > -            error_report(
-> > > > > -                "h_client_architecture_support: Guest doesn't su=
-pport HPT resizing, but resize-hpt=3Drequired");
-> > > > > -            exit(1);
-> > > > > -        }
-> > > > > -
-> > > > > -        if (spapr->htab_shift < maxshift) {
-> > > > > -            /* Guest doesn't know about HPT resizing, so we
-> > > > > -             * pre-emptively resize for the maximum permitted RA=
-M.  At
-> > > > > -             * the point this is called, nothing should have been
-> > > > > -             * entered into the existing HPT */
-> > > > > -            spapr_reallocate_hpt(spapr, maxshift, &error_fatal);
-> > > > > -            push_sregs_to_kvm_pr(spapr);
-> > > > > -        }
-> > > > > -    }
-> > > > > -
-> > > > >      /* NOTE: there are actually a number of ov5 bits where input=
- from the
-> > > > >       * guest is always zero, and the platform/QEMU enables them =
-independently
-> > > > >       * of guest input. To model these properly we'd want some so=
-rt of mask,
-> > > > > @@ -1806,6 +1777,12 @@ static target_ulong h_client_architecture_=
-support(PowerPCCPU *cpu,
-> > > > >              error_report("Guest requested unavailable MMU mode (=
-hash).");
-> > > > >              exit(EXIT_FAILURE);
-> > > > >          }
-> > > > > +        if (spapr->resize_hpt =3D=3D SPAPR_RESIZE_HPT_REQUIRED &&
-> > > > > +            !spapr_ovec_test(ov5_guest, OV5_HPT_RESIZE)) {
-> > > > > +            error_report(
-> > > > > +                "h_client_architecture_support: Guest doesn't su=
-pport HPT resizing, but resize-hpt=3Drequired");
-> > > > > +            exit(1);
-> > > > > +        }
-> > > > >      }
-> > > > >      spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV=
-1_PPC_3_00);
-> > > > >      spapr_ovec_cleanup(ov1_guest);
-> > > > > @@ -1838,11 +1815,23 @@ static target_ulong h_client_architecture=
-_support(PowerPCCPU *cpu,
-> > > > >          void *fdt;
-> > > > >          SpaprDeviceTreeUpdateHeader hdr =3D { .version_id =3D 1 =
-};
-> > > > > =20
-> > > > > -        /* If spapr_machine_reset() did not set up a HPT but one=
- is necessary
-> > > > > -         * (because the guest isn't going to use radix) then set=
- it up here. */
-> > > > > -        if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
-> > > > > -            /* legacy hash or new hash: */
-> > > > > -            spapr_setup_hpt_and_vrma(spapr);
-> > > > > +        if (!guest_radix) {
-> > > > > +            /*
-> > > > > +             * Either spapr_machine_reset() did not set up a HPT=
- but one
-> > > > > +             * is necessary (because the guest isn't going to us=
-e radix),
-> > > > > +             * or the guest doesn't know about HPT resizing and =
-we need to
-> > > > > +             * pre-emptively resize for the maximum permitted RA=
-M. Set it
-> > > > > +             * up here. At the point this is called, nothing sho=
-uld have
-> > > > > +             * been entered into the existing HPT.
-> > > > > +             */
-> > > > > +            if (spapr->patb_entry & PATE1_GR || spapr->htab_shif=
-t < maxshift) {
-> > > > > +                /* legacy hash or new hash: */
-> > > > > +                spapr_setup_hpt_and_vrma(spapr);
-> > > > > +                push_sregs_to_kvm_pr(spapr);
-> > > > > +            }
-> > > > > +        } else {
-> > > > > +            spapr_free_hpt(spapr);
-> > > > > +            spapr_reset_patb_entry(spapr);
-> > > > >          }
-> > > > > =20
-> > > > >          if (fdt_bufsize < sizeof(hdr)) {
-> > > > > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > > > > index 09110961a589..9d88b5596481 100644
-> > > > > --- a/include/hw/ppc/spapr.h
-> > > > > +++ b/include/hw/ppc/spapr.h
-> > > > > @@ -919,4 +919,5 @@ void spapr_check_pagesize(SpaprMachineState *=
-spapr, hwaddr pagesize,
-> > > > > =20
-> > > > >  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
-> > > > >  hwaddr spapr_get_rtas_addr(void);
-> > > > > +void spapr_reset_patb_entry(SpaprMachineState *spapr);
-> > > > >  #endif /* HW_SPAPR_H */
-> > > > >=20
-> > > >=20
-> > >=20
-> >=20
-> >=20
-> >=20
->=20
+> +    clock_disconnect(clk);
+> +
+> +    g_free(clk->canonical_path);
+> +    clk->canonical_path = NULL;
 
+You shouldn't need to set this to NULL.
 
+> +}
+> +
+> +static const TypeInfo clock_info = {
+> +    .name              = TYPE_CLOCK,
+> +    .parent            = TYPE_OBJECT,
+> +    .instance_size     = sizeof(Clock),
+> +    .instance_init     = clock_initfn,
+> +    .instance_finalize = clock_finalizefn,
+> +};
+> +
+> +static void clock_register_types(void)
+> +{
+> +    type_register_static(&clock_info);
+> +}
+> +
+> +type_init(clock_register_types)
+> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+> index 6215e7c208..d7080edf89 100644
+> --- a/hw/core/Makefile.objs
+> +++ b/hw/core/Makefile.objs
+> @@ -7,10 +7,12 @@ common-obj-y += hotplug.o
+>  common-obj-y += vmstate-if.o
+>  # irq.o needed for qdev GPIO handling:
+>  common-obj-y += irq.o
+> +common-obj-y += clock.o
+>
+>  common-obj-$(CONFIG_SOFTMMU) += reset.o
+>  common-obj-$(CONFIG_SOFTMMU) += qdev-fw.o
+>  common-obj-$(CONFIG_SOFTMMU) += fw-path-provider.o
+> +common-obj-$(CONFIG_SOFTMMU) += hotplug.o
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+I don't think this should be here.
 
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
+Alistair
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5UX9cACgkQbDjKyiDZ
-s5I0lxAAqrRbsLNPksagIPi69BtcWH3M3/aDTQEn1/61G7qwPt0Nlx6Wn748Wl/x
-iVP8de5oT8uqMuS6H73sW2AZ4fGXWFitaO4fT5TXhcR0phseZiE5KtImb2lG0HIJ
-9DS6qLEX0Nd1vcuONbtMPqYuWZVE3La/e2KYldiEHiGD9x9iP12K7naJgEw5ej+P
-PBO1YAPArJPWzG+u3dIFXgh8psjxCFLEaYBur2DKbHREomcxitXf3/yY+8uwRt3F
-uBSVznoEqexuYfQScA2DVE7fRLnHO/Q1N5x6hYXOixfCRMd5mCT4/LDe5F3TeI16
-JHIwehwq5fKWtaK5ubrpdKg3EIIOf7zTExWWcDifn+ftYVD/8I5+p6PugMC34mGB
-K9G43+Iz8j6E6ybNYoHBeVpZxD0M2VJaes88plQ4exOIhV6ETAkT3EpqhEPWcmqF
-WaHsnE7637f7fe+27jvaWA1NtLVAED9gwwUEZuZuMOjXLCPv7eSfcwbz8YHbjPBo
-wcpiE1oK005+YByyS5Rnxt6MySYXE5ZaC2bmm4sZBehIldbiq5Lbb0pcdCgmLt+q
-C+1qOif4wkZuUIzd4+0dyNzJFoC6tslJvi45kQxUvHH/cEClukiBjfHoWx4a8PD0
-LshacCFaFDTaFmdh/0InodoV405i1RQ1tYGebm77aBFPCqNg8VE=
-=ozc2
------END PGP SIGNATURE-----
-
---ZGiS0Q5IWpPtfppv--
+>  common-obj-$(CONFIG_SOFTMMU) += nmi.o
+>  common-obj-$(CONFIG_SOFTMMU) += vm-change-state-handler.o
+>  common-obj-$(CONFIG_SOFTMMU) += qdev-properties-system.o
+> diff --git a/hw/core/trace-events b/hw/core/trace-events
+> index aecd8e160e..39301621ce 100644
+> --- a/hw/core/trace-events
+> +++ b/hw/core/trace-events
+> @@ -27,3 +27,10 @@ resettable_phase_exit_begin(void *obj, const char *objtype, unsigned count, int
+>  resettable_phase_exit_exec(void *obj, const char *objtype, int has_method) "obj=%p(%s) method=%d"
+>  resettable_phase_exit_end(void *obj, const char *objtype, unsigned count) "obj=%p(%s) count=%d"
+>  resettable_transitional_function(void *obj, const char *objtype) "obj=%p(%s)"
+> +
+> +# clock.c
+> +clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
+> +clock_disconnect(const char *clk) "'%s'"
+> +clock_set(const char *clk, unsigned long long old, unsigned long long new) "'%s', ns=%llu->%llu"
+> +clock_propagate(const char *clk) "'%s'"
+> +clock_update(const char *clk, const char *src, unsigned long long val, int cb) "'%s', src='%s', ns=%llu, cb=%d"
+> --
+> 2.24.1
+>
+>
 
