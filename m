@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2748A16C294
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:41:44 +0100 (CET)
-Received: from localhost ([::1]:56258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B288716C290
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:40:54 +0100 (CET)
+Received: from localhost ([::1]:56236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6aT1-0005T1-6c
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:41:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
+	id 1j6aSD-00041C-Pt
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:40:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcQ-0005Rz-5F
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:23 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcW-0005W5-6b
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcP-0007Dt-78
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:22 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52245)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZcU-0007GO-62
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:27 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35445)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZcN-0007DI-FI
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:19 -0500
-Received: by mail-wm1-x330.google.com with SMTP id p9so2867185wmc.2
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:19 -0800 (PST)
+ id 1j6ZcT-0007G1-Nz
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:26 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w12so14596019wrt.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xk2650h3wDm/dF48W9ZCLpoRo1e5nZQvUV6vRqejydc=;
- b=BvazD4rQiFWfFCDxTfrXAHYChj5fheyaui8xXIyDSlNBhelM35UVRAa5WxzVb9i+VG
- OpPM31Lh9TY2J/8VHTaC0sSJc7fyTof1M38K4jDThh0i8u1y/1eA3eOYygAH1q7ahBTW
- RNrhyDlJyZk2Km+dlYBR5f+fmTq1qP6aWBcHcRQk5SBChthfXHqLtZu9Ci7G7LoWwaW7
- hQOc7v39+gBE/2BhMHx54r/1md5XbcvZSBzeVhwfjGkB9PhzVqHGXSGfEzuaqKWm1gbJ
- Dd9LRXEtO4PSqvRMPKkq7TYpGR0vbBLxIh9e+utGhdyWdMnD4m2VY2VIdzhXYb6YlXUq
- OKHQ==
+ bh=4qoFVLEk4TMnSbFDHJO1R3wqor2c3af6vJj8knvgvVs=;
+ b=M+6TqLbvamS6vUkSEZ6TheYfPLwCCDeqbP11gqV4EkTF95L0by3caNbDGfqOtSAPK5
+ DajEiATREsKszZulmCytYHusguMng0SA47sBlZJSVnfOoMSc7c+d/uEg0w9gT9l3ApB0
+ +FN8tAu0oMyqC1mJEc76aE2rfWVMjyz7IhIcSJ8TrqPOC5UNXRUhkiCSfTw/y6MFoM3H
+ aUV3M5j2GEIw3i0ND0s95ZSukyfDiJiriKQHHskMx/PGIUyoA9S1mMAUUr9ytNoi5WUq
+ jPLheobdrL0xU7sn0x6PSYxwIcoP8No5EyAJuJ/xzLX0VdRPNVYd36gcoyx4sYFfChtx
+ M14w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xk2650h3wDm/dF48W9ZCLpoRo1e5nZQvUV6vRqejydc=;
- b=Vd4b6jHtAeHAKon+hTWJpiD26PgTTPCy/IEPxVAcY75WV7t9s152nNvv4y6ySWKyTa
- XCMqXrmIpDQWwFa3uEno22n1gl0Md9l7A2i90iAdP4L5BGVK3VAkLKc111UePmlduhrP
- m6krOFu6ARV2rVkHP7iIA6PlSHrDDeOZCk/ukCcKjxhntSZoEQXy96wgP12j5z5REAx2
- iLhN0LdwduS2ez1s+gK5CVa9hNKr9FRYc8nhf1Gbf1ggV0WD5OjE9ESqKnpRV/dG5B2E
- zPc2m9zaQ8y1XZyC1rrF0zwuldZhGMTnNkKufLHIWynVcHS+YsFSxmE0Rv4Qjj1QKnHh
- Au+Q==
-X-Gm-Message-State: APjAAAUWR4WZd2CwzkMfX66l4xvrDj+NHjRvZjRgrh4XMcYYGniehqlL
- hjP0hyuDx/P6xId7eFAPfHR0oA==
-X-Google-Smtp-Source: APXvYqz4oSGS0GogNw9c4Z9Cl1KjlE20fvp+pXUj2suEoXl33YXt6WDFz9sTpQetc0Qml7tUnotjWA==
-X-Received: by 2002:a1c:ddc3:: with SMTP id u186mr5224749wmg.103.1582634838345; 
- Tue, 25 Feb 2020 04:47:18 -0800 (PST)
+ bh=4qoFVLEk4TMnSbFDHJO1R3wqor2c3af6vJj8knvgvVs=;
+ b=fjPYnYYn31QQsXYXR/LZFtNlBAbdqUf/Wk2zN/Nk47tmEM3hiS0f+Uc15Vtz0DPIpR
+ qGT3Lq+nDT/+TeO9i9Mn4iA+yqi9b625bdAGErPiayZUy0EcVzQTYWl1GUPpu/Dbz+8R
+ We8tArN0NjxpzGIlVlVTA+7je+S2YGy+X3dwrPlYlxPTj5TzdXot6Z/oiY0KWvn9DD7R
+ BSlrBvhfbeKEt7Eug4fWwiAKHpSpP3mJLKTYzCCqE1DtS7RNN+RPQwCoaLXqiAr95fnD
+ 8kzOQIPrf69e3m0wddRUVn7iSaYYJVyj63R+ivMbWcSZeHiiX6wvE72KxnFtSvI7TKGk
+ 9udQ==
+X-Gm-Message-State: APjAAAXtnViJAv0btMp9QCx4cxKKQSvQxd9/G/wd6+68IOUW+N7q7fN3
+ jfAr8jKfCEqfYfAeAd5gqZCWYg==
+X-Google-Smtp-Source: APXvYqyNMVE5fA/+qmBHrCcdDTiSEecKUireicvIQL4mRsrhQ1Xx8KTxN+2a7kDHkM0eZ+oMvqo5vw==
+X-Received: by 2002:a5d:4b03:: with SMTP id v3mr76302155wrq.178.1582634844749; 
+ Tue, 25 Feb 2020 04:47:24 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 133sm4459335wmd.5.2020.02.25.04.47.12
+ by smtp.gmail.com with ESMTPSA id w1sm24513316wro.72.2020.02.25.04.47.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:47:14 -0800 (PST)
+ Tue, 25 Feb 2020 04:47:20 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB8E61FF93;
- Tue, 25 Feb 2020 12:47:10 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 174CF1FF99;
+ Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 06/19] travis.yml: Fix Travis YAML configuration warnings
-Date: Tue, 25 Feb 2020 12:46:57 +0000
-Message-Id: <20200225124710.14152-7-alex.bennee@linaro.org>
+Subject: [PATCH  v3 09/19] tracing: only allow -trace to override -D if set
+Date: Tue, 25 Feb 2020 12:47:00 +0000
+Message-Id: <20200225124710.14152-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,71 +85,44 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ Laurent Vivier <laurent@vivier.eu>, marcandre.lureau@redhat.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
  kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Otherwise any -D settings the user may have made get ignored.
 
-This fixes the following warnings Travis has detected on the
-YAML configuration:
-
-- 'on root: missing os, using the default "linux"'
-- 'on root: the key matrix is an alias for jobs, using jobs'
-- 'on jobs.include.python: unexpected sequence, using the first value (3.5)'
-- 'on jobs.include.python: unexpected sequence, using the first value (3.6)'
-
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200207210124.141119-2-wainersm@redhat.com>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
 ---
- .travis.yml | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ trace/control.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index ea13e071795..0612998958b 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -1,6 +1,7 @@
- # The current Travis default is a VM based 16.04 Xenial on GCE
- # Additional builds with specific requirements for a full VM need to
- # be added as additional matrix: entries later on
-+os: linux
- dist: xenial
- language: c
- compiler:
-@@ -113,7 +114,7 @@ after_script:
-   - if command -v ccache ; then ccache --show-stats ; fi
- 
- 
--matrix:
-+jobs:
-   include:
-     - name: "GCC static (user)"
-       env:
-@@ -297,8 +298,7 @@ matrix:
-         - CONFIG="--target-list=x86_64-softmmu"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-       language: python
--      python:
--        - "3.5"
-+      python: 3.5
- 
- 
-     - name: "GCC Python 3.6 (x86_64-softmmu)"
-@@ -306,8 +306,7 @@ matrix:
-         - CONFIG="--target-list=x86_64-softmmu"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-       language: python
--      python:
--        - "3.6"
-+      python: 3.6
- 
- 
-     # Acceptance (Functional) tests
+diff --git a/trace/control.c b/trace/control.c
+index 6c775e68eba..2ffe0008184 100644
+--- a/trace/control.c
++++ b/trace/control.c
+@@ -226,10 +226,15 @@ void trace_init_file(const char *file)
+ #ifdef CONFIG_TRACE_SIMPLE
+     st_set_trace_file(file);
+ #elif defined CONFIG_TRACE_LOG
+-    /* If both the simple and the log backends are enabled, "--trace file"
+-     * only applies to the simple backend; use "-D" for the log backend.
++    /*
++     * If both the simple and the log backends are enabled, "--trace file"
++     * only applies to the simple backend; use "-D" for the log
++     * backend. However we should only override -D if we actually have
++     * something to override it with.
+      */
+-    qemu_set_log_filename(file, &error_fatal);
++    if (file) {
++        qemu_set_log_filename(file, &error_fatal);
++    }
+ #else
+     if (file) {
+         fprintf(stderr, "error: --trace file=...: "
 -- 
 2.20.1
 
