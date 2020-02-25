@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D2816C0B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:24:28 +0100 (CET)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33ECE16C0A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:20:48 +0100 (CET)
+Received: from localhost ([::1]:53962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZGF-0007cT-BJ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:24:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49795)
+	id 1j6ZCh-0000fB-63
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:20:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl4-0001Hg-1p
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Yl3-0001F6-5v
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008GS-8C
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Ykz-0008Fy-6p
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:13 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36617)
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36620)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Ykx-00083p-D5
+ id 1j6Ykx-00084Y-FF
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:52:08 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id z3so14384082wru.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:00 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id z3so14384161wru.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:52:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vPqLsmgksx1vqy9WuZ6jPM/E+F8HlA4FUDvGLVEw7hk=;
- b=Cd+ZMBtOki0dX8w+vrs+TnxgJJ24sjoQxXdXzMD3DvEfF5T36zHMyq6OXHkAsShsSf
- J8SD5Mff5n5kqdEdbbEg0Gnq8qtTiMd7qkVWrscXw9z+qNfcgtyy4+TqpYYGi9vv1DAu
- PcPwpExoMLhmjPDags47lOdpkKTWPAaoHSMYd5y9/zRFgGmloX3z64UUL06/aNmD7xjX
- uLVlF3qruiqjSUMx/lfNl1eMOTxvqkm1pVCq0Tb+VXUhmtPP2yRGHW1UuF/41wxKQOwo
- 77bOhW8HeuKGaB1OhRyQw7t4VAM9RU3mQp669eaEzontm6VP5wUHWRjHf3Dd7WLYO4UI
- yIGA==
+ bh=ItI3fRDtU/zzNqxISOjM3JewIShkqFsorUHppZV+U1E=;
+ b=PhWYQJvsnGSGvi3EAMg0tO5eKahr6Ld4lcnwq61cVrUJTXhnN8kmfs55bKzKMrXYys
+ sLUWIUunkOU7IJH4T4qa/md+2tE9eroTK1DNZtLZZIW65O0xNE6z2Hmygr73FjJuHZ7K
+ eFOWChlLPx7qYznbsw+OfH4gASE8ct1KQo2L8aj/OeMRuVa7i0Dp7niGnFOgPFbDufCi
+ cyZ9qWE0dSGMXNVo4N/4bRikPiBXO4xxfuXeY6Khmw9j6bHpFf0IYeiUthHkMk6IIKpD
+ UxV+wLBuAE3BPSlhHa8P6XssfZZN1Vwufnj7owJ7QDzDEWlct/zmlnDalFEvcmYXGeCh
+ 8+jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=vPqLsmgksx1vqy9WuZ6jPM/E+F8HlA4FUDvGLVEw7hk=;
- b=p6di2VsZGS1J18HgyLsjtHd2dUK25OWTqIBuw48JZG/nvmLGT2BHeQgohJoP++89NG
- MgvqQUQJbbfhlu6fjxhHw0/euPGL3y44yifyqCjm5geM2846EJhbjvFPf7dc0pWGhvM9
- tNPw1fYlonixuRsud8BRSXGxBbgyGcBURvKA1t0wwXbzjALNQuniR7We46ECW609S2wH
- eu0/hzra6Js93q9Gs+jUJzdd7CYEtXPUP7IFRHk7m6rK9ABWsS+YRvKOVVN4cwcr/z3I
- dZtDbdVU6m4qMYpzPXf0PyppIb6+GOvtVIE9GrfIA2UvlxhA9T+OywUhv2n4cSZpCScv
- VjVQ==
-X-Gm-Message-State: APjAAAVnqB1KC+6hHOZ+2163f1c7m/SSsYVa6yUfnuz12uZOKlyciEbO
- 1KqIJ9wQKHJLcV3ECn+rDJBZeDuI
-X-Google-Smtp-Source: APXvYqyvveM+Xq76a/FV0js3V6obkcsc1AIVRe06WfLibrPrXhcnkSHbG6ILs2XvvcUiz2w8PkXWXg==
-X-Received: by 2002:adf:e546:: with SMTP id z6mr648129wrm.423.1582631519600;
- Tue, 25 Feb 2020 03:51:59 -0800 (PST)
+ bh=ItI3fRDtU/zzNqxISOjM3JewIShkqFsorUHppZV+U1E=;
+ b=LTEUBY7ochhu9gGjseIV8t7Q8I0GVQxrF4vuIfhmLOBIcJk4rIPvlpiO3zq4JCOMuZ
+ Qvqd1rDL7r8Qc8eAk570DjBemHf0QP+quT0A1uqyX8zLr0kMYEIEVunydae95lWDHTqf
+ 0ppozr/Ed68h7ldY8uOQMW5Y1wgboN6Cq6sWLoXaxpzOZHikAKgC1xln6AepmSBSBykW
+ AD9igaXA/qCIEoglhc4m9Ic2b6ktL8z2jksQISF10vu3gl3Vo/PkYuatY2WIRxPWJoLX
+ n8x8hbbUK5/mWG1NNc/xr4zCBllsO3jqU9XqMkPTHLW7nFDw9CuofJ5+MRGEg3lesSJP
+ k4Dg==
+X-Gm-Message-State: APjAAAUeWW2SEtqs7fpwpPEEXrLB8lgZ0WJCYVSVS+w1FbXRxnt22iVo
+ FaTMOp/SvbOnVA9YISVa0ezxttu5
+X-Google-Smtp-Source: APXvYqztmI+v60WCA4T11A7aw4X3XCZsJfa2byZ2Y38dnquZQ3h/Y86jQ75M9nyFAQVS6yeZSBhCwg==
+X-Received: by 2002:a5d:6284:: with SMTP id k4mr74676386wru.398.1582631520466; 
+ Tue, 25 Feb 2020 03:52:00 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.58
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.59
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Tue, 25 Feb 2020 03:51:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 058/136] ppc/e500: drop RAM size fixup
-Date: Tue, 25 Feb 2020 12:49:48 +0100
-Message-Id: <1582631466-13880-58-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 059/136] ppc/e500: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:49 +0100
+Message-Id: <1582631466-13880-59-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,75 +80,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-If user provided non-sense RAM size, board will complain and
-continue running with max RAM size supported.
-Also RAM is going to be allocated by generic code, so it won't be
-possible for board to fix things up for user.
-
-Make it error message and exit to force user fix CLI,
-instead of accepting non-sense CLI values.
-
-While at it, replace usage of global ram_size with
-machine->ram_size
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-59-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-60-imammedo@redhat.com>
 ---
- hw/ppc/e500.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ hw/ppc/e500.c      | 5 +----
+ hw/ppc/e500plat.c  | 1 +
+ hw/ppc/mpc8544ds.c | 1 +
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 886442e..960024b 100644
+index 960024b..d5dfe9f 100644
 --- a/hw/ppc/e500.c
 +++ b/hw/ppc/e500.c
-@@ -906,12 +906,14 @@ void ppce500_init(MachineState *machine)
- 
-     env = firstenv;
- 
--    /* Fixup Memory size on a alignment boundary */
--    ram_size &= ~(RAM_SIZES_ALIGN - 1);
--    machine->ram_size = ram_size;
-+    if (!QEMU_IS_ALIGNED(machine->ram_size, RAM_SIZES_ALIGN)) {
-+        error_report("RAM size must be multiple of %" PRIu64, RAM_SIZES_ALIGN);
-+        exit(EXIT_FAILURE);
-+    }
+@@ -831,7 +831,6 @@ static void ppce500_power_off(void *opaque, int line, int on)
+ void ppce500_init(MachineState *machine)
+ {
+     MemoryRegion *address_space_mem = get_system_memory();
+-    MemoryRegion *ram = g_new(MemoryRegion, 1);
+     PPCE500MachineState *pms = PPCE500_MACHINE(machine);
+     const PPCE500MachineClass *pmc = PPCE500_MACHINE_GET_CLASS(machine);
+     PCIBus *pci_bus;
+@@ -912,9 +911,7 @@ void ppce500_init(MachineState *machine)
+     }
  
      /* Register Memory */
--    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram", ram_size);
-+    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram",
-+                                         machine->ram_size);
-     memory_region_add_subregion(address_space_mem, 0, ram);
+-    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram",
+-                                         machine->ram_size);
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
  
      dev = qdev_create(NULL, "e500-ccsr");
-@@ -1083,7 +1085,7 @@ void ppce500_init(MachineState *machine)
-         kernel_base = cur_base;
-         kernel_size = load_image_targphys(machine->kernel_filename,
-                                           cur_base,
--                                          ram_size - cur_base);
-+                                          machine->ram_size - cur_base);
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'",
-                          machine->kernel_filename);
-@@ -1097,7 +1099,7 @@ void ppce500_init(MachineState *machine)
-     if (machine->initrd_filename) {
-         initrd_base = (cur_base + INITRD_LOAD_PAD) & ~INITRD_PAD_MASK;
-         initrd_size = load_image_targphys(machine->initrd_filename, initrd_base,
--                                          ram_size - initrd_base);
-+                                          machine->ram_size - initrd_base);
+     object_property_add_child(qdev_get_machine(), "e500-ccsr",
+diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
+index 7078386..bddd5e7 100644
+--- a/hw/ppc/e500plat.c
++++ b/hw/ppc/e500plat.c
+@@ -97,6 +97,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = e500plat_init;
+     mc->max_cpus = 32;
+     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("e500v2_v30");
++    mc->default_ram_id = "mpc8544ds.ram";
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_ETSEC_COMMON);
+  }
  
-         if (initrd_size < 0) {
-             error_report("could not load initial ram disk '%s'",
-@@ -1115,7 +1117,7 @@ void ppce500_init(MachineState *machine)
-      * ensures enough space between kernel and initrd.
-      */
-     dt_base = (loadaddr + payload_size + DTC_LOAD_PAD) & ~DTC_PAD_MASK;
--    if (dt_base + DTB_MAX_SIZE > ram_size) {
-+    if (dt_base + DTB_MAX_SIZE > machine->ram_size) {
-             error_report("not enough memory for device tree");
-             exit(1);
-     }
+diff --git a/hw/ppc/mpc8544ds.c b/hw/ppc/mpc8544ds.c
+index c2c5e11..8117750 100644
+--- a/hw/ppc/mpc8544ds.c
++++ b/hw/ppc/mpc8544ds.c
+@@ -55,6 +55,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = mpc8544ds_init;
+     mc->max_cpus = 15;
+     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("e500v2_v30");
++    mc->default_ram_id = "mpc8544ds.ram";
+ }
+ 
+ #define TYPE_MPC8544DS_MACHINE  MACHINE_TYPE_NAME("mpc8544ds")
 -- 
 1.8.3.1
 
