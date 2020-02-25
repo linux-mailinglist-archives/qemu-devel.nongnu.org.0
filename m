@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1575516C3C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:23:11 +0100 (CET)
-Received: from localhost ([::1]:57736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8771316C399
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 15:14:38 +0100 (CET)
+Received: from localhost ([::1]:57482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6b78-0007jy-5r
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:23:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46174)
+	id 1j6ayr-0007dv-Hs
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 09:14:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46359)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j6awB-0003Mm-4D
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:52 -0500
+ (envelope-from <stefanrin@gmail.com>) id 1j6ax3-00055H-0D
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:12:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j6aw9-0007X4-Gn
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35657
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6aw9-0007Wb-Am
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:11:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582639906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GMUOFSvoynEkw0+tPUD1sT0XU9l8i9TQ3rKGSkx9Sj0=;
- b=XWk73wsuWrXB7c2rOJvZIplr6i5EoxwMaLIxLjLUK9QjstvzPL76EmEwJoUdmhbumTypIF
- b7MiW5UdKhBFEOe+DqJfUaud1iU6REPW7ZOIE3QG6lcY8NXsRgLXnwKkJ+BkALbb6nf3iD
- Jofy/wd1Yp0iXzXPKPmN2Uss5S+inxs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-4ewP0dvAOkOoR-QExhingA-1; Tue, 25 Feb 2020 09:11:45 -0500
-X-MC-Unique: 4ewP0dvAOkOoR-QExhingA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3351A1005512;
- Tue, 25 Feb 2020 14:11:43 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E26C260CD1;
- Tue, 25 Feb 2020 14:11:35 +0000 (UTC)
-Date: Tue, 25 Feb 2020 15:11:33 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Dongjiu Geng <gengdongjiu@huawei.com>
-Subject: Re: [PATCH v24 06/10] ACPI: Record the Generic Error Status Block
- address
-Message-ID: <20200225151133.3c75f611@redhat.com>
-In-Reply-To: <20200217131248.28273-7-gengdongjiu@huawei.com>
-References: <20200217131248.28273-1-gengdongjiu@huawei.com>
- <20200217131248.28273-7-gengdongjiu@huawei.com>
+ (envelope-from <stefanrin@gmail.com>) id 1j6ax1-0007pz-1V
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 09:12:43 -0500
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:33600)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanrin@gmail.com>)
+ id 1j6awy-0007oQ-Rm; Tue, 25 Feb 2020 09:12:41 -0500
+Received: by mail-il1-x133.google.com with SMTP id s18so10917700iln.0;
+ Tue, 25 Feb 2020 06:12:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=tRAPXMCF17Bm+gpz8ZUoUHJqmrUw89mStx91TxrBdwU=;
+ b=LtcCxBLrIGY8nYxp1X/mZiBHGTmwWAIMg+cTgfREevPELa9q+CpUog1xApDWKfoDeR
+ //mDwO5ilzXOfXzSJbthnIOSxAmyz+z+424GzQeXWNVTrMv4Aasb3BxhjrXstm6PiWii
+ HBn40TAZBQkLsOoKUM3sNFflSLrdrpNulhHObee2RunHbrs/oMLFU5jcO7ybTAjV+AW7
+ tkK49ZBsvOxtY9l1xxgU5ZQhyRTWEBS0rDb2MIDzwQokUI3E8DbmiDMZxGOVW5yB6uCt
+ PNmR6UCVlnV2V8l/6xswY1LWcULdORoqAwqp/i5JysCO979hJiMHF/CE5aiI6D0xgxaH
+ 6rBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=tRAPXMCF17Bm+gpz8ZUoUHJqmrUw89mStx91TxrBdwU=;
+ b=q61JUGUwBVhwjUT/46zx6KHycOlLfFgdzL5l1aLaqc/V2CRyAPBXc/xtPf3RRRE/qE
+ Zb+76RukVm6seq5tIOHg296IGZ2PNmxLir1QUP5flxXVULuIkf4kee8/iBgqG8lc5umF
+ qcKTsW2bJ9Lit/MAmlj/MmXb/e9Rf5QvLR/z2uRJ7H3OKweRVjEVL07+nhCwVlDkYnmw
+ HYcxeZSDq3i4KKAJSFaKCZOzE9AaemYMSrLCVCRuhemGIsLmX3WEydUBJ9Eu+hUoNY/L
+ vIXSyJctAMJSVR3eNt80RMmkQvhnIBQmwi2LnSMnZ6QR7PXjOBeiYuQIQZ1O6CSKbT2H
+ ps7w==
+X-Gm-Message-State: APjAAAXBlskEV8qX//txzU3VHla6wctSlkE0bY7Zr0JjJMYbEw1lZ9iP
+ SMAS4uIDHB96rEaxtMzKsHFAIj8wpX79EYb4VRnykQ==
+X-Google-Smtp-Source: APXvYqwz+vJjFU8zdFaflkSaN/JoCFP+x54Jird/jRH4W5QNbHWDHOxfbAPPWi0X7BFlax3Vcmn+zLCuXyWQG9kkwps=
+X-Received: by 2002:a92:844b:: with SMTP id l72mr66275392ild.262.1582639959158; 
+ Tue, 25 Feb 2020 06:12:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <CAAxjCEzHQz4cG_8m7S6=CwCBoN5daQs+KVyuU5GL5Tq3Bky1NA@mail.gmail.com>
+ <CAAxjCEx79Fkjw9tFbSMo+b1LGv2LNivLRXf1GS9JsYnXrNVVkQ@mail.gmail.com>
+In-Reply-To: <CAAxjCEx79Fkjw9tFbSMo+b1LGv2LNivLRXf1GS9JsYnXrNVVkQ@mail.gmail.com>
+From: Stefan Ring <stefanrin@gmail.com>
+Date: Tue, 25 Feb 2020 15:12:27 +0100
+Message-ID: <CAAxjCEwv61e87ZUz-jueL9AkzaNbY3pRoFmf2dah-p9W8nosWA@mail.gmail.com>
+Subject: Re: Strange data corruption issue with gluster (libgfapi) and ZFS
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org, integration@gluster.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,195 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com,
- kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
- shameerali.kolothum.thodi@huawei.com, jonathan.cameron@huawei.com,
- pbonzini@redhat.com, lersek@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Feb 2020 21:12:44 +0800
-Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+On Mon, Feb 24, 2020 at 1:35 PM Stefan Ring <stefanrin@gmail.com> wrote:
+>
+> What I plan to do next is look at the block ranges being written in
+> the hope of finding overlaps there.
 
-> Record the GHEB address via fw_cfg file, when recording
-> a error to CPER, it will use this address to find out
-> Generic Error Data Entries and write the error.
-> 
-> In order to avoid migration failure, make hardware
-> error table address to a part of GED device instead
-> of global variable, then this address will be migrated
-> to target QEMU.
-> 
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
-> ---
->  hw/acpi/generic_event_device.c         | 18 ++++++++++++++++++
->  hw/acpi/ghes.c                         | 17 +++++++++++++++++
->  hw/arm/virt-acpi-build.c               | 10 ++++++++++
->  include/hw/acpi/generic_event_device.h |  2 ++
->  include/hw/acpi/ghes.h                 |  6 ++++++
->  5 files changed, 53 insertions(+)
-> 
-> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> index 021ed2b..d59607c 100644
-> --- a/hw/acpi/generic_event_device.c
-> +++ b/hw/acpi/generic_event_device.c
-> @@ -234,6 +234,23 @@ static const VMStateDescription vmstate_ged_state = {
->      }
->  };
->  
-> +static bool ghes_needed(void *opaque)
-> +{
-> +    return object_property_get_bool(qdev_get_machine(), "ras", NULL);
+Status update:
 
-Try not to use qdev_get_machine() unless it's the only option.
+I still have not found out what is actually causing this. I have not
+found concurrent writes to overlapping file areas. But what I can say
+is that by switching qemu_gluster_co_rw to the synchronous glusterfs
+api (glfs_pwritev), the problem goes away.
 
-Following would do the job:
+Unfortunately, I have not yet been able to find exactly how the qcow2
+file is grown. It looks like this happens just as a consequence of
+writing beyond the end. Because contrary to my expectations, neither
+qemu_gluster_co_pwrite_zeroes nor qemu_gluster_do_truncate is ever
+called. My current line of thinking is that there must be something
+special about in-flight writes which grow the file.
 
-  AcpiGedState *s = opaque
-  return s->ghes_state.ghes_addr_le
+I find many instances with the following pattern:
 
-> +}
-> +
-> +static const VMStateDescription vmstate_ghes_state = {
-> +    .name = "acpi-ged/ghes",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = ghes_needed,
-> +    .fields      = (VMStateField[]) {
-> +        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
-> +                       vmstate_ghes_state, AcpiGhesState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const VMStateDescription vmstate_acpi_ged = {
->      .name = "acpi-ged",
->      .version_id = 1,
-> @@ -244,6 +261,7 @@ static const VMStateDescription vmstate_acpi_ged = {
->      },
->      .subsections = (const VMStateDescription * []) {
->          &vmstate_memhp_state,
-> +        &vmstate_ghes_state,
->          NULL
->      }
->  };
-> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-> index 7a7381d..cea2bff 100644
-> --- a/hw/acpi/ghes.c
-> +++ b/hw/acpi/ghes.c
-> @@ -24,6 +24,8 @@
->  #include "hw/acpi/ghes.h"
->  #include "hw/acpi/aml-build.h"
->  #include "qemu/error-report.h"
-> +#include "hw/acpi/generic_event_device.h"
-> +#include "hw/nvram/fw_cfg.h"
->  
->  #define ACPI_GHES_ERRORS_FW_CFG_FILE        "etc/hardware_errors"
->  #define ACPI_GHES_DATA_ADDR_FW_CFG_FILE     "etc/hardware_errors_addr"
-> @@ -213,3 +215,18 @@ void acpi_build_hest(GArray *table_data, BIOSLinker *linker)
->      build_header(linker, table_data, (void *)(table_data->data + hest_start),
->          "HEST", table_data->len - hest_start, 1, NULL, "");
->  }
-> +
-> +void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
-> +                          GArray *hardware_error)
-> +{
-> +    size_t size = 2 * sizeof(uint64_t) + ACPI_GHES_MAX_RAW_DATA_LENGTH;
-> +    size_t request_block_size = ACPI_GHES_ERROR_SOURCE_COUNT * size;
-> +
-> +    /* Create a read-only fw_cfg file for GHES */
-> +    fw_cfg_add_file(s, ACPI_GHES_ERRORS_FW_CFG_FILE, hardware_error->data,
-> +                    request_block_size);
-why do you calculate request_block_size instead of using hardware_error->len here
+current file length (= max position + size written): p
+write request n writes from (p + hole_size), thus leaving a hole
+request n+1 writes exactly hole_size, starting from p, thus completely
+filling the hole
+The two requests' in-flight times overlap.
+hole_size can be almost any value (7-127).
 
-> +
-> +    /* Create a read-write fw_cfg file for Address */
-> +    fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
-> +        NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
-> +}
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 12a9a78..d6e7521 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -832,6 +832,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      build_spcr(tables_blob, tables->linker, vms);
->  
->      if (vms->ras) {
-
-> +        assert(vms->acpi_dev);
-tables could be built without this device, so I'd drop this line so reader
-won't wonder why it's here.
-
-
->          acpi_add_table(table_offsets, tables_blob);
->          build_ghes_error_table(tables->hardware_errors, tables->linker);
->          acpi_build_hest(tables_blob, tables->linker);
-> @@ -924,6 +925,7 @@ void virt_acpi_setup(VirtMachineState *vms)
->  {
->      AcpiBuildTables tables;
->      AcpiBuildState *build_state;
-> +    AcpiGedState *acpi_ged_state;
->  
->      if (!vms->fw_cfg) {
->          trace_virt_acpi_setup();
-> @@ -954,6 +956,14 @@ void virt_acpi_setup(VirtMachineState *vms)
->      fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
->                      acpi_data_len(tables.tcpalog));
->  
-> +    if (vms->ras) {
-> +        assert(vms->acpi_dev);
-> +        acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
-> +                                                           NULL));
-lookup is not necessary, just do
-
-           AcpiGedState *acpi_ged_state = ACPI_GED(vms->acpi_dev)
-
-> +        acpi_ghes_add_fw_cfg(&acpi_ged_state->ghes_state,
-> +                             vms->fw_cfg, tables.hardware_errors);
-> +    }
-> +
->      build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
->                                               build_state, tables.rsdp,
->                                               ACPI_BUILD_RSDP_FILE, 0);
-> diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
-> index d157eac..037d2b5 100644
-> --- a/include/hw/acpi/generic_event_device.h
-> +++ b/include/hw/acpi/generic_event_device.h
-> @@ -61,6 +61,7 @@
->  
->  #include "hw/sysbus.h"
->  #include "hw/acpi/memory_hotplug.h"
-> +#include "hw/acpi/ghes.h"
->  
->  #define ACPI_POWER_BUTTON_DEVICE "PWRB"
->  
-> @@ -95,6 +96,7 @@ typedef struct AcpiGedState {
->      GEDState ged_state;
->      uint32_t ged_event_bitmap;
->      qemu_irq irq;
-> +    AcpiGhesState ghes_state;
->  } AcpiGedState;
->  
->  void build_ged_aml(Aml *table, const char* name, HotplugHandler *hotplug_dev,
-> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
-> index 18debd8..a3420fc 100644
-> --- a/include/hw/acpi/ghes.h
-> +++ b/include/hw/acpi/ghes.h
-> @@ -62,6 +62,12 @@ enum {
->      ACPI_HEST_SRC_ID_RESERVED,
->  };
->  
-> +typedef struct AcpiGhesState {
-> +    uint64_t ghes_addr_le;
-> +} AcpiGhesState;
-> +
->  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
->  void acpi_build_hest(GArray *table_data, BIOSLinker *linker);
-> +void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
-> +                          GArray *hardware_errors);
->  #endif
-
+I see fewer data errors than instances of this pattern though.
 
