@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101B516C2B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:50:30 +0100 (CET)
-Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95ADA16C2B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:48:51 +0100 (CET)
+Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6abV-0001KD-2D
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:50:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34147)
+	id 1j6aZu-00076s-Jj
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:48:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZkV-0003ms-Dp
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:44 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZkU-00046r-7v
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZkU-0003ko-Gu
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:43 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33643)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6ZkT-00044m-AP
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:42 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40895)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZkU-00044r-0y
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:42 -0500
-Received: by mail-wr1-x431.google.com with SMTP id u6so14647548wrt.0
+ id 1j6ZkT-00043g-3X
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:55:41 -0500
+Received: by mail-wm1-x341.google.com with SMTP id t14so3042062wmi.5
  for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=py9bcDZz909NEUPFg69hhSHq8thghQZDr3PiUGhEcOg=;
- b=JhWdVKhBnzZN3VXdrNxeEqtU6f7bJmlP8kAme/ZPKWBW8/pUkbagIf4ZJDn+Vz7T/J
- mzaU4LKuKHJEx5HWeQs2LF+fF2OeIovwqWS2HZO4gEAxKNlS+6cO/4xlnWr+HM3XAELx
- kukRsRi2eysjuAl+8C6v/Vl6gk6z/YdXMrZIrysXk4kXZbSWrk5PUmijWlyuhyNrWxb6
- E0SeHL7fKs4W+WNUQYuXicKfpCTu3ONGzSJnRCt367YWgQAI7Lutp6WuOFwdjj4NrFPX
- pON3z8pB/f1JIEIPOea6/Yra/uLxJT6IQGFIjb202zziGcYrM8zlOT44Ncn4MLCOdNOR
- 4k2A==
+ bh=33Beb3UWNrnG47QEWUCuKu06Yy/rgf1M+3g9PXxe6cI=;
+ b=hPGpctcecNWVS6r7SWnEe9n3xT4/g2BzygzWIxO5t+WNO5n/oeOd7O8hzgU/NeL8un
+ Za5ZkmKPSppXWi4Kjt1kcmuYRDVBPLqI7WPfYfv/B1yOLPgtVRcAPpkNcQpIdsM4pfCD
+ d9aYY9WaOsqpVp11WQr5klYvdov9FLJl/zdjCy3kuEdS1Fg6SbBP8O60WPkyANYqsf5s
+ 0oP49k3VNi0aeoD0N5OtbOUW07BEQcqjDnnynK0FAMw1mWJ5nmOJeY6hWo00mkltXY2c
+ nm0dxzu0KkpJWVv/xEjD8vPJNL5fn5nZ6XGogz68p0gDWv7szw/s5RW9eWFnH0krgtY9
+ VGBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=py9bcDZz909NEUPFg69hhSHq8thghQZDr3PiUGhEcOg=;
- b=DpleG9G4khcjXl2SyPodx6/PouTQ/G9iuHCscLSuWWrmXs3jdCz+pcVysIuKD+oKFM
- W52r6YCrqtmPfQfj6y9cxjEbvoyBLdclLTKD4eP52lgz/Vx3z1jv3nnmbFx87oDGxG+Q
- naKgI/4Ex/RSYPbIBTklxlf6C2t2PfWrzVKLsUbj3edg9SB2uRXF3hjOyBBYwLO83FZG
- d7CWo4SULol/LrneT9LFxJ6vSUe3v9iNhgkN9VYK6IGrCjeWKTy4Bcg++Iuxyf8jzoBq
- Y8e6vGKhWD6PzLxxYVsCQLtJYMdZwv/sccC5JyHFROFP/NkeGrzyBNz4UIYDN1Fla7lX
- U/Vg==
-X-Gm-Message-State: APjAAAXhAiWB+LCRmjI6h00lTeejthwlCVivxgqonR89+iUxnvwXYv3j
- dkYzKNw+NTE/oP4JgX/u22c1Ww==
-X-Google-Smtp-Source: APXvYqxX0ASEKZdRXriBQUaSSGk4F7zZqy/wLhcqy99Iz5WeqficG3hqpLswFlU8YheYmID6Y29bGg==
-X-Received: by 2002:adf:9cca:: with SMTP id h10mr2875933wre.390.1582635340968; 
- Tue, 25 Feb 2020 04:55:40 -0800 (PST)
+ bh=33Beb3UWNrnG47QEWUCuKu06Yy/rgf1M+3g9PXxe6cI=;
+ b=a8IEvy96L49+gID+law8rB8qlw16I6wfUfcvBBB0cR54FRiUM9UFjY4aYzIr3GJTQW
+ sBWSCU/KWGuV8l9oZw6RDDQ7DcYy2FOg6NUWxL4HEANe9QqfpbmpPUWzWe5ucOVih94t
+ OgUH1twuaWea7uro6yzvMTGFh95uokPdnKhsj3agTwUzYe3MIBCbSVcm5UyrHarjOXEn
+ 54+SB9YMHhALrJII0mMObCJG1ctf0eSNfyZpiJ0yZr0Yv+q9kJVX/+yDz//zY+51YKm+
+ f5rbUZ5Thho2vhgwCYJjrq5GdSDYWuJHaroqwjl8G+FIq1nxAVe+LG0wGM5fcqRiFxr2
+ YbDg==
+X-Gm-Message-State: APjAAAUNmI22Q7T1FsB6xA1ijpkUlAJqaP4aL4RCETjoXnT5u7Fidmbi
+ aV4IZIRZ70eyWPjuTO79n/bBXA==
+X-Google-Smtp-Source: APXvYqwgCsuveY3EsQFWO6ZotEa+054ejPSyDchPKiCf/uXDm+0elXO3x67zTqF5cpRUqSDmER6GPg==
+X-Received: by 2002:a05:600c:2283:: with SMTP id
+ 3mr5244353wmf.100.1582635339975; 
+ Tue, 25 Feb 2020 04:55:39 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e22sm4118189wme.45.2020.02.25.04.55.37
+ by smtp.gmail.com with ESMTPSA id o4sm22856681wrx.25.2020.02.25.04.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 25 Feb 2020 04:55:37 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9F8AA1FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id B5F4E1FFA5;
  Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 15/19] tests/plugins: make howvec clean-up after itself.
-Date: Tue, 25 Feb 2020 12:47:06 +0000
-Message-Id: <20200225124710.14152-16-alex.bennee@linaro.org>
+Subject: [PATCH  v3 16/19] tests/tcg: give debug builds a little bit longer
+Date: Tue, 25 Feb 2020 12:47:07 +0000
+Message-Id: <20200225124710.14152-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
 References: <20200225124710.14152-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,90 +86,43 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
  stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG plugins are responsible for their own memory usage and although
-the plugin_exit is tied to the end of execution in this case it is
-still poor practice. Ensure we delete the hash table and related data
-when we are done to be a good plugin citizen.
+When combined with heavy plugins we occasionally hit the timeouts.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2
-  - re-use counts for g_list_sort() as it modifies list
-  - drop it list
+ tests/tcg/Makefile.target | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-squash! tests/plugins: make howvec clean-up after itself.
----
- tests/plugin/howvec.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
-
-diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
-index 4ca555e1239..3b9a6939f23 100644
---- a/tests/plugin/howvec.c
-+++ b/tests/plugin/howvec.c
-@@ -163,6 +163,13 @@ static gint cmp_exec_count(gconstpointer a, gconstpointer b)
-     return ea->count > eb->count ? -1 : 1;
- }
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 3c7421a356e..b3cff3cad1a 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -79,7 +79,7 @@ QEMU_OPTS=
  
-+static void free_record(gpointer data)
-+{
-+    InsnExecCount *rec = (InsnExecCount *) data;
-+    g_free(rec->insn);
-+    g_free(rec);
-+}
-+
- static void plugin_exit(qemu_plugin_id_t id, void *p)
- {
-     g_autoptr(GString) report = g_string_new("Instruction Classes:\n");
-@@ -195,30 +202,31 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ # If TCG debugging is enabled things are a lot slower
+ ifeq ($(CONFIG_DEBUG_TCG),y)
+-TIMEOUT=45
++TIMEOUT=60
+ else
+ TIMEOUT=15
+ endif
+@@ -137,7 +137,7 @@ PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
+ $(foreach p,$(PLUGINS), \
+ 	$(foreach t,$(TESTS),\
+ 		$(eval run-plugin-$(t)-with-$(p): $t $p) \
+-		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=30) \
++		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=60) \
+ 		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
+ endif
  
-     counts = g_hash_table_get_values(insns);
-     if (counts && g_list_next(counts)) {
--        GList *it;
--
-         g_string_append_printf(report,"Individual Instructions:\n");
-+        counts = g_list_sort(counts, cmp_exec_count);
- 
--        it = g_list_sort(counts, cmp_exec_count);
--
--        for (i = 0; i < limit && it->next; i++, it = it->next) {
--            InsnExecCount *rec = (InsnExecCount *) it->data;
--            g_string_append_printf(report, "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
-+        for (i = 0; i < limit && g_list_next(counts);
-+             i++, counts = g_list_next(counts)) {
-+            InsnExecCount *rec = (InsnExecCount *) counts->data;
-+            g_string_append_printf(report,
-+                                   "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
-                                    rec->insn,
-                                    rec->count,
-                                    rec->opcode,
-                                    rec->class ?
-                                    rec->class->class : "un-categorised");
-         }
--        g_list_free(it);
-+        g_list_free(counts);
-     }
- 
-+    g_hash_table_destroy(insns);
-+
-     qemu_plugin_outs(report->str);
- }
- 
- static void plugin_init(void)
- {
--    insns = g_hash_table_new(NULL, g_direct_equal);
-+    insns = g_hash_table_new_full(NULL, g_direct_equal, NULL, &free_record);
- }
- 
- static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
 -- 
 2.20.1
 
