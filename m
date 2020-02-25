@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B60816BD2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 10:22:37 +0100 (CET)
-Received: from localhost ([::1]:51000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D43616BD3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 10:26:05 +0100 (CET)
+Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6WQG-0007AH-Is
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 04:22:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
+	id 1j6WTc-0001Dy-4z
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 04:26:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6WPE-0006Bf-99
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:21:33 -0500
+ (envelope-from <philmd@redhat.com>) id 1j6WSe-0000eh-Sx
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:25:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6WPD-0005dU-8L
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:21:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45188
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j6WSd-0007w2-70
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:25:04 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44407
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6WPD-0005dG-4W
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:21:31 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6WSd-0007tl-2M
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 04:25:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582622490;
+ s=mimecast20190719; t=1582622691;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Fqhqm3HFKlHy693d0PfaiJUMpLdr82MnN67Vl/qAHY=;
- b=U3btD7A2d8YF6y+bMariswj4pPv4dSHFLK6HwRQafOE0pofhvjHauH2L/BLwALvP/4pN8m
- qsgWiiLANtXEpR8eLt5/03vFQ3++vPZvKCR1gyqBg87q8ABtwa/IqpSNDIuAFfCy9j3oR9
- xmrpcfojEn4ZRXjR/tjq7XRoBcVj9fY=
+ bh=eEvgdVnxbmhSHNCMWFxbayF6iIENchcd1UGoikkmvhk=;
+ b=g0oTs3q34CM5Cfzlgw8/lsr6q6Yuj+1WjrMI+6w5Q2PuU626PDafIZHyOdQoyuVp2D3ClC
+ T7uoFfxO2nJlQr3iKlKD72xMKftfCVkQKZ1xJps0xC1BHbs/0/2BHYu2kRoBrz9RI3FuAN
+ JfBTE124qKlyIKdsSp8MAYrYaypDZ2I=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-CB41b9w7MJGHEultQzyA5A-1; Tue, 25 Feb 2020 04:21:26 -0500
-X-MC-Unique: CB41b9w7MJGHEultQzyA5A-1
-Received: by mail-ed1-f72.google.com with SMTP id t20so8639058eds.19
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 01:21:26 -0800 (PST)
+ us-mta-331-r25jja_YMN2dSmtD6VejXQ-1; Tue, 25 Feb 2020 04:24:49 -0500
+X-MC-Unique: r25jja_YMN2dSmtD6VejXQ-1
+Received: by mail-ed1-f72.google.com with SMTP id ck15so8640589edb.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 01:24:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Qolc7f88M5U78uKiHGafxjKtE7PoGg7cQ46aHnpLEdk=;
- b=KSih8C7Kuk90oiyZjhekR9m0SU4ccjwYoaGZcCrzwyk1IfF9RHyWj1cBJacP14uCVx
- T1rk4dUPNwsjwmhiVUM4AOumKyZpo5UdaExAymn7m1SoRnS/d9K8xxjS8irQ1KXNyG6Y
- zLWrn6WsP+SCWBUnqeWCmtXeq7ILYwbLHIUtCMX6Mfbm78YL1qHBcPomTP0x8CNBgL0M
- E9yAxCA3xSVeZTgqhUGIXnR8r7qupz2PmGGdhup/QCI6yMUS1PgoHBj43qf1Xd2FNAax
- lwULNeuatyxwAdqW5O0LamGlsp+DLUOIIYqfBigX1/5hQ7rF3q7CocIVJKCmu4lcvwz9
- 7mYQ==
-X-Gm-Message-State: APjAAAVSlzJl+BtY5kr7NItSxKi4GXVcwe9b/Jcra50Kn6DSsWN5TTYe
- rjuI24KBW62NFwLwPG0xcmP1oOQK3nGJtn1uz4BxxnecvfVEiL+DCedpLf4fw0BJ2LfTccYcpqU
- bgtLChZk4Mxh2uQI=
-X-Received: by 2002:a17:906:a44d:: with SMTP id
- cb13mr51387132ejb.258.1582622485474; 
- Tue, 25 Feb 2020 01:21:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzIuhbZl2p2DXKRgnBwzH7VAG1F+IhyAmA69LpSDwerRJhK/iIeGmbmIrwv78rNunQuUnVknw==
-X-Received: by 2002:a17:906:a44d:: with SMTP id
- cb13mr51387105ejb.258.1582622485235; 
- Tue, 25 Feb 2020 01:21:25 -0800 (PST)
+ bh=eEvgdVnxbmhSHNCMWFxbayF6iIENchcd1UGoikkmvhk=;
+ b=OAs5MGv97SYiLSrbWAMeNR7PqGWUJ7xnfTnv7I4GwVgkGkc43ic72vq9K+YzZ99z7F
+ LqK0d7H15zODehTkfFQ6fewI2E1rudX7ZBoOzawyM9XxKHgaaAFwgQqckRyqF3xp61eH
+ NpuiZAX86WL09ZsNhcU6ePiBQw6i+6celqCzTBfGK6tExS2Ky7FLLhpsPiXN+YMVr7PM
+ NGMeZ//b8wiCOlFVUk3UF3ZqvuolUu3qN8xABzvPjvWh09O7hKJ3DJqbOZs4YWi8/bM8
+ Hp97w9zqgg5JkKpIGIdafxhXbZ2n9HCbtPH2DbbK0jqGv4b1ImunhX/SqsTEc/9M6u43
+ 63tQ==
+X-Gm-Message-State: APjAAAVqNIuuBe/szduHRrqgUh9Gr5iSfZq7VGfbu2BcEe3JLFpbzYSv
+ Y9I5V/Jekm106wqbbalmABejaZrucb+VKqCEIK1v3kDPsmGgnbS/Oa8CfpoFG3zL4fPbOEIfTyY
+ cCiXBc8enawA1rQE=
+X-Received: by 2002:a17:906:5f89:: with SMTP id
+ a9mr50970090eju.267.1582622688060; 
+ Tue, 25 Feb 2020 01:24:48 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxyRiMdSIFxw2U/Ni/4WlDHfqOK5c7sCI0YZN4lKfzcG3CY5ytOE+Pqg81AbMkFaogGkM68pw==
+X-Received: by 2002:a17:906:5f89:: with SMTP id
+ a9mr50970065eju.267.1582622687784; 
+ Tue, 25 Feb 2020 01:24:47 -0800 (PST)
 Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id i21sm1131996edj.33.2020.02.25.01.21.24
+ by smtp.gmail.com with ESMTPSA id a24sm896361ejt.40.2020.02.25.01.24.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Feb 2020 01:21:24 -0800 (PST)
-Subject: Re: [PATCH 3/4] virtio-pmem: do delete rq_vq in virtio_pmem_unrealize
-To: Pan Nengyuan <pannengyuan@huawei.com>, mst@redhat.com
-References: <20200225075554.10835-1-pannengyuan@huawei.com>
- <20200225075554.10835-4-pannengyuan@huawei.com>
+ Tue, 25 Feb 2020 01:24:47 -0800 (PST)
+Subject: Re: [PATCH] hw/smbios: add options for type 4 max_speed and
+ current_speed
+To: Heyi Guo <guoheyi@huawei.com>, qemu-devel@nongnu.org
+References: <20200225075046.30151-1-guoheyi@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b14afc54-6cf1-a99c-7612-b9b6c4f70816@redhat.com>
-Date: Tue, 25 Feb 2020 10:21:23 +0100
+Message-ID: <4bd58f6e-e522-d920-bc9a-8198147e8856@redhat.com>
+Date: Tue, 25 Feb 2020 10:24:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200225075554.10835-4-pannengyuan@huawei.com>
+In-Reply-To: <20200225075046.30151-1-guoheyi@huawei.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,45 +94,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- euler.robot@huawei.com
+Cc: wanghaibin.wang@huawei.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/20 8:55 AM, Pan Nengyuan wrote:
-> Similar to other virtio-deivces, rq_vq forgot to delete in virtio_pmem_un=
-realize, this patch fix it.
-
-"devices"
-
-> This device has aleardy maintained a vq pointer, thus we use the new virt=
-io_delete_queue function directly to do the cleanup.
-
-"already"
-
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
+On 2/25/20 8:50 AM, Heyi Guo wrote:
+> Common VM users sometimes care about CPU speed, so we add two new
+> options to allow VM vendors to present CPU speed to their users.
+> Normally these information can be fetched from host smbios.
+> 
+> Strictly speaking, the "max speed" and "current speed" in type 4
+> are not really for the max speed and current speed of processor, for
+> "max speed" identifies a capability of the system, and "current speed"
+> identifies the processor's speed at boot (see smbios spec), but some
+> applications do not tell the differences.
+> 
+> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> 
 > ---
->   hw/virtio/virtio-pmem.c | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-> index 97287e923b..43399522f5 100644
-> --- a/hw/virtio/virtio-pmem.c
-> +++ b/hw/virtio/virtio-pmem.c
-> @@ -130,6 +130,7 @@ static void virtio_pmem_unrealize(DeviceState *dev, E=
-rror **errp)
->       VirtIOPMEM *pmem =3D VIRTIO_PMEM(dev);
->  =20
->       host_memory_backend_set_mapped(pmem->memdev, false);
-> +    virtio_delete_queue(pmem->rq_vq);
->       virtio_cleanup(vdev);
->   }
->  =20
->=20
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> ---
+>   hw/smbios/smbios.c | 22 +++++++++++++++++++---
+>   qemu-options.hx    |  3 ++-
+>   2 files changed, 21 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> index ffd98727ee..1d5439643d 100644
+> --- a/hw/smbios/smbios.c
+> +++ b/hw/smbios/smbios.c
+> @@ -94,6 +94,8 @@ static struct {
+>   
+>   static struct {
+>       const char *sock_pfx, *manufacturer, *version, *serial, *asset, *part;
+> +    uint32_t max_speed;
+> +    uint32_t current_speed;
+>   } type4;
+>   
+>   static struct {
+> @@ -272,6 +274,14 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
+>           .name = "version",
+>           .type = QEMU_OPT_STRING,
+>           .help = "version number",
+> +    },{
+> +        .name = "max_speed",
+> +        .type = QEMU_OPT_NUMBER,
+> +        .help = "max speed in MHz",
+> +    },{
+> +        .name = "current_speed",
+> +        .type = QEMU_OPT_NUMBER,
+> +        .help = "speed at system boot in MHz",
+>       },{
+>           .name = "serial",
+>           .type = QEMU_OPT_STRING,
+> @@ -586,9 +596,8 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+>       SMBIOS_TABLE_SET_STR(4, processor_version_str, type4.version);
+>       t->voltage = 0;
+>       t->external_clock = cpu_to_le16(0); /* Unknown */
+> -    /* SVVP requires max_speed and current_speed to not be unknown. */
+> -    t->max_speed = cpu_to_le16(2000); /* 2000 MHz */
+> -    t->current_speed = cpu_to_le16(2000); /* 2000 MHz */
+> +    t->max_speed = cpu_to_le16(type4.max_speed);
+> +    t->current_speed = cpu_to_le16(type4.current_speed);
+>       t->status = 0x41; /* Socket populated, CPU enabled */
+>       t->processor_upgrade = 0x01; /* Other */
+>       t->l1_cache_handle = cpu_to_le16(0xFFFF); /* N/A */
+> @@ -1129,6 +1138,13 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>               save_opt(&type4.serial, opts, "serial");
+>               save_opt(&type4.asset, opts, "asset");
+>               save_opt(&type4.part, opts, "part");
+> +            /*
+> +             * SVVP requires max_speed and current_speed to not be unknown, and
+> +             * we set the default value to 2000MHz as we did before.
+> +             */
+> +            type4.max_speed = qemu_opt_get_number(opts, "max_speed", 2000);
+> +            type4.current_speed = qemu_opt_get_number(opts, "current_speed",
+> +                                                      2000);
+
+Maybe check speeds are <= UINT16_MAX else set errp?
+
+>               return;
+>           case 11:
+>               qemu_opts_validate(opts, qemu_smbios_type11_opts, &err);
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index ac315c1ac4..bc9ef0fda8 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2233,6 +2233,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+>       "                specify SMBIOS type 3 fields\n"
+>       "-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str]\n"
+>       "              [,asset=str][,part=str]\n"
+> +    "              [,max_speed=%d][,current_speed=%d]\n"
+>       "                specify SMBIOS type 4 fields\n"
+>       "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
+>       "               [,asset=str][,part=str][,speed=%d]\n"
+> @@ -2255,7 +2256,7 @@ Specify SMBIOS type 2 fields
+>   @item -smbios type=3[,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,sku=@var{str}]
+>   Specify SMBIOS type 3 fields
+>   
+> -@item -smbios type=4[,sock_pfx=@var{str}][,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,part=@var{str}]
+> +@item -smbios type=4[,sock_pfx=@var{str}][,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,part=@var{str}][,max_speed=@var{%d}][,current_speed=@var{%d}]
+>   Specify SMBIOS type 4 fields
+>   
+>   @item -smbios type=17[,loc_pfx=@var{str}][,bank=@var{str}][,manufacturer=@var{str}][,serial=@var{str}][,asset=@var{str}][,part=@var{str}][,speed=@var{%d}]
+> 
 
 
