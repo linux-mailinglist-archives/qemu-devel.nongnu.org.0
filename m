@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B4116BAE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 08:40:05 +0100 (CET)
-Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711E416BB23
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 08:43:20 +0100 (CET)
+Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Up2-0007o5-SK
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 02:40:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40918)
+	id 1j6UsB-0004KT-H9
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 02:43:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j6UoL-0007Lr-9t
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:39:22 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j6UrF-0003Fy-LF
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:42:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j6UoJ-00039b-Jf
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:39:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50431
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j6UrE-0004Dm-72
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:42:21 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54490
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j6UoJ-00039D-Fj
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:39:19 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j6UrE-0004D6-21
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 02:42:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582616358;
+ s=mimecast20190719; t=1582616539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wpqojjRG3VJiqCefpNMVkZtaxSrzvXahefZrSEACkoY=;
- b=b6OIFykYthbD2gxooIrnJ0FgFhk9UafP/5iBWe+CKVXvD7BNz6xSZKZKlJyOyivUChlT0J
- +bYvmEk1C2DvNgKuJFsT8RgH+PGacbDvAEZC1s57a0HCfSLUUewm7sQEhp1fYUf5DFLUGl
- k7GXNQvQy1Gy3QoJh9Ix3MXUPCCtZeo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-R61ePjXaNw-4YI42W7-Oyw-1; Tue, 25 Feb 2020 02:39:14 -0500
-X-MC-Unique: R61ePjXaNw-4YI42W7-Oyw-1
-Received: by mail-wm1-f72.google.com with SMTP id x9so496699wmc.7
- for <qemu-devel@nongnu.org>; Mon, 24 Feb 2020 23:39:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wpqojjRG3VJiqCefpNMVkZtaxSrzvXahefZrSEACkoY=;
- b=Eyihom/U1jrpCUoGH/cHiQxRdZA8pFcaCArsI0SQOXOnsgialBRuBz62ME173ZVO00
- cMG8Qcb+Fq0yxxEeNN6ixSbBy7lcZALGWTvlxZkrnjK82IXQ0tlj8ReFUhMm7xVIDeX+
- EmvbN+Y6DgRm2I9zMXpHneNfygoGHkJpWI/MxGa+D+0o8x9PvACFCX8qAPG+VivXDcQ/
- fW1GzhvRMVqYglcbv/XsAHzwNDOdDhYIjqqMupSDhSZ+W2ksYEBF+Xkgrm9ndvK3UZIO
- d7cTYjOCxXmI/pWhuFgkMHDNN8I/UTnyX2eMQrqUhqYOS0GfkUeQ+eO0CiPIOg/NfvZV
- g8zA==
-X-Gm-Message-State: APjAAAXSCftviEzQy+BlQvMcVLemIBwUGs2VNAqdkjDcwRFGfO4c2WvU
- XnYAxUQ8JJp0JFQgRaTpbVunGo7L0Kx4yk/IXa8Vgvs3azmWYj/sagiIp0AFJKmR10W+rNlKKBS
- 9mxBzDLPodjD2494=
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr6635764wrw.47.1582616353428; 
- Mon, 24 Feb 2020 23:39:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyvpO02a4t6Dp9GujP6m9j9gLRUA2sJtL5EAIRweSEpmuLLZN4I2nw/gv5pzHkTZVOdJNy/FQ==
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr6635730wrw.47.1582616353077; 
- Mon, 24 Feb 2020 23:39:13 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:60c6:7e02:8eeb:a041?
- ([2001:b07:6468:f312:60c6:7e02:8eeb:a041])
- by smtp.gmail.com with ESMTPSA id h205sm3097823wmf.25.2020.02.24.23.39.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Feb 2020 23:39:12 -0800 (PST)
-Subject: Re: [PATCH 2/2] qxl: drop shadow_rom
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200225055920.17261-1-kraxel@redhat.com>
- <20200225055920.17261-3-kraxel@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3e1d3937-1f63-3e8a-4e20-532ae34a51ed@redhat.com>
-Date: Tue, 25 Feb 2020 08:39:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=/eLbxVlDqq/VWQY05x0D25ujU/Uk5ZGhORESjCtob2I=;
+ b=NdVYGJvbci5djCou1Zx8zQ1Fbnv2ETAcQoDx+SFUUpcfw1MPOAqi1BNn/++0+lWIMwH/xU
+ GUFgROSMz1QP143k/H0CYST0Y2MVNAbFMBCJc6PK+qTKDpmW7PWpGknmkfDY5HFj7u+ODS
+ iRwRjNElu5fAg+ImmexcHSwk0sV49Zs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-Og_r7jjrPrqJ8qf3HnSnqw-1; Tue, 25 Feb 2020 02:42:15 -0500
+X-MC-Unique: Og_r7jjrPrqJ8qf3HnSnqw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CD0E18A550B;
+ Tue, 25 Feb 2020 07:42:14 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B4A45C105;
+ Tue, 25 Feb 2020 07:42:10 +0000 (UTC)
+Date: Tue, 25 Feb 2020 08:42:08 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v4 06/16] hw/i386: Update structures for nodes_per_pkg
+Message-ID: <20200225084208.59a08d51@redhat.com>
+In-Reply-To: <cdc8255e-b5ef-1635-b59f-44f371569865@amd.com>
+References: <158161767653.48948.10578064482878399556.stgit@naples-babu.amd.com>
+ <158161782489.48948.9328710425201785950.stgit@naples-babu.amd.com>
+ <20200224093439.5fda5656@redhat.com>
+ <cdc8255e-b5ef-1635-b59f-44f371569865@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20200225055920.17261-3-kraxel@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,164 +73,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, sstabellini@kernel.org,
- pmatouse@redhat.com, mdroth@linux.vnet.ibm.com, ppandit@redhat.com
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/02/20 06:59, Gerd Hoffmann wrote:
-> Now that the rom bar is mapped read-only and the guest can't change
-> things under our feet we don't need the shadow rom any more.
+On Mon, 24 Feb 2020 11:12:41 -0600
+Babu Moger <babu.moger@amd.com> wrote:
 
-Can't it do so when migrating from an older version?
+> On 2/24/20 2:34 AM, Igor Mammedov wrote:
+> > On Thu, 13 Feb 2020 12:17:04 -0600
+> > Babu Moger <babu.moger@amd.com> wrote:
+> >   
+> >> Update structures X86CPUTopoIDs and CPUX86State to hold the nodes_per_pkg.
+> >> This is required to build EPYC mode topology.
+> >>
+> >> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> >> ---
+> >>  hw/i386/pc.c               |    1 +
+> >>  hw/i386/x86.c              |    2 ++
+> >>  include/hw/i386/topology.h |    2 ++
+> >>  include/hw/i386/x86.h      |    1 +
+> >>  target/i386/cpu.c          |    1 +
+> >>  target/i386/cpu.h          |    1 +
+> >>  6 files changed, 8 insertions(+)
+> >>
+> >> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> >> index f13721ac43..02fdb3d506 100644
+> >> --- a/hw/i386/pc.c
+> >> +++ b/hw/i386/pc.c
+> >> @@ -1753,6 +1753,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+> >>      init_topo_info(&topo_info, x86ms);
+> >>  
+> >>      env->nr_dies = x86ms->smp_dies;
+> >> +    env->nr_nodes = ms->numa_state->num_nodes / ms->smp.sockets;  
+> > 
+> > it would be better if calculation would result in valid result
+> > so you won't have to later scatter MAX(env->nr_nodes, 1) everywhere.  
+> 
+> Ok. Sure.
+> > 
+> > also I'd use earlier intialized:
+> >   env->nr_nodes = topo_info->nodes_per_pkg
+> > to avoid repeating calculation  
+> 
+> yes. Will do it.
+> 
+> >   
+> >>      /*
+> >>       * If APIC ID is not set,
+> >> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> >> index 083effb2f5..3d944f68e6 100644
+> >> --- a/hw/i386/x86.c
+> >> +++ b/hw/i386/x86.c
+> >> @@ -89,11 +89,13 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
+> >>      Object *cpu = NULL;
+> >>      Error *local_err = NULL;
+> >>      CPUX86State *env = NULL;
+> >> +    MachineState *ms = MACHINE(x86ms);
+> >>  
+> >>      cpu = object_new(MACHINE(x86ms)->cpu_type);
+> >>  
+> >>      env = &X86_CPU(cpu)->env;
+> >>      env->nr_dies = x86ms->smp_dies;
+> >> +    env->nr_nodes = ms->numa_state->num_nodes / ms->smp.sockets;  
+> > 
+> > Is this really necessary?  (I think pc_cpu_pre_plug should take care of setting it)  
+> 
+> This does not seem necessary. I can add as a separate patch to remove env
+> initialization from x86_cpu_new.
 
-Paolo
+it doesn't have to be part of this series, but it's up to you
+how to send it
 
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/qxl.h |  2 +-
->  hw/display/qxl.c | 25 +++++++++----------------
->  2 files changed, 10 insertions(+), 17 deletions(-)
-> 
-> diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-> index 707631a1f573..3aedc7db5da0 100644
-> --- a/hw/display/qxl.h
-> +++ b/hw/display/qxl.h
-> @@ -95,11 +95,11 @@ typedef struct PCIQXLDevice {
->      uint32_t           vgamem_size;
->  
->      /* rom pci bar */
-> -    QXLRom             shadow_rom;
->      QXLRom             *rom;
->      QXLModes           *modes;
->      uint32_t           rom_size;
->      MemoryRegion       rom_bar;
-> +    uint32_t           rom_mode;
->  #if SPICE_SERVER_VERSION >= 0x000c06 /* release 0.12.6 */
->      uint16_t           max_outputs;
->  #endif
-> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-> index 227da69a50d9..0502802688f9 100644
-> --- a/hw/display/qxl.c
-> +++ b/hw/display/qxl.c
-> @@ -391,7 +391,6 @@ static void init_qxl_rom(PCIQXLDevice *d)
->              sizeof(rom->client_monitors_config));
->      }
->  
-> -    d->shadow_rom = *rom;
->      d->rom        = rom;
->      d->modes      = modes;
->  }
-> @@ -403,7 +402,7 @@ static void init_qxl_ram(PCIQXLDevice *d)
->      QXLReleaseRing *ring;
->  
->      buf = d->vga.vram_ptr;
-> -    d->ram = (QXLRam *)(buf + le32_to_cpu(d->shadow_rom.ram_header_offset));
-> +    d->ram = (QXLRam *)(buf + le32_to_cpu(d->rom->ram_header_offset));
->      d->ram->magic       = cpu_to_le32(QXL_RAM_MAGIC);
->      d->ram->int_pending = cpu_to_le32(0);
->      d->ram->int_mask    = cpu_to_le32(0);
-> @@ -446,7 +445,7 @@ static void qxl_ram_set_dirty(PCIQXLDevice *qxl, void *ptr)
->  /* can be called from spice server thread context */
->  static void qxl_ring_set_dirty(PCIQXLDevice *qxl)
->  {
-> -    ram_addr_t addr = qxl->shadow_rom.ram_header_offset;
-> +    ram_addr_t addr = qxl->rom->ram_header_offset;
->      ram_addr_t end  = qxl->vga.vram_size;
->      qxl_set_dirty(&qxl->vga.vram, addr, end);
->  }
-> @@ -529,7 +528,6 @@ static void interface_set_compression_level(QXLInstance *sin, int level)
->      PCIQXLDevice *qxl = container_of(sin, PCIQXLDevice, ssd.qxl);
->  
->      trace_qxl_interface_set_compression_level(qxl->id, level);
-> -    qxl->shadow_rom.compression_level = cpu_to_le32(level);
->      qxl->rom->compression_level = cpu_to_le32(level);
->      qxl_rom_set_dirty(qxl);
->  }
-> @@ -561,7 +559,7 @@ static void interface_get_init_info(QXLInstance *sin, QXLDevInitInfo *info)
->      info->num_memslots_groups = NUM_MEMSLOTS_GROUPS;
->      info->internal_groupslot_id = 0;
->      info->qxl_ram_size =
-> -        le32_to_cpu(qxl->shadow_rom.num_pages) << QXL_PAGE_BITS;
-> +        le32_to_cpu(qxl->rom->num_pages) << QXL_PAGE_BITS;
->      info->n_surfaces = qxl->ssd.num_surfaces;
->  }
->  
-> @@ -1035,9 +1033,6 @@ static void interface_set_client_capabilities(QXLInstance *sin,
->          return;
->      }
->  
-> -    qxl->shadow_rom.client_present = client_present;
-> -    memcpy(qxl->shadow_rom.client_capabilities, caps,
-> -           sizeof(qxl->shadow_rom.client_capabilities));
->      qxl->rom->client_present = client_present;
->      memcpy(qxl->rom->client_capabilities, caps,
->             sizeof(qxl->rom->client_capabilities));
-> @@ -1232,11 +1227,8 @@ static void qxl_check_state(PCIQXLDevice *d)
->  
->  static void qxl_reset_state(PCIQXLDevice *d)
->  {
-> -    QXLRom *rom = d->rom;
-> -
->      qxl_check_state(d);
-> -    d->shadow_rom.update_id = cpu_to_le32(0);
-> -    *rom = d->shadow_rom;
-> +    d->rom->update_id = cpu_to_le32(0);
->      qxl_rom_set_dirty(d);
->      init_qxl_ram(d);
->      d->num_free_res = 0;
-> @@ -1600,7 +1592,7 @@ static void qxl_set_mode(PCIQXLDevice *d, unsigned int modenr, int loadvm)
->          .format     = SPICE_SURFACE_FMT_32_xRGB,
->          .flags      = loadvm ? QXL_SURF_FLAG_KEEP_DATA : 0,
->          .mouse_mode = true,
-> -        .mem        = devmem + d->shadow_rom.draw_area_offset,
-> +        .mem        = devmem + d->rom->draw_area_offset,
->      };
->  
->      trace_qxl_set_mode(d->id, modenr, mode->x_res, mode->y_res, mode->bits,
-> @@ -1620,7 +1612,6 @@ static void qxl_set_mode(PCIQXLDevice *d, unsigned int modenr, int loadvm)
->      if (mode->bits == 16) {
->          d->cmdflags |= QXL_COMMAND_FLAG_COMPAT_16BPP;
->      }
-> -    d->shadow_rom.mode = cpu_to_le32(modenr);
->      d->rom->mode = cpu_to_le32(modenr);
->      qxl_rom_set_dirty(d);
->  }
-> @@ -2277,6 +2268,7 @@ static int qxl_pre_save(void *opaque)
->          d->last_release_offset = (uint8_t *)d->last_release - ram_start;
->      }
->      assert(d->last_release_offset < d->vga.vram_size);
-> +    d->rom_mode = d->rom->mode;
->  
->      return 0;
->  }
-> @@ -2316,6 +2308,7 @@ static int qxl_post_load(void *opaque, int version)
->      } else {
->          d->last_release = (QXLReleaseInfo *)(ram_start + d->last_release_offset);
->      }
-> +    d->rom->mode = d->rom_mode;
->  
->      d->modes = (QXLModes*)((uint8_t*)d->rom + d->rom->modes_offset);
->  
-> @@ -2361,7 +2354,7 @@ static int qxl_post_load(void *opaque, int version)
->      case QXL_MODE_COMPAT:
->          /* note: no need to call qxl_create_memslots, qxl_set_mode
->           * creates the mem slot. */
-> -        qxl_set_mode(d, d->shadow_rom.mode, 1);
-> +        qxl_set_mode(d, d->rom->mode, 1);
->          break;
->      }
->      return 0;
-> @@ -2428,7 +2421,7 @@ static VMStateDescription qxl_vmstate = {
->      .fields = (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(pci, PCIQXLDevice),
->          VMSTATE_STRUCT(vga, PCIQXLDevice, 0, vmstate_vga_common, VGACommonState),
-> -        VMSTATE_UINT32(shadow_rom.mode, PCIQXLDevice),
-> +        VMSTATE_UINT32(rom_mode, PCIQXLDevice),
->          VMSTATE_UINT32(num_free_res, PCIQXLDevice),
->          VMSTATE_UINT32(last_release_offset, PCIQXLDevice),
->          VMSTATE_UINT32(mode, PCIQXLDevice),
+> >   
+> >>      object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+> >>      object_property_set_bool(cpu, true, "realized", &local_err);
+> >> diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+> >> index ef0ab0b6a3..522c77e6a9 100644
+> >> --- a/include/hw/i386/topology.h
+> >> +++ b/include/hw/i386/topology.h
+> >> @@ -41,12 +41,14 @@
+> >>  
+> >>  #include "qemu/bitops.h"
+> >>  #include "hw/i386/x86.h"
+> >> +#include "sysemu/numa.h"
+> >>  
+> >>  static inline void init_topo_info(X86CPUTopoInfo *topo_info,
+> >>                                    const X86MachineState *x86ms)
+> >>  {
+> >>      MachineState *ms = MACHINE(x86ms);
+> >>  
+> >> +    topo_info->nodes_per_pkg = ms->numa_state->num_nodes / ms->smp.sockets;
+> >>      topo_info->dies_per_pkg = x86ms->smp_dies;
+> >>      topo_info->cores_per_die = ms->smp.cores;
+> >>      topo_info->threads_per_core = ms->smp.threads;
+> >> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> >> index ad62b01cf2..d76fd0bbb1 100644
+> >> --- a/include/hw/i386/x86.h
+> >> +++ b/include/hw/i386/x86.h
+> >> @@ -48,6 +48,7 @@ typedef struct X86CPUTopoIDs {
+> >>  } X86CPUTopoIDs;
+> >>  
+> >>  typedef struct X86CPUTopoInfo {
+> >> +    unsigned nodes_per_pkg;
+> >>      unsigned dies_per_pkg;
+> >>      unsigned cores_per_die;
+> >>      unsigned threads_per_core;
+> >> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> >> index 7e630f47ac..5d6edfd09b 100644
+> >> --- a/target/i386/cpu.c
+> >> +++ b/target/i386/cpu.c
+> >> @@ -6761,6 +6761,7 @@ static void x86_cpu_initfn(Object *obj)
+> >>      FeatureWord w;
+> >>  
+> >>      env->nr_dies = 1;
+> >> +    env->nr_nodes = 1;
+> >>      cpu_set_cpustate_pointers(cpu);
+> >>  
+> >>      object_property_add(obj, "family", "int",
+> >> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> >> index af282936a7..627a8cb9be 100644
+> >> --- a/target/i386/cpu.h
+> >> +++ b/target/i386/cpu.h
+> >> @@ -1603,6 +1603,7 @@ typedef struct CPUX86State {
+> >>      TPRAccess tpr_access_type;
+> >>  
+> >>      unsigned nr_dies;
+> >> +    unsigned nr_nodes;
+> >>  } CPUX86State;
+> >>  
+> >>  struct kvm_msrs;
+> >>  
+> >   
 > 
 
 
