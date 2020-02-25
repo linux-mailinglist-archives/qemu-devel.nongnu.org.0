@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6782716C009
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:55:06 +0100 (CET)
-Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907B216C019
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:58:39 +0100 (CET)
+Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Ynp-0005i5-CO
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:55:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
+	id 1j6YrG-0004AT-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:58:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkR-0000WQ-B6
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:39 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkT-0000ZM-5s
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkM-0006LU-Lq
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkN-0006PQ-Fe
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:35 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51566)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37846)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkM-0006GQ-Dz
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:30 -0500
-Received: by mail-wm1-x331.google.com with SMTP id t23so2679164wmi.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:30 -0800 (PST)
+ id 1j6YkN-0006Lh-8J
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:31 -0500
+Received: by mail-wm1-x332.google.com with SMTP id a6so2846981wme.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=jPbd6b7Kd0gmY/mPYS/0kiL57uD/bHKmeLvmiwY7zUE=;
- b=tnnzK7o/JmqexMKYtQCfkXbuDn6OslNrg0kZs6ATSHpj4vdtAWFuxikOespgklkz/W
- QyGQPWPDVFv9oTkxYY9NeWlDaTUlTVx1Tonf1pmU3E8ddXjZTIR7zTQCYdJV90ymb2Tf
- JjDfCCj6V1NSHDxA3lZwfE0+1g/L4YXn/clS4ut9nzXPpzuli7tKslarziwrVqJSS/nH
- qLJNsT7LP5zaVMo+rVjYS5KUjb9Zc5TZ6RsQ+wWxGc++/ZREKhiDGbZBrspUXBEMy4xd
- J5/sX53JU+8Utmw7fgzlScOI3WpOsmOW6V8D6iXKIOt0DQuOgOHXVMkX4tvSBr6ClovP
- 0xbg==
+ bh=xKyFQRP3bJb75Dnq/YP4ZyRkBptFTYb9d0ubWP46zn8=;
+ b=IFVVD+TEbKfPlZfxyWNvRd1k4xn603BE7lIbUQoedhq1LbX+wWLDQmmPynsOJPZSIw
+ jHj0GhlkgRNMpBXFRNVG8LmbYjh/mgQKowKTHPomN+8qqwbAlMyTWTd5B5toREncidQb
+ u7OZZKS7mvcQ6Z+S7hjNE68s3ghqZG++eCQUTqOHbKvTd/Fmzv86+Gr0buEvwZdB6I/x
+ OIOhESPkW0L6TS3J9ioEzAf/fl3atYnT45Fw7A7t/PtPMeAgrUY0nIAsrv8tNtHQUEjq
+ xoKmCRKcvq8T3YC2mQ7DjKmgpItNgEe5c+/QwS0+S2uvvfTGvAHZHqSMDCy60aUVGf0Y
+ /cyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=jPbd6b7Kd0gmY/mPYS/0kiL57uD/bHKmeLvmiwY7zUE=;
- b=jqbQ7JcpCOPw7g4rsAne6CMPbBwIZj2zawcuGMoHRNXWDOMQwHOOr0QLWgzJMKH58b
- 4ZV6knEjSU+gbbMxULGhem0o3XhKaDY1z0bgqRzULdrk07x/ngoieR95dmIIkuUdCtCU
- nndgSuEVSvrO+I9LTDbVo0kbWD7GQlR85tIj0pmwh0VvKeROHUqUY7kEe/Ms6RjJH8mI
- RyPKZL2Bo2gFv0uf1J9Saat3DlM4GbovBTf/x6XYVqBr+ohuhHBeD614LfjGcga93qQl
- u0S8pxItZA2SfqLJuCc7wTDLnqgDCy8BXFo4aoCI7poL66umvSj3oVt8MvqPIFPp4tVh
- 9ruQ==
-X-Gm-Message-State: APjAAAVHaMT+Ds2FYlhxTi3I9g4G95lgZI+vPhVpx+NLHxYEZPXoDZyS
- e01WZ9zBoNqOtVGsv3Dur8c5sAkh
-X-Google-Smtp-Source: APXvYqyv/+eL8dcLOmtpcnnEHSOu58TDW8nQoXnYtCzS4bUnjR41ZUGTLmknM/zk5Ip6jWieNSgJNA==
-X-Received: by 2002:a05:600c:2481:: with SMTP id
- 1mr4940241wms.120.1582631489069; 
- Tue, 25 Feb 2020 03:51:29 -0800 (PST)
+ bh=xKyFQRP3bJb75Dnq/YP4ZyRkBptFTYb9d0ubWP46zn8=;
+ b=ElMKE9uaC8CnQyjo+1PZBK9KYiCK19MIlpdUhP+SnahK6LuTugx+egvLc3SdXZ5V4n
+ aS4H6x2rZ4Q/jBi0/lBBg/ILj4I6MOVGJ9yMs/oNl1kb/SPaOiPQ91Zy3meM7JjA7HPH
+ Rkhrk//Q6hV5GTZHDvr8NXgCmXQXRdH6H3nLdqjV+x+pejVprYPXXwXunQfu1tYUQpGB
+ qD8Xttgk1NjQgJGy80+GvUQ+AKRiQId+c77ue/6NX/ZeS9U4x+86hVwJ4FY84t2YZRAD
+ 9I7Q76pz9p6OHAcCjprZRcg5xl6J9zniRXWQjMbZ2o7iBjwvW0fZfhVYqJwp94diW06t
+ a3bw==
+X-Gm-Message-State: APjAAAWnZWN6dIp/LKQ3Aj9aHvip5J5Yze6g9MFPlfO7fBUCPeL0UcFy
+ UfGCoBWmqhF9kkSx4I3XfPq9LZUy
+X-Google-Smtp-Source: APXvYqwFfSSEpmifAtbEMKmGtq84q8txT7mFbPzfkZcEARW1b4HDfrxlLUKpk0GKa6mvSyu+44+Kpg==
+X-Received: by 2002:a1c:a553:: with SMTP id o80mr4843089wme.94.1582631490014; 
+ Tue, 25 Feb 2020 03:51:30 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.28
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.29
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:28 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:29 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 024/136] arm/musicpal: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:14 +0100
-Message-Id: <1582631466-13880-24-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 025/136] arm/nseries: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:15 +0100
+Message-Id: <1582631466-13880-25-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,33 +95,33 @@ PS:
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200219160953.13771-25-imammedo@redhat.com>
+Message-Id: <20200219160953.13771-26-imammedo@redhat.com>
 ---
- hw/arm/musicpal.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ hw/arm/nseries.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index dc551bb..db8b03cb 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -32,6 +32,7 @@
- #include "sysemu/runstate.h"
- #include "exec/address-spaces.h"
- #include "ui/pixel_ops.h"
-+#include "qemu/cutils.h"
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 3fd196f..eae800b 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -47,7 +47,6 @@
  
- #define MP_MISC_BASE            0x80002000
- #define MP_MISC_SIZE            0x00001000
-@@ -1589,16 +1590,21 @@ static void musicpal_init(MachineState *machine)
-     int i;
-     unsigned long flash_size;
-     DriveInfo *dinfo;
+ /* Nokia N8x0 support */
+ struct n800_s {
+-    MemoryRegion sdram;
+     struct omap_mpu_state_s *mpu;
+ 
+     struct rfbi_chip_s blizzard;
+@@ -1311,13 +1310,19 @@ static void n8x0_init(MachineState *machine,
+                       struct arm_boot_info *binfo, int model)
+ {
+     struct n800_s *s = (struct n800_s *) g_malloc0(sizeof(*s));
+-    uint64_t sdram_size = binfo->ram_size;
 +    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *ram = g_new(MemoryRegion, 1);
-     MemoryRegion *sram = g_new(MemoryRegion, 1);
  
-+    /* For now we use a fixed - the original - RAM size */
+-    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
+-                                         sdram_size);
+-    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE, &s->sdram);
 +    if (machine->ram_size != mc->default_ram_size) {
 +        char *sz = size_to_str(mc->default_ram_size);
 +        error_report("Invalid RAM size, should be %s", sz);
@@ -130,25 +129,63 @@ index dc551bb..db8b03cb 100644
 +        exit(EXIT_FAILURE);
 +    }
 +
-     cpu = ARM_CPU(cpu_create(machine->cpu_type));
++    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE,
++                                machine->ram);
  
--    /* For now we use a fixed - the original - RAM size */
--    memory_region_allocate_system_memory(ram, NULL, "musicpal.ram",
--                                         MP_RAM_DEFAULT_SIZE);
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+-    s->mpu = omap2420_mpu_init(&s->sdram, machine->cpu_type);
++    s->mpu = omap2420_mpu_init(machine->ram, machine->cpu_type);
  
-     memory_region_init_ram(sram, NULL, "musicpal.sram", MP_SRAM_SIZE,
-                            &error_fatal);
-@@ -1714,6 +1720,8 @@ static void musicpal_machine_init(MachineClass *mc)
-     mc->init = musicpal_init;
+     /* Setup peripherals
+      *
+@@ -1383,9 +1388,8 @@ static void n8x0_init(MachineState *machine,
+          *
+          * The code above is for loading the `zImage' file from Nokia
+          * images.  */
+-        load_image_targphys(option_rom[0].name,
+-                            OMAP2_Q2_BASE + 0x400000,
+-                            sdram_size - 0x400000);
++        load_image_targphys(option_rom[0].name, OMAP2_Q2_BASE + 0x400000,
++                            machine->ram_size - 0x400000);
+ 
+         n800_setup_nolo_tags(nolo_tags);
+         cpu_physical_memory_write(OMAP2_SRAM_BASE, nolo_tags, 0x10000);
+@@ -1395,16 +1399,12 @@ static void n8x0_init(MachineState *machine,
+ 
+ static struct arm_boot_info n800_binfo = {
+     .loader_start = OMAP2_Q2_BASE,
+-    /* Actually two chips of 0x4000000 bytes each */
+-    .ram_size = 0x08000000,
+     .board_id = 0x4f7,
+     .atag_board = n800_atag_setup,
+ };
+ 
+ static struct arm_boot_info n810_binfo = {
+     .loader_start = OMAP2_Q2_BASE,
+-    /* Actually two chips of 0x4000000 bytes each */
+-    .ram_size = 0x08000000,
+     /* 0x60c and 0x6bf (WiMAX Edition) have been assigned but are not
+      * used by some older versions of the bootloader and 5555 is used
+      * instead (including versions that shipped with many devices).  */
+@@ -1431,6 +1431,9 @@ static void n800_class_init(ObjectClass *oc, void *data)
+     mc->default_boot_order = "";
      mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("arm926");
-+    mc->default_ram_size = MP_RAM_DEFAULT_SIZE;
-+    mc->default_ram_id = "musicpal.ram";
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("arm1136-r2");
++    /* Actually two chips of 0x4000000 bytes each */
++    mc->default_ram_size = 0x08000000;
++    mc->default_ram_id = "omap2.dram";
  }
  
- DEFINE_MACHINE("musicpal", musicpal_machine_init)
+ static const TypeInfo n800_type = {
+@@ -1448,6 +1451,9 @@ static void n810_class_init(ObjectClass *oc, void *data)
+     mc->default_boot_order = "";
+     mc->ignore_memory_transaction_failures = true;
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("arm1136-r2");
++    /* Actually two chips of 0x4000000 bytes each */
++    mc->default_ram_size = 0x08000000;
++    mc->default_ram_id = "omap2.dram";
+ }
+ 
+ static const TypeInfo n810_type = {
 -- 
 1.8.3.1
 
