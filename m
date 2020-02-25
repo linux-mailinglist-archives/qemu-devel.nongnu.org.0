@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CB716C001
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 12:53:14 +0100 (CET)
-Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252BE16C022
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 13:00:15 +0100 (CET)
+Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6Ym1-0002Kp-8U
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 06:53:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49091)
+	id 1j6Yso-0007Si-3H
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 07:00:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkC-0000D9-GP
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:21 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkF-0000Ep-7W
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0005ip-CK
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:20 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33054)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6YkB-0005jH-Cy
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:23 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37956)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6YkB-0005Zx-1Q
+ id 1j6YkB-0005eH-3P
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 06:51:19 -0500
-Received: by mail-wr1-x434.google.com with SMTP id u6so14403144wrt.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:18 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id e8so14376063wrm.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 03:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DgpDgsU1LZ8UIKh23Ul5+S4M2ooKpM1J/352kEvw16w=;
- b=ev9x/A/7XcLcKq2sHbiFSyxx3GoWh8vSTp9EQI3WneJ+OG2u591RgrHeVyY5kA4MVs
- XRYZoZtdU8GwIaQaLzr/RDoyKWo8wnkXq8UQ9WzGTatGCqeLIJZWe9LSCrnvrzP/n0ZI
- CxWSIyqF1DjpUxVQL2m9nXcf8JDi5i0gsjhfzR4y1Nk3aW1FWd6+A758/4WuG5sW+pNZ
- sFMOFIXmhluO84pOgJuSDH6vc9WXKxmHbTxD2g6pX6iI45B2iNrvXFVbBaXy/UAgCQ0c
- cbztb2YyjsEMxpqtrt+QkV4C2jJEP2/iQqPaFlphUT/H1oBrkxjoAzveC/9OuW03HPJf
- HfHA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ZDras4bJE0jrJh+tI0g3t+yqgoZLyLXZGVhvwozi+Bk=;
+ b=kWA6/pSsQU7C5tbUYE9Eg4N59QPm5yK92MsMmD86qBbhRBEr/gYefTcHNqr2tg598M
+ aTragnOc+GfOk0jdXU12mh8XqhndWb1b7oPz9R4UD80SfUVPRvkMEe4p7xDuPyZkwxHd
+ dEI1gKyS54/NIwDjzSKqQWDaJ7s1EaB9iln2TiBoTpivF/MxutNIpVUym+OjbPxuZ5dU
+ MgK2t94/i8BpH8vm7SIC1UaoI0jGdZSrfyc5h6zuNYlQc/QD5WyxlMcrampNHqfWBnnO
+ ZSLLM1nodE2l/L2iUWmicZ1vKe10uvjvlCNzECRaEoJz81gQCkkSZXWVoJQ0WB1jWsri
+ 0wcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DgpDgsU1LZ8UIKh23Ul5+S4M2ooKpM1J/352kEvw16w=;
- b=BhyJD/xCnRjese+wyJuenu9BGmol2Q2m/0TPOyPs39jTCIEcRgsP7p8MAiL9LVPLUA
- qfnzu5e0zwuZe9oP7x4BsXgyCbEDuNUsMsEI/yejH3jdBbMm4nYL+Z3B5FzBrL6HT/Wm
- 33xZEGCFW04YsZKaEMVOmh0iLf/vfSUwZyn5T31A5Epo1bTRyRXiFCq6ia0ZFEyLbASA
- xpa3KqmdXQ0rlh+KzyAjLZ3a1FK9dN5T1a6dUDg0dSPQvr4qEUDW5ug2X2Cijsa4Px2z
- wt7SWYzohphFTrj4yf9QzVSPMP8EMX0cS5iLBZy6iXk1nAKaTBMU4z7fwkpOhrfHRkvI
- R6kw==
-X-Gm-Message-State: APjAAAWGxD920kE8tRvw/XbaD4Tc7CB1Vq2WozG/lHMF1ttZzJ5ZfNui
- sW/5XITAqYwwMgnX3q0Hgh2xLGPY
-X-Google-Smtp-Source: APXvYqwoc2XAD136/Zb+mx9RNXLLFfTB7UqRu/TQwKzW7D9aZaYEbRL0beGOmG2ELKY8yGDnoF/yGg==
-X-Received: by 2002:adf:f349:: with SMTP id e9mr10190116wrp.56.1582631477089; 
+ :in-reply-to:references;
+ bh=ZDras4bJE0jrJh+tI0g3t+yqgoZLyLXZGVhvwozi+Bk=;
+ b=bvjiQ9ftRMlJ5saGMil9OApUeQIUwJJ4UcbLfGwNvShyDc3M3HFxtEONg4orUz8ukY
+ a97h+q+kMdQq/SlV6WRlMejDQ3TdOe5IpB0EGxJ3FTkBX7SaqFtd1rGaqn2kUTpPAtX/
+ ofaYq/CLeVJ+53JENvORz8UQxXTZMxr4vJZrC94sialpBt95dH2rBm6UgDO7LopvABwi
+ 6w5+iMBlUuuhPWuhXr3OPphl0CMZnkCSQQlysphuMg0ixJriuuuCm0bZxRU6NFLMdPna
+ T52ZmtMuZVIseioUPv6nxoSxV/qYG7NhmLJCbJ+nVLSU8f/+u3tQXx0K3eMvdWuaCy9Y
+ fPCA==
+X-Gm-Message-State: APjAAAUxoO9+BILuHHPJJlYLFdagsiUErGS9Y7H1avkcm4FSYJcWC4si
+ qg7QCE/us1oYQDHXI/amrhuI+HJO
+X-Google-Smtp-Source: APXvYqxPc+0yz4LFNwFukNZWtTV7Try/Cd+gdeqfhD6RrRENecZZQKPT94difPHhBMgUP83A/0wAPA==
+X-Received: by 2002:a5d:5745:: with SMTP id q5mr16440084wrw.374.1582631477877; 
  Tue, 25 Feb 2020 03:51:17 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.16
+ by smtp.gmail.com with ESMTPSA id b67sm3922326wmc.38.2020.02.25.03.51.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 03:51:16 -0800 (PST)
+ Tue, 25 Feb 2020 03:51:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 011/136] arm/collie: use memdev for RAM
-Date: Tue, 25 Feb 2020 12:49:01 +0100
-Message-Id: <1582631466-13880-11-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 012/136] arm/cubieboard: use memdev for RAM
+Date: Tue, 25 Feb 2020 12:49:02 +0100
+Message-Id: <1582631466-13880-12-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::434
@@ -93,60 +89,88 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 PS:
- - while at it add check for user supplied RAM size and error
-   out if it mismatches board expected value.
+While at it, get rid of no longer needed CubieBoardState wrapper.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219160953.13771-12-imammedo@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200219160953.13771-13-imammedo@redhat.com>
 ---
- hw/arm/collie.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ hw/arm/cubieboard.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-diff --git a/hw/arm/collie.c b/hw/arm/collie.c
-index 970a440..4992084 100644
---- a/hw/arm/collie.c
-+++ b/hw/arm/collie.c
-@@ -10,6 +10,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "hw/sysbus.h"
- #include "hw/boards.h"
- #include "strongarm.h"
-@@ -27,13 +28,18 @@ static void collie_init(MachineState *machine)
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 6dc2f1d..089f9a3 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -28,52 +28,42 @@ static struct arm_boot_info cubieboard_binfo = {
+     .board_id = 0x1008,
+ };
+ 
+-typedef struct CubieBoardState {
+-    AwA10State *a10;
+-    MemoryRegion sdram;
+-} CubieBoardState;
+-
+ static void cubieboard_init(MachineState *machine)
  {
-     StrongARMState *s;
-     DriveInfo *dinfo;
--    MemoryRegion *sdram = g_new(MemoryRegion, 1);
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-+
-+    if (machine->ram_size != mc->default_ram_size) {
-+        char *sz = size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
+-    CubieBoardState *s = g_new(CubieBoardState, 1);
++    AwA10State *a10 = AW_A10(object_new(TYPE_AW_A10));
+     Error *err = NULL;
  
-     s = sa1110_init(machine->cpu_type);
+-    s->a10 = AW_A10(object_new(TYPE_AW_A10));
+-
+-    object_property_set_int(OBJECT(&s->a10->emac), 1, "phy-addr", &err);
++    object_property_set_int(OBJECT(&a10->emac), 1, "phy-addr", &err);
+     if (err != NULL) {
+         error_reportf_err(err, "Couldn't set phy address: ");
+         exit(1);
+     }
  
--    memory_region_allocate_system_memory(sdram, NULL, "strongarm.sdram",
--                                         collie_binfo.ram_size);
--    memory_region_add_subregion(get_system_memory(), SA_SDCS0, sdram);
-+    memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ram);
+-    object_property_set_int(OBJECT(&s->a10->timer), 32768, "clk0-freq", &err);
++    object_property_set_int(OBJECT(&a10->timer), 32768, "clk0-freq", &err);
+     if (err != NULL) {
+         error_reportf_err(err, "Couldn't set clk0 frequency: ");
+         exit(1);
+     }
  
-     dinfo = drive_get(IF_PFLASH, 0, 0);
-     pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
-@@ -57,6 +63,8 @@ static void collie_machine_init(MachineClass *mc)
-     mc->init = collie_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("sa1110");
-+    mc->default_ram_size = 0x20000000;
-+    mc->default_ram_id = "strongarm.sdram";
+-    object_property_set_int(OBJECT(&s->a10->timer), 24000000, "clk1-freq",
+-                            &err);
++    object_property_set_int(OBJECT(&a10->timer), 24000000, "clk1-freq", &err);
+     if (err != NULL) {
+         error_reportf_err(err, "Couldn't set clk1 frequency: ");
+         exit(1);
+     }
+ 
+-    object_property_set_bool(OBJECT(s->a10), true, "realized", &err);
++    object_property_set_bool(OBJECT(a10), true, "realized", &err);
+     if (err != NULL) {
+         error_reportf_err(err, "Couldn't realize Allwinner A10: ");
+         exit(1);
+     }
+ 
+-    memory_region_allocate_system_memory(&s->sdram, NULL, "cubieboard.ram",
+-                                         machine->ram_size);
+     memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
+-                                &s->sdram);
++                                machine->ram);
+ 
+     /* TODO create and connect IDE devices for ide_drive_get() */
+ 
+     cubieboard_binfo.ram_size = machine->ram_size;
+-    arm_load_kernel(&s->a10->cpu, machine, &cubieboard_binfo);
++    arm_load_kernel(&a10->cpu, machine, &cubieboard_binfo);
  }
  
- DEFINE_MACHINE("collie", collie_machine_init)
+ static void cubieboard_machine_init(MachineClass *mc)
+@@ -84,6 +74,7 @@ static void cubieboard_machine_init(MachineClass *mc)
+     mc->block_default_type = IF_IDE;
+     mc->units_per_default_bus = 1;
+     mc->ignore_memory_transaction_failures = true;
++    mc->default_ram_id = "cubieboard.ram";
+ }
+ 
+ DEFINE_MACHINE("cubieboard", cubieboard_machine_init)
 -- 
 1.8.3.1
 
