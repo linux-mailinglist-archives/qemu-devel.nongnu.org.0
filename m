@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C6B16C1E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:16:45 +0100 (CET)
-Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199D616C1FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:19:02 +0100 (CET)
+Received: from localhost ([::1]:55516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6a4q-0002cS-Og
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:16:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59266)
+	id 1j6a72-0006Ot-5A
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:19:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcY-0005cE-Lf
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6Zcu-0006TJ-55
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6ZcX-0007Hd-Lh
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:30 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36384)
+ (envelope-from <peter.maydell@linaro.org>) id 1j6Zcs-0007Ny-Ts
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:52 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39065)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6ZcW-0007Gp-I5
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:28 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z3so14595329wru.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:28 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6Zcs-0007Ne-OX
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:47:50 -0500
+Received: by mail-ot1-x342.google.com with SMTP id 77so11942973oty.6
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:47:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=na92kVuJJsjY30jm/AoUIfDqEYfGMWmCBB2a9Ak5rMc=;
- b=kfU8ao//sTxn2+jp/mewHRgcmNuhH0miGGE44IjK0/bzxtBF/uz3kNp8SEKkizaBWw
- zzijHh6nyX7B8Dsv8/fo4fWeKJupsAdc05OMp7dFCij0LXmbyFDTtxzuOvalkcgC4pmG
- xwH42zZmEf+kfeRzsCHOj0dqgnOCvEFOGvui3wjGwZ8Hi9wisoLNmMaXox88U/rV4hCR
- OnTz6HlRCZ8dDwkiSwFlWgTTS1wJZuQVicrEYNxNcs5itOIPVz/lYYN6s0KRg9Hpo+VW
- 5wyBQoy0c2upE4pQBS+sz2Tna33pxSKcGPWAlTQ4aY8TfCqVa1fLx79MGbLaC+Gqeg3M
- G7jw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/s7kcgzjK6Jcd+lbezo/Ccp7/oxDgNdlRqtHaMhsg7E=;
+ b=SIGZ14+L/T4pUJ7s5q8BJoGdGbwusvHd39ts3++WjorzQF4mgBdbGNdrI9a2dFNyKN
+ LWyt0ZWAuD4ok65VQuLb/AKe4QqNxpTsvj5iP6xVLYAcIjQu4B9CCP9DbQvHliwHRn7E
+ klMQAj3LBf/B1N0g5KaxCQhBAbf/rHalwpg4X1qOHF2Gqc3MKMvuIKd36Kfa4HNryDaY
+ 02gOq2wqbDzrAbql0z6a9rSNcNEykoANoZUMi/xJm23IwTukgAiGfeDYaUnJa0DMtNwj
+ /ORGK2p0w6/ua+dG31Eh1tJ+fmfZfAIJ7X/PMdPmTako2ts0k3gk2nZhYUvtMJdiacZJ
+ 6RtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=na92kVuJJsjY30jm/AoUIfDqEYfGMWmCBB2a9Ak5rMc=;
- b=CLW2oXGGVbH3aYtFONHD9irMXVDqSbtKhJV9uLApUbyrBSmPmUtGK2BEN7c/kcE3Hg
- OwdoIHZ/nkfsDvtxLx+WLAr7Ta5yc/1FJkNUZUlDKH5vPNNFHkLRxQOhD/EQxWGoP9Lk
- u+n7WOxfryppL5htVFb0PKZTD++7Jha83/P9H/K9Aunm8nL44JUlMfjOx6WroEygyYcV
- iQdP6yt4dhK19Y4c+l86Dn76QuERM5DPuliXIbboSdWB+YJZPmDoNhjcCVzRiV4hygXf
- JWwwDEsI59D0H8Q2Pk8rqmLytwCwRXLecD2E93WtjeP/hjEjaUxNcTy+J5uD+UjlRKWD
- pX2A==
-X-Gm-Message-State: APjAAAWA32DlslTxNnXemYHh7HQrT35rv5h/C9AK1MmWt+Y5NnE5YkK+
- 79PisJ/6A0Kf2XFP0/BQkO761Q==
-X-Google-Smtp-Source: APXvYqzantn4UyHjGDRJMwcfpHqNT+AyG386KerVbvcQeeBptcKWGVcVU1Z++1zQ5GJRz4b5UDq1OA==
-X-Received: by 2002:a5d:4807:: with SMTP id l7mr7063342wrq.250.1582634847306; 
- Tue, 25 Feb 2020 04:47:27 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f8sm22586384wru.12.2020.02.25.04.47.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 04:47:22 -0800 (PST)
-Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 426A41FF9B;
- Tue, 25 Feb 2020 12:47:11 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 11/19] plugins/core: add missing break in cb_to_tcg_flags
-Date: Tue, 25 Feb 2020 12:47:02 +0000
-Message-Id: <20200225124710.14152-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200225124710.14152-1-alex.bennee@linaro.org>
-References: <20200225124710.14152-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/s7kcgzjK6Jcd+lbezo/Ccp7/oxDgNdlRqtHaMhsg7E=;
+ b=h56flYPiYxRbGhgjtquJiJKbZHeEIWR1PCf1z6bxDuYfxBoTihrNLEltN4XkvkjEJu
+ PG9hq32myvTwb2IywopPSUB6GIeDPQcIb7kxNpO5dDp2DRU2En9ux/vD4w350Lz4MbXd
+ kmPO5IbGPPP846mZWExUN0QXrJGB1YK+YEAraPypNHVUU7zkkLuZFqnijAOp1L7JiBIV
+ vj8zpK83APeCC0wCDr8b9mOBpb9kEol/+rmvw0wPPuJ10UUUi/1KvrGMro3gLOTjSwdA
+ 580Qx0oNPnxj9TvmaDEOMusAwzKBPhZnL1hh/NasoRjYFaY33XttrIcDvRqdKs6NYb1+
+ nROg==
+X-Gm-Message-State: APjAAAUYzENde70pklsJdBYlPSrnv4cGKjGllQ8IEQOgMhGhewRni/H0
+ 6fFYvU1+qZ0ZoP9pvbJe6sUk7BJRTbO6j6B7C8npdQ==
+X-Google-Smtp-Source: APXvYqzvJJJZAsuu/uKjBXy5ZW5E3m0RSXqNcogEeaug5xIXXKPHOVfhT5eJpInzGmCU6RAHlDpJC+BNVRqwPBSera0=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr44866318ota.232.1582634869785; 
+ Tue, 25 Feb 2020 04:47:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200223233033.15371-1-f4bug@amsat.org>
+ <20200223233033.15371-3-f4bug@amsat.org>
+In-Reply-To: <20200223233033.15371-3-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Feb 2020 12:47:38 +0000
+Message-ID: <CAFEAcA9bZJ9X20SX-5J2M6rWEhNC=un3Re3RVhGGHD1qMEdWtw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] hw/arm/integratorcp: Map a CFI parallel flash
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,43 +75,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- qemu-stable@nongnu.org, marcandre.lureau@redhat.com,
- aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+On Sun, 23 Feb 2020 at 23:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> The Linux kernel displays errors why trying to detect the flash:
+>
+>   Linux version 4.16.0 (linus@genomnajs) (gcc version 7.2.1 20171011 (Lin=
+aro GCC 7.2-2017.11)) #142 PREEMPT Wed May 9 13:24:55 CEST 2018
+>   CPU: ARM926EJ-S [41069265] revision 5 (ARMv5TEJ), cr=3D00093177
+>   CPU: VIVT data cache, VIVT instruction cache
+>   OF: fdt: Machine model: ARM Integrator/CP
+>   ...
+>   of-flash 24000000.flash: Integrator/CP flash protection
+>   of-flash 24000000.flash: do_map_probe() failed for type cfi_probe
+>   of-flash 24000000.flash: do_map_probe() failed
+>
+> Since we have a CFI pflash model available, wire it.
+> The kernel properly detects it:
+>
+>   of-flash 24000000.flash: Integrator/CP flash protection
+>   24000000.flash: Found 1 x32 devices at 0x0 in 32-bit bank. Manufacturer=
+ ID 0x000000 Chip ID 0x000000
+>   Intel/Sharp Extended Query Table at 0x0031
+>   Using buffer write method
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> v2: Kconfig change was not committed
+>
+> RFC because I have no idea of the flash model, its ID code, and which
+> default CFI family (1 or 2).
 
-Fixes: 54cb65d8588
-Reported-by: Robert Henry <robhenry@microsoft.com>
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200105072940.32204-1-cota@braap.org>
-Cc: qemu-stable@nongnu.org
----
- plugins/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ARM DUI 0102G ("ARM Firmware Suite Reference Guide") helpfully has
+a few details:
 
-diff --git a/plugins/core.c b/plugins/core.c
-index 9e1b9e7a915..ed863011baf 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -286,6 +286,7 @@ static inline uint32_t cb_to_tcg_flags(enum qemu_plugin_cb_flags flags)
-     switch (flags) {
-     case QEMU_PLUGIN_CB_RW_REGS:
-         ret = 0;
-+        break;
-     case QEMU_PLUGIN_CB_R_REGS:
-         ret = TCG_CALL_NO_WG;
-         break;
--- 
-2.20.1
+Device                                  Size  Organization     Flash part
+Integrator/AP Boot flash               512KB  1x512K block     Atmel AT49LV=
+040
+Integrator/AP Application flash         32MB  256x128K blocks  Intel 28F320=
+S3
+Integrator/CP Boot/Application flash    16MB  64x256K blocks   Intel 28F640=
+J3A
 
+(of which we only model the CP.) With luck that's enough to
+nail down the relevant device properties.
+
+> @@ -646,6 +649,14 @@ static void integratorcp_init(MachineState *machine)
+>                            qdev_get_gpio_in_named(icp, ICP_GPIO_MMC_CARDI=
+N, 0));
+>      sysbus_create_varargs("pl041", 0x1d000000, pic[25], NULL);
+>
+> +    dinfo =3D drive_get(IF_PFLASH, 0, 0);
+> +    if (!pflash_cfi01_register(0x24000000, "pflash", 16 * MiB,
+> +                               dinfo ? blk_by_legacy_dinfo(dinfo) : NULL=
+,
+> +                               64 * KiB, 4, 0, 0, 0, 0, 0)) {
+> +        error_report("Error registering flash memory");
+> +        exit(1);
+> +    }
+
+Passing a 'width' argument of 0 means "weird legacy backcompat
+device that's a bad emulation of a pair of 16-bit devices";
+we should avoid that for new code, and instead set
+the width and device-width properties to whatever the
+hardware has. (This in turn means you can't use the old
+pflash_cfi01_register() function.)
+
+Should we be using blk_by_legacy_dinfo() in new code?
+I'm not sure if there's a better way to do this if we don't
+need to maintain back-compat with old commandline specifications
+of the flash contents.
+
+thanks
+-- PMM
 
