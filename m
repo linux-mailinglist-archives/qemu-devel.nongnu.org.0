@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FD916C1DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:13:27 +0100 (CET)
-Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C59F16C23C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:26:11 +0100 (CET)
+Received: from localhost ([::1]:55692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6a1d-0004r8-V0
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:13:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52848)
+	id 1j6aDy-0002Bp-3N
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:26:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52832)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0W-00046m-Ff
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:16 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0S-0003gO-SE
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0V-00043z-BD
  for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:12 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36794)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6Z0U-0003hN-A5
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:11 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54632)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6Z0S-0003fr-Lt
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:08 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so2909570wma.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:08 -0800 (PST)
+ id 1j6Z0U-0003gu-3J
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 07:08:10 -0500
+Received: by mail-wm1-x343.google.com with SMTP id z12so2724357wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 04:08:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=nRYIH3y8Xom3CDp8/YJ/8ijjUz0MFPeZCZ7j0YIYXuA=;
- b=FOVCUFgw2lwD0DRu/yfu/+4h/GffIBwjEahoISDTSz0pU12fqAIFZB3i7PABQSYlgP
- Dfqjlsagoa54o92wwdf6ZJoegEJso8A8+7eTyObtGTnauPk8REIwop+/6K8IE927DehZ
- ErZ2szhDY5XhQJ5SG35fbOWity4XVOzEfBekRpLux/dUeJB3M72HbdBk1p7dZIo7re3E
- x5V0SZjCLVYgHykcDbXt68pkyivqP2dhltxu9U6wihNgU2zstwcSzeWpSpNYmyEFXq3M
- kijQUsIpL+kH0cjTCHrekpIVG6TDUM078o75yCp70xoMUC5J8ZTrbTBvJ9CyJG+rytjK
- 5Q9A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PIafvyQfHwf8flcgdrRq/WGoQSyodU6qPc8agqHB4HE=;
+ b=OXEzyiJBxRQHaXtDrUH1R7xedeSGF96CYA6foLLYIqgZT8p02WDSuSnOSBVfbdHxEj
+ Bz6qA/pmV7R10Xx0ZvMqstzBChC/PAmF72uM7yHu4t/q31K65l/LnkkDH9x8b2ES+J6H
+ Jk1j0YrU1ICdxSbwC9QQ3F6I5pZ4lxx1130Mr2Pi2MHKjrdS6feIJMNHcgeHvfYh/pGR
+ MgqM0HlH7LqMYk6WardFvjDAZIWWYLEWTQUrOsQsaPsSLSmdyK8AF6drHjoPJ0bC7Vjs
+ KnskMmtoWQkNofu8QJJ93eHOElf3Xx5Pmm+AqiZBjxVNAjL0HCbX6GGPDDe7M/D3D/Q4
+ gXVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=nRYIH3y8Xom3CDp8/YJ/8ijjUz0MFPeZCZ7j0YIYXuA=;
- b=FwEv24aSZlp301xKRcGYeEdILIIYYO8x4vAqyU4wa4L0xHgYdVoBZJpLuFlSnCo0sy
- qqjFxR0n5FoxsKGIMA72RwINiVrKThLcLMhfwiyyEdtEOkbgFA7ao7I3SYDxrIxi+i0i
- ko1NUi5QCewPL63Ly/b9Uu4nZGttWer9042RP/y7U4wklVFk/Ziafh8QCdDaTI+peHnN
- ub8x1aKS0OrzDWTpera1VezcxZdhBMWjNBjG+y65CdSiVbMoZBaRlzrvrQMbjAmjr0cd
- ky8MRWldwbnt5HTQk/DYJ3eGYMfoAWPxoohZ/N+0TaEDKkdM4tlley1ke9xmqwBT0El0
- jeaw==
-X-Gm-Message-State: APjAAAX4owA0ec4q40Ui41gSQZx2oB4O4z24wKepr8+gJ96tWyF2vD0u
- Nw63P41UYLepxZ16J7VAGqJqY1x/
-X-Google-Smtp-Source: APXvYqx19jLdegQumBGiGuw8C8p+Lvt8/mia6eShoJH7UZe1kglwzu2mb/syedICyF1vOsn6cqn7Lg==
-X-Received: by 2002:a1c:6389:: with SMTP id x131mr5208682wmb.155.1582632487426; 
- Tue, 25 Feb 2020 04:08:07 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=PIafvyQfHwf8flcgdrRq/WGoQSyodU6qPc8agqHB4HE=;
+ b=Q6fazOCV3RDDmCwalnKnfgfjHY8KFM3Uzy74aE+zi+RTgDTn5f4Y9YBYmiXrfyQFiK
+ OA7p3gQgIOy3/TzR/I2ob7zE8Ry/Vyz3G95Yt6aCK/V5s8HX2kqv4QFmei4Ht1GOo9rw
+ RVJNteeKfh3Ufl/1s6XjlnDYiUA6vqAuxEKI/n1dOn7oiDKSKuSTcbSkYRBoU+RMQDRA
+ IvX8mqei4EwtXEsslN3jcgd6dJj0Jc5e+1rF8pJ9uETSdh1ZvwOT2yZKklJ9+13wg+a1
+ iO67ZAx8/RDGOWryvcS9ZMeR70G40jwVvXoaDarZgy2Z+hVWAx4OEx7aqTaTVsFkVo/1
+ NJ5Q==
+X-Gm-Message-State: APjAAAUoX4EvDJ09Uxs317KxTxAj4gim2PMZrEDafxrqdj94dgYeiS3K
+ 7X5O2DheRJVuk1UALE40O3KR2Xg0
+X-Google-Smtp-Source: APXvYqz4hfx1FnjqcsgHuVlAOejMe1qP4rWMfqaZJz3H8hbWa+XooknxKEO4vv+RGgP11W6pDvd4Ng==
+X-Received: by 2002:a05:600c:2042:: with SMTP id
+ p2mr5200251wmg.79.1582632488264; 
+ Tue, 25 Feb 2020 04:08:08 -0800 (PST)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.06
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id h13sm22709423wrw.54.2020.02.25.04.08.07
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Feb 2020 04:08:06 -0800 (PST)
+ Tue, 25 Feb 2020 04:08:07 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 134/136] target/i386: check for empty register in FXAM
-Date: Tue, 25 Feb 2020 13:07:32 +0100
-Message-Id: <1582632454-16491-32-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 135/136] accel/kvm: Check ioctl(KVM_SET_USER_MEMORY_REGION)
+ return value
+Date: Tue, 25 Feb 2020 13:07:33 +0100
+Message-Id: <1582632454-16491-33-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
 References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,35 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fxam instruction returns the wrong result after fdecstp or after
-an underflow.  Check fptags to handle this.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reported-by: <chengang@emindsoft.com.cn>
+kvm_vm_ioctl() can fail, check its return value, and log an error
+when it failed. This fixes Coverity CID 1412229:
+
+  Unchecked return value (CHECKED_RETURN)
+
+  check_return: Calling kvm_vm_ioctl without checking return value
+
+Reported-by: Coverity (CID 1412229)
+Fixes: 235e8982ad3 ("support using KVM_MEM_READONLY flag for regions")
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20200221163336.2362-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/fpu_helper.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 99f28f2..792a128 100644
---- a/target/i386/fpu_helper.c
-+++ b/target/i386/fpu_helper.c
-@@ -991,7 +991,11 @@ void helper_fxam_ST0(CPUX86State *env)
-         env->fpus |= 0x200; /* C1 <-- 1 */
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index c111312..6df3a4d 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -308,13 +308,23 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
+         /* Set the slot size to 0 before setting the slot to the desired
+          * value. This is needed based on KVM commit 75d61fbc. */
+         mem.memory_size = 0;
+-        kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
++        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
++        if (ret < 0) {
++            goto err;
++        }
      }
- 
--    /* XXX: test fptags too */
-+    if (env->fptags[env->fpstt]) {
-+        env->fpus |= 0x4100; /* Empty */
-+        return;
+     mem.memory_size = slot->memory_size;
+     ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
+     slot->old_flags = mem.flags;
++err:
+     trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
+                               mem.memory_size, mem.userspace_addr, ret);
++    if (ret < 0) {
++        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
++                     " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
++                     __func__, mem.slot, slot->start_addr,
++                     (uint64_t)mem.memory_size, strerror(errno));
 +    }
-+
-     expdif = EXPD(temp);
-     if (expdif == MAXEXPD) {
-         if (MANTD(temp) == 0x8000000000000000ULL) {
+     return ret;
+ }
+ 
 -- 
 1.8.3.1
 
