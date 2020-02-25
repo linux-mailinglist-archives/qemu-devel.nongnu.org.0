@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E968016C1A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:05:58 +0100 (CET)
-Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6322C16C1E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Feb 2020 14:14:42 +0100 (CET)
+Received: from localhost ([::1]:55396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6ZuP-0000js-Qw
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:05:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35595)
+	id 1j6a2r-0006ti-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 08:14:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6ZsQ-0007PS-Bv
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:03:56 -0500
+ (envelope-from <ovoshcha@redhat.com>) id 1j6a1S-0005DX-4e
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:13:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6ZsP-00012g-8j
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:03:54 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34481)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6ZsP-00011N-1U
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:03:53 -0500
-Received: by mail-oi1-x244.google.com with SMTP id l136so12442261oig.1
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 05:03:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Acw6Js8G5cqiyhObPuNAuN3cnonY0/zHBkQOyuuBJU0=;
- b=zCbUrq2OJlviLLGzmr9QI0s6YRHcpqy6/CN8Zvy6Drs2fOwySwbT++2ZUYGZBlwf7K
- gV7vwILhtAP9UvuTJtgE27+r1d4/8siO2sac8REPNlPgE+uxAPoihEGKnZJiZL8M7jXm
- wq69XlhnDwPvcjH+s334uA9jeakCZKtil4WpOSogtVMaCxjReVF5/WKIqw8igYbL5iBc
- T+t84K2jx8Tmw+nkqbFBwBCe7nXONv/cuF8HrPw/X5m8eI4W33NoULa+XWzwubE7C4j1
- /0ubKM7OJRrWA3CXKhezYzfNSa2PsBre4e2HDigKr3rNkR3rSDfqYTrvVf9hOrXtoxUB
- BsZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Acw6Js8G5cqiyhObPuNAuN3cnonY0/zHBkQOyuuBJU0=;
- b=VAA8YSxkUctbOrgGt6CtLigRvP/MKQ8kX/gmRndTh2mzE40FZZNf4mGTf09/JqeTU9
- pU1XS6CHyPRtZKEcwPrfJul/yJToMlgHcSEbSkPiBXUZD2T21EOxksPyPJqJyUQyrpK2
- Pe4WrGVzIGOZpTa4cMxA28jlzk+uvig480e3CbO+bRRQewSgB9q0m9vqMCxvdrbLiDIO
- XF3UC31GbC2Sdz/KD8CduPsDsQNq2ysnjpSL3PfrsOA8C56yeAXfiCHU+ukawJr6SLfh
- whNMEHLXI062cquT8VBEEcywmvl1BRtBonq1Fd/eyAgegZovmVrBlKxLz20P5rldaBX8
- N/Rg==
-X-Gm-Message-State: APjAAAWgmxccl4vO5Jd734lhY+oGGg4M9PakfJKnhGec/UOw/x4wTvzG
- 9n42Hd9+q0ZDrOf085yPvV8ccj5m4M6BNJWxe+2AKw==
-X-Google-Smtp-Source: APXvYqwbNbtoIHn4XL7njvv1UMt0PKt6RyK+mMea7uNA0Coe0lVhduKHaUHohPRzIVFDaqLJrRIY0YocaVDfBVbe0pA=
-X-Received: by 2002:a05:6808:289:: with SMTP id
- z9mr3339127oic.48.1582635831963; 
- Tue, 25 Feb 2020 05:03:51 -0800 (PST)
+ (envelope-from <ovoshcha@redhat.com>) id 1j6a1R-0001NL-5K
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:13:14 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56971
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j6a1R-0001Mx-1i
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 08:13:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582636392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pIAxnqLbBPi8HGVHGPcFX+gvFTpwFK4hEINmy/jM51U=;
+ b=bQFZw+Z4TxX1Yplnp7wXHdq+LaOur9NVPA5Qd2odOwSuOBhW5MZ06ZBwy5lC4U4gdQZ7uG
+ 8BvBkFV3RpRDjYRzhsrjpBnm4uswGJV9+0lQX1Lb7XPp8eWnLBUy64LJ+S0ToeXJLwWP5P
+ XhNzPs/SmLPv7oFs4S6ajgvi+qkMQUg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-SbleWzxIOaaT7WQ3gt7GDg-1; Tue, 25 Feb 2020 08:13:10 -0500
+X-MC-Unique: SbleWzxIOaaT7WQ3gt7GDg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BBE518AB2C3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 13:13:10 +0000 (UTC)
+Received: from kh066.redhat.com (ovpn-204-125.brq.redhat.com [10.40.204.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84D0991840;
+ Tue, 25 Feb 2020 13:13:08 +0000 (UTC)
+From: Oksana Vohchana <ovoshcha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/4] Acceptance test: adds param 'address' in _get_free_port
+Date: Tue, 25 Feb 2020 15:12:59 +0200
+Message-Id: <20200225131302.4792-2-ovoshcha@redhat.com>
+In-Reply-To: <20200225131302.4792-1-ovoshcha@redhat.com>
+References: <20200225131302.4792-1-ovoshcha@redhat.com>
 MIME-Version: 1.0
-References: <1582537164-764-1-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1582537164-764-1-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 25 Feb 2020 13:03:40 +0000
-Message-ID: <CAFEAcA9_SvWkqiq67noeHEfkOT7nMX=yHNuikUkBPkM=_bi0jA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] Fix number of priority bits for arm boards
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,34 +70,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Anthony Liguori <anthony@codemonkey.ws>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
+Cc: ovoshcha@redhat.com, philmd@redhat.com, wainersm@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Feb 2020 at 09:44, Sai Pavan Boddu
-<sai.pavan.boddu@xilinx.com> wrote:
->
-> This patch series implements the mask for unimplemented priority bits in
-> arm-gic. Which will return the expected number of priority bits on read.
->
-> Changes for V2:
->     Followed gicv3 code for defining mask for unimplemented bits
->     Hardcoded num priority bits for A9 and ARM11MPCore boards
-> Changes for V3:
->     Fixed the code as suggested in V1.
->     Implemented checks for max and min priority bits.
->
-> Sai Pavan Boddu (3):
->   arm_gic: Mask the un-supported priority bits
->   cpu/a9mpcore: Set number of GIC priority bits to 5
->   cpu/arm11mpcore: Set number of GIC priority bits to 4
+In the migration test function _get_free_port works only for localhost,
+but in the case to use migration through an RDMA we need to get a free port
+on the configured network RDMA-interface.
+This patch is the start for another migration option
 
-Applied to target-arm.next, thanks. (I tweaked a few of
-the commit messages to give a little more detail.)
+Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+---
+ tests/acceptance/migration.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
--- PMM
+diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+index a8367ca023..e4c39b85a1 100644
+--- a/tests/acceptance/migration.py
++++ b/tests/acceptance/migration.py
+@@ -52,8 +52,8 @@ class Migration(Test):
+         source_vm.qmp('migrate', uri=3Dsrc_uri)
+         self.assert_migration(source_vm, dest_vm)
+=20
+-    def _get_free_port(self):
+-        port =3D network.find_free_port()
++    def _get_free_port(self, address=3D'localhost'):
++        port =3D network.find_free_port(address=3Daddress)
+         if port is None:
+             self.cancel('Failed to find a free port')
+         return port
+--=20
+2.21.1
+
 
