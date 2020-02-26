@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A482170763
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:14:14 +0100 (CET)
-Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE868170743
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:10:08 +0100 (CET)
+Received: from localhost ([::1]:48224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j71CH-0004d1-EA
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:14:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41841)
+	id 1j718K-0006ef-0T
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:10:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39885)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j71B1-0003He-OC
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:12:56 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j717T-0005zA-45
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:09:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j71B0-0000ja-GD
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:12:55 -0500
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35725)
+ (envelope-from <alex.bennee@linaro.org>) id 1j717R-0004qV-FF
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:09:14 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38350)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j71B0-0000iT-8v; Wed, 26 Feb 2020 13:12:54 -0500
-Received: by mail-lj1-x243.google.com with SMTP id q8so145119ljb.2;
- Wed, 26 Feb 2020 10:12:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Sut3B69Gr8gmy8T2vubZY/jzcqTF52GVYnmkZIvPhvo=;
- b=K3+rYhsq5kCjqfvlm49btupgwUGZidu+XG6J510LsikQFNAnMEGJPdierLAIoYuP2O
- SrmXgumoZPqLEWiOfp07lV96JMxDlFMaq5IWrL9cXwbKsGzr/5uYhlxo/FkNL+/qBPP1
- MwsM4mcHJkyO/FePz1jggC+YeZvgqZ4ufpyDLQXOa5Rcbfvy1g6zKQ+Ukx0z1i8KdWP5
- xr7pFvguroQm2FCdcTP5h6cB5ovevO+BWceeDOKJ+dvcmXb+BBXD8dQE6GrQI0riF0+Q
- rHjI0oZq8SfaWYzJfdA+XCkxyf3+7usxsmwkkMo3oJ/Yd2yJ5kIa1BtQpqb092iHNtLu
- l1CA==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j717R-0004pI-5y
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:09:13 -0500
+Received: by mail-wr1-x443.google.com with SMTP id e8so4292434wrm.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:09:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4ZsADryMv+IgzvvPDpx+ckMqF+dMcvxdxQdNRLesCnU=;
+ b=aVJm2DoqGJvuK0BRAknklCBQx3dDGDrsNgRhfUsF6pwb1MdcIcbWJNGXQLIdmE3FgC
+ D4h2JcCW7BKh2s0GUpybL277uj7soe7Ug7fBy7Zwl1EN4okHe4q4q6fQQXA3t5BPEtwu
+ /y6CyErUjmar2mOPgvw96x9itOLQSKniC9ogXTikFfckB482TvxkK9IcuWrICxO0Hprp
+ yQxDXe9HJiX/yDMyX28Pnt5qTxvEPIAmZg65MmudA0TmC4y3x3GytraESIE2VSb8YGf4
+ UV9ktZ3vqJOVObSxNsXdCMNKGJ1jbEzM+7EQuCDgty/1MpmS+qe0U7YsjYPakLdkhkoy
+ LQ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sut3B69Gr8gmy8T2vubZY/jzcqTF52GVYnmkZIvPhvo=;
- b=iZL5tLZLSdUcbO+xE6dB5Uha7dLl+Fk7S7X3NNJTEePXhaLw0LPnpAwr4tXhmHHgD2
- nBHDWNcSDn1PiJ3Q6ix2gH4uloMRc6JH54Dw4sKVnBKcYVcA1qxnV9R5NA2coW9xupBz
- rBPkd9ABkctc0ih8Xj7gqFe44odZ6P8aMCj9DHYbSuII6ErZEoHh7mituKkX7SB2QeZO
- 1DDnjxCnGGpequclhZTFsSfhU35heP0NmBx32EW+VQhBpnYbMLhWz7CAp5o5B+jTRM1H
- Gqq1P7ycrrRo8r+4ydeHGN6+r75l9r2lYJNGcNAUtwixxdcU2Cp3IFhMFxTK73jlrNdL
- Sm+g==
-X-Gm-Message-State: ANhLgQ1r2ziBC4IobM5wPu9ENSb05w8vT2o/EjLqV0SsOvMchSaJO4Zh
- 5aKPat5MopOgJeCW38vjgdF0b7LjcaL2QLeq9IQ=
-X-Google-Smtp-Source: ADFU+vu4UyGUYzr1XUwVqZXVtjTjxmypgQXaF2eAAAVTWxLH1GhYtIbZsziqkpcZvLdfmV1Wm57cIGklr1ZdeyH0Zeg=
-X-Received: by 2002:a2e:a36a:: with SMTP id i10mr117252ljn.107.1582740772829; 
- Wed, 26 Feb 2020 10:12:52 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4ZsADryMv+IgzvvPDpx+ckMqF+dMcvxdxQdNRLesCnU=;
+ b=rpBVxh45naXcJogVlfnxZ/KEx4id7Yh3AZnhKG0gL0YNB0rxgXJ+a3Cf5xl+aOhVbX
+ vWdyMKPgl+Ok1K3AnP3dQ7ky1oxxCrpYDS3cKeZu7huLm+3ul6k+ZMXw6mMdY/v4recA
+ W33HByCY/vhnyyguP5TDHd0DYsCcvd4NgssIku3cyhmXXT3iHkPJvEMkTW5BA8UOab07
+ eoiSjJ6VMopRZip+76RvNxKrIrcxuHDBGCkUjPVtL6dXppIELgutfFBoRRNy54+N06NH
+ oll30wwdmSm/7ZGfSyuzb57LBJoAircyxOzJqCpcMVNvjdTnuuXux3838OLkGMQCqMeg
+ imNA==
+X-Gm-Message-State: APjAAAUEWWPz6wYePh1ooSo9U7mU/ZwuMKZfnzmX9D5AoFxLWiVBgQIK
+ IwWNwooklmiBqTSmUYCMsRwI0Q==
+X-Google-Smtp-Source: APXvYqy948GVspRA7DfEFnN2rwRF1LYOttxWqRDzv0BzhfDpb6VYejeqA0NeQNPvVVSuBClBCnKD6g==
+X-Received: by 2002:a5d:4a06:: with SMTP id m6mr6775489wrq.155.1582740551706; 
+ Wed, 26 Feb 2020 10:09:11 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y131sm4259027wmc.13.2020.02.26.10.09.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 10:09:10 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EAD911FF87;
+ Wed, 26 Feb 2020 18:09:09 +0000 (GMT)
+References: <20200218171702.979F074637D@zero.eik.bme.hu>
+ <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
+ <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
+ <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
+ <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
+ <3539F747-145F-49CC-B494-C9794A8ABABA@gmail.com>
+ <AM6PR03MB5525DE221E3E7E595893DF4DC8EA0@AM6PR03MB5525.eurprd03.prod.outlook.com>
+ <AM4PR07MB350651FBB263FEEDB857CBFFCAEA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <87eeuhxw0y.fsf@linaro.org>
+ <CAL1e-=gGsEV4_a4gJr2x0L3r_UK7isnpjOWoJRCDhqpG_XT3Ww@mail.gmail.com>
+ <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
+User-agent: mu4e 1.3.8; emacs 27.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: G 3 <programmingkidx@gmail.com>
+Subject: Re: R: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+In-reply-to: <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
+Date: Wed, 26 Feb 2020 18:09:09 +0000
+Message-ID: <878skpxltm.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
- <20200221094531.61894-3-zhiwei_liu@c-sky.com>
-In-Reply-To: <20200221094531.61894-3-zhiwei_liu@c-sky.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 26 Feb 2020 10:05:15 -0800
-Message-ID: <CAKmqyKM10H9yjQmzWhDHo2sLxKo6bq2QxV0pdpgUq5nD+qqanQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] target/riscv: implementation-defined constant
- parameters
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::243
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,94 +91,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
- wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, luigi burdo <intermediadc@hotmail.com>,
+ Dino Papararo <skizzato73@msn.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 21, 2020 at 1:45 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->
-> vlen is the vector register length in bits.
-> elen is the max element size in bits.
-> vext_spec is the vector specification version, default value is v0.7.1.
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+G 3 <programmingkidx@gmail.com> writes:
 
-Alistair
+> Accuracy is an important part of the IEEE 754 floating point standard. The
+> whole purpose of this standard is to ensure floating point calculations a=
+re
+> consistent across multiple CPUs. I believe referring to this patch as
+> inaccurate is itself inaccurate. That gives the impression that this patch
+> produces calculations that are not inline with established standards. This
+> is not true. The only part of this patch that will produce incorrect valu=
+es
+> are the flags.
 
-> ---
->  target/riscv/cpu.c | 7 +++++++
->  target/riscv/cpu.h | 5 +++++
->  2 files changed, 12 insertions(+)
+As I stated further up the thread I'd be happy to take a patch that
+turns this on without the messing about with the FPU flags which AFAICT
+breaks the architectural compliance of those instructions. The ability
+to detect inexact results is part of the IEEE spec even if it is
+considerably looser about when the flag should be reset.
+
+> There *may* be a program or two out there that depend on
+> these flags, but for the majority of programs that only care about basic
+> floating point arithmetic this patch will produce correct values. Current=
+ly
+> the emulated PowerPC's FPU already produces wrong values for the
+> flags.
+
+Those are bugs that should be fixed. The state of the flags after a
+calculation should be considered part of the "values" generated by the
+FPU.
+
+> This patch does set the Inexact flag (which I don't like), but since I ha=
+ve
+> never encountered any source code that cares for this flag, I can let it
+> go. I think giving the user the ability to decide which option to use is
+> the best thing to do.
+
+Giving the user the option to break things is a poor flag, most of QEMUs
+configurable knobs are about trading of size/speed without affecting
+correctness.
+
+If the PPC maintainers are happy that hardfloat's speed trade-offs are
+worth it for usual workloads (whatever they may be) then I have no
+objection to making defaulting hardfloat to on - perhaps* even with an
+option to force softfloat if it faster for some workloads.
+
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 8c86ebc109..6900714432 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -98,6 +98,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
->      env->priv_ver = priv_ver;
->  }
+> On Wed, Feb 26, 2020 at 10:51 AM Aleksandar Markovic <
+> aleksandar.m.mail@gmail.com> wrote:
 >
-> +static void set_vext_version(CPURISCVState *env, int vext_ver)
-> +{
-> +    env->vext_ver = vext_ver;
-> +}
-> +
->  static void set_feature(CPURISCVState *env, int feature)
->  {
->      env->features |= (1ULL << feature);
-> @@ -320,6 +325,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->      CPURISCVState *env = &cpu->env;
->      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
->      int priv_version = PRIV_VERSION_1_11_0;
-> +    int vext_version = VEXT_VERSION_0_07_1;
->      target_ulong target_misa = 0;
->      Error *local_err = NULL;
->
-> @@ -345,6 +351,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->      }
->
->      set_priv_version(env, priv_version);
-> +    set_vext_version(env, vext_version);
->      set_resetvec(env, DEFAULT_RSTVEC);
->
->      if (cpu->cfg.mmu) {
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 2e8d01c155..748bd557f9 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -83,6 +83,8 @@ enum {
->  #define PRIV_VERSION_1_10_0 0x00011000
->  #define PRIV_VERSION_1_11_0 0x00011100
->
-> +#define VEXT_VERSION_0_07_1 0x00000701
-> +
->  #define TRANSLATE_PMP_FAIL 2
->  #define TRANSLATE_FAIL 1
->  #define TRANSLATE_SUCCESS 0
-> @@ -117,6 +119,7 @@ struct CPURISCVState {
->      target_ulong badaddr;
->
->      target_ulong priv_ver;
-> +    target_ulong vext_ver;
->      target_ulong misa;
->      target_ulong misa_mask;
->
-> @@ -231,6 +234,8 @@ typedef struct RISCVCPU {
->
->          char *priv_spec;
->          char *user_spec;
-> +        uint16_t vlen;
-> +        uint16_t elen;
->          bool mmu;
->          bool pmp;
->      } cfg;
-> --
-> 2.23.0
->
+>>
+>>
+>> On Wed, Feb 26, 2020 at 3:29 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> wrote:
+>> >
+>> >
+>> > Dino Papararo <skizzato73@msn.com> writes:
+>> >
+>> > > Please let's go with hardfloat pps support, it's really a good featu=
+re
+>> to implement.
+>> > > Even if in a first step it could lead to inaccuracy results, later it
+>> > > could solved with other patches.
+>> >
+>> > That's the wrong way around. We have regression tests for a reason.
+>>
+>> I tend to agree with Alex here, and additionally want to expand more on
+>> this topic.
+>>
+>> In my view: (that I think is at least very close to the community
+>> consensus)
+>>
+>> This is *not* a ppc-specific issue. There exist a principle across all
+>> targets
+>> that QEMU FPU calculation must be accurate - exactly as specified in any
+>> applicable particular ISA document. Any discrepancy is an outright bug.
+>>
+>> We even recently had several patches for FPU in ppc target that handled
+>> some fairly obscure cases of inaccuracies, I believe they were authored
+>> by Paul Clarke, so there are people in ppc community that care about
+>> FPU accuracy (as I guess is the case for any target).
+>>
+>> There shouldn't be a target that decides by itself and within itself
+>> "ok, we don't need accuracy, let's trade it for speed". This violates
+>> the architecture of QEMU. Please allow that for any given software
+>> project, there is an architecture that should be respected.
+>>
+>> This doesn't mean that anybody's experimentation is discouraged. No-one
+>> can stop anybody from forking from QEMU upstream tree and do whatever
+>> is wanted.
+>>
+>> But, this doesn't mean such experimentation will be upstreamed. QEMU
+>> upstream should be collecting place for the best ideas and implementatio=
+ns,
+>> not for arbitrary experimentations.
+>>
+>> Best regards,
+>> Aleksandar
+>>
+>>
+>> > I'll happily accept patches to turn on hardfloat for PPC if:
+>> >
+>> >  a) they don't cause regressions in our fairly extensive floating point
+>> >  tests
+>> >  b) the PPC maintainers are happy with the new performance profile
+>> >
+>> > The way forward would be to:
+>> >
+>> >  1. patch to drop #if defined(TARGET_PPC) || defined(__FAST_MATH__)
+>> >  2. audit target/ppc/fpu_helper.c w.r.t chip manual and fix any unneed=
+ed
+>> >  splatting of flags (if any)
+>> >  3. measure the before/after performance effect and decide if on balan=
+ce
+>> >  it's worth keeping
+>> >
+>> > > I think it's important for qemu to as global as possible and don't
+>> > > target only recent hardware.
+>> >
+>> > Are you referring to guests or hosts? For guests we will always favour
+>> > accuracy of speed of emulation. For hosts we need to have IEEE complia=
+nt
+>> > FPU HW to even stand a chance of using hardfloat.
+>> >
+>> > --
+>> > Alex Benn=C3=A9e
+>> >
+>>
+
+
+--=20
+Alex Benn=C3=A9e
 
