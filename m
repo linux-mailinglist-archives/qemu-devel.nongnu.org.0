@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB8E16FDC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:32:24 +0100 (CET)
-Received: from localhost ([::1]:42714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48FB16FDCF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:34:36 +0100 (CET)
+Received: from localhost ([::1]:42752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6uvP-0002Cv-2k
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:32:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
+	id 1j6uxX-0005jw-Mz
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:34:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6uti-0000Zk-1F
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:39 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6utl-0000dA-Ve
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6utg-0005bJ-9x
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:37 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52424)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6uti-0005lP-3A
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:41 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40436)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6utg-0005Uz-2G
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:36 -0500
-Received: by mail-wm1-x332.google.com with SMTP id p9so2629762wmc.2
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:35 -0800 (PST)
+ id 1j6uth-0005fh-Oe
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:38 -0500
+Received: by mail-wm1-x344.google.com with SMTP id t14so2630351wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=f/JiFLpLocad7KTqMiffOL6S3nSUzVVBEOJ4mjx5M1M=;
- b=nZNgIdNpopg48MilSkINZuOW49OBTOaWmJ66pHR3a+k3xzkn+KWoMXuIdJlg76+xyP
- 6BqBlMx7WEKdRwwcttLOW3WJGVi6IU6hJGDKeQyLg0Dz4qsfdO2MpQw0TWeaEfhnqsac
- peS7/68mNdujspRycDMPHR1sVm0qGFae7LRjq4AcUhAnQ1izA0MfoBWFKJdkaE3EhBEr
- cSCifinqJUFgmIXr3dNO6HGungxS9BUHbb7C79k1/1gUdjbSJtWHjzqoKE7NneiWoTdF
- K2L+a9DbgHYgtfHjbwFGrwl+A4cvfOh12dCJQ+ybUMlb5vPKi8RvmqPVY1L1X5kwAuFE
- s+Qg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AOkpdZ4pzdVZsunxeV10BYnUvH4eoQTdbhjNTFMpglY=;
+ b=gyqdghbxp5VB59qTy5Jga/qoNtjqDRDhBxe+UQCly3HMASPH2WthFDkLa63THVeBmR
+ bstj/MokQP8YYDq2qFhHXeRHr/0DVgf2NYAtcYvfzheXTTD1g7zHil/1BY+SGVvSDhQS
+ ZAW3tsQi4ISPE7mckovKmqx34DlxfCtE1Og2i924Ftyx5ZASMJ80C8gRUAXbGdlaQ2sZ
+ /a7whqoN7bJBqfkCe40yEZRDvxdSmtQicGVw0kMYnIAE9PZj5ZIJtthyDZKWIiaPag95
+ YKPksXdCoXgRjro2mpm6IJmLrr+54iCmqD8yJSMXLdewGBd8s+vxls8GTpaP8ltYdt8N
+ T2Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=f/JiFLpLocad7KTqMiffOL6S3nSUzVVBEOJ4mjx5M1M=;
- b=JJmyZW07tCBaBlpAQA7oYNU0YAgz85lsRG206az/qdc+aABGDx11B/iUgzrqWAtzcc
- OYVsR58p459sO9MyoaJHWYmEOYWtxBJCTdEN7pDzIlpLmzjmlRdwxkaDmbybC4zQOc7F
- WQbRTZ+hHKVxVnHfrXB/ngnCHuSA3rjwokY2lqqI23xfFfX/flLhpyiJ32t+BsDV1oGl
- ycj6jgORBZjtnvyjpyyfRJMvzfTtwmwKKdelVwSTVn500FxG7ZGWqHVCTIUaW20OAsg5
- Oh6de/NBGPWRIORflAWZ2+4iDLUMJhYn3DvvKNnP5Ra/SdmM2hu220u6DL2R3jRQsPgM
- TlZw==
-X-Gm-Message-State: APjAAAULJW5PS8o9nk5dESPD1ydrtqLHwdP91OqU3/9feabr4KyAA2xJ
- 4eG+54hZQO2v7saoPRLilc+PZnBL
-X-Google-Smtp-Source: APXvYqyr/QSJYxcsnQivI6HhC4QkNTE0J1sgaeonGBBMEFCXHWiHITIQqne/WrSxCSR5UEsSKwClHQ==
-X-Received: by 2002:a1c:660a:: with SMTP id a10mr5037467wmc.122.1582716634387; 
- Wed, 26 Feb 2020 03:30:34 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=AOkpdZ4pzdVZsunxeV10BYnUvH4eoQTdbhjNTFMpglY=;
+ b=aExYhMuwv+XCWh9MCVBedYRPgvwASViBTSxm+pObpRv0UKUKY6Ebue/alDOr2Vprwl
+ 0JW1uUeA4VVNOgkUB8d5somXpXlgMf2nLxSBX63swgwe1Nhz9/PQY6Z5Js6pp7nMFEwO
+ 90964vHT9mLhjMRnXP5VPCHhZrQMkoCDFAIdggXUTz0AT4XhP5wXutQRgXmcjjNv4fqB
+ D62E7CXOk+YIkufzbL/kz5oZTvoVSha/Uv2f78ahb145ATjEWgxgU5fuijNFGUeSqXG0
+ /0U8qR/6JeawgddzTb64Z4ka3QkPVE+0EuhRvBncnLgvBMBPaM8vpIA95tOhbzS86+xK
+ vs2A==
+X-Gm-Message-State: APjAAAXw1S0xtP7UiB3m777XpMNmzHEehjA2PhPGtrMTj5NZfbn3eNAd
+ G/gUV1w9TodtR04GHn2FCMUWi4JX
+X-Google-Smtp-Source: APXvYqzPASZ8dLy9ON/FonEnBEzjymo/OnQGHq2ujqzpvXh7Cwtsq7oj9U3wuBPeUuOoa3/otD2Dzw==
+X-Received: by 2002:a7b:c3d1:: with SMTP id t17mr5047992wmj.27.1582716635200; 
+ Wed, 26 Feb 2020 03:30:35 -0800 (PST)
 Received: from donizetti.lan ([2001:b07:6468:f312:d0d9:ea10:9775:f33f])
- by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.33
+ by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 03:30:33 -0800 (PST)
+ Wed, 26 Feb 2020 03:30:34 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/18] qemu-doc reorganization and Sphinx version
-Date: Wed, 26 Feb 2020 12:30:16 +0100
-Message-Id: <20200226113034.6741-1-pbonzini@redhat.com>
+Subject: [PATCH 01/18] qemu-doc: convert user-mode emulation to a separate
+ Sphinx manual
+Date: Wed, 26 Feb 2020 12:30:17 +0100
+Message-Id: <20200226113034.6741-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200226113034.6741-1-pbonzini@redhat.com>
+References: <20200226113034.6741-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,204 +82,766 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series converts qemu-doc to Sphinx, providing the fourth and fifth
-manuals (user-mode emulation and system emulation).
+The final addition to the set of QEMU manuals is the user-mode emulation
+manual, which right now is included in qemu-doc.texi.  Extract it and
+convert it to rST, so that qemu-doc.texi covers only full system emulation.
 
-Patch 1 extracts the user-mode emulation documentation to docs/user,
-converting it to rST.
-
-Patches 2 to 12 split qemu-doc.texi in multiple files, slightly
-reorganizing the sections and removing wildly obsolete material.
-At this point qemu-doc.texi looks very much like what docs/system
-will be.
-
-Patch 13 tweaks the construction of the qemu-block-drivers man page
-from the material that goes in docs/system.  Instead of usihg an
-"only" directive, the man page is in an orphaned .rst file and
-the common material is included.
-
-Patch 14 is Kashyap's conversion of qemu-cpu-models.texi to rST,
-tweaked in the same way as patch 12.
-
-Patches 15 to 17 are Peter's manual conversion of security.texi,
-qemu-tech.texi and qemu-deprecated.texi.
-
-Patch 18 finally is the mass automated conversion of everything
-else.  The content is temporarily preserved in qemu-doc.texi as well,
-until the hxtool-based documentation is converted to rST.
-
-Paolo
-
-Supersedes: <20200225163758.12996-1-pbonzini@redhat.com>
-
-Kashyap Chamarthy (1):
-  docs/system: Convert qemu-cpu-models.texi to rST
-
-Paolo Bonzini (13):
-  qemu-doc: convert user-mode emulation to a separate Sphinx manual
-  qemu-doc: remove target OS documentation
-  texi2pod: parse @include directives outside "@c man" blocks
-  qemu-doc: split CPU models doc between MIPS and x86 parts
-  qemu-doc: split qemu-doc.texi in multiple files
-  qemu-doc: extract common system emulator documentation from the PC
-    section
-  qemu-doc: move system requirements chapter inside PC section
-  qemu-doc: split target sections to separate files
-  qemu-doc: move qemu-tech.texi into main section
-  qemu-doc: move included files to docs/system
-  qemu-doc: remove indices other than findex
-  docs/system: put qemu-block-drivers body in an included file
-  docs/system: convert Texinfo documentation to rST
-
-Peter Maydell (4):
-  qemu-doc: Remove the "CPU emulation" part of the "Implementation
-    notes"
-  docs/system: Convert security.texi to rST format
-  docs/system: convert managed startup to rST.
-  docs/system: convert the documentation of deprecated features to rST.
-
- MAINTAINERS                                   |    6 +-
- Makefile                                      |   42 +-
- docs/conf.py                                  |    2 +-
- docs/system/build-platforms.rst               |   79 +
- docs/system/build-platforms.texi              |   67 +
- docs/system/conf.py                           |   10 +-
- docs/system/cpu-models-mips.rst.inc           |  105 +
- docs/system/cpu-models-mips.texi              |  157 +
- docs/system/cpu-models-x86.rst.inc            |  365 +++
- .../cpu-models-x86.texi}                      |  221 +-
- docs/system/defs.rst.inc                      |    2 +
- docs/system/deprecated.rst                    |  446 +++
- .../system/deprecated.texi                    |    0
- docs/system/gdb.rst                           |   81 +
- docs/system/gdb.texi                          |   71 +
- docs/system/images.rst                        |   85 +
- docs/system/images.texi                       |   88 +
- docs/system/index.rst                         |   22 +-
- docs/system/invocation.rst                    |  242 ++
- docs/system/invocation.texi                   |  240 ++
- docs/system/ivshmem.rst                       |   64 +
- docs/system/ivshmem.texi                      |   60 +
- docs/system/keys.rst                          |   40 +
- docs/system/keys.texi                         |   43 +
- docs/system/license.rst                       |   11 +
- docs/system/license.texi                      |    9 +
- docs/system/linuxboot.rst                     |   30 +
- docs/system/linuxboot.texi                    |   27 +
- docs/system/managed-startup.rst               |   35 +
- docs/system/managed-startup.texi              |   35 +
- docs/system/monitor.rst                       |   25 +
- docs/system/monitor.texi                      |   34 +
- docs/system/mux-chardev.rst                   |   32 +
- docs/system/mux-chardev.texi                  |   44 +
- docs/system/net.rst                           |  100 +
- docs/system/net.texi                          |   96 +
- docs/system/qemu-block-drivers.rst            |  989 +-----
- docs/system/qemu-block-drivers.rst.inc        |  954 ++++++
- docs/system/qemu-cpu-models.rst               |   20 +
- .../system/qemu-option-trace.texi             |    0
- docs/system/quickstart.rst                    |   13 +
- docs/system/quickstart.texi                   |   12 +
- docs/system/security.rst                      |  173 +
- docs/{ => system}/security.texi               |    0
- docs/system/target-arm.rst                    |  227 ++
- docs/system/target-arm.texi                   |  263 ++
- docs/system/target-i386.rst                   |   84 +
- docs/system/target-i386.texi                  |   91 +
- docs/system/target-m68k.rst                   |   32 +
- docs/system/target-m68k.texi                  |   44 +
- docs/system/target-mips.rst                   |  120 +
- docs/system/target-mips.texi                  |  150 +
- docs/system/target-ppc.rst                    |   61 +
- docs/system/target-ppc.texi                   |   77 +
- docs/system/target-sparc.rst                  |   81 +
- docs/system/target-sparc.texi                 |   95 +
- docs/system/target-sparc64.rst                |   49 +
- docs/system/target-sparc64.texi               |   60 +
- docs/system/target-xtensa.rst                 |   39 +
- docs/system/target-xtensa.texi                |   55 +
- docs/system/targets.rst                       |   19 +
- docs/system/tls.rst                           |  328 ++
- docs/system/tls.texi                          |  329 ++
- docs/system/usb.rst                           |  137 +
- docs/system/usb.texi                          |  115 +
- docs/system/vnc-security.rst                  |  202 ++
- docs/system/vnc-security.texi                 |  196 ++
- docs/user/conf.py                             |   18 +
- docs/user/index.rst                           |   16 +
- docs/user/main.rst                            |  295 ++
- qemu-doc.texi                                 | 2868 +----------------
- qemu-options.hx                               |    2 +-
- qemu-tech.texi                                |  195 --
- scripts/texi2pod.pl                           |   36 +-
- 74 files changed, 7229 insertions(+), 4232 deletions(-)
- create mode 100644 docs/system/build-platforms.rst
- create mode 100644 docs/system/build-platforms.texi
- create mode 100644 docs/system/cpu-models-mips.rst.inc
- create mode 100644 docs/system/cpu-models-mips.texi
- create mode 100644 docs/system/cpu-models-x86.rst.inc
- rename docs/{qemu-cpu-models.texi => system/cpu-models-x86.texi} (71%)
- create mode 100644 docs/system/defs.rst.inc
- create mode 100644 docs/system/deprecated.rst
- rename qemu-deprecated.texi => docs/system/deprecated.texi (100%)
- create mode 100644 docs/system/gdb.rst
- create mode 100644 docs/system/gdb.texi
- create mode 100644 docs/system/images.rst
- create mode 100644 docs/system/images.texi
- create mode 100644 docs/system/invocation.rst
- create mode 100644 docs/system/invocation.texi
- create mode 100644 docs/system/ivshmem.rst
- create mode 100644 docs/system/ivshmem.texi
- create mode 100644 docs/system/keys.rst
- create mode 100644 docs/system/keys.texi
- create mode 100644 docs/system/license.rst
- create mode 100644 docs/system/license.texi
- create mode 100644 docs/system/linuxboot.rst
- create mode 100644 docs/system/linuxboot.texi
- create mode 100644 docs/system/managed-startup.rst
- create mode 100644 docs/system/managed-startup.texi
- create mode 100644 docs/system/monitor.rst
- create mode 100644 docs/system/monitor.texi
- create mode 100644 docs/system/mux-chardev.rst
- create mode 100644 docs/system/mux-chardev.texi
- create mode 100644 docs/system/net.rst
- create mode 100644 docs/system/net.texi
- create mode 100644 docs/system/qemu-block-drivers.rst.inc
- create mode 100644 docs/system/qemu-cpu-models.rst
- rename qemu-option-trace.texi => docs/system/qemu-option-trace.texi (100%)
- create mode 100644 docs/system/quickstart.rst
- create mode 100644 docs/system/quickstart.texi
- create mode 100644 docs/system/security.rst
- rename docs/{ => system}/security.texi (100%)
- create mode 100644 docs/system/target-arm.rst
- create mode 100644 docs/system/target-arm.texi
- create mode 100644 docs/system/target-i386.rst
- create mode 100644 docs/system/target-i386.texi
- create mode 100644 docs/system/target-m68k.rst
- create mode 100644 docs/system/target-m68k.texi
- create mode 100644 docs/system/target-mips.rst
- create mode 100644 docs/system/target-mips.texi
- create mode 100644 docs/system/target-ppc.rst
- create mode 100644 docs/system/target-ppc.texi
- create mode 100644 docs/system/target-sparc.rst
- create mode 100644 docs/system/target-sparc.texi
- create mode 100644 docs/system/target-sparc64.rst
- create mode 100644 docs/system/target-sparc64.texi
- create mode 100644 docs/system/target-xtensa.rst
- create mode 100644 docs/system/target-xtensa.texi
- create mode 100644 docs/system/targets.rst
- create mode 100644 docs/system/tls.rst
- create mode 100644 docs/system/tls.texi
- create mode 100644 docs/system/usb.rst
- create mode 100644 docs/system/usb.texi
- create mode 100644 docs/system/vnc-security.rst
- create mode 100644 docs/system/vnc-security.texi
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Makefile            |   8 +-
+ docs/user/conf.py   |  18 +++
+ docs/user/index.rst |  16 +++
+ docs/user/main.rst  | 295 ++++++++++++++++++++++++++++++++++++++
+ qemu-doc.texi       | 337 --------------------------------------------
+ 5 files changed, 336 insertions(+), 338 deletions(-)
  create mode 100644 docs/user/conf.py
  create mode 100644 docs/user/index.rst
  create mode 100644 docs/user/main.rst
- delete mode 100644 qemu-tech.texi
 
+diff --git a/Makefile b/Makefile
+index 15f8e53d05..73d8ed2b6a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -786,6 +786,7 @@ distclean: clean
+ 	$(call clean-manual,interop)
+ 	$(call clean-manual,specs)
+ 	$(call clean-manual,system)
++	$(call clean-manual,user)
+ 	for d in $(TARGET_DIRS); do \
+ 	rm -rf $$d || exit 1 ; \
+         done
+@@ -843,6 +844,7 @@ install-sphinxdocs: sphinxdocs
+ 	$(call install-manual,interop)
+ 	$(call install-manual,specs)
+ 	$(call install-manual,system)
++	$(call install-manual,user)
+ 
+ install-doc: $(DOCS) install-sphinxdocs
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+@@ -1036,7 +1038,8 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
+             $(MANUAL_BUILDDIR)/interop/index.html \
+             $(MANUAL_BUILDDIR)/specs/index.html \
+-            $(MANUAL_BUILDDIR)/system/index.html
++            $(MANUAL_BUILDDIR)/system/index.html \
++            $(MANUAL_BUILDDIR)/user/index.html
+ 
+ # Canned command to build a single manual
+ # Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
+@@ -1069,6 +1072,9 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+ $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
+ 	$(call build-manual,system,html)
+ 
++$(MANUAL_BUILDDIR)/user/index.html: $(call manual-deps,user)
++	$(call build-manual,user,html)
++
+ $(call define-manpage-rule,interop,\
+        qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
+        virtiofsd.1 virtfs-proxy-helper.1,\
+diff --git a/docs/user/conf.py b/docs/user/conf.py
+new file mode 100644
+index 0000000000..b3e1b2318a
+--- /dev/null
++++ b/docs/user/conf.py
+@@ -0,0 +1,18 @@
++# -*- coding: utf-8 -*-
++#
++# QEMU documentation build configuration file for the 'system' manual.
++#
++# This includes the top level conf file and then makes any necessary tweaks.
++import sys
++import os
++
++qemu_docdir = os.path.abspath("..")
++parent_config = os.path.join(qemu_docdir, "conf.py")
++exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
++
++# This slightly misuses the 'description', but is the best way to get
++# the manual title to appear in the sidebar.
++html_theme_options['description'] = u'User Mode Emulation User''s Guide'
++# One entry per manual page. List of tuples
++# (source start file, name, description, authors, manual section).
++man_pages = []
+diff --git a/docs/user/index.rst b/docs/user/index.rst
+new file mode 100644
+index 0000000000..c81d2898cd
+--- /dev/null
++++ b/docs/user/index.rst
+@@ -0,0 +1,16 @@
++.. This is the top level page for the 'system' manual.
++
++
++QEMU User Mode Emulation User's Guide
++=====================================
++
++This manual is the overall guide for users using QEMU
++for user-mode emulation.  In this mode, QEMU can launch
++processes compiled for one CPU on another CPU.
++
++Contents:
++
++.. toctree::
++   :maxdepth: 2
++
++   main
+diff --git a/docs/user/main.rst b/docs/user/main.rst
+new file mode 100644
+index 0000000000..ca69f7727d
+--- /dev/null
++++ b/docs/user/main.rst
+@@ -0,0 +1,295 @@
++QEMU User space emulator
++========================
++
++Supported Operating Systems
++---------------------------
++
++The following OS are supported in user space emulation:
++
++-  Linux (referred as qemu-linux-user)
++
++-  BSD (referred as qemu-bsd-user)
++
++Features
++--------
++
++QEMU user space emulation has the following notable features:
++
++**System call translation:**
++   QEMU includes a generic system call translator. This means that the
++   parameters of the system calls can be converted to fix endianness and
++   32/64-bit mismatches between hosts and targets. IOCTLs can be
++   converted too.
++
++**POSIX signal handling:**
++   QEMU can redirect to the running program all signals coming from the
++   host (such as ``SIGALRM``), as well as synthesize signals from
++   virtual CPU exceptions (for example ``SIGFPE`` when the program
++   executes a division by zero).
++
++   QEMU relies on the host kernel to emulate most signal system calls,
++   for example to emulate the signal mask. On Linux, QEMU supports both
++   normal and real-time signals.
++
++**Threading:**
++   On Linux, QEMU can emulate the ``clone`` syscall and create a real
++   host thread (with a separate virtual CPU) for each emulated thread.
++   Note that not all targets currently emulate atomic operations
++   correctly. x86 and ARM use a global lock in order to preserve their
++   semantics.
++
++QEMU was conceived so that ultimately it can emulate itself. Although it
++is not very useful, it is an important test to show the power of the
++emulator.
++
++Linux User space emulator
++-------------------------
++
++Quick Start
++~~~~~~~~~~~
++
++In order to launch a Linux process, QEMU needs the process executable
++itself and all the target (x86) dynamic libraries used by it.
++
++-  On x86, you can just try to launch any process by using the native
++   libraries::
++
++      qemu-i386 -L / /bin/ls
++
++   ``-L /`` tells that the x86 dynamic linker must be searched with a
++   ``/`` prefix.
++
++-  Since QEMU is also a linux process, you can launch QEMU with QEMU
++   (NOTE: you can only do that if you compiled QEMU from the sources)::
++
++      qemu-i386 -L / qemu-i386 -L / /bin/ls
++
++-  On non x86 CPUs, you need first to download at least an x86 glibc
++   (``qemu-runtime-i386-XXX-.tar.gz`` on the QEMU web page). Ensure that
++   ``LD_LIBRARY_PATH`` is not set::
++
++      unset LD_LIBRARY_PATH
++
++   Then you can launch the precompiled ``ls`` x86 executable::
++
++      qemu-i386 tests/i386/ls
++
++   You can look at ``scripts/qemu-binfmt-conf.sh`` so that QEMU is
++   automatically launched by the Linux kernel when you try to launch x86
++   executables. It requires the ``binfmt_misc`` module in the Linux
++   kernel.
++
++-  The x86 version of QEMU is also included. You can try weird things
++   such as::
++
++      qemu-i386 /usr/local/qemu-i386/bin/qemu-i386 \
++                /usr/local/qemu-i386/bin/ls-i386
++
++Wine launch
++~~~~~~~~~~~
++
++-  Ensure that you have a working QEMU with the x86 glibc distribution
++   (see previous section). In order to verify it, you must be able to
++   do::
++
++      qemu-i386 /usr/local/qemu-i386/bin/ls-i386
++
++-  Download the binary x86 Wine install (``qemu-XXX-i386-wine.tar.gz``
++   on the QEMU web page).
++
++-  Configure Wine on your account. Look at the provided script
++   ``/usr/local/qemu-i386/bin/wine-conf.sh``. Your previous
++   ``${HOME}/.wine`` directory is saved to ``${HOME}/.wine.org``.
++
++-  Then you can try the example ``putty.exe``::
++
++      qemu-i386 /usr/local/qemu-i386/wine/bin/wine \
++                /usr/local/qemu-i386/wine/c/Program\ Files/putty.exe
++
++Command line options
++~~~~~~~~~~~~~~~~~~~~
++
++::
++
++   qemu-i386 [-h] [-d] [-L path] [-s size] [-cpu model] [-g port] [-B offset] [-R size] program [arguments...]
++
++``-h``
++   Print the help
++
++``-L path``
++   Set the x86 elf interpreter prefix (default=/usr/local/qemu-i386)
++
++``-s size``
++   Set the x86 stack size in bytes (default=524288)
++
++``-cpu model``
++   Select CPU model (-cpu help for list and additional feature
++   selection)
++
++``-E var=value``
++   Set environment var to value.
++
++``-U var``
++   Remove var from the environment.
++
++``-B offset``
++   Offset guest address by the specified number of bytes. This is useful
++   when the address region required by guest applications is reserved on
++   the host. This option is currently only supported on some hosts.
++
++``-R size``
++   Pre-allocate a guest virtual address space of the given size (in
++   bytes). \"G\", \"M\", and \"k\" suffixes may be used when specifying
++   the size.
++
++Debug options:
++
++``-d item1,...``
++   Activate logging of the specified items (use '-d help' for a list of
++   log items)
++
++``-p pagesize``
++   Act as if the host page size was 'pagesize' bytes
++
++``-g port``
++   Wait gdb connection to port
++
++``-singlestep``
++   Run the emulation in single step mode.
++
++Environment variables:
++
++QEMU_STRACE
++   Print system calls and arguments similar to the 'strace' program
++   (NOTE: the actual 'strace' program will not work because the user
++   space emulator hasn't implemented ptrace). At the moment this is
++   incomplete. All system calls that don't have a specific argument
++   format are printed with information for six arguments. Many
++   flag-style arguments don't have decoders and will show up as numbers.
++
++Other binaries
++~~~~~~~~~~~~~~
++
++user mode (Alpha)
++``qemu-alpha`` TODO.
++
++user mode (ARM)
++``qemu-armeb`` TODO.
++
++user mode (ARM)
++``qemu-arm`` is also capable of running ARM \"Angel\" semihosted ELF
++binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
++configurations), and arm-uclinux bFLT format binaries.
++
++user mode (ColdFire)
++user mode (M68K)
++``qemu-m68k`` is capable of running semihosted binaries using the BDM
++(m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
++coldfire uClinux bFLT format binaries.
++
++The binary format is detected automatically.
++
++user mode (Cris)
++``qemu-cris`` TODO.
++
++user mode (i386)
++``qemu-i386`` TODO. ``qemu-x86_64`` TODO.
++
++user mode (Microblaze)
++``qemu-microblaze`` TODO.
++
++user mode (MIPS)
++``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
++
++``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32
++ABI).
++
++``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
++
++``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
++ABI).
++
++``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32
++ABI).
++
++``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
++ABI).
++
++user mode (NiosII)
++``qemu-nios2`` TODO.
++
++user mode (PowerPC)
++``qemu-ppc64abi32`` TODO. ``qemu-ppc64`` TODO. ``qemu-ppc`` TODO.
++
++user mode (SH4)
++``qemu-sh4eb`` TODO. ``qemu-sh4`` TODO.
++
++user mode (SPARC)
++``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
++
++``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
++(Sparc64 CPU, 32 bit ABI).
++
++``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
++SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
++
++BSD User space emulator
++-----------------------
++
++BSD Status
++~~~~~~~~~~
++
++-  target Sparc64 on Sparc64: Some trivial programs work.
++
++Quick Start
++~~~~~~~~~~~
++
++In order to launch a BSD process, QEMU needs the process executable
++itself and all the target dynamic libraries used by it.
++
++-  On Sparc64, you can just try to launch any process by using the
++   native libraries::
++
++      qemu-sparc64 /bin/ls
++
++Command line options
++~~~~~~~~~~~~~~~~~~~~
++
++::
++
++   qemu-sparc64 [-h] [-d] [-L path] [-s size] [-bsd type] program [arguments...]
++
++``-h``
++   Print the help
++
++``-L path``
++   Set the library root path (default=/)
++
++``-s size``
++   Set the stack size in bytes (default=524288)
++
++``-ignore-environment``
++   Start with an empty environment. Without this option, the initial
++   environment is a copy of the caller's environment.
++
++``-E var=value``
++   Set environment var to value.
++
++``-U var``
++   Remove var from the environment.
++
++``-bsd type``
++   Set the type of the emulated BSD Operating system. Valid values are
++   FreeBSD, NetBSD and OpenBSD (default).
++
++Debug options:
++
++``-d item1,...``
++   Activate logging of the specified items (use '-d help' for a list of
++   log items)
++
++``-p pagesize``
++   Act as if the host page size was 'pagesize' bytes
++
++``-singlestep``
++   Run the emulation in single step mode.
+diff --git a/qemu-doc.texi b/qemu-doc.texi
+index 33b9597b1d..6636816b85 100644
+--- a/qemu-doc.texi
++++ b/qemu-doc.texi
+@@ -38,7 +38,6 @@
+ * Introduction::
+ * QEMU PC System emulator::
+ * QEMU System emulator for non PC targets::
+-* QEMU User space emulator::
+ * System requirements::
+ * Security::
+ * Implementation notes::
+@@ -2487,342 +2486,6 @@ so should only be used with trusted guest OS.
+ 
+ @c man end
+ 
+-@node QEMU User space emulator
+-@chapter QEMU User space emulator
+-
+-@menu
+-* Supported Operating Systems ::
+-* Features::
+-* Linux User space emulator::
+-* BSD User space emulator ::
+-@end menu
+-
+-@node Supported Operating Systems
+-@section Supported Operating Systems
+-
+-The following OS are supported in user space emulation:
+-
+-@itemize @minus
+-@item
+-Linux (referred as qemu-linux-user)
+-@item
+-BSD (referred as qemu-bsd-user)
+-@end itemize
+-
+-@node Features
+-@section Features
+-
+-QEMU user space emulation has the following notable features:
+-
+-@table @strong
+-@item System call translation:
+-QEMU includes a generic system call translator.  This means that
+-the parameters of the system calls can be converted to fix
+-endianness and 32/64-bit mismatches between hosts and targets.
+-IOCTLs can be converted too.
+-
+-@item POSIX signal handling:
+-QEMU can redirect to the running program all signals coming from
+-the host (such as @code{SIGALRM}), as well as synthesize signals from
+-virtual CPU exceptions (for example @code{SIGFPE} when the program
+-executes a division by zero).
+-
+-QEMU relies on the host kernel to emulate most signal system
+-calls, for example to emulate the signal mask.  On Linux, QEMU
+-supports both normal and real-time signals.
+-
+-@item Threading:
+-On Linux, QEMU can emulate the @code{clone} syscall and create a real
+-host thread (with a separate virtual CPU) for each emulated thread.
+-Note that not all targets currently emulate atomic operations correctly.
+-x86 and ARM use a global lock in order to preserve their semantics.
+-@end table
+-
+-QEMU was conceived so that ultimately it can emulate itself. Although
+-it is not very useful, it is an important test to show the power of the
+-emulator.
+-
+-@node Linux User space emulator
+-@section Linux User space emulator
+-
+-@menu
+-* Quick Start::
+-* Wine launch::
+-* Command line options::
+-* Other binaries::
+-@end menu
+-
+-@node Quick Start
+-@subsection Quick Start
+-
+-In order to launch a Linux process, QEMU needs the process executable
+-itself and all the target (x86) dynamic libraries used by it.
+-
+-@itemize
+-
+-@item On x86, you can just try to launch any process by using the native
+-libraries:
+-
+-@example
+-qemu-i386 -L / /bin/ls
+-@end example
+-
+-@code{-L /} tells that the x86 dynamic linker must be searched with a
+-@file{/} prefix.
+-
+-@item Since QEMU is also a linux process, you can launch QEMU with
+-QEMU (NOTE: you can only do that if you compiled QEMU from the sources):
+-
+-@example
+-qemu-i386 -L / qemu-i386 -L / /bin/ls
+-@end example
+-
+-@item On non x86 CPUs, you need first to download at least an x86 glibc
+-(@file{qemu-runtime-i386-XXX-.tar.gz} on the QEMU web page). Ensure that
+-@code{LD_LIBRARY_PATH} is not set:
+-
+-@example
+-unset LD_LIBRARY_PATH
+-@end example
+-
+-Then you can launch the precompiled @file{ls} x86 executable:
+-
+-@example
+-qemu-i386 tests/i386/ls
+-@end example
+-You can look at @file{scripts/qemu-binfmt-conf.sh} so that
+-QEMU is automatically launched by the Linux kernel when you try to
+-launch x86 executables. It requires the @code{binfmt_misc} module in the
+-Linux kernel.
+-
+-@item The x86 version of QEMU is also included. You can try weird things such as:
+-@example
+-qemu-i386 /usr/local/qemu-i386/bin/qemu-i386 \
+-          /usr/local/qemu-i386/bin/ls-i386
+-@end example
+-
+-@end itemize
+-
+-@node Wine launch
+-@subsection Wine launch
+-
+-@itemize
+-
+-@item Ensure that you have a working QEMU with the x86 glibc
+-distribution (see previous section). In order to verify it, you must be
+-able to do:
+-
+-@example
+-qemu-i386 /usr/local/qemu-i386/bin/ls-i386
+-@end example
+-
+-@item Download the binary x86 Wine install
+-(@file{qemu-XXX-i386-wine.tar.gz} on the QEMU web page).
+-
+-@item Configure Wine on your account. Look at the provided script
+-@file{/usr/local/qemu-i386/@/bin/wine-conf.sh}. Your previous
+-@code{$@{HOME@}/.wine} directory is saved to @code{$@{HOME@}/.wine.org}.
+-
+-@item Then you can try the example @file{putty.exe}:
+-
+-@example
+-qemu-i386 /usr/local/qemu-i386/wine/bin/wine \
+-          /usr/local/qemu-i386/wine/c/Program\ Files/putty.exe
+-@end example
+-
+-@end itemize
+-
+-@node Command line options
+-@subsection Command line options
+-
+-@example
+-@command{qemu-i386} [@option{-h]} [@option{-d]} [@option{-L} @var{path}] [@option{-s} @var{size}] [@option{-cpu} @var{model}] [@option{-g} @var{port}] [@option{-B} @var{offset}] [@option{-R} @var{size}] @var{program} [@var{arguments}...]
+-@end example
+-
+-@table @option
+-@item -h
+-Print the help
+-@item -L path
+-Set the x86 elf interpreter prefix (default=/usr/local/qemu-i386)
+-@item -s size
+-Set the x86 stack size in bytes (default=524288)
+-@item -cpu model
+-Select CPU model (-cpu help for list and additional feature selection)
+-@item -E @var{var}=@var{value}
+-Set environment @var{var} to @var{value}.
+-@item -U @var{var}
+-Remove @var{var} from the environment.
+-@item -B offset
+-Offset guest address by the specified number of bytes.  This is useful when
+-the address region required by guest applications is reserved on the host.
+-This option is currently only supported on some hosts.
+-@item -R size
+-Pre-allocate a guest virtual address space of the given size (in bytes).
+-"G", "M", and "k" suffixes may be used when specifying the size.
+-@end table
+-
+-Debug options:
+-
+-@table @option
+-@item -d item1,...
+-Activate logging of the specified items (use '-d help' for a list of log items)
+-@item -p pagesize
+-Act as if the host page size was 'pagesize' bytes
+-@item -g port
+-Wait gdb connection to port
+-@item -singlestep
+-Run the emulation in single step mode.
+-@end table
+-
+-Environment variables:
+-
+-@table @env
+-@item QEMU_STRACE
+-Print system calls and arguments similar to the 'strace' program
+-(NOTE: the actual 'strace' program will not work because the user
+-space emulator hasn't implemented ptrace).  At the moment this is
+-incomplete.  All system calls that don't have a specific argument
+-format are printed with information for six arguments.  Many
+-flag-style arguments don't have decoders and will show up as numbers.
+-@end table
+-
+-@node Other binaries
+-@subsection Other binaries
+-
+-@cindex user mode (Alpha)
+-@command{qemu-alpha} TODO.
+-
+-@cindex user mode (ARM)
+-@command{qemu-armeb} TODO.
+-
+-@cindex user mode (ARM)
+-@command{qemu-arm} is also capable of running ARM "Angel" semihosted ELF
+-binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
+-configurations), and arm-uclinux bFLT format binaries.
+-
+-@cindex user mode (ColdFire)
+-@cindex user mode (M68K)
+-@command{qemu-m68k} is capable of running semihosted binaries using the BDM
+-(m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
+-coldfire uClinux bFLT format binaries.
+-
+-The binary format is detected automatically.
+-
+-@cindex user mode (Cris)
+-@command{qemu-cris} TODO.
+-
+-@cindex user mode (i386)
+-@command{qemu-i386} TODO.
+-@command{qemu-x86_64} TODO.
+-
+-@cindex user mode (Microblaze)
+-@command{qemu-microblaze} TODO.
+-
+-@cindex user mode (MIPS)
+-@command{qemu-mips} executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
+-
+-@command{qemu-mipsel} executes 32-bit little endian MIPS binaries (MIPS O32 ABI).
+-
+-@command{qemu-mips64} executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
+-
+-@command{qemu-mips64el} executes 64-bit little endian MIPS binaries (MIPS N64 ABI).
+-
+-@command{qemu-mipsn32} executes 32-bit big endian MIPS binaries (MIPS N32 ABI).
+-
+-@command{qemu-mipsn32el} executes 32-bit little endian MIPS binaries (MIPS N32 ABI).
+-
+-@cindex user mode (NiosII)
+-@command{qemu-nios2} TODO.
+-
+-@cindex user mode (PowerPC)
+-@command{qemu-ppc64abi32} TODO.
+-@command{qemu-ppc64} TODO.
+-@command{qemu-ppc} TODO.
+-
+-@cindex user mode (SH4)
+-@command{qemu-sh4eb} TODO.
+-@command{qemu-sh4} TODO.
+-
+-@cindex user mode (SPARC)
+-@command{qemu-sparc} can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
+-
+-@command{qemu-sparc32plus} can execute Sparc32 and SPARC32PLUS binaries
+-(Sparc64 CPU, 32 bit ABI).
+-
+-@command{qemu-sparc64} can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
+-SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
+-
+-@node BSD User space emulator
+-@section BSD User space emulator
+-
+-@menu
+-* BSD Status::
+-* BSD Quick Start::
+-* BSD Command line options::
+-@end menu
+-
+-@node BSD Status
+-@subsection BSD Status
+-
+-@itemize @minus
+-@item
+-target Sparc64 on Sparc64: Some trivial programs work.
+-@end itemize
+-
+-@node BSD Quick Start
+-@subsection Quick Start
+-
+-In order to launch a BSD process, QEMU needs the process executable
+-itself and all the target dynamic libraries used by it.
+-
+-@itemize
+-
+-@item On Sparc64, you can just try to launch any process by using the native
+-libraries:
+-
+-@example
+-qemu-sparc64 /bin/ls
+-@end example
+-
+-@end itemize
+-
+-@node BSD Command line options
+-@subsection Command line options
+-
+-@example
+-@command{qemu-sparc64} [@option{-h]} [@option{-d]} [@option{-L} @var{path}] [@option{-s} @var{size}] [@option{-bsd} @var{type}] @var{program} [@var{arguments}...]
+-@end example
+-
+-@table @option
+-@item -h
+-Print the help
+-@item -L path
+-Set the library root path (default=/)
+-@item -s size
+-Set the stack size in bytes (default=524288)
+-@item -ignore-environment
+-Start with an empty environment. Without this option,
+-the initial environment is a copy of the caller's environment.
+-@item -E @var{var}=@var{value}
+-Set environment @var{var} to @var{value}.
+-@item -U @var{var}
+-Remove @var{var} from the environment.
+-@item -bsd type
+-Set the type of the emulated BSD Operating system. Valid values are
+-FreeBSD, NetBSD and OpenBSD (default).
+-@end table
+-
+-Debug options:
+-
+-@table @option
+-@item -d item1,...
+-Activate logging of the specified items (use '-d help' for a list of log items)
+-@item -p pagesize
+-Act as if the host page size was 'pagesize' bytes
+-@item -singlestep
+-Run the emulation in single step mode.
+-@end table
+-
+ @node System requirements
+ @chapter System requirements
+ 
 -- 
 2.21.1
+
 
 
