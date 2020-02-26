@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746871706F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:05:42 +0100 (CET)
-Received: from localhost ([::1]:48156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C30170721
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:09:06 +0100 (CET)
+Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7141-0002Xa-IF
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:05:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37022)
+	id 1j717J-0005as-QP
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:09:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j712i-0001lf-8h
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:04:21 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j716Q-0004tU-9K
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:08:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j712h-0006N2-6K
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:04:20 -0500
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:45450)
+ (envelope-from <alistair23@gmail.com>) id 1j716O-0002k3-Tj
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:08:10 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42105)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j712g-0006I0-UU; Wed, 26 Feb 2020 13:04:19 -0500
-Received: by mail-lf1-x144.google.com with SMTP id z5so2658403lfd.12;
- Wed, 26 Feb 2020 10:04:18 -0800 (PST)
+ id 1j716O-0002aO-LV; Wed, 26 Feb 2020 13:08:08 -0500
+Received: by mail-lj1-x242.google.com with SMTP id d10so78803ljl.9;
+ Wed, 26 Feb 2020 10:08:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=qixnKNDx/RlczFUjx2kQ4GPdxbg9OO/em4zJMw/98xY=;
- b=WYW3zHJahNRFNx36YyFvX9VuUOmpfB0jWolHG541Oxf1+46H9eN5X1a5rm4tHXT2Jn
- 3+zrNn22JuQpVPex/0u5RVUmVf/z7HC8BeSNxX60HZcfr4PNQtmF5eRDpr9bzB2Xm2Rj
- Mq10/UV/KQS8O6hskJc5IcJGcuJSVe1rzr9cgxLK5ea/PSTfmmCMletmP/HZk7mRGX1f
- 8H2PYw3PgumRuBdMAIFmG1EeYNKY7nGCcqJBh3olb08N28ln1qxbqcoskVr+yQ2SX6+s
- 4cCu4vVpvj3LgLtttSQk0CSptFEXws5kKydSOrK4Yf4zlrizgTiJcrzT3cyxJL75oB8c
- 69dQ==
+ bh=LMPU1kRD84wPi625eY4a3VdFBmAdtYN7HHupO0TFJhw=;
+ b=ZLeluk/zdnf24X+tjiLyM93lKGcePSoU7HZluJi5cXaR9ZYFjNUh8O6GP664DDezNt
+ ZsgyW48ac+1VRw6jWEhkVB+LOiC/QZXUn+RhQDGlD7X22AG1akQuWequelzOu33e8trY
+ h1pt7fvLiVM4aOx+pN0uBJl/Dez8AEZHgI+nEwulTpUxNcO0Ey00Fmh4UDrsLfLXEI+g
+ MCbs/K61raKghejx6Tl9gsQ4mNRZPsaxn7UbEOQ/xs9N/xmwVnd5AgM8JNIQWDp5tHrw
+ flVkanJZlNPJIMHMUOcyrMkQAUqaGGRQJ/koeFp+IStfLBND9bh4BlEs7akNZx/mFayB
+ 5+AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=qixnKNDx/RlczFUjx2kQ4GPdxbg9OO/em4zJMw/98xY=;
- b=OiFh3louYkLPZABc6GYk1+bDIG4+45zRqwRoiVUc2+sD2fAtenRlq6Vawv0NHqv55z
- al+wNPNvleNbNXDOi/66dVcHtP5e5Goe3HB2qJSmJsgJt7ni6J8w+9jkn4T8mCrdkLgv
- GA9vA+SoagUuiJJJJ3kt3mNMxRleI81Pu0u4wwNjtYTGDzwQUHZvB1qJfG8HMeSWFL3b
- ey6DKiGGzobdlWSIwva3tAtHkrGqUlpxwcVNErqJsrqwZ/3Uj3MSkdCe7KatHrm7j6Ic
- EvML13uHhg/XVHBP4+QYVvYPQ7CuxGjoraw6PvipHlN+O1x+7v271//Y6PHbsiel64Fo
- +cXg==
-X-Gm-Message-State: APjAAAXb3qO/80SQ9tTF3g3qu9WR7Uo2/n2v7cYvCapK5i67JrmcWLid
- XX2XwONVpCuCH9+hVXJVTGbG9GheIlIdvpfPcCY=
-X-Google-Smtp-Source: APXvYqyDanTj6CItMlrP64oyBagwZRXSbl/vGnd7PIN+4JPKOk9K3Vwq46hSueuBS/6BUAtFoatDpvloQJ8wbhsttn8=
-X-Received: by 2002:ac2:5111:: with SMTP id q17mr1159513lfb.51.1582740257474; 
- Wed, 26 Feb 2020 10:04:17 -0800 (PST)
+ bh=LMPU1kRD84wPi625eY4a3VdFBmAdtYN7HHupO0TFJhw=;
+ b=QSiHvCbin9qkH22DBEmrx5TcQPnTpl0Q8BJmKJdrda5gw/IZZROgsEPsMMyye4yjLq
+ PLOArbX2jiU+TflYwqKEicp1mbCVjHZBPRk1SleGM9XkUOZt+J50cnPEgcVlWPhhAwi3
+ xHlR8+MPjS4rOiBcKgozs/Nd+vT+bdUrMZq5sYVc7FoMFQ54jtAYm53hezpb5Y70hzuz
+ IQV+zvnq+AgIdadD/FYV6mD5O6sTJXqhE0p+RSbtZt1X3Aw5ZvpeN5WI9jinysDiVdPO
+ bH79PyFnfRpgqzXe68la6vfko6oiQovoUtyC/82icdLQORq+G6BbIwGqrlQXInvXIQ+9
+ 4wVg==
+X-Gm-Message-State: ANhLgQ3j3nWkLfHYOWhWgFFplsPd4jG0OtuVgNnxZtjrSekZmFA1AOgA
+ OhQEaTdjR2cGN3nj9QgCJ2V4BPJ1ltPjupeoNkI=
+X-Google-Smtp-Source: ADFU+vtlH67YZBiKlAY47y+g6q1uVD3dqwcskUdZWgByun/7tqKuBYOMlKA1aKfWKdpOxn34Ul1sl+Ntl9uG9GoVH9c=
+X-Received: by 2002:a2e:7609:: with SMTP id r9mr120290ljc.238.1582740486539;
+ Wed, 26 Feb 2020 10:08:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20200226084647.20636-1-kuhn.chenqun@huawei.com>
- <20200226084647.20636-10-kuhn.chenqun@huawei.com>
-In-Reply-To: <20200226084647.20636-10-kuhn.chenqun@huawei.com>
+References: <20200225131422.53368-1-damien.hedde@greensocs.com>
+ <20200225131422.53368-5-damien.hedde@greensocs.com>
+In-Reply-To: <20200225131422.53368-5-damien.hedde@greensocs.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 26 Feb 2020 09:56:38 -0800
-Message-ID: <CAKmqyKNLKkjxwEZaL88a1PY2ZMOF9oZQvOWzrMFyCUz84-bjbA@mail.gmail.com>
-Subject: Re: [PATCH v2 09/13] dma/xlnx-zdma: Remove redundant statement in
- zdma_write_dst()
-To: kuhn.chenqun@huawei.com
+Date: Wed, 26 Feb 2020 10:00:26 -0800
+Message-ID: <CAKmqyKOzR9RKEbdv_BUxJmwNNsnAOdupMXAMJ=kfDh0u4FsM4A@mail.gmail.com>
+Subject: Re: [PATCH v8 4/9] qdev-clock: introduce an init array to ease the
+ device construction
+To: Damien Hedde <damien.hedde@greensocs.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,94 +74,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- QEMU Trivial <qemu-trivial@nongnu.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
+ Mark Burton <mark.burton@greensocs.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Euler Robot <euler.robot@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Edgar Iglesias <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 26, 2020 at 12:52 AM <kuhn.chenqun@huawei.com> wrote:
+On Tue, Feb 25, 2020 at 5:56 AM Damien Hedde <damien.hedde@greensocs.com> w=
+rote:
 >
-> From: Chen Qun <kuhn.chenqun@huawei.com>
+> Introduce a function and macro helpers to setup several clocks
+> in a device from a static array description.
 >
-> Clang static code analyzer show warning:
-> hw/dma/xlnx-zdma.c:399:13: warning: Value stored to 'dst_type' is never r=
-ead
->             dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR=
-_WORD3,
->             ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
+> An element of the array describes the clock (name and direction) as
+> well as the related callback and an optional offset to store the
+> created object pointer in the device state structure.
 >
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> The array must be terminated by a special element QDEV_CLOCK_END.
+>
+> This is based on the original work of Frederic Konrad.
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
->
-> v1->v2: move the 'dst_type' declaration.(Base on Philippe's suggestion).
-> ---
->  hw/dma/xlnx-zdma.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-> index 8fb83f5b07..eeacad59ce 100644
-> --- a/hw/dma/xlnx-zdma.c
-> +++ b/hw/dma/xlnx-zdma.c
-> @@ -373,7 +373,7 @@ static uint64_t zdma_update_descr_addr(XlnxZDMA *s, b=
-ool type,
->  static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
->  {
->      uint32_t dst_size, dlen;
-> -    bool dst_intr, dst_type;
-> +    bool dst_intr;
->      unsigned int ptype =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POIN=
-T_TYPE);
->      unsigned int rw_mode =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, MO=
-DE);
->      unsigned int burst_type =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_DATA_A=
-TTR,
-> @@ -387,17 +387,17 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *bu=
-f, uint32_t len)
->      while (len) {
->          dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WO=
-RD2,
->                                SIZE);
-> -        dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WO=
-RD3,
-> -                              TYPE);
->          if (dst_size =3D=3D 0 && ptype =3D=3D PT_MEM) {
->              uint64_t next;
-> +            bool dst_type =3D FIELD_EX32(s->dsc_dst.words[3],
-> +                                       ZDMA_CH_DST_DSCR_WORD3,
-> +                                       TYPE);
-> +
->              next =3D zdma_update_descr_addr(s, dst_type,
->                                            R_ZDMA_CH_DST_CUR_DSCR_LSB);
->              zdma_load_descriptor(s, next, &s->dsc_dst);
->              dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSC=
-R_WORD2,
->                                    SIZE);
-> -            dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSC=
-R_WORD3,
-> -                                  TYPE);
->          }
->
->          /* Match what hardware does by ignoring the dst_size and only us=
-ing
 > --
-> 2.23.0
 >
+> v7:
+>  + update ClockIn/Out types
+>  + remove the QDEV_CLOCK_IN_NOFIELD macro
+>  + remove leading underscores in macro arguments (Peter)
+>  + updated some comments (Peter)
+>  + removed trivial asserts (Peter)
+> ---
+>  include/hw/qdev-clock.h | 55 +++++++++++++++++++++++++++++++++++++++++
+>  hw/core/qdev-clock.c    | 17 +++++++++++++
+>  2 files changed, 72 insertions(+)
+>
+> diff --git a/include/hw/qdev-clock.h b/include/hw/qdev-clock.h
+> index b3b3a3e021..a340f65ff9 100644
+> --- a/include/hw/qdev-clock.h
+> +++ b/include/hw/qdev-clock.h
+> @@ -101,4 +101,59 @@ Clock *qdev_alias_clock(DeviceState *dev, const char=
+ *name,
+>   */
+>  void qdev_finalize_clocklist(DeviceState *dev);
+>
+> +/**
+> + * ClockPortInitElem:
+> + * @name: name of the clock (can't be NULL)
+> + * @output: indicates whether the clock is input or output
+> + * @callback: for inputs, optional callback to be called on clock's upda=
+te
+> + * with device as opaque
+> + * @offset: optional offset to store the ClockIn or ClockOut pointer in =
+device
+> + * state structure (0 means unused)
+> + */
+> +struct ClockPortInitElem {
+> +    const char *name;
+> +    bool is_output;
+> +    ClockCallback *callback;
+> +    size_t offset;
+> +};
+> +
+> +#define clock_offset_value(devstate, field) \
+> +    (offsetof(devstate, field) + \
+> +     type_check(Clock *, typeof_field(devstate, field)))
+> +
+> +#define QDEV_CLOCK(out_not_in, devstate, field, cb) { \
+> +    .name =3D (stringify(field)), \
+> +    .is_output =3D out_not_in, \
+> +    .callback =3D cb, \
+> +    .offset =3D clock_offset_value(devstate, field), \
+> +}
+> +
+> +/**
+> + * QDEV_CLOCK_(IN|OUT):
+> + * @devstate: structure type. @dev argument of qdev_init_clocks below mu=
+st be
+> + * a pointer to that same type.
+> + * @field: a field in @_devstate (must be Clock*)
+> + * @callback: (for input only) callback (or NULL) to be called with the =
+device
+> + * state as argument
+> + *
+> + * The name of the clock will be derived from @field
+> + */
+> +#define QDEV_CLOCK_IN(devstate, field, callback) \
+> +    QDEV_CLOCK(false, devstate, field, callback)
+> +
+> +#define QDEV_CLOCK_OUT(devstate, field) \
+> +    QDEV_CLOCK(true, devstate, field, NULL)
+> +
+> +#define QDEV_CLOCK_END { .name =3D NULL }
+> +
+> +typedef struct ClockPortInitElem ClockPortInitArray[];
+> +
+> +/**
+> + * qdev_init_clocks:
+> + * @dev: the device to add clocks to
+> + * @clocks: a QDEV_CLOCK_END-terminated array which contains the
+> + * clocks information.
+> + */
+> +void qdev_init_clocks(DeviceState *dev, const ClockPortInitArray clocks)=
+;
+> +
+>  #endif /* QDEV_CLOCK_H */
+> diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
+> index 62035aef83..a94cc44437 100644
+> --- a/hw/core/qdev-clock.c
+> +++ b/hw/core/qdev-clock.c
+> @@ -116,6 +116,23 @@ Clock *qdev_init_clock_in(DeviceState *dev, const ch=
+ar *name,
+>      return ncl->clock;
+>  }
+>
+> +void qdev_init_clocks(DeviceState *dev, const ClockPortInitArray clocks)
+> +{
+> +    const struct ClockPortInitElem *elem;
+> +
+> +    for (elem =3D &clocks[0]; elem->name !=3D NULL; elem++) {
+> +        Clock **clkp;
+> +        /* offset cannot be inside the DeviceState part */
+> +        assert(elem->offset > sizeof(DeviceState));
+> +        clkp =3D (Clock **)(((void *) dev) + elem->offset);
+> +        if (elem->is_output) {
+> +            *clkp =3D qdev_init_clock_out(dev, elem->name);
+> +        } else {
+> +            *clkp =3D qdev_init_clock_in(dev, elem->name, elem->callback=
+, dev);
+> +        }
+> +    }
+> +}
+> +
+>  static NamedClockList *qdev_get_clocklist(DeviceState *dev, const char *=
+name)
+>  {
+>      NamedClockList *ncl;
+> --
+> 2.25.1
 >
 >
 
