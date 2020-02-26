@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A82816F89A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:37:26 +0100 (CET)
-Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD05E16F8A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:42:56 +0100 (CET)
+Received: from localhost ([::1]:39272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6rG1-00084M-9n
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:37:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43231)
+	id 1j6rLL-0005ZJ-Tj
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <hsp.cat7@gmail.com>) id 1j6rFH-0007X7-7a
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:36:40 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6rI8-0000IH-Qk
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hsp.cat7@gmail.com>) id 1j6rFG-0004Ea-1J
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:36:39 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36166)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6rI7-0002LK-LX
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:36 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35921)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>)
- id 1j6rFD-00047Y-Gw; Wed, 26 Feb 2020 02:36:35 -0500
-Received: by mail-ot1-x329.google.com with SMTP id j20so2095549otq.3;
- Tue, 25 Feb 2020 23:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=e4h1QzzxTrFpAbBAQmInM/nVY0lJzyrmy+1s53NHOH8=;
- b=BgbUuQkBAL0MFj37y9vGY134U9wdscnjNc9s2LvwmsWiBXmqL7w7ssxsgPWeWetUtO
- D76Xee8H2CGibKiSsURnWn9jO5MAO9CBkKaOpuYI5N9BLbczxwopQQEawEn8tUcVY1PQ
- CJsEE+vTA8GjaP/r89JTsFHmSNhfFUrxzsawEfDOzXzpVvqwGd+ggfyQSS7BHUikf+G0
- 5BNXq6YLvZiXOm/ZuaFlMD5LDQTNzU7zYkC1fytgaly1s3yco6GAZoz0CbJlNx5kpH6S
- b3eV8fNb53uml0T0Kejqr0CpShXR8ZlmIGqSysmdG91/2mSPQp85qp4VWSTYMCcg6p8l
- o0oQ==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j6rI7-0002JW-F5
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:35 -0500
+Received: by mail-wr1-x433.google.com with SMTP id z3so1682884wru.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 23:39:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RP+S7+hYGK81s1glUYrfVIpzjqrmvm+wgud3aRU2B1U=;
+ b=Ts3wwwZQYMbe4RtKGeNg9SF3gzPfxB4bYboClFbvYer7CF0MhINVpPIpHUG98O8owr
+ DppBNjtASKH/6SJbh3TVxL2KLgAB6VUglhPyUQ+ibDUM+UYKdLdHzQiiXEJ+6QlnflD3
+ Wxmk3kL+Qyr426fMsHuf+0PYKknnkPohG6z0c/KLOE+eDAQVbqhdQipGWvAdz9+FEbEK
+ OyllH4oZHIMpDbECtbf+D3oQC5pjkr9A9/B3X8C9v3HirklVG5XNsbKl/y77sRlH2VjR
+ p9e/iz74ED3Idliem1aKPTSQcNvt5ZmfB9TbV04NcoWLHuX4tyA6kmVUwBuHQ1kdIiqt
+ G24g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=e4h1QzzxTrFpAbBAQmInM/nVY0lJzyrmy+1s53NHOH8=;
- b=NwFxbgI/Mszj4SzxmH3ig+Cj32IjDSUmNBgJuHWZmua1b42r5YjTi2LuOFAU7Qi2OZ
- oTBEk9l3Owm9+1HIiuT4DdEXNQ054X19d5XQl+84TdLIGrF4c/bt2YfxqGEmLEBYXc57
- OEhDJlYk1zqdtDYu2HlrHzp4cVRiPKMAkCMkQnoqWTuhHzjCOoja8lFH0JsbDO+SCsaw
- BL4REPVKOEY2xxRmP7J1VvzCWr7JEZQ7fBs4ngAc21TM91tBmLZLrWo8KuoImOv1m67g
- mZWYYZz+Hv/AFiVjUr+griTgGvBMVS+Y9t2Avszr7kBN/d176jNArW1meGdgkjMlGoW+
- 6mig==
-X-Gm-Message-State: APjAAAU+ABgN2h5SOQPGQ5gDpQQGOOo3VPWFWVHdh9+riyN1SvbBKDK8
- pQjT48FL3lyLO8VTHT5Pa8t/xeWQbJCCn6Ql43AoVqN3
-X-Google-Smtp-Source: APXvYqwoXtItYm6wP0EMn73RbTsW2CD7sfnSiMZu19T0eOs1jymCahOTInarc9mjXL4F4mclztB48q7wqPNT9RU0aD4=
-X-Received: by 2002:a05:6830:1e76:: with SMTP id
- m22mr2008329otr.295.1582702594181; 
- Tue, 25 Feb 2020 23:36:34 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RP+S7+hYGK81s1glUYrfVIpzjqrmvm+wgud3aRU2B1U=;
+ b=F4Ov2zrAlVX/+Dpy6y2oQ8PVPfcksiVWB/5LKJOWCwttTkXlvne0+XTUzZGAg+st3h
+ 4IkIEZopKTFJhaRiaNdHckIDsN3KmsmFg27qX0Hym33+3osEIAQghte+GaC75NLWIQTn
+ k2QbHIFKDzOB6r70KbvyO8Q29Hf6U1Di8hQZ9w7FKuBoMQpCF7jZQOsGTFcxbPzwlPo9
+ 0PkdxhWAV64VkGJI641BdalANZuphN1xGhdyNEMyck22SDRge9Sqp7R0sKhoxAGdLuiu
+ 1kOXo71j440t1k2qyP64azNvUnVB3iZ+rlN42ukIMXhTqzpSmSJs09uNWYxHVgA+hfhs
+ TlJQ==
+X-Gm-Message-State: APjAAAUqcD+6T8+iUfl17WJFRaElKlpsv0HlGJ4ueRQGBsKUl7xrw4Xz
+ 8zlUWv4M3adoYPK1EMzpLdnfQw==
+X-Google-Smtp-Source: APXvYqwqfb8N3cDyRM1Q9PGRHG27afURWKEhQbbypAy6aN5SHY+X5qcKwkSRSAZ9pg1ryOTlkxTK8A==
+X-Received: by 2002:a5d:51ce:: with SMTP id n14mr3866401wrv.426.1582702774352; 
+ Tue, 25 Feb 2020 23:39:34 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b21sm1779296wmd.37.2020.02.25.23.39.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Feb 2020 23:39:30 -0800 (PST)
+Received: from zen.home.arpa (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 44D7F1FF87;
+ Wed, 26 Feb 2020 07:39:29 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/19] testing and plugin updates
+Date: Wed, 26 Feb 2020 07:39:10 +0000
+Message-Id: <20200226073929.28237-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Wed, 26 Feb 2020 08:36:23 +0100
-Message-ID: <CABLmASF7CoOufGDz-1d-Py3t1PN3CrWdN64XAzgAx4=rbSxGEA@mail.gmail.com>
-Subject: Issue with vl.c: move -m parsing after memory backends has been
- processed. Commit a1b18df9a4848fc8a906e40c275063bfe9ca2047
-To: qemu-ppc <qemu-ppc@nongnu.org>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
-Content-Type: multipart/alternative; boundary="000000000000e9545a059f75a9cb"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::329
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,88 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e9545a059f75a9cb
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit db736e0437aa6fd7c1b7e4599c17f9619ab6b837:
 
-Hi all,
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-02-25 13:31:16 +0000)
 
-Commit a1b18df9a4848fc8a906e40c275063bfe9ca2047 on the ppc-for-50 branch
-makes qemu-system-ppc running Mac OS 9 extremely slow. I bisected to the
-result below.
+are available in the Git repository at:
 
-Command line used:
-./qemu-system-ppc -L pc-bios -M mac99,via=pmu -m 512 -boot c \
--hda 9.2.img \
--serial stdio -sdl
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-250220-1
 
-Best,
-Howard
+for you to fetch changes up to bc97f9f64f8a4a84d0d06949749e9dbec143b9f5:
 
-a1b18df9a4848fc8a906e40c275063bfe9ca2047 is the first bad commit
-commit a1b18df9a4848fc8a906e40c275063bfe9ca2047
-Author: Igor Mammedov <imammedo@redhat.com>
-Date:   Wed Feb 19 11:08:40 2020 -0500
+  tests/tcg: take into account expected clashes pauth-4 (2020-02-25 20:20:23 +0000)
 
-    vl.c: move -m parsing after memory backends has been processed
+----------------------------------------------------------------
+Testing and plugin updates:
 
-    It will be possible for main RAM to come from memory-backend
-    and we should check that size specified in -m matches the size
-    of the backend and [MachineState::]ram_size also matches
-    backend's size.
+ - fix pauth TCG tests
+ - tweak away rcutorture failures
+ - various Travis updates
+ - relax iotest size check a little
+ - fix for -trace/-D clash
+ - fix cross compile detection for tcg tests
+ - document plugin query lifetime
+ - fix missing break in plugin core
+ - fix some plugin warnings
+ - better progressive instruction decode
+ - avoid trampling vaddr in plugins
 
-    However -m parsing (set_memory_options()) happens before backends
-    are intialized (object_create_delayed()) which complicates it.
-    Consolidate set_memory_options() and assigning parsed results to
-    current_machine after backends are initialized, so it would be
-    possible access the initialized backend instance to compare
-    sizes.
+----------------------------------------------------------------
+Alex Bennée (14):
+      tests/tcg: include a skip runner for pauth3 with plugins
+      tests/rcutorture: update usage hint
+      tests/rcutorture: better document locking of stats
+      tests/rcutorture: mild documenting refactor of update thread
+      travis.yml: single-thread build-tcg stages
+      tests/iotests: be a little more forgiving on the size test
+      tracing: only allow -trace to override -D if set
+      docs/devel: document query handle lifetimes
+      target/riscv: progressively load the instruction during decode
+      tests/plugins: make howvec clean-up after itself.
+      tests/tcg: give debug builds a little bit longer
+      tcg: save vaddr temp for plugin usage
+      tests/tcg: fix typo in configure.sh test for v8.3
+      tests/tcg: take into account expected clashes pauth-4
 
-    This patch only consolidates scattered places touching ram_size
-    within vl.c. And follow up patch will integrate backend handling
-    to set_memory_options().
+Chen Qun (1):
+      tests/plugin: prevent uninitialized warning
 
-    Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-    Message-Id: <20200219160953.13771-7-imammedo@redhat.com>
+Emilio G. Cota (1):
+      plugins/core: add missing break in cb_to_tcg_flags
 
- vl.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+Thomas Huth (1):
+      travis.yml: Test the s390-ccw build, too
 
---000000000000e9545a059f75a9cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Wainer dos Santos Moschetta (1):
+      travis.yml: Fix Travis YAML configuration warnings
 
-<div dir=3D"ltr"><div>Hi all,<br></div><div><br></div><div>Commit a1b18df9a=
-4848fc8a906e40c275063bfe9ca2047 on the ppc-for-50 branch makes qemu-system-=
-ppc running Mac OS 9 extremely slow. I bisected to the result below.</div><=
-div><br></div><div>Command line used:</div><div>./qemu-system-ppc -L pc-bio=
-s -M mac99,via=3Dpmu -m 512 -boot c \<br>-hda 9.2.img \<br>-serial stdio -s=
-dl</div><div><br></div><div>Best,</div><div>Howard<br></div><div><br></div>=
-<div>a1b18df9a4848fc8a906e40c275063bfe9ca2047 is the first bad commit<br>co=
-mmit a1b18df9a4848fc8a906e40c275063bfe9ca2047<br>Author: Igor Mammedov &lt;=
-<a href=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt;<br>Date:=
- =C2=A0 Wed Feb 19 11:08:40 2020 -0500<br><br>=C2=A0 =C2=A0 vl.c: move -m p=
-arsing after memory backends has been processed<br>=C2=A0 =C2=A0 <br>=C2=A0=
- =C2=A0 It will be possible for main RAM to come from memory-backend<br>=C2=
-=A0 =C2=A0 and we should check that size specified in -m matches the size<b=
-r>=C2=A0 =C2=A0 of the backend and [MachineState::]ram_size also matches<br=
->=C2=A0 =C2=A0 backend&#39;s size.<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 Howev=
-er -m parsing (set_memory_options()) happens before backends<br>=C2=A0 =C2=
-=A0 are intialized (object_create_delayed()) which complicates it.<br>=C2=
-=A0 =C2=A0 Consolidate set_memory_options() and assigning parsed results to=
-<br>=C2=A0 =C2=A0 current_machine after backends are initialized, so it wou=
-ld be<br>=C2=A0 =C2=A0 possible access the initialized backend instance to =
-compare<br>=C2=A0 =C2=A0 sizes.<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 This pat=
-ch only consolidates scattered places touching ram_size<br>=C2=A0 =C2=A0 wi=
-thin vl.c. And follow up patch will integrate backend handling<br>=C2=A0 =
-=C2=A0 to set_memory_options().<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 Signed-o=
-ff-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com">imammedo@re=
-dhat.com</a>&gt;<br>=C2=A0 =C2=A0 Message-Id: &lt;<a href=3D"mailto:2020021=
-9160953.13771-7-imammedo@redhat.com">20200219160953.13771-7-imammedo@redhat=
-.com</a>&gt;<br><br>=C2=A0vl.c | 27 ++++++++++++++-------------<br>=C2=A01 =
-file changed, 14 insertions(+), 13 deletions(-)<br></div></div>
+Yoshinori Sato (1):
+      qemu/bitops.h: Add extract8 and extract16
 
---000000000000e9545a059f75a9cb--
+ docs/devel/tcg-plugins.rst                | 13 +++++-
+ include/qemu/bitops.h                     | 38 ++++++++++++++++
+ target/riscv/instmap.h                    |  8 ++--
+ plugins/core.c                            |  1 +
+ target/riscv/translate.c                  | 40 +++++++++--------
+ tcg/tcg-op.c                              | 23 ++++++++--
+ tests/plugin/bb.c                         |  6 +--
+ tests/plugin/howvec.c                     | 26 +++++++----
+ tests/plugin/insn.c                       |  3 +-
+ tests/rcutorture.c                        | 74 +++++++++++++++++++++----------
+ tests/tcg/aarch64/pauth-4.c               | 54 +++++++++++++++-------
+ trace/control.c                           | 11 +++--
+ .travis.yml                               | 23 +++++++---
+ tests/qemu-iotests/214                    |  4 +-
+ tests/tcg/Makefile.target                 |  4 +-
+ tests/tcg/aarch64/Makefile.softmmu-target |  2 +
+ tests/tcg/configure.sh                    |  2 +-
+ 17 files changed, 235 insertions(+), 97 deletions(-)
+
+-- 
+2.20.1
+
 
