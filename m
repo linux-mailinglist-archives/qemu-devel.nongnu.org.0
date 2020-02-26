@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B7316FA50
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:12:28 +0100 (CET)
-Received: from localhost ([::1]:40582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF0C16FA5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:13:52 +0100 (CET)
+Received: from localhost ([::1]:40628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6sjz-00060d-RT
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:12:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59359)
+	id 1j6slL-00016V-Ey
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:13:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6sfO-0006NT-Lw
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:44 -0500
+ (envelope-from <mst@redhat.com>) id 1j6sfQ-0006RH-6L
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6sfK-0000nK-Qs
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:42 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41132
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1j6sfO-0000uo-Oa
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33813
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sfK-0000mE-LG
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:38 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sfO-0000tf-Kb
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582708058;
+ s=mimecast20190719; t=1582708062;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d/aiv3lhOmdIPftAE4AmweEgXAxc/uZrTam4P30LF8M=;
- b=es+9G+GxFQhrMX1rqhL1OzQ8o9lQ+xOGKRuDFD1WYng+eCmjst4/ve07fm+21yx94O1DO0
- dPMX+D5USjV3GGTTUH7ITNyQ05fyZvrAQ/wJ8eltnzz75DSuCyaUQKwAlw3PjAT6Q139Ny
- EXFNAwReACRX7PioxyZGCUXsM681jzo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-FC7aCu5BP8-NwQDuyC_VkQ-1; Wed, 26 Feb 2020 04:07:32 -0500
-X-MC-Unique: FC7aCu5BP8-NwQDuyC_VkQ-1
-Received: by mail-wr1-f69.google.com with SMTP id n23so1173330wra.20
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:07:32 -0800 (PST)
+ bh=/oKgHpzvvYWsVdDfIdCVEbYUj7F09lISrJlwoM5pP5g=;
+ b=E4cULFXX9JLwDFPdg2ep9AuVLzKO1XQrWdi1eQkmTCd8mHBone9l6SiJnn/OcxhTGrOodt
+ xqKOiJ3S2hhykAwrI3LWRJPyFLDXdEaJ6goOtZ3ERrqW4Wfd9N14xBo0KSqaZKcqeIy3ff
+ 21Y5PlEEfmJHTLiEuaM+lJQNrirFQSE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-gTXb_iKNMEKGYNmbvAScOw-1; Wed, 26 Feb 2020 04:07:37 -0500
+X-MC-Unique: gTXb_iKNMEKGYNmbvAScOw-1
+Received: by mail-wm1-f69.google.com with SMTP id r19so655440wmh.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:07:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=VULHvANuJTAMzSo4WuZrwNg3YHlhkBLMkkXorsz6PrY=;
- b=h6TWDSQIEA+XgeSM2Il/kGyjGiDq2wrxAHzx4OWug7O3aZGHrw9mgpHgy3Z0SRFS8Z
- ztgGFvOd4SCzb1pyxDk1rk40MBJoTA/aNCBPF5rtYOIwg5Whlhs05oeVA74LQH4D4gZz
- avSQUN1Z+Hcm3p6byjiPcU+mrF4jRa01kQ4QR0049FtSR6mneK2YlBu/xAHGSRjvMkmN
- 5dVjRI2iHE25XanmWTHhu3edxTcmS/kZ6E/gJR2jprSd80NttTT9nO7YO6SYgDuA/zuw
- oD+MaXQMQ6HQT/2Oawpy3T5uxl4/KfTtma+LuZKzI4qrhYW0+2qtpL3dRFVITcliXSgP
- HPdg==
-X-Gm-Message-State: APjAAAVbNPiv98jceWvDDB66xlcuu8/18HkLUiKYlkfsCbci5+TMNT3c
- ncPzd/Cx+gRpmlvlmXWXjoV/mmPWHQVXLLsgfN1mbOQ6S1RCQmE/a0IxIp4ti5bRDQ35f1XAk5l
- V8eIXtww4GxplCvk=
-X-Received: by 2002:adf:f60b:: with SMTP id t11mr1481831wrp.344.1582708051168; 
- Wed, 26 Feb 2020 01:07:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwXkr4gHZe2N8+1EBATNt7Lf7XXB8UHJjdY8DoDQrgjrz3fORXwreuUQdvaV2Hm5MDETbba+g==
-X-Received: by 2002:adf:f60b:: with SMTP id t11mr1481771wrp.344.1582708050488; 
- Wed, 26 Feb 2020 01:07:30 -0800 (PST)
+ bh=RCsZu5eqrBUiXUZoz9bzfU4qWCKnd0BfjuIJHzusOXA=;
+ b=HDxswMgXj9ZtjUbTQ2JMrzdxSoOnlTt78OFc/x7m3lzxHbp/4c6KH6KnXE2AQXuzNn
+ G5r8gLCgHCUmxb5NoxibCTOe3yLY3uLh1bwlTvuCxQXCdRY2ZcvvWNjh221G47fa+Fk3
+ 231M8lLNf2ZlwgDKT8l44+QKZL1sZtwmTQtsDodweboNvpplu9q1VJLQ6f6T05gY+iRp
+ CiCRpw/Bc0btrKjyHZ5KotgsCLal3gDMzx/1LNlcJtcZn02muSVPUDpuFReHeB1ZH6/e
+ mweLytPDg9EmW28hPseSpJUces4Zdle2BL79vBLx2XaB8NqnI6uhr5Ev5uMd+hMaRHr7
+ XxMQ==
+X-Gm-Message-State: APjAAAXy+57iwu+m6AE9mGrM5x7UwFaIye5ORSlnXuNDkubt5W6Uq8tG
+ rmyNFTpfQLIY7LJHVorwBNzj+6nH+raLjhLTyFsTONEj+tsklPri6fUjSiW1UbiX4uoRC7goDMN
+ 2XeL61UZfhLKyZtw=
+X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr4239824wrt.253.1582708055387; 
+ Wed, 26 Feb 2020 01:07:35 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzIQfWQxm1m/XuaBG3gKFFThXgSVFZxp6KSDGzjOdkOZLrjtmcEcqWOjEQMMmDMdEkBfvNhJw==
+X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr4239800wrt.253.1582708055144; 
+ Wed, 26 Feb 2020 01:07:35 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- b7sm2093431wrs.97.2020.02.26.01.07.29
+ g10sm2443272wrr.13.2020.02.26.01.07.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 01:07:29 -0800 (PST)
-Date: Wed, 26 Feb 2020 04:07:29 -0500
+ Wed, 26 Feb 2020 01:07:34 -0800 (PST)
+Date: Wed, 26 Feb 2020 04:07:34 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 23/30] libvhost-user-glib: fix VugDev main fd cleanup
-Message-ID: <20200226090010.708934-24-mst@redhat.com>
+Subject: [PULL v2 24/30] libvhost-user-glib: use
+ g_main_context_get_thread_default()
+Message-ID: <20200226090010.708934-25-mst@redhat.com>
 References: <20200226090010.708934-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200226090010.708934-1-mst@redhat.com>
@@ -78,7 +79,7 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,126 +91,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Johannes Berg <johannes.berg@intel.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Johannes Berg <johannes.berg@intel.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Johannes Berg <johannes.berg@intel.com>
 
-If you try to make a device implementation that can handle multiple
-connections and allow disconnections (which requires overriding the
-VHOST_USER_NONE handling), then glib will warn that we remove a src
-while it's still on the mainloop, and will poll() an FD that doesn't
-exist anymore.
+If we use NULL, we just get the main program default mainloop
+here. Using g_main_context_get_thread_default() has basically
+the same effect, but it lets us start different devices in
+different threads with different mainloops, which can be useful.
 
-Fix this by making vug_source_new() require pairing with the new
-vug_source_destroy() so we can keep the GSource referenced in the
-meantime.
-
-Note that this requires calling the new API in vhost-user-input.
-vhost-user-gpu also uses vug_source_new(), but never seems to free
-the result at all, so I haven't changed anything there.
-
-Fixes: 8bb7ddb78a1c ("libvhost-user: add glib source helper")
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Message-Id: <20200123081708.7817-3-johannes@sipsolutions.net>
+Message-Id: <20200123081708.7817-4-johannes@sipsolutions.net>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user-glib.h |  1 +
- contrib/libvhost-user/libvhost-user-glib.c | 15 ++++++++++++---
- contrib/vhost-user-input/main.c            |  6 ++----
- 3 files changed, 15 insertions(+), 7 deletions(-)
+ contrib/libvhost-user/libvhost-user-glib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user-glib.h b/contrib/libvhost-=
-user/libvhost-user-glib.h
-index 64d539d93a..1a79a4916e 100644
---- a/contrib/libvhost-user/libvhost-user-glib.h
-+++ b/contrib/libvhost-user/libvhost-user-glib.h
-@@ -31,5 +31,6 @@ void vug_deinit(VugDev *dev);
-=20
- GSource *vug_source_new(VugDev *dev, int fd, GIOCondition cond,
-                         vu_watch_cb vu_cb, gpointer data);
-+void vug_source_destroy(GSource *src);
-=20
- #endif /* LIBVHOST_USER_GLIB_H */
 diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-=
 user/libvhost-user-glib.c
-index 99edd2f3de..824c7780de 100644
+index 824c7780de..53f1ca4cdd 100644
 --- a/contrib/libvhost-user/libvhost-user-glib.c
 +++ b/contrib/libvhost-user/libvhost-user-glib.c
-@@ -91,7 +91,6 @@ vug_source_new(VugDev *gdev, int fd, GIOCondition cond,
+@@ -89,7 +89,7 @@ vug_source_new(VugDev *gdev, int fd, GIOCondition cond,
+     src->gfd.events =3D cond;
+=20
      g_source_add_poll(gsrc, &src->gfd);
-     id =3D g_source_attach(gsrc, NULL);
+-    id =3D g_source_attach(gsrc, NULL);
++    id =3D g_source_attach(gsrc, g_main_context_get_thread_default());
      g_assert(id);
--    g_source_unref(gsrc);
 =20
      return gsrc;
- }
-@@ -131,6 +130,16 @@ static void vug_watch(VuDev *dev, int condition, void =
-*data)
-     }
- }
-=20
-+void vug_source_destroy(GSource *src)
-+{
-+    if (!src) {
-+        return;
-+    }
-+
-+    g_source_destroy(src);
-+    g_source_unref(src);
-+}
-+
- bool
- vug_init(VugDev *dev, uint16_t max_queues, int socket,
-          vu_panic_cb panic, const VuDevIface *iface)
-@@ -144,7 +153,7 @@ vug_init(VugDev *dev, uint16_t max_queues, int socket,
-     }
-=20
-     dev->fdmap =3D g_hash_table_new_full(NULL, NULL, NULL,
--                                       (GDestroyNotify) g_source_destroy);
-+                                       (GDestroyNotify) vug_source_destroy=
-);
-=20
-     dev->src =3D vug_source_new(dev, socket, G_IO_IN, vug_watch, NULL);
-=20
-@@ -157,5 +166,5 @@ vug_deinit(VugDev *dev)
-     g_assert(dev);
-=20
-     g_hash_table_unref(dev->fdmap);
--    g_source_unref(dev->src);
-+    vug_source_destroy(dev->src);
- }
-diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/mai=
-n.c
-index ef4b7769f2..6020c6f33a 100644
---- a/contrib/vhost-user-input/main.c
-+++ b/contrib/vhost-user-input/main.c
-@@ -187,7 +187,7 @@ vi_queue_set_started(VuDev *dev, int qidx, bool started=
-)
-     }
-=20
-     if (!started && vi->evsrc) {
--        g_source_destroy(vi->evsrc);
-+        vug_source_destroy(vi->evsrc);
-         vi->evsrc =3D NULL;
-     }
- }
-@@ -401,9 +401,7 @@ main(int argc, char *argv[])
-=20
-     vug_deinit(&vi.dev);
-=20
--    if (vi.evsrc) {
--        g_source_unref(vi.evsrc);
--    }
-+    vug_source_destroy(vi.evsrc);
-     g_array_free(vi.config, TRUE);
-     g_free(vi.queue);
-     return 0;
 --=20
 MST
 
