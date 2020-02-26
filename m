@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C1B16FF10
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:33:02 +0100 (CET)
-Received: from localhost ([::1]:43667 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F5516FF03
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:30:36 +0100 (CET)
+Received: from localhost ([::1]:43614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6vs5-00057c-Ve
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
+	id 1j6vpj-0001uJ-LK
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:30:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59492)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6vnp-0008QE-2N
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:38 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1j6vnu-00005B-Ly
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6vnm-0000lU-Q4
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:36 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37220)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6vnl-0000gS-J3
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:33 -0500
-Received: by mail-wm1-x343.google.com with SMTP id a141so2058429wme.2
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 04:28:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=GebF3YCAUV6iq6BoBFA5/3vZx76lWoG1RufaLzGRksA=;
- b=kSlC6bz4T+MbNACHpKHLxmIHh1WGc8lSST+gd+lGhF0MzYvs7s8WJxYfdC4ubPD2/f
- bVh5CbZ8e28Kq68nDMcqPwifhBursQD7+9Vs490qHqp55nKIxD1QDXbOxFOu0WGFMg0k
- evWrQhDPDU049ROL91Y7qaRrd0/HrLL2LvtRcc5yQb9zM7rpN6XAEKaaor14gLVbvn1v
- 8e7nC+vDHFm/XDULygZIAoF7oDbOqQb7iE5/dNaD0fSSyHQtf25CyWdLuGW+Tc36npHl
- 3EVHMzWq4ESif4R7o/TlJ+vRu1puqbpDvH8K/XeuKYazwJ39Urc1RkHHz8+qfUX0cu5b
- BZPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=GebF3YCAUV6iq6BoBFA5/3vZx76lWoG1RufaLzGRksA=;
- b=dEKAneCaKpERXSPl4o4zo6bnC9bK54p8Qczzlgz/hDlgKkEl5qTAME2pqDUWaaxcx1
- kDkLasov3CXq87ot4qRNMOrbPLbpMT4e5CMQ2h2YlW9uE5xeGSJwWdOxmsNGkZeNVsRe
- t+XjYcx1PuBjJV7E2ptkEgMg8naXQn62QOmYDNLTJ5BrKTRvzZWu0tPsO6MQcXl6SrtS
- hoXiXlsyeF4NOU2poXUSDYSwLRsQsvlhl3O4lr97z1VuQeD4DtM2Wpf3Ls6incxZNutW
- rjoBaVF4VZocE+z7TWKkTab0UdihNQSwRMUR0Id6MD/lhhB3DEiegOaCMBWW9pub7Dy/
- 0ZAw==
-X-Gm-Message-State: APjAAAVhBVwcHeKv2w9qHwIO0pjkfmbsdcXXYJcbYWyjeix//Nocv7q3
- JR4LScEiNRUYKFrlBQgi3NwN1g==
-X-Google-Smtp-Source: APXvYqygh02oNUgmHFYo6q1TXKu1zcASlSz2R/V5AAez2z2qCQkb5NabqRUpgdr8sTU+JfUs8nWVyg==
-X-Received: by 2002:a05:600c:34b:: with SMTP id
- u11mr5348522wmd.69.1582720111972; 
- Wed, 26 Feb 2020 04:28:31 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d7sm2592694wmc.6.2020.02.26.04.28.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 04:28:30 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EA8441FF87;
- Wed, 26 Feb 2020 12:28:29 +0000 (GMT)
-References: <20200218171702.979F074637D@zero.eik.bme.hu>
- <d9d4fba7-2dcf-8f09-8f3a-7e0408c297b6@linaro.org>
- <alpine.BSF.2.22.395.2002211643480.45267@zero.eik.bme.hu>
- <CAFEAcA-teH7KXACL=5m0-X+g692EXKtqOy9d_uGjw6XA8S3vzA@mail.gmail.com>
- <alpine.BSF.2.22.395.2002211807380.69986@zero.eik.bme.hu>
- <CAFEAcA9-VzUXij1_vFr+d7KuMOw+Tdv0hvxW2WmfGxt=fAKvjg@mail.gmail.com>
- <alpine.BSF.2.22.395.2002212034570.8472@zero.eik.bme.hu>
-User-agent: mu4e 1.3.8; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
-In-reply-to: <alpine.BSF.2.22.395.2002212034570.8472@zero.eik.bme.hu>
-Date: Wed, 26 Feb 2020 12:28:29 +0000
-Message-ID: <87mu95y1le.fsf@linaro.org>
+ (envelope-from <stefanb@linux.ibm.com>) id 1j6vnt-000147-53
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:42 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45258
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1j6vnm-0000ku-PV; Wed, 26 Feb 2020 07:28:35 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01QCPfOF077043; Wed, 26 Feb 2020 07:28:32 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqkatn4a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 07:28:32 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QCQOFt079113;
+ Wed, 26 Feb 2020 07:28:31 -0500
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqkatn42-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 07:28:31 -0500
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QCR2Vv014477;
+ Wed, 26 Feb 2020 12:28:31 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2ydcmkn4b0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 12:28:31 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01QCSUGm19792236
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Feb 2020 12:28:30 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8C121B205F;
+ Wed, 26 Feb 2020 12:28:30 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7215DB2066;
+ Wed, 26 Feb 2020 12:28:30 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 26 Feb 2020 12:28:30 +0000 (GMT)
+Subject: Re: [PATCH v3 08/10] test: tpm: pass optional machine options to
+ swtpm test functions
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
+References: <20200226102549.12158-1-eric.auger@redhat.com>
+ <20200226102549.12158-9-eric.auger@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <953ccab1-b863-4543-e25d-50629551af24@linux.ibm.com>
+Date: Wed, 26 Feb 2020 07:28:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20200226102549.12158-9-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-26_04:2020-02-26,
+ 2020-02-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=2 lowpriorityscore=0
+ mlxscore=0 spamscore=0 adultscore=0 mlxlogscore=999 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002260093
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,91 +97,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- John Arbuckle <programmingkidx@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Paul Clarke <pc@us.ibm.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-BALATON Zoltan <balaton@eik.bme.hu> writes:
-
-> On Fri, 21 Feb 2020, Peter Maydell wrote:
->> On Fri, 21 Feb 2020 at 18:04, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>> On Fri, 21 Feb 2020, Peter Maydell wrote:
->>>> I think that is the wrong approach. Enabling use of the host
->>>> FPU should not affect the accuracy of the emulation, which
->>>> should remain bitwise-correct. We should only be using the
->>>> host FPU to the extent that we can do that without discarding
->>>> accuracy. As far as I'm aware that's how the hardfloat support
->>>> for other guest CPUs that use it works.
-
-Correct - we only use hardfloat when we know it will give the same
-result which is broadly when the inexact flag is already set and we are
-dealing with normal floating point numbers.
-
-We added a whole bunch of testing to ensure we maintain accuracy when
-the code went in.
-
-<snip>
->>
->> I don't know much about PPC, but if you can't emulate the
->> guest architecture accurately with the host FPU, then
->> don't use the host FPU. We used to have a kind of 'hardfloat'
+On 2/26/20 5:25 AM, Eric Auger wrote:
+> We plan to use swtpm test functions on ARM for testing the
+> sysbus TPM-TIS device. However on ARM there is no default machine
+> type. So we need to explictly pass some machine options on startup.
+> Let's allow this by adding a new parameter to both swtpm test
+> functions and update all call sites.
 >
-> I don't know if it's possible or not to emulate these accurately and
-> use the FPU but nobody did it for QEMU so far. But if someone knows a
-> way please speak up then we can try to implement it. Unfortunately
-> this would require more detailed knowledge about different FPU
-> implementations (at least X86_64, ARM and PPC that are the mostly used
-> platforms) than what I have or willing to spend time to learn.
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+
+
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+
+
+
+> ---
+>   tests/qtest/tpm-crb-swtpm-test.c |  5 +++--
+>   tests/qtest/tpm-tests.c          | 10 ++++++----
+>   tests/qtest/tpm-tests.h          |  5 +++--
+>   tests/qtest/tpm-tis-swtpm-test.c |  5 +++--
+>   tests/qtest/tpm-util.c           |  8 ++++++--
+>   tests/qtest/tpm-util.h           |  3 ++-
+>   6 files changed, 23 insertions(+), 13 deletions(-)
 >
->> support that was fast but inaccurate, but it was a mess
->> because it meant that most guest code sort of worked but
->> some guest code would confusingly misbehave. Deliberately
->> not correctly emulating the guest CPU/FPU behaviour is not
->> something I want us to return to.
->>
->> You're right that sometimes you can't get both speed
->> and accuracy; other emulators (and especially ones
->> which are trying to emulate games consoles) may choose
->> to prefer speed over accuracy. For QEMU we prefer to
->> choose accuracy over speed in this area.
->
-> OK, then how about keeping the default accurate but allow to opt in to
-> use FPU even if it's known to break some bits for workloads where
-> users would need speed over accuracy and would be happy to live with
-> the limitation.
+> diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
+> index 2c4fb8ae29..5228cb7af4 100644
+> --- a/tests/qtest/tpm-crb-swtpm-test.c
+> +++ b/tests/qtest/tpm-crb-swtpm-test.c
+> @@ -29,7 +29,8 @@ static void tpm_crb_swtpm_test(const void *data)
+>   {
+>       const TestState *ts = data;
+>   
+> -    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_crb_transfer, "tpm-crb");
+> +    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_crb_transfer,
+> +                        "tpm-crb", NULL);
+>   }
+>   
+>   static void tpm_crb_swtpm_migration_test(const void *data)
+> @@ -37,7 +38,7 @@ static void tpm_crb_swtpm_migration_test(const void *data)
+>       const TestState *ts = data;
+>   
+>       tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
+> -                                  tpm_util_crb_transfer, "tpm-crb");
+> +                                  tpm_util_crb_transfer, "tpm-crb", NULL);
+>   }
+>   
+>   int main(int argc, char **argv)
+> diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
+> index 6e45a0ba85..a2f2838e15 100644
+> --- a/tests/qtest/tpm-tests.c
+> +++ b/tests/qtest/tpm-tests.c
+> @@ -30,7 +30,7 @@ tpm_test_swtpm_skip(void)
+>   }
+>   
+>   void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+> -                         const char *ifmodel)
+> +                         const char *ifmodel, const char *machine_options)
+>   {
+>       char *args = NULL;
+>       QTestState *s;
+> @@ -47,10 +47,11 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+>       g_assert_true(succ);
+>   
+>       args = g_strdup_printf(
+> +        "%s "
+>           "-chardev socket,id=chr,path=%s "
+>           "-tpmdev emulator,id=dev,chardev=chr "
+>           "-device %s,tpmdev=dev",
+> -        addr->u.q_unix.path, ifmodel);
+> +        machine_options ? : "", addr->u.q_unix.path, ifmodel);
+>   
+>       s = qtest_start(args);
+>       g_free(args);
+> @@ -78,7 +79,8 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+>   void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+>                                      const char *dst_tpm_path,
+>                                      const char *uri, tx_func *tx,
+> -                                   const char *ifmodel)
+> +                                   const char *ifmodel,
+> +                                   const char *machine_options)
+>   {
+>       gboolean succ;
+>       GPid src_tpm_pid, dst_tpm_pid;
+> @@ -100,7 +102,7 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+>   
+>       tpm_util_migration_start_qemu(&src_qemu, &dst_qemu,
+>                                     src_tpm_addr, dst_tpm_addr, uri,
+> -                                  ifmodel);
+> +                                  ifmodel, machine_options);
+>   
+>       tpm_util_startup(src_qemu, tx);
+>       tpm_util_pcrextend(src_qemu, tx);
+> diff --git a/tests/qtest/tpm-tests.h b/tests/qtest/tpm-tests.h
+> index b97688fe75..a5df35ab5b 100644
+> --- a/tests/qtest/tpm-tests.h
+> +++ b/tests/qtest/tpm-tests.h
+> @@ -16,11 +16,12 @@
+>   #include "tpm-util.h"
+>   
+>   void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+> -                         const char *ifmodel);
+> +                         const char *ifmodel, const char *machine_options);
+>   
+>   void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+>                                      const char *dst_tpm_path,
+>                                      const char *uri, tx_func *tx,
+> -                                   const char *ifmodel);
+> +                                   const char *ifmodel,
+> +                                   const char *machine_options);
+>   
+>   #endif /* TESTS_TPM_TESTS_H */
+> diff --git a/tests/qtest/tpm-tis-swtpm-test.c b/tests/qtest/tpm-tis-swtpm-test.c
+> index 9f58a3a92b..9470f15751 100644
+> --- a/tests/qtest/tpm-tis-swtpm-test.c
+> +++ b/tests/qtest/tpm-tis-swtpm-test.c
+> @@ -29,7 +29,8 @@ static void tpm_tis_swtpm_test(const void *data)
+>   {
+>       const TestState *ts = data;
+>   
+> -    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer, "tpm-tis");
+> +    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
+> +                        "tpm-tis", NULL);
+>   }
+>   
+>   static void tpm_tis_swtpm_migration_test(const void *data)
+> @@ -37,7 +38,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
+>       const TestState *ts = data;
+>   
+>       tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
+> -                                  tpm_util_tis_transfer, "tpm-tis");
+> +                                  tpm_util_tis_transfer, "tpm-tis", NULL);
+>   }
+>   
+>   int main(int argc, char **argv)
+> diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
+> index e08b137651..7ecdae2fc6 100644
+> --- a/tests/qtest/tpm-util.c
+> +++ b/tests/qtest/tpm-util.c
+> @@ -258,23 +258,27 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
+>                                      SocketAddress *src_tpm_addr,
+>                                      SocketAddress *dst_tpm_addr,
+>                                      const char *miguri,
+> -                                   const char *ifmodel)
+> +                                   const char *ifmodel,
+> +                                   const char *machine_options)
+>   {
+>       char *src_qemu_args, *dst_qemu_args;
+>   
+>       src_qemu_args = g_strdup_printf(
+> +        "%s "
+>           "-chardev socket,id=chr,path=%s "
+>           "-tpmdev emulator,id=dev,chardev=chr "
+>           "-device %s,tpmdev=dev ",
+> -        src_tpm_addr->u.q_unix.path, ifmodel);
+> +        machine_options ? : "", src_tpm_addr->u.q_unix.path, ifmodel);
+>   
+>       *src_qemu = qtest_init(src_qemu_args);
+>   
+>       dst_qemu_args = g_strdup_printf(
+> +        "%s "
+>           "-chardev socket,id=chr,path=%s "
+>           "-tpmdev emulator,id=dev,chardev=chr "
+>           "-device %s,tpmdev=dev "
+>           "-incoming %s",
+> +        machine_options ? : "",
+>           dst_tpm_addr->u.q_unix.path,
+>           ifmodel, miguri);
+>   
+> diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
+> index 5755698ad2..15e3924942 100644
+> --- a/tests/qtest/tpm-util.h
+> +++ b/tests/qtest/tpm-util.h
+> @@ -44,7 +44,8 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
+>                                      SocketAddress *src_tpm_addr,
+>                                      SocketAddress *dst_tpm_addr,
+>                                      const char *miguri,
+> -                                   const char *ifmodel);
+> +                                   const char *ifmodel,
+> +                                   const char *machine_options);
+>   
+>   void tpm_util_wait_for_migration_complete(QTestState *who);
+>   
 
-About the only comparison I can think of is the thread=3Dsingle:multi
-flags for TCG which is mostly there to help developers eliminate causes
-of bugs. The default for MTTCG is it is enabled when it's safe. If you
-enable it via the command line where QEMU hasn't defaulted it on you
-will get lots of loud warnings about potential instability. The most
-commonly used case is thread=3Dsingle when you want to check it's not a
-MTTCG bug.
 
-I'm as cautious as Peter here about adding a "faster but broken" command
-line flag because users will invariably read up to the "faster" and then
-spend a lot of time scratching their heads when things break.
-
-> Note that i've found that just removing the define
-> that disables hardfloat for PPC target makes VMX vector instructions
-> faster while normal FPU is a little slower without any other changes
-> so disabling hardfloat already limits performance for guests using VMX
-> even when not using the FPU for cases when it would cause inaccuracy.
-> If you say we want accuracy and don't care about speed, then just
-> don't disable hardfloat as it helps at least VMX and then we can add
-> option to allow the user to say we can use hardfloat even if it's
-> inaccurate then they can test their workload and decide for
-> themselves.
->
-> Regards,
-> BALATON Zoltan
-
-
---=20
-Alex Benn=C3=A9e
 
