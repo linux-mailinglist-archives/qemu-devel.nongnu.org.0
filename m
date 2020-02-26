@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26DD17058A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:07:39 +0100 (CET)
-Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A3217057E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:06:59 +0100 (CET)
+Received: from localhost ([::1]:47426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j709r-0008HO-0p
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:07:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38746)
+	id 1j709C-0006ds-Bl
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:06:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38846)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j707b-0004z8-9H
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:22 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1j707q-0005AZ-75
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j707Z-0002bH-Ng
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44144
+ (envelope-from <eric.auger@redhat.com>) id 1j707o-0003GX-Il
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40222
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j707Z-0002Vr-IH
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:17 -0500
+ id 1j707k-0003CK-BN
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582736716;
+ s=mimecast20190719; t=1582736727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Q2FBRF2GnFjWJL/ZPum6bV29UkLuQo6IIE5h/kxtwqM=;
- b=gO2aWafY5AQfeDUOM9ibL7GLrWDy7y2DUZ/lrIi+ebnNkteiTAUOKdsclX+1LTZAs+1EYG
- QWIq1Fw52CCRZOi90N8cBrwYs2Z24y/3lh/ktoZwa7p80chau4B1guROHqwFCuTAXoCtw0
- 7w+3dljD9eLaN+lsbClahpOCmajzTKY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fiMsdSkcu0d/zaxBgsd4aL2q7dO5OqlYmsSRAPcXRGk=;
+ b=OmaCMbrvU3slUD/4EAsl6xaTmSPYmVTgH0gPPszjyo776XegdV3T04Y9E6PlBZrTpCdD/e
+ JOxSgiozDHeZ2iISNhgfst+f+gkeKvW28pNTB9X5s1ir0fJ00MPFE+85aG0yTef0wTZ1w+
+ eTMCq3ArPMBXgoLAb1tmPwb05DuwU0s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-9qGOtC0vMpSUnUlEKR1t6w-1; Wed, 26 Feb 2020 12:05:15 -0500
-X-MC-Unique: 9qGOtC0vMpSUnUlEKR1t6w-1
+ us-mta-331-qg8SwqGVMLuiPFbyRemx8A-1; Wed, 26 Feb 2020 12:05:25 -0500
+X-MC-Unique: qg8SwqGVMLuiPFbyRemx8A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA13D8010F8;
- Wed, 26 Feb 2020 17:05:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F9CF800D55;
+ Wed, 26 Feb 2020 17:05:19 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB76760C63;
- Wed, 26 Feb 2020 17:05:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24A0861069;
+ Wed, 26 Feb 2020 17:05:13 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Subject: [RFC 0/2] hw/arm/virt: kvm: allow gicv3 by default if host does not
- support v2
-Date: Wed, 26 Feb 2020 18:04:58 +0100
-Message-Id: <20200226170500.17028-1-eric.auger@redhat.com>
+Subject: [RFC 1/2] target/arm/kvm: Let kvm_arm_vgic_probe() return a bitmap
+Date: Wed, 26 Feb 2020 18:04:59 +0100
+Message-Id: <20200226170500.17028-2-eric.auger@redhat.com>
+In-Reply-To: <20200226170500.17028-1-eric.auger@redhat.com>
+References: <20200226170500.17028-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
@@ -75,41 +77,85 @@ Cc: maz@kernel.org, drjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the moment if the end-user does not specify the gic-version along
-with KVM acceleration, v2 is set by default. However most of the
-systems now have GICv3 and sometimes they do not support GICv2
-compatibility. In that case we end up with this error:
+Let convert kvm_arm_vgic_probe() so that it returns a
+bitmap of supported VGIC versions. This allows to expose
+the case where the host GICv3 also supports GICv2 emulation.
 
-qemu-system-aarch64: PMU: KVM_SET_DEVICE_ATTR: Invalid argument
-qemu-system-aarch64: failed to set irq for PMU
-and qemu aborts.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+---
+ hw/arm/virt.c        | 11 +++++++++--
+ target/arm/kvm.c     | 14 ++++++++------
+ target/arm/kvm_arm.h |  3 +++
+ 3 files changed, 20 insertions(+), 8 deletions(-)
 
-This patch keeps the default v2 selection in all cases except
-in the KVM accelerated mode when the host does not support v2.
-This case did not work anyway so we do not break any compatibility.
-Now we get v3 selected in such a case. Also if the end-user explicitly
-sets v2 whereas this latter is not supported, we also are
-informed that v2 is not selected by thos host instead of getting the
-above PMU related message.
-
-Best Regards
-
-Eric
-
-This series can be found at:
-https://github.com/eauger/qemu/tree/gic_version_rfc_v1
-
-
-Eric Auger (2):
-  target/arm/kvm: Let kvm_arm_vgic_probe() return a bitmap
-  hw/arm/virt: kvm: allow gicv3 by default if host does not support v2
-
- hw/arm/virt.c         | 41 +++++++++++++++++++++++++++++++++++++++--
- include/hw/arm/virt.h |  1 +
- target/arm/kvm.c      | 14 ++++++++------
- target/arm/kvm_arm.h  |  3 +++
- 4 files changed, 51 insertions(+), 8 deletions(-)
-
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index e591a126e7..a196bbf0d5 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1540,11 +1540,18 @@ static void machvirt_init(MachineState *machine)
+                 vms->gic_version =3D 3;
+             }
+         } else {
+-            vms->gic_version =3D kvm_arm_vgic_probe();
+-            if (!vms->gic_version) {
++            int probe_bitmap =3D kvm_arm_vgic_probe();
++
++            if (!probe_bitmap) {
+                 error_report(
+                     "Unable to determine GIC version supported by host");
+                 exit(1);
++            } else {
++                if (probe_bitmap & KVM_ARM_VGIC_V3) {
++                    vms->gic_version =3D 3;
++                } else {
++                    vms->gic_version =3D 2;
++                }
+             }
+         }
+     }
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 85860e6f95..390077c518 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -874,15 +874,17 @@ int kvm_arch_irqchip_create(KVMState *s)
+=20
+ int kvm_arm_vgic_probe(void)
+ {
++    int val =3D 0;
++
+     if (kvm_create_device(kvm_state,
+                           KVM_DEV_TYPE_ARM_VGIC_V3, true) =3D=3D 0) {
+-        return 3;
+-    } else if (kvm_create_device(kvm_state,
+-                                 KVM_DEV_TYPE_ARM_VGIC_V2, true) =3D=3D 0)=
+ {
+-        return 2;
+-    } else {
+-        return 0;
++        val |=3D KVM_ARM_VGIC_V3;
+     }
++    if (kvm_create_device(kvm_state,
++                          KVM_DEV_TYPE_ARM_VGIC_V2, true) =3D=3D 0) {
++        val |=3D KVM_ARM_VGIC_V2;
++    }
++    return val;
+ }
+=20
+ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level)
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index ae9e075d75..48bf5e16d5 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -15,6 +15,9 @@
+ #include "exec/memory.h"
+ #include "qemu/error-report.h"
+=20
++#define KVM_ARM_VGIC_V2   (1 << 0)
++#define KVM_ARM_VGIC_V3   (1 << 1)
++
+ /**
+  * kvm_arm_vcpu_init:
+  * @cs: CPUState
 --=20
 2.20.1
 
