@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F001706EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:03:29 +0100 (CET)
-Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481B517075B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:12:47 +0100 (CET)
+Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j711s-0000TS-MS
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:03:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35899)
+	id 1j71As-00023q-AD
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41265)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1j710Y-00080V-MI
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:02:09 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j719n-0000l9-HM
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:11:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1j710W-00029W-PC
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:02:06 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46935
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j710U-00024t-SQ
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:02:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582740121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A+8Fj6KLqXuPf3Au4e0QGr5vSbTdDSgY5sBqllU3PRY=;
- b=ZyVsOW4c+RXWeX9ihng66XQkDUOD4TydjyjodOyOIUjHAZhALJDP5HbKhI1b/LgUitJLrN
- vETfxvOM7m7A1fbfMBvENKBlpY35sKKHeCGNM4MEU/ARu6RKz096eLqWDvfiSI7aO4dF4F
- wO2mGGUQNEg1Hu7kfsmQKa+8qMPpDCg=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-gDnf-sruPjyR2zwOw2cweQ-1; Wed, 26 Feb 2020 13:01:58 -0500
-X-MC-Unique: gDnf-sruPjyR2zwOw2cweQ-1
-Received: by mail-qt1-f200.google.com with SMTP id c11so3208852qtv.19
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:01:58 -0800 (PST)
+ (envelope-from <alistair23@gmail.com>) id 1j719m-0007bn-77
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:11:39 -0500
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:33094)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j719l-0007ap-Ux; Wed, 26 Feb 2020 13:11:38 -0500
+Received: by mail-lf1-x144.google.com with SMTP id n25so60543lfl.0;
+ Wed, 26 Feb 2020 10:11:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c351DyWQ+Gmtx+Bf4ryed4Khj6jAP6+d4gMwETGlGiI=;
+ b=D7XolxHsOxfl9ub+vMKmZIGpTkM9g6Yz4f+9Ou/gRqw4HfHk9JQUff2/Ue1ugoMEzk
+ 15lKH2Ik9XRLX9hv7owlqn2PpiFHUhGEP5n+uqDzQPDbSgK5OTm00fOD/VACArp1k/hH
+ QAzUVI8OpTAYtxR+qJKfh5JEDM9t+tRgPCSNxDsJzkaCvGm1li53mWSeHdgYkfFVSpAo
+ 2+yUkMrV83f5uZ0DTq6z/whLEpY1hK63m+y9x6K5xVyQTNzejR/qt1574ScJt0GfqX5q
+ 90U+T4wEEu6DUoWfwwhSVuQC/MqmA3o2ZMQWTXFfczETv5Mpznk6Mxce5Z8o7pzToaC9
+ l2Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=J//p7ec8pBvmNZvIE0gq8BxamWTkgi696RXVTLV621U=;
- b=QDln7rwpZcaJ0P8MWxYtp59Nh8PAJJRa7df1ueaoDYShJVMcTNqe7B/mtFgWjuJazD
- RLMIJqXDuvulvU7nDhijpeuomnxQZ082IMMYIoAVYNLD1+ShZvKesRvav3wcKLJmxPyD
- HliU6FQF9/2aLI6jqns9C4ER0DSqiTA2H6iiXkYJ2P//A834YZBtLZSwMQRSifQ8VrzC
- wld5N+Huf8ETE/hpqq66eqDJsZbb+Se4RqCOQL8sMHKxnohzV6wCNikYWQERIRrtlHtq
- PPr2Tsfy0ZQd6ikMtursed26P8Np8EbjtPRQyY23rwF5RC0I5kHM3E27YKWLty1yZ3dg
- ZBOg==
-X-Gm-Message-State: APjAAAWY3GbMr9G9qUan7ZJXUcLKd33HGTUOyDGGJI1op1IgQQnW+MYj
- 4U9FR2l9h6kjGS5KnPHtPdeN1xd9ReRyh+D4fCA3yR6YkgP7R9wx1WjPnoYI2DHkhNyusmjRZYs
- BXd/QmPb0pyExvHQ=
-X-Received: by 2002:ad4:5a48:: with SMTP id ej8mr272834qvb.187.1582740118422; 
- Wed, 26 Feb 2020 10:01:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzYE34PPfAzlFrzG0f5aw/8Q0dGbe/tlpVkpxmZzYDjfl30vbyPoZZk6q1vnhumyEO0XiDy8A==
-X-Received: by 2002:ad4:5a48:: with SMTP id ej8mr272470qvb.187.1582740113490; 
- Wed, 26 Feb 2020 10:01:53 -0800 (PST)
-Received: from xz-x1 (CPEf81d0fb19163-CMf81d0fb19160.cpe.net.fido.ca.
- [72.137.123.47])
- by smtp.gmail.com with ESMTPSA id u2sm1550500qtd.72.2020.02.26.10.01.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 10:01:52 -0800 (PST)
-Date: Wed, 26 Feb 2020 13:01:50 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/i386/intel_iommu: Simplify vtd_find_as_from_bus_num()
- logic
-Message-ID: <20200226180150.GF140200@xz-x1>
-References: <20200226174956.17018-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c351DyWQ+Gmtx+Bf4ryed4Khj6jAP6+d4gMwETGlGiI=;
+ b=Pd9QmDfMeK4jUsLf3BQ1m0z7v5XByUjXgfsy9QQI9QmKCqUejGHQxL4bc2xstbEYxP
+ ZmY5CQ38wzS9HFDXNaeycU/Xlc2hsnyRF8ZsMQVCzijw9v5MvHRjH2nZHUsT6/KfBZoF
+ pbAPteIpxMK3BbZMX4mNse7oeqj84J0LpqtbMCDoYiCAUgFf+VR8NZ5CuKsIoomOZVIr
+ xxCgBxTElENi6/zrPc7V8xbt3nODqZRlpnghAuhUJeTwp0SgSvIAbFnZ8ldmuqnSZNgR
+ ZUr32odSU/2EwNrXz0XpROWS+gbyWpMWwXcBpfqo9R4y+uZTzKVvD6jWYL+Fj75P/qV3
+ x2sA==
+X-Gm-Message-State: APjAAAUBIwPCkM6TOupuzHeQ9jntrPde9zk0YdRhFx3RfZ1QF5KPZf6j
+ /nMWx1xH4/4UEFOxe1WnHMQk7N4U5aDC/p5ip6o=
+X-Google-Smtp-Source: APXvYqyskLVV7uP/IY30dsz9s4lD1EyYtTp24ZR2KREBubh05vX1rJCg60NjP53IaUzHuHRZ+oAU64Hs3w9B3VJmd60=
+X-Received: by 2002:a19:4a:: with SMTP id 71mr3239678lfa.50.1582740696293;
+ Wed, 26 Feb 2020 10:11:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200226174956.17018-1-philmd@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
+ <20200221094531.61894-2-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200221094531.61894-2-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 26 Feb 2020 10:03:58 -0800
+Message-ID: <CAKmqyKMGp_MdJuRZHDNHxAD2wR6xet8DQ6Umt-NO7uT-cr_P6w@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] target/riscv: add vector extension field in
+ CPURISCVState
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,80 +72,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yi L <yi.l.liu@intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, Chih-Min Chao <chihmin.chao@sifive.com>,
+ wenmeng_zhang@c-sky.com, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 26, 2020 at 06:49:56PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> Reorder the if() statement to simplify the function.
-> This avoid bugs like the one fixed by commit a2e1cd41ccf.
+On Fri, Feb 21, 2020 at 1:45 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> The 32 vector registers will be viewed as a continuous memory block.
+> It avoids the convension between element index and (regno, offset).
+> Thus elements can be directly accessed by offset from the first vector
+> base address.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-This seems to hint that this patch fixes a problem, but it's pure
-refactoring, right?
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-And I'm not sure about git-diff -w or so, but... I can't apply such a
-patch cleanly using "git am".  Are you sure a patch like this would
-work (without space change information)?
+Alistair
 
-Thanks,
-
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/i386/intel_iommu.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 6258c58ac9..e720a8939c 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -987,14 +987,17 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, =
-uint32_t level)
->  static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_=
-num)
->  {
->      VTDBus *vtd_bus =3D s->vtd_as_by_bus_num[bus_num];
-> -    if (!vtd_bus) {
-> +    GHashTableIter iter;
+>  target/riscv/cpu.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index de0a8d893a..2e8d01c155 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -64,6 +64,7 @@
+>  #define RVA RV('A')
+>  #define RVF RV('F')
+>  #define RVD RV('D')
+> +#define RVV RV('V')
+>  #define RVC RV('C')
+>  #define RVS RV('S')
+>  #define RVU RV('U')
+> @@ -93,9 +94,20 @@ typedef struct CPURISCVState CPURISCVState;
+>
+>  #include "pmp.h"
+>
+> +#define RV_VLEN_MAX 512
 > +
-> +    if (vtd_bus) {
-> +        return vtd_bus;
-> +    }
+>  struct CPURISCVState {
+>      target_ulong gpr[32];
+>      uint64_t fpr[32]; /* assume both F and D extensions */
 > +
->      /*
->       * Iterate over the registered buses to find the one which
->       * currently hold this bus number, and update the bus_num
->       * lookup table:
->       */
-> -        GHashTableIter iter;
-> -
->      g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
->      while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
->          if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
-> @@ -1002,9 +1005,8 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUS=
-tate *s, uint8_t bus_num)
->              return vtd_bus;
->          }
->      }
-> -        vtd_bus =3D NULL;
-> -    }
-> -    return vtd_bus;
+> +    /* vector coprocessor state. */
+> +    uint64_t vreg[32 * RV_VLEN_MAX / 64] QEMU_ALIGNED(16);
+> +    target_ulong vxrm;
+> +    target_ulong vxsat;
+> +    target_ulong vl;
+> +    target_ulong vstart;
+> +    target_ulong vtype;
 > +
-> +    return NULL;
->  }
-> =20
->  /* Given the @iova, get relevant @slptep. @slpte_level will be the last =
-level
-> --=20
-> 2.21.1
->=20
-
---=20
-Peter Xu
-
+>      target_ulong pc;
+>      target_ulong load_res;
+>      target_ulong load_val;
+> --
+> 2.23.0
+>
 
