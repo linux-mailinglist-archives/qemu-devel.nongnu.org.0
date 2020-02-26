@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DA716F5E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 04:04:25 +0100 (CET)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0056516F612
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 04:26:08 +0100 (CET)
+Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6mzn-0004Uf-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 22:04:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38499)
+	id 1j6nKq-0001lL-3P
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 22:26:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j6myt-0003qh-UK
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:03:29 -0500
+ (envelope-from <jasowang@redhat.com>) id 1j6nJx-0001E0-T0
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:25:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j6mys-0004o7-FI
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:03:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54757
+ (envelope-from <jasowang@redhat.com>) id 1j6nJw-00034q-5j
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:25:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24752
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j6mys-0004dy-Bd
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:03:26 -0500
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j6nJw-0002zg-1L
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:25:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582686204;
+ s=mimecast20190719; t=1582687510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2zKs5bLq9Rp65Ty9SQjKjFhjAMDJT91D9JmD0xAKM+4=;
- b=gdrwcdE2YbC960vEOQLeC2NBgIg4ANf3d7NwUZjwxOioZe3bdgjhs/fqIIenGJTWHxyhFB
- NleZKBUS2v9ek8BduUR1zvJ+zie9HXNk6DVW3jLwumfbVGTH4tUeXYV2snegyKn0yblGf5
- 0p43/31uk8/ZSXLHKZVO32Pc6re5fwY=
+ bh=v8PAdku5KbQVcUpwi3fOzrdOw5668tebkEQXiD+EhM0=;
+ b=d8uk5r2Y90U8bcrs3Idu0HlxsC6MTAf1ckoEwdutOOBA2r870+0PfITrKdrX5FxLY+5kKE
+ wcNpjU0xFY2jagQ9qAxeq/Yv5XQMdnYCyur3LccUG0n5SwoBVnjeSYrHE3ailBlNzF/JKi
+ +yY80PCEiZOYQkqbE/wwROejC9DK4co=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-NVg7D-73NpOG-lInkh4Hvw-1; Tue, 25 Feb 2020 22:03:20 -0500
-X-MC-Unique: NVg7D-73NpOG-lInkh4Hvw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-100-QhHlXdReMcyDAuD4BTIYXg-1; Tue, 25 Feb 2020 22:25:08 -0500
+X-MC-Unique: QhHlXdReMcyDAuD4BTIYXg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1164313E4;
- Wed, 26 Feb 2020 03:03:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81C70800D53;
+ Wed, 26 Feb 2020 03:25:07 +0000 (UTC)
 Received: from [10.72.13.217] (ovpn-13-217.pek2.redhat.com [10.72.13.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC29760BE1;
- Wed, 26 Feb 2020 03:03:09 +0000 (UTC)
-Subject: Re: [PATCH] hw/net/imx_fec: write TGSR and TCSR3 in imx_enet_write()
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200225025923.19328-1-kuhn.chenqun@huawei.com>
- <9206dda7-0e12-b68e-87ca-1985b61381bc@redhat.com>
- <CAFEAcA-W+brVEmGr29i6JO4GFrnoLAce-qoMQpQc56x6B4BY3A@mail.gmail.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 840B85C28C;
+ Wed, 26 Feb 2020 03:25:01 +0000 (UTC)
+Subject: Re: [PATCH 1/1] hw/net/can: Introduce Xlnx ZynqMP CAN controller for
+ QEMU
+To: Vikram Garhwal <fnuv@xilinx.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1580764010-310744-1-git-send-email-fnu.vikram@xilinx.com>
+ <1580764010-310744-2-git-send-email-fnu.vikram@xilinx.com>
+ <8aabde0d-62e9-96d5-0614-0e0ebff549ae@redhat.com>
+ <DM6PR02MB5643F9E19DC0590E14612477BC190@DM6PR02MB5643.namprd02.prod.outlook.com>
+ <b1b9932a-5566-5d2b-c333-8c466dcd322b@redhat.com>
+ <BYAPR02MB5638E0507A08A3404D2AFB12BCED0@BYAPR02MB5638.namprd02.prod.outlook.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <9fc2581c-56a1-0969-6a13-1454a1865264@redhat.com>
-Date: Wed, 26 Feb 2020 11:03:04 +0800
+Message-ID: <e20c4dbc-98d8-8a13-78fb-e203f4dbae71@redhat.com>
+Date: Wed, 26 Feb 2020 11:24:56 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-W+brVEmGr29i6JO4GFrnoLAce-qoMQpQc56x6B4BY3A@mail.gmail.com>
+In-Reply-To: <BYAPR02MB5638E0507A08A3404D2AFB12BCED0@BYAPR02MB5638.namprd02.prod.outlook.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -75,77 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/2/25 =E4=B8=8B=E5=8D=886:18, Peter Maydell wrote:
-> On Tue, 25 Feb 2020 at 05:41, Jason Wang <jasowang@redhat.com> wrote:
+On 2020/2/25 =E4=B8=8B=E5=8D=882:22, Vikram Garhwal wrote:
+> Hi Jason,
+> Apologies for the delayed response. I tried plugging NetClientState in th=
+e CAN which is required if we use qemu_send_packet but this will change the=
+ underlying architecture of can-core, can-socketcan a lot. This means chang=
+es the way CAN bus is created/works and socket CAN works. CAN Socket(CAN Ra=
+w socket) is much different from Ethernet so plugging/using NetClient state=
+ is not working here.
+
+
+I get you.
+
+
+>
+> I apologize for still being a little confused about the filters but when =
+looking into the code, I can only find them being used with ethernet frames=
+. Since no other can controller uses NetClientState it makes me wonder if t=
+his model perhaps was thought of being an ethernet NIC?
+
+
+Nope NetclientState is not necessarily a NIC, it can be a peer of the=20
+NIC (e.g network backend like tap, hubport etc).
+
+
+> Or has the code in net/can/ which I referenced been obsoleted?
+
+
+No :)
+
+
+>
+> Sharing this link for SocketCAN(in case you want to have a look): https:/=
+/www.kernel.org/doc/Documentation/networking/can.txt. Section 4 talks on ho=
+w CAN Socket is intended to work. Equivalent file is located as net/can-soc=
+ketcan.c.
+
+
+Thanks for the pointer.
+
+I agree that there's no need to change that part. But we may consider to=20
+unify the CanBusClientState and NetClientState in the future.
+
+
+>  =20
+> Regards,
+> Vikram
+>
+>> -----Original Message-----
+>> From: Jason Wang <jasowang@redhat.com>
+>> Sent: Monday, February 10, 2020 7:09 PM
+>> To: Vikram Garhwal <fnuv@xilinx.com>; qemu-devel@nongnu.org
+>> Subject: Re: [PATCH 1/1] hw/net/can: Introduce Xlnx ZynqMP CAN controlle=
+r
+>> for QEMU
 >>
->> On 2020/2/25 =E4=B8=8A=E5=8D=8810:59, Chen Qun wrote:
->>> The current code causes clang static code analyzer generate warning:
->>> hw/net/imx_fec.c:858:9: warning: Value stored to 'value' is never read
->>>           value =3D value & 0x0000000f;
->>>           ^       ~~~~~~~~~~~~~~~~~~
->>> hw/net/imx_fec.c:864:9: warning: Value stored to 'value' is never read
->>>           value =3D value & 0x000000fd;
->>>           ^       ~~~~~~~~~~~~~~~~~~
->>>
->>> According to the definition of the function, the two =E2=80=9Cvalue=E2=
-=80=9D assignments
->>>    should be written to registers.
->>>
->>> Reported-by: Euler Robot <euler.robot@huawei.com>
->>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
->>> ---
->>> I'm not sure if this modification is correct, just from the function
->>>    definition, it is correct.
->>> ---
->>>    hw/net/imx_fec.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
->>> index 6a124a154a..92f6215712 100644
->>> --- a/hw/net/imx_fec.c
->>> +++ b/hw/net/imx_fec.c
->>> @@ -855,13 +855,13 @@ static void imx_enet_write(IMXFECState *s, uint32=
-_t index, uint32_t value)
->>>            break;
->>>        case ENET_TGSR:
->>>            /* implement clear timer flag */
->>> -        value =3D value & 0x0000000f;
->>> +        s->regs[index] =3D value & 0x0000000f;
->>>            break;
-> Hi; the datasheet for this SoC says that these bits
-> of the register are write-1-to-clear, so while this
-> is definitely a bug I don't think this is the right fix.
->
->>>        case ENET_TCSR0:
->>>        case ENET_TCSR1:
->>>        case ENET_TCSR2:
->>>        case ENET_TCSR3:
->>> -        value =3D value & 0x000000fd;
->>> +        s->regs[index] =3D value & 0x000000fd;
->>>            break;
-> Here bit 7 is write-1-to-clear, though bits 0 and
-> 2..5 are simple write-the-value.
->
->>>        case ENET_TCCR0:
->>>        case ENET_TCCR1:
 >>
->> Applied.
-> Could you drop this from your queue, please?
->
-> thanks
-> -- PMM
-
-
-Sure, Chen please send V2 to address Peter's comment.
-
-Thanks
+>> On 2020/2/11 =E4=B8=8A=E5=8D=885:45, Vikram Garhwal wrote:
+>>>>> +                }
+>>>>> +            } else {
+>>>>> +                /* Normal mode Tx. */
+>>>>> +                generate_frame(&frame, data);
+>>>>> +
+>>>>> +                can_bus_client_send(&s->bus_client, &frame, 1);
+>>>> I had a quick glance at can_bus_client_send():
+>>>>
+>>>> It did:
+>>>>
+>>>>    =C2=A0=C2=A0=C2=A0 QTAILQ_FOREACH(peer, &bus->clients, next) {
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (peer->info->can_rece=
+ive(peer)) {
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+if (peer =3D=3D client) {
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 /* No loopback support for now */
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 continue;
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+}
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+if (peer->info->receive(peer, frames, frames_cnt) > 0) {
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D 1;
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+}
+>>>>    =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>    =C2=A0=C2=A0=C2=A0 }
+>>>>
+>>>> which looks not correct. We need to use qemu_send_packet() instead of
+>>>> calling peer->info->receive() directly which bypasses filters complete=
+ly.
+>>> [Vikram Garhwal] Can you please elaborate it bit more on why do we need
+>> to filter outgoing message? So, I can either add a filter before sending=
+ the
+>> packets. I am unable to understand the use case for it. For any message =
+which
+>> is incoming, we are filtering it for sure before storing in update_rx_fi=
+fo().
+>>
+>>
+>> I might be not clear, I meant the netfilters supported by qemu which all=
+ows
+>> you to attach a filter to a specific NetClientState, see
+>> qemu_send_packet_async_with_flags. It doesn't mean the filter implemente=
+d
+>> in your own NIC model.
+>>
+>> Thanks
+>>
+>>
+>>> Also, I can see existing CAN models like CAN sja1000 and CAN Kavser are
+>> using it same can_bus_client_send() function. However, this doesn't mean
+>> that it is the correct way to send & receive packets.
 
 
