@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977BD16FECA
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:22:04 +0100 (CET)
-Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDDA16FED8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:23:44 +0100 (CET)
+Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6vhT-00041v-JE
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:22:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53184)
+	id 1j6vj5-0007Md-V1
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:23:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1j6vgL-0002Dd-QM
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:20:54 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1j6vgK-0007i4-Ro
+ (envelope-from <frankja@linux.ibm.com>) id 1j6vgK-0002DI-MN
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:20:53 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42964
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <frankja@linux.ibm.com>) id 1j6vgJ-0007f9-Eg
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:20:52 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47648
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1j6vgK-0007hk-Nc
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:20:52 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ id 1j6vgJ-0007e6-9d
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:20:51 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QCKj1G113369
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 07:20:52 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ydcp8d8pc-1
+ 01QCKg6D043890
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 07:20:50 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ydq5yjwc3-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 07:20:51 -0500
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 07:20:50 -0500
 Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
  Wed, 26 Feb 2020 12:20:49 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 26 Feb 2020 12:20:46 -0000
+ Wed, 26 Feb 2020 12:20:47 -0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QCKj5r48562354
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 01QCKkXN35455440
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 12:20:45 GMT
+ Wed, 26 Feb 2020 12:20:46 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 38E2F11C05C;
+ by IMSVA (Postfix) with ESMTP id 5605311C052;
+ Wed, 26 Feb 2020 12:20:46 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C52411C05E;
  Wed, 26 Feb 2020 12:20:45 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7560611C052;
- Wed, 26 Feb 2020 12:20:44 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.152.224.212])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 12:20:44 +0000 (GMT)
+ Wed, 26 Feb 2020 12:20:45 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/18] s390x: Use constant for ESA PSW address
-Date: Wed, 26 Feb 2020 07:20:21 -0500
+Subject: [PATCH v5 02/18] Sync pv
+Date: Wed, 26 Feb 2020 07:20:22 -0500
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200226122038.61481-1-frankja@linux.ibm.com>
 References: <20200226122038.61481-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20022612-0012-0000-0000-0000038A6FEE
+x-cbid: 20022612-0008-0000-0000-000003569640
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20022612-0013-0000-0000-000021C715CF
-Message-Id: <20200226122038.61481-2-frankja@linux.ibm.com>
+x-cbparentid: 20022612-0009-0000-0000-00004A77B50A
+Message-Id: <20200226122038.61481-3-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-26_04:2020-02-26,
  2020-02-26 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 mlxlogscore=919 suspectscore=1 priorityscore=1501
- mlxscore=0 impostorscore=0 spamscore=0 clxscore=1015 malwarescore=0
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002260092
+ spamscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ clxscore=1015 bulkscore=0 suspectscore=1 mlxscore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2001150001 definitions=main-2002260092
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,61 +96,79 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Lets make it a bit more clear that we're extracting the 31 bit address
-from the short psw.
-
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- hw/s390x/ipl.c     | 2 +-
- target/s390x/cpu.c | 4 ++--
- target/s390x/cpu.h | 1 +
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ linux-headers/linux/kvm.h | 43 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 41 insertions(+), 2 deletions(-)
 
-diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-index 7773499d7f..42e21e7a6a 100644
---- a/hw/s390x/ipl.c
-+++ b/hw/s390x/ipl.c
-@@ -179,7 +179,7 @@ static void s390_ipl_realize(DeviceState *dev, Error **errp)
-                 /* if not Linux load the address of the (short) IPL PSW */
-                 ipl_psw = rom_ptr(4, 4);
-                 if (ipl_psw) {
--                    pentry = be32_to_cpu(*ipl_psw) & 0x7fffffffUL;
-+                    pentry = be32_to_cpu(*ipl_psw) & PSW_MASK_ESA_ADDR;
-                 } else {
-                     error_setg(&err, "Could not get IPL PSW");
-                     goto error;
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 8da1905485..43360912a0 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -78,13 +78,13 @@ static void s390_cpu_load_normal(CPUState *s)
-     S390CPU *cpu = S390_CPU(s);
-     uint64_t spsw = ldq_phys(s->as, 0);
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 265099100e..e36f761194 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -474,8 +474,11 @@ struct kvm_s390_mem_op {
+ 	__u32 size;		/* amount of bytes */
+ 	__u32 op;		/* type of operation */
+ 	__u64 buf;		/* buffer in userspace */
+-	__u8 ar;		/* the access register number */
+-	__u8 reserved[31];	/* should be set to 0 */
++	union {
++		__u8 ar;	/* the access register number */
++		__u32 sida_offset; /* offset into the sida */
++		__u8 reserved[32]; /* should be set to 0 */
++	};
+ };
+ /* types for kvm_s390_mem_op->op */
+ #define KVM_S390_MEMOP_LOGICAL_READ	0
+@@ -1010,6 +1013,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ARM_NISV_TO_USER 177
+ #define KVM_CAP_ARM_INJECT_EXT_DABT 178
+ #define KVM_CAP_S390_VCPU_RESETS 179
++#define KVM_CAP_S390_PROTECTED 180
  
--    cpu->env.psw.mask = spsw & 0xffffffff80000000ULL;
-+    cpu->env.psw.mask = spsw & PSW_MASK_ESA_MASK;
-     /*
-      * Invert short psw indication, so SIE will report a specification
-      * exception if it was not set.
-      */
-     cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
--    cpu->env.psw.addr = spsw & 0x7fffffffULL;
-+    cpu->env.psw.addr = spsw & PSW_MASK_ESA_ADDR;
+ #ifdef KVM_CAP_IRQ_ROUTING
  
-     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
- }
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 8a557fd8d1..74e66fe0c2 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -277,6 +277,7 @@ extern const VMStateDescription vmstate_s390_cpu;
- #define PSW_MASK_64             0x0000000100000000ULL
- #define PSW_MASK_32             0x0000000080000000ULL
- #define PSW_MASK_ESA_ADDR       0x000000007fffffffULL
-+#define PSW_MASK_ESA_MASK       0xffffffff80000000ULL
+@@ -1478,6 +1482,41 @@ struct kvm_enc_region {
+ #define KVM_S390_NORMAL_RESET	_IO(KVMIO,   0xc3)
+ #define KVM_S390_CLEAR_RESET	_IO(KVMIO,   0xc4)
  
- #undef PSW_ASC_PRIMARY
- #undef PSW_ASC_ACCREG
++struct kvm_s390_pv_sec_parm {
++	__u64 origin;
++	__u64 length;
++};
++
++struct kvm_s390_pv_unp {
++	__u64 addr;
++	__u64 size;
++	__u64 tweak;
++};
++
++enum pv_cmd_id {
++	KVM_PV_ENABLE,
++	KVM_PV_DISABLE,
++	KVM_PV_VM_SET_SEC_PARMS,
++	KVM_PV_VM_UNPACK,
++	KVM_PV_VM_VERIFY,
++	KVM_PV_VM_PREP_RESET,
++	KVM_PV_VM_UNSHARE_ALL,
++	KVM_PV_VCPU_CREATE,
++	KVM_PV_VCPU_DESTROY,
++};
++
++struct kvm_pv_cmd {
++	__u32 cmd;	/* Command to be executed */
++	__u16 rc;	/* Ultravisor return code */
++	__u16 rrc;	/* Ultravisor return reason code */
++	__u64 data;	/* Data or address */
++	__u32 flags;    /* flags for future extensions. Must be 0 for now */
++	__u32 reserved[3];
++};
++
++/* Available with KVM_CAP_S390_PROTECTED */
++#define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
 -- 
 2.20.1
 
