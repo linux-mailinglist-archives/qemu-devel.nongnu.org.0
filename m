@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668D9170CAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 00:40:53 +0100 (CET)
-Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72268170CD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 00:55:17 +0100 (CET)
+Received: from localhost ([::1]:51766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j76IO-0007GL-Ga
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 18:40:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57665)
+	id 1j76WK-0001hg-8s
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 18:55:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jimw@sifive.com>) id 1j76Hd-0006j8-K0
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 18:40:06 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j76VX-0001E2-5H
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 18:54:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jimw@sifive.com>) id 1j76Hc-0007RK-JQ
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 18:40:05 -0500
-Received: from mail-ua1-x944.google.com ([2607:f8b0:4864:20::944]:34642)
+ (envelope-from <alistair23@gmail.com>) id 1j76VW-0004Lf-25
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 18:54:27 -0500
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:46755)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jimw@sifive.com>) id 1j76Hc-0007QA-Dq
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 18:40:04 -0500
-Received: by mail-ua1-x944.google.com with SMTP id 1so305177uao.1
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 15:40:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j76VS-00045t-O3; Wed, 26 Feb 2020 18:54:22 -0500
+Received: by mail-lf1-x143.google.com with SMTP id v6so618423lfo.13;
+ Wed, 26 Feb 2020 15:54:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JdiuV+GdGRCh1n9HezlTnphdYqvFzAF4vxfm9QBJHCo=;
- b=CGFSDCixgsNUv9iogiYVPW8enlLNSYoRLIgtGQBSi5HDygtN/LtrYZB3q9KR1FId6X
- zrd3CwXAYmOoHg2P5OkN1rvWSthxP267KO4L9CmbQU3DVHwun2VYhjfHp0KG54OdXaAe
- EDS7EezVpq9Sm1/yvwuoZi9jyX8icIbpVQPQD2WnuobqcK6WamR4wwFt38LPCY6DE/9a
- tiYKGCeMPRqi6l0PxFOoP5jCGXGUGjaKMSRN5pS1RTQHVfACuluBZ7dWZOOExs723jPF
- 2RJ5Lsb0wmJTOgHtubXwsfPH95YBwBfFXeHNK/xLg8iC0bgMGmebxYlCUIjSxlSivdQk
- sc0g==
+ :cc; bh=tygxNCoM38EfVRKUBOfwHkEzNwitoEsggLJYj0Hqk50=;
+ b=YeBztnJy3fUPSazLC9cbVaf2PCtpwVqXWf5iGlBB53Eo3q8UTuxm5uQgpYj2nwurmL
+ QliPIthSYqKa/XUUGcTFureKlZ0jiqOWzeOZs7qTtcnPrjWuh/2yoQThibMSBTg5RjVW
+ 4gtycAQ9STco/F1EKiJ3YUkhAgeMxvPDyoq67CMtlcHRFkCD2DuTSh6Zqn7bMwc8z19q
+ KPxXFEaxbJxtLNRdZ21p/+nlGRv9/S3hIbCLM2kHOwf1NglHUo4YYQvMOpy8u9AZGk9t
+ GLV8HVlg4dCm6h0Dn1qDjGPsTxZ60Lw7elVpppBZ8GSw1KfXBcmhwmN49nQ81Ge3/5pC
+ zaxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JdiuV+GdGRCh1n9HezlTnphdYqvFzAF4vxfm9QBJHCo=;
- b=CXXI7W59xHGpeGmffBpeGLGmcND67u7nuSGThL+6CRNEBA54zJ/Ak22oEaTXzc1ZL6
- WXQZClJi8gUmGl97CVCGvZOA4j0S2XTf/zSNGduNNZJgYDKK14PVP1WK6QMO+/qWw/X+
- v8GBMXjO2NhTFfdxeI5k+U6eDwyR8HAhgVWK5Be3fdgbp0Jq/SKkGbf5asJ09Ye6qimh
- liwVzDK5JATb/UmIAaHaDDZNZOgbDBs4IyYHmeKuE80JnxzQcqxelzm9NL1mL7n7GdRl
- 76pHCovupfLt+F89g/YYEwWY0aoCSux0zM74GFIiPkjQlU5zy7hHBJf/YKSPCygyZdIV
- wGVg==
-X-Gm-Message-State: APjAAAWF1ZXzL5xFjeESwK99ElqJqM7ZDk0xq1PrtQJ39mLwPZe1HMaI
- JYTeQQjMOk2+IHHsbLPjNThXmkM9aZNgeF5KC35kCA==
-X-Google-Smtp-Source: APXvYqxT2YVADip6SD/ekxXKaVKMWt1dNY9HQCfnOMxpIQgfyQUNK+96L8idN3KwZF0BnC6wtihFOlLPBsIyWv+kMiI=
-X-Received: by 2002:ab0:2302:: with SMTP id a2mr1047878uao.21.1582760403728;
- Wed, 26 Feb 2020 15:40:03 -0800 (PST)
+ bh=tygxNCoM38EfVRKUBOfwHkEzNwitoEsggLJYj0Hqk50=;
+ b=fbJJryh3D5P3oxLJtuXIwMaq0OANqdiFC7n92koPaCNn8HLy42936JUtuKLo+uZsO0
+ 8MgooKc8SN7axJ7HWbReHYMEfRX1fNyigf/RpTqREBO4gyckuomkylbDrBo1nhYmZ1aI
+ 9wI+a+vcmCzQQB95qJ9vBOo+TOWwCPRNTmMhwKlT1iyUb3X3HrZlDeZ7bf9tjKkFVx5o
+ 0ANTVFjmbShbtCyfOlXHSeL1MwWJ0oVuz/GKcWJ+YFjk9TIl5/Gjk3GNfHtO5owllgsK
+ rWLgpFmWrAcUrKjBYBxNaAV0ol4XPJh5yb86tGgll/ty6lncEM6ozJnCHUXG1c7sOQae
+ wdNw==
+X-Gm-Message-State: ANhLgQ0LPaKoQJRPP7/2laozicDohExb8i9uV9068EQX1UyHn4aHDd+N
+ r40LAD/bPtOjQro2QZ1XFRzT0hAuvwZ3LZaEVdA=
+X-Google-Smtp-Source: ADFU+vsJkrFNFQefz1XDNyaI8hJk4sTTdyzqVWFi1ug/CIzkwp3QgVEZyfVb2S4adg0kQDA0/FnBGaLyoQpu5xyVV0c=
+X-Received: by 2002:a05:6512:31d3:: with SMTP id
+ j19mr557323lfe.178.1582761260352; 
+ Wed, 26 Feb 2020 15:54:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
  <ac290e38-bb39-6551-0758-95d087fa568c@sifive.com>
  <CAKmqyKOedrW3HZFfep4ErJ8H86V=KXeBL8LN2Cy_+669a6c9gQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKOedrW3HZFfep4ErJ8H86V=KXeBL8LN2Cy_+669a6c9gQ@mail.gmail.com>
-From: Jim Wilson <jimw@sifive.com>
-Date: Wed, 26 Feb 2020 15:39:52 -0800
-Message-ID: <CAFyWVabLp78M2RGe0TDF5TyW4sJpa6Rm0sJLnc3-CPv8pW+TzA@mail.gmail.com>
+ <CAFyWVabLp78M2RGe0TDF5TyW4sJpa6Rm0sJLnc3-CPv8pW+TzA@mail.gmail.com>
+In-Reply-To: <CAFyWVabLp78M2RGe0TDF5TyW4sJpa6Rm0sJLnc3-CPv8pW+TzA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 26 Feb 2020 15:46:43 -0800
+Message-ID: <CAKmqyKMx6pPDaeJmGXCa+cKUHphD+dzwPLDtZ4R_yXiN8t2KBQ@mail.gmail.com>
 Subject: Re: [PATCH v5 0/4] target-riscv: support vector extension part 1
-To: Alistair Francis <alistair23@gmail.com>
+To: Jim Wilson <jimw@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::944
+X-Received-From: 2a00:1450:4864:20::143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,22 +83,42 @@ Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 26, 2020 at 2:36 PM Alistair Francis <alistair23@gmail.com> wrote:
-> On Wed, Feb 26, 2020 at 12:09 PM Jim Wilson <jimw@sifive.com> wrote:
-> > If this rvv 0.7.1 implementation is considered a temporary solution,
-> > maybe we can just remove all of this work when the official rvv spec if
-> > available?  But presumably it is better if we can have both this
+On Wed, Feb 26, 2020 at 3:40 PM Jim Wilson <jimw@sifive.com> wrote:
 >
-> That is generally the plan. When the final spec comes out this will be
-> updated and we will only support that.
+> On Wed, Feb 26, 2020 at 2:36 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > On Wed, Feb 26, 2020 at 12:09 PM Jim Wilson <jimw@sifive.com> wrote:
+> > > If this rvv 0.7.1 implementation is considered a temporary solution,
+> > > maybe we can just remove all of this work when the official rvv spec if
+> > > available?  But presumably it is better if we can have both this
+> >
+> > That is generally the plan. When the final spec comes out this will be
+> > updated and we will only support that.
+>
+> This solves my problem, but maybe creates one for Alibaba.  They have
+> apparently fabbed a chip using the 0.7.1 draft of the vector spec
+> proposal.  So for qemu to properly support their asic, the 0.7.1 draft
+> support will have to be retained.  But I think SiFive and everyone
+> else is waiting for the official spec before building asics with
+> vector support.  If Alibaba will update their processor as the spec
+> evolves, then maybe this isn't a problem for them.
 
-This solves my problem, but maybe creates one for Alibaba.  They have
-apparently fabbed a chip using the 0.7.1 draft of the vector spec
-proposal.  So for qemu to properly support their asic, the 0.7.1 draft
-support will have to be retained.  But I think SiFive and everyone
-else is waiting for the official spec before building asics with
-vector support.  If Alibaba will update their processor as the spec
-evolves, then maybe this isn't a problem for them.
+That does seem unfortunate. I don't see a way for us to be able to
+support previous draft spec versions though. That seems like a huge
+amount of maintenance.
 
-Jim
+It shouldn't actually be that bad. Here is kind of what I'm imagining.
+
+ - Vector extensions v0.7.1 are merged to QEMU
+ - QEMU 5.x ships with v0.7.1 vector extensions (it seems unlikely
+someone will upstream v0.8.0 before the 5.x release)
+
+At some point in the future someone will update the experimental
+support in QEMU from v0.7.1 to a fully released v1.0. In which case
+there is still a release with the older experimental support which can
+be used for the v0.7.1 if required.
+
+Alistair
+
+>
+> Jim
 
