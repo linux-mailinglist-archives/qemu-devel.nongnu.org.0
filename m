@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22FB16FDE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:36:58 +0100 (CET)
-Received: from localhost ([::1]:42795 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B4E16FDEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:37:15 +0100 (CET)
+Received: from localhost ([::1]:42798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6uzp-0000TO-N2
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:36:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52731)
+	id 1j6v06-0000kd-U5
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:37:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6utr-0000kM-9S
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:48 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6uts-0000ll-9M
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6utp-0006Jy-US
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:47 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38936)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6utr-0006RH-1h
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:48 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46466)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6utp-0006F0-M0
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:45 -0500
-Received: by mail-wr1-x443.google.com with SMTP id y17so2543001wrn.6
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:45 -0800 (PST)
+ id 1j6utq-0006MA-Qr
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:46 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id j7so2493079wrp.13
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iyAOoKunzPZ19bC6OmFh6556v4B6Tprte6jss8mhQpk=;
- b=cSLGxYEmiwa2XI2Mo8W4PmDFqXVSJTYxoPaBayKxcppTepxWcmd09ywQ0Sk41NnDis
- umxPJOwJI54btoyC97UewHXtI/L69UOgAxQZABADK8Fm6aUbujqPspnadLtOw6Uf9NZo
- E6pb3Tfl8vk8Lc4g4gFGhNZ/F0EsLqXvpJWiQCDuKSqvRLAmrv5cQOJOs32S1VAvPri1
- 37lipHEeZnC8HOonvJ23bDf8b0Amx9aonlT+yAtCgD33aSnlochvBahMG17uugqBQf74
- dcc/l3lOyH5IYbVuKrk1HjKNw2OnZOX2cQTe6YUiN979Lz03ij49LO0KOecrHxN7ePTD
- f97Q==
+ bh=wDkymYdFzHCwHf5Q3ArZ93ZTz3wfoxfk80L8lK+9V9Y=;
+ b=Y3SKuUyNUbzo9kLCaPTiAm+weq3eI0xRhQqfPejPhdEMJtuw0LJfHStr6EoF39m1p2
+ wDXjFSbJvQ3QoxRkksgbfzQQsurF9wG09azPDee26IvtTzelnLU5Ea4pE4RXzsJYBpyZ
+ HYdmIJdvn7azHDRdk96bo+nVKxjBXD2iUh6i30Jg/OFTrZbOksEHWj+tZMPByl1ShYRF
+ YolDn54TLhO/b+LpPermUw94Pdevx1R4DPQw2Ak19SVPnY5UsRtzDevDMSn38UxWFk5X
+ kERamW2Z93BB9C4EqB+PR5nvzmwWKGGo+3G+F8KXovjedtXbTiN1TDMmBbYbhk4bL8qF
+ BvRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iyAOoKunzPZ19bC6OmFh6556v4B6Tprte6jss8mhQpk=;
- b=DAivw9PUfKLJU+5f7XfvBi6FFx56r8tB8xLQQdc2DnH2NLWLVQLPC7omm1xnJk+7di
- zbqMGrjB8rRXTfgHF3u5507aWHCtilEcSON8a2SQQW/tV9uo2YgBqrSceTdE2rAqD5r6
- 2n++vu1kSWQN6P+bW5vhOjUg3w+4sW1BojVGE0uKSp8Uu5JYwqLxb4OvxszZS7UpxUbW
- cHHktSPwaC0kpAqs77F6F5glcwlRs3Iuegdu2y32X54ypNCOWQMvRZkGlr6poPcN1YTU
- PlV9VZt5a9CKKY97LObLc21y5Gc06Hs7+iZyZK7fDsGKQQylL47iOATaePgrjqQmdoqE
- RqeQ==
-X-Gm-Message-State: APjAAAWHXBdbAi5yn1oRxyeE5gEznkRMSb+Nzmk07981GR2yV1pOZMJg
- ofuayCGsni5BEh7tP8jL+gbePu2b
-X-Google-Smtp-Source: APXvYqwK53733LmSr48rNdJG3H+4MJy3J1EilERTIjoDspU5CpoJjlixRkqSkYyN8Vg8xFGYYXAF2A==
-X-Received: by 2002:a5d:6802:: with SMTP id w2mr4988659wru.353.1582716644372; 
- Wed, 26 Feb 2020 03:30:44 -0800 (PST)
+ bh=wDkymYdFzHCwHf5Q3ArZ93ZTz3wfoxfk80L8lK+9V9Y=;
+ b=n8w3RnK8WKFXA3XoAgt9YOwUKpOghGbfDAXD84AZNMa+RzgVadjG7o/1htGC1RHGuN
+ NPzXPW8log1MpeaVzgW4HvzYdmWk5U2+cyUFbhgkPgkpGVuVouO+bXnZGIgitJRlnPDu
+ AVgGoTjnFGN/eemxo0PskXsvz3HJcC2+9kaWYU6uU94ogCf/JkYXbLZC4uLrMi+RSC0Z
+ nHu8ywePq08kBjPvwxicwVWSGFnd3abd2indgo1XCMHhh1jjE/k+gaf8q4kEWQFuqhMd
+ SSHdIBRql3148l5SgUGcTLXBSKyYp392Dwx8gtHJ+gos9/+HboULDEzLzh5KNHLMiqp4
+ sttg==
+X-Gm-Message-State: APjAAAUVGuEVlVy9HDqRGTF5ENYXbUfXsjzfsAAHxHiCbNJRI3hefHg5
+ vKlNlU8QoomBvpnehXsI2RYB1FNK
+X-Google-Smtp-Source: APXvYqyxkqFKxYb1ukF0WAQtgVSjHD31ckWpC/ogRMYrbJ3c7ItJzlez2vPJnmH5JB5ar33t3EScFw==
+X-Received: by 2002:adf:8b54:: with SMTP id v20mr4909371wra.13.1582716645241; 
+ Wed, 26 Feb 2020 03:30:45 -0800 (PST)
 Received: from donizetti.lan ([2001:b07:6468:f312:d0d9:ea10:9775:f33f])
- by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.43
+ by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 03:30:43 -0800 (PST)
+ Wed, 26 Feb 2020 03:30:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/18] qemu-doc: move qemu-tech.texi into main section
-Date: Wed, 26 Feb 2020 12:30:26 +0100
-Message-Id: <20200226113034.6741-11-pbonzini@redhat.com>
+Subject: [PATCH 11/18] qemu-doc: move included files to docs/system
+Date: Wed, 26 Feb 2020 12:30:27 +0100
+Message-Id: <20200226113034.6741-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200226113034.6741-1-pbonzini@redhat.com>
 References: <20200226113034.6741-1-pbonzini@redhat.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,88 +81,111 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only remaining content in qemu-tech.texi is a few paragraphs
-about managed start up options.  Move them in the main section
-about full system emulation.
+Since qemu-doc.texi is mostly including files from docs/system,
+move the existing include files there for consistency.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                                           | 2 +-
- qemu-tech.texi => docs/system/managed-startup.texi | 9 +--------
- qemu-doc.texi                                      | 5 ++---
- 3 files changed, 4 insertions(+), 12 deletions(-)
- rename qemu-tech.texi => docs/system/managed-startup.texi (92%)
+ MAINTAINERS                                               | 3 ++-
+ Makefile                                                  | 8 ++++----
+ qemu-deprecated.texi => docs/system/deprecated.texi       | 0
+ .../system/qemu-option-trace.texi                         | 0
+ docs/{ => system}/security.texi                           | 0
+ qemu-doc.texi                                             | 4 ++--
+ qemu-options.hx                                           | 2 +-
+ 7 files changed, 9 insertions(+), 8 deletions(-)
+ rename qemu-deprecated.texi => docs/system/deprecated.texi (100%)
+ rename qemu-option-trace.texi => docs/system/qemu-option-trace.texi (100%)
+ rename docs/{ => system}/security.texi (100%)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 574b80498c..0d3ee8bdc6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2796,7 +2796,8 @@ F: contrib/gitdm/*
+ 
+ Incompatible changes
+ R: libvir-list@redhat.com
+-F: qemu-deprecated.texi
++F: docs/system/deprecated.texi
++F: docs/system/deprecated.rst
+ 
+ Build System
+ ------------
 diff --git a/Makefile b/Makefile
-index d937dfe297..c36971fd39 100644
+index c36971fd39..6b5193b838 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1113,7 +1113,7 @@ txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+@@ -1103,7 +1103,7 @@ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
+ 	@cp -p $< $@
+ 
+ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
+-qemu.1: qemu-option-trace.texi
++qemu.1: docs/system/qemu-option-trace.texi
+ docs/system/qemu-cpu-models.7: docs/system/qemu-cpu-models.texi docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi
+ 
+ html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
+@@ -1113,8 +1113,7 @@ txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
  
  qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
  	qemu-options.texi \
--	qemu-tech.texi qemu-option-trace.texi \
-+	qemu-option-trace.texi \
- 	qemu-deprecated.texi qemu-monitor.texi \
+-	qemu-option-trace.texi \
+-	qemu-deprecated.texi qemu-monitor.texi \
++	qemu-monitor.texi \
  	qemu-monitor-info.texi \
          docs/system/quickstart.texi \
-diff --git a/qemu-tech.texi b/docs/system/managed-startup.texi
-similarity index 92%
-rename from qemu-tech.texi
-rename to docs/system/managed-startup.texi
-index 35da6a40af..ec168095cc 100644
---- a/qemu-tech.texi
-+++ b/docs/system/managed-startup.texi
-@@ -1,11 +1,4 @@
--@node Implementation notes
--@appendix Implementation notes
--
--@menu
--* Managed start up options::
--@end menu
--
--@node Managed start up options
-+@node managed_startup
- @section Managed start up options
+         docs/system/invocation.texi \
+@@ -1133,7 +1132,8 @@ qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
+         docs/system/build-platforms.texi \
+         docs/system/license.texi \
+ 	docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi \
+-	docs/security.texi
++	docs/system/deprecated.texi docs/system/qemu-option-trace.texi \
++	docs/system/security.texi
  
- In system mode emulation, it's possible to create a VM in a paused state using
+ docs/interop/qemu-ga-ref.dvi docs/interop/qemu-ga-ref.html \
+     docs/interop/qemu-ga-ref.info docs/interop/qemu-ga-ref.pdf \
+diff --git a/qemu-deprecated.texi b/docs/system/deprecated.texi
+similarity index 100%
+rename from qemu-deprecated.texi
+rename to docs/system/deprecated.texi
+diff --git a/qemu-option-trace.texi b/docs/system/qemu-option-trace.texi
+similarity index 100%
+rename from qemu-option-trace.texi
+rename to docs/system/qemu-option-trace.texi
+diff --git a/docs/security.texi b/docs/system/security.texi
+similarity index 100%
+rename from docs/security.texi
+rename to docs/system/security.texi
 diff --git a/qemu-doc.texi b/qemu-doc.texi
-index f702dce455..e4bff7edbe 100644
+index e4bff7edbe..d3e743719a 100644
 --- a/qemu-doc.texi
 +++ b/qemu-doc.texi
-@@ -39,7 +39,6 @@
- * QEMU System emulator::
- * QEMU System emulator targets::
- * Security::
--* Implementation notes::
- * Deprecated features::
- * Recently removed features::
- * Supported build platforms::
-@@ -144,6 +143,7 @@ accelerator is required to use more than one host CPU for emulation.
- * vnc_security::       VNC security
- * network_tls::        TLS setup for network services
- * gdb_usage::          GDB usage
-+* managed_startup::    Managed startup options
- @end menu
+@@ -189,9 +189,9 @@ various targets are mentioned in the following sections.
+ @include docs/system/target-m68k.texi
+ @include docs/system/target-xtensa.texi
  
- @include docs/system/quickstart.texi
-@@ -159,6 +159,7 @@ accelerator is required to use more than one host CPU for emulation.
- @include docs/system/vnc-security.texi
- @include docs/system/tls.texi
- @include docs/system/gdb.texi
-+@include docs/system/managed-startup.texi
+-@include docs/security.texi
++@include docs/system/security.texi
  
- @node QEMU System emulator targets
- @chapter QEMU System emulator targets
-@@ -190,8 +191,6 @@ various targets are mentioned in the following sections.
- 
- @include docs/security.texi
- 
--@include qemu-tech.texi
--
- @include qemu-deprecated.texi
+-@include qemu-deprecated.texi
++@include docs/system/deprecated.texi
  
  @include docs/system/build-platforms.texi
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ac315c1ac4..5fbfa2797c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4221,7 +4221,7 @@ HXCOMM This line is not accurate, as some sub-options are backend-specific but
+ HXCOMM HX does not support conditional compilation of text.
+ @item -trace [[enable=]@var{pattern}][,events=@var{file}][,file=@var{file}]
+ @findex -trace
+-@include qemu-option-trace.texi
++@include docs/system/qemu-option-trace.texi
+ ETEXI
+ DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
+     "-plugin [file=]<file>[,arg=<string>]\n"
 -- 
 2.21.1
 
