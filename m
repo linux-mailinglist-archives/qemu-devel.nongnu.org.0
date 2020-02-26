@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA8B16FA16
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 09:59:26 +0100 (CET)
-Received: from localhost ([::1]:40266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF42816FA37
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:07:00 +0100 (CET)
+Received: from localhost ([::1]:40442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6sXN-0003cU-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 03:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51864)
+	id 1j6seh-0003oq-Rh
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:06:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j6sUM-00087D-5X
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:56:20 -0500
+ (envelope-from <bounces@canonical.com>) id 1j6sdV-0002wM-Jv
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:05:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j6sUK-0003H0-PY
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:56:17 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40318)
+ (envelope-from <bounces@canonical.com>) id 1j6sdR-0006TO-Rz
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:05:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59324)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j6sUK-0003DE-4g
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:56:16 -0500
-Received: by mail-ot1-x342.google.com with SMTP id i6so2249044otr.7
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 00:56:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vSlyjrHn0wwwoUfIb0R4V+IQfkjjgd/zT/gBOmtqyZs=;
- b=ZYQjnSNvIOVLqQ+QFNpbE7OoQHbXusuMyKEPbAKfX3Imv7Szuj6MWa/oO3MeGPbOK4
- ICtSx8BUcZr5yjQiMEOfPUWX4dWrApXG8LoXVvRo/BdzH55z+hbjmGsecAQH45DGwQMA
- AkMpQz9JNhzz+PIjHOzkqWAE9NnaUKzlSFb0CGBvDx5L9J2qkJRfClyJPtiJ2kkYE8cF
- Z1xMvgTwZnP7eVhNa2xs1iTv4r/UjOVmrbF8H3BYJxMOonhNXeUq3h1sreNOj1Iemufh
- VF41ACB1uMfDQmLsDY1ZmXVB7YH4O840VH8AKVZdXtwk7L5cIXoHHTwfBisCeq4voRh7
- /y4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vSlyjrHn0wwwoUfIb0R4V+IQfkjjgd/zT/gBOmtqyZs=;
- b=FRy5A1qxVQf4rrsvazVFwk9orWUKAHPPRY3kHlwNoFb7gqOHrF73W9LL//u5op88tE
- 05tURi0VX5Q1zfCa94xiSZYNWYX7ypyZIrRxTTs+WgEEmmqcTgg8H0L5pVwW8CQ9wV3z
- iTEzp02SI9cs3DdFXejSdAj2umYwgCyyGv7q4xZhG2njcv8/CdZIhyIlDaDxfxLSArTQ
- 5TLH8paudD7JY+c+TH0+htFEAzrBoz5wzaqOlIRF9rBiyxzzNXe3Pkg/xICnplMVKwjQ
- /uy7SrdvNLRT953h1B3apDQxh+/FQkSSWPYfn9aGT13lmNRmNT72PvX1jgxwsmZaHJUS
- 5obg==
-X-Gm-Message-State: APjAAAXsQeG+WKPv09lgNLLyf5RFMH1/YGKHTeW3RsDIZaIfFHRSom+L
- eQa3EF2GCxceE+mBcjRlUiYf5/B8jCPjGbrzyQ6Fuw==
-X-Google-Smtp-Source: APXvYqzkYL1xNGz+onXMSfdplyTEWAbGn0qvLNhGjpts5dlgi3sAPyf1Xj3L01ek7Y4ktzU+7yFU4DNZ5K14rVybl3c=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr1974454otq.97.1582707375051; 
- Wed, 26 Feb 2020 00:56:15 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j6sdR-0006SF-Kk
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:05:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j6sdP-0000kX-W1
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 09:05:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EDEA32E8025
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 09:05:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200225182435.1131-1-peter.maydell@linaro.org>
- <20200226085209.ni7oph6odt24warq@kamzik.brq.redhat.com>
-In-Reply-To: <20200226085209.ni7oph6odt24warq@kamzik.brq.redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 26 Feb 2020 08:56:03 +0000
-Message-ID: <CAFEAcA-Bhuy+2dU3joZoip5=tOkiTSoC+LzdNzyd+urUnoRNXw@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gic_kvm: Don't assume kernel can provide a
- GICv2
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 26 Feb 2020 08:54:20 -0000
+From: Peter Vegh <1864814@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pbuntu1
+X-Launchpad-Bug-Reporter: Peter Vegh (pbuntu1)
+X-Launchpad-Bug-Modifier: Peter Vegh (pbuntu1)
+Message-Id: <158270726043.14146.8926447072185498744.malonedeb@wampee.canonical.com>
+Subject: [Bug 1864814] [NEW] Improve UX for macOS when launching from a
+ fullscreen app
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a6659bf9503a55c970afb363ace5ab971cf4f322
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,20 +64,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1864814 <1864814@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Feb 2020 at 08:52, Andrew Jones <drjones@redhat.com> wrote:
-> Although, many QEMU command line users still won't know what to do
-> without an explicit "Try -machine gic-version=host" hint, so that
-> might be nice to add too.
+Public bug reported:
 
-In the GIC code we don't know if the machine even has a
-gic-version property, so we're not in the right place to try to
-produce that message.
+System/setup:
+* MacBook Pro, macOS (any version from the last 2 years), external monitor.
+* IDE on the laptop, emulator is used on the external monitor.
 
-thanks
--- PMM
+Currently, when starting the emulator from e.g. Android Studio or
+IntelliJ IDEA, which is set to fullscreen mode on the laptop, which is
+like it's own virtual desktop (Space) in macOS, what happens is this:
+
+1. The virtual desktop (Space) on the laptop screen is switched because of =
+#2. The reason is that only one window can be shown in Fullscreen this way.
+2. The qemu splashscreen is shown for a few seconds, then it disappears. Th=
+is is the reason for the virtual desktop switch. This splashscreen seems ac=
+tually unnecessary to me, it has no value and it causes problems.
+3. The actual emulator is shown, in my case on the external monitor (correc=
+tly). I guess if the splashscreen would not be shown, the virtual desktop s=
+witch would not happen, because the emulator would happen on the correct sc=
+reen directly.
+
+So maybe the splashscreen and the emulator window should be the same window=
+, so that the OS can remember it's position being the same as the emulator?
+Or maybe the splash could be disabled (by default? otherwise an update to I=
+DEs would be necessary for the improved behavior?)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1864814
+
+Title:
+  Improve UX for macOS when launching from a fullscreen app
+
+Status in QEMU:
+  New
+
+Bug description:
+  System/setup:
+  * MacBook Pro, macOS (any version from the last 2 years), external monito=
+r.
+  * IDE on the laptop, emulator is used on the external monitor.
+
+  Currently, when starting the emulator from e.g. Android Studio or
+  IntelliJ IDEA, which is set to fullscreen mode on the laptop, which is
+  like it's own virtual desktop (Space) in macOS, what happens is this:
+
+  1. The virtual desktop (Space) on the laptop screen is switched because o=
+f #2. The reason is that only one window can be shown in Fullscreen this wa=
+y.
+  2. The qemu splashscreen is shown for a few seconds, then it disappears. =
+This is the reason for the virtual desktop switch. This splashscreen seems =
+actually unnecessary to me, it has no value and it causes problems.
+  3. The actual emulator is shown, in my case on the external monitor (corr=
+ectly). I guess if the splashscreen would not be shown, the virtual desktop=
+ switch would not happen, because the emulator would happen on the correct =
+screen directly.
+
+  So maybe the splashscreen and the emulator window should be the same wind=
+ow, so that the OS can remember it's position being the same as the emulato=
+r?
+  Or maybe the splash could be disabled (by default? otherwise an update to=
+ IDEs would be necessary for the improved behavior?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1864814/+subscriptions
 
