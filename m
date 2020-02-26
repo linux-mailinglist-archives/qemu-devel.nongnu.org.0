@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D4D16FE33
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:48:45 +0100 (CET)
-Received: from localhost ([::1]:42982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84AC16FE01
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:41:45 +0100 (CET)
+Received: from localhost ([::1]:42866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6vBE-00078J-Ol
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:48:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53397)
+	id 1j6v4S-0007BC-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:41:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53784)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j6uv0-0002nw-VK
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:32:00 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j6uwA-0004QA-CX
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:33:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j6uuy-0003WU-LA
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:31:58 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26268
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j6uuy-0003TJ-2J
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:31:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582716715;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0d2LzEbMYOs3lA1aaipDpYIU+ranAMMfzzQ4UpmFJO8=;
- b=Cx7a6L86+IEq9qZI3Bw3zGnfoXR6E2+IfSe2o90uFvdM+V6YnkINR1i1cMBtQarPd8dQAW
- 9SeUlk3OthVz5kcg37fxtNnj3nQLy1/1eUfRmTHSNaV5afFP5mVzbXNkOdXpLH3Y7rEVuv
- 8ryXpgv/JO9QI5Drvu47ZMD8DQQ1YfY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-ur8IZiemN4SbGZE1xTTECA-1; Wed, 26 Feb 2020 06:31:47 -0500
-X-MC-Unique: ur8IZiemN4SbGZE1xTTECA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37305DB20;
- Wed, 26 Feb 2020 11:31:46 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 683C026FCF;
- Wed, 26 Feb 2020 11:31:44 +0000 (UTC)
-Subject: Re: [PATCH 2/2] iotests: modify test 040 to use JobRunner
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200226004425.1303-1-jsnow@redhat.com>
- <20200226004425.1303-3-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <cce4c6e0-f743-fb88-a441-405233467074@redhat.com>
-Date: Wed, 26 Feb 2020 12:31:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j6uw6-00071q-9y
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:33:10 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41706)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1j6uw6-0006ww-3Y
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:33:06 -0500
+Received: by mail-oi1-x243.google.com with SMTP id i1so2668710oie.8
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:33:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=PwUpGkJnbPW07PC5FnVKpnq3qviosIVPIxfK34xtJ4Y=;
+ b=lOGyY2Qg90XgAOZJAV+4yDNJtahj2Ot6mmqhSvWI3lieV0xlbihuv/yQOuKZD00wV+
+ x3t7D3fYW6PLkvW90Ea2aJu0HaMBvzs7Dnexiv2VpV74s0u8Pnv/a0m7171w3ccXguMz
+ Y20dDo14ud8thTt/SCuoQ78D+O2FRI2S800RbH+fA7yrx/im9YyEFgpb3uWWtw531rzL
+ GZ5WFFhLlOTEG4ciSn9S9lMG7ZL3yyeuG+YaoGpvroF8C69rLUHgMWVJ7b73HoTARQXU
+ TAQxEEDdVMXS+g5+82w6XMRRNioDJNlM59iWebkzWtBvw9B5JmZPnw0vF7w2Zvp0VoTe
+ 637g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=PwUpGkJnbPW07PC5FnVKpnq3qviosIVPIxfK34xtJ4Y=;
+ b=XIrDBxAhDEegYG6GcMy91PfD5pFucO0mP1bQr9iFLmYZtyVbQ/08o8+9sc8v8R1oqh
+ dqGIOqqB6PNCucFnQNB0g13y+n5kpyaEYsNX+Yrn0D9QhsFrBhqz6eXgNfgpjrzOUTju
+ N0Se8U1u145FDN1lBJ2hqG8/Y+fvC15Ly6t8Is9AF0BYvYQ/+w3eMfmaFgQoo4+jvN+W
+ iadojXb6K1LXeba5gKF7qSspBDllVRahIujMD1f2l7zoCavD4XrstEV5hzdxpqugZhLa
+ ZqX5jSclGXQ6IYPKg/TTtwrIJfpr7RhGDZJSxpHB/wLip4oncS9i1kHLqOVpAvaJBSJg
+ tLzg==
+X-Gm-Message-State: APjAAAW79B0HKzyTUFiEClw5Fsy+2Fax1TFdt4z+CKPyNsk+u+5X6eYg
+ scszXZ5R1lCyHpFId8547EXpCMVzBdxNP51Ndys=
+X-Google-Smtp-Source: APXvYqzRgJnweowczKsHPFSR0x3PT9A0JNBdyCUtldC0VFzC9BQZFLH0MDqB3kunEaAYTSaKbMET6OfGNzdz8ibVUvc=
+X-Received: by 2002:aca:4ece:: with SMTP id c197mr2679620oib.53.1582716784996; 
+ Wed, 26 Feb 2020 03:33:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200226004425.1303-3-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="XY5MXgcihhWvvZQKzH1ishBVYogZMOqrL"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Wed, 26 Feb 2020 03:33:04 -0800 (PST)
+In-Reply-To: <20200225154121.21116-3-peter.maydell@linaro.org>
+References: <20200225154121.21116-1-peter.maydell@linaro.org>
+ <20200225154121.21116-3-peter.maydell@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 26 Feb 2020 12:33:04 +0100
+Message-ID: <CAL1e-=gQd7Xb1LZR5nGtjraAFz1AUsHy+_76CZbtL8TuBXX3rQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] docs: Remove the "CPU emulation" part of the
+ "Implementation notes"
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000bff4ef059f78f742"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,130 +75,448 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---XY5MXgcihhWvvZQKzH1ishBVYogZMOqrL
-Content-Type: multipart/mixed; boundary="OG4yMKGX4wT1l24EjPOOvCDMDaXkswkE9"
+--000000000000bff4ef059f78f742
+Content-Type: text/plain; charset="UTF-8"
 
---OG4yMKGX4wT1l24EjPOOvCDMDaXkswkE9
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+On Tuesday, February 25, 2020, Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> The "CPU emulation" part of the "Implementation notes" in
+> qemu-tech.texi looks like it is documenting what features of various
+> CPUs we do or don't emulate.  However:
+>  * it covers only six of our 21 guest architectures
+>  * the last time anybody updated it for actual content was in
+>    2011/2012 for Xtensa; the content for the other five
+>    architectures is even older, being from 2008 or before!
+>
+> What we have is out of date, misleading and incomplete.
+> Just delete this part of the document rather than trying to
+> convert it to rST.
+>
+> (It would be nice eventually to have documentation of the
+> scope and limitations of our emulation; but we will want to
+> separate out the generic "system emulation" information from
+> the parts that are specific to linux-user anyway, as they will
+> be in different manuals.)
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+
+
+I agree with the intent and the outcome of this patch, including the last
+paragraph in braces.
+
+FWIW:
+
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+
+
+ qemu-tech.texi | 153 -------------------------------------------------
+>  1 file changed, 153 deletions(-)
+>
+> diff --git a/qemu-tech.texi b/qemu-tech.texi
+> index 0380de77b62..35da6a40af1 100644
+> --- a/qemu-tech.texi
+> +++ b/qemu-tech.texi
+> @@ -2,162 +2,9 @@
+>  @appendix Implementation notes
+>
+>  @menu
+> -* CPU emulation::
+>  * Managed start up options::
+>  @end menu
+>
+> -@node CPU emulation
+> -@section CPU emulation
+> -
+> -@menu
+> -* x86::     x86 and x86-64 emulation
+> -* ARM::     ARM emulation
+> -* MIPS::    MIPS emulation
+> -* PPC::     PowerPC emulation
+> -* SPARC::   Sparc32 and Sparc64 emulation
+> -* Xtensa::  Xtensa emulation
+> -@end menu
+> -
+> -@node x86
+> -@subsection x86 and x86-64 emulation
+> -
+> -QEMU x86 target features:
+> -
+> -@itemize
+> -
+> -@item The virtual x86 CPU supports 16 bit and 32 bit addressing with
+> segmentation.
+> -LDT/GDT and IDT are emulated. VM86 mode is also supported to run
+> -DOSEMU. There is some support for MMX/3DNow!, SSE, SSE2, SSE3, SSSE3,
+> -and SSE4 as well as x86-64 SVM.
+> -
+> -@item Support of host page sizes bigger than 4KB in user mode emulation.
+> -
+> -@item QEMU can emulate itself on x86.
+> -
+> -@item An extensive Linux x86 CPU test program is included
+> @file{tests/test-i386}.
+> -It can be used to test other x86 virtual CPUs.
+> -
+> -@end itemize
+> -
+> -Current QEMU limitations:
+> -
+> -@itemize
+> -
+> -@item Limited x86-64 support.
+> -
+> -@item IPC syscalls are missing.
+> -
+> -@item The x86 segment limits and access rights are not tested at every
+> -memory access (yet). Hopefully, very few OSes seem to rely on that for
+> -normal use.
+> -
+> -@end itemize
+> -
+> -@node ARM
+> -@subsection ARM emulation
+> -
+> -@itemize
+> -
+> -@item Full ARM 7 user emulation.
+> -
+> -@item NWFPE FPU support included in user Linux emulation.
+> -
+> -@item Can run most ARM Linux binaries.
+> -
+> -@end itemize
+> -
+> -@node MIPS
+> -@subsection MIPS emulation
+> -
+> -@itemize
+> -
+> -@item The system emulation allows full MIPS32/MIPS64 Release 2 emulation,
+> -including privileged instructions, FPU and MMU, in both little and big
+> -endian modes.
+> -
+> -@item The Linux userland emulation can run many 32 bit MIPS Linux
+> binaries.
+> -
+> -@end itemize
+> -
+> -Current QEMU limitations:
+> -
+> -@itemize
+> -
+> -@item Self-modifying code is not always handled correctly.
+> -
+> -@item 64 bit userland emulation is not implemented.
+> -
+> -@item The system emulation is not complete enough to run real firmware.
+> -
+> -@item The watchpoint debug facility is not implemented.
+> -
+> -@end itemize
+> -
+> -@node PPC
+> -@subsection PowerPC emulation
+> -
+> -@itemize
+> -
+> -@item Full PowerPC 32 bit emulation, including privileged instructions,
+> -FPU and MMU.
+> -
+> -@item Can run most PowerPC Linux binaries.
+> -
+> -@end itemize
+> -
+> -@node SPARC
+> -@subsection Sparc32 and Sparc64 emulation
+> -
+> -@itemize
+> -
+> -@item Full SPARC V8 emulation, including privileged
+> -instructions, FPU and MMU. SPARC V9 emulation includes most privileged
+> -and VIS instructions, FPU and I/D MMU. Alignment is fully enforced.
+> -
+> -@item Can run most 32-bit SPARC Linux binaries, SPARC32PLUS Linux
+> binaries and
+> -some 64-bit SPARC Linux binaries.
+> -
+> -@end itemize
+> -
+> -Current QEMU limitations:
+> -
+> -@itemize
+> -
+> -@item IPC syscalls are missing.
+> -
+> -@item Floating point exception support is buggy.
+> -
+> -@item Atomic instructions are not correctly implemented.
+> -
+> -@item There are still some problems with Sparc64 emulators.
+> -
+> -@end itemize
+> -
+> -@node Xtensa
+> -@subsection Xtensa emulation
+> -
+> -@itemize
+> -
+> -@item Core Xtensa ISA emulation, including most options: code density,
+> -loop, extended L32R, 16- and 32-bit multiplication, 32-bit division,
+> -MAC16, miscellaneous operations, boolean, FP coprocessor, coprocessor
+> -context, debug, multiprocessor synchronization,
+> -conditional store, exceptions, relocatable vectors, unaligned exception,
+> -interrupts (including high priority and timer), hardware alignment,
+> -region protection, region translation, MMU, windowed registers, thread
+> -pointer, processor ID.
+> -
+> -@item Not implemented options: data/instruction cache (including cache
+> -prefetch and locking), XLMI, processor interface. Also options not
+> -covered by the core ISA (e.g. FLIX, wide branches) are not implemented.
+> -
+> -@item Can run most Xtensa Linux binaries.
+> -
+> -@item New core configuration that requires no additional instructions
+> -may be created from overlay with minimal amount of hand-written code.
+> -
+> -@end itemize
+> -
+>  @node Managed start up options
+>  @section Managed start up options
+>
+> --
+> 2.20.1
+>
+>
+>
+
+--000000000000bff4ef059f78f742
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 26.02.20 01:44, John Snow wrote:
-> Instead of having somewhat reproduced it for itself.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/040 | 51 +++++++++++++++++++++---------------------
->  1 file changed, 25 insertions(+), 26 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-> index 90b59081ff..579dafc797 100755
-> --- a/tests/qemu-iotests/040
-> +++ b/tests/qemu-iotests/040
-> @@ -483,34 +483,33 @@ class TestErrorHandling(iotests.QMPTestCase):
->                            file=3D('top-dbg' if top_debug else 'top-file'=
-),
->                            backing=3D'mid-fmt')
-> =20
-> +
-> +    class TestJobRunner(iotests.JobRunner):
-> +        expected_events =3D ('BLOCK_JOB_COMPLETED',
-> +                           'BLOCK_JOB_ERROR',
-> +                           'BLOCK_JOB_READY')
-> +
-> +        def __init__(self, *args, test, **kwargs):
-> +            super().__init__(*args, **kwargs)
-> +            self.log =3D []
-> +            self.test =3D test
-> +
-> +        def on_pause(self, event):
-> +            result =3D self._vm.qmp('block-job-resume', device=3Dself._i=
-d)
-> +            self.test.assert_qmp(result, 'return', {})
-> +            super().on_pause(event)
+<br><br>On Tuesday, February 25, 2020, Peter Maydell &lt;<a href=3D"mailto:=
+peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">The &quot;CPU emulation&quot; part of the &quot;Im=
+plementation notes&quot; in<br>
+qemu-tech.texi looks like it is documenting what features of various<br>
+CPUs we do or don&#39;t emulate.=C2=A0 However:<br>
+=C2=A0* it covers only six of our 21 guest architectures<br>
+=C2=A0* the last time anybody updated it for actual content was in<br>
+=C2=A0 =C2=A02011/2012 for Xtensa; the content for the other five<br>
+=C2=A0 =C2=A0architectures is even older, being from 2008 or before!<br>
+<br>
+What we have is out of date, misleading and incomplete.<br>
+Just delete this part of the document rather than trying to<br>
+convert it to rST.<br>
+<br>
+(It would be nice eventually to have documentation of the<br>
+scope and limitations of our emulation; but we will want to<br>
+separate out the generic &quot;system emulation&quot; information from<br>
+the parts that are specific to linux-user anyway, as they will<br>
+be in different manuals.)<br>
+<br>
+Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
+">peter.maydell@linaro.org</a>&gt;<br>
+---</blockquote><div><br></div><div>I agree with the intent and the outcome=
+ of this patch, including the last paragraph in braces.</div><div>=C2=A0</d=
+iv><div>FWIW:</div><div><br></div><div>Reviewed-by: Aleksandar Markovic &lt=
+;<a href=3D"mailto:amarkovic@wavecomp.com">amarkovic@wavecomp.com</a>&gt;</=
+div><div><br></div><div><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+=C2=A0qemu-tech.texi | 153 ------------------------------<wbr>-------------=
+------<br>
+=C2=A01 file changed, 153 deletions(-)<br>
+<br>
+diff --git a/qemu-tech.texi b/qemu-tech.texi<br>
+index 0380de77b62..35da6a40af1 100644<br>
+--- a/qemu-tech.texi<br>
++++ b/qemu-tech.texi<br>
+@@ -2,162 +2,9 @@<br>
+=C2=A0@appendix Implementation notes<br>
+<br>
+=C2=A0@menu<br>
+-* CPU emulation::<br>
+=C2=A0* Managed start up options::<br>
+=C2=A0@end menu<br>
+<br>
+-@node CPU emulation<br>
+-@section CPU emulation<br>
+-<br>
+-@menu<br>
+-* x86::=C2=A0 =C2=A0 =C2=A0x86 and x86-64 emulation<br>
+-* ARM::=C2=A0 =C2=A0 =C2=A0ARM emulation<br>
+-* MIPS::=C2=A0 =C2=A0 MIPS emulation<br>
+-* PPC::=C2=A0 =C2=A0 =C2=A0PowerPC emulation<br>
+-* SPARC::=C2=A0 =C2=A0Sparc32 and Sparc64 emulation<br>
+-* Xtensa::=C2=A0 Xtensa emulation<br>
+-@end menu<br>
+-<br>
+-@node x86<br>
+-@subsection x86 and x86-64 emulation<br>
+-<br>
+-QEMU x86 target features:<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item The virtual x86 CPU supports 16 bit and 32 bit addressing with segme=
+ntation.<br>
+-LDT/GDT and IDT are emulated. VM86 mode is also supported to run<br>
+-DOSEMU. There is some support for MMX/3DNow!, SSE, SSE2, SSE3, SSSE3,<br>
+-and SSE4 as well as x86-64 SVM.<br>
+-<br>
+-@item Support of host page sizes bigger than 4KB in user mode emulation.<b=
+r>
+-<br>
+-@item QEMU can emulate itself on x86.<br>
+-<br>
+-@item An extensive Linux x86 CPU test program is included @file{tests/test=
+-i386}.<br>
+-It can be used to test other x86 virtual CPUs.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-Current QEMU limitations:<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item Limited x86-64 support.<br>
+-<br>
+-@item IPC syscalls are missing.<br>
+-<br>
+-@item The x86 segment limits and access rights are not tested at every<br>
+-memory access (yet). Hopefully, very few OSes seem to rely on that for<br>
+-normal use.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-@node ARM<br>
+-@subsection ARM emulation<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item Full ARM 7 user emulation.<br>
+-<br>
+-@item NWFPE FPU support included in user Linux emulation.<br>
+-<br>
+-@item Can run most ARM Linux binaries.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-@node MIPS<br>
+-@subsection MIPS emulation<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item The system emulation allows full MIPS32/MIPS64 Release 2 emulation,<=
+br>
+-including privileged instructions, FPU and MMU, in both little and big<br>
+-endian modes.<br>
+-<br>
+-@item The Linux userland emulation can run many 32 bit MIPS Linux binaries=
+.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-Current QEMU limitations:<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item Self-modifying code is not always handled correctly.<br>
+-<br>
+-@item 64 bit userland emulation is not implemented.<br>
+-<br>
+-@item The system emulation is not complete enough to run real firmware.<br=
+>
+-<br>
+-@item The watchpoint debug facility is not implemented.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-@node PPC<br>
+-@subsection PowerPC emulation<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item Full PowerPC 32 bit emulation, including privileged instructions,<br=
+>
+-FPU and MMU.<br>
+-<br>
+-@item Can run most PowerPC Linux binaries.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-@node SPARC<br>
+-@subsection Sparc32 and Sparc64 emulation<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item Full SPARC V8 emulation, including privileged<br>
+-instructions, FPU and MMU. SPARC V9 emulation includes most privileged<br>
+-and VIS instructions, FPU and I/D MMU. Alignment is fully enforced.<br>
+-<br>
+-@item Can run most 32-bit SPARC Linux binaries, SPARC32PLUS Linux binaries=
+ and<br>
+-some 64-bit SPARC Linux binaries.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-Current QEMU limitations:<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item IPC syscalls are missing.<br>
+-<br>
+-@item Floating point exception support is buggy.<br>
+-<br>
+-@item Atomic instructions are not correctly implemented.<br>
+-<br>
+-@item There are still some problems with Sparc64 emulators.<br>
+-<br>
+-@end itemize<br>
+-<br>
+-@node Xtensa<br>
+-@subsection Xtensa emulation<br>
+-<br>
+-@itemize<br>
+-<br>
+-@item Core Xtensa ISA emulation, including most options: code density,<br>
+-loop, extended L32R, 16- and 32-bit multiplication, 32-bit division,<br>
+-MAC16, miscellaneous operations, boolean, FP coprocessor, coprocessor<br>
+-context, debug, multiprocessor synchronization,<br>
+-conditional store, exceptions, relocatable vectors, unaligned exception,<b=
+r>
+-interrupts (including high priority and timer), hardware alignment,<br>
+-region protection, region translation, MMU, windowed registers, thread<br>
+-pointer, processor ID.<br>
+-<br>
+-@item Not implemented options: data/instruction cache (including cache<br>
+-prefetch and locking), XLMI, processor interface. Also options not<br>
+-covered by the core ISA (e.g. FLIX, wide branches) are not implemented.<br=
+>
+-<br>
+-@item Can run most Xtensa Linux binaries.<br>
+-<br>
+-@item New core configuration that requires no additional instructions<br>
+-may be created from overlay with minimal amount of hand-written code.<br>
+-<br>
+-@end itemize<br>
+-<br>
+=C2=A0@node Managed start up options<br>
+=C2=A0@section Managed start up options<br>
+=C2=A0<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+</blockquote>
 
-Not that it functionally matters, but I suppose I=E2=80=99d call
-super().on_pause() before resuming (because the job isn=E2=80=99t exactly p=
-aused
-afterwards).
-
-> +
-> +        def on_block_job_event(self, event):
-> +            if event['event'] not in self.expected_events:
-> +                self.test.fail("Unexpected event: %s" % event)
-> +            super().on_block_job_event(event)
-> +            self.log.append(iotests.filter_qmp_event(event))
-
-Hasn=E2=80=99t the event been through filter_qmp_event() already?
-
-Max
-
-> +
->      def run_job(self, expected_events, error_pauses_job=3DFalse):
-> -        match_device =3D {'data': {'device': 'job0'}}
-> -        events =3D {
-> -            'BLOCK_JOB_COMPLETED': match_device,
-> -            'BLOCK_JOB_CANCELLED': match_device,
-> -            'BLOCK_JOB_ERROR': match_device,
-> -            'BLOCK_JOB_READY': match_device,
-> -        }
-> -
-> -        completed =3D False
-> -        log =3D []
-> -        while not completed:
-> -            ev =3D self.vm.events_wait(events, timeout=3D5.0)
-> -            if ev['event'] =3D=3D 'BLOCK_JOB_COMPLETED':
-> -                completed =3D True
-> -            elif ev['event'] =3D=3D 'BLOCK_JOB_ERROR':
-> -                if error_pauses_job:
-> -                    result =3D self.vm.qmp('block-job-resume', device=3D=
-'job0')
-> -                    self.assert_qmp(result, 'return', {})
-> -            elif ev['event'] =3D=3D 'BLOCK_JOB_READY':
-> -                result =3D self.vm.qmp('block-job-complete', device=3D'j=
-ob0')
-> -                self.assert_qmp(result, 'return', {})
-> -            else:
-> -                self.fail("Unexpected event: %s" % ev)
-> -            log.append(iotests.filter_qmp_event(ev))
-> -
-> +        job =3D self.TestJobRunner(self.vm, 'job0', use_log=3DFalse, tes=
-t=3Dself)
-> +        job.run()
->          self.maxDiff =3D None
-> -        self.assertEqual(expected_events, log)
-> +        self.assertEqual(expected_events, job.log)
-> =20
->      def event_error(self, op, action):
->          return {
->=20
-
-
-
---OG4yMKGX4wT1l24EjPOOvCDMDaXkswkE9--
-
---XY5MXgcihhWvvZQKzH1ishBVYogZMOqrL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5WVx4ACgkQ9AfbAGHV
-z0DPBgf9HBWaG+kY6pPPEqhVyEQ9BX40yaC6dvkylo+YRjkf7DP8PoCmsBm2BONO
-qwqxSlT2x2lytVJVcHBcBmxJM+q8zgmBBbCpt+9y72EPZrr0qVkxtd9hKw+O7H8n
-DM2Wfw0APIBlHdvoyH+YWaqudgnSjt7FiZoowqt2s+K2gdqk2Zc3HjGqAbyxlJtk
-wqxT0GETzokYM57tBGrrWKPXYAurx35YJ69y+FyDzOcBOhFqrpuplKWLctRXTXAy
-e+r/TJYh7JpLeZftiOIy9bR0vFeaFtMVtlFnGpRG8q83HaLfrM5uYhZ9RNRfU7yk
-vUjjDL4z+lpuBtFMs6tjX9ZQDRJUOQ==
-=l0+K
------END PGP SIGNATURE-----
-
---XY5MXgcihhWvvZQKzH1ishBVYogZMOqrL--
-
+--000000000000bff4ef059f78f742--
 
