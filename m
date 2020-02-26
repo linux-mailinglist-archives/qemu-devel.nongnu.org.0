@@ -2,54 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA79170BE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 23:52:58 +0100 (CET)
-Received: from localhost ([::1]:51188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3AE170BFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 23:56:35 +0100 (CET)
+Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j75Y1-00033a-1O
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 17:52:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38569)
+	id 1j75bW-0008GH-4A
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 17:56:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j75WJ-0001cM-PU
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 17:51:13 -0500
+ (envelope-from <peterx@redhat.com>) id 1j75a5-0007AX-5d
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 17:55:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j75WI-0003Lm-0J
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 17:51:11 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42890)
+ (envelope-from <peterx@redhat.com>) id 1j75a3-0002Er-Sn
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 17:55:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48518
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1j75WH-00038g-Pn; Wed, 26 Feb 2020 17:51:09 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BF4AC74637D;
- Wed, 26 Feb 2020 23:51:05 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 98BA37461AE; Wed, 26 Feb 2020 23:51:05 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 96A3E74569F;
- Wed, 26 Feb 2020 23:51:05 +0100 (CET)
-Date: Wed, 26 Feb 2020 23:51:05 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: R: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
-In-Reply-To: <87eeuhxw0y.fsf@linaro.org>
-Message-ID: <alpine.BSF.2.22.395.2002262311370.39102@zero.eik.bme.hu>
-References: <20200218171702.979F074637D@zero.eik.bme.hu>
- <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
- <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
- <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
- <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
- <3539F747-145F-49CC-B494-C9794A8ABABA@gmail.com>
- <AM6PR03MB5525DE221E3E7E595893DF4DC8EA0@AM6PR03MB5525.eurprd03.prod.outlook.com>
- <AM4PR07MB350651FBB263FEEDB857CBFFCAEA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <87eeuhxw0y.fsf@linaro.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j75a3-0002EU-Ou
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 17:55:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582757702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sQ+3B2PsBNwy91uRvIR6aBTCd/S80BOOKAQ9EBJ4pwU=;
+ b=FA5NGAs6moiXN431OuU7VI4zjRCNTeJ9WG2M8o6yh6mJVrCmQazp1u8BBtfh68E5943J7x
+ 5oabUnp/Qn29mpFA2Te3jT3g8rHUTcmxaYeJ+DpfGd5nIeVEhjnK/ZiFLafQOn4inbB9Bi
+ Zt5VRSxdevqGM5F32fk8fR04l6jeKa0=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-Cvn24Kk7N1K38MSJrsABbQ-1; Wed, 26 Feb 2020 17:55:01 -0500
+X-MC-Unique: Cvn24Kk7N1K38MSJrsABbQ-1
+Received: by mail-qk1-f200.google.com with SMTP id e11so1288176qkl.8
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 14:55:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6iF/hzx5xbCPUIf+puVE70hJQRDvIvHhsPT7aYBtNUQ=;
+ b=SG8A1SnHBryJ3Y/loUBnqKeZESC+FOvZeKUWEMnbMW4bbmWKR7oi7XaQy+4B01r826
+ Eyz2BVbkAHxnLkFQ/Q4ZrNZ9m9I9t4IehCwZmODrPvJxb70vd0Mp74mBapWhTL3O8WHq
+ C9UT+/DFtfkpTyaMFRcZHNyoAhAHaZiYLGRmfZUWwcpfAVaB3eKiQnZICSSOBgfU/7XC
+ MLZZcHQyry4zd5Tz5tKbXhZfUPhUO7F8rX0/qgNokRbSVwKne63kvP3SYxm4j3FPFIBh
+ muWIVrHE/7LLvcAE/FqdA5ncg/yZ2HJqUGbxiTl9GnHpsQBi7GFWhGS6pHYyt+M4wyBj
+ Hjvg==
+X-Gm-Message-State: APjAAAW0mfevNk1WvxtMqJZCFepEI2cuJQ0fJdPDSXuJKTOI8FxVZBYM
+ c05SEIx5T4fCyHfKOm1bUI0V6EwGG1FMsoJplbItB4ZUmcMBebQREgMwHitLOWW4+Ww/UNWErDb
+ BX3Onmb9VsHhmxZ0=
+X-Received: by 2002:a37:6841:: with SMTP id d62mr1705297qkc.365.1582757700027; 
+ Wed, 26 Feb 2020 14:55:00 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz4xcaICWehbAkrsogjl5WAcyo1Iz+HUNOtbzBC/XHoZnKF76Ffq1b9zP/GBq6YIRY1j5YXqQ==
+X-Received: by 2002:a37:6841:: with SMTP id d62mr1705270qkc.365.1582757699779; 
+ Wed, 26 Feb 2020 14:54:59 -0800 (PST)
+Received: from xz-x1.redhat.com
+ (CPEf81d0fb19163-CMf81d0fb19160.cpe.net.fido.ca. [72.137.123.47])
+ by smtp.gmail.com with ESMTPSA id n188sm1881855qkc.106.2020.02.26.14.54.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 14:54:59 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 3/5] KVM: Pass EventNotifier into kvm_irqchip_assign_irqfd
+Date: Wed, 26 Feb 2020 17:54:57 -0500
+Message-Id: <20200226225457.217014-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200226225048.216508-1-peterx@redhat.com>
+References: 
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1146421166-1582757465=:39102"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,83 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>, luigi burdo <intermediadc@hotmail.com>,
- Dino Papararo <skizzato73@msn.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+So that kvm_irqchip_assign_irqfd() can have access to the
+EventNotifiers, especially the resample event.  It is needed in follow
+up patch to cache and kick resamplefds from QEMU.
 
---3866299591-1146421166-1582757465=:39102
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ accel/kvm/kvm-all.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-On Wed, 26 Feb 2020, Alex Benn=C3=A9e wrote:
-> That's the wrong way around. We have regression tests for a reason. I'l=
-l
-> happily accept patches to turn on hardfloat for PPC if:
->
-> a) they don't cause regressions in our fairly extensive floating point
-> tests
-
-Where are these tests and how to run them? I'm not aware of such tests so=
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 439a4efe52..d49b74512a 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -1628,9 +1628,13 @@ int kvm_irqchip_update_msi_route(KVMState *s, int vi=
+rq, MSIMessage msg,
+     return kvm_update_routing_entry(s, &kroute);
+ }
 =20
-I've only tried running simple guest code to test changes but if there ar=
-e=20
-more extensive FP tests I'd better use those.
-
-> b) the PPC maintainers are happy with the new performance profile
->
-> The way forward would be to:
->
-> 1. patch to drop #if defined(TARGET_PPC) || defined(__FAST_MATH__)
-
-This is simple but I've found that while it seems to make some vector=20
-instructions faster it also makes most simple FP ops slower because it=20
-will go thorugh checking if it can use hardfloat but never can because th=
-e=20
-fp_status is cleared before every FP op. That's why I've set inexact bit=20
-to let it use hardfloat and be able to test if it would work at all.=20
-That's all my RFC patch did, I've had a 2nd version trying to avoid slow=20
-down with above #if defined() dropped but hardfloat=3Dfalse so it only us=
-es=20
-softfloat as before but it did not worked out too well, some tests said v=
-2=20
-was even slower. Maybe to avoid overhead we should add a variable instead=
+-static int kvm_irqchip_assign_irqfd(KVMState *s, int fd, int rfd, int virq=
+,
++static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
++                                    EventNotifier *resample, int virq,
+                                     bool assign)
+ {
++    int fd =3D event_notifier_get_fd(event);
++    int rfd =3D resample ? event_notifier_get_fd(resample) : -1;
++
+     struct kvm_irqfd irqfd =3D {
+         .fd =3D fd,
+         .gsi =3D virq,
+@@ -1735,7 +1739,9 @@ int kvm_irqchip_add_hv_sint_route(KVMState *s, uint32=
+_t vcpu, uint32_t sint)
+     return -ENOSYS;
+ }
 =20
-of the QEMU_NO_HARDFLOAT define that can be set during runtime but=20
-probably that won't be faster either. Thus it seems there's no way to=20
-enable hardfloat for PPC and not have slower performance for most FP ops=20
-without also doing some of the other points below (even if it's beneficia=
-l=20
-for vector ops).
-
-> 2. audit target/ppc/fpu_helper.c w.r.t chip manual and fix any unneeded
-> splatting of flags (if any)
-
-This would either need someone who knows PPC FPU or someone who can take=20
-the time to learn and go through the code. Not sure I want to volunteer=20
-for that. But I think the clearing of the flags is mainly to emulate FI=20
-bit which is an non-sticky inexact bit that should show the inexact statu=
-s=20
-of last FP op. (There's another simliar bit for fraction rounded as well=20
-but that does not disable hardfloat.) Question is if we really want to=20
-accurately emulate these bits? Are there any software we care about=20
-relying on these? If we can live with not having correct FI bit emulation=
+-static int kvm_irqchip_assign_irqfd(KVMState *s, int fd, int virq, bool as=
+sign)
++static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
++                                    EventNotifier *resample, int virq,
++                                    bool assign)
+ {
+     abort();
+ }
+@@ -1749,15 +1755,13 @@ int kvm_irqchip_update_msi_route(KVMState *s, int v=
+irq, MSIMessage msg)
+ int kvm_irqchip_add_irqfd_notifier_gsi(KVMState *s, EventNotifier *n,
+                                        EventNotifier *rn, int virq)
+ {
+-    return kvm_irqchip_assign_irqfd(s, event_notifier_get_fd(n),
+-           rn ? event_notifier_get_fd(rn) : -1, virq, true);
++    return kvm_irqchip_assign_irqfd(s, n, rn, virq, true);
+ }
 =20
-(which was the case for a long time until these were fixed) then we could=
+ int kvm_irqchip_remove_irqfd_notifier_gsi(KVMState *s, EventNotifier *n,
+                                           int virq)
+ {
+-    return kvm_irqchip_assign_irqfd(s, event_notifier_get_fd(n), -1, virq,
+-           false);
++    return kvm_irqchip_assign_irqfd(s, n, NULL, virq, false);
+ }
 =20
-have an easy way to enable hardfloat without more extensive changes. If w=
-e=20
-want to accurately emulate also these bits then we probably will need=20
-changes to softfloat to allow registering FP exception handlers so we=20
-don't have to clear and check bits but can get an exception from FPU and=20
-then can set those bits but I have no idea how to do that.
+ int kvm_irqchip_add_irqfd_notifier(KVMState *s, EventNotifier *n,
+--=20
+2.24.1
 
-Regards,
-BALATON Zoltan
---3866299591-1146421166-1582757465=:39102--
 
