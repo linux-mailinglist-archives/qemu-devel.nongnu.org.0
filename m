@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF0C16FA5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:13:52 +0100 (CET)
-Received: from localhost ([::1]:40628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DB616FA4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:11:52 +0100 (CET)
+Received: from localhost ([::1]:40574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6slL-00016V-Ey
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:13:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
+	id 1j6sjP-00055k-Ut
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:11:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6sfQ-0006RH-6L
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:45 -0500
+ (envelope-from <mst@redhat.com>) id 1j6sfT-0006bN-Nn
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6sfO-0000uo-Oa
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33813
+ (envelope-from <mst@redhat.com>) id 1j6sfS-00011A-9K
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30404
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sfO-0000tf-Kb
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:42 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sfS-00010b-2C
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582708062;
+ s=mimecast20190719; t=1582708065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/oKgHpzvvYWsVdDfIdCVEbYUj7F09lISrJlwoM5pP5g=;
- b=E4cULFXX9JLwDFPdg2ep9AuVLzKO1XQrWdi1eQkmTCd8mHBone9l6SiJnn/OcxhTGrOodt
- xqKOiJ3S2hhykAwrI3LWRJPyFLDXdEaJ6goOtZ3ERrqW4Wfd9N14xBo0KSqaZKcqeIy3ff
- 21Y5PlEEfmJHTLiEuaM+lJQNrirFQSE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-gTXb_iKNMEKGYNmbvAScOw-1; Wed, 26 Feb 2020 04:07:37 -0500
-X-MC-Unique: gTXb_iKNMEKGYNmbvAScOw-1
-Received: by mail-wm1-f69.google.com with SMTP id r19so655440wmh.1
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:07:36 -0800 (PST)
+ bh=PaVZ83rgHHJzvD04uhNEPYZywTa4yNbe9G1r2BQHUDs=;
+ b=YuVT3SUlUmhZOL8MYQykCeru4fzRscdu1XWIPtkT7RAwg5W4Tp3mDG/7npcqZ2yQrOh7wS
+ Yd1EGEMH5oGn8V1q3JNpHr6MW2CNjjx5rTPZMrzQV4tpXyRdZVa7lzJMUAzNoOwalCtAY4
+ kf2/n54SRyjuq5BeQn5ss2Cl/NSUccE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-r6AZ2QiCPKWqw__n5n0g8w-1; Wed, 26 Feb 2020 04:07:41 -0500
+X-MC-Unique: r6AZ2QiCPKWqw__n5n0g8w-1
+Received: by mail-wr1-f70.google.com with SMTP id p5so1167702wrj.17
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:07:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RCsZu5eqrBUiXUZoz9bzfU4qWCKnd0BfjuIJHzusOXA=;
- b=HDxswMgXj9ZtjUbTQ2JMrzdxSoOnlTt78OFc/x7m3lzxHbp/4c6KH6KnXE2AQXuzNn
- G5r8gLCgHCUmxb5NoxibCTOe3yLY3uLh1bwlTvuCxQXCdRY2ZcvvWNjh221G47fa+Fk3
- 231M8lLNf2ZlwgDKT8l44+QKZL1sZtwmTQtsDodweboNvpplu9q1VJLQ6f6T05gY+iRp
- CiCRpw/Bc0btrKjyHZ5KotgsCLal3gDMzx/1LNlcJtcZn02muSVPUDpuFReHeB1ZH6/e
- mweLytPDg9EmW28hPseSpJUces4Zdle2BL79vBLx2XaB8NqnI6uhr5Ev5uMd+hMaRHr7
- XxMQ==
-X-Gm-Message-State: APjAAAXy+57iwu+m6AE9mGrM5x7UwFaIye5ORSlnXuNDkubt5W6Uq8tG
- rmyNFTpfQLIY7LJHVorwBNzj+6nH+raLjhLTyFsTONEj+tsklPri6fUjSiW1UbiX4uoRC7goDMN
- 2XeL61UZfhLKyZtw=
-X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr4239824wrt.253.1582708055387; 
- Wed, 26 Feb 2020 01:07:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzIQfWQxm1m/XuaBG3gKFFThXgSVFZxp6KSDGzjOdkOZLrjtmcEcqWOjEQMMmDMdEkBfvNhJw==
-X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr4239800wrt.253.1582708055144; 
- Wed, 26 Feb 2020 01:07:35 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=BEIFZp6ZV6EMxNZvhYr+RG8aqKLzp8+FfOWRj9nMRTw=;
+ b=FTpgsMPqFKvDV+9pDqDDt5uUXEMa9fqfl7A/VjeX81xVAxYBZ8kDvNYiexgO9Gg2cl
+ yAnbn5v5dEjOaO5a2rFjuabnY9qmKvAIaV2aNFZW1Y1ypSW8RcJ90xlGnTvgbMsJlahO
+ wkuoE85DfrJR7kkpRySEtkEcl0Q3JJd3IwF7HdTfYQanbGLEaRfoyVy/0rhi7KIw/75M
+ HpNMtlPl/KPbbqgK5/uxDrIcJxO0gyf32VfBvZolo9MnE3DbdT1wSAg8TAOsM8Iex57g
+ pB0L+Pky/68dsDvbL9SQb7Q8ppJlSCIFcP4oICqzCB0Aj23yEZtvlpXntMWxjw+Q2jZo
+ 80GA==
+X-Gm-Message-State: APjAAAWmfYR7VldMZvzDmHwd+0aBMycYCB6bnC0jLlVXW9E4nSOSA76C
+ sphKaibCWaFU9VCT5PZO996X0LhGAMiwBWREkw//UQZae4xppVW7WWsBi9h1DjnfgmifbOAzwMW
+ egkJ95h75bQEpDcg=
+X-Received: by 2002:adf:e644:: with SMTP id b4mr4206266wrn.110.1582708060139; 
+ Wed, 26 Feb 2020 01:07:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqww5iB5V2WczINd8OkK7tVEKvKlKcNuqwVytB3smY32PXkVbyDVpmoUhxrLeC79wCj4BazXLg==
+X-Received: by 2002:adf:e644:: with SMTP id b4mr4206241wrn.110.1582708059907; 
+ Wed, 26 Feb 2020 01:07:39 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- g10sm2443272wrr.13.2020.02.26.01.07.33
+ p17sm11274wre.89.2020.02.26.01.07.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 01:07:34 -0800 (PST)
-Date: Wed, 26 Feb 2020 04:07:34 -0500
+ Wed, 26 Feb 2020 01:07:39 -0800 (PST)
+Date: Wed, 26 Feb 2020 04:07:38 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 24/30] libvhost-user-glib: use
- g_main_context_get_thread_default()
-Message-ID: <20200226090010.708934-25-mst@redhat.com>
+Subject: [PULL v2 25/30] libvhost-user: handle NOFD flag in call/kick/err
+ better
+Message-ID: <20200226090010.708934-26-mst@redhat.com>
 References: <20200226090010.708934-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200226090010.708934-1-mst@redhat.com>
@@ -75,7 +74,7 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -92,42 +91,122 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Johannes Berg <johannes.berg@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Johannes Berg <johannes.berg@intel.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Johannes Berg <johannes.berg@intel.com>
 
-If we use NULL, we just get the main program default mainloop
-here. Using g_main_context_get_thread_default() has basically
-the same effect, but it lets us start different devices in
-different threads with different mainloops, which can be useful.
+The code here is odd, for example will it print out invalid
+file descriptor numbers that were never sent in the message.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Clean that up a bit so it's actually possible to implement
+a device that uses polling.
+
 Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Message-Id: <20200123081708.7817-4-johannes@sipsolutions.net>
+Message-Id: <20200123081708.7817-5-johannes@sipsolutions.net>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user-glib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/libvhost-user/libvhost-user.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-=
-user/libvhost-user-glib.c
-index 824c7780de..53f1ca4cdd 100644
---- a/contrib/libvhost-user/libvhost-user-glib.c
-+++ b/contrib/libvhost-user/libvhost-user-glib.c
-@@ -89,7 +89,7 @@ vug_source_new(VugDev *gdev, int fd, GIOCondition cond,
-     src->gfd.events =3D cond;
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/=
+libvhost-user.c
+index 533d55d82a..3abc9689e5 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -948,6 +948,7 @@ static bool
+ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
 =20
-     g_source_add_poll(gsrc, &src->gfd);
--    id =3D g_source_attach(gsrc, NULL);
-+    id =3D g_source_attach(gsrc, g_main_context_get_thread_default());
-     g_assert(id);
+     if (index >=3D dev->max_queues) {
+         vmsg_close_fds(vmsg);
+@@ -955,8 +956,12 @@ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg=
+)
+         return false;
+     }
 =20
-     return gsrc;
+-    if (vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK ||
+-        vmsg->fd_num !=3D 1) {
++    if (nofd) {
++        vmsg_close_fds(vmsg);
++        return true;
++    }
++
++    if (vmsg->fd_num !=3D 1) {
+         vmsg_close_fds(vmsg);
+         vu_panic(dev, "Invalid fds in request: %d", vmsg->request);
+         return false;
+@@ -1053,6 +1058,7 @@ static bool
+ vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+=20
+     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+=20
+@@ -1066,8 +1072,8 @@ vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg=
+)
+         dev->vq[index].kick_fd =3D -1;
+     }
+=20
+-    dev->vq[index].kick_fd =3D vmsg->fds[0];
+-    DPRINT("Got kick_fd: %d for vq: %d\n", vmsg->fds[0], index);
++    dev->vq[index].kick_fd =3D nofd ? -1 : vmsg->fds[0];
++    DPRINT("Got kick_fd: %d for vq: %d\n", dev->vq[index].kick_fd, index);
+=20
+     dev->vq[index].started =3D true;
+     if (dev->iface->queue_set_started) {
+@@ -1147,6 +1153,7 @@ static bool
+ vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+=20
+     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+=20
+@@ -1159,14 +1166,14 @@ vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vm=
+sg)
+         dev->vq[index].call_fd =3D -1;
+     }
+=20
+-    dev->vq[index].call_fd =3D vmsg->fds[0];
++    dev->vq[index].call_fd =3D nofd ? -1 : vmsg->fds[0];
+=20
+     /* in case of I/O hang after reconnecting */
+-    if (eventfd_write(vmsg->fds[0], 1)) {
++    if (dev->vq[index].call_fd !=3D -1 && eventfd_write(vmsg->fds[0], 1)) =
+{
+         return -1;
+     }
+=20
+-    DPRINT("Got call_fd: %d for vq: %d\n", vmsg->fds[0], index);
++    DPRINT("Got call_fd: %d for vq: %d\n", dev->vq[index].call_fd, index);
+=20
+     return false;
+ }
+@@ -1175,6 +1182,7 @@ static bool
+ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index =3D vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd =3D vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+=20
+     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+=20
+@@ -1187,7 +1195,7 @@ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
+         dev->vq[index].err_fd =3D -1;
+     }
+=20
+-    dev->vq[index].err_fd =3D vmsg->fds[0];
++    dev->vq[index].err_fd =3D nofd ? -1 : vmsg->fds[0];
+=20
+     return false;
+ }
 --=20
 MST
 
