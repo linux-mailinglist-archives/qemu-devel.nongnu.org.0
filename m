@@ -2,90 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F5516FF03
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:30:36 +0100 (CET)
-Received: from localhost ([::1]:43614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D0216FF2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:39:50 +0100 (CET)
+Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6vpj-0001uJ-LK
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:30:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59492)
+	id 1j6vyf-00080G-37
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:39:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1j6vnu-00005B-Ly
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:44 -0500
+ (envelope-from <saipava@xilinx.com>) id 1j6vxY-0007SK-94
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:38:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1j6vnt-000147-53
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:42 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45258
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <saipava@xilinx.com>) id 1j6vxW-0007p0-OF
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:38:39 -0500
+Received: from mail-bn8nam12on2061.outbound.protection.outlook.com
+ ([40.107.237.61]:6035 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1j6vnm-0000ku-PV; Wed, 26 Feb 2020 07:28:35 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QCPfOF077043; Wed, 26 Feb 2020 07:28:32 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqkatn4a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 07:28:32 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QCQOFt079113;
- Wed, 26 Feb 2020 07:28:31 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqkatn42-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 07:28:31 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QCR2Vv014477;
- Wed, 26 Feb 2020 12:28:31 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma04wdc.us.ibm.com with ESMTP id 2ydcmkn4b0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 12:28:31 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QCSUGm19792236
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 12:28:30 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8C121B205F;
- Wed, 26 Feb 2020 12:28:30 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7215DB2066;
- Wed, 26 Feb 2020 12:28:30 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 12:28:30 +0000 (GMT)
-Subject: Re: [PATCH v3 08/10] test: tpm: pass optional machine options to
- swtpm test functions
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200226102549.12158-1-eric.auger@redhat.com>
- <20200226102549.12158-9-eric.auger@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <953ccab1-b863-4543-e25d-50629551af24@linux.ibm.com>
-Date: Wed, 26 Feb 2020 07:28:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
-MIME-Version: 1.0
-In-Reply-To: <20200226102549.12158-9-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ (Exim 4.71) (envelope-from <saipava@xilinx.com>) id 1j6vxW-0007hI-EV
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:38:38 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SEbG3HrcHbaBTPJaJIN2+Xh60/86yMdtlFYhjzEAohSNRyEe5Mv9Kq84Eh6cPyLTniVMROoFQH90e9OMXf9ud8dmS9LdtWUXhTrlVSN8Kh7heDu0RN7Iggv0T3KY/2bgQi2LBGH7QoyHrCcwjgtMHCAhokbSXvuxh9pSyxYKtBoGmWAQZeWeXkUJ+uFOxxn79Qi+0w+V35yqE/8UQ5okN6EZVe/z19a4I5uDk/2haTPH3/MiWNoYaXzFjBkQtwII0HNaMUqKze4HmD4IaNvpWgce4e1LS2c4dCvpXUUQtxNhcXvva5Rv3GYx/eNx/HaNs3dIMadCfcBx3FUaVo6j9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y/9vZFYY99EQJp3ch4psNK4UgYMbvlT/qDAANJwH+hg=;
+ b=h98sB/kePGIosIu0+RAVTX2hBAQZdd54+kFEtzs+38HXSlA9Aq79TioQGgXM/6ka8ejURkWyG6u3Wpy3bYu0Xvm5MkSFtVp+3p6S8KuEfGM+qgEf+bSpdLQlXnkO4CzI01lI94D0XeXmE/dTQXHlt7i/t1numF4Rk39N7OUsPjUM0NviBdniTLNvmzsu3UpLwbEXdlSuAl0i3vUsydGSDYlrioSIbF8enGnMaF3uhTWSr+RC42vY1mNcLi5vcl236R6G/M4gT/z9OWBku8fYLZWS0qLQ0w+Tl6U9TLodQWIQ+ycCOIviv7lRAIHT/7deQ5JRn4fN61tvskcT304gcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y/9vZFYY99EQJp3ch4psNK4UgYMbvlT/qDAANJwH+hg=;
+ b=G4iJXJz4blQSMeW13pDZhOznfJe8kERucR3kjnCyAXEmzOZQnjydqPUeAEZBlasfkoQtz6Us1J7/PMe7IaUji6N8R6O1csCDLlJAia0DLcecUg/SgoL5YLXsPRrzTrMX6Dmkk7hQakIzyQDSWEHUcdZZ0Evv483xtVGsgCJyZLg=
+Received: from MN2PR02MB5935.namprd02.prod.outlook.com (2603:10b6:208:111::23)
+ by MN2PR02MB7055.namprd02.prod.outlook.com (2603:10b6:208:202::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2750.21; Wed, 26 Feb
+ 2020 12:38:35 +0000
+Received: from MN2PR02MB5935.namprd02.prod.outlook.com
+ ([fe80::7161:a3a3:c491:10cd]) by MN2PR02MB5935.namprd02.prod.outlook.com
+ ([fe80::7161:a3a3:c491:10cd%4]) with mapi id 15.20.2750.021; Wed, 26 Feb 2020
+ 12:38:35 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Implementing IOMMU support for SDHCI 
+Thread-Topic: Implementing IOMMU support for SDHCI 
+Thread-Index: AdXsoAgJBAmayeg8R/u0QxshP3edDA==
+Date: Wed, 26 Feb 2020 12:38:35 +0000
+Message-ID: <MN2PR02MB5935836FBB0AC02F56278FE3CAEA0@MN2PR02MB5935.namprd02.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-26_04:2020-02-26,
- 2020-02-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- malwarescore=0 priorityscore=1501 suspectscore=2 lowpriorityscore=0
- mlxscore=0 spamscore=0 adultscore=0 mlxlogscore=999 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002260093
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=saipava@xilinx.com; 
+x-originating-ip: [149.199.50.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: bb443f9b-3487-4795-c2ae-08d7bab8cbf5
+x-ms-traffictypediagnostic: MN2PR02MB7055:|MN2PR02MB7055:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR02MB7055696659EB9C7F6F979CF6CAEA0@MN2PR02MB7055.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0325F6C77B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(199004)(189003)(76116006)(6506007)(86362001)(55016002)(9686003)(4744005)(7696005)(8936002)(52536014)(26005)(33656002)(8676002)(81156014)(81166006)(71200400001)(186003)(66446008)(107886003)(66556008)(54906003)(4743002)(110136005)(66946007)(5660300002)(4326008)(498600001)(66476007)(2906002)(64756008);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR02MB7055;
+ H:MN2PR02MB5935.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QiUxd1MTYDJNZ4VM/g97p4IIV0/80nx9FblgX9StYkf/6tEQ4txmOCiBTKfLsgHxTWPgzHZYXVQ4bmyX8hTAoeTL7hPmDcGhcwAQQcfRVT8CPLCRFlJwURNkwCRaLqoUtq/wLM7AM7eUZHE/WuTaCAtMf7zxOhb7NQkzyMb8srlnk1r8uiSm2bjaC6361B9FfGFZ4f4oAFQ3vm9Kp3scvK3HJJFJfkHdP1/vWwfLQTZI1LFrGkSs4EmbQ93OvqDOsZNwr4AKD9IrXuEpmoNi+H0VA3vcLw/kRZYTzrzKZgPb0xD2u1uks9TX53qQc2eodhiZEUsp5qkeNK7qDScTB+HgdsknQOc1VBGg//c9ohXIgmiBna8oDbd4tJfOvlYsXw+KnNQjwwvqpUIkJSMbQrgHP2cg+ISsZoPl3x0m7JFUvrvHv3Cv4EEw0z0WHmH9
+x-ms-exchange-antispam-messagedata: XBXG8IT82NxsNybtSeyCIVZg65mxF2IDlzT2ATusDNLErXpEqBuhtiyj/Qca9EiiMhHrsF1JvYrqV3mzroJBDgf3aTAj6tMoko10RnpVgikjnUlowJ1oY9tcf2O29Jo+/AN9il02oomfa29NHQhfFQ==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb443f9b-3487-4795-c2ae-08d7bab8cbf5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2020 12:38:35.3405 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zbJQ3YSWh7/YWN5BNDYr0Us81/5fLzc2SBd7pn2ymDuSDUgeF4GrwXmYJBm8RVR8+E7kX5UUIXWlL6OadjKjaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB7055
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.237.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,192 +105,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Cc: Edgar Iglesias <edgari@xilinx.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 5:25 AM, Eric Auger wrote:
-> We plan to use swtpm test functions on ARM for testing the
-> sysbus TPM-TIS device. However on ARM there is no default machine
-> type. So we need to explictly pass some machine options on startup.
-> Let's allow this by adding a new parameter to both swtpm test
-> functions and update all call sites.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Hi Poalo/Peter,
 
+We are trying to add SMMU support for dma's used in SD controller on ZynqMP=
+ boards. In order to do that we need a clean way to assign MemTxAttrs to ea=
+ch device(i.e all devices which connect to smmu) via "object_add_link_prope=
+rty/ object_set_link_property "  functions.
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+But in order to do that, first we may need to convert MemTxAttrs as QOM obj=
+ect. I just need some feedback, if its advisable to do so ?
 
-
-
-> ---
->   tests/qtest/tpm-crb-swtpm-test.c |  5 +++--
->   tests/qtest/tpm-tests.c          | 10 ++++++----
->   tests/qtest/tpm-tests.h          |  5 +++--
->   tests/qtest/tpm-tis-swtpm-test.c |  5 +++--
->   tests/qtest/tpm-util.c           |  8 ++++++--
->   tests/qtest/tpm-util.h           |  3 ++-
->   6 files changed, 23 insertions(+), 13 deletions(-)
->
-> diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
-> index 2c4fb8ae29..5228cb7af4 100644
-> --- a/tests/qtest/tpm-crb-swtpm-test.c
-> +++ b/tests/qtest/tpm-crb-swtpm-test.c
-> @@ -29,7 +29,8 @@ static void tpm_crb_swtpm_test(const void *data)
->   {
->       const TestState *ts = data;
->   
-> -    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_crb_transfer, "tpm-crb");
-> +    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_crb_transfer,
-> +                        "tpm-crb", NULL);
->   }
->   
->   static void tpm_crb_swtpm_migration_test(const void *data)
-> @@ -37,7 +38,7 @@ static void tpm_crb_swtpm_migration_test(const void *data)
->       const TestState *ts = data;
->   
->       tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
-> -                                  tpm_util_crb_transfer, "tpm-crb");
-> +                                  tpm_util_crb_transfer, "tpm-crb", NULL);
->   }
->   
->   int main(int argc, char **argv)
-> diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
-> index 6e45a0ba85..a2f2838e15 100644
-> --- a/tests/qtest/tpm-tests.c
-> +++ b/tests/qtest/tpm-tests.c
-> @@ -30,7 +30,7 @@ tpm_test_swtpm_skip(void)
->   }
->   
->   void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
-> -                         const char *ifmodel)
-> +                         const char *ifmodel, const char *machine_options)
->   {
->       char *args = NULL;
->       QTestState *s;
-> @@ -47,10 +47,11 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
->       g_assert_true(succ);
->   
->       args = g_strdup_printf(
-> +        "%s "
->           "-chardev socket,id=chr,path=%s "
->           "-tpmdev emulator,id=dev,chardev=chr "
->           "-device %s,tpmdev=dev",
-> -        addr->u.q_unix.path, ifmodel);
-> +        machine_options ? : "", addr->u.q_unix.path, ifmodel);
->   
->       s = qtest_start(args);
->       g_free(args);
-> @@ -78,7 +79,8 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
->   void tpm_test_swtpm_migration_test(const char *src_tpm_path,
->                                      const char *dst_tpm_path,
->                                      const char *uri, tx_func *tx,
-> -                                   const char *ifmodel)
-> +                                   const char *ifmodel,
-> +                                   const char *machine_options)
->   {
->       gboolean succ;
->       GPid src_tpm_pid, dst_tpm_pid;
-> @@ -100,7 +102,7 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
->   
->       tpm_util_migration_start_qemu(&src_qemu, &dst_qemu,
->                                     src_tpm_addr, dst_tpm_addr, uri,
-> -                                  ifmodel);
-> +                                  ifmodel, machine_options);
->   
->       tpm_util_startup(src_qemu, tx);
->       tpm_util_pcrextend(src_qemu, tx);
-> diff --git a/tests/qtest/tpm-tests.h b/tests/qtest/tpm-tests.h
-> index b97688fe75..a5df35ab5b 100644
-> --- a/tests/qtest/tpm-tests.h
-> +++ b/tests/qtest/tpm-tests.h
-> @@ -16,11 +16,12 @@
->   #include "tpm-util.h"
->   
->   void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
-> -                         const char *ifmodel);
-> +                         const char *ifmodel, const char *machine_options);
->   
->   void tpm_test_swtpm_migration_test(const char *src_tpm_path,
->                                      const char *dst_tpm_path,
->                                      const char *uri, tx_func *tx,
-> -                                   const char *ifmodel);
-> +                                   const char *ifmodel,
-> +                                   const char *machine_options);
->   
->   #endif /* TESTS_TPM_TESTS_H */
-> diff --git a/tests/qtest/tpm-tis-swtpm-test.c b/tests/qtest/tpm-tis-swtpm-test.c
-> index 9f58a3a92b..9470f15751 100644
-> --- a/tests/qtest/tpm-tis-swtpm-test.c
-> +++ b/tests/qtest/tpm-tis-swtpm-test.c
-> @@ -29,7 +29,8 @@ static void tpm_tis_swtpm_test(const void *data)
->   {
->       const TestState *ts = data;
->   
-> -    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer, "tpm-tis");
-> +    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
-> +                        "tpm-tis", NULL);
->   }
->   
->   static void tpm_tis_swtpm_migration_test(const void *data)
-> @@ -37,7 +38,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
->       const TestState *ts = data;
->   
->       tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
-> -                                  tpm_util_tis_transfer, "tpm-tis");
-> +                                  tpm_util_tis_transfer, "tpm-tis", NULL);
->   }
->   
->   int main(int argc, char **argv)
-> diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-> index e08b137651..7ecdae2fc6 100644
-> --- a/tests/qtest/tpm-util.c
-> +++ b/tests/qtest/tpm-util.c
-> @@ -258,23 +258,27 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
->                                      SocketAddress *src_tpm_addr,
->                                      SocketAddress *dst_tpm_addr,
->                                      const char *miguri,
-> -                                   const char *ifmodel)
-> +                                   const char *ifmodel,
-> +                                   const char *machine_options)
->   {
->       char *src_qemu_args, *dst_qemu_args;
->   
->       src_qemu_args = g_strdup_printf(
-> +        "%s "
->           "-chardev socket,id=chr,path=%s "
->           "-tpmdev emulator,id=dev,chardev=chr "
->           "-device %s,tpmdev=dev ",
-> -        src_tpm_addr->u.q_unix.path, ifmodel);
-> +        machine_options ? : "", src_tpm_addr->u.q_unix.path, ifmodel);
->   
->       *src_qemu = qtest_init(src_qemu_args);
->   
->       dst_qemu_args = g_strdup_printf(
-> +        "%s "
->           "-chardev socket,id=chr,path=%s "
->           "-tpmdev emulator,id=dev,chardev=chr "
->           "-device %s,tpmdev=dev "
->           "-incoming %s",
-> +        machine_options ? : "",
->           dst_tpm_addr->u.q_unix.path,
->           ifmodel, miguri);
->   
-> diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
-> index 5755698ad2..15e3924942 100644
-> --- a/tests/qtest/tpm-util.h
-> +++ b/tests/qtest/tpm-util.h
-> @@ -44,7 +44,8 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
->                                      SocketAddress *src_tpm_addr,
->                                      SocketAddress *dst_tpm_addr,
->                                      const char *miguri,
-> -                                   const char *ifmodel);
-> +                                   const char *ifmodel,
-> +                                   const char *machine_options);
->   
->   void tpm_util_wait_for_migration_complete(QTestState *who);
->   
-
+Thanks & Regards,
+Sai Pavan
 
 
