@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149D716FDCE
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:34:34 +0100 (CET)
-Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B05316FDC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:32:23 +0100 (CET)
+Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6uxV-0005dc-1B
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:34:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52597)
+	id 1j6uvO-0002A9-AE
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:32:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6utj-0000bN-Ul
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:41 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6utj-0000Zn-N9
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6uti-0005m1-5h
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6uti-0005or-KW
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:39 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55048)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56185)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6uth-0005gP-TY
+ id 1j6uti-0005je-De
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:38 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id z12so2615109wmi.4
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:37 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id q9so2615363wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y1LvmpAvWY/E4+GUNJp+foSRXvnPQShOlaVFvp9wP6g=;
- b=Otn28647bpgLh1VHTA2i/W3h0tDPqNKzT5wJY8vAiXFu2h5pCBHF8XJ3O5ZraOh58H
- sdEZUHZ7bResc7uyNh7E3DG+gXZyK8bD1+WvV/K7Jl579A+++f/i23Wf/cBnV3ELPpaj
- An3k/PbxKd/NDV3DuFd+X1Ob8fOaRhFvs1MICEDlyOS8nr/TlwqkbOIE5iBf7hgX4SS1
- vMb6vcSzLOayn0Y80jVLMnEnYAL3jJXIrkiUjiFhMvtcZlzEjDm7U6ycbCGKL560jEtV
- TeM2xzzJbrQhtjzfX89uqsLUSuI7ZtMdr9iDPKUxdDwwgjAab7l/YUgyfL0SMtDfPJOj
- Y/Lg==
+ bh=fw/rJa8dhtp/mvFKBv5486BhN3zvfJhs9x20gT+6mYA=;
+ b=hid7JL4p0EyLwAJVb7B2zEOGy0u96FpGFTQu9zULjdJ+PTTA6DC7c95OZ8SRdIRa2p
+ 19KVtKOkWc3ryZ6Ig64PMj1ZM/qqf6k0mSHE/LefEoQnvtQTDVbXjCocLNGyNFUiG1Mh
+ iLUTgaE+M5NVGLqsS9Xi18kq4qg5kd1YCjNnAV6K2bsIs6Bs+LOX0BsF4GMTmJCI1G1v
+ ISo60DwTmcmKa+9vrwEi7zdL5rydJFcp0+uiNHFV0b2YApsfTTux3egen43h6k09W/Hm
+ hIZNWCOWPTWmf70vjDgmBr2svCKJI92DbkizhVIPfaL/farNXYzuwSo3reXjGT+2IJLW
+ 7Z+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Y1LvmpAvWY/E4+GUNJp+foSRXvnPQShOlaVFvp9wP6g=;
- b=iSFyus+97cM9medfFsOQ8+hNXlDKJdPUZL/231iaZ0x56apuBKXF36/LDTwTSvYd6Y
- iRaUlRmPG1gyCXkPej+yjFLy5BC7XLWs7SbYesMzQj9+6gJ4ROh15mSN6kaXtNnzKNWp
- EPW+/bvkVMuNoXf88PZtn8bVNAuvyjXHoJ5W05UO9K7JPyGMEnJOA4AbgRTVrLqswkfW
- DZ5uIIMonBcEGR84udmewzMQGLueLj1YrgCWQQUEu8/WdEcHQXLaRi6guuXmYaWMaRqp
- 07CAUpGh20RKugIIHMePTXyJI5/VQacgEZ1p2ugeR0P89J8kdFMhxY8SFcb3vuOS2DPt
- 0rUA==
-X-Gm-Message-State: APjAAAWGbA7tWzzC4CtkgLTVdn0iwNFQVW6NEoWTLnjmPnLC3GxaqCK1
- hyVWhRNhd6f5kiFAE4xcdrd2u833
-X-Google-Smtp-Source: APXvYqyn0f4qo//k9v/G3CNa5QS/zLtjNrmjqlw6oNzmMloaUIimGmSwPRQpgnwVv/O4WqchCXa9Uw==
-X-Received: by 2002:a05:600c:3ce:: with SMTP id
- z14mr4907852wmd.106.1582716636260; 
+ bh=fw/rJa8dhtp/mvFKBv5486BhN3zvfJhs9x20gT+6mYA=;
+ b=MxfJO+4yEUj5O3UfI4GME3mK+iLd0HiLjjGcepCF1yHhhg/AwcWAs/82/Ena0CT4JB
+ PV3BJHWMxeQI+IcaDYJ+Y8E2XYKVq1/lT3Oy9eMea8NfimUp6ZA/cxnPTNAlpK+CuuOb
+ NDE/ej8/Lf7Uvv4evFFTjfrSe+0C386KWq3GXYQterZ2b6+JzgagQCfxVFawEfmrXQ2a
+ 8gHI3eIJ4GffRGTeS2uJPCMTkxq9gQd8lwBvVPDKvm9YY8DtCP0Je9CRvkGO1Y7TocrU
+ T1bTW6vIKDg88BD5OGrAUHL2Adhs/bT83xueosz8A+lokkVj07nHEfN7X64Dq49A1u0S
+ SV3Q==
+X-Gm-Message-State: APjAAAVQ8PTaqYr4zhU7vuVbpUfMsQzSCOl8fZwhQ8sUcW/ZLRx0FWTK
+ qMtmRRZtMNI8WSbBToifPVrVAn+H
+X-Google-Smtp-Source: APXvYqzwsTq6SPkYGZp+q+OB0bSf9EUo8SWV8xRqb61smIAaIExVHR3HyH6yyJO89anRn3KZtB25cg==
+X-Received: by 2002:a7b:c08d:: with SMTP id r13mr5335996wmh.104.1582716636972; 
  Wed, 26 Feb 2020 03:30:36 -0800 (PST)
 Received: from donizetti.lan ([2001:b07:6468:f312:d0d9:ea10:9775:f33f])
- by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.35
+ by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 03:30:35 -0800 (PST)
+ Wed, 26 Feb 2020 03:30:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/18] qemu-doc: remove target OS documentation
-Date: Wed, 26 Feb 2020 12:30:18 +0100
-Message-Id: <20200226113034.6741-3-pbonzini@redhat.com>
+Subject: [PATCH 03/18] texi2pod: parse @include directives outside "@c man"
+ blocks
+Date: Wed, 26 Feb 2020 12:30:19 +0100
+Message-Id: <20200226113034.6741-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200226113034.6741-1-pbonzini@redhat.com>
 References: <20200226113034.6741-1-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,129 +82,70 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This section covers OSes up to Windows 2000, and as such it is mostly
-obsolete.  Zap it.
+This enables splitting the huge qemu-doc.texi file and keeping parallel
+Texinfo and rST versions of the documentation.  texi2pod is not going to
+live much longer and hardly anyone cares about its upstream status,
+so the temporary fork should be acceptable.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qemu-doc.texi | 96 ---------------------------------------------------
- 1 file changed, 96 deletions(-)
+ scripts/texi2pod.pl | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index 6636816b85..e555dea4ef 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -148,7 +148,6 @@ accelerator is required to use more than one host CPU for emulation.
- * vnc_security::       VNC security
- * network_tls::        TLS setup for network services
- * gdb_usage::          GDB usage
--* pcsys_os_specific::  Target OS specific information
- @end menu
+diff --git a/scripts/texi2pod.pl b/scripts/texi2pod.pl
+index 839b7917cf..8bfc6f6f4c 100755
+--- a/scripts/texi2pod.pl
++++ b/scripts/texi2pod.pl
+@@ -143,6 +143,24 @@ while(<$inf>) {
+ 	next;
+     };
  
- @node pcsys_introduction
-@@ -1605,101 +1604,6 @@ received: "OK"
- @end example
- @end table
++    # Single line command handlers.
++
++    /^\@include\s+(.+)$/ and do {
++	push @instack, $inf;
++	$inf = gensym();
++	$file = postprocess($1);
++
++	# Try cwd and $ibase, then explicit -I paths.
++	$done = 0;
++	foreach $path ("", $ibase, @ipath) {
++	    $mypath = $file;
++	    $mypath = $path . "/" . $mypath if ($path ne "");
++	    open($inf, "<" . $mypath) and ($done = 1, last);
++	}
++	die "cannot find $file" if !$done;
++	next;
++    };
++
+     next unless $output;
  
--@node pcsys_os_specific
--@section Target OS specific information
--
--@subsection Linux
--
--To have access to SVGA graphic modes under X11, use the @code{vesa} or
--the @code{cirrus} X11 driver. For optimal performances, use 16 bit
--color depth in the guest and the host OS.
--
--When using a 2.6 guest Linux kernel, you should add the option
--@code{clock=pit} on the kernel command line because the 2.6 Linux
--kernels make very strict real time clock checks by default that QEMU
--cannot simulate exactly.
--
--When using a 2.6 guest Linux kernel, verify that the 4G/4G patch is
--not activated because QEMU is slower with this patch. The QEMU
--Accelerator Module is also much slower in this case. Earlier Fedora
--Core 3 Linux kernel (< 2.6.9-1.724_FC3) were known to incorporate this
--patch by default. Newer kernels don't have it.
--
--@subsection Windows
--
--If you have a slow host, using Windows 95 is better as it gives the
--best speed. Windows 2000 is also a good choice.
--
--@subsubsection SVGA graphic modes support
--
--QEMU emulates a Cirrus Logic GD5446 Video
--card. All Windows versions starting from Windows 95 should recognize
--and use this graphic card. For optimal performances, use 16 bit color
--depth in the guest and the host OS.
--
--If you are using Windows XP as guest OS and if you want to use high
--resolution modes which the Cirrus Logic BIOS does not support (i.e. >=
--1280x1024x16), then you should use the VESA VBE virtual graphic card
--(option @option{-std-vga}).
--
--@subsubsection CPU usage reduction
--
--Windows 9x does not correctly use the CPU HLT
--instruction. The result is that it takes host CPU cycles even when
--idle. You can install the utility from
--@url{https://web.archive.org/web/20060212132151/http://www.user.cityline.ru/~maxamn/amnhltm.zip}
--to solve this problem. Note that no such tool is needed for NT, 2000 or XP.
--
--@subsubsection Windows 2000 disk full problem
--
--Windows 2000 has a bug which gives a disk full problem during its
--installation. When installing it, use the @option{-win2k-hack} QEMU
--option to enable a specific workaround. After Windows 2000 is
--installed, you no longer need this option (this option slows down the
--IDE transfers).
--
--@subsubsection Windows 2000 shutdown
--
--Windows 2000 cannot automatically shutdown in QEMU although Windows 98
--can. It comes from the fact that Windows 2000 does not automatically
--use the APM driver provided by the BIOS.
--
--In order to correct that, do the following (thanks to Struan
--Bartlett): go to the Control Panel => Add/Remove Hardware & Next =>
--Add/Troubleshoot a device => Add a new device & Next => No, select the
--hardware from a list & Next => NT Apm/Legacy Support & Next => Next
--(again) a few times. Now the driver is installed and Windows 2000 now
--correctly instructs QEMU to shutdown at the appropriate moment.
--
--@subsubsection Share a directory between Unix and Windows
--
--See @ref{sec_invocation} about the help of the option
--@option{'-netdev user,smb=...'}.
--
--@subsubsection Windows XP security problem
--
--Some releases of Windows XP install correctly but give a security
--error when booting:
--@example
--A problem is preventing Windows from accurately checking the
--license for this computer. Error code: 0x800703e6.
--@end example
--
--The workaround is to install a service pack for XP after a boot in safe
--mode. Then reboot, and the problem should go away. Since there is no
--network while in safe mode, its recommended to download the full
--installation of SP1 or SP2 and transfer that via an ISO or using the
--vvfat block device ("-hdb fat:directory_which_holds_the_SP").
--
--@subsection MS-DOS and FreeDOS
--
--@subsubsection CPU usage reduction
--
--DOS does not correctly use the CPU HLT instruction. The result is that
--it takes host CPU cycles even when idle. You can install the utility from
--@url{https://web.archive.org/web/20051222085335/http://www.vmware.com/software/dosidle210.zip}
--to solve this problem.
--
- @node QEMU System emulator for non PC targets
- @chapter QEMU System emulator for non PC targets
+     # Discard comments.  (Can't do it above, because then we'd never see
+@@ -242,24 +260,6 @@ while(<$inf>) {
+ 	s/>/&GT;/g;
+     }
  
+-    # Single line command handlers.
+-
+-    /^\@include\s+(.+)$/ and do {
+-	push @instack, $inf;
+-	$inf = gensym();
+-	$file = postprocess($1);
+-
+-	# Try cwd and $ibase, then explicit -I paths.
+-	$done = 0;
+-	foreach $path ("", $ibase, @ipath) {
+-	    $mypath = $file;
+-	    $mypath = $path . "/" . $mypath if ($path ne "");
+-	    open($inf, "<" . $mypath) and ($done = 1, last);
+-	}
+-	die "cannot find $file" if !$done;
+-	next;
+-    };
+-
+     /^\@(?:section|unnumbered|unnumberedsec|center)\s+(.+)$/
+ 	and $_ = "\n=head2 $1\n";
+     /^\@subsection\s+(.+)$/
 -- 
 2.21.1
 
