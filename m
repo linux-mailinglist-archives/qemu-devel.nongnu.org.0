@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B05316FDC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:32:23 +0100 (CET)
-Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3551716FDD1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:34:53 +0100 (CET)
+Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6uvO-0002A9-AE
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:32:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
+	id 1j6uxo-0005x5-8l
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:34:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6utj-0000Zn-N9
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6uto-0000ej-00
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j6uti-0005or-KW
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:39 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56185)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j6utk-0005xk-HF
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:43 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52419)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j6uti-0005je-De
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:38 -0500
-Received: by mail-wm1-x343.google.com with SMTP id q9so2615363wmj.5
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:38 -0800 (PST)
+ id 1j6utk-0005sJ-39
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:30:40 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id p9so2630064wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:30:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fw/rJa8dhtp/mvFKBv5486BhN3zvfJhs9x20gT+6mYA=;
- b=hid7JL4p0EyLwAJVb7B2zEOGy0u96FpGFTQu9zULjdJ+PTTA6DC7c95OZ8SRdIRa2p
- 19KVtKOkWc3ryZ6Ig64PMj1ZM/qqf6k0mSHE/LefEoQnvtQTDVbXjCocLNGyNFUiG1Mh
- iLUTgaE+M5NVGLqsS9Xi18kq4qg5kd1YCjNnAV6K2bsIs6Bs+LOX0BsF4GMTmJCI1G1v
- ISo60DwTmcmKa+9vrwEi7zdL5rydJFcp0+uiNHFV0b2YApsfTTux3egen43h6k09W/Hm
- hIZNWCOWPTWmf70vjDgmBr2svCKJI92DbkizhVIPfaL/farNXYzuwSo3reXjGT+2IJLW
- 7Z+Q==
+ bh=BYBCjZYUtsCB+EF+qyEy5T7SBWWZqU/nVxEGQTJOA/8=;
+ b=OtvwtJRgTSkGGo3f3R0z2xGtFBsuC95iZ4FeY+hENZhRdH99LBrmkAkZQ8RvZD9hAy
+ vOJuHfksHJ/sIN12n1S/zbkdOhJWwDPnCx7fW7kFCEKOyiWPPlaVC4YFmBjV3/ml8iZc
+ ioAUZuRUAi56/L/h5+SpvYVWWGxmkiDWxfFbdOz7xhU/5VI+YibKrMZadpvB/rVTEIe7
+ NMu1WQUmPHw3IOh8wRcc1JRVT8QfKN94SyIdQLnQLU5F0GHVSra+pjacmzharCwQ2e7c
+ DzHXj312PwKw0ZijIkq2x/8zbgVOz/ZHcoU4q1ib6gbuPc0Qz+Qboj61MFB78xXk8H7g
+ mNWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fw/rJa8dhtp/mvFKBv5486BhN3zvfJhs9x20gT+6mYA=;
- b=MxfJO+4yEUj5O3UfI4GME3mK+iLd0HiLjjGcepCF1yHhhg/AwcWAs/82/Ena0CT4JB
- PV3BJHWMxeQI+IcaDYJ+Y8E2XYKVq1/lT3Oy9eMea8NfimUp6ZA/cxnPTNAlpK+CuuOb
- NDE/ej8/Lf7Uvv4evFFTjfrSe+0C386KWq3GXYQterZ2b6+JzgagQCfxVFawEfmrXQ2a
- 8gHI3eIJ4GffRGTeS2uJPCMTkxq9gQd8lwBvVPDKvm9YY8DtCP0Je9CRvkGO1Y7TocrU
- T1bTW6vIKDg88BD5OGrAUHL2Adhs/bT83xueosz8A+lokkVj07nHEfN7X64Dq49A1u0S
- SV3Q==
-X-Gm-Message-State: APjAAAVQ8PTaqYr4zhU7vuVbpUfMsQzSCOl8fZwhQ8sUcW/ZLRx0FWTK
- qMtmRRZtMNI8WSbBToifPVrVAn+H
-X-Google-Smtp-Source: APXvYqzwsTq6SPkYGZp+q+OB0bSf9EUo8SWV8xRqb61smIAaIExVHR3HyH6yyJO89anRn3KZtB25cg==
-X-Received: by 2002:a7b:c08d:: with SMTP id r13mr5335996wmh.104.1582716636972; 
- Wed, 26 Feb 2020 03:30:36 -0800 (PST)
+ bh=BYBCjZYUtsCB+EF+qyEy5T7SBWWZqU/nVxEGQTJOA/8=;
+ b=lOjo8F3r5TjdLd0MlXFYmtcPEhFw9ukaagvlNOWvreJn0LTgdgVs9i20ieR+vtVx2s
+ nyONtje3j0bGSLXfxC1CVK2Xwgu2lONmRwZA/tUdsIz5P4DKIFjn9hTxVuKQNpykM/Ky
+ MvXKXsTv7lkFMzISxrdXmHDjYe9T58Q3ZsqRhN9UgDkLjqAl+PnzRTjAJKYt9LMrQydf
+ jWA92X2a+Xz+OQ6HNZI3IIzGcPu8MMPBTn4Rf4UspvxP5/w1p+uTtcq1bISe4u+7xYiH
+ P0gKHyQIuqiU2VmoxC04SJgAOxx+yK2yhBUeABxVIE6MJl6XpEnEuDt8oXoje6EqWMmq
+ MCZw==
+X-Gm-Message-State: APjAAAUiO2ZKBwCHENjVCQI2Bu6N3uRLuwN/YWAyxCpObZScnHxbgBjQ
+ tlxT5imfY2b6OXELZLIfmzB6RUHv
+X-Google-Smtp-Source: APXvYqwWbgrrvX5aHwRD1nNFTLpaVNv6kyKyetJ7L+rjS6cNGizh8QlE0SsUQ4Xo6zeN8ZF+Jul5XQ==
+X-Received: by 2002:a1c:a594:: with SMTP id o142mr4790297wme.146.1582716637982; 
+ Wed, 26 Feb 2020 03:30:37 -0800 (PST)
 Received: from donizetti.lan ([2001:b07:6468:f312:d0d9:ea10:9775:f33f])
- by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.36
+ by smtp.gmail.com with ESMTPSA id h128sm2628154wmh.33.2020.02.26.03.30.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 03:30:36 -0800 (PST)
+ Wed, 26 Feb 2020 03:30:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/18] texi2pod: parse @include directives outside "@c man"
- blocks
-Date: Wed, 26 Feb 2020 12:30:19 +0100
-Message-Id: <20200226113034.6741-4-pbonzini@redhat.com>
+Subject: [PATCH 04/18] qemu-doc: split CPU models doc between MIPS and x86
+ parts
+Date: Wed, 26 Feb 2020 12:30:20 +0100
+Message-Id: <20200226113034.6741-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200226113034.6741-1-pbonzini@redhat.com>
 References: <20200226113034.6741-1-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,70 +82,643 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This enables splitting the huge qemu-doc.texi file and keeping parallel
-Texinfo and rST versions of the documentation.  texi2pod is not going to
-live much longer and hardly anyone cares about its upstream status,
-so the temporary fork should be acceptable.
+The MIPS CPU models end up in the middle of the PC documentation.  Move
+them to a separate file so that they can be placed in the right section.
+
+The man page still includes both x86 and MIPS content.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/texi2pod.pl | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ MAINTAINERS                                   |   3 +-
+ Makefile                                      |  11 +-
+ docs/system/cpu-models-mips.texi              | 157 +++++++++++++
+ .../cpu-models-x86.texi}                      | 221 ++----------------
+ docs/system/qemu-cpu-models.texi              |  28 +++
+ qemu-doc.texi                                 |  12 +-
+ 6 files changed, 213 insertions(+), 219 deletions(-)
+ create mode 100644 docs/system/cpu-models-mips.texi
+ rename docs/{qemu-cpu-models.texi => system/cpu-models-x86.texi} (71%)
+ create mode 100644 docs/system/qemu-cpu-models.texi
 
-diff --git a/scripts/texi2pod.pl b/scripts/texi2pod.pl
-index 839b7917cf..8bfc6f6f4c 100755
---- a/scripts/texi2pod.pl
-+++ b/scripts/texi2pod.pl
-@@ -143,6 +143,24 @@ while(<$inf>) {
- 	next;
-     };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 36d94c17a6..574b80498c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -215,6 +215,7 @@ S: Maintained
+ F: target/mips/
+ F: default-configs/*mips*
+ F: disas/*mips*
++F: docs/system/cpu-models-mips.texi
+ F: hw/intc/mips_gic.c
+ F: hw/mips/
+ F: hw/misc/mips_*
+@@ -319,7 +320,7 @@ F: tests/tcg/i386/
+ F: tests/tcg/x86_64/
+ F: hw/i386/
+ F: disas/i386.c
+-F: docs/qemu-cpu-models.texi
++F: docs/system/cpu-models-x86.texi
+ T: git https://github.com/ehabkost/qemu.git x86-next
  
-+    # Single line command handlers.
-+
-+    /^\@include\s+(.+)$/ and do {
-+	push @instack, $inf;
-+	$inf = gensym();
-+	$file = postprocess($1);
-+
-+	# Try cwd and $ibase, then explicit -I paths.
-+	$done = 0;
-+	foreach $path ("", $ibase, @ipath) {
-+	    $mypath = $file;
-+	    $mypath = $path . "/" . $mypath if ($path ne "");
-+	    open($inf, "<" . $mypath) and ($done = 1, last);
-+	}
-+	die "cannot find $file" if !$done;
-+	next;
-+    };
-+
-     next unless $output;
+ Xtensa TCG CPUs
+diff --git a/Makefile b/Makefile
+index 73d8ed2b6a..402eab258d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -354,7 +354,7 @@ endif
+ DOCS+=$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7
+ DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
+ DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
+-DOCS+=docs/qemu-cpu-models.7
++DOCS+=docs/system/qemu-cpu-models.7
+ DOCS+=$(MANUAL_BUILDDIR)/index.html
+ ifdef CONFIG_VIRTFS
+ DOCS+=$(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1
+@@ -780,7 +780,7 @@ distclean: clean
+ 	rm -f docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+ 	rm -f docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
+ 	rm -f docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html
+-	rm -f docs/qemu-cpu-models.7
++	rm -f docs/system/qemu-cpu-models.7
+ 	rm -rf .doctrees
+ 	$(call clean-manual,devel)
+ 	$(call clean-manual,interop)
+@@ -859,7 +859,7 @@ ifdef CONFIG_POSIX
+ 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man7"
+ 	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.7 "$(DESTDIR)$(mandir)/man7"
+ 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/system/qemu-block-drivers.7 "$(DESTDIR)$(mandir)/man7"
+-	$(INSTALL_DATA) docs/qemu-cpu-models.7 "$(DESTDIR)$(mandir)/man7"
++	$(INSTALL_DATA) docs/system/qemu-cpu-models.7 "$(DESTDIR)$(mandir)/man7"
+ ifeq ($(CONFIG_TOOLS),y)
+ 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-img.1 "$(DESTDIR)$(mandir)/man1"
+ 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man8"
+@@ -1104,7 +1104,7 @@ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
  
-     # Discard comments.  (Can't do it above, because then we'd never see
-@@ -242,24 +260,6 @@ while(<$inf>) {
- 	s/>/&GT;/g;
-     }
+ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
+ qemu.1: qemu-option-trace.texi
+-docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
++docs/system/qemu-cpu-models.7: docs/system/qemu-cpu-models.texi docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi
  
--    # Single line command handlers.
+ html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
+ info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
+@@ -1116,7 +1116,8 @@ qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
+ 	qemu-tech.texi qemu-option-trace.texi \
+ 	qemu-deprecated.texi qemu-monitor.texi \
+ 	qemu-monitor-info.texi \
+-	docs/qemu-cpu-models.texi docs/security.texi
++	docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi \
++	docs/security.texi
+ 
+ docs/interop/qemu-ga-ref.dvi docs/interop/qemu-ga-ref.html \
+     docs/interop/qemu-ga-ref.info docs/interop/qemu-ga-ref.pdf \
+diff --git a/docs/system/cpu-models-mips.texi b/docs/system/cpu-models-mips.texi
+new file mode 100644
+index 0000000000..6a0370cb69
+--- /dev/null
++++ b/docs/system/cpu-models-mips.texi
+@@ -0,0 +1,157 @@
++@node recommendations_cpu_models_MIPS
++@section Supported CPU model configurations on MIPS hosts
++
++QEMU supports variety of MIPS CPU models:
++
++@menu
++* cpu_models_MIPS32::               Supported CPU models for MIPS32 hosts
++* cpu_models_MIPS64::               Supported CPU models for MIPS64 hosts
++* cpu_models_nanoMIPS::             Supported CPU models for nanoMIPS hosts
++* preferred_cpu_models_MIPS::       Preferred CPU models for MIPS hosts
++@end menu
++
++@node cpu_models_MIPS32
++@subsection Supported CPU models for MIPS32 hosts
++
++The following CPU models are supported for use on MIPS32 hosts. Administrators /
++applications are recommended to use the CPU model that matches the generation
++of the host CPUs in use. In a deployment with a mixture of host CPU models
++between machines, if live migration compatibility is required, use the newest
++CPU model that is compatible across all desired hosts.
++
++@table @option
++@item @code{mips32r6-generic}
++
++MIPS32 Processor (Release 6, 2015)
++
++
++@item @code{P5600}
++
++MIPS32 Processor (P5600, 2014)
++
++
++@item @code{M14K}
++@item @code{M14Kc}
++
++MIPS32 Processor (M14K, 2009)
++
++
++@item @code{74Kf}
++
++MIPS32 Processor (74K, 2007)
++
++
++@item @code{34Kf}
++
++MIPS32 Processor (34K, 2006)
++
++
++@item @code{24Kc}
++@item @code{24KEc}
++@item @code{24Kf}
++
++MIPS32 Processor (24K, 2003)
++
++
++@item @code{4Kc}
++@item @code{4Km}
++@item @code{4KEcR1}
++@item @code{4KEmR1}
++@item @code{4KEc}
++@item @code{4KEm}
++
++MIPS32 Processor (4K, 1999)
++@end table
++
++@node cpu_models_MIPS64
++@subsection Supported CPU models for MIPS64 hosts
++
++The following CPU models are supported for use on MIPS64 hosts. Administrators /
++applications are recommended to use the CPU model that matches the generation
++of the host CPUs in use. In a deployment with a mixture of host CPU models
++between machines, if live migration compatibility is required, use the newest
++CPU model that is compatible across all desired hosts.
++
++@table @option
++@item @code{I6400}
++
++MIPS64 Processor (Release 6, 2014)
++
++
++@item @code{Loongson-2F}
++
++MIPS64 Processor (Loongson 2, 2008)
++
++
++@item @code{Loongson-2E}
++
++MIPS64 Processor (Loongson 2, 2006)
++
++
++@item @code{mips64dspr2}
++
++MIPS64 Processor (Release 2, 2006)
++
++
++@item @code{MIPS64R2-generic}
++@item @code{5KEc}
++@item @code{5KEf}
++
++MIPS64 Processor (Release 2, 2002)
++
++
++@item @code{20Kc}
++
++MIPS64 Processor (20K, 2000)
++
++
++@item @code{5Kc}
++@item @code{5Kf}
++
++MIPS64 Processor (5K, 1999)
++
++
++@item @code{VR5432}
++
++MIPS64 Processor (VR, 1998)
++
++
++@item @code{R4000}
++
++MIPS64 Processor (MIPS III, 1991)
++@end table
++
++@node cpu_models_nanoMIPS
++@subsection Supported CPU models for nanoMIPS hosts
++
++The following CPU models are supported for use on nanoMIPS hosts. Administrators /
++applications are recommended to use the CPU model that matches the generation
++of the host CPUs in use. In a deployment with a mixture of host CPU models
++between machines, if live migration compatibility is required, use the newest
++CPU model that is compatible across all desired hosts.
++
++@table @option
++@item @code{I7200}
++
++MIPS I7200 (nanoMIPS, 2018)
++
++@end table
++
++@node preferred_cpu_models_MIPS
++@subsection Preferred CPU models for MIPS hosts
++
++The following CPU models are preferred for use on different MIPS hosts:
++
++@table @option
++@item @code{MIPS III}
++R4000
++
++@item @code{MIPS32R2}
++34Kf
++
++@item @code{MIPS64R6}
++I6400
++
++@item @code{nanoMIPS}
++I7200
++@end table
+diff --git a/docs/qemu-cpu-models.texi b/docs/system/cpu-models-x86.texi
+similarity index 71%
+rename from docs/qemu-cpu-models.texi
+rename to docs/system/cpu-models-x86.texi
+index f88a1def0d..0cd64b0522 100644
+--- a/docs/qemu-cpu-models.texi
++++ b/docs/system/cpu-models-x86.texi
+@@ -1,16 +1,5 @@
+-@c man begin SYNOPSIS
+-QEMU / KVM CPU model configuration
+-@c man end
 -
--    /^\@include\s+(.+)$/ and do {
--	push @instack, $inf;
--	$inf = gensym();
--	$file = postprocess($1);
+-@set qemu_system_x86 qemu-system-x86_64
 -
--	# Try cwd and $ibase, then explicit -I paths.
--	$done = 0;
--	foreach $path ("", $ibase, @ipath) {
--	    $mypath = $file;
--	    $mypath = $path . "/" . $mypath if ($path ne "");
--	    open($inf, "<" . $mypath) and ($done = 1, last);
--	}
--	die "cannot find $file" if !$done;
--	next;
--    };
+-@c man begin DESCRIPTION
 -
-     /^\@(?:section|unnumbered|unnumberedsec|center)\s+(.+)$/
- 	and $_ = "\n=head2 $1\n";
-     /^\@subsection\s+(.+)$/
+-@menu
+-* recommendations_cpu_models_x86::  Recommendations for KVM CPU model configuration on x86 hosts
+-* recommendations_cpu_models_MIPS:: Supported CPU model configurations on MIPS hosts
+-* cpu_model_syntax_apps::           Syntax for configuring CPU models
+-@end menu
++@node cpu_models_x86
++@section Recommendations for KVM CPU model configuration on x86 hosts
+ 
+ QEMU / KVM virtualization supports two ways to configure CPU models
+ 
+@@ -45,9 +34,6 @@ stepping, etc will precisely match the host CPU, as they would with "Host
+ passthrough", but gives much of the benefit of passthrough, while making
+ live migration safe.
+ 
+-@node recommendations_cpu_models_x86
+-@subsection Recommendations for KVM CPU model configuration on x86 hosts
+-
+ The information that follows provides recommendations for configuring
+ CPU models on x86 hosts. The goals are to maximise performance, while
+ protecting guest OS against various CPU hardware flaws, and optionally
+@@ -60,10 +46,11 @@ enabling live migration between hosts with heterogeneous CPU models.
+ * important_cpu_features_amd_x86::       Important CPU features for AMD x86 hosts
+ * default_cpu_models_x86::               Default x86 CPU models
+ * other_non_recommended_cpu_models_x86:: Other non-recommended x86 CPUs
++* cpu_model_syntax_apps::                Syntax for configuring CPU models
+ @end menu
+ 
+ @node preferred_cpu_models_intel_x86
+-@subsubsection Preferred CPU models for Intel x86 hosts
++@subsection Preferred CPU models for Intel x86 hosts
+ 
+ The following CPU models are preferred for use on Intel hosts. Administrators /
+ applications are recommended to use the CPU model that matches the generation
+@@ -136,7 +123,7 @@ Intel Celeron_4x0 (Conroe/Merom Class Core 2, 2006)
+ @end table
+ 
+ @node important_cpu_features_intel_x86
+-@subsubsection Important CPU features for Intel x86 hosts
++@subsection Important CPU features for Intel x86 hosts
+ 
+ The following are important CPU features that should be used on Intel x86
+ hosts, when available in the host CPU. Some of them require explicit
+@@ -218,7 +205,7 @@ can be used for guest CPUs.
+ 
+ 
+ @node preferred_cpu_models_amd_x86
+-@subsubsection Preferred CPU models for AMD x86 hosts
++@subsection Preferred CPU models for AMD x86 hosts
+ 
+ The following CPU models are preferred for use on Intel hosts. Administrators /
+ applications are recommended to use the CPU model that matches the generation
+@@ -260,7 +247,7 @@ AMD Opteron 240 (Gen 1 Class Opteron, 2004)
+ @end table
+ 
+ @node important_cpu_features_amd_x86
+-@subsubsection Important CPU features for AMD x86 hosts
++@subsection Important CPU features for AMD x86 hosts
+ 
+ The following are important CPU features that should be used on AMD x86
+ hosts, when available in the host CPU. Some of them require explicit
+@@ -349,7 +336,7 @@ Note that not all CPU hardware will support this feature.
+ 
+ 
+ @node default_cpu_models_x86
+-@subsubsection Default x86 CPU models
++@subsection Default x86 CPU models
+ 
+ The default QEMU CPU models are designed such that they can run on all hosts.
+ If an application does not wish to do perform any host compatibility checks
+@@ -372,7 +359,7 @@ qemu64 is used for x86_64 guests and qemu32 is used for i686 guests, when no
+ 
+ 
+ @node other_non_recommended_cpu_models_x86
+-@subsubsection Other non-recommended x86 CPUs
++@subsection Other non-recommended x86 CPUs
+ 
+ The following CPUs models are compatible with most AMD and Intel x86 hosts, but
+ their usage is discouraged, as they expose a very limited featureset, which
+@@ -403,177 +390,13 @@ hardware assisted virtualization, that should thus not be required for
+ running virtual machines.
+ @end table
+ 
+-@node recommendations_cpu_models_MIPS
+-@subsection Supported CPU model configurations on MIPS hosts
+-
+-QEMU supports variety of MIPS CPU models:
+-
+-@menu
+-* cpu_models_MIPS32::               Supported CPU models for MIPS32 hosts
+-* cpu_models_MIPS64::               Supported CPU models for MIPS64 hosts
+-* cpu_models_nanoMIPS::             Supported CPU models for nanoMIPS hosts
+-* preferred_cpu_models_MIPS::       Preferred CPU models for MIPS hosts
+-@end menu
+-
+-@node cpu_models_MIPS32
+-@subsubsection Supported CPU models for MIPS32 hosts
+-
+-The following CPU models are supported for use on MIPS32 hosts. Administrators /
+-applications are recommended to use the CPU model that matches the generation
+-of the host CPUs in use. In a deployment with a mixture of host CPU models
+-between machines, if live migration compatibility is required, use the newest
+-CPU model that is compatible across all desired hosts.
+-
+-@table @option
+-@item @code{mips32r6-generic}
+-
+-MIPS32 Processor (Release 6, 2015)
+-
+-
+-@item @code{P5600}
+-
+-MIPS32 Processor (P5600, 2014)
+-
+-
+-@item @code{M14K}
+-@item @code{M14Kc}
+-
+-MIPS32 Processor (M14K, 2009)
+-
+-
+-@item @code{74Kf}
+-
+-MIPS32 Processor (74K, 2007)
+-
+-
+-@item @code{34Kf}
+-
+-MIPS32 Processor (34K, 2006)
+-
+-
+-@item @code{24Kc}
+-@item @code{24KEc}
+-@item @code{24Kf}
+-
+-MIPS32 Processor (24K, 2003)
+-
+-
+-@item @code{4Kc}
+-@item @code{4Km}
+-@item @code{4KEcR1}
+-@item @code{4KEmR1}
+-@item @code{4KEc}
+-@item @code{4KEm}
+-
+-MIPS32 Processor (4K, 1999)
+-@end table
+-
+-@node cpu_models_MIPS64
+-@subsubsection Supported CPU models for MIPS64 hosts
+-
+-The following CPU models are supported for use on MIPS64 hosts. Administrators /
+-applications are recommended to use the CPU model that matches the generation
+-of the host CPUs in use. In a deployment with a mixture of host CPU models
+-between machines, if live migration compatibility is required, use the newest
+-CPU model that is compatible across all desired hosts.
+-
+-@table @option
+-@item @code{I6400}
+-
+-MIPS64 Processor (Release 6, 2014)
+-
+-
+-@item @code{Loongson-2F}
+-
+-MIPS64 Processor (Loongson 2, 2008)
+-
+-
+-@item @code{Loongson-2E}
+-
+-MIPS64 Processor (Loongson 2, 2006)
+-
+-
+-@item @code{mips64dspr2}
+-
+-MIPS64 Processor (Release 2, 2006)
+-
+-
+-@item @code{MIPS64R2-generic}
+-@item @code{5KEc}
+-@item @code{5KEf}
+-
+-MIPS64 Processor (Release 2, 2002)
+-
+-
+-@item @code{20Kc}
+-
+-MIPS64 Processor (20K, 2000)
+-
+-
+-@item @code{5Kc}
+-@item @code{5Kf}
+-
+-MIPS64 Processor (5K, 1999)
+-
+-
+-@item @code{VR5432}
+-
+-MIPS64 Processor (VR, 1998)
+-
+-
+-@item @code{R4000}
+-
+-MIPS64 Processor (MIPS III, 1991)
+-@end table
+-
+-@node cpu_models_nanoMIPS
+-@subsubsection Supported CPU models for nanoMIPS hosts
+-
+-The following CPU models are supported for use on nanoMIPS hosts. Administrators /
+-applications are recommended to use the CPU model that matches the generation
+-of the host CPUs in use. In a deployment with a mixture of host CPU models
+-between machines, if live migration compatibility is required, use the newest
+-CPU model that is compatible across all desired hosts.
+-
+-@table @option
+-@item @code{I7200}
+-
+-MIPS I7200 (nanoMIPS, 2018)
+-
+-@end table
+-
+-@node preferred_cpu_models_MIPS
+-@subsubsection Preferred CPU models for MIPS hosts
+-
+-The following CPU models are preferred for use on different MIPS hosts:
+-
+-@table @option
+-@item @code{MIPS III}
+-R4000
+-
+-@item @code{MIPS32R2}
+-34Kf
+-
+-@item @code{MIPS64R6}
+-I6400
+-
+-@item @code{nanoMIPS}
+-I7200
+-@end table
+-
+ @node cpu_model_syntax_apps
+ @subsection Syntax for configuring CPU models
+ 
+ The example below illustrate the approach to configuring the various
+-CPU models / features in QEMU and libvirt
+-
+-@menu
+-* cpu_model_syntax_qemu::    QEMU command line
+-* cpu_model_syntax_libvirt:: Libvirt guest XML
+-@end menu
++CPU models / features in QEMU and libvirt.
+ 
+-@node cpu_model_syntax_qemu
+-@subsubsection QEMU command line
++QEMU command line:
+ 
+ @table @option
+ 
+@@ -603,8 +426,8 @@ With feature customization:
+ 
+ @end table
+ 
+-@node cpu_model_syntax_libvirt
+-@subsubsection Libvirt guest XML
++
++Libvirt guest XML:
+ 
+ @table @option
+ 
+@@ -657,21 +480,3 @@ With feature customization:
+ @end example
+ 
+ @end table
+-
+-@c man end
+-
+-@ignore
+-
+-@setfilename qemu-cpu-models
+-@settitle QEMU / KVM CPU model configuration
+-
+-@c man begin SEEALSO
+-The HTML documentation of QEMU for more precise information and Linux
+-user mode emulator invocation.
+-@c man end
+-
+-@c man begin AUTHOR
+-Daniel P. Berrange
+-@c man end
+-
+-@end ignore
+diff --git a/docs/system/qemu-cpu-models.texi b/docs/system/qemu-cpu-models.texi
+new file mode 100644
+index 0000000000..f399daf944
+--- /dev/null
++++ b/docs/system/qemu-cpu-models.texi
+@@ -0,0 +1,28 @@
++@c man begin SYNOPSIS
++QEMU / KVM CPU model configuration
++@c man end
++
++@set qemu_system_x86 qemu-system-x86_64
++
++@c man begin DESCRIPTION
++
++@include cpu-models-x86.texi
++@include cpu-models-mips.texi
++
++@c man end
++
++@ignore
++
++@setfilename qemu-cpu-models
++@settitle QEMU / KVM CPU model configuration
++
++@c man begin SEEALSO
++The HTML documentation of QEMU for more precise information and Linux
++user mode emulator invocation.
++@c man end
++
++@c man begin AUTHOR
++Daniel P. Berrange
++@c man end
++
++@end ignore
+diff --git a/qemu-doc.texi b/qemu-doc.texi
+index e555dea4ef..617a701b67 100644
+--- a/qemu-doc.texi
++++ b/qemu-doc.texi
+@@ -139,7 +139,7 @@ accelerator is required to use more than one host CPU for emulation.
+ * pcsys_keys::         Keys in the graphical frontends
+ * mux_keys::           Keys in the character backend multiplexer
+ * pcsys_monitor::      QEMU Monitor
+-* cpu_models::         CPU models
++* cpu_models_x86::     Supported CPU model configurations on x86 hosts
+ * disk_images::        Disk Images
+ * pcsys_network::      Network emulation
+ * pcsys_other_devs::   Other Devices
+@@ -614,10 +614,7 @@ The monitor understands integers expressions for every integer
+ argument. You can use register names to get the value of specifics
+ CPU registers by prefixing them with @emph{$}.
+ 
+-@node cpu_models
+-@section CPU models
+-
+-@include docs/qemu-cpu-models.texi
++@include docs/system/cpu-models-x86.texi
+ 
+ @node disk_images
+ @section Disk Images
+@@ -1864,6 +1861,7 @@ Set the emulated machine type. The default is sun4u.
+ @cindex system emulation (MIPS)
+ 
+ @menu
++* recommendations_cpu_models_MIPS:: Supported CPU model configurations on MIPS hosts
+ * nanoMIPS System emulator ::
+ @end menu
+ 
+@@ -1980,6 +1978,10 @@ PC style serial port
+ MIPSnet network emulation
+ @end itemize
+ 
++@lowersections
++@include docs/system/cpu-models-mips.texi
++@raisesections
++
+ @node nanoMIPS System emulator
+ @subsection nanoMIPS System emulator
+ @cindex system emulation (nanoMIPS)
 -- 
 2.21.1
 
