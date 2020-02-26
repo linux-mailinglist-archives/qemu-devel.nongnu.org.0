@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5911B16F605
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 04:16:17 +0100 (CET)
-Received: from localhost ([::1]:37484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8780B16F624
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 04:37:33 +0100 (CET)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6nBI-000701-6L
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 22:16:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50853)
+	id 1j6nVs-0004i6-BV
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 22:37:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j6nAI-0005st-2Z
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:15:14 -0500
+ (envelope-from <robert.hu@linux.intel.com>) id 1j6nUx-00046H-36
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:36:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j6nAH-00056I-5s
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:15:14 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:39988 helo=huawei.com)
+ (envelope-from <robert.hu@linux.intel.com>) id 1j6nUw-00082b-2H
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:36:34 -0500
+Received: from mga07.intel.com ([134.134.136.100]:57988)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j6nAD-0004iF-MS; Tue, 25 Feb 2020 22:15:09 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 1F45053AC6E7DA7C46AF;
- Wed, 26 Feb 2020 11:15:05 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.216) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 26 Feb 2020 11:14:58 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <kwolf@redhat.com>, <mreitz@redhat.com>
-Subject: [PATCH 2/2] qemu-img: free memory before re-assign
-Date: Wed, 26 Feb 2020 11:30:37 +0800
-Message-ID: <20200226033037.18253-3-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200226033037.18253-1-pannengyuan@huawei.com>
-References: <20200226033037.18253-1-pannengyuan@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.216]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+ (Exim 4.71) (envelope-from <robert.hu@linux.intel.com>)
+ id 1j6nUv-0007ls-Qp
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 22:36:34 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Feb 2020 19:36:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,486,1574150400"; d="scan'208";a="231256264"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by orsmga008.jf.intel.com with ESMTP; 25 Feb 2020 19:36:28 -0800
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: qemu-devel@nongnu.org, pbonzini@redhat.com, richard.henderson@linaro.org,
+ laurent@vivier.eu, philmd@redhat.com, berrange@redhat.com
+Subject: [PATCH v2 0/2] Add AVX512F optimization option and
+ buffer_zero_avx512()
+Date: Wed, 26 Feb 2020 11:35:40 +0800
+Message-Id: <1582688142-113997-1-git-send-email-robert.hu@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.100
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,34 +53,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: euler.robot@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: robert.hu@intel.com, chao.p.peng@intel.com,
+ Robert Hoo <robert.hu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-collect_image_check() is called twice in img_check(), the filename/format will be alloced without free the original memory.
-It is not a big deal since the process will exit anyway, but seems like a clean code and it will remove the warning spotted by asan.
+1) Introduce {enable,disable}-avx512f configure option
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
- qemu-img.c | 2 ++
- 1 file changed, 2 insertions(+)
+2) Implement new buffer_zero_avx512() with AVX512F instructions
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 2b4562b9d9..bcbca6c9a2 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -638,6 +638,8 @@ static int collect_image_check(BlockDriverState *bs,
-         return ret;
-     }
- 
-+    g_free(check->filename);
-+    g_free(check->format);
-     check->filename                 = g_strdup(filename);
-     check->format                   = g_strdup(bdrv_get_format_name(bs));
-     check->check_errors             = result.check_errors;
+Changes in v2:
+1. Fixes wrong definition of CACHE_SSE2 in v1.
+2. Fixes not handle <256 length case in buffer_zero_avx512() implementaion.
+(Follow Richard's suggestion: handle the case in select_accel_fn(), and have a
+global variable alongside buffer_accel)
+3. Changes avx512f configuration option's default status to disabled.
+4. Ran 'make check-unit' on this patch, on both a Ivybridge machine and a
+CascadeLake machine.
+
+Robert Hoo (2):
+  configure: add configure option avx512f_opt
+  util: add util function buffer_zero_avx512()
+
+ configure            | 41 +++++++++++++++++++++++++++++++++
+ include/qemu/cpuid.h |  3 +++
+ util/bufferiszero.c  | 64 ++++++++++++++++++++++++++++++++++++++++++++--------
+ 3 files changed, 99 insertions(+), 9 deletions(-)
+
 -- 
-2.18.2
+1.8.3.1
 
 
