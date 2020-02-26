@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517DE16FA75
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:17:05 +0100 (CET)
-Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6B016FA72
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:16:43 +0100 (CET)
+Received: from localhost ([::1]:40670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6soS-0006tj-AE
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:17:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59514)
+	id 1j6snT-0004WC-1Y
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:16:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6sfm-0006sP-UP
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:08:07 -0500
+ (envelope-from <mst@redhat.com>) id 1j6sfq-00073V-Vo
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:08:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6sfl-0001E3-TG
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:08:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36391
+ (envelope-from <mst@redhat.com>) id 1j6sfp-0001HL-R2
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:08:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47990
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sfl-0001Dh-OX
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:08:05 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sfp-0001Gq-NN
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:08:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582708084;
+ s=mimecast20190719; t=1582708089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FMRhQ/mUb+ufDOWEKs47dVntkMzI4SGR916thXkoGdQ=;
- b=ManOfGkkGqxWvqUPP/n27+IX/arj7IEP34It5ZrDWxcsFf9MSI+Oe9myoSgpwjcLsyfDmO
- 3GLhvMWZ4HNulv0zhkmHqa52BfZllQ5ScjSHf0PuUuOJL+WooIikWo+kS4l0r6oMgCYIXN
- EWxThknpluoLJzt0Vk820kVj64lMI+k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-j6eg36cfNguRSqCo1E9lfA-1; Wed, 26 Feb 2020 04:08:02 -0500
-X-MC-Unique: j6eg36cfNguRSqCo1E9lfA-1
-Received: by mail-wm1-f71.google.com with SMTP id w12so466826wmc.3
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:08:02 -0800 (PST)
+ bh=KUkymaXxsrUBHOeYB4neDB0KIBMTPed4qcRzCegXv08=;
+ b=AmzbKnQNTVrnvuhcqL7KOFMYVw0WWtRT3ZmfTuum54KuA/aLYSAz9msJF/r6h0Ka1HGXpl
+ EQDKAzpkfi3ACdMq0ATzKfOcIWQHt3XD4MHyy2alL/3NdD75zinrLojxoCzXoHIDFMB+IW
+ BDVRQHH05yh1zs2a5dSTHOkTZzDEXdg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-LX2RVNIaMAuUCWZQAd05eQ-1; Wed, 26 Feb 2020 04:08:07 -0500
+X-MC-Unique: LX2RVNIaMAuUCWZQAd05eQ-1
+Received: by mail-wm1-f70.google.com with SMTP id t17so460191wmi.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:08:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9KYoAzz21glog7o+enMMiTE7eLNGzgQi6YqNld1TBIY=;
- b=JufJ0aJiz1e1jzb66AziOWrZonOqQHToYEBD1ZkFz7XFsL3//iJT9fX2x9lFtf5TTo
- HT1UjutTgjA9Crx2Jn5gnqL7rDwqSK1Z5O113HuAmedvYp7UWh/IN4xhsXy2hmgtEUFA
- V8r4DXiukW/FG17jAoql4rV8biPT3oM2ejiC/iM/T4LRG7Ktl46TU9EdX5dSRwdeV0PD
- Rr4SeC8nSSUigJn8Rrwb9IG5u12fEP2MGeJW/PiQxTMQtlYeyqiQZDtRrG+mJfhQrQUj
- w2MUdG8ZiPD1hU7+1M5l05d6aLtTtJ9mNaZkCCsOpts7PVfQK4WQUhqOWlXddZITDaiw
- RpKg==
-X-Gm-Message-State: APjAAAX3GVQ1wOhyaS0Dh7dWMvvY/luSP28/dQetI/1sP6qI1VlOuKnV
- JrQqWxTWkGdtmLGZDZyzSc5K3MY7JN7cCKRKPBFsUhX6fIovBrlCSuIiRRwWGT7dQzddHw5p2zg
- RZ+mG7CQcVoAJH/8=
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr4289961wmh.22.1582708080899;
- Wed, 26 Feb 2020 01:08:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxCMgnntrAoJONFZvZ8fIefwD9iP9gxxAUmPi9PAmaon0bwu82CFU9XOBfj8bo4VsCSCD8f1Q==
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr4289942wmh.22.1582708080712;
- Wed, 26 Feb 2020 01:08:00 -0800 (PST)
+ bh=XaK3jxvT8IURsZc2FPYAI9xgrRGt+WXCR/pHTLcG0Wc=;
+ b=lCYa45pvWXVOHdaNZgohzqZ6WHB/KhEUYLlZKgjma/0VFQ35C9uxpgWWfWYHyfCLUX
+ 6XrTNwyP7pcug8D4YLLtyH3pe6pUZJJPtZiJiaYM0VW1redOQDUwDEMccl4+s+D3qgC1
+ EETR4WaulVnWWxOWvdy7CNlVS91dH06r0M2CI47aCnWkX2+UMdgQVaPp9KGnPo6L3RSM
+ H8b5fNcCed4O/MhFxgcr0T1LKu8fRUQLMctRFeAfSueUxR4we4evNY4mEO3oZRCyOg10
+ jODQN0enU9fBTAgc20lnO8WW2BaE7ZlqJOUUdNcmVkt6fHKuGqFBvT2EvTTFx6DJjOTZ
+ CG0w==
+X-Gm-Message-State: APjAAAVR7TuZUILkHM4DabFxJvk1ym3n4uPISscEnJUGYIqqHVvqppz3
+ FJIRa2TwP5NyOZ0LOlx6BaVkYLPN+nsjOdrsL/mi6XDe1KJBoLw5xSRbn5EMx/46z7zRImvCpU4
+ n/PW7KPyCEvGt/g0=
+X-Received: by 2002:a5d:6692:: with SMTP id l18mr4131814wru.382.1582708085971; 
+ Wed, 26 Feb 2020 01:08:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw7Kus5jBDrlO3hQHqPAF7t7xOAcOIUtLbdY4GW46VQMjiOJ2AGdW81GF0ELPd0gRfTylUF/Q==
+X-Received: by 2002:a5d:6692:: with SMTP id l18mr4131790wru.382.1582708085783; 
+ Wed, 26 Feb 2020 01:08:05 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- c74sm2154172wmd.26.2020.02.26.01.07.58
+ n3sm2356562wrs.8.2020.02.26.01.08.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 01:07:59 -0800 (PST)
-Date: Wed, 26 Feb 2020 04:07:58 -0500
+ Wed, 26 Feb 2020 01:08:04 -0800 (PST)
+Date: Wed, 26 Feb 2020 04:08:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 29/30] vhost-user: only set slave channel for first vq
-Message-ID: <20200226090010.708934-30-mst@redhat.com>
+Subject: [PULL v2 30/30] Fixed assert in vhost_user_set_mem_table_postcopy
+Message-ID: <20200226090010.708934-31-mst@redhat.com>
 References: <20200226090010.708934-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200226090010.708934-1-mst@redhat.com>
@@ -91,45 +91,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Adrian Moreno <amorenoz@redhat.com>, marcandre.lureau@redhat.com
+ Peter Turschmid <peter.turschm@nutanix.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Adrian Moreno <amorenoz@redhat.com>
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 
-When multiqueue is enabled, a vhost_dev is created for each queue
-pair. However, only one slave channel is needed.
+The current vhost_user_set_mem_table_postcopy() implementation
+populates each region of the VHOST_USER_SET_MEM_TABLE message without
+first checking if there are more than VHOST_MEMORY_MAX_NREGIONS already
+populated. This can cause memory corruption if too many regions are
+added to the message during the postcopy step.
 
-Fixes: 4bbeeba023f2 (vhost-user: add slave-req-fd support)
-Cc: marcandre.lureau@redhat.com
-Signed-off-by: Adrian Moreno <amorenoz@redhat.com>
-Message-Id: <20200121214553.28459-1-amorenoz@redhat.com>
+This change moves an existing assert up such that attempting to
+construct a VHOST_USER_SET_MEM_TABLE message with too many memory
+regions will gracefully bring down qemu instead of corrupting memory.
+
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
+Message-Id: <1579143426-18305-2-git-send-email-raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ hw/virtio/vhost-user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2e81f5514f..35baf4f347 100644
+index 35baf4f347..08e7e63790 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -1458,9 +1458,11 @@ static int vhost_user_backend_init(struct vhost_dev =
-*dev, void *opaque)
-                    "VHOST_USER_PROTOCOL_F_LOG_SHMFD feature.");
-     }
-=20
--    err =3D vhost_setup_slave_channel(dev);
--    if (err < 0) {
--        return err;
-+    if (dev->vq_index =3D=3D 0) {
-+        err =3D vhost_setup_slave_channel(dev);
-+        if (err < 0) {
-+            return err;
-+        }
-     }
-=20
-     u->postcopy_notifier.notify =3D vhost_user_postcopy_notifier;
+@@ -443,6 +443,7 @@ static int vhost_user_set_mem_table_postcopy(struct vho=
+st_dev *dev,
+                                      &offset);
+         fd =3D memory_region_get_fd(mr);
+         if (fd > 0) {
++            assert(fd_num < VHOST_MEMORY_MAX_NREGIONS);
+             trace_vhost_user_set_mem_table_withfd(fd_num, mr->name,
+                                                   reg->memory_size,
+                                                   reg->guest_phys_addr,
+@@ -455,7 +456,6 @@ static int vhost_user_set_mem_table_postcopy(struct vho=
+st_dev *dev,
+             msg.payload.memory.regions[fd_num].guest_phys_addr =3D
+                 reg->guest_phys_addr;
+             msg.payload.memory.regions[fd_num].mmap_offset =3D offset;
+-            assert(fd_num < VHOST_MEMORY_MAX_NREGIONS);
+             fds[fd_num++] =3D fd;
+         } else {
+             u->region_rb_offset[i] =3D 0;
 --=20
 MST
 
