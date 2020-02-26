@@ -2,47 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6453016FA0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 09:56:12 +0100 (CET)
-Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5088E16FA0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 09:55:48 +0100 (CET)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6sUF-0006q3-DV
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 03:56:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44829)
+	id 1j6sTr-0005b7-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 03:55:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j6sMA-0000aK-Vn
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:47:52 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j6sN0-0001jF-3g
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:48:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j6sM9-0007tz-V6
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:47:50 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:46022 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j6sM9-0007it-Iw; Wed, 26 Feb 2020 03:47:49 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 6964B7A0165D9F31CFF8;
- Wed, 26 Feb 2020 16:47:47 +0800 (CST)
-Received: from huawei.com (10.133.205.93) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Wed, 26 Feb 2020
- 16:47:38 +0800
-From: <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 13/13] monitor/hmp-cmds: Remove redundant statement in
- hmp_rocker_of_dpa_groups()
-Date: Wed, 26 Feb 2020 16:46:47 +0800
-Message-ID: <20200226084647.20636-14-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20200226084647.20636-1-kuhn.chenqun@huawei.com>
-References: <20200226084647.20636-1-kuhn.chenqun@huawei.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j6sMx-0001JL-SM
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:48:40 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35804)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j6sMx-00018H-Jq
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:48:39 -0500
+Received: by mail-oi1-x241.google.com with SMTP id b18so2288436oie.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 00:48:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eHyZ+8Q0+T5PivPPaUzlhP1rP9BE4DHA1R8J+gyOeec=;
+ b=A4Mo+m1inQCWtXXTb13EdfkhYo64odxSCmsFdnA1h3ymI0RFKiFWBI17mp5Zd4FgO5
+ iZM4N3tO5Ssg/1uCBRxEbvQSJkmYDtBFZbgAi7fYsbZxD+JzLwiGIVh67mN3qHr1W1fa
+ 2aA81dgDhOqSiS8/0v/0+t719AhLpXTofM7MGwpkDbLFa/ciCe2ZE2kp/HuwIDMvkhhO
+ VvnyoeFa1WsdJYzN4ggq0vRvqI98exQxlFgj56Sk6HUCNg7QKJ1U7RNyu6i2V+OU23YN
+ TDeHIH0EyWcCx0rbm2+IZzsriHtvz5Co9DHVdphglVLz9RXno3QEb2nITtkQJG6T8XXX
+ sNQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eHyZ+8Q0+T5PivPPaUzlhP1rP9BE4DHA1R8J+gyOeec=;
+ b=Ev5xXwKPMNvLb6sH0gvLT8Yrmew2JCt1VSfQDLsAlSw2kG1rDDkaNxXvXwSDeiJIP0
+ 8s8QWT2zCbOHNcG6bH7rDzevdvIUTF4JZnWo0lyWs76mxBM9WYOt9SV/lZloJ4Hg8yC+
+ Cx0O76ICZMvj6e66qwpHyeQgl31EwUc6Tgmomrp2pXN/juFYxXeYmCSCAa1QRvayPBoS
+ qmnrIwnLDdEG9YHsRAbKKKg6nyjcBtiOjmbxz+3PPIY+VnSrnEFu1qhcTOzb3o/002NB
+ ltW9W/J5GzvVvhnIWqZoaYUBJdtVQMJNtTZSBmmzxjnoOMCaC1vf6uhlQwCqQMfTjDD9
+ hFNA==
+X-Gm-Message-State: APjAAAWdArx7L9pkHBRc/eLy1Xt9p4vGE38P2fYoPHstFr4LusXqeppR
+ W4XSZc6cNnkFjtrKwgEYHcFGRUDl5TOsAoT2Qd7h+A==
+X-Google-Smtp-Source: APXvYqygc8M579zHaRXI6AHr9qpTz7uXwSazma0BBFUyX5jNfDr3FBQNIgwzVXI+dEERoRTPqDIaBwAu8demOAfZ2ZU=
+X-Received: by 2002:a05:6808:3b2:: with SMTP id
+ n18mr2124442oie.146.1582706917559; 
+ Wed, 26 Feb 2020 00:48:37 -0800 (PST)
 MIME-Version: 1.0
+References: <CAPan3Wq-MVwcJQELP8n+g33CR7tsiGXQ698gA177nd2my9hWCw@mail.gmail.com>
+ <CAFEAcA_azGqyzbxegpK8ch_bums6Wtd=U7cNxvM=bAJ-Ld2DDA@mail.gmail.com>
+ <ffa87cab-e85c-c381-289a-fdf1ef07b45a@redhat.com>
+In-Reply-To: <ffa87cab-e85c-c381-289a-fdf1ef07b45a@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 26 Feb 2020 08:48:26 +0000
+Message-ID: <CAFEAcA-32ddJW0ULWzGDDwLcvPGnXOatRHy73Agh0NRajfnRCQ@mail.gmail.com>
+Subject: Re: Sudden slowdown of ARM emulation in master
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.133.205.93]
-X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.35
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,73 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+On Wed, 26 Feb 2020 at 08:44, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 2/26/20 9:41 AM, Peter Maydell wrote:
+> > On Tue, 25 Feb 2020 at 23:08, Niek Linnenbank <nieklinnenbank@gmail.com=
+> wrote:
+> >
+> >> Just now I was working on some small fixes for the cubieboard machine =
+and rebasing my Allwinner H3 branches.
+> >> While doing some testing, I noticed that suddenly the machines were mu=
+ch slower than before.
+> >> I only see this happening when I rebase to this commit:
+> >>     ca6155c0f2bd39b4b4162533be401c98bd960820 ("Merge tag 'patchew/2020=
+0219160953.13771-1-imammedo@redhat.com' of https://github.com/patchew-proje=
+ct/qemu into HEAD")
+> >
+> > Yeah, I noticed a slowdown yesterday as well, but haven't tracked it do=
+wn
+> > as yet. The first thing would be to do a git bisect to try to narrow
+> > down what commit caused it.
+>
+> My guess: biggest chunk of memory is the DRAM, registered as "fast RAM"
+> by QEMU, but the SoCs provide SRAM which is supposed to be faster. Not
+> anymore with QEMU. And Linux try to use the SRAM when possible.
 
-Clang static code analyzer show warning:
-monitor/hmp-cmds.c:2867:17: warning: Value stored to 'set' is never read
-                set =3D true;
-                ^     ~~~~
+Doesn't sound very likely to me: generally Linux doesn't use random small
+lumps of SRAM, it just goes for whatever the dtb says is the main RAM,
+usually DRAM. And I thought that all RAM blocks within QEMU performed
+the same?
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From the commit that Howard tracked down as the cause it looks like
+an ordering-of-actions issue in vl.c where something that was assuming
+memory-size-related stuff was set up is now running before those
+variables/fields are set correctly rather than after ?
 
-v1->v2: move the 'set' declaration to the for() statement(Base on Philipp=
-e's suggestion).
----
- monitor/hmp-cmds.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 53bc3f76c4..c6b0495822 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2808,7 +2808,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const Q=
-Dict *qdict)
-     const char *name =3D qdict_get_str(qdict, "name");
-     uint8_t type =3D qdict_get_try_int(qdict, "type", 9);
-     Error *err =3D NULL;
--    bool set =3D false;
-=20
-     list =3D qmp_query_rocker_of_dpa_groups(name, type !=3D 9, type, &er=
-r);
-     if (err !=3D NULL) {
-@@ -2820,6 +2819,7 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const Q=
-Dict *qdict)
-=20
-     for (g =3D list; g; g =3D g->next) {
-         RockerOfDpaGroup *group =3D g->value;
-+        bool set =3D false;
-=20
-         monitor_printf(mon, "0x%08x", group->id);
-=20
-@@ -2864,14 +2864,11 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const=
- QDict *qdict)
-=20
-         if (group->has_set_eth_dst) {
-             if (!set) {
--                set =3D true;
-                 monitor_printf(mon, " set");
-             }
-             monitor_printf(mon, " dst %s", group->set_eth_dst);
-         }
-=20
--        set =3D false;
--
-         if (group->has_ttl_check && group->ttl_check) {
-             monitor_printf(mon, " check TTL");
-         }
---=20
-2.23.0
-
-
+thanks
+-- PMM
 
