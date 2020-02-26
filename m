@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CEA170753
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:11:35 +0100 (CET)
-Received: from localhost ([::1]:48330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAC717075C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:12:51 +0100 (CET)
+Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j719i-0008UQ-IA
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:11:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40652)
+	id 1j71Aw-0002Cx-KX
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:12:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j718d-00076v-Fz
+ (envelope-from <alex.bennee@linaro.org>) id 1j718d-00077h-UN
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j718b-000642-Me
+ (envelope-from <alex.bennee@linaro.org>) id 1j718c-00065A-PU
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:27 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33449)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50577)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j718b-000637-GQ
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:25 -0500
-Received: by mail-wr1-x441.google.com with SMTP id u6so4331237wrt.0
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:10:25 -0800 (PST)
+ id 1j718c-00064S-Iu
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:26 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a5so284128wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:10:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BW1rVVuvHSIHaMM8u2a8l8PWRGvK4vmAgMmHgrFc8bQ=;
- b=NRWIeo+TbwqyFHiuPlZeJfbjbxrZkRBenWPlixbEeIHkcZkhUjJOFOYs1KRoDIs1Cc
- Hr9SN7GFX/7lWvt5hq54iru7ozw0Q5eejip0/yJhULvtM+Q2Ib0LesSOnQ2TUXYDBPU0
- 4hFdevSeqtsXzulLw0a8IPGGGZix2HTUgVlOTiJ7V57S6iuVhTiJ+UenIOYLTOhRPaqa
- GUqqUWQJ4GRXQGijmul/6L9dB+hrbyohw5JkdA/MrlJr/O1ZqXA3ob9zzNqOPYnK5RIq
- 2quzMNw7AzaptbgvYjB8K1tj0nI9h9RfCv0ieXbzvdgHUuNfCOePTm6wyCdB7fvOgmwr
- VTBQ==
+ bh=hTO2TJKTVn6zYRsBqCfNS47JQf5FFH1MtA261qT+XBk=;
+ b=XhZKl9/y1LXlkcu4qnQDHpOSISFfZXX5rZTkBK3XsCMR7LgI/JUaD75+mDloiGDs+T
+ DXpIrXPkXY90+FfirwZzGMYnna1qoqIjQnYRFbTq9zNYGmSXJxAe2cV4Sx+ZFWeSQ5uy
+ 6Fg/RNivdqoJT3z0YPHlO+C4z5UpSDqsGFJWvYKm0BUfKNes/OEc16rr6bYiIlByZ2Yv
+ XOw/lf2pQRxWwVkFScpLm274JOJ8tBR7W/SyED7t7ofrxHj1Y4Y8QtjfxcYfM4z05RFa
+ eWK+wv+PK3az5Ez5I6MD6LlHHe8PAV4Y1Loejl1G34+ceN0QVFM1IY6D3uj+11egqODk
+ Z5/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BW1rVVuvHSIHaMM8u2a8l8PWRGvK4vmAgMmHgrFc8bQ=;
- b=hTooTRIYgwY72ahDXbDZdpMvzdqEzWuQg5WpUe+J3hZZ7VqBjVgL6qKA543UHyNE4Q
- /uOf26dX5P6LORTHb1n8ORqlk9fQTy3oKBu/ipm/C4eI94TR+Uv8JDwQfo93+lYMAmRj
- nWwb1XHVk/d4T6nH2Ts873dcbWD4nMOOxX3k6cHTdpSsGmPh5ElzkIK7kYJ9GXvYQ/io
- vJ3e06eluEMGnUobIAGjbJYdePZNIH3N3U01YhYTtBKvV7VcgRciOo1AwDAeW2fzC5H+
- bNyUFd0XOhwzg79EaUvEzgqvSZW0O3W3PSfx2poY98wvkL+XnBZe8Wb2gYkE7Z8kdLtz
- Gacg==
-X-Gm-Message-State: APjAAAX9RBhDksUI8xfSNdxMx5JJ9mqnFnoF3XxjsvCEzX5RtZOwSKcw
- GB0c7Nzr0rJsFeW26Kb0CttkGYk7aAM=
-X-Google-Smtp-Source: APXvYqwcSteicOJ0uFqauIDpb/K6QH2cZeUNx7e7lFnmFTo488gfslFyzgQlaJqM2WDZ3PpfqnKJXw==
-X-Received: by 2002:adf:f606:: with SMTP id t6mr6780858wrp.304.1582740624387; 
- Wed, 26 Feb 2020 10:10:24 -0800 (PST)
+ bh=hTO2TJKTVn6zYRsBqCfNS47JQf5FFH1MtA261qT+XBk=;
+ b=rA/ZhhilYWaW64TjBv/2haZY/lwBFyMzommhW/4ULX+VQKmOqhgrHvi4LX8j+PiSKc
+ U+IMGxU/sdsiWpETj9XO0r7D9c7aqjKzyp+cWrMP+V3RwTqoq19/SngArF1TisC/TRVd
+ AUWLKfrpJ5RZf5YgcYlcHNmu7D3oeGH53BWGou0CBYX03TQ6gymBTt6KtNxOAVO2boXo
+ h9aoMgfpb9Dd+WmjrPP7CQKPI3lyt1NHNxHqIr9tNy5Bago2gRWgoIkPk3EX3dDLrDjT
+ veCK5e8Whd7V0ZpulvQv9JB6jewfHNCtlIiFTLFPWDgZo6TfuJ49nv9gIEVyiJUPO38z
+ xLow==
+X-Gm-Message-State: APjAAAWTYvsqnIcl+X7ViSJOnJOq0kaP8ino59LK3KX1zK5Ug1FO3rlI
+ e8XMeKwDs3VUqurVSlZ0a60qWQ==
+X-Google-Smtp-Source: APXvYqzQgMdzyv1kRIJ0A5xZ+8PIob9SLYhIZRVPTr+Ie+CbSKOG8v5VAmbmd0Cdfaay52qGOEfKSQ==
+X-Received: by 2002:a1c:a4c3:: with SMTP id n186mr110130wme.25.1582740625545; 
+ Wed, 26 Feb 2020 10:10:25 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p26sm3725420wmc.24.2020.02.26.10.10.21
+ by smtp.gmail.com with ESMTPSA id z10sm3867301wmk.31.2020.02.26.10.10.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 26 Feb 2020 10:10:21 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E8FF51FF8C;
- Wed, 26 Feb 2020 18:10:20 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 08C411FF8F;
+ Wed, 26 Feb 2020 18:10:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/4] accel/tcg: use units.h for defining code gen buffer
- sizes
-Date: Wed, 26 Feb 2020 18:10:17 +0000
-Message-Id: <20200226181020.19592-2-alex.bennee@linaro.org>
+Subject: [PATCH v1 2/4] accel/tcg: remove link between guest ram and TCG cache
+ size
+Date: Wed, 26 Feb 2020 18:10:18 +0000
+Message-Id: <20200226181020.19592-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200226181020.19592-1-alex.bennee@linaro.org>
 References: <20200226181020.19592-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,74 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's easier to read.
+Basing the TB cache size on the ram_size was always a little heuristic
+and was broken by a1b18df9a4 which caused ram_size not to be fully
+realised at the time we initialise the TCG translation cache.
 
+The current DEFAULT_CODE_GEN_BUFFER_SIZE may still be a little small
+but follow-up patches will address that.
+
+Fixes: a1b18df9a4
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 ---
- accel/tcg/translate-all.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ accel/tcg/translate-all.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index a08ab11f657..238b0e575bf 100644
+index 238b0e575bf..5b66af783b5 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qemu-common.h"
- 
- #define NO_CPU_IO_DEFS
-@@ -901,33 +902,33 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
- 
- /* Minimum size of the code gen buffer.  This number is randomly chosen,
-    but not so small that we can't have a fair number of TB's live.  */
--#define MIN_CODE_GEN_BUFFER_SIZE     (1024u * 1024)
-+#define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
- 
- /* Maximum size of the code gen buffer we'd like to use.  Unless otherwise
-    indicated, this is constrained by the range of direct branches on the
-    host cpu, as used by the TCG implementation of goto_tb.  */
- #if defined(__x86_64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #elif defined(__sparc__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #elif defined(__powerpc64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #elif defined(__powerpc__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (32u * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
- #elif defined(__aarch64__)
--# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- #elif defined(__s390x__)
-   /* We have a +- 4GB range on the branches; leave some slop.  */
--# define MAX_CODE_GEN_BUFFER_SIZE  (3ul * 1024 * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
- #elif defined(__mips__)
-   /* We have a 256MB branch region, but leave room to make sure the
-      main executable is also within that region.  */
--# define MAX_CODE_GEN_BUFFER_SIZE  (128ul * 1024 * 1024)
-+# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
- #else
- # define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- #endif
- 
--#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32u * 1024 * 1024)
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
- 
- #define DEFAULT_CODE_GEN_BUFFER_SIZE \
-   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
+@@ -938,15 +938,7 @@ static inline size_t size_code_gen_buffer(size_t tb_size)
+ {
+     /* Size the buffer.  */
+     if (tb_size == 0) {
+-#ifdef USE_STATIC_CODE_GEN_BUFFER
+         tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
+-#else
+-        /* ??? Needs adjustments.  */
+-        /* ??? If we relax the requirement that CONFIG_USER_ONLY use the
+-           static buffer, we could size this on RESERVED_VA, on the text
+-           segment size of the executable, or continue to use the default.  */
+-        tb_size = (unsigned long)(ram_size / 4);
+-#endif
+     }
+     if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
+         tb_size = MIN_CODE_GEN_BUFFER_SIZE;
 -- 
 2.20.1
 
