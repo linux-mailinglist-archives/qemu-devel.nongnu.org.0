@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F01816FC26
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 11:27:17 +0100 (CET)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EA116FC38
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 11:29:06 +0100 (CET)
+Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6tuO-0005ZC-L4
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 05:27:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51936)
+	id 1j6tw9-0000b0-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 05:29:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j6ttL-00046i-1m
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:26:12 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1j6ttO-0004AS-Rq
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:26:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j6ttJ-0003JX-JP
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:26:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39801
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1j6ttN-0003Kx-Mx
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:26:14 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54779
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j6ttJ-0003JF-GD
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:26:09 -0500
+ id 1j6ttN-0003KU-JI
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:26:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582712768;
+ s=mimecast20190719; t=1582712772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gJ991AWeGORxxc3l90wHyMn21NRdKrwVpcebZeWy3KE=;
- b=F1nYNrfsH/i884Ke5+vsbiMmmLwbH5B7tbDxi8VOlF/1XHCqjhRSQx8K0VLBtk+ua2ngiS
- yY/9/rPe8JACq4aysidYimvrrp/PHDP8wjKH6MUuHiuZxjIzrc8pdjLa0xfB3fTDC9yx/e
- O+M+SIE7wNyeATjmJ5HqRgQBxMOFR58=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dczexdrzKnZ7PKgnzotlQQq1ZEpy0uEpqYyknsl6HD4=;
+ b=ch+Cy7HjTIxuN54OawWbTFBIstCHB0WDLRPgxgEAlo9wL0JgmZ/jPW4d/oI2Fy6LVQVlER
+ +cvkbLFj4Hdwy7AIJB4VogKxTLTR+pZh2awkQr926WH/QJltd7e2ejjZbzGsrdAaEiDQlH
+ KNO9W0ohgGBwKdHRyw+9hweMBsF9W/8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-A17QcKy6M_OoWIVTj4iMIQ-1; Wed, 26 Feb 2020 05:26:06 -0500
-X-MC-Unique: A17QcKy6M_OoWIVTj4iMIQ-1
+ us-mta-40-heVrupBnO3iOb6I5zH8k1A-1; Wed, 26 Feb 2020 05:26:09 -0500
+X-MC-Unique: heVrupBnO3iOb6I5zH8k1A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D430107ACCD;
- Wed, 26 Feb 2020 10:26:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 223FB1882CCC;
+ Wed, 26 Feb 2020 10:26:08 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A91960BE1;
- Wed, 26 Feb 2020 10:25:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5ECE60BE1;
+ Wed, 26 Feb 2020 10:26:05 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-Subject: [PATCH v3 00/10] vTPM for aarch64
-Date: Wed, 26 Feb 2020 11:25:39 +0100
-Message-Id: <20200226102549.12158-1-eric.auger@redhat.com>
+Subject: [PATCH v3 01/10] tpm: rename TPM_TIS into TPM_TIS_ISA
+Date: Wed, 26 Feb 2020 11:25:40 +0100
+Message-Id: <20200226102549.12158-2-eric.auger@redhat.com>
+In-Reply-To: <20200226102549.12158-1-eric.auger@redhat.com>
+References: <20200226102549.12158-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
@@ -57,7 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,122 +77,98 @@ Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds the capability to instantiate an MMIO TPM TIS
-in ARM virt. It is candidate to qemu 5.0.
+As we plan to introduce a sysbus TPM_TIS, let's rename
+TPM_TIS into TPM_TIS_ISA.
 
-The existing TPM TIS code is reshuffled into a generic part,
-the ISA device and the sysbus device. The sysbus TPM-TIS
-device gets dynamically instantiated in machvirt on the
-platform bus.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-ACPI boot is not yet supported on ARM. Note that the UEFI
-firmware is itself a consumer of the DT description, so we
-need the DT related changes regardless of whether the VM
-boots in DT or ACPI mode.
+---
 
-Related qtests are reshuffled to allow the reuse of existing
-tests for both the ISA and the sysbus devices: Adaption
-consists in changing the qemu command line (change in the
-device name and provide explicit machine options) and adapt
-to the relocation of the TPM-TIS device in the memory map.
+RFC v2 -> PATCH:
+- added Philippe and Stefan's R-b
+---
+ hw/i386/acpi-build.c | 6 +++---
+ hw/tpm/tpm_tis.c     | 4 ++--
+ include/sysemu/tpm.h | 6 +++---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-The series was tested with the swtpm/libtpms emulator.
-Automatic guest LUKS volume unlocking (tpm2) was successful.
-EDK2 support is under development [3]. Thanks to Ard
-for supporting me when setting up the test environment.
-
-Best Regards
-
-Eric
-
-Testing:
-
-mkdir /tmp/tpm
-swtpm socket \
---tpm2 \
--t -d \
---tpmstate dir=3D/tmp/tpm \
---ctrl type=3Dunixio,path=3D/tmp/swtpm-sock
-
-qemu command line must be augmented with the following options:
-
--chardev socket,id=3Dchrtpm,path=3D/tmp/swtpm-sock \
--tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
--device tpm-tis-device,tpmdev=3Dtpm0 \
-
-References:
-[1] libtpms: https://github.com/stefanberger/libtpms/wiki
-[2] swtpm: https://github.com/stefanberger/swtpm/wiki
-[3] [PATCH v2 0/5] ArmVirtPkg: implement measured boot for ArmVirtQemu
-
-This series can be found at:
-https://github.com/eauger/qemu/tree/v4.2.0-tpm-patch-v3
-
-RFCv2 -> PATCH v3:
-- Updated the doc for ARM
-- Adapted existing tests for ARM
-- use qemu_fdt_setprop_string in add_tpm_tis_fdt_node
-- Collected R-b's
-- Comments not taken into account:
-  - I have kept the tpm-tis-device name for now despite Stefan's
-    suggestion to rename it into tpm-tis-sysbus. This is not
-    frozen though
-  - Common state still is not a QOM object (no double inheritence)
-
-RFC v1 -> RFC v2:
-- restructure the existing code with common, ISA and sysbus part.
-- both ARM and x86 integration were tested.
-
-Eric Auger (10):
-  tpm: rename TPM_TIS into TPM_TIS_ISA
-  tpm: Use TPMState as a common struct
-  tpm: Separate tpm_tis common functions from isa code
-  tpm: Separate TPM_TIS and TPM_TIS_ISA configs
-  tpm: Add the SysBus TPM TIS device
-  hw/arm/virt: vTPM support
-  docs/specs/tpm: Document TPM_TIS sysbus device for ARM
-  test: tpm: pass optional machine options to swtpm test functions
-  test: tpm-tis: Get prepared to share tests between ISA and sysbus
-    devices
-  test: tpm-tis: Add Sysbus TPM-TIS device test
-
- default-configs/i386-softmmu.mak        |   2 +-
- docs/specs/tpm.rst                      |  25 +-
- hw/arm/Kconfig                          |   1 +
- hw/arm/sysbus-fdt.c                     |  33 ++
- hw/arm/virt.c                           |   7 +
- hw/i386/Kconfig                         |   2 +-
- hw/i386/acpi-build.c                    |   6 +-
- hw/tpm/Kconfig                          |  12 +-
- hw/tpm/Makefile.objs                    |   4 +-
- hw/tpm/tpm_tis.h                        |  91 +++++
- hw/tpm/{tpm_tis.c =3D> tpm_tis_common.c}  | 181 +---------
- hw/tpm/tpm_tis_isa.c                    | 170 ++++++++++
- hw/tpm/tpm_tis_sysbus.c                 | 159 +++++++++
- include/sysemu/tpm.h                    |   7 +-
- tests/qtest/Makefile.include            |  11 +-
- tests/qtest/tpm-crb-swtpm-test.c        |   8 +-
- tests/qtest/tpm-crb-test.c              |   2 +
- tests/qtest/tpm-tests.c                 |  10 +-
- tests/qtest/tpm-tests.h                 |   5 +-
- tests/qtest/tpm-tis-device-swtpm-test.c |  76 +++++
- tests/qtest/tpm-tis-device-test.c       |  87 +++++
- tests/qtest/tpm-tis-swtpm-test.c        |   8 +-
- tests/qtest/tpm-tis-test.c              | 414 +---------------------
- tests/qtest/tpm-tis-util.c              | 433 ++++++++++++++++++++++++
- tests/qtest/tpm-tis-util.h              |  23 ++
- tests/qtest/tpm-util.c                  |  11 +-
- tests/qtest/tpm-util.h                  |   8 +-
- 27 files changed, 1187 insertions(+), 609 deletions(-)
- create mode 100644 hw/tpm/tpm_tis.h
- rename hw/tpm/{tpm_tis.c =3D> tpm_tis_common.c} (85%)
- create mode 100644 hw/tpm/tpm_tis_isa.c
- create mode 100644 hw/tpm/tpm_tis_sysbus.c
- create mode 100644 tests/qtest/tpm-tis-device-swtpm-test.c
- create mode 100644 tests/qtest/tpm-tis-device-test.c
- create mode 100644 tests/qtest/tpm-tis-util.c
- create mode 100644 tests/qtest/tpm-tis-util.h
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 9c4e46fa74..26777f8828 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2026,7 +2026,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
+     }
+=20
+-    if (TPM_IS_TIS(tpm_find())) {
++    if (TPM_IS_TIS_ISA(tpm_find())) {
+         aml_append(crs, aml_memory32_fixed(TPM_TIS_ADDR_BASE,
+                    TPM_TIS_ADDR_SIZE, AML_READ_WRITE));
+     }
+@@ -2197,7 +2197,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             /* Scan all PCI buses. Generate tables to support hotplug. */
+             build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en);
+=20
+-            if (TPM_IS_TIS(tpm)) {
++            if (TPM_IS_TIS_ISA(tpm)) {
+                 if (misc->tpm_version =3D=3D TPM_VERSION_2_0) {
+                     dev =3D aml_device("TPM");
+                     aml_append(dev, aml_name_decl("_HID",
+@@ -2304,7 +2304,7 @@ build_tpm2(GArray *table_data, BIOSLinker *linker, GA=
+rray *tcpalog)
+         (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+=20
+     tpm2_ptr->platform_class =3D cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
+-    if (TPM_IS_TIS(tpm_find())) {
++    if (TPM_IS_TIS_ISA(tpm_find())) {
+         tpm2_ptr->control_area_address =3D cpu_to_le64(0);
+         tpm2_ptr->start_method =3D cpu_to_le32(TPM2_START_METHOD_MMIO);
+     } else if (TPM_IS_CRB(tpm_find())) {
+diff --git a/hw/tpm/tpm_tis.c b/hw/tpm/tpm_tis.c
+index 31facb896d..c609737272 100644
+--- a/hw/tpm/tpm_tis.c
++++ b/hw/tpm/tpm_tis.c
+@@ -91,7 +91,7 @@ typedef struct TPMState {
+     TPMPPI ppi;
+ } TPMState;
+=20
+-#define TPM(obj) OBJECT_CHECK(TPMState, (obj), TYPE_TPM_TIS)
++#define TPM(obj) OBJECT_CHECK(TPMState, (obj), TYPE_TPM_TIS_ISA)
+=20
+ #define DEBUG_TIS 0
+=20
+@@ -1008,7 +1008,7 @@ static void tpm_tis_class_init(ObjectClass *klass, vo=
+id *data)
+ }
+=20
+ static const TypeInfo tpm_tis_info =3D {
+-    .name =3D TYPE_TPM_TIS,
++    .name =3D TYPE_TPM_TIS_ISA,
+     .parent =3D TYPE_ISA_DEVICE,
+     .instance_size =3D sizeof(TPMState),
+     .instance_init =3D tpm_tis_initfn,
+diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+index 15979a3647..1691b92c28 100644
+--- a/include/sysemu/tpm.h
++++ b/include/sysemu/tpm.h
+@@ -43,12 +43,12 @@ typedef struct TPMIfClass {
+     enum TPMVersion (*get_version)(TPMIf *obj);
+ } TPMIfClass;
+=20
+-#define TYPE_TPM_TIS                "tpm-tis"
++#define TYPE_TPM_TIS_ISA            "tpm-tis"
+ #define TYPE_TPM_CRB                "tpm-crb"
+ #define TYPE_TPM_SPAPR              "tpm-spapr"
+=20
+-#define TPM_IS_TIS(chr)                             \
+-    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS)
++#define TPM_IS_TIS_ISA(chr)                         \
++    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
+ #define TPM_IS_CRB(chr)                             \
+     object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
+ #define TPM_IS_SPAPR(chr)                           \
 --=20
 2.20.1
 
