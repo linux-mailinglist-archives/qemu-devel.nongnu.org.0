@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE78170939
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 21:12:39 +0100 (CET)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4AC17094E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 21:17:28 +0100 (CET)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j732s-00071H-5s
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 15:12:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48454)
+	id 1j737X-0001NS-Hq
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 15:17:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7318-0005WY-Iv
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:10:51 -0500
+ (envelope-from <jimw@sifive.com>) id 1j736N-0000oH-86
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:16:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7317-0007cO-Bf
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:10:50 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39501
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7317-0007bi-7R
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:10:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582747848;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1Uswvo93AQ5s785e9k0vQrys2oFD6LB/Mb/LaJZK4Mc=;
- b=FBeRouH8Niz05UGnVz+iTaP4PMQzFb0P5F7JwbykWRnVAwVD0qXcHKbeyhUgBKb34CFURE
- eiW+iGo6ZuL34cu1IU7t3YuGs8BCUSFTylCGwUbHC9d9zQrzPH7NseiO/1Z0nYVB+I6UdY
- FBFPIhjvybhZaLn9ktDF2lt6xEEngpc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-Ch3FMmtaP-2mzLnYL8m_iw-1; Wed, 26 Feb 2020 15:10:47 -0500
-X-MC-Unique: Ch3FMmtaP-2mzLnYL8m_iw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E853DB20;
- Wed, 26 Feb 2020 20:10:46 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97EFF5C28D;
- Wed, 26 Feb 2020 20:10:32 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/i386/intel_iommu: Simplify vtd_find_as_from_bus_num()
- logic
-Date: Wed, 26 Feb 2020 21:10:30 +0100
-Message-Id: <20200226201030.22583-1-philmd@redhat.com>
+ (envelope-from <jimw@sifive.com>) id 1j736M-0007Rw-1c
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:16:14 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44649)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jimw@sifive.com>) id 1j736L-0007O8-Ow
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:16:13 -0500
+Received: by mail-pf1-x444.google.com with SMTP id y5so319174pfb.11
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 12:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Nok9qv+wkzhDcKoXaJgQjFCCfdLB1x47k3synkZL/A0=;
+ b=azI04b+88s5jkPhAG5Z5fRq0bxOC6dPyqfTgq6uiGjEOOu2+pMrDt8CK8nTUPEp8RW
+ dZWPqU3jV3SSw0dd7eNxwYh2IY1/yxIAoiBqgdmMK/HUzSdowvLomo14bta2uWOmQbE4
+ go9N7M/ofrtSXa2B2HnCTRwnc8oM9XDaOVR/KDC1CTgl/Bqak9fGvq8hnW07KkBsG0zv
+ NQAqpdprodiSuBq4YdY+6WpM0x6Y4bhoJ7vWJIkfJiDyZan1kv79ELD/bNFDJZ/zW9AN
+ wRZzEg+NieEu/TkxGgAaUqWuMaTivzo35MZG+s+oF8CQDg8HSGqraX/5ABK4uM1/IdW2
+ NuNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Nok9qv+wkzhDcKoXaJgQjFCCfdLB1x47k3synkZL/A0=;
+ b=cSW1xcKzo5VInWb+wyc4Y7sPJvwAfwGxlnpgRD1Y5zemN2N7IMLi4AkV+4eQHH4L3E
+ 0/sCS/IQizu8k5tPkNfyWxIaXpT2kiNf0ELPjcBJdRE9+e1c5Es2q6SeLeLNtHr06JdP
+ Qe0imrjK49II68ew8Y3YTe1IGD+r5QcqL5pu0kqY3mrjWIxh9reS23vNpzr1i7Rg6X4x
+ HqOp2mxa3dUgd1ceuzevXlob+EPxdIoDdADsusWNk2JSaZ0Sj0VKUD/QiWpjtThvZF4W
+ L3AyPvF84G1YagQfG9u/t8dXiAwAee1dg64Rp4QqKKQvJGVqcVxFZrDerD+8hjOsprMI
+ Jvdg==
+X-Gm-Message-State: APjAAAVsRov8RRtA0+4jSrkFWhojrU95u7OJSzKhN9Vp/KRr22YXA/pM
+ h9FmVyQwOGBVvXy5MUXWysmIjw==
+X-Google-Smtp-Source: APXvYqxlWgSsZY9En9EsJfZ4j5n2IuJKa+L/RZoEOX65jnQ4m+TxlIK7JJsmDIpmL6WMFpSw5DTLOQ==
+X-Received: by 2002:a63:921a:: with SMTP id o26mr559819pgd.246.1582748172556; 
+ Wed, 26 Feb 2020 12:16:12 -0800 (PST)
+Received: from [10.17.0.226] ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id w184sm3394544pgw.84.2020.02.26.12.16.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Feb 2020 12:16:12 -0800 (PST)
+Subject: Re: [PATCH v5 3/4] target/riscv: support vector extension csr
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, richard.henderson@linaro.org,
+ alistair23@gmail.com, chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
+ <20200221094531.61894-4-zhiwei_liu@c-sky.com>
+From: Jim Wilson <jimw@sifive.com>
+Message-ID: <39e7abd9-bd5e-5114-975a-5bd3161c6690@sifive.com>
+Date: Wed, 26 Feb 2020 12:16:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20200221094531.61894-4-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,117 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Yi L <yi.l.liu@intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, Peter Xu <peterx@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vtd_find_as_from_bus_num() function was introduced (in commit
-dbaabb25f) in a code format that could return an incorrect pointer,
-which was later fixed by commit a2e1cd41ccf.
-We could have avoid this by writing the if() statement differently.
-Do it now, in case this function is re-used. The code is easier to
-review (harder to miss bugs).
+On 2/21/20 1:45 AM, LIU Zhiwei wrote:
+> +/* Vector Fixed-Point round model */
+> +#define FSR_VXRM_SHIFT      9
+> +#define FSR_VXRM            (0x3 << FSR_VXRM_SHIFT)
+> +
+> +/* Vector Fixed-Point saturation flag */
+> +#define FSR_VXSAT_SHIFT     8
+> +#define FSR_VXSAT           (0x1 << FSR_VXSAT_SHIFT)
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Since v2: Re-worded commit description, patch sent without -w.
+These bits have been moved into the new VCSR register.  And the offsets 
+are wrong because these bits are no longer above the FP status bits in 
+the FCSR.  So this needs to be rvv 0.7.1 specific.
 
-This patch is easier to review with 'git-diff -w' (--ignore-all-space):
+> +/* User Vector CSRs */
+> +#define CSR_VSTART          0x008
+> +#define CSR_VXSAT           0x009
+> +#define CSR_VXRM            0x00a
+> +#define CSR_VL              0xc20
+> +#define CSR_VTYPE           0xc21
 
-@@ -987,14 +987,17 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, ui=
-nt32_t level)
- static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_nu=
-m)
- {
-     VTDBus *vtd_bus =3D s->vtd_as_by_bus_num[bus_num];
--    if (!vtd_bus) {
-+    GHashTableIter iter;
-+
-+    if (vtd_bus) {
-+        return vtd_bus;
-+    }
-+
-     /*
-      * Iterate over the registered buses to find the one which
-      * currently hold this bus number, and update the bus_num
-      * lookup table:
-      */
--        GHashTableIter iter;
--
-     g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
-     while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
-         if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
-@@ -1002,9 +1005,8 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUSta=
-te *s, uint8_t bus_num)
-             return vtd_bus;
-         }
-     }
--        vtd_bus =3D NULL;
--    }
--    return vtd_bus;
-+
-+    return NULL;
- }
----
- hw/i386/intel_iommu.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+This is missing two new CSRs, VCSR and VLENB.
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 6258c58ac9..e720a8939c 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -987,24 +987,26 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, ui=
-nt32_t level)
- static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_nu=
-m)
- {
-     VTDBus *vtd_bus =3D s->vtd_as_by_bus_num[bus_num];
--    if (!vtd_bus) {
--        /*
--         * Iterate over the registered buses to find the one which
--         * currently hold this bus number, and update the bus_num
--         * lookup table:
--         */
--        GHashTableIter iter;
-+    GHashTableIter iter;
-=20
--        g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
--        while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
--            if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
--                s->vtd_as_by_bus_num[bus_num] =3D vtd_bus;
--                return vtd_bus;
--            }
--        }
--        vtd_bus =3D NULL;
-+    if (vtd_bus) {
-+        return vtd_bus;
-     }
--    return vtd_bus;
-+
-+    /*
-+     * Iterate over the registered buses to find the one which
-+     * currently hold this bus number, and update the bus_num
-+     * lookup table:
-+     */
-+    g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
-+        if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
-+            s->vtd_as_by_bus_num[bus_num] =3D vtd_bus;
-+            return vtd_bus;
-+        }
-+    }
-+
-+    return NULL;
- }
-=20
- /* Given the @iova, get relevant @slptep. @slpte_level will be the last le=
-vel
---=20
-2.21.1
+> +    /* loose check condition for fcsr in vector extension */
+> +    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
+> +        return 0;
+> +    }
 
+This is wrong for the current spec, because the vector status bits 
+aren't in the FCSR anymore.  So this also needs to be rvv 0.7.1 specific.
+
+Jim
 
