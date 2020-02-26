@@ -2,63 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4FA16F480
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 01:46:31 +0100 (CET)
-Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C4716F4FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 02:28:39 +0100 (CET)
+Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6kqM-0006gK-8T
-	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 19:46:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46825)
+	id 1j6lV8-0006RH-1Q
+	for lists+qemu-devel@lfdr.de; Tue, 25 Feb 2020 20:28:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1j6koZ-000557-9Y
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 19:44:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j6lTy-0005WI-QR
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 20:27:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1j6koY-0003v7-6h
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 19:44:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47296
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1j6lTx-0001TK-EM
+ for qemu-devel@nongnu.org; Tue, 25 Feb 2020 20:27:26 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59007 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j6koY-0003tT-3R
- for qemu-devel@nongnu.org; Tue, 25 Feb 2020 19:44:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582677877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sMtK6Wcuc47GOtf9RLanCByUeI3Pg0Njk7/8ydfywak=;
- b=OZNSZ4Zd6TgA2SPaL5R/kx8bCUAmGOmMfma86YMBwViTOc5vrSdUuJRAi3yT2HN+xftkdl
- E9y1DnqNd8tPDiQougcUpX/Sw/Sn342Rf3KRnMnApFDVUa8d2dldFUP0xEL9iyPKPzAF/x
- dis9YjgDPhv3UfpQSRFtFP5hALUsTxk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124--pQGCbREPoWvqUekZo_zWw-1; Tue, 25 Feb 2020 19:44:29 -0500
-X-MC-Unique: -pQGCbREPoWvqUekZo_zWw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 218A8800D5B;
- Wed, 26 Feb 2020 00:44:28 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-182.bos.redhat.com [10.18.17.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7AE1E8AC42;
- Wed, 26 Feb 2020 00:44:27 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] iotests: modify test 040 to use JobRunner
-Date: Tue, 25 Feb 2020 19:44:25 -0500
-Message-Id: <20200226004425.1303-3-jsnow@redhat.com>
-In-Reply-To: <20200226004425.1303-1-jsnow@redhat.com>
-References: <20200226004425.1303-1-jsnow@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j6lTw-0001Bf-SV; Tue, 25 Feb 2020 20:27:25 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48Ryp96l8yz9sRJ; Wed, 26 Feb 2020 12:27:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1582680433;
+ bh=kRQ8kNbq/1ROJcL+oCuqAQo8AQZVh+uUJ6uY0lNjb70=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nxGe+gRtOC/6hrZoPslLMNHsVIXk9oTxZCRfnvh2r4yi20n6vOQ6AkYGiorZ3YnSC
+ s9gf6xGAmzMq07K+xRqpjSKyUurDdJvso80cAWijBeJNq8j/A7tUVhuBh4ID/lddfH
+ G+lk56EjjolSdc1SGOauoGC9Vi+ihpJGkbgjSH/c=
+Date: Wed, 26 Feb 2020 12:00:41 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v6 06/18] spapr, ppc: Remove VPM0/RMLS hacks for POWER9
+Message-ID: <20200226010041.GG41629@umbus.fritz.box>
+References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
+ <20200224233724.46415-7-david@gibson.dropbear.id.au>
+ <20200225122900.0fe0780b@bahia.home>
+ <20200225165801.14cba74c@bahia.home>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5UGlQXeG3ziZS81+"
+Content-Disposition: inline
+In-Reply-To: <20200225165801.14cba74c@bahia.home>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,86 +57,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>, farosas@linux.ibm.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of having somewhat reproduced it for itself.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/040 | 51 +++++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 26 deletions(-)
+--5UGlQXeG3ziZS81+
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index 90b59081ff..579dafc797 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -483,34 +483,33 @@ class TestErrorHandling(iotests.QMPTestCase):
-                           file=3D('top-dbg' if top_debug else 'top-file'),
-                           backing=3D'mid-fmt')
-=20
-+
-+    class TestJobRunner(iotests.JobRunner):
-+        expected_events =3D ('BLOCK_JOB_COMPLETED',
-+                           'BLOCK_JOB_ERROR',
-+                           'BLOCK_JOB_READY')
-+
-+        def __init__(self, *args, test, **kwargs):
-+            super().__init__(*args, **kwargs)
-+            self.log =3D []
-+            self.test =3D test
-+
-+        def on_pause(self, event):
-+            result =3D self._vm.qmp('block-job-resume', device=3Dself._id)
-+            self.test.assert_qmp(result, 'return', {})
-+            super().on_pause(event)
-+
-+        def on_block_job_event(self, event):
-+            if event['event'] not in self.expected_events:
-+                self.test.fail("Unexpected event: %s" % event)
-+            super().on_block_job_event(event)
-+            self.log.append(iotests.filter_qmp_event(event))
-+
-     def run_job(self, expected_events, error_pauses_job=3DFalse):
--        match_device =3D {'data': {'device': 'job0'}}
--        events =3D {
--            'BLOCK_JOB_COMPLETED': match_device,
--            'BLOCK_JOB_CANCELLED': match_device,
--            'BLOCK_JOB_ERROR': match_device,
--            'BLOCK_JOB_READY': match_device,
--        }
--
--        completed =3D False
--        log =3D []
--        while not completed:
--            ev =3D self.vm.events_wait(events, timeout=3D5.0)
--            if ev['event'] =3D=3D 'BLOCK_JOB_COMPLETED':
--                completed =3D True
--            elif ev['event'] =3D=3D 'BLOCK_JOB_ERROR':
--                if error_pauses_job:
--                    result =3D self.vm.qmp('block-job-resume', device=3D'j=
-ob0')
--                    self.assert_qmp(result, 'return', {})
--            elif ev['event'] =3D=3D 'BLOCK_JOB_READY':
--                result =3D self.vm.qmp('block-job-complete', device=3D'job=
-0')
--                self.assert_qmp(result, 'return', {})
--            else:
--                self.fail("Unexpected event: %s" % ev)
--            log.append(iotests.filter_qmp_event(ev))
--
-+        job =3D self.TestJobRunner(self.vm, 'job0', use_log=3DFalse, test=
-=3Dself)
-+        job.run()
-         self.maxDiff =3D None
--        self.assertEqual(expected_events, log)
-+        self.assertEqual(expected_events, job.log)
-=20
-     def event_error(self, op, action):
-         return {
+On Tue, Feb 25, 2020 at 04:58:01PM +0100, Greg Kurz wrote:
+> On Tue, 25 Feb 2020 12:29:00 +0100
+> Greg Kurz <groug@kaod.org> wrote:
+>=20
+> > On Tue, 25 Feb 2020 10:37:12 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >=20
+> > > For the "pseries" machine, we use "virtual hypervisor" mode where we
+> > > only model the CPU in non-hypervisor privileged mode.  This means that
+> > > we need guest physical addresses within the modelled cpu to be treated
+> > > as absolute physical addresses.
+> > >=20
+> > > We used to do that by clearing LPCR[VPM0] and setting LPCR[RMLS] to a=
+ high
+> > > limit so that the old offset based translation for guest mode applied,
+> > > which does what we need.  However, POWER9 has removed support for that
+> > > translation mode, which meant we had some ugly hacks to keep it worki=
+ng.
+> > >=20
+> > > We now explicitly handle this sort of translation for virtual hypervi=
+sor
+> > > mode, so the hacks aren't necessary.  We don't need to set VPM0 and R=
+MLS
+> > > from the machine type code - they're now ignored in vhyp mode.  On th=
+e cpu
+> > > side we don't need to allow LPCR[RMLS] to be set on POWER9 in vhyp mo=
+de -
+> > > that was only there to allow the hack on the machine side.
+> > >=20
+> > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+> > > ---
+> >=20
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> >=20
+>=20
+> Ah wait...
+>=20
+> > >  hw/ppc/spapr_cpu_core.c | 6 +-----
+> > >  target/ppc/mmu-hash64.c | 8 --------
+> > >  2 files changed, 1 insertion(+), 13 deletions(-)
+> > >=20
+> > > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> > > index d09125d9af..ea5e11f1d9 100644
+> > > --- a/hw/ppc/spapr_cpu_core.c
+> > > +++ b/hw/ppc/spapr_cpu_core.c
+> > > @@ -58,14 +58,10 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> > >       * we don't get spurious wakups before an RTAS start-cpu call.
+> > >       * For the same reason, set PSSCR_EC.
+> > >       */
+> > > -    lpcr &=3D ~(LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_KBV | pcc->l=
+pcr_pm);
+> > > +    lpcr &=3D ~(LPCR_VPM1 | LPCR_ISL | LPCR_KBV | pcc->lpcr_pm);
+>=20
+> ... a few lines above, we have a comment that should be dropped as well.
+>=20
+>      * Clearing VPM0 will also cause us to use RMOR in mmu-hash64.c for
+>      * real mode accesses, which thankfully defaults to 0 and isn't
+>      * accessible in guest mode.
+
+Removed, thanks.
+
+>=20
+> My R-b tag stands anyway.
+>=20
+> > >      lpcr |=3D LPCR_LPES0 | LPCR_LPES1;
+> > >      env->spr[SPR_PSSCR] |=3D PSSCR_EC;
+> > > =20
+> > > -    /* Set RMLS to the max (ie, 16G) */
+> > > -    lpcr &=3D ~LPCR_RMLS;
+> > > -    lpcr |=3D 1ull << LPCR_RMLS_SHIFT;
+> > > -
+> > >      ppc_store_lpcr(cpu, lpcr);
+> > > =20
+> > >      /* Set a full AMOR so guest can use the AMR as it sees fit */
+> > > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> > > index e372c42add..caf47ad6fc 100644
+> > > --- a/target/ppc/mmu-hash64.c
+> > > +++ b/target/ppc/mmu-hash64.c
+> > > @@ -1126,14 +1126,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ul=
+ong val)
+> > >                        (LPCR_PECE_L_MASK & (LPCR_PDEE | LPCR_HDEE | L=
+PCR_EEE |
+> > >                        LPCR_DEE | LPCR_OEE)) | LPCR_MER | LPCR_GTSE |=
+ LPCR_TC |
+> > >                        LPCR_HEIC | LPCR_LPES0 | LPCR_HVICE | LPCR_HDI=
+CE);
+> > > -        /*
+> > > -         * If we have a virtual hypervisor, we need to bring back RM=
+LS. It
+> > > -         * doesn't exist on an actual P9 but that's all we know how =
+to
+> > > -         * configure with softmmu at the moment
+> > > -         */
+> > > -        if (cpu->vhyp) {
+> > > -            lpcr |=3D (val & LPCR_RMLS);
+> > > -        }
+> > >          break;
+> > >      default:
+> > >          g_assert_not_reached();
+> >=20
+> >=20
+>=20
+
 --=20
-2.21.1
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--5UGlQXeG3ziZS81+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5VwzcACgkQbDjKyiDZ
+s5IVnw/7Bqc/IFZxnRt7Os2kmwmqzu+TY2zcJZ78chSQeJYC8TR84/APwFJf/pv4
+4PWAopEeNxtwMEwa9paczpm87seepMOopj9mDBiejJHb54hJbk9EVXoIH7TMmRYy
+PUKWg6Xrybf0A3HgpY0Jfb1hYo767rG7+ncTW9ufuT+7LN/fs7BR40j+1XNDoFu7
+53mVlGe5ddUhxxlGDYLLSx2nOz2H7OF3kqKAWdDWgcfjwfP5xfiCQ95KtUexO4sd
+KSWIUltRq+LVnrzB6rejZzDtU1wpyIc78dRtSz7G7nOsZ16avAjtt5REEUkS/wQS
+6KFBkvex9N/LWhhUrEPLpYY2eDknjFp9jDEKACFMZXyzd+WVr/Tisz15kZY4BsN6
+yIrxh+YpLvr84bNSO+2hUWPgObYasxRKBkjuZUk/HCB9vV2zICkiqEzbRXLbW0He
+rGpSg+nqj07yB2fmXMomeM4rGeK/+isXfcPY12h6E9Cq9JQQ3Y6jk8BigivO0KsJ
+GRwJd6J6jiCxsa1SCGamUBV/UKx+bDm+vtpchQ+NRzkJ6c41BTkMEx4fSqlNxPkn
+iacBQPbEC9dV3OgGc2IKAC8tqjLwmmpfbHL8/5XiwL1EAz1tG061tx+J77+Yixmq
+fR0R0enQCzwHfeMER18/QWvFOPJFHdS9GCYvcFNOsxHsUCiT9Lc=
+=kGTY
+-----END PGP SIGNATURE-----
+
+--5UGlQXeG3ziZS81+--
 
