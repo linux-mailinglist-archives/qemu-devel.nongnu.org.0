@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75AE1706AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:53:02 +0100 (CET)
-Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5071F170675
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:47:41 +0100 (CET)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j70rl-0001u8-T8
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:53:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58911)
+	id 1j70ma-0003UZ-CH
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:47:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j70q2-0000JQ-5j
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:51:15 -0500
+ (envelope-from <jusual@redhat.com>) id 1j70lb-00032e-9u
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:46:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j70q0-0007uZ-Sv
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:51:14 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39096)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j70q0-0007rH-MV
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:51:12 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j70pz-0003NW-0C
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 17:51:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 006B52E80C8
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 17:51:11 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Feb 2020 17:42:37 -0000
-From: Marco <jermy.07@gmail.com>
+ (envelope-from <jusual@redhat.com>) id 1j70lZ-0006aR-T8
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:46:39 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56180
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jusual@redhat.com>) id 1j70lZ-0006Zv-PM
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:46:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582739197;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Za2ZogXvn0EvFyVSakbCCBUtcuLatt/efqoSJEvgf2k=;
+ b=dV82peA67FKpEfG1BE4HdqUl6voFLkgKhpsV+S1o1wiNi83ikZW8QLKW0PSA2o0QgCHZ4+
+ YG0M03yOti+b0pf2+szj0NSaz9/GIds2X5oZ20u1J4edYKLE3z/4XvduDCl7zRK5fWs9Lx
+ YMbyYJh48AqDtZ6gVn8YfFcWNX6x0LE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-lPtyM1NINdKFkdPm35RoiA-1; Wed, 26 Feb 2020 12:46:31 -0500
+X-MC-Unique: lPtyM1NINdKFkdPm35RoiA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8126613F7
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 17:46:30 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-117-53.ams2.redhat.com
+ [10.36.117.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7C0B92966;
+ Wed, 26 Feb 2020 17:46:12 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jermy-07 rth
-X-Launchpad-Bug-Reporter: Marco (jermy-07)
-X-Launchpad-Bug-Modifier: Marco (jermy-07)
-References: <158152698766.24807.871332888169155245.malonedeb@gac.canonical.com>
-Message-Id: <158273895756.14244.15131011130057185974.malone@wampee.canonical.com>
-Subject: [Bug 1862986] Re: qemu-s390x crashes when run on aarch64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 78e4b45cad983e5f5dd554c45e1510a8e6a1b729
+Subject: [PATCH v3] pcie_root_port: Add hotplug disabling option
+Date: Wed, 26 Feb 2020 18:46:07 +0100
+Message-Id: <20200226174607.205941-1-jusual@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,116 +69,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862986 <1862986@bugs.launchpad.net>
+Cc: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laine Stump <laine@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for taking a look. With the binary I posted, the steps to
-reproduce are:
+Make hot-plug/hot-unplug on PCIe Root Ports optional to allow libvirt
+manage it and restrict unplug for the whole machine. This is going to
+prevent user-initiated unplug in guests (Windows mostly).
+Hotplug is enabled by default.
+Usage:
+    -device pcie-root-port,hotplug=3Doff,...
 
-dpkg --add-architecture s390x && apt update && apt install qemu-user
-wget libc6:s390x libstdc++6:s390x libfontconfig1:s390x libxcb1:s390x -y
-&& wget
-https://bugs.launchpad.net/qemu/+bug/1862986/+attachment/5331331/+files/tes=
-t_bitcoin_orig
-&& sha256sum  ./test_bitcoin_orig && chmod +x test_bitcoin_orig
+If you want to disable hot-unplug on some downstream ports of one
+switch, disable hot-unplug on PCIe Root Port connected to the upstream
+port as well as on the selected downstream ports.
 
-The hash of the file is
-193758e2041d49fe90722927ba6b5371506831caf733ee2fe61ef7d61cc894f7 and
-qemu-user crashes for me:
+Discussion related:
+    https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00530.html
 
-$ qemu-s390x ./test_bitcoin_orig
-Segmentation fault (core dumped)
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+v1: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg04868.html
 
--- =
+v2: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05192.html
+    * change name of the option to 'enable-hotplug' [Laine]
+    * change order of enabling capability bits [Igor]
+    * enable HPS bit [Igor]
+    * add option to xio3130_downstream [J=C3=A1n]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862986
+v3:
+    * change name of the option to 'hotplug'. Naming is hard! [Laine]
+    * move property under TYPE_PCIE_SLOT [Michael]
 
-Title:
-  qemu-s390x crashes when run on aarch64
+ hw/pci-bridge/pcie_root_port.c     |  2 +-
+ hw/pci-bridge/xio3130_downstream.c |  2 +-
+ hw/pci/pcie.c                      | 11 +++++++----
+ hw/pci/pcie_port.c                 |  1 +
+ include/hw/pci/pcie.h              |  2 +-
+ include/hw/pci/pcie_port.h         |  3 +++
+ 6 files changed, 14 insertions(+), 7 deletions(-)
 
-Status in QEMU:
-  Incomplete
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.=
+c
+index 0ba4e4dea4..f1cfe9d14a 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -94,7 +94,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
+=20
+     pcie_cap_arifwd_init(d);
+     pcie_cap_deverr_init(d);
+-    pcie_cap_slot_init(d, s->slot);
++    pcie_cap_slot_init(d, s);
+     pcie_cap_root_init(d);
+=20
+     pcie_chassis_create(s->chassis);
+diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_dow=
+nstream.c
+index 153a4acad2..04aae72cd6 100644
+--- a/hw/pci-bridge/xio3130_downstream.c
++++ b/hw/pci-bridge/xio3130_downstream.c
+@@ -94,7 +94,7 @@ static void xio3130_downstream_realize(PCIDevice *d, Erro=
+r **errp)
+     }
+     pcie_cap_flr_init(d);
+     pcie_cap_deverr_init(d);
+-    pcie_cap_slot_init(d, s->slot);
++    pcie_cap_slot_init(d, s);
+     pcie_cap_arifwd_init(d);
+=20
+     pcie_chassis_create(s->chassis);
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 08718188bb..0eb3a2a5d2 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -495,7 +495,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *ho=
+tplug_dev,
+=20
+ /* pci express slot for pci express root/downstream port
+    PCI express capability slot registers */
+-void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot)
++void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+ {
+     uint32_t pos =3D dev->exp.exp_cap;
+=20
+@@ -505,13 +505,16 @@ void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot=
+)
+     pci_long_test_and_clear_mask(dev->config + pos + PCI_EXP_SLTCAP,
+                                  ~PCI_EXP_SLTCAP_PSN);
+     pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
+-                               (slot << PCI_EXP_SLTCAP_PSN_SHIFT) |
++                               (s->slot << PCI_EXP_SLTCAP_PSN_SHIFT) |
+                                PCI_EXP_SLTCAP_EIP |
+-                               PCI_EXP_SLTCAP_HPS |
+-                               PCI_EXP_SLTCAP_HPC |
+                                PCI_EXP_SLTCAP_PIP |
+                                PCI_EXP_SLTCAP_AIP |
+                                PCI_EXP_SLTCAP_ABP);
++    if (s->hotplug) {
++        pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
++                                   PCI_EXP_SLTCAP_HPS |
++                                   PCI_EXP_SLTCAP_HPC);
++    }
+=20
+     if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
+         pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index f8263cb306..eb563ad435 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -147,6 +147,7 @@ static const TypeInfo pcie_port_type_info =3D {
+ static Property pcie_slot_props[] =3D {
+     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
+     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
++    DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
+     DEFINE_PROP_END_OF_LIST()
+ };
+=20
+diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+index 7064875835..14c58ebdb6 100644
+--- a/include/hw/pci/pcie.h
++++ b/include/hw/pci/pcie.h
+@@ -104,7 +104,7 @@ void pcie_cap_deverr_reset(PCIDevice *dev);
+ void pcie_cap_lnkctl_init(PCIDevice *dev);
+ void pcie_cap_lnkctl_reset(PCIDevice *dev);
+=20
+-void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot);
++void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s);
+ void pcie_cap_slot_reset(PCIDevice *dev);
+ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_st=
+a);
+ void pcie_cap_slot_write_config(PCIDevice *dev,
+diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+index 4b3d254b08..caae57573b 100644
+--- a/include/hw/pci/pcie_port.h
++++ b/include/hw/pci/pcie_port.h
+@@ -55,6 +55,9 @@ struct PCIESlot {
+=20
+     /* Disable ACS (really for a pcie_root_port) */
+     bool        disable_acs;
++
++    /* Indicates whether hot-plug is enabled on the slot */
++    bool        hotplug;
+     QLIST_ENTRY(PCIESlot) next;
+ };
+=20
+--=20
+2.24.1
 
-Bug description:
-  All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
-  when run on an aarch64 odroid Ubuntu.
-
-
-  Steps to reproduce:
-
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/wo=
-rkspace/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_or=
-ig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
-  qemu-s390x version 4.2.0
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspac=
-e/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
-  qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  qemu-arm does work on the same machine:
-
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-=
-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-
-  *** No errors detected
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.1=
-9.0.1-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-
-  *** No errors detected
-
-
-  =
-
-  What kind of debug information would be helpful for this issue report?
-  GDB for the self-compiled latest release is not particularly helpful:
-
-  (gdb) run
-  Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/=
-build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a2a140 (LWP 28264)]
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x000000555596b218 in __bss_start__ ()
-  (gdb) bt
-  #0  0x000000555596b218 in __bss_start__ ()
-  #1  0x00000055556120a8 in ?? ()
-  #2  0x00000055579904b0 in ?? ()
-  Backtrace stopped: previous frame inner to this frame (corrupt stack?)
-
-
-  =
-
-  A bit more information is available in the version shipped by Ubuntu:
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/=
-bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a01180 (LWP 28271)]
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x0000005555738f98 in code_gen_buffer ()
-  (gdb) bt
-  #0  0x0000005555738f98 in code_gen_buffer ()
-  #1  0x00000055555e96c8 in cpu_exec ()
-  #2  0x00000055555ee430 in cpu_loop ()
-  #3  0x00000055555c3328 in main ()
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862986/+subscriptions
 
