@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7274817092B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 21:03:13 +0100 (CET)
-Received: from localhost ([::1]:49298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C8117093A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 21:12:50 +0100 (CET)
+Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j72tk-0003QO-0s
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 15:03:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43099)
+	id 1j7333-0007LR-4s
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 15:12:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47524)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1j72sg-0002s8-3s
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:02:07 -0500
+ (envelope-from <jimw@sifive.com>) id 1j72zl-0004VO-Ae
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:09:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1j72sf-0002yb-2M
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:02:06 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9938
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1j72sb-0002gl-FJ; Wed, 26 Feb 2020 15:02:02 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QJtadP058204; Wed, 26 Feb 2020 15:01:57 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ydqf7sgs1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 15:01:57 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QJtj97058584;
- Wed, 26 Feb 2020 15:01:57 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ydqf7sgrb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 15:01:57 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QK1L7l024900;
- Wed, 26 Feb 2020 20:01:56 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 2ydcmksqkq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 20:01:56 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QK1tGG40173834
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 20:01:55 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3C3D6A051;
- Wed, 26 Feb 2020 20:01:54 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 310506A054;
- Wed, 26 Feb 2020 20:01:54 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 20:01:53 +0000 (GMT)
-Subject: Re: [PATCH v3 00/10] vTPM for aarch64
-To: Auger Eric <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200226102549.12158-1-eric.auger@redhat.com>
- <31e81f4b-ef00-692e-540f-ef3d9be5bb9a@linux.ibm.com>
- <22380cd3-b13e-aede-a7f5-158d86ca6136@redhat.com>
- <a8913524-4de3-dc0a-0b2c-2deb88c33859@linux.ibm.com>
- <df345076-8def-9ba5-6c11-2bcaa2293ca1@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <bf008b7d-e6dc-5eeb-03e0-a141db367b6d@linux.ibm.com>
-Date: Wed, 26 Feb 2020 15:01:53 -0500
+ (envelope-from <jimw@sifive.com>) id 1j72zk-0003Rl-AA
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:09:25 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:36409)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jimw@sifive.com>) id 1j72zk-0003Lx-2a
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 15:09:24 -0500
+Received: by mail-pf1-x441.google.com with SMTP id i13so172518pfe.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 12:09:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yyJNMLyrTyG3x116AuLrSuDe5q6fImd01Q5NIv53YPk=;
+ b=ZqWSQ679yOiFiKrnknXVFrf33Pg/TulmzRwAvD6lmC1AT2rXyCo/1dOF9bZ+KSKmHe
+ BAiS89w6dVuQjI9jwM4ajmzMOXIgSzX9OEHu+4feZDJDYLSUdktqsoIzLg7Yg+Mvnj8V
+ Hun4LWLJZn0ab2Eh4CuPfAiDsiGVCHhgDnoX8X5CFQ5s9GOWRq5EqRSBR1LbCvx5LLF3
+ aa6rBuRq+ZJR4ocRkSCGQxIKF+qI94BK1M9kXrPYJE4+HP27TZLZJACI1ie2Bbp9pgo7
+ JI1+SQ8kXrOvFPTh/uooc7G04QZoNxPVd9ZrujF8q3LRthdBkccA52fb2NKiEEpawMce
+ f2ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yyJNMLyrTyG3x116AuLrSuDe5q6fImd01Q5NIv53YPk=;
+ b=jOkB44tyg7qdjXK1o5GouTK2pKouNH2ic0ms4IDYoKFsJ9Rr889tuUAkkuAPKhdD34
+ HcZhviMRQjY4xDpnp8Bzna2CFOCmjUbtIwm4tZMzjc3C7InrTf5jI8tHZlAWj5mOLg9c
+ Xv56c7ZjAH5OcqQu+7jjS+jZM9ZJpYEhGY0XTJWcono2v1kjADUJZSiN2GJJk0mrg+lg
+ sb4/qPSg5fyvMh6kAmzfRaoV3cceEQdIUxlJCcrTSW8TCBb5mJdTs1Eos7CEM2bcuRiu
+ 6DaBI5EHqGGAD7UNATfruesQyOPrQcFYniKzgk+ZlRykctshTmXtcjgKtmcvXVbXWu22
+ 7a4Q==
+X-Gm-Message-State: APjAAAVf2YkLY4vYtNI82KsQsorcasi0UGxH2h089GpMJu1YltaXL3tf
+ hmGgHruo8cZjU4P6fgRThsKuAw==
+X-Google-Smtp-Source: APXvYqwr4VOX3K3N87ePFT3LjDqtMkDqMtqA4FcnFkePcG6ossUeRtmCjH8TfSDQWq8NSHKFrUyC0Q==
+X-Received: by 2002:a63:2b93:: with SMTP id r141mr511283pgr.306.1582747762481; 
+ Wed, 26 Feb 2020 12:09:22 -0800 (PST)
+Received: from [10.17.0.226] ([12.206.222.5])
+ by smtp.gmail.com with ESMTPSA id dw10sm3594375pjb.11.2020.02.26.12.09.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Feb 2020 12:09:22 -0800 (PST)
+Subject: Re: [PATCH v5 0/4] target-riscv: support vector extension part 1
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, richard.henderson@linaro.org,
+ alistair23@gmail.com, chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
+From: Jim Wilson <jimw@sifive.com>
+Message-ID: <ac290e38-bb39-6551-0758-95d087fa568c@sifive.com>
+Date: Wed, 26 Feb 2020 12:09:20 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <df345076-8def-9ba5-6c11-2bcaa2293ca1@redhat.com>
+In-Reply-To: <20200221094531.61894-1-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-26_07:2020-02-26,
- 2020-02-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- mlxlogscore=999 bulkscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 malwarescore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002260121
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id 01QJtadP058204
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,69 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 1:18 PM, Auger Eric wrote:
-> Hi Stefan,
->
-> On 2/26/20 6:53 PM, Stefan Berger wrote:
->> On 2/26/20 12:47 PM, Auger Eric wrote:
->>> Hi Stefan,
->>>
->>> On 2/26/20 2:32 PM, Stefan Berger wrote:
->>>> On 2/26/20 5:25 AM, Eric Auger wrote:
->>>>> This series adds the capability to instantiate an MMIO TPM TIS
->>>>> in ARM virt. It is candidate to qemu 5.0.
->>>> Looks good. Can you run the checkpatch script over the patches and
->>>> address the warnings?
->>>>
->>>>
->>> Thank you for you review!
->>>
->>> About warnings
->>>
->>> - There are warnings due to new files added but I think they all have=
- an
->>> entry in MAINTAINERS as wildcards are used.
->>>
->>> - In tpm: Add the SysBus TPM TIS device.
->>>  =C2=A0=C2=A0 There is line over 80 chars but I think it is fine
->>>
->>> #define TPM_TIS_SYSBUS(obj) OBJECT_CHECK(TPMStateSysBus, (obj),
->>> TYPE_TPM_TIS_SYSBUS)
->>
->> Ok, leave it as it is.
-> and sorry, what about the comment style issues derived from existing fi=
-les?
->
-> "
-> - test: tpm-tis: Get prepared to share tests between ISA and sysbus dev=
-ices
-> has lots of warnings due to old comment style being used in
-> tests/qtest/tpm-tis-test.c. I did not fix the style issue because I jus=
-t
-> copy the code into tpm-tis-util.c
->
-> Do you want me to fix them in the same patch, in a separate patch or
-> ignore the style issue for now?
+On 2/21/20 1:45 AM, LIU Zhiwei wrote:
+> This is the first part of v5 patchset. The changelog of v5 is only coverd
+> the part1.
+> 
+> Features:
+>    * support specification riscv-v-spec-0.7.1.
 
+I'm still concerned about versioning issues.  This implements an 
+unofficial draft of the proposed RISC-V vector extension.  This draft is 
+not compatible with the current draft, and will be even less compatible 
+with the final official version of the vector spec.
 
-if you could fix them that would be great...
+The patch adds a version which is good, but there is only one check when 
+qemu starts.  Probably something like 25% of these patches will be wrong 
+for the official vector extension.  How are we going to handle this when 
+someone submits patches for the official support?  It would be better if 
+everything in these patches were conditional on the version number.  It 
+might also be better if we stopped calling this the 'v' extension and 
+maybe used another name like Xrvv071 to make it clear that it is an 
+unofficial draft of the proposed vector spec.  Or maybe be we can use 
+v0p7 but that isn't an officially supported extension name.
 
+If this rvv 0.7.1 implementation is considered a temporary solution, 
+maybe we can just remove all of this work when the official rvv spec if 
+available?  But presumably it is better if we can have both this 
+implementation and the official one, which means everything needs to be 
+conditional or tied to an Xsomething extension name instead of the V 
+extension name.
 
-> "
->
-> Thanks
->
-> Eric
->
->
->>
->>  =C2=A0=C2=A0 Stefan
->>
->>
-
+Jim
 
