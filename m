@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C3116FFDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:23:40 +0100 (CET)
-Received: from localhost ([::1]:44354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F2516FFC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:20:17 +0100 (CET)
+Received: from localhost ([::1]:44298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6wf5-0002ED-Kg
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:23:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57339)
+	id 1j6wbn-0000Jv-QT
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:20:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1j6wdy-0001eD-Pt
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:22:31 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j6wav-0007wc-Sm
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:19:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1j6wdx-0005gN-Kh
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:22:30 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55906
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1j6wdv-0005Yw-2v; Wed, 26 Feb 2020 08:22:27 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QDKa3Q097147; Wed, 26 Feb 2020 08:22:25 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ydcnge557-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 08:22:24 -0500
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QDKvfM098673;
- Wed, 26 Feb 2020 08:22:24 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ydcnge54n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 08:22:24 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QDAEBI006358;
- Wed, 26 Feb 2020 13:17:23 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 2ydcmknct0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 13:17:23 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QDHNZo45285814
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 13:17:23 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 17418AE064;
- Wed, 26 Feb 2020 13:17:23 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0675AAE063;
- Wed, 26 Feb 2020 13:17:22 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 13:17:22 +0000 (GMT)
-Subject: Re: [PATCH v3 07/10] docs/specs/tpm: Document TPM_TIS sysbus device
- for ARM
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200226102549.12158-1-eric.auger@redhat.com>
- <20200226102549.12158-8-eric.auger@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <b71d4a12-6db6-af87-cbc1-5a20c86931c8@linux.ibm.com>
-Date: Wed, 26 Feb 2020 08:17:22 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j6wau-0000LC-GS
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:19:21 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51367)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j6wau-0000Jz-Bi
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:19:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582723159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=iXeMu9cT3hpnUKMA3r9qp4p35J+sthiE+0yBZtSfT7I=;
+ b=RQLoElIEs5Db6dgcdeltUYZy5iLU93UJAlg9of3UW1CJHHgKyIoRSoQghoSZ+pxcjbfDh1
+ pjw0BeafmXrcUmMwbZrE1gjhesKe3eIVcmwNAgsXglosRZNzXmuqvnnDr5SOnPdlspYhWu
+ A90gKPdMQeDVbjZD0CprkvGew5OGCmg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-gdhvyybRNcaTuQEG6N0Uhg-1; Wed, 26 Feb 2020 08:19:11 -0500
+X-MC-Unique: gdhvyybRNcaTuQEG6N0Uhg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 152481088389;
+ Wed, 26 Feb 2020 13:19:10 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A7271CB;
+ Wed, 26 Feb 2020 13:19:08 +0000 (UTC)
+Subject: Re: [PATCH v2] iotests: Fix nonportable use of od --endian
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200226125424.481840-1-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9cf31f83-1965-0f43-bd3e-30dcb1be9ece@redhat.com>
+Date: Wed, 26 Feb 2020 14:19:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200226102549.12158-8-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-26_04:2020-02-26,
- 2020-02-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 spamscore=0 suspectscore=0 impostorscore=0 clxscore=1015
- mlxscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002260099
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+In-Reply-To: <20200226125424.481840-1-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="2vs2S2o7QTlJG7siIS8nXCrUki6tq9Saa"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,74 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, andrey.shinkevich@virtuozzo.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 5:25 AM, Eric Auger wrote:
-> Update the documentation with recent changes related to the
-> sysbus TPM_TIS device addition and add the command line
-> to be used with arm VIRT.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--2vs2S2o7QTlJG7siIS8nXCrUki6tq9Saa
+Content-Type: multipart/mixed; boundary="CZFKQi5kDRO8zo23LzM2ZL8rPEHdC4Pz0"
+
+--CZFKQi5kDRO8zo23LzM2ZL8rPEHdC4Pz0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 26.02.20 13:54, Eric Blake wrote:
+> Tests 261 and 272 fail on RHEL 7 with coreutils 8.22, since od
+> --endian was not added until coreutils 8.23.  Fix this by manually
+> constructing the final value one byte at a time.
+>=20
+> Fixes: fc8ba423
+> Reported-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
 > ---
->   docs/specs/tpm.rst | 25 ++++++++++++++++++++++++-
->   1 file changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 2bdf637f55..932cb57049 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -18,9 +18,15 @@ The TIS interface makes a memory mapped IO region in the area
->   0xfed40000-0xfed44fff available to the guest operating system.
->   
->   QEMU files related to TPM TIS interface:
-> - - ``hw/tpm/tpm_tis.c``
-> + - ``hw/tpm/tpm_tis_common.c``
-> + - ``hw/tpm/tpm_tis_isa.c``
-> + - ``hw/tpm/tpm_tis_sysbus.c``
->    - ``hw/tpm/tpm_tis.h``
->   
-> +Both an ISA device and a sysbus device are available. The former is
-> +used with pc/q35 machine while the later can be instantiated in the
+>=20
+> In v2: s/i/byte/, add Max's R-b
+>=20
+>  tests/qemu-iotests/common.rc | 22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
 
-s/later/latter
+Thanks, applied to my block branch:
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+
+Max
 
 
-> +ARM virt machine.
-> +
->   CRB interface
->   -------------
->   
-> @@ -325,6 +331,23 @@ In case a pSeries machine is emulated, use the following command line:
->       -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
->       -drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
->   
-> +In case an ARM virt machine is emulated, use the following command line:
-> +
-> +.. code-block:: console
-> +
-> +  qemu-system-aarch64 -machine virt,gic-version=3,accel=kvm \
-> +    -cpu host -m 4G \
-> +    -nographic -no-acpi \
-> +    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-> +    -tpmdev emulator,id=tpm0,chardev=chrtpm \
-> +    -device tpm-tis-device,tpmdev=tpm0 \
-> +    -device virtio-blk-pci,drive=drv0 \
-> +    -drive format=qcow2,file=hda.qcow2,if=none,id=drv0 \
-> +    -drive if=pflash,format=raw,file=flash0.img,readonly \
-> +    -drive if=pflash,format=raw,file=flash1.img
-> +
-> +  On ARM, ACPI boot with TPM is not yet supported.
-> +
->   In case SeaBIOS is used as firmware, it should show the TPM menu item
->   after entering the menu with 'ESC'.
->   
+--CZFKQi5kDRO8zo23LzM2ZL8rPEHdC4Pz0--
 
-With the spelling fixed:
+--2vs2S2o7QTlJG7siIS8nXCrUki6tq9Saa
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5WcEoACgkQ9AfbAGHV
+z0DN5QgAuVyT/hEVAsOZuPTaP4pbyXkdFDRubEjQAhGKb/DOy5WYbfbZxvILbghA
+3EW83XPqd2uJFkqAGueA4Xkil7c49uaT51zfWTtPeVWMquJkHruZAORJlpd/3AFA
+f9BT+q9Ae/PUo/uB022jd1VCiHr72EMrfMhco6kXD6IkReJys2d+H4tN//GUluIz
+lOhH6HXjYL5HsTqhS4nNkcRW/vlyL12u3/MgDJu+D7RZC/Vb6nXp7D4nl25SD1j7
+jvtN2eHSR22iEd+CQcbqUtBJ3VACzvdD252qssnpG47wTJWbc7vq7+RhduRxFUe3
+JydTC4SQKxOJE/ozZ01zP3l/PSgaVw==
+=m85a
+-----END PGP SIGNATURE-----
+
+--2vs2S2o7QTlJG7siIS8nXCrUki6tq9Saa--
 
 
