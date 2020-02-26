@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54A117061C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:29:19 +0100 (CET)
-Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A212D170656
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:41:41 +0100 (CET)
+Received: from localhost ([::1]:47836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j70Uo-0001Ad-1B
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:29:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48623)
+	id 1j70gm-0000S0-Ns
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:41:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j70T4-00005P-1f
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:27:31 -0500
+ (envelope-from <bounces@canonical.com>) id 1j70g3-0008Sc-Uf
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:40:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j70T2-0007Lh-AK
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:27:29 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33881)
+ (envelope-from <bounces@canonical.com>) id 1j70g2-0001it-LH
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:40:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35728)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1j70T2-0007Hk-3R; Wed, 26 Feb 2020 12:27:28 -0500
-Received: by mail-ot1-x342.google.com with SMTP id j16so200241otl.1;
- Wed, 26 Feb 2020 09:27:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gh/bA6yZttar7PgigfbgFIZcmxdx9gMOad8dFJvHZIA=;
- b=OP8jekfQgAehngTv/aUbdRMuZ/m6ZmscXUjmu97ogkFdSr4/PXXeXJtK8atYNMPKkG
- 4MmDNsgGNk4/ITNmMd2ACdvGJPYQKKN+oqCpJaJ5EqaiB4qnx1/OMcfBdH80pp3EVxrl
- nOfrYO6oBbybKEwj9MGFSDfZSzpAB0CwPRi1xoPMZlcFNCHlVRVq/KB2kcd4wM2QSHaG
- qcjiGd9rCTJfIicNdpuG/so6uDNfxxYiwMQY/CliYYV1KGOJlVbejc13Rf17/0+jYRoP
- 72ATQ1hoLbqsAYqfBlviF7GjgOpYtVj71L5h5Vpfz+r5Ai7VHUrurORjJKHbi5ohk3r6
- f8Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gh/bA6yZttar7PgigfbgFIZcmxdx9gMOad8dFJvHZIA=;
- b=rp3cGNajImuCQpJTsQdduNC8OcuoqO4j53ySmIzhBX4EM9fQgopOBtmEde8b92vIk1
- 7Nt7fndoYIJ3BbnCTdu7DvBmMJPL7r2LGYjWRQ0l919OnZCjnMXeS0sVEG+xxCcLXA5c
- xt4nA3Alo6EF8s9NVNVmaCfZo6G3GQbCz/Bv3TUQPWQQhn1wyHQr89+n3gPibAx4M7WF
- +SU1OJPPeeshDhFWUwh8Vzp/P0a9pB0tC2ejhz4uCVbzw942/Yzc4Fybv2MOKZctvsg9
- j7IoFvyW8Kp6aw2bhmX42fCBnAMEY7vs8Va3VLsIXEhtr57WUoSgebm7QIB0w0xcJjCE
- IPlw==
-X-Gm-Message-State: APjAAAX5OWThrtiRHBYqaSllf+Xzym0mFeVBAmH6AdlXiT0KS2T1k6vP
- jlnPh/wJReM0dfUNkT2tYfrYT9P/FJbHtntRykE=
-X-Google-Smtp-Source: APXvYqzNDrJhVfaBvsHZqhCeEO2ptJeDjBUUr91B8PCkLxjFSac4Hpc5F8U2kubWejLQ7G5xOdu/VjqzP7CBZu/lpZE=
-X-Received: by 2002:a05:6830:1e76:: with SMTP id
- m22mr4165239otr.295.1582738047038; 
- Wed, 26 Feb 2020 09:27:27 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j70g2-0001hT-F1
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:40:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j70g1-0001hf-26
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 17:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F404D2E80C8
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 17:40:52 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200218171702.979F074637D@zero.eik.bme.hu>
- <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
- <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
- <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
- <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
- <3539F747-145F-49CC-B494-C9794A8ABABA@gmail.com>
- <AM6PR03MB5525DE221E3E7E595893DF4DC8EA0@AM6PR03MB5525.eurprd03.prod.outlook.com>
- <AM4PR07MB350651FBB263FEEDB857CBFFCAEA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <87eeuhxw0y.fsf@linaro.org>
- <CAL1e-=gGsEV4_a4gJr2x0L3r_UK7isnpjOWoJRCDhqpG_XT3Ww@mail.gmail.com>
- <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
-In-Reply-To: <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 26 Feb 2020 18:27:16 +0100
-Message-ID: <CAL1e-=hhhw4x4H24DWg6pTp9DmjyfwM6GFMOmWasKC66x5tR4Q@mail.gmail.com>
-Subject: Re: R: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
-To: G 3 <programmingkidx@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Date: Wed, 26 Feb 2020 17:32:06 -0000
+From: Marco <jermy.07@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jermy-07 rth
+X-Launchpad-Bug-Reporter: Marco (jermy-07)
+X-Launchpad-Bug-Modifier: Marco (jermy-07)
+References: <158152698766.24807.871332888169155245.malonedeb@gac.canonical.com>
+Message-Id: <158273832655.14202.7969136854588199902.malone@gac.canonical.com>
+Subject: [Bug 1862986] Re: qemu-s390x crashes when run on aarch64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a9ab828562102b950e6ac65afa1b2a27bea04027
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,130 +65,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>, luigi burdo <intermediadc@hotmail.com>,
- Dino Papararo <skizzato73@msn.com>, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1862986 <1862986@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 26, 2020 at 6:04 PM G 3 <programmingkidx@gmail.com> wrote:
->
-> Accuracy is an important part of the IEEE 754 floating point standard. Th=
-e whole purpose of this standard is to ensure floating point calculations a=
-re consistent across multiple CPUs. I believe referring to this patch as in=
-accurate is itself inaccurate. That gives the impression that this patch pr=
-oduces calculations that are not inline with established standards. This is=
- not true. The only part of this patch that will produce incorrect values a=
-re the flags. There *may* be a program or two out there that depend on thes=
-e flags, but for the majority of programs that only care about basic floati=
-ng point arithmetic this patch will produce correct values. Currently the e=
-mulated PowerPC's FPU already produces wrong values for the flags. This pat=
-ch does set the Inexact flag (which I don't like), but since I have never e=
-ncountered any source code that cares for this flag, I can let it go. I thi=
-nk giving the user the ability to decide which option to use is the best th=
-ing to do.
->
+** Attachment added: "A test binary"
+   https://bugs.launchpad.net/qemu/+bug/1862986/+attachment/5331331/+files/=
+test_bitcoin_orig
 
-From the experiments described above, the patch in question changes the beh=
-avior
-of applications (for example, sound is different with and without the
-patch), which is
-in contradiction with your claim that you "never encountered any
-source code that
-cares for this flag" and that "the only part of this patch that will
-produce incorrect
-values are the flags".
+-- =
 
-In other words, and playing further with them:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862986
 
-The claim that "referring to this patch as inaccurate is itself
-inaccurate" is itself inaccurate.
+Title:
+  qemu-s390x crashes when run on aarch64
 
-Best regards,
-Aleksandar
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
+  when run on an aarch64 odroid Ubuntu.
 
 
-> On Wed, Feb 26, 2020 at 10:51 AM Aleksandar Markovic <aleksandar.m.mail@g=
-mail.com> wrote:
->>
->>
->>
->> On Wed, Feb 26, 2020 at 3:29 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->> >
->> >
->> > Dino Papararo <skizzato73@msn.com> writes:
->> >
->> > > Please let's go with hardfloat pps support, it's really a good featu=
-re to implement.
->> > > Even if in a first step it could lead to inaccuracy results, later i=
-t
->> > > could solved with other patches.
->> >
->> > That's the wrong way around. We have regression tests for a reason.
->>
->> I tend to agree with Alex here, and additionally want to expand more on
->> this topic.
->>
->> In my view: (that I think is at least very close to the community consen=
-sus)
->>
->> This is *not* a ppc-specific issue. There exist a principle across all t=
-argets
->> that QEMU FPU calculation must be accurate - exactly as specified in any
->> applicable particular ISA document. Any discrepancy is an outright bug.
->>
->> We even recently had several patches for FPU in ppc target that handled
->> some fairly obscure cases of inaccuracies, I believe they were authored
->> by Paul Clarke, so there are people in ppc community that care about
->> FPU accuracy (as I guess is the case for any target).
->>
->> There shouldn't be a target that decides by itself and within itself
->> "ok, we don't need accuracy, let's trade it for speed". This violates
->> the architecture of QEMU. Please allow that for any given software
->> project, there is an architecture that should be respected.
->>
->> This doesn't mean that anybody's experimentation is discouraged. No-one
->> can stop anybody from forking from QEMU upstream tree and do whatever
->> is wanted.
->>
->> But, this doesn't mean such experimentation will be upstreamed. QEMU
->> upstream should be collecting place for the best ideas and implementatio=
-ns,
->> not for arbitrary experimentations.
->>
->> Best regards,
->> Aleksandar
->>
->>
->> > I'll happily accept patches to turn on hardfloat for PPC if:
->> >
->> >  a) they don't cause regressions in our fairly extensive floating poin=
-t
->> >  tests
->> >  b) the PPC maintainers are happy with the new performance profile
->> >
->> > The way forward would be to:
->> >
->> >  1. patch to drop #if defined(TARGET_PPC) || defined(__FAST_MATH__)
->> >  2. audit target/ppc/fpu_helper.c w.r.t chip manual and fix any unneed=
-ed
->> >  splatting of flags (if any)
->> >  3. measure the before/after performance effect and decide if on balan=
-ce
->> >  it's worth keeping
->> >
->> > > I think it's important for qemu to as global as possible and don't
->> > > target only recent hardware.
->> >
->> > Are you referring to guests or hosts? For guests we will always favour
->> > accuracy of speed of emulation. For hosts we need to have IEEE complia=
-nt
->> > FPU HW to even stand a chance of using hardfloat.
->> >
->> > --
->> > Alex Benn=C3=A9e
->> >
+  Steps to reproduce:
+
+  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/wo=
+rkspace/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_or=
+ig"
+  Segmentation fault (core dumped)
+  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
+  qemu-s390x version 4.2.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspac=
+e/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
+  Segmentation fault (core dumped)
+  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
+  qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  qemu-arm does work on the same machine:
+
+  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-=
+armhf/bin/test_bitcoin -t amount_tests
+  Running 4 test cases...
+
+  *** No errors detected
+  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.1=
+9.0.1-armhf/bin/test_bitcoin -t amount_tests
+  Running 4 test cases...
+
+  *** No errors detected
+
+
+  =
+
+  What kind of debug information would be helpful for this issue report?
+  GDB for the self-compiled latest release is not particularly helpful:
+
+  (gdb) run
+  Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/=
+build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
+  [Thread debugging using libthread_db enabled]
+  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
+".
+  [New Thread 0x7fb7a2a140 (LWP 28264)]
+
+  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
+  0x000000555596b218 in __bss_start__ ()
+  (gdb) bt
+  #0  0x000000555596b218 in __bss_start__ ()
+  #1  0x00000055556120a8 in ?? ()
+  #2  0x00000055579904b0 in ?? ()
+  Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+
+
+  =
+
+  A bit more information is available in the version shipped by Ubuntu:
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/=
+bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
+  [Thread debugging using libthread_db enabled]
+  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
+".
+  [New Thread 0x7fb7a01180 (LWP 28271)]
+
+  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
+  0x0000005555738f98 in code_gen_buffer ()
+  (gdb) bt
+  #0  0x0000005555738f98 in code_gen_buffer ()
+  #1  0x00000055555e96c8 in cpu_exec ()
+  #2  0x00000055555ee430 in cpu_loop ()
+  #3  0x00000055555c3328 in main ()
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862986/+subscriptions
 
