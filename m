@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B6216FA3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:08:56 +0100 (CET)
-Received: from localhost ([::1]:40516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8EC16FA49
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:10:31 +0100 (CET)
+Received: from localhost ([::1]:40546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6sgZ-0007aw-3V
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:08:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59186)
+	id 1j6si6-0002dG-V2
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:10:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6sf4-0005Su-54
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:23 -0500
+ (envelope-from <mst@redhat.com>) id 1j6sf8-0005er-Eg
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6sf2-0000Jz-Hu
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:22 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60435
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1j6sf7-0000RN-C6
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21125
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sf2-0000J8-DP
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:20 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6sf7-0000Qn-5g
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:07:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582708040;
+ s=mimecast20190719; t=1582708044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mH6Uh7KB+qDOlqySuiYCwzhwjo90oVgrXa4q2w401+k=;
- b=g1q/2W7Mpxu3M7TQ11s+NeiZkxDToNkzuYZrsbhUHxANPEN/NHPLOZkMDKiDF4tUenoI0H
- WaMlN07YwnqaoVdfwV3cE2Mt2UNyoz9ROJCQc2w3yohCd5/ETvWjvIPDxat+sA4QMte+BA
- Vq4bCZanaDV8CdUMAiUSoKEnIJItUI0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-Fdxw6sBNO5u5IGrAKChbGg-1; Wed, 26 Feb 2020 04:07:17 -0500
-X-MC-Unique: Fdxw6sBNO5u5IGrAKChbGg-1
-Received: by mail-wm1-f71.google.com with SMTP id 7so456875wmf.9
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:07:17 -0800 (PST)
+ bh=qy9/687s6ZY1i4Ce3m2ls24YlJZNFW8NDWw91xMGiXM=;
+ b=L5M244Y0s+TGnbipt7kKQ0v7TLiCAFpfuKSTPdXWzYnDx9iWjyqKB9S45xsJvNKL9IjGtP
+ yqp1D/wqBMoCkoyZCnKBxZ5aOPue1TW/+mM5xHQB9qdnt5WR0D/UZhxJ7NKun10objhtG9
+ 07FTWJZ9JDGojFmYdwJTS2KkEttzgms=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-Z2EcyetMNmyVo-mN20zsOQ-1; Wed, 26 Feb 2020 04:07:22 -0500
+X-MC-Unique: Z2EcyetMNmyVo-mN20zsOQ-1
+Received: by mail-wr1-f71.google.com with SMTP id p8so1189148wrw.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:07:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=L8WBI983W+7RiE8lzDwmxcDHbYbc+B58tFNCqwSyA9I=;
- b=ncvcH2tEJEWByC4BT27Vy92QtjGdhQL+s283gaqj28jO368geuxigmDxu9aybfx6yD
- TGCw2brMIFRIHmwoOSDwfyPFKYHkg0yArkyqMcASlnspUIlOz5TtWbPG19akrD8WBh28
- 6khZEmhcfB5QG+MBj4nvvewgyhaBaWVf26ACWth7Puez2BIl6Mqv9F/jGged3W8rtu8X
- FfOTPTuR5aHMCAWXr9qMsqgXp/DahrCI9hjHKVoRDPZbN+WaWEr4yGZWk6g+YPY7maNQ
- zsjLWVn/SdCgQTARea0Mt00104cPGJEbTJONVchP1N1dTG7lxNUOgi/XKTZLSYUgeRG4
- NhQw==
-X-Gm-Message-State: APjAAAWHsy367MBmg6Cx90shGqHso3yGvCf99EgDmW8Q3l8105lWhOkn
- QCrYLnLKt0ZwsG4RAnt2cENdHGVKXQtZfm5D8y1ktMEMQxMyl1MeUQAqF5drhuz7faigKPfQzMh
- 4BU2SLrZqndnFLog=
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr4344441wrs.386.1582708036183; 
- Wed, 26 Feb 2020 01:07:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz34ljgP5zjupyOwfxmQfooIgBh8z5HRXBW5f+JaES3qFqankM2JosdUKwNSbHhqwh5pMIWSQ==
-X-Received: by 2002:adf:fe4c:: with SMTP id m12mr4344413wrs.386.1582708035947; 
- Wed, 26 Feb 2020 01:07:15 -0800 (PST)
+ bh=66uA6nm0t2SlG2qj7xxlmLCKVkLyYwtKAF+OGhXadUo=;
+ b=PFwCUOTaDUgqPjOxaqesJEBcatNiMG2qMBpuNcIknzWZNJYZi55GAWB76c2rzZdbWU
+ TJ22J8Qd3AuBvtFw3rE7P6zHYdX9FakeXmIl7NFC+58hrMx9u2rV0exj3xpdblXIsY0G
+ M3EwbncpBWd4P6UmGYs3Gp5vAiWAeBr56nFass78XzzbX7gSwzEO+EOJMts3S1/k3rq3
+ m1HYtz2a3wVBqMkT+/0P2SBmWZwryT/97Zsag5F3/hrAcGzE1HRqqEuc/6y5yCfykD9V
+ 5vOYXPf3tWCeazf3mWQnp+Ni4AU1BSFNYfQt0sMRtD/6251q7gn+4FTnbPRGIOygHdVl
+ 31zQ==
+X-Gm-Message-State: APjAAAXAKGkreS3yv2l5pEmVBOWYc3baxk32zOm3kJdeXNTG+YdO0ALl
+ zot+mKQA5KsVketyZ+m00W0/D/AAsyyjKeEirtsYQOJkm94pbelvmH2ntWGeQOUKBKexmtpRgy7
+ fOpK/2p/xyd2c65o=
+X-Received: by 2002:adf:de85:: with SMTP id w5mr4033415wrl.323.1582708041124; 
+ Wed, 26 Feb 2020 01:07:21 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyAZZInhrvhe4EF8VhwBSbl63Y9WrwIFTiutZBLHlbgnV8okdijIvQp4FMHAMIhj3S0RQQLjg==
+X-Received: by 2002:adf:de85:: with SMTP id w5mr4033382wrl.323.1582708040840; 
+ Wed, 26 Feb 2020 01:07:20 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- y7sm7010112wmd.1.2020.02.26.01.07.14
+ q6sm2353885wrf.67.2020.02.26.01.07.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 01:07:15 -0800 (PST)
-Date: Wed, 26 Feb 2020 04:07:14 -0500
+ Wed, 26 Feb 2020 01:07:20 -0800 (PST)
+Date: Wed, 26 Feb 2020 04:07:19 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 20/30] hw/arm/virt: Add the virtio-iommu device tree mappings
-Message-ID: <20200226090010.708934-21-mst@redhat.com>
+Subject: [PULL v2 21/30] MAINTAINERS: add virtio-iommu related files
+Message-ID: <20200226090010.708934-22-mst@redhat.com>
 References: <20200226090010.708934-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200226090010.708934-1-mst@redhat.com>
@@ -77,7 +77,8 @@ Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,176 +90,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Eric Auger <eric.auger@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Adds the "virtio,pci-iommu" node in the host bridge node and
-the RID mapping, excluding the IOMMU RID.
-
-This is done in the virtio-iommu-pci hotplug handler which
-gets called only if no firmware is loaded or if -no-acpi is
-passed on the command line. As non DT integration is
-not yet supported by the kernel we must make sure we
-are in DT mode. This limitation will be removed as soon
-as the topology description feature gets supported.
+Add a new "virtio-iommu" section with the new files
+related to this device.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
-Message-Id: <20200214132745.23392-10-eric.auger@redhat.com>
+Message-Id: <20200214132745.23392-11-eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/virt.h |  2 ++
- hw/arm/virt.c         | 57 +++++++++++++++++++++++++++++++++++++------
- 2 files changed, 52 insertions(+), 7 deletions(-)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 71508bf40c..02f500cb8e 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -125,8 +125,10 @@ typedef struct {
-     bool virt;
-     int32_t gic_version;
-     VirtIOMMUType iommu;
-+    uint16_t virtio_iommu_bdf;
-     struct arm_boot_info bootinfo;
-     MemMapEntry *memmap;
-+    char *pciehb_nodename;
-     const int *irqmap;
-     int smp_cpus;
-     void *fdt;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index f788fe27d6..cfe317922f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -32,6 +32,7 @@
- #include "qemu-common.h"
- #include "qemu/units.h"
- #include "qemu/option.h"
-+#include "monitor/qdev.h"
- #include "qapi/error.h"
- #include "hw/sysbus.h"
- #include "hw/boards.h"
-@@ -54,6 +55,7 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "hw/pci-host/gpex.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/arm/sysbus-fdt.h"
- #include "hw/platform-bus.h"
- #include "hw/qdev-properties.h"
-@@ -71,6 +73,7 @@
- #include "hw/mem/pc-dimm.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/virtio/virtio-iommu.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 195dd58cac..ff06934bb5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1631,6 +1631,12 @@ F: hw/input/virtio-input*.c
+ F: include/hw/virtio/virtio-input.h
+ F: contrib/vhost-user-input/*
 =20
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -1180,6 +1183,30 @@ static void create_smmu(const VirtMachineState *vms,
-     g_free(node);
- }
-=20
-+static void create_virtio_iommu_dt_bindings(VirtMachineState *vms, Error *=
-*errp)
-+{
-+    const char compat[] =3D "virtio,pci-iommu";
-+    uint16_t bdf =3D vms->virtio_iommu_bdf;
-+    char *node;
++virtio-iommu
++M: Eric Auger <eric.auger@redhat.com>
++S: Maintained
++F: hw/virtio/virtio-iommu*.c
++F: include/hw/virtio/virtio-iommu.h
 +
-+    vms->iommu_phandle =3D qemu_fdt_alloc_phandle(vms->fdt);
-+
-+    node =3D g_strdup_printf("%s/virtio_iommu@%d", vms->pciehb_nodename, b=
-df);
-+    qemu_fdt_add_subnode(vms->fdt, node);
-+    qemu_fdt_setprop(vms->fdt, node, "compatible", compat, sizeof(compat))=
-;
-+    qemu_fdt_setprop_sized_cells(vms->fdt, node, "reg",
-+                                 1, bdf << 8, 1, 0, 1, 0,
-+                                 1, 0, 1, 0);
-+
-+    qemu_fdt_setprop_cell(vms->fdt, node, "#iommu-cells", 1);
-+    qemu_fdt_setprop_cell(vms->fdt, node, "phandle", vms->iommu_phandle);
-+    g_free(node);
-+
-+    qemu_fdt_setprop_cells(vms->fdt, vms->pciehb_nodename, "iommu-map",
-+                           0x0, vms->iommu_phandle, 0x0, bdf,
-+                           bdf + 1, vms->iommu_phandle, bdf + 1, 0xffff - =
-bdf);
-+}
-+
- static void create_pcie(VirtMachineState *vms)
- {
-     hwaddr base_mmio =3D vms->memmap[VIRT_PCIE_MMIO].base;
-@@ -1258,7 +1285,7 @@ static void create_pcie(VirtMachineState *vms)
-         }
-     }
-=20
--    nodename =3D g_strdup_printf("/pcie@%" PRIx64, base);
-+    nodename =3D vms->pciehb_nodename =3D g_strdup_printf("/pcie@%" PRIx64=
-, base);
-     qemu_fdt_add_subnode(vms->fdt, nodename);
-     qemu_fdt_setprop_string(vms->fdt, nodename,
-                             "compatible", "pci-host-ecam-generic");
-@@ -1301,13 +1328,16 @@ static void create_pcie(VirtMachineState *vms)
-     if (vms->iommu) {
-         vms->iommu_phandle =3D qemu_fdt_alloc_phandle(vms->fdt);
-=20
--        create_smmu(vms, pci->bus);
--
--        qemu_fdt_setprop_cells(vms->fdt, nodename, "iommu-map",
--                               0x0, vms->iommu_phandle, 0x0, 0x10000);
-+        switch (vms->iommu) {
-+        case VIRT_IOMMU_SMMUV3:
-+            create_smmu(vms, pci->bus);
-+            qemu_fdt_setprop_cells(vms->fdt, nodename, "iommu-map",
-+                                   0x0, vms->iommu_phandle, 0x0, 0x10000);
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-     }
--
--    g_free(nodename);
- }
-=20
- static void create_platform_bus(VirtMachineState *vms)
-@@ -1976,6 +2006,13 @@ static void virt_machine_device_plug_cb(HotplugHandl=
-er *hotplug_dev,
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_plug(hotplug_dev, dev, errp);
-     }
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-+        PCIDevice *pdev =3D PCI_DEVICE(dev);
-+
-+        vms->iommu =3D VIRT_IOMMU_VIRTIO;
-+        vms->virtio_iommu_bdf =3D pci_get_bdf(pdev);
-+        create_virtio_iommu_dt_bindings(vms, errp);
-+    }
- }
-=20
- static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_=
-dev,
-@@ -1992,7 +2029,13 @@ static HotplugHandler *virt_machine_get_hotplug_hand=
-ler(MachineState *machine,
-        (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
-         return HOTPLUG_HANDLER(machine);
-     }
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-+        VirtMachineState *vms =3D VIRT_MACHINE(machine);
-=20
-+        if (!vms->bootinfo.firmware_loaded || !acpi_enabled) {
-+            return HOTPLUG_HANDLER(machine);
-+        }
-+    }
-     return NULL;
- }
-=20
+ virtio-serial
+ M: Laurent Vivier <lvivier@redhat.com>
+ R: Amit Shah <amit@kernel.org>
 --=20
 MST
 
