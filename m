@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08EDE16FA12
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 09:57:37 +0100 (CET)
-Received: from localhost ([::1]:40242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A7016FA17
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 09:59:26 +0100 (CET)
+Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6sVc-0000wF-3O
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 03:57:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48232)
+	id 1j6sXN-0003ai-S6
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 03:59:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j6sQh-0000eU-J1
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:52:32 -0500
+ (envelope-from <rajnesh.kanwal49@gmail.com>) id 1j6sSJ-0003uL-LZ
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:54:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j6sQg-0002m4-CU
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:52:31 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57420
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j6sQg-0002l1-5X
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:52:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582707148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W1xNCtymxtj6oq1AZIuwVUL0tbu7yr3DTKwTvuS6YDg=;
- b=B4N4Xe/vteSqsWxZhCqJMIfAmRhEAYvFnU5j/kbpsnXuNXMbK1rHHUyYNn53av+Vd8p2aH
- nT9VOAxRSf08j+2hX2QH3fg1IxLOxAnelwCwXSEAXY8bvqEWri3GgMuoRThY+qSRxXTMKh
- O44qzxztYR8yuUC/91wI1RpfUy9S4s4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-qYFG_y6QNUS73S3hBeF4YQ-1; Wed, 26 Feb 2020 03:52:27 -0500
-X-MC-Unique: qYFG_y6QNUS73S3hBeF4YQ-1
-Received: by mail-wr1-f70.google.com with SMTP id s13so1166400wru.7
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 00:52:27 -0800 (PST)
+ (envelope-from <rajnesh.kanwal49@gmail.com>) id 1j6sSI-0006ef-1o
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 03:54:11 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36070)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rajnesh.kanwal49@gmail.com>)
+ id 1j6sSE-0005w9-KD; Wed, 26 Feb 2020 03:54:06 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so2072333wma.1;
+ Wed, 26 Feb 2020 00:54:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=77UeRA00tpxkV1oP3Uaprcm66fDND8K8Kbn82D8F8sI=;
+ b=cGzDY6+qJSwMUfjXQRfIPDsuDJkbZfVWJ45UO1fANphlnv+PqqLJ/T0mRjAiKXO2sW
+ mkXasrwcrgGU5wqkK2RGBKhznHoqs6/MYMQ2KjyWRdQbWvH2Z9sRiOPndZShoni9Rs9j
+ Ur1E2TF1q/wJXmOT5FVoClvEkv+5qmV4+Qo7y/TxXnjiqn+g0nVvu6gvZIKiCP4MRRIa
+ 2p74v2uDHdqEw8LXJr7akCDCGRGQ1j/hwx9UoXmLZ8Ix+Qq7KuzGQN/gV5PColgdraoB
+ Uh17l6znATA+qVugMpeJCxdtf6zeTz2+IwbdLsOm310z5X7kZaZn5h1gr/9V1Bg3s3nu
+ Oxnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+n9w1MLBMJGohIcxOdLeECKJqC7Wx8SbYRANQglwFl0=;
- b=KxEKNDZ0F64yAECWEmSAr1GCY17vtgrqD/G7k/PqBYFwHLjGBhQS7WHUyukIIEyMCv
- xzrrIOVYaXefL2i11dEByvFuUxHcnfFVc39Km42La69bAkcHKSbsnVgoTiwH6Xx7T6s5
- YLJeoxLk+Pz4r21vuN2znEu0Ujnswhh0qdQJTFxq+V/INtZC0vPlu33RFHjOhw3Upvqc
- eQ1lUV23aX9Tnaoi4NcMhcxkj5hYdeTDbug2F/UW+8NM9lcL0ep+QB2GUy0hWZRzzrPR
- V0vmGj5oOhJ2Ju0lfiPNih+DU3OaZ70Fcvy0zyXbaJi9cHDAAFvj4OZnm3MhZDyKG4tM
- HA4w==
-X-Gm-Message-State: APjAAAVXum19Kv+RYw8DHDl3Bgxwa57wOLZycdDABsNAgzaRzZknMdUa
- +HOknM4nqehrcJA91whRdQkchl2zSsbFWdjci7oJ0qd5YA63WX9oSrPKW5Q5SI6lYSJCdSIiJ2/
- I7WVoSfpVsvB9Hgc=
-X-Received: by 2002:a5d:6284:: with SMTP id k4mr4329932wru.398.1582707146249; 
- Wed, 26 Feb 2020 00:52:26 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwRBojHao0j2iVhjOC5b2oSR+bHRRgtH0gUVwYC9Qt9n4b4NKP8OV3FYhlqKo5aHh71JeHNSg==
-X-Received: by 2002:a5d:6284:: with SMTP id k4mr4329893wru.398.1582707145857; 
- Wed, 26 Feb 2020 00:52:25 -0800 (PST)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id f1sm2303350wro.85.2020.02.26.00.52.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Feb 2020 00:52:25 -0800 (PST)
-Subject: Re: [PATCH v2 13/13] monitor/hmp-cmds: Remove redundant statement in
- hmp_rocker_of_dpa_groups()
-To: kuhn.chenqun@huawei.com, qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-References: <20200226084647.20636-1-kuhn.chenqun@huawei.com>
- <20200226084647.20636-14-kuhn.chenqun@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8452ca98-a729-77c2-d79e-dcf0018f1836@redhat.com>
-Date: Wed, 26 Feb 2020 09:52:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=77UeRA00tpxkV1oP3Uaprcm66fDND8K8Kbn82D8F8sI=;
+ b=Iw1Af1aFINNeKTzw3ySdNbr6F5bwFHdZe2b9tg5VO9gOSzE9gbQcAL5cEkhL6LNi0i
+ nZ5/AewwJNuB7CF/lM/G7Lo5j3mGLT4cE+/vv1YrgxSUWybmwCXuSGwUSoxHhDyIuCwZ
+ z5dOh8Z446eVTnKDmzWScFmDSU1dq7JBSjY4pD8UoXX44nJ16O8ByOC88N5LKQcpU4fs
+ Hhrfk8GDILQLaqBd6YnuL6SDMs5LkgiA24bozBdXoAO4SCEqg3NN91uSeYcfJJ2+45tw
+ RXrKyqb6VIOjQ1+QwbqiTb1cY1vBSUFU9O+kxThaaWwVKE20uQ8AcZVooVv3KrFDP0Zn
+ 7LNA==
+X-Gm-Message-State: APjAAAXFNwUzJ16/qqg5yCoMAkdF9snp5kEWYOBQ4WmyPPhEfd0HJs38
+ 2Sseyuo1lSxccvVSynJvHMl+2LfqemhdNTp+FIo=
+X-Google-Smtp-Source: APXvYqyCiUGq8ND2GaPq3aIjKu75/1asmEdplHV9kILRh6871ZhavHYRh5dIEJAmTBvRKu1HviycrRM6d6O3D6nwKaQ=
+X-Received: by 2002:a05:600c:214f:: with SMTP id
+ v15mr4302656wml.110.1582707239401; 
+ Wed, 26 Feb 2020 00:53:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200226084647.20636-14-kuhn.chenqun@huawei.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <0c4859f90948ba392da456c9e1daf8fde8f5b22e.1582453384.git.rajnesh.kanwal49@gmail.com>
+ <CAC41xo0PWCZw4mrcEfRq9fv+b3mSk9sN0mWhFXPwgdD6LR8xnQ@mail.gmail.com>
+ <CAKmqyKNn8V0yWA8t7dQeMwxcnmywDJoGKag9vQzwFruaygKL7Q@mail.gmail.com>
+In-Reply-To: <CAKmqyKNn8V0yWA8t7dQeMwxcnmywDJoGKag9vQzwFruaygKL7Q@mail.gmail.com>
+From: Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
+Date: Wed, 26 Feb 2020 13:52:52 +0500
+Message-ID: <CAHfcQ+HiNB+Tch2_EVS74_ii-NhUEXMFYCf1R_0nrRfvuRxqgQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/riscv: Fix VS mode interrupts forwarding.
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c9bbdd059f76be0d"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,73 +73,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Jose Martins <josemartins90@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 9:46 AM, kuhn.chenqun@huawei.com wrote:
-> From: Chen Qun <kuhn.chenqun@huawei.com>
->=20
-> Clang static code analyzer show warning:
-> monitor/hmp-cmds.c:2867:17: warning: Value stored to 'set' is never read
->                  set =3D true;
->                  ^     ~~~~
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> v1->v2: move the 'set' declaration to the for() statement(Base on Philipp=
-e's suggestion).
-> ---
->   monitor/hmp-cmds.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 53bc3f76c4..c6b0495822 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -2808,7 +2808,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const Q=
-Dict *qdict)
->       const char *name =3D qdict_get_str(qdict, "name");
->       uint8_t type =3D qdict_get_try_int(qdict, "type", 9);
->       Error *err =3D NULL;
-> -    bool set =3D false;
->  =20
->       list =3D qmp_query_rocker_of_dpa_groups(name, type !=3D 9, type, &e=
-rr);
->       if (err !=3D NULL) {
-> @@ -2820,6 +2819,7 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const Q=
-Dict *qdict)
->  =20
->       for (g =3D list; g; g =3D g->next) {
->           RockerOfDpaGroup *group =3D g->value;
-> +        bool set =3D false;
->  =20
->           monitor_printf(mon, "0x%08x", group->id);
->  =20
-> @@ -2864,14 +2864,11 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const=
- QDict *qdict)
->  =20
->           if (group->has_set_eth_dst) {
->               if (!set) {
-> -                set =3D true;
->                   monitor_printf(mon, " set");
->               }
->               monitor_printf(mon, " dst %s", group->set_eth_dst);
->           }
->  =20
-> -        set =3D false;
-> -
->           if (group->has_ttl_check && group->ttl_check) {
->               monitor_printf(mon, " check TTL");
->           }
->=20
+--000000000000c9bbdd059f76be0d
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Here is the link to the patch
+https://lists.nongnu.org/archive/html/qemu-riscv/2020-01/msg00191.html
 
+-Rajnesh
+
+On Tue, Feb 25, 2020 at 12:06 AM Alistair Francis <alistair23@gmail.com>
+wrote:
+
+> On Sun, Feb 23, 2020 at 11:23 AM Jose Martins <josemartins90@gmail.com>
+> wrote:
+> >
+> > Hello rajnesh,
+> >
+> > I had already submitted almost this exact patch a few weeks ago.
+>
+> To QEMU? I don't see the patch.
+>
+> Alistair
+>
+> >
+> > Jose
+> >
+> > On Sun, 23 Feb 2020 at 13:51, <rajnesh.kanwal49@gmail.com> wrote:
+> > >
+> > > From: Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
+> > >
+> > > Currently riscv_cpu_local_irq_pending is used to find out pending
+> > > interrupt and VS mode interrupts are being shifted to represent
+> > > S mode interrupts in this function. So when the cause returned by
+> > > this function is passed to riscv_cpu_do_interrupt to actually
+> > > forward the interrupt, the VS mode forwarding check does not work
+> > > as intended and interrupt is actually forwarded to hypervisor. This
+> > > patch fixes this issue.
+> > >
+> > > Signed-off-by: Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
+> > > ---
+> > >  target/riscv/cpu_helper.c | 9 ++++++++-
+> > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > index b9e90dfd9a..59535ecba6 100644
+> > > --- a/target/riscv/cpu_helper.c
+> > > +++ b/target/riscv/cpu_helper.c
+> > > @@ -46,7 +46,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState
+> *env)
+> > >      target_ulong pending = env->mip & env->mie &
+> > >                                 ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+> > >      target_ulong vspending = (env->mip & env->mie &
+> > > -                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)) >>
+> 1;
+> > > +                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
+> > >
+> > >      target_ulong mie    = env->priv < PRV_M ||
+> > >                            (env->priv == PRV_M && mstatus_mie);
+> > > @@ -900,6 +900,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> > >
+> > >              if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) &
+> 1) &&
+> > >                  !force_hs_execp) {
+> > > +                /*
+> > > +                 * See if we need to adjust cause. Yes if its VS mode
+> interrupt
+> > > +                 * no if hypervisor has delegated one of hs mode's
+> interrupt
+> > > +                 */
+> > > +                if (cause == IRQ_VS_TIMER || cause == IRQ_VS_SOFT ||
+> > > +                    cause == IRQ_VS_EXT)
+> > > +                    cause = cause - 1;
+> > >                  /* Trap to VS mode */
+> > >              } else if (riscv_cpu_virt_enabled(env)) {
+> > >                  /* Trap into HS mode, from virt */
+> > > --
+> > > 2.17.1
+> > >
+> > >
+> >
+>
+
+--000000000000c9bbdd059f76be0d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Here is the link to the patch <br><a href=3D"https://=
+lists.nongnu.org/archive/html/qemu-riscv/2020-01/msg00191.html">https://lis=
+ts.nongnu.org/archive/html/qemu-riscv/2020-01/msg00191.html</a><br><br></di=
+v>-Rajnesh<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Feb 25, 2020 at 12:06 AM Alistair Francis &lt;<a hr=
+ef=3D"mailto:alistair23@gmail.com">alistair23@gmail.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, Feb 23, 2020=
+ at 11:23 AM Jose Martins &lt;<a href=3D"mailto:josemartins90@gmail.com" ta=
+rget=3D"_blank">josemartins90@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hello rajnesh,<br>
+&gt;<br>
+&gt; I had already submitted almost this exact patch a few weeks ago.<br>
+<br>
+To QEMU? I don&#39;t see the patch.<br>
+<br>
+Alistair<br>
+<br>
+&gt;<br>
+&gt; Jose<br>
+&gt;<br>
+&gt; On Sun, 23 Feb 2020 at 13:51, &lt;<a href=3D"mailto:rajnesh.kanwal49@g=
+mail.com" target=3D"_blank">rajnesh.kanwal49@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; From: Rajnesh Kanwal &lt;<a href=3D"mailto:rajnesh.kanwal49@gmail=
+.com" target=3D"_blank">rajnesh.kanwal49@gmail.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Currently riscv_cpu_local_irq_pending is used to find out pending=
+<br>
+&gt; &gt; interrupt and VS mode interrupts are being shifted to represent<b=
+r>
+&gt; &gt; S mode interrupts in this function. So when the cause returned by=
+<br>
+&gt; &gt; this function is passed to riscv_cpu_do_interrupt to actually<br>
+&gt; &gt; forward the interrupt, the VS mode forwarding check does not work=
+<br>
+&gt; &gt; as intended and interrupt is actually forwarded to hypervisor. Th=
+is<br>
+&gt; &gt; patch fixes this issue.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Rajnesh Kanwal &lt;<a href=3D"mailto:rajnesh.kanwa=
+l49@gmail.com" target=3D"_blank">rajnesh.kanwal49@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 target/riscv/cpu_helper.c | 9 ++++++++-<br>
+&gt; &gt;=C2=A0 1 file changed, 8 insertions(+), 1 deletion(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.=
+c<br>
+&gt; &gt; index b9e90dfd9a..59535ecba6 100644<br>
+&gt; &gt; --- a/target/riscv/cpu_helper.c<br>
+&gt; &gt; +++ b/target/riscv/cpu_helper.c<br>
+&gt; &gt; @@ -46,7 +46,7 @@ static int riscv_cpu_local_irq_pending(CPURISCV=
+State *env)<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 target_ulong pending =3D env-&gt;mip &amp; en=
+v-&gt;mie &amp;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0~(MIP_VSSIP | MIP_VSTIP=
+ | MIP_VSEIP);<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 target_ulong vspending =3D (env-&gt;mip &amp;=
+ env-&gt;mie &amp;<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (MIP_VSSIP | MIP_VSTIP | MIP_VSEI=
+P)) &gt;&gt; 1;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (MIP_VSSIP | MIP_VSTIP | MIP_VSEI=
+P));<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 target_ulong mie=C2=A0 =C2=A0 =3D env-&gt;pri=
+v &lt; PRV_M ||<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (env-&gt;priv =3D=3D PRV_M &amp;&amp; mstat=
+us_mie);<br>
+&gt; &gt; @@ -900,6 +900,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)<br=
+>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (riscv_cpu_vir=
+t_enabled(env) &amp;&amp; ((hdeleg &gt;&gt; cause) &amp; 1) &amp;&amp;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !fo=
+rce_hs_execp) {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* =
+See if we need to adjust cause. Yes if its VS mode interrupt<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* =
+no if hypervisor has delegated one of hs mode&#39;s interrupt<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/=
+<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (caus=
+e =3D=3D IRQ_VS_TIMER || cause =3D=3D IRQ_VS_SOFT ||<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 cause =3D=3D IRQ_VS_EXT)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 cause =3D cause - 1;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* =
+Trap to VS mode */<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (riscv_=
+cpu_virt_enabled(env)) {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* =
+Trap into HS mode, from virt */<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.17.1<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt;<br>
+</blockquote></div>
+
+--000000000000c9bbdd059f76be0d--
 
