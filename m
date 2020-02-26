@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CE416F8AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:44:54 +0100 (CET)
-Received: from localhost ([::1]:39322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7212D16F8A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:42:58 +0100 (CET)
+Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6rNF-0000Z8-MY
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:44:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46134)
+	id 1j6rLN-0005d2-EK
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:42:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46159)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6rIH-0000iD-80
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:46 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6rII-0000lC-8L
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6rIG-0002ih-5e
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:45 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54997)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6rIH-0002lm-7G
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:46 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33349)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6rIF-0002gr-V8
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:44 -0500
-Received: by mail-wm1-x334.google.com with SMTP id z12so1786401wmi.4
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 23:39:43 -0800 (PST)
+ id 1j6rIH-0002jR-0a
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:45 -0500
+Received: by mail-wm1-x331.google.com with SMTP id m10so3890602wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 23:39:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I5SVyZLmK4mKEgyCR0TafKDKBPyJxm72cVAZ/22L6J0=;
- b=bDlR7YvxGsvJMSf7oTX1D7QQi0TIF2iihLHiST4iwwdE+qjWop88yJRgCt1IQaPuvI
- JW62Q4nNdu6Y4G1RWFXySlk8MX+Cbdv3WR0iTeWuiJkewo5owHCbwwuQkZCkJMAWTYjl
- y6glFdroYmGsqNo28XgDo1z87OrHdO4g0L2tMoOXXTpLVVTAXqtWDFKgW1mocbHecf7q
- xos89dsCnwlZ3QCu+9M0GG/1qrtc184JtCEdhWOqhsK+ia39VDoV8wwBxbmUaFlzYw0E
- gW1KrKNJ59Kh6oWcbQ+vqJi7PISUWCrSctVg4SbkfBg83xTcm8KSw/4Mbp51HcaFl/37
- XjHA==
+ bh=ITdhJtBi+hshLd/SCnxQXLHEvNRwcFRFczk6s3Q/ph4=;
+ b=EI45H9uEnDgWI4S5CYtLcxE2QM/AXkWHxkgWFx4aq/kxE57BRCVgeRqX6rQgFZ3Pv3
+ uBefuS+zVC6yqi2uC/BswvVQejGq05MdGKmu+IT/FjwMnvNY6MX7/dHSdZKkF+exI3Xh
+ n/M8am4TB1Bkdhrdqpwz1Q+W+Pjk0TkzD/+MyPpgw6F2aU4ouewiPOFknoonUS3ZtYkJ
+ Ld1+POHj47IU3vEkKZVWzUvJ0/td06BoERqF2FfpycDQ6+4QziAszXl1sYSnwpqBUUMS
+ IFdNdqe8hY4X1MXq/csp0RqxgglrKKRBtpfbRstPYC1ite75OJvca9S+k6KiRijNiZSR
+ S3Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I5SVyZLmK4mKEgyCR0TafKDKBPyJxm72cVAZ/22L6J0=;
- b=jKCQvZe0BDGmSdSh0rYe6AvC/JWrT1uCax8IXTiElmPQ/F4R0BRmARqoj4fbkYEOyX
- V+QP/pnoAfkF+6ABuC6l73zY4xPAkcLPlbhEqpXuvFqTELJO7M5rNuHZz+/9bToNwQ+O
- ABka7bRbfjmQbYlZ6OIsKdqQs9Pmm+iAniLHBNTFJzlkGfVmJgfne8aZIwVzr3K6zct/
- Sx14fjDOSQ4NvHZS7SLZx5n+AMCkWD3PkbckcPcf1kzk6++LxGW+OiJSGG8tLvTXnMie
- VAHIqT4PhuJeR8WL0hGlBQ7cqtaQtWbd0I3lRhGDB8M0vzTA2ROeFGOMImMnae3dxfN6
- 3OzQ==
-X-Gm-Message-State: APjAAAXaf7fP3CXG4F4aI9SGJ46oaCM1/gCzjR1MRaCJebk5cDrmOz5B
- NIrX/DaVlKHpb7Glh3AfIOLTRA==
-X-Google-Smtp-Source: APXvYqx2yrKnsPwfAzZwZcgX8elDvmw3d+1UURZ7gk26dYeaJxU5dTFoAmIqTSJB/w5f9HeRBAycBg==
-X-Received: by 2002:a1c:4b0f:: with SMTP id y15mr3776989wma.87.1582702782893; 
- Tue, 25 Feb 2020 23:39:42 -0800 (PST)
+ bh=ITdhJtBi+hshLd/SCnxQXLHEvNRwcFRFczk6s3Q/ph4=;
+ b=DqJqZivx2bmpyGRxBs6KpmLhZEytsJw9Tr1UD8hqo+UKMCmiUaUurGvvsjR3KuM9/u
+ Cf235lvknw+SJ0H7NF+vxJXqzu3vXgl601J3pKjfyKaoeY5gvF1Ev+ak/91Qcf7yvl4B
+ Oy8I/esyQNhKDRtL/GfvDn9jB81uqJ1DB+pHJs1ztlVEi8i+DVSNp+biXQgNFL3AFmfx
+ PuhGfbDfl54OjtaaCTrRlwpQrHS2OPmBeaekOvKK0IkvrMaSHs1HlbN2RNTYYgp5FO+o
+ dnmGNjXdpYYu0jprgHb7N91/o77cI/pKqS2G/D8catai7tGQl8yS+hx1B5opG0q4OsDL
+ wx3Q==
+X-Gm-Message-State: APjAAAWuG5Z3aQHb+oUN0zMHQOF8visoSxCFNtHO2+vww98iutiH29F4
+ yXyw379jn9j0dDqmfIHgA2WANA==
+X-Google-Smtp-Source: APXvYqzWP6HgXPeSfryDXil4eUvv4PvXHQ4RW/EBee9sZMNKiBSx+C94f7JHGVg7rG2TvBRgTAbwPg==
+X-Received: by 2002:a1c:f707:: with SMTP id v7mr3777116wmh.121.1582702784044; 
+ Tue, 25 Feb 2020 23:39:44 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p12sm2092249wrx.10.2020.02.25.23.39.33
+ by smtp.gmail.com with ESMTPSA id c9sm1758147wmc.47.2020.02.25.23.39.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 23:39:36 -0800 (PST)
+ Tue, 25 Feb 2020 23:39:38 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EF6321FF98;
- Wed, 26 Feb 2020 07:39:29 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0F17E1FF99;
+ Wed, 26 Feb 2020 07:39:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 08/19] tests/iotests: be a little more forgiving on the size
- test
-Date: Wed, 26 Feb 2020 07:39:18 +0000
-Message-Id: <20200226073929.28237-9-alex.bennee@linaro.org>
+Subject: [PULL 09/19] tracing: only allow -trace to override -D if set
+Date: Wed, 26 Feb 2020 07:39:19 +0000
+Message-Id: <20200226073929.28237-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200226073929.28237-1-alex.bennee@linaro.org>
 References: <20200226073929.28237-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,44 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Robert Foley <robert.foley@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
+Cc: Robert Foley <robert.foley@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least on ZFS this was failing as 512 was less than or equal to 512.
-I suspect the reason is additional compression done by ZFS and however
-qemu-img gets the actual size.
-
-Loosen the criteria to make sure after is not bigger than before and
-also dump the values in the report.
+Otherwise any -D settings the user may have made get ignored.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200225124710.14152-9-alex.bennee@linaro.org>
+Message-Id: <20200225124710.14152-10-alex.bennee@linaro.org>
 
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 3500e0c47a2..af677d90b86 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -125,9 +125,9 @@ $QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
- sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
-         sed -n '/"actual-size":/ s/[^0-9]//gp')
- 
--if [ $sizeA -le $sizeB ]
-+if [ $sizeA -lt $sizeB ]
- then
--    echo "Compression ERROR"
-+    echo "Compression ERROR ($sizeA < $sizeB)"
- fi
- 
- $QEMU_IMG check --output=json "$TEST_IMG" |
+diff --git a/trace/control.c b/trace/control.c
+index 6c775e68eba..2ffe0008184 100644
+--- a/trace/control.c
++++ b/trace/control.c
+@@ -226,10 +226,15 @@ void trace_init_file(const char *file)
+ #ifdef CONFIG_TRACE_SIMPLE
+     st_set_trace_file(file);
+ #elif defined CONFIG_TRACE_LOG
+-    /* If both the simple and the log backends are enabled, "--trace file"
+-     * only applies to the simple backend; use "-D" for the log backend.
++    /*
++     * If both the simple and the log backends are enabled, "--trace file"
++     * only applies to the simple backend; use "-D" for the log
++     * backend. However we should only override -D if we actually have
++     * something to override it with.
+      */
+-    qemu_set_log_filename(file, &error_fatal);
++    if (file) {
++        qemu_set_log_filename(file, &error_fatal);
++    }
+ #else
+     if (file) {
+         fprintf(stderr, "error: --trace file=...: "
 -- 
 2.20.1
 
