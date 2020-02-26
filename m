@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5AE16FC53
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 11:34:14 +0100 (CET)
-Received: from localhost ([::1]:42174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED4216FC5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 11:37:18 +0100 (CET)
+Received: from localhost ([::1]:42226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6u17-00078K-Nu
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 05:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55765)
+	id 1j6u45-0000dH-BP
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 05:37:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j6u06-00067Q-6H
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:33:12 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j6u38-0000Ar-FX
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:36:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j6u04-000835-Pu
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:33:10 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:35552 helo=huawei.com)
+ (envelope-from <kwolf@redhat.com>) id 1j6u36-00025K-7r
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:36:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57775
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j6u01-0007qb-8A; Wed, 26 Feb 2020 05:33:05 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 715348616FD1F1BB3883;
- Wed, 26 Feb 2020 18:32:56 +0800 (CST)
-Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
- (10.3.19.204) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 26 Feb
- 2020 18:32:46 +0800
-Subject: Re: [PATCH 2/2] qemu-img: free memory before re-assign
-To: Max Reitz <mreitz@redhat.com>, <kwolf@redhat.com>
-References: <20200226033037.18253-1-pannengyuan@huawei.com>
- <20200226033037.18253-3-pannengyuan@huawei.com>
- <03a50206-6407-41e8-f11a-6e866f0c3798@redhat.com>
-From: Pan Nengyuan <pannengyuan@huawei.com>
-Message-ID: <2b2056aa-f0a8-a3bb-656e-2a648c4e3150@huawei.com>
-Date: Wed, 26 Feb 2020 18:32:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j6u36-00021v-3M
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 05:36:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582713374;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ODLEvxrJOLvP0jliU5YyCcs7Etg2vs0tTEaqV0F4UJk=;
+ b=f0tjG6BqadUUH9s+5BKxXiL0COVGvY4LyME6LAtYXZhb4T9Jh02tY7cnFGdBDKNsIxB5Sp
+ iAupN/NUagGCvAiFGfV4ehbvernWbhhZRekyqZd5MZbwRwYh+eckGCt0jwmdGp6kywbAm5
+ s5MC2VcUfeEPKQVsC96oZY6Oa4chv8k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-jtTEHQgoOwa87HA6dTQocw-1; Wed, 26 Feb 2020 05:36:13 -0500
+X-MC-Unique: jtTEHQgoOwa87HA6dTQocw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B27BE2F60;
+ Wed, 26 Feb 2020 10:36:11 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-170.ams2.redhat.com [10.36.117.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08ACA60BE2;
+ Wed, 26 Feb 2020 10:36:09 +0000 (UTC)
+Date: Wed, 26 Feb 2020 11:36:08 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH v2 01/13] block/stream: Remove redundant statement in
+ stream_run()
+Message-ID: <20200226103608.GC6096@linux.fritz.box>
+References: <20200226084647.20636-1-kuhn.chenqun@huawei.com>
+ <20200226084647.20636-2-kuhn.chenqun@huawei.com>
+ <20200226095102.GA6096@linux.fritz.box>
+ <7412CDE03601674DA8197E2EBD8937E83B662BBF@dggemm531-mbx.china.huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <03a50206-6407-41e8-f11a-6e866f0c3798@redhat.com>
-Content-Type: text/plain; charset="windows-1252"
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B662BBF@dggemm531-mbx.china.huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,39 +77,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: euler.robot@huawei.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Euler Robot <euler.robot@huawei.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 26.02.2020 um 11:21 hat Chenqun (kuhn) geschrieben:
+>=20
+>=20
+> >-----Original Message-----
+> >From: Kevin Wolf [mailto:kwolf@redhat.com]
+> >Sent: Wednesday, February 26, 2020 5:51 PM
+> >To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>
+> >Cc: qemu-devel@nongnu.org; qemu-trivial@nongnu.org;
+> >peter.maydell@linaro.org; Zhanghailiang <zhang.zhanghailiang@huawei.com>=
+;
+> >Euler Robot <euler.robot@huawei.com>; John Snow <jsnow@redhat.com>;
+> >Max Reitz <mreitz@redhat.com>
+> >Subject: Re: [PATCH v2 01/13] block/stream: Remove redundant statement i=
+n
+> >stream_run()
+> >
+> >Am 26.02.2020 um 09:46 hat kuhn.chenqun@huawei.com geschrieben:
+> >> From: Chen Qun <kuhn.chenqun@huawei.com>
+> >>
+> >> Clang static code analyzer show warning:
+> >>   block/stream.c:186:9: warning: Value stored to 'ret' is never read
+> >>         ret =3D 0;
+> >>         ^     ~
+> >> Reported-by: Euler Robot <euler.robot@huawei.com>
+> >> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> >> Reviewed-by: John Snow <jsnow@redhat.com>
+> >
+> >Let's mention that this is unnecessary since commit 1d809098aa9.
+> >
+> >Since the same commit, the initialisation 'int ret =3D 0;' is unnecessar=
+y because
+> >we never read ret before overwriting the initial value. We could clean t=
+his up
+> >in the same patch.
+>=20
+> Yes, we can clean it and move 'ret'  declaration to the for() statement.
+>=20
+> Modify just Like this=EF=BC=9A
+> [...]
 
-On 2/26/2020 6:13 PM, Max Reitz wrote:
-> On 26.02.20 04:30, Pan Nengyuan wrote:
->> collect_image_check() is called twice in img_check(), the filename/for=
-mat will be alloced without free the original memory.
->> It is not a big deal since the process will exit anyway, but seems lik=
-e a clean code and it will remove the warning spotted by asan.
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
->> ---
->>  qemu-img.c | 2 ++
->>  1 file changed, 2 insertions(+)
->=20
-> I think this should happen in the caller.  And there I think it would
-> make more sense to completely discard the old object and allocate a new=
- one:
->=20
-> qapi_free_ImageCheck(check);
-> check =3D g_new0(ImageCheck, 1);
->=20
-> This way, we can=92t forget to free any fields if new pointers were to =
-be
-> added to the ImageCheck object.
+Godd point, makes sense to me. Please keep my R-b if you make this
+change.
 
-Good idea, thanks.
+Kevin
 
+> @@ -114,7 +114,6 @@ static int coroutine_fn stream_run(Job *job, Error **=
+errp)
+>      int64_t offset =3D 0;
+>      uint64_t delay_ns =3D 0;
+>      int error =3D 0;
+> -    int ret =3D 0;
+>      int64_t n =3D 0; /* bytes */
 >=20
-> Max
+>      if (bs =3D=3D s->bottom) {
+> @@ -139,6 +138,7 @@ static int coroutine_fn stream_run(Job *job, Error **=
+errp)
 >=20
+>      for ( ; offset < len; offset +=3D n) {
+>          bool copy;
+> +        int ret;
+>=20
+>          /* Note that even when no rate limit is applied we need to yield
+>           * with no pending I/O here so that bdrv_drain_all() returns.
+> @@ -183,7 +183,6 @@ static int coroutine_fn stream_run(Job *job, Error **=
+errp)
+>                  break;
+>              }
+>          }
+> -        ret =3D 0;
+>=20
+>          /* Publish progress */
+>          job_progress_update(&s->common.job, n);
+>=20
+> >
+> >With or without the changes:
+> >
+> >Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+>=20
+
 
