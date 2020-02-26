@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C0D16F8BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:48:40 +0100 (CET)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B956016F8B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:45:10 +0100 (CET)
+Received: from localhost ([::1]:39334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6rQt-00077p-5D
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:48:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50457)
+	id 1j6rNV-0001Fo-Of
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:45:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6rO6-0003Xa-2O
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:45:48 -0500
+ (envelope-from <armbru@redhat.com>) id 1j6rJv-0004Mb-SL
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:41:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6rO4-0005fz-Oa
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:45:45 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38557)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6rO4-0005dJ-Aq
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:45:44 -0500
-Received: by mail-wm1-x336.google.com with SMTP id a9so1862962wmj.3
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 23:45:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4olBGu/IQFOKY78lHg02hbFiHdwwHtqSc/rf9v7sw/0=;
- b=LBVn+11jSt/rgqati9jKTTkr+6S6qLVA4H5fnfVOnjokVuQZPXWAhTLO4oRm/mGfUB
- F9BNoEuzPV8qa26U6/sarOUpz2MOo9QljYkU6aGKhUrBOXSV/m+bmmK8oIyP9Z3wshdG
- Jf3Z5mOChQ6VHsRvGREYGNnXTpHaWdRl1UG/g5QIIHJ0daPtYwojuuR++55ccfQveDiI
- 1pJwGyx+ntpNhkRM0fjwBy4uTTgT30iasv4smU6UVuZojmKfMeaVSOYxXhN4LIhOKdjV
- jYx+liz3bQyU4w1svUNY2QHhH7+YQFcdV8QoSJKQFwZ4UYo/SWRgoBeiWCB+aQli48O6
- q+Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4olBGu/IQFOKY78lHg02hbFiHdwwHtqSc/rf9v7sw/0=;
- b=r9R1mwNSHz+xgVdY1tfFs4x8EHJqtWlMYhunQof0dNU4NfgLOH6cDJJ9yebr2LvODC
- c3ja5s3JIE8nCGAqIAQKmk+J9qsnwgcf5rdZdyE08B22cFmtZ5hd/vxH54VkkKIVmXHJ
- c3yjDXIr/c5NTKfegX0ZEIcXZDhUzWZCHZrIO8PnqymiiSC9Dt9CsxONip5aBNAVP/wu
- gFzIiiJBSXsCHDW4bu8Pc75rc2UQyvkWYkfwsGb8al+y5lGMAYTgzlyvivNpCPDcQJ4+
- QtTgSva8CsAgwHebmMW0SYi8SOtDXOXIkNF+umwcC1fuGWjnkg1mu7CJW0gFu3rtKJ+z
- yh8A==
-X-Gm-Message-State: APjAAAUIeDRNDJywJ6MJ7o+ekBQzqPeEGwHWyWI8iKViFv5bBVS+uAq7
- iW39CHt7pfW9qc3EoHD/CE6bcA==
-X-Google-Smtp-Source: APXvYqzsBiOTFMqVaBFBeJyN8XdkU8Fj1PwwPds0hw5RBZuCpfFVM9/Z5Q8fAidZTPGE0nwdgq3IpQ==
-X-Received: by 2002:a7b:c3cd:: with SMTP id t13mr3824115wmj.88.1582703142994; 
- Tue, 25 Feb 2020 23:45:42 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b21sm1797732wmd.37.2020.02.25.23.45.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 23:45:40 -0800 (PST)
-Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E6B5C1FFAA;
- Wed, 26 Feb 2020 07:39:30 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 19/19] tests/tcg: take into account expected clashes pauth-4
-Date: Wed, 26 Feb 2020 07:39:29 +0000
-Message-Id: <20200226073929.28237-20-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200226073929.28237-1-alex.bennee@linaro.org>
-References: <20200226073929.28237-1-alex.bennee@linaro.org>
+ (envelope-from <armbru@redhat.com>) id 1j6rJt-0006c1-Qw
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:41:27 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22738
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j6rJt-0006aY-NA
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:41:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582702884;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dYF7a8JyzBtDdYVvRKL3K9l8bplyJoGv9xj+cwhwRXA=;
+ b=gZd3P3xL89ED4hPYDYk2L7i/1nap3tujd5V86FPf7kzQRiBORS5gXq9Cd52DfpETcOXGBo
+ gd3uoDgbExhyykMqE6ki1rMuGqybIsJjJZf2DGwlZGtqDrv9ZzaCUJZWgVsQ5eqqP1V/tZ
+ vDlbbN+nLCramejU+aa0fuXKuYnqMxY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-INC8K_4kN4GPctZJEukaQw-1; Wed, 26 Feb 2020 02:41:16 -0500
+X-MC-Unique: INC8K_4kN4GPctZJEukaQw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ACEE100726F;
+ Wed, 26 Feb 2020 07:41:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
+ [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A7711CB;
+ Wed, 26 Feb 2020 07:41:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1090811386A6; Wed, 26 Feb 2020 08:41:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v7 03/11] scripts: add coccinelle script to use auto
+ propagated errp
+References: <20200131130118.1716-1-vsementsov@virtuozzo.com>
+ <20200131130118.1716-4-vsementsov@virtuozzo.com>
+ <87v9nxwulz.fsf@dusky.pond.sub.org>
+ <cff01a02-f99a-574d-c750-200da0c1d925@virtuozzo.com>
+ <87wo8aesn0.fsf@dusky.pond.sub.org>
+ <b53674e2-2484-4f18-fc3f-f2a2a3d6168b@virtuozzo.com>
+Date: Wed, 26 Feb 2020 08:41:08 +0100
+In-Reply-To: <b53674e2-2484-4f18-fc3f-f2a2a3d6168b@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 25 Feb 2020 18:22:50 +0300")
+Message-ID: <87a755aj8r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,90 +81,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Robert Foley <robert.foley@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>, qemu-devel@nongnu.org,
+ Laszlo Ersek <lersek@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Greg Kurz <groug@kaod.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pointer authentication isn't perfect so measure the percentage of
-failed checks. As we want to vary the pointer we work through a bunch
-of different addresses.
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200225124710.14152-20-alex.bennee@linaro.org>
+> 25.02.2020 15:52, Markus Armbruster wrote:
+>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>
+>>> 23.02.2020 11:55, Markus Armbruster wrote:
+>>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>>
+>>>>> Script adds ERRP_AUTO_PROPAGATE macro invocation where appropriate an=
+d
+>>>>> does corresponding changes in code (look for details in
+>>>>> include/qapi/error.h)
+>>>>>
+>>>>> Usage example:
+>>>>> spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>>>>>    --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff =
+\
+>>>>>    blockdev-nbd.c qemu-nbd.c {block/nbd*,nbd/*,include/block/nbd*}.[h=
+c]
+>>>>>
+>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com=
+>
+>>>>> ---
+>>>>>
+>>>>> CC: Eric Blake <eblake@redhat.com>
+>>>>> CC: Kevin Wolf <kwolf@redhat.com>
+>>>>> CC: Max Reitz <mreitz@redhat.com>
+>>>>> CC: Greg Kurz <groug@kaod.org>
+>>>>> CC: Stefano Stabellini <sstabellini@kernel.org>
+>>>>> CC: Anthony Perard <anthony.perard@citrix.com>
+>>>>> CC: Paul Durrant <paul@xen.org>
+>>>>> CC: Stefan Hajnoczi <stefanha@redhat.com>
+>>>>> CC: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+>>>>> CC: Laszlo Ersek <lersek@redhat.com>
+>>>>> CC: Gerd Hoffmann <kraxel@redhat.com>
+>>>>> CC: Stefan Berger <stefanb@linux.ibm.com>
+>>>>> CC: Markus Armbruster <armbru@redhat.com>
+>>>>> CC: Michael Roth <mdroth@linux.vnet.ibm.com>
+>>>>> CC: qemu-block@nongnu.org
+>>>>> CC: xen-devel@lists.xenproject.org
+>>>>>
+>>>>>    include/qapi/error.h                          |   3 +
+>>>>>    scripts/coccinelle/auto-propagated-errp.cocci | 158 ++++++++++++++=
+++++
+>>>>>    2 files changed, 161 insertions(+)
+>>>>>    create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
+>>>>>
+>>>>> diff --git a/include/qapi/error.h b/include/qapi/error.h
+>>>>> index b9452d4806..79f8e95214 100644
+>>>>> --- a/include/qapi/error.h
+>>>>> +++ b/include/qapi/error.h
+>>>>> @@ -141,6 +141,9 @@
+>>>>>     *         ...
+>>>>>     *     }
+>>>>>     *
+>>>>> + * For mass conversion use script
+>>>>> + *   scripts/coccinelle/auto-propagated-errp.cocci
+>>>>> + *
+>>>>>     *
+>>>>>     * Receive and accumulate multiple errors (first one wins):
+>>>>>     *     Error *err =3D NULL, *local_err =3D NULL;
+>>>>
+>>>> Extra blank line.
+>>>>
+>>>>> diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/=
+coccinelle/auto-propagated-errp.cocci
+>>>>> new file mode 100644
+>>>>> index 0000000000..fb03c871cb
+>>>>> --- /dev/null
+>>>>> +++ b/scripts/coccinelle/auto-propagated-errp.cocci
+>>>>> @@ -0,0 +1,158 @@
+>>>>> +// Use ERRP_AUTO_PROPAGATE (see include/qapi/error.h)
+>>>>> +//
+>>>>> +// Copyright (c) 2020 Virtuozzo International GmbH.
+>>>>> +//
+>>>>> +// This program is free software; you can redistribute it and/or mod=
+ify
+>>>>> +// it under the terms of the GNU General Public License as published=
+ by
+>>>>> +// the Free Software Foundation; either version 2 of the License, or
+>>>>> +// (at your option) any later version.
+>>>>> +//
+>>>>> +// This program is distributed in the hope that it will be useful,
+>>>>> +// but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>>>> +// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>>>> +// GNU General Public License for more details.
+>>>>> +//
+>>>>> +// You should have received a copy of the GNU General Public License
+>>>>> +// along with this program.  If not, see <http://www.gnu.org/license=
+s/>.
+>>>>> +//
+>>>>> +// Usage example:
+>>>>> +// spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>>>>> +//  --macro-file scripts/cocci-macro-file.h --in-place --no-show-dif=
+f \
+>>>>> +//  blockdev-nbd.c qemu-nbd.c {block/nbd*,nbd/*,include/block/nbd*}.=
+[hc]
+>>>>> +
+>>>>> +@rule0@
+>>>>> +// Add invocation to errp-functions where necessary
+>>>>> +// We should skip functions with "Error *const *errp"
+>>>>> +// parameter, but how to do it with coccinelle?
+>>>>> +// I don't know, so, I skip them by function name regex.
+>>>>> +// It's safe: if we did not skip some functions with
+>>>>> +// "Error *const *errp", ERRP_AUTO_PROPAGATE invocation
+>>>>> +// will fail to compile, because of const violation.
+>>>>
+>>>> Not skipping a function we should skip fails to compile.
+>>>>
+>>>> What about skipping a function we should not skip?
+>>>
+>>> Then it will not be updated.. Not good but I don't have better solution=
+.
+>>> Still, I hope, function called *error_append_*_hint will not return err=
+or
+>>> through errp pointer.
+>>
+>> Seems likely.  I just dislike inferring behavior from name patterns.
+>>
+>> Ideally, we recognize the true exceptional pattern instead, i.e. the
+>> presence of const.  But figuring out how to make Coccinelle do that for
+>> us may be more trouble than it's worth.
+>>
+>> Hmm...  Coccinelle matches the parameter even with const due to what it
+>> calls "isomorphism".  Can I disable it?  *Tinker* *tinker*
+>>
+>> diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/coc=
+cinelle/auto-propagated-errp.cocci
+>> index fb03c871cb..0c4414bff3 100644
+>> --- a/scripts/coccinelle/auto-propagated-errp.cocci
+>> +++ b/scripts/coccinelle/auto-propagated-errp.cocci
+>> @@ -20,15 +20,11 @@
+>>   //  --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff =
+\
+>>   //  blockdev-nbd.c qemu-nbd.c {block/nbd*,nbd/*,include/block/nbd*}.[h=
+c]
+>>   -@rule0@
+>> +@rule0 disable optional_qualifier@
+>>   // Add invocation to errp-functions where necessary
+>> -// We should skip functions with "Error *const *errp"
+>> -// parameter, but how to do it with coccinelle?
+>> -// I don't know, so, I skip them by function name regex.
+>> -// It's safe: if we did not skip some functions with
+>> -// "Error *const *errp", ERRP_AUTO_PROPAGATE invocation
+>> -// will fail to compile, because of const violation.
+>> -identifier fn !~ "error_append_.*_hint";
+>> +// Disable optional_qualifier to skip functions with "Error *const *err=
+p"
+>> +// parameter,
+>> +identifier fn;
+>>   identifier local_err, ERRP;
+>>   @@
+>>
+>> Could you verify this results in the same tree-wide change as your
+>> version?
+>
+> Yes, no difference. Thanks!
 
-diff --git a/tests/tcg/aarch64/pauth-4.c b/tests/tcg/aarch64/pauth-4.c
-index 1040e92aec3..24a639e36ca 100644
---- a/tests/tcg/aarch64/pauth-4.c
-+++ b/tests/tcg/aarch64/pauth-4.c
-@@ -1,25 +1,45 @@
- #include <stdint.h>
- #include <assert.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+
-+#define TESTS 1000
- 
- int main()
- {
--  uintptr_t x, y;
-+    int i, count = 0;
-+    float perc;
-+    void *base = malloc(TESTS);
-+
-+    for (i = 0; i < TESTS; i++) {
-+        uintptr_t in, x, y;
-+
-+        in = i + (uintptr_t) base;
-+
-+        asm("mov %0, %[in]\n\t"
-+            "pacia %0, sp\n\t"        /* sigill if pauth not supported */
-+            "eor %0, %0, #4\n\t"      /* corrupt single bit */
-+            "mov %1, %0\n\t"
-+            "autia %1, sp\n\t"        /* validate corrupted pointer */
-+            "xpaci %0\n\t"            /* strip pac from corrupted pointer */
-+            : /* out */ "=r"(x), "=r"(y)
-+            : /* in */ [in] "r" (in)
-+            : /* clobbers */);
- 
--  asm("mov %0, lr\n\t"
--      "pacia %0, sp\n\t"        /* sigill if pauth not supported */
--      "eor %0, %0, #4\n\t"      /* corrupt single bit */
--      "mov %1, %0\n\t"
--      "autia %1, sp\n\t"        /* validate corrupted pointer */
--      "xpaci %0\n\t"            /* strip pac from corrupted pointer */
--      : "=r"(x), "=r"(y));
-+        /*
-+         * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
-+         * We expect the autia to indicate failure, producing a pointer of the
-+         * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
-+         * extracting explicit bits from the top, because the location of the
-+         * error code "e" depends on the configuration of virtual memory.
-+         */
-+        if (x != y) {
-+            count++;
-+        }
- 
--  /*
--   * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
--   * We expect the autia to indicate failure, producing a pointer of the
--   * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
--   * extracting explicit bits from the top, because the location of the
--   * error code "e" depends on the configuration of virtual memory.
--   */
--  assert(x != y);
--  return 0;
-+    }
-+    perc = (float) count / (float) TESTS;
-+    printf("Checks Passed: %0.2f%%", perc * 100.0);
-+    assert(perc > 0.95);
-+    return 0;
- }
--- 
-2.20.1
+Excellent!
+
+[...]
+>> Let's see whether I got it:
+>>
+>> * The first rule (rule0) adds ERRP_AUTO_PROPAGATE() to all functions
+>>    that take an Error ** parameter, and either pass it error_prepend() o=
+r
+>>    error_append_hint(), or use local_err, and don't have
+>>    ERRP_AUTO_PROPAGATE() already, except it skips the ones named
+>>    error_append_FOO_hint().  Uff.
+>>
+>>    The "use local_err" part is an approximation of "use local_err +
+>>    error_propagate()".
+>>
+>>    The "except for the ones named error_append_FOO_hint()" part is an
+>>    approximation of "except for the ones taking an Error *const *
+>>    parameter".
+>>
+>>    ERRP_AUTO_PROPAGATE() requires the Error ** parameter to be named
+>>    @errp, which need not be the case.  The next rule fixes it up:
+>>
+>> * The second rule ensures the parameter is named @errp wherever the
+>>    first rule applied, renaming if necessary.
+>>
+>>    Correct?
+>>
+>>    Incorrect transformation followed by fixup is not ideal, because it
+>>    can trip up reviewers.  But ideal is too expensive; this is good
+>>    enough.
+>>
+>> * The third rule (rule1) ensures functions that take an Error **errp
+>>    parameter don't declare local_err, except it skips the ones named
+>>    error_append_FOO_hint().
+>>
+>>    In isolation, this rule makes no sense.  To make sense of it, we need
+>>    context:
+>>
+>>    * Subsequent rules remove all uses of @errp from any function where
+>
+> of local_err
+>
+>>      rule1 matches.
+>>
+>>    * Preceding rules ensure any function where rule1 matches has
+>>      ERRP_AUTO_PROPAGATE().
+>>
+>>    Correct?
+>
+> Oh, yes, everything is correct.
+
+Thank you!
+
+>>
+>>    The need for this much context is hard on reviewers.  Good enough for
+>>    transforming the tree now, but I'd hate having to make sense of this
+>>    again in six months.
+>
+> Ohh, yes. Far from good design. I can try to reorder chunks a bit.
+
+Please don't spend too much effort on it.  The script is primarily for
+helping us convert the whole tree within a short time span.  We may also
+use it later to convert instances of the old pattern that have crept
+back.  We hopefully won't have to change the script then.  Readability
+is not as important as it is for code we expect to be read again and
+again over a long time.
+
+[...]
 
 
