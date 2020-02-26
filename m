@@ -2,49 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17409170034
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:39:31 +0100 (CET)
-Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D121170039
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:40:56 +0100 (CET)
+Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6wuQ-0002TR-6N
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41331)
+	id 1j6wvn-0004ZP-8S
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:40:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1j6wtF-0001Zn-3d
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:38:18 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1j6wuh-0003bn-SU
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:39:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1j6wtD-00012a-Tq
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:38:17 -0500
-Received: from 12.mo6.mail-out.ovh.net ([178.32.125.228]:46679)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j6wtC-0000ri-5r
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:38:15 -0500
-Received: from player699.ha.ovh.net (unknown [10.110.103.225])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id BE3401FCDE2
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 14:38:11 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player699.ha.ovh.net (Postfix) with ESMTPSA id 65397FC5092F;
- Wed, 26 Feb 2020 13:37:52 +0000 (UTC)
-Date: Wed, 26 Feb 2020 14:37:51 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v6 17/18] spapr: Clean up RMA size calculation
-Message-ID: <20200226143751.17b4bfa4@bahia.home>
-In-Reply-To: <20200224233724.46415-18-david@gibson.dropbear.id.au>
-References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
- <20200224233724.46415-18-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <stefanb@linux.ibm.com>) id 1j6wug-00058q-MK
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:39:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4228
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1j6wue-000535-1J; Wed, 26 Feb 2020 08:39:44 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01QDdg5H130507; Wed, 26 Feb 2020 08:39:42 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqkavyhu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 08:39:26 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QDTwdd089447;
+ Wed, 26 Feb 2020 08:39:26 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqkavyh8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 08:39:26 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QDZKOD024903;
+ Wed, 26 Feb 2020 13:39:25 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma03wdc.us.ibm.com with ESMTP id 2ydcmknh1f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 13:39:25 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01QDdPoV50921910
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Feb 2020 13:39:25 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7722B2805A;
+ Wed, 26 Feb 2020 13:39:25 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 63E3D2805C;
+ Wed, 26 Feb 2020 13:39:25 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 26 Feb 2020 13:39:25 +0000 (GMT)
+Subject: Re: [PATCH v3 09/10] test: tpm-tis: Get prepared to share tests
+ between ISA and sysbus devices
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
+References: <20200226102549.12158-1-eric.auger@redhat.com>
+ <20200226102549.12158-10-eric.auger@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <bea97d7f-cae2-20ad-b3f0-b1822f5857a9@linux.ibm.com>
+Date: Wed, 26 Feb 2020 08:39:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 8413568531551656422
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrleeggdehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.125.228
+In-Reply-To: <20200226102549.12158-10-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-26_04:2020-02-26,
+ 2020-02-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ mlxscore=0 spamscore=0 adultscore=0 mlxlogscore=999 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002260101
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,133 +97,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru, farosas@linux.ibm.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org, clg@kaod.org,
- Paolo Bonzini <pbonzini@redhat.com>, "Edgar E.
- Iglesias" <edgar.iglesias@gmail.com>, paulus@samba.org
+Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Feb 2020 10:37:23 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> Move the calculation of the Real Mode Area (RMA) size into a helper
-> function.  While we're there clean it up and correct it in a few ways:
->   * Add comments making it clearer where the various constraints come from
->   * Remove a pointless check that the RMA fits within Node 0 (we've just
->     clamped it so that it does)
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+On 2/26/20 5:25 AM, Eric Auger wrote:
+> ISA and sysbus TPM-TIS devices will share their tests. Only
+> the main() will change (instantiation option is different).
+> Also the base address of the TPM-TIS device is going to be
+> different. on x86 it is located at 0xFED40000 while on ARM
+> it can be located at any location, discovered through the
+> device tree description.
+>
+> So we put shared test functions in a new object module.
+> Each test needs to set tpm_tis_base_addr global variable.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > ---
->  hw/ppc/spapr.c | 59 ++++++++++++++++++++++++++++++--------------------
->  1 file changed, 35 insertions(+), 24 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 6e9f15f64d..f0354b699d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2648,6 +2648,40 @@ static PCIHostState *spapr_create_default_phb(void)
->      return PCI_HOST_BRIDGE(dev);
->  }
-> =20
-> +static hwaddr spapr_rma_size(SpaprMachineState *spapr, Error **errp)
-> +{
-> +    MachineState *machine =3D MACHINE(spapr);
-> +    hwaddr rma_size =3D machine->ram_size;
-> +    hwaddr node0_size =3D spapr_node0_size(machine);
+>   tests/qtest/Makefile.include     |   2 +-
+>   tests/qtest/tpm-crb-swtpm-test.c |   3 +
+>   tests/qtest/tpm-crb-test.c       |   2 +
+>   tests/qtest/tpm-tis-swtpm-test.c |   3 +
+>   tests/qtest/tpm-tis-test.c       | 414 +----------------------------
+>   tests/qtest/tpm-tis-util.c       | 433 +++++++++++++++++++++++++++++++
+>   tests/qtest/tpm-tis-util.h       |  23 ++
+>   tests/qtest/tpm-util.c           |   3 -
+>   tests/qtest/tpm-util.h           |   5 +
+>   9 files changed, 473 insertions(+), 415 deletions(-)
+>   create mode 100644 tests/qtest/tpm-tis-util.c
+>   create mode 100644 tests/qtest/tpm-tis-util.h
+>
+> diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+> index 028af5b782..44aac68b25 100644
+> --- a/tests/qtest/Makefile.include
+> +++ b/tests/qtest/Makefile.include
+> @@ -302,7 +302,7 @@ tests/qtest/tpm-crb-swtpm-test$(EXESUF): tests/qtest/tpm-crb-swtpm-test.o tests/
+>   tests/qtest/tpm-crb-test$(EXESUF): tests/qtest/tpm-crb-test.o tests/qtest/tpm-emu.o $(test-io-obj-y)
+>   tests/qtest/tpm-tis-swtpm-test$(EXESUF): tests/qtest/tpm-tis-swtpm-test.o tests/qtest/tpm-emu.o \
+>   	tests/qtest/tpm-util.o tests/qtest/tpm-tests.o $(test-io-obj-y)
+> -tests/qtest/tpm-tis-test$(EXESUF): tests/qtest/tpm-tis-test.o tests/qtest/tpm-emu.o $(test-io-obj-y)
+> +tests/qtest/tpm-tis-test$(EXESUF): tests/qtest/tpm-tis-test.o tests/qtest/tpm-tis-util.o tests/qtest/tpm-emu.o $(test-io-obj-y)
+>   
+>   # QTest rules
+>   
+> diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
+> index 5228cb7af4..ac92f08bee 100644
+> --- a/tests/qtest/tpm-crb-swtpm-test.c
+> +++ b/tests/qtest/tpm-crb-swtpm-test.c
+> @@ -18,6 +18,9 @@
+>   #include "libqtest.h"
+>   #include "qemu/module.h"
+>   #include "tpm-tests.h"
+> +#include "hw/acpi/tpm.h"
 > +
-> +    /* RMA has to fit in the first NUMA node */
-> +    rma_size =3D MIN(rma_size, node0_size);
+> +uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
+>   
+>   typedef struct TestState {
+>       char *src_tpm_path;
+> diff --git a/tests/qtest/tpm-crb-test.c b/tests/qtest/tpm-crb-test.c
+> index 632fb7fbd8..cdd09e5396 100644
+> --- a/tests/qtest/tpm-crb-test.c
+> +++ b/tests/qtest/tpm-crb-test.c
+> @@ -19,6 +19,8 @@
+>   #include "qemu/module.h"
+>   #include "tpm-emu.h"
+>   
+> +uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
 > +
-> +    /*
-> +     * VRMA access is via a special 1TiB SLB mapping, so the RMA can
-> +     * never exceed that
-> +     */
-> +    rma_size =3D MIN(rma_size, TiB);
-> +
-> +    /*
-> +     * Clamp the RMA size based on machine type.  This is for
-> +     * migration compatibility with older qemu versions, which limited
-> +     * the RMA size for complicated and mostly bad reasons.
-> +     */
-> +    if (smc->rma_limit) {
 
-/home/greg/Work/qemu/qemu-ppc/hw/ppc/spapr.c: In function =E2=80=98spapr_rm=
-a_size=E2=80=99:
-/home/greg/Work/qemu/qemu-ppc/hw/ppc/spapr.c:2671:9: error: =E2=80=98smc=E2=
-=80=99 undeclared (first use in this function)
-     if (smc->rma_limit) {
+Since crb shouldn't need it, can you add a comment 'Not used but needed 
+for linking'? Same in tpm-crb-swtpm-test.c.
 
-> +        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
-> +    }
-> +
-> +    if (rma_size < (MIN_RMA_SLOF * MiB)) {
-> +        error_setg(errp,
-> +"pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real Mode Area)",
-> +                   MIN_RMA_SLOF);
-> +        return -1;
-> +    }
-> +
-> +    return rma_size;
-> +}
-> +
->  /* pSeries LPAR / sPAPR hardware init */
->  static void spapr_machine_init(MachineState *machine)
->  {
-> @@ -2660,7 +2694,6 @@ static void spapr_machine_init(MachineState *machin=
-e)
->      int i;
->      MemoryRegion *sysmem =3D get_system_memory();
->      MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-> -    hwaddr node0_size =3D spapr_node0_size(machine);
->      long load_limit, fw_size;
->      char *filename;
->      Error *resize_hpt_err =3D NULL;
-> @@ -2700,22 +2733,7 @@ static void spapr_machine_init(MachineState *machi=
-ne)
->          exit(1);
->      }
-> =20
-> -    spapr->rma_size =3D node0_size;
-> -
-> -    /*
-> -     * Clamp the RMA size based on machine type.  This is for
-> -     * migration compatibility with older qemu versions, which limited
-> -     * the RMA size for complicated and mostly bad reasons.
-> -     */
-> -    if (smc->rma_limit) {
-> -        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
-> -    }
-> -
-> -    if (spapr->rma_size > node0_size) {
-> -        error_report("Numa node 0 has to span the RMA (%#08"HWADDR_PRIx"=
-)",
-> -                     spapr->rma_size);
-> -        exit(1);
-> -    }
-> +    spapr->rma_size =3D spapr_rma_size(spapr, &error_fatal);
-> =20
->      /* Setup a load limit for the ramdisk leaving room for SLOF and FDT =
-*/
->      load_limit =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FW_OVERHEAD;
-> @@ -2954,13 +2972,6 @@ static void spapr_machine_init(MachineState *machi=
-ne)
->          }
->      }
-> =20
-> -    if (spapr->rma_size < MIN_RMA_SLOF) {
-> -        error_report(
-> -            "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real =
-Mode Area memory)",
-> -            MIN_RMA_SLOF / MiB);
-> -        exit(1);
-> -    }
-> -
->      if (kernel_filename) {
->          uint64_t lowaddr =3D 0;
-> =20
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+
 
 
