@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705EB16FFB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:14:25 +0100 (CET)
-Received: from localhost ([::1]:44246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C3116FFDB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:23:40 +0100 (CET)
+Received: from localhost ([::1]:44354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6wW8-0006s2-HO
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:14:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53938)
+	id 1j6wf5-0002ED-Kg
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:23:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j6wV6-0006I0-OR
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:13:21 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1j6wdy-0001eD-Pt
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:22:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j6wV5-0002QK-Jd
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:13:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35391
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j6wV5-0002Q4-G5
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:13:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582722799;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wWP0VhpugEUlUlUG86NwKJQi5tdFcYQxTXNjF/WZYhg=;
- b=fGg4qZPcxMJTPx3xCiG1K3IOJxUT6ZRvV0vXrWAHMspoJ+6Hmrkd46ltwE5UYWLrfG1bn5
- 5zs8W9qVi9jul8v/HJ+TKqqhNA+OMzZh9ZcdRSeMdqRbm0SEN9ezOJTjIXsZkeJ5oE9FBX
- 8BJUNpiUzDVVsIbPFtCnvGaq2Gl5dSc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-S4Ra6WD_OaOfEXsmpJuR-Q-1; Wed, 26 Feb 2020 08:13:14 -0500
-X-MC-Unique: S4Ra6WD_OaOfEXsmpJuR-Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8D0E18B9FC1;
- Wed, 26 Feb 2020 13:13:13 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCF925C28E;
- Wed, 26 Feb 2020 13:13:11 +0000 (UTC)
-Subject: Re: [PATCH v4 00/10] Further bitmaps improvements
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200205112041.6003-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4cf33f31-cdbb-cee4-a1b4-4053c88a002e@redhat.com>
-Date: Wed, 26 Feb 2020 14:13:10 +0100
+ (envelope-from <stefanb@linux.ibm.com>) id 1j6wdx-0005gN-Kh
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:22:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55906
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1j6wdv-0005Yw-2v; Wed, 26 Feb 2020 08:22:27 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01QDKa3Q097147; Wed, 26 Feb 2020 08:22:25 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ydcnge557-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 08:22:24 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QDKvfM098673;
+ Wed, 26 Feb 2020 08:22:24 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ydcnge54n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 08:22:24 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QDAEBI006358;
+ Wed, 26 Feb 2020 13:17:23 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 2ydcmknct0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 13:17:23 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01QDHNZo45285814
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Feb 2020 13:17:23 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17418AE064;
+ Wed, 26 Feb 2020 13:17:23 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0675AAE063;
+ Wed, 26 Feb 2020 13:17:22 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 26 Feb 2020 13:17:22 +0000 (GMT)
+Subject: Re: [PATCH v3 07/10] docs/specs/tpm: Document TPM_TIS sysbus device
+ for ARM
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
+References: <20200226102549.12158-1-eric.auger@redhat.com>
+ <20200226102549.12158-8-eric.auger@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <b71d4a12-6db6-af87-cbc1-5a20c86931c8@linux.ibm.com>
+Date: Wed, 26 Feb 2020 08:17:22 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200205112041.6003-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="6bFydxBoS0kro7mD5J10ATgZSMUiS8I6W"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <20200226102549.12158-8-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-26_04:2020-02-26,
+ 2020-02-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 spamscore=0 suspectscore=0 impostorscore=0 clxscore=1015
+ mlxscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002260099
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,53 +97,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---6bFydxBoS0kro7mD5J10ATgZSMUiS8I6W
-Content-Type: multipart/mixed; boundary="2ncYS8sIZYeiQN9SsCFzXgVx2wESPhzrr"
+On 2/26/20 5:25 AM, Eric Auger wrote:
+> Update the documentation with recent changes related to the
+> sysbus TPM_TIS device addition and add the command line
+> to be used with arm VIRT.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>   docs/specs/tpm.rst | 25 ++++++++++++++++++++++++-
+>   1 file changed, 24 insertions(+), 1 deletion(-)
+>
+> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+> index 2bdf637f55..932cb57049 100644
+> --- a/docs/specs/tpm.rst
+> +++ b/docs/specs/tpm.rst
+> @@ -18,9 +18,15 @@ The TIS interface makes a memory mapped IO region in the area
+>   0xfed40000-0xfed44fff available to the guest operating system.
+>   
+>   QEMU files related to TPM TIS interface:
+> - - ``hw/tpm/tpm_tis.c``
+> + - ``hw/tpm/tpm_tis_common.c``
+> + - ``hw/tpm/tpm_tis_isa.c``
+> + - ``hw/tpm/tpm_tis_sysbus.c``
+>    - ``hw/tpm/tpm_tis.h``
+>   
+> +Both an ISA device and a sysbus device are available. The former is
+> +used with pc/q35 machine while the later can be instantiated in the
 
---2ncYS8sIZYeiQN9SsCFzXgVx2wESPhzrr
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 05.02.20 12:20, Vladimir Sementsov-Ogievskiy wrote:
-> Hi!
->=20
-> The main feature here is improvement of _next_dirty_area API, which I'm
-> going to use then for backup / block-copy.
->=20
-> Somehow, I thought that it was merged, but seems I even forgot to send
-> v4.
-
-The changes from v3 look good to me, but I=92d prefer a review from Eric
-on patch 8.
-
-Max
+s/later/latter
 
 
---2ncYS8sIZYeiQN9SsCFzXgVx2wESPhzrr--
+> +ARM virt machine.
+> +
+>   CRB interface
+>   -------------
+>   
+> @@ -325,6 +331,23 @@ In case a pSeries machine is emulated, use the following command line:
+>       -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
+>       -drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
+>   
+> +In case an ARM virt machine is emulated, use the following command line:
+> +
+> +.. code-block:: console
+> +
+> +  qemu-system-aarch64 -machine virt,gic-version=3,accel=kvm \
+> +    -cpu host -m 4G \
+> +    -nographic -no-acpi \
+> +    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
+> +    -tpmdev emulator,id=tpm0,chardev=chrtpm \
+> +    -device tpm-tis-device,tpmdev=tpm0 \
+> +    -device virtio-blk-pci,drive=drv0 \
+> +    -drive format=qcow2,file=hda.qcow2,if=none,id=drv0 \
+> +    -drive if=pflash,format=raw,file=flash0.img,readonly \
+> +    -drive if=pflash,format=raw,file=flash1.img
+> +
+> +  On ARM, ACPI boot with TPM is not yet supported.
+> +
+>   In case SeaBIOS is used as firmware, it should show the TPM menu item
+>   after entering the menu with 'ESC'.
+>   
 
---6bFydxBoS0kro7mD5J10ATgZSMUiS8I6W
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+With the spelling fixed:
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5WbuYACgkQ9AfbAGHV
-z0DCKQf+LbCRIb9nPw+GULrkGyzVqkpOIBrk7WTfCX3/TBFyiaUlKFOvtXSG4ZOF
-k8KQW/1ld8B2pjc37adg7wr7BKzI9zfHgC93XS0EWuimOAWZJOUCkY2YLrN60YHg
-1injND25+julwlx4fQed9E6r9qf+P2uPJmLwKJmcapa6AfOPbhmF+s6jdXtoF3OU
-K3rqEvvQlb0nZI0MLbsxsKUbhGOBsGPZIzfD9VD/w8wTRlQS02egtvU9ZJ0L3AMO
-X8kLDGCV7fx9fMe4Zk8gmyIq+YbXfz4Vs12mKglppJkuFvKkzrVh7RuOHh/Tb+A+
-79fjzEb50gmobr8j4VweMbDjkFKC2g==
-=+StL
------END PGP SIGNATURE-----
-
---6bFydxBoS0kro7mD5J10ATgZSMUiS8I6W--
 
 
