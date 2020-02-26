@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C30170721
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:09:06 +0100 (CET)
-Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F001706EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:03:29 +0100 (CET)
+Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j717J-0005as-QP
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:09:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
+	id 1j711s-0000TS-MS
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:03:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j716Q-0004tU-9K
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:08:11 -0500
+ (envelope-from <peterx@redhat.com>) id 1j710Y-00080V-MI
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:02:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j716O-0002k3-Tj
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:08:10 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42105)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j716O-0002aO-LV; Wed, 26 Feb 2020 13:08:08 -0500
-Received: by mail-lj1-x242.google.com with SMTP id d10so78803ljl.9;
- Wed, 26 Feb 2020 10:08:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LMPU1kRD84wPi625eY4a3VdFBmAdtYN7HHupO0TFJhw=;
- b=ZLeluk/zdnf24X+tjiLyM93lKGcePSoU7HZluJi5cXaR9ZYFjNUh8O6GP664DDezNt
- ZsgyW48ac+1VRw6jWEhkVB+LOiC/QZXUn+RhQDGlD7X22AG1akQuWequelzOu33e8trY
- h1pt7fvLiVM4aOx+pN0uBJl/Dez8AEZHgI+nEwulTpUxNcO0Ey00Fmh4UDrsLfLXEI+g
- MCbs/K61raKghejx6Tl9gsQ4mNRZPsaxn7UbEOQ/xs9N/xmwVnd5AgM8JNIQWDp5tHrw
- flVkanJZlNPJIMHMUOcyrMkQAUqaGGRQJ/koeFp+IStfLBND9bh4BlEs7akNZx/mFayB
- 5+AA==
+ (envelope-from <peterx@redhat.com>) id 1j710W-00029W-PC
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:02:06 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46935
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j710U-00024t-SQ
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:02:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582740121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A+8Fj6KLqXuPf3Au4e0QGr5vSbTdDSgY5sBqllU3PRY=;
+ b=ZyVsOW4c+RXWeX9ihng66XQkDUOD4TydjyjodOyOIUjHAZhALJDP5HbKhI1b/LgUitJLrN
+ vETfxvOM7m7A1fbfMBvENKBlpY35sKKHeCGNM4MEU/ARu6RKz096eLqWDvfiSI7aO4dF4F
+ wO2mGGUQNEg1Hu7kfsmQKa+8qMPpDCg=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-gDnf-sruPjyR2zwOw2cweQ-1; Wed, 26 Feb 2020 13:01:58 -0500
+X-MC-Unique: gDnf-sruPjyR2zwOw2cweQ-1
+Received: by mail-qt1-f200.google.com with SMTP id c11so3208852qtv.19
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:01:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LMPU1kRD84wPi625eY4a3VdFBmAdtYN7HHupO0TFJhw=;
- b=QSiHvCbin9qkH22DBEmrx5TcQPnTpl0Q8BJmKJdrda5gw/IZZROgsEPsMMyye4yjLq
- PLOArbX2jiU+TflYwqKEicp1mbCVjHZBPRk1SleGM9XkUOZt+J50cnPEgcVlWPhhAwi3
- xHlR8+MPjS4rOiBcKgozs/Nd+vT+bdUrMZq5sYVc7FoMFQ54jtAYm53hezpb5Y70hzuz
- IQV+zvnq+AgIdadD/FYV6mD5O6sTJXqhE0p+RSbtZt1X3Aw5ZvpeN5WI9jinysDiVdPO
- bH79PyFnfRpgqzXe68la6vfko6oiQovoUtyC/82icdLQORq+G6BbIwGqrlQXInvXIQ+9
- 4wVg==
-X-Gm-Message-State: ANhLgQ3j3nWkLfHYOWhWgFFplsPd4jG0OtuVgNnxZtjrSekZmFA1AOgA
- OhQEaTdjR2cGN3nj9QgCJ2V4BPJ1ltPjupeoNkI=
-X-Google-Smtp-Source: ADFU+vtlH67YZBiKlAY47y+g6q1uVD3dqwcskUdZWgByun/7tqKuBYOMlKA1aKfWKdpOxn34Ul1sl+Ntl9uG9GoVH9c=
-X-Received: by 2002:a2e:7609:: with SMTP id r9mr120290ljc.238.1582740486539;
- Wed, 26 Feb 2020 10:08:06 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=J//p7ec8pBvmNZvIE0gq8BxamWTkgi696RXVTLV621U=;
+ b=QDln7rwpZcaJ0P8MWxYtp59Nh8PAJJRa7df1ueaoDYShJVMcTNqe7B/mtFgWjuJazD
+ RLMIJqXDuvulvU7nDhijpeuomnxQZ082IMMYIoAVYNLD1+ShZvKesRvav3wcKLJmxPyD
+ HliU6FQF9/2aLI6jqns9C4ER0DSqiTA2H6iiXkYJ2P//A834YZBtLZSwMQRSifQ8VrzC
+ wld5N+Huf8ETE/hpqq66eqDJsZbb+Se4RqCOQL8sMHKxnohzV6wCNikYWQERIRrtlHtq
+ PPr2Tsfy0ZQd6ikMtursed26P8Np8EbjtPRQyY23rwF5RC0I5kHM3E27YKWLty1yZ3dg
+ ZBOg==
+X-Gm-Message-State: APjAAAWY3GbMr9G9qUan7ZJXUcLKd33HGTUOyDGGJI1op1IgQQnW+MYj
+ 4U9FR2l9h6kjGS5KnPHtPdeN1xd9ReRyh+D4fCA3yR6YkgP7R9wx1WjPnoYI2DHkhNyusmjRZYs
+ BXd/QmPb0pyExvHQ=
+X-Received: by 2002:ad4:5a48:: with SMTP id ej8mr272834qvb.187.1582740118422; 
+ Wed, 26 Feb 2020 10:01:58 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzYE34PPfAzlFrzG0f5aw/8Q0dGbe/tlpVkpxmZzYDjfl30vbyPoZZk6q1vnhumyEO0XiDy8A==
+X-Received: by 2002:ad4:5a48:: with SMTP id ej8mr272470qvb.187.1582740113490; 
+ Wed, 26 Feb 2020 10:01:53 -0800 (PST)
+Received: from xz-x1 (CPEf81d0fb19163-CMf81d0fb19160.cpe.net.fido.ca.
+ [72.137.123.47])
+ by smtp.gmail.com with ESMTPSA id u2sm1550500qtd.72.2020.02.26.10.01.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 10:01:52 -0800 (PST)
+Date: Wed, 26 Feb 2020 13:01:50 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/i386/intel_iommu: Simplify vtd_find_as_from_bus_num()
+ logic
+Message-ID: <20200226180150.GF140200@xz-x1>
+References: <20200226174956.17018-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20200225131422.53368-1-damien.hedde@greensocs.com>
- <20200225131422.53368-5-damien.hedde@greensocs.com>
-In-Reply-To: <20200225131422.53368-5-damien.hedde@greensocs.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 26 Feb 2020 10:00:26 -0800
-Message-ID: <CAKmqyKOzR9RKEbdv_BUxJmwNNsnAOdupMXAMJ=kfDh0u4FsM4A@mail.gmail.com>
-Subject: Re: [PATCH v8 4/9] qdev-clock: introduce an init array to ease the
- device construction
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200226174956.17018-1-philmd@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,157 +89,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Burton <mark.burton@greensocs.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Edgar Iglesias <edgar.iglesias@gmail.com>
+Cc: Liu Yi L <yi.l.liu@intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 25, 2020 at 5:56 AM Damien Hedde <damien.hedde@greensocs.com> w=
-rote:
->
-> Introduce a function and macro helpers to setup several clocks
-> in a device from a static array description.
->
-> An element of the array describes the clock (name and direction) as
-> well as the related callback and an optional offset to store the
-> created object pointer in the device state structure.
->
-> The array must be terminated by a special element QDEV_CLOCK_END.
->
-> This is based on the original work of Frederic Konrad.
->
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Wed, Feb 26, 2020 at 06:49:56PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> Reorder the if() statement to simplify the function.
+> This avoid bugs like the one fixed by commit a2e1cd41ccf.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This seems to hint that this patch fixes a problem, but it's pure
+refactoring, right?
 
-Alistair
+And I'm not sure about git-diff -w or so, but... I can't apply such a
+patch cleanly using "git am".  Are you sure a patch like this would
+work (without space change information)?
 
-> --
->
-> v7:
->  + update ClockIn/Out types
->  + remove the QDEV_CLOCK_IN_NOFIELD macro
->  + remove leading underscores in macro arguments (Peter)
->  + updated some comments (Peter)
->  + removed trivial asserts (Peter)
+Thanks,
+
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  include/hw/qdev-clock.h | 55 +++++++++++++++++++++++++++++++++++++++++
->  hw/core/qdev-clock.c    | 17 +++++++++++++
->  2 files changed, 72 insertions(+)
->
-> diff --git a/include/hw/qdev-clock.h b/include/hw/qdev-clock.h
-> index b3b3a3e021..a340f65ff9 100644
-> --- a/include/hw/qdev-clock.h
-> +++ b/include/hw/qdev-clock.h
-> @@ -101,4 +101,59 @@ Clock *qdev_alias_clock(DeviceState *dev, const char=
- *name,
->   */
->  void qdev_finalize_clocklist(DeviceState *dev);
->
-> +/**
-> + * ClockPortInitElem:
-> + * @name: name of the clock (can't be NULL)
-> + * @output: indicates whether the clock is input or output
-> + * @callback: for inputs, optional callback to be called on clock's upda=
-te
-> + * with device as opaque
-> + * @offset: optional offset to store the ClockIn or ClockOut pointer in =
-device
-> + * state structure (0 means unused)
-> + */
-> +struct ClockPortInitElem {
-> +    const char *name;
-> +    bool is_output;
-> +    ClockCallback *callback;
-> +    size_t offset;
-> +};
-> +
-> +#define clock_offset_value(devstate, field) \
-> +    (offsetof(devstate, field) + \
-> +     type_check(Clock *, typeof_field(devstate, field)))
-> +
-> +#define QDEV_CLOCK(out_not_in, devstate, field, cb) { \
-> +    .name =3D (stringify(field)), \
-> +    .is_output =3D out_not_in, \
-> +    .callback =3D cb, \
-> +    .offset =3D clock_offset_value(devstate, field), \
-> +}
-> +
-> +/**
-> + * QDEV_CLOCK_(IN|OUT):
-> + * @devstate: structure type. @dev argument of qdev_init_clocks below mu=
-st be
-> + * a pointer to that same type.
-> + * @field: a field in @_devstate (must be Clock*)
-> + * @callback: (for input only) callback (or NULL) to be called with the =
-device
-> + * state as argument
-> + *
-> + * The name of the clock will be derived from @field
-> + */
-> +#define QDEV_CLOCK_IN(devstate, field, callback) \
-> +    QDEV_CLOCK(false, devstate, field, callback)
-> +
-> +#define QDEV_CLOCK_OUT(devstate, field) \
-> +    QDEV_CLOCK(true, devstate, field, NULL)
-> +
-> +#define QDEV_CLOCK_END { .name =3D NULL }
-> +
-> +typedef struct ClockPortInitElem ClockPortInitArray[];
-> +
-> +/**
-> + * qdev_init_clocks:
-> + * @dev: the device to add clocks to
-> + * @clocks: a QDEV_CLOCK_END-terminated array which contains the
-> + * clocks information.
-> + */
-> +void qdev_init_clocks(DeviceState *dev, const ClockPortInitArray clocks)=
-;
-> +
->  #endif /* QDEV_CLOCK_H */
-> diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
-> index 62035aef83..a94cc44437 100644
-> --- a/hw/core/qdev-clock.c
-> +++ b/hw/core/qdev-clock.c
-> @@ -116,6 +116,23 @@ Clock *qdev_init_clock_in(DeviceState *dev, const ch=
-ar *name,
->      return ncl->clock;
->  }
->
-> +void qdev_init_clocks(DeviceState *dev, const ClockPortInitArray clocks)
-> +{
-> +    const struct ClockPortInitElem *elem;
-> +
-> +    for (elem =3D &clocks[0]; elem->name !=3D NULL; elem++) {
-> +        Clock **clkp;
-> +        /* offset cannot be inside the DeviceState part */
-> +        assert(elem->offset > sizeof(DeviceState));
-> +        clkp =3D (Clock **)(((void *) dev) + elem->offset);
-> +        if (elem->is_output) {
-> +            *clkp =3D qdev_init_clock_out(dev, elem->name);
-> +        } else {
-> +            *clkp =3D qdev_init_clock_in(dev, elem->name, elem->callback=
-, dev);
-> +        }
-> +    }
-> +}
-> +
->  static NamedClockList *qdev_get_clocklist(DeviceState *dev, const char *=
-name)
+>  hw/i386/intel_iommu.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 6258c58ac9..e720a8939c 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -987,14 +987,17 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, =
+uint32_t level)
+>  static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_=
+num)
 >  {
->      NamedClockList *ncl;
-> --
-> 2.25.1
->
->
+>      VTDBus *vtd_bus =3D s->vtd_as_by_bus_num[bus_num];
+> -    if (!vtd_bus) {
+> +    GHashTableIter iter;
+> +
+> +    if (vtd_bus) {
+> +        return vtd_bus;
+> +    }
+> +
+>      /*
+>       * Iterate over the registered buses to find the one which
+>       * currently hold this bus number, and update the bus_num
+>       * lookup table:
+>       */
+> -        GHashTableIter iter;
+> -
+>      g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
+>      while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
+>          if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
+> @@ -1002,9 +1005,8 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUS=
+tate *s, uint8_t bus_num)
+>              return vtd_bus;
+>          }
+>      }
+> -        vtd_bus =3D NULL;
+> -    }
+> -    return vtd_bus;
+> +
+> +    return NULL;
+>  }
+> =20
+>  /* Given the @iova, get relevant @slptep. @slpte_level will be the last =
+level
+> --=20
+> 2.21.1
+>=20
+
+--=20
+Peter Xu
+
 
