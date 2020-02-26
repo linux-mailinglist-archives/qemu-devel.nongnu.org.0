@@ -2,89 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0545E16FFC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:20:34 +0100 (CET)
-Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9C416FFDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 14:26:08 +0100 (CET)
+Received: from localhost ([::1]:44374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6wc5-0000ic-3V
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:20:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55914)
+	id 1j6whR-0003S5-0l
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 08:26:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1j6wb6-00088N-3v
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:19:33 -0500
+ (envelope-from <groug@kaod.org>) id 1j6wgf-0002pW-JA
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:25:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1j6wb4-0000WS-UO
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:19:32 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29514
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1j6wb2-0000Tp-5W; Wed, 26 Feb 2020 08:19:28 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QDA1or033860; Wed, 26 Feb 2020 08:19:26 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqfumdfw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 08:19:25 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01QDA4oN034157;
- Wed, 26 Feb 2020 08:19:25 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ydqfumdfe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 08:19:25 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QDAmWu031550;
- Wed, 26 Feb 2020 13:19:24 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 2ydcmkne0b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 13:19:24 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QDJOTn9700230
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 13:19:24 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4A6E8AE05F;
- Wed, 26 Feb 2020 13:19:24 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 332F9AE06A;
- Wed, 26 Feb 2020 13:19:24 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 13:19:24 +0000 (GMT)
-Subject: Re: [PATCH v3 06/10] hw/arm/virt: vTPM support
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200226102549.12158-1-eric.auger@redhat.com>
- <20200226102549.12158-7-eric.auger@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <f76e28f3-e119-ba02-db41-0bd76cab9e12@linux.ibm.com>
-Date: Wed, 26 Feb 2020 08:19:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <groug@kaod.org>) id 1j6wgd-0001el-VF
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:25:17 -0500
+Received: from 7.mo5.mail-out.ovh.net ([178.32.124.100]:58084)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j6wgd-0001cV-Q3
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 08:25:15 -0500
+Received: from player698.ha.ovh.net (unknown [10.110.103.112])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 500C326FF59
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 14:25:13 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player698.ha.ovh.net (Postfix) with ESMTPSA id EDD93FC3A3F5;
+ Wed, 26 Feb 2020 13:24:55 +0000 (UTC)
+Date: Wed, 26 Feb 2020 14:24:53 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v6 11/18] target/ppc: Only calculate RMLS derived RMA
+ limit on demand
+Message-ID: <20200226142453.6d47fb6b@bahia.home>
+In-Reply-To: <20200224233724.46415-12-david@gibson.dropbear.id.au>
+References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
+ <20200224233724.46415-12-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200226102549.12158-7-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-26_04:2020-02-26,
- 2020-02-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- malwarescore=0 suspectscore=2 priorityscore=1501 phishscore=0 adultscore=0
- bulkscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002260099
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 8194299522729351654
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrleeggdehgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.32.124.100
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,148 +57,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru, farosas@linux.ibm.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org, clg@kaod.org,
+ Paolo Bonzini <pbonzini@redhat.com>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 5:25 AM, Eric Auger wrote:
-> Let the TPM TIS SYSBUS device be dynamically instantiable
-> in ARM virt.  A device tree node is dynamically created
-> (TPM via MMIO).
->
-> The TPM Physical Presence interface (PPI) is not supported.
->
-> To run with the swtmp TPM emulator, the qemu command line must
-> be augmented with:
->
->          -chardev socket,id=chrtpm,path=swtpm-sock \
->          -tpmdev emulator,id=tpm0,chardev=chrtpm \
->          -device tpm-tis-device,tpmdev=tpm0 \
->
-> swtpm/libtpms command line example:
->
-> swtpm socket --tpm2 -t -d --tpmstate dir=/tmp/tpm \
-> --ctrl type=unixio,path=swtpm-sock
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+On Tue, 25 Feb 2020 10:37:17 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> When the LPCR is written, we update the env->rmls field with the RMA limit
+> it implies.  Simplify things by just calculating the value directly from
+> the LPCR value when we need it.
+>=20
+> It's possible this is a little slower, but it's unlikely to be significan=
+t,
+> since this is only for real mode accesses in a translation configuration
+> that's not used very often, and the whole thing is behind the qemu TLB
+> anyway.  Therefore, keeping the number of state variables down and not
+> having to worry about making sure it's always in sync seems the better
+> option.
+>=20
 
+This patch also refactors the code of ppc_hash64_update_vrma(), which
+is definitely an improvement, but seems a bit unrelated to the title...
+I'd personally make it a separate patch but you decide of course :)
 
->
+Also, a cosmetic remark. See below.
+
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > ---
->
-> v2 -> v3:
-> - use qemu_fdt_setprop_string()
-> ---
->   hw/arm/Kconfig      |  1 +
->   hw/arm/sysbus-fdt.c | 33 +++++++++++++++++++++++++++++++++
->   hw/arm/virt.c       |  7 +++++++
->   3 files changed, 41 insertions(+)
->
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 3d86691ae0..b6f03f7f53 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -5,6 +5,7 @@ config ARM_VIRT
->       imply VFIO_AMD_XGBE
->       imply VFIO_PLATFORM
->       imply VFIO_XGMAC
-> +    imply TPM_TIS_SYSBUS
->       select A15MPCORE
->       select ACPI
->       select ARM_SMMUV3
-> diff --git a/hw/arm/sysbus-fdt.c b/hw/arm/sysbus-fdt.c
-> index 022fc97ecd..f603787b65 100644
-> --- a/hw/arm/sysbus-fdt.c
-> +++ b/hw/arm/sysbus-fdt.c
-> @@ -30,6 +30,7 @@
->   #include "hw/arm/sysbus-fdt.h"
->   #include "qemu/error-report.h"
->   #include "sysemu/device_tree.h"
-> +#include "sysemu/tpm.h"
->   #include "hw/platform-bus.h"
->   #include "hw/vfio/vfio-platform.h"
->   #include "hw/vfio/vfio-calxeda-xgmac.h"
-> @@ -434,6 +435,37 @@ static bool vfio_platform_match(SysBusDevice *sbdev,
->   #define VFIO_PLATFORM_BINDING(compat, add_fn) \
->       {TYPE_VFIO_PLATFORM, (compat), (add_fn), vfio_platform_match}
->   
-> +/*
-> + * add_tpm_tis_fdt_node: Create a DT node for TPM TIS
-> + *
-> + * See kernel documentation:
-> + * Documentation/devicetree/bindings/security/tpm/tpm_tis_mmio.txt
-> + * Optional interrupt for command completion is not exposed
-> + */
-> +static int add_tpm_tis_fdt_node(SysBusDevice *sbdev, void *opaque)
+>  target/ppc/cpu.h        |  1 -
+>  target/ppc/mmu-hash64.c | 84 ++++++++++++++++++++---------------------
+>  2 files changed, 40 insertions(+), 45 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 8077fdb068..f9871b1233 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1046,7 +1046,6 @@ struct CPUPPCState {
+>      uint64_t insns_flags2;
+>  #if defined(TARGET_PPC64)
+>      ppc_slb_t vrma_slb;
+> -    target_ulong rmls;
+>  #endif
+> =20
+>      int error_code;
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index dd0df6fd01..ac21c14f68 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -791,6 +791,35 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
+>      }
+>  }
+> =20
+> +static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
 > +{
-> +    PlatformBusFDTData *data = opaque;
-> +    PlatformBusDevice *pbus = data->pbus;
-> +    void *fdt = data->fdt;
-> +    const char *parent_node = data->pbus_node_name;
-> +    char *nodename;
-> +    uint32_t reg_attr[2];
-> +    uint64_t mmio_base;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    target_ulong lpcr =3D env->spr[SPR_LPCR];
+> +    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
+> +    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LLP_=
+MASK);
+> +    int i;
 > +
-> +    mmio_base = platform_bus_get_mmio_addr(pbus, sbdev, 0);
-> +    nodename = g_strdup_printf("%s/tpm_tis@%" PRIx64, parent_node, mmio_base);
-> +    qemu_fdt_add_subnode(fdt, nodename);
+> +    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
+> +        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sps[=
+i];
 > +
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "tcg,tpm-tis-mmio");
+> +        if (!sps->page_shift) {
+> +            break;
+> +        }
 > +
-> +    reg_attr[0] = cpu_to_be32(mmio_base);
-> +    reg_attr[1] = cpu_to_be32(0x5000);
-> +    qemu_fdt_setprop(fdt, nodename, "reg", reg_attr, 2 * sizeof(uint32_t));
+> +        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
+> +            slb->esid =3D SLB_ESID_V;
+> +            slb->vsid =3D vsid;
+> +            slb->sps =3D sps;
+> +            return 0;
+> +        }
+> +    }
 > +
-> +    g_free(nodename);
-> +    return 0;
+> +    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
+> +                 TARGET_FMT_lx"\n", lpcr);
+> +
+> +    return -1;
 > +}
 > +
->   #endif /* CONFIG_LINUX */
->   
->   static int no_fdt_node(SysBusDevice *sbdev, void *opaque)
-> @@ -455,6 +487,7 @@ static const BindingEntry bindings[] = {
->       TYPE_BINDING(TYPE_VFIO_CALXEDA_XGMAC, add_calxeda_midway_xgmac_fdt_node),
->       TYPE_BINDING(TYPE_VFIO_AMD_XGBE, add_amd_xgbe_fdt_node),
->       VFIO_PLATFORM_BINDING("amd,xgbe-seattle-v1a", add_amd_xgbe_fdt_node),
-> +    TYPE_BINDING(TYPE_TPM_TIS_SYSBUS, add_tpm_tis_fdt_node),
->   #endif
->       TYPE_BINDING(TYPE_RAMFB_DEVICE, no_fdt_node),
->       TYPE_BINDING("", NULL), /* last element */
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f788fe27d6..4b967e39d1 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -47,6 +47,7 @@
->   #include "sysemu/numa.h"
->   #include "sysemu/runstate.h"
->   #include "sysemu/sysemu.h"
-> +#include "sysemu/tpm.h"
->   #include "sysemu/kvm.h"
->   #include "hw/loader.h"
->   #include "exec/address-spaces.h"
-> @@ -2041,6 +2042,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->       machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_AMD_XGBE);
->       machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
->       machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_PLATFORM);
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
->       mc->block_default_type = IF_VIRTIO;
->       mc->no_cdrom = 1;
->       mc->pci_allow_0_address = true;
-> @@ -2153,6 +2155,11 @@ type_init(machvirt_machine_init);
->   
->   static void virt_machine_5_0_options(MachineClass *mc)
->   {
-> +    static GlobalProperty compat[] = {
-> +        { TYPE_TPM_TIS_SYSBUS, "ppi", "false" },
-> +    };
+>  int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+>                                  int rwx, int mmu_idx)
+>  {
+> @@ -844,8 +873,10 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vad=
+dr eaddr,
+> =20
+>              goto skip_slb_search;
+>          } else {
+> +            target_ulong limit =3D rmls_limit(cpu);
 > +
-> +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
->   }
->   DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
->   
+>              /* Emulated old-style RMO mode, bounds check against RMLS */
+> -            if (raddr >=3D env->rmls) {
+> +            if (raddr >=3D limit) {
+>                  if (rwx =3D=3D 2) {
+>                      ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
+>                  } else {
+> @@ -1007,8 +1038,9 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *c=
+pu, target_ulong addr)
+>                  return -1;
+>              }
+>          } else {
+> +            target_ulong limit =3D rmls_limit(cpu);
 
+Maybe add an empty line like you did above for consistency and better
+readability ?
+
+Anyway, feel free to add:
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>              /* Emulated old-style RMO mode, bounds check against RMLS */
+> -            if (raddr >=3D env->rmls) {
+> +            if (raddr >=3D limit) {
+>                  return -1;
+>              }
+>              return raddr | env->spr[SPR_RMOR];
+> @@ -1043,53 +1075,18 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, t=
+arget_ulong ptex,
+>  static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+> -    const PPCHash64SegmentPageSizes *sps =3D NULL;
+> -    target_ulong esid, vsid, lpcr;
+>      ppc_slb_t *slb =3D &env->vrma_slb;
+> -    uint32_t vrmasd;
+> -    int i;
+> -
+> -    /* First clear it */
+> -    slb->esid =3D slb->vsid =3D 0;
+> -    slb->sps =3D NULL;
+> =20
+>      /* Is VRMA enabled ? */
+> -    if (!ppc_hash64_use_vrma(env)) {
+> -        return;
+> -    }
+> -
+> -    /*
+> -     * Make one up. Mostly ignore the ESID which will not be needed
+> -     * for translation
+> -     */
+> -    lpcr =3D env->spr[SPR_LPCR];
+> -    vsid =3D SLB_VSID_VRMA;
+> -    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
+> -    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
+> -    esid =3D SLB_ESID_V;
+> -
+> -    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
+> -        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->sps=
+[i];
+> -
+> -        if (!sps1->page_shift) {
+> -            break;
+> +    if (ppc_hash64_use_vrma(env)) {
+> +        if (build_vrma_slbe(cpu, slb) =3D=3D 0) {
+> +            return;
+>          }
+> -
+> -        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
+> -            sps =3D sps1;
+> -            break;
+> -        }
+> -    }
+> -
+> -    if (!sps) {
+> -        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
+> -                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
+> -        return;
+>      }
+> =20
+> -    slb->vsid =3D vsid;
+> -    slb->esid =3D esid;
+> -    slb->sps =3D sps;
+> +    /* Otherwise, clear it to indicate error */
+> +    slb->esid =3D slb->vsid =3D 0;
+> +    slb->sps =3D NULL;
+>  }
+> =20
+>  void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+> @@ -1098,7 +1095,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong v=
+al)
+>      CPUPPCState *env =3D &cpu->env;
+> =20
+>      env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+> -    env->rmls =3D rmls_limit(cpu);
+>      ppc_hash64_update_vrma(cpu);
+>  }
+> =20
 
 
