@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DBC16F8A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:41:07 +0100 (CET)
-Received: from localhost ([::1]:39220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F4E16F8A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 08:41:06 +0100 (CET)
+Received: from localhost ([::1]:39216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6rJa-00027p-Ex
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:41:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45857)
+	id 1j6rJZ-00026Z-JK
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 02:41:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45871)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j6rI6-0000Hr-VI
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:35 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j6rI7-0000Ht-6U
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j6rI5-0002IP-Ur
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:34 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50835)
+ (envelope-from <alex.bennee@linaro.org>) id 1j6rI6-0002J9-Aw
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:35 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38938)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j6rI5-0002CQ-NB
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:33 -0500
-Received: by mail-wm1-x333.google.com with SMTP id a5so1814110wmb.0
- for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 23:39:33 -0800 (PST)
+ id 1j6rI6-0002Fn-5J
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 02:39:34 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id c84so1839906wme.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Feb 2020 23:39:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PEusqV+iSam5oPlEHJm/4+oO4jkqYDYbQ2T0jjTNlWc=;
- b=UHSlJRZwFm811dsIW88A4qrnuIJbq9kMI5j1TQh72MfAi7u9BD28PA/1pRH90KPIrk
- CsZLqW162WhSw0hCsTwF+tFa9/Ss52JOjtNmy0hk//tfERsBRLhf0OhOjZh+3P1Ys9jv
- C4F4m9xo9wZoGCQcgsZebdx6i+cZiaaNi7EQkWdlY01BWT28YJ2Chn5ygovpZ19saNb4
- RXs8YSxZywDheSIZrhCPBRXnUkAsury3iTpiL91TdKdUOf/JBq1ngiU49ILgOe+DW8vV
- zqfmjWZVOBltLXqbV5532LyLqMQycLl0jcV/uOgRPdJDc7/tVke/DqJZYnzqiLce2ZaC
- +94A==
+ bh=RMi+1In6gKc2w24FR1knTLNeyasOeUhkZWRlN7yyp1c=;
+ b=Ndssu5kA9Hn1ME6ZaR1HV3UlE0UmZPW6ra5skiyO1q2YkoiCYvIvgPFLqe9Jj1QMFt
+ 1tF1+Phl3i1TUHJUvAIgzTVf6mL+qaTCgsmaeyyMduP+3GTt9aAsNWGGSu+EdVWNm164
+ UkpsLqVAHzv/O7XutsRWCOsYtfrq26GiaNSoWS8z5pp3Knym85ONqdy7LwbyHxgrIPFJ
+ FPzbw8krXKpLhjgPLQEFmUG1jrb2SviFRvJ4fSGKkG8D8v9sBj1wWCcUjzsyTFd65XbR
+ KXg34KqPdoDUQtUU41WkKxVEsmnq1ihhJWjjDT8wDH3m95yTzWcbGUNoB/IYgTtW/ez/
+ iFEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PEusqV+iSam5oPlEHJm/4+oO4jkqYDYbQ2T0jjTNlWc=;
- b=lzfZt7LDsiXiSYwTRG1ch5ZfkJ+lKi9+RQjRIqQ4HkRamTmNhB2l+Bb3Rzn0S8vKF5
- YkBmnYQHH6Cxl76kRTd4e4hWdY3+PMwzCqwdKJoAb/2/j4rDMUS2qgFMUTHr79wlIWIN
- WkuzUkXXqmxtvrd9E50s13H9y/3tuAe/R2Knk7MoCjhA0yIPgEjQ+vaHAPJQrrBaFTLL
- c2rdhTRdF0gbdgwo9P7N3yn2nIW6i7OWB6WKykebwYd8Llfbza2UgSLyvKrGOfPKvt36
- +N/pj82fRTTcb5QA5WPHCG3R20kdLw2btqXR+xjRQ0xKM9ksZY9xNUeeVMP6VToXsYIR
- +b/A==
-X-Gm-Message-State: APjAAAUfAI6FsgwGf6Upk2u/tQ6cNj/MoSaYMtfS1WLBHVAZYFqNaNBh
- 6ycXxMTWl0iShttYsidJXUU9zQ==
-X-Google-Smtp-Source: APXvYqx5WlIaRSGft+KXLXXBQhaUm8p7j6q54FPbnJ77ELFG1aN3bUUn1HZgfG71dPr5yjJxIrKSTw==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr4010388wmi.152.1582702771855; 
- Tue, 25 Feb 2020 23:39:31 -0800 (PST)
+ bh=RMi+1In6gKc2w24FR1knTLNeyasOeUhkZWRlN7yyp1c=;
+ b=CeUWu7wztti1Gy9c6WlDk9j9kT+16JDyQYjkaEkvO24+0pdTSULR3aaBGW7GxJ3YQv
+ EzvqqRiICUxkxL9J9HUtNiUPJLiZ9Wg0tvt2wMp8ijWmgoCh+CUaUDJK5riQoIFC5zsZ
+ l7EOoJ2Mp8mzJ3zS3DNOfe5h7vTYi6KuqiTWnZjeNjcimBEn2FeKVyi+cuRb7wFZHjvQ
+ /goSB9MGimfNddsUY978NBTUyf7r/fHlNYI7AjqTLiJmTAWrsXIIRgcXrGolh62eSm7U
+ BetdFl2D3pB/EqbeOvikMCNiTrOo56HWQ+gOLpdmFvVjlCbHMw0GLE5sZEBl6p4GiDmF
+ kG+Q==
+X-Gm-Message-State: APjAAAXeYKijGBSVXGLnnvCMeg2KdmZ10oVJpGm9pzEglUtE+CoWyfqX
+ KQCHDmQuUdYkPS/Lb1R/eyD+EPlOeRU=
+X-Google-Smtp-Source: APXvYqwZutVZtTsiL9UgY8bjuLoCo8I8nbdYk3MikgQFTTYxXC0L/r08+ybnmdHJ6n5JQpLUgh9u6Q==
+X-Received: by 2002:a1c:e0d6:: with SMTP id x205mr2559469wmg.29.1582702773004; 
+ Tue, 25 Feb 2020 23:39:33 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y7sm6732756wmd.1.2020.02.25.23.39.29
+ by smtp.gmail.com with ESMTPSA id 133sm1832715wme.32.2020.02.25.23.39.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 25 Feb 2020 23:39:30 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 58DD61FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 6CE091FF8F;
  Wed, 26 Feb 2020 07:39:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/19] tests/tcg: include a skip runner for pauth3 with plugins
-Date: Wed, 26 Feb 2020 07:39:11 +0000
-Message-Id: <20200226073929.28237-2-alex.bennee@linaro.org>
+Subject: [PULL 02/19] tests/rcutorture: update usage hint
+Date: Wed, 26 Feb 2020 07:39:12 +0000
+Message-Id: <20200226073929.28237-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200226073929.28237-1-alex.bennee@linaro.org>
 References: <20200226073929.28237-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +81,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Robert Foley <robert.foley@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we have plugins enabled we still need to have built the test to be
-able to run it.
+Although documented in the comments we don't display all the various
+invocations we can in the usage.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
-Message-Id: <20200225124710.14152-2-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200225124710.14152-3-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index d2299b98b76..71f72cfbe34 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -70,4 +70,6 @@ pauth-3:
- 	$(call skip-test, "BUILD of $@", "missing compiler support")
- run-pauth-3:
- 	$(call skip-test, "RUN of pauth-3", "not built")
-+run-plugin-pauth-3-with-%:
-+	$(call skip-test, "RUN of pauth-3 ($*)", "not built")
- endif
+diff --git a/tests/rcutorture.c b/tests/rcutorture.c
+index 49311c82ea4..e8b2169e7dd 100644
+--- a/tests/rcutorture.c
++++ b/tests/rcutorture.c
+@@ -413,7 +413,8 @@ static void gtest_stress_10_5(void)
+ 
+ static void usage(int argc, char *argv[])
+ {
+-    fprintf(stderr, "Usage: %s [nreaders [ perf | stress ] ]\n", argv[0]);
++    fprintf(stderr, "Usage: %s [nreaders [ [r|u]perf | stress [duration]]\n",
++            argv[0]);
+     exit(-1);
+ }
+ 
 -- 
 2.20.1
 
