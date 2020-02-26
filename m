@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93F1170482
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 17:37:45 +0100 (CET)
-Received: from localhost ([::1]:46836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C351704E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 17:53:47 +0100 (CET)
+Received: from localhost ([::1]:47002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6zgu-0007On-Ru
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 11:37:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55571)
+	id 1j6zwP-0004en-VK
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 11:53:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j6zfi-0006Up-UH
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 11:36:31 -0500
+ (envelope-from <mst@redhat.com>) id 1j6zvL-00043t-Eu
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 11:52:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j6zfh-0004Wm-PN
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 11:36:30 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35574)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j6zfh-0004UY-HY
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 11:36:29 -0500
-Received: by mail-pl1-x644.google.com with SMTP id g6so1499673plt.2
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 08:36:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XGxBi06S5twoQRPY3oVf8T/EbZFE6lieZGOKgkJPxs0=;
- b=Wx8DZSfuUI5EjLOlSbiFPvrD52GfYflKhIwm7j5vn0fyRmzXEqzUNzDWA0PkvqXG++
- uAK3lUF7ZaF9iTIyMRc2J7vOqDIZ5sF+1k58VOReNfutHLi2c7aOE10BDsI7Ixjh2BBe
- zkZrMBanPvMCN4j+M3FtsufdcsYK66CPw60kTwho2Bgkg3MFuXcz+O6Km2DEQUyNk1GL
- N8hgK4xoGONbEgohAavdRCT3LTHX9Dsq6+TXF31Nnl2cmyr22DT2RJjIml9QGprgo7Ok
- oE4T6HGd6kKL6gpXmmGnC4+s927CLg4c6mHJvoDOpUf/Dtq/AuTs9n5bs6X7CujwayWX
- ArGA==
+ (envelope-from <mst@redhat.com>) id 1j6zvK-0004sA-FC
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 11:52:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35515
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6zvK-0004oy-9M
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 11:52:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582735957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O+lzFW2XyuJgwMH81eGxKm0oh/RS80lG5yE4N5Zr4LY=;
+ b=ABd8QSiD1QA8nicCILAcWx0WxSt143C49wzd+r3nLuz1j19G8WD3iFHbW4cIDgWydOwCMp
+ iVU+aegzZ+3JL3hoGsKE9sPNbig2rq1UKxZ2a9o5e3JOWpp+v5TEbn1732Yf2rHm60AdXG
+ K6XOGPn1ZM68c51gDg6rbFVDLDI3gh4=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-3dg7_vc8NIWYjgngTks8yg-1; Wed, 26 Feb 2020 11:52:35 -0500
+X-MC-Unique: 3dg7_vc8NIWYjgngTks8yg-1
+Received: by mail-qk1-f199.google.com with SMTP id 22so1870480qkc.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 08:52:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XGxBi06S5twoQRPY3oVf8T/EbZFE6lieZGOKgkJPxs0=;
- b=MuPfGH2wnZYg3ms7KLsYEOr3KToxI+MTFPbTWycTv+QIYiSodJS0g5LUzKopCGSAj5
- PCu9mAWFDq1KChRwSxgkB/Qm+eH/stJCvEwb9WsgYs4bSSDmc/XOIbIzba6c8A8UAUWu
- 4OGxnK5lbSyD03oTNM+3NGtvxnUCrId8nVs8lhQMIFqAxCMwrUaAGr57x3YwGPFS+hlP
- Gxlok4HACDZHqTau8X4bBH0csu6PCaCUJ1dhqteogkguK0wWq85K8wvfDfQX7pVtfVyB
- gMyWyJfObDjwP5zj2baFw/HlZTuYkJMqEap17c0iC6Qk+twEF2hLrP7A2FxypCUseTqb
- wdqA==
-X-Gm-Message-State: APjAAAUH7OfG5N8ihEPEqD8mZDta7VC/rG7/hT058UttzlPxNfnPWAml
- McP6+uY1DFW+O29MRemL1D7glw==
-X-Google-Smtp-Source: APXvYqzioFTGSliesVsb31cQs30ZB86onewShqJTg+5NwnP3dr5YnwVYFjgG8KTWi9GAomA/tGpgJA==
-X-Received: by 2002:a17:90a:7f93:: with SMTP id
- m19mr5953784pjl.92.1582734986819; 
- Wed, 26 Feb 2020 08:36:26 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/zzolm4Q6neW1majlH6I6kA3UyKZqlRMGjwUdON8vyY=;
+ b=axnhGq9Tc6r06KwuZTVWyOe85Vd2bpI37u+eNaxgGWuEeM8DvhhZXg1fHaGy+BKyTz
+ 6kvQtYPc8CYFHfFa0sjI/WB5HWdMjJyM9cybE2x5fvCFIErTtVV2bLXkAEGZ1f4mqX5I
+ NU1YaLjTo6KBJ7HdgE+2GHRdnnBxLrRBqHFJWaMteb6lFvBwOK9FSvgwGb1DSrpUjGbc
+ rHI7c1qGiLwMdE8jeqFNyJQwJzXPEBsbUn07XQfugGLxihXbP7x/VwOYSfySRxmK2sXV
+ Kd4xvubWLCIKk66q7npI5RaD8SH6O1KkC5yCKBgCM8IiETAcPcdpUkuAr0O5SxpLp+cQ
+ WQEw==
+X-Gm-Message-State: APjAAAUj++Brt8WdPErrKcBrEuU3w0EAZeUHO6oyUDZwfcEGNmkNmZzz
+ 2kpCg6NZ4qCBj+eTPIcWapYkfiawXZyJb1tmTAPojZzLd/ZWPHb7EC8f+ttjJRVY++m4apFZS0u
+ PQNq0pf4d0wvNBjU=
+X-Received: by 2002:a37:9fd0:: with SMTP id i199mr51832qke.60.1582735953272;
+ Wed, 26 Feb 2020 08:52:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxB59Trkp8ZBuYLFtpZaNjmql+vGeSLfn8NYFJ5Dk2A9SzDJosz3JrRxAZ5E+Ufpm88urmWwQ==
+X-Received: by 2002:a37:9fd0:: with SMTP id i199mr51804qke.60.1582735953009;
+ Wed, 26 Feb 2020 08:52:33 -0800 (PST)
+Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- s124sm4051236pfc.57.2020.02.26.08.36.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Feb 2020 08:36:25 -0800 (PST)
-Subject: Re: [PATCH] accel/tcg: remove link between guest ram and TCG cache
- size
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200226152710.31751-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bac7a5a4-c4c4-5102-4fe8-097ab15af29f@linaro.org>
-Date: Wed, 26 Feb 2020 08:36:23 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ l4sm1429277qke.30.2020.02.26.08.52.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 08:52:31 -0800 (PST)
+Date: Wed, 26 Feb 2020 11:52:26 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
+Message-ID: <20200226115009-mutt-send-email-mst@kernel.org>
+References: <20200226094357.25061-1-jasowang@redhat.com>
+ <20200226142839.4263de9b.pasic@linux.ibm.com>
+ <20200226083654-mutt-send-email-mst@kernel.org>
+ <20200226163618.31aa86ed.pasic@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200226152710.31751-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+In-Reply-To: <20200226163618.31aa86ed.pasic@linux.ibm.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,67 +91,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
- qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 7:27 AM, Alex Bennée wrote:
-> Basing the TB cache size on the ram_size was always a little heuristic
-> and was broken by a1b18df9a4 which caused ram_size not to be fully
-> realised at the time we initialise the TCG translation cache.
-> 
-> At the same time the default code generation size seems mainly set to
-> deal with the fact we use a static code buffer for CONFIG_USER to
-> avoid mmap allocation problems on constrained systems. So we:
-> 
->   - only use a static code buffer on 32 bit systems
->   - up the default buffer size for bigger systems
->   - ignore the ram_size and just go with the default
->   - document the fact tb-size is ignored for 32 bit linux-user
-> 
-> The could potentially slow down softmmu emulation on 32 bit systems
-> with lots (3gb?) of spare memory. Those users can still manually up
-> the tb-size via the command line if they do in fact exist.
-> 
-> Fixes: a1b18df9a4
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> ---
-...
-> -#if defined(CONFIG_USER_ONLY)
-> -/* Currently it is not recommended to allocate big chunks of data in
-> -   user mode. It will change when a dedicated libc will be used.  */
-> -/* ??? 64-bit hosts ought to have no problem mmaping data outside the
-> -   region in which the guest needs to run.  Revisit this.  */
-> +#if defined(CONFIG_USER_ONLY) && TCG_TARGET_REG_BITS == 32
-> +/*
-> + * For user mode on smaller 32 bit systems we may run into trouble
-> + * allocating big chunks of data in the right place. On these systems
-> + * we utilise a static code generation buffer directly in the binary.
-> + */
->  #define USE_STATIC_CODE_GEN_BUFFER
->  #endif
->  
-> @@ -927,7 +928,11 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
->  # define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
->  #endif
->  
-> +#if TCG_TARGET_REG_BITS == 32
->  #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32u * 1024 * 1024)
-> +#else
-> +#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (2ul * 1024 * 1024 * 1024)
-> +#endif
+On Wed, Feb 26, 2020 at 04:36:18PM +0100, Halil Pasic wrote:
+> On Wed, 26 Feb 2020 08:37:13 -0500
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>=20
+> > On Wed, Feb 26, 2020 at 02:28:39PM +0100, Halil Pasic wrote:
+> > > On Wed, 26 Feb 2020 17:43:57 +0800
+> > > Jason Wang <jasowang@redhat.com> wrote:
+> > >=20
+> > > > We turn on device IOTLB via VIRTIO_F_IOMMU_PLATFORM unconditionally=
+ on
+> > > > platform without IOMMU support. This can lead unnecessary IOTLB
+> > > > transactions which will damage the performance.
+> > > >=20
+> > > > Fixing this by check whether the device is backed by IOMMU and disa=
+ble
+> > > > device IOTLB.
+> > > >=20
+> > > > Reported-by: Halil Pasic <pasic@linux.ibm.com>
+> > > > Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
+> > > > Cc: qemu-stable@nongnu.org
+> > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > >=20
+> > > Tested-by: Halil Pasic <pasic@linux.ibm.com>
+> > > Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+> > >=20
+> > > Thank you very much for fixing this! BTW as I mentioned before it
+> > > fixes vhost-vsock with iommu_platform=3Don as well.
+> >=20
+> > Fixes as in improves performance?
+>=20
+> No, fixes like one does not get something like:
+> qemu-system-s390x: vhost_set_features failed: Operation not supported (95=
+)
+> qemu-system-s390x: Error starting vhost: 95
+> any more.
+>=20
+> Regards,
+> Halil
+>=20
+> [..]
 
-As Igor notes, there is no -tb-size X or -accel tcg,tb-size=Y option for
-linux-user.  Therefore I'd prefer this patch merely fix the default for softmmu
-and not change linux-user at all.
+But can commit c471ad0e9bd46 actually boot a secure guest
+where iommu_platform=3Don is required?
 
-I agree it is somewhat silly to use the static code gen buffer on a 64-bit
-host, but let's leave that to a separate patch.
+--=20
+MST
 
-
-r~
 
