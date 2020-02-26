@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B796170580
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:07:13 +0100 (CET)
-Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7310D1705AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 18:10:54 +0100 (CET)
+Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j709Q-0007AX-4J
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:07:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38912)
+	id 1j70Cz-0001jW-IQ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 12:10:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j707w-0005Ir-Ps
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:42 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1j70Bi-0000zT-28
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:09:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j707v-0003S7-A0
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40088
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1j70Bg-0006Zj-Mi
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:09:33 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31216
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j707u-0003Po-2M
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:05:38 -0500
+ id 1j70Bg-0006Yj-JF
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 12:09:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582736737;
+ s=mimecast20190719; t=1582736972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hAmtz0PZtJ01TqxO6BuQ6Bgs7TH8sF8IREaBysLJNks=;
- b=Tnw1RJHEAagSgJlIiDsmedA9hCp3SwsSI6HRF47jzOu2IMvNEB3MGt1Uzj74kjK3gzT8m6
- AGSc6ZrFtgzyRhNNhmBeVWANpFWD37/fBiceyPFcW7pGyrP2wt5vLA6DToDyPKUAmweApa
- GOXp//A6JocecqI98epctLRsCtlmC4g=
+ bh=tbipDMXaSAJp7zG5J+AE8EDo2UW8S1OiLcsauThJr7s=;
+ b=Fe2CAiTxKqYRRXsBADcCeAHb3esIK6OCqhy8MengBlP9qR8PyGUFU3rh0BIQ052RGRaoUR
+ 02UkxTKptwjgkuDpsyj90rJvgZb2epf4MuLx8IN0RwRX06uL9CVPrkKfDbWCy6FQZ5AJz0
+ NR2Xxqx/jJoUeE4lunWMxWipeiMlVoI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-Tjsb-ZXPPcWxyDGidr-stw-1; Wed, 26 Feb 2020 12:05:35 -0500
-X-MC-Unique: Tjsb-ZXPPcWxyDGidr-stw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-234-Bk8DxKsVPgGzUpCRct9uYg-1; Wed, 26 Feb 2020 12:09:23 -0500
+X-MC-Unique: Bk8DxKsVPgGzUpCRct9uYg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D07518C8C05;
- Wed, 26 Feb 2020 17:05:34 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8A7660C18;
- Wed, 26 Feb 2020 17:05:19 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-Subject: [RFC 2/2] hw/arm/virt: kvm: allow gicv3 by default if host does not
- support v2
-Date: Wed, 26 Feb 2020 18:05:00 +0100
-Message-Id: <20200226170500.17028-3-eric.auger@redhat.com>
-In-Reply-To: <20200226170500.17028-1-eric.auger@redhat.com>
-References: <20200226170500.17028-1-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22612800D48;
+ Wed, 26 Feb 2020 17:09:22 +0000 (UTC)
+Received: from [10.36.116.59] (ovpn-116-59.ams2.redhat.com [10.36.116.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3C3F27180;
+ Wed, 26 Feb 2020 17:09:20 +0000 (UTC)
+Subject: Re: [PATCH] hw/intc/arm_gic_kvm: Don't assume kernel can provide a
+ GICv2
+From: Auger Eric <eric.auger@redhat.com>
+To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20200225182435.1131-1-peter.maydell@linaro.org>
+ <20200226085209.ni7oph6odt24warq@kamzik.brq.redhat.com>
+ <CAFEAcA-Bhuy+2dU3joZoip5=tOkiTSoC+LzdNzyd+urUnoRNXw@mail.gmail.com>
+ <20200226091750.mqkbqffod247bori@kamzik.brq.redhat.com>
+ <85d78328-0843-3f11-7a79-6010aea3d3dd@redhat.com>
+Message-ID: <a307e207-cf11-e664-1a3f-a2723a8b9852@redhat.com>
+Date: Wed, 26 Feb 2020 18:09:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <85d78328-0843-3f11-7a79-6010aea3d3dd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,113 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: maz@kernel.org, drjones@redhat.com
+Cc: Marc Zyngier <maz@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the moment if the end-user does not specify the gic-version along
-with KVM acceleration, v2 is set by default. However most of the
-systems now have GICv3 and sometimes they do not support GICv2
-compatibility. In that case we end up with this error:
+Hi Peter,
 
-qemu-system-aarch64: PMU: KVM_SET_DEVICE_ATTR: Invalid argument
-qemu-system-aarch64: failed to set irq for PMU
-and qemu aborts.
+On 2/26/20 12:58 PM, Auger Eric wrote:
+> Hi Peter,
+> 
+> On 2/26/20 10:17 AM, Andrew Jones wrote:
+>> On Wed, Feb 26, 2020 at 08:56:03AM +0000, Peter Maydell wrote:
+>>> On Wed, 26 Feb 2020 at 08:52, Andrew Jones <drjones@redhat.com> wrote:
+>>>> Although, many QEMU command line users still won't know what to do
+>>>> without an explicit "Try -machine gic-version=host" hint, so that
+>>>> might be nice to add too.
+>>>
+>>> In the GIC code we don't know if the machine even has a
+>>> gic-version property, so we're not in the right place to try to
+>>> produce that message.
+>>>
+>>
+>> Ah yes, we use qdev_init_nofail() in virt::create_gic(), so there's
+>> no chance to append another hint at the machine level.
+>>
+>> And what about when machine.gic-version is not provided and KVM is
+>> in use? Shouldn't we try version '2', as we do now, but then also
+>> '3', if '2' fails, before erroring out?
+> 
+> In case of KVM accelerated mode we could effectively probe v2 first and
+> if not supported choose v3, as mentioned by Drew.
+> 
+> Couldn't kvm_arm_vgic_probe() return a bitmap by calling
+> kvm_create_device on both versions in dryrun mode?
 
-This patch keeps the default v2 selection in all cases except
-in the KVM accelerated mode when the host does not support v2.
-This case did not work anyway so we do not break any compatibility.
-Now we get v3 selected in such a case. Also if the end-user explicitly
-sets v2 whereas this latter is not supported, we also are
-informed that v2 is not selected by thos host instead of getting the
-above PMU related message.
+I sent an RFC prototyping what we had in mind - I think - together with
+Drew.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
- include/hw/arm/virt.h |  1 +
- 2 files changed, 31 insertions(+)
+[RFC 0/2] hw/arm/virt: kvm: allow gicv3 by default if host does not
+support v2
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index a196bbf0d5..b37b0c40c1 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1554,6 +1554,33 @@ static void machvirt_init(MachineState *machine)
-                 }
-             }
-         }
-+    } else if (kvm_enabled()) {
-+        int probe_bitmap =3D kvm_arm_vgic_probe();
-+
-+        if (!probe_bitmap) {
-+            error_report(
-+                "Unable to determine GIC version supported by host");
-+            exit(1);
-+        }
-+        if (!vms->gic_version_user_selected) {
-+            /*
-+             * by default v2 is supposed to be chosen: check it is
-+             * supported by the host. Otherwise take v3.
-+             */
-+            if (probe_bitmap & KVM_ARM_VGIC_V2) {
-+                vms->gic_version =3D 2;
-+            } else if (probe_bitmap & KVM_ARM_VGIC_V3) {
-+                vms->gic_version =3D 3;
-+            }
-+        } else { /* user explicitly set the version to 2 or 3 */
-+            if (vms->gic_version =3D=3D 2 && !(probe_bitmap & KVM_ARM_VGIC=
-_V2)) {
-+                error_report("GICv2 is not supported by the host");
-+                exit(1);
-+            } else if (vms->gic_version =3D=3D 3 && !(probe_bitmap & KVM_A=
-RM_VGIC_V3)) {
-+                error_report("GICv3 is not supported by the host");
-+                exit(1);
-+            }
-+        }
-     }
-=20
-     if (!cpu_type_valid(machine->cpu_type)) {
-@@ -1840,6 +1867,7 @@ static void virt_set_gic_version(Object *obj, const c=
-har *value, Error **errp)
- {
-     VirtMachineState *vms =3D VIRT_MACHINE(obj);
-=20
-+    vms->gic_version_user_selected =3D true;
-     if (!strcmp(value, "3")) {
-         vms->gic_version =3D 3;
-     } else if (!strcmp(value, "2")) {
-@@ -1851,6 +1879,7 @@ static void virt_set_gic_version(Object *obj, const c=
-har *value, Error **errp)
-     } else {
-         error_setg(errp, "Invalid gic-version value");
-         error_append_hint(errp, "Valid values are 3, 2, host, max.\n");
-+        vms->gic_version_user_selected =3D false;
-     }
- }
-=20
-@@ -2103,6 +2132,7 @@ static void virt_instance_init(Object *obj)
-                                     NULL);
-     /* Default GIC type is v2 */
-     vms->gic_version =3D 2;
-+    vms->gic_version_user_selected =3D false;
-     object_property_add_str(obj, "gic-version", virt_get_gic_version,
-                         virt_set_gic_version, NULL);
-     object_property_set_description(obj, "gic-version",
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 71508bf40c..e363cde452 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -124,6 +124,7 @@ typedef struct {
-     bool its;
-     bool virt;
-     int32_t gic_version;
-+    bool gic_version_user_selected;
-     VirtIOMMUType iommu;
-     struct arm_boot_info bootinfo;
-     MemMapEntry *memmap;
---=20
-2.20.1
+This was discussed earlier in that thread:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg674469.html.
+
+It should not break any compatibility as the only case we are supposed
+to change here was aborting before.
+
+Thanks
+
+Eric
+> 
+> Thanks
+> 
+> Eric
+> 
+>>
+>> Thanks,
+>> drew
+>>
+>>
 
 
