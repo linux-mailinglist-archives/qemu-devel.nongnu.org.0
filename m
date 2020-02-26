@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52DA17075D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:12:51 +0100 (CET)
-Received: from localhost ([::1]:48358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09B4170764
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 19:14:17 +0100 (CET)
+Received: from localhost ([::1]:48410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j71Aw-0002CY-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:12:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40701)
+	id 1j71CL-0004jg-1B
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 13:14:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j718g-0007DV-Ak
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:31 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j718h-0007Gy-ED
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j718f-00067T-9q
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:30 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52080)
+ (envelope-from <alex.bennee@linaro.org>) id 1j718g-00068Y-FG
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:31 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37061)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j718f-00066o-3d
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:29 -0500
-Received: by mail-wm1-x344.google.com with SMTP id t23so276429wmi.1
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:10:29 -0800 (PST)
+ id 1j718g-00067j-9M
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 13:10:30 -0500
+Received: by mail-wr1-x442.google.com with SMTP id l5so4305157wrx.4
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 10:10:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qFnkfoP8m+qXflyejUwS/Vipa7DcI1oKmkPYEaLcY/E=;
- b=eQSzHAVFumHhzYdBXmXaE+cLeTGQO0bIkGTK6aArG9UlqWjheMpZwpKL2FFgVCBK2A
- jrTISFiiSo7GVEZzZb5FDb5B10PDCEK94WFe8EA11eFdDJOjDVKNmt7Qjj/SQqpZtOTS
- naulW5shQLyMIwS/Sxe4vvJG1Jg03fulYxnAADa2iP7OMVL0l8A9VV302ePNKILWztuv
- tNfhuOBrR2YUAUidiH5j3D4e8QeGaYjxNb96U7k2pLCYi3foTMLgEVcWoyOfXUGlhibb
- WLQU+7ENJcHPPwKfrmyh7MfDZE+lGhk/Q1/QpCOfhCMGX6qJJoNyLwOz4pKCOe0QT/Y/
- HcHw==
+ bh=mGdhokziaFlD24j2e180ug759eZelaxuW6pu6HeYdT8=;
+ b=S6PCTofgeYtP2Wsm4aYo/W9iKZZgEEkaoEfhMSkuk3t1Gw1gr4k6Ei0rXViBm7YXON
+ k9MUApcURl81lTk0y1GvkekR2TQE8wka0qKAdw/rKYg96Hou3ySxw57m1QJMBbW/UYiw
+ Yg9teIYwwZHdAo8cKaMy990lCu5CSR9f4+6xxk7E/YhcPnfi8z5SO+hhbgpIGNuD+dji
+ V4AHxWNrEWkaMR5Aij9+ZPs4jjuWRketPCY1enCZ4u5ZkfkZw4Zy8HdNd412kXlNg+6c
+ TBSZj0eo5h8i9LPuWlxK2g2HAJ7thZc9oY+v9dwOtqxxw/gJkY6bS65f6l5OSwcuSMD/
+ CSOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qFnkfoP8m+qXflyejUwS/Vipa7DcI1oKmkPYEaLcY/E=;
- b=XFaUy3J3bRx4pL/8RsNBeFafvuvcunxhJxFA6R8c9gksh5lLWm+9zLSOf019L0BS/1
- yJPRM1BhQsMW8pY2yjNctX8hfvyQKzKX391V5mVHtxjWzFQMsGli0xyGrXARm3zSqaNx
- JZIkhXif3ppme0BvSG6lnnzQAZ2HAmOfPDoxFvwLHGSs+jhdv7GSQQy+IysgFK+5EH4g
- 9bkg0/yXkh97DHLicjXTIfn58vG4WVOQkKsE6m/HCVs/jfGqKtOrlkiBIuXu+KiWmUbQ
- a3eYjb79KCcqdoVP2Xxd3D43jEVMs3vEL1jk/KQvFGess+Z+krQNeSvHvVQ00jEVt4xl
- l8wA==
-X-Gm-Message-State: APjAAAWIa0OoF5RNBuD1ydb2iUnuc5WAqRmWcxWhgS7ODr85Bf1rQT/t
- UBEOtQWpaUhjmlMugg8lZZzkIw==
-X-Google-Smtp-Source: APXvYqyU7dH6wL9d0FysM1K0oct/PLODu+U5CObWBIGDNsmE1uCTxo0a9lj/QQUm2E0m1Jup4eHpJw==
-X-Received: by 2002:a7b:c152:: with SMTP id z18mr132561wmi.70.1582740628019;
- Wed, 26 Feb 2020 10:10:28 -0800 (PST)
+ bh=mGdhokziaFlD24j2e180ug759eZelaxuW6pu6HeYdT8=;
+ b=aZUefVf4gNd1AHE2vepf93jCyrlhhlm9GJ3Ll+rPQEUdwgm1AE/9yUN+Ow55wKCcbB
+ s87yMsvjb9julad906z+rK99vPfTLMsEG1Ygr/NdJx+3YmU5Gms9o9HjxfpGEoW7KSMy
+ wTFILWzkDGXcoOkZ2nl2vyaZbG4/tCDdxkeDAu0qQl9MQSt643B1mVuCAfNNebrjRmRb
+ wU0TR9br33d22IZDOJBXPjBDwLKegbJ14/dn7k7zfKaZQU8m75153YQzEJBTh6LA2I4J
+ ucnc6088BhpPMMfbOunysPib9iPSCJLQASUoTzFweRvuCH5l5KZpOwVvMumuALdYOUiP
+ 5JKQ==
+X-Gm-Message-State: APjAAAUhCFy/3U3+HDTxZaEuoU0aZzBul5FrWuNpprYkKJVlaSe91P1s
+ aXcJmDv4AspZGnPz9D6YZ/hhjQ==
+X-Google-Smtp-Source: APXvYqxGDjFnY6b5blMr7GM/ru+U+9CiqyaFPCP0PoqNCXpX+OmvjNLgdq3NDV7f/mRHl9YpzpqytA==
+X-Received: by 2002:a5d:440f:: with SMTP id z15mr6669505wrq.420.1582740629273; 
+ Wed, 26 Feb 2020 10:10:29 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a3sm4411073wrq.63.2020.02.26.10.10.21
+ by smtp.gmail.com with ESMTPSA id n5sm4223973wrq.40.2020.02.26.10.10.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 10:10:23 -0800 (PST)
+ Wed, 26 Feb 2020 10:10:25 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1EC1B1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 326FD1FF91;
  Wed, 26 Feb 2020 18:10:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/4] accel/tcg: only USE_STATIC_CODE_GEN_BUFFER on 32 bit
- hosts
-Date: Wed, 26 Feb 2020 18:10:19 +0000
-Message-Id: <20200226181020.19592-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 4/4] accel/tcg: increase default code gen buffer size for
+ 64 bit
+Date: Wed, 26 Feb 2020 18:10:20 +0000
+Message-Id: <20200226181020.19592-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200226181020.19592-1-alex.bennee@linaro.org>
 References: <20200226181020.19592-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,37 +88,32 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no particular reason to use a static codegen buffer on 64 bit
-hosts as we have address space to burn. Allow the common CONFIG_USER
-case to use the mmap'ed buffers like SoftMMU.
+While 32mb is certainly usable a full system boot ends up flushing the
+codegen buffer nearly 100 times. Increase the default on 64 bit hosts
+to take advantage of all that spare memory. After this change I can
+boot my tests system without any TB flushes.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/translate-all.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ accel/tcg/translate-all.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 5b66af783b5..4ce5d1b3931 100644
+index 4ce5d1b3931..f7baa512059 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -892,11 +892,12 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
-     }
- }
- 
--#if defined(CONFIG_USER_ONLY)
--/* Currently it is not recommended to allocate big chunks of data in
--   user mode. It will change when a dedicated libc will be used.  */
--/* ??? 64-bit hosts ought to have no problem mmaping data outside the
--   region in which the guest needs to run.  Revisit this.  */
-+#if defined(CONFIG_USER_ONLY) && TCG_TARGET_REG_BITS == 32
-+/*
-+ * For user mode on smaller 32 bit systems we may run into trouble
-+ * allocating big chunks of data in the right place. On these systems
-+ * we utilise a static code generation buffer directly in the binary.
-+ */
- #define USE_STATIC_CODE_GEN_BUFFER
+@@ -929,7 +929,11 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+ # define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
  #endif
  
++#if TCG_TARGET_REG_BITS == 32
+ #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
++#else
++#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (2 * GiB)
++#endif
+ 
+ #define DEFAULT_CODE_GEN_BUFFER_SIZE \
+   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
 -- 
 2.20.1
 
