@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEAE16FF09
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:31:15 +0100 (CET)
-Received: from localhost ([::1]:43636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E2316FF11
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 13:33:26 +0100 (CET)
+Received: from localhost ([::1]:43670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6vqM-00035O-7b
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:31:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54057)
+	id 1j6vsU-0005pp-3V
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 07:33:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59065)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1j6vh1-00040q-UY
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:21:37 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j6vnK-0007na-RW
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1j6vh0-0001Yz-NI
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:21:35 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49006)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1j6vh0-0000ix-F2
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:21:34 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QCKt6n139085
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 07:21:23 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ydq6guhrh-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 07:21:22 -0500
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 26 Feb 2020 12:21:05 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 26 Feb 2020 12:21:03 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QCL2W32031958
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 12:21:02 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8BB2211C054;
- Wed, 26 Feb 2020 12:21:02 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D36C611C04A;
- Wed, 26 Feb 2020 12:21:01 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.152.224.212])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 12:21:01 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 18/18] docs: Add protvirt docs
-Date: Wed, 26 Feb 2020 07:20:38 -0500
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200226122038.61481-1-frankja@linux.ibm.com>
-References: <20200226122038.61481-1-frankja@linux.ibm.com>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j6vnE-0007Th-Uc
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 07:28:06 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:41400)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j6vnC-00075r-0e; Wed, 26 Feb 2020 07:27:58 -0500
+Received: by mail-yw1-f65.google.com with SMTP id h6so167628ywc.8;
+ Wed, 26 Feb 2020 04:27:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zXiBwlFgIMdrvUdeU+34KHi9Vw3Mcx+YL09TYworXoE=;
+ b=ow2G4LRfwt+hd6wAJPTdxi751UPCEzmbmdmMNGin1d4r8rzdc2Zyyl9AUMwBSDjcFR
+ 9YcPrCcEi+wEMMFgPT2IfLjnnEfH7ERqeOIUlMH93PkJVhbNA67ZbqNvdrtKvuH1Y6Sk
+ qDWq05iKkKOOHSWREzEh6+/4a1HB4h2RPR4nM/txCoZUEIFg867V+ornGTVLBICdOmU8
+ coss8Qd01Yvw5rSOxTIde+aaPBvYL041h/DxdtH8WOLkZ9b40UrxgxEjYUUp5EXVO5rx
+ OhHpwETsPSSgg4F0SzqVdlIzqH25NvXQ/+sHQqk8NcQ6cp/s2A+HU7ZKxkp13ZCmaP9C
+ +V9g==
+X-Gm-Message-State: APjAAAW+lUlmieuBk12e/SEj2y1XfVex+l1hscQS1sviDlWsMzgYR8cs
+ bzX9FhR9RR6h+cKSVwnoQ17ifKo2LernnQiAPGI=
+X-Google-Smtp-Source: APXvYqz3W1RispGXdoXDFeIO25cige6S8PSd9tmPRFO4FmAqcnFqpanaAwFYQ87+wgoYcqksP4zaF8lM3dO1t/5u+KQ=
+X-Received: by 2002:a81:8443:: with SMTP id u64mr3323124ywf.443.1582720076891; 
+ Wed, 26 Feb 2020 04:27:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20022612-0028-0000-0000-000003DE2597
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20022612-0029-0000-0000-000024A3415D
-Message-Id: <20200226122038.61481-19-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-26_04:2020-02-26,
- 2020-02-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- spamscore=0 impostorscore=0 suspectscore=1 bulkscore=0 mlxlogscore=999
- clxscore=1015 priorityscore=1501 malwarescore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002260092
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+References: <158271897341.44994.2741557659975232894.stgit@lep8c.aus.stglabs.ibm.com>
+In-Reply-To: <158271897341.44994.2741557659975232894.stgit@lep8c.aus.stglabs.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Wed, 26 Feb 2020 13:27:45 +0100
+Message-ID: <CAAdtpL5gYr9ZRhSdqfhKMVQ41BUUZqYbbFGyMLTPaROfazW8cA@mail.gmail.com>
+Subject: Re: [PATCH] spapr: Fix Coverity warning while validating nvdimm
+ options
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Content-Type: multipart/alternative; boundary="000000000000f6497d059f79bb9b"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.161.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,93 +64,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Lets add some documentation for the Protected VM functionality.
+--000000000000f6497d059f79bb9b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- docs/system/index.rst    |  1 +
- docs/system/protvirt.rst | 57 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 docs/system/protvirt.rst
+Le mer. 26 f=C3=A9vr. 2020 13:11, Shivaprasad G Bhat <sbhat@linux.ibm.com> =
+a
+=C3=A9crit :
 
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 1a4b2c82ac..d2dc63b973 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -16,3 +16,4 @@ Contents:
- 
-    qemu-block-drivers
-    vfio-ap
-+   protvirt
-diff --git a/docs/system/protvirt.rst b/docs/system/protvirt.rst
-new file mode 100644
-index 0000000000..a1902cc47c
---- /dev/null
-+++ b/docs/system/protvirt.rst
-@@ -0,0 +1,57 @@
-+Protected Virtualization on s390x
-+=================================
-+
-+The memory and most of the register contents of Protected Virtual
-+Machines (PVMs) are inaccessible to the hypervisor, effectively
-+prohibiting VM introspection when the VM is running. At rest, PVMs are
-+encrypted and can only be decrypted by the firmware of specific IBM Z
-+machines.
-+
-+
-+Prerequisites
-+-------------
-+
-+To run PVMs, you need to have a machine with the Protected
-+Virtualization feature, which is indicated by the Ultravisor Call
-+facility (stfle bit 158). This is a KVM only feature, therefore you
-+need a KVM which is able to support PVMs and activate the Ultravisor
-+initialization by setting `prot_virt=1` on the kernel command line.
-+
-+If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
-+will indicate that KVM can support PVMs on that LPAR.
-+
-+
-+QEMU Settings
-+-------------
-+
-+To indicate to the VM that it can move into protected mode, the
-+`Unpack facility` (stfle bit 161) needs to be part of the cpu model of
-+the VM.
-+
-+All I/O devices need to use the IOMMU.
-+Passthrough (vfio) devices are currently not supported.
-+
-+Host huge page backings are not supported. The guest however can use
-+huge pages as indicated by its facilities.
-+
-+
-+Boot Process
-+------------
-+
-+A secure guest image can be both booted from disk and using the QEMU
-+command line. Booting from disk is done by the unmodified s390-ccw
-+BIOS. I.e., the bootmap is interpreted and a number of components is
-+read into memory and control is transferred to one of the components
-+(zipl stage3), which does some fixups and then transfers control to
-+some program residing in guest memory, which is normally the OS
-+kernel. The secure image has another component prepended (stage3a)
-+which uses the new diag308 subcodes 8 and 10 to trigger the transition
-+into secure mode.
-+
-+Booting from the command line requires that the file passed
-+via -kernel has the same memory layout as would result from the disk
-+boot. This memory layout includes the encrypted components (kernel,
-+initrd, cmdline), the stage3a loader and metadata. In case this boot
-+method is used, the command line options -initrd and -cmdline are
-+ineffective.  The preparation of secure guest image is done by a
-+program (name tbd) of the s390-tools package.
--- 
-2.20.1
+> Fixes Coverity issue,
+>       CID 1419883:  Error handling issues  (CHECKED_RETURN)
+>            Calling "qemu_uuid_parse" without checking return value
+>
+> nvdimm_set_uuid() already verifies if the user provided uuid is valid or
+> not. So, need to check for the validity during pre-plug validation again.
+>
+> As this a false positive in this case, assert if not valid to be safe.
+>
+> Reported-by: Coverity (CID 1419883)
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> ---
+>  hw/ppc/spapr_nvdimm.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+> index 74eeb8bb74..051727536e 100644
+> --- a/hw/ppc/spapr_nvdimm.c
+> +++ b/hw/ppc/spapr_nvdimm.c
+> @@ -44,7 +44,7 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm,
+> uint64_t size,
+>      }
+>
+>      uuidstr =3D object_property_get_str(OBJECT(nvdimm), NVDIMM_UUID_PROP=
+,
+> NULL);
+> -    qemu_uuid_parse(uuidstr, &uuid);
+> +    g_assert(qemu_uuid_parse(uuidstr, &uuid) =3D=3D 0);
+>
 
+From https://developer.gnome.org/glib/stable/glib-Testing.html#g-assert
+
+The macro can be turned off in final releases of code by defining
+G_DISABLE_ASSERT when compiling the application, so code must not depend on
+any side effects from expr.
+
+This looks like bad pattern example.
+
+     g_free(uuidstr);
+>
+>      if (qemu_uuid_is_null(&uuid)) {
+>
+>
+>
+
+--000000000000f6497d059f79bb9b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Le mer. 26 f=C3=A9vr. 2020 13:11, Shivaprasad G Bhat &lt;<a hr=
+ef=3D"mailto:sbhat@linux.ibm.com" target=3D"_blank" rel=3D"noreferrer">sbha=
+t@linux.ibm.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">Fixes Coverity issue,<br>
+=C2=A0 =C2=A0 =C2=A0 CID 1419883:=C2=A0 Error handling issues=C2=A0 (CHECKE=
+D_RETURN)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Calling &quot;qemu_uuid_parse&quot=
+; without checking return value<br>
+<br>
+nvdimm_set_uuid() already verifies if the user provided uuid is valid or<br=
+>
+not. So, need to check for the validity during pre-plug validation again.<b=
+r>
+<br>
+As this a false positive in this case, assert if not valid to be safe.<br>
+<br>
+Reported-by: Coverity (CID 1419883)<br>
+Signed-off-by: Shivaprasad G Bhat &lt;<a href=3D"mailto:sbhat@linux.ibm.com=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">sbhat@linux.ibm.com</a>&g=
+t;<br>
+---<br>
+=C2=A0hw/ppc/spapr_nvdimm.c |=C2=A0 =C2=A0 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c<br>
+index 74eeb8bb74..051727536e 100644<br>
+--- a/hw/ppc/spapr_nvdimm.c<br>
++++ b/hw/ppc/spapr_nvdimm.c<br>
+@@ -44,7 +44,7 @@ void spapr_nvdimm_validate_opts(NVDIMMDevice *nvdimm, uin=
+t64_t size,<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0uuidstr =3D object_property_get_str(OBJECT(nvdimm), NVD=
+IMM_UUID_PROP, NULL);<br>
+-=C2=A0 =C2=A0 qemu_uuid_parse(uuidstr, &amp;uuid);<br>
++=C2=A0 =C2=A0 g_assert(qemu_uuid_parse(uuidstr, &amp;uuid) =3D=3D 0);<br><=
+/blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">From =
+<a href=3D"https://developer.gnome.org/glib/stable/glib-Testing.html#g-asse=
+rt" target=3D"_blank" rel=3D"noreferrer">https://developer.gnome.org/glib/s=
+table/glib-Testing.html#g-assert</a><br></div><div dir=3D"auto"><br></div><=
+div dir=3D"auto"><span style=3D"color:rgb(85,85,85);font-family:cantarell,&=
+#39;droid sans&#39;,ubuntu,&#39;dejavu sans&#39;,arial,sans-serif;font-size=
+:14px;background-color:rgb(255,255,255)">The macro can be turned off in fin=
+al releases of code by defining=C2=A0</span><code style=3D"margin:0px;paddi=
+ng:1px;border:0px;font-size:14px;vertical-align:baseline;color:rgb(85,85,85=
+);background:rgba(0,0,0,0.0980392)">G_DISABLE_ASSERT</code><span style=3D"c=
+olor:rgb(85,85,85);font-family:cantarell,&#39;droid sans&#39;,ubuntu,&#39;d=
+ejavu sans&#39;,arial,sans-serif;font-size:14px;background-color:rgb(255,25=
+5,255)">=C2=A0when compiling the application, so code must not depend on an=
+y side effects from expr.</span><br></div><div dir=3D"auto"><span style=3D"=
+color:rgb(85,85,85);font-family:cantarell,&#39;droid sans&#39;,ubuntu,&#39;=
+dejavu sans&#39;,arial,sans-serif;font-size:14px;background-color:rgb(255,2=
+55,255)"><br></span></div><div dir=3D"auto">This looks like bad pattern exa=
+mple.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0g_free(uuidstr);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (qemu_uuid_is_null(&amp;uuid)) {<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000f6497d059f79bb9b--
 
