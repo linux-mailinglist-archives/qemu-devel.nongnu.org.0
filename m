@@ -2,46 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0085816FE1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:45:47 +0100 (CET)
-Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888D116FE34
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 12:48:52 +0100 (CET)
+Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6v8M-0004J1-2X
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:45:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56889)
+	id 1j6vBL-0007Q2-JT
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 06:48:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60509)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j6v1k-0003nT-MR
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:38:58 -0500
+ (envelope-from <mst@redhat.com>) id 1j6v7I-0003vx-Sz
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:44:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j6v1f-00024f-Hq
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:38:54 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60527)
+ (envelope-from <mst@redhat.com>) id 1j6v7H-0004g4-LX
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:44:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32006
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1j6v1d-0001yu-PO; Wed, 26 Feb 2020 06:38:50 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A0314747DFA;
- Wed, 26 Feb 2020 12:38:46 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6FE86747DF7; Wed, 26 Feb 2020 12:38:46 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6E9A7747DF5;
- Wed, 26 Feb 2020 12:38:46 +0100 (CET)
-Date: Wed, 26 Feb 2020 12:38:46 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: Issue with vl.c: move -m parsing after memory backends has been
- processed. Commit a1b18df9a4848fc8a906e40c275063bfe9ca2047
-In-Reply-To: <CABLmASF7CoOufGDz-1d-Py3t1PN3CrWdN64XAzgAx4=rbSxGEA@mail.gmail.com>
-Message-ID: <alpine.BSF.2.22.395.2002261237310.39786@zero.eik.bme.hu>
-References: <CABLmASF7CoOufGDz-1d-Py3t1PN3CrWdN64XAzgAx4=rbSxGEA@mail.gmail.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6v7G-0004ew-BM
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 06:44:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582717477;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b2x94qZCIq4oqbhE7y5Dwa5PJ+QYeto4ruMNKJOAWgs=;
+ b=hnPjYosdH4F6KBXoQMd4ctUeGkfq7EKYTbqVFedaTP0mwC+aDlRfkYLncihrfEeh2VLz/y
+ rtGcBO9uNUM2uIK0afEI5c3mc41DWpTCuyxZo/+ch8NyPWnYow0USdw5wB7zLEL0L6h7gF
+ mseh3oj36fApCTjxNx0gHLc2aU19ThE=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-E1GyQ9QuNhq9bo3H1KcimQ-1; Wed, 26 Feb 2020 06:44:33 -0500
+X-MC-Unique: E1GyQ9QuNhq9bo3H1KcimQ-1
+Received: by mail-qt1-f197.google.com with SMTP id g26so4048706qts.16
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 03:44:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Ys+uwEZu0g1CxAD2/8HYnVrCJgaIzzZ14z/dg/SL1WQ=;
+ b=VKczEe3vh5OKYg17yd3zyFC2ehP/7BH5XH+fuyAWerD9yAW5n9FjdPPQrA2O5VpRyj
+ wDYjwcbZDLIBfkGXntLvWWdvzHEJcDwF8kLIpmwef+Ts5FK/EWpKq0oSp9mfi7hqDX9q
+ zHZYtoe1rvxyI3wT1KdqP5cfvXAZODl8Aa6ZwvrtLFFlR7UWMzGRl9+xe+SccasX6Rrg
+ TCXh0o7XbxeUBJpJlg7XCS33fom+bEEim0haKUKaPh6sqI1NtgZyzW7y0c8t8hpQKm67
+ B5MEStiakk0VlZblILDBUJlSnELmCXBrHZ+ynzAPurrxipCQK5ZfddZKxZkUoLbj8jLD
+ DUqg==
+X-Gm-Message-State: APjAAAUMrzobLZ2/gR9Cj5cKkuVfQNlH/+7aasPTudoK0+AycbDN+wVS
+ 6JQxDdCta/k2aoRcYA+KtLCbnAmgBY/xvptvMMLgClelOj0a1t9d9EX+Ph6GYo5IHUvLpFGDFJp
+ J+pWPpFhFstFSgRo=
+X-Received: by 2002:a05:620a:74c:: with SMTP id
+ i12mr5364863qki.286.1582717472994; 
+ Wed, 26 Feb 2020 03:44:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyHgpQUxeWxfZ7WvtdlldTV/pODsSVa+J52m5Z1uT5GGUCo80qy03aHUdGQqrMt6Mua7OZ3jw==
+X-Received: by 2002:a05:620a:74c:: with SMTP id
+ i12mr5364830qki.286.1582717472621; 
+ Wed, 26 Feb 2020 03:44:32 -0800 (PST)
+Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
+ by smtp.gmail.com with ESMTPSA id
+ x19sm944949qtm.47.2020.02.26.03.44.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 03:44:30 -0800 (PST)
+Date: Wed, 26 Feb 2020 06:44:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
+Message-ID: <20200226064243-mutt-send-email-mst@kernel.org>
+References: <20200226094357.25061-1-jasowang@redhat.com>
+ <20200226045128-mutt-send-email-mst@kernel.org>
+ <bd592433-71b9-773f-97ef-f5da87734b05@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+In-Reply-To: <bd592433-71b9-773f-97ef-f5da87734b05@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,64 +93,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pasic@linux.ibm.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Wed, Feb 26, 2020 at 06:17:34PM +0800, Jason Wang wrote:
+>=20
+> On 2020/2/26 =E4=B8=8B=E5=8D=885:53, Michael S. Tsirkin wrote:
+> > On Wed, Feb 26, 2020 at 05:43:57PM +0800, Jason Wang wrote:
+> > > We turn on device IOTLB via VIRTIO_F_IOMMU_PLATFORM unconditionally o=
+n
+> > > platform without IOMMU support. This can lead unnecessary IOTLB
+> > > transactions which will damage the performance.
+> > >=20
+> > > Fixing this by check whether the device is backed by IOMMU and disabl=
+e
+> > > device IOTLB.
+> > >=20
+> > > Reported-by: Halil Pasic <pasic@linux.ibm.com>
+> > > Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
+> > Well it's just an optimization, isn't it?
+>=20
+>=20
+> Kind of, or a fix for the performance.
+>=20
 
-On Wed, 26 Feb 2020, Howard Spoelstra wrote:
-> Hi all,
->
-> Commit a1b18df9a4848fc8a906e40c275063bfe9ca2047 on the ppc-for-50 branch
-> makes qemu-system-ppc running Mac OS 9 extremely slow. I bisected to the
-> result below.
->
-> Command line used:
-> ./qemu-system-ppc -L pc-bios -M mac99,via=pmu -m 512 -boot c \
-> -hda 9.2.img \
-> -serial stdio -sdl
->
-> Best,
-> Howard
->
-> a1b18df9a4848fc8a906e40c275063bfe9ca2047 is the first bad commit
-> commit a1b18df9a4848fc8a906e40c275063bfe9ca2047
-> Author: Igor Mammedov <imammedo@redhat.com>
+Given this wasn't a regression, it's a valuable enhancement
+but Fixes: seems to agressive.
 
-Isn't this the same as what's discussed in
+> > I don't think it's justified to push this to everyone using
+> > vhost with IOTLB, is it?
+>=20
+>=20
+> My understanding is that the function should be equivalent to IOTLB in th=
+is
+> case.
+>=20
+> Since no IOMMU is used and device may only see GPA.
+>=20
+> Another possible direction is to qemu to update memory table via device
+> IOTLB API, this seems less straightforward.
+>=20
+>=20
+> > If you disagree, could you comment a bit on which configurations where =
+tested?
+>=20
+>=20
+> I just do dirty shortcut to emulate the platform without get_dma_as wth
+> IOMMU_PLATFORM set.
+>=20
+> Thanks
 
-https://lists.nongnu.org/archive/html/qemu-devel/2020-02/msg07229.html
+If you want Fixes tag with an expectation of everyone backporting,
+then this also needs to be tested on a platform with a viommu,
+such as dpdk within guest.
 
-Regards,
-BALATON Zoltan
+>=20
+> >=20
+> > > Cc: qemu-stable@nongnu.org
+> > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > Halil could you test this pls? Does this help your performance issue?
+> >=20
+> > > ---
+> > > Changes from V1:
+> > > - do not check acked_features
+> > > - reuse vhost_dev_has_iommu()
+> > > ---
+> > >   hw/virtio/vhost.c | 12 +++++++++++-
+> > >   1 file changed, 11 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> > > index 9edfadc81d..9182a00495 100644
+> > > --- a/hw/virtio/vhost.c
+> > > +++ b/hw/virtio/vhost.c
+> > > @@ -290,7 +290,14 @@ static int vhost_dev_has_iommu(struct vhost_dev =
+*dev)
+> > >   {
+> > >       VirtIODevice *vdev =3D dev->vdev;
+> > > -    return virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > > +    /*
+> > > +     * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+> > > +     * incremental memory mapping API via IOTLB API. For platform th=
+at
+> > > +     * does not have IOMMU, there's no need to enable this feature
+> > > +     * which may cause unnecessary IOTLB miss/update trnasactions.
+> > > +     */
+> > > +    return vdev->dma_as !=3D &address_space_memory &&
+> > > +           virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > >   }
+> > >   static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+> > > @@ -765,6 +772,9 @@ static int vhost_dev_set_features(struct vhost_de=
+v *dev,
+> > >       if (enable_log) {
+> > >           features |=3D 0x1ULL << VHOST_F_LOG_ALL;
+> > >       }
+> > > +    if (!vhost_dev_has_iommu(dev)) {
+> > > +        features &=3D ~(0x1ULL << VIRTIO_F_IOMMU_PLATFORM);
+> > > +    }
+> > >       r =3D dev->vhost_ops->vhost_set_features(dev, features);
+> > >       if (r < 0) {
+> > >           VHOST_OPS_DEBUG("vhost_set_features failed");
+> > > --=20
+> > > 2.19.1
 
-> Date:   Wed Feb 19 11:08:40 2020 -0500
->
->    vl.c: move -m parsing after memory backends has been processed
->
->    It will be possible for main RAM to come from memory-backend
->    and we should check that size specified in -m matches the size
->    of the backend and [MachineState::]ram_size also matches
->    backend's size.
->
->    However -m parsing (set_memory_options()) happens before backends
->    are intialized (object_create_delayed()) which complicates it.
->    Consolidate set_memory_options() and assigning parsed results to
->    current_machine after backends are initialized, so it would be
->    possible access the initialized backend instance to compare
->    sizes.
->
->    This patch only consolidates scattered places touching ram_size
->    within vl.c. And follow up patch will integrate backend handling
->    to set_memory_options().
->
->    Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->    Message-Id: <20200219160953.13771-7-imammedo@redhat.com>
->
-> vl.c | 27 ++++++++++++++-------------
-> 1 file changed, 14 insertions(+), 13 deletions(-)
->
 
