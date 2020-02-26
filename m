@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C522016FA4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:11:24 +0100 (CET)
-Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FA116FA4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Feb 2020 10:11:55 +0100 (CET)
+Received: from localhost ([::1]:40576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j6six-0004Dr-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:11:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58815)
+	id 1j6sjS-0005AT-QE
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 04:11:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j6seM-000413-ML
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:06:42 -0500
+ (envelope-from <mst@redhat.com>) id 1j6seY-0004M5-Dj
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:06:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j6seJ-0007NQ-1D
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:06:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55262
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1j6seU-00082N-Q6
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:06:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24372
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6seI-0007Li-Py
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:06:34 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j6seU-0007zp-IU
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 04:06:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582707994;
+ s=mimecast20190719; t=1582708006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=whxdbRDtGph1XoeAoFrZk0n29mBRrdB26RATWp05X0g=;
- b=hj9Gn64bGfYm2NlUpt/K6/d+Ja215W+CJGiTF9KBZ+sLWJZ9wkp7P5UCdYFvXU130ZLhOv
- rPRZjy1fqdFVDB8LLKimtcajSM3VX3aV5BAo/xzSgPv2Swv98zhoCUbCVdiGRcwaBKHrKU
- 0hiLH59VoliX0rx3x8CEnbVl3CFo3t0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-vcWPHnf8MEi6LVJm-1Xa7Q-1; Wed, 26 Feb 2020 04:06:32 -0500
-X-MC-Unique: vcWPHnf8MEi6LVJm-1Xa7Q-1
-Received: by mail-wr1-f72.google.com with SMTP id c6so1169303wrm.18
- for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:06:32 -0800 (PST)
+ bh=fxhD85QURMHEqGfAVjO06OKCuGPcyx+wfBWG1kQlMdk=;
+ b=Ujyg/d8ysDx4TImx1O/ZATWy9TJYixldgOai6lj4uw9J2shIREV5oo0+raZLSmDiZt49J2
+ OBaNfiyWBIW0gguM9CE1G+pJ5TcwuzC89QfQN6+YYi0spsPrQyB1TA3PmTnB9/4zGFGNG1
+ m6D2T9Y5laIcDhVMDePbgi4KUJ8ey9w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-EyTUQFF7O8iZWFC9F8sCXA-1; Wed, 26 Feb 2020 04:06:40 -0500
+X-MC-Unique: EyTUQFF7O8iZWFC9F8sCXA-1
+Received: by mail-wr1-f69.google.com with SMTP id u18so1177777wrn.11
+ for <qemu-devel@nongnu.org>; Wed, 26 Feb 2020 01:06:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Uprh1KuSZSNAbPYPYmNXeHJXKj7nePNYJVWS65yPTiI=;
- b=eKspuwtNfpprMKQTvCtiLaMoeg9JWZCXQLLrnQ4/iRer/loozN3m1i2ilxxRtr2AX2
- VyjDqHYY3xYRsZwQwBBxxTIylNDTrt1WAd0lVdG1gJqeMLL6xckINLG5iRREUxE9qbjn
- +SLkZLLx5Zf1u3M5IemrhbceQbmW7B7KpbaTnlaJU5aMD4PtpvuP8mUsCKQ3WwznSoIx
- rA96vaVBQHxydU+xTJxYE8s/hDeD6eoyg2IBsR/14b88Mo9zxcpqbEzEq0E/sCTDxdBh
- QC/cumcOg1SrXonzYmrzcZ6Enq6jsUP6R2Utu+4elnyIhwjgDyqT6AtAlWyo4+PPGRDO
- cIAg==
-X-Gm-Message-State: APjAAAW5R61/5zh1DWQjdM0zYUbMage5WKlAxGnRKCKXgtdIPZL7rxSh
- 1PJfO2aSzoDbqU9aZQWBQrloOQvAmC13jPvXWwZak0KqBhrpKssg6RGw6TU9eZtTDS8mw8hvEv3
- 6iljyyAt4Q5ceWSE=
-X-Received: by 2002:a05:600c:d5:: with SMTP id
- u21mr4260172wmm.98.1582707990372; 
- Wed, 26 Feb 2020 01:06:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwTMtNFn94VSiLsWc7y8JBGFi1qJpkaNDN6DinRkLV6ZDpvT89iZmzDGSc+is5sfzpNHwvnag==
-X-Received: by 2002:a05:600c:d5:: with SMTP id
- u21mr4260135wmm.98.1582707990052; 
- Wed, 26 Feb 2020 01:06:30 -0800 (PST)
+ bh=Zhqx9qPWTMmN4vZaT6M30mfe2b5p6M/C9yj5xkhbUpA=;
+ b=P600VclB4hIN7J5xgpWUGOkMi+AaukXjRt3dwHJBSw5T/L6cwePHvPGDs1BGFip6/H
+ s6nsDlK7r0rjmlPwvrkQIWykIvLeanrS633YLX3SbfNlHI0rQOTwIJ5JxveeNk9j8+mx
+ J/dpAucHch+86YBYrHK75oJB1DYIeoMV1tMeD01VLIieT27Hy5B/Gu61v4MJ/9dQcENr
+ aO02GNmbxWXSLZR4xvOJ1HT+5uMqO+Sv6j/sSi49ihh/Bo1B20LFrvzubqjDTq3ESnbI
+ ZV2jodTt5NeFTcO+DAJyskH0o60b1rQAFuLOUhswkUvUQUbAjMRYnf6doe7A5NPecKxf
+ w1Eg==
+X-Gm-Message-State: APjAAAXAWNW6/LjR4jKfodI9L0gcHRWPCBrEe89VqBZn9p73ENaV0z5w
+ 9bRAQ3G2hnFSjszJZj019PW8WTDc/E7XQU8ni5D+InkODq8PYL8GVuZG96Tr7+tl8dabmbOzdNJ
+ 5wv9d39Mjvd5VoiI=
+X-Received: by 2002:a1c:4d03:: with SMTP id o3mr4108901wmh.164.1582707997734; 
+ Wed, 26 Feb 2020 01:06:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxXcGHQa1QtzgLI0R2UTRWUv5zbStxxo+HxVpIa3Mq2QPcQeV/tAodLaYnXu5Fn/gfDIvlC0Q==
+X-Received: by 2002:a1c:4d03:: with SMTP id o3mr4108864wmh.164.1582707997349; 
+ Wed, 26 Feb 2020 01:06:37 -0800 (PST)
 Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
  by smtp.gmail.com with ESMTPSA id
- f127sm2063627wma.4.2020.02.26.01.06.28
+ t131sm2153894wmb.13.2020.02.26.01.06.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Feb 2020 01:06:29 -0800 (PST)
-Date: Wed, 26 Feb 2020 04:06:28 -0500
+ Wed, 26 Feb 2020 01:06:36 -0800 (PST)
+Date: Wed, 26 Feb 2020 04:06:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 11/30] virtio: gracefully handle invalid region caches
-Message-ID: <20200226090010.708934-12-mst@redhat.com>
+Subject: [PULL v2 12/30] virtio-iommu: Add skeleton
+Message-ID: <20200226090010.708934-13-mst@redhat.com>
 References: <20200226090010.708934-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200226090010.708934-1-mst@redhat.com>
@@ -79,8 +77,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,377 +89,431 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Tsirkin <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
 
-The virtqueue code sets up MemoryRegionCaches to access the virtqueue
-guest RAM data structures.  The code currently assumes that
-VRingMemoryRegionCaches is initialized before device emulation code
-accesses the virtqueue.  An assertion will fail in
-vring_get_region_caches() when this is not true.  Device fuzzing found a
-case where this assumption is false (see below).
+This patchs adds the skeleton for the virtio-iommu device.
 
-Virtqueue guest RAM addresses can also be changed from a vCPU thread
-while an IOThread is accessing the virtqueue.  This breaks the same
-assumption but this time the caches could become invalid partway through
-the virtqueue code.  The code fetches the caches RCU pointer multiple
-times so we will need to validate the pointer every time it is fetched.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Add checks each time we call vring_get_region_caches() and treat invalid
-caches as a nop: memory stores are ignored and memory reads return 0.
-
-The fuzz test failure is as follows:
-
-  $ qemu -M pc -device virtio-blk-pci,id=3Ddrv0,drive=3Ddrive0,addr=3D4.0 \
-         -drive if=3Dnone,id=3Ddrive0,file=3Dnull-co://,format=3Draw,auto-r=
-ead-only=3Doff \
-         -drive if=3Dnone,id=3Ddrive1,file=3Dnull-co://,file.read-zeroes=3D=
-on,format=3Draw \
-         -display none \
-         -qtest stdio
-  endianness
-  outl 0xcf8 0x80002020
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x80002004
-  outw 0xcfc 0x7
-  write 0xe0000000 0x24 0x00ffffffabffffffabffffffabffffffabffffffabffffffa=
-bffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffab5cffffffab=
-ffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabfff=
-fffabffffffabffffffabffffffabffffffab0000000001
-  inb 0x4
-  writew 0xe000001c 0x1
-  write 0xe0000014 0x1 0x0d
-
-The following error message is produced:
-
-  qemu-system-x86_64: /home/stefanha/qemu/hw/virtio/virtio.c:286: vring_get=
-_region_caches: Assertion `caches !=3D NULL' failed.
-
-The backtrace looks like this:
-
-  #0  0x00007ffff5520625 in raise () at /lib64/libc.so.6
-  #1  0x00007ffff55098d9 in abort () at /lib64/libc.so.6
-  #2  0x00007ffff55097a9 in _nl_load_domain.cold () at /lib64/libc.so.6
-  #3  0x00007ffff5518a66 in annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x00005555559073da in vring_get_region_caches (vq=3D<optimized out>) =
-at qemu/hw/virtio/virtio.c:286
-  #5  vring_get_region_caches (vq=3D<optimized out>) at qemu/hw/virtio/virt=
-io.c:283
-  #6  0x000055555590818d in vring_used_flags_set_bit (mask=3D1, vq=3D0x5555=
-575ceea0) at qemu/hw/virtio/virtio.c:398
-  #7  virtio_queue_split_set_notification (enable=3D0, vq=3D0x5555575ceea0)=
- at qemu/hw/virtio/virtio.c:398
-  #8  virtio_queue_set_notification (vq=3Dvq@entry=3D0x5555575ceea0, enable=
-=3Denable@entry=3D0) at qemu/hw/virtio/virtio.c:451
-  #9  0x0000555555908512 in virtio_queue_set_notification (vq=3Dvq@entry=3D=
-0x5555575ceea0, enable=3Denable@entry=3D0) at qemu/hw/virtio/virtio.c:444
-  #10 0x00005555558c697a in virtio_blk_handle_vq (s=3D0x5555575c57e0, vq=3D=
-0x5555575ceea0) at qemu/hw/block/virtio-blk.c:775
-  #11 0x0000555555907836 in virtio_queue_notify_aio_vq (vq=3D0x5555575ceea0=
-) at qemu/hw/virtio/virtio.c:2244
-  #12 0x0000555555cb5dd7 in aio_dispatch_handlers (ctx=3Dctx@entry=3D0x5555=
-5671a420) at util/aio-posix.c:429
-  #13 0x0000555555cb67a8 in aio_dispatch (ctx=3D0x55555671a420) at util/aio=
--posix.c:460
-  #14 0x0000555555cb307e in aio_ctx_dispatch (source=3D<optimized out>, cal=
-lback=3D<optimized out>, user_data=3D<optimized out>) at util/async.c:260
-  #15 0x00007ffff7bbc510 in g_main_context_dispatch () at /lib64/libglib-2.=
-0.so.0
-  #16 0x0000555555cb5848 in glib_pollfds_poll () at util/main-loop.c:219
-  #17 os_host_main_loop_wait (timeout=3D<optimized out>) at util/main-loop.=
-c:242
-  #18 main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:51=
-8
-  #19 0x00005555559b20c9 in main_loop () at vl.c:1683
-  #20 0x0000555555838115 in main (argc=3D<optimized out>, argv=3D<optimized=
- out>, envp=3D<optimized out>) at vl.c:4441
-
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Cc: Michael Tsirkin <mst@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200207104619.164892-1-stefanha@redhat.com>
+Message-Id: <20200214132745.23392-2-eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 99 ++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 91 insertions(+), 8 deletions(-)
+ include/hw/virtio/virtio-iommu.h |  57 +++++++
+ hw/virtio/virtio-iommu.c         | 265 +++++++++++++++++++++++++++++++
+ hw/virtio/Kconfig                |   5 +
+ hw/virtio/Makefile.objs          |   1 +
+ hw/virtio/trace-events           |   7 +
+ 5 files changed, 335 insertions(+)
+ create mode 100644 include/hw/virtio/virtio-iommu.h
+ create mode 100644 hw/virtio/virtio-iommu.c
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 2c5410e981..00d444699d 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -282,15 +282,19 @@ static void vring_packed_flags_write(VirtIODevice *vd=
-ev,
- /* Called within rcu_read_lock().  */
- static VRingMemoryRegionCaches *vring_get_region_caches(struct VirtQueue *=
-vq)
- {
--    VRingMemoryRegionCaches *caches =3D atomic_rcu_read(&vq->vring.caches)=
-;
--    assert(caches !=3D NULL);
--    return caches;
-+    return atomic_rcu_read(&vq->vring.caches);
- }
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-io=
+mmu.h
+new file mode 100644
+index 0000000000..d24ba63305
+--- /dev/null
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -0,0 +1,57 @@
++/*
++ * virtio-iommu device
++ *
++ * Copyright (c) 2020 Red Hat, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License f=
+or
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along=
+ with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ *
++ */
 +
- /* Called within rcu_read_lock().  */
- static inline uint16_t vring_avail_flags(VirtQueue *vq)
- {
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     hwaddr pa =3D offsetof(VRingAvail, flags);
++#ifndef QEMU_VIRTIO_IOMMU_H
++#define QEMU_VIRTIO_IOMMU_H
 +
-+    if (!caches) {
-+        return 0;
++#include "standard-headers/linux/virtio_iommu.h"
++#include "hw/virtio/virtio.h"
++#include "hw/pci/pci.h"
++
++#define TYPE_VIRTIO_IOMMU "virtio-iommu-device"
++#define VIRTIO_IOMMU(obj) \
++        OBJECT_CHECK(VirtIOIOMMU, (obj), TYPE_VIRTIO_IOMMU)
++
++typedef struct IOMMUDevice {
++    void         *viommu;
++    PCIBus       *bus;
++    int           devfn;
++    IOMMUMemoryRegion  iommu_mr;
++    AddressSpace  as;
++} IOMMUDevice;
++
++typedef struct IOMMUPciBus {
++    PCIBus       *bus;
++    IOMMUDevice  *pbdev[0]; /* Parent array is sparse, so dynamically allo=
+c */
++} IOMMUPciBus;
++
++typedef struct VirtIOIOMMU {
++    VirtIODevice parent_obj;
++    VirtQueue *req_vq;
++    VirtQueue *event_vq;
++    struct virtio_iommu_config config;
++    uint64_t features;
++    GHashTable *as_by_busptr;
++    PCIBus *primary_bus;
++    GTree *domains;
++    QemuMutex mutex;
++    GTree *endpoints;
++} VirtIOIOMMU;
++
++#endif
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+new file mode 100644
+index 0000000000..30579267d5
+--- /dev/null
++++ b/hw/virtio/virtio-iommu.c
+@@ -0,0 +1,265 @@
++/*
++ * virtio-iommu device
++ *
++ * Copyright (c) 2020 Red Hat, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License f=
+or
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along=
+ with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/iov.h"
++#include "qemu-common.h"
++#include "hw/qdev-properties.h"
++#include "hw/virtio/virtio.h"
++#include "sysemu/kvm.h"
++#include "trace.h"
++
++#include "standard-headers/linux/virtio_ids.h"
++
++#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/virtio-access.h"
++#include "hw/virtio/virtio-iommu.h"
++
++/* Max size */
++#define VIOMMU_DEFAULT_QUEUE_SIZE 256
++
++static int virtio_iommu_handle_attach(VirtIOIOMMU *s,
++                                      struct iovec *iov,
++                                      unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++static int virtio_iommu_handle_detach(VirtIOIOMMU *s,
++                                      struct iovec *iov,
++                                      unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++static int virtio_iommu_handle_map(VirtIOIOMMU *s,
++                                   struct iovec *iov,
++                                   unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++static int virtio_iommu_handle_unmap(VirtIOIOMMU *s,
++                                     struct iovec *iov,
++                                     unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++
++static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
++{
++    VirtIOIOMMU *s =3D VIRTIO_IOMMU(vdev);
++    struct virtio_iommu_req_head head;
++    struct virtio_iommu_req_tail tail =3D {};
++    VirtQueueElement *elem;
++    unsigned int iov_cnt;
++    struct iovec *iov;
++    size_t sz;
++
++    for (;;) {
++        elem =3D virtqueue_pop(vq, sizeof(VirtQueueElement));
++        if (!elem) {
++            return;
++        }
++
++        if (iov_size(elem->in_sg, elem->in_num) < sizeof(tail) ||
++            iov_size(elem->out_sg, elem->out_num) < sizeof(head)) {
++            virtio_error(vdev, "virtio-iommu bad head/tail size");
++            virtqueue_detach_element(vq, elem, 0);
++            g_free(elem);
++            break;
++        }
++
++        iov_cnt =3D elem->out_num;
++        iov =3D elem->out_sg;
++        sz =3D iov_to_buf(iov, iov_cnt, 0, &head, sizeof(head));
++        if (unlikely(sz !=3D sizeof(head))) {
++            tail.status =3D VIRTIO_IOMMU_S_DEVERR;
++            goto out;
++        }
++        qemu_mutex_lock(&s->mutex);
++        switch (head.type) {
++        case VIRTIO_IOMMU_T_ATTACH:
++            tail.status =3D virtio_iommu_handle_attach(s, iov, iov_cnt);
++            break;
++        case VIRTIO_IOMMU_T_DETACH:
++            tail.status =3D virtio_iommu_handle_detach(s, iov, iov_cnt);
++            break;
++        case VIRTIO_IOMMU_T_MAP:
++            tail.status =3D virtio_iommu_handle_map(s, iov, iov_cnt);
++            break;
++        case VIRTIO_IOMMU_T_UNMAP:
++            tail.status =3D virtio_iommu_handle_unmap(s, iov, iov_cnt);
++            break;
++        default:
++            tail.status =3D VIRTIO_IOMMU_S_UNSUPP;
++        }
++        qemu_mutex_unlock(&s->mutex);
++
++out:
++        sz =3D iov_from_buf(elem->in_sg, elem->in_num, 0,
++                          &tail, sizeof(tail));
++        assert(sz =3D=3D sizeof(tail));
++
++        virtqueue_push(vq, elem, sizeof(tail));
++        virtio_notify(vdev, vq);
++        g_free(elem);
 +    }
++}
 +
-     return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
- }
-=20
-@@ -299,6 +303,11 @@ static inline uint16_t vring_avail_idx(VirtQueue *vq)
- {
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     hwaddr pa =3D offsetof(VRingAvail, idx);
++static void virtio_iommu_get_config(VirtIODevice *vdev, uint8_t *config_da=
+ta)
++{
++    VirtIOIOMMU *dev =3D VIRTIO_IOMMU(vdev);
++    struct virtio_iommu_config *config =3D &dev->config;
 +
-+    if (!caches) {
-+        return 0;
-+    }
++    trace_virtio_iommu_get_config(config->page_size_mask,
++                                  config->input_range.start,
++                                  config->input_range.end,
++                                  config->domain_range.end,
++                                  config->probe_size);
++    memcpy(config_data, &dev->config, sizeof(struct virtio_iommu_config));
++}
 +
-     vq->shadow_avail_idx =3D virtio_lduw_phys_cached(vq->vdev, &caches->av=
-ail, pa);
-     return vq->shadow_avail_idx;
- }
-@@ -308,6 +317,11 @@ static inline uint16_t vring_avail_ring(VirtQueue *vq,=
- int i)
- {
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     hwaddr pa =3D offsetof(VRingAvail, ring[i]);
++static void virtio_iommu_set_config(VirtIODevice *vdev,
++                                      const uint8_t *config_data)
++{
++    struct virtio_iommu_config config;
 +
-+    if (!caches) {
-+        return 0;
-+    }
++    memcpy(&config, config_data, sizeof(struct virtio_iommu_config));
++    trace_virtio_iommu_set_config(config.page_size_mask,
++                                  config.input_range.start,
++                                  config.input_range.end,
++                                  config.domain_range.end,
++                                  config.probe_size);
++}
 +
-     return virtio_lduw_phys_cached(vq->vdev, &caches->avail, pa);
- }
-=20
-@@ -323,6 +337,11 @@ static inline void vring_used_write(VirtQueue *vq, VRi=
-ngUsedElem *uelem,
- {
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     hwaddr pa =3D offsetof(VRingUsed, ring[i]);
++static uint64_t virtio_iommu_get_features(VirtIODevice *vdev, uint64_t f,
++                                          Error **errp)
++{
++    VirtIOIOMMU *dev =3D VIRTIO_IOMMU(vdev);
 +
-+    if (!caches) {
-+        return;
-+    }
++    f |=3D dev->features;
++    trace_virtio_iommu_get_features(f);
++    return f;
++}
 +
-     virtio_tswap32s(vq->vdev, &uelem->id);
-     virtio_tswap32s(vq->vdev, &uelem->len);
-     address_space_write_cached(&caches->used, pa, uelem, sizeof(VRingUsedE=
-lem));
-@@ -334,6 +353,11 @@ static uint16_t vring_used_idx(VirtQueue *vq)
- {
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     hwaddr pa =3D offsetof(VRingUsed, idx);
++/*
++ * Migration is not yet supported: most of the state consists
++ * of balanced binary trees which are not yet ready for getting
++ * migrated
++ */
++static const VMStateDescription vmstate_virtio_iommu_device =3D {
++    .name =3D "virtio-iommu-device",
++    .unmigratable =3D 1,
++};
 +
-+    if (!caches) {
-+        return 0;
-+    }
++static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
++{
++    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
++    VirtIOIOMMU *s =3D VIRTIO_IOMMU(dev);
 +
-     return virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
- }
-=20
-@@ -342,8 +366,12 @@ static inline void vring_used_idx_set(VirtQueue *vq, u=
-int16_t val)
- {
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     hwaddr pa =3D offsetof(VRingUsed, idx);
--    virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
--    address_space_cache_invalidate(&caches->used, pa, sizeof(val));
++    virtio_init(vdev, "virtio-iommu", VIRTIO_ID_IOMMU,
++                sizeof(struct virtio_iommu_config));
 +
-+    if (caches) {
-+        virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
-+        address_space_cache_invalidate(&caches->used, pa, sizeof(val));
-+    }
-+
-     vq->used_idx =3D val;
- }
-=20
-@@ -353,8 +381,13 @@ static inline void vring_used_flags_set_bit(VirtQueue =
-*vq, int mask)
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     VirtIODevice *vdev =3D vq->vdev;
-     hwaddr pa =3D offsetof(VRingUsed, flags);
--    uint16_t flags =3D virtio_lduw_phys_cached(vq->vdev, &caches->used, pa=
++    s->req_vq =3D virtio_add_queue(vdev, VIOMMU_DEFAULT_QUEUE_SIZE,
++                             virtio_iommu_handle_command);
++    s->event_vq =3D virtio_add_queue(vdev, VIOMMU_DEFAULT_QUEUE_SIZE, NULL=
 );
-+    uint16_t flags;
-=20
-+    if (!caches) {
-+        return;
-+    }
 +
-+    flags =3D virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-     virtio_stw_phys_cached(vdev, &caches->used, pa, flags | mask);
-     address_space_cache_invalidate(&caches->used, pa, sizeof(flags));
- }
-@@ -365,8 +398,13 @@ static inline void vring_used_flags_unset_bit(VirtQueu=
-e *vq, int mask)
-     VRingMemoryRegionCaches *caches =3D vring_get_region_caches(vq);
-     VirtIODevice *vdev =3D vq->vdev;
-     hwaddr pa =3D offsetof(VRingUsed, flags);
--    uint16_t flags =3D virtio_lduw_phys_cached(vq->vdev, &caches->used, pa=
-);
-+    uint16_t flags;
-=20
-+    if (!caches) {
-+        return;
-+    }
++    s->config.page_size_mask =3D TARGET_PAGE_MASK;
++    s->config.input_range.end =3D -1UL;
++    s->config.domain_range.end =3D 32;
 +
-+    flags =3D virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-     virtio_stw_phys_cached(vdev, &caches->used, pa, flags & ~mask);
-     address_space_cache_invalidate(&caches->used, pa, sizeof(flags));
- }
-@@ -381,6 +419,10 @@ static inline void vring_set_avail_event(VirtQueue *vq=
-, uint16_t val)
-     }
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        return;
-+    }
++    virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
++    virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
++    virtio_add_feature(&s->features, VIRTIO_F_VERSION_1);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_INPUT_RANGE);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_DOMAIN_RANGE);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
 +
-     pa =3D offsetof(VRingUsed, ring[vq->vring.num]);
-     virtio_stw_phys_cached(vq->vdev, &caches->used, pa, val);
-     address_space_cache_invalidate(&caches->used, pa, sizeof(val));
-@@ -410,7 +452,11 @@ static void virtio_queue_packed_set_notification(VirtQ=
-ueue *vq, int enable)
-     VRingMemoryRegionCaches *caches;
-=20
-     RCU_READ_LOCK_GUARD();
--    caches  =3D vring_get_region_caches(vq);
-+    caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        return;
-+    }
++    qemu_mutex_init(&s->mutex);
++}
 +
-     vring_packed_event_read(vq->vdev, &caches->used, &e);
-=20
-     if (!enable) {
-@@ -597,6 +643,10 @@ static int virtio_queue_packed_empty_rcu(VirtQueue *vq=
-)
-     }
-=20
-     cache =3D vring_get_region_caches(vq);
-+    if (!cache) {
-+        return 1;
-+    }
++static void virtio_iommu_device_unrealize(DeviceState *dev, Error **errp)
++{
++    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
 +
-     vring_packed_desc_read_flags(vq->vdev, &desc.flags, &cache->desc,
-                                  vq->last_avail_idx);
-=20
-@@ -777,6 +827,10 @@ static void virtqueue_packed_fill_desc(VirtQueue *vq,
-     }
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        return;
-+    }
++    virtio_cleanup(vdev);
++}
 +
-     vring_packed_desc_write(vq->vdev, &desc, &caches->desc, head, strict_o=
-rder);
- }
-=20
-@@ -949,6 +1003,10 @@ static void virtqueue_split_get_avail_bytes(VirtQueue=
- *vq,
-=20
-     max =3D vq->vring.num;
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        goto err;
-+    }
++static void virtio_iommu_device_reset(VirtIODevice *vdev)
++{
++    trace_virtio_iommu_device_reset();
++}
 +
-     while ((rc =3D virtqueue_num_heads(vq, idx)) > 0) {
-         MemoryRegionCache *desc_cache =3D &caches->desc;
-         unsigned int num_bufs;
-@@ -1089,6 +1147,9 @@ static void virtqueue_packed_get_avail_bytes(VirtQueu=
-e *vq,
-=20
-     max =3D vq->vring.num;
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        goto err;
-+    }
-=20
-     for (;;) {
-         unsigned int num_bufs =3D total_bufs;
-@@ -1194,6 +1255,10 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsign=
-ed int *in_bytes,
-     }
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        goto err;
-+    }
++static void virtio_iommu_set_status(VirtIODevice *vdev, uint8_t status)
++{
++    trace_virtio_iommu_device_status(status);
++}
 +
-     desc_size =3D virtio_vdev_has_feature(vq->vdev, VIRTIO_F_RING_PACKED) =
-?
-                                 sizeof(VRingPackedDesc) : sizeof(VRingDesc=
-);
-     if (caches->desc.len < vq->vring.num * desc_size) {
-@@ -1387,6 +1452,11 @@ static void *virtqueue_split_pop(VirtQueue *vq, size=
-_t sz)
-     i =3D head;
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        virtio_error(vdev, "Region caches not initialized");
-+        goto done;
-+    }
++static void virtio_iommu_instance_init(Object *obj)
++{
++}
 +
-     if (caches->desc.len < max * sizeof(VRingDesc)) {
-         virtio_error(vdev, "Cannot map descriptor ring");
-         goto done;
-@@ -1509,6 +1579,11 @@ static void *virtqueue_packed_pop(VirtQueue *vq, siz=
-e_t sz)
-     i =3D vq->last_avail_idx;
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        virtio_error(vdev, "Region caches not initialized");
-+        goto done;
-+    }
++static const VMStateDescription vmstate_virtio_iommu =3D {
++    .name =3D "virtio-iommu",
++    .minimum_version_id =3D 1,
++    .version_id =3D 1,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_VIRTIO_DEVICE,
++        VMSTATE_END_OF_LIST()
++    },
++};
 +
-     if (caches->desc.len < max * sizeof(VRingDesc)) {
-         virtio_error(vdev, "Cannot map descriptor ring");
-         goto done;
-@@ -1628,6 +1703,10 @@ static unsigned int virtqueue_packed_drop_all(VirtQu=
-eue *vq)
-     VRingPackedDesc desc;
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        return 0;
-+    }
++static Property virtio_iommu_properties[] =3D {
++    DEFINE_PROP_LINK("primary-bus", VirtIOIOMMU, primary_bus, "PCI", PCIBu=
+s *),
++    DEFINE_PROP_END_OF_LIST(),
++};
 +
-     desc_cache =3D &caches->desc;
-=20
-     virtio_queue_set_notification(vq, 0);
-@@ -2412,6 +2491,10 @@ static bool virtio_packed_should_notify(VirtIODevice=
- *vdev, VirtQueue *vq)
-     VRingMemoryRegionCaches *caches;
-=20
-     caches =3D vring_get_region_caches(vq);
-+    if (!caches) {
-+        return false;
-+    }
++static void virtio_iommu_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_CLASS(klass);
 +
-     vring_packed_event_read(vdev, &caches->avail, &e);
++    device_class_set_props(dc, virtio_iommu_properties);
++    dc->vmsd =3D &vmstate_virtio_iommu;
++
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    vdc->realize =3D virtio_iommu_device_realize;
++    vdc->unrealize =3D virtio_iommu_device_unrealize;
++    vdc->reset =3D virtio_iommu_device_reset;
++    vdc->get_config =3D virtio_iommu_get_config;
++    vdc->set_config =3D virtio_iommu_set_config;
++    vdc->get_features =3D virtio_iommu_get_features;
++    vdc->set_status =3D virtio_iommu_set_status;
++    vdc->vmsd =3D &vmstate_virtio_iommu_device;
++}
++
++static const TypeInfo virtio_iommu_info =3D {
++    .name =3D TYPE_VIRTIO_IOMMU,
++    .parent =3D TYPE_VIRTIO_DEVICE,
++    .instance_size =3D sizeof(VirtIOIOMMU),
++    .instance_init =3D virtio_iommu_instance_init,
++    .class_init =3D virtio_iommu_class_init,
++};
++
++static void virtio_register_types(void)
++{
++    type_register_static(&virtio_iommu_info);
++}
++
++type_init(virtio_register_types)
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index f87def27a6..d29525b36f 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -9,6 +9,11 @@ config VIRTIO_RNG
+     default y
+     depends on VIRTIO
 =20
-     old =3D vq->signalled_used;
++config VIRTIO_IOMMU
++    bool
++    default y
++    depends on VIRTIO
++
+ config VIRTIO_PCI
+     bool
+     default y if PCI_DEVICES
+diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
+index de0f5fc39b..2fd9da7410 100644
+--- a/hw/virtio/Makefile.objs
++++ b/hw/virtio/Makefile.objs
+@@ -16,6 +16,7 @@ obj-$(call land,$(CONFIG_VIRTIO_CRYPTO),$(CONFIG_VIRTIO_P=
+CI)) +=3D virtio-crypto-p
+ obj-$(CONFIG_VIRTIO_PMEM) +=3D virtio-pmem.o
+ common-obj-$(call land,$(CONFIG_VIRTIO_PMEM),$(CONFIG_VIRTIO_PCI)) +=3D vi=
+rtio-pmem-pci.o
+ obj-$(call land,$(CONFIG_VHOST_USER_FS),$(CONFIG_VIRTIO_PCI)) +=3D vhost-u=
+ser-fs-pci.o
++obj-$(CONFIG_VIRTIO_IOMMU) +=3D virtio-iommu.o
+ obj-$(CONFIG_VHOST_VSOCK) +=3D vhost-vsock.o
+=20
+ ifeq ($(CONFIG_VIRTIO_PCI),y)
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index e28ba48da6..02d93d7f63 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -53,3 +53,10 @@ virtio_mmio_write_offset(uint64_t offset, uint64_t value=
+) "virtio_mmio_write off
+ virtio_mmio_guest_page(uint64_t size, int shift) "guest page size 0x%" PRI=
+x64 " shift %d"
+ virtio_mmio_queue_write(uint64_t value, int max_size) "mmio_queue write 0x=
+%" PRIx64 " max %d"
+ virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
++
++# hw/virtio/virtio-iommu.c
++virtio_iommu_device_reset(void) "reset!"
++virtio_iommu_get_features(uint64_t features) "device supports features=3D0=
+x%"PRIx64
++virtio_iommu_device_status(uint8_t status) "driver status =3D %d"
++virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_t =
+end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=3D0x%"PRIx=
+64" start=3D0x%"PRIx64" end=3D0x%"PRIx64" domain_range=3D%d probe_size=3D0x=
+%x"
++virtio_iommu_set_config(uint64_t page_size_mask, uint64_t start, uint64_t =
+end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=3D0x%"PRIx=
+64" start=3D0x%"PRIx64" end=3D0x%"PRIx64" domain_bits=3D%d probe_size=3D0x%=
+x"
 --=20
 MST
 
