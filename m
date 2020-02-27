@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584A1170CFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 01:08:25 +0100 (CET)
-Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1D4170D1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 01:18:57 +0100 (CET)
+Received: from localhost ([::1]:52086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j76j2-0007Mt-AT
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 19:08:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
+	id 1j76tE-0007ym-OL
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 19:18:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1j76hn-0005SD-DT
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 19:07:08 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j76sV-0007XP-Nb
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 19:18:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1j76hm-0006Xm-C6
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 19:07:07 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21851
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j76hm-00069l-7Y
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 19:07:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582762017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F2/TLEFNAnR/6w7FDslSwzZinHAthOw8JkWxuNg8xwY=;
- b=CDxs1mCzJDl2iWWht0/T9y/PgM6RW8RuryXxtizXeLsrWyUxMJsWAGPRYUOp+LejJS9Nfz
- 6VWdDR6Q5M16guw8/nXyj2ngwiVmXssHjlLgdOQSrAXLrVrKS14Xe1IqzreOMdAubikZnQ
- /gAWSQau7Ig83ZKfIDNWme4vQ6+elZk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-VMiw1pFgN9W-VOmcYnoqNw-1; Wed, 26 Feb 2020 19:06:51 -0500
-X-MC-Unique: VMiw1pFgN9W-VOmcYnoqNw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95FE918FF661;
- Thu, 27 Feb 2020 00:06:50 +0000 (UTC)
-Received: from probe.redhat.com (ovpn-123-58.rdu2.redhat.com [10.10.123.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17963390;
- Thu, 27 Feb 2020 00:06:50 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 9/9] iotests: add pylintrc file
-Date: Wed, 26 Feb 2020 19:06:39 -0500
-Message-Id: <20200227000639.9644-10-jsnow@redhat.com>
-In-Reply-To: <20200227000639.9644-1-jsnow@redhat.com>
-References: <20200227000639.9644-1-jsnow@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1j76sU-0002n3-CW
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 19:18:11 -0500
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:39337)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j76sR-0002Zm-QF; Wed, 26 Feb 2020 19:18:07 -0500
+Received: by mail-lf1-x143.google.com with SMTP id n30so679800lfh.6;
+ Wed, 26 Feb 2020 16:18:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HGjZG+q/TIz93Fu76a4gl82MvVhByu6oG1TEpb9fx8M=;
+ b=hpkMj25b1JFmXZyBONbfMS5im0WihcrAg/lOKxnldtyig7MVL+hYbehiMI+/eSmYUh
+ er4n9E6nCecCIWYPyH6O1OHykuzIJO6I6fCWpdIUB47/ky5LFmFT7Cv65Wk/Vxb1e1bV
+ YTGQMo/DQvzA7vVw1KiU//bJpL9KZzMaCkyl2b4EvXhi0JsDnflq17yWrDBkr2jkyaqK
+ 3cCoCBbm/46MzKeXdBXXF8CsF05ixKgDrBMovLJIOHhQoM9pcGi3xtkZf1+4QJX5Oz7g
+ O3Ci2uZcqxmU6P2Hq2DOJnrz5M4mUKN1Fnny/qpBzzikvaUYdeH/HX5HMGwAlRaPeZiU
+ ooFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HGjZG+q/TIz93Fu76a4gl82MvVhByu6oG1TEpb9fx8M=;
+ b=pUHduIetp/31JyDsHpRP1K9AAbrHOjFletFA6UoVZpuZhxnohqH6oCnSxEvKiWhnWs
+ E9zoX0JJnnaeCkvSC/nlPt3MMVVV7ggGpLYOLUJMEE6oTslkbHfq89JOyqoCehvmN0Qq
+ +HNPD0y0KYjzrU1WNho83cIkkErbV3Ecif/+0+FuWFcASuR3h9Xzgsunfq7PzCpPFnKe
+ Af3wMSP4eC5eLiu0BXfWsozgaL8V/Dw+EhvDWr+eoG3K3VLurZZNsFMhwSJeBHkKehso
+ L/6D3/XxpJ7FfdWMyNJXNPz+b9NNoLxUo8NGCcrwDglKEFUlTtDMAvIEA7nVa8DsHZfA
+ AsbQ==
+X-Gm-Message-State: ANhLgQ2Lgq4wZdeekbDp0e0jaPa4XGgcdn/zUIjbGSz5yRpzN/9PEM0R
+ wGdbnJyNlLt2pB1SrA9h7KCBBGuVTqGPVR2x0i0=
+X-Google-Smtp-Source: ADFU+vsPvyrmWFCbj/4N/NP6bGboifSkgK85E05l4KFFoHYKu97/8Tq1l+FjTQBgrr20zEo/C6xxOJ5FrnpQzC3BVjY=
+X-Received: by 2002:a19:8585:: with SMTP id h127mr579263lfd.196.1582762686278; 
+ Wed, 26 Feb 2020 16:18:06 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <cover.1582586444.git.alistair.francis@wdc.com>
+ <85f33856ee6f32125e5c81a9561346b28b340a3e.1582586444.git.alistair.francis@wdc.com>
+ <24431d59-b535-97d4-95d7-fe4401e10787@vivier.eu>
+ <CAKmqyKObXNXj2jsMYTvAL-eHS43Wb5upwq6mHeHo7q-4Pr4W7g@mail.gmail.com>
+ <fd0e0b49-b2c4-9adf-8cbe-9e160b89f9f2@vivier.eu>
+In-Reply-To: <fd0e0b49-b2c4-9adf-8cbe-9e160b89f9f2@vivier.eu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 26 Feb 2020 16:10:29 -0800
+Message-ID: <CAKmqyKM+nmUwr65i8keu578wLfMappj-9yUJHg+rO44+_YVz6w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] linux-user/riscv: Update the syscall_nr's to the
+ 5.5 kernel
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,54 +77,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Repeatable results. run `pylint iotests.py` and you should get a pass.
+On Wed, Feb 26, 2020 at 4:02 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 26/02/2020 =C3=A0 20:32, Alistair Francis a =C3=A9crit :
+> > On Tue, Feb 25, 2020 at 3:50 AM Laurent Vivier <laurent@vivier.eu> wrot=
+e:
+> >>
+> >> Le 25/02/2020 =C3=A0 00:21, Alistair Francis a =C3=A9crit :
+> >>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ...
+> >> I think you can remove following defintion as they should be translate=
+d
+> >> by the target glibc.
+> >
+> > glibc won't be exposing these externally, the current plan is just to
+> > use this internally to glibc.
+>
+> But if they are defined internally to glibc, glibc will always translate
+> the older ones to the 64bit ones and thus glibc will never use the older
+> ones with the kernel, only the 64bit ones, thus the older syscalls
+> should never come to QEMU.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/pylintrc | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 tests/qemu-iotests/pylintrc
+That's part of the problem. QEMU has no TARGET_NR_futex_time64
+support, so we define TARGET_NR_futex to be TARGET_NR_futex_time64.
 
-diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
-new file mode 100644
-index 0000000000..feed506f75
---- /dev/null
-+++ b/tests/qemu-iotests/pylintrc
-@@ -0,0 +1,20 @@
-+[MESSAGES CONTROL]
-+
-+# Disable the message, report, category or checker with the given id(s). Y=
-ou
-+# can either give multiple identifiers separated by comma (,) or put this
-+# option multiple times (only on the command line, not in the configuratio=
-n
-+# file where it should appear only once). You can also use "--disable=3Dal=
-l" to
-+# disable everything first and then reenable specific checks. For example,=
- if
-+# you want to run only the similarities checker, you can use "--disable=3D=
-all
-+# --enable=3Dsimilarities". If you want to run only the classes checker, b=
-ut have
-+# no Warning level messages displayed, use "--disable=3Dall --enable=3Dcla=
-sses
-+# --disable=3DW".
-+disable=3Dinvalid-name,
-+        missing-docstring,
-+        line-too-long,
-+        too-many-lines,
-+        too-few-public-methods,
-+        too-many-arguments,
-+        too-many-locals,
-+        too-many-branches,
-+        too-many-public-methods,
-\ No newline at end of file
---=20
-2.21.1
+Looking a bit more it looks like there will still be issues as the
+syscall.c makes assumptions on time_t and friends being the word
+length (which isn't true for RV32), but this is at least a step in the
+right direction.
 
+Would it be possible to define the type sizes per architecture like glibc d=
+oes?
+
+Alistair
+
+>
+> So why do we need to define the translation older-to-64bit in QEMU too?
+>
+> >
+> >>
+> >>> +/*
+> >>> + * Alias some of the older pre 64-bit time_t syscalls to the 64-bit
+> >>> + * ones for RV32. This is based on the list used by glibc.
+> >>> + */
+> >>> +#define TARGET_NR_futex TARGET_NR_futex_time64
+> >>> +#define TARGET_NR_rt_sigtimedwait TARGET_NR_rt_sigtimedwait_time64
+> >>> +#define TARGET_NR_ppoll TARGET_NR_ppoll_time64
+> >>> +#define TARGET_NR_utimensat TARGET_NR_utimensat_time64
+> >>> +#define TARGET_NR_pselect6 TARGET_NR_pselect6_time64
+> >>> +#define TARGET_NR_recvmmsg TARGET_NR_recvmmsg_time64
+> >>> +#define TARGET_NR_semtimedop TARGET_NR_semtimedop_time64
+> >>> +#define TARGET_NR_mq_timedreceive TARGET_NR_mq_timedreceive_time64
+> >>> +#define TARGET_NR_mq_timedsend TARGET_NR_mq_timedsend_time64
+> >>> +#define TARGET_NR_clock_getres TARGET_NR_clock_getres_time64
+> >>> +#define TARGET_NR_timerfd_settime TARGET_NR_timerfd_settime64
+> >>> +#define TARGET_NR_timerfd_gettime TARGET_NR_timerfd_gettime64
+> >>> +#define TARGET_NR_sched_rr_get_interval TARGET_NR_sched_rr_get_inter=
+val_time64
+> >>> +#define TARGET_NR_clock_adjtime TARGET_NR_clock_adjtime64
+> >>> +
+> >>> +#endif
+> >>> diff --git a/linux-user/riscv/syscall64_nr.h b/linux-user/riscv/sysca=
+ll64_nr.h
+> >>> new file mode 100644
+> >>> index 0000000000..b58364b570
+> >>> --- /dev/null
+> >>> +++ b/linux-user/riscv/syscall64_nr.h
+> >>
+> >> syscall64_nr.h is correct.
+> >>
+> >> Thanks,
+> >> Laurent
+> >>
+> >
+>
 
