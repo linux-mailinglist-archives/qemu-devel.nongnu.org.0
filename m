@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE273171CBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 15:14:56 +0100 (CET)
-Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3C4171CED
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 15:16:40 +0100 (CET)
+Received: from localhost ([::1]:60658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7JwG-0006aB-0m
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 09:14:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44399)
+	id 1j7Jxv-0000Xb-Er
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 09:16:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j7Juj-0004eP-Qa
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:13:22 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7Jv1-00053D-25
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:13:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j7Jui-0007Ul-QG
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:13:21 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31519
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j7Jui-0007UM-Ln
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:13:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582812800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+eWiKI/VVlEEq63rGQvQJ+kE6pcSeHfnXA0xz1Tbp8k=;
- b=AbL5Kcve3GB4aIKy5FfNe2oRVra6ceZ72iwnLMMLG/ikQNAQk9GsGIOAF8cwaSCEZWOOM0
- /AA6jj40LHlXiSw+Yzp1+qBF/kgKQ424D+cDfnmcNc2e8MF/BxkTgz0qo1X6vBWlwMncTE
- qd/cW6JtlNPTss4FdOpZjF0N0Ur+k1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-eYHn4upUMDquFVFqigMpTw-1; Thu, 27 Feb 2020 09:13:18 -0500
-X-MC-Unique: eYHn4upUMDquFVFqigMpTw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC73518C8C01;
- Thu, 27 Feb 2020 14:13:16 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 823C96E3EE;
- Thu, 27 Feb 2020 14:13:15 +0000 (UTC)
-Date: Thu, 27 Feb 2020 15:13:13 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v1 4/4] accel/tcg: increase default code gen buffer size
- for 64 bit
-Message-ID: <20200227151313.7b2f188b@redhat.com>
-In-Reply-To: <56f5e355-9357-e212-e92b-9db1d8424dea@linaro.org>
-References: <20200226181020.19592-1-alex.bennee@linaro.org>
- <20200226181020.19592-5-alex.bennee@linaro.org>
- <2ca7b55b-5674-370d-5c4d-dc8b7782ca64@linaro.org>
- <87pne0w6rt.fsf@linaro.org>
- <56f5e355-9357-e212-e92b-9db1d8424dea@linaro.org>
+ (envelope-from <richard.henderson@linaro.org>) id 1j7Juv-0007ad-Vg
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:13:38 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37194)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j7Jut-0007ZB-14
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:13:33 -0500
+Received: by mail-pg1-x542.google.com with SMTP id z12so1551042pgl.4
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 06:13:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KgW+9E7EwcZMOIplumagac+L2Ccsg0eHY7YZpqQZCic=;
+ b=h1H6Hp6IZPd0xTHXyv6GtWwklRIRiwu9ToEo/nxUo3HFI0hNMrzhCaZiS+1lZpR+cn
+ svzmZPnuIG+6kcyyH6zTl0H1vj9o72c03Oz1veNeVOM2/yx6s7GK3tWxx/JNB4lASGeU
+ 9TpWdQ1GkYxmdbwKz6M32AK2QGw4Th4orYCxcjcXzJqw9CbDblNekSQ7Kgja9WWiocid
+ 9Ua3+O8u6rEYHa+IvVhoyvQZVCZX+ZmrpQzwpBOs1rOishClle8vpmU8dwbv2ncGsWSh
+ Dl8oLPaiQlx78dpky3pwX47ggbsWQrXIdFaq3jZpPJ0vkVetzeoIAVNwMfodN2wDmdYB
+ gpTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KgW+9E7EwcZMOIplumagac+L2Ccsg0eHY7YZpqQZCic=;
+ b=Xvkif3dWgs1gKp1Y0U+4zG/+uZUBjFsj6okHM4e+qKeWkRBZpIBvXZFJno3xeUqBh6
+ IQzxiRi6RXgGBUBUQBYXf5S1lSz1l+6sfRPIOZPZLyZcHz8z0l7FHOb11oBYFYB9fkar
+ 4cymCojimOcouw9Ss3luaeP7K61aMd74G82kMaD8L0I9UQtJxz+l/nPRtBTPmfEvQowy
+ /hdSNU3znsvT68o7DEXvi1wjt/ef82aEguK44G8LbH2D0zyQ74pPlT4cSJMhO5MvZNMM
+ 3I2P7604xuSjunOPPUf3BYYP16AKLZ/DB/ux0dyyQKFj/tt13KsgXkDI5rNAaVq246jf
+ 5luQ==
+X-Gm-Message-State: APjAAAUYnZ/92oZdxc+spv4Qf+fH+SltHLjtfrqoxymDTfeWOrjlhlBD
+ skCYtRvtzJt4fhYaljto/ySxMg==
+X-Google-Smtp-Source: APXvYqzpEuEigZ4VDn2BLz94QuTkzr62vrjuyoAMBRUOJDZ47X2bbpQbX01AzpXTDnOPobJlpl+dOg==
+X-Received: by 2002:aa7:86c3:: with SMTP id h3mr4038134pfo.243.1582812809559; 
+ Thu, 27 Feb 2020 06:13:29 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ 76sm7291666pfx.97.2020.02.27.06.13.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Feb 2020 06:13:28 -0800 (PST)
+Subject: Re: [PATCH v3 05/12] scripts/qapi/parser.py: improve doc comment
+ indent handling
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200225140437.20609-1-peter.maydell@linaro.org>
+ <20200225140437.20609-6-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <376f873c-34da-30a1-3239-128d3f164a31@linaro.org>
+Date: Thu, 27 Feb 2020 06:13:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200225140437.20609-6-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Feb 2020 04:56:46 -0800
-Richard Henderson <richard.henderson@linaro.org> wrote:
+On 2/25/20 6:04 AM, Peter Maydell wrote:
+> Make the handling of indentation in doc comments more sophisticated,
+> so that when we see a section like:
+> 
+> Notes: some text
+>        some more text
+>           indented line 3
+> 
+> we save it for the doc-comment processing code as:
+> 
+> some text
+> some more text
+>    indented line 3
+> 
+> and when we see a section with the heading on its own line:
+> 
+> Notes:
+> 
+> some text
+> some more text
+>    indented text
+> 
+> we also accept that and save it in the same form.
+> 
+> The exception is that we always retain indentation as-is for Examples
+> sections, because these are literal text.
+> 
+> If we detect that the comment document text is not indented as much
+> as we expect it to be, we throw a parse error.  (We don't complain
+> about over-indented sections, because for rST this can be legitimate
+> markup.)
+> 
+> The golden reference for the doc comment text is updated to remove
+> the two 'wrong' indents; these now form a test case that we correctly
+> stripped leading whitespace from an indented multi-line argument
+> definition.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> v1->v2: Update doc-good.out as per final para.
+> ---
+>  scripts/qapi/parser.py         | 82 +++++++++++++++++++++++++++-------
+>  tests/qapi-schema/doc-good.out |  4 +-
+>  2 files changed, 67 insertions(+), 19 deletions(-)
 
-> On 2/27/20 4:31 AM, Alex Benn=C3=A9e wrote:
-> >> It does not make sense for a linux-user chroot, running make -jN, on j=
-ust about
-> >> any host.  For linux-user, I could be happy with a modest increase, bu=
-t not all
-> >> the way out to 2GiB.
-> >>
-> >> Discuss. =20
-> >=20
-> > Does it matter that much? Surely for small programs the kernel just
-> > never pages in the used portions of the mmap? =20
->=20
-> That's why I used the example of a build under the chroot, because the co=
-mpiler
-> is not a small program.
->=20
-> Consider when the memory *is* used, and N * 2GB implies lots of paging, w=
-here
-> the previous N * 32MB did not.
->=20
-> I'm saying that we should consider a setting more like 128MB or so, since=
- the
-> value cannot be changed from the command-line, or through the environment=
-.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-That's what BSD guys force tb-size to, to speed up system emulation.
 
->=20
->=20
-> r~
->=20
-
+r~
 
