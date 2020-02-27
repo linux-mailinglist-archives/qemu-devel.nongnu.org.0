@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D046172424
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 17:59:08 +0100 (CET)
-Received: from localhost ([::1]:34764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8A0172473
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 18:04:38 +0100 (CET)
+Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7MV9-0004xW-F0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 11:59:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46179)
+	id 1j7MaT-0003bs-EP
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 12:04:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46528)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1j7MUO-0004Vb-V3
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:58:22 -0500
+ (envelope-from <peterx@redhat.com>) id 1j7MX9-0006zZ-Ir
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:01:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1j7MUN-0007LA-Ms
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:58:20 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57718
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1j7MX2-00083D-S0
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:01:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58958
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j7MUN-0007L1-IC
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:58:19 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j7MX2-00082w-NV
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582822698;
+ s=mimecast20190719; t=1582822863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ujikxr32PVcDLm7SrLysq7rM7d02JbQP2MNv4KjctL8=;
- b=Jy5iSBGOzGNSGYEtRsSRllxaa+RclQgxMuVZl9Qh5nsUsQmOmaictBxlxQHZ+4pLCSH3hv
- FNon3W8FhAcM2GRFiKVQNW8EXKNbw4tINPngK1HB5H+iICSUuyubpuZZoapbe3JW+Ua3MI
- Zh5irFhIIImkioS6hhQUi0Vgf5vz8bw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-n4LwxCVcP3SGxMmhvveRUA-1; Thu, 27 Feb 2020 11:58:17 -0500
-X-MC-Unique: n4LwxCVcP3SGxMmhvveRUA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A55D107ACC7;
- Thu, 27 Feb 2020 16:58:12 +0000 (UTC)
-Received: from localhost (ovpn-117-38.ams2.redhat.com [10.36.117.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E87428C089;
- Thu, 27 Feb 2020 16:58:05 +0000 (UTC)
-Date: Thu, 27 Feb 2020 16:58:04 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 50/50] multi-process: add configure and usage
- information
-Message-ID: <20200227165804.GE315098@stefanha-x1.localdomain>
-References: <cover.1582576372.git.jag.raman@oracle.com>
- <bbba8cdef9f876ec6d194f3e1974347860eca732.1582576372.git.jag.raman@oracle.com>
+ bh=7uD1dr2E8RBvsBhL/nVR6Olg6jp2ukRHDks/zyFDcL8=;
+ b=hy/1TWUzpdrS2ZR0tyDHKKCi02z7bfACWMywGW4sUBBNVAsfi6MNDJDYS5a/FxJXk17IEM
+ 3RWl0nn1BXp8fLnv6hUvQRRbT1osQkOkeGX5NwaviF+u+yZo6UvsnZELRYBN8P87Nb6A7i
+ zEhDBVr0zbW+GWKQ+uDUnvsNrjGHS84=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-2OkbZA5RPJC4IIAL2ZivFQ-1; Thu, 27 Feb 2020 12:00:52 -0500
+X-MC-Unique: 2OkbZA5RPJC4IIAL2ZivFQ-1
+Received: by mail-qk1-f199.google.com with SMTP id m25so4862288qka.4
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 09:00:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BOwm2l65Skla3Nzoj/ActOtW+sphazq4agnS7MdoDXY=;
+ b=If0kdEN+UA7hzrWoSn7CVkGNSCxVJ4AGYaA9ESMjaz07NsGfJpMrTIuxNUmox/gXNi
+ VWA4FVhMy2LeQx9DaUMSe1TnAiGyz8BlanKuWsa2cP7KEkcXBQXpq5zXi+h2NbHkh9Nn
+ enRCwtV7prHxEuMpInA6+rF3MTr+s43OwK97RD8vsD+m5ydUfjpHxG/cudutTZ4Iux+J
+ ClCllfRNlZ3f8e/MJR29PF20CrxHQe8bCYTLkJlcO2HgGgsA2wgdGYN3EVlhFeiC3pTx
+ XF8cZiYyv9tbUIPEtGrFDghujLvjBDa5hZGy+136yWVSKeBJNaH4fMMvOJbiNKsn8naC
+ cD0g==
+X-Gm-Message-State: APjAAAVFJ6dj0kNV7/4/tQuiD2095zI/ZChhwJYah57hynizTMZkIbwC
+ MGvWKkS/WbNcYhVHqIt4kHfUv5kV5HuTrGd/KDDFCl5Zoz1Okkv9DOg0VKTKnwC2Hg85kP7plcw
+ 7Qpt+gCNfGPruw2E=
+X-Received: by 2002:a37:d13:: with SMTP id 19mr109882qkn.497.1582822851408;
+ Thu, 27 Feb 2020 09:00:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxKXbwIu5ozQFTJ0Jrio+pilQMixSBxaaEdNeMwAz9ZblanD7uL/Pv+aGUqtTnCiP2vI5OX4w==
+X-Received: by 2002:a37:d13:: with SMTP id 19mr109850qkn.497.1582822851062;
+ Thu, 27 Feb 2020 09:00:51 -0800 (PST)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id u2sm3555690qtd.72.2020.02.27.09.00.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Feb 2020 09:00:50 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1.1 4/5] KVM: Kick resamplefd for split kernel irqchip
+Date: Thu, 27 Feb 2020 12:00:48 -0500
+Message-Id: <20200227170048.236599-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200226225510.217077-1-peterx@redhat.com>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <bbba8cdef9f876ec6d194f3e1974347860eca732.1582576372.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SWTRyWv/ijrBap1m"
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,155 +87,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---SWTRyWv/ijrBap1m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is majorly only for X86 because that's the only one that supports
+split irqchip for now.
 
-On Mon, Feb 24, 2020 at 03:55:41PM -0500, Jagannathan Raman wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> ---
->  docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 docs/qemu-multiprocess.txt
->=20
-> diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
-> new file mode 100644
-> index 0000000..f156177
-> --- /dev/null
-> +++ b/docs/qemu-multiprocess.txt
-> @@ -0,0 +1,86 @@
-> +Multi-process QEMU
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This document describes how to configure and use multi-process qemu.
-> +For the design document refer to docs/devel/qemu-multiprocess.
-> +
-> +1) Configuration
-> +----------------
-> +
-> +To enable support for multi-process add --enable-mpqemu
-> +to the list of options for the "configure" script.
-> +
-> +
-> +2) Usage
-> +--------
-> +
-> +To start qemu with devices intended to run in a separate emulation
-> +process without libvirtd support, the following should be used on QEMU
-> +command line. As of now, we only support the emulation of lsi53c895a
-> +in a separate process
-> +
-> +* Since parts of the RAM are shared between QEMU & remote process, a
-> +  memory-backend-file is required to facilitate this, as follows:
-> +
-> +  -object memory-backend-file,id=3Dmem,mem-path=3D/dev/shm/,size=3D4096M=
-,share=3Don
+When the irqchip is split, we face a dilemma that KVM irqfd will be
+enabled, however the slow irqchip is still running in the userspace.
+It means that the resamplefd in the kernel irqfds won't take any
+effect and it can miss to ack INTx interrupts on EOIs.
 
-memory-backend-memfd is more convenient.  It doesn't require a mem-path
-and share=3Don is the default.
+One example is split irqchip with VFIO INTx, which will break if we
+use the VFIO INTx fast path.
 
-> +
-> +* The devices to be emulated in the separate process are defined as
-> +  before with addition of "rid" suboption that serves as a remote group
-> +  identificator.
-> +
-> +  -device <device options>,rid=3D"remote process id"
-> +
-> +  For example, for non multi-process qemu:
-> +    -device lsi53c895a,id=3Dscsi0 device
-> +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0
-> +    -drive id=3Ddrive0,file=3Ddata-disk.img
-> +
-> +  and for multi-process qemu and no libvirt
-> +  support (i.e. QEMU forks child processes):
-> +    -device lsi53c895a,id=3Dscsi0,rid=3D0
-> +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0,rid=3D0
+This patch can potentially supports the VFIO fast path again for INTx,
+that the IRQ delivery will still use the fast path, while we don't
+need to trap MMIOs in QEMU for the device to emulate the EIOs (see the
+callers of vfio_eoi() hook).  However the EOI of the INTx will still
+need to be done from the userspace by caching all the resamplefds in
+QEMU and kick properly for IOAPIC EOI broadcast.
 
-This approach is invasive:
- * lsi53c895a should not need to be modified with a new rid=3D option.
- * QEMU should not know about the scsi-hd device or drive0.  Only the
-   device emulation process needs to know about scsi-hd.
+When the userspace is responsible for the resamplefd kickup, don't
+register it on the kvm_irqfd anymore, because on newer kernels (after
+commit 654f1f13ea56, 5.2+) the KVM_IRQFD will fail if with both split
+irqchip and resamplefd.  This will make sure that the fast path will
+work for all supported kernels.
 
-In order to cleanly separate QEMU and the device emulation process
-syntax like this is needed:
+https://patchwork.kernel.org/patch/10738541/#22609933
 
-  -object remote-device,id=3Drid0,...
-  -device remote-pci-device,id=3Dscsi0,remote-device=3Drid0
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+v1.1 changelog:
+- when resamplefd is going to be kicked from userspace, don't register
+  it again in KVM_IRQFD.  Tested against upstream kernel.
 
-The "remote-device" object could be part of remote-pci-device, but
-keeping it separate may be useful in the future in order to support
-things like reconnection.
+ accel/kvm/kvm-all.c    | 74 ++++++++++++++++++++++++++++++++++++++++--
+ accel/kvm/trace-events |  1 +
+ hw/intc/ioapic.c       | 11 +++++--
+ include/sysemu/kvm.h   |  4 +++
+ 4 files changed, 86 insertions(+), 4 deletions(-)
 
-The generic "remote-pci-device" device handles any remote PCI device,
-not just the LSI SCSI controller.
-
-Do you agree with this approach?
-
-> +* The command-line options for the remote process are added to the "comm=
-and"
-> +  suboption of the newly added "-remote" option.=20
-> +
-> +   -remote [socket],rid=3D0,exec=3D"...",command=3D"..."
-
-QEMU has been using the -object TYPE syntax instead of adding new -TYPE
-command-line options.  This gives you object_add hotplug for free, for
-example.  I suggest using -object remote-device,id=3D,exec=3D,command=3D,
-instead of -remote.
-
-> +
-> +  The drives to be emulated by the remote process are specified as part =
-of
-> +  this command sub-option. The device to be used to connect to the monit=
-or
-> +  is also specified as part of this suboption.
-> +
-> +  For example, the following option adds a drive and monitor to the remo=
-te
-> +  process:
-> +  -remote rid=3D0,exec=3D"qemu-scsi-dev",command=3D"-drive id=3Ddrive0,,=
-file=3Ddata-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-> +
-> +  Note: There's an issue with this "command" sub-option which we are in =
-the
-> +  process of fixing. To work around this issue, it requires additional
-> +  "comma" characters as illustrated above, and in the example below.
-
-command=3D (which could be called args=3D for clarity) will be difficult to
-use not just because of comma escaping but also because of double-quote
-escaping.  How do you pass a command-line argument that contains spaces?
-
---SWTRyWv/ijrBap1m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5X9RwACgkQnKSrs4Gr
-c8jv9wf9EZP2BakHg/7wQXbFCXXZ8PnLiN5hogzlDh0ZT8lSSHgLbDHyldEoNkEa
-2nfKmZRRUPlSiMavcxLPF6C414o8XaAOgAlALpFU2JbvEOZggTxoAhVwVgOa0yYg
-RM2YCmA9pMB4Bh1yguZNLkZj0qU0j7efxpgnn7a3zr2INoLeQt1NwKZ2zFXK7Pxi
-F1HLe4yQ9Cf6FcL652KLtvgvdUjv7gQRDbkuFGTnvF1faYdTE+u516oY04NK2Kmo
-OBthIIOMvuA1mrr6/xZI/HkYHU78t89CRUPk7JVVs3qfnBiX9PPXJywYkX7OSvmx
-JlMaUThPh5rB+gEKlJSY1mK0Go5ixw==
-=baE2
------END PGP SIGNATURE-----
-
---SWTRyWv/ijrBap1m--
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index d49b74512a..b766b6e93c 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -159,9 +159,62 @@ static const KVMCapabilityInfo kvm_required_capabilite=
+s[] =3D {
+ static NotifierList kvm_irqchip_change_notifiers =3D
+     NOTIFIER_LIST_INITIALIZER(kvm_irqchip_change_notifiers);
+=20
++struct KVMResampleFd {
++    int gsi;
++    EventNotifier *resample_event;
++    QLIST_ENTRY(KVMResampleFd) node;
++};
++typedef struct KVMResampleFd KVMResampleFd;
++
++/*
++ * Only used with split irqchip where we need to do the resample fd
++ * kick for the kernel from userspace.
++ */
++static QLIST_HEAD(, KVMResampleFd) kvm_resample_fd_list =3D
++    QLIST_HEAD_INITIALIZER(kvm_resample_fd_list);
++
+ #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+ #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
+=20
++static inline void kvm_resample_fd_remove(int gsi)
++{
++    KVMResampleFd *rfd;
++
++    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
++        if (rfd->gsi =3D=3D gsi) {
++            QLIST_REMOVE(rfd, node);
++            break;
++        }
++    }
++}
++
++static inline void kvm_resample_fd_insert(int gsi, EventNotifier *event)
++{
++    KVMResampleFd *rfd =3D g_new0(KVMResampleFd, 1);
++
++    rfd->gsi =3D gsi;
++    rfd->resample_event =3D event;
++
++    QLIST_INSERT_HEAD(&kvm_resample_fd_list, rfd, node);
++}
++
++void kvm_resample_fd_notify(int gsi)
++{
++    KVMResampleFd *rfd;
++
++    if (!kvm_irqchip_is_split()) {
++        return;
++    }
++
++    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
++        if (rfd->gsi =3D=3D gsi) {
++            event_notifier_set(rfd->resample_event);
++            trace_kvm_resample_fd_notify(gsi);
++            break;
++        }
++    }
++}
++
+ int kvm_get_max_memslots(void)
+ {
+     KVMState *s =3D KVM_STATE(current_accel());
+@@ -1642,8 +1695,25 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, Eve=
+ntNotifier *event,
+     };
+=20
+     if (rfd !=3D -1) {
+-        irqfd.flags |=3D KVM_IRQFD_FLAG_RESAMPLE;
+-        irqfd.resamplefd =3D rfd;
++        assert(assign);
++        if (kvm_irqchip_is_split()) {
++            /*
++             * When the slow irqchip (e.g. IOAPIC) is in the
++             * userspace, resamplefd will not work because the EOI of
++             * the interrupt will be delivered to userspace instead,
++             * the KVM resample fd kick is skipped.  The userspace
++             * needs to remember the resamplefd and kick it when we
++             * receive EOI of this IRQ.
++             */
++            kvm_resample_fd_insert(virq, resample);
++        } else {
++            irqfd.flags |=3D KVM_IRQFD_FLAG_RESAMPLE;
++            irqfd.resamplefd =3D rfd;
++        }
++    } else if (!assign) {
++        if (kvm_irqchip_is_split()) {
++            kvm_resample_fd_remove(virq);
++        }
+     }
+=20
+     if (!kvm_irqfds_enabled()) {
+diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+index 4fb6e59d19..a68eb66534 100644
+--- a/accel/kvm/trace-events
++++ b/accel/kvm/trace-events
+@@ -16,4 +16,5 @@ kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t va=
+l, bool assign, uint32_
+ kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, ui=
+nt32_t size, bool datamatch) "fd: %d @0x%x val=3D0x%x assign: %d size: %d m=
+atch: %d"
+ kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_add=
+r, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=
+=3D0x%x gpa=3D0x%"PRIx64 " size=3D0x%"PRIx64 " ua=3D0x%"PRIx64 " ret=3D%d"
+ kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"=
+PRId32" start 0x%"PRIx64" size 0x%"PRIx32
++kvm_resample_fd_notify(int gsi) "gsi %d"
+=20
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index 15747fe2c2..8c75465c62 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -236,8 +236,15 @@ void ioapic_eoi_broadcast(int vector)
+         for (n =3D 0; n < IOAPIC_NUM_PINS; n++) {
+             entry =3D s->ioredtbl[n];
+=20
+-            if ((entry & IOAPIC_VECTOR_MASK) !=3D vector ||
+-                ((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) !=3D IOAPIC=
+_TRIGGER_LEVEL) {
++            if ((entry & IOAPIC_VECTOR_MASK) !=3D vector) {
++                continue;
++            }
++
++            /* Kick resamplefd if KVM is bypassed */
++            kvm_resample_fd_notify(n);
++
++            if (((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) !=3D
++                IOAPIC_TRIGGER_LEVEL) {
+                 continue;
+             }
+=20
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 141342de98..b67552c047 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -555,4 +555,8 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *so=
+urce);
+ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
+ struct ppc_radix_page_info *kvm_get_radix_page_info(void);
+ int kvm_get_max_memslots(void);
++
++/* Notify resamplefd for EOI of specific level triggered interrupts */
++void kvm_resample_fd_notify(int gsi);
++
+ #endif
+--=20
+2.24.1
 
 
