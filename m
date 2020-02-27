@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6580A17237A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 17:36:26 +0100 (CET)
-Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8A2172373
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 17:34:18 +0100 (CET)
+Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7M9B-0000sp-En
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 11:36:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
+	id 1j7M77-0006KN-T8
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 11:34:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7M50-0004Nj-U2
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:07 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7M54-0004VS-Ej
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7M50-00033e-1i
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:06 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58355
+ (envelope-from <philmd@redhat.com>) id 1j7M53-000357-Ck
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:10 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54976
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7M4z-00033I-Ty
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:05 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7M53-00034y-8H
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582821125;
+ s=mimecast20190719; t=1582821128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lrxksytfH/4aQKzPhPTMKmDyBX6ftLeis8jZBIQPOJY=;
- b=eIcU6rpWHQT5wNbvaHv41q0KLWtnG703RcuaMBSggVaQ8JmnTZVv20Pg9XmHOtGu+8bmyg
- s+QLzpdPcJG5oNWCl/FwSvqFYh+VKzR7PpEBnfqpu9jTNaYYyCs9s5GBZ12QxEmAUQnxfO
- atCGSgie6NTL8o35K8VC7ULRzK25v0I=
+ bh=nQDBNrecZ++ehAWaj148iqa/qkCuUZmbV37u4dgQJEQ=;
+ b=NKkatqTLaoYE+r3vLEDno9na4wTKJ2JPWJzZrckja4LTYiqk+XVaiodS4frQ8iwhBMWSbs
+ FZ044u21gnWb87U7YR9zBl6fM3KWMFpmL6k/J1RLpU5gYIw4i2b2/pM3cZSaHmHgdEv+0P
+ nlwl386HAL8sFxxnAHaV1xtuomakDTM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-qrlnDfvtMbanvVC6FzKkoA-1; Thu, 27 Feb 2020 11:32:03 -0500
-X-MC-Unique: qrlnDfvtMbanvVC6FzKkoA-1
+ us-mta-428-CKf8VmUSOKCDrLXBSzYO3g-1; Thu, 27 Feb 2020 11:32:05 -0500
+X-MC-Unique: CKf8VmUSOKCDrLXBSzYO3g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE4D3800D50;
- Thu, 27 Feb 2020 16:32:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14C3C802563;
+ Thu, 27 Feb 2020 16:32:04 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AC436E3EE;
- Thu, 27 Feb 2020 16:31:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F62A6E3EE;
+ Thu, 27 Feb 2020 16:32:01 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] qga: Fix a memory leak
-Date: Thu, 27 Feb 2020 17:31:00 +0100
-Message-Id: <20200227163101.414-6-philmd@redhat.com>
+Subject: [PATCH v2 6/6] qga: Improve error report by calling error_setg_win32()
+Date: Thu, 27 Feb 2020 17:31:01 +0100
+Message-Id: <20200227163101.414-7-philmd@redhat.com>
 In-Reply-To: <20200227163101.414-1-philmd@redhat.com>
 References: <20200227163101.414-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -81,31 +81,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The string returned by g_win32_error_message() has to be
-deallocated with g_free().
+Use error_setg_win32() which adds a hint similar to strerror(errno)).
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- qga/channel-win32.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qga/channel-win32.c  | 3 ++-
+ qga/commands-win32.c | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/qga/channel-win32.c b/qga/channel-win32.c
-index c86f4388db..774205e017 100644
+index 774205e017..4f04868a76 100644
 --- a/qga/channel-win32.c
 +++ b/qga/channel-win32.c
-@@ -302,8 +302,8 @@ static gboolean ga_channel_open(GAChannel *c, GAChannel=
+@@ -308,7 +308,8 @@ static gboolean ga_channel_open(GAChannel *c, GAChannel=
 Method method,
-                            OPEN_EXISTING,
-                            FILE_FLAG_NO_BUFFERING | FILE_FLAG_OVERLAPPED, =
-NULL);
-     if (c->handle =3D=3D INVALID_HANDLE_VALUE) {
--        g_critical("error opening path %s: %s", newpath,
--                   g_win32_error_message(GetLastError()));
-+        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
-+        g_critical("error opening path %s: %s", newpath, emsg);
-         return false;
      }
 =20
+     if (method =3D=3D GA_CHANNEL_ISA_SERIAL && !SetCommTimeouts(c->handle,=
+&comTimeOut)) {
+-        g_critical("error setting timeout for com port: %lu",GetLastError(=
+));
++        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
++        g_critical("error setting timeout for com port: %s", emsg);
+         CloseHandle(c->handle);
+         return false;
+     }
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 2461fd19bf..8e1f32ea23 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -315,8 +315,7 @@ void qmp_guest_shutdown(bool has_mode, const char *mode=
+, Error **errp)
+     }
+=20
+     if (!ExitWindowsEx(shutdown_flag, SHTDN_REASON_FLAG_PLANNED)) {
+-        slog("guest-shutdown failed: %lu", GetLastError());
+-        error_setg(errp, QERR_UNDEFINED_ERROR);
++        error_setg_win32(errp, GetLastError(), "guest-shutdown failed");
+     }
+ }
+=20
+@@ -1319,7 +1318,8 @@ static DWORD WINAPI do_suspend(LPVOID opaque)
+     DWORD ret =3D 0;
+=20
+     if (!SetSuspendState(*mode =3D=3D GUEST_SUSPEND_MODE_DISK, TRUE, TRUE)=
+) {
+-        slog("failed to suspend guest, %lu", GetLastError());
++        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
++        slog("failed to suspend guest: %s", emsg);
+         ret =3D -1;
+     }
+     g_free(mode);
 --=20
 2.21.1
 
