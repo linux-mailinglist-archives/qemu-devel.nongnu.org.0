@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01FA1714FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:30:53 +0100 (CET)
-Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56826171513
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:34:47 +0100 (CET)
+Received: from localhost ([::1]:56866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GRQ-0003tB-J1
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:30:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44965)
+	id 1j7GVB-0008Ol-EL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:34:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1j7GO1-00019d-Nf
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:27:24 -0500
+ (envelope-from <coiby.xu@gmail.com>) id 1j7GQD-0003UJ-8l
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1j7GNx-00042A-LO
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:27:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49927
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1j7GNx-00041R-Fr
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:27:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582799237;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3JuFsm69pCXiFxPSjN/VPT5Lvx6wPoxEwSXUPjnk0jQ=;
- b=P+lwGEqaKT+6dHi9fWCOmYYF19Vg3ykYJQeY4TFsVxSyIV479v1xltfH/SkhR737RZm9QU
- ZWkfHw5RKLwn1iQt0CYt7bZ2vTHwknAfxnpDtj1Ntr8AEFMtcXlji8M2OsUZNIoHOGgszQ
- 3fImkL8mGL0g5fDw2v8c4JnUV24L+5o=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-2r3vR3LcPum_OmtDnTjbOw-1; Thu, 27 Feb 2020 05:27:15 -0500
-X-MC-Unique: 2r3vR3LcPum_OmtDnTjbOw-1
-Received: by mail-ot1-f71.google.com with SMTP id d16so1355473otf.5
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 02:27:15 -0800 (PST)
+ (envelope-from <coiby.xu@gmail.com>) id 1j7GQC-0001Jr-2Q
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:37 -0500
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45227)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1j7GQB-0001Co-Qd
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:36 -0500
+Received: by mail-lj1-x244.google.com with SMTP id e18so2721479ljn.12
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 02:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q9782uO6U1GtQHeswx106Gf0qWSFhYb6uhF5QwTrPV0=;
+ b=eaG/XsV4oxu8HvV9Pooo69l4SuZuJqoAqIRG4iFY17CgmE9dWqKRPfWZbNyEzP5Yqc
+ pC42WNyILbAbZ2zY1CcKD0g8Azc9kOeHtUub6nKtt30Gc+GPOCvdyUaoCKFIJVLomkMc
+ r3LxYIRBy+nsI1ZuD3RarpQFcfQHM8KeDkQw71WZCf2jC4o61/9bGnmUU/bcf6ddNSzX
+ 6s3HOtjSLuFS7AsI5ewuY+tfP6pfmxCALEA+79DMaWo3CGq8dgmgqcCOnaAyWrX9AudW
+ OIBlkU0fp3s4iEv00QAiizNt/wpcZ/gNy70uWQqzkasUQPrS5x3yRhdpaHqVD0zlfDQF
+ g38g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3JuFsm69pCXiFxPSjN/VPT5Lvx6wPoxEwSXUPjnk0jQ=;
- b=p2uHrS/gQ54YepWqThrtm/EYUKS9HyO6MW+wa2v45ZrbG451GAO1oVlsv4bZuPEG8j
- hSZtPrG7s+PodDXnJchsimriK2ax4qSm9ijH+rGF4QOR3ncy3QH47GDdqYwqHzp4C4lL
- 4MLEkoSHXqHd+W06z4vieVrHleYnJC2p29ZmyMEYb2JsEMP34ktKSgKONMzf53W9LkTy
- 2gpiGQL7vAiRbLmc5X0cqMddqKSUfvhIY5dAfL4ozjGePvbYwUOj+UoCrFp/g/ZOeuue
- J0HKVjqrkgUEwEmsJB8Cln5He7OBll+tCZbZRbIE3dd/kHzXpICYwSsLam3fhZJqbqdG
- 2F8Q==
-X-Gm-Message-State: APjAAAWaQb+MjMQeFIpknSTx0k4PLNgSWQfTiNNWrX6kGfh4YUKm1Ol8
- VCi9QZPDAPxf2MNVhTb61uglzjEW52DF308BIqPFYTMd/D8Ov7DsW/L958Qugn5osOErjjx/n41
- 0LPt264GqmDF89CUJnCuAxdJ5ymfvhS4=
-X-Received: by 2002:a05:6808:487:: with SMTP id z7mr395157oid.46.1582799234511; 
- Thu, 27 Feb 2020 02:27:14 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwtQ6IcMaU2stJcqkzqCnYweyHKBDRF+h5rrLp+dpqC67WidJrXpyNu39TYvV5YLz0rtfBe+1i1FvaALS/3hFw=
-X-Received: by 2002:a05:6808:487:: with SMTP id z7mr395141oid.46.1582799234293; 
- Thu, 27 Feb 2020 02:27:14 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=Q9782uO6U1GtQHeswx106Gf0qWSFhYb6uhF5QwTrPV0=;
+ b=Vo6Fj0o0IAdCIEfyUOPG3zqB+u9GmZfQIcricqCQ0Zmg+hJ7lgt5tC3zgKu0AQL+QA
+ nEbkW6ynDTFQqCh9NRrUR5OQXzjXmt5h3RIpFyt+i9MkpnFWmoVo9ow+huyhwUQRjeex
+ zyT2+/oxEbid8hsI36jB21ONXSlyABXujsY1TgZoM6FlItMjHBGDo/YQ85foG+Svx6Op
+ qo9Nl0ORyz59hPph7imS3pZS7J6Sq3aNzOute0lUoeA/CgX059tRXAn8252HfMdY6DAG
+ 960o9ZSe/0dRicyXPZTo35g30Kqyv1ouFdINVbaYSOVj/aZTX6CoLARnpn9zjU9o/sNU
+ 1vxg==
+X-Gm-Message-State: ANhLgQ0hoBKe1t+/qTjis8cPssPjm2Qf4g7Fuk/kMsC1pDzDgY5tuoOQ
+ WhvK/KznL+4MXDLfbssXeVIpu7BZOUmtFfdr5wU=
+X-Google-Smtp-Source: ADFU+vvW1nRTeCU5QPwd54vuh/9EicL+MbjBwf4QEnbywV/mL0y+Zzgm/jV+PL/4qFo1G0DYBjlnYbtMGs6LRqBHh2E=
+X-Received: by 2002:a2e:7816:: with SMTP id t22mr2347885ljc.161.1582799374202; 
+ Thu, 27 Feb 2020 02:29:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20200227100250.20514-1-philmd@redhat.com>
- <20200227100250.20514-2-philmd@redhat.com>
-In-Reply-To: <20200227100250.20514-2-philmd@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 27 Feb 2020 11:27:03 +0100
-Message-ID: <CAMxuvawwy4b2rhkph7x=ifG2GrpRVCogdm1_dYYtXjvz9fwiiw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] chardev: Improve error report by calling
- error_setg_win32()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20200218050711.8133-1-coiby.xu@gmail.com>
+ <20200219163815.GD1085125@stefanha-x1.localdomain>
+ <CAJAkqrXaqmT2pR4K1x06AeQZHvUWp-fcqnbKZq_45czO96v5PA@mail.gmail.com>
+ <20200227074114.GB83512@stefanha-x1.localdomain>
+ <CAJAkqrWUJWLdT+6b_XmHFwnzhhbYei2SakCKVW0Rf92HJgoZDw@mail.gmail.com>
+ <20200227100206.GA7493@linux.fritz.box>
+In-Reply-To: <20200227100206.GA7493@linux.fritz.box>
+From: Coiby Xu <coiby.xu@gmail.com>
+Date: Thu, 27 Feb 2020 18:28:57 +0800
+Message-ID: <CAJAkqrW_Euur3HjWaK6E-TAjT1dmjA1fz1oPwKSt7_pOC3=S+w@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] vhost-user block device backend implementation
+To: Kevin Wolf <kwolf@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,62 +75,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial <qemu-trivial@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: bharatlkmlkvm@gmail.com,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 11:03 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+> > we still need customized vu_message_read because libvhost-user assumes
+> > we will always get a full-size VhostUserMsg and hasn't taken care of
+> > this short read case. I will improve libvhost-user's vu_message_read
+> > by making it keep reading from socket util getting enough bytes. I
+> > assume short read is a rare case thus introduced performance penalty
+> > would be negligible.
+
+> In any case, please make sure that we use the QIOChannel functions
+> called from a coroutine in QEMU so that it will never block, but the
+> coroutine can just yield while it's waiting for more bytes.
+
+But if I am not wrong, libvhost-user is supposed to be indepdent from
+the main QEMU code. So it can't use the QIOChannel functions if we
+simply modify exiting vu_message_read to address the short read issue.
+In v3 & v4, I extended libvhost-user to allow vu_message_read to be
+replaced by one which will depend on the main QEMU code. I'm not sure
+which way is better.
+
+On Thu, Feb 27, 2020 at 6:02 PM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> Use error_setg_win32() which adds a hint similar to strerror(errno)).
+> Am 27.02.2020 um 10:53 hat Coiby Xu geschrieben:
+> > Thank you for reminding me of this socket short read issue! It seems
+> > we still need customized vu_message_read because libvhost-user assumes
+> > we will always get a full-size VhostUserMsg and hasn't taken care of
+> > this short read case. I will improve libvhost-user's vu_message_read
+> > by making it keep reading from socket util getting enough bytes. I
+> > assume short read is a rare case thus introduced performance penalty
+> > would be negligible.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  chardev/char-pipe.c | 2 +-
->  chardev/char-win.c  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> In any case, please make sure that we use the QIOChannel functions
+> called from a coroutine in QEMU so that it will never block, but the
+> coroutine can just yield while it's waiting for more bytes.
 >
-> diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-> index 94d714ffcd..fd12c9e63b 100644
-> --- a/chardev/char-pipe.c
-> +++ b/chardev/char-pipe.c
-> @@ -70,7 +70,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *=
-filename,
->                                MAXCONNECT, NSENDBUF, NRECVBUF, NTIMEOUT, =
-NULL);
->      g_free(openname);
->      if (s->file =3D=3D INVALID_HANDLE_VALUE) {
-> -        error_setg(errp, "Failed CreateNamedPipe (%lu)", GetLastError())=
-;
-> +        error_setg_win32(errp, GetLastError(), "Failed CreateNamedPipe")=
-;
->          s->file =3D NULL;
->          goto fail;
->      }
-> diff --git a/chardev/char-win.c b/chardev/char-win.c
-> index 34825f683d..d4fb44c4dc 100644
-> --- a/chardev/char-win.c
-> +++ b/chardev/char-win.c
-> @@ -96,7 +96,7 @@ int win_chr_serial_init(Chardev *chr, const char *filen=
-ame, Error **errp)
->      s->file =3D CreateFile(filename, GENERIC_READ | GENERIC_WRITE, 0, NU=
-LL,
->                        OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
->      if (s->file =3D=3D INVALID_HANDLE_VALUE) {
-> -        error_setg(errp, "Failed CreateFile (%lu)", GetLastError());
-> +        error_setg_win32(errp, GetLastError(), "Failed CreateFile");
->          s->file =3D NULL;
->          goto fail;
->      }
-> --
-> 2.21.1
+> Kevin
+>
+> > On Thu, Feb 27, 2020 at 3:41 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Wed, Feb 26, 2020 at 11:18:41PM +0800, Coiby Xu wrote:
+> > > > Hi Stefan,
+> > > >
+> > > > Thank you for reviewing my code!
+> > > >
+> > > > I tried to reach you on IRC. But somehow either you missed my message
+> > > > or I missed your reply. So I will reply by email instead.
+> > > >
+> > > > If we use qio_channel_set_aio_fd_handler to monitor G_IO_IN event,
+> > > > i.e. use vu_dispatch as the read handler, then we can re-use
+> > > > vu_message_read. And "removing the blocking recv from libvhost-user"
+> > > > isn't necessary because "the operation of poll() and ppoll() is not
+> > > > affected by the O_NONBLOCK flag" despite that we use
+> > > > qio_channel_set_blocking before calling qio_channel_set_aio_fd_handler
+> > > > to make recv non-blocking.
+> > >
+> > > I'm not sure I understand.  poll() just says whether the file descriptor
+> > > is readable.  It does not say whether enough bytes are readable :).  So
+> > > our callback will be invoked if there is 1 byte ready, but when we try
+> > > to read 20 bytes either it will block (without O_NONBLOCK) or return
+> > > only 1 byte (with O_NONBLOCK).  Neither case is okay, so I expect that
+> > > code changes will be necessary.
+> > >
+> > > But please go ahead and send the next revision and I'll take a look.
+> > >
+> > > Stefan
+> >
+> >
+> >
+> > --
+> > Best regards,
+> > Coiby
+> >
 >
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-
-Daniel, do you mind queuing this with the qio patch?
-
+-- 
+Best regards,
+Coiby
 
