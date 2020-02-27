@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5B31718B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 14:30:55 +0100 (CET)
-Received: from localhost ([::1]:59590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C641718C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 14:33:31 +0100 (CET)
+Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7JFe-0002yq-DK
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 08:30:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33019)
+	id 1j7JIA-0006xf-Sr
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 08:33:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j7JDi-00019q-8w
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:55 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7JGG-0004zo-Ml
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:31:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j7JDg-0005Qt-Ui
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47500
+ (envelope-from <philmd@redhat.com>) id 1j7JGF-0006h2-Ib
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:31:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31987
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j7JDg-0005Oe-Ri
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:52 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7JGF-0006gx-EY
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:31:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582810131;
+ s=mimecast20190719; t=1582810290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7cil+S2TI0XenfpWIIHgW3zIl7wCogwPVlPkS1oJPDY=;
- b=iyNjlY7EoBq/ma+A+6Qodz2rf7LPyd73dnecPArgJGyrtrN01uVa8OF/FCr1acHchdAdG3
- 1Vue+XxbrjcuooTlfA1aS8YVFR5J5Djz5u2/VY5oTLVfjGgufkYz989uvvQIV1b6Pvx+5q
- oTq65sDWmisNd59lhT0+nejvzgvm5H0=
+ bh=zhtu/CiTrf8+XY7umgJTohHMTw/mnHbl8+T315nQ0Ss=;
+ b=M8iV+GY0paun8Dxhgn7zOhrt0OZLByYa5idpezeLVYqPxhRXaFH0WyJZhHHIbjF+CcA2lM
+ BFRqn0Hsr2whV96lL0W3EN7otP5jyHsUEfADjKBMi0fqmuV0XpObf0M32i08U1vbOuJOIP
+ KoKPIHEuOp/y2d+alhb10TVrK0vJ8rg=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-zNUZT7qdM0-riHPe5Z7GWA-1; Thu, 27 Feb 2020 08:28:44 -0500
-X-MC-Unique: zNUZT7qdM0-riHPe5Z7GWA-1
-Received: by mail-wm1-f69.google.com with SMTP id m4so1004229wmi.5
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 05:28:44 -0800 (PST)
+ us-mta-30-B-xb7wOWOpyjH3ftDAxsrQ-1; Thu, 27 Feb 2020 08:31:29 -0500
+X-MC-Unique: B-xb7wOWOpyjH3ftDAxsrQ-1
+Received: by mail-wm1-f69.google.com with SMTP id t17so701232wmi.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 05:31:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fD0MNpuWhab4G9SMLJRbIrZoxFLbb/kORsNGxaBYd4A=;
- b=gwjf6nVeoHSOuyp4nDclLOBkvgHRexvwqdqxgkMpKAWxpnhZYVwNuke9hHmd9sePa2
- AK8a4iZvCeh91k3aYXcmjw+SP/iOZOfqNb/Wi3HtnhN6GNni9GoqXymGu+SatcHH9L3j
- D9FcDt0UW5deyJ0bmdWCrdLcMF6HdxChz8IA5NFyOqRVrH1D0gdWaP6c4J0jvAvJCSpP
- tncVwyFQWmakh2lIfWTUS9TlgXsVuEAbD1K2uQ0kxD/gBcDfGkgAWXSigd43hLV+hu+b
- aDoM8F0kFMgHNSHzRgvLkUvLDO9uAwJUiIznRKSxQgTsgS2bEYYRJM50whCFqdMFGPlG
- p0LQ==
-X-Gm-Message-State: APjAAAVNbfC79Jhby1krFXrPuTYkDfYC24otyAN92Sld5O5wNxsUjFDo
- FVZe5mNh3irptN/PWQDhF3YrhvkMbXuYDz32rxFlzcY4zeNXZK66+Vtbh7q3tB+ueFunKR1/bF5
- pbvGFBn17qe48gpM=
-X-Received: by 2002:a05:600c:2c06:: with SMTP id
- q6mr5577722wmg.154.1582810123068; 
- Thu, 27 Feb 2020 05:28:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxX9vFksVNpjyfpvF+15trhX7hg8u9UM2U82hQyws3i3YOmakD1qZEDxeGYMrxyXo5pOq/jow==
-X-Received: by 2002:a05:600c:2c06:: with SMTP id
- q6mr5577674wmg.154.1582810122767; 
- Thu, 27 Feb 2020 05:28:42 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:30cb:d037:e500:2b47?
- ([2001:b07:6468:f312:30cb:d037:e500:2b47])
- by smtp.gmail.com with ESMTPSA id z1sm7450624wmf.42.2020.02.27.05.28.40
+ bh=zhtu/CiTrf8+XY7umgJTohHMTw/mnHbl8+T315nQ0Ss=;
+ b=fVG4B6B1XDjWkpSyK2MHRJGfVBG65BNJ9702GT2IZQLSWyy17H4ic9edbHLUlL6ZhN
+ wVOEZO+TQCsy0XFe+hysn7dTy64c2YGfX8UO3nURU4rSvidz2rWMWl3Oqk/fl00c54f8
+ dYf3+ZR89UZR/5x61jcqMVlZZwJfmDT5duiioFkC2QwnfRxsrK/tAzqwdRCjRRFRqiSe
+ Hil45K+0tUNYVcop1TPPocRAnpeX5pEuPXvI+jC0omA4t4ZbqKjbDJ2L5hJvxkxdhI8k
+ nDIwCfciysFG4IGkp7AzBXXs99SExDvohLnVUTjo1Uo/SxlVVhT3Vvvuk4OU5armI5uf
+ dAOQ==
+X-Gm-Message-State: APjAAAVZguTpy8QmBcRiYdh56mQ0t0n53i6vO5T9sqskhtp+ERSUqMad
+ 632TmfUbASRnJfl44cWUKHMww3SKqZJo9I8ERmC7yfZWgRnZh69asWXEDF3iXJeQzDw4MeEMoad
+ 5qbfEabAINp2WIFg=
+X-Received: by 2002:a5d:628e:: with SMTP id k14mr4706063wru.425.1582810287164; 
+ Thu, 27 Feb 2020 05:31:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx2AkFrT5UP3pJovZ7jcGIWRP6plQ5aGE7YzdWeBK3KtEeMUxBc40jVe7WNbNUNyFXjdxKqoQ==
+X-Received: by 2002:a5d:628e:: with SMTP id k14mr4705994wru.425.1582810285986; 
+ Thu, 27 Feb 2020 05:31:25 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id a7sm7189589wmj.12.2020.02.27.05.31.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Feb 2020 05:28:42 -0800 (PST)
-Subject: Re: [PATCH 00/20] hw: Clean up hw/i386 headers (and few alpha/hppa)
-To: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20191014142246.4538-1-philmd@redhat.com>
- <dacba192-0a1e-9801-3e6f-02583bd8b994@redhat.com>
- <fe8ef9e8-d8d2-e92c-cde3-13a11fa1a5bf@vivier.eu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <18164a90-1ad2-28d1-f6e2-cc7741532f72@redhat.com>
-Date: Thu, 27 Feb 2020 14:28:40 +0100
+ Thu, 27 Feb 2020 05:31:24 -0800 (PST)
+Subject: Re: [PATCH v2 2/2] hw/arm/armv7m: Downgrade CPU reset handler priority
+To: Stephanos Ioannidis <root@stephanos.io>,
+ Alistair Francis <alistair@alistair23.me>
+References: <20200227115005.66349-1-root@stephanos.io>
+ <20200227115005.66349-3-root@stephanos.io>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <88ad7129-9654-088d-6569-066949973a86@redhat.com>
+Date: Thu, 27 Feb 2020 14:31:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <fe8ef9e8-d8d2-e92c-cde3-13a11fa1a5bf@vivier.eu>
+In-Reply-To: <20200227115005.66349-3-root@stephanos.io>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,74 +92,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Helge Deller <deller@gmx.de>,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/10/19 15:32, Laurent Vivier wrote:
-> Le 26/10/2019 =C3=A0 14:20, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
-=A0:
->> Hi,
->>
->> On 10/14/19 4:22 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> This is a follow-up of Markus's cleanup series:
->>> Tame a few "touch this, recompile the world"
->>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg635748.html
->>>
->>> This part is mostly restricted to X86, but since some file from the
->>> Alpha/PA-RISC machines include "hw/i386/pc.h" I had to fix them
->>> too.
->>>
->>> Eventually I'll succeed at removing hw/i386/ dependency on non-X86
->>> platforms (Quest I started 2 years ago...).
->>>
->>> Regards,
->>>
->>> Phil.
->>>
->>> Philippe Mathieu-Daud=C3=A9 (20):
->>> =C2=A0=C2=A0 vl: Add missing "hw/boards.h" include
->>> =C2=A0=C2=A0 hw/southbridge/ich9: Removed unused headers
->>> =C2=A0=C2=A0 hw/input/pckbd: Remove unused "hw/i386/pc.h" header
->>> =C2=A0=C2=A0 hw/i386/ioapic_internal: Remove unused "hw/i386/ioapic.h" =
-header
->>> =C2=A0=C2=A0 hw/timer: Remove unused "ui/console.h" header
->>> =C2=A0=C2=A0 hw/usb/dev-storage: Remove unused "ui/console.h" header
->>> =C2=A0=C2=A0 hw/i386/intel_iommu: Remove unused includes
->>> =C2=A0=C2=A0 hw/xen/xen_pt_load_rom: Remove unused includes
->>> =C2=A0=C2=A0 hw/alpha/alpha_sys: Remove unused "hw/ide.h" header
->>> =C2=A0=C2=A0 hw/alpha/dp264: Include "net/net.h"
->>> =C2=A0=C2=A0 hw/hppa/machine: Include "net/net.h"
->>> =C2=A0=C2=A0 hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
->>> =C2=A0=C2=A0 hw/timer/hpet: Include "exec/address-spaces.h"
->>> =C2=A0=C2=A0 hw/pci-host/q35: Include "qemu/range.h"
->>> =C2=A0=C2=A0 hw/i2c/smbus_ich9: Include "qemu/range.h"
->>> =C2=A0=C2=A0 hw/pci-host/piix: Include "qemu/range.h"
->>> =C2=A0=C2=A0 hw/acpi: Include "hw/mem/nvdimm.h"
->>> =C2=A0=C2=A0 hw/i386: Include "hw/mem/nvdimm.h"
->>> =C2=A0=C2=A0 hw/pci-host/q35: Remove unused includes
->>> =C2=A0=C2=A0 hw/i386/pc: Clean up includes
->> Laurent, since this series is fully reviewed, can it go via
->> your qemu-trivial tree?
->=20
-> I'll try but I'm not sure to have the time to do that before the softfree=
-ze.
+Hi Stephanos,
 
-Ping :)
+On 2/27/20 12:51 PM, Stephanos Ioannidis wrote:
+> The ARMv7-M CPU reset handler, which loads the initial SP and PC
+> register values from the vector table, is currently executed before
+> the ROM reset handler (rom_reset), and this causes the devices that
+> alias low memory region (e.g. STM32F405 that aliases the flash memory
+> located at 0x8000000 to 0x0) to load an invalid reset vector of 0 when
+> the kernel image is linked to be loaded at the high memory address.
 
-Paolo
+So we have armv7m_load_kernel -> load_elf_as -> rom_add_blob_fixed_as -> 
+rom_add_blob -> rom_insert.
+
+arm_cpu_reset is called before rom_reset, rom_ptr is NULL, we call 
+initial_pc = ldl_phys(cpu_as) from an empty flash.
+
+Then later rom_reset -> address_space_write_rom.
+
+I think Alistair and myself use the 'loader' device with Cortex-M boards 
+and never hit this problem.
+
+> 
+> For instance, it is norm for the STM32F405 firmware ELF image to have
+> the text and rodata sections linked at 0x8000000, as this facilitates
+> proper image loading by the firmware burning utility, and the processor
+> can execute in place from the high flash memory address region as well.
+> 
+> In order to resolve this issue, this commit downgrades the ARMCPU reset
+> handler invocation priority level to -1 such that it is always executed
+> after the ROM reset handler, which has a priority level of 0.
+> 
+> Signed-off-by: Stephanos Ioannidis <root@stephanos.io>
+> ---
+>   hw/arm/armv7m.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+> index 7531b97ccd..8b7c4b12a6 100644
+> --- a/hw/arm/armv7m.c
+> +++ b/hw/arm/armv7m.c
+> @@ -352,7 +352,8 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
+>        * way A-profile does it. Note that this means that every M profile
+>        * board must call this function!
+>        */
+> -    qemu_register_reset(armv7m_reset, cpu);
+> +    qemu_register_reset_with_priority(
+> +        QEMU_RESET_PRIORITY_LEVEL(-1), armv7m_reset, cpu);
+>   }
+>   
+>   static Property bitband_properties[] = {
+> 
 
 
