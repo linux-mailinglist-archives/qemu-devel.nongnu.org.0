@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5173172A92
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:56:21 +0100 (CET)
-Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B530D172A8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:54:36 +0100 (CET)
+Received: from localhost ([::1]:38902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7R8m-0006wT-W4
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:56:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
+	id 1j7R75-0004tY-OV
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:54:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j7R5m-0003XL-FG
+ (envelope-from <dgibson@ozlabs.org>) id 1j7R5m-0003XS-Hb
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:53:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j7R5k-0008Am-Qe
+ (envelope-from <dgibson@ozlabs.org>) id 1j7R5k-0008Aj-Qi
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:53:14 -0500
-Received: from ozlabs.org ([203.11.71.1]:35997)
+Received: from ozlabs.org ([203.11.71.1]:55433)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j7R5k-00086J-62; Thu, 27 Feb 2020 16:53:12 -0500
+ id 1j7R5k-00086I-2J; Thu, 27 Feb 2020 16:53:12 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48T5y80j4kz9sRQ; Fri, 28 Feb 2020 08:53:03 +1100 (AEDT)
+ id 48T5y76fW4z9sP7; Fri, 28 Feb 2020 08:53:03 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582840384;
- bh=dcngppTsRwqZmr4c5n+6rFpwof7QS1E7VO023W5P5Xs=;
+ d=gibson.dropbear.id.au; s=201602; t=1582840383;
+ bh=76wdx+RXnESt9UFTkzE8wYWzTPdSgG10FdHTwUcTKlk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZYsP35zTxC4wVTcvXpynEkjxy6bDRCbtEgyQzHyoLvAgJkqLuJRQ1qT0AliSRSrRA
- YY2VpvXJP0vctSJgzGnTgCHomkJEpcsa4j46q0ZpjJX1ZoSqXy6E2slBxIKdhpgihG
- Amq/+qzkl9fk5CiWY6vee4gXyxwnPrO+AV45r4kg=
-Date: Thu, 27 Feb 2020 15:33:41 +1100
+ b=hTB5Hrd8o6w9hYzZp26YrtSug7nKNupKBkn2Z3MjYcNiDQ5SDnyWRw/JvNw5dmfVP
+ 55fRAuyu2KwN5/8M44ugR0z2aFS/JGAaop3kwbl9LPkmjJBle9tQisTwY9MiE38JH1
+ sja6apQu+pa7/N7E07pdw4/NFbvfL/kQ13LEdEY4=
+Date: Thu, 27 Feb 2020 17:04:23 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v6 11/18] target/ppc: Only calculate RMLS derived RMA
- limit on demand
-Message-ID: <20200227043341.GL41629@umbus.fritz.box>
+Subject: Re: [PATCH v6 17/18] spapr: Clean up RMA size calculation
+Message-ID: <20200227060423.GM41629@umbus.fritz.box>
 References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
- <20200224233724.46415-12-david@gibson.dropbear.id.au>
- <20200226142453.6d47fb6b@bahia.home>
+ <20200224233724.46415-18-david@gibson.dropbear.id.au>
+ <20200226143751.17b4bfa4@bahia.home>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="c8JyeaiReRNoiMDS"
+ protocol="application/pgp-signature"; boundary="LJm8egi4vkexsie5"
 Content-Disposition: inline
-In-Reply-To: <20200226142453.6d47fb6b@bahia.home>
+In-Reply-To: <20200226143751.17b4bfa4@bahia.home>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -68,209 +67,135 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---c8JyeaiReRNoiMDS
-Content-Type: text/plain; charset=iso-8859-1
+--LJm8egi4vkexsie5
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 26, 2020 at 02:24:53PM +0100, Greg Kurz wrote:
-> On Tue, 25 Feb 2020 10:37:17 +1100
+On Wed, Feb 26, 2020 at 02:37:51PM +0100, Greg Kurz wrote:
+> On Tue, 25 Feb 2020 10:37:23 +1100
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > When the LPCR is written, we update the env->rmls field with the RMA li=
-mit
-> > it implies.  Simplify things by just calculating the value directly from
-> > the LPCR value when we need it.
+> > Move the calculation of the Real Mode Area (RMA) size into a helper
+> > function.  While we're there clean it up and correct it in a few ways:
+> >   * Add comments making it clearer where the various constraints come f=
+rom
+> >   * Remove a pointless check that the RMA fits within Node 0 (we've just
+> >     clamped it so that it does)
 > >=20
-> > It's possible this is a little slower, but it's unlikely to be signific=
-ant,
-> > since this is only for real mode accesses in a translation configuration
-> > that's not used very often, and the whole thing is behind the qemu TLB
-> > anyway.  Therefore, keeping the number of state variables down and not
-> > having to worry about making sure it's always in sync seems the better
-> > option.
-> >=20
->=20
-> This patch also refactors the code of ppc_hash64_update_vrma(), which
-> is definitely an improvement, but seems a bit unrelated to the title...
-> I'd personally make it a separate patch but you decide of course :)
-
-Ah, dang it, botched rebase damage.  There are a couple of hunks here
-that are supposed to be in the next patch.  I think I've sorted it out
-now.
-
->=20
-> Also, a cosmetic remark. See below.
->=20
 > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
 > > ---
-> >  target/ppc/cpu.h        |  1 -
-> >  target/ppc/mmu-hash64.c | 84 ++++++++++++++++++++---------------------
-> >  2 files changed, 40 insertions(+), 45 deletions(-)
+> >  hw/ppc/spapr.c | 59 ++++++++++++++++++++++++++++++--------------------
+> >  1 file changed, 35 insertions(+), 24 deletions(-)
 > >=20
-> > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> > index 8077fdb068..f9871b1233 100644
-> > --- a/target/ppc/cpu.h
-> > +++ b/target/ppc/cpu.h
-> > @@ -1046,7 +1046,6 @@ struct CPUPPCState {
-> >      uint64_t insns_flags2;
-> >  #if defined(TARGET_PPC64)
-> >      ppc_slb_t vrma_slb;
-> > -    target_ulong rmls;
-> >  #endif
-> > =20
-> >      int error_code;
-> > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> > index dd0df6fd01..ac21c14f68 100644
-> > --- a/target/ppc/mmu-hash64.c
-> > +++ b/target/ppc/mmu-hash64.c
-> > @@ -791,6 +791,35 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
-> >      }
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 6e9f15f64d..f0354b699d 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -2648,6 +2648,40 @@ static PCIHostState *spapr_create_default_phb(vo=
+id)
+> >      return PCI_HOST_BRIDGE(dev);
 > >  }
 > > =20
-> > +static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
+> > +static hwaddr spapr_rma_size(SpaprMachineState *spapr, Error **errp)
 > > +{
-> > +    CPUPPCState *env =3D &cpu->env;
-> > +    target_ulong lpcr =3D env->spr[SPR_LPCR];
-> > +    uint32_t vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
-> > +    target_ulong vsid =3D SLB_VSID_VRMA | ((vrmasd << 4) & SLB_VSID_LL=
-P_MASK);
-> > +    int i;
+> > +    MachineState *machine =3D MACHINE(spapr);
+> > +    hwaddr rma_size =3D machine->ram_size;
+> > +    hwaddr node0_size =3D spapr_node0_size(machine);
 > > +
-> > +    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
-> > +        const PPCHash64SegmentPageSizes *sps =3D &cpu->hash64_opts->sp=
-s[i];
+> > +    /* RMA has to fit in the first NUMA node */
+> > +    rma_size =3D MIN(rma_size, node0_size);
 > > +
-> > +        if (!sps->page_shift) {
-> > +            break;
-> > +        }
+> > +    /*
+> > +     * VRMA access is via a special 1TiB SLB mapping, so the RMA can
+> > +     * never exceed that
+> > +     */
+> > +    rma_size =3D MIN(rma_size, TiB);
 > > +
-> > +        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps->slb_enc) {
-> > +            slb->esid =3D SLB_ESID_V;
-> > +            slb->vsid =3D vsid;
-> > +            slb->sps =3D sps;
-> > +            return 0;
-> > +        }
+> > +    /*
+> > +     * Clamp the RMA size based on machine type.  This is for
+> > +     * migration compatibility with older qemu versions, which limited
+> > +     * the RMA size for complicated and mostly bad reasons.
+> > +     */
+> > +    if (smc->rma_limit) {
+>=20
+> /home/greg/Work/qemu/qemu-ppc/hw/ppc/spapr.c: In function =E2=80=98spapr_=
+rma_size=E2=80=99:
+> /home/greg/Work/qemu/qemu-ppc/hw/ppc/spapr.c:2671:9: error: =E2=80=98smc=
+=E2=80=99 undeclared (first use in this function)
+>      if (smc->rma_limit) {
+
+Oops.  Fixed.
+
+>=20
+> > +        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
 > > +    }
 > > +
-> > +    error_report("Bad page size encoding in LPCR[VRMASD]; LPCR=3D0x"
-> > +                 TARGET_FMT_lx"\n", lpcr);
+> > +    if (rma_size < (MIN_RMA_SLOF * MiB)) {
+> > +        error_setg(errp,
+> > +"pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real Mode Area)=
+",
+> > +                   MIN_RMA_SLOF);
+> > +        return -1;
+> > +    }
 > > +
-> > +    return -1;
+> > +    return rma_size;
 > > +}
 > > +
-> >  int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-> >                                  int rwx, int mmu_idx)
+> >  /* pSeries LPAR / sPAPR hardware init */
+> >  static void spapr_machine_init(MachineState *machine)
 > >  {
-> > @@ -844,8 +873,10 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, v=
-addr eaddr,
-> > =20
-> >              goto skip_slb_search;
-> >          } else {
-> > +            target_ulong limit =3D rmls_limit(cpu);
-> > +
-> >              /* Emulated old-style RMO mode, bounds check against RMLS =
-*/
-> > -            if (raddr >=3D env->rmls) {
-> > +            if (raddr >=3D limit) {
-> >                  if (rwx =3D=3D 2) {
-> >                      ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
-> >                  } else {
-> > @@ -1007,8 +1038,9 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU =
-*cpu, target_ulong addr)
-> >                  return -1;
-> >              }
-> >          } else {
-> > +            target_ulong limit =3D rmls_limit(cpu);
->=20
-> Maybe add an empty line like you did above for consistency and better
-> readability ?
-
-Ok, done.
-
->=20
-> Anyway, feel free to add:
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> >              /* Emulated old-style RMO mode, bounds check against RMLS =
-*/
-> > -            if (raddr >=3D env->rmls) {
-> > +            if (raddr >=3D limit) {
-> >                  return -1;
-> >              }
-> >              return raddr | env->spr[SPR_RMOR];
-> > @@ -1043,53 +1075,18 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,=
- target_ulong ptex,
-> >  static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
-> >  {
-> >      CPUPPCState *env =3D &cpu->env;
-> > -    const PPCHash64SegmentPageSizes *sps =3D NULL;
-> > -    target_ulong esid, vsid, lpcr;
-> >      ppc_slb_t *slb =3D &env->vrma_slb;
-> > -    uint32_t vrmasd;
-> > -    int i;
-> > -
-> > -    /* First clear it */
-> > -    slb->esid =3D slb->vsid =3D 0;
-> > -    slb->sps =3D NULL;
-> > =20
-> >      /* Is VRMA enabled ? */
-> > -    if (!ppc_hash64_use_vrma(env)) {
-> > -        return;
-> > -    }
-> > -
-> > -    /*
-> > -     * Make one up. Mostly ignore the ESID which will not be needed
-> > -     * for translation
-> > -     */
-> > -    lpcr =3D env->spr[SPR_LPCR];
-> > -    vsid =3D SLB_VSID_VRMA;
-> > -    vrmasd =3D (lpcr & LPCR_VRMASD) >> LPCR_VRMASD_SHIFT;
-> > -    vsid |=3D (vrmasd << 4) & (SLB_VSID_L | SLB_VSID_LP);
-> > -    esid =3D SLB_ESID_V;
-> > -
-> > -    for (i =3D 0; i < PPC_PAGE_SIZES_MAX_SZ; i++) {
-> > -        const PPCHash64SegmentPageSizes *sps1 =3D &cpu->hash64_opts->s=
-ps[i];
-> > -
-> > -        if (!sps1->page_shift) {
-> > -            break;
-> > +    if (ppc_hash64_use_vrma(env)) {
-> > +        if (build_vrma_slbe(cpu, slb) =3D=3D 0) {
-> > +            return;
-> >          }
-> > -
-> > -        if ((vsid & SLB_VSID_LLP_MASK) =3D=3D sps1->slb_enc) {
-> > -            sps =3D sps1;
-> > -            break;
-> > -        }
-> > -    }
-> > -
-> > -    if (!sps) {
-> > -        error_report("Bad page size encoding esid 0x"TARGET_FMT_lx
-> > -                     " vsid 0x"TARGET_FMT_lx, esid, vsid);
-> > -        return;
+> > @@ -2660,7 +2694,6 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+> >      int i;
+> >      MemoryRegion *sysmem =3D get_system_memory();
+> >      MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+> > -    hwaddr node0_size =3D spapr_node0_size(machine);
+> >      long load_limit, fw_size;
+> >      char *filename;
+> >      Error *resize_hpt_err =3D NULL;
+> > @@ -2700,22 +2733,7 @@ static void spapr_machine_init(MachineState *mac=
+hine)
+> >          exit(1);
 > >      }
 > > =20
-> > -    slb->vsid =3D vsid;
-> > -    slb->esid =3D esid;
-> > -    slb->sps =3D sps;
-> > +    /* Otherwise, clear it to indicate error */
-> > +    slb->esid =3D slb->vsid =3D 0;
-> > +    slb->sps =3D NULL;
-> >  }
+> > -    spapr->rma_size =3D node0_size;
+> > -
+> > -    /*
+> > -     * Clamp the RMA size based on machine type.  This is for
+> > -     * migration compatibility with older qemu versions, which limited
+> > -     * the RMA size for complicated and mostly bad reasons.
+> > -     */
+> > -    if (smc->rma_limit) {
+> > -        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
+> > -    }
+> > -
+> > -    if (spapr->rma_size > node0_size) {
+> > -        error_report("Numa node 0 has to span the RMA (%#08"HWADDR_PRI=
+x")",
+> > -                     spapr->rma_size);
+> > -        exit(1);
+> > -    }
+> > +    spapr->rma_size =3D spapr_rma_size(spapr, &error_fatal);
 > > =20
-> >  void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-> > @@ -1098,7 +1095,6 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong=
- val)
-> >      CPUPPCState *env =3D &cpu->env;
+> >      /* Setup a load limit for the ramdisk leaving room for SLOF and FD=
+T */
+> >      load_limit =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FW_OVERHEAD;
+> > @@ -2954,13 +2972,6 @@ static void spapr_machine_init(MachineState *mac=
+hine)
+> >          }
+> >      }
 > > =20
-> >      env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
-> > -    env->rmls =3D rmls_limit(cpu);
-> >      ppc_hash64_update_vrma(cpu);
-> >  }
+> > -    if (spapr->rma_size < MIN_RMA_SLOF) {
+> > -        error_report(
+> > -            "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Rea=
+l Mode Area memory)",
+> > -            MIN_RMA_SLOF / MiB);
+> > -        exit(1);
+> > -    }
+> > -
+> >      if (kernel_filename) {
+> >          uint64_t lowaddr =3D 0;
 > > =20
 >=20
 
@@ -280,25 +205,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---c8JyeaiReRNoiMDS
+--LJm8egi4vkexsie5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5XRqUACgkQbDjKyiDZ
-s5LiPw/7BTziP/xJTNz+b9oYFMRTVeCoQZSlSImL5JqUSW49P14cB9VDBm46vEuM
-1dOnQ3hTtbVmhKMa6eoQZsgfqZElzKnYJYBT67hTp4s4F9Fkpl84gYxSPo1Eic+t
-ad+K7tnfV1NX3J3POreHMTJwS5vbMNnQz23PqRdO8WNm4/tZsTzxQIwsDUOMxUFO
-Tkb+p00uzEHgO8QXjI821j/hItKiVwv2xj6cwY023IyCtLFCcJFQ7aGyUR0I5gJ/
-WeWqMKVNkaRinJL6RObxsaqYnQ2ISWN2DCgcynKUcJs97VRIGqldEPjAEylBiudJ
-EDkAyWZyHS+oARqSBhwrsds6Kaip3IsXYGjEmWy/YwlY03N0thYEB9hlTMr0SSSA
-0hGJRZOZdaTRK++p5G6Le2cGUUM6GNkJQUrNDl9K2f8sKuDV96bb6fFCpOMIvVpa
-o4ET3Y8KhVXhVcLkUKY17aiv4ac+mGa1XiaPnqxTRS77UPeSWfpnWGorn+TgvIRA
-wdu7r40bNRFipAl5GVn2wL22wAXwOjr/dqxaA5uCS1ccDhV9e4XjzkYXnGxA/hi9
-ljor6MSiioywL4lIqAisDstESJn5PWfYDJDuFiShxayH0tEghPstb+ZgBeE8dTRM
-Pc+skvHvdpc4+pxmUrgat2KIMKAlyd6P7+eUmLyFtKYFECS7cNA=
-=XQ2n
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5XW+QACgkQbDjKyiDZ
+s5KkkA//Yd79p3GDtiteNyjELXdYeK9CGoQtVRUZK1GU90P6g+EcZOcKvJUPAPqs
+kUmJN5qUqJrrqsSeSvH2yMSPg6OlhRqpeXnhrsGV93uOGSHikp4p1CA60ua1egrR
+31velERrkP5kIxn5M+yn9T5sezS3vRnobpKcU6MADgYPHqpcEz5DXm5TYX5k6C7F
+kRsvFxlGXWirWD8AVTrS4AagTvC2Rzp0Doe/eOHZM/nG0sUE30Cd5h7B9cqQwgG5
+bKbIhzZKLlkH9tXBfNdQLdvfM9tyWmXbh//n1fAbnzgZLvD/WlzMzhYoISsgUnjE
+GL1wLOmqG3dIuAcB+7TnA1H1ziDKJLSBV6kZn2TRi1T7001gTehHgHSlhwQJgwx3
+DhHLZNhErQTuSvhvCnH/KFZExpN8kz/A55zKjpb9PeNWxep87ekbkkKBYXno9Nig
+7i5pfg/kgP55ueJCZEsrr0DMN/4Lp2yTA26wb0bFWV+KYYz3gokNkGKL935bk9pq
+GrDEnAEg8YC1tGoxvCtxqyAUA73uvztz2ToDgoiouMFjD3NjJ6D0Z7LMgW/gnMg6
+jJo9GJ2amWVF/MuIsvtQGluqYz10hF0ML/b/V1+iluheO5c3/hFQoFz9U+qcNT7+
+XC7utiFvufrAsOlAm54oNFu3Xd5fhKfIggEXQk3zR1MTMIwpdMA=
+=lpri
 -----END PGP SIGNATURE-----
 
---c8JyeaiReRNoiMDS--
+--LJm8egi4vkexsie5--
 
