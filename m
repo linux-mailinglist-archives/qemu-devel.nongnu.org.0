@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C4B17167D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 12:57:01 +0100 (CET)
-Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6F417168E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 12:59:38 +0100 (CET)
+Received: from localhost ([::1]:58122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7Hmm-00023h-B1
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 06:57:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
+	id 1j7HpJ-0006rA-OF
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 06:59:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j7Hkt-0008Du-ME
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:55:04 -0500
+ (envelope-from <root@stephanos.io>) id 1j7Ho0-00058L-B5
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:58:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j7Hkr-0001XF-W0
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:55:03 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:59653)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1j7Hkq-0001Li-8Z; Thu, 27 Feb 2020 06:55:00 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A28737475F6;
- Thu, 27 Feb 2020 12:54:58 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 844137461AE; Thu, 27 Feb 2020 12:54:58 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 82B5874569F;
- Thu, 27 Feb 2020 12:54:58 +0100 (CET)
-Date: Thu, 27 Feb 2020 12:54:58 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
-In-Reply-To: <CAL1e-=iK1NEOr=ZRBm9XtJw7Mn_23w1ra74e3yDGbfKPVTA9zw@mail.gmail.com>
-Message-ID: <alpine.BSF.2.22.395.2002271248380.21840@zero.eik.bme.hu>
-References: <20200218171702.979F074637D@zero.eik.bme.hu>
- <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
- <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
- <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
- <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
- <3539F747-145F-49CC-B494-C9794A8ABABA@gmail.com>
- <AM6PR03MB5525DE221E3E7E595893DF4DC8EA0@AM6PR03MB5525.eurprd03.prod.outlook.com>
- <AM4PR07MB350651FBB263FEEDB857CBFFCAEA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <87eeuhxw0y.fsf@linaro.org>
- <CAL1e-=gGsEV4_a4gJr2x0L3r_UK7isnpjOWoJRCDhqpG_XT3Ww@mail.gmail.com>
- <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
- <CAL1e-=hhhw4x4H24DWg6pTp9DmjyfwM6GFMOmWasKC66x5tR4Q@mail.gmail.com>
- <2126C4B4-B0F2-4B0F-ADEC-211466989E36@gmail.com>
- <CAL1e-=iK1NEOr=ZRBm9XtJw7Mn_23w1ra74e3yDGbfKPVTA9zw@mail.gmail.com>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <root@stephanos.io>) id 1j7Hny-0006HR-DV
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:58:16 -0500
+Received: from mail-eopbgr1280139.outbound.protection.outlook.com
+ ([40.107.128.139]:21227 helo=KOR01-PS2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <root@stephanos.io>) id 1j7Hny-0006Au-3E
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:58:14 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R/tnIiNOrpNfBcuBJVujbVDNFAX3jkvcJojWglGxoJP+gGxck1DU/qcmbENbN70jghZ3h/WUDTWfq8iHOQwo291LwwY7p0cpTU97pWWxxNx1lCRBGD2+z7huMlZvxBGswbtlfJQSn/gYs31LuuxV1AsYjjwQpOyOAzGL3Vfu8OmaDrmKHariiG2DwhfCY3+yjIsBaqy892en4FlmfSJUeSiU+zIZkwBF5RjPeHW8JoStBEO90u+mWpoRSTAv+fl52mNkSNUUQyFViGhvmCnUk4JQsdMLAv1yw4Lwvow6+wWRFLyhnH5CBaeVaK7L+YRS21oxHXJKFzj2P5TxBoysdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IXXI0Wqkc32VsFx4A2W1Rgcw7u7UIwelH9NPSf5UGXk=;
+ b=n9d6uUipD4UirEJNkm9UDKK2CE5e045vQ/ToWhHTjv3Vuh6ADEbLyzvyQ0bHlvlKwNHVkgzLGmFDO7jcwoSz1xXn7zAD7y1nzZQZTkGLCon1eWDzW327//ekJHMS0X3t7IKOsOs+z7xwxwRqu6IYxrG37YBu67uVcozUoozJHadLlXbrdpiWSHtOlC3Z/4sxkLlPnBBJiYuOCzzHf1mCtKHYuVJpCst6SQG/wrRy5x3J+9PMC+1r0lMlQbX5aepSaxbBuDUfueS1bL2ACjQXUbGjRTdre7lV5sDrikoX0SYs2j85WvvovNHff+H6+HMfYxRClgHyfMGU4AoQ82EMQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=stephanos.io; dmarc=pass action=none header.from=stephanos.io;
+ dkim=pass header.d=stephanos.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stephanosio.onmicrosoft.com; s=selector1-stephanosio-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IXXI0Wqkc32VsFx4A2W1Rgcw7u7UIwelH9NPSf5UGXk=;
+ b=KArKeU4zvgjCl1d7I4mbcNvqEWBehl1gEtL80n1FhqU8/9IzikgfuimQv1du/EgmvHyAyODSt5b/JO5N0brTJRcVKiCulyzSAQIZ3TjQWTP2Rpe0xbD501pOZ2QlefDRsqm5c4KKJcnsv+mKUxi+3vDCvDxZBW5579HIVD/5xzo=
+Received: from SLXP216MB0285.KORP216.PROD.OUTLOOK.COM (10.174.35.136) by
+ SLXP216MB0160.KORP216.PROD.OUTLOOK.COM (10.174.35.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.15; Thu, 27 Feb 2020 11:58:08 +0000
+Received: from SLXP216MB0285.KORP216.PROD.OUTLOOK.COM
+ ([fe80::d10f:962f:91d7:b1b]) by SLXP216MB0285.KORP216.PROD.OUTLOOK.COM
+ ([fe80::d10f:962f:91d7:b1b%8]) with mapi id 15.20.2750.024; Thu, 27 Feb 2020
+ 11:58:08 +0000
+From: Stephanos Ioannidis <root@stephanos.io>
+Subject: [PATCH v2 0/2] Support device reset handler priority configuration
+Thread-Topic: [PATCH v2 0/2] Support device reset handler priority
+ configuration
+Thread-Index: AQHV7WQ0RM0L7s/8kk+c0gUOwocqOqgu71Bg
+Date: Thu, 27 Feb 2020 11:58:08 +0000
+Message-ID: <SLXP216MB028549666E28EDD5840A6525BDEB0@SLXP216MB0285.KORP216.PROD.OUTLOOK.COM>
+References: <20200227115005.66349-1-root@stephanos.io>
+In-Reply-To: <20200227115005.66349-1-root@stephanos.io>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=root@stephanos.io; 
+x-originating-ip: [1.214.196.86]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f92bddd3-67b4-4f6c-41c5-08d7bb7c5004
+x-ms-traffictypediagnostic: SLXP216MB0160:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SLXP216MB0160C0D0554FFBAA0CC2B409BDEB0@SLXP216MB0160.KORP216.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 03264AEA72
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(366004)(396003)(136003)(39830400003)(189003)(199004)(186003)(26005)(4326008)(71200400001)(9686003)(478600001)(33656002)(5660300002)(55016002)(2906002)(54906003)(316002)(7696005)(4744005)(66476007)(66946007)(66446008)(76116006)(66556008)(52536014)(64756008)(81166006)(6506007)(109986005)(8936002)(8676002)(81156014)(86362001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:SLXP216MB0160;
+ H:SLXP216MB0285.KORP216.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: stephanos.io does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3LcaQbV8AGHh834QuRSpT6+/+l7z07Pvh85CFJWGCZV/Gcj4Cxyekecs4ZzkbcFNvNtctH87eprXHfND3feUvtuAhOkPw/v1zflvNSJWMzpKt3G45hNNCgczGZ05tTww7JNVOC2Iyb5i3ZsZ5RC8NWGa9uxUt75H1G2VkYpQOWqvuaC2T1FauSKXSnz+a2r8Hyc9r0J2LffM5lKsHvfNyRgfLLa/djYQ4gAdxnZyZoa7TiV1rdzo8qmnshSwihFTFXgPe4J5BBfasvwQ+ffgv1N3Qg0XdJ3DdWvTEE/KMMlf2MYSHOH6GRhLmTE2rAGb7Ry69YfKzB2lxNLd3gqK3ooGnNhHcpqX1eApLXGehTtUailc2ML9z+imWXKFmgm8TC+vQN90fYF2DZxq/FLHozPUo+/bYWTtEFzL9j/JZhJSadXzEiA18iwdC29MDX2n
+x-ms-exchange-antispam-messagedata: NC1vReAg2ytf7+jF/RaPGE1OcYFOzBlMxcrfYXydbems+0CJTxdqByhC8/yciB/lBL1CMRHwPLvjk6ZMsKqRa0S3tlwQcpXSCbX6fKpt/dDs97oM/kvzJDC+FPtC9YiD3waDdQuXjfc7JMD3VmsKUw==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+X-OriginatorOrg: stephanos.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: f92bddd3-67b4-4f6c-41c5-08d7bb7c5004
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2020 11:58:08.8519 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c98113d8-f05d-4479-8605-bfc8e93dc16d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ct6Bf/pFc7xCIkmO6d6N3kB7WGk7jRo+tq40htfFVWPic9J70+BpPZVq2A7i00phMxFv8K+tS/bSXaAQ4H4jiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SLXP216MB0160
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.128.139
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,37 +102,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dino Papararo <skizzato73@msn.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>, luigi burdo <intermediadc@hotmail.com>,
- =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Stephanos Ioannidis <root@stephanos.io>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Feb 2020, Aleksandar Markovic wrote:
-> I totally disagree with your using the term "hardfloat feature enabled" in
-> this context, speaking about this particulat patch. This may be just
-> wishful thinking. The right wording would be "hardfloat feature hacked", or
-> "hardfloat feature fooled".
->
-> The patch itself has the wrong, intentionally misleading and confusing
-> title from the outset. It should be something like  "target/ppc: Cheat
-> hardfloat feature into beleiving that inexact flag is always set"
+This series adds support for configuring device reset handler priority, and=
+ uses it to ensure that the ARMv7-M CPU reset handler is invoked after the =
+ROM reset handler.
 
-May I point out that the patch is RFC, meaning it's not meant to be merged 
-only to test it and provide feedback. Also the limitations were stated in 
-the commit message. There's no other easy way that I know to test if 
-hardfloat would work with PPC than forcing inexact bit to have it run with 
-hardfloat most of the time. Once it's tested what regression this would 
-cause (other than the expected inexact bit) then we can see if there are 
-any other problem with hardfloat and PPC or only this bit. Then we can 
-either change it to only not clear inexact bit like it's done on other 
-archs or do something else as even not clearing sticky inexact bit would 
-break the non-sticky counterpart PPC has. Breakage would be limited to the 
-non-sticky version and discussion was about if even that's unacceptable.
+This fixes the STM32F405 boot failure issue when the kernel ELF image has t=
+he text and rodata sections linked at the non-aliased flash memory address =
+(0x8000000), which is the default configuration used by many toolchains.
 
-Regards,
-BALATON Zoltan
+Stephanos Ioannidis (2):
+  hw/core: Support device reset handler priority
+  hw/arm/armv7m: Downgrade CPU reset handler priority
+
+ hw/arm/armv7m.c        |  3 ++-
+ hw/core/reset.c        | 32 ++++++++++++++++++++++++++++++--
+ include/sysemu/reset.h | 24 ++++++++++++++++++++++++
+ 3 files changed, 56 insertions(+), 3 deletions(-)
+
+--
+2.17.1
+
 
