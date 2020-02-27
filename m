@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEECA1716F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 13:19:46 +0100 (CET)
-Received: from localhost ([::1]:58387 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18B71716ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 13:18:30 +0100 (CET)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7I8n-0001oh-W1
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 07:19:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60382)
+	id 1j7I7Z-0008IQ-Vn
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 07:18:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1j7I6F-00072e-Gx
+ (envelope-from <anthony.perard@citrix.com>) id 1j7I6F-00072f-HC
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1j7I6D-0001BV-2Q
+ (envelope-from <anthony.perard@citrix.com>) id 1j7I6D-0001C2-C4
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:07 -0500
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:64917)
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:64923)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1j7I6C-00014m-33
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:04 -0500
+ id 1j7I6C-0001AF-PM
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1582805824;
+ d=citrix.com; s=securemail; t=1582805825;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CDWU+sgbS+JktH9g2iumodc54MqCBgShHGQD/NQz8io=;
- b=Guy2QMpawTAtC1jHneOyUGUkoZAYBT+bhUZygmdylBDoccW5PrST/nR0
- p0uUplNSKh7lPrhHW11chjc1TfgDKXmdLcCaQNB2sR9x/F18jO9SX4TZ1
- UhQJWOh3uymJhIod5ohfFa98lGde6e4rtZ+0TtzxzpP9icfqF9XmEhJIW k=;
+ bh=Z+JBE/qWSO5nUyB0osbzoDZoZzb91YmZWMVffW9rbmA=;
+ b=Tf3ZPhNqYRrHYz+8N3545JwqFkFun8UaaMP38TWlz2kgj2diSaBaaVox
+ nvV0b0SEfubtz0cY8Yr0Q8jL2SOh7MPnMeMEeq6MpydfoUgsIpHYhFs/n
+ yFRRF4wgte0CnXBmjOT2hHreCoejlq2VfgX+0M5vuU3eTkSv765kT2Ikw 8=;
 Authentication-Results: esa1.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -60,30 +60,30 @@ Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: iemrAuRoNR9K59H1rtr/9irQXvzz6cNInNaTzMvS9W+79DG5k+OGII2ScMbgIg9Y2FS3BjITVZ
- q8IIDmq+XvKnOl2YCniard/b7u7bbxT69I4Dpa3uWf2Vw7nPfFTX3XruOIV08LASzDCpvHbBWK
- 0Etm1FlhHaAPqT/h4Nz3IZBqujr9ARwuyhRyvXdg2ObSNIJjRvIAajjdc4oaIbchFhfBsPtioA
- 1/GyRze7OCXBN75k095RovC7lb3GazLbFMlBEAJOdrzuhQhZhCkQdiaTjypP5b06p3RJnrL6mv
- l38=
+IronPort-SDR: 6HDLwN2y+PFLSalCjceQp0430N+RKVAXGxKaBmeZ9eoxZik/rbVEZ3jbYVAkz+fxyYFxuH7mJZ
+ 5axX9fqv83Pp1JoqMFHGPO3ll6pQ4OVxa8nPO58rylEZPX0BQyn0/EJLr2ZR2EkmbY6QwarEz/
+ KLYnACqCe5Cimcim4u9y3n/4IHCvbXjv3KXlV/6PmPZT8mrItsMFa5ppWG6Sr/uULI//N0NX9O
+ QfWP6GQwGz2pl0Bcl39YEIjql8T4IS8SDj8r1605Dx9gydT5AKZprEBoI443HnXDQu2MwLIjq1
+ zpg=
 X-SBRS: 2.7
-X-MesageID: 13277763
+X-MesageID: 13277764
 X-Ironport-Server: esa1.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.70,492,1574139600"; d="scan'208";a="13277763"
+X-IronPort-AV: E=Sophos;i="5.70,492,1574139600"; d="scan'208";a="13277764"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 2/3] xen-bus/block: explicitly assign event channels to an
- AioContext
-Date: Thu, 27 Feb 2020 12:16:44 +0000
-Message-ID: <20200227121645.2601280-3-anthony.perard@citrix.com>
+Subject: [PULL 3/3] Memory: Only call ramblock_ptr when needed in
+ qemu_ram_writeback
+Date: Thu, 27 Feb 2020 12:16:45 +0000
+Message-ID: <20200227121645.2601280-4-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200227121645.2601280-1-anthony.perard@citrix.com>
 References: <20200227121645.2601280-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.145.142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,149 +100,50 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paul Durrant <pdurrant@amazon.com>
+It is possible that a ramblock doesn't have memory that QEMU can
+access, this is the case with the Xen hypervisor.
 
-It is not safe to close an event channel from the QEMU main thread when
-that channel's poller is running in IOThread context.
+In order to avoid to trigger an assert, only call ramblock_ptr() when
+needed in qemu_ram_writeback(). This should fix migration of Xen
+guests that was broken with bd108a44bc29 ("migration: ram: Switch to
+ram block writeback").
 
-This patch adds a new xen_device_set_event_channel_context() function
-to explicitly assign the channel AioContext, and modifies
-xen_device_bind_event_channel() to initially assign the channel's poller
-to the QEMU main thread context. The code in xen-block's dataplane is
-then modified to assign the channel to IOThread context during
-xen_block_dataplane_start() and de-assign it during in
-xen_block_dataplane_stop(), such that the channel is always assigned
-back to main thread context before it is closed. aio_set_fd_handler()
-already deals with all the necessary synchronization when moving an fd
-between AioContext-s so no extra code is needed to manage this.
-
-Reported-by: Julien Grall <jgrall@amazon.com>
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20191216143451.19024-1-pdurrant@amazon.com>
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20191219154323.325255-1-anthony.perard@citrix.com>
 ---
- hw/block/dataplane/xen-block.c | 20 ++++++++++++++++++--
- hw/xen/xen-bus.c               | 27 +++++++++++++++++++++++----
- include/hw/xen/xen-bus.h       |  5 ++++-
- 3 files changed, 45 insertions(+), 7 deletions(-)
+ exec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
-index 3b9caeb2fa00..288a87a814ad 100644
---- a/hw/block/dataplane/xen-block.c
-+++ b/hw/block/dataplane/xen-block.c
-@@ -685,12 +685,24 @@ void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+diff --git a/exec.c b/exec.c
+index 231d6e564109..0cc500d53a23 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2116,14 +2116,13 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
+  */
+ void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length)
+ {
+-    void *addr = ramblock_ptr(block, start);
+-
+     /* The requested range should fit in within the block range */
+     g_assert((start + length) <= block->used_length);
+ 
+ #ifdef CONFIG_LIBPMEM
+     /* The lack of support for pmem should not block the sync */
+     if (ramblock_is_pmem(block)) {
++        void *addr = ramblock_ptr(block, start);
+         pmem_persist(addr, length);
          return;
      }
- 
-+    xendev = dataplane->xendev;
-+
-     aio_context_acquire(dataplane->ctx);
-+    if (dataplane->event_channel) {
-+        /* Only reason for failure is a NULL channel */
-+        xen_device_set_event_channel_context(xendev, dataplane->event_channel,
-+                                             qemu_get_aio_context(),
-+                                             &error_abort);
-+    }
-     /* Xen doesn't have multiple users for nodes, so this can't fail */
-     blk_set_aio_context(dataplane->blk, qemu_get_aio_context(), &error_abort);
-     aio_context_release(dataplane->ctx);
- 
--    xendev = dataplane->xendev;
-+    /*
-+     * Now that the context has been moved onto the main thread, cancel
-+     * further processing.
-+     */
-+    qemu_bh_cancel(dataplane->bh);
- 
-     if (dataplane->event_channel) {
-         Error *local_err = NULL;
-@@ -807,7 +819,7 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
-     }
- 
-     dataplane->event_channel =
--        xen_device_bind_event_channel(xendev, dataplane->ctx, event_channel,
-+        xen_device_bind_event_channel(xendev, event_channel,
-                                       xen_block_dataplane_event, dataplane,
-                                       &local_err);
-     if (local_err) {
-@@ -818,7 +830,11 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
-     aio_context_acquire(dataplane->ctx);
-     /* If other users keep the BlockBackend in the iothread, that's ok */
-     blk_set_aio_context(dataplane->blk, dataplane->ctx, NULL);
-+    /* Only reason for failure is a NULL channel */
-+    xen_device_set_event_channel_context(xendev, dataplane->event_channel,
-+                                         dataplane->ctx, &error_abort);
-     aio_context_release(dataplane->ctx);
-+
-     return;
- 
- stop:
-diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index 919e66162a45..18237b34ea85 100644
---- a/hw/xen/xen-bus.c
-+++ b/hw/xen/xen-bus.c
-@@ -1089,8 +1089,26 @@ static void xen_device_event(void *opaque)
-     }
- }
- 
-+void xen_device_set_event_channel_context(XenDevice *xendev,
-+                                          XenEventChannel *channel,
-+                                          AioContext *ctx,
-+                                          Error **errp)
-+{
-+    if (!channel) {
-+        error_setg(errp, "bad channel");
-+        return;
-+    }
-+
-+    if (channel->ctx)
-+        aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
-+                           NULL, NULL, NULL, NULL);
-+
-+    channel->ctx = ctx;
-+    aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
-+                       xen_device_event, NULL, xen_device_poll, channel);
-+}
-+
- XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
--                                               AioContext *ctx,
-                                                unsigned int port,
-                                                XenEventHandler handler,
-                                                void *opaque, Error **errp)
-@@ -1116,9 +1134,10 @@ XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
-     channel->handler = handler;
-     channel->opaque = opaque;
- 
--    channel->ctx = ctx;
--    aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
--                       xen_device_event, NULL, xen_device_poll, channel);
-+    /* Only reason for failure is a NULL channel */
-+    xen_device_set_event_channel_context(xendev, channel,
-+                                         qemu_get_aio_context(),
-+                                         &error_abort);
- 
-     QLIST_INSERT_HEAD(&xendev->event_channels, channel, list);
- 
-diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
-index 3d5532258df7..c18c1372af38 100644
---- a/include/hw/xen/xen-bus.h
-+++ b/include/hw/xen/xen-bus.h
-@@ -128,10 +128,13 @@ void xen_device_copy_grant_refs(XenDevice *xendev, bool to_domain,
- typedef bool (*XenEventHandler)(void *opaque);
- 
- XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
--                                               AioContext *ctx,
-                                                unsigned int port,
-                                                XenEventHandler handler,
-                                                void *opaque, Error **errp);
-+void xen_device_set_event_channel_context(XenDevice *xendev,
-+                                          XenEventChannel *channel,
-+                                          AioContext *ctx,
-+                                          Error **errp);
- void xen_device_notify_event_channel(XenDevice *xendev,
-                                      XenEventChannel *channel,
-                                      Error **errp);
+@@ -2134,6 +2133,7 @@ void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t length)
+          * specified as persistent (or is not one) - use the msync.
+          * Less optimal but still achieves the same goal
+          */
++        void *addr = ramblock_ptr(block, start);
+         if (qemu_msync(addr, length, block->fd)) {
+             warn_report("%s: failed to sync memory range: start: "
+                     RAM_ADDR_FMT " length: " RAM_ADDR_FMT,
 -- 
 Anthony PERARD
 
