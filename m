@@ -2,47 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DFD1718C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 14:33:25 +0100 (CET)
-Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5B31718B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 14:30:55 +0100 (CET)
+Received: from localhost ([::1]:59590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7JI4-0006kA-3J
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 08:33:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33118)
+	id 1j7JFe-0002yq-DK
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 08:30:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j7JDs-0001Rm-EN
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:29:06 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1j7JDi-00019q-8w
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j7JDq-0005i1-Jd
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:29:04 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:51494 helo=mail.rt-rk.com)
+ (envelope-from <pbonzini@redhat.com>) id 1j7JDg-0005Qt-Ui
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47500
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1j7JDq-0005hR-8n
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:29:02 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 7C8221A20EA;
- Thu, 27 Feb 2020 14:28:11 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 54C941A20A0;
- Thu, 27 Feb 2020 14:28:11 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] tests/acceptance: Count multiple Tux logos displayed on
- framebuffer
-Date: Thu, 27 Feb 2020 14:27:36 +0100
-Message-Id: <1582810056-22646-6-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1582810056-22646-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1582810056-22646-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j7JDg-0005Oe-Ri
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582810131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7cil+S2TI0XenfpWIIHgW3zIl7wCogwPVlPkS1oJPDY=;
+ b=iyNjlY7EoBq/ma+A+6Qodz2rf7LPyd73dnecPArgJGyrtrN01uVa8OF/FCr1acHchdAdG3
+ 1Vue+XxbrjcuooTlfA1aS8YVFR5J5Djz5u2/VY5oTLVfjGgufkYz989uvvQIV1b6Pvx+5q
+ oTq65sDWmisNd59lhT0+nejvzgvm5H0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-zNUZT7qdM0-riHPe5Z7GWA-1; Thu, 27 Feb 2020 08:28:44 -0500
+X-MC-Unique: zNUZT7qdM0-riHPe5Z7GWA-1
+Received: by mail-wm1-f69.google.com with SMTP id m4so1004229wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 05:28:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fD0MNpuWhab4G9SMLJRbIrZoxFLbb/kORsNGxaBYd4A=;
+ b=gwjf6nVeoHSOuyp4nDclLOBkvgHRexvwqdqxgkMpKAWxpnhZYVwNuke9hHmd9sePa2
+ AK8a4iZvCeh91k3aYXcmjw+SP/iOZOfqNb/Wi3HtnhN6GNni9GoqXymGu+SatcHH9L3j
+ D9FcDt0UW5deyJ0bmdWCrdLcMF6HdxChz8IA5NFyOqRVrH1D0gdWaP6c4J0jvAvJCSpP
+ tncVwyFQWmakh2lIfWTUS9TlgXsVuEAbD1K2uQ0kxD/gBcDfGkgAWXSigd43hLV+hu+b
+ aDoM8F0kFMgHNSHzRgvLkUvLDO9uAwJUiIznRKSxQgTsgS2bEYYRJM50whCFqdMFGPlG
+ p0LQ==
+X-Gm-Message-State: APjAAAVNbfC79Jhby1krFXrPuTYkDfYC24otyAN92Sld5O5wNxsUjFDo
+ FVZe5mNh3irptN/PWQDhF3YrhvkMbXuYDz32rxFlzcY4zeNXZK66+Vtbh7q3tB+ueFunKR1/bF5
+ pbvGFBn17qe48gpM=
+X-Received: by 2002:a05:600c:2c06:: with SMTP id
+ q6mr5577722wmg.154.1582810123068; 
+ Thu, 27 Feb 2020 05:28:43 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxX9vFksVNpjyfpvF+15trhX7hg8u9UM2U82hQyws3i3YOmakD1qZEDxeGYMrxyXo5pOq/jow==
+X-Received: by 2002:a05:600c:2c06:: with SMTP id
+ q6mr5577674wmg.154.1582810122767; 
+ Thu, 27 Feb 2020 05:28:42 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:30cb:d037:e500:2b47?
+ ([2001:b07:6468:f312:30cb:d037:e500:2b47])
+ by smtp.gmail.com with ESMTPSA id z1sm7450624wmf.42.2020.02.27.05.28.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Feb 2020 05:28:42 -0800 (PST)
+Subject: Re: [PATCH 00/20] hw: Clean up hw/i386 headers (and few alpha/hppa)
+To: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20191014142246.4538-1-philmd@redhat.com>
+ <dacba192-0a1e-9801-3e6f-02583bd8b994@redhat.com>
+ <fe8ef9e8-d8d2-e92c-cde3-13a11fa1a5bf@vivier.eu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <18164a90-1ad2-28d1-f6e2-cc7741532f72@redhat.com>
+Date: Thu, 27 Feb 2020 14:28:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <fe8ef9e8-d8d2-e92c-cde3-13a11fa1a5bf@vivier.eu>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,226 +97,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- amarkovic@wavecomp.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Helge Deller <deller@gmx.de>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 26/10/19 15:32, Laurent Vivier wrote:
+> Le 26/10/2019 =C3=A0 14:20, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
+=A0:
+>> Hi,
+>>
+>> On 10/14/19 4:22 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> This is a follow-up of Markus's cleanup series:
+>>> Tame a few "touch this, recompile the world"
+>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg635748.html
+>>>
+>>> This part is mostly restricted to X86, but since some file from the
+>>> Alpha/PA-RISC machines include "hw/i386/pc.h" I had to fix them
+>>> too.
+>>>
+>>> Eventually I'll succeed at removing hw/i386/ dependency on non-X86
+>>> platforms (Quest I started 2 years ago...).
+>>>
+>>> Regards,
+>>>
+>>> Phil.
+>>>
+>>> Philippe Mathieu-Daud=C3=A9 (20):
+>>> =C2=A0=C2=A0 vl: Add missing "hw/boards.h" include
+>>> =C2=A0=C2=A0 hw/southbridge/ich9: Removed unused headers
+>>> =C2=A0=C2=A0 hw/input/pckbd: Remove unused "hw/i386/pc.h" header
+>>> =C2=A0=C2=A0 hw/i386/ioapic_internal: Remove unused "hw/i386/ioapic.h" =
+header
+>>> =C2=A0=C2=A0 hw/timer: Remove unused "ui/console.h" header
+>>> =C2=A0=C2=A0 hw/usb/dev-storage: Remove unused "ui/console.h" header
+>>> =C2=A0=C2=A0 hw/i386/intel_iommu: Remove unused includes
+>>> =C2=A0=C2=A0 hw/xen/xen_pt_load_rom: Remove unused includes
+>>> =C2=A0=C2=A0 hw/alpha/alpha_sys: Remove unused "hw/ide.h" header
+>>> =C2=A0=C2=A0 hw/alpha/dp264: Include "net/net.h"
+>>> =C2=A0=C2=A0 hw/hppa/machine: Include "net/net.h"
+>>> =C2=A0=C2=A0 hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
+>>> =C2=A0=C2=A0 hw/timer/hpet: Include "exec/address-spaces.h"
+>>> =C2=A0=C2=A0 hw/pci-host/q35: Include "qemu/range.h"
+>>> =C2=A0=C2=A0 hw/i2c/smbus_ich9: Include "qemu/range.h"
+>>> =C2=A0=C2=A0 hw/pci-host/piix: Include "qemu/range.h"
+>>> =C2=A0=C2=A0 hw/acpi: Include "hw/mem/nvdimm.h"
+>>> =C2=A0=C2=A0 hw/i386: Include "hw/mem/nvdimm.h"
+>>> =C2=A0=C2=A0 hw/pci-host/q35: Remove unused includes
+>>> =C2=A0=C2=A0 hw/i386/pc: Clean up includes
+>> Laurent, since this series is fully reviewed, can it go via
+>> your qemu-trivial tree?
+>=20
+> I'll try but I'm not sure to have the time to do that before the softfree=
+ze.
 
-Add a test that verifies that each core properly displays the Tux
-logo on the framebuffer device.
+Ping :)
 
-We simply follow the OpenCV "Template Matching with Multiple Objects"
-tutorial, replacing Lionel Messi by Tux:
-https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
-
-When OpenCV and NumPy are installed, this test can be run using:
-
-  $ avocado --show=3Dapp,framebuffer \
-    run -t cpu:i6400 \
-    tests/acceptance/machine_mips_malta.py
-  JOB ID     : 54f3d8efd8674f289b8aa01a87f5d70c5814544c
-  JOB LOG    : avocado/job-results/job-2020-02-01T20.52-54f3d8e/job.log
-   (1/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.t=
-est_mips_malta_i6400_framebuffer_logo_1core:
-  framebuffer: found Tux at position (x, y) =3D (0, 0)
-  PASS (3.37 s)
-   (2/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.t=
-est_mips_malta_i6400_framebuffer_logo_7cores:
-  framebuffer: found Tux at position (x, y) =3D (0, 0)
-  framebuffer: found Tux at position (x, y) =3D (88, 0)
-  framebuffer: found Tux at position (x, y) =3D (176, 0)
-  framebuffer: found Tux at position (x, y) =3D (264, 0)
-  framebuffer: found Tux at position (x, y) =3D (352, 0)
-  framebuffer: found Tux at position (x, y) =3D (440, 0)
-  framebuffer: found Tux at position (x, y) =3D (528, 0)
-  PASS (5.80 s)
-   (3/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.t=
-est_mips_malta_i6400_framebuffer_logo_8cores:
-  framebuffer: found Tux at position (x, y) =3D (0, 0)
-  framebuffer: found Tux at position (x, y) =3D (88, 0)
-  framebuffer: found Tux at position (x, y) =3D (176, 0)
-  framebuffer: found Tux at position (x, y) =3D (264, 0)
-  framebuffer: found Tux at position (x, y) =3D (352, 0)
-  framebuffer: found Tux at position (x, y) =3D (440, 0)
-  framebuffer: found Tux at position (x, y) =3D (528, 0)
-  framebuffer: found Tux at position (x, y) =3D (616, 0)
-  PASS (6.67 s)
-  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
-  JOB TIME   : 16.79 s
-
-If the AVOCADO_CV2_SCREENDUMP_PNG_PATH environment variable is set, the
-test will save the screenshot with matched squares to it.
-
-Test inspired by the following post:
-https://www.mips.com/blog/how-to-run-smp-linux-in-qemu-on-a-mips64-releas=
-e-6-cpu/
-Kernel built with the following Docker file:
-https://github.com/philmd/qemu-testing-blob/blob/malta_i6400/mips/malta/m=
-ips64el/Dockerfile
-
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20200201204751.17810-1-f4bug@amsat.org>
----
- MAINTAINERS                            |   1 +
- tests/acceptance/machine_mips_malta.py | 118 +++++++++++++++++++++++++++=
-++++++
- 2 files changed, 119 insertions(+)
- create mode 100644 tests/acceptance/machine_mips_malta.py
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b084201..880da9c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1005,6 +1005,7 @@ F: hw/mips/mips_malta.c
- F: hw/mips/gt64xxx_pci.c
- F: include/hw/southbridge/piix.h
- F: tests/acceptance/linux_ssh_mips_malta.py
-+F: tests/acceptance/machine_mips_malta.py
-=20
- Mipssim
- M: Aleksandar Markovic <amarkovic@wavecomp.com>
-diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/ma=
-chine_mips_malta.py
-new file mode 100644
-index 0000000..92b4f28
---- /dev/null
-+++ b/tests/acceptance/machine_mips_malta.py
-@@ -0,0 +1,118 @@
-+# Functional tests for the MIPS Malta board
-+#
-+# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-+# See the COPYING file in the top-level directory.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import gzip
-+import logging
-+
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+from avocado.utils import archive
-+
-+
-+NUMPY_AVAILABLE =3D True
-+try:
-+    import numpy as np
-+except ImportError:
-+    NUMPY_AVAILABLE =3D False
-+
-+CV2_AVAILABLE =3D True
-+try:
-+    import cv2
-+except ImportError:
-+    CV2_AVAILABLE =3D False
-+
-+
-+@skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
-+@skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
-+class MaltaMachineFramebuffer(Test):
-+
-+    timeout =3D 30
-+
-+    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
-+
-+    def do_test_i6400_framebuffer_logo(self, cpu_cores_count):
-+        """
-+        Boot Linux kernel and check Tux logo is displayed on the framebu=
-ffer.
-+        """
-+        screendump_path =3D os.path.join(self.workdir, 'screendump.pbm')
-+
-+        kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/raw=
-/'
-+                      'a5966ca4b5/mips/malta/mips64el/'
-+                      'vmlinux-4.7.0-rc1.I6400.gz')
-+        kernel_hash =3D '096f50c377ec5072e6a366943324622c312045f6'
-+        kernel_path_gz =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
-nel_hash)
-+        kernel_path =3D self.workdir + "vmlinux"
-+        archive.gzip_uncompress(kernel_path_gz, kernel_path)
-+
-+        tuxlogo_url =3D ('https://github.com/torvalds/linux/raw/v2.6.12/=
-'
-+                       'drivers/video/logo/logo_linux_vga16.ppm')
-+        tuxlogo_hash =3D '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
-+        tuxlogo_path =3D self.fetch_asset(tuxlogo_url, asset_hash=3Dtuxl=
-ogo_hash)
-+
-+        self.vm.set_console()
-+        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'clocksource=3DGIC console=3Dtty0 console=
-=3DttyS0')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-cpu', 'I6400',
-+                         '-smp', '%u' % cpu_cores_count,
-+                         '-vga', 'std',
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+        framebuffer_ready =3D 'Console: switching to colour frame buffer=
- device'
-+        wait_for_console_pattern(self, framebuffer_ready,
-+                                 failure_message=3D'Kernel panic - not s=
-yncing')
-+        self.vm.command('human-monitor-command', command_line=3D'stop')
-+        self.vm.command('human-monitor-command',
-+                        command_line=3D'screendump %s' % screendump_path=
-)
-+        logger =3D logging.getLogger('framebuffer')
-+
-+        match_threshold =3D 0.95
-+        screendump_bgr =3D cv2.imread(screendump_path, cv2.IMREAD_COLOR)
-+        tuxlogo_bgr =3D cv2.imread(tuxlogo_path, cv2.IMREAD_COLOR)
-+        result =3D cv2.matchTemplate(screendump_bgr, tuxlogo_bgr,
-+                                   cv2.TM_CCOEFF_NORMED)
-+        loc =3D np.where(result >=3D match_threshold)
-+        tuxlogo_count =3D 0
-+        h, w =3D tuxlogo_bgr.shape[:2]
-+        debug_png =3D os.getenv('AVOCADO_CV2_SCREENDUMP_PNG_PATH')
-+        for tuxlogo_count, pt in enumerate(zip(*loc[::-1]), start=3D1):
-+            logger.debug('found Tux at position (x, y) =3D %s', pt)
-+            cv2.rectangle(screendump_bgr, pt,
-+                          (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-+        if debug_png:
-+            cv2.imwrite(debug_png, screendump_bgr)
-+        self.assertGreaterEqual(tuxlogo_count, cpu_cores_count)
-+
-+    def test_mips_malta_i6400_framebuffer_logo_1core(self):
-+        """
-+        :avocado: tags=3Darch:mips64el
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dcpu:i6400
-+        """
-+        self.do_test_i6400_framebuffer_logo(1)
-+
-+    def test_mips_malta_i6400_framebuffer_logo_7cores(self):
-+        """
-+        :avocado: tags=3Darch:mips64el
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dcpu:i6400
-+        :avocado: tags=3Dmips:smp
-+        """
-+        self.do_test_i6400_framebuffer_logo(7)
-+
-+    def test_mips_malta_i6400_framebuffer_logo_8cores(self):
-+        """
-+        :avocado: tags=3Darch:mips64el
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dcpu:i6400
-+        :avocado: tags=3Dmips:smp
-+        """
-+        self.do_test_i6400_framebuffer_logo(8)
---=20
-2.7.4
+Paolo
 
 
