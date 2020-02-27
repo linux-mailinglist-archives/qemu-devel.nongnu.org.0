@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0024C170E0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 02:56:49 +0100 (CET)
-Received: from localhost ([::1]:52680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1191170E14
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 02:58:00 +0100 (CET)
+Received: from localhost ([::1]:52702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j78Px-0006Nq-0Z
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 20:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36342)
+	id 1j78R5-0000LW-V5
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 20:57:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j78OA-0004c4-NJ
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:55:00 -0500
+ (envelope-from <eblake@redhat.com>) id 1j78OA-0004c5-NT
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:54:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j78O9-0002ZP-7S
+ (envelope-from <eblake@redhat.com>) id 1j78O9-0002ZF-6v
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:54:58 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58060
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53569
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j78O9-0002X8-40
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j78O9-0002Ww-2y
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:54:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582768496;
@@ -27,38 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CoJGR4ZI+9m4O0mPGBL05+mvr80zAshpXsWSv07d0Ow=;
- b=cUdGxyyPZkpI3dK1fwLqI4DoQ3IJsIJ5M7oa2nQ2S4Ubotwsvg2mDsoecvsZu4TII3/ZvD
- 39ZHgAryMFZTgq5hhAp12bna2qwJQn8+skWA5SKk8CQJX7QMdwRt0+PnLwIGZwBTuAymWj
- 5Qk+eg+K23v2pFHu8KQVOKa2oQE0f38=
+ bh=rsUu0Tkg4IjYGzEi8JY5J1KyolilE13RDr+tqC7JBSE=;
+ b=Jlks9anUsxJ1oIQIqlRtHdRuInKFEV5b1j6SnDgDro6fpmsN5kWugRPAMV2CmhypHElHLY
+ +GFfmXby1Tcbca1Ep3WpALJBf1R/MZMKicG97LqAQniE7m/JGG/1d5Iq55a0qJJUZwUUwW
+ ZfkkvMIxrK6IqJ56Y973VvnxKyJLHQA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-XIXfOmM1PjKlFp3HwhhTqA-1; Wed, 26 Feb 2020 20:54:52 -0500
-X-MC-Unique: XIXfOmM1PjKlFp3HwhhTqA-1
+ us-mta-88-MFB1uurqO6GzKwFcH6BciA-1; Wed, 26 Feb 2020 20:54:54 -0500
+X-MC-Unique: MFB1uurqO6GzKwFcH6BciA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F09C5800D53;
- Thu, 27 Feb 2020 01:54:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9A7413E5;
+ Thu, 27 Feb 2020 01:54:52 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-57.phx2.redhat.com [10.3.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CB6C5C28E;
- Thu, 27 Feb 2020 01:54:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2161A5C578;
+ Thu, 27 Feb 2020 01:54:52 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] nbd-client: Support leading / in NBD URI
-Date: Wed, 26 Feb 2020 19:54:46 -0600
-Message-Id: <20200227015448.960538-3-eblake@redhat.com>
+Subject: [PULL 3/4] block/nbd: extract the common cleanup code
+Date: Wed, 26 Feb 2020 19:54:47 -0600
+Message-Id: <20200227015448.960538-4-eblake@redhat.com>
 In-Reply-To: <20200227015448.960538-1-eblake@redhat.com>
 References: <20200227015448.960538-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,54 +71,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+ Pan Nengyuan <pannengyuan@huawei.com>, Max Reitz <mreitz@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NBD URI specification [1] states that only one leading slash at
-the beginning of the URI path component is stripped, not all such
-slashes.  This becomes important to a patch I just proposed to nbdkit
-[2], which would allow the exportname to select a file embedded within
-an ext2 image: ext2fs demands an absolute pathname beginning with '/',
-and because qemu was inadvertantly stripping it, my nbdkit patch had
-to work around the behavior.
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-[1] https://github.com/NetworkBlockDevice/nbd/blob/master/doc/uri.md
-[2] https://www.redhat.com/archives/libguestfs/2020-February/msg00109.html
+The BDRVNBDState cleanup code is common in two places, add
+nbd_clear_bdrvstate() function to do these cleanups.
 
-Note that the qemu bug only affects handling of URIs such as
-nbd://host:port//abs/path (where '/abs/path' should be the export
-name); it is still possible to use --image-opts and pass the desired
-export name with a leading slash directly through JSON even without
-this patch.
-
+Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <1575517528-44312-2-git-send-email-pannengyuan@huawei.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+[eblake: fix compilation error and commit message]
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200212023101.1162686-1-eblake@redhat.com>
-Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
 ---
- block/nbd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ block/nbd.c | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 6d3b22f844ea..f69e61e68ad6 100644
+index f69e61e68ad6..ed0f93ab27a9 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -1528,8 +1528,10 @@ static int nbd_parse_uri(const char *filename, QDict=
- *options)
-         goto out;
-     }
+@@ -95,6 +95,19 @@ typedef struct BDRVNBDState {
 
--    p =3D uri->path ? uri->path : "/";
--    p +=3D strspn(p, "/");
-+    p =3D uri->path ? uri->path : "";
-+    if (p[0] =3D=3D '/') {
-+        p++;
-+    }
-     if (p[0]) {
-         qdict_put_str(options, "export", p);
+ static int nbd_client_connect(BlockDriverState *bs, Error **errp);
+
++static void nbd_clear_bdrvstate(BDRVNBDState *s)
++{
++    object_unref(OBJECT(s->tlscreds));
++    qapi_free_SocketAddress(s->saddr);
++    s->saddr =3D NULL;
++    g_free(s->export);
++    s->export =3D NULL;
++    g_free(s->tlscredsid);
++    s->tlscredsid =3D NULL;
++    g_free(s->x_dirty_bitmap);
++    s->x_dirty_bitmap =3D NULL;
++}
++
+ static void nbd_channel_error(BDRVNBDState *s, int ret)
+ {
+     if (ret =3D=3D -EIO) {
+@@ -1879,11 +1892,7 @@ static int nbd_process_options(BlockDriverState *bs,=
+ QDict *options,
+
+  error:
+     if (ret < 0) {
+-        object_unref(OBJECT(s->tlscreds));
+-        qapi_free_SocketAddress(s->saddr);
+-        g_free(s->export);
+-        g_free(s->tlscredsid);
+-        g_free(s->x_dirty_bitmap);
++        nbd_clear_bdrvstate(s);
      }
+     qemu_opts_del(opts);
+     return ret;
+@@ -1962,12 +1971,7 @@ static void nbd_close(BlockDriverState *bs)
+     BDRVNBDState *s =3D bs->opaque;
+
+     nbd_client_close(bs);
+-
+-    object_unref(OBJECT(s->tlscreds));
+-    qapi_free_SocketAddress(s->saddr);
+-    g_free(s->export);
+-    g_free(s->tlscredsid);
+-    g_free(s->x_dirty_bitmap);
++    nbd_clear_bdrvstate(s);
+ }
+
+ static int64_t nbd_getlength(BlockDriverState *bs)
 --=20
 2.24.1
 
