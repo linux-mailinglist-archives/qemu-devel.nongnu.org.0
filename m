@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A680172A51
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:38:43 +0100 (CET)
-Received: from localhost ([::1]:38732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE11172A70
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:50:33 +0100 (CET)
+Received: from localhost ([::1]:38842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7Qrh-0006MB-Vj
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:38:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
+	id 1j7R3A-00021r-HW
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j7Qqw-0005nH-CE
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:37:55 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j7R2L-0001UC-01
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:49:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j7Qqv-0002Km-B2
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:37:54 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42402)
+ (envelope-from <alistair23@gmail.com>) id 1j7R2J-0006J2-Td
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:49:40 -0500
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:38977)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j7Qqs-0002Hr-SL; Thu, 27 Feb 2020 16:37:51 -0500
-Received: by mail-lj1-x242.google.com with SMTP id d10so899501ljl.9;
- Thu, 27 Feb 2020 13:37:50 -0800 (PST)
+ id 1j7R2H-0006Fg-Kc; Thu, 27 Feb 2020 16:49:37 -0500
+Received: by mail-lf1-x143.google.com with SMTP id n30so549521lfh.6;
+ Thu, 27 Feb 2020 13:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UZVzMiJRShPlueonyaoikwmNMD6aFXintv3DsagvrH0=;
- b=SRayFQF4K8ZX5PNl/v5pzJ6YdRbXtIjy5aoY/qPp0OtzonVtQhSjWyf56PgRY9//9b
- mYxZTUv9TJMyEjTZE2stN6aZdHt3XL0oJ2xMad4tlx03jcOyPhWz4shiBXlLsFbRdy9W
- yG/u9maxuKcDpZpdcbU+tLemQHVySE5xNu7rSh8ksjKUFRwIHUGYY4Av7z9XEsgvK/Vz
- qpGzbiAo2GNf+RMgLC1Qb6heS0sMRIBoLmBXbNjOv0uf4sGge1dU3sHtY5iITHZpW+w9
- Kpi7isnJDseMsOY8cYuBnsPwNq+caQ/aOe2yAXCGJnv/BcGqFlnPWgt1yRmBmKtXRqiv
- r0+w==
+ :cc; bh=2YFo13JeBiET7bAmKbDjgEr8zneKHVMEzIGM7cv+T/U=;
+ b=axjqCfTHL+XlsIvsFAdNXIttY+MFxh62SAWtkS03TIGPmti9uMjUEBqyIYuKDsxeEi
+ fmCR6QC/kWPlcSD2n3I4E8lG/w2klAT5LGV3O/Cvf+M3DSJqgn/7HW9zxXCVFNNqif4h
+ ooB4Q2MbxN+/tBYtOElYkIyVCTddIElGuMAg/O9nj9255fIXHmyFKbjUjV/2VHE8lRZs
+ aUrRHrPay1CjDV21oZ/4FSWBHuF6xENiO6WoiytvDWCMgD5VSuqLfJHYeuN+DfSRhwsf
+ SBSfDqEeFMbk1IGqDGiel7zLq1YY0sS4KMrCaZrMXXRU/CvFo2NWAhCOIKk2JCwRgRD1
+ FGPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UZVzMiJRShPlueonyaoikwmNMD6aFXintv3DsagvrH0=;
- b=dn54t0OYQ4vDLItIMw2yuqJraJyyuNtF5V5MLL6skzK4gPDht6vY6VoUYg7V+GkS1b
- e2PT/frGz42KUtYVJ5QMHzMEzGI3TLg814qlZ5crTDGLDR2v1Kc49Hp66CTksbGLenq4
- kXqCCGjfoNmajYr8oApBWzhI2hjSybNZxfeBrVW6nV38MdFnxbOniuO6ZDzIDrSsHnH9
- mXZ0uDu6Y24+sBHTFo2aT+5gp550TpJYDsCoS1J5Q+RFPPaOZz8lR63t54SHoeYQUDQo
- LnhN1HKqESkqIsxIsB2QGfnauX6+noQ6FWD4y/BP2YCLIsjUEj3aPF0/d9Ip0vM6jQBX
- xnoQ==
-X-Gm-Message-State: ANhLgQ2MIghgXlRQ/aE4FlQlPbKbCOAY18p4I3aFUMdihEIfxz2xk0/h
- zmabg2FjjWIUAx7cM+kUrCXAUjsqMhnu1fLjJwA=
-X-Google-Smtp-Source: ADFU+vvQpH/nQLuT9Dmr7jqUj4WCSmbTjGj/wi1eDSH53N9gdu+612hYFSleZNqLxcrJl5DkuzKKh2SqEQzIPTgrxvg=
-X-Received: by 2002:a2e:a36a:: with SMTP id i10mr664142ljn.107.1582839468777; 
- Thu, 27 Feb 2020 13:37:48 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=2YFo13JeBiET7bAmKbDjgEr8zneKHVMEzIGM7cv+T/U=;
+ b=rLFnJRyCoHfC8igSaNTR64TfzJL9Qt/vsQHd66Iit8c2djdX7+1bkFDg793hAydGCV
+ Q+sMmHqEgNJnf11oJrSONzdjGNAuL2XIH3Va+YhuHnN5XY2ikQT5tL30QsO13EsjKPsW
+ 9B7cTcWGke1TU335/DpLic7DI+9lrEzkNR7ugI00iUAoyd7/ZoMZCYyITzh8RtZ2fMvD
+ pVRhYuOYYD5a/hra/7ykXNCMOpT9y2mVDqejd3V0th/k3y+gLqdUwl3P2EV0xIweCWVT
+ ESjS+idiHM/6wUsVuHitBHVvTq0RvLXnAIA3rHtUu6Am3Bz0a6A+RSP/RooZjFOUbhXb
+ c6Qw==
+X-Gm-Message-State: ANhLgQ0rdMBAnOdO+9lqP4cDkSEe86Os+xI4l93Ph1ee9seVDTRa9PU1
+ LDujlN9DMbamXcxkNZSJx7aVAKF19a/J0LijX8c=
+X-Google-Smtp-Source: ADFU+vuRjJHtVUiADyLjFTvr665nb98AzrvzkSlGGMvr0CREm6gQlyYKg43wd1dZb7l55PrtA6GVIiyvP3NScVTRoA0=
+X-Received: by 2002:ac2:5111:: with SMTP id q17mr796743lfb.51.1582840175870;
+ Thu, 27 Feb 2020 13:49:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20200227115005.66349-1-root@stephanos.io>
  <20200227115005.66349-3-root@stephanos.io>
  <88ad7129-9654-088d-6569-066949973a86@redhat.com>
-In-Reply-To: <88ad7129-9654-088d-6569-066949973a86@redhat.com>
+ <CAKmqyKMkTsgqSEWhrkCmbQ3LMNz1OgdeHE6zFaMsZdRjAFvdRA@mail.gmail.com>
+ <CAFEAcA_i9Qjvq1Bp8Me2JnUwL5bwEaUTi+8uvusNMcoc7OwfkQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_i9Qjvq1Bp8Me2JnUwL5bwEaUTi+8uvusNMcoc7OwfkQ@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 27 Feb 2020 13:30:03 -0800
-Message-ID: <CAKmqyKMkTsgqSEWhrkCmbQ3LMNz1OgdeHE6zFaMsZdRjAFvdRA@mail.gmail.com>
+Date: Thu, 27 Feb 2020 13:41:55 -0800
+Message-ID: <CAKmqyKNJWbf0Er=jLyr_vmrS_vDOFWz9eW8mRjFkDjk3WJHZXg@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] hw/arm/armv7m: Downgrade CPU reset handler priority
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::242
+X-Received-From: 2a00:1450:4864:20::143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,77 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Stephanos Ioannidis <root@stephanos.io>,
  Alistair Francis <alistair@alistair23.me>,
- Stephanos Ioannidis <root@stephanos.io>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  "open list:All patches CC here" <qemu-devel@nongnu.org>,
  "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 5:32 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Thu, Feb 27, 2020 at 1:44 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Hi Stephanos,
+> On Thu, 27 Feb 2020 at 21:37, Alistair Francis <alistair23@gmail.com> wrote:
+> > I do hit this problem, Peter described a workaround in the previous
+> > version of this patch, that is to link at address 0 instead of the
+> > alias address.
 >
-> On 2/27/20 12:51 PM, Stephanos Ioannidis wrote:
-> > The ARMv7-M CPU reset handler, which loads the initial SP and PC
-> > register values from the vector table, is currently executed before
-> > the ROM reset handler (rom_reset), and this causes the devices that
-> > alias low memory region (e.g. STM32F405 that aliases the flash memory
-> > located at 0x8000000 to 0x0) to load an invalid reset vector of 0 when
-> > the kernel image is linked to be loaded at the high memory address.
->
-> So we have armv7m_load_kernel -> load_elf_as -> rom_add_blob_fixed_as ->
-> rom_add_blob -> rom_insert.
->
-> arm_cpu_reset is called before rom_reset, rom_ptr is NULL, we call
-> initial_pc =3D ldl_phys(cpu_as) from an empty flash.
->
-> Then later rom_reset -> address_space_write_rom.
->
-> I think Alistair and myself use the 'loader' device with Cortex-M boards
-> and never hit this problem.
+> Do you happen to have a simple test case you can send me
+> that demonstrates the bug? That will save me a bit of
+> messing around when I come to try to fix it...
 
-I do hit this problem, Peter described a workaround in the previous
-version of this patch, that is to link at address 0 instead of the
-alias address.
+Yep!
+
+This repo: https://github.com/alistair23/CSSE3010-QEMU-Examples
+
+Run: np2_env.sh to setup variables
+
+Then build an example in the examples directory.
+
+That repo will hard fault on QEMU currently (it doesn't have the address fix).
 
 Alistair
 
 >
-> >
-> > For instance, it is norm for the STM32F405 firmware ELF image to have
-> > the text and rodata sections linked at 0x8000000, as this facilitates
-> > proper image loading by the firmware burning utility, and the processor
-> > can execute in place from the high flash memory address region as well.
-> >
-> > In order to resolve this issue, this commit downgrades the ARMCPU reset
-> > handler invocation priority level to -1 such that it is always executed
-> > after the ROM reset handler, which has a priority level of 0.
-> >
-> > Signed-off-by: Stephanos Ioannidis <root@stephanos.io>
-> > ---
-> >   hw/arm/armv7m.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-> > index 7531b97ccd..8b7c4b12a6 100644
-> > --- a/hw/arm/armv7m.c
-> > +++ b/hw/arm/armv7m.c
-> > @@ -352,7 +352,8 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *ke=
-rnel_filename, int mem_size)
-> >        * way A-profile does it. Note that this means that every M profi=
-le
-> >        * board must call this function!
-> >        */
-> > -    qemu_register_reset(armv7m_reset, cpu);
-> > +    qemu_register_reset_with_priority(
-> > +        QEMU_RESET_PRIORITY_LEVEL(-1), armv7m_reset, cpu);
-> >   }
-> >
-> >   static Property bitband_properties[] =3D {
-> >
->
->
+> thanks
+> -- PMM
 
