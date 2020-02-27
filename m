@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5110117118F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 08:35:45 +0100 (CET)
-Received: from localhost ([::1]:54826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080BC171194
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 08:37:08 +0100 (CET)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7Dhv-0005ks-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 02:35:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42446)
+	id 1j7DjH-0007jo-3t
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 02:37:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42270)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j7Dch-0000HM-Sl
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:30:20 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j7DcY-0000G3-La
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:30:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j7DcW-0000Aw-Ij
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:30:18 -0500
-Received: from relay.sw.ru ([185.231.240.75]:33954)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j7DcW-0000AW-85
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:30:10 -0500
+Received: from relay.sw.ru ([185.231.240.75]:33970)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j7DcU-00005X-Lc; Thu, 27 Feb 2020 02:30:07 -0500
+ id 1j7DcU-00005e-LY; Thu, 27 Feb 2020 02:30:07 -0500
 Received: from dptest2.qa.sw.ru ([10.94.4.71])
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j7DcO-0003Tx-OT; Thu, 27 Feb 2020 10:30:00 +0300
+ id 1j7DcO-0003Tx-SL; Thu, 27 Feb 2020 10:30:00 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/8] iotests: filter out compression_type
-Date: Thu, 27 Feb 2020 10:29:49 +0300
-Message-Id: <20200227072953.25445-5-dplotnikov@virtuozzo.com>
+Subject: [PATCH v1 5/8] iotests: fix header size,
+ feature table size and backing file offset
+Date: Thu, 27 Feb 2020 10:29:50 +0300
+Message-Id: <20200227072953.25445-6-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20200227072953.25445-1-dplotnikov@virtuozzo.com>
 References: <20200227072953.25445-1-dplotnikov@virtuozzo.com>
@@ -50,32 +51,209 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After adding compression type feature to qcow2 format, qemu framework
-commands reporting the image settingd, e.g. "qemu-img create", started
-reporting the compression type for the image which breaks the iotests
-output matching.
+Affected tests: 031, 036, 061
 
-To fix it, add compression_type=zlib to the list of filtered image parameters.
+Because of adding the compression type feature, some size values in the
+qcow2 v3 header are changed:
+
+header_size +=8: 1 byte compression type
+                 7 bytes padding
+feature_table += 48: incompatible feture compression type
+
+backing_file_offset += 56 (8 + 48 -> header_change + fature_table_change)
+
+Change the values for the test output comparison accordingly.
 
 Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- tests/qemu-iotests/common.filter | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/031.out | 14 +++++++-------
+ tests/qemu-iotests/036.out |  4 ++--
+ tests/qemu-iotests/061.out | 28 ++++++++++++++--------------
+ 3 files changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 3f8ee3e5f7..c6962d199c 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -152,7 +152,8 @@ _filter_img_create()
-         -e "s# refcount_bits=[0-9]\\+##g" \
-         -e "s# key-secret=[a-zA-Z0-9]\\+##g" \
-         -e "s# iter-time=[0-9]\\+##g" \
--        -e "s# force_size=\\(on\\|off\\)##g"
-+        -e "s# force_size=\\(on\\|off\\)##g" \
-+        -e "s# compression_type=zlib##g"
- }
+diff --git a/tests/qemu-iotests/031.out b/tests/qemu-iotests/031.out
+index d535e407bc..ed51afe9ce 100644
+--- a/tests/qemu-iotests/031.out
++++ b/tests/qemu-iotests/031.out
+@@ -113,11 +113,11 @@ incompatible_features     []
+ compatible_features       []
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
  
- _filter_img_info()
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ Header extension:
+@@ -146,11 +146,11 @@ incompatible_features     []
+ compatible_features       []
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ Header extension:
+@@ -164,7 +164,7 @@ No errors were found on the image.
+ 
+ magic                     0x514649fb
+ version                   3
+-backing_file_offset       0x178
++backing_file_offset       0x1b0
+ backing_file_size         0x17
+ cluster_bits              16
+ size                      67108864
+@@ -179,7 +179,7 @@ incompatible_features     []
+ compatible_features       []
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0xe2792aca
+@@ -188,7 +188,7 @@ data                      'host_device'
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ Header extension:
+diff --git a/tests/qemu-iotests/036.out b/tests/qemu-iotests/036.out
+index 0b52b934e1..fb509f6357 100644
+--- a/tests/qemu-iotests/036.out
++++ b/tests/qemu-iotests/036.out
+@@ -26,7 +26,7 @@ compatible_features       []
+ autoclear_features        [63]
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ 
+@@ -38,7 +38,7 @@ compatible_features       []
+ autoclear_features        []
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ *** done
+diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
+index 8b3091a412..cea7fedfdc 100644
+--- a/tests/qemu-iotests/061.out
++++ b/tests/qemu-iotests/061.out
+@@ -22,11 +22,11 @@ incompatible_features     []
+ compatible_features       [0]
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ magic                     0x514649fb
+@@ -80,11 +80,11 @@ incompatible_features     []
+ compatible_features       [0]
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ magic                     0x514649fb
+@@ -136,11 +136,11 @@ incompatible_features     [0]
+ compatible_features       [0]
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ ERROR cluster 5 refcount=0 reference=1
+@@ -191,11 +191,11 @@ incompatible_features     []
+ compatible_features       [42]
+ autoclear_features        [42]
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ magic                     0x514649fb
+@@ -260,11 +260,11 @@ incompatible_features     []
+ compatible_features       [0]
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ read 65536/65536 bytes at offset 44040192
+@@ -294,11 +294,11 @@ incompatible_features     [0]
+ compatible_features       [0]
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ ERROR cluster 5 refcount=0 reference=1
+@@ -323,11 +323,11 @@ incompatible_features     []
+ compatible_features       []
+ autoclear_features        []
+ refcount_order            4
+-header_length             104
++header_length             112
+ 
+ Header extension:
+ magic                     0x6803f857
+-length                    192
++length                    240
+ data                      <binary>
+ 
+ read 131072/131072 bytes at offset 0
 -- 
 2.17.0
 
