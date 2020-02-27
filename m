@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49DC1172A89
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:54:06 +0100 (CET)
-Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045F7172ABB
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 23:04:46 +0100 (CET)
+Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7R6b-00047P-B6
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:54:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43371)
+	id 1j7RGv-00044g-2r
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 17:04:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1j7R5S-0003D1-Tm
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:52:56 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j7REG-00018h-5u
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 17:02:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1j7R5Q-000800-Mv
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:52:54 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21367
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j7R5Q-0007zc-FN
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:52:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582840371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TAk0J/UrkyFWQvHhzzx69BBlqin1TdNAV4qTTX+2Xek=;
- b=DavPWkZ0Ujp58CX9+xYKqVncRGyBUtlkrUakTvkUpgPMH2Flnq7Yljtn7srjVKxAJRKwXY
- NDuX+Tl4913HTqptooVWv+pt+wVfveB7jMbe6UNTNhPyp2f/rndzyF/fV1DB6cr+hkPlHB
- SyYlBvx+vIwFcr8Jh4T6wfkreUnIVyo=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-Gd_dWbFKP3un0WOWlCxn5Q-1; Thu, 27 Feb 2020 16:52:49 -0500
-X-MC-Unique: Gd_dWbFKP3un0WOWlCxn5Q-1
-Received: by mail-qk1-f199.google.com with SMTP id s18so865892qkj.6
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 13:52:49 -0800 (PST)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j7REE-0003k9-7F
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 17:01:59 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33915)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1j7REC-0003js-Qq; Thu, 27 Feb 2020 17:01:57 -0500
+Received: by mail-wr1-x441.google.com with SMTP id z15so720866wrl.1;
+ Thu, 27 Feb 2020 14:01:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=kNMFlIjm8XBJIEBAtxi3IHrtpIfU7DEVVdeoiVTfm0o=;
+ b=h+Z7qLYwpV96cJpRs4xBR8CbE+1g/hBRgA2WQrpaJUzf81kgCqfMTi8D5Y0y6pXMmf
+ 856AeXTiwadfM1Xcy2kTQ9P/2g45TPcLGKcfqfraFya9Z4gYUKowZh2Bi1OTPR7VK85E
+ QOwgXzPETiFYHea9YbLFZwvNtu3FfNMtAbypVjqNRzXZ9z27xefbb2XaSA0adtyxxH5B
+ SnuyoJg81CMR+HjuYO1ETdwrnKS916qIRHAnU1vqD6Rp5Gr+ILMUCBc3MMiVivAbVpWU
+ OTWfmAV+7DQnY5RmkdXRpgObij+M8dduEAlXU9kDpDF0+4HnLtR97xYVuzUaAIXtJBgz
+ oauQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=moAMlzzskKtcd8zwTAhcFbpbO3z3rlAsS3DQi4Rje5s=;
- b=Dp6VBnl3rWerTeFvNiAhzoAorNAJiJ3hrMlOxf0Gji9rJ6s9OD+AoJ6LSvUdySNtgo
- pQCee6KxQZ97y6/O+2lwxqPEMd2gyQejqvNXijZE+oNuKWvnNZduDg40cyL76AALtHOG
- FvcpWaXxPTnUZ2Sat8uRdM6TrHOtai3z0M2Qj5g2UfvWmzN6p9jNRRpsVRAqieIwwhU1
- ptOXnwEF3akpIkAOd6h/+at8gsrw7MKrh+Nd2iCUDemyAGOHDcB0r9y6dVpvJZpx4Q6b
- Nyb7Bb/n6YJAa+ExVPlgnZe28ZksCK2c7H4nT5y63uaWv5Q13EnWZdm6z09VGIoz9dP6
- N3Uw==
-X-Gm-Message-State: APjAAAXEqtw336mH8rkxFRT6A4KeT0LTB71QludB6NJKI5spYRb3NbA5
- qA6PVBfAWUYCoUaE3p5svUFYIL0s/Qu/Ae4sEdstmtXIsbDXkjrt5lv9CX8J09XaacwRbgiXvx/
- jz6wraUDFisG6y7o=
-X-Received: by 2002:ac8:5399:: with SMTP id x25mr1479934qtp.208.1582840369227; 
- Thu, 27 Feb 2020 13:52:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxJY6Bad+jQzAptrRwSwtvzGLs8QA6T4pM49JlJmwzIinu+zlLZte5226FV0HofUFlAidyVpA==
-X-Received: by 2002:ac8:5399:: with SMTP id x25mr1479907qtp.208.1582840368844; 
- Thu, 27 Feb 2020 13:52:48 -0800 (PST)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id h8sm3857635qtm.51.2020.02.27.13.52.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=kNMFlIjm8XBJIEBAtxi3IHrtpIfU7DEVVdeoiVTfm0o=;
+ b=hQgte0SEv01JQ+rUnmyKLNETlyEYrBFtyAuL9nGg7X9UyEwdf3RwQQ+h+fMEIk+nEc
+ K5sx/2eeu7dm1r2sHvwiHb0CrV8zmUUuLzR+vhFteF6Xhc19jroRs3zmHLWVKm63U3vX
+ RX5rpYz0N/XVf2WLKr5bm1OP7zh+a1fpcnyiyKC2RuMmy7MRaXm9rywMtYGNXD24WrOY
+ B26TX0+JvZ91Hc0JUcf3pm3fBc57u89IrjdpWuhAC6zWhwqEPuYIJ2N4vCpZBvTIMFyj
+ CPAvWE7oPT3Sc+EFyzGNKCzbOHcYBuI7nJ25oPJ8Ihc23klyz2cXfKgcmlkj7m8w5c/M
+ GHog==
+X-Gm-Message-State: APjAAAWLiV9uDkSwm00HAzZosG81to38a9a3AAwlIi+0JY34pMDx3Cbe
+ nXiqGh+ZPwyo9aN/JVJGNCeklMDf
+X-Google-Smtp-Source: APXvYqwAi0eWgIFWbQuHP64dDwrgquZzUOdO9LR3IaI7Xh8WkIWf1N6uNj4JaO/2Ua/utwz2Lug4Qw==
+X-Received: by 2002:a5d:69cb:: with SMTP id s11mr893521wrw.47.1582840915381;
+ Thu, 27 Feb 2020 14:01:55 -0800 (PST)
+Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
+ by smtp.gmail.com with ESMTPSA id z14sm6447040wrg.76.2020.02.27.14.01.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 13:52:47 -0800 (PST)
-Date: Thu, 27 Feb 2020 16:52:46 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH v1.1 4/5] KVM: Kick resamplefd for split kernel irqchip
-Message-ID: <20200227215246.GM180973@xz-x1>
-References: <20200227170048.236599-1-peterx@redhat.com>
- <5e69c385-b27c-61d4-5856-21bcf5e9c8f5@redhat.com>
- <20200227180003.GJ180973@xz-x1>
- <2852480c-89fe-4c4e-75be-7322592976b6@redhat.com>
- <20200227191900.GK180973@xz-x1>
- <8ab9ccaa-7060-9e90-d4a9-a9de32610381@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <8ab9ccaa-7060-9e90-d4a9-a9de32610381@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ Thu, 27 Feb 2020 14:01:54 -0800 (PST)
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/4] hw/arm/cubieboard: correct CPU type and add machine
+ argument checks
+Date: Thu, 27 Feb 2020 23:01:45 +0100
+Message-Id: <20200227220149.6845-1-nieklinnenbank@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,113 +71,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: b.galvani@gmail.com, peter.maydell@linaro.org,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 10:14:47PM +0100, Auger Eric wrote:
-> Hi Peter,
+These patches change the Cubieboard machine definition to use the
+correct CPU type, which is ARM Cortex-A8 instead of ARM Cortex-A9.
 
-Hi, Eric,
+Additionally, add some sanity checks for the machine input
+arguments in the initialization function.
 
-[...]
+Niek Linnenbank (4):
+  hw/arm/cubieboard: use ARM Cortex-A8 as the default CPU in machine
+    definition
+  hw/arm/cubieboard: restrict allowed CPU type to ARM Cortex-A8
+  hw/arm/cubieboard: restrict allowed RAM size to 512MiB and 1GiB
+  hw/arm/cubieboard: report error when using unsupported -bios argument
 
-> >>>>> +             * the KVM resample fd kick is skipped.  The userspace
-> >>>>> +             * needs to remember the resamplefd and kick it when w=
-e
-> >>>>> +             * receive EOI of this IRQ.
-> >>>> Practically we now talk about a VFIO ACTION_UNMASK classical eventfd
-> >>>> As such isn't it a bit weird to handle those normal UNMASK eventfds =
-in
-> >>>> the KVM code?
-> >>>
-> >>> I'm not sure I completely get the question, but this should be
-> >>> something general to KVM resamplefd support.  In other words, this
-> >>> should also fix other devices (besides VFIO) when they're using the
-> >>> KVM resamplefd, because IMHO it's the resamplefd and split irqchip
-> >>> which is really broken here.
-> >> Here is my understanding (& memories): the KVM resamplefd is an eventf=
-d
-> >> you register to KVM so that KVM triggers the resamplefd when KVM traps
-> >> the EOI. Here I understand this is the userspace IOAPIC that traps the
-> >> EOI and not the in-kernel virtual interrupt controller. So I would hav=
-e
-> >> expected you just need to signal the VFIO UNMASK eventfd to re-enable
-> >> the physical IRQ (which was automasked). This is no more a KVM
-> >> resamplefd strictly speaking as KVM is not involved anymore in the
-> >> deactivation process.
-> >=20
-> > Yes KVM kernel side should not be involed when we're using split
-> > irqchip in this case.  However it should still belongs to the work of
-> > the userspace KVM module (kvm-all.c) so that it can still "mimic" the
-> > resamplefd feature that KVM_IRQFD provides.
-> OK. So that what my actual question. Should this be handled by kvm-all.c?
+ hw/arm/cubieboard.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-It should fix KVM split irqchip with resamplefd, so I think it's
-natural to do this in kvm-all.c (I'm a bit puzzled on where else we
-can put this... :).  Or did I misunderstood your question?
-
-> >=20
-> >>>
-> >>> With that in mind, I think KVM should not need to even know what's
-> >>> behind the resamplefd (in VFIO's case, it's the UNMASK eventfd).  It
-> >>> just needs to kick it when IOAPIC EOI comes for the specific IRQ
-> >> But above the userspace directly calls
-> >> event_notifier_set(rfd->resample_event);
-> >>
-> >> This is not KVM anymore that "kicks it". Or maybe I miss something. So
-> >> my comment was, why is it handled in the QEMU KVM layer?
-> >=20
-> > It's my fault to be unclear on using "KVM" above.  I should really say
-> > it as kvm-all.c, say, the QEMU layer for the kernel KVM module.
-> >=20
-> > Indeed this problem is complicated... let me try to summarize.
-> >=20
-> > Firstly KVM split irqchip and resamplefd is not really going to work
-> > in the kernel (I think we just overlooked that when introducing the
-> > 2nd feature, no matter which one comes first), because the resample
-> > operation should be part of IOAPIC EOI, nevertheless when using split
-> > irqchip IOAPIC is in userspace.
-> >=20
-> > After we noticed this, Alex somewhere proposed to disable that in KVM,
-> > which is actually the 1st kernel patch (654f1f13ea56).
-> >=20
-> > We should (at the same time) propose patch 1 too in this series but I
-> > guess everybody just forgot this afterwards (Paolo actually proposed
-> > mostly the whole solution but I guess it got forgotten too)...
-> >=20
-> > About the fast path speedup: the main logic should be to mimic the
-> > same resamplefd feature as provided by KVM_IRQFD but this time only in
-> > the userspace.  However now we're implementing the same logic only
-> > within userspace kvm-all.c, and the kernel KVM should be totally not
-> > aware of this.  Doing that benefits us in that the KVM interface in
-> > QEMU does not need to be changed (majorly kvm_irqchip_assign_irqfd()).
-> > What we need to do is just to wire up the userspace IOAPIC with these
-> > resamplefds.  And the idea is actually the same too - someone (VFIO)
-> > wants to have one fd (which is the resamplefd) kicked when EOI comes
-> > when requesting for a KVM irqfd, no matter who's going to kick it
-> > (kernel KVM or userspace).  That's all.
->=20
-> Yep I think it makes sense to accelerate the trigger path. And for the
-> EOI path if you have means to trap this on the userspace irqchip it
-> looks better than doing the map/unmap dance. So it looks a good iead to
-> me. Now shall it be in kvm-all.c or elsewhere, to me it is not the most
-> important, as long as we reach a consensus and the scheme gets
-> documented somewhere.
-
-Sure.
-
-For documentation: as mentioned above, I think the irqfd users will
-always use the interface just like before, and the resamplefd should
-work exactly like what KVM_IRQFD and kvm_irqchip_assign_irqfd() was
-offering before this patch too.  IMO it'll just start to work even for
-split irqchips which was silently broken without being noticed.
-
-Thanks,
-
---=20
-Peter Xu
+-- 
+2.17.1
 
 
