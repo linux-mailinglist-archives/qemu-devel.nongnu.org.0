@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124EE170E9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:47:04 +0100 (CET)
-Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DB5170E8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:42:28 +0100 (CET)
+Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j79CZ-0002BE-5G
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:47:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33672)
+	id 1j7987-0006ve-J5
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33705)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j795U-0005P2-Cn
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:45 -0500
+ (envelope-from <eblake@redhat.com>) id 1j795W-0005Tb-VM
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j795Q-0000yg-OE
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:43 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27035
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j795V-0001Ew-Fv
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48979
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j795Q-0000wZ-Jd
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:40 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j795V-0001C2-9n
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582771180;
+ s=mimecast20190719; t=1582771184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=THhGaWkj5GESw6EjHQZMczADkbmjRWoKDgfeYscvOyg=;
- b=KtABuT+TyHdPj6pLbpG7/ZpL8uM8DPpEVlB1VboyMIAv7kcCTf0/nwwBfqitFQ4z8tIizH
- OQ10wY7/t9fLhRaPib94lZM9Gb94cWBRIOFUJqrWBgfKlybO0ttf06hVifBJJdCkYUNd8L
- T7OwoNKMDFOkCIWr+jAZkzoAxVvXjgA=
+ bh=kdFbn075HIedi6OAGvkIWRsQc4pyllyl73woeuwOZIQ=;
+ b=dqHaIgYpe2tg0hgqLDRF1t/ep9qoF6VoXbGollXHoiRxy08XTBYGOUXBtfJDZnOm77Kk3k
+ RT621sd4lF9c60cfz+7k5e/2l8dOIsIPabRxnvjE+GtIfd1EvJDiI0ZMZnwhxD0LKSaawJ
+ kRD7MMui8Ey9cVIakhu5kwQ6g32RVac=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-BL6k5O7CM4aDeDN2dOI49g-1; Wed, 26 Feb 2020 21:39:38 -0500
-X-MC-Unique: BL6k5O7CM4aDeDN2dOI49g-1
+ us-mta-430-r56n7odcMgWOL7X-O7KAuw-1; Wed, 26 Feb 2020 21:39:39 -0500
+X-MC-Unique: r56n7odcMgWOL7X-O7KAuw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F3978010EC;
- Thu, 27 Feb 2020 02:39:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 417AE1005512;
+ Thu, 27 Feb 2020 02:39:38 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-57.phx2.redhat.com [10.3.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1DE58AC4D;
- Thu, 27 Feb 2020 02:39:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B18181CB;
+ Thu, 27 Feb 2020 02:39:37 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] block: Add support to warn on backing file change
- without format
-Date: Wed, 26 Feb 2020 20:39:27 -0600
-Message-Id: <20200227023928.1021959-3-eblake@redhat.com>
+Subject: [PATCH v2 3/3] qemu-img: Deprecate use of -b without -F
+Date: Wed, 26 Feb 2020 20:39:28 -0600
+Message-Id: <20200227023928.1021959-4-eblake@redhat.com>
 In-Reply-To: <20200227023928.1021959-1-eblake@redhat.com>
 References: <20200227023928.1021959-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,150 +70,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- mreitz@redhat.com, John Snow <jsnow@redhat.com>
+Cc: libvir-list@redhat.com, Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, this is a mechanical addition; all callers pass false. But
-the next patch will use it to improve 'qemu-img rebase -u' when
-selecting a backing file with no format.
+Creating an image that requires format probing of the backing image is
+inherently unsafe (we've had several CVEs over the years based on
+probes leaking information to the guest on a subsequent boot).  If our
+probing algorithm ever changes, or if other tools like libvirt
+determine a different probe result than we do, then subsequent use of
+that backing file under a different format will present corrupted data
+to the guest.  Start a deprecation clock so that future qemu-img can
+refuse to create unsafe backing chains that would rely on probing.
+
+However, there is one time where probing is safe: if we probe raw,
+then it is safe to record that implicitly in the image (but we still
+warn, as it's better to teach the user to supply -F always than to
+make them guess when it is safe).
+
+iotest 114 specifically wants to create an unsafe image for later
+amendment rather than defaulting to our new default of recording a
+probed format, so it needs an update.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/block.h |  4 ++--
- block.c               | 13 ++++++++++---
- block/qcow2.c         |  2 +-
- block/stream.c        |  2 +-
- blockdev.c            |  3 ++-
- qemu-img.c            |  4 ++--
- 6 files changed, 18 insertions(+), 10 deletions(-)
+ qemu-deprecated.texi       | 15 +++++++++++++++
+ block.c                    | 21 ++++++++++++++++++++-
+ qemu-img.c                 |  8 +++++++-
+ tests/qemu-iotests/114     |  4 ++--
+ tests/qemu-iotests/114.out |  1 +
+ 5 files changed, 45 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index cd6b5b95aad2..8b1dd94f7629 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -350,8 +350,8 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOp=
-ts *opts,
- void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
- void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
- int bdrv_commit(BlockDriverState *bs);
--int bdrv_change_backing_file(BlockDriverState *bs,
--    const char *backing_file, const char *backing_fmt);
-+int bdrv_change_backing_file(BlockDriverState *bs, const char *backing_fil=
-e,
-+                             const char *backing_fmt, bool warn);
- void bdrv_register(BlockDriver *bdrv);
- int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
-                            const char *backing_file_str);
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 66eca3a1dede..f99b49addccc 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -309,6 +309,21 @@ The above, converted to the current supported format:
+
+ @section Related binaries
+
++@subsection qemu-img backing file without format (since 5.0.0)
++
++The use of @command{qemu-img create}, @command{qemu-img rebase},
++@command{qemu-img convert}, or @command{qemu-img ament} to create or
++modify an image that depends on a backing file now recommends that an
++explicit backing format be provided.  This is for safety - if qemu
++probes a different format than what you thought, the data presented to
++the guest will be corrupt; similarly, presenting a raw image to a
++guest allows the guest a potential security exploit if a future probe
++sees non-raw.  To avoid warning messages, or even future refusal to
++create an unsafe image, you must pass @option{-o backing_fmt=3D} (or
++shorthand @option{-F}) to specify the intended backing format.  You
++may use @command{qemu-img rebase -u} to retroactively add a backing
++format to an existing image.
++
+ @subsection qemu-img convert -n -o (since 4.2.0)
+
+ All options specified in @option{-o} are image creation options, so
 diff --git a/block.c b/block.c
-index 1bdb9c679d77..10c2a34e7c00 100644
+index 10c2a34e7c00..9907cf1e3c78 100644
 --- a/block.c
 +++ b/block.c
-@@ -1290,7 +1290,8 @@ static int bdrv_backing_update_filename(BdrvChild *c,=
- BlockDriverState *base,
-     }
-
-     ret =3D bdrv_change_backing_file(parent, filename,
--                                   base->drv ? base->drv->format_name : ""=
-);
-+                                   base->drv ? base->drv->format_name : ""=
-,
-+                                   false);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Could not update backing file link")=
-;
-     }
-@@ -4505,8 +4506,8 @@ int bdrv_check(BlockDriverState *bs,
-  *            image file header
-  * -ENOTSUP - format driver doesn't support changing the backing file
-  */
--int bdrv_change_backing_file(BlockDriverState *bs,
--    const char *backing_file, const char *backing_fmt)
-+int bdrv_change_backing_file(BlockDriverState *bs, const char *backing_fil=
-e,
-+                             const char *backing_fmt, bool warn)
- {
-     BlockDriver *drv =3D bs->drv;
-     int ret;
-@@ -4520,6 +4521,12 @@ int bdrv_change_backing_file(BlockDriverState *bs,
-         return -EINVAL;
-     }
-
-+    if (warn && backing_file && !backing_fmt) {
-+        warn_report("Deprecated use of backing file without explicit "
-+                    "backing format, use of this image requires "
+@@ -6009,6 +6009,20 @@ void bdrv_img_create(const char *filename, const cha=
+r *fmt,
+                               "Could not open backing image to determine s=
+ize.\n");
+             goto out;
+         } else {
++            if (!backing_fmt) {
++                warn_report("Deprecated use of backing file without explic=
+it "
++                            "backing format (detected format of %s)",
++                            bs->drv->format_name);
++                if (bs->drv =3D=3D &bdrv_raw) {
++                    /*
++                     * A probe of raw is always correct, so in this one
++                     * case, we can write that into the image.
++                     */
++                    backing_fmt =3D bs->drv->format_name;
++                    qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, backing_fmt,
++                                 NULL);
++                }
++            }
+             if (size =3D=3D -1) {
+                 /* Opened BS, have no size */
+                 size =3D bdrv_getlength(bs);
+@@ -6022,7 +6036,12 @@ void bdrv_img_create(const char *filename, const cha=
+r *fmt,
+             }
+             bdrv_unref(bs);
+         }
+-    } /* (backing_file && !(flags & BDRV_O_NO_BACKING)) */
++        /* (backing_file && !(flags & BDRV_O_NO_BACKING)) */
++    } else if (backing_file && !backing_fmt) {
++        warn_report("Deprecated use of unopened backing file without "
++                    "explicit backing format, use of this image requires "
 +                    "potentially unsafe format probing");
 +    }
-+
-     if (drv->bdrv_change_backing_file !=3D NULL) {
-         ret =3D drv->bdrv_change_backing_file(bs, backing_file, backing_fm=
-t);
-     } else {
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 3c754f616bf8..05a2973a3086 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3502,7 +3502,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options=
-, Error **errp)
-         }
 
-         ret =3D bdrv_change_backing_file(blk_bs(blk), qcow2_opts->backing_=
-file,
--                                       backing_format);
-+                                       backing_format, false);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Could not assign backing file '%=
-s' "
-                              "with format '%s'", qcow2_opts->backing_file,
-diff --git a/block/stream.c b/block/stream.c
-index 5562ccbf577a..7c4d8ee0bcf1 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -78,7 +78,7 @@ static int stream_prepare(Job *job)
-             }
-         }
-         bdrv_set_backing_hd(bs, base, &local_err);
--        ret =3D bdrv_change_backing_file(bs, base_id, base_fmt);
-+        ret =3D bdrv_change_backing_file(bs, base_id, base_fmt, false);
-         if (local_err) {
-             error_report_err(local_err);
-             return -EPERM;
-diff --git a/blockdev.c b/blockdev.c
-index 011dcfec2770..c88f27941d46 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -4299,7 +4299,8 @@ void qmp_change_backing_file(const char *device,
-     }
-
-     ret =3D bdrv_change_backing_file(image_bs, backing_file,
--                               image_bs->drv ? image_bs->drv->format_name =
-: "");
-+                                   image_bs->drv ? image_bs->drv->format_n=
-ame : "",
-+                                   false);
-
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Could not change backing file to '%s=
-'",
+     if (size =3D=3D -1) {
+         error_setg(errp, "Image creation needs a size parameter");
 diff --git a/qemu-img.c b/qemu-img.c
-index 804630a368d6..b9375427404d 100644
+index b9375427404d..e75ec1bdb555 100644
 --- a/qemu-img.c
 +++ b/qemu-img.c
-@@ -3637,9 +3637,9 @@ static int img_rebase(int argc, char **argv)
+@@ -3637,7 +3637,13 @@ static int img_rebase(int argc, char **argv)
       * doesn't change when we switch the backing file.
       */
      if (out_baseimg && *out_baseimg) {
--        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt);
-+        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, fal=
+-        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, fal=
 se);
++        if (blk_new_backing && !out_basefmt) {
++            out_basefmt =3D blk_bs(blk_new_backing)->drv->format_name;
++            warn_report("Deprecated use of backing file "
++                        "without explicit backing format, using "
++                        "detected format of %s", out_basefmt);
++        }
++        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, tru=
+e);
      } else {
--        ret =3D bdrv_change_backing_file(bs, NULL, NULL);
-+        ret =3D bdrv_change_backing_file(bs, NULL, NULL, false);
+         ret =3D bdrv_change_backing_file(bs, NULL, NULL, false);
      }
+diff --git a/tests/qemu-iotests/114 b/tests/qemu-iotests/114
+index 26104fff6c67..727e06e283a5 100755
+--- a/tests/qemu-iotests/114
++++ b/tests/qemu-iotests/114
+@@ -42,9 +42,9 @@ _unsupported_proto vxhs
+ # qcow2.py does not work too well with external data files
+ _unsupported_imgopts data_file
 
-     if (ret =3D=3D -ENOSPC) {
+-
++# Intentionally specify backing file without backing format
+ TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
+-_make_test_img -b "$TEST_IMG.base" 64M
++_make_test_img -u -b "$TEST_IMG.base" 64M
+
+ # Set an invalid backing file format
+ $PYTHON qcow2.py "$TEST_IMG" add-header-ext 0xE2792ACA "foo"
+diff --git a/tests/qemu-iotests/114.out b/tests/qemu-iotests/114.out
+index 67adef37a4f6..81d5a8e0ad03 100644
+--- a/tests/qemu-iotests/114.out
++++ b/tests/qemu-iotests/114.out
+@@ -1,5 +1,6 @@
+ QA output created by 114
+ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
++qemu-img: warning: Deprecated use of unopened backing file without explici=
+t backing format, use of this image requires potentially unsafe format prob=
+ing
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
+=3DTEST_DIR/t.IMGFMT.base
+ image: TEST_DIR/t.IMGFMT
+ file format: IMGFMT
 --=20
 2.25.1
 
