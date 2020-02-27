@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C75A171209
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 09:13:06 +0100 (CET)
-Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4F317124A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 09:17:42 +0100 (CET)
+Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7EI5-00008h-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 03:13:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1j7EMY-0002BL-0Q
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 03:17:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j7EHH-00082g-Ia
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 03:12:16 -0500
+ (envelope-from <jtomko@redhat.com>) id 1j7EKk-00019j-89
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 03:15:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j7EHG-0004KC-78
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 03:12:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22199
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jtomko@redhat.com>) id 1j7EKi-0006DQ-Ii
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 03:15:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26343
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j7EHG-0004Js-3W
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 03:12:14 -0500
+ (Exim 4.71) (envelope-from <jtomko@redhat.com>) id 1j7EKi-0006DA-E8
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 03:15:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582791133;
+ s=mimecast20190719; t=1582791347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r658ia3hKmhLXCESVbop3fdvJTntt2g0Jkc99YfoFuA=;
- b=HQhaeIAENugK7Vz99N6rBQGs4Hyog37+b1GGMktfrCDOCbCmom/UwJayIiKnqBfC/Y6S8S
- QxJpMnpSioHUKZPuZxmz1k21dCDpv+p12rqI/YJVDgfY76oM36qbvyIEEblvkyENvMzzat
- /Cbz+fUWwTVXgjqvlmXvrfoEGbCQRcs=
+ bh=CvONgG00nAtPaoceucsYJoqisFX0D2LHlnvB6Go/vrY=;
+ b=drisiGG2ZoyFjPYEsxqtPsxZE+glRDcxdzjJPBS46pUkjLD3PAlpA5VqoyfKy0HG6PZQD9
+ PERRRxqbSDnLjW6xj9oqEL5tGrESn/EtnjiR75oEeuX4nwe16v9QekOvL76rn/+iE1udKo
+ c8cXA4yN/BLcKr5HpGXgisjgeBsMATk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-IDrerJNNNAe_6QgXFEHMug-1; Thu, 27 Feb 2020 03:12:09 -0500
-X-MC-Unique: IDrerJNNNAe_6QgXFEHMug-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-360-Tycj2z5_M2m6XIhNYr6w3A-1; Thu, 27 Feb 2020 03:15:41 -0500
+X-MC-Unique: Tycj2z5_M2m6XIhNYr6w3A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2A04107ACC4;
- Thu, 27 Feb 2020 08:12:08 +0000 (UTC)
-Received: from [10.36.116.59] (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD20B77945;
- Thu, 27 Feb 2020 08:12:06 +0000 (UTC)
-Subject: Re: [RFC 2/2] hw/arm/virt: kvm: allow gicv3 by default if host does
- not support v2
-To: Andrew Jones <drjones@redhat.com>
-References: <20200226170500.17028-1-eric.auger@redhat.com>
- <20200226170500.17028-3-eric.auger@redhat.com>
- <20200226184218.g5id5lnhzowiicxf@kamzik.brq.redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c590d9c7-9644-8b09-bed5-0b83c34503a7@redhat.com>
-Date: Thu, 27 Feb 2020 09:12:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84A92107B7D4
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 08:15:40 +0000 (UTC)
+Received: from lpt (unknown [10.43.2.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CC9B9051C;
+ Thu, 27 Feb 2020 08:15:30 +0000 (UTC)
+Date: Thu, 27 Feb 2020 09:15:28 +0100
+From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v3] pcie_root_port: Add hotplug disabling option
+Message-ID: <20200227081528.GA2262365@lpt>
+References: <20200226174607.205941-1-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200226184218.g5id5lnhzowiicxf@kamzik.brq.redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200226174607.205941-1-jusual@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,154 +70,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, maz@kernel.org
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Laine Stump <laine@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
+--jRHKVT23PllUwdXP
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2/26/20 7:42 PM, Andrew Jones wrote:
-> On Wed, Feb 26, 2020 at 06:05:00PM +0100, Eric Auger wrote:
->> At the moment if the end-user does not specify the gic-version along
->> with KVM acceleration, v2 is set by default. However most of the
->> systems now have GICv3 and sometimes they do not support GICv2
->> compatibility. In that case we end up with this error:
->>
->> qemu-system-aarch64: PMU: KVM_SET_DEVICE_ATTR: Invalid argument
->> qemu-system-aarch64: failed to set irq for PMU
->> and qemu aborts.
->>
->> This patch keeps the default v2 selection in all cases except
->> in the KVM accelerated mode when the host does not support v2.
->> This case did not work anyway so we do not break any compatibility.
->> Now we get v3 selected in such a case.
-> 
->> Also if the end-user explicitly
->> sets v2 whereas this latter is not supported, we also are
->> informed that v2 is not selected by thos host instead of getting the
->> above PMU related message.
-> 
-> I would change the above to:
-> 
-> Also, if the end-user explicitly sets v2 and this is not supported by
-> the host, then the user gets a more informative error message than
-> the PMU invalid argument message above.
+On a Wednesday in 2020, Julia Suvorova wrote:
+>Make hot-plug/hot-unplug on PCIe Root Ports optional to allow libvirt
+>manage it and restrict unplug for the whole machine. This is going to
+>prevent user-initiated unplug in guests (Windows mostly).
+>Hotplug is enabled by default.
+>Usage:
+>    -device pcie-root-port,hotplug=3Doff,...
+>
+>If you want to disable hot-unplug on some downstream ports of one
+>switch, disable hot-unplug on PCIe Root Port connected to the upstream
+>port as well as on the selected downstream ports.
+>
+>Discussion related:
+>    https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00530.html
+>
+>Signed-off-by: Julia Suvorova <jusual@redhat.com>
+>---
+>v1: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg04868.html
+>
+>v2: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05192.html
+>    * change name of the option to 'enable-hotplug' [Laine]
+>    * change order of enabling capability bits [Igor]
+>    * enable HPS bit [Igor]
+>    * add option to xio3130_downstream [J=E1n]
+>
+>v3:
+>    * change name of the option to 'hotplug'. Naming is hard! [Laine]
+>    * move property under TYPE_PCIE_SLOT [Michael]
+>
+> hw/pci-bridge/pcie_root_port.c     |  2 +-
+> hw/pci-bridge/xio3130_downstream.c |  2 +-
+> hw/pci/pcie.c                      | 11 +++++++----
+> hw/pci/pcie_port.c                 |  1 +
+> include/hw/pci/pcie.h              |  2 +-
+> include/hw/pci/pcie_port.h         |  3 +++
+> 6 files changed, 14 insertions(+), 7 deletions(-)
+>
 
-Sure
-> 
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> ---
->>  hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
->>  include/hw/arm/virt.h |  1 +
->>  2 files changed, 31 insertions(+)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index a196bbf0d5..b37b0c40c1 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -1554,6 +1554,33 @@ static void machvirt_init(MachineState *machine)
->>                  }
->>              }
->>          }
->> +    } else if (kvm_enabled()) {
->> +        int probe_bitmap = kvm_arm_vgic_probe();
->> +
->> +        if (!probe_bitmap) {
->> +            error_report(
->> +                "Unable to determine GIC version supported by host");
->> +            exit(1);
->> +        }
->> +        if (!vms->gic_version_user_selected) {
->> +            /*
->> +             * by default v2 is supposed to be chosen: check it is
->> +             * supported by the host. Otherwise take v3.
->> +             */
->> +            if (probe_bitmap & KVM_ARM_VGIC_V2) {
->> +                vms->gic_version = 2;
->> +            } else if (probe_bitmap & KVM_ARM_VGIC_V3) {
->> +                vms->gic_version = 3;
->> +            }
->> +        } else { /* user explicitly set the version to 2 or 3 */
->> +            if (vms->gic_version == 2 && !(probe_bitmap & KVM_ARM_VGIC_V2)) {
->> +                error_report("GICv2 is not supported by the host");
->> +                exit(1);
->> +            } else if (vms->gic_version == 3 && !(probe_bitmap & KVM_ARM_VGIC_V3)) {
->> +                error_report("GICv3 is not supported by the host");
->> +                exit(1);
->> +            }
->> +        }
->>      }
->>  
->>      if (!cpu_type_valid(machine->cpu_type)) {
->> @@ -1840,6 +1867,7 @@ static void virt_set_gic_version(Object *obj, const char *value, Error **errp)
->>  {
->>      VirtMachineState *vms = VIRT_MACHINE(obj);
->>  
->> +    vms->gic_version_user_selected = true;
->>      if (!strcmp(value, "3")) {
->>          vms->gic_version = 3;
->>      } else if (!strcmp(value, "2")) {
->> @@ -1851,6 +1879,7 @@ static void virt_set_gic_version(Object *obj, const char *value, Error **errp)
->>      } else {
->>          error_setg(errp, "Invalid gic-version value");
->>          error_append_hint(errp, "Valid values are 3, 2, host, max.\n");
->> +        vms->gic_version_user_selected = false;
->>      }
->>  }
->>  
->> @@ -2103,6 +2132,7 @@ static void virt_instance_init(Object *obj)
->>                                      NULL);
->>      /* Default GIC type is v2 */
->>      vms->gic_version = 2;
->> +    vms->gic_version_user_selected = false;
->>      object_property_add_str(obj, "gic-version", virt_get_gic_version,
->>                          virt_set_gic_version, NULL);
->>      object_property_set_description(obj, "gic-version",
->> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
->> index 71508bf40c..e363cde452 100644
->> --- a/include/hw/arm/virt.h
->> +++ b/include/hw/arm/virt.h
->> @@ -124,6 +124,7 @@ typedef struct {
->>      bool its;
->>      bool virt;
->>      int32_t gic_version;
->> +    bool gic_version_user_selected;
->>      VirtIOMMUType iommu;
->>      struct arm_boot_info bootinfo;
->>      MemMapEntry *memmap;
->> -- 
->> 2.20.1
->>
->>
-> 
-> I just noticed that virt_get_gic_version() returns "2" if the user didn't
-> explicitly request "3". I guess that hasn't been a problem for "max"
-> and "host" because nobody is looking, at least not until after gic_version
-> has been fully initialized. It is wrong though (for example, with TCG
-> "max" should be "3", not "2").
+Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
 
-That's correct indeed.
+Jano
 
- Ideally virt_get_gic_version() would always
-> return what will actually be used by the guest, but maybe pre-init it
-> could return "max", "host", and "nosel" instead. We could then use the
-> property value "nosel" in machvirt_init() to determine whether or not the
-> user provided input, rather than adding gic_version_user_selected.
+--jRHKVT23PllUwdXP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-OK I will try to address that as well.
+-----BEGIN PGP SIGNATURE-----
 
-I also notice the property description for gic-version misses "max"
+iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl5XepwACgkQ+YPwO/Ma
+t53HewgAs0k6e3UOpwXlDlkxi1HaWpSsNl0xCTiyVkAbQf4+sMXyld+tOodHg/wB
+0f/+qstxi1G5lfL/s8XWiBpXCXGev+nrVoqbDjoA5HgX0EftaZwMBWbkCEJTnJfB
+V9cLTcWlV/lYKGDikh6axdlJEoXTmBKkOZDsYSxzqUuq66i1uvelKd6RQ6InHTpI
+SLJpRBmfT17d2Vpk86tk/eIxn1R7C/dOlpW1aimrEwI1TFnSooSW6xh+pDJ7UNaP
+8+Zc9+ZiZnh0MydDf0wOt/ZVk43X56swmbrf78hX5q0Q2ew3HGkrEO+WuR5HDPUw
+UBCbmh7EyS6t5D5S4LVR9gdJieJTIA==
+=Bhxc
+-----END PGP SIGNATURE-----
 
-Thanks
-
-Eric
-> 
-> Thanks,
-> drew
-> 
-> 
+--jRHKVT23PllUwdXP--
 
 
