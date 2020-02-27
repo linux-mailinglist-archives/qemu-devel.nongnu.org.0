@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3741717238A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 17:37:12 +0100 (CET)
-Received: from localhost ([::1]:34282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6580A17237A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 17:36:26 +0100 (CET)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7M9v-0001py-9N
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 11:37:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1j7M9B-0000sp-En
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 11:36:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7M50-0004NX-RI
+ (envelope-from <philmd@redhat.com>) id 1j7M50-0004Nj-U2
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7M4z-00033M-T8
+ (envelope-from <philmd@redhat.com>) id 1j7M50-00033e-1i
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21885
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58355
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7M4z-00032s-5d
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7M4z-00033I-Ty
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 11:32:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582821123;
+ s=mimecast20190719; t=1582821125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P74SiNUxpKL8ZPS0To1187cVvGqPWjuWELUewBJjUJo=;
- b=BhgehElveBWPfI8QmiVjfH5eqq376b5cA+aRNHHGnGcBAfPmrGP8GYAzd1x5rc2/2yhtxO
- 6WCnin1S0p+JNaD2zkzBDmcbUeu0Nrc8EXW30dnOvlsrBpk0YAwEpq4Gh004CyYWpT4ROO
- DNmKHUXXqIdcTWcxAHAZW6lxgwAzXTo=
+ bh=lrxksytfH/4aQKzPhPTMKmDyBX6ftLeis8jZBIQPOJY=;
+ b=eIcU6rpWHQT5wNbvaHv41q0KLWtnG703RcuaMBSggVaQ8JmnTZVv20Pg9XmHOtGu+8bmyg
+ s+QLzpdPcJG5oNWCl/FwSvqFYh+VKzR7PpEBnfqpu9jTNaYYyCs9s5GBZ12QxEmAUQnxfO
+ atCGSgie6NTL8o35K8VC7ULRzK25v0I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-wTJ4Is98OBWftlPy7j-zKQ-1; Thu, 27 Feb 2020 11:31:58 -0500
-X-MC-Unique: wTJ4Is98OBWftlPy7j-zKQ-1
+ us-mta-158-qrlnDfvtMbanvVC6FzKkoA-1; Thu, 27 Feb 2020 11:32:03 -0500
+X-MC-Unique: qrlnDfvtMbanvVC6FzKkoA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBB0C802560;
- Thu, 27 Feb 2020 16:31:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE4D3800D50;
+ Thu, 27 Feb 2020 16:32:00 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4F1C6E3EE;
- Thu, 27 Feb 2020 16:31:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AC436E3EE;
+ Thu, 27 Feb 2020 16:31:58 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] util/osdep: Improve error report by calling
- error_setg_win32()
-Date: Thu, 27 Feb 2020 17:30:59 +0100
-Message-Id: <20200227163101.414-5-philmd@redhat.com>
+Subject: [PATCH v2 5/6] qga: Fix a memory leak
+Date: Thu, 27 Feb 2020 17:31:00 +0100
+Message-Id: <20200227163101.414-6-philmd@redhat.com>
 In-Reply-To: <20200227163101.414-1-philmd@redhat.com>
 References: <20200227163101.414-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,46 +81,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use error_setg_win32() which adds a hint similar to strerror(errno)).
+The string returned by g_win32_error_message() has to be
+deallocated with g_free().
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- util/osdep.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ qga/channel-win32.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/util/osdep.c b/util/osdep.c
-index ef40ae512a..144e217cb9 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -82,8 +82,8 @@ static int qemu_mprotect__osdep(void *addr, size_t size, =
-int prot)
-     DWORD old_protect;
-=20
-     if (!VirtualProtect(addr, size, prot, &old_protect)) {
--        error_report("%s: VirtualProtect failed with error code %ld",
--                     __func__, GetLastError());
+diff --git a/qga/channel-win32.c b/qga/channel-win32.c
+index c86f4388db..774205e017 100644
+--- a/qga/channel-win32.c
++++ b/qga/channel-win32.c
+@@ -302,8 +302,8 @@ static gboolean ga_channel_open(GAChannel *c, GAChannel=
+Method method,
+                            OPEN_EXISTING,
+                            FILE_FLAG_NO_BUFFERING | FILE_FLAG_OVERLAPPED, =
+NULL);
+     if (c->handle =3D=3D INVALID_HANDLE_VALUE) {
+-        g_critical("error opening path %s: %s", newpath,
+-                   g_win32_error_message(GetLastError()));
 +        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
-+        error_report("%s: VirtualProtect failed: %s", __func__, emsg);
-         return -1;
++        g_critical("error opening path %s: %s", newpath, emsg);
+         return false;
      }
-     return 0;
-@@ -506,12 +506,12 @@ int socket_init(void)
- {
- #ifdef _WIN32
-     WSADATA Data;
--    int ret, err;
-+    int ret;
 =20
-     ret =3D WSAStartup(MAKEWORD(2, 2), &Data);
-     if (ret !=3D 0) {
--        err =3D WSAGetLastError();
--        error_report("WSAStartup: %d", err);
-+        g_autofree gchar *emsg =3D g_win32_error_message(WSAGetLastError()=
-);
-+        error_report("WSAStartup: %s", emsg);
-         return -1;
-     }
-     atexit(socket_cleanup);
 --=20
 2.21.1
 
