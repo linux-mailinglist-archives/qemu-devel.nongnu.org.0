@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE11172A70
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:50:33 +0100 (CET)
-Received: from localhost ([::1]:38842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97574172A69
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:45:50 +0100 (CET)
+Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7R3A-00021r-HW
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42391)
+	id 1j7Qyb-0008NS-D6
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:45:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j7R2L-0001UC-01
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:49:41 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7Qxh-0007n6-Ek
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:44:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j7R2J-0006J2-Td
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:49:40 -0500
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:38977)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7Qxg-0004R4-F9
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:44:53 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45994)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j7R2H-0006Fg-Kc; Thu, 27 Feb 2020 16:49:37 -0500
-Received: by mail-lf1-x143.google.com with SMTP id n30so549521lfh.6;
- Thu, 27 Feb 2020 13:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j7Qxg-0004Qc-A7
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:44:52 -0500
+Received: by mail-ot1-x343.google.com with SMTP id 59so627647otp.12
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 13:44:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2YFo13JeBiET7bAmKbDjgEr8zneKHVMEzIGM7cv+T/U=;
- b=axjqCfTHL+XlsIvsFAdNXIttY+MFxh62SAWtkS03TIGPmti9uMjUEBqyIYuKDsxeEi
- fmCR6QC/kWPlcSD2n3I4E8lG/w2klAT5LGV3O/Cvf+M3DSJqgn/7HW9zxXCVFNNqif4h
- ooB4Q2MbxN+/tBYtOElYkIyVCTddIElGuMAg/O9nj9255fIXHmyFKbjUjV/2VHE8lRZs
- aUrRHrPay1CjDV21oZ/4FSWBHuF6xENiO6WoiytvDWCMgD5VSuqLfJHYeuN+DfSRhwsf
- SBSfDqEeFMbk1IGqDGiel7zLq1YY0sS4KMrCaZrMXXRU/CvFo2NWAhCOIKk2JCwRgRD1
- FGPA==
+ :cc; bh=tPwHyCJOQdlkW/9tqROjADY7bM36Bpf2aEcA0iVPo0s=;
+ b=jRcVLAfE4YhBTeLuyfS1tJgxfuascJM8A5FgEclAv8rhvGVEeynycT7TgcX8+L4ziy
+ Pabq4wCtavIYQXpKHLg2p9xz47uTyCMOcReiKBFNEWfS7v0WnWwCTATCpdG5kX84LLXv
+ heQjpMEIus3hNMFATZD9upvNPaXCU+XIJifsE7KDy2H6TDCiiFZ6kyeKvAfR43ILcQCe
+ KWBEGmaZkiD8vfcnr00a/Va6yWsw/HTFKz4qoxLU9ZhYHvWCQL8xTCuWKLovBecoP8w7
+ ZeRlc/It/aWeC2gvmzPKZ8uix+hnybfWtdyDisfvn17b4ExbgAToIIV4CPlp6knHaXjq
+ djcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2YFo13JeBiET7bAmKbDjgEr8zneKHVMEzIGM7cv+T/U=;
- b=rLFnJRyCoHfC8igSaNTR64TfzJL9Qt/vsQHd66Iit8c2djdX7+1bkFDg793hAydGCV
- Q+sMmHqEgNJnf11oJrSONzdjGNAuL2XIH3Va+YhuHnN5XY2ikQT5tL30QsO13EsjKPsW
- 9B7cTcWGke1TU335/DpLic7DI+9lrEzkNR7ugI00iUAoyd7/ZoMZCYyITzh8RtZ2fMvD
- pVRhYuOYYD5a/hra/7ykXNCMOpT9y2mVDqejd3V0th/k3y+gLqdUwl3P2EV0xIweCWVT
- ESjS+idiHM/6wUsVuHitBHVvTq0RvLXnAIA3rHtUu6Am3Bz0a6A+RSP/RooZjFOUbhXb
- c6Qw==
-X-Gm-Message-State: ANhLgQ0rdMBAnOdO+9lqP4cDkSEe86Os+xI4l93Ph1ee9seVDTRa9PU1
- LDujlN9DMbamXcxkNZSJx7aVAKF19a/J0LijX8c=
-X-Google-Smtp-Source: ADFU+vuRjJHtVUiADyLjFTvr665nb98AzrvzkSlGGMvr0CREm6gQlyYKg43wd1dZb7l55PrtA6GVIiyvP3NScVTRoA0=
-X-Received: by 2002:ac2:5111:: with SMTP id q17mr796743lfb.51.1582840175870;
- Thu, 27 Feb 2020 13:49:35 -0800 (PST)
+ bh=tPwHyCJOQdlkW/9tqROjADY7bM36Bpf2aEcA0iVPo0s=;
+ b=tXSX0bUmECRpwBNjyk07i/vYLIX4jRrv1ufISRqAapGv2gTiq39howWiAQUWHAI7rr
+ ngEPXCdPWEj0QERl5O4wAWHoo/wZa523pZ8lXFPA+8ctWW+47NII8edQCfPg19ebmwDk
+ Zqiz4T4DlsT1UvNNhKlXCfX1i3iQt4JUJ0JYkbP2Hc3rOK01a9ckDOYEabWM4IIC6ZEi
+ 03LBMbLIiIDkTjFxlbQwYAtMh3TErpfJiw7eq5tcbNw/eXfn+aj27vI4fo3Apq1tzb2h
+ hsF6YFN6YYyO/t4Gtp4lxd7Mqnzas58733PhKVeSuSyisJd0La69K78+2NXdRN2biPtw
+ BHYg==
+X-Gm-Message-State: APjAAAU2zARKPv8T7K2xhL7RwEmERvrDjgeHLeT45I1Nk3oeFjBDjavH
+ 6vNlRM6ksYEF8lyTfUDXFyx8TrgXxHs9DmfM2R1kRg==
+X-Google-Smtp-Source: APXvYqzAkwmTwGwaCHPs25JAPJXmB+MgnuHAH0QuEqfJt0RrEiny4W7aBQwQ/xrhjXhHLg+/pYhyggG2o7RRWuZsr7g=
+X-Received: by 2002:a9d:68d9:: with SMTP id i25mr770594oto.135.1582839891414; 
+ Thu, 27 Feb 2020 13:44:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20200227115005.66349-1-root@stephanos.io>
  <20200227115005.66349-3-root@stephanos.io>
  <88ad7129-9654-088d-6569-066949973a86@redhat.com>
  <CAKmqyKMkTsgqSEWhrkCmbQ3LMNz1OgdeHE6zFaMsZdRjAFvdRA@mail.gmail.com>
- <CAFEAcA_i9Qjvq1Bp8Me2JnUwL5bwEaUTi+8uvusNMcoc7OwfkQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_i9Qjvq1Bp8Me2JnUwL5bwEaUTi+8uvusNMcoc7OwfkQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 27 Feb 2020 13:41:55 -0800
-Message-ID: <CAKmqyKNJWbf0Er=jLyr_vmrS_vDOFWz9eW8mRjFkDjk3WJHZXg@mail.gmail.com>
+In-Reply-To: <CAKmqyKMkTsgqSEWhrkCmbQ3LMNz1OgdeHE6zFaMsZdRjAFvdRA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Feb 2020 21:44:40 +0000
+Message-ID: <CAFEAcA_i9Qjvq1Bp8Me2JnUwL5bwEaUTi+8uvusNMcoc7OwfkQ@mail.gmail.com>
 Subject: Re: [PATCH v2 2/2] hw/arm/armv7m: Downgrade CPU reset handler priority
-To: Peter Maydell <peter.maydell@linaro.org>
+To: Alistair Francis <alistair23@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::143
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,30 +82,15 @@ Cc: Stephanos Ioannidis <root@stephanos.io>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 1:44 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 27 Feb 2020 at 21:37, Alistair Francis <alistair23@gmail.com> wrote:
-> > I do hit this problem, Peter described a workaround in the previous
-> > version of this patch, that is to link at address 0 instead of the
-> > alias address.
->
-> Do you happen to have a simple test case you can send me
-> that demonstrates the bug? That will save me a bit of
-> messing around when I come to try to fix it...
+On Thu, 27 Feb 2020 at 21:37, Alistair Francis <alistair23@gmail.com> wrote:
+> I do hit this problem, Peter described a workaround in the previous
+> version of this patch, that is to link at address 0 instead of the
+> alias address.
 
-Yep!
+Do you happen to have a simple test case you can send me
+that demonstrates the bug? That will save me a bit of
+messing around when I come to try to fix it...
 
-This repo: https://github.com/alistair23/CSSE3010-QEMU-Examples
-
-Run: np2_env.sh to setup variables
-
-Then build an example in the examples directory.
-
-That repo will hard fault on QEMU currently (it doesn't have the address fix).
-
-Alistair
-
->
-> thanks
-> -- PMM
+thanks
+-- PMM
 
