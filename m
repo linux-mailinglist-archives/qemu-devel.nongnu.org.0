@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B530D172A8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:54:36 +0100 (CET)
-Received: from localhost ([::1]:38902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A680172A51
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 22:38:43 +0100 (CET)
+Received: from localhost ([::1]:38732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7R75-0004tY-OV
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:54:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43504)
+	id 1j7Qrh-0006MB-Vj
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 16:38:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j7R5m-0003XS-Hb
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:53:16 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j7Qqw-0005nH-CE
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:37:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j7R5k-0008Aj-Qi
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:53:14 -0500
-Received: from ozlabs.org ([203.11.71.1]:55433)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j7R5k-00086I-2J; Thu, 27 Feb 2020 16:53:12 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48T5y76fW4z9sP7; Fri, 28 Feb 2020 08:53:03 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582840383;
- bh=76wdx+RXnESt9UFTkzE8wYWzTPdSgG10FdHTwUcTKlk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hTB5Hrd8o6w9hYzZp26YrtSug7nKNupKBkn2Z3MjYcNiDQ5SDnyWRw/JvNw5dmfVP
- 55fRAuyu2KwN5/8M44ugR0z2aFS/JGAaop3kwbl9LPkmjJBle9tQisTwY9MiE38JH1
- sja6apQu+pa7/N7E07pdw4/NFbvfL/kQ13LEdEY4=
-Date: Thu, 27 Feb 2020 17:04:23 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v6 17/18] spapr: Clean up RMA size calculation
-Message-ID: <20200227060423.GM41629@umbus.fritz.box>
-References: <20200224233724.46415-1-david@gibson.dropbear.id.au>
- <20200224233724.46415-18-david@gibson.dropbear.id.au>
- <20200226143751.17b4bfa4@bahia.home>
+ (envelope-from <alistair23@gmail.com>) id 1j7Qqv-0002Km-B2
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 16:37:54 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42402)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j7Qqs-0002Hr-SL; Thu, 27 Feb 2020 16:37:51 -0500
+Received: by mail-lj1-x242.google.com with SMTP id d10so899501ljl.9;
+ Thu, 27 Feb 2020 13:37:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=UZVzMiJRShPlueonyaoikwmNMD6aFXintv3DsagvrH0=;
+ b=SRayFQF4K8ZX5PNl/v5pzJ6YdRbXtIjy5aoY/qPp0OtzonVtQhSjWyf56PgRY9//9b
+ mYxZTUv9TJMyEjTZE2stN6aZdHt3XL0oJ2xMad4tlx03jcOyPhWz4shiBXlLsFbRdy9W
+ yG/u9maxuKcDpZpdcbU+tLemQHVySE5xNu7rSh8ksjKUFRwIHUGYY4Av7z9XEsgvK/Vz
+ qpGzbiAo2GNf+RMgLC1Qb6heS0sMRIBoLmBXbNjOv0uf4sGge1dU3sHtY5iITHZpW+w9
+ Kpi7isnJDseMsOY8cYuBnsPwNq+caQ/aOe2yAXCGJnv/BcGqFlnPWgt1yRmBmKtXRqiv
+ r0+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UZVzMiJRShPlueonyaoikwmNMD6aFXintv3DsagvrH0=;
+ b=dn54t0OYQ4vDLItIMw2yuqJraJyyuNtF5V5MLL6skzK4gPDht6vY6VoUYg7V+GkS1b
+ e2PT/frGz42KUtYVJ5QMHzMEzGI3TLg814qlZ5crTDGLDR2v1Kc49Hp66CTksbGLenq4
+ kXqCCGjfoNmajYr8oApBWzhI2hjSybNZxfeBrVW6nV38MdFnxbOniuO6ZDzIDrSsHnH9
+ mXZ0uDu6Y24+sBHTFo2aT+5gp550TpJYDsCoS1J5Q+RFPPaOZz8lR63t54SHoeYQUDQo
+ LnhN1HKqESkqIsxIsB2QGfnauX6+noQ6FWD4y/BP2YCLIsjUEj3aPF0/d9Ip0vM6jQBX
+ xnoQ==
+X-Gm-Message-State: ANhLgQ2MIghgXlRQ/aE4FlQlPbKbCOAY18p4I3aFUMdihEIfxz2xk0/h
+ zmabg2FjjWIUAx7cM+kUrCXAUjsqMhnu1fLjJwA=
+X-Google-Smtp-Source: ADFU+vvQpH/nQLuT9Dmr7jqUj4WCSmbTjGj/wi1eDSH53N9gdu+612hYFSleZNqLxcrJl5DkuzKKh2SqEQzIPTgrxvg=
+X-Received: by 2002:a2e:a36a:: with SMTP id i10mr664142ljn.107.1582839468777; 
+ Thu, 27 Feb 2020 13:37:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LJm8egi4vkexsie5"
-Content-Disposition: inline
-In-Reply-To: <20200226143751.17b4bfa4@bahia.home>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+References: <20200227115005.66349-1-root@stephanos.io>
+ <20200227115005.66349-3-root@stephanos.io>
+ <88ad7129-9654-088d-6569-066949973a86@redhat.com>
+In-Reply-To: <88ad7129-9654-088d-6569-066949973a86@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 27 Feb 2020 13:30:03 -0800
+Message-ID: <CAKmqyKMkTsgqSEWhrkCmbQ3LMNz1OgdeHE6zFaMsZdRjAFvdRA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/arm/armv7m: Downgrade CPU reset handler priority
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,174 +74,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, aik@ozlabs.ru, farosas@linux.ibm.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org, clg@kaod.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, paulus@samba.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Stephanos Ioannidis <root@stephanos.io>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Feb 27, 2020 at 5:32 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Hi Stephanos,
+>
+> On 2/27/20 12:51 PM, Stephanos Ioannidis wrote:
+> > The ARMv7-M CPU reset handler, which loads the initial SP and PC
+> > register values from the vector table, is currently executed before
+> > the ROM reset handler (rom_reset), and this causes the devices that
+> > alias low memory region (e.g. STM32F405 that aliases the flash memory
+> > located at 0x8000000 to 0x0) to load an invalid reset vector of 0 when
+> > the kernel image is linked to be loaded at the high memory address.
+>
+> So we have armv7m_load_kernel -> load_elf_as -> rom_add_blob_fixed_as ->
+> rom_add_blob -> rom_insert.
+>
+> arm_cpu_reset is called before rom_reset, rom_ptr is NULL, we call
+> initial_pc =3D ldl_phys(cpu_as) from an empty flash.
+>
+> Then later rom_reset -> address_space_write_rom.
+>
+> I think Alistair and myself use the 'loader' device with Cortex-M boards
+> and never hit this problem.
 
---LJm8egi4vkexsie5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I do hit this problem, Peter described a workaround in the previous
+version of this patch, that is to link at address 0 instead of the
+alias address.
 
-On Wed, Feb 26, 2020 at 02:37:51PM +0100, Greg Kurz wrote:
-> On Tue, 25 Feb 2020 10:37:23 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > Move the calculation of the Real Mode Area (RMA) size into a helper
-> > function.  While we're there clean it up and correct it in a few ways:
-> >   * Add comments making it clearer where the various constraints come f=
-rom
-> >   * Remove a pointless check that the RMA fits within Node 0 (we've just
-> >     clamped it so that it does)
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Alistair
+
+>
+> >
+> > For instance, it is norm for the STM32F405 firmware ELF image to have
+> > the text and rodata sections linked at 0x8000000, as this facilitates
+> > proper image loading by the firmware burning utility, and the processor
+> > can execute in place from the high flash memory address region as well.
+> >
+> > In order to resolve this issue, this commit downgrades the ARMCPU reset
+> > handler invocation priority level to -1 such that it is always executed
+> > after the ROM reset handler, which has a priority level of 0.
+> >
+> > Signed-off-by: Stephanos Ioannidis <root@stephanos.io>
 > > ---
-> >  hw/ppc/spapr.c | 59 ++++++++++++++++++++++++++++++--------------------
-> >  1 file changed, 35 insertions(+), 24 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 6e9f15f64d..f0354b699d 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -2648,6 +2648,40 @@ static PCIHostState *spapr_create_default_phb(vo=
-id)
-> >      return PCI_HOST_BRIDGE(dev);
-> >  }
-> > =20
-> > +static hwaddr spapr_rma_size(SpaprMachineState *spapr, Error **errp)
-> > +{
-> > +    MachineState *machine =3D MACHINE(spapr);
-> > +    hwaddr rma_size =3D machine->ram_size;
-> > +    hwaddr node0_size =3D spapr_node0_size(machine);
-> > +
-> > +    /* RMA has to fit in the first NUMA node */
-> > +    rma_size =3D MIN(rma_size, node0_size);
-> > +
-> > +    /*
-> > +     * VRMA access is via a special 1TiB SLB mapping, so the RMA can
-> > +     * never exceed that
-> > +     */
-> > +    rma_size =3D MIN(rma_size, TiB);
-> > +
-> > +    /*
-> > +     * Clamp the RMA size based on machine type.  This is for
-> > +     * migration compatibility with older qemu versions, which limited
-> > +     * the RMA size for complicated and mostly bad reasons.
-> > +     */
-> > +    if (smc->rma_limit) {
->=20
-> /home/greg/Work/qemu/qemu-ppc/hw/ppc/spapr.c: In function =E2=80=98spapr_=
-rma_size=E2=80=99:
-> /home/greg/Work/qemu/qemu-ppc/hw/ppc/spapr.c:2671:9: error: =E2=80=98smc=
-=E2=80=99 undeclared (first use in this function)
->      if (smc->rma_limit) {
-
-Oops.  Fixed.
-
->=20
-> > +        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
-> > +    }
-> > +
-> > +    if (rma_size < (MIN_RMA_SLOF * MiB)) {
-> > +        error_setg(errp,
-> > +"pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real Mode Area)=
-",
-> > +                   MIN_RMA_SLOF);
-> > +        return -1;
-> > +    }
-> > +
-> > +    return rma_size;
-> > +}
-> > +
-> >  /* pSeries LPAR / sPAPR hardware init */
-> >  static void spapr_machine_init(MachineState *machine)
-> >  {
-> > @@ -2660,7 +2694,6 @@ static void spapr_machine_init(MachineState *mach=
-ine)
-> >      int i;
-> >      MemoryRegion *sysmem =3D get_system_memory();
-> >      MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-> > -    hwaddr node0_size =3D spapr_node0_size(machine);
-> >      long load_limit, fw_size;
-> >      char *filename;
-> >      Error *resize_hpt_err =3D NULL;
-> > @@ -2700,22 +2733,7 @@ static void spapr_machine_init(MachineState *mac=
-hine)
-> >          exit(1);
-> >      }
-> > =20
-> > -    spapr->rma_size =3D node0_size;
-> > -
-> > -    /*
-> > -     * Clamp the RMA size based on machine type.  This is for
-> > -     * migration compatibility with older qemu versions, which limited
-> > -     * the RMA size for complicated and mostly bad reasons.
-> > -     */
-> > -    if (smc->rma_limit) {
-> > -        spapr->rma_size =3D MIN(spapr->rma_size, smc->rma_limit);
-> > -    }
-> > -
-> > -    if (spapr->rma_size > node0_size) {
-> > -        error_report("Numa node 0 has to span the RMA (%#08"HWADDR_PRI=
-x")",
-> > -                     spapr->rma_size);
-> > -        exit(1);
-> > -    }
-> > +    spapr->rma_size =3D spapr_rma_size(spapr, &error_fatal);
-> > =20
-> >      /* Setup a load limit for the ramdisk leaving room for SLOF and FD=
-T */
-> >      load_limit =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FW_OVERHEAD;
-> > @@ -2954,13 +2972,6 @@ static void spapr_machine_init(MachineState *mac=
-hine)
-> >          }
-> >      }
-> > =20
-> > -    if (spapr->rma_size < MIN_RMA_SLOF) {
-> > -        error_report(
-> > -            "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Rea=
-l Mode Area memory)",
-> > -            MIN_RMA_SLOF / MiB);
-> > -        exit(1);
-> > -    }
-> > -
-> >      if (kernel_filename) {
-> >          uint64_t lowaddr =3D 0;
-> > =20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---LJm8egi4vkexsie5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5XW+QACgkQbDjKyiDZ
-s5KkkA//Yd79p3GDtiteNyjELXdYeK9CGoQtVRUZK1GU90P6g+EcZOcKvJUPAPqs
-kUmJN5qUqJrrqsSeSvH2yMSPg6OlhRqpeXnhrsGV93uOGSHikp4p1CA60ua1egrR
-31velERrkP5kIxn5M+yn9T5sezS3vRnobpKcU6MADgYPHqpcEz5DXm5TYX5k6C7F
-kRsvFxlGXWirWD8AVTrS4AagTvC2Rzp0Doe/eOHZM/nG0sUE30Cd5h7B9cqQwgG5
-bKbIhzZKLlkH9tXBfNdQLdvfM9tyWmXbh//n1fAbnzgZLvD/WlzMzhYoISsgUnjE
-GL1wLOmqG3dIuAcB+7TnA1H1ziDKJLSBV6kZn2TRi1T7001gTehHgHSlhwQJgwx3
-DhHLZNhErQTuSvhvCnH/KFZExpN8kz/A55zKjpb9PeNWxep87ekbkkKBYXno9Nig
-7i5pfg/kgP55ueJCZEsrr0DMN/4Lp2yTA26wb0bFWV+KYYz3gokNkGKL935bk9pq
-GrDEnAEg8YC1tGoxvCtxqyAUA73uvztz2ToDgoiouMFjD3NjJ6D0Z7LMgW/gnMg6
-jJo9GJ2amWVF/MuIsvtQGluqYz10hF0ML/b/V1+iluheO5c3/hFQoFz9U+qcNT7+
-XC7utiFvufrAsOlAm54oNFu3Xd5fhKfIggEXQk3zR1MTMIwpdMA=
-=lpri
------END PGP SIGNATURE-----
-
---LJm8egi4vkexsie5--
+> >   hw/arm/armv7m.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+> > index 7531b97ccd..8b7c4b12a6 100644
+> > --- a/hw/arm/armv7m.c
+> > +++ b/hw/arm/armv7m.c
+> > @@ -352,7 +352,8 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *ke=
+rnel_filename, int mem_size)
+> >        * way A-profile does it. Note that this means that every M profi=
+le
+> >        * board must call this function!
+> >        */
+> > -    qemu_register_reset(armv7m_reset, cpu);
+> > +    qemu_register_reset_with_priority(
+> > +        QEMU_RESET_PRIORITY_LEVEL(-1), armv7m_reset, cpu);
+> >   }
+> >
+> >   static Property bitband_properties[] =3D {
+> >
+>
+>
 
