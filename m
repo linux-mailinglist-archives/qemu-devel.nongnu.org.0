@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0476B170E89
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:40:51 +0100 (CET)
-Received: from localhost ([::1]:53014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BE8170E85
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:38:45 +0100 (CET)
+Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j796Y-0005gQ-3F
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:40:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60169)
+	id 1j794W-0003qH-B0
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:38:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j791V-00083v-FG
+ (envelope-from <pannengyuan@huawei.com>) id 1j791V-00083l-Cm
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:35:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j791U-0001lG-Cn
+ (envelope-from <pannengyuan@huawei.com>) id 1j791U-0001lB-Au
  for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:35:37 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3174 helo=huawei.com)
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3175 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j791R-0001ZC-MH; Wed, 26 Feb 2020 21:35:33 -0500
+ id 1j791R-0001ZP-MZ; Wed, 26 Feb 2020 21:35:33 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 9D6DC12A53F73219C1E5;
+ by Forcepoint Email with ESMTP id A23DBA7A5288C2477CB3;
  Thu, 27 Feb 2020 10:35:31 +0800 (CST)
 Received: from localhost.localdomain (10.175.104.216) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 27 Feb 2020 10:35:21 +0800
+ 14.3.439.0; Thu, 27 Feb 2020 10:35:22 +0800
 From: Pan Nengyuan <pannengyuan@huawei.com>
 To: <peter.maydell@linaro.org>
-Subject: [PATCH v3 5/6] hw/misc/mos6522: move timer_new from init() into
+Subject: [PATCH v3 6/6] hw/timer/cadence_ttc: move timer_new from init() into
  realize() to avoid memleaks
-Date: Thu, 27 Feb 2020 10:50:54 +0800
-Message-ID: <20200227025055.14341-6-pannengyuan@huawei.com>
+Date: Thu, 27 Feb 2020 10:50:55 +0800
+Message-ID: <20200227025055.14341-7-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200227025055.14341-1-pannengyuan@huawei.com>
 References: <20200227025055.14341-1-pannengyuan@huawei.com>
@@ -53,69 +53,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- euler.robot@huawei.com
+Cc: zhang.zhanghailiang@huawei.com, Alistair Francis <alistair@alistair23.me>,
+ Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, euler.robot@huawei.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 There are some memleaks when we call 'device_list_properties'. This patch move timer_new from init into realize to fix it.
-Meanwhile, add calls to mos6522_realize() in mac_via_realize to make this move to be valid.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 ---
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
 ---
-v2->v1:
-- no changes in this patch.
-v3->v2:
-- remove null check in reset, and add calls to mos6522_realize() in mac_via_realize to make this move to be valid.
----
- hw/misc/mac_via.c | 5 +++++
- hw/misc/mos6522.c | 6 ++++++
- 2 files changed, 11 insertions(+)
+ hw/timer/cadence_ttc.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index b7d0012794..1d72d4ef35 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -879,6 +879,11 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
-     sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
-                           sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
- 
-+    object_property_set_bool(OBJECT(&m->mos6522_via1), true, "realized",
-+                             &error_abort);
-+    object_property_set_bool(OBJECT(&m->mos6522_via2), true, "realized",
-+                             &error_abort);
+diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
+index 5e3128c1e3..b0ba6b2bba 100644
+--- a/hw/timer/cadence_ttc.c
++++ b/hw/timer/cadence_ttc.c
+@@ -412,16 +412,21 @@ static void cadence_timer_init(uint32_t freq, CadenceTimerState *s)
+ static void cadence_ttc_init(Object *obj)
+ {
+     CadenceTTCState *s = CADENCE_TTC(obj);
 +
-     /* Pass through mos6522 output IRQs */
-     ms = MOS6522(&m->mos6522_via1);
-     object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
-diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 19e154b870..c1cd154a84 100644
---- a/hw/misc/mos6522.c
-+++ b/hw/misc/mos6522.c
-@@ -485,6 +485,11 @@ static void mos6522_init(Object *obj)
-     for (i = 0; i < ARRAY_SIZE(s->timers); i++) {
-         s->timers[i].index = i;
-     }
++    memory_region_init_io(&s->iomem, obj, &cadence_ttc_ops, s,
++                          "timer", 0x1000);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
 +}
 +
-+static void mos6522_realize(DeviceState *dev, Error **errp)
++static void cadence_ttc_realize(DeviceState *dev, Error **errp)
 +{
-+    MOS6522State *s = MOS6522(dev);
++    CadenceTTCState *s = CADENCE_TTC(dev);
+     int i;
  
-     s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer1, s);
-     s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
-@@ -502,6 +507,7 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
+     for (i = 0; i < 3; ++i) {
+         cadence_timer_init(133000000, &s->timer[i]);
+-        sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->timer[i].irq);
++        sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->timer[i].irq);
+     }
+-
+-    memory_region_init_io(&s->iomem, obj, &cadence_ttc_ops, s,
+-                          "timer", 0x1000);
+-    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
+ }
  
-     dc->reset = mos6522_reset;
-     dc->vmsd = &vmstate_mos6522;
-+    dc->realize = mos6522_realize;
-     device_class_set_props(dc, mos6522_properties);
-     mdc->parent_reset = dc->reset;
-     mdc->set_sr_int = mos6522_set_sr_int;
+ static int cadence_timer_pre_save(void *opaque)
+@@ -479,6 +484,7 @@ static void cadence_ttc_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_cadence_ttc;
++    dc->realize = cadence_ttc_realize;
+ }
+ 
+ static const TypeInfo cadence_ttc_info = {
 -- 
 2.18.2
 
