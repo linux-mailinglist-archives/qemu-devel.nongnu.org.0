@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0641E17246B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 18:04:26 +0100 (CET)
-Received: from localhost ([::1]:35036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E3417247A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 18:04:59 +0100 (CET)
+Received: from localhost ([::1]:35044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7MaG-0003RD-WE
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 12:04:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1j7Mao-0004UH-Us
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 12:04:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j7MYs-0001bL-2f
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:02:58 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j7MYw-0001m0-KW
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:03:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j7MYr-0000P3-0m
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:02:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57271
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1j7MYv-0000T7-9x
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:03:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40632
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j7MYq-0000Ov-SZ
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:02:56 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j7MYv-0000Sj-5L
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 12:03:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582822976;
+ s=mimecast20190719; t=1582822980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=te8qvJEQ4NJrIoH5wNT52ObtMA6Da/ph0VWvQSvDJhI=;
- b=BvEa2ub0VY59FJsZ/BKRZyp3dUupR1Kzrtc7UKRtcd/OrPIDuSGSMlixrvdnSrC0eaQHmd
- iOmdiG6taEEXsU/zvZHZFghqktgZZAEB6S2RaJq8ZSADbYmQExo9NGBc8BN+fo88TRKXFp
- ZwiPvVNscR1W68c2RBsGqmQtdGUrI/c=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uB42dRl0LlscnacMEzUBk9LawgSO8o4BEQBgFsoNVOo=;
+ b=hi/HyCiT9eU0RNJCyKrr4aysCXeQdioRVSfNqrH+7+MHh11gbNTnB0UTqvhi4RDj19rXmT
+ 6Ju3Ximo/P+VA6x9qJXheaexN/3/4XF04Pe0wBZgvlgvJAE5ZhA6iwaLyDTAmPMy1EFSnN
+ 185yTE8F/Z2ZNIokavonIE2zZTBqJK0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-XoyfOPBOMvuzVOIXck1j3g-1; Thu, 27 Feb 2020 12:02:54 -0500
-X-MC-Unique: XoyfOPBOMvuzVOIXck1j3g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-143-YR-PcMy0NOK6H-QRPp5-NQ-1; Thu, 27 Feb 2020 12:02:56 -0500
+X-MC-Unique: YR-PcMy0NOK6H-QRPp5-NQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 814BC190B2BE;
- Thu, 27 Feb 2020 17:02:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7E7E190D358;
+ Thu, 27 Feb 2020 17:02:55 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 193D960C18;
- Thu, 27 Feb 2020 17:02:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 450E95DA75;
+ Thu, 27 Feb 2020 17:02:55 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/3] qemu-img: Fix check's leak/corruption fix report
-Date: Thu, 27 Feb 2020 18:02:48 +0100
-Message-Id: <20200227170251.86113-1-mreitz@redhat.com>
+Subject: [PATCH 1/3] qemu-img: Fix check's leak/corruption fix report
+Date: Thu, 27 Feb 2020 18:02:49 +0100
+Message-Id: <20200227170251.86113-2-mreitz@redhat.com>
+In-Reply-To: <20200227170251.86113-1-mreitz@redhat.com>
+References: <20200227170251.86113-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +76,71 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Cc-ing Eric because of patch 2, mostly)
+There are two problems with qemu-img check's report on how many leaks
+and/or corruptions have been fixed:
 
-Hi,
+(1) ImageCheck.has_leaks_fixed and ImageCheck.has_corruptions_fixed are
+only true when ImageCheck.leaks or ImageCheck.corruptions (respectively)
+are non-zero.  qcow2's check implementation will set the latter to zero
+after it has fixed leaks and corruptions, though, so leaks-fixed and
+corruptions-fixed are actually never reported after successful repairs.
+We should always report them when they are non-zero, just like all the
+other fields of ImageCheck.
 
-While reviewing the =E2=80=9Cfix two small memleaks=E2=80=9D series
-(<20200227012950.12256-1-pannengyuan@huawei.com>) I noticed that we save
-ImageCheck.(leaks|corruptions)_fixed from the first run and overwrite
-the values obtained in the second run (where they must be zero because
-we do not request any fixes in that second run), but we do not overwrite
-ImageCheck.has_(leaks|corruptions)_fixed after the second run.  That
-smells fishy.
+(2) After something has been fixed and we run the check a second time,
+leaks_fixed and corruptions_fixed are taken from the first run; but
+has_leaks_fixed and has_corruptions_fixed are not.  The second run
+actually cannot fix anything, so with (1) fixed, has_leaks_fixed and
+has_corruptions_fixed will always be false here.  (With (1) unfixed,
+they will at least be false on successful runs, because then the number
+of leaks and corruptions found in the second run should be 0.)
+We should save has_leaks_fixed and has_corruptions_fixed just like we
+save leaks_fixed and corruptions_fixed.
 
-Furthermore, ImageCheck.has_(leaks|corruptions)_fixed are not set based
-on whether (leaks|corruptions)_fixed is non-zero, but actually based on
-whether the leaks and corruptions fields (respectively) are non-zero.
-qcow2=E2=80=99s check implementation reduces the leaks and corruptions valu=
-es
-when it fixes them, because then there are no leaks and corruptions
-after the check anymore.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qemu-img.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-All in all, after a successful run, you will not see
-=E2=80=9Cqemu-img check --output=3Djson=E2=80=9D report corruptions-fixed o=
-r leaks-fixed.
-Which is a shame.  So this series fixes that and adds a test to ensure
-those fields are indeed reported.
-
-
-Max Reitz (3):
-  qemu-img: Fix check's leak/corruption fix report
-  iotests: Add poke_file_[bl]e functions
-  iotests/138: Test leaks/corruptions fixed report
-
- qemu-img.c                   |  9 ++++++--
- tests/qemu-iotests/138       | 41 ++++++++++++++++++++++++++++++++++--
- tests/qemu-iotests/138.out   | 14 ++++++++++++
- tests/qemu-iotests/common.rc | 37 ++++++++++++++++++++++++++++++++
- 4 files changed, 97 insertions(+), 4 deletions(-)
-
+diff --git a/qemu-img.c b/qemu-img.c
+index 7b7087dd60..c7567e1979 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -647,9 +647,9 @@ static int collect_image_check(BlockDriverState *bs,
+     check->leaks                    =3D result.leaks;
+     check->has_leaks                =3D result.leaks !=3D 0;
+     check->corruptions_fixed        =3D result.corruptions_fixed;
+-    check->has_corruptions_fixed    =3D result.corruptions !=3D 0;
++    check->has_corruptions_fixed    =3D result.corruptions_fixed !=3D 0;
+     check->leaks_fixed              =3D result.leaks_fixed;
+-    check->has_leaks_fixed          =3D result.leaks !=3D 0;
++    check->has_leaks_fixed          =3D result.leaks_fixed !=3D 0;
+     check->image_end_offset         =3D result.image_end_offset;
+     check->has_image_end_offset     =3D result.image_end_offset !=3D 0;
+     check->total_clusters           =3D result.bfi.total_clusters;
+@@ -803,9 +803,12 @@ static int img_check(int argc, char **argv)
+=20
+     if (check->corruptions_fixed || check->leaks_fixed) {
+         int corruptions_fixed, leaks_fixed;
++        bool has_leaks_fixed, has_corruptions_fixed;
+=20
+         leaks_fixed         =3D check->leaks_fixed;
++        has_leaks_fixed     =3D check->has_leaks_fixed;
+         corruptions_fixed   =3D check->corruptions_fixed;
++        has_corruptions_fixed =3D check->has_corruptions_fixed;
+=20
+         if (output_format =3D=3D OFORMAT_HUMAN) {
+             qprintf(quiet,
+@@ -822,7 +825,9 @@ static int img_check(int argc, char **argv)
+         ret =3D collect_image_check(bs, check, filename, fmt, 0);
+=20
+         check->leaks_fixed          =3D leaks_fixed;
++        check->has_leaks_fixed      =3D has_leaks_fixed;
+         check->corruptions_fixed    =3D corruptions_fixed;
++        check->has_corruptions_fixed =3D has_corruptions_fixed;
+     }
+=20
+     if (!ret) {
 --=20
 2.24.1
 
