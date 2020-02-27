@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B3D171673
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 12:56:02 +0100 (CET)
-Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8DC171685
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 12:58:38 +0100 (CET)
+Received: from localhost ([::1]:58092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7Hlp-0000jJ-3P
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 06:56:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
+	id 1j7HoM-0004mX-0o
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 06:58:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1j7HkY-0007n9-0U
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:54:43 -0500
+ (envelope-from <cohuck@redhat.com>) id 1j7Hkh-0007uT-DC
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:54:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1j7HkW-0000rm-OQ
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:54:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20614
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1j7Hkf-000167-8L
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:54:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60395
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j7HkW-0000rU-Ki
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:54:40 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j7Hkf-00015Y-4o
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:54:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582804480;
+ s=mimecast20190719; t=1582804488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/aJMPG71UspefCp5A01IdKlr8J9qHAczpNpidnvgAfI=;
- b=Ml/oqAKVMuzPwdd2fNQYGWALcxeLh3U+zSQOMYWdRyga3KTR5xTn+ez9sD5+ek1hATYoi8
- fJ1s0g8AvTtHPmhUfyDmjBaTk41kdIWcrZvfAI+BkCT6hZ1Wm8NdY4W4zQH843E9rc8Q0P
- 80ZUZFfWfuaJDYrNNv8+LscLP6wRlRw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qYjkvjArQCV2KpCuMfUNlWvBu91W/UkeoeZoQfuJVS8=;
+ b=RV7QrcPUwMwldl4BnneKaLT+Lvzp8z/dbfP4ct0755IUccwWFFUvFEakLS3XGCAJ8jDqXR
+ cMdU38TH7WuUoIYT64c4ka8EclscT9mGC0fgMDQoWrtmhB/Ms62ccQny94SDwRLAYoUi/D
+ rUTkOPTBoNu7xmjGIdppPllOuibnUc0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-IADh7zASPUS7etPQoSaaTw-1; Thu, 27 Feb 2020 06:54:36 -0500
-X-MC-Unique: IADh7zASPUS7etPQoSaaTw-1
+ us-mta-349-vGHDOaYsOSuf5jb0ObIXsA-1; Thu, 27 Feb 2020 06:54:41 -0500
+X-MC-Unique: vGHDOaYsOSuf5jb0ObIXsA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B0981005512;
- Thu, 27 Feb 2020 11:54:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 593EC1005512;
+ Thu, 27 Feb 2020 11:54:40 +0000 (UTC)
 Received: from localhost (ovpn-117-2.ams2.redhat.com [10.36.117.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17A2419C58;
- Thu, 27 Feb 2020 11:54:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44A9019C58;
+ Thu, 27 Feb 2020 11:54:37 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/7] s390x updates
-Date: Thu, 27 Feb 2020 12:54:24 +0100
-Message-Id: <20200227115431.32364-1-cohuck@redhat.com>
+Subject: [PULL 1/7] target/s390x/translate: Fix RNSBG instruction
+Date: Thu, 27 Feb 2020 12:54:25 +0100
+Message-Id: <20200227115431.32364-2-cohuck@redhat.com>
+In-Reply-To: <20200227115431.32364-1-cohuck@redhat.com>
+References: <20200227115431.32364-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
@@ -55,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,88 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit db736e0437aa6fd7c1b7e4599c17f9619ab6b837=
-:
+From: Thomas Huth <thuth@redhat.com>
 
-  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into sta=
-ging (2020-02-25 13:31:16 +0000)
+RNSBG is handled via the op_rosbg() helper function. But RNSBG has
+the opcode 0xEC54, i.e. 0x54 as second byte, while op_rosbg() currently
+checks for 0x55. This seems to be a typo, fix it to use 0x54 instead,
+so that op_rosbg() does not abort() anymore if a program uses RNSBG.
 
-are available in the Git repository at:
+I've checked with a simple test function that I now get the same results
+with KVM and with TCG:
 
-  https://github.com/cohuck/qemu tags/s390x-20200227
+ static void test_rnsbg(void)
+ {
+=09uint64_t r1, r2;
 
-for you to fetch changes up to b6c2dbd7214b0b2396e1dcf9668c8b48ab571115:
+=09r2 =3D 0xffff000000000000UL;
+=09r1 =3D 0x123456789bdfaaaaUL;
+=09asm volatile (" rnsbg %0,%1,12,61,16 " : "+r"(r1) : "r"(r2));
 
-  s390x: Rename and use constants for short PSW address and mask (2020-02-2=
-7 11:10:29 +0100)
+=09printf("r1 afterwards: 0x%lx\n", r1);
+ }
 
-----------------------------------------------------------------
-Includes a headers update against 5.6-current.
-- add missing vcpu reset functionality
-- rstfy some s390 documentation
-- fixes and enhancements
+Buglink: https://bugs.launchpad.net/qemu/+bug/1860920
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200130133417.10531-1-thuth@redhat.com>
+Fixes: d6c6372e186e ("target-s390: Implement R[NOX]SBG")
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ target/s390x/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-
-Christian Borntraeger (1):
-  s390/sclp: improve special wait psw logic
-
-Cornelia Huck (3):
-  linux-headers: update
-  docs: rstfy s390 dasd ipl documentation
-  docs: rstfy vfio-ap documentation
-
-Janosch Frank (2):
-  s390x: Add missing vcpu reset functions
-  s390x: Rename and use constants for short PSW address and mask
-
-Thomas Huth (1):
-  target/s390x/translate: Fix RNSBG instruction
-
- MAINTAINERS                                   |   4 +-
- docs/devel/index.rst                          |   1 +
- .../{s390-dasd-ipl.txt =3D> s390-dasd-ipl.rst}  | 119 +--
- docs/system/index.rst                         |   1 +
- docs/{vfio-ap.txt =3D> system/vfio-ap.rst}      | 796 +++++++++---------
- hw/s390x/ipl.c                                |   2 +-
- include/standard-headers/drm/drm_fourcc.h     |  24 +
- include/standard-headers/linux/ethtool.h      |  11 +
- include/standard-headers/linux/input.h        |   1 +
- include/standard-headers/linux/pci_regs.h     |   1 +
- linux-headers/asm-arm/unistd-common.h         |   2 +
- linux-headers/asm-arm64/kvm.h                 |  12 +-
- linux-headers/asm-arm64/unistd.h              |   1 +
- linux-headers/asm-generic/mman-common.h       |   2 +
- linux-headers/asm-generic/unistd.h            |   7 +-
- linux-headers/asm-mips/unistd_n32.h           |   2 +
- linux-headers/asm-mips/unistd_n64.h           |   2 +
- linux-headers/asm-mips/unistd_o32.h           |   2 +
- linux-headers/asm-powerpc/unistd_32.h         |   2 +
- linux-headers/asm-powerpc/unistd_64.h         |   2 +
- linux-headers/asm-s390/unistd_32.h            |   2 +
- linux-headers/asm-s390/unistd_64.h            |   2 +
- linux-headers/asm-x86/unistd_32.h             |   2 +
- linux-headers/asm-x86/unistd_64.h             |   2 +
- linux-headers/asm-x86/unistd_x32.h            |   2 +
- linux-headers/linux/kvm.h                     |   5 +
- target/s390x/cpu.c                            |  18 +-
- target/s390x/cpu.h                            |   3 +-
- target/s390x/helper.c                         |   2 +-
- target/s390x/kvm-stub.c                       |  10 +-
- target/s390x/kvm.c                            |  42 +-
- target/s390x/kvm_s390x.h                      |   4 +-
- target/s390x/translate.c                      |   2 +-
- 33 files changed, 632 insertions(+), 458 deletions(-)
- rename docs/devel/{s390-dasd-ipl.txt =3D> s390-dasd-ipl.rst} (51%)
- rename docs/{vfio-ap.txt =3D> system/vfio-ap.rst} (55%)
-
-
-base-commit: db736e0437aa6fd7c1b7e4599c17f9619ab6b837
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index 0bd2073718ed..4f6f1e31cdfd 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -3874,7 +3874,7 @@ static DisasJumpType op_rosbg(DisasContext *s, DisasO=
+ps *o)
+=20
+     /* Operate.  */
+     switch (s->fields.op2) {
+-    case 0x55: /* AND */
++    case 0x54: /* AND */
+         tcg_gen_ori_i64(o->in2, o->in2, ~mask);
+         tcg_gen_and_i64(o->out, o->out, o->in2);
+         break;
 --=20
 2.21.1
 
