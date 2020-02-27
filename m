@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045F7172ABB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 23:04:46 +0100 (CET)
-Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E0C172AB4
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 23:03:14 +0100 (CET)
+Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7RGv-00044g-2r
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 17:04:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44901)
+	id 1j7RFQ-00026J-OC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 17:03:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1j7REG-00018h-5u
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j7REG-00018j-CM
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 17:02:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1j7REE-0003k9-7F
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 17:01:59 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33915)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j7REF-0003kQ-11
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 17:02:00 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38887)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1j7REC-0003js-Qq; Thu, 27 Feb 2020 17:01:57 -0500
-Received: by mail-wr1-x441.google.com with SMTP id z15so720866wrl.1;
- Thu, 27 Feb 2020 14:01:56 -0800 (PST)
+ id 1j7REE-0003jz-IY; Thu, 27 Feb 2020 17:01:58 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a9so1106670wmj.3;
+ Thu, 27 Feb 2020 14:01:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=kNMFlIjm8XBJIEBAtxi3IHrtpIfU7DEVVdeoiVTfm0o=;
- b=h+Z7qLYwpV96cJpRs4xBR8CbE+1g/hBRgA2WQrpaJUzf81kgCqfMTi8D5Y0y6pXMmf
- 856AeXTiwadfM1Xcy2kTQ9P/2g45TPcLGKcfqfraFya9Z4gYUKowZh2Bi1OTPR7VK85E
- QOwgXzPETiFYHea9YbLFZwvNtu3FfNMtAbypVjqNRzXZ9z27xefbb2XaSA0adtyxxH5B
- SnuyoJg81CMR+HjuYO1ETdwrnKS916qIRHAnU1vqD6Rp5Gr+ILMUCBc3MMiVivAbVpWU
- OTWfmAV+7DQnY5RmkdXRpgObij+M8dduEAlXU9kDpDF0+4HnLtR97xYVuzUaAIXtJBgz
- oauQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=zZS79vliNn3E7I89zlAY0tg2EKwBR1ZC6u6n1nsEkUU=;
+ b=LCG+xv0LPzhtZK/Yv0BWy/bhOzHLYl7LC+6NEIni3/gV1ZbTowfSj8riwYKHqVDLnf
+ RO7hRGDt+PeM/fGE5l/R/tnvMrWAs2fwTFY4S+DZO/GznZKAZGL/AIxnDRBI2LY4Myra
+ /my2IHlvj05hAyF/0fF8P/0+5Fw8QJS9W9U3TWfnqR7d/9F2Qj5myYCtR+cTtJBE9UAa
+ St+tPNtinqHGFPn8Mdx66NFQyphtW2dHaeHrjJwGVTZH68ccpWk4QOy/d30q85X91bhQ
+ ZV46fZSGU+IUpkw+S7hFr1y0o0clHOr1hMX7pOot152EH24sGVWPiouHiyYfkN9Cr6gK
+ PbOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=kNMFlIjm8XBJIEBAtxi3IHrtpIfU7DEVVdeoiVTfm0o=;
- b=hQgte0SEv01JQ+rUnmyKLNETlyEYrBFtyAuL9nGg7X9UyEwdf3RwQQ+h+fMEIk+nEc
- K5sx/2eeu7dm1r2sHvwiHb0CrV8zmUUuLzR+vhFteF6Xhc19jroRs3zmHLWVKm63U3vX
- RX5rpYz0N/XVf2WLKr5bm1OP7zh+a1fpcnyiyKC2RuMmy7MRaXm9rywMtYGNXD24WrOY
- B26TX0+JvZ91Hc0JUcf3pm3fBc57u89IrjdpWuhAC6zWhwqEPuYIJ2N4vCpZBvTIMFyj
- CPAvWE7oPT3Sc+EFyzGNKCzbOHcYBuI7nJ25oPJ8Ihc23klyz2cXfKgcmlkj7m8w5c/M
- GHog==
-X-Gm-Message-State: APjAAAWLiV9uDkSwm00HAzZosG81to38a9a3AAwlIi+0JY34pMDx3Cbe
- nXiqGh+ZPwyo9aN/JVJGNCeklMDf
-X-Google-Smtp-Source: APXvYqwAi0eWgIFWbQuHP64dDwrgquZzUOdO9LR3IaI7Xh8WkIWf1N6uNj4JaO/2Ua/utwz2Lug4Qw==
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr893521wrw.47.1582840915381;
- Thu, 27 Feb 2020 14:01:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=zZS79vliNn3E7I89zlAY0tg2EKwBR1ZC6u6n1nsEkUU=;
+ b=N7sU6RNk/xzxi8IzL4hy4dxInJqiUmD/5iN7Xa3gE2x2vpklV2lfXU+Oe7565WMx3p
+ lOdrrVY+dHQ/apHF/Ueaaf9EsD8k9LPB9v936XHkohD3Lv70OlD2g7olESGE5TT5VkNV
+ ZBTlr+1Qxy5aOTGXtSuu7xVursurufitZjRwohNsp+kLWWuxwRMdcuMkx9bvuTPZLMtq
+ K2HY8lf0sVwNxvHV+CllACJlPr+pQnCTK+N1tm6/Gmtn1wVE2Kqvh5D2yfETuE0WUc9K
+ hYD9DbOT9Xrw73si7Hzs7U9DGfD2PGu9xRkkyDc8pRCL3NFeGZ5pzl2Kfm3FDYMeyIVj
+ sPRQ==
+X-Gm-Message-State: APjAAAW3WP+nuSJ3xNJtCAwbqLy2RWE0JiZNzpOoCXuUnB8m3hDyYAkM
+ XlpPbZL0Fxg1fLAyYInt+k2nILOK
+X-Google-Smtp-Source: APXvYqxo7pymiWQ1eGs8PgI1nWqREn23qAtbKU/XFTdg/lLIJJwnp/1S/tnQghZUY+Ot5pYlezbgcQ==
+X-Received: by 2002:a7b:c392:: with SMTP id s18mr806466wmj.169.1582840916604; 
+ Thu, 27 Feb 2020 14:01:56 -0800 (PST)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id z14sm6447040wrg.76.2020.02.27.14.01.54
+ by smtp.gmail.com with ESMTPSA id z14sm6447040wrg.76.2020.02.27.14.01.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Feb 2020 14:01:54 -0800 (PST)
+ Thu, 27 Feb 2020 14:01:55 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/4] hw/arm/cubieboard: correct CPU type and add machine
- argument checks
-Date: Thu, 27 Feb 2020 23:01:45 +0100
-Message-Id: <20200227220149.6845-1-nieklinnenbank@gmail.com>
+Subject: [PATCH v1 1/4] hw/arm/cubieboard: use ARM Cortex-A8 as the default
+ CPU in machine definition
+Date: Thu, 27 Feb 2020 23:01:46 +0100
+Message-Id: <20200227220149.6845-2-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200227220149.6845-1-nieklinnenbank@gmail.com>
+References: <20200227220149.6845-1-nieklinnenbank@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,22 +80,36 @@ Cc: b.galvani@gmail.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches change the Cubieboard machine definition to use the
-correct CPU type, which is ARM Cortex-A8 instead of ARM Cortex-A9.
+The Cubieboard is a singleboard computer with an Allwinner A10 System-on-Chip [1].
+As documented in the Allwinner A10 User Manual V1.5 [2], the SoC has an ARM
+Cortex-A8 processor. Currently the Cubieboard machine definition specifies the
+ARM Cortex-A9 in its description and as the default CPU.
 
-Additionally, add some sanity checks for the machine input
-arguments in the initialization function.
+This patch corrects the Cubieboard machine definition to use the ARM Cortex-A8.
 
-Niek Linnenbank (4):
-  hw/arm/cubieboard: use ARM Cortex-A8 as the default CPU in machine
-    definition
-  hw/arm/cubieboard: restrict allowed CPU type to ARM Cortex-A8
-  hw/arm/cubieboard: restrict allowed RAM size to 512MiB and 1GiB
-  hw/arm/cubieboard: report error when using unsupported -bios argument
+ [1] http://docs.cubieboard.org/products/start#cubieboard1
+ [2] https://linux-sunxi.org/File:Allwinner_A10_User_manual_V1.5.pdf
 
- hw/arm/cubieboard.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+---
+ hw/arm/cubieboard.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 089f9a30c1..0195925c73 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -68,8 +68,8 @@ static void cubieboard_init(MachineState *machine)
+ 
+ static void cubieboard_machine_init(MachineClass *mc)
+ {
+-    mc->desc = "cubietech cubieboard (Cortex-A9)";
+-    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a9");
++    mc->desc = "cubietech cubieboard (Cortex-A8)";
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a8");
+     mc->init = cubieboard_init;
+     mc->block_default_type = IF_IDE;
+     mc->units_per_default_bus = 1;
 -- 
 2.17.1
 
