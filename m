@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13B6172255
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 16:33:56 +0100 (CET)
-Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4ECB17226C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 16:42:03 +0100 (CET)
+Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7LAh-00009T-P6
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 10:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57492)
+	id 1j7LIY-0003xP-NV
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 10:42:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60501)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j7L9a-000817-72
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:32:47 -0500
+ (envelope-from <bounces@canonical.com>) id 1j7LHM-00035d-O9
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:40:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j7L9Y-0005qC-8U
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:32:45 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51541
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j7L9Y-0005pF-2V
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:32:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582817563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=flkaoN32fHfnV+Wb3CdGYQ+uAtG2ZUjFEdjzExVmXQw=;
- b=ZfZXGkxELwJFsvZAEa2wtGq0kYzt7nGNhL51jZ6b2RZUR7dMSp2XzSHC5oEPK8L9MfRn9z
- c+x9bKkAsnm4IMNGWUhTlPkoKhxfpsviuEAx1cxyq4oY9pL1sssv6l0lmN2nWjMoUkma6C
- RsT0RmSaNXTMOpAAHLuUuzk9C9YHnxY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-lxI3cm93PMum2-EIgQ-WTA-1; Thu, 27 Feb 2020 10:32:35 -0500
-X-MC-Unique: lxI3cm93PMum2-EIgQ-WTA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82092107BAB6
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 15:32:34 +0000 (UTC)
-Received: from [10.36.116.59] (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BAE525DA7B;
- Thu, 27 Feb 2020 15:32:26 +0000 (UTC)
-Subject: Re: [PATCH 0/5] vfio/pci: Fix up breakage against split irqchip and
- INTx
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20200226225048.216508-1-peterx@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <bd685da9-bc50-f901-bfec-a1cd18832307@redhat.com>
-Date: Thu, 27 Feb 2020 16:32:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <bounces@canonical.com>) id 1j7LHL-00037C-6X
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:40:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38258)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j7LHL-00036u-0u
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:40:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j7LHJ-0003yx-Oh
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 15:40:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 92C592E80D1
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 15:40:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200226225048.216508-1-peterx@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 27 Feb 2020 15:33:56 -0000
+From: Olaf Seibert <1865048@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: oseibert-sys11
+X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
+X-Launchpad-Bug-Modifier: Olaf Seibert (oseibert-sys11)
+Message-Id: <158281763694.13572.4793000469968260846.malonedeb@gac.canonical.com>
+Subject: [Bug 1865048] [NEW] qemu-img --force-share does not disable file
+ locking
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 06a78918ce62722dea9fc1b63d29d874428c5695
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,87 +64,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>
+Reply-To: Bug 1865048 <1865048@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Public bug reported:
 
-On 2/26/20 11:50 PM, Peter Xu wrote:
-> VFIO INTx is not working with split irqchip.  On new kernels KVM_IRQFD
-> will directly fail with resamplefd attached so QEMU will automatically
-> fallback to the INTx slow path.  However on old kernels it's still
-> broken.
-I think you should quote the commit that changes the behavior:
-654f1f13ea56  kvm: Check irqchip mode before assign irqfd?
-so that one can understand what it fixed.
+The new option "--force-share" for qemu-img does not disable file
+locking.
 
-So on kernels that do not feature that commit, the ioctl succeeds and we
-pretend the resamplefd was properly attached whereas in practice it was
-never triggered.
+I tried it with version qemu-img version 2.11.1(Debian 1:2.11+dfsg-
+1ubuntu7.21~cloud0) and I traced the source code of the current git
+trunk.
 
-Thanks
+Sample to demonstrate:
 
-Eric
+# strace qemu-img info --force-share testfile.qcow2   2>&1 | grep F_RDLCK
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
+fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D10=
+0, l_len=3D1}) =3D 0
 
-> 
-> Only until recently I noticed that this could also break PXE boot for
-> assigned NICs [1].  My wild guess is that the PXE ROM will be mostly
-> using INTx as well, which means we can't bypass that even if we
-> enables MSI for the guest kernel.
-> 
-> This series tries to first fix this issue function-wise, then speed up
-> for the INTx again with resamplefd (mostly following the ideas
-> proposed by Paolo one year ago [2]).  My TCP_RR test shows that:
+I traced the passing of the --force-share option through the source code
+(I used commit 6c599282f8 as of Mon Feb 17 13:32:25 2020 +0000)
 
-> 
->   - Before this series: this is broken, no number to show
-> 
->   - After patch 1 (enable slow path): get 63% perf comparing to full
->     kernel irqchip
-> 
->   - After whole series (enable fast path partly, irq injection will be
->     the same as fast path, however userspace needs to intercept for
->     EOI broadcast to resamplefd, though should still be faster than
->     the MMIO trick for intx eoi): get 93% perf comparing to full
->     kernel irqchip, which is a 46% performance boost
-> 
-> I think we can consider to apply patch 1 even sooner than the rest of
-> the series to unbreak intx+split first.
-> 
-> The whole test matrix for reference:
-> 
->   |----------+---------+-------------------+--------------+--------------------|
->   | IRQ type | irqchip | TCP_STREAM (Gbps) | TCP_RR (pps) | note               |
->   |----------+---------+-------------------+--------------+--------------------|
->   | msi      | on      |              9.39 |        17567 |                    |
->   | nomsi    | on      |              9.29 |        14056 |                    |
->   | msi      | split   |              9.36 |        17330 |                    |
->   | nomsi    | split   |                 / |            / | currently broken   |
->   | nomsi    | split   |              8.98 |         8977 | after patch 1      |
->   | nomsi    | split   |              9.21 |        13142 | after whole series |
->   |----------+---------+-------------------+--------------+--------------------|
-> 
-> Any review comment is welcomed.  Thanks,
-> 
-> [1] https://bugzilla.redhat.com/show_bug.cgi?id=1786404
-> [2] https://patchwork.kernel.org/patch/10738541/#22609933
-> 
-> Peter Xu (5):
->   vfio/pci: Disable INTx fast path if using split irqchip
->   vfio/pci: Use kvm_irqchip_add_irqfd_notifier_gsi() for irqfds
->   KVM: Pass EventNotifier into kvm_irqchip_assign_irqfd
->   KVM: Kick resamplefd for split kernel irqchip
->   Revert "vfio/pci: Disable INTx fast path if using split irqchip"
-> 
->  accel/kvm/kvm-all.c    | 83 +++++++++++++++++++++++++++++++++++++++---
->  accel/kvm/trace-events |  1 +
->  hw/intc/ioapic.c       | 11 +++++-
->  hw/vfio/pci.c          | 37 ++++++++-----------
->  include/sysemu/kvm.h   |  4 ++
->  5 files changed, 106 insertions(+), 30 deletions(-)
-> 
+qemu-img.c:img_info()
+        force_share =3D true;
+qemu-img.c:collect_image_info_list(force_share)
+qemu-img.c:img_open(force_share)
+qemu-img.c:img_open_file(force_share)
+        qdict_put_bool(options, BDRV_OPT_FORCE_SHARE, true);
+block/block-backend.c:blk_new_open(options)
+block.c:bdrv_open(options)
+block.c:bdrv_open_inheritoptions()
+block.c:bdrv_open_common(options)
+        bs->force_share =3D qemu_opt_get_bool(opts, BDRV_OPT_FORCE_SHARE, f=
+alse);
+block.c:bdrv_open_driver(bs)
+include/block/block_int.h:int (*bdrv_file_open)(BlockDriverState *bs, QDict=
+ *options, int flags,
+block/file-posix.c:.bdrv_file_open =3D raw_open,
+block/file-posix.c:raw_open_common(bs)
+        locking =3D qapi_enum_parse(&OnOffAuto_lookup,
+                              qemu_opt_get(opts, "locking"),
+                              ON_OFF_AUTO_AUTO, &local_err);
+        ignoring bs->force_share
 
+At the end, bs->force_share is ignored in determining the locking value.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1865048
+
+Title:
+  qemu-img --force-share does not disable file locking
+
+Status in QEMU:
+  New
+
+Bug description:
+  The new option "--force-share" for qemu-img does not disable file
+  locking.
+
+  I tried it with version qemu-img version 2.11.1(Debian 1:2.11+dfsg-
+  1ubuntu7.21~cloud0) and I traced the source code of the current git
+  trunk.
+
+  Sample to demonstrate:
+
+  # strace qemu-img info --force-share testfile.qcow2   2>&1 | grep F_RDLCK
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+
+  I traced the passing of the --force-share option through the source
+  code (I used commit 6c599282f8 as of Mon Feb 17 13:32:25 2020 +0000)
+
+  qemu-img.c:img_info()
+          force_share =3D true;
+  qemu-img.c:collect_image_info_list(force_share)
+  qemu-img.c:img_open(force_share)
+  qemu-img.c:img_open_file(force_share)
+          qdict_put_bool(options, BDRV_OPT_FORCE_SHARE, true);
+  block/block-backend.c:blk_new_open(options)
+  block.c:bdrv_open(options)
+  block.c:bdrv_open_inheritoptions()
+  block.c:bdrv_open_common(options)
+          bs->force_share =3D qemu_opt_get_bool(opts, BDRV_OPT_FORCE_SHARE,=
+ false);
+  block.c:bdrv_open_driver(bs)
+  include/block/block_int.h:int (*bdrv_file_open)(BlockDriverState *bs, QDi=
+ct *options, int flags,
+  block/file-posix.c:.bdrv_file_open =3D raw_open,
+  block/file-posix.c:raw_open_common(bs)
+          locking =3D qapi_enum_parse(&OnOffAuto_lookup,
+                                qemu_opt_get(opts, "locking"),
+                                ON_OFF_AUTO_AUTO, &local_err);
+          ignoring bs->force_share
+
+  At the end, bs->force_share is ignored in determining the locking
+  value.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1865048/+subscriptions
 
