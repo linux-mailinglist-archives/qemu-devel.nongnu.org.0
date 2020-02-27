@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DB5170E8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:42:28 +0100 (CET)
-Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61E3170EB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:48:24 +0100 (CET)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7987-0006ve-J5
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:42:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33705)
+	id 1j79Dr-0003Fw-Ms
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:48:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j795W-0005Tb-VM
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:51 -0500
+ (envelope-from <programmingkidx@gmail.com>) id 1j799d-0000a2-BT
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:44:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j795V-0001Ew-Fv
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48979
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j795V-0001C2-9n
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:39:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582771184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kdFbn075HIedi6OAGvkIWRsQc4pyllyl73woeuwOZIQ=;
- b=dqHaIgYpe2tg0hgqLDRF1t/ep9qoF6VoXbGollXHoiRxy08XTBYGOUXBtfJDZnOm77Kk3k
- RT621sd4lF9c60cfz+7k5e/2l8dOIsIPabRxnvjE+GtIfd1EvJDiI0ZMZnwhxD0LKSaawJ
- kRD7MMui8Ey9cVIakhu5kwQ6g32RVac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-r56n7odcMgWOL7X-O7KAuw-1; Wed, 26 Feb 2020 21:39:39 -0500
-X-MC-Unique: r56n7odcMgWOL7X-O7KAuw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 417AE1005512;
- Thu, 27 Feb 2020 02:39:38 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-57.phx2.redhat.com [10.3.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B18181CB;
- Thu, 27 Feb 2020 02:39:37 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] qemu-img: Deprecate use of -b without -F
-Date: Wed, 26 Feb 2020 20:39:28 -0600
-Message-Id: <20200227023928.1021959-4-eblake@redhat.com>
-In-Reply-To: <20200227023928.1021959-1-eblake@redhat.com>
-References: <20200227023928.1021959-1-eblake@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <programmingkidx@gmail.com>) id 1j799c-00040p-44
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:44:01 -0500
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:38746)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
+ id 1j799b-0003r3-TN; Wed, 26 Feb 2020 21:44:00 -0500
+Received: by mail-yw1-xc42.google.com with SMTP id 10so1665213ywv.5;
+ Wed, 26 Feb 2020 18:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=EyHoyQjXvYcvJ8Og7Fj6dWE/IvMVWGSMfLOGft9NDmQ=;
+ b=YhQ9oxFy3sLy2eypHoR+97Yuy+UXYg8WaYqlFXBUkhixK4La5BlQP8KoJqOKu3FQ4j
+ xZEvpkzYuED0VuRYCfBP5fai+HwbyZlOo2MjPM7Py6Lfo0olXhDOaEMvVVclSletngFY
+ zZCWNqX9q39Kgx5DJVQlHWWidwW8TO+w1IQSa8IHn2BOsfnV4oQbLbXekc21O+67s4l4
+ nwB9xF2EMP9ZPDg/5y2JjWYVXF/0bqn6rwUxW0URt53FbnLJObLnR7kGScf/uW3mPGRf
+ HkCjlvg+e3sTLI5ds8dLAmHC+Kg225AGCTA6JyzeOjmzXWmfh5PmPXIbcHsjqvwLbEzU
+ L3WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=EyHoyQjXvYcvJ8Og7Fj6dWE/IvMVWGSMfLOGft9NDmQ=;
+ b=S3a6kWCtZkb0qWn1d5ik+pV+GHAGpBPJDASw+ALdG3UPlFLiIUNz2tBHXEHJ8+z15H
+ w9UbZKcIzHof4gWSGLYNJrrf0qRPwBTesqRZg+6GU2LW7OMCGOHDxjC94esr0m+simSX
+ zu/CsZsfZvfSaybb7jDXCxdhKJVRXMpekGJRixq1iQlVRiNfOHAf0KUUuNCgUubAPyS+
+ MNqFT7hliRpODhwyG/s41kL+2JnE63sCTh0lOzap9F8BpyvP0/RzK/r6mPFptxLCySpW
+ RLvJNP8ZZJEbF5uOioHwzKe26KxSAUPRiqS6GCoO9YO3BaSTlOjWv3U7P7siB6gE3ijB
+ feRg==
+X-Gm-Message-State: APjAAAWAFWD7OO17n4ep8xrFgjl1ePhnVzyzL4YkoeBujK7wIvI8EDiO
+ xeWyW4nUpe4VDt083iYrfHs=
+X-Google-Smtp-Source: APXvYqwFcBsAtLwAkTBWOkJX6jDBacKxK1SIP/JmNhhksGQeCGIqxzERjWeWrLr0ajWJ+sF6aqNU4Q==
+X-Received: by 2002:a25:be06:: with SMTP id h6mr1749179ybk.61.1582771437729;
+ Wed, 26 Feb 2020 18:43:57 -0800 (PST)
+Received: from [192.168.0.5] (d149-67-30-58.try.wideopenwest.com.
+ [67.149.58.30])
+ by smtp.gmail.com with ESMTPSA id a202sm1891666ywe.8.2020.02.26.18.43.56
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Feb 2020 18:43:56 -0800 (PST)
+Content-Type: text/plain; charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <CAL1e-=hhhw4x4H24DWg6pTp9DmjyfwM6GFMOmWasKC66x5tR4Q@mail.gmail.com>
+Date: Wed, 26 Feb 2020 21:43:55 -0500
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Message-Id: <2126C4B4-B0F2-4B0F-ADEC-211466989E36@gmail.com>
+References: <20200218171702.979F074637D@zero.eik.bme.hu>
+ <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
+ <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
+ <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
+ <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
+ <3539F747-145F-49CC-B494-C9794A8ABABA@gmail.com>
+ <AM6PR03MB5525DE221E3E7E595893DF4DC8EA0@AM6PR03MB5525.eurprd03.prod.outlook.com>
+ <AM4PR07MB350651FBB263FEEDB857CBFFCAEA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <87eeuhxw0y.fsf@linaro.org>
+ <CAL1e-=gGsEV4_a4gJr2x0L3r_UK7isnpjOWoJRCDhqpG_XT3Ww@mail.gmail.com>
+ <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
+ <CAL1e-=hhhw4x4H24DWg6pTp9DmjyfwM6GFMOmWasKC66x5tR4Q@mail.gmail.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+X-Mailer: Apple Mail (2.3273)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,159 +89,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, luigi burdo <intermediadc@hotmail.com>,
+ Dino Papararo <skizzato73@msn.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Creating an image that requires format probing of the backing image is
-inherently unsafe (we've had several CVEs over the years based on
-probes leaking information to the guest on a subsequent boot).  If our
-probing algorithm ever changes, or if other tools like libvirt
-determine a different probe result than we do, then subsequent use of
-that backing file under a different format will present corrupted data
-to the guest.  Start a deprecation clock so that future qemu-img can
-refuse to create unsafe backing chains that would rely on probing.
 
-However, there is one time where probing is safe: if we probe raw,
-then it is safe to record that implicitly in the image (but we still
-warn, as it's better to teach the user to supply -F always than to
-make them guess when it is safe).
+> On Feb 26, 2020, at 12:27 PM, Aleksandar Markovic =
+<aleksandar.m.mail@gmail.com> wrote:
+>=20
+> On Wed, Feb 26, 2020 at 6:04 PM G 3 <programmingkidx@gmail.com> wrote:
+>>=20
+>> Accuracy is an important part of the IEEE 754 floating point =
+standard. The whole purpose of this standard is to ensure floating point =
+calculations are consistent across multiple CPUs. I believe referring to =
+this patch as inaccurate is itself inaccurate. That gives the impression =
+that this patch produces calculations that are not inline with =
+established standards. This is not true. The only part of this patch =
+that will produce incorrect values are the flags. There *may* be a =
+program or two out there that depend on these flags, but for the =
+majority of programs that only care about basic floating point =
+arithmetic this patch will produce correct values. Currently the =
+emulated PowerPC's FPU already produces wrong values for the flags. This =
+patch does set the Inexact flag (which I don't like), but since I have =
+never encountered any source code that cares for this flag, I can let it =
+go. I think giving the user the ability to decide which option to use is =
+the best thing to do.
+>>=20
+>=20
+> =46rom the experiments described above, the patch in question changes =
+the behavior
+> of applications (for example, sound is different with and without the
+> patch), which is
+> in contradiction with your claim that you "never encountered any
+> source code that
+> cares for this flag" and that "the only part of this patch that will
+> produce incorrect
+> values are the flags".
+>=20
+> In other words, and playing further with them:
+>=20
+> The claim that "referring to this patch as inaccurate is itself
+> inaccurate" is itself inaccurate.
+>=20
+> Best regards,
+> Aleksandar
 
-iotest 114 specifically wants to create an unsafe image for later
-amendment rather than defaulting to our new default of recording a
-probed format, so it needs an update.
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- qemu-deprecated.texi       | 15 +++++++++++++++
- block.c                    | 21 ++++++++++++++++++++-
- qemu-img.c                 |  8 +++++++-
- tests/qemu-iotests/114     |  4 ++--
- tests/qemu-iotests/114.out |  1 +
- 5 files changed, 45 insertions(+), 4 deletions(-)
-
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 66eca3a1dede..f99b49addccc 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -309,6 +309,21 @@ The above, converted to the current supported format:
-
- @section Related binaries
-
-+@subsection qemu-img backing file without format (since 5.0.0)
-+
-+The use of @command{qemu-img create}, @command{qemu-img rebase},
-+@command{qemu-img convert}, or @command{qemu-img ament} to create or
-+modify an image that depends on a backing file now recommends that an
-+explicit backing format be provided.  This is for safety - if qemu
-+probes a different format than what you thought, the data presented to
-+the guest will be corrupt; similarly, presenting a raw image to a
-+guest allows the guest a potential security exploit if a future probe
-+sees non-raw.  To avoid warning messages, or even future refusal to
-+create an unsafe image, you must pass @option{-o backing_fmt=3D} (or
-+shorthand @option{-F}) to specify the intended backing format.  You
-+may use @command{qemu-img rebase -u} to retroactively add a backing
-+format to an existing image.
-+
- @subsection qemu-img convert -n -o (since 4.2.0)
-
- All options specified in @option{-o} are image creation options, so
-diff --git a/block.c b/block.c
-index 10c2a34e7c00..9907cf1e3c78 100644
---- a/block.c
-+++ b/block.c
-@@ -6009,6 +6009,20 @@ void bdrv_img_create(const char *filename, const cha=
-r *fmt,
-                               "Could not open backing image to determine s=
-ize.\n");
-             goto out;
-         } else {
-+            if (!backing_fmt) {
-+                warn_report("Deprecated use of backing file without explic=
-it "
-+                            "backing format (detected format of %s)",
-+                            bs->drv->format_name);
-+                if (bs->drv =3D=3D &bdrv_raw) {
-+                    /*
-+                     * A probe of raw is always correct, so in this one
-+                     * case, we can write that into the image.
-+                     */
-+                    backing_fmt =3D bs->drv->format_name;
-+                    qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, backing_fmt,
-+                                 NULL);
-+                }
-+            }
-             if (size =3D=3D -1) {
-                 /* Opened BS, have no size */
-                 size =3D bdrv_getlength(bs);
-@@ -6022,7 +6036,12 @@ void bdrv_img_create(const char *filename, const cha=
-r *fmt,
-             }
-             bdrv_unref(bs);
-         }
--    } /* (backing_file && !(flags & BDRV_O_NO_BACKING)) */
-+        /* (backing_file && !(flags & BDRV_O_NO_BACKING)) */
-+    } else if (backing_file && !backing_fmt) {
-+        warn_report("Deprecated use of unopened backing file without "
-+                    "explicit backing format, use of this image requires "
-+                    "potentially unsafe format probing");
-+    }
-
-     if (size =3D=3D -1) {
-         error_setg(errp, "Image creation needs a size parameter");
-diff --git a/qemu-img.c b/qemu-img.c
-index b9375427404d..e75ec1bdb555 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3637,7 +3637,13 @@ static int img_rebase(int argc, char **argv)
-      * doesn't change when we switch the backing file.
-      */
-     if (out_baseimg && *out_baseimg) {
--        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, fal=
-se);
-+        if (blk_new_backing && !out_basefmt) {
-+            out_basefmt =3D blk_bs(blk_new_backing)->drv->format_name;
-+            warn_report("Deprecated use of backing file "
-+                        "without explicit backing format, using "
-+                        "detected format of %s", out_basefmt);
-+        }
-+        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, tru=
-e);
-     } else {
-         ret =3D bdrv_change_backing_file(bs, NULL, NULL, false);
-     }
-diff --git a/tests/qemu-iotests/114 b/tests/qemu-iotests/114
-index 26104fff6c67..727e06e283a5 100755
---- a/tests/qemu-iotests/114
-+++ b/tests/qemu-iotests/114
-@@ -42,9 +42,9 @@ _unsupported_proto vxhs
- # qcow2.py does not work too well with external data files
- _unsupported_imgopts data_file
-
--
-+# Intentionally specify backing file without backing format
- TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
--_make_test_img -b "$TEST_IMG.base" 64M
-+_make_test_img -u -b "$TEST_IMG.base" 64M
-
- # Set an invalid backing file format
- $PYTHON qcow2.py "$TEST_IMG" add-header-ext 0xE2792ACA "foo"
-diff --git a/tests/qemu-iotests/114.out b/tests/qemu-iotests/114.out
-index 67adef37a4f6..81d5a8e0ad03 100644
---- a/tests/qemu-iotests/114.out
-+++ b/tests/qemu-iotests/114.out
-@@ -1,5 +1,6 @@
- QA output created by 114
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
-+qemu-img: warning: Deprecated use of unopened backing file without explici=
-t backing format, use of this image requires potentially unsafe format prob=
-ing
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
-=3DTEST_DIR/t.IMGFMT.base
- image: TEST_DIR/t.IMGFMT
- file format: IMGFMT
---=20
-2.25.1
+It is inaccurate to state that just because the USB audio device seems =
+to play better with the hardfloat feature enabled that this changes the =
+fact that I have yet to see any source code that actually reviews the =
+flags. I have reviewed both the USB audio device and Apple's =
+AppleUSBAudio class code and have not seen any mention of the exception =
+flags.=20
 
 
