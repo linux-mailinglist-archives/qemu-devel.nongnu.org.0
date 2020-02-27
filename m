@@ -2,69 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B45417115D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 08:22:41 +0100 (CET)
-Received: from localhost ([::1]:54724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB0017118D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 08:35:28 +0100 (CET)
+Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7DVI-0006nO-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 02:22:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36378)
+	id 1j7Dhf-0005LQ-Ol
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 02:35:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42265)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1j7DTg-000643-Vk
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:21:02 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j7DcY-0000G0-KA
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:30:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1j7DTf-0002jl-DZ
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:21:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34570
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j7DcV-000097-0D
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:30:10 -0500
+Received: from relay.sw.ru ([185.231.240.75]:33966)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1j7DTf-0002hv-9A
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 02:20:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582788057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q0NxR7jXcCLUtPv7w3DgvSYvmTa0yr/P/vlRrMFFtA4=;
- b=Tl3S+CvksKF87mv3/Afdq9qoZkskkWplXuPsdZ4XZTXmvhxgQf9EhNXEh8QFuwfbTXc4bg
- oj2aWsDmkLNbmV+ZzQwJJFnXIaKJhBmE5J0yFUyC9PWcbVLSZTQqmNQVjfkkSynI17dCzd
- 3MlW65eR8IORBsiyQHeTCZ7LfxZEP6I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-pToI5ImmPc-kEGxmoBSVYQ-1; Thu, 27 Feb 2020 02:20:55 -0500
-X-MC-Unique: pToI5ImmPc-kEGxmoBSVYQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7B461882CDA;
- Thu, 27 Feb 2020 07:20:54 +0000 (UTC)
-Received: from andariel.pipo.sk (ovpn-204-53.brq.redhat.com [10.40.204.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E94B89F21;
- Thu, 27 Feb 2020 07:20:49 +0000 (UTC)
-Date: Thu, 27 Feb 2020 08:20:46 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 1/3] iotests: Specify explicit backing format where
- sensible
-Message-ID: <20200227072046.GC20737@andariel.pipo.sk>
-References: <20200227023928.1021959-1-eblake@redhat.com>
- <20200227023928.1021959-2-eblake@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20200227023928.1021959-2-eblake@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j7DcU-00005b-1V; Thu, 27 Feb 2020 02:30:06 -0500
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j7DcO-0003Tx-5M; Thu, 27 Feb 2020 10:30:00 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/8] qcow2: Implement zstd cluster compression method
+Date: Thu, 27 Feb 2020 10:29:45 +0300
+Message-Id: <20200227072953.25445-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,58 +43,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ den@vrtuozzo.com, armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 26, 2020 at 20:39:26 -0600, Eric Blake wrote:
-> There are many existing qcow2 images that specify a backing file but
-> no format.  This has been the source of CVEs in the past, but has
-> become more prominent of a problem now that libvirt has switched to
-> -blockdev.  With older -drive, at least the probing was always done by
-> qemu (so the only risk of a changed format between successive boots of
-> a guest was if qemu was upgraded and probed differently).  But with
-> newer -blockdev, libvirt must specify a format; if libvirt guesses raw
-> where the image was formatted, this results in data corruption visible
-> to the guest; conversely, if libvirt guesses qcow2 where qemu was
-> using raw, this can result in potential security holes, so modern
-> libvirt instead refuses to use images without explicit backing format.
->=20
-> The change in libvirt to reject images without explicit backing format
-> has pointed out that a number of tools have been far too reliant on
-> probing in the past.  It's time to set a better example in our own
-> iotests of properly setting this parameter.
->=20
-> iotest calls to create, rebase, convert, and amend are all impacted to
-> some degree.  It's a bit annoying that we are inconsistent on command
-> line - while all of those accept -o backing_file=3D...,backing_fmt=3D...,
-> the shortcuts are different: create and rebase have -b and -F, convert
-> has -B but no -F, and amend has no shortcuts.
->=20
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
+zstd comression method is faster than the only available zlib.
+The series adds zstd to the methods available for clusters compression.
 
-[...]
+The implementation is done with respect to the recently added compression
+type additional header to the qcow2 specification.
 
->  113 files changed, 414 insertions(+), 338 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/017 b/tests/qemu-iotests/017
-> index 0a4b854e6520..585512bb296b 100755
-> --- a/tests/qemu-iotests/017
-> +++ b/tests/qemu-iotests/017
-> @@ -66,7 +66,7 @@ echo "Creating test image with backing file"
->  echo
->=20
->  TEST_IMG=3D$TEST_IMG_SAVE
-> -_make_test_img -b "$TEST_IMG.base" 6G
-> +_make_test_img -b "$TEST_IMG.base" -F $IMGFMT 6G
->=20
+Denis Plotnikov (8):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+  iotests: filter out compression_type
+  iotests: fix header size, feature table size and backing file offset
+  iotests: add "compression type" for test output matching
+  iotests: 080: update header size value because of adding compression
+    type
+  iotests: 287: add qcow2 compression type test
 
-My understanding of the intricacies of the qemu-iotest suite is not good
-enoug to be able to review this patch. Specifically $IMGFMT in this
-instance is also used in the '-f' switch of qemu-img in _make_test_img
-and I don't know if it's expected for the backing file to share the
-format.
+ block/qcow2-threads.c            | 199 ++++++++++++++++++++++++++++---
+ block/qcow2.c                    | 112 +++++++++++++++++
+ block/qcow2.h                    |  31 +++--
+ configure                        |  29 +++++
+ docs/interop/qcow2.txt           |  18 +++
+ include/block/block_int.h        |   1 +
+ qapi/block-core.json             |  23 +++-
+ tests/qemu-iotests/031.out       |  14 +--
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++++++++--------
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  34 +++---
+ tests/qemu-iotests/065           |  20 ++--
+ tests/qemu-iotests/080           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/287           | 123 +++++++++++++++++++
+ tests/qemu-iotests/287.out       |  41 +++++++
+ tests/qemu-iotests/common.filter |   3 +-
+ tests/qemu-iotests/group         |   1 +
+ 22 files changed, 663 insertions(+), 114 deletions(-)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
+
+-- 
+2.17.0
 
 
