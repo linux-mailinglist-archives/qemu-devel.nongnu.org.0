@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965661714F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:28:57 +0100 (CET)
-Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A515617150F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:34:33 +0100 (CET)
+Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GPY-0001yo-Kl
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:28:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43486)
+	id 1j7GUy-0008CI-OM
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:34:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1j7GKO-0004ex-91
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:23:37 -0500
+ (envelope-from <bounces@canonical.com>) id 1j7GRO-0004po-KC
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:30:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1j7GKE-0001fi-51
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:23:32 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53005
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j7GKE-0001fD-0z
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:23:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582799005;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HpAZRkTSNyf6882gZT2RNP8pEIg/Do3AyTJYPaPK+ns=;
- b=deng7z/xo/rKzhbr96Mgvok+q+XRLzxOluq7R1ZxPCK3hWwJNJ5+A9i2vBfmK4xIJrYVWD
- AuTGfNlAP0l1/Ra8NMcgj+DazkfuA/aF9RH4/jOWiPIUhSOAf1dsLPAohtI7m3UpE+cWau
- dNCMmss0VvtrvEndnR9PeHd597h/B98=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-zyOAoqYkPpSRlGlndzqWpQ-1; Thu, 27 Feb 2020 05:23:21 -0500
-X-MC-Unique: zyOAoqYkPpSRlGlndzqWpQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4A63189F762;
- Thu, 27 Feb 2020 10:23:20 +0000 (UTC)
-Received: from redhat.com (ovpn-112-43.ams2.redhat.com [10.36.112.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 693815DA76;
- Thu, 27 Feb 2020 10:23:16 +0000 (UTC)
-Date: Thu, 27 Feb 2020 10:23:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/2] chardev: Improve error report by calling
- error_setg_win32()
-Message-ID: <20200227102313.GD1645630@redhat.com>
-References: <20200227100250.20514-1-philmd@redhat.com>
- <20200227100250.20514-2-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1j7GRN-0003H5-0s
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:30:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37132)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j7GRM-0003D8-Rc
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:30:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j7GRK-0005E1-4s
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 10:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1CC792E80AD
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 10:30:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200227100250.20514-2-philmd@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 27 Feb 2020 10:20:58 -0000
+From: Valentin David <1864984@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: valentin.david
+X-Launchpad-Bug-Reporter: Valentin David (valentin.david)
+X-Launchpad-Bug-Modifier: Valentin David (valentin.david)
+Message-Id: <158279885836.19592.16795975857735049927.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1864984] [NEW] "nr_entries is too big" when using virgl
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7d571a56d783bc360fdc364a2c8a1bd872267f6e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,35 +63,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-trivial@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Stefan Weil <sw@weilnetz.de>
+Reply-To: Bug 1864984 <1864984@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 11:02:49AM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> Use error_setg_win32() which adds a hint similar to strerror(errno)).
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  chardev/char-pipe.c | 2 +-
->  chardev/char-win.c  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+Public bug reported:
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+I have a bootable image where GNOME Shell fails because it hits a limit
+in virtio-gpu.
 
+In `hw/display/virtio-gpu.c`, there is a limit for `nr_entries` at
+16384. There is no explanation for that limit. But there does not seem
+to be any limit on the kernel side.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Raising this limit with a patch to 262144 solves the issue.
 
+Could there be an explanation why this limit is needed? And why this
+value? Or could this limit be just removed?
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1864984
+
+Title:
+  "nr_entries is too big" when using virgl
+
+Status in QEMU:
+  New
+
+Bug description:
+  I have a bootable image where GNOME Shell fails because it hits a
+  limit in virtio-gpu.
+
+  In `hw/display/virtio-gpu.c`, there is a limit for `nr_entries` at
+  16384. There is no explanation for that limit. But there does not seem
+  to be any limit on the kernel side.
+
+  Raising this limit with a patch to 262144 solves the issue.
+
+  Could there be an explanation why this limit is needed? And why this
+  value? Or could this limit be just removed?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1864984/+subscriptions
 
