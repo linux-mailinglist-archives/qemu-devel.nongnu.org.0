@@ -2,102 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCD017154E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:46:17 +0100 (CET)
-Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD34171558
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:55:53 +0100 (CET)
+Received: from localhost ([::1]:57218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GgJ-0006b1-1c
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:46:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50825)
+	id 1j7Gpc-0002Qk-9p
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:55:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55160)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j7Gex-0005kt-Mb
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:44:52 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j7GoZ-0001OV-UT
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:54:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j7Gew-0000zp-6a
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:44:51 -0500
-Received: from mail-eopbgr10121.outbound.protection.outlook.com
- ([40.107.1.121]:12694 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j7GoX-00058t-S3
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:54:47 -0500
+Received: from mail-eopbgr60115.outbound.protection.outlook.com
+ ([40.107.6.115]:34636 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j7Ger-0000Wq-Nx; Thu, 27 Feb 2020 05:44:46 -0500
+ id 1j7GoT-0004zK-Ba; Thu, 27 Feb 2020 05:54:42 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lnWc+xREITcL90dEzGmK+FKfvHzhFbCZNRSb8FFpu8uhrAk81spcLwACgG2lg6BXXYIUTlsT210wGYCnb+D4oglh/DlUdURzQ/E8yeTkrpuOFYs0Rlk5qtfyrMZOGR+wQ1UMoTpj2IyAN29WgNV5UhvI+48RIDy5VWE0hA422/U6SgFOGTzqEeQyLfT9MX6UUx+6FFl0QBRJ9dgQ2axK6ahcz3XDCrgvEWf3M+s04GJBDUAgC8Z30/OzWDgW38ea45AZIBCZJYNb3tvGCwhZeLBy5zMXTLI+5ji/SAg6OorieCwDmBLJq5SKu5I289N26ffdeNsTtEpdf7KLY1OwcA==
+ b=HI0eQBzC5Byo3oy0kzpf4poKxBLyF0ofQYfO5U3PR4EhQE8t/eZPbIl6Ogp5JjngYGgDya7tAm57j1qcK5zBLQnOPycYSzzackkkvg9AfXSBVpwoLj7Wt4l1QD+xxU2zXBFAcU5/RJIYMAyRoD/KOrkrULSpNBqIl50AdbuSPZBl97mzOd+bKg9f51zhW/NZbIMGubTY8/8xr/tGqfzbbsf4Rj6Ig2wUtAaKR5cKYHNotO3B6Xt1DK7LLjwCrJ4WnxbjNZOJZi75hhb9ErT8LxQQk/bYIQvi9p3ApIHeej4Z2mq609e/Ub3Szo5VUj2TM1XFI93RpeJwIkkJFdGi9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cZLMfr+ehQWNLg7JvYYjkIhuqxqWFEcNJAFs0Aa3TKA=;
- b=MiVuVd0Wr0R2ktZBNZ8ViqnxQuAKej32R+1UgwTFJY+8Oi9mOJRKKLR+38IKLKyknflbCRPmQ6sgcdUW+zQHqtG6tnNL5ZaKVRT4GgE58TcnhiqiBj5U/07LtcoL1pTOzVdBkK77sp4oNL046bga7cOpItr7+Ip74b11NE3Y7UQYLwnfUm1Dh5Rzd3gCbdza9yBwltiYawg6rv8nxyVpKGsmS8kezLarfF+M2rba319kyz+0tYSkKOWg2EPEym11hnUXGlrc4WBES+AQcWxbzNyzjZSifXbZD7JxPHSiSnNIYiWhysQ6sqNsHN4SXIgfnGPjGasfUTqsNQqBqelgTg==
+ bh=jbGpjM1B9bs01JZOjelyJG1pIslhN8MECDm0ToJgStw=;
+ b=avSyNkLqre271MVbl83Lgt3AC/874h4/GsmRouzrOCNLIALGf93hm8VfzFf8s7sLR8olGMk2XqDGFpMSbJRoT0/Czk5NpjBLttpFcyOPZ9i1RSAa6K7765/S1GcDtoHL/gM0ZVDUpj8k3zVPvm4EfkU2TGxSuE4M1yphbt7tiPuP3iv4oA0R4SnaALyCumsSj6cbXUa65GD20PMCPSz08tzwcbHCY0sDDPnWP+80GvHN9eE3wNKrYOaNWbxV0CNOLjDLwTEcTMgK7EsQIknCSh/xk3h/286zPfh6c9DQCruNuzBeVB9BR7eA4eK/aqfqrKxvyKjEIcjYyf7qAE4Bsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cZLMfr+ehQWNLg7JvYYjkIhuqxqWFEcNJAFs0Aa3TKA=;
- b=bBaaDwaCIOylfC2DyFbcWQ1J7uysbCQ1yDP47gULaiJuWAEqpgUq9BePzlVnr8SlUh2gCsXK66NqQ5T0LuJMQ+DN9nVEVKwJTQ6ot9q2Xpic0K1T6v031CnWN/eNUa6lPylwb6ADnJOYiR0bqk0F1tDcRLMnVxYB9c5/Kt7zFCc=
+ bh=jbGpjM1B9bs01JZOjelyJG1pIslhN8MECDm0ToJgStw=;
+ b=QjX78a+a5NZVZIF7GX6N8dDCJkx4aI9QrTiJAfqe+GCy7Bw4ei8Vmh3YT710ENqAhf7IBqSKZ7gMPippZ7FuKQTEnSk3TmWo1VF19HUBmVdL9KIH/Cc5Ah0U789u79eyIbC5W/Y3wpKLtN4+pvIDKtmf36Eq0zMayU3vmi0Q3J4=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 Received: from VI1PR08MB4432.eurprd08.prod.outlook.com (20.179.28.138) by
- VI1PR08MB2655.eurprd08.prod.outlook.com (10.170.236.145) with Microsoft SMTP
+ VI1PR08MB3933.eurprd08.prod.outlook.com (20.178.125.86) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.22; Thu, 27 Feb 2020 10:44:43 +0000
+ 15.20.2750.21; Thu, 27 Feb 2020 10:54:38 +0000
 Received: from VI1PR08MB4432.eurprd08.prod.outlook.com
  ([fe80::91aa:2540:62c:aeda]) by VI1PR08MB4432.eurprd08.prod.outlook.com
  ([fe80::91aa:2540:62c:aeda%5]) with mapi id 15.20.2750.024; Thu, 27 Feb 2020
- 10:44:43 +0000
-Subject: Re: [PATCH 2/6] qmp: expose block-dirty-bitmap-populate
+ 10:54:38 +0000
+Subject: Re: [PATCH 3/6] iotests: move bitmap helpers into their own file
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200225005641.5478-1-jsnow@redhat.com>
- <20200225005641.5478-3-jsnow@redhat.com>
+ <20200225005641.5478-4-jsnow@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200227134440228
-Message-ID: <f64989f8-555d-6e52-87f0-f387bb21d3eb@virtuozzo.com>
-Date: Thu, 27 Feb 2020 13:44:40 +0300
+X-Tagtoolbar-Keys: D20200227135435574
+Message-ID: <9870b153-f2a9-44dd-9967-228d158dabcb@virtuozzo.com>
+Date: Thu, 27 Feb 2020 13:54:35 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.2.1
-In-Reply-To: <20200225005641.5478-3-jsnow@redhat.com>
+In-Reply-To: <20200225005641.5478-4-jsnow@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1P190CA0019.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::29)
- To VI1PR08MB4432.eurprd08.prod.outlook.com
+X-ClientProxiedBy: HE1PR02CA0093.eurprd02.prod.outlook.com
+ (2603:10a6:7:29::22) To VI1PR08MB4432.eurprd08.prod.outlook.com
  (2603:10a6:803:102::10)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [172.16.24.200] (185.231.240.5) by
- HE1P190CA0019.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::29) with Microsoft
+ HE1PR02CA0093.eurprd02.prod.outlook.com (2603:10a6:7:29::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2750.18 via Frontend Transport; Thu, 27 Feb 2020 10:44:42 +0000
-X-Tagtoolbar-Keys: D20200227134440228
+ 15.20.2772.15 via Frontend Transport; Thu, 27 Feb 2020 10:54:37 +0000
+X-Tagtoolbar-Keys: D20200227135435574
 X-Originating-IP: [185.231.240.5]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b771d466-b6cd-448f-a81f-08d7bb720ddc
-X-MS-TrafficTypeDiagnostic: VI1PR08MB2655:
-X-Microsoft-Antispam-PRVS: <VI1PR08MB26555790B4DF17E06870A1E2C1EB0@VI1PR08MB2655.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:107;
+X-MS-Office365-Filtering-Correlation-Id: 05cf58bc-4587-47eb-a118-08d7bb7370a2
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3933:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3933BDAC20F100495469D068C1EB0@VI1PR08MB3933.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
 X-Forefront-PRVS: 03264AEA72
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(376002)(396003)(39840400004)(346002)(136003)(366004)(189003)(199004)(26005)(186003)(16526019)(66476007)(5660300002)(66556008)(36756003)(2616005)(54906003)(66946007)(7416002)(19627235002)(956004)(2906002)(8936002)(478600001)(52116002)(6486002)(4326008)(86362001)(31696002)(316002)(16576012)(8676002)(31686004)(81166006)(81156014)(14143004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB2655;
+ SFS:(10019020)(396003)(376002)(39840400004)(136003)(346002)(366004)(199004)(189003)(2616005)(8676002)(31686004)(956004)(86362001)(52116002)(2906002)(6486002)(16576012)(36756003)(31696002)(81166006)(81156014)(66946007)(4326008)(8936002)(186003)(16526019)(5660300002)(66476007)(66556008)(316002)(26005)(7416002)(478600001)(54906003)(2004002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3933;
  H:VI1PR08MB4432.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+ PTR:InfoNoRecords; A:1; MX:1; 
 Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IYWC5MjguqD3AmjpbqzHgPBsnNDwQwGSCNuioCfYE0WgpQ1ylhtwY0jlxjDMDttVzmFVCwa1RDHGayY7mG7zvOGFNVYqvLS7Ts3hUjjodbrHUkMZbYIYbjoqNZyjpDcTMfxMhngsBtqtlXWU5qORl1hCEXzED57Nq3qX9ECRXzJxqEpdxw4llWfMytczsWoqlIbbIAHF9HWME7upsm4SpUYpVzq2IDpz0Ao+cN3xFqLxXQGHHELASiaKjzGf6jofBZHsKdKYjhUAx84tmOvd2aQKUAoRdOU405edFDwEBpPOTWHXVWzJ/4fGS9Z4edeCdgSI19xCWzn80RvZoBjW3g5goT0LBjNtDs3zCp5DQ3daIX97vBQgKIZXJpMVKWRvzNWpD2cnSQqpa4tYTjah5GNdaRsj/VUNN1nD0w0HeK2g+Aml9E8XaAnXBTnvOxEYylkyYOtSqH+NmlJC0YdH5KB/4iO1KmySTyp1dlSecoisoN3JUOHrfyq34jrrExKO
-X-MS-Exchange-AntiSpam-MessageData: YlPfQCeUCyeHK4PM6XA7VNzEFxMIE0faAaypkf5l/1cdsrbYGGhUN7KIvq4SG578+ur6RWqxWEsAAyHMOzz1er3GbizdzS60EERqGvvRIq9Irw3jWKZ9pbvgATcHvrhBYt1sSlbLcjEH3u0e0x/O5Q==
+X-Microsoft-Antispam-Message-Info: xHvh68/P/uNN5arbsGfSgXOG5nlVc8evbxHTz/JJ+uJ5pqexNA155CD2+gQ+jRZWMZvWinE09b8top3GMw82/xP3bc/NRtsVHc07EBUz505q5N+Nbn4p6re1zsrH0Fu0T9G6hFxjyvkKLUVpziW3SC6JXiVMC4hltaY4ffjYS3zJIamIOM3G8O2F4zlPm6AUxupe4PxYFnFLJU0X+1E/UEFGOwyfxZjK7sc/Wf9E7BK0OROsuYWid3j5eq8KAuWJ3ldHAP/VAuzhnMtcwGM6jSNy3ekUnUhmaQHoiayvoqXNRTuBFFFnxQtJKHpQ2YwRH7FjoB6EK0i+6dHlJxWeKsrIrMhi2xZuYrqV6w6i1fOt4Bswa2iJea98MEZx+/NYuXt2TYrIEEre8YTtPAncsWTEtxIdFp3WAlkggN1jnkDiwLuw31SthhwInEo5ooWNwzzBIJE06Xz5wua9BCPIeneCpw9a2gier0sLj0JOAMOGna/V7mIz1TczibTL2gscI2cuT3TmhcgzBcL+ljcxdCuLhkq5AsHDdQHG9lW6Hjf06vsN1VdJT1Mzc7PmKREV
+X-MS-Exchange-AntiSpam-MessageData: ziDSz8//kNRHRkgqnto5NLvfFOXzjnDYT880+epXdGtklR6lISgaT28n1O1HQRCbG+ZARvwhhjMnXYkPkqX0LzQigLtraTjXhm9NBHbzmyqrIIsOfa7rQuczMxCSg8EtCQ41fihnjXmrlSUyO0xgvg==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b771d466-b6cd-448f-a81f-08d7bb720ddc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2020 10:44:43.1214 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05cf58bc-4587-47eb-a118-08d7bb7370a2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2020 10:54:38.3352 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ASsJoYuDkyikfIIeSHBPvkGGgGDNhPCB228VnbPjFUQwPkGOMVKG983a/VTM1qpk3FEKk33Iiyy1yeOu0AQIfOSE80xh68w1YkzHiHgYVvc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2655
+X-MS-Exchange-CrossTenant-UserPrincipalName: r/QlCPzjcPo7SnGC3ogfZtJ1fktazZQUxB1K9JSKLmewPK5PiYhDViHCZxM+uhToCbFn8xAipSC3KNAFfdrdUpulT7YkGlT7yPkiC/XJ5u8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3933
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.121
+X-Received-From: 40.107.6.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,179 +117,284 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 25.02.2020 3:56, John Snow wrote:
-> This is a new job-creating command.
-> 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   qapi/block-core.json  | 18 ++++++++++
->   qapi/transaction.json |  2 ++
->   blockdev.c            | 78 +++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 98 insertions(+)
+>   tests/qemu-iotests/257        | 110 +---------------------------
+>   tests/qemu-iotests/bitmaps.py | 131 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 132 insertions(+), 109 deletions(-)
+>   create mode 100644 tests/qemu-iotests/bitmaps.py
 > 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index df1797681a..a8be1fb36b 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2293,6 +2293,24 @@
->               '*auto-finalize': 'bool',
->               '*auto-dismiss': 'bool' } }
+> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+> index 004a433b8b..2a81f9e30c 100755
+> --- a/tests/qemu-iotests/257
+> +++ b/tests/qemu-iotests/257
+> @@ -24,120 +24,12 @@ import os
 >   
-> +##
-> +# @block-dirty-bitmap-populate:
-> +#
-> +# Creates a new job that writes a pattern into a dirty bitmap.
-> +#
-> +# Since: 5.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "block-dirty-bitmap-populate",
-> +#      "arguments": { "node": "drive0", "target": "bitmap0",
-> +#                     "job-id": "job0", "pattern": "allocate-top" } }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'block-dirty-bitmap-populate', 'boxed': true,
-> +  'data': 'BlockDirtyBitmapPopulate' }
-> +
->   ##
->   # @BlockDirtyBitmapSha256:
->   #
-> diff --git a/qapi/transaction.json b/qapi/transaction.json
-> index 04301f1be7..28521d5c7f 100644
-> --- a/qapi/transaction.json
-> +++ b/qapi/transaction.json
-> @@ -50,6 +50,7 @@
->   # - @block-dirty-bitmap-enable: since 4.0
->   # - @block-dirty-bitmap-disable: since 4.0
->   # - @block-dirty-bitmap-merge: since 4.0
-> +# - @block-dirty-bitmap-populate: since 5.0
->   # - @blockdev-backup: since 2.3
->   # - @blockdev-snapshot: since 2.5
->   # - @blockdev-snapshot-internal-sync: since 1.7
-> @@ -67,6 +68,7 @@
->          'block-dirty-bitmap-enable': 'BlockDirtyBitmap',
->          'block-dirty-bitmap-disable': 'BlockDirtyBitmap',
->          'block-dirty-bitmap-merge': 'BlockDirtyBitmapMerge',
-> +       'block-dirty-bitmap-populate': 'BlockDirtyBitmapPopulate',
->          'blockdev-backup': 'BlockdevBackup',
->          'blockdev-snapshot': 'BlockdevSnapshot',
->          'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternal',
-> diff --git a/blockdev.c b/blockdev.c
-> index 011dcfec27..33c0e35399 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -2314,6 +2314,67 @@ static void block_dirty_bitmap_remove_commit(BlkActionState *common)
->       bdrv_release_dirty_bitmap(state->bitmap);
->   }
+>   import iotests
+>   from iotests import log, qemu_img
+> +from bitmaps import EmulatedBitmap, GROUPS
+
+Clean code movement, no changes. If test passes, it should be correct :)
+
+The only thing: I'd prefer not exporting global variables and use bitmaps.GROUPS instead (even then, it's not very good interface but..)
+
+with or without it:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
 >   
-> +static void block_dirty_bitmap_populate_prepare(BlkActionState *common, Error **errp)
-
-over80 line (not the only)
-
-> +{
-> +    BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
-
-At first glance using *Backup* looks like a mistake. May be rename it, or at least add a comment.
-
-> +    BlockDirtyBitmapPopulate *bitpop;
-> +    BlockDriverState *bs;
-> +    AioContext *aio_context;
-> +    BdrvDirtyBitmap *bmap = NULL;
-> +    int job_flags = JOB_DEFAULT;
-> +
-> +    assert(common->action->type == TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_POPULATE);
-> +    bitpop = common->action->u.block_dirty_bitmap_populate.data;
-> +
-> +    bs = bdrv_lookup_bs(bitpop->node, bitpop->node, errp);
-> +    if (!bs) {
-> +        return;
-> +    }
-> +
-> +    aio_context = bdrv_get_aio_context(bs);
-> +    aio_context_acquire(aio_context);
-> +    state->bs = bs;
-> +
-> +    bmap = bdrv_find_dirty_bitmap(bs, bitpop->name);
-
-Could we use block_dirty_bitmap_lookup ?
-
-> +    if (!bmap) {
-> +        error_setg(errp, "Bitmap '%s' could not be found", bitpop->name);
-> +        return;
-
-aio context lock leaked
-
-> +    }
-> +
-> +    /* Paired with .clean() */
-> +    bdrv_drained_begin(state->bs);
-> +
-> +    if (!bitpop->has_on_error) {
-> +        bitpop->on_error = BLOCKDEV_ON_ERROR_REPORT;
-> +    }
-> +    if (!bitpop->has_auto_finalize) {
-> +        bitpop->auto_finalize = true;
-> +    }
-> +    if (!bitpop->has_auto_dismiss) {
-> +        bitpop->auto_dismiss = true;
-> +    }
-> +
-> +    if (!bitpop->auto_finalize) {
-> +        job_flags |= JOB_MANUAL_FINALIZE;
-> +    }
-> +    if (!bitpop->auto_dismiss) {
-> +        job_flags |= JOB_MANUAL_DISMISS;
-> +    }
-> +
-> +    state->job = bitpop_job_create(
-> +        bitpop->job_id,
-> +        bs,
-> +        bmap,
-> +        bitpop->pattern,
-> +        bitpop->on_error,
-> +        job_flags,
-> +        NULL, NULL,
-> +        common->block_job_txn,
-> +        errp);
-> +
-> +    aio_context_release(aio_context);
-> +}
-> +
->   static void abort_prepare(BlkActionState *common, Error **errp)
->   {
->       error_setg(errp, "Transaction aborted using Abort action");
-> @@ -2397,6 +2458,13 @@ static const BlkActionOps actions[] = {
->           .commit = block_dirty_bitmap_remove_commit,
->           .abort = block_dirty_bitmap_remove_abort,
->       },
-> +    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_POPULATE] = {
-> +        .instance_size = sizeof(BlockdevBackupState),
-> +        .prepare = block_dirty_bitmap_populate_prepare,
-> +        .commit = blockdev_backup_commit,
-> +        .abort = blockdev_backup_abort,
-> +        .clean = blockdev_backup_clean,
-> +    },
->       /* Where are transactions for MIRROR, COMMIT and STREAM?
->        * Although these blockjobs use transaction callbacks like the backup job,
->        * these jobs do not necessarily adhere to transaction semantics.
-> @@ -3225,6 +3293,16 @@ void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
->       do_block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
->   }
+>   SIZE = 64 * 1024 * 1024
+>   GRANULARITY = 64 * 1024
 >   
-> +void qmp_block_dirty_bitmap_populate(BlockDirtyBitmapPopulate *bitpop,
-> +                                     Error **errp)
-> +{
-> +    TransactionAction action = {
-> +        .type = TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_POPULATE,
-> +        .u.block_dirty_bitmap_populate.data = bitpop,
-> +    };
-> +    blockdev_do_action(&action, errp);
-> +}
+>   
+> -class Pattern:
+> -    def __init__(self, byte, offset, size=GRANULARITY):
+> -        self.byte = byte
+> -        self.offset = offset
+> -        self.size = size
+> -
+> -    def bits(self, granularity):
+> -        lower = self.offset // granularity
+> -        upper = (self.offset + self.size - 1) // granularity
+> -        return set(range(lower, upper + 1))
+> -
+> -
+> -class PatternGroup:
+> -    """Grouping of Pattern objects. Initialize with an iterable of Patterns."""
+> -    def __init__(self, patterns):
+> -        self.patterns = patterns
+> -
+> -    def bits(self, granularity):
+> -        """Calculate the unique bits dirtied by this pattern grouping"""
+> -        res = set()
+> -        for pattern in self.patterns:
+> -            res |= pattern.bits(granularity)
+> -        return res
+> -
+> -
+> -GROUPS = [
+> -    PatternGroup([
+> -        # Batch 0: 4 clusters
+> -        Pattern('0x49', 0x0000000),
+> -        Pattern('0x6c', 0x0100000),   # 1M
+> -        Pattern('0x6f', 0x2000000),   # 32M
+> -        Pattern('0x76', 0x3ff0000)]), # 64M - 64K
+> -    PatternGroup([
+> -        # Batch 1: 6 clusters (3 new)
+> -        Pattern('0x65', 0x0000000),   # Full overwrite
+> -        Pattern('0x77', 0x00f8000),   # Partial-left (1M-32K)
+> -        Pattern('0x72', 0x2008000),   # Partial-right (32M+32K)
+> -        Pattern('0x69', 0x3fe0000)]), # Adjacent-left (64M - 128K)
+> -    PatternGroup([
+> -        # Batch 2: 7 clusters (3 new)
+> -        Pattern('0x74', 0x0010000),   # Adjacent-right
+> -        Pattern('0x69', 0x00e8000),   # Partial-left  (1M-96K)
+> -        Pattern('0x6e', 0x2018000),   # Partial-right (32M+96K)
+> -        Pattern('0x67', 0x3fe0000,
+> -                2*GRANULARITY)]),     # Overwrite [(64M-128K)-64M)
+> -    PatternGroup([
+> -        # Batch 3: 8 clusters (5 new)
+> -        # Carefully chosen such that nothing re-dirties the one cluster
+> -        # that copies out successfully before failure in Group #1.
+> -        Pattern('0xaa', 0x0010000,
+> -                3*GRANULARITY),       # Overwrite and 2x Adjacent-right
+> -        Pattern('0xbb', 0x00d8000),   # Partial-left (1M-160K)
+> -        Pattern('0xcc', 0x2028000),   # Partial-right (32M+160K)
+> -        Pattern('0xdd', 0x3fc0000)]), # New; leaving a gap to the right
+> -]
+> -
+> -
+> -class EmulatedBitmap:
+> -    def __init__(self, granularity=GRANULARITY):
+> -        self._bits = set()
+> -        self.granularity = granularity
+> -
+> -    def dirty_bits(self, bits):
+> -        self._bits |= set(bits)
+> -
+> -    def dirty_group(self, n):
+> -        self.dirty_bits(GROUPS[n].bits(self.granularity))
+> -
+> -    def clear(self):
+> -        self._bits = set()
+> -
+> -    def clear_bits(self, bits):
+> -        self._bits -= set(bits)
+> -
+> -    def clear_bit(self, bit):
+> -        self.clear_bits({bit})
+> -
+> -    def clear_group(self, n):
+> -        self.clear_bits(GROUPS[n].bits(self.granularity))
+> -
+> -    @property
+> -    def first_bit(self):
+> -        return sorted(self.bits)[0]
+> -
+> -    @property
+> -    def bits(self):
+> -        return self._bits
+> -
+> -    @property
+> -    def count(self):
+> -        return len(self.bits)
+> -
+> -    def compare(self, qmp_bitmap):
+> -        """
+> -        Print a nice human-readable message checking that a bitmap as reported
+> -        by the QMP interface has as many bits set as we expect it to.
+> -        """
+> -
+> -        name = qmp_bitmap.get('name', '(anonymous)')
+> -        log("= Checking Bitmap {:s} =".format(name))
+> -
+> -        want = self.count
+> -        have = qmp_bitmap['count'] // qmp_bitmap['granularity']
+> -
+> -        log("expecting {:d} dirty sectors; have {:d}. {:s}".format(
+> -            want, have, "OK!" if want == have else "ERROR!"))
+> -        log('')
+> -
+> -
+>   class Drive:
+>       """Represents, vaguely, a drive attached to a VM.
+>       Includes format, graph, and device information."""
+> diff --git a/tests/qemu-iotests/bitmaps.py b/tests/qemu-iotests/bitmaps.py
+> new file mode 100644
+> index 0000000000..522fc25171
+> --- /dev/null
+> +++ b/tests/qemu-iotests/bitmaps.py
+> @@ -0,0 +1,131 @@
+> +# Bitmap-related helper utilities
+> +#
+> +# Copyright (c) 2020 John Snow for Red Hat, Inc.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +# owner=jsnow@redhat.com
 > +
->   BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
->                                                                 const char *name,
->                                                                 Error **errp)
+> +from iotests import log
+> +
+> +GRANULARITY = 64 * 1024
+> +
+> +
+> +class Pattern:
+> +    def __init__(self, byte, offset, size=GRANULARITY):
+> +        self.byte = byte
+> +        self.offset = offset
+> +        self.size = size
+> +
+> +    def bits(self, granularity):
+> +        lower = self.offset // granularity
+> +        upper = (self.offset + self.size - 1) // granularity
+> +        return set(range(lower, upper + 1))
+> +
+> +
+> +class PatternGroup:
+> +    """Grouping of Pattern objects. Initialize with an iterable of Patterns."""
+> +    def __init__(self, patterns):
+> +        self.patterns = patterns
+> +
+> +    def bits(self, granularity):
+> +        """Calculate the unique bits dirtied by this pattern grouping"""
+> +        res = set()
+> +        for pattern in self.patterns:
+> +            res |= pattern.bits(granularity)
+> +        return res
+> +
+> +
+> +GROUPS = [
+> +    PatternGroup([
+> +        # Batch 0: 4 clusters
+> +        Pattern('0x49', 0x0000000),
+> +        Pattern('0x6c', 0x0100000),   # 1M
+> +        Pattern('0x6f', 0x2000000),   # 32M
+> +        Pattern('0x76', 0x3ff0000)]), # 64M - 64K
+> +    PatternGroup([
+> +        # Batch 1: 6 clusters (3 new)
+> +        Pattern('0x65', 0x0000000),   # Full overwrite
+> +        Pattern('0x77', 0x00f8000),   # Partial-left (1M-32K)
+> +        Pattern('0x72', 0x2008000),   # Partial-right (32M+32K)
+> +        Pattern('0x69', 0x3fe0000)]), # Adjacent-left (64M - 128K)
+> +    PatternGroup([
+> +        # Batch 2: 7 clusters (3 new)
+> +        Pattern('0x74', 0x0010000),   # Adjacent-right
+> +        Pattern('0x69', 0x00e8000),   # Partial-left  (1M-96K)
+> +        Pattern('0x6e', 0x2018000),   # Partial-right (32M+96K)
+> +        Pattern('0x67', 0x3fe0000,
+> +                2*GRANULARITY)]),     # Overwrite [(64M-128K)-64M)
+> +    PatternGroup([
+> +        # Batch 3: 8 clusters (5 new)
+> +        # Carefully chosen such that nothing re-dirties the one cluster
+> +        # that copies out successfully before failure in Group #1.
+> +        Pattern('0xaa', 0x0010000,
+> +                3*GRANULARITY),       # Overwrite and 2x Adjacent-right
+> +        Pattern('0xbb', 0x00d8000),   # Partial-left (1M-160K)
+> +        Pattern('0xcc', 0x2028000),   # Partial-right (32M+160K)
+> +        Pattern('0xdd', 0x3fc0000)]), # New; leaving a gap to the right
+> +]
+> +
+> +
+> +class EmulatedBitmap:
+> +    def __init__(self, granularity=GRANULARITY):
+> +        self._bits = set()
+> +        self.granularity = granularity
+> +
+> +    def dirty_bits(self, bits):
+> +        self._bits |= set(bits)
+> +
+> +    def dirty_group(self, n):
+> +        self.dirty_bits(GROUPS[n].bits(self.granularity))
+> +
+> +    def clear(self):
+> +        self._bits = set()
+> +
+> +    def clear_bits(self, bits):
+> +        self._bits -= set(bits)
+> +
+> +    def clear_bit(self, bit):
+> +        self.clear_bits({bit})
+> +
+> +    def clear_group(self, n):
+> +        self.clear_bits(GROUPS[n].bits(self.granularity))
+> +
+> +    @property
+> +    def first_bit(self):
+> +        return sorted(self.bits)[0]
+> +
+> +    @property
+> +    def bits(self):
+> +        return self._bits
+> +
+> +    @property
+> +    def count(self):
+> +        return len(self.bits)
+> +
+> +    def compare(self, qmp_bitmap):
+> +        """
+> +        Print a nice human-readable message checking that a bitmap as reported
+> +        by the QMP interface has as many bits set as we expect it to.
+> +        """
+> +
+> +        name = qmp_bitmap.get('name', '(anonymous)')
+> +        log("= Checking Bitmap {:s} =".format(name))
+> +
+> +        want = self.count
+> +        have = qmp_bitmap['count'] // qmp_bitmap['granularity']
+> +
+> +        log("expecting {:d} dirty sectors; have {:d}. {:s}".format(
+> +            want, have, "OK!" if want == have else "ERROR!"))
+> +        log('')
 > 
 
 
