@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41B9171557
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:55:43 +0100 (CET)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86830171560
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:56:47 +0100 (CET)
+Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GpR-0002Fr-Li
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:55:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55071)
+	id 1j7GqU-00040y-Kz
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:56:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55636)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7GoW-0001MJ-Ee
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:54:45 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j7GpR-0002rj-A5
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:55:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7GoU-00053H-3I
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:54:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34926
+ (envelope-from <kwolf@redhat.com>) id 1j7GpP-00065O-Vn
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:55:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44736
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7GoT-00050L-Rh
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:54:42 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j7GpP-000650-RT
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:55:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582800880;
+ s=mimecast20190719; t=1582800939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dzsuHGiWKbJjz/GBd39TzvO4he9cbTBOd7/2LLsaGp8=;
- b=HjlV90Jf/y0lnE5rwdoDQM7+FxAEt8yKPIORzUl9aSS7gaFty599gxH9GtnofFvk4uRvVz
- PpsYgI2wTT2hcXqTSAwYQeHfjl68umjrPmmOIgUsO2DRXUntPdngrO75zMl24VAUi3fvoB
- P4R5A7lg6PoQwTUr27c97ITnP05rn/E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-xlVtEYyYOS-1kBsKJd5s0w-1; Thu, 27 Feb 2020 05:54:38 -0500
-X-MC-Unique: xlVtEYyYOS-1kBsKJd5s0w-1
-Received: by mail-wr1-f70.google.com with SMTP id z15so1158403wrw.0
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 02:54:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RvJYGb5l2LvhAtvzDaHsI6pAzF4cLaE643pQi22+ER4=;
- b=XXz6xsbiGP/vLll1jGSMFiwFDJOvEwrM9gRki8u39d3DTzCWTeaIUs+R3M47fhZKSW
- I2YvbzXznUj9+3ZhvlDWdrae8I+uo9pVL0Trtk5PWQhMj4RKNXHOKyuvmK2aO84KGRnu
- DU7ozK9N3uglk3F+dR7lH9ixe/d/BSVs3JMkVEWfysWD4GGabBeBjcZsi3sh49NCRLF+
- jVtfvvogmtjPtwGeT5vd6d4/3HRyjgBW3r+SbwB73g3vAT2KwuRUKt6nhVN/MWJn+T9Z
- pESTZXPH7Vg7d6Y7KMI/ouD3Uwu8bH5JJSWLLyMzxku3lXtwMyX5oqANOL5bay5MSWsR
- iImg==
-X-Gm-Message-State: APjAAAUDq7CNUXHdcXhyMNAAhKId3GDKLSuZrEJsaY9phDJG0c3QKZZX
- dmrs6tjCdpafqq6cnwS/GLq1LdiXg7d4B97jiDlRXInGjV7tsSRnySJGJE8QrAmBwrf82FZ4zRI
- CxLMt9VlrdL6Q6as=
-X-Received: by 2002:a1c:9dcb:: with SMTP id g194mr4771272wme.114.1582800877547; 
- Thu, 27 Feb 2020 02:54:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx8YKkVri39KYmCV+Tlf5PLWyXNTqdQkIDkn/i/+PmwRCTU8GZiraJ0m3d4Q7kVnbat02aSKA==
-X-Received: by 2002:a1c:9dcb:: with SMTP id g194mr4771243wme.114.1582800877308; 
- Thu, 27 Feb 2020 02:54:37 -0800 (PST)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id j5sm7599168wrx.56.2020.02.27.02.54.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Feb 2020 02:54:36 -0800 (PST)
-Subject: Re: [PATCH v1 1/4] accel/tcg: use units.h for defining code gen
- buffer sizes
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200226181020.19592-1-alex.bennee@linaro.org>
- <20200226181020.19592-2-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4b3b8d43-25db-6ac2-dbc6-04f2aae56638@redhat.com>
-Date: Thu, 27 Feb 2020 11:54:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=qvu5MuC86moQeGsXQWIF/uKOA4LWvd7jChCLwCbMqu4=;
+ b=FqAdlLfT1+9AOUcE62LF8ADHKvQ65yr37U8IaW8VDdmTPh3MWqdsSOss2PyZ0+DtWWRV77
+ yxcMEtw8qSsm8pBpO5AozroxcIpXsWeqaBX5SOXKMeaaq/HBrZRQDPmyQCPI84Y7QGka3V
+ YHd6oMKaKZyWW+Q8/4aS1GsywtkPX/4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-3g1gwifZNAKPduA1GA3jDA-1; Thu, 27 Feb 2020 05:55:37 -0500
+X-MC-Unique: 3g1gwifZNAKPduA1GA3jDA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87918DB61;
+ Thu, 27 Feb 2020 10:55:36 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4754A1001B09;
+ Thu, 27 Feb 2020 10:55:30 +0000 (UTC)
+Date: Thu, 27 Feb 2020 11:55:28 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [PATCH v4 0/5] vhost-user block device backend implementation
+Message-ID: <20200227105528.GC7493@linux.fritz.box>
+References: <20200218050711.8133-1-coiby.xu@gmail.com>
+ <20200219163815.GD1085125@stefanha-x1.localdomain>
+ <CAJAkqrXaqmT2pR4K1x06AeQZHvUWp-fcqnbKZq_45czO96v5PA@mail.gmail.com>
+ <20200227074114.GB83512@stefanha-x1.localdomain>
+ <CAJAkqrWUJWLdT+6b_XmHFwnzhhbYei2SakCKVW0Rf92HJgoZDw@mail.gmail.com>
+ <20200227100206.GA7493@linux.fritz.box>
+ <CAJAkqrW_Euur3HjWaK6E-TAjT1dmjA1fz1oPwKSt7_pOC3=S+w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200226181020.19592-2-alex.bennee@linaro.org>
-Content-Language: en-US
+In-Reply-To: <CAJAkqrW_Euur3HjWaK6E-TAjT1dmjA1fz1oPwKSt7_pOC3=S+w@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -94,83 +79,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: bharatlkmlkvm@gmail.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/20 7:10 PM, Alex Benn=C3=A9e wrote:
-> It's easier to read.
+Am 27.02.2020 um 11:28 hat Coiby Xu geschrieben:
+> > > we still need customized vu_message_read because libvhost-user assume=
+s
+> > > we will always get a full-size VhostUserMsg and hasn't taken care of
+> > > this short read case. I will improve libvhost-user's vu_message_read
+> > > by making it keep reading from socket util getting enough bytes. I
+> > > assume short read is a rare case thus introduced performance penalty
+> > > would be negligible.
 >=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   accel/tcg/translate-all.c | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
+> > In any case, please make sure that we use the QIOChannel functions
+> > called from a coroutine in QEMU so that it will never block, but the
+> > coroutine can just yield while it's waiting for more bytes.
 >=20
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index a08ab11f657..238b0e575bf 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -18,6 +18,7 @@
->    */
->  =20
->   #include "qemu/osdep.h"
-> +#include "qemu/units.h"
->   #include "qemu-common.h"
->  =20
->   #define NO_CPU_IO_DEFS
-> @@ -901,33 +902,33 @@ static void page_lock_pair(PageDesc **ret_p1, tb_pa=
-ge_addr_t phys1,
->  =20
->   /* Minimum size of the code gen buffer.  This number is randomly chosen=
+> But if I am not wrong, libvhost-user is supposed to be indepdent from
+> the main QEMU code. So it can't use the QIOChannel functions if we
+> simply modify exiting vu_message_read to address the short read issue.
+> In v3 & v4, I extended libvhost-user to allow vu_message_read to be
+> replaced by one which will depend on the main QEMU code. I'm not sure
+> which way is better.
+
+The way your latest patches have it, with a separate read function,
+works for me.
+
+You could probably change libvhost-user to reimplement the same
+functionality, and it might be an improvement for other users of the
+library, but it's also code duplication and doesn't provide more value
+in the context of the vhost-user export in QEMU.
+
+The point that's really important to me is just that we never block when
+we run inside QEMU because that would actually stall the guest. This
+means busy waiting in a tight loop until read() returns enough bytes is
+not acceptable in QEMU.
+
+Kevin
+
+> On Thu, Feb 27, 2020 at 6:02 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 27.02.2020 um 10:53 hat Coiby Xu geschrieben:
+> > > Thank you for reminding me of this socket short read issue! It seems
+> > > we still need customized vu_message_read because libvhost-user assume=
+s
+> > > we will always get a full-size VhostUserMsg and hasn't taken care of
+> > > this short read case. I will improve libvhost-user's vu_message_read
+> > > by making it keep reading from socket util getting enough bytes. I
+> > > assume short read is a rare case thus introduced performance penalty
+> > > would be negligible.
+> >
+> > In any case, please make sure that we use the QIOChannel functions
+> > called from a coroutine in QEMU so that it will never block, but the
+> > coroutine can just yield while it's waiting for more bytes.
+> >
+> > Kevin
+> >
+> > > On Thu, Feb 27, 2020 at 3:41 PM Stefan Hajnoczi <stefanha@redhat.com>=
+ wrote:
+> > > >
+> > > > On Wed, Feb 26, 2020 at 11:18:41PM +0800, Coiby Xu wrote:
+> > > > > Hi Stefan,
+> > > > >
+> > > > > Thank you for reviewing my code!
+> > > > >
+> > > > > I tried to reach you on IRC. But somehow either you missed my mes=
+sage
+> > > > > or I missed your reply. So I will reply by email instead.
+> > > > >
+> > > > > If we use qio_channel_set_aio_fd_handler to monitor G_IO_IN event=
 ,
->      but not so small that we can't have a fair number of TB's live.  */
-> -#define MIN_CODE_GEN_BUFFER_SIZE     (1024u * 1024)
-> +#define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
->  =20
->   /* Maximum size of the code gen buffer we'd like to use.  Unless otherw=
-ise
->      indicated, this is constrained by the range of direct branches on th=
-e
->      host cpu, as used by the TCG implementation of goto_tb.  */
->   #if defined(__x86_64__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
->   #elif defined(__sparc__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
->   #elif defined(__powerpc64__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
->   #elif defined(__powerpc__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (32u * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (32 * MiB)
->   #elif defined(__aarch64__)
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (2ul * 1024 * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
->   #elif defined(__s390x__)
->     /* We have a +- 4GB range on the branches; leave some slop.  */
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (3ul * 1024 * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
->   #elif defined(__mips__)
->     /* We have a 256MB branch region, but leave room to make sure the
->        main executable is also within that region.  */
-> -# define MAX_CODE_GEN_BUFFER_SIZE  (128ul * 1024 * 1024)
-> +# define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
->   #else
->   # define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
->   #endif
->  =20
-> -#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32u * 1024 * 1024)
-> +#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
->  =20
->   #define DEFAULT_CODE_GEN_BUFFER_SIZE \
->     (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
+> > > > > i.e. use vu_dispatch as the read handler, then we can re-use
+> > > > > vu_message_read. And "removing the blocking recv from libvhost-us=
+er"
+> > > > > isn't necessary because "the operation of poll() and ppoll() is n=
+ot
+> > > > > affected by the O_NONBLOCK flag" despite that we use
+> > > > > qio_channel_set_blocking before calling qio_channel_set_aio_fd_ha=
+ndler
+> > > > > to make recv non-blocking.
+> > > >
+> > > > I'm not sure I understand.  poll() just says whether the file descr=
+iptor
+> > > > is readable.  It does not say whether enough bytes are readable :).=
+  So
+> > > > our callback will be invoked if there is 1 byte ready, but when we =
+try
+> > > > to read 20 bytes either it will block (without O_NONBLOCK) or retur=
+n
+> > > > only 1 byte (with O_NONBLOCK).  Neither case is okay, so I expect t=
+hat
+> > > > code changes will be necessary.
+> > > >
+> > > > But please go ahead and send the next revision and I'll take a look=
+.
+> > > >
+> > > > Stefan
+> > >
+> > >
+> > >
+> > > --
+> > > Best regards,
+> > > Coiby
+> > >
+> >
 >=20
-
-Thanks!
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> --=20
+> Best regards,
+> Coiby
+>=20
 
 
