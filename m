@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A515617150F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:34:33 +0100 (CET)
-Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5B11714FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:31:10 +0100 (CET)
+Received: from localhost ([::1]:56790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GUy-0008CI-OM
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:34:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1j7GRh-0004Du-Av
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:31:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j7GRO-0004po-KC
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:30:51 -0500
+ (envelope-from <mlureau@redhat.com>) id 1j7GM0-0007Ha-P2
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:25:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j7GRN-0003H5-0s
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:30:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37132)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j7GRM-0003D8-Rc
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:30:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j7GRK-0005E1-4s
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 10:30:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1CC792E80AD
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 10:30:46 +0000 (UTC)
+ (envelope-from <mlureau@redhat.com>) id 1j7GLz-0000kr-Mj
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:25:16 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35096
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1j7GLz-0000fY-HE
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:25:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582799113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9eAGK8hm4b6OpEG0aZeCxAATaSVWpXt37Aav9YL4F+E=;
+ b=G+YeM47zwP8mIiIFCB88ssuCfJf2Pd6i2/pj7/3VGf1/gf95OIBykgEVyXGnoNqNqm6awj
+ Jw2AqwzPGodTecoyJzZylBh0ANl1iOsvf+x/X11tZAICY7Npysal8Az6u9YIb/IxUPsHqk
+ 2A4ejgfz4ZpUVL0vloFlhlNJV3TZq/s=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-4dm-gFgCOCK48ZTbwULj6Q-1; Thu, 27 Feb 2020 05:25:12 -0500
+X-MC-Unique: 4dm-gFgCOCK48ZTbwULj6Q-1
+Received: by mail-oi1-f200.google.com with SMTP id o5so1383378oif.9
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 02:25:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9eAGK8hm4b6OpEG0aZeCxAATaSVWpXt37Aav9YL4F+E=;
+ b=PBkGjHYCEk/1WBypE3LRVQk8eio5J4MBcq/90BpURvIIKF98GnFLST6x5YBf7f+02/
+ yU3CyINows5Jh2OB9cZk4Td1waEdOluyVcfiGuloBwT7T8EOjiFTURDQvGcUYmFiJ3FC
+ oUHNYU1n+S4VSO3TEdq126qB2UqbMno1s+reGXFB7tshTYBnYaBnnbysr+oE0l8no5ju
+ pOz3tYU9GudQFhpviWDHlGyoYfth4W3xttATV5w+gUBFtK6kp/lwVq984qkTFA54y66D
+ JC048ObnOXoWyZQbUe0vFHI7jRbsTd6RRU8nPre9k0mO2dsL6XHbvyMSkrEw1KzS6nii
+ SElg==
+X-Gm-Message-State: APjAAAUPOZ2UxaMAGX2ZpBOSBi7J93iCX7WQ6P9hNZ9md3ftFoem+IXk
+ zUmgOPka85BZAJNn/XPdgtt5ubuux+qDCLa5PkivsyED+44kKiEGd6FAuzzaPD8r6adZzur8y1g
+ YqT7VM2eiN+i3b6AE+DgXZ9Mz2MtopAQ=
+X-Received: by 2002:aca:4843:: with SMTP id v64mr2164397oia.13.1582799111559; 
+ Thu, 27 Feb 2020 02:25:11 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxxdQa9QweVUwDAVM+CpaqR54Tsa8RKw3TUcfHBAKujpYRnfimDn5H211/72JBMJLCRjH6YzLcs1qI7Ag5p4OE=
+X-Received: by 2002:aca:4843:: with SMTP id v64mr2164378oia.13.1582799111298; 
+ Thu, 27 Feb 2020 02:25:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200227100621.21844-1-philmd@redhat.com>
+In-Reply-To: <20200227100621.21844-1-philmd@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 27 Feb 2020 11:25:00 +0100
+Message-ID: <CAMxuvazPH6h1Q8OEeb2R-E9kJYeGyjapa9mFWz1vDUFCRHn6EQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] linux-user/syscall: Use g_file_open_tmp()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 Feb 2020 10:20:58 -0000
-From: Valentin David <1864984@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: valentin.david
-X-Launchpad-Bug-Reporter: Valentin David (valentin.david)
-X-Launchpad-Bug-Modifier: Valentin David (valentin.david)
-Message-Id: <158279885836.19592.16795975857735049927.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1864984] [NEW] "nr_entries is too big" when using virgl
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7d571a56d783bc360fdc364a2c8a1bd872267f6e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,53 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1864984 <1864984@bugs.launchpad.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi
 
-I have a bootable image where GNOME Shell fails because it hits a limit
-in virtio-gpu.
+On Thu, Feb 27, 2020 at 11:06 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Use GLib g_file_open_tmp() instead of getenv + snprintf + mkstemp.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> RFC because I'm not sure g_autoptr(GError) works this way.
 
-In `hw/display/virtio-gpu.c`, there is a limit for `nr_entries` at
-16384. There is no explanation for that limit. But there does not seem
-to be any limit on the kernel side.
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(GError, g_error_free)
+it will call g_error_free() at the end of the scope if the variable is !=3D=
+ NULL.
 
-Raising this limit with a patch to 262144 solves the issue.
+>
+>  linux-user/syscall.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 8d27d10807..0e44969e16 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7282,17 +7282,14 @@ static int do_openat(void *cpu_env, int dirfd, co=
+nst char *pathname, int flags,
+>      }
+>
+>      if (fake_open->filename) {
+> -        const char *tmpdir;
+> -        char filename[PATH_MAX];
+> +        g_autoptr(GError) gerr =3D NULL;
+> +        g_autofree gchar *filename =3D NULL;
+>          int fd, r;
+>
+>          /* create temporary file to map stat to */
+> -        tmpdir =3D getenv("TMPDIR");
+> -        if (!tmpdir)
+> -            tmpdir =3D "/tmp";
+> -        snprintf(filename, sizeof(filename), "%s/qemu-open.XXXXXX", tmpd=
+ir);
+> -        fd =3D mkstemp(filename);
+> +        fd =3D g_file_open_tmp("qemu-open.XXXXXX", &filename, &gerr);
+>          if (fd < 0) {
+> +            fprintf(stderr, "Error opening %s: %s\n", filename, gerr->me=
+ssage);
 
-Could there be an explanation why this limit is needed? And why this
-value? Or could this limit be just removed?
+I am not sure if it's a good idea to printf() here, this may be
+confused with the program output being run.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+However, having a good errno value is probably necessary. And here,
+glib doesn't guarantee that for this function, since it relies on
+GFileError. So you would need something like g_file_error_to_errno()
+which doesn't exist...
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1864984
 
-Title:
-  "nr_entries is too big" when using virgl
+>              return fd;
+>          }
+>          unlink(filename);
+> --
+> 2.21.1
+>
 
-Status in QEMU:
-  New
-
-Bug description:
-  I have a bootable image where GNOME Shell fails because it hits a
-  limit in virtio-gpu.
-
-  In `hw/display/virtio-gpu.c`, there is a limit for `nr_entries` at
-  16384. There is no explanation for that limit. But there does not seem
-  to be any limit on the kernel side.
-
-  Raising this limit with a patch to 262144 solves the issue.
-
-  Could there be an explanation why this limit is needed? And why this
-  value? Or could this limit be just removed?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1864984/+subscriptions
 
