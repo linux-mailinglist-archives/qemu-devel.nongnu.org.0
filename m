@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C626F170E11
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 02:56:55 +0100 (CET)
-Received: from localhost ([::1]:52684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A6E170E16
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 02:58:46 +0100 (CET)
+Received: from localhost ([::1]:52722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j78Q2-0006ck-SJ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 20:56:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36346)
+	id 1j78Rp-0001Rd-FN
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 20:58:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37972)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j78OA-0004c6-NO
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:55:00 -0500
+ (envelope-from <eblake@redhat.com>) id 1j78R0-0000Yd-Cy
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:57:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j78O9-0002aB-EQ
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:54:58 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40790
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j78Qz-0000lY-Gf
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:57:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54571
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j78O9-0002Xv-9v
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:54:57 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j78Qz-0000kD-Bz
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 20:57:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582768496;
+ s=mimecast20190719; t=1582768673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S8IZ81wz+GqrsTJ4jOYNuawo0WpVuRcrvYE66jTI0Fg=;
- b=h/FjqajGDBeyYSC1H2855WDn9IQoVa//N6zF6o2PlUa8YD6WBofzsEnhfbXt9OLfx413vm
- zZtiJNKzy48DyyE1DXg23hUGVpGqnznvQSI/qpUo9F05RbPDgIV/1J5JITI6yPVRmEUtoR
- /q2mNMGb3wsptGaESzwkfGfv0jQauBU=
+ bh=inBcSck0Ovqsi0dpBZi7WHEW6qxHfYDL4KzepaM2Pjc=;
+ b=UQsymhY0Gc2dOXhzIk3u3fUVHqA/Mbh+PuoKMOaNlBCNwoDbH7UIf1qSLKOForFQ/vGRgz
+ Wum+Yta89FZzthxc7OJMuh4sZpaBO2HlIt9AQ2CjKhNtw+6C/jLoTPCQnmk1EEWFBOjqSX
+ AudW725B1eipnSFT/m6IR0g5OrCyrhk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-QGwgA4GtMuC_GFy0pLHs3w-1; Wed, 26 Feb 2020 20:54:55 -0500
-X-MC-Unique: QGwgA4GtMuC_GFy0pLHs3w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-4-Fy6nzlbDN7WkUmCz0s4PIg-1; Wed, 26 Feb 2020 20:57:47 -0500
+X-MC-Unique: Fy6nzlbDN7WkUmCz0s4PIg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDFFA107ACCA;
- Thu, 27 Feb 2020 01:54:53 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-57.phx2.redhat.com [10.3.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 216375C578;
- Thu, 27 Feb 2020 01:54:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 534C3800EBB;
+ Thu, 27 Feb 2020 01:57:46 +0000 (UTC)
+Received: from [10.3.116.57] (ovpn-116-57.phx2.redhat.com [10.3.116.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCFB51001B34;
+ Thu, 27 Feb 2020 01:57:45 +0000 (UTC)
+Subject: Re: [PATCH v6 9/9] iotests: add pylintrc file
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20200227000639.9644-1-jsnow@redhat.com>
+ <20200227000639.9644-10-jsnow@redhat.com>
 From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] block/nbd: fix memory leak in nbd_open()
-Date: Wed, 26 Feb 2020 19:54:48 -0600
-Message-Id: <20200227015448.960538-5-eblake@redhat.com>
-In-Reply-To: <20200227015448.960538-1-eblake@redhat.com>
-References: <20200227015448.960538-1-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b37712c8-ea12-e3e0-5a34-31e5c96f30fc@redhat.com>
+Date: Wed, 26 Feb 2020 19:57:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200227000639.9644-10-jsnow@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,95 +75,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Pan Nengyuan <pannengyuan@huawei.com>, qemu-stable <qemu-stable@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Euler Robot <euler.robot@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+On 2/26/20 6:06 PM, John Snow wrote:
+> Repeatable results. run `pylint iotests.py` and you should get a pass.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/pylintrc | 20 ++++++++++++++++++++
+>   1 file changed, 20 insertions(+)
+>   create mode 100644 tests/qemu-iotests/pylintrc
 
-In currently implementation there will be a memory leak when
-nbd_client_connect() returns error status. Here is an easy way to
-reproduce:
+> +        too-many-branches,
+> +        too-many-public-methods,
+> \ No newline at end of file
 
-1. run qemu-iotests as follow and check the result with asan:
-    ./check -raw 143
+Intentional?
 
-Following is the asan output backtrack:
-Direct leak of 40 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
-    #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
-    #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-rc=
-0/qapi/qobject-input-visitor.c:295
-    #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/q=
-api-visit-core.c:49
-    #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-sockets.=
-c:386
-    #5 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1=
-716
-    #6 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/=
-nbd.c:1829
-    #7 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Direct leak of 15 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/=
-nbd.c:1834
-    #4 0x56281da804ac in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Indirect leak of 24 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281dab41a3 in qobject_input_type_str_keyval /mnt/sdb/qemu-4.2.0-=
-rc0/qapi/qobject-input-visitor.c:536
-    #4 0x56281dab2ee9 in visit_type_str /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-v=
-isit-core.c:297
-    #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members qapi/qapi-vis=
-it-sockets.c:141
-    #6 0x56281dad17b6 in visit_type_SocketAddress_members qapi/qapi-visit-s=
-ockets.c:366
-    #7 0x56281dad186a in visit_type_SocketAddress qapi/qapi-visit-sockets.c=
-:393
-    #8 0x56281da8062f in nbd_config /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:171=
-6
-    #9 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/=
-nbd.c:1829
-    #10 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Fixes: 8f071c9db506e03ab
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Cc: qemu-stable <qemu-stable@nongnu.org>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <1575517528-44312-3-git-send-email-pannengyuan@huawei.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/nbd.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/block/nbd.c b/block/nbd.c
-index ed0f93ab27a9..976be7664786 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1915,6 +1915,7 @@ static int nbd_open(BlockDriverState *bs, QDict *opti=
-ons, int flags,
-
-     ret =3D nbd_client_connect(bs, errp);
-     if (ret < 0) {
-+        nbd_clear_bdrvstate(s);
-         return ret;
-     }
-     /* successfully connected */
---=20
-2.24.1
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
