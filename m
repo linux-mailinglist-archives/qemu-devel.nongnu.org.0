@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B961714A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:05:15 +0100 (CET)
-Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEF91714B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:06:47 +0100 (CET)
+Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7G2c-0003ZJ-Sx
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:05:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
+	id 1j7G46-0005uZ-7b
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:06:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7G0Z-0001gB-Pr
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:03:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7G0X-0001cv-I2
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:03:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7G0W-0002aL-RS
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:03:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36525
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j7G0V-0002Vm-Dd
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:03:05 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53415
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7G0W-0002Zp-NO
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:03:04 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7G0V-0002UN-94
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:03:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582797784;
+ s=mimecast20190719; t=1582797782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7uPfE4iEFnYWU7lgYjg6n8W9+J+9kIh7GVAn+snpbUk=;
- b=JsFyiIy9Jvmwg6OjpgtWRIUrTw8JznVxd5Qit4iBCWSmPPFrBNO6L8A/lrEjkvhE29tAXu
- x1vG5LkoglgiAW2a7GTps0Lc2Yzt7IaUUbXvuBY2p+QHCft06Qjd5nqKDypf5DX+wHEYQ0
- Tr45ly65ABJ1Duwyefp6Q496wpZfrMs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kw98pB1tWPGUjfZgZz7G2e/0ArOYvHoL2Mljit+/yGw=;
+ b=Vj/f8n7GQhlbCaefFWdD+BYzNX9znSRJRY5Q9ej2scyJceydkxTm7v4CHf/keLIGXzBrhe
+ FVYwrpyCIAnhag341zUbthKIkQvcyrQIJWRI5qFEXITm+dIVpW0FUSUVk4jMXEO5ddDmQ2
+ UvU82QTajlevIate2PzQFkdtbQEzw9Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-DwZLYB3XOpy2NU3Ttzz2RQ-1; Thu, 27 Feb 2020 05:02:59 -0500
-X-MC-Unique: DwZLYB3XOpy2NU3Ttzz2RQ-1
+ us-mta-479-vn8IZvRvOS-S3RIbMPaKUw-1; Thu, 27 Feb 2020 05:03:01 -0500
+X-MC-Unique: vn8IZvRvOS-S3RIbMPaKUw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D042213FC;
- Thu, 27 Feb 2020 10:02:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4159913F6;
+ Thu, 27 Feb 2020 10:03:00 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-195.brq.redhat.com [10.40.205.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E098B8C091;
- Thu, 27 Feb 2020 10:02:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B0948B779;
+ Thu, 27 Feb 2020 10:02:58 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] misc: Improve error reporting on Windows
-Date: Thu, 27 Feb 2020 11:02:48 +0100
-Message-Id: <20200227100250.20514-1-philmd@redhat.com>
+Subject: [PATCH 1/2] chardev: Improve error report by calling
+ error_setg_win32()
+Date: Thu, 27 Feb 2020 11:02:49 +0100
+Message-Id: <20200227100250.20514-2-philmd@redhat.com>
+In-Reply-To: <20200227100250.20514-1-philmd@redhat.com>
+References: <20200227100250.20514-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
@@ -56,7 +60,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,18 +79,44 @@ Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two patches to improve bug reports on Windows.
-(i.e. https://bugs.launchpad.net/qemu/+bug/1657841)
+Use error_setg_win32() which adds a hint similar to strerror(errno)).
 
-Philippe Mathieu-Daud=C3=A9 (2):
-  chardev: Improve error report by calling error_setg_win32()
-  util/oslib-win32: Improve error report by calling error_setg_win32()
-
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
  chardev/char-pipe.c | 2 +-
  chardev/char-win.c  | 2 +-
- util/oslib-win32.c  | 3 ++-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+index 94d714ffcd..fd12c9e63b 100644
+--- a/chardev/char-pipe.c
++++ b/chardev/char-pipe.c
+@@ -70,7 +70,7 @@ static int win_chr_pipe_init(Chardev *chr, const char *fi=
+lename,
+                               MAXCONNECT, NSENDBUF, NRECVBUF, NTIMEOUT, NU=
+LL);
+     g_free(openname);
+     if (s->file =3D=3D INVALID_HANDLE_VALUE) {
+-        error_setg(errp, "Failed CreateNamedPipe (%lu)", GetLastError());
++        error_setg_win32(errp, GetLastError(), "Failed CreateNamedPipe");
+         s->file =3D NULL;
+         goto fail;
+     }
+diff --git a/chardev/char-win.c b/chardev/char-win.c
+index 34825f683d..d4fb44c4dc 100644
+--- a/chardev/char-win.c
++++ b/chardev/char-win.c
+@@ -96,7 +96,7 @@ int win_chr_serial_init(Chardev *chr, const char *filenam=
+e, Error **errp)
+     s->file =3D CreateFile(filename, GENERIC_READ | GENERIC_WRITE, 0, NULL=
+,
+                       OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
+     if (s->file =3D=3D INVALID_HANDLE_VALUE) {
+-        error_setg(errp, "Failed CreateFile (%lu)", GetLastError());
++        error_setg_win32(errp, GetLastError(), "Failed CreateFile");
+         s->file =3D NULL;
+         goto fail;
+     }
 --=20
 2.21.1
 
