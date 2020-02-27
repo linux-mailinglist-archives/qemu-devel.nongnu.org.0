@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF191171DA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 15:22:48 +0100 (CET)
-Received: from localhost ([::1]:60776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3208171E57
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 15:27:14 +0100 (CET)
+Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7K3r-0005xN-K2
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 09:22:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45631)
+	id 1j7K8A-0007g1-2A
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 09:27:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j7K2r-0005Sw-1E
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:21:45 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j7K7L-000751-6e
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:26:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j7K2q-00037u-15
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:21:44 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27412
+ (envelope-from <mreitz@redhat.com>) id 1j7K7K-0007B9-BX
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:26:23 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44963
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j7K2p-00036D-SA
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:21:43 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j7K7K-00079S-7R
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 09:26:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582813303;
+ s=mimecast20190719; t=1582813581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/PbzdCbbsWWyfAQTsaW2xRaW+aSTLXV2mg5+IMW9IcU=;
- b=Aawlvpm6oFQU7OVhIvMacqkS3MA71VxNmpqljWhwmuK+/lLrRLpsoqwjH6p/h/xPr6awZj
- WDDOoqRvpHhnHBJToziOjoP8JO6UJA8WXvJDYODSrR3CYn1VRcRHG3UTNaz/r6wiYl2pUb
- 6cu76np1roNQsurte16Pd5mYn5ucXws=
+ bh=77aHn2uf5XBWVxEGhUdz3jcGOLErWRiLcbTwA9O067s=;
+ b=eZFwbfdqnwc+jyl33fT3VKhS3loVSw8wQGZxmf+LyS8r13B+MTH5KygNPufWe7HcUX0z0f
+ BQrJH+027maCAAd2i+lASvq1twVG7ZV7wagiHNN8vBrl8pDbKaDWuebzNacwPFF2Tdu/Yx
+ ZBW3Q2p+5PYRnQlu2eIZsY4nq5oWgSU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-M7jlV507MsiJHfjjP4148Q-1; Thu, 27 Feb 2020 09:21:41 -0500
-X-MC-Unique: M7jlV507MsiJHfjjP4148Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-36-YT5JEN6RPFGny6AuDSed5A-1; Thu, 27 Feb 2020 09:26:17 -0500
+X-MC-Unique: YT5JEN6RPFGny6AuDSed5A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2219107ACC4;
- Thu, 27 Feb 2020 14:21:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BD6F800D5F;
+ Thu, 27 Feb 2020 14:26:16 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.36.118.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D07F084779;
- Thu, 27 Feb 2020 14:21:38 +0000 (UTC)
-Subject: Re: [PATCH v6 6/9] iotests: use python logging for iotests.log()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65EB98C08D;
+ Thu, 27 Feb 2020 14:26:15 +0000 (UTC)
+Subject: Re: [PATCH v6 8/9] iotests: don't use 'format' for drive_add
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200227000639.9644-1-jsnow@redhat.com>
- <20200227000639.9644-7-jsnow@redhat.com>
+ <20200227000639.9644-9-jsnow@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -72,21 +72,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <302f1aa1-c880-4c2d-4612-902eff6004a3@redhat.com>
-Date: Thu, 27 Feb 2020 15:21:37 +0100
+Message-ID: <ffb6c46e-2fca-998e-f1b2-9bccc9173593@redhat.com>
+Date: Thu, 27 Feb 2020 15:26:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200227000639.9644-7-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200227000639.9644-9-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="C0vaKJfzmKXrEBu3owLK8I1oU6XhwHWh7"
+ boundary="CSpJjOlXNSW4R7q7cl13fWNMmzOzOF82u"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,83 +102,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---C0vaKJfzmKXrEBu3owLK8I1oU6XhwHWh7
-Content-Type: multipart/mixed; boundary="l9OXT5i6zV0K1YSU1sjK6H3An070qTQvN"
+--CSpJjOlXNSW4R7q7cl13fWNMmzOzOF82u
+Content-Type: multipart/mixed; boundary="na1q2Ood7gHyZIRKay2hAHar3wDxCQ2Sz"
 
---l9OXT5i6zV0K1YSU1sjK6H3An070qTQvN
+--na1q2Ood7gHyZIRKay2hAHar3wDxCQ2Sz
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 27.02.20 01:06, John Snow wrote:
-> We can turn logging on/off globally instead of per-function.
->=20
-> Remove use_log from run_job, and use python logging to turn on
-> diffable output when we run through a script entry point.
->=20
-> iotest 245 changes output order due to buffering reasons.
+> It shadows (with a different type) the built-in format.
+> Use something else.
 >=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/030        |  4 +--
->  tests/qemu-iotests/245        |  1 +
->  tests/qemu-iotests/245.out    | 24 ++++++++---------
->  tests/qemu-iotests/iotests.py | 50 +++++++++++++++++++++--------------
->  4 files changed, 45 insertions(+), 34 deletions(-)
+>  tests/qemu-iotests/055        | 3 ++-
+>  tests/qemu-iotests/iotests.py | 6 +++---
+>  2 files changed, 5 insertions(+), 4 deletions(-)
 
-[...]
-
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-> index b02d7932fa..60c4c7f736 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -35,6 +35,14 @@
-> =20
->  assert sys.version_info >=3D (3, 6)
-> =20
-> +# Use this logger for logging messages directly from the iotests module
-> +logger =3D logging.getLogger('qemu.iotests')
-> +logger.addHandler(logging.NullHandler())
-
-Hm, I never see another handler added to this, so how can these messages
-actually be printed?  Will enabling debug mode somehow make all loggers
-print everything?
-
-> +# Use this logger for messages that ought to be used for diff output.
-> +test_logger =3D logging.getLogger('qemu.iotests.diff_io')
-
-Also, why does logger get a null handler and this by default does not?
-I=E2=80=99m asking because test_logger makes it look like you don=E2=80=99t=
- necessarily
-need a handler for output to be silently discarded.
-
-Max
-
->  # This will not work if arguments contain spaces but is necessary if we
->  # want to support the override options that ./check supports.
->  qemu_img_args =3D [os.environ.get('QEMU_IMG_PROG', 'qemu-img')]
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---l9OXT5i6zV0K1YSU1sjK6H3An070qTQvN--
+--na1q2Ood7gHyZIRKay2hAHar3wDxCQ2Sz--
 
---C0vaKJfzmKXrEBu3owLK8I1oU6XhwHWh7
+--CSpJjOlXNSW4R7q7cl13fWNMmzOzOF82u
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5X0HEACgkQ9AfbAGHV
-z0AxBAf+MYJGJf15ftl+XBL2CSn1Wjqh8JIK9avgsKzypkB+eDJI/Otox4nFeYzX
-lMe0WBtBS6CmOOiRjkENKNfg3XNU9eAyxv3WdBItVGk9qBFEk8vVsN6peCr2MTAX
-AayniSGsIlJURVS5ynenZaO5EP4bEL8DciEEjqyLyE+ETKg6vtMuFw6tMLM2jFq2
-72rMiSZWHgu2Gpo1dcbyjYxmOOdHQWt6bG282I9DNzEkPcsPsLrsF3dlOhgkvw+a
-IVRI2dZ1Xflf8S9NzCngdRBfKNqyRsGQRSOumA8r8jhaKGC+24fABm8wd7mBsz/E
-pOOV7UIYiMkLAawKhZcsfu8EaPfQJg==
-=Jr8z
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5X0YUACgkQ9AfbAGHV
+z0AcJwf/QU6pnSByfrwly9zXwDyWhN9pVYl7DpE82aBXYmsugBHW5YNyjxNiem1O
+9jkvcIeYMjUuLCBdB6QWUPF6mGBN7NPQ89W+F9b/ztpSKi7OothlAVW/IXn3aGdh
+43DttKukBYLTUdcd8tnGpYZuHUlP1HcLTOuh1vmwBbnaI+oZYhFL/6ZRnB4TihGW
+oPknmSCG8SNCVAJ4ow6CSvtsue/M7emJN0dF7hclA4FSRR260H5ioz5aMV5pJi3D
+Cj+f9jqKxWlsp/fT7nklWugUJM+eGI5biyugIXwStROZHRhT3M1XdgIM3YpvBUk2
+RLLE+QH1Xgulu1ZTJcY5DctRbHXASQ==
+=vJfB
 -----END PGP SIGNATURE-----
 
---C0vaKJfzmKXrEBu3owLK8I1oU6XhwHWh7--
+--CSpJjOlXNSW4R7q7cl13fWNMmzOzOF82u--
 
 
