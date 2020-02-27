@@ -2,68 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56826171513
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:34:47 +0100 (CET)
-Received: from localhost ([::1]:56866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D50B171506
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:31:50 +0100 (CET)
+Received: from localhost ([::1]:56806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GVB-0008Ol-EL
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:34:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45691)
+	id 1j7GSL-00052m-9k
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:31:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45706)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <coiby.xu@gmail.com>) id 1j7GQD-0003UJ-8l
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:38 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j7GQE-0003Vr-4H
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <coiby.xu@gmail.com>) id 1j7GQC-0001Jr-2Q
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:37 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45227)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1j7GQB-0001Co-Qd
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:36 -0500
-Received: by mail-lj1-x244.google.com with SMTP id e18so2721479ljn.12
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 02:29:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q9782uO6U1GtQHeswx106Gf0qWSFhYb6uhF5QwTrPV0=;
- b=eaG/XsV4oxu8HvV9Pooo69l4SuZuJqoAqIRG4iFY17CgmE9dWqKRPfWZbNyEzP5Yqc
- pC42WNyILbAbZ2zY1CcKD0g8Azc9kOeHtUub6nKtt30Gc+GPOCvdyUaoCKFIJVLomkMc
- r3LxYIRBy+nsI1ZuD3RarpQFcfQHM8KeDkQw71WZCf2jC4o61/9bGnmUU/bcf6ddNSzX
- 6s3HOtjSLuFS7AsI5ewuY+tfP6pfmxCALEA+79DMaWo3CGq8dgmgqcCOnaAyWrX9AudW
- OIBlkU0fp3s4iEv00QAiizNt/wpcZ/gNy70uWQqzkasUQPrS5x3yRhdpaHqVD0zlfDQF
- g38g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q9782uO6U1GtQHeswx106Gf0qWSFhYb6uhF5QwTrPV0=;
- b=Vo6Fj0o0IAdCIEfyUOPG3zqB+u9GmZfQIcricqCQ0Zmg+hJ7lgt5tC3zgKu0AQL+QA
- nEbkW6ynDTFQqCh9NRrUR5OQXzjXmt5h3RIpFyt+i9MkpnFWmoVo9ow+huyhwUQRjeex
- zyT2+/oxEbid8hsI36jB21ONXSlyABXujsY1TgZoM6FlItMjHBGDo/YQ85foG+Svx6Op
- qo9Nl0ORyz59hPph7imS3pZS7J6Sq3aNzOute0lUoeA/CgX059tRXAn8252HfMdY6DAG
- 960o9ZSe/0dRicyXPZTo35g30Kqyv1ouFdINVbaYSOVj/aZTX6CoLARnpn9zjU9o/sNU
- 1vxg==
-X-Gm-Message-State: ANhLgQ0hoBKe1t+/qTjis8cPssPjm2Qf4g7Fuk/kMsC1pDzDgY5tuoOQ
- WhvK/KznL+4MXDLfbssXeVIpu7BZOUmtFfdr5wU=
-X-Google-Smtp-Source: ADFU+vvW1nRTeCU5QPwd54vuh/9EicL+MbjBwf4QEnbywV/mL0y+Zzgm/jV+PL/4qFo1G0DYBjlnYbtMGs6LRqBHh2E=
-X-Received: by 2002:a2e:7816:: with SMTP id t22mr2347885ljc.161.1582799374202; 
- Thu, 27 Feb 2020 02:29:34 -0800 (PST)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j7GQC-0001L7-87
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:29:38 -0500
+Received: from mail-eopbgr50136.outbound.protection.outlook.com
+ ([40.107.5.136]:58993 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1j7GQ5-0000zl-Bz; Thu, 27 Feb 2020 05:29:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y57EwZt1tCMYxBIQNhgWxy4Jthxrc6L7BCBgCBEvq2Hmp9U999Reo8p/Sj0M2sgjt9vJ5+5QfsKCq9wJkt0iuR03DMcq2wh1au/myFFIOqLG2UjT1FWdrD2MZTyAXFTb/gGbDac0eBLsfFyhsvJFgHFNwHqhKwwBrLBTu/XouKwS9iotBE2UMl/TJV2GM8JS53drTjWBM4mY3ZXVZUuk12Ij4aK6PTSuSzWhwaox0JN3Y3+qeBtNL2HqTqqaC3QOcpUBRzUUuitvdhSKTImMUVbBtqOzuPg7tRhcgmOfLIi4ntt8mRsX90MyOi14Wt+vHuAq7nxKLh/CCOjQdoZ1NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i3touxxZOTKVtNBdd7gMM8u56BDHUlM4q54XZ0ZvUzY=;
+ b=ddacvW45BYdoF3nbTZpARF/d8kbeE0WVcjue35xyQncyfRWOrJ367vMWKtzA5PrMUDzy7e2gFXNXlmZ4uM2WBs0vT4QhMvMoHLy0/dr5wYG3sOU6yv4hTFgceCnT9flzDwG9d0aIL3/BouyyGJm8Mz9+tJEfrMdu9oqoxBRcmikwfPr6kNzGiNI4I21ljM6dIo/nCzIoDzNrUWjh3rwSqu4rPRbfAF1H1s2ws3sUx+O/iftUglNV9KEO4NC5Gx6ujo42KmtRrawuh2c+x3sZSmyAhnVlwZ2FO9zw8zvdBDkYAL7MnS0jOdCx7tYkI+UC4tzw61dBRISeKTF6TpfQSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i3touxxZOTKVtNBdd7gMM8u56BDHUlM4q54XZ0ZvUzY=;
+ b=g6UFaL+aMaGHWOAKR4RYSqASCmRtHIjkLZtu/MsPf/+PViRPuEqnt3FTvYSKgL4vfHIW1Vs7CYEU+8fC9gQgNm6Lhln7mS/rbYRwL8ZEn70Xx6ZnsuEHGnY3dgEJQ724CHzQdE1PwlvYT7gejGJgvAKpYwMjcK0ByHhtFab4mRc=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com (20.179.28.138) by
+ VI1PR08MB3296.eurprd08.prod.outlook.com (52.134.31.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.21; Thu, 27 Feb 2020 10:29:26 +0000
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::91aa:2540:62c:aeda]) by VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::91aa:2540:62c:aeda%5]) with mapi id 15.20.2750.024; Thu, 27 Feb 2020
+ 10:29:26 +0000
+Subject: Re: [PATCH v1 8/8] iotests: 287: add qcow2 compression type test
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200227072953.25445-1-dplotnikov@virtuozzo.com>
+ <20200227072953.25445-9-dplotnikov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200227132922816
+Message-ID: <416ce145-9163-5397-356d-87401e346e77@virtuozzo.com>
+Date: Thu, 27 Feb 2020 13:29:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200227072953.25445-9-dplotnikov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR0102CA0060.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:7d::37) To VI1PR08MB4432.eurprd08.prod.outlook.com
+ (2603:10a6:803:102::10)
 MIME-Version: 1.0
-References: <20200218050711.8133-1-coiby.xu@gmail.com>
- <20200219163815.GD1085125@stefanha-x1.localdomain>
- <CAJAkqrXaqmT2pR4K1x06AeQZHvUWp-fcqnbKZq_45czO96v5PA@mail.gmail.com>
- <20200227074114.GB83512@stefanha-x1.localdomain>
- <CAJAkqrWUJWLdT+6b_XmHFwnzhhbYei2SakCKVW0Rf92HJgoZDw@mail.gmail.com>
- <20200227100206.GA7493@linux.fritz.box>
-In-Reply-To: <20200227100206.GA7493@linux.fritz.box>
-From: Coiby Xu <coiby.xu@gmail.com>
-Date: Thu, 27 Feb 2020 18:28:57 +0800
-Message-ID: <CAJAkqrW_Euur3HjWaK6E-TAjT1dmjA1fz1oPwKSt7_pOC3=S+w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] vhost-user block device backend implementation
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR0102CA0060.eurprd01.prod.exchangelabs.com (2603:10a6:7:7d::37) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.14 via Frontend
+ Transport; Thu, 27 Feb 2020 10:29:25 +0000
+X-Tagtoolbar-Keys: D20200227132922816
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5c5fd464-19e7-4fcc-30a9-08d7bb6feb59
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3296:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3296CE8DA183FDFBCE518C7FC1EB0@VI1PR08MB3296.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 03264AEA72
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(396003)(346002)(39840400004)(366004)(136003)(376002)(199004)(189003)(31696002)(86362001)(31686004)(2906002)(52116002)(66476007)(26005)(6486002)(66946007)(186003)(16526019)(81166006)(316002)(66556008)(81156014)(16576012)(8676002)(8936002)(6666004)(478600001)(5660300002)(4326008)(956004)(36756003)(2616005)(21314003)(2004002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3296;
+ H:VI1PR08MB4432.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MVjtHqvtRY+O3tjDxMXB4z3jL1IL0YTzcRkboCGG//Sy67mmCWAnN/MOjnyu3ik4OvP5IlMCigg0CnAKY9dqUsqUnlJmGd6MlVKHQIUWS02oG8jjU6y3JPRTIa+1HozbmlsYgQlww7gYGMlaVLnG2Z8yPrYyyKlI/4VQQ7woMf36ezrfYENmBq4iMDGonf2VCQfnqyE0ntpUi2PmopY8Y1ealHWuiqYpzRWtFeASZxxrZArOHlCB59Pm8EXFT+dJXgFHCc0+gfMsNv82ucRxp05SG1JCq2ryD5UI2S/MoYRij6nEAxAXuFTZ3y0LdbcSdA3qXlAzqK2UuneupWtzpYSlygq1b65WNxBpkZAMT8M4712gjWScLL79RhKIKaBTdcO8gA1yFza/a36CVlX8YJrbfPrikeTLXpdGcW4DDE8i2P5sue4E8UZhEtTffPQE5dp2n4jXXVcJAxrBS/0Vreg3QaIZmO4KNCpQUBuE7D44M8siXIFZaa3BFizlqKe2bYB4m+Nx4I3fwR3SbuaTOpegeSrrDrgEw+gDkyzG4gRoQbGyAHnR669n2cXCI5patmo5vFdcTv3ihtN5UoMVBw==
+X-MS-Exchange-AntiSpam-MessageData: zCZLsppuwM5+6vWDSwuGjuLbNPmVirzXalOTLR85InXRR6vF3/mRL3zwq1HMmyjcbuQFqu1CyyNddQC4CNSyQQoK5jAaKM+YiAsj7WibjJ5fkMN9kgU2x9MRgcDG5ae8imfetOo/rF1e9QBYsU7sdQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c5fd464-19e7-4fcc-30a9-08d7bb6feb59
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2020 10:29:26.2718 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N3tl/56jBrBvxv1ST5+gLMETrpvIAxmcnDAdNekYSc5+eeubvBYmkzkYURdfDg2hZOoJTfyE0cQk08vYtmcFwW2HRc9uOmHhRM8oSNWQq8c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3296
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.5.136
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,86 +111,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bharatlkmlkvm@gmail.com,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, den@vrtuozzo.com,
+ armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > we still need customized vu_message_read because libvhost-user assumes
-> > we will always get a full-size VhostUserMsg and hasn't taken care of
-> > this short read case. I will improve libvhost-user's vu_message_read
-> > by making it keep reading from socket util getting enough bytes. I
-> > assume short read is a rare case thus introduced performance penalty
-> > would be negligible.
+27.02.2020 10:29, Denis Plotnikov wrote:
+> The test checks fulfilling qcow2 requiriements for the compression
+> type feature and zstd compression type operability.
+> 
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/287     | 123 +++++++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/287.out |  41 +++++++++++++
+>   tests/qemu-iotests/group   |   1 +
+>   3 files changed, 165 insertions(+)
+>   create mode 100755 tests/qemu-iotests/287
+>   create mode 100644 tests/qemu-iotests/287.out
+> 
+> diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
+> new file mode 100755
+> index 0000000000..41b916f690
+> --- /dev/null
+> +++ b/tests/qemu-iotests/287
+> @@ -0,0 +1,123 @@
+> +#!/usr/bin/env bash
+> +#
+> +# Test case for an image using zstd compression
+> +#
+> +# Copyright (c) 2020 Virtuozzo International GmbH
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +# creator
+> +owner=dplotnikov@virtuozzo.com
+> +
+> +seq="$(basename $0)"
+> +echo "QA output created by $seq"
+> +
+> +status=1	# failure is the default!
+> +
+> +_cleanup()
+> +{
+> +	_cleanup_test_img
+> +}
+> +trap "_cleanup; exit \$status" 0 1 2 3 15
+> +
+> +# standard environment
+> +. ./common.rc
+> +. ./common.filter
+> +
+> +# This tests qocw2-specific low-level functionality
+> +_supported_fmt qcow2
+> +_supported_proto file
+> +_supported_os Linux
+> +
+> +P=`echo "$QEMU_PROG" | sed "s/qemu-system-x86_64//"`
+> +
+> +grep "CONFIG_ZSTD=y" "$P"../config-host.mak >/dev/null
+> +RES=$?
 
-> In any case, please make sure that we use the QIOChannel functions
-> called from a coroutine in QEMU so that it will never block, but the
-> coroutine can just yield while it's waiting for more bytes.
+Hmm. This will not work for other architectures and for
+out of tree builds. Also, it checks config but not current
+binary (they may be out of sync, or even unrelated).
 
-But if I am not wrong, libvhost-user is supposed to be indepdent from
-the main QEMU code. So it can't use the QIOChannel functions if we
-simply modify exiting vu_message_read to address the short read issue.
-In v3 & v4, I extended libvhost-user to allow vu_message_read to be
-replaced by one which will depend on the main QEMU code. I'm not sure
-which way is better.
+Probably better try to create image with zstd compression type
+and handle expected error.
 
-On Thu, Feb 27, 2020 at 6:02 PM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 27.02.2020 um 10:53 hat Coiby Xu geschrieben:
-> > Thank you for reminding me of this socket short read issue! It seems
-> > we still need customized vu_message_read because libvhost-user assumes
-> > we will always get a full-size VhostUserMsg and hasn't taken care of
-> > this short read case. I will improve libvhost-user's vu_message_read
-> > by making it keep reading from socket util getting enough bytes. I
-> > assume short read is a rare case thus introduced performance penalty
-> > would be negligible.
->
-> In any case, please make sure that we use the QIOChannel functions
-> called from a coroutine in QEMU so that it will never block, but the
-> coroutine can just yield while it's waiting for more bytes.
->
-> Kevin
->
-> > On Thu, Feb 27, 2020 at 3:41 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Wed, Feb 26, 2020 at 11:18:41PM +0800, Coiby Xu wrote:
-> > > > Hi Stefan,
-> > > >
-> > > > Thank you for reviewing my code!
-> > > >
-> > > > I tried to reach you on IRC. But somehow either you missed my message
-> > > > or I missed your reply. So I will reply by email instead.
-> > > >
-> > > > If we use qio_channel_set_aio_fd_handler to monitor G_IO_IN event,
-> > > > i.e. use vu_dispatch as the read handler, then we can re-use
-> > > > vu_message_read. And "removing the blocking recv from libvhost-user"
-> > > > isn't necessary because "the operation of poll() and ppoll() is not
-> > > > affected by the O_NONBLOCK flag" despite that we use
-> > > > qio_channel_set_blocking before calling qio_channel_set_aio_fd_handler
-> > > > to make recv non-blocking.
-> > >
-> > > I'm not sure I understand.  poll() just says whether the file descriptor
-> > > is readable.  It does not say whether enough bytes are readable :).  So
-> > > our callback will be invoked if there is 1 byte ready, but when we try
-> > > to read 20 bytes either it will block (without O_NONBLOCK) or return
-> > > only 1 byte (with O_NONBLOCK).  Neither case is okay, so I expect that
-> > > code changes will be necessary.
-> > >
-> > > But please go ahead and send the next revision and I'll take a look.
-> > >
-> > > Stefan
-> >
-> >
-> >
-> > --
-> > Best regards,
-> > Coiby
-> >
->
+
+> +if (($RES)); then
+> +    _notrun "ZSTD is disabled in the current configuration"
+> +fi
+> +
+> +# Test: when compression is zlib the incompatible is unset
+> +echo
+> +echo "=== Testing compression type incompatible bit setting for zlib ==="
+> +echo
+> +
+> +_make_test_img 64M
+> +$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
+> +
+> +# Test: when compression differs from zlib the incompatible bit is set
+> +echo
+> +echo "=== Testing compression type incompatible bit setting for zstd ==="
+> +echo
+> +
+> +IMGOPTS='compression_type=zstd' _make_test_img 64M
+> +$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
+> +
+> +# Test: an image can't be openned if compression type is zlib and
+
+opened
+
+> +#       incompatible feature compression type is set
+> +echo
+> +echo "=== Testing zlib with incompatible bit set  ==="
+> +echo
+> +
+> +IMGOPTS='compression_type=zlib' _make_test_img 64M
+> +$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
+> +# to make sure the bit was actually set
+> +$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
+> +$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
+> +if (($?==0)); then
+> +    echo "Error: The image openned successfully. The image must not be openned"
+> +fi
+
+may be better to instead keep error output and just check it..
+
+> +
+> +# Test: an image can't be openned if compression type is NOT zlib and
+> +#       incompatible feature compression type is UNSET
+> +echo
+> +echo "=== Testing zstd with incompatible bit unset  ==="
+> +echo
+> +
+> +IMGOPTS='compression_type=zstd' _make_test_img 64M
+> +$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
+> +# to make sure the bit was actually unset
+> +$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
+> +$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
+> +if (($?==0)); then
+> +    echo "Error: The image openned successfully. The image must not be openned"
+> +fi
+> +# Test: check compression type values
+> +echo
+> +echo "=== Testing compression type values  ==="
+> +echo
+> +# zlib=0
+> +IMGOPTS='compression_type=zlib' _make_test_img 64M
+> +od -j104 -N1 -An -vtu1 "$TEST_IMG"
+> +
+> +# zstd=1
+> +IMGOPTS='compression_type=zstd' _make_test_img 64M
+> +od -j104 -N1 -An -vtu1 "$TEST_IMG"
+> +
+> +# Test: using zstd compression, write to and read from an image
+> +echo
+> +echo "=== Testing reading and writing with zstd ==="
+> +echo
+> +
+> +CLUSTER_SIZE=65536
+> +IMGOPTS='compression_type=zstd' _make_test_img 64M
+> +$QEMU_IO -c "write -c 0 64k " "$TEST_IMG" | _filter_qemu_io
+> +$QEMU_IO -c "read -v 0 10 " "$TEST_IMG" | _filter_qemu_io
+> +$QEMU_IO -c "read -v 65530 8" "$TEST_IMG" | _filter_qemu_io
+
+Hmm output depends on default pattern. Better use "write -c -P 0x11 0 64k"
+  (or any pattern you want), to make it explicit.
+
+> +
+> +# success, all done
+> +echo "*** done"
+> +rm -f $seq.full
+> +status=0
+> diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
+> new file mode 100644
+> index 0000000000..4218254ce0
+> --- /dev/null
+> +++ b/tests/qemu-iotests/287.out
+> @@ -0,0 +1,41 @@
+> +QA output created by 287
+> +
+> +=== Testing compression type incompatible bit setting for zlib ===
+> +
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+> +incompatible_features     []
+> +
+> +=== Testing compression type incompatible bit setting for zstd ===
+> +
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 compression_type=zstd
+> +incompatible_features     [3]
+> +
+> +=== Testing zlib with incompatible bit set  ===
+> +
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+> +incompatible_features     [3]
+> +
+> +=== Testing zstd with incompatible bit unset  ===
+> +
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 compression_type=zstd
+> +incompatible_features     []
+> +
+> +=== Testing compression type values  ===
+> +
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+> +   0
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 compression_type=zstd
+> +   1
+> +
+> +=== Testing reading and writing with zstd ===
+> +
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 compression_type=zstd
+> +wrote 65536/65536 bytes at offset 0
+> +64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +00000000:  cd cd cd cd cd cd cd cd cd cd  ..........
+> +read 10/10 bytes at offset 0
+> +10 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +0000fffa:  cd cd cd cd cd cd 00 00  ........
+> +read 8/8 bytes at offset 65530
+> +8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> +*** done
+> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+> index 0317667695..5edbadef40 100644
+> --- a/tests/qemu-iotests/group
+> +++ b/tests/qemu-iotests/group
+> @@ -293,3 +293,4 @@
+>   283 auto quick
+>   284 rw
+>   286 rw quick
+> +287 auto quick
+> 
 
 
 -- 
 Best regards,
-Coiby
+Vladimir
 
