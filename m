@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751DA1718B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 14:29:42 +0100 (CET)
-Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E85A1718BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 14:31:04 +0100 (CET)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7JES-0001H0-QE
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 08:29:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60996)
+	id 1j7JFn-0003Gv-4c
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 08:31:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1j7JDD-0000kM-Dl
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:24 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j7JDq-0001Na-Sf
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:29:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1j7JDC-0004ml-6L
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56701
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j7JDp-0005hM-7i
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:29:02 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:37077 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j7JDC-0004mF-1Y
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:28:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582810101;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4sV8QBNGz00Me5HBeTKSqaEjjbQTx+PMZWeofGO6oIE=;
- b=IyveNwjTnH+UipxbJ5x2H2eCw/PgtRIy7IIsVOCM/qZREoVu5k3reZd9kWu0T37wG68OYC
- 0PfdNtN8Z30clX5eMxbpJWEfvRKmLZi3AByHXP/1ttaYzn7uH9Fh2d3H7uPKHTS8ddA0G0
- QnbrM9CfXMmJ+/5dacLl3k7v/qBUbe8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-JtzwNU9oPTKhS0OmSXy1pA-1; Thu, 27 Feb 2020 08:28:13 -0500
-X-MC-Unique: JtzwNU9oPTKhS0OmSXy1pA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94D0918A8C80;
- Thu, 27 Feb 2020 13:28:12 +0000 (UTC)
-Received: from redhat.com (ovpn-112-43.ams2.redhat.com [10.36.112.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8634277945;
- Thu, 27 Feb 2020 13:28:11 +0000 (UTC)
-Date: Thu, 27 Feb 2020 13:28:08 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 13/18] docs/system: put qemu-block-drivers body in an
- included file
-Message-ID: <20200227132808.GJ1645630@redhat.com>
-References: <20200226113034.6741-1-pbonzini@redhat.com>
- <20200226113034.6741-14-pbonzini@redhat.com>
- <CAFEAcA_qWUY19ubmSaNoqbwjf8N8d1Dw=vMMD7j5yH8TSwK35A@mail.gmail.com>
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1j7JDp-0004Qi-1D
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 08:29:01 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id F19B21A209C;
+ Thu, 27 Feb 2020 14:27:50 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C852D1A203E;
+ Thu, 27 Feb 2020 14:27:50 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] MIPS queue for February 27th, 2020
+Date: Thu, 27 Feb 2020 14:27:31 +0100
+Message-Id: <1582810056-22646-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_qWUY19ubmSaNoqbwjf8N8d1Dw=vMMD7j5yH8TSwK35A@mail.gmail.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,95 +51,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 11:58:27AM +0000, Peter Maydell wrote:
-> On Wed, 26 Feb 2020 at 11:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > This removes the "only" directives, and lets us use the conventional
-> > "DESCRIPTION" section in the manpage.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  docs/system/index.rst                  |   2 -
-> >  docs/system/qemu-block-drivers.rst     | 987 +------------------------
-> >  docs/system/qemu-block-drivers.rst.inc | 954 ++++++++++++++++++++++++
-> >  3 files changed, 966 insertions(+), 977 deletions(-)
-> >  create mode 100644 docs/system/qemu-block-drivers.rst.inc
-> >
-> > diff --git a/docs/system/index.rst b/docs/system/index.rst
-> > index f66e6ea585..21b5a18b67 100644
-> > --- a/docs/system/index.rst
-> > +++ b/docs/system/index.rst
-> > @@ -13,5 +13,3 @@ Contents:
-> >
-> >  .. toctree::
-> >     :maxdepth: 2
-> > -
-> > -   qemu-block-drivers
->=20
-> Why do you drop the documentation from the HTML manual ?
->=20
-> Is the changing in the underline styles for section
-> headings necessary? It's non-obvious in the diff format
-> the patch in the email has, but with my local git diff
-> settings (algorithm=3Dhistogram) it shows up better:
->=20
-> > Secure Shell (ssh) disk images
-> >-------------------------------
-> >+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> Given that rST figures out subsection depth automatically
-> rather than based on which particular character is used
-> maybe we could avoid the noise in the diff?
->=20
-> (OTOH, we should probably pick a rST style guide for which
-> characters to use for which section headings and follow
-> it here to avoid unnecessarily confusing ourselves...)
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Yes, I'd encourage explicitly documenting the required section
-heading chars in particular, as otherwise we get a free for all
-which becomes confusing, especially if we need to move
-text from one doc into another doc.
+The following changes since commit db736e0437aa6fd7c1b7e4599c17f9619ab6b8=
+37:
 
-For libvirt we chose:
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into s=
+taging (2020-02-25 13:31:16 +0000)
 
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D
-  Heading 1
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D
+are available in the git repository at:
 
-  Heading 2
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D
+  https://github.com/AMarkovic/qemu tags/mips-queue-feb-27-2020
 
-  Heading 3
-  ---------
+for you to fetch changes up to 0484d9d4fbe9beacd3dd36fdf7fc3e14940bf078:
 
-  Heading 4
-  ~~~~~~~~~
+  tests/acceptance: Count multiple Tux logos displayed on framebuffer (20=
+20-02-27 14:19:07 +0100)
 
-  Heading 5
-  .........
+----------------------------------------------------------------
 
-  Heading 6
-  ^^^^^^^^^
+MIPS queue for February 27th, 2020
 
+  - Adjusting maintainership of MIPS KVM CPUs
+  - Machine memory and interrupt-related minor improvements
+  - Acceptance test for SMP support on Malta with I6400 CPU
 
-Heading 6 looks a bit odd, but on the flipside it should almost never
-need to be used.  https://libvirt.org/styleguide.html
+----------------------------------------------------------------
 
+Aleksandar Markovic (1):
+  MAINTAINERS: Reactivate MIPS KVM CPUs
 
-Regards,
-Daniel
+James Hogan (1):
+  MAINTAINERS: Orphan MIPS KVM CPUs
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/mips/mips_int: Simplify cpu_mips_irq_init_cpu()
+  hw/mips: Use memory_region_init_rom() with read-only regions
+  tests/acceptance: Count multiple Tux logos displayed on framebuffer
+
+ hw/mips/mips_fulong2e.c                |   3 +-
+ hw/mips/mips_int.c                     |   2 +-
+ hw/mips/mips_jazz.c                    |   6 +-
+ hw/mips/mips_mipssim.c                 |   3 +-
+ hw/mips/mips_r4k.c                     |   3 +-
+ MAINTAINERS                            |   6 +-
+ tests/acceptance/machine_mips_malta.py | 118 +++++++++++++++++++++++++++=
+++++++
+ 7 files changed, 127 insertions(+), 14 deletions(-)
+ create mode 100644 tests/acceptance/machine_mips_malta.py
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.7.4
 
 
