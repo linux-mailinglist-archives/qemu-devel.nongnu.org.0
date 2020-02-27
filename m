@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC561713B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 10:08:31 +0100 (CET)
-Received: from localhost ([::1]:55762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBE71713D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 10:14:04 +0100 (CET)
+Received: from localhost ([::1]:55848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7F9g-0004CL-Eh
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 04:08:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38701)
+	id 1j7FF5-00011d-PL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 04:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenyi.qiang@intel.com>) id 1j7F8b-0002vi-B1
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 04:07:22 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1j7FDk-0000K7-D2
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 04:12:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chenyi.qiang@intel.com>) id 1j7F8a-0005gk-94
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 04:07:21 -0500
-Received: from mga12.intel.com ([192.55.52.136]:30319)
+ (envelope-from <guoheyi@huawei.com>) id 1j7FDi-0003hA-UK
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 04:12:40 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3177 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chenyi.qiang@intel.com>)
- id 1j7F8a-0005dY-13
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 04:07:20 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2020 01:07:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,491,1574150400"; d="scan'208";a="261401294"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.72])
- by fmsmga004.fm.intel.com with ESMTP; 27 Feb 2020 01:07:14 -0800
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
-Subject: [PATCH 3/3] target/i386: modify Icelake-Client and Icelake-Server CPU
- model number
-Date: Thu, 27 Feb 2020 17:08:08 +0800
-Message-Id: <20200227090808.17686-4-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200227090808.17686-1-chenyi.qiang@intel.com>
-References: <20200227090808.17686-1-chenyi.qiang@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.136
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>) id 1j7FDi-00036G-IZ
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 04:12:38 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id EF9FA6AB7851BC2FF506;
+ Thu, 27 Feb 2020 17:12:29 +0800 (CST)
+Received: from [127.0.0.1] (10.173.221.228) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0;
+ Thu, 27 Feb 2020 17:12:22 +0800
+Subject: Re: [PATCH] hw/smbios: add options for type 4 max_speed and
+ current_speed
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20200225075046.30151-1-guoheyi@huawei.com>
+ <4bd58f6e-e522-d920-bc9a-8198147e8856@redhat.com>
+From: Heyi Guo <guoheyi@huawei.com>
+Message-ID: <6e6c6c8b-c67c-6433-2bb8-d246c5f49b62@huawei.com>
+Date: Thu, 27 Feb 2020 17:12:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <4bd58f6e-e522-d920-bc9a-8198147e8856@redhat.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-Originating-IP: [10.173.221.228]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,42 +57,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org
+Cc: wanghaibin.wang@huawei.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the Intel Icelake family list, Icelake-Client uses model
-number 126(0x7D) and Icelake-Server uses model number 106(0x6A).
 
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- target/i386/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 2020/2/25 17:24, Philippe Mathieu-Daud=E9 wrote:
+> On 2/25/20 8:50 AM, Heyi Guo wrote:
+>> Common VM users sometimes care about CPU speed, so we add two new
+>> options to allow VM vendors to present CPU speed to their users.
+>> Normally these information can be fetched from host smbios.
+>>
+>> Strictly speaking, the "max speed" and "current speed" in type 4
+>> are not really for the max speed and current speed of processor, for
+>> "max speed" identifies a capability of the system, and "current speed"
+>> identifies the processor's speed at boot (see smbios spec), but some
+>> applications do not tell the differences.
+>>
+>> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+>>
+>> ---
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> ---
+>> =A0 hw/smbios/smbios.c | 22 +++++++++++++++++++---
+>> =A0 qemu-options.hx=A0=A0=A0 |=A0 3 ++-
+>> =A0 2 files changed, 21 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+>> index ffd98727ee..1d5439643d 100644
+>> --- a/hw/smbios/smbios.c
+>> +++ b/hw/smbios/smbios.c
+>> @@ -94,6 +94,8 @@ static struct {
+>> =A0 =A0 static struct {
+>> =A0=A0=A0=A0=A0 const char *sock_pfx, *manufacturer, *version, *serial=
+, *asset,=20
+>> *part;
+>> +=A0=A0=A0 uint32_t max_speed;
+>> +=A0=A0=A0 uint32_t current_speed;
+>> =A0 } type4;
+>> =A0 =A0 static struct {
+>> @@ -272,6 +274,14 @@ static const QemuOptDesc=20
+>> qemu_smbios_type4_opts[] =3D {
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .name =3D "version",
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .type =3D QEMU_OPT_STRING,
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .help =3D "version number",
+>> +=A0=A0=A0 },{
+>> +=A0=A0=A0=A0=A0=A0=A0 .name =3D "max_speed",
+>> +=A0=A0=A0=A0=A0=A0=A0 .type =3D QEMU_OPT_NUMBER,
+>> +=A0=A0=A0=A0=A0=A0=A0 .help =3D "max speed in MHz",
+>> +=A0=A0=A0 },{
+>> +=A0=A0=A0=A0=A0=A0=A0 .name =3D "current_speed",
+>> +=A0=A0=A0=A0=A0=A0=A0 .type =3D QEMU_OPT_NUMBER,
+>> +=A0=A0=A0=A0=A0=A0=A0 .help =3D "speed at system boot in MHz",
+>> =A0=A0=A0=A0=A0 },{
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .name =3D "serial",
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .type =3D QEMU_OPT_STRING,
+>> @@ -586,9 +596,8 @@ static void=20
+>> smbios_build_type_4_table(MachineState *ms, unsigned instance)
+>> =A0=A0=A0=A0=A0 SMBIOS_TABLE_SET_STR(4, processor_version_str, type4.v=
+ersion);
+>> =A0=A0=A0=A0=A0 t->voltage =3D 0;
+>> =A0=A0=A0=A0=A0 t->external_clock =3D cpu_to_le16(0); /* Unknown */
+>> -=A0=A0=A0 /* SVVP requires max_speed and current_speed to not be unkn=
+own. */
+>> -=A0=A0=A0 t->max_speed =3D cpu_to_le16(2000); /* 2000 MHz */
+>> -=A0=A0=A0 t->current_speed =3D cpu_to_le16(2000); /* 2000 MHz */
+>> +=A0=A0=A0 t->max_speed =3D cpu_to_le16(type4.max_speed);
+>> +=A0=A0=A0 t->current_speed =3D cpu_to_le16(type4.current_speed);
+>> =A0=A0=A0=A0=A0 t->status =3D 0x41; /* Socket populated, CPU enabled *=
+/
+>> =A0=A0=A0=A0=A0 t->processor_upgrade =3D 0x01; /* Other */
+>> =A0=A0=A0=A0=A0 t->l1_cache_handle =3D cpu_to_le16(0xFFFF); /* N/A */
+>> @@ -1129,6 +1138,13 @@ void smbios_entry_add(QemuOpts *opts, Error=20
+>> **errp)
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 save_opt(&type4.serial, opts, =
+"serial");
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 save_opt(&type4.asset, opts, "=
+asset");
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 save_opt(&type4.part, opts, "p=
+art");
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /*
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * SVVP requires max_speed and cu=
+rrent_speed to not be=20
+>> unknown, and
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * we set the default value to 20=
+00MHz as we did before.
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 type4.max_speed =3D qemu_opt_get_nu=
+mber(opts, "max_speed",=20
+>> 2000);
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 type4.current_speed =3D qemu_opt_ge=
+t_number(opts,=20
+>> "current_speed",
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 2000);
+>
+> Maybe check speeds are <=3D UINT16_MAX else set errp?
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index c0be0f83b4..b43a479528 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3276,7 +3276,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .level = 0xd,
-         .vendor = CPUID_VENDOR_INTEL,
-         .family = 6,
--        .model = 126,
-+        .model = 125,
-         .stepping = 0,
-         .features[FEAT_1_EDX] =
-             CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
-@@ -3389,7 +3389,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .level = 0xd,
-         .vendor = CPUID_VENDOR_INTEL,
-         .family = 6,
--        .model = 134,
-+        .model = 106,
-         .stepping = 0,
-         .features[FEAT_1_EDX] =
-             CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
--- 
-2.17.1
+OK; I can do that in the v2. But I would wait for the maintainers to=20
+provide more comments :)
+
+Thanks,
+
+Heyi
+
+>
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return;
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 case 11:
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 qemu_opts_validate(opts, qemu_=
+smbios_type11_opts, &err);
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index ac315c1ac4..bc9ef0fda8 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -2233,6 +2233,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+>> =A0=A0=A0=A0=A0 "=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 specify=
+ SMBIOS type 3 fields\n"
+>> =A0=A0=A0=A0=A0 "-smbios=20
+>> type=3D4[,sock_pfx=3Dstr][,manufacturer=3Dstr][,version=3Dstr][,serial=
+=3Dstr]\n"
+>> =A0=A0=A0=A0=A0 "=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 [,asset=3Dstr=
+][,part=3Dstr]\n"
+>> +=A0=A0=A0 "=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 [,max_speed=3D%d][=
+,current_speed=3D%d]\n"
+>> =A0=A0=A0=A0=A0 "=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 specify=
+ SMBIOS type 4 fields\n"
+>> =A0=A0=A0=A0=A0 "-smbios=20
+>> type=3D17[,loc_pfx=3Dstr][,bank=3Dstr][,manufacturer=3Dstr][,serial=3D=
+str]\n"
+>> =A0=A0=A0=A0=A0 "=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 [,asset=3D=
+str][,part=3Dstr][,speed=3D%d]\n"
+>> @@ -2255,7 +2256,7 @@ Specify SMBIOS type 2 fields
+>> =A0 @item -smbios=20
+>> type=3D3[,manufacturer=3D@var{str}][,version=3D@var{str}][,serial=3D@v=
+ar{str}][,asset=3D@var{str}][,sku=3D@var{str}]
+>> =A0 Specify SMBIOS type 3 fields
+>> =A0 -@item -smbios=20
+>> type=3D4[,sock_pfx=3D@var{str}][,manufacturer=3D@var{str}][,version=3D=
+@var{str}][,serial=3D@var{str}][,asset=3D@var{str}][,part=3D@var{str}]
+>> +@item -smbios=20
+>> type=3D4[,sock_pfx=3D@var{str}][,manufacturer=3D@var{str}][,version=3D=
+@var{str}][,serial=3D@var{str}][,asset=3D@var{str}][,part=3D@var{str}][,m=
+ax_speed=3D@var{%d}][,current_speed=3D@var{%d}]
+>> =A0 Specify SMBIOS type 4 fields
+>> =A0 =A0 @item -smbios=20
+>> type=3D17[,loc_pfx=3D@var{str}][,bank=3D@var{str}][,manufacturer=3D@va=
+r{str}][,serial=3D@var{str}][,asset=3D@var{str}][,part=3D@var{str}][,spee=
+d=3D@var{%d}]
+>>
+>
+>
+> .
 
 
