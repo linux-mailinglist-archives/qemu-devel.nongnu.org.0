@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B531417150D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:33:34 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3DD171519
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 11:36:25 +0100 (CET)
+Received: from localhost ([::1]:56948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7GU1-00073R-Nz
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:33:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
+	id 1j7GWm-0001xH-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 05:36:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j7GRg-0005CU-6d
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:31:13 -0500
+ (envelope-from <berrange@redhat.com>) id 1j7GSB-0005ou-1o
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:31:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j7GRe-0003bJ-VW
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:31:08 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50452
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1j7GS7-0004HP-J8
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:31:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31209
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j7GRe-0003ao-RJ
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:31:06 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j7GS7-0004Fy-Cp
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 05:31:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582799466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1582799494;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e9fM46098J55AN/cBKJX+9W/vdOo7fvx8SsK7lnkkjc=;
- b=fw30V0MB8rzUD7WUpUrLnU7AnfZPfqntWXrbaWmnCAbAAuSrq40h973rfRIMAQTDA1Ft6h
- 0yCrv6VfNn9ar6AeJdHImm/pLoiNxnBXBpJorWNrdR/Ojdlkz4Cu3nwjEEVp5CIs8YdgEB
- 6POdu8x3wKBJFZb0F6px36lY7qPN4Co=
+ bh=RUE8shnfPzDdhihUcnfJnzAAfvwflL5lQ1zii1MF3wg=;
+ b=Jd6OEZOTkA1V/qM97Utsp+tYv/h1QYD/fQWc/O8p+w0db/z4z+K3EZG5zqxFVae0C02Qjh
+ Q3JoJc7kOKCyOoJLVwSLC5nIKKXfgTLgoaUnwe4FPz8zf8ltseQhpoMZNCd2llwJw1C+40
+ puITRvwgN+t75Z+xFbLrKYNMJcOKlxc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-dfi3YcmCMESswz_qqbWh3Q-1; Thu, 27 Feb 2020 05:31:02 -0500
-X-MC-Unique: dfi3YcmCMESswz_qqbWh3Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-464-mQefb3-cOba5iaNuYmj-1w-1; Thu, 27 Feb 2020 05:31:30 -0500
+X-MC-Unique: mQefb3-cOba5iaNuYmj-1w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A45B2108BD16;
- Thu, 27 Feb 2020 10:31:00 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DAE060C88;
- Thu, 27 Feb 2020 10:30:56 +0000 (UTC)
-Date: Thu, 27 Feb 2020 11:30:54 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-Subject: Re: [PATCH v2 02/13] block/iscsi:Remove redundant statement in
- iscsi_open()
-Message-ID: <20200227103054.GB7493@linux.fritz.box>
-References: <20200226084647.20636-1-kuhn.chenqun@huawei.com>
- <20200226084647.20636-3-kuhn.chenqun@huawei.com>
- <20200226095444.GB6096@linux.fritz.box>
- <7412CDE03601674DA8197E2EBD8937E83B6638BE@dggemm531-mbx.china.huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA0371902EC8;
+ Thu, 27 Feb 2020 10:31:29 +0000 (UTC)
+Received: from redhat.com (ovpn-112-43.ams2.redhat.com [10.36.112.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF4AF65E98;
+ Thu, 27 Feb 2020 10:31:21 +0000 (UTC)
+Date: Thu, 27 Feb 2020 10:31:18 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH] linux-user/syscall: Use g_file_open_tmp()
+Message-ID: <20200227103118.GE1645630@redhat.com>
+References: <20200227100621.21844-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B6638BE@dggemm531-mbx.china.huawei.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200227100621.21844-1-philmd@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,62 +73,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, Peter Lieven <pl@kamp.de>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.02.2020 um 02:49 hat Chenqun (kuhn) geschrieben:
-> >-----Original Message-----
-> >From: Kevin Wolf [mailto:kwolf@redhat.com]
-> >Sent: Wednesday, February 26, 2020 5:55 PM
-> >To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>
-> >Cc: qemu-devel@nongnu.org; qemu-trivial@nongnu.org;
-> >peter.maydell@linaro.org; Zhanghailiang <zhang.zhanghailiang@huawei.com>=
-;
-> >Euler Robot <euler.robot@huawei.com>; Ronnie Sahlberg
-> ><ronniesahlberg@gmail.com>; Paolo Bonzini <pbonzini@redhat.com>; Peter
-> >Lieven <pl@kamp.de>; Max Reitz <mreitz@redhat.com>
-> >Subject: Re: [PATCH v2 02/13] block/iscsi:Remove redundant statement in
-> >iscsi_open()
-> >
-> >Am 26.02.2020 um 09:46 hat kuhn.chenqun@huawei.com geschrieben:
-> >> From: Chen Qun <kuhn.chenqun@huawei.com>
-> >>
-> >> Clang static code analyzer show warning:
-> >>   block/iscsi.c:1920:9: warning: Value stored to 'flags' is never read
-> >>         flags &=3D ~BDRV_O_RDWR;
-> >>         ^        ~~~~~~~~~~~~
-> >>
-> >> Reported-by: Euler Robot <euler.robot@huawei.com>
-> >> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> >
-> >Hmm, I'm not so sure about this one because if we remove the line, flags=
- will
-> >be inconsistent with bs->open_flags. It feels like setting a trap for an=
-yone
-> >who wants to add code using flags in the future.
-> Hi Kevin, =20
-> I find it exists since 8f3bf50d34037266.   :  ) =20
+On Thu, Feb 27, 2020 at 11:06:21AM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> Use GLib g_file_open_tmp() instead of getenv + snprintf + mkstemp.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> RFC because I'm not sure g_autoptr(GError) works this way.
 
-Yes, it has existed from the start with auto-read-only.
+It does work. Any struct that's defined in GLib has support for
+g_autoptr(). If you aren't suyre though, just check for a
+G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro usage that refers to the
+struct in question
 
-> It's not a big deal,  just upset clang static code analyzer.=20
-> As you said, it could be a trap for the future.=20
+$ grep -r 'G_DEFINE_AUTOPTR_CLEANUP_FUNC(GError' /usr/include/glib-2.0
+/usr/include/glib-2.0/glib/glib-autocleanups.h:G_DEFINE_AUTOPTR_CLEANUP_FUN=
+C(GError, g_error_free)
 
-What's interesting is that we do have one user of the flags later in the
-function, but it uses bs->open_flags instead:
+>  linux-user/syscall.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 8d27d10807..0e44969e16 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7282,17 +7282,14 @@ static int do_openat(void *cpu_env, int dirfd, co=
+nst char *pathname, int flags,
+>      }
+> =20
+>      if (fake_open->filename) {
+> -        const char *tmpdir;
+> -        char filename[PATH_MAX];
+> +        g_autoptr(GError) gerr =3D NULL;
+> +        g_autofree gchar *filename =3D NULL;
+>          int fd, r;
+> =20
+>          /* create temporary file to map stat to */
+> -        tmpdir =3D getenv("TMPDIR");
+> -        if (!tmpdir)
+> -            tmpdir =3D "/tmp";
+> -        snprintf(filename, sizeof(filename), "%s/qemu-open.XXXXXX", tmpd=
+ir);
+> -        fd =3D mkstemp(filename);
+> +        fd =3D g_file_open_tmp("qemu-open.XXXXXX", &filename, &gerr);
 
-    ret =3D iscsi_allocmap_init(iscsilun, bs->open_flags);
+g_file_open_tmp, calls g_get_tmp_name, which calls
+g_get_tmp_dir, which defaults to $TMPDIR, falling back
+to /tmp. So we're using the same dir as before.
 
-Maybe this should be using flags? (The value of the bits we're
-interested in is the same, but when flags is passed as a parameter, I
-would expect it to be used.)
+>          if (fd < 0) {
+> +            fprintf(stderr, "Error opening %s: %s\n", filename, gerr->me=
+ssage);
 
-Kevin
+This is wrong - the returned "filename" is only valid when
+g_file_open_tmp succeeds. So the use of "filename" here
+is likely a NULL. Given that the only place you use "filename"
+is in the error path, and that's not valid, we can simply
+eliminate it entirely, and pass NULL into g_file_open_tmp
+
+>              return fd;
+>          }
+>          unlink(filename);
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
