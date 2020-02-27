@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BE8170E85
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:38:45 +0100 (CET)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E3A170EC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 03:57:40 +0100 (CET)
+Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j794W-0003qH-B0
-	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:38:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60165)
+	id 1j79Mp-0000JG-0j
+	for lists+qemu-devel@lfdr.de; Wed, 26 Feb 2020 21:57:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j791V-00083l-Cm
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:35:38 -0500
+ (envelope-from <eblake@redhat.com>) id 1j79LF-0007a0-Qu
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:56:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j791U-0001lB-Au
- for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:35:37 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3175 helo=huawei.com)
+ (envelope-from <eblake@redhat.com>) id 1j79LE-0002Qy-C1
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:56:01 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48034
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j791R-0001ZP-MZ; Wed, 26 Feb 2020 21:35:33 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id A23DBA7A5288C2477CB3;
- Thu, 27 Feb 2020 10:35:31 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.216) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 27 Feb 2020 10:35:22 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <peter.maydell@linaro.org>
-Subject: [PATCH v3 6/6] hw/timer/cadence_ttc: move timer_new from init() into
- realize() to avoid memleaks
-Date: Thu, 27 Feb 2020 10:50:55 +0800
-Message-ID: <20200227025055.14341-7-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200227025055.14341-1-pannengyuan@huawei.com>
-References: <20200227025055.14341-1-pannengyuan@huawei.com>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j79LE-0002Ni-7c
+ for qemu-devel@nongnu.org; Wed, 26 Feb 2020 21:56:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582772150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jOD1mvtKL71jY8cnJeuHBQHBFrZ7+qrm+WKIb39u4Ds=;
+ b=QQdE7WycIeO7uXGAp6oHaQNx8teHnjORoHngwGC5hWMMKLZe/3DadQdszJs31sticlSs4e
+ Y5Tv+fhcV6t7YVnY3UWNpDxEpWIHtDlNJqAC/yW/XqQtIfTK+cb8E8RRHDAbjIgpO24MIe
+ 1tCnypHXQdM2QeDyQ3G+H5p2JEq4No0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-8MQGQyG2PyC1XZYflqZkAA-1; Wed, 26 Feb 2020 21:55:44 -0500
+X-MC-Unique: 8MQGQyG2PyC1XZYflqZkAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5345C1902EA1;
+ Thu, 27 Feb 2020 02:55:43 +0000 (UTC)
+Received: from [10.3.116.57] (ovpn-116-57.phx2.redhat.com [10.3.116.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B8C692990;
+ Thu, 27 Feb 2020 02:55:33 +0000 (UTC)
+Subject: Re: [PATCH 1/2] fuzz: fix typos in linker-script comments
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20200227024856.23777-1-alxndr@bu.edu>
+ <20200227024856.23777-2-alxndr@bu.edu>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3476395c-3aba-6246-d11c-f108e33edfcd@redhat.com>
+Date: Wed, 26 Feb 2020 20:55:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.216]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200227024856.23777-2-alxndr@bu.edu>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,64 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Alistair Francis <alistair@alistair23.me>,
- Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, euler.robot@huawei.com,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some memleaks when we call 'device_list_properties'. This patch move timer_new from init into realize to fix it.
+On 2/26/20 8:48 PM, Alexander Bulekov wrote:
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   tests/qtest/fuzz/fork_fuzz.ld | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
+> index b23a59f194..b5aad06f20 100644
+> --- a/tests/qtest/fuzz/fork_fuzz.ld
+> +++ b/tests/qtest/fuzz/fork_fuzz.ld
+> @@ -1,5 +1,5 @@
+>   /* We adjust linker script modification to place all of the stuff that needs to
+> - * persist across fuzzing runs into a contiguous seciton of memory. Then, it is
+> + * persist across fuzzing runs into a contiguous section of memory. Then, it is
+>    * easy to re-map the counter-related memory as shared.
+>   */
+>   
+> @@ -32,6 +32,6 @@ SECTIONS
+>         __FUZZ_COUNTERS_END = .;
+>     }
+>   }
+> -/* Dont overwrite the SECTIONS in the default linker script. Instead insert the
+> +/* Don't overwrite the SECTIONS in the default linker script. Instead insert the
+>    * above into the default script */
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Cc: Alistair Francis <alistair@alistair23.me>
----
- hw/timer/cadence_ttc.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+As long as you're touching these two comments, checkpatch is going to 
+complain that they don't follow the usual style of:
 
-diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
-index 5e3128c1e3..b0ba6b2bba 100644
---- a/hw/timer/cadence_ttc.c
-+++ b/hw/timer/cadence_ttc.c
-@@ -412,16 +412,21 @@ static void cadence_timer_init(uint32_t freq, CadenceTimerState *s)
- static void cadence_ttc_init(Object *obj)
- {
-     CadenceTTCState *s = CADENCE_TTC(obj);
-+
-+    memory_region_init_io(&s->iomem, obj, &cadence_ttc_ops, s,
-+                          "timer", 0x1000);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
-+}
-+
-+static void cadence_ttc_realize(DeviceState *dev, Error **errp)
-+{
-+    CadenceTTCState *s = CADENCE_TTC(dev);
-     int i;
- 
-     for (i = 0; i < 3; ++i) {
-         cadence_timer_init(133000000, &s->timer[i]);
--        sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->timer[i].irq);
-+        sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->timer[i].irq);
-     }
--
--    memory_region_init_io(&s->iomem, obj, &cadence_ttc_ops, s,
--                          "timer", 0x1000);
--    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
- }
- 
- static int cadence_timer_pre_save(void *opaque)
-@@ -479,6 +484,7 @@ static void cadence_ttc_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->vmsd = &vmstate_cadence_ttc;
-+    dc->realize = cadence_ttc_realize;
- }
- 
- static const TypeInfo cadence_ttc_info = {
+/*
+  * Text starts here...
+  * through here.
+  */
+
+If you fix that as well for these two comments,
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.18.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
