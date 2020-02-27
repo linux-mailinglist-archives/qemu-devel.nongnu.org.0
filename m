@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613611716DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 13:11:25 +0100 (CET)
-Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6F61716E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 13:14:47 +0100 (CET)
+Received: from localhost ([::1]:58304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7I0i-00049B-FZ
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 07:11:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57528)
+	id 1j7I3y-0006K8-Rc
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 07:14:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7Hzg-0003hN-DJ
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:10:22 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7I2y-0005o4-5m
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:13:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7Hzd-0001l5-Ih
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:10:20 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46569)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7I2x-0005aM-5T
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:13:44 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39457)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7Hzd-0001jd-BY
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:10:17 -0500
-Received: by mail-ot1-x343.google.com with SMTP id g96so2620658otb.13
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 04:10:13 -0800 (PST)
+ id 1j7I2w-0005Za-Vc
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:13:43 -0500
+Received: by mail-oi1-x244.google.com with SMTP id r16so1400111oie.6
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 04:13:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=z+dw6IKG7KfVaE90rJdlxcsfHOOfgBlXU+gkGwJKbpc=;
- b=F6x9nZOHYjp0wIweAFy0/9wTsWl4gfpzdYFP2L0e8/15C+/eiIm9/zxhkSEdnrG1lx
- 9SkPn3MBc/1LWVwdEzpoGyozYcQS4tvSQJ8T7nxRqni+DUNjm7v6Ehyii/yRj7bU4Ch9
- WpmDHN2+SOnLJ2KJqL0ZYgSzhdckwx8t+jid1kmn5lAUG/Cx9AiaNinW7EkSmsR3UgZE
- uCfcPL8Ls/Ue2UHIf8S6uZyav1UkTPd4aF1ceKSeW2tbzBbbh+mPjXpyvMy8XyPpZ4i6
- o+n5SR7VsD3G35clz4aO88kj94/UUldE4B3dv5ArnyAII3DZrYlcwM89vF4G1TFXu633
- SDbQ==
+ :cc; bh=LabFdtw+4yWQwHjyMs+KlbDhcQlBiBmnVkMXIHpPAYI=;
+ b=i1U1EiHVg3JosQKfVcQ6zT+v6aGYQCi4ePXTXGqowcYbah7tjaeK73eTWIJKsslRSW
+ 1prUo4herF8drM3tgOEswU7/rG4kJOFbGL8cDvzsX0YTIy4a1WdJOP9OTJnrX6LpYDrU
+ SC8pTs9JYs//SMKd08L+GD5lrqbRiiT9GyrwESM9UhNA+za/PXAEGDtJcWd5TnilvUBC
+ tQ8rO5aijpSvLhwau+CUAH1mMj3HxuEiYGgh3a5+h6Z05qQltTSAKe/FYiyzmzpv+Lii
+ WBPhMTT7U+8k2F6ffKDEJdZV7u97+rmA7rY51rjx/zzdc4Z7BzyFBiUzqdDFBjPzbuVc
+ U/sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=z+dw6IKG7KfVaE90rJdlxcsfHOOfgBlXU+gkGwJKbpc=;
- b=ZThyYcEvfE601a9l3CXYuUF8OXx5mJnmZ3s/yWQfG/pFQJJEHYo8ZNQptBROyjM+Po
- tk46ISH6hJrqKLEbINL/NV3NRT2EuAUQoLDBkDS9eUyjyHvrXaBZBmt/kjhPR2iMEH/A
- rBNNUJbgH71ktLFWk5kvnqeCIs6iQW3SvcKBLcklGWqc93LiRvPu067a+lldr53CVqKG
- Eiv5SkPHYyPw72Qpein4Ro5YgfXi5bnULAt6u8wVtc7Lc06gYgdBgknxCrJwdPugHExD
- 1KAKNG513qd61HXXiGLrADHqLNGV1Oft7WhyL04ZOMfsdaLlhLNwaQ6UU9ncsRIIonSn
- vDdQ==
-X-Gm-Message-State: APjAAAV3Xzp50byz4j4xaqQPSJvbTxhBynmVTvxvYjkpr53ckTGC4vsy
- 0ypZu2DwzgKrgu0etv51yjyPNj7dJjYYM6fkW1130g==
-X-Google-Smtp-Source: APXvYqzCBLawxrAS9OB5AqGAjkgc+bR/8ESg9i741OqY+9K6Mp11Tr0/KX5ZDGHVf5iVpkputnI5Tp07iDQOWmpCkFk=
-X-Received: by 2002:a9d:68d9:: with SMTP id i25mr3018567oto.135.1582805412763; 
- Thu, 27 Feb 2020 04:10:12 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=LabFdtw+4yWQwHjyMs+KlbDhcQlBiBmnVkMXIHpPAYI=;
+ b=W/lqm5qjQWut8lIMqQn9n4ENUV5nDyWwSQaK/PgRRFUSO6MNOfkCaqdRSIFfYshW35
+ lAcT08e4tPV5Ank+Pd5VOoItbGTQUkss4SBeLWXiUFWJ3bbAUhBbZwjow58LWJU6olin
+ L5sDlY1uockAw5shKJ7Ew4Lprqb4SoTpi+2vGiK1iHukNMjMm6Q5Eg96+vY2bu8VUhrf
+ FlibDkRSqAyhbIOQshrYqYGCZUIypKvisLe1OnaymgRJm6j6kTChp+YhdX35t1b/KRst
+ u5hbpqv1ZhPiy3j0xFxYPcDE4sHhb0rLmAnOJjypmzdG6RiimHrmVuhIt8b4iI89gTdh
+ XjYg==
+X-Gm-Message-State: APjAAAUjjxqlYxFegGBfDpYyCKpSPKTxOQNaO9b2iV7SPZlHVz35c3Zt
+ DzeiE2qR0i+sTp7qm1cWnKBCvmrRS4YzWfjEZMjTVA==
+X-Google-Smtp-Source: APXvYqyRYrGQ9YCxXcT/ah56tRupUJs0onUPklxD07Rjpi10H3j3IN+r99x+WIFNm5RBUmShdflpLZqWOoPYsNwjISM=
+X-Received: by 2002:a54:4f16:: with SMTP id e22mr3153650oiy.170.1582805622130; 
+ Thu, 27 Feb 2020 04:13:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20200226113034.6741-1-pbonzini@redhat.com>
- <20200226113034.6741-15-pbonzini@redhat.com>
-In-Reply-To: <20200226113034.6741-15-pbonzini@redhat.com>
+References: <20200227112617.66044-1-root@stephanos.io>
+ <20200227112617.66044-2-root@stephanos.io>
+In-Reply-To: <20200227112617.66044-2-root@stephanos.io>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Feb 2020 12:10:02 +0000
-Message-ID: <CAFEAcA-ps7dmo_7Lgf2kTsy0nvFgU6qopS8HvZMu3DY81VvE_g@mail.gmail.com>
-Subject: Re: [PATCH 14/18] docs/system: Convert qemu-cpu-models.texi to rST
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 27 Feb 2020 12:13:31 +0000
+Message-ID: <CAFEAcA9qbndHqoW1oaUAKMZY5hNYjP+mMt-K_WqoT9Z=Q=ct7g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/arm/armv7m: Downgrade CPU reset handler priority
+To: Stephanos Ioannidis <root@stephanos.io>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,171 +72,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Feb 2020 at 11:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Thu, 27 Feb 2020 at 11:27, Stephanos Ioannidis <root@stephanos.io> wrote:
 >
-> From: Kashyap Chamarthy <kchamart@redhat.com>
+> The ARMv7-M CPU reset handler, which loads the initial SP and PC
+> register values from the vector table, is currently executed before
+> the ROM reset handler (rom_reset), and this causes the devices that
+> alias low memory region (e.g. STM32F405 that aliases the flash memory
+> located at 0x8000000 to 0x0) to load an invalid reset vector of 0 when
+> the kernel image is linked to be loaded at the high memory address.
 >
-> This doc was originally written by Daniel P. Berrang=C3=A9
-> <berrange@redhat.com>, introduced via commit[1]: 2544e9e4aa (docs: add
-> guidance on configuring CPU models for x86, 2018-06-27).
+> For instance, it is norm for the STM32F405 firmware ELF image to have
+> the text and rodata sections linked at 0x8000000, as this facilitates
+> proper image loading by the firmware burning utility, and the processor
+> can execute in place from the high flash memory address region as well.
 >
-> In this patch:
->
->   - 1-1 conversion of Texinfo to rST, besides a couple of minor
->     tweaks that are too trivial to mention.   (Thanks to Stephen
->     Finucane on IRC for the suggestion to use rST "definition lists"
->     instead of bullets in some places.)
->
->     Further modifications will be done via a separate patch.
->
->   - rST and related infra changes: manual page generation, Makefile
->     fixes, clean up references to qemu-cpu-models.texi, update year in
->     the copyright notice, etc.
->
-> [1] https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D2544e9e4aa
+> In order to resolve this issue, this commit downgrades the ARMCPU reset
+> handler invocation priority level to -1 such that it is always executed
+> after the ROM reset handler, which has a priority level of 0.
 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> [Move macros to defs.rst.inc, split in x86 and MIPS parts,
->  make qemu-cpu-models.rst a standalone document. - Paolo]
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  MAINTAINERS                         |   2 +-
->  Makefile                            |   3 +-
->  docs/conf.py                        |   2 +-
->  docs/system/conf.py                 |  10 +-
->  docs/system/cpu-models-mips.rst.inc | 105 ++++++++
->  docs/system/cpu-models-x86.rst.inc  | 365 ++++++++++++++++++++++++++++
->  docs/system/defs.rst.inc            |   2 +
->  docs/system/qemu-block-drivers.rst  |   2 -
->  docs/system/qemu-cpu-models.rst     |  20 ++
->  docs/system/qemu-cpu-models.texi    |  28 ---
->  10 files changed, 504 insertions(+), 35 deletions(-)
->  create mode 100644 docs/system/cpu-models-mips.rst.inc
->  create mode 100644 docs/system/cpu-models-x86.rst.inc
->  create mode 100644 docs/system/defs.rst.inc
->  create mode 100644 docs/system/qemu-cpu-models.rst
->  delete mode 100644 docs/system/qemu-cpu-models.texi
 
-Why don't we also delete cpu-models-x86.texi and
-cpu-models-mips.texi ?
+I think we should be able to do this with the new 3-phase
+reset API : the rom loader reset should happen in phase 2,
+and the Arm CPU should only load the new PC and SP in
+phase 3. It's on my todo list to write some code for this
+to see if this theory works out.
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0d3ee8bdc6..01d1ee4b50 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -320,7 +320,7 @@ F: tests/tcg/i386/
->  F: tests/tcg/x86_64/
->  F: hw/i386/
->  F: disas/i386.c
-> -F: docs/system/cpu-models-x86.texi
-> +F: docs/system/cpu-models-x86.rst
+I'd prefer it if we do it that way, or alternatively find
+out for certain that that approach does not work, before
+we add a reset-priority concept to the reset APIs.
 
-This isn't the filename the patch actually uses.
-
-There should be a corresponding new F: line for the mips version too.
-
->  T: git https://github.com/ehabkost/qemu.git x86-next
->
->  Xtensa TCG CPUs
-> diff --git a/Makefile b/Makefile
-> index 6b5193b838..a79f751d5d 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1080,7 +1080,7 @@ $(call define-manpage-rule,interop,\
->         virtiofsd.1 virtfs-proxy-helper.1,\
->         $(SRC_PATH)/qemu-img-cmds.hx)
->
-> -$(call define-manpage-rule,system,qemu-block-drivers.7)
-> +$(call define-manpage-rule,system,qemu-block-drivers.7 qemu-cpu-models.7=
-)
->
->  $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-versi=
-on.h
->         @mkdir -p "$(MANUAL_BUILDDIR)"
-> @@ -1104,7 +1104,6 @@ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/=
-qga-qapi-doc.texi
->
->  qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-i=
-nfo.texi
->  qemu.1: docs/system/qemu-option-trace.texi
-> -docs/system/qemu-cpu-models.7: docs/system/qemu-cpu-models.texi docs/sys=
-tem/cpu-models-x86.texi docs/system/cpu-models-mips.texi
->
->  html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-=
-ref.html sphinxdocs
->  info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-=
-ref.info
-
-The install line for qemu-cpu-models.7 also needs updating to
-include $(MANUAL_BUILDDIR).
-
-The distclean line that removes qemu-cpu-models.7 can be removed.
-
-> diff --git a/docs/conf.py b/docs/conf.py
-> index 7588bf192e..1650fc8698 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -80,7 +80,7 @@ master_doc =3D 'index'
->
->  # General information about the project.
->  project =3D u'QEMU'
-> -copyright =3D u'2019, The QEMU Project Developers'
-> +copyright =3D u'2020, The QEMU Project Developers'
->  author =3D u'The QEMU Project Developers'
->
->  # The version info for the project you're documenting, acts as replaceme=
-nt for
-
-We should indeed fix the copyright date, but not in the middle
-of this texi->rst series, and we should update the QEMU_COPYRIGHT
-macro in qemu-common.h at the same time.
-
-> diff --git a/docs/system/conf.py b/docs/system/conf.py
-> index 7ca115f5e0..8d41f4da43 100644
-> --- a/docs/system/conf.py
-> +++ b/docs/system/conf.py
-> @@ -13,10 +13,18 @@ exec(compile(open(parent_config, "rb").read(), parent=
-_config, 'exec'))
->  # This slightly misuses the 'description', but is the best way to get
->  # the manual title to appear in the sidebar.
->  html_theme_options['description'] =3D u'System Emulation User''s Guide'
-> +
-> +rst_prolog =3D '''
-> +.. include:: defs.rst.inc
-> +'''
-> +
-
-Maybe we should do this in docs/conf.py where we update
-rst_epilog with the CONFDIR replacement ?
-
-Doing the "put these replacements into a generic defs.rst.inc"
-would also be clearer in its own patch, I think.
-
->  # One entry per manual page. List of tuples
->  # (source start file, name, description, authors, manual section).
->  man_pages =3D [
->      ('qemu-block-drivers', 'qemu-block-drivers',
->       u'QEMU block drivers reference',
-> -     ['Fabrice Bellard and the QEMU Project developers'], 7)
-> +     ['Fabrice Bellard and the QEMU Project Developers'], 7),
-
-If we want to capitalize the 'D' in Developers, we should
-make that fix in its own commit, and we should update
-the QEMU_COPYRIGHT macro too, for consistency.
-
-> +    ('qemu-cpu-models', 'qemu-cpu-models',
-> +     u'QEMU CPU Models',
-> +     ['The QEMU Project Developers'], 7)
->  ]
-
-I would mention explicitly in the commit message that Dan agreed
-to the updating of the manpage's Author information to
-the more generic string.
+(In particular, this use of qemu_register_reset to arrange for
+the CPU to be reset should ideally go away in favour of having
+the CPU reset handled by the SoC which owns the CPU, so it's
+not a good long-term way to look at trying to fix ordering issues.)
 
 thanks
 -- PMM
