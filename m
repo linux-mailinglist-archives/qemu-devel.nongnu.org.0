@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D9D171620
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 12:36:21 +0100 (CET)
-Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA02717162A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 12:39:48 +0100 (CET)
+Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7HSm-0002Rl-Jg
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 06:36:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42426)
+	id 1j7HW7-0003wB-UR
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 06:39:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j7HRj-0001ua-If
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:35:16 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j7HUd-0003Fg-9R
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:38:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j7HRh-0001gc-3M
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:35:14 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:24295)
+ (envelope-from <balaton@eik.bme.hu>) id 1j7HUY-0007QI-Q8
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:38:14 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:37373)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1j7HRg-0001aL-To
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:35:13 -0500
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1j7HUT-0007Nq-Gy
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 06:38:10 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9AD5C747E01;
- Thu, 27 Feb 2020 12:35:08 +0100 (CET)
+ by localhost (Postfix) with SMTP id 8EAB77475F6;
+ Thu, 27 Feb 2020 12:38:04 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8312B747DF7; Thu, 27 Feb 2020 12:35:08 +0100 (CET)
+ id 7393B7461AE; Thu, 27 Feb 2020 12:38:04 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 81F49747DF5;
- Thu, 27 Feb 2020 12:35:08 +0100 (CET)
-Date: Thu, 27 Feb 2020 12:35:08 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 71F1D74569F;
+ Thu, 27 Feb 2020 12:38:04 +0100 (CET)
+Date: Thu, 27 Feb 2020 12:38:04 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: jasper.lowell@bt.com
 Subject: Re: [PATCH] hw/ide: Remove status register read side effect
-In-Reply-To: <ec3861e40717ef1ccfba29671e4dd42356e63cf1.camel@bt.com>
-Message-ID: <alpine.BSF.2.22.395.2002271233220.21840@zero.eik.bme.hu>
+In-Reply-To: <e7758063db7312ab052e595a508f0baa70d454dc.camel@bt.com>
+Message-ID: <alpine.BSF.2.22.395.2002271235120.21840@zero.eik.bme.hu>
 References: <20200221065015.337915-1-jasper.lowell@bt.com>
  <f432a118-f6be-d6ff-fe37-35b6244f3b97@ilande.co.uk>
  <alpine.LMD.2.03.2002222042370.1577@eik.bme.hu>
@@ -45,7 +45,6 @@ References: <20200221065015.337915-1-jasper.lowell@bt.com>
  <2e972e94627a39cf45504ed244828d065d743910.camel@bt.com> 
  <alpine.BSF.2.22.395.2002261109290.39786@zero.eik.bme.hu>
  <e7758063db7312ab052e595a508f0baa70d454dc.camel@bt.com>
- <ec3861e40717ef1ccfba29671e4dd42356e63cf1.camel@bt.com>
 User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
@@ -63,23 +62,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 27 Feb 2020, jasper.lowell@bt.com wrote:
->> I'll submit a RFC V2 patch with a proposed fix.
->
-> This will have to wait.
->
-> Recent commits have caused Solaris 10 to error out of booting much
-> earlier than previously.
+> I've since looked at a Ultra 5 board and can confirm that it shipped
+> with a CMD646U chip like the Ultra 10.
 
-Can you bisect which commit broke it? Is it the same that caused slowness 
-for arm and ppc? For that one there are patches that should fix it on the 
-list.
+If you have access to an Ultra 5 maybe you could try testing what it does 
+with irqs. That should give the ultimate answer to our guessing. It may 
+need patching a Linux driver to log more info and recompile the kernel so 
+not sure you have time for that but maybe it would help if you can do it.
 
 Regards,
 BALATON Zoltan
-
 
