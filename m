@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9553E1716EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 13:18:28 +0100 (CET)
-Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6A11716EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 13:18:33 +0100 (CET)
+Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7I7X-0008Cd-Km
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 07:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60354)
+	id 1j7I7c-0008PC-Pt
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 07:18:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60355)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <anthony.perard@citrix.com>) id 1j7I6D-00072P-FA
+ (envelope-from <anthony.perard@citrix.com>) id 1j7I6D-00072Q-F6
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1j7I6B-0001A2-Lb
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:05 -0500
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:12376)
+ (envelope-from <anthony.perard@citrix.com>) id 1j7I6B-00019x-LT
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:04 -0500
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:64917)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1j7I6B-00014j-0Y
+ id 1j7I6B-00014m-0Y
  for qemu-devel@nongnu.org; Thu, 27 Feb 2020 07:17:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=citrix.com; s=securemail; t=1582805823;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=DoHYWIF/aM2J/lXeslpKwVf4KNhLXaBsJHgw0AfGDDU=;
- b=YD0owbmDpv6wEe7ZycC5lhTumCetjrn3cSzIQ5L/Zcawe+p/0n4ViJPG
- swn4P+b5omFqURe5HptbvJn5OCU+7lixhQ8AF6EL8aTHH1uILM1U23+Ap
- gFqEwKcIqlDAPEI8zgGJnHjlacAgNIRmf3ro5W/6WXIKBFOm/xxU7b1tb c=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=8IRbE7fi2zeIru+YNuSvtho8VZpqQ7qeuz/NZSjvevc=;
+ b=V8iMZCKEziZn8Y4BIkJgJOEx8iaDiZJLUehIRLPq0qNaHuo0s9HlOGxq
+ QnavSOQhmSVRV6qW8Uo9BzRkDXQl3i8bdQFguWu1n5N5cFh+S6ijbAzN5
+ 8NU3Et38UbnIX6U1YJMR9+aMpbGygNp+wCy8SWRlgi2imM8Q7zuNQaCc7 4=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
  spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
  spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
  authenticity information available from domain of
  anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="anthony.perard@citrix.com";
  x-conformance=sidf_compatible
-Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
+Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
  anthony.perard@citrix.com designates 162.221.158.21 as
  permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="anthony.perard@citrix.com";
  x-conformance=sidf_compatible; x-record-type="v=spf1";
@@ -53,35 +53,37 @@ Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
  ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
  ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
  ip4:168.245.78.127 ~all"
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
  authenticity information available from domain of
  postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: sRQEoyydPWijGWuMmiJiXvK3c+mqU8iMp3dGC0Sz3+oNkb4GRpy4DZ1FUwYnbBdI+/dGy8B+bf
- if799pTHGmQEn3uOf3dExChhvnKLYAg7XFMwFVFr9FcVPt5kIkxy9XteeEl0sKbZViSKaDh9E0
- Q/UEy5cIH/Y6XD+OkzPAwl6k+Teic0wJtpGlPlbVzkndbtnmDGfdeppG1KW/Xmk5SuuczprPjX
- 60GJODWNne0dgW3cQkVRRa/jHFu1NsEn8785s4fhnsppbppfBydKvtO7I2w0XmcmrRxsb330U+
- wS0=
+IronPort-SDR: X6WABXO5my6vAqtmL3fiBTbQmtsXko+bec88TVAPgHel1loM5pe9b6lDJYGMLFykzkQJD3LscV
+ pvpiVbdBGJSKyKaZGxq3MQJs6/Eb+AGJd4l9F5UMRiD7zaBjc3trGFsdIxOC9FvchDq004U5Sd
+ qpUVchZJbN70SsEnDjFqRYRi107x+aNi6eoz4n8SOpRUc7kEMEDFe+zE0GudVz5M3wHmdyoxAI
+ vvq3K+dVY6/byyAbyAPJhAfzx+5rsOR4a/rpu56dzTanZlMtYxfMj1SiAbYXCd+w5pPbfmUark
+ vJ0=
 X-SBRS: 2.7
-X-MesageID: 13103979
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-MesageID: 13277762
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.70,492,1574139600"; d="scan'208";a="13103979"
+X-IronPort-AV: E=Sophos;i="5.70,492,1574139600"; d="scan'208";a="13277762"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PULL 0/3] Xen queue 2020-02-27
-Date: Thu, 27 Feb 2020 12:16:42 +0000
-Message-ID: <20200227121645.2601280-1-anthony.perard@citrix.com>
+Subject: [PULL 1/3] hw/xen/xen_pt_load_rom: Remove unused includes
+Date: Thu, 27 Feb 2020 12:16:43 +0000
+Message-ID: <20200227121645.2601280-2-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200227121645.2601280-1-anthony.perard@citrix.com>
+References: <20200227121645.2601280-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.153
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 216.71.145.142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,39 +99,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit db736e0437aa6fd7c1b7e4599c17f9619ab6b837:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-02-25 13:31:16 +0000)
+xen_pt_load_rom.c does not use any of these includes, remove them.
 
-are available in the Git repository at:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+Message-Id: <20191014142246.4538-9-philmd@redhat.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+ hw/xen/xen_pt_load_rom.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20200227
+diff --git a/hw/xen/xen_pt_load_rom.c b/hw/xen/xen_pt_load_rom.c
+index 307a5c93e235..a50a80837ea2 100644
+--- a/hw/xen/xen_pt_load_rom.c
++++ b/hw/xen/xen_pt_load_rom.c
+@@ -3,12 +3,8 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+-#include "hw/i386/pc.h"
+ #include "qemu/error-report.h"
+-#include "ui/console.h"
+ #include "hw/loader.h"
+-#include "monitor/monitor.h"
+-#include "qemu/range.h"
+ #include "hw/pci/pci.h"
+ #include "xen_pt.h"
+ 
+-- 
+Anthony PERARD
 
-for you to fetch changes up to 5d4c954931ba62661c6a1bc16ce604a012a10007:
-
-  Memory: Only call ramblock_ptr when needed in qemu_ram_writeback (2020-02-27 11:50:30 +0000)
-
-----------------------------------------------------------------
-Xen queue 2020-02-27
-
-* fix for xen-block
-* fix in exec.c for migration of xen guest
-* one cleanup patch
-
-----------------------------------------------------------------
-Anthony PERARD (1):
-      Memory: Only call ramblock_ptr when needed in qemu_ram_writeback
-
-Paul Durrant (1):
-      xen-bus/block: explicitly assign event channels to an AioContext
-
-Philippe Mathieu-Daudé (1):
-      hw/xen/xen_pt_load_rom: Remove unused includes
-
- exec.c                         |  4 ++--
- hw/block/dataplane/xen-block.c | 20 ++++++++++++++++++--
- hw/xen/xen-bus.c               | 27 +++++++++++++++++++++++----
- hw/xen/xen_pt_load_rom.c       |  4 ----
- include/hw/xen/xen-bus.h       |  5 ++++-
- 5 files changed, 47 insertions(+), 13 deletions(-)
 
