@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE74172258
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 16:36:17 +0100 (CET)
-Received: from localhost ([::1]:33502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C035E172280
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Feb 2020 16:49:13 +0100 (CET)
+Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7LCy-0001Pw-HY
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 10:36:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58081)
+	id 1j7LPU-0006gn-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 10:49:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7LCC-0000mT-AE
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:35:29 -0500
+ (envelope-from <mst@redhat.com>) id 1j7LOR-00067D-9b
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:48:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7LCB-0007ls-DX
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:35:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23785
+ (envelope-from <mst@redhat.com>) id 1j7LOP-0000C8-Dy
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:48:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33433
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7LCB-0007km-AI
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:35:27 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j7LOP-00008I-94
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 10:48:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582817726;
+ s=mimecast20190719; t=1582818482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NF4E9rOgtCZE9IThrbg7pTderyZQUYYORdAU/Nf/mUc=;
- b=hMvaTmJ3z3a+h6whsRhWtRFQVJ14h9KkJTpm44YgQdt9WE3TquZ4v0xuRuy3pQMVZgCFf7
- 6D+yReqXZn5k+S+1G8k21xAI0ASn+lX6p2f+gw5h4/rPkvx8/vZbMLkDtyOc6uuyWM0wMj
- CLBWlaxVOZpkZ/fLePdR53he47aFq2A=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281--js1bjmxOXCpdi7_DOpXVw-1; Thu, 27 Feb 2020 10:35:25 -0500
-X-MC-Unique: -js1bjmxOXCpdi7_DOpXVw-1
-Received: by mail-wr1-f70.google.com with SMTP id r1so1449699wrc.15
- for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 07:35:24 -0800 (PST)
+ bh=zR7EJtAf8dfIwDJW87HEyNejWQ7hG50HGDdE6wz3XiY=;
+ b=V7e7KwVv5GEo+cQ6bLxVeBh424Z7mIjcxr0nN9+6roiMRvaZgbWGB2eiifHX0KIFGg0+MM
+ aN8nvhNhRNj5cIAH/d0QukTf8J7768rVZH2ugasavDXXs2T/ouviccSPiNkPwr+qljpqPg
+ 5cezrqWkVVd51L1wu0uli+k1Xb3IzL8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-W_AcXetaMwO_3JlT2fpFGg-1; Thu, 27 Feb 2020 10:47:28 -0500
+X-MC-Unique: W_AcXetaMwO_3JlT2fpFGg-1
+Received: by mail-qv1-f72.google.com with SMTP id b3so4161109qvy.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Feb 2020 07:47:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qhsvCr8jZD0F4RJ22ERrwxPlGA82K7TJGhS6HMn0sFc=;
- b=WltbA3G/zWqA5fe8GTz1/p5B9x6pDSIOi1gRx5Kkwh3Kwd5Ce5OJwEAHKrWcJtOmUx
- Ul1db1nBzriv2KD2ZG/J2k2hl07aTj5Xz0KtejlwraFMhg02MSxliLZMn66KuaRkilCr
- w4C0wsRBVlrxddQv41mi76NTeggwbGwauCO/EDU4C86hxTl/kPQxze2Uj5fnhCApb6rI
- 0B8tDlI41pBJh1KI4vni72EvMsmD1ovQ4dUumlakZzyCu6f1JS5onhUsKjIqCnASQMql
- fA7RkOyOGyfjSK1jNfJ8Zvw2F/enAICyXyoTJ2M1NP8r4+zqRGUQwZ22K8dxp2pcMwge
- sxlg==
-X-Gm-Message-State: APjAAAUtAQHSikyLCG22h1KTQ6PfKhCeYtewfu3JkGVPk3vun7YNo0Ms
- KlhXKEBKkiBLWvVFj3g6QsXDJP4ttI04x9Mv7JLIEUUcZrpuNslOS4WQ+mk0f8gb4sF2jOImsNI
- Upwaf4PM9+qD7XT4=
-X-Received: by 2002:adf:a114:: with SMTP id o20mr5393477wro.7.1582817723903;
- Thu, 27 Feb 2020 07:35:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxCE8WP7/70/qfZ23012B2ERp/howwJmG7d+gDFzsPJzAQGbErLa0IDH9rHyacG7b4+m1pVKw==
-X-Received: by 2002:adf:a114:: with SMTP id o20mr5393456wro.7.1582817723695;
- Thu, 27 Feb 2020 07:35:23 -0800 (PST)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id a7sm7564161wmj.12.2020.02.27.07.35.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Feb 2020 07:35:23 -0800 (PST)
-Subject: Re: [PATCH 2/2] util/oslib-win32: Improve error report by calling
- error_setg_win32()
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200227100250.20514-1-philmd@redhat.com>
- <20200227100250.20514-3-philmd@redhat.com>
- <87zhd4ozv7.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2d967cdd-3625-5b00-a154-65781f4f7d4b@redhat.com>
-Date: Thu, 27 Feb 2020 16:35:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=otq+mXz+hXp3JPj56noj/v8obPEj17YDEIfSRpri6Xk=;
+ b=B+5M/Y8yWwmdhiJU7dTa6mpvz3w3mHxKcs+NwgfwfHPVAIzNRAN2mtuLmimB2/y4dr
+ g9bXdDQo3D6bH0OPJM9flNUtpntacQaVHH4kOX35Mho6kVehbOgmniEempFI/UlGG1mD
+ 6yagf/rdXzUbS4kaj/CLlB8t3FZwP3hrlE+MsNv7+2DT/uxGDlB2CHvTcd59Rqe4bkcu
+ bBrGmz/WSAVgKhS7pPhmQkURwbw0elUsh08uNLv1Mzgj2elZyKho9ZcjAMmpOdg8pHsJ
+ tvpeRJEfJlfHNacGWRZDweGiYAl9SgWNJUTeBokw5g/lVUO8SGA15PYJn4pZq8K+Grnb
+ 0FSQ==
+X-Gm-Message-State: APjAAAWbzlveHQWjiVTcIBR6+ZHyja4zyCrpuF+BZFKcVygcrw2cCUdE
+ w4lhlSaD8AJDBpV8r7o5uwWkNm90kawZU6WHJIRPl+v8wUpZNqzaSCParAHZPF5mkuB9KdoxnEZ
+ DS8SJzoX6fmauP9k=
+X-Received: by 2002:ae9:f30a:: with SMTP id p10mr6281177qkg.313.1582818447875; 
+ Thu, 27 Feb 2020 07:47:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwX8h3W29psivwDFRjo0CQnpY2Ha54Z7MEOBMmRyczvb13GrCLkmd0WzXkytLeqxm9RBaSoqg==
+X-Received: by 2002:ae9:f30a:: with SMTP id p10mr6281158qkg.313.1582818447649; 
+ Thu, 27 Feb 2020 07:47:27 -0800 (PST)
+Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
+ by smtp.gmail.com with ESMTPSA id
+ u49sm3409752qtb.37.2020.02.27.07.47.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Feb 2020 07:47:26 -0800 (PST)
+Date: Thu, 27 Feb 2020 10:47:22 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH V2] vhost: correctly turn on VIRTIO_F_IOMMU_PLATFORM
+Message-ID: <20200227104233-mutt-send-email-mst@kernel.org>
+References: <20200226094357.25061-1-jasowang@redhat.com>
+ <20200226142839.4263de9b.pasic@linux.ibm.com>
+ <20200226083654-mutt-send-email-mst@kernel.org>
+ <20200226163618.31aa86ed.pasic@linux.ibm.com>
+ <20200226115009-mutt-send-email-mst@kernel.org>
+ <20200227140215.2d12149c.pasic@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <87zhd4ozv7.fsf@dusky.pond.sub.org>
-Content-Language: en-US
+In-Reply-To: <20200227140215.2d12149c.pasic@linux.ibm.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -94,51 +93,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/27/20 3:42 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On Thu, Feb 27, 2020 at 02:02:15PM +0100, Halil Pasic wrote:
+> On Wed, 26 Feb 2020 11:52:26 -0500
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
 >=20
->> Use error_setg_win32() which adds a hint similar to strerror(errno)).
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   util/oslib-win32.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
->> index e9b14ab178..d2fca1808d 100644
->> --- a/util/oslib-win32.c
->> +++ b/util/oslib-win32.c
->> @@ -46,7 +46,8 @@
->>   void *qemu_oom_check(void *ptr)
->>   {
->>       if (ptr =3D=3D NULL) {
->> -        fprintf(stderr, "Failed to allocate memory: %lu\n", GetLastErro=
-r());
->> +        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError()=
-);
+> > On Wed, Feb 26, 2020 at 04:36:18PM +0100, Halil Pasic wrote:
+> > > On Wed, 26 Feb 2020 08:37:13 -0500
+> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > >=20
+> > > > On Wed, Feb 26, 2020 at 02:28:39PM +0100, Halil Pasic wrote:
+> > > > > On Wed, 26 Feb 2020 17:43:57 +0800
+> > > > > Jason Wang <jasowang@redhat.com> wrote:
+> > > > >=20
+> > > > > > We turn on device IOTLB via VIRTIO_F_IOMMU_PLATFORM uncondition=
+ally on
+> > > > > > platform without IOMMU support. This can lead unnecessary IOTLB
+> > > > > > transactions which will damage the performance.
+> > > > > >=20
+> > > > > > Fixing this by check whether the device is backed by IOMMU and =
+disable
+> > > > > > device IOTLB.
+> > > > > >=20
+> > > > > > Reported-by: Halil Pasic <pasic@linux.ibm.com>
+> > > > > > Fixes: c471ad0e9bd46 ("vhost_net: device IOTLB support")
+> > > > > > Cc: qemu-stable@nongnu.org
+> > > > > > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > > > >=20
+> > > > > Tested-by: Halil Pasic <pasic@linux.ibm.com>
+> > > > > Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+> > > > >=20
+> > > > > Thank you very much for fixing this! BTW as I mentioned before it
+> > > > > fixes vhost-vsock with iommu_platform=3Don as well.
+> > > >=20
+> > > > Fixes as in improves performance?
+> > >=20
+> > > No, fixes like one does not get something like:
+> > > qemu-system-s390x: vhost_set_features failed: Operation not supported=
+ (95)
+> > > qemu-system-s390x: Error starting vhost: 95
+> > > any more.
+> > >=20
+> > > Regards,
+> > > Halil
+> > >=20
+> > > [..]
+> >=20
+> > But can commit c471ad0e9bd46 actually boot a secure guest
+> > where iommu_platform=3Don is required?
+> >=20
 >=20
-> Since we're on a path to abort(), I wouldn't bother with g_autofree.\
+> No, of course it can not. But I'm not sure about AMD SEV. AFAIU without
+> Jason's patch it does not work for AMD SEV. Tom already stated that with
+> SEV they don't need the IOVA translation aspect of ACCESS_PLATFORM, but
+> I have no idea if the condition vdev->dma_as =3D=3D &address_space_memory
+> catches them as well or not. They probably have !=3D.
+>=20
+> CCing Tom. @Tom does vhost-vsock work for you with SEV and current qemu?
+>=20
+> Also, one can specify iommu_platform=3Don on a device that ain't a part o=
+f
+> a secure-capable VM, just for the fun of it. And that breaks
+> vhost-vsock. Or is setting iommu_platform=3Don only valid if
+> qemu-system-s390x is protected virtualization capable?
+>=20
+> BTW, I don't have a strong opinion on the fixes tag. We currently do not
+> recommend setting iommu_platform, and thus I don't think we care too
+> much about past qemus having problems with it.
+>=20
+> Regards,
+> Halil
 
-This is in case other developers copy that elsewhere.
 
->=20
->> +        fprintf(stderr, "Failed to allocate memory: %s\n", emsg);
->=20
-> Any particular reason not to use error_report()?
+Let's just say if we do have a Fixes: tag we want to set it correctly to
+the commit that needs this fix.
 
-Pre-existing call, but I can change.
-
->=20
->>           abort();
->>       }
->>       return ptr;
->=20
+--=20
+MST
 
 
