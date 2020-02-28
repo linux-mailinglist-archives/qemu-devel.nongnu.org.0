@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE989173684
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:54:23 +0100 (CET)
-Received: from localhost ([::1]:45894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E08173675
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:53:11 +0100 (CET)
+Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7eDm-000397-UU
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:54:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41381)
+	id 1j7eCc-0000cj-Lj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:53:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7e7e-0000Qn-Ee
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:03 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7e7f-0000Ro-3n
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7e7d-0001Qk-84
+ (envelope-from <philmd@redhat.com>) id 1j7e7e-0001Qz-2j
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49962
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44103
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e7b-0001QI-Ey
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:00 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e7d-0001QO-8R
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582890479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=clfu+t0nynKAESV4ABRDyRXkvPXe/x1JrxJoUGidyU8=;
- b=Mg8/aqnG5wg+38GlAPBS9AUzdAkQ7ou90jVBP6UTcwqHE/dAmR+TYrJ7dv2qsfW42F0ZgC
- 6oAzPYhP3sCqhEzIvm65DosjFLWPJEoA4BTCCyqqZswSTfbw3pxQuXKLZq22JasCsgfUtN
- baRlrHcoZq2B8ZkhN+V6zCqMmxcb80U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-Hs-GRtRMMWusOVFh-QMZ3Q-1; Fri, 28 Feb 2020 06:47:55 -0500
-X-MC-Unique: Hs-GRtRMMWusOVFh-QMZ3Q-1
-Received: by mail-wm1-f72.google.com with SMTP id m4so1051859wmi.5
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:47:55 -0800 (PST)
+ bh=oG2syAmxddzmH8pkr5M8RpghUELPZIGL0i8vM3fPgM8=;
+ b=GozzZqWD+n0mUsTSR1ocj1s+WW4MTkdVF9hzwJb2PQA2iBINKkUEt1BWWG422QnU+MgGz/
+ aE1VxINWKow3XGgkI0fEzCfesQgJ6aVoItk1gUD7UcwSRxZaZHkpu32WR2ELfNIMZ6aXF+
+ rvmvJ7TYaCVR4BSEI2HMW9pTfdogKzs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-cDCv7LXzPtmT5UliULvHrQ-1; Fri, 28 Feb 2020 06:47:57 -0500
+X-MC-Unique: cDCv7LXzPtmT5UliULvHrQ-1
+Received: by mail-wr1-f72.google.com with SMTP id c6so1209433wrm.18
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:47:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U8Eqv2g+dIkDMylSsAtJ9DdMEi7WvLS94birm3uZOd0=;
- b=P2+Egw7qHPWuWr57VDByXhmblVesimgi7lH4NuKKTMVbEwmdJDLjxDpR4xNMToPIqt
- oRq5L7IKxivsgdWTD+YxG0jYC238tKTggT1WlBhr6mj012BxD5ibE6MEm0yNms5UnYjD
- zel+jajGoYXYVV2i8tnaPcBmUiZoUraNWjG9Il/RuQK0jnFDdEC8kNBSq9K87dN/1VYX
- BdpBvsKTIzaJaZa9PMgVewXWy5DeAhAEhv1Rep14YMJDoe8u24lvHRx4dYKZlOfyWXzv
- BNCPznp0MbslkfAawhwCvSFmzHH9qZj85T5XJY/joYI3xnvrMHTzyiRm0MroDWWdjpel
- VaNA==
-X-Gm-Message-State: APjAAAUWTpGMqQxyHO9cAiTdZ1FSWBfCZx9XdAMpC2jqYkmJ/lCWiW63
- RKyixKvy6wzmjaXEwgEHb2IhY1IFifPIEjD83j7q68ERpv1HAfqkJcCxaDeDzpYm8WiXZOy4/Ud
- W7ihJXumrxJQjW+4=
-X-Received: by 2002:adf:e542:: with SMTP id z2mr4756443wrm.150.1582890473976; 
- Fri, 28 Feb 2020 03:47:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx2iWI36tGdl0VSywd6QUA69oq7tyrDCvfw5F6lrV8yE8S+cSaCD2mEtcb5YzQahCaHekJkMw==
-X-Received: by 2002:adf:e542:: with SMTP id z2mr4756429wrm.150.1582890473738; 
- Fri, 28 Feb 2020 03:47:53 -0800 (PST)
+ bh=CyFzDanqkMTdQtUsYemEsgIvaK/rIvnd/I4zWxBCovs=;
+ b=h/nGsJwiPRxktX0ANS3xni/lm/aCZBpZNsbeiUHSCyjCzRn8RhMSAV5Gm6eGRuZn+k
+ NObW0zztD9oAspIvkXZHv1YJuj4Vs9DbkwAunoLaWTonHRIc7bd2C50TY5phG8m5vgJG
+ 0EhflBcCkBZGRGlj+HdifYek38BPU7fkf5bRjSypsnu0nFoTGvsGJHKCqh+BLyMhMhpv
+ Yo8VU4t6cKHVCUr/4fLA9Pa1KYpbNsslZmUIbJ/zqxb4FOYK0NNPyG79Jqa+cZrWah54
+ ZjyB8E47l8TGh2ybHN8+iJbUc4qzJx+/RL1i9/G0LPBFz5DkiPNfaBFLAukB9CK7lzLw
+ W5yA==
+X-Gm-Message-State: APjAAAU1aq/ljn2rcWUCJhoW++Z3SaURObENFy1HPJqv3YUtkYM4rOM8
+ KyspcPS1+3cU3SewGykbPnkpBIix9krKhNF8mg0bqqurjZC+8lCnc9LvRFhmxRop79tNVoHBg91
+ VhauFMMPi7sCc80M=
+X-Received: by 2002:a1c:e483:: with SMTP id b125mr4581417wmh.187.1582890476135; 
+ Fri, 28 Feb 2020 03:47:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxoc2NmSiQbBjwvkZ7JfDbfzavlQedgqjrfKmu67Pq/AxFihGtFt1BaY87Dd2WcjsWhpewNUw==
+X-Received: by 2002:a1c:e483:: with SMTP id b125mr4581397wmh.187.1582890475900; 
+ Fri, 28 Feb 2020 03:47:55 -0800 (PST)
 Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id v8sm11901514wrw.2.2020.02.28.03.47.52
+ by smtp.gmail.com with ESMTPSA id v8sm11901514wrw.2.2020.02.28.03.47.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 03:47:53 -0800 (PST)
+ Fri, 28 Feb 2020 03:47:55 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/18] hw/alpha/dp264: Include "net/net.h"
-Date: Fri, 28 Feb 2020 12:46:39 +0100
-Message-Id: <20200228114649.12818-9-philmd@redhat.com>
+Subject: [PATCH v2 09/18] hw/hppa/machine: Include "net/net.h"
+Date: Fri, 28 Feb 2020 12:46:40 +0100
+Message-Id: <20200228114649.12818-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200228114649.12818-1-philmd@redhat.com>
 References: <20200228114649.12818-1-philmd@redhat.com>
@@ -75,7 +75,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,37 +90,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Helge Deller <deller@gmx.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw/alpha/dp264.c uses NICInfo variables which are declared in
+hw/hppa/machine.c uses NICInfo variables which are declared in
 "net/net.h". Include it.
 
 This fixes (when modifying unrelated headers):
 
-  hw/alpha/dp264.c:89:21: error: use of undeclared identifier 'nb_nics'
+  hw/hppa/machine.c:126:21: error: use of undeclared identifier 'nb_nics'
       for (i =3D 0; i < nb_nics; i++) {
                       ^
-  hw/alpha/dp264.c:90:30: error: use of undeclared identifier 'nd_table'
+  hw/hppa/machine.c:127:30: error: use of undeclared identifier 'nd_table'
           pci_nic_init_nofail(&nd_table[i], pci_bus, "e1000", NULL);
                                ^
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/alpha/dp264.c | 1 +
+ hw/hppa/machine.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 8d71a30617..e264c783c1 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -21,6 +21,7 @@
- #include "hw/dma/i8257.h"
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 67181e75ba..d1e59a97f6 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -22,6 +22,7 @@
+ #include "qapi/error.h"
  #include "net/net.h"
- #include "qemu/cutils.h"
+ #include "qemu/log.h"
 +#include "net/net.h"
 =20
  #define MAX_IDE_BUS 2
