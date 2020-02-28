@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA90173DC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:00:44 +0100 (CET)
-Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98BD173DE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:05:45 +0100 (CET)
+Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7j0F-0002ru-6w
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:00:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56636)
+	id 1j7j56-0001nL-OS
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:05:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifO-0007wH-7s
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:11 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifR-00083L-SS
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifM-0001zk-SA
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:10 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41893)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifQ-00022s-QK
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36851)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifM-0001zI-Le
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:08 -0500
-Received: by mail-wr1-x441.google.com with SMTP id v4so3642525wrs.8
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:08 -0800 (PST)
+ id 1j7ifP-00021W-K8
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:12 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id g83so1709756wme.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=H9vgJ1xHyPTbz5vgbyrb9N1PuwfNuQ0QSjFXbJuKM48=;
- b=d8Hb5eA9ftrUsULuODN5juju2IgEVy3sSpUaHbbx40qsXUSO0tstmosyZGiCCxCgSn
- BwaFsgunCSR/zn8S7qeheUXcXy/3WoCYzvW1whaS/PAF56jkXw7bpIYM1a9O4FjoWOUw
- 3ZVazTWpVuO4e3U/6DotxWHHIF13uI4UQ4LNCFgVYRCNYgiZ2N08ns7re5l6k1UBnGqp
- /FHLI7ybJJC2DyA5xro6z5EI7ctJ0CrANiY7+3eaob9I6wN9vOsaae3XdFcvNASKTnXc
- ur6WopbvutIUp352T1q2SklM/qlBfa7Bab93PPVWGpcuUu4TBpQYyUFK+iRnHQ41F3u4
- i4Vw==
+ bh=OBBHRjdd80h8GtLACN+1yFyC+k5vRKdVFPA1E7huKbI=;
+ b=U75JsSpQT1vVB3OOXFAOHq6euP/J+fYRnOqpPa8FQSXG2fF/MiydB+qIwEvqCuanvt
+ TLG4g/pMYlrF/DkDOtdYRVZXxviBLJf3/V0DypgS2edUjuSyFkcfpQ4rXYA/1kErUbGI
+ b609CsLPqTOQdXOY3ifQkv0/6glv8DKNTp7+xoQlxqN7jnQiCUl4q+jEvnLQwwHq4axI
+ kCmx739Wgo7r/ysvuV65Y59475fL0IADpql4LKtsf8jOvKllTRy0GvdiWzO0H+RqvGJ4
+ Lyg0nUOVQLxWvxErR0uOIjYltcZ2z+3KSlKeTik1FuYqDbNyvuhjSXqnyfEgzzvVhYab
+ bn0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H9vgJ1xHyPTbz5vgbyrb9N1PuwfNuQ0QSjFXbJuKM48=;
- b=HfBnz32/SYn+BfgwoljVCw5Ls7QxQM89tKUImh6ozmYnjupQ3P361aTc8rRsrxNzly
- ++dl2OuSOy3ekpGOODo1Z5W7irLpsLvdrDFZq3+OK1Dp7XYJMz2954A56UAK2OSS8XEH
- PFe+w50ctJ1LB7eSG2pdADUfCswsFnTGyE3KoNF+gPj4UiqsXgfYc9atn/O47lyo1iV2
- 7zR4dKI1J0t8IxXqbMQUK7KyvSHupMJH/W8EkLv9VR6n2ILzxQdfAB0laOv5WXjXfa1/
- m1ZNFeJSPcGDetrdJlnz1tUVWuqsfFpwrDGwtwZ43QbPFecoSRTH0+22FkmDr5MPIz24
- dasA==
-X-Gm-Message-State: APjAAAVgH2D1iEast/tFW0NMPSqrs54RS4WIGiNrkblbG4qkwlEtbhPB
- r0yqZ+8vcFKVPI5AwEyMdyMj8iQ9x+dOiw==
-X-Google-Smtp-Source: APXvYqxxwZQ7PBWv2Y8MJOjF7eRG/uFopVTTz+P1pdFAQlaoz3nM0HpVUnWZNUtodiJgmUxQIGgWIA==
-X-Received: by 2002:a5d:5007:: with SMTP id e7mr5661156wrt.228.1582907947340; 
- Fri, 28 Feb 2020 08:39:07 -0800 (PST)
+ bh=OBBHRjdd80h8GtLACN+1yFyC+k5vRKdVFPA1E7huKbI=;
+ b=KxDG6RsGz7x/xXd2CwMflNkkFLY4+6AWqueB2OOFMUwkHl61cnSZzgQQpkk9YZ/xTF
+ lDxj+e/BkUVc///GbFJC4vyZugrrkCMc9Q7yCJc0PdkhxbkRMf3we0uZvwfwFu1a2Feu
+ 6KiI77Mzxm0ZXhPCwH9GTaZlt1Swb45YwVbi93oJUHo9Ht8uxV/GTtl5ismaJK7/PHzu
+ 952ziW0vn865YPKe64SKqf4LYe3A7SywS5eLQFIhI4IhhuQv5uCIjcN4bO0wWgJDPXZ1
+ dEc9x/6T9e2XO6GLYvZ+QkxGB+p6wp+my2YjYbqeeXaDMJkOPjtZtFf1Rq9dgjhxcdbS
+ sKrg==
+X-Gm-Message-State: APjAAAVt10iYrVvrdhxbw+TMTBvFPfP5E/ntadTJhRetMSQII797eMsl
+ FFd9pykSetkWp+VQF7rQMZKZLAicVSfu8w==
+X-Google-Smtp-Source: APXvYqwF8AR7LyDXP84gYasKjIsrc5E3BFRmgLhvzQthdDZcpB6Nt+We8Wst4WonzMY1TMW6MbFqHw==
+X-Received: by 2002:a1c:2504:: with SMTP id l4mr5770429wml.72.1582907950410;
+ Fri, 28 Feb 2020 08:39:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.06
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:06 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:09 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/33] target/arm: Split VFM decode
-Date: Fri, 28 Feb 2020 16:38:28 +0000
-Message-Id: <20200228163840.23585-22-peter.maydell@linaro.org>
+Subject: [PULL 24/33] hw/usb/hcd-ehci-sysbus: Remove obsolete xlnx,
+ ps7-usb class
+Date: Fri, 28 Feb 2020 16:38:31 +0000
+Message-Id: <20200228163840.23585-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,148 +82,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Guenter Roeck <linux@roeck-us.net>
 
-Passing the raw o1 and o2 fields from the manual is less
-instructive than it might be.  Do the full decode and let
-the trans_* functions pass in booleans to a helper.
+Xilinx USB devices are now instantiated through TYPE_CHIPIDEA,
+and xlnx support in the EHCI code is no longer needed.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200224222232.13807-17-richard.henderson@linaro.org
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20200215122354.13706-3-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-vfp.inc.c | 52 ++++++++++++++++++++++++++++++----
- target/arm/vfp.decode          | 17 +++++------
- 2 files changed, 55 insertions(+), 14 deletions(-)
+ hw/usb/hcd-ehci-sysbus.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 1964af3ea5e..41aa67c133a 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1784,7 +1784,7 @@ static bool trans_VDIV_dp(DisasContext *s, arg_VDIV_dp *a)
-     return do_vfp_3op_dp(s, gen_helper_vfp_divd, a->vd, a->vn, a->vm, false);
- }
+diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
+index b22fb258be7..5b7991cffe4 100644
+--- a/hw/usb/hcd-ehci-sysbus.c
++++ b/hw/usb/hcd-ehci-sysbus.c
+@@ -115,22 +115,6 @@ static const TypeInfo ehci_platform_type_info = {
+     .class_init    = ehci_platform_class_init,
+ };
  
--static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
-+static bool do_vfm_sp(DisasContext *s, arg_VFMA_sp *a, bool neg_n, bool neg_d)
+-static void ehci_xlnx_class_init(ObjectClass *oc, void *data)
+-{
+-    SysBusEHCIClass *sec = SYS_BUS_EHCI_CLASS(oc);
+-    DeviceClass *dc = DEVICE_CLASS(oc);
+-
+-    set_bit(DEVICE_CATEGORY_USB, dc->categories);
+-    sec->capsbase = 0x100;
+-    sec->opregbase = 0x140;
+-}
+-
+-static const TypeInfo ehci_xlnx_type_info = {
+-    .name          = "xlnx,ps7-usb",
+-    .parent        = TYPE_SYS_BUS_EHCI,
+-    .class_init    = ehci_xlnx_class_init,
+-};
+-
+ static void ehci_exynos4210_class_init(ObjectClass *oc, void *data)
  {
-     /*
-      * VFNMA : fd = muladd(-fd,  fn, fm)
-@@ -1828,12 +1828,12 @@ static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
- 
-     neon_load_reg32(vn, a->vn);
-     neon_load_reg32(vm, a->vm);
--    if (a->o2) {
-+    if (neg_n) {
-         /* VFNMS, VFMS */
-         gen_helper_vfp_negs(vn, vn);
-     }
-     neon_load_reg32(vd, a->vd);
--    if (a->o1 & 1) {
-+    if (neg_d) {
-         /* VFNMA, VFNMS */
-         gen_helper_vfp_negs(vd, vd);
-     }
-@@ -1849,7 +1849,27 @@ static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
-     return true;
- }
- 
--static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
-+static bool trans_VFMA_sp(DisasContext *s, arg_VFMA_sp *a)
-+{
-+    return do_vfm_sp(s, a, false, false);
-+}
-+
-+static bool trans_VFMS_sp(DisasContext *s, arg_VFMS_sp *a)
-+{
-+    return do_vfm_sp(s, a, true, false);
-+}
-+
-+static bool trans_VFNMA_sp(DisasContext *s, arg_VFNMA_sp *a)
-+{
-+    return do_vfm_sp(s, a, false, true);
-+}
-+
-+static bool trans_VFNMS_sp(DisasContext *s, arg_VFNMS_sp *a)
-+{
-+    return do_vfm_sp(s, a, true, true);
-+}
-+
-+static bool do_vfm_dp(DisasContext *s, arg_VFMA_dp *a, bool neg_n, bool neg_d)
+     SysBusEHCIClass *sec = SYS_BUS_EHCI_CLASS(oc);
+@@ -267,7 +251,6 @@ static void ehci_sysbus_register_types(void)
  {
-     /*
-      * VFNMA : fd = muladd(-fd,  fn, fm)
-@@ -1905,12 +1925,12 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
- 
-     neon_load_reg64(vn, a->vn);
-     neon_load_reg64(vm, a->vm);
--    if (a->o2) {
-+    if (neg_n) {
-         /* VFNMS, VFMS */
-         gen_helper_vfp_negd(vn, vn);
-     }
-     neon_load_reg64(vd, a->vd);
--    if (a->o1 & 1) {
-+    if (neg_d) {
-         /* VFNMA, VFNMS */
-         gen_helper_vfp_negd(vd, vd);
-     }
-@@ -1926,6 +1946,26 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
-     return true;
- }
- 
-+static bool trans_VFMA_dp(DisasContext *s, arg_VFMA_dp *a)
-+{
-+    return do_vfm_dp(s, a, false, false);
-+}
-+
-+static bool trans_VFMS_dp(DisasContext *s, arg_VFMS_dp *a)
-+{
-+    return do_vfm_dp(s, a, true, false);
-+}
-+
-+static bool trans_VFNMA_dp(DisasContext *s, arg_VFNMA_dp *a)
-+{
-+    return do_vfm_dp(s, a, false, true);
-+}
-+
-+static bool trans_VFNMS_dp(DisasContext *s, arg_VFNMS_dp *a)
-+{
-+    return do_vfm_dp(s, a, true, true);
-+}
-+
- static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- {
-     uint32_t delta_d = 0;
-diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
-index 4f294f88be5..5fd70f975ae 100644
---- a/target/arm/vfp.decode
-+++ b/target/arm/vfp.decode
-@@ -130,14 +130,15 @@ VSUB_dp      ---- 1110 0.11 .... .... 1011 .1.0 ....        @vfp_dnm_d
- VDIV_sp      ---- 1110 1.00 .... .... 1010 .0.0 ....        @vfp_dnm_s
- VDIV_dp      ---- 1110 1.00 .... .... 1011 .0.0 ....        @vfp_dnm_d
- 
--VFM_sp       ---- 1110 1.01 .... .... 1010 . o2:1 . 0 .... \
--             vm=%vm_sp vn=%vn_sp vd=%vd_sp o1=1
--VFM_dp       ---- 1110 1.01 .... .... 1011 . o2:1 . 0 .... \
--             vm=%vm_dp vn=%vn_dp vd=%vd_dp o1=1
--VFM_sp       ---- 1110 1.10 .... .... 1010 . o2:1 . 0 .... \
--             vm=%vm_sp vn=%vn_sp vd=%vd_sp o1=2
--VFM_dp       ---- 1110 1.10 .... .... 1011 . o2:1 . 0 .... \
--             vm=%vm_dp vn=%vn_dp vd=%vd_dp o1=2
-+VFMA_sp      ---- 1110 1.10 .... .... 1010 .0. 0 ....       @vfp_dnm_s
-+VFMS_sp      ---- 1110 1.10 .... .... 1010 .1. 0 ....       @vfp_dnm_s
-+VFNMA_sp     ---- 1110 1.01 .... .... 1010 .0. 0 ....       @vfp_dnm_s
-+VFNMS_sp     ---- 1110 1.01 .... .... 1010 .1. 0 ....       @vfp_dnm_s
-+
-+VFMA_dp      ---- 1110 1.10 .... .... 1011 .0.0 ....        @vfp_dnm_d
-+VFMS_dp      ---- 1110 1.10 .... .... 1011 .1.0 ....        @vfp_dnm_d
-+VFNMA_dp     ---- 1110 1.01 .... .... 1011 .0.0 ....        @vfp_dnm_d
-+VFNMS_dp     ---- 1110 1.01 .... .... 1011 .1.0 ....        @vfp_dnm_d
- 
- VMOV_imm_sp  ---- 1110 1.11 .... .... 1010 0000 .... \
-              vd=%vd_sp imm=%vmov_imm
+     type_register_static(&ehci_type_info);
+     type_register_static(&ehci_platform_type_info);
+-    type_register_static(&ehci_xlnx_type_info);
+     type_register_static(&ehci_exynos4210_type_info);
+     type_register_static(&ehci_tegra2_type_info);
+     type_register_static(&ehci_ppc4xx_type_info);
 -- 
 2.20.1
 
