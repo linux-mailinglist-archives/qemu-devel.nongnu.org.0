@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61DA173BC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:41:32 +0100 (CET)
-Received: from localhost ([::1]:48781 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AE2173BF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:43:44 +0100 (CET)
+Received: from localhost ([::1]:48837 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7hlb-0000ow-QO
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:41:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
+	id 1j7hnj-0004p3-DL
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:43:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hh0-0000rD-1S
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hh6-0000zO-Dg
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hgx-0004rg-Ux
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:45 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44522)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hh1-0004wA-Dl
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:52 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44320)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7hgx-0004qD-5u
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:43 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id m16so3380707wrx.11
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:36:42 -0800 (PST)
+ id 1j7hh1-0004uf-1G
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:47 -0500
+Received: by mail-wr1-x441.google.com with SMTP id m16so3380973wrx.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:36:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1qH5La37KEV9R9z7SQcENrituOq/0oVA8fORkvGZMyY=;
- b=k6gqnNLEO6r+m4eVJzHzZb8jCscjkLQ4nOb3LqxKaQ98LruQDscTcFJINJzccNFACy
- LPOIypa5SYiKQzHjB3im8fEMw4QjxEty4rRSB2A8fcN78IxfMLtAdVsbqlDmyopV016u
- zNHpMADrrpZC1sdoYIyQWhtW48AXzjlyYUr55V7p830iEk1SDzLaNBFb6cuOl99Jnek4
- tOli5N8HUyW2aXqbvojOtIlycxan6OdHSe5GBcrjZOH5KX4iIzLKZVJiUmTd6hfRfcek
- +x85XU32mXDmhBX2V0jtjJF//IRSHl3OPsbKXDr7AIqNPqeypFvUrew/wJp29O6pVUog
- pl+Q==
+ bh=2Wu1GF7uuyjbZddtLt9/7M58HEXRoYMmNVlhGgGf97c=;
+ b=pZ7eukDhXLMtjusrDl9j/rVYz3HpWREz38Tn48Fl6p8XpFhztiYT2HR5fJ4fKOw/1X
+ mV8VMvIyvZ7adyFUitkb3ETk/9Muj8DxrWDqjqo8WN0eWp8DZg1StOptMNHu/7SXJnB6
+ wmTPuj0OCNkokhNMLRMKET22L3QUrTWO0JIiKFUSaVNBm/AIwXb0HMFKn31G4De+4qR3
+ WIEJgjW6Y5NGBzu9ddGVXJZTiT/83fy+xNfQg2iGKrpL/fsf8bv/p8xOVsYJslZAVciA
+ t4Rz+5hbxVEYghxWGLIPX1Fzv4QIFmhTJTU+ohFxeldIXX7kVE/WV4u2ZqOE5XcK/Ik5
+ UypQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1qH5La37KEV9R9z7SQcENrituOq/0oVA8fORkvGZMyY=;
- b=LjKkYlLQtOrMMhCPNfnxe4ynC9qZL1RSnoDkj7dVDoLZxkQ2C0TC8K7CO551Dsidbm
- oXkGIldg2qVnzwimG/NB+3oAui0Omue9V/rb67xgyoIOYbD/5G9wXML9bz0pNeNHLoRk
- mBWqzH6YRbgki/us0gSZVM5Rr05wKW0IQ1zFqFAda+Ww1csnZcL5OssZiglIk1TmqDkK
- s2ogULS6CeXdKcPVbYXQd82Q/Fid02M6P+UuzJ1UkhSbN9AYawRtjk3s6n/fHwlC/3qy
- 7zQiL3Nkdpw9IUkxVEoUE/1NLMp9yo8zznHZLCMXvJuYPJeFrF+RgUgYDmDL8k5acXmQ
- y8fQ==
-X-Gm-Message-State: APjAAAU/clgkEDSmujRhgFkQnaneIGoEJt+lUz9Kw2CukdW/IdCWbci2
- 9CpAcZqxuihRU2hhi5zSgP3TRL9fdklLBA==
-X-Google-Smtp-Source: APXvYqyYyQvjN72B+qtS+y56NGoD5TAMlIRrQlN4dViF2nSzz35che1TQJG2lFn+U+1L5poQq/rbDQ==
-X-Received: by 2002:adf:f611:: with SMTP id t17mr5691030wrp.38.1582904201432; 
- Fri, 28 Feb 2020 07:36:41 -0800 (PST)
+ bh=2Wu1GF7uuyjbZddtLt9/7M58HEXRoYMmNVlhGgGf97c=;
+ b=OPvJeW2kVp2NaWQy/QUBi3b9gB/CUbb3Mjy8rhMWCC0gE/VkuQvxt9WeJ1qJ0shCt/
+ yQDMIDI4gbIiGHImroK8W8+3SC6N++m6PIAeHnrC4jCSEPNaduzA6zrnsa8DoNqrX4Rc
+ v+PecCx3wc7bKBujkcQ94EH06MHNBV6d/EYLW39Yt/YpX5YfN2wbHIGQ5rt3TyfJA8Ns
+ uxjFIqsnDveVPDQTXH6hfiKjHENI/z5Sd6FWzzzXip5C4rQ5Nzn3qi1a27QpEBQH4JUa
+ ZA6Huk4+LymB+UgyswULDbKurxTrorGiCPiss4d6f6L02vHkXyIhJK6t3z2pY431jcCn
+ hMvA==
+X-Gm-Message-State: APjAAAUwfh0mtRKnRae74pfGGF/IrfUYQFtQYPUYF1YxtoqmClfP5yEF
+ perrNi5ndPaIe3pYYy8j6jPvqhpNDs12hA==
+X-Google-Smtp-Source: APXvYqzMugBLlTcYrHEWnwCgQh0zCQDIux3vZsmnSCWPMDqZHJtN9kqAQ0hXVfCgVKtzZ83brG3DAA==
+X-Received: by 2002:a5d:4491:: with SMTP id j17mr284269wrq.152.1582904203881; 
+ Fri, 28 Feb 2020 07:36:43 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.36.40
+ by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.36.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 07:36:40 -0800 (PST)
+ Fri, 28 Feb 2020 07:36:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/33] qemu-doc: remove indices other than findex
-Date: Fri, 28 Feb 2020 15:35:58 +0000
-Message-Id: <20200228153619.9906-13-peter.maydell@linaro.org>
+Subject: [PATCH v3 13/33] docs/system: put qemu-block-drivers body in an
+ included file
+Date: Fri, 28 Feb 2020 15:35:59 +0000
+Message-Id: <20200228153619.9906-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228153619.9906-1-peter.maydell@linaro.org>
 References: <20200228153619.9906-1-peter.maydell@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,307 +85,1202 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-These indices are not well-maintained, and pandoc also chokes on the
-directives.  Just nuke them.
+This removes the "only" directives, and lets us use the conventional
+"DESCRIPTION" section in the manpage.
+
+This temporarily drops the qemu-block-drivers documentation
+from the system manual, but it will be put back (in the
+right place in the toctree) in a later commit.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20200226113034.6741-13-pbonzini@redhat.com
+Message-id: 20200226113034.6741-14-pbonzini@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+[PMM: Added commit message note about temporarily losing
+qemu-block-drivers from the system manual]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/keys.texi           | 10 --------
- docs/system/monitor.texi        |  1 -
- docs/system/mux-chardev.texi    |  7 ------
- docs/system/quickstart.texi     |  1 -
- docs/system/target-arm.texi     |  1 -
- docs/system/target-i386.texi    |  1 -
- docs/system/target-m68k.texi    |  2 --
- docs/system/target-mips.texi    |  2 --
- docs/system/target-ppc.texi     |  1 -
- docs/system/target-sparc.texi   |  1 -
- docs/system/target-sparc64.texi |  1 -
- docs/system/target-xtensa.texi  |  1 -
- qemu-doc.texi                   | 44 ---------------------------------
- 13 files changed, 73 deletions(-)
+ docs/system/index.rst                         |   1 -
+ docs/system/qemu-block-drivers.rst            | 987 +-----------------
+ ...drivers.rst => qemu-block-drivers.rst.inc} |  59 +-
+ 3 files changed, 26 insertions(+), 1021 deletions(-)
+ copy docs/system/{qemu-block-drivers.rst => qemu-block-drivers.rst.inc} (96%)
 
-diff --git a/docs/system/keys.texi b/docs/system/keys.texi
-index 4c74b3bf4dd..c04daf54f23 100644
---- a/docs/system/keys.texi
-+++ b/docs/system/keys.texi
-@@ -10,23 +10,18 @@ then the modifier is Ctrl-Alt-Shift (instead of Ctrl-Alt) and if you use
+diff --git a/docs/system/index.rst b/docs/system/index.rst
+index 1a4b2c82ace..fc774a18b54 100644
+--- a/docs/system/index.rst
++++ b/docs/system/index.rst
+@@ -14,5 +14,4 @@ Contents:
+ .. toctree::
+    :maxdepth: 2
  
- @table @key
- @item Ctrl-Alt-f
--@kindex Ctrl-Alt-f
- Toggle full screen
+-   qemu-block-drivers
+    vfio-ap
+diff --git a/docs/system/qemu-block-drivers.rst b/docs/system/qemu-block-drivers.rst
+index 388adbefbf4..7ca890ea23a 100644
+--- a/docs/system/qemu-block-drivers.rst
++++ b/docs/system/qemu-block-drivers.rst
+@@ -1,985 +1,22 @@
++:orphan:
++
+ QEMU block drivers reference
+ ============================
  
- @item Ctrl-Alt-+
--@kindex Ctrl-Alt-+
- Enlarge the screen
+ .. |qemu_system| replace:: qemu-system-x86_64
  
- @item Ctrl-Alt--
--@kindex Ctrl-Alt--
- Shrink the screen
+-..
+-   We put the 'Synopsis' and 'See also' sections into the manpage, but not
+-   the HTML. This makes the HTML docs read better and means the ToC in
+-   the index has a more useful set of entries. Ideally, the section
+-   headings 'Disk image file formats' would be top-level headings for
+-   the HTML, but sub-headings of the conventional manpage 'Description'
+-   header for the manpage. Unfortunately, due to deficiencies in
+-   the Sphinx 'only' directive, this isn't possible: they must be headers
+-   at the same level as 'Synopsis' and 'See also', otherwise Sphinx's
+-   identification of which header underline style is which gets confused.
++Synopsis
++--------
  
- @item Ctrl-Alt-u
--@kindex Ctrl-Alt-u
- Restore the screen's un-scaled dimensions
+-.. only:: man
++QEMU block driver reference manual
  
- @item Ctrl-Alt-n
--@kindex Ctrl-Alt-n
- Switch to virtual console 'n'. Standard console mappings are:
- @table @emph
- @item 1
-@@ -38,14 +33,9 @@ Serial port
- @end table
+-  Synopsis
+-  --------
++Description
++-----------
  
- @item Ctrl-Alt
--@kindex Ctrl-Alt
- Toggle mouse and keyboard grab.
- @end table
+-  QEMU block driver reference manual
++.. include:: qemu-block-drivers.rst.inc
  
--@kindex Ctrl-Up
--@kindex Ctrl-Down
--@kindex Ctrl-PageUp
--@kindex Ctrl-PageDown
- In the virtual consoles, you can use @key{Ctrl-Up}, @key{Ctrl-Down},
- @key{Ctrl-PageUp} and @key{Ctrl-PageDown} to move in the back log.
+-Disk image file formats
+------------------------
++See also
++--------
  
-diff --git a/docs/system/monitor.texi b/docs/system/monitor.texi
-index c5b6a9b38e4..b41b144885d 100644
---- a/docs/system/monitor.texi
-+++ b/docs/system/monitor.texi
-@@ -1,6 +1,5 @@
- @node pcsys_monitor
- @section QEMU Monitor
--@cindex QEMU monitor
- 
- The QEMU monitor is used to give complex commands to the QEMU
- emulator. You can use it to:
-diff --git a/docs/system/mux-chardev.texi b/docs/system/mux-chardev.texi
-index c9a2d14cb88..b21c2c56540 100644
---- a/docs/system/mux-chardev.texi
-+++ b/docs/system/mux-chardev.texi
-@@ -12,26 +12,19 @@ you're using the default.
- 
- @table @key
- @item Ctrl-a h
--@kindex Ctrl-a h
- Print this help
- @item Ctrl-a x
--@kindex Ctrl-a x
- Exit emulator
- @item Ctrl-a s
--@kindex Ctrl-a s
- Save disk data back to file (if -snapshot)
- @item Ctrl-a t
--@kindex Ctrl-a t
- Toggle console timestamps
- @item Ctrl-a b
--@kindex Ctrl-a b
- Send break (magic sysrq in Linux)
- @item Ctrl-a c
--@kindex Ctrl-a c
- Rotate between the frontends connected to the multiplexer (usually
- this switches between the monitor and the console)
- @item Ctrl-a Ctrl-a
--@kindex Ctrl-a Ctrl-a
- Send the escape character to the frontend
- @end table
- @c man end
-diff --git a/docs/system/quickstart.texi b/docs/system/quickstart.texi
-index ed7295de7a2..baceaa96eb2 100644
---- a/docs/system/quickstart.texi
-+++ b/docs/system/quickstart.texi
-@@ -1,6 +1,5 @@
- @node pcsys_quickstart
- @section Quick Start
--@cindex quick start
- 
- Download and uncompress a PC hard disk image with Linux installed (e.g.
- @file{linux.img}) and type:
-diff --git a/docs/system/target-arm.texi b/docs/system/target-arm.texi
-index 040d77b5e05..c56b5f6ebfe 100644
---- a/docs/system/target-arm.texi
-+++ b/docs/system/target-arm.texi
-@@ -1,6 +1,5 @@
- @node ARM System emulator
- @section ARM System emulator
--@cindex system emulation (ARM)
- 
- Use the executable @file{qemu-system-arm} to simulate a ARM
- machine. The ARM Integrator/CP board is emulated with the following
-diff --git a/docs/system/target-i386.texi b/docs/system/target-i386.texi
-index edd23fa8df5..cc352b89a84 100644
---- a/docs/system/target-i386.texi
-+++ b/docs/system/target-i386.texi
-@@ -1,6 +1,5 @@
- @node x86 (PC) System emulator
- @section x86 (PC) System emulator
--@cindex system emulation (PC)
- 
- @menu
- * pcsys_devices::      Peripherals
-diff --git a/docs/system/target-m68k.texi b/docs/system/target-m68k.texi
-index b5bc9df40ae..a77b19ea0f1 100644
---- a/docs/system/target-m68k.texi
-+++ b/docs/system/target-m68k.texi
-@@ -1,7 +1,5 @@
- @node ColdFire System emulator
- @section ColdFire System emulator
--@cindex system emulation (ColdFire)
--@cindex system emulation (M68K)
- 
- Use the executable @file{qemu-system-m68k} to simulate a ColdFire machine.
- The emulator is able to boot a uClinux kernel.
-diff --git a/docs/system/target-mips.texi b/docs/system/target-mips.texi
-index f722c00912a..fe12ee94c73 100644
---- a/docs/system/target-mips.texi
-+++ b/docs/system/target-mips.texi
-@@ -1,6 +1,5 @@
- @node MIPS System emulator
- @section MIPS System emulator
--@cindex system emulation (MIPS)
- 
- @menu
- * recommendations_cpu_models_MIPS:: Supported CPU model configurations on MIPS hosts
-@@ -126,7 +125,6 @@ MIPSnet network emulation
- 
- @node nanoMIPS System emulator
- @subsection nanoMIPS System emulator
--@cindex system emulation (nanoMIPS)
- 
- Executable @file{qemu-system-mipsel} also covers simulation of
- 32-bit nanoMIPS system in little endian mode:
-diff --git a/docs/system/target-ppc.texi b/docs/system/target-ppc.texi
-index c2c254d3d23..55f98f65b12 100644
---- a/docs/system/target-ppc.texi
-+++ b/docs/system/target-ppc.texi
-@@ -1,6 +1,5 @@
- @node PowerPC System emulator
- @section PowerPC System emulator
--@cindex system emulation (PowerPC)
- 
- Use the executable @file{qemu-system-ppc} to simulate a complete 40P (PREP)
- or PowerMac PowerPC system.
-diff --git a/docs/system/target-sparc.texi b/docs/system/target-sparc.texi
-index 7fe0aec9c39..7748001f734 100644
---- a/docs/system/target-sparc.texi
-+++ b/docs/system/target-sparc.texi
-@@ -1,6 +1,5 @@
- @node Sparc32 System emulator
- @section Sparc32 System emulator
--@cindex system emulation (Sparc32)
- 
- Use the executable @file{qemu-system-sparc} to simulate the following
- Sun4m architecture machines:
-diff --git a/docs/system/target-sparc64.texi b/docs/system/target-sparc64.texi
-index 9e7a27de0ce..4db4ca3842b 100644
---- a/docs/system/target-sparc64.texi
-+++ b/docs/system/target-sparc64.texi
-@@ -1,6 +1,5 @@
- @node Sparc64 System emulator
- @section Sparc64 System emulator
--@cindex system emulation (Sparc64)
- 
- Use the executable @file{qemu-system-sparc64} to simulate a Sun4u
- (UltraSPARC PC-like machine), Sun4v (T1 PC-like machine), or generic
-diff --git a/docs/system/target-xtensa.texi b/docs/system/target-xtensa.texi
-index 08b0b362991..40327de6fa7 100644
---- a/docs/system/target-xtensa.texi
-+++ b/docs/system/target-xtensa.texi
-@@ -1,6 +1,5 @@
- @node Xtensa System emulator
- @section Xtensa System emulator
--@cindex system emulation (Xtensa)
- 
- Two executables cover simulation of both Xtensa endian options,
- @file{qemu-system-xtensa} and @file{qemu-system-xtensaeb}.
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index d3e743719ab..c2b9c87c645 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -62,17 +62,14 @@
- QEMU is a FAST! processor emulator using dynamic translation to
- achieve good emulation speed.
- 
--@cindex operating modes
- QEMU has two operating modes:
- 
- @itemize
--@cindex system emulation
- @item Full system emulation. In this mode, QEMU emulates a full system (for
- example a PC), including one or several processors and various
- peripherals. It can be used to launch different Operating Systems
- without rebooting the PC or to debug system code.
- 
--@cindex user mode emulation
- @item User mode emulation. In this mode, QEMU can launch
- processes compiled for one CPU on another CPU. It can be used to
- launch the Wine Windows API emulator (@url{https://www.winehq.org}) or
-@@ -127,7 +124,6 @@ accelerator is required to use more than one host CPU for emulation.
- 
- @node QEMU System emulator
- @chapter QEMU System emulator
--@cindex system emulation
- 
- @menu
- * pcsys_quickstart::   Quick start
-@@ -163,7 +159,6 @@ accelerator is required to use more than one host CPU for emulation.
- 
- @node QEMU System emulator targets
- @chapter QEMU System emulator targets
--@cindex system emulation (PC)
- 
- QEMU is a generic emulator and it emulates many machines. Most of the
- options are similar for all machines. Specific information about the
-@@ -200,46 +195,7 @@ various targets are mentioned in the following sections.
- 
- @node Index
- @appendix Index
--@menu
--* Concept Index::
--* Function Index::
--* Keystroke Index::
--* Program Index::
--* Data Type Index::
--* Variable Index::
--@end menu
- 
--@node Concept Index
--@section Concept Index
--This is the main index. Should we combine all keywords in one index? TODO
--@printindex cp
+-QEMU supports many image file formats that can be used with VMs as well as with
+-any of the tools (like ``qemu-img``). This includes the preferred formats
+-raw and qcow2 as well as formats that are supported for compatibility with
+-older QEMU versions or other hypervisors.
 -
--@node Function Index
--@section Function Index
--This index could be used for command line options and monitor functions.
- @printindex fn
+-Depending on the image format, different options can be passed to
+-``qemu-img create`` and ``qemu-img convert`` using the ``-o`` option.
+-This section describes each format and the options that are supported for it.
+-
+-.. program:: image-formats
+-.. option:: raw
+-
+-  Raw disk image format. This format has the advantage of
+-  being simple and easily exportable to all other emulators. If your
+-  file system supports *holes* (for example in ext2 or ext3 on
+-  Linux or NTFS on Windows), then only the written sectors will reserve
+-  space. Use ``qemu-img info`` to know the real size used by the
+-  image or ``ls -ls`` on Unix/Linux.
+-
+-  Supported options:
+-
+-  .. program:: raw
+-  .. option:: preallocation
+-
+-    Preallocation mode (allowed values: ``off``, ``falloc``,
+-    ``full``). ``falloc`` mode preallocates space for image by
+-    calling ``posix_fallocate()``. ``full`` mode preallocates space
+-    for image by writing data to underlying storage. This data may or
+-    may not be zero, depending on the storage location.
+-
+-.. program:: image-formats
+-.. option:: qcow2
+-
+-  QEMU image format, the most versatile format. Use it to have smaller
+-  images (useful if your filesystem does not supports holes, for example
+-  on Windows), zlib based compression and support of multiple VM
+-  snapshots.
+-
+-  Supported options:
+-
+-  .. program:: qcow2
+-  .. option:: compat
+-
+-    Determines the qcow2 version to use. ``compat=0.10`` uses the
+-    traditional image format that can be read by any QEMU since 0.10.
+-    ``compat=1.1`` enables image format extensions that only QEMU 1.1 and
+-    newer understand (this is the default). Amongst others, this includes
+-    zero clusters, which allow efficient copy-on-read for sparse images.
+-
+-  .. option:: backing_file
+-
+-    File name of a base image (see ``create`` subcommand)
+-
+-  .. option:: backing_fmt
+-
+-    Image format of the base image
+-
+-  .. option:: encryption
+-
+-    This option is deprecated and equivalent to ``encrypt.format=aes``
+-
+-  .. option:: encrypt.format
+-
+-    If this is set to ``luks``, it requests that the qcow2 payload (not
+-    qcow2 header) be encrypted using the LUKS format. The passphrase to
+-    use to unlock the LUKS key slot is given by the ``encrypt.key-secret``
+-    parameter. LUKS encryption parameters can be tuned with the other
+-    ``encrypt.*`` parameters.
+-
+-    If this is set to ``aes``, the image is encrypted with 128-bit AES-CBC.
+-    The encryption key is given by the ``encrypt.key-secret`` parameter.
+-    This encryption format is considered to be flawed by modern cryptography
+-    standards, suffering from a number of design problems:
+-
+-    - The AES-CBC cipher is used with predictable initialization vectors based
+-      on the sector number. This makes it vulnerable to chosen plaintext attacks
+-      which can reveal the existence of encrypted data.
+-    - The user passphrase is directly used as the encryption key. A poorly
+-      chosen or short passphrase will compromise the security of the encryption.
+-    - In the event of the passphrase being compromised there is no way to
+-      change the passphrase to protect data in any qcow images. The files must
+-      be cloned, using a different encryption passphrase in the new file. The
+-      original file must then be securely erased using a program like shred,
+-      though even this is ineffective with many modern storage technologies.
+-
+-    The use of this is no longer supported in system emulators. Support only
+-    remains in the command line utilities, for the purposes of data liberation
+-    and interoperability with old versions of QEMU. The ``luks`` format
+-    should be used instead.
+-
+-  .. option:: encrypt.key-secret
+-
+-    Provides the ID of a ``secret`` object that contains the passphrase
+-    (``encrypt.format=luks``) or encryption key (``encrypt.format=aes``).
+-
+-  .. option:: encrypt.cipher-alg
+-
+-    Name of the cipher algorithm and key length. Currently defaults
+-    to ``aes-256``. Only used when ``encrypt.format=luks``.
+-
+-  .. option:: encrypt.cipher-mode
+-
+-    Name of the encryption mode to use. Currently defaults to ``xts``.
+-    Only used when ``encrypt.format=luks``.
+-
+-  .. option:: encrypt.ivgen-alg
+-
+-    Name of the initialization vector generator algorithm. Currently defaults
+-    to ``plain64``. Only used when ``encrypt.format=luks``.
+-
+-  .. option:: encrypt.ivgen-hash-alg
+-
+-    Name of the hash algorithm to use with the initialization vector generator
+-    (if required). Defaults to ``sha256``. Only used when ``encrypt.format=luks``.
+-
+-  .. option:: encrypt.hash-alg
+-
+-    Name of the hash algorithm to use for PBKDF algorithm
+-    Defaults to ``sha256``. Only used when ``encrypt.format=luks``.
+-
+-  .. option:: encrypt.iter-time
+-
+-    Amount of time, in milliseconds, to use for PBKDF algorithm per key slot.
+-    Defaults to ``2000``. Only used when ``encrypt.format=luks``.
+-
+-  .. option:: cluster_size
+-
+-    Changes the qcow2 cluster size (must be between 512 and 2M). Smaller cluster
+-    sizes can improve the image file size whereas larger cluster sizes generally
+-    provide better performance.
+-
+-  .. option:: preallocation
+-
+-    Preallocation mode (allowed values: ``off``, ``metadata``, ``falloc``,
+-    ``full``). An image with preallocated metadata is initially larger but can
+-    improve performance when the image needs to grow. ``falloc`` and ``full``
+-    preallocations are like the same options of ``raw`` format, but sets up
+-    metadata also.
+-
+-  .. option:: lazy_refcounts
+-
+-    If this option is set to ``on``, reference count updates are postponed with
+-    the goal of avoiding metadata I/O and improving performance. This is
+-    particularly interesting with :option:`cache=writethrough` which doesn't batch
+-    metadata updates. The tradeoff is that after a host crash, the reference count
+-    tables must be rebuilt, i.e. on the next open an (automatic) ``qemu-img
+-    check -r all`` is required, which may take some time.
+-
+-    This option can only be enabled if ``compat=1.1`` is specified.
+-
+-  .. option:: nocow
+-
+-    If this option is set to ``on``, it will turn off COW of the file. It's only
+-    valid on btrfs, no effect on other file systems.
+-
+-    Btrfs has low performance when hosting a VM image file, even more
+-    when the guest on the VM also using btrfs as file system. Turning off
+-    COW is a way to mitigate this bad performance. Generally there are two
+-    ways to turn off COW on btrfs:
+-
+-    - Disable it by mounting with nodatacow, then all newly created files
+-      will be NOCOW.
+-    - For an empty file, add the NOCOW file attribute. That's what this
+-      option does.
+-
+-    Note: this option is only valid to new or empty files. If there is
+-    an existing file which is COW and has data blocks already, it couldn't
+-    be changed to NOCOW by setting ``nocow=on``. One can issue ``lsattr
+-    filename`` to check if the NOCOW flag is set or not (Capital 'C' is
+-    NOCOW flag).
+-
+-.. program:: image-formats
+-.. option:: qed
+-
+-   Old QEMU image format with support for backing files and compact image files
+-   (when your filesystem or transport medium does not support holes).
+-
+-   When converting QED images to qcow2, you might want to consider using the
+-   ``lazy_refcounts=on`` option to get a more QED-like behaviour.
+-
+-   Supported options:
+-
+-   .. program:: qed
+-   .. option:: backing_file
+-
+-      File name of a base image (see ``create`` subcommand).
+-
+-   .. option:: backing_fmt
+-
+-     Image file format of backing file (optional).  Useful if the format cannot be
+-     autodetected because it has no header, like some vhd/vpc files.
+-
+-   .. option:: cluster_size
+-
+-     Changes the cluster size (must be power-of-2 between 4K and 64K). Smaller
+-     cluster sizes can improve the image file size whereas larger cluster sizes
+-     generally provide better performance.
+-
+-   .. option:: table_size
+-
+-     Changes the number of clusters per L1/L2 table (must be
+-     power-of-2 between 1 and 16).  There is normally no need to
+-     change this value but this option can between used for
+-     performance benchmarking.
+-
+-.. program:: image-formats
+-.. option:: qcow
+-
+-  Old QEMU image format with support for backing files, compact image files,
+-  encryption and compression.
+-
+-  Supported options:
+-
+-   .. program:: qcow
+-   .. option:: backing_file
+-
+-     File name of a base image (see ``create`` subcommand)
+-
+-   .. option:: encryption
+-
+-     This option is deprecated and equivalent to ``encrypt.format=aes``
+-
+-   .. option:: encrypt.format
+-
+-     If this is set to ``aes``, the image is encrypted with 128-bit AES-CBC.
+-     The encryption key is given by the ``encrypt.key-secret`` parameter.
+-     This encryption format is considered to be flawed by modern cryptography
+-     standards, suffering from a number of design problems enumerated previously
+-     against the ``qcow2`` image format.
+-
+-     The use of this is no longer supported in system emulators. Support only
+-     remains in the command line utilities, for the purposes of data liberation
+-     and interoperability with old versions of QEMU.
+-
+-     Users requiring native encryption should use the ``qcow2`` format
+-     instead with ``encrypt.format=luks``.
+-
+-   .. option:: encrypt.key-secret
+-
+-     Provides the ID of a ``secret`` object that contains the encryption
+-     key (``encrypt.format=aes``).
+-
+-.. program:: image-formats
+-.. option:: luks
+-
+-  LUKS v1 encryption format, compatible with Linux dm-crypt/cryptsetup
+-
+-  Supported options:
+-
+-  .. program:: luks
+-  .. option:: key-secret
+-
+-    Provides the ID of a ``secret`` object that contains the passphrase.
+-
+-  .. option:: cipher-alg
+-
+-    Name of the cipher algorithm and key length. Currently defaults
+-    to ``aes-256``.
+-
+-  .. option:: cipher-mode
+-
+-    Name of the encryption mode to use. Currently defaults to ``xts``.
+-
+-  .. option:: ivgen-alg
+-
+-    Name of the initialization vector generator algorithm. Currently defaults
+-    to ``plain64``.
+-
+-  .. option:: ivgen-hash-alg
+-
+-    Name of the hash algorithm to use with the initialization vector generator
+-    (if required). Defaults to ``sha256``.
+-
+-  .. option:: hash-alg
+-
+-    Name of the hash algorithm to use for PBKDF algorithm
+-    Defaults to ``sha256``.
+-
+-  .. option:: iter-time
+-
+-    Amount of time, in milliseconds, to use for PBKDF algorithm per key slot.
+-    Defaults to ``2000``.
+-
+-.. program:: image-formats
+-.. option:: vdi
+-
+-  VirtualBox 1.1 compatible image format.
+-
+-  Supported options:
+-
+-  .. program:: vdi
+-  .. option:: static
+-
+-    If this option is set to ``on``, the image is created with metadata
+-    preallocation.
+-
+-.. program:: image-formats
+-.. option:: vmdk
+-
+-  VMware 3 and 4 compatible image format.
+-
+-  Supported options:
+-
+-  .. program: vmdk
+-  .. option:: backing_file
+-
+-    File name of a base image (see ``create`` subcommand).
+-
+-  .. option:: compat6
+-
+-    Create a VMDK version 6 image (instead of version 4)
+-
+-  .. option:: hwversion
+-
+-    Specify vmdk virtual hardware version. Compat6 flag cannot be enabled
+-    if hwversion is specified.
+-
+-  .. option:: subformat
+-
+-    Specifies which VMDK subformat to use. Valid options are
+-    ``monolithicSparse`` (default),
+-    ``monolithicFlat``,
+-    ``twoGbMaxExtentSparse``,
+-    ``twoGbMaxExtentFlat`` and
+-    ``streamOptimized``.
+-
+-.. program:: image-formats
+-.. option:: vpc
+-
+-  VirtualPC compatible image format (VHD).
+-
+-  Supported options:
+-
+-  .. program:: vpc
+-  .. option:: subformat
+-
+-    Specifies which VHD subformat to use. Valid options are
+-    ``dynamic`` (default) and ``fixed``.
+-
+-.. program:: image-formats
+-.. option:: VHDX
+-
+-  Hyper-V compatible image format (VHDX).
+-
+-  Supported options:
+-
+-  .. program:: VHDX
+-  .. option:: subformat
+-
+-    Specifies which VHDX subformat to use. Valid options are
+-    ``dynamic`` (default) and ``fixed``.
+-
+-    .. option:: block_state_zero
+-
+-      Force use of payload blocks of type 'ZERO'.  Can be set to ``on`` (default)
+-      or ``off``.  When set to ``off``, new blocks will be created as
+-      ``PAYLOAD_BLOCK_NOT_PRESENT``, which means parsers are free to return
+-      arbitrary data for those blocks.  Do not set to ``off`` when using
+-      ``qemu-img convert`` with ``subformat=dynamic``.
+-
+-    .. option:: block_size
+-
+-      Block size; min 1 MB, max 256 MB.  0 means auto-calculate based on
+-      image size.
+-
+-    .. option:: log_size
+-
+-      Log size; min 1 MB.
+-
+-Read-only formats
+------------------
+-
+-More disk image file formats are supported in a read-only mode.
+-
+-.. program:: image-formats
+-.. option:: bochs
+-
+-  Bochs images of ``growing`` type.
+-
+-.. program:: image-formats
+-.. option:: cloop
+-
+-  Linux Compressed Loop image, useful only to reuse directly compressed
+-  CD-ROM images present for example in the Knoppix CD-ROMs.
+-
+-.. program:: image-formats
+-.. option:: dmg
+-
+-  Apple disk image.
+-
+-.. program:: image-formats
+-.. option:: parallels
+-
+-  Parallels disk image format.
+-
+-Using host drives
+------------------
+-
+-In addition to disk image files, QEMU can directly access host
+-devices. We describe here the usage for QEMU version >= 0.8.3.
+-
+-Linux
+-'''''
+-
+-On Linux, you can directly use the host device filename instead of a
+-disk image filename provided you have enough privileges to access
+-it. For example, use ``/dev/cdrom`` to access to the CDROM.
+-
+-CD
+-  You can specify a CDROM device even if no CDROM is loaded. QEMU has
+-  specific code to detect CDROM insertion or removal. CDROM ejection by
+-  the guest OS is supported. Currently only data CDs are supported.
+-
+-Floppy
+-  You can specify a floppy device even if no floppy is loaded. Floppy
+-  removal is currently not detected accurately (if you change floppy
+-  without doing floppy access while the floppy is not loaded, the guest
+-  OS will think that the same floppy is loaded).
+-  Use of the host's floppy device is deprecated, and support for it will
+-  be removed in a future release.
+-
+-Hard disks
+-  Hard disks can be used. Normally you must specify the whole disk
+-  (``/dev/hdb`` instead of ``/dev/hdb1``) so that the guest OS can
+-  see it as a partitioned disk. WARNING: unless you know what you do, it
+-  is better to only make READ-ONLY accesses to the hard disk otherwise
+-  you may corrupt your host data (use the ``-snapshot`` command
+-  line option or modify the device permissions accordingly).
+-
+-Windows
+-'''''''
+-
+-CD
+-  The preferred syntax is the drive letter (e.g. ``d:``). The
+-  alternate syntax ``\\.\d:`` is supported. ``/dev/cdrom`` is
+-  supported as an alias to the first CDROM drive.
+-
+-  Currently there is no specific code to handle removable media, so it
+-  is better to use the ``change`` or ``eject`` monitor commands to
+-  change or eject media.
+-
+-Hard disks
+-  Hard disks can be used with the syntax: ``\\.\PhysicalDriveN``
+-  where *N* is the drive number (0 is the first hard disk).
+-
+-  WARNING: unless you know what you do, it is better to only make
+-  READ-ONLY accesses to the hard disk otherwise you may corrupt your
+-  host data (use the ``-snapshot`` command line so that the
+-  modifications are written in a temporary file).
+-
+-Mac OS X
+-''''''''
+-
+-``/dev/cdrom`` is an alias to the first CDROM.
+-
+-Currently there is no specific code to handle removable media, so it
+-is better to use the ``change`` or ``eject`` monitor commands to
+-change or eject media.
+-
+-Virtual FAT disk images
+------------------------
+-
+-QEMU can automatically create a virtual FAT disk image from a
+-directory tree. In order to use it, just type:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux.img -hdb fat:/my_directory
+-
+-Then you access access to all the files in the ``/my_directory``
+-directory without having to copy them in a disk image or to export
+-them via SAMBA or NFS. The default access is *read-only*.
+-
+-Floppies can be emulated with the ``:floppy:`` option:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux.img -fda fat:floppy:/my_directory
+-
+-A read/write support is available for testing (beta stage) with the
+-``:rw:`` option:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux.img -fda fat:floppy:rw:/my_directory
+-
+-What you should *never* do:
+-
+-- use non-ASCII filenames
+-- use "-snapshot" together with ":rw:"
+-- expect it to work when loadvm'ing
+-- write to the FAT directory on the host system while accessing it with the guest system
+-
+-NBD access
+-----------
+-
+-QEMU can access directly to block device exported using the Network Block Device
+-protocol.
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux.img -hdb nbd://my_nbd_server.mydomain.org:1024/
+-
+-If the NBD server is located on the same host, you can use an unix socket instead
+-of an inet socket:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux.img -hdb nbd+unix://?socket=/tmp/my_socket
+-
+-In this case, the block device must be exported using qemu-nbd:
+-
+-.. parsed-literal::
+-
+-  qemu-nbd --socket=/tmp/my_socket my_disk.qcow2
+-
+-The use of qemu-nbd allows sharing of a disk between several guests:
+-
+-.. parsed-literal::
+-
+-  qemu-nbd --socket=/tmp/my_socket --share=2 my_disk.qcow2
+-
+-and then you can use it with two guests:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux1.img -hdb nbd+unix://?socket=/tmp/my_socket
+-  |qemu_system| linux2.img -hdb nbd+unix://?socket=/tmp/my_socket
+-
+-If the nbd-server uses named exports (supported since NBD 2.9.18, or with QEMU's
+-own embedded NBD server), you must specify an export name in the URI:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| -cdrom nbd://localhost/debian-500-ppc-netinst
+-  |qemu_system| -cdrom nbd://localhost/openSUSE-11.1-ppc-netinst
+-
+-The URI syntax for NBD is supported since QEMU 1.3.  An alternative syntax is
+-also available.  Here are some example of the older syntax:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| linux.img -hdb nbd:my_nbd_server.mydomain.org:1024
+-  |qemu_system| linux2.img -hdb nbd:unix:/tmp/my_socket
+-  |qemu_system| -cdrom nbd:localhost:10809:exportname=debian-500-ppc-netinst
+-
+-
+-
+-Sheepdog disk images
+---------------------
+-
+-Sheepdog is a distributed storage system for QEMU.  It provides highly
+-available block level storage volumes that can be attached to
+-QEMU-based virtual machines.
+-
+-You can create a Sheepdog disk image with the command:
+-
+-.. parsed-literal::
+-
+-  qemu-img create sheepdog:///IMAGE SIZE
+-
+-where *IMAGE* is the Sheepdog image name and *SIZE* is its
+-size.
+-
+-To import the existing *FILENAME* to Sheepdog, you can use a
+-convert command.
+-
+-.. parsed-literal::
+-
+-  qemu-img convert FILENAME sheepdog:///IMAGE
+-
+-You can boot from the Sheepdog disk image with the command:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| sheepdog:///IMAGE
+-
+-You can also create a snapshot of the Sheepdog image like qcow2.
+-
+-.. parsed-literal::
+-
+-  qemu-img snapshot -c TAG sheepdog:///IMAGE
+-
+-where *TAG* is a tag name of the newly created snapshot.
+-
+-To boot from the Sheepdog snapshot, specify the tag name of the
+-snapshot.
+-
+-.. parsed-literal::
+-
+-  |qemu_system| sheepdog:///IMAGE#TAG
+-
+-You can create a cloned image from the existing snapshot.
+-
+-.. parsed-literal::
+-
+-  qemu-img create -b sheepdog:///BASE#TAG sheepdog:///IMAGE
+-
+-where *BASE* is an image name of the source snapshot and *TAG*
+-is its tag name.
+-
+-You can use an unix socket instead of an inet socket:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| sheepdog+unix:///IMAGE?socket=PATH
+-
+-If the Sheepdog daemon doesn't run on the local host, you need to
+-specify one of the Sheepdog servers to connect to.
+-
+-.. parsed-literal::
+-
+-  qemu-img create sheepdog://HOSTNAME:PORT/IMAGE SIZE
+-  |qemu_system| sheepdog://HOSTNAME:PORT/IMAGE
+-
+-iSCSI LUNs
+-----------
+-
+-iSCSI is a popular protocol used to access SCSI devices across a computer
+-network.
+-
+-There are two different ways iSCSI devices can be used by QEMU.
+-
+-The first method is to mount the iSCSI LUN on the host, and make it appear as
+-any other ordinary SCSI device on the host and then to access this device as a
+-/dev/sd device from QEMU. How to do this differs between host OSes.
+-
+-The second method involves using the iSCSI initiator that is built into
+-QEMU. This provides a mechanism that works the same way regardless of which
+-host OS you are running QEMU on. This section will describe this second method
+-of using iSCSI together with QEMU.
+-
+-In QEMU, iSCSI devices are described using special iSCSI URLs. URL syntax:
+-
+-::
+-
+-  iscsi://[<username>[%<password>]@]<host>[:<port>]/<target-iqn-name>/<lun>
+-
+-Username and password are optional and only used if your target is set up
+-using CHAP authentication for access control.
+-Alternatively the username and password can also be set via environment
+-variables to have these not show up in the process list:
+-
+-::
+-
+-  export LIBISCSI_CHAP_USERNAME=<username>
+-  export LIBISCSI_CHAP_PASSWORD=<password>
+-  iscsi://<host>/<target-iqn-name>/<lun>
+-
+-Various session related parameters can be set via special options, either
+-in a configuration file provided via '-readconfig' or directly on the
+-command line.
+-
+-If the initiator-name is not specified qemu will use a default name
+-of 'iqn.2008-11.org.linux-kvm[:<uuid>'] where <uuid> is the UUID of the
+-virtual machine. If the UUID is not specified qemu will use
+-'iqn.2008-11.org.linux-kvm[:<name>'] where <name> is the name of the
+-virtual machine.
+-
+-Setting a specific initiator name to use when logging in to the target:
+-
+-::
+-
+-  -iscsi initiator-name=iqn.qemu.test:my-initiator
+-
+-Controlling which type of header digest to negotiate with the target:
+-
+-::
+-
+-  -iscsi header-digest=CRC32C|CRC32C-NONE|NONE-CRC32C|NONE
+-
+-These can also be set via a configuration file:
+-
+-::
+-
+-  [iscsi]
+-    user = "CHAP username"
+-    password = "CHAP password"
+-    initiator-name = "iqn.qemu.test:my-initiator"
+-    # header digest is one of CRC32C|CRC32C-NONE|NONE-CRC32C|NONE
+-    header-digest = "CRC32C"
+-
+-Setting the target name allows different options for different targets:
+-
+-::
+-
+-  [iscsi "iqn.target.name"]
+-    user = "CHAP username"
+-    password = "CHAP password"
+-    initiator-name = "iqn.qemu.test:my-initiator"
+-    # header digest is one of CRC32C|CRC32C-NONE|NONE-CRC32C|NONE
+-    header-digest = "CRC32C"
+-
+-How to use a configuration file to set iSCSI configuration options:
+-
+-.. parsed-literal::
+-
+-  cat >iscsi.conf <<EOF
+-  [iscsi]
+-    user = "me"
+-    password = "my password"
+-    initiator-name = "iqn.qemu.test:my-initiator"
+-    header-digest = "CRC32C"
+-  EOF
+-
+-  |qemu_system| -drive file=iscsi://127.0.0.1/iqn.qemu.test/1 \\
+-    -readconfig iscsi.conf
+-
+-How to set up a simple iSCSI target on loopback and access it via QEMU:
+-this example shows how to set up an iSCSI target with one CDROM and one DISK
+-using the Linux STGT software target. This target is available on Red Hat based
+-systems as the package 'scsi-target-utils'.
+-
+-.. parsed-literal::
+-
+-  tgtd --iscsi portal=127.0.0.1:3260
+-  tgtadm --lld iscsi --op new --mode target --tid 1 -T iqn.qemu.test
+-  tgtadm --lld iscsi --mode logicalunit --op new --tid 1 --lun 1 \\
+-      -b /IMAGES/disk.img --device-type=disk
+-  tgtadm --lld iscsi --mode logicalunit --op new --tid 1 --lun 2 \\
+-      -b /IMAGES/cd.iso --device-type=cd
+-  tgtadm --lld iscsi --op bind --mode target --tid 1 -I ALL
+-
+-  |qemu_system| -iscsi initiator-name=iqn.qemu.test:my-initiator \\
+-    -boot d -drive file=iscsi://127.0.0.1/iqn.qemu.test/1 \\
+-    -cdrom iscsi://127.0.0.1/iqn.qemu.test/2
+-
+-GlusterFS disk images
+----------------------
+-
+-GlusterFS is a user space distributed file system.
+-
+-You can boot from the GlusterFS disk image with the command:
+-
+-URI:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| -drive file=gluster[+TYPE]://[HOST}[:PORT]]/VOLUME/PATH
+-                               [?socket=...][,file.debug=9][,file.logfile=...]
+-
+-JSON:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| 'json:{"driver":"qcow2",
+-                           "file":{"driver":"gluster",
+-                                    "volume":"testvol","path":"a.img","debug":9,"logfile":"...",
+-                                    "server":[{"type":"tcp","host":"...","port":"..."},
+-                                              {"type":"unix","socket":"..."}]}}'
+-
+-*gluster* is the protocol.
+-
+-*TYPE* specifies the transport type used to connect to gluster
+-management daemon (glusterd). Valid transport types are
+-tcp and unix. In the URI form, if a transport type isn't specified,
+-then tcp type is assumed.
+-
+-*HOST* specifies the server where the volume file specification for
+-the given volume resides. This can be either a hostname or an ipv4 address.
+-If transport type is unix, then *HOST* field should not be specified.
+-Instead *socket* field needs to be populated with the path to unix domain
+-socket.
+-
+-*PORT* is the port number on which glusterd is listening. This is optional
+-and if not specified, it defaults to port 24007. If the transport type is unix,
+-then *PORT* should not be specified.
+-
+-*VOLUME* is the name of the gluster volume which contains the disk image.
+-
+-*PATH* is the path to the actual disk image that resides on gluster volume.
+-
+-*debug* is the logging level of the gluster protocol driver. Debug levels
+-are 0-9, with 9 being the most verbose, and 0 representing no debugging output.
+-The default level is 4. The current logging levels defined in the gluster source
+-are 0 - None, 1 - Emergency, 2 - Alert, 3 - Critical, 4 - Error, 5 - Warning,
+-6 - Notice, 7 - Info, 8 - Debug, 9 - Trace
+-
+-*logfile* is a commandline option to mention log file path which helps in
+-logging to the specified file and also help in persisting the gfapi logs. The
+-default is stderr.
+-
+-You can create a GlusterFS disk image with the command:
+-
+-.. parsed-literal::
+-
+-  qemu-img create gluster://HOST/VOLUME/PATH SIZE
+-
+-Examples
+-
+-.. parsed-literal::
+-
+-  |qemu_system| -drive file=gluster://1.2.3.4/testvol/a.img
+-  |qemu_system| -drive file=gluster+tcp://1.2.3.4/testvol/a.img
+-  |qemu_system| -drive file=gluster+tcp://1.2.3.4:24007/testvol/dir/a.img
+-  |qemu_system| -drive file=gluster+tcp://[1:2:3:4:5:6:7:8]/testvol/dir/a.img
+-  |qemu_system| -drive file=gluster+tcp://[1:2:3:4:5:6:7:8]:24007/testvol/dir/a.img
+-  |qemu_system| -drive file=gluster+tcp://server.domain.com:24007/testvol/dir/a.img
+-  |qemu_system| -drive file=gluster+unix:///testvol/dir/a.img?socket=/tmp/glusterd.socket
+-  |qemu_system| -drive file=gluster+rdma://1.2.3.4:24007/testvol/a.img
+-  |qemu_system| -drive file=gluster://1.2.3.4/testvol/a.img,file.debug=9,file.logfile=/var/log/qemu-gluster.log
+-  |qemu_system| 'json:{"driver":"qcow2",
+-                           "file":{"driver":"gluster",
+-                                    "volume":"testvol","path":"a.img",
+-                                    "debug":9,"logfile":"/var/log/qemu-gluster.log",
+-                                    "server":[{"type":"tcp","host":"1.2.3.4","port":24007},
+-                                              {"type":"unix","socket":"/var/run/glusterd.socket"}]}}'
+-  |qemu_system| -drive driver=qcow2,file.driver=gluster,file.volume=testvol,file.path=/path/a.img,
+-                                       file.debug=9,file.logfile=/var/log/qemu-gluster.log,
+-                                       file.server.0.type=tcp,file.server.0.host=1.2.3.4,file.server.0.port=24007,
+-                                       file.server.1.type=unix,file.server.1.socket=/var/run/glusterd.socket
+-
+-Secure Shell (ssh) disk images
+-------------------------------
+-
+-You can access disk images located on a remote ssh server
+-by using the ssh protocol:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| -drive file=ssh://[USER@]SERVER[:PORT]/PATH[?host_key_check=HOST_KEY_CHECK]
+-
+-Alternative syntax using properties:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| -drive file.driver=ssh[,file.user=USER],file.host=SERVER[,file.port=PORT],file.path=PATH[,file.host_key_check=HOST_KEY_CHECK]
+-
+-*ssh* is the protocol.
+-
+-*USER* is the remote user.  If not specified, then the local
+-username is tried.
+-
+-*SERVER* specifies the remote ssh server.  Any ssh server can be
+-used, but it must implement the sftp-server protocol.  Most Unix/Linux
+-systems should work without requiring any extra configuration.
+-
+-*PORT* is the port number on which sshd is listening.  By default
+-the standard ssh port (22) is used.
+-
+-*PATH* is the path to the disk image.
+-
+-The optional *HOST_KEY_CHECK* parameter controls how the remote
+-host's key is checked.  The default is ``yes`` which means to use
+-the local ``.ssh/known_hosts`` file.  Setting this to ``no``
+-turns off known-hosts checking.  Or you can check that the host key
+-matches a specific fingerprint:
+-``host_key_check=md5:78:45:8e:14:57:4f:d5:45:83:0a:0e:f3:49:82:c9:c8``
+-(``sha1:`` can also be used as a prefix, but note that OpenSSH
+-tools only use MD5 to print fingerprints).
+-
+-Currently authentication must be done using ssh-agent.  Other
+-authentication methods may be supported in future.
+-
+-Note: Many ssh servers do not support an ``fsync``-style operation.
+-The ssh driver cannot guarantee that disk flush requests are
+-obeyed, and this causes a risk of disk corruption if the remote
+-server or network goes down during writes.  The driver will
+-print a warning when ``fsync`` is not supported:
+-
+-::
+-
+-  warning: ssh server ssh.example.com:22 does not support fsync
+-
+-With sufficiently new versions of libssh and OpenSSH, ``fsync`` is
+-supported.
+-
+-NVMe disk images
+-----------------
+-
+-NVM Express (NVMe) storage controllers can be accessed directly by a userspace
+-driver in QEMU.  This bypasses the host kernel file system and block layers
+-while retaining QEMU block layer functionalities, such as block jobs, I/O
+-throttling, image formats, etc.  Disk I/O performance is typically higher than
+-with ``-drive file=/dev/sda`` using either thread pool or linux-aio.
+-
+-The controller will be exclusively used by the QEMU process once started. To be
+-able to share storage between multiple VMs and other applications on the host,
+-please use the file based protocols.
+-
+-Before starting QEMU, bind the host NVMe controller to the host vfio-pci
+-driver.  For example:
+-
+-.. parsed-literal::
+-
+-  # modprobe vfio-pci
+-  # lspci -n -s 0000:06:0d.0
+-  06:0d.0 0401: 1102:0002 (rev 08)
+-  # echo 0000:06:0d.0 > /sys/bus/pci/devices/0000:06:0d.0/driver/unbind
+-  # echo 1102 0002 > /sys/bus/pci/drivers/vfio-pci/new_id
+-
+-  # |qemu_system| -drive file=nvme://HOST:BUS:SLOT.FUNC/NAMESPACE
+-
+-Alternative syntax using properties:
+-
+-.. parsed-literal::
+-
+-  |qemu_system| -drive file.driver=nvme,file.device=HOST:BUS:SLOT.FUNC,file.namespace=NAMESPACE
+-
+-*HOST*:*BUS*:*SLOT*.\ *FUNC* is the NVMe controller's PCI device
+-address on the host.
+-
+-*NAMESPACE* is the NVMe namespace number, starting from 1.
+-
+-Disk image file locking
+------------------------
+-
+-By default, QEMU tries to protect image files from unexpected concurrent
+-access, as long as it's supported by the block protocol driver and host
+-operating system. If multiple QEMU processes (including QEMU emulators and
+-utilities) try to open the same image with conflicting accessing modes, all but
+-the first one will get an error.
+-
+-This feature is currently supported by the file protocol on Linux with the Open
+-File Descriptor (OFD) locking API, and can be configured to fall back to POSIX
+-locking if the POSIX host doesn't support Linux OFD locking.
+-
+-To explicitly enable image locking, specify "locking=on" in the file protocol
+-driver options. If OFD locking is not possible, a warning will be printed and
+-the POSIX locking API will be used. In this case there is a risk that the lock
+-will get silently lost when doing hot plugging and block jobs, due to the
+-shortcomings of the POSIX locking API.
+-
+-QEMU transparently handles lock handover during shared storage migration.  For
+-shared virtual disk images between multiple VMs, the "share-rw" device option
+-should be used.
+-
+-By default, the guest has exclusive write access to its disk image. If the
+-guest can safely share the disk image with other writers the
+-``-device ...,share-rw=on`` parameter can be used.  This is only safe if
+-the guest is running software, such as a cluster file system, that
+-coordinates disk accesses to avoid corruption.
+-
+-Note that share-rw=on only declares the guest's ability to share the disk.
+-Some QEMU features, such as image file formats, require exclusive write access
+-to the disk image and this is unaffected by the share-rw=on option.
+-
+-Alternatively, locking can be fully disabled by "locking=off" block device
+-option. In the command line, the option is usually in the form of
+-"file.locking=off" as the protocol driver is normally placed as a "file" child
+-under a format driver. For example:
+-
+-::
+-
+-  -blockdev driver=qcow2,file.filename=/path/to/image,file.locking=off,file.driver=file
+-
+-To check if image locking is active, check the output of the "lslocks" command
+-on host and see if there are locks held by the QEMU process on the image file.
+-More than one byte could be locked by the QEMU instance, each byte of which
+-reflects a particular permission that is acquired or protected by the running
+-block driver.
+-
+-.. only:: man
+-
+-  See also
+-  --------
+-
+-  The HTML documentation of QEMU for more precise information and Linux
+-  user mode emulator invocation.
++The HTML documentation of QEMU for more precise information and Linux
++user mode emulator invocation.
+diff --git a/docs/system/qemu-block-drivers.rst b/docs/system/qemu-block-drivers.rst.inc
+similarity index 96%
+copy from docs/system/qemu-block-drivers.rst
+copy to docs/system/qemu-block-drivers.rst.inc
+index 388adbefbf4..b052a6d14e2 100644
+--- a/docs/system/qemu-block-drivers.rst
++++ b/docs/system/qemu-block-drivers.rst.inc
+@@ -1,28 +1,5 @@
+-QEMU block drivers reference
+-============================
+-
+-.. |qemu_system| replace:: qemu-system-x86_64
+-
+-..
+-   We put the 'Synopsis' and 'See also' sections into the manpage, but not
+-   the HTML. This makes the HTML docs read better and means the ToC in
+-   the index has a more useful set of entries. Ideally, the section
+-   headings 'Disk image file formats' would be top-level headings for
+-   the HTML, but sub-headings of the conventional manpage 'Description'
+-   header for the manpage. Unfortunately, due to deficiencies in
+-   the Sphinx 'only' directive, this isn't possible: they must be headers
+-   at the same level as 'Synopsis' and 'See also', otherwise Sphinx's
+-   identification of which header underline style is which gets confused.
+-
+-.. only:: man
+-
+-  Synopsis
+-  --------
+-
+-  QEMU block driver reference manual
+-
+ Disk image file formats
+------------------------
++~~~~~~~~~~~~~~~~~~~~~~~
  
--@node Keystroke Index
--@section Keystroke Index
+ QEMU supports many image file formats that can be used with VMs as well as with
+ any of the tools (like ``qemu-img``). This includes the preferred formats
+@@ -394,7 +371,7 @@ This section describes each format and the options that are supported for it.
+       Log size; min 1 MB.
+ 
+ Read-only formats
+------------------
++~~~~~~~~~~~~~~~~~
+ 
+ More disk image file formats are supported in a read-only mode.
+ 
+@@ -420,13 +397,13 @@ More disk image file formats are supported in a read-only mode.
+   Parallels disk image format.
+ 
+ Using host drives
+------------------
++~~~~~~~~~~~~~~~~~
+ 
+ In addition to disk image files, QEMU can directly access host
+ devices. We describe here the usage for QEMU version >= 0.8.3.
+ 
+ Linux
+-'''''
++^^^^^
+ 
+ On Linux, you can directly use the host device filename instead of a
+ disk image filename provided you have enough privileges to access
+@@ -454,7 +431,7 @@ Hard disks
+   line option or modify the device permissions accordingly).
+ 
+ Windows
+-'''''''
++^^^^^^^
+ 
+ CD
+   The preferred syntax is the drive letter (e.g. ``d:``). The
+@@ -475,7 +452,7 @@ Hard disks
+   modifications are written in a temporary file).
+ 
+ Mac OS X
+-''''''''
++^^^^^^^^
+ 
+ ``/dev/cdrom`` is an alias to the first CDROM.
+ 
+@@ -484,7 +461,7 @@ is better to use the ``change`` or ``eject`` monitor commands to
+ change or eject media.
+ 
+ Virtual FAT disk images
+------------------------
++~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ QEMU can automatically create a virtual FAT disk image from a
+ directory tree. In order to use it, just type:
+@@ -518,7 +495,7 @@ What you should *never* do:
+ - write to the FAT directory on the host system while accessing it with the guest system
+ 
+ NBD access
+-----------
++~~~~~~~~~~
+ 
+ QEMU can access directly to block device exported using the Network Block Device
+ protocol.
+@@ -573,7 +550,7 @@ also available.  Here are some example of the older syntax:
+ 
+ 
+ Sheepdog disk images
+---------------------
++~~~~~~~~~~~~~~~~~~~~
+ 
+ Sheepdog is a distributed storage system for QEMU.  It provides highly
+ available block level storage volumes that can be attached to
+@@ -640,7 +617,7 @@ specify one of the Sheepdog servers to connect to.
+   |qemu_system| sheepdog://HOSTNAME:PORT/IMAGE
+ 
+ iSCSI LUNs
+-----------
++~~~~~~~~~~
+ 
+ iSCSI is a popular protocol used to access SCSI devices across a computer
+ network.
+@@ -752,7 +729,7 @@ systems as the package 'scsi-target-utils'.
+     -cdrom iscsi://127.0.0.1/iqn.qemu.test/2
+ 
+ GlusterFS disk images
+----------------------
++~~~~~~~~~~~~~~~~~~~~~
+ 
+ GlusterFS is a user space distributed file system.
+ 
+@@ -837,7 +814,7 @@ Examples
+                                        file.server.1.type=unix,file.server.1.socket=/var/run/glusterd.socket
+ 
+ Secure Shell (ssh) disk images
+-------------------------------
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ You can access disk images located on a remote ssh server
+ by using the ssh protocol:
+@@ -892,7 +869,7 @@ With sufficiently new versions of libssh and OpenSSH, ``fsync`` is
+ supported.
+ 
+ NVMe disk images
+-----------------
++~~~~~~~~~~~~~~~~
+ 
+ NVM Express (NVMe) storage controllers can be accessed directly by a userspace
+ driver in QEMU.  This bypasses the host kernel file system and block layers
+@@ -929,7 +906,7 @@ address on the host.
+ *NAMESPACE* is the NVMe namespace number, starting from 1.
+ 
+ Disk image file locking
+------------------------
++~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ By default, QEMU tries to protect image files from unexpected concurrent
+ access, as long as it's supported by the block protocol driver and host
+@@ -975,11 +952,3 @@ on host and see if there are locks held by the QEMU process on the image file.
+ More than one byte could be locked by the QEMU instance, each byte of which
+ reflects a particular permission that is acquired or protected by the running
+ block driver.
 -
--This is a list of all keystrokes which have a special function
--in system emulation.
+-.. only:: man
 -
--@printindex ky
+-  See also
+-  --------
 -
--@node Program Index
--@section Program Index
--@printindex pg
--
--@node Data Type Index
--@section Data Type Index
--
--This index could be used for qdev device names and options.
--
--@printindex tp
--
--@node Variable Index
--@section Variable Index
--@printindex vr
--
- @bye
+-  The HTML documentation of QEMU for more precise information and Linux
+-  user mode emulator invocation.
 -- 
 2.20.1
 
