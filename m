@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117E2173508
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 11:10:35 +0100 (CET)
-Received: from localhost ([::1]:44776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3627A173506
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 11:09:33 +0100 (CET)
+Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7cbK-0004eX-4P
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 05:10:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56927)
+	id 1j7caK-0002FY-8k
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 05:09:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7cYc-00087i-23
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:07:47 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7cYd-00087y-Ez
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:07:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7cYa-0002r0-LR
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:07:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29881
+ (envelope-from <philmd@redhat.com>) id 1j7cYc-0002uM-Gq
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:07:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24923
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7cYa-0002pV-Dh
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:07:44 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7cYc-0002tH-Db
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:07:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582884463;
+ s=mimecast20190719; t=1582884465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b+Y/QfuCfGOT8OFWnwdeMDHf5mbsAA0KxAt6Vz43+uE=;
- b=EW1gWX2ub89eoX6uAEjFOSLrDgclQKQz/cX2PiDC42oBPGeJsJgC+IkGYi6yEQoO+lKmnn
- U1FPGi3i3o7qiHRqUJXWOUFBhcaZweBS+zpPGxVYeOO986z3zfjIYgVpklvmxiuITT0GO+
- 2wJUTTGrzR+ILZF4ThUXJrgVdz5sOuM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-aCVb7y8DO7ac-5LHXNpqbQ-1; Fri, 28 Feb 2020 05:07:41 -0500
-X-MC-Unique: aCVb7y8DO7ac-5LHXNpqbQ-1
-Received: by mail-wm1-f71.google.com with SMTP id y7so956407wmd.4
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 02:07:41 -0800 (PST)
+ bh=v1sXycKIkWp3uFFy1E/L4Gl4aKbgtNtM+sQ4x6MFe2I=;
+ b=MUTtDYQHdl6cvb0LV3/+VBIiqqdqHoGk80rWnw/XZwI10//E6ze1Kz+sZ1ARfOYOfqWWKn
+ qdQY47VOHz74xFCw2UY6/1fekntLmAqR78ZomcTzO8F9DAwQEfzvO4pK1Ul9pWADm+MHgM
+ 9tI39Oh4Qml8/kwowTZCA+p8hDC4yI8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-TIYQ0ZlsPaW_XWxpRe0cqg-1; Fri, 28 Feb 2020 05:07:43 -0500
+X-MC-Unique: TIYQ0ZlsPaW_XWxpRe0cqg-1
+Received: by mail-wm1-f69.google.com with SMTP id t17so503431wmi.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 02:07:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8ivB6NFsawkEJ23lsit2ccjwYbZtdL4c8SRQrAt/UNI=;
- b=O/jZE2D23lXjkk/5NADT0itpMqRqDZJr6+NFtRaNpBQI5MRBav6RotRzVnDS2hCwee
- Yp/YR23HszcFfRGSiCgT3z4lyHVZl71qBPfFEPX6+CnyUadTrIat8TPHJvKQSsV62Q79
- O9UxO/b7qQq92dp6TY0yREqILyTfGU/mTP3sJWDJfBlV0kG6s4CvwqC+x1K+oICGeOYj
- 2aUuTiD61n8BTuJV8c4WtEEaZRf+IocNg2q7lfqq/i4BZ4uTdfCjqGdAtri6CBfrZRas
- XGQufNWntbQH2QoWB6T8/pIPuj2QrKzxvLLlrvIowU+nMbKI2UIlIZYVMA0rBmTjmdBC
- 9yqA==
-X-Gm-Message-State: APjAAAUZmg8yihrARIvTMy0DYoChP85llQSUS5MQLM8+QnjWGsdTt8Im
- G+vDMUo4nV2p/3xUf0Zsg+03l45Ue3VGMJ1ImtnMBwGbnMdDADgg+R2Db1ZcKMXNTf4L4Z2ihjJ
- xXOICV/IJMU451F4=
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr4186710wmb.150.1582884460219; 
- Fri, 28 Feb 2020 02:07:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyuPS3SD+QrMDDw+u6lBZzjcYZq/o6Tql+HW9lgXkiGVs8LMZCCgZUzKPrUkkLyuBqzkx7cow==
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr4186690wmb.150.1582884460005; 
- Fri, 28 Feb 2020 02:07:40 -0800 (PST)
+ bh=NSBWokNagTRqOLujr0F42DwTB/RF25rKRtdXhADrMHU=;
+ b=fxHJgL1OtleBki5W0k2VLbCxJ/117wRdIuD7IpGVJiBao5YN/VitcdS8sPyrXgFOlP
+ eUOlEnZixOJmTIDR7C3CipecuisaKOGumdnu4DavyHt8p5jeMTPcqqXTsMTG1YIXouHf
+ jWj6X3MyLnqMM7De9KzIcPH68zq/heR4W7SE0LQhaf3lqWZEj6Q2x5yyyRY2UKlDQhkn
+ i68vzX701BZ28bq1KXliA7RDA23kxicz+8PTBH5sDSK+stLXUaoMVf9R0VhRaxE3LXpw
+ QvFGibKetl38nLr88vDuqG9ymRtAIDW3P7ALqFmfEigL4uw8LthDNE3g2JKJw5wkVNcd
+ ShBQ==
+X-Gm-Message-State: APjAAAUAWpVKAot8G2cEf8HKJ/H7Ms0hc+EWOshVo26IUomHPgrcP46+
+ Ggaqgd6clxt6rziHCnnRKaHGYWFxAgumxh07mQsiqX3gGyflY9DUyxHcJj1hXbHVM4dPqxNrj21
+ Y0AaEnXtLf6s8Fuk=
+X-Received: by 2002:a1c:5f54:: with SMTP id t81mr4216147wmb.155.1582884462641; 
+ Fri, 28 Feb 2020 02:07:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqznwXOijaM3XWDUE08+GdGPxG2UU4KGsStw8IoSm82XwfRKLg3py6OLJStLtwckN8iCikNHIg==
+X-Received: by 2002:a1c:5f54:: with SMTP id t81mr4216130wmb.155.1582884462482; 
+ Fri, 28 Feb 2020 02:07:42 -0800 (PST)
 Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id q12sm12534994wrg.71.2020.02.28.02.07.37
+ by smtp.gmail.com with ESMTPSA id q12sm12534994wrg.71.2020.02.28.02.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 02:07:39 -0800 (PST)
+ Fri, 28 Feb 2020 02:07:42 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] qga: Improve error report by calling error_setg_win32()
-Date: Fri, 28 Feb 2020 11:07:25 +0100
-Message-Id: <20200228100726.8414-4-philmd@redhat.com>
+Subject: [PATCH v3 4/4] qga: Fix a memory leak
+Date: Fri, 28 Feb 2020 11:07:26 +0100
+Message-Id: <20200228100726.8414-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200228100726.8414-1-philmd@redhat.com>
 References: <20200228100726.8414-1-philmd@redhat.com>
@@ -97,61 +97,32 @@ Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use error_setg_win32() which adds a hint similar to strerror(errno)).
+The string returned by g_win32_error_message() has to be
+deallocated with g_free().
 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v3: Keep slog() in qmp_guest_shutdown() (Marc-Andr=C3=A9)
----
- qga/channel-win32.c  | 3 ++-
- qga/commands-win32.c | 8 +++++---
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ qga/channel-win32.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qga/channel-win32.c b/qga/channel-win32.c
-index c86f4388db..99648c95b6 100644
+index 99648c95b6..4f04868a76 100644
 --- a/qga/channel-win32.c
 +++ b/qga/channel-win32.c
-@@ -308,7 +308,8 @@ static gboolean ga_channel_open(GAChannel *c, GAChannel=
+@@ -302,8 +302,8 @@ static gboolean ga_channel_open(GAChannel *c, GAChannel=
 Method method,
-     }
-=20
-     if (method =3D=3D GA_CHANNEL_ISA_SERIAL && !SetCommTimeouts(c->handle,=
-&comTimeOut)) {
--        g_critical("error setting timeout for com port: %lu",GetLastError(=
-));
+                            OPEN_EXISTING,
+                            FILE_FLAG_NO_BUFFERING | FILE_FLAG_OVERLAPPED, =
+NULL);
+     if (c->handle =3D=3D INVALID_HANDLE_VALUE) {
+-        g_critical("error opening path %s: %s", newpath,
+-                   g_win32_error_message(GetLastError()));
 +        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
-+        g_critical("error setting timeout for com port: %s", emsg);
-         CloseHandle(c->handle);
++        g_critical("error opening path %s: %s", newpath, emsg);
          return false;
      }
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 2461fd19bf..9c744d6405 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -315,8 +315,9 @@ void qmp_guest_shutdown(bool has_mode, const char *mode=
-, Error **errp)
-     }
 =20
-     if (!ExitWindowsEx(shutdown_flag, SHTDN_REASON_FLAG_PLANNED)) {
--        slog("guest-shutdown failed: %lu", GetLastError());
--        error_setg(errp, QERR_UNDEFINED_ERROR);
-+        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
-+        slog("guest-shutdown failed: %s", emsg);
-+        error_setg_win32(errp, GetLastError(), "guest-shutdown failed");
-     }
- }
-=20
-@@ -1319,7 +1320,8 @@ static DWORD WINAPI do_suspend(LPVOID opaque)
-     DWORD ret =3D 0;
-=20
-     if (!SetSuspendState(*mode =3D=3D GUEST_SUSPEND_MODE_DISK, TRUE, TRUE)=
-) {
--        slog("failed to suspend guest, %lu", GetLastError());
-+        g_autofree gchar *emsg =3D g_win32_error_message(GetLastError());
-+        slog("failed to suspend guest: %s", emsg);
-         ret =3D -1;
-     }
-     g_free(mode);
 --=20
 2.21.1
 
