@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7151735D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:11:53 +0100 (CET)
-Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572191735ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:17:28 +0100 (CET)
+Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7dYe-0005Pe-Ps
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:11:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
+	id 1j7de3-00086Z-D7
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:17:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j7dXl-0004v8-Gw
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:10:58 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j7ddD-0007YS-4I
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:16:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j7dXj-00070t-Jd
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:10:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27866
+ (envelope-from <stefanha@redhat.com>) id 1j7ddB-0002cE-CK
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:16:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35354
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j7dXj-0006zB-Ev
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:10:55 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j7ddB-0002bu-6s
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:16:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582888254;
+ s=mimecast20190719; t=1582888592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NWQKtSW8qeCOC8ta5ZF4rzwmzx7MFgGROqOWw3Caoik=;
- b=EVfIob682H7c1LDmSweY+x4WZEFpXjulejMGqkswTyiSp/cH1F2pI/3KZp174BLnClwr+S
- t8tX6Q0Bg3UgS+jbdxgAAwKyiAkBhbgbLsT2+5CvpFcUYUwHofYmGbzjQf9AJH2vWy4zCR
- 7n+gagGmvwFnemQaiD5d8pmi2Zkq39I=
+ bh=gbz6AWGt5oo130iG/bqflep+2Vo2s2tt06cN5Es++mQ=;
+ b=c+aQHsC587/a3tXjliggVZmENr2IJL1M6lx+BoW3llW0BrefYpexaPhJuo6BxtPxnQMprj
+ YAm7U3pi6hH2f8tTp1c3lwh3CACQGQT0248VDTC6GgngTElH+Hvyu0Yvm5QDQLJmk1QWuU
+ 90yMfZyLEkeHdebaxSuyyXD9TQ+bTkQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-8QHyUWR-NDOLUp-7jPtm6g-1; Fri, 28 Feb 2020 06:10:51 -0500
-X-MC-Unique: 8QHyUWR-NDOLUp-7jPtm6g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-464-6nepMzdtNDqEmzjDA4DgBQ-1; Fri, 28 Feb 2020 06:16:29 -0500
+X-MC-Unique: 6nepMzdtNDqEmzjDA4DgBQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F9AA8017DF;
- Fri, 28 Feb 2020 11:10:49 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5954826FD9;
- Fri, 28 Feb 2020 11:10:48 +0000 (UTC)
-Date: Fri, 28 Feb 2020 12:10:46 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Ring <stefanrin@gmail.com>
-Subject: Re: Strange data corruption issue with gluster (libgfapi) and ZFS
-Message-ID: <20200228111046.GC5274@linux.fritz.box>
-References: <CAAxjCEzHQz4cG_8m7S6=CwCBoN5daQs+KVyuU5GL5Tq3Bky1NA@mail.gmail.com>
- <CAAxjCEx79Fkjw9tFbSMo+b1LGv2LNivLRXf1GS9JsYnXrNVVkQ@mail.gmail.com>
- <CAAxjCEwv61e87ZUz-jueL9AkzaNbY3pRoFmf2dah-p9W8nosWA@mail.gmail.com>
- <CAAxjCEx__TsY75b0iecG1a_wUO2MF2UMVP50nFHQi2Ouyu0znw@mail.gmail.com>
- <CAAxjCExb8GKP0Y8hwEbv=DETfu1dG3++umYV0n8vX6kxuJW3pQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4EEE800D53;
+ Fri, 28 Feb 2020 11:16:28 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 078278C089;
+ Fri, 28 Feb 2020 11:16:27 +0000 (UTC)
+Date: Fri, 28 Feb 2020 11:16:26 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 00/20] Add qemu-storage-daemon
+Message-ID: <20200228111626.GC326000@stefanha-x1.localdomain>
+References: <20200224143008.13362-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAxjCExb8GKP0Y8hwEbv=DETfu1dG3++umYV0n8vX6kxuJW3pQ@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200224143008.13362-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hYooF8G/hrfVAmum"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,72 +70,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: integration@gluster.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, coiby.xu@gmail.com,
+ armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.02.2020 um 23:25 hat Stefan Ring geschrieben:
-> On Thu, Feb 27, 2020 at 10:12 PM Stefan Ring <stefanrin@gmail.com> wrote:
-> > Victory! I have a reproducer in the form of a plain C libgfapi client.
-> >
-> > However, I have not been able to trigger corruption by just executing
-> > the simple pattern in an artificial way. Currently, I need to feed my
-> > reproducer 2 GB of data that I streamed out of the qemu block driver.
-> > I get two possible end states out of my reproducer: The correct one or
-> > a corrupted one, where 48 KB are zeroed out. It takes no more than 10
-> > runs to get each of them at least once. The corrupted end state is
-> > exactly the same that I got from the real qemu process from where I
-> > obtained the streamed trace. This gives me a lot of confidence in the
-> > soundness of my reproducer.
-> >
-> > More details will follow.
->=20
-> Ok, so the exact sequence of activity around the corruption is this:
->=20
-> 8700 and so on are the sequential request numbers. All of these
-> requests are writes. Blocks are 512 bytes.
->=20
-> 8700
->   grows the file to a certain size (2134144 blocks)
->=20
-> <8700 retires, nothing in flight>
->=20
-> 8701
->   writes 55 blocks inside currently allocated file range, close to the
-> end (7 blocks short)
->=20
-> 8702
->   writes 54 blocks from the end of 8701, growing the file by 47 blocks
->=20
-> <8702 retires, 8701 remains in flight>
->=20
-> 8703
->   writes from the end of 8702, growing the file by 81 blocks
->=20
-> <8703 retires, 8701 remains in flight>
->=20
-> 8704
->   writes 1623 blocks also from the end of 8702, growing the file by 1542 =
-blocks
->=20
-> <8701 retires>
-> <8704 retires>
->=20
-> The exact range covered by 8703 ends up zeroed out.
->=20
-> If 8701 retires earlier (before 8702 is issued), everything is fine.
+--hYooF8G/hrfVAmum
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This sounds almost like two other bugs we got fixed recently (in the
-QEMU file-posix driver and in the XFS kernel driver) where two write
-extending the file size were in flight in parallel, but if the shorter
-one completed last, instead extending the file, it would end up
-truncating it.
+On Mon, Feb 24, 2020 at 03:29:48PM +0100, Kevin Wolf wrote:
+> This series adds a new tool 'qemu-storage-daemon', which can be used to
+> export and perform operations on block devices. There is some overlap
+> between qemu-img/qemu-nbd and the new qemu-storage-daemon, but there are
+> a few important differences:
+>=20
+> * The qemu-storage-daemon has QMP support. The command set is obviously
+>   restricted compared to the system emulator because there is no guest,
+>   but all of the block operations that are not tied to gues devices are
+>   present.
+>=20
+>   This means that it can access advanced options or operations that the
+>   qemu-img command line doesn't expose. For example, blockdev-create is
+>   a lot more powerful than 'qemu-img create', and qemu-storage-daemon
+>   allows to execute it without starting a guest.
+>=20
+>   Compared to qemu-nbd it means that, for example, block jobs can now be
+>   executed on the server side, and backing chains shared by multiple VMs
+>   can be modified this way.
+>=20
+> * The existing tools all have a separately invented one-off syntax for
+>   the job at hand, which usually comes with restrictions compared to the
+>   system emulator. qemu-storage-daemon shares the same syntax with the
+>   system emulator for most options and prefers QAPI based interfaces
+>   where possible (such as --blockdev), so it should be easy to make use
+>   of in libvirt.
+>=20
+>   The exception is --chardev, for which not clear design for a QAPIfied
+>   command line exists yet. We'll consider this interface unstable until
+>   we've figured out how to solve it. For now it just uses the same
+>   QemuOpts-based code as the system emulator.
+>=20
+> * While this series implements only NBD exports, the storage daemon is
+>   intended to serve multiple protocols and its syntax reflects this. In
+>   the past, we had proposals to add new one-off tools for exporting over
+>   new protocols like FUSE or TCMU.
+>=20
+>   With a generic storage daemon, additional export methods have a home
+>   without adding a new tool for each of them.
+>=20
+> The plan is to merge qemu-storage-daemon as an experimental feature with
+> a reduced API stability promise in 5.0.
+>=20
+> Kevin Wolf (20):
+>   qemu-storage-daemon: Add barebone tool
+>   stubs: Add arch_type
+>   block: Move system emulator QMP commands to block/qapi-sysemu.c
+>   block: Move common QMP commands to block-core QAPI module
+>   block: Move sysemu QMP commands to QAPI block module
+>   qemu-storage-daemon: Add --blockdev option
+>   qapi: Flatten object-add
+>   qemu-storage-daemon: Add --object option
+>   qemu-storage-daemon: Add --nbd-server option
+>   blockdev-nbd: Boxed argument type for nbd-server-add
+>   qemu-storage-daemon: Add --export option
+>   qemu-storage-daemon: Add main loop
+>   qemu-storage-daemon: Add --chardev option
+>   stubs: Update monitor stubs for qemu-storage-daemon
+>   qapi: Create 'pragma' module
+>   monitor: Create QAPIfied monitor_init()
+>   qmp: Fail gracefully if chardev is already in use
+>   hmp: Fail gracefully if chardev is already in use
+>   monitor: Add allow_hmp parameter to monitor_init()
+>   qemu-storage-daemon: Add --monitor option
+>=20
+>  qapi/block-core.json                 | 730 +++++++++++++--------------
+>  qapi/block.json                      | 512 +++++++++++--------
+>  qapi/control.json                    |  37 ++
+>  qapi/pragma.json                     |  24 +
+>  qapi/qapi-schema.json                |  25 +-
+>  qapi/qom.json                        |  12 +-
+>  qapi/transaction.json                |   2 +-
+>  configure                            |   2 +-
+>  include/block/nbd.h                  |   1 +
+>  include/monitor/monitor.h            |   6 +-
+>  include/qom/object_interfaces.h      |   7 +
+>  include/sysemu/arch_init.h           |   2 +
+>  block/qapi-sysemu.c                  | 590 ++++++++++++++++++++++
+>  blockdev-nbd.c                       |  40 +-
+>  blockdev.c                           | 559 --------------------
+>  chardev/char.c                       |   8 +-
+>  gdbstub.c                            |   2 +-
+>  hw/block/xen-block.c                 |  11 +-
+>  monitor/hmp-cmds.c                   |  21 +-
+>  monitor/hmp.c                        |   8 +-
+>  monitor/misc.c                       |   2 +
+>  monitor/monitor.c                    |  86 ++--
+>  monitor/qmp-cmds.c                   |   2 +-
+>  monitor/qmp.c                        |  11 +-
+>  qemu-storage-daemon.c                | 340 +++++++++++++
+>  qom/qom-qmp-cmds.c                   |  42 +-
+>  stubs/arch_type.c                    |   4 +
+>  stubs/monitor-core.c                 |  21 +
+>  stubs/monitor.c                      |  17 +-
+>  tests/test-util-sockets.c            |   4 +-
+>  scripts/qapi/gen.py                  |   5 +
+>  Makefile                             |  37 ++
+>  Makefile.objs                        |   9 +
+>  block/Makefile.objs                  |   4 +-
+>  monitor/Makefile.objs                |   2 +
+>  qapi/Makefile.objs                   |   7 +-
+>  qemu-deprecated.texi                 |   4 +
+>  qom/Makefile.objs                    |   1 +
+>  storage-daemon/Makefile.objs         |   1 +
+>  storage-daemon/qapi/Makefile.objs    |   1 +
+>  storage-daemon/qapi/qapi-schema.json |  26 +
+>  stubs/Makefile.objs                  |   2 +
+>  42 files changed, 1955 insertions(+), 1272 deletions(-)
+>  create mode 100644 qapi/pragma.json
+>  create mode 100644 block/qapi-sysemu.c
+>  create mode 100644 qemu-storage-daemon.c
+>  create mode 100644 stubs/arch_type.c
+>  create mode 100644 stubs/monitor-core.c
+>  create mode 100644 storage-daemon/Makefile.objs
+>  create mode 100644 storage-daemon/qapi/Makefile.objs
+>  create mode 100644 storage-daemon/qapi/qapi-schema.json
 
-I'm not sure, though, why 8701 would try to change the file size because
-it's entirely inside the already allocated file range. But maybe adding
-the current file size at the start and completion of each request to
-your debug output could give us more data points?
+I haven't reviewed the patches in detail since they are mostly concerned
+with command-line interfaces and monitor changes.
 
-Kevin
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--hYooF8G/hrfVAmum
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5Y9ooACgkQnKSrs4Gr
+c8iO1QgAup42ZoJBJIiPSf2BxPZuPYM2AEck7tMkOd3gmwb48de51I+MGi8vEPMz
+Z2hw4CSBCVW1OEy1GqgvnNf2SCv7Htu/WxCd7ZRNjluJc6zdpQiFmnlZbnrhsDHh
+KkBEQHYxGcy35ZFkVKdSG0ZCxd+RbthXDIiSudEbLTtK97t708FNyL+paBzQHIVR
+To1ipr9j1PSny6rSu/F4SzHL5VLTsjO8Jytx0JoJH9GRDQi6qK7x92bJB6v66GGy
+51OlJt+A1aiSRg4AmrqNV7D/iALZTcUcHntrAWpVjnCHvP4Qx0DHpoK5HeFy11it
+YtveTmxARAvN9EgagxS5I7RlbYznGg==
+=A8jW
+-----END PGP SIGNATURE-----
+
+--hYooF8G/hrfVAmum--
 
 
