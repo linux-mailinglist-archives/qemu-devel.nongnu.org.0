@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9F81737B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 13:55:13 +0100 (CET)
-Received: from localhost ([::1]:46494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BCC1737BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 13:55:19 +0100 (CET)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7fAe-0006Pa-V7
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 07:55:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50054)
+	id 1j7fAk-0006bJ-Ph
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 07:55:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7f9V-0004xD-MD
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 07:54:02 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7f9X-0004zj-W1
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 07:54:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7f9U-0002nR-O0
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 07:54:01 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31880
+ (envelope-from <philmd@redhat.com>) id 1j7f9X-0002oA-0m
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 07:54:03 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45050
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7f9U-0002nF-LG
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 07:54:00 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7f9W-0002o1-Ti
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 07:54:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582894440;
+ s=mimecast20190719; t=1582894442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hCU51xFXYmUd1xKOruip+g6P/RBBcNpYeEW6REUohy8=;
- b=WbpE7AC8HEHpMaktFAnWGHPIcy3C+xdp4CLUl3WifWcmSRSXYt89cyfYnt8CBeXEgOWmEJ
- kbaDOxgdwV2f2lcbXStm5fZoq5mKH0ed7zepBrGYj9LqLTaQyXI+sS96pp1X4dFQ+KxgFH
- /Rgp0TpcxG4ih5riPq7g7ArRmC1+6u4=
+ bh=XwDs7eB7yM8J9r+WDDmjIGrx6VK50GLopC5M52Cl3uU=;
+ b=ee4eIO0jrLywUxQexV2zM5LSOcs+43XFQjbyZgerV1PUGlDpYRTzEoiQ+cbQYc0m9X2X2w
+ 5rMbM3niqICCTq2/EwuTLq6iF8RuOjrqZ5Whtv30dS0SGds/0hbQGi4Q2VN41JcrXwrtYG
+ JeRWwAAhbixPe325u8IlZQIn7el226A=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-MmkjTIsIMF2wfRPl10hgxA-1; Fri, 28 Feb 2020 07:53:58 -0500
-X-MC-Unique: MmkjTIsIMF2wfRPl10hgxA-1
-Received: by mail-wm1-f72.google.com with SMTP id v21so456913wml.5
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 04:53:58 -0800 (PST)
+ us-mta-394-2gz3hXYlO4ChF49ddIzr0g-1; Fri, 28 Feb 2020 07:54:00 -0500
+X-MC-Unique: 2gz3hXYlO4ChF49ddIzr0g-1
+Received: by mail-wm1-f72.google.com with SMTP id t17so658903wmi.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 04:54:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=om0orcuUNcgbjYJFBk5NZd23kX2WFadmaS0vRzXLejY=;
- b=U1x1oBXhUVikAg/PYXJvDof3tzQ5jhXkyNtV3p8fgGpV5XyGt0CLl58B9LSHxhC5Qy
- 9OpXm/HO5Jv2hw1cxtjwiWbjSM+q6mvwJqSSE1WaMY5wM5BqL1yCwLpDN+/PWwQoHXsX
- IbowDBmoVBpKEFUr7JBeEYmMIXbtNO4jMvGWZxq2aBaePdDkYWN6hjRO4qkpwZCV8wnK
- 2GKmyXk6Uj67rARwQlIV1N+QPg4snvdScmST+fa4dj4oaD326ZPUuImTI4IaCtMPtTSp
- buefM96HvVUbzCYhbgLYJrQaUl5rGdSXhHD+AO84TUemAdWICYg+lq2v+IU7qbFV2Xac
- cUdQ==
-X-Gm-Message-State: APjAAAWdNPEp9B8vMaYv2DSUQK5+IY+5qwVLtgO8XdmG9edmeJYLG2MN
- WqcKVGPttr+wO3ZQNukjOFxarjdvtt1yGDEjn8VeeHGDAH86aWUaY6VT82veArcRe/qAt15Voov
- hmO1ZguK/l64VA4M=
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr4981722wrt.403.1582894437407; 
- Fri, 28 Feb 2020 04:53:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzM/sxlv8YE5kDTiVHAvqAw/act89mDCgky2Xq6c5uz/7/BLXjqxyOoAdXff593ZcPROP5Hkw==
-X-Received: by 2002:a5d:4c52:: with SMTP id n18mr4981711wrt.403.1582894437156; 
- Fri, 28 Feb 2020 04:53:57 -0800 (PST)
+ bh=0FgPL1xTyWyfSBALtTC0/9engcqp/M7CptMznNnbZK0=;
+ b=JEzreu9yRWVvZqjcX3sf9UzR+PQLn+o9UHau65F2cTbvC1wuEQHrqWk4GcaPdlWdRA
+ nrLd0FrxjjBYZ+KSyOK+Suw6NpDm93W1yzsTHu8yUfDAsNWrFcXuIfzIrJ8rBAdYcXgH
+ Ongg7zakSvRRWMVfsAe4u5AMCGHKLgbd3PgqOO1Odgqj2SQGKqHqrA4g3kxNkcWvUVtU
+ DE+x0jw9OwhuMXwBB3qKMpvLH74+DnZ1iqd/TE0HEOPTZDRDaHR8R2QKK4kjuIWwxMw/
+ eF5fvbuVVSMSMY7zbkLh7m85XivEAUrBx94Usb6vCY0ZGZtRMWC+4XTawLyA7zUz++N6
+ nTdA==
+X-Gm-Message-State: APjAAAWVeG+81/tYjV3gPVQeOmY4M6flhiE2Eg1CKitVfNwdXyLSRSe9
+ fY8Hwkdi9jpkfWDtkXwe8qGM7KhjtoL417t06hBoighBL/7DuXFF3YQ+kOFLYE7b0LKqCnS6mmO
+ huEX3+UBUPFI808c=
+X-Received: by 2002:a7b:cf08:: with SMTP id l8mr4600425wmg.169.1582894439246; 
+ Fri, 28 Feb 2020 04:53:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx7v06HKBq9Kj6vX/A4DZnr1ikzdcav5IYjqnCsm3Y5qrj16y5xbXFeAyBP8EzWUBXymLUZTw==
+X-Received: by 2002:a7b:cf08:: with SMTP id l8mr4600406wmg.169.1582894439000; 
+ Fri, 28 Feb 2020 04:53:59 -0800 (PST)
 Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id d9sm12398979wrx.94.2020.02.28.04.53.55
+ by smtp.gmail.com with ESMTPSA id d9sm12398979wrx.94.2020.02.28.04.53.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 04:53:56 -0800 (PST)
+ Fri, 28 Feb 2020 04:53:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] hw/arm/gumstix: Simplify since the machines are
+Subject: [PATCH 2/5] hw/arm/mainstone: Simplify since the machines are
  little-endian only
-Date: Fri, 28 Feb 2020 13:53:47 +0100
-Message-Id: <20200228125351.29482-2-philmd@redhat.com>
+Date: Fri, 28 Feb 2020 13:53:48 +0100
+Message-Id: <20200228125351.29482-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200228125351.29482-1-philmd@redhat.com>
 References: <20200228125351.29482-1-philmd@redhat.com>
@@ -76,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,79 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+We only build the little-endian softmmu configurations. Checking
+for big endian is pointless, remove the unused code.
 
-As the Connex and Verdex machines only boot in little-endian,
-we can simplify the code.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Do not use target_words_bigendian(), arm-softmmu is only
-    little endian (Peter Maydell)
----
- hw/arm/gumstix.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ hw/arm/mainstone.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
-index f26a0e8010..3a4bc332c4 100644
---- a/hw/arm/gumstix.c
-+++ b/hw/arm/gumstix.c
-@@ -51,7 +51,6 @@ static void connex_init(MachineState *machine)
- {
-     PXA2xxState *cpu;
+diff --git a/hw/arm/mainstone.c b/hw/arm/mainstone.c
+index 6e64dfab50..1042017086 100644
+--- a/hw/arm/mainstone.c
++++ b/hw/arm/mainstone.c
+@@ -119,7 +119,6 @@ static void mainstone_common_init(MemoryRegion *address=
+_space_mem,
+     DeviceState *mst_irq;
      DriveInfo *dinfo;
+     int i;
 -    int be;
-     MemoryRegion *address_space_mem =3D get_system_memory();
+     MemoryRegion *rom =3D g_new(MemoryRegion, 1);
 =20
-     uint32_t connex_rom =3D 0x01000000;
-@@ -66,14 +65,9 @@ static void connex_init(MachineState *machine)
-         exit(1);
-     }
+     /* Setup CPU & memory */
+@@ -130,11 +129,6 @@ static void mainstone_common_init(MemoryRegion *addres=
+s_space_mem,
+     memory_region_set_readonly(rom, true);
+     memory_region_add_subregion(address_space_mem, 0, rom);
 =20
 -#ifdef TARGET_WORDS_BIGENDIAN
 -    be =3D 1;
 -#else
 -    be =3D 0;
 -#endif
-     if (!pflash_cfi01_register(0x00000000, "connext.rom", connex_rom,
-                                dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
--                               sector_len, 2, 0, 0, 0, 0, be)) {
-+                               sector_len, 2, 0, 0, 0, 0, 0)) {
-         error_report("Error registering flash memory");
-         exit(1);
-     }
-@@ -87,7 +81,6 @@ static void verdex_init(MachineState *machine)
- {
-     PXA2xxState *cpu;
-     DriveInfo *dinfo;
--    int be;
-     MemoryRegion *address_space_mem =3D get_system_memory();
-=20
-     uint32_t verdex_rom =3D 0x02000000;
-@@ -102,14 +95,9 @@ static void verdex_init(MachineState *machine)
-         exit(1);
-     }
-=20
--#ifdef TARGET_WORDS_BIGENDIAN
--    be =3D 1;
--#else
--    be =3D 0;
--#endif
-     if (!pflash_cfi01_register(0x00000000, "verdex.rom", verdex_rom,
-                                dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
--                               sector_len, 2, 0, 0, 0, 0, be)) {
-+                               sector_len, 2, 0, 0, 0, 0, 0)) {
-         error_report("Error registering flash memory");
-         exit(1);
-     }
+     /* There are two 32MiB flash devices on the board */
+     for (i =3D 0; i < 2; i ++) {
+         dinfo =3D drive_get(IF_PFLASH, 0, i);
+@@ -142,7 +136,7 @@ static void mainstone_common_init(MemoryRegion *address=
+_space_mem,
+                                    i ? "mainstone.flash1" : "mainstone.fla=
+sh0",
+                                    MAINSTONE_FLASH,
+                                    dinfo ? blk_by_legacy_dinfo(dinfo) : NU=
+LL,
+-                                   sector_len, 4, 0, 0, 0, 0, be)) {
++                                   sector_len, 4, 0, 0, 0, 0, 0)) {
+             error_report("Error registering flash memory");
+             exit(1);
+         }
 --=20
 2.21.1
 
