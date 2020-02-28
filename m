@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4075C173C0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:44:52 +0100 (CET)
-Received: from localhost ([::1]:48878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE710173C1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:48:57 +0100 (CET)
+Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7hop-0007ax-AW
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:44:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46960)
+	id 1j7hsm-0005bg-Py
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:48:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hhH-0001Nl-FI
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hhI-0001Pn-84
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hhF-000558-K1
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:03 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42797)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hhG-00055i-Lj
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:04 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35719)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7hhF-00054Y-DI
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:01 -0500
-Received: by mail-wr1-x443.google.com with SMTP id p18so3401705wre.9
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:37:01 -0800 (PST)
+ id 1j7hhG-00055F-F5
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:02 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id m3so3683126wmi.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:37:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ow1LDJV1/Ida3kt2aML/vDnb6kPmSSMSoBYAW/XYLhk=;
- b=YOWE1T6WYcKlI8wwNebDzG0o/s319ScxVhH1B45CPA2smElhbANeba1k1JHLVJeuJd
- c94UrgprEH5G0ezQFCDM2o0ObjQdYbSHQxacxvIZcU8/B1polX5xPEYzxH1qwpMT+Lpg
- IY4SWhao45AFYMkpQyxfeJ1WqhX7rSFQRPhWWSFLENNctMQHIRWcTzEHUMivlEMsa7U1
- X9/0I1DoLMHjgXNGuzGaxT6wbGaxuQ+gm7nKR5XRoX4hf5Rv+VLPE+o2/1PlBVlGfYZu
- Ae2RazVbCVBtWE8L9556Bz5Yh1gS5QtO1+oQgaDMKyWNWPMk4Zin3z75zPpjRn7T9KBS
- 8rdg==
+ bh=B3NhFkcMtDjhdPvA9G8QXToc593uTJoPg9kwAJf/gXQ=;
+ b=asQAiJMRC1DL7aXj3nhyt60TSidA9aozJ4qR2hxu+0l+XerypP1e6EFXbUekqrstF8
+ +5BNWuAq1QpeJ5wY4jV2ZSBY5gVAOx9UygIzG7oe8ALTC0KfAzw9+6exxPgNRb2WO55D
+ WxNC+Olxpd/H9LcLmTDbI/vCwcE5gQjQZmXgaKFgob9cuHO86d2OaMXvovJ8a1aQu5LQ
+ GOB53nx5E2gopuMzBNrlpBdmAqMo3/AcKddwgr4U2mkFd0iiblKqm/OZ8rok4FBtjeFF
+ C0zHXWknGfpzZBM4qkE/fuIpWoXTArIMwbdc+Rkr0tfxLlI0Dx078o3mW+6U0mezN1Qu
+ ZbWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ow1LDJV1/Ida3kt2aML/vDnb6kPmSSMSoBYAW/XYLhk=;
- b=uVxWuXh8u8iOlNOTRlhhFwYP90Vj5S1ksf3sgxGwQ56xtKqiDnZcEibRyptlU6Q5oo
- 4mZ5cwHdjM7vFI1sfUIUWhFN6QfkUsVrTM80QnR8Yw/Kyve0VEeWyrwYQtxKCAlAkBAg
- a8W2mEHkonzzwlh7OI/lBpJflietIaTqmw4BdSmshvyKAvT2JNzcVWBbanfwGR6d+D1a
- eDIl3jgBIyweb/7UMP5ne3yfo9v7GwKL4O+C7WcEerCggsBl1P6mpyMyPBNBhY5IpKgU
- gdrnRYWEVPah2RfMaQoBusVR8hfkwIyDCCRyNhzJHtCRMPn8rNaq72HktmjYQNyTlIz0
- Deqw==
-X-Gm-Message-State: APjAAAWjvj+K7RkXHkHNH+rv10ER2XjfWkzlb8YEag6+i4NSTNjVPEQh
- F4pishTLM5DY8jDp20xt1y2vqtPX5BvygQ==
-X-Google-Smtp-Source: APXvYqzkJumH8L12BD+KgfXZ7WWngsJQAo508wuzln0vFmXyDiEcRdnoDkp1zVVQGdXoxFUFw+fRmw==
-X-Received: by 2002:a05:6000:192:: with SMTP id
- p18mr5263338wrx.218.1582904219818; 
- Fri, 28 Feb 2020 07:36:59 -0800 (PST)
+ bh=B3NhFkcMtDjhdPvA9G8QXToc593uTJoPg9kwAJf/gXQ=;
+ b=K5e87hc0nlD61ha9Yz/H0rd1Q0GjmV8FeSNdhFfOveQDYDRmA4vzCNByCcoewMN7fT
+ B8HILrcVWM9rkehrAM5Itj5mdakGuCRG9ZO37Io+qKSGRW1DjMYdoVkdRUigo7n2vik6
+ Tg0OXLXOfKwlBsHssj/EO296p1z+SDP8/NfjLqkTfEidU6mx97c0cOqVhUTK8ktUe1EU
+ oqQT8ZtVI4CbFeGrwLlhZvsgYDz7kndceQ7kk9LA0fgvn6gtXxNQt5d27u/aE4+OslHV
+ CRFmraw25Ab/6kFNaKWhQORyssxss00p0nri5Idsq0Ew/T5aA31zdtUBLtPB1dJC/gsG
+ Anzw==
+X-Gm-Message-State: APjAAAX1oN1qh4fmpnAOANNb5zWOz8Ck5J+xElL+H4pMAHg/dgv4RZE+
+ VSm3tDSLMTQXHzOLZChEHzhYDHxCr2Kvzw==
+X-Google-Smtp-Source: APXvYqzrHUV9sXPybWTBTxdPnuxWE93dxIxSsGabjSiEbPwaDLhPz0U2u8DLJP1xZZuFmODtQnXCAw==
+X-Received: by 2002:a7b:c08d:: with SMTP id r13mr5394944wmh.84.1582904221036; 
+ Fri, 28 Feb 2020 07:37:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.36.58
+ by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.36.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 07:36:59 -0800 (PST)
+ Fri, 28 Feb 2020 07:37:00 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/33] docs: Roll -prom-env and -g target-specific info
- into qemu-options.hx
-Date: Fri, 28 Feb 2020 15:36:10 +0000
-Message-Id: <20200228153619.9906-25-peter.maydell@linaro.org>
+Subject: [PATCH v3 25/33] scripts/hxtool-conv: Archive script used in
+ qemu-options.hx conversion
+Date: Fri, 28 Feb 2020 15:36:11 +0000
+Message-Id: <20200228153619.9906-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228153619.9906-1-peter.maydell@linaro.org>
 References: <20200228153619.9906-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,240 +84,166 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SPARC and PPC targets currently have a fragment of target-specific
-information about the -g and -prom options which would be better placed
-as part of the general documentation of those options in qemu-options.hx.
-Move the relevant information to those locations.
-
-SPARC also has a bit of text about the -M option which is out of
-date and provides no useful information over the generic documentation
-of that option, so just delete it.
-
-The motivation here is again to avoid having to awkwardly include
-this text into the rST version of the qemu.1 manpage.
+This commit archives the perl script used to do conversion of the
+STEXI/ETEXI blocks in qemu-options.hx. (The other .hx files were
+manually converted, but qemu-options.hx is complicated enough that
+I felt I needed some scripting.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/target-ppc.rst      | 14 --------------
- docs/system/target-ppc.texi     | 25 -------------------------
- docs/system/target-sparc.rst    | 19 -------------------
- docs/system/target-sparc.texi   | 27 ---------------------------
- docs/system/target-sparc64.rst  | 12 ------------
- docs/system/target-sparc64.texi | 22 ----------------------
- qemu-options.hx                 | 19 +++++++++++++++++++
- 7 files changed, 19 insertions(+), 119 deletions(-)
+Please don't critique the script, it is purely for a one-off
+conversion job, and I then did manual fixups on the output
+to get the changes in the following patch. I merely felt it
+was potentially useful to archive a copy of the mechanism used.
+Or we could drop this patch if that's not needed.
+---
+ scripts/hxtool-conv.pl | 137 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+ create mode 100755 scripts/hxtool-conv.pl
 
-diff --git a/docs/system/target-ppc.rst b/docs/system/target-ppc.rst
-index 43fadf3c00b..a2f04c533c2 100644
---- a/docs/system/target-ppc.rst
-+++ b/docs/system/target-ppc.rst
-@@ -43,19 +43,5 @@ the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
- (GPL v2) portable firmware implementation. The goal is to implement a
- 100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
- 
--The following options are specific to the PowerPC emulation:
--
--``-g WxH[xDEPTH]``
--   Set the initial VGA graphic mode. The default is 800x600x32.
--
--``-prom-env string``
--   Set OpenBIOS variables in NVRAM, for example:
--
--   ::
--
--      qemu-system-ppc -prom-env 'auto-boot?=false' \
--       -prom-env 'boot-device=hd:2,\yaboot' \
--       -prom-env 'boot-args=conf=hd:2,\yaboot.conf'
--
- More information is available at
- http://perso.magic.fr/l_indien/qemu-ppc/.
-diff --git a/docs/system/target-ppc.texi b/docs/system/target-ppc.texi
-index 55f98f65b12..5c83d4f68e7 100644
---- a/docs/system/target-ppc.texi
-+++ b/docs/system/target-ppc.texi
-@@ -47,31 +47,6 @@ for the g3beige and mac99 PowerMac and the 40p machines. OpenBIOS is a free
- (GPL v2) portable firmware implementation. The goal is to implement a 100%
- IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
- 
--@c man begin OPTIONS
--
--The following options are specific to the PowerPC emulation:
--
--@table @option
--
--@item -g @var{W}x@var{H}[x@var{DEPTH}]
--
--Set the initial VGA graphic mode. The default is 800x600x32.
--
--@item -prom-env @var{string}
--
--Set OpenBIOS variables in NVRAM, for example:
--
--@example
--qemu-system-ppc -prom-env 'auto-boot?=false' \
-- -prom-env 'boot-device=hd:2,\yaboot' \
-- -prom-env 'boot-args=conf=hd:2,\yaboot.conf'
--@end example
--
--@end table
--
--@c man end
--
--
- More information is available at
- @url{http://perso.magic.fr/l_indien/qemu-ppc/}.
- 
-diff --git a/docs/system/target-sparc.rst b/docs/system/target-sparc.rst
-index 589c88d1756..b55f8d09e9c 100644
---- a/docs/system/target-sparc.rst
-+++ b/docs/system/target-sparc.rst
-@@ -60,22 +60,3 @@ QEMU web site. There are still issues with NetBSD and OpenBSD, but most
- kernel versions work. Please note that currently older Solaris kernels
- don't work probably due to interface issues between OpenBIOS and
- Solaris.
--
--The following options are specific to the Sparc32 emulation:
--
--``-g WxHx[xDEPTH]``
--   Set the initial graphics mode. For TCX, the default is 1024x768x8
--   with the option of 1024x768x24. For cgthree, the default is
--   1024x768x8 with the option of 1152x900x8 for people who wish to use
--   OBP.
--
--``-prom-env string``
--   Set OpenBIOS variables in NVRAM, for example:
--
--   ::
--
--      qemu-system-sparc -prom-env 'auto-boot?=false' \
--       -prom-env 'boot-device=sd(0,2,0):d' -prom-env 'boot-args=linux single'
--
--``-M [SS-4|SS-5|SS-10|SS-20|SS-600MP|LX|Voyager|SPARCClassic] [|SPARCbook]``
--   Set the emulated machine type. Default is SS-5.
-diff --git a/docs/system/target-sparc.texi b/docs/system/target-sparc.texi
-index 7748001f734..99fbf820b42 100644
---- a/docs/system/target-sparc.texi
-+++ b/docs/system/target-sparc.texi
-@@ -64,32 +64,5 @@ most kernel versions work. Please note that currently older Solaris kernels
- don't work probably due to interface issues between OpenBIOS and
- Solaris.
- 
--@c man begin OPTIONS
--
--The following options are specific to the Sparc32 emulation:
--
--@table @option
--
--@item -g @var{W}x@var{H}x[x@var{DEPTH}]
--
--Set the initial graphics mode. For TCX, the default is 1024x768x8 with the
--option of 1024x768x24. For cgthree, the default is 1024x768x8 with the option
--of 1152x900x8 for people who wish to use OBP.
--
--@item -prom-env @var{string}
--
--Set OpenBIOS variables in NVRAM, for example:
--
--@example
--qemu-system-sparc -prom-env 'auto-boot?=false' \
-- -prom-env 'boot-device=sd(0,2,0):d' -prom-env 'boot-args=linux single'
--@end example
--
--@item -M [SS-4|SS-5|SS-10|SS-20|SS-600MP|LX|Voyager|SPARCClassic] [|SPARCbook]
--
--Set the emulated machine type. Default is SS-5.
--
--@end table
--
- @c man end
- 
-diff --git a/docs/system/target-sparc64.rst b/docs/system/target-sparc64.rst
-index ca76ba9c488..97e334b9308 100644
---- a/docs/system/target-sparc64.rst
-+++ b/docs/system/target-sparc64.rst
-@@ -35,15 +35,3 @@ QEMU emulates the following peripherals:
- -  2 PCI IDE interfaces with hard disk and CD-ROM support
- 
- -  Floppy disk
--
--The following options are specific to the Sparc64 emulation:
--
--``-prom-env string``
--   Set OpenBIOS variables in NVRAM, for example:
--
--   ::
--
--      qemu-system-sparc64 -prom-env 'auto-boot?=false'
--
--``-M [sun4u|sun4v|niagara]``
--   Set the emulated machine type. The default is sun4u.
-diff --git a/docs/system/target-sparc64.texi b/docs/system/target-sparc64.texi
-index 4db4ca3842b..d381d3af719 100644
---- a/docs/system/target-sparc64.texi
-+++ b/docs/system/target-sparc64.texi
-@@ -36,25 +36,3 @@ PC-compatible serial ports
- Floppy disk
- @end itemize
- 
--@c man begin OPTIONS
--
--The following options are specific to the Sparc64 emulation:
--
--@table @option
--
--@item -prom-env @var{string}
--
--Set OpenBIOS variables in NVRAM, for example:
--
--@example
--qemu-system-sparc64 -prom-env 'auto-boot?=false'
--@end example
--
--@item -M [sun4u|sun4v|niagara]
--
--Set the emulated machine type. The default is sun4u.
--
--@end table
--
--@c man end
--
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 4bc8048f60b..3b230a17164 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1962,6 +1962,13 @@ STEXI
- @item -g @var{width}x@var{height}[x@var{depth}]
- @findex -g
- Set the initial graphical resolution and depth (PPC, SPARC only).
+diff --git a/scripts/hxtool-conv.pl b/scripts/hxtool-conv.pl
+new file mode 100755
+index 00000000000..eede40b3462
+--- /dev/null
++++ b/scripts/hxtool-conv.pl
+@@ -0,0 +1,137 @@
++#!/usr/bin/perl -w
++#
++# Script to convert .hx file STEXI/ETEXI blocks to SRST/ERST
++#
++# Copyright (C) 2020 Linaro
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# (at your option) any later version. See the COPYING file in the
++# top-level directory.
 +
-+For PPC the default is 800x600x32.
++# This script was only ever intended as a one-off conversion operation.
++# Please excuse the places where it is a bit hacky.
++# Some manual intervention after the conversion is expected, as are
++# some warnings from makeinfo.
++# Warning: this script is not idempotent: don't try to run it on
++# a .hx file that already has SRST/ERST sections.
 +
-+For SPARC with the TCX graphics device, the default is 1024x768x8 with the
-+option of 1024x768x24. For cgthree, the default is 1024x768x8 with the option
-+of 1152x900x8 for people who wish to use OBP.
++# Expected usage:
++# scripts/hxtool-conv.pl file.hx > file.hx.new
 +
- ETEXI
- 
- DEF("vnc", HAS_ARG, QEMU_OPTION_vnc ,
-@@ -4107,6 +4114,18 @@ STEXI
- @item -prom-env @var{variable}=@var{value}
- @findex -prom-env
- Set OpenBIOS nvram @var{variable} to given @var{value} (PPC, SPARC only).
++use utf8;
 +
-+@example
-+qemu-system-sparc -prom-env 'auto-boot?=false' \
-+ -prom-env 'boot-device=sd(0,2,0):d' -prom-env 'boot-args=linux single'
-+@end example
++my $reading_texi = 0;
++my $texiblock = '';
++my @tables = ();
 +
-+@example
-+qemu-system-ppc -prom-env 'auto-boot?=false' \
-+ -prom-env 'boot-device=hd:2,\yaboot' \
-+ -prom-env 'boot-args=conf=hd:2,\yaboot.conf'
-+@end example
++sub update_tables($) {
++    my ($texi) = @_;
++    # Update our list of open table directives: every @table
++    # line in the texi fragment is added to the list, and every
++    # @end table line means we remove an entry from the list.
++    # If this fragment had a completely self contained table with
++    # both the @table and @end table lines, this will be a no-op.
++    foreach (split(/\n/, $texi)) {
++        push @tables, $_ if /^\@table/;
++        pop @tables if /^\@end table/;
++    }
++}
 +
- ETEXI
- DEF("semihosting", 0, QEMU_OPTION_semihosting,
-     "-semihosting    semihosting mode\n",
++sub only_table_directives($) {
++    # Return true if every line in the fragment is a start or end table directive
++    my ($texi) = @_;
++    foreach (split(/\n/, $texi)) {
++        return 0 unless /^\@table/ or /^\@end table/;
++    }
++    return 1;
++}
++
++sub output_rstblock($) {
++    # Write the output to /tmp/frag.texi, wrapped in whatever current @table
++    # lines we need.
++    my ($texi) = @_;
++
++    # As a special case, if this fragment is only table directives and
++    # nothing else, update our set of open table directives but otherwise
++    # ignore it. This avoids emitting an empty SRST/ERST block.
++    if (only_table_directives($texi)) {
++        update_tables($texi);
++        return;
++    }
++
++    open(my $fragfh, '>', '/tmp/frag.texi');
++    # First output the currently active set of open table directives
++    print $fragfh join("\n", @tables);
++    # Next, update our list of open table directives.
++    # We need to do this before we emit the closing table directives
++    # so that we emit the right number if this fragment had an
++    # unbalanced set of directives.
++    update_tables($texi);
++    # Then emit the texi fragment itself.
++    print $fragfh "\n$texi\n";
++    # Finally, add the necessary closing table directives.
++    print $fragfh "\@end table\n" x scalar @tables;
++    close $fragfh;
++
++    # Now invoke makeinfo/pandoc on it and slurp the results into a string
++    open(my $fh, '-|', "makeinfo --force -o - --docbook "
++         . "-D 'qemu_system_x86 QEMU_SYSTEM_X86_MACRO' "
++         . "-D 'qemu_system     QEMU_SYSTEM_MACRO'  /tmp/frag.texi "
++         . " | pandoc  -f docbook -t rst")
++        or die "can't start makeinfo/pandoc: $!";
++
++    binmode $fh, ':encoding(utf8)';
++
++    print "SRST\n";
++
++    # Slurp the whole thing into a string so we can do multiline
++    # string matches on it.
++    my $rst = do {
++        local $/ = undef;
++        <$fh>;
++    };
++    $rst =~ s/^-  − /-  /gm;
++    $rst =~ s/“/"/gm;
++    $rst =~ s/”/"/gm;
++    $rst =~ s/‘/'/gm;
++    $rst =~ s/’/'/gm;
++    $rst =~ s/QEMU_SYSTEM_MACRO/|qemu_system|/g;
++    $rst =~ s/QEMU_SYSTEM_X86_MACRO/|qemu_system_x86|/g;
++    $rst =~ s/(?=::\n\n +\|qemu)/.. parsed-literal/g;
++    $rst =~ s/:\n\n::$/::/gm;
++
++    # Fix up the invalid reference format makeinfo/pandoc emit:
++    # `Some string here <#anchorname>`__
++    # should be:
++    # :ref:`anchorname`
++    $rst =~ s/\`[^<`]+\<\#([^>]+)\>\`__/:ref:`$1`/gm;
++    print $rst;
++
++    close $fh or die "error on close: $!";
++    print "ERST\n";
++}
++
++# Read the whole .hx input file.
++while (<>) {
++    # Always print the current line
++    print;
++    if (/STEXI/) {
++        $reading_texi = 1;
++        $texiblock = '';
++        next;
++    }
++    if (/ETEXI/) {
++        $reading_texi = 0;
++        # dump RST version of block
++        output_rstblock($texiblock);
++        next;
++    }
++    if ($reading_texi) {
++        # Accumulate the texi into a string
++        # but drop findex entries as they will confuse makeinfo
++        next if /^\@findex/;
++        $texiblock .= $_;
++    }
++}
++
++die "Unexpectedly still in texi block at EOF" if $reading_texi;
 -- 
 2.20.1
 
