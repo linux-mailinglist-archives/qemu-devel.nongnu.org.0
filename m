@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44943174145
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 22:06:38 +0100 (CET)
-Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59AA2174149
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 22:07:44 +0100 (CET)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7mqD-0003Ey-B1
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 16:06:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60087)
+	id 1j7mrH-0005G3-Dr
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 16:07:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1j7moE-0000xU-1R
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:34 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1j7moH-00013M-Vu
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1j7moD-0005EV-3Z
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25336
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <ehabkost@redhat.com>) id 1j7moG-0005GM-Qo
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:37 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31436
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j7moC-0005EE-W7
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:33 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j7moG-0005Fy-Mo
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582923872;
+ s=mimecast20190719; t=1582923876;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q5SbYjgtI2uGgWzkFXzp2xmZLMIvWFJ0c3sXX+8zipE=;
- b=Wm14D99/Q0t/cMuzIHSBxvVz80lYLXhOV3ybtwem+KfRVMvM1f18SfXVclot4E3ncHUt9x
- T5Dy/j8gDdj6LqnEgYnkBkBdV8qpx2Z6+V+Z4QSKjyg2Jj0lxQeFvku3PkUQfc//+qmj3y
- gr7FSqox79ih+4ysOF1FQEo1VdHNu7M=
+ bh=TXxfExf+lVdC2qgbicTIvqg48J4ev5XvT/7Wk+sWAAI=;
+ b=RSsU0j1sDBPVuvijJkusqB4q6ZDWU3T7rXauFMQ4v/ZHT8380LUKUtLuPR0pfRJb98Vnw0
+ cQHIjhz2xTfx7yJxTqKgsexOrhkbmCNMysbBtXlmRaJrrC2/QxUMqv5O/ofYD88q+1pqOs
+ dhH5s/ok5zW4I3+9Vq+Do1DNaNvnY/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-kr05VG7eM6mYPeVSbe6EFg-1; Fri, 28 Feb 2020 16:04:30 -0500
-X-MC-Unique: kr05VG7eM6mYPeVSbe6EFg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-137-TG4uwSiJNAqsJ-47NRqKLg-1; Fri, 28 Feb 2020 16:04:32 -0500
+X-MC-Unique: TG4uwSiJNAqsJ-47NRqKLg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91C19800D5B;
- Fri, 28 Feb 2020 21:04:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94E88800D50;
+ Fri, 28 Feb 2020 21:04:30 +0000 (UTC)
 Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 604DC101D4A5;
- Fri, 28 Feb 2020 21:04:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A8C35C57E;
+ Fri, 28 Feb 2020 21:04:30 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/4] hw/nmi: Fix the NMI() macro, based on INTERFACE_CHECK()
-Date: Fri, 28 Feb 2020 16:04:24 -0500
-Message-Id: <20200228210427.474606-2-ehabkost@redhat.com>
+Subject: [PULL 2/4] hw: Do not initialize MachineClass::is_default to 0
+Date: Fri, 28 Feb 2020 16:04:25 -0500
+Message-Id: <20200228210427.474606-3-ehabkost@redhat.com>
 In-Reply-To: <20200228210427.474606-1-ehabkost@redhat.com>
 References: <20200228210427.474606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +72,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gavin Shan <gshan@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-There is no declaration of the 'NMI' type. INTERFACE_CHECK()
-returns an abstract type (see commit aa1b35b975d8). The abstract
-type corresponding to the TYPE_NMI interface is 'NMIState'.
+The MachineClass is already zeroed on creation.
 
-Fixes: 9cb805fd267
+Note: The code setting is_default=3D0 in hw/i386/pc_piix.c is
+      different (related to compat options). When adding a
+      new versioned machine, we want it to be the new default,
+      so we have to mark the previous one as not default.
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191207094823.20707-1-philmd@redhat.com>
-Reviewed-by: Gavin Shan <gshan@redhat.com>
+Message-Id: <20200207161948.15972-2-philmd@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/nmi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/lm32/lm32_boards.c               | 1 -
+ hw/lm32/milkymist.c                 | 1 -
+ hw/m68k/q800.c                      | 1 -
+ hw/microblaze/petalogix_ml605_mmu.c | 1 -
+ hw/tricore/tricore_testboard.c      | 1 -
+ 5 files changed, 5 deletions(-)
 
-diff --git a/include/hw/nmi.h b/include/hw/nmi.h
-index a1e128724e..fe37ce3ad8 100644
---- a/include/hw/nmi.h
-+++ b/include/hw/nmi.h
-@@ -31,7 +31,7 @@
- #define NMI_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(NMIClass, (obj), TYPE_NMI)
- #define NMI(obj) \
--     INTERFACE_CHECK(NMI, (obj), TYPE_NMI)
-+     INTERFACE_CHECK(NMIState, (obj), TYPE_NMI)
+diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
+index 4e0a98c117..747a175b55 100644
+--- a/hw/lm32/lm32_boards.c
++++ b/hw/lm32/lm32_boards.c
+@@ -313,7 +313,6 @@ static void lm32_uclinux_class_init(ObjectClass *oc, vo=
+id *data)
 =20
- typedef struct NMIState NMIState;
+     mc->desc =3D "lm32 platform for uClinux and u-boot by Theobroma System=
+s";
+     mc->init =3D lm32_uclinux_init;
+-    mc->is_default =3D 0;
+     mc->default_cpu_type =3D LM32_CPU_TYPE_NAME("lm32-full");
+     mc->default_ram_size =3D 64 * MiB;
+     mc->default_ram_id =3D "lm32_uclinux.sdram";
+diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+index 5c72266e58..85913bb68b 100644
+--- a/hw/lm32/milkymist.c
++++ b/hw/lm32/milkymist.c
+@@ -219,7 +219,6 @@ static void milkymist_machine_init(MachineClass *mc)
+ {
+     mc->desc =3D "Milkymist One";
+     mc->init =3D milkymist_init;
+-    mc->is_default =3D 0;
+     mc->default_cpu_type =3D LM32_CPU_TYPE_NAME("lm32-full");
+     mc->default_ram_size =3D 128 * MiB;
+     mc->default_ram_id =3D "milkymist.sdram";
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index a4c4bc14cb..c5699f6f3e 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -438,7 +438,6 @@ static void q800_machine_class_init(ObjectClass *oc, vo=
+id *data)
+     mc->init =3D q800_init;
+     mc->default_cpu_type =3D M68K_CPU_TYPE_NAME("m68040");
+     mc->max_cpus =3D 1;
+-    mc->is_default =3D 0;
+     mc->block_default_type =3D IF_SCSI;
+     mc->default_ram_id =3D "m68k_mac.ram";
+ }
+diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_=
+ml605_mmu.c
+index 09486bc8bf..0a2640c40b 100644
+--- a/hw/microblaze/petalogix_ml605_mmu.c
++++ b/hw/microblaze/petalogix_ml605_mmu.c
+@@ -216,7 +216,6 @@ static void petalogix_ml605_machine_init(MachineClass *=
+mc)
+ {
+     mc->desc =3D "PetaLogix linux refdesign for xilinx ml605 little endian=
+";
+     mc->init =3D petalogix_ml605_init;
+-    mc->is_default =3D 0;
+ }
+=20
+ DEFINE_MACHINE("petalogix-ml605", petalogix_ml605_machine_init)
+diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.=
+c
+index 20c9ccb3ce..8ec2b5bddd 100644
+--- a/hw/tricore/tricore_testboard.c
++++ b/hw/tricore/tricore_testboard.c
+@@ -105,7 +105,6 @@ static void ttb_machine_init(MachineClass *mc)
+ {
+     mc->desc =3D "a minimal TriCore board";
+     mc->init =3D tricoreboard_init;
+-    mc->is_default =3D 0;
+     mc->default_cpu_type =3D TRICORE_CPU_TYPE_NAME("tc1796");
+ }
 =20
 --=20
 2.24.1
