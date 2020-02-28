@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B724173D82
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:50:20 +0100 (CET)
-Received: from localhost ([::1]:50580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5132B173D6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:47:41 +0100 (CET)
+Received: from localhost ([::1]:50524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7iqB-0002FP-8H
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:50:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56711)
+	id 1j7inc-0006g3-7B
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:47:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifT-00087h-Es
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:16 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifU-0008AO-FN
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifS-000242-1u
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:15 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55833)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifT-00024s-83
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:16 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39593)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifR-00023P-Qr
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
-Received: by mail-wm1-x342.google.com with SMTP id q9so3813325wmj.5
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:13 -0800 (PST)
+ id 1j7ifT-00024L-1P
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:15 -0500
+Received: by mail-wm1-x334.google.com with SMTP id c84so3871855wme.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MzcpXPRjhRqp+Fy3j7b0AOUvrSs6C4ggJpK7+di/i9I=;
- b=YHTEuaiywv6TwkaEpQ6y0Pr/eYo/MuLd+bW/CxXYFyS6XLWRgpJalfRmsEv33czlkp
- CqCSUX+5Z7hZ/8oYAf2G8WE2CIhmigaeQW9BURErQCN3FwoSLjQ12sQwyPGUn7fUnEt4
- nUlbcTPXSA5R/eabQ5y9Oz1s4IExO/BELOocxKtzhgzVmU9N/jICp/lTSeRQxRKZGech
- WYKYumSxWRX6fbOnOiryoFmvFqPcGJ8om6ZcKcAC8Awj/pl5iauel4NedTOv15Eucu9K
- OHGW1Jf3iYJogkSZvhKjdIEl/Ofsf6TaaG3hqXSH7Sk2YC02TiuM9g8C6h24P1MxRYbN
- rzng==
+ bh=deB/lxPKVSLn1ypxY7579PxrzfoDtHNbi+JWV5TUv2w=;
+ b=F7O+cBQJSbxljWBlBDC7IKP6gOcKhptKS2MtgYikp8W5ewT2oCm0d2BetfQD4vdXQQ
+ p2+Lg49R49sOJqJQex3OVjAHI7/RdYLi4UH3J1NqefekI7o88AjcZqivCYw6L/pBeLLL
+ IJEEBXnXmEtXsXhWd3+2dlPLYnXjg1/sjlId1QQIPCM0I62k17vOpVh7lkMO2Z2igFnm
+ R36/oY5+sjvED4ch7JTrykwSlPvyiPZzTYYnGlkKEB5AiCaJPrRuhA+BBttpRiGRSVas
+ UMVIkocRuxkPumx8QbZSe/sYdP45DGogAoflq6f91xY5z+WkerB3XP9faCML5TEvyUsQ
+ H9Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MzcpXPRjhRqp+Fy3j7b0AOUvrSs6C4ggJpK7+di/i9I=;
- b=b0JbWh8vlZH4uvpynV1gEEhI5MWpofN4wkg15DpaqJCg2mdZDn0/Moue0gYVienWd+
- SzShAnr/L3rgZKVrzcaM2G95tuX/3PUpxIrWiwZSS8rE2IAn2Yr3ZGd/jQ4kN3RCiz3W
- L2DyVge6jFHbsAtG3r/yBG/M/5en9QqN/ueKxxYHP51Z8960WWi5+qGJmYN5oVpifICq
- uYSHuwuqQvwS2rH9s5uCSY2EbWPLqaPqqS9J5bm86A25BxnOEhAqujqzp2wNZ1tB7tl/
- UvTMMoYvzhDsv1Xcft/i9Txwu14/xAR6bQDxMsRiB/FzLzkjoRgSN8olIQmD10fVxgk/
- luMw==
-X-Gm-Message-State: APjAAAWPnAxQNvzHKv4aL3cGdDhf60fsYSjwF+ImhEb9Al0SwNhDVYUk
- 8LcQXQWrC+k/JsTtpe2yLKyAwnMuE+tVLA==
-X-Google-Smtp-Source: APXvYqweZBabnXeP+wV5O8uhPd4pdXk68ewudzcBz+O6ExOQJezLLbXdz/4m5kUMfvBq/PKV8r82Og==
-X-Received: by 2002:a1c:9c87:: with SMTP id f129mr5856634wme.26.1582907952559; 
- Fri, 28 Feb 2020 08:39:12 -0800 (PST)
+ bh=deB/lxPKVSLn1ypxY7579PxrzfoDtHNbi+JWV5TUv2w=;
+ b=MxesmXY7jprNzXgh8tHYgm8R2fn53neAp9Ono8oFE80ZTf+QrHarnQgEYiGoxyxfcj
+ ICSnMigEJQ9A08a/1wUco0gH9ye4VlKryD52Mkbv2IEbG5tdAlqJvycqYinyws4lRLTB
+ UNJni7dZBoj2KEbRvcKme8upqf7epXTTKY2SlNPbr2dnIWZBPv/GWRSS/3Zg8Ws90frH
+ v6PLznxU8rxlHw+LtLl+U3KwwkqUjSS3MEx5McpuOMEiG7NhMpA9+uL2ANo8c/1expAd
+ lHn7domIR624AIu2xC3IZsYe7Vew/S7KS1vym2b+ftG3LGABBACuwcpSroJIijDpJZ/0
+ CLMw==
+X-Gm-Message-State: APjAAAXndCGsuB+/VMZ2mn7AOuXtTrkb5GovfCCVb0f9aDEIDysERUGz
+ +FjEAREYRgUa2QjP+S0AUPalC13IDrPJJQ==
+X-Google-Smtp-Source: APXvYqzjmIUCdGcOimhBmCoRZDXENAetD+QGvhY3WU7wip4NRHRi+sHXFkIDbQ1qUfUO6LtibraXJg==
+X-Received: by 2002:a1c:a5c2:: with SMTP id o185mr3558677wme.173.1582907953570; 
+ Fri, 28 Feb 2020 08:39:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.11
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:12 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/33] tests/acceptance: Add a test for the integratorcp arm
- machine
-Date: Fri, 28 Feb 2020 16:38:33 +0000
-Message-Id: <20200228163840.23585-27-peter.maydell@linaro.org>
+Subject: [PULL 27/33] tests/acceptance: Extract boot_integratorcp() from
+ test_integratorcp()
+Date: Fri, 28 Feb 2020 16:38:34 +0000
+Message-Id: <20200228163840.23585-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,64 +83,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-There is a kernel and initrd available on github which we can use
-for testing this machine.
+As we want to re-use this code, extract it as a new function.
+Since we are using the PL011 serial console, add a Avocado tag
+to ease filtering of tests.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200225172501.29609-3-philmd@redhat.com
-Message-Id: <20200131170233.14584-1-thuth@redhat.com>
-[PMD: Renamed test method, moved description from class to method]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200225172501.29609-4-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- MAINTAINERS                                  |  1 +
- tests/acceptance/machine_arm_integratorcp.py | 43 ++++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 tests/acceptance/machine_arm_integratorcp.py
+ tests/acceptance/machine_arm_integratorcp.py | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 264374adbe8..c258391cad8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -613,6 +613,7 @@ S: Maintained
- F: hw/arm/integratorcp.c
- F: hw/misc/arm_integrator_debug.c
- F: include/hw/misc/arm_integrator_debug.h
-+F: tests/acceptance/machine_arm_integratorcp.py
- 
- MCIMX6UL EVK / i.MX6ul
- M: Peter Maydell <peter.maydell@linaro.org>
 diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptance/machine_arm_integratorcp.py
-new file mode 100644
-index 00000000000..d928ed79b4c
---- /dev/null
+index d928ed79b4c..22afd3b82a8 100644
+--- a/tests/acceptance/machine_arm_integratorcp.py
 +++ b/tests/acceptance/machine_arm_integratorcp.py
-@@ -0,0 +1,43 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Thomas Huth <thuth@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+
-+class IntegratorMachine(Test):
-+
-+    timeout = 90
+@@ -18,13 +18,7 @@ class IntegratorMachine(Test):
+ 
+     timeout = 90
+ 
+-    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+-    def test_integratorcp_console(self):
+-        """
+-        Boots the Linux kernel and checks that the console is operational
+-        :avocado: tags=arch:arm
+-        :avocado: tags=machine:integratorcp
+-        """
++    def boot_integratorcp(self):
+         kernel_url = ('https://github.com/zayac/qemu-arm/raw/master/'
+                       'arm-test/kernel/zImage.integrator')
+         kernel_hash = '0d7adba893c503267c946a3cbdc63b4b54f25468'
+@@ -40,4 +34,14 @@ class IntegratorMachine(Test):
+                          '-initrd', initrd_path,
+                          '-append', 'printk.time=0 console=ttyAMA0')
+         self.vm.launch()
 +
 +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
 +    def test_integratorcp_console(self):
@@ -148,23 +128,10 @@ index 00000000000..d928ed79b4c
 +        Boots the Linux kernel and checks that the console is operational
 +        :avocado: tags=arch:arm
 +        :avocado: tags=machine:integratorcp
++        :avocado: tags=device:pl011
 +        """
-+        kernel_url = ('https://github.com/zayac/qemu-arm/raw/master/'
-+                      'arm-test/kernel/zImage.integrator')
-+        kernel_hash = '0d7adba893c503267c946a3cbdc63b4b54f25468'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+
-+        initrd_url = ('https://github.com/zayac/qemu-arm/raw/master/'
-+                      'arm-test/kernel/arm_root.img')
-+        initrd_hash = 'b51e4154285bf784e017a37586428332d8c7bd8b'
-+        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', 'printk.time=0 console=ttyAMA0')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Log in as root')
++        self.boot_integratorcp()
+         wait_for_console_pattern(self, 'Log in as root')
 -- 
 2.20.1
 
