@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C12A173CE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:29:24 +0100 (CET)
-Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F4F173D2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:40:15 +0100 (CET)
+Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7iVv-00032f-63
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:29:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54970)
+	id 1j7igQ-0000Ly-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:40:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7iV0-0002Ty-Va
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:28:27 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7if0-0007EG-Lb
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:38:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7iUz-0001O2-VY
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:28:26 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42460)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7iey-0001je-W3
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:38:46 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38420)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7iUz-0001NJ-QK
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:28:25 -0500
-Received: by mail-ot1-x342.google.com with SMTP id 66so3085669otd.9
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:28:25 -0800 (PST)
+ id 1j7iey-0001jA-Ol
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:38:44 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id n64so2576086wme.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:38:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i52BYjf5GlldymvoEHLvVf5pSSNmC4+GPc5TMQ0kTF0=;
- b=maVLaVcVBM2WU26/rxdU3rVt/RIjTNpN2osy8uXf+vDwaoVkali8rQIFCqhMXnxoIf
- rkF0snCut5ppfTO0kFnqUdNw8aypyNmzO0TnARklQ/TP3YrYpFsW93aLnYmmvHPO1J5x
- NUf0kqCZabZIAgLRmegFCD6Reic+pZOPk3AAIxeSljrqCYko6b32gKGYwBwK5BdFkg/g
- sPPTju4YeyWm0z79hiTrZ+IdlVoh1+ODsHFkIT6sTaXiOjRCSqcg1eUFi7O+tGH6myO/
- iKoa9QbHGgFDCf4jTLBhZEkami5P2o72qxYvA1uuSI2xBd3erb6aQAhRrtaVp+WqZDIT
- FUXg==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UeMgMMWL1JhRZfscpUF9zhH/44sltFzGtJGGfnvm3p4=;
+ b=qDDNl49UiKAIqKpmMDqF6wXqtKnXcNawUqQAjHeHuu4HRTzw82od9XJGPh0mf25Niy
+ GhUbu1gF7LA00MbvaQbpmw47UDsM3w2Q0IveijYt28qIvREchanw32Ah61nI+IRaY6rD
+ zmjtN+CBvFiF5x5g1LR5cQzbqEQX2TFpnsRcavpknAk0Arvy+J9wffDKCnmpB02XRRl8
+ XY7ciUcOfcdkjQCjBZ6RUHpNxTI7xLvw5EjQYbMC3/QJJwDw7+d+LlZHztGJs8QwFgAG
+ LoOdeMeXOaev/aOrmyA8TRCHdDSdk3yyxY0zGcxBS0/WLI8zzKQpxAYljJNSm88PYC3f
+ uyQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i52BYjf5GlldymvoEHLvVf5pSSNmC4+GPc5TMQ0kTF0=;
- b=XntGbWSB+R7i1TvLYsI38BwXD6i2GXrCNK1Lbe78adanIwGVx5hUUugPk/bHjdZal+
- tN+xNmvaDx+C6tGzvZkryjVkLb/z61jNaNpgah65CaV2esv7wRiHOR7Zt2pRkmwihS2H
- eWtRq60CSswBhVexxbuVoAR8rczHcS56JPQFiRvC7wxBI1Fx0KilpXpOcsCKzZOxzSxh
- cNZN2wopF+odRDO4f6NEc+UHWCP+4oTqoLhRJJc7p+pyc/dG0ufOPlsQ344NA3eQ4zyi
- N3cDDSh/0cQVEo5cc+SCUZ6W8SbFVc1swpWPK7QcYGsDW/TvwEqTN5M9Wvg20pfCHp1U
- 7Cow==
-X-Gm-Message-State: APjAAAXM0ViPO569hIF7hwXDoLZg7Yc0x3C9eEh8jScMck+3kFqc6rGh
- G0IpENUoWvL80QxogMCe6GSuqVByOQLWa5BmiIj6OA==
-X-Google-Smtp-Source: APXvYqzmDC8xnnAUNDKcix0YoyFB4AsIx4cDdnntocDeCz0KrTNOypFdZhX7Z+SKiS71fedf3NmCuFvG+wGx1GWgF8I=
-X-Received: by 2002:a05:6830:1184:: with SMTP id
- u4mr3790059otq.221.1582907304786; 
- Fri, 28 Feb 2020 08:28:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20200225180831.26078-1-richard.henderson@linaro.org>
- <20200225180831.26078-8-richard.henderson@linaro.org>
-In-Reply-To: <20200225180831.26078-8-richard.henderson@linaro.org>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UeMgMMWL1JhRZfscpUF9zhH/44sltFzGtJGGfnvm3p4=;
+ b=cbh+pDUBp7hjUG7b1vQpGLV7E/z/cgUS39MUkH5kKaR0YY2L/b+H0SETRYUr76E84a
+ gFrKGVjWLjy2dCU4IJ+a5/mc+LhMeyfkQmaJL1oxBTdaT4Mu4GSSS/Y/OnBqpTgJU1tT
+ i3CY/q6VefUaygfOByDF55kOYDkUCyEwrZMU0aCT/BtzQnTwaSno7E3nIO1mcdFzHWc7
+ T7e971PyZWCy5fh8hmYtTYVkJ6E7dZ5ilNqtjRRkPE3uCvsctmqoA86H3OCq1UEP6qk6
+ pNCWoh8Tg7ii6crNaOroYrr9iLdruAe4DSLlbV+mZcixYOkMnA0PHpSrY7u/VfJw8LoD
+ zAEQ==
+X-Gm-Message-State: APjAAAUpsrGJcprjI+2NvzVTaF4LcGjiQERd2SmKml8+Ypd21RsU69SL
+ J+IGE12lHDnTEqYdl9hilHnj+l3cgZN/7g==
+X-Google-Smtp-Source: APXvYqww/9wtPgOj+KqxTVSZKiHzjT2MoUPJByHeettzooVq1I2zvhx91UyH6AU34lG1mo1WBIZYvQ==
+X-Received: by 2002:a1c:984a:: with SMTP id a71mr5798495wme.185.1582907922990; 
+ Fri, 28 Feb 2020 08:38:42 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.38.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 08:38:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Feb 2020 16:28:13 +0000
-Message-ID: <CAFEAcA_pc7c9ZkpYQ3nL2fTk5wtZM_Z7ggj=_Pt-ABZVv5Ga9g@mail.gmail.com>
-Subject: Re: [PATCH v4 7/7] target/arm: Honor the HCR_EL2.TTLB bit
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/33] target-arm queue
+Date: Fri, 28 Feb 2020 16:38:07 +0000
+Message-Id: <20200228163840.23585-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,19 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Feb 2020 at 18:08, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This bit traps EL1 access to tlb maintenance insns.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Another arm pullreq; nothing particularly exciting here.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
 -- PMM
+
+
+The following changes since commit e27d5b488ef08408691bfed61f34ee2858136287:
+
+  Merge remote-tracking branch 'remotes/juanquintela/tags/pull-migration-pull-request' into staging (2020-02-28 14:02:31 +0000)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200228
+
+for you to fetch changes up to 1904f9b5f1d94fe12fe021db6b504c87d684f6db:
+
+  hw/intc/arm_gic_kvm: Don't assume kernel can provide a GICv2 (2020-02-28 16:14:57 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm: Use TYPE_PL011 to create serial port
+ * target/arm: Set ID_MMFR4.HPDS for aarch64_max_initfn
+ * hw/arm/integratorcp: Map the audio codec controller
+ * GICv2: Correctly implement the limited number of priority bits
+ * target/arm: refactoring of VFP related feature checks and decode
+ * xilinx_zynq: Fix USB port instantiation
+ * acceptance tests for n800, n810, integratorcp
+ * Implement v8.3-RCPC, v8.4-RCPC, v8.3-CCIDX
+ * arm_gic_kvm: Don't assume kernel can provide a GICv2
+   (provide better error message for user error)
+
+----------------------------------------------------------------
+Gavin Shan (1):
+      hw/arm: Use TYPE_PL011 to create serial port
+
+Guenter Roeck (2):
+      hw/arm/xilinx_zynq: Fix USB port instantiation
+      hw/usb/hcd-ehci-sysbus: Remove obsolete xlnx, ps7-usb class
+
+Peter Maydell (5):
+      target/arm: Fix wrong use of FIELD_EX32 on ID_AA64DFR0
+      target/arm: Implement v8.3-RCPC
+      target/arm: Implement v8.4-RCPC
+      target/arm: Implement ARMv8.3-CCIDX
+      hw/intc/arm_gic_kvm: Don't assume kernel can provide a GICv2
+
+Philippe Mathieu-Daudé (3):
+      hw/arm/integratorcp: Map the audio codec controller
+      tests/acceptance: Extract boot_integratorcp() from test_integratorcp()
+      tests/acceptance/integratorcp: Verify Tux is displayed on framebuffer
+
+Richard Henderson (17):
+      target/arm: Set ID_MMFR4.HPDS for aarch64_max_initfn
+      target/arm: Add isar_feature_aa32_vfp_simd
+      target/arm: Rename isar_feature_aa32_fpdp_v2
+      target/arm: Add isar_feature_aa32_{fpsp_v2, fpsp_v3, fpdp_v3}
+      target/arm: Add isar_feature_aa64_fp_simd, isar_feature_aa32_vfp
+      target/arm: Perform fpdp_v2 check first
+      target/arm: Replace ARM_FEATURE_VFP3 checks with fp{sp, dp}_v3
+      target/arm: Add missing checks for fpsp_v2
+      target/arm: Replace ARM_FEATURE_VFP4 with isar_feature_aa32_simdfmac
+      target/arm: Remove ARM_FEATURE_VFP check from disas_vfp_insn
+      target/arm: Move VLLDM and VLSTM to vfp.decode
+      target/arm: Move the vfp decodetree calls next to the base isa
+      linux-user/arm: Replace ARM_FEATURE_VFP* tests for HWCAP
+      target/arm: Remove ARM_FEATURE_VFP*
+      target/arm: Add formats for some vfp 2 and 3-register insns
+      target/arm: Split VFM decode
+      target/arm: Split VMINMAXNM decode
+
+Sai Pavan Boddu (3):
+      arm_gic: Mask the un-supported priority bits
+      cpu/a9mpcore: Set number of GIC priority bits to 5
+      cpu/arm11mpcore: Set number of GIC priority bits to 4
+
+Thomas Huth (2):
+      tests/acceptance: Add a test for the N800 and N810 arm machines
+      tests/acceptance: Add a test for the integratorcp arm machine
+
+ include/hw/intc/arm_gic.h                    |   2 +
+ include/hw/intc/arm_gic_common.h             |   1 +
+ target/arm/cpu.h                             |  88 +++++-
+ hw/arm/integratorcp.c                        |   1 +
+ hw/arm/sbsa-ref.c                            |   3 +-
+ hw/arm/virt.c                                |   3 +-
+ hw/arm/xilinx_zynq.c                         |   5 +-
+ hw/arm/xlnx-versal.c                         |   3 +-
+ hw/cpu/a9mpcore.c                            |   4 +
+ hw/cpu/arm11mpcore.c                         |   5 +
+ hw/intc/arm_gic.c                            |  33 +-
+ hw/intc/arm_gic_common.c                     |   1 +
+ hw/intc/arm_gic_kvm.c                        |   9 +
+ hw/intc/armv7m_nvic.c                        |  20 +-
+ hw/usb/hcd-ehci-sysbus.c                     |  17 -
+ linux-user/arm/signal.c                      |   4 +-
+ linux-user/elfload.c                         |  25 +-
+ target/arm/arch_dump.c                       |  11 +-
+ target/arm/cpu.c                             |  44 +--
+ target/arm/cpu64.c                           |   5 +-
+ target/arm/helper.c                          |  23 +-
+ target/arm/kvm32.c                           |   5 -
+ target/arm/kvm64.c                           |   1 -
+ target/arm/m_helper.c                        |  11 +-
+ target/arm/machine.c                         |   5 +-
+ target/arm/translate-a64.c                   | 114 +++++++
+ target/arm/translate-vfp.inc.c               | 448 +++++++++++++++++----------
+ target/arm/translate.c                       | 122 ++------
+ MAINTAINERS                                  |   2 +
+ hw/arm/Kconfig                               |   1 +
+ target/arm/vfp-uncond.decode                 |  12 +-
+ target/arm/vfp.decode                        | 153 ++++-----
+ tests/acceptance/machine_arm_integratorcp.py |  99 ++++++
+ tests/acceptance/machine_arm_n8x0.py         |  49 +++
+ 34 files changed, 865 insertions(+), 464 deletions(-)
+ create mode 100644 tests/acceptance/machine_arm_integratorcp.py
+ create mode 100644 tests/acceptance/machine_arm_n8x0.py
 
