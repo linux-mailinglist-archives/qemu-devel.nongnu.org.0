@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2774A172ECC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 03:26:08 +0100 (CET)
-Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F023F172ECD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 03:27:16 +0100 (CET)
+Received: from localhost ([::1]:40766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7VLq-0006iy-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 21:26:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53854)
+	id 1j7VMy-0007vK-1e
+	for lists+qemu-devel@lfdr.de; Thu, 27 Feb 2020 21:27:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.hu@linux.intel.com>) id 1j7VL6-0006CS-Us
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 21:25:22 -0500
+ (envelope-from <robert.hu@linux.intel.com>) id 1j7VM1-00079o-TA
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 21:26:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.hu@linux.intel.com>) id 1j7VL5-0006LE-K6
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 21:25:20 -0500
-Received: from mga03.intel.com ([134.134.136.65]:21701)
+ (envelope-from <robert.hu@linux.intel.com>) id 1j7VM0-00076E-JB
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 21:26:17 -0500
+Received: from mga03.intel.com ([134.134.136.65]:21705)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <robert.hu@linux.intel.com>)
- id 1j7VL5-0006C9-4j
- for qemu-devel@nongnu.org; Thu, 27 Feb 2020 21:25:19 -0500
+ id 1j7VM0-0006Dr-BW
+ for qemu-devel@nongnu.org; Thu, 27 Feb 2020 21:26:16 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2020 18:25:10 -0800
+ 27 Feb 2020 18:25:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="238622568"
+X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="238622576"
 Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
  ([10.239.48.212])
- by orsmga003.jf.intel.com with ESMTP; 27 Feb 2020 18:25:08 -0800
+ by orsmga003.jf.intel.com with ESMTP; 27 Feb 2020 18:25:10 -0800
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, richard.henderson@linaro.org,
  laurent@vivier.eu, philmd@redhat.com, berrange@redhat.com
-Subject: [PATCH v3 0/2] Add AVX512F optimization option and
- buffer_zero_avx512()
-Date: Fri, 28 Feb 2020 10:24:54 +0800
-Message-Id: <1582856696-45663-1-git-send-email-robert.hu@linux.intel.com>
+Subject: [PATCH v3 1/2] configure: add configure option avx512f_opt
+Date: Fri, 28 Feb 2020 10:24:55 +0800
+Message-Id: <1582856696-45663-2-git-send-email-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1582856696-45663-1-git-send-email-robert.hu@linux.intel.com>
+References: <1582856696-45663-1-git-send-email-robert.hu@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 134.134.136.65
@@ -58,34 +59,98 @@ Cc: robert.hu@intel.com, chao.p.peng@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1) Introduce {enable,disable}-avx512f configure option
+If it is enabled, config-host.mak will have CONFIG_AVX512F_OPT defined.
 
-2) Implement new buffer_zero_avx512() with AVX512F instructions
+AVX512F instruction set is available since Intel Skylake, and can be enabled in
+compiling with -mavx512f.
+More info:
+https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
 
-Changes in v3:
-In init_accel(), init length_to_accel value in every accel case, because
-in unit test, it will be invoked several times with different accel cases.
-(Thanks Richard's careful review)
+Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+---
+ configure | 41 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-Changes in v2:
-1. Fixes wrong definition of CACHE_SSE2 in v1.
-2. Fixes not handle <256 length case in buffer_zero_avx512() implementaion.
-(Follow Richard's suggestion: handle the case in select_accel_fn(), and have a
-global variable alongside buffer_accel)
-3. Changes avx512f configuration option's default status to disabled.
-4. Ran 'make check-unit' on this patch, on both a Ivybridge machine and a
-CascadeLake machine.
-
-
-Robert Hoo (2):
-  configure: add configure option avx512f_opt
-  util: add util function buffer_zero_avx512()
-
- configure            | 41 ++++++++++++++++++++++++++++++++
- include/qemu/cpuid.h |  3 +++
- util/bufferiszero.c  | 67 +++++++++++++++++++++++++++++++++++++++++++++-------
- 3 files changed, 102 insertions(+), 9 deletions(-)
-
+diff --git a/configure b/configure
+index d57261e..a0b41ce 100755
+--- a/configure
++++ b/configure
+@@ -1395,6 +1395,11 @@ for opt do
+   ;;
+   --enable-avx2) avx2_opt="yes"
+   ;;
++  --disable-avx512f) avx512f_opt="no"
++  ;;
++  --enable-avx512f) avx512f_opt="yes"
++  ;;
++
+   --enable-glusterfs) glusterfs="yes"
+   ;;
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+@@ -1825,6 +1830,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   tcmalloc        tcmalloc support
+   jemalloc        jemalloc support
+   avx2            AVX2 optimization support
++  avx512f         AVX512F optimization support
+   replication     replication support
+   opengl          opengl support
+   virglrenderer   virgl rendering support
+@@ -5518,6 +5524,36 @@ EOF
+   fi
+ fi
+ 
++##########################################
++# avx512f optimization requirement check
++#
++# There is no point enabling this if cpuid.h is not usable,
++# since we won't be able to select the new routines.
++# by default, it is turned off.
++# if user explicitly want to enable it, check environment
++
++if test "$cpuid_h" = "yes" && test "$avx512f_opt" = "yes"; then
++  cat > $TMPC << EOF
++#pragma GCC push_options
++#pragma GCC target("avx512f")
++#include <cpuid.h>
++#include <immintrin.h>
++static int bar(void *a) {
++    __m512i x = *(__m512i *)a;
++    return _mm512_test_epi64_mask(x, x);
++}
++int main(int argc, char *argv[])
++{
++	return bar(argv[0]);
++}
++EOF
++  if ! compile_object "" ; then
++    avx512f_opt="no"
++  fi
++else
++  avx512f_opt="no"
++fi
++
+ ########################################
+ # check if __[u]int128_t is usable.
+ 
+@@ -6650,6 +6686,7 @@ echo "libxml2           $libxml2"
+ echo "tcmalloc support  $tcmalloc"
+ echo "jemalloc support  $jemalloc"
+ echo "avx2 optimization $avx2_opt"
++echo "avx512f optimization $avx512f_opt"
+ echo "replication support $replication"
+ echo "VxHS block device $vxhs"
+ echo "bochs support     $bochs"
+@@ -7200,6 +7237,10 @@ if test "$avx2_opt" = "yes" ; then
+   echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
+ fi
+ 
++if test "$avx512f_opt" = "yes" ; then
++  echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
++fi
++
+ if test "$lzo" = "yes" ; then
+   echo "CONFIG_LZO=y" >> $config_host_mak
+ fi
 -- 
 1.8.3.1
 
