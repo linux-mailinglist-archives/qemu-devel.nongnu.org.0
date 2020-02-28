@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A25173DED
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:07:53 +0100 (CET)
-Received: from localhost ([::1]:50952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3435173DF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:09:46 +0100 (CET)
+Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7j79-0005N7-Sg
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:07:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56697)
+	id 1j7j8z-0000HW-Pw
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:09:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifS-00084x-FB
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:15 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifV-0008DU-Lw
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifR-00023B-54
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:14 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42252)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifU-00025Y-8u
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:17 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55450)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifQ-00022m-US
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id p18so3638157wre.9
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:12 -0800 (PST)
+ id 1j7ifU-000256-2D
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:16 -0500
+Received: by mail-wm1-x334.google.com with SMTP id q9so3813450wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7pnRJmXnO6IweO9cucbS1G2R/qlgmQQw2whsHVhkaZE=;
- b=UTzyJPNqpQqlyXniKbEloNDMOAKtEzXo39ufOq2/p2LTGqGhnK6MkV2V9fkPJD2r22
- NPnwbwi97+oSRoYuogSJv9h5Bz8OpUuRd0iz352HrYMdrjmj8BTZT7MUPkyV3dcbY6zv
- ozosodw0hFBxX28fIwsufXWifPX3wpsBFSL2kpaFd/q8zm30NWdMvKdZHKEg2d8YcGUv
- bj/uNI3gvnUZn9O0iELpCdeWmnCgHoKtTrXmhXRulwklPVHFOXuRyZnrolYqI88VX6fU
- bSlvYasapLp45T7KuljWM6j+eDGsJ/Zzz4pZm/FeKO8JtpHY9JDvaP/aJQVgz0URSMOQ
- aOsg==
+ bh=hTbY0nJfRg44cC4x/jkt29PNMvHIJImu3BmtAxBXRUA=;
+ b=aeG0pYb/ggqslbXgJm/hF6BjCA4tRiDrvAm8kOn4xhxTdW1suW+X2lH1a0PaqaHj+d
+ 1edvoZTMikv1vWDxLLgIchq6KuDR8FRp7SmJw/1B8yV+eCjTiskTX6ZinMqAtw6GNZD3
+ /oyGAqTKDhGBLgjFm4Qel2zIHkxdHkQ8BChUAYCZNJClB0tPdtP4PD55zlKsIr3RukoA
+ Ir8St7AVjk5DH5AqAQnSKJnhsvXPdz5nl6zhyrETGRfSapUyDsy/wx1+sPagwX9PURzs
+ B50ts03pxKt5ZACVJUcT2IDMYQM7KCD7p+REHsQ6zIpHFrW0mnBTdON60VHALvcexw+R
+ e2nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7pnRJmXnO6IweO9cucbS1G2R/qlgmQQw2whsHVhkaZE=;
- b=eF8AktvlFi+BKE+weRlq/GcOSyJ66RjiBjWC8GEL1THB1ggyDOGl5WeR4GeLNfNOdf
- nqOiegAfOD4rU18yIYdN05MiXq3VwVIQrC86YU/okFyPq+dg3WR4BzGuzxsWmFsMxPVM
- HG8Eb0ppDtSDKfsf11oXy3lvvUYK+vF6OeGvL6Jz6fWc5zBRw8NATxxt8uEbHp3ixdW5
- fnNgV9Ur/1ymoyNsSjo4fFwzvRXpMRjrgc56OpXN58ub82qrnN27pKYJixVOj5rueDps
- xuQf/Kb3gsfNtogmBlh407UxX92U3n7yT5TnG2+o34/zZKq/C9cxFZhRyFVEo8jv4ZGV
- twaQ==
-X-Gm-Message-State: APjAAAUzsHHSs6xOm+cc3mupeFkbexC61kL/hTBk0CMWbaG1IXctbsaC
- RYRCPS9v8wjL0JfXtQzoy7JKhVESHCCysw==
-X-Google-Smtp-Source: APXvYqwc6DYlF7hCRuwxyonVI3wnlvADI2R3tbkx2C2e4xdIXmLcjGa4w9N0VITc7OjFlIc4ANA7Xw==
-X-Received: by 2002:adf:9521:: with SMTP id 30mr5484988wrs.349.1582907951611; 
- Fri, 28 Feb 2020 08:39:11 -0800 (PST)
+ bh=hTbY0nJfRg44cC4x/jkt29PNMvHIJImu3BmtAxBXRUA=;
+ b=fA0KA2X27xejjFaIagtxcZpdAY7Ra08T1TollTKDqFYDFH6WsVp4PYDwGiP8zkZ4lq
+ gOkDeWh99eQKmMQwS51pPKWXrLTKMxPYqwYAjjll7KgoNOzimy3jgRTVawgvRSe0QbE7
+ CJZxfjEJDpJnPXh7OgnDtU8UmeXlhz1/SRB1LlhpS9jgurLLSLF79BFwvQV4mh265EwD
+ RKI+HB+iwSXQJE17dWQX7oQUyf2hXzenX7WUO9hfww/GY7n32Owp2diP5m6ddDfVpyfm
+ vJLDVEPL/Q7eirnBBm2Xif1gsYkXsrFzFai3uxmTlKhE54wP38gEbJ3ovyel1O5SNKlt
+ epNw==
+X-Gm-Message-State: APjAAAUrtkNec2kL4hR67LN6qKXz6P7v+dG97faPcajrmPmDNNDqyeJ+
+ 9ewa6+AsIYgMJNHnbA9cuQsMFy1CVfnQtQ==
+X-Google-Smtp-Source: APXvYqwzkbW/MZ5n/ULQ9POm2Xt/rCkrJAFh4nPR4gciBW6mTqdU92Bn4tCNNLSYLXViozlcIQvJXQ==
+X-Received: by 2002:a05:600c:290:: with SMTP id
+ 16mr3131736wmk.64.1582907954723; 
+ Fri, 28 Feb 2020 08:39:14 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.10
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:11 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/33] tests/acceptance: Add a test for the N800 and N810 arm
- machines
-Date: Fri, 28 Feb 2020 16:38:32 +0000
-Message-Id: <20200228163840.23585-26-peter.maydell@linaro.org>
+Subject: [PULL 28/33] tests/acceptance/integratorcp: Verify Tux is displayed
+ on framebuffer
+Date: Fri, 28 Feb 2020 16:38:35 +0000
+Message-Id: <20200228163840.23585-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -68,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,93 +84,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Old kernels from the Meego project can be used to check that Linux
-is at least starting on these machines.
+Add a test that verifies the Tux logo is displayed on the framebuffer.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+We simply follow the OpenCV "Template Matching with Multiple Objects"
+tutorial, replacing Lionel Messi by Tux:
+https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
+
+When OpenCV and NumPy are installed, this test can be run using:
+
+  $ AVOCADO_ALLOW_UNTRUSTED_CODE=hmmm \
+    avocado --show=app,framebuffer run -t device:framebuffer \
+      tests/acceptance/machine_arm_integratorcp.py
+  JOB ID     : 8c46b0f8269242e87d738247883ea2a470df949e
+  JOB LOG    : avocado/job-results/job-2020-01-31T21.38-8c46b0f/job.log
+   (1/1) tests/acceptance/machine_arm_integratorcp.py:IntegratorMachine.test_framebuffer_tux_logo:
+  framebuffer: found Tux at position [x, y] = (0, 0)
+  PASS (3.96 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 4.23 s
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200225172501.29609-2-philmd@redhat.com
-Message-Id: <20200129131920.22302-1-thuth@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-id: 20200225172501.29609-5-philmd@redhat.com
+Message-Id: <20200131211102.29612-3-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- MAINTAINERS                          |  1 +
- tests/acceptance/machine_arm_n8x0.py | 49 ++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 tests/acceptance/machine_arm_n8x0.py
+ tests/acceptance/machine_arm_integratorcp.py | 52 ++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b66c46dcb9f..264374adbe8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -686,6 +686,7 @@ F: hw/rtc/twl92230.c
- F: include/hw/display/blizzard.h
- F: include/hw/input/tsc2xxx.h
- F: include/hw/misc/cbus.h
-+F: tests/acceptance/machine_arm_n8x0.py
+diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptance/machine_arm_integratorcp.py
+index 22afd3b82a8..49c8ebff78b 100644
+--- a/tests/acceptance/machine_arm_integratorcp.py
++++ b/tests/acceptance/machine_arm_integratorcp.py
+@@ -9,11 +9,26 @@
+ # later.  See the COPYING file in the top-level directory.
  
- Palm
- M: Andrzej Zaborowski <balrogg@gmail.com>
-diff --git a/tests/acceptance/machine_arm_n8x0.py b/tests/acceptance/machine_arm_n8x0.py
-new file mode 100644
-index 00000000000..e5741f2d8d1
---- /dev/null
-+++ b/tests/acceptance/machine_arm_n8x0.py
-@@ -0,0 +1,49 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Thomas Huth <thuth@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
+ import os
++import logging
+ 
+ from avocado import skipUnless
+ from avocado_qemu import Test
+ from avocado_qemu import wait_for_console_pattern
+ 
 +
-+import os
++NUMPY_AVAILABLE = True
++try:
++    import numpy as np
++except ImportError:
++    NUMPY_AVAILABLE = False
 +
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
++CV2_AVAILABLE = True
++try:
++    import cv2
++except ImportError:
++    CV2_AVAILABLE = False
 +
-+class N8x0Machine(Test):
-+    """Boots the Linux kernel and checks that the console is operational"""
 +
-+    timeout = 90
+ class IntegratorMachine(Test):
+ 
+     timeout = 90
+@@ -45,3 +60,40 @@ class IntegratorMachine(Test):
+         """
+         self.boot_integratorcp()
+         wait_for_console_pattern(self, 'Log in as root')
 +
-+    def __do_test_n8x0(self):
-+        kernel_url = ('http://stskeeps.subnetmask.net/meego-n8x0/'
-+                      'meego-arm-n8x0-1.0.80.20100712.1431-'
-+                      'vmlinuz-2.6.35~rc4-129.1-n8x0')
-+        kernel_hash = 'e9d5ab8d7548923a0061b6fbf601465e479ed269'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+
-+        self.vm.set_console(console_index=1)
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-append', 'printk.time=0 console=ttyS1')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'TSC2005 driver initializing')
-+
++    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
++    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
 +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_n800(self):
++    def test_framebuffer_tux_logo(self):
 +        """
++        Boot Linux and verify the Tux logo is displayed on the framebuffer.
 +        :avocado: tags=arch:arm
-+        :avocado: tags=machine:n800
++        :avocado: tags=machine:integratorcp
++        :avocado: tags=device:pl110
++        :avocado: tags=device:framebuffer
 +        """
-+        self.__do_test_n8x0()
++        screendump_path = os.path.join(self.workdir, "screendump.pbm")
++        tuxlogo_url = ('https://github.com/torvalds/linux/raw/v2.6.12/'
++                       'drivers/video/logo/logo_linux_vga16.ppm')
++        tuxlogo_hash = '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
++        tuxlogo_path = self.fetch_asset(tuxlogo_url, asset_hash=tuxlogo_hash)
 +
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_n810(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:n810
-+        """
-+        self.__do_test_n8x0()
++        self.boot_integratorcp()
++        framebuffer_ready = 'Console: switching to colour frame buffer device'
++        wait_for_console_pattern(self, framebuffer_ready)
++        self.vm.command('human-monitor-command', command_line='stop')
++        self.vm.command('human-monitor-command',
++                        command_line='screendump %s' % screendump_path)
++        logger = logging.getLogger('framebuffer')
++
++        cpu_count = 1
++        match_threshold = 0.92
++        screendump_bgr = cv2.imread(screendump_path)
++        screendump_gray = cv2.cvtColor(screendump_bgr, cv2.COLOR_BGR2GRAY)
++        result = cv2.matchTemplate(screendump_gray, cv2.imread(tuxlogo_path, 0),
++                                   cv2.TM_CCOEFF_NORMED)
++        loc = np.where(result >= match_threshold)
++        tux_count = 0
++        for tux_count, pt in enumerate(zip(*loc[::-1]), start=1):
++            logger.debug('found Tux at position [x, y] = %s', pt)
++        self.assertGreaterEqual(tux_count, cpu_count)
 -- 
 2.20.1
 
