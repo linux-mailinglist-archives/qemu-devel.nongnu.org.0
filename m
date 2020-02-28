@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5B4173A4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 15:51:23 +0100 (CET)
-Received: from localhost ([::1]:48090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9370173A7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 15:59:15 +0100 (CET)
+Received: from localhost ([::1]:48134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7gz4-0002gH-A6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 09:51:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
+	id 1j7h6g-00055m-K9
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 09:59:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j7gxv-0001uv-UE
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:50:13 -0500
+ (envelope-from <peterx@redhat.com>) id 1j7h5c-0004ek-4T
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:58:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j7gxu-0001ZH-Jr
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:50:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54872
+ (envelope-from <peterx@redhat.com>) id 1j7h5b-0007Jv-4F
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:58:07 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31311
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j7gxu-0001Wp-F9
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:50:10 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j7h5b-0007JH-0g
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:58:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582901407;
+ s=mimecast20190719; t=1582901885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vm/HGI5r4FLAY6zJYHC901AG7U+WHBTXmP3k/OmCNrc=;
- b=KJe7nw0KH81r1cIQWVilf4yAQ/4aQghDu57HXQ4CCrZ5sbF9mJTDDVFEZHUFU/+gdUTvxu
- A5qDUM0O1HTAM3LqkKwDNKWVNu99NtQ/ZpATgHkUxyfR4MNYflNWpjgkCm3dm30IiVB54O
- hzVB1cegdhN4Ssid3Am1yIal76yzWlE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-7iDE79IOM2KiX5NLfemoEQ-1; Fri, 28 Feb 2020 09:50:01 -0500
-X-MC-Unique: 7iDE79IOM2KiX5NLfemoEQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E33B9A0CC3;
- Fri, 28 Feb 2020 14:49:59 +0000 (UTC)
-Received: from [10.36.116.59] (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9203860BE0;
- Fri, 28 Feb 2020 14:49:52 +0000 (UTC)
-Subject: Re: [PATCH v4 00/10] vTPM for aarch64
-To: Stefan Berger <stefanb@linux.ibm.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200226205942.11424-1-eric.auger@redhat.com>
- <4fb16117-f9d3-61af-9198-931590a46e3d@linux.ibm.com>
- <ee98e8ab-06df-e422-1ca5-f3f6a48145f2@redhat.com>
- <2413ead7-3707-acc6-7900-bb3896082051@linux.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <8ae6ca7b-34b5-b752-2bfd-4b7c2c9663f5@redhat.com>
-Date: Fri, 28 Feb 2020 15:49:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ bh=J0baf9IIXBYV7PvLaQY0bCdaqLne7bstTOv3tPL9+Pg=;
+ b=Ldbidj50/wmq2jRzr2sobOFfvKIv0djNKMG1Z2plY0VrRdl2tplHqjuBDjNC5PaQxKLOVY
+ bcAOy3iM6lZvhHVqDpxFNxiPAt+5UhN3S4o7jAGbE1KL9zSF3FxHvOwjrcGLIVxuyRHM5u
+ iuNjzdg0PRVwrJEd+1VOtUGziFCLiQ8=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-VTyMYG18MfeKWQ-MEcgvRg-1; Fri, 28 Feb 2020 09:58:03 -0500
+X-MC-Unique: VTyMYG18MfeKWQ-MEcgvRg-1
+Received: by mail-qt1-f200.google.com with SMTP id t4so3135384qtd.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 06:58:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pFoGFf/7nt2NEkz52rJNFp9fZYcvnDk0Ekq6exGgrnA=;
+ b=rM4drvExMgKik6rOm0ZoM4cYqnhMduifnoPo91NDV7NfX/p7WQEdev1DI6sZExxeLW
+ ALpHB2Abl0knwbZIW3AREm5CKZiShtM5QtcP13CPdAjEyGb1I1D2WxEaOXTnNqMbjK5G
+ icUA5lBAhgL4Q/GS5DbznD/5GiHL5jB+GsFnswfsfMUoP0McPuH+w9SCzZp5SWikA6kZ
+ /Mvts7a4t2fObMNxHogVo7wgZvRpQ/1gRgTBFBHxeY3lXv38sHzCIHTR015MRRizQF58
+ VxBSsuIpaLIBGryV9cOCA5gbGVGpNTE+UGnH0zZqR7+v1+fo1TIQEPfAQ+E9Lx6ITFBW
+ PkhQ==
+X-Gm-Message-State: APjAAAUSO88knwvKu4zX3X0TFn0eqiTUcoXxirLSDzbn+9Pq67fEris7
+ v7KD9bhv3ygtZ4yZqs3E7ltoii4ypcCsFtOlhpfYyex+0p0YaygfXZbnqdEirWYh9NNdF9SCwm7
+ yNQM7Ja9i3DPARM8=
+X-Received: by 2002:a0c:9164:: with SMTP id q91mr3965993qvq.115.1582901882768; 
+ Fri, 28 Feb 2020 06:58:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyTn3DM4khwEV4UJTxgNcpTNm1FZAcCl+qevBFKwXM986BO8HtMh3Rt8VCx9LAiThelDAMR2Q==
+X-Received: by 2002:a0c:9164:: with SMTP id q91mr3965969qvq.115.1582901882480; 
+ Fri, 28 Feb 2020 06:58:02 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id f7sm5548949qtc.29.2020.02.28.06.58.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 06:58:01 -0800 (PST)
+Date: Fri, 28 Feb 2020 09:58:00 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 4/5] KVM: Kick resamplefd for split kernel irqchip
+Message-ID: <20200228145800.GR180973@xz-x1>
+References: <20200226225510.217077-1-peterx@redhat.com>
+ <0c8147b1-ee26-cd5d-1592-f07371feaeb8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2413ead7-3707-acc6-7900-bb3896082051@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <0c8147b1-ee26-cd5d-1592-f07371feaeb8@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,49 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
-On 2/28/20 3:37 PM, Stefan Berger wrote:
-> On 2/27/20 3:07 AM, Auger Eric wrote:
->> Hi Stefan,
->> On 2/26/20 11:44 PM, Stefan Berger wrote:
->>> On 2/26/20 3:59 PM, Eric Auger wrote:
->>>> This series adds the capability to instantiate an MMIO TPM TIS
->>>> in ARM virt. It is candidate to qemu 5.0.
->>> I queued it now here:
->>> https://github.com/stefanberger/qemu-tpm/commits/tpm-next
->>>
->>> I will send the PR within a few days. Thanks!
->> Thank you. I will just ping Peter to make sure he has no comments on
->>
->> [PATCH v4 06/10] hw/arm/virt: vTPM support
+On Fri, Feb 28, 2020 at 11:34:46AM +0100, Paolo Bonzini wrote:
+> On 26/02/20 23:55, Peter Xu wrote:
+> > +
+> > +            /* Kick resamplefd if KVM is bypassed */
+> > +            kvm_resample_fd_notify(n);
 >=20
->=20
-> The little dent is now an arm boot failure:
->=20
->=20
-> https://travis-ci.org/stefanberger/qemu-tpm/jobs/655573347?utm_medium=3Dn=
-otification&utm_source=3Demail
-is this really related to the sysbus TPM-TIS addition? I have the
-impression cubieboard acceptance tests (ARM 32b) are failing. I touched
-ARM virt machine.
+> This is only needed for level-triggered interrupts, so it can be placed
+> below the test.
 
-Thanks
+Yes I was thinking it the same way, however...  I noticed that VFIO
+will even mask edge INTx after getting IRQ (vfio_intx_handler).  And
+if look into current KVM kernel implementation, it has done the same
+logic to ack edge triggerred irqs (kvm_ioapic_update_eoi_one), we
+should logically ack it here too even for edge-triggered?
 
-Eric
+Thanks,
+
 >=20
+> Paolo
 >=20
+> > +            if (((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) !=3D
+> > +                IOAPIC_TRIGGER_LEVEL) {
+> >                  continue;
 >=20
-> Have a look at the raw log.
->=20
->=20
-> =C2=A0=C2=A0 Stefan
->=20
->=20
->=20
+
+--=20
+Peter Xu
 
 
