@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA74C173D4A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:43:41 +0100 (CET)
-Received: from localhost ([::1]:50264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B724173D82
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:50:20 +0100 (CET)
+Received: from localhost ([::1]:50580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7ijk-0000Cd-T9
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:43:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56673)
+	id 1j7iqB-0002FP-8H
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:50:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifR-00081S-6a
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifT-00087h-Es
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifO-00021I-TN
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55832)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifS-000242-1u
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:15 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55833)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifO-00020j-Mq
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:10 -0500
-Received: by mail-wm1-x342.google.com with SMTP id q9so3813156wmj.5
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:10 -0800 (PST)
+ id 1j7ifR-00023P-Qr
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
+Received: by mail-wm1-x342.google.com with SMTP id q9so3813325wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nzBxpGRVoOvsVOJMyP7MLneRWhuVzeygLumjQm/0mJM=;
- b=M1xz/9odEHOQ0pmoGoBARbK67tiajNoZgo7Do6G4jCZBxG+o4/yauILySdCBb/7DjV
- ZrqGu5Yrg+eF24+SFAEeM4Ne/DuIsychEyl5iqJSO9kRAjGOORqTtC7LOZ1SYaRFEZrA
- t2A85dfftF9CLfB8vYvHLoBsnRZ8x7FomSRnc1aD9lbaIiQLdpQDbuXNPCy82AeJ7MwI
- /dnwb9TN7DzlCrPM6dzXoHJpivky4SN26sZskRlru+MzuJfdE8MEsbMdYo54VUfOBvKa
- QmHtOnlgL68W/WJGGyKiXEZHYt8ZhNxvNEo02VUQNGCZRTj4d9UQjhDQSht5e+u10zvt
- L7MA==
+ bh=MzcpXPRjhRqp+Fy3j7b0AOUvrSs6C4ggJpK7+di/i9I=;
+ b=YHTEuaiywv6TwkaEpQ6y0Pr/eYo/MuLd+bW/CxXYFyS6XLWRgpJalfRmsEv33czlkp
+ CqCSUX+5Z7hZ/8oYAf2G8WE2CIhmigaeQW9BURErQCN3FwoSLjQ12sQwyPGUn7fUnEt4
+ nUlbcTPXSA5R/eabQ5y9Oz1s4IExO/BELOocxKtzhgzVmU9N/jICp/lTSeRQxRKZGech
+ WYKYumSxWRX6fbOnOiryoFmvFqPcGJ8om6ZcKcAC8Awj/pl5iauel4NedTOv15Eucu9K
+ OHGW1Jf3iYJogkSZvhKjdIEl/Ofsf6TaaG3hqXSH7Sk2YC02TiuM9g8C6h24P1MxRYbN
+ rzng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nzBxpGRVoOvsVOJMyP7MLneRWhuVzeygLumjQm/0mJM=;
- b=NdhE/Muo6RPvS02rnTJ72LFqmO2weS1+0fh2pEGTpMVaLlXd9TycDfJGkddY6TmEH+
- oG9Q7vo1EcrBW5bE9CKI1gzogRvoKwfH4m/JUmx1ZqxJcaluWS0sQefdlERjbtLkN6z9
- NHrGT3dgERfM6Q6NNNtKklSSGhFJ17R/w2FBhaIzR53yBjwctTWO1lyQ6mKU6bbEMOjD
- 0uHFGSsRfXR7hPBskD1SJkWCta87RY/RIgeneqBr/5Ql+TqHr0Hg/TvIDpgmvhaaMzGl
- OiHP/r+t+Gu6aHLvuo7gLgYdH8mFhyudWlWM7WsJ8rUblSrnXo2mRQs5o1sLHhYGt8aq
- ihBQ==
-X-Gm-Message-State: APjAAAWPYflbPe4hvbSI/Tl5I4JJVhDV7a5uOELGJVdEa+9n9/4fGo/T
- uiPriMwvbQirEY+u561deWDFMgFyJGhUJQ==
-X-Google-Smtp-Source: APXvYqxKRzWILLJBqyaGyirS6WISdqfbggTVeWHI4NrMdd59N9hhSKzU9cWWE0QH/WhxVq95mEHaeQ==
-X-Received: by 2002:a1c:984a:: with SMTP id a71mr5800072wme.185.1582907949447; 
- Fri, 28 Feb 2020 08:39:09 -0800 (PST)
+ bh=MzcpXPRjhRqp+Fy3j7b0AOUvrSs6C4ggJpK7+di/i9I=;
+ b=b0JbWh8vlZH4uvpynV1gEEhI5MWpofN4wkg15DpaqJCg2mdZDn0/Moue0gYVienWd+
+ SzShAnr/L3rgZKVrzcaM2G95tuX/3PUpxIrWiwZSS8rE2IAn2Yr3ZGd/jQ4kN3RCiz3W
+ L2DyVge6jFHbsAtG3r/yBG/M/5en9QqN/ueKxxYHP51Z8960WWi5+qGJmYN5oVpifICq
+ uYSHuwuqQvwS2rH9s5uCSY2EbWPLqaPqqS9J5bm86A25BxnOEhAqujqzp2wNZ1tB7tl/
+ UvTMMoYvzhDsv1Xcft/i9Txwu14/xAR6bQDxMsRiB/FzLzkjoRgSN8olIQmD10fVxgk/
+ luMw==
+X-Gm-Message-State: APjAAAWPnAxQNvzHKv4aL3cGdDhf60fsYSjwF+ImhEb9Al0SwNhDVYUk
+ 8LcQXQWrC+k/JsTtpe2yLKyAwnMuE+tVLA==
+X-Google-Smtp-Source: APXvYqweZBabnXeP+wV5O8uhPd4pdXk68ewudzcBz+O6ExOQJezLLbXdz/4m5kUMfvBq/PKV8r82Og==
+X-Received: by 2002:a1c:9c87:: with SMTP id f129mr5856634wme.26.1582907952559; 
+ Fri, 28 Feb 2020 08:39:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.08
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:08 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/33] hw/arm/xilinx_zynq: Fix USB port instantiation
-Date: Fri, 28 Feb 2020 16:38:30 +0000
-Message-Id: <20200228163840.23585-24-peter.maydell@linaro.org>
+Subject: [PULL 26/33] tests/acceptance: Add a test for the integratorcp arm
+ machine
+Date: Fri, 28 Feb 2020 16:38:33 +0000
+Message-Id: <20200228163840.23585-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -81,61 +83,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+From: Thomas Huth <thuth@redhat.com>
 
-USB ports on Xilinx Zync must be instantiated as TYPE_CHIPIDEA to work.
-Linux expects and checks various chipidea registers, which do not exist
-with the basic ehci emulation. This patch series fixes the problem.
+There is a kernel and initrd available on github which we can use
+for testing this machine.
 
-Without this patch, USB ports fail to instantiate under Linux.
-
-ci_hdrc ci_hdrc.0: doesn't support host
-ci_hdrc ci_hdrc.0: no supported roles
-
-With this patch, USB ports are instantiated, and it is possible
-to boot from USB drive.
-
-ci_hdrc ci_hdrc.0: EHCI Host Controller
-ci_hdrc ci_hdrc.0: new USB bus registered, assigned bus number 1
-ci_hdrc ci_hdrc.0: USB 2.0 started, EHCI 1.00
-usb 1-1: new full-speed USB device number 2 using ci_hdrc
-usb 1-1: not running at top speed; connect to a high speed hub
-usb 1-1: config 1 interface 0 altsetting 0 endpoint 0x81 has invalid maxpacket 512, setting to 64
-usb 1-1: config 1 interface 0 altsetting 0 endpoint 0x2 has invalid maxpacket 512, setting to 64
-usb-storage 1-1:1.0: USB Mass Storage device detected
-scsi host0: usb-storage 1-1:1.0
-
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200215122354.13706-2-linux@roeck-us.net
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200225172501.29609-3-philmd@redhat.com
+Message-Id: <20200131170233.14584-1-thuth@redhat.com>
+[PMD: Renamed test method, moved description from class to method]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xilinx_zynq.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ MAINTAINERS                                  |  1 +
+ tests/acceptance/machine_arm_integratorcp.py | 43 ++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 tests/acceptance/machine_arm_integratorcp.py
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 3d439a45d57..571cdcd599e 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -29,6 +29,7 @@
- #include "hw/loader.h"
- #include "hw/misc/zynq-xadc.h"
- #include "hw/ssi/ssi.h"
-+#include "hw/usb/chipidea.h"
- #include "qemu/error-report.h"
- #include "hw/sd/sdhci.h"
- #include "hw/char/cadence_uart.h"
-@@ -225,8 +226,8 @@ static void zynq_init(MachineState *machine)
-     zynq_init_spi_flashes(0xE0007000, pic[81-IRQ_OFFSET], false);
-     zynq_init_spi_flashes(0xE000D000, pic[51-IRQ_OFFSET], true);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 264374adbe8..c258391cad8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -613,6 +613,7 @@ S: Maintained
+ F: hw/arm/integratorcp.c
+ F: hw/misc/arm_integrator_debug.c
+ F: include/hw/misc/arm_integrator_debug.h
++F: tests/acceptance/machine_arm_integratorcp.py
  
--    sysbus_create_simple("xlnx,ps7-usb", 0xE0002000, pic[53-IRQ_OFFSET]);
--    sysbus_create_simple("xlnx,ps7-usb", 0xE0003000, pic[76-IRQ_OFFSET]);
-+    sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]);
-+    sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]);
- 
-     cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0));
-     cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1));
+ MCIMX6UL EVK / i.MX6ul
+ M: Peter Maydell <peter.maydell@linaro.org>
+diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptance/machine_arm_integratorcp.py
+new file mode 100644
+index 00000000000..d928ed79b4c
+--- /dev/null
++++ b/tests/acceptance/machine_arm_integratorcp.py
+@@ -0,0 +1,43 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# Copyright (c) 2020 Red Hat, Inc.
++#
++# Author:
++#  Thomas Huth <thuth@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import os
++
++from avocado import skipUnless
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
++
++class IntegratorMachine(Test):
++
++    timeout = 90
++
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_integratorcp_console(self):
++        """
++        Boots the Linux kernel and checks that the console is operational
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:integratorcp
++        """
++        kernel_url = ('https://github.com/zayac/qemu-arm/raw/master/'
++                      'arm-test/kernel/zImage.integrator')
++        kernel_hash = '0d7adba893c503267c946a3cbdc63b4b54f25468'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        initrd_url = ('https://github.com/zayac/qemu-arm/raw/master/'
++                      'arm-test/kernel/arm_root.img')
++        initrd_hash = 'b51e4154285bf784e017a37586428332d8c7bd8b'
++        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++
++        self.vm.set_console()
++        self.vm.add_args('-kernel', kernel_path,
++                         '-initrd', initrd_path,
++                         '-append', 'printk.time=0 console=ttyAMA0')
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Log in as root')
 -- 
 2.20.1
 
