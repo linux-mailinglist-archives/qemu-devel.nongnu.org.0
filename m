@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12F61733D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 10:25:49 +0100 (CET)
-Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D031733D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 10:26:01 +0100 (CET)
+Received: from localhost ([::1]:44052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7bu0-0007iv-Jk
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 04:25:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50317)
+	id 1j7buC-0008Fw-5J
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 04:26:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j7bso-0006BL-T3
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:24:36 -0500
+ (envelope-from <quintela@redhat.com>) id 1j7bss-0006Ee-4E
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:24:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j7bsn-0003ho-BS
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:24:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48296
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1j7bsp-0003kA-UW
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:24:38 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22666
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j7bsn-0003hT-2X
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:24:33 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j7bsp-0003in-Qs
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:24:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582881872;
+ s=mimecast20190719; t=1582881875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=099WWQ/QsNMjKwYVzLNMAvwgD2t6RSnfgPyNRuOp8Ss=;
- b=fKGwq8lqm3qM2qk4400Iq/qSR/2h50SeZILfMx7fz8kO6SDC1OYBKd2MO8UZK/VTmfaTHl
- k0BTy0sN7w6+K3KThar8I4cZfV8qZdru3iA5OAEG58xa1Z9NJiWvsPADspj7NydVqUHOKe
- UCzVYi+geIOlj79HOYx/CnizLEbC1QQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4DELz0veLAaHETpsBK3gmlB+L2NbohL45b4X/UQ+drw=;
+ b=MuAvnTdU/4Ph48p0AoF7xJImW/PsMp3k0AJ8HVcs4x2ezexKKhO0qCe+yZ4qGYptk3uFdg
+ f5TlJtz7Qudr9vAfu7VmKHhSuP9qQr4/Hk3DlreJFmDuqleYyHDxVbyO/AJHb1GybdOPCj
+ 2n2mRe/Y1ddRPZ3gq8FldK2VHJdkZWE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-7AJdcKCgMe-uL_4ta2cvBA-1; Fri, 28 Feb 2020 04:24:29 -0500
-X-MC-Unique: 7AJdcKCgMe-uL_4ta2cvBA-1
+ us-mta-327-fMSjF0DGNNSj545e8YUM4A-1; Fri, 28 Feb 2020 04:24:33 -0500
+X-MC-Unique: fMSjF0DGNNSj545e8YUM4A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65C5CA0CBF;
- Fri, 28 Feb 2020 09:24:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E770A0CBF;
+ Fri, 28 Feb 2020 09:24:32 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-211.ams2.redhat.com [10.36.116.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C22160BE0;
- Fri, 28 Feb 2020 09:24:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDE0860BE0;
+ Fri, 28 Feb 2020 09:24:28 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] Pull migration patches
-Date: Fri, 28 Feb 2020 10:24:05 +0100
-Message-Id: <20200228092420.103757-1-quintela@redhat.com>
+Subject: [PULL 01/15] multifd: Add multifd-compression parameter
+Date: Fri, 28 Feb 2020 10:24:06 +0100
+Message-Id: <20200228092420.103757-2-quintela@redhat.com>
+In-Reply-To: <20200228092420.103757-1-quintela@redhat.com>
+References: <20200228092420.103757-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,96 +85,336 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8b6b68e05b43f976714ca1d2afe01a64e1d82cba=
-:
+This will store the compression method to use.  We start with none.
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging=
- (2020-02-27 19:15:15 +0000)
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-are available in the Git repository at:
+---
 
-  https://github.com/juanquintela/qemu.git tags/pull-migration-pull-request
+Rename multifd-method to multifd-compression
+---
+ hw/core/qdev-properties.c    | 13 +++++++++++++
+ include/hw/qdev-properties.h |  4 ++++
+ migration/migration.c        | 13 +++++++++++++
+ monitor/hmp-cmds.c           | 13 +++++++++++++
+ qapi/migration.json          | 30 +++++++++++++++++++++++++++---
+ tests/qtest/migration-test.c | 14 ++++++++++----
+ 6 files changed, 80 insertions(+), 7 deletions(-)
 
-for you to fetch changes up to f51d0b4178738bba87d796eba7444f6cdb3aa0fd:
-
-  savevm: Don't call colo_init_ram_cache twice (2020-02-28 10:13:54 +0100)
-
-----------------------------------------------------------------
-Migration pull request
-
-- cleanup redundant initilazation (chen)
-- fix memleak in test_load_qlist (chen)
-- several colo fixes (hailiang)
-- multifd compression (juan)
-- release list after use (pan)
-- rename BLOCK_SIZE (stefan)
-
-Please apply.
-
-----------------------------------------------------------------
-
-Chen Qun (2):
-  migration/vmstate: Remove redundant statement in
-    vmstate_save_state_v()
-  test-vmstate: Fix memleaks in test_load_qlist
-
-Hailiang Zhang (3):
-  migration: fix COLO broken caused by a previous commit
-  migration/colo: wrap incoming checkpoint process into new helper
-  savevm: Don't call colo_init_ram_cache twice
-
-Juan Quintela (8):
-  multifd: Add multifd-compression parameter
-  migration: Add support for modules
-  multifd: Make no compression operations into its own structure
-  multifd: Add multifd-zlib-level parameter
-  multifd: Add zlib compression multifd support
-  configure: Enable test and libs for zstd
-  multifd: Add multifd-zstd-level parameter
-  multifd: Add zstd compression multifd support
-
-Pan Nengyuan (1):
-  migration/savevm: release gslist after dump_vmstate_json
-
-Stefan Hajnoczi (1):
-  migration/block: rename BLOCK_SIZE macro
-
- .gitlab-ci.yml                                |   1 +
- .travis.yml                                   |   1 +
- configure                                     |  30 ++
- hw/core/qdev-properties.c                     |  13 +
- include/hw/qdev-properties.h                  |   4 +
- include/qemu/module.h                         |   2 +
- migration/Makefile.objs                       |   2 +
- migration/block.c                             |  39 +-
- migration/colo.c                              | 260 +++++++-------
- migration/migration.c                         |  76 +++-
- migration/migration.h                         |   3 +
- migration/multifd-zlib.c                      | 325 +++++++++++++++++
- migration/multifd-zstd.c                      | 339 ++++++++++++++++++
- migration/multifd.c                           | 191 +++++++++-
- migration/multifd.h                           |  31 ++
- migration/ram.c                               |   2 +-
- migration/savevm.c                            |   1 +
- migration/vmstate.c                           |   1 -
- monitor/hmp-cmds.c                            |  21 ++
- qapi/migration.json                           |  80 ++++-
- softmmu/vl.c                                  |   1 +
- tests/docker/dockerfiles/centos7.docker       |   3 +-
- .../dockerfiles/fedora-i386-cross.docker      |   3 +-
- tests/docker/dockerfiles/fedora.docker        |   3 +-
- tests/docker/dockerfiles/ubuntu.docker        |   1 +
- tests/docker/dockerfiles/ubuntu1804.docker    |   1 +
- tests/qtest/migration-test.c                  |  30 +-
- tests/test-vmstate.c                          |   6 +-
- tests/vm/fedora                               |   5 +-
- tests/vm/freebsd                              |   3 +
- tests/vm/netbsd                               |   3 +
- tests/vm/openbsd                              |   3 +
- 32 files changed, 1307 insertions(+), 177 deletions(-)
- create mode 100644 migration/multifd-zlib.c
- create mode 100644 migration/multifd-zstd.c
-
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 7f93bfeb88..fa7edac020 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -8,6 +8,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ctype.h"
+ #include "qemu/error-report.h"
++#include "qapi/qapi-types-migration.h"
+ #include "hw/block/block.h"
+ #include "net/hub.h"
+ #include "qapi/visitor.h"
+@@ -639,6 +640,18 @@ const PropertyInfo qdev_prop_fdc_drive_type =3D {
+     .set_default_value =3D set_default_value_enum,
+ };
+=20
++/* --- MultiFDCompression --- */
++
++const PropertyInfo qdev_prop_multifd_compression =3D {
++    .name =3D "MultiFDCompression",
++    .description =3D "multifd_compression values, "
++                   "none",
++    .enum_table =3D &MultiFDCompression_lookup,
++    .get =3D get_enum,
++    .set =3D set_enum,
++    .set_default_value =3D set_default_value_enum,
++};
++
+ /* --- pci address --- */
+=20
+ /*
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 906e697c58..f161604fb6 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -20,6 +20,7 @@ extern const PropertyInfo qdev_prop_chr;
+ extern const PropertyInfo qdev_prop_tpm;
+ extern const PropertyInfo qdev_prop_macaddr;
+ extern const PropertyInfo qdev_prop_on_off_auto;
++extern const PropertyInfo qdev_prop_multifd_compression;
+ extern const PropertyInfo qdev_prop_losttickpolicy;
+ extern const PropertyInfo qdev_prop_blockdev_on_error;
+ extern const PropertyInfo qdev_prop_bios_chs_trans;
+@@ -184,6 +185,9 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+     DEFINE_PROP(_n, _s, _f, qdev_prop_macaddr, MACAddr)
+ #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_on_off_auto, OnOffAuto)
++#define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_multifd_compression, \
++                       MultiFDCompression)
+ #define DEFINE_PROP_LOSTTICKPOLICY(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_losttickpolicy, \
+                         LostTickPolicy)
+diff --git a/migration/migration.c b/migration/migration.c
+index 8fb68795dc..bc744d1734 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -88,6 +88,7 @@
+ /* The delay time (in ms) between two COLO checkpoints */
+ #define DEFAULT_MIGRATE_X_CHECKPOINT_DELAY (200 * 100)
+ #define DEFAULT_MIGRATE_MULTIFD_CHANNELS 2
++#define DEFAULT_MIGRATE_MULTIFD_COMPRESSION MULTIFD_COMPRESSION_NONE
+=20
+ /* Background transfer rate for postcopy, 0 means unlimited, note
+  * that page requests can still exceed this limit.
+@@ -798,6 +799,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error=
+ **errp)
+     params->block_incremental =3D s->parameters.block_incremental;
+     params->has_multifd_channels =3D true;
+     params->multifd_channels =3D s->parameters.multifd_channels;
++    params->has_multifd_compression =3D true;
++    params->multifd_compression =3D s->parameters.multifd_compression;
+     params->has_xbzrle_cache_size =3D true;
+     params->xbzrle_cache_size =3D s->parameters.xbzrle_cache_size;
+     params->has_max_postcopy_bandwidth =3D true;
+@@ -1315,6 +1318,9 @@ static void migrate_params_test_apply(MigrateSetParam=
+eters *params,
+     if (params->has_multifd_channels) {
+         dest->multifd_channels =3D params->multifd_channels;
+     }
++    if (params->has_multifd_compression) {
++        dest->multifd_compression =3D params->multifd_compression;
++    }
+     if (params->has_xbzrle_cache_size) {
+         dest->xbzrle_cache_size =3D params->xbzrle_cache_size;
+     }
+@@ -1411,6 +1417,9 @@ static void migrate_params_apply(MigrateSetParameters=
+ *params, Error **errp)
+     if (params->has_multifd_channels) {
+         s->parameters.multifd_channels =3D params->multifd_channels;
+     }
++    if (params->has_multifd_compression) {
++        s->parameters.multifd_compression =3D params->multifd_compression;
++    }
+     if (params->has_xbzrle_cache_size) {
+         s->parameters.xbzrle_cache_size =3D params->xbzrle_cache_size;
+         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
+@@ -3523,6 +3532,9 @@ static Property migration_properties[] =3D {
+     DEFINE_PROP_UINT8("multifd-channels", MigrationState,
+                       parameters.multifd_channels,
+                       DEFAULT_MIGRATE_MULTIFD_CHANNELS),
++    DEFINE_PROP_MULTIFD_COMPRESSION("multifd-compression", MigrationState,
++                      parameters.multifd_compression,
++                      DEFAULT_MIGRATE_MULTIFD_COMPRESSION),
+     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
+                       parameters.xbzrle_cache_size,
+                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
+@@ -3613,6 +3625,7 @@ static void migration_instance_init(Object *obj)
+     params->has_x_checkpoint_delay =3D true;
+     params->has_block_incremental =3D true;
+     params->has_multifd_channels =3D true;
++    params->has_multifd_compression =3D true;
+     params->has_xbzrle_cache_size =3D true;
+     params->has_max_postcopy_bandwidth =3D true;
+     params->has_max_cpu_throttle =3D true;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 53bc3f76c4..d9b4861f94 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -40,6 +40,7 @@
+ #include "qapi/qapi-commands-tpm.h"
+ #include "qapi/qapi-commands-ui.h"
+ #include "qapi/qapi-visit-net.h"
++#include "qapi/qapi-visit-migration.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/string-input-visitor.h"
+@@ -448,6 +449,9 @@ void hmp_info_migrate_parameters(Monitor *mon, const QD=
+ict *qdict)
+         monitor_printf(mon, "%s: %u\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_CHANNELS),
+             params->multifd_channels);
++        monitor_printf(mon, "%s: %s\n",
++            MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_COMPRESSION=
+),
++            MultiFDCompression_str(params->multifd_compression));
+         monitor_printf(mon, "%s: %" PRIu64 "\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE),
+             params->xbzrle_cache_size);
+@@ -1739,6 +1743,7 @@ void hmp_migrate_set_parameter(Monitor *mon, const QD=
+ict *qdict)
+     MigrateSetParameters *p =3D g_new0(MigrateSetParameters, 1);
+     uint64_t valuebw =3D 0;
+     uint64_t cache_size;
++    MultiFDCompression compress_type;
+     Error *err =3D NULL;
+     int val, ret;
+=20
+@@ -1824,6 +1829,14 @@ void hmp_migrate_set_parameter(Monitor *mon, const Q=
+Dict *qdict)
+         p->has_multifd_channels =3D true;
+         visit_type_int(v, param, &p->multifd_channels, &err);
+         break;
++    case MIGRATION_PARAMETER_MULTIFD_COMPRESSION:
++        p->has_multifd_compression =3D true;
++        visit_type_MultiFDCompression(v, param, &compress_type, &err);
++        if (err) {
++            break;
++        }
++        p->multifd_compression =3D compress_type;
++        break;
+     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
+         p->has_xbzrle_cache_size =3D true;
+         visit_type_size(v, param, &cache_size, &err);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 52f3429969..40950ef47e 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -488,6 +488,19 @@
+ ##
+ { 'command': 'query-migrate-capabilities', 'returns':   ['MigrationCapabil=
+ityStatus']}
+=20
++##
++# @MultiFDCompression:
++#
++# An enumeration of multifd compression methods.
++#
++# @none: no compression.
++#
++# Since: 5.0
++#
++##
++{ 'enum': 'MultiFDCompression',
++  'data': [ 'none' ] }
++
+ ##
+ # @MigrationParameter:
+ #
+@@ -586,6 +599,9 @@
+ # @max-cpu-throttle: maximum cpu throttle percentage.
+ #                    Defaults to 99. (Since 3.1)
+ #
++# @multifd-compression: Which compression method to use.
++#                       Defaults to none. (Since 5.0)
++#
+ # Since: 2.4
+ ##
+ { 'enum': 'MigrationParameter',
+@@ -598,7 +614,7 @@
+            'downtime-limit', 'x-checkpoint-delay', 'block-incremental',
+            'multifd-channels',
+            'xbzrle-cache-size', 'max-postcopy-bandwidth',
+-           'max-cpu-throttle' ] }
++           'max-cpu-throttle', 'multifd-compression' ] }
+=20
+ ##
+ # @MigrateSetParameters:
+@@ -688,6 +704,9 @@
+ # @max-cpu-throttle: maximum cpu throttle percentage.
+ #                    The default value is 99. (Since 3.1)
+ #
++# @multifd-compression: Which compression method to use.
++#                       Defaults to none. (Since 5.0)
++#
+ # Since: 2.4
+ ##
+ # TODO either fuse back into MigrationParameters, or make
+@@ -713,7 +732,8 @@
+             '*multifd-channels': 'int',
+             '*xbzrle-cache-size': 'size',
+             '*max-postcopy-bandwidth': 'size',
+-            '*max-cpu-throttle': 'int' } }
++            '*max-cpu-throttle': 'int',
++            '*multifd-compression': 'MultiFDCompression' } }
+=20
+ ##
+ # @migrate-set-parameters:
+@@ -823,6 +843,9 @@
+ #                    Defaults to 99.
+ #                    (Since 3.1)
+ #
++# @multifd-compression: Which compression method to use.
++#                       Defaults to none. (Since 5.0)
++#
+ # Since: 2.4
+ ##
+ { 'struct': 'MigrationParameters',
+@@ -846,7 +869,8 @@
+             '*multifd-channels': 'uint8',
+             '*xbzrle-cache-size': 'size',
+             '*max-postcopy-bandwidth': 'size',
+-            '*max-cpu-throttle':'uint8'} }
++            '*max-cpu-throttle': 'uint8',
++            '*multifd-compression': 'MultiFDCompression' } }
+=20
+ ##
+ # @query-migrate-parameters:
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index ccf313f288..f84c157285 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -378,7 +378,6 @@ static void migrate_check_parameter_str(QTestState *who=
+, const char *parameter,
+     g_free(result);
+ }
+=20
+-__attribute__((unused))
+ static void migrate_set_parameter_str(QTestState *who, const char *paramet=
+er,
+                                       const char *value)
+ {
+@@ -1261,7 +1260,7 @@ static void test_migrate_auto_converge(void)
+     test_migrate_end(from, to, true);
+ }
+=20
+-static void test_multifd_tcp(void)
++static void test_multifd_tcp(const char *method)
+ {
+     MigrateStart *args =3D migrate_start_new();
+     QTestState *from, *to;
+@@ -1285,6 +1284,9 @@ static void test_multifd_tcp(void)
+     migrate_set_parameter_int(from, "multifd-channels", 16);
+     migrate_set_parameter_int(to, "multifd-channels", 16);
+=20
++    migrate_set_parameter_str(from, "multifd-compression", method);
++    migrate_set_parameter_str(to, "multifd-compression", method);
++
+     migrate_set_capability(from, "multifd", "true");
+     migrate_set_capability(to, "multifd", "true");
+=20
+@@ -1316,6 +1318,11 @@ static void test_multifd_tcp(void)
+     g_free(uri);
+ }
+=20
++static void test_multifd_tcp_none(void)
++{
++    test_multifd_tcp("none");
++}
++
+ /*
+  * This test does:
+  *  source               target
+@@ -1327,7 +1334,6 @@ static void test_multifd_tcp(void)
+  *
+  *  And see that it works
+  */
+-
+ static void test_multifd_tcp_cancel(void)
+ {
+     MigrateStart *args =3D migrate_start_new();
+@@ -1478,7 +1484,7 @@ int main(int argc, char **argv)
+                    test_validate_uuid_dst_not_set);
+=20
+     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge)=
+;
+-    qtest_add_func("/migration/multifd/tcp", test_multifd_tcp);
++    qtest_add_func("/migration/multifd/tcp/none", test_multifd_tcp_none);
+     qtest_add_func("/migration/multifd/tcp/cancel", test_multifd_tcp_cance=
+l);
+=20
+     ret =3D g_test_run();
 --=20
 2.24.1
 
