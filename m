@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D8B173692
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:55:00 +0100 (CET)
-Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4A11736B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:57:26 +0100 (CET)
+Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7eEN-0004Jk-Fp
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:54:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
+	id 1j7eGj-0007tj-M5
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:57:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41701)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7e8h-0002Gi-9p
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7e8e-0002El-Ni
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7e8b-0001gH-Ms
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25393
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j7e8d-0001hT-Mo
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:04 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58171
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e8b-0001fa-JQ
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:01 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e8d-0001gN-Ih
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582890540;
+ s=mimecast20190719; t=1582890541;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HpvhBcgDEFXbW4nnsILUgB/YwCbsH+JgLvDjsUesnxw=;
- b=YUj6SSB9Ta0MX0beBL5PUKYoH6oH9xU4RKP5pha9kutCTYAlKNKAq8TizJA6S0DAjbM+3u
- pzZqjDl6lfX4LGj2py4QDfibebfTt+W07tDojMUhtMTOsdJ/6s2vePoOMR+850Q4/PZF6m
- ZTVebsWmdQJz5BrcM6Zj3WoGw+c8/rs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-WuA10LXOPia12mY7TbPupw-1; Fri, 28 Feb 2020 06:48:57 -0500
-X-MC-Unique: WuA10LXOPia12mY7TbPupw-1
-Received: by mail-wm1-f69.google.com with SMTP id j130so1046319wmj.9
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:57 -0800 (PST)
+ bh=qTdLeO/j/e6eP/jAK/QSTo2ZeP6lsa0GUR9L2pxBWEY=;
+ b=RGHbZ3B+ihNxayMtFx5j2HT3AWCW+IpN2CjJpRxtba9xQfWG7z115NITwdPkmznDXOMwgM
+ esEr4XjPkIkTKSdgHDrue5Kxjwd+mnBUqOb/13i3j4QMp0wyBuki7YwOjVQChJhaHnSVt0
+ /QAWQLruU6fQd0sW3haGYxg4FEMa0/I=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-dWDFremBO2SYb7vTO0lotQ-1; Fri, 28 Feb 2020 06:48:59 -0500
+X-MC-Unique: dWDFremBO2SYb7vTO0lotQ-1
+Received: by mail-wm1-f70.google.com with SMTP id r19so1060149wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TAAC6hBU6t+zLFkPHrngSmK6nZvpAvnMhu+yhsKCpbQ=;
- b=igVsA/9tfqBL9IEgw1oYHzdJG2naErDMSqgp2Ygnza6nyFmu23iNyqdDu/+19K4Sx+
- QzeAHhPcpp7CT8bU2lxfAgCic3m7S5SZ0k1ICf3MrRCLaVKnk5uNY8IIM7EFLBzUzSGY
- xUYxaWwHOqBPgEmXJoQVmXCvtY5lGfH8H7i8L4DJ5kmnmTbHuzr0YZJDs4gq9324ZZw7
- Ydb2qLv7tUFXXRt/d9O4I8U/uBtLbt73/A6sjtplVXPTSY0fdP9lPMR6O8aSakByPjnX
- M9qdOx38/pVQSS76xMcSD3BJgwsAyhYwG35NHpXJZ/ir8l4iqKXtJXsHVhdbdqIYfqr8
- q2mA==
-X-Gm-Message-State: APjAAAUy50cp/sJbKgwp/X6B8Afut4ownv2yhT9O/KVQrS4WM4MTIAov
- N8FsiXIkEO57bLBAd8KwoeHoj5TN0s0/cnSgYt7mjLqGSVcPb2vm5ukqSU3b1xOwgd+LnPzBwb/
- OtiZyZwqG2MrChao=
-X-Received: by 2002:a05:600c:2503:: with SMTP id
- d3mr4452250wma.84.1582890535988; 
- Fri, 28 Feb 2020 03:48:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwZl9sQglFXX2f58Og2cQLISqqwnYjcxfrvyrAnaP7z/50j7WPYiaW2EQvhFtgE5mUHQ9bYdA==
-X-Received: by 2002:a05:600c:2503:: with SMTP id
- d3mr4452232wma.84.1582890535765; 
- Fri, 28 Feb 2020 03:48:55 -0800 (PST)
+ bh=dgOorqpkh3gN4b7sAM5gmxbiZ9joAGYWI1QUJBzOx9g=;
+ b=p1+9/hHXoWqiuhpvlkzN0SkRFHk9Js2jfjq96IE0EVwYel8EsxIPkBWt68zxiNjm9E
+ R4bGbaFZJQb1hECaxf8lJwDDz0kWScNLj6vT8qdNurGY3RW4Oob704bguEmuNoX/YxZy
+ 9qcpRKTo31cLjuw1wDStq+eeI9JGDa8TG9lVUKeHvQnPtjCD6ddAskk97M7uvSvDE/US
+ NOxzip+t0h8sP7i9A5+kAvM1HNeTxMLXehHD6aPlLUlpgfEYJeNiR8DcM4b8B8HTR9JT
+ Li/IaeOF2Rfm+Si0/M00WqTomr02aiKtS9TlXU1VEFq9itOOMAmn22pnkT4Ra1BFUGEo
+ my8w==
+X-Gm-Message-State: APjAAAVsWOK1TOmDXAhT3bzjn+CyuxeYseWJbB31BFyBQaBrzVoRI1P/
+ eqmAkgIF7qtYB1AL+7eW2fDupXPInw/lgaU3Fhvh4JpYZlBtW3x6Fp40IiyJBAN7LmVsmtzQ6zP
+ SgsNfEjM6zYVwiY4=
+X-Received: by 2002:a7b:cf39:: with SMTP id m25mr4483317wmg.146.1582890538278; 
+ Fri, 28 Feb 2020 03:48:58 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzSECnXVOCZYvsdQaRgO3slzYjheg1QWBdEwrqqjtLopf28EMMyXYnzPgpXVuQahIv26lkZyQ==
+X-Received: by 2002:a7b:cf39:: with SMTP id m25mr4483298wmg.146.1582890538096; 
+ Fri, 28 Feb 2020 03:48:58 -0800 (PST)
 Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id 133sm2082799wmd.5.2020.02.28.03.48.54
+ by smtp.gmail.com with ESMTPSA id 133sm2082799wmd.5.2020.02.28.03.48.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 03:48:55 -0800 (PST)
+ Fri, 28 Feb 2020 03:48:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/18] hw/pci-host/q35: Remove unused includes
-Date: Fri, 28 Feb 2020 12:46:48 +0100
-Message-Id: <20200228114649.12818-18-philmd@redhat.com>
+Subject: [PATCH v2 18/18] hw/i386/pc: Clean up includes
+Date: Fri, 28 Feb 2020 12:46:49 +0100
+Message-Id: <20200228114649.12818-19-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200228114649.12818-1-philmd@redhat.com>
 References: <20200228114649.12818-1-philmd@redhat.com>
@@ -77,7 +75,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,49 +93,67 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only q35.c requires declarations from "hw/i386/pc.h", move it there.
-Remove all the includes not used by "q35.h".
+Various headers are not required by hw/i386/pc.h:
+
+ - "qemu/range.h"
+ - "qemu/bitmap.h"
+ - "qemu/module.h"
+ - "exec/memory.h"
+ - "hw/pci/pci.h"
+ - "hw/mem/pc-dimm.h"
+ - "hw/mem/nvdimm.h"
+ - "net/net.h"
+
+Remove them.
+
+Add 3 headers that were missing:
+
+ - "hw/hotplug.h"
+
+   PCMachineState::acpi_dev is of type HotplugHandler
+
+ - "qemu/notify.h"
+
+   PCMachineState::machine_done is of type Notifier
+
+ - "qapi/qapi-types-common.h"
+
+   PCMachineState::vmport/smm is of type OnOffAuto
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/pci-host/q35.h | 7 -------
- hw/pci-host/q35.c         | 1 +
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ include/hw/i386/pc.h | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
-index 47086c645e..070305f83d 100644
---- a/include/hw/pci-host/q35.h
-+++ b/include/hw/pci-host/q35.h
-@@ -22,16 +22,9 @@
- #ifndef HW_Q35_H
- #define HW_Q35_H
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index d5ac76d54e..6ab6eda046 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -1,20 +1,15 @@
+ #ifndef HW_PC_H
+ #define HW_PC_H
 =20
--#include "hw/isa/isa.h"
--#include "hw/sysbus.h"
--#include "hw/i386/pc.h"
--#include "hw/isa/apm.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
--#include "hw/acpi/acpi.h"
--#include "hw/acpi/ich9.h"
- #include "hw/pci-host/pam.h"
--#include "hw/i386/intel_iommu.h"
- #include "qemu/units.h"
- #include "qemu/range.h"
+-#include "exec/memory.h"
++#include "qemu/notify.h"
++#include "qapi/qapi-types-common.h"
+ #include "hw/boards.h"
+ #include "hw/block/fdc.h"
+ #include "hw/block/flash.h"
+-#include "net/net.h"
+ #include "hw/i386/x86.h"
 =20
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index a9b9ccc876..993f467668 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -29,6 +29,7 @@
-  */
+-#include "qemu/range.h"
+-#include "qemu/bitmap.h"
+-#include "qemu/module.h"
+-#include "hw/pci/pci.h"
+-#include "hw/mem/pc-dimm.h"
+-#include "hw/mem/nvdimm.h"
+ #include "hw/acpi/acpi_dev_interface.h"
++#include "hw/hotplug.h"
 =20
- #include "qemu/osdep.h"
-+#include "hw/i386/pc.h"
- #include "hw/pci-host/q35.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
+ #define HPET_INTCAP "hpet-intcap"
+=20
 --=20
 2.21.1
 
