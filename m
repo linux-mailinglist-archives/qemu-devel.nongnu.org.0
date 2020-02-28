@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4A11736B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:57:26 +0100 (CET)
-Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D058C173666
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:49:18 +0100 (CET)
+Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7eGj-0007tj-M5
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41701)
+	id 1j7e8r-0001N9-Ro
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:49:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7e8e-0002El-Ni
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:05 -0500
+ (envelope-from <lersek@redhat.com>) id 1j7e6w-0007pz-WC
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7e8d-0001hT-Mo
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:04 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58171
+ (envelope-from <lersek@redhat.com>) id 1j7e6v-0001Cs-O2
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:18 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25727
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e8d-0001gN-Ih
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:03 -0500
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1j7e6v-0001Cg-Jh
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582890541;
+ s=mimecast20190719; t=1582890437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qTdLeO/j/e6eP/jAK/QSTo2ZeP6lsa0GUR9L2pxBWEY=;
- b=RGHbZ3B+ihNxayMtFx5j2HT3AWCW+IpN2CjJpRxtba9xQfWG7z115NITwdPkmznDXOMwgM
- esEr4XjPkIkTKSdgHDrue5Kxjwd+mnBUqOb/13i3j4QMp0wyBuki7YwOjVQChJhaHnSVt0
- /QAWQLruU6fQd0sW3haGYxg4FEMa0/I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-dWDFremBO2SYb7vTO0lotQ-1; Fri, 28 Feb 2020 06:48:59 -0500
-X-MC-Unique: dWDFremBO2SYb7vTO0lotQ-1
-Received: by mail-wm1-f70.google.com with SMTP id r19so1060149wmh.1
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dgOorqpkh3gN4b7sAM5gmxbiZ9joAGYWI1QUJBzOx9g=;
- b=p1+9/hHXoWqiuhpvlkzN0SkRFHk9Js2jfjq96IE0EVwYel8EsxIPkBWt68zxiNjm9E
- R4bGbaFZJQb1hECaxf8lJwDDz0kWScNLj6vT8qdNurGY3RW4Oob704bguEmuNoX/YxZy
- 9qcpRKTo31cLjuw1wDStq+eeI9JGDa8TG9lVUKeHvQnPtjCD6ddAskk97M7uvSvDE/US
- NOxzip+t0h8sP7i9A5+kAvM1HNeTxMLXehHD6aPlLUlpgfEYJeNiR8DcM4b8B8HTR9JT
- Li/IaeOF2Rfm+Si0/M00WqTomr02aiKtS9TlXU1VEFq9itOOMAmn22pnkT4Ra1BFUGEo
- my8w==
-X-Gm-Message-State: APjAAAVsWOK1TOmDXAhT3bzjn+CyuxeYseWJbB31BFyBQaBrzVoRI1P/
- eqmAkgIF7qtYB1AL+7eW2fDupXPInw/lgaU3Fhvh4JpYZlBtW3x6Fp40IiyJBAN7LmVsmtzQ6zP
- SgsNfEjM6zYVwiY4=
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr4483317wmg.146.1582890538278; 
- Fri, 28 Feb 2020 03:48:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzSECnXVOCZYvsdQaRgO3slzYjheg1QWBdEwrqqjtLopf28EMMyXYnzPgpXVuQahIv26lkZyQ==
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr4483298wmg.146.1582890538096; 
- Fri, 28 Feb 2020 03:48:58 -0800 (PST)
-Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id 133sm2082799wmd.5.2020.02.28.03.48.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 03:48:57 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/18] hw/i386/pc: Clean up includes
-Date: Fri, 28 Feb 2020 12:46:49 +0100
-Message-Id: <20200228114649.12818-19-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200228114649.12818-1-philmd@redhat.com>
-References: <20200228114649.12818-1-philmd@redhat.com>
+ bh=8BNdwFo6D4RM1QqMeGEYpq+rW47Ybe01Mt7n/8vbROk=;
+ b=gG0cn5pRYiMIKef74bDIq4obeQxpwSth5bKn+DKNC+7p16pHddDWRB9XNsc4nS3KCim3mD
+ lR3L94FBaUePrP18CAPjUTB8SFf9phX9BJZIYoyOjwws1sXY1bLACC2RrdxGwt6eoQD7+W
+ LuAfhpwXdMe0fYZnUhtqi2InzHTyyNE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-pwc4kRDBOS6hnTXxdAScMw-1; Fri, 28 Feb 2020 06:47:12 -0500
+X-MC-Unique: pwc4kRDBOS6hnTXxdAScMw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6650F8017CC;
+ Fri, 28 Feb 2020 11:47:11 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-243.ams2.redhat.com
+ [10.36.116.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55CAE5D9CD;
+ Fri, 28 Feb 2020 11:47:09 +0000 (UTC)
+Subject: Re: [edk2-devel] A problem with live migration of UEFI virtual
+ machines
+To: Andrew Fish <afish@apple.com>, devel@edk2.groups.io
+References: <tencent_BC7FD00363690990994E90F8@qq.com>
+ <87sgjhxbtc.fsf@zen.linaroharston> <20200224152810.GX635661@redhat.com>
+ <8b0ec286-9322-ee00-3729-6ec7ee8260a6@redhat.com>
+ <3E8BB07B-8730-4AB8-BCB6-EA183FB589C5@apple.com>
+ <465a5a84-cac4-de39-8956-e38771807450@redhat.com>
+ <8F42F6F1-A65D-490D-9F2F-E12746870B29@apple.com>
+ <6666a886-720d-1ead-8f7e-13e65dcaaeb4@redhat.com>
+ <284BFC25-8534-4147-8616-DE7C410DB681@apple.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <2e3771cf-089c-aecd-49a7-3034a30fc443@redhat.com>
+Date: Fri, 28 Feb 2020 12:47:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <284BFC25-8534-4147-8616-DE7C410DB681@apple.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,74 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ zhoujianjay <zhoujianjay@gmail.com>, discuss <discuss@edk2.groups.io>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ wuchenye1995 <wuchenye1995@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various headers are not required by hw/i386/pc.h:
+On 02/28/20 05:04, Andrew Fish wrote:
 
- - "qemu/range.h"
- - "qemu/bitmap.h"
- - "qemu/module.h"
- - "exec/memory.h"
- - "hw/pci/pci.h"
- - "hw/mem/pc-dimm.h"
- - "hw/mem/nvdimm.h"
- - "net/net.h"
+> Maybe I was overcomplicating this. Given your explanation I think the part I'm missing is OVMF is implying FLASH layout, in this split model, based on the size of the OVMF_CODE.fd and OVMF_VARS.fd.  Given that if OVMF_CODE.fd gets bigger the variable address changes from a QEMU point of view. So basically it is the QEMU  API that is making assumptions about the relative layout of the FD in the split model that makes a migration to larger ROM not work.
 
-Remove them.
+No, QEMU does not make any assumptions here. QEMU simply grabs both
+pflash chips (the order is not random, it can be specified on the
+command line -- in fact the QEMU user is expected to specify in the
+right order), and then QEMU maps them in decreasing address order from
+4GB in guest-phys address space.
 
-Add 3 headers that were missing:
+If we enlarge OVMF_CODE.fd, then the base address of the varstore
+(PcdOvmfFlashNvStorageVariableBase) will sink. That's not a problem per
+se, because QEMU doesn't know about PcdOvmfFlashNvStorageVariableBase at
+all. QEMU will simply map the varstore, automatically, where the
+enlarged OVMF_CODE.fd will look for it.
 
- - "hw/hotplug.h"
+> Basically the -pflash API does not support changing the size of the ROM without moving NVRAM given the way it is currently defined.
 
-   PCMachineState::acpi_dev is of type HotplugHandler
+Let me put it like this: the NVRAM gets moved by virtue of how OVMF is
+built, and by how QEMU maps the pflash chips into guest-phys address
+space. They are in sync, automatically.
 
- - "qemu/notify.h"
+The problem is when the NVRAM is internally restructured, or resized --
+the new OVMF_CODE.fd binary will reflect this with changed PCDs, and
+look for "stuff" at those addresses. But if you still try to use an old
+(differently sized, or differently structured) varstore file, while QEMU
+will happily map it, parts of the NVRAM will just not end up in places
+where OVMF_CODE.fd expects them.
 
-   PCMachineState::machine_done is of type Notifier
+> 
+> Given the above it seems like the 2 options are:
+> 1) Pad OVMF_CODE.fd to be very large so there is room to grow.
 
- - "qapi/qapi-types-common.h"
+There's already room to grow, *inside* OVMF_CODE.fd. As I've shown
+elsewhere in this thread, even the 2MB build has approx. 457 KB free in
+the DXEFV volume, even without link-time optimization and without
+DEBUG/ASSERT stripping, if you don't enable additional features.
 
-   PCMachineState::vmport/smm is of type OnOffAuto
+> 2) Add some feature to QUEM that allows the variable store address to not be based on OVMF_CODE.fd size. 
 
-Acked-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- include/hw/i386/pc.h | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+Yes, this has been proposed over time.
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index d5ac76d54e..6ab6eda046 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -1,20 +1,15 @@
- #ifndef HW_PC_H
- #define HW_PC_H
-=20
--#include "exec/memory.h"
-+#include "qemu/notify.h"
-+#include "qapi/qapi-types-common.h"
- #include "hw/boards.h"
- #include "hw/block/fdc.h"
- #include "hw/block/flash.h"
--#include "net/net.h"
- #include "hw/i386/x86.h"
-=20
--#include "qemu/range.h"
--#include "qemu/bitmap.h"
--#include "qemu/module.h"
--#include "hw/pci/pci.h"
--#include "hw/mem/pc-dimm.h"
--#include "hw/mem/nvdimm.h"
- #include "hw/acpi/acpi_dev_interface.h"
-+#include "hw/hotplug.h"
-=20
- #define HPET_INTCAP "hpet-intcap"
-=20
---=20
-2.21.1
+It wouldn't help with the case when you change the internal structure of
+the NVRAM, and try to run an incompatible OVMF_CODE.fd against that.
+
+> I did see this [1] and combined with your email I either understand, or I'm still confused? :)
+> 
+> I'm not saying we need to change anything, I'm just trying to make sure I understand how OVMF and QEMU are tied to together. 
+
+I think the most interesting function for you could be
+pc_system_flash_map(), in "hw/i386/pc_sysfw.c", in the QEMU source.
+
+> 
+> [1] https://www.redhat.com/archives/libvir-list/2019-January/msg01031.html
+
+
+Thanks
+Laszlo
 
 
