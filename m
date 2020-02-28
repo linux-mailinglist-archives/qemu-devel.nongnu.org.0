@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CBA173676
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:53:15 +0100 (CET)
-Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA8E173689
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:54:42 +0100 (CET)
+Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7eCg-0000lg-AF
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:53:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41435)
+	id 1j7eE5-00040L-E3
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:54:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7e7g-0000V2-8I
+ (envelope-from <philmd@redhat.com>) id 1j7e7g-0000Ud-4I
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7e7f-0001SK-9B
+ (envelope-from <philmd@redhat.com>) id 1j7e7f-0001S4-2f
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:04 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60677
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20072
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e7f-0001Rk-5r
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e7e-0001RW-Up
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582890482;
@@ -27,44 +27,44 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HrRTVdOozv2swNberymfD/6/LBZVv8zEj+lFL8+gIA8=;
- b=PrvmETWyOxiyo3gYRHdvQCzoJzhWpQyeckfHzjIRstVZHFNSYfBlgc+LC6xArArTsxCu5M
- Fj0ZXULFwoXxiLgZZXH4xxW1vFKSgJ4RtergABTyeelPeZNyNSPkgMJYtAy360u+oHNOJf
- SLJQeUj/lWltQVxdEPagKn6uiMYmWkU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-wWCx-xZaNZaFSlmBJDwAAw-1; Fri, 28 Feb 2020 06:47:59 -0500
-X-MC-Unique: wWCx-xZaNZaFSlmBJDwAAw-1
-Received: by mail-wr1-f70.google.com with SMTP id z15so1238868wrw.0
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:47:59 -0800 (PST)
+ bh=1ZikWdiIjGHwkJ5s5xsyOGuFMUcLn0/m4b9roi2lzt0=;
+ b=P6w2swx1ntky0vhExHpbrQ3FrNowzCFipoqxjdW47cOeEFiV1PDxBCjcx2FuY6EYlilA2V
+ ulByqMJztbA/7/Kj178/PGk7s9hoGNRDqY97VD431vNx0SxSp2iEm7LWuiMjxrfgRpJgYJ
+ TZug8qi+MK5WX4AeluOmylgFPsGxWls=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-tBQeJ797M0u4o4U0eLeybw-1; Fri, 28 Feb 2020 06:48:00 -0500
+X-MC-Unique: tBQeJ797M0u4o4U0eLeybw-1
+Received: by mail-wm1-f72.google.com with SMTP id y18so1545285wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yh9hMHA4I8RamAySV+tXZ2gxC3VYLXS2TKM9OKFdh90=;
- b=EImRpJ9TyBlRu/HnzyFcpsGwfJJejF7b7MT8SEBIyIk2tPPyI/T9P1zGkYyNP7YDzV
- tzm06iVKSZsJLGItHA4Pwyjm+BIM4W5OEGoebp28bwGDM5bkF958vjPWJe/1VXkGMToH
- mify985dbt4sTbFeJMULtG4lqXHpRIWPZrREbdl6Txz42UxZWFd8NnuHaD6rWODnwI40
- 1KjpzkQO2PQ0B7WIAadZ7VVvUYlUvQYN6Scju20iCd+reBcBW04BVQgCTbVPkhFYma9g
- Yapf1rVR9aAzuSwGrVedfhLJt5mdfWEnRvjBJ7gZVJRSB6NaEV6ZvXq7Opegg5GlR+EB
- lHpA==
-X-Gm-Message-State: APjAAAWlFLHqscIwyLtn6FBx2BABha8ZQEyiduGhmBIaPajWfBsi1T51
- szq3TXTmAFPnFVUdHabutPdPFbhlKXNsnO7IoA7kekJdM0i1Ej3Lo4+Hz5BrjvL5Rxa/0jiiv2b
- 8rFgiW62lyhwCtmU=
-X-Received: by 2002:adf:fa0f:: with SMTP id m15mr4775671wrr.392.1582890477936; 
- Fri, 28 Feb 2020 03:47:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwahxOejGcUYrooOz98isjVLiq45yBuIhe5WFJkm0IJ2JEUp/XhHUcozZZ87r4B+zm0T+daZw==
-X-Received: by 2002:adf:fa0f:: with SMTP id m15mr4775659wrr.392.1582890477766; 
- Fri, 28 Feb 2020 03:47:57 -0800 (PST)
+ bh=7/Nc+BormBNRjwYo07kcxhw053jMRgcHlLvuvF2I3Yg=;
+ b=B8wDl7UYifgBRWBB4pmy1r+J68oEgsgLaA/WMTzk4mX5W9ZsIGc2AL6xovn8TPVmPF
+ sNayEnnAXpM4L9IJrJTd7jlNQstKKS6xeRfaNxkDce/2xA1sBmGoYaPL6bpGA0EtK5z5
+ EbQoTvanFs3CM5TlkRPVdZ7weh9XpVHnUl5SaA5FGbhIbW70daNzCd/5adYWeep8ZO5S
+ QO307tAICbDnqNVPpKRbawYoveKmt29yh4Vhh4oaiO81o7O8IdQQH1BC4PQu12eKLXYp
+ RAOAMaTRUFS0Of/lQn7dEyOGfNIGlOiNDgf10UTqmMMmeUQl4JQOBpwMm3uIenjQd4R6
+ Ri3A==
+X-Gm-Message-State: APjAAAURYpkZeYjbc76/2rZFf2BJO3yyDUEVpHEM3a4G4uGAl4mMoR9S
+ HC1eJ/76lC24J4Vdk5eDyzdQJI4wfVO0ypa9bRFM84v2tWi8F7Yalexz7LOCceTmUgXTqdu8h6Z
+ 42yvLAugii3j6RqU=
+X-Received: by 2002:adf:fc10:: with SMTP id i16mr1242381wrr.331.1582890479512; 
+ Fri, 28 Feb 2020 03:47:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwX1PlFUd70akunglxnfTPEuLh7bKZtTlkbg22tnwWQsflCw+cuFlsy7JGHo5YlLqdJeeG/ug==
+X-Received: by 2002:adf:fc10:: with SMTP id i16mr1242372wrr.331.1582890479343; 
+ Fri, 28 Feb 2020 03:47:59 -0800 (PST)
 Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id v8sm11901514wrw.2.2020.02.28.03.47.56
+ by smtp.gmail.com with ESMTPSA id v8sm11901514wrw.2.2020.02.28.03.47.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 03:47:57 -0800 (PST)
+ Fri, 28 Feb 2020 03:47:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/18] hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
-Date: Fri, 28 Feb 2020 12:46:41 +0100
-Message-Id: <20200228114649.12818-11-philmd@redhat.com>
+Subject: [PATCH v2 11/18] hw/timer/hpet: Include "exec/address-spaces.h"
+Date: Fri, 28 Feb 2020 12:46:42 +0100
+Message-Id: <20200228114649.12818-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200228114649.12818-1-philmd@redhat.com>
 References: <20200228114649.12818-1-philmd@redhat.com>
@@ -75,7 +75,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,43 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw/acpi/cpu_hotplug.c calls pci_address_space_io(). Include
-"hw/pci/pci.h" which declares it.
+hw/timer/hpet.c calls address_space_stl_le() declared in
+"exec/address-spaces.h". Include it.
 
 This fixes (when modifying unrelated headers):
 
-  hw/acpi/cpu_hotplug.c:103:28: error: implicit declaration of function 'pc=
-i_address_space_io' is invalid in C99 [-Werror,-Wimplicit-function-declarat=
-ion]
-      MemoryRegion *parent =3D pci_address_space_io(PCI_DEVICE(gpe_cpu->dev=
-ice));
-                             ^
+  hw/timer/hpet.c:210:31: error: use of undeclared identifier 'address_spac=
+e_memory'
+          address_space_stl_le(&address_space_memory, timer->fsb >> 32,
+                               ^~~~~~~~~~~~~~~~~~~~
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/acpi/cpu_hotplug.c | 1 +
+ hw/timer/hpet.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
-index 9c3bcc84de..3e687d227a 100644
---- a/hw/acpi/cpu_hotplug.c
-+++ b/hw/acpi/cpu_hotplug.c
-@@ -14,6 +14,7 @@
- #include "qapi/error.h"
- #include "hw/core/cpu.h"
- #include "hw/i386/pc.h"
-+#include "hw/pci/pci.h"
- #include "qemu/error-report.h"
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 4f30dd50a4..380acfa7c8 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -36,6 +36,7 @@
+ #include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/timer/i8254.h"
++#include "exec/address-spaces.h"
 =20
- #define CPU_EJECT_METHOD "CPEJ"
+ //#define HPET_DEBUG
+ #ifdef HPET_DEBUG
 --=20
 2.21.1
 
