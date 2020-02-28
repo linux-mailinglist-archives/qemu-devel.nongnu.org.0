@@ -2,87 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8991735C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:02:13 +0100 (CET)
-Received: from localhost ([::1]:45300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCD51735E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:16:34 +0100 (CET)
+Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7dPI-0003Ow-Gl
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:02:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35247)
+	id 1j7ddA-0007Dl-Uj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:16:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j7dO6-0002pg-Bv
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:00:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1j7dcG-0006jQ-W1
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:15:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j7dO5-0000SQ-6H
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:00:58 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23504
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j7dO5-0000R5-1R
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:00:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582887656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jfZmSGFNoPSeMpuEFjx9/0pexvj/cvJVsdMXjMUDfnE=;
- b=FtkhNpNTgB1Y1esuGLhit/vglDrsnHdODhfI5gsEV0Ov65deBzQ0vgkPaV1LarUmIywyE6
- SWjl4ygitrKb5+8cPdiu9dItMJLvePdW9W3n7HGAZFqz+TqsT0K04lr7Ku4XcH/OYq2QLs
- lspKuFLJYTsT8PU8Ej3guB3B/W1vuYo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-xo-Q0AjYMNm6naWpbvKnYw-1; Fri, 28 Feb 2020 06:00:53 -0500
-X-MC-Unique: xo-Q0AjYMNm6naWpbvKnYw-1
-Received: by mail-wm1-f70.google.com with SMTP id t17so555316wmi.7
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:00:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jfZmSGFNoPSeMpuEFjx9/0pexvj/cvJVsdMXjMUDfnE=;
- b=HsrSjMLgE4GKYrqLndvYDdmbBT3gyV0f8XGEA/KrFJwBPOCvGlL1kvJdYKvNTDQQEg
- eGVbNN+qBRKUZHeplj+UH4/x2Q7aX93ICZf+lCKAsSP1o3pLtqIiolC/KXKjMSObtkWV
- rrms4cxFae6eGJQkBuT2OjF3eDH+N/9mOKcQkM5K4XcqmER0wEqlZyEMEQTZtV0JZVwo
- yUan+PJya1UQUCYwFcEf9st4PHMDGN+sYpHpDTvKo1Ea5OwGUH5F1qbMaJNlwLITcm/x
- 72JqCDfULX3/R7yUf6SaKnM6EUd5zcfokEJha4Bw47X/fH1qTQnIdMIYOMZkU3Q0nU4i
- 1j3w==
-X-Gm-Message-State: APjAAAXltLZ0HZh+QRomcneFykPbcbIxjt0HyH3hhvDUPanbaAphqzOY
- NOP77Sg/H5RaIzKkrQqLTCCBToUVmUpkeURsOvXiCu5YY4eghZcUVBmBMU3fXKNG+Gyw0mq51H2
- LuBuvxCdvFL6Wg4I=
-X-Received: by 2002:a7b:c216:: with SMTP id x22mr4461786wmi.51.1582887652029; 
- Fri, 28 Feb 2020 03:00:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwWw8dbOB0STLUEq7UjBJN1f7pRWXqGPjgsHntMIKXGzkvYp/c5ys8zVacZjYJC+OQqNNyCng==
-X-Received: by 2002:a7b:c216:: with SMTP id x22mr4461769wmi.51.1582887651782; 
- Fri, 28 Feb 2020 03:00:51 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:d0d9:ea10:9775:f33f?
- ([2001:b07:6468:f312:d0d9:ea10:9775:f33f])
- by smtp.gmail.com with ESMTPSA id y7sm15117834wmd.1.2020.02.28.03.00.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Feb 2020 03:00:51 -0800 (PST)
-Subject: Re: [PATCH V2] MAINTAINERS: Add entry for Guest X86 HAXM CPUs
-To: Colin Xu <colin.xu@intel.com>, qemu-devel@nongnu.org, philmd@redhat.com
-References: <20200228012046.6629-1-colin.xu@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9c32d7c2-d8af-45c6-4578-34c79bd7a2a0@redhat.com>
-Date: Fri, 28 Feb 2020 12:00:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1j7dcF-00020j-N0
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:15:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34094)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j7dcF-00020F-Gu
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:15:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j7dcE-00026v-5I
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 11:15:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2278B2E8031
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 11:15:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200228012046.6629-1-colin.xu@intel.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 28 Feb 2020 11:10:29 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jermy-07 laurent-vivier rth
+X-Launchpad-Bug-Reporter: Marco (jermy-07)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158152698766.24807.871332888169155245.malonedeb@gac.canonical.com>
+Message-Id: <158288822918.13276.17102043173678244196.malone@gac.canonical.com>
+Subject: [Bug 1862986] Re: qemu-s390x crashes when run on aarch64
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9eff1c37c1740693bdcba94d8f8c608164af5689";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 10e0ff2ff15aa1004393292660848f52cbbae2b8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,51 +65,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, wenchao.wang@intel.com, hang.yuan@intel.com
+Reply-To: Bug 1862986 <1862986@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/02/20 02:20, Colin Xu wrote:
-> HAXM covers below files:
-> include/sysemu/hax.h
-> target/i386/hax-*
-> 
-> V2: Add HAXM github page for wiki and issue tracking.
-> 
-> Cc: Wenchao Wang <wenchao.wang@intel.com>
-> Cc: Hang Yuan <hang.yuan@intel.com>
-> Reviewed-by: Hang Yuan <hang.yuan@intel.com>
-> Signed-off-by: Colin Xu <colin.xu@intel.com>
-> ---
->  MAINTAINERS | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index df1786db3207..c45f1421eab5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -435,6 +435,17 @@ F: include/hw/block/dataplane/xen*
->  F: include/hw/xen/
->  F: include/sysemu/xen-mapcache.h
->  
-> +Guest CPU Cores (HAXM)
-> +---------------------
-> +X86 HAXM CPUs
-> +M: Wenchao Wang <wenchao.wang@intel.com>
-> +M: Colin Xu <colin.xu@intel.com>
-> +L: haxm-team@intel.com
-> +W: https://github.com/intel/haxm/issues
-> +S: Maintained
-> +F: include/sysemu/hax.h
-> +F: target/i386/hax-*
-> +
->  Hosts
->  -----
->  LINUX
-> 
+Could it be related to https://bugs.launchpad.net/qemu/+bug/1860920 ?
 
-Queued, thanks.
+Could you try latest QEMU source (including "target/s390x/translate: Fix
+RNSBG instruction")?
 
-Paolo
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862986
+
+Title:
+  qemu-s390x crashes when run on aarch64
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
+  when run on an aarch64 odroid Ubuntu.
+
+
+  Steps to reproduce:
+
+  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/wo=
+rkspace/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_or=
+ig"
+  Segmentation fault (core dumped)
+  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
+  qemu-s390x version 4.2.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspac=
+e/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
+  Segmentation fault (core dumped)
+  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
+  qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  qemu-arm does work on the same machine:
+
+  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-=
+armhf/bin/test_bitcoin -t amount_tests
+  Running 4 test cases...
+
+  *** No errors detected
+  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.1=
+9.0.1-armhf/bin/test_bitcoin -t amount_tests
+  Running 4 test cases...
+
+  *** No errors detected
+
+
+  =
+
+  What kind of debug information would be helpful for this issue report?
+  GDB for the self-compiled latest release is not particularly helpful:
+
+  (gdb) run
+  Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/=
+build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
+  [Thread debugging using libthread_db enabled]
+  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
+".
+  [New Thread 0x7fb7a2a140 (LWP 28264)]
+
+  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
+  0x000000555596b218 in __bss_start__ ()
+  (gdb) bt
+  #0  0x000000555596b218 in __bss_start__ ()
+  #1  0x00000055556120a8 in ?? ()
+  #2  0x00000055579904b0 in ?? ()
+  Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+
+
+  =
+
+  A bit more information is available in the version shipped by Ubuntu:
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/=
+bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
+  [Thread debugging using libthread_db enabled]
+  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
+".
+  [New Thread 0x7fb7a01180 (LWP 28271)]
+
+  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
+  0x0000005555738f98 in code_gen_buffer ()
+  (gdb) bt
+  #0  0x0000005555738f98 in code_gen_buffer ()
+  #1  0x00000055555e96c8 in cpu_exec ()
+  #2  0x00000055555ee430 in cpu_loop ()
+  #3  0x00000055555c3328 in main ()
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862986/+subscriptions
 
