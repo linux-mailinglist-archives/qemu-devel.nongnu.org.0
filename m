@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB062173D7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:50:05 +0100 (CET)
-Received: from localhost ([::1]:50576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C1B173D95
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:51:57 +0100 (CET)
+Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7ipw-0001nU-JZ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:50:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56745)
+	id 1j7irk-0005Im-OD
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:51:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifW-0008Ep-5R
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifX-0008Hy-E2
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifV-00026D-5R
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:18 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33415)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifW-000272-5k
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:19 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifU-00025d-VL
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:17 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id x7so3711614wrr.0
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:16 -0800 (PST)
+ id 1j7ifV-00026P-VB
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:18 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r7so3700178wro.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hNvRKTnbKU1Ze0BRTs7wvEYB7FrEi57d2LPXeti1ezI=;
- b=l1j5jm4B4rdnikvoqsu8rgIZkESfAb7vg30sd777MvPd+qWdq3qRun3ZH6RJQX0EEH
- gd+jRGMNzbzvRVpRSpv8rHCJL76pA7nz6V7laEBIkyGNvBPoFglBCNOZjYvZNghuW/G8
- Xx106gkDWsO67sI1W+6m3biDOeH0oHwKs1H0tgn/kuewqoCiZQryP75sezvVpxHMIfHx
- ARm2ZCSiYb7qmXculNt1t5+s26RFENZ6Y9jDXdrtk3ch6hJrlgnNp4+Uwp1I22qLJiFH
- C58EFGuSVwuYHMKyg49puqzu7rt+wbjzXLGcMIhE1whzaiknOr12MP57V7qWGb6Rk/Hr
- U2Ig==
+ bh=zxcAJSx6I1dBt0++qxyzNQdup6sZi0n4/zNIAaI5fJc=;
+ b=a8izAkQ+LahKJLwJkFwoQH2ql7SBI0sxUA6t2hCxx85lkFKE6x/iASCVu310eO1u36
+ pN//E3hTlLi0Eg5RtnjOSaGVTf/WdufwrCAUjJRdOqo0dPIlDo93CDDYNUY0rWhmQh5w
+ 9PAu4oC83AI++SU9Twq026YeCX5k0IfHLlkXDMEuU05jQR+L+ud2AaLLy1z9TdIQCm4k
+ 0ykJM0A3P24SKBaOfoAu5GHH6dz29fOWc+tsTXjkFHoDfyfQ0CKop4XzkdRZ0gIRUWPu
+ e5BBvw0jQ6YWBangLOUkA4N3mFS6jg+qqunRvpthzDnxZWBqRp3FJe8ayxyJxGgZLVk0
+ cVFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hNvRKTnbKU1Ze0BRTs7wvEYB7FrEi57d2LPXeti1ezI=;
- b=E7pdIMf1m01DI7bx4wn8cyi7wNgUlsbR+cMUidIGX+IE+auK3PM0J9Lk8ka32ogvdu
- uPAKUcR1OQfpkFWJzTgDSlMw1pJxKjjL5Ur3sKlIt5dCo0C54pM4A5lhlDZDUGBBd6er
- dNJXhKGSAtK0C5K+0kkaDmQoSrMTJNZskGJVVwi2BeYqzZALVZL+PJzjr3BWr0UCHu49
- bDw1Mp0svjlUc1lz2hMUa2heVDtWnfK0w6plh0hUUICLPrdCQfcAhDapCHS+hxT/MKBc
- bQNUHsCICNTZGII8F7pVofeWSFqY+G5xdyr5H5PluN1jH0BuJkUMhynj+NFr7DT9Prhe
- KhPQ==
-X-Gm-Message-State: APjAAAVpPfcq14PI7XM9O7vWb59vKMUciP6+QisZ2dDVwkBOWcfsPLdT
- TJSh+zKuznZfn8O8LEM1m5/dcvgwuekM0g==
-X-Google-Smtp-Source: APXvYqxfQDxZ0gWENdOjOrb2n3Xf9SXGemyJNJRbrxAo+7rn4aeYkeNTpKKD2TU1ZFqXgKMzK56UYw==
-X-Received: by 2002:a5d:638b:: with SMTP id p11mr5708897wru.338.1582907955755; 
- Fri, 28 Feb 2020 08:39:15 -0800 (PST)
+ bh=zxcAJSx6I1dBt0++qxyzNQdup6sZi0n4/zNIAaI5fJc=;
+ b=K/clyhASe7gZyo/i85EoQ4+cTjhczHP23KLZKLe4uWtBNDBeJQ0iZNBpzl4TDRDl4y
+ tHVroaQ7jyjxajouo1HemN588ngbt8jKz7+fZC+sJIerVw/MXrvUI/YbujadnRUlamm4
+ 1XGOwpTU1ZgGT8lM+Bx1cLkkeU6zaSHwLVTnBJAU8EUJZ7vSjJvg6I5NOUDt0Fg080QN
+ 6DJPnuN7fFIhMN2jHzT7h6qDiC36NtTzogq8FOWGC/P+0iSvmXs93KUCbaYnYcbh5b3n
+ tRD7KvzWdpXnGxWcfKgrX1lYymWoV+sbWEbj/RurOzYVcELQiMzsi3kfMbiYvTvqXiu9
+ AGTQ==
+X-Gm-Message-State: APjAAAVLFfmkrjK4eJ7DLoXVSh9SCByNqPXV/m+VrMWbuxBl/x6Q/Jst
+ wiMd55f0MqfYzuH+cgeCB82Y4Cpfv9K3zQ==
+X-Google-Smtp-Source: APXvYqz0mZm6uzXMTYmEEvkxRXVUia+nsICpj+tbEFEW1PTOCBNhp6SV8X2dxgR1/gWfcCFvYOFeFA==
+X-Received: by 2002:adf:f012:: with SMTP id j18mr5551363wro.314.1582907956619; 
+ Fri, 28 Feb 2020 08:39:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.14
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:15 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/33] target/arm: Fix wrong use of FIELD_EX32 on ID_AA64DFR0
-Date: Fri, 28 Feb 2020 16:38:36 +0000
-Message-Id: <20200228163840.23585-30-peter.maydell@linaro.org>
+Subject: [PULL 30/33] target/arm: Implement v8.3-RCPC
+Date: Fri, 28 Feb 2020 16:38:37 +0000
+Message-Id: <20200228163840.23585-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -82,32 +81,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We missed an instance of using FIELD_EX32 on a 64-bit ID
-register, in isar_feature_aa64_pmu_8_4(). Fix it.
+The v8.3-RCPC extension implements three new load instructions
+which provide slightly weaker consistency guarantees than the
+existing load-acquire operations. For QEMU we choose to simply
+implement them with a full LDAQ barrier.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200224172846.13053-2-peter.maydell@linaro.org
+Message-id: 20200224172846.13053-3-peter.maydell@linaro.org
 ---
- target/arm/cpu.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/cpu.h           |  5 +++++
+ linux-user/elfload.c       |  1 +
+ target/arm/cpu64.c         |  1 +
+ target/arm/translate-a64.c | 24 ++++++++++++++++++++++++
+ 4 files changed, 31 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 05aa9711cd8..6013287f623 100644
+index 6013287f623..ff30985ead4 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3770,8 +3770,8 @@ static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
- 
- static inline bool isar_feature_aa64_pmu_8_4(const ARMISARegisters *id)
- {
--    return FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 5 &&
--        FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
-+    return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 5 &&
-+        FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
+@@ -3774,6 +3774,11 @@ static inline bool isar_feature_aa64_pmu_8_4(const ARMISARegisters *id)
+         FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
  }
  
++static inline bool isar_feature_aa64_rcpc_8_3(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, LRCPC) != 0;
++}
++
  /*
+  * Feature tests for "does this exist in either 32-bit or 64-bit?"
+  */
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 86cda127b78..d76b828a789 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -661,6 +661,7 @@ static uint32_t get_elf_hwcap(void)
+     GET_FEATURE_ID(aa64_sb, ARM_HWCAP_A64_SB);
+     GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
+     GET_FEATURE_ID(aa64_dcpop, ARM_HWCAP_A64_DCPOP);
++    GET_FEATURE_ID(aa64_rcpc_8_3, ARM_HWCAP_A64_LRCPC);
+ 
+     return hwcaps;
+ }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 8f2a43c938a..18c7b40f98c 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -654,6 +654,7 @@ static void aarch64_max_initfn(Object *obj)
+         t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
+         t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
+         t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
++        t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 1); /* ARMv8.3-RCPC */
+         cpu->isar.id_aa64isar1 = t;
+ 
+         t = cpu->isar.id_aa64pfr0;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 596bf4cf734..7a066fb7cb2 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -3142,6 +3142,8 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     int rs = extract32(insn, 16, 5);
+     int rn = extract32(insn, 5, 5);
+     int o3_opc = extract32(insn, 12, 4);
++    bool r = extract32(insn, 22, 1);
++    bool a = extract32(insn, 23, 1);
+     TCGv_i64 tcg_rs, clean_addr;
+     AtomicThreeOpFn *fn;
+ 
+@@ -3177,6 +3179,13 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     case 010: /* SWP */
+         fn = tcg_gen_atomic_xchg_i64;
+         break;
++    case 014: /* LDAPR, LDAPRH, LDAPRB */
++        if (!dc_isar_feature(aa64_rcpc_8_3, s) ||
++            rs != 31 || a != 1 || r != 0) {
++            unallocated_encoding(s);
++            return;
++        }
++        break;
+     default:
+         unallocated_encoding(s);
+         return;
+@@ -3186,6 +3195,21 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+         gen_check_sp_alignment(s);
+     }
+     clean_addr = clean_data_tbi(s, cpu_reg_sp(s, rn));
++
++    if (o3_opc == 014) {
++        /*
++         * LDAPR* are a special case because they are a simple load, not a
++         * fetch-and-do-something op.
++         * The architectural consistency requirements here are weaker than
++         * full load-acquire (we only need "load-acquire processor consistent"),
++         * but we choose to implement them as full LDAQ.
++         */
++        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, false,
++                  true, rt, disas_ldst_compute_iss_sf(size, false, 0), true);
++        tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
++        return;
++    }
++
+     tcg_rs = read_cpu_reg(s, rs, true);
+ 
+     if (o3_opc == 1) { /* LDCLR */
 -- 
 2.20.1
 
