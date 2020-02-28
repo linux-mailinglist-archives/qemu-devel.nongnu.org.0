@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A145B173959
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 15:03:50 +0100 (CET)
-Received: from localhost ([::1]:47694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C861739CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 15:26:32 +0100 (CET)
+Received: from localhost ([::1]:47910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7gF3-0006Hn-4b
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 09:03:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
+	id 1j7gb0-0002mf-SK
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 09:26:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7gDo-0005pE-Sf
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:02:37 -0500
+ (envelope-from <bounces@canonical.com>) id 1j7ga9-0002HX-6a
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:25:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7gDl-0002Uv-8B
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:02:31 -0500
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:39780)
+ (envelope-from <bounces@canonical.com>) id 1j7ga7-00015S-Ms
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:25:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35762)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7gDl-0002Sn-1y
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:02:29 -0500
-Received: by mail-oi1-x235.google.com with SMTP id r16so2910073oie.6
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 06:02:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6qOEi3AtUyJ6rW3AeCGD4dVYtKAuRDJtJwJyUMflLsI=;
- b=qGA8S8p7x+7dUUPbtt9F8EtQYp6BXCNPxyz5rAnJQCZ5s5sqvyJorX2ViIeQM9/5kj
- Q+3g54dyhgkBhhy8DDllQpmraw3yzJHwVeZjMBHCtJEPRku43adq/0zouOvAXfnpVc+F
- Czlwaob04C9XcKkCiq3MnJhyCDN33T6vjSJFRbI5CLbRZ9okZgnjb1uEz2Tu9epi9w2o
- OzchtWzbB+sEe7OqjZJmJPFNkc3u5CBILeA5J4/xuWXia6ySmyBmXxN/2hVlG53QOYiV
- Rj7FfhEFIEwkNhNlQ8HOm4Rtb8inWbYUYOMnG5wAwBTmzOrwIcsZZtlunMFECwrCKjzu
- IIqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6qOEi3AtUyJ6rW3AeCGD4dVYtKAuRDJtJwJyUMflLsI=;
- b=rx4l1UFYb1z8aXmpMj+/xmq3p0gCjxDmnZHV02sOq1frFYW+WmJEgO0ckyNczZgTXK
- kUkP9OLxn/HPAp2Cyb7JYLQMGhcDnzlyjtDa/VhhvC4etO7dnZoORCGp8Qmsf0zFKOq+
- ZF928UF7Y6ljSSwKH2Cw6U8QLyNA2nt7hQr4qQgt3M0Kdkq1PUTNEus4W8N+7yzm553Y
- RAcdUlGDFb8+0re2bK5NkuE/4RFI3cHluFzh9jb2p9UbYztlwmEeDX6Khi9Ko8ANt4CT
- rbcSJjZFFatKoqDxrH34qzlvMTgg+IPqYFTZXs+BCsxwVxxfeoKjEc3IzPHkpE+0lw6o
- TgxQ==
-X-Gm-Message-State: APjAAAX4QNvXFj2gmEUeaz77iONA0PC3MZ0i0H1hA1Sn53s5bWSPqP96
- 9+13017WM7BFQuFVGrF0oQASzvKfKmv/W11W5Y2aAg==
-X-Google-Smtp-Source: APXvYqyJ+gKYyI4QXoC4XqVTjzXBEu9hNtqrVI4shlsgZxvHh4Noghhcj0foGO92Ftw+aPo50gdRw2tFupj/v29UF+4=
-X-Received: by 2002:a05:6808:289:: with SMTP id
- z9mr3142508oic.48.1582898547003; 
- Fri, 28 Feb 2020 06:02:27 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j7ga7-00014v-Gw
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:25:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j7ga6-0008HX-3p
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 14:25:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F1DF42E8075
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 14:25:33 +0000 (UTC)
 MIME-Version: 1.0
-References: <1582810056-22646-1-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1582810056-22646-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Feb 2020 14:02:15 +0000
-Message-ID: <CAFEAcA-+kywWfidtju87gVrGkryJWQKF2yxiUwKVjV4=NNgu8g@mail.gmail.com>
-Subject: Re: [PULL 0/5] MIPS queue for February 27th, 2020
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::235
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 28 Feb 2020 14:19:54 -0000
+From: Max Reitz <1865048@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: oseibert-sys11 xanclic
+X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <158281763694.13572.4793000469968260846.malonedeb@gac.canonical.com>
+Message-Id: <158289959414.12489.13233699839441123973.malone@soybean.canonical.com>
+Subject: [Bug 1865048] Re: qemu-img --force-share does not disable file locking
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c01d82a19c26874dcf321e0c185c77c42e3c8fd5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,42 +65,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Reply-To: Bug 1865048 <1865048@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 Feb 2020 at 13:27, Aleksandar Markovic
-<aleksandar.markovic@rt-rk.com> wrote:
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> The following changes since commit db736e0437aa6fd7c1b7e4599c17f9619ab6b837:
->
->   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2020-02-25 13:31:16 +0000)
->
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu tags/mips-queue-feb-27-2020
->
-> for you to fetch changes up to 0484d9d4fbe9beacd3dd36fdf7fc3e14940bf078:
->
->   tests/acceptance: Count multiple Tux logos displayed on framebuffer (2020-02-27 14:19:07 +0100)
->
-> ----------------------------------------------------------------
->
-> MIPS queue for February 27th, 2020
->
->   - Adjusting maintainership of MIPS KVM CPUs
->   - Machine memory and interrupt-related minor improvements
->   - Acceptance test for SMP support on Malta with I6400 CPU
->
+Hi Olaf,
+
+Every =E2=80=9Cnode=E2=80=9D in the block graph corresponds to some driver.=
+  A driver
+can be a protocol or a format driver (or a filter driver, but that isn=E2=
+=80=99t
+important here).  In your example, there is only a single node, for a
+protocol driver (namely =E2=80=9Cfile=E2=80=9D).  You need a format driver =
+node on top
+to interpret the image format.
+
+If you use file.driver=3Dfile,file.filename=3Dfoo.qcow2,file.locking=3Doff,
+then that specifies the options driver, filename, and locking for a node
+under another node=E2=80=99s =E2=80=9Cfile=E2=80=9D link.  So this has to c=
+reate two nodes.  The
+node on top (for which no options are specified) should default to being
+a format node whose format is probed.
+
+Of course you can also give options to the top (format) node, like e.g.
+the driver.  (In fact, you should probably give the driver, because
+format probing is considered dangerous.)
+
+Then it would look like this:
+driver=3Dqcow2,file.driver=3Dfile,file.filename=3Dfoo.qcow2,file.locking=3D=
+off
+
+(Or, in JSON, but that only works with qemu=E2=80=99s -blockdev (but I thin=
+k it=E2=80=99s better for visualizing the resulting block graph:
+ {"node-name": "some-node-name",
+  "driver": "qcow2",
+  "file": {
+      "driver": "file",
+      "filename": "foo.qcow2",
+      "locking": false
+  } })
 
 
-Applied, thanks.
+Hope that helps,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Max
 
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1865048
+
+Title:
+  qemu-img --force-share does not disable file locking
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  The new option "--force-share" for qemu-img does not disable file
+  locking.
+
+  I tried it with version qemu-img version 2.11.1(Debian 1:2.11+dfsg-
+  1ubuntu7.21~cloud0) and I traced the source code of the current git
+  trunk.
+
+  Sample to demonstrate:
+
+  # strace qemu-img info --force-share testfile.qcow2   2>&1 | grep F_RDLCK
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+  fcntl(11, F_OFD_SETLK, {l_type=3DF_RDLCK, l_whence=3DSEEK_SET, l_start=3D=
+100, l_len=3D1}) =3D 0
+
+  I traced the passing of the --force-share option through the source
+  code (I used commit 6c599282f8 as of Mon Feb 17 13:32:25 2020 +0000)
+
+  qemu-img.c:img_info()
+          force_share =3D true;
+  qemu-img.c:collect_image_info_list(force_share)
+  qemu-img.c:img_open(force_share)
+  qemu-img.c:img_open_file(force_share)
+          qdict_put_bool(options, BDRV_OPT_FORCE_SHARE, true);
+  block/block-backend.c:blk_new_open(options)
+  block.c:bdrv_open(options)
+  block.c:bdrv_open_inheritoptions()
+  block.c:bdrv_open_common(options)
+          bs->force_share =3D qemu_opt_get_bool(opts, BDRV_OPT_FORCE_SHARE,=
+ false);
+  block.c:bdrv_open_driver(bs)
+  include/block/block_int.h:int (*bdrv_file_open)(BlockDriverState *bs, QDi=
+ct *options, int flags,
+  block/file-posix.c:.bdrv_file_open =3D raw_open,
+  block/file-posix.c:raw_open_common(bs)
+          locking =3D qapi_enum_parse(&OnOffAuto_lookup,
+                                qemu_opt_get(opts, "locking"),
+                                ON_OFF_AUTO_AUTO, &local_err);
+          ignoring bs->force_share
+
+  At the end, bs->force_share is ignored in determining the locking
+  value.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1865048/+subscriptions
 
