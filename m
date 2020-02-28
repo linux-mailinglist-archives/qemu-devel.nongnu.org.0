@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3435173DF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:09:46 +0100 (CET)
-Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD8D173DFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:12:01 +0100 (CET)
+Received: from localhost ([::1]:51034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7j8z-0000HW-Pw
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:09:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56738)
+	id 1j7jBA-0004BL-53
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:12:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifV-0008DU-Lw
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifa-0008PR-H0
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifU-00025Y-8u
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:17 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55450)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifZ-00028p-Cj
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:22 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37428)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifU-000256-2D
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:16 -0500
-Received: by mail-wm1-x334.google.com with SMTP id q9so3813450wmj.5
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:15 -0800 (PST)
+ id 1j7ifZ-00028S-5T
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:21 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a141so3906052wme.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hTbY0nJfRg44cC4x/jkt29PNMvHIJImu3BmtAxBXRUA=;
- b=aeG0pYb/ggqslbXgJm/hF6BjCA4tRiDrvAm8kOn4xhxTdW1suW+X2lH1a0PaqaHj+d
- 1edvoZTMikv1vWDxLLgIchq6KuDR8FRp7SmJw/1B8yV+eCjTiskTX6ZinMqAtw6GNZD3
- /oyGAqTKDhGBLgjFm4Qel2zIHkxdHkQ8BChUAYCZNJClB0tPdtP4PD55zlKsIr3RukoA
- Ir8St7AVjk5DH5AqAQnSKJnhsvXPdz5nl6zhyrETGRfSapUyDsy/wx1+sPagwX9PURzs
- B50ts03pxKt5ZACVJUcT2IDMYQM7KCD7p+REHsQ6zIpHFrW0mnBTdON60VHALvcexw+R
- e2nQ==
+ bh=9eBbOH0iWuMB9GEnPRYXejUJxzdgvoce0O5T0LTK50c=;
+ b=vjaRrWkXCn/6xIFIZqWZ9vmo176BfKUwna2HsJnX5ctBNlYEcnuvNESEjEe2BkFILl
+ wgxV8MdTm8054TpkKhmgBAf7WKoUp5zmAtb553tDN7gM8zAFou1DG6thQiqhHHUtTuLF
+ NgkLE6kjGw0yfek887/ionU7N1NkN1G3oZ92dPGvZ8dBJvrFSf+R2rCk5k0D1bA18x9c
+ MEdES4sMGPireYNO7+DxK7zmVBKNPA9OLtbhXluRan5lCCkaV8qNcrrqTcK4JaI4mapw
+ JrBPFNy+F41kR5iQQL7uc+aJxGKR4CRUS8KSXH/1SRqnYOPNNTBjKS88E2sk8ZDYfB8j
+ DWcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hTbY0nJfRg44cC4x/jkt29PNMvHIJImu3BmtAxBXRUA=;
- b=fA0KA2X27xejjFaIagtxcZpdAY7Ra08T1TollTKDqFYDFH6WsVp4PYDwGiP8zkZ4lq
- gOkDeWh99eQKmMQwS51pPKWXrLTKMxPYqwYAjjll7KgoNOzimy3jgRTVawgvRSe0QbE7
- CJZxfjEJDpJnPXh7OgnDtU8UmeXlhz1/SRB1LlhpS9jgurLLSLF79BFwvQV4mh265EwD
- RKI+HB+iwSXQJE17dWQX7oQUyf2hXzenX7WUO9hfww/GY7n32Owp2diP5m6ddDfVpyfm
- vJLDVEPL/Q7eirnBBm2Xif1gsYkXsrFzFai3uxmTlKhE54wP38gEbJ3ovyel1O5SNKlt
- epNw==
-X-Gm-Message-State: APjAAAUrtkNec2kL4hR67LN6qKXz6P7v+dG97faPcajrmPmDNNDqyeJ+
- 9ewa6+AsIYgMJNHnbA9cuQsMFy1CVfnQtQ==
-X-Google-Smtp-Source: APXvYqwzkbW/MZ5n/ULQ9POm2Xt/rCkrJAFh4nPR4gciBW6mTqdU92Bn4tCNNLSYLXViozlcIQvJXQ==
-X-Received: by 2002:a05:600c:290:: with SMTP id
- 16mr3131736wmk.64.1582907954723; 
- Fri, 28 Feb 2020 08:39:14 -0800 (PST)
+ bh=9eBbOH0iWuMB9GEnPRYXejUJxzdgvoce0O5T0LTK50c=;
+ b=l2NGK59FkTahJX4TpD8rI+YE6H3M1pm3wcbu1fxQGGdrE54evfgbnyDcETP249/eK+
+ EFTTWXKhiRL+ig+hx9lCL2ZQ3j/9d8DXUAbp9Rx5taeKBiSwJ1/96b+5HAyxhzJw+/AW
+ MeZKVBbxC1/DnwenjJlwPt4UDL1mlQKaJOw5+U5Utaf02S2d+Iz484SCXUZbAWJZKxQn
+ EYra0KJY9Ib2YGFfMHaw16EEJfQxB/iFklgkknBsKWdhP04A5nfaIhfYcUxqPIAbhLGS
+ m6RpC5kgzB+YVUWN3PYkHuHnzylG/m3w0Sk0unH69TpK3763+Vm3yxkTxrMTggBsgDEr
+ FsiQ==
+X-Gm-Message-State: APjAAAW9kht9cK3Fag/kJfYQaHz4/BlqxkrWWSpW92umUVMPcBmnUfsw
+ xeLI7oDPqxD2UGK4/SVqiqA+z/1wkchGDg==
+X-Google-Smtp-Source: APXvYqy+HaQZtC+M6A7ZKd592/T/7G2eP+lMgXh+J0NCw/kFlt/YlXtePH9KPF7y4BOnuWLoeRIYyA==
+X-Received: by 2002:a1c:3b89:: with SMTP id i131mr3926263wma.171.1582907959828; 
+ Fri, 28 Feb 2020 08:39:19 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.13
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:14 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/33] tests/acceptance/integratorcp: Verify Tux is displayed
- on framebuffer
-Date: Fri, 28 Feb 2020 16:38:35 +0000
-Message-Id: <20200228163840.23585-29-peter.maydell@linaro.org>
+Subject: [PULL 33/33] hw/intc/arm_gic_kvm: Don't assume kernel can provide a
+ GICv2
+Date: Fri, 28 Feb 2020 16:38:40 +0000
+Message-Id: <20200228163840.23585-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -69,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,109 +83,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+In our KVM GICv2 realize function, we try to cope with old kernels
+that don't provide the device control API (KVM_CAP_DEVICE_CTRL): we
+try to use the device control, and if that fails we fall back to
+assuming that the kernel has the old style KVM_CREATE_IRQCHIP and
+that it will provide a GICv2.
 
-Add a test that verifies the Tux logo is displayed on the framebuffer.
+This doesn't cater for the possibility of a kernel and hardware which
+only provide a GICv3, which is very common now.  On that setup we
+will abort() later on in kvm_arm_pmu_set_irq() when we try to wire up
+an interrupt to the GIC we failed to create:
 
-We simply follow the OpenCV "Template Matching with Multiple Objects"
-tutorial, replacing Lionel Messi by Tux:
-https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
+qemu-system-aarch64: PMU: KVM_SET_DEVICE_ATTR: Invalid argument
+qemu-system-aarch64: failed to set irq for PMU
+Aborted
 
-When OpenCV and NumPy are installed, this test can be run using:
+If the kernel advertises KVM_CAP_DEVICE_CTRL we should trust it if it
+says it can't create a GICv2, rather than assuming it has one.  We
+can then produce a more helpful error message including a hint about
+the most probable reason for the failure.
 
-  $ AVOCADO_ALLOW_UNTRUSTED_CODE=hmmm \
-    avocado --show=app,framebuffer run -t device:framebuffer \
-      tests/acceptance/machine_arm_integratorcp.py
-  JOB ID     : 8c46b0f8269242e87d738247883ea2a470df949e
-  JOB LOG    : avocado/job-results/job-2020-01-31T21.38-8c46b0f/job.log
-   (1/1) tests/acceptance/machine_arm_integratorcp.py:IntegratorMachine.test_framebuffer_tux_logo:
-  framebuffer: found Tux at position [x, y] = (0, 0)
-  PASS (3.96 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 4.23 s
+If the kernel doesn't advertise KVM_CAP_DEVICE_CTRL then it is truly
+ancient by this point but we might as well still fall back to a
+KVM_CREATE_IRQCHIP GICv2.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-id: 20200225172501.29609-5-philmd@redhat.com
-Message-Id: <20200131211102.29612-3-f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+With this patch then the user misconfiguration which previously
+caused an abort now prints:
+qemu-system-aarch64: Initialization of device kvm-arm-gic failed: error creating in-kernel VGIC: No such device
+Perhaps the host CPU does not support GICv2?
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Tested-by: Andrew Jones <drjones@redhat.com>
+Message-id: 20200225182435.1131-1-peter.maydell@linaro.org
 ---
- tests/acceptance/machine_arm_integratorcp.py | 52 ++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ hw/intc/arm_gic_kvm.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptance/machine_arm_integratorcp.py
-index 22afd3b82a8..49c8ebff78b 100644
---- a/tests/acceptance/machine_arm_integratorcp.py
-+++ b/tests/acceptance/machine_arm_integratorcp.py
-@@ -9,11 +9,26 @@
- # later.  See the COPYING file in the top-level directory.
- 
- import os
-+import logging
- 
- from avocado import skipUnless
- from avocado_qemu import Test
- from avocado_qemu import wait_for_console_pattern
- 
-+
-+NUMPY_AVAILABLE = True
-+try:
-+    import numpy as np
-+except ImportError:
-+    NUMPY_AVAILABLE = False
-+
-+CV2_AVAILABLE = True
-+try:
-+    import cv2
-+except ImportError:
-+    CV2_AVAILABLE = False
-+
-+
- class IntegratorMachine(Test):
- 
-     timeout = 90
-@@ -45,3 +60,40 @@ class IntegratorMachine(Test):
-         """
-         self.boot_integratorcp()
-         wait_for_console_pattern(self, 'Log in as root')
-+
-+    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
-+    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_framebuffer_tux_logo(self):
-+        """
-+        Boot Linux and verify the Tux logo is displayed on the framebuffer.
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:integratorcp
-+        :avocado: tags=device:pl110
-+        :avocado: tags=device:framebuffer
-+        """
-+        screendump_path = os.path.join(self.workdir, "screendump.pbm")
-+        tuxlogo_url = ('https://github.com/torvalds/linux/raw/v2.6.12/'
-+                       'drivers/video/logo/logo_linux_vga16.ppm')
-+        tuxlogo_hash = '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
-+        tuxlogo_path = self.fetch_asset(tuxlogo_url, asset_hash=tuxlogo_hash)
-+
-+        self.boot_integratorcp()
-+        framebuffer_ready = 'Console: switching to colour frame buffer device'
-+        wait_for_console_pattern(self, framebuffer_ready)
-+        self.vm.command('human-monitor-command', command_line='stop')
-+        self.vm.command('human-monitor-command',
-+                        command_line='screendump %s' % screendump_path)
-+        logger = logging.getLogger('framebuffer')
-+
-+        cpu_count = 1
-+        match_threshold = 0.92
-+        screendump_bgr = cv2.imread(screendump_path)
-+        screendump_gray = cv2.cvtColor(screendump_bgr, cv2.COLOR_BGR2GRAY)
-+        result = cv2.matchTemplate(screendump_gray, cv2.imread(tuxlogo_path, 0),
-+                                   cv2.TM_CCOEFF_NORMED)
-+        loc = np.where(result >= match_threshold)
-+        tux_count = 0
-+        for tux_count, pt in enumerate(zip(*loc[::-1]), start=1):
-+            logger.debug('found Tux at position [x, y] = %s', pt)
-+        self.assertGreaterEqual(tux_count, cpu_count)
+diff --git a/hw/intc/arm_gic_kvm.c b/hw/intc/arm_gic_kvm.c
+index 9deb15e7e69..d7df423a7a3 100644
+--- a/hw/intc/arm_gic_kvm.c
++++ b/hw/intc/arm_gic_kvm.c
+@@ -551,7 +551,16 @@ static void kvm_arm_gic_realize(DeviceState *dev, Error **errp)
+                               KVM_DEV_ARM_VGIC_CTRL_INIT, NULL, true,
+                               &error_abort);
+         }
++    } else if (kvm_check_extension(kvm_state, KVM_CAP_DEVICE_CTRL)) {
++        error_setg_errno(errp, -ret, "error creating in-kernel VGIC");
++        error_append_hint(errp,
++                          "Perhaps the host CPU does not support GICv2?\n");
+     } else if (ret != -ENODEV && ret != -ENOTSUP) {
++        /*
++         * Very ancient kernel without KVM_CAP_DEVICE_CTRL: assume that
++         * ENODEV or ENOTSUP mean "can't create GICv2 with KVM_CREATE_DEVICE",
++         * and that we will get a GICv2 via KVM_CREATE_IRQCHIP.
++         */
+         error_setg_errno(errp, -ret, "error creating in-kernel VGIC");
+         return;
+     }
 -- 
 2.20.1
 
