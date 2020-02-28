@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B477173646
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:42:11 +0100 (CET)
-Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6355C173663
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:48:50 +0100 (CET)
+Received: from localhost ([::1]:45748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7e1y-0006Qx-Lx
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:42:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40376)
+	id 1j7e8P-0000ma-D1
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:48:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanrin@gmail.com>) id 1j7e1D-0005f8-A0
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:41:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7e6i-0007LS-Dp
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanrin@gmail.com>) id 1j7e1C-0006Ud-Eu
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:41:23 -0500
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:42546)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanrin@gmail.com>)
- id 1j7e1A-0006U0-F6; Fri, 28 Feb 2020 06:41:20 -0500
-Received: by mail-io1-xd41.google.com with SMTP id z1so3047891iom.9;
- Fri, 28 Feb 2020 03:41:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Gr5LmJZlxHOHuQ6gyEfwrE1cHMWKEe9J8ZRtrjl8sqg=;
- b=rGfK5llNKQhbjZLGP+PLv7LMWU5pPXfxELhkoX/fmwV1lt36AJpJtDy/HRkUxR3PIZ
- jd1biIbMcp4L3zgGFWw1wbr0iimv9FAJnzNmCGPwz9YaK2+iI4TS1BQ7EMSR4X/DlWoa
- d5OWr2UnXxZymD2cWAKd/KjXw54j1mnWowLglr5oFfdbVghlt5J1G7gIrqDO/NIDXePQ
- 3n5rkQcl9NoWx/gNY5KA1JsTiBAZsu1imqdLIMKVuKl2NulWTQdqB/IxwlzB2iuf2gZg
- mjdOzN4QJh+KnWnLVeWfuE/qxvbRHRzgUp344X4BC1V5Ce+M3w2Y3vV5+c2GiA+vVjcD
- dZIQ==
+ (envelope-from <philmd@redhat.com>) id 1j7e6h-00019T-4f
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30813
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e6h-00019C-1G
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582890422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AmxNuFC3e6lYnUMNlpXbB6JPWDYdS6Xlgt71LjznSWc=;
+ b=Q6Sdax1gTQLMrLKAqtMPx9548N4gUBcL83pDB83OXNCdLoVFiqU6RigunAmQQk03j9fQ7T
+ qEeHjvC9jhMu+6w/3lsOBejvfbvqzRF1MqbJl54ASLovbd5sFdjDXNFpo2o6FtNAvSq7qm
+ wSnpfCDS5zsNE480TGSAr++GBr/TNS0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-DG6ji7B3O8Gmg5mLMD9_GA-1; Fri, 28 Feb 2020 06:46:55 -0500
+X-MC-Unique: DG6ji7B3O8Gmg5mLMD9_GA-1
+Received: by mail-wr1-f69.google.com with SMTP id m13so1231912wrw.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:46:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Gr5LmJZlxHOHuQ6gyEfwrE1cHMWKEe9J8ZRtrjl8sqg=;
- b=O9afKIE1FeNIBg7z3ZVXaa7PNUnAhkD5kPZzSCJAuq3wAr2fLv61+1os0aIcg/MhI8
- RSUCOsHEaITSkKG1DheYtC+dLnSG3Gd4/I4Ngp9mW/KB6R3BsMcNlDpDsFRRzWXeE/Bn
- MiKlx6gf4AD1inFRJvcHqLDcyHU90hYJXFLJKe+ShA2dJ8UrrWr3KYQslWnRYLPDEpKJ
- fnzlvH4nt3NjEyKx7Y012M2gtbXdQ9aHLB8J5AR9wMvLgWo4p4KX/ot+CSI+MvyNzsKB
- umx7RIcpX1cllFn187VxSjZ8w3esWN1jlIfanDsjDp6/y+KcXeIA00pU+oCYSBY9ldbk
- Q87w==
-X-Gm-Message-State: APjAAAXc326sKKP3kJ3/secdKViG+PWhz1XGGjs3e3rpUP8tuQLr6qWM
- 77/fFfrfGxcO9NWznZSmGlKx4LA9VlWO97rKBjrgNA==
-X-Google-Smtp-Source: APXvYqwvmgt/bw+pHWWXou5tyccFRyXunW6p7SQR2RZbuTc8/lWcYhqTEzF+kVUypx9r00/QHnthFI29Omdf0qdOEa4=
-X-Received: by 2002:a5d:8d90:: with SMTP id b16mr3294983ioj.262.1582890079434; 
- Fri, 28 Feb 2020 03:41:19 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yuQOAGBwnnozKVeLt+LTAi2McDFqWK9ifpJf4wdoSwk=;
+ b=bUyVYUL0EyO9nZ6/fxKtMlvKiSWR98VdFs4qA32mOaceD+kqwkUHytNPV6K2xhxtVV
+ CzLSRTEBMYZtqhxaq0nqlMD5LgFOrQMEp1HmYlFFRVa3TZEM6mq7uoDB5WctLHVKiw6f
+ m3efIcAIjfhcRhq58tLp7gyObYFIzJOpKIO3tb8Dz3JvI+fsmJKadLtbRHe9ksIAlqub
+ 4nrGk0sCFCrBAFIP22VnTFuNnx5g7HNodA7bitYnBzSsnBdDwweDMzawYxny/3IOoY0w
+ pDDg8XtPt4pHPS7qe936215g93Rs5XeijZrXisZjVqUKxQ5txQmY6YcCWgsh0J/f6U7Z
+ 7q7g==
+X-Gm-Message-State: APjAAAXdYiM0OGKe9pqEqd8tEu6ZDEUEAREMXu9BP9M9gTvrK1rSLaeT
+ F7MczdzK1rtbJAKDhuwfxOhgzAj6SqK0bHvhnkI++UX60gWl9OO1iagejTEp5+xH2W8R81jzZQh
+ EusT48xsz6wAYaRs=
+X-Received: by 2002:adf:d4d2:: with SMTP id w18mr4808763wrk.180.1582890413536; 
+ Fri, 28 Feb 2020 03:46:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwN6gIsA/l0Pj7FF9JVSiXFX66nvRoBFxr3C1FT2WelKnn338ckD0zAyyRGpALF7mj+t2NkNg==
+X-Received: by 2002:adf:d4d2:: with SMTP id w18mr4808748wrk.180.1582890413322; 
+ Fri, 28 Feb 2020 03:46:53 -0800 (PST)
+Received: from x1w.moovbox.local ([185.102.219.36])
+ by smtp.gmail.com with ESMTPSA id q138sm1127219wme.41.2020.02.28.03.46.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 03:46:52 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/18] hw: Clean up hw/i386 headers (and few alpha/hppa)
+Date: Fri, 28 Feb 2020 12:46:31 +0100
+Message-Id: <20200228114649.12818-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <CAAxjCEzHQz4cG_8m7S6=CwCBoN5daQs+KVyuU5GL5Tq3Bky1NA@mail.gmail.com>
- <CAAxjCEx79Fkjw9tFbSMo+b1LGv2LNivLRXf1GS9JsYnXrNVVkQ@mail.gmail.com>
- <CAAxjCEwv61e87ZUz-jueL9AkzaNbY3pRoFmf2dah-p9W8nosWA@mail.gmail.com>
- <CAAxjCEx__TsY75b0iecG1a_wUO2MF2UMVP50nFHQi2Ouyu0znw@mail.gmail.com>
- <CAAxjCExb8GKP0Y8hwEbv=DETfu1dG3++umYV0n8vX6kxuJW3pQ@mail.gmail.com>
- <20200228111046.GC5274@linux.fritz.box>
-In-Reply-To: <20200228111046.GC5274@linux.fritz.box>
-From: Stefan Ring <stefanrin@gmail.com>
-Date: Fri, 28 Feb 2020 12:41:08 +0100
-Message-ID: <CAAxjCEx8EVyEs9akLV+WNghxE9A-ej5_u5o3f+=zrL7VNjXa2g@mail.gmail.com>
-Subject: Re: Strange data corruption issue with gluster (libgfapi) and ZFS
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,21 +83,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: integration@gluster.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 28, 2020 at 12:10 PM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> This sounds almost like two other bugs we got fixed recently (in the
-> QEMU file-posix driver and in the XFS kernel driver) where two write
-> extending the file size were in flight in parallel, but if the shorter
-> one completed last, instead extending the file, it would end up
-> truncating it.
+[Rebased since v1]:
+https://www.mail-archive.com/qemu-block@nongnu.org/msg57485.html
 
-Hmm, XFS is used on the gluster server, with a CentOS 7 kernel. I can
-switch to ext4 and check if it changes anything.
+This is a follow-up of Markus's cleanup series:
+Tame a few "touch this, recompile the world"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg635748.html
 
-At this point I actually wanted to take this investigation away from
-qemu, because it=E2=80=99s not involved anymore in my reproducer.
+This part is mostly restricted to X86, but since some file from the
+Alpha/PA-RISC machines include "hw/i386/pc.h" I had to fix them
+too.
+
+Eventually I'll succeed at removing hw/i386/ dependency on non-X86
+platforms (Quest I started 2 years ago...).
+
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daud=C3=A9 (18):
+  vl: Add missing "hw/boards.h" include
+  hw/southbridge/ich9: Removed unused headers
+  hw/i386/ioapic_internal: Remove unused "hw/i386/ioapic.h" header
+  hw/timer: Remove unused "ui/console.h" header
+  hw/usb/dev-storage: Remove unused "ui/console.h" header
+  hw/i386/intel_iommu: Remove unused includes
+  hw/alpha/alpha_sys: Remove unused "hw/ide.h" header
+  hw/alpha/dp264: Include "net/net.h"
+  hw/hppa/machine: Include "net/net.h"
+  hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
+  hw/timer/hpet: Include "exec/address-spaces.h"
+  hw/pci-host/q35: Include "qemu/range.h"
+  hw/i2c/smbus_ich9: Include "qemu/range.h"
+  hw/pci-host/piix: Include "qemu/range.h"
+  hw/acpi: Include "hw/mem/nvdimm.h"
+  hw/i386: Include "hw/mem/nvdimm.h"
+  hw/pci-host/q35: Remove unused includes
+  hw/i386/pc: Clean up includes
+
+ hw/alpha/alpha_sys.h              |  1 -
+ include/hw/i386/ich9.h            |  1 -
+ include/hw/i386/intel_iommu.h     |  4 ----
+ include/hw/i386/ioapic_internal.h |  1 -
+ include/hw/i386/pc.h              | 11 +++--------
+ include/hw/pci-host/q35.h         |  8 +-------
+ hw/acpi/cpu_hotplug.c             |  1 +
+ hw/acpi/ich9.c                    |  2 +-
+ hw/acpi/piix4.c                   |  1 +
+ hw/alpha/dp264.c                  |  1 +
+ hw/hppa/machine.c                 |  1 +
+ hw/i2c/smbus_ich9.c               |  1 +
+ hw/i386/acpi-build.c              |  1 +
+ hw/i386/pc.c                      |  1 +
+ hw/i386/pc_piix.c                 |  1 +
+ hw/i386/pc_q35.c                  |  1 +
+ hw/isa/lpc_ich9.c                 |  1 -
+ hw/pci-host/i440fx.c              |  1 +
+ hw/pci-host/q35.c                 |  1 +
+ hw/rtc/twl92230.c                 |  1 -
+ hw/timer/hpet.c                   |  2 +-
+ hw/usb/dev-storage.c              |  1 -
+ softmmu/vl.c                      |  1 +
+ 23 files changed, 18 insertions(+), 27 deletions(-)
+
+--=20
+2.21.1
+
 
