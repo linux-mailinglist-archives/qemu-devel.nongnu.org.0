@@ -2,95 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C847173A02
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 15:38:26 +0100 (CET)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7079F173A4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 15:51:42 +0100 (CET)
+Received: from localhost ([::1]:48092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7gmW-0005rs-W3
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 09:38:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37499)
+	id 1j7gzN-0003Ff-IN
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 09:51:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1j7glY-0005Jm-SE
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:37:25 -0500
+ (envelope-from <bounces@canonical.com>) id 1j7gyP-0002KD-Sz
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:50:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1j7glX-0001zt-Jx
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:37:24 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20988
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1j7glV-0001xR-50; Fri, 28 Feb 2020 09:37:21 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01SEYoZ6164383; Fri, 28 Feb 2020 09:37:18 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yepwj8tmg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Feb 2020 09:37:18 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01SEbHda172271;
- Fri, 28 Feb 2020 09:37:17 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yepwj8tkt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Feb 2020 09:37:17 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01SEZDk6001283;
- Fri, 28 Feb 2020 14:37:16 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma01wdc.us.ibm.com with ESMTP id 2yepv2d2xb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Feb 2020 14:37:16 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01SEbG5c45875550
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Feb 2020 14:37:16 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C9A2AC059;
- Fri, 28 Feb 2020 14:37:16 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39F69AC062;
- Fri, 28 Feb 2020 14:37:16 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 28 Feb 2020 14:37:16 +0000 (GMT)
-Subject: Re: [PATCH v4 00/10] vTPM for aarch64
-To: Auger Eric <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200226205942.11424-1-eric.auger@redhat.com>
- <4fb16117-f9d3-61af-9198-931590a46e3d@linux.ibm.com>
- <ee98e8ab-06df-e422-1ca5-f3f6a48145f2@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <2413ead7-3707-acc6-7900-bb3896082051@linux.ibm.com>
-Date: Fri, 28 Feb 2020 09:37:16 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <bounces@canonical.com>) id 1j7gyO-0001mY-26
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:50:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45708)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j7gyN-0001m2-SM
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 09:50:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j7gyM-0004gi-C9
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 14:50:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 446482E807E
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 14:50:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <ee98e8ab-06df-e422-1ca5-f3f6a48145f2@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-28_04:2020-02-28,
- 2020-02-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- adultscore=0 suspectscore=0 malwarescore=0 spamscore=0 impostorscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=862
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002280115
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id 01SEYoZ6164383
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Date: Fri, 28 Feb 2020 14:40:29 -0000
+From: "A. Farrell" <1865160@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: qemu-system-s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alfarre
+X-Launchpad-Bug-Reporter: A. Farrell (alfarre)
+X-Launchpad-Bug-Modifier: A. Farrell (alfarre)
+Message-Id: <158290082970.7536.17698296699397322599.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1865160] [NEW] Unpredictable behaviour resulting in User process
+ faults
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: aac49a08da0537aca660b1a90b5b3e68daae2b4c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,37 +65,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Reply-To: Bug 1865160 <1865160@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/27/20 3:07 AM, Auger Eric wrote:
-> Hi Stefan,
-> On 2/26/20 11:44 PM, Stefan Berger wrote:
->> On 2/26/20 3:59 PM, Eric Auger wrote:
->>> This series adds the capability to instantiate an MMIO TPM TIS
->>> in ARM virt. It is candidate to qemu 5.0.
->> I queued it now here:
->> https://github.com/stefanberger/qemu-tpm/commits/tpm-next
->>
->> I will send the PR within a few days. Thanks!
-> Thank you. I will just ping Peter to make sure he has no comments on
->
-> [PATCH v4 06/10] hw/arm/virt: vTPM support
+Public bug reported:
+
+An example of the behaviour can be reproduced when using NPM, whereby
+running the command multiple times will result in a variety of error
+conditions causing the command to fail:
+
+Example of failure:
+
+Segmentation fault.] / rollbackFailedOptional: verb npm-session
+1a805a5e0ff7b8f5
+
+[ 3144.216869] User process fault: interruption code 0038 ilc:3 =
+
+[ 3144.216981] Failing address: 66616c7365000000 TEID: 66616c7365000800
+[ 3144.217009] Fault in primary space mode while using user ASCE.
+[ 3144.217055] AS:00000000ed28c1c7 R3:0000000000000024 =
 
 
-The little dent is now an arm boot failure:
+Feb 28 14:32:08 qemus390x kernel: [ 3144.216869] User process fault: interr=
+uption code 0038 ilc:3 =
+
+Feb 28 14:32:08 qemus390x kernel: [ 3144.216981] Failing address: 66616c736=
+5000000 TEID: 66616c7365000800
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217009] Fault in primary space mod=
+e while using user ASCE.
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217055] AS:00000000ed28c1c7 R3:000=
+0000000000024 =
+
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217217] CPU: 2 PID: 1018 Comm: npm=
+ Not tainted 4.15.0-88-generic #88-Ubuntu
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217234] Hardware name: QEMU 2964 Q=
+EMU (KVM/Linux)
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217257] User PSW : 00000000185db98=
+2 00000000c1d5a1a1
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217290]            R:0 T:1 IO:1 EX=
+:1 Key:0 M:1 W:0 P:1 AS:0 CC:2 PM:0 RI:0 EA:3
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217322] User GPRS: 000002aa0370520=
+0 0000006a16d73ac1 0000003da4b829f1 0000000000000000
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217343]            0000003da4b82a0=
+8 0000003da4b82a08 000002aa036a92ec 0000000000000000
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217364]            0000003da4b829f=
+1 000003ffdb8f7e50 0000003da4b82a08 000003ffdb8f7d88
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217385]            66616c736500000=
+0 000002aa036a05b0 000002aa015bcfb2 000003ffdb8f7d88
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512] User Code:#0000006a16d73b0=
+0: c0f4000000df	brcl	15,0000006a16d73cbe
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]           >0000006a16d73b0=
+6: a7290000		lghi	%r2,0
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73b0=
+a: 07fe		bcr	15,%r14
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73b0=
+c: c02f000001f3	llilf	%r2,499
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73b1=
+2: e3d0dff8ff71	lay	%r13,-8(%r13)
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73b1=
+8: e320d0000024	stg	%r2,0(%r13)
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73b1=
+e: c028000002aa	iihf	%r2,682
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217724] Last Breaking-Event-Addres=
+s:
+Feb 28 14:32:08 qemus390x kernel: [ 3144.217759]  [<000002aa015bcfae>] 0x2a=
+a015bcfae
 
 
-https://travis-ci.org/stefanberger/qemu-tpm/jobs/655573347?utm_medium=3Dn=
-otification&utm_source=3Demail
+QEMU emulator version 4.2.0
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+QEMU Command:
+
+sudo qemu-system-s390x -smp cpus=3D5 -machine s390-ccw-virtio -cpu
+max,zpci=3Don -serial telnet::4441,server -display none -m 4096 -net nic
+-net tap  -drive file=3Dubuntu.root,if=3Dnone,id=3Ddrive-virtio-
+disk0,format=3Draw,cache=3Dnone -device virtio-blk-ccw,devno=3Dfe.0.0003,dr=
+ive
+=3Ddrive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D100,scsi=3Doff -drive
+file=3Dubuntu.home,if=3Dnone,id=3Ddrive-virtio-disk1,format=3Draw,cache=3Dn=
+one
+-device virtio-blk-ccw,devno=3Dfe.0.0002,drive=3Ddrive-virtio-disk1,id
+=3Dvirtio-disk1,bootindex=3D1,scsi=3Doff -drive file=3Dubuntu.swap,if=3Dnon=
+e,id
+=3Ddrive-virtio-disk4,format=3Draw,cache=3Dnone -device virtio-blk-
+ccw,devno=3Dfe.0.0005,drive=3Ddrive-virtio-disk4,id=3Dvirtio-
+disk4,bootindex=3D101,scsi=3Doff
 
 
-Have a look at the raw log.
+Ubuntu 18.04.4 LTS qemus390x ttysclp0
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
- =C2=A0=C2=A0 Stefan
+** Tags: qemu-system-s390x
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1865160
+
+Title:
+  Unpredictable behaviour resulting in User process faults
+
+Status in QEMU:
+  New
+
+Bug description:
+  An example of the behaviour can be reproduced when using NPM, whereby
+  running the command multiple times will result in a variety of error
+  conditions causing the command to fail:
+
+  Example of failure:
+
+  Segmentation fault.] / rollbackFailedOptional: verb npm-session
+  1a805a5e0ff7b8f5
+
+  [ 3144.216869] User process fault: interruption code 0038 ilc:3 =
+
+  [ 3144.216981] Failing address: 66616c7365000000 TEID: 66616c7365000800
+  [ 3144.217009] Fault in primary space mode while using user ASCE.
+  [ 3144.217055] AS:00000000ed28c1c7 R3:0000000000000024 =
 
 
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.216869] User process fault: inte=
+rruption code 0038 ilc:3 =
+
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.216981] Failing address: 66616c7=
+365000000 TEID: 66616c7365000800
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217009] Fault in primary space m=
+ode while using user ASCE.
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217055] AS:00000000ed28c1c7 R3:0=
+000000000000024 =
+
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217217] CPU: 2 PID: 1018 Comm: n=
+pm Not tainted 4.15.0-88-generic #88-Ubuntu
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217234] Hardware name: QEMU 2964=
+ QEMU (KVM/Linux)
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217257] User PSW : 00000000185db=
+982 00000000c1d5a1a1
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217290]            R:0 T:1 IO:1 =
+EX:1 Key:0 M:1 W:0 P:1 AS:0 CC:2 PM:0 RI:0 EA:3
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217322] User GPRS: 000002aa03705=
+200 0000006a16d73ac1 0000003da4b829f1 0000000000000000
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217343]            0000003da4b82=
+a08 0000003da4b82a08 000002aa036a92ec 0000000000000000
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217364]            0000003da4b82=
+9f1 000003ffdb8f7e50 0000003da4b82a08 000003ffdb8f7d88
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217385]            66616c7365000=
+000 000002aa036a05b0 000002aa015bcfb2 000003ffdb8f7d88
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512] User Code:#0000006a16d73=
+b00: c0f4000000df	brcl	15,0000006a16d73cbe
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]           >0000006a16d73=
+b06: a7290000		lghi	%r2,0
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b0a: 07fe		bcr	15,%r14
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b0c: c02f000001f3	llilf	%r2,499
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b12: e3d0dff8ff71	lay	%r13,-8(%r13)
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b18: e320d0000024	stg	%r2,0(%r13)
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b1e: c028000002aa	iihf	%r2,682
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217724] Last Breaking-Event-Addr=
+ess:
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217759]  [<000002aa015bcfae>] 0x=
+2aa015bcfae
+
+
+  =
+
+  QEMU emulator version 4.2.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+  QEMU Command:
+
+  sudo qemu-system-s390x -smp cpus=3D5 -machine s390-ccw-virtio -cpu
+  max,zpci=3Don -serial telnet::4441,server -display none -m 4096 -net nic
+  -net tap  -drive file=3Dubuntu.root,if=3Dnone,id=3Ddrive-virtio-
+  disk0,format=3Draw,cache=3Dnone -device virtio-blk-
+  ccw,devno=3Dfe.0.0003,drive=3Ddrive-virtio-disk0,id=3Dvirtio-
+  disk0,bootindex=3D100,scsi=3Doff -drive file=3Dubuntu.home,if=3Dnone,id=
+=3Ddrive-
+  virtio-disk1,format=3Draw,cache=3Dnone -device virtio-blk-
+  ccw,devno=3Dfe.0.0002,drive=3Ddrive-virtio-disk1,id=3Dvirtio-
+  disk1,bootindex=3D1,scsi=3Doff -drive file=3Dubuntu.swap,if=3Dnone,id=3Dd=
+rive-
+  virtio-disk4,format=3Draw,cache=3Dnone -device virtio-blk-
+  ccw,devno=3Dfe.0.0005,drive=3Ddrive-virtio-disk4,id=3Dvirtio-
+  disk4,bootindex=3D101,scsi=3Doff
+
+  =
+
+  Ubuntu 18.04.4 LTS qemus390x ttysclp0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1865160/+subscriptions
 
