@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB13174148
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 22:07:10 +0100 (CET)
-Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44943174145
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 22:06:38 +0100 (CET)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7mqj-0004SC-Ea
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 16:07:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60090)
+	id 1j7mqD-0003Ey-B1
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 16:06:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1j7moE-0000xh-5E
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:35 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1j7moD-0005Ed-6Z
+ (envelope-from <ehabkost@redhat.com>) id 1j7moE-0000xU-1R
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40568
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <ehabkost@redhat.com>) id 1j7moD-0005EV-3Z
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25336
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j7moD-0005ED-2z
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j7moC-0005EE-W7
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:04:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1582923872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lAgDS5CAvN/e7pjN7y1OL5IZkHDnpKNePlJa0kW0eHc=;
- b=YYTOh34JnbyQwoswlp7i8UUFnI92Cba2fzClY0hKVTr4XDODUXGQzirfUyXcb+c7fDYXC+
- eB9Qpa8eFM6dD9LdOg95N55UpcAZm3ciMhlR0LbcEBViI9Kq/5ye2wxJhtrA62A8ZXpjtl
- 29WOIfn3MmJ91MJ/PxDrspbk3dMLl6c=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q5SbYjgtI2uGgWzkFXzp2xmZLMIvWFJ0c3sXX+8zipE=;
+ b=Wm14D99/Q0t/cMuzIHSBxvVz80lYLXhOV3ybtwem+KfRVMvM1f18SfXVclot4E3ncHUt9x
+ T5Dy/j8gDdj6LqnEgYnkBkBdV8qpx2Z6+V+Z4QSKjyg2Jj0lxQeFvku3PkUQfc//+qmj3y
+ gr7FSqox79ih+4ysOF1FQEo1VdHNu7M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-JSDS3FacMwS5KKcyoO2JGA-1; Fri, 28 Feb 2020 16:04:29 -0500
-X-MC-Unique: JSDS3FacMwS5KKcyoO2JGA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-40-kr05VG7eM6mYPeVSbe6EFg-1; Fri, 28 Feb 2020 16:04:30 -0500
+X-MC-Unique: kr05VG7eM6mYPeVSbe6EFg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA02A1937FC3;
- Fri, 28 Feb 2020 21:04:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91C19800D5B;
+ Fri, 28 Feb 2020 21:04:29 +0000 (UTC)
 Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8173892D07;
- Fri, 28 Feb 2020 21:04:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 604DC101D4A5;
+ Fri, 28 Feb 2020 21:04:29 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/4] Machine queue, 2020-02-28
-Date: Fri, 28 Feb 2020 16:04:23 -0500
-Message-Id: <20200228210427.474606-1-ehabkost@redhat.com>
+Subject: [PULL 1/4] hw/nmi: Fix the NMI() macro, based on INTERFACE_CHECK()
+Date: Fri, 28 Feb 2020 16:04:24 -0500
+Message-Id: <20200228210427.474606-2-ehabkost@redhat.com>
+In-Reply-To: <20200228210427.474606-1-ehabkost@redhat.com>
+References: <20200228210427.474606-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,68 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e0175b71638cf4398903c0d25f93fe62e0606389=
-:
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200=
-228' into staging (2020-02-28 16:39:27 +0000)
+There is no declaration of the 'NMI' type. INTERFACE_CHECK()
+returns an abstract type (see commit aa1b35b975d8). The abstract
+type corresponding to the TYPE_NMI interface is 'NMIState'.
 
-are available in the Git repository at:
+Fixes: 9cb805fd267
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191207094823.20707-1-philmd@redhat.com>
+Reviewed-by: Gavin Shan <gshan@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ include/hw/nmi.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
-
-for you to fetch changes up to 6db1857ec9960c63024f4ce6329d947f727bad39:
-
-  vl: Abort if multiple machines are registered as default (2020-02-28 14:5=
-7:19 -0500)
-
-----------------------------------------------------------------
-Machine queue, 2020-02-28
-
-Cleanups:
-* Fix NMI() macro (Philippe Mathieu-Daud=C3=A9)
-* Make MachineClass::is_default boolean, refuse multiple
-  default machines (Philippe Mathieu-Daud=C3=A9)
-
-----------------------------------------------------------------
-
-Philippe Mathieu-Daud=C3=A9 (4):
-  hw/nmi: Fix the NMI() macro, based on INTERFACE_CHECK()
-  hw: Do not initialize MachineClass::is_default to 0
-  hw: Make MachineClass::is_default a boolean type
-  vl: Abort if multiple machines are registered as default
-
- hw/alpha/dp264.c                         |  2 +-
- hw/cris/axis_dev88.c                     |  2 +-
- hw/hppa/machine.c                        |  2 +-
- hw/i386/pc_piix.c                        | 10 +++++-----
- hw/lm32/lm32_boards.c                    |  3 +--
- hw/lm32/milkymist.c                      |  1 -
- hw/m68k/mcf5208.c                        |  2 +-
- hw/m68k/q800.c                           |  1 -
- hw/microblaze/petalogix_ml605_mmu.c      |  1 -
- hw/microblaze/petalogix_s3adsp1800_mmu.c |  2 +-
- hw/mips/mips_malta.c                     |  2 +-
- hw/moxie/moxiesim.c                      |  2 +-
- hw/nios2/10m50_devboard.c                |  2 +-
- hw/openrisc/openrisc_sim.c               |  2 +-
- hw/ppc/mac_oldworld.c                    |  2 +-
- hw/ppc/spapr.c                           |  2 +-
- hw/riscv/spike.c                         |  2 +-
- hw/s390x/s390-virtio-ccw.c               |  2 +-
- hw/sh4/shix.c                            |  2 +-
- hw/sparc/sun4m.c                         |  2 +-
- hw/sparc64/sun4u.c                       |  2 +-
- hw/tricore/tricore_testboard.c           |  1 -
- hw/unicore32/puv3.c                      |  2 +-
- include/hw/boards.h                      |  4 +++-
- include/hw/nmi.h                         |  2 +-
- softmmu/vl.c                             |  6 ++++--
- 26 files changed, 31 insertions(+), 32 deletions(-)
-
+diff --git a/include/hw/nmi.h b/include/hw/nmi.h
+index a1e128724e..fe37ce3ad8 100644
+--- a/include/hw/nmi.h
++++ b/include/hw/nmi.h
+@@ -31,7 +31,7 @@
+ #define NMI_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(NMIClass, (obj), TYPE_NMI)
+ #define NMI(obj) \
+-     INTERFACE_CHECK(NMI, (obj), TYPE_NMI)
++     INTERFACE_CHECK(NMIState, (obj), TYPE_NMI)
+=20
+ typedef struct NMIState NMIState;
+=20
 --=20
 2.24.1
 
