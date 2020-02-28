@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072BA173C33
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:52:28 +0100 (CET)
-Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B563F173C16
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:47:15 +0100 (CET)
+Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7hwB-0002rd-0T
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:52:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47018)
+	id 1j7hr8-0002f3-K7
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:47:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hhP-0001gI-Jw
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:13 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hhR-0001lC-PC
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hhN-00058v-69
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:11 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46787)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hhP-00059h-0o
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:13 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46217)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7hhM-00058W-TL
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:09 -0500
-Received: by mail-wr1-x442.google.com with SMTP id j7so3362197wrp.13
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:37:08 -0800 (PST)
+ id 1j7hhO-00059J-Nc
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:37:10 -0500
+Received: by mail-wr1-x433.google.com with SMTP id j7so3362297wrp.13
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9zS98jojjW/wRgYmUuBrHiH5zizpzM11D0PMyDODO0c=;
- b=EENfxSYPIWCAk3YaH5eZ1Iy+3HE1wo5tBrcRu7wdLkrC7xDHvSgoerRjae27kQ0mgW
- YSxZSwTUiIfMqGYJMFsUxHnYGaCdTGqkQ4cGNwS8Okp7/9K6PUI/8GjznG4AIOmlQbja
- C619dWObYu5HlZD44K5omV/Sima44w5vi4/21SgHmisVl96Bulkvz0H9wz9QHRlZSRXc
- cS6AQpf8anJpJ0uM91fXEHpSxnneQBHdtv87h3SB0X79P7CWFEZLnQzUfMUu8cxy1/ny
- YACtMHzfIkqd1GgQswAe/KMxsa5VKDRuo5bhTCdmYOmJmPJrlO0UDIN0OkmJTK7R2MBp
- 46MA==
+ bh=NfNAqvVGpd6lOEZCOJbEpK/Y2QR3vNHt0snLS0x/OAY=;
+ b=uZz+uuBHtpf5qzusJDDfqGkSOpXlQEUYrBR8b64pG5Jpr8H4mxOz8LohH/2dwgt7d6
+ gP18RMqBNtIJFxwX2fB295YAfRGMUZZlO3PcggrWOF4VGu9C1QMo4QN2diOVl+yCJ6WY
+ pI+9Pl6ebDcQGvzvVJasfDCyIvqdenmvatsNH6WvvbiYu9n06JgXsSKIRicHJo3SpGng
+ 62s1Tu6fRBCnqUqtprYqVceBT8pPh5Nsh0zsVDfpGV2yhRnC0aQvBnFQZ+9wES9IMdx0
+ zWEQLsS97EwtfXY1NEGpzLoT+WagtgKvX0jjKdyNghUGa8fOS5SPX9GCag8RTnDecWWl
+ ZtWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9zS98jojjW/wRgYmUuBrHiH5zizpzM11D0PMyDODO0c=;
- b=kZ+xf1ncQY3nZNi7uCZZlLKR6BVAKK649h3VL437MYo8ZhYrb3T0YcCCLuqG8+eiSc
- pGSlGNasTr3mn2hLo+wH616glVbKHv1Yf5aXdbyPOEEka8C/E/l6eUhgMsZ0bYRMzRMm
- qH9JaWyTteALkpgPxN9WD9JMbSfe4664zm4BphB3h2VyHsEwNsWN51Uug3XKhSjX1izb
- sgUuB1gf378zFA6hmWrApgTPjYI4u/8xqlcsb6BhCaCacf7d6z23+rqxDuHsra8/ypFE
- Ang9cXBvYtBGjBc6P2zbP2CXPe5gE3nZh0N8oTlyxG//ZKUxZ5arcQF+nRo6MNLD+HH4
- cF4Q==
-X-Gm-Message-State: APjAAAUtg5cPqTcAvOG/WUAa/XakcDwU6dEUFa8LeIr/eVUIejNduBn0
- d+WvqAkYjUAOGwjmFDHgPHYWS1XSAouVfA==
-X-Google-Smtp-Source: APXvYqwdy4Wgf3hEwvdayYjOR3A911E2mQL9lRIiKXYvCWyC21c7S0u6lF7iSDTf9W5vQlk4kzoY0w==
-X-Received: by 2002:a5d:6891:: with SMTP id h17mr5217105wru.259.1582904227149; 
- Fri, 28 Feb 2020 07:37:07 -0800 (PST)
+ bh=NfNAqvVGpd6lOEZCOJbEpK/Y2QR3vNHt0snLS0x/OAY=;
+ b=smCkqm4iSksNQdU0lCVgc+L2I6JPIDHTkkzimhymGoIS28NK4ml0SgWtFytU2z5z0H
+ FxfUpEStbrFHs5816hZqxCEPNHPt8HakIYR8PcKx4MZli9dMIQdlHGpV5/GNpNSJHSLw
+ zvih87ags6jmDmm+LpJVQShyrrNwP8yaQ3xfaqSK1CtGy+E8tQWY9mDxnYmYKamdfwlk
+ hFSOeZ/McXaa1MEM/qUz9GnVJpa/Rsl3yygfDPf6P5y2lOt2Cwt0CBsUZKU8kVAmJr8F
+ ISKLdN2T7P7WZkLlqOkL0OzcWsQXmwndz0Jqd9qmTM8csMpc13nRsBqjl4uJ0F/BvshW
+ 4pEg==
+X-Gm-Message-State: APjAAAUMTUWIi9KJn1x5pN1ab6G+CfJcjKiMhBwcTQd/3ME2S+DPaUWq
+ 1C8Gp9i2VLUZkrJ9KZcxroBBT6ZCvkn66g==
+X-Google-Smtp-Source: APXvYqyFDAK1N+8qwiZunJMF5yqiTH7tLN0zQGG0VSpN41KY/bC4f2VRP8raJEY4w+Dk+InC44D9HQ==
+X-Received: by 2002:adf:ee03:: with SMTP id y3mr5517712wrn.5.1582904228751;
+ Fri, 28 Feb 2020 07:37:08 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.37.05
+ by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.37.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 07:37:06 -0800 (PST)
+ Fri, 28 Feb 2020 07:37:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 27/33] qemu-options.hx: Fix up the autogenerated rST
-Date: Fri, 28 Feb 2020 15:36:13 +0000
-Message-Id: <20200228153619.9906-28-peter.maydell@linaro.org>
+Subject: [PATCH v3 28/33] docs: Split out sections for the manpage into
+ .rst.inc files
+Date: Fri, 28 Feb 2020 15:36:14 +0000
+Message-Id: <20200228153619.9906-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228153619.9906-1-peter.maydell@linaro.org>
 References: <20200228153619.9906-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,474 +84,518 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit contains hand-written fixes for some issues with the
-autogenerated rST fragments in qemu-options.hx:
+Sphinx doesn't have very good facilities for marking chunks
+of documentation as "put this in the manpage only". So instead
+we move the parts we want to put into both the HTML manuals
+and the manpage into their own .rst.inc files, which we can
+include from both the main manual rst files and a new toplevel
+rst file that will be the skeleton of the qemu.1 manpage.
 
- * Sphinx complains about the UTF-8 art table in the documentation of
-   the -drive option.  Replace it with a proper rST format table.
-
- * rST does not like definition list entries with no actual
-   definition, but it is possible to work around this by putting a
-   single escaped literal space as the definition line.
-
- * The "-g widthxheight" option documentation suffers particularly
-   badly from losing the distinction between italics and fixed-width
-   as a result of the auto conversion, so put it back in again.
-
- * The script missed some places that use the |qemu_system| etc
-   macros and need to be marked up as parsed-literal blocks.
-
- * The script autogenerated an expanded out version of the
-   contents of qemu-option-trace.texi; replace it with an
-   qemu-option-trace.rst.inc include.
-
-This is sufficient that we can enable inclusion of the
-option documentation from invocation.rst.
+In this commit, just split out the parts of the documentation
+that go in the manpage.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-I opted not to try to reinstate all the italics-vs-fixed
-distinctions in the option headings, in the interests
-of expediency. I'm happy to go back and add this in later
-once the whole conversion has landed but I think we are
-better off doing a mostly-good-enough conversion quickly
-and then refining it in-tree rather than having it out
-of tree for a long time and getting hit by problems as
-documentation is updated by other patches...
----
- Makefile                   |   2 +-
- docs/system/invocation.rst |   2 +
- qemu-options.hx            | 143 +++++++++++++++++++++----------------
- 3 files changed, 84 insertions(+), 63 deletions(-)
+ ...vocation.rst => device-url-syntax.rst.inc} |  16 --
+ docs/system/invocation.rst                    | 228 +-----------------
+ docs/system/keys.rst                          |  36 +--
+ docs/system/{keys.rst => keys.rst.inc}        |   5 -
+ docs/system/mux-chardev.rst                   |  28 +--
+ .../{mux-chardev.rst => mux-chardev.rst.inc}  |   5 -
+ ...rget-i386.rst => target-i386-desc.rst.inc} |  22 --
+ docs/system/target-i386.rst                   |  63 +----
+ 8 files changed, 4 insertions(+), 399 deletions(-)
+ copy docs/system/{invocation.rst => device-url-syntax.rst.inc} (96%)
+ copy docs/system/{keys.rst => keys.rst.inc} (90%)
+ copy docs/system/{mux-chardev.rst => mux-chardev.rst.inc} (87%)
+ copy docs/system/{target-i386.rst => target-i386-desc.rst.inc} (76%)
 
-diff --git a/Makefile b/Makefile
-index 98ef06ab8e8..f7d08997dbf 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1071,7 +1071,7 @@ $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
- $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
- 	$(call build-manual,specs,html)
+diff --git a/docs/system/invocation.rst b/docs/system/device-url-syntax.rst.inc
+similarity index 96%
+copy from docs/system/invocation.rst
+copy to docs/system/device-url-syntax.rst.inc
+index d77dd13d4f7..88d7a372a74 100644
+--- a/docs/system/invocation.rst
++++ b/docs/system/device-url-syntax.rst.inc
+@@ -1,19 +1,3 @@
+-.. _sec_005finvocation:
+-
+-Invocation
+-----------
+-
+-.. parsed-literal::
+-
+-   |qemu_system| [options] [disk_image]
+-
+-disk_image is a raw hard disk image for IDE hard disk 0. Some targets do
+-not need a disk image.
+-
+-.. hxtool-doc:: qemu-options.hx
+-
+-Device URL Syntax
+-~~~~~~~~~~~~~~~~~
  
--$(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system) $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/hmp-commands-info.hx
-+$(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system) $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/qemu-options.hx
- 	$(call build-manual,system,html)
- 
- $(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
+ In addition to using normal file images for the emulated storage
+ devices, QEMU can also use networked resources such as iSCSI devices.
 diff --git a/docs/system/invocation.rst b/docs/system/invocation.rst
-index c112bcb45a4..d77dd13d4f7 100644
+index d77dd13d4f7..4ba38fc23d2 100644
 --- a/docs/system/invocation.rst
 +++ b/docs/system/invocation.rst
-@@ -10,6 +10,8 @@ Invocation
- disk_image is a raw hard disk image for IDE hard disk 0. Some targets do
- not need a disk image.
- 
-+.. hxtool-doc:: qemu-options.hx
-+
+@@ -15,230 +15,4 @@ not need a disk image.
  Device URL Syntax
  ~~~~~~~~~~~~~~~~~
  
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 043e425b61e..f7061212ceb 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -448,7 +448,17 @@ cache, size is 10KB, policy is write-back, the cache Line size is 8 bytes:
- 
- ETEXI
- SRST
--``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``; \ ``-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``; \ ``-numa dist,src=source,dst=destination,val=distance``; \ ``-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]``; \ ``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``; \ ``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
-+``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
-+  \ 
-+``-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
-+  \
-+``-numa dist,src=source,dst=destination,val=distance``
-+  \ 
-+``-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]``
-+  \ 
-+``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``
-+  \ 
-+``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
-     Define a NUMA node and assign RAM and VCPUs to it. Set the NUMA
-     distance from a source node to a destination node. Set the ACPI
-     Heterogeneous Memory Attributes for the given nodes.
-@@ -687,7 +697,9 @@ driver=@var{driver},property=@var{prop},value=@var{value}.  The
- longhand syntax works even when @var{driver} contains a dot.
- ETEXI
- SRST
--``-global driver.prop=value``; \ ``-global driver=driver,property=property,value=value``
-+``-global driver.prop=value``
-+  \ 
-+``-global driver=driver,property=property,value=value``
-     Set default value of driver's property prop to value, e.g.:
- 
-     .. parsed-literal::
-@@ -788,7 +800,7 @@ SRST
-     it. This only effects when boot priority is changed by bootindex
-     options. The default is non-strict boot.
- 
--    ::
-+    .. parsed-literal::
- 
-         # try to boot from network first, then from hard disk
-         |qemu_system_x86| -boot order=nc
-@@ -1618,7 +1630,9 @@ STEXI
- Use @var{file} as floppy disk 0/1 image (@pxref{disk_images}).
- ETEXI
- SRST
--``-fda file``; \ ``-fdb file``
-+``-fda file``
-+  \
-+``-fdb file``
-     Use file as floppy disk 0/1 image (see
-     :ref:`disk_005fimages`).
- ERST
-@@ -1641,7 +1655,13 @@ STEXI
- Use @var{file} as hard disk 0, 1, 2 or 3 image (@pxref{disk_images}).
- ETEXI
- SRST
--``-hda file``; \ ``-hdb file``; \ ``-hdc file``; \ ``-hdd file``
-+``-hda file``
-+  \
-+``-hdb file``
-+  \ 
-+``-hdc file``
-+  \ 
-+``-hdd file``
-     Use file as hard disk 0, 1, 2 or 3 image (see
-     :ref:`disk_005fimages`).
- ERST
-@@ -2295,15 +2315,15 @@ SRST
-         the ``write-cache`` option of block guest devices (as in
-         ``-device``). The modes correspond to the following settings:
- 
--        ::
+-In addition to using normal file images for the emulated storage
+-devices, QEMU can also use networked resources such as iSCSI devices.
+-These are specified using a special URL syntax.
 -
--            �            │ cache.writeback   cache.direct   cache.no-flush
--            ─────────────┼─────────────────────────────────────────────────
--            writeback    │ on                off            off
--            none         │ on                on             off
--            writethrough │ off               off            off
--            directsync   │ off               on             off
--            unsafe       │ on                off            on
-+        =============  ===============   ============   ==============
-+        \              cache.writeback   cache.direct   cache.no-flush
-+        =============  ===============   ============   ==============
-+        writeback      on                off            off
-+        none           on                on             off
-+        writethrough   off               off            off
-+        directsync     off               on             off
-+        unsafe         on                off            on
-+        =============  ===============   ============   ==============
- 
-         The default mode is ``cache=writeback``.
- 
-@@ -2594,7 +2614,13 @@ Specifies the tag name to be used by the guest to mount this export point.
- 
- ETEXI
- SRST
--``-fsdev local,id=id,path=path,security_model=security_model [,writeout=writeout][,readonly][,fmode=fmode][,dmode=dmode] [,throttling.option=value[,throttling.option=value[,...]]]``; \ ``-fsdev proxy,id=id,socket=socket[,writeout=writeout][,readonly]``; \ ``-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=writeout][,readonly]``; \ ``-fsdev synth,id=id[,readonly]``
-+``-fsdev local,id=id,path=path,security_model=security_model [,writeout=writeout][,readonly][,fmode=fmode][,dmode=dmode] [,throttling.option=value[,throttling.option=value[,...]]]``
-+  \ 
-+``-fsdev proxy,id=id,socket=socket[,writeout=writeout][,readonly]``
-+  \
-+``-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=writeout][,readonly]``
-+  \
-+``-fsdev synth,id=id[,readonly]``
-     Define a new file system device. Valid options are:
- 
-     ``local``
-@@ -2791,7 +2817,13 @@ would still return entries from other devices).
- @end table
- ETEXI
- SRST
--``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``; \ ``-virtfs proxy,socket=socket,mount_tag=mount_tag [,writeout=writeout][,readonly]``; \ ``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``; \ ``-virtfs synth,mount_tag=mount_tag``
-+``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``
-+  \ 
-+``-virtfs proxy,socket=socket,mount_tag=mount_tag [,writeout=writeout][,readonly]``
-+  \ 
-+``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``
-+  \
-+``-virtfs synth,mount_tag=mount_tag``
-     Define a new filesystem device and expose it to the guest using a
-     virtio-9p-device. The general form of a Virtual File system
-     pass-through options are:
-@@ -3568,7 +3600,7 @@ of 1152x900x8 for people who wish to use OBP.
- 
- ETEXI
- SRST
--``-g widthxheight[xdepth]``
-+``-g`` *width*\ ``x``\ *height*\ ``[x``\ *depth*\ ``]``
-     Set the initial graphical resolution and depth (PPC, SPARC only).
- 
-     For PPC the default is 800x600x32.
-@@ -4847,7 +4879,7 @@ SRST
-         For example, to redirect host X11 connection from screen 1 to
-         guest screen 0, use the following:
- 
--        ::
-+        .. parsed-literal::
- 
-             # on the host
-             |qemu_system| -nic user,hostfwd=tcp:127.0.0.1:6001-:6000
-@@ -4857,7 +4889,7 @@ SRST
-         To redirect telnet connections from host port 5555 to telnet
-         port on the guest, use the following:
- 
--        ::
-+        .. parsed-literal::
- 
-             # on the host
-             |qemu_system| -nic user,hostfwd=tcp::5555-:23
-@@ -4875,7 +4907,7 @@ SRST
-         You can either use a chardev directly and have that one used
-         throughout QEMU's lifetime, like in the following example:
- 
--        ::
-+        .. parsed-literal::
- 
-             # open 10.10.1.1:4321 on bootup, connect 10.0.2.100:1234 to it whenever
-             # the guest accesses it
-@@ -4885,7 +4917,7 @@ SRST
-         by the guest, so that QEMU behaves similar to an inetd process
-         for that virtual server:
- 
--        ::
-+        .. parsed-literal::
- 
-             # call "netcat 10.10.1.1 4321" on every TCP connection to 10.0.2.100:1234
-             # and connect the TCP stream to its stdin/stdout
-@@ -4912,12 +4944,12 @@ SRST
- 
-     Examples:
- 
--    ::
-+    .. parsed-literal::
- 
-         #launch a QEMU instance with the default network script
-         |qemu_system| linux.img -nic tap
- 
--    ::
-+    .. parsed-literal::
- 
-         #launch a QEMU instance with two NICs, each one connected
-         #to a TAP device
-@@ -4925,7 +4957,7 @@ SRST
-                 -netdev tap,id=nd0,ifname=tap0 -device e1000,netdev=nd0 \
-                 -netdev tap,id=nd1,ifname=tap1 -device rtl8139,netdev=nd1
- 
--    ::
-+    .. parsed-literal::
- 
-         #launch a QEMU instance with the default network helper to
-         #connect a TAP device to bridge br0
-@@ -4942,13 +4974,13 @@ SRST
- 
-     Examples:
- 
--    ::
-+    .. parsed-literal::
- 
-         #launch a QEMU instance with the default network helper to
-         #connect a TAP device to bridge br0
-         |qemu_system| linux.img -netdev bridge,id=n1 -device virtio-net,netdev=n1
- 
--    ::
-+    .. parsed-literal::
- 
-         #launch a QEMU instance with the default network helper to
-         #connect a TAP device to bridge qemubr0
-@@ -4964,7 +4996,7 @@ SRST
- 
-     Example:
- 
--    ::
-+    .. parsed-literal::
- 
-         # launch a first QEMU instance
-         |qemu_system| linux.img \
-@@ -4991,7 +5023,7 @@ SRST
- 
-     Example:
- 
--    ::
-+    .. parsed-literal::
- 
-         # launch one QEMU instance
-         |qemu_system| linux.img \
-@@ -5008,7 +5040,7 @@ SRST
- 
-     Example (User Mode Linux compat.):
- 
--    ::
-+    .. parsed-literal::
- 
-         # launch QEMU instance (note mcast address selected is UML's default)
-         |qemu_system| linux.img \
-@@ -5074,7 +5106,7 @@ SRST
-     For example, to attach a VM running on host 4.3.2.1 via L2TPv3 to
-     the bridge br-lan on the remote Linux host 1.2.3.4:
- 
--    ::
-+    .. parsed-literal::
- 
-         # Setup tunnel on linux host using raw ip as encapsulation
-         # on 1.2.3.4
-@@ -5102,7 +5134,7 @@ SRST
- 
-     Example:
- 
--    ::
-+    .. parsed-literal::
- 
-         # launch vde switch
-         vde_switch -F -sock /tmp/myswitch
-@@ -5731,7 +5763,9 @@ The available backends are:
- 
-     ``path`` specifies the path to the tty. ``path`` is required.
- 
--``-chardev parallel,id=id,path=path``; \ ``-chardev parport,id=id,path=path``
-+``-chardev parallel,id=id,path=path``
-+  \
-+``-chardev parport,id=id,path=path``
-     ``parallel`` is only available on Linux, FreeBSD and DragonFlyBSD
-     hosts.
- 
-@@ -6569,6 +6603,7 @@ utilization will be incorrect, not taking into account guest idle time.
- ETEXI
- SRST
- ``-overcommit mem-lock=on|off``
-+  \ 
- ``-overcommit cpu-pm=on|off``
-     Run qemu with hints about host resource overcommit. The default is
-     to assume that host overcommits all resources.
-@@ -6607,7 +6642,7 @@ SRST
-     use case. The latter is allowing to start QEMU from within gdb and
-     establish the connection via a pipe:
- 
--    ::
-+    .. parsed-literal::
- 
-         (gdb) target remote | exec |qemu_system| -gdb stdio ...
- ERST
-@@ -7196,7 +7231,9 @@ be used to change settings (such as migration parameters) prior to issuing
- the migrate_incoming to allow the migration to begin.
- ETEXI
- SRST
--``-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]``; \ ``-incoming rdma:host:port[,ipv4][,ipv6]``
-+``-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]``
-+  \ 
-+``-incoming rdma:host:port[,ipv4][,ipv6]``
-     Prepare for incoming migration, listen on a given tcp port.
- 
- ``-incoming unix:socketpath``
-@@ -7537,27 +7574,8 @@ HXCOMM HX does not support conditional compilation of text.
- ETEXI
- SRST
- ``-trace [[enable=]pattern][,events=file][,file=file]``
--    Specify tracing options.
-+  .. include:: ../qemu-option-trace.rst.inc
- 
--    ``[enable=]pattern``
--        Immediately enable events matching pattern (either event name or
--        a globbing pattern). This option is only available if QEMU has
--        been compiled with the simple, log or ftrace tracing backend. To
--        specify multiple events or patterns, specify the ``-trace``
--        option multiple times.
+-``iSCSI``
+-   iSCSI support allows QEMU to access iSCSI resources directly and use
+-   as images for the guest storage. Both disk and cdrom images are
+-   supported.
 -
--        Use ``-trace help`` to print a list of names of trace points.
+-   Syntax for specifying iSCSI LUNs is
+-   "iscsi://<target-ip>[:<port>]/<target-iqn>/<lun>"
 -
--    ``events=file``
--        Immediately enable events listed in file. The file must contain
--        one event name (as listed in the ``trace-events-all`` file) per
--        line; globbing patterns are accepted too. This option is only
--        available if QEMU has been compiled with the simple, log or
--        ftrace tracing backend.
+-   By default qemu will use the iSCSI initiator-name
+-   'iqn.2008-11.org.linux-kvm[:<name>]' but this can also be set from
+-   the command line or a configuration file.
 -
--    ``file=file``
--        Log output traces to file. This option is only available if QEMU
--        has been compiled with the simple tracing backend.
- ERST
- DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
-     "-plugin [file=]<file>[,arg=<string>]\n"
-@@ -8707,7 +8725,7 @@ SRST
-         which specify the queue number of cryptodev backend, the default
-         of queues is 1.
+-   Since version Qemu 2.4 it is possible to specify a iSCSI request
+-   timeout to detect stalled requests and force a reestablishment of the
+-   session. The timeout is specified in seconds. The default is 0 which
+-   means no timeout. Libiscsi 1.15.0 or greater is required for this
+-   feature.
+-
+-   Example (without authentication):
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| -iscsi initiator-name=iqn.2001-04.com.example:my-initiator \
+-                       -cdrom iscsi://192.0.2.1/iqn.2001-04.com.example/2 \
+-                       -drive file=iscsi://192.0.2.1/iqn.2001-04.com.example/1
+-
+-   Example (CHAP username/password via URL):
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| -drive file=iscsi://user%password@192.0.2.1/iqn.2001-04.com.example/1
+-
+-   Example (CHAP username/password via environment variables):
+-
+-   .. parsed-literal::
+-
+-      LIBISCSI_CHAP_USERNAME="user" \
+-      LIBISCSI_CHAP_PASSWORD="password" \
+-      |qemu_system| -drive file=iscsi://192.0.2.1/iqn.2001-04.com.example/1
+-
+-``NBD``
+-   QEMU supports NBD (Network Block Devices) both using TCP protocol as
+-   well as Unix Domain Sockets. With TCP, the default port is 10809.
+-
+-   Syntax for specifying a NBD device using TCP, in preferred URI form:
+-   "nbd://<server-ip>[:<port>]/[<export>]"
+-
+-   Syntax for specifying a NBD device using Unix Domain Sockets;
+-   remember that '?' is a shell glob character and may need quoting:
+-   "nbd+unix:///[<export>]?socket=<domain-socket>"
+-
+-   Older syntax that is also recognized:
+-   "nbd:<server-ip>:<port>[:exportname=<export>]"
+-
+-   Syntax for specifying a NBD device using Unix Domain Sockets
+-   "nbd:unix:<domain-socket>[:exportname=<export>]"
+-
+-   Example for TCP
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| --drive file=nbd:192.0.2.1:30000
+-
+-   Example for Unix Domain Sockets
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| --drive file=nbd:unix:/tmp/nbd-socket
+-
+-``SSH``
+-   QEMU supports SSH (Secure Shell) access to remote disks.
+-
+-   Examples:
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| -drive file=ssh://user@host/path/to/disk.img
+-      |qemu_system| -drive file.driver=ssh,file.user=user,file.host=host,file.port=22,file.path=/path/to/disk.img
+-
+-   Currently authentication must be done using ssh-agent. Other
+-   authentication methods may be supported in future.
+-
+-``Sheepdog``
+-   Sheepdog is a distributed storage system for QEMU. QEMU supports
+-   using either local sheepdog devices or remote networked devices.
+-
+-   Syntax for specifying a sheepdog device
+-
+-   ::
+-
+-      sheepdog[+tcp|+unix]://[host:port]/vdiname[?socket=path][#snapid|#tag]
+-
+-   Example
+-
+-   .. parsed-literal::
+-
+-      |qemu_system| --drive file=sheepdog://192.0.2.1:30000/MyVirtualMachine
+-
+-   See also https://sheepdog.github.io/sheepdog/.
+-
+-``GlusterFS``
+-   GlusterFS is a user space distributed file system. QEMU supports the
+-   use of GlusterFS volumes for hosting VM disk images using TCP, Unix
+-   Domain Sockets and RDMA transport protocols.
+-
+-   Syntax for specifying a VM disk image on GlusterFS volume is
+-
+-   .. parsed-literal::
+-
+-      URI:
+-      gluster[+type]://[host[:port]]/volume/path[?socket=...][,debug=N][,logfile=...]
+-
+-      JSON:
+-      'json:{"driver":"qcow2","file":{"driver":"gluster","volume":"testvol","path":"a.img","debug":N,"logfile":"...",
+-                                       "server":[{"type":"tcp","host":"...","port":"..."},
+-                                                 {"type":"unix","socket":"..."}]}}'
+-
+-   Example
+-
+-   .. parsed-literal::
+-
+-      URI:
+-      |qemu_system| --drive file=gluster://192.0.2.1/testvol/a.img,
+-                                     file.debug=9,file.logfile=/var/log/qemu-gluster.log
+-
+-      JSON:
+-      |qemu_system| 'json:{"driver":"qcow2",
+-                                "file":{"driver":"gluster",
+-                                         "volume":"testvol","path":"a.img",
+-                                         "debug":9,"logfile":"/var/log/qemu-gluster.log",
+-                                         "server":[{"type":"tcp","host":"1.2.3.4","port":24007},
+-                                                   {"type":"unix","socket":"/var/run/glusterd.socket"}]}}'
+-      |qemu_system| -drive driver=qcow2,file.driver=gluster,file.volume=testvol,file.path=/path/a.img,
+-                                            file.debug=9,file.logfile=/var/log/qemu-gluster.log,
+-                                            file.server.0.type=tcp,file.server.0.host=1.2.3.4,file.server.0.port=24007,
+-                                            file.server.1.type=unix,file.server.1.socket=/var/run/glusterd.socket
+-
+-   See also http://www.gluster.org.
+-
+-``HTTP/HTTPS/FTP/FTPS``
+-   QEMU supports read-only access to files accessed over http(s) and
+-   ftp(s).
+-
+-   Syntax using a single filename:
+-
+-   ::
+-
+-      <protocol>://[<username>[:<password>]@]<host>/<path>
+-
+-   where:
+-
+-   ``protocol``
+-      'http', 'https', 'ftp', or 'ftps'.
+-
+-   ``username``
+-      Optional username for authentication to the remote server.
+-
+-   ``password``
+-      Optional password for authentication to the remote server.
+-
+-   ``host``
+-      Address of the remote server.
+-
+-   ``path``
+-      Path on the remote server, including any query string.
+-
+-   The following options are also supported:
+-
+-   ``url``
+-      The full URL when passing options to the driver explicitly.
+-
+-   ``readahead``
+-      The amount of data to read ahead with each range request to the
+-      remote server. This value may optionally have the suffix 'T', 'G',
+-      'M', 'K', 'k' or 'b'. If it does not have a suffix, it will be
+-      assumed to be in bytes. The value must be a multiple of 512 bytes.
+-      It defaults to 256k.
+-
+-   ``sslverify``
+-      Whether to verify the remote server's certificate when connecting
+-      over SSL. It can have the value 'on' or 'off'. It defaults to
+-      'on'.
+-
+-   ``cookie``
+-      Send this cookie (it can also be a list of cookies separated by
+-      ';') with each outgoing request. Only supported when using
+-      protocols such as HTTP which support cookies, otherwise ignored.
+-
+-   ``timeout``
+-      Set the timeout in seconds of the CURL connection. This timeout is
+-      the time that CURL waits for a response from the remote server to
+-      get the size of the image to be downloaded. If not set, the
+-      default timeout of 5 seconds is used.
+-
+-   Note that when passing options to qemu explicitly, ``driver`` is the
+-   value of <protocol>.
+-
+-   Example: boot from a remote Fedora 20 live ISO image
+-
+-   .. parsed-literal::
+-
+-      |qemu_system_x86| --drive media=cdrom,file=https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+-
+-      |qemu_system_x86| --drive media=cdrom,file.driver=http,file.url=http://archives.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-Desktop-x86_64-20-1.iso,readonly
+-
+-   Example: boot from a remote Fedora 20 cloud image using a local
+-   overlay for writes, copy-on-read, and a readahead of 64k
+-
+-   .. parsed-literal::
+-
+-      qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"http",, "file.url":"http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/20/Images/x86_64/Fedora-x86_64-20-20131211.1-sda.qcow2",, "file.readahead":"64k"}' /tmp/Fedora-x86_64-20-20131211.1-sda.qcow2
+-
+-      |qemu_system_x86| -drive file=/tmp/Fedora-x86_64-20-20131211.1-sda.qcow2,copy-on-read=on
+-
+-   Example: boot from an image stored on a VMware vSphere server with a
+-   self-signed certificate using a local overlay for writes, a readahead
+-   of 64k and a timeout of 10 seconds.
+-
+-   .. parsed-literal::
+-
+-      qemu-img create -f qcow2 -o backing_file='json:{"file.driver":"https",, "file.url":"https://user:password@vsphere.example.com/folder/test/test-flat.vmdk?dcPath=Datacenter&dsName=datastore1",, "file.sslverify":"off",, "file.readahead":"64k",, "file.timeout":10}' /tmp/test.qcow2
+-
+-      |qemu_system_x86| -drive file=/tmp/test.qcow2
++.. include:: device-url-syntax.rst.inc
+diff --git a/docs/system/keys.rst b/docs/system/keys.rst
+index bf99ee8d5be..e596ae6c4e7 100644
+--- a/docs/system/keys.rst
++++ b/docs/system/keys.rst
+@@ -3,38 +3,4 @@
+ Keys in the graphical frontends
+ -------------------------------
  
--        ::
-+        .. parsed-literal::
+-During the graphical emulation, you can use special key combinations to
+-change modes. The default key mappings are shown below, but if you use
+-``-alt-grab`` then the modifier is Ctrl-Alt-Shift (instead of Ctrl-Alt)
+-and if you use ``-ctrl-grab`` then the modifier is the right Ctrl key
+-(instead of Ctrl-Alt):
+-
+-Ctrl-Alt-f
+-   Toggle full screen
+-
+-Ctrl-Alt-+
+-   Enlarge the screen
+-
+-Ctrl-Alt\--
+-   Shrink the screen
+-
+-Ctrl-Alt-u
+-   Restore the screen's un-scaled dimensions
+-
+-Ctrl-Alt-n
+-   Switch to virtual console 'n'. Standard console mappings are:
+-
+-   *1*
+-      Target system display
+-
+-   *2*
+-      Monitor
+-
+-   *3*
+-      Serial port
+-
+-Ctrl-Alt
+-   Toggle mouse and keyboard grab.
+-
+-In the virtual consoles, you can use Ctrl-Up, Ctrl-Down, Ctrl-PageUp and
+-Ctrl-PageDown to move in the back log.
++.. include:: keys.rst.inc
+diff --git a/docs/system/keys.rst b/docs/system/keys.rst.inc
+similarity index 90%
+copy from docs/system/keys.rst
+copy to docs/system/keys.rst.inc
+index bf99ee8d5be..bd9b8e5f6f5 100644
+--- a/docs/system/keys.rst
++++ b/docs/system/keys.rst.inc
+@@ -1,8 +1,3 @@
+-.. _pcsys_005fkeys:
+-
+-Keys in the graphical frontends
+--------------------------------
+-
+ During the graphical emulation, you can use special key combinations to
+ change modes. The default key mappings are shown below, but if you use
+ ``-alt-grab`` then the modifier is Ctrl-Alt-Shift (instead of Ctrl-Alt)
+diff --git a/docs/system/mux-chardev.rst b/docs/system/mux-chardev.rst
+index e50172c0815..413a6b34460 100644
+--- a/docs/system/mux-chardev.rst
++++ b/docs/system/mux-chardev.rst
+@@ -3,30 +3,4 @@
+ Keys in the character backend multiplexer
+ -----------------------------------------
  
-              # |qemu_system| \
-                [...] \
-@@ -8726,7 +8744,7 @@ SRST
-         specify the queue number of cryptodev backend for multiqueue
-         vhost-user, the default of queues is 1.
+-During emulation, if you are using a character backend multiplexer
+-(which is the default if you are using ``-nographic``) then several
+-commands are available via an escape sequence. These key sequences all
+-start with an escape character, which is Ctrl-a by default, but can be
+-changed with ``-echr``. The list below assumes you're using the default.
+-
+-Ctrl-a h
+-   Print this help
+-
+-Ctrl-a x
+-   Exit emulator
+-
+-Ctrl-a s
+-   Save disk data back to file (if -snapshot)
+-
+-Ctrl-a t
+-   Toggle console timestamps
+-
+-Ctrl-a b
+-   Send break (magic sysrq in Linux)
+-
+-Ctrl-a c
+-   Rotate between the frontends connected to the multiplexer (usually
+-   this switches between the monitor and the console)
+-
+-Ctrl-a Ctrl-a
+-   Send the escape character to the frontend
++.. include:: mux-chardev.rst.inc
+diff --git a/docs/system/mux-chardev.rst b/docs/system/mux-chardev.rst.inc
+similarity index 87%
+copy from docs/system/mux-chardev.rst
+copy to docs/system/mux-chardev.rst.inc
+index e50172c0815..84ea12cbf58 100644
+--- a/docs/system/mux-chardev.rst
++++ b/docs/system/mux-chardev.rst.inc
+@@ -1,8 +1,3 @@
+-.. _mux_005fkeys:
+-
+-Keys in the character backend multiplexer
+------------------------------------------
+-
+ During emulation, if you are using a character backend multiplexer
+ (which is the default if you are using ``-nographic``) then several
+ commands are available via an escape sequence. These key sequences all
+diff --git a/docs/system/target-i386.rst b/docs/system/target-i386-desc.rst.inc
+similarity index 76%
+copy from docs/system/target-i386.rst
+copy to docs/system/target-i386-desc.rst.inc
+index 92e2038b11e..47a169e0ae2 100644
+--- a/docs/system/target-i386.rst
++++ b/docs/system/target-i386-desc.rst.inc
+@@ -1,13 +1,3 @@
+-.. _QEMU-PC-System-emulator:
+-
+-x86 (PC) System emulator
+-------------------------
+-
+-.. _pcsys_005fdevices:
+-
+-Peripherals
+-~~~~~~~~~~~
+-
+ The QEMU PC System emulator simulates the following peripherals:
  
--        ::
-+        .. parsed-literal::
+ -  i440FX host PCI bridge and PIIX3 PCI to ISA bridge
+@@ -70,15 +60,3 @@ Alternatively:
+ Or some other unclaimed IRQ.
  
-              # |qemu_system| \
-                [...] \
-@@ -8736,6 +8754,7 @@ SRST
-                [...]
+ CS4231A is the chip used in Windows Sound System and GUSMAX products
+-
+-.. include:: cpu-models-x86.rst.inc
+-
+-.. _pcsys_005freq:
+-
+-OS requirements
+-~~~~~~~~~~~~~~~
+-
+-On x86_64 hosts, the default set of CPU features enabled by the KVM
+-accelerator require the host to be running Linux v4.5 or newer. Red Hat
+-Enterprise Linux 7 is also supported, since the required
+-functionality was backported.
+diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
+index 92e2038b11e..51be03d881f 100644
+--- a/docs/system/target-i386.rst
++++ b/docs/system/target-i386.rst
+@@ -8,68 +8,7 @@ x86 (PC) System emulator
+ Peripherals
+ ~~~~~~~~~~~
  
-     ``-object secret,id=id,data=string,format=raw|base64[,keyid=secretid,iv=string]``
-+      \ 
-     ``-object secret,id=id,file=filename,format=raw|base64[,keyid=secretid,iv=string]``
-         Defines a secret to store a password, encryption key, or some
-         other sensitive data. The sensitive data can either be passed
-@@ -8763,7 +8782,7 @@ SRST
+-The QEMU PC System emulator simulates the following peripherals:
+-
+--  i440FX host PCI bridge and PIIX3 PCI to ISA bridge
+-
+--  Cirrus CLGD 5446 PCI VGA card or dummy VGA card with Bochs VESA
+-   extensions (hardware level, including all non standard modes).
+-
+--  PS/2 mouse and keyboard
+-
+--  2 PCI IDE interfaces with hard disk and CD-ROM support
+-
+--  Floppy disk
+-
+--  PCI and ISA network adapters
+-
+--  Serial ports
+-
+--  IPMI BMC, either and internal or external one
+-
+--  Creative SoundBlaster 16 sound card
+-
+--  ENSONIQ AudioPCI ES1370 sound card
+-
+--  Intel 82801AA AC97 Audio compatible sound card
+-
+--  Intel HD Audio Controller and HDA codec
+-
+--  Adlib (OPL2) - Yamaha YM3812 compatible chip
+-
+--  Gravis Ultrasound GF1 sound card
+-
+--  CS4231A compatible sound card
+-
+--  PCI UHCI, OHCI, EHCI or XHCI USB controller and a virtual USB-1.1
+-   hub.
+-
+-SMP is supported with up to 255 CPUs.
+-
+-QEMU uses the PC BIOS from the Seabios project and the Plex86/Bochs LGPL
+-VGA BIOS.
+-
+-QEMU uses YM3812 emulation by Tatsuyuki Satoh.
+-
+-QEMU uses GUS emulation (GUSEMU32 http://www.deinmeister.de/gusemu/) by
+-Tibor \"TS\" Schütz.
+-
+-Note that, by default, GUS shares IRQ(7) with parallel ports and so QEMU
+-must be told to not have parallel ports to have working GUS.
+-
+-.. parsed-literal::
+-
+-   |qemu_system_x86| dos.img -soundhw gus -parallel none
+-
+-Alternatively:
+-
+-.. parsed-literal::
+-
+-   |qemu_system_x86| dos.img -device gus,irq=5
+-
+-Or some other unclaimed IRQ.
+-
+-CS4231A is the chip used in Windows Sound System and GUSMAX products
++.. include:: target-i386-desc.rst.inc
  
-         The simplest (insecure) usage is to provide the secret inline
+ .. include:: cpu-models-x86.rst.inc
  
--        ::
-+        .. parsed-literal::
- 
-              # |qemu_system| -object secret,id=sec0,data=letmein,format=raw
- 
-@@ -8807,7 +8826,7 @@ SRST
-         ``key.b64`` and specify that to be used to decrypt the user
-         password. Pass the contents of ``iv.b64`` to the second secret
- 
--        ::
-+        .. parsed-literal::
- 
-              # |qemu_system| \
-                  -object secret,id=secmaster0,format=base64,file=key.b64 \
-@@ -8856,7 +8875,7 @@ SRST
- 
-         e.g to launch a SEV guest
- 
--        ::
-+        .. parsed-literal::
- 
-              # |qemu_system_x86| \
-                  ......
-@@ -8877,7 +8896,7 @@ SRST
-         An example authorization object to validate a x509 distinguished
-         name would look like:
- 
--        ::
-+        .. parsed-literal::
- 
-              # |qemu_system| \
-                  ...
-@@ -8928,7 +8947,7 @@ SRST
-         An example authorization object to validate a SASL username
-         would look like:
- 
--        ::
-+        .. parsed-literal::
- 
-              # |qemu_system| \
-                  ...
-@@ -8947,7 +8966,7 @@ SRST
-         An example authorization object to validate a TLS x509
-         distinguished name would look like:
- 
--        ::
-+        .. parsed-literal::
- 
-              # |qemu_system| \
-                  ...
 -- 
 2.20.1
 
