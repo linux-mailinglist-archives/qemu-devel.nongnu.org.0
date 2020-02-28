@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259EE173D5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:45:57 +0100 (CET)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B49B173D71
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:48:18 +0100 (CET)
+Received: from localhost ([::1]:50534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7ilw-0003ys-00
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:45:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56779)
+	id 1j7ioD-0007pY-Bu
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:48:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifY-0008Kw-Mb
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifZ-0008NU-O9
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifX-00027f-9T
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:20 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45277)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifY-00028I-9A
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:21 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40817)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifX-00027E-26
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:19 -0500
-Received: by mail-wr1-x430.google.com with SMTP id v2so3600858wrp.12
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:18 -0800 (PST)
+ id 1j7ifY-00027p-2c
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:20 -0500
+Received: by mail-wm1-x342.google.com with SMTP id d138so2304968wmd.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=kVj8xiNy7P+impZo0PATu9zmL7PfKEv61GKapK4HB3M=;
- b=n5u91R6eRFocJHArmg6rLlH+evDOkI7c6BcilazFITxHqvtq/bJY3sQarvwKrgrwbX
- sPfHUTvM9y5wy/6lbJb28KIFW/AGSyTZtVriET4U6gxh3jwcgrSZqFpURbPITOeoeL5s
- 2ohZoqhaHlj9Yaa5v5p+CQMc4wxwfDRKKjWoEP12YqnpScanRXds+pYnBv8C2WSOUPb4
- wpVbulEpDdSXICerpOzLPBUHpRzTiNC8ESIAmusj9B33ExJNetE8C9fEE1RJZG9gc7uQ
- zBuBGF/C7H0N+9VW7V8pVhG7UqtqZI83mF+pASeNxJK+LkYzP7y06vA0xVoVyWnVOgzH
- e8hA==
+ bh=5oQ35QsMhetApJIHGz3Rua7oGdC5Wob+G0lA1+c8/Fw=;
+ b=SCghQKzZ0n5jys0ixaZ7beD5qPwkCXiQKVoGJ20dZ5/0G+sizZg5xvKWaLmkkll2DB
+ OFyHBjEJN5jqdG6kY4xVjH4D+1qulKIG2c2ywWSlLw1v7iKRRHk0CYQZVOaJlEzU6Q7C
+ XfaIOZQxTrVnqnl5w3Ul2X79GXh5PnbrTzVqkX1g58JuTTuM2YhXvjzgusSVCtmzr+4W
+ VFaz8BirU53/Hm5OxGictG37WLGgy6aLycahac4zrkM67slOmV9pzh0x5dmujhbCQTQp
+ w0xjAIXJeRTdKjTbxAo1qtPUr7AHjjpP7VyBnHGgnZhTJeKhofrOAAuw1lPsd3AZgc+Y
+ XsBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kVj8xiNy7P+impZo0PATu9zmL7PfKEv61GKapK4HB3M=;
- b=PFYgKiAyoat/rx2ja9pNZFCtmRDTosZ+GCjvzVcSixZfZb5Z32M7oKcPD8vmbyKvb/
- PpdTj6sS07xpoZz0lmPgSP9tX16sVJnOBabdbHSjwhHhai97dV/5nwQ2wdYwxzw4TfdQ
- kXh/sLsnehg3moc3orRH23UATwun2LGYVgsSzzpMjLzHAaQAtFdbOznxy3UZs+o5Vm41
- uufdcbZhMCImPITWs027NVi/g5hocjci1t+gtI0Jo6RCQ7se/Qvi6O2OxdE0pMNa9x4R
- EZB6v7LMMU7LTE+J3Oq2cIbn9CpCmPOrusNPwQijZvYbcMD1IQOa8PPyISfH9hRXe0La
- Kcrw==
-X-Gm-Message-State: APjAAAXe3rxkuH6HfQm7bM6gaIDb8t9E6PMHrBJ5wGZhLRfzuj+z86gI
- OsBjPt3htfR2e9dTC30TJGLkXiDrVSOnrw==
-X-Google-Smtp-Source: APXvYqyrTvJxaFQ4V9KyXYLkW+WuW/Fpa6jxejFBRmsdMHkhctjVLCTihkQuNafdYzCpWLZWhDMqtA==
-X-Received: by 2002:a5d:628e:: with SMTP id k14mr5318873wru.425.1582907957592; 
- Fri, 28 Feb 2020 08:39:17 -0800 (PST)
+ bh=5oQ35QsMhetApJIHGz3Rua7oGdC5Wob+G0lA1+c8/Fw=;
+ b=hIWZkcYPHU13m+4CmSvH7MOcR2+oesCfqMuxl5aSZoJgdbQSzcmDXiEo9TnVEDMxXo
+ BDEUN2baF+wyFLurA0sjkA1ttObXRc7SOlJTFfSe5zXUqlTgJwNC9hawr2IC2ujsgBLd
+ JR6b4w0OHkNS64EAbYUTNoR2BmjAjJHdvW8UVFVj8Fhm+dv/UYpGf6/0D6fCeBxAKw9n
+ sisoxa5NHkx5WkAa/bAUNEW0BAhuJW1IPnZY5ndmcmIvEG2UzvC7pN8XO7MNCFyOglHS
+ +NqA7Yq4qojU0py0wCHM1rOpwsqxx2LVz9a+gRmjQ6CWvQAfMrh6a88zDTHjq1/wpjFl
+ qxhw==
+X-Gm-Message-State: APjAAAXFfCQTbmPbTFFZCUMdTti9PbwU09m2wV8B9AKfUntP/a4LRJ/a
+ jTOtA5Hp/Q8J3FokFD8VjhVTykArWuBRKQ==
+X-Google-Smtp-Source: APXvYqzLA2MHcxBIs1BgVBXpU97gJfV1kBa/rD3UY91e4uu4953h+6GsBVgDgujcT+rAgcOPbfuj+A==
+X-Received: by 2002:a1c:750f:: with SMTP id o15mr5708199wmc.111.1582907958750; 
+ Fri, 28 Feb 2020 08:39:18 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.16
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:17 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:18 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/33] target/arm: Implement v8.4-RCPC
-Date: Fri, 28 Feb 2020 16:38:38 +0000
-Message-Id: <20200228163840.23585-32-peter.maydell@linaro.org>
+Subject: [PULL 32/33] target/arm: Implement ARMv8.3-CCIDX
+Date: Fri, 28 Feb 2020 16:38:39 +0000
+Message-Id: <20200228163840.23585-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,176 +81,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The v8.4-RCPC extension implements some new instructions:
- * LDAPUR, LDAPURB, LDAPURH, LDAPRSB, LDAPRSH, LDAPRSW
- * STLUR, STLURB, STLURH
+The ARMv8.3-CCIDX extension makes the CCSIDR_EL1 system ID registers
+have a format that uses the full 64 bit width of the register, and
+adds a new CCSIDR2 register so AArch32 can get at the high 32 bits.
 
-These are all in a new subgroup of encodings that sits below the
-top-level "Loads and Stores" group in the Arm ARM.
+QEMU doesn't implement caches, so we just treat these ID registers as
+opaque values that are set to the correct constant values for each
+CPU.  The only thing we need to do is allow 64-bit values in our
+cssidr[] array and provide the CCSIDR2 accessors.
 
-The STLUR* instructions have standard store-release semantics; the
-LDAPUR* have Load-AcquirePC semantics, but (as with LDAPR*) we choose
-to implement them as the slightly stronger Load-Acquire.
+We don't set the CCIDX field in our 'max' CPU because the CCSIDR
+constant values we use are the same as the ones used by the
+Cortex-A57 and they are in the old 32-bit format. This means
+that the extra regdef added here is unused currently, but it
+means that whenever in the future we add a CPU that does need
+the new 64-bit format it will just work when we set the cssidr
+values and the ID registers for it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200224172846.13053-4-peter.maydell@linaro.org
+Message-id: 20200224182626.29252-1-peter.maydell@linaro.org
 ---
- target/arm/cpu.h           |  5 +++
- linux-user/elfload.c       |  1 +
- target/arm/cpu64.c         |  2 +-
- target/arm/translate-a64.c | 90 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 97 insertions(+), 1 deletion(-)
+ target/arm/cpu.h    | 17 ++++++++++++++++-
+ target/arm/helper.c | 19 +++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ff30985ead4..ce1e2a090e5 100644
+index ce1e2a090e5..0b84742b66a 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3779,6 +3779,11 @@ static inline bool isar_feature_aa64_rcpc_8_3(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, LRCPC) != 0;
+@@ -904,7 +904,7 @@ struct ARMCPU {
+     /* The elements of this array are the CCSIDR values for each cache,
+      * in the order L1DCache, L1ICache, L2DCache, L2ICache, etc.
+      */
+-    uint32_t ccsidr[16];
++    uint64_t ccsidr[16];
+     uint64_t reset_cbar;
+     uint32_t reset_auxcr;
+     bool reset_hivecs;
+@@ -3577,6 +3577,11 @@ static inline bool isar_feature_aa32_ac2(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_mmfr4, ID_MMFR4, AC2) != 0;
  }
  
-+static inline bool isar_feature_aa64_rcpc_8_4(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_ccidx(const ARMISARegisters *id)
 +{
-+    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, LRCPC) >= 2;
++    return FIELD_EX32(id->id_mmfr4, ID_MMFR4, CCIDX) != 0;
++}
++
+ /*
+  * 64-bit feature tests via id registers.
+  */
+@@ -3784,6 +3789,11 @@ static inline bool isar_feature_aa64_rcpc_8_4(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, LRCPC) >= 2;
+ }
+ 
++static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
 +}
 +
  /*
   * Feature tests for "does this exist in either 32-bit or 64-bit?"
   */
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index d76b828a789..db748c58775 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -662,6 +662,7 @@ static uint32_t get_elf_hwcap(void)
-     GET_FEATURE_ID(aa64_condm_4, ARM_HWCAP_A64_FLAGM);
-     GET_FEATURE_ID(aa64_dcpop, ARM_HWCAP_A64_DCPOP);
-     GET_FEATURE_ID(aa64_rcpc_8_3, ARM_HWCAP_A64_LRCPC);
-+    GET_FEATURE_ID(aa64_rcpc_8_4, ARM_HWCAP_A64_ILRCPC);
- 
-     return hwcaps;
- }
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 18c7b40f98c..b842e2b664a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -654,7 +654,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
--        t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 1); /* ARMv8.3-RCPC */
-+        t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
-         cpu->isar.id_aa64isar1 = t;
- 
-         t = cpu->isar.id_aa64pfr0;
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 7a066fb7cb2..579180af0a9 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -3283,6 +3283,88 @@ static void disas_ldst_pac(DisasContext *s, uint32_t insn,
-     }
+@@ -3807,6 +3817,11 @@ static inline bool isar_feature_any_pmu_8_4(const ARMISARegisters *id)
+     return isar_feature_aa64_pmu_8_4(id) || isar_feature_aa32_pmu_8_4(id);
  }
  
-+/*
-+ * LDAPR/STLR (unscaled immediate)
-+ *
-+ *  31  30            24    22  21       12    10    5     0
-+ * +------+-------------+-----+---+--------+-----+----+-----+
-+ * | size | 0 1 1 0 0 1 | opc | 0 |  imm9  | 0 0 | Rn |  Rt |
-+ * +------+-------------+-----+---+--------+-----+----+-----+
-+ *
-+ * Rt: source or destination register
-+ * Rn: base register
-+ * imm9: unscaled immediate offset
-+ * opc: 00: STLUR*, 01/10/11: various LDAPUR*
-+ * size: size of load/store
-+ */
-+static void disas_ldst_ldapr_stlr(DisasContext *s, uint32_t insn)
++static inline bool isar_feature_any_ccidx(const ARMISARegisters *id)
 +{
-+    int rt = extract32(insn, 0, 5);
-+    int rn = extract32(insn, 5, 5);
-+    int offset = sextract32(insn, 12, 9);
-+    int opc = extract32(insn, 22, 2);
-+    int size = extract32(insn, 30, 2);
-+    TCGv_i64 clean_addr, dirty_addr;
-+    bool is_store = false;
-+    bool is_signed = false;
-+    bool extend = false;
-+    bool iss_sf;
-+
-+    if (!dc_isar_feature(aa64_rcpc_8_4, s)) {
-+        unallocated_encoding(s);
-+        return;
-+    }
-+
-+    switch (opc) {
-+    case 0: /* STLURB */
-+        is_store = true;
-+        break;
-+    case 1: /* LDAPUR* */
-+        break;
-+    case 2: /* LDAPURS* 64-bit variant */
-+        if (size == 3) {
-+            unallocated_encoding(s);
-+            return;
-+        }
-+        is_signed = true;
-+        break;
-+    case 3: /* LDAPURS* 32-bit variant */
-+        if (size > 1) {
-+            unallocated_encoding(s);
-+            return;
-+        }
-+        is_signed = true;
-+        extend = true; /* zero-extend 32->64 after signed load */
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    iss_sf = disas_ldst_compute_iss_sf(size, is_signed, opc);
-+
-+    if (rn == 31) {
-+        gen_check_sp_alignment(s);
-+    }
-+
-+    dirty_addr = read_cpu_reg_sp(s, rn, 1);
-+    tcg_gen_addi_i64(dirty_addr, dirty_addr, offset);
-+    clean_addr = clean_data_tbi(s, dirty_addr);
-+
-+    if (is_store) {
-+        /* Store-Release semantics */
-+        tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
-+        do_gpr_st(s, cpu_reg(s, rt), clean_addr, size, true, rt, iss_sf, true);
-+    } else {
-+        /*
-+         * Load-AcquirePC semantics; we implement as the slightly more
-+         * restrictive Load-Acquire.
-+         */
-+        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, is_signed, extend,
-+                  true, rt, iss_sf, true);
-+        tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
-+    }
++    return isar_feature_aa64_ccidx(id) || isar_feature_aa32_ccidx(id);
 +}
 +
- /* Load/store register (all forms) */
- static void disas_ldst_reg(DisasContext *s, uint32_t insn)
+ /*
+  * Forward to the above feature tests given an ARMCPU pointer.
+  */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 8841cc7fde8..6be9ffa09ef 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6726,6 +6726,21 @@ static const ARMCPRegInfo predinv_reginfo[] = {
+     REGINFO_SENTINEL
+ };
+ 
++static uint64_t ccsidr2_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    /* Read the high 32 bits of the current CCSIDR */
++    return extract64(ccsidr_read(env, ri), 32, 32);
++}
++
++static const ARMCPRegInfo ccsidr2_reginfo[] = {
++    { .name = "CCSIDR2", .state = ARM_CP_STATE_BOTH,
++      .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 2,
++      .access = PL1_R,
++      .accessfn = access_aa64_tid2,
++      .readfn = ccsidr2_read, .type = ARM_CP_NO_RAW },
++    REGINFO_SENTINEL
++};
++
+ static CPAccessResult access_aa64_tid3(CPUARMState *env, const ARMCPRegInfo *ri,
+                                        bool isread)
  {
-@@ -3634,6 +3716,14 @@ static void disas_ldst(DisasContext *s, uint32_t insn)
-     case 0x0d: /* AdvSIMD load/store single structure */
-         disas_ldst_single_struct(s, insn);
-         break;
-+    case 0x19: /* LDAPR/STLR (unscaled immediate) */
-+        if (extract32(insn, 10, 2) != 0 ||
-+            extract32(insn, 21, 1) != 0) {
-+            unallocated_encoding(s);
-+            break;
-+        }
-+        disas_ldst_ldapr_stlr(s, insn);
-+        break;
-     default:
-         unallocated_encoding(s);
-         break;
+@@ -7788,6 +7803,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         define_arm_cp_regs(cpu, predinv_reginfo);
+     }
+ 
++    if (cpu_isar_feature(any_ccidx, cpu)) {
++        define_arm_cp_regs(cpu, ccsidr2_reginfo);
++    }
++
+ #ifndef CONFIG_USER_ONLY
+     /*
+      * Register redirections and aliases must be done last,
 -- 
 2.20.1
 
