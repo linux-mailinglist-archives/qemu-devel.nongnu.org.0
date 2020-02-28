@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95DA0173401
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 10:29:42 +0100 (CET)
-Received: from localhost ([::1]:44148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993CB173406
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 10:30:19 +0100 (CET)
+Received: from localhost ([::1]:44154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7bxl-0006O0-IR
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 04:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50592)
+	id 1j7byM-0007Zs-Jy
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 04:30:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j7btc-00082L-GL
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:25 -0500
+ (envelope-from <quintela@redhat.com>) id 1j7btg-0008EY-DS
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j7btb-000452-De
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47029
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1j7btf-000465-9J
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:28 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48391
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j7btb-00044o-AE
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:23 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j7btf-00045p-4P
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582881923;
+ s=mimecast20190719; t=1582881926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vy6mjPbcxFDYzD2ybd2JJ2zfuWCltugzKAToMhGkA9k=;
- b=E+zmPEw5ApSYTCvY3gFuCzK6/17VuI/e+hwtgVYpQa7ZoGi4Nw+LYrfEFndQFLLCr/ZAoP
- Vu+/+ysYuUnB5xkMqF9nEbhx8LMjxU+r1rg5c1roE9KjnYlQ05IamqyMIbuJsI5gMf+39y
- 9f0b4PorWSOElT2T0eS41tXXlCTaXW0=
+ bh=JpLkG+7WfjcbZhptBHkg3m0G9Pr99Px+/VdiiAqiGT8=;
+ b=DzWuH9wPO8SLfP1fbh3hqmAKotpsMI71gf7JRuPfIrgSpF752bn6wsbbN1q1jva4Y9xruL
+ 6cISU8taR2Jdoy7uxCpgpZfrujJHFOfgGigRqlnV614Tt1bhmUKoMat9UctaD8aBKjVXLl
+ 3tmZPnaOiZ8NXJ6MZz27/+OhGRVfMhc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-zUV7DZi8ODOAlhrgfsEEXg-1; Fri, 28 Feb 2020 04:25:20 -0500
-X-MC-Unique: zUV7DZi8ODOAlhrgfsEEXg-1
+ us-mta-462-oqMWHx7RMdW5oepGzM8Pog-1; Fri, 28 Feb 2020 04:25:24 -0500
+X-MC-Unique: oqMWHx7RMdW5oepGzM8Pog-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42FB0A0CC1;
- Fri, 28 Feb 2020 09:25:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B0541005514;
+ Fri, 28 Feb 2020 09:25:23 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-211.ams2.redhat.com [10.36.116.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6010160BE0;
- Fri, 28 Feb 2020 09:25:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9734F60BE0;
+ Fri, 28 Feb 2020 09:25:19 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/15] migration/vmstate: Remove redundant statement in
- vmstate_save_state_v()
-Date: Fri, 28 Feb 2020 10:24:14 +0100
-Message-Id: <20200228092420.103757-10-quintela@redhat.com>
+Subject: [PULL 10/15] test-vmstate: Fix memleaks in test_load_qlist
+Date: Fri, 28 Feb 2020 10:24:15 +0100
+Message-Id: <20200228092420.103757-11-quintela@redhat.com>
 In-Reply-To: <20200228092420.103757-1-quintela@redhat.com>
 References: <20200228092420.103757-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,36 +87,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
-The "ret" has been assigned in all branches. It didn't need to be
- assigned separately.
+There is memleak in test_load_qlist().It's not a big deal,
+but test-vmstate will fail if sanitizers is enabled.
 
-Clang static code analyzer show warning:
-  migration/vmstate.c:365:17: warning: Value stored to 'ret' is never read
-                ret =3D 0;
-                ^     ~
+In addition, "ret" is written twice with the same value
+ in test_gtree_load_iommu().
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/vmstate.c | 1 -
- 1 file changed, 1 deletion(-)
+ tests/test-vmstate.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/migration/vmstate.c b/migration/vmstate.c
-index 7dd8ef66c6..bafa890384 100644
---- a/migration/vmstate.c
-+++ b/migration/vmstate.c
-@@ -362,7 +362,6 @@ int vmstate_save_state_v(QEMUFile *f, const VMStateDesc=
-ription *vmsd,
-             }
-             for (i =3D 0; i < n_elems; i++) {
-                 void *curr_elem =3D first_elem + size * i;
--                ret =3D 0;
+diff --git a/tests/test-vmstate.c b/tests/test-vmstate.c
+index cea363dd69..f7b3868881 100644
+--- a/tests/test-vmstate.c
++++ b/tests/test-vmstate.c
+@@ -1241,7 +1241,6 @@ static void test_gtree_load_iommu(void)
+     TestGTreeIOMMU *orig_iommu =3D create_iommu();
+     QEMUFile *fsave, *fload;
+     char eof;
+-    int ret;
 =20
-                 vmsd_desc_field_start(vmsd, vmdesc_loop, field, i, n_elems=
-);
-                 old_offset =3D qemu_ftell_fast(f);
+     fsave =3D open_test_file(true);
+     qemu_put_buffer(fsave, iommu_dump, sizeof(iommu_dump));
+@@ -1250,10 +1249,8 @@ static void test_gtree_load_iommu(void)
+=20
+     fload =3D open_test_file(false);
+     vmstate_load_state(fload, &vmstate_iommu, dest_iommu, 1);
+-    ret =3D qemu_file_get_error(fload);
+     eof =3D qemu_get_byte(fload);
+-    ret =3D qemu_file_get_error(fload);
+-    g_assert(!ret);
++    g_assert(!qemu_file_get_error(fload));
+     g_assert_cmpint(orig_iommu->id, =3D=3D, dest_iommu->id);
+     g_assert_cmpint(eof, =3D=3D, QEMU_VM_EOF);
+=20
+@@ -1395,6 +1392,7 @@ static void test_load_qlist(void)
+     compare_containers(orig_container, dest_container);
+     free_container(orig_container);
+     free_container(dest_container);
++    qemu_fclose(fload);
+ }
+=20
+ typedef struct TmpTestStruct {
 --=20
 2.24.1
 
