@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CFD173FE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 19:45:52 +0100 (CET)
-Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78160173FED
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 19:47:43 +0100 (CET)
+Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7kdy-00020v-Mw
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 13:45:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33886)
+	id 1j7kfm-0003WO-Gk
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 13:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1j7kcm-0000e4-9Q
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:37 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7keo-00032f-SX
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:46:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1j7kcl-0007gA-76
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:36 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:38512)
+ (envelope-from <richard.henderson@linaro.org>) id 1j7ken-0005Mz-CJ
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:46:42 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1j7kci-0007Ow-DU; Fri, 28 Feb 2020 13:44:32 -0500
-Received: by mail-lj1-x242.google.com with SMTP id w1so4439576ljh.5;
- Fri, 28 Feb 2020 10:44:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h6x6+3qwN6xjzA0xy2KKcx6OQOpuOQ2dni+X5uUQ/Uc=;
- b=Vsdr5Pn+87FkcCL8Dzoc6+GnMyHHJ0iJzxQ1aK9q0c7H/k+qBLcDGJrChUDcWd2uag
- 69vMn8WO3ymSHbx76924fHly/fRO8fF1Y/PBMyfBUwhPWs7pQD9wHAJzPfKdkktixk7d
- pV5mBDRpiJ+7RUxkHg//o9OaorIXtd/UDB5YPBBGKVMs0d/zMpDKJUQY+IupmI8eaFci
- vXEuZzwx7mXxsoGayrNDRPjIaDp1ufpPDMg6xxnZdplNmdpU6xFQV2Z1DziuoxkCjAgf
- MJ8vu23nzJk+GARacbBUQnWQ4ZLNQH1Lgy2/x0GkRnZthntWkHTqGoAEk07XAu6SjUy3
- 4Qdg==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j7ken-0005Hz-52
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:46:41 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id e9so1649642pjr.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 10:46:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lkO3eDsnSCHgk2ZSfYpnMjFYTTSFiLrheSd6RGfKT64=;
+ b=ZojLvOytMuu+Z0xhZl5fF6z2jDwHrM42ahTeTJy86O8MR9rt0ziQu8a+nRgOtv0lZv
+ K/OkvFCfpX1fC5zS98xovRp3N6lr/8+ELsV2RAwBcNwfI0hW1Ce8uoCGfcLM8TgWJQav
+ dYgGqoupvAUQG3TNU3NeKbaKCsZzrcMaA10QkFv9pL/f758uKdgtKtKuLmEtBSe+m9ft
+ pEo6rJoSdZZy2kDBU6ydV1ExlcNOEtFiv61r1lY3Pdmc12GPH5CpqgOHj9uyob76f/6K
+ X96ygAIR1RxZwbl4zV6kY/oAl/AwGiEI/Ebc+rR1rOsbbWt5s+R+qlAsmWBznRQ2xODc
+ Gt7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h6x6+3qwN6xjzA0xy2KKcx6OQOpuOQ2dni+X5uUQ/Uc=;
- b=gXm1YwUiPzaGTDRwH6rnUU+PUb47a70g0E0pTO5JNU3LA3DdruR8z/Q5PEKvifHLAh
- pwEftIv56Td/Icled2DuE2p5ltQ4scuYb0i6Zc5+rvYv3/57qqrD9GOYGSlo/cAx764T
- YuXsY/EJDhcGRZdRBb1/T7D6l9uMsnMBYGRpaibrhTXNS+T1eCJgjF5CyeJBW5+brctl
- cPAGtpLD6R1LfEtOLoTY1pvlRgmliLiYz7D1Gy8frfj0bbMqQlJvxxuwRe7VdQK7eyTz
- h1MeO8DnE4nlMLQ9cUmaZwuyRlQApLmyF3Zj7pUT0Y2kGC5PSPs61m62loG/4axvH6SX
- 60Tw==
-X-Gm-Message-State: ANhLgQ2l2anqGUGgMdxCp+jEAGTMM7NoWKaewXxDPepTSNxjbBrGA6cO
- 7XV6qVXwwMKkyQnqVfzZ++fNn01oEcMOubW16zc=
-X-Google-Smtp-Source: ADFU+vu+pd79PzGSNqdt6oFNtNxdr26k3DfuNDwl+vYGwVnfh144KYcoU/l/yJ+1CwMvqf8jnmjTmih9+5FUoYV9cYg=
-X-Received: by 2002:a2e:6c13:: with SMTP id h19mr3758062ljc.221.1582915470424; 
- Fri, 28 Feb 2020 10:44:30 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lkO3eDsnSCHgk2ZSfYpnMjFYTTSFiLrheSd6RGfKT64=;
+ b=TFa6Nnawib1WJObAZYzM8XrIGhqv3/pFeUdtKDKsKX8aIy6XlusBNvIKrfz0hgFHQP
+ GRlZN0tEU1uYJ3z+EkgMsphJcTaNXKwF9ICpVKWB/QOV4SCYvbD+7FhHq7vZo4jIuYov
+ WFfc24ro0LCVuVQDppTjnvRNkA9wIBtaadNoaqLBvpnuwXTwZSMvboRETkPWktV/C/g1
+ yJs+Z67/aMLsgiwl7DGn7wkvqRaL4HHExXcvGrPZDetlTRxPr642fvLEm4kJXAFgbyMH
+ /kUbLzFswcdGvXxczhdSwh89hQhy2nLi4YHPwSTpCA2FMEjrPZOZqc+ZbwgzB4YacHCx
+ NHDQ==
+X-Gm-Message-State: APjAAAVCrCeGfzzUW+qpu5hx/r0DVHnu72y8hlcEAJYCMRq5jIVytiEN
+ sieAKHk7xrVRVdgS5WoHd7V59A==
+X-Google-Smtp-Source: APXvYqzo+n98ff2PEV8rUSbp5XXgxtcE/PD3nZEOhyQO6asEmCU0fqjYbSe2xnZrX3UFu2n9x6VvSA==
+X-Received: by 2002:a17:902:aa04:: with SMTP id
+ be4mr5553328plb.41.1582915599846; 
+ Fri, 28 Feb 2020 10:46:39 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ e12sm1727641pgb.67.2020.02.28.10.46.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Feb 2020 10:46:39 -0800 (PST)
+Subject: Re: [PATCH v4 5/5] target/riscv: add vector amo operations
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200225103508.7651-1-zhiwei_liu@c-sky.com>
+ <20200225103508.7651-6-zhiwei_liu@c-sky.com>
+ <03bf483e-d6bb-9de4-9934-12bfa7093ad3@linaro.org>
+ <6d008841-4356-b0f1-ece2-df8323ad8254@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a3a614d1-aa54-046b-2c14-b6e517f1fbf0@linaro.org>
+Date: Fri, 28 Feb 2020 10:46:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200215122354.13706-1-linux@roeck-us.net>
- <CAFEAcA-u=j3MYu-Ck0UbMzXXEoB41dx6UbGw15QBEnqBBX988g@mail.gmail.com>
- <CAFEAcA-_V-7VDZvVg4WE99A4b1UimQ0RrLG910qmsxCgRVvq5A@mail.gmail.com>
-In-Reply-To: <CAFEAcA-_V-7VDZvVg4WE99A4b1UimQ0RrLG910qmsxCgRVvq5A@mail.gmail.com>
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Date: Fri, 28 Feb 2020 12:44:19 -0600
-Message-ID: <CAJy5ezoP7qNCymOpVXgMcwOuYvXBPVnf718gN_qfsfW_D9MVFQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] hw/arm/xilinx_zynq: Fix USB port instantiation
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000052fe86059fa73a62"
+In-Reply-To: <6d008841-4356-b0f1-ece2-df8323ad8254@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::102b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,105 +87,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, linux-csky@vger.kernel.org,
+ wxy194768@alibaba-inc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000052fe86059fa73a62
-Content-Type: text/plain; charset="UTF-8"
+On 2/28/20 1:19 AM, LIU Zhiwei wrote:
+>>> +#define GEN_VEXT_AMO_NOATOMIC_OP(NAME, ETYPE, MTYPE, H, DO_OP, SUF)      \
+>>> +static void vext_##NAME##_noatomic_op(void *vs3, target_ulong addr,      \
+>>> +        uint32_t wd, uint32_t idx, CPURISCVState *env, uintptr_t retaddr)\
+>>> +{                                                                        \
+>>> +    ETYPE ret;                                                           \
+>>> +    target_ulong tmp;                                                    \
+>>> +    int mmu_idx = cpu_mmu_index(env, false);                             \
+>>> +    tmp = cpu_ld##SUF##_mmuidx_ra(env, addr, mmu_idx, retaddr);          \
+>>> +    ret = DO_OP((ETYPE)(MTYPE)tmp, *((ETYPE *)vs3 + H(idx)));            \
+>>> +    cpu_st##SUF##_mmuidx_ra(env, addr, ret, mmu_idx, retaddr);           \
+>>> +    if (wd) {                                                            \
+>>> +        *((ETYPE *)vs3 + H(idx)) = (target_long)(MTYPE)tmp;              \
+>> The target_long cast is wrong; should be ETYPE.
+> "If the AMO memory element width is less than SEW, the value returned from memory
+>  is sign-extended to fill SEW"
+> 
+> So just use (target_long) to sign-extended. As you see, instructions like
+> 
+> vamominud
+> 
+> have the uint64_t as ETYPE.  And it can't sign-extend the value from memory by
+> (ETYPE)(MTYPE)tmp.
 
-Sorry Peter, I missed the email.
+Casting to target_long doesn't help -- it becomes signed at a variable size,
+possibly larger than MTYPE.
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+In addition, I think you're performing the operation at the wrong length.  The
+text of the ISA document could be clearer, but
 
-Best regards,
-Edgar
+  # If SEW > 32 bits, the value returned from memory
+  # is sign-extended to fill SEW.
+
+You are performing the operation in ETYPE, but it should be done in MTYPE and
+only afterward extended to ETYPE.
+
+For minu/maxu, you're right that you need an unsigned for the operation.  But
+then you need a signed type of the same width for the extension.
+
+One possibility is to *always* make MTYPE a signed type, but for the two cases
+that require an unsigned type, provide it.  E.g.
+
+#define GEN_VEXT_AMO_NOATOMIC_OP(NAME, ESZ, MSZ, H, DO_OP, SUF)
+static void vext_##NAME##_noatomic_op(void *vs3,
+    target_ulong addr, uint32_t wd, uint32_t idx,
+    CPURISCVState *env, uintptr_t retaddr)
+{
+    typedef int##ESZ##_t ETYPE;
+    typedef int##MSZ##_t MTYPE;
+    typedef uint##MSZ##_t UMTYPE;
+    ETYPE *pe3 = (ETYPE *)vs3 + H(idx);
+    MTYPE a = *pe3, b = cpu_ld##SUF##_data(env, addr);
+    a = DO_OP(a, b);
+    cpu_st##SUF##_data(env, addr, a);
+    if (wd) {
+        *pe3 = a;
+    }
+}
+
+/* Signed min/max */
+#define DO_MAX(N, M)  ((N) >= (M) ? (N) : (M))
+#define DO_MIN(N, M)  ((N) >= (M) ? (M) : (N))
+
+/* Unsigned min/max */
+#define DO_MAXU(N, M) DO_MAX((UMTYPE)N, (UMTYPE)M)
+#define DO_MINU(N, M) DO_MIN((UMTYPE)N, (UMTYPE)M)
+
+GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_d, 64, 32, H8, DO_MAXU, l)
+GEN_VEXT_AMO_NOATOMIC_OP(vamomaxud_v_d, 64, 64, H8, DO_MAXU, q)
 
 
-On Fri, 28 Feb. 2020, 10:00 Peter Maydell, <peter.maydell@linaro.org> wrote:
+>> The missing aligned address check is the only remaining exception that the
+>> helper_atomic_* functions would raise, since you have properly checked for
+>> read+write.  So it might be possible to get away with using the helpers, but I
+>> don't like it.
+> Do you mean write my own helpers to implement atomic operations?
+> 
+> What's the meaning of " but I don't like it. "?
 
-> On Thu, 20 Feb 2020 at 15:05, Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> >
-> > On Sat, 15 Feb 2020 at 12:23, Guenter Roeck <linux@roeck-us.net> wrote:
-> > >
-> > > USB ports on Xilinx Zync must be instantiated as TYPE_CHIPIDEA to work.
-> > > Linux expects and checks various chipidea registers, which do not exist
-> > > with the basic ehci emulation. This patch series fixes the problem.
-> > >
-> > > The first patch in the series fixes the actual problem.
-> > >
-> > > The second patch removes the now obsolete explicit Xilinx
-> > > support from the EHCI code.
-> > >
-> > > v2: Introduced summary
-> > >
-> > > ----------------------------------------------------------------
-> > > Guenter Roeck (2):
-> > >       hw/arm/xilinx_zynq: Fix USB port instantiation
-> > >       hw/usb/hcd-ehci-sysbus: Remove obsolete xlnx,ps7-usb class
-> >
-> > Xilinx folks -- could you provide a reviewed-by or acked-by
-> > for this series, please?
->
-> No? Oh, well, applied to target-arm.next anyway.
->
-> thanks
-> -- PMM
->
+I don't like re-using helpers in an incorrect way.
 
---00000000000052fe86059fa73a62
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>> But I do think it would be better to write your own helpers for the atomic
+>> paths.  They need not check quite so much, since we have already done the
+>> validation above.  You pretty much only need to use tlb_vaddr_to_host.
+>>
+>> If that gets too ugly, we can talk about rearranging
+>> accel/tcg/atomic_template.h so that it could be reused.
+> Good idea.  Perhaps use tlb_vaddr_to_host instead of atomic_mmu_lookup
+> to define another macro like GEN_ATOMIC_HELPER?
+>> Alternately, we could simply *always* use the non-atomic helpers, and raise
+>> exit_atomic if PARALLEL.
+> Yes, it's the simplest way.
+> However I prefer try to define something like GEN_ATOMIC_HELPER in
+> vector_helper.c.
 
-<div dir=3D"auto"><div>Sorry Peter, I missed the email.<div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"mai=
-lto:edgar.iglesias@xilinx.com">edgar.iglesias@xilinx.com</a>&gt;</div><div =
-dir=3D"auto"><br></div><div dir=3D"auto">Best regards,=C2=A0</div><div dir=
-=3D"auto">Edgar</div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Fri, 28 Feb. 2020, 10:00 Peter Maydell, &lt;<a href=
-=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Thu, 20 Feb 2020 at 15:05, Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_blank=
-" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Sat, 15 Feb 2020 at 12:23, Guenter Roeck &lt;<a href=3D"mailto:linu=
-x@roeck-us.net" target=3D"_blank" rel=3D"noreferrer">linux@roeck-us.net</a>=
-&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; USB ports on Xilinx Zync must be instantiated as TYPE_CHIPIDEA to=
- work.<br>
-&gt; &gt; Linux expects and checks various chipidea registers, which do not=
- exist<br>
-&gt; &gt; with the basic ehci emulation. This patch series fixes the proble=
-m.<br>
-&gt; &gt;<br>
-&gt; &gt; The first patch in the series fixes the actual problem.<br>
-&gt; &gt;<br>
-&gt; &gt; The second patch removes the now obsolete explicit Xilinx<br>
-&gt; &gt; support from the EHCI code.<br>
-&gt; &gt;<br>
-&gt; &gt; v2: Introduced summary<br>
-&gt; &gt;<br>
-&gt; &gt; ----------------------------------------------------------------<=
-br>
-&gt; &gt; Guenter Roeck (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hw/arm/xilinx_zynq: Fix USB port instan=
-tiation<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hw/usb/hcd-ehci-sysbus: Remove obsolete=
- xlnx,ps7-usb class<br>
-&gt;<br>
-&gt; Xilinx folks -- could you provide a reviewed-by or acked-by<br>
-&gt; for this series, please?<br>
-<br>
-No? Oh, well, applied to target-arm.next anyway.<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div></div></div>
+I'll think about this some more.
+In the short-term, I think non-atomic is the best we can do.
 
---00000000000052fe86059fa73a62--
+
+r~
 
