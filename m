@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5132B173D6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:47:41 +0100 (CET)
-Received: from localhost ([::1]:50524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB062173D7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:50:05 +0100 (CET)
+Received: from localhost ([::1]:50576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7inc-0006g3-7B
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:47:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56723)
+	id 1j7ipw-0001nU-JZ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:50:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifU-0008AO-FN
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:17 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifW-0008Ep-5R
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifT-00024s-83
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:16 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39593)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifV-00026D-5R
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:18 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33415)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifT-00024L-1P
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:15 -0500
-Received: by mail-wm1-x334.google.com with SMTP id c84so3871855wme.4
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:14 -0800 (PST)
+ id 1j7ifU-00025d-VL
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:17 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id x7so3711614wrr.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=deB/lxPKVSLn1ypxY7579PxrzfoDtHNbi+JWV5TUv2w=;
- b=F7O+cBQJSbxljWBlBDC7IKP6gOcKhptKS2MtgYikp8W5ewT2oCm0d2BetfQD4vdXQQ
- p2+Lg49R49sOJqJQex3OVjAHI7/RdYLi4UH3J1NqefekI7o88AjcZqivCYw6L/pBeLLL
- IJEEBXnXmEtXsXhWd3+2dlPLYnXjg1/sjlId1QQIPCM0I62k17vOpVh7lkMO2Z2igFnm
- R36/oY5+sjvED4ch7JTrykwSlPvyiPZzTYYnGlkKEB5AiCaJPrRuhA+BBttpRiGRSVas
- UMVIkocRuxkPumx8QbZSe/sYdP45DGogAoflq6f91xY5z+WkerB3XP9faCML5TEvyUsQ
- H9Zg==
+ bh=hNvRKTnbKU1Ze0BRTs7wvEYB7FrEi57d2LPXeti1ezI=;
+ b=l1j5jm4B4rdnikvoqsu8rgIZkESfAb7vg30sd777MvPd+qWdq3qRun3ZH6RJQX0EEH
+ gd+jRGMNzbzvRVpRSpv8rHCJL76pA7nz6V7laEBIkyGNvBPoFglBCNOZjYvZNghuW/G8
+ Xx106gkDWsO67sI1W+6m3biDOeH0oHwKs1H0tgn/kuewqoCiZQryP75sezvVpxHMIfHx
+ ARm2ZCSiYb7qmXculNt1t5+s26RFENZ6Y9jDXdrtk3ch6hJrlgnNp4+Uwp1I22qLJiFH
+ C58EFGuSVwuYHMKyg49puqzu7rt+wbjzXLGcMIhE1whzaiknOr12MP57V7qWGb6Rk/Hr
+ U2Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=deB/lxPKVSLn1ypxY7579PxrzfoDtHNbi+JWV5TUv2w=;
- b=MxesmXY7jprNzXgh8tHYgm8R2fn53neAp9Ono8oFE80ZTf+QrHarnQgEYiGoxyxfcj
- ICSnMigEJQ9A08a/1wUco0gH9ye4VlKryD52Mkbv2IEbG5tdAlqJvycqYinyws4lRLTB
- UNJni7dZBoj2KEbRvcKme8upqf7epXTTKY2SlNPbr2dnIWZBPv/GWRSS/3Zg8Ws90frH
- v6PLznxU8rxlHw+LtLl+U3KwwkqUjSS3MEx5McpuOMEiG7NhMpA9+uL2ANo8c/1expAd
- lHn7domIR624AIu2xC3IZsYe7Vew/S7KS1vym2b+ftG3LGABBACuwcpSroJIijDpJZ/0
- CLMw==
-X-Gm-Message-State: APjAAAXndCGsuB+/VMZ2mn7AOuXtTrkb5GovfCCVb0f9aDEIDysERUGz
- +FjEAREYRgUa2QjP+S0AUPalC13IDrPJJQ==
-X-Google-Smtp-Source: APXvYqzjmIUCdGcOimhBmCoRZDXENAetD+QGvhY3WU7wip4NRHRi+sHXFkIDbQ1qUfUO6LtibraXJg==
-X-Received: by 2002:a1c:a5c2:: with SMTP id o185mr3558677wme.173.1582907953570; 
- Fri, 28 Feb 2020 08:39:13 -0800 (PST)
+ bh=hNvRKTnbKU1Ze0BRTs7wvEYB7FrEi57d2LPXeti1ezI=;
+ b=E7pdIMf1m01DI7bx4wn8cyi7wNgUlsbR+cMUidIGX+IE+auK3PM0J9Lk8ka32ogvdu
+ uPAKUcR1OQfpkFWJzTgDSlMw1pJxKjjL5Ur3sKlIt5dCo0C54pM4A5lhlDZDUGBBd6er
+ dNJXhKGSAtK0C5K+0kkaDmQoSrMTJNZskGJVVwi2BeYqzZALVZL+PJzjr3BWr0UCHu49
+ bDw1Mp0svjlUc1lz2hMUa2heVDtWnfK0w6plh0hUUICLPrdCQfcAhDapCHS+hxT/MKBc
+ bQNUHsCICNTZGII8F7pVofeWSFqY+G5xdyr5H5PluN1jH0BuJkUMhynj+NFr7DT9Prhe
+ KhPQ==
+X-Gm-Message-State: APjAAAVpPfcq14PI7XM9O7vWb59vKMUciP6+QisZ2dDVwkBOWcfsPLdT
+ TJSh+zKuznZfn8O8LEM1m5/dcvgwuekM0g==
+X-Google-Smtp-Source: APXvYqxfQDxZ0gWENdOjOrb2n3Xf9SXGemyJNJRbrxAo+7rn4aeYkeNTpKKD2TU1ZFqXgKMzK56UYw==
+X-Received: by 2002:a5d:638b:: with SMTP id p11mr5708897wru.338.1582907955755; 
+ Fri, 28 Feb 2020 08:39:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.12
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:13 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/33] tests/acceptance: Extract boot_integratorcp() from
- test_integratorcp()
-Date: Fri, 28 Feb 2020 16:38:34 +0000
-Message-Id: <20200228163840.23585-28-peter.maydell@linaro.org>
+Subject: [PULL 29/33] target/arm: Fix wrong use of FIELD_EX32 on ID_AA64DFR0
+Date: Fri, 28 Feb 2020 16:38:36 +0000
+Message-Id: <20200228163840.23585-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,55 +82,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+We missed an instance of using FIELD_EX32 on a 64-bit ID
+register, in isar_feature_aa64_pmu_8_4(). Fix it.
 
-As we want to re-use this code, extract it as a new function.
-Since we are using the PL011 serial console, add a Avocado tag
-to ease filtering of tests.
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200225172501.29609-4-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200224172846.13053-2-peter.maydell@linaro.org
 ---
- tests/acceptance/machine_arm_integratorcp.py | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ target/arm/cpu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptance/machine_arm_integratorcp.py
-index d928ed79b4c..22afd3b82a8 100644
---- a/tests/acceptance/machine_arm_integratorcp.py
-+++ b/tests/acceptance/machine_arm_integratorcp.py
-@@ -18,13 +18,7 @@ class IntegratorMachine(Test):
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 05aa9711cd8..6013287f623 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3770,8 +3770,8 @@ static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
  
-     timeout = 90
+ static inline bool isar_feature_aa64_pmu_8_4(const ARMISARegisters *id)
+ {
+-    return FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 5 &&
+-        FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
++    return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 5 &&
++        FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
+ }
  
--    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
--    def test_integratorcp_console(self):
--        """
--        Boots the Linux kernel and checks that the console is operational
--        :avocado: tags=arch:arm
--        :avocado: tags=machine:integratorcp
--        """
-+    def boot_integratorcp(self):
-         kernel_url = ('https://github.com/zayac/qemu-arm/raw/master/'
-                       'arm-test/kernel/zImage.integrator')
-         kernel_hash = '0d7adba893c503267c946a3cbdc63b4b54f25468'
-@@ -40,4 +34,14 @@ class IntegratorMachine(Test):
-                          '-initrd', initrd_path,
-                          '-append', 'printk.time=0 console=ttyAMA0')
-         self.vm.launch()
-+
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_integratorcp_console(self):
-+        """
-+        Boots the Linux kernel and checks that the console is operational
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:integratorcp
-+        :avocado: tags=device:pl011
-+        """
-+        self.boot_integratorcp()
-         wait_for_console_pattern(self, 'Log in as root')
+ /*
 -- 
 2.20.1
 
