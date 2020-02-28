@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281541731AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 08:21:56 +0100 (CET)
-Received: from localhost ([::1]:42682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31641731A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 08:20:37 +0100 (CET)
+Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7Zy7-0006ov-8S
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 02:21:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33398)
+	id 1j7Zwo-0004Ad-KI
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 02:20:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j7Zvm-0002Zf-8l
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 02:19:31 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j7Zvl-00061U-0K
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j7Zvl-0002Zc-U4
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 02:19:30 -0500
-Received: from relay.sw.ru ([185.231.240.75]:51948)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j7Zvl-00061K-0A
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 02:19:29 -0500
+Received: from relay.sw.ru ([185.231.240.75]:51940)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j7Zvk-00060e-OS; Fri, 28 Feb 2020 02:19:28 -0500
+ id 1j7Zvk-00060a-P1; Fri, 28 Feb 2020 02:19:28 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1j7Zve-0002hc-HV; Fri, 28 Feb 2020 10:19:22 +0300
+ id 1j7Zve-0002hc-JY; Fri, 28 Feb 2020 10:19:22 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] scripts/simplebench: add example usage of simplebench
-Date: Fri, 28 Feb 2020 10:19:13 +0300
-Message-Id: <20200228071914.11746-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 4/4] MAINTAINERS: add simplebench
+Date: Fri, 28 Feb 2020 10:19:14 +0300
+Message-Id: <20200228071914.11746-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200228071914.11746-1-vsementsov@virtuozzo.com>
 References: <20200228071914.11746-1-vsementsov@virtuozzo.com>
@@ -53,105 +53,27 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This example may be used as a template for custom benchmark.
-It illustrates three things to prepare:
- - define bench_func
- - define test environments (columns)
- - define test cases (rows)
-And final call of simplebench API.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- scripts/simplebench/bench-example.py | 80 ++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
- create mode 100644 scripts/simplebench/bench-example.py
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/simplebench/bench-example.py b/scripts/simplebench/bench-example.py
-new file mode 100644
-index 0000000000..c642a5b891
---- /dev/null
-+++ b/scripts/simplebench/bench-example.py
-@@ -0,0 +1,80 @@
-+#!/usr/bin/env python3
-+#
-+# Benchmark example
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5e5e3e52d6..16d069adc5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2038,6 +2038,11 @@ F: python/qemu/*py
+ F: scripts/*.py
+ F: tests/*.py
+ 
++Benchmark util
++M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++S: Maintained
++F: scripts/simplebench/
 +
-+import simplebench
-+from bench_block_job import bench_block_copy, drv_file, drv_nbd
-+
-+
-+def bench_func(env, case):
-+    """ Handle one "cell" of benchmarking table. """
-+    return bench_block_copy(env['qemu_binary'], env['cmd'],
-+                            case['source'], case['target'])
-+
-+
-+# You may set the following five variables to correct values, to turn this
-+# example to real benchmark.
-+ssd_source = '/path-to-raw-source-image-at-ssd'
-+ssd_target = '/path-to-raw-target-image-at-ssd'
-+hdd_target = '/path-to-raw-source-image-at-hdd'
-+nbd_ip = 'nbd-ip-addr'
-+nbd_port = 'nbd-port-number'
-+
-+# Test-cases are "rows" in benchmark resulting table, 'id' is a caption for
-+# the row, other fields are handled by bench_func.
-+test_cases = [
-+    {
-+        'id': 'ssd -> ssd',
-+        'source': drv_file(ssd_source),
-+        'target': drv_file(ssd_target)
-+    },
-+    {
-+        'id': 'ssd -> hdd',
-+        'source': drv_file(ssd_source),
-+        'target': drv_file(hdd_target)
-+    },
-+    {
-+        'id': 'ssd -> nbd',
-+        'source': drv_file(ssd_source),
-+        'target': drv_nbd(nbd_ip, nbd_port)
-+    },
-+]
-+
-+# Test-envs are "columns" in benchmark resulting table, 'id is a caption for
-+# the column, other fields are handled by bench_func.
-+test_envs = [
-+    {
-+        'id': 'backup-1',
-+        'cmd': 'blockdev-backup',
-+        'qemu_binary': '/path-to-qemu-binary-1'
-+    },
-+    {
-+        'id': 'backup-2',
-+        'cmd': 'blockdev-backup',
-+        'qemu_binary': '/path-to-qemu-binary-2'
-+    },
-+    {
-+        'id': 'mirror',
-+        'cmd': 'blockdev-mirror',
-+        'qemu_binary': '/path-to-qemu-binary-1'
-+    }
-+]
-+
-+result = simplebench.bench(bench_func, test_envs, test_cases, count=3)
-+print(simplebench.ascii(result))
+ QAPI
+ M: Markus Armbruster <armbru@redhat.com>
+ M: Michael Roth <mdroth@linux.vnet.ibm.com>
 -- 
 2.21.0
 
