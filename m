@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3545173ECA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:47:42 +0100 (CET)
-Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321F5173EB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:38:22 +0100 (CET)
+Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7jjh-0008Qj-SK
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:47:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38850)
+	id 1j7jaf-0007FA-98
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:38:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7jWr-0000Wz-62
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:26 -0500
+ (envelope-from <armbru@redhat.com>) id 1j7jXJ-0001ZD-FJ
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7jWp-0001OY-SI
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:24 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43765)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7jWp-0001NM-Kn
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:23 -0500
-Received: by mail-ot1-x342.google.com with SMTP id j5so2416374otn.10
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 09:34:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sBIUHdFk3EbrkRCJts37Rg10Bb3EBo8aVHGIuB60uZ8=;
- b=hPwgdEYusz22FKDuFz7kNfZipngEzkEYDkSf+K5Q1Hw+r+m4dxrMgaEyiTqmvwKyYN
- 8X/1R+uxjXlIS96+r/dKGCq9Cfh8T6mWb7XeR1rnY7/Wg9tuCPTFrWQe0f/Y9+oFbqkS
- mi3zo4DrVRc3VRCQ4xeAV5D2sVmThPzYf4FAi5qXwiQlYdrYlpcepGXGa81lttEmkgQ6
- DRpi6G3vlSajW11l2qL+MQmhAqnoPwPXFOKoWK2x+EQ8mXNq5H5XaehyRw7te0rfF3CC
- El8eFQCH4RvvZPAqMbULoG8L90ODQIOQKFJYargHj6gbgmd9IqO7a63lLIsHkgoJbs/0
- 857A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sBIUHdFk3EbrkRCJts37Rg10Bb3EBo8aVHGIuB60uZ8=;
- b=YLzkXmy77IvScgs8g1gqjKaIND5c+I1usFd7urxihKtQTkZiy6k449f3RGBf8A3uGw
- z5AHKBUhAaRwKT/QAksvzCTBQg+Xzmq0sTMGf7hhAkMeABbLZbK7zXqIXcn/8WMow6UI
- QoxEZpIOgYoLBRdBcIT01zv0bIr2bkbmLPMq5yvKurSVAow8QajMRltgYaTGm88pxsV1
- G+HTqvPu095LjBrVUrPPFZBjXZFlWPNHla4ohFw9YoJSzAWcBj6R/ZEqzvFG3tlaH9FX
- DexJgAKh7MvbhoaNHlIETXoh8gtc6iJxKVjoKNy1XuL2cnU7CmFner/THh3O02iQVPCe
- BYSw==
-X-Gm-Message-State: APjAAAVBQUk8g2wyVhsiO8Zo4IVTwPhiQDvjKjOVfcgb/qQrMxWS+iTl
- uNO1G7PmVjo2b9aWE7RLQQq63cZjAImIZZwLxRhKkg==
-X-Google-Smtp-Source: APXvYqyMrbiSi4XbMNUsKLYoIOroyWKde9pBfsoub920VlPm40sp2JbA6tkG4/Q7wtpm80ldGKq3eH+cIKeDYCyq9+E=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr4295899otd.91.1582911262143; 
- Fri, 28 Feb 2020 09:34:22 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1j7jXH-00024f-Sd
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37678
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j7jXH-000232-Nh
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582911290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nR1tpYWfgsUb4c6rPE1uaukrxA/CypxAWsKjqplQw4U=;
+ b=LAKAPme0tHcoOa6XVWxl/iWG1J+17DsLC8ur8fW1KJl/LIiL3U7grNoUe+4/CNk2Gjh3KE
+ RsfGnuduASGLaraWLjO4XKts8ueBvoJCZWZHwZH8tZjcNdXjAO0pbZsU9iguWXZ5pNdIOT
+ LC+OoKcZWjGB1p8DpEcQakhSkgTLbIU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-m63Yrc88MSaazgQBuhr_cA-1; Fri, 28 Feb 2020 12:34:43 -0500
+X-MC-Unique: m63Yrc88MSaazgQBuhr_cA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB0F100550E
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 17:34:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
+ [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44AE590A16;
+ Fri, 28 Feb 2020 17:34:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E867B11386A6; Fri, 28 Feb 2020 18:34:40 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2] qapi/machine: Place the 'Notes' tag after the 'Since'
+ tag
+References: <20200227134019.6218-1-philmd@redhat.com>
+ <87tv3cozfw.fsf@dusky.pond.sub.org>
+ <c27cdab5-23a9-78f4-994a-49aaf96eb487@redhat.com>
+ <49248832-6ce3-a545-0ee3-8bd3ce664725@redhat.com>
+ <87tv3bmc8c.fsf@dusky.pond.sub.org>
+ <d124e9bc-1db6-52a4-843f-7f3fe73fbe5d@redhat.com>
+Date: Fri, 28 Feb 2020 18:34:40 +0100
+In-Reply-To: <d124e9bc-1db6-52a4-843f-7f3fe73fbe5d@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 28 Feb 2020 11:17:21
+ +0100")
+Message-ID: <87y2smhaz3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200225180831.26078-1-richard.henderson@linaro.org>
- <20200225180831.26078-2-richard.henderson@linaro.org>
- <CAFEAcA8ipK0nZioEgbNq5B1L-tqA+rzn-C2yyfet4_4yNVnYqA@mail.gmail.com>
- <e4a70637-f4b7-eaa7-237a-57053c5a63cc@linaro.org>
-In-Reply-To: <e4a70637-f4b7-eaa7-237a-57053c5a63cc@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 28 Feb 2020 17:34:11 +0000
-Message-ID: <CAFEAcA-8a4eQXf+LRS3KLURyyEPpPm9uh6q6r6D-1-sh3t8Pdw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/7] target/arm: Improve masking of HCR RES0 bits
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,47 +83,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Feb 2020 at 16:57, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> On 2/28/20 7:56 AM, Markus Armbruster wrote:
+>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>> On 2/27/20 3:55 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> On 2/27/20 3:52 PM, Markus Armbruster wrote:
+>>>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>>>>
+>>>>>> This fixes when adding a 'Since' tag:
+>>>>>>
+>>>>>>  =C2=A0=C2=A0 In file included from qapi/qapi-schema.json:105:
+>>>>>>  =C2=A0=C2=A0 qapi/machine.json:25:1: '@arch:' can't follow 'Notes' =
+section
+>>>>>
+>>>>> I'm confused.=C2=A0 This error is detected in scripts/qapi/parser.py,=
+ and it
+>>>>> is fatal.=C2=A0 Is the build broken for you?=C2=A0 It isn't for me.=
+=C2=A0 Moreover,
+>>>>> where is @arch?=C2=A0 I can't see it anywhere close to the two spots =
+the
+>>>>> patch patches.
+>>>>
+>>>> I get the error after trying to fix what Eric commented here:
+>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg682344.html
+>>>
+>>> Using:
+>>> ---
+>>> diff --git a/qapi/machine.json b/qapi/machine.json
+>>> index 6c11e3cf3a..40a36d6276 100644
+>>> --- a/qapi/machine.json
+>>> +++ b/qapi/machine.json
+>>> @@ -20,13 +20,15 @@
+>>>   #        prefix to produce the corresponding QEMU executable name. Th=
+is
+>>>   #        is true even for "qemu-system-x86_64".
+>>>   #
+>>> +# @rx: since 5.0
+>>> +#
+>>>   # Since: 3.0
+>>>   ##
+>>>   { 'enum' : 'SysEmuTarget',
+>>>     'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32=
+',
+>>>                'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+>>>                'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+>>> -             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+>>> +             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+>>>                'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+>>>                'x86_64', 'xtensa', 'xtensaeb' ] }
+>>> ---
+>>>
+>>> or
+>>>
+>>> ---
+>>> diff --git a/qapi/machine.json b/qapi/machine.json
+>>> index 6c11e3cf3a..4b59e87b6f 100644
+>>> --- a/qapi/machine.json
+>>> +++ b/qapi/machine.json
+>>> @@ -21,12 +21,14 @@
+>>>   #        is true even for "qemu-system-x86_64".
+>>>   #
+>>>   # Since: 3.0
+>>> +#
+>>> +# @rx: since 5.0
+>>>   ##
+>>>   { 'enum' : 'SysEmuTarget',
+>>>     'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32=
+',
+>>>                'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+>>>                'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+>>> -             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+>>> +             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+>>>                'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+>>>                'x86_64', 'xtensa', 'xtensaeb' ] }
+>>> ---
+>>>
+>>> I get:
+>>>
+>>>    GEN     qapi-gen
+>>>    GEN     rx-softmmu/config-devices.mak
+>>> In file included from qapi/qapi-schema.json:105:
+>>> qapi/machine.json:23:1: '@rx:' can't follow 'Notes' section
+>>> make: *** [Makefile:645: qapi-gen-timestamp] Error 1
+>>>
+>>> This works however:
+>>>
+>>> ---
+>>>   ##
+>>>   # @SysEmuTarget:
+>>>   #
+>>>   # The comprehensive enumeration of QEMU system emulation ("softmmu")
+>>>   # targets. Run "./configure --help" in the project root directory, an=
+d
+>>>   # look for the *-softmmu targets near the "--target-list" option. The
+>>>   # individual target constants are not documented here, for the time
+>>>   # being.
+>>>   #
+>>> +# @rx: since 5.0
+>>> +#
+>>>   # Notes: The resulting QMP strings can be appended to the "qemu-syste=
+m-"
+>>>   #        prefix to produce the corresponding QEMU executable name. Th=
+is
+>>>   #        is true even for "qemu-system-x86_64".
+>>>   #
+>>>   # Since: 3.0
+>>>   ##
+>>>   { 'enum' : 'SysEmuTarget',
+>>>     'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32=
+',
+>>>                'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+>>>                'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+>>> -             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+>>> +             'ppc64', 'riscv32', 'riscv64', 'rx', 's390x', 'sh4',
+>>>                'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
+>>>                'x86_64', 'xtensa', 'xtensaeb' ] }
+>>> ---
+>>
+>> This one adds it to the correct spot.
 >
-> On 2/28/20 8:22 AM, Peter Maydell wrote:
-> >> +    if (ri->state == ARM_CP_STATE_AA32) {
-> >> +        /*
-> >> +         * Writes from aarch32 mode have more RES0 bits.
-> >> +         * This includes TDZ, RW, E2H, and more.
-> >> +         */
-> >> +        valid_mask &= ~0xff80ff8c90000000ull;
-> >> +    }
-> >
-> > Isn't bit HCR2 bit 16 (aka bit 32+16==48 here) also RES0 from AArch32 ?
+> OK I'll use that then.
 >
-> Yes, and it's set in the above.
-
-One of us is miscounting, and I don't *think* it's me...
-
-bits 63..0:  ff80ff8c90000000
-bits 63..32: ff80ff8c
-bits 64..48: ff80
-
-bit 48 looks like it's 0 to me.
-
-> > I'm not really a fan of the hex-number here either, given we
-> > have HCR_* constants.
+>>
+>> qapi-code-gen.txt:
+>>
+>>      Definition documentation starts with a line naming the definition,
+>>      followed by an optional overview, a description of each argument (f=
+or
+>>      commands and events), member (for structs and unions), branch (for
+>>      alternates), or value (for enums), and finally optional tagged
+>>      sections.
 >
-> While plenty of those bits have names, many don't.  Shall I simply name all of
-> the ones that have names, and that differ from the aa64 masking?
+> I was confused because I understood "@rx: since 5.0" as a tagged
+> section, not as an "Optional overview".
 
-You could refine the valid mask as the & of the bits which we
-do want to exist in aarch32, rather than &~ of the reserved bits:
+It's actually "a description of a value", not "optional overview".
 
- valid_mask &= TTLBIS | TOCU | TICAB | ...
+[...]
 
-?
-
-thanks
--- PMM
 
