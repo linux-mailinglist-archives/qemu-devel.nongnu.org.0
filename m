@@ -2,75 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D058C173666
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:49:18 +0100 (CET)
-Received: from localhost ([::1]:45750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B2C1736A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:55:16 +0100 (CET)
+Received: from localhost ([::1]:45904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7e8r-0001N9-Ro
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:49:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
+	id 1j7eEd-0004m8-Cv
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:55:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1j7e6w-0007pz-WC
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:20 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j7eDG-00033B-4F
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:53:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1j7e6v-0001Cs-O2
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:18 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25727
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1j7e6v-0001Cg-Jh
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:47:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582890437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8BNdwFo6D4RM1QqMeGEYpq+rW47Ybe01Mt7n/8vbROk=;
- b=gG0cn5pRYiMIKef74bDIq4obeQxpwSth5bKn+DKNC+7p16pHddDWRB9XNsc4nS3KCim3mD
- lR3L94FBaUePrP18CAPjUTB8SFf9phX9BJZIYoyOjwws1sXY1bLACC2RrdxGwt6eoQD7+W
- LuAfhpwXdMe0fYZnUhtqi2InzHTyyNE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-pwc4kRDBOS6hnTXxdAScMw-1; Fri, 28 Feb 2020 06:47:12 -0500
-X-MC-Unique: pwc4kRDBOS6hnTXxdAScMw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6650F8017CC;
- Fri, 28 Feb 2020 11:47:11 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-243.ams2.redhat.com
- [10.36.116.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55CAE5D9CD;
- Fri, 28 Feb 2020 11:47:09 +0000 (UTC)
-Subject: Re: [edk2-devel] A problem with live migration of UEFI virtual
- machines
-To: Andrew Fish <afish@apple.com>, devel@edk2.groups.io
-References: <tencent_BC7FD00363690990994E90F8@qq.com>
- <87sgjhxbtc.fsf@zen.linaroharston> <20200224152810.GX635661@redhat.com>
- <8b0ec286-9322-ee00-3729-6ec7ee8260a6@redhat.com>
- <3E8BB07B-8730-4AB8-BCB6-EA183FB589C5@apple.com>
- <465a5a84-cac4-de39-8956-e38771807450@redhat.com>
- <8F42F6F1-A65D-490D-9F2F-E12746870B29@apple.com>
- <6666a886-720d-1ead-8f7e-13e65dcaaeb4@redhat.com>
- <284BFC25-8534-4147-8616-DE7C410DB681@apple.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <2e3771cf-089c-aecd-49a7-3034a30fc443@redhat.com>
-Date: Fri, 28 Feb 2020 12:47:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <284BFC25-8534-4147-8616-DE7C410DB681@apple.com>
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j7eDE-0003mi-0K
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:53:49 -0500
+Received: from mail-am6eur05on2099.outbound.protection.outlook.com
+ ([40.107.22.99]:49504 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j7eDA-0003hU-9V; Fri, 28 Feb 2020 06:53:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KVgRcqfsQOkPA77TYDjt+gSX9rspg7LkjZOxuZ5axU2fw9DHyYp5wDy2boI0OZD/0QrIDNJHbq3UaNnDeDDGgnN/rberH7fyrGT/SIXOTQOEWchA7YODV9RTvwYvqTdgbBapU7n8WeA/d+Aphn1kSc20j9vTHKXD2+bbKfUC4IzOf/auz9HZvjUXJ8wF24+QZvXvNmNINW+LtmKsuAwdXQPEZQI4KA90gsFid98/I45pjwp2bkKF+v771QyY0oPArReYgQcz5ozLEcy4UhRpzG2td/vp99dJn10S3y6iPWgRHCpVKWrJJUW9V/PgaCUCPy4h+FsHpmwVmIXmmmAv7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KUewHQvsDbmVSf8cZLgv17DV50R/4Bpg6jsobpBUlU8=;
+ b=EVktIspqzICk18PBtKVZT8ulWzCtnuHkKm59zC/ttOlWcRQikD5ACRgNgzBAvbOuun7BiLbSju90icMwXm+aYZVCMXVHy8YbkHlnK5OqnFe2hAkjGIU4544frPxyLW/SJRrimOOLiMKVlsr6xS12Fzr4RokytbC2GWGKrE/wC7IH6uM4dumVv0VHVsg4MiYzdGSMCCeztVMWllXt1OifN/dO2rj11aIWpSxdsQ1HTpFO615PwwbCaJkLlH9B2hVwEQjiCbSluWD9VlM6cdKsFDR+GKdyuw8FzAghVBRXS0DI/7BrxJrqh8aGaLNLc2IJGhLv7PXxi7rFfTXYiMDtFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KUewHQvsDbmVSf8cZLgv17DV50R/4Bpg6jsobpBUlU8=;
+ b=srYt+6vh2ZDZyAWVD3uhAYJlP+aINFcm2b6zOe/n8N1PuToeQ3hZ9JIKMjbwco5VDLO+O9gTPI1LFUJS8ebM1J4UFKpQ5XMsDn9z03FmTtBxkBJipZwk9Xd1RJj91FcPJka+kMW6DNmaF1YNXJHHE0+a6HyIraAG/6bh0xU4l1E=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=dplotnikov@virtuozzo.com; 
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
+ AM0PR08MB3890.eurprd08.prod.outlook.com (20.178.82.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.15; Fri, 28 Feb 2020 11:53:40 +0000
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::9875:c099:713b:8219]) by AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::9875:c099:713b:8219%4]) with mapi id 15.20.2772.012; Fri, 28 Feb 2020
+ 11:53:40 +0000
+Subject: Re: [PATCH v1 4/8] iotests: filter out compression_type
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200227072953.25445-1-dplotnikov@virtuozzo.com>
+ <20200227072953.25445-5-dplotnikov@virtuozzo.com>
+ <e3a3a3b1-8cd0-fa26-c5a3-46065c5888fe@redhat.com>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <1a256e60-1c92-0402-38f1-e4f5c09d1bd2@virtuozzo.com>
+Date: Fri, 28 Feb 2020 14:53:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+In-Reply-To: <e3a3a3b1-8cd0-fa26-c5a3-46065c5888fe@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-ClientProxiedBy: HE1PR0501CA0004.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::14) To AM0PR08MB3745.eurprd08.prod.outlook.com
+ (2603:10a6:208:ff::27)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (178.34.162.229) by
+ HE1PR0501CA0004.eurprd05.prod.outlook.com (2603:10a6:3:1a::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.14 via Frontend Transport; Fri, 28 Feb 2020 11:53:39 +0000
+X-Originating-IP: [178.34.162.229]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22ef5659-036d-4ce0-8e49-08d7bc44da3a
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3890:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM0PR08MB3890AB900E72F30A612AF90DCFE80@AM0PR08MB3890.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:849;
+X-Forefront-PRVS: 0327618309
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(366004)(136003)(39850400004)(396003)(189003)(199004)(81166006)(8936002)(81156014)(6486002)(4326008)(478600001)(53546011)(5660300002)(186003)(16526019)(31696002)(8676002)(26005)(31686004)(36756003)(2616005)(956004)(107886003)(316002)(16576012)(52116002)(66476007)(66556008)(66946007)(86362001)(2906002)(6666004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3890;
+ H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PoD5hxOKpvixvS5SOxJFLAxLGApDUVvrEMNJqX6YWRlybekNFjd9ZrImlsnY0dnW0gxJIc+fSUDYoEQGCq+WsX/PhH/XY63Ez5mtJIlfVCbAEda4pcLViB+y+NU5fB6mpVMq5r9YdvXcVZxV8NpxAXnn9AXgRypdFIWOSCLEybnNrihMnPtCFFZ9xCXF7/4RUQtAP1utJBn8020lxznTOfwoY0psJyYy7L/4pvyv/3AcWF0qWQ/Y2Nc2NtlZ/xLvyYNAxwDDaZC9PcqoUQ6xeaezCY2gPb75O1shZhWWYRgHoLkrZG53slLj3Ubjm/v7+JYJfUrCf2hXLYP8g+XRPyS9+NGfhwh1chazdHGpSw992stCHPmp/hEAj4WvBnzmkZoq2r0A7oc+nVxOkczQJrnhUILK4RLnJF4+mx9s6TxhyzHPKoPdRGiMGdvKZ54K
+X-MS-Exchange-AntiSpam-MessageData: lLvCX/ycFK48WrhvrRifsNnbjmwCicx4v2vTb2jHgRTYFwDLEoV17ogvuPcudT+P93WP8n1TvCETae4bzH8zUPSfrwuFbiaUY5X+CWmCelikntVWFoput/ms+bXyWMkJu3gsL8aWCEXmN3w81SqTYg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22ef5659-036d-4ce0-8e49-08d7bc44da3a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2020 11:53:40.2682 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F+6xk/QE/L5abhoT5NKeI5qOeZeRkduQbMmark9jeiTCPMDs98Rt78avprtbxB7xJuTZ9XmQwZq6Gme9ZyPsmKLO9dXuid159KHAYlLY9HQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3890
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.22.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,71 +110,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- zhoujianjay <zhoujianjay@gmail.com>, discuss <discuss@edk2.groups.io>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- wuchenye1995 <wuchenye1995@gmail.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/28/20 05:04, Andrew Fish wrote:
-
-> Maybe I was overcomplicating this. Given your explanation I think the part I'm missing is OVMF is implying FLASH layout, in this split model, based on the size of the OVMF_CODE.fd and OVMF_VARS.fd.  Given that if OVMF_CODE.fd gets bigger the variable address changes from a QEMU point of view. So basically it is the QEMU  API that is making assumptions about the relative layout of the FD in the split model that makes a migration to larger ROM not work.
-
-No, QEMU does not make any assumptions here. QEMU simply grabs both
-pflash chips (the order is not random, it can be specified on the
-command line -- in fact the QEMU user is expected to specify in the
-right order), and then QEMU maps them in decreasing address order from
-4GB in guest-phys address space.
-
-If we enlarge OVMF_CODE.fd, then the base address of the varstore
-(PcdOvmfFlashNvStorageVariableBase) will sink. That's not a problem per
-se, because QEMU doesn't know about PcdOvmfFlashNvStorageVariableBase at
-all. QEMU will simply map the varstore, automatically, where the
-enlarged OVMF_CODE.fd will look for it.
-
-> Basically the -pflash API does not support changing the size of the ROM without moving NVRAM given the way it is currently defined.
-
-Let me put it like this: the NVRAM gets moved by virtue of how OVMF is
-built, and by how QEMU maps the pflash chips into guest-phys address
-space. They are in sync, automatically.
-
-The problem is when the NVRAM is internally restructured, or resized --
-the new OVMF_CODE.fd binary will reflect this with changed PCDs, and
-look for "stuff" at those addresses. But if you still try to use an old
-(differently sized, or differently structured) varstore file, while QEMU
-will happily map it, parts of the NVRAM will just not end up in places
-where OVMF_CODE.fd expects them.
-
-> 
-> Given the above it seems like the 2 options are:
-> 1) Pad OVMF_CODE.fd to be very large so there is room to grow.
-
-There's already room to grow, *inside* OVMF_CODE.fd. As I've shown
-elsewhere in this thread, even the 2MB build has approx. 457 KB free in
-the DXEFV volume, even without link-time optimization and without
-DEBUG/ASSERT stripping, if you don't enable additional features.
-
-> 2) Add some feature to QUEM that allows the variable store address to not be based on OVMF_CODE.fd size. 
-
-Yes, this has been proposed over time.
-
-It wouldn't help with the case when you change the internal structure of
-the NVRAM, and try to run an incompatible OVMF_CODE.fd against that.
-
-> I did see this [1] and combined with your email I either understand, or I'm still confused? :)
-> 
-> I'm not saying we need to change anything, I'm just trying to make sure I understand how OVMF and QEMU are tied to together. 
-
-I think the most interesting function for you could be
-pc_system_flash_map(), in "hw/i386/pc_sysfw.c", in the QEMU source.
-
-> 
-> [1] https://www.redhat.com/archives/libvir-list/2019-January/msg01031.html
 
 
-Thanks
-Laszlo
+On 27.02.2020 17:03, Eric Blake wrote:
+> On 2/27/20 1:29 AM, Denis Plotnikov wrote:
+>> After adding compression type feature to qcow2 format, qemu framework
+>> commands reporting the image settingd, e.g. "qemu-img create", started
+>
+> settings
+>
+>> reporting the compression type for the image which breaks the iotests
+>> output matching.
+>>
+>> To fix it, add compression_type=3Dzlib to the list of filtered image=20
+>> parameters.
+>>
+>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+>> ---
+>> =A0 tests/qemu-iotests/common.filter | 3 ++-
+>> =A0 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> This should be squashed in to the patch that caused the breakage (3/8,=20
+> if I'm right).
+>
+>>
+>> diff --git a/tests/qemu-iotests/common.filter=20
+>> b/tests/qemu-iotests/common.filter
+>> index 3f8ee3e5f7..c6962d199c 100644
+>> --- a/tests/qemu-iotests/common.filter
+>> +++ b/tests/qemu-iotests/common.filter
+>> @@ -152,7 +152,8 @@ _filter_img_create()
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 -e "s# refcount_bits=3D[0-9]\\+##g" \
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 -e "s# key-secret=3D[a-zA-Z0-9]\\+##g" \
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 -e "s# iter-time=3D[0-9]\\+##g" \
+>> -=A0=A0=A0=A0=A0=A0=A0 -e "s# force_size=3D\\(on\\|off\\)##g"
+>> +=A0=A0=A0=A0=A0=A0=A0 -e "s# force_size=3D\\(on\\|off\\)##g" \
+>> +=A0=A0=A0=A0=A0=A0=A0 -e "s# compression_type=3Dzlib##g"
+>
+> Do you really want to hard-code just zlib, or should this be more=20
+> generic as compression_type=3D[a-zA-Z0-9]\\+ as done on other lines like=
+=20
+> key-secret?
+When I did this I meant additional implicit check that the default=20
+compression type is zlib. But non of the other items in the filter don't=20
+do it. So I'll change it to be consistent. Thanks!
+
+Denis
+>
+>
 
 
