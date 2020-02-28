@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371EC173410
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 10:31:59 +0100 (CET)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2DD173407
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 10:30:35 +0100 (CET)
+Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7bzy-0002TI-9Z
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 04:31:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50643)
+	id 1j7byc-0008ES-FG
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 04:30:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50699)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j7btn-00005A-JK
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:36 -0500
+ (envelope-from <quintela@redhat.com>) id 1j7btu-0000MY-1F
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j7btm-00047m-AV
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42154
+ (envelope-from <quintela@redhat.com>) id 1j7bts-0004A9-KB
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59951
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j7btm-00047b-68
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:34 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j7bts-00049x-Gk
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 04:25:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582881933;
+ s=mimecast20190719; t=1582881940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kSi3RRcGBkfNvhBl8w4t9UcTEFa6L5QdrZ6e3GeWCmY=;
- b=S3SWeYCW/q3wTewuxcK2tdP96JEuJvawLtG/o+zcUiA9Bb3yXjgEqkOWVt4T3QTY6u8fqA
- 1N314AmIxDS7WOE9A2HZBR0U8ojCGjK72v3Q5MxVxF0G4gQ7dwmTPRPF1v3WxQxh0sRnw/
- sag7xav3sdYReQQU4ZYELeU2cu6ailk=
+ bh=6lVzmnoIFQZpsu8Q3f0pxzEHlPBdgDz/HFFS89KovN8=;
+ b=LEbte838/EFgtMDDhLgsN4kctd5t/DAVVZiG2UhqtUyy+CYo8nUmxLZ2YAlu9+V1UNVeS5
+ altNhev06nnej/ho+fkuCh/651fC04zysI8VXEZsDr+AVbZ44d9zLc81ekBjAOXG7byj1L
+ CBzLxZNlOoofOSRXuUxZsGRfMs3hZdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-3rFE9a4HNsuMPwDVvftS8Q-1; Fri, 28 Feb 2020 04:25:31 -0500
-X-MC-Unique: 3rFE9a4HNsuMPwDVvftS8Q-1
+ us-mta-233-iLxbxogSM5ijmsQwWYzLmw-1; Fri, 28 Feb 2020 04:25:38 -0500
+X-MC-Unique: iLxbxogSM5ijmsQwWYzLmw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47D2E18A8C82;
- Fri, 28 Feb 2020 09:25:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDA5B2D4A;
+ Fri, 28 Feb 2020 09:25:36 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-211.ams2.redhat.com [10.36.116.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E357660BE0;
- Fri, 28 Feb 2020 09:25:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4D7160BE0;
+ Fri, 28 Feb 2020 09:25:30 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] migration/savevm: release gslist after dump_vmstate_json
-Date: Fri, 28 Feb 2020 10:24:16 +0100
-Message-Id: <20200228092420.103757-12-quintela@redhat.com>
+Subject: [PULL 12/15] migration/block: rename BLOCK_SIZE macro
+Date: Fri, 28 Feb 2020 10:24:17 +0100
+Message-Id: <20200228092420.103757-13-quintela@redhat.com>
 In-Reply-To: <20200228092420.103757-1-quintela@redhat.com>
 References: <20200228092420.103757-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -75,88 +75,176 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Euler Robot <euler.robot@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-'list' forgot to free at the end of dump_vmstate_json_to_file(), although i=
-t's called only once, but seems like a clean code.
+Both <linux/fs.h> and <sys/mount.h> define BLOCK_SIZE macros.  Avoiding
+using that name in block/migration.c.
 
-Fix the leak as follow:
-Direct leak of 16 byte(s) in 1 object(s) allocated from:
-    #0 0x7fb946abd768 in __interceptor_malloc (/lib64/libasan.so.5+0xef768)
-    #1 0x7fb945eca445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
-    #2 0x7fb945ee2066 in g_slice_alloc (/lib64/libglib-2.0.so.0+0x6a066)
-    #3 0x7fb945ee3139 in g_slist_prepend (/lib64/libglib-2.0.so.0+0x6b139)
-    #4 0x5585db591581 in object_class_get_list_tramp /mnt/sdb/qemu-new/qemu=
-/qom/object.c:1084
-    #5 0x5585db590f66 in object_class_foreach_tramp /mnt/sdb/qemu-new/qemu/=
-qom/object.c:1028
-    #6 0x7fb945eb35f7 in g_hash_table_foreach (/lib64/libglib-2.0.so.0+0x3b=
-5f7)
-    #7 0x5585db59110c in object_class_foreach /mnt/sdb/qemu-new/qemu/qom/ob=
-ject.c:1038
-    #8 0x5585db5916b6 in object_class_get_list /mnt/sdb/qemu-new/qemu/qom/o=
-bject.c:1092
-    #9 0x5585db335ca0 in dump_vmstate_json_to_file /mnt/sdb/qemu-new/qemu/m=
-igration/savevm.c:638
-    #10 0x5585daa5bcbf in main /mnt/sdb/qemu-new/qemu/vl.c:4420
-    #11 0x7fb941204812 in __libc_start_main ../csu/libc-start.c:308
-    #12 0x5585da29420d in _start (/mnt/sdb/qemu-new/qemu/build/x86_64-softm=
-mu/qemu-system-x86_64+0x27f020d)
+I noticed this when including <liburing.h> (Linux io_uring) from
+"block/aio.h" and compilation failed.  Although patches adding that
+include haven't been sent yet, it makes sense to rename the macro now in
+case someone else stumbles on it in the meantime.
 
-Indirect leak of 7472 byte(s) in 467 object(s) allocated from:
-    #0 0x7fb946abd768 in __interceptor_malloc (/lib64/libasan.so.5+0xef768)
-    #1 0x7fb945eca445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
-    #2 0x7fb945ee2066 in g_slice_alloc (/lib64/libglib-2.0.so.0+0x6a066)
-    #3 0x7fb945ee3139 in g_slist_prepend (/lib64/libglib-2.0.so.0+0x6b139)
-    #4 0x5585db591581 in object_class_get_list_tramp /mnt/sdb/qemu-new/qemu=
-/qom/object.c:1084
-    #5 0x5585db590f66 in object_class_foreach_tramp /mnt/sdb/qemu-new/qemu/=
-qom/object.c:1028
-    #6 0x7fb945eb35f7 in g_hash_table_foreach (/lib64/libglib-2.0.so.0+0x3b=
-5f7)
-    #7 0x5585db59110c in object_class_foreach /mnt/sdb/qemu-new/qemu/qom/ob=
-ject.c:1038
-    #8 0x5585db5916b6 in object_class_get_list /mnt/sdb/qemu-new/qemu/qom/o=
-bject.c:1092
-    #9 0x5585db335ca0 in dump_vmstate_json_to_file /mnt/sdb/qemu-new/qemu/m=
-igration/savevm.c:638
-    #10 0x5585daa5bcbf in main /mnt/sdb/qemu-new/qemu/vl.c:4420
-    #11 0x7fb941204812 in __libc_start_main ../csu/libc-start.c:308
-    #12 0x5585da29420d in _start (/mnt/sdb/qemu-new/qemu/build/x86_64-softm=
-mu/qemu-system-x86_64+0x27f020d)
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/savevm.c | 1 +
- 1 file changed, 1 insertion(+)
+ migration/block.c | 39 ++++++++++++++++++++-------------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 1d4220ece8..c00a6807d9 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -665,6 +665,7 @@ void dump_vmstate_json_to_file(FILE *out_file)
+diff --git a/migration/block.c b/migration/block.c
+index c90288ed29..737b6499f9 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -27,8 +27,8 @@
+ #include "migration/vmstate.h"
+ #include "sysemu/block-backend.h"
+=20
+-#define BLOCK_SIZE                       (1 << 20)
+-#define BDRV_SECTORS_PER_DIRTY_CHUNK     (BLOCK_SIZE >> BDRV_SECTOR_BITS)
++#define BLK_MIG_BLOCK_SIZE           (1 << 20)
++#define BDRV_SECTORS_PER_DIRTY_CHUNK (BLK_MIG_BLOCK_SIZE >> BDRV_SECTOR_BI=
+TS)
+=20
+ #define BLK_MIG_FLAG_DEVICE_BLOCK       0x01
+ #define BLK_MIG_FLAG_EOS                0x02
+@@ -133,7 +133,7 @@ static void blk_send(QEMUFile *f, BlkMigBlock * blk)
+     uint64_t flags =3D BLK_MIG_FLAG_DEVICE_BLOCK;
+=20
+     if (block_mig_state.zero_blocks &&
+-        buffer_is_zero(blk->buf, BLOCK_SIZE)) {
++        buffer_is_zero(blk->buf, BLK_MIG_BLOCK_SIZE)) {
+         flags |=3D BLK_MIG_FLAG_ZERO_BLOCK;
      }
-     fprintf(out_file, "\n}\n");
-     fclose(out_file);
-+    g_slist_free(list);
+=20
+@@ -154,7 +154,7 @@ static void blk_send(QEMUFile *f, BlkMigBlock * blk)
+         return;
+     }
+=20
+-    qemu_put_buffer(f, blk->buf, BLOCK_SIZE);
++    qemu_put_buffer(f, blk->buf, BLK_MIG_BLOCK_SIZE);
  }
 =20
- static uint32_t calculate_new_instance_id(const char *idstr)
+ int blk_mig_active(void)
+@@ -309,7 +309,7 @@ static int mig_save_device_bulk(QEMUFile *f, BlkMigDevS=
+tate *bmds)
+     }
+=20
+     blk =3D g_new(BlkMigBlock, 1);
+-    blk->buf =3D g_malloc(BLOCK_SIZE);
++    blk->buf =3D g_malloc(BLK_MIG_BLOCK_SIZE);
+     blk->bmds =3D bmds;
+     blk->sector =3D cur_sector;
+     blk->nr_sectors =3D nr_sectors;
+@@ -350,7 +350,8 @@ static int set_dirty_tracking(void)
+=20
+     QSIMPLEQ_FOREACH(bmds, &block_mig_state.bmds_list, entry) {
+         bmds->dirty_bitmap =3D bdrv_create_dirty_bitmap(blk_bs(bmds->blk),
+-                                                      BLOCK_SIZE, NULL, NU=
+LL);
++                                                      BLK_MIG_BLOCK_SIZE,
++                                                      NULL, NULL);
+         if (!bmds->dirty_bitmap) {
+             ret =3D -errno;
+             goto fail;
+@@ -548,7 +549,7 @@ static int mig_save_device_dirty(QEMUFile *f, BlkMigDev=
+State *bmds,
+             bdrv_dirty_bitmap_unlock(bmds->dirty_bitmap);
+=20
+             blk =3D g_new(BlkMigBlock, 1);
+-            blk->buf =3D g_malloc(BLOCK_SIZE);
++            blk->buf =3D g_malloc(BLK_MIG_BLOCK_SIZE);
+             blk->bmds =3D bmds;
+             blk->sector =3D sector;
+             blk->nr_sectors =3D nr_sectors;
+@@ -770,7 +771,7 @@ static int block_save_iterate(QEMUFile *f, void *opaque=
+)
+=20
+     /* control the rate of transfer */
+     blk_mig_lock();
+-    while (block_mig_state.read_done * BLOCK_SIZE <
++    while (block_mig_state.read_done * BLK_MIG_BLOCK_SIZE <
+            qemu_file_get_rate_limit(f) &&
+            block_mig_state.submitted < MAX_PARALLEL_IO &&
+            (block_mig_state.submitted + block_mig_state.read_done) <
+@@ -874,13 +875,13 @@ static void block_save_pending(QEMUFile *f, void *opa=
+que, uint64_t max_size,
+     qemu_mutex_unlock_iothread();
+=20
+     blk_mig_lock();
+-    pending +=3D block_mig_state.submitted * BLOCK_SIZE +
+-               block_mig_state.read_done * BLOCK_SIZE;
++    pending +=3D block_mig_state.submitted * BLK_MIG_BLOCK_SIZE +
++               block_mig_state.read_done * BLK_MIG_BLOCK_SIZE;
+     blk_mig_unlock();
+=20
+     /* Report at least one block pending during bulk phase */
+     if (pending <=3D max_size && !block_mig_state.bulk_completed) {
+-        pending =3D max_size + BLOCK_SIZE;
++        pending =3D max_size + BLK_MIG_BLOCK_SIZE;
+     }
+=20
+     DPRINTF("Enter save live pending  %" PRIu64 "\n", pending);
+@@ -901,7 +902,7 @@ static int block_load(QEMUFile *f, void *opaque, int ve=
+rsion_id)
+     int nr_sectors;
+     int ret;
+     BlockDriverInfo bdi;
+-    int cluster_size =3D BLOCK_SIZE;
++    int cluster_size =3D BLK_MIG_BLOCK_SIZE;
+=20
+     do {
+         addr =3D qemu_get_be64(f);
+@@ -939,11 +940,11 @@ static int block_load(QEMUFile *f, void *opaque, int =
+version_id)
+=20
+                 ret =3D bdrv_get_info(blk_bs(blk), &bdi);
+                 if (ret =3D=3D 0 && bdi.cluster_size > 0 &&
+-                    bdi.cluster_size <=3D BLOCK_SIZE &&
+-                    BLOCK_SIZE % bdi.cluster_size =3D=3D 0) {
++                    bdi.cluster_size <=3D BLK_MIG_BLOCK_SIZE &&
++                    BLK_MIG_BLOCK_SIZE % bdi.cluster_size =3D=3D 0) {
+                     cluster_size =3D bdi.cluster_size;
+                 } else {
+-                    cluster_size =3D BLOCK_SIZE;
++                    cluster_size =3D BLK_MIG_BLOCK_SIZE;
+                 }
+             }
+=20
+@@ -962,14 +963,14 @@ static int block_load(QEMUFile *f, void *opaque, int =
+version_id)
+                 int64_t cur_addr;
+                 uint8_t *cur_buf;
+=20
+-                buf =3D g_malloc(BLOCK_SIZE);
+-                qemu_get_buffer(f, buf, BLOCK_SIZE);
+-                for (i =3D 0; i < BLOCK_SIZE / cluster_size; i++) {
++                buf =3D g_malloc(BLK_MIG_BLOCK_SIZE);
++                qemu_get_buffer(f, buf, BLK_MIG_BLOCK_SIZE);
++                for (i =3D 0; i < BLK_MIG_BLOCK_SIZE / cluster_size; i++) =
+{
+                     cur_addr =3D addr * BDRV_SECTOR_SIZE + i * cluster_siz=
+e;
+                     cur_buf =3D buf + i * cluster_size;
+=20
+                     if ((!block_mig_state.zero_blocks ||
+-                        cluster_size < BLOCK_SIZE) &&
++                        cluster_size < BLK_MIG_BLOCK_SIZE) &&
+                         buffer_is_zero(cur_buf, cluster_size)) {
+                         ret =3D blk_pwrite_zeroes(blk, cur_addr,
+                                                 cluster_size,
 --=20
 2.24.1
 
