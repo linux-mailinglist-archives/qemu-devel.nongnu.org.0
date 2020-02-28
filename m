@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B74173EA1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:35:54 +0100 (CET)
-Received: from localhost ([::1]:51626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3545173ECA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:47:42 +0100 (CET)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7jYH-0002Pp-RK
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:35:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37876)
+	id 1j7jjh-0008Qj-SK
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:47:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j7jV2-0005Mk-9h
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:32:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7jWr-0000Wz-62
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j7jV0-0000En-Ur
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:32:32 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58568
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j7jV0-0000E6-R8
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:32:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582911149;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Squ6pGWB11hdGkXQO1sJedXghdv/p4Sv54dlWAx6OqA=;
- b=R9LRZotArotmPwl2On5jMe131k4WCIBHYWsXapaQmC8QNtu3PIqSuTWivfMH5vS6Vd9hcr
- nKIYYuf9F2usdPfmLgq8okyW4KRXH1cnqoNI3BZc7qN1awrrHQdhBm1nktrf12nkCAKlXG
- 8+7Huxp5JFtsvzBfz6Ja89Q7c2t0JcM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-g9_sL8ZbO4ypWmoZdf4aPA-1; Fri, 28 Feb 2020 12:32:28 -0500
-X-MC-Unique: g9_sL8ZbO4ypWmoZdf4aPA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E15B2100550E;
- Fri, 28 Feb 2020 17:32:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
- [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AFB1A5C21A;
- Fri, 28 Feb 2020 17:32:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3D19211386A6; Fri, 28 Feb 2020 18:32:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] block: Remove trailing newline in format used by
- error_report API
-References: <20200228123637.15160-1-philmd@redhat.com>
-Date: Fri, 28 Feb 2020 18:32:24 +0100
-In-Reply-To: <20200228123637.15160-1-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 28 Feb 2020 13:36:37
- +0100")
-Message-ID: <8736auipnb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7jWp-0001OY-SI
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:24 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:43765)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j7jWp-0001NM-Kn
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:34:23 -0500
+Received: by mail-ot1-x342.google.com with SMTP id j5so2416374otn.10
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 09:34:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sBIUHdFk3EbrkRCJts37Rg10Bb3EBo8aVHGIuB60uZ8=;
+ b=hPwgdEYusz22FKDuFz7kNfZipngEzkEYDkSf+K5Q1Hw+r+m4dxrMgaEyiTqmvwKyYN
+ 8X/1R+uxjXlIS96+r/dKGCq9Cfh8T6mWb7XeR1rnY7/Wg9tuCPTFrWQe0f/Y9+oFbqkS
+ mi3zo4DrVRc3VRCQ4xeAV5D2sVmThPzYf4FAi5qXwiQlYdrYlpcepGXGa81lttEmkgQ6
+ DRpi6G3vlSajW11l2qL+MQmhAqnoPwPXFOKoWK2x+EQ8mXNq5H5XaehyRw7te0rfF3CC
+ El8eFQCH4RvvZPAqMbULoG8L90ODQIOQKFJYargHj6gbgmd9IqO7a63lLIsHkgoJbs/0
+ 857A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sBIUHdFk3EbrkRCJts37Rg10Bb3EBo8aVHGIuB60uZ8=;
+ b=YLzkXmy77IvScgs8g1gqjKaIND5c+I1usFd7urxihKtQTkZiy6k449f3RGBf8A3uGw
+ z5AHKBUhAaRwKT/QAksvzCTBQg+Xzmq0sTMGf7hhAkMeABbLZbK7zXqIXcn/8WMow6UI
+ QoxEZpIOgYoLBRdBcIT01zv0bIr2bkbmLPMq5yvKurSVAow8QajMRltgYaTGm88pxsV1
+ G+HTqvPu095LjBrVUrPPFZBjXZFlWPNHla4ohFw9YoJSzAWcBj6R/ZEqzvFG3tlaH9FX
+ DexJgAKh7MvbhoaNHlIETXoh8gtc6iJxKVjoKNy1XuL2cnU7CmFner/THh3O02iQVPCe
+ BYSw==
+X-Gm-Message-State: APjAAAVBQUk8g2wyVhsiO8Zo4IVTwPhiQDvjKjOVfcgb/qQrMxWS+iTl
+ uNO1G7PmVjo2b9aWE7RLQQq63cZjAImIZZwLxRhKkg==
+X-Google-Smtp-Source: APXvYqyMrbiSi4XbMNUsKLYoIOroyWKde9pBfsoub920VlPm40sp2JbA6tkG4/Q7wtpm80ldGKq3eH+cIKeDYCyq9+E=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr4295899otd.91.1582911262143; 
+ Fri, 28 Feb 2020 09:34:22 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200225180831.26078-1-richard.henderson@linaro.org>
+ <20200225180831.26078-2-richard.henderson@linaro.org>
+ <CAFEAcA8ipK0nZioEgbNq5B1L-tqA+rzn-C2yyfet4_4yNVnYqA@mail.gmail.com>
+ <e4a70637-f4b7-eaa7-237a-57053c5a63cc@linaro.org>
+In-Reply-To: <e4a70637-f4b7-eaa7-237a-57053c5a63cc@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 28 Feb 2020 17:34:11 +0000
+Message-ID: <CAFEAcA-8a4eQXf+LRS3KLURyyEPpPm9uh6q6r6D-1-sh3t8Pdw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] target/arm: Improve masking of HCR RES0 bits
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,79 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> The error_report API doesn't want trailing newline characters.
-> Remove it, to avoid and error when moving the code around:
+On Fri, 28 Feb 2020 at 16:57, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->   ERROR: Error messages should not contain newlines
-
-Commit 312fd5f2909 has a Coccinelle script.  It should be committed and
-re-run.
-
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  block.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 2/28/20 8:22 AM, Peter Maydell wrote:
+> >> +    if (ri->state == ARM_CP_STATE_AA32) {
+> >> +        /*
+> >> +         * Writes from aarch32 mode have more RES0 bits.
+> >> +         * This includes TDZ, RW, E2H, and more.
+> >> +         */
+> >> +        valid_mask &= ~0xff80ff8c90000000ull;
+> >> +    }
+> >
+> > Isn't bit HCR2 bit 16 (aka bit 32+16==48 here) also RES0 from AArch32 ?
 >
-> diff --git a/block.c b/block.c
-> index 1bdb9c679d..e466d15914 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -5994,7 +5994,7 @@ void bdrv_img_create(const char *filename, const ch=
-ar *fmt,
-           bs =3D bdrv_open(full_backing, NULL, backing_options, back_flags=
-,
-                          &local_err);
-           g_free(full_backing);
-           if (!bs && size !=3D -1) {
->              /* Couldn't open BS, but we have a size, so it's nonfatal */
->              warn_reportf_err(local_err,
->                              "Could not verify backing image. "
-> -                            "This may become an error in future versions=
-.\n");
-> +                            "This may become an error in future versions=
-.");
->              local_err =3D NULL;
->          } else if (!bs) {
->              /* Couldn't open bs, do not have size */
+> Yes, and it's set in the above.
 
-warn_reportf_err() is a convenience function to error_prepend(),
-warn_report() and free @local_err.
+One of us is miscounting, and I don't *think* it's me...
 
-When @local_err holds a message like "pants on fire", the code before
-the patch prints something like
+bits 63..0:  ff80ff8c90000000
+bits 63..32: ff80ff8c
+bits 64..48: ff80
 
-    qemu-system-x86_64: warning: Could not verify backing image. This may b=
-ecome an error in future versions.
-    pants on fire
+bit 48 looks like it's 0 to me.
 
-The patch "improves" it to
+> > I'm not really a fan of the hex-number here either, given we
+> > have HCR_* constants.
+>
+> While plenty of those bits have names, many don't.  Shall I simply name all of
+> the ones that have names, and that differ from the aa64 masking?
 
-    qemu-system-x86_64: warning: Could not verify backing image. This may b=
-ecome an error in future versions.pants on fire
+You could refine the valid mask as the & of the bits which we
+do want to exist in aarch32, rather than &~ of the reserved bits:
 
-General advice: this misuse of warn_reportf_err() is an excusable
-mistake, but when you *test* the error path, you can't *not* see that
-the actual message is crap.  Test your errors!
+ valid_mask &= TTLBIS | TOCU | TICAB | ...
 
-Actual improvement:
+?
 
-               warn_reportf_err(local_err, "Could not verify backing image:=
- ");
-               error_printf("This may become an error in future versions.\n=
-");
-
-This should print
-
-    qemu-system-x86_64: warning: Could not verify backing image: pants on f=
-ire
-    This may become an error in future versions.
-
+thanks
+-- PMM
 
