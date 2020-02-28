@@ -2,99 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD3E173507
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 11:10:22 +0100 (CET)
-Received: from localhost ([::1]:44774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7898E17350B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 11:11:54 +0100 (CET)
+Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7cb6-0004JB-Ud
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 05:10:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
+	id 1j7ccb-0005u1-I8
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 05:11:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <saipava@xilinx.com>) id 1j7cZe-0001pW-UH
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:08:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7cZz-0002eS-QL
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:09:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <saipava@xilinx.com>) id 1j7cZd-0003Iw-Aj
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:08:50 -0500
-Received: from mail-dm6nam10on2088.outbound.protection.outlook.com
- ([40.107.93.88]:6234 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <saipava@xilinx.com>) id 1j7cZd-0003IU-17
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:08:49 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kDCrT5tAhzft6tbIWxPsI7WZcGpMw3zVZ2hOHew54ivkW8d0Ylh/KmzWL201++cGxo7slxC3gLE44lqji4zFg0pKNxNResR99VZMnpXZqAykO0AJpZIhHHKjgygRmGArq1VP29tYar1ilU68TMXjUluJWeB72Kkl0UxXqjTyPRRK0fNwG+HhhkK0m2Rozb3E4F18kSMAqxaVmNp31Qh/fG2kJ53jnszV2HgEqFmYO0mQPJ0KoQiTeboqTxpjn3yPdF/anJLw9b2ovxVahKnWNG07UULEYqiL3xUqyeZ6t7n2IcRfWjx6gEoM550btnmbk8FB0my4CaFQStphniZQ5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UvmwqMDt59GansPQRqrnkvBT6lu21Oh0BxikhcTlWr8=;
- b=kc5CW5j8544GG2kiaao1KvqklG/8kQELs/svcz8Y8OZG3SZYnZF2UwPvDUfbEh9mhIv5mT3kt56WCrJmIpnjYQ7W7B7CUdVC+VzByhuuk7ISMa6CufwU3QMGpkc52uBRfu019/Em3nGjuVuieiouliV9MHa/hmkaC2YDoc/v7VmpDRK1/zC92Qxl1iJQzMq+XN3SzqsTcXvxEFQqXI4OcK7ct5t2jotZAlhbvYWjSHuGlFN+B5yDL9JxRc7GxkZyNVV9wlFROH655apv7zlRkbNtc+HP9FrGhwNaYVU83tGzv0dPFWzfmYw7SF5rei/Wl1G8BRJ0KPPsorSZSHapFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UvmwqMDt59GansPQRqrnkvBT6lu21Oh0BxikhcTlWr8=;
- b=BPU2tbYXBAxHzAHojxWvd267JdTHiTTJRPaphg8wFZx7Byrdv3hNVX1s9gHbUWQCLjwkmFIuQ2lwXctIaWy//ZPY+78ypCa9hor8KztMlvWohndyAeZNQL/xJK9ziC2GoJHRV1BNXaIbuLaAaXnc+doHWJvUX5dnA6F8UmJjn/s=
-Received: from MN2PR02MB5935.namprd02.prod.outlook.com (2603:10b6:208:111::23)
- by MN2PR02MB6639.namprd02.prod.outlook.com (2603:10b6:208:15f::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Fri, 28 Feb
- 2020 10:08:47 +0000
-Received: from MN2PR02MB5935.namprd02.prod.outlook.com
- ([fe80::7161:a3a3:c491:10cd]) by MN2PR02MB5935.namprd02.prod.outlook.com
- ([fe80::7161:a3a3:c491:10cd%4]) with mapi id 15.20.2772.018; Fri, 28 Feb 2020
- 10:08:47 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: Implementing IOMMU support for SDHCI
-Thread-Topic: Implementing IOMMU support for SDHCI
-Thread-Index: AdXsoAgJBAmayeg8R/u0QxshP3edDAAIdgSAAFZNw6A=
-Date: Fri, 28 Feb 2020 10:08:46 +0000
-Message-ID: <MN2PR02MB5935FCFCAB2C3CECE898B290CAE80@MN2PR02MB5935.namprd02.prod.outlook.com>
-References: <MN2PR02MB5935836FBB0AC02F56278FE3CAEA0@MN2PR02MB5935.namprd02.prod.outlook.com>
- <CAFEAcA_iXuc_r=wJWhHjZ1ROvfCwsxbU0yyiwJpqaxDfFtfmbQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_iXuc_r=wJWhHjZ1ROvfCwsxbU0yyiwJpqaxDfFtfmbQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=saipava@xilinx.com; 
-x-originating-ip: [149.199.50.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 443e7d01-3537-456c-7ca6-08d7bc36335c
-x-ms-traffictypediagnostic: MN2PR02MB6639:|MN2PR02MB6639:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR02MB66397D44DF469EDCF8C0F741CAE80@MN2PR02MB6639.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0327618309
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(376002)(346002)(396003)(39860400002)(366004)(199004)(189003)(86362001)(54906003)(64756008)(66446008)(478600001)(53546011)(316002)(186003)(6506007)(66556008)(107886003)(33656002)(9686003)(66476007)(55016002)(7696005)(26005)(6916009)(52536014)(8676002)(71200400001)(8936002)(4326008)(81166006)(2906002)(66946007)(76116006)(5660300002)(81156014);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR02MB6639;
- H:MN2PR02MB5935.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sX3b13ohEc+enUmRZUtH59RHkCNR/H3r92qi1IQA5tyDh8Hoqdqu4gdrNFWuOMLyoNa6epKBDE6Kb+NJJabzyrCyP1eUwQ+F2Gchhn9ErWYK3VaEUTaA/Z5i+m/YdJC91ma3S0ijUnhemB510MKbuSjW2ofZrbAVkAZ8MrTxpHG/CmwaL4AZqQ+U0WGvyRX1dv63daJi+OSSZeCwNSl1IgmyMHk8w3l301RkMAGpTJOsucFeyqsrc2Ip+VWNkpensneO4zDKbjIH5jrhnbvtK+dytuhOh7YljtsGUOti0KphfYUenrBilXEkT2oMGVCNBX/cCo7Tf+wKA9NGJKzpYB5bff1O1EWMdrTZmcvWcX9ZUkG7fKYpQ+pqiW8gN82dpqzrqXve2t/GZ81L8Qf0d0U6pPM0wYJ1RWM5LZFEJL3Va6TZ0Qi3gfvZR/lhTr3I
-x-ms-exchange-antispam-messagedata: IxUcrIShs6nLYDVV5XBKfnZM/iX6+FvY2lMH0dbwTO3HEo9jylE3TsZv2UhwxsPF07WtLv2TCIwZ9jO4jLJiM0afy77qkVLUXuRs/u4cWEIS0jSLBLyUKPwAouaAZ4Lb96BGUk3l3iqRbII05KxKcw==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1j7cZx-0003Q4-GZ
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:09:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24301
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7cZx-0003Pn-DZ
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 05:09:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582884549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/lxDNqU9f6szodAoL+eKVqU16LD68L11FLyfkgqa0zY=;
+ b=KXMSU0I7PO+P9Q0bn6Lu+bPopr4SeHvjKcYuO1IdWZm+DQpzgwRMpjz7ekL/1ZGo5z1JWr
+ NuGqnVHl4ttcOnjYHJbgTyPi8nXPL1V418iMHbloMD5TUot3/GnXQJsswzF6XF5nJAx53Q
+ S3PqaayP7sHGqtXq/IhIgHL+bGDaw8o=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-vcR858cjP8C_WxyO2xPO5w-1; Fri, 28 Feb 2020 05:09:05 -0500
+X-MC-Unique: vcR858cjP8C_WxyO2xPO5w-1
+Received: by mail-wm1-f70.google.com with SMTP id r19so962792wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 02:09:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EHcn7Uig0EtUCcWo1FHf3SEWp5/ZmpM7wVWxnrh0SL0=;
+ b=C8Z2DvqDOrCIYg/dF789geBpVZeyOgSj5wfPdKlU3dCLVfIWFTFDRxM8JVVBU4vx/I
+ 7xFa6aJce/3R7RXTJ4JJo6KlOh4dcMBo7cYCbd7VV6BmxzSJ3WszTh6W+ABHcoCayhKn
+ ttNoiPInA+pZiLb6LtwLw9O6ZDpefpChdAsw1kx1pXsievKA2+zTzV5PoVGYuel6Hmey
+ sAAzNt5m1DTgeNqNM+JnzKZNOcAfk5Q6N9vQ6S+yV+Rrs5cIR4xG0SussbHo22nOo7kc
+ xFbZtls+8W2wgUjS0DO5fRVIb4r7JIr7qBewn79e3EFSFhhFTRWF1SGskz1anmTZ60Fg
+ iZZA==
+X-Gm-Message-State: APjAAAUoPtxd3WEe7mHnkX+L9fPvZoCf81RdkzorvyR9JjE0JztldPhm
+ DUD6jeANrnZseLAxpLZj1Ud2gDUeGktLBIHI90Q6DjGqEDTbJyveOArVyRCxaI5/g6SuR2Sa68H
+ BenNZdwPT6IBfBZc=
+X-Received: by 2002:a7b:c958:: with SMTP id i24mr4148711wml.180.1582884544532; 
+ Fri, 28 Feb 2020 02:09:04 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy+pCCIHZwu6JHxntWdbDcTvUVhAoEUlr5QaD/4tDZ0JAZkFkXZQslpiZEofZ0jQMLVORU4kA==
+X-Received: by 2002:a7b:c958:: with SMTP id i24mr4148684wml.180.1582884544312; 
+ Fri, 28 Feb 2020 02:09:04 -0800 (PST)
+Received: from [10.0.0.124] ([185.102.219.36])
+ by smtp.gmail.com with ESMTPSA id y185sm1558864wmg.2.2020.02.28.02.09.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Feb 2020 02:09:03 -0800 (PST)
+Subject: Re: [PATCH] qom/object: Comment to use g_slist_free on
+ object_class_get_list result
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200227190942.8834-1-philmd@redhat.com>
+ <20200228094652.GB1657361@redhat.com>
+ <CAJ+F1CL-fbX=dXpopMMT1o-WH1JhrqrzpM55J9cGoGDNpDq=AQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cc93fc81-3e4d-b8d0-afa7-2c35ac502785@redhat.com>
+Date: Fri, 28 Feb 2020 11:08:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 443e7d01-3537-456c-7ca6-08d7bc36335c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2020 10:08:47.0020 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WwvVq8/0uVHluYvmXoTynTYE5o96U/t73m+rp+cb9ZN2jtf33/E5qeuo5avURThReQ/YAyWIQb2Hj6ZwsAKwrQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6639
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.93.88
+In-Reply-To: <CAJ+F1CL-fbX=dXpopMMT1o-WH1JhrqrzpM55J9cGoGDNpDq=AQ@mail.gmail.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,44 +94,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Edgar Iglesias <edgari@xilinx.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ qemu trival <qemu-trivial@nongnu.org>, Pan Nengyuan <pannengyuan@huawei.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgUGV0ZXIsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIg
-TWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiBTZW50OiBXZWRuZXNkYXksIEZl
-YnJ1YXJ5IDI2LCAyMDIwIDk6NTkgUE0NCj4gVG86IFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2YUB4
-aWxpbnguY29tPg0KPiBDYzogcGJvbnppbmlAcmVkaGF0LmNvbTsgUUVNVSBEZXZlbG9wZXJzIDxx
-ZW11LWRldmVsQG5vbmdudS5vcmc+Ow0KPiBFZGdhciBJZ2xlc2lhcyA8ZWRnYXJpQHhpbGlueC5j
-b20+DQo+IFN1YmplY3Q6IFJlOiBJbXBsZW1lbnRpbmcgSU9NTVUgc3VwcG9ydCBmb3IgU0RIQ0kN
-Cj4gDQo+IE9uIFdlZCwgMjYgRmViIDIwMjAgYXQgMTI6MzgsIFNhaSBQYXZhbiBCb2RkdSA8c2Fp
-cGF2YUB4aWxpbnguY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IEhpIFBvYWxvL1BldGVyLA0KPiA+
-DQo+ID4gV2UgYXJlIHRyeWluZyB0byBhZGQgU01NVSBzdXBwb3J0IGZvciBkbWEncyB1c2VkIGlu
-IFNEIGNvbnRyb2xsZXIgb24NCj4gWnlucU1QIGJvYXJkcy4gSW4gb3JkZXIgdG8gZG8gdGhhdCB3
-ZSBuZWVkIGEgY2xlYW4gd2F5IHRvIGFzc2lnbg0KPiBNZW1UeEF0dHJzIHRvIGVhY2ggZGV2aWNl
-KGkuZSBhbGwgZGV2aWNlcyB3aGljaCBjb25uZWN0IHRvIHNtbXUpIHZpYQ0KPiAib2JqZWN0X2Fk
-ZF9saW5rX3Byb3BlcnR5LyBvYmplY3Rfc2V0X2xpbmtfcHJvcGVydHkgIiAgZnVuY3Rpb25zLg0K
-PiA+DQo+ID4gQnV0IGluIG9yZGVyIHRvIGRvIHRoYXQsIGZpcnN0IHdlIG1heSBuZWVkIHRvIGNv
-bnZlcnQgTWVtVHhBdHRycyBhcyBRT00NCj4gb2JqZWN0LiBJIGp1c3QgbmVlZCBzb21lIGZlZWRi
-YWNrLCBpZiBpdHMgYWR2aXNhYmxlIHRvIGRvIHNvID8NCj4gDQo+IFdlIGNyZWF0ZSBhbmQgdGhy
-b3cgYXJvdW5kIE1lbVR4QXR0cnMgc3RydWN0cyBhIGxvdCwgSSBkb24ndCB0aGluayB0aGV5J3Jl
-DQo+IHN1aXRhYmxlIHRvIGJlIFFPTSBvYmplY3RzLiBJIGRvbid0IHRoaW5rIHlvdSBuZWVkIGl0
-LCBhbnl3YXkgLS0geW91ciBwcm9ibGVtDQo+IGlzIHJhdGhlciB0aGF0IHRoZSBpb21tdSBkb2Vz
-bid0IGdldCBhbiBvcHBvcnR1bml0eSB0byBzaXQgaW4gdGhlIG1pZGRsZSBvZg0KPiB0cmFuc2Fj
-dGlvbnMgdGhlIHdheSB5b3UnZCBsaWtlIGl0IHRvLCBhbmQgbWFraW5nIE1lbVR4QXR0cnMgYSBR
-T00gb2JqZWN0DQo+IGRvZXNuJ3QgaGVscCBhZGRyZXNzIHRoYXQuDQpbU2FpIFBhdmFuIEJvZGR1
-XSBPdXIgaWRlYSBpcyB0byBjcmVhdGUgZG1hIGhlbHBlciBmdW5jdGlvbiB3aGljaCBjYW4gYWxz
-byBwYXNzIHRoZSBNZW1UeEF0dHIgaS5lIGxpa2UgDQpkbWFfbWVtb3J5X3J3X2F0dHIgKEFkZHJl
-c3NTcGFjZSAqYXMsIGRtYV9hZGRyX3QgYWRkciwNCiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB2b2lkICpidWYsIGRtYV9hZGRyX3QgbGVuLA0KICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIERNQURpcmVjdGlvbiBkaXIsDQogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgTWVtVHhBdHRycyBhdHRyKQ0Kd2hpY2ggbmVlZHMgdG8gYmUgdXNl
-ZCBpbiBzZGhjaSwgIHdpdGggIkFkZHJlc3NTcGFjZSAqYXMiIHBvaW50aW5nIHRvIHNtbXUuDQoN
-Ckkgc2VlIHdlIGRvbuKAmXQgbmVlZCBRT00gdmFyaWFudCBvZiBNZW1UeEF0dHIgZm9yIHRoaXMg
-ZnVuY3Rpb25hbGl0eSwgYnV0IHRob3VnaHQgaXQgd291bGQgYmUgZ29vZCB0byB1c2UgICIgb2Jq
-ZWN0X2FkZF9saW5rX3Byb3BlcnR5LyBvYmplY3Rfc2V0X2xpbmtfcHJvcGVydHkgIiB0byBzZXQg
-dGhlIHZhbHVlcyBmcm9tIG1hY2hpbmUgZmlsZSdzLiBJIHdvdWxkIGRyb3AgdGhpcyBpZGVhLCBh
-bmQgbG9vayBmb3Igb3RoZXIgb3B0aW9ucyB0byBzZXQgdGhlIGF0dHJpYnV0ZXMuDQoNClJlZ2Fy
-ZHMsDQpTYWkgUGF2YW4NCg0KPiANCj4gdGhhbmtzDQo+IC0tIFBNTQ0K
+On 2/28/20 11:06 AM, Marc-Andr=C3=A9 Lureau wrote:
+> Hi
+>=20
+> On Fri, Feb 28, 2020 at 10:47 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com> wrote:
+>>
+>> On Thu, Feb 27, 2020 at 08:09:42PM +0100, Philippe Mathieu-Daud=C3=A9 wr=
+ote:
+>>> Document the list returned by object_class_get_list() must be
+>>> released with g_slist_free() to avoid memory leaks.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>>   include/qom/object.h | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/include/qom/object.h b/include/qom/object.h
+>>> index 29546496c1..5517b56508 100644
+>>> --- a/include/qom/object.h
+>>> +++ b/include/qom/object.h
+>>> @@ -984,6 +984,9 @@ void object_class_foreach(void (*fn)(ObjectClass *k=
+lass, void *opaque),
+>>>    * @include_abstract: Whether to include abstract classes.
+>>>    *
+>>>    * Returns: A singly-linked list of the classes in reverse hashtable =
+order.
+>>> + *
+>>> + * The returned list must be released with g_slist_free()
+>>> + * when no longer required.
+>>
+>> I'd suggest
+>>
+>>    "The returned list, but not its elements, must be released with
+>>     g_slist_free() or g_autoptr when no longer required"
+>=20
+> As gobject-introspection annotations: "Returns: (transfer container)
+> (element-type ObjectClass): A list of #ObjectClass"
+
+Are you suggesting to replace "Returns: A singly-linked list of the=20
+classes in reverse hashtable order." by the line you quoted?
+
+>=20
+>>
+>>>    */
+>>>   GSList *object_class_get_list(const char *implements_type,
+>>>                                 bool include_abstract);
+>>> @@ -995,6 +998,9 @@ GSList *object_class_get_list(const char *implement=
+s_type,
+>>>    *
+>>>    * Returns: A singly-linked list of the classes in alphabetical
+>>>    * case-insensitive order.
+>>> + *
+>>> + * The returned list must be released with g_slist_free()
+>>> + * when no longer required.
+>>>    */
+>>>   GSList *object_class_get_list_sorted(const char *implements_type,
+>>>                                 bool include_abstract);
+>>> --
+>>> 2.21.1
+>>>
+>>>
+>>
+>> Regards,
+>> Daniel
+>> --
+>> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberra=
+nge :|
+>> |: https://libvirt.org         -o-            https://fstop138.berrange.=
+com :|
+>> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberra=
+nge :|
+>>
+>>
+>=20
+>=20
+
 
