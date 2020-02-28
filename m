@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0453173DC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:59:25 +0100 (CET)
-Received: from localhost ([::1]:50804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E49173DA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:53:54 +0100 (CET)
+Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7iyy-0000l0-RB
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57742)
+	id 1j7itd-0000L3-Ej
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:53:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@qualcomm.com>) id 1j7ike-0002p6-BI
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:44:38 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j7ikR-0002Td-JY
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:44:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@qualcomm.com>) id 1j7ikb-0005YK-LZ
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:44:36 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:27035)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@qualcomm.com>)
- id 1j7ikb-0005Ug-BP
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:44:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1582908273; x=1614444273;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lDXRczXbSjQqnrjxsxyR7JmtcZU6E4pY6Xovl1kDpLQ=;
- b=pFZhahSL/vVXFRTvv1uFOY+sGbGvN1LwbJ5S8ZFhNS2m17tOPZOMR5u+
- VvUVbPwtPe96q/oHXNyrJkPIoheDw0Bk0exuQ9zDfi6CXWWZKtE3Mrf0V
- H4Gql+sitBU5sxIKaOv4LxheXikeN50mAnF3FkFX5DI6CJwJDSZXYo/Fu Y=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Feb 2020 08:44:30 -0800
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg04-sd.qualcomm.com with ESMTP; 28 Feb 2020 08:44:30 -0800
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 231BA1102; Fri, 28 Feb 2020 10:44:30 -0600 (CST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 27/67] Hexagon generator phase 2 - printinsn-generated.h
-Date: Fri, 28 Feb 2020 10:43:23 -0600
-Message-Id: <1582908244-304-28-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1582908244-304-1-git-send-email-tsimpson@quicinc.com>
-References: <1582908244-304-1-git-send-email-tsimpson@quicinc.com>
+ (envelope-from <stefanha@redhat.com>) id 1j7ikQ-0005QO-32
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:44:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57448
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j7ikO-0005MM-OW
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:44:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582908259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JbKqI1nnK8EVo1x92Esuh5LZAjCk6KpIljqLivcx920=;
+ b=IK0D+bxtFUPQZV7BjOH23T75m2UEwMGFwu4cQwN6dSImUA0ay/iPjM4mmL+TqfkTjpqjei
+ SoMt9z5G1iLAxBpMERcRFehscoJpJDgNq5bKwXTiQGkThX3Z7f60Uh8JC83GgBtgE8EA/K
+ z1KXWYHpBbjJI9ysToLRyB5ZYO+3ch0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-HOJ9gczDNcaMzF94O9KyeA-1; Fri, 28 Feb 2020 11:44:15 -0500
+X-MC-Unique: HOJ9gczDNcaMzF94O9KyeA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25C9918FF664;
+ Fri, 28 Feb 2020 16:44:13 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B2D68C07F;
+ Fri, 28 Feb 2020 16:44:04 +0000 (UTC)
+Date: Fri, 28 Feb 2020 16:44:03 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 47/50] multi-process: Enable support for multiple
+ devices in remote
+Message-ID: <20200228164403.GA332098@stefanha-x1.localdomain>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+ <cf33de60b827e0cdd3d5fce48eb038cb056dc304.1582576372.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.39
+In-Reply-To: <cf33de60b827e0cdd3d5fce48eb038cb056dc304.1582576372.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,107 +72,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi, richard.henderson@linaro.org, laurent@vivier.eu,
- Taylor Simpson <tsimpson@quicinc.com>, philmd@redhat.com,
- aleksandar.m.mail@gmail.com
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RGF0YSBmb3IgcHJpbnRpbmcgKGRpc2Fzc2VtYmxpbmcpIGVhY2ggaW5zdHJ1Y3Rpb24gKGZvcm1h
-dCBzdHJpbmcgKyBvcGVyYW5kcykKClNpZ25lZC1vZmYtYnk6IFRheWxvciBTaW1wc29uIDx0c2lt
-cHNvbkBxdWljaW5jLmNvbT4KLS0tCiB0YXJnZXQvaGV4YWdvbi9kb19xZW11LnB5IHwgMTUxICsr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFu
-Z2VkLCAxNTEgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL2RvX3Fl
-bXUucHkgYi90YXJnZXQvaGV4YWdvbi9kb19xZW11LnB5CmluZGV4IDBjNzY0M2EuLjMyNTQzYzgg
-MTAwNzU1Ci0tLSBhL3RhcmdldC9oZXhhZ29uL2RvX3FlbXUucHkKKysrIGIvdGFyZ2V0L2hleGFn
-b24vZG9fcWVtdS5weQpAQCAtODkyLDMgKzg5MiwxNTQgQEAgcmVhbGYud3JpdGUoZi5nZXR2YWx1
-ZSgpKQogcmVhbGYuY2xvc2UoKQogZi5jbG9zZSgpCiAKKyMjCisjIyBHZW5lcmF0ZSB0aGUgcHJp
-bnRpbnNuX2dlbmVyYXRlZC5oIGZpbGUKKyMjICAgICBEYXRhIGZvciBwcmludGluZyBlYWNoIGlu
-c3RydWN0aW9uIChmb3JtYXQgc3RyaW5nICsgb3BlcmFuZHMpCisjIworZGVmIHJlZ3ByaW50ZXIo
-bSk6CisgICAgc3RyID0gbS5ncm91cCgxKQorICAgIHN0ciArPSAiOiIuam9pbihbIiVkIl0qbGVu
-KG0uZ3JvdXAoMikpKQorICAgIHN0ciArPSBtLmdyb3VwKDMpCisgICAgaWYgKCdTJyBpbiBtLmdy
-b3VwKDEpKSBhbmQgKGxlbihtLmdyb3VwKDIpKSA9PSAxKToKKyAgICAgICAgc3RyICs9ICIvJXMi
-CisgICAgZWxpZiAoJ0MnIGluIG0uZ3JvdXAoMSkpIGFuZCAobGVuKG0uZ3JvdXAoMikpID09IDEp
-OgorICAgICAgICBzdHIgKz0gIi8lcyIKKyAgICByZXR1cm4gc3RyCisKKyMgUmVndWxhciBleHBy
-ZXNzaW9uIHRoYXQgbWF0Y2hlcyBhbnkgb3BlcmF0b3IgdGhhdCBjb250YWlucyAnPScgY2hhcmFj
-dGVyOgorb3Bzd2l0aGVxdWFsX3JlID0gJ1stK14mfCE8Pj1dPz0nCisjIFJlZ3VsYXIgZXhwcmVz
-c2lvbiB0aGF0IG1hdGNoZXMgYW55IGFzc2lnbm1lbnQgb3BlcmF0b3IuCithc3NpZ25tZW50X3Jl
-ID0gJ1stK14mfF0/PScKKworIyBPdXQgb2YgdGhlIG9wZXJhdG9ycyB0aGF0IGNvbnRhaW4gdGhl
-ID0gc2lnbiwgaWYgdGhlIG9wZXJhdG9yIGlzIGFsc28gYW4KKyMgYXNzaWdubWVudCwgc3BhY2Vz
-IHdpbGwgYmUgYWRkZWQgYXJvdW5kIGl0LCB1bmxlc3MgaXQncyBlbmNsb3NlZCB3aXRoaW4KKyMg
-cGFyZW50aGVzZXMsIG9yIHNwYWNlcyBhcmUgYWxyZWFkeSBwcmVzZW50LgorCitlcXVhbHMgPSBy
-ZS5jb21waWxlKG9wc3dpdGhlcXVhbF9yZSkKK2Fzc2lnbiA9IHJlLmNvbXBpbGUoYXNzaWdubWVu
-dF9yZSkKKworZGVmIHNwYWNpZnkocyk6CisgICAgc2xlbiA9IGxlbihzKQorICAgIHBhcmVuX2Nv
-dW50ID0ge30KKyAgICBpID0gMAorICAgIHBjID0gMAorICAgIHdoaWxlIGkgPCBzbGVuOgorICAg
-ICAgICBjID0gc1tpXQorICAgICAgICBpZiBjID09ICcoJzoKKyAgICAgICAgICAgIHBjICs9IDEK
-KyAgICAgICAgZWxpZiBjID09ICcpJzoKKyAgICAgICAgICAgIHBjIC09IDEKKyAgICAgICAgcGFy
-ZW5fY291bnRbaV0gPSBwYworICAgICAgICBpICs9IDEKKworICAgICMgSXRlcmF0ZSBvdmVyIGFs
-bCBvcGVyYXRvcnMgdGhhdCBjb250YWluIHRoZSBlcXVhbCBzaWduLiBJZiBhbnkKKyAgICAjIG1h
-dGNoIGlzIGFsc28gYW4gYXNzaWdubWVudCBvcGVyYXRvciwgYWRkIHNwYWNlcyBhcm91bmQgaXQg
-aWYKKyAgICAjIHRoZSBwYXJlbnRoZXNpcyBjb3VudCBpcyAwLgorICAgIHBvcyA9IDAKKyAgICBv
-dXQgPSBbXQorICAgIGZvciBtIGluIGVxdWFscy5maW5kaXRlcihzKToKKyAgICAgICAgbXMgPSBt
-LnN0YXJ0KCkKKyAgICAgICAgbWUgPSBtLmVuZCgpCisgICAgICAgICMgdCBpcyB0aGUgc3RyaW5n
-IHRoYXQgbWF0Y2hlZCBvcHN3aXRoZXF1YWxfcmUuCisgICAgICAgIHQgPSBtLnN0cmluZ1ttczpt
-ZV0KKyAgICAgICAgb3V0ICs9IHNbcG9zOm1zXQorICAgICAgICBwb3MgPSBtZQorICAgICAgICBp
-ZiBwYXJlbl9jb3VudFttc10gPT0gMDoKKyAgICAgICAgICAgICMgQ2hlY2sgaWYgdGhlIGVudGly
-ZSBzdHJpbmcgdCBpcyBhbiBhc3NpZ25tZW50LgorICAgICAgICAgICAgYW0gPSBhc3NpZ24ubWF0
-Y2godCkKKyAgICAgICAgICAgIGlmIGFtIGFuZCBsZW4oYW0uZ3JvdXAoMCkpID09IG1lLW1zOgor
-ICAgICAgICAgICAgICAgICMgRG9uJ3QgYWRkIHNwYWNlcyBpZiB0aGV5IGFyZSBhbHJlYWR5IHRo
-ZXJlLgorICAgICAgICAgICAgICAgIGlmIG1zID4gMCBhbmQgc1ttcy0xXSAhPSAnICc6CisgICAg
-ICAgICAgICAgICAgICAgIG91dC5hcHBlbmQoJyAnKQorICAgICAgICAgICAgICAgIG91dCArPSB0
-CisgICAgICAgICAgICAgICAgaWYgbWUgPCBzbGVuIGFuZCBzW21lXSAhPSAnICc6CisgICAgICAg
-ICAgICAgICAgICAgIG91dC5hcHBlbmQoJyAnKQorICAgICAgICAgICAgICAgIGNvbnRpbnVlCisg
-ICAgICAgICMgSWYgdGhpcyBpcyBub3QgYW4gYXNzaWdubWVudCwganVzdCBhcHBlbmQgaXQgdG8g
-dGhlIG91dHB1dAorICAgICAgICAjIHN0cmluZy4KKyAgICAgICAgb3V0ICs9IHQKKworICAgICMg
-QXBwZW5kIHRoZSByZW1haW5pbmcgcGFydCBvZiB0aGUgc3RyaW5nLgorICAgIG91dCArPSBzW3Bv
-czpsZW4ocyldCisgICAgcmV0dXJuICcnLmpvaW4ob3V0KQorCitpbW1leHRfY2FzZXJlID0gcmUu
-Y29tcGlsZShyJ0lNTUVYVFwoKFtBLVphLXpdKScpCisKK2YgPSBTdHJpbmdJTygpCisKK2ZvciB0
-YWcgaW4gdGFnczoKKyAgICBpZiBub3QgYmVoZGljdFt0YWddOiBjb250aW51ZQorICAgIGV4dGVu
-ZGFibGVfdXBwZXJfaW1tID0gRmFsc2UKKyAgICBleHRlbmRhYmxlX2xvd2VyX2ltbSA9IEZhbHNl
-CisgICAgbSA9IGltbWV4dF9jYXNlcmUuc2VhcmNoKHNlbWRpY3RbdGFnXSkKKyAgICBpZiBtOgor
-ICAgICAgICBpZiBtLmdyb3VwKDEpLmlzdXBwZXIoKToKKyAgICAgICAgICAgIGV4dGVuZGFibGVf
-dXBwZXJfaW1tID0gVHJ1ZQorICAgICAgICBlbHNlOgorICAgICAgICAgICAgZXh0ZW5kYWJsZV9s
-b3dlcl9pbW0gPSBUcnVlCisgICAgYmVoID0gYmVoZGljdFt0YWddCisgICAgYmVoID0gcmVncmUu
-c3ViKHJlZ3ByaW50ZXIsYmVoKQorICAgIGJlaCA9IGFic2ltbXJlLnN1YihyIiMlczB4JXgiLGJl
-aCkKKyAgICBiZWggPSByZWxpbW1yZS5zdWIociJQQyslcyVkIixiZWgpCisgICAgYmVoID0gc3Bh
-Y2lmeShiZWgpCisgICAgIyBQcmludCBvdXQgYSBsaXRlcmFsICIlcyIgYXQgdGhlIGVuZCwgdXNl
-ZCB0byBtYXRjaCBlbXB0eSBzdHJpbmcKKyAgICAjIHNvIEMgd29uJ3QgY29tcGxhaW4gYXQgdXMK
-KyAgICBpZiAoIkFfVkVDWCIgaW4gYXR0cmliZGljdFt0YWddKTogbWFjbmFtZSA9ICJERUZfVkVD
-WF9QUklOVElORk8iCisgICAgZWxzZTogbWFjbmFtZSA9ICJERUZfUFJJTlRJTkZPIgorICAgIGYu
-d3JpdGUoJyVzKCVzLCIlcyUlcyInICUgKG1hY25hbWUsdGFnLGJlaCkpCisgICAgcmVnc19vcl9p
-bW1zID0gcmVnX29yX2ltbXJlLmZpbmRhbGwoYmVoZGljdFt0YWddKQorICAgIHJpID0gMAorICAg
-IHNlZW5yZWdzID0ge30KKyAgICBmb3IgYWxscmVncyxhLGIsYyxkLGFsbGltbSxpbW1sZXR0LGJp
-dHMsaW1tc2hpZnQgaW4gcmVnc19vcl9pbW1zOgorICAgICAgICBpZiBhOgorICAgICAgICAgICAg
-I3JlZ2lzdGVyCisgICAgICAgICAgICBpZiBiIGluIHNlZW5yZWdzOgorICAgICAgICAgICAgICAg
-IHJlZ25vID0gc2VlbnJlZ3NbYl0KKyAgICAgICAgICAgIGVsc2U6CisgICAgICAgICAgICAgICAg
-cmVnbm8gPSByaQorICAgICAgICAgICAgaWYgbGVuKGIpID09IDE6CisgICAgICAgICAgICAgICAg
-Zi53cml0ZSgnLFJFR05PKCVkKScgJSByZWdubykKKyAgICAgICAgICAgICAgICBpZiAnUycgaW4g
-YToKKyAgICAgICAgICAgICAgICAgICAgZi53cml0ZSgnLHNyZWcyc3RyKFJFR05PKCVkKSknICUg
-cmVnbm8pCisgICAgICAgICAgICAgICAgZWxpZiAnQycgaW4gYToKKyAgICAgICAgICAgICAgICAg
-ICAgZi53cml0ZSgnLGNyZWcyc3RyKFJFR05PKCVkKSknICUgcmVnbm8pCisgICAgICAgICAgICBl
-bGlmIGxlbihiKSA9PSAyOgorICAgICAgICAgICAgICAgIGYud3JpdGUoJyxSRUdOTyglZCkrMSxS
-RUdOTyglZCknICUgKHJlZ25vLHJlZ25vKSkKKyAgICAgICAgICAgIGVsaWYgbGVuKGIpID09IDQ6
-CisgICAgICAgICAgICAgICAgZi53cml0ZSgnLFJFR05PKCVkKV4zLFJFR05PKCVkKV4yLFJFR05P
-KCVkKV4xLFJFR05PKCVkKScgJSBcCisgICAgICAgICAgICAgICAgICAgICAgICAocmVnbm8scmVn
-bm8scmVnbm8scmVnbm8pKQorICAgICAgICAgICAgZWxzZToKKyAgICAgICAgICAgICAgICBwcmlu
-dCgiUHV0IHNvbWUgc3R1ZmYgdG8gaGFuZGxlIHF1YWRzIGhlcmUiKQorICAgICAgICAgICAgaWYg
-YiBub3QgaW4gc2VlbnJlZ3M6CisgICAgICAgICAgICAgICAgc2VlbnJlZ3NbYl0gPSByaQorICAg
-ICAgICAgICAgICAgIHJpICs9IDEKKyAgICAgICAgZWxzZToKKyAgICAgICAgICAgICNpbW1lZGlh
-dGUKKyAgICAgICAgICAgIGlmIChpbW1sZXR0LmlzdXBwZXIoKSk6CisgICAgICAgICAgICAgICAg
-aWYgZXh0ZW5kYWJsZV91cHBlcl9pbW06CisgICAgICAgICAgICAgICAgICAgIGlmIGltbWxldHQg
-aW4gJ3JSJzoKKyAgICAgICAgICAgICAgICAgICAgICAgIGYud3JpdGUoJyxpbnNuLT5leHRlbnNp
-b25fdmFsaWQ/IiMjIjoiIicpCisgICAgICAgICAgICAgICAgICAgIGVsc2U6CisgICAgICAgICAg
-ICAgICAgICAgICAgICBmLndyaXRlKCcsaW5zbi0+ZXh0ZW5zaW9uX3ZhbGlkPyIjIjoiIicpCisg
-ICAgICAgICAgICAgICAgZWxzZToKKyAgICAgICAgICAgICAgICAgICAgZi53cml0ZSgnLCIiJykK
-KyAgICAgICAgICAgICAgICBpaSA9IDEKKyAgICAgICAgICAgIGVsc2U6CisgICAgICAgICAgICAg
-ICAgaWYgZXh0ZW5kYWJsZV9sb3dlcl9pbW06CisgICAgICAgICAgICAgICAgICAgIGlmIGltbWxl
-dHQgaW4gJ3JSJzoKKyAgICAgICAgICAgICAgICAgICAgICAgIGYud3JpdGUoJyxpbnNuLT5leHRl
-bnNpb25fdmFsaWQ/IiMjIjoiIicpCisgICAgICAgICAgICAgICAgICAgIGVsc2U6CisgICAgICAg
-ICAgICAgICAgICAgICAgICBmLndyaXRlKCcsaW5zbi0+ZXh0ZW5zaW9uX3ZhbGlkPyIjIjoiIicp
-CisgICAgICAgICAgICAgICAgZWxzZToKKyAgICAgICAgICAgICAgICAgICAgZi53cml0ZSgnLCIi
-JykKKyAgICAgICAgICAgICAgICBpaSA9IDAKKyAgICAgICAgICAgIGYud3JpdGUoJyxJTU1OTygl
-ZCknICUgaWkpCisgICAgIyBhcHBlbmQgZW1wdHkgc3RyaW5nIHNvIHRoZXJlIGlzIGF0IGxlYXN0
-IG9uZSBtb3JlIGFyZworICAgIGYud3JpdGUoJywiIilcbicpCisKK3JlYWxmID0gb3BlbigncHJp
-bnRpbnNuX2dlbmVyYXRlZC5oJywndycpCityZWFsZi53cml0ZShmLmdldHZhbHVlKCkpCityZWFs
-Zi5jbG9zZSgpCitmLmNsb3NlKCkKKworCi0tIAoyLjcuNAoK
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Feb 24, 2020 at 03:55:38PM -0500, Jagannathan Raman wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>=20
+> Add support to allow multiple devices to be configured in the
+> remote process
+
+This patch allows multiple devices to be addressed over a single UNIX
+domain socket.  This could be a scalability/performance bottleneck
+because an SMP guest can only talk to 1 device at a time.
+
+This approach doesn't address the qemu-storage-daemon use case where one
+device emulation process provides devices to multiple guests.  Multiple
+UNIX domain sockets are needed for that.
+
+Is multiplexing multiple devices over a single connection is a desirable
+feature?  The alternative of one UNIX domain socket per device instance
+seems more practical to me because it should perform better and solves
+the qemu-storage-daemon use case.
+
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5ZQ1MACgkQnKSrs4Gr
+c8hfYwf/eSGyr7OXlpnFu5TR7dNACEilTRAIMr8sr03KuCcH6XTYwOyQ+1AeLFZh
+hNWev760tdDQ4yF69mRhF5H7VyP246yXDMp/4OA9DVeMQyuDZIf1CrH32JUhGLdO
+ky2UjhPBgzMQXEDLpWDBinKLFozS31UnoLl/NzOZb12BMLgDB0eEe/Ma1hS5fmpI
+j6Hkfg8Bwyv9QvIM40UmUW82QacDhRDdfqJd0OW/kTYgFnmAHxX7iRj2xUDnlhvc
+P012AAQnWS8r2MuU5VPrhLt6g0KMX9obEoXfEKZr1up0l021gzbzeaS8PGsdq9Hb
+tVcIgvkhWFmXW/7D9gSCGwP6obX30w==
+=ljcf
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
+
 
