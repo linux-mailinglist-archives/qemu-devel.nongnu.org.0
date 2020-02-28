@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D92317418D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 22:40:13 +0100 (CET)
-Received: from localhost ([::1]:54126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958D517419D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 22:47:17 +0100 (CET)
+Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7nMh-0004Oq-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 16:40:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37209)
+	id 1j7nTY-0007EM-7p
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 16:47:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1j7nLt-0003oL-Fu
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:39:22 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1j7nSm-0006me-My
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:46:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1j7nLq-0002OA-FV
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:39:20 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23915
+ (envelope-from <ehabkost@redhat.com>) id 1j7nSk-0006JY-Vk
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:46:27 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22643
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j7nLq-0002My-Bj
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:39:18 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j7nSk-0006JE-QV
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 16:46:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582925955;
+ s=mimecast20190719; t=1582926386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Veux2GeDkcO7vh/hEnLhLhSHAV+dN0NqDmJpDOFAbRk=;
- b=MGJk1snkdRf2rfJ6WGgmaRX7Hmq0FEwOvta0TnEZK+1IoagblJQo/boKYCdnzd060BBefQ
- qZe7Sp194sCFitwYRtQWGgjin9FiOwNPU713kc3Xqf2O+HKiF5o7hrpMifG2sDibYoD5vZ
- OBJhZ0Ac8mtEwSgdpekYlA1WWqb3WXM=
+ bh=Hr5q6AyGD5n1eh1Ew4RDlniK5pjlIC56b42GHfVxv0o=;
+ b=Bij/u3WiMtTlKGPLp+vjnRY/TbCoeW+Jttaq76kEcf/Fny/BTjeJn+d4Mez/GtksMbIolL
+ uY9Gm/RFs8xy+B2t1382h+E2Q2oQbiax+3oceFNy8yUdw5snZm8foA93MTMX0PrZ126xSG
+ yZXlftdJAoD9ZPUM9tlU5jRSDdb4xls=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-evjLFI0lMcqGxf-LgonLpg-1; Fri, 28 Feb 2020 16:39:11 -0500
-X-MC-Unique: evjLFI0lMcqGxf-LgonLpg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-488-yn37GE-MNS-omZ7daGO3xg-1; Fri, 28 Feb 2020 16:46:22 -0500
+X-MC-Unique: yn37GE-MNS-omZ7daGO3xg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 217018017DF;
- Fri, 28 Feb 2020 21:39:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A4FD800D53;
+ Fri, 28 Feb 2020 21:46:21 +0000 (UTC)
 Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7BEC5D9CA;
- Fri, 28 Feb 2020 21:39:09 +0000 (UTC)
-Date: Fri, 28 Feb 2020 16:39:09 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2C121001B2C;
+ Fri, 28 Feb 2020 21:46:20 +0000 (UTC)
+Date: Fri, 28 Feb 2020 16:46:20 -0500
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v3 2/4] target/i386: Remove monitor from some CPU models
-Message-ID: <20200228213909.GA481504@habkost.net>
+Subject: Re: [PATCH v3 1/4] target/i386: Add Denverton-v2 (no MPX) CPU model
+Message-ID: <20200228214620.GA494511@habkost.net>
 References: <20200212081328.7385-1-tao3.xu@intel.com>
- <20200212081328.7385-3-tao3.xu@intel.com>
+ <20200212081328.7385-2-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200212081328.7385-3-tao3.xu@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200212081328.7385-2-tao3.xu@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -76,99 +76,13 @@ Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 12, 2020 at 04:13:26PM +0800, Tao Xu wrote:
-> Add new version of Snowridge, Denverton, Opteron_G3, EPYC, and Dhyana
-> CPU model to remove MONITOR/MWAIT feature.
->=20
-> After QEMU/KVM use "-overcommit cpu-pm=3Don" to expose MONITOR/MWAIT
-> (commit id 6f131f13e68d648a8e4f083c667ab1acd88ce4cd), the MONITOR/MWAIT
-> feature in these CPU model is unused.
+On Wed, Feb 12, 2020 at 04:13:25PM +0800, Tao Xu wrote:
+> Because MPX is being removed from the linux kernel, remove MPX feature
+> from Denverton.
 >=20
 > Signed-off-by: Tao Xu <tao3.xu@intel.com>
 
-What exactly is the problem you are trying to fix?
-
-No CPU model will ever have monitor=3Don set by default with KVM,
-because kvm_default_props has a monitor=3Doff element.
-
-> ---
->  target/i386/cpu.c | 38 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
->=20
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 848c992cd3..6905e4eabd 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3731,6 +3731,14 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
->                      { /* end of list */ },
->                  },
->              },
-> +            {
-> +                .version =3D 3,
-> +                .props =3D (PropValue[]) {
-> +                    /* mpx was already removed by -v2 above */
-> +                    { "monitor", "off" },
-> +                    { /* end of list */ },
-> +                },
-> +            },
->              { /* end of list */ },
->          },
->      },
-> @@ -3842,6 +3850,17 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
->              CPUID_EXT3_ABM | CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM,
->          .xlevel =3D 0x80000008,
->          .model_id =3D "AMD Opteron 23xx (Gen 3 Class Opteron)",
-> +        .versions =3D (X86CPUVersionDefinition[]) {
-> +            { .version =3D 1 },
-> +            {
-> +                .version =3D 2,
-> +                .props =3D (PropValue[]) {
-> +                    { "monitor", "off" },
-> +                    { /* end of list */ },
-> +                },
-> +            },
-> +            { /* end of list */ },
-> +        },
->      },
->      {
->          .name =3D "Opteron_G4",
-> @@ -3966,6 +3985,14 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
->                      { /* end of list */ }
->                  }
->              },
-> +            {
-> +                .version =3D 3,
-> +                .props =3D (PropValue[]) {
-> +                    /* ibpb was already enabled by -v2 above */
-> +                    { "monitor", "off" },
-> +                    { /* end of list */ },
-> +                },
-> +            },
->              { /* end of list */ }
->          }
->      },
-> @@ -4018,6 +4045,17 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
->          .xlevel =3D 0x8000001E,
->          .model_id =3D "Hygon Dhyana Processor",
->          .cache_info =3D &epyc_cache_info,
-> +        .versions =3D (X86CPUVersionDefinition[]) {
-> +            { .version =3D 1 },
-> +            {
-> +                .version =3D 2,
-> +                .props =3D (PropValue[]) {
-> +                    { "monitor", "off" },
-> +                    { /* end of list */ },
-> +                },
-> +            },
-> +            { /* end of list */ },
-> +        },
->      },
->  };
-> =20
-> --=20
-> 2.20.1
->=20
->=20
+Queued, thanks!
 
 --=20
 Eduardo
