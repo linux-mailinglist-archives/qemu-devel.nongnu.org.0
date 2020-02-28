@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98BD173DE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:05:45 +0100 (CET)
-Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A25173DED
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:07:53 +0100 (CET)
+Received: from localhost ([::1]:50952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7j56-0001nL-OS
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:05:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
+	id 1j7j79-0005N7-Sg
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:07:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56697)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifR-00083L-SS
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifS-00084x-FB
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifQ-00022s-QK
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36851)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifR-00023B-54
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:14 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42252)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifP-00021W-K8
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:12 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id g83so1709756wme.1
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:11 -0800 (PST)
+ id 1j7ifQ-00022m-US
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:13 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id p18so3638157wre.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OBBHRjdd80h8GtLACN+1yFyC+k5vRKdVFPA1E7huKbI=;
- b=U75JsSpQT1vVB3OOXFAOHq6euP/J+fYRnOqpPa8FQSXG2fF/MiydB+qIwEvqCuanvt
- TLG4g/pMYlrF/DkDOtdYRVZXxviBLJf3/V0DypgS2edUjuSyFkcfpQ4rXYA/1kErUbGI
- b609CsLPqTOQdXOY3ifQkv0/6glv8DKNTp7+xoQlxqN7jnQiCUl4q+jEvnLQwwHq4axI
- kCmx739Wgo7r/ysvuV65Y59475fL0IADpql4LKtsf8jOvKllTRy0GvdiWzO0H+RqvGJ4
- Lyg0nUOVQLxWvxErR0uOIjYltcZ2z+3KSlKeTik1FuYqDbNyvuhjSXqnyfEgzzvVhYab
- bn0w==
+ bh=7pnRJmXnO6IweO9cucbS1G2R/qlgmQQw2whsHVhkaZE=;
+ b=UTzyJPNqpQqlyXniKbEloNDMOAKtEzXo39ufOq2/p2LTGqGhnK6MkV2V9fkPJD2r22
+ NPnwbwi97+oSRoYuogSJv9h5Bz8OpUuRd0iz352HrYMdrjmj8BTZT7MUPkyV3dcbY6zv
+ ozosodw0hFBxX28fIwsufXWifPX3wpsBFSL2kpaFd/q8zm30NWdMvKdZHKEg2d8YcGUv
+ bj/uNI3gvnUZn9O0iELpCdeWmnCgHoKtTrXmhXRulwklPVHFOXuRyZnrolYqI88VX6fU
+ bSlvYasapLp45T7KuljWM6j+eDGsJ/Zzz4pZm/FeKO8JtpHY9JDvaP/aJQVgz0URSMOQ
+ aOsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OBBHRjdd80h8GtLACN+1yFyC+k5vRKdVFPA1E7huKbI=;
- b=KxDG6RsGz7x/xXd2CwMflNkkFLY4+6AWqueB2OOFMUwkHl61cnSZzgQQpkk9YZ/xTF
- lDxj+e/BkUVc///GbFJC4vyZugrrkCMc9Q7yCJc0PdkhxbkRMf3we0uZvwfwFu1a2Feu
- 6KiI77Mzxm0ZXhPCwH9GTaZlt1Swb45YwVbi93oJUHo9Ht8uxV/GTtl5ismaJK7/PHzu
- 952ziW0vn865YPKe64SKqf4LYe3A7SywS5eLQFIhI4IhhuQv5uCIjcN4bO0wWgJDPXZ1
- dEc9x/6T9e2XO6GLYvZ+QkxGB+p6wp+my2YjYbqeeXaDMJkOPjtZtFf1Rq9dgjhxcdbS
- sKrg==
-X-Gm-Message-State: APjAAAVt10iYrVvrdhxbw+TMTBvFPfP5E/ntadTJhRetMSQII797eMsl
- FFd9pykSetkWp+VQF7rQMZKZLAicVSfu8w==
-X-Google-Smtp-Source: APXvYqwF8AR7LyDXP84gYasKjIsrc5E3BFRmgLhvzQthdDZcpB6Nt+We8Wst4WonzMY1TMW6MbFqHw==
-X-Received: by 2002:a1c:2504:: with SMTP id l4mr5770429wml.72.1582907950410;
- Fri, 28 Feb 2020 08:39:10 -0800 (PST)
+ bh=7pnRJmXnO6IweO9cucbS1G2R/qlgmQQw2whsHVhkaZE=;
+ b=eF8AktvlFi+BKE+weRlq/GcOSyJ66RjiBjWC8GEL1THB1ggyDOGl5WeR4GeLNfNOdf
+ nqOiegAfOD4rU18yIYdN05MiXq3VwVIQrC86YU/okFyPq+dg3WR4BzGuzxsWmFsMxPVM
+ HG8Eb0ppDtSDKfsf11oXy3lvvUYK+vF6OeGvL6Jz6fWc5zBRw8NATxxt8uEbHp3ixdW5
+ fnNgV9Ur/1ymoyNsSjo4fFwzvRXpMRjrgc56OpXN58ub82qrnN27pKYJixVOj5rueDps
+ xuQf/Kb3gsfNtogmBlh407UxX92U3n7yT5TnG2+o34/zZKq/C9cxFZhRyFVEo8jv4ZGV
+ twaQ==
+X-Gm-Message-State: APjAAAUzsHHSs6xOm+cc3mupeFkbexC61kL/hTBk0CMWbaG1IXctbsaC
+ RYRCPS9v8wjL0JfXtQzoy7JKhVESHCCysw==
+X-Google-Smtp-Source: APXvYqwc6DYlF7hCRuwxyonVI3wnlvADI2R3tbkx2C2e4xdIXmLcjGa4w9N0VITc7OjFlIc4ANA7Xw==
+X-Received: by 2002:adf:9521:: with SMTP id 30mr5484988wrs.349.1582907951611; 
+ Fri, 28 Feb 2020 08:39:11 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.09
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.39.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:39:09 -0800 (PST)
+ Fri, 28 Feb 2020 08:39:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/33] hw/usb/hcd-ehci-sysbus: Remove obsolete xlnx,
- ps7-usb class
-Date: Fri, 28 Feb 2020 16:38:31 +0000
-Message-Id: <20200228163840.23585-25-peter.maydell@linaro.org>
+Subject: [PULL 25/33] tests/acceptance: Add a test for the N800 and N810 arm
+ machines
+Date: Fri, 28 Feb 2020 16:38:32 +0000
+Message-Id: <20200228163840.23585-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,54 +83,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+From: Thomas Huth <thuth@redhat.com>
 
-Xilinx USB devices are now instantiated through TYPE_CHIPIDEA,
-and xlnx support in the EHCI code is no longer needed.
+Old kernels from the Meego project can be used to check that Linux
+is at least starting on these machines.
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20200215122354.13706-3-linux@roeck-us.net
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200225172501.29609-2-philmd@redhat.com
+Message-Id: <20200129131920.22302-1-thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/usb/hcd-ehci-sysbus.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ MAINTAINERS                          |  1 +
+ tests/acceptance/machine_arm_n8x0.py | 49 ++++++++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 tests/acceptance/machine_arm_n8x0.py
 
-diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
-index b22fb258be7..5b7991cffe4 100644
---- a/hw/usb/hcd-ehci-sysbus.c
-+++ b/hw/usb/hcd-ehci-sysbus.c
-@@ -115,22 +115,6 @@ static const TypeInfo ehci_platform_type_info = {
-     .class_init    = ehci_platform_class_init,
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b66c46dcb9f..264374adbe8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -686,6 +686,7 @@ F: hw/rtc/twl92230.c
+ F: include/hw/display/blizzard.h
+ F: include/hw/input/tsc2xxx.h
+ F: include/hw/misc/cbus.h
++F: tests/acceptance/machine_arm_n8x0.py
  
--static void ehci_xlnx_class_init(ObjectClass *oc, void *data)
--{
--    SysBusEHCIClass *sec = SYS_BUS_EHCI_CLASS(oc);
--    DeviceClass *dc = DEVICE_CLASS(oc);
--
--    set_bit(DEVICE_CATEGORY_USB, dc->categories);
--    sec->capsbase = 0x100;
--    sec->opregbase = 0x140;
--}
--
--static const TypeInfo ehci_xlnx_type_info = {
--    .name          = "xlnx,ps7-usb",
--    .parent        = TYPE_SYS_BUS_EHCI,
--    .class_init    = ehci_xlnx_class_init,
--};
--
- static void ehci_exynos4210_class_init(ObjectClass *oc, void *data)
- {
-     SysBusEHCIClass *sec = SYS_BUS_EHCI_CLASS(oc);
-@@ -267,7 +251,6 @@ static void ehci_sysbus_register_types(void)
- {
-     type_register_static(&ehci_type_info);
-     type_register_static(&ehci_platform_type_info);
--    type_register_static(&ehci_xlnx_type_info);
-     type_register_static(&ehci_exynos4210_type_info);
-     type_register_static(&ehci_tegra2_type_info);
-     type_register_static(&ehci_ppc4xx_type_info);
+ Palm
+ M: Andrzej Zaborowski <balrogg@gmail.com>
+diff --git a/tests/acceptance/machine_arm_n8x0.py b/tests/acceptance/machine_arm_n8x0.py
+new file mode 100644
+index 00000000000..e5741f2d8d1
+--- /dev/null
++++ b/tests/acceptance/machine_arm_n8x0.py
+@@ -0,0 +1,49 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# Copyright (c) 2020 Red Hat, Inc.
++#
++# Author:
++#  Thomas Huth <thuth@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import os
++
++from avocado import skipUnless
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
++
++class N8x0Machine(Test):
++    """Boots the Linux kernel and checks that the console is operational"""
++
++    timeout = 90
++
++    def __do_test_n8x0(self):
++        kernel_url = ('http://stskeeps.subnetmask.net/meego-n8x0/'
++                      'meego-arm-n8x0-1.0.80.20100712.1431-'
++                      'vmlinuz-2.6.35~rc4-129.1-n8x0')
++        kernel_hash = 'e9d5ab8d7548923a0061b6fbf601465e479ed269'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        self.vm.set_console(console_index=1)
++        self.vm.add_args('-kernel', kernel_path,
++                         '-append', 'printk.time=0 console=ttyS1')
++        self.vm.launch()
++        wait_for_console_pattern(self, 'TSC2005 driver initializing')
++
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_n800(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:n800
++        """
++        self.__do_test_n8x0()
++
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_n810(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:n810
++        """
++        self.__do_test_n8x0()
 -- 
 2.20.1
 
