@@ -2,103 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B2C1736A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:55:16 +0100 (CET)
-Received: from localhost ([::1]:45904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DE91736C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 13:00:50 +0100 (CET)
+Received: from localhost ([::1]:45986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7eEd-0004m8-Cv
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:55:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
+	id 1j7eK1-0002Tv-CF
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 07:00:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j7eDG-00033B-4F
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:53:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7e8b-0002DV-L0
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j7eDE-0003mi-0K
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:53:49 -0500
-Received: from mail-am6eur05on2099.outbound.protection.outlook.com
- ([40.107.22.99]:49504 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j7eDA-0003hU-9V; Fri, 28 Feb 2020 06:53:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KVgRcqfsQOkPA77TYDjt+gSX9rspg7LkjZOxuZ5axU2fw9DHyYp5wDy2boI0OZD/0QrIDNJHbq3UaNnDeDDGgnN/rberH7fyrGT/SIXOTQOEWchA7YODV9RTvwYvqTdgbBapU7n8WeA/d+Aphn1kSc20j9vTHKXD2+bbKfUC4IzOf/auz9HZvjUXJ8wF24+QZvXvNmNINW+LtmKsuAwdXQPEZQI4KA90gsFid98/I45pjwp2bkKF+v771QyY0oPArReYgQcz5ozLEcy4UhRpzG2td/vp99dJn10S3y6iPWgRHCpVKWrJJUW9V/PgaCUCPy4h+FsHpmwVmIXmmmAv7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KUewHQvsDbmVSf8cZLgv17DV50R/4Bpg6jsobpBUlU8=;
- b=EVktIspqzICk18PBtKVZT8ulWzCtnuHkKm59zC/ttOlWcRQikD5ACRgNgzBAvbOuun7BiLbSju90icMwXm+aYZVCMXVHy8YbkHlnK5OqnFe2hAkjGIU4544frPxyLW/SJRrimOOLiMKVlsr6xS12Fzr4RokytbC2GWGKrE/wC7IH6uM4dumVv0VHVsg4MiYzdGSMCCeztVMWllXt1OifN/dO2rj11aIWpSxdsQ1HTpFO615PwwbCaJkLlH9B2hVwEQjiCbSluWD9VlM6cdKsFDR+GKdyuw8FzAghVBRXS0DI/7BrxJrqh8aGaLNLc2IJGhLv7PXxi7rFfTXYiMDtFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KUewHQvsDbmVSf8cZLgv17DV50R/4Bpg6jsobpBUlU8=;
- b=srYt+6vh2ZDZyAWVD3uhAYJlP+aINFcm2b6zOe/n8N1PuToeQ3hZ9JIKMjbwco5VDLO+O9gTPI1LFUJS8ebM1J4UFKpQ5XMsDn9z03FmTtBxkBJipZwk9Xd1RJj91FcPJka+kMW6DNmaF1YNXJHHE0+a6HyIraAG/6bh0xU4l1E=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=dplotnikov@virtuozzo.com; 
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
- AM0PR08MB3890.eurprd08.prod.outlook.com (20.178.82.223) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2772.15; Fri, 28 Feb 2020 11:53:40 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::9875:c099:713b:8219]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::9875:c099:713b:8219%4]) with mapi id 15.20.2772.012; Fri, 28 Feb 2020
- 11:53:40 +0000
-Subject: Re: [PATCH v1 4/8] iotests: filter out compression_type
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200227072953.25445-1-dplotnikov@virtuozzo.com>
- <20200227072953.25445-5-dplotnikov@virtuozzo.com>
- <e3a3a3b1-8cd0-fa26-c5a3-46065c5888fe@redhat.com>
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <1a256e60-1c92-0402-38f1-e4f5c09d1bd2@virtuozzo.com>
-Date: Fri, 28 Feb 2020 14:53:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <e3a3a3b1-8cd0-fa26-c5a3-46065c5888fe@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-ClientProxiedBy: HE1PR0501CA0004.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::14) To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
+ (envelope-from <philmd@redhat.com>) id 1j7e8Z-0001fH-Ub
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:49:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56528
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e8Z-0001el-Qd
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582890538;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0EjffDBHi226hzTHZyYKDBY0an4Sy/NVV/eLW24fAuA=;
+ b=MtSCFbdATYHb6iDoakdBJ16AWdklLr7PaqR/D2//3Kl8NEtuYv/pTycyUhCESjL3VajwCc
+ r78IhveISEnBXJom5CA9W19JJ02fTIBJjXbsEah5hlAHcKwfX6IsqL8sRjW3XyoCm/Ju39
+ p9/e9k6OUKRhBdRk5j+crSUwmHN5yBk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-UfNw6tDUPeuSHwUYX0vK8w-1; Fri, 28 Feb 2020 06:48:55 -0500
+X-MC-Unique: UfNw6tDUPeuSHwUYX0vK8w-1
+Received: by mail-wm1-f70.google.com with SMTP id r19so1060080wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BPdxKBjgOkVXpave73Lu3/06gouy+pZ7PYERljGC+KE=;
+ b=ImASRwvT/BpUft/lEOncSF1wCByeFGJHS2cY16k/HPp5UK4iq8Uy1VIZP6ViaYqBv7
+ GIYwCgMYn8qTnXxJhd/ADnbyHzw3Q7e9hft51PR1ii1RoBCvHlhHtZCUg+YOlPJUMqmL
+ ff4Hr6CEeQ8WwebQ+intUB/A2J7QgsNftmkauyDP/vbla1zqhhi2QX0wRJ18NXx41S8e
+ B9mofo1d98ENaLsd4LMioG3e9xo9fvELbH4K0OwrVn1X+OE+q6ri0sMaflD8lLaRB1Xp
+ 5f3olIwCdO3OLbFge62JR04+aLuFrTD18moDbsqd8lmBdkrK19HEHvSf/2GW3c85QbXe
+ M+ww==
+X-Gm-Message-State: APjAAAV5mvgnmy6vr2Fk11cydSrdN5Q/FKhWv9JLq2PrzaYzv6g2Ur2q
+ scgaM13QL5YThhPa0RnODC80hnPIyHNfoHS9HH5TlcEJCEcuNef0qRwTw9Cbgjk2cqZk7Bs/meR
+ /ZTs1vJj6vyu3QUA=
+X-Received: by 2002:a05:6000:110b:: with SMTP id
+ z11mr4639896wrw.252.1582890534149; 
+ Fri, 28 Feb 2020 03:48:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy//wMIiuctKGtFr41xfgEgf5isK9uuTADKNwt1zPFLxAqJZPIfd7EY0Bb+5FjTtOpyr+fLHg==
+X-Received: by 2002:a05:6000:110b:: with SMTP id
+ z11mr4639875wrw.252.1582890533948; 
+ Fri, 28 Feb 2020 03:48:53 -0800 (PST)
+Received: from x1w.moovbox.local ([185.102.219.36])
+ by smtp.gmail.com with ESMTPSA id 133sm2082799wmd.5.2020.02.28.03.48.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 03:48:53 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 16/18] hw/i386: Include "hw/mem/nvdimm.h"
+Date: Fri, 28 Feb 2020 12:46:47 +0100
+Message-Id: <20200228114649.12818-17-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200228114649.12818-1-philmd@redhat.com>
+References: <20200228114649.12818-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (178.34.162.229) by
- HE1PR0501CA0004.eurprd05.prod.outlook.com (2603:10a6:3:1a::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2772.14 via Frontend Transport; Fri, 28 Feb 2020 11:53:39 +0000
-X-Originating-IP: [178.34.162.229]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 22ef5659-036d-4ce0-8e49-08d7bc44da3a
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3890:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB3890AB900E72F30A612AF90DCFE80@AM0PR08MB3890.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:849;
-X-Forefront-PRVS: 0327618309
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(376002)(346002)(366004)(136003)(39850400004)(396003)(189003)(199004)(81166006)(8936002)(81156014)(6486002)(4326008)(478600001)(53546011)(5660300002)(186003)(16526019)(31696002)(8676002)(26005)(31686004)(36756003)(2616005)(956004)(107886003)(316002)(16576012)(52116002)(66476007)(66556008)(66946007)(86362001)(2906002)(6666004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3890;
- H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PoD5hxOKpvixvS5SOxJFLAxLGApDUVvrEMNJqX6YWRlybekNFjd9ZrImlsnY0dnW0gxJIc+fSUDYoEQGCq+WsX/PhH/XY63Ez5mtJIlfVCbAEda4pcLViB+y+NU5fB6mpVMq5r9YdvXcVZxV8NpxAXnn9AXgRypdFIWOSCLEybnNrihMnPtCFFZ9xCXF7/4RUQtAP1utJBn8020lxznTOfwoY0psJyYy7L/4pvyv/3AcWF0qWQ/Y2Nc2NtlZ/xLvyYNAxwDDaZC9PcqoUQ6xeaezCY2gPb75O1shZhWWYRgHoLkrZG53slLj3Ubjm/v7+JYJfUrCf2hXLYP8g+XRPyS9+NGfhwh1chazdHGpSw992stCHPmp/hEAj4WvBnzmkZoq2r0A7oc+nVxOkczQJrnhUILK4RLnJF4+mx9s6TxhyzHPKoPdRGiMGdvKZ54K
-X-MS-Exchange-AntiSpam-MessageData: lLvCX/ycFK48WrhvrRifsNnbjmwCicx4v2vTb2jHgRTYFwDLEoV17ogvuPcudT+P93WP8n1TvCETae4bzH8zUPSfrwuFbiaUY5X+CWmCelikntVWFoput/ms+bXyWMkJu3gsL8aWCEXmN3w81SqTYg==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22ef5659-036d-4ce0-8e49-08d7bc44da3a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2020 11:53:40.2682 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F+6xk/QE/L5abhoT5NKeI5qOeZeRkduQbMmark9jeiTCPMDs98Rt78avprtbxB7xJuTZ9XmQwZq6Gme9ZyPsmKLO9dXuid159KHAYlLY9HQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3890
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.22.99
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,58 +89,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All this files use methods/definitions declared in the NVDIMM
+device header. Include it.
 
+This fixes (when modifying unrelated headers):
 
-On 27.02.2020 17:03, Eric Blake wrote:
-> On 2/27/20 1:29 AM, Denis Plotnikov wrote:
->> After adding compression type feature to qcow2 format, qemu framework
->> commands reporting the image settingd, e.g. "qemu-img create", started
->
-> settings
->
->> reporting the compression type for the image which breaks the iotests
->> output matching.
->>
->> To fix it, add compression_type=3Dzlib to the list of filtered image=20
->> parameters.
->>
->> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
->> ---
->> =A0 tests/qemu-iotests/common.filter | 3 ++-
->> =A0 1 file changed, 2 insertions(+), 1 deletion(-)
->
-> This should be squashed in to the patch that caused the breakage (3/8,=20
-> if I'm right).
->
->>
->> diff --git a/tests/qemu-iotests/common.filter=20
->> b/tests/qemu-iotests/common.filter
->> index 3f8ee3e5f7..c6962d199c 100644
->> --- a/tests/qemu-iotests/common.filter
->> +++ b/tests/qemu-iotests/common.filter
->> @@ -152,7 +152,8 @@ _filter_img_create()
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 -e "s# refcount_bits=3D[0-9]\\+##g" \
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 -e "s# key-secret=3D[a-zA-Z0-9]\\+##g" \
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 -e "s# iter-time=3D[0-9]\\+##g" \
->> -=A0=A0=A0=A0=A0=A0=A0 -e "s# force_size=3D\\(on\\|off\\)##g"
->> +=A0=A0=A0=A0=A0=A0=A0 -e "s# force_size=3D\\(on\\|off\\)##g" \
->> +=A0=A0=A0=A0=A0=A0=A0 -e "s# compression_type=3Dzlib##g"
->
-> Do you really want to hard-code just zlib, or should this be more=20
-> generic as compression_type=3D[a-zA-Z0-9]\\+ as done on other lines like=
+  hw/i386/acpi-build.c:2733:9: error: implicit declaration of function 'nvd=
+imm_build_acpi' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+        nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+        ^
+  hw/i386/pc.c:1996:61: error: use of undeclared identifier 'TYPE_NVDIMM'
+    const bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
+                                                            ^
+  hw/i386/pc.c:2032:55: error: use of undeclared identifier 'TYPE_NVDIMM'
+    bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
+                                                      ^
+  hw/i386/pc.c:2040:9: error: implicit declaration of function 'nvdimm_plug=
+' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+        nvdimm_plug(ms->nvdimms_state);
+        ^
+  hw/i386/pc.c:2040:9: error: this function declaration is not a prototype =
+[-Werror,-Wstrict-prototypes]
+        nvdimm_plug(ms->nvdimms_state);
+        ^
+  hw/i386/pc.c:2065:42: error: use of undeclared identifier 'TYPE_NVDIMM'
+    if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
+                                         ^
+  hw/i386/pc_i440fx.c:307:9: error: implicit declaration of function 'nvdim=
+m_init_acpi_state' is invalid in C99 [-Werror,-Wimplicit-function-declarati=
+on]
+        nvdimm_init_acpi_state(machine->nvdimms_state, system_io,
+        ^
+  hw/i386/pc_q35.c:332:9: error: implicit declaration of function 'nvdimm_i=
+nit_acpi_state' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+        nvdimm_init_acpi_state(machine->nvdimms_state, system_io,
+        ^
+
+Acked-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/i386/acpi-build.c | 1 +
+ hw/i386/pc.c         | 1 +
+ hw/i386/pc_piix.c    | 1 +
+ hw/i386/pc_q35.c     | 1 +
+ 4 files changed, 4 insertions(+)
+
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 9c4e46fa74..9335a82e9f 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -47,6 +47,7 @@
+ #include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/mem/memory-device.h"
++#include "hw/mem/nvdimm.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
 =20
-> key-secret?
-When I did this I meant additional implicit check that the default=20
-compression type is zlib. But non of the other items in the filter don't=20
-do it. So I'll change it to be consistent. Thanks!
-
-Denis
->
->
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 6ab4acb0c6..362eb2a180 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -76,6 +76,7 @@
+ #include "hw/boards.h"
+ #include "acpi-build.h"
+ #include "hw/mem/pc-dimm.h"
++#include "hw/mem/nvdimm.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-common.h"
+ #include "qapi/visitor.h"
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index fa12203079..82f1693901 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -60,6 +60,7 @@
+ #include "migration/global_state.h"
+ #include "migration/misc.h"
+ #include "sysemu/numa.h"
++#include "hw/mem/nvdimm.h"
+=20
+ #define MAX_IDE_BUS 2
+=20
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 84cf925cf4..d37c425e22 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -53,6 +53,7 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/numa.h"
++#include "hw/mem/nvdimm.h"
+=20
+ /* ICH9 AHCI has 6 ports */
+ #define MAX_SATA_PORTS     6
+--=20
+2.21.1
 
 
