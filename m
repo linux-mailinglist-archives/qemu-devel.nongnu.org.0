@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EF9173674
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:53:09 +0100 (CET)
-Received: from localhost ([::1]:45858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318021736B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 12:58:04 +0100 (CET)
+Received: from localhost ([::1]:45960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7eCZ-0000SF-VY
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:53:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41565)
+	id 1j7eHL-0000c2-9o
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 06:58:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41591)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j7e88-0001Z5-L2
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:36 -0500
+ (envelope-from <philmd@redhat.com>) id 1j7e8C-0001b6-Oq
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j7e87-0001YA-CD
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27183
+ (envelope-from <philmd@redhat.com>) id 1j7e88-0001Yp-JZ
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39214
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e86-0001Xe-5L
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:30 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j7e88-0001Y0-1G
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 06:48:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582890509;
+ s=mimecast20190719; t=1582890510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a2Kfw5nEVFcSKCWzcOhteR6YpW54ZFAnQQKQBI2MXqg=;
- b=Tuyo18zFbKQAqU6TuN/qAMGMP2b17He54fHcdkzIso9H8s30HAV9fjMJhy2IfyzYEXjz1c
- P0+aUo5rZSHy9d454ih/iRR/DD+nVWKXsNZMjE9QjO+wTLFPstKgWyG+o4aAP4QY2lpaO0
- zM0YJjiQbKkmdCn6TUYcrOX2Qi3laC4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-_Dos33FHPzKrxCrBLO2oAA-1; Fri, 28 Feb 2020 06:48:27 -0500
-X-MC-Unique: _Dos33FHPzKrxCrBLO2oAA-1
-Received: by mail-wr1-f72.google.com with SMTP id z1so1226120wrs.9
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:27 -0800 (PST)
+ bh=cEF3Qmm6bE7IZabHdbGWU2GA8rYBohVngOoUCB4NjXg=;
+ b=ZxjEki9NILGxicYSVqdKrkAdZr8RnB1JOAOlo7H5PhKEJDa8pEbMOXL5jB/tv3YaBpEoUG
+ cV9Zj1SXrkqYZF8lR/ViHW4MLMwVPvhybAgXKBoNyysFJaKToF89GCUu9QyRoTSwAa6ITZ
+ fmTvKpSRph6vFY9vU/dDDs0v3E7RqX8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-Q77IFNMoOo2szqezyUf37w-1; Fri, 28 Feb 2020 06:48:29 -0500
+X-MC-Unique: Q77IFNMoOo2szqezyUf37w-1
+Received: by mail-wr1-f71.google.com with SMTP id d9so1211915wrv.21
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 03:48:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UifnvwpH88RzXCfeYrjEOymeXNUW1ByC1YLamNivAUM=;
- b=cMy7ck6/YQfpQlXX8T0bwlosi3NDZpJBTMp9ej5Xn/zX6szqSNgH3UTFT5NC4u7GMN
- ljAsENUCwOiMX4RqfpNFRU5GtHEZ7oVdb7YwjLWiUw+r0b2/l7xrVIbM1eXkcS5eC8CD
- jH5YBCykx7kw5l42Re5pn2HI4WNohP83k/L2S9BRzpL4tJ4BxShC+mNT+pf8F5pIEWii
- CBrNcNfdHiIvm62WaMTq3Oy2I8EAdoRpRMQdgVlxGUhlPbdcI+wl0mJV3haK2IanLVCH
- yyayPKXSXSnKuC19Gdd8iUCABmwAJrJ6rIGBcf+HsEIYoFnDB2dIfVcnkZqKJeRd3Nsl
- xGKQ==
-X-Gm-Message-State: APjAAAWoU2nkssTPdS4FJ25Vn/ro7tcpgu1/ksVdML41Um4q3nNAcu/c
- +PHVBq0naCuf0Q02cMrwtaVEoq6vHOJX5iTiaGs+k4Krh8vAj5yTAVV7PrLYPQ61VOFi3bzIMDR
- yvOqfIet2N0IcT0k=
-X-Received: by 2002:a05:6000:1142:: with SMTP id
- d2mr4433722wrx.62.1582890505822; 
- Fri, 28 Feb 2020 03:48:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw/YOGrrKpPqdBU/A8oP0QeSk83ur85tLpWBnJ8ZzExIf0wpFgLDVPZSkRhqNA7dkInB/MwmQ==
-X-Received: by 2002:a05:6000:1142:: with SMTP id
- d2mr4433710wrx.62.1582890505589; 
- Fri, 28 Feb 2020 03:48:25 -0800 (PST)
+ bh=6DEmu3UhSlAtdyxITMuOrN+F2EwIEtEtHDhOq1i9rRk=;
+ b=Jtb/6iAjQwftPMFbe6SenTXierSiSak3CsoJbMY7za1NTkXO/03t0E5IhzriBXnuLS
+ BiOQfMO6J2VgB6e72BDsLEel8o4KAGtDp/gSMVNXrMTaM7eWCUCQgJWs0yA2SOF64+0c
+ 6ZfGYa4ojeK7ephGtmNdigdJ+5OZAhLcg2g9cfLpS6kdMpwhh2IsGMs2jr4EH7/9t4fw
+ jO40pcLj5u5lhr3EDi+2YMnuVpxMYd83igWyfJk1i2vRtg8+EhGNIZlcz1jWW4xr3Srf
+ Osx9aiknYGNW01HC3/U4d1EgpyZa0RPxFTikRmV+gO0TUQJxe4EpOariPjRPMXPzXhqJ
+ OHPQ==
+X-Gm-Message-State: APjAAAXKI4nz0BZUrQ4+kBy0Lm4BVsBZkAMpAFmf8+qIiFjbIXtU4lB8
+ APQOWGHfLx2vlmI7qDCwPAw661AiOChQioe9We2DAZcX6A810Q2XYXVStpnpYxz5YAl9R5UG6ln
+ C3HWCcXl5AWYOT6c=
+X-Received: by 2002:a5d:4807:: with SMTP id l7mr4517283wrq.250.1582890507730; 
+ Fri, 28 Feb 2020 03:48:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyNYVNMWTQjegzutGFS+8XkogW6S5ZGVDfIKgqyfXf0BvGfRQWXe6SPhJap5Z/7qIyfYFZGOA==
+X-Received: by 2002:a5d:4807:: with SMTP id l7mr4517268wrq.250.1582890507564; 
+ Fri, 28 Feb 2020 03:48:27 -0800 (PST)
 Received: from x1w.moovbox.local ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id a7sm1736226wmj.12.2020.02.28.03.48.23
+ by smtp.gmail.com with ESMTPSA id a7sm1736226wmj.12.2020.02.28.03.48.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 03:48:25 -0800 (PST)
+ Fri, 28 Feb 2020 03:48:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/18] hw/i2c/smbus_ich9: Include "qemu/range.h"
-Date: Fri, 28 Feb 2020 12:46:44 +0100
-Message-Id: <20200228114649.12818-14-philmd@redhat.com>
+Subject: [PATCH v2 14/18] hw/pci-host/piix: Include "qemu/range.h"
+Date: Fri, 28 Feb 2020 12:46:45 +0100
+Message-Id: <20200228114649.12818-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200228114649.12818-1-philmd@redhat.com>
 References: <20200228114649.12818-1-philmd@redhat.com>
@@ -77,7 +75,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,34 +94,54 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw/i2c/smbus_ich9.c calls range_covers_byte(). Include "qemu/range.h"
-which declares it.
+hw/pci-host/piix.c calls various functions from the Range API.
+Include "qemu/range.h" which declares them.
 
 This fixes (when modifying unrelated headers):
 
-  hw/i2c/smbus_ich9.c:66:9: error: implicit declaration of function 'range_=
-covers_byte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      if (range_covers_byte(address, len, ICH9_SMB_HOSTC)) {
+  hw/pci-host/i440fx.c:54:11: error: field has incomplete type 'Range' (aka=
+ 'struct Range')
+      Range pci_hole;
+           ^
+  include/qemu/typedefs.h:116:16: note: forward declaration of 'struct Rang=
+e'
+  typedef struct Range Range;
+                 ^
+  hw/pci-host/i440fx.c:126:9: error: implicit declaration of function 'rang=
+es_overlap' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+      if (ranges_overlap(address, len, I440FX_PAM, I440FX_PAM_SIZE) ||
           ^
+  hw/pci-host/i440fx.c:126:9: error: this function declaration is not a pro=
+totype [-Werror,-Wstrict-prototypes]
+  hw/pci-host/i440fx.c:127:9: error: implicit declaration of function 'rang=
+e_covers_byte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+          range_covers_byte(address, len, I440FX_SMRAM)) {
+          ^
+  hw/pci-host/i440fx.c:127:9: error: this function declaration is not a pro=
+totype [-Werror,-Wstrict-prototypes]
+  hw/pci-host/i440fx.c:189:13: error: implicit declaration of function 'ran=
+ge_is_empty' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+      val64 =3D range_is_empty(&s->pci_hole) ? 0 : range_lob(&s->pci_hole);
+              ^
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/i2c/smbus_ich9.c | 1 +
+ hw/pci-host/i440fx.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-index fd50fb851a..48f1ff4191 100644
---- a/hw/i2c/smbus_ich9.c
-+++ b/hw/i2c/smbus_ich9.c
-@@ -21,6 +21,7 @@
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 11050a0f8b..d980c97049 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -23,6 +23,7 @@
   */
 =20
  #include "qemu/osdep.h"
 +#include "qemu/range.h"
- #include "hw/i2c/pm_smbus.h"
+ #include "hw/i386/pc.h"
  #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
+ #include "hw/pci/pci_host.h"
 --=20
 2.21.1
 
