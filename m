@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA94173FE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 19:44:58 +0100 (CET)
-Received: from localhost ([::1]:52500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9754D173FE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 19:46:01 +0100 (CET)
+Received: from localhost ([::1]:52544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7kd7-0000Yh-Lq
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 13:44:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33645)
+	id 1j7ke8-00025s-Lj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 13:46:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33860)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1j7kcF-00009J-C9
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:04 -0500
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1j7kck-0000bu-MT
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1j7kcD-0006pw-Pt
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:03 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:57576)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1j7kcj-0007XH-Jk
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:34 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:59194)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1j7kcD-0006oj-Fg
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:01 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01SIhooW175244;
- Fri, 28 Feb 2020 18:43:50 GMT
+ id 1j7kcj-0007Td-Aa
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 13:44:33 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01SIgmFq134056;
+ Fri, 28 Feb 2020 18:44:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
  in-reply-to; s=corp-2020-01-29;
- bh=+2NwSY1NnfWQu7d5e9sHla60MTqCJtUZOP0O87MQn2o=;
- b=c6O6Y7pGzXvht5A3UosDEul4ErSUp0UhhZ3WSMy5q4W8x+tuLpLdv702TQsJ6YLTZtc2
- c2rjlnx/JmmzLZzJlviquRC6GFsxtvvaAU7kdfyygK+uU5eP/wyMrdJqxh9LreAEliXa
- w3fYHu21ZUUE+V1LTc0y7tf4hHN8tRvz4cwlCFNMf+BjUbWeJkTT89uqiFayZ7H+XMtA
- Ec6/qrwVHaVe/ji8FGbYVx+xIZnwENGmoFnoA+Gbszey++AuSXsCOxll2j8v7WS+rB7I
- 24v/fmCx8sipg6htrpxVeRta7kZxVV0s3Up1MuAyDTk8bdw3/qcu5kIhmJHwJlQFc4Va Tg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2yf0dmb0cv-1
+ bh=1CooSqxG8VqB2eEcRvUmmyjg9XI7Djeca1W76Buy2+4=;
+ b=Rk+jBbgY8IMsHiUCRCrSDUW/qKEmgYl74l5e0gu8ljuhczEtc9Mqgh+T4zoa2FrmQMMh
+ 16ttP0tVRZxFzO4wHuaa8qKk0LLsmhAVfa8WtodjC/LsbQ1z2SzrKPVHx5HZIn0z82us
+ Mf/expntZEtFT6EN7y0Ez2k1Cv0Vg2D+ebzxxyq4psUvCwZUqwHPp40dpdYfcUgm+S4j
+ Szj8RSi1qUM800iNYdw5RjySHANqPH7UooYV4mgn9AdfmYTopfGtbzLHqvw3OUfJOkSp
+ bH2o71FyvEwGNmBIY61elEs5smcQmCy0E050IFKGEOBGKm+okRXojwlQgauAhVGoJDxo Tw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2ydct3mn9k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Feb 2020 18:43:50 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01SIgi3D034799;
- Fri, 28 Feb 2020 18:43:49 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 2ydcsf9tyk-1
+ Fri, 28 Feb 2020 18:44:23 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01SIiMJ2177721;
+ Fri, 28 Feb 2020 18:44:23 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2ydj4rfu36-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Feb 2020 18:43:49 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01SIhkki001315;
- Fri, 28 Feb 2020 18:43:46 GMT
+ Fri, 28 Feb 2020 18:44:23 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01SIiKgv029483;
+ Fri, 28 Feb 2020 18:44:20 GMT
 Received: from flaka (/108.236.14.91) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 28 Feb 2020 10:43:45 -0800
-Date: Fri, 28 Feb 2020 10:43:44 -0800
+ with ESMTP ; Fri, 28 Feb 2020 10:44:18 -0800
+Date: Fri, 28 Feb 2020 10:44:11 -0800
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v5 50/50] multi-process: add configure and usage
- information
-Message-ID: <20200228184343.GB25838@flaka>
+Subject: Re: [PATCH v5 49/50] multi-process: add the concept description to
+ docs/devel/qemu-multiprocess
+Message-ID: <20200228184411.GC25838@flaka>
 References: <cover.1582576372.git.jag.raman@oracle.com>
- <bbba8cdef9f876ec6d194f3e1974347860eca732.1582576372.git.jag.raman@oracle.com>
- <20200227165804.GE315098@stefanha-x1.localdomain>
+ <b6a030f0a81a1129b853c30a4c10def606a53089.1582576372.git.jag.raman@oracle.com>
+ <20200227171140.GF315098@stefanha-x1.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200227165804.GE315098@stefanha-x1.localdomain>
+In-Reply-To: <20200227171140.GF315098@stefanha-x1.localdomain>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9545
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- bulkscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0 suspectscore=0
+ spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2002280137
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9545
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 clxscore=1015
- bulkscore=0 impostorscore=0 mlxscore=0 priorityscore=1501 phishscore=0
- spamscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ phishscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 clxscore=1015
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2002280137
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,134 +103,67 @@ Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 27, 2020 at 04:58:04PM +0000, Stefan Hajnoczi wrote:
-> On Mon, Feb 24, 2020 at 03:55:41PM -0500, Jagannathan Raman wrote:
-> > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On Thu, Feb 27, 2020 at 05:11:40PM +0000, Stefan Hajnoczi wrote:
+> On Mon, Feb 24, 2020 at 03:55:40PM -0500, Jagannathan Raman wrote:
+> > From: John G Johnson <john.g.johnson@oracle.com>
 > > 
+> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > > ---
-> >  docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 86 insertions(+)
-> >  create mode 100644 docs/qemu-multiprocess.txt
+> >  docs/devel/index.rst             |    1 +
+> >  docs/devel/qemu-multiprocess.rst | 1102 ++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 1103 insertions(+)
+> >  create mode 100644 docs/devel/qemu-multiprocess.rst
 > > 
-> > diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
+> > diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> > index 4dc2ca8..1a95871 100644
+> > --- a/docs/devel/index.rst
+> > +++ b/docs/devel/index.rst
+> > @@ -25,3 +25,4 @@ Contents:
+> >     tcg-plugins
+> >     bitops
+> >     reset
+> > +   multi-process
+> > diff --git a/docs/devel/qemu-multiprocess.rst b/docs/devel/qemu-multiprocess.rst
 > > new file mode 100644
-> > index 0000000..f156177
+> > index 0000000..477e246
 > > --- /dev/null
-> > +++ b/docs/qemu-multiprocess.txt
-> > @@ -0,0 +1,86 @@
-> > +Multi-process QEMU
-> > +==================
-> > +
-> > +This document describes how to configure and use multi-process qemu.
-> > +For the design document refer to docs/devel/qemu-multiprocess.
-> > +
-> > +1) Configuration
-> > +----------------
-> > +
-> > +To enable support for multi-process add --enable-mpqemu
-> > +to the list of options for the "configure" script.
-> > +
-> > +
-> > +2) Usage
-> > +--------
-> > +
-> > +To start qemu with devices intended to run in a separate emulation
-> > +process without libvirtd support, the following should be used on QEMU
-> > +command line. As of now, we only support the emulation of lsi53c895a
-> > +in a separate process
-> > +
-> > +* Since parts of the RAM are shared between QEMU & remote process, a
-> > +  memory-backend-file is required to facilitate this, as follows:
-> > +
-> > +  -object memory-backend-file,id=mem,mem-path=/dev/shm/,size=4096M,share=on
+> > +++ b/docs/devel/qemu-multiprocess.rst
+> > @@ -0,0 +1,1102 @@
+> > +Disaggregating QEMU
 > 
-> memory-backend-memfd is more convenient.  It doesn't require a mem-path
-> and share=on is the default.
+> Please revise this document and the patch series to use consistent
+> terminology.  At least "qemu-multiprocess.rst", "--enable-mpqemu", and
+> "disaggregated QEMU" are used to describe this feature (there are
+> probably more, I have only looked at 2 patches so far).
+> 
+> It's confusing for someone who stumbles across one of these terms and
+> then has to figure out that we're talking about the same thing when
+> encountering other terms later on.
+> 
+> Please use a single name and use it consistently.
 >
 
-Will change this. 
-> > +
-> > +* The devices to be emulated in the separate process are defined as
-> > +  before with addition of "rid" suboption that serves as a remote group
-> > +  identificator.
-> > +
-> > +  -device <device options>,rid="remote process id"
-> > +
-> > +  For example, for non multi-process qemu:
-> > +    -device lsi53c895a,id=scsi0 device
-> > +    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0
-> > +    -drive id=drive0,file=data-disk.img
-> > +
-> > +  and for multi-process qemu and no libvirt
-> > +  support (i.e. QEMU forks child processes):
-> > +    -device lsi53c895a,id=scsi0,rid=0
-> > +    -device scsi-hd,drive=drive0,bus=scsi0.0,scsi-id=0,rid=0
-> 
-> This approach is invasive:
->  * lsi53c895a should not need to be modified with a new rid= option.
->  * QEMU should not know about the scsi-hd device or drive0.  Only the
->    device emulation process needs to know about scsi-hd.
-> 
-> In order to cleanly separate QEMU and the device emulation process
-> syntax like this is needed:
-> 
->   -object remote-device,id=rid0,...
->   -device remote-pci-device,id=scsi0,remote-device=rid0
-> 
-> The "remote-device" object could be part of remote-pci-device, but
-> keeping it separate may be useful in the future in order to support
-> things like reconnection.
-> 
-> The generic "remote-pci-device" device handles any remote PCI device,
-> not just the LSI SCSI controller.
-> 
-> Do you agree with this approach?
-> 
 
-We discussed these changes and they seem to be along the lines with
-the future work on vfio over socket approach we will be working on later.
-
-Could we for this experimental version have the changes you propose here
-with one modification - instead of having generic remote-pci-device imply that that is LSI
-device? And while we work towards vfio over socket this will become any remote
-PCI device?
-
-> > +* The command-line options for the remote process are added to the "command"
-> > +  suboption of the newly added "-remote" option. 
+Thanks Stefan, will work on this. 
+> > +===================
 > > +
-> > +   -remote [socket],rid=0,exec="...",command="..."
+> > +QEMU is often used as the hypervisor for virtual machines running in the
+> > +Oracle cloud. Since one of the advantages of cloud computing is the
+> > +ability to run many VMs from different tenants in the same cloud
+> > +infrastructure, a guest that compromised its hypervisor could
+> > +potentially use the hypervisor's access privileges to access data it is
+> > +not authorized for.
+> > +
+> > +QEMU can be susceptible to security attack because it is a large,
 > 
-> QEMU has been using the -object TYPE syntax instead of adding new -TYPE
-> command-line options.  This gives you object_add hotplug for free, for
-> example.  I suggest using -object remote-device,id=,exec=,command=,
-> instead of -remote.
+> s/attack/attacks/
 > 
-
-We will add these changes.
-> > +
-> > +  The drives to be emulated by the remote process are specified as part of
-> > +  this command sub-option. The device to be used to connect to the monitor
-> > +  is also specified as part of this suboption.
-> > +
-> > +  For example, the following option adds a drive and monitor to the remote
-> > +  process:
-> > +  -remote rid=0,exec="qemu-scsi-dev",command="-drive id=drive0,,file=data-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-> > +
-> > +  Note: There's an issue with this "command" sub-option which we are in the
-> > +  process of fixing. To work around this issue, it requires additional
-> > +  "comma" characters as illustrated above, and in the example below.
+> > +monolithic program that provides many features to the VMs it services.
+> > +Many of these feature can be configured out of QEMU, but even a reduced
 > 
-> command= (which could be called args= for clarity) will be difficult to
-> use not just because of comma escaping but also because of double-quote
-> escaping.  How do you pass a command-line argument that contains spaces?
-
-Yes, this is not great. And spaces are the problem at the moment.
-I am looking if the -object has some properties that can allow for arbitrary
-strings. Maybe such as data for "secret" object  would do?
+> s/feature/features/
 
 
-Elena
 
