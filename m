@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FFB173BC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:41:41 +0100 (CET)
-Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFA3173BBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 16:41:12 +0100 (CET)
+Received: from localhost ([::1]:48776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7hlk-0001Dl-OU
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:41:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46757)
+	id 1j7hlH-0000UA-Rv
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 10:41:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hgw-0000iw-Ed
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:44 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hgw-0000iv-F1
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7hgu-0004p0-56
+ (envelope-from <peter.maydell@linaro.org>) id 1j7hgu-0004pD-E0
  for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:42 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54921)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56004)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7hgt-0004oO-Et
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:39 -0500
-Received: by mail-wm1-x343.google.com with SMTP id z12so3615476wmi.4
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:36:39 -0800 (PST)
+ id 1j7hgu-0004om-7o
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 10:36:40 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id q9so3601947wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 07:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UaTvLFF2sla3x9Bq9aCwNmzOCF0TuI8kL7k3k9rDRN8=;
- b=rxAZcbzqR+bumsaZDvSptHTgNbQcBfC7IKwHfUIbHHrUU9o7Mtgb5Ua01JFClufnad
- yq6Ar5O0WyDJDACxpHxK2OQBtkG9daOgWyxc/SFg2A64XR8hbiY4jBn50RT0n6583X58
- m9NMdExVt41lZuttpkKuso8/cyDS/g8hGz9ozlHvtRPX7oidvaFwZo2za3I60e10WIyL
- NbAEo1UupHqWCX7wmeGHuUbER03ljCwZqTUUZ2DWep+WRTC4Ba/6zT9t8q+4JXwGowAf
- 2fhRRpMquDuRxephghGvKOb2j+Y2VtUA8DRkJZ4qbMJPfWmQjKG9/UgKkgxuQzEoEuva
- b5dQ==
+ bh=5mqiLofDp/L60BXQJA+re7pBGl6lJhGCyMOeQLGbGDE=;
+ b=HgzPXx8ocuRr834uUW2Pv3p+GnMe2tnWC3Q8xTPJ0CbT3qdkXA4AYL7pcCi8UOpPkU
+ HOKvlI2z7gU+eYxmb8U3+zJBnDwpkFBSY23KhhHDfqKwAugSjQHK6Ltt6sw6AriClo0h
+ omL6EX8FJ5uMMPnE/0FnuwJA9Qs2lG+wW/teX19byhXeE5tBxE4WVut3rTgp8MtUG5/M
+ r68VJUpyM6JW/HoTZz6AuBNlRjMBNA+fxCVgT81eetXWdXKp08KHT45BDWq1Ta6Ctswp
+ Y1VWZS2HD6MCgZCbob6r/mE9bGCSXZQ9A3sVMVPaEKiqasgzs2UbPWvTQt1ZJqH+d6QM
+ fhSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UaTvLFF2sla3x9Bq9aCwNmzOCF0TuI8kL7k3k9rDRN8=;
- b=obj+AvOFpGweyv/C9qgUQZFNmwpuUZngO8HM6wnG3hZcPNyRikWydXMu41Pc2Rq4bL
- 0+6pNQKeFS+rcUyWQL1L3szr6SZkP8uuz9rhAVHTQhcYZchGwU5gBbFV0sXfb67BoHUl
- WNsxGpm5VnLBB5mu38Hj0k+OW8myPPgIQfSeXNhWx3qOFWp6Fmf+D3caqFK5JO/u+qjt
- B1KOYgQ7BMFP/k/2rxuhA3eUGyVxfzsQce+U5m49sle1v+CA+FCfEpPkLVYidDH6AR/W
- 4JKCUOqzqBB7C4c2yffhntDfVT9UqPmXDI8Bj1v+FMxYdAsjUxcrYQ18E7um/oMWv2QL
- Ermg==
-X-Gm-Message-State: APjAAAVlNX9MBpPN3NQvzCwGfACevxuofx4NEyFd2lt2ywKB8Dsb4a4T
- 7YXynjscWJ6AAqitlM0ePFjBaidRv5NkHg==
-X-Google-Smtp-Source: APXvYqxizyPdNuyLNhGi90D93rLwfEWDSHYrB1tKHJOTepVhrf12rV2rK9SjXXYsS6RmP7S38JrcmA==
-X-Received: by 2002:a7b:c08d:: with SMTP id r13mr5393508wmh.84.1582904197929; 
- Fri, 28 Feb 2020 07:36:37 -0800 (PST)
+ bh=5mqiLofDp/L60BXQJA+re7pBGl6lJhGCyMOeQLGbGDE=;
+ b=jluCA2Pgby0Y724wF0LzJXUb12wVvU2nVoEQ1PiG9C4jatjkxPRIY3GPXebwNSHdN0
+ DlVgT6fQYxi2XGykOk2xzyT9gMyULU6ucQLJ4t8nt19OCycBXyPuBAJsuwaNOqt7jJXG
+ VY6++4+S5Vx/jH7btPdGmiZylCXksizMc9USbEiUMyRl4RHUIaVMqly9HZyYZe8TZ9gP
+ spZEPtwUhxFdpOYGKj/MPRK/lKSLGXpmUh9UkMVRWDWjuro0m+0E2j8iX6yDrPISJYMX
+ CChPmOCUX6Ar3pizya6kbaj9ZnNdL0Vn2gLaVSlE+CU82/m0l0lHxIPTzmCIxEu+aFdb
+ 3nMw==
+X-Gm-Message-State: APjAAAXeUnyIt5N03BlR+98GySeNCNeVXSD1WQJs/AXtuCv7mb8o2Uy/
+ JbIPWpkGuWLBFLm7cVFtD81SY+AQ74qUSg==
+X-Google-Smtp-Source: APXvYqz5GwSuT7ztCitfhAN3YNUZtP6tuXx/XFFHtLNkim6Ji4sftz1J3BMaqCxX0AvJk+X25Q+hVQ==
+X-Received: by 2002:a1c:ddd7:: with SMTP id u206mr5219831wmg.164.1582904198992; 
+ Fri, 28 Feb 2020 07:36:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.36.36
+ by smtp.gmail.com with ESMTPSA id u23sm2659452wmu.14.2020.02.28.07.36.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 07:36:37 -0800 (PST)
+ Fri, 28 Feb 2020 07:36:38 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/33] qemu-doc: Remove the "CPU emulation" part of the
- "Implementation notes"
-Date: Fri, 28 Feb 2020 15:35:55 +0000
-Message-Id: <20200228153619.9906-10-peter.maydell@linaro.org>
+Subject: [PATCH v3 10/33] qemu-doc: move qemu-tech.texi into main section
+Date: Fri, 28 Feb 2020 15:35:56 +0000
+Message-Id: <20200228153619.9906-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228153619.9906-1-peter.maydell@linaro.org>
 References: <20200228153619.9906-1-peter.maydell@linaro.org>
@@ -66,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,199 +82,93 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "CPU emulation" part of the "Implementation notes" in
-qemu-tech.texi looks like it is documenting what features of various
-CPUs we do or don't emulate.  However:
- * it covers only six of our 21 guest architectures
- * the last time anybody updated it for actual content was in
-   2011/2012 for Xtensa; the content for the other five
-   architectures is even older, being from 2008 or before!
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-What we have is out of date, misleading and incomplete.
-Just delete this part of the document rather than trying to
-convert it to rST.
+The only remaining content in qemu-tech.texi is a few paragraphs
+about managed start up options.  Move them in the main section
+about full system emulation.
 
-(It would be nice eventually to have documentation of the
-scope and limitations of our emulation; but we will want to
-separate out the generic "system emulation" information from
-the parts that are specific to linux-user anyway, as they will
-be in different manuals.)
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200226113034.6741-10-pbonzini@redhat.com
-Message-Id: <20200225154121.21116-3-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: 20200226113034.6741-11-pbonzini@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qemu-tech.texi | 153 -------------------------------------------------
- 1 file changed, 153 deletions(-)
+ Makefile                                           | 2 +-
+ qemu-tech.texi => docs/system/managed-startup.texi | 9 +--------
+ qemu-doc.texi                                      | 5 ++---
+ 3 files changed, 4 insertions(+), 12 deletions(-)
+ rename qemu-tech.texi => docs/system/managed-startup.texi (92%)
 
-diff --git a/qemu-tech.texi b/qemu-tech.texi
-index 0380de77b62..35da6a40af1 100644
+diff --git a/Makefile b/Makefile
+index 9790a0fd15b..56382a45936 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1120,7 +1120,7 @@ txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+ 
+ qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
+ 	qemu-options.texi \
+-	qemu-tech.texi qemu-option-trace.texi \
++	qemu-option-trace.texi \
+ 	qemu-deprecated.texi qemu-monitor.texi \
+ 	qemu-monitor-info.texi \
+         docs/system/quickstart.texi \
+diff --git a/qemu-tech.texi b/docs/system/managed-startup.texi
+similarity index 92%
+rename from qemu-tech.texi
+rename to docs/system/managed-startup.texi
+index 35da6a40af1..ec168095cc4 100644
 --- a/qemu-tech.texi
-+++ b/qemu-tech.texi
-@@ -2,162 +2,9 @@
- @appendix Implementation notes
- 
- @menu
--* CPU emulation::
- * Managed start up options::
- @end menu
- 
--@node CPU emulation
--@section CPU emulation
++++ b/docs/system/managed-startup.texi
+@@ -1,11 +1,4 @@
+-@node Implementation notes
+-@appendix Implementation notes
 -
 -@menu
--* x86::     x86 and x86-64 emulation
--* ARM::     ARM emulation
--* MIPS::    MIPS emulation
--* PPC::     PowerPC emulation
--* SPARC::   Sparc32 and Sparc64 emulation
--* Xtensa::  Xtensa emulation
+-* Managed start up options::
 -@end menu
 -
--@node x86
--@subsection x86 and x86-64 emulation
--
--QEMU x86 target features:
--
--@itemize
--
--@item The virtual x86 CPU supports 16 bit and 32 bit addressing with segmentation.
--LDT/GDT and IDT are emulated. VM86 mode is also supported to run
--DOSEMU. There is some support for MMX/3DNow!, SSE, SSE2, SSE3, SSSE3,
--and SSE4 as well as x86-64 SVM.
--
--@item Support of host page sizes bigger than 4KB in user mode emulation.
--
--@item QEMU can emulate itself on x86.
--
--@item An extensive Linux x86 CPU test program is included @file{tests/test-i386}.
--It can be used to test other x86 virtual CPUs.
--
--@end itemize
--
--Current QEMU limitations:
--
--@itemize
--
--@item Limited x86-64 support.
--
--@item IPC syscalls are missing.
--
--@item The x86 segment limits and access rights are not tested at every
--memory access (yet). Hopefully, very few OSes seem to rely on that for
--normal use.
--
--@end itemize
--
--@node ARM
--@subsection ARM emulation
--
--@itemize
--
--@item Full ARM 7 user emulation.
--
--@item NWFPE FPU support included in user Linux emulation.
--
--@item Can run most ARM Linux binaries.
--
--@end itemize
--
--@node MIPS
--@subsection MIPS emulation
--
--@itemize
--
--@item The system emulation allows full MIPS32/MIPS64 Release 2 emulation,
--including privileged instructions, FPU and MMU, in both little and big
--endian modes.
--
--@item The Linux userland emulation can run many 32 bit MIPS Linux binaries.
--
--@end itemize
--
--Current QEMU limitations:
--
--@itemize
--
--@item Self-modifying code is not always handled correctly.
--
--@item 64 bit userland emulation is not implemented.
--
--@item The system emulation is not complete enough to run real firmware.
--
--@item The watchpoint debug facility is not implemented.
--
--@end itemize
--
--@node PPC
--@subsection PowerPC emulation
--
--@itemize
--
--@item Full PowerPC 32 bit emulation, including privileged instructions,
--FPU and MMU.
--
--@item Can run most PowerPC Linux binaries.
--
--@end itemize
--
--@node SPARC
--@subsection Sparc32 and Sparc64 emulation
--
--@itemize
--
--@item Full SPARC V8 emulation, including privileged
--instructions, FPU and MMU. SPARC V9 emulation includes most privileged
--and VIS instructions, FPU and I/D MMU. Alignment is fully enforced.
--
--@item Can run most 32-bit SPARC Linux binaries, SPARC32PLUS Linux binaries and
--some 64-bit SPARC Linux binaries.
--
--@end itemize
--
--Current QEMU limitations:
--
--@itemize
--
--@item IPC syscalls are missing.
--
--@item Floating point exception support is buggy.
--
--@item Atomic instructions are not correctly implemented.
--
--@item There are still some problems with Sparc64 emulators.
--
--@end itemize
--
--@node Xtensa
--@subsection Xtensa emulation
--
--@itemize
--
--@item Core Xtensa ISA emulation, including most options: code density,
--loop, extended L32R, 16- and 32-bit multiplication, 32-bit division,
--MAC16, miscellaneous operations, boolean, FP coprocessor, coprocessor
--context, debug, multiprocessor synchronization,
--conditional store, exceptions, relocatable vectors, unaligned exception,
--interrupts (including high priority and timer), hardware alignment,
--region protection, region translation, MMU, windowed registers, thread
--pointer, processor ID.
--
--@item Not implemented options: data/instruction cache (including cache
--prefetch and locking), XLMI, processor interface. Also options not
--covered by the core ISA (e.g. FLIX, wide branches) are not implemented.
--
--@item Can run most Xtensa Linux binaries.
--
--@item New core configuration that requires no additional instructions
--may be created from overlay with minimal amount of hand-written code.
--
--@end itemize
--
- @node Managed start up options
+-@node Managed start up options
++@node managed_startup
  @section Managed start up options
  
+ In system mode emulation, it's possible to create a VM in a paused state using
+diff --git a/qemu-doc.texi b/qemu-doc.texi
+index f702dce4557..e4bff7edbee 100644
+--- a/qemu-doc.texi
++++ b/qemu-doc.texi
+@@ -39,7 +39,6 @@
+ * QEMU System emulator::
+ * QEMU System emulator targets::
+ * Security::
+-* Implementation notes::
+ * Deprecated features::
+ * Recently removed features::
+ * Supported build platforms::
+@@ -144,6 +143,7 @@ accelerator is required to use more than one host CPU for emulation.
+ * vnc_security::       VNC security
+ * network_tls::        TLS setup for network services
+ * gdb_usage::          GDB usage
++* managed_startup::    Managed startup options
+ @end menu
+ 
+ @include docs/system/quickstart.texi
+@@ -159,6 +159,7 @@ accelerator is required to use more than one host CPU for emulation.
+ @include docs/system/vnc-security.texi
+ @include docs/system/tls.texi
+ @include docs/system/gdb.texi
++@include docs/system/managed-startup.texi
+ 
+ @node QEMU System emulator targets
+ @chapter QEMU System emulator targets
+@@ -190,8 +191,6 @@ various targets are mentioned in the following sections.
+ 
+ @include docs/security.texi
+ 
+-@include qemu-tech.texi
+-
+ @include qemu-deprecated.texi
+ 
+ @include docs/system/build-platforms.texi
 -- 
 2.20.1
 
