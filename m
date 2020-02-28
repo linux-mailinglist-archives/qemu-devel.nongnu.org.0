@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A832173EB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:42:52 +0100 (CET)
-Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A61173EE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 18:53:12 +0100 (CET)
+Received: from localhost ([::1]:51930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7jf1-0003NF-3z
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:42:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49674)
+	id 1j7jp1-0001i4-82
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 12:53:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j7jdg-00020G-V8
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:41:29 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1j7joF-00019O-G9
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:52:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j7jdf-0001gL-NS
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:41:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52418
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j7jdf-0001g2-Gf
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:41:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582911686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=//hsPm9sWIMfSZv4e3ZMMIruCqvVs/LY1x87MX40wtc=;
- b=QBFRX8Q+qSdGzgtuP9LG8up++dWkdMXRlkj6FZR9SBD+2hWiMr4oQtNVPl8zyeRBWEbvML
- JPdDR5VGCQTwepWLK73LkMv25owHgWqWy1ll/UE7c+MB0A/zonUMsEgVCyQ6kPgugpiOTf
- eVzkx10/WdCZdJAb9I4mRJH9Styrq+4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-dHm_KLZoMKmWsgN_J9UX9w-1; Fri, 28 Feb 2020 12:41:25 -0500
-X-MC-Unique: dHm_KLZoMKmWsgN_J9UX9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 046D813E6;
- Fri, 28 Feb 2020 17:41:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
- [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2F8519C70;
- Fri, 28 Feb 2020 17:41:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2B96011386A6; Fri, 28 Feb 2020 18:41:17 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 2/6] util: Replace fprintf(stderr,
- "*\n" with error_report()
-References: <20200227163101.414-1-philmd@redhat.com>
- <20200227163101.414-3-philmd@redhat.com>
- <87ftevma26.fsf@dusky.pond.sub.org>
- <12c7c23b-2a6f-6a54-5974-13492d6fcd4f@redhat.com>
- <b6b4f7fb-65bf-9b2d-fc0c-63456e70af6f@redhat.com>
-Date: Fri, 28 Feb 2020 18:41:17 +0100
-In-Reply-To: <b6b4f7fb-65bf-9b2d-fc0c-63456e70af6f@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 28 Feb 2020 10:57:07
- +0100")
-Message-ID: <87tv3ahao2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <stefanb@linux.ibm.com>) id 1j7joE-0006hT-DX
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 12:52:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50324)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1j7joB-0006e3-TL; Fri, 28 Feb 2020 12:52:20 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01SHnWEp105156; Fri, 28 Feb 2020 12:52:17 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yepwsynx1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Feb 2020 12:52:17 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01SHoYQc108494;
+ Fri, 28 Feb 2020 12:52:17 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yepwsynwb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Feb 2020 12:52:17 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01SHoKl0025364;
+ Fri, 28 Feb 2020 17:52:15 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma02wdc.us.ibm.com with ESMTP id 2yepv2p7aw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Feb 2020 17:52:15 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01SHqFVG54723012
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Feb 2020 17:52:15 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 83CBBAC05B;
+ Fri, 28 Feb 2020 17:52:15 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 725D9AC059;
+ Fri, 28 Feb 2020 17:52:15 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 28 Feb 2020 17:52:15 +0000 (GMT)
+Subject: Re: [PATCH v4 00/10] vTPM for aarch64
+To: Auger Eric <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
+References: <20200226205942.11424-1-eric.auger@redhat.com>
+ <4fb16117-f9d3-61af-9198-931590a46e3d@linux.ibm.com>
+ <ee98e8ab-06df-e422-1ca5-f3f6a48145f2@redhat.com>
+ <2413ead7-3707-acc6-7900-bb3896082051@linux.ibm.com>
+ <8ae6ca7b-34b5-b752-2bfd-4b7c2c9663f5@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <61c4ec54-e7ab-21a2-c446-b45d906ca4e1@linux.ibm.com>
+Date: Fri, 28 Feb 2020 12:52:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <8ae6ca7b-34b5-b752-2bfd-4b7c2c9663f5@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-28_06:2020-02-28,
+ 2020-02-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 phishscore=0 clxscore=1015 adultscore=0 mlxscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxlogscore=839
+ impostorscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2001150001 definitions=main-2002280135
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id 01SHnWEp105156
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,37 +100,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?utf-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 2/28/20 9:49 AM, Auger Eric wrote:
+> Hi Stefan,
+> On 2/28/20 3:37 PM, Stefan Berger wrote:
+>> On 2/27/20 3:07 AM, Auger Eric wrote:
+>>> Hi Stefan,
+>>> On 2/26/20 11:44 PM, Stefan Berger wrote:
+>>>> On 2/26/20 3:59 PM, Eric Auger wrote:
+>>>>> This series adds the capability to instantiate an MMIO TPM TIS
+>>>>> in ARM virt. It is candidate to qemu 5.0.
+>>>> I queued it now here:
+>>>> https://github.com/stefanberger/qemu-tpm/commits/tpm-next
+>>>>
+>>>> I will send the PR within a few days. Thanks!
+>>> Thank you. I will just ping Peter to make sure he has no comments on
+>>>
+>>> [PATCH v4 06/10] hw/arm/virt: vTPM support
+>>
+>> The little dent is now an arm boot failure:
+>>
+>>
+>> https://travis-ci.org/stefanberger/qemu-tpm/jobs/655573347?utm_medium=3D=
+notification&utm_source=3Demail
+> is this really related to the sysbus TPM-TIS addition? I have the
+> impression cubieboard acceptance tests (ARM 32b) are failing. I touched
+> ARM virt machine.
 
-> On 2/28/20 10:50 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-[...]
->> Thanks for your review. I'll drop the changes in util/oslib-win32.c
->> for for now, and add a note in my TODO for after the 5.0 release.
+I hadn't seen this one here before:
+
+https://travis-ci.org/qemu/qemu/jobs/656327906
+
+
+We're good.
+
+
+ =C2=A0=C2=A0 Stefan
+
+
+
 >
-> Well if I follow this line, I'v to drop the changes in util/osdep.c too.
-> Maybe we can keep fprintf() for now and improve the error message, and
-> do the fprintf -> error_report cleanup later?
-
-I recommend to convert from fprintf() to error_report() & friends and
-improve the message all in one go.
-
-Separating different kinds of changes makes sense when some kinds are
-mechanical and the resulting mechanical patches are large.  These
-patches aren't large.
-
-But it's really up to you.  I'm not going to veto an improvement only
-because further improvement is called for.
+> Thanks
+>
+> Eric
+>>
+>>
+>> Have a look at the raw log.
+>>
+>>
+>>  =C2=A0=C2=A0 Stefan
+>>
+>>
+>>
 
 
