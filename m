@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95321173D62
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:46:09 +0100 (CET)
-Received: from localhost ([::1]:50380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247C4173D45
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Feb 2020 17:43:13 +0100 (CET)
+Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7ilT-0003ET-GA
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:45:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56533)
+	id 1j7ijI-0007Ui-3I
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 11:43:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifF-0007YQ-DR
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifG-0007aB-72
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j7ifD-0001uM-SI
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:01 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34504)
+ (envelope-from <peter.maydell@linaro.org>) id 1j7ifE-0001v1-RY
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:02 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39224)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j7ifD-0001tw-Lg
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:38:59 -0500
-Received: by mail-wm1-x342.google.com with SMTP id i10so8616502wmd.1
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:38:59 -0800 (PST)
+ id 1j7ifE-0001uT-Kw
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 11:39:00 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id y17so3670815wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 08:39:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=YZu863NKaGXhWKWNne24xSYUgnIGai+DzFIAU+N7iSk=;
- b=VBZoeXyQnZ8iR8499S2q6Oi+uI2sCSK1nAscoRW22bD+7JG3wx6FySvg9nlSl8X1n6
- x+GVnb7mCAfm9pSK3ZJ+/l93LIYM1d+J8bEB3EAWtklLSFB1YeILL4+hMUyzbtrT5XCM
- wKzYJsncC/lYlovXCy3cCJPbwFvPWGIMD4Ud6EtpsjJ12zGBofSsDsUywCQjxzhYTwBj
- nklN+chPOU74CTtnN/vhkx78tX6lDj39Ub+IrgdulgQMMtk7fCuvfxSYX98Nlca6BdJH
- Xs/uvfHiYeVsKT2SblSf9jkOOmiqQ/MCGUlkllT90ebecVL4qnrxeStZ8I87Xxv/PxQW
- WgCA==
+ bh=jvv1988l+MhveUC13kevwwKHJA6IhCtxQBKlOzO9REg=;
+ b=iO7pGM6vHbpoUcRx2yCWAvXtxsR4l+11Fh4bm0GhEjJDB7fO0MV35ukOqDlIAEWN+C
+ tRgD1IGgp9gSek+qahQulVpuSLrAEuuituWPdz7BEOVoYxR5d+hd80Jwv7XLhdpKdQ76
+ 8nMLlKY5ieXl6m+16HZWL2Fu0ZYIr1JGHGpGD/mxPLsiEY3Ydhi2lBbqephqgCg9QW3j
+ soVZsQp5WVO37vHmWQJupkYQ8laknHNyvUgftHK8TH+B0gk8WFEqu8EJYqypzF9xQpOd
+ tQc/bgDGTeqOkwo7Sf/1TPH4v/CF7A2VWsgGxSHRK1/LLTVWCsJeI9mtFj8hoKPZJGbm
+ ly8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YZu863NKaGXhWKWNne24xSYUgnIGai+DzFIAU+N7iSk=;
- b=UK0WSmVas/dYa1yyoXkQkpSuA5pYKPOABHES0y091S5gRoM0sw1paIfg6SgyhaPO36
- BdJKoXlv2TcqKzii4DL7Ck28ss99/TP77+BL4QAP6g6rMj2kkN6EbH7YCN5BE6Y3HWp1
- cHwb8CUFRPPKs93wyU7jjPsseRuCmEEj9JHeNI9GpWQq21JBhbuDAB32NoaZ+MZtBAEX
- +Am4JXM+dEd9ylE96d/oN4hDNfQnok3VOz8txjWBuvF0ORNq3eUmJ9qBv6inAD1MfJEd
- 6uiS9AS5hZLJLWJ9NN0kiZxFrK+Ud1abA0yApgai+EIByzK+ftt/iTUGfagP8gNRHY5x
- 5H6Q==
-X-Gm-Message-State: APjAAAV2viAAsXBVYgoGF5ZCheT8UQlZJ9lZpmyf//6C5NK2TAzI5OMD
- IJIYQti8jlYtk746+BJH5f59iG4c4S5slg==
-X-Google-Smtp-Source: APXvYqyj/hjjEMXoHlKZwIADjKDOXPrP6HWnDHGOADUFV+hWLUPosbVmm1w+bwSJPDFGp86WuLlNnw==
-X-Received: by 2002:a1c:984a:: with SMTP id a71mr5799398wme.185.1582907938374; 
- Fri, 28 Feb 2020 08:38:58 -0800 (PST)
+ bh=jvv1988l+MhveUC13kevwwKHJA6IhCtxQBKlOzO9REg=;
+ b=sxUKMUp+ZCD8G5+8svLoD8AWtzIH7iJBlR2b0vKC2qOS+zrj28nahHV9aqf83HEJ1u
+ RatO4KMrsmrN2B0+oy8Y0JlrrV/P6T1YG/NiNxcFIVzCfrLREVVYqbLMkXDcxXSQqIwZ
+ VTaJyMY1vDmJw6XVFB9zSqmQ0Cv2IHHW8ie+LkmlhpYNEneOi8C3c+k8N+AazP+MM4tQ
+ HqCvyJanbfU5bYzMXDmOGtmJKXnPem2QwrSOOKFq28ZFfmVlhjZa4mh/rlQNcE4VyD0+
+ BeD3XxwCwsOcpdZMlifrBrlEngR2V1r6+EuXcTVPW5h2rNKDkrBw8H4Vp8YCAI4+9CbY
+ ULEA==
+X-Gm-Message-State: APjAAAUn7fjpbYPICV/UbJHkIIIDcDz+aUDQl0xgKklpjRRt1QIaFiMI
+ EFK+yj46hIH7p2kY+JCg93Bhb7iaXVqTiw==
+X-Google-Smtp-Source: APXvYqzM7uROXKdlxY8Pczv1StD86gWuHdFMz4bPNrX3XcmXSJxMlUz7W2kypPrOKGx3Zx7ZbIQR3g==
+X-Received: by 2002:adf:f012:: with SMTP id j18mr5550390wro.314.1582907939349; 
+ Fri, 28 Feb 2020 08:38:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.38.57
+ by smtp.gmail.com with ESMTPSA id c9sm13335214wrq.44.2020.02.28.08.38.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 08:38:57 -0800 (PST)
+ Fri, 28 Feb 2020 08:38:58 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/33] target/arm: Add missing checks for fpsp_v2
-Date: Fri, 28 Feb 2020 16:38:20 +0000
-Message-Id: <20200228163840.23585-14-peter.maydell@linaro.org>
+Subject: [PULL 14/33] target/arm: Replace ARM_FEATURE_VFP4 with
+ isar_feature_aa32_simdfmac
+Date: Fri, 28 Feb 2020 16:38:21 +0000
+Message-Id: <20200228163840.23585-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228163840.23585-1-peter.maydell@linaro.org>
 References: <20200228163840.23585-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,220 +84,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We will eventually remove the early ARM_FEATURE_VFP test,
-so add a proper test for each trans_* that does not already
-have another ISA test.
+All remaining tests for VFP4 are for fused multiply-add insns.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Since the MVFR1 field is used for both VFP and NEON, move its adjustment
+from the !has_neon block to the (!has_vfp && !has_neon) block.
+
+Test for vfp of the appropraite width alongside the test for simdfmac
+within translate-vfp.inc.c.  Within disas_neon_data_insn, we have
+already tested for ARM_FEATURE_NEON.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200224222232.13807-9-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20200224222232.13807-10-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-vfp.inc.c | 78 ++++++++++++++++++++++++++++++----
- 1 file changed, 69 insertions(+), 9 deletions(-)
+ target/arm/cpu.h               | 12 ++++++++++++
+ target/arm/cpu.c               |  6 +++++-
+ target/arm/translate-vfp.inc.c | 22 ++++++++++++++++++----
+ target/arm/translate.c         |  2 +-
+ 4 files changed, 36 insertions(+), 6 deletions(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index b94d2a5ace4..b29b0eddfc3 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3514,6 +3514,18 @@ static inline bool isar_feature_aa32_fp16_dpconv(const ARMISARegisters *id)
+     return FIELD_EX32(id->mvfr1, MVFR1, FPHP) > 1;
+ }
+ 
++/*
++ * Note that this ID register field covers both VFP and Neon FMAC,
++ * so should usually be tested in combination with some other
++ * check that confirms the presence of whichever of VFP or Neon is
++ * relevant, to avoid accidentally enabling a Neon feature on
++ * a VFP-no-Neon core or vice-versa.
++ */
++static inline bool isar_feature_aa32_simdfmac(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->mvfr1, MVFR1, SIMDFMAC) != 0;
++}
++
+ static inline bool isar_feature_aa32_vsel(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->mvfr2, MVFR2, FPMISC) >= 1;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5be4c258096..dc45865c7a7 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1512,7 +1512,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
+         u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
+         u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
+-        u = FIELD_DP32(u, MVFR1, SIMDFMAC, 0);
+         cpu->isar.mvfr1 = u;
+ 
+         u = cpu->isar.mvfr2;
+@@ -1535,6 +1534,11 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         u = cpu->isar.mvfr0;
+         u = FIELD_DP32(u, MVFR0, SIMDREG, 0);
+         cpu->isar.mvfr0 = u;
++
++        /* Despite the name, this field covers both VFP and Neon */
++        u = cpu->isar.mvfr1;
++        u = FIELD_DP32(u, MVFR1, SIMDFMAC, 0);
++        cpu->isar.mvfr1 = u;
+     }
+ 
+     if (arm_feature(env, ARM_FEATURE_M) && !cpu->has_dsp) {
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 51d46f43027..f88a95438fc 100644
+index f88a95438fc..03ba8d7aac0 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -555,6 +555,13 @@ static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
-     int pass;
-     uint32_t offset;
- 
-+    /* SIZE == 2 is a VFP instruction; otherwise NEON.  */
-+    if (a->size == 2
-+        ? !dc_isar_feature(aa32_fpsp_v2, s)
-+        : !arm_dc_feature(s, ARM_FEATURE_NEON)) {
-+        return false;
-+    }
-+
-     /* UNDEF accesses to D16-D31 if they don't exist */
-     if (!dc_isar_feature(aa32_simd_r32, s) && (a->vn & 0x10)) {
-         return false;
-@@ -564,10 +571,6 @@ static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
-     pass = extract32(offset, 2, 1);
-     offset = extract32(offset, 0, 2) * 8;
- 
--    if (a->size != 2 && !arm_dc_feature(s, ARM_FEATURE_NEON)) {
--        return false;
--    }
--
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -614,6 +617,13 @@ static bool trans_VMOV_from_gp(DisasContext *s, arg_VMOV_from_gp *a)
-     int pass;
-     uint32_t offset;
- 
-+    /* SIZE == 2 is a VFP instruction; otherwise NEON.  */
-+    if (a->size == 2
-+        ? !dc_isar_feature(aa32_fpsp_v2, s)
-+        : !arm_dc_feature(s, ARM_FEATURE_NEON)) {
-+        return false;
-+    }
-+
-     /* UNDEF accesses to D16-D31 if they don't exist */
-     if (!dc_isar_feature(aa32_simd_r32, s) && (a->vn & 0x10)) {
-         return false;
-@@ -623,10 +633,6 @@ static bool trans_VMOV_from_gp(DisasContext *s, arg_VMOV_from_gp *a)
-     pass = extract32(offset, 2, 1);
-     offset = extract32(offset, 0, 2) * 8;
- 
--    if (a->size != 2 && !arm_dc_feature(s, ARM_FEATURE_NEON)) {
--        return false;
--    }
--
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -700,6 +706,10 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
-     TCGv_i32 tmp;
-     bool ignore_vfp_enabled = false;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (arm_dc_feature(s, ARM_FEATURE_M)) {
-         /*
-          * The only M-profile VFP vmrs/vmsr sysreg is FPSCR.
-@@ -844,6 +854,10 @@ static bool trans_VMOV_single(DisasContext *s, arg_VMOV_single *a)
- {
-     TCGv_i32 tmp;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -873,6 +887,10 @@ static bool trans_VMOV_64_sp(DisasContext *s, arg_VMOV_64_sp *a)
- {
-     TCGv_i32 tmp;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     /*
-      * VMOV between two general-purpose registers and two single precision
-      * floating point registers
-@@ -908,8 +926,12 @@ static bool trans_VMOV_64_dp(DisasContext *s, arg_VMOV_64_dp *a)
+@@ -1803,11 +1803,18 @@ static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
  
      /*
-      * VMOV between two general-purpose registers and one double precision
--     * floating point register
-+     * floating point register.  Note that this does not require support
-+     * for double precision arithmetic.
+      * Present in VFPv4 only.
++     * Note that we can't rely on the SIMDFMAC check alone, because
++     * in a Neon-no-VFP core that ID register field will be non-zero.
++     */
++    if (!dc_isar_feature(aa32_simdfmac, s) ||
++        !dc_isar_feature(aa32_fpsp_v2, s)) {
++        return false;
++    }
++    /*
+      * In v7A, UNPREDICTABLE with non-zero vector length/stride; from
+      * v8A, must UNDEF. We choose to UNDEF for both v7A and v8A.
       */
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
- 
-     /* UNDEF accesses to D16-D31 if they don't exist */
-     if (!dc_isar_feature(aa32_simd_r32, s) && (a->vm & 0x10)) {
-@@ -946,6 +968,10 @@ static bool trans_VLDR_VSTR_sp(DisasContext *s, arg_VLDR_VSTR_sp *a)
-     uint32_t offset;
-     TCGv_i32 addr, tmp;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
+-    if (!arm_dc_feature(s, ARM_FEATURE_VFP4) ||
+-        (s->vec_len != 0 || s->vec_stride != 0)) {
++    if (s->vec_len != 0 || s->vec_stride != 0) {
+         return false;
      }
-@@ -977,6 +1003,11 @@ static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_dp *a)
-     TCGv_i32 addr;
-     TCGv_i64 tmp;
  
-+    /* Note that this does not require support for double arithmetic.  */
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
+@@ -1861,11 +1868,18 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
+ 
+     /*
+      * Present in VFPv4 only.
++     * Note that we can't rely on the SIMDFMAC check alone, because
++     * in a Neon-no-VFP core that ID register field will be non-zero.
++     */
++    if (!dc_isar_feature(aa32_simdfmac, s) ||
++        !dc_isar_feature(aa32_fpdp_v2, s)) {
 +        return false;
 +    }
-+
-     /* UNDEF accesses to D16-D31 if they don't exist */
-     if (!dc_isar_feature(aa32_simd_r32, s) && (a->vd & 0x10)) {
++    /*
+      * In v7A, UNPREDICTABLE with non-zero vector length/stride; from
+      * v8A, must UNDEF. We choose to UNDEF for both v7A and v8A.
+      */
+-    if (!arm_dc_feature(s, ARM_FEATURE_VFP4) ||
+-        (s->vec_len != 0 || s->vec_stride != 0)) {
++    if (s->vec_len != 0 || s->vec_stride != 0) {
          return false;
-@@ -1013,6 +1044,10 @@ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
-     TCGv_i32 addr, tmp;
-     int i, n;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     n = a->imm;
- 
-     if (n == 0 || (a->vd + n) > 32) {
-@@ -1086,6 +1121,11 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
-     TCGv_i64 tmp;
-     int i, n;
- 
-+    /* Note that this does not require support for double arithmetic.  */
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     n = a->imm >> 1;
- 
-     if (n == 0 || (a->vd + n) > 32 || n > 16) {
-@@ -1234,6 +1274,10 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
-     TCGv_i32 f0, f1, fd;
-     TCGv_ptr fpst;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (!dc_isar_feature(aa32_fpshvec, s) &&
-         (veclen != 0 || s->vec_stride != 0)) {
-         return false;
-@@ -1388,6 +1432,10 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
-     int veclen = s->vec_len;
-     TCGv_i32 f0, fd;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (!dc_isar_feature(aa32_fpshvec, s) &&
-         (veclen != 0 || s->vec_stride != 0)) {
-         return false;
-@@ -2023,6 +2071,10 @@ static bool trans_VCMP_sp(DisasContext *s, arg_VCMP_sp *a)
- {
-     TCGv_i32 vd, vm;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     /* Vm/M bits must be zero for the Z variant */
-     if (a->z && a->vm != 0) {
-         return false;
-@@ -2466,6 +2518,10 @@ static bool trans_VCVT_int_sp(DisasContext *s, arg_VCVT_int_sp *a)
-     TCGv_i32 vm;
-     TCGv_ptr fpst;
- 
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
      }
-@@ -2684,6 +2740,10 @@ static bool trans_VCVT_sp_int(DisasContext *s, arg_VCVT_sp_int *a)
-     TCGv_i32 vm;
-     TCGv_ptr fpst;
  
-+    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 79880adaad2..0489e0cdaa6 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -5150,7 +5150,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+             }
+             break;
+         case NEON_3R_VFM_VQRDMLSH:
+-            if (!arm_dc_feature(s, ARM_FEATURE_VFP4)) {
++            if (!dc_isar_feature(aa32_simdfmac, s)) {
+                 return 1;
+             }
+             break;
 -- 
 2.20.1
 
