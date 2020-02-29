@@ -2,65 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88F5174913
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 21:08:05 +0100 (CET)
-Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8062174A20
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 00:28:44 +0100 (CET)
+Received: from localhost ([::1]:36748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j88P6-000381-8h
-	for lists+qemu-devel@lfdr.de; Sat, 29 Feb 2020 15:08:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47128)
+	id 1j8BXH-0001Xk-S1
+	for lists+qemu-devel@lfdr.de; Sat, 29 Feb 2020 18:28:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j88O7-0002RX-M0
- for qemu-devel@nongnu.org; Sat, 29 Feb 2020 15:07:04 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j8BW2-0008NJ-Bf
+ for qemu-devel@nongnu.org; Sat, 29 Feb 2020 18:27:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j88O6-0005Lo-MZ
- for qemu-devel@nongnu.org; Sat, 29 Feb 2020 15:07:03 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:47100)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j88O6-0005Jp-5n
- for qemu-devel@nongnu.org; Sat, 29 Feb 2020 15:07:02 -0500
-Received: by mail-ed1-x529.google.com with SMTP id y3so1324782edj.13
- for <qemu-devel@nongnu.org>; Sat, 29 Feb 2020 12:07:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SoOfSQSJDR8dzp5cdCwa65yHauHzBT4X8KXID6OZpdU=;
- b=klxmiVYJz9IXlb6XGyQYKW4tSVh9fCY5TeKP11qpl4UzyhfZAPo/QoEVJlLJ0fXCY8
- 7X07Ec0SCt7yh4yKUAfzoydMi71N+uR6M5pesjReQBUYE4t14Kbescr8z+HdGFbBfaoj
- FPKXwKW6w77OcGK4ZxYSMkZHhSLjvSzclQk338q2Ndas+h38TA6YlRVWobvltrdd7Nlk
- Qmwbbv7cW4X5vLT3KsmjVj/Yj/eYejjnvYKsukyysRCE+Rq5cZ7qaCrdxWfhFRc07f/B
- a7sSFZ3EJmlRlCsPKl/9nuaPbsTaOfZeKCSsUXVqd4feX2fpq/eTqnGYSm7UV8uD71T5
- EN2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SoOfSQSJDR8dzp5cdCwa65yHauHzBT4X8KXID6OZpdU=;
- b=s1Rg5uCdQZAnL4iugp7/SBVi4nSwb8j0yR2Ee4OzAIS8bnuyutHzlOtwJYXmCakqBK
- JowpQ0o4dRrHppeODuQvPKz0Mn5nrCTnZjIUWX6PQGqEaAXOEY/oYkyMFHbWkVoCgZiZ
- goEses3aTNbsYGPaCV/Y8Yr/e/ulpOyfQDn8sJlAE4ticq1AqTIa2I4gkvVtZY2VyUjQ
- RsFDH6RVTUfdpTLMV7LHLVpfa1veIr5T+fSyxnyzlYpNqoF+qP+Yi3jhgkkInHf29Dul
- UPg/71/zCMwElPMiygN/aRXmK5d9LIokJIfwLmAAHWbNhNmeMdXDugiIQwXkX7VT/Ii8
- 6Z3w==
-X-Gm-Message-State: ANhLgQ2zWHk4Bb5OuAJXzpu7jEsO6Mo+CtzpAAAD2p/7EdXzck6LBVSa
- 1pLgm4lJksXpK+6HscjIbLTc+tD/vo0l7ll8WaehIg==
-X-Google-Smtp-Source: ADFU+vv6VAXumPMu1OMUZizzD9VrT2YPW37RrxCmVGzwrhbLUcDS9B1fwaowcrDVC/lMgUwKhMQ4r4bAH9xL11Qxerw=
-X-Received: by 2002:aa7:c2cb:: with SMTP id m11mr1947868edp.116.1583006819897; 
- Sat, 29 Feb 2020 12:06:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20200228092420.103757-1-quintela@redhat.com>
- <20200228092420.103757-7-quintela@redhat.com>
-In-Reply-To: <20200228092420.103757-7-quintela@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Date: Sat, 29 Feb 2020 12:06:48 -0800
-Message-ID: <CAFXwXr=9R9FZ5wD5Lk=cbP=Qt93KOokrcOjxj_JKevmso9qdgg@mail.gmail.com>
-Subject: Re: [PULL 06/15] configure: Enable test and libs for zstd
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <balaton@eik.bme.hu>) id 1j8BW1-0005Wf-0n
+ for qemu-devel@nongnu.org; Sat, 29 Feb 2020 18:27:26 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40858)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1j8BVx-0005LD-Ly; Sat, 29 Feb 2020 18:27:21 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 260C9747E09;
+ Sun,  1 Mar 2020 00:27:12 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 85DF9747E07; Sun,  1 Mar 2020 00:27:11 +0100 (CET)
+Message-Id: <32bb2eab213344151ca342bab5db2cf8c2758fb7.1583017348.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1583017348.git.balaton@eik.bme.hu>
+References: <cover.1583017348.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH 2/2] via-ide: Also emulate non 100% native mode
+Date: Sun, 01 Mar 2020 00:02:28 +0100
+To: qemu-devel@nongnu.org,
+    qemu-block@nongnu.org
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::529
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,28 +47,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+Cc: John Snow <jsnow@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, philmd@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> +##########################################
-> +# zstd check
-> +
-> +if test "$zstd" != "no" ; then
-> +    if $pkg_config --exist libzstd ; then
+Some machines operate in "non 100% native mode" where interrupts are
+fixed at legacy IDE interrupts and some guests expect this behaviour
+without checking based on knowledge about hardware. Even Linux has
+arch specific workarounds for this that are activated on such boards
+so this needs to be emulated as well.
 
-The option is spelled --exists.  This is generating an error during configure.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ide/via.c            | 60 +++++++++++++++++++++++++++++++++++------
+ hw/mips/mips_fulong2e.c |  2 +-
+ include/hw/ide.h        |  3 ++-
+ 3 files changed, 55 insertions(+), 10 deletions(-)
 
-r~
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index 096de8dba0..17418c5822 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -1,9 +1,10 @@
+ /*
+- * QEMU IDE Emulation: PCI VIA82C686B support.
++ * QEMU VIA southbridge IDE emulation (VT82C686B, VT8231)
+  *
+  * Copyright (c) 2003 Fabrice Bellard
+  * Copyright (c) 2006 Openedhand Ltd.
+  * Copyright (c) 2010 Huacai Chen <zltjiangshi@gmail.com>
++ * Copyright (c) 2019-2020 BALATON Zoltan
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+@@ -25,6 +26,8 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/range.h"
++#include "hw/qdev-properties.h"
+ #include "hw/pci/pci.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+@@ -111,14 +114,43 @@ static void via_ide_set_irq(void *opaque, int n, int level)
+     } else {
+         d->config[0x70 + n * 8] &= ~0x80;
+     }
+-
+     level = (d->config[0x70] & 0x80) || (d->config[0x78] & 0x80);
+-    n = pci_get_byte(d->config + PCI_INTERRUPT_LINE);
+-    if (n) {
+-        qemu_set_irq(isa_get_irq(NULL, n), level);
++
++    /*
++     * Some machines operate in "non 100% native mode" where PCI_INTERRUPT_LINE
++     * is not used but IDE always uses ISA IRQ 14 and 15 even in native mode.
++     * Some guest drivers expect this, often without checking.
++     */
++    if (!(pci_get_byte(d->config + PCI_CLASS_PROG) & (n ? 4 : 1)) ||
++        PCI_IDE(d)->flags & BIT(PCI_IDE_LEGACY_IRQ)) {
++        qemu_set_irq(isa_get_irq(NULL, (n ? 15 : 14)), level);
++    } else {
++        n = pci_get_byte(d->config + PCI_INTERRUPT_LINE);
++        if (n) {
++            qemu_set_irq(isa_get_irq(NULL, n), level);
++        }
+     }
+ }
+ 
++static uint32_t via_ide_config_read(PCIDevice *d, uint32_t address, int len)
++{
++    /*
++     * The pegasos2 firmware writes to PCI_INTERRUPT_LINE but on real
++     * hardware it's fixed at 14 and won't change. Some guests also expect
++     * legacy interrupts, without reading PCI_INTERRUPT_LINE but Linux
++     * depends on this to read 14. We set it to 14 in the reset method and
++     * also set the wmask to 0 to emulate this but that turns out to be not
++     * enough. QEMU resets the PCI bus after this device and
++     * pci_do_device_reset() called from pci_device_reset() will zero
++     * PCI_INTERRUPT_LINE so this config_read function is to counter that and
++     * restore the correct value, otherwise this should not be needed.
++     */
++    if (range_covers_byte(address, len, PCI_INTERRUPT_LINE)) {
++        pci_set_byte(d->config + PCI_INTERRUPT_LINE, 14);
++    }
++    return pci_default_read_config(d, address, len);
++}
++
+ static void via_ide_reset(DeviceState *dev)
+ {
+     PCIIDEState *d = PCI_IDE(dev);
+@@ -169,7 +201,8 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mode */
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+-    dev->wmask[PCI_INTERRUPT_LINE] = 0xf;
++    dev->wmask[PCI_CLASS_PROG] = 5;
++    dev->wmask[PCI_INTERRUPT_LINE] = 0;
+ 
+     memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops,
+                           &d->bus[0], "via-ide0-data", 8);
+@@ -213,14 +246,23 @@ static void via_ide_exitfn(PCIDevice *dev)
+     }
+ }
+ 
+-void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
++void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
++                  bool legacy_irq)
+ {
+     PCIDevice *dev;
+ 
+-    dev = pci_create_simple(bus, devfn, "via-ide");
++    dev = pci_create(bus, devfn, "via-ide");
++    qdev_prop_set_bit(&dev->qdev, "legacy-irq", legacy_irq);
++    qdev_init_nofail(&dev->qdev);
+     pci_ide_create_devs(dev, hd_table);
+ }
+ 
++static Property via_ide_properties[] = {
++    DEFINE_PROP_BIT("legacy-irq", PCIIDEState, flags, PCI_IDE_LEGACY_IRQ,
++                    false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void via_ide_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -229,10 +271,12 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+     dc->reset = via_ide_reset;
+     k->realize = via_ide_realize;
+     k->exit = via_ide_exitfn;
++    k->config_read = via_ide_config_read;
+     k->vendor_id = PCI_VENDOR_ID_VIA;
+     k->device_id = PCI_DEVICE_ID_VIA_IDE;
+     k->revision = 0x06;
+     k->class_id = PCI_CLASS_STORAGE_IDE;
++    device_class_set_props(dc, via_ide_properties);
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index 4727b1d3a4..150182c62a 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -257,7 +257,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+ 
+     ide_drive_get(hd, ARRAY_SIZE(hd));
+-    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1));
++    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1), false);
+ 
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index d88c5ee695..2a7001ccba 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -18,7 +18,8 @@ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+ PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+ PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+-void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
++void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
++                  bool legacy_irq);
+ 
+ /* ide-mmio.c */
+ void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
+-- 
+2.21.1
+
 
