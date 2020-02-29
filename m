@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B981742E5
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 00:17:50 +0100 (CET)
-Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6B51743C2
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 01:21:25 +0100 (CET)
+Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7otA-0002F4-68
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 18:17:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50900)
+	id 1j7psi-0004Dl-Fd
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 19:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j7osB-0001iP-Qo
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 18:16:48 -0500
+ (envelope-from <bounces@canonical.com>) id 1j7pry-0003mI-PE
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 19:20:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j7os9-000787-Vb
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 18:16:47 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:33857)
+ (envelope-from <bounces@canonical.com>) id 1j7prx-0001co-FC
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 19:20:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42180)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j7os4-000742-4M; Fri, 28 Feb 2020 18:16:40 -0500
-Received: by mail-pf1-x442.google.com with SMTP id i6so2479458pfc.1;
- Fri, 28 Feb 2020 15:16:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=yPhsdxmC3P85Uu1od0m2OjFA80DoP33yC53pLjt19dE=;
- b=jFzBc6Kp3JmT6ItRsoBTr3TfN0cqoAeg2VmGP8JAfAlhCsiqZYswieYPgs8//hh2BE
- mUAostq2UGWcb+C4aUe5A6VpwxTBZ5fbgfGcBEdVnpeYhZF32P0aHc2D31CwhhAOuA7Q
- evZ1tzycAyjDAmbpozrt8zAk018JG5HEpxlO4Fx6AGdpnxTqdiLsPqbQOwfhf/oNtqMX
- saXbl/ON3Pg8eAylaTyStPdqMk+HREHn7ZbvULRJQ18L/Ov0NXjag8CjxzCjWk1ydi55
- 7jwprKYLBIgrqRYHXJbybOZ1qOygBmHhLyXpuU4K3ejxvRxLBSgOP2yrwV3ZMHnL0BS/
- yHvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=yPhsdxmC3P85Uu1od0m2OjFA80DoP33yC53pLjt19dE=;
- b=nKA8NPO0y6jWMkjAGS1cGzdEx8X8w2hMX3fI7xk/FYTesbTKIJV6ZFI6knVujPFAYM
- +bOo/+l1GB8ENC54ZaKbRCZdZjB6rmdtOh8wXp7gV45vpIq1zd471PNMo/JrRfWfXMlB
- TcHTrCz3qjL7chbkXUOlZToje+eyMawO0WqeH3zkrsxotP9AbYLTJm6tA1E8ESmU63i7
- bDJbw8B0lO46zpKkJVS6NVssS7ooszqKEh/WAHptlys7MVyKup38fPa2BRfpDfoBPeZI
- O+POPCGk67tmifdl9AWJH6Ty1kuG4NtIs/lEmWaI2xdcwRmUfNGxEwKjyOTPGJmQGDnP
- dYiw==
-X-Gm-Message-State: APjAAAXxiTyrBpN3D99VApmD9Ot1UGN8R6T7Ul6uwsqpLUhx/Ec4YftL
- +tir/uxTQuUT8zxHfSKmGcA=
-X-Google-Smtp-Source: APXvYqwGlSC6CWYrS2loT1X9jucypmqglMY4S5NRxMtvWKfRFl5XczwkFK8fgIRIAncMyiF62qKCEw==
-X-Received: by 2002:a63:b22:: with SMTP id 34mr6698586pgl.78.1582931798845;
- Fri, 28 Feb 2020 15:16:38 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id t20sm133819pfl.114.2020.02.28.15.16.37
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 28 Feb 2020 15:16:37 -0800 (PST)
-Date: Fri, 28 Feb 2020 15:16:36 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v2 0/2] hw/arm/xilinx_zynq: Fix USB port instantiation
-Message-ID: <20200228231636.GA11737@roeck-us.net>
-References: <20200215122354.13706-1-linux@roeck-us.net>
- <CAFEAcA-u=j3MYu-Ck0UbMzXXEoB41dx6UbGw15QBEnqBBX988g@mail.gmail.com>
- <CAFEAcA-_V-7VDZvVg4WE99A4b1UimQ0RrLG910qmsxCgRVvq5A@mail.gmail.com>
- <CAJy5ezoP7qNCymOpVXgMcwOuYvXBPVnf718gN_qfsfW_D9MVFQ@mail.gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j7prx-0001bx-9q
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 19:20:37 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j7prv-0006o2-QD
+ for <qemu-devel@nongnu.org>; Sat, 29 Feb 2020 00:20:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8F2382E8076
+ for <qemu-devel@nongnu.org>; Sat, 29 Feb 2020 00:20:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJy5ezoP7qNCymOpVXgMcwOuYvXBPVnf718gN_qfsfW_D9MVFQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 29 Feb 2020 00:14:40 -0000
+From: maro <1759522@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: atmgnd maro the.netadmin voltagex
+X-Launchpad-Bug-Reporter: Zixuan Wang (the.netadmin)
+X-Launchpad-Bug-Modifier: maro (maro)
+References: <152222836105.21062.2375148895134658603.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158293528081.6414.785953810547926980.malone@chaenomeles.canonical.com>
+Subject: [Bug 1759522] Re: windows qemu-img create vpc/vhdx error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 09c50ef14dcea4d237e195698d4372200c3d0cca
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,55 +65,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1759522 <1759522@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 28, 2020 at 12:44:19PM -0600, Edgar E. Iglesias wrote:
-> Sorry Peter, I missed the email.
-> 
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> 
+I also discovered just a few days ago the problem that sparse VHD/VHDX
+image files are not being accepted by Windows.
 
-Thanks a lot everyone!
+It appears that qemu-img on Windows always tries to create images as
+sparse files. Only in some cases (e.g. when operating on a NTFS file
+system) will the file actually be a sparse file.
 
-Guenter
+Being a sparse file seems to be no issue when using these file with QEMU
+itself. Most file formats that qemu-img is able to create will be
+unknown to Windows own tools, but the one exception are VHD/VHDX files.
 
-> Best regards,
-> Edgar
-> 
-> 
-> On Fri, 28 Feb. 2020, 10:00 Peter Maydell, <peter.maydell@linaro.org> wrote:
-> 
-> > On Thu, 20 Feb 2020 at 15:05, Peter Maydell <peter.maydell@linaro.org>
-> > wrote:
-> > >
-> > > On Sat, 15 Feb 2020 at 12:23, Guenter Roeck <linux@roeck-us.net> wrote:
-> > > >
-> > > > USB ports on Xilinx Zync must be instantiated as TYPE_CHIPIDEA to work.
-> > > > Linux expects and checks various chipidea registers, which do not exist
-> > > > with the basic ehci emulation. This patch series fixes the problem.
-> > > >
-> > > > The first patch in the series fixes the actual problem.
-> > > >
-> > > > The second patch removes the now obsolete explicit Xilinx
-> > > > support from the EHCI code.
-> > > >
-> > > > v2: Introduced summary
-> > > >
-> > > > ----------------------------------------------------------------
-> > > > Guenter Roeck (2):
-> > > >       hw/arm/xilinx_zynq: Fix USB port instantiation
-> > > >       hw/usb/hcd-ehci-sysbus: Remove obsolete xlnx,ps7-usb class
-> > >
-> > > Xilinx folks -- could you provide a reviewed-by or acked-by
-> > > for this series, please?
-> >
-> > No? Oh, well, applied to target-arm.next anyway.
-> >
-> > thanks
-> > -- PMM
-> >
+As long as a file carries the sparse attribute it will be "un-
+acceptable" to the Windows tools (e.g. diskpart/diskmgmt). As a crude
+work-around I've noticed that a copy of such a file will have "lost" the
+sparse attribute, and therefore can be mounted. Likewise any copy of a
+file created on a different system will not be a sparse file (and hence
+the issue does not arise).
+
+I'm attaching a log file (with a few comments) of some steps that
+demonstrate the problem, and how I worked around it. The test was done
+with qemu-img v4.1.0, but I'm fairly certain that this issue has been
+present since "forever" (and a quick re-test with v4.2.0 confirmed that
+it has not "gone away").
+
+So, a simple work-around exists, but I see myself unable to suggest a
+patch. I guess the patch should be specific to prevent the creation of
+sparse VHD/VHDX files on Windows. But from the superficial reading I did
+I could not work out whether the image format information would be
+available in 'raw_co_create()' (of: 'block/file-win32.c').
+
+** Attachment added: "sparse-VHD_issue.log"
+   https://bugs.launchpad.net/qemu/+bug/1759522/+attachment/5332081/+files/=
+sparse-VHD_issue.log
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1759522
+
+Title:
+  windows qemu-img create vpc/vhdx error
+
+Status in QEMU:
+  New
+
+Bug description:
+  On windows, using qemu-img (version 2.11.90) to create vpc/vhdx
+  virtual disk tends to fail. Here's the way to reproduce:
+
+  1. Install qemu-w64-setup-20180321.exe
+
+  2. Use `qemu-img create -f vhdx -o subformat=3Dfixed disk.vhdx 512M` to c=
+reate a vhdx:
+     Formatting 'disk.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576=
+ block_size=3D0 subformat=3Dfixed
+
+  3. Execute `qemu-img info disk.vhdx` gives the result, (note the `disk si=
+ze` is incorrect):
+     image: disk.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 1.4M
+     cluster_size: 8388608
+
+  4. On Windows 10 (V1709), double click disk.vhdx gives an error:
+     Make sure the file is in an NTFS volume and isn't in a compressed fold=
+er or volume.
+
+     Using Disk Management -> Action -> Attach VHD gives an error:
+     The requested operation could not be completed due to a virtual disk s=
+ystem limitation. Virtual hard disk files must be uncompressed and uneccryp=
+ted and must not be sparse.
+
+  Comparison with Windows 10 created VHDX:
+
+  1. Using Disk Management -> Action -> Create VHD:
+     File name: win.vhdx
+     Virtual hard disk size: 512MB
+     Virtual hard disk format: VHDX
+     Virtual hard disk type: Fixed size
+
+  2. Detach VHDX
+
+  3. Execute `qemu-img info win.vhdx` gives the result:
+     image: win.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 516M
+     cluster_size: 33554432
+
+  Comparison with qemu-img under Ubuntu:
+
+  1. Version: qemu-img version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.16),
+  Copyright (c) 2004-2008 Fabrice Bellard
+
+  2. qemu-img create -f vhdx -o subformat=3Dfixed lin.vhdx 512M
+     Formatting 'lin.vhdx', fmt=3Dvhdx size=3D536870912 log_size=3D1048576 =
+block_size=3D0 subformat=3Dfixed
+
+  3. qemu-img info lin.vhdx
+     image: lin.vhdx
+     file format: vhdx
+     virtual size: 512M (536870912 bytes)
+     disk size: 520M
+     cluster_size: 8388608
+
+  4. Load lin.vhdx under Windows 10 is ok
+
+  The same thing happens on `vpc` format with or without
+  `oformat=3Dfixed`, it seems that windows version of qemu-img has some
+  incorrect operation? My guess is that windows version of qemu-img
+  doesn't handle the description field of vpc/vhdx, which leads to an
+  incorrect `disk size` field.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1759522/+subscriptions
 
