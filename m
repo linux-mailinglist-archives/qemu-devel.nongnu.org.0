@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B1B174484
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 03:45:13 +0100 (CET)
-Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A71517448A
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 03:47:44 +0100 (CET)
+Received: from localhost ([::1]:56560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7s7s-0008VU-45
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 21:45:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
+	id 1j7sAJ-0003pj-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 21:47:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j7s6d-00076R-4D
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:57 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7s6e-00076S-Jm
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j7s6b-00031j-MZ
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:54 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:43915)
+ (envelope-from <richard.henderson@linaro.org>) id 1j7s6c-00033K-Db
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:55 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35321)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j7s6b-0002z9-Fo
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:53 -0500
-Received: by mail-pl1-x631.google.com with SMTP id p11so1946346plq.10
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 18:43:53 -0800 (PST)
+ id 1j7s6c-00031Z-82
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:54 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id g6so1963974plt.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 18:43:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=y86kGv51d7MIe9EUA91Ip3mHFnX72SJuw4wm5LrzN7Y=;
- b=xytwpTq9ApDp6icUVBSMnHhllCuXLfMChXfGzk7TPNxyid+H95ZLPTCaqkxBUiJgFR
- k8ai6yM16ObljfzrME1n1FJk//F1twlIx6HcVqXYKYfdep2k1InR1elaePvhKFBquOdY
- IzhsO/YBe8gWP6eANg2wqL8efAqwiKf8PYOxdGqB6vZT7q5lakTksIzl2QM+ZhF2oVFy
- G7Km9toE+Ib+JOv9UXnO4Kauct60xSxHgOJCo5L40XsHFARvrZDxM/Iem0U4o8nkzADl
- zCiQkuXMYx1uR/X+LhAgG5KaJzhZsvPJfOKri8Qz13B0o9V6we9VnA/eZV0O0RVhbNCA
- idgQ==
+ bh=A1rWgDcZdMUvykrNCtRPCIuuNASTYFpt0ciGUShM3Kc=;
+ b=iUNDmyal666Idq4K/Sza2k1RrSTMcZGZQZxnekRDp3+6YuoWSv2nl70AOzBUuvuVVi
+ k2xVa0AYms/GBQLV4GZMObuITuHmEtC1Rt62OUisTvEUF35oMXFPsxy8eSfUJOFz15ct
+ LvW0FehECdHso91qVTZC6JrQ3F5III16ZTwszudRGxs/lej5d8N3vRgYzhHLn/Gev+0+
+ hT0cnGu98QZ6p6VgRZ7oXy7Zhc5nJnh2yuiBRrV2HnnF07WAd4fmiYE1zqPDI4MpvYOE
+ +7pzZRDVxO0JVPfjVBV563pX8GX11J09he43qzhdTQa1x5YC+xkg3yLnqu2+ddnT04JW
+ lEOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=y86kGv51d7MIe9EUA91Ip3mHFnX72SJuw4wm5LrzN7Y=;
- b=VVQSGqYcVGEdRPiFmb7zwG8xAAqtXrKgFXRcx49j3qzhZSxIelilKX5bQf6Z0Vdf03
- 8a8bg1JpVugAQwekDLtEvG2hB9DbmeQorzRfga5caEbPzM/uU1vy97g6Xu1VfA8mwDCn
- LIwZUc2QTxP/dRWYQXU6U69jXGBQ9Nu9K/QPkfqylCo+f7jRA0fml7vQDloldUQ5P2yM
- kodqK1eCgPX5BCMrCNZiEwccuQtgjJ0XmoC14Swo8Mqniek4+pOkfnLkfVUi/kBYLG4y
- dlORqjBkhg3DVHUB1yWd5r9O0kAzF9MxPx2JTw2yWLG0pYAzSu18ysCjnypTF3KVc0I+
- 6x7Q==
-X-Gm-Message-State: APjAAAXomwCB456ttZ9dnTGwOsRX8qRdX9TosjV+Zw57yv0lY+6kl6Mo
- GwM3852WYT0fs0YRx8ebzEgpQhls74I=
-X-Google-Smtp-Source: APXvYqw2a+1OjvyxVOmqitVYLB6RQH/0wCl4Rk2yL2UwZrNwTLdeldHHkZio6n3PXIQ7tBOQm60vlg==
-X-Received: by 2002:a17:902:b498:: with SMTP id
- y24mr6817446plr.343.1582944231603; 
- Fri, 28 Feb 2020 18:43:51 -0800 (PST)
+ bh=A1rWgDcZdMUvykrNCtRPCIuuNASTYFpt0ciGUShM3Kc=;
+ b=bkN81vip6JAto2twiEdjcMRSBV32NuBypFwKS8QKHPQi2MNI/O+bbobA1NAPINB3Rw
+ 4V/2Z+CrrWR891178MVYOKUZG9V0AhKBI+RSdQgOy4Gz2UdGJRytdPBhia0BV8bPZaxn
+ zjT+c1bnkleNsZPiCAUlTlhh3cIzsP2vZR8RQJgvU6U9V8Vpa0V5S0wKn/lvg+f01whT
+ NuVo8nE4hnX2e+1IV9nCgES4azAmwlvHj5UwPU9tAmcsani0zo7nZPvxTOJ0fW9b6OcF
+ vc/RFMz9VZmTSZbMaxtNR6CFoRLcZvEwPc8EiKB7YLPEg8NUjCxAETOuHW6FcCyJ6DsV
+ h7GQ==
+X-Gm-Message-State: APjAAAXTXAnc4t3nktuR+Gim51HJGTzD9fQAE06JCCeuKzl4ScCi3Kv+
+ DDiAR4qJ82WpZOuwZwpgZYwL8RM9PD4=
+X-Google-Smtp-Source: APXvYqzeBp6sccnE4u402S70mAkiIiL0EGoOzuFm9M2u/qk0we3lKKU5E3a8FBGN0ufPeMJHRhXHnQ==
+X-Received: by 2002:a17:90a:ff15:: with SMTP id
+ ce21mr7814400pjb.124.1582944232773; 
+ Fri, 28 Feb 2020 18:43:52 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id k9sm3649321pjo.19.2020.02.28.18.43.50
+ by smtp.gmail.com with ESMTPSA id k9sm3649321pjo.19.2020.02.28.18.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 18:43:50 -0800 (PST)
+ Fri, 28 Feb 2020 18:43:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] accel/tcg: fix race in cpu_exec_step_atomic (bug 1863025)
-Date: Fri, 28 Feb 2020 18:43:40 -0800
-Message-Id: <20200229024347.22826-2-richard.henderson@linaro.org>
+Subject: [PULL 2/8] compiler.h: Don't use compile-time assert when
+ __NO_INLINE__ is defined
+Date: Fri, 28 Feb 2020 18:43:41 -0800
+Message-Id: <20200229024347.22826-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200229024347.22826-1-richard.henderson@linaro.org>
 References: <20200229024347.22826-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::631
+X-Received-From: 2607:f8b0:4864:20::62d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,96 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Yifan <me@yifanlu.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, peter.maydell@linaro.org,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Zenghui Yu <yuzenghui@huawei.com>
 
-The bug describes a race whereby cpu_exec_step_atomic can acquire a TB
-which is invalidated by a tb_flush before we execute it. This doesn't
-affect the other cpu_exec modes as a tb_flush by it's nature can only
-occur on a quiescent system. The race was described as:
+Our robot reported the following compile-time warning while compiling
+Qemu with -fno-inline cflags:
 
-  B2. tcg_cpu_exec => cpu_exec => tb_find => tb_gen_code
-  B3. tcg_tb_alloc obtains a new TB
+In function 'load_memop',
+    inlined from 'load_helper' at /qemu/accel/tcg/cputlb.c:1578:20,
+    inlined from 'full_ldub_mmu' at /qemu/accel/tcg/cputlb.c:1624:12:
+/qemu/accel/tcg/cputlb.c:1502:9: error: call to 'qemu_build_not_reached' declared with attribute error: code path is reachable
+         qemu_build_not_reached();
+         ^~~~~~~~~~~~~~~~~~~~~~~~
+    [...]
 
-      C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-          (same TB as B2)
+It looks like a false-positive because only (MO_UB ^ MO_BSWAP) will
+hit the default case in load_memop() while need_swap (size > 1) has
+already ensured that MO_UB is not involved.
 
-          A3. start_exclusive critical section entered
-          A4. do_tb_flush is called, TB memory freed/re-allocated
-          A5. end_exclusive exits critical section
+So the thing is that compilers get confused by the -fno-inline and
+just can't accurately evaluate memop_size(op) at compile time, and
+then the qemu_build_not_reached() is wrongly triggered by (MO_UB ^
+MO_BSWAP).  Let's carefully don't use the compile-time assert when
+no functions will be inlined into their callers.
 
-  B2. tcg_cpu_exec => cpu_exec => tb_find => tb_gen_code
-  B3. tcg_tb_alloc reallocates TB from B2
-
-      C4. start_exclusive critical section entered
-      C5. cpu_tb_exec executes the TB code that was free in A4
-
-The simplest fix is to widen the exclusive period to include the TB
-lookup. As a result we can drop the complication of checking we are in
-the exclusive region before we end it.
-
-Cc: Yifan <me@yifanlu.com>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1863025
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200214144952.15502-1-alex.bennee@linaro.org>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Message-Id: <20200205141545.180-1-yuzenghui@huawei.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ include/qemu/compiler.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 2560c90eec..d95c4848a4 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -240,6 +240,8 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     uint32_t cf_mask = cflags & CF_HASH_MASK;
- 
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-+        start_exclusive();
-+
-         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-         if (tb == NULL) {
-             mmap_lock();
-@@ -247,8 +249,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-             mmap_unlock();
-         }
- 
--        start_exclusive();
--
-         /* Since we got here, we know that parallel_cpus must be true.  */
-         parallel_cpus = false;
-         cc->cpu_exec_enter(cpu);
-@@ -271,14 +271,15 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         qemu_plugin_disable_mem_helpers(cpu);
-     }
- 
--    if (cpu_in_exclusive_context(cpu)) {
--        /* We might longjump out of either the codegen or the
--         * execution, so must make sure we only end the exclusive
--         * region if we started it.
--         */
--        parallel_cpus = true;
--        end_exclusive();
--    }
-+
-+    /*
-+     * As we start the exclusive region before codegen we must still
-+     * be in the region if we longjump out of either the codegen or
-+     * the execution.
-+     */
-+    g_assert(cpu_in_exclusive_context(cpu));
-+    parallel_cpus = true;
-+    end_exclusive();
- }
- 
- struct tb_desc {
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 85c02c16d3..c76281f354 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -236,7 +236,7 @@
+  * supports QEMU_ERROR, this will be reported at compile time; otherwise
+  * this will be reported at link time due to the missing symbol.
+  */
+-#ifdef __OPTIMIZE__
++#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
+ extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
+     qemu_build_not_reached(void);
+ #else
 -- 
 2.20.1
 
