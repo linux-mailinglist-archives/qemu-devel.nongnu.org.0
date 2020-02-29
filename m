@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D46174446
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 02:47:09 +0100 (CET)
-Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E6B17445D
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 02:55:33 +0100 (CET)
+Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7rDg-0002ux-4o
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 20:47:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38834)
+	id 1j7rLo-0006Hq-Kr
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 20:55:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j7rCq-0002Mt-Qo
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:46:17 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7rL3-0005qD-NG
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:54:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j7rCp-0004QE-Ne
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:46:16 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:53526)
+ (envelope-from <richard.henderson@linaro.org>) id 1j7rL2-0000Th-Hf
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:54:45 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:55475)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j7rCp-0004Pr-Hp
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:46:15 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id i11so1929540pju.3
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 17:46:15 -0800 (PST)
+ id 1j7rL2-0000Tb-BY
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:54:44 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id a18so1991568pjs.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 17:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x6sDG0IIcZ7Zp+I9XshOaZdugtDBlhBVQlWxzodIvJY=;
- b=JYvFY6tUbRo1mduhB+HaeIsC6aqV/p+Py3QzITkob39jl1IgHAKiYM6rZe1XN6s7yE
- tspfHitO/ZOuWI1o3aOL6KSz8r6lmjBkZ4/vVGTbpavfQGoqwvY/aoYuAwsp3CF44VzN
- py9sExty9Re3T6SwoH4VyHG5C9e8MdocayWDAUFxRb+DIYZzRQG5f+zV26VjZU5+QI0l
- he40IJaVwRu4UOZBDeVYvwFAXn7v4d4pp8gpP6aLYsjxVX35yai4XNXRybMkqVxrC9nk
- HqXUoKc2mUGJeycvldpeNn465ABxytM8LB2dVhheRPzIX8wAg3Q1iZNtyDKzSFIKrhcy
- 4tdA==
+ bh=WtZQhwepf52NUkkU/1UJ5VjvUnfcZSuNC4qGBI7NQ6g=;
+ b=x+k6U+b2pVwFX1g0dXqkm6mlMTzI6omIyWx1VUtWeDsD4PuaBCcvjzD4UgXqlNvZoF
+ JptJcNOVDvbLXitQnqIkHPEvLM4EnWc83kKMQ8VdRvTi+71phvLARYKDFSrY0+j2q0xl
+ c47VQGrUOr8vvCZupDttPA95ES91P1ViDrhuQACHW+GD0pJdRpQ2n+FqZ3fFowlty9A+
+ 9BFUJcD5dmuFIoKnF7lGtZOXVs2iqP2U7se9bDIt+juXX2V8ezF2JHRafz97GnQ55PCM
+ kvY/XlHJ6GwhdyQrIuBKbcfGAudJO3K1CucEfXY7lF0G7hrrvTBspEzWGRje8xcEIYEE
+ eZPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x6sDG0IIcZ7Zp+I9XshOaZdugtDBlhBVQlWxzodIvJY=;
- b=r+66DMvOKBjcmYqSjv7gYrDb8aMc9RqPe4ksngQBkRzZJncgN5GFZMRAVyFvEdRReV
- CObP9B8fNBoJfUvjiMJWqYGChl+3qsn4YHvCi9oUxqhsX/FX7rEaLCm1SEU6ddOQA30Y
- jK5z49W+sJGa8Vp2YsfYtXDUnRA+W77HzXN6C8/EeZqh1yhZ595E+UWcvselYwfFWa71
- UkBt+LO/uQN5jdEnThS9s81HcazJ4jOTbmMcqCR2XzNts2yrsUxpd+GHaiRTKW4SD7nU
- tudA3K3ONKo6Q2JYLA0Fv/ZlS8hGnylZkyXbaXSWIt5D47NeIbNZm2g9HObCzU9GaP40
- 4tCQ==
-X-Gm-Message-State: APjAAAVap8FdgO1wwQeVpH/OcFnABZ3qy3LAvZZWIIMUujCHrNWkMUCG
- 6vAwYNcTVbVg22d3fh4NgdyBrQ==
-X-Google-Smtp-Source: APXvYqxghoUbsegNcobl5kP/3Mnlm2cEGTLCU8IAjtUK2G0TTzd1j5vj/13IqXhnWHwW4VCSahp9Aw==
-X-Received: by 2002:a17:902:343:: with SMTP id
- 61mr6821238pld.332.1582940774421; 
- Fri, 28 Feb 2020 17:46:14 -0800 (PST)
+ bh=WtZQhwepf52NUkkU/1UJ5VjvUnfcZSuNC4qGBI7NQ6g=;
+ b=HjmmdBWObSz3Oae0XI07v2GBYatjUy5cw1gSi/nP3VjxO2srZoH/gh58+5tnRlojxe
+ GSZlFCn8v2X5bAbCdtZ0amLAo8YelFibJZtp0GCWBkuihGt6CAZNk+sls0SU7GhYIhrB
+ hVw2oXFG+D8vTiAguNoE0gYVsItJZ1/k4pDJF+Eia5vhgB1xZbtOPDjoSROxgiZlF3Ko
+ qfmIIBh8x9VAui2WW4npIlPBW5R1siBkHEljoxvSQ6cIv5YZmbBbKGrNKmUgrgrIY4nF
+ WgZiY08GWBEF3Yz8zqm/loDgqLfB1oVwqmie+yRKQDweWrqhGYfWhZOqPBJi5lBg3dzg
+ /dow==
+X-Gm-Message-State: APjAAAW+koOWxi3PLcRXzRwAVb7550Mbv1o4X4OloiGlomfCv2HHC8jo
+ kYRS45OCOdHeaPWTRW0kUaZuww==
+X-Google-Smtp-Source: APXvYqxmMAZ9cFEaudNpENmNtWIzrWIxr3iDNVdpngzS8dDMKe/cOt0mNtnZ7NV79+JsOlzaJwoG6w==
+X-Received: by 2002:a17:90a:7345:: with SMTP id
+ j5mr7252780pjs.69.1582941283239; 
+ Fri, 28 Feb 2020 17:54:43 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- 3sm12481617pfi.13.2020.02.28.17.46.13
+ c7sm4463721pfp.98.2020.02.28.17.54.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Feb 2020 17:46:13 -0800 (PST)
-Subject: Re: [PATCH v2 0/4] Clean-up codegen cache size
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200228192415.19867-1-alex.bennee@linaro.org>
+ Fri, 28 Feb 2020 17:54:42 -0800 (PST)
+Subject: Re: [PATCH v3 1/2] configure: add configure option avx512f_opt
+To: Robert Hoo <robert.hu@linux.intel.com>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, laurent@vivier.eu, philmd@redhat.com,
+ berrange@redhat.com
+References: <1582856696-45663-1-git-send-email-robert.hu@linux.intel.com>
+ <1582856696-45663-2-git-send-email-robert.hu@linux.intel.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5b8a3ffb-4ae1-b842-7eb2-e60defa2dd53@linaro.org>
-Date: Fri, 28 Feb 2020 17:46:11 -0800
+Message-ID: <3d1dde69-9b08-42bd-4241-64783df77ec2@linaro.org>
+Date: Fri, 28 Feb 2020 17:54:40 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200228192415.19867-1-alex.bennee@linaro.org>
+In-Reply-To: <1582856696-45663-2-git-send-email-robert.hu@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,27 +86,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: robert.hu@intel.com, chao.p.peng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/28/20 11:24 AM, Alex Bennée wrote:
-> Hi,
+On 2/27/20 6:24 PM, Robert Hoo wrote:
+> If it is enabled, config-host.mak will have CONFIG_AVX512F_OPT defined.
 > 
-> A few tweaks to the final commit so we are a little less greedy for
-> translation buffer, especially for the CONFIG_USER case. Otherwise
-> I've applied the review tags.
+> AVX512F instruction set is available since Intel Skylake, and can be enabled in
+> compiling with -mavx512f.
+> More info:
+> https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
 > 
-> Alex Bennée (4):
->   accel/tcg: use units.h for defining code gen buffer sizes
->   accel/tcg: remove link between guest ram and TCG cache size
->   accel/tcg: only USE_STATIC_CODE_GEN_BUFFER on 32 bit hosts
->   accel/tcg: increase default code gen buffer size for 64 bit
-> 
->  accel/tcg/translate-all.c | 61 +++++++++++++++++++++++----------------
->  1 file changed, 36 insertions(+), 25 deletions(-)
+> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+> ---
+>  configure | 41 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
 
-Applied to tcg-next.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
