@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514BA174431
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 02:31:30 +0100 (CET)
-Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71CB174433
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 02:32:12 +0100 (CET)
+Received: from localhost ([::1]:55890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7qyX-00023w-C5
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 20:31:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
+	id 1j7qzD-0003Lg-Jo
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 20:32:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36985)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j7qvU-0004j2-58
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:21 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7qvW-0004kZ-67
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j7qvR-0005y0-Kw
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:19 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40557)
+ (envelope-from <richard.henderson@linaro.org>) id 1j7qvV-00060b-2b
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:22 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:44139)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j7qvR-0005xT-G9
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:17 -0500
-Received: by mail-pf1-x442.google.com with SMTP id b185so2590483pfb.7
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 17:28:17 -0800 (PST)
+ id 1j7qvU-0005z8-SX
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:21 -0500
+Received: by mail-pl1-x641.google.com with SMTP id d9so1900247plo.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 17:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f02zxp7l+Sqo1gI6cxnt5pVpIauWmflCG9BwYQEIz+Q=;
- b=gq+2nEB6tyfr3suuUaJuiFLEN8m1kb2LsIfDX2ppB3XERpvWN0o0Ta5vf0DLZlxshs
- BREHJsZvV98bBlvrXdZGiMAGIuPTx5xr4QN/l+QRfFHHUnRLCXSlEM7UhxAM6Rxw9MIy
- 30ULRp743uMLYPFflyx12tJ6TO4FPVm+N3iFQSCKMxwbe8UMTF4ll1YRDkAqrA21pp+k
- B8wJLfOdGQvSfH1c63nwVWPvg/Zw4Gm4gvo9snbqd2Qn4kZsZliAeAEQsJZo07/WEJYN
- IIp1HdTZyoi3jmo4we5EGhkK23OtfzPeCkQFEMkWOfY/d5I09xMt11/aTF9YRNjExjtR
- hkxQ==
+ bh=QpMHNZIbcT5PzqjajR8IDp8eTMJQTzdyuvxjhrMoYDc=;
+ b=YY2Mz0sznUyzLkAu1ttdhi9ccja2VcdZ72zNGleYvo831HwzPkcs197oPmgr6em6O2
+ LZJH/O75OrxN2+rDi1nF+8SgvkWTYd5qQpCArvjePBcriTVbzyLidObarP1f4M1+jcn/
+ Y6PhNuae4pAmb56QmYcCVgpy7FzESM3dM7H5LCOStgueezcuczF2mTSszdceXTpUlYN1
+ LeupHVsARLhHvRKtTZ7P8LZBoszOakQUg1se3av9J4n95a3xHEMB3joKVLtdQuyH8A+G
+ 3ED8dUat1+2kN1KLcCFtppx8Jf7p7OxzaZqbTqTQWkMOhCRtjuYNG4ZShvVPj+hlc5K0
+ EXxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f02zxp7l+Sqo1gI6cxnt5pVpIauWmflCG9BwYQEIz+Q=;
- b=SH1pKHWPPdn82g2Sm+5NuRh+Zvuotx+9zC549B/FM0pWcTc0cIZa303YlJ/aVJIDPe
- yH/oLiz/IpNPUr3XpcGGfLYuPHETTSc6yZHq6LG+hHpBPQ/FZYomgzfhWVHHMoVutGvG
- yPDEvsc2MgvHpt8W0Wn+vStq9qoouWl4d4OZ24VNkc3y4Ty9OtUnm9DULob4Qpk0WfTV
- UHQbXPM6GIWq94gDG+bmoHlokpaF0nx4Js9IBCVIRMRcrmyhkKETkvIjSuF9b4onGfJy
- 9ujh7OMCabpJAtAGSFh0eDdPiJjzw/EGIvIoDWWWGQ0mUmI5VP05VunYYMApuznJgh1z
- HF6w==
-X-Gm-Message-State: APjAAAUVFvuhvFoZTrhT12CURV31voQMhlMu9gc3PulHdb0Rct+GhWdq
- 1ZKPC28ubG2LmjSMnL72nqLVkwx6hVw=
-X-Google-Smtp-Source: APXvYqxH7PSKC4OcarpZEGhN7oFImq/RUYYrC+yzfnFAc3KtGTxFJlhTw/jt3SmGCco1/b6pUEAoYg==
-X-Received: by 2002:a62:f247:: with SMTP id y7mr7062056pfl.5.1582939696093;
- Fri, 28 Feb 2020 17:28:16 -0800 (PST)
+ bh=QpMHNZIbcT5PzqjajR8IDp8eTMJQTzdyuvxjhrMoYDc=;
+ b=ZNG2fZUWQUIwRKUd2HhY9gdr9ZJhfzd+4tEyl6TnK6jt0G1mosDHsi0xQmtIStzGTJ
+ C7tdOtsDhy0W5sMvfIdxtUjP4gvqiTgrumNqSuqfP7720TSCuiqnu0Ya2WQpQRhR84KT
+ D6TKcytVX1p+/WAaIhQmjbQZLHA9KXcYTR6pwSNEm/mPEJPZP51M1T+Uk9lTWz909JlX
+ TInLYOlfaK3q/JRP45gU8VoXffNk9bmTDDiPjDNQPPRRQqcIr5WSa4SdRlPu2K912Ynx
+ lVmukTpn8wSxqNSBBAe/ts6AiqMh3UpF10rCBqr80LCbRFkad9rUY/VpyVsAK++7oq7m
+ +mCw==
+X-Gm-Message-State: APjAAAVrzDhwCKKwm9RT5mNM47xm0eCAZAJfsI3YOFeq7VUINDw+EyGn
+ 9jZpPchHb1gVHSmR+a7ekBZWKlcy4kU=
+X-Google-Smtp-Source: APXvYqwkCjGMdstyhYyogHKj1DoGDKawMt7g65hy7zFiuS6OCr+vn78moluMw3RJ/Ct23OF2b8DJXw==
+X-Received: by 2002:a17:90b:243:: with SMTP id
+ fz3mr7826522pjb.29.1582939698546; 
+ Fri, 28 Feb 2020 17:28:18 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id r3sm4606313pfq.126.2020.02.28.17.28.14
+ by smtp.gmail.com with ESMTPSA id r3sm4606313pfq.126.2020.02.28.17.28.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 17:28:15 -0800 (PST)
+ Fri, 28 Feb 2020 17:28:17 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/12] target/arm: Improve masking of HCR/HCR2 RES0 bits
-Date: Fri, 28 Feb 2020 17:28:00 -0800
-Message-Id: <20200229012811.24129-2-richard.henderson@linaro.org>
+Subject: [PATCH v5 03/12] target/arm: Disable has_el2 and has_el3 for user-only
+Date: Fri, 28 Feb 2020 17:28:02 -0800
+Message-Id: <20200229012811.24129-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200229012811.24129-1-richard.henderson@linaro.org>
 References: <20200229012811.24129-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,93 +83,64 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't merely start with v8.0, handle v7VE as well.  Ensure that writes
-from aarch32 mode do not change bits in the other half of the register.
-Protect reads of aa64 id registers with ARM_FEATURE_AARCH64.
+In arm_cpu_reset, we configure many system registers so that user-only
+behaves as it should with a minimum of ifdefs.  However, we do not set
+all of the system registers as required for a cpu with EL2 and EL3.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Disabling EL2 and EL3 mean that we will not look at those registers,
+which means that we don't have to worry about configuring them.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 38 +++++++++++++++++++++++++-------------
- 1 file changed, 25 insertions(+), 13 deletions(-)
+ target/arm/cpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 6be9ffa09e..e68e16b85b 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5086,11 +5086,15 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index e6016e33ce..33c28fe868 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1103,11 +1103,13 @@ static Property arm_cpu_reset_hivecs_property =
+ static Property arm_cpu_rvbar_property =
+             DEFINE_PROP_UINT64("rvbar", ARMCPU, rvbar, 0);
  
--static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-+static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
- {
-     ARMCPU *cpu = env_archcpu(env);
--    /* Begin with bits defined in base ARMv8.0.  */
--    uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
-+
-+    if (arm_feature(env, ARM_FEATURE_V8)) {
-+        valid_mask |= MAKE_64BIT_MASK(0, 34);  /* ARMv8.0 */
-+    } else {
-+        valid_mask |= MAKE_64BIT_MASK(0, 28);  /* ARMv7VE */
-+    }
++#ifndef CONFIG_USER_ONLY
+ static Property arm_cpu_has_el2_property =
+             DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
  
-     if (arm_feature(env, ARM_FEATURE_EL3)) {
-         valid_mask &= ~HCR_HCD;
-@@ -5104,14 +5108,17 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+ static Property arm_cpu_has_el3_property =
+             DEFINE_PROP_BOOL("has_el3", ARMCPU, has_el3, true);
++#endif
+ 
+ static Property arm_cpu_cfgend_property =
+             DEFINE_PROP_BOOL("cfgend", ARMCPU, cfgend, false);
+@@ -1222,25 +1224,25 @@ void arm_cpu_post_init(Object *obj)
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
+     }
+ 
++#ifndef CONFIG_USER_ONLY
+     if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
+         /* Add the has_el3 state CPU property only if EL3 is allowed.  This will
+          * prevent "has_el3" from existing on CPUs which cannot support EL3.
           */
-         valid_mask &= ~HCR_TSC;
-     }
--    if (cpu_isar_feature(aa64_vh, cpu)) {
--        valid_mask |= HCR_E2H;
--    }
--    if (cpu_isar_feature(aa64_lor, cpu)) {
--        valid_mask |= HCR_TLOR;
--    }
--    if (cpu_isar_feature(aa64_pauth, cpu)) {
--        valid_mask |= HCR_API | HCR_APK;
-+
-+    if (arm_feature(env, ARM_FEATURE_AARCH64)) {
-+        if (cpu_isar_feature(aa64_vh, cpu)) {
-+            valid_mask |= HCR_E2H;
-+        }
-+        if (cpu_isar_feature(aa64_lor, cpu)) {
-+            valid_mask |= HCR_TLOR;
-+        }
-+        if (cpu_isar_feature(aa64_pauth, cpu)) {
-+            valid_mask |= HCR_API | HCR_APK;
-+        }
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el3_property);
+ 
+-#ifndef CONFIG_USER_ONLY
+         object_property_add_link(obj, "secure-memory",
+                                  TYPE_MEMORY_REGION,
+                                  (Object **)&cpu->secure_memory,
+                                  qdev_prop_allow_set_link_before_realize,
+                                  OBJ_PROP_LINK_STRONG,
+                                  &error_abort);
+-#endif
      }
  
-     /* Clear RES0 bits.  */
-@@ -5143,12 +5150,17 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-     arm_cpu_update_vfiq(cpu);
- }
+     if (arm_feature(&cpu->env, ARM_FEATURE_EL2)) {
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el2_property);
+     }
++#endif
  
-+static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-+{
-+    do_hcr_write(env, value, 0);
-+}
-+
- static void hcr_writehigh(CPUARMState *env, const ARMCPRegInfo *ri,
-                           uint64_t value)
- {
-     /* Handle HCR2 write, i.e. write to high half of HCR_EL2 */
-     value = deposit64(env->cp15.hcr_el2, 32, 32, value);
--    hcr_write(env, NULL, value);
-+    do_hcr_write(env, value, MAKE_64BIT_MASK(0, 32));
- }
- 
- static void hcr_writelow(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -5156,7 +5168,7 @@ static void hcr_writelow(CPUARMState *env, const ARMCPRegInfo *ri,
- {
-     /* Handle HCR write, i.e. write to low half of HCR_EL2 */
-     value = deposit64(env->cp15.hcr_el2, 0, 32, value);
--    hcr_write(env, NULL, value);
-+    do_hcr_write(env, value, MAKE_64BIT_MASK(32, 32));
- }
- 
- /*
+     if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
+         cpu->has_pmu = true;
 -- 
 2.20.1
 
