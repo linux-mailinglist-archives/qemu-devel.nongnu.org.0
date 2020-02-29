@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF63174454
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 02:52:42 +0100 (CET)
-Received: from localhost ([::1]:56136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514BA174431
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 02:31:30 +0100 (CET)
+Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7rJ3-0004lw-Bq
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 20:52:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33269)
+	id 1j7qyX-00023w-C5
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 20:31:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuanzi@google.com>) id 1j7qEE-0007CV-1b
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 19:43:39 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7qvU-0004j2-58
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuanzi@google.com>) id 1j7qEC-0000h9-Pb
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 19:43:37 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46836)
+ (envelope-from <richard.henderson@linaro.org>) id 1j7qvR-0005y0-Kw
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:19 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40557)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuanzi@google.com>) id 1j7qEC-0000gn-JD
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 19:43:36 -0500
-Received: by mail-oi1-x243.google.com with SMTP id a22so4638951oid.13
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 16:43:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W7nuvaWsjXLJMeKbo1frRq/4Vd8hFCnRBBwkhk29YBw=;
- b=c7UWjc1YmtIzGTJA7Gb+c4293IHg78xKaMq3VhFKU/W8+Zta/i//sEGfTYfFZQe4dL
- ToQPetoVicGpsP9cTc1xzkHZe8DCV1W88+A5/n8I84rZ5JJhx5tuZse0wx19PjEWN5gA
- zP5JUAKptuhzJyN/Lna3BDD+tSslAxphzxUqyv3x47abfGibMy8SfhtVrmoilxQHaOJI
- In6Zr2qxm2gz3YHbXmEulZ67GqMHXsCyq6954Ma2/dodFfnc5L4rWIp/iOcQcRbWso4d
- uTuyMnTnZIW6PhhZ3iS3S5TdOwPWm398cWeTG+jQv9I3IWQUFYMqCtaIrBnffiecq2qI
- KuFg==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j7qvR-0005xT-G9
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 20:28:17 -0500
+Received: by mail-pf1-x442.google.com with SMTP id b185so2590483pfb.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 17:28:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=f02zxp7l+Sqo1gI6cxnt5pVpIauWmflCG9BwYQEIz+Q=;
+ b=gq+2nEB6tyfr3suuUaJuiFLEN8m1kb2LsIfDX2ppB3XERpvWN0o0Ta5vf0DLZlxshs
+ BREHJsZvV98bBlvrXdZGiMAGIuPTx5xr4QN/l+QRfFHHUnRLCXSlEM7UhxAM6Rxw9MIy
+ 30ULRp743uMLYPFflyx12tJ6TO4FPVm+N3iFQSCKMxwbe8UMTF4ll1YRDkAqrA21pp+k
+ B8wJLfOdGQvSfH1c63nwVWPvg/Zw4Gm4gvo9snbqd2Qn4kZsZliAeAEQsJZo07/WEJYN
+ IIp1HdTZyoi3jmo4we5EGhkK23OtfzPeCkQFEMkWOfY/d5I09xMt11/aTF9YRNjExjtR
+ hkxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W7nuvaWsjXLJMeKbo1frRq/4Vd8hFCnRBBwkhk29YBw=;
- b=pC4x3vf55gEZ1JbXQDv6cROUSUm4Q0FMtH8FGB4UY9UYr5hUgEv3//i5u3Cqy7qwum
- Y6+g2eR/8DSo9meW/om5I8uSK34YUbuL/hkEkp/gn0J5uCk/ATbwsVXpFzjQwLT+s9O0
- RZcxOFeJ54okDZ7hDFRJyCxJ1UlY/dRVR5jLwRO0207WssxJ50jQjeeKchsBk0MBdgP1
- 1mxXOWOJWXMOWc0gcZHyMSfkcdjll0oaNeruus1f/ea31NWcqpcjIKukYTMasb1+pI89
- rFidUHMHCZsQ1P8c+SJ9gH1zBiObSNOgYWBlzTWbcphgAN7ITgq1DRsk42pRe9TYazy7
- pzZg==
-X-Gm-Message-State: APjAAAVt0XfY4xbLk0Jrq0KQdMBCd38genyjxp7pXmD47REmjy7WQEMP
- vXMViCwfqJbKiSxsbojCNGEmVmPHHrHf5Dn3RG4VcAJciNg=
-X-Google-Smtp-Source: APXvYqxOzoQ7LK8bnCVWMy7mVU078AjfjnK6aVEZu8J1rhMG3tFIUP9Q93bJO8bLeQT+8fn5E9rT8o3B8YihktGYiK0=
-X-Received: by 2002:aca:62c4:: with SMTP id w187mr5057038oib.38.1582937015392; 
- Fri, 28 Feb 2020 16:43:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=f02zxp7l+Sqo1gI6cxnt5pVpIauWmflCG9BwYQEIz+Q=;
+ b=SH1pKHWPPdn82g2Sm+5NuRh+Zvuotx+9zC549B/FM0pWcTc0cIZa303YlJ/aVJIDPe
+ yH/oLiz/IpNPUr3XpcGGfLYuPHETTSc6yZHq6LG+hHpBPQ/FZYomgzfhWVHHMoVutGvG
+ yPDEvsc2MgvHpt8W0Wn+vStq9qoouWl4d4OZ24VNkc3y4Ty9OtUnm9DULob4Qpk0WfTV
+ UHQbXPM6GIWq94gDG+bmoHlokpaF0nx4Js9IBCVIRMRcrmyhkKETkvIjSuF9b4onGfJy
+ 9ujh7OMCabpJAtAGSFh0eDdPiJjzw/EGIvIoDWWWGQ0mUmI5VP05VunYYMApuznJgh1z
+ HF6w==
+X-Gm-Message-State: APjAAAUVFvuhvFoZTrhT12CURV31voQMhlMu9gc3PulHdb0Rct+GhWdq
+ 1ZKPC28ubG2LmjSMnL72nqLVkwx6hVw=
+X-Google-Smtp-Source: APXvYqxH7PSKC4OcarpZEGhN7oFImq/RUYYrC+yzfnFAc3KtGTxFJlhTw/jt3SmGCco1/b6pUEAoYg==
+X-Received: by 2002:a62:f247:: with SMTP id y7mr7062056pfl.5.1582939696093;
+ Fri, 28 Feb 2020 17:28:16 -0800 (PST)
+Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
+ [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id r3sm4606313pfq.126.2020.02.28.17.28.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Feb 2020 17:28:15 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 01/12] target/arm: Improve masking of HCR/HCR2 RES0 bits
+Date: Fri, 28 Feb 2020 17:28:00 -0800
+Message-Id: <20200229012811.24129-2-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200229012811.24129-1-richard.henderson@linaro.org>
+References: <20200229012811.24129-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20200222010925.32858-1-yuanzi@google.com>
-In-Reply-To: <20200222010925.32858-1-yuanzi@google.com>
-From: Lirong Yuan <yuanzi@google.com>
-Date: Fri, 28 Feb 2020 16:43:24 -0800
-Message-ID: <CADjx4CKoSuu2zWn7BRhpxLL3TaimR7fX99u_r41egctwA1LVTQ@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Add an argument QEMU_MMAP_BASE to set custom
- mmap base address in qemu user mode
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-X-Mailman-Approved-At: Fri, 28 Feb 2020 20:51:37 -0500
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,94 +78,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 21, 2020 at 5:09 PM Lirong Yuan <yuanzi@google.com> wrote:
->
-> This change allows us to set custom base address for guest programs. It is needed to allow qemu to work with Thread Sanitizer (TSan), which has specific boundary definitions for memory mappings on different platforms:
-> https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_platform.h
->
-> Signed-off-by: Lirong Yuan <yuanzi@google.com>
-> ---
->  linux-user/main.c | 12 ++++++++++++
->  linux-user/mmap.c |  3 ++-
->  linux-user/qemu.h |  5 +++++
->  3 files changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index fba833aac9..c01af6bfee 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -336,6 +336,16 @@ static void handle_arg_guest_base(const char *arg)
->      have_guest_base = 1;
->  }
->
-> +static void handle_arg_mmap_base(const char *arg)
-> +{
-> +    int err = qemu_strtoul(arg, NULL, 0, &mmap_base);
-> +    if (err) {
-> +        fprintf(stderr, "Invalid mmap_base: %s, err: %d\n", arg, err);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +    mmap_next_start = mmap_base;
-> +}
-> +
->  static void handle_arg_reserved_va(const char *arg)
->  {
->      char *p;
-> @@ -440,6 +450,8 @@ static const struct qemu_argument arg_table[] = {
->       "uname",      "set qemu uname release string to 'uname'"},
->      {"B",          "QEMU_GUEST_BASE",  true,  handle_arg_guest_base,
->       "address",    "set guest_base address to 'address'"},
-> +    {"mmap_base",  "QEMU_MMAP_BASE",   true,  handle_arg_mmap_base,
-> +     "",           "begin allocating guest pages at this host address"},
->      {"R",          "QEMU_RESERVED_VA", true,  handle_arg_reserved_va,
->       "size",       "reserve 'size' bytes for guest virtual address space"},
->      {"d",          "QEMU_LOG",         true,  handle_arg_log,
-> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-> index 8685f02e7e..3f35543acf 100644
-> --- a/linux-user/mmap.c
-> +++ b/linux-user/mmap.c
-> @@ -189,6 +189,7 @@ static int mmap_frag(abi_ulong real_start,
->  # define TASK_UNMAPPED_BASE  0x40000000
->  #endif
->  abi_ulong mmap_next_start = TASK_UNMAPPED_BASE;
-> +abi_ulong mmap_base = TASK_UNMAPPED_BASE;
->
->  unsigned long last_brk;
->
-> @@ -299,7 +300,7 @@ abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size, abi_ulong align)
->
->              if ((addr & (align - 1)) == 0) {
->                  /* Success.  */
-> -                if (start == mmap_next_start && addr >= TASK_UNMAPPED_BASE) {
-> +                if (start == mmap_next_start && addr >= mmap_base) {
->                      mmap_next_start = addr + size;
->                  }
->                  return addr;
-> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-> index 560a68090e..83c00cfea2 100644
-> --- a/linux-user/qemu.h
-> +++ b/linux-user/qemu.h
-> @@ -161,6 +161,11 @@ void task_settid(TaskState *);
->  void stop_all_tasks(void);
->  extern const char *qemu_uname_release;
->  extern unsigned long mmap_min_addr;
-> +/*
-> + * mmap_base is minimum address to use when allocating guest pages. All guest
-> + * pages will be allocated at this (guest) address or higher addresses.
-> + */
-> +extern abi_ulong mmap_base;
->
->  /* ??? See if we can avoid exposing so much of the loader internals.  */
->
-> --
-> 2.25.0.265.gbab2e86ba0-goog
->
+Don't merely start with v8.0, handle v7VE as well.  Ensure that writes
+from aarch32 mode do not change bits in the other half of the register.
+Protect reads of aa64 id registers with ARM_FEATURE_AARCH64.
 
-Friendly ping~
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 38 +++++++++++++++++++++++++-------------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
 
-Link to the page for the patch on patchwork:
-http://patchwork.ozlabs.org/patch/1242370/
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6be9ffa09e..e68e16b85b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5086,11 +5086,15 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[] = {
+     REGINFO_SENTINEL
+ };
+ 
+-static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
++static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+-    /* Begin with bits defined in base ARMv8.0.  */
+-    uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
++
++    if (arm_feature(env, ARM_FEATURE_V8)) {
++        valid_mask |= MAKE_64BIT_MASK(0, 34);  /* ARMv8.0 */
++    } else {
++        valid_mask |= MAKE_64BIT_MASK(0, 28);  /* ARMv7VE */
++    }
+ 
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         valid_mask &= ~HCR_HCD;
+@@ -5104,14 +5108,17 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+          */
+         valid_mask &= ~HCR_TSC;
+     }
+-    if (cpu_isar_feature(aa64_vh, cpu)) {
+-        valid_mask |= HCR_E2H;
+-    }
+-    if (cpu_isar_feature(aa64_lor, cpu)) {
+-        valid_mask |= HCR_TLOR;
+-    }
+-    if (cpu_isar_feature(aa64_pauth, cpu)) {
+-        valid_mask |= HCR_API | HCR_APK;
++
++    if (arm_feature(env, ARM_FEATURE_AARCH64)) {
++        if (cpu_isar_feature(aa64_vh, cpu)) {
++            valid_mask |= HCR_E2H;
++        }
++        if (cpu_isar_feature(aa64_lor, cpu)) {
++            valid_mask |= HCR_TLOR;
++        }
++        if (cpu_isar_feature(aa64_pauth, cpu)) {
++            valid_mask |= HCR_API | HCR_APK;
++        }
+     }
+ 
+     /* Clear RES0 bits.  */
+@@ -5143,12 +5150,17 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     arm_cpu_update_vfiq(cpu);
+ }
+ 
++static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
++{
++    do_hcr_write(env, value, 0);
++}
++
+ static void hcr_writehigh(CPUARMState *env, const ARMCPRegInfo *ri,
+                           uint64_t value)
+ {
+     /* Handle HCR2 write, i.e. write to high half of HCR_EL2 */
+     value = deposit64(env->cp15.hcr_el2, 32, 32, value);
+-    hcr_write(env, NULL, value);
++    do_hcr_write(env, value, MAKE_64BIT_MASK(0, 32));
+ }
+ 
+ static void hcr_writelow(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -5156,7 +5168,7 @@ static void hcr_writelow(CPUARMState *env, const ARMCPRegInfo *ri,
+ {
+     /* Handle HCR write, i.e. write to low half of HCR_EL2 */
+     value = deposit64(env->cp15.hcr_el2, 0, 32, value);
+-    hcr_write(env, NULL, value);
++    do_hcr_write(env, value, MAKE_64BIT_MASK(32, 32));
+ }
+ 
+ /*
+-- 
+2.20.1
+
 
