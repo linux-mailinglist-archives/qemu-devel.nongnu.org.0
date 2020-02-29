@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A71517448A
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 03:47:44 +0100 (CET)
-Received: from localhost ([::1]:56560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC43174486
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 03:45:20 +0100 (CET)
+Received: from localhost ([::1]:56494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7sAJ-0003pj-Gi
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 21:47:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
+	id 1j7s7z-0000JR-Ag
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 21:45:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j7s6e-00076S-Jm
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:58 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j7s6g-00076g-LB
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j7s6c-00033K-Db
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:55 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35321)
+ (envelope-from <richard.henderson@linaro.org>) id 1j7s6e-000378-Js
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:58 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:41617)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j7s6c-00031Z-82
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:54 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id g6so1963974plt.2
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 18:43:54 -0800 (PST)
+ id 1j7s6e-00034V-EP
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:43:56 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id t14so1950681plr.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 18:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A1rWgDcZdMUvykrNCtRPCIuuNASTYFpt0ciGUShM3Kc=;
- b=iUNDmyal666Idq4K/Sza2k1RrSTMcZGZQZxnekRDp3+6YuoWSv2nl70AOzBUuvuVVi
- k2xVa0AYms/GBQLV4GZMObuITuHmEtC1Rt62OUisTvEUF35oMXFPsxy8eSfUJOFz15ct
- LvW0FehECdHso91qVTZC6JrQ3F5III16ZTwszudRGxs/lej5d8N3vRgYzhHLn/Gev+0+
- hT0cnGu98QZ6p6VgRZ7oXy7Zhc5nJnh2yuiBRrV2HnnF07WAd4fmiYE1zqPDI4MpvYOE
- +7pzZRDVxO0JVPfjVBV563pX8GX11J09he43qzhdTQa1x5YC+xkg3yLnqu2+ddnT04JW
- lEOA==
+ bh=vSmE5SkJs7bKw32GyNmYKHJ7/xdEHXIomHMfGHtsHSw=;
+ b=sIsrjMY62M5uoJsoSqolyGqkaDW2hQ/NhnqnCqy7UYdo4NPZKErLWMP0QNdggmmp+u
+ p9thnGwGo35b53VXBcTTx0znZWvxEQYs+hMi3bzszSH/vblJnu1g2y6d41jmGZXEa2rO
+ hwZi8W3FDCqIu3UTZrO44Hd9adkk5+KBYm4YdKB7IUoYWB9hOj7PWXg2/rEsxBOC/Oj7
+ 10OMAIG0SZ3mggshw9Ao2A7IMOX6u0JlokNqt75BlcqxZjzPcqCn5q6DI46UMeQNW7Hy
+ 4gScqBMsuhACsaQVwXC6Url8/ueotV6joNau6o5lkRrOomh4i3U65+ZOOGKA56cDeDj6
+ soUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A1rWgDcZdMUvykrNCtRPCIuuNASTYFpt0ciGUShM3Kc=;
- b=bkN81vip6JAto2twiEdjcMRSBV32NuBypFwKS8QKHPQi2MNI/O+bbobA1NAPINB3Rw
- 4V/2Z+CrrWR891178MVYOKUZG9V0AhKBI+RSdQgOy4Gz2UdGJRytdPBhia0BV8bPZaxn
- zjT+c1bnkleNsZPiCAUlTlhh3cIzsP2vZR8RQJgvU6U9V8Vpa0V5S0wKn/lvg+f01whT
- NuVo8nE4hnX2e+1IV9nCgES4azAmwlvHj5UwPU9tAmcsani0zo7nZPvxTOJ0fW9b6OcF
- vc/RFMz9VZmTSZbMaxtNR6CFoRLcZvEwPc8EiKB7YLPEg8NUjCxAETOuHW6FcCyJ6DsV
- h7GQ==
-X-Gm-Message-State: APjAAAXTXAnc4t3nktuR+Gim51HJGTzD9fQAE06JCCeuKzl4ScCi3Kv+
- DDiAR4qJ82WpZOuwZwpgZYwL8RM9PD4=
-X-Google-Smtp-Source: APXvYqzeBp6sccnE4u402S70mAkiIiL0EGoOzuFm9M2u/qk0we3lKKU5E3a8FBGN0ufPeMJHRhXHnQ==
-X-Received: by 2002:a17:90a:ff15:: with SMTP id
- ce21mr7814400pjb.124.1582944232773; 
- Fri, 28 Feb 2020 18:43:52 -0800 (PST)
+ bh=vSmE5SkJs7bKw32GyNmYKHJ7/xdEHXIomHMfGHtsHSw=;
+ b=p75pxC9TN73Rm1IHeAnhVcWqE4Pd0hsOy9g5vpcVaNtXgVyGNdEg10W60HhNfO2aOf
+ 3zA73cWmKjrGI7IefiehaQ1eCNOl746HZ1Pd4QulI+gBiIakhssFsJ2z5yJzXLElJ/UA
+ Oeq5bI3P0t/DGp3eZha1bqrf4Wsc+Rq/oUiHgxe7DCNlZtq98En60Fr5ZjJfUPY8IZ2W
+ iIjqUT3ImtFJ3vBo+0cEOWECKIigQVuQuBMkpe7t3nl7IHC6IkfkMC/0O4E3jSWsnJdQ
+ Ns2oerR/VBzbU6WcLi3jaB0vAfG0cyrfR9GidgmiK5gis0FA3lyMy921W/gn+76S4yRt
+ 0m6A==
+X-Gm-Message-State: APjAAAVOX8lHxWhMCEUfLfDLWWAq6biDVuwgnChsiAWqRdhzL/h8VLg1
+ cofz4VQEDznWavde0LKQu1ppWV5lYCI=
+X-Google-Smtp-Source: APXvYqzGcKXhU+9d7yaAyappzbsP5xPoJpCoDZDowmv0P5dQds05WWb8Ueh2BIG6hdisJzS8XfzMHA==
+X-Received: by 2002:a17:902:8204:: with SMTP id
+ x4mr6682194pln.225.1582944233921; 
+ Fri, 28 Feb 2020 18:43:53 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id k9sm3649321pjo.19.2020.02.28.18.43.51
+ by smtp.gmail.com with ESMTPSA id k9sm3649321pjo.19.2020.02.28.18.43.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 18:43:52 -0800 (PST)
+ Fri, 28 Feb 2020 18:43:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] compiler.h: Don't use compile-time assert when
- __NO_INLINE__ is defined
-Date: Fri, 28 Feb 2020 18:43:41 -0800
-Message-Id: <20200229024347.22826-3-richard.henderson@linaro.org>
+Subject: [PULL 3/8] tcg/arm: Split out tcg_out_epilogue
+Date: Fri, 28 Feb 2020 18:43:42 -0800
+Message-Id: <20200229024347.22826-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200229024347.22826-1-richard.henderson@linaro.org>
 References: <20200229024347.22826-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
+X-Received-From: 2607:f8b0:4864:20::62e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,56 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, peter.maydell@linaro.org,
- Euler Robot <euler.robot@huawei.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+From: Richard Henderson <rth@twiddle.net>
 
-Our robot reported the following compile-time warning while compiling
-Qemu with -fno-inline cflags:
+We will shortly use this function from tcg_out_op as well.
 
-In function 'load_memop',
-    inlined from 'load_helper' at /qemu/accel/tcg/cputlb.c:1578:20,
-    inlined from 'full_ldub_mmu' at /qemu/accel/tcg/cputlb.c:1624:12:
-/qemu/accel/tcg/cputlb.c:1502:9: error: call to 'qemu_build_not_reached' declared with attribute error: code path is reachable
-         qemu_build_not_reached();
-         ^~~~~~~~~~~~~~~~~~~~~~~~
-    [...]
-
-It looks like a false-positive because only (MO_UB ^ MO_BSWAP) will
-hit the default case in load_memop() while need_swap (size > 1) has
-already ensured that MO_UB is not involved.
-
-So the thing is that compilers get confused by the -fno-inline and
-just can't accurately evaluate memop_size(op) at compile time, and
-then the qemu_build_not_reached() is wrongly triggered by (MO_UB ^
-MO_BSWAP).  Let's carefully don't use the compile-time assert when
-no functions will be inlined into their callers.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Message-Id: <20200205141545.180-1-yuzenghui@huawei.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Richard Henderson <rth@twiddle.net>
 ---
- include/qemu/compiler.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/arm/tcg-target.inc.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 85c02c16d3..c76281f354 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -236,7 +236,7 @@
-  * supports QEMU_ERROR, this will be reported at compile time; otherwise
-  * this will be reported at link time due to the missing symbol.
-  */
--#ifdef __OPTIMIZE__
-+#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
- extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
-     qemu_build_not_reached(void);
- #else
+diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
+index fffb6611e2..e1aa740ba4 100644
+--- a/tcg/arm/tcg-target.inc.c
++++ b/tcg/arm/tcg-target.inc.c
+@@ -1746,6 +1746,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
+ }
+ 
+ static tcg_insn_unit *tb_ret_addr;
++static void tcg_out_epilogue(TCGContext *s);
+ 
+ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                 const TCGArg *args, const int *const_args)
+@@ -2284,19 +2285,17 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+       + TCG_TARGET_STACK_ALIGN - 1) \
+      & -TCG_TARGET_STACK_ALIGN)
+ 
++#define STACK_ADDEND  (FRAME_SIZE - PUSH_SIZE)
++
+ static void tcg_target_qemu_prologue(TCGContext *s)
+ {
+-    int stack_addend;
+-
+     /* Calling convention requires us to save r4-r11 and lr.  */
+     /* stmdb sp!, { r4 - r11, lr } */
+     tcg_out32(s, (COND_AL << 28) | 0x092d4ff0);
+ 
+     /* Reserve callee argument and tcg temp space.  */
+-    stack_addend = FRAME_SIZE - PUSH_SIZE;
+-
+     tcg_out_dat_rI(s, COND_AL, ARITH_SUB, TCG_REG_CALL_STACK,
+-                   TCG_REG_CALL_STACK, stack_addend, 1);
++                   TCG_REG_CALL_STACK, STACK_ADDEND, 1);
+     tcg_set_frame(s, TCG_REG_CALL_STACK, TCG_STATIC_CALL_ARGS_SIZE,
+                   CPU_TEMP_BUF_NLONGS * sizeof(long));
+ 
+@@ -2310,11 +2309,15 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      */
+     s->code_gen_epilogue = s->code_ptr;
+     tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R0, 0);
+-
+-    /* TB epilogue */
+     tb_ret_addr = s->code_ptr;
++    tcg_out_epilogue(s);
++}
++
++static void tcg_out_epilogue(TCGContext *s)
++{
++    /* Release local stack frame.  */
+     tcg_out_dat_rI(s, COND_AL, ARITH_ADD, TCG_REG_CALL_STACK,
+-                   TCG_REG_CALL_STACK, stack_addend, 1);
++                   TCG_REG_CALL_STACK, STACK_ADDEND, 1);
+ 
+     /* ldmia sp!, { r4 - r11, pc } */
+     tcg_out32(s, (COND_AL << 28) | 0x08bd8ff0);
 -- 
 2.20.1
 
