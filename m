@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AED2174487
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 03:45:28 +0100 (CET)
-Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327EF17449C
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 04:02:26 +0100 (CET)
+Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j7s87-0000fN-7J
-	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 21:45:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42769)
+	id 1j7sOX-0000gS-0z
+	for lists+qemu-devel@lfdr.de; Fri, 28 Feb 2020 22:02:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44959)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j7s6l-0007A3-4K
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:44:04 -0500
+ (envelope-from <robert.hu@linux.intel.com>) id 1j7sNg-0000E3-PF
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 22:01:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j7s6k-0003I9-2B
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:44:03 -0500
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:41219)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j7s6j-0003GO-S9
- for qemu-devel@nongnu.org; Fri, 28 Feb 2020 21:44:02 -0500
-Received: by mail-pg1-x536.google.com with SMTP id b1so2454210pgm.8
- for <qemu-devel@nongnu.org>; Fri, 28 Feb 2020 18:44:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VlxVvw9Nxub+F/a7czDjW6LNfb9GxIjz3UCnfFm+v5Q=;
- b=wJgvO2M9voJAm3Ydd5wUA9lnxPBEBL1Q2ejMnIk70UHL1CL5a5zMFW5TNkOW8igFS+
- ky+ScSqWxtaLN2NYww8rAlA6zMTljABd/rDUvYP2FbFu7UnoBRiKLsBVw24TuRKWv8xL
- mK9g4iojiFoi9yEdK1uh0ZZZHDeR7Pbr4nok94JV7bLDEYeAnLd3s+vPwokZF6zCJ3gP
- Kp4ITdaw6j0guFoq9ZfiNiwblSYuuOsSayw3Ao1jtL34QgaIAr3Ce40ODpE8wQdBLGC2
- rCzl2a3V0Br7KHdAtQ9vlUPIiYTCn5NJwJg6oUdDXV+g9VCqvD6iDtCmhL4Y0X/BxJDa
- 4yxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VlxVvw9Nxub+F/a7czDjW6LNfb9GxIjz3UCnfFm+v5Q=;
- b=nkKx6E/ZQRiRkZdia85eP9cAjHw7mTNdgmN+hSHp5ednXRF4e1kBB7p4G+GcpYu7IL
- ztnsCt3t4j9//MoF3iRL6uyKJxUcejxmBGfEgaILabHhQGbfbIyrRKciZjSHG4uHzk3p
- DGxkMbbfWjWQB2tYm10O91VvI4Xn1+xyWcC6Af6HwOzizp8QiqxudRvQ2PbPQfMPC8Vf
- 5x8a6Bl1ZPiRYE3LGsleBxo/e4GTIA7mtloNSwu0+P3q4jd83kiK9A31lEglsAXCSXKG
- /2GkVwCzgb0vcqNyWBh97nDbnPedyN6yWEM1C+87eSp7Y17fAFegBhlNWAFaVddlPLpe
- A0hA==
-X-Gm-Message-State: APjAAAX9CfXYlI4TJAeezIG5AsW6iFFRPkxfiAdyw1cWh5UCntsWYiuk
- b3omWC4L4sEfsrsLdl5F14lTk9g+SkM=
-X-Google-Smtp-Source: APXvYqyIdmEi+uWeXPTuAwabJYNuamrmjnlK2whuuk2R6G29sylVc586dgw+oGpqNXeclMDtMqCEFQ==
-X-Received: by 2002:a63:5522:: with SMTP id j34mr6715600pgb.97.1582944240355; 
- Fri, 28 Feb 2020 18:44:00 -0800 (PST)
-Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
- [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id k9sm3649321pjo.19.2020.02.28.18.43.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Feb 2020 18:43:59 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] accel/tcg: increase default code gen buffer size for 64 bit
-Date: Fri, 28 Feb 2020 18:43:47 -0800
-Message-Id: <20200229024347.22826-9-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200229024347.22826-1-richard.henderson@linaro.org>
-References: <20200229024347.22826-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ (envelope-from <robert.hu@linux.intel.com>) id 1j7sNf-00059U-PB
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 22:01:32 -0500
+Received: from mga02.intel.com ([134.134.136.20]:63362)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <robert.hu@linux.intel.com>)
+ id 1j7sNf-00058S-EJ
+ for qemu-devel@nongnu.org; Fri, 28 Feb 2020 22:01:31 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2020 19:01:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,498,1574150400"; d="scan'208";a="437624162"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by fmsmga005.fm.intel.com with ESMTP; 28 Feb 2020 19:01:23 -0800
+Message-ID: <758fb5f324a449e6ff62dd71b689c4c498e931d0.camel@linux.intel.com>
+Subject: Re: [PATCH v3 2/2] util: add util function buffer_zero_avx512()
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, laurent@vivier.eu, philmd@redhat.com,
+ berrange@redhat.com
+Date: Sat, 29 Feb 2020 11:01:22 +0800
+In-Reply-To: <f8a87ddf-7d51-c9e4-6122-a9e3c1b84c29@linaro.org>
+References: <1582856696-45663-1-git-send-email-robert.hu@linux.intel.com>
+ <1582856696-45663-3-git-send-email-robert.hu@linux.intel.com>
+ <f8a87ddf-7d51-c9e4-6122-a9e3c1b84c29@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-5.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::536
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,87 +60,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Niek Linnenbank <nieklinnenbank@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: robert.hu@intel.com, chao.p.peng@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+On Fri, 2020-02-28 at 18:09 -0800, Richard Henderson wrote:
+> On 2/27/20 6:24 PM, Robert Hoo wrote:
+> >              if ((bv & 6) == 6 && (b & bit_AVX2)) {
+> >                  cache |= CACHE_AVX2;
+> >              }
+> > +            if ((bv & 6) == 6 && (b & bit_AVX512F)) {
+> > +                cache |= CACHE_AVX512F;
+> > +            }
+> 
+> Oh, one more thing I missed -- we have to ensure that the 512-bit
+> registers are
+> enabled.  I believe the minimum is bits 6 and 7 enabled (ZMM_Hi256,
+> Hi16_ZMM),
+> since we don't know that the compiler won't allocate registers from
+> zmm16-31.
+> 
+> So: (bv & 0xc6) == 0xc6.
+> 
+> You'd be right that some comments would be helpful on these
+> lines.  :-P
+> 
+Oh, right, thank you very much for remind.
 
-While 32mb is certainly usable a full system boot ends up flushing the
-codegen buffer nearly 100 times. Increase the default on 64 bit hosts
-to take advantage of all that spare memory. After this change I can
-boot my tests system without any TB flushes.
+SDM's recommended detection on AVX512F support procedure is
+1. Detect CPUID.1:ECX.OSXSAVE[bit 27] = 1 (XGETBV enabled for
+application use).
+2. Execute XGETBV and verify that XCR0[7:5] = 111b (OPMASK state, upper
+256-bit of ZMM0-ZMM15 and ZMM16-ZMM31 state are enabled by OS) and that
+XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS).
+3. Detect CPUID.0x7.0:EBX.AVX512F[bit 16] = 1.
 
-As we usually run more CONFIG_USER binaries at a time in typical usage
-we aren't quite as profligate for user-mode code generation usage. We
-also bring the static code gen defies to the same place to keep all
-the reasoning in the comments together.
+I'm going to send v4 to address this.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-Id: <20200228192415.19867-5-alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/translate-all.c | 35 ++++++++++++++++++++++++++---------
- 1 file changed, 26 insertions(+), 9 deletions(-)
-
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 4ce5d1b393..78914154bf 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -892,15 +892,6 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
-     }
- }
- 
--#if defined(CONFIG_USER_ONLY) && TCG_TARGET_REG_BITS == 32
--/*
-- * For user mode on smaller 32 bit systems we may run into trouble
-- * allocating big chunks of data in the right place. On these systems
-- * we utilise a static code generation buffer directly in the binary.
-- */
--#define USE_STATIC_CODE_GEN_BUFFER
--#endif
--
- /* Minimum size of the code gen buffer.  This number is randomly chosen,
-    but not so small that we can't have a fair number of TB's live.  */
- #define MIN_CODE_GEN_BUFFER_SIZE     (1 * MiB)
-@@ -929,7 +920,33 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
- # define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- #endif
- 
-+#if TCG_TARGET_REG_BITS == 32
- #define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (32 * MiB)
-+#ifdef CONFIG_USER_ONLY
-+/*
-+ * For user mode on smaller 32 bit systems we may run into trouble
-+ * allocating big chunks of data in the right place. On these systems
-+ * we utilise a static code generation buffer directly in the binary.
-+ */
-+#define USE_STATIC_CODE_GEN_BUFFER
-+#endif
-+#else /* TCG_TARGET_REG_BITS == 64 */
-+#ifdef CONFIG_USER_ONLY
-+/*
-+ * As user-mode emulation typically means running multiple instances
-+ * of the translator don't go too nuts with our default code gen
-+ * buffer lest we make things too hard for the OS.
-+ */
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (128 * MiB)
-+#else
-+/*
-+ * We expect most system emulation to run one or two guests per host.
-+ * Users running large scale system emulation may want to tweak their
-+ * runtime setup via the tb-size control on the command line.
-+ */
-+#define DEFAULT_CODE_GEN_BUFFER_SIZE_1 (1 * GiB)
-+#endif
-+#endif
- 
- #define DEFAULT_CODE_GEN_BUFFER_SIZE \
-   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
--- 
-2.20.1
+> With that,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
 
 
