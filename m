@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E401746DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 13:36:24 +0100 (CET)
-Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6884174707
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Feb 2020 14:17:22 +0100 (CET)
+Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j81Lz-0005e3-Q7
-	for lists+qemu-devel@lfdr.de; Sat, 29 Feb 2020 07:36:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59175)
+	id 1j81zd-0005nL-BK
+	for lists+qemu-devel@lfdr.de; Sat, 29 Feb 2020 08:17:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35156)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.hu@linux.intel.com>) id 1j81KZ-0004ec-IW
- for qemu-devel@nongnu.org; Sat, 29 Feb 2020 07:34:56 -0500
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1j81yn-0005M1-8C
+ for qemu-devel@nongnu.org; Sat, 29 Feb 2020 08:16:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.hu@linux.intel.com>) id 1j81KY-00081T-AG
- for qemu-devel@nongnu.org; Sat, 29 Feb 2020 07:34:55 -0500
-Received: from mga17.intel.com ([192.55.52.151]:29711)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1j81yl-0007IB-Hm
+ for qemu-devel@nongnu.org; Sat, 29 Feb 2020 08:16:28 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:39714)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <robert.hu@linux.intel.com>)
- id 1j81KY-000815-2S
- for qemu-devel@nongnu.org; Sat, 29 Feb 2020 07:34:54 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Feb 2020 04:34:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,499,1574150400"; d="scan'208";a="242654297"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga006.jf.intel.com with ESMTP; 29 Feb 2020 04:34:50 -0800
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, richard.henderson@linaro.org,
- laurent@vivier.eu, philmd@redhat.com, berrange@redhat.com
-Subject: [PATCH v4 2/2] util: add util function buffer_zero_avx512()
-Date: Sat, 29 Feb 2020 20:34:35 +0800
-Message-Id: <1582979675-22550-3-git-send-email-robert.hu@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582979675-22550-1-git-send-email-robert.hu@linux.intel.com>
-References: <1582979675-22550-1-git-send-email-robert.hu@linux.intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.151
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1j81yk-0007FN-7k; Sat, 29 Feb 2020 08:16:27 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07439639|-1; CH=green;
+ DM=CONTINUE|CONTINUE|true|0.420502-0.00878351-0.570714;
+ DS=CONTINUE|ham_regular_dialog|0.0798981-0.00281304-0.917289;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03299; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.Gu9hB46_1582982174; 
+Received: from 30.0.153.10(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Gu9hB46_1582982174)
+ by smtp.aliyun-inc.com(10.147.41.187);
+ Sat, 29 Feb 2020 21:16:14 +0800
+Subject: Re: [PATCH v4 5/5] target/riscv: add vector amo operations
+To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+References: <20200225103508.7651-1-zhiwei_liu@c-sky.com>
+ <20200225103508.7651-6-zhiwei_liu@c-sky.com>
+ <03bf483e-d6bb-9de4-9934-12bfa7093ad3@linaro.org>
+ <6d008841-4356-b0f1-ece2-df8323ad8254@c-sky.com>
+ <a3a614d1-aa54-046b-2c14-b6e517f1fbf0@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <11e36778-50c8-64a9-35ab-bb3e2bdeb92e@c-sky.com>
+Date: Sat, 29 Feb 2020 21:16:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
+MIME-Version: 1.0
+In-Reply-To: <a3a614d1-aa54-046b-2c14-b6e517f1fbf0@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,191 +60,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.hu@intel.com, chao.p.peng@intel.com,
- Robert Hoo <robert.hu@linux.intel.com>
+Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, linux-csky@vger.kernel.org,
+ wxy194768@alibaba-inc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And intialize buffer_is_zero() with it, when Intel AVX512F is
-available on host.
 
-This function utilizes Intel AVX512 fundamental instructions which
-is faster than its implementation with AVX2 (in my unit test, with
-4K buffer, on CascadeLake SP, ~36% faster, buffer_zero_avx512() V.S.
-buffer_zero_avx2()).
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
----
- include/qemu/cpuid.h |  3 +++
- util/bufferiszero.c  | 74 +++++++++++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 67 insertions(+), 10 deletions(-)
+On 2020/2/29 2:46, Richard Henderson wrote:
+> On 2/28/20 1:19 AM, LIU Zhiwei wrote:
+>>>> +#define GEN_VEXT_AMO_NOATOMIC_OP(NAME, ETYPE, MTYPE, H, DO_OP, SUF)      \
+>>>> +static void vext_##NAME##_noatomic_op(void *vs3, target_ulong addr,      \
+>>>> +        uint32_t wd, uint32_t idx, CPURISCVState *env, uintptr_t retaddr)\
+>>>> +{                                                                        \
+>>>> +    ETYPE ret;                                                           \
+>>>> +    target_ulong tmp;                                                    \
+>>>> +    int mmu_idx = cpu_mmu_index(env, false);                             \
+>>>> +    tmp = cpu_ld##SUF##_mmuidx_ra(env, addr, mmu_idx, retaddr);          \
+>>>> +    ret = DO_OP((ETYPE)(MTYPE)tmp, *((ETYPE *)vs3 + H(idx)));            \
+>>>> +    cpu_st##SUF##_mmuidx_ra(env, addr, ret, mmu_idx, retaddr);           \
+>>>> +    if (wd) {                                                            \
+>>>> +        *((ETYPE *)vs3 + H(idx)) = (target_long)(MTYPE)tmp;              \
+>>> The target_long cast is wrong; should be ETYPE.
+>> "If the AMO memory element width is less than SEW, the value returned from memory
+>>   is sign-extended to fill SEW"
+>>
+>> So just use (target_long) to sign-extended. As you see, instructions like
+>>
+>> vamominud
+>>
+>> have the uint64_t as ETYPE.  And it can't sign-extend the value from memory by
+>> (ETYPE)(MTYPE)tmp.
+> Casting to target_long doesn't help -- it becomes signed at a variable size,
+> possibly larger than MTYPE.
+>
+> In addition, I think you're performing the operation at the wrong length.
+>   The
+> text of the ISA document could be clearer, but
+>
+>    # If SEW > 32 bits, the value returned from memory
+>    # is sign-extended to fill SEW.
+>
+> You are performing the operation in ETYPE, but it should be done in MTYPE and
+> only afterward extended to ETYPE.
+Yes, I  made a mistake.It should be MTYPE.
+> For minu/maxu, you're right that you need an unsigned for the operation.  But
+> then you need a signed type of the same width for the extension.
+>
+> One possibility is to *always* make MTYPE a signed type, but for the two cases
+> that require an unsigned type, provide it.  E.g.
+>
+> #define GEN_VEXT_AMO_NOATOMIC_OP(NAME, ESZ, MSZ, H, DO_OP, SUF)
+> static void vext_##NAME##_noatomic_op(void *vs3,
+>      target_ulong addr, uint32_t wd, uint32_t idx,
+>      CPURISCVState *env, uintptr_t retaddr)
+> {
+>      typedef int##ESZ##_t ETYPE;
+>      typedef int##MSZ##_t MTYPE;
+>      typedef uint##MSZ##_t UMTYPE;
+>      ETYPE *pe3 = (ETYPE *)vs3 + H(idx);
+>      MTYPE a = *pe3, b = cpu_ld##SUF##_data(env, addr);
+>      a = DO_OP(a, b);
+>      cpu_st##SUF##_data(env, addr, a);
+>      if (wd) {
+>          *pe3 = a;
+>      }
+> }
+>
+> /* Signed min/max */
+> #define DO_MAX(N, M)  ((N) >= (M) ? (N) : (M))
+> #define DO_MIN(N, M)  ((N) >= (M) ? (M) : (N))
+>
+> /* Unsigned min/max */
+> #define DO_MAXU(N, M) DO_MAX((UMTYPE)N, (UMTYPE)M)
+> #define DO_MINU(N, M) DO_MIN((UMTYPE)N, (UMTYPE)M)
+>
+> GEN_VEXT_AMO_NOATOMIC_OP(vamomaxuw_v_d, 64, 32, H8, DO_MAXU, l)
+> GEN_VEXT_AMO_NOATOMIC_OP(vamomaxud_v_d, 64, 64, H8, DO_MAXU, q)
+Perfect. I will try it.
 
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 6930170..09fc245 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -45,6 +45,9 @@
- #ifndef bit_AVX2
- #define bit_AVX2        (1 << 5)
- #endif
-+#ifndef bit_AVX512F
-+#define bit_AVX512F        (1 << 16)
-+#endif
- #ifndef bit_BMI2
- #define bit_BMI2        (1 << 8)
- #endif
-diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index bfb2605..b6eab0c 100644
---- a/util/bufferiszero.c
-+++ b/util/bufferiszero.c
-@@ -63,11 +63,11 @@ buffer_zero_int(const void *buf, size_t len)
-     }
- }
- 
--#if defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT) || defined(__SSE2__)
- /* Do not use push_options pragmas unnecessarily, because clang
-  * does not support them.
-  */
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #pragma GCC push_options
- #pragma GCC target("sse2")
- #endif
-@@ -104,7 +104,7 @@ buffer_zero_sse2(const void *buf, size_t len)
- 
-     return _mm_movemask_epi8(_mm_cmpeq_epi8(t, zero)) == 0xFFFF;
- }
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #pragma GCC pop_options
- #endif
- 
-@@ -187,18 +187,54 @@ buffer_zero_avx2(const void *buf, size_t len)
- #pragma GCC pop_options
- #endif /* CONFIG_AVX2_OPT */
- 
-+#ifdef CONFIG_AVX512F_OPT
-+#pragma GCC push_options
-+#pragma GCC target("avx512f")
-+#include <immintrin.h>
-+
-+static bool
-+buffer_zero_avx512(const void *buf, size_t len)
-+{
-+    /* Begin with an unaligned head of 64 bytes.  */
-+    __m512i t = _mm512_loadu_si512(buf);
-+    __m512i *p = (__m512i *)(((uintptr_t)buf + 5 * 64) & -64);
-+    __m512i *e = (__m512i *)(((uintptr_t)buf + len) & -64);
-+
-+    /* Loop over 64-byte aligned blocks of 256.  */
-+    while (p <= e) {
-+        __builtin_prefetch(p);
-+        if (unlikely(_mm512_test_epi64_mask(t, t))) {
-+            return false;
-+        }
-+        t = p[-4] | p[-3] | p[-2] | p[-1];
-+        p += 4;
-+    }
-+
-+    t |= _mm512_loadu_si512(buf + len - 4 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 3 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 2 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 1 * 64);
-+
-+    return !_mm512_test_epi64_mask(t, t);
-+
-+}
-+#pragma GCC pop_options
-+#endif
-+
-+
- /* Note that for test_buffer_is_zero_next_accel, the most preferred
-  * ISA must have the least significant bit.
-  */
--#define CACHE_AVX2    1
--#define CACHE_SSE4    2
--#define CACHE_SSE2    4
-+#define CACHE_AVX512F 1
-+#define CACHE_AVX2    2
-+#define CACHE_SSE4    4
-+#define CACHE_SSE2    8
- 
- /* Make sure that these variables are appropriately initialized when
-  * SSE2 is enabled on the compiler command-line, but the compiler is
-  * too old to support CONFIG_AVX2_OPT.
-  */
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- # define INIT_CACHE 0
- # define INIT_ACCEL buffer_zero_int
- #else
-@@ -211,25 +247,35 @@ buffer_zero_avx2(const void *buf, size_t len)
- 
- static unsigned cpuid_cache = INIT_CACHE;
- static bool (*buffer_accel)(const void *, size_t) = INIT_ACCEL;
-+static int length_to_accel;
- 
- static void init_accel(unsigned cache)
- {
-     bool (*fn)(const void *, size_t) = buffer_zero_int;
-     if (cache & CACHE_SSE2) {
-         fn = buffer_zero_sse2;
-+        length_to_accel = 64;
-     }
- #ifdef CONFIG_AVX2_OPT
-     if (cache & CACHE_SSE4) {
-         fn = buffer_zero_sse4;
-+        length_to_accel = 64;
-     }
-     if (cache & CACHE_AVX2) {
-         fn = buffer_zero_avx2;
-+        length_to_accel = 64;
-+    }
-+#endif
-+#ifdef CONFIG_AVX512F_OPT
-+    if (cache & CACHE_AVX512F) {
-+        fn = buffer_zero_avx512;
-+        length_to_accel = 256;
-     }
- #endif
-     buffer_accel = fn;
- }
- 
--#ifdef CONFIG_AVX2_OPT
-+#if defined(CONFIG_AVX512F_OPT) || defined(CONFIG_AVX2_OPT)
- #include "qemu/cpuid.h"
- 
- static void __attribute__((constructor)) init_cpuid_cache(void)
-@@ -252,9 +298,17 @@ static void __attribute__((constructor)) init_cpuid_cache(void)
-             int bv;
-             __asm("xgetbv" : "=a"(bv), "=d"(d) : "c"(0));
-             __cpuid_count(7, 0, a, b, c, d);
--            if ((bv & 6) == 6 && (b & bit_AVX2)) {
-+            if ((bv & 0x6) == 0x6 && (b & bit_AVX2)) {
-                 cache |= CACHE_AVX2;
-             }
-+            /* 0xe6:
-+            *  XCR0[7:5] = 111b (OPMASK state, upper 256-bit of ZMM0-ZMM15
-+            *                    and ZMM16-ZMM31 state are enabled by OS)
-+            *  XCR0[2:1] = 11b (XMM state and YMM state are enabled by OS)
-+            */
-+            if ((bv & 0xe6) == 0xe6 && (b & bit_AVX512F)) {
-+                cache |= CACHE_AVX512F;
-+            }
-         }
-     }
-     cpuid_cache = cache;
-@@ -277,7 +331,7 @@ bool test_buffer_is_zero_next_accel(void)
- 
- static bool select_accel_fn(const void *buf, size_t len)
- {
--    if (likely(len >= 64)) {
-+    if (likely(len >= length_to_accel)) {
-         return buffer_accel(buf, len);
-     }
-     return buffer_zero_int(buf, len);
--- 
-1.8.3.1
+>
+>>> The missing aligned address check is the only remaining exception that the
+>>> helper_atomic_* functions would raise, since you have properly checked for
+>>> read+write.  So it might be possible to get away with using the helpers, but I
+>>> don't like it.
+>> Do you mean write my own helpers to implement atomic operations?
+>>
+>> What's the meaning of " but I don't like it. "?
+> I don't like re-using helpers in an incorrect way.
+>
+>>> But I do think it would be better to write your own helpers for the atomic
+>>> paths.  They need not check quite so much, since we have already done the
+>>> validation above.  You pretty much only need to use tlb_vaddr_to_host.
+>>>
+>>> If that gets too ugly, we can talk about rearranging
+>>> accel/tcg/atomic_template.h so that it could be reused.
+>> Good idea.  Perhaps use tlb_vaddr_to_host instead of atomic_mmu_lookup
+>> to define another macro like GEN_ATOMIC_HELPER?
+>>> Alternately, we could simply *always* use the non-atomic helpers, and raise
+>>> exit_atomic if PARALLEL.
+>> Yes, it's the simplest way.
+>> However I prefer try to define something like GEN_ATOMIC_HELPER in
+>> vector_helper.c.
+> I'll think about this some more.
+> In the short-term, I think non-atomic is the best we can do.
+I will accept your advice. Thanks.
+
+Best Regards,
+Zhiwei
+>
+> r~
 
 
