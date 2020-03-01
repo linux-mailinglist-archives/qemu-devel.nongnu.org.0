@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D77D174EA4
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 18:06:21 +0100 (CET)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA58174EA8
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 18:07:47 +0100 (CET)
+Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8S2l-0006zU-W6
-	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 12:06:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56720)
+	id 1j8S4A-0000lE-6C
+	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 12:07:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j8S1P-0005qc-Di
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:04:56 -0500
+ (envelope-from <groeck7@gmail.com>) id 1j8S1S-0005sH-2s
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:04:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j8S1O-0001hW-I8
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:04:55 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35201)
+ (envelope-from <groeck7@gmail.com>) id 1j8S1Q-0001j0-Hc
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:04:58 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39619)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j8S1M-0001eZ-DC; Sun, 01 Mar 2020 12:04:52 -0500
-Received: by mail-pl1-x643.google.com with SMTP id g6so3230186plt.2;
- Sun, 01 Mar 2020 09:04:52 -0800 (PST)
+ id 1j8S1N-0001fA-FX; Sun, 01 Mar 2020 12:04:53 -0500
+Received: by mail-pf1-x443.google.com with SMTP id l7so4349871pff.6;
+ Sun, 01 Mar 2020 09:04:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=lc1bYhcnqPFlmGbgR5g3n8tVkAtrQ0yFMcwg1XhjNQ0=;
- b=ZFrpcICaWwXThfkufMdPHgSpHrfyorhQjdKSLmHNJSlewSa09bKkJDa0xCZ3RI1tbw
- qQVI+HTmF5Tmkkqg6M3jZAB+OXoAMTQxbFctpOe3mstkaDRHTiN9nnqFHs6jRYe5lKLO
- +a/p6bIsKccitkJGGgdFftx3H2ZizRRNE3iaE9W24l4PkAPtXrw4u2rq7Ha113y35AoC
- WGaMHL6BZC9OhwPl78rtzBM4pZEkTGMiRTr0W2uZEFliixuadMozibkMpTRjdyH2T2Yp
- RuENomUk4+StVIDlR2dE7aVyaYddGUbnw/MTzK6z6x8qAjT/zKZK6hnHtO+LtoEC/JWb
- rQnA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=Z4+7AUJj5DR8ek0G/CYhlnGdnmdw4yeNw+orIpOPL7o=;
+ b=MrrUNAFs9mPc3RsLAbzDqZiMJaE7bg5xrRD80AoCrcElI8lcdmHPeXScaVAFZL0M0I
+ 7xH+r97J4naDOFgjWEHD5vUunZ6D2qijPPjtMkayMVa9t5xii6QYgKInGmpBXNTALGjB
+ JTFMZosV0jl/kghobXpfm3qP+he2zNcb65OY4dBnlYV7udliRnVQaj2EF+kypfhbQJTd
+ 0ipNQL2Ol5nfg6fetvPOoyDkVGbMaqftHzL2RBWF0WWcBcHPt3sZhFJmV2GyFypnS1mx
+ 80Gehhtl+IA3ahCJWM9rTMivTQdENV9R6PxYegS+i7UTOH/y9SzBiEYcieEOmRe4tCFT
+ JqEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=lc1bYhcnqPFlmGbgR5g3n8tVkAtrQ0yFMcwg1XhjNQ0=;
- b=qILtqOA2dKVjPGkBBYouckqWRVskHgw6oep9jaH/ytJzfizmoTY7QbEIxKhKjKFOBa
- yhDBfdvD2bPDe5cOwLR+nU/zGR2FRE2d+8C0EUhKl+GuB/hVzXhnbP4FJTKBJPr9Ueaq
- c6J1qIHCNfS+3/OvK9CbxZw3O60xnZmD8ubx4fsE91P/QcmH7IKsX9eNFOApPPuoPJRz
- iHKLtdvmPRWFwEp5CzIU9cu9rCCHCNJxaonKv8y1elSOoSrirl0+equHrHwRfyJHDyWL
- wXOBVYnYM+MiMV3nPnpxvzjczuczOoSblpZFa9nztheq4cCsH6Aeuqvl0YBiurRE2Dx9
- r5KA==
-X-Gm-Message-State: APjAAAV9L08978BaxcmFZb6iLc/0M6VLJj29pF+EdeEje1RL+NmuPpI3
- tV5yA23n6oXVhEO/wpEzYSE=
-X-Google-Smtp-Source: APXvYqz18YfqhuaSUVg2FbqUBrLAUBRZc/gjCG8MLhGufEcqPzplD84sKzK1dDoExs35aNd+y/Fvnw==
-X-Received: by 2002:a17:902:7046:: with SMTP id
- h6mr13075808plt.231.1583082290624; 
- Sun, 01 Mar 2020 09:04:50 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=Z4+7AUJj5DR8ek0G/CYhlnGdnmdw4yeNw+orIpOPL7o=;
+ b=gWmVbdwoEZb3V5PNLflBdfkQyMdm4DQPTT4bGH/AK0kMY1LCRb851u4ZNCxBiV2WiR
+ zfMWSUNaza2zf/IDAlTw0AfleTs0HW8p6tR3jQzA0qVqmjGYeFPDg3VHaYtWzDXtvCHN
+ 6w45YVJHCmD2ncubDYK/lQwo587WyKh35IAzNnKlHhQ/vwxvt1ic9B057BxCSaP9lBb9
+ H6xjlji/ZG9Nub45Ug5E2w2X0aHj9GPLu8Nmo4OghIwTW3vOqSymI5VpejdRbJDMRj+W
+ IAotY8OTysrM9W0KPEW81UxUwq0lQ4N/pkuUfI+nRKAPpLTbBluDDkAswO89AbbDTpHM
+ Uw5Q==
+X-Gm-Message-State: APjAAAU24C/v7qSl9Njb3NMyBYPclN6P7UJ9yzCqPg8TKmsZYV9XgGg9
+ k/q4XLhtBZGbr353K2Vp+A8=
+X-Google-Smtp-Source: APXvYqxto5rk+muFC92nFVTkeQRc+QL59XNNZi75jRFEL/zjESJn+9CHkTyeUaxmjW1alwLiAtUkOQ==
+X-Received: by 2002:a62:e217:: with SMTP id a23mr14178565pfi.50.1583082292495; 
+ Sun, 01 Mar 2020 09:04:52 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id y5sm17791710pfr.169.2020.03.01.09.04.49
+ by smtp.gmail.com with ESMTPSA id w1sm17855652pgr.4.2020.03.01.09.04.51
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 01 Mar 2020 09:04:49 -0800 (PST)
+ Sun, 01 Mar 2020 09:04:52 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 0/3] Wire up USB controllers on fsl-imx6 and fsl-imx6ul
-Date: Sun,  1 Mar 2020 09:04:40 -0800
-Message-Id: <20200301170443.12904-1-linux@roeck-us.net>
+Subject: [PATCH 1/3] Add dummy i.MXS STMP register support
+Date: Sun,  1 Mar 2020 09:04:41 -0800
+Message-Id: <20200301170443.12904-2-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200301170443.12904-1-linux@roeck-us.net>
+References: <20200301170443.12904-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,31 +79,247 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series wires up the USB controllers on fsl-imx6 and fsl-imx6ul
-emulations.
+STMP registers are registers with a specific register layout.
+When using this layout, a register is implemented as set of four:
+- The register itself
+- A register to set individual register bits
+- A register to reset individual register bits
+- A register to toggle individual register bits
 
-The first patch is a prerequisite for the following patches. It provides
-a dummy implementation of a register widely used on i.MX systems, and
-specifically the reset behavior of this register. This is needed to make
-the USB ports operational without full implementation of an emulation
-of its PHY controller.
+This register layout is used in various i.MXS SoCs.
 
-----------------------------------------------------------------
-Guenter Roeck (3):
-      Add dummy i.MXS STMP register support
-      arm: fsl-imx6ul: Wire up USB controllers
-      hw/arm/fsl-imx6: Wire up USB controllers
+In some cases, bit 31 of a STMP register has special reset functionality.
+Setting the reset bit resets the chip or block and then sets bit 30. This
+functionality is common enough that the Linux kernel implements a library
+function to support it.
 
- hw/arm/Kconfig              |   3 ++
- hw/arm/fsl-imx6.c           |  36 +++++++++++++
- hw/arm/fsl-imx6ul.c         |  35 +++++++++++++
- hw/misc/Kconfig             |   3 ++
- hw/misc/Makefile.objs       |   1 +
- hw/misc/stmp.c              | 121 ++++++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/fsl-imx6.h   |   3 ++
- include/hw/arm/fsl-imx6ul.h |   7 +++
- include/hw/misc/stmp.h      |  47 +++++++++++++++++
- 9 files changed, 256 insertions(+)
+This patch implements an STMP register as a special device called STMP
+device. An STMP device can be instantiated on top of an unimplemented
+device. Each instance implements a single register of this unimplemented
+device. In some cases, this is necessary and sufficient to be able to load
+a driver.
+
+The term "STMP" originates from the Linux kernel. Its origin and meaning
+is unknown to the author, but it seemed to make sense to use the same
+terminology here.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ hw/misc/Kconfig        |   3 +
+ hw/misc/Makefile.objs  |   1 +
+ hw/misc/stmp.c         | 121 +++++++++++++++++++++++++++++++++++++++++
+ include/hw/misc/stmp.h |  47 ++++++++++++++++
+ 4 files changed, 172 insertions(+)
  create mode 100644 hw/misc/stmp.c
  create mode 100644 include/hw/misc/stmp.h
+
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index bdd77d8020..68af3f1e2a 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -123,6 +123,9 @@ config AUX
+     bool
+     select I2C
+ 
++config STMP
++    bool
++
+ config UNIMP
+     bool
+ 
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index da993f45b7..942653854c 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -9,6 +9,7 @@ common-obj-$(CONFIG_PCI_TESTDEV) += pci-testdev.o
+ common-obj-$(CONFIG_EDU) += edu.o
+ common-obj-$(CONFIG_PCA9552) += pca9552.o
+ 
++common-obj-$(CONFIG_STMP) += stmp.o
+ common-obj-$(CONFIG_UNIMP) += unimp.o
+ common-obj-$(CONFIG_FW_CFG_DMA) += vmcoreinfo.o
+ 
+diff --git a/hw/misc/stmp.c b/hw/misc/stmp.c
+new file mode 100644
+index 0000000000..eb909fccfe
+--- /dev/null
++++ b/hw/misc/stmp.c
+@@ -0,0 +1,121 @@
++/*
++ * MXS "STMP" dummy device
++ *
++ * This is a dummy device which follows MXS "STMP" register layout.
++ * It's useful for stubbing out regions of an SoC or board
++ * map which correspond to devices that have not yet been
++ * implemented, yet require "STMP" device specific reset support.
++ * This is often sufficient to placate initial guest device
++ * driver probing such that the system will come up.
++ *
++ * Derived from "unimplemented" device code.
++ *      Copyright Linaro Limited, 2017
++ *      Written by Peter Maydell
++ *
++ * Written by Guenter Roeck
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "hw/misc/stmp.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "qapi/error.h"
++
++#define REG_VAL                 0x0
++#define REG_SET                 0x4
++#define REG_CLR                 0x8
++#define REG_TOG                 0xc
++
++#define STMP_MODULE_CLKGATE     (1 << 30)
++#define STMP_MODULE_SFTRST      (1 << 31)
++
++static uint64_t stmp_read(void *opaque, hwaddr offset, unsigned size)
++{
++    StmpDeviceState *s = STMP_DEVICE(opaque);
++
++    switch (offset) {
++    case REG_VAL:
++        return s->regval;
++    default:
++        return 0;
++    }
++}
++
++static void stmp_write(void *opaque, hwaddr offset, uint64_t value,
++                       unsigned size)
++{
++    StmpDeviceState *s = STMP_DEVICE(opaque);
++
++    switch (offset) {
++    case REG_VAL:
++        s->regval = value;
++        break;
++    case REG_SET:
++        s->regval |= value;
++        if (s->have_reset && (value & STMP_MODULE_SFTRST)) {
++            s->regval |= STMP_MODULE_CLKGATE;
++        }
++        break;
++    case REG_CLR:
++        s->regval &= ~value;
++        break;
++    case REG_TOG:
++        s->regval ^= value;
++        break;
++    default:
++        break;
++    }
++}
++
++static const MemoryRegionOps stmp_ops = {
++    .read = stmp_read,
++    .write = stmp_write,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void stmp_realize(DeviceState *dev, Error **errp)
++{
++    StmpDeviceState *s = STMP_DEVICE(dev);
++
++    if (s->name == NULL) {
++        error_setg(errp, "property 'name' not specified");
++        return;
++    }
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &stmp_ops, s,
++                          s->name, 0x10);
++    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
++}
++
++static Property stmp_properties[] = {
++    DEFINE_PROP_STRING("name", StmpDeviceState, name),
++    DEFINE_PROP_BOOL("have-reset", StmpDeviceState, have_reset, false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void stmp_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = stmp_realize;
++    device_class_set_props(dc, stmp_properties);
++}
++
++static const TypeInfo stmp_info = {
++    .name = TYPE_STMP_DEVICE,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(StmpDeviceState),
++    .class_init = stmp_class_init,
++};
++
++static void stmp_register_types(void)
++{
++    type_register_static(&stmp_info);
++}
++
++type_init(stmp_register_types)
+diff --git a/include/hw/misc/stmp.h b/include/hw/misc/stmp.h
+new file mode 100644
+index 0000000000..941ceb25dd
+--- /dev/null
++++ b/include/hw/misc/stmp.h
+@@ -0,0 +1,47 @@
++/*
++ * "Stmp" device
++ *
++ * Written by Guenter Roeck
++ */
++
++#ifndef HW_MISC_STMP_H
++#define HW_MISC_STMP_H
++
++#include "hw/qdev-properties.h"
++#include "hw/sysbus.h"
++
++#define TYPE_STMP_DEVICE "stmp-device"
++
++#define STMP_DEVICE(obj) \
++    OBJECT_CHECK(StmpDeviceState, (obj), TYPE_STMP_DEVICE)
++
++typedef struct {
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++    char *name;
++    bool have_reset;
++    uint32_t regval;
++} StmpDeviceState;
++
++/**
++ * create_stmp_device: create and map a dummy device with STMP register layout
++ * @name: name of the device for debug logging
++ * @have_reset: True if the register has reset functionality
++ * @base: base address of the device's MMIO region
++ *
++ * This utility function creates and maps an instance of stmp-device,
++ * which is a dummy device which follows STMP register layout.
++ */
++static inline void create_stmp_device(const char *name, bool have_reset,
++                                      hwaddr base)
++{
++    DeviceState *dev = qdev_create(NULL, TYPE_STMP_DEVICE);
++
++    qdev_prop_set_string(dev, "name", name);
++    qdev_prop_set_bit(dev, "have-reset", have_reset);
++    qdev_init_nofail(dev);
++
++    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(dev), 0, base, 0);
++}
++
++#endif
+-- 
+2.17.1
+
 
