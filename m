@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E32174EFB
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 19:37:39 +0100 (CET)
-Received: from localhost ([::1]:51022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F3C174F04
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 19:54:46 +0100 (CET)
+Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8TT8-0002VK-82
-	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 13:37:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38741)
+	id 1j8Tjh-00073s-G9
+	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 13:54:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j8TSN-00022y-Mz
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 13:36:52 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j8Tix-0006aC-5k
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 13:53:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j8TSM-0007Ip-DF
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 13:36:51 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42697)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j8TSM-0007Ib-6V
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 13:36:50 -0500
-Received: by mail-pf1-x441.google.com with SMTP id 15so4404379pfo.9
- for <qemu-devel@nongnu.org>; Sun, 01 Mar 2020 10:36:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rHD5Ziw47sHLGVuGTJjhnC2FvKM1d3tGTev96vvVnDw=;
- b=rjSBcTi574tDw/Fdr2aPs8GItUEB8ZAwiD5XX9P/dOBsFlRIvlcsP0/2be4LkCYYQS
- tpDNfb/iW/eMlmBJl2v+y6JtL0aLIPRDFeufNOC3LpNxjUk2vIKCWXAylVIMeHQfeER2
- COtJ5yGgHQwLDC1Pm5fU9WPJN8yA65LuxOgqYV6Q0lWMjuN2AQuItZuhLkqmattZUA8T
- 5zXSOc4fpdxUURY0hkmx/2JZqb+tnx2wM4QBrRaxihXentAKXAiWdW3CSFmf7ucK8rsb
- zYIKMgyUlFYCfSTcHgE7JnbAMpgibYTyZ9nmaUCV6EAU33jVMiiDYA4Mas/yg8Wqjl3Z
- FnyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rHD5Ziw47sHLGVuGTJjhnC2FvKM1d3tGTev96vvVnDw=;
- b=jLtpFLZ/xsXyP9YdkibHc0I4AFuAhwgTa0H1nX+xPKn1siEusLaEocADp7u+O8JC2k
- TnH7LENiVV0bVGMXM+JDNLTbxeDr8DnRycBfwk8I+ekIOd8Js/mVknF8cw486PbqBMg+
- m3MagWwCcSuMQyYZfwGxLc8eOeVIO1/rNW2wOjA7JHUesGhhVZnibTpQ3PHx99iic0n6
- ASj8aEx6C7PaZ+kpvZeUB4iSLKR7l+tB9+M0ARK2k0V1PFBAH5MjNFAOOFRKzDB5gDXx
- Nkrfyejyczmz+o0vJ45chMa1TNo1C3ttgOcoGApAuFPWPow2eyHFsthM0s2vZMRYtQXg
- joYA==
-X-Gm-Message-State: ANhLgQ1oY6h6c/I3ryQp/YFeRCLq8YeK546sR2LTNv0AR9pWa5hOZZCJ
- 6wPC0Y3ESLrNpPZxpO+va8JcUQ==
-X-Google-Smtp-Source: ADFU+vu5R6J16RQTim3yuX/8visM2Z6cXVUfhug1Qu31ib5F3F7STp8MQBzpVQxCtOlEWUzkQAXAXQ==
-X-Received: by 2002:a62:7bc5:: with SMTP id
- w188mr10266803pfc.207.1583087808562; 
- Sun, 01 Mar 2020 10:36:48 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- w17sm17778246pfi.56.2020.03.01.10.36.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Mar 2020 10:36:47 -0800 (PST)
-Subject: Re: [PATCH] i386: Fix GCC warning with snprintf when HAX is enabled
-To: Julio Faracco <jcfaracco@gmail.com>, qemu-devel@nongnu.org
-References: <20200301163523.13581-1-jcfaracco@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e1cbcfca-2faa-9860-3e14-8f67f7d798c5@linaro.org>
-Date: Sun, 1 Mar 2020 10:36:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <balaton@eik.bme.hu>) id 1j8Tiw-00054T-A7
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 13:53:59 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:13521)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1j8Tit-0004wd-Qj; Sun, 01 Mar 2020 13:53:55 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 67D767476D5;
+ Sun,  1 Mar 2020 19:53:53 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4DF4F746383; Sun,  1 Mar 2020 19:53:53 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4C761746381;
+ Sun,  1 Mar 2020 19:53:53 +0100 (CET)
+Date: Sun, 1 Mar 2020 19:53:53 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 2/2] via-ide: Also emulate non 100% native mode
+In-Reply-To: <alpine.BSF.2.22.395.2003011902490.28669@zero.eik.bme.hu>
+Message-ID: <alpine.BSF.2.22.395.2003011951370.28669@zero.eik.bme.hu>
+References: <cover.1583017348.git.balaton@eik.bme.hu>
+ <32bb2eab213344151ca342bab5db2cf8c2758fb7.1583017348.git.balaton@eik.bme.hu>
+ <f7f6bca9-ce20-cc3d-5366-1e947d729c21@ilande.co.uk>
+ <bdbef976-a853-7178-8163-579e4bf9e2e0@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003011731130.95594@zero.eik.bme.hu>
+ <57ff6676-5054-d3f6-f4fc-6ff02b09019f@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003011902490.28669@zero.eik.bme.hu>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20200301163523.13581-1-jcfaracco@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,34 +57,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-block@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/20 8:35 AM, Julio Faracco wrote:
-> When HAX is enabled (--enable-hax), GCC 9.2.1 reports issues with
-> snprintf(). This commit is checking if snprintf returns an error. This
-> is a simple way to avoid this warnings.
-> 
-> For more details, one example of warning:
->   CC      i386-softmmu/target/i386/hax-posix.o
-> qemu/target/i386/hax-posix.c: In function ‘hax_host_open_vm’:
-> qemu/target/i386/hax-posix.c:124:56: error: ‘%02d’ directive output may be
-> truncated writing between 2 and 11 bytes into a region of size 3
-> [-Werror=format-truncation=]
->   124 |     snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d", vm_id);
->       |                                                        ^~~~
-> qemu/target/i386/hax-posix.c:124:41: note: directive argument in the range
-> [-2147483648, 64]
+On Sun, 1 Mar 2020, BALATON Zoltan wrote:
+> is not legacy mode but "not 100% native mode". The prog-if is set to 0x8a 
+> which corresponds to native mode but this is what the Linux fixup function 
+> does, firmware sets it to 0x8f which means native mode.
 
+I mean, 0x8a legacy mode and 0x8f native mode, I see firmware poking 0x8f 
+and Amiga like OSes reading that yet expecting legacy interrupts. Linux 
+fixes up prog-if so its driver detects legacy interrupts but still uses 
+ioports from PCI BARs.
 
-The code bounds vm_id from the top (64) but not the bottom.  The compiler has
-(correctly) determined that negative values will overflow your buffer.
-
-I suggest either an assert vs negative values as a local change, or to change
-the type of vm_id (universally, if possible) to an unsigned type.
-
-
-r~
+Regards,
+BALATON Zoltan
 
