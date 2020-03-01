@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB827174EA7
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 18:07:46 +0100 (CET)
-Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45694174EB8
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 18:40:27 +0100 (CET)
+Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8S49-0000kV-T4
-	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 12:07:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56786)
+	id 1j8SZl-0007NI-50
+	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 12:40:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j8S1U-0005wg-FQ
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:05:01 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j8SYa-0006fP-LW
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:39:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j8S1T-0001kp-An
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:05:00 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37715)
+ (envelope-from <richard.henderson@linaro.org>) id 1j8SYZ-00055F-MM
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:39:12 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:39693)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j8S1Q-0001iw-LJ; Sun, 01 Mar 2020 12:04:56 -0500
-Received: by mail-pf1-x441.google.com with SMTP id p14so4349600pfn.4;
- Sun, 01 Mar 2020 09:04:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QEy/YbxuN9ExfK/xFDdpubtS3+osTfUK1jjz+reipig=;
- b=VXi1ezuQ/PPlX85evva/J6TxdlyAsQBrj69menMokBY5Gov6MN0+LrJOEulNrIJZWw
- oA83ez+f75CJBPjXjp0NZieOqzVpgXG9AwL4N4Lmnde+3DaiISnOR2eYGz+4aog0/vtn
- a7hZbXuekR2cm6wwR7pclJp4SZTvbhuCxYcT/yP92p8Wl3XRdBehAHRon3QPNVll9lVd
- wjQ7fx+BOQchOt9jCUd/703eabfvZRyQGJdFSnlqSxWyfSVSRa1BpS1fHEqdt4/SH1jX
- meqCIz6L1q0K96NCsdbuzcnSiblNm34UBJP2vQmhiJEX45Y+nuIVwyidq/L9xGiJyrzm
- XFbA==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j8SYZ-00054s-G5
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:39:11 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id e9so3406676pjr.4
+ for <qemu-devel@nongnu.org>; Sun, 01 Mar 2020 09:39:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zPf2ELswWbCzCNFcU/z1N+mq3I+1pGGuQpnnhEqMtVY=;
+ b=qsDnRFKijUsyNilUPJ8pe4BIY09jF058/idooEHv+OwsWIYi9g7kpq0h52y3Pe0U5F
+ t8G9bdv08k7Ovhlhh+6jZbEd4Ry15ibW/V1P6IIepLcfGAlBbR/IGuFHtUNc87adjk+y
+ dihsWf0NxFfxqmotSrYJR5Y83L5erP73I+kuB/aeWHYiLYepMxueb1gz+JuopmeHaYHp
+ o02rcEBH60aqRZ47DgD0O8xc7QNaXlwK6+3fR0aSMWCphJbi2D4l1U6lYIQsRx9lPxrV
+ nFPY/2Q3S+O5JrGLG3KUCQydvnyw9h9+qaFUzUtpkyUOIYnhhL/CyHTSs0i+Y4ZLOatn
+ 9DAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=QEy/YbxuN9ExfK/xFDdpubtS3+osTfUK1jjz+reipig=;
- b=immPCEbKq09AXUh+ugf/PzxDfWwWAdSfMg+zAY1GY9W2lJ6l6oFbmbecAR063RhOTO
- jNSHw6B+LN2VmIVjGSgd8SZ+mk80TSaerseexJNeaqBFQclHMMPFxdaiVUBzYFKaM+FQ
- pd9omNbZjNbz7bDieJyoDli/JaGvds/MDEossLgYyggSEwphyyDDpuE07ibqEsTvmYXQ
- UIfCTJSbUXRHoi9RYujLchqg09aex4pSIh1D30IG4rOrqGsBz1wuCOOC2fK6h/mFnOeN
- Uzdqa9KNP1uzn5Zj0oRUj/d4EDL1dDqfZIXBbAcZFb/P2gpB5W98qgURdQblRtQkbEmN
- D2Rw==
-X-Gm-Message-State: APjAAAV2TlZhpbDAoZ90Yj3HHYzqD89aQ3IINS3c2EofLv6uFNBNWV95
- FUjIsfvSDWBxkIk8viTpPa4=
-X-Google-Smtp-Source: APXvYqyPtT4m+Sc6AHu9NugftN8oG/1umBtHvxMtixQJlWU8UsiVhPq3TbizxmfEVCmVXRl2ttk2sg==
-X-Received: by 2002:a63:e044:: with SMTP id n4mr14806594pgj.338.1583082295670; 
- Sun, 01 Mar 2020 09:04:55 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id e2sm9081742pjs.25.2020.03.01.09.04.54
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 01 Mar 2020 09:04:55 -0800 (PST)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 3/3] hw/arm/fsl-imx6: Wire up USB controllers
-Date: Sun,  1 Mar 2020 09:04:43 -0800
-Message-Id: <20200301170443.12904-4-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200301170443.12904-1-linux@roeck-us.net>
-References: <20200301170443.12904-1-linux@roeck-us.net>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zPf2ELswWbCzCNFcU/z1N+mq3I+1pGGuQpnnhEqMtVY=;
+ b=uUI6R4EaY8OlpHV9b1NvPnwHq9S+0EPASfgjKPR3j0i252UM+ad0HLasKWoPqlBP7V
+ EUFPECd/ot5V+v1gBYHOglj3iu2a1Z05aIyfKAugrGpmSf2lOVK2i2cUKwQmcpZzrL3N
+ L/YSP6gQS86LrjkDXVy3efegkOG0GIxrNnLoI6T4tqqy57v5ohqiFwledkUyduLl8j9S
+ Vg/+fvbl5IS9MIto+uADKEPQoxKCJOuZhoaWikCcU5uOzXXwSW5znILTQv3gDD9+0Uys
+ EliNPmpFOHTbBJ+zEuzbdyDv/irz2ThUs6bt8MavBBgsNConEcVUg7qm+6u51yOXL02f
+ zAQQ==
+X-Gm-Message-State: APjAAAWnnP2Buy9VsxgkdvfeOFelG0u0IYqhyn7lxh3XPoG9t0U1acUx
+ lnuO3OvO5Z3GxqnrnQPmK5O0xw==
+X-Google-Smtp-Source: APXvYqz81LSZaS1BZmyOQ11oAk37F0vZ/J55as8q2RPBu1V15xDC6ZvCFplUPz1EDNX3N12nmVz0dg==
+X-Received: by 2002:a17:902:7203:: with SMTP id
+ ba3mr13745352plb.249.1583084350136; 
+ Sun, 01 Mar 2020 09:39:10 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ 22sm1577573pfc.14.2020.03.01.09.39.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Mar 2020 09:39:09 -0800 (PST)
+Subject: Re: [PATCH v2 1/6] hw/arm/virt: Document 'max' value in gic-version
+ property description
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
+References: <20200301104040.15186-1-eric.auger@redhat.com>
+ <20200301104040.15186-2-eric.auger@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dfcd4971-f581-52ef-4726-a524b336f889@linaro.org>
+Date: Sun, 1 Mar 2020 09:39:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200301104040.15186-2-eric.auger@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,125 +86,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: maz@kernel.org, drjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this patch, the USB controllers on 'sabrelite' are detected
-and can be used to boot the system.
+On 3/1/20 2:40 AM, Eric Auger wrote:
+> Mention 'max' value in the gic-version property description.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/arm/virt.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- hw/arm/Kconfig            |  2 ++
- hw/arm/fsl-imx6.c         | 36 ++++++++++++++++++++++++++++++++++++
- include/hw/arm/fsl-imx6.h |  3 +++
- 3 files changed, 41 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index d09b012c5a..5d12b0f686 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -361,6 +361,8 @@ config FSL_IMX6
-     select IMX_FEC
-     select IMX_I2C
-     select SDHCI
-+    select STMP
-+    select UNIMP
- 
- config ASPEED_SOC
-     bool
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index ecc62855f2..9a4a0eb35e 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -22,6 +22,8 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/arm/fsl-imx6.h"
-+#include "hw/misc/stmp.h"
-+#include "hw/misc/unimp.h"
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/sysemu.h"
-@@ -86,6 +88,12 @@ static void fsl_imx6_init(Object *obj)
-                               TYPE_IMX_USDHC);
-     }
- 
-+    for (i = 0; i < FSL_IMX6_NUM_USBS; i++) {
-+        snprintf(name, NAME_SIZE, "usb%d", i);
-+        sysbus_init_child_obj(obj, name, &s->usb[i], sizeof(s->usb[i]),
-+                              TYPE_CHIPIDEA);
-+    }
-+
-     for (i = 0; i < FSL_IMX6_NUM_ECSPIS; i++) {
-         snprintf(name, NAME_SIZE, "spi%d", i + 1);
-         sysbus_init_child_obj(obj, name, &s->spi[i], sizeof(s->spi[i]),
-@@ -349,6 +357,34 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                                             esdhc_table[i].irq));
-     }
- 
-+    /* USB */
-+    for (i = 0; i < FSL_IMX6_NUM_USBS; i++) {
-+        static const int FSL_IMX6_USBn_IRQ[] = {
-+            FSL_IMX6_USB_OTG_IRQ,
-+            FSL_IMX6_USB_HOST1_IRQ,
-+            FSL_IMX6_USB_HOST2_IRQ,
-+            FSL_IMX6_USB_HOST3_IRQ,
-+        };
-+
-+        object_property_set_bool(OBJECT(&s->usb[i]), true, "realized",
-+                                 &error_abort);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usb[i]), 0,
-+                        FSL_IMX6_USBOH3_USB_ADDR + i * 0x200);
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a9mpcore),
-+                                            FSL_IMX6_USBn_IRQ[i]));
-+
-+    }
-+    create_unimplemented_device("usbmisc", FSL_IMX6_USBOH3_USB_ADDR + 0x800,
-+                                0x200);
-+    create_unimplemented_device("usbphy1", FSL_IMX6_USBPHY1_ADDR,
-+                                FSL_IMX6_USBPHY1_SIZE);
-+    create_stmp_device("usbphy1-stmp", true, FSL_IMX6_USBPHY1_ADDR + 0x30);
-+    create_unimplemented_device("usbphy2", FSL_IMX6_USBPHY2_ADDR,
-+                                FSL_IMX6_USBPHY2_SIZE);
-+    create_stmp_device("usbphy2-stmp", true, FSL_IMX6_USBPHY2_ADDR + 0x30);
-+
-     /* Initialize all ECSPI */
-     for (i = 0; i < FSL_IMX6_NUM_ECSPIS; i++) {
-         static const struct {
-diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
-index 60eadccb42..a3d1f34598 100644
---- a/include/hw/arm/fsl-imx6.h
-+++ b/include/hw/arm/fsl-imx6.h
-@@ -30,6 +30,7 @@
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/imx_spi.h"
- #include "hw/net/imx_fec.h"
-+#include "hw/usb/chipidea.h"
- #include "exec/memory.h"
- #include "cpu.h"
- 
-@@ -44,6 +45,7 @@
- #define FSL_IMX6_NUM_ESDHCS 4
- #define FSL_IMX6_NUM_ECSPIS 5
- #define FSL_IMX6_NUM_WDTS 2
-+#define FSL_IMX6_NUM_USBS 4
- 
- typedef struct FslIMX6State {
-     /*< private >*/
-@@ -62,6 +64,7 @@ typedef struct FslIMX6State {
-     SDHCIState     esdhc[FSL_IMX6_NUM_ESDHCS];
-     IMXSPIState    spi[FSL_IMX6_NUM_ECSPIS];
-     IMX2WdtState   wdt[FSL_IMX6_NUM_WDTS];
-+    ChipideaState  usb[FSL_IMX6_NUM_USBS];
-     IMXFECState    eth;
-     MemoryRegion   rom;
-     MemoryRegion   caam;
--- 
-2.17.1
 
+r~
 
