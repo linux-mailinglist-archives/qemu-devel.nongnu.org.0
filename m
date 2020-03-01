@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6728B174ECF
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 18:57:13 +0100 (CET)
-Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A035174ED1
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Mar 2020 19:00:00 +0100 (CET)
+Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8Sq0-00082o-G1
-	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 12:57:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34196)
+	id 1j8Ssh-0000zu-Ir
+	for lists+qemu-devel@lfdr.de; Sun, 01 Mar 2020 12:59:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34509)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j8Sp1-0007To-9s
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:56:12 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j8Srf-0000Qh-GD
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:58:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j8Sp0-0002Us-5J
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:56:11 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35859)
+ (envelope-from <richard.henderson@linaro.org>) id 1j8Sre-0003Ei-Jg
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:58:55 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40692)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j8Soz-0002TJ-U4
- for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:56:10 -0500
-Received: by mail-pl1-x644.google.com with SMTP id g12so1232629plo.3
- for <qemu-devel@nongnu.org>; Sun, 01 Mar 2020 09:56:09 -0800 (PST)
+ id 1j8Sre-0003EQ-Ce
+ for qemu-devel@nongnu.org; Sun, 01 Mar 2020 12:58:54 -0500
+Received: by mail-pg1-x541.google.com with SMTP id t24so4213643pgj.7
+ for <qemu-devel@nongnu.org>; Sun, 01 Mar 2020 09:58:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Uuh+GFYVp2AKms/X/74SNIcmqthqr2SugXQsxqRaKqc=;
- b=yKx2T4oKV5bt4cSjwjkX6qfNcyljvW4xtrMuXYCq+GG+8rDzO9GrJEtKqV+a73CcR2
- AIHkDGIEJJjCvjc4D1Wy789hxwCw0xmXiilylTMhdH0jhmLMaYLQaOc3MJH7fYZBQ20m
- BKC41FNOJEqBIT5oD9khbut1erH58ebFNW/oVXNyQmPRWM4xdagHmN51mnt+HRFCz+Gv
- 1+l24ZNUzCGl4MXitmMqNcz/X13dZDmA40FQlz9oavAZ4G8CgElRfoNJofMf5EzjfQTL
- nctGmwVpdm3I80obiKHtIZApB8j7D0VLB6zBWbFJi0Thb3KoGUsJzjzfihTQDGEELh2+
- 07yw==
+ bh=iAWv6LM87Bsw6cBMylrOKGFMgug9eK+rPqjr9mDSqiM=;
+ b=HLampV6YM2YIZHGGCsbXPcY6UFSkNeIxNNXqJDMaPLw2SURLTzYEodRoAj+kvwZTS+
+ A644r0wdr7eEI6e1TfzKzajZByRGXkgdXAJKuYAH0ane85UP9wT9dNbMO5StJF0ZxaAV
+ mhMy6uAKeGmvOuHy2agB9HQSwZXS0P5S+0J/jg9N/dT/TLK1INTkVk3U3Fd7G8G04QTz
+ k0bhWWOGx+Jej1JtQNfikXA0QwzHQOfaz91PFXt6i4+ntjm2bV+/nFlo2MzLw5Hk5RqV
+ k6Q61hDdvfE5sSWVtnXoxCsNtEr7obrhnM4gcIno/UpABavzk2+euwAbZy5XhCko72SK
+ ORWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Uuh+GFYVp2AKms/X/74SNIcmqthqr2SugXQsxqRaKqc=;
- b=o4jr+ti+bNOE64hObkc6Mg9ljvUCfnKH+AcKS+oHFBwc3tZ/2UKAO35wEI6lZWsmuN
- QsI7Mf53wC7dNrYOiWO7NlVethcGV19uoErdkcRgDWJ4cRUxxe+z0vXCzObGDTeWqxVM
- yzLoL2yQVnII6evdolcrOx43lcxBlWAbBb3XvAwJI0Fq/Pm4B5Bgqu//ulGWqqaQ0iFt
- EmkOGzPKV0MQoXUunIctOuG14KTMZT2Sy4n8V84BKDgam19mti82gdmnnhbWQxKwTxql
- AlRouiD8P1zgl+CuuzFkhNcunPLNrK0/PdUB3d6h7jn4mOrdNjRBnQkqL+dDyRilUNzK
- lUAw==
-X-Gm-Message-State: APjAAAUapzU/3V4m+LW3nkTPOrkO93c8xhvnvtrtZoGpfKH4aR9J9wKo
- RZftUYWjXV8vFOB8TtJRcYweSg==
-X-Google-Smtp-Source: APXvYqzziJGwUvUZ/bGycbj/l1BTRSJaoLO5G174NnxS+NQq8ub4ESeowccPeg1D3hfN3DDd53RFyw==
-X-Received: by 2002:a17:902:be04:: with SMTP id
- r4mr13963086pls.315.1583085368554; 
- Sun, 01 Mar 2020 09:56:08 -0800 (PST)
+ bh=iAWv6LM87Bsw6cBMylrOKGFMgug9eK+rPqjr9mDSqiM=;
+ b=qjfl9mSRJrWa/ZPGy0byRPZwoRCKrO2Chsa6TyTCgwx3MStF2vK7oTsrFd1bcwNTri
+ Knd8XngIfwth4Fsiw0KvTleSWEU8Jet/E9wylpZybpmzO0nHDe99qW2/a2Wif9w2pRUq
+ aLGH0KuYs9GGSHZmxEdgIXuRdrJOCI43Drj3wy0THYf9rlO3O/PBfCujYk9x3gh5TE4M
+ JUsJSvcTB/9odoSY7JeVz3t7btRUWlVK2mDOrfuRQmPhcr7CfwlDXtCZxD4x0AHsnhuU
+ fdU6blNYCR70wN7f0XrySZ9J1q9n+1uN7XZgD22lXV31WK265X+nKb24/BOtl+vctF1c
+ 6A+Q==
+X-Gm-Message-State: APjAAAWEmci+Xp4CvsphGViK/7ICQuVNITbabABvBByqnlvlihGygcpA
+ OeOlyfu7hRbXo3GNJ0r/aAZ6FA==
+X-Google-Smtp-Source: APXvYqwx9HI2eHF4l7rOmmH0+IBq2I4B485DeEqMDXtyx35KdgnNa0K33xOgisL6wTV84T9VKAOqJQ==
+X-Received: by 2002:a63:7ce:: with SMTP id 197mr15655740pgh.429.1583085533136; 
+ Sun, 01 Mar 2020 09:58:53 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- r9sm18228685pfl.136.2020.03.01.09.56.07
+ o66sm3654585pfb.93.2020.03.01.09.58.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Mar 2020 09:56:07 -0800 (PST)
-Subject: Re: [PATCH v2 5/6] hw/arm/virt: kvm: Check the chosen gic version is
- supported by the host
+ Sun, 01 Mar 2020 09:58:52 -0800 (PST)
+Subject: Re: [PATCH v2 6/6] hw/arm/virt: kvm: allow gicv3 by default if v2
+ cannot work
 To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
 References: <20200301104040.15186-1-eric.auger@redhat.com>
- <20200301104040.15186-6-eric.auger@redhat.com>
+ <20200301104040.15186-7-eric.auger@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <30b6269e-e22f-347c-8e42-5af964bd14b7@linaro.org>
-Date: Sun, 1 Mar 2020 09:56:05 -0800
+Message-ID: <eae4a0f8-3821-a0cc-1dc2-b54b05d6611a@linaro.org>
+Date: Sun, 1 Mar 2020 09:58:50 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200301104040.15186-6-eric.auger@redhat.com>
+In-Reply-To: <20200301104040.15186-7-eric.auger@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,32 +90,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/1/20 2:40 AM, Eric Auger wrote:
-> +        /* Check chosen version is effectively supported by the host */
-> +        if (vms->gic_version == VIRT_GIC_VERSION_2 &&
-> +               !(probe_bitmap & KVM_ARM_VGIC_V2)) {
-> +                error_report("host does not support in-kernel GICv2 emulation");
-> +                exit(1);
-> +        } else if (vms->gic_version == VIRT_GIC_VERSION_3 &&
-> +               !(probe_bitmap & KVM_ARM_VGIC_V3)) {
-> +                error_report("host does not support in-kernel GICv3 emulation");
-> +                exit(1);
-> +        }
+> At the moment if the end-user does not specify the gic-version along
+> with KVM acceleration, v2 is set by default. However most of the
+> systems now have GICv3 and sometimes they do not support GICv2
+> compatibility.
+> 
+> This patch keeps the default v2 selection in all cases except
+> in the KVM accelerated mode when either
+> - the host does not support GICv2 in-kernel emulation or
+> - number of VCPUS exceeds 8.
+> 
+> Those cases did not work anyway so we do not break any compatibility.
+> Now we get v3 selected in such a case.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/arm/virt.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 
-Indentation is wrong here.
-
-> +    case VIRT_GIC_VERSION_HOST:
-> +        error_report("gic-version=host requires KVM");
-> +        exit(1);
-> +    default: /* explicit V2/V3 are left untouched */
-> +        break;
->      }
-
-I'd prefer to just list V2 and V3 here explicitly, instead of the default.
-It'll be nicer with gic_version changed to an enum.
-
-With those changes,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
