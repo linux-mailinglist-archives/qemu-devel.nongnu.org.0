@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B201763EB
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 20:29:42 +0100 (CET)
-Received: from localhost ([::1]:37672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F92C1763FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 20:33:05 +0100 (CET)
+Received: from localhost ([::1]:37724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8ql3-0007m9-3n
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 14:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56226)
+	id 1j8qoK-0001JU-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 14:33:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <max@m00nbsd.net>) id 1j8qje-0006wm-EA
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:28:15 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j8qnD-0000r0-Rr
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:31:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <max@m00nbsd.net>) id 1j8qjc-0005ZV-Es
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:28:14 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:49197)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <max@m00nbsd.net>) id 1j8qjc-0005XF-5m
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:28:12 -0500
-Received: from mxplan6.mail.ovh.net (unknown [10.108.1.72])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id A70A92A56CB4;
- Mon,  2 Mar 2020 20:28:09 +0100 (CET)
-Received: from m00nbsd.net (37.59.142.105) by DAG3EX2.mxp6.local (172.16.2.22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Mon, 2 Mar 2020
- 20:28:08 +0100
-From: Maxime Villard <max@m00nbsd.net>
-Subject: Re: [PATCH v4 3/4] Introduce the NVMM impl
-To: Paolo Bonzini <pbonzini@redhat.com>, Kamil Rytarowski <n54@gmx.com>,
- <rth@twiddle.net>, <ehabkost@redhat.com>, <slp@redhat.com>,
- <peter.maydell@linaro.org>, <philmd@redhat.com>, <jmcneill@invisible.ca>
-References: <20200206115731.13552-1-n54@gmx.com>
- <20200206213232.1918-1-n54@gmx.com> <20200206213232.1918-4-n54@gmx.com>
- <e85f03be-60bc-2852-7856-91790ba5958b@redhat.com>
-Autocrypt: addr=max@m00nbsd.net; keydata=
- mQINBFLj1VcBEADKvx0jUiiosyANtkt4hV+oOrhghLrxHugeYHG4Wf4kxxAYlaFTAj/9d1H0
- 8CPx6rYQZliEM942Li/haXGr8w6+KWELeF9l2Lk7TPu/znmIovlT5z9zgbyGUMR8D8m8vDFC
- 4WNCjd5Q+rxL6eV1SC+mJFnV1t4vDSguaWYWKCXo4BpOqFrZwbDyr1VTjVeeIT7iJEvLfmsn
- uM9/1AAbPAi/fCxFtMQjWPtj/lTRlfeu5fk6wAl1u4c0VjyNMz09ahrw+Xg2lMJh8uAos2T7
- HZ9t6svQKyNUWNwl+1tReuTS6d+Fgnm8stIjt3k1k/zU+YruJ4u6y83/tw8wU8MXMviI962G
- RcPuBBUKV3ZfPfQ0qm13Mjac57v47n3hNFe1O9NInClu6bk9kUyiiL/qhYwvj0IHUQgRI+0n
- C9wIoqjjOWNfI/5u6yJWwQTDpdbH2NzD9pRKaOnRkSJRPaVnFXAPfFlDW2dWar+FynJZhW1c
- JKInGo2gGiogorrnkW4O14gTCVr40kT/LwzLVO7K1sAZsWhPoywj+9qv2SSEOczRkLS9en+2
- XM4ISBokdv0ABKsJz667Gt4A9AvrffYDgXsAMif1UvbS12kDlV/6LcPj6BZxUgy2XGIAT5te
- N3Ad2cpC6AdYrkE6nWRtTnzfqA1wLPTXyh/eqi1aXK8RMrQxZwARAQABtCBNYXhpbWUgVmls
- bGFyZCA8bWF4QE0wMG5CU0QubmV0PokCOQQTAQIAIwUCUuPVVwIbAwcLCQgHAwIBBhUIAgkK
- CwQWAgMBAh4BAheAAAoJEEVwe6JOP4g3j/MP/2MNQQL7EobxHPFIep2CbQ92HZEiqj6EkU0O
- FnMj5QJUJASIT53d4tnc/fqTX3PHajmJIAB8hPRQOlnf1U1tU7yuCF1nr4cCm0qzBCWrhz8H
- 0vx4KbM05PWAFdZ5sLMNRch8bI0bYMsr/wYm1+nO3TYiYiKeeA/Uy+2CJkmHGze9rMYkv2bN
- +09za3en3F1vOAtpS6RjDbFtIOW7J5pIQXrEig+OnFVViOeIDulIRKSishgaJ07AC+nDOAvN
- HTC4OL7WvDntLSZt1486mJCb+fCueGj3jwL8z6SpPnWzxKchhw5+o0nTd7BivBPR1sE7NsCT
- VoYQQlWJIyDtmCJz5fu6h2ZggyDaGGwRBMTponp/unwz4f3jtx9z/uH0asWjPfzAE+EPHTqG
- W/MyEpjARN3jdEHH7jP1q/c9LYIKU9Jloae49bAkNYeg0p7Vjh3CJzmgNRZFEY/rHkVXlhEM
- VpFE+NpY5frunim1py27qDfnRIcfLZ1UnNizMY1X46qS0ZYzBgjSvo58c7uqef3ddfo/Z8iQ
- sJTX3EPK1T4un1DbDYm0oPLptj4yl4WDROuSiZa0+z1l/XhOXpaU4pbi+0e9Yt2tOm1W7n2v
- ALWhYisz2e63hUHgp1aPFHj0yt/+z2DXvBxK251Ts6c9SRunaJ4r6h0W2uWmA1P9g+0I6+O4
- uQINBFLj1VcBEACj9g7q8r6eA6VaNrxJ5jcqZyXgQ0vgCEp8QqDl96EOt+grxJpyQKEEj1f4
- 1Qe3L4SL2CeIowZx1ilrOp6qASI/bZmOvNWYy6p9UfneK4ruHsP6TTBnQXiIV0H9jFblWvxC
- SSb5mh1tiF/sW4UOQzZd4jFvZR5mxCQxYtujFbL5Z8k1q3xcymlh7093sCMnaXUmX8Lc7My0
- 81u3dcR3Ko8Ku0HQLccBLXxHdM1k3a/LPZgT36dIMUdZDhEH4IJbLRTjk7d2sVEmj9v8/YIJ
- NaAlcBZcWIOBv29wbhGiwSpawtSTVE+0/aTRdRxWzCA59yo6aKWRg92WdtJoAobuzFPcImJG
- hC6K0/0n8J/BTO+Mn6FSa2TaIcR83WQ1byP9S7X4xwFw6SAv2LdTnTJH7tQ0c4FXEgqBJ+zI
- H6uu0rKuVzRFXCOVv1bKcfHxh2EoQPdG/G4f7gM8qXRCAXuG6MvvqIxCwpJf+5mOiA5ACHrw
- Ze92RG7/XdZTIdGnCCNCb6RHZT1B5Z+ZWsTSEuf2ZEytGBegSQTJ3HoRGqhUfHXGhNuQMM5m
- y7K6DLTq3PAcjbcjc1zYAeSitmdadZmgsjmGUKAz3qxFKp2khWovXr+4tAQN7bbSg46VbMmW
- /JquPrCv6t7IkkkFWRmWq7uhBZyX0nLYzXb6saMoG9aFdSnZQwARAQABiQIfBBgBAgAJBQJS
- 49VXAhsMAAoJEEVwe6JOP4g3+uIQAIDnZrjPwpzP986nhqngjLmR35nJ+9Q/GUiLgzFeNK8q
- uS/ScRSaI5unHUp7NWPXa+9nTR1RUFY1adD+Fg38C/J+cxn5jzGYScwGR/8JuWOZ6a1MebPA
- 29q/KhaiobH+CtX+N6kGxTaQpkytjJ1j3AeoXfxtCjXvIvStUqjupsss7E7LCc/TUzMnEHwt
- MbjO4q59/OaNZmt0k7f7USMyzMz5dBHSMeMAK2HAI8sBk13ZxLrLSCkt65KDYzW4U8CwZVcE
- aXuAfECGEHjvTpN+lIgYGT1heZuQeG+EoVDCW+QXTMNxSGOQpmA1zVsiK3h6qTF+bsJvt5tV
- 62fjUNbeqPaby58hiL0HuikPAgAPnPGejbrQesZbiaiiaEsNQkgJD6Dfo8hNTVGDMe/XiOCY
- V2vOh5BRxmVGG6660VBg1pY2SdpTmKYZyyPiSXXadU6LW2b/v/NLDBaydz5Jaxuf015f00bG
- 0FgxmAPd25zLJdm1Vcrnf4fvRZ9zTCq4rxzQXiMQMWH46RwTeSMobFovbDbP+//lwJ+WXAQM
- Ny29yyTGgywNyMZ76xogh1daV+ZHW/qgJQHnnU3ldcjDuC3fsi+uOBFGBbK/Kdw6pESw4oTT
- e70Ol6ljxgHHkXSffmHBduCdmruR+tZJ5nYasc1ZT7zUbOTjkdR6Fy+nlYZAszG8
-Message-ID: <ca1210a3-2ea5-3862-c4fa-bdcd5624fe29@m00nbsd.net>
-Date: Mon, 2 Mar 2020 20:28:04 +0100
+ (envelope-from <peter.maydell@linaro.org>) id 1j8qnC-0006Vd-9a
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:31:55 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38873)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j8qnC-0006VK-3c
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:31:54 -0500
+Received: by mail-oi1-x242.google.com with SMTP id 2so424578oiz.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 11:31:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dp5kOOPOrerHLi+kb0FS+a8B4SqfEkMBaZMk7hxWMkw=;
+ b=teGcpHY9gK/F1QLEDur5MvuYlFyN/zjoW3XsOUFJxeblZdzLeMC6qtz9Nf4XPt6708
+ wPn+Tp9LR3Tz2fLzcNtlv1bGO1n/iHr0CeP661UAmiWPUwoYt0XAPpLsj2gaRLDMllKH
+ l/meAElyusHTHJL6c2kKkZBA++s8lpoM3CvIVKz8Y/vsxcHmXWvh5s682VQE4FWaDC3a
+ YyN6o/2YyC1PjuGu3p5+8aIaqiytJB39lth6Gqc68kwH2haM912LnNkaw3vRYu+UAYXY
+ 8sFkooPL7iArV6ZBFz2KFAh7q1KWCwn27mUTiowGKktlUKlGhjV2uONlz/BKGRaqQ7EY
+ LhtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dp5kOOPOrerHLi+kb0FS+a8B4SqfEkMBaZMk7hxWMkw=;
+ b=bSyYYb2wjfDLOk3awJ7Dr1oMinWfAlBFfpfCmab+MbPnzt4zwJ4Ya8UWhFnUYX5t/O
+ ea4lNxa6RvkDm0ouwtr5owfvlO2igabyg/Yr7MPopqWm7Rovg1MKXJgpeccvosOKzOZS
+ YWCwGHiXMBxO2SCySr+81T8CkIs3BmybhDyzOxeZcDQley3aOreM/Q7fRphqWjXAYTYc
+ WzTRMRDRviEDGPJGtB5yZr33lrT0m38HFzyBIOOBO3T51csC3X3B71sBJKPt+eckjSCR
+ ELt9PNxcuVLwMpxJpuMhZ/1oSHmM47eFp0I153yVxjg8mY9cWwwQ4OI4xFOeE6f7w0az
+ Q5+w==
+X-Gm-Message-State: ANhLgQ3KLqZ+glYxQMI/2N1CxOfYW8nfcebFXwkJSPlpqe90t15rpcDR
+ DMmg9GGF0QmsNGLulsVB6xiT0bXJuVVkR3eIxfDL1A==
+X-Google-Smtp-Source: ADFU+vseDEu8w3P6xMDm8QSbNNavh1sk0xZp5LfX6yFzsfVK/iVXApuhdYnNd+CEqOotmlOVB6rlsY7LUI7g/P1Bfu8=
+X-Received: by 2002:a54:4f16:: with SMTP id e22mr7573oiy.170.1583177513038;
+ Mon, 02 Mar 2020 11:31:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <e85f03be-60bc-2852-7856-91790ba5958b@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG4EX1.mxp6.local (172.16.2.31) To DAG3EX2.mxp6.local
- (172.16.2.22)
-X-Ovh-Tracer-GUID: fca76127-9d19-4db4-9db4-e0cc884d58f6
-X-Ovh-Tracer-Id: 6793961515724377903
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddtgedguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhuffvfhfkffggjggtgfhisehtkeertddttdejnecuhfhrohhmpeforgigihhmvgcugghilhhlrghrugcuoehmrgigsehmtddtnhgsshgurdhnvghtqeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepmhgrgiesmhdttdhnsghsugdrnhgvthdprhgtphhtthhopehpsghonhiiihhnihesrhgvughhrghtrdgtohhm
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 79.137.123.220
+References: <20200124232009.12928-1-richard.henderson@linaro.org>
+ <20200124232009.12928-3-richard.henderson@linaro.org>
+ <CAFEAcA_aA1jNkkgmdxLqUhSbAz7JL2chAU1+s475HSoqKQiukg@mail.gmail.com>
+ <e0e3cf61-33ef-3b95-4a2b-2458cdcab296@gmx.de>
+In-Reply-To: <e0e3cf61-33ef-3b95-4a2b-2458cdcab296@gmx.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Mar 2020 19:31:42 +0000
+Message-ID: <CAFEAcA_80Hm-FX0-OWW3yJ2H1d=mqxt8tKsvP7LpDayQBXRtGw@mail.gmail.com>
+Subject: Re: [PULL v3 02/11] hppa: Add support for LASI chip with i82596 NIC
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,114 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/03/2020 =C3=A0 19:13, Paolo Bonzini a =C3=A9crit=C2=A0:
-> On 06/02/20 22:32, Kamil Rytarowski wrote:
->> +get_qemu_vcpu(CPUState *cpu)
->> +{
->> +    return (struct qemu_vcpu *)cpu->hax_vcpu;
->> +}
->=20
-> Please make hax_vcpu a void * and rename it to "accel_data".
+On Mon, 2 Mar 2020 at 19:23, Helge Deller <deller@gmx.de> wrote:
+>
+> On 17.02.20 18:56, Peter Maydell wrote:
+> > On Fri, 24 Jan 2020 at 23:20, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> From: Helge Deller <deller@gmx.de>
+> >>
+> >> LASI is a built-in multi-I/O chip which supports serial, parallel,
+> >> network (Intel i82596 Apricot), sound and other functionalities.
+> >> LASI has been used in many HP PARISC machines.
+> >> This patch adds the necessary parts to allow Linux and HP-UX to detect
+> >> LASI and the network card.
 
-NVMM reproduces the existing logic in the other accelerators. I agree
-that it should be "accel_data" with void *, but that should be done
-in all accelerators in a separate commit, unrelated to NVMM.
+> > So we could be reading off the end of the buffer.
+> >
+> > I don't know whether the buffer should be 4 bytes
+> > larger to allow for the checksum, or if the len calculation
+> > is wrong.
+>
+> I'm working on a bigger patch which will improve this driver.
+> It still has some issues with the emulation in Linux and HP-UX.
+> With the patch I will take try to fix those out-of-bounds
+> accesses too.
+> It will take some time though, until I will send the patch.
 
->> +    nseg->attrib.g =3D __SHIFTOUT(attrib, DESC_G_MASK);
->=20
->> +        __SHIFTIN((uint32_t)nseg->attrib.g, DESC_G_MASK);
->=20
-> What are __SHIFTOUT and __SHIFTIN?
+As this is a bug fix and in particular a fix for a buffer
+overrun, I think it would be better if you could send a
+patch that just fixes this. If you include it in a larger
+general-improvements patch we'll probably just ask you to
+split it out when we get to code-review of that patchset,
+and doing it that way will mean we have the buggy code
+in QEMU for longer.
 
-They are macros in NetBSD.
-
->> +    if (qcpu->int_window_exit) {
->=20
-> Should it assert the condition in the "if" below?
-
-No, because if int_window_exit is set, then state->intr.int_window_exitin=
-g
-is set too, so there is no point doing get+set.
-
->> +        return false;
->> +    }
->> +
->> +    if (qcpu->int_shadow || !(env->eflags & IF_MASK)) {
->> +        struct nvmm_x64_state *state =3D vcpu->state;
->> +
->> +        /* Exit on interrupt window. */
->> +        nvmm_vcpu_getstate(mach, vcpu, NVMM_X64_STATE_INTR);
->> +        state->intr.int_window_exiting =3D 1;
->> +        nvmm_vcpu_setstate(mach, vcpu, NVMM_X64_STATE_INTR);
->=20
-> ... and should this set qcpu->int_window_exit?
-
-Mmh, maybe. Not a big problem though, because at worst it just means we
-set int_window_exiting to one while it was already one. I'll think about
-that for a future commit. (I'm not immediately able to test.)
-
->> +
->> +        return false;
->> +    }
->=20
-> Have you tried running kvm-unit-tests?
-
-I didn't know kvm-unit-tests (until now). I developed my own tests and
-ran them in qemu-nvmm. But good to know, I'll try these tests.
-
->> +    /* Needed, otherwise infinite loop. */
->> +    current_cpu->vcpu_dirty =3D false;
->=20
-> Can you explain this?
-
-If vcpu_dirty remains true, we land here in the next iteration of the
-loop:
-
-        if (cpu->vcpu_dirty) {
-            nvmm_set_registers(cpu);
-            cpu->vcpu_dirty =3D false;
-        }
-
-And the (now updated) register values are lost. The guest stays on the
-same instruction.
-
->> +        break;
->> +    default: /* More MSRs to add? */
->> +        val =3D 0;
->=20
-> I would add at least MSR_IA32_TSC.
-
-MSR_IA32_TSC is handled by the kernel, that's why it isn't there. The
-values do get synced:
-
-    state->msrs[NVMM_X64_MSR_TSC] =3D env->tsc;
-    ...
-    env->tsc =3D state->msrs[NVMM_X64_MSR_TSC];
-
->> +        if (qcpu->stop) {
->> +            cpu->exception_index =3D EXCP_INTERRUPT;
->> +            qcpu->stop =3D false;
->> +            ret =3D 1;
->> +            break;
->> +        }
->> +
->> +        nvmm_vcpu_pre_run(cpu);
->> +
->> +        if (atomic_read(&cpu->exit_request)) {
->> +            qemu_cpu_kick_self();
->> +        }
->> +
->=20
-> This is racy without something like KVM's immediate_exit mechanism.
-> This should be fixed in NVMM.
-
-I don't immediately see how this is racy. It reproduces the existing
-logic found in whpx-all.c, and if there is a real problem it can be
-fixed in a future commit along with WHPX.
-
-Maxime
+thanks
+-- PMM
 
