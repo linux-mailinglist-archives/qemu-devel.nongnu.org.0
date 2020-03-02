@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCFC176255
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 19:20:00 +0100 (CET)
-Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957D017626A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 19:22:30 +0100 (CET)
+Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8pfb-0002Nj-Is
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 13:19:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43355)
+	id 1j8pi1-0007j7-Ki
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 13:22:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuanzi@google.com>) id 1j8peD-0001pL-7W
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:18:34 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8pep-0002QS-W1
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuanzi@google.com>) id 1j8peB-0000hG-Tb
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:18:33 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42084)
+ (envelope-from <alex.bennee@linaro.org>) id 1j8peo-00017J-RT
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:11 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36395)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuanzi@google.com>) id 1j8peB-0000gl-NJ
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:18:31 -0500
-Received: by mail-ot1-x341.google.com with SMTP id 66so176073otd.9
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 10:18:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tNeOCg7H/re/KZyrEQ7ycADlImpt3TJgjVONz4ju3xY=;
- b=A00RwfXoQ9AyhXPGwPRVF8jSb4k5ij61i1v/5DXd5BEkDmwPIkl6dmIanHNXebtdNk
- HZsy2S/hGOZBNp0emrPr1iX6Y79KOEu/btO5ZdVH05Ofqh6l2veQ8fGL6Wq4mgg8ttKd
- anzhKU8aQnNqJseoKuFVKte5F1g5giSNlTsOVYywI+D7ADDWUSllUamPeChU0gdNyibD
- euIsuVDEtgurghKkbQSweTinelUOdKljuVzvYI9/akRm7i4tHAimUyu1H4PvLjDJORVU
- vj8tdcgK5hs4Wldg/BYnQTn0ldJ08hP92Y4ENbNRSPBTy911hZnBh0YA8bSzL+Pu4dGE
- VNvw==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j8peo-000165-JK
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:10 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id j16so1008213wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 10:19:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4dHa+MZePXR7QI6+BxX3W06bgfxpjCqKFrM6J8weaRI=;
+ b=ewcGuiMGVNJ0MCY9ZwCZRNCK4S9/mCPSC5+il6bNykEiivN2mbY1ZrvsCcjGakjyNn
+ MiauaV0KoB2mpglzoJZuTw/Q9Z1p2FrJO9YD1lu6ZocR3GETINFOMi4q6xqFODrsEK+8
+ MnagVIoHUAl4zm7gIgYHCmQpfVE4BZvDuZWodUv5eifVB/qOHfZmckzCdtxBuZGZhBzZ
+ xGgxRG1WgcPvGfl61XQ/Lp9WDDL0ZUPZyPMs0zWnXsCUxrS0wuHQ2JwznGGoJxrPQ0SZ
+ 4k1WRfKoIenvzdATwRf+guAfVJcUdfdkQyAwrFE/MsxxXqPnkJeQ7ZysRmgdP5fjCYOm
+ dVOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tNeOCg7H/re/KZyrEQ7ycADlImpt3TJgjVONz4ju3xY=;
- b=qLX8bDkbzI1LiwKMlMlh6Euxhc4TzFbdYJQJOrEifvraqR5p0hKVbv2c9sL8+x8WL8
- 5LSU2dJidJwxKHPiNmFxYp2GtLmcHYyyQlF89q+c8Awqmvy5PUml2iWcEOxirTo4S18s
- RMKx/HSkw9lwIE4VWJcndj2YWqz2IKZzhQ/cft6kg7ncEkGpsavOjmjFF0q9zXrhALdO
- IZXUxtgSkcA/0OcnazN/XslLFtSqiFrMRv4V6ju393u1qzL+176+ozU84JOR3jcWHrwJ
- sspUp/h5AcEn7Y5WLfFHzHHJuXuPgv+IAuspWmYmszFRELMHZtv+pRXt4Ssvglnc6RwX
- aCQw==
-X-Gm-Message-State: ANhLgQ13i9XbhRIRem0ecezXoSfAqDhGuAzBJAlb+/B1HZXSg7P0Iqe8
- 5BkNrz9eKkp5o8u7ZGmjUzQNpqHjRfm/oVWT8FB+Hg==
-X-Google-Smtp-Source: ADFU+vtFD8/i5YrG0B1XPjN/1j5MmSnqKyS91eUPjqC/19hHm6iUreOeQlv/JwM05CQozxlrFTyy5FsEdfbY12+bNPo=
-X-Received: by 2002:a9d:7842:: with SMTP id c2mr348425otm.252.1583173110437;
- Mon, 02 Mar 2020 10:18:30 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4dHa+MZePXR7QI6+BxX3W06bgfxpjCqKFrM6J8weaRI=;
+ b=KFc/J/B0ujVWgN89d1fZJVFCLTSCd0EIkOx3MquP6SzZ2owktGqR6akOm0e6dNdhZQ
+ FPtJU2xKCCP5CUoO+s/tATCEvYutZwwfdEUrC91QLdEyOtZWb2MQkFpiK8GBBAOc04hk
+ s7Qq0NMpuSUwLA/givB1Yk/Vv0Gm55vh5kggwuwy/L7nE3OEXqAoShdPYpQuDQ8xtdYT
+ 1GUGLtuEIzPNLmyyxftNrEz4zwPmPgn2Nv+h7ZBfjYJBA6vnRoWACBYlx7U/VZnxazy2
+ UUXyRgfKrZCC17Uf3jbY69hJZqO/4blpq+M9LQBTXOmQUevW45A1wHnbKrTXGkbjgEFw
+ S3TQ==
+X-Gm-Message-State: ANhLgQ06UUxXshodZtNU36+XOgj5JQnAIiZES65Wrq2e5PjziO7V9d0V
+ v8obOiz7/bEzSn1eesxJcehqdg==
+X-Google-Smtp-Source: ADFU+vtVK0B6TlrJDiguUeFpvu9CKUVYh1Ia0YFKABHaHEgoYj9f335eF5oFwjk+/CbR8FDB9BgATw==
+X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr743225wrw.383.1583173148969;
+ Mon, 02 Mar 2020 10:19:08 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q6sm28855789wrf.67.2020.03.02.10.19.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 10:19:08 -0800 (PST)
+Received: from zen.home.arpa (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7EA0D1FF87;
+ Mon,  2 Mar 2020 18:19:07 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/10] testing/next updates (tweaks and re-greening)
+Date: Mon,  2 Mar 2020 18:18:57 +0000
+Message-Id: <20200302181907.32110-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200221202857.126170-1-yuanzi@google.com>
- <f9ef0046-9d0f-c53d-bf58-417df31705a6@vivier.eu>
-In-Reply-To: <f9ef0046-9d0f-c53d-bf58-417df31705a6@vivier.eu>
-From: Lirong Yuan <yuanzi@google.com>
-Date: Mon, 2 Mar 2020 10:18:19 -0800
-Message-ID: <CADjx4C+YyTL9W0us5-vvGdeXyiHKcSZt2odV_p3+E4NCLTYSSg@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Add AT_EXECFN and AT_EXECFD auxval
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, 
- Riku Voipio <riku.voipio@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,127 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 2, 2020 at 6:39 AM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 21/02/2020 =C3=A0 21:28, Lirong Yuan a =C3=A9crit :
-> > This change adds the support for AT_EXECFN and AT_EXECFD auxval.
->
-> Why do we need AT_EXECFD?
->
-> AT_EXECFD is normally only used with binfmt_misc so I don't see any use
-> cases for it with QEMU.
->
-> For AT_EXECFN, according to kernel commit
->
->   651910874633 execve filename: document and export via auxiliary vector
->
-> It sould be like readlink("/proc/self/exe",), and thus I think we should
-> use realpath() like we have in syscall.c for TARGET_NR_readlink:
->
->  8843     case TARGET_NR_readlink:
-> ...
->  8854                 char real[PATH_MAX], *temp;
->  8855                 temp =3D realpath(exec_path, real);
-> ...
->
-> Thanks,
-> Laurent
->
-> >
-> > Signed-off-by: Lirong Yuan <yuanzi@google.com>
-> > ---
-> >  linux-user/elfload.c | 13 +++++++++----
-> >  1 file changed, 9 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> > index f3080a1635..7e0f3042f1 100644
-> > --- a/linux-user/elfload.c
-> > +++ b/linux-user/elfload.c
-> > @@ -1568,7 +1568,7 @@ struct exec
-> >                                   ~(abi_ulong)(TARGET_ELF_EXEC_PAGESIZE=
--1))
-> >  #define TARGET_ELF_PAGEOFFSET(_v) ((_v) & (TARGET_ELF_EXEC_PAGESIZE-1)=
-)
-> >
-> > -#define DLINFO_ITEMS 15
-> > +#define DLINFO_ITEMS 17
-> >
-> >  static inline void memcpy_fromfs(void * to, const void * from, unsigne=
-d long n)
-> >  {
-> > @@ -1888,11 +1888,14 @@ static abi_ulong loader_build_fdpic_loadmap(str=
-uct image_info *info, abi_ulong s
-> >      return sp;
-> >  }
-> >
-> > -static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-> > +static abi_ulong create_elf_tables(struct linux_binprm *bprm,
-> >                                     struct elfhdr *exec,
-> >                                     struct image_info *info,
-> >                                     struct image_info *interp_info)
-> >  {
-> > +    abi_ulong p =3D bprm->p;
-> > +    int argc =3D bprm->argc;
-> > +    int envc =3D bprm->envc;
-> >      abi_ulong sp;
-> >      abi_ulong u_argc, u_argv, u_envp, u_auxv;
-> >      int size;
-> > @@ -2032,6 +2035,8 @@ static abi_ulong create_elf_tables(abi_ulong p, i=
-nt argc, int envc,
-> >      NEW_AUX_ENT(AT_CLKTCK, (abi_ulong) sysconf(_SC_CLK_TCK));
-> >      NEW_AUX_ENT(AT_RANDOM, (abi_ulong) u_rand_bytes);
-> >      NEW_AUX_ENT(AT_SECURE, (abi_ulong) qemu_getauxval(AT_SECURE));
-> > +    NEW_AUX_ENT(AT_EXECFN, info->file_string);
-> > +    NEW_AUX_ENT(AT_EXECFD, bprm->fd);
-> >
-> >  #ifdef ELF_HWCAP2
-> >      NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
-> > @@ -2870,8 +2875,8 @@ int load_elf_binary(struct linux_binprm *bprm, st=
-ruct image_info *info)
-> >  #endif
-> >      }
-> >
-> > -    bprm->p =3D create_elf_tables(bprm->p, bprm->argc, bprm->envc, &el=
-f_ex,
-> > -                                info, (elf_interpreter ? &interp_info =
-: NULL));
-> > +    bprm->p =3D create_elf_tables(bprm, &elf_ex, info,
-> > +                                (elf_interpreter ? &interp_info : NULL=
-));
-> >      info->start_stack =3D bprm->p;
-> >
-> >      /* If we have an interpreter, set that as the program's entry poin=
-t.
-> >
->
+Hi,
 
-Hi Laurent,
+I was reviewing Roberts vm-build.aarch64 patches when I ran into some
+problems with testing. Then I noticed the CI had turned red again so I
+went to fix those problems and here we are.
 
-I added support for AT_EXECFD because I thought it might be useful to
-implement all types that getauxval could take as an argument.
-Would you prefer that it be removed?
+The following patches are mine and need review:
 
-For AT_EXECFN, there are two questions that we considered:
-1) What should it return?
-Since QEMU is emulating running the guest program, the function should
-return the file name of the guest program (info->file_string), rather
-than the QEMU program itself, which we get from
-qemu_getauxval(AT_EXECFN).
+ - travis.yml: install python3 numpy and opencv libraries
+ - tests/acceptance: move @skipUnless decoration to test itself
+ - configure: detect and report genisoimage
+ - configure: fix check for libzstd
 
-2) Should it return the full path or as is?
-We tested the behavior of getauxval with a simple test program on
-Linux, and it turned out that it returned file path as is. For
-example,
-$ ./test
-getauxval(AT_EXECFN): ./test
-$ /usr/local/home/tmp/test
-getauxval(AT_EXECFN): /usr/local/home/tmp/test
+Alex Bennée (4):
+  configure: fix check for libzstd
+  configure: detect and report genisoimage
+  tests/acceptance: move @skipUnless decoration to test itself
+  travis.yml: install python3 numpy and opencv libraries
 
-It would seem that the current solution is working as intended.
+Laurent Vivier (1):
+  travis: enable tools build on OS X
 
-Thanks,
-Lirong
+Robert Foley (5):
+  tests/vm: use $(PYTHON) consistently
+  tests/vm: Debug mode shows ssh output.
+  tests/vm: increased max timeout for vm boot.
+  tests/vm: give wait_ssh() option to wait for root
+  tests/vm: Added gen_cloud_init_iso() to basevm.py
+
+ configure                              | 15 ++++++-
+ .travis.yml                            |  3 ++
+ tests/acceptance/machine_mips_malta.py |  4 +-
+ tests/vm/Makefile.include              | 16 +++++--
+ tests/vm/basevm.py                     | 61 ++++++++++++++++++++++++--
+ tests/vm/centos                        | 33 +-------------
+ tests/vm/ubuntu.i386                   | 37 +---------------
+ 7 files changed, 91 insertions(+), 78 deletions(-)
+
+-- 
+2.20.1
+
 
