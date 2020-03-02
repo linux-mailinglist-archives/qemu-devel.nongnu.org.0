@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180E0175B5E
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:13:51 +0100 (CET)
-Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DE0175B74
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:22:39 +0100 (CET)
+Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8ktK-00081f-6G
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:13:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
+	id 1j8l1q-0007KE-N2
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:22:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j8ks2-0006ZM-AI
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:12:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j8l10-0006dy-4R
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:21:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j8ks1-0004Bw-7p
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:12:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30777
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j8ks1-0004Bi-4M
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:12:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583154748;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j3j3zgZFp7cgL8l+nTfGohdvgm+p9IYBabAkH89plWY=;
- b=M120COudcLnUd71/sxctVCXmn96E0i12zke2uPqIXH9tbSmHRMVT+fvBparseR0Ljz44Mu
- AxrxVT2P/U450uvLEeDG7nrRHuLCapUWwgpvMyzUT4pKKldT70ErEfNesZnOdEjSyMPzor
- SGllpIa/z16yduABKaj1p3NzrRwDfjU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-B-zC-gDeMz6R2yXhvuvkpA-1; Mon, 02 Mar 2020 08:12:27 -0500
-X-MC-Unique: B-zC-gDeMz6R2yXhvuvkpA-1
-Received: by mail-wr1-f70.google.com with SMTP id z16so3466208wrm.15
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 05:12:26 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1j8l0y-0006sO-U6
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:21:45 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37571)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j8l0y-0006rZ-OI
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:21:44 -0500
+Received: by mail-oi1-x242.google.com with SMTP id 5so4635989oiy.4
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 05:21:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lgi8huHg7JypWseRljj3J6mY8B1BwBwq3IJ94gGxoA0=;
+ b=Xb2OvmrmYu9aAncfEJ3FXgchR8e6EecGnmNUXBG6Ok3T2ViMI9ws6DXys8b8jXaXXA
+ /fCwfq67aZNnFJzLUFyRu8BRB3Olno2JFv+LLYDj0fTtMSvEmRWtIR43l7fiD5zCpeho
+ BrnFfM1ydCr/ooWvUaB9CSa0LGj+kHAukOmREbLVr6sNbuptr+EWjnax5VDAcc87kSg7
+ dIDv6x3CcUoRo6SXebg5eaNLNnkOOsAoYOBtQFOMzu8urXCXjZZjZfeTRLyxWpR2HLKm
+ 63KZoWfVTD5EtGSmiqkZ6yMJJQDgJS//eO/hUUVd3BgVj9axE8pAf9qb8Pi2s0Ck9uLW
+ 5HXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QgazTPWuQCk4wQGJGaUMkhja4da8tQl8FlBoocQBnAs=;
- b=VkEmbVPMYIqXTcbh48M0K57Sf5gtislWd9E4Sx3FiJiLm5EmgogpnVjC53oEkU/4Uo
- MDziZDRk8PiWXX4kQNiA8mU6OYVMRVXyfFR4wdTNJqIznlWSJCYz0oVTSTgHNh7+7E3E
- Hy21u1HecWi6wH5eczRg7tRqfmkMYBvi6XidOjViAO0pmSZGtgwVc/3X0Xkgx9zIpwL8
- N34/aJ1gFwAP71FtnOdOfpH+eMSgpjvS65MKrVRhYFPlnXUm0f/8f4jNX70L65ug3zvC
- oOoP6SlMn882VOUyme33iocNPfX7tVI0Njv/36S3Re0mSO8jxzvr5fLKazGbQYRS9a+Q
- 742w==
-X-Gm-Message-State: ANhLgQ0mDDyZdT86SyyqZ/of2YyosnIhc7RP1llKTqa3RTFGt7vWLW30
- 4alZacYMs/M1MVPcfAK3nLrjpfxitS8msZR8870sD/ndGmiIjj6+5Z8sUZtRvfOYlSJGxJXvrpg
- ghidFS3Bq+5XMfOQ=
-X-Received: by 2002:a1c:e40b:: with SMTP id b11mr9703766wmh.13.1583154743950; 
- Mon, 02 Mar 2020 05:12:23 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vvJ40OoVsmGJL5yD+SlR94Jk7OrMCWq1yfgPaXfHA6vsQghLbikxWbZE+qLDh8q4NadOGn6pQ==
-X-Received: by 2002:a1c:e40b:: with SMTP id b11mr9703742wmh.13.1583154743628; 
- Mon, 02 Mar 2020 05:12:23 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2fb0:49e0:3f7b:4b69:b9c:cdc0?
- ([2a01:e35:2fb0:49e0:3f7b:4b69:b9c:cdc0])
- by smtp.gmail.com with ESMTPSA id g25sm30131945wmh.3.2020.03.02.05.12.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2020 05:12:23 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] tests/vhost-user-bridge: move to contrib/
-To: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200207095412.794912-1-lvivier@redhat.com>
- <20200301071119-mutt-send-email-mst@kernel.org>
- <c68547be-3131-8069-70d9-f0a1758784d7@redhat.com>
- <20200302055232-mutt-send-email-mst@kernel.org>
- <cf4bf124-9335-291f-4773-37e511eb78fa@redhat.com>
- <36d7a15c-8988-b4df-6320-6dcb29328348@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <30200a37-7c0d-2964-3018-6fb6d3f460af@redhat.com>
-Date: Mon, 2 Mar 2020 14:12:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lgi8huHg7JypWseRljj3J6mY8B1BwBwq3IJ94gGxoA0=;
+ b=K9GdkPt1aZktTinBMxlEEWl27QijyoYDiPZt7mtRAzZ0ZVtfGxVECRg4o7gcfGJC/e
+ uStzBEUUXgb00nHpMRLvH+1O87zHLG7ADShedJ5aBkPefD5PY+nY9bkPUSw/AlZPvVOX
+ qLOSnP7Z86SZC35TI4rvrfqiUgcLapN8vZ7Tc7bU6pwWj81GapcLBE6LGrO3hNAj78Rj
+ 4ZUm6IhR5oJ4jumjDVCOmsfhfPx3MyPVqdxjjJD8Zahu38y+3wQj2N2llLO5iMfB7F60
+ MwxiKPk0Cl+iBpM/M4RLdqewc1+wOwJy1ueAQq12Ho0TtUZd4v7ve/nBn2BnesMdeqWW
+ YKfg==
+X-Gm-Message-State: APjAAAX4s3fKS8PYlTjmME3hUG3Ve9rsbgeGKlW01WEdClLHwW3ANtlh
+ ZsAWktmhW8kmUu34O6Po7zAJ7L4v9kpFUQkFm3dgRQ==
+X-Google-Smtp-Source: APXvYqx3x7SoA8HTX0unJ2qMGw0FCQwU5FVWcQ9lX5pDXx29oU4SrNv9Bmmc/bGPFwznhlT09cQCqt60V9v7rUvE1vY=
+X-Received: by 2002:aca:b2c5:: with SMTP id
+ b188mr11625368oif.163.1583155303743; 
+ Mon, 02 Mar 2020 05:21:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <36d7a15c-8988-b4df-6320-6dcb29328348@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200227025055.14341-1-pannengyuan@huawei.com>
+ <20200227025055.14341-6-pannengyuan@huawei.com>
+In-Reply-To: <20200227025055.14341-6-pannengyuan@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Mar 2020 13:21:32 +0000
+Message-ID: <CAFEAcA8yvrYrBONtW46iswbEvMF-WC-j7fHOOfcoEC_RV66BkQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] hw/misc/mos6522: move timer_new from init() into
+ realize() to avoid memleaks
+To: Pan Nengyuan <pannengyuan@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,80 +74,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Euler Robot <euler.robot@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/20 1:30 PM, Laurent Vivier wrote:
-> On 02/03/2020 12:19, Laurent Vivier wrote:
->> On 02/03/2020 11:53, Michael S. Tsirkin wrote:
->>> On Mon, Mar 02, 2020 at 10:50:16AM +0100, Laurent Vivier wrote:
->>>> On 01/03/2020 13:12, Michael S. Tsirkin wrote:
->>>>> On Fri, Feb 07, 2020 at 10:54:11AM +0100, Laurent Vivier wrote:
->>>>>> vhost-user-bridge is not a test. Move it to contrib/ and
->>>>>> add it to the tools list.
->>>>>>
->>>>>> It will be built only if tools (--enable-tools) and
->>>>>> vhost-user (--enable-vhost-user) are enabled (both are set
->>>>>> by default).
->>>>>>
->>>>>> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>>>
->>>>>
->>>>> I had to drop this series from my tree since it cause failures
->>>>> on OSX. Pls use something like travis CI to test when you repost
->>>>> a fixed version. Thanks!
->>>>>
->>>>
->>>> Do you have a link to the error logs?
->>>>
->>>> Thanks,
->>>> Laurent
->>>
->>>
->>> Peter sent me this:
->>>
->>>
->>> Hi; this fails to build on OSX:
->>>
->>>    CC      contrib/libvhost-user/libvhost-user.o
->>> /Users/pm215/src/qemu-for-merges/contrib/libvhost-user/libvhost-user.c:=
-27:10:
->>> fatal error: 'sys/eventfd.h' file not found
->>> #include <sys/eventfd.h>
->>>           ^~~~~~~~~~~~~~~
->>> In file included from
->>> /Users/pm215/src/qemu-for-merges/contrib/vhost-user-bridge/main.c:37:
->>> /Users/pm215/src/qemu-for-merges/contrib/libvhost-user/libvhost-user.h:=
-21:10:
->>> fatal error: 'linux/vhost.h' file not found
->>> #include <linux/vhost.h>
->>>           ^~~~~~~~~~~~~~~
->>> 1 error generated.
->>>
->>> thanks
->>> -- PMM
->>>
->>> But pls do test on OSX before reposting.
->>>
->>
->> Thank you.
->>
->> I will fix and test the new patch with Travis CI.
->=20
-> In fact, travis was enabled when I sent the series but the QEMU
-> .travis.yml disables the tools so the vhost-user-bridge was not built.
+On Thu, 27 Feb 2020 at 02:35, Pan Nengyuan <pannengyuan@huawei.com> wrote:
+>
+> There are some memleaks when we call 'device_list_properties'. This patch move timer_new from init into realize to fix it.
+> Meanwhile, add calls to mos6522_realize() in mac_via_realize to make this move to be valid.
+>
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> ---
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> ---
+> v2->v1:
+> - no changes in this patch.
+> v3->v2:
+> - remove null check in reset, and add calls to mos6522_realize() in mac_via_realize to make this move to be valid.
 
-Can you send a patch to enable them?
+Hi; this is really fixing two bugs in one patch:
 
->=20
-> Thanks,
-> Laurent
->=20
+> ---
+>  hw/misc/mac_via.c | 5 +++++
+>  hw/misc/mos6522.c | 6 ++++++
+>  2 files changed, 11 insertions(+)
+>
+> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+> index b7d0012794..1d72d4ef35 100644
+> --- a/hw/misc/mac_via.c
+> +++ b/hw/misc/mac_via.c
+> @@ -879,6 +879,11 @@ static void mac_via_realize(DeviceState *dev, Error **errp)
+>      sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
+>                            sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
+>
+> +    object_property_set_bool(OBJECT(&m->mos6522_via1), true, "realized",
+> +                             &error_abort);
+> +    object_property_set_bool(OBJECT(&m->mos6522_via2), true, "realized",
+> +                             &error_abort);
+> +
+>      /* Pass through mos6522 output IRQs */
+>      ms = MOS6522(&m->mos6522_via1);
+>      object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
 
+This is fixing a bug in mac_via where it failed to actually
+realize devices it was using. That's a dependency for the bug
+you're trying to fix, but it's a separate one and should be
+in its own patch.
+
+You also want to pass the error back up to the caller, rather
+than using error_abort. To do that, at the top of the function:
+
+    Error *err = NULL;
+
+and then here you can do:
+    object_property_set_bool(OBJECT(&m->mos6522_via1), true, "realized", &err);
+    if (err) {
+        error_propagate(errp, err);
+        return;
+    }
+
+The existing code which inits the mos6522 objects and
+calls object_property_add_alias on them which is in
+the mac_via realize function should be moved to the init
+function. (init should init child objects and set up
+properties; realize should realize them.)
+
+This is all fixing the incorrect creation of the mos6522
+devices in mac_via (which has been wrong since the mac_via
+was first added in commit 6dca62a0000f9), so that can all
+be one patch I think.
+
+> +static void mos6522_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MOS6522State *s = MOS6522(dev);
+>
+>      s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer1, s);
+>      s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
+> @@ -502,6 +507,7 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
+>
+>      dc->reset = mos6522_reset;
+>      dc->vmsd = &vmstate_mos6522;
+> +    dc->realize = mos6522_realize;
+>      device_class_set_props(dc, mos6522_properties);
+>      mdc->parent_reset = dc->reset;
+>      mdc->set_sr_int = mos6522_set_sr_int;
+
+The changes to hw/misc/mos_6522.c are good, but should be in
+their own patch.
+
+thanks
+-- PMM
 
