@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7560175B64
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:16:19 +0100 (CET)
-Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C83175B55
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:11:36 +0100 (CET)
+Received: from localhost ([::1]:60832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8kvi-0002zo-Th
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:16:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
+	id 1j8krA-0004FE-1X
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:11:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48773)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knl-0006Gt-TG
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knl-0006GU-9S
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knk-0003PB-JS
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knk-0003Oi-0y
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:05 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:51760 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51766 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j8knk-0003Mp-6A; Mon, 02 Mar 2020 08:08:04 -0500
+ id 1j8knj-0003Mr-L8; Mon, 02 Mar 2020 08:08:03 -0500
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 374647BF6694896F34FF;
+ by Forcepoint Email with ESMTP id 44B5381F7092D2E362EC;
  Mon,  2 Mar 2020 21:07:58 +0800 (CST)
 Received: from huawei.com (10.133.205.93) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 2 Mar 2020
- 21:07:50 +0800
+ 21:07:51 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v3 09/12] dma/xlnx-zdma: Remove redundant statement in
- zdma_write_dst()
-Date: Mon, 2 Mar 2020 21:07:12 +0800
-Message-ID: <20200302130715.29440-11-kuhn.chenqun@huawei.com>
+Subject: [PATCH v3 10/12] timer/exynos4210_mct: Remove redundant statement in
+ exynos4210_mct_write()
+Date: Mon, 2 Mar 2020 21:07:13 +0800
+Message-ID: <20200302130715.29440-12-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-Originating-IP: [10.133.205.93]
 X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
@@ -54,84 +54,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com, Francisco
- Iglesias <frasse.iglesias@gmail.com>, Alistair Francis <alistair@alistair23.me>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, peter.maydell@linaro.org,
+ Euler Robot <euler.robot@huawei.com>, zhang.zhanghailiang@huawei.com,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Clang static code analyzer show warning:
-hw/dma/xlnx-zdma.c:399:13: warning: Value stored to 'dst_type' is never r=
-ead
-            dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR=
-_WORD3,
-            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
+hw/timer/exynos4210_mct.c:1370:9: warning: Value stored to 'index' is nev=
+er read
+        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/timer/exynos4210_mct.c:1399:9: warning: Value stored to 'index' is nev=
+er read
+        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/timer/exynos4210_mct.c:1441:9: warning: Value stored to 'index' is nev=
+er read
+        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
-Cc: Alistair Francis <alistair@alistair23.me>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-v1->v2: move the 'dst_type' declaration.(Base on Philippe's suggestion).
 ---
- hw/dma/xlnx-zdma.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/timer/exynos4210_mct.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index 8fb83f5b07..eeacad59ce 100644
---- a/hw/dma/xlnx-zdma.c
-+++ b/hw/dma/xlnx-zdma.c
-@@ -373,7 +373,7 @@ static uint64_t zdma_update_descr_addr(XlnxZDMA *s, b=
-ool type,
- static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
- {
-     uint32_t dst_size, dlen;
--    bool dst_intr, dst_type;
-+    bool dst_intr;
-     unsigned int ptype =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POIN=
-T_TYPE);
-     unsigned int rw_mode =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, MO=
-DE);
-     unsigned int burst_type =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_DATA_A=
-TTR,
-@@ -387,17 +387,17 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *bu=
-f, uint32_t len)
-     while (len) {
-         dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WO=
-RD2,
-                               SIZE);
--        dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WO=
-RD3,
--                              TYPE);
-         if (dst_size =3D=3D 0 && ptype =3D=3D PT_MEM) {
-             uint64_t next;
-+            bool dst_type =3D FIELD_EX32(s->dsc_dst.words[3],
-+                                       ZDMA_CH_DST_DSCR_WORD3,
-+                                       TYPE);
-+
-             next =3D zdma_update_descr_addr(s, dst_type,
-                                           R_ZDMA_CH_DST_CUR_DSCR_LSB);
-             zdma_load_descriptor(s, next, &s->dsc_dst);
-             dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSC=
-R_WORD2,
-                                   SIZE);
--            dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSC=
-R_WORD3,
--                                  TYPE);
-         }
+diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+index 944120aea5..570cf7075b 100644
+--- a/hw/timer/exynos4210_mct.c
++++ b/hw/timer/exynos4210_mct.c
+@@ -1367,7 +1367,6 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
 =20
-         /* Match what hardware does by ignoring the dst_size and only us=
-ing
+     case L0_TCNTB: case L1_TCNTB:
+         lt_i =3D GET_L_TIMER_IDX(offset);
+-        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+=20
+         /*
+          * TCNTB is updated to internal register only after CNT expired.
+@@ -1396,7 +1395,6 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
+=20
+     case L0_ICNTB: case L1_ICNTB:
+         lt_i =3D GET_L_TIMER_IDX(offset);
+-        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+=20
+         s->l_timer[lt_i].reg.wstat |=3D L_WSTAT_ICNTB_WRITE;
+         s->l_timer[lt_i].reg.cnt[L_REG_CNT_ICNTB] =3D value &
+@@ -1438,8 +1436,6 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
+=20
+     case L0_FRCNTB: case L1_FRCNTB:
+         lt_i =3D GET_L_TIMER_IDX(offset);
+-        index =3D GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+-
+         DPRINTF("local timer[%d] FRCNTB write %llx\n", lt_i, value);
+=20
+         s->l_timer[lt_i].reg.wstat |=3D L_WSTAT_FRCCNTB_WRITE;
 --=20
 2.23.0
 
