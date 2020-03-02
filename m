@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC21E175B58
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:12:41 +0100 (CET)
-Received: from localhost ([::1]:60846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7560175B64
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:16:19 +0100 (CET)
+Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8ksC-0006Dl-Qh
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:12:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48649)
+	id 1j8kvi-0002zo-Th
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:16:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8kni-0006Fi-Jc
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:03 -0500
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knl-0006Gt-TG
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knh-0003MZ-Ll
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:02 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:55482 helo=huawei.com)
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knk-0003PB-JS
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:05 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51760 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j8knh-0003La-9U; Mon, 02 Mar 2020 08:08:01 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 4D915793AA68359AB045;
+ id 1j8knk-0003Mp-6A; Mon, 02 Mar 2020 08:08:04 -0500
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 374647BF6694896F34FF;
  Mon,  2 Mar 2020 21:07:58 +0800 (CST)
 Received: from huawei.com (10.133.205.93) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 2 Mar 2020
- 21:07:49 +0800
+ 21:07:50 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v3 08/12] display/blizzard: Remove redundant statement in
- blizzard_draw_line16_32()
-Date: Mon, 2 Mar 2020 21:07:11 +0800
-Message-ID: <20200302130715.29440-10-kuhn.chenqun@huawei.com>
+Subject: [PATCH v3 09/12] dma/xlnx-zdma: Remove redundant statement in
+ zdma_write_dst()
+Date: Mon, 2 Mar 2020 21:07:12 +0800
+Message-ID: <20200302130715.29440-11-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.133.205.93]
 X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,37 +54,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Euler Robot <euler.robot@huawei.com>,
- zhang.zhanghailiang@huawei.com, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com, Francisco
+ Iglesias <frasse.iglesias@gmail.com>, Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Clang static code analyzer show warning:
-  hw/display/blizzard.c:940:9: warning: Value stored to 'data' is never r=
+hw/dma/xlnx-zdma.c:399:13: warning: Value stored to 'dst_type' is never r=
 ead
-        data >>=3D 5;
-        ^        ~
+            dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR=
+_WORD3,
+            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
----
- hw/display/blizzard.c | 1 -
- 1 file changed, 1 deletion(-)
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
-index 359e399c2a..62517bdf75 100644
---- a/hw/display/blizzard.c
-+++ b/hw/display/blizzard.c
-@@ -937,7 +937,6 @@ static void blizzard_draw_line16_32(uint32_t *dest,
-         g =3D (data & 0x3f) << 2;
-         data >>=3D 6;
-         r =3D (data & 0x1f) << 3;
--        data >>=3D 5;
-         *dest++ =3D rgb_to_pixel32(r, g, b);
-     }
- }
+v1->v2: move the 'dst_type' declaration.(Base on Philippe's suggestion).
+---
+ hw/dma/xlnx-zdma.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
+index 8fb83f5b07..eeacad59ce 100644
+--- a/hw/dma/xlnx-zdma.c
++++ b/hw/dma/xlnx-zdma.c
+@@ -373,7 +373,7 @@ static uint64_t zdma_update_descr_addr(XlnxZDMA *s, b=
+ool type,
+ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+ {
+     uint32_t dst_size, dlen;
+-    bool dst_intr, dst_type;
++    bool dst_intr;
+     unsigned int ptype =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POIN=
+T_TYPE);
+     unsigned int rw_mode =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, MO=
+DE);
+     unsigned int burst_type =3D ARRAY_FIELD_EX32(s->regs, ZDMA_CH_DATA_A=
+TTR,
+@@ -387,17 +387,17 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *bu=
+f, uint32_t len)
+     while (len) {
+         dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WO=
+RD2,
+                               SIZE);
+-        dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WO=
+RD3,
+-                              TYPE);
+         if (dst_size =3D=3D 0 && ptype =3D=3D PT_MEM) {
+             uint64_t next;
++            bool dst_type =3D FIELD_EX32(s->dsc_dst.words[3],
++                                       ZDMA_CH_DST_DSCR_WORD3,
++                                       TYPE);
++
+             next =3D zdma_update_descr_addr(s, dst_type,
+                                           R_ZDMA_CH_DST_CUR_DSCR_LSB);
+             zdma_load_descriptor(s, next, &s->dsc_dst);
+             dst_size =3D FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSC=
+R_WORD2,
+                                   SIZE);
+-            dst_type =3D FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSC=
+R_WORD3,
+-                                  TYPE);
+         }
+=20
+         /* Match what hardware does by ignoring the dst_size and only us=
+ing
 --=20
 2.23.0
 
