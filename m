@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA9F1754D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:49:32 +0100 (CET)
-Received: from localhost ([::1]:56096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 575071754ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:55:47 +0100 (CET)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8fpT-00025Y-KP
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:49:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32771)
+	id 1j8fvW-0003O4-7S
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:55:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sw@weilnetz.de>) id 1j8flx-00063F-Io
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:45:55 -0500
+ (envelope-from <drjones@redhat.com>) id 1j8fuj-0002n1-0e
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:54:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sw@weilnetz.de>) id 1j8flw-0005j3-D0
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:45:53 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:42650
- helo=v2201612906741603.powersrv.de)
+ (envelope-from <drjones@redhat.com>) id 1j8fuh-0000cA-M6
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:54:56 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41039
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1j8flw-0005i9-2q
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:45:52 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id D9E89DBADF9;
- Mon,  2 Mar 2020 08:45:49 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id r-9m9TQ3J4ri; Mon,  2 Mar 2020 08:45:48 +0100 (CET)
-Received: from macbook02.fritz.box (pD9EC3042.dip0.t-ipconnect.de
- [217.236.48.66])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1j8fuh-0000bz-IL
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:54:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583135694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vrXbkd8m0hj4ygGWfWHfZZQ6PiLRRuxAxtX1+g6Jfow=;
+ b=NVKaif3eSk9FYBcv6WzAehlIpx12Nd5mVhK3esEbzAQkcYGV5bmSD7sd2G1ZTuoGhh66Q4
+ fPY3qpCiEHcwcRVHh2z/cOIzWCvWK81q1AelI6KQKV0C9w7bmo+Jy89+GeNGKBSZDCo+Ub
+ zYOXNJwMqR4n5mD4MduxmqVCgCWdzy4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-aZGTcf3TMQmOJ4g3stI37Q-1; Mon, 02 Mar 2020 02:54:51 -0500
+X-MC-Unique: aZGTcf3TMQmOJ4g3stI37Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id B48E1DBADE3;
- Mon,  2 Mar 2020 08:45:48 +0100 (CET)
-Subject: Re: [PATCH v2] Arithmetic error in EDID generation fixed
-To: "Anton V. Boyarshinov" <boyarsh@altlinux.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20200226122054.366b9cda@table.localdomain>
-From: Stefan Weil <sw@weilnetz.de>
-Autocrypt: addr=sw@weilnetz.de; keydata=
- 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
-Message-ID: <1fe5f4f7-6ff6-0b35-6be0-513c0f9eadf6@weilnetz.de>
-Date: Mon, 2 Mar 2020 08:45:47 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D11CC13E6;
+ Mon,  2 Mar 2020 07:54:49 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 800DC5C1C3;
+ Mon,  2 Mar 2020 07:54:45 +0000 (UTC)
+Date: Mon, 2 Mar 2020 08:54:43 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 6/6] hw/arm/virt: kvm: allow gicv3 by default if v2
+ cannot work
+Message-ID: <20200302075443.xzbxjawfdamtse44@kamzik.brq.redhat.com>
+References: <20200301104040.15186-1-eric.auger@redhat.com>
+ <20200301104040.15186-7-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200226122054.366b9cda@table.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200301104040.15186-7-eric.auger@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 37.120.169.71
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,56 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shaba@altlinux.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, maz@kernel.org,
+ qemu-devel@nongnu.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Am 26.02.20 um 13:20 schrieb Anton V. Boyarshinov:
-> To calculate screen size in centimeters we should calculate:
-> pixels/dpi*2.54
-> but not
-> pixels*dpi/2540
->
-> Using wrong formula we actually get 65 DPI and very small fonts.
->
-> Signed-off-by: Anton V. Boyarshinov <boyarsh@altlinux.org>
+On Sun, Mar 01, 2020 at 11:40:40AM +0100, Eric Auger wrote:
+> At the moment if the end-user does not specify the gic-version along
+> with KVM acceleration, v2 is set by default. However most of the
+> systems now have GICv3 and sometimes they do not support GICv2
+> compatibility.
+>=20
+> This patch keeps the default v2 selection in all cases except
+> in the KVM accelerated mode when either
+> - the host does not support GICv2 in-kernel emulation or
+> - number of VCPUS exceeds 8.
+>=20
+> Those cases did not work anyway so we do not break any compatibility.
+> Now we get v3 selected in such a case.
+>=20
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
-> Changes from v1: get rid of casts
->
->  hw/display/edid-generate.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-> index 75c945a948..e58472fde5 100644
-> --- a/hw/display/edid-generate.c
-> +++ b/hw/display/edid-generate.c
-> @@ -360,8 +360,8 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
->      edid[20] = 0xa5;
->  
->      /* screen size: undefined */
-Gerd, is this comment still correct?
-> -    edid[21] = info->prefx * info->dpi / 2540;
-> -    edid[22] = info->prefy * info->dpi / 2540;
-> +    edid[21] = info->prefx * 254 / 100 / info->dpi;
-> +    edid[22] = info->prefy * 254 / 100 / info->dpi;
+>  hw/arm/virt.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 610bfc9ee9..2d12a7b0b8 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1542,6 +1542,8 @@ static void virt_set_memmap(VirtMachineState *vms)
+>   */
+>  static void finalize_gic_version(VirtMachineState *vms)
+>  {
+> +    unsigned int max_cpus =3D MACHINE(vms)->smp.max_cpus;
+> +
+>      if (kvm_enabled()) {
+>          int probe_bitmap =3D kvm_arm_vgic_probe();
+> =20
+> @@ -1552,7 +1554,17 @@ static void finalize_gic_version(VirtMachineState =
+*vms)
+> =20
+>          switch (vms->gic_version) {
+>          case VIRT_GIC_VERSION_NOSEL:
+> -            vms->gic_version =3D VIRT_GIC_VERSION_2;
+> +            if ((probe_bitmap & KVM_ARM_VGIC_V2 && max_cpus <=3D GIC_NCP=
+U) ||
+> +                !kvm_irqchip_in_kernel()) {
 
+nit: () around the bitmap & would be nice
 
-The fix is good, but can be improved:
-
-According to the standard, the values are "rounded to the nearest
-centimeter". Currently they are not rounded, but truncated. So this
-would be a better approximation:
-
-edid[21] = (info->prefx * 254 / info->dpi + 50) / 100;
-
-...
-
-
-Regards,
-
-Stefan
-
-
+> +                vms->gic_version =3D VIRT_GIC_VERSION_2;
+> +            } else {
+> +                /*
+> +                 * in case the host does not support v2 in-kernel emulat=
+ion or
+> +                 * the end-user requested more than 8 VCPUs we now defau=
+lt
+> +                 * to v3. In any case defaulting to v2 would be broken.
+> +                 */
+> +                vms->gic_version =3D VIRT_GIC_VERSION_3;
+> +            }
+>              break;
+>          case VIRT_GIC_VERSION_HOST:
+>          case VIRT_GIC_VERSION_MAX:
+> --=20
+> 2.20.1
+>=20
+>=20
 
 
