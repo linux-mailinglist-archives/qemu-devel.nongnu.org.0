@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FE1175A50
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 13:19:59 +0100 (CET)
-Received: from localhost ([::1]:59904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6E9175A57
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 13:20:37 +0100 (CET)
+Received: from localhost ([::1]:59916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8k3C-0003Gc-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 07:19:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42066)
+	id 1j8k3o-0004VB-87
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 07:20:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j8k25-00026u-Jf
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:51 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8k2f-00033Y-4Z
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:19:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j8k23-0001Xf-W5
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:49 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29036
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j8k23-0001XO-S6
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583151527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ndq0s0LH5UTL/DOzi6Pi7RusPHrHXRSqQxipPR2epEY=;
- b=K5R7MoPYAy2X81hUaILYl142h6WgdGGsm7UJd2iOcSzfEGblrjnV1RNCO0InZPf+pIrVLp
- skMAz2PQovu5HWF6E8U9VtseamCILjuRMg8GOO0e0710GZRwceD2AoOcMKa+Nuw01+f6p9
- tyhCowSwHVfxZtU76xSmB9SDsnKHEQI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-0GvsD5yhMm2ztRKn7U_bvg-1; Mon, 02 Mar 2020 07:18:43 -0500
-X-MC-Unique: 0GvsD5yhMm2ztRKn7U_bvg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E921B2C986;
- Mon,  2 Mar 2020 12:18:42 +0000 (UTC)
-Received: from [10.36.116.59] (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 536035DA2C;
- Mon,  2 Mar 2020 12:18:40 +0000 (UTC)
-Subject: Re: [PATCH v3 2/6] hw/arm/virt: Introduce VirtGICType enum type
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- eric.auger.pro@gmail.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- peter.maydell@linaro.org
-References: <20200302105516.5972-1-eric.auger@redhat.com>
- <20200302105516.5972-3-eric.auger@redhat.com>
- <ff498491-820a-498a-2951-6e46951dd23e@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <9b27e2d4-8076-7c1f-b62e-6692ea9b3090@redhat.com>
-Date: Mon, 2 Mar 2020 13:18:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <alex.bennee@linaro.org>) id 1j8k2d-0001j9-5l
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:19:25 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45647)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j8k2c-0001j3-U9
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:19:23 -0500
+Received: by mail-wr1-x444.google.com with SMTP id v2so12222034wrp.12
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 04:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RoYS2YHDc+x44MnCwwVgyh19ZPeRbg3AkQPH614Eexo=;
+ b=MSfK5Gd8NM7qqI6AC1Kv3Fgk8YMg68f9E+PMzAlUVPgkG80KOK2tk28jgoiU8E1QOA
+ v9XhiiGbPp/86/Bj6tKxFlICgnuY0uZC20j1kQO5pYhaFH+RrSaoITArJ48SirNkVgzW
+ SxCFniSE/ZVzeWncMIu2T9Kw4Jz8fOtzOFJXhkN+JFf1wBmjIDC8u/ZOT1UF72Y7W8uO
+ tTbhAQiGQhMrJdYXkaD+S8yMJrs85g7YrP8mp+Xx2RUBIauZJZ4hFHB0FDpGvmtGfjUF
+ MBzAtImXUZ4/+BFfEuEHCadA3q+7lMwjcVtLWMDHDMyi0ibEXHAJNY/3MrbEQoHVyXz/
+ PbJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RoYS2YHDc+x44MnCwwVgyh19ZPeRbg3AkQPH614Eexo=;
+ b=Y4UJYGeJyPWgXLmFKWLohX2mXb06PfSPaOCYmLccjhJiiU4hAEDA68fJNU10O18F0w
+ eoy8WCb62zHSE8qH3VbIkHMoHNX9fy97aNeNPNOkhAfUXC/rBAQaV3qckwSeF5ojYAkC
+ vO1pgivzYqx00UuQTRjwRvH+1unHgB6wR//7jS3S/BNsWuEh3sW0klyTY6sdiFPFsk/A
+ M+9XHdXddnaD3t+SOCTcp3IurwRnBNQ6x+fVo6DWfb5KFGpPXJlhZk7nO2hZsrstaHKD
+ VDy0reK2+0wdrGY/xrRF7qgwdMUc5zgg0uMvBfsW/2PJevnskD66NOxgyWsDzbdQ1plt
+ 34Zw==
+X-Gm-Message-State: APjAAAURuOYfaslIs/tskwwZ/Plmc9e6zZ4cHEnrMzfqyJYWL/RRgE9I
+ szCiWdLJgMjoh8f66UdyWls5sw==
+X-Google-Smtp-Source: APXvYqwd0bl2Y+yZuN2CxNGwVuvdic8FX+NPY4T4fFyjSn47xgluyop/JaCULIcH5MAXc9qdC9eAXg==
+X-Received: by 2002:adf:9071:: with SMTP id
+ h104mr19472212wrh.359.1583151561832; 
+ Mon, 02 Mar 2020 04:19:21 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s15sm28289682wrp.4.2020.03.02.04.19.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 04:19:20 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 195291FF87;
+ Mon,  2 Mar 2020 12:19:20 +0000 (GMT)
+References: <20200228153619.9906-1-peter.maydell@linaro.org>
+ <20200228153619.9906-25-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 24/33] docs: Roll -prom-env and -g target-specific
+ info into qemu-options.hx
+In-reply-to: <20200228153619.9906-25-peter.maydell@linaro.org>
+Date: Mon, 02 Mar 2020 12:19:20 +0000
+Message-ID: <87k1439cfr.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <ff498491-820a-498a-2951-6e46951dd23e@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,251 +84,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: maz@kernel.org, drjones@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
 
-On 3/2/20 12:18 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 3/2/20 11:55 AM, Eric Auger wrote:
->> We plan to introduce yet another value for the gic version (nosel).
->> As we already use exotic values such as 0 and -1, let's introduce
->> a dedicated enum type and let vms->gic_version take this
->> type.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->>
->> v2 -> v3:
->> - replaced defines by enum VirtGICType
->> - use that new type for vms->gic_version
->> ---
->> =C2=A0 hw/arm/virt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3=
-0 +++++++++++++++---------------
->> =C2=A0 include/hw/arm/virt.h | 11 +++++++++--
->=20
-> Please have a look at scripts/git.orderfile, it helps making review
-> easier/quicker.
-OK I added it to my .git/config. Thanks for pointer
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Thanks!
+> The SPARC and PPC targets currently have a fragment of target-specific
+> information about the -g and -prom options which would be better placed
+> as part of the general documentation of those options in qemu-options.hx.
+> Move the relevant information to those locations.
+>
+> SPARC also has a bit of text about the -M option which is out of
+> date and provides no useful information over the generic documentation
+> of that option, so just delete it.
+>
+> The motivation here is again to avoid having to awkwardly include
+> this text into the rST version of the qemu.1 manpage.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Eric
->=20
->> =C2=A0 2 files changed, 24 insertions(+), 17 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index c093f0ab85..b449a445de 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -298,7 +298,7 @@ static void fdt_add_timer_nodes(const
->> VirtMachineState *vms)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 irqflags =3D GIC_=
-FDT_IRQ_FLAGS_EDGE_LO_HI;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D 2) {
->> +=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D VIRT_GIC_VERSION_2) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 irqflags =3D depo=
-sit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GIC_FDT_IRQ_PPI_CPU_WIDTH,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << vms->smp_cpus) - 1);
->> @@ -439,7 +439,7 @@ static void fdt_add_gic_node(VirtMachineState *vms)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_fdt_setprop_cell(vms->fdt, nodename,=
- "#address-cells", 0x2);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_fdt_setprop_cell(vms->fdt, nodename,=
- "#size-cells", 0x2);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_fdt_setprop(vms->fdt, nodename, "ran=
-ges", NULL, 0);
->> -=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D 3) {
->> +=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D VIRT_GIC_VERSION_3) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int nb_redist_reg=
-ions =3D virt_gicv3_redist_region_count(vms);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_fdt_s=
-etprop_string(vms->fdt, nodename, "compatible",
->> @@ -518,7 +518,7 @@ static void fdt_add_pmu_nodes(const
->> VirtMachineState *vms)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D 2) {
->> +=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D VIRT_GIC_VERSION_2) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 irqflags =3D depo=
-sit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GIC_FDT_IRQ_PPI_CPU_WIDTH,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << vms->smp_cpus) - 1);
->> @@ -1469,7 +1469,7 @@ static uint64_t
->> virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * purposes =
-are to make TCG consistent (with 64-bit KVM hosts)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * and to im=
-prove SGI efficiency.
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D =
-3) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D =
-VIRT_GIC_VERSION_3) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 clustersz =3D GICV3_TARGETLIST_BITS;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 clustersz =3D GIC_TARGETLIST_BITS;
->> @@ -1560,15 +1560,15 @@ static void machvirt_init(MachineState *machine)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* We can probe only here because during =
-property set
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * KVM is not available yet
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> -=C2=A0=C2=A0=C2=A0 if (vms->gic_version <=3D 0) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* "host" or "max" */
->> +=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D VIRT_GIC_VERSION_HOST ||
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D=3D VIRT=
-_GIC_VERSION_MAX) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!kvm_enabled(=
-)) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
-vms->gic_version =3D=3D 0) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
-vms->gic_version =3D=3D VIRT_GIC_VERSION_HOST) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("gic-version=3Dhost requires KV=
-M");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 } else {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* "max": currently means 3 for TCG */
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D 3;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D VIRT_GIC_VERSION_3;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 }
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 vms->gic_version =3D kvm_arm_vgic_probe();
->> @@ -1627,7 +1627,7 @@ static void machvirt_init(MachineState *machine)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* The maximum number of CPUs depends on =
-the GIC version, or on how
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * many redistributors we can fit in=
-to the memory map.
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->> -=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D 3) {
->> +=C2=A0=C2=A0=C2=A0 if (vms->gic_version =3D=3D VIRT_GIC_VERSION_3) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virt_max_cpus =3D
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 vms->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 virt_max_cpus +=
-=3D
->> @@ -1855,7 +1855,7 @@ static void virt_set_its(Object *obj, bool
->> value, Error **errp)
->> =C2=A0 static char *virt_get_gic_version(Object *obj, Error **errp)
->> =C2=A0 {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VirtMachineState *vms =3D VIRT_MACHINE(ob=
-j);
->> -=C2=A0=C2=A0=C2=A0 const char *val =3D vms->gic_version =3D=3D 3 ? "3" =
-: "2";
->> +=C2=A0=C2=A0=C2=A0 const char *val =3D vms->gic_version =3D=3D VIRT_GIC=
-_VERSION_3 ? "3" :
->> "2";
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return g_strdup(val);
->> =C2=A0 }
->> @@ -1865,13 +1865,13 @@ static void virt_set_gic_version(Object *obj,
->> const char *value, Error **errp)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VirtMachineState *vms =3D VIRT_MACHINE(ob=
-j);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!strcmp(value, "3")) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D 3;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D VIRT_GI=
-C_VERSION_3;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (!strcmp(value, "2")) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D 2;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D VIRT_GI=
-C_VERSION_2;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (!strcmp(value, "host")) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D 0; /* W=
-ill probe later */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D VIRT_GI=
-C_VERSION_HOST; /* Will probe later */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (!strcmp(value, "max")) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D -1; /* =
-Will probe later */
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->gic_version =3D VIRT_GI=
-C_VERSION_MAX; /* Will probe later */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, =
-"Invalid gic-version value");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_append_hint=
-(errp, "Valid values are 3, 2, host, max.\n");
->> @@ -2139,7 +2139,7 @@ static void virt_instance_init(Object *obj)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- "physical address space above 32
->> bits",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- NULL);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Default GIC type is v2 */
->> -=C2=A0=C2=A0=C2=A0 vms->gic_version =3D 2;
->> +=C2=A0=C2=A0=C2=A0 vms->gic_version =3D VIRT_GIC_VERSION_2;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_add_str(obj, "gic-version=
-", virt_get_gic_version,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 virt_set_gic_version, NULL);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_set_description(obj, "gic=
--version",
->> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
->> index 02f500cb8e..c0827cacdf 100644
->> --- a/include/hw/arm/virt.h
->> +++ b/include/hw/arm/virt.h
->> @@ -95,6 +95,13 @@ typedef enum VirtIOMMUType {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VIRT_IOMMU_VIRTIO,
->> =C2=A0 } VirtIOMMUType;
->> =C2=A0 +typedef enum VirtGICType {
->> +=C2=A0=C2=A0=C2=A0 VIRT_GIC_VERSION_MAX,
->> +=C2=A0=C2=A0=C2=A0 VIRT_GIC_VERSION_HOST,
->> +=C2=A0=C2=A0=C2=A0 VIRT_GIC_VERSION_2,
->> +=C2=A0=C2=A0=C2=A0 VIRT_GIC_VERSION_3,
->> +} VirtGICType;
->> +
->> =C2=A0 typedef struct MemMapEntry {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hwaddr base;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hwaddr size;
->> @@ -123,7 +130,7 @@ typedef struct {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool highmem_ecam;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool its;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool virt;
->> -=C2=A0=C2=A0=C2=A0 int32_t gic_version;
->> +=C2=A0=C2=A0=C2=A0 VirtGICType gic_version;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VirtIOMMUType iommu;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint16_t virtio_iommu_bdf;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct arm_boot_info bootinfo;
->> @@ -162,7 +169,7 @@ static inline int
->> virt_gicv3_redist_region_count(VirtMachineState *vms)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t redist0_capacity =3D
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vms->memmap[VIRT_GIC_REDIST].size / GICV3_RE=
-DIST_SIZE;
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 assert(vms->gic_version =3D=3D 3);
->> +=C2=A0=C2=A0=C2=A0 assert(vms->gic_version =3D=3D VIRT_GIC_VERSION_3);
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return vms->smp_cpus > redist0_cap=
-acity ? 2 : 1;
->> =C2=A0 }
->>
->=20
->=20
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+> ---
+>  docs/system/target-ppc.rst      | 14 --------------
+>  docs/system/target-ppc.texi     | 25 -------------------------
+>  docs/system/target-sparc.rst    | 19 -------------------
+>  docs/system/target-sparc.texi   | 27 ---------------------------
+>  docs/system/target-sparc64.rst  | 12 ------------
+>  docs/system/target-sparc64.texi | 22 ----------------------
+>  qemu-options.hx                 | 19 +++++++++++++++++++
+>  7 files changed, 19 insertions(+), 119 deletions(-)
+>
+> diff --git a/docs/system/target-ppc.rst b/docs/system/target-ppc.rst
+> index 43fadf3c00b..a2f04c533c2 100644
+> --- a/docs/system/target-ppc.rst
+> +++ b/docs/system/target-ppc.rst
+> @@ -43,19 +43,5 @@ the g3beige and mac99 PowerMac and the 40p machines. O=
+penBIOS is a free
+>  (GPL v2) portable firmware implementation. The goal is to implement a
+>  100% IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
+>=20=20
+> -The following options are specific to the PowerPC emulation:
+> -
+> -``-g WxH[xDEPTH]``
+> -   Set the initial VGA graphic mode. The default is 800x600x32.
+> -
+> -``-prom-env string``
+> -   Set OpenBIOS variables in NVRAM, for example:
+> -
+> -   ::
+> -
+> -      qemu-system-ppc -prom-env 'auto-boot?=3Dfalse' \
+> -       -prom-env 'boot-device=3Dhd:2,\yaboot' \
+> -       -prom-env 'boot-args=3Dconf=3Dhd:2,\yaboot.conf'
+> -
+>  More information is available at
+>  http://perso.magic.fr/l_indien/qemu-ppc/.
+> diff --git a/docs/system/target-ppc.texi b/docs/system/target-ppc.texi
+> index 55f98f65b12..5c83d4f68e7 100644
+> --- a/docs/system/target-ppc.texi
+> +++ b/docs/system/target-ppc.texi
+> @@ -47,31 +47,6 @@ for the g3beige and mac99 PowerMac and the 40p machine=
+s. OpenBIOS is a free
+>  (GPL v2) portable firmware implementation. The goal is to implement a 10=
+0%
+>  IEEE 1275-1994 (referred to as Open Firmware) compliant firmware.
+>=20=20
+> -@c man begin OPTIONS
+> -
+> -The following options are specific to the PowerPC emulation:
+> -
+> -@table @option
+> -
+> -@item -g @var{W}x@var{H}[x@var{DEPTH}]
+> -
+> -Set the initial VGA graphic mode. The default is 800x600x32.
+> -
+> -@item -prom-env @var{string}
+> -
+> -Set OpenBIOS variables in NVRAM, for example:
+> -
+> -@example
+> -qemu-system-ppc -prom-env 'auto-boot?=3Dfalse' \
+> - -prom-env 'boot-device=3Dhd:2,\yaboot' \
+> - -prom-env 'boot-args=3Dconf=3Dhd:2,\yaboot.conf'
+> -@end example
+> -
+> -@end table
+> -
+> -@c man end
+> -
+> -
+>  More information is available at
+>  @url{http://perso.magic.fr/l_indien/qemu-ppc/}.
+>=20=20
+> diff --git a/docs/system/target-sparc.rst b/docs/system/target-sparc.rst
+> index 589c88d1756..b55f8d09e9c 100644
+> --- a/docs/system/target-sparc.rst
+> +++ b/docs/system/target-sparc.rst
+> @@ -60,22 +60,3 @@ QEMU web site. There are still issues with NetBSD and =
+OpenBSD, but most
+>  kernel versions work. Please note that currently older Solaris kernels
+>  don't work probably due to interface issues between OpenBIOS and
+>  Solaris.
+> -
+> -The following options are specific to the Sparc32 emulation:
+> -
+> -``-g WxHx[xDEPTH]``
+> -   Set the initial graphics mode. For TCX, the default is 1024x768x8
+> -   with the option of 1024x768x24. For cgthree, the default is
+> -   1024x768x8 with the option of 1152x900x8 for people who wish to use
+> -   OBP.
+> -
+> -``-prom-env string``
+> -   Set OpenBIOS variables in NVRAM, for example:
+> -
+> -   ::
+> -
+> -      qemu-system-sparc -prom-env 'auto-boot?=3Dfalse' \
+> -       -prom-env 'boot-device=3Dsd(0,2,0):d' -prom-env 'boot-args=3Dlinu=
+x single'
+> -
+> -``-M [SS-4|SS-5|SS-10|SS-20|SS-600MP|LX|Voyager|SPARCClassic] [|SPARCboo=
+k]``
+> -   Set the emulated machine type. Default is SS-5.
+> diff --git a/docs/system/target-sparc.texi b/docs/system/target-sparc.texi
+> index 7748001f734..99fbf820b42 100644
+> --- a/docs/system/target-sparc.texi
+> +++ b/docs/system/target-sparc.texi
+> @@ -64,32 +64,5 @@ most kernel versions work. Please note that currently =
+older Solaris kernels
+>  don't work probably due to interface issues between OpenBIOS and
+>  Solaris.
+>=20=20
+> -@c man begin OPTIONS
+> -
+> -The following options are specific to the Sparc32 emulation:
+> -
+> -@table @option
+> -
+> -@item -g @var{W}x@var{H}x[x@var{DEPTH}]
+> -
+> -Set the initial graphics mode. For TCX, the default is 1024x768x8 with t=
+he
+> -option of 1024x768x24. For cgthree, the default is 1024x768x8 with the o=
+ption
+> -of 1152x900x8 for people who wish to use OBP.
+> -
+> -@item -prom-env @var{string}
+> -
+> -Set OpenBIOS variables in NVRAM, for example:
+> -
+> -@example
+> -qemu-system-sparc -prom-env 'auto-boot?=3Dfalse' \
+> - -prom-env 'boot-device=3Dsd(0,2,0):d' -prom-env 'boot-args=3Dlinux sing=
+le'
+> -@end example
+> -
+> -@item -M [SS-4|SS-5|SS-10|SS-20|SS-600MP|LX|Voyager|SPARCClassic] [|SPAR=
+Cbook]
+> -
+> -Set the emulated machine type. Default is SS-5.
+> -
+> -@end table
+> -
+>  @c man end
+>=20=20
+> diff --git a/docs/system/target-sparc64.rst b/docs/system/target-sparc64.=
+rst
+> index ca76ba9c488..97e334b9308 100644
+> --- a/docs/system/target-sparc64.rst
+> +++ b/docs/system/target-sparc64.rst
+> @@ -35,15 +35,3 @@ QEMU emulates the following peripherals:
+>  -  2 PCI IDE interfaces with hard disk and CD-ROM support
+>=20=20
+>  -  Floppy disk
+> -
+> -The following options are specific to the Sparc64 emulation:
+> -
+> -``-prom-env string``
+> -   Set OpenBIOS variables in NVRAM, for example:
+> -
+> -   ::
+> -
+> -      qemu-system-sparc64 -prom-env 'auto-boot?=3Dfalse'
+> -
+> -``-M [sun4u|sun4v|niagara]``
+> -   Set the emulated machine type. The default is sun4u.
+> diff --git a/docs/system/target-sparc64.texi b/docs/system/target-sparc64=
+.texi
+> index 4db4ca3842b..d381d3af719 100644
+> --- a/docs/system/target-sparc64.texi
+> +++ b/docs/system/target-sparc64.texi
+> @@ -36,25 +36,3 @@ PC-compatible serial ports
+>  Floppy disk
+>  @end itemize
+>=20=20
+> -@c man begin OPTIONS
+> -
+> -The following options are specific to the Sparc64 emulation:
+> -
+> -@table @option
+> -
+> -@item -prom-env @var{string}
+> -
+> -Set OpenBIOS variables in NVRAM, for example:
+> -
+> -@example
+> -qemu-system-sparc64 -prom-env 'auto-boot?=3Dfalse'
+> -@end example
+> -
+> -@item -M [sun4u|sun4v|niagara]
+> -
+> -Set the emulated machine type. The default is sun4u.
+> -
+> -@end table
+> -
+> -@c man end
+> -
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 4bc8048f60b..3b230a17164 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1962,6 +1962,13 @@ STEXI
+>  @item -g @var{width}x@var{height}[x@var{depth}]
+>  @findex -g
+>  Set the initial graphical resolution and depth (PPC, SPARC only).
+> +
+> +For PPC the default is 800x600x32.
+> +
+> +For SPARC with the TCX graphics device, the default is 1024x768x8 with t=
+he
+> +option of 1024x768x24. For cgthree, the default is 1024x768x8 with the o=
+ption
+> +of 1152x900x8 for people who wish to use OBP.
+> +
+>  ETEXI
+>=20=20
+>  DEF("vnc", HAS_ARG, QEMU_OPTION_vnc ,
+> @@ -4107,6 +4114,18 @@ STEXI
+>  @item -prom-env @var{variable}=3D@var{value}
+>  @findex -prom-env
+>  Set OpenBIOS nvram @var{variable} to given @var{value} (PPC, SPARC only).
+> +
+> +@example
+> +qemu-system-sparc -prom-env 'auto-boot?=3Dfalse' \
+> + -prom-env 'boot-device=3Dsd(0,2,0):d' -prom-env 'boot-args=3Dlinux sing=
+le'
+> +@end example
+> +
+> +@example
+> +qemu-system-ppc -prom-env 'auto-boot?=3Dfalse' \
+> + -prom-env 'boot-device=3Dhd:2,\yaboot' \
+> + -prom-env 'boot-args=3Dconf=3Dhd:2,\yaboot.conf'
+> +@end example
+> +
+>  ETEXI
+>  DEF("semihosting", 0, QEMU_OPTION_semihosting,
+>      "-semihosting    semihosting mode\n",
+
+
+--=20
+Alex Benn=C3=A9e
 
