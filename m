@@ -2,88 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B3E1757AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 10:51:57 +0100 (CET)
-Received: from localhost ([::1]:57414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8861757F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 11:08:10 +0100 (CET)
+Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8hjw-0000Lu-9W
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 04:51:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47880)
+	id 1j8hzd-0000cD-KL
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 05:08:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j8hiq-0007sU-0W
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 04:50:49 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j8hxV-0004Vo-6b
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 05:05:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j8hip-00028F-2G
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 04:50:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47238
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j8hxU-0007lQ-5H
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 05:05:57 -0500
+Received: from relay.sw.ru ([185.231.240.75]:48172)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j8hio-000283-V0
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 04:50:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583142646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D8mBJhHVdcAVUE9oLq1BT7ideKFqwm7FLqkX8oW8qNs=;
- b=RldNSO45If+7oGh5icHDVRglKJ6ndy0tSt47azv6m4zXRvZt3CgzFBheqD9xZXHzdhw/P/
- djmYS4qRA7GtJDLrQnVdxBVmxGJ8II8CkqtIVxNqTbZ5rpYn51ec7wr/nccMQYayuyZs6H
- tbRbBUDk+y3+DWpQWGeFseoJ6RM413I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-bn65j3zUPmG5KoaHqZog0g-1; Mon, 02 Mar 2020 04:50:44 -0500
-X-MC-Unique: bn65j3zUPmG5KoaHqZog0g-1
-Received: by mail-wr1-f71.google.com with SMTP id y28so5515476wrd.23
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 01:50:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a4f4PojD3BlLpNDcFzl37Py5rGVa6O2F9R8hLCBC5r4=;
- b=PsnIIsOC/mgRSpTDJKBPIJIn3fr765l8nE+GC44F4gsQYr1PJAmun4FrUlssipjvmL
- bb09a3OmuK4eFFEglYLm0bYC199UDMPtSdVVT5rDpEd2stMapPXQcyBVu69GhXJI6MdR
- ibei0q+XSdxXIXiUBo91mywSJ60rU89BmhfZv5nfxYgoh8zaGZU+U9qiGrYoglHOLxFb
- yv+eZDC+EuEeKjOYgcQ5VNIaNpK/nivRR0GU1xdfNn+PbPNswV27TE7lp0Xnn1OLqDKO
- CcOBGk71JrY+IySZnRc9mmqe8GdMyyjnH/mlRj+bUOCIIfY2bY1Wp4Bs9pkR4NVs5N6N
- wvKg==
-X-Gm-Message-State: APjAAAWbvVcDouVDZVSMukPV32aAvDRmSWtPJsPoC5ndC4X+IaZxmops
- SVEoFTOd+AN9SnXBBp2gmJ6Ls50O5+Hke6IVvICNLW4rsAPW3ee8L+faeWWOiq6AG51nxSdL5fZ
- a/BxOLHUB3hZzfzc=
-X-Received: by 2002:a1c:994b:: with SMTP id b72mr19918663wme.83.1583142643370; 
- Mon, 02 Mar 2020 01:50:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzhofVf7pDv2axhM23+bV2IQzLbeYvDvOKwGBWQ1+DnXUzWyxqJk1R+soP1gHfWLrKdkUmeCQ==
-X-Received: by 2002:a1c:994b:: with SMTP id b72mr19918640wme.83.1583142643113; 
- Mon, 02 Mar 2020 01:50:43 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2fb0:49e0:3f7b:4b69:b9c:cdc0?
- ([2a01:e35:2fb0:49e0:3f7b:4b69:b9c:cdc0])
- by smtp.gmail.com with ESMTPSA id j20sm15621030wmj.46.2020.03.02.01.50.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2020 01:50:42 -0800 (PST)
-Subject: Re: [PULL 4/9] hw/display/artist: Avoid drawing line when nothing to
- display
-To: Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20200218193929.11404-1-richard.henderson@linaro.org>
- <20200218193929.11404-5-richard.henderson@linaro.org>
- <20200229093111.GA24534@t470p.stackframe.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <886c3773-cda8-fbfe-4535-3874d028f2e3@redhat.com>
-Date: Mon, 2 Mar 2020 10:50:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1j8hxR-0007jK-SN; Mon, 02 Mar 2020 05:05:54 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1j8hxH-000350-J9; Mon, 02 Mar 2020 13:05:43 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/5] nbd: reduce max_block restrictions
+Date: Mon,  2 Mar 2020 13:05:32 +0300
+Message-Id: <20200302100537.29058-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20200229093111.GA24534@t470p.stackframe.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,51 +45,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/29/20 10:31 AM, Sven Schnelle wrote:
-> On Tue, Feb 18, 2020 at 11:39:24AM -0800, Richard Henderson wrote:
->> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> Message-Id: <20200214001303.12873-5-f4bug@amsat.org>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   hw/display/artist.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/display/artist.c b/hw/display/artist.c
->> index 97c811b35e..5492079116 100644
->> --- a/hw/display/artist.c
->> +++ b/hw/display/artist.c
->> @@ -579,6 +579,9 @@ static void draw_line(ARTISTState *s, int x1, int y1=
-, int x2, int y2,
->>       } else {
->>           dy =3D y1 - y2;
->>       }
->> +    if (!dx || !dy) {
->> +        return;
->> +    }
->>  =20
->>       c1 =3D false;
->>       if (dy > dx) {
->> --=20
->> 2.20.1
->>
->>
->=20
-> I noticed that this change causes 1px wide lines to disappear. So i would=
- propose
-> to revert that change.
+Recent changes in NBD protocol allowed to use some commands without
+max_block restriction. Let's drop restrictions.
 
-Maybe "if (!dx && !dy) { return; }"?
+NBD change is here:
+https://github.com/NetworkBlockDevice/nbd/commit/9f30fedb8699f151e7ef4ccc07e624330be3316b#diff-762fb7c670348da69cc9050ef58fe3ae
 
->=20
-> Regards
-> Sven
->=20
+Vladimir Sementsov-Ogievskiy (5):
+  block/nbd-client: drop max_block restriction from block_status
+  block/nbd-client: drop max_block restriction from discard
+  block: add max_pwrite_zeroes_no_fallback to BlockLimits
+  block/io: fix bdrv_co_do_pwrite_zeroes head calculation
+  block/io: auto-no-fallback for write-zeroes
+
+ include/block/block_int.h |  8 ++++++++
+ block/blkdebug.c          |  7 ++++++-
+ block/io.c                | 32 +++++++++++++++++++++++++++++---
+ block/nbd.c               |  5 +----
+ 4 files changed, 44 insertions(+), 8 deletions(-)
+
+-- 
+2.21.0
 
 
