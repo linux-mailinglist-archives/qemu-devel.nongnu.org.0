@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E36517592A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 12:06:58 +0100 (CET)
-Received: from localhost ([::1]:58682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DB817593A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 12:10:45 +0100 (CET)
+Received: from localhost ([::1]:58743 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8iuX-0001dM-5i
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 06:06:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59195)
+	id 1j8iyC-0004bE-Nr
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 06:10:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59341)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j8itX-0000hT-UF
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:05:57 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j8iue-0002NO-3o
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j8itW-0005M2-Bd
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:05:55 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50266)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j8itW-0005Ki-44
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:05:54 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id a5so10652224wmb.0
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 03:05:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=CShl/Zpjrh5QdR4ihGYF2qZpgU3kLd7BG2NdFA5f2p0=;
- b=DAcB6fqbW8/rvl/nI+hDPH35UuD3LEy426RgOvo16eHDydZN3g8ndVWr1+Q5ocPIlY
- rUzjFrpWRZOrZamEuobyp3gil92wM4hj+MHV6NsgRoYClea4nTfzs8bYPrPeZklaUYYQ
- oxyJQ1Q+XBu6G0TyAkz/jzjL8kNHW9/xgyWKmP9Ibhg7AMZqFSS6dQSNzu9+x8GB7TAa
- kdqj+ofzvA+TrBySG6pgbPBkbgXRZ2jq9exVCHvafXNc/cysFpR4tF5D2eecmt1ToXo6
- /XpD81BcElc8Y7MB7pQDXmHnfkL+pmd+P3aay5Yr2D31+C59xeEo+dwbW8Trriwe3puT
- FMVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=CShl/Zpjrh5QdR4ihGYF2qZpgU3kLd7BG2NdFA5f2p0=;
- b=P95o32TNA2TnfstnK5IHXFw9MpbHPNk6vdeeNHP/pW6/Afv8a00qecEz/w0ICw2r49
- gGXoLN6Z4pEBUfq3BFNZ4lfHE/bEhZl/ds1lr3XGRkVitXjSlvSYIcuxZBxRg/7ju3El
- 4fABwvn4DNXAzN/WJbb9QYJZ8xfVSKj5EPRpNCPCdylHh6EjZBqut8d0s3/lEEpfXOd/
- FbVqevC1FcbZLKpgH6AHqtqxfldNxbY/Eue+Lj+xtoIQO7bGDrchqPAeBl0Eet+WEhM/
- EmAAMWt/4Kd7c2A7ZJ1KvsEx/+wgGbaR7wOjolDoVitJ7CDcrwDlBmQil1wsSJvHirb5
- kocA==
-X-Gm-Message-State: APjAAAXUOYMr6+ocPqJZuBU7QhKDsrqZYAxDMtpKqWMuwhZv85w40/Yu
- AXIe7ekevpyKebVE1EQd3elxJw==
-X-Google-Smtp-Source: APXvYqy06Wvzl8IbLMiPCIBPaiAJqJvqdDRR/LKBb4Lti24LZhzeYRGRymeHsGFLJFD+gF0C19kTcg==
-X-Received: by 2002:a05:600c:114d:: with SMTP id
- z13mr19037896wmz.105.1583147152853; 
- Mon, 02 Mar 2020 03:05:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a184sm15589593wmf.29.2020.03.02.03.05.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 03:05:51 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3D7811FF87;
- Mon,  2 Mar 2020 11:05:51 +0000 (GMT)
-References: <20200228153619.9906-1-peter.maydell@linaro.org>
- <20200228153619.9906-3-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.9; emacs 27.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 02/33] qemu-doc: remove target OS documentation
-In-reply-to: <20200228153619.9906-3-peter.maydell@linaro.org>
-Date: Mon, 02 Mar 2020 11:05:51 +0000
-Message-ID: <875zfnc8z4.fsf@linaro.org>
+ (envelope-from <luc.michel@greensocs.com>) id 1j8iud-0006uK-2o
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:04 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:56634)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1j8iua-0006o0-1G; Mon, 02 Mar 2020 06:07:00 -0500
+Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A03FB96EF0;
+ Mon,  2 Mar 2020 11:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1583147217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8tqr80Gmb4Vsg8r4+Y8tb98TPEaXHIi9GT3Kj4m2KoY=;
+ b=plY1OfboyrX1VR3OZpTyJRzZs5V5lL9tctFyVEReF2B8sEao1pCMDrGFzBO38TdafX+hrR
+ mUi+WColrdgw98Myz3wxD/M5sbeiiQaSFlv7gqvSUoAHzH9SI72OrXwPTF7wnKI8HRgc5Q
+ CICYrxz1nv9Gr0HaK4/3TGrQkB15PEo=
+Subject: Re: [PATCH v1 1/2] hw/arm: versal: Add support for the LPD ADMAs
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200227154424.6849-1-edgar.iglesias@gmail.com>
+ <20200227154424.6849-2-edgar.iglesias@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <74e99888-71fd-d6ed-2029-0cef097c12e4@greensocs.com>
+Date: Mon, 2 Mar 2020 12:06:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200227154424.6849-2-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1583147217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8tqr80Gmb4Vsg8r4+Y8tb98TPEaXHIi9GT3Kj4m2KoY=;
+ b=v9z32Re1AmPmkBi0ir/Kq4utMYbl3Iwo90Zlg6GA1KiDNKOc8QNR2QgJlGGax2BQU78Q3N
+ DfBDWGzcJ1+hlh94ZmLtDhrHqfvtiwoAfAz6gMUaF/0+Y1LTGlW/1nkZIHLUQ5XuSRVx0C
+ jo0t79NNfl3ji8nuOyJTGSUxJjzxMeI=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1583147217; a=rsa-sha256; cv=none;
+ b=uKo/MEYMKk4FfPrPqlScMgZ/6j1ujkC/9fRepao66a0pEOjENlKVkkrQ0kvnQfpIqfcQhH
+ Ykur1Bv5iktsBXCWDxFHXi2GD9rW6cilLN9R1GLfbI0TDZl/MDnrL9OlylCVVG7ciGxwhW
+ qKOn4SaMo/JGyPIfQ7ayNs15w2O0F3M=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,150 +76,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/27/20 4:44 PM, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Add support for the Versal LPD ADMAs.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> From: Paolo Bonzini <pbonzini@redhat.com>
->
-> This section covers OSes up to Windows 2000, and as such it is mostly
-> obsolete.  Zap it.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Message-id: 20200226113034.6741-3-pbonzini@redhat.com
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->  qemu-doc.texi | 96 ---------------------------------------------------
->  1 file changed, 96 deletions(-)
->
-> diff --git a/qemu-doc.texi b/qemu-doc.texi
-> index 6636816b85f..e555dea4ef6 100644
-> --- a/qemu-doc.texi
-> +++ b/qemu-doc.texi
-> @@ -148,7 +148,6 @@ accelerator is required to use more than one host CPU=
- for emulation.
->  * vnc_security::       VNC security
->  * network_tls::        TLS setup for network services
->  * gdb_usage::          GDB usage
-> -* pcsys_os_specific::  Target OS specific information
->  @end menu
->=20=20
->  @node pcsys_introduction
-> @@ -1605,101 +1604,6 @@ received: "OK"
->  @end example
->  @end table
->=20=20
-> -@node pcsys_os_specific
-> -@section Target OS specific information
-> -
-> -@subsection Linux
-> -
-> -To have access to SVGA graphic modes under X11, use the @code{vesa} or
-> -the @code{cirrus} X11 driver. For optimal performances, use 16 bit
-> -color depth in the guest and the host OS.
-> -
-> -When using a 2.6 guest Linux kernel, you should add the option
-> -@code{clock=3Dpit} on the kernel command line because the 2.6 Linux
-> -kernels make very strict real time clock checks by default that QEMU
-> -cannot simulate exactly.
-> -
-> -When using a 2.6 guest Linux kernel, verify that the 4G/4G patch is
-> -not activated because QEMU is slower with this patch. The QEMU
-> -Accelerator Module is also much slower in this case. Earlier Fedora
-> -Core 3 Linux kernel (< 2.6.9-1.724_FC3) were known to incorporate this
-> -patch by default. Newer kernels don't have it.
-> -
-> -@subsection Windows
-> -
-> -If you have a slow host, using Windows 95 is better as it gives the
-> -best speed. Windows 2000 is also a good choice.
-> -
-> -@subsubsection SVGA graphic modes support
-> -
-> -QEMU emulates a Cirrus Logic GD5446 Video
-> -card. All Windows versions starting from Windows 95 should recognize
-> -and use this graphic card. For optimal performances, use 16 bit color
-> -depth in the guest and the host OS.
-> -
-> -If you are using Windows XP as guest OS and if you want to use high
-> -resolution modes which the Cirrus Logic BIOS does not support (i.e. >=3D
-> -1280x1024x16), then you should use the VESA VBE virtual graphic card
-> -(option @option{-std-vga}).
-> -
-> -@subsubsection CPU usage reduction
-> -
-> -Windows 9x does not correctly use the CPU HLT
-> -instruction. The result is that it takes host CPU cycles even when
-> -idle. You can install the utility from
-> -@url{https://web.archive.org/web/20060212132151/http://www.user.cityline=
-.ru/~maxamn/amnhltm.zip}
-> -to solve this problem. Note that no such tool is needed for NT, 2000 or =
-XP.
-> -
-> -@subsubsection Windows 2000 disk full problem
-> -
-> -Windows 2000 has a bug which gives a disk full problem during its
-> -installation. When installing it, use the @option{-win2k-hack} QEMU
-> -option to enable a specific workaround. After Windows 2000 is
-> -installed, you no longer need this option (this option slows down the
-> -IDE transfers).
-> -
-> -@subsubsection Windows 2000 shutdown
-> -
-> -Windows 2000 cannot automatically shutdown in QEMU although Windows 98
-> -can. It comes from the fact that Windows 2000 does not automatically
-> -use the APM driver provided by the BIOS.
-> -
-> -In order to correct that, do the following (thanks to Struan
-> -Bartlett): go to the Control Panel =3D> Add/Remove Hardware & Next =3D>
-> -Add/Troubleshoot a device =3D> Add a new device & Next =3D> No, select t=
-he
-> -hardware from a list & Next =3D> NT Apm/Legacy Support & Next =3D> Next
-> -(again) a few times. Now the driver is installed and Windows 2000 now
-> -correctly instructs QEMU to shutdown at the appropriate moment.
-> -
-> -@subsubsection Share a directory between Unix and Windows
-> -
-> -See @ref{sec_invocation} about the help of the option
-> -@option{'-netdev user,smb=3D...'}.
-> -
-> -@subsubsection Windows XP security problem
-> -
-> -Some releases of Windows XP install correctly but give a security
-> -error when booting:
-> -@example
-> -A problem is preventing Windows from accurately checking the
-> -license for this computer. Error code: 0x800703e6.
-> -@end example
-> -
-> -The workaround is to install a service pack for XP after a boot in safe
-> -mode. Then reboot, and the problem should go away. Since there is no
-> -network while in safe mode, its recommended to download the full
-> -installation of SP1 or SP2 and transfer that via an ISO or using the
-> -vvfat block device ("-hdb fat:directory_which_holds_the_SP").
-> -
-> -@subsection MS-DOS and FreeDOS
-> -
-> -@subsubsection CPU usage reduction
-> -
-> -DOS does not correctly use the CPU HLT instruction. The result is that
-> -it takes host CPU cycles even when idle. You can install the utility from
-> -@url{https://web.archive.org/web/20051222085335/http://www.vmware.com/so=
-ftware/dosidle210.zip}
-> -to solve this problem.
-> -
->  @node QEMU System emulator for non PC targets
->  @chapter QEMU System emulator for non PC targets
-
-
---=20
-Alex Benn=C3=A9e
+>  hw/arm/xlnx-versal.c         | 24 ++++++++++++++++++++++++
+>  include/hw/arm/xlnx-versal.h |  6 ++++++
+>  2 files changed, 30 insertions(+)
+> 
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index 1cf3daaf4f..f9beba07ed 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -193,6 +193,29 @@ static void versal_create_gems(Versal *s, qemu_irq *pic)
+>      }
+>  }
+>  
+> +static void versal_create_admas(Versal *s, qemu_irq *pic)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(s->lpd.iou.adma); i++) {
+> +        char *name = g_strdup_printf("adma%d", i);
+> +        DeviceState *dev;
+> +        MemoryRegion *mr;
+> +
+> +        dev = qdev_create(NULL, "xlnx.zdma");
+> +        s->lpd.iou.adma[i] = SYS_BUS_DEVICE(dev);
+> +        object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
+> +        qdev_init_nofail(dev);
+> +
+> +        mr = sysbus_mmio_get_region(s->lpd.iou.adma[i], 0);
+> +        memory_region_add_subregion(&s->mr_ps,
+> +                                    MM_ADMA_CH0 + i * MM_ADMA_CH0_SIZE, mr);
+> +
+> +        sysbus_connect_irq(s->lpd.iou.adma[i], 0, pic[VERSAL_ADMA_IRQ_0 + i]);
+> +        g_free(name);
+> +    }
+> +}
+> +
+>  /* This takes the board allocated linear DDR memory and creates aliases
+>   * for each split DDR range/aperture on the Versal address map.
+>   */
+> @@ -274,6 +297,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+>      versal_create_apu_gic(s, pic);
+>      versal_create_uarts(s, pic);
+>      versal_create_gems(s, pic);
+> +    versal_create_admas(s, pic);
+>      versal_map_ddr(s);
+>      versal_unimp(s);
+>  
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index d844c4ffe4..6c0a692b2f 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -22,6 +22,7 @@
+>  #define XLNX_VERSAL_NR_ACPUS   2
+>  #define XLNX_VERSAL_NR_UARTS   2
+>  #define XLNX_VERSAL_NR_GEMS    2
+> +#define XLNX_VERSAL_NR_ADMAS   8
+>  #define XLNX_VERSAL_NR_IRQS    192
+>  
+>  typedef struct Versal {
+> @@ -50,6 +51,7 @@ typedef struct Versal {
+>          struct {
+>              SysBusDevice *uart[XLNX_VERSAL_NR_UARTS];
+>              SysBusDevice *gem[XLNX_VERSAL_NR_GEMS];
+> +            SysBusDevice *adma[XLNX_VERSAL_NR_ADMAS];
+>          } iou;
+>      } lpd;
+>  
+> @@ -74,6 +76,7 @@ typedef struct Versal {
+>  #define VERSAL_GEM0_WAKE_IRQ_0     57
+>  #define VERSAL_GEM1_IRQ_0          58
+>  #define VERSAL_GEM1_WAKE_IRQ_0     59
+> +#define VERSAL_ADMA_IRQ_0          60
+>  
+>  /* Architecturally reserved IRQs suitable for virtualization.  */
+>  #define VERSAL_RSVD_IRQ_FIRST 111
+> @@ -96,6 +99,9 @@ typedef struct Versal {
+>  #define MM_GEM1                     0xff0d0000U
+>  #define MM_GEM1_SIZE                0x10000
+>  
+> +#define MM_ADMA_CH0                 0xffa80000U
+> +#define MM_ADMA_CH0_SIZE            0x10000
+> +
+>  #define MM_OCM                      0xfffc0000U
+>  #define MM_OCM_SIZE                 0x40000
+>  
+> 
 
