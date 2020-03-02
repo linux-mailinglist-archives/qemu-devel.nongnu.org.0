@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FAD1754DE
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:50:06 +0100 (CET)
-Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F0C1754E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:51:18 +0100 (CET)
+Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8fq1-0003Ul-6e
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:50:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
+	id 1j8frB-0006L3-SF
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:51:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j8fhe-0004oJ-K8
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:27 -0500
+ (envelope-from <jasowang@redhat.com>) id 1j8fhg-0004vR-O3
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j8fhd-0003mz-JS
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:26 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21596)
+ (envelope-from <jasowang@redhat.com>) id 1j8fhf-0003oP-NR
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:28 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59387
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j8fhd-0003mn-FW
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:25 -0500
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j8fhf-0003oG-Jy
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583134885;
+ s=mimecast20190719; t=1583134887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ApLhV3uZsOSY6jOtE730X7bpibd0Lku0jFdhIBohtk=;
- b=NZhDr/5xbSCbKJnRCAdTwxHStn/GtEe8jUH7nQ9w+2vVz8yGK/4f0EKzXQPYD+QQOZvT/D
- WnBVW9Mwd8aB/mztNNx2YwF7lz4LrVtOoLaB7RDB0fyk7MXPHrrYgkcyG3N/FN2H3LE15G
- ge8Ox5gRrRgBWGmkvMOpWOfug0nccXQ=
+ bh=1dHQuNH9zhp04J9jzo+BXkslNQsugmSihaDONv9PYsE=;
+ b=PEsGeOvy0UUImUVy5y1bO3KtwL7VsJtN54Dzo5QQa5PeJvCPZKlxM+x4PC3r+iSqJBCLiK
+ wNQa6IcmlpNpGTAGqrN5etYWti5yiaPQaOk6zZRtCiFpo/aPTS3pFrN5FHM6O3+eNSzgV3
+ 4rEGL4C6ewHz6E/qUzpdX/vlR47T5M4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-izamXhZENgOPPqeZgCdUxw-1; Mon, 02 Mar 2020 02:41:22 -0500
-X-MC-Unique: izamXhZENgOPPqeZgCdUxw-1
+ us-mta-413-x4Nk-stjOrKo_gxsc5dkpQ-1; Mon, 02 Mar 2020 02:41:24 -0500
+X-MC-Unique: x4Nk-stjOrKo_gxsc5dkpQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 955CB107ACC4;
- Mon,  2 Mar 2020 07:41:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA560800D4E;
+ Mon,  2 Mar 2020 07:41:23 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-58.pek2.redhat.com
  [10.72.12.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBC5E60BF3;
- Mon,  2 Mar 2020 07:41:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F65260BF3;
+ Mon,  2 Mar 2020 07:41:21 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 17/23] NetRxPkt: fix hash calculation of IPV6 TCP
-Date: Mon,  2 Mar 2020 15:40:30 +0800
-Message-Id: <1583134836-23991-18-git-send-email-jasowang@redhat.com>
+Subject: [PULL 18/23] hw: net: cadence_gem: Fix build errors in DB_PRINT()
+Date: Mon,  2 Mar 2020 15:40:31 +0800
+Message-Id: <1583134836-23991-19-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
 References: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -70,55 +71,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-When requested to calculate the hash for TCPV6 packet,
-ignore overrides of source and destination addresses
-in in extension headers.
-Use these overrides when new hash type NetPktRssIpV6TcpEx
-requested.
-Use this type in e1000e hash calculation for IPv6 TCP, which
-should take in account overrides of the addresses.
+When CADENCE_GEM_ERR_DEBUG is turned on, there are several
+compilation errors in DB_PRINT(). Fix them.
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Acked-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+While we are here, update to use appropriate modifiers in
+the same DB_PRINT() call.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000e_core.c | 2 +-
- hw/net/net_rx_pkt.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/net/cadence_gem.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index d110c5a..94ea34d 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -582,7 +582,7 @@ e1000e_rss_calc_hash(E1000ECore *core,
-         type =3D NetPktRssIpV4Tcp;
-         break;
-     case E1000_MRQ_RSS_TYPE_IPV6TCP:
--        type =3D NetPktRssIpV6Tcp;
-+        type =3D NetPktRssIpV6TcpEx;
-         break;
-     case E1000_MRQ_RSS_TYPE_IPV6:
-         type =3D NetPktRssIpV6;
-diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
-index b2a06bd..1e1c504 100644
---- a/hw/net/net_rx_pkt.c
-+++ b/hw/net/net_rx_pkt.c
-@@ -348,7 +348,7 @@ net_rx_pkt_calc_rss_hash(struct NetRxPkt *pkt,
-         assert(pkt->isip6);
-         assert(pkt->istcp);
-         trace_net_rx_pkt_rss_ip6_tcp();
--        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
-+        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, false, &rss_length);
-         _net_rx_rss_prepare_tcp(&rss_input[0], pkt, &rss_length);
-         break;
-     case NetPktRssIpV6:
+diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+index ddabdb3..6340c1e 100644
+--- a/hw/net/cadence_gem.c
++++ b/hw/net/cadence_gem.c
+@@ -987,8 +987,9 @@ static ssize_t gem_receive(NetClientState *nc, const ui=
+nt8_t *buf, size_t size)
+             return -1;
+         }
+=20
+-        DB_PRINT("copy %d bytes to 0x%x\n", MIN(bytes_to_copy, rxbufsize),
+-                rx_desc_get_buffer(s->rx_desc[q]));
++        DB_PRINT("copy %u bytes to 0x%" PRIx64 "\n",
++                 MIN(bytes_to_copy, rxbufsize),
++                 rx_desc_get_buffer(s, s->rx_desc[q]));
+=20
+         /* Copy packet data to emulated DMA buffer */
+         address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc[q=
+]) +
+@@ -1159,9 +1160,9 @@ static void gem_transmit(CadenceGEMState *s)
+=20
+             if (tx_desc_get_length(desc) > sizeof(tx_packet) -
+                                                (p - tx_packet)) {
+-                DB_PRINT("TX descriptor @ 0x%x too large: size 0x%x space =
+" \
+-                         "0x%x\n", (unsigned)packet_desc_addr,
+-                         (unsigned)tx_desc_get_length(desc),
++                DB_PRINT("TX descriptor @ 0x%" HWADDR_PRIx \
++                         " too large: size 0x%x space 0x%zx\n",
++                         packet_desc_addr, tx_desc_get_length(desc),
+                          sizeof(tx_packet) - (p - tx_packet));
+                 break;
+             }
 --=20
 2.5.0
 
