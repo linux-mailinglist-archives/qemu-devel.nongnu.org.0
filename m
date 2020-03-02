@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6C31760E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 18:18:34 +0100 (CET)
-Received: from localhost ([::1]:35756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826011760C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 18:13:01 +0100 (CET)
+Received: from localhost ([::1]:35704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8oi9-0004oD-4K
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 12:18:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59198)
+	id 1j8ocm-0002hn-K7
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 12:13:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j8obq-0001oR-Of
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:03 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j8obp-0006Ho-8i
+ (envelope-from <pbonzini@redhat.com>) id 1j8obp-0001mF-Ck
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:02 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:45713)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j8obp-0006HA-3W
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <pbonzini@redhat.com>) id 1j8obo-0006Gz-GS
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:01 -0500
-Received: by mail-ot1-x329.google.com with SMTP id f21so1904251otp.12
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 09:12:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ojux791QudJWGTLfdX46+vB+ol6fMgidPvZabtUmSQ8=;
- b=f4S+tcBNUKUxMbDThzjq7j1wrcMrv2Qji34feyFf66SiyTYRnF5+KY4z9M4+Eqn7PI
- xVcOc3lc79RLFCwbbmo5VgRFofqfXekbziKlTD7WeUxE/xTnnYXDb0kEs5JMuXF60wF8
- BPVKllgYdIlhnDlfpOYZRA96x3rEq9cUZAPTW3LGTo0ZJAH5kuJhQAL4lIgYtkYx/ZRd
- DkTAeal8V53rjysPrKgKayVjuVAhqYm34EhNFqjWJs/iB+BH/U+5UMkZf4eNOjsOhHFY
- d+tcLicpYSTsKpp9w3PFAKkLyBq+MzLZOTTM4fCokdAv7insptIee7cDpVyzJDBiPihc
- xPmQ==
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54767
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j8obo-0006FE-Bq
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583169119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LUgcBfR2wFDbk2C9edO1lDykmzo6Uky/eoTcXsE/hmc=;
+ b=VM2AOzFyrEAyqW/VgE5eByi1SnWVrSB9fnJLmPekGnKqK6E7TotLRnRj3t+iSRIoR6UaLS
+ SQtY4OKJU/oBU1ISzfmT1/Ii683SUbI04QNN28jyzV8ahrx+244GpYXz7GvrN1eFxUDfIu
+ ZvlgzKGR2tDx/ubT6khApTfo5L5tx/E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-hBlHm5VaPAu_NUO8aM-UkQ-1; Mon, 02 Mar 2020 12:11:58 -0500
+X-MC-Unique: hBlHm5VaPAu_NUO8aM-UkQ-1
+Received: by mail-wr1-f69.google.com with SMTP id z16so3768397wrm.15
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 09:11:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ojux791QudJWGTLfdX46+vB+ol6fMgidPvZabtUmSQ8=;
- b=GqmOL2VJOSAA6s7EvLSY2J5x578Br3LFX3aX5dYWt6Avj7AAXgWp8oUBCTJoy6TOSM
- HTj8/fZmJZgWzP522vN9f7BlRv5azH5rnEGHXa/SmoRhc7vnhg7ipx+ZX22ty9VdV9+M
- Z6JALP+nkCw3IpbsXN6R+n77cNqCStD3BK3mt756EN4Rn/1w8tGjhqO3cek1Ybc4rTWa
- 7yY3H8zmgFTH+AKcmeZ4WklpVJTDWLMcx1vjOYgdYRVKjbSzkQd/q+CdxsIh0PNBBAeY
- W3RqFLRHKRYgWVJnTI56GYMAUuLVIufW4OYmPeXJKpcS8FSPcd58RGeesgOCxJJ6lIZL
- 1JCg==
-X-Gm-Message-State: ANhLgQ2iY2R/a1qrb1R8Fib5qgPPIPhC5lILWDZHWDwkElCsyxL0v4VR
- D77O8NHuT+ED9JUiio0ovNeDM3hEq3z75okP7SJxsg==
-X-Google-Smtp-Source: ADFU+vtmLPnronTmyFV9KDkYQakUEpJCXOzPjxCpOL/7ZA7mxCIjrR8FFOEay8uiNsRzUGwdiB6BSDbE0RX13mByRKU=
-X-Received: by 2002:a9d:75ca:: with SMTP id c10mr130802otl.97.1583169119484;
- Mon, 02 Mar 2020 09:11:59 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XD8/bLBqP5gHCb6eOsHOSe/KWwmQ1F7ykvu4UaUA8wk=;
+ b=XR/4/eqGajliO0M9f8mQyqdrPBSLPAe7G0HPDxMaK82cLTfLX4Uum4nkl1TLOsFTMu
+ 5aQYUrAueGbV+V6ct8vEDuUrd0fTjzbZ+7qOIB4B8ubkOKMGUpYDW0N85YyI0L7RRr9D
+ gzBs6gjGQD1vqpxJ9mEQaPbSTJt4jYjI1lWVkBO9/jqdLeJGbgRtQSS0FLUC4mAG6qIg
+ /9zYvXcNBP7fmWdNqYGvW50uVRLdXhFwERh3xH2GciiXU1i7qJMpzDKJoX7JWDetfoiy
+ E5UJrb0HaAln7eYwW4GLRpwSxY+NgzdWFBjK1dhxzxO9PJcO8nCxk+Pnhvw6HsxYfnhk
+ n0Sw==
+X-Gm-Message-State: ANhLgQ2zVLq7X8wWruK0VUgt7U6wLmXZ92Pw85seqeVtjFxzOgliUAdL
+ UW3LkPEuN7lG6LhI170yHFd1v7YgX+EjtCO7sSlgoRXsobbDf1oHo7LhjeEA2FE/ej0Nh57iutY
+ 8WazpLoXmyIsEfBI=
+X-Received: by 2002:adf:d843:: with SMTP id k3mr501118wrl.427.1583169116977;
+ Mon, 02 Mar 2020 09:11:56 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvaAL4AFmq27/VH6AcajdSKg4nvaLeaygoZmJGxEKMU0tMbtGIYeJDztF8ns92m/SMZKJFJQA==
+X-Received: by 2002:adf:d843:: with SMTP id k3mr501081wrl.427.1583169116458;
+ Mon, 02 Mar 2020 09:11:56 -0800 (PST)
+Received: from [192.168.178.40] ([151.30.85.6])
+ by smtp.gmail.com with ESMTPSA id t3sm29176449wrx.38.2020.03.02.09.11.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2020 09:11:55 -0800 (PST)
+Subject: Re: [PATCH v2 2/4] Add the NetBSD Virtual Machine Monitor accelerator.
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Kamil Rytarowski <n54@gmx.com>, rth@twiddle.net, ehabkost@redhat.com,
+ slp@redhat.com, peter.maydell@linaro.org, max@m00nbsd.net
+References: <20200107124903.16505-1-n54@gmx.com>
+ <20200128140945.929-1-n54@gmx.com> <20200128140945.929-3-n54@gmx.com>
+ <e3279b9d-e6f9-43f3-3ebb-b31ba8ff5f7e@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <55d6ace5-3cf1-de24-53be-700982a9f834@redhat.com>
+Date: Mon, 2 Mar 2020 18:11:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <1582631466-13880-1-git-send-email-pbonzini@redhat.com>
- <1582631466-13880-12-git-send-email-pbonzini@redhat.com>
- <CAFEAcA_0y0NsHfkK2V4-PTYe0fiOHE6x00i9z7am5+Kvg86PNg@mail.gmail.com>
- <20200302175503.65e404d0@redhat.com>
-In-Reply-To: <20200302175503.65e404d0@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Mar 2020 17:11:48 +0000
-Message-ID: <CAFEAcA_fmqchrhbiS18zeXJMCMfZ14fdsVzjBjY1=gS5hJ60_w@mail.gmail.com>
-Subject: Re: [PULL 012/136] arm/cubieboard: use memdev for RAM
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
+In-Reply-To: <e3279b9d-e6f9-43f3-3ebb-b31ba8ff5f7e@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,41 +93,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Mar 2020 at 16:55, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Mon, 2 Mar 2020 15:41:13 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> > Hi Igor, I just noticed this, and I don't think it's the
-> > right thing. The board model should have its own state
-> > structure which contains any objects it creates. Just
-> > because there happens currently to be only a single
-> > object in this case doesn't mean we want to lose the
-> > structure. In particular, we now just leak the
-> > pointer to the TYPE_AW_A10 object, rather than having
-> > it be tracked by being pointed to from the MachineState.
-> > Being able to avoid just leaking pointers to objects like
-> > that is one of the reasons I like having a MachineState now.
-> The reason why this structure was removed was that it wasn't
-> MachineState object but a random structure which was a common
-> pattern in pre-QOM qemu.
->
-> Code was allocating 's', assigning pointer to s->a10 member and
-> then happily loosing both pointers in the end.
+On 03/02/20 12:41, Philippe Mathieu-Daud=C3=A9 wrote:
+>=20
+> Maybe you can add something like:
+>=20
+> if test "$targetos" =3D "NetBSD"; then
+> =C2=A0=C2=A0=C2=A0 nvmm=3D"check"
+> fi
 
-Oh, so it was -- I misread the code.
+You could do just nvmm=3D"" and, below,
 
-> I can convert it to MachineState derived board as
-> an example to follow.
+if test "$nvmm" !=3D "no" && test "$targetos" =3D "NetBSD"
 
-No, you don't need to do that, I hadn't realized it
-wasn't already MachineState derived, because it looked
-superficially like it was. Apologies for the false alarm.
+But maybe even testing NetBSD is not needed since nvmm.h will likely not
+be there.
 
-thanks
--- PMM
+Paolo
+
+> to build by default with NVMM if available.
+>=20
+>> +##########################################
+>> +# NetBSD Virtual Machine Monitor (NVMM) accelerator check
+>> +if test "$nvmm" !=3D "no" ; then
+>> +=C2=A0=C2=A0=C2=A0 if check_include "nvmm.h" ; then
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvmm=3D"yes"
+>> +=C2=A0=C2=A0=C2=A0 LIBS=3D"-lnvmm $LIBS"
+>> +=C2=A0=C2=A0=C2=A0 else
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if test "$nvmm" =3D "yes"; t=
+hen
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 feat=
+ure_not_found "NVMM" "NVMM is not available"
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvmm=3D"no"
+>> +=C2=A0=C2=A0=C2=A0 fi
+>> +fi=20
+
 
