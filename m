@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A231754D1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:48:44 +0100 (CET)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FAD1754DE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:50:06 +0100 (CET)
+Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8foh-0008Ss-PN
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:48:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60262)
+	id 1j8fq1-0003Ul-6e
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:50:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j8fhc-0004jA-Kt
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:25 -0500
+ (envelope-from <jasowang@redhat.com>) id 1j8fhe-0004oJ-K8
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j8fhb-0003lX-FA
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:24 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54645
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jasowang@redhat.com>) id 1j8fhd-0003mz-JS
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:26 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21596)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j8fhb-0003l4-Ay
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:23 -0500
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j8fhd-0003mn-FW
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583134882;
+ s=mimecast20190719; t=1583134885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M/7mhrmkDMgWbya6uQPhNZ02yGNhHjKbCLFNhsQU/Mo=;
- b=PIsib9Bz1KLPGcm/X3Ez+yVfZo/0ogR1BebFlQIsuspzRi0shaUdqgWhsHT/0++gvqFPor
- uz9GRdgkBUhh2nLNqhQ5RNMBbmKE7qlfwYEFp+XTJ9j0lTLRXgQgYKMuKCoN2yWJCQaPO4
- RLK4I9xkjviCRskUrzLpXFXYgUKQhxA=
+ bh=1ApLhV3uZsOSY6jOtE730X7bpibd0Lku0jFdhIBohtk=;
+ b=NZhDr/5xbSCbKJnRCAdTwxHStn/GtEe8jUH7nQ9w+2vVz8yGK/4f0EKzXQPYD+QQOZvT/D
+ WnBVW9Mwd8aB/mztNNx2YwF7lz4LrVtOoLaB7RDB0fyk7MXPHrrYgkcyG3N/FN2H3LE15G
+ ge8Ox5gRrRgBWGmkvMOpWOfug0nccXQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-1JrqLK4IOFK_Q9zcppZikw-1; Mon, 02 Mar 2020 02:41:20 -0500
-X-MC-Unique: 1JrqLK4IOFK_Q9zcppZikw-1
+ us-mta-17-izamXhZENgOPPqeZgCdUxw-1; Mon, 02 Mar 2020 02:41:22 -0500
+X-MC-Unique: izamXhZENgOPPqeZgCdUxw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E60C8017CC;
- Mon,  2 Mar 2020 07:41:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 955CB107ACC4;
+ Mon,  2 Mar 2020 07:41:21 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-58.pek2.redhat.com
  [10.72.12.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C513560C05;
- Mon,  2 Mar 2020 07:41:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBC5E60BF3;
+ Mon,  2 Mar 2020 07:41:19 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/23] NetRxPkt: Introduce support for additional hash types
-Date: Mon,  2 Mar 2020 15:40:29 +0800
-Message-Id: <1583134836-23991-17-git-send-email-jasowang@redhat.com>
+Subject: [PULL 17/23] NetRxPkt: fix hash calculation of IPV6 TCP
+Date: Mon,  2 Mar 2020 15:40:30 +0800
+Message-Id: <1583134836-23991-18-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
 References: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
@@ -78,119 +77,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 
-Add support for following hash types:
-IPV6 TCP with extension headers
-IPV4 UDP
-IPV6 UDP
-IPV6 UDP with extension headers
+When requested to calculate the hash for TCPV6 packet,
+ignore overrides of source and destination addresses
+in in extension headers.
+Use these overrides when new hash type NetPktRssIpV6TcpEx
+requested.
+Use this type in e1000e hash calculation for IPv6 TCP, which
+should take in account overrides of the addresses.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 Acked-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/net_rx_pkt.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- hw/net/net_rx_pkt.h |  6 +++++-
- hw/net/trace-events |  4 ++++
- 3 files changed, 51 insertions(+), 1 deletion(-)
+ hw/net/e1000e_core.c | 2 +-
+ hw/net/net_rx_pkt.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index d110c5a..94ea34d 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -582,7 +582,7 @@ e1000e_rss_calc_hash(E1000ECore *core,
+         type =3D NetPktRssIpV4Tcp;
+         break;
+     case E1000_MRQ_RSS_TYPE_IPV6TCP:
+-        type =3D NetPktRssIpV6Tcp;
++        type =3D NetPktRssIpV6TcpEx;
+         break;
+     case E1000_MRQ_RSS_TYPE_IPV6:
+         type =3D NetPktRssIpV6;
 diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
-index 98a5030..b2a06bd 100644
+index b2a06bd..1e1c504 100644
 --- a/hw/net/net_rx_pkt.c
 +++ b/hw/net/net_rx_pkt.c
-@@ -307,6 +307,20 @@ _net_rx_rss_prepare_tcp(uint8_t *rss_input,
-                           &tcphdr->th_dport, sizeof(uint16_t));
- }
-=20
-+static inline void
-+_net_rx_rss_prepare_udp(uint8_t *rss_input,
-+                        struct NetRxPkt *pkt,
-+                        size_t *bytes_written)
-+{
-+    struct udp_header *udphdr =3D &pkt->l4hdr_info.hdr.udp;
-+
-+    _net_rx_rss_add_chunk(rss_input, bytes_written,
-+                          &udphdr->uh_sport, sizeof(uint16_t));
-+
-+    _net_rx_rss_add_chunk(rss_input, bytes_written,
-+                          &udphdr->uh_dport, sizeof(uint16_t));
-+}
-+
- uint32_t
- net_rx_pkt_calc_rss_hash(struct NetRxPkt *pkt,
-                          NetRxPktRssType type,
-@@ -347,6 +361,34 @@ net_rx_pkt_calc_rss_hash(struct NetRxPkt *pkt,
-         trace_net_rx_pkt_rss_ip6_ex();
-         _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
-         break;
-+    case NetPktRssIpV6TcpEx:
-+        assert(pkt->isip6);
-+        assert(pkt->istcp);
-+        trace_net_rx_pkt_rss_ip6_ex_tcp();
-+        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
-+        _net_rx_rss_prepare_tcp(&rss_input[0], pkt, &rss_length);
-+        break;
-+    case NetPktRssIpV4Udp:
-+        assert(pkt->isip4);
-+        assert(pkt->isudp);
-+        trace_net_rx_pkt_rss_ip4_udp();
-+        _net_rx_rss_prepare_ip4(&rss_input[0], pkt, &rss_length);
-+        _net_rx_rss_prepare_udp(&rss_input[0], pkt, &rss_length);
-+        break;
-+    case NetPktRssIpV6Udp:
-+        assert(pkt->isip6);
-+        assert(pkt->isudp);
-+        trace_net_rx_pkt_rss_ip6_udp();
+@@ -348,7 +348,7 @@ net_rx_pkt_calc_rss_hash(struct NetRxPkt *pkt,
+         assert(pkt->isip6);
+         assert(pkt->istcp);
+         trace_net_rx_pkt_rss_ip6_tcp();
+-        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
 +        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, false, &rss_length);
-+        _net_rx_rss_prepare_udp(&rss_input[0], pkt, &rss_length);
-+        break;
-+    case NetPktRssIpV6UdpEx:
-+        assert(pkt->isip6);
-+        assert(pkt->isudp);
-+        trace_net_rx_pkt_rss_ip6_ex_udp();
-+        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
-+        _net_rx_rss_prepare_udp(&rss_input[0], pkt, &rss_length);
-+        break;
-     default:
-         assert(false);
+         _net_rx_rss_prepare_tcp(&rss_input[0], pkt, &rss_length);
          break;
-diff --git a/hw/net/net_rx_pkt.h b/hw/net/net_rx_pkt.h
-index 7adf0fa..048e346 100644
---- a/hw/net/net_rx_pkt.h
-+++ b/hw/net/net_rx_pkt.h
-@@ -133,7 +133,11 @@ typedef enum {
-     NetPktRssIpV4Tcp,
-     NetPktRssIpV6Tcp,
-     NetPktRssIpV6,
--    NetPktRssIpV6Ex
-+    NetPktRssIpV6Ex,
-+    NetPktRssIpV6TcpEx,
-+    NetPktRssIpV4Udp,
-+    NetPktRssIpV6Udp,
-+    NetPktRssIpV6UdpEx,
- } NetRxPktRssType;
-=20
- /**
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index 42066fc..a1da98a 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -92,9 +92,13 @@ net_rx_pkt_l3_csum_validate_csum(size_t l3hdr_off, uint3=
-2_t csl, uint32_t cntr,
-=20
- net_rx_pkt_rss_ip4(void) "Calculating IPv4 RSS  hash"
- net_rx_pkt_rss_ip4_tcp(void) "Calculating IPv4/TCP RSS  hash"
-+net_rx_pkt_rss_ip4_udp(void) "Calculating IPv4/UDP RSS  hash"
- net_rx_pkt_rss_ip6_tcp(void) "Calculating IPv6/TCP RSS  hash"
-+net_rx_pkt_rss_ip6_udp(void) "Calculating IPv6/UDP RSS  hash"
- net_rx_pkt_rss_ip6(void) "Calculating IPv6 RSS  hash"
- net_rx_pkt_rss_ip6_ex(void) "Calculating IPv6/EX RSS  hash"
-+net_rx_pkt_rss_ip6_ex_tcp(void) "Calculating IPv6/EX/TCP RSS  hash"
-+net_rx_pkt_rss_ip6_ex_udp(void) "Calculating IPv6/EX/UDP RSS  hash"
- net_rx_pkt_rss_hash(size_t rss_length, uint32_t rss_hash) "RSS hash for %z=
-u bytes: 0x%X"
- net_rx_pkt_rss_add_chunk(void* ptr, size_t size, size_t input_offset) "Add=
- RSS chunk %p, %zu bytes, RSS input offset %zu bytes"
-=20
+     case NetPktRssIpV6:
 --=20
 2.5.0
 
