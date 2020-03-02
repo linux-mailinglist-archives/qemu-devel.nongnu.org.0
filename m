@@ -2,38 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533871755E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 09:22:58 +0100 (CET)
-Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB300175608
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 09:33:37 +0100 (CET)
+Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8gLp-0006Gt-An
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 03:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37371)
+	id 1j8gW8-0002Ix-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 03:33:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38956)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j8gKc-0004Mo-2P
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:21:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8gUq-0001lS-Vy
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:32:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j8gKa-0001Yi-Gp
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:21:42 -0500
-Received: from relay.sw.ru ([185.231.240.75]:44684)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j8gKZ-0001U3-PL; Mon, 02 Mar 2020 03:21:40 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j8gKP-0002Ot-HO; Mon, 02 Mar 2020 11:21:29 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] iotests: 287: add qcow2 compression type test
-Date: Mon,  2 Mar 2020 11:21:11 +0300
-Message-Id: <20200302082111.21205-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200302082111.21205-1-dplotnikov@virtuozzo.com>
-References: <20200302082111.21205-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <alex.bennee@linaro.org>) id 1j8gUp-0005fY-U2
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:32:16 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39548)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j8gUp-0005f2-Ll
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:32:15 -0500
+Received: by mail-wr1-x442.google.com with SMTP id y17so11366029wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 00:32:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+/esAd3rTsyYEC9JcW/pfHjjcfdaslwGsH3PMyp5Xxw=;
+ b=cncm+BiKYaXDJtFMOTWQmqQnvAxg9eAgUqdVd+lcn9/IoIeeXYh5Q2TTRvHWIBkGx8
+ 9XRNLuxJw0iC+DNYbaMZBlG//6pWSSISPtljl7x+vJmKo6bfXC8kMI/IV5a3lb54VIsG
+ 8PaQg8vBHauE2OJa2IPRl4sSm8RqFNTxPJ4L1rwVJxoTxG/7c4C72ZARaFgpptlA7+6j
+ ItMn3RL6fe9Q09g42gg8TaIyRFeHROA5VSWXFudN4MNu+hp5wyk1nWdbO07mCARWYfpS
+ F68O+AT/IqsxgeLkMsow/oBMRnhtLu/9OFkbQM2gf1TPpdeBYDWpiUH4niWnhwgVrP99
+ MK4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+/esAd3rTsyYEC9JcW/pfHjjcfdaslwGsH3PMyp5Xxw=;
+ b=DOZR9WcIWc4Tiwz2bRjvoMs8otwAd/lU5U5Iv/e1+tuauUiUeWKzKq3qkb1J2mfcRg
+ Ry6oITRZbNllZDMMYvCWBcGr21QYFMiuorrAmtbT6yKjO1CUpGV8czdO4q0cGtxWijTp
+ ERAxnuUGZ4bGNpMtU0NBE/kp3MUP8men5ekNzp4OnE/ZqeBHIcR+8BobFRu6YqM68vqP
+ rcVJcUjgsnXUrpKEnenNdtiKhdFY2CrlAhtpPRtyEWD5GJcu8KlBiHCfr9CGh36yWi+f
+ Ow0c32Oe7sAJR1it0WQQ5Ro5803JZBWg1oRfq5+B8smx03CjKoHle/PK8RYNbfmZhrxO
+ lb7w==
+X-Gm-Message-State: ANhLgQ1oMIL3HWrOTQ/PX22htGhN0B8qRSo9eVNRPWFJmcVde3cNe4I2
+ NHr7r5r3n6uc+j1HIoUym/srcQ==
+X-Google-Smtp-Source: ADFU+vtizs2f5KpxOG/ZxQA0FutKMwtA4tDpC1xulNydo3pfhpn4ueaJOHeN9qOAuevJ9ycEiwAtNA==
+X-Received: by 2002:a5d:5643:: with SMTP id j3mr7826435wrw.337.1583137934389; 
+ Mon, 02 Mar 2020 00:32:14 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t133sm16014595wmf.31.2020.03.02.00.32.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 00:32:12 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 269561FF87;
+ Mon,  2 Mar 2020 08:32:12 +0000 (GMT)
+References: <20200228092420.103757-1-quintela@redhat.com>
+ <20200228092420.103757-7-quintela@redhat.com>
+ <CAFXwXr=9R9FZ5wD5Lk=cbP=Qt93KOokrcOjxj_JKevmso9qdgg@mail.gmail.com>
+ <878skj1908.fsf@secure.laptop>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: quintela@redhat.com
+Subject: Re: [PULL 06/15] configure: Enable test and libs for zstd
+In-reply-to: <878skj1908.fsf@secure.laptop>
+Date: Mon, 02 Mar 2020 08:32:12 +0000
+Message-ID: <87zhcz40oj.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,215 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "open
+ list:Block layer core" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org
+ Developers" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 127 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 171 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+Juan Quintela <quintela@redhat.com> writes:
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..39cb665c85
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,127 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# Check if we can run this test.
-+IMGOPTS='compression_type=zstd'
-+
-+_make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+CLUSTER_SIZE=65536
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 0317667695..5edbadef40 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -293,3 +293,4 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
--- 
-2.17.0
+> Richard Henderson <richard.henderson@linaro.org> wrote:
+>>> +##########################################
+>>> +# zstd check
+>>> +
+>>> +if test "$zstd" !=3D "no" ; then
+>>> +    if $pkg_config --exist libzstd ; then
+>>
+>> The option is spelled --exists.  This is generating an error during conf=
+igure.
+>
+> Ooops, you are right.
+>
+> Sending a patch.  Just wondering why I didn't saw that error :-(
 
+I was only noticing when re-directing output - otherwise you miss it in
+a fairly long scrollback.
+
+>
+> Thanks, Juan.
+
+
+--=20
+Alex Benn=C3=A9e
 
