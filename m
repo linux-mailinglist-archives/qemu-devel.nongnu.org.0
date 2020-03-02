@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE8B175BFD
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:44:07 +0100 (CET)
-Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3914A175BE4
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:40:10 +0100 (CET)
+Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8lMc-00089e-Og
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:44:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54071)
+	id 1j8lIn-0006GK-AH
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:40:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j8lHW-0004us-3q
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:38:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1j8lHt-0005O7-P7
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:39:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j8lHU-0005s2-6o
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:38:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36361
+ (envelope-from <philmd@redhat.com>) id 1j8lHs-0005xp-KC
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:39:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26128
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j8lHU-0005rn-0w
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:38:48 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j8lHs-0005xi-Gi
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:39:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583156327;
+ s=mimecast20190719; t=1583156352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6IfrV0fwPOVAM+oI3Q9V81E8iVPj3rB/Z76ia4Elec8=;
- b=Kr+L39WQ/KIjx2LrVasoX+yKrnOYzMdmpxNH2nBt93mO0ZeHOocPW5VZujdWeOh80hkhRG
- VQrFmSn+8lO6E0DwNSNuEXrMSTaaLwafbXapEkAIVjijpZk/NTzpWGUOe2O4G8s3p/6gA7
- BDQbNi9Ftuf1uBdi1uKYjOs8zgCG/hg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-EsPWYz_5NqSZBtvH6XO9qg-1; Mon, 02 Mar 2020 08:38:42 -0500
-X-MC-Unique: EsPWYz_5NqSZBtvH6XO9qg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14923DB62;
- Mon,  2 Mar 2020 13:38:41 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-7.ams2.redhat.com [10.36.117.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05C3D90F5B;
- Mon,  2 Mar 2020 13:38:38 +0000 (UTC)
-Date: Mon, 2 Mar 2020 14:38:37 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH v0 0/2] allow to set 'drive' property on a realized block
+ bh=L9Cs50exC0abJzqi9OVqYdjap0FPa+go1iUxdr9/ksg=;
+ b=UPFiqzbQ2vb/iUMYL7LMzzgH9WPUQZlOJoRR8vmaYRK+RAqTpxr6SMCrW8GuAZU1t5KgVD
+ U5k9JlKgEwKE0BhBJsqzQtwz9cS2miVv+a2J8V93BUTHQo+GNL+rzyRyLAMa4UYn5z6VpO
+ DA9J1aT8dzSl/nOatXvYyBI8k7s+U+g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-WmCjEf2ONP2n0RKMjllIcQ-1; Mon, 02 Mar 2020 08:39:10 -0500
+X-MC-Unique: WmCjEf2ONP2n0RKMjllIcQ-1
+Received: by mail-wm1-f69.google.com with SMTP id f207so2905994wme.6
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 05:39:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ig5eFtJ9p0MBNtGS1Befy7D81dyzNS6Kd/gUFfvs7Hs=;
+ b=jjwEfCMnzRC6aFx+wlaSTmnNCXalj1Fp8faTQ4njTZNg9IbRfy5RSqmpzlkjCBiWUM
+ rRbN4LIyqGgAhk10Op4K3CrY3tSmdW8eyUTC9Ca34ZkwdjI8mtV1NfMrp93pELQwUTjZ
+ erkGmsb0dvrPD+iS+ubXE+lEKyN5a+tJpfPRMvLYCHMEUePjon/R1ZoOwLs7emh//HRQ
+ K0+/q0mLcVZGX5/ZVOcBmfhNO1M434fSBnUMiKBs0XvpX1ibPjFOf33ZTOHH+yUDY8uP
+ E8zZISjLWhezD1QIMRP48eEf1Cz5yMqaNumv295HaLeuqPseWAESN4yrdJUbkuW0WrT5
+ xJcA==
+X-Gm-Message-State: APjAAAWg9RcCGaT6DVLZ+cRGbVBlagsH4pmUHGPAbcDUFbI+8Erenxft
+ o+FOJgXn0GmT3R2Rfivpr0gnGpWC5s5wB8/9Hkpsi+E5AmSAlJLoMDLCYAR6nHJnNUM1zBBXHaf
+ 88uHzUw2ufEb/EzU=
+X-Received: by 2002:adf:e506:: with SMTP id j6mr22039365wrm.309.1583156349316; 
+ Mon, 02 Mar 2020 05:39:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyZC1LgEXa5NMdK0zFcq1iyU3g2lWPU4gfQPbWSF5+/P4ztEKSVcse5kfxI2KaXz8Ve3cxmBg==
+X-Received: by 2002:adf:e506:: with SMTP id j6mr22039350wrm.309.1583156349053; 
+ Mon, 02 Mar 2020 05:39:09 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2fb0:49e0:3f7b:4b69:b9c:cdc0?
+ ([2a01:e35:2fb0:49e0:3f7b:4b69:b9c:cdc0])
+ by smtp.gmail.com with ESMTPSA id g14sm29199457wrv.58.2020.03.02.05.39.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Mar 2020 05:39:08 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] dp264: use pci_create() to initialise the cmd646
  device
-Message-ID: <20200302133837.GC4965@linux.fritz.box>
-References: <20191110190310.19799-1-dplotnikov@virtuozzo.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20200301190520.18520-1-mark.cave-ayland@ilande.co.uk>
+ <20200301190520.18520-2-mark.cave-ayland@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003012232020.79908@zero.eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <84bf52cc-4a29-e814-9193-67b96497fe74@redhat.com>
+Date: Mon, 2 Mar 2020 14:39:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20191110190310.19799-1-dplotnikov@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <alpine.BSF.2.22.395.2003012232020.79908@zero.eik.bme.hu>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,35 +95,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- pbonzini@redhat.com, den@virtuozzo.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.11.2019 um 20:03 hat Denis Plotnikov geschrieben:
-> This allows to replace the file on a block device and is useful
-> to workaround the cases (migration) when the VM image is placed on
-> some shared storage with exclusive file opening model but the image
-> should be open form more than one app.
+On 3/1/20 10:34 PM, BALATON Zoltan wrote:
+> On Sun, 1 Mar 2020, Mark Cave-Ayland wrote:
+>> Remove the call to pci_cmd646_ide_init() since global device init=20
+>> functions
+>> are deprecated in preference of using qdev directly.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> hw/alpha/dp264.c | 7 ++++++-
+>> 1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+>> index 8d71a30617..50e75aeee3 100644
+>> --- a/hw/alpha/dp264.c
+>> +++ b/hw/alpha/dp264.c
+>> @@ -16,6 +16,7 @@
+>> #include "sysemu/sysemu.h"
+>> #include "hw/rtc/mc146818rtc.h"
+>> #include "hw/ide.h"
+>> +#include "hw/ide/pci.h"
+>> #include "hw/timer/i8254.h"
+>> #include "hw/isa/superio.h"
+>> #include "hw/dma/i8257.h"
+>> @@ -100,9 +101,13 @@ static void clipper_init(MachineState *machine)
+>> =A0=A0=A0 /* IDE disk setup.=A0 */
+>> =A0=A0=A0 {
+>> =A0=A0=A0=A0=A0=A0=A0 DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+>> +=A0=A0=A0=A0=A0=A0=A0 PCIDevice *pci_dev;
+>> +
+>> =A0=A0=A0=A0=A0=A0=A0 ide_drive_get(hd, ARRAY_SIZE(hd));
+>>
+>> -=A0=A0=A0=A0=A0=A0=A0 pci_cmd646_ide_init(pci_bus, hd, 0);
+>> +=A0=A0=A0=A0=A0=A0=A0 pci_dev =3D pci_create(pci_bus, -1, "cmd646-ide")=
+;
+>> +=A0=A0=A0=A0=A0=A0=A0 qdev_init_nofail(DEVICE(pci_dev));
 >=20
-> The previous version of approaching the workaround was based on the
-> "blockdev-change-medium" command modification but had some flaws:
->   * semantics: blockdev-change-medium is aimed to be used with removable =
-devices
->     only
->   * interface: it can't accept all possible combination of parameters for
->     the "drive" replacement (creation).
->=20
-> More details here: http://patchwork.ozlabs.org/patch/1179329/
->=20
-> The current series suggests another approach:
-> 1. blockdev-add
-> 2. qom-set disk.drive =3D the blockdev added (this is what the series add=
-s)
+> You could just use pci_create_simple here now that you don't set=20
+> properties.
 
-Are you still planning to send another version?
+Can be added as a patch on top, either ways:
 
-Kevin
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
+>> +=A0=A0=A0=A0=A0=A0=A0 pci_ide_create_devs(pci_dev, hd);
+>> =A0=A0=A0 }
+>>
+>> =A0=A0=A0 /* Load PALcode.=A0 Given that this is not "real" cpu palcode,
+>>
+>=20
 
 
