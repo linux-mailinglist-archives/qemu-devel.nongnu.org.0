@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A52B175A4A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 13:19:14 +0100 (CET)
-Received: from localhost ([::1]:59874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DC6175A56
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 13:20:29 +0100 (CET)
+Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8k2T-00025g-8K
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 07:19:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41949)
+	id 1j8k3g-0004F9-F3
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 07:20:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j8k1K-0000tu-Jr
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:04 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8k1y-0001vV-Cp
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j8k1J-0001Sw-GA
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:02 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:47071)
+ (envelope-from <alex.bennee@linaro.org>) id 1j8k1w-0001Wi-Jy
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:42 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50515)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j8k1J-0001Si-9B
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:01 -0500
-Received: by mail-wr1-x442.google.com with SMTP id j7so12214596wrp.13
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 04:18:01 -0800 (PST)
+ id 1j8k1w-0001WS-C0
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:18:40 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a5so10936019wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 04:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=XdruoThp7NMZfN1+sDb1UztO4Q1oOK0aayWaVPmQedg=;
- b=SnbbzUC3X4LeTxqxGFKkRLcLQqmX3X5ZH87nW85HWzHmR8eNkAx35qSgMxP7QCTXun
- fBWi2Qqy+PZpOGWHq1uRLQNfQc3XAcEMt7KfRB8ntdjAaN1T4l7XlJuUPm4N+rHF2n4Q
- GBcWAAz4ap8O66AYXTeGn4a33v+R6qOdtPXl1wjvkh0njWYCGxVroR/8v0DqEA0Yleuu
- PLOmJFItzSHd7ZwlWcoli9/8TlEjfuPvFJD+dQxwWfd0nNKeoedgqzmcDfgCY9Wnvt4x
- feSoqbul72xVuphHlPGQLlBxDCQOnrhiQ1xVTlmUASV1JKO+gNVwhfcga9DHGny+OMwq
- 0ECw==
+ bh=1LDY01giTz+RuIzVY2+lKm8+sZab6Cfbiq5jvenVBCw=;
+ b=sM313SSyuOtRPsEf6co4sHgG85TDv8WS/7wMeJrFPqdSQ6wZTyANDuvKioCwsbuEJ2
+ 8rZZfTszulNeKi+z0hy9U5cqbnAR2Ye3xOP5n99Ivl7ZlUveCLzs6VQ6KF+My4ICwZZG
+ /BpjRzqWe7g78DffzLhv1qzblbIHA097bhmJsL/lUuoN5pnS9w84S1IYHInmBMcWKvA4
+ 4hSnEM2RO4p27cKH/2jPASuRJNWNpv4Ihfh5a+lbRwS/691patdAy7DwwZpFBwf7ooUQ
+ prPpawsH2PruIsrnIMIt4erwMbsJkRTUHMHcWn6sU8IPpkysAepYKiqBcqw0X6Kww/C8
+ x2fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=XdruoThp7NMZfN1+sDb1UztO4Q1oOK0aayWaVPmQedg=;
- b=GZs8tr8oNUf5sonxUp1F3v717Gkl1Tx1XplBzu/aqokftaUADbjray9aYBTXcaql9u
- 9xhzQx1NW/qO5Xmgu7d2ul+cLS8eIOdqRSRN9mNWLH1XWw6VAJblmWUlIvKs8LZCufyg
- DL3GqU65Gjyv1fQLPGIdOSXuzCJOgi391wD0GazvuRB2vsFqUWjl54Mqf0ISJR/D64ut
- Dyz77sb2N6VWBWbclVYY0RZFnpeDEDAAjKnmEESKSbYzf8blmhXqCZotnRzLGEgaMdgG
- MZfVVcrqo9JrVnp7d06TMwOw7zcPByeKZiHDUbtCOJ9Aw7K67JZhohSAw6/I82p9hRxB
- K2QA==
-X-Gm-Message-State: ANhLgQ2k0FQfU5XZVFiv1P83gdTxTsrRqRP2ugs6qVuJSSqpArfI97OL
- gHuIGFnadNoP2Jly/r6wMlzs6Q==
-X-Google-Smtp-Source: ADFU+vvCK9AokoAl6jIszwxdt98RW76wmoUGlWlF59S3R6hzOqkNHyXv405Hg5k/arY13+U79eGfMg==
-X-Received: by 2002:a5d:55d1:: with SMTP id i17mr7419818wrw.326.1583151480234; 
- Mon, 02 Mar 2020 04:18:00 -0800 (PST)
+ bh=1LDY01giTz+RuIzVY2+lKm8+sZab6Cfbiq5jvenVBCw=;
+ b=UCeexZBI9JMj2JtDJSzANg9TROQkVtr05TfpbaVg/n1c3HB6DR/dukL1kCT57PAGot
+ od7Q0vTrRVwYzEDwlyi/gmvulOINWLLFgVa+M4r7+fgxkBBdWkhJ2pQnKo9LzUICBvPq
+ dbWPcJ+SbeMFpLOO73y49TUGQKtyt60gSUOCD5eGQA68PR0uqv5vJOXA5b9glXMs07Lw
+ Gb5eGqipvX9SE6sF8EshL0/lEpmgBMWqBHsSL+WcTjWuaee2sINy0UyZ5lymA6IMXlXK
+ dNMfS3bA6fiE7zUupXzYhwBlYtoJX34yCLY4TVNEXzaADk3DM1VrYInTcImob8OQUvr2
+ gCYg==
+X-Gm-Message-State: APjAAAVM1bmVu6u1ciiFewtkb0bcPi7mHjDNeH2Ae7WBetjvdk+b36pP
+ D7dxPaQXMh1Jb+dfz9ifVJjp/w==
+X-Google-Smtp-Source: APXvYqzD8n3q/+b+JdJSBF5wUjiIwM6UfW+x6+Z3BtxrsEgfAzijHsnCd0DcsMZEHRBxbHz3eWMYew==
+X-Received: by 2002:a7b:c183:: with SMTP id y3mr19479917wmi.0.1583151518891;
+ Mon, 02 Mar 2020 04:18:38 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 90sm27370541wro.79.2020.03.02.04.17.59
+ by smtp.gmail.com with ESMTPSA id w22sm15198941wmk.34.2020.03.02.04.18.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 04:17:59 -0800 (PST)
+ Mon, 02 Mar 2020 04:18:37 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AB73E1FF87;
- Mon,  2 Mar 2020 12:17:58 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 53C1B1FF87;
+ Mon,  2 Mar 2020 12:18:37 +0000 (GMT)
 References: <20200228153619.9906-1-peter.maydell@linaro.org>
- <20200228153619.9906-23-peter.maydell@linaro.org>
+ <20200228153619.9906-24-peter.maydell@linaro.org>
 User-agent: mu4e 1.3.9; emacs 27.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 22/33] doc/scripts/hxtool.py: Strip trailing ':' from
- DEFHEADING/ARCHHEADING
-In-reply-to: <20200228153619.9906-23-peter.maydell@linaro.org>
-Date: Mon, 02 Mar 2020 12:17:58 +0000
-Message-ID: <87pndv9ci1.fsf@linaro.org>
+Subject: Re: [PATCH v3 23/33] docs: Roll semihosting option information into
+ qemu-options.hx
+In-reply-to: <20200228153619.9906-24-peter.maydell@linaro.org>
+Date: Mon, 02 Mar 2020 12:18:37 +0000
+Message-ID: <87mu8z9cgy.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,54 +91,214 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
-> In hxtool files, section headings defined with the DEFHEADING
-> and ARCHHEADING macros have a trailing ':'
->   DEFHEADING(Standard options:)
->
-> This is for the benefit of the --help output. For consistency
-> with the rest of the rST documentation, strip any trailing ':'
-> when we construct headings with the Sphinx hxtool extension.
-> This makes the table of contents look neater.
->
-> This only affects generation of documentation from qemu-options.hx,
-> which we will start doing in a later commit.
+> Currently the per-target documentation for those targets that
+> implement semihosting includes a bit of text that goes into both the
+> manual and the manpage about options specific to the target.  This
+> text is redundant with the earlier generic option description of the
+> semihosting option produced from qemu-options.hx. To avoid having
+> to create a lot of stub include files to include into the rST
+> generated qemu.1 manpage, roll target-specific bits of information
+> into the qemu-options.hx text, so the user doesn't have to look
+> in two places for this information.
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  docs/sphinx/hxtool.py | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+> Yes, it would in theory make sense to do this before generating
+> the rst from the texi docs, but I didn't realize this was a
+> good idea until well after Paolo had done that part.
+> ---
+>  docs/system/target-arm.rst     | 10 ----------
+>  docs/system/target-arm.texi    | 18 ------------------
+>  docs/system/target-m68k.rst    | 11 -----------
+>  docs/system/target-m68k.texi   | 19 -------------------
+>  docs/system/target-xtensa.rst  | 12 ------------
+>  docs/system/target-xtensa.texi | 20 --------------------
+>  qemu-options.hx                | 18 ++++++++++++++++++
+>  7 files changed, 18 insertions(+), 90 deletions(-)
 >
-> diff --git a/docs/sphinx/hxtool.py b/docs/sphinx/hxtool.py
-> index 5d6736f3002..7dd223fe362 100644
-> --- a/docs/sphinx/hxtool.py
-> +++ b/docs/sphinx/hxtool.py
-> @@ -60,8 +60,9 @@ def parse_defheading(file, lnum, line):
->      # empty we ignore the directive -- these are used only to add
->      # blank lines in the plain-text content of the --help output.
->      #
-> -    # Return the heading text
-> -    match =3D re.match(r'DEFHEADING\((.*)\)', line)
-> +    # Return the heading text. We strip out any trailing ':' for
-> +    # consistency with other headings in the rST documentation.
-> +    match =3D re.match(r'DEFHEADING\((.*?):?\)', line)
->      if match is None:
->          serror(file, lnum, "Invalid DEFHEADING line")
->      return match.group(1)
-> @@ -72,8 +73,9 @@ def parse_archheading(file, lnum, line):
->      # though note that the 'some string' could be the empty string.
->      # As with DEFHEADING, empty string ARCHHEADINGs will be ignored.
->      #
-> -    # Return the heading text
-> -    match =3D re.match(r'ARCHHEADING\((.*),.*\)', line)
-> +    # Return the heading text. We strip out any trailing ':' for
-> +    # consistency with other headings in the rST documentation.
-> +    match =3D re.match(r'ARCHHEADING\((.*?):?,.*\)', line)
->      if match is None:
->          serror(file, lnum, "Invalid ARCHHEADING line")
->      return match.group(1)
+> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+> index 0490be55871..d2a3b44ce88 100644
+> --- a/docs/system/target-arm.rst
+> +++ b/docs/system/target-arm.rst
+> @@ -215,13 +215,3 @@ emulation includes the following elements:
+>=20=20
+>  A Linux 2.6 test image is available on the QEMU web site. More
+>  information is available in the QEMU mailing-list archive.
+> -
+> -The following options are specific to the ARM emulation:
+> -
+> -``-semihosting``
+> -   Enable semihosting syscall emulation.
+> -
+> -   On ARM this implements the \"Angel\" interface.
+> -
+> -   Note that this allows guest direct access to the host filesystem, so
+> -   should only be used with trusted guest OS.
+> diff --git a/docs/system/target-arm.texi b/docs/system/target-arm.texi
+> index c56b5f6ebfe..eb80dd35f0b 100644
+> --- a/docs/system/target-arm.texi
+> +++ b/docs/system/target-arm.texi
+> @@ -243,21 +243,3 @@ Three on-chip UARTs
+>  A Linux 2.6 test image is available on the QEMU web site. More
+>  information is available in the QEMU mailing-list archive.
+>=20=20
+> -@c man begin OPTIONS
+> -
+> -The following options are specific to the ARM emulation:
+> -
+> -@table @option
+> -
+> -@item -semihosting
+> -Enable semihosting syscall emulation.
+> -
+> -On ARM this implements the "Angel" interface.
+> -
+> -Note that this allows guest direct access to the host filesystem,
+> -so should only be used with trusted guest OS.
+> -
+> -@end table
+> -
+> -@c man end
+> -
+> diff --git a/docs/system/target-m68k.rst b/docs/system/target-m68k.rst
+> index 50b7dd9d639..d28d3b92e5e 100644
+> --- a/docs/system/target-m68k.rst
+> +++ b/docs/system/target-m68k.rst
+> @@ -19,14 +19,3 @@ The AN5206 emulation includes the following devices:
+>  -  MCF5206 ColdFire V2 Microprocessor.
+>=20=20
+>  -  Two on-chip UARTs.
+> -
+> -The following options are specific to the ColdFire emulation:
+> -
+> -``-semihosting``
+> -   Enable semihosting syscall emulation.
+> -
+> -   On M68K this implements the \"ColdFire GDB\" interface used by
+> -   libgloss.
+> -
+> -   Note that this allows guest direct access to the host filesystem, so
+> -   should only be used with trusted guest OS.
+> diff --git a/docs/system/target-m68k.texi b/docs/system/target-m68k.texi
+> index a77b19ea0f1..dcce7bc8c56 100644
+> --- a/docs/system/target-m68k.texi
+> +++ b/docs/system/target-m68k.texi
+> @@ -23,22 +23,3 @@ MCF5206 ColdFire V2 Microprocessor.
+>  @item
+>  Two on-chip UARTs.
+>  @end itemize
+> -
+> -@c man begin OPTIONS
+> -
+> -The following options are specific to the ColdFire emulation:
+> -
+> -@table @option
+> -
+> -@item -semihosting
+> -Enable semihosting syscall emulation.
+> -
+> -On M68K this implements the "ColdFire GDB" interface used by libgloss.
+> -
+> -Note that this allows guest direct access to the host filesystem,
+> -so should only be used with trusted guest OS.
+> -
+> -@end table
+> -
+> -@c man end
+> -
+> diff --git a/docs/system/target-xtensa.rst b/docs/system/target-xtensa.rst
+> index 43cab8dc4da..8d703ad769e 100644
+> --- a/docs/system/target-xtensa.rst
+> +++ b/docs/system/target-xtensa.rst
+> @@ -25,15 +25,3 @@ The Avnet LX60/LX110/LX200 emulation supports:
+>  -  16550 UART
+>=20=20
+>  -  OpenCores 10/100 Mbps Ethernet MAC
+> -
+> -The following options are specific to the Xtensa emulation:
+> -
+> -``-semihosting``
+> -   Enable semihosting syscall emulation.
+> -
+> -   Xtensa semihosting provides basic file IO calls, such as
+> -   open/read/write/seek/select. Tensilica baremetal libc for ISS and
+> -   linux platform \"sim\" use this interface.
+> -
+> -   Note that this allows guest direct access to the host filesystem, so
+> -   should only be used with trusted guest OS.
+> diff --git a/docs/system/target-xtensa.texi b/docs/system/target-xtensa.t=
+exi
+> index 40327de6fa7..1e6c04dccd6 100644
+> --- a/docs/system/target-xtensa.texi
+> +++ b/docs/system/target-xtensa.texi
+> @@ -33,23 +33,3 @@ A range of Xtensa CPUs, default is the DC232B
+>  @item
+>  OpenCores 10/100 Mbps Ethernet MAC
+>  @end itemize
+> -
+> -@c man begin OPTIONS
+> -
+> -The following options are specific to the Xtensa emulation:
+> -
+> -@table @option
+> -
+> -@item -semihosting
+> -Enable semihosting syscall emulation.
+> -
+> -Xtensa semihosting provides basic file IO calls, such as open/read/write=
+/seek/select.
+> -Tensilica baremetal libc for ISS and linux platform "sim" use this inter=
+face.
+> -
+> -Note that this allows guest direct access to the host filesystem,
+> -so should only be used with trusted guest OS.
+> -
+> -@end table
+> -
+> -@c man end
+> -
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 5fbfa2797cb..4bc8048f60b 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4116,6 +4116,12 @@ STEXI
+>  @item -semihosting
+>  @findex -semihosting
+>  Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II only).
+> +
+> +Note that this allows guest direct access to the host filesystem, so
+> +should only be used with a trusted guest OS.
+> +
+> +See the -semihosting-config option documentation for further information
+> +about the facilities this enables.
+>  ETEXI
+>  DEF("semihosting-config", HAS_ARG, QEMU_OPTION_semihosting_config,
+>      "-semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,c=
+hardev=3Did][,arg=3Dstr[,...]]\n" \
+> @@ -4126,6 +4132,18 @@ STEXI
+>  @item -semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,=
+chardev=3Did][,arg=3Dstr[,...]]
+>  @findex -semihosting-config
+>  Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II only).
+> +
+> +Note that this allows guest direct access to the host filesystem, so
+> +should only be used with a trusted guest OS.
+> +
+> +On Arm this implements the standard semihosting API, version 2.0.
+> +
+> +On M68K this implements the "ColdFire GDB" interface used by libgloss.
+> +
+> +Xtensa semihosting provides basic file IO calls, such as
+> +open/read/write/seek/select. Tensilica baremetal libc for ISS and
+> +linux platform "sim" use this interface.
+> +
+>  @table @option
+>  @item target=3D@code{native|gdb|auto}
+>  Defines where the semihosting calls will be addressed, to QEMU (@code{na=
+tive})
 
 
 --=20
