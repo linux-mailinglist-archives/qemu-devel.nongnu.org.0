@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDFE175933
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 12:08:44 +0100 (CET)
-Received: from localhost ([::1]:58714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C60175940
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 12:11:21 +0100 (CET)
+Received: from localhost ([::1]:58748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8iwF-0003bD-Cv
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 06:08:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59449)
+	id 1j8iym-0004vL-6P
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 06:11:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j8iv7-0002jw-BL
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:34 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j8ivD-0002pv-Vm
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j8iv6-0007Oo-6Y
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:33 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42281)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j8iv6-0007O0-0J
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:32 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z11so3264928wro.9
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 03:07:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=srJ9yulfLeWETl9XADoKD3jE0xA5oIgcohUzS0AGF3Q=;
- b=Pm3sL26jwZvQHcsWYewn0WJ8R4LnVYbJPfIKbu1HHcXWUkpymqjb0o2oEATcp0MLcS
- pEpmDxfsUsoaP9inW//fdHgzuoSh80Vw5xQ/a3d9OpS8HW7GZ/EYuHUuyM9Nu1YFIUUg
- KLPu9P3ePyBOtCrdmmogeo89Wg4cGEiglU8K6p0k9ICer0uJMt2qnAIPpecbdaESTUrl
- dK9BJKxe+7ZB3Hf0gZShzGZlBvDK3sPrMTggw2efwceibfbhGD+pJMt+vT+nZVOTQHif
- OXdYgGmRbhHdrrlorwf+k/Q6sXE8/T1WyqcEJunZ0dKzgLrGg7f6hEbRXQ1MkhdxvLZQ
- +OOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=srJ9yulfLeWETl9XADoKD3jE0xA5oIgcohUzS0AGF3Q=;
- b=ffrg7DRu4zxyObwXbglzu+L3McFePJ16Jb6MrxtZ4kXJUrHA2z+zJGz46Xw8t/v0Hy
- 2RIcS0wGF6+bJCNjPA41oslOXTuCo6IO2zPSrvZx7upndONtb7Ss2ZV3TDrAsppxBb9g
- puc+PWFjtamQEHuCYCCXI36NomnOOWGXGnBlBXvz3li06M36AgBKOCoV031XaPkzuMdP
- HnYetMyapbko4hq8cZg8AH06x8k/3EQnBxFTDfJGXAmISzC8Yukmrb9BjNox1aYQptmY
- 3n5orRHLa8InQqRq5wxIi8o9m9joAa2a6BKgj516pjV5pTpRJuoRxAsONh69gcWPvYqf
- c57Q==
-X-Gm-Message-State: ANhLgQ3gXM2c5PlLGuZ28F80m6j+BXqg2Qj0FR5F4VOqu3ZJFW/9juRr
- 4lwJqPqoTsDNZQOl58O0/Fezwg==
-X-Google-Smtp-Source: ADFU+vuBAPeXR4mJJoUrFhNVtUrC5a/dzVr14cl6K4BupfK4aO6jSqCpcUQVe+KPOfrKd+b7e9gzEA==
-X-Received: by 2002:a5d:5012:: with SMTP id e18mr11925579wrt.419.1583147250969; 
- Mon, 02 Mar 2020 03:07:30 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n3sm15320717wmc.42.2020.03.02.03.07.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 03:07:29 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C8F451FF87;
- Mon,  2 Mar 2020 11:07:28 +0000 (GMT)
-References: <20200228153619.9906-1-peter.maydell@linaro.org>
- <20200228153619.9906-4-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.9; emacs 27.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 03/33] texi2pod: parse @include directives outside
- "@c man" blocks
-In-reply-to: <20200228153619.9906-4-peter.maydell@linaro.org>
-Date: Mon, 02 Mar 2020 11:07:28 +0000
-Message-ID: <8736arc8wf.fsf@linaro.org>
+ (envelope-from <luc.michel@greensocs.com>) id 1j8ivC-0007Ve-UN
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 06:07:39 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:56684)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1j8ivA-0007SP-HW; Mon, 02 Mar 2020 06:07:36 -0500
+Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id DEC6696F50;
+ Mon,  2 Mar 2020 11:07:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1583147255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oai3azEZgJsnk7o+8mf+4odbrmPXY11iaLL7A5dyM7Q=;
+ b=mJJfcD3GDs/L6o//AxrPFHiGi/LtQ0aT+UA6ejpmZTBEqPpTy44sDGimLiDhxYos5QOz/s
+ T4fRXssiycNXXopZrhQyC/xbIxIeoGn4asF7kpYTeCeRN+KYFJDZRZCeECRPN9OIkH9TE3
+ KyZlEbcgYohApRFDyQGNYf71iGsSD5s=
+Subject: Re: [PATCH v1 2/2] hw/arm: versal: Generate xlnx-versal-virt zdma FDT
+ nodes
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200227154424.6849-1-edgar.iglesias@gmail.com>
+ <20200227154424.6849-3-edgar.iglesias@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <d8957ece-4618-92ae-460f-9ee85161f76f@greensocs.com>
+Date: Mon, 2 Mar 2020 12:07:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200227154424.6849-3-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1583147255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oai3azEZgJsnk7o+8mf+4odbrmPXY11iaLL7A5dyM7Q=;
+ b=puF7zZphEs+bBjW7Y6awqF+HmNIfabZv/4cHtnmDQWcX7HvMsjF3OYsRVS10j6fzM6oAlI
+ Rc2XnLbIEMIS4JPeZRZKZ7tzshglj/OinWEP3bc6bH8HwT5pGEOH3VrmTYM/cptJulKm19
+ joAzYy3YxmsCtGkiHFoANmFEQr2KD2k=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1583147255; a=rsa-sha256; cv=none;
+ b=cTJnx3F0av7cWp0ztYRS+SyyHZNhFeoztEcOVMglRB7O37dNU8kSA2RIST3RMvsbYqJ7gj
+ VV6vyhnmgVxq1HjMiwUgI5KwPJZgBIuKp4/HGdUwAxlCiykpvYGR/VrD3AehNqHzSmKwp0
+ mboK09Dehfez4HO4o5mHCOSggO40T2k=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,88 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/27/20 4:44 PM, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Generate xlnx-versal-virt zdma FDT nodes.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> From: Paolo Bonzini <pbonzini@redhat.com>
->
-> This enables splitting the huge qemu-doc.texi file and keeping parallel
-> Texinfo and rST versions of the documentation.  texi2pod is not going to
-> live much longer and hardly anyone cares about its upstream status,
-> so the temporary fork should be acceptable.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Message-id: 20200226113034.6741-4-pbonzini@redhat.com
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->  scripts/texi2pod.pl | 36 ++++++++++++++++++------------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
->
-> diff --git a/scripts/texi2pod.pl b/scripts/texi2pod.pl
-> index 839b7917cf7..8bfc6f6f4c4 100755
-> --- a/scripts/texi2pod.pl
-> +++ b/scripts/texi2pod.pl
-> @@ -143,6 +143,24 @@ while(<$inf>) {
->  	next;
->      };
->=20=20
-> +    # Single line command handlers.
-> +
-> +    /^\@include\s+(.+)$/ and do {
-> +	push @instack, $inf;
-> +	$inf =3D gensym();
-> +	$file =3D postprocess($1);
-> +
-> +	# Try cwd and $ibase, then explicit -I paths.
-> +	$done =3D 0;
-> +	foreach $path ("", $ibase, @ipath) {
-> +	    $mypath =3D $file;
-> +	    $mypath =3D $path . "/" . $mypath if ($path ne "");
-> +	    open($inf, "<" . $mypath) and ($done =3D 1, last);
-> +	}
-> +	die "cannot find $file" if !$done;
-> +	next;
-> +    };
-> +
->      next unless $output;
->=20=20
->      # Discard comments.  (Can't do it above, because then we'd never see
-> @@ -242,24 +260,6 @@ while(<$inf>) {
->  	s/>/&GT;/g;
+>  hw/arm/xlnx-versal-virt.c | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+> index e7f4ca8bf9..878a275140 100644
+> --- a/hw/arm/xlnx-versal-virt.c
+> +++ b/hw/arm/xlnx-versal-virt.c
+> @@ -229,6 +229,33 @@ static void fdt_add_gem_nodes(VersalVirt *s)
 >      }
->=20=20
-> -    # Single line command handlers.
-> -
-> -    /^\@include\s+(.+)$/ and do {
-> -	push @instack, $inf;
-> -	$inf =3D gensym();
-> -	$file =3D postprocess($1);
-> -
-> -	# Try cwd and $ibase, then explicit -I paths.
-> -	$done =3D 0;
-> -	foreach $path ("", $ibase, @ipath) {
-> -	    $mypath =3D $file;
-> -	    $mypath =3D $path . "/" . $mypath if ($path ne "");
-> -	    open($inf, "<" . $mypath) and ($done =3D 1, last);
-> -	}
-> -	die "cannot find $file" if !$done;
-> -	next;
-> -    };
-> -
->      /^\@(?:section|unnumbered|unnumberedsec|center)\s+(.+)$/
->  	and $_ =3D "\n=3Dhead2 $1\n";
->      /^\@subsection\s+(.+)$/
-
-
---=20
-Alex Benn=C3=A9e
+>  }
+>  
+> +static void fdt_add_zdma_nodes(VersalVirt *s)
+> +{
+> +    const char clocknames[] = "clk_main\0clk_apb";
+> +    const char compat[] = "xlnx,zynqmp-dma-1.0";
+> +    int i;
+> +
+> +    for (i = XLNX_VERSAL_NR_ADMAS - 1; i >= 0; i--) {
+> +        uint64_t addr = MM_ADMA_CH0 + MM_ADMA_CH0_SIZE * i;
+> +        char *name = g_strdup_printf("/dma@%" PRIx64, addr);
+> +
+> +        qemu_fdt_add_subnode(s->fdt, name);
+> +
+> +        qemu_fdt_setprop_cell(s->fdt, name, "xlnx,bus-width", 64);
+> +        qemu_fdt_setprop_cells(s->fdt, name, "clocks",
+> +                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
+> +        qemu_fdt_setprop(s->fdt, name, "clock-names",
+> +                         clocknames, sizeof(clocknames));
+> +        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
+> +                               GIC_FDT_IRQ_TYPE_SPI, VERSAL_ADMA_IRQ_0 + i,
+> +                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+> +        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
+> +                                     2, addr, 2, 0x1000);
+> +        qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
+> +        g_free(name);
+> +    }
+> +}
+> +
+>  static void fdt_nop_memory_nodes(void *fdt, Error **errp)
+>  {
+>      Error *err = NULL;
+> @@ -427,6 +454,7 @@ static void versal_virt_init(MachineState *machine)
+>      fdt_add_uart_nodes(s);
+>      fdt_add_gic_nodes(s);
+>      fdt_add_timer_nodes(s);
+> +    fdt_add_zdma_nodes(s);
+>      fdt_add_cpu_nodes(s, psci_conduit);
+>      fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
+>      fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
+> 
 
