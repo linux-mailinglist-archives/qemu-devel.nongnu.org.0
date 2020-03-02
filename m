@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C299175AB8
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 13:41:54 +0100 (CET)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CA9175ABA
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 13:42:43 +0100 (CET)
+Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8kOP-00029t-NF
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 07:41:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45160)
+	id 1j8kPC-00032J-TN
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 07:42:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kchamart@redhat.com>) id 1j8kNR-0001dV-3G
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:40:54 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8kO5-0002JF-JE
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:41:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1j8kNP-0003OL-PF
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:40:52 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48671
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1j8kNP-0003Nw-Kk
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:40:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583152850;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUsoMonTprETmrs8Z1eSIRtccI37lLV5R8rutzxcF/I=;
- b=bxrWl/F5MUJE8ZmvaeJSECKrPiYqApmquaRkZmr/uTjt70KMY18IqhwuDHMXnGjwAWRm+j
- wpsnTfcQLMqY6mQ+VFex9SBvgh3ul60KTmmF/VdKArHz+N7k4QSwOAak3wohHfDDHxAzeg
- GLUncSKY1vKCBC2+NlLG52ikTKoesyM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-zZ8E7ElEMoeXzxwaFj1Bgw-1; Mon, 02 Mar 2020 07:40:47 -0500
-X-MC-Unique: zZ8E7ElEMoeXzxwaFj1Bgw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3181C13E5;
- Mon,  2 Mar 2020 12:40:46 +0000 (UTC)
-Received: from paraplu.localdomain (unknown [10.36.118.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1EF25DA2C;
- Mon,  2 Mar 2020 12:40:45 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id 2466D3E0489; Mon,  2 Mar 2020 13:40:44 +0100 (CET)
-Date: Mon, 2 Mar 2020 13:40:44 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 14/33] docs: Create defs.rst.inc as a place to define
- substitutions
-Message-ID: <20200302124044.GV24572@paraplu>
+ (envelope-from <alex.bennee@linaro.org>) id 1j8kO4-0003eA-J7
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:41:33 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52424)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j8kO4-0003di-C4
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 07:41:32 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p9so11019282wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 04:41:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Y18CsOOMaOHPkI+ohzeYI9YcP17yQSLbt1d7wtpVxFI=;
+ b=W7AqDkqFntcG1GW4NW/Mc4p7NsR/M1rn7kVhsGou2SxD/3rpZKtCCD2bHfdH5wxe12
+ 2jKoK+AMSbSGOXt0GCt0VnHuAnAxjDwV0Z7UUc/HDGQjJjk/8JJq2jgzfkSO8tgXrsaB
+ +rMfv55zXBKSHyCzF8OBKDAg/jAm/3NV5Q4MRPuv37HhuPfjQuMCcsqKC9MUVCqwiKM/
+ 43wy5kERmBhc0il0JAN0fFg9Hgz9DDoH8462tRhwvfIdPmAAEXB4LXzKdcz4CS+b13Aa
+ lo2TsQquPC6FxqXkXwU91ht1lkoUHYHbmH/81QYY0jCDtdC7zj5ejpavhgZOvA5irm71
+ JI5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Y18CsOOMaOHPkI+ohzeYI9YcP17yQSLbt1d7wtpVxFI=;
+ b=eqcGOJBw67qTJ+MaqD29p72WSI9ZwShCxymVEYJk1x2Zg+jvTDKkYEWB9uCrfVy45T
+ M/ZdqX4YlNx2OF3JxGmhLd003tNCK2VFlDjkgkx7jO6GQYCp6UF8Qv6sw/ym9t57R0jU
+ ltKwP6s7oyQQJhILWmmGXMIRJ0gAuo2EvSVbUItoKkhLmJ9HnWmtZopJi4znk4AeFS7p
+ D/GMMqYkvdXbb0ESeTsZsNlxnlJeilz71bbJwzrQJIk5IHOFMIX0unAJjXHiqtNs7hik
+ aBJSTN05aAPdPZk0wClO9mK/UPegEWdOr+omjafK8Q6GXwbVjEP0ieVdghg5MDiK3z7E
+ iHEg==
+X-Gm-Message-State: APjAAAU+aG1FhClMRcTJkyPWTNWbVQCw4VqBOcxvgAXS5zWND5p8+K8v
+ 8DRpRumoyx6Svhd99QEzUxDX6w==
+X-Google-Smtp-Source: APXvYqzIJPk9zNZSOsAESNsMaOGY1gHLOWjw95NJ8gFUVsoGV2lPrStTeLpWTg+Y8+1LCbj4lLR38Q==
+X-Received: by 2002:a1c:a706:: with SMTP id q6mr18662517wme.23.1583152891004; 
+ Mon, 02 Mar 2020 04:41:31 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z14sm28035542wru.31.2020.03.02.04.41.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 04:41:29 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 122761FF87;
+ Mon,  2 Mar 2020 12:41:29 +0000 (GMT)
 References: <20200228153619.9906-1-peter.maydell@linaro.org>
- <20200228153619.9906-15-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 00/33] Convert qemu-doc to rST
+In-reply-to: <20200228153619.9906-1-peter.maydell@linaro.org>
+Date: Mon, 02 Mar 2020 12:41:29 +0000
+Message-ID: <87o8tf7wue.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200228153619.9906-15-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,111 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 28, 2020 at 03:36:00PM +0000, Peter Maydell wrote:
-> Rather than accumulating generally useful rST substitution
-> definitions in individual rST files, create a defs.rst.inc where we
-> can define these.  To start with it has the |qemu_system| definition
-> from qemu-block-drivers.rst.
->=20
-> Add a comment noting a pitfall where putting literal markup in the
-> definition of |qemu_system| makes it misrender manpage output; this
-> means the point-of-use must handle the literal markup (which is
-> almost always done by having it inside a parsed-literal block).
->=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> ---
->  Makefile                           |  1 +
->  docs/conf.py                       |  6 ++++++
->  docs/defs.rst.inc                  | 11 +++++++++++
->  docs/system/qemu-block-drivers.rst |  2 --
->  4 files changed, 18 insertions(+), 2 deletions(-)
->  create mode 100644 docs/defs.rst.inc
->=20
-> diff --git a/Makefile b/Makefile
-> index 7e60a435426..26bbd334438 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1052,6 +1052,7 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
->  build-manual =3D $(call quiet-command,CONFDIR=3D"$(qemu_confdir)" $(SPHI=
-NX_BUILD) $(if $(V),,-q) -W -b $2 -D version=3D$(VERSION) -D release=3D"$(F=
-ULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 =
-,"SPHINX","$(MANUAL_BUILDDIR)/$1")
->  # We assume all RST files in the manual's directory are used in it
->  manual-deps =3D $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
-> +              $(SRC_PATH)/docs/defs.rst.inc \
->                $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
->  # Macro to write out the rule and dependencies for building manpages
->  # Usage: $(call define-manpage-rule,manualname,manpage1 manpage2...[,ext=
-radeps])
-> diff --git a/docs/conf.py b/docs/conf.py
-> index 7588bf192ee..960043cb860 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -132,6 +132,12 @@ suppress_warnings =3D ["ref.option"]
->  # style document building; our Makefile always sets the variable.
->  confdir =3D os.getenv('CONFDIR', "/etc/qemu")
->  rst_epilog =3D ".. |CONFDIR| replace:: ``" + confdir + "``\n"
-> +# We slurp in the defs.rst.inc and literally include it into rst_epilog,
-> +# because Sphinx's include:: directive doesn't work with absolute paths
-> +# and there isn't any one single relative path that will work for all
-> +# documents and for both via-make and direct sphinx-build invocation.
-> +with open(os.path.join(qemu_docdir, 'defs.rst.inc')) as f:
+> Hi; this series does a complete conversion of qemu-doc from
+> Texinfo to rST, including the hxtool-generated parts and
+> creation of the qemu.1 manpage from rST.
+>
+> It's marked v3 because it's a development of the v2 that
+> Paolo sent out earlier this week.
+<snip>
 
-I didn't know about the above quirk; thanks for the explanatory comment.
+I should mention the whole thing is:
 
-> +    rst_epilog +=3D f.read()
-> =20
->  # -- Options for HTML output -------------------------------------------=
----
-> =20
-> diff --git a/docs/defs.rst.inc b/docs/defs.rst.inc
-> new file mode 100644
-> index 00000000000..ae80d2f35d8
-> --- /dev/null
-> +++ b/docs/defs.rst.inc
-> @@ -0,0 +1,11 @@
-> +..
-> +   Generally useful rST substitution definitions. This is included for
-> +   all rST files as part of the epilogue by docs/conf.py.  conf.py
-> +   also defines some dynamically generated substitutions like CONFDIR.
-> +
-> +   Note that |qemu_system| is intended to be used inside a parsed-litera=
-l
-> +   block: the definition must not include extra literal formatting with
-> +   ``..``: this works in the HTML output but the manpages will end up
-> +   misrendered with following normal text incorrectly in boldface.
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Thanks for documenting the above bit here.  (I learnt about it from you
-on IRC.)
+by virtue of my custom rtd branch:
 
-> +.. |qemu_system| replace:: qemu-system-x86_64
-> diff --git a/docs/system/qemu-block-drivers.rst b/docs/system/qemu-block-=
-drivers.rst
-> index 7ca890ea23a..bd99d4fa8eb 100644
-> --- a/docs/system/qemu-block-drivers.rst
-> +++ b/docs/system/qemu-block-drivers.rst
-> @@ -3,8 +3,6 @@
->  QEMU block drivers reference
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> =20
-> -.. |qemu_system| replace:: qemu-system-x86_64
-> -
->  Synopsis
->  --------
-> =20
-> --=20
-> 2.20.1
->=20
+  https://qemu-stsquad.readthedocs.io/en/doc-updates/index.html
 
 --=20
-/kashyap
-
+Alex Benn=C3=A9e
 
