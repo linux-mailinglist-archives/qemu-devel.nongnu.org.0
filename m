@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4D5176259
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 19:20:50 +0100 (CET)
-Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C235E176263
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 19:21:39 +0100 (CET)
+Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8pgO-0003ym-J9
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 13:20:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43450)
+	id 1j8phC-0005j1-QF
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 13:21:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <t.glaser@tarent.de>) id 1j8pen-0002O1-LH
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:11 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8pfD-0002XH-Jf
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <t.glaser@tarent.de>) id 1j8pel-000143-Eq
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:09 -0500
-Received: from lixid.tarent.de ([193.107.123.118]:59085 helo=mail.lixid.net)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <t.glaser@tarent.de>) id 1j8pel-00010T-4Y
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:07 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.lixid.net (MTA) with ESMTP id 7E286140B6F;
- Mon,  2 Mar 2020 19:19:05 +0100 (CET)
-Received: from mail.lixid.net ([127.0.0.1])
- by localhost (mail.lixid.net [127.0.0.1]) (MFA, port 10024) with LMTP
- id QE_jVf6-EtOL; Mon,  2 Mar 2020 19:19:05 +0100 (CET)
-Received: from tglase.lan.tarent.de (tglase.lan.tarent.de [172.26.3.108])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.lixid.net (MTA) with ESMTPS id 5DCE7140355;
- Mon,  2 Mar 2020 19:19:05 +0100 (CET)
-Received: by tglase.lan.tarent.de (Postfix, from userid 2339)
- id 08123220F11; Mon,  2 Mar 2020 19:19:04 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by tglase.lan.tarent.de (Postfix) with ESMTP id E4994220F0A;
- Mon,  2 Mar 2020 19:19:04 +0100 (CET)
-Date: Mon, 2 Mar 2020 19:19:04 +0100 (CET)
-From: Thorsten Glaser <t.glaser@tarent.de>
-X-X-Sender: tglase@tglase.lan.tarent.de
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: qemu-system-x86_64: warning: Unknown X11 keycode mapping '<null>'.
-In-Reply-To: <20200302130353.GL1679990@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2003021901160.14371@tglase.lan.tarent.de>
-References: <alpine.DEB.2.22.394.2003020002570.23029@tglase.lan.tarent.de>
- <20200302102841.GD1679990@redhat.com>
- <alpine.DEB.2.22.394.2003021336010.14371@tglase.lan.tarent.de>
- <20200302130353.GL1679990@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
-Content-Language: de-DE-1901
+ (envelope-from <alex.bennee@linaro.org>) id 1j8pfC-0001DT-72
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:35 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33213)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j8pfC-0001AO-0e
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 13:19:34 -0500
+Received: by mail-wr1-x430.google.com with SMTP id x7so1033989wrr.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 10:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=65Txf0NtQrDZ1B5f2IUJMSN/X+Wm8MrtnU1Cud0aVmk=;
+ b=baZCwyYNXJIeoYtkK32eojnZSHp4XgJQOynBD3iQtaDYbCHODKRErsNnmqKvf6RhLP
+ QzuLIIFVXaSyUuymiBhPY6Hot6SeS62ofHsPls+4wsKbw5KDDd1+tWCsmIZcjD9ebtRp
+ 9ME5k23ZGh3lIgIqxTXJGXK6BejELYz5aTNttg3Ro37JFQlXMzeZUnCJ33QjqSp0BkQV
+ q+qDWLSv/ZgyVAKY4I2EOiJXzA+ZottULg21XOdN7NxVQPF52Y240ppRSnRFXeMwY4Ok
+ 4Ee+niwWZjMJci8mXoLF1QA7v4TIhNY5qUPxB7VE2Gcr+zqFxJ99q5MNYkS68wFcHVIP
+ t6dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=65Txf0NtQrDZ1B5f2IUJMSN/X+Wm8MrtnU1Cud0aVmk=;
+ b=pqBFuXVJAlYk1kNK7FDCLeMf/11C4tp7xMxgYl53BbZeIkrvBsGVFiZhjGEunRc1GB
+ tXPdzhwvbKIUJoVMtpfofAH46nI8Q8dSV9b5QQ42Jv9OUui5MoLhnxJDBnJ7gloCjU9+
+ 1Gf1aNOiwajyRJH98HMyRwoXkomVUP6H9mYFdueFMjPH5OjHeK3VaV6AD7cBxeFTcCXL
+ dToq8XSqFNm4CD+W2jMckQgT5uQfGLcyep9As22lQHvuvuQ4ai3TydYGWfl2bVv6Ew7s
+ Cf/Artfc/0O6Li9Yo6niibXvjBqM2tVAUjG8oARkh9+ck+BFA+ipQszQvq2hbXn+/Eyb
+ m0EA==
+X-Gm-Message-State: ANhLgQ0DoQonipzE3pTNx9oYHWMbuTkZ35Cc85FTjgOFgXQ8G/fJk9XN
+ ZDr85bwQVCWEGJf42LZH9ZVL+w==
+X-Google-Smtp-Source: ADFU+vuhoDGK1suJ6QlvTy4INR1I1A4/Wz0dc4CMncspG5pIC70ePwnJA2c3t0FR+Ji+yJ65B8zNlw==
+X-Received: by 2002:adf:cc85:: with SMTP id p5mr801024wrj.196.1583173156868;
+ Mon, 02 Mar 2020 10:19:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z16sm28676472wrp.33.2020.03.02.10.19.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 10:19:13 -0800 (PST)
+Received: from zen.home.arpa (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3C9081FF98;
+ Mon,  2 Mar 2020 18:19:08 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 08/10] configure: detect and report genisoimage
+Date: Mon,  2 Mar 2020 18:19:05 +0000
+Message-Id: <20200302181907.32110-9-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200302181907.32110-1-alex.bennee@linaro.org>
+References: <20200302181907.32110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 193.107.123.118
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,301 +81,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Mar 2020, Daniel P. Berrang=C3=A9 wrote:
+This is used for some of the vm-build tests so lets detect it and
+behave sanely when it is not installed.
 
-> There's two translations happening
->=20
->  * The scancode emitted by the kernel and/or hardware device,
->    and then translated/mangled by X11 and reported as the
->    hardware keycode
->=20
->  * The keysym which is the mapping from the hardware keycode
->    done by XKB and/or Xmodmap
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ configure                 | 13 +++++++++++++
+ tests/vm/Makefile.include | 14 +++++++++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
 
-Yes, sure.
+diff --git a/configure b/configure
+index caa65f58831..376ccb25623 100755
+--- a/configure
++++ b/configure
+@@ -936,6 +936,17 @@ do
+     fi
+ done
+ 
++# Check for ancillary tools used in testing
++genisoimage=
++for binary in genisoimage
++do
++    if has $binary
++    then
++        genisoimage=$(command -v "$binary")
++        break
++    fi
++done
++
+ : ${smbd=${SMBD-/usr/sbin/smbd}}
+ 
+ # Default objcc to clang if available, otherwise use CC
+@@ -6567,6 +6578,7 @@ echo "python            $python ($python_version)"
+ if test "$docs" != "no"; then
+     echo "sphinx-build      $sphinx_build"
+ fi
++echo "genisoimage       $genisoimage"
+ echo "slirp support     $slirp $(echo_version $slirp $slirp_version)"
+ if test "$slirp" != "no" ; then
+     echo "smbd              $smbd"
+@@ -7616,6 +7628,7 @@ echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
+ echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+ echo "SPHINX_BUILD=$sphinx_build" >> $config_host_mak
++echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
+ if $iasl -h > /dev/null 2>&1; then
+   echo "IASL=$iasl" >> $config_host_mak
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 778e5067554..1bf9693d195 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -2,7 +2,11 @@
+ 
+ .PHONY: vm-build-all vm-clean-all
+ 
+-IMAGES := ubuntu.i386 freebsd netbsd openbsd centos fedora
++IMAGES := freebsd netbsd openbsd centos fedora
++ifneq ($(GENISOIMAGE),)
++IMAGES += ubuntu.i386 centos
++endif
++
+ IMAGES_DIR := $(HOME)/.cache/qemu-vm/images
+ IMAGE_FILES := $(patsubst %, $(IMAGES_DIR)/%.img, $(IMAGES))
+ 
+@@ -12,12 +16,16 @@ IMAGE_FILES := $(patsubst %, $(IMAGES_DIR)/%.img, $(IMAGES))
+ vm-help vm-test:
+ 	@echo "vm-help: Test QEMU in preconfigured virtual machines"
+ 	@echo
+-	@echo "  vm-build-ubuntu.i386            - Build QEMU in ubuntu i386 VM"
+ 	@echo "  vm-build-freebsd                - Build QEMU in FreeBSD VM"
+ 	@echo "  vm-build-netbsd                 - Build QEMU in NetBSD VM"
+ 	@echo "  vm-build-openbsd                - Build QEMU in OpenBSD VM"
+-	@echo "  vm-build-centos                 - Build QEMU in CentOS VM, with Docker"
+ 	@echo "  vm-build-fedora                 - Build QEMU in Fedora VM"
++ifneq ($(GENISOIMAGE),)
++	@echo "  vm-build-centos                 - Build QEMU in CentOS VM, with Docker"
++	@echo "  vm-build-ubuntu.i386            - Build QEMU in ubuntu i386 VM"
++else
++	@echo "  (install genisoimage to build centos/ubuntu images)"
++endif
+ 	@echo ""
+ 	@echo "  vm-build-all                    - Build QEMU in all VMs"
+ 	@echo "  vm-clean-all                    - Clean up VM images"
+-- 
+2.20.1
 
-> We're dealing with the first point in QEMU, taking the hardware
-> keycode and trying to undo the X11 mangling that was performed.
-
-That=E2=80=99s where VNC often fails, generally, anyway=E2=80=A6 (asd often=
- get
-translated back as adf).
-
-> > But if I can do anything to help debugging this, sure.
->=20
-> Can you launch 'xev' inside your VNC session and press the 'Page Up'
-> button and let me know what it reports the keycode and keysym.
-
-Sure.
-
-> Specifically I'm interested in this line of text:
->=20
->     state 0x0, keycode 112 (keysym 0xff55, Prior), same_screen YES,
->=20
-> On evdev it reports 112 as hardware code which is 0x70 hex, while with
-> 'kbd' it reports 99 which is 0x63 hex. These are the only two scenarios
-> QEMU knows how to cope with.
-
-Then we=E2=80=99re somewhat out of luck:
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624181177, (244,533), root:(250,560),
-    state 0x0, keycode 71 (keysym 0xff55, Prior), same_screen YES,
-    XLookupString gives 0 bytes:
-    XmbLookupString gives 0 bytes:
-    XFilterEvent returns: False
-
-I=E2=80=99ve also done a,s,d:
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624183753, (244,533), root:(250,560),
-    state 0x0, keycode 38 (keysym 0x61, a), same_screen YES,
-    XLookupString gives 1 bytes: (61) "a"
-    XmbLookupString gives 1 bytes: (61) "a"
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624184249, (244,533), root:(250,560),
-    state 0x0, keycode 56 (keysym 0x73, s), same_screen YES,
-    XLookupString gives 1 bytes: (73) "s"
-    XmbLookupString gives 1 bytes: (73) "s"
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624184641, (244,533), root:(250,560),
-    state 0x0, keycode 41 (keysym 0x64, d), same_screen YES,
-    XLookupString gives 1 bytes: (64) "d"
-    XmbLookupString gives 1 bytes: (64) "d"
-    XFilterEvent returns: False
-
-I=E2=80=99ve tried looking at the sources for x11vnc-0.9.16 and tightvnc-1.=
-3.9
-but could not, within a quarter hour at least (got to go=E2=80=A6), find ou=
-t
-where those codes are mapped anyway other than a reference to
-XKeysymToKeycode (from libX11 probably).
-
-> For that matter, if you have time to help, it would be interesting to
-> see what it reports for a random selection of other keys too. For
-> example:
->=20
->   @
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624747092, (82,98), root:(88,125),
-    state 0x0, keycode 10 (keysym 0xffe1, Shift_L), same_screen YES,
-    XLookupString gives 0 bytes:
-    XmbLookupString gives 0 bytes:
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624747284, (82,98), root:(88,125),
-    state 0x1, keycode 19 (keysym 0x40, at), same_screen YES,
-    XLookupString gives 1 bytes: (40) "@"
-    XmbLookupString gives 1 bytes: (40) "@"
-    XFilterEvent returns: False
-
->   #
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624748276, (82,98), root:(88,125),
-    state 0x0, keycode 10 (keysym 0xffe1, Shift_L), same_screen YES,
-    XLookupString gives 0 bytes:
-    XmbLookupString gives 0 bytes:
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624748772, (82,98), root:(88,125),
-    state 0x1, keycode 20 (keysym 0x23, numbersign), same_screen YES,
-    XLookupString gives 1 bytes: (23) "#"
-    XmbLookupString gives 1 bytes: (23) "#"
-    XFilterEvent returns: False
-
->   $
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624749620, (82,98), root:(88,125),
-    state 0x0, keycode 10 (keysym 0xffe1, Shift_L), same_screen YES,
-    XLookupString gives 0 bytes:
-    XmbLookupString gives 0 bytes:
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624750028, (82,98), root:(88,125),
-    state 0x1, keycode 21 (keysym 0x24, dollar), same_screen YES,
-    XLookupString gives 1 bytes: (24) "$"
-    XmbLookupString gives 1 bytes: (24) "$"
-    XFilterEvent returns: False
-
->   `
-
-This one is tricky because on my host keyboard layout ` is on the
-Escape key while the key left to 1 has Esc (except when shifted,
-so ~ is Shift plus the key left from 1).
-
-This is the physical Escape key, giving `:
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624751028, (82,98), root:(88,125),
-    state 0x0, keycode 33 (keysym 0x60, grave), same_screen YES,
-    XLookupString gives 1 bytes: (60) "`"
-    XmbLookupString gives 1 bytes: (60) "`"
-    XFilterEvent returns: False
-
-This is the physical key left to the 1:
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624753908, (82,98), root:(88,125),
-    state 0x0, keycode 67 (keysym 0xff1b, Escape), same_screen YES,
-    XLookupString gives 1 bytes: (1b) "=1B"
-    XmbLookupString gives 1 bytes: (1b) "=1B"
-    XFilterEvent returns: False
-
-
-When I run =E2=80=9Csetxkbmap us=E2=80=9D on the host, I get the following =
-for
-the physical key left to the 1 (`):
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2625065838, (136,535), root:(142,562),
-    state 0x0, keycode 33 (keysym 0x60, grave), same_screen YES,
-    XLookupString gives 1 bytes: (60) "`"
-    XmbLookupString gives 1 bytes: (60) "`"
-    XFilterEvent returns: False
-
-This makes me assume that the VNC viewer+server combination
-translates back keysyms into keycodes, losing the original
-scancodes, only based on the keysyms they create in the
-host keyboard layout. Ouch!
-
-
->   -
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624780388, (101,155), root:(107,182),
-    state 0x0, keycode 27 (keysym 0x2d, minus), same_screen YES,
-    XLookupString gives 1 bytes: (2d) "-"
-    XmbLookupString gives 1 bytes: (2d) "-"
-    XFilterEvent returns: False
-
->   +
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624780652, (101,155), root:(107,182),
-    state 0x0, keycode 10 (keysym 0xffe1, Shift_L), same_screen YES,
-    XLookupString gives 0 bytes:
-    XmbLookupString gives 0 bytes:
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624781060, (101,155), root:(107,182),
-    state 0x1, keycode 28 (keysym 0x2b, plus), same_screen YES,
-    XLookupString gives 1 bytes: (2b) "+"
-    XmbLookupString gives 1 bytes: (2b) "+"
-    XFilterEvent returns: False
-
->   1
->   2
->   3
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624781516, (101,155), root:(107,182),
-    state 0x0, keycode 18 (keysym 0x31, 1), same_screen YES,
-    XLookupString gives 1 bytes: (31) "1"
-    XmbLookupString gives 1 bytes: (31) "1"
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624781764, (101,155), root:(107,182),
-    state 0x0, keycode 19 (keysym 0x32, 2), same_screen YES,
-    XLookupString gives 1 bytes: (32) "2"
-    XmbLookupString gives 1 bytes: (32) "2"
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624781988, (101,155), root:(107,182),
-    state 0x0, keycode 20 (keysym 0x33, 3), same_screen YES,
-    XLookupString gives 1 bytes: (33) "3"
-    XmbLookupString gives 1 bytes: (33) "3"
-    XFilterEvent returns: False
-
->   a
->   s
->   d
-
-see above
-
->   q
->   w
->   e
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624782620, (101,155), root:(107,182),
-    state 0x0, keycode 54 (keysym 0x71, q), same_screen YES,
-    XLookupString gives 1 bytes: (71) "q"
-    XmbLookupString gives 1 bytes: (71) "q"
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624782812, (101,155), root:(107,182),
-    state 0x0, keycode 60 (keysym 0x77, w), same_screen YES,
-    XLookupString gives 1 bytes: (77) "w"
-    XmbLookupString gives 1 bytes: (77) "w"
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624782996, (101,155), root:(107,182),
-    state 0x0, keycode 42 (keysym 0x65, e), same_screen YES,
-    XLookupString gives 1 bytes: (65) "e"
-    XmbLookupString gives 1 bytes: (65) "e"
-    XFilterEvent returns: False
-
->   ,
->   .
->   /
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624783972, (101,155), root:(107,182),
-    state 0x0, keycode 34 (keysym 0x2c, comma), same_screen YES,
-    XLookupString gives 1 bytes: (2c) ","
-    XmbLookupString gives 1 bytes: (2c) ","
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624784172, (101,155), root:(107,182),
-    state 0x0, keycode 35 (keysym 0x2e, period), same_screen YES,
-    XLookupString gives 1 bytes: (2e) "."
-    XmbLookupString gives 1 bytes: (2e) "."
-    XFilterEvent returns: False
-
-KeyPress event, serial 35, synthetic NO, window 0x1000001,
-    root 0x25, subw 0x0, time 2624784412, (101,155), root:(107,182),
-    state 0x0, keycode 36 (keysym 0x2f, slash), same_screen YES,
-    XLookupString gives 1 bytes: (2f) "/"
-    XmbLookupString gives 1 bytes: (2f) "/"
-    XFilterEvent returns: False
-
-Thanks,
-//mirabilos
---=20
-tarent solutions GmbH
-Rochusstra=C3=9Fe 2-4, D-53123 Bonn =E2=80=A2 http://www.tarent.de/
-Tel: +49 228 54881-393 =E2=80=A2 Fax: +49 228 54881-235
-HRB 5168 (AG Bonn) =E2=80=A2 USt-ID (VAT): DE122264941
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Stefan Barth, Kai Ebenrett, Boris Esser, Ale=
-xander Steeg
-
-**********
-
-Mit der tarent Academy bieten wir auch Trainings und Schulungen in den
-Bereichen Softwareentwicklung, Agiles Arbeiten und Zukunftstechnologien an.
-
-Besuchen Sie uns auf www.tarent.de/academy. Wir freuen uns auf Ihren Kontak=
-t.
-
-**********
 
