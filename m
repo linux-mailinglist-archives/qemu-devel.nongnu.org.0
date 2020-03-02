@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26910175B41
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:09:34 +0100 (CET)
-Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10827175B69
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:17:36 +0100 (CET)
+Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8kpB-00085Y-5d
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:09:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48766)
+	id 1j8kwx-000448-4b
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:17:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knl-0006GT-6H
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knl-0006Gv-Uf
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knj-0003ON-UT
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knk-0003Pa-QF
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:05 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:51758 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51768 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j8knj-0003Mj-IJ; Mon, 02 Mar 2020 08:08:03 -0500
+ id 1j8knj-0003Mq-K9; Mon, 02 Mar 2020 08:08:04 -0500
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 326837649F9E2992C69B;
+ by Forcepoint Email with ESMTP id 64C489648BA4CAF3AFE9;
  Mon,  2 Mar 2020 21:07:58 +0800 (CST)
 Received: from huawei.com (10.133.205.93) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 2 Mar 2020
  21:07:52 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v3 11/12] usb/hcd-ehci: Remove redundant statements
-Date: Mon, 2 Mar 2020 21:07:14 +0800
-Message-ID: <20200302130715.29440-13-kuhn.chenqun@huawei.com>
+Subject: [PATCH v3 12/12] monitor/hmp-cmds: Remove redundant statement in
+ hmp_rocker_of_dpa_groups()
+Date: Mon, 2 Mar 2020 21:07:15 +0800
+Message-ID: <20200302130715.29440-14-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
@@ -53,55 +54,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Gerd Hoffmann <kraxel@redhat.com>, Euler Robot <euler.robot@huawei.com>,
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Euler Robot <euler.robot@huawei.com>,
  Chen Qun <kuhn.chenqun@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "again" assignment is meaningless before g_assert_not_reached.
-In addition, the break statements no longer needs to be after
-g_assert_not_reached.
-
 Clang static code analyzer show warning:
-hw/usb/hcd-ehci.c:2108:13: warning: Value stored to 'again' is never read
-            again =3D -1;
-            ^       ~~
+monitor/hmp-cmds.c:2867:17: warning: Value stored to 'set' is never read
+                set =3D true;
+                ^     ~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/usb/hcd-ehci.c | 3 ---
- 1 file changed, 3 deletions(-)
 
-diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
-index 56ab2f457f..29d49c2d7e 100644
---- a/hw/usb/hcd-ehci.c
-+++ b/hw/usb/hcd-ehci.c
-@@ -1301,7 +1301,6 @@ static void ehci_execute_complete(EHCIQueue *q)
-         /* should not be triggerable */
-         fprintf(stderr, "USB invalid response %d\n", p->packet.status);
-         g_assert_not_reached();
--        break;
-     }
+v1->v2: move the 'set' declaration to the for() statement(Base on Philipp=
+e's suggestion).
+---
+ monitor/hmp-cmds.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 53bc3f76c4..c6b0495822 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -2808,7 +2808,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const Q=
+Dict *qdict)
+     const char *name =3D qdict_get_str(qdict, "name");
+     uint8_t type =3D qdict_get_try_int(qdict, "type", 9);
+     Error *err =3D NULL;
+-    bool set =3D false;
 =20
-     /* TODO check 4.12 for splits */
-@@ -2105,9 +2104,7 @@ static void ehci_advance_state(EHCIState *ehci, int=
- async)
+     list =3D qmp_query_rocker_of_dpa_groups(name, type !=3D 9, type, &er=
+r);
+     if (err !=3D NULL) {
+@@ -2820,6 +2819,7 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const Q=
+Dict *qdict)
 =20
-         default:
-             fprintf(stderr, "Bad state!\n");
--            again =3D -1;
-             g_assert_not_reached();
--            break;
+     for (g =3D list; g; g =3D g->next) {
+         RockerOfDpaGroup *group =3D g->value;
++        bool set =3D false;
+=20
+         monitor_printf(mon, "0x%08x", group->id);
+=20
+@@ -2864,14 +2864,11 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const=
+ QDict *qdict)
+=20
+         if (group->has_set_eth_dst) {
+             if (!set) {
+-                set =3D true;
+                 monitor_printf(mon, " set");
+             }
+             monitor_printf(mon, " dst %s", group->set_eth_dst);
          }
 =20
-         if (again < 0 || itd_count > 16) {
+-        set =3D false;
+-
+         if (group->has_ttl_check && group->ttl_check) {
+             monitor_printf(mon, " check TTL");
+         }
 --=20
 2.23.0
 
