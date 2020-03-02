@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60E71755E8
+	by mail.lfdr.de (Postfix) with ESMTPS id 533871755E7
 	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 09:22:58 +0100 (CET)
-Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8gLq-0006JR-0M
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 03:22:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37369)
+	id 1j8gLp-0006Gt-An
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 03:22:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37371)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j8gKb-0004Mn-SX
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j8gKc-0004Mo-2P
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:21:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j8gKZ-0001Wp-Vi
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:21:41 -0500
-Received: from relay.sw.ru ([185.231.240.75]:44690)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j8gKa-0001Yi-Gp
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 03:21:42 -0500
+Received: from relay.sw.ru ([185.231.240.75]:44684)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j8gKZ-0001U6-Nm; Mon, 02 Mar 2020 03:21:39 -0500
+ id 1j8gKZ-0001U3-PL; Mon, 02 Mar 2020 03:21:40 -0500
 Received: from dptest2.qa.sw.ru ([10.94.4.71])
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j8gKP-0002Ot-DU; Mon, 02 Mar 2020 11:21:29 +0300
+ id 1j8gKP-0002Ot-HO; Mon, 02 Mar 2020 11:21:29 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/4] qcow2: add zstd cluster compression
-Date: Mon,  2 Mar 2020 11:21:10 +0300
-Message-Id: <20200302082111.21205-4-dplotnikov@virtuozzo.com>
+Subject: [PATCH v2 4/4] iotests: 287: add qcow2 compression type test
+Date: Mon,  2 Mar 2020 11:21:11 +0300
+Message-Id: <20200302082111.21205-5-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20200302082111.21205-1-dplotnikov@virtuozzo.com>
 References: <20200302082111.21205-1-dplotnikov@virtuozzo.com>
@@ -50,360 +50,209 @@ Cc: kwolf@redhat.com, den@openvz.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-zstd significantly reduces cluster compression time.
-It provides better compression performance maintaining
-the same level of the compression ratio in comparison with
-zlib, which, at the moment, is the only compression
-method available.
-
-The performance test results:
-Test compresses and decompresses qemu qcow2 image with just
-installed rhel-7.6 guest.
-Image cluster size: 64K. Image on disk size: 2.2G
-
-The test was conducted with brd disk to reduce the influence
-of disk subsystem to the test results.
-The results is given in seconds.
-
-compress cmd:
-  time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
-                  src.img [zlib|zstd]_compressed.img
-decompress cmd
-  time ./qemu-img convert -O qcow2
-                  [zlib|zstd]_compressed.img uncompressed.img
-
-           compression               decompression
-         zlib       zstd           zlib         zstd
-------------------------------------------------------------
-real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
-user     65.0       15.8            5.3          2.5
-sys       3.3        0.2            2.0          2.0
-
-Both ZLIB and ZSTD gave the same compression ratio: 1.57
-compressed image size in both cases: 1.4G
+The test checks fulfilling qcow2 requiriements for the compression
+type feature and zstd compression type operability.
 
 Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- docs/interop/qcow2.txt |  20 +++++++
- configure              |  29 ++++++++++
- qapi/block-core.json   |   3 +-
- block/qcow2-threads.c  | 120 +++++++++++++++++++++++++++++++++++++++++
- block/qcow2.c          |   7 +++
- 5 files changed, 178 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/287     | 127 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/287.out |  43 +++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 171 insertions(+)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
 
-diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index 5597e24474..9048114445 100644
---- a/docs/interop/qcow2.txt
-+++ b/docs/interop/qcow2.txt
-@@ -208,6 +208,7 @@ version 2.
- 
-                     Available compression type values:
-                         0: zlib <https://www.zlib.net/>
-+                        1: zstd <http://github.com/facebook/zstd>
- 
- 
- === Header padding ===
-@@ -575,11 +576,30 @@ Compressed Clusters Descriptor (x = 62 - (cluster_bits - 8)):
-                     Another compressed cluster may map to the tail of the final
-                     sector used by this compressed cluster.
- 
-+                    The layout of the compressed data depends on the compression
-+                    type used for the image (see compressed cluster layout).
+diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
+new file mode 100755
+index 0000000000..39cb665c85
+--- /dev/null
++++ b/tests/qemu-iotests/287
+@@ -0,0 +1,127 @@
++#!/usr/bin/env bash
++#
++# Test case for an image using zstd compression
++#
++# Copyright (c) 2020 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- If a cluster is unallocated, read requests shall read the data from the backing
- file (except if bit 0 in the Standard Cluster Descriptor is set). If there is
- no backing file or the backing file is smaller than the image, they shall read
- zeros for all parts that are not covered by the backing file.
- 
-+=== Compressed Cluster Layout ===
++# creator
++owner=dplotnikov@virtuozzo.com
 +
-+The compressed cluster data has a layout depending on the compression
-+type used for the image, as follows:
++seq="$(basename $0)"
++echo "QA output created by $seq"
 +
-+Compressed data layout for the available compression types:
-+data_space_lenght - data chunk length available to store a compressed cluster.
-+(for more details see "Compressed Clusters Descriptor")
-+x = data_space_length - 1
++status=1	# failure is the default!
 +
-+    0:  (default)  zlib <http://zlib.net/>:
-+            Byte  0 -  x:     the compressed data content
-+                              all the space provided used for compressed data
-+    1:  zstd <http://github.com/facebook/zstd>:
-+            Byte  0 -  3:     the length of compressed data in bytes
-+                  4 -  x:     the compressed data content
- 
- == Snapshots ==
- 
-diff --git a/configure b/configure
-index 48d6f89d57..4690a7ea9f 100755
---- a/configure
-+++ b/configure
-@@ -444,6 +444,7 @@ opengl_dmabuf="no"
- cpuid_h="no"
- avx2_opt=""
- zlib="yes"
-+zstd=""
- capstone=""
- lzo=""
- snappy=""
-@@ -1371,6 +1372,10 @@ for opt do
-   ;;
-   --disable-lzfse) lzfse="no"
-   ;;
-+  --enable-zstd) zstd="yes"
-+  ;;
-+  --disable-zstd) zstd="no"
-+  ;;
-   --enable-guest-agent) guest_agent="yes"
-   ;;
-   --disable-guest-agent) guest_agent="no"
-@@ -1829,6 +1834,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-                   (for reading bzip2-compressed dmg images)
-   lzfse           support of lzfse compression library
-                   (for reading lzfse-compressed dmg images)
-+  zstd            support of zstd compression library
-   seccomp         seccomp support
-   coroutine-pool  coroutine freelist (better performance)
-   glusterfs       GlusterFS backend
-@@ -2453,6 +2459,25 @@ EOF
-     fi
- fi
- 
-+#########################################
-+# zstd check
++_cleanup()
++{
++	_cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
-+if test "$zstd" != "no" ; then
-+    cat > $TMPC << EOF
-+#include <zstd.h>
-+int main(void) { ZSTD_versionNumber(); return 0; }
-+EOF
-+    if compile_prog "" "-lzstd" ; then
-+        LIBS="$LIBS -lzstd"
-+        zstd="yes"
-+    else
-+        if test "$zstd" = "yes"; then
-+            feature_not_found "zstd" "Install libzstd-devel"
-+        fi
-+        zstd="no"
-+    fi
++# standard environment
++. ./common.rc
++. ./common.filter
++
++# This tests qocw2-specific low-level functionality
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++# Check if we can run this test.
++IMGOPTS='compression_type=zstd'
++
++_make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
++
++ZSTD_SUPPORTED=$?
++
++if (($ZSTD_SUPPORTED==0)); then
++    _notrun "ZSTD is disabled"
 +fi
 +
- ##########################################
- # libseccomp check
- 
-@@ -6668,6 +6693,7 @@ echo "lzo support       $lzo"
- echo "snappy support    $snappy"
- echo "bzip2 support     $bzip2"
- echo "lzfse support     $lzfse"
-+echo "zstd support      $zstd"
- echo "NUMA host support $numa"
- echo "libxml2           $libxml2"
- echo "tcmalloc support  $tcmalloc"
-@@ -7559,6 +7585,9 @@ if test "$plugins" = "yes" ; then
- 	    "\$ld_exported_symbols_list should have been set to 'yes'."
-     fi
- fi
-+if test "$zstd" = "yes" ; then
-+  echo "CONFIG_ZSTD=y" >> $config_host_mak
++# Test: when compression is zlib the incompatible bit is unset
++echo
++echo "=== Testing compression type incompatible bit setting for zlib ==="
++echo
++
++IMGOPTS='compression_type=zlib' _make_test_img 64M
++$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++
++# Test: when compression differs from zlib the incompatible bit is set
++echo
++echo "=== Testing compression type incompatible bit setting for zstd ==="
++echo
++
++IMGOPTS='compression_type=zstd' _make_test_img 64M
++$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++
++# Test: an image can't be openned if compression type is zlib and
++#       incompatible feature compression type is set
++echo
++echo "=== Testing zlib with incompatible bit set  ==="
++echo
++
++IMGOPTS='compression_type=zlib' _make_test_img 64M
++$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
++# to make sure the bit was actually set
++$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
++if (($?==0)); then
++    echo "Error: The image openned successfully. The image must not be openned"
 +fi
- 
- if test "$tcg_interpreter" = "yes"; then
-   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index a67eb8bff4..84889fb741 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4401,11 +4401,12 @@
- # Compression type used in qcow2 image file
- #
- # @zlib:  zlib compression, see <http://zlib.net/>
-+# @zstd:  zstd compression, see <http://github.com/facebook/zstd>
- #
- # Since: 5.0
- ##
- { 'enum': 'Qcow2CompressionType',
--  'data': [ 'zlib' ] }
-+  'data': [ 'zlib', { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
- 
- ##
- # @BlockdevCreateOptionsQcow2:
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 9288a4f852..c52e985525 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -28,6 +28,11 @@
- #define ZLIB_CONST
- #include <zlib.h>
- 
-+#ifdef CONFIG_ZSTD
-+#include <zstd.h>
-+#include <zstd_errors.h>
-+#endif
 +
- #include "qcow2.h"
- #include "block/thread-pool.h"
- #include "crypto.h"
-@@ -164,6 +169,111 @@ static ssize_t qcow2_zlib_decompress(void *dest, size_t dest_size,
-     return ret;
- }
- 
-+#ifdef CONFIG_ZSTD
++# Test: an image can't be openned if compression type is NOT zlib and
++#       incompatible feature compression type is UNSET
++echo
++echo "=== Testing zstd with incompatible bit unset  ==="
++echo
 +
-+#define ZSTD_LEN_BUF 4
++IMGOPTS='compression_type=zstd' _make_test_img 64M
++$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
++# to make sure the bit was actually unset
++$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
++$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
++if (($?==0)); then
++    echo "Error: The image openned successfully. The image must not be openned"
++fi
++# Test: check compression type values
++echo
++echo "=== Testing compression type values  ==="
++echo
++# zlib=0
++IMGOPTS='compression_type=zlib' _make_test_img 64M
++od -j104 -N1 -An -vtu1 "$TEST_IMG"
 +
-+/*
-+ * qcow2_zstd_compress()
-+ *
-+ * Compress @src_size bytes of data using zstd compression method
-+ *
-+ * @dest - destination buffer, @dest_size bytes
-+ * @src - source buffer, @src_size bytes
-+ *
-+ * Returns: compressed size on success
-+ *          -ENOMEM destination buffer is not enough to store compressed data
-+ *          -EIO    on any other error
-+ */
-+static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
-+                                   const void *src, size_t src_size)
-+{
-+    size_t ret;
++# zstd=1
++IMGOPTS='compression_type=zstd' _make_test_img 64M
++od -j104 -N1 -An -vtu1 "$TEST_IMG"
 +
-+    /*
-+     * steal ZSTD_LEN_BUF bytes in the very beginning of the buffer
-+     * to store compressed chunk size
-+     */
-+    char *d_buf = ((char *) dest) + ZSTD_LEN_BUF;
++# Test: using zstd compression, write to and read from an image
++echo
++echo "=== Testing reading and writing with zstd ==="
++echo
 +
-+    /*
-+     * sanity check that we can store the compressed data length,
-+     * and there is some space left for the compressor buffer
-+     */
-+    if (dest_size <= ZSTD_LEN_BUF) {
-+        return -ENOMEM;
-+    }
++CLUSTER_SIZE=65536
++IMGOPTS='compression_type=zstd' _make_test_img 64M
++$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
++$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
++$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
++$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
 +
-+    dest_size -= ZSTD_LEN_BUF;
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
+new file mode 100644
+index 0000000000..8e51c3078d
+--- /dev/null
++++ b/tests/qemu-iotests/287.out
+@@ -0,0 +1,43 @@
++QA output created by 287
 +
-+    ret = ZSTD_compress(d_buf, dest_size, src, src_size, 5);
++=== Testing compression type incompatible bit setting for zlib ===
 +
-+    if (ZSTD_isError(ret)) {
-+        if (ZSTD_getErrorCode(ret) == ZSTD_error_dstSize_tooSmall) {
-+            return -ENOMEM;
-+        } else {
-+            return -EIO;
-+        }
-+    }
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++incompatible_features     []
 +
-+    /* paranoid sanity check that we can store the compressed size in the first 4 bytes */
-+    if (ret > UINT32_MAX) {
-+        return -ENOMEM;
-+    }
++=== Testing compression type incompatible bit setting for zstd ===
 +
-+    /* store the compressed chunk size in the very beginning of the buffer */
-+    stl_be_p(dest, ret);
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++incompatible_features     [3]
 +
-+    return ret + ZSTD_LEN_BUF;
-+}
++=== Testing zlib with incompatible bit set  ===
 +
-+/*
-+ * qcow2_zstd_decompress()
-+ *
-+ * Decompress some data (not more than @src_size bytes) to produce exactly
-+ * @dest_size bytes using zstd compression method
-+ *
-+ * @dest - destination buffer, @dest_size bytes
-+ * @src - source buffer, @src_size bytes
-+ *
-+ * Returns: 0 on success
-+ *          -EIO on any error
-+ */
-+static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
-+                                     const void *src, size_t src_size)
-+{
-+    /*
-+     * zstd decompress wants to know the exact length of the data.
-+     * For that purpose, on compression, the length is stored in
-+     * the very beginning of the compressed buffer
-+     */
-+    size_t s_size;
-+    const char *s_buf = ((const char *) src) + ZSTD_LEN_BUF;
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++incompatible_features     [3]
 +
-+    /*
-+     * sanity check that we can read 4 byte the content length and
-+     * and there is some content to decompress
-+     */
-+    if (src_size <= ZSTD_LEN_BUF) {
-+        return -EIO;
-+    }
++=== Testing zstd with incompatible bit unset  ===
 +
-+    s_size = ldl_be_p(src);
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++incompatible_features     []
 +
-+    /* sanity check that the buffer is big enough to read the content from */
-+    if (src_size - ZSTD_LEN_BUF < s_size) {
-+        return -EIO;
-+    }
++=== Testing compression type values  ===
 +
-+    if (ZSTD_isError(
-+            ZSTD_decompress(dest, dest_size, s_buf, s_size))) {
-+        return -EIO;
-+    }
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++   0
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++   1
 +
-+    return 0;
-+}
-+#endif
++=== Testing reading and writing with zstd ===
 +
- static int qcow2_compress_pool_func(void *opaque)
- {
-     Qcow2CompressData *data = opaque;
-@@ -215,6 +325,11 @@ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-         fn = qcow2_zlib_compress;
-         break;
- 
-+#ifdef CONFIG_ZSTD
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        fn = qcow2_zstd_compress;
-+        break;
-+#endif
-     default:
-         abort();
-     }
-@@ -247,6 +362,11 @@ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-         fn = qcow2_zlib_decompress;
-         break;
- 
-+#ifdef CONFIG_ZSTD
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        fn = qcow2_zstd_decompress;
-+        break;
-+#endif
-     default:
-         return -ENOTSUP;
-     }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index fc5232a5d6..bb0bad5d56 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1257,6 +1257,9 @@ static int validate_compression_type(BDRVQcow2State *s, Error **errp)
- 
-     switch (s->compression_type) {
-     case QCOW2_COMPRESSION_TYPE_ZLIB:
-+#ifdef CONFIG_ZSTD
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+#endif
-         break;
- 
-     default:
-@@ -3466,6 +3469,10 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-         }
- 
-         switch (qcow2_opts->compression_type) {
-+#ifdef CONFIG_ZSTD
-+        case QCOW2_COMPRESSION_TYPE_ZSTD:
-+            break;
-+#endif
-         default:
-             error_setg(errp, "Unknown compression type");
-             goto out;
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++wrote 65536/65536 bytes at offset 65536
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 65536
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++0001fffe:  ac ac 00 00 00 00 00 00  ........
++read 8/8 bytes at offset 131070
++8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++0000fffe:  00 00 ac ac ac ac ac ac  ........
++read 8/8 bytes at offset 65534
++8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 0317667695..5edbadef40 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -293,3 +293,4 @@
+ 283 auto quick
+ 284 rw
+ 286 rw quick
++287 auto quick
 -- 
 2.17.0
 
