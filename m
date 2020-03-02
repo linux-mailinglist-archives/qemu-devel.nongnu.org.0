@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310BB1763AC
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 20:15:07 +0100 (CET)
-Received: from localhost ([::1]:37560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A691763BC
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 20:20:37 +0100 (CET)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8qWw-0001J0-8Q
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 14:15:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
+	id 1j8qcG-0004ml-BO
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 14:20:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1j8qVi-0000EA-H7
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:13:52 -0500
+ (envelope-from <max@m00nbsd.net>) id 1j8qWC-0000x1-MG
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:14:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1j8qVh-0007DR-3W
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:13:50 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55230
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1j8qVg-0007CE-TJ; Mon, 02 Mar 2020 14:13:49 -0500
-Received: from host86-162-6-80.range86-162.btcentralplus.com ([86.162.6.80]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1j8qVp-0003QX-UP; Mon, 02 Mar 2020 19:14:02 +0000
-To: Markus Armbruster <armbru@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1583017348.git.balaton@eik.bme.hu>
- <775825dba26f6b36ab067f253e4ab5dc3a3d15dc.1583017348.git.balaton@eik.bme.hu>
- <d85cd8c6-99a3-8430-41cc-486aad1ad8de@ilande.co.uk>
- <alpine.BSF.2.22.395.2003011619100.95594@zero.eik.bme.hu>
- <87pndvch3t.fsf@dusky.pond.sub.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <ff8e0d07-9237-b8b4-a117-88e86926bf28@ilande.co.uk>
-Date: Mon, 2 Mar 2020 19:13:35 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <max@m00nbsd.net>) id 1j8qWB-0007cW-A8
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:14:20 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:48477)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <max@m00nbsd.net>) id 1j8qWB-0007SY-0r
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 14:14:19 -0500
+Received: from mxplan6.mail.ovh.net (unknown [10.109.138.227])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 8E3B92A5622E;
+ Mon,  2 Mar 2020 20:14:09 +0100 (CET)
+Received: from m00nbsd.net (37.59.142.99) by DAG3EX2.mxp6.local (172.16.2.22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Mon, 2 Mar 2020
+ 20:14:08 +0100
+Subject: Re: [PATCH v2 2/4] Add the NetBSD Virtual Machine Monitor accelerator.
+To: Kamil Rytarowski <n54@gmx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <rth@twiddle.net>, <ehabkost@redhat.com>, <slp@redhat.com>,
+ <peter.maydell@linaro.org>
+References: <20200107124903.16505-1-n54@gmx.com>
+ <20200128140945.929-1-n54@gmx.com> <20200128140945.929-3-n54@gmx.com>
+ <e3279b9d-e6f9-43f3-3ebb-b31ba8ff5f7e@redhat.com>
+ <4e29b732-ce95-02f1-ec9c-31f1ce33cda0@gmx.com>
+ <4ece50db-33c7-4630-6b0f-52197b2ae845@redhat.com>
+ <5b289981-1e54-2301-af36-86361415bf6b@gmx.com>
+From: Maxime Villard <max@m00nbsd.net>
+Autocrypt: addr=max@m00nbsd.net; keydata=
+ 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
+Message-ID: <bd4bb6d3-be33-2f97-8ee5-695b41b5eff1@m00nbsd.net>
+Date: Mon, 2 Mar 2020 20:14:05 +0100
 MIME-Version: 1.0
-In-Reply-To: <87pndvch3t.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <5b289981-1e54-2301-af36-86361415bf6b@gmx.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.162.6.80
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/2] ide: Make room for flags in PCIIDEState and add one
- for legacy IRQ routing
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:41c9:1:41f::167
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX2.mxp6.local (172.16.2.32) To DAG3EX2.mxp6.local
+ (172.16.2.22)
+X-Ovh-Tracer-GUID: 4c8f012f-e978-46a5-b540-3c6a0f3c7665
+X-Ovh-Tracer-Id: 6557522535184469868
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddtgedguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffggjggtgfhisehtkeertddttdejnecuhfhrohhmpeforgigihhmvgcugghilhhlrghrugcuoehmrgigsehmtddtnhgsshgurdhnvghtqeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehmrgigsehmtddtnhgsshgurdhnvghtpdhrtghpthhtohepnhehgeesghhmgidrtghomh
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 79.137.123.220
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,112 +109,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/2020 08:10, Markus Armbruster wrote:
-
-> BALATON Zoltan <balaton@eik.bme.hu> writes:
-> 
->> On Sun, 1 Mar 2020, Mark Cave-Ayland wrote:
->>> On 29/02/2020 23:02, BALATON Zoltan wrote:
->>>> We'll need a flag for implementing some device specific behaviour in
->>>> via-ide but we already have a currently CMD646 specific field that can
->>>> be repurposed for this and leave room for furhter flags if needed in
->>>> the future. This patch changes the "secondary" field to "flags" and
->>>> define the flags for CMD646 and via-ide and change CMD646 and its
->>>> users accordingly.
+Le 02/03/2020 =C3=A0 19:05, Kamil Rytarowski a =C3=A9crit=C2=A0:
+> On 02.03.2020 18:12, Paolo Bonzini wrote:
+>> On 03/02/20 12:56, Kamil Rytarowski wrote:
+>>> On 03.02.2020 12:41, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>>> @@ -1768,6 +1785,7 @@ disabled with --disable-FEATURE, default is
+>>>>> enabled if available:
+>>>>> =C2=A0=C2=A0=C2=A0 hax=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 HAX acceleration support
+>>>>> =C2=A0=C2=A0=C2=A0 hvf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 Hypervisor.framework acceleration support
+>>>>> =C2=A0=C2=A0=C2=A0 whpx=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 Windows Hypervisor Platform acceleration support
+>>>>> +=C2=A0 nvmm=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 NetBSD Virtual Machine Monitor acceleration support
+>>>>> =C2=A0=C2=A0=C2=A0 rdma=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 Enable RDMA-based migration
+>>>>> =C2=A0=C2=A0=C2=A0 pvrdma=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 Enable PVRDMA support
+>>>>> =C2=A0=C2=A0=C2=A0 vde=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 support for vde network
+>>>>> @@ -2757,6 +2775,20 @@ if test "$whpx" !=3D "no" ; then
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
+>>>>> =C2=A0 fi
+>>>>>
 >>>>
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>>  hw/alpha/dp264.c     |  2 +-
->>>>  hw/ide/cmd646.c      | 12 ++++++------
->>>>  hw/sparc64/sun4u.c   |  9 ++-------
->>>>  include/hw/ide.h     |  4 ++--
->>>>  include/hw/ide/pci.h |  7 ++++++-
->>>>  5 files changed, 17 insertions(+), 17 deletions(-)
+>>>> Maybe you can add something like:
 >>>>
->>>> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-> [...]
->>>> @@ -317,20 +317,20 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
->>>>      }
->>>>  }
+>>>> if test "$targetos" =3D "NetBSD"; then
+>>>> =C2=A0=C2=A0=C2=A0 nvmm=3D"check"
+>>>> fi
 >>>>
->>>> -void pci_cmd646_ide_init(PCIBus *bus, DriveInfo **hd_table,
->>>> -                         int secondary_ide_enabled)
->>>> +void pci_cmd646_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
->>>> +                         bool secondary_ide_enabled)
->>>>  {
->>>>      PCIDevice *dev;
->>>>
->>>> -    dev = pci_create(bus, -1, "cmd646-ide");
->>>> -    qdev_prop_set_uint32(&dev->qdev, "secondary", secondary_ide_enabled);
->>>> +    dev = pci_create(bus, devfn, "cmd646-ide");
->>>> +    qdev_prop_set_bit(&dev->qdev, "secondary", secondary_ide_enabled);
->>>>      qdev_init_nofail(&dev->qdev);
->>>>
->>>>      pci_ide_create_devs(dev, hd_table);
->>>>  }
+>>>> to build by default with NVMM if available.
 >>>
->>> Note that legacy init functions such as pci_cmd646_ide_init() should be removed where
->>> possible, and in fact I posted a patch last week to completely remove it. This is
->>> because using qdev directly allows each board to wire up the device as required,
->>> rather than pushing it down into a set of init functions with different defaults.
->>>
->>> Given that you're working in this area, I'd highly recommend doing the same for
->>> via_ide_init() too.
+>>> I will add nvmm=3Dyes to the NetBSD) targetos check section.
 >>
->> I could do that, however these ide init functions seem to exist for
->> piix, cmd646 and via-ide so that pci_ide_create_devs function is kept
->> local to hw/ide. Nothing else called that func apart from sun4u so
->> I've chosen this way to keep consistency (also keeps property type at
->> one place instead of needing to change each board that sets
->> property). If the consensus is that getting rid of these init funcs
->> even if that means pci_ide_create_devs will not be local to ide any
->> more I can go that way but would like to hear opinion of ide
->> maintainer as well.
-> 
-> I think Mark's point is that modelling a device and wiring up a device
-> model are separate things, and the latter belongs to the board.
-> 
-> pci_cmd646_ide_init() is a helper for boards.  Similar helpers exist
-> elsewhere.
-> 
-> In the oldest stratum of qdev code, such helpers were static inline
-> functions in the device model's .h.  That way, they're kind of separate
-> from the device model proper, in the .c, and kind of in the board code
-> where they belong, via inlining.  I've always considered that a terrible
-> idea; it's "kind of" as in "not really".  Over time, practice moved
-> first to putting the helpers into .c, then to open-coding the wiring
-> where it belongs: in the boards.
-> 
-> A few helper functions have survived, e.g. in hw/lm32/milkymist-hw.h,
-> and the IDE helpers we're discussing here.
-> 
-> Of course, when the code to wire up certain devices gets overly
-> repetitive, factoring out common code into helpers can make sense.  But
-> where to put them?  I can't see an obvious home for common board
-> helpers.  We tend to put these wiring helpers into a device model's .c
-> code for want of a better place.  Tolerable, I think.
+>> No, nvmm=3Dyes instead should fail the build if nvmm.h is not availabl=
+e.
+>> That is not a good default.
+>>
+>> Paolo
+>>
+>>
+>=20
+> Most users will get nvmm.h in place now and this is still a tunable.
+>=20
+> I have got no opinion what to put there, nvmm=3Dcheck still works.
 
-Right, thanks for the more detailed explanation of what I was trying to say above.
+I would keep "yes", for consistency with the other entries. Changing all
+entries to "check" should be done in a separate commit, unrelated to
+NVMM.
 
-As you say having helpers can definitely help avoid repetitive code, however there
-was a case a few releases back when someone flipped a qdev property in a device
-_init() helper function used to initialise one of the more common devices and it
-broke several of the older machines.
-
-So now I'm mainly of the opinion that if the helper is just instantiating a device,
-setting qdev properties and then returning the device then you're better off moving
-the initialisation into the board code to prevent problems like this occurring again
-(and certainly this nudges us towards building machines from config files since all
-the configuration/wiring is now done at board level).
-
-
-ATB,
-
-Mark.
+> diff --git a/configure b/configure
+> index d4a837cf9d..b3560d88bb 100755
+> --- a/configure
+> +++ b/configure
+> @@ -836,7 +836,7 @@ DragonFly)
+>  NetBSD)
+>    bsd=3D"yes"
+>    hax=3D"yes"
+> -  nvmm=3D"yes"
+> +  nvmm=3D"check"
+>    make=3D"${MAKE-gmake}"
+>    audio_drv_list=3D"oss try-sdl"
+>    audio_possible_drivers=3D"oss sdl"
+>=20
 
