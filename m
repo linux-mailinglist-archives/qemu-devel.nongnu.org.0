@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97B81754C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:46:07 +0100 (CET)
-Received: from localhost ([::1]:56036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326E81754DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 08:50:06 +0100 (CET)
+Received: from localhost ([::1]:56102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8fmA-0004nc-R9
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:46:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60229)
+	id 1j8fq1-0003WO-4P
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 02:50:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j8fha-0004de-3H
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:23 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j8fhY-0003k0-Qj
+ (envelope-from <jasowang@redhat.com>) id 1j8fhX-0004ZT-GD
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:21 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56013
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <jasowang@redhat.com>) id 1j8fhW-0003i7-F9
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60700
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j8fhY-0003jg-NR
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:20 -0500
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j8fhW-0003hV-BQ
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 02:41:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583134880;
+ s=mimecast20190719; t=1583134878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3FH3EvovSg9jpn0GXMpUYiTO2P2bDAc/ts+gYPTpTRc=;
- b=ArjXNkLSf4P7EDOKAFvI7kTns2rIIZT4xc4iHgTw5alo0dQvLN4VTTVTGVdTW3V+CLV2i4
- wY8H/h1c7zH7n9CrDV9nh8mVd+SRhHCpR6uOIYquKSXpqJHmadHQufhfW1n0D2qCJ7pIUo
- mHgrECkVC9NDWXbk2FtKSDrqqFcuY9s=
+ bh=tUVMgu3taFrVdtqL+TAAQJ+eS/lDgUc1HJ2Th9oKz08=;
+ b=gKDBjKuZf+8qAB0khJLud4PSmwcxUnYHm4qyvW2FxyJn4FH4ojSj6O9uyjScij6P9Vj+XI
+ EUUE3x7mC6DI2Lc5A2/u93PLzaQBJiI9dYOTAh9l3/KSXw0B5ySWli+y8lR7mQqgrhrnqn
+ HweuImjwWfDWPpf8OhuTJgPds66r13Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-fb9h6bfEM0mcIz_484awfw-1; Mon, 02 Mar 2020 02:41:11 -0500
-X-MC-Unique: fb9h6bfEM0mcIz_484awfw-1
+ us-mta-459-Zd6wmuNNPDqgXSH72neiiA-1; Mon, 02 Mar 2020 02:41:14 -0500
+X-MC-Unique: Zd6wmuNNPDqgXSH72neiiA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C177C107ACC4;
- Mon,  2 Mar 2020 07:41:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA11D800D4E;
+ Mon,  2 Mar 2020 07:41:12 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-58.pek2.redhat.com
  [10.72.12.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9349260BF3;
- Mon,  2 Mar 2020 07:41:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AB0560BF3;
+ Mon,  2 Mar 2020 07:41:11 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/23] dp8393x: Always update RRA pointers and sequence numbers
-Date: Mon,  2 Mar 2020 15:40:25 +0800
-Message-Id: <1583134836-23991-13-git-send-email-jasowang@redhat.com>
+Subject: [PULL 13/23] dp8393x: Don't reset Silicon Revision register
+Date: Mon,  2 Mar 2020 15:40:26 +0800
+Message-Id: <1583134836-23991-14-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
 References: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,45 +79,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Finn Thain <fthain@telegraphics.com.au>
 
-These operations need to take place regardless of whether or not
-rx descriptors have been used up (that is, EOL flag was observed).
+The jazzsonic driver in Linux uses the Silicon Revision register value
+to probe the chip. The driver fails unless the SR register contains 4.
+Unfortunately, reading this register in QEMU usually returns 0 because
+the s->regs[] array gets wiped after a software reset.
 
-The algorithm is now the same for a packet that was withheld as for
-a packet that was not.
-
+Fixes: bd8f1ebce4 ("net/dp8393x: fix hardware reset")
+Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/dp8393x.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ hw/net/dp8393x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 08194a4..cfbc2ee 100644
+index cfbc2ee..c2ac2a1 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -901,12 +901,14 @@ static ssize_t dp8393x_receive(NetClientState *nc, co=
-nst uint8_t * buf,
-         /* Move to next descriptor */
-         s->regs[SONIC_CRDA] =3D s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |=3D SONIC_ISR_PKTRX;
--        s->regs[SONIC_RSC] =3D (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[=
-SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
-+    }
+@@ -923,6 +923,7 @@ static void dp8393x_reset(DeviceState *dev)
+     timer_del(s->watchdog);
 =20
--        if (s->regs[SONIC_RCR] & SONIC_RCR_LPKT) {
--            /* Read next RRA */
--            dp8393x_do_read_rra(s);
--        }
-+    s->regs[SONIC_RSC] =3D (s->regs[SONIC_RSC] & 0xff00) |
-+                         ((s->regs[SONIC_RSC] + 1) & 0x00ff);
-+
-+    if (s->regs[SONIC_RCR] & SONIC_RCR_LPKT) {
-+        /* Read next RRA */
-+        dp8393x_do_read_rra(s);
-     }
+     memset(s->regs, 0, sizeof(s->regs));
++    s->regs[SONIC_SR] =3D 0x0004; /* only revision recognized by Linux/mip=
+s */
+     s->regs[SONIC_CR] =3D SONIC_CR_RST | SONIC_CR_STP | SONIC_CR_RXDIS;
+     s->regs[SONIC_DCR] &=3D ~(SONIC_DCR_EXBUS | SONIC_DCR_LBR);
+     s->regs[SONIC_RCR] &=3D ~(SONIC_RCR_LB0 | SONIC_RCR_LB1 | SONIC_RCR_BR=
+D | SONIC_RCR_RNT);
+@@ -975,7 +976,6 @@ static void dp8393x_realize(DeviceState *dev, Error **e=
+rrp)
+     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
 =20
-     /* Done */
+     s->watchdog =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, dp8393x_watchdog, s);
+-    s->regs[SONIC_SR] =3D 0x0004; /* only revision recognized by Linux */
+=20
+     memory_region_init_ram(&s->prom, OBJECT(dev),
+                            "dp8393x-prom", SONIC_PROM_SIZE, &local_err);
 --=20
 2.5.0
 
