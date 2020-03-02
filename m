@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1311761B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 19:00:10 +0100 (CET)
-Received: from localhost ([::1]:36330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F3E1761BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 19:00:28 +0100 (CET)
+Received: from localhost ([::1]:36343 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8pMP-0000AB-9U
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 13:00:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38990)
+	id 1j8pMh-0000kl-Fl
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 13:00:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j8pKs-0006aN-GZ
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:58:35 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j8pKw-0006dW-Q6
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:58:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j8pKr-0007X6-87
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:58:34 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:44638)
+ (envelope-from <richard.henderson@linaro.org>) id 1j8pKv-0007ZT-NB
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:58:38 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42568)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j8pKr-0007Wo-31
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:58:33 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id a14so167394pgb.11
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 09:58:32 -0800 (PST)
+ id 1j8pKv-0007Z9-IA
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:58:37 -0500
+Received: by mail-pg1-x542.google.com with SMTP id h8so173094pgs.9
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 09:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9C1wlp8smjmp404ViBx+09KVCvZn3cMFmruSUtBUGyI=;
- b=rx6Enlj24DsMW9PHpcIavuaDcnAp6zntEtNmcmQ7NGyUvsIj6oHq71izN4zK2zNSU8
- O+1fKfdKJNFEfPvqU08vmz9vt6hw/jznXzhSG1B9p5c/drlDnXOa0jMIqo08h5A9Qp6v
- Uf66eKXlhfGX5n4QmdrP7ZavC9PoRKXw6DadMUmpLsd0QYNo3nW3iue50pr0NyytAC2m
- ALopL3ND3jiKX16spYPhu/0cf9BwHUhMvPc/7drMJth+sDbRCrC7SB/Zb9eMPONms3Gr
- 9bYlK1wpz67JBZbcdbb+aDD1/h5ahqbjIghzJ6QMcaj5i9gD9JM8Z0aFXVyDEFQJCFNe
- GIRw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Xb4MZkBU7c3SsPvbbpOINi23WCHWKuPEyPWHI7rJrJg=;
+ b=lzo2x0RUxzilhpgFVTN4QYmyqJjuqg1RBfGHJzW9ioWN2CpVjgwp/jz/psxx9r+m/2
+ rdPP2kEKvlq2CfqxQAWsYlAZQUP4AE6HJYBS3dOSu1pfEDMhMQdITg/SjJG3TuuWQRYn
+ fAun+xHZNpHxWDep7FcS8owD75Wn0VDVMau4w2c1nM+Lvw1xOI3NVMaiRKTk3lti1hJ5
+ BaphvzV1T5ZuuYLC5wWPDWQhm8hvf2/pHshDIVIW6Qedcfhs2NB4wzgNFfgRc22T4kF5
+ cyucm2PRyh8xygFz8amS86X7NP4+reSephwQs36H/X4zDMo4BFGwjpr2kSK/63PCHUDe
+ TExw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9C1wlp8smjmp404ViBx+09KVCvZn3cMFmruSUtBUGyI=;
- b=oTU8PVu66nLSCyEB5NXLN0GnWxwbF050ZTk/9riAhudSBM6PAzt4BizlVKJC0PsAtt
- PuUnAez19WYd0SvZE+3hfqA9TTcvBYGs8GFXEuFK7frA9yeLy9EmNnl5S68yHoHak57q
- d9CnA5ex1eccMA0+JaYbflVOVLdjTI1rsYnoMJYUD43LaWZNZg+Nesw3mbnRVSTDIi8z
- VWy3xksSNLgjy7L1UIhvsEwJzUIT2wW9e+Hv104vhKzwh2TOpesMN5pWoR9Kpqfg++rl
- dD4TAaYQ9eA4PsnJE7hPM4emBWErapt2EthfEsqqUl91gZJVe0D6q/sIbwrwixLn9WSv
- vN7g==
-X-Gm-Message-State: ANhLgQ3os1uYxLn29+XXXyunDUOYoVeXx7DmGC+Jk3BOiTq7Wjdn3kPR
- GyaFdYSxe00kXnxBgBgMpa4WOy7miZE=
-X-Google-Smtp-Source: ADFU+vtrYcxAHEW1XybOugjK/Eutf4BSM/kqtGlyqOXAl2H2MwbTItHnxnhsPhqekSqpk93GAWwgbg==
-X-Received: by 2002:a63:df0a:: with SMTP id u10mr112178pgg.282.1583171911542; 
- Mon, 02 Mar 2020 09:58:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Xb4MZkBU7c3SsPvbbpOINi23WCHWKuPEyPWHI7rJrJg=;
+ b=PXi1+sFGhetszmkVrVRdRy3VQHvE2NR5SJO7Z1qaAAVZSDkURgqzMgvq2M/s+mWoO4
+ EsHjWkyBjMFgnQxwAHJCqWd2zxhodD+V+Yj59Cyx76Af5KN6fHOojBn5M6UxcWPcxu6X
+ Bdgi2HnxbXv3MdKAn6VC1E9UPunK3uox0JIl/+4gsmRaWwt8IJcK1aOMMbVrWjf9j6Y/
+ YicjF7uE9BGHZsg28WOPkaSUBhn1bNaUswxhy+kkn1NgJztgJHfhApK5zX/+KTtBpRa/
+ 9zMa2GEUnr08tRTbgtUCKByko9nw3OAJ2yg0lwT5j+Jb7nVU8aLh3tMaGuRpxx3Ogqa9
+ kQhw==
+X-Gm-Message-State: ANhLgQ0uS7xkYWjtopZE6Coj7i5/1vHeMyARKm06FEOsMogZUTgIeT8O
+ EHFchbnx3oiumFduLAB5w1o68L9Ag+s=
+X-Google-Smtp-Source: ADFU+vv3iLnhNolBrBcjQO8XIq71zVeXC+xGHZfKtv6ij3AFnORcPkH6C1HduiYU52RbaGJCGS0tYg==
+X-Received: by 2002:a63:d0b:: with SMTP id c11mr103192pgl.296.1583171916269;
+ Mon, 02 Mar 2020 09:58:36 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id s18sm99510pjp.24.2020.03.02.09.58.30
+ by smtp.gmail.com with ESMTPSA id s18sm99510pjp.24.2020.03.02.09.58.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 09:58:30 -0800 (PST)
+ Mon, 02 Mar 2020 09:58:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/9] target/arm: Misc cleanups surrounding TBI
-Date: Mon,  2 Mar 2020 09:58:20 -0800
-Message-Id: <20200302175829.2183-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/9] target/arm: Apply TBI to ESR_ELx in
+ helper_exception_return
+Date: Mon,  2 Mar 2020 09:58:24 -0800
+Message-Id: <20200302175829.2183-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200302175829.2183-1-richard.henderson@linaro.org>
+References: <20200302175829.2183-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52c
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,66 +83,55 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v2:
-  * Improve commit message in "Optimize cpu_mmu_index".
-  * Add "Introduce core_to_aa64_mmu_idx".
-  * Use it in "Apply TBI to ESR_ELx in helper_exception_return".
+We missed this case within AArch64.ExceptionReturn.
 
-Blurb for v1:
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper-a64.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-We have a bug at present wherein we do not supply the memory tag to
-the memory system, so that on fault FAR_ELx does not contain the
-correct value.
-
-For system mode, we already handle ignoring TBI in get_phys_addr_lpae,
-as long as we don't actually drop the tag during translation.
-For user mode, we don't have that option, so for now we must simply
-accept that we'll get the wrong value in the siginfo_t.
-
-In the process of looking at all that I found:
-
-  * Exception return was not applying TBI in copying ELR_ELx to PC,
-    - Extracting the current mmu_idx can be improved,
-    - Replicating the TBI bits can allow bit 55 to be used
-      unconditionally, eliminating a test.
-
-  * DC_ZVA was not handling TBI (now only for user-mode)
-    - The helper need not have been in op_helper.c,
-    - The helper could have better tcg markup.
-
-  * TBI still applies when translation is disabled, and we weren't
-    raising AddressSpace for bad physical addresses.
-
-  * SVE hasn't been updated to handle TBI.  I have done nothing about
-    this for now.  For the moment, system mode will work properly, while
-    user-only will only work without tags.  I'll have to touch the same
-    places to add MTE support, so it'll get done shortly.
-
-
-r~
-
-
-Richard Henderson (9):
-  target/arm: Replicate TBI/TBID bits for single range regimes
-  target/arm: Optimize cpu_mmu_index
-  target/arm: Introduce core_to_aa64_mmu_idx
-  target/arm: Apply TBI to ESR_ELx in helper_exception_return
-  target/arm: Move helper_dc_zva to helper-a64.c
-  target/arm: Use DEF_HELPER_FLAGS for helper_dc_zva
-  target/arm: Clean address for DC ZVA
-  target/arm: Check addresses for disabled regimes
-  target/arm: Disable clean_data_tbi for system mode
-
- target/arm/cpu.h           |  23 ++++----
- target/arm/helper-a64.h    |   1 +
- target/arm/helper.h        |   1 -
- target/arm/internals.h     |   6 ++
- target/arm/helper-a64.c    | 114 ++++++++++++++++++++++++++++++++++++-
- target/arm/helper.c        |  44 +++++++++++---
- target/arm/op_helper.c     |  93 ------------------------------
- target/arm/translate-a64.c |  15 ++++-
- 8 files changed, 182 insertions(+), 115 deletions(-)
-
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 509ae93069..123ce50e7a 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -1031,6 +1031,8 @@ void HELPER(exception_return)(CPUARMState *env, uint64_t new_pc)
+                       "AArch32 EL%d PC 0x%" PRIx32 "\n",
+                       cur_el, new_el, env->regs[15]);
+     } else {
++        int tbii;
++
+         env->aarch64 = 1;
+         spsr &= aarch64_pstate_valid_mask(&env_archcpu(env)->isar);
+         pstate_write(env, spsr);
+@@ -1038,8 +1040,27 @@ void HELPER(exception_return)(CPUARMState *env, uint64_t new_pc)
+             env->pstate &= ~PSTATE_SS;
+         }
+         aarch64_restore_sp(env, new_el);
+-        env->pc = new_pc;
+         helper_rebuild_hflags_a64(env, new_el);
++
++        /*
++         * Apply TBI to the exception return address.  We had to delay this
++         * until after we selected the new EL, so that we could select the
++         * correct TBI+TBID bits.  This is made easier by waiting until after
++         * the hflags rebuild, since we can pull the composite TBII field
++         * from there.
++         */
++        tbii = FIELD_EX32(env->hflags, TBFLAG_A64, TBII);
++        if ((tbii >> extract64(new_pc, 55, 1)) & 1) {
++            /* TBI is enabled. */
++            int core_mmu_idx = cpu_mmu_index(env, false);
++            if (regime_has_2_ranges(core_to_aa64_mmu_idx(core_mmu_idx))) {
++                new_pc = sextract64(new_pc, 0, 56);
++            } else {
++                new_pc = extract64(new_pc, 0, 56);
++            }
++        }
++        env->pc = new_pc;
++
+         qemu_log_mask(CPU_LOG_INT, "Exception return from AArch64 EL%d to "
+                       "AArch64 EL%d PC 0x%" PRIx64 "\n",
+                       cur_el, new_el, env->pc);
 -- 
 2.20.1
 
