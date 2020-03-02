@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D4D1758C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 11:56:48 +0100 (CET)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C11E1758C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 11:58:23 +0100 (CET)
+Received: from localhost ([::1]:58522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8ikh-0000vT-UC
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 05:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57728)
+	id 1j8imE-0003bV-4t
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 05:58:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j8ijS-0007jG-09
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 05:55:32 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1j8ijR-0007j9-UH
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 05:55:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j8ijQ-000429-Ll
+ (envelope-from <eric.auger@redhat.com>) id 1j8ijQ-00042O-Vn
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 05:55:29 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39628
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21034
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j8ijQ-00041w-IZ
+ id 1j8ijQ-000420-Se
  for qemu-devel@nongnu.org; Mon, 02 Mar 2020 05:55:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1583146528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=y6ylNIp5+a3tQJdTZkzfrzqY+ZPI6Z84ofOgeIdgybQ=;
- b=HgNpgems7eFLPnn74y5NOdpelALGfxUCERG0MaPAB7/x7gw4i+5GK+wYOiNpHJnP857m2B
- F7puxcl4AW59ACLOMWiLTr/YtfLEOpfedNihgynJQ87JqCMEDxQinNnfKZD9c+ZKb5aYyd
- IvC5SUupwoCeB1vrrJpO13TpDFl0zc4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o8JR8h25+qqPDpSpy/rwOdQseCxZrmvdC8Vx9YBwn1o=;
+ b=AURE392WEvX/Ny7xquhr7vyq/jXZwgBejQIOakHy7v9eWgnTOKGSbW69VCZI45gnaseYwL
+ zbvVeqURBr1SB8EZ0tCwAguTQGCzRMLgE78OaM81tvkQJs3ClQYZ/zE0WWEjhyewYuWaql
+ 55RQXmlZvAc3/JKHgx1glmKWh06NV2o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-qRVLFL1cNYeQH1KuYb_Vag-1; Mon, 02 Mar 2020 05:55:24 -0500
-X-MC-Unique: qRVLFL1cNYeQH1KuYb_Vag-1
+ us-mta-253-fQoKlPw9PqS1ecJhNLm9XA-1; Mon, 02 Mar 2020 05:55:26 -0500
+X-MC-Unique: fQoKlPw9PqS1ecJhNLm9XA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CB68107ACC4;
- Mon,  2 Mar 2020 10:55:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8518313FB;
+ Mon,  2 Mar 2020 10:55:25 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFC4727198;
- Mon,  2 Mar 2020 10:55:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B51682719A;
+ Mon,  2 Mar 2020 10:55:23 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Subject: [PATCH v3 0/6] hw/arm/virt: kvm: allow gicv3 by default if v2 cannot
- work
-Date: Mon,  2 Mar 2020 11:55:10 +0100
-Message-Id: <20200302105516.5972-1-eric.auger@redhat.com>
+Subject: [PATCH v3 1/6] hw/arm/virt: Document 'max' value in gic-version
+ property description
+Date: Mon,  2 Mar 2020 11:55:11 +0100
+Message-Id: <20200302105516.5972-2-eric.auger@redhat.com>
+In-Reply-To: <20200302105516.5972-1-eric.auger@redhat.com>
+References: <20200302105516.5972-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
@@ -58,7 +61,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,65 +78,30 @@ Cc: maz@kernel.org, drjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the moment if the end-user does not specify the gic-version along
-with KVM acceleration, v2 is set by default. However most of the
-systems now have GICv3 and sometimes they do not support GICv2
-compatibility. In that case we now end up with the following error:
+Mention 'max' value in the gic-version property description.
 
-"qemu-system-aarch64: Initialization of device kvm-arm-gic failed:
-error creating in-kernel VGIC: No such device
-Perhaps the host CPU does not support GICv2?"
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+---
+ hw/arm/virt.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-since "1904f9b5f1  hw/intc/arm_gic_kvm: Don't assume kernel can
-provide a GICv2" which already allowed to output an explicit error
-message.
-
-This patch keeps the default v2 selection in all cases except
-in the KVM accelerated mode when v2 cannot work:
-- either because the host does not support v2 in-kernel emulation or
-- because more than 8 vcpus were requested.
-
-Those cases did not work anyway so we do not break any compatibility.
-Now we get v3 selected in such a case.
-
-Best Regards
-
-Eric
-
-This series can be found at:
-https://github.com/eauger/qemu/tree/v4.2.0-gic-version-v3
-
-History:
-
-v2 -> v3:
-- replaced defines by VirtGICType enum type
-- fixed some style issue
-- collected Richard and Dres's R-b
-  except on "hw/arm/virt: Introduce VirtGICType enum type" just
-  to make sure this matches their expectation.
-
-RFC -> v2:
-- 1904f9b5f1  hw/intc/arm_gic_kvm: Don't assume kernel can
-  provide a GICv2" now has landed upstream
-- Fix gic-version description
-- Introduce finalize_gic_version and use switch/cases
-- take into account smp value
-
-Eric Auger (6):
-  hw/arm/virt: Document 'max' value in gic-version property description
-  hw/arm/virt: Introduce VirtGICType enum type
-  hw/arm/virt: Introduce finalize_gic_version()
-  target/arm/kvm: Let kvm_arm_vgic_probe() return a bitmap
-  hw/arm/virt: kvm: Check the chosen gic version is supported by the
-    host
-  hw/arm/virt: kvm: allow gicv3 by default if v2 cannot work
-
- hw/arm/virt.c         | 125 +++++++++++++++++++++++++++++++-----------
- include/hw/arm/virt.h |  12 +++-
- target/arm/kvm.c      |  14 +++--
- target/arm/kvm_arm.h  |   3 +
- 4 files changed, 114 insertions(+), 40 deletions(-)
-
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 856808599d..c093f0ab85 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2144,7 +2144,8 @@ static void virt_instance_init(Object *obj)
+                         virt_set_gic_version, NULL);
+     object_property_set_description(obj, "gic-version",
+                                     "Set GIC version. "
+-                                    "Valid values are 2, 3 and host", NULL=
+);
++                                    "Valid values are 2, 3, host and max",
++                                    NULL);
+=20
+     vms->highmem_ecam =3D !vmc->no_highmem_ecam;
+=20
 --=20
 2.20.1
 
