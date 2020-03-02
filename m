@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716251760E9
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 18:19:43 +0100 (CET)
-Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B2A1760F2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 18:20:45 +0100 (CET)
+Received: from localhost ([::1]:35784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8ojG-0005kC-H5
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 12:19:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
+	id 1j8okG-0007QA-Os
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 12:20:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60078)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j8ocM-0002Yh-5i
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:35 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j8of4-0003k8-Lb
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:15:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j8ocL-0006jG-54
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:34 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33934
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j8ocL-0006j5-1i
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:12:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583169152;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AXgGVeNZ4gnHNkth6XiEECTKsZq5BL9p6HrQEve8tPI=;
- b=D4OXjhflbrkLpDv7ApV/zi/OLM0eQ0CgkEmev06Mh+PFTGqlZJsi4ytRT4fSpmvbp6eYdr
- jQ7KRJUUtPoi+Z17HNZ0XL6O+R527Hn5kQ6burKeztKl1BsTmZ5S2Z6x4SrL5rdwBEYx1f
- 5oon5gTgVMHf8bioSo00RfPKg+09UsU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-nqYT_0sdODGR8dD052qVPA-1; Mon, 02 Mar 2020 12:12:30 -0500
-X-MC-Unique: nqYT_0sdODGR8dD052qVPA-1
-Received: by mail-wm1-f69.google.com with SMTP id w12so7508wmc.3
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 09:12:30 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1j8of3-0007sn-QG
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:15:22 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36918)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j8of3-0007sc-In
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 12:15:21 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a141so96842wme.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 09:15:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=s1O9QqrAvNEq9kvqXkeDv+RrdHy9m2n658lvmX0I+S0=;
+ b=ezEZSRud6UPmvmtfMcKyDnTPrAahbxdQ6olujwXMT5YFxIBN6W++HF0zXcJteiW/Jm
+ Fea6f1lko+TxMuNQBxzFd4AxPdI67ixWCjzqSORjpvuInUSCbpWNQ2TKrZMCPnPtKzl8
+ XnF7ZELwBB24y15SvfyRRA7ACuyz3uPyU3O2cyBq8j7opBasF9DIAGwOYQTY3b1+vebt
+ P3/IsBLkhtjPWe8tzGozRRU5M8SymN4Pn6hR5YM4JhzSCT93DiCUxN8etm7+VT29GeTi
+ 58Ls+yK+MHk98XFLkbw1MRvp7wWszM9L9aOdn/e/mSOZIZ2mZPBNDDU7hEWSdAFzffzc
+ 7yrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TA4MEChkH8Uyp0cQUQXJr88UAUNELptycG1jlWYJSZA=;
- b=fDz8Jn50mAwoodDHQ5B39lh+Q+Qs6YSwmC7VwSkaz+sqR4Y8wUAxoG+c8XMLUcre5T
- 4dz7rnnf7BvAMs0LQ7oNMZjjApc3bfTa3coH1aEPicubMA4JTWEXO0FnDQI+WOyzn0Yr
- 21xB2E5Yfzw/MSTkfZwPZVnYpE1LOV5GwDUzuj53W/r7+4xGN7FAHCOp+6+e0PVTO/27
- WBDT+dFVSH4QU4Bi2QeMDhBqxdVfbq10ajdtTp7YIFJotgwtCuELeNQuGQTSSToKZGh1
- RQ2SBMFbX1jszbCWAkJaSBl40rbMX7RHHt6psKl+fdY5MxGiT2TkbWAFA6ijd7DjZMGo
- BUeg==
-X-Gm-Message-State: ANhLgQ0U+qKHvefyWbeLxSJZW8c2/+dvmC+/5KgHKvXpK9XvbBEZ377g
- ptEFXEdw7z6HY203dc2j6P+uQROQvjBkyjydjZvHMNRCHd3qR/3pyN2Bf8ilmmq3Vnd04H0EWSc
- 2BUXN/XTQj7/5LmM=
-X-Received: by 2002:adf:de83:: with SMTP id w3mr554901wrl.275.1583169149139;
- Mon, 02 Mar 2020 09:12:29 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vt4N6L2MF5CbRanW9nI84tBE/7IIEcQO/SJIR2v3+BFUvxbIT3sWODdTH/1fBvsw1Ci2ilRRQ==
-X-Received: by 2002:adf:de83:: with SMTP id w3mr554879wrl.275.1583169148939;
- Mon, 02 Mar 2020 09:12:28 -0800 (PST)
-Received: from [192.168.178.40] ([151.30.85.6])
- by smtp.gmail.com with ESMTPSA id b7sm28412520wrs.97.2020.03.02.09.12.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Mar 2020 09:12:28 -0800 (PST)
-Subject: Re: [PATCH v2 2/4] Add the NetBSD Virtual Machine Monitor accelerator.
-To: Kamil Rytarowski <n54@gmx.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, rth@twiddle.net, ehabkost@redhat.com, slp@redhat.com,
- peter.maydell@linaro.org, max@m00nbsd.net
-References: <20200107124903.16505-1-n54@gmx.com>
- <20200128140945.929-1-n54@gmx.com> <20200128140945.929-3-n54@gmx.com>
- <e3279b9d-e6f9-43f3-3ebb-b31ba8ff5f7e@redhat.com>
- <4e29b732-ce95-02f1-ec9c-31f1ce33cda0@gmx.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4ece50db-33c7-4630-6b0f-52197b2ae845@redhat.com>
-Date: Mon, 2 Mar 2020 18:12:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=s1O9QqrAvNEq9kvqXkeDv+RrdHy9m2n658lvmX0I+S0=;
+ b=c4iOQVTS+crVeP9aHGpTxGrci7B440O7Mgcm92eXfgWIqetiO7eLJSc4upk+FCSmF9
+ zffcmtbow/jVu1z2DAlZZP8zzRpSSTMepbEj6xaQM3gIT35brePSRI0zppfYQkFN0UzW
+ pUHesDkwuOpSPX4AcdRjNj4MwUiq+1bp7MF3Y6giBtdf6I7jRLErZPhVQj9o7EqXD5w8
+ KS8G5IR8CXLE9wlRbyTFNEG1Bp56VcP+PWV4lshv/Dw+mecXWdvQ9J8wcvu5clTdO3PO
+ LgOG/GQbzesOGGexnXUQ4E+TCxOjSZkJ5yaACOhDZao7YVsA3Y/5Oe8xT3tFprQXrWic
+ SH1w==
+X-Gm-Message-State: ANhLgQ1g9aMzS0h4xf3tvO8onnSHybuvmjLaBHmJIFTiDoFOLEqEm7+x
+ Jc4sQm5FYGnoVadMdbXgYv+okg==
+X-Google-Smtp-Source: ADFU+vvmg1VvGlVx7c3/+jtDAU1sEFSVjZAQh/Pvt3+bgXJO22ufdG2ArQ4L/LviIn7lld2h9yuDgA==
+X-Received: by 2002:a7b:ca47:: with SMTP id m7mr128520wml.4.1583169320412;
+ Mon, 02 Mar 2020 09:15:20 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o9sm30378774wrw.20.2020.03.02.09.15.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 09:15:19 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 624551FF87;
+ Mon,  2 Mar 2020 17:15:18 +0000 (GMT)
+References: <20200302154630.45620-1-lvivier@redhat.com>
+ <20200302154630.45620-3-lvivier@redhat.com>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v3 3/3] travis: enable tools build on OS X
+In-reply-to: <20200302154630.45620-3-lvivier@redhat.com>
+Date: Mon, 02 Mar 2020 17:15:18 +0000
+Message-ID: <87a74y8yqh.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <4e29b732-ce95-02f1-ec9c-31f1ce33cda0@gmx.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,46 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/02/20 12:56, Kamil Rytarowski wrote:
-> On 03.02.2020 12:41, Philippe Mathieu-Daud=C3=A9 wrote:
->>> @@ -1768,6 +1785,7 @@ disabled with --disable-FEATURE, default is
->>> enabled if available:
->>> =C2=A0=C2=A0=C2=A0 hax=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 HAX acceleration support
->>> =C2=A0=C2=A0=C2=A0 hvf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Hypervisor.framework acceleration support
->>> =C2=A0=C2=A0=C2=A0 whpx=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 Windows Hypervisor Platform acceleration support
->>> +=C2=A0 nvmm=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 NetBSD Virtual Machine Monitor acceleration support
->>> =C2=A0=C2=A0=C2=A0 rdma=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 Enable RDMA-based migration
->>> =C2=A0=C2=A0=C2=A0 pvrdma=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 Enable PVRDMA support
->>> =C2=A0=C2=A0=C2=A0 vde=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 support for vde network
->>> @@ -2757,6 +2775,20 @@ if test "$whpx" !=3D "no" ; then
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fi
->>> =C2=A0 fi
->>>
->>
->> Maybe you can add something like:
->>
->> if test "$targetos" =3D "NetBSD"; then
->> =C2=A0=C2=A0=C2=A0 nvmm=3D"check"
->> fi
->>
->> to build by default with NVMM if available.
->=20
-> I will add nvmm=3Dyes to the NetBSD) targetos check section.
 
-No, nvmm=3Dyes instead should fail the build if nvmm.h is not available.
-That is not a good default.
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Paolo
+> As we can build tools on OS X we should check we don't break build
+> when we submit new codes.
 
+I agree, snarfed this patch into testing/next, thanks.
+
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  .travis.yml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index 9867272177d4..70a24bf2fc8b 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -273,6 +273,7 @@ jobs:
+>=20=20
+>      - name: "OSX Xcode 10.3"
+>        env:
+> +        - BASE_CONFIG=3D"--disable-docs --enable-tools"
+>          - CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softm=
+mu,m68k-softmmu,x86_64-softmmu"
+>        os: osx
+>        osx_image: xcode10.3
+
+
+--=20
+Alex Benn=C3=A9e
 
