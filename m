@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD24175B3C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:09:25 +0100 (CET)
-Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F98F175B5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Mar 2020 14:14:06 +0100 (CET)
+Received: from localhost ([::1]:60868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8kp2-0007b1-4S
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:09:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48642)
+	id 1j8ktZ-00006m-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 08:14:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8kni-0006Fh-G8
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:03 -0500
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knj-0006Fk-5X
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j8knh-0003MH-Bp
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:02 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:51534 helo=huawei.com)
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j8kni-0003Mz-1r
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 08:08:03 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51530 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j8kng-0003Is-Vi; Mon, 02 Mar 2020 08:08:01 -0500
+ id 1j8knh-0003It-Bp; Mon, 02 Mar 2020 08:08:02 -0500
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 1DED558FCFC53BDD039D;
+ by Forcepoint Email with ESMTP id 22165A735F56E4241B37;
  Mon,  2 Mar 2020 21:07:53 +0800 (CST)
 Received: from huawei.com (10.133.205.93) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 2 Mar 2020
@@ -30,9 +30,11 @@ From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
 Subject: [PATCH v3 00/12] redundant code: Fix warnings reported by Clang
  static code analyzer
-Date: Mon, 2 Mar 2020 21:07:02 +0800
-Message-ID: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
+Date: Mon, 2 Mar 2020 21:07:03 +0800
+Message-ID: <20200302130715.29440-2-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
+References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.133.205.93]
