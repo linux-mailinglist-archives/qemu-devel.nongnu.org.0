@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143001779EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 16:07:32 +0100 (CET)
-Received: from localhost ([::1]:48638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22033177A09
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 16:09:08 +0100 (CET)
+Received: from localhost ([::1]:48686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j998t-0003x6-4C
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 10:07:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42550)
+	id 1j99AR-0007Qq-6W
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 10:09:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j997r-00035z-0a
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:06:27 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j997s-000367-P7
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:06:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j997q-0001ih-3x
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:06:26 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46771)
+ (envelope-from <alex.bennee@linaro.org>) id 1j997r-0001jG-R9
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:06:28 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j997p-0001iZ-TL
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:06:26 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id j7so4692911wrp.13
- for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 07:06:25 -0800 (PST)
+ id 1j997r-0001j2-Km
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:06:27 -0500
+Received: by mail-wr1-x444.google.com with SMTP id z11so4737445wro.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 07:06:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L2sHHUzShlYr/EmtNOXj/kdHEDLGbc34wsNmyk67wtI=;
- b=TgtBNqGbIExMpsBz3F9dOIbtXTSqCezJbjAij0wSCAMR21tQwXbAYaHK0Jit1nAChl
- FTl/EKLGvOKYsz+aKeK5TQ4N9j1rhmzUJHrZD1mynerT+Re4uXSo/Bx0ekABXcrC7Zmz
- EK9Ox8DIbyDzXo0NZdnEAzdWJM6sgBQFNI28kE+bsthKBmSMpkGeNfsE61UQg+kJ1w2l
- wsR9IbzsKhT9ZHExOQyZKM1KA7RUMsQmDb8+Fuv74ibnG/fM6xyCYxZzUs2bjJZd+jCY
- nswlMwC0brC55D7ZzNzAq87On7Pv02H6IKHf2C5Ago9xh+BTfKw0ok0e9ZGclvWlwVBd
- 6YZQ==
+ bh=PvyE/wDJzCAUXXdIR5tpKONlcMYLdIwfZqfJA8Zfq+Y=;
+ b=VCcgBaZ5LBRJDSn7859AL+dCLtFIfNwRjC+jBQ0RqPU16qRT/rUloXc2UhyktKDQ8O
+ qq71ZWlohGEUI8wjGPwgQ+LH1kmc2r15vkucTwd8YoVbhsOKpOZNrAozy/sSYOINfLO/
+ Ax4qF0PSJwZ4MWkhYjwtcmYRcauXRqI8xrtV6q9ZL94W8XL7FXDO9s8wlJLfHwkloA7B
+ 1ipIMOsfTZfyNnzpJjYOuuzr7OIlHMKA6lCXa7zkYL2PWSY/b+nBqSRlDYbGa6A0pKUD
+ RbZZj6GtLTLsJoypknTTHkvlql14VBviDcdwVHAy+oq7UD5wUnqB9f1T4LDADFIDasjM
+ w9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L2sHHUzShlYr/EmtNOXj/kdHEDLGbc34wsNmyk67wtI=;
- b=UGUhCdSz2+SlDlokOiroWAmXT7j3g5Zjb4RcwLdD0AvAoXV75ox1qwLcrTgMj/pwUT
- dWgpuMrKqj6dYkXIO2x5TIBZsCOpqo3TkZ1fYjX12CODkYh106chgDR8VwzOMLlviNQw
- 4rlehv0I2MR7KJXZmUPShJvhNhWhM1o2AdyapdyynjrMFG02JqX8XeEvDHmW0oxMGNMn
- NizTsqpl9i3qbB20RtxjAxyefqKdpv5CwA0CaEh83UE1tKU6KxP6IAkn7vDqvOBl16SJ
- 02qzyUF9RLxX/jjU8fAzIcFpvOZvWkKf2RnqGLOAsw2Ny0PXBRmJpEvchQtNr+tqhFvP
- QuPQ==
-X-Gm-Message-State: ANhLgQ1+MivruHF5lnlCcLA4/qI/07SPHKDbrIK2/qeMO7HAiBVIlz6Y
- TP6tPApZztFdHAe8z8GHrYX6Ow==
-X-Google-Smtp-Source: ADFU+vunUXwitjXPW9cTG88lGEmJvE8mSVr2ircRXVUu6cREJWr2LnzIw9W0LKpBYx7kv69OMHgFLw==
-X-Received: by 2002:adf:ded2:: with SMTP id i18mr5847588wrn.173.1583247984514; 
- Tue, 03 Mar 2020 07:06:24 -0800 (PST)
+ bh=PvyE/wDJzCAUXXdIR5tpKONlcMYLdIwfZqfJA8Zfq+Y=;
+ b=I+unIddXZFfxJj2ebPBSlDQ5qI64edbauuzmTkpbxGsIPKlkNWr4jPBqUab1Bc9xXF
+ qS2WwQKsz9YzJFfdr/nYeRjmrL/vHuzVWmOwCOnSUmp2bJnI32Urv/cXQx4Yueu5/P4z
+ vggs3yB14HOQ17qWnOq9TIBA8AXREgOKJfXXHKeZWnkveTU5os+Tgs+jMkvLJWcwrs+l
+ WGOBVvwFRhS+wyQg5IWnHRbXXIMz+Sbuia1FCuAak288sUr9xSYD7RdXYXpip6osDiDN
+ pJ3peAwg+9U5eukcDgoJPlIwlUIy8RJNbO5DbCcTsY46w77eoU2D+/cmyN+0gUFd0ZwQ
+ 4ufw==
+X-Gm-Message-State: ANhLgQ3Xd9K9Pr1+uy60JjQk4t7LozZvAJXqs1NgpRDsyylfRafYO73p
+ F4a7E44QjpWHz3j/L7eDAPUlgQ==
+X-Google-Smtp-Source: ADFU+vtbBq24WphECc0DQ3H+r/8fjtzq4rO+pdBZk+SnKMG/ngygqzfkn1NKeTHgEkZwVXUDxSeXyQ==
+X-Received: by 2002:a5d:42c6:: with SMTP id t6mr6253621wrr.394.1583247986633; 
+ Tue, 03 Mar 2020 07:06:26 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f207sm5381887wme.9.2020.03.03.07.06.23
+ by smtp.gmail.com with ESMTPSA id z13sm6040160wrv.94.2020.03.03.07.06.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 07:06:23 -0800 (PST)
+ Tue, 03 Mar 2020 07:06:24 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 98C291FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id C40951FF8F;
  Tue,  3 Mar 2020 15:06:22 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 1/9] tests/vm: use $(PYTHON) consistently
-Date: Tue,  3 Mar 2020 15:06:14 +0000
-Message-Id: <20200303150622.20133-2-alex.bennee@linaro.org>
+Subject: [PATCH  v2 2/9] tests/vm: Debug mode shows ssh output.
+Date: Tue,  3 Mar 2020 15:06:15 +0000
+Message-Id: <20200303150622.20133-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200303150622.20133-1-alex.bennee@linaro.org>
 References: <20200303150622.20133-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,32 +90,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-Change Makefile.include to use $(PYTHON) so for vm-boot-ssh to be
-consistent with other cases like vm-build.
+Add changes to tests/vm/basevm.py so that during debug mode we show ssh output.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219163537.22098-2-robert.foley@linaro.org>
+Message-Id: <20200219163537.22098-3-robert.foley@linaro.org>
 ---
- tests/vm/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/vm/basevm.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 9e7c46a4735..778e5067554 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -80,7 +80,7 @@ vm-boot-serial-%: $(IMAGES_DIR)/%.img
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 4dee6647e6e..c99725b8c0d 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -120,11 +120,16 @@ class BaseVM(object):
+         return fname
  
- vm-boot-ssh-%: $(IMAGES_DIR)/%.img
- 	$(call quiet-command, \
--		$(SRC_PATH)/tests/vm/$* \
-+		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
- 		$(if $(J),--jobs $(J)) \
- 		--image "$<" \
- 		--interactive \
+     def _ssh_do(self, user, cmd, check):
+-        ssh_cmd = ["ssh", "-q", "-t",
++        ssh_cmd = ["ssh",
++                   "-t",
+                    "-o", "StrictHostKeyChecking=no",
+                    "-o", "UserKnownHostsFile=" + os.devnull,
+                    "-o", "ConnectTimeout=1",
+                    "-p", self.ssh_port, "-i", self._ssh_key_file]
++        # If not in debug mode, set ssh to quiet mode to
++        # avoid printing the results of commands.
++        if not self.debug:
++            ssh_cmd.append("-q")
+         for var in self.envvars:
+             ssh_cmd += ['-o', "SendEnv=%s" % var ]
+         assert not isinstance(cmd, str)
 -- 
 2.20.1
 
