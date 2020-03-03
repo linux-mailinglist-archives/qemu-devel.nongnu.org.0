@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7381176E07
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 05:31:44 +0100 (CET)
-Received: from localhost ([::1]:42056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF01176EB9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 06:28:50 +0100 (CET)
+Received: from localhost ([::1]:42362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8zDb-0006eY-AS
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 23:31:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
+	id 1j906r-0000jF-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 00:28:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jianjay.zhou@huawei.com>) id 1j8zCA-000674-M5
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 23:30:15 -0500
+ (envelope-from <yi.y.sun@linux.intel.com>) id 1j905z-0000H8-7v
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 00:27:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jianjay.zhou@huawei.com>) id 1j8zC9-00046e-J0
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 23:30:14 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2454 helo=huawei.com)
+ (envelope-from <yi.y.sun@linux.intel.com>) id 1j905y-0003SN-55
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 00:27:55 -0500
+Received: from mga12.intel.com ([192.55.52.136]:14493)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jianjay.zhou@huawei.com>)
- id 1j8zC9-00046D-91
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 23:30:13 -0500
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.53])
- by Forcepoint Email with ESMTP id C3831BB387B08619B24D;
- Tue,  3 Mar 2020 12:30:06 +0800 (CST)
-Received: from DGGEMM528-MBX.china.huawei.com ([169.254.8.90]) by
- DGGEMM406-HUB.china.huawei.com ([10.3.20.214]) with mapi id 14.03.0439.000;
- Tue, 3 Mar 2020 12:29:57 +0800
-From: "Zhoujian (jay)" <jianjay.zhou@huawei.com>
-To: Peter Feiner <pfeiner@google.com>
-Subject: RE: RFC: Split EPT huge pages in advance of dirty logging
-Thread-Topic: RFC: Split EPT huge pages in advance of dirty logging
-Thread-Index: AdXmU97BvyK5YKoyS5++my9GnvXVk///1+yA//428yCAA1S3gP/+abuggAMs8gCAAd62AIAAJJ4A//B2yiAD16MpAP/+sSEw
-Date: Tue, 3 Mar 2020 04:29:57 +0000
-Message-ID: <B2D15215269B544CADD246097EACE7474BB4DD60@DGGEMM528-MBX.china.huawei.com>
-References: <B2D15215269B544CADD246097EACE7474BAF9AB6@DGGEMM528-MBX.china.huawei.com>
- <20200218174311.GE1408806@xz-x1>
- <B2D15215269B544CADD246097EACE7474BAFF835@DGGEMM528-MBX.china.huawei.com>
- <20200219171919.GA34517@xz-x1>
- <B2D15215269B544CADD246097EACE7474BB03772@DGGEMM528-MBX.china.huawei.com>
- <CANgfPd-P_=GqcMiwLSSkUhZDt42aMLUsCJt+CPdUN5yR3RLHmQ@mail.gmail.com>
- <cd4626a1-44b5-1a62-cf4b-716950a6db1b@google.com>
- <CAM3pwhGF3ABoew5UOd9xUxtm14VN_o0gr+D=KfR3ZEQjmKgUdQ@mail.gmail.com>
- <B2D15215269B544CADD246097EACE7474BB4A71D@DGGEMM528-MBX.china.huawei.com>
- <CAM3pwhH8xyisEq_=LFTy=sZNA2kRTQTbBqW6GA-0M-AiJy0q1g@mail.gmail.com>
-In-Reply-To: <CAM3pwhH8xyisEq_=LFTy=sZNA2kRTQTbBqW6GA-0M-AiJy0q1g@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.173.228.206]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <yi.y.sun@linux.intel.com>)
+ id 1j905x-0003S8-Sw
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 00:27:54 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2020 21:27:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,510,1574150400"; d="scan'208";a="258254825"
+Received: from yisun1-ubuntu.bj.intel.com (HELO localhost) ([10.238.156.100])
+ by orsmga002.jf.intel.com with ESMTP; 02 Mar 2020 21:27:50 -0800
+Date: Tue, 3 Mar 2020 13:22:26 +0800
+From: Yi Sun <yi.y.sun@linux.intel.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH v1] memory: remove assert to avoid unnecessary coredump
+Message-ID: <20200303052226.GA3409@yi.y.sun>
+References: <20200303031114.21111-1-yi.y.sun@linux.intel.com>
+ <20200303033639.GA18980@joy-OptiPlex-7040>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.187
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200303033639.GA18980@joy-OptiPlex-7040>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.136
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,32 +57,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liujinsong \(Paul\)" <liu.jinsong@huawei.com>,
- Junaid Shahid <junaids@google.com>, "linfeng \(M\)" <linfeng23@huawei.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "wangxin \(U\)" <wangxinxin.wang@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, Ben Gardon <bgardon@google.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "Huangweidong \(C\)" <weidong.huang@huawei.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCkZyb206IFBldGVyIEZlaW5lciBbbWFpbHRvOnBmZWluZXJAZ29vZ2xlLmNvbV0gDQpTZW50
-OiBUdWVzZGF5LCBNYXJjaCAzLCAyMDIwIDEyOjI5IEFNDQpUbzogWmhvdWppYW4gKGpheSkgPGpp
-YW5qYXkuemhvdUBodWF3ZWkuY29tPg0KQ2M6IEJlbiBHYXJkb24gPGJnYXJkb25AZ29vZ2xlLmNv
-bT47IFBldGVyIFh1IDxwZXRlcnhAcmVkaGF0LmNvbT47IGt2bUB2Z2VyLmtlcm5lbC5vcmc7IHFl
-bXUtZGV2ZWxAbm9uZ251Lm9yZzsgcGJvbnppbmlAcmVkaGF0LmNvbTsgZGdpbGJlcnRAcmVkaGF0
-LmNvbTsgcXVpbnRlbGFAcmVkaGF0LmNvbTsgTGl1amluc29uZyAoUGF1bCkgPGxpdS5qaW5zb25n
-QGh1YXdlaS5jb20+OyBsaW5mZW5nIChNKSA8bGluZmVuZzIzQGh1YXdlaS5jb20+OyB3YW5neGlu
-IChVKSA8d2FuZ3hpbnhpbi53YW5nQGh1YXdlaS5jb20+OyBIdWFuZ3dlaWRvbmcgKEMpIDx3ZWlk
-b25nLmh1YW5nQGh1YXdlaS5jb20+OyBKdW5haWQgU2hhaGlkIDxqdW5haWRzQGdvb2dsZS5jb20+
-DQpTdWJqZWN0OiBSZTogUkZDOiBTcGxpdCBFUFQgaHVnZSBwYWdlcyBpbiBhZHZhbmNlIG9mIGRp
-cnR5IGxvZ2dpbmcNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRl
-ciBGZWluZXIgW21haWx0bzpwZmVpbmVyQGdvb2dsZS5jb21dDQoNClsuLi5dDQoNCj5IaSBKYXks
-DQo+SSd2ZSBiZWVuIHNpY2sgc2luY2UgSSBzZW50IG15IGxhc3QgZW1haWwsIHNvIEkgaGF2ZW4n
-dCBnb3R0ZW4gdG8gdGhpcyBwYXRjaCBzZXQgeWV0LiBJJ2xsIHNlbmQgaXQgaW4gdGhlIG5leHQg
-d2VlayBvciB0d28uwqANCg0KT0ssIHBsZWFzZSB0YWtlIGNhcmUgb2YgeW91cnNlbGYuDQoNCg0K
-UmVnYXJkcywNCkpheSBaaG91DQo=
+On 20-03-02 22:36:39, Yan Zhao wrote:
+> On Tue, Mar 03, 2020 at 11:11:14AM +0800, Yi Sun wrote:
+> > It is too strict to use assert to make qemu coredump if
+> > the notification does not overlap with registered range.
+> > Skip it is fine enough.
+> > 
+> > During test, we found such a case for vhost net device:
+> >     memory_region_notify_one: entry->iova=0xfee00000, entry_end=0xfeffffff, notifier->start=0xfef00000, notifier->end=0xffffffffffffffff
+> >
+> so for range from 0xfef00000 to 0xfefffff,  would notification for this
+> range get lost?
+> 
+Yes, that is an issue although there is no any problem found during test
+with this fix.
+
+I think we should notify the intersection between entry and notifier. How
+do you think?
+
+> Thanks
+> Yan
+> 
+> > Skip this notification but not coredump makes everything
+> > work well.
+> > 
+> > Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+> > ---
+> >  memory.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/memory.c b/memory.c
+> > index 06484c2bff..62ad0f3377 100644
+> > --- a/memory.c
+> > +++ b/memory.c
+> > @@ -1921,12 +1921,11 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
+> >       * Skip the notification if the notification does not overlap
+> >       * with registered range.
+> >       */
+> > -    if (notifier->start > entry_end || notifier->end < entry->iova) {
+> > +    if (notifier->start > entry_end || notifier->end < entry->iova ||
+> > +        entry->iova < notifier->start || entry_end > notifier->end) {
+> >          return;
+> >      }
+> >  
+> > -    assert(entry->iova >= notifier->start && entry_end <= notifier->end);
+> > -
+> >      if (entry->perm & IOMMU_RW) {
+> >          request_flags = IOMMU_NOTIFIER_MAP;
+> >      } else {
+> > -- 
+> > 2.15.1
+> > 
 
