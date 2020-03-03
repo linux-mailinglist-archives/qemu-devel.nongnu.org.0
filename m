@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435F51773D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:18:57 +0100 (CET)
-Received: from localhost ([::1]:44798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD6D177393
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:12:20 +0100 (CET)
+Received: from localhost ([::1]:44660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j94dc-0007nQ-6D
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:18:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52806)
+	id 1j94XD-0000rI-5K
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:12:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j94WZ-0000PC-KC
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:40 -0500
+ (envelope-from <jasowang@redhat.com>) id 1j94Vo-0007Jb-KY
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:10:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j94WY-0006KS-Aq
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:39 -0500
-Resent-Date: Tue, 03 Mar 2020 05:11:39 -0500
-Resent-Message-Id: <E1j94WY-0006KS-Aq@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21177)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j94WX-0006Ji-WE; Tue, 03 Mar 2020 05:11:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1583230192; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=XkRKPV05yFTO13ia0QuFEzIhTdP7bGdmbq7QT7Xjs6O0jn1ydU6YnlpnG4xCFYARghZd3tlWcXrZ18Ch79Yr8H4FCoO3VRBEhAv4Z6+Mj3gDZ/Zi3PTeumztiEmMdbFDYJwImJXLw3QA1qrItdhHOC8qQqGOla95BGUC6m5X+nM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1583230192;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6h0Avu/nURuND/3kDKluAF2+K7sniAsSm+DzLOZbamA=; 
- b=Bst7IyK7RESFkEvrFkSlhJhndGYABxlUayELZeZZ79HP1nKTJ+Deb0lpN/4/QyhszG18Y/7BwvZgoGSpc/ZxF+xfOWrnf4ma1h4Qrk5vRrL5iMoYInDpDMeoEx+mvxEzzln9kvcVPee3kTF60eMRLuYPXwjKZ+ZVNAW02cuMlJ0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1583230189403964.9433006367394;
- Tue, 3 Mar 2020 02:09:49 -0800 (PST)
-In-Reply-To: <20200303100511.5498-1-peter.maydell@linaro.org>
-Subject: Re: [PATCH] cpu: Use DeviceClass reset instead of a special CPUClass
- reset
-Message-ID: <158323018613.8962.3754180620911292868@abdcc9e1aa82>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
+ (envelope-from <jasowang@redhat.com>) id 1j94Vm-000652-Ii
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:10:51 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31472
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j94Vm-00064k-8T
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:10:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583230249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=a3mtZJnkJVV8Zr5yhb+WtJDXG++/jOC4+RHJP17LVe4=;
+ b=jFR2rudLNVlwsWUynpLJSFT0L19aKYg0o35VhJRpRnVTAWa5urNVgmEmy3XKM+BT3Inx67
+ UPisVzUohEO5fV3gypN9zfns1uoD9NQAQmS5wmVd6LbQnv0Bs0MOxcIaruyrgEaEh/bNOo
+ lroZ/upcg3c82xCVrmJNRfj3iz4j0jQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-sMp8BLnNN7OoFghKR5j9tw-1; Tue, 03 Mar 2020 05:10:47 -0500
+X-MC-Unique: sMp8BLnNN7OoFghKR5j9tw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B65A189F762;
+ Tue,  3 Mar 2020 10:10:46 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-98.pek2.redhat.com
+ [10.72.12.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF3038D55E;
+ Tue,  3 Mar 2020 10:10:44 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Date: Tue, 3 Mar 2020 02:09:49 -0800 (PST)
-X-ZohoMailClient: External
+Subject: [PULL V2 00/23] Net patches
+Date: Tue,  3 Mar 2020 18:10:19 +0800
+Message-Id: <1583230242-14597-1-git-send-email-jasowang@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,48 +68,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: crwulff@gmail.com, sagark@eecs.berkeley.edu, david@redhat.com,
- green@moxielogic.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- jcmvbkbc@gmail.com, Alistair.Francis@wdc.com, edgar.iglesias@gmail.com,
- marex@denx.de, palmer@dabbelt.com, aleksandar.rikalo@rt-rk.com,
- rth@twiddle.net, atar4qemu@gmail.com, ehabkost@redhat.com,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, shorne@gmail.com,
- david@gibson.dropbear.id.au, qemu-riscv@nongnu.org,
- kbastian@mail.uni-paderborn.de, cohuck@redhat.com, laurent@vivier.eu,
- michael@walle.cc, qemu-ppc@nongnu.org, amarkovic@wavecomp.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwMzEwMDUxMS41NDk4
-LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUEFUQ0hdIGNwdTogVXNlIERldmljZUNsYXNzIHJl
-c2V0IGluc3RlYWQgb2YgYSBzcGVjaWFsIENQVUNsYXNzIHJlc2V0Ck1lc3NhZ2UtaWQ6IDIwMjAw
-MzAzMTAwNTExLjU0OTgtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKVHlwZTogc2VyaWVzCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
-IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
-YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFm
-Zjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApmYXRhbDogdW5hYmxlIHRvIGFjY2VzcyAnaHR0
-cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11Lyc6IEZhaWxlZCBjb25uZWN0IHRv
-IGdpdGh1Yi5jb206NDQzOyBObyByb3V0ZSB0byBob3N0CmVycm9yOiBDb3VsZCBub3QgZmV0Y2gg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApUcmFjZWJhY2sgKG1vc3Qg
-cmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAicGF0Y2hldy10ZXN0ZXIvc3JjL3BhdGNoZXctY2xp
-IiwgbGluZSA1MjEsIGluIHRlc3Rfb25lCiAgICBnaXRfY2xvbmVfcmVwbyhjbG9uZSwgclsicmVw
-byJdLCByWyJoZWFkIl0sIGxvZ2YsIFRydWUpCiAgRmlsZSAicGF0Y2hldy10ZXN0ZXIvc3JjL3Bh
-dGNoZXctY2xpIiwgbGluZSA0OCwgaW4gZ2l0X2Nsb25lX3JlcG8KICAgIHN0ZG91dD1sb2dmLCBz
-dGRlcnI9bG9nZikKICBGaWxlICIvb3B0L3JoL3JoLXB5dGhvbjM2L3Jvb3QvdXNyL2xpYjY0L3B5
-dGhvbjMuNi9zdWJwcm9jZXNzLnB5IiwgbGluZSAyOTEsIGluIGNoZWNrX2NhbGwKICAgIHJhaXNl
-IENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vz
-c0Vycm9yOiBDb21tYW5kICdbJ2dpdCcsICdyZW1vdGUnLCAnYWRkJywgJy1mJywgJy0tbWlycm9y
-PWZldGNoJywgJzNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQnLCAnaHR0
-cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11J10nIHJldHVybmVkIG5vbi16ZXJv
-IGV4aXQgc3RhdHVzIDEuCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3Bh
-dGNoZXcub3JnL2xvZ3MvMjAyMDAzMDMxMDA1MTEuNTQ5OC0xLXBldGVyLm1heWRlbGxAbGluYXJv
-Lm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
-ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
-IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+The following changes since commit e0175b71638cf4398903c0d25f93fe62e0606389=
+:
+
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200=
+228' into staging (2020-02-28 16:39:27 +0000)
+
+are available in the git repository at:
+
+  https://github.com/jasowang/qemu.git tags/net-pull-request
+
+for you to fetch changes up to 21843dc48e38c27cbddb85b4719000c70a70b6bc:
+
+  l2tpv3: fix RFC number typo in qemu-options.hx (2020-03-03 18:04:47 +0800=
+)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Bin Meng (1):
+      hw: net: cadence_gem: Fix build errors in DB_PRINT()
+
+Finn Thain (14):
+      dp8393x: Mask EOL bit from descriptor addresses
+      dp8393x: Always use 32-bit accesses
+      dp8393x: Clean up endianness hacks
+      dp8393x: Have dp8393x_receive() return the packet size
+      dp8393x: Update LLFA and CRDA registers from rx descriptor
+      dp8393x: Clear RRRA command register bit only when appropriate
+      dp8393x: Implement packet size limit and RBAE interrupt
+      dp8393x: Don't clobber packet checksum
+      dp8393x: Use long-word-aligned RRA pointers in 32-bit mode
+      dp8393x: Pad frames to word or long word boundary
+      dp8393x: Clear descriptor in_use field to release packet
+      dp8393x: Always update RRA pointers and sequence numbers
+      dp8393x: Don't reset Silicon Revision register
+      dp8393x: Don't stop reception upon RBE interrupt assertion
+
+Lukas Straub (4):
+      block/replication.c: Ignore requests after failover
+      tests/test-replication.c: Add test for for secondary node continuing =
+replication
+      net/filter.c: Add Options to insert filters anywhere in the filter li=
+st
+      colo: Update Documentation for continuous replication
+
+Stefan Hajnoczi (1):
+      l2tpv3: fix RFC number typo in qemu-options.hx
+
+Yuri Benditovich (3):
+      e1000e: Avoid hw_error if legacy mode used
+      NetRxPkt: Introduce support for additional hash types
+      NetRxPkt: fix hash calculation of IPV6 TCP
+
+ block/replication.c        |  35 ++++++-
+ docs/COLO-FT.txt           | 224 +++++++++++++++++++++++++++++++++--------=
+----
+ docs/block-replication.txt |  28 ++++--
+ hw/net/cadence_gem.c       |  11 ++-
+ hw/net/dp8393x.c           | 200 ++++++++++++++++++++++++++--------------
+ hw/net/e1000e_core.c       |  15 +--
+ hw/net/net_rx_pkt.c        |  44 ++++++++-
+ hw/net/net_rx_pkt.h        |   6 +-
+ hw/net/trace-events        |   4 +
+ include/net/filter.h       |   2 +
+ net/filter.c               |  92 ++++++++++++++++++-
+ qemu-options.hx            |  35 +++++--
+ tests/test-replication.c   |  52 +++++++++++
+ 13 files changed, 591 insertions(+), 157 deletions(-)
+
+
 
