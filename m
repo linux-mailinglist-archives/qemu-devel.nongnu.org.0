@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A807D1769D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 02:05:27 +0100 (CET)
-Received: from localhost ([::1]:40586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E981769DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 02:08:21 +0100 (CET)
+Received: from localhost ([::1]:40648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8vzy-0007nF-CR
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 20:05:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45547)
+	id 1j8w2m-0003qP-Db
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 20:08:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vl4-0002xm-Uw
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:03 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vl6-00032A-Jh
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vl3-0004dT-Ig
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:02 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36147)
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vl5-0004eJ-6o
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:04 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42254)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j8vl3-0004cy-B9
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:01 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id d9so676100pgu.3
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:50:01 -0800 (PST)
+ id 1j8vl5-0004dq-07
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:03 -0500
+Received: by mail-pl1-x644.google.com with SMTP id u3so501436plr.9
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=TFaI+CsTEBm5jcbgK52B+eLHOA/XNjrGjXU/SzxCs/E=;
- b=UVkhjAuNk0MHOJJG9SQzHcRGZeJ0jkhV/9L7HgZ4y3WpEm1NySfdJ6CO2oR+Zr1v4L
- TGetjWt/4X68WaeCpgSzlG26VEUnujlAkwm6Ehxz5W1KO9MeNE1LAebzV+nb+bjrNUSq
- y2w//hO7TSI+/Xk6EHxwEyh2x0CssLAPGOIZg0Ni4E9OskcKav9JNbR9061DZV8YQX5u
- GhvKg/6NI6GS8M85Z4YiHBkIPvt0WLqoX17wmB3+DCV/aVA9nfFIDDZ1q/TgVuR/cDVR
- xxoSTBqStIcoZ5GZf+Q1rslKz29mGhrR43zn2NCg1zqAGaj/9X0LrVDZilSRou4nKSrS
- 0scQ==
+ bh=hFvs1uriIPG137AabzLSMhSoJyIF8wxeh5khJdI5tCA=;
+ b=MEyA7e84ywbhUOO5Put43vKHTkEfB/3l6JLzrkGv/1Xj8Pt6wR1JBfbVif7w0S7aYK
+ U3dho1Yjmu9WLrEoXITwPOURSE67zZpj0JtdkN1Kb4fhi7oM0t+XuPT61C2faFWHEO+g
+ S+hVEL5YrEMPTmq/wyqDddRCk4Q1XDeOo63FCgIucrmnckTQnLoCbHCiLpldCq2wZAdm
+ oYC73cyaOtp0vSHmhdc8qHveSHUa4LAA4XbNeBZMcE3nQpsm+P18QKkapwhpnurTX6po
+ 9hSvmOnsET+lDcI0DkeJ2bqcL+f/VGZv34w4JL+RjJPnjobn2U+S4hGbgxd9urvN5EEc
+ db/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=TFaI+CsTEBm5jcbgK52B+eLHOA/XNjrGjXU/SzxCs/E=;
- b=Q9hAy6ztr+fm6Bboxdjs4gY2/pFh2dgzzpj7uRjf8c9tuHbsif/9L6UpLC3j8Kqt83
- rdYJ1iZI1h457AMFpL3M9fOUQVpPnLwzSOPYg7nf3axbd8ijbwzHtE9BwDCGUHdv65/b
- ina0P1533Y7Y1aCuk5WlHCUTFnxg+pVMstYm1lvunx7tWnGSlbqk/rJ+H9u7VigCGhii
- uaikpiDuZu8DsEEKvVLyonV6bYA+cpXJm/aCuTT9yG/h5TM9UB/m7jrkaM/X2YyywwQx
- lNQElg9iKoFPwHOx/zPKUMjtQRPR91PtXANGEH3tMxVE6cjn9+HsYIQ7Xc6xUf4nZaIp
- g9Qg==
-X-Gm-Message-State: ANhLgQ0QnzCiilJq0JQBr0VHWoV3Ra7VexAMM0Sqc4vl6poc67cvG+ra
- et4YIR4YT4D1SQ9j/O9ea7H/dw==
-X-Google-Smtp-Source: ADFU+vsvTnLhLBoYoTp2B6i7YnvgNtmFsLVIUsNqTjQvX8AX65VyXKStRdMcRFYXp8cd5uPApHAC2Q==
-X-Received: by 2002:a62:e70e:: with SMTP id s14mr1579661pfh.115.1583196600269; 
- Mon, 02 Mar 2020 16:50:00 -0800 (PST)
+ bh=hFvs1uriIPG137AabzLSMhSoJyIF8wxeh5khJdI5tCA=;
+ b=TRswbt/Tm1gwEDQ8JQhxQwjh2kWRQ7KBofN8tPgcVeazbhE841bJZRk8+68WZZigRc
+ /YZ4005sQHZxawyXO6IA8B0b5lNPmpLyEpWiDQri4hi1JPFtC/A8670iEnxjC9Y/F8QM
+ yhfadoZ1sKCbQrNLd2AXhlQwJx4YABAFYwHL9A3SvA+wwHYmaJsAfQx3yB6qW/OiWbkU
+ e5NhY0Q290O93C1hlIPQx8mtOTYc7Oes1u3b+Z6obYAjLjaahAqQ0V3HtBcnGrv9Kkh6
+ OELQUuEs6TRDkALNT6McRk2SzgVSDIzO8S9YcsWSEG34VYowhFGnTf4Jy2+OHlKQxjIz
+ 4JdA==
+X-Gm-Message-State: ANhLgQ0W2OlArefllSfGUir5/kuLqAcmzxtXTvkNK6+ArRr0EPshHCM/
+ 1YIpPWiNMS3UdTsFrfa5AjsPiw==
+X-Google-Smtp-Source: ADFU+vtCv/gmtcsKjP+S4rxMXxVt4LnuWyboyAcIVD5aVwyK2N/4nWyed2Lg/vvPP2fL11HuKczBrg==
+X-Received: by 2002:a17:90a:348a:: with SMTP id
+ p10mr1299631pjb.120.1583196601863; 
+ Mon, 02 Mar 2020 16:50:01 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id c3sm22271988pfb.85.2020.03.02.16.49.59
+ by smtp.gmail.com with ESMTPSA id r13sm22296675pgf.1.2020.03.02.16.50.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 16:49:59 -0800 (PST)
-Subject: [PULL 36/38] riscv: virt: Allow PCI address 0
-Date: Mon,  2 Mar 2020 16:48:46 -0800
-Message-Id: <20200303004848.136788-37-palmerdabbelt@google.com>
+ Mon, 02 Mar 2020 16:50:01 -0800 (PST)
+Subject: [PULL 37/38] target/riscv: Emulate TIME CSRs for privileged mode
+Date: Mon,  2 Mar 2020 16:48:47 -0800
+Message-Id: <20200303004848.136788-38-palmerdabbelt@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200303004848.136788-1-palmerdabbelt@google.com>
 References: <20200303004848.136788-1-palmerdabbelt@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Bin Meng <bmeng.cn@gmail.com>, Palmer Dabbelt <palmerdabbelt@google.com>
+ Anup Patel <anup.patel@wdc.com>, Alistair Francis <alistair.francis@wdc.com>, 
+ Palmer Dabbelt <palmerdabbelt@google.com>
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52e
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,42 +84,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Anup Patel <anup.patel@wdc.com>
 
-When testing e1000 with the virt machine, e1000's I/O space cannot
-be accessed. Debugging shows that the I/O BAR (BAR1) is correctly
-written with address 0 plus I/O enable bit, but QEMU's "info pci"
-shows that:
+Currently, TIME CSRs are emulated only for user-only mode. This
+patch add TIME CSRs emulation for privileged mode.
 
-  Bus  0, device   1, function 0:
-    Ethernet controller: PCI device 8086:100e
-  ...
-      BAR1: I/O at 0xffffffffffffffff [0x003e].
-  ...
+For privileged mode, the TIME CSRs will return value provided
+by rdtime callback which is registered by QEMU machine/platform
+emulation (i.e. CLINT emulation). If rdtime callback is not
+available then the monitor (i.e. OpenSBI) will trap-n-emulate
+TIME CSRs in software.
 
-It turns out we should set pci_allow_0_address to true to allow 0
-PCI address, otherwise pci_bar_address() treats such address as
-PCI_BAR_UNMAPPED.
+We see 25+% performance improvement in hackbench numbers when
+TIME CSRs are not trap-n-emulated.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- hw/riscv/virt.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu.h        |  5 +++
+ target/riscv/cpu_helper.c |  5 +++
+ target/riscv/csr.c        | 86 +++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 92 insertions(+), 4 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 7f9e1e5176..5d175d5c9e 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -641,6 +641,7 @@ static void riscv_virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->init = riscv_virt_board_init;
-     mc->max_cpus = 8;
-     mc->default_cpu_type = VIRT_CPU;
-+    mc->pci_allow_0_address = true;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index d52f209361..3dcdf92227 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -159,6 +159,7 @@ struct CPURISCVState {
+     target_ulong htval;
+     target_ulong htinst;
+     target_ulong hgatp;
++    uint64_t htimedelta;
+ 
+     /* Virtual CSRs */
+     target_ulong vsstatus;
+@@ -201,6 +202,9 @@ struct CPURISCVState {
+     /* physical memory protection */
+     pmp_table_t pmp_state;
+ 
++    /* machine specific rdtime callback */
++    uint64_t (*rdtime_fn)(void);
++
+     /* True if in debugger mode.  */
+     bool debugger;
+ #endif
+@@ -322,6 +326,7 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
+ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
+ #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
++void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void));
+ #endif
+ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 29a1b37d88..5ea5d133aa 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -258,6 +258,11 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
+     return old;
  }
  
- static const TypeInfo riscv_virt_machine_typeinfo = {
++void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(void))
++{
++    env->rdtime_fn = fn;
++}
++
+ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+ {
+     if (newpriv > PRV_M) {
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 572a478e8c..11d184cd16 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -238,6 +238,32 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
+ 
+ #else /* CONFIG_USER_ONLY */
+ 
++static int read_time(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    uint64_t delta = riscv_cpu_virt_enabled(env) ? env->htimedelta : 0;
++
++    if (!env->rdtime_fn) {
++        return -1;
++    }
++
++    *val = env->rdtime_fn() + delta;
++    return 0;
++}
++
++#if defined(TARGET_RISCV32)
++static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    uint64_t delta = riscv_cpu_virt_enabled(env) ? env->htimedelta : 0;
++
++    if (!env->rdtime_fn) {
++        return -1;
++    }
++
++    *val = (env->rdtime_fn() + delta) >> 32;
++    return 0;
++}
++#endif
++
+ /* Machine constants */
+ 
+ #define M_MODE_INTERRUPTS  (MIP_MSIP | MIP_MTIP | MIP_MEIP)
+@@ -930,6 +956,56 @@ static int write_hgatp(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++static int read_htimedelta(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    if (!env->rdtime_fn) {
++        return -1;
++    }
++
++#if defined(TARGET_RISCV32)
++    *val = env->htimedelta & 0xffffffff;
++#else
++    *val = env->htimedelta;
++#endif
++    return 0;
++}
++
++static int write_htimedelta(CPURISCVState *env, int csrno, target_ulong val)
++{
++    if (!env->rdtime_fn) {
++        return -1;
++    }
++
++#if defined(TARGET_RISCV32)
++    env->htimedelta = deposit64(env->htimedelta, 0, 32, (uint64_t)val);
++#else
++    env->htimedelta = val;
++#endif
++    return 0;
++}
++
++#if defined(TARGET_RISCV32)
++static int read_htimedeltah(CPURISCVState *env, int csrno, target_ulong *val)
++{
++    if (!env->rdtime_fn) {
++        return -1;
++    }
++
++    *val = env->htimedelta >> 32;
++    return 0;
++}
++
++static int write_htimedeltah(CPURISCVState *env, int csrno, target_ulong val)
++{
++    if (!env->rdtime_fn) {
++        return -1;
++    }
++
++    env->htimedelta = deposit64(env->htimedelta, 32, 32, (uint64_t)val);
++    return 0;
++}
++#endif
++
+ /* Virtual CSR Registers */
+ static int read_vsstatus(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+@@ -1202,14 +1278,12 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_INSTRETH] =            { ctr,  read_instreth                       },
+ #endif
+ 
+-    /* User-level time CSRs are only available in linux-user
+-     * In privileged mode, the monitor emulates these CSRs */
+-#if defined(CONFIG_USER_ONLY)
++    /* In privileged mode, the monitor will have to emulate TIME CSRs only if
++     * rdtime callback is not provided by machine/platform emulation */
+     [CSR_TIME] =                { ctr,  read_time                           },
+ #if defined(TARGET_RISCV32)
+     [CSR_TIMEH] =               { ctr,  read_timeh                          },
+ #endif
+-#endif
+ 
+ #if !defined(CONFIG_USER_ONLY)
+     /* Machine Timers and Counters */
+@@ -1275,6 +1349,10 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_HTVAL] =               { hmode,   read_htval,       write_htval      },
+     [CSR_HTINST] =              { hmode,   read_htinst,      write_htinst     },
+     [CSR_HGATP] =               { hmode,   read_hgatp,       write_hgatp      },
++    [CSR_HTIMEDELTA] =          { hmode,   read_htimedelta,  write_htimedelta },
++#if defined(TARGET_RISCV32)
++    [CSR_HTIMEDELTAH] =         { hmode,   read_htimedeltah, write_htimedeltah},
++#endif
+ 
+     [CSR_VSSTATUS] =            { hmode,   read_vsstatus,    write_vsstatus   },
+     [CSR_VSIP] =                { hmode,   NULL,     NULL,     rmw_vsip       },
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
