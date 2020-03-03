@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07A617781D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 15:03:02 +0100 (CET)
-Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA3A17782F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 15:04:30 +0100 (CET)
+Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j988T-00026k-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 09:03:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59470)
+	id 1j989t-0004Hj-6L
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 09:04:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59521)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=3240045c5=Anup.Patel@wdc.com>)
- id 1j986t-0000yH-An
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:01:24 -0500
+ id 1j9876-00016m-Mc
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:01:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=3240045c5=Anup.Patel@wdc.com>)
- id 1j986s-0006VK-Au
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:01:23 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:28739)
+ id 1j9872-0006aH-Cb
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:01:36 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:63262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=3240045c5=Anup.Patel@wdc.com>)
- id 1j986p-0006TC-0G; Tue, 03 Mar 2020 09:01:19 -0500
+ id 1j986p-0006SZ-0m; Tue, 03 Mar 2020 09:01:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1583244079; x=1614780079;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=GCc4iKKy6lLSSEYQbc97PMJrH0hk8z7bF5hcUFEiyY0=;
- b=liMT9HdoIymgiKcqxLT06THqzLiz0V+54U8RtHzRjZssnbaEnOPYkcif
- 32dKwl5ATxIYin5RoKqITvF1IhzJ1sQ/SPHrg4WAVwC4wzjDJMUDmyOpu
- FKbITRXdqoYINhNyg4jB8nQuBOLGXgJr+0/SiGKLmbL6BBCP3J6mHY7Pa
- S+PtXqtxBCZKK73a3X3SMqUzSLfzrrKCWGzFiREkRfIyVttUkyUR75xXa
- jcL1b7gc+cuX5fWgIjGrLOP2kcHwLTM9Hku19Vs9thiaKB5o1JZwnM8T+
- 7Ixp8g8G6bXCns8HcpbrlV9qaq0Ue3DDAVV1v/iACnu886CjHOHisvb5n A==;
-IronPort-SDR: k4c1/z72hkBQ5FU9N9mqR5CTdQzgVHVGyhaNylYuVOkXpSCBYHFb90sdPYJWUTFniIbTiR6z9+
- S93OdZ4BVHQZv4AUAOZgdI+aA2Mt8NQRgbCdA3AGic9C1scZJrLjRD9ji1SLRRbrg8VZt8EZCQ
- nWUiyZSguIOUyiWehKmgzvsZtxbeg+j+6myUCQDICrmqFfWKHoaWFC214UyStaX/IybAEd7UwO
- xjtWGMX+sozGDLANUs4BSswqwTbgdARZuKt61TE6xN8GeXhjjy++0UAcdpMsDJ/S8vO6eXY2L5
- UII=
-X-IronPort-AV: E=Sophos;i="5.70,511,1574092800"; d="scan'208";a="239494763"
-Received: from mail-bn7nam10lp2104.outbound.protection.outlook.com (HELO
- NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.104])
- by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2020 22:01:07 +0800
+ t=1583244078; x=1614780078;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version;
+ bh=/Ndcw8tbJAjlSTI0q5BW1JgJ4yN37BNnNQgqR3PgWpA=;
+ b=dBsMY0+sbvFCgYL5/R4WXAOznCNwZW/6Ts0RhpTz/llfwby0glnE5Fnx
+ 1oMNPvK5uQOw2uttKdCHTPuk9Rp0EEeMsmZvzszUENtVY2WTWw/EucXCE
+ ig4P17wB9rJRUCXIF6RvL3s6+0wBhUs/rnrbe/8PdQhwsv4Yv0+87snyF
+ MTSt0oEf5xuZluH1aKp4ZfXOeOwg001hX7+fWdlVuSkQlnlsWHSSVnZdT
+ guKnvkcybKZkGJm2cc18cbPdlA0Ry8X9p5GQgXVmtc6FGsvAM0AzFAlst
+ FOxgdIkcM0yaBqTDxRCU0zG7yuokszfOcns3YamcMmFE68mmtNF2fZ5Qs g==;
+IronPort-SDR: AofRAl8e+ZjQITfrn3jN1UEay7eEBCTB1SKlZZF/psp+Df7WqoVgEMT0V7po5MoAgnDbPau9Yw
+ yanaM0aS0FwGVzl0St4x2+aaKqTjhrFgtOz9H9D0zKWwmSTbD5FvaOynGP0/NkzQDIHviB1aav
+ IvpBDnN4vQl8ode+lCEl9zznJzT+P0fwWyyrGqfwSh/T8v4UVdy8KTRS/iW5+achfoaNqeDP/W
+ wKFfOzJEJ2p/kp1FEgg9AA2pU2NWwReiO0y2R/xq7GLjIRQnyoQF8Xgn58Sdu2YzSvffYAsUwf
+ y/A=
+X-IronPort-AV: E=Sophos;i="5.70,511,1574092800"; d="scan'208";a="131264864"
+Received: from mail-bn8nam11lp2174.outbound.protection.outlook.com (HELO
+ NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.174])
+ by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2020 22:01:14 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RuKzwinJjjqYA7evbR5k+TQsI+2IK0O4q8WAWgpE7lxXpIf4rTLQYetzSjoHTzfcXeMfVUkfBtcv7M4JVAv3w3EURUPLxoAT0mMtbrCNyi19QjA7KzZV6dmWSvh/8yk+mhTa2VxT4AFxN/thVw7urFKl2723/vJkXxg112/Msam2lSW9YSoO2X661BYZB3FFF9KYHRbxybqq0TEMz1mAIkzn/L3O7b1668nyvBmAbiVjiT45DG0u5V4ye+RDgOU4nWoXZo4HkLeTS8Q+hTCmmkU2fFEOY36jbxQ35C7SB4J060U2XXDeY6cN4b2MnXfLZ+/pSUoYA9ZRAQfX+VRLeA==
+ b=mevVoXW2z+QpNta1ulXSCI2CGc62TrJrzZy8sSJOCX9HVBQQ2xGcqpEQhesPDjpRPRCDfGefp9lSK5mHvFv/ZrOcVXvT4U/nE4KG5Hrs3ZfLX9WuEYAHGwUwu/7yc+EqwZkxRr6GqWhHVov3N83e1W7+9oCHmr8ly1P3ekRoEVYx0i9u/RDVgsHyye6cMp3+LDOVyv5NNSAu7eN9f20mN2iPb2id26MpH9s9vsMNV9bg3j1ySzi2sa2oN42o4+v/RbtYsU9C0s9SXEDvoSTbbHhrWnwjxOUsUivBbA5XHt3OOkU429OrLmJlcTNoObIZBfK3FVWprteCSKDQFVhIXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Li3wslSnFTZFbsQpl1oExZOCBjgNIMSIhTf6OEhHoo=;
- b=Sr0vr3P036hrbTc+Jr9Ak61YEpYo/YH2MUnAXMjMfQUv4oUGi1So13MD8X5VO03j+QAFx359UUcpUNCFEhcOUjGOMQbCjW4hiyQfYtGz33KiR37kwn5d/HHk9mxkcnzf23qAYtJFZRQuhFI90h/GUyXi0+hdF14WzlNgvbXz36lj+HVeTL9t15KJnaFyGbWcId3kyD544YB4zzBIQKP7t9ijpBNQuVZa5azMzJUmVur1zpQg9ASk3I8llL7ADGnT2lfzhx2S+tHqCM8cYRvAX3GPDa73lja98Wp8m6JfhdsllJ3I76rwXk3m1X65jHERiamaCznihfzXaElvp9m9VQ==
+ bh=fT85IypjwnGSNE5odb+0j3S4PWM+tWD3HxT3Qs7XAOk=;
+ b=S67I1ZIYlzOzvsvIl0EeZXwPCCfFclzkhLqFH85nVr0RPF66p+IfYhlUGu4o+P4wt8lZ7PKMpWc6N40WfZmCwU9nUgJ2qnbUg+T5EPMt7sdiajDztAvCW2xD4TVSeAV16k8lZr9zc8FgkIpF1aSYXYVf12B16i6CHP9EBpJO5C186cPc4KWfy7GB2BBtTpysiqxMy/GtOyWyMlWwZn2fldZsdZXgIlXKNtjrkh94Ogab9VCAt9YAmlx5ovZw4eQWjTfUNTiuM50N9e54fQR+8k4zSUz0ml6ekhWCKYYRjEYYg4loZ8W0ylElcAPKealvgrM2TfO7/6CQ4Bl6vmH4aQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Li3wslSnFTZFbsQpl1oExZOCBjgNIMSIhTf6OEhHoo=;
- b=q9FaCbRd02pLZTmn/cJvOL/AbjfXM++SG03SYyzdgOS62yl/GhWM1U5bxGYUWO+H6E6aYEuREBsEFQ8C2BT+nlfRDlzieEArrXNy2c9tcwb9bnPt21YKQFopbNfjHk/yuWVIRP5VIpMNGYP3lctw26Ol+Nx0aEvsGR3lF/P4Ul0=
+ bh=fT85IypjwnGSNE5odb+0j3S4PWM+tWD3HxT3Qs7XAOk=;
+ b=kAjOSRU4SosJo84htf4kP0SN8W/1484vNNzJTi9gDPnf5rsPay+1SFIpoll7pP6MSvkoIgvBC49mfOaddtK77Jl40bk9SbPPl9YT5lLrhJdQsHaZEo+Df4RzM5TlZXe+ZvpTcZL6f/F3pKnmgEQAf0NvsnGRPeMTVRpZEl2+n3Y=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Anup.Patel@wdc.com; 
 Received: from MN2PR04MB6061.namprd04.prod.outlook.com (2603:10b6:208:d8::15)
- by MN2PR04MB7038.namprd04.prod.outlook.com (2603:10b6:208:1e6::24)
+ by MN2PR04MB5949.namprd04.prod.outlook.com (2603:10b6:208:fe::24)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Tue, 3 Mar
- 2020 14:01:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Tue, 3 Mar
+ 2020 14:01:11 +0000
 Received: from MN2PR04MB6061.namprd04.prod.outlook.com
  ([fe80::159d:10c9:f6df:64c8]) by MN2PR04MB6061.namprd04.prod.outlook.com
  ([fe80::159d:10c9:f6df:64c8%6]) with mapi id 15.20.2772.019; Tue, 3 Mar 2020
- 14:01:06 +0000
+ 14:01:11 +0000
 From: Anup Patel <anup.patel@wdc.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v2 0/3] RISC-V Spike machine improvements
-Date: Tue,  3 Mar 2020 19:30:34 +0530
-Message-Id: <20200303140037.85311-1-anup.patel@wdc.com>
+Subject: [PATCH v2 1/3] hw/riscv: Add optional symbol callback ptr to
+ riscv_load_firmware()
+Date: Tue,  3 Mar 2020 19:30:35 +0530
+Message-Id: <20200303140037.85311-2-anup.patel@wdc.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200303140037.85311-1-anup.patel@wdc.com>
+References: <20200303140037.85311-1-anup.patel@wdc.com>
 Content-Type: text/plain
 X-ClientProxiedBy: BMXPR01CA0027.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:b00:c::13) To MN2PR04MB6061.namprd04.prod.outlook.com
@@ -86,37 +90,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from wdc.com (49.207.61.196) by
  BMXPR01CA0027.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:c::13) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2772.15 via Frontend Transport; Tue, 3 Mar 2020 14:01:01 +0000
+ 15.20.2772.15 via Frontend Transport; Tue, 3 Mar 2020 14:01:07 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [49.207.61.196]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2e0fdd04-5288-43f1-b033-08d7bf7b50cb
-X-MS-TrafficTypeDiagnostic: MN2PR04MB7038:
+X-MS-Office365-Filtering-Correlation-Id: 8a2749fd-3579-44cf-fedd-08d7bf7b5455
+X-MS-TrafficTypeDiagnostic: MN2PR04MB5949:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR04MB7038B11092BADFF7395392F88DE40@MN2PR04MB7038.namprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR04MB594961D302F00CACD1D90E3C8DE40@MN2PR04MB5949.namprd04.prod.outlook.com>
 WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:83;
+X-MS-Oob-TLC-OOBClassifiers: OLM:1417;
 X-Forefront-PRVS: 03319F6FEF
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(376002)(346002)(396003)(39860400002)(366004)(136003)(189003)(199004)(186003)(16526019)(26005)(66556008)(66476007)(55016002)(36756003)(1006002)(6666004)(86362001)(55236004)(4326008)(8886007)(478600001)(81166006)(54906003)(66946007)(1076003)(81156014)(316002)(5660300002)(110136005)(2616005)(8936002)(7696005)(52116002)(956004)(44832011)(8676002)(4744005)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR04MB7038;
+ SFS:(10019020)(4636009)(376002)(396003)(346002)(366004)(39860400002)(136003)(189003)(199004)(2906002)(2616005)(1006002)(6666004)(55016002)(26005)(54906003)(110136005)(8936002)(81166006)(81156014)(52116002)(44832011)(7696005)(956004)(186003)(55236004)(16526019)(8886007)(66946007)(478600001)(66476007)(316002)(86362001)(5660300002)(66556008)(8676002)(36756003)(4326008)(1076003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR04MB5949;
  H:MN2PR04MB6061.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tVuJMcf7KGAIaCpZ4EdhubT5w80qR9sflNVjOtLEuHpCVcPXy0/A99982sdIp/BU3B4rawHrJP0pRvdSyU14WsE6g8ptMmxzr0mFqdZhxv8uQp+QjL2OsPJiaBgrYy6o5IhSj0N2UHj+8+c8AnOLPRBRnZrPYi7s0gYgN5+CUhZknjbIbQRK6jz7skSRAdsivcxSHT5xTMGWg9gvIzB7n72zLQGMyPSBlIsbg0/rtTlLqRsb3TsnrwL8rc1ObBINGjvtWcdPGn45B+hs7ELg60REPX/NaitHb+hSUTXO6gpVHAxrXavPOd5jIPttIAG3CI+lgZ0NTxwgFU24LXgW494XGbD2z+xQ5zVd15CYDab4DRRnOKfLPX3nPhwXUqZRGmPs+k1uj4mPiT34O3LnrhVAt754cfeXcDEhx+mGNh4daM6d8A6hO+sqPwYfXpdO
-X-MS-Exchange-AntiSpam-MessageData: 0rLOiBhUMK9B7QB4zxPaqkp5GpMFs7t8G1uPyydT/Fr0rW6wbJnCfu5x7qMAGwPUsmiAfwlmzh23Souf2ofxivoq3izqh0K2k5OQHH5vkUEETUjSAVtx6SV2aVBHxll4HKgJ7Pj/0FbsfT6RSIwZzw==
+X-Microsoft-Antispam-Message-Info: Dp/I2faLN6wmcTsJIi1HzDJRp0nD94T+NjIduiM4eaL2hIXkW977PcYJ7Ku1Edb4X7EKDLYU7zMR3C8VQfDsgzUqJFLA/KJuKyU3YZ2uk8/S64dqP18kw5Q1ZjrWAdDdTcQr9w45fdZC8d48z+RoTXRw2TxGlRgdFv32cHGbOju+MJsij/x6LQacR4bwJewx+a0Rsls1obqeK1L7kEB0+iYHNTJ/xUCny7h9E7n4MtoFcRlCSM05ihBDumFn5rsoxNOFU6gh8ZbqSOZj/ZvHyVHytQ9NNiDGCPC6ntt0CnjB8G8LtZFjU+mAhnufYGBSS7/1q4bQO9/Hyz4C4aL5cvW4eO28114AOVaHQdggZYxWKCpPXGXXt/SD5xj0sbhjELNKehnY3s9NfHUVf9mSMFH/4+lixc2WwR3SUD1w+hOWpzU6q1i+rjmbqXjnQWJn
+X-MS-Exchange-AntiSpam-MessageData: J5T0zz3PhKveVz0JxKaMGFMQUmD2vQ/TD/Jnca8lHcl1aZTY+njZguJU2dre11TojpCecoqIoO0Zc6fb8x16+xJDfnkvlmc//N7mxT9DTI9Sd1vxUq077uIhzqrM9mvGpjMdIYBky2bs4+grXYMUrg==
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e0fdd04-5288-43f1-b033-08d7bf7b50cb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2020 14:01:05.9260 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a2749fd-3579-44cf-fedd-08d7bf7b5455
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2020 14:01:11.6137 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hi1RTtYszJX997w79zp67JcmF/IPYSG05lCMBjFI7Xaf4ZaZnN6cGyyfBkgrKnxElD/ARLAjhcDskd+iEzzaEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB7038
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 68.232.141.245
+X-MS-Exchange-CrossTenant-UserPrincipalName: AUyydmnFyZluuiYxxhULqcYt0E6WUhIYYrPpw7Ew/0tSa18o++043q7PfvtVyBriT6b3c+bM0CmefVHFE8wxVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5949
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 216.71.154.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -133,25 +137,109 @@ Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series improves QEMU Spike machine to:
-1. Allow loading OpenBI firmware using -bios option
-2. Allow more than one CPUs
+This patch adds an optional function pointer, "sym_cb", to
+riscv_load_firmware() which provides the possibility to access
+the symbol table during kernel loading.
 
-Changes since v1:
- - Rebased on QEMU master (commit 2ac031d171ccd18c973014d9978b4a63f0ad5fb0)
+The pointer is ignored, if supplied with flat (non-elf) firmware image.
 
-Anup Patel (3):
-  hw/riscv: Add optional symbol callback ptr to riscv_load_firmware()
-  hw/riscv/spike: Allow loading firmware separately using -bios option
-  hw/riscv/spike: Allow more than one CPUs
+The Spike board requires it locate the HTIF symbols from firmware ELF
+passed via "-bios" option.
 
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+---
  hw/riscv/boot.c         | 13 ++++++++-----
  hw/riscv/sifive_u.c     |  2 +-
- hw/riscv/spike.c        | 26 ++++++++++++++++++++++++--
  hw/riscv/virt.c         |  2 +-
  include/hw/riscv/boot.h |  6 ++++--
- 5 files changed, 38 insertions(+), 11 deletions(-)
+ 4 files changed, 14 insertions(+), 9 deletions(-)
 
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index b8e765277d..726300a171 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -36,7 +36,8 @@
+ 
+ void riscv_find_and_load_firmware(MachineState *machine,
+                                   const char *default_machine_firmware,
+-                                  hwaddr firmware_load_addr)
++                                  hwaddr firmware_load_addr,
++                                  symbol_fn_t sym_cb)
+ {
+     char *firmware_filename = NULL;
+ 
+@@ -76,7 +77,7 @@ void riscv_find_and_load_firmware(MachineState *machine,
+ 
+     if (firmware_filename) {
+         /* If not "none" load the firmware */
+-        riscv_load_firmware(firmware_filename, firmware_load_addr);
++        riscv_load_firmware(firmware_filename, firmware_load_addr, sym_cb);
+         g_free(firmware_filename);
+     }
+ }
+@@ -96,12 +97,14 @@ char *riscv_find_firmware(const char *firmware_filename)
+ }
+ 
+ target_ulong riscv_load_firmware(const char *firmware_filename,
+-                                 hwaddr firmware_load_addr)
++                                 hwaddr firmware_load_addr,
++                                 symbol_fn_t sym_cb)
+ {
+     uint64_t firmware_entry, firmware_start, firmware_end;
+ 
+-    if (load_elf(firmware_filename, NULL, NULL, NULL, &firmware_entry,
+-                 &firmware_start, &firmware_end, NULL, 0, EM_RISCV, 1, 0) > 0) {
++    if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
++                         &firmware_entry, &firmware_start, &firmware_end, NULL,
++                         0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+         return firmware_entry;
+     }
+ 
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 156a003642..0ef9fc0fd0 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -341,7 +341,7 @@ static void riscv_sifive_u_init(MachineState *machine)
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
+ 
+     riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+-                                 memmap[SIFIVE_U_DRAM].base);
++                                 memmap[SIFIVE_U_DRAM].base, NULL);
+ 
+     if (machine->kernel_filename) {
+         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 85ec9e22aa..24f851e895 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -507,7 +507,7 @@ static void riscv_virt_board_init(MachineState *machine)
+                                 mask_rom);
+ 
+     riscv_find_and_load_firmware(machine, BIOS_FILENAME,
+-                                 memmap[VIRT_DRAM].base);
++                                 memmap[VIRT_DRAM].base, NULL);
+ 
+     if (machine->kernel_filename) {
+         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename,
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index df80051fbc..474a940ad5 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -24,10 +24,12 @@
+ 
+ void riscv_find_and_load_firmware(MachineState *machine,
+                                   const char *default_machine_firmware,
+-                                  hwaddr firmware_load_addr);
++                                  hwaddr firmware_load_addr,
++                                  symbol_fn_t sym_cb);
+ char *riscv_find_firmware(const char *firmware_filename);
+ target_ulong riscv_load_firmware(const char *firmware_filename,
+-                                 hwaddr firmware_load_addr);
++                                 hwaddr firmware_load_addr,
++                                 symbol_fn_t sym_cb);
+ target_ulong riscv_load_kernel(const char *kernel_filename,
+                                symbol_fn_t sym_cb);
+ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
 -- 
 2.17.1
 
