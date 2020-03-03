@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A28176DA8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 04:47:32 +0100 (CET)
-Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1D9176DAB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 04:47:52 +0100 (CET)
+Received: from localhost ([::1]:41616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8yWp-0001Ty-4r
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 22:47:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
+	id 1j8yX9-0002Mb-Ut
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 22:47:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j8yTS-0004hP-TD
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:03 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j8yTT-0004hR-DH
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j8yTR-0002DK-UR
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:02 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46657 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1j8yTR-0002D3-Kp
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:03 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:52557)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j8yTR-0002B9-JX; Mon, 02 Mar 2020 22:44:01 -0500
+ id 1j8yTR-0002B0-A3; Mon, 02 Mar 2020 22:44:01 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48WjY60zGSz9sSm; Tue,  3 Mar 2020 14:43:53 +1100 (AEDT)
+ id 48WjY60c2nz9sSQ; Tue,  3 Mar 2020 14:43:54 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1583207034;
- bh=/vRF7LH21Z9YI4tvoah84Uft6k1d+ANzUl5tBCjdNnw=;
+ bh=G59jLUazW5mofMddNsZYmRNJtI58lVefWHXbjxNh5RQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DWGETtlXgzF/PESfABuObp+rDEyfOUmsC7/+E+MBpEeFHGDUV8dS7z0e3HdQV8leP
- NO3n4vovVJ1TqLSUBTdxKM0sUFUu4B+fdnmdk+LEEbx1sdyNtKuQDOV2i1MINcsIgO
- mkxoObd5IQAZ/HIzAg63UDCs4galKDEPjXfsj4G8=
+ b=CbDUKkasGlC8+cC/GGm8e4pn9882oG27bs5wmCryQX0L9fHxG4Covgs3hpHfDNOwo
+ 4VIX7iBBRP+L4Pc7FlyCgARBDBhF7RmlYeqFUdoU4RdOt2LcPtHIVDOcmrwc/b2uWL
+ 2ISeCZqkUjDs7KSeHiJlN7RTPJ1c8vn5bjM808ew=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org, clg@kaod.org, qemu-devel@nongnu.org, groug@kaod.org
-Subject: [PATCH v7 06/17] target/ppc: Remove RMOR register from POWER9 &
- POWER10
-Date: Tue,  3 Mar 2020 14:43:40 +1100
-Message-Id: <20200303034351.333043-7-david@gibson.dropbear.id.au>
+Subject: [PATCH v7 07/17] target/ppc: Use class fields to simplify LPCR masking
+Date: Tue,  3 Mar 2020 14:43:41 +1100
+Message-Id: <20200303034351.333043-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200303034351.333043-1-david@gibson.dropbear.id.au>
 References: <20200303034351.333043-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,63 +65,182 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we create the Real Mode Offset Register (RMOR) on all Book3S cp=
-us
-from POWER7 onwards.  However the translation mode which the RMOR control=
-s
-is no longer supported in POWER9, and so the register has been removed fr=
-om
-the architecture.
+When we store the Logical Partitioning Control Register (LPCR) we have a
+big switch statement to work out which are valid bits for the cpu model
+we're emulating.
 
-Remove it from our model on POWER9 and POWER10.
+As well as being ugly, this isn't really conceptually correct, since it i=
+s
+based on the mmu_model variable, whereas the LPCR isn't (only) about the
+MMU, so mmu_model is basically just acting as a proxy for the cpu model.
+
+Handle this in a simpler way, by adding a suitable lpcr_mask to the QOM
+class.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- target/ppc/translate_init.inc.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ target/ppc/cpu-qom.h            |  1 +
+ target/ppc/mmu-hash64.c         | 36 ++-------------------------------
+ target/ppc/translate_init.inc.c | 27 +++++++++++++++++++++----
+ 3 files changed, 26 insertions(+), 38 deletions(-)
 
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index e499575dc8..15d6b54a7d 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -177,6 +177,7 @@ typedef struct PowerPCCPUClass {
+     uint64_t insns_flags;
+     uint64_t insns_flags2;
+     uint64_t msr_mask;
++    uint64_t lpcr_mask;         /* Available bits in the LPCR */
+     uint64_t lpcr_pm;           /* Power-saving mode Exit Cause Enable b=
+its */
+     powerpc_mmu_t   mmu_model;
+     powerpc_excp_t  excp_model;
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index caf47ad6fc..0ef330a614 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -1095,42 +1095,10 @@ static void ppc_hash64_update_vrma(PowerPCCPU *cp=
+u)
+=20
+ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+ {
++    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+     CPUPPCState *env =3D &cpu->env;
+-    uint64_t lpcr =3D 0;
+=20
+-    /* Filter out bits */
+-    switch (env->mmu_model) {
+-    case POWERPC_MMU_2_03: /* P5p */
+-        lpcr =3D val & (LPCR_RMLS | LPCR_ILE |
+-                      LPCR_LPES0 | LPCR_LPES1 |
+-                      LPCR_RMI | LPCR_HDICE);
+-        break;
+-    case POWERPC_MMU_2_06: /* P7 */
+-        lpcr =3D val & (LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_DPFD |
+-                      LPCR_VRMASD | LPCR_RMLS | LPCR_ILE |
+-                      LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2 |
+-                      LPCR_MER | LPCR_TC |
+-                      LPCR_LPES0 | LPCR_LPES1 | LPCR_HDICE);
+-        break;
+-    case POWERPC_MMU_2_07: /* P8 */
+-        lpcr =3D val & (LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_KBV |
+-                      LPCR_DPFD | LPCR_VRMASD | LPCR_RMLS | LPCR_ILE |
+-                      LPCR_AIL | LPCR_ONL | LPCR_P8_PECE0 | LPCR_P8_PECE=
+1 |
+-                      LPCR_P8_PECE2 | LPCR_P8_PECE3 | LPCR_P8_PECE4 |
+-                      LPCR_MER | LPCR_TC | LPCR_LPES0 | LPCR_HDICE);
+-        break;
+-    case POWERPC_MMU_3_00: /* P9 */
+-        lpcr =3D val & (LPCR_VPM1 | LPCR_ISL | LPCR_KBV | LPCR_DPFD |
+-                      (LPCR_PECE_U_MASK & LPCR_HVEE) | LPCR_ILE | LPCR_A=
+IL |
+-                      LPCR_UPRT | LPCR_EVIRT | LPCR_ONL | LPCR_HR | LPCR=
+_LD |
+-                      (LPCR_PECE_L_MASK & (LPCR_PDEE | LPCR_HDEE | LPCR_=
+EEE |
+-                      LPCR_DEE | LPCR_OEE)) | LPCR_MER | LPCR_GTSE | LPC=
+R_TC |
+-                      LPCR_HEIC | LPCR_LPES0 | LPCR_HVICE | LPCR_HDICE);
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-    env->spr[SPR_LPCR] =3D lpcr;
++    env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
+     ppc_hash64_update_rmls(cpu);
+     ppc_hash64_update_vrma(cpu);
+ }
 diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
 inc.c
-index aecad96db3..f7acd3d61d 100644
+index f7acd3d61d..68aa4dfad8 100644
 --- a/target/ppc/translate_init.inc.c
 +++ b/target/ppc/translate_init.inc.c
-@@ -8015,12 +8015,16 @@ static void gen_spr_book3s_ids(CPUPPCState *env)
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  &spr_read_generic, &spr_write_generic,
-                  0x00000000);
--    spr_register_hv(env, SPR_RMOR, "RMOR",
-+    spr_register_hv(env, SPR_HRMOR, "HRMOR",
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  &spr_read_generic, &spr_write_generic,
-                  0x00000000);
--    spr_register_hv(env, SPR_HRMOR, "HRMOR",
-+}
-+
-+static void gen_spr_rmor(CPUPPCState *env)
-+{
-+    spr_register_hv(env, SPR_RMOR, "RMOR",
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  SPR_NOACCESS, SPR_NOACCESS,
-                  &spr_read_generic, &spr_write_generic,
-@@ -8497,6 +8501,7 @@ static void init_proc_POWER7(CPUPPCState *env)
+@@ -8476,6 +8476,8 @@ POWERPC_FAMILY(POWER5P)(ObjectClass *oc, void *data=
+)
+                     (1ull << MSR_DR) |
+                     (1ull << MSR_PMM) |
+                     (1ull << MSR_RI);
++    pcc->lpcr_mask =3D LPCR_RMLS | LPCR_ILE | LPCR_LPES0 | LPCR_LPES1 |
++        LPCR_RMI | LPCR_HDICE;
+     pcc->mmu_model =3D POWERPC_MMU_2_03;
+ #if defined(CONFIG_SOFTMMU)
+     pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
+@@ -8614,6 +8616,12 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data=
+)
+                     (1ull << MSR_PMM) |
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
++    pcc->lpcr_mask =3D LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_DPFD |
++        LPCR_VRMASD | LPCR_RMLS | LPCR_ILE |
++        LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2 |
++        LPCR_MER | LPCR_TC |
++        LPCR_LPES0 | LPCR_LPES1 | LPCR_HDICE;
++    pcc->lpcr_pm =3D LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2;
+     pcc->mmu_model =3D POWERPC_MMU_2_06;
+ #if defined(CONFIG_SOFTMMU)
+     pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
+@@ -8630,7 +8638,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+     pcc->l1_dcache_size =3D 0x8000;
+     pcc->l1_icache_size =3D 0x8000;
+     pcc->interrupts_big_endian =3D ppc_cpu_interrupts_big_endian_lpcr;
+-    pcc->lpcr_pm =3D LPCR_P7_PECE0 | LPCR_P7_PECE1 | LPCR_P7_PECE2;
+ }
 =20
-     /* POWER7 Specific Registers */
-     gen_spr_book3s_ids(env);
-+    gen_spr_rmor(env);
-     gen_spr_amr(env);
-     gen_spr_book3s_purr(env);
-     gen_spr_power5p_common(env);
-@@ -8637,6 +8642,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+ static void init_proc_POWER8(CPUPPCState *env)
+@@ -8785,6 +8792,13 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data=
+)
+                     (1ull << MSR_TS0) |
+                     (1ull << MSR_TS1) |
+                     (1ull << MSR_LE);
++    pcc->lpcr_mask =3D LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_KBV |
++        LPCR_DPFD | LPCR_VRMASD | LPCR_RMLS | LPCR_ILE |
++        LPCR_AIL | LPCR_ONL | LPCR_P8_PECE0 | LPCR_P8_PECE1 |
++        LPCR_P8_PECE2 | LPCR_P8_PECE3 | LPCR_P8_PECE4 |
++        LPCR_MER | LPCR_TC | LPCR_LPES0 | LPCR_HDICE;
++    pcc->lpcr_pm =3D LPCR_P8_PECE0 | LPCR_P8_PECE1 | LPCR_P8_PECE2 |
++                   LPCR_P8_PECE3 | LPCR_P8_PECE4;
+     pcc->mmu_model =3D POWERPC_MMU_2_07;
+ #if defined(CONFIG_SOFTMMU)
+     pcc->handle_mmu_fault =3D ppc_hash64_handle_mmu_fault;
+@@ -8802,8 +8816,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+     pcc->l1_dcache_size =3D 0x8000;
+     pcc->l1_icache_size =3D 0x8000;
+     pcc->interrupts_big_endian =3D ppc_cpu_interrupts_big_endian_lpcr;
+-    pcc->lpcr_pm =3D LPCR_P8_PECE0 | LPCR_P8_PECE1 | LPCR_P8_PECE2 |
+-                   LPCR_P8_PECE3 | LPCR_P8_PECE4;
+ }
 =20
-     /* POWER8 Specific Registers */
-     gen_spr_book3s_ids(env);
-+    gen_spr_rmor(env);
-     gen_spr_amr(env);
-     gen_spr_iamr(env);
-     gen_spr_book3s_purr(env);
+ #ifdef CONFIG_SOFTMMU
+@@ -8995,6 +9007,14 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data=
+)
+                     (1ull << MSR_PMM) |
+                     (1ull << MSR_RI) |
+                     (1ull << MSR_LE);
++    pcc->lpcr_mask =3D LPCR_VPM1 | LPCR_ISL | LPCR_KBV | LPCR_DPFD |
++        (LPCR_PECE_U_MASK & LPCR_HVEE) | LPCR_ILE | LPCR_AIL |
++        LPCR_UPRT | LPCR_EVIRT | LPCR_ONL | LPCR_HR | LPCR_LD |
++        (LPCR_PECE_L_MASK & (LPCR_PDEE | LPCR_HDEE | LPCR_EEE |
++                             LPCR_DEE | LPCR_OEE))
++        | LPCR_MER | LPCR_GTSE | LPCR_TC |
++        LPCR_HEIC | LPCR_LPES0 | LPCR_HVICE | LPCR_HDICE;
++    pcc->lpcr_pm =3D LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_=
+OEE;
+     pcc->mmu_model =3D POWERPC_MMU_3_00;
+ #if defined(CONFIG_SOFTMMU)
+     pcc->handle_mmu_fault =3D ppc64_v3_handle_mmu_fault;
+@@ -9014,7 +9034,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+     pcc->l1_dcache_size =3D 0x8000;
+     pcc->l1_icache_size =3D 0x8000;
+     pcc->interrupts_big_endian =3D ppc_cpu_interrupts_big_endian_lpcr;
+-    pcc->lpcr_pm =3D LPCR_PDEE | LPCR_HDEE | LPCR_EEE | LPCR_DEE | LPCR_=
+OEE;
+ }
+=20
+ #ifdef CONFIG_SOFTMMU
 --=20
 2.24.1
 
