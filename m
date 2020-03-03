@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1901D1773FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:23:21 +0100 (CET)
-Received: from localhost ([::1]:44894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD281773F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:22:04 +0100 (CET)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j94hs-0008Aw-5Z
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:23:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
+	id 1j94gd-0005pn-BS
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:22:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j94X2-0001hj-HT
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:12:09 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j94YI-0004g3-SG
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:13:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j94X1-0006cL-Ce
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:12:08 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28625
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j94X1-0006cB-87
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:12:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583230326;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LEtSN5Hpd+3gSc1CYwRxIGc80UMCJm9UyOg8gZh3qiA=;
- b=c9fIpHRXj3oBz3QXKPrnXtCqzqctW4KrMbtJf8QmmdL8/liWYcjHzxm8PcUVcSsLPjU7z7
- 6ncqPhGYBwkhut7t6LBN9POXMpd9EwV2Db+AbI7jl+FSyeyvXuVOzAYLoJEqatbW8laFwJ
- wM3e8GvdT5gse5dCPTNB7Hp4sUSa4/Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-G-rt014TNIa622MAhrjqxQ-1; Tue, 03 Mar 2020 05:12:05 -0500
-X-MC-Unique: G-rt014TNIa622MAhrjqxQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58BF8189F762;
- Tue,  3 Mar 2020 10:12:04 +0000 (UTC)
-Received: from [10.72.13.58] (ovpn-13-58.pek2.redhat.com [10.72.13.58])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6342A7387C;
- Tue,  3 Mar 2020 10:12:03 +0000 (UTC)
-Subject: Re: [PULL 00/23] Net patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1583134836-23991-1-git-send-email-jasowang@redhat.com>
- <CAFEAcA9JEDW7XDx_uxyhoJdinXR6nK-_jz+HM9_9n=P9wwZeXg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a4b33617-85ba-1060-430c-e13188a6f913@redhat.com>
-Date: Tue, 3 Mar 2020 18:12:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <no-reply@patchew.org>) id 1j94YH-0007Mz-Sx
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:13:26 -0500
+Resent-Date: Tue, 03 Mar 2020 05:13:26 -0500
+Resent-Message-Id: <E1j94YH-0007Mz-Sx@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21183)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j94YH-0007Mb-N3; Tue, 03 Mar 2020 05:13:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1583230325; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HJui90dmal5gFRjeExeS8uWwYw89jeRE9eXk7Hvl7EvwLj+hNyu4ILSMnrk1mxKiWRFph/MsPkzSDAmnQJrPKgUSc0kpr/3GVbPxQ1vBOFKIxQVbG/Rw5QNfDQWOEvYZzQTfuO69ILGCMbjA4P5lbh3fBXbutYv7AAkHSOHcuDg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583230325;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=6tvEHzLV8Y2BN3NFBkXfhq6qIJOKVMcB5ZrULr1xuWo=; 
+ b=A5lGWHBQqjj1+QdUnpTkZfHmXgl/bURgnfS5o6n6PkABABZfz99rtcW7HKKaA54dX82QqudxmLQROZiMnXpvOaNdOaYBZ/7rG+bigj2HoblAiCC1rYfl61R3F0TjdbICMmwTnC0TkOLN3yq9BjTjXBznS1oH6oc+fTblm8k8qGg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1583230323372497.9472806181752;
+ Tue, 3 Mar 2020 02:12:03 -0800 (PST)
+In-Reply-To: <20200303100511.5498-1-peter.maydell@linaro.org>
+Subject: Re: [PATCH] cpu: Use DeviceClass reset instead of a special CPUClass
+ reset
+Message-ID: <158323032029.8962.1118581099513261942@abdcc9e1aa82>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9JEDW7XDx_uxyhoJdinXR6nK-_jz+HM9_9n=P9wwZeXg@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Tue, 3 Mar 2020 02:12:03 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,41 +64,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: crwulff@gmail.com, sagark@eecs.berkeley.edu, david@redhat.com,
+ green@moxielogic.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ jcmvbkbc@gmail.com, Alistair.Francis@wdc.com, edgar.iglesias@gmail.com,
+ marex@denx.de, palmer@dabbelt.com, aleksandar.rikalo@rt-rk.com,
+ rth@twiddle.net, atar4qemu@gmail.com, ehabkost@redhat.com,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, shorne@gmail.com,
+ david@gibson.dropbear.id.au, qemu-riscv@nongnu.org,
+ kbastian@mail.uni-paderborn.de, cohuck@redhat.com, laurent@vivier.eu,
+ michael@walle.cc, qemu-ppc@nongnu.org, amarkovic@wavecomp.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/3/2 =E4=B8=8B=E5=8D=8810:11, Peter Maydell wrote:
-> On Mon, 2 Mar 2020 at 07:40, Jason Wang <jasowang@redhat.com> wrote:
->> The following changes since commit e0175b71638cf4398903c0d25f93fe62e0606=
-389:
->>
->>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-2=
-0200228' into staging (2020-02-28 16:39:27 +0000)
->>
->> are available in the git repository at:
->>
->>    https://github.com/jasowang/qemu.git tags/net-pull-request
->>
->> for you to fetch changes up to 41aa2e3f9b27fd259a13711545d933a20f1d2f16:
->>
->>    l2tpv3: fix RFC number typo in qemu-options.hx (2020-03-02 15:30:08 +=
-0800)
->>
->> ----------------------------------------------------------------
-> Hi; at least one of the commits in this is missing your signed-off-by
-> as the submaintainer. Could you fix and resubmit, please?
->
-> thanks
-> -- PMM
-
-
-My fault.
-
-V2 was sent.
-
-Thanks
-
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwMzEwMDUxMS41NDk4
+LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
+aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
+bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
+c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBW
+PTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5W
+PTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRoZSBmdWxsIGxv
+ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAzMDMxMDA1MTEu
+NTQ5OC0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50
+b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
