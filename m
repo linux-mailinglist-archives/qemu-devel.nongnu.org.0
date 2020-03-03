@@ -2,38 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5561774EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 12:02:48 +0100 (CET)
-Received: from localhost ([::1]:45508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5451774F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 12:04:25 +0100 (CET)
+Received: from localhost ([::1]:45544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j95K3-0002RV-K4
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 06:02:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60822)
+	id 1j95Ld-0004TY-18
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 06:04:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j95HU-0007gZ-HQ
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 06:00:10 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j95K1-0002z9-Ti
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 06:02:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j95HS-0000Rc-IE
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 06:00:08 -0500
-Received: from relay.sw.ru ([185.231.240.75]:44572)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j95HS-0000Qf-9j; Tue, 03 Mar 2020 06:00:06 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j95HK-000499-AM; Tue, 03 Mar 2020 13:59:58 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] iotests: 287: add qcow2 compression type test
-Date: Tue,  3 Mar 2020 13:59:50 +0300
-Message-Id: <20200303105950.26744-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200303105950.26744-1-dplotnikov@virtuozzo.com>
-References: <20200303105950.26744-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <alex.bennee@linaro.org>) id 1j95K0-0001RT-8w
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 06:02:45 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36426)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j95K0-0001R6-0a
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 06:02:44 -0500
+Received: by mail-wr1-x442.google.com with SMTP id j16so3792878wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 03:02:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1P0ZlxUHohlsrlbPBODtUSaACtCSSMYOYhjWGvBgBXk=;
+ b=Xutjj9iGWvUi8uKRZllF0O4xFR6TAkQ9PCf2uHDQuklUbfgmxQMInBYCk0javrhdsJ
+ wKftWKwQEB4NA2W0UDyvYed4Z4Z6/O8wZc3gcvOunpXDr1C7yqQUN5YCfQEETB6CmcmI
+ 9N+HbwW0cy3oUh8Q5zr5fVAHYVsaD5Cpm5fZmK7a3z+vr/IjAsIcRkX1x6EMlaERhLc0
+ Sb7+7U+684G13Q9L3IkURMPGkOCkWPMwZfHxez7h1mrgLz6i3T+Ad9BY1FkfGmJsxi/6
+ 6ynSLsC5Q6tbzMFuE973Ek+wWP5bhac29VNkFa/uWo5yPFUmvUiXaXksH5urMFTnC9fl
+ 4aQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1P0ZlxUHohlsrlbPBODtUSaACtCSSMYOYhjWGvBgBXk=;
+ b=iRavMhm/8uz3Uy9d/vAQVC4GPfLVitidJz+gjghIA1sOvuXkOTvghU3o8vt2UMldRd
+ DBZPNIaKxPTH0e792IEJUsPCseWwM428tit3+KKiupmaz1vr5nacvFijrdAwuGadi8XB
+ LJ+Y1fJSbIr/yWnMapojkpapKiZjm1sm+joNaUaGl7ELPfegzQOou+HRZrC/XZ0hjXDj
+ c9ITmNPMtogmsAYepMvY2Am5EoK/16BZRC12jYbg+nLwKXR2X1mHz1Ajkf34iiDPzS9j
+ 8E8+OW6mHCHB2Px52fJFL7vK/yTGB65SowV1B7yzVnldHd1jMLynexWWOpuSCh9R3DHm
+ jzSQ==
+X-Gm-Message-State: ANhLgQ3CxzHBXsJhu9dpHF1Tcn2062Qz6xAvaYQP60HYYn9jgxvVhecX
+ 2q/kCb0X7mHvcgEztwhzxJL8Tg==
+X-Google-Smtp-Source: ADFU+vuc+0c9m8bZ2CxZF9bsPVJYoCVkpR+l+7F9jGFoJa1tSgxIXRqE/ngn5yG2erAMSuic9lR4bw==
+X-Received: by 2002:a5d:4582:: with SMTP id p2mr4991786wrq.80.1583233362808;
+ Tue, 03 Mar 2020 03:02:42 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u20sm3148031wmj.14.2020.03.03.03.02.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Mar 2020 03:02:41 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BEBD21FF87;
+ Tue,  3 Mar 2020 11:02:40 +0000 (GMT)
+References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
+ <20200301215029.15196-3-nieklinnenbank@gmail.com>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Subject: Re: [PATCH v6 02/18] hw/arm: add Xunlong Orange Pi PC machine
+In-reply-to: <20200301215029.15196-3-nieklinnenbank@gmail.com>
+Date: Tue, 03 Mar 2020 11:02:40 +0000
+Message-ID: <87sgip7lbj.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,215 +82,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ b.galvani@gmail.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 127 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 171 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+Niek Linnenbank <nieklinnenbank@gmail.com> writes:
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..39cb665c85
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,127 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# Check if we can run this test.
-+IMGOPTS='compression_type=zstd'
-+
-+_make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+CLUSTER_SIZE=65536
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 0317667695..5edbadef40 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -293,3 +293,4 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
--- 
-2.17.0
+> The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
+> based embedded computer with mainline support in both U-Boot
+> and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
+> 1GiB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
+> various other I/O. This commit add support for the Xunlong
+> Orange Pi PC machine.
+>
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Tested-by: KONRAD Frederic <frederic.konrad@adacore.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  hw/arm/orangepi.c    | 89 ++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS          |  1 +
+>  hw/arm/Makefile.objs |  2 +-
+>  3 files changed, 91 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/arm/orangepi.c
+>
+> diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
+> new file mode 100644
+> index 0000000000..19adfca917
+> --- /dev/null
+> +++ b/hw/arm/orangepi.c
+> @@ -0,0 +1,89 @@
+> +/*
+> + * Orange Pi emulation
+> + *
+> + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
+> + *
+> + * This program is free software: you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation, either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/units.h"
+> +#include "exec/address-spaces.h"
+> +#include "qapi/error.h"
+> +#include "cpu.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/boards.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/arm/allwinner-h3.h"
+> +#include "sysemu/sysemu.h"
+> +
+> +static struct arm_boot_info orangepi_binfo =3D {
+> +    .nb_cpus =3D AW_H3_NUM_CPUS,
+> +};
+> +
+> +static void orangepi_init(MachineState *machine)
+> +{
+> +    AwH3State *h3;
+> +
+> +    /* BIOS is not supported by this board */
+> +    if (bios_name) {
+> +        error_report("BIOS not supported for this machine");
+> +        exit(1);
+> +    }
+> +
+> +    /* This board has fixed size RAM */
+> +    if (machine->ram_size !=3D 1 * GiB) {
+> +        error_report("This machine can only be used with 1GiB of RAM");
+> +        exit(1);
+> +    }
+> +
+> +    /* Only allow Cortex-A7 for this board */
+> +    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a7")) !=3D 0=
+) {
+> +        error_report("This board can only be used with cortex-a7 CPU");
+> +        exit(1);
+> +    }
+> +
+> +    h3 =3D AW_H3(object_new(TYPE_AW_H3));
+> +
+> +    /* Setup timer properties */
+> +    object_property_set_int(OBJECT(h3), 32768, "clk0-freq",
+> +                            &error_abort);
+> +    object_property_set_int(OBJECT(h3), 24 * 1000 * 1000, "clk1-freq",
+> +                            &error_abort);
+> +
+> +    /* Mark H3 object realized */
+> +    object_property_set_bool(OBJECT(h3), true, "realized", &error_abort);
+> +
+> +    /* SDRAM */
+> +    memory_region_add_subregion(get_system_memory(), h3->memmap[AW_H3_SD=
+RAM],
+> +                                machine->ram);
+> +
+> +    orangepi_binfo.loader_start =3D h3->memmap[AW_H3_SDRAM];
+> +    orangepi_binfo.ram_size =3D machine->ram_size;
+> +    arm_load_kernel(ARM_CPU(first_cpu), machine, &orangepi_binfo);
+> +}
+> +
+> +static void orangepi_machine_init(MachineClass *mc)
+> +{
+> +    mc->desc =3D "Orange Pi PC";
+> +    mc->init =3D orangepi_init;
+> +    mc->min_cpus =3D AW_H3_NUM_CPUS;
+> +    mc->max_cpus =3D AW_H3_NUM_CPUS;
+> +    mc->default_cpus =3D AW_H3_NUM_CPUS;
+> +    mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7");
+> +    mc->default_ram_size =3D 1 * GiB;
+> +    mc->default_ram_id =3D "orangepi.ram";
+> +}
+> +
+> +DEFINE_MACHINE("orangepi-pc", orangepi_machine_init)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d5c0c25cc4..02ecba8d9c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -496,6 +496,7 @@ L: qemu-arm@nongnu.org
+>  S: Maintained
+>  F: hw/*/allwinner-h3*
+>  F: include/hw/*/allwinner-h3*
+> +F: hw/arm/orangepi.c
+>=20=20
+>  ARM PrimeCell and CMSDK devices
+>  M: Peter Maydell <peter.maydell@linaro.org>
+> diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
+> index ae577e875f..534a6a119e 100644
+> --- a/hw/arm/Makefile.objs
+> +++ b/hw/arm/Makefile.objs
+> @@ -35,7 +35,7 @@ obj-$(CONFIG_DIGIC) +=3D digic.o
+>  obj-$(CONFIG_OMAP) +=3D omap1.o omap2.o
+>  obj-$(CONFIG_STRONGARM) +=3D strongarm.o
+>  obj-$(CONFIG_ALLWINNER_A10) +=3D allwinner-a10.o cubieboard.o
+> -obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3.o
+> +obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3.o orangepi.o
+>  obj-$(CONFIG_RASPI) +=3D bcm2835_peripherals.o bcm2836.o raspi.o
+>  obj-$(CONFIG_STM32F205_SOC) +=3D stm32f205_soc.o
+>  obj-$(CONFIG_STM32F405_SOC) +=3D stm32f405_soc.o
+
+
+--=20
+Alex Benn=C3=A9e
 
