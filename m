@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D0A1774B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:57:56 +0100 (CET)
-Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617351774B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:58:41 +0100 (CET)
+Received: from localhost ([::1]:45424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j95FL-0004ML-3y
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:57:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60179)
+	id 1j95G4-00061A-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:58:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j95ED-0003On-HI
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:56:48 -0500
+ (envelope-from <ppandit@redhat.com>) id 1j95Ev-0004YZ-4K
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:57:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j95EC-0006xx-Gq
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:56:45 -0500
-Resent-Date: Tue, 03 Mar 2020 05:56:45 -0500
-Resent-Message-Id: <E1j95EC-0006xx-Gq@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21105)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j95EC-0006uW-66
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:56:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1583232991; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MJCA/AmGlf/Ci+loW+lQzc3yBXId1RedykRx/FXd/w5H2hGRGCHnEJCR65mQBt5hPDtnRKsZ/Hw/8MJjkrIU8TWuvARW1Z0gLen2KNk/TYMKtb3Rg6gvjsgzO3KahOwluA5winEn2By1+yyZDfKTxUP/t3qhWvq4YB7gqaLBW78=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1583232991;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=usaj3eJk9Llyu5xE1ZqF6q3Rfl8EoEnMMzx9z5anxCY=; 
- b=cdk7U5p4IN3TF7/8E4+oPPsKc2F8sqzRt1DhfCHZb2NxYKL3ds82PAp4XsfLyaFLZTaYqL5lrdKLw9nwkRJPtDU3/13II8qP32+2N8Ny5aZquC5Iypr7yNwUmQ8y0lSbaA2CNQZrbfQMWzgzeH14Eqdajdo5Lrruy25O4gK1T/c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1583232989253410.64991838380286;
- Tue, 3 Mar 2020 02:56:29 -0800 (PST)
-In-Reply-To: <20200303104724.233375-1-ppandit@redhat.com>
-Subject: Re: [PATCH v3 0/2] net: tulip: add checks to avoid OOB access
-Message-ID: <158323298807.8962.14122866075079206643@abdcc9e1aa82>
+ (envelope-from <ppandit@redhat.com>) id 1j95Es-0007ee-PM
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:57:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54002
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1j95Es-0007d9-LV
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:57:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583233046;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aGU+zEJ/Y1w990smmVftsMJ33GKV+sdk4pp95QGT9Pw=;
+ b=VkZtExGlMAxcsufJAQD8SMHhkdNCLyO1FUcqghIq9gFAiNAtiIUN8mugbIFjHbu3G5gEd8
+ iBjP7CciwxKDHMjYSgz71QBxUWa4sVjy+umNEk8dr2JXSno+1rz1hZHAUTohEX5mxcHQNM
+ cD6xEnLJQ/uVKEq9vQlSy8d5jOJoINY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-rDn9YB-yOem3sWzQVmMAvA-1; Tue, 03 Mar 2020 05:57:24 -0500
+X-MC-Unique: rDn9YB-yOem3sWzQVmMAvA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F9521005510;
+ Tue,  3 Mar 2020 10:57:23 +0000 (UTC)
+Received: from kaapi (ovpn-116-177.sin2.redhat.com [10.67.116.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37ADC8C09A;
+ Tue,  3 Mar 2020 10:57:19 +0000 (UTC)
+Date: Tue, 3 Mar 2020 16:27:05 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v2] net: tulip: check frame size and r/w data length
+In-Reply-To: <e63fe1bb-e77f-1813-6cc7-9763c82c1046@redhat.com>
+Message-ID: <nycvar.YSQ.7.76.2003031620020.5086@xnncv>
+References: <20200217113804.341836-1-ppandit@redhat.com>
+ <e63fe1bb-e77f-1813-6cc7-9763c82c1046@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ppandit@redhat.com
-Date: Tue, 3 Mar 2020 02:56:29 -0800 (PST)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,23 +72,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pjp@fedoraproject.org, jasowang@redhat.com, qemu-devel@nongnu.org,
- pangpei.lq@antfin.com, svens@stackframe.org, ezrakiez@gmail.com
+Cc: Li Qiang <pangpei.lq@antfin.com>, Sven Schnelle <svens@stackframe.org>,
+ Qemu Developers <qemu-devel@nongnu.org>, Ziming Zhang <ezrakiez@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwMzEwNDcyNC4yMzMz
-NzUtMS1wcGFuZGl0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
-b2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBO
-RVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBK
-PTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhlIGZ1bGwgbG9nIGlz
-IGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDMwMzEwNDcyNC4yMzMz
-NzUtMS1wcGFuZGl0QHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
++-- On Mon, 24 Feb 2020, Jason Wang wrote --+
+| > +        if (s->rx_frame_len + len >=3D sizeof(s->rx_frame)) {
+| > +            return;
+| > +        }
+| What's the goal of this checking?
+
+  To avoid potential OOB access while in pci_dma_write().
+
+| >           pci_dma_write(&s->dev, desc->buf_addr2, s->rx_frame +
+| >               (s->rx_frame_size - s->rx_frame_len), len);
+|
+| > +    if (size < 14 || size > sizeof(s->rx_frame) - 4
+| > +        || s->rx_frame_len || tulip_rx_stopped(s)) {
+| >           return 0;
+| It's better to move those checks in .can_receive().
+
+  I tried to move these checks to .can_recieve, but tulip_receive()
+is called from tulip_receive_nc() and tulip_tx() and the 'size' check could
+not be moved to can_receive().
+
+| > +        } else if (s->tx_frame_len < sizeof(s->tx_frame)) {
+| Should we use <=3D here?
+
+  Done.
+=20
+| > +    if (s->tx_frame_len + len1 >=3D sizeof(s->tx_frame)) {
+| > +        return;
+| > +    }
+| I think it's better to add a return value here to make sure caller
+| tulip_xmit_list_update() can exit the loop early
+
+  Done.
+=20
+| One more thing.
+| It looks to me there could be a user trigger-able infinite loop in
+| tun_list_update() through always set TDES0_OWN in its descriptors?
+
+  Yes, defined TULIP_DESC_MAX=3D128 to restrict loop iterations to 128=20
+descriptors to avoid potential infinite loop.
+  -> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre=
+e/drivers/net/ethernet/dec/tulip/tulip.h#n319
+
+Sent patch v3 with above changes; Sorry about the delay.
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+
 
