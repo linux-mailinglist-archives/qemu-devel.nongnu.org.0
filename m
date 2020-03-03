@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CF1177C1A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 17:41:08 +0100 (CET)
-Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C52177C24
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 17:42:53 +0100 (CET)
+Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9AbT-0006IJ-O9
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 11:41:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56778)
+	id 1j9AdA-0001gB-B9
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 11:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j9AVo-0004G8-CD
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:17 -0500
+ (envelope-from <armbru@redhat.com>) id 1j9AVs-0004JQ-RA
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j9AVn-0002yp-B6
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:16 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44688
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1j9AVr-00031S-Fo
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22060
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9AVn-0002yP-6s
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:15 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9AVr-000319-CI
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583253314;
+ s=mimecast20190719; t=1583253319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G/K2SKoqOnDjysN1i+Hx5allTxM687zxIdK14NsSRSU=;
- b=S3GBdzUzrrqtH9l4BVwkG70RQRWCXPZtXveIxVTEMmr4BWAYsdF/v+qiYjxulPu+W0X4y9
- 22vEPUDXLUHygSkLnyZ3N5PCyL7s/DiNW4xv82A1FUadiPUlDqzAiH2XLDQ4sQOg5sxx+I
- 1uQMOvNXCgDIPtkcX2dneBBpxBXmbuw=
+ bh=Fbo5JhnnTf0I02ZkCG4yrI4+5qo3vdDLrEPTR8T/fbg=;
+ b=GEEJKZkLOWVl0iPvjgMyIY1L9wkhwxapgvd7FgG4w1OwApgGc/+2nqvqxh97nZsF0K5TBP
+ QqHK0QWHTqKXILDbndoRpsYwlYRq3Pnflt75Ol8Ok8idZtuGLassCzRP8IvPWvAUef8sNz
+ xE5eQbyb4QyBG4OoYSIsSMZVv7WsMIg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-h9pa_epCOQWN7Olyr6fVJg-1; Tue, 03 Mar 2020 11:35:13 -0500
-X-MC-Unique: h9pa_epCOQWN7Olyr6fVJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-182-EgChiYy8PQSgAnMDA3R2_A-1; Tue, 03 Mar 2020 11:35:12 -0500
+X-MC-Unique: EgChiYy8PQSgAnMDA3R2_A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BDC01005512;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01F0918CA247;
  Tue,  3 Mar 2020 16:35:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
  [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1EC891D71;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC6E61001920;
  Tue,  3 Mar 2020 16:35:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CF64911336BD; Tue,  3 Mar 2020 17:35:05 +0100 (CET)
+ id D29581133013; Tue,  3 Mar 2020 17:35:05 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/30] tests/test-qmp-event: Check event is actually emitted
-Date: Tue,  3 Mar 2020 17:34:45 +0100
-Message-Id: <20200303163505.32041-11-armbru@redhat.com>
+Subject: [PATCH v2 11/30] qapi/schema: Clean up around
+ QAPISchemaEntity.connect_doc()
+Date: Tue,  3 Mar 2020 17:34:46 +0100
+Message-Id: <20200303163505.32041-12-armbru@redhat.com>
 In-Reply-To: <20200303163505.32041-1-armbru@redhat.com>
 References: <20200303163505.32041-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,67 +78,78 @@ Cc: libvir-list@redhat.com, berrange@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+QAPISchemaEntity calls doc.connect_feature() in .check().  Improper
+since commit ee1e6a1f6c8 split .connect_doc() off .check().  Move the
+call.  Requires making the children call super().connect_doc() as they
+should.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-qmp-event.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ scripts/qapi/schema.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/tests/test-qmp-event.c b/tests/test-qmp-event.c
-index d64066139c..7dd0053190 100644
---- a/tests/test-qmp-event.c
-+++ b/tests/test-qmp-event.c
-@@ -26,6 +26,7 @@
-=20
- typedef struct TestEventData {
-     QDict *expect;
-+    bool emitted;
- } TestEventData;
-=20
- TestEventData *test_event_data;
-@@ -52,7 +53,7 @@ void test_qapi_event_emit(test_QAPIEvent event, QDict *d)
-     qdict_del(d, "timestamp");
-=20
-     g_assert(qobject_is_equal(QOBJECT(d), QOBJECT(test_event_data->expect)=
-));
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index cfbb9758c4..1c8d126441 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -53,13 +53,13 @@ class QAPISchemaEntity:
+         seen =3D {}
+         for f in self.features:
+             f.check_clash(self.info, seen)
+-            if self.doc:
+-                self.doc.connect_feature(f)
 -
-+    test_event_data->emitted =3D true;
- }
+         self._checked =3D True
 =20
- static void event_prepare(TestEventData *data,
-@@ -87,6 +88,7 @@ static void test_event_a(TestEventData *data,
- {
-     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_A' }");
-     qapi_event_send_event_a();
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+     def connect_doc(self, doc=3DNone):
+-        pass
++        doc =3D doc or self.doc
++        if doc:
++            for f in self.features:
++                doc.connect_feature(f)
 =20
-@@ -95,6 +97,7 @@ static void test_event_b(TestEventData *data,
- {
-     data->expect =3D qdict_from_jsonf_nofail("{ 'event': 'EVENT_B' }");
-     qapi_event_send_event_b();
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+     def check_doc(self):
+         if self.doc:
+@@ -250,6 +250,7 @@ class QAPISchemaEnumType(QAPISchemaType):
+             m.check_clash(self.info, seen)
 =20
-@@ -107,6 +110,7 @@ static void test_event_c(TestEventData *data,
-         "{ 'event': 'EVENT_C', 'data': {"
-         " 'a': 1, 'b': { 'integer': 2, 'string': 'test1' }, 'c': 'test2' }=
- }");
-     qapi_event_send_event_c(true, 1, true, &b, "test2");
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             for m in self.members:
+@@ -392,6 +393,7 @@ class QAPISchemaObjectType(QAPISchemaType):
+             m.check_clash(info, seen)
 =20
-@@ -132,6 +136,7 @@ static void test_event_d(TestEventData *data,
-         "  'string': 'test2', 'enum2': 'value2' },"
-         " 'b': 'test3', 'enum3': 'value3' } }");
-     qapi_event_send_event_d(&a, "test3", false, NULL, true, ENUM_ONE_VALUE=
-3);
-+    g_assert(data->emitted);
-     qobject_unref(data->expect);
- }
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             if self.base and self.base.is_implicit():
+@@ -668,6 +670,7 @@ class QAPISchemaAlternateType(QAPISchemaType):
+                 types_seen[qt] =3D v.name
 =20
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             for v in self.variants.variants:
+@@ -734,6 +737,7 @@ class QAPISchemaCommand(QAPISchemaEntity):
+                         % self.ret_type.describe())
+=20
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             if self.arg_type and self.arg_type.is_implicit():
+@@ -776,6 +780,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
+                     % self.arg_type.describe())
+=20
+     def connect_doc(self, doc=3DNone):
++        super().connect_doc(doc)
+         doc =3D doc or self.doc
+         if doc:
+             if self.arg_type and self.arg_type.is_implicit():
 --=20
 2.21.1
 
