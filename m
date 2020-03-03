@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6314A1769C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 02:01:25 +0100 (CET)
-Received: from localhost ([::1]:40514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DDD1769CE
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 02:04:47 +0100 (CET)
+Received: from localhost ([::1]:40582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8vw4-0008Jg-Bx
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 20:01:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
+	id 1j8vzJ-0006gx-St
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 20:04:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vkr-0002Xu-9N
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:50 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vkx-0002ie-Tr
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vkp-0004T1-Ii
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:48 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40644)
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vkt-0004VG-Ql
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:54 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43617)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j8vkp-0004SY-6j
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:47 -0500
-Received: by mail-pf1-x441.google.com with SMTP id l184so555216pfl.7
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:49:46 -0800 (PST)
+ id 1j8vks-0004Tl-Tx
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:51 -0500
+Received: by mail-pl1-x644.google.com with SMTP id x17so497590plm.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=ti9yXoRVYSbU3lnCHfDJy3KSsIWSbEVNqPE18S19cuA=;
- b=bO27781trIx6Jb8P4cLS9o4ZLvW2fBdDuDDqaN7KAgLIgoe+WgnJasaqZH8+43Dqwg
- aQt1SjyXG1PW0kJYhQbcETU2l4jkCi+gPtDPWnPa1OdnOqa6/fMutSHyIwKlHY2aMHkz
- 5c/8nykpstQaytMhtNIVCcEUX477pHGOrvNlx6wm4neE+4qn8THrvQzZiX6DADEVoHzN
- gLUSDUwqFEBkwSFlBgpFCbAkIU8zcLeJd+HKyy2qsHLoSZvA4OXlFqsKCIGy0KJc792e
- LYgkVHzo3+JYfE1L+6qC1tVvRiScRM3m7hwRMpe72qz8V3yjCukH01tJjDBWvcCD4bnN
- ILYA==
+ bh=K4iuwnZKk8MjfgAofzgXfmuGJvew57sqzgzfazcOgLo=;
+ b=p2uFP1f/C7Br/ykLKeSK8IA4rQcKuI/tYyaAGts02769Ux9xbuXth8cdz33/+peND9
+ J042EH+c3Q10H/iABTVu4W0BRVOY8IGQwqCRUV6s8bjD7oSLIBHQR1ziDCadoQwrUpo6
+ wEB2X2369vyIBl051MM8dJG35MMCgbbv9Cmndnwcyiwf4Acq84Nz/MQbmgW85enkjXVR
+ 8GcYK9HILbxMLTmAWiWPgRz9DP30mN5oWE51O7bVFJCNu6XlMh50MffWTgb0LvE++sRE
+ POYF+Ev7LwB0GH4XFGaqCWxHz5Bs5XuYq9VtAG6w/xGX4Jck0+LFb8i1NroqywAITkhP
+ +sIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=ti9yXoRVYSbU3lnCHfDJy3KSsIWSbEVNqPE18S19cuA=;
- b=QLqnXo7NGul1xo1LvxSXDCfEuHHPPabnJIcs/bWRg2KfopHRhmfANyoEsbvQvsH/6X
- NLUFYP9sOFxpzGabtK+njlhyRjuePbvAhX1UJYVehWDFUBzbzutYCUTTAipKsMJrMjdA
- gLS14adxEgia7OPf9CEVbAIXzzuaaXCtNI65g4NYTuqN3v8bahpyuRLSB6koiiRXMBcZ
- 5UkrKg1/aR6iz3vhZJJdxLXh9v7C03UpQI0Nry4VsmjTi9Og/uLKx3QSXTwQS9b2rufX
- Pk4t0pqa08rajw9O5H53e9NBzh68nMjnvLxjxIOYwRFfHvufNFMe6EW2vMa3VifHGtO4
- 8nkg==
-X-Gm-Message-State: ANhLgQ3JWb8v9egMji6jrrEBs8oA/3EAm8N5caRbDlcgHSzO6DdjoLBN
- Pz1SaZPzpbBieIbgRFqiYb/Vhg==
-X-Google-Smtp-Source: ADFU+vsD7mexY3fuWO9RDMDsARNlpQPWv0gp7Nc1oiYnutmm1wMFoxjhEtag0y3u9dsrgjXXnHhhZw==
-X-Received: by 2002:a05:6a00:2b7:: with SMTP id
- q23mr1555234pfs.43.1583196585979; 
- Mon, 02 Mar 2020 16:49:45 -0800 (PST)
+ bh=K4iuwnZKk8MjfgAofzgXfmuGJvew57sqzgzfazcOgLo=;
+ b=kkqP0cvSfzrI339P0g4B9hw9hHHe71GC/QO3ynry3ZrdNhExCphC0KgIt2O2+S3Py2
+ YgxFVK/FVhPYQlpozG1g5EduZ3cq2MxuBCl1Seq6kkV3zhDVX6rEcljEaKGWn5svNDdW
+ 6HjueCwI1B57qNAlPaihE6c+2Kf0tXdR9G/m1zxxoJ790+WGu5CyxkXdJZimrT0ngcCl
+ xj/x+YHxePWxSFVJ0wg0bWtp+blKURuh1FuqmaeIAOkG/ofubIQ8szozc3qrdJ/7n6GH
+ 7oSOapGKkwe7S60DgDK/e2i/8o3ItJX9B5azmzkJNtiwi475IqycWGfKgSTPdnb1RWd2
+ YTUA==
+X-Gm-Message-State: ANhLgQ2n4FAYHlqtsZOB/xkgObrN2mEoCQzg+dRSZcMKAsGXf2ZaePkH
+ wEYdPbM5f2qvXrsb3exQLK+rCg==
+X-Google-Smtp-Source: ADFU+vukNh3FxGhY8lT6adpRrBhNLhsl4gGteSU5zfzM62/YqJnsnp9l9JYWvoM5rQxXnvcYTQE96w==
+X-Received: by 2002:a17:90a:f0c4:: with SMTP id
+ fa4mr1186814pjb.125.1583196587713; 
+ Mon, 02 Mar 2020 16:49:47 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id m16sm21984682pfh.60.2020.03.02.16.49.45
+ by smtp.gmail.com with ESMTPSA id d1sm21802272pgj.79.2020.03.02.16.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 16:49:45 -0800 (PST)
-Subject: [PULL 27/38] target/riscv: Mark both sstatus and msstatus_hs as dirty
-Date: Mon,  2 Mar 2020 16:48:37 -0800
-Message-Id: <20200303004848.136788-28-palmerdabbelt@google.com>
+ Mon, 02 Mar 2020 16:49:47 -0800 (PST)
+Subject: [PULL 28/38] target/riscv: Respect MPRV and SPRV for floating point
+ ops
+Date: Mon,  2 Mar 2020 16:48:38 -0800
+Message-Id: <20200303004848.136788-29-palmerdabbelt@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200303004848.136788-1-palmerdabbelt@google.com>
 References: <20200303004848.136788-1-palmerdabbelt@google.com>
@@ -69,7 +70,7 @@ From: Palmer Dabbelt <palmerdabbelt@google.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,53 +87,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Mark both sstatus and vsstatus as dirty (3).
+mark_fs_dirty() is the only place in translate.c that uses the
+virt_enabled bool. Let's respect the contents of MSTATUS.MPRV and
+HSTATUS.SPRV when setting the bool as this is used for performing
+floating point operations when V=0.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/translate.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ target/riscv/translate.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index eff064dc44..3ce86adb89 100644
+index 3ce86adb89..b51ab92068 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -44,6 +44,8 @@ typedef struct DisasContext {
-     /* pc_succ_insn points to the instruction following base.pc_next */
-     target_ulong pc_succ_insn;
-     target_ulong priv_ver;
-+    bool virt_enabled;
-+    uint32_t opcode;
-     uint32_t mstatus_fs;
-     uint32_t misa;
-     uint32_t mem_idx;
-@@ -395,6 +397,12 @@ static void mark_fs_dirty(DisasContext *ctx)
-     tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-     tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | MSTATUS_SD);
-     tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-+
-+    if (ctx->virt_enabled) {
-+        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | MSTATUS_SD);
-+        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-+    }
-     tcg_temp_free(tmp);
- }
- #else
-@@ -742,6 +750,11 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->mem_idx = ctx->base.tb->flags & TB_FLAGS_MMU_MASK;
+@@ -751,7 +751,21 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
      ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
      ctx->priv_ver = env->priv_ver;
-+#if !defined(CONFIG_USER_ONLY)
-+    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-+#else
-+    ctx->virt_enabled = false;
-+#endif
-     ctx->misa = env->misa;
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+ #if !defined(CONFIG_USER_ONLY)
+-    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
++    if (riscv_has_ext(env, RVH)) {
++        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
++        if (env->priv_ver == PRV_M &&
++            get_field(env->mstatus, MSTATUS_MPRV) &&
++            get_field(env->mstatus, MSTATUS_MPV)) {
++            ctx->virt_enabled = true;
++        } else if (env->priv == PRV_S &&
++                   !riscv_cpu_virt_enabled(env) &&
++                   get_field(env->hstatus, HSTATUS_SPRV) &&
++                   get_field(env->hstatus, HSTATUS_SPV)) {
++            ctx->virt_enabled = true;
++        }
++    } else {
++        ctx->virt_enabled = false;
++    }
+ #else
+     ctx->virt_enabled = false;
+ #endif
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
