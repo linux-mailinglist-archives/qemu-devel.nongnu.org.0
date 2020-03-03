@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CB5177BE0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 17:28:09 +0100 (CET)
-Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CAF177C03
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 17:37:50 +0100 (CET)
+Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9AOs-0007vy-DO
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 11:28:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55303)
+	id 1j9AYH-000787-6o
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 11:37:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1j9ANQ-0007MP-38
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:26:42 -0500
+ (envelope-from <armbru@redhat.com>) id 1j9AVy-0004Tx-90
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1j9ANN-00077J-Pp
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:26:36 -0500
-Received: from mga03.intel.com ([134.134.136.65]:14898)
+ (envelope-from <armbru@redhat.com>) id 1j9AVw-00035i-9A
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26322
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1j9ANI-0006tA-MR; Tue, 03 Mar 2020 11:26:29 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2020 08:25:25 -0800
-X-IronPort-AV: E=Sophos;i="5.70,511,1574150400"; d="scan'208";a="233670502"
-Received: from ajakowsk-mobl1.amr.corp.intel.com (HELO localhost.localdomain)
- ([10.78.27.169])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
- 03 Mar 2020 08:25:23 -0800
-Subject: Re: [PATCH v2 1/1] block/nvme: introduce PMR support from NVMe 1.4
- spec
-To: keith.busch@intel.com, kwolf@redhat.com, mreitz@redhat.com
-References: <20200221212327.24616-1-andrzej.jakowski@linux.intel.com>
- <20200221212327.24616-2-andrzej.jakowski@linux.intel.com>
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Message-ID: <396df572-e7cd-1a2f-b882-d68de9f13d7a@linux.intel.com>
-Date: Tue, 3 Mar 2020 09:25:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9AVw-00035G-3i
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583253323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VCkw8TmGB1PJa9cGgegVrhURaYkQ9tG3kmuzwLsYUGs=;
+ b=RWJoNocbsSJ8dQ0+61OSq75TNECt2IDm8kCE2tuxtd/px84xVg6+go27QiJ3c9a3Ed3MDf
+ OxZf2/fnCQj6sqZHWJrS2UM/B34hscKHvo7tg2sGxErJLk2YyHucl3x5/1Ps5XRuux2QZc
+ OcaXwhcwD9XiYd5Wf066y9Gf/8+lpkc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-s8f1vOgFMGe4xuW2n5Kfpw-1; Tue, 03 Mar 2020 11:35:11 -0500
+X-MC-Unique: s8f1vOgFMGe4xuW2n5Kfpw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 886A118CA244;
+ Tue,  3 Mar 2020 16:35:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
+ [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A1AD5D9C9;
+ Tue,  3 Mar 2020 16:35:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B023F11386A6; Tue,  3 Mar 2020 17:35:05 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/30] Configurable policy for handling deprecated
+ interfaces
+Date: Tue,  3 Mar 2020 17:34:35 +0100
+Message-Id: <20200303163505.32041-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200221212327.24616-2-andrzej.jakowski@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.65
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,507 +72,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: haozhong.zhang@intel.com, qemu-block@nongnu.org, stefanha@gmail.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, yi.z.zhang@linux.intel.com,
- junyan.he@intel.com
+Cc: libvir-list@redhat.com, berrange@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/20 2:23 PM, Andrzej Jakowski wrote:
-> This patch introduces support for PMR that has been defined as part of NVMe 1.4
-> spec. User can now specify a pmr_file which will be mmap'ed into qemu address
-> space and subsequently in PCI BAR 2. Guest OS can perform mmio read and writes
-> to the PMR region that will stay persistent accross system reboot.
-> 
-> Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-> ---
->  hw/block/nvme.c       | 165 +++++++++++++++++++++++++++++++++++++++-
->  hw/block/nvme.h       |   5 ++
->  hw/block/trace-events |   5 ++
->  include/block/nvme.h  | 172 ++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 346 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index d28335cbf3..ff7e74d765 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -19,10 +19,14 @@
->   *      -drive file=<file>,if=none,id=<drive_id>
->   *      -device nvme,drive=<drive_id>,serial=<serial>,id=<id[optional]>, \
->   *              cmb_size_mb=<cmb_size_mb[optional]>, \
-> + *              [pmr_file=<pmr_file_path>,] \
->   *              num_queues=<N[optional]>
->   *
->   * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
->   * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-> + *
-> + * Either cmb or pmr - due to limitation in avaialbe BAR indexes.
-> + * pmr_file file needs to be preallocated and power of two in size.
->   */
->  
->  #include "qemu/osdep.h"
-> @@ -1141,6 +1145,28 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
->          NVME_GUEST_ERR(nvme_ub_mmiowr_cmbsz_readonly,
->                         "invalid write to read only CMBSZ, ignored");
->          return;
-> +#ifndef _WIN32
-> +    case 0xE00: /* PMRCAP */
-> +        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrcap_readonly,
-> +                       "invalid write to PMRCAP register, ignored");
-> +        return;
-> +    case 0xE04: /* TODO PMRCTL */
-> +        break;
-> +    case 0xE08: /* PMRSTS */
-> +        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrsts_readonly,
-> +                       "invalid write to PMRSTS register, ignored");
-> +        return;
-> +    case 0xE0C: /* PMREBS */
-> +        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrebs_readonly,
-> +                       "invalid write to PMREBS register, ignored");
-> +        return;
-> +    case 0xE10: /* PMRSWTP */
-> +        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrswtp_readonly,
-> +                       "invalid write to PMRSWTP register, ignored");
-> +        return;
-> +    case 0xE14: /* TODO PMRMSC */
-> +         break;
-> +#endif /* !_WIN32 */
->      default:
->          NVME_GUEST_ERR(nvme_ub_mmiowr_invalid,
->                         "invalid MMIO write,"
-> @@ -1169,6 +1195,22 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
->      }
->  
->      if (addr < sizeof(n->bar)) {
-> +#ifndef _WIN32
-> +        /*
-> +         * When PMRWBM bit 1 is set then read from
-> +         * from PMRSTS should ensure prior writes
-> +         * made it to persistent media
-> +         */
-> +        if (addr == 0xE08 &&
-> +            (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02) >> 1) {
-> +            int ret;
-> +            ret = msync(n->pmrbuf, n->f_pmr_size, MS_SYNC);
-> +            if (!ret) {
-> +                NVME_GUEST_ERR(nvme_ub_mmiord_pmrread_barrier,
-> +                       "error while persisting data");
-> +            }
-> +        }
-> +#endif /* !_WIN32 */
->          memcpy(&val, ptr + addr, size);
->      } else {
->          NVME_GUEST_ERR(nvme_ub_mmiord_invalid_ofs,
-> @@ -1303,6 +1345,31 @@ static const MemoryRegionOps nvme_cmb_ops = {
->      },
->  };
->  
-> +#ifndef _WIN32
-> +static void nvme_pmr_write(void *opaque, hwaddr addr, uint64_t data,
-> +    unsigned size)
-> +{
-> +    NvmeCtrl *n = (NvmeCtrl *)opaque;
-> +    stn_le_p(&n->pmrbuf[addr], size, data);
-> +}
-> +
-> +static uint64_t nvme_pmr_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    NvmeCtrl *n = (NvmeCtrl *)opaque;
-> +    return ldn_le_p(&n->pmrbuf[addr], size);
-> +}
-> +
-> +static const MemoryRegionOps nvme_pmr_ops = {
-> +    .read = nvme_pmr_read,
-> +    .write = nvme_pmr_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .impl = {
-> +        .min_access_size = 1,
-> +        .max_access_size = 8,
-> +    },
-> +};
-> +#endif /* !_WIN32 */
-> +
->  static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->  {
->      NvmeCtrl *n = NVME(pci_dev);
-> @@ -1332,6 +1399,39 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->          error_setg(errp, "serial property not set");
->          return;
->      }
-> +
-> +#ifndef _WIN32
-> +    if (!n->cmb_size_mb && n->pmr_file) {
-> +        int fd;
-> +
-> +        n->f_pmr = fopen(n->pmr_file, "r+b");
-> +        if (!n->f_pmr) {
-> +            error_setg(errp, "pmr backend file open error");
-> +            return;
-> +        }
-> +
-> +        fseek(n->f_pmr, 0L, SEEK_END);
-> +        n->f_pmr_size = ftell(n->f_pmr);
-> +        fseek(n->f_pmr, 0L, SEEK_SET);
-> +
-> +        /* pmr file size needs to be power of 2 in size */
-> +        if (!n->f_pmr_size || !is_power_of_2(n->f_pmr_size)) {
-> +            error_setg(errp, "pmr backend file size needs to be greater than 0"
-> +                             "and power of 2 in size");
-> +            return;
-> +        }
-> +
-> +        fd = fileno(n->f_pmr);
-> +        n->pmrbuf = mmap(NULL, n->f_pmr_size,
-> +                         (PROT_READ | PROT_WRITE), MAP_SHARED, fd, 0);
-> +
-> +        if (n->pmrbuf == MAP_FAILED) {
-> +            error_setg(errp, "pmr backend file mmap error");
-> +            return;
-> +        }
-> +    }
-> +#endif /* !_WIN32 */
-> +
->      blkconf_blocksizes(&n->conf);
->      if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
->                                         false, errp)) {
-> @@ -1393,7 +1493,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->      n->bar.intmc = n->bar.intms = 0;
->  
->      if (n->cmb_size_mb) {
-> -
->          NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
->          NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
->  
-> @@ -1415,6 +1514,55 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->              PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
->              PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
->  
-> +#ifndef _WIN32
-> +    } else if (n->pmr_file) {
-> +        /* Controller Capabilities register */
-> +        NVME_CAP_SET_PMRS(n->bar.cap, 1);
-> +
-> +        /* PMR Capabities register */
-> +        n->bar.pmrcap = 0;
-> +        NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
-> +        NVME_PMRCAP_SET_WDS(n->bar.pmrcap, 0);
-> +        NVME_PMRCAP_SET_BIR(n->bar.pmrcap, 2);
-> +        NVME_PMRCAP_SET_PMRTU(n->bar.pmrcap, 0);
-> +        /* Turn on bit 1 support */
-> +        NVME_PMRCAP_SET_PMRWBM(n->bar.pmrcap, 0x02);
-> +        NVME_PMRCAP_SET_PMRTO(n->bar.pmrcap, 0);
-> +        NVME_PMRCAP_SET_CMSS(n->bar.pmrcap, 0);
-> +
-> +        /* PMR Control register */
-> +        n->bar.pmrctl = 0;
-> +        NVME_PMRCTL_SET_EN(n->bar.pmrctl, 0);
-> +
-> +        /* PMR Status register */
-> +        n->bar.pmrsts = 0;
-> +        NVME_PMRSTS_SET_ERR(n->bar.pmrsts, 0);
-> +        NVME_PMRSTS_SET_NRDY(n->bar.pmrsts, 0);
-> +        NVME_PMRSTS_SET_HSTS(n->bar.pmrsts, 0);
-> +        NVME_PMRSTS_SET_CBAI(n->bar.pmrsts, 0);
-> +
-> +        /* PMR Elasticity Buffer Size register */
-> +        n->bar.pmrebs = 0;
-> +        NVME_PMREBS_SET_PMRSZU(n->bar.pmrebs, 0);
-> +        NVME_PMREBS_SET_RBB(n->bar.pmrebs, 0);
-> +        NVME_PMREBS_SET_PMRWBZ(n->bar.pmrebs, 0);
-> +
-> +        /* PMR Sustained Write Throughput register */
-> +        n->bar.pmrswtp = 0;
-> +        NVME_PMRSWTP_SET_PMRSWTU(n->bar.pmrswtp, 0);
-> +        NVME_PMRSWTP_SET_PMRSWTV(n->bar.pmrswtp, 0);
-> +
-> +        /* PMR Memory Space Control register */
-> +        n->bar.pmrmsc = 0;
-> +        NVME_PMRMSC_SET_CMSE(n->bar.pmrmsc, 0);
-> +        NVME_PMRMSC_SET_CBA(n->bar.pmrmsc, 0);
-> +
-> +        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_pmr_ops, n,
-> +                              "nvme-pmr", n->f_pmr_size);
-> +        pci_register_bar(pci_dev, NVME_PMRCAP_BIR(n->bar.pmrcap),
-> +            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
-> +            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
-> +#endif /* !_WIN32 */
->      }
->  
->      for (i = 0; i < n->num_namespaces; i++) {
-> @@ -1445,11 +1593,26 @@ static void nvme_exit(PCIDevice *pci_dev)
->      if (n->cmb_size_mb) {
->          g_free(n->cmbuf);
->      }
-> +
-> +#ifndef _WIN32
-> +    if (n->pmr_file) {
-> +        if (n->pmrbuf) {
-> +            munmap(n->pmrbuf, n->f_pmr_size);
-> +        }
-> +
-> +        if (n->f_pmr) {
-> +            fclose(n->f_pmr);
-> +        }
-> +    }
-> +#endif /* !_WIN32 */
->      msix_uninit_exclusive_bar(pci_dev);
->  }
->  
->  static Property nvme_props[] = {
->      DEFINE_BLOCK_PROPERTIES(NvmeCtrl, conf),
-> +#ifndef _WIN32
-> +    DEFINE_PROP_STRING("pmr_file", NvmeCtrl, pmr_file),
-> +#endif /* !_WIN32 */
->      DEFINE_PROP_STRING("serial", NvmeCtrl, serial),
->      DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, cmb_size_mb, 0),
->      DEFINE_PROP_UINT32("num_queues", NvmeCtrl, num_queues, 64),
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 557194ee19..5ab734f96f 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -83,6 +83,11 @@ typedef struct NvmeCtrl {
->      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
->  
->      char            *serial;
-> +    char            *pmr_file;
-> +    FILE            *f_pmr;
-> +    uint64_t        f_pmr_size;
-> +    uint8_t         *pmrbuf;
-> +
->      NvmeNamespace   *namespaces;
->      NvmeSQueue      **sq;
->      NvmeCQueue      **cq;
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index c03e80c2c9..233e094438 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -110,10 +110,15 @@ nvme_ub_mmiowr_ssreset_w1c_unsupported(void) "attempted to W1C CSTS.NSSRO but CA
->  nvme_ub_mmiowr_ssreset_unsupported(void) "attempted NVM subsystem reset but CAP.NSSRS is zero (not supported)"
->  nvme_ub_mmiowr_cmbloc_reserved(void) "invalid write to reserved CMBLOC when CMBSZ is zero, ignored"
->  nvme_ub_mmiowr_cmbsz_readonly(void) "invalid write to read only CMBSZ, ignored"
-> +nvme_ub_mmiowr_pmrcap_readonly(void) "invalid write to read only PMRCAP, ignored"
-> +nvme_ub_mmiowr_pmrsts_readonly(void) "invalid write to read only PMRSTS, ignored"
-> +nvme_ub_mmiowr_pmrebs_readonly(void) "invalid write to read only PMREBS, ignored"
-> +nvme_ub_mmiowr_pmrswtp_readonly(void) "invalid write to read only PMRSWTP, ignored"
->  nvme_ub_mmiowr_invalid(uint64_t offset, uint64_t data) "invalid MMIO write, offset=0x%"PRIx64", data=0x%"PRIx64""
->  nvme_ub_mmiord_misaligned32(uint64_t offset) "MMIO read not 32-bit aligned, offset=0x%"PRIx64""
->  nvme_ub_mmiord_toosmall(uint64_t offset) "MMIO read smaller than 32-bits, offset=0x%"PRIx64""
->  nvme_ub_mmiord_invalid_ofs(uint64_t offset) "MMIO read beyond last register, offset=0x%"PRIx64", returning 0"
-> +nvme_ub_mmiord_pmrread_barrier(void) "failed to persists data"
->  nvme_ub_db_wr_misaligned(uint64_t offset) "doorbell write not 32-bit aligned, offset=0x%"PRIx64", ignoring"
->  nvme_ub_db_wr_invalid_cq(uint32_t qid) "completion queue doorbell write for nonexistent queue, cqid=%"PRIu32", ignoring"
->  nvme_ub_db_wr_invalid_cqhead(uint32_t qid, uint16_t new_head) "completion queue doorbell write value beyond queue size, cqid=%"PRIu32", new_head=%"PRIu16", ignoring"
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 8fb941c653..374262d4b7 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -15,6 +15,13 @@ typedef struct NvmeBar {
->      uint64_t    acq;
->      uint32_t    cmbloc;
->      uint32_t    cmbsz;
-> +    uint8_t     padding[3520]; /* not used by QEMU */
-> +    uint32_t    pmrcap;
-> +    uint32_t    pmrctl;
-> +    uint32_t    pmrsts;
-> +    uint32_t    pmrebs;
-> +    uint32_t    pmrswtp;
-> +    uint32_t    pmrmsc;
->  } NvmeBar;
->  
->  enum NvmeCapShift {
-> @@ -27,6 +34,7 @@ enum NvmeCapShift {
->      CAP_CSS_SHIFT      = 37,
->      CAP_MPSMIN_SHIFT   = 48,
->      CAP_MPSMAX_SHIFT   = 52,
-> +    CAP_PMR_SHIFT      = 56,
->  };
->  
->  enum NvmeCapMask {
-> @@ -39,6 +47,7 @@ enum NvmeCapMask {
->      CAP_CSS_MASK       = 0xff,
->      CAP_MPSMIN_MASK    = 0xf,
->      CAP_MPSMAX_MASK    = 0xf,
-> +    CAP_PMR_MASK       = 0x1,
->  };
->  
->  #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
-> @@ -69,6 +78,8 @@ enum NvmeCapMask {
->                                                             << CAP_MPSMIN_SHIFT)
->  #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
->                                                              << CAP_MPSMAX_SHIFT)
-> +#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
-> +                                                            << CAP_PMR_SHIFT)
->  
->  enum NvmeCcShift {
->      CC_EN_SHIFT     = 0,
-> @@ -205,6 +216,167 @@ enum NvmeCmbszMask {
->  #define NVME_CMBSZ_GETSIZE(cmbsz) \
->      (NVME_CMBSZ_SZ(cmbsz) * (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz))))
->  
-> +enum NvmePmrcapShift {
-> +    PMRCAP_RDS_SHIFT   = 3,
-> +    PMRCAP_WDS_SHIFT   = 4,
-> +    PMRCAP_BIR_SHIFT   = 5,
-> +    PMRCAP_PMRTU_SHIFT   = 8,
-> +    PMRCAP_PMRWBM_SHIFT   = 10,
-> +    PMRCAP_PMRTO_SHIFT   = 16,
-> +    PMRCAP_CMSS_SHIFT   = 24,
-> +};
-> +
-> +enum NvmePmrcapMask {
-> +    PMRCAP_RDS_MASK   = 0x1,
-> +    PMRCAP_WDS_MASK   = 0x1,
-> +    PMRCAP_BIR_MASK   = 0x7,
-> +    PMRCAP_PMRTU_MASK   = 0x3,
-> +    PMRCAP_PMRWBM_MASK   = 0xf,
-> +    PMRCAP_PMRTO_MASK   = 0xff,
-> +    PMRCAP_CMSS_MASK   = 0x1,
-> +};
-> +
-> +#define NVME_PMRCAP_RDS(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_RDS_SHIFT)   & PMRCAP_RDS_MASK)
-> +#define NVME_PMRCAP_WDS(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_WDS_SHIFT)   & PMRCAP_WDS_MASK)
-> +#define NVME_PMRCAP_BIR(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_BIR_SHIFT)   & PMRCAP_BIR_MASK)
-> +#define NVME_PMRCAP_PMRTU(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_PMRTU_SHIFT)   & PMRCAP_PMRTU_MASK)
-> +#define NVME_PMRCAP_PMRWBM(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_PMRWBM_SHIFT)   & PMRCAP_PMRWBM_MASK)
-> +#define NVME_PMRCAP_PMRTO(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_PMRTO_SHIFT)   & PMRCAP_PMRTO_MASK)
-> +#define NVME_PMRCAP_CMSS(pmrcap)    \
-> +    ((pmrcap >> PMRCAP_CMSS_SHIFT)   & PMRCAP_CMSS_MASK)
-> +
-> +#define NVME_PMRCAP_SET_RDS(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_RDS_MASK) << PMRCAP_RDS_SHIFT)
-> +#define NVME_PMRCAP_SET_WDS(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_WDS_MASK) << PMRCAP_WDS_SHIFT)
-> +#define NVME_PMRCAP_SET_BIR(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_BIR_MASK) << PMRCAP_BIR_SHIFT)
-> +#define NVME_PMRCAP_SET_PMRTU(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_PMRTU_MASK) << PMRCAP_PMRTU_SHIFT)
-> +#define NVME_PMRCAP_SET_PMRWBM(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_PMRWBM_MASK) << PMRCAP_PMRWBM_SHIFT)
-> +#define NVME_PMRCAP_SET_PMRTO(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_PMRTO_MASK) << PMRCAP_PMRTO_SHIFT)
-> +#define NVME_PMRCAP_SET_CMSS(pmrcap, val)   \
-> +    (pmrcap |= (uint64_t)(val & PMRCAP_CMSS_MASK) << PMRCAP_CMSS_SHIFT)
-> +
-> +enum NvmePmrctlShift {
-> +    PMRCTL_EN_SHIFT   = 0,
-> +};
-> +
-> +enum NvmePmrctlMask {
-> +    PMRCTL_EN_MASK   = 0x1,
-> +};
-> +
-> +#define NVME_PMRCTL_EN(pmrctl)  ((pmrctl >> PMRCTL_EN_SHIFT)   & PMRCTL_EN_MASK)
-> +
-> +#define NVME_PMRCTL_SET_EN(pmrctl, val)   \
-> +    (pmrctl |= (uint64_t)(val & PMRCTL_EN_MASK) << PMRCTL_EN_SHIFT)
-> +
-> +enum NvmePmrstsShift {
-> +    PMRSTS_ERR_SHIFT   = 0,
-> +    PMRSTS_NRDY_SHIFT   = 8,
-> +    PMRSTS_HSTS_SHIFT   = 9,
-> +    PMRSTS_CBAI_SHIFT   = 12,
-> +};
-> +
-> +enum NvmePmrstsMask {
-> +    PMRSTS_ERR_MASK   = 0xff,
-> +    PMRSTS_NRDY_MASK   = 0x1,
-> +    PMRSTS_HSTS_MASK   = 0x7,
-> +    PMRSTS_CBAI_MASK   = 0x1,
-> +};
-> +
-> +#define NVME_PMRSTS_ERR(pmrsts)     \
-> +    ((pmrsts >> PMRSTS_ERR_SHIFT)   & PMRSTS_ERR_MASK)
-> +#define NVME_PMRSTS_NRDY(pmrsts)    \
-> +    ((pmrsts >> PMRSTS_NRDY_SHIFT)   & PMRSTS_NRDY_MASK)
-> +#define NVME_PMRSTS_HSTS(pmrsts)    \
-> +    ((pmrsts >> PMRSTS_HSTS_SHIFT)   & PMRSTS_HSTS_MASK)
-> +#define NVME_PMRSTS_CBAI(pmrsts)    \
-> +    ((pmrsts >> PMRSTS_CBAI_SHIFT)   & PMRSTS_CBAI_MASK)
-> +
-> +#define NVME_PMRSTS_SET_ERR(pmrsts, val)   \
-> +    (pmrsts |= (uint64_t)(val & PMRSTS_ERR_MASK) << PMRSTS_ERR_SHIFT)
-> +#define NVME_PMRSTS_SET_NRDY(pmrsts, val)   \
-> +    (pmrsts |= (uint64_t)(val & PMRSTS_NRDY_MASK) << PMRSTS_NRDY_SHIFT)
-> +#define NVME_PMRSTS_SET_HSTS(pmrsts, val)   \
-> +    (pmrsts |= (uint64_t)(val & PMRSTS_HSTS_MASK) << PMRSTS_HSTS_SHIFT)
-> +#define NVME_PMRSTS_SET_CBAI(pmrsts, val)   \
-> +    (pmrsts |= (uint64_t)(val & PMRSTS_CBAI_MASK) << PMRSTS_CBAI_SHIFT)
-> +
-> +enum NvmePmrebsShift {
-> +    PMREBS_PMRSZU_SHIFT   = 0,
-> +    PMREBS_RBB_SHIFT   = 4,
-> +    PMREBS_PMRWBZ_SHIFT   = 8,
-> +};
-> +
-> +enum NvmePmrebsMask {
-> +    PMREBS_PMRSZU_MASK   = 0xf,
-> +    PMREBS_RBB_MASK   = 0x1,
-> +    PMREBS_PMRWBZ_MASK   = 0xffffff,
-> +};
-> +
-> +#define NVME_PMREBS_PMRSZU(pmrebs)  \
-> +    ((pmrebs >> PMREBS_PMRSZU_SHIFT)   & PMREBS_PMRSZU_MASK)
-> +#define NVME_PMREBS_RBB(pmrebs)     \
-> +    ((pmrebs >> PMREBS_RBB_SHIFT)   & PMREBS_RBB_MASK)
-> +#define NVME_PMREBS_PMRWBZ(pmrebs)  \
-> +    ((pmrebs >> PMREBS_PMRWBZ_SHIFT)   & PMREBS_PMRWBZ_MASK)
-> +
-> +#define NVME_PMREBS_SET_PMRSZU(pmrebs, val)   \
-> +    (pmrebs |= (uint64_t)(val & PMREBS_PMRSZU_MASK) << PMREBS_PMRSZU_SHIFT)
-> +#define NVME_PMREBS_SET_RBB(pmrebs, val)   \
-> +    (pmrebs |= (uint64_t)(val & PMREBS_RBB_MASK) << PMREBS_RBB_SHIFT)
-> +#define NVME_PMREBS_SET_PMRWBZ(pmrebs, val)   \
-> +    (pmrebs |= (uint64_t)(val & PMREBS_PMRWBZ_MASK) << PMREBS_PMRWBZ_SHIFT)
-> +
-> +enum NvmePmrswtpShift {
-> +    PMRSWTP_PMRSWTU_SHIFT   = 0,
-> +    PMRSWTP_PMRSWTV_SHIFT   = 8,
-> +};
-> +
-> +enum NvmePmrswtpMask {
-> +    PMRSWTP_PMRSWTU_MASK   = 0xf,
-> +    PMRSWTP_PMRSWTV_MASK   = 0xffffff,
-> +};
-> +
-> +#define NVME_PMRSWTP_PMRSWTU(pmrswtp)   \
-> +    ((pmrswtp >> PMRSWTP_PMRSWTU_SHIFT)   & PMRSWTP_PMRSWTU_MASK)
-> +#define NVME_PMRSWTP_PMRSWTV(pmrswtp)   \
-> +    ((pmrswtp >> PMRSWTP_PMRSWTV_SHIFT)   & PMRSWTP_PMRSWTV_MASK)
-> +
-> +#define NVME_PMRSWTP_SET_PMRSWTU(pmrswtp, val)   \
-> +    (pmrswtp |= (uint64_t)(val & PMRSWTP_PMRSWTU_MASK) << PMRSWTP_PMRSWTU_SHIFT)
-> +#define NVME_PMRSWTP_SET_PMRSWTV(pmrswtp, val)   \
-> +    (pmrswtp |= (uint64_t)(val & PMRSWTP_PMRSWTV_MASK) << PMRSWTP_PMRSWTV_SHIFT)
-> +
-> +enum NvmePmrmscShift {
-> +    PMRMSC_CMSE_SHIFT   = 1,
-> +    PMRMSC_CBA_SHIFT   = 12,
-> +};
-> +
-> +enum NvmePmrmscMask {
-> +    PMRMSC_CMSE_MASK   = 0x1,
-> +    PMRMSC_CBA_MASK   = 0xfffffffffffff,
-> +};
-> +
-> +#define NVME_PMRMSC_CMSE(pmrmsc)    \
-> +    ((pmrmsc >> PMRMSC_CMSE_SHIFT)   & PMRMSC_CMSE_MASK)
-> +#define NVME_PMRMSC_CBA(pmrmsc)     \
-> +    ((pmrmsc >> PMRMSC_CBA_SHIFT)   & PMRMSC_CBA_MASK)
-> +
-> +#define NVME_PMRMSC_SET_CMSE(pmrmsc, val)   \
-> +    (pmrmsc |= (uint64_t)(val & PMRMSC_CMSE_MASK) << PMRMSC_CMSE_SHIFT)
-> +#define NVME_PMRMSC_SET_CBA(pmrmsc, val)   \
-> +    (pmrmsc |= (uint64_t)(val & PMRMSC_CBA_MASK) << PMRMSC_CBA_SHIFT)
-> +
->  typedef struct NvmeCmd {
->      uint8_t     opcode;
->      uint8_t     fuse;
-> 
-ping
+Based-on: <20200227144531.24309-1-armbru@redhat.com>
+
+This series extends QMP introspection to cover deprecation.
+Additionally, new option -compat lets you configure what to do when
+deprecated interfaces get used.  This is intended for testing users of
+the management interfaces.  It is experimental.
+
+-compat deprecated-input=3D<in-policy> configures what to do when
+deprecated input is received.  Available policies:
+
+* accept: Accept deprecated commands and arguments (default)
+* reject: Reject them
+* crash: Crash
+
+-compat deprecated-output=3D<out-policy> configures what to do when
+deprecated output is sent.  Available output policies:
+
+* accept: Emit deprecated command results and events (default)
+* hide: Suppress them
+
+For now, -compat covers only deprecated syntactic aspects of QMP.  We
+may want to extend it to cover semantic aspects, CLI, and experimental
+features.
+
+PATCH 01-04: Documentation fixes
+PATCH 05-10: Test improvements
+PATCH 11-24: Add feature flags to remaining user-defined types and to
+      =09     struct members
+PATCH 25-26: New special feature 'deprecated', visible in
+      =09     introspection
+PATCH 27-30: New -compat to set policy for handling stuff marked with
+      =09     feature 'deprecated'
+
+Comparison to RFC (24 Oct 2019):
+* Cover arguments and results in addition to commands and events
+* Half-baked "[RFC PATCH 18/19] qapi: Include a warning in the
+  response to a deprecated command" dropped
+
+See also last item of
+    Subject: Minutes of KVM Forum BoF on deprecating stuff
+    Date: Fri, 26 Oct 2018 16:03:51 +0200
+    Message-ID: <87mur0ls8o.fsf@dusky.pond.sub.org>
+    https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg05828.html
+
+Markus Armbruster (30):
+  qemu-doc: Belatedly document QMP command arg & result deprecation
+  qapi: Belatedly update doc comment for @wait deprecation
+  docs/devel/qapi-code-gen: Clarify allow-oob introspection
+  docs/devel/qapi-code-gen: Document 'features' introspection
+  tests/test-qmp-cmds: Factor out qmp_dispatch() test helpers
+  tests/test-qmp-cmds: Check responses more thoroughly
+  tests/test-qmp-cmds: Simplify test data setup
+  tests/test-qmp-event: Simplify test data setup
+  tests/test-qmp-event: Use qobject_is_equal()
+  tests/test-qmp-event: Check event is actually emitted
+  qapi/schema: Clean up around QAPISchemaEntity.connect_doc()
+  qapi: Add feature flags to remaining definitions
+  qapi: Consistently put @features parameter right after @ifcond
+  qapi/introspect: Rename *qlit* to reduce confusion
+  qapi/introspect: Factor out _make_tree()
+  qapi/schema: Change _make_features() to a take feature list
+  qapi/schema: Reorder classes so related ones are together
+  qapi/schema: Rename QAPISchemaObjectType{Variant,Variants}
+  qapi/schema: Call QAPIDoc.connect_member() in just one place
+  qapi: Add feature flags to struct members
+  qapi: Inline do_qmp_dispatch() into qmp_dispatch()
+  qapi: Simplify how qmp_dispatch() deals with QCO_NO_SUCCESS_RESP
+  qapi: Simplify how qmp_dispatch() gets the request ID
+  qapi: Replace qmp_dispatch()'s TODO comment by an explanation
+  qapi: New special feature flag "deprecated"
+  qapi: Mark deprecated QMP parts with feature 'deprecated'
+  qemu-options: New -compat to set policy for deprecated interfaces
+  qapi: Implement -compat deprecated-output=3Dhide
+  qapi: Implement -compat deprecated-input=3Dreject
+  qapi: New -compat deprecated-input=3Dcrash
+
+ docs/devel/qapi-code-gen.txt                  |  79 ++-
+ qemu-deprecated.texi                          |  38 +-
+ tests/qapi-schema/doc-good.texi               |  32 ++
+ qapi/block-core.json                          |  69 ++-
+ qapi/block.json                               |   9 +-
+ qapi/char.json                                |   1 +
+ qapi/compat.json                              |  52 ++
+ qapi/control.json                             |  11 +-
+ qapi/introspect.json                          |  26 +-
+ qapi/machine.json                             |  34 +-
+ qapi/migration.json                           |  36 +-
+ qapi/misc.json                                |  13 +-
+ qapi/qapi-schema.json                         |   1 +
+ include/qapi/compat-policy.h                  |  20 +
+ include/qapi/qmp/dispatch.h                   |   1 +
+ include/qapi/qobject-input-visitor.h          |   9 +
+ include/qapi/qobject-output-visitor.h         |   9 +
+ include/qapi/visitor-impl.h                   |   3 +
+ include/qapi/visitor.h                        |   9 +
+ qapi/qapi-visit-core.c                        |   9 +
+ qapi/qmp-dispatch.c                           | 137 ++---
+ qapi/qobject-input-visitor.c                  |  29 ++
+ qapi/qobject-output-visitor.c                 |  20 +
+ softmmu/vl.c                                  |  17 +
+ tests/test-qmp-cmds.c                         | 249 +++++----
+ tests/test-qmp-event.c                        | 183 ++-----
+ qapi/Makefile.objs                            |   8 +-
+ qapi/trace-events                             |   1 +
+ qemu-options.hx                               |  23 +
+ scripts/qapi/commands.py                      |  20 +-
+ scripts/qapi/doc.py                           |  16 +-
+ scripts/qapi/events.py                        |  16 +-
+ scripts/qapi/expr.py                          |  14 +-
+ scripts/qapi/introspect.py                    | 104 ++--
+ scripts/qapi/schema.py                        | 488 ++++++++++--------
+ scripts/qapi/types.py                         |   8 +-
+ scripts/qapi/visit.py                         |  28 +-
+ tests/Makefile.include                        |   1 +
+ tests/qapi-schema/alternate-base.err          |   2 +-
+ tests/qapi-schema/doc-good.json               |  22 +-
+ tests/qapi-schema/doc-good.out                |  18 +
+ .../qapi-schema/features-deprecated-type.err  |   2 +
+ .../qapi-schema/features-deprecated-type.json |   3 +
+ .../qapi-schema/features-deprecated-type.out  |   0
+ tests/qapi-schema/qapi-schema-test.json       |  48 +-
+ tests/qapi-schema/qapi-schema-test.out        |  46 +-
+ tests/qapi-schema/test-qapi.py                |  26 +-
+ 47 files changed, 1259 insertions(+), 731 deletions(-)
+ create mode 100644 qapi/compat.json
+ create mode 100644 include/qapi/compat-policy.h
+ create mode 100644 tests/qapi-schema/features-deprecated-type.err
+ create mode 100644 tests/qapi-schema/features-deprecated-type.json
+ create mode 100644 tests/qapi-schema/features-deprecated-type.out
+
+--=20
+2.21.1
+
 
