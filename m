@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D68176969
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 01:50:33 +0100 (CET)
-Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB9617698E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 01:52:20 +0100 (CET)
+Received: from localhost ([::1]:40316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8vlY-0002ba-8z
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 19:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44679)
+	id 1j8vnH-0006Zy-NO
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 19:52:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vk5-0000w2-RR
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:02 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vkA-0000wQ-5B
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vk4-00045j-S1
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:01 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40048)
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vk7-00046t-S8
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:05 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:38463)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j8vk4-00045V-Mm
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:00 -0500
-Received: by mail-pl1-x634.google.com with SMTP id y1so503447plp.7
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:49:00 -0800 (PST)
+ id 1j8vk6-00046V-KP
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:02 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id q9so559368pfs.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:49:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=11a7NIMhd3gpRKr3KvBv9bMb/iOBc4dnUF9RcuuDB/U=;
- b=sdVKJ7RYKhbzocdUPeMdVkhOGAgNPqFTRxSayEleVtT77FgOH/bl2KLRBVT/FlXMxI
- 9KxQQzB3WSjL9gZUD6pVma+Daow8iv7Ptuc5EEpvxNz6fQl8VV2cmoBHJO5RJYehVy15
- U4+T2UuFkgxOSR1hsXhrihSG/6eUxDUw5V4sE2Iwwhwku8sP8MtsivW/rXtEn5OEKH97
- eJj14a09z6ngBQl0RS7CDiLveI1JvlNIFxw+Eg2Pys3jB1dqGktDOzMFz8fRNPt4vqDs
- vqg1HXSpZ7a8QG/DRFGPo2bw+axLHVLP7JtA2TD2nRdged5o4Bs8hhK42A2X/KfMpq3N
- 2AbQ==
+ bh=B0OixvxDRun+czMvNrLEKq3Xb6qPIsVdgs0f+iZ/N/w=;
+ b=LROWYOLHx5phwHtn15nNwfW3SEWM2Kod68jrhN86Lxio1eWRgbh4IOB8C+3c5qYJa3
+ lk7YcGC+lHXhqXQ9VZj215HGmFSFlimvWGN9s/SJV4DlScXScMEf84Qoe1gVXmM08Eq8
+ So47E9QmgEJWUMERNKsvHapJRduwL8+MOW8PGeT7K4M5aVMnw3Yu7nlIrces41Q4JRnt
+ p6v26/U2OnBICiFHX7X7nUgnR1PzaHTFSi7Tb+i7agwJTuK6x7wuPP/zoJb4gXv1rm4j
+ Uc1JipGc5apj7XtFuf1UA3Bh5scYw520x4dnoqmqe505IxCHA3sllC7zpBHLUqlBna8I
+ IuYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=11a7NIMhd3gpRKr3KvBv9bMb/iOBc4dnUF9RcuuDB/U=;
- b=UhD3sw7f2b4Z2ZHWmhScJSQ/kTVDnsppVfbSrlQ8RfF4j/5FyS4xfwmm5vVYHK+/Mj
- Ns5EztPDReHc0Moe1HaBc+T9GKkC0vS7OI+WnxvfsYGo24hqQoEzyPv5KgrAFLNANIFq
- cyycU12SYmiRQOgzh/nkJ91zOk0LaOZeUn3FBgw+DkiQv5pZuqKKF96JnrOUztmSMeep
- DEe3nSEsRy45mjlteSV8Yl+QrHh86J2byV+QlDfAWaXjmxXj9VKDqe3NtdZdapqujrgJ
- TI5rOTTvf6KUx3d9NL3JsAiWa4T4t5rqatXY2TYC1I9ayMPkyb/fxzWOXNtpkmrW+Dzz
- 3oSg==
-X-Gm-Message-State: ANhLgQ33dQ1zGRNxwzLTHvnGgolWKxqElGh2AaQyyg78sJR1+HdLoUCj
- b0gwWHOS3HBW8t5AMjH+Ke4o5Q==
-X-Google-Smtp-Source: ADFU+vveOm9WETVG6en/Um/PkNxRnF2iSsSH3++tZKX7ih4UuINneoUMaS1ULThCICkRSVNXjkqcZQ==
-X-Received: by 2002:a17:902:302:: with SMTP id 2mr1772352pld.58.1583196539571; 
- Mon, 02 Mar 2020 16:48:59 -0800 (PST)
+ bh=B0OixvxDRun+czMvNrLEKq3Xb6qPIsVdgs0f+iZ/N/w=;
+ b=f5ME/JramSWRctqrTyRz90Uq3ZQ6VUyZPS9eb97JrjeH+sEm6jlG5GmV6FPqMAXfoz
+ +ixaWpj9H+3NPdfnqdfPI6zZXVrtNk378HhYoW7zMVpscM1MytnEI1XGm6Y/txXN3PiN
+ io6y20zWd/ssTUVO247SUsSnqKKo3KO892eEdEOHdCXHZfpIaiqPNA0nCJlKLFLIVcvL
+ 2W1vTKlhPs7VgDkgg73HK6XyimgUW5pTTnQ9O77AJ7O/GN6lgYDnOlWzHtJaQSnHFpRy
+ OKQqxM9KKGegsApKGD0MDlS8MB5l3kZ511TzClMZkxm1d5cFey4kYpKuG67mRzdE6q1Q
+ u06g==
+X-Gm-Message-State: ANhLgQ1bVodheaffswCu22U1dBW1b9FKk1d/Dzemg3scAlkVQM4Lrycs
+ kdGT64C324DHJW7xjhLaF+yyMA==
+X-Google-Smtp-Source: ADFU+vsllffNd3sCuj8cQAWV9aVjzlRGaKxS/MMKIeGmcqQW/QttVPy3qPeo4mmWy83HqfjrVY3RoQ==
+X-Received: by 2002:a63:1404:: with SMTP id u4mr522050pgl.172.1583196541538;
+ Mon, 02 Mar 2020 16:49:01 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id 72sm12534071pgd.86.2020.03.02.16.48.58
+ by smtp.gmail.com with ESMTPSA id g20sm348025pjv.20.2020.03.02.16.49.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 16:48:59 -0800 (PST)
-Subject: [PULL 01/38] target/riscv: Convert MIP CSR to target_ulong
-Date: Mon,  2 Mar 2020 16:48:11 -0800
-Message-Id: <20200303004848.136788-2-palmerdabbelt@google.com>
+ Mon, 02 Mar 2020 16:49:00 -0800 (PST)
+Subject: [PULL 02/38] target/riscv: Add the Hypervisor extension
+Date: Mon,  2 Mar 2020 16:48:12 -0800
+Message-Id: <20200303004848.136788-3-palmerdabbelt@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200303004848.136788-1-palmerdabbelt@google.com>
 References: <20200303004848.136788-1-palmerdabbelt@google.com>
@@ -63,12 +63,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
  Alistair Francis <alistair.francis@wdc.com>,
+ Chih-Min Chao <chihmin.chao@sifive.com>, Palmer Dabbelt <palmer@sifive.com>, 
  Palmer Dabbelt <palmerdabbelt@google.com>
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::634
+X-Received-From: 2607:f8b0:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,44 +86,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-The MIP CSR is a xlen CSR, it was only 32-bits to allow atomic access.
-Now that we don't use atomics for MIP we can change this back to a xlen
-CSR.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/cpu.c | 2 +-
- target/riscv/cpu.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 8c86ebc109..efbd676edb 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -224,7 +224,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- #ifndef CONFIG_USER_ONLY
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", env->mstatus);
--    qemu_fprintf(f, " %s 0x%x\n", "mip     ", env->mip);
-+    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index de0a8d893a..95de9e58a2 100644
+index 95de9e58a2..010125efd6 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -121,7 +121,7 @@ struct CPURISCVState {
-     target_ulong mhartid;
-     target_ulong mstatus;
+@@ -67,6 +67,7 @@
+ #define RVC RV('C')
+ #define RVS RV('S')
+ #define RVU RV('U')
++#define RVH RV('H')
  
--    uint32_t mip;
-+    target_ulong mip;
-     uint32_t miclaim;
- 
-     target_ulong mie;
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
