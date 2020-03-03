@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE56C17747F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:48:55 +0100 (CET)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D705C1774AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:56:37 +0100 (CET)
+Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j956c-0003Nm-UU
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:48:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58940)
+	id 1j95E4-0002UL-UI
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:56:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j955i-0002sA-Ex
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:47:59 -0500
+ (envelope-from <joerichey94@gmail.com>) id 1j95Ci-0000fg-DB
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:55:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j955h-0003AF-F1
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:47:58 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33331
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j955h-00039n-AY
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:47:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583232477;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aFJjO3UnXVF3Co+ygtuv2sFeTJ2dkpMZTNWugLuGLUg=;
- b=BZr24ZZA7QyMEHLGYeuPQW3hxXVx3C3GTsmoOiCgEuIN6hqRRB60qRsIK2rz/xohB+QVhN
- oXfRc6uaIFD2CwfuIxfD7Stsh8Yuz50sxAmAr+qTTv/hiy9KSD8WYsA3ZSxO1SMvJRxJd1
- R6ZMH2/DqSYgooDcFRBIwoTkrx2R5mw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-7KkJJTNDOuGeJb8TLSb-4A-1; Tue, 03 Mar 2020 05:47:55 -0500
-X-MC-Unique: 7KkJJTNDOuGeJb8TLSb-4A-1
-Received: by mail-wr1-f70.google.com with SMTP id w8so248560wrn.7
- for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 02:47:55 -0800 (PST)
+ (envelope-from <joerichey94@gmail.com>) id 1j95Ch-0006Yn-FQ
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:55:12 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35880)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joerichey94@gmail.com>)
+ id 1j95Cf-0006VU-9K; Tue, 03 Mar 2020 05:55:09 -0500
+Received: by mail-pl1-x644.google.com with SMTP id g12so1162366plo.3;
+ Tue, 03 Mar 2020 02:55:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5yWmyIrqHTAqM09UqJ2f2/xjm9zFSZ0B5uaocMHnVpw=;
+ b=Gq42EvTgtIEtNt0eaJDo0PCDhrpQBVT4gmZvA7L/ggp/SSIBp3ovBTfkpHMfHhHVgB
+ q15WBbplMxylOM0MZpJ0CJ2+XiTx72c93lzVyJ/MpHBMXg+lEWYjonX2cbGkCBAEHZ3h
+ hLKOaNFud0tDA2uUsK/LjbRDUxtDdoCeYQtoUc/BQyGrcG/stb7GZcQVo4MpmCFB6mN7
+ mqrRnyKseeYe7cCTRel7fZBLicpYke0izv29V5tkdlVQR2J9FMnf5q2PMP1xnq9DoNk/
+ K5MOYTx7huzzZbzItxM1AyHw3/UNrwAeNd1i2Z9+mBUSQATVQOsyT6AARARx2lZs47uE
+ uiBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=aFJjO3UnXVF3Co+ygtuv2sFeTJ2dkpMZTNWugLuGLUg=;
- b=aKIdhz/jquhvfi5wC3O4XvcAgpvmKTFD6Z6wv8im+FrT2xP7NKb0P/zK3Gq+bXRuXD
- Sg6ypdN6eJcb20FDoUm7eOuEugB7wvWjMtYMk+w9+ibTyyddjZ/WsWIQ5TiwNF/zS33N
- 33xh9dweo6Ur+mUDuD1gPIbHX26Dgc6EO2aT74bv0XaEfQ0QJ2ifPPBBqAM7GX42V3HD
- H0Isf+AoUyJTcBJie8TlX4FBD4FVs/KGQ9lItUcSA1dvn9+4MUKhg6jssgCSHXLoincv
- c6A+z2d29+Ax2xA+riB6JUBjhCejSHbqRhx37pYxfxwi559EepLplP7EuPDynr5cjYlX
- 8SJw==
-X-Gm-Message-State: ANhLgQ2WcX3Fdj8me/Duj9VHfrnnGk+5DXhRmL8s1Y5s2SS9UOVg56U9
- mm5pGEJyZ7EUtm19zd3ztX9FPzNEVQ8YlXHehWerYyobr0WqiYmkGJgjTaA7MwiFtOLI8LnyhzG
- 1Dv6NVqiGAD5Ddh4=
-X-Received: by 2002:adf:dd05:: with SMTP id a5mr4926464wrm.108.1583232474315; 
- Tue, 03 Mar 2020 02:47:54 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vt/x54kIF9e78cpVM4FARmhf8GV5XDs/mpU2UKd0yahcX6ZWYUhi7tvNEHOQidNaOWPjZsyhw==
-X-Received: by 2002:adf:dd05:: with SMTP id a5mr4926449wrm.108.1583232474023; 
- Tue, 03 Mar 2020 02:47:54 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:9def:34a0:b68d:9993?
- ([2001:b07:6468:f312:9def:34a0:b68d:9993])
- by smtp.gmail.com with ESMTPSA id z135sm889900wmc.20.2020.03.03.02.47.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Mar 2020 02:47:53 -0800 (PST)
-Subject: Re: [PATCH] target/i386/hax-posix: fix two 'format-truncation'
- compile warnings
-To: pannengyuan@huawei.com, rth@twiddle.net, ehabkost@redhat.com
-References: <20200224065139.19567-1-pannengyuan@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a6e307a4-a66d-2297-5d62-6be910353d67@redhat.com>
-Date: Tue, 3 Mar 2020 11:47:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=5yWmyIrqHTAqM09UqJ2f2/xjm9zFSZ0B5uaocMHnVpw=;
+ b=qdcfmiJxi92c5cFj4YdESWTzUUaQYbLcguW55VmsyMo6sA3rwnt0DK+rZb9Lgegk3j
+ ITm0HzlJcolQRiKnYx9uiOkYbml6KKumvFvxvLSbEcsbxRYIk++QG3Tll042AwencK27
+ 6aWkYIeR+WhBPNd8Lzk+ISqR5vJ4mrV7gKfORNlNkokJo+5HJdgyO0LP71iCu6PX8j1i
+ wcIw4N0lGuQ/yI6PBGrHHfOmQOpmE96tCpCuun5TJM5WpSTthKNXX8k1YVED1X1DV/kW
+ pVhoI3U7QANlwTH38qtB/jdnA1BsUf4WUIy5cd8EJhw/MUVBIq8c0tvCeihIUvp8Udiw
+ HwcQ==
+X-Gm-Message-State: ANhLgQ2FdzDmcQyjZlK6pw5VhVpy1q6mLglSSUJXnx1cOJabfn4XVEeT
+ 4L3a6iCU6qcOmCfSDClbP59HNvBxKFU=
+X-Google-Smtp-Source: ADFU+vsTqqScwRmKycjZH2eGrLtzFs0kNHZVULujOT4a7GI+8bDPLkVLgBG5ZFkj4kBbpFG1+Btoug==
+X-Received: by 2002:a17:902:c383:: with SMTP id g3mr3806653plg.9.1583232906322; 
+ Tue, 03 Mar 2020 02:55:06 -0800 (PST)
+Received: from pride.lan ([24.35.77.40])
+ by smtp.gmail.com with ESMTPSA id e28sm24473793pgn.21.2020.03.03.02.55.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Mar 2020 02:55:05 -0800 (PST)
+From: Joe Richey <joerichey94@gmail.com>
+To: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Liam Merwick <liam.merwick@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] optionrom/pvh: scan entire RSDP Area
+Date: Tue,  3 Mar 2020 02:52:47 -0800
+Message-Id: <20200303105246.66390-1-joerichey94@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200224065139.19567-1-pannengyuan@huawei.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,43 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, euler.robot@huawei.com, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: Joe Richey <joerichey@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/02/20 07:51, pannengyuan@huawei.com wrote:
-> diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
-> index a5426a6dac..197d5bc0f9 100644
-> --- a/target/i386/hax-posix.c
-> +++ b/target/i386/hax-posix.c
-> @@ -121,7 +121,8 @@ static char *hax_vm_devfs_string(int vm_id)
->          return NULL;
->      }
->  
-> -    snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d", vm_id);
-> +    int len = snprintf(name, sizeof HAX_VM_DEVFS, "/dev/hax_vm/vm%02d", vm_id);
-> +    assert(len < sizeof HAX_VM_DEVFS);
->      return name;
->  }
->  
-> @@ -140,8 +141,9 @@ static char *hax_vcpu_devfs_string(int vm_id, int vcpu_id)
->          return NULL;
->      }
->  
-> -    snprintf(name, sizeof HAX_VCPU_DEVFS, "/dev/hax_vm%02d/vcpu%02d",
-> -             vm_id, vcpu_id);
-> +    int len = snprintf(name, sizeof HAX_VCPU_DEVFS, "/dev/hax_vm%02d/vcpu%02d",
-> +                       vm_id, vcpu_id);
-> +    assert(len < sizeof HAX_VCPU_DEVFS);
->      return name;
->  }
->  
-> 
+From: Joe Richey <joerichey@google.com>
 
-Julio Faracco has posted a fix for the same bug.  The best change is
-actually to switch to g_strdup_printf.
+Right now the PVH option rom scans for the RSDP from 0xE0000 to
+0xE1FFF. This is probobly a typo, it should scan from 0xE0000 to
+0xFFFFF.
 
-Paolo
+This is actually an issue on some QEMU versions/machines. For example,
+when I run QEMU the RSDP is placed at 0xf5ad0 which will not be picked
+up by the current implementation.
+
+This bug still allows a Linux guest to boot (in most configurations) as
+the kernel will just scan for the RSDP if one isn't provided.
+
+Signed-off-by: Joe Richey <joerichey@google.com>
+---
+ pc-bios/optionrom/pvh_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
+index a015e1bf22..28e79d7fc4 100644
+--- a/pc-bios/optionrom/pvh_main.c
++++ b/pc-bios/optionrom/pvh_main.c
+@@ -29,7 +29,7 @@ asm (".code32"); /* this code will be executed in protected mode */
+ 
+ #define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
+ #define RSDP_AREA_ADDR          0x000E0000
+-#define RSDP_AREA_SIZE          2048
++#define RSDP_AREA_SIZE          0x00020000
+ #define EBDA_BASE_ADDR          0x0000040E
+ #define EBDA_SIZE               1024
+ 
+-- 
+2.25.1
 
 
