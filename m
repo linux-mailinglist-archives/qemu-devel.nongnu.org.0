@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256FB1778A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 15:21:17 +0100 (CET)
-Received: from localhost ([::1]:47984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770B21778AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 15:21:58 +0100 (CET)
+Received: from localhost ([::1]:48000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j98Q8-0002U1-4x
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 09:21:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34028)
+	id 1j98Qn-0004Ll-Hj
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 09:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j98P0-0001Lr-Ud
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:07 -0500
+ (envelope-from <david@redhat.com>) id 1j98PK-0001kY-Ks
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j98Oz-00068S-TV
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:06 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47340
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j98PJ-0006Fq-DB
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26691
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j98Oz-00067z-Q0
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:05 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j98PJ-0006Fh-8v
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583245205;
+ s=mimecast20190719; t=1583245224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MOp3xGTsUD9Bq3uJHwal64VMgYcykTle0vHwPVTjaLI=;
- b=Uc41uiGupOcQZ08QW02alLZP3iXPtx8XRPoT8S6EyEbC778FTggJ78VJIfDFwX4bhaGNxH
- lr4cYbue7ouvWUWmPJkfuzubDYrGHSaK58vaDHjvZFzH9iaIR8qlilcqnVeRjY28xTzZ6D
- rfDTazVZK8lwHoZYb1/IDos+jZz39SY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SN3TdLXEozv3aKuWj82IQWSxiC0o/xgTHn+zkTgCfoM=;
+ b=hf6Hk6FwuJwP7+Cm+inFsoxocVGyBrLXhBFLcUXjkOrkcQWz6BohMRf9oBO0LYS06Ux+4e
+ BCyP6F6xjilTNHjuOwc3UoXNNbP/UfRFBUmxQcd1QvrKJJiKWcnj2RFuoIjJzBmMDakFJ4
+ xiQc3wTjqLzqDmpvGeud1tZGS33RuXg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-v8z8_KGhO9G7BGZQLlJWxQ-1; Tue, 03 Mar 2020 09:20:03 -0500
-X-MC-Unique: v8z8_KGhO9G7BGZQLlJWxQ-1
+ us-mta-110-c2ddP0TsMqSVcnmgBBntAg-1; Tue, 03 Mar 2020 09:20:22 -0500
+X-MC-Unique: c2ddP0TsMqSVcnmgBBntAg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 221051084434;
- Tue,  3 Mar 2020 14:20:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FFF18017CC;
+ Tue,  3 Mar 2020 14:20:21 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-113.ams2.redhat.com [10.36.117.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1EA5C60BE1;
- Tue,  3 Mar 2020 14:19:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 697B261069;
+ Tue,  3 Mar 2020 14:20:02 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 0/4] kvm: Implement atomic memory region resizes
-Date: Tue,  3 Mar 2020 15:19:35 +0100
-Message-Id: <20200303141939.352319-1-david@redhat.com>
+Subject: [PATCH RFC 1/4] openpic_kvm: Use kvm_device_ioctl() instead of ioctl()
+Date: Tue,  3 Mar 2020 15:19:36 +0100
+Message-Id: <20200303141939.352319-2-david@redhat.com>
+In-Reply-To: <20200303141939.352319-1-david@redhat.com>
+References: <20200303141939.352319-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
@@ -55,7 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,65 +70,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, when doing a
-    memory_region_ram_resize() -> memory_region_set_size()
+Let's use the official variant, which will e.g., trace the call.
 
-the old KVM slot will first get removed and the new, resized one, will be
-re-added. This is fine as long as no IOCTL is currently using any data from
-such a memory slot (e.g., when building ACPI tables). However, if e.g., a
-VCPU is in KVM_RUN and tries to access any data on such a slot while we're
-growing it, we will get wrong faults while the slot is temporarily removed.
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/intc/openpic_kvm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Let's allow to resize memory regions while the guest is running and might
-be using the regions. Inhibit any KVM ioctl while we are replacing the
-memory slot(s).
-
-This is a preparation for virtio-mem (initially, x86-64 only), which wants
-to resize (esp. grow) ram memory regions while the guest is running via
-memory_region_ram_resize().
-
-Using pause_all_vcpus()/resume_all_vcpus() is not possible, as it will
-temporarily drop the BQL - something most callers can't handle (esp.
-when called from vcpu context e.g., in virtio code).
-
-Once we can handle resizes in the kernel (e.g., via
-KVM_SET_USER_MEMORY_REGION), we can make inhibiting optional at runtime.
-
-Instead of inhibiting during the region_resize(), we could inhibit for the
-hole memory transaction (from begin() to commit()). This could be nice,
-because also splitting of memory regions would be atomic (I remember there
-was a BUG report regarding that), however, I am not sure if that might
-impact any RT users.
-
-Tested so far with x86-64 KVM only. Thoughts? Anything important I am
-missing? Any alternatives that don't require kernel changes?
-
-David Hildenbrand (4):
-  openpic_kvm: Use kvm_device_ioctl() instead of ioctl()
-  intc/s390_flic_kvm.c: Use kvm_device_ioctl() instead of ioctl()
-  memory: Add region_resize() callback to memory notifier
-  kvm: Implement atomic memory region resizes via region_resize()
-
- accel/kvm/kvm-all.c     | 121 +++++++++++++++++++++++++++++++++++++---
- hw/intc/openpic_kvm.c   |   8 +--
- hw/intc/s390_flic_kvm.c |  22 ++++----
- include/exec/memory.h   |  18 ++++++
- include/hw/core/cpu.h   |   3 +
- memory.c                |  72 ++++++++++++++++++++++--
- 6 files changed, 217 insertions(+), 27 deletions(-)
-
+diff --git a/hw/intc/openpic_kvm.c b/hw/intc/openpic_kvm.c
+index e4bf47d885..0d8abc1604 100644
+--- a/hw/intc/openpic_kvm.c
++++ b/hw/intc/openpic_kvm.c
+@@ -70,7 +70,7 @@ static void kvm_openpic_write(void *opaque, hwaddr addr, =
+uint64_t val,
+     attr.attr =3D addr;
+     attr.addr =3D (uint64_t)(unsigned long)&val32;
+=20
+-    ret =3D ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
++    ret =3D kvm_device_ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
+     if (ret < 0) {
+         qemu_log_mask(LOG_UNIMP, "%s: %s %" PRIx64 "\n", __func__,
+                       strerror(errno), attr.attr);
+@@ -96,7 +96,7 @@ static uint64_t kvm_openpic_read(void *opaque, hwaddr add=
+r, unsigned size)
+     attr.attr =3D addr;
+     attr.addr =3D (uint64_t)(unsigned long)&val;
+=20
+-    ret =3D ioctl(opp->fd, KVM_GET_DEVICE_ATTR, &attr);
++    ret =3D kvm_device_ioctl(opp->fd, KVM_GET_DEVICE_ATTR, &attr);
+     if (ret < 0) {
+         qemu_log_mask(LOG_UNIMP, "%s: %s %" PRIx64 "\n", __func__,
+                       strerror(errno), attr.attr);
+@@ -145,7 +145,7 @@ static void kvm_openpic_region_add(MemoryListener *list=
+ener,
+     attr.attr =3D KVM_DEV_MPIC_BASE_ADDR;
+     attr.addr =3D (uint64_t)(unsigned long)&reg_base;
+=20
+-    ret =3D ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
++    ret =3D kvm_device_ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
+     if (ret < 0) {
+         fprintf(stderr, "%s: %s %" PRIx64 "\n", __func__,
+                 strerror(errno), reg_base);
+@@ -179,7 +179,7 @@ static void kvm_openpic_region_del(MemoryListener *list=
+ener,
+     attr.attr =3D KVM_DEV_MPIC_BASE_ADDR;
+     attr.addr =3D (uint64_t)(unsigned long)&reg_base;
+=20
+-    ret =3D ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
++    ret =3D kvm_device_ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
+     if (ret < 0) {
+         fprintf(stderr, "%s: %s %" PRIx64 "\n", __func__,
+                 strerror(errno), reg_base);
 --=20
 2.24.1
 
