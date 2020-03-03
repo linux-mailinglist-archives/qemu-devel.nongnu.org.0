@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4EE1773E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:20:33 +0100 (CET)
-Received: from localhost ([::1]:44822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1306E177421
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:27:06 +0100 (CET)
+Received: from localhost ([::1]:44966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j94fA-0002Lg-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:20:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52731)
+	id 1j94lV-0004ZL-35
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:27:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53032)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j94WP-0008Pj-HH
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:30 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j94XQ-0002V0-AT
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:12:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j94WO-0006Hs-LM
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34362
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j94WO-0006Hi-Gv
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583230288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j5jE8HWbNPifhZ3dVT2DLxcKSsjBW9hzWjqaz90m43w=;
- b=dACfpmI61g0VJhSlwZzOAv9hdPmMNWFKjURffkgxEu2e00HZ/0T2AQpBazeVqbkkPzdc46
- nssZ46vpaareI5npdmcIlOvC1ScESg/1rvgmhLitHP8mxLQmoEG1vNu+x6JV0uAqM5Z3Yn
- hniTzwEZyHxFZfgoGQ+LChjMmrYXSRQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-uycyzTYoNHOsgJCnsY756g-1; Tue, 03 Mar 2020 05:11:26 -0500
-X-MC-Unique: uycyzTYoNHOsgJCnsY756g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57300800D4E;
- Tue,  3 Mar 2020 10:11:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
- [10.36.116.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6269760C80;
- Tue,  3 Mar 2020 10:11:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D7B3417449; Tue,  3 Mar 2020 11:11:20 +0100 (CET)
-Date: Tue, 3 Mar 2020 11:11:20 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH 1/3] usb/hcd-xhci: Make dma read/writes hooks pci free
-Message-ID: <20200303101120.oid7rb6suiudcsgw@sirius.home.kraxel.org>
-References: <1583141724-6229-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1583141724-6229-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ (envelope-from <no-reply@patchew.org>) id 1j94XP-0006mN-7E
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:12:32 -0500
+Resent-Date: Tue, 03 Mar 2020 05:12:32 -0500
+Resent-Message-Id: <E1j94XP-0006mN-7E@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21130)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j94XO-0006lv-UX; Tue, 03 Mar 2020 05:12:31 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1583230287; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=dKEOIBy27+5BgJICCmW803DOlhWhBINADwox40HuPtB55y/SmAGrDomjOdq48P8J5HnpbvCCw3KRxic/BbaCKMqs/UMrnh1rViFhOSnqtTmTHr/ve1Z8O1wnX+kbwK7L37Ydgd3EaHgmX58Svu8zG6Sq51CMWYvGALWQ4cl816Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583230287;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=B86zk3AKywV2F/1/w8NsRWPTJJEDclgVIqaNGRuVrCQ=; 
+ b=BHzgCP/5QeUUsneCF2qwsh/6598ym+ncPmNSxcPXGFfYD3w6QT2dVRK4W0UYWZmkcTbEIfhvza54P/IVyJRGejDAM7CRylkXjSh+Onaq4DxwbwzptGh2tHiKDUCGcX2DajoEHDKIItO8Q3pWoA0E1DYcCOTczcwYQeZHQAthOPs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1583230285988902.7039268774963;
+ Tue, 3 Mar 2020 02:11:25 -0800 (PST)
+In-Reply-To: <20200303100511.5498-1-peter.maydell@linaro.org>
+Subject: Re: [PATCH] cpu: Use DeviceClass reset instead of a special CPUClass
+ reset
+Message-ID: <158323028289.8962.16946898666612915768@abdcc9e1aa82>
 MIME-Version: 1.0
-In-Reply-To: <1583141724-6229-2-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Tue, 3 Mar 2020 02:11:25 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,32 +64,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Thomas Huth <thuth@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Gonglei <arei.gonglei@huawei.com>,
- Anthony Liguori <anthony@codemonkey.ws>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: crwulff@gmail.com, sagark@eecs.berkeley.edu, david@redhat.com,
+ green@moxielogic.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ jcmvbkbc@gmail.com, Alistair.Francis@wdc.com, edgar.iglesias@gmail.com,
+ marex@denx.de, palmer@dabbelt.com, aleksandar.rikalo@rt-rk.com,
+ rth@twiddle.net, atar4qemu@gmail.com, ehabkost@redhat.com,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, shorne@gmail.com,
+ david@gibson.dropbear.id.au, qemu-riscv@nongnu.org,
+ kbastian@mail.uni-paderborn.de, cohuck@redhat.com, laurent@vivier.eu,
+ michael@walle.cc, qemu-ppc@nongnu.org, amarkovic@wavecomp.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> @@ -189,6 +191,7 @@ struct XHCIState {
-> =20
->      USBBus bus;
->      MemoryRegion mem;
-> +    AddressSpace *as;
->      MemoryRegion mem_cap;
->      MemoryRegion mem_oper;
->      MemoryRegion mem_runtime;
-
-as is not initialized ...
-
-I guess the patch was never tested?
-
-cheers,
-  Gerd
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwMzEwMDUxMS41NDk4
+LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBi
+dWlsZCB0ZXN0IG9uIEZyZWVCU0QgaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cu
+Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQg
+d2lsbCBiZSBpbnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRp
+bmcgdG8gYSBjb21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJh
+c2UiCiMgYnJhbmNoCmlmIHFlbXUtc3lzdGVtLXg4Nl82NCAtLWhlbHAgPi9kZXYvbnVsbCAyPiYx
+OyB0aGVuCiAgUUVNVT1xZW11LXN5c3RlbS14ODZfNjQKZWxpZiAvdXNyL2xpYmV4ZWMvcWVtdS1r
+dm0gLS1oZWxwID4vZGV2L251bGwgMj4mMTsgdGhlbgogIFFFTVU9L3Vzci9saWJleGVjL3FlbXUt
+a3ZtCmVsc2UKICBleGl0IDEKZmkKbWFrZSB2bS1idWlsZC1mcmVlYnNkIEo9MjEgUUVNVT0kUUVN
+VQpleGl0IDAKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAzMDMxMDA1MTEuNTQ5OC0xLXBl
+dGVyLm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLkZyZWVCU0QvP3R5cGU9bWVzc2FnZS4KLS0t
+CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
+dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
+dC5jb20=
 
