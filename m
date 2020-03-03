@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D705C1774AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:56:37 +0100 (CET)
-Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1578317748C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:54:31 +0100 (CET)
+Received: from localhost ([::1]:45350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j95E4-0002UL-UI
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:56:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
+	id 1j95C2-0007qK-5N
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:54:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joerichey94@gmail.com>) id 1j95Ci-0000fg-DB
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:55:13 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j95BB-0007Ej-Md
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:53:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joerichey94@gmail.com>) id 1j95Ch-0006Yn-FQ
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:55:12 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35880)
+ (envelope-from <alex.bennee@linaro.org>) id 1j95BA-0005Iv-JQ
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:53:37 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42838)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joerichey94@gmail.com>)
- id 1j95Cf-0006VU-9K; Tue, 03 Mar 2020 05:55:09 -0500
-Received: by mail-pl1-x644.google.com with SMTP id g12so1162366plo.3;
- Tue, 03 Mar 2020 02:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5yWmyIrqHTAqM09UqJ2f2/xjm9zFSZ0B5uaocMHnVpw=;
- b=Gq42EvTgtIEtNt0eaJDo0PCDhrpQBVT4gmZvA7L/ggp/SSIBp3ovBTfkpHMfHhHVgB
- q15WBbplMxylOM0MZpJ0CJ2+XiTx72c93lzVyJ/MpHBMXg+lEWYjonX2cbGkCBAEHZ3h
- hLKOaNFud0tDA2uUsK/LjbRDUxtDdoCeYQtoUc/BQyGrcG/stb7GZcQVo4MpmCFB6mN7
- mqrRnyKseeYe7cCTRel7fZBLicpYke0izv29V5tkdlVQR2J9FMnf5q2PMP1xnq9DoNk/
- K5MOYTx7huzzZbzItxM1AyHw3/UNrwAeNd1i2Z9+mBUSQATVQOsyT6AARARx2lZs47uE
- uiBA==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j95BA-0005Ik-CL
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:53:36 -0500
+Received: by mail-wr1-x442.google.com with SMTP id z11so3694024wro.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 02:53:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vUZGN9nas1z3IOlddykTTfVvNsUtmPQwbKj4DiOisD4=;
+ b=ZQRFyjJMEJeGMV6QQxW7crjbpso7cLd90T2eyAMU2YnCbB8GFUud+eHe/MDb6cj3/h
+ gTq1A/Wmobi6+hrkaNau3I7ke+0OlTBRuH3wVr7XnWVIpkAnibnL9tSGkekGx+jRLJKb
+ EZymDnnHyiLMy4RmFr02qDrsnvz2bPU+ex1HysBfOWdoGZwrluidobz7kDbQmpFbizf4
+ BaSg8gN0IqFDhFcDRhUxU49JoQ79zJVV24S7baQoclLfGyZdJ16XosWGcQwAWnLWvYxp
+ G1lxpKqY2SXeJ7OA+zVgexe/sszMvDLiQimq+3zIvj9j87Nj2feybW3jf7RBDTB0Emxp
+ C94Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5yWmyIrqHTAqM09UqJ2f2/xjm9zFSZ0B5uaocMHnVpw=;
- b=qdcfmiJxi92c5cFj4YdESWTzUUaQYbLcguW55VmsyMo6sA3rwnt0DK+rZb9Lgegk3j
- ITm0HzlJcolQRiKnYx9uiOkYbml6KKumvFvxvLSbEcsbxRYIk++QG3Tll042AwencK27
- 6aWkYIeR+WhBPNd8Lzk+ISqR5vJ4mrV7gKfORNlNkokJo+5HJdgyO0LP71iCu6PX8j1i
- wcIw4N0lGuQ/yI6PBGrHHfOmQOpmE96tCpCuun5TJM5WpSTthKNXX8k1YVED1X1DV/kW
- pVhoI3U7QANlwTH38qtB/jdnA1BsUf4WUIy5cd8EJhw/MUVBIq8c0tvCeihIUvp8Udiw
- HwcQ==
-X-Gm-Message-State: ANhLgQ2FdzDmcQyjZlK6pw5VhVpy1q6mLglSSUJXnx1cOJabfn4XVEeT
- 4L3a6iCU6qcOmCfSDClbP59HNvBxKFU=
-X-Google-Smtp-Source: ADFU+vsTqqScwRmKycjZH2eGrLtzFs0kNHZVULujOT4a7GI+8bDPLkVLgBG5ZFkj4kBbpFG1+Btoug==
-X-Received: by 2002:a17:902:c383:: with SMTP id g3mr3806653plg.9.1583232906322; 
- Tue, 03 Mar 2020 02:55:06 -0800 (PST)
-Received: from pride.lan ([24.35.77.40])
- by smtp.gmail.com with ESMTPSA id e28sm24473793pgn.21.2020.03.03.02.55.05
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=vUZGN9nas1z3IOlddykTTfVvNsUtmPQwbKj4DiOisD4=;
+ b=a0ggkx9//93OsP0TcBQl459xeaTcmcw+h2/77iuEJHGvyjVpos2jclANXdenm5CB3O
+ u1/DnjegtFRY/N6ExX/Fvlw8tlwl4r/7c8XmMtVxds7ZxgOWNSF0gL+M9bfrgsySBFAP
+ 18i6vfPHoNOEHoGqSgRrwqItyxphEANSqUrBdjzFjN3AAQ3apqHovSGQKtbYjb8MViuE
+ DuyRWIj2NqOKyaHl4EuPp4hcFrFhK+kQkeJexQKbLlKtT8pXmsQ3PGgvOeyYmVfiRCvV
+ hxH43MOx7No04dmQjmDg1GmuwflkOPBVZ0zd9t+H6fzTyAqWaMa/t6naexxI42C6mW/n
+ oUpg==
+X-Gm-Message-State: ANhLgQ1vfCxeHuVJPxyw7y+Z5q+pfr8JMKn2B2Q/+6Vph1kNKOrGSKvY
+ wJOj6UqzUhTzxFRsotfE8WWsAQ==
+X-Google-Smtp-Source: ADFU+vuBv/6xY3lM9UhouOVS7tRkZ8dIserQTvfO/QL5BUitANPVh1AKvheYiVWaWoGPAzGfe3KZ0w==
+X-Received: by 2002:a5d:61cb:: with SMTP id q11mr4874147wrv.256.1583232815048; 
+ Tue, 03 Mar 2020 02:53:35 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c14sm17655649wro.36.2020.03.03.02.53.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 02:55:05 -0800 (PST)
-From: Joe Richey <joerichey94@gmail.com>
-To: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>,
- Liam Merwick <liam.merwick@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH] optionrom/pvh: scan entire RSDP Area
-Date: Tue,  3 Mar 2020 02:52:47 -0800
-Message-Id: <20200303105246.66390-1-joerichey94@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Tue, 03 Mar 2020 02:53:33 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 867D31FF87;
+ Tue,  3 Mar 2020 10:53:32 +0000 (GMT)
+References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
+ <20200301215029.15196-2-nieklinnenbank@gmail.com>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Subject: Re: [PATCH v6 01/18] hw/arm: add Allwinner H3 System-on-Chip
+In-reply-to: <20200301215029.15196-2-nieklinnenbank@gmail.com>
+Date: Tue, 03 Mar 2020 10:53:32 +0000
+Message-ID: <87v9nl7lqr.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,42 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joe Richey <joerichey@google.com>
+Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ b.galvani@gmail.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joe Richey <joerichey@google.com>
 
-Right now the PVH option rom scans for the RSDP from 0xE0000 to
-0xE1FFF. This is probobly a typo, it should scan from 0xE0000 to
-0xFFFFF.
+Niek Linnenbank <nieklinnenbank@gmail.com> writes:
 
-This is actually an issue on some QEMU versions/machines. For example,
-when I run QEMU the RSDP is placed at 0xf5ad0 which will not be picked
-up by the current implementation.
+> The Allwinner H3 is a System on Chip containing four ARM Cortex A7
+> processor cores. Features and specifications include DDR2/DDR3 memory,
+> SD/MMC storage cards, 10/100/1000Mbit Ethernet, USB 2.0, HDMI and
+> various I/O modules. This commit adds support for the Allwinner H3
+> System on Chip.
+>
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-This bug still allows a Linux guest to boot (in most configurations) as
-the kernel will just scan for the RSDP if one isn't provided.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Signed-off-by: Joe Richey <joerichey@google.com>
----
- pc-bios/optionrom/pvh_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/pc-bios/optionrom/pvh_main.c b/pc-bios/optionrom/pvh_main.c
-index a015e1bf22..28e79d7fc4 100644
---- a/pc-bios/optionrom/pvh_main.c
-+++ b/pc-bios/optionrom/pvh_main.c
-@@ -29,7 +29,7 @@ asm (".code32"); /* this code will be executed in protected mode */
- 
- #define RSDP_SIGNATURE          0x2052545020445352LL /* "RSD PTR " */
- #define RSDP_AREA_ADDR          0x000E0000
--#define RSDP_AREA_SIZE          2048
-+#define RSDP_AREA_SIZE          0x00020000
- #define EBDA_BASE_ADDR          0x0000040E
- #define EBDA_SIZE               1024
- 
--- 
-2.25.1
-
+--=20
+Alex Benn=C3=A9e
 
