@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02003177A92
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 16:37:25 +0100 (CET)
-Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE59177A9A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 16:37:38 +0100 (CET)
+Received: from localhost ([::1]:49128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j99bo-0007AE-2E
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 10:37:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47183)
+	id 1j99c1-0007Y5-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 10:37:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jwsu1986@gmail.com>) id 1j99al-0006Us-Uj
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:36:20 -0500
+ (envelope-from <stefanha@gmail.com>) id 1j99av-0006bQ-SF
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:36:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jwsu1986@gmail.com>) id 1j99al-0002iR-41
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:36:19 -0500
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:40884)
+ (envelope-from <stefanha@gmail.com>) id 1j99au-0002jN-Fc
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:36:29 -0500
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:42242)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jwsu1986@gmail.com>) id 1j99al-0002iI-07
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:36:19 -0500
-Received: by mail-oi1-x22e.google.com with SMTP id j80so3420528oih.7
- for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 07:36:18 -0800 (PST)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j99au-0002jG-Ba
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:36:28 -0500
+Received: by mail-qv1-xf2b.google.com with SMTP id e7so1835272qvy.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 07:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=CO7Uz8AGna+h6PUzfBlbwU0xtntpDnmxOND4mtlTH0A=;
- b=VzTfoZQ4eeJZfEpQgfYXEPAQIAwB7jliusDB8+69q0k4Vg2oDsH93/3y92aZIEEt49
- ocw9k0aRd/lz7kzQnKKJN2RM2RqH9RHtmGNtSg2RcY3xrbhY4UM9LpDiakXjUgDEJefS
- BAWHoFk6ZBzMbxli07ng2jZFc7d/EjLtbsDilF1xigXqd2OhRzwmt6f1AmS5SH+xNA7M
- 2QzgDIFZ05DE7P60mR0JnZq8QhX3KG+7WN6sEyZ4lXknN+ctqz+rU3o5o4APORPkhgC3
- sM5Uo1tnGEFtppGB4Txzi/JkDIFGGIXMdnS3a7bXw8NtlKKME6OhgXl/p2Hvu5LUkZES
- GjrA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VqTf3Nf4MEQR51S2SvInzv4nbP2J7g8HrU04vUQNcAU=;
+ b=YBMSdccSQPwJ07hQhy+CF5cXeCFlUamUDaVmWhpvw2rt9098l8toKTjX2wspq3i7br
+ +jJBvUmLesiagf4Y/y8rAODGL1rF2l0UP95ltTTCmzaPhEdLPXUUvBlksFn+/3yrinIn
+ sR5EGQOMjy4XaOj1ijy1ZUQuHoKpK81mGBVUJmxgHSQKfa+Pj1kPBvSPyaiQrJOpRX8c
+ IWo5lDO9cO39AGLRbOwgjdk16o3hl5Gy9dNyzrqGWG05r9T/GD7eqfcWjHmDO1Xk2N47
+ oEoNs0n27sqdVdJjK3m317AWgg5DSm6BiVEn6cYbJnoDAN9qV4GMq1FOyBTynhj8JzbM
+ WWjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=CO7Uz8AGna+h6PUzfBlbwU0xtntpDnmxOND4mtlTH0A=;
- b=clQJaNP9xxoXBwfCr5APT/qQk15LCHVDtmzF7jg56VQmhVIuSffpVu2RvV1CT1zWla
- 3erbTe53wOMnyadplBARVK43WXYFs6r+bMXgqGBoI9sc894j4IBUggtYniMGjK5seQvZ
- 2Df1joLhafE5WarHYiqrmv+mCAadltaOOdUORyw60I5QgNKM/jDMGdir/JrTs02amg6H
- zp9l5ty2FNKRAo6dRjpAwVzGKUld4say3FGVjlBXcOnkd5/OWQ3HUCBMQlM1CRY3ByGi
- wiyOV3c5PVBnwGuweCbB+Hkd01aiizLITDhvpOKCHtF9jsnjb9uMiFjISbZNtS7BiyWR
- hdCA==
-X-Gm-Message-State: ANhLgQ0QEhw1O/Y48vYhtT7tqyRF7+P4lsy341i2NySuyTbnDQZ8BPmg
- YPr0a6m4VdwxvwANajZSeWdq+z5RVe/8kHd7mt6KWrE+kRo=
-X-Google-Smtp-Source: ADFU+vtWR959iZIQByMHZp/iFg+ncOf3RoDavMwHgeIUzR6y7XUQgv6r7SpH+swm9C7Lfn2Lowt4rO9KFTePm9gXH4Y=
-X-Received: by 2002:aca:4987:: with SMTP id w129mr2954064oia.103.1583249777290; 
- Tue, 03 Mar 2020 07:36:17 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VqTf3Nf4MEQR51S2SvInzv4nbP2J7g8HrU04vUQNcAU=;
+ b=gnlZUR5fjv5Cm4q8LXjaLhxalKY4qy2x5P6xfDbD/9u2fHm4jc9DZjZoTj/rag8zU6
+ H5ZFkxiUdXLVt/epGLRowbhTwY0SBaLkDBAK4Mtz8pOFBmj+0+uqJ6NfkvewEt4SZDd6
+ Zd1f35HfLPAVTtM1CQRgh1YAIkBuQ5dP6f7IO+uG0om0WBlQUIOuUBpU7XLfa0tDF5iD
+ 4uIMtO0Jd+EDY2Y0d5jcNJ9pUH8tpm6AGIBpMFngKUOOek8U6KVKBbC9yJkJDMqpj6i2
+ tPT/tZnwHd7tUZdQmWSgEtjj3Ckm9gWmDQ3W+TyOtC35PoAdJF/qz7jvHR6Ye//sKsEN
+ bCtQ==
+X-Gm-Message-State: ANhLgQ2k0/TU2s4tVut+Ko01vgluFXfPlckmk57NLkc/XY0aWFhf46U8
+ EhPdJnQfIR4co0GRvlcrl0gEEOgbUKvjBfs+oNI=
+X-Google-Smtp-Source: ADFU+vtVHCXhLPC/RPieogKzM744j7HNm/xikn0DHI1CO8BtvHD+lHxGT4fN3A8Bj702Q17vHSYspTXw08agxSQVOkg=
+X-Received: by 2002:ad4:4a69:: with SMTP id cn9mr4613878qvb.218.1583249787843; 
+ Tue, 03 Mar 2020 07:36:27 -0800 (PST)
 MIME-Version: 1.0
-From: Jing-Wei Su <jwsu1986@gmail.com>
-Date: Tue, 3 Mar 2020 23:36:06 +0800
-Message-ID: <CAFKS8hWF_sRFpGpWGka-QQdy6eB5XvH39Z3tAOttHtSStEBi1A@mail.gmail.com>
-Subject: COLO PVM and SVM's memory usages
-To: qemu-devel@nongnu.org
+References: <CAPV47zf2Bz1xNTcD_1M=hf7tyVnCYh8yLagN=r8ocgrz2GT2Hw@mail.gmail.com>
+ <20200302173604.GB682016@stefanha-x1.localdomain>
+ <CAPV47zdPz+Z5=bOFNGjTG8nEWgH4gb78_AE3SGU0TD_7TNmSLw@mail.gmail.com>
+ <CAJSP0QXd9fhz45OdA190XizdiwYF84UzHhD7QQVdzh9293iH9A@mail.gmail.com>
+ <CAPV47zdueruup1R0yCv9adLSTJTF-qmZiUotyL3G7udL732AuQ@mail.gmail.com>
+In-Reply-To: <CAPV47zdueruup1R0yCv9adLSTJTF-qmZiUotyL3G7udL732AuQ@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 3 Mar 2020 15:36:16 +0000
+Message-ID: <CAJSP0QW2ooLK_0Hr52h8HYdmm2j6CunTAnhFxS3De=azMutUeA@mail.gmail.com>
+Subject: Re: New Hardware model emulation
+To: Priyamvad Acharya <priyamvad.agnisys@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22e
+X-Received-From: 2607:f8b0:4864:20::f2b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,31 +74,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Tue, Mar 3, 2020 at 12:45 PM Priyamvad Acharya
+<priyamvad.agnisys@gmail.com> wrote:
+> Thanks Stefan for explaining the method.
+> After following above method when I run below command to compile my custom device in Qemu source code , I get the output on terminal which is attached in a file for your reference.
+>
+> Command:- make -j8 -C build
+>
+> Most of the lines in attached file indicate that error might be due to helper.c file.
+>
+> How to resolve it?
 
-I've found the SVM consumes lots of memory than expected.
-After booting the PVM and SVM with "-m 1024", PVM consumes 1GB, but
-SVM consumes 3.2GB.
-After PVM died and SVM takes over, the SVM consumes 2.1GB.
+These errors are probably due to the Makefile.objs changes in your commit:
+https://github.com/PriyamvadAcharya/virtual_prototype_qemu/commit/4c71c2759a96cf1db83a74027b93c6ceeab24bf1#diff-a8f0482bb5eda5c20e2054e1b1d263f2
 
-Any idea about why the SVM consumes lots of memory?
-Thanks!
-
-Memory usage of PVM
-#~/libvirt# cat /proc/9661/status |grep VmRS
-VmRSS:   1080828 kB
-
-Memory usage of SVM
-#~/libvirt# cat /proc/9696/status |grep VmRS
-VmRSS:   3199476 kB
-
-Memory usage of SVM after PVM died
-# cat /proc/9696/status |grep VmRS
-VmRSS:   2144200 kB
-
-Sincerely,
-Jing-Wei
+Stefan
 
