@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845F71773ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:21:58 +0100 (CET)
-Received: from localhost ([::1]:44864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B810177418
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:25:56 +0100 (CET)
+Received: from localhost ([::1]:44942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j94gX-0005X2-I1
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52766)
+	id 1j94kN-0002iB-G3
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:25:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j94WW-0000DZ-0D
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:37 -0500
+ (envelope-from <jasowang@redhat.com>) id 1j94WV-0000Ct-RM
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j94WT-0006JB-Pw
+ (envelope-from <jasowang@redhat.com>) id 1j94WT-0006J5-K9
  for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:35 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38785
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46212
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j94WT-0006Iz-N1
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j94WT-0006Ix-GH
  for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:11:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1583230293;
@@ -27,39 +27,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=30CA7IrGHM4v2O7WQXzXM07+zf53bwhYkoctQZoaqcs=;
- b=e0tt6VMWhvrhANlbLcYX1J75C819bppRmF8XlbsjU3mWaMknzxAfXkkRh3wgOJwGioJXLI
- gijVME8UWGJ/CNf3VvzUzuTvObQe/k2ohEPipIzi0cMREvwkJv6fu4CTu5snJywbY501zQ
- L8BIXeUu3MEJTzL0AVoCBHDtGE0DSaM=
+ bh=7tCYS//0TKLwQOoO9dQPbfeB/Fl9tpOPw27rbkMxAIQ=;
+ b=ZOtzucRfHdkMgVJikIL7pNRdkQsmnFsqrsjtbR+Z2P7YaTNHTvHdGIaab2RFigInyQ/eJB
+ XCjPxodq2Ok3VcXPNweeSG1RxHnmTjUEx4a+RMvSvNOnnyYdPA+2Za2THh5EPQerlNuna6
+ Q0OK9PLGUd945k/7Qt9v9N3NvmL5vwQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-uDSTkXSIO2CIdf0i4gHs0A-1; Tue, 03 Mar 2020 05:11:29 -0500
+ us-mta-296-HpUo4b8aN1q_8y4fCDLxSA-1; Tue, 03 Mar 2020 05:11:31 -0500
+X-MC-Unique: HpUo4b8aN1q_8y4fCDLxSA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 192121005513;
- Tue,  3 Mar 2020 10:11:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393F6800D50;
+ Tue,  3 Mar 2020 10:11:30 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-98.pek2.redhat.com
  [10.72.12.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 750D98B745;
- Tue,  3 Mar 2020 10:11:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 970348B775;
+ Tue,  3 Mar 2020 10:11:28 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL V2 19/23] block/replication.c: Ignore requests after failover
-Date: Tue,  3 Mar 2020 18:10:38 +0800
-Message-Id: <1583230242-14597-20-git-send-email-jasowang@redhat.com>
+Subject: [PULL V2 20/23] tests/test-replication.c: Add test for for secondary
+ node continuing replication
+Date: Tue,  3 Mar 2020 18:10:39 +0800
+Message-Id: <1583230242-14597-21-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1583230242-14597-1-git-send-email-jasowang@redhat.com>
 References: <1583230242-14597-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: uDSTkXSIO2CIdf0i4gHs0A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,96 +78,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-After failover the Secondary side of replication shouldn't change state, be=
-cause
-it now functions as our primary disk.
-
-In replication_start, replication_do_checkpoint, replication_stop, ignore
-the request if current state is BLOCK_REPLICATION_DONE (sucessful failover)=
- or
-BLOCK_REPLICATION_FAILOVER (failover in progres i.e. currently merging acti=
-ve
-and hidden images into the base image).
+This simulates the case that happens when we resume COLO after failover.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Acked-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- block/replication.c | 35 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ tests/test-replication.c | 52 ++++++++++++++++++++++++++++++++++++++++++++=
+++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/block/replication.c b/block/replication.c
-index d6681b6..413d954 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -450,6 +450,17 @@ static void replication_start(ReplicationState *rs, Re=
-plicationMode mode,
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
+diff --git a/tests/test-replication.c b/tests/test-replication.c
+index 4747d8a..cbc37db 100644
+--- a/tests/test-replication.c
++++ b/tests/test-replication.c
+@@ -490,6 +490,56 @@ static void test_secondary_stop(void)
+     teardown_secondary();
+ }
 =20
-+    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-+        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-+        /*
-+         * This case happens when a secondary is promoted to primary.
-+         * Ignore the request because the secondary side of replication
-+         * doesn't have to do anything anymore.
-+         */
-+        aio_context_release(aio_context);
-+        return;
-+    }
++static void test_secondary_continuous_replication(void)
++{
++    BlockBackend *top_blk, *local_blk;
++    Error *local_err =3D NULL;
 +
-     if (s->stage !=3D BLOCK_REPLICATION_NONE) {
-         error_setg(errp, "Block replication is running or done");
-         aio_context_release(aio_context);
-@@ -574,6 +585,17 @@ static void replication_do_checkpoint(ReplicationState=
- *rs, Error **errp)
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
-=20
-+    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-+        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-+        /*
-+         * This case happens when a secondary was promoted to primary.
-+         * Ignore the request because the secondary side of replication
-+         * doesn't have to do anything anymore.
-+         */
-+        aio_context_release(aio_context);
-+        return;
-+    }
++    top_blk =3D start_secondary();
++    replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
++    g_assert(!local_err);
 +
-     if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
-         secondary_do_checkpoint(s, errp);
-     }
-@@ -590,7 +612,7 @@ static void replication_get_error(ReplicationState *rs,=
- Error **errp)
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
-=20
--    if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
-+    if (s->stage =3D=3D BLOCK_REPLICATION_NONE) {
-         error_setg(errp, "Block replication is not running");
-         aio_context_release(aio_context);
-         return;
-@@ -632,6 +654,17 @@ static void replication_stop(ReplicationState *rs, boo=
-l failover, Error **errp)
-     aio_context_acquire(aio_context);
-     s =3D bs->opaque;
-=20
-+    if (s->stage =3D=3D BLOCK_REPLICATION_DONE ||
-+        s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
-+        /*
-+         * This case happens when a secondary was promoted to primary.
-+         * Ignore the request because the secondary side of replication
-+         * doesn't have to do anything anymore.
-+         */
-+        aio_context_release(aio_context);
-+        return;
-+    }
++    /* write 0x22 to s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
++    local_blk =3D blk_by_name(S_LOCAL_DISK_ID);
++    test_blk_write(local_blk, 0x22, IMG_SIZE / 2, IMG_SIZE / 2, false);
 +
-     if (s->stage !=3D BLOCK_REPLICATION_RUNNING) {
-         error_setg(errp, "Block replication is not running");
-         aio_context_release(aio_context);
++    /* replication will backup s_local_disk to s_hidden_disk */
++    test_blk_read(top_blk, 0x11, IMG_SIZE / 2,
++                  IMG_SIZE / 2, 0, IMG_SIZE, false);
++
++    /* write 0x33 to s_active_disk (0, IMG_SIZE / 2) */
++    test_blk_write(top_blk, 0x33, 0, IMG_SIZE / 2, false);
++
++    /* do failover (active commit) */
++    replication_stop_all(true, &local_err);
++    g_assert(!local_err);
++
++    /* it should ignore all requests from now on */
++
++    /* start after failover */
++    replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
++    g_assert(!local_err);
++
++    /* checkpoint */
++    replication_do_checkpoint_all(&local_err);
++    g_assert(!local_err);
++
++    /* stop */
++    replication_stop_all(true, &local_err);
++    g_assert(!local_err);
++
++    /* read from s_local_disk (0, IMG_SIZE / 2) */
++    test_blk_read(top_blk, 0x33, 0, IMG_SIZE / 2,
++                  0, IMG_SIZE / 2, false);
++
++
++    /* read from s_local_disk (IMG_SIZE / 2, IMG_SIZE) */
++    test_blk_read(top_blk, 0x22, IMG_SIZE / 2,
++                  IMG_SIZE / 2, 0, IMG_SIZE, false);
++
++    teardown_secondary();
++}
++
+ static void test_secondary_do_checkpoint(void)
+ {
+     BlockBackend *top_blk, *local_blk;
+@@ -585,6 +635,8 @@ int main(int argc, char **argv)
+     g_test_add_func("/replication/secondary/write", test_secondary_write);
+     g_test_add_func("/replication/secondary/start", test_secondary_start);
+     g_test_add_func("/replication/secondary/stop",  test_secondary_stop);
++    g_test_add_func("/replication/secondary/continuous_replication",
++                    test_secondary_continuous_replication);
+     g_test_add_func("/replication/secondary/do_checkpoint",
+                     test_secondary_do_checkpoint);
+     g_test_add_func("/replication/secondary/get_error_all",
 --=20
 2.5.0
 
