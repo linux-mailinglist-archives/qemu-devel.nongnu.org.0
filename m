@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BC8177C31
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 17:44:27 +0100 (CET)
-Received: from localhost ([::1]:50070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0ED177C10
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 17:39:29 +0100 (CET)
+Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Aeg-0004an-DL
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 11:44:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56966)
+	id 1j9AZs-0001yh-B8
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 11:39:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j9AVv-0004N3-9d
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:24 -0500
+ (envelope-from <armbru@redhat.com>) id 1j9AVn-0004Fi-BM
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j9AVt-00033b-W3
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:23 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36026
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1j9AVl-0002y8-Vk
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42083
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9AVt-000335-Pu
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:21 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9AVl-0002x4-Ri
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 11:35:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583253321;
+ s=mimecast20190719; t=1583253312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a/UYmOCxGxuVgibBYUMX0KvNJvGmm4H8hzsqVMEI/UA=;
- b=Wg70C+Ch9HFL64BIS5weu3T7sxOUqj7OmhEmpcHJaijYKwNjLIOImj7sdZXQB1GVlrFmz2
- FcBPThJVV/qawYquv6n9r6g8t6JSxMoNHwoT2uic+un+dy+RhCernvOGMs2HcQ14YdNsh1
- 2hCxIX7vgxHcVdcORepupG05nsjFz3c=
+ bh=ErHcuT4cm1oXy3g+6iik/P+K8YdI7jU/ISt5Kmux1ac=;
+ b=Ln85LNGFJqIVRMqw1Qtzp9O3BusC5hCeAiFft2D6pQKFL36ERmG1YsTMWdtKUZEk3uCoTD
+ 7oTUOcDIjDLJ2lds7PBLKFENsiNdeMOWN3TzWh7fDRxHNmSDM0dXDvEtO5lmf3VdT2nIvD
+ VdWRfnCLObZW76aBwjuObP+Co6pivXY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-6gIg3OULOzi4R4V0_Q0TgQ-1; Tue, 03 Mar 2020 11:35:11 -0500
-X-MC-Unique: 6gIg3OULOzi4R4V0_Q0TgQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-142-fSFyeV4PMHy7ujzyiOrPqA-1; Tue, 03 Mar 2020 11:35:11 -0500
+X-MC-Unique: fSFyeV4PMHy7ujzyiOrPqA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5510E1005516;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 817BF18CA243;
  Tue,  3 Mar 2020 16:35:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
  [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4210591D71;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 459A61001920;
  Tue,  3 Mar 2020 16:35:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B88701138611; Tue,  3 Mar 2020 17:35:05 +0100 (CET)
+ id BBB1F11366CB; Tue,  3 Mar 2020 17:35:05 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/30] docs/devel/qapi-code-gen: Clarify allow-oob
+Subject: [PATCH v2 04/30] docs/devel/qapi-code-gen: Document 'features'
  introspection
-Date: Tue,  3 Mar 2020 17:34:38 +0100
-Message-Id: <20200303163505.32041-4-armbru@redhat.com>
+Date: Tue,  3 Mar 2020 17:34:39 +0100
+Message-Id: <20200303163505.32041-5-armbru@redhat.com>
 In-Reply-To: <20200303163505.32041-1-armbru@redhat.com>
 References: <20200303163505.32041-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,31 +78,109 @@ Cc: libvir-list@redhat.com, berrange@redhat.com, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mention SchemaInfo variant member "allow-oob" defaults to false.
+Commit 6a8c0b5102 "qapi: Add feature flags to struct types" neglected
+to update section "Client JSON Protocol introspection", and commit
+23394b4c39 "qapi: Add feature flags to commands" didn't either.  Make
+up for that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ docs/devel/qapi-code-gen.txt | 43 +++++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 15 deletions(-)
 
 diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 59d6973e1e..5906602504 100644
+index 5906602504..297a725084 100644
 --- a/docs/devel/qapi-code-gen.txt
 +++ b/docs/devel/qapi-code-gen.txt
-@@ -988,9 +988,9 @@ The SchemaInfo for a command has meta-type "command", a=
-nd variant
- members "arg-type", "ret-type" and "allow-oob".  On the wire, the
- "arguments" member of a client's "execute" command must conform to the
- object type named by "arg-type".  The "return" member that the server
--passes in a success response conforms to the type named by
--"ret-type".  When "allow-oob" is set, it means the command supports
--out-of-band execution.
-+passes in a success response conforms to the type named by "ret-type".
-+When "allow-oob" is true, it means the command supports out-of-band
-+execution.  It defaults to false.
+@@ -642,13 +642,8 @@ that previously resulted in an error).  QMP clients ma=
+y still need to
+ know whether the extension is available.
+=20
+ For this purpose, a list of features can be specified for a command or
+-struct type.  This is exposed to the client as a list of strings,
+-where each string signals that this build of QEMU shows a certain
+-behaviour.
+-
+-Each member of the 'features' array defines a feature.  It can either
+-be { 'name': STRING, '*if': COND }, or STRING, which is shorthand for
+-{ 'name': STRING }.
++struct type.  Each list member can either be { 'name': STRING, '*if':
++COND }, or STRING, which is shorthand for { 'name': STRING }.
+=20
+ The optional 'if' member specifies a conditional.  See "Configuring
+ the schema" below for more on this.
+@@ -659,6 +654,12 @@ Example:
+   'data': { 'number': 'int' },
+   'features': [ 'allow-negative-numbers' ] }
+=20
++The feature strings are exposed to clients in introspection, as
++explained in section "Client JSON Protocol introspection".
++
++Intended use is to have each feature string signal that this build of
++QEMU shows a certain behaviour.
++
+=20
+ =3D=3D=3D Naming rules and reserved names =3D=3D=3D
+=20
+@@ -965,7 +966,7 @@ schema, along with the SchemaInfo type.  This text atte=
+mpts to give an
+ overview how things work.  For details you need to consult the QAPI
+ schema.
+=20
+-SchemaInfo objects have common members "name" and "meta-type", and
++SchemaInfo objects have common members "name", "meta-type", and
+ additional variant members depending on the value of meta-type.
+=20
+ Each SchemaInfo object describes a wire ABI entity of a certain
+@@ -985,12 +986,13 @@ references by name.
+ QAPI schema definitions not reachable that way are omitted.
+=20
+ The SchemaInfo for a command has meta-type "command", and variant
+-members "arg-type", "ret-type" and "allow-oob".  On the wire, the
+-"arguments" member of a client's "execute" command must conform to the
+-object type named by "arg-type".  The "return" member that the server
+-passes in a success response conforms to the type named by "ret-type".
+-When "allow-oob" is true, it means the command supports out-of-band
+-execution.  It defaults to false.
++members "arg-type", "ret-type", "allow-oob", and "features".  On the
++wire, the "arguments" member of a client's "execute" command must
++conform to the object type named by "arg-type".  The "return" member
++that the server passes in a success response conforms to the type
++named by "ret-type".  When "allow-oob" is true, it means the command
++supports out-of-band execution.  It defaults to false.  "features"
++exposes the command's feature strings as a JSON array of strings.
 =20
  If the command takes no arguments, "arg-type" names an object type
  without members.  Likewise, if the command returns nothing, "ret-type"
+@@ -1025,7 +1027,8 @@ Example: the SchemaInfo for EVENT_C from section Even=
+ts
+=20
+ The SchemaInfo for struct and union types has meta-type "object".
+=20
+-The SchemaInfo for a struct type has variant member "members".
++The SchemaInfo for a struct type has variant members "members" and
++"features".
+=20
+ The SchemaInfo for a union type additionally has variant members "tag"
+ and "variants".
+@@ -1047,6 +1050,16 @@ Example: the SchemaInfo for MyType from section Stru=
+ct types
+           { "name": "member2", "type": "int" },
+           { "name": "member3", "type": "str", "default": null } ] }
+=20
++"features" exposes the command's feature strings as a JSON array of
++strings.
++
++Example: the SchemaInfo for TestType from section Features:
++
++    { "name": "TestType", "meta-type": "object",
++      "members": [
++          { "name": "number", "type": "int" } ],
++      "features": ["allow-negative-numbers"] }
++
+ "tag" is the name of the common member serving as type tag.
+ "variants" is a JSON array describing the object's variant members.
+ Each element is a JSON object with members "case" (the value of type
 --=20
 2.21.1
 
