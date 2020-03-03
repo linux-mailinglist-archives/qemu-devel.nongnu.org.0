@@ -2,38 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E6D177745
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 14:36:52 +0100 (CET)
-Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2411777A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 14:46:24 +0100 (CET)
+Received: from localhost ([::1]:47486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j97j9-00069o-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 08:36:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55651)
+	id 1j97sN-0002mD-89
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 08:46:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j97gy-0002ik-7J
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 08:34:37 -0500
+ (envelope-from <crosa@redhat.com>) id 1j97r4-0001xo-JZ
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 08:45:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j97gw-0006Wp-IW
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 08:34:36 -0500
-Received: from relay.sw.ru ([185.231.240.75]:49918)
+ (envelope-from <crosa@redhat.com>) id 1j97r1-0005u1-Vg
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 08:45:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59945
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j97gw-0006Vf-BY; Tue, 03 Mar 2020 08:34:34 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j97go-00057F-Ox; Tue, 03 Mar 2020 16:34:26 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] iotests: 287: add qcow2 compression type test
-Date: Tue,  3 Mar 2020 16:34:25 +0300
-Message-Id: <20200303133425.24471-6-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200303133425.24471-1-dplotnikov@virtuozzo.com>
-References: <20200303133425.24471-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1j97r1-0005sJ-Rm
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 08:44:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583243098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eeXQSDLtErqfaNiThSTWKnXlzOiYPY8RyvMS9UWoZSU=;
+ b=IlXI4XW0I6QkEtsuhUAJfyOO5BW3WJZVDfeBgCUsn9yFchsiadb/xVtJwyf93+gkpetzuw
+ HjFVpEncCgVs9Ia2mmF8N8dI9fL9ZGQazCn3L8x+EeB8X6HkqE66VaRmnd9XqAz+emvsX2
+ ICZsnDGoaVl/UjOqOJBe6TEWZMJElyA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-tE4OgA6ANKCQQzmTHRAWpA-1; Tue, 03 Mar 2020 08:44:55 -0500
+X-MC-Unique: tE4OgA6ANKCQQzmTHRAWpA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A370B18C43C1;
+ Tue,  3 Mar 2020 13:44:53 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 727805D9C9;
+ Tue,  3 Mar 2020 13:44:53 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 1AA5B1809565;
+ Tue,  3 Mar 2020 13:44:53 +0000 (UTC)
+Date: Tue, 3 Mar 2020 08:44:52 -0500 (EST)
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <810018352.9991598.1583243092838.JavaMail.zimbra@redhat.com>
+In-Reply-To: <c6f8e8b0-e391-67a7-4fcb-b88464285f65@redhat.com>
+References: <20200302180937.24148-1-alex.bennee@linaro.org>
+ <c6f8e8b0-e391-67a7-4fcb-b88464285f65@redhat.com>
+Subject: Re: [PATCH] tests/acceptance: move @skipUnless decoration to test
+ itself
+MIME-Version: 1.0
+X-Originating-IP: [10.10.123.15, 10.4.195.17]
+Thread-Topic: tests/acceptance: move @skipUnless decoration to test itself
+Thread-Index: HjJDUGQTkUIbgIpFxnEwQOKYLdXgCg==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,215 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requiriements for the compression
-type feature and zstd compression type operability.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- tests/qemu-iotests/287     | 127 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  43 +++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 171 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..39cb665c85
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,127 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+# Check if we can run this test.
-+IMGOPTS='compression_type=zstd'
-+
-+_make_test_img 64M | grep "Invalid parameter 'zstd'" 2>&1 1>/dev/null
-+
-+ZSTD_SUPPORTED=$?
-+
-+if (($ZSTD_SUPPORTED==0)); then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+# Test: when compression is zlib the incompatible bit is unset
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: when compression differs from zlib the incompatible bit is set
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+# Test: an image can't be openned if compression type is zlib and
-+#       incompatible feature compression type is set
-+echo
-+echo "=== Testing zlib with incompatible bit set  ==="
-+echo
-+
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+
-+# Test: an image can't be openned if compression type is NOT zlib and
-+#       incompatible feature compression type is UNSET
-+echo
-+echo "=== Testing zstd with incompatible bit unset  ==="
-+echo
-+
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+$QEMU_IMG info "$TEST_IMG" 2>1 1>/dev/null
-+if (($?==0)); then
-+    echo "Error: The image openned successfully. The image must not be openned"
-+fi
-+# Test: check compression type values
-+echo
-+echo "=== Testing compression type values  ==="
-+echo
-+# zlib=0
-+IMGOPTS='compression_type=zlib' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# zstd=1
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+od -j104 -N1 -An -vtu1 "$TEST_IMG"
-+
-+# Test: using zstd compression, write to and read from an image
-+echo
-+echo "=== Testing reading and writing with zstd ==="
-+echo
-+
-+CLUSTER_SIZE=65536
-+IMGOPTS='compression_type=zstd' _make_test_img 64M
-+$QEMU_IO -c "write -c -P 0xAC 65536 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 65536 65536 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..8e51c3078d
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,43 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 0317667695..5edbadef40 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -293,3 +293,4 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
--- 
-2.17.0
+----- Original Message -----
+> From: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+> To: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+> Cc: "Aurelien Jarno" <aurelien@aurel32.net>, f4bug@amsat.org, "Aleksandar=
+ Markovic" <amarkovic@wavecomp.com>
+> Sent: Monday, March 2, 2020 1:14:31 PM
+> Subject: Re: [PATCH] tests/acceptance: move @skipUnless decoration to tes=
+t itself
+>=20
+> On 3/2/20 7:09 PM, Alex Benn=C3=A9e wrote:
+> > It appears ignore the decoration if just applied to the class.
+>=20
+> Odd I remember testing this, this might be a feature supported by a
+> newer Avocado version than the one available on Travis-CI.
+>=20
+> >=20
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > ---
+> >   tests/acceptance/machine_mips_malta.py | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/tests/acceptance/machine_mips_malta.py
+> > b/tests/acceptance/machine_mips_malta.py
+> > index 92b4f28a112..b8fac2a44d5 100644
+> > --- a/tests/acceptance/machine_mips_malta.py
+> > +++ b/tests/acceptance/machine_mips_malta.py
+> > @@ -30,14 +30,14 @@ except ImportError:
+> >       CV2_AVAILABLE =3D False
+> >  =20
+> >  =20
+> > -@skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
+> > -@skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
+> >   class MaltaMachineFramebuffer(Test):
+> >  =20
+> >       timeout =3D 30
+> >  =20
+> >       KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
+> >  =20
+> > +    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
+> > +    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
+> >       def do_test_i6400_framebuffer_logo(self, cpu_cores_count):
+> >           """
+> >           Boot Linux kernel and check Tux logo is displayed on the
+> >           framebuffer.
+> >=20
+>=20
+> Unfortunately you have to also add it to the 7/8cores tests.
+>=20
+>=20
+>=20
+
+This is true of Avocado < 76.0, but on 76.0 you can decorate the
+class too:
+
+https://avocado-framework.readthedocs.io/en/76.0/releases/76_0.html#users-t=
+est-writers
+
+Maybe replace this patch and bump Avocado's version?
+
+- Cleber.
 
 
