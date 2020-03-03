@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6026D176962
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 01:43:32 +0100 (CET)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E033B17696A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 01:50:36 +0100 (CET)
+Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8vel-0007Oh-1C
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 19:43:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
+	id 1j8vlb-0002pT-Sg
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 19:50:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiaxun.yang@flygoat.com>) id 1j8vdr-0006xU-F9
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:42:36 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vk5-0000w1-RF
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiaxun.yang@flygoat.com>) id 1j8vdq-0002dQ-9T
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:42:35 -0500
-Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17994)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1j8vdp-0002Zr-Hu
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:42:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1583196117; 
- s=mail; d=flygoat.com; i=jiaxun.yang@flygoat.com;
- h=From:To:Cc:Message-ID:Subject:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type;
- bh=ip62UxsLoBVBHDGOYwMikMPn9kC1/8udU8YlQmWN06Y=;
- b=a9dUN8cIVHJr93jwpvRPcnrQ9cGXVEwlfXY6VfviBvYPxEyR9EzOqw6VhBQwtoM1
- BNJyWC8ocuhwrNFSKLvf8XbR4u5BLjVwJr+HLcDQg6Isx8DOi86ghyUJhdldDZsFFv1
- QGgB2WA9t91tcKLDuVyvaibMXdKAqKAO7O5nz0x4=
-Received: from localhost.localdomain (39.155.141.144 [39.155.141.144]) by
- mx.zoho.com.cn with SMTPS id 1583196112368648.408430311324;
- Tue, 3 Mar 2020 08:41:52 +0800 (CST)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20200303004137.1099502-1-jiaxun.yang@flygoat.com>
-Subject: [PATCH v1] mips/mips_malta: Allow more than 2G RAM
-Date: Tue,  3 Mar 2020 08:41:37 +0800
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200228032613.1049955-1-jiaxun.yang@flygoat.com>
-References: <20200228032613.1049955-1-jiaxun.yang@flygoat.com>
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vk4-00045Z-Hb
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:01 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40903)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
+ id 1j8vk4-00045D-AR
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:00 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id l184so554434pfl.7
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:48:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=hXvy4ghHCmI2AOaSUkFYWx1NZe3mIB7WOFd3+5BTrq0=;
+ b=v8Rfav7JJfplslGmutDpYe5vA5Hagf7kEaLBPbPnFhkgIR3TEufwQM/d1xkTHuPFhr
+ i1HEAUyjq1EOv+VaNlugsQRjbABAbIqvVVSiMHHKNGAfPB3lRnBFLIcXmxhDpx5RsU7l
+ SaJV3VlhPK1mvW1KusDtd3HX1wSC4r4qrTZTFunBNKtOA0aTc76VsJD69VCBPp1K00eZ
+ kHHY0cIIgqnIdQNVRJbtOfLrHnFJeCE6dzWwZ8u9Z5MykWx8heVDhj6av8h+lyWT8bxa
+ KcxTBmIkfaZCKg330Sk0XzmcVYS8OMuolchewAxBjewOOG1XRgY6mCUoKoqH+EB1Z8X6
+ Vawg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=hXvy4ghHCmI2AOaSUkFYWx1NZe3mIB7WOFd3+5BTrq0=;
+ b=Ao3Akk4fx/K/JTxBFkQh4LQihwr7vAdPoDtyIJg9mkVh2gUGx1WsVTT4G/FR5UhLTU
+ auaNrgbcYVACbTfg6H8RE7BZkW7er9Kp8ENnOFd+T0BIneyctCK/UdjjZkI4ySvy63Kl
+ NnINJfbRUje8cSdKl56Y1YGCMT+R0gybG7Ou/56t14P1ThSCtMwb/TlEYrwfRaT10Zma
+ +WobSFk+9v9W67F6awhwvL9TvWL2UflgTpBDTDt3Nzfn2t5hs1i0AHiBBdRVkKJR/smH
+ QsTsUPIx3vmMeH6yHR4LDkSGnKHNPwk3kwGL3Imh3QOshGm66XFRN1W9EDL6R5fokL+M
+ LVAQ==
+X-Gm-Message-State: ANhLgQ1WZAKat6WPTZ1njtf3O0vd7ZY9M5CA5h9U+dAkifES2Lujz6Xs
+ hdWPPrx1b27WgK6SxoZNJE/KQg==
+X-Google-Smtp-Source: ADFU+vsY8r3dEgMHJA9VO05T39SXyLZI3Z4FCXwj3vb0xd8G5Mx7QA9S9UjolcxML8FcSFWrKaeqNA==
+X-Received: by 2002:a63:384e:: with SMTP id h14mr1497701pgn.295.1583196538019; 
+ Mon, 02 Mar 2020 16:48:58 -0800 (PST)
+Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
+ by smtp.gmail.com with ESMTPSA id q6sm22038928pfh.127.2020.03.02.16.48.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Mar 2020 16:48:57 -0800 (PST)
+Subject: [PULL] RISC-V Patches for the 5.0 Soft Freeze, Part 3
+Date: Mon,  2 Mar 2020 16:48:10 -0800
+Message-Id: <20200303004848.136788-1-palmerdabbelt@google.com>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoCNMailClient: External
-Content-Type: text/plain; charset=utf8
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 124.251.121.243
+Content-Transfer-Encoding: 8bit
+Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org
+From: Palmer Dabbelt <palmerdabbelt@google.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,107 +75,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, philmd@redhat.com,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, amarkovic@wavecomp.com,
- Yunqiang Su <ysu@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When malta is coupled with MIPS64 cpu which have 64bit
-address space, it is possible to have more than 2G RAM.
+The following changes since commit 8b6b68e05b43f976714ca1d2afe01a64e1d82cba:
 
-So we removed ram_size check and overwrite memory
-layout for these targets.
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-02-27 19:15:15 +0000)
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Suggested-by: Yunqiang Su <ysu@wavecomp.com>
---
-v1: Do not overwrite cmdline when we don't have highmem.
----
- hw/mips/mips_malta.c | 29 +++++++++++++++++++++++------
- 1 file changed, 23 insertions(+), 6 deletions(-)
+are available in the Git repository at:
 
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 6e7ba9235d..4267958f35 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -98,7 +98,8 @@ typedef struct {
- } MaltaState;
-=20
- static struct _loaderparams {
--    int ram_size, ram_low_size;
-+    unsigned int ram_low_size;
-+    ram_addr_t ram_size;
-     const char *kernel_filename;
-     const char *kernel_cmdline;
-     const char *initrd_filename;
-@@ -1023,6 +1024,7 @@ static int64_t load_kernel(void)
- {
-     int64_t kernel_entry, kernel_high, initrd_size;
-     long kernel_size;
-+    char mem_cmdline[128];
-     ram_addr_t initrd_offset;
-     int big_endian;
-     uint32_t *prom_buf;
-@@ -1099,20 +1101,33 @@ static int64_t load_kernel(void)
-     prom_buf =3D g_malloc(prom_size);
-=20
-     prom_set(prom_buf, prom_index++, "%s", loaderparams.kernel_filename);
-+
-+    memset(&mem_cmdline[0], 0, sizeof(mem_cmdline));
-+    if (loaderparams.ram_size > 0x10000000) {
-+        /*
-+         * Always use cmdline to overwrite mem layout
-+         * as kernel may reject large emesize.
-+         */
-+        sprintf(&mem_cmdline[0],
-+                "mem=3D0x10000000@0x00000000 mem=3D0x%" PRIx64 "@0x9000000=
-0",
-+                loaderparams.ram_size - 0x10000000);
-+    }
-+
-     if (initrd_size > 0) {
-         prom_set(prom_buf, prom_index++,
--                 "rd_start=3D0x%" PRIx64 " rd_size=3D%" PRId64 " %s",
--                 xlate_to_kseg0(NULL, initrd_offset),
-+                 "%s rd_start=3D0x%" PRIx64 " rd_size=3D%" PRId64 " %s",
-+                 &mem_cmdline[0], xlate_to_kseg0(NULL, initrd_offset),
-                  initrd_size, loaderparams.kernel_cmdline);
-     } else {
--        prom_set(prom_buf, prom_index++, "%s", loaderparams.kernel_cmdline=
-);
-+        prom_set(prom_buf, prom_index++, "%s %s", &mem_cmdline[0],
-+                 loaderparams.kernel_cmdline);
-     }
-=20
-     prom_set(prom_buf, prom_index++, "memsize");
-     prom_set(prom_buf, prom_index++, "%u", loaderparams.ram_low_size);
-=20
-     prom_set(prom_buf, prom_index++, "ememsize");
--    prom_set(prom_buf, prom_index++, "%u", loaderparams.ram_size);
-+    prom_set(prom_buf, prom_index++, "%lu", loaderparams.ram_size);
-=20
-     prom_set(prom_buf, prom_index++, "modetty0");
-     prom_set(prom_buf, prom_index++, "38400n8r");
-@@ -1253,12 +1268,14 @@ void mips_malta_init(MachineState *machine)
-     /* create CPU */
-     mips_create_cpu(machine, s, &cbus_irq, &i8259_irq);
-=20
--    /* allocate RAM */
-+#ifdef TARGET_MIPS32
-+    /* MIPS32 won't accept more than 2GiB RAM due to limited address space=
- */
-     if (ram_size > 2 * GiB) {
-         error_report("Too much memory for this machine: %" PRId64 "MB,"
-                      " maximum 2048MB", ram_size / MiB);
-         exit(1);
-     }
-+#endif
-=20
-     /* register RAM at high address where it is undisturbed by IO */
-     memory_region_add_subregion(system_memory, 0x80000000, machine->ram);
---=20
-2.25.1
+  git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-sf3
 
+for you to fetch changes up to 5f3616ccceb5d5c49f99838c78498e581fb42fc5:
+
+  hw/riscv: Provide rdtime callback for TCG in CLINT emulation (2020-02-27 13:46:37 -0800)
+
+----------------------------------------------------------------
+RISC-V Patches for the 5.0 Soft Freeze, Part 3
+
+This pull request is almost entirely an implementation of the draft hypervisor
+extension.  This extension is still in draft and is expected to have
+incompatible changes before being frozen, but we've had good luck managing
+other RISC-V draft extensions in QEMU so far.
+
+Additionally, there's a fix to PCI addressing and some improvements to the
+M-mode timer.
+
+This boots linux and passes make check for me.
+
+----------------------------------------------------------------
+Alistair Francis (35):
+      target/riscv: Convert MIP CSR to target_ulong
+      target/riscv: Add the Hypervisor extension
+      target/riscv: Add the Hypervisor CSRs to CPUState
+      target/riscv: Add support for the new execption numbers
+      target/riscv: Rename the H irqs to VS irqs
+      target/riscv: Add the virtulisation mode
+      target/riscv: Add the force HS exception mode
+      target/riscv: Fix CSR perm checking for HS mode
+      target/riscv: Print priv and virt in disas log
+      target/riscv: Dump Hypervisor registers if enabled
+      target/riscv: Add Hypervisor CSR access functions
+      target/riscv: Add Hypervisor virtual CSRs accesses
+      target/riscv: Add Hypervisor machine CSRs accesses
+      target/riscv: Add virtual register swapping function
+      target/riscv: Set VS bits in mideleg for Hyp extension
+      target/riscv: Extend the MIE CSR to support virtulisation
+      target/riscv: Extend the SIP CSR to support virtulisation
+      target/riscv: Add support for virtual interrupt setting
+      target/ricsv: Flush the TLB on virtulisation mode changes
+      target/riscv: Generate illegal instruction on WFI when V=1
+      target/riscv: Add hypvervisor trap support
+      target/riscv: Add Hypervisor trap return support
+      target/riscv: Add hfence instructions
+      target/riscv: Remove the hret instruction
+      target/riscv: Only set TB flags with FP status if enabled
+      target/riscv: Disable guest FP support based on virtual status
+      target/riscv: Mark both sstatus and msstatus_hs as dirty
+      target/riscv: Respect MPRV and SPRV for floating point ops
+      target/riscv: Allow specifying MMU stage
+      target/riscv: Implement second stage MMU
+      target/riscv: Raise the new execptions when 2nd stage translation fails
+      target/riscv: Set htval and mtval2 on execptions
+      target/riscv: Add support for the 32-bit MSTATUSH CSR
+      target/riscv: Add the MSTATUS_MPV_ISSET helper macro
+      target/riscv: Allow enabling the Hypervisor extension
+
+Anup Patel (2):
+      target/riscv: Emulate TIME CSRs for privileged mode
+      hw/riscv: Provide rdtime callback for TCG in CLINT emulation
+
+Bin Meng (1):
+      riscv: virt: Allow PCI address 0
+
+ hw/riscv/sifive_clint.c                        |   6 +-
+ hw/riscv/sifive_e.c                            |   2 +-
+ hw/riscv/sifive_u.c                            |   2 +-
+ hw/riscv/spike.c                               |   9 +-
+ hw/riscv/virt.c                                |   3 +-
+ include/hw/riscv/sifive_clint.h                |   3 +-
+ target/riscv/cpu.c                             |  57 ++-
+ target/riscv/cpu.h                             |  63 +++-
+ target/riscv/cpu_bits.h                        | 111 ++++--
+ target/riscv/cpu_helper.c                      | 486 ++++++++++++++++++++++---
+ target/riscv/csr.c                             | 455 ++++++++++++++++++++++-
+ target/riscv/gdbstub.c                         |  11 +-
+ target/riscv/insn32.decode                     |  22 +-
+ target/riscv/insn_trans/trans_privileged.inc.c |  45 ++-
+ target/riscv/op_helper.c                       |  71 +++-
+ target/riscv/translate.c                       |  35 ++
+ 16 files changed, 1240 insertions(+), 141 deletions(-)
 
 
