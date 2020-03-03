@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09017176DB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 04:50:40 +0100 (CET)
-Received: from localhost ([::1]:41666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03737176DAF
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 04:49:31 +0100 (CET)
+Received: from localhost ([::1]:41638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8yZr-0000z1-3D
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 22:50:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35213)
+	id 1j8yYj-00063u-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 22:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j8yTT-0004hS-Ig
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:04 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j8yTV-0004i8-9f
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j8yTS-0002DT-30
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:03 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34019 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1j8yTU-0002FV-6e
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 22:44:05 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:36791)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j8yTR-0002BB-OX; Mon, 02 Mar 2020 22:44:02 -0500
+ id 1j8yTT-0002Bt-Ri; Mon, 02 Mar 2020 22:44:04 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48WjY61SDLz9sSk; Tue,  3 Mar 2020 14:43:54 +1100 (AEDT)
+ id 48WjY61pd3z9sSq; Tue,  3 Mar 2020 14:43:54 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1583207034;
- bh=FCi4XrxSSIh1V3n0LcI2M0plS1LCbPohpkNXYSEzdJw=;
+ bh=SsCee0AU6qi7MD8E+l9wYYZMteadeXr2Ro4UYhkZybg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AuHVj0PrAxzpJYsh3qmURxl0zw7WBf1LQh4ijWqTD+PYqmzTsOhPyZW0iBMgZ4Eti
- W5yIBU0Cv2lMfqpHEXBaAfNeDis6Dd0qMu6FePR/FhnlLm39/4E2mdrRRtpedAzs3S
- N/k1/DLhXTRFpZApAUSPmmY+hboJ4GubTqTo0n3Q=
+ b=CnbVXOg/QxUfMSdZ2TBDPM9LvG3/0fFHfutjYrFiD3ledAa/MCJR514tfF8lo9/oU
+ +NE8i65HpAJp9elpNtN6zgBGgA+38bjqJo7DgOTOHUXaTdt4Lay/+UxaYxYCMJnI2q
+ BnyXuB0DXRwvvPwMU4iVLXpYvcHOh8m/GCTyd+YQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-ppc@nongnu.org, clg@kaod.org, qemu-devel@nongnu.org, groug@kaod.org
-Subject: [PATCH v7 08/17] target/ppc: Streamline calculation of RMA limit from
- LPCR[RMLS]
-Date: Tue,  3 Mar 2020 14:43:42 +1100
-Message-Id: <20200303034351.333043-9-david@gibson.dropbear.id.au>
+Subject: [PATCH v7 09/17] target/ppc: Correct RMLS table
+Date: Tue,  3 Mar 2020 14:43:43 +1100
+Message-Id: <20200303034351.333043-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200303034351.333043-1-david@gibson.dropbear.id.au>
 References: <20200303034351.333043-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,125 +65,51 @@ Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we use a big switch statement in ppc_hash64_update_rmls() to wo=
-rk
-out what the right RMA limit is based on the LPCR[RMLS] field.  There's n=
-o
-formula for this - it's just an arbitrary mapping defined by the existing
-CPU implementations - but we can make it a bit more readable by using a
-lookup table rather than a switch.  In addition we can use the MiB/GiB
-symbols to make it a bit clearer.
+The table of RMA limits based on the LPCR[RMLS] field is slightly wrong.
+We're missing the RMLS =3D=3D 0 =3D> 256 GiB RMA option, which is availab=
+le on
+POWER8, so add that.
 
-While there we add a bit of clarity and rationale to the comment about
-what happens if the LPCR[RMLS] doesn't contain a valid value.
+The comment that goes with the table is much more wrong.  We *don't* filt=
+er
+invalid RMLS values when writing the LPCR, and there's not really a
+sensible way to do so.  Furthermore, while in theory the set of RMLS valu=
+es
+is implementation dependent, it seems in practice the same set has been
+available since around POWER4+ up until POWER8, the last model which
+supports RMLS at all.  So, correct that as well.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- target/ppc/mmu-hash64.c | 63 ++++++++++++++++++-----------------------
- 1 file changed, 27 insertions(+), 36 deletions(-)
+ target/ppc/mmu-hash64.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 0ef330a614..934989e6d9 100644
+index 934989e6d9..fcccaabb88 100644
 --- a/target/ppc/mmu-hash64.c
 +++ b/target/ppc/mmu-hash64.c
-@@ -18,6 +18,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
-@@ -757,6 +758,31 @@ static void ppc_hash64_set_c(PowerPCCPU *cpu, hwaddr=
- ptex, uint64_t pte1)
-     stb_phys(CPU(cpu)->as, base + offset, (pte1 & 0xff) | 0x80);
- }
-=20
-+static target_ulong rmls_limit(PowerPCCPU *cpu)
-+{
-+    CPUPPCState *env =3D &cpu->env;
-+    /*
-+     * This is the full 4 bits encoding of POWER8. Previous
-+     * CPUs only support a subset of these but the filtering
-+     * is done when writing LPCR.
-+     *
-+     * Unsupported values mean the OS has shot itself in the
-+     * foot. Return a 0-sized RMA in this case, which we expect
-+     * to trigger an immediate DSI or ISI
-+     */
-+    static const target_ulong rma_sizes[16] =3D {
-+        [1] =3D 16 * GiB,
-+        [2] =3D 1 * GiB,
-+        [3] =3D 64 * MiB,
-+        [4] =3D 256 * MiB,
-+        [7] =3D 128 * MiB,
-+        [8] =3D 32 * MiB,
-+    };
-+    target_ulong rmls =3D (env->spr[SPR_LPCR] & LPCR_RMLS) >> LPCR_RMLS_=
-SHIFT;
-+
-+    return rma_sizes[rmls];
-+}
-+
- int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-                                 int rwx, int mmu_idx)
+@@ -762,15 +762,16 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
  {
-@@ -1006,41 +1032,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, ta=
-rget_ulong ptex,
-     cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
-LUSH;
- }
-=20
--static void ppc_hash64_update_rmls(PowerPCCPU *cpu)
--{
--    CPUPPCState *env =3D &cpu->env;
--    uint64_t lpcr =3D env->spr[SPR_LPCR];
--
--    /*
+     CPUPPCState *env =3D &cpu->env;
+     /*
 -     * This is the full 4 bits encoding of POWER8. Previous
 -     * CPUs only support a subset of these but the filtering
--     * is done when writing LPCR
--     */
--    switch ((lpcr & LPCR_RMLS) >> LPCR_RMLS_SHIFT) {
--    case 0x8: /* 32MB */
--        env->rmls =3D 0x2000000ull;
--        break;
--    case 0x3: /* 64MB */
--        env->rmls =3D 0x4000000ull;
--        break;
--    case 0x7: /* 128MB */
--        env->rmls =3D 0x8000000ull;
--        break;
--    case 0x4: /* 256MB */
--        env->rmls =3D 0x10000000ull;
--        break;
--    case 0x2: /* 1GB */
--        env->rmls =3D 0x40000000ull;
--        break;
--    case 0x1: /* 16GB */
--        env->rmls =3D 0x400000000ull;
--        break;
--    default:
--        /* What to do here ??? */
--        env->rmls =3D 0;
--    }
--}
--
- static void ppc_hash64_update_vrma(PowerPCCPU *cpu)
- {
-     CPUPPCState *env =3D &cpu->env;
-@@ -1099,7 +1090,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong v=
-al)
-     CPUPPCState *env =3D &cpu->env;
-=20
-     env->spr[SPR_LPCR] =3D val & pcc->lpcr_mask;
--    ppc_hash64_update_rmls(cpu);
-+    env->rmls =3D rmls_limit(cpu);
-     ppc_hash64_update_vrma(cpu);
- }
-=20
+-     * is done when writing LPCR.
++     * In theory the meanings of RMLS values are implementation
++     * dependent.  In practice, this seems to have been the set from
++     * POWER4+..POWER8, and RMLS is no longer supported in POWER9.
+      *
+      * Unsupported values mean the OS has shot itself in the
+      * foot. Return a 0-sized RMA in this case, which we expect
+      * to trigger an immediate DSI or ISI
+      */
+     static const target_ulong rma_sizes[16] =3D {
++        [0] =3D 256 * GiB,
+         [1] =3D 16 * GiB,
+         [2] =3D 1 * GiB,
+         [3] =3D 64 * MiB,
 --=20
 2.24.1
 
