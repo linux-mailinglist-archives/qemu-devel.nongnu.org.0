@@ -2,75 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9281769D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 02:05:28 +0100 (CET)
-Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEE21769DD
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 02:08:47 +0100 (CET)
+Received: from localhost ([::1]:40650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8vzz-0007pv-GE
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 20:05:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
+	id 1j8w3D-0004LW-24
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 20:08:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vl9-00036j-52
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:08 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1j8w11-0002UC-Ty
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 20:06:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vl6-0004f5-Os
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:07 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42889)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j8vl6-0004eb-Hl
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:50:04 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id u3so501454plr.9
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=QkFXHaLS5zlcI8OA2QDono5LxTYgDFUD9/bo7kYQTas=;
- b=Rv/G8zGPxbtwWgkO0FUOC2raCL/iRkF3CaxIs8T6Rpf3hDXPywrA6si1Qzt+naSAV7
- TFvR89SVq9S87iRm4nNAd9KDe5hszuBn4ehjdQWvnE4K/cWssJ0ZmtvUvJYoURmsaW3O
- o2GEnInxZOEVhIpVM8DYkkM8/qeCMPj60KOwCX93leoMeTeHBrcD9oHtQiF5/BsKxL1u
- oG9fSTL3EqVhjJVUiLXZf2lptGOvxsRZZnpDIhfdVwQRNcpXS8S/eL6PQRrHRLEh6kZC
- 4dhyk0yujTRk9y6dJT+pN14AeqYV/aY1BTsvVDl8dXNGh2BCrv3Xm98I/H5btMObf6ke
- uTdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:cc:from:to;
- bh=QkFXHaLS5zlcI8OA2QDono5LxTYgDFUD9/bo7kYQTas=;
- b=CEUxNIrK9gSpnmOh54xLv5oK2YTHPmbSilTLdNZcjRqGTdyu7NQaISQyOh/Ug81iwV
- 6brUDTzKCUmvSvX93jb0fRIMo/ZFu8JkSqJM86wLhMVIoDtc+MyZlavckFl8xETDH/8q
- HItQfuVHz8ty/7vguU1zK18ZxOQSBECRjT3IwGPjZ0Oo1gY2Of7JN6zKKSQT5PBEhx+V
- SF4Z3hcuVvyyXSHRnXAg/cpvNY7JeIBBKpvdz5PQhyzD+elh9E9RyPtBBIiLuQG26wq0
- umBCnTne6bqshgRZp4ZpZltPbi2lzFINsvhyn9J2LNo/GJtX7oT3+n6fe38ZF+zXpGGk
- O9Tw==
-X-Gm-Message-State: ANhLgQ1xz55rocCKNLvjUjOXCO863JCAw4VWlmxe66fAsvqThorRH6q3
- fq3ehhnIWeOxTlhcJ1UGgmcS0g==
-X-Google-Smtp-Source: ADFU+vvDAPOQnKqfImIbbsB7ZdmCppOth4QLMuaewn8JykUc2tk0O0yENetS6cKY/mTTO5zPFsmQsQ==
-X-Received: by 2002:a17:902:fe05:: with SMTP id
- g5mr1719431plj.248.1583196603312; 
- Mon, 02 Mar 2020 16:50:03 -0800 (PST)
-Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id y7sm9656801pfq.15.2020.03.02.16.50.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 16:50:02 -0800 (PST)
-Subject: [PULL 38/38] hw/riscv: Provide rdtime callback for TCG in CLINT
- emulation
-Date: Mon,  2 Mar 2020 16:48:48 -0800
-Message-Id: <20200303004848.136788-39-palmerdabbelt@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-In-Reply-To: <20200303004848.136788-1-palmerdabbelt@google.com>
-References: <20200303004848.136788-1-palmerdabbelt@google.com>
+ (envelope-from <guoheyi@huawei.com>) id 1j8w10-0002xC-21
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 20:06:31 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3179 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>) id 1j8w0z-0002uY-Nl
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 20:06:30 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 28CDCB6D4E50756C4FC4;
+ Tue,  3 Mar 2020 09:06:22 +0800 (CST)
+Received: from linux-kDCJWP.huawei.com (10.175.104.212) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 3 Mar 2020 09:06:10 +0800
+From: Heyi Guo <guoheyi@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v3] hw/smbios: add options for type 4 max-speed and
+ current-speed
+Date: Tue, 3 Mar 2020 09:01:58 +0800
+Message-ID: <20200303010158.52994-1-guoheyi@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Anup Patel <anup.patel@wdc.com>, Alistair Francis <alistair.francis@wdc.com>, 
- Palmer Dabbelt <palmerdabbelt@google.com>
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::62c
+Content-Type: text/plain; charset="utf-8"
+X-Originating-IP: [10.175.104.212]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,139 +52,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Heyi Guo <guoheyi@huawei.com>, wanghaibin.wang@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
+Common VM users sometimes care about CPU speed, so we add two new
+options to allow VM vendors to present CPU speed to their users.
+Normally these information can be fetched from host smbios.
 
-This patch extends CLINT emulation to provide rdtime callback for
-TCG. This rdtime callback will be called wheneven TIME CSRs are
-read in privileged modes.
+Strictly speaking, the "max speed" and "current speed" in type 4
+are not really for the max speed and current speed of processor, for
+"max speed" identifies a capability of the system, and "current speed"
+identifies the processor's speed at boot (see smbios spec), but some
+applications do not tell the differences.
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 ---
- hw/riscv/sifive_clint.c         | 6 +++++-
- hw/riscv/sifive_e.c             | 2 +-
- hw/riscv/sifive_u.c             | 2 +-
- hw/riscv/spike.c                | 9 ++++++---
- hw/riscv/virt.c                 | 2 +-
- include/hw/riscv/sifive_clint.h | 3 ++-
- 6 files changed, 16 insertions(+), 8 deletions(-)
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-index e2feee871b..e933d35092 100644
---- a/hw/riscv/sifive_clint.c
-+++ b/hw/riscv/sifive_clint.c
-@@ -227,7 +227,8 @@ type_init(sifive_clint_register_types)
-  * Create CLINT device.
-  */
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
--    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base)
-+    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base,
-+    bool provide_rdtime)
+v2 -> v3:
+- Refine comments per Igor's suggestion.
+
+v1 -> v2:
+- change "_" in option names to "-"
+- check if option value is too large to fit in SMBIOS type 4 speed
+fields.
+---
+ hw/smbios/smbios.c | 29 ++++++++++++++++++++++++++---
+ qemu-options.hx    |  3 ++-
+ 2 files changed, 28 insertions(+), 4 deletions(-)
+
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index ffd98727ee..4c5992241c 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -94,6 +94,8 @@ static struct {
+=20
+ static struct {
+     const char *sock_pfx, *manufacturer, *version, *serial, *asset, *par=
+t;
++    uint32_t max_speed;
++    uint32_t current_speed;
+ } type4;
+=20
+ static struct {
+@@ -272,6 +274,14 @@ static const QemuOptDesc qemu_smbios_type4_opts[] =3D=
  {
-     int i;
-     for (i = 0; i < num_harts; i++) {
-@@ -236,6 +237,9 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
-         if (!env) {
-             continue;
-         }
-+        if (provide_rdtime) {
-+            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc);
-+        }
-         env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-                                   &sifive_clint_timer_cb, cpu);
-         env->timecmp = 0;
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 8a6b0348df..a254cad489 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -164,7 +164,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         memmap[SIFIVE_E_PLIC].size);
-     sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
-         memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
-     create_unimplemented_device("riscv.sifive.e.aon",
-         memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
-     sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 0e12b3ccef..156a003642 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -549,7 +549,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
-     sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
-         memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
- 
-     object_property_set_bool(OBJECT(&s->prci), true, "realized", &err);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].base);
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 8823681783..6e5723a171 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -227,7 +227,8 @@ static void spike_board_init(MachineState *machine)
- 
-     /* Core Local Interruptor (timer and IPI) */
-     sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
--        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        false);
- }
- 
- static void spike_v1_10_0_board_init(MachineState *machine)
-@@ -316,7 +317,8 @@ static void spike_v1_10_0_board_init(MachineState *machine)
- 
-     /* Core Local Interruptor (timer and IPI) */
-     sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
--        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        false);
- }
- 
- static void spike_v1_09_1_board_init(MachineState *machine)
-@@ -424,7 +426,8 @@ static void spike_v1_09_1_board_init(MachineState *machine)
- 
-     /* Core Local Interruptor (timer and IPI) */
-     sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
--        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        false);
- 
-     g_free(config_string);
- }
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 5d175d5c9e..85ec9e22aa 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -593,7 +593,7 @@ static void riscv_virt_board_init(MachineState *machine)
-         memmap[VIRT_PLIC].size);
-     sifive_clint_create(memmap[VIRT_CLINT].base,
-         memmap[VIRT_CLINT].size, smp_cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, true);
-     sifive_test_create(memmap[VIRT_TEST].base);
- 
-     for (i = 0; i < VIRTIO_COUNT; i++) {
-diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/riscv/sifive_clint.h
-index ae8286c884..4a720bfece 100644
---- a/include/hw/riscv/sifive_clint.h
-+++ b/include/hw/riscv/sifive_clint.h
-@@ -41,7 +41,8 @@ typedef struct SiFiveCLINTState {
- } SiFiveCLINTState;
- 
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
--    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base);
-+    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base,
-+    bool provide_rdtime);
- 
- enum {
-     SIFIVE_SIP_BASE     = 0x0,
--- 
-2.25.0.265.gbab2e86ba0-goog
+         .name =3D "version",
+         .type =3D QEMU_OPT_STRING,
+         .help =3D "version number",
++    },{
++        .name =3D "max-speed",
++        .type =3D QEMU_OPT_NUMBER,
++        .help =3D "max speed in MHz",
++    },{
++        .name =3D "current-speed",
++        .type =3D QEMU_OPT_NUMBER,
++        .help =3D "speed at system boot in MHz",
+     },{
+         .name =3D "serial",
+         .type =3D QEMU_OPT_STRING,
+@@ -586,9 +596,8 @@ static void smbios_build_type_4_table(MachineState *m=
+s, unsigned instance)
+     SMBIOS_TABLE_SET_STR(4, processor_version_str, type4.version);
+     t->voltage =3D 0;
+     t->external_clock =3D cpu_to_le16(0); /* Unknown */
+-    /* SVVP requires max_speed and current_speed to not be unknown. */
+-    t->max_speed =3D cpu_to_le16(2000); /* 2000 MHz */
+-    t->current_speed =3D cpu_to_le16(2000); /* 2000 MHz */
++    t->max_speed =3D cpu_to_le16(type4.max_speed);
++    t->current_speed =3D cpu_to_le16(type4.current_speed);
+     t->status =3D 0x41; /* Socket populated, CPU enabled */
+     t->processor_upgrade =3D 0x01; /* Other */
+     t->l1_cache_handle =3D cpu_to_le16(0xFFFF); /* N/A */
+@@ -1129,6 +1138,20 @@ void smbios_entry_add(QemuOpts *opts, Error **errp=
+)
+             save_opt(&type4.serial, opts, "serial");
+             save_opt(&type4.asset, opts, "asset");
+             save_opt(&type4.part, opts, "part");
++            /*
++             * SVVP requires max_speed and current_speed to be set and n=
+ot being
++             * 0 which counts as unknown (SMBIOS 3.1.0/Table 21). Set th=
+e
++             * default value to 2000MHz as we did before.
++             */
++            type4.max_speed =3D qemu_opt_get_number(opts, "max-speed", 2=
+000);
++            type4.current_speed =3D qemu_opt_get_number(opts, "current-s=
+peed",
++                                                      2000);
++            if (type4.max_speed > UINT16_MAX ||
++                type4.current_speed > UINT16_MAX) {
++                error_setg(errp, "SMBIOS CPU speed is too large (> %d)",
++                           UINT16_MAX);
++            }
++
+             return;
+         case 11:
+             qemu_opts_validate(opts, qemu_smbios_type11_opts, &err);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ac315c1ac4..7a2f7c1f66 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2233,6 +2233,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+     "                specify SMBIOS type 3 fields\n"
+     "-smbios type=3D4[,sock_pfx=3Dstr][,manufacturer=3Dstr][,version=3Ds=
+tr][,serial=3Dstr]\n"
+     "              [,asset=3Dstr][,part=3Dstr]\n"
++    "              [,max-speed=3D%d][,current-speed=3D%d]\n"
+     "                specify SMBIOS type 4 fields\n"
+     "-smbios type=3D17[,loc_pfx=3Dstr][,bank=3Dstr][,manufacturer=3Dstr]=
+[,serial=3Dstr]\n"
+     "               [,asset=3Dstr][,part=3Dstr][,speed=3D%d]\n"
+@@ -2255,7 +2256,7 @@ Specify SMBIOS type 2 fields
+ @item -smbios type=3D3[,manufacturer=3D@var{str}][,version=3D@var{str}][=
+,serial=3D@var{str}][,asset=3D@var{str}][,sku=3D@var{str}]
+ Specify SMBIOS type 3 fields
+=20
+-@item -smbios type=3D4[,sock_pfx=3D@var{str}][,manufacturer=3D@var{str}]=
+[,version=3D@var{str}][,serial=3D@var{str}][,asset=3D@var{str}][,part=3D@=
+var{str}]
++@item -smbios type=3D4[,sock_pfx=3D@var{str}][,manufacturer=3D@var{str}]=
+[,version=3D@var{str}][,serial=3D@var{str}][,asset=3D@var{str}][,part=3D@=
+var{str}][,max-speed=3D@var{%d}][,current-speed=3D@var{%d}]
+ Specify SMBIOS type 4 fields
+=20
+ @item -smbios type=3D17[,loc_pfx=3D@var{str}][,bank=3D@var{str}][,manufa=
+cturer=3D@var{str}][,serial=3D@var{str}][,asset=3D@var{str}][,part=3D@var=
+{str}][,speed=3D@var{%d}]
+--=20
+2.19.1
 
 
