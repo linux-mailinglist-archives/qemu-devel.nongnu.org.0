@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8496317742A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:29:22 +0100 (CET)
-Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC55E177432
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 11:30:55 +0100 (CET)
+Received: from localhost ([::1]:45052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j94nh-00082b-IE
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:29:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56410)
+	id 1j94pD-0002NP-1S
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 05:30:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j94mU-0006ZM-SJ
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:28:07 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j94j7-0001jr-Jq
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:24:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j94mT-0005rM-UG
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:28:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42608
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j94mT-0005qe-M6
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:28:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583231284;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qgbf6LEz+dGERiuQP+Ed25W184E5gJySH4/umi6lc2g=;
- b=LxuJeNca3alD/Orku3zWsiVZc0yS4veMy372HmErTdC2FFm1QYWtSuTXeTNA8uW+YpxiHk
- 1AmkgcSQPr2Eg4nFpAH7L2llIZ50LzFtxzbX04LnKTbF17sSbPPfy4gjzr6uq8P9I7Sqg5
- k8ff6a7/6UpZLHYhbh8yNHsUH/2k6Bw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-G0ylnslON-q7DBKXSORkmA-1; Tue, 03 Mar 2020 05:28:03 -0500
-X-MC-Unique: G0ylnslON-q7DBKXSORkmA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E13B801E6D;
- Tue,  3 Mar 2020 10:28:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com
- [10.36.116.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CD0360C80;
- Tue,  3 Mar 2020 10:28:00 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 096BC17535; Tue,  3 Mar 2020 11:28:00 +0100 (CET)
-Date: Tue, 3 Mar 2020 11:28:00 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Subject: Re: [PATCH v3 11/12] usb/hcd-ehci: Remove redundant statements
-Message-ID: <20200303102800.mz3hdpv36cii7t4e@sirius.home.kraxel.org>
-References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-13-kuhn.chenqun@huawei.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1j94j5-00049h-69
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:24:36 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33073)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j94j4-00049J-Sj
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 05:24:35 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a25so2007070wmm.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 02:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tHtRY0fLjHTW8nT+ApXBe9/Nj10FFstSLzTXUdjD/V0=;
+ b=EILo39AjZc9s+wGtd1zF34FRgqywWhW6zYCOrDD/EVCAdiaJQHHWYkIZrEUgQKILMP
+ 5N9pCLMxY8ph96bL+QzCKFFxc3bI63IUliaxamz91Bzg1gYe9RkRDEDfBfZtLjuo0syz
+ bgvADJ3ZSpXrCeeZmmRvVEzdUWuziru48YybVLm1OiVMfGvanq1TDck8MucxIyg0y/v9
+ ziuw3sb4pU9l7wP/zJpcKzsPkL01zTZ7kncQvgFP3ZON0VWxE9mryPCpyaCLpEKxPBSk
+ WWqRsJPZs7gqAT658EM4Wams70Xc81XojSuiT7iFisbDbdhWLTt5ZOcUyC6THbmqirEl
+ tg6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=tHtRY0fLjHTW8nT+ApXBe9/Nj10FFstSLzTXUdjD/V0=;
+ b=REbDIS9PtUy07IgE9MbTwg/Fa+GwgyV3UtPF1dNK4Zz8jedGF3XMSzpBkjUja04gxB
+ eEMJj7NcTRzK7jR6rfMH4WC044o3jKFcj4q5Z75v1zIwishcfo+aqOMeXpHya0nY8kSo
+ kMxtU/RpyUo9eBOhH5Hc3YSGxT+tZva3ehgu24P3Vq4hULfZkQS82Oh4WuwA3YREI/Jo
+ w9nM9KSPkfe8ik4JFO6gIgfkuk7OiHgAVzeCGPuuldzimvsylztV6GDV/Vs3iD9Oqzj4
+ sQIwUZyIjdOkY8zQi7lGX7bJUG50ADfFzm7Amk0NEiAccLnF8Vd2UjFS0qZJLX5hrQSI
+ gRRQ==
+X-Gm-Message-State: ANhLgQ0Lu0iGl0L+YeixogdXrfpvylJL2xlvnKi+w0KN70WFFICQQR7Z
+ z5m0h7tQBr1ZF2V1i2JHJcsHUw==
+X-Google-Smtp-Source: ADFU+vsEe7ktfjK87rG0sb9QIhcY/ra/5Jfq83lrubQfD+yXf2m3vFlpWj3qJrHMgy96UFPBrlathg==
+X-Received: by 2002:a05:600c:118a:: with SMTP id
+ i10mr3733865wmf.142.1583231073536; 
+ Tue, 03 Mar 2020 02:24:33 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q12sm34799617wrg.71.2020.03.03.02.24.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Mar 2020 02:24:32 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E39051FF87;
+ Tue,  3 Mar 2020 10:24:31 +0000 (GMT)
+References: <20200219163537.22098-1-robert.foley@linaro.org>
+ <87fteq90fi.fsf@linaro.org>
+ <CAEyhzFt=KsNn_rdJegbzJ_PgNVb6oAVL3aDvaO2VdkrFQ1-Gvw@mail.gmail.com>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH v2 00/14] tests/vm: Add support for aarch64 VMs
+In-reply-to: <CAEyhzFt=KsNn_rdJegbzJ_PgNVb6oAVL3aDvaO2VdkrFQ1-Gvw@mail.gmail.com>
+Date: Tue, 03 Mar 2020 10:24:31 +0000
+Message-ID: <871rq991nk.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-13-kuhn.chenqun@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,27 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Euler Robot <euler.robot@huawei.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Puhov <peter.puhov@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 02, 2020 at 09:07:14PM +0800, Chen Qun wrote:
-> The "again" assignment is meaningless before g_assert_not_reached.
-> In addition, the break statements no longer needs to be after
-> g_assert_not_reached.
->=20
-> Clang static code analyzer show warning:
-> hw/usb/hcd-ehci.c:2108:13: warning: Value stored to 'again' is never read
->             again =3D -1;
->             ^       ~~
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Robert Foley <robert.foley@linaro.org> writes:
 
+> On Mon, 2 Mar 2020 at 11:38, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>>
+>> Robert Foley <robert.foley@linaro.org> writes:
+>>
+>> > This is version 2 of the patch series to
+>> > add support for aarch64 VMs.
+>> >  - Ubuntu 18.04 aarch64 VM
+>> >  - CentOS 8 aarch64 VM
+>>
+>> For now I've pulled the first 5 patches into testing/next as they are
+>> obvious clean-ups.
+>>
+>> >   tests/vm: Add workaround to consume console
+>>
+>> I still have concerns about this approach but I'm going to give it some
+>> more testing.
+>
+> We are happy to make any adjustments here.  Our first set of
+> refactoring here was
+> aimed at making it more pythonic.  Is this where the concerns are?
+
+I'm just worried about the fragility of multiple steps in the chain of
+io we are snooping on. That said Phillipe made a reasonable point that
+other tools could be used - QMP for example would be the way to check
+the status of the network connection before we trigger ssh rather than
+the current busy-timeout approach. However that would result in more
+complexity so if what works is stable...*shrug*
+
+>> However I ran into problems testing on my aarch64 box
+>> because of a missing gen-iso-image which makes me think we need to add
+>> some gating via configure for tools and libraries we need.
+>
+> Should we error out in configure if the tools and libraries needed to bui=
+ld the
+> VMs are not there?
+> Or maybe tolerate these dependencies not being there at configure time and
+> provide an error later when someone tries to vm-build these VMs?
+
+We currently do both ;-)
+
+When we can detect at configure time and skip in make we do - see
+tests/docker/Makefile.include and the compiler tests for tests/tcg.
+However the acceptance tests current use runtime decorators in python to
+detect as we go - but that test framework prints a summary and doesn't
+exit -1 to the rest of make if it skips something.=20
+
+> Just curious which approach we should pursue here.
+
+Have a look at:
+
+  Subject: [PATCH  v1 00/10] testing/next updates (tweaks and re-greening)
+  Date: Mon,  2 Mar 2020 18:18:57 +0000
+  Message-Id: <20200302181907.32110-1-alex.bennee@linaro.org>
+
+and see what you think.
+
+>
+>
+> Thanks & Regards,
+> -Rob
+
+
+--=20
+Alex Benn=C3=A9e
 
