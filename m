@@ -2,143 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD30017839D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 21:05:20 +0100 (CET)
-Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FCE1783CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 21:16:34 +0100 (CET)
+Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Dn5-0004Wm-SZ
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 15:05:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39244)
+	id 1j9Dxw-0004z8-V7
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 15:16:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1j9Din-0006Vs-5V
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 15:00:54 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j9Dwx-0004V2-Av
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 15:15:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1j9Dil-0003v4-CK
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 15:00:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25912
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j9Dil-0003uq-8k
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 15:00:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583265650;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yWRhV2LT6VxswI9PMZAn++iu6S4O0m7FeoRBauuQ6nQ=;
- b=X7RAt8NNEDTrxSDs6/N/AEjTvZYxqWPstiVHxGDvqbY237CffONYcuCp2f+hf3a4MlDXmA
- Aj6P48G7UZdwDrtw7CQcGckIp316fXsl7A1HeGM+6OCTVIq4tBizn9bLbav/KAOIZ6T4CY
- JYjCJyRLhJG6Syik4Ag5ZHiHi8S7MsY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-qRasGrdiOJags2qhFejXnw-1; Tue, 03 Mar 2020 15:00:47 -0500
-X-MC-Unique: qRasGrdiOJags2qhFejXnw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1839E10820E0;
- Tue,  3 Mar 2020 20:00:46 +0000 (UTC)
-Received: from [10.10.126.35] (ovpn-126-35.rdu2.redhat.com [10.10.126.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BA0560BE1;
- Tue,  3 Mar 2020 20:00:45 +0000 (UTC)
-Subject: Re: [PATCH v6 6/9] iotests: use python logging for iotests.log()
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20200227000639.9644-1-jsnow@redhat.com>
- <20200227000639.9644-7-jsnow@redhat.com>
- <302f1aa1-c880-4c2d-4612-902eff6004a3@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d9f91389-f9c3-5cda-d6de-ed3875cd3ede@redhat.com>
-Date: Tue, 3 Mar 2020 15:00:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j9Dwu-0001BY-OP
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 15:15:31 -0500
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:45269)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1j9Dwu-0001BU-GG; Tue, 03 Mar 2020 15:15:28 -0500
+Received: by mail-il1-x12e.google.com with SMTP id p8so3933508iln.12;
+ Tue, 03 Mar 2020 12:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=x0/OgHW8syNUTp4RdLAXqlwfKECnZr120+Xj23NB9d0=;
+ b=Z5Qe4GySC3e3GKdFdX4HkvEddV4zfFQYWOe52RBw0NBHwuE3e1VxyhXobCCevQPVQK
+ FrkxnWSbHUuIva3Pxy2gKn3b4DL0IyKjdZs8trDKHPwbFLAuhZ7ecC/9tfe+1PlDa75O
+ uR5E6Lyk9dq+Z2KwQsXJdC6ePfwW4hHQIa4g04F8snpMovVVcLgvTGsDJ9syMogromDs
+ T8p/L8gukbq/ZeNhw2D5GaJRglsGkwi5rQPYbO5FTBz+WGc+hY9hslUcAC7qPRT7w914
+ Qor6ocxAcDS5FOzHvgB2UkIMGrNnj4DAPpExNMqDB+Pa2+0jzJ5j2BHnzdCJvTrQIWQH
+ ghQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=x0/OgHW8syNUTp4RdLAXqlwfKECnZr120+Xj23NB9d0=;
+ b=FHDBpMUuD2BNfC1OthOMdjiZSgigbpKXxed0v6rKAkDxTT+CpKFGvJawmWP3xUZvjn
+ Se/ijxnVGQvLOGqHpQOk99QYfi1ErE/patdWRNvgxexUd0o0adWl6z4BfGLdmzK0ATkK
+ 5eXRQ8AJ+pmnOM67GLTKD8tvjFwDX/nlZXR6RlGwM6bMD18nfbh71XuF+fby4CxzxF95
+ FNzO9ssPm0euJzDqvIyjAHpmfLypcLa/rgfIyLtfFoZ6jKjGGvhHBLMpgDuEEPc2KTMS
+ WVceLTUquX83cdCk3Fz5GFe7Nu/LFv9tj7gwvxVpI9dSpZV3Cc2A1w9t2VJjGG6xZaBy
+ i5wA==
+X-Gm-Message-State: ANhLgQ2vGuevTzgMBxxkUNVYiSBKvUq9t1ggiB8Wj5Zcq+cPgDL6Y6qt
+ GG/yHqz5QSnROX/5GNlR8ZIKWWrebRWF8wdTbiM=
+X-Google-Smtp-Source: ADFU+vvKzcMvYYvzsHq8RkySZjmVUoX0tIlOWq1uh8q/Wg0OyCFnpr+TpkHCeDOJrqUwWchnKH82siG8jpOlMDMlWtA=
+X-Received: by 2002:a92:d5cf:: with SMTP id d15mr6267383ilq.306.1583266527760; 
+ Tue, 03 Mar 2020 12:15:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <302f1aa1-c880-4c2d-4612-902eff6004a3@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
+ <20200301215029.15196-7-nieklinnenbank@gmail.com> <87d09t7i8i.fsf@linaro.org>
+In-Reply-To: <87d09t7i8i.fsf@linaro.org>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Tue, 3 Mar 2020 21:15:16 +0100
+Message-ID: <CAPan3Wo6_15zFSHJwf0hVq9CVUSfOBU+frwSLQX21SWrXW03iA@mail.gmail.com>
+Subject: Re: [PATCH v6 06/18] hw/arm/allwinner: add CPU Configuration module
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000f8d7e3059ff8f6b5"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::12e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -150,78 +71,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000f8d7e3059ff8f6b5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alex,
+
+First thanks for all your reviews, I'll add the tags in the next version of
+this series.
+
+On Tue, Mar 3, 2020 at 1:09 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+
+>
+> Niek Linnenbank <nieklinnenbank@gmail.com> writes:
+>
+> > Various Allwinner System on Chip designs contain multiple processors
+> > that can be configured and reset using the generic CPU Configuration
+> > module interface. This commit adds support for the Allwinner CPU
+> > configuration interface which emulates the following features:
+> >
+> >  * CPU reset
+> >  * CPU status
+> >
+> > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> <snip>
+> > +
+> > +/* CPUCFG constants */
+> > +enum {
+> > +    CPU_EXCEPTION_LEVEL_ON_RESET =3D 3, /* EL3 */
+> > +};
+> > +
+> > +static void allwinner_cpucfg_cpu_reset(AwCpuCfgState *s, uint8_t cpu_i=
+d)
+> > +{
+> > +    int ret;
+> > +
+> > +    trace_allwinner_cpucfg_cpu_reset(cpu_id, s->entry_addr);
+> > +
+> > +    ret =3D arm_set_cpu_on(cpu_id, s->entry_addr, 0,
+> > +                         CPU_EXCEPTION_LEVEL_ON_RESET, false);
+>
+> According to the arm_set_cpu_on code:
+>
+>     if (!target_aa64 && arm_feature(&target_cpu->env,
+> ARM_FEATURE_AARCH64)) {
+>         /*
+>          * For now we don't support booting an AArch64 CPU in AArch32 mod=
+e
+>          * TODO: We should add this support later
+>          */
+>         qemu_log_mask(LOG_UNIMP,
+>                       "[ARM]%s: Starting AArch64 CPU %" PRId64
+>                       " in AArch32 mode is not supported yet\n",
+>                       __func__, cpuid);
+>         return QEMU_ARM_POWERCTL_INVALID_PARAM;
+>     }
+>
+> Do you really want to reboot in aarch32 mode on a reset? If so we should
+> fix the TODO.
+>
+
+Very good remark, I'll try to clarify what I did here. In earlier version
+of this series, I made this CPU Configuration Module specific
+to the Allwinner H3 SoC, as I thought it was a SoC specific component.
+Later I discovered that the CPU Configuration Module is
+actually a generic Allwinner component and used in multiple SoCs. Taking
+that into account, I renamed it to allwinner-cpucfg.c and
+updated the comments/docs. That way it should be re-usable in future SoC
+modules.
+
+The Allwinner H3 has four ARM Cortex-A7 cores and are 32-bit, so in the
+early version I filled the @target_aa64 parameter with false to
+keep it in 32-bit mode. And for usage in the current Allwinner H3 SoC that
+is sufficient, but as soon as a potential new SoC implementation
+with a 64-bit CPU starts to use this module, the hardcoded @target_aa64
+parameter will become a problem.
+
+And the TODO inside the arm_set_cpu_on() function I was not yet aware of as
+well, so that will also need to be resolved
+indeed once this module is going to be used for a new SoC with a 64-bit CPU=
+.
+
+Maybe I should just use some function to check if the current emulated CPU
+its 32-bit or 64-bit and use that for @target_aa64?
+That way the CPU Configuration Module itself should be ready for 64-bit and
+the TODO for arm_set_cpu_on() can be
+resolved in a later series for newer SoCs.
+
+Regards,
+Niek
 
 
-On 2/27/20 9:21 AM, Max Reitz wrote:
-> On 27.02.20 01:06, John Snow wrote:
->> We can turn logging on/off globally instead of per-function.
->>
->> Remove use_log from run_job, and use python logging to turn on
->> diffable output when we run through a script entry point.
->>
->> iotest 245 changes output order due to buffering reasons.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  tests/qemu-iotests/030        |  4 +--
->>  tests/qemu-iotests/245        |  1 +
->>  tests/qemu-iotests/245.out    | 24 ++++++++---------
->>  tests/qemu-iotests/iotests.py | 50 +++++++++++++++++++++--------------
->>  4 files changed, 45 insertions(+), 34 deletions(-)
->=20
-> [...]
->=20
->> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.=
-py
->> index b02d7932fa..60c4c7f736 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
->> @@ -35,6 +35,14 @@
->> =20
->>  assert sys.version_info >=3D (3, 6)
->> =20
->> +# Use this logger for logging messages directly from the iotests module
->> +logger =3D logging.getLogger('qemu.iotests')
->> +logger.addHandler(logging.NullHandler())
->=20
-> Hm, I never see another handler added to this, so how can these messages
-> actually be printed?  Will enabling debug mode somehow make all loggers
-> print everything?
->=20
 
-Implicit fallback to root logger which handles them when the root logger
-is configured, which happens when logging.basicConfig is called.
 
->> +# Use this logger for messages that ought to be used for diff output.
->> +test_logger =3D logging.getLogger('qemu.iotests.diff_io')
->=20
-> Also, why does logger get a null handler and this by default does not?
-> I=E2=80=99m asking because test_logger makes it look like you don=E2=80=
-=99t necessarily
-> need a handler for output to be silently discarded.
->=20
-> Max
->=20
 
-It's a library trick. By adding a null handler at `qemu.iotests` I add a
-default handler to everything produced by iotests. When logging is not
-configured, this stops messages from being printed -- there IS a default
-"nonconfigured" logging behavior and this stops it.
+>
+> --
+> Alex Benn=C3=A9e
+>
 
-What I learned since the last time I wrote this patchset is that you
-only need a NullHandler at some particular root, so "qemu.iotests"
-suffices. "qemu.iotests.diff_io" is a child of that other logger.
-
->>  # This will not work if arguments contain spaces but is necessary if we
->>  # want to support the override options that ./check supports.
->>  qemu_img_args =3D [os.environ.get('QEMU_IMG_PROG', 'qemu-img')]
->=20
 
 --=20
-=E2=80=94js
+Niek Linnenbank
 
+--000000000000f8d7e3059ff8f6b5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Alex,</div><div><br></div><div>First thanks for al=
+l your reviews, I&#39;ll add the tags in the next version of this series.<b=
+r></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Tue, Mar 3, 2020 at 1:09 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:ale=
+x.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex"><br>
+Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com" target=3D"_=
+blank">nieklinnenbank@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Various Allwinner System on Chip designs contain multiple processors<b=
+r>
+&gt; that can be configured and reset using the generic CPU Configuration<b=
+r>
+&gt; module interface. This commit adds support for the Allwinner CPU<br>
+&gt; configuration interface which emulates the following features:<br>
+&gt;<br>
+&gt;=C2=A0 * CPU reset<br>
+&gt;=C2=A0 * CPU status<br>
+&gt;<br>
+&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gm=
+ail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
+&lt;snip&gt;<br>
+&gt; +<br>
+&gt; +/* CPUCFG constants */<br>
+&gt; +enum {<br>
+&gt; +=C2=A0 =C2=A0 CPU_EXCEPTION_LEVEL_ON_RESET =3D 3, /* EL3 */<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +static void allwinner_cpucfg_cpu_reset(AwCpuCfgState *s, uint8_t cpu_=
+id)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 int ret;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 trace_allwinner_cpucfg_cpu_reset(cpu_id, s-&gt;entry_ad=
+dr);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 ret =3D arm_set_cpu_on(cpu_id, s-&gt;entry_addr, 0,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0CPU_EXCEPTION_LEVEL_ON_RESET, false);<br>
+<br>
+According to the arm_set_cpu_on code:<br>
+<br>
+=C2=A0 =C2=A0 if (!target_aa64 &amp;&amp; arm_feature(&amp;target_cpu-&gt;e=
+nv, ARM_FEATURE_AARCH64)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* For now we don&#39;t support booting an=
+ AArch64 CPU in AArch32 mode<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* TODO: We should add this support later<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_UNIMP,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;[ARM]%s: Starting AArch64 CPU %&quot; PRId64<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot; in AArch32 mode is not supported yet\n&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 __func__, cpuid);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return QEMU_ARM_POWERCTL_INVALID_PARAM;<br>
+=C2=A0 =C2=A0 }<br>
+<br>
+Do you really want to reboot in aarch32 mode on a reset? If so we should<br=
+>
+fix the TODO.<br></blockquote><div><br></div><div>Very good remark, I&#39;l=
+l try to clarify what I did here. In earlier version of this series, I made=
+ this CPU Configuration Module specific</div><div>to the Allwinner H3 SoC, =
+as I thought it was a SoC specific component. Later I discovered that the C=
+PU Configuration Module is</div><div>actually a generic Allwinner component=
+ and used in multiple SoCs. Taking that into account, I renamed it to allwi=
+nner-cpucfg.c and</div><div>updated the comments/docs. That way it should b=
+e re-usable in future SoC modules.<br></div><div><br></div><div>The Allwinn=
+er H3 has four ARM Cortex-A7 cores and are 32-bit, so in the early version =
+I filled the @target_aa64 parameter with false to</div><div>keep it in 32-b=
+it mode. And for usage in the current Allwinner H3 SoC that is sufficient, =
+but as soon as a potential new SoC implementation</div><div>with a 64-bit C=
+PU starts to use this module, the hardcoded @target_aa64 parameter will bec=
+ome a problem.</div><div><br></div><div><div>And the TODO inside the arm_se=
+t_cpu_on() function I was not yet aware of as well, so that will also need =
+to be resolved</div><div>indeed once this module is going to be used for a =
+new SoC with a 64-bit CPU.</div></div><div><br></div><div>Maybe I should ju=
+st use some function to check if the current emulated CPU its 32-bit or 64-=
+bit and use that for @target_aa64?</div><div>That way the CPU Configuration=
+ Module itself should be ready for 64-bit and the TODO for arm_set_cpu_on()=
+ can be</div><div>resolved in a later series for newer SoCs.<br></div><div>=
+<br></div><div>Regards,</div><div>Niek<br></div><div><br></div><div><br></d=
+iv><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div></div>
+
+--000000000000f8d7e3059ff8f6b5--
 
