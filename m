@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770B21778AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 15:21:58 +0100 (CET)
-Received: from localhost ([::1]:48000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22B11778AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 15:21:42 +0100 (CET)
+Received: from localhost ([::1]:47992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j98Qn-0004Ll-Hj
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 09:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34088)
+	id 1j98QX-0003dV-RY
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 09:21:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j98PK-0001kY-Ks
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:27 -0500
+ (envelope-from <david@redhat.com>) id 1j98PM-0001nf-M9
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j98PJ-0006Fq-DB
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26691
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j98PL-0006GQ-9d
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:28 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43925
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j98PJ-0006Fh-8v
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:25 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j98PL-0006GE-55
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 09:20:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583245224;
+ s=mimecast20190719; t=1583245226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SN3TdLXEozv3aKuWj82IQWSxiC0o/xgTHn+zkTgCfoM=;
- b=hf6Hk6FwuJwP7+Cm+inFsoxocVGyBrLXhBFLcUXjkOrkcQWz6BohMRf9oBO0LYS06Ux+4e
- BCyP6F6xjilTNHjuOwc3UoXNNbP/UfRFBUmxQcd1QvrKJJiKWcnj2RFuoIjJzBmMDakFJ4
- xiQc3wTjqLzqDmpvGeud1tZGS33RuXg=
+ bh=4/E9HgzB+lV/cMtbYS5Hbxyo5pA+Tb9UQGfmWLIzQvI=;
+ b=GDaMf8w5Ta9IvAfCWNHRkzBZoGasf1HoF7OaeMNHnarbmhnCJK4ZhUqBbgd11lJaYpNLLr
+ 5YdKmbbXqSr92FyT7FALJ0QazQH51QBvj9oJWa26yZnSBfh8KrHkqAa9HqTlcJfG6EnjG1
+ t/36Wh+bFQrk2yLCB/8oxfcX9uKR314=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-c2ddP0TsMqSVcnmgBBntAg-1; Tue, 03 Mar 2020 09:20:22 -0500
-X-MC-Unique: c2ddP0TsMqSVcnmgBBntAg-1
+ us-mta-253-fbGEd60YOI2Icpw3GjgHqg-1; Tue, 03 Mar 2020 09:20:25 -0500
+X-MC-Unique: fbGEd60YOI2Icpw3GjgHqg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FFF18017CC;
- Tue,  3 Mar 2020 14:20:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 043A6801E76;
+ Tue,  3 Mar 2020 14:20:24 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-113.ams2.redhat.com [10.36.117.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 697B261069;
- Tue,  3 Mar 2020 14:20:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AF4C60FC1;
+ Tue,  3 Mar 2020 14:20:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 1/4] openpic_kvm: Use kvm_device_ioctl() instead of ioctl()
-Date: Tue,  3 Mar 2020 15:19:36 +0100
-Message-Id: <20200303141939.352319-2-david@redhat.com>
+Subject: [PATCH RFC 2/4] intc/s390_flic_kvm.c: Use kvm_device_ioctl() instead
+ of ioctl()
+Date: Tue,  3 Mar 2020 15:19:37 +0100
+Message-Id: <20200303141939.352319-3-david@redhat.com>
 In-Reply-To: <20200303141939.352319-1-david@redhat.com>
 References: <20200303141939.352319-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,70 +73,139 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Let's use the official variant, which will e.g., trace the call.
 
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
-Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: qemu-s390x@nongnu.org
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/intc/openpic_kvm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/intc/s390_flic_kvm.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/hw/intc/openpic_kvm.c b/hw/intc/openpic_kvm.c
-index e4bf47d885..0d8abc1604 100644
---- a/hw/intc/openpic_kvm.c
-+++ b/hw/intc/openpic_kvm.c
-@@ -70,7 +70,7 @@ static void kvm_openpic_write(void *opaque, hwaddr addr, =
-uint64_t val,
-     attr.attr =3D addr;
-     attr.addr =3D (uint64_t)(unsigned long)&val32;
+diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
+index a306b26faa..5151582ba0 100644
+--- a/hw/intc/s390_flic_kvm.c
++++ b/hw/intc/s390_flic_kvm.c
+@@ -68,7 +68,7 @@ static int flic_get_all_irqs(KVMS390FLICState *flic,
+     };
+     int rc;
 =20
--    ret =3D ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
-+    ret =3D kvm_device_ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
-     if (ret < 0) {
-         qemu_log_mask(LOG_UNIMP, "%s: %s %" PRIx64 "\n", __func__,
-                       strerror(errno), attr.attr);
-@@ -96,7 +96,7 @@ static uint64_t kvm_openpic_read(void *opaque, hwaddr add=
-r, unsigned size)
-     attr.attr =3D addr;
-     attr.addr =3D (uint64_t)(unsigned long)&val;
+-    rc =3D ioctl(flic->fd, KVM_GET_DEVICE_ATTR, &attr);
++    rc =3D kvm_device_ioctl(flic->fd, KVM_GET_DEVICE_ATTR, &attr);
 =20
--    ret =3D ioctl(opp->fd, KVM_GET_DEVICE_ATTR, &attr);
-+    ret =3D kvm_device_ioctl(opp->fd, KVM_GET_DEVICE_ATTR, &attr);
-     if (ret < 0) {
-         qemu_log_mask(LOG_UNIMP, "%s: %s %" PRIx64 "\n", __func__,
-                       strerror(errno), attr.attr);
-@@ -145,7 +145,7 @@ static void kvm_openpic_region_add(MemoryListener *list=
-ener,
-     attr.attr =3D KVM_DEV_MPIC_BASE_ADDR;
-     attr.addr =3D (uint64_t)(unsigned long)&reg_base;
+     return rc =3D=3D -1 ? -errno : rc;
+ }
+@@ -80,7 +80,7 @@ static void flic_enable_pfault(KVMS390FLICState *flic)
+     };
+     int rc;
 =20
--    ret =3D ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
-+    ret =3D kvm_device_ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
-     if (ret < 0) {
-         fprintf(stderr, "%s: %s %" PRIx64 "\n", __func__,
-                 strerror(errno), reg_base);
-@@ -179,7 +179,7 @@ static void kvm_openpic_region_del(MemoryListener *list=
-ener,
-     attr.attr =3D KVM_DEV_MPIC_BASE_ADDR;
-     attr.addr =3D (uint64_t)(unsigned long)&reg_base;
+-    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    rc =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
 =20
--    ret =3D ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
-+    ret =3D kvm_device_ioctl(opp->fd, KVM_SET_DEVICE_ATTR, &attr);
-     if (ret < 0) {
-         fprintf(stderr, "%s: %s %" PRIx64 "\n", __func__,
-                 strerror(errno), reg_base);
+     if (rc) {
+         fprintf(stderr, "flic: couldn't enable pfault\n");
+@@ -94,7 +94,7 @@ static void flic_disable_wait_pfault(KVMS390FLICState *fl=
+ic)
+     };
+     int rc;
+=20
+-    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    rc =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
+=20
+     if (rc) {
+         fprintf(stderr, "flic: couldn't disable pfault\n");
+@@ -118,7 +118,7 @@ static int flic_enqueue_irqs(void *buf, uint64_t len,
+         .attr =3D len,
+     };
+=20
+-    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    rc =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
+=20
+     return rc ? -errno : 0;
+ }
+@@ -197,7 +197,7 @@ static int kvm_s390_clear_io_flic(S390FLICState *fs, ui=
+nt16_t subchannel_id,
+     if (unlikely(!flic->clear_io_supported)) {
+         return -ENOSYS;
+     }
+-    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    rc =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
+     return rc ? -errno : 0;
+ }
+=20
+@@ -218,7 +218,7 @@ static int kvm_s390_modify_ais_mode(S390FLICState *fs, =
+uint8_t isc,
+         return -ENOSYS;
+     }
+=20
+-    return ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno : 0;
++    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno=
+ : 0;
+ }
+=20
+ static int kvm_s390_inject_airq(S390FLICState *fs, uint8_t type,
+@@ -235,7 +235,7 @@ static int kvm_s390_inject_airq(S390FLICState *fs, uint=
+8_t type,
+         return -ENOSYS;
+     }
+=20
+-    return ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno : 0;
++    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno=
+ : 0;
+ }
+=20
+ /**
+@@ -296,7 +296,7 @@ static int kvm_s390_register_io_adapter(S390FLICState *=
+fs, uint32_t id,
+         return 0;
+     }
+=20
+-    r =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    r =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
+=20
+     return r ? -errno : 0;
+ }
+@@ -321,7 +321,7 @@ static int kvm_s390_io_adapter_map(S390FLICState *fs, u=
+int32_t id,
+         return 0;
+     }
+=20
+-    r =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    r =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
+     return r ? -errno : 0;
+ }
+=20
+@@ -519,7 +519,7 @@ static int kvm_flic_ais_post_load(void *opaque, int ver=
+sion_id)
+         return -ENOSYS;
+     }
+=20
+-    return ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno : 0;
++    return kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr) ? -errno=
+ : 0;
+ }
+=20
+ static const VMStateDescription kvm_s390_flic_ais_tmp =3D {
+@@ -636,7 +636,7 @@ static void kvm_s390_flic_reset(DeviceState *dev)
+         }
+     }
+=20
+-    rc =3D ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
++    rc =3D kvm_device_ioctl(flic->fd, KVM_SET_DEVICE_ATTR, &attr);
+     if (rc) {
+         trace_flic_reset_failed(errno);
+     }
 --=20
 2.24.1
 
