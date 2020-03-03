@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FC517699D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 01:56:26 +0100 (CET)
-Received: from localhost ([::1]:40388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6277176990
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 01:52:45 +0100 (CET)
+Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j8vrF-0005Hy-N2
-	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 19:56:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44787)
+	id 1j8vng-0007JR-QW
+	for lists+qemu-devel@lfdr.de; Mon, 02 Mar 2020 19:52:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vkE-0000zM-IQ
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:11 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vkF-000127-Qn
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j8vkC-00048d-9d
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:10 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:40548)
+ (envelope-from <palmerdabbelt@google.com>) id 1j8vkE-0004AB-Ns
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:11 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:51373)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j8vkB-000486-OT
- for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:07 -0500
-Received: by mail-pg1-x532.google.com with SMTP id t24so664629pgj.7
- for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:49:07 -0800 (PST)
+ id 1j8vkE-00048x-Gk
+ for qemu-devel@nongnu.org; Mon, 02 Mar 2020 19:49:10 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id l8so557405pjy.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Mar 2020 16:49:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding:cc:from:to;
- bh=W+1KlNG52DiYYGJSqMpEfpl6AqeCVhBM24KS2I8GcZw=;
- b=GMoqQHAOC1NDTcD6JYVjEtcYkGg0tFmO0EF6MH0+sqs9d1esbvqtCp9ijDZWHo7ITN
- LM0OFkOA/EDueGto6MaZ4RAXoLx2NRiWpFYd93yrpgCQQxAdjGH6FPf/Z0LL2ptjWGzr
- 2iKfzXCsHOenFmLqZYN5PdkQbpFc/MjP77kEF/SRWqtlkNEHHdttxrBgd9t7jXUht/sX
- 04w0SPJg9IiGn2ial9aYf+f2I5sQ9pIBXanknbGzmgNL9+r1htSuDOk2CUNh1gilCdc6
- D7aNmcxI/XjS38+4uXvfkfzRQx9+s2GMjaYwdnIzSMxg2FiNlDRcouhPWnsYGeAVouer
- c8+A==
+ bh=9gtHkOPRn/G0hWY+fkaGzSLrGPQLSEWHX9NgBS6eyHY=;
+ b=pRcZvka7u0uzqNUAy+nFoOQD+RTdQrOVoEgwYH7pOQVC/7NC5n5d7B1PKT+YwRyg55
+ o6zqr36tu3F9u6gKhtcHsL1ZgAP3a3H2JKAeWU+seehNCejiQtunEIBrFn2q6Ec1jutF
+ 3myTwjQv/W2aPDCbUjEPpBJXiUD8P3gzd1scofLOL1vmY4qz16HlfcWY0/uLy1uUOpls
+ nLr+FP2FmWa28BiyA7pDdn8gbgH4SqMRVHBl1Y2MCJRhThWHrBzZ2KqQ+VByqwaKpWDf
+ Jz6qu0jaA9gqLa5hx9VCF+kj4TGXYcI+cxf07zu6tf8z5peCBsmUhIjhqP31ivWdGwFS
+ 032w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=W+1KlNG52DiYYGJSqMpEfpl6AqeCVhBM24KS2I8GcZw=;
- b=Tqu0jJBGtFzoqWuntmUCyZD70fVzbnKK9D64VZXIyd8hI3RNKzPDWA8hV9bFu/rZA+
- EhIc6WwhFZ+SrOHWyVxO9sceOEVI0l/jP/2lpRI6aYj0+2Fll8qWtQqdHhqcNslFKgU3
- /CoP7u3g2crt9lOQASQVUoq3XzahwNJO8gbrJyFbfcVJwSiMOQQcoAuDNgKMi3kEoDdK
- 42L2c+/j4DzdvPMtp+/0ir7A+njcWr3+ZFmwS+p3JU+3Cp9Co7sAfTbSwYkWdLRLu+8k
- 0JIe+mkDqyLXwrG4n0gdM0Pt16qOIOgr5JIejmYCTCYwNXALIk5a8O3VnhpZVHZ0vd8K
- D0mw==
-X-Gm-Message-State: ANhLgQ3tGI5dcS3Q5l2rcgHHucOqr8IF3dR0RS3FFfcLm4b9EUdE1fAf
- M/RMtUKM84b+3nb4jinpbRyBSQ==
-X-Google-Smtp-Source: ADFU+vuOJVLecQNQ7O+yE8dXu9yMq71VUfFSoD0tghM8oWK6Ke7hKo/6QmkgKqBjuBbeElleE9WtIQ==
-X-Received: by 2002:a62:e111:: with SMTP id q17mr1580696pfh.242.1583196546088; 
- Mon, 02 Mar 2020 16:49:06 -0800 (PST)
+ bh=9gtHkOPRn/G0hWY+fkaGzSLrGPQLSEWHX9NgBS6eyHY=;
+ b=ox85ZAsYA7aThOlLLvnT81WSgYhxkR+g5uFHlTuqp4HwFj8Ml5qm3j8Ebmi7oTYUYz
+ Ap+2MQQOcyQgaYOid3ogmvGb4QJmm1pSc/m4YfjAYHzWKavv3S+IKVfEQav3L8o82AyP
+ VDUoOud1WBIUYOVWN7Q5NTkMLQyjlk+NLZIqkm0xuycQRMqHBd1+2rZ17RWEUMQy4R0g
+ QuNksH7pFDNPiWg/NJbFXQWheuvsL96b4I974vxVASadHj/xvMRzE/nGmaKoF5VTO8e4
+ hr6SUfny+tm6fDJ3t9dz3kMjaysc2HYlS2Ao9bi7evJgAVqbrR5LCiarDQqm7Cv7dJ/u
+ Bl7Q==
+X-Gm-Message-State: ANhLgQ0gnQONRv1Vq468dCFxEJhWfnmIYg5xdH3lO4GxP+uCU16wyOda
+ brIV2LCcfD1AhBc1k39Frktp7UGWyIrwGw==
+X-Google-Smtp-Source: ADFU+vuB9mhoZ8xSzD6D+oYWP9G7R7Qu7RVr2pqT21/ll2ULfY/0bOh/+lSQqYYiZC4b3Qbmn46B7A==
+X-Received: by 2002:a17:902:c383:: with SMTP id g3mr1754349plg.9.1583196547841; 
+ Mon, 02 Mar 2020 16:49:07 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id y193sm6582499pfg.162.2020.03.02.16.49.05
+ by smtp.gmail.com with ESMTPSA id u6sm301251pjy.3.2020.03.02.16.49.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 16:49:05 -0800 (PST)
-Subject: [PULL 05/38] target/riscv: Rename the H irqs to VS irqs
-Date: Mon,  2 Mar 2020 16:48:15 -0800
-Message-Id: <20200303004848.136788-6-palmerdabbelt@google.com>
+ Mon, 02 Mar 2020 16:49:07 -0800 (PST)
+Subject: [PULL 06/38] target/riscv: Add the virtulisation mode
+Date: Mon,  2 Mar 2020 16:48:16 -0800
+Message-Id: <20200303004848.136788-7-palmerdabbelt@google.com>
 X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 In-Reply-To: <20200303004848.136788-1-palmerdabbelt@google.com>
 References: <20200303004848.136788-1-palmerdabbelt@google.com>
@@ -68,7 +68,7 @@ From: Palmer Dabbelt <palmerdabbelt@google.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::532
+X-Received-From: 2607:f8b0:4864:20::1035
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,72 +89,76 @@ Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/cpu.c      |  6 +++---
- target/riscv/cpu_bits.h | 12 ++++++------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ target/riscv/cpu.h        |  4 ++++
+ target/riscv/cpu_bits.h   |  3 +++
+ target/riscv/cpu_helper.c | 18 ++++++++++++++++++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 2f62f5ea19..f7a35c74c2 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -80,14 +80,14 @@ const char * const riscv_excp_names[] = {
- const char * const riscv_intr_names[] = {
-     "u_software",
-     "s_software",
--    "h_software",
-+    "vs_software",
-     "m_software",
-     "u_timer",
-     "s_timer",
--    "h_timer",
-+    "vs_timer",
-     "m_timer",
-     "u_external",
--    "s_external",
-+    "vs_external",
-     "h_external",
-     "m_external",
-     "reserved",
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index c7f7ae5c38..a9cbd8584e 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -117,6 +117,8 @@ struct CPURISCVState {
+ 
+ #ifndef CONFIG_USER_ONLY
+     target_ulong priv;
++    /* This contains QEMU specific information about the virt state. */
++    target_ulong virt;
+     target_ulong resetvec;
+ 
+     target_ulong mhartid;
+@@ -269,6 +271,8 @@ int riscv_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+ bool riscv_cpu_fp_enabled(CPURISCVState *env);
++bool riscv_cpu_virt_enabled(CPURISCVState *env);
++void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
 diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 9ce73c36de..eeaa03c0f8 100644
+index eeaa03c0f8..2cdb0de4fe 100644
 --- a/target/riscv/cpu_bits.h
 +++ b/target/riscv/cpu_bits.h
-@@ -514,29 +514,29 @@
- /* Interrupt causes */
- #define IRQ_U_SOFT                         0
- #define IRQ_S_SOFT                         1
--#define IRQ_H_SOFT                         2  /* reserved */
-+#define IRQ_VS_SOFT                        2
- #define IRQ_M_SOFT                         3
- #define IRQ_U_TIMER                        4
- #define IRQ_S_TIMER                        5
--#define IRQ_H_TIMER                        6  /* reserved */
-+#define IRQ_VS_TIMER                       6
- #define IRQ_M_TIMER                        7
- #define IRQ_U_EXT                          8
- #define IRQ_S_EXT                          9
--#define IRQ_H_EXT                          10 /* reserved */
-+#define IRQ_VS_EXT                         10
- #define IRQ_M_EXT                          11
+@@ -430,6 +430,9 @@
+ #define PRV_H 2 /* Reserved */
+ #define PRV_M 3
  
- /* mip masks */
- #define MIP_USIP                           (1 << IRQ_U_SOFT)
- #define MIP_SSIP                           (1 << IRQ_S_SOFT)
--#define MIP_HSIP                           (1 << IRQ_H_SOFT)
-+#define MIP_VSSIP                          (1 << IRQ_VS_SOFT)
- #define MIP_MSIP                           (1 << IRQ_M_SOFT)
- #define MIP_UTIP                           (1 << IRQ_U_TIMER)
- #define MIP_STIP                           (1 << IRQ_S_TIMER)
--#define MIP_HTIP                           (1 << IRQ_H_TIMER)
-+#define MIP_VSTIP                          (1 << IRQ_VS_TIMER)
- #define MIP_MTIP                           (1 << IRQ_M_TIMER)
- #define MIP_UEIP                           (1 << IRQ_U_EXT)
- #define MIP_SEIP                           (1 << IRQ_S_EXT)
--#define MIP_HEIP                           (1 << IRQ_H_EXT)
-+#define MIP_VSEIP                          (1 << IRQ_VS_EXT)
- #define MIP_MEIP                           (1 << IRQ_M_EXT)
++/* Virtulisation Register Fields */
++#define VIRT_ONOFF          1
++
+ /* RV32 satp CSR field masks */
+ #define SATP32_MODE         0x80000000
+ #define SATP32_ASID         0x7fc00000
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index a10582b310..e5311160e7 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -82,6 +82,24 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
+     return false;
+ }
  
- /* sip masks */
++bool riscv_cpu_virt_enabled(CPURISCVState *env)
++{
++    if (!riscv_has_ext(env, RVH)) {
++        return false;
++    }
++
++    return get_field(env->virt, VIRT_ONOFF);
++}
++
++void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
++{
++    if (!riscv_has_ext(env, RVH)) {
++        return;
++    }
++
++    env->virt = set_field(env->virt, VIRT_ONOFF, enable);
++}
++
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
+ {
+     CPURISCVState *env = &cpu->env;
 -- 
 2.25.0.265.gbab2e86ba0-goog
 
