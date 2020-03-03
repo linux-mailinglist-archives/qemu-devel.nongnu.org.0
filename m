@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECFE177A81
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 16:34:05 +0100 (CET)
-Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615C0177A83
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Mar 2020 16:34:38 +0100 (CET)
+Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j99Ya-0004mM-Ck
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 10:34:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46485)
+	id 1j99Z7-0005jp-Fl
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 10:34:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1j99Xg-00041j-PO
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:33:09 -0500
+ (envelope-from <armbru@redhat.com>) id 1j99YF-0004nd-Go
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:33:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1j99Xf-00029E-Pv
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:33:08 -0500
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:43086)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j99Xf-00028n-KL
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:33:07 -0500
-Received: by mail-qt1-x82e.google.com with SMTP id v22so3074403qtp.10
- for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 07:33:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XfVDRMJHx/cYRZRNvgoDG7ovGpknV4F33gp1iyD64rg=;
- b=OJm063qtOnz0qq4FLD26zzukvRzvklk3R44kLWgnKQ7jKAiw0EGSpn3Q7iGAytOC2W
- Fj8f1kTuUNBTFncw4MFm8nD7nceayJ6JLNqRd1n7g1OiRFtdqHoK0Ida0fyFUz+ylYVW
- fkqHaR1YnTSuu0g0pz+J/d/8t/WiNSEkJ776iNaUJfzRMknx39U4dL87hRVUK+p12Cyu
- WSED9XiWaDAEA581vH1t3fPzFPJp5K4uSNZS/6IWwvx7vHtTSOQgYbmKx5X4Aug2N459
- bxT0mrzrx+0yc3F33p23pz45SE2oWTiEAz5YApXL2Fnzmj0XPLgKYT/NhtbmHobADePZ
- s2PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XfVDRMJHx/cYRZRNvgoDG7ovGpknV4F33gp1iyD64rg=;
- b=uJBYYatUtXFseFxjAd9A7DZnHE0Y85+H4BeOEjKlMSbvY+U7aQGjZfyhZDTdXrm1VY
- 02EiqDiX6IphSn2aHQUH0tlAikbuHJkwHdLqvG4QhxolxWuy+qyEwXI/OkWkI+zWXuSV
- dZypZii+t9277i+F35+eii2Dv3kJdMZQdTPyj+d0jj283V2l0za2L0BRs5AbZgeKcciC
- hSg4HqnAt8P+sSSqT1HCAawNcds5rjPKWzCzQRjnjVFgq6vfbv6BLTWajTPvfN5EDpNx
- ic6/SCQCsnkzwhrK7cVpYA5tFPKWIaEH8uIJpVaE4iFOQmkyUR6kdh2yRKlt1ZN5Z+BL
- 12dw==
-X-Gm-Message-State: ANhLgQ3v/TB+3JwDFlYiNmLB4LaZkl4T5O8ZNz9foEDnbbikQPHatTJb
- v50Dku2RujRXHdH4A5bArk90HHZRYd1VYnw9b9g=
-X-Google-Smtp-Source: ADFU+vuoYAEoB13TA36OF7t8T6CZOt0rKGZkUPl9SslEFpKg5PX9WfrvzOb1ry/9bddXC/pvijvkI1jHLl+iqCzZEwQ=
-X-Received: by 2002:ac8:7511:: with SMTP id u17mr4750404qtq.316.1583249586594; 
- Tue, 03 Mar 2020 07:33:06 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1j99YE-0002Er-34
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:33:42 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31119
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j99YD-0002Eh-TT
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 10:33:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583249621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DT1FHsOUmSnrcACIVijkFlwFulgay3LragRHRFhd0eU=;
+ b=deqTI6oVdDqdu1TN5vBszrI8nIEquFfElW4kkWzOzlOtX2ikPSRWLFJk7PkmFSRk+/ohgq
+ gXbHJc2uRehd71HBSNHRoMdAmwzyEWq3/7hxHVtIN8xjwQ1lyCewYxwLFxk89H0ODiTFsM
+ /jCCV1aADcPrGsSJE46Ncq+fE57EaNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-166-glzti14bOee_sQBKDOwbFg-1; Tue, 03 Mar 2020 10:33:39 -0500
+X-MC-Unique: glzti14bOee_sQBKDOwbFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77DB9107ACCA;
+ Tue,  3 Mar 2020 15:33:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
+ [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27E927386B;
+ Tue,  3 Mar 2020 15:33:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A7F7C11386A6; Tue,  3 Mar 2020 16:33:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v5 0/4] qmp: Optionally run handlers in coroutines
+References: <20200218154036.28562-1-kwolf@redhat.com>
+Date: Tue, 03 Mar 2020 16:33:36 +0100
+In-Reply-To: <20200218154036.28562-1-kwolf@redhat.com> (Kevin Wolf's message
+ of "Tue, 18 Feb 2020 16:40:32 +0100")
+Message-ID: <87sgipwizz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <CAPV47zf2Bz1xNTcD_1M=hf7tyVnCYh8yLagN=r8ocgrz2GT2Hw@mail.gmail.com>
- <20200302173604.GB682016@stefanha-x1.localdomain>
- <CAPV47zdPz+Z5=bOFNGjTG8nEWgH4gb78_AE3SGU0TD_7TNmSLw@mail.gmail.com>
- <CAJSP0QXd9fhz45OdA190XizdiwYF84UzHhD7QQVdzh9293iH9A@mail.gmail.com>
- <CAPV47zdueruup1R0yCv9adLSTJTF-qmZiUotyL3G7udL732AuQ@mail.gmail.com>
- <CAPV47zesfbVEBc75kDg9YFjGjQi5ZpjrPasQZJvmkp3bTcaR3w@mail.gmail.com>
-In-Reply-To: <CAPV47zesfbVEBc75kDg9YFjGjQi5ZpjrPasQZJvmkp3bTcaR3w@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 3 Mar 2020 15:32:55 +0000
-Message-ID: <CAJSP0QXNhn_QxTv4fWB3vJ-Xe=+zy4Y-sttrKTHxqf9Jnt2GWg@mail.gmail.com>
-Subject: Re: New Hardware model emulation
-To: Priyamvad Acharya <priyamvad.agnisys@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::82e
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,20 +75,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 3, 2020 at 12:53 PM Priyamvad Acharya
-<priyamvad.agnisys@gmail.com> wrote:
->
-> >. Using git-log(1) can be helpful because it shows how new devices were introduced.
->
-> What is git-log(1) ?
-> How to use git-log(1) in Qemu?
+Looks like PATCH 2 isn't necessary anymore, and PATCH 4 needs a respin.
+I tentatively queued PATCH 1+3, in the hope of getting either PATCH 4 or
+Marc-Andr=C3=A9's screendump patch in time for 5.0.
 
-It's the git command that shows commit history:
-https://git-scm.com/docs/git-log
+Pushed to branch monitor-next in git://repo.or.cz/qemu/armbru.git.
+Appears to be down right now.
 
-Stefan
+Thanks!
+
 
