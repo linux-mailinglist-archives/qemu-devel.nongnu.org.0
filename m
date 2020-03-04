@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F2F179747
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 18:55:08 +0100 (CET)
-Received: from localhost ([::1]:37790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B955C179750
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 18:56:57 +0100 (CET)
+Received: from localhost ([::1]:37818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9YEd-000276-Es
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 12:55:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50726)
+	id 1j9YGO-0003U4-HU
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 12:56:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j9YDm-0001e2-9K
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:54:15 -0500
+ (envelope-from <david@redhat.com>) id 1j9YFa-0002sz-Ep
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:56:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j9YDl-0002Wu-0n
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:54:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25319
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j9YFZ-0005Pr-Fh
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:56:06 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41418
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9YDk-0002UW-Tv
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:54:12 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9YFZ-0005Ox-CT
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:56:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583344451;
+ s=mimecast20190719; t=1583344565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MxJK5n/Bk3yAfpOAqpjMz5677ix1263o1i9KOHeATA4=;
- b=AL3ZRKUQ/wpOyS4ecicSjLu9GNZquA+F3ORSW9jYnJRV5kxmt8P2PQ+soSHqdoEovgCo/p
- XRgZZFKt/WVnFXwMlYjlYv8gw2AXJK0Vd+G4UPnLVYR8PuaSsjc9EZAOFlQ2VeXQc+0Vf/
- qodJvb8CxdFeLvQttYgi7dX0auF5GIg=
+ bh=5Ov+TxQPGWAB0xyPSdagfWOS5ZOt4OQM/hxPUCz6zOY=;
+ b=TT0Eom8hX/XfGZfkG/c1uJUnSwXfjAioqAFPwm6F9hnumqtjfQIICv381fMuzLo2oVqEqR
+ mm75MGfyPXJukB+ox93emVuvrqRK1FS0leAN5gx+vQN+uxJgxC/lIs63sXDQPfVPY0tTan
+ Z8EkwjD4yUkConeQ0INXbgFn4+NmeGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-_xQkG6nqO9eswuLr1SPXdQ-1; Wed, 04 Mar 2020 12:54:10 -0500
-X-MC-Unique: _xQkG6nqO9eswuLr1SPXdQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-344-wNF3MhnVORu3P3UOUI7kVA-1; Wed, 04 Mar 2020 12:56:01 -0500
+X-MC-Unique: wNF3MhnVORu3P3UOUI7kVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E4341005F96;
- Wed,  4 Mar 2020 17:54:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67BC48010E8;
+ Wed,  4 Mar 2020 17:56:00 +0000 (UTC)
 Received: from [10.36.117.195] (ovpn-117-195.ams2.redhat.com [10.36.117.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88F0519067;
- Wed,  4 Mar 2020 17:54:05 +0000 (UTC)
-Subject: Re: [PATCH v6 12/18] s390x: protvirt: Move diag 308 data over SIDAD
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37B7691D84;
+ Wed,  4 Mar 2020 17:55:59 +0000 (UTC)
+Subject: Re: [PATCH v6 13/18] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20200304114231.23493-1-frankja@linux.ibm.com>
- <20200304114231.23493-13-frankja@linux.ibm.com>
+ <20200304114231.23493-14-frankja@linux.ibm.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -93,21 +94,20 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
  FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
 Organization: Red Hat GmbH
-Message-ID: <fbc62b05-5ac2-4fdf-840b-31e09855c62a@redhat.com>
-Date: Wed, 4 Mar 2020 18:54:04 +0100
+Message-ID: <36715573-98c2-311c-03a8-300e6b4915a3@redhat.com>
+Date: Wed, 4 Mar 2020 18:55:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200304114231.23493-13-frankja@linux.ibm.com>
+In-Reply-To: <20200304114231.23493-14-frankja@linux.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,63 +124,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 04.03.20 12:42, Janosch Frank wrote:
-> For protected guests the IPIB is written/read to/from the satellite
-> block, so we need those accesses to go through
-> s390_cpu_pv_mem_read/write().
-
-Maybe mention SIDAD instead if "satellite block", similar to the other
-patch descriptions.
-
-[...]
-
-> -        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-> +        if (!env->pv) {
-> +            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-> +        } else {
-> +            s390_cpu_pv_mem_read(cpu, 0, iplb, be32_to_cpu(iplb->len));
-> +        }
->  
->          if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb) &&
->              !(iplb_valid_pv(iplb) && !s390_ipl_pv_check_components(iplb))) {
-> @@ -136,7 +146,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
->          env->regs[r1 + 1] = DIAG_308_RC_OK;
->  out:
->          g_free(iplb);
-> -        return;
-> +        break;
-
-Why that change? Unrelated?
-
->      case DIAG308_STORE:
->      case DIAG308_PV_STORE:
->          if (diag308_parm_check(env, r1, addr, ra, true)) {
-> @@ -147,12 +157,18 @@ out:
->          } else {
->              iplb = s390_ipl_get_iplb();
->          }
-> -        if (iplb) {
-> -            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
-> -            env->regs[r1 + 1] = DIAG_308_RC_OK;
-> -        } else {
-> +        if (!iplb) {
->              env->regs[r1 + 1] = DIAG_308_RC_NO_CONF;
-> +            return;
->          }
-> +
-> +        if (!env->pv) {
-> +            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
-> +        } else {
-> +            s390_cpu_pv_mem_write(cpu, 0, iplb, be32_to_cpu(iplb->len));
-> +        }
-> +
-> +        env->regs[r1 + 1] = DIAG_308_RC_OK;
->          break;
->      case DIAG308_PV_START:
->          iplb = s390_ipl_get_iplb_secure();
+> IO instruction data is routed through SIDAD for protected guests, so
+> adresses do not need to be checked, as this is kernel memory.
 > 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  target/s390x/ioinst.c | 26 +++++++++++++++++++-------
+>  1 file changed, 19 insertions(+), 7 deletions(-)
+> 
+> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
+> index c437a1d8c6..e4102430aa 100644
+> --- a/target/s390x/ioinst.c
+> +++ b/target/s390x/ioinst.c
+> @@ -17,6 +17,16 @@
+>  #include "trace.h"
+>  #include "hw/s390x/s390-pci-bus.h"
+>  
+> +static uint64_t get_address_from_regs(CPUS390XState *env, uint32_t ipb,
+> +                                      uint8_t *ar)
+> +{
 
-I really do wonder if you should squash in patch #2 and leave it in this
-position of the series.
+Please add a comment here why this is done. (e.g., make all address
+checks - like alignment checks - in the caller succeed, and we don't
+need the address).
+
+> +    if (env->pv) {
+> +        *ar = 0;
+> +        return 0;
+> +    }
+> +    return decode_basedisp_s(env, ipb, ar);
+> +}
+> +
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
 
 -- 
 Thanks,
