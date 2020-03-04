@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0E4178D9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 10:39:37 +0100 (CET)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEB5178D9D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 10:40:16 +0100 (CET)
+Received: from localhost ([::1]:59666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9QV6-0006He-HA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 04:39:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32971)
+	id 1j9QVj-00078Y-CJ
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 04:40:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <christian.ehrhardt@canonical.com>)
- id 1j9QUC-0005pf-46
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 04:38:42 -0500
+ id 1j9QUl-0006HM-ES
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 04:39:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <christian.ehrhardt@canonical.com>)
- id 1j9QU9-00081l-T0
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 04:38:40 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:35311)
+ id 1j9QUj-0000m8-31
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 04:39:15 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:35317)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1j9QU9-0007z7-Jb
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 04:38:37 -0500
-Received: from mail-ot1-f69.google.com ([209.85.210.69])
+ id 1j9QUi-0000kq-Rb
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 04:39:13 -0500
+Received: from mail-ua1-f69.google.com ([209.85.222.69])
  by youngberry.canonical.com with esmtps
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <christian.ehrhardt@canonical.com>)
- id 1j9QU7-0007In-Dr
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 09:38:35 +0000
-Received: by mail-ot1-f69.google.com with SMTP id x21so721043otp.6
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 01:38:35 -0800 (PST)
+ id 1j9QUh-0007Na-Qy
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 09:39:12 +0000
+Received: by mail-ua1-f69.google.com with SMTP id n60so170388uan.11
+ for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 01:39:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k9G8OPFnChlEiNPznUCFrYXWPPkqrFzK/jYCnbaEJks=;
- b=i2DhJYVE89xPJDR4om/J4CfBE2hTvTMM4YhHSJN2ZAI08zkJCJS86YIvYmPIstHHoN
- pfSx3zHgCK4N4DWshENuxpaVj8n+OYZ2Ex0qYw98Rg/721T6GDayUNCsPq/mP5tJNGUx
- BiS2NuTm9pNyCZuF3LeSu2JW9veqqkb4QE9zepbxLBLqyuwGyMOwMxrJ+JLgtZz9O7C/
- 15i8Rg7MQaOWR6v/w+QxwvLk5ifTqSFDSw2+hMLb9ZONAJzySf5mEmFSWz22f8+B/e6c
- ZTBJhCJ7XKQDNxB0FrPFhbZxDZ58COfuW7a3Nf9Q/vaBmHSREwWCkg7NqXdTF/j8/4Jq
- Sj2w==
-X-Gm-Message-State: ANhLgQ3ZyxT1bhbqO10ijZX0/2waUQdgjNgmJbCVh8lHULNpFERUqy93
- RF9GoSPzqE1PYKyhmC8Y/hVdjuhkzPc8O4bwN7g1yszWCkWKt+NFVqqwnoVf/q7RGopFu7CDwSm
- co0JirVzR1WZp4S9DZXYceChu0Z7WRV4tjOcTIKI4Ty04rqMM
-X-Received: by 2002:aca:dc56:: with SMTP id t83mr1155693oig.105.1583314714340; 
- Wed, 04 Mar 2020 01:38:34 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vvu2rJ/OEvP43yoaAxWflHxU01/XAxhsp9hGWtPbMc4TjYZXDCTG5MOYEyT78L9xwx8q1FVMMext3Dmzf39+k8=
-X-Received: by 2002:aca:dc56:: with SMTP id t83mr1155686oig.105.1583314714119; 
- Wed, 04 Mar 2020 01:38:34 -0800 (PST)
+ bh=uGOFMSSVaQLM1Izrv7/+prtT+yo61S4CzINt0aaQCJg=;
+ b=Js8nlclmZkvTQC9EpVpSyT2n5WmvxpKCkUfWPPQOK163kNCcKNPtjQ5EMY9YU1RTqz
+ 70RP1yaAnXjVN2a40YHc6WYfV426KbmCdc5a7XxFxdLPpF+CGrXUKXX8pr7Kjpy1Npc1
+ nO7G9WjTy8qPLa2NnSPh1DW9Iv5Lmw9vqs4w3i0i0SNzwlSkA664eMOaYKLYTCmZWvde
+ xXtxcRCfdkpJPrkE9wIGM2Fv88eTCLkNynFVzovnhXZCIP6SWgn6mD79kovxXYwUoO47
+ oUyK+uCqQ7Q/29PtELs0AGatys5tzuehsqYxkajaKwbIw2je/IgjQcOKBWEs+KwcukTu
+ gK3A==
+X-Gm-Message-State: ANhLgQ2Xgn64s9CNk2Tfh0ioUMXKRyM+zZE1MCKXAjku7osLLQdxny0E
+ QYsD5suh1seNL8JmO1Et2k2wMSfVRX7zrrqP3AXkTdAgRojr1ip9Zzam2Tiv/xRD6CJjSadFQSo
+ a+yfW06EWJWPYnk3DkKpWQ7zYOTAJC3ha5Jvv9NC4D3LRnuBn
+X-Received: by 2002:a67:8003:: with SMTP id b3mr623828vsd.148.1583314750859;
+ Wed, 04 Mar 2020 01:39:10 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vv86tbWpFq2+MLIJFMQuznTl0ANIHtlyvIm5zM0E3h1GwB8rcR2B7i/q40QGtwnOV4B156uN1gS3kp6Txx6Aac=
+X-Received: by 2002:a67:8003:: with SMTP id b3mr623821vsd.148.1583314750601;
+ Wed, 04 Mar 2020 01:39:10 -0800 (PST)
 MIME-Version: 1.0
 References: <CAATJJ0KDOsA=Y+zLBT=PhcU0Q+gqRPSWkK0VaksisVC9_i5M_g@mail.gmail.com>
  <20191101093403.GE11296@redhat.com>
@@ -59,7 +59,7 @@ Date: Wed, 4 Mar 2020 10:37:44 +0100
 Message-ID: <CAATJJ0L+jdk3ggWx61=AGoTd-FZ64tJ1tzPK8Frgg9Ez+dv6XQ@mail.gmail.com>
 Subject: Re: Best practices to handle shared objects through qemu upgrades?
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001a63ed05a0042fa0"
+Content-Type: multipart/alternative; boundary="00000000000047106005a00431cb"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 91.189.89.112
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,7 +77,7 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001a63ed05a0042fa0
+--00000000000047106005a00431cb
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -232,7 +232,7 @@ Christian Ehrhardt
 Staff Engineer, Ubuntu Server
 Canonical Ltd
 
---0000000000001a63ed05a0042fa0
+--00000000000047106005a00431cb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -403,5 +403,5 @@ https://www.instagram.com/dberrange</a> :|<br>
  class=3D"gmail_signature">Christian Ehrhardt<br>Staff Engineer, Ubuntu Ser=
 ver<br>Canonical Ltd</div></div>
 
---0000000000001a63ed05a0042fa0--
+--00000000000047106005a00431cb--
 
