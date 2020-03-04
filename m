@@ -2,69 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C5D17889C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 03:44:58 +0100 (CET)
-Received: from localhost ([::1]:56496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3281788BB
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 03:57:51 +0100 (CET)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9K1p-0003PB-2u
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 21:44:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48673)
+	id 1j9KEI-0007zo-FY
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 21:57:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1j9K0n-0002wL-LM
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:43:54 -0500
+ (envelope-from <jianjay.zhou@huawei.com>) id 1j9KCr-0006v5-Vo
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:56:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1j9K0k-0005MJ-O5
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:43:52 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45877
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jianjay.zhou@huawei.com>) id 1j9KCp-00019Z-OM
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:56:21 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3258 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j9K0k-0005JN-J1
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:43:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583289829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qXk8a2P3bdabfwuERI1M72BkDi12ztH/1Dmy2D68Zwg=;
- b=VWQU3FEkPPJhXPRYzC9/a4OJtguQk0RSvFW95/0T7yN89eBuNdN5F42yrW7LDFNbYHqWqU
- BPBd9s/2Ou3aMplqIp28IorLY5O+tMuHy45asHonuXfVqyC+PGPa1psWDEV9zRjukJxPis
- 1KJQXoU+IT44EHjrFAP/HCoU7GMMxXo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-LH_NV7gaOZqDsWU7Oxd1Iw-1; Tue, 03 Mar 2020 21:43:45 -0500
-X-MC-Unique: LH_NV7gaOZqDsWU7Oxd1Iw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E8D5800D48;
- Wed,  4 Mar 2020 02:43:44 +0000 (UTC)
-Received: from [10.72.12.59] (ovpn-12-59.pek2.redhat.com [10.72.12.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7692E60C05;
- Wed,  4 Mar 2020 02:43:42 +0000 (UTC)
-Subject: Re: [PULL V2 01/23] dp8393x: Mask EOL bit from descriptor addresses
-To: Finn Thain <fthain@telegraphics.com.au>
-References: <1583230242-14597-1-git-send-email-jasowang@redhat.com>
- <1583230242-14597-2-git-send-email-jasowang@redhat.com>
- <alpine.LNX.2.22.394.2003040842130.9@nippy.intranet>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <aa8129f3-0fdf-93a1-0ce7-5e3ca49a12bb@redhat.com>
-Date: Wed, 4 Mar 2020 10:43:41 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <jianjay.zhou@huawei.com>)
+ id 1j9KCp-0000zp-Cs
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:56:19 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B3FB6199FD87F02F1DFD;
+ Wed,  4 Mar 2020 10:56:07 +0800 (CST)
+Received: from localhost (10.173.228.206) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.439.0; Wed, 4 Mar 2020
+ 10:55:57 +0800
+From: Jay Zhou <jianjay.zhou@huawei.com>
+To: <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
+Subject: [PATCH] kvm: support to get/set dirty log initial-all-set capability
+Date: Wed, 4 Mar 2020 10:55:54 +0800
+Message-ID: <20200304025554.2159-1-jianjay.zhou@huawei.com>
+X-Mailer: git-send-email 2.14.1.windows.1
 MIME-Version: 1.0
-In-Reply-To: <alpine.LNX.2.22.394.2003040842130.9@nippy.intranet>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.173.228.206]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,52 +51,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: liu.jinsong@huawei.com, weidong.huang@huawei.com, mst@redhat.com,
+ wangxinxin.wang@huawei.com, cohuck@redhat.com, peterx@redhat.com,
+ jianjay.zhou@huawei.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since the new capability KVM_DIRTY_LOG_INITIALLY_SET of
+KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 has been introduced in the
+kernel, tweak the userspace side to detect and enable this
+capability.
 
-On 2020/3/4 =E4=B8=8A=E5=8D=886:44, Finn Thain wrote:
-> Hi Jason,
->
-> The patch in this pull request (since merged) differs from the patch that
-> I sent. In particular, the change below is missing from commit 88f632fbb1
-> ("dp8393x: Mask EOL bit from descriptor addresses") in mainline.
->
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -525,8 +525,8 @@ static void dp8393x_do_transmit_packets(dp8393xState =
-*s)
->                                    * (4 + 3 * s->regs[SONIC_TFC]),
->                                  MEMTXATTRS_UNSPECIFIED, s->data,
->                                  size);
-> -            s->regs[SONIC_CTDA] =3D dp8393x_get(s, width, 0) & ~0x1;
-> -            if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
-> +            s->regs[SONIC_CTDA] =3D dp8393x_get(s, width, 0);
-> +            if (s->regs[SONIC_CTDA] & SONIC_DESC_EOL) {
->                   /* EOL detected */
->                   break;
->               }
->
-> Please compare with "[PATCH v4 01/14] dp8393x: Mask EOL bit from
-> descriptor addresses" in the mailing list archives:
-> https://lore.kernel.org/qemu-devel/d6e8d06ad4d02f4a30c4caa6001967f806f21a=
-1a.1580290069.git.fthain@telegraphics.com.au/
->
-> It appears that this portion of my patch went missing when merge conflict=
-s
-> were resolved. The conflicts were apparently caused by commit 19f7034773
-> ("Avoid address_space_rw() with a constant is_write argument").
->
-> Regards,
-> Finn
+Signed-off-by: Jay Zhou <jianjay.zhou@huawei.com>
+---
+ accel/kvm/kvm-all.c       | 21 ++++++++++++++-------
+ linux-headers/linux/kvm.h |  3 +++
+ 2 files changed, 17 insertions(+), 7 deletions(-)
 
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 439a4efe52..45ab25be63 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -100,7 +100,7 @@ struct KVMState
+     bool kernel_irqchip_required;
+     OnOffAuto kernel_irqchip_split;
+     bool sync_mmu;
+-    bool manual_dirty_log_protect;
++    uint64_t manual_dirty_log_protect;
+     /* The man page (and posix) say ioctl numbers are signed int, but
+      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
+      * unsigned, and treating them as signed here can break things */
+@@ -1882,6 +1882,7 @@ static int kvm_init(MachineState *ms)
+     int ret;
+     int type = 0;
+     const char *kvm_type;
++    uint64_t dirty_log_manual_caps;
+ 
+     s = KVM_STATE(ms->accelerator);
+ 
+@@ -2007,14 +2008,20 @@ static int kvm_init(MachineState *ms)
+     s->coalesced_pio = s->coalesced_mmio &&
+                        kvm_check_extension(s, KVM_CAP_COALESCED_PIO);
+ 
+-    s->manual_dirty_log_protect =
++    dirty_log_manual_caps =
+         kvm_check_extension(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2);
+-    if (s->manual_dirty_log_protect) {
+-        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0, 1);
++    dirty_log_manual_caps &= (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE |
++                              KVM_DIRTY_LOG_INITIALLY_SET);
++    s->manual_dirty_log_protect = dirty_log_manual_caps;
++    if (dirty_log_manual_caps) {
++        ret = kvm_vm_enable_cap(s, KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2, 0,
++                                   dirty_log_manual_caps);
+         if (ret) {
+-            warn_report("Trying to enable KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 "
+-                        "but failed.  Falling back to the legacy mode. ");
+-            s->manual_dirty_log_protect = false;
++            warn_report("Trying to enable capability %"PRIu64" of "
++                        "KVM_CAP_MANUAL_DIRTY_LOG_PROTECT2 but failed. "
++                        "Falling back to the legacy mode. ",
++                        dirty_log_manual_caps);
++            s->manual_dirty_log_protect = 0;
+         }
+     }
+ 
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 265099100e..3cb71c2b19 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1628,4 +1628,7 @@ struct kvm_hyperv_eventfd {
+ #define KVM_HYPERV_CONN_ID_MASK		0x00ffffff
+ #define KVM_HYPERV_EVENTFD_DEASSIGN	(1 << 0)
+ 
++#define KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE    (1 << 0)
++#define KVM_DIRTY_LOG_INITIALLY_SET            (1 << 1)
++
+ #endif /* __LINUX_KVM_H */
+-- 
+2.14.1.windows.1
 
-Exactly.
-
-Please send a patch to fix this.
-
-Thanks
 
 
