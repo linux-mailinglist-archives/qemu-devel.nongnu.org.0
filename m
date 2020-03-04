@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87169179439
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 17:01:37 +0100 (CET)
-Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC1EC17944E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 17:03:17 +0100 (CET)
+Received: from localhost ([::1]:36190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9WSm-0002Qq-IO
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 11:01:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
+	id 1j9WUO-0005H6-OR
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 11:03:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j9WQw-00013g-6t
+ (envelope-from <armbru@redhat.com>) id 1j9WQv-00013T-Vq
  for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:59:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j9WQu-0007Vj-Td
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:59:42 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47761
+ (envelope-from <armbru@redhat.com>) id 1j9WQu-0007Vd-Pq
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:59:41 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59736
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9WQu-0007V9-Pm
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9WQu-0007VA-MJ
  for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:59:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1583337580;
@@ -27,43 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SNA0tqF9UZqFFGMbe2i230NuZZVfg+YOeujEsXn2voE=;
- b=E9CYG7oK5/0BavJHCT6BXVvbkyd7dGLOo3f2JIGtCekbkMGw5roo3XQ6fLDhz+yiYtqQo4
- xcF3sHIqsf0Jjwy7PdADF8Q1xT3w5Z0ET0QSjHhhAQJh9jut7NwSMzBuoR24mCtwao3uYl
- L2VOy0FY9mN50H42Yp+sR8OISK9z6yI=
+ bh=06zdHOw+xSmaPYF8c1OfxmcdcNYvsYDvK3aPeEqAKAA=;
+ b=alQll1LX+gfO6HLz5NrZiKIIB42Wp1gdbXR6foqi3OGuic9Y4x67tqHGlHB/QwINpeKfn0
+ ZKC/0qziHQyAfwh6HTrm/xNYdLMK7bH6HvjAtB1yqtpLT54u15hYKNZLbkFwg1JlEihfoQ
+ Qjmq8as4IEKar4sJOXwoThYJnAr+rlA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-tpIHyePCN1qgBiJ1pyhB0Q-1; Wed, 04 Mar 2020 10:59:38 -0500
-X-MC-Unique: tpIHyePCN1qgBiJ1pyhB0Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-204-ZgbNaz40NCeBU3Hx522hBw-1; Wed, 04 Mar 2020 10:59:36 -0500
+X-MC-Unique: ZgbNaz40NCeBU3Hx522hBw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 366418018AA;
- Wed,  4 Mar 2020 15:59:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BAFA8024DF;
+ Wed,  4 Mar 2020 15:59:35 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
  [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CA5A7389B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11B9691D93;
  Wed,  4 Mar 2020 15:59:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8DC2711385ED; Wed,  4 Mar 2020 16:59:32 +0100 (CET)
+ id 909BF11385F4; Wed,  4 Mar 2020 16:59:32 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] qapi: Inheriting from object is pointless with Python
- 3, drop
-Date: Wed,  4 Mar 2020 16:59:29 +0100
-Message-Id: <20200304155932.20452-2-armbru@redhat.com>
+Subject: [PATCH v2 2/4] qapi: Drop conditionals for Python 2
+Date: Wed,  4 Mar 2020 16:59:30 +0100
+Message-Id: <20200304155932.20452-3-armbru@redhat.com>
 In-Reply-To: <20200304155932.20452-1-armbru@redhat.com>
 References: <20200304155932.20452-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,138 +81,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- scripts/qapi/gen.py    |  2 +-
- scripts/qapi/parser.py |  6 +++---
- scripts/qapi/schema.py | 12 ++++++------
- scripts/qapi/source.py |  4 ++--
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ scripts/qapi/common.py         | 6 +-----
+ scripts/qapi/gen.py            | 6 +-----
+ scripts/qapi/parser.py         | 6 +-----
+ tests/qapi-schema/test-qapi.py | 6 +-----
+ 4 files changed, 4 insertions(+), 20 deletions(-)
 
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index e00dcafce7..ba35abea47 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -12,7 +12,6 @@
+ # See the COPYING file in the top-level directory.
+=20
+ import re
+-import string
+=20
+=20
+ # ENUMName -> ENUM_NAME, EnumName1 -> ENUM_NAME1
+@@ -43,10 +42,7 @@ def c_enum_const(type_name, const_name, prefix=3DNone):
+     return camel_to_upper(type_name) + '_' + c_name(const_name, False).upp=
+er()
+=20
+=20
+-if hasattr(str, 'maketrans'):
+-    c_name_trans =3D str.maketrans('.-', '__')
+-else:
+-    c_name_trans =3D string.maketrans('.-', '__')
++c_name_trans =3D str.maketrans('.-', '__')
+=20
+=20
+ # Map @name to a valid C identifier.
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 95afae0615..a53a705c73 100644
+index a53a705c73..317cd72601 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -22,7 +22,7 @@ from qapi.common import *
- from qapi.schema import QAPISchemaVisitor
+@@ -15,7 +15,6 @@
+ import errno
+ import os
+ import re
+-import sys
+ from contextlib import contextmanager
 =20
-=20
--class QAPIGen(object):
-+class QAPIGen:
-=20
-     def __init__(self, fname):
-         self.fname =3D fname
+ from qapi.common import *
+@@ -54,10 +53,7 @@ class QAPIGen:
+                 if e.errno !=3D errno.EEXIST:
+                     raise
+         fd =3D os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        if sys.version_info[0] >=3D 3:
+-            f =3D open(fd, 'r+', encoding=3D'utf-8')
+-        else:
+-            f =3D os.fdopen(fd, 'r+')
++        f =3D open(fd, 'r+', encoding=3D'utf-8')
+         text =3D self.get_content()
+         oldtext =3D f.read(len(text) + 1)
+         if text !=3D oldtext:
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 342792e410..2e3a3c5d76 100644
+index 2e3a3c5d76..cf14e5426c 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -23,7 +23,7 @@ from qapi.error import QAPIParseError, QAPISemError
- from qapi.source import QAPISourceInfo
+@@ -16,7 +16,6 @@
 =20
+ import os
+ import re
+-import sys
+ from collections import OrderedDict
 =20
--class QAPISchemaParser(object):
-+class QAPISchemaParser:
+ from qapi.error import QAPIParseError, QAPISemError
+@@ -30,10 +29,7 @@ class QAPISchemaParser:
+         previously_included.add(os.path.abspath(fname))
 =20
-     def __init__(self, fname, previously_included=3DNone, incl_info=3DNone=
-):
-         previously_included =3D previously_included or set()
-@@ -293,7 +293,7 @@ class QAPISchemaParser(object):
-         raise QAPIParseError(self, "documentation comment must end with '#=
-#'")
-=20
-=20
--class QAPIDoc(object):
-+class QAPIDoc:
-     """
-     A documentation comment block, either definition or free-form
-=20
-@@ -312,7 +312,7 @@ class QAPIDoc(object):
-     Free-form documentation blocks consist only of a body section.
-     """
-=20
--    class Section(object):
-+    class Section:
-         def __init__(self, name=3DNone):
-             # optional section name (argument/member or section name)
-             self.name =3D name
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 5100110fa2..c8bcfe2c49 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -24,7 +24,7 @@ from qapi.expr import check_exprs
- from qapi.parser import QAPISchemaParser
-=20
-=20
--class QAPISchemaEntity(object):
-+class QAPISchemaEntity:
-     meta =3D None
-=20
-     def __init__(self, name, info, doc, ifcond=3DNone, features=3DNone):
-@@ -89,7 +89,7 @@ class QAPISchemaEntity(object):
-         return "%s '%s'" % (self.meta, self.name)
-=20
-=20
--class QAPISchemaVisitor(object):
-+class QAPISchemaVisitor:
-     def visit_begin(self, schema):
-         pass
-=20
-@@ -135,7 +135,7 @@ class QAPISchemaVisitor(object):
-         pass
-=20
-=20
--class QAPISchemaModule(object):
-+class QAPISchemaModule:
-     def __init__(self, name):
-         self.name =3D name
-         self._entity_list =3D []
-@@ -441,7 +441,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-                                        self.features)
-=20
-=20
--class QAPISchemaMember(object):
-+class QAPISchemaMember:
-     """ Represents object members, enum members and features """
-     role =3D 'member'
-=20
-@@ -519,7 +519,7 @@ class QAPISchemaObjectTypeMember(QAPISchemaMember):
-                                         self.describe)
-=20
-=20
--class QAPISchemaObjectTypeVariants(object):
-+class QAPISchemaObjectTypeVariants:
-     def __init__(self, tag_name, info, tag_member, variants):
-         # Flat unions pass tag_name but not tag_member.
-         # Simple unions and alternates pass tag_member but not tag_name.
-@@ -787,7 +787,7 @@ class QAPISchemaEvent(QAPISchemaEntity):
-                             self.arg_type, self.boxed)
-=20
-=20
--class QAPISchema(object):
-+class QAPISchema:
-     def __init__(self, fname):
-         self.fname =3D fname
-         parser =3D QAPISchemaParser(fname)
-diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-index 8956885033..e97b9a8e15 100644
---- a/scripts/qapi/source.py
-+++ b/scripts/qapi/source.py
-@@ -13,7 +13,7 @@ import copy
+         try:
+-            if sys.version_info[0] >=3D 3:
+-                fp =3D open(fname, 'r', encoding=3D'utf-8')
+-            else:
+-                fp =3D open(fname, 'r')
++            fp =3D open(fname, 'r', encoding=3D'utf-8')
+             self.src =3D fp.read()
+         except IOError as e:
+             raise QAPISemError(incl_info or QAPISourceInfo(None, None, Non=
+e),
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.p=
+y
+index 41232c11a3..bee18ee344 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -16,15 +16,11 @@ import argparse
+ import difflib
+ import os
  import sys
++from io import StringIO
 =20
+ from qapi.error import QAPIError
+ from qapi.schema import QAPISchema, QAPISchemaVisitor
 =20
--class QAPISchemaPragma(object):
-+class QAPISchemaPragma:
-     def __init__(self):
-         # Are documentation comments required?
-         self.doc_required =3D False
-@@ -23,7 +23,7 @@ class QAPISchemaPragma(object):
-         self.name_case_whitelist =3D []
+-if sys.version_info[0] < 3:
+-    from cStringIO import StringIO
+-else:
+-    from io import StringIO
+-
 =20
+ class QAPISchemaTestVisitor(QAPISchemaVisitor):
 =20
--class QAPISourceInfo(object):
-+class QAPISourceInfo:
-     def __init__(self, fname, line, parent):
-         self.fname =3D fname
-         self.line =3D line
 --=20
 2.21.1
 
