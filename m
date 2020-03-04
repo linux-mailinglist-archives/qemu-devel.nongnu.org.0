@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91B9179BA5
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 23:20:08 +0100 (CET)
-Received: from localhost ([::1]:40484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF82179BA7
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 23:20:14 +0100 (CET)
+Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9cN5-00028b-NG
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 17:20:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33019)
+	id 1j9cNB-0002NJ-Et
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 17:20:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9cLU-00007x-Rm
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:29 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9cLa-0000Io-8E
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9cLT-0006lJ-TS
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59429
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9cLZ-0006qJ-5M
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:34 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33645
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9cLT-0006kD-QX
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:27 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9cLZ-0006py-1N
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583360307;
+ s=mimecast20190719; t=1583360312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l/IY56asJn4k/fIDmK4Z2UzFuTytUtXxN/1Jeo1uL4U=;
- b=fiu04KBwOcfg+FhGAjIBdELZCtfZ8TgU0QSBxSNe96pOlJ6+VTFEYASELj0xKo26Q6KROu
- VihXb8EyRRKMfJh9XUGG3+vYFm0f3oThhaNLoscGtFt0o9jNICylzqBEhkYjpijDmzkHC0
- u8UpMKRkmxcXMc0e88KdhTZScVSj9k4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-Q-BjeehaN-Ki9ytM9ZZRLg-1; Wed, 04 Mar 2020 17:18:26 -0500
-X-MC-Unique: Q-BjeehaN-Ki9ytM9ZZRLg-1
-Received: by mail-wm1-f71.google.com with SMTP id 7so1340172wmo.7
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 14:18:25 -0800 (PST)
+ bh=8g6dQ3CpRHKhm3JtMqVTXiTXrin8V/riv5Rhf5txJno=;
+ b=fw08/QfeeWa0QGNYY/7RVPhCLO+3xHITguMS7pewmASzK4eiX1RnEa7PwBIezq81PmfwCA
+ wZwrgmbMNPRLiR3TaPvVlEKm0XAqq7h+4UyehYgczb0FTFqYL5PrnIAjr9tYOiBj2Pm/ir
+ OCn5cpfiL+rBgamybTOTtAyulZQfv0A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-_bGDrGbbMjO37IDn_5BCwA-1; Wed, 04 Mar 2020 17:18:31 -0500
+X-MC-Unique: _bGDrGbbMjO37IDn_5BCwA-1
+Received: by mail-wr1-f72.google.com with SMTP id n12so1429757wrp.19
+ for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 14:18:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XSVnfTQjqSoslQR7PQ9GzBNYFbBYE7GKO7GWOT3EV9E=;
- b=jDVJO2bAdKu0jmw+sVgk9hO4xJjFn5cLywi1+C+MF2YsRMBfbL8UHUc25q9i2NXTL8
- gphfslI16Lb4CLXL6g8XJbSY4GZFPcf1soWfwwqxp0NR4Sg10lnuHNil2q1QmVZj90vE
- Ql4XBWbnCw+BntLyeUh9LGC51knh9xUrNHR6fWA7EIUijUVQVxBYb4CJE3jue9/F1GY7
- nJMsxwN2A1lG3v44LrwbnxUJS3C0WOhEh6u0Yck3XlQNsreCz38kVr9ayzhy5rPtY6h2
- mUEUL7hjHkuWmoHOO7qUv/CSY/UBKWqFmfPQ4N866Jx0pv5KDCMzJ/TV14srfTAAtICQ
- 6P6g==
-X-Gm-Message-State: ANhLgQ0VkwHBTlE7ojBB8SKamhzn9OwpnkWuujDQEr2AGLZECwbRFNCZ
- 5/QCr3Hufb8+TW6sa6HFjQd6BjfqARIOuFKh8Sgam0j7hy7YlJ6s0KtCPxIaML6EIiM9tAlUb4Q
- Ed7b8qKf4UGNx5Dg=
-X-Received: by 2002:a05:6000:149:: with SMTP id
- r9mr5699809wrx.147.1583360304704; 
- Wed, 04 Mar 2020 14:18:24 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vuNJdcnEDAJHYcPDME2sY95E31wEuSjXw582qCwO+eePpHJ5JRuqU0V6TK2m3gpex69x2yTUw==
-X-Received: by 2002:a05:6000:149:: with SMTP id
- r9mr5699792wrx.147.1583360304484; 
- Wed, 04 Mar 2020 14:18:24 -0800 (PST)
+ bh=8ag/+xxkZSZEkgkSM8quJuguUY+bU0lgLQ4HQ0DMXWs=;
+ b=eVi3NXqYYwIagkkSrlsomJX03bmdC9ErWqXzSY7TSmU88U0jTIMgcXRa1dics3z8/C
+ Rf6XagxTD1PeyFSWnIYWXLifECT+v241yCAiRyGGgXWrCdhlU8ImnNS1RVmsWtZZQonQ
+ GntkOHL/lT0LoJFE7/BMVdzdrJiPoVqZlsG3IDP+p80vkAb0rRobPLyZBvS5Xd7c0QSV
+ HJsJ4G8pCb4QQQyrR7wUTezZh+OHdL/1o04qykC2N4l2NP5KcQVdxvpGuYOOFo6l8qLL
+ YDo0+f7y8M0YjtcY7ORLhIBENsWINrRpxleP2qpkJrXM+I4j9UX2lUVxa6FIGWdyV2LR
+ TEeg==
+X-Gm-Message-State: ANhLgQ0fpspeZGOgc43W7q9+8woIVvQq+Cl2XTT4hjWw+xV9A3bknbJA
+ tP0nsoI/lCfIE7L1IRop2g4v+rllgdu4hMtwd80kbt7PGrhprmM+JXH4UKhIAbp/Pzd8En/Nwzy
+ fp2Yuig4Aj05MK3U=
+X-Received: by 2002:a1c:9e85:: with SMTP id h127mr5311631wme.145.1583360309774; 
+ Wed, 04 Mar 2020 14:18:29 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtKcWBVy9Ebsa5ZD89bCp6BN1joSIMvdFbksX94m3Mg3Rrj4N072ncdORfw0lP3e8sa5zBJbg==
+X-Received: by 2002:a1c:9e85:: with SMTP id h127mr5311613wme.145.1583360309508; 
+ Wed, 04 Mar 2020 14:18:29 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id r3sm3815573wmg.19.2020.03.04.14.18.23
+ by smtp.gmail.com with ESMTPSA id q125sm6721082wme.19.2020.03.04.14.18.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2020 14:18:24 -0800 (PST)
+ Wed, 04 Mar 2020 14:18:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] hw/usb/quirks: Use smaller types to reduce .rodata by
- 10KiB
-Date: Wed,  4 Mar 2020 23:18:04 +0100
-Message-Id: <20200304221807.25212-4-philmd@redhat.com>
+Subject: [PATCH 4/6] hw/audio/intel-hda: Use memory region alias to reduce
+ .rodata by 4.34MB
+Date: Wed,  4 Mar 2020 23:18:05 +0100
+Message-Id: <20200304221807.25212-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200304221807.25212-1-philmd@redhat.com>
 References: <20200304221807.25212-1-philmd@redhat.com>
@@ -79,7 +77,8 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,38 +96,92 @@ Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The USB descriptor sizes are specified as 16-bit for idVendor /
-idProduct, and 8-bit for bInterfaceClass / bInterfaceSubClass /
-bInterfaceProtocol. Doing so we reduce the usbredir_raw_serial_ids[]
-and usbredir_ftdi_serial_ids[] arrays from 16KiB to 6KiB (size
-reported on x86_64 host, building with --extra-cflags=3D-Os).
+The intel-hda model uses an array of register indexed by the
+register address. This array also contains a pair of aliased
+registers at offset 0x2000. This creates a huge hole in the
+array, which ends up eating 4.6MiB of .rodata (size reported
+on x86_64 host, building with --extra-cflags=3D-Os).
+
+By using a memory region alias, we reduce this array to 132kB.
+
+Before:
+
+  (qemu) info mtree
+    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
+
+After:
+
+  (qemu) info mtree
+    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
+    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda-container
+      00000000febd4000-00000000febd5fff (prio 0, i/o): intel-hda
+      00000000febd6000-00000000febd7fff (prio 0, i/o): alias intel-hda-alia=
+s @intel-hda 0000000000000000-0000000000001fff
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/usb/quirks.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/audio/intel-hda.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/hw/usb/quirks.h b/hw/usb/quirks.h
-index 89480befd7..794d89a356 100644
---- a/hw/usb/quirks.h
-+++ b/hw/usb/quirks.h
-@@ -21,11 +21,11 @@
- #include "quirks-pl2303-ids.h"
+diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+index 1bcc3e5cf8..e8d18b7c58 100644
+--- a/hw/audio/intel-hda.c
++++ b/hw/audio/intel-hda.c
+@@ -181,7 +181,9 @@ struct IntelHDAState {
+     IntelHDAStream st[8];
 =20
- struct usb_device_id {
--    int vendor_id;
--    int product_id;
--    int interface_class;
--    int interface_subclass;
--    int interface_protocol;
-+    int16_t vendor_id;
-+    int16_t product_id;
-+    int8_t interface_class;
-+    int8_t interface_subclass;
-+    int8_t interface_protocol;
- };
+     /* state */
++    MemoryRegion container;
+     MemoryRegion mmio;
++    MemoryRegion alias;
+     uint32_t rirb_count;
+     int64_t wall_base_ns;
 =20
- #define USB_DEVICE(vendor, product) \
+@@ -670,12 +672,6 @@ static const struct IntelHDAReg regtab[] =3D {
+         .offset   =3D offsetof(IntelHDAState, wall_clk),
+         .rhandler =3D intel_hda_get_wall_clk,
+     },
+-    [ ICH6_REG_WALLCLK + 0x2000 ] =3D {
+-        .name     =3D "WALLCLK(alias)",
+-        .size     =3D 4,
+-        .offset   =3D offsetof(IntelHDAState, wall_clk),
+-        .rhandler =3D intel_hda_get_wall_clk,
+-    },
+=20
+     /* dma engine */
+     [ ICH6_REG_CORBLBASE ] =3D {
+@@ -837,12 +833,6 @@ static const struct IntelHDAReg regtab[] =3D {
+         .size     =3D 4,                                                \
+         .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
+     },                                                                \
+-    [ ST_REG(_i, ICH6_REG_SD_LPIB) + 0x2000 ] =3D {                     \
+-        .stream   =3D _i,                                               \
+-        .name     =3D _t stringify(_i) " LPIB(alias)",                  \
+-        .size     =3D 4,                                                \
+-        .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
+-    },                                                                \
+     [ ST_REG(_i, ICH6_REG_SD_CBL) ] =3D {                               \
+         .stream   =3D _i,                                               \
+         .name     =3D _t stringify(_i) " CBL",                          \
+@@ -1125,9 +1115,15 @@ static void intel_hda_realize(PCIDevice *pci, Error =
+**errp)
+         error_free(err);
+     }
+=20
++    memory_region_init(&d->container, OBJECT(d),
++                       "intel-hda-container", 0x4000);
+     memory_region_init_io(&d->mmio, OBJECT(d), &intel_hda_mmio_ops, d,
+-                          "intel-hda", 0x4000);
+-    pci_register_bar(&d->pci, 0, 0, &d->mmio);
++                          "intel-hda", 0x2000);
++    memory_region_add_subregion(&d->container, 0x0000, &d->mmio);
++    memory_region_init_alias(&d->alias, OBJECT(d), "intel-hda-alias",
++                             &d->mmio, 0, 0x2000);
++    memory_region_add_subregion(&d->container, 0x2000, &d->alias);
++    pci_register_bar(&d->pci, 0, 0, &d->container);
+=20
+     hda_codec_bus_init(DEVICE(pci), &d->codecs, sizeof(d->codecs),
+                        intel_hda_response, intel_hda_xfer);
 --=20
 2.21.1
 
