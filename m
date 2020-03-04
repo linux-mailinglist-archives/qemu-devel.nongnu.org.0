@@ -2,89 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10C1179835
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 19:44:06 +0100 (CET)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6F7179844
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 19:45:37 +0100 (CET)
+Received: from localhost ([::1]:38294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Z01-00054X-OT
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 13:44:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33634)
+	id 1j9Z1U-0006qI-7u
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 13:45:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1j9Yyr-0003wK-Fa
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 13:42:54 -0500
+ (envelope-from <programmingkidx@gmail.com>) id 1j9Yzu-0005U1-Cl
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 13:43:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1j9Yyq-0005Yu-0d
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 13:42:53 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:41124)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1j9Yyp-0005Yc-LV
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 13:42:51 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 024IYCnn015916;
- Wed, 4 Mar 2020 18:42:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=DpXKi64i86/lDhJnxbdgQwLfJzL/0WkhHeMHB/UOXtI=;
- b=pow9JehZRsTJAdKpxOT/E+y8AEjefxLdDyFw+/8EeGcBEddQZweGKZgwVey0VFGLeRrM
- jNXrfOr6cP7JK/Numr6jsXgU6lZuPKbw3eK7+MVfuQ8Dx860IYWRw1CuXPocEK7Vl3Hc
- 6/w3mAL0OYPrqlRon8duySCLF0TnmXCpX9b/Dfyine9RGj31/fP1a6CFgtwAzp0lWiFT
- aiDEoHzlOfi3/qdhcuhgApHaMeAv2Jk7OBFB/FRCC14MnGzXasoN5IwcDBprTWzwwiMP
- c8TdYppBtAgIyAjPOcy6B0cUlxGsymistXplVAVUl6nLjK2KB9L5wc7jTgL7b3bU5rp5 aA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2yffwr06xu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 04 Mar 2020 18:42:37 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 024IWVGo104912;
- Wed, 4 Mar 2020 18:42:36 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2yg1p864vs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 04 Mar 2020 18:42:36 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 024IgXAl010130;
- Wed, 4 Mar 2020 18:42:33 GMT
-Received: from [10.152.34.2] (/10.152.34.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 04 Mar 2020 10:42:33 -0800
-Subject: Re: [PATCH v5 08/50] multi-process: add functions to synchronize
- proxy and remote endpoints
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <cover.1582576372.git.jag.raman@oracle.com>
- <3d013f0091ac6babb55f30cadf6ed806c322b7ce.1582576372.git.jag.raman@oracle.com>
- <20200303195627.GW3170@work-vm>
-From: Jag Raman <jag.raman@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <8205fd32-2c74-f599-a630-1c31828cf61e@oracle.com>
-Date: Wed, 4 Mar 2020 13:42:31 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <programmingkidx@gmail.com>) id 1j9Yzs-0006c8-Vc
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 13:43:58 -0500
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:42109)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
+ id 1j9Yzs-0006Xg-Kl; Wed, 04 Mar 2020 13:43:56 -0500
+Received: by mail-lf1-x133.google.com with SMTP id t21so2366462lfe.9;
+ Wed, 04 Mar 2020 10:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=DYiu37dwsk21hL7lcAPw7i5jgwAjbcKdoNnsujluBro=;
+ b=c5DufMVUbtzoM2CNM0S1Xuae+k/CZhUGvfezPeEz0zzoFni3dIunngqvrZ0coEMlDa
+ L5FLjA2ZiMr6KFRukmqkDePMZJatOloGZYhcqWg+PI9V42kOQiDuBMyG47wk2jRfCYwg
+ 97DL/0FCRtOvxzVqqH2WMQsPNK60m+CHZprlfG1/yCg8lXjJPdPEXp4Ri13o/yIatwgP
+ XQqh7tGp7wnDSnx+ZSwkzySuk/tPYdthf/9CX5Gl3jqLtM6CQfNUt0j2r+2E2b++HK2h
+ hFQECW8P9ZFWYegEiDmzUUP5WL74QdXBGrfIFKpwhpt9snm0+nAEGm9fqNfY10Q6qo7b
+ BSuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=DYiu37dwsk21hL7lcAPw7i5jgwAjbcKdoNnsujluBro=;
+ b=OODFgdcCun5eM8DNDMzPwNSQnG9zZOM8g6TIKGGi1YQ7Xph0jYMtR2aNUY6TkSgqkF
+ KPZTpQab+V8XHgUpEKDG92rBSX85imst7ca75R1r6WOXUh9JA5TvsyILJZF/siUdtpNb
+ 4j7WyiFDgTBZHP9/R9bMS18egaxCzIE+f9qevO4sCx+tIU8HYESmmuFNZpN49tR/QuY8
+ yIVX8xOP1Fcv8I+hnjDUyvU/xDKpxp9fINbihRYN0IbXwG7WCMjohifELPlHonBZDzOt
+ q3okTKCk6ka6eXeZ0m3t2LYMGu4/jjm/lDagrnrTe+ueh95Tk3bBwyI3SRyoVghaDf4I
+ dXqg==
+X-Gm-Message-State: ANhLgQ1OilBiIOOBpa7kzf1DR80Xwf3hFshNvqdx/XOl5DTMRIy8i+wd
+ 7dXQNgDJSRAj7Yk9NsEZSh2eoBRE205BxJEYxaA=
+X-Google-Smtp-Source: ADFU+vtmY0vSOUPfMefj9S93lzD9Ln5TIkBjUEfJWGG7pAqabkb4psq+D8D2WWrWtBlZrtfDmXjvAwJgkfMG0JRbm00=
+X-Received: by 2002:ac2:532f:: with SMTP id f15mr2769085lfh.3.1583347434048;
+ Wed, 04 Mar 2020 10:43:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200303195627.GW3170@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0
- mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003040125
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 spamscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- phishscore=0 clxscore=1015 bulkscore=0 adultscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003040125
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+References: <20200218171702.979F074637D@zero.eik.bme.hu>
+ <CD566CEF-6844-455C-B9C7-E5DFDE50E770@gmail.com>
+ <alpine.BSF.2.22.395.2002191538190.33319@zero.eik.bme.hu>
+ <1BC2E9E9-A694-4ED3-BD3D-D731F23B7245@gmail.com>
+ <alpine.BSF.2.22.395.2002251241080.22173@zero.eik.bme.hu>
+ <3539F747-145F-49CC-B494-C9794A8ABABA@gmail.com>
+ <AM6PR03MB5525DE221E3E7E595893DF4DC8EA0@AM6PR03MB5525.eurprd03.prod.outlook.com>
+ <AM4PR07MB350651FBB263FEEDB857CBFFCAEA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <87eeuhxw0y.fsf@linaro.org>
+ <CAL1e-=gGsEV4_a4gJr2x0L3r_UK7isnpjOWoJRCDhqpG_XT3Ww@mail.gmail.com>
+ <CAKyx-3MCENJREWm0BxO3ES9sDB04KV3FzYoVFKK20Fh_iwh7wg@mail.gmail.com>
+ <878skpxltm.fsf@linaro.org> <FE03C155-E46D-4925-BA2B-FABBE2518C8C@gmail.com>
+ <2576fd41-8b01-91a0-ca56-792ce65b5092@linaro.org>
+ <alpine.BSF.2.22.395.2003021218180.72848@zero.eik.bme.hu>
+ <d136165f-46c7-8983-9725-2b224742deef@linaro.org>
+ <alpine.BSF.2.22.395.2003030002340.47473@zero.eik.bme.hu>
+ <CAKyx-3Pt2qLPXWQjBwrHn-nxR-9e++TioGp4cKFC3adMN3rtiw@mail.gmail.com>
+In-Reply-To: <CAKyx-3Pt2qLPXWQjBwrHn-nxR-9e++TioGp4cKFC3adMN3rtiw@mail.gmail.com>
+From: G 3 <programmingkidx@gmail.com>
+Date: Wed, 4 Mar 2020 13:43:41 -0500
+Message-ID: <CAKyx-3OAVOvOiaWqUbVa4P35RtFS6bN0wbPuWa=6SFcB2zhL3Q@mail.gmail.com>
+Subject: Fwd: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Dino Papararo <skizzato73@msn.com>, QEMU Developers <qemu-devel@nongnu.org>, 
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, 
+ luigi burdo <intermediadc@hotmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, 
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000005ccfe105a00bcdd7"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,143 +92,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, liran.alon@oracle.com,
- stefanha@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000005ccfe105a00bcdd7
+Content-Type: text/plain; charset="UTF-8"
+
+---------- Forwarded message ---------
+From: G 3 <programmingkidx@gmail.com>
+Date: Wed, Mar 4, 2020 at 1:35 PM
+Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+To: BALATON Zoltan <balaton@eik.bme.hu>
 
 
-On 3/3/2020 2:56 PM, Dr. David Alan Gilbert wrote:
-> * Jagannathan Raman (jag.raman@oracle.com) wrote:
->> In some cases, for example MMIO read, QEMU has to wait for the remote to
->> complete a command before proceeding. An eventfd based mechanism is
->> added to synchronize QEMU & remote process.
->>
->> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
->> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->> ---
->>   include/io/mpqemu-link.h |  7 +++++++
->>   io/mpqemu-link.c         | 41 +++++++++++++++++++++++++++++++++++++++++
->>   2 files changed, 48 insertions(+)
->>
->> diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
->> index 2f2dd83..ae04fca 100644
->> --- a/include/io/mpqemu-link.h
->> +++ b/include/io/mpqemu-link.h
->> @@ -135,4 +135,11 @@ void mpqemu_link_set_callback(MPQemuLinkState *s,
->>                                 mpqemu_link_callback callback);
->>   void mpqemu_start_coms(MPQemuLinkState *s);
->>   
->> +#define GET_REMOTE_WAIT eventfd(0, EFD_CLOEXEC)
->> +#define PUT_REMOTE_WAIT(wait) close(wait)
->> +#define PROXY_LINK_WAIT_DONE 1
->> +
->> +uint64_t wait_for_remote(int efd);
->> +void notify_proxy(int fd, uint64_t val);
->> +
->>   #endif
->> diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
->> index bac120b..73b7032 100644
->> --- a/io/mpqemu-link.c
->> +++ b/io/mpqemu-link.c
->> @@ -10,6 +10,7 @@
->>   
->>   #include "qemu/osdep.h"
->>   #include "qemu-common.h"
->> +#include <poll.h>
->>   
->>   #include "qemu/module.h"
->>   #include "io/mpqemu-link.h"
->> @@ -216,6 +217,46 @@ int mpqemu_msg_recv(MPQemuMsg *msg, MPQemuChannel *chan)
->>       return rc;
->>   }
->>   
->> +uint64_t wait_for_remote(int efd)
->> +{
->> +    struct pollfd pfd = { .fd = efd, .events = POLLIN };
->> +    uint64_t val;
->> +    int ret;
->> +
->> +    ret = poll(&pfd, 1, 1000);
->> +
->> +    switch (ret) {
->> +    case 0:
->> +        qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: Timed out\n");
->> +        /* TODO: Kick-off error recovery */
->> +        return ULLONG_MAX;
-> 
-> Shouldn't these be UINT64_MAX?
 
-Sure, we'll change these to UINT64_MAX.
 
-> 
->> +    case -1:
->> +        qemu_log_mask(LOG_REMOTE_DEBUG, "Poll error wait_for_remote: %s\n",
->> +                      strerror(errno));
->> +        return ULLONG_MAX;
->> +    default:
->> +        if (read(efd, &val, sizeof(val)) == -1) {
->> +            qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: %s\n",
->> +                          strerror(errno));
->> +            return ULLONG_MAX;
->> +        }
->> +    }
->> +
->> +    val = (val == ULLONG_MAX) ? val : (val - 1);
-> 
-> Can you explain what's going on there??
+On Mon, Mar 2, 2020 at 6:16 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
-This wait_for_remote() function serves two purposes. This first one is
-to synchronize QEMU and the remote process. Secondly, it allows the
-remote process to return a 64-bit value to QEMU. When the remote process
-has completed the task, it uses the notify_proxy() function to return to
-QEMU along with a return value.
+> On Mon, 2 Mar 2020, Richard Henderson wrote:
+> > On 3/2/20 3:42 AM, BALATON Zoltan wrote:
+> >>> The "hardfloat" option works (with other targets) only with ieee745
+> >>> accumulative exceptions, when the most common of those exceptions,
+> inexact, has
+> >>> already been raised.  And thus need not be raised a second time.
+> >>
+> >> Why exactly it's done that way? What are the differences between IEEE FP
+> >> implementations that prevents using hardfloat most of the time instead
+> of only
+> >> using it in some (although supposedly common) special cases?
+> >
+> > While it is possible to read the host's ieee exception word after the
+> hardfloat
+> > operation, there are two reasons that is undesirable:
+> >
+> > (1) It is *slow*.  So slow that it's faster to run the softfloat code
+> instead.
+> > I thought it would be easier to find the benchmark numbers that Emilio
+> > generated when this was tested, but I can't find it.
+>
+> I remember those benchmarks too and this is also what the paper Alex
+> referred to also confirmed. Also I've found that enabling hardfloat for
+> PPC without doing anything else is slightly slower (on a recent CPU, on
+> older CPUs could be even slower). Interetingly however it does give a
+> speedup for vector instructions (maybe because they don't clear flags
+> between each sub operation). Does that mean these vector instruction
+> helpers are also buggy regarding exceptions?
+>
 
-We have implemented this synchronization mechanism using eventfd, as
-it's easy to setup. So the remote process could write a non-zero value
-to the eventfd to wake QEMU up. However, the drawback of using eventfd
-for this purpose is that a return value of zero wouldn't wake QEMU up.
-Therefore, we offset the return value by one at the remote process and
-correct it in the QEMU end.
+I am all intrigued by these vector instructions. Apple was really big on
+using them back in the day so programs like Quicktime and iTunes definitely
+use them. I'm not sure if the PowerPC's altivec vector instructions map to
+host vector instructions already, but if they don't, mapping them would
+give us a huge speedup in certain places. Would anyone know if this was
+already done in QEMU?
 
---
-Jag
+--0000000000005ccfe105a00bcdd7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +    return val;
->> +}
->> +
->> +void notify_proxy(int efd, uint64_t val)
->> +{
->> +    val = (val == ULLONG_MAX) ? val : (val + 1);
->> +
->> +    if (write(efd, &val, sizeof(val)) == -1) {
-> 
-> I'd actually check the write/read's are returning sizeof(val) - they
-> can on a bad day return 0 or send only a few bytes; in theory?
-> 
-> Dave
-> 
->> +        qemu_log_mask(LOG_REMOTE_DEBUG, "Error notify_proxy: %s\n",
->> +                      strerror(errno));
->> +    }
->> +}
->> +
->>   static gboolean mpqemu_link_handler_prepare(GSource *gsrc, gint *timeout)
->>   {
->>       g_assert(timeout);
->> -- 
->> 1.8.3.1
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <b class=3D=
+"gmail_sendername" dir=3D"auto">G 3</b> <span dir=3D"auto">&lt;<a href=3D"m=
+ailto:programmingkidx@gmail.com">programmingkidx@gmail.com</a>&gt;</span><b=
+r>Date: Wed, Mar 4, 2020 at 1:35 PM<br>Subject: Re: [RFC PATCH v2] target/p=
+pc: Enable hardfloat for PPC<br>To: BALATON Zoltan &lt;<a href=3D"mailto:ba=
+laton@eik.bme.hu">balaton@eik.bme.hu</a>&gt;<br></div><br><br><div dir=3D"l=
+tr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Mon, Mar 2, 2020 at 6:16 PM BALATON Zoltan &lt;=
+<a href=3D"mailto:balaton@eik.bme.hu" target=3D"_blank">balaton@eik.bme.hu<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
+n Mon, 2 Mar 2020, Richard Henderson wrote:<br>
+&gt; On 3/2/20 3:42 AM, BALATON Zoltan wrote:<br>
+&gt;&gt;&gt; The &quot;hardfloat&quot; option works (with other targets) on=
+ly with ieee745<br>
+&gt;&gt;&gt; accumulative exceptions, when the most common of those excepti=
+ons, inexact, has<br>
+&gt;&gt;&gt; already been raised.=C2=A0 And thus need not be raised a secon=
+d time.<br>
+&gt;&gt;<br>
+&gt;&gt; Why exactly it&#39;s done that way? What are the differences betwe=
+en IEEE FP<br>
+&gt;&gt; implementations that prevents using hardfloat most of the time ins=
+tead of only<br>
+&gt;&gt; using it in some (although supposedly common) special cases?<br>
+&gt;<br>
+&gt; While it is possible to read the host&#39;s ieee exception word after =
+the hardfloat<br>
+&gt; operation, there are two reasons that is undesirable:<br>
+&gt;<br>
+&gt; (1) It is *slow*.=C2=A0 So slow that it&#39;s faster to run the softfl=
+oat code instead.<br>
+&gt; I thought it would be easier to find the benchmark numbers that Emilio=
+<br>
+&gt; generated when this was tested, but I can&#39;t find it.<br>
+<br>
+I remember those benchmarks too and this is also what the paper Alex <br>
+referred to also confirmed. Also I&#39;ve found that enabling hardfloat for=
+ <br>
+PPC without doing anything else is slightly slower (on a recent CPU, on <br=
+>
+older CPUs could be even slower). Interetingly however it does give a <br>
+speedup for vector instructions (maybe because they don&#39;t clear flags <=
+br>
+between each sub operation). Does that mean these vector instruction <br>
+helpers are also buggy regarding exceptions?<br></blockquote><div><br></div=
+><div>I am all intrigued by these vector instructions. Apple was really big=
+ on using them back in the day so programs like Quicktime and iTunes defini=
+tely use them. I&#39;m not sure if the PowerPC&#39;s altivec vector instruc=
+tions map to host vector instructions already, but if they don&#39;t, mappi=
+ng them would give us a huge speedup in certain places. Would anyone know i=
+f this was already done in QEMU?<br></div></div></div>
+</div></div>
+
+--0000000000005ccfe105a00bcdd7--
 
