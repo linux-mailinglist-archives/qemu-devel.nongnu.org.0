@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE13E17911A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 14:16:35 +0100 (CET)
-Received: from localhost ([::1]:34210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E2517912E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 14:19:45 +0100 (CET)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Tt4-0004dO-Oj
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 08:16:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38726)
+	id 1j9Tw8-0001Uh-Gx
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 08:19:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9Tp0-00086M-Fu
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:12:23 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9Tp1-00086P-6G
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:12:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9Toz-0003yc-8C
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:12:22 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23860
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9Toz-0003zw-S3
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:12:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24334)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1j9Toz-0003sA-2n
+ id 1j9Toz-0003wq-Kf
  for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:12:21 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 024DB5iC070408; Wed, 4 Mar 2020 08:12:19 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 024D9cYc094007; Wed, 4 Mar 2020 08:12:20 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yhs0u374e-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yhw6nyx71-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 04 Mar 2020 08:12:19 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 024DCIji074235;
- Wed, 4 Mar 2020 08:12:18 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yhs0u373y-1
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 024DCB4X101640;
+ Wed, 4 Mar 2020 08:12:19 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yhw6nyx6d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Mar 2020 08:12:18 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 024DAloq026035;
+ Wed, 04 Mar 2020 08:12:19 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 024DAlwg010075;
  Wed, 4 Mar 2020 13:12:18 GMT
 Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma02wdc.us.ibm.com with ESMTP id 2yffk6twy9-1
+ [9.57.198.24]) by ppma05wdc.us.ibm.com with ESMTP id 2yffk6k1g9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 04 Mar 2020 13:12:18 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
  by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 024DCHfv42467762
+ 024DCHpU39911758
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 4 Mar 2020 13:12:17 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 929FD112064;
+ by IMSVA (Postfix) with ESMTP id A472E112063;
  Wed,  4 Mar 2020 13:12:17 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7BD35112063;
+ by IMSVA (Postfix) with ESMTP id 96540112069;
  Wed,  4 Mar 2020 13:12:17 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Wed,  4 Mar 2020 13:12:17 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 00/10] Merge TPM 2020/03/04
-Date: Wed,  4 Mar 2020 08:12:04 -0500
-Message-Id: <20200304131214.179000-1-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 01/10] tpm: rename TPM_TIS into TPM_TIS_ISA
+Date: Wed,  4 Mar 2020 08:12:05 -0500
+Message-Id: <20200304131214.179000-2-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200304131214.179000-1-stefanb@linux.vnet.ibm.com>
+References: <20200304131214.179000-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-04_05:2020-03-04,
  2020-03-04 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=1
- lowpriorityscore=0 impostorscore=0 spamscore=0 clxscore=1015 adultscore=0
- phishscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003040101
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+ malwarescore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0
+ suspectscore=1 adultscore=0 mlxscore=0 mlxlogscore=999 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003040101
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id 024D9cYc094007
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,80 +94,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>, peter.maydell@linaro.org,
+ Stefan Berger <stefanb@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series of patches adds support for TPM on ARM.
+From: Eric Auger <eric.auger@redhat.com>
 
-Regards,
-    Stefan
+As we plan to introduce a sysbus TPM_TIS, let's rename
+TPM_TIS into TPM_TIS_ISA.
 
-The following changes since commit 2ac031d171ccd18c973014d9978b4a63f0ad5fb0:
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Message-id: 20200226205942.11424-2-eric.auger@redhat.com
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+---
+ hw/i386/acpi-build.c | 6 +++---
+ hw/tpm/tpm_tis.c     | 4 ++--
+ include/sysemu/tpm.h | 6 +++---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-  Merge remote-tracking branch 'remotes/palmer/tags/riscv-for-master-5.0-sf3' into staging (2020-03-03 11:06:39 +0000)
-
-are available in the Git repository at:
-
-  git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-03-04-1
-
-for you to fetch changes up to cf5b8ff14b38eb93363364635df3a0e6aa8c74e5:
-
-  test: tpm-tis: Add Sysbus TPM-TIS device test (2020-03-03 07:29:09 -0500)
-
-
-Eric Auger (10):
-  tpm: rename TPM_TIS into TPM_TIS_ISA
-  tpm: Use TPMState as a common struct
-  tpm: Separate tpm_tis common functions from isa code
-  tpm: Separate TPM_TIS and TPM_TIS_ISA configs
-  tpm: Add the SysBus TPM TIS device
-  hw/arm/virt: vTPM support
-  docs/specs/tpm: Document TPM_TIS sysbus device for ARM
-  test: tpm: pass optional machine options to swtpm test functions
-  test: tpm-tis: Get prepared to share tests between ISA and sysbus
-    devices
-  test: tpm-tis: Add Sysbus TPM-TIS device test
-
- default-configs/i386-softmmu.mak        |   2 +-
- docs/specs/tpm.rst                      |  25 +-
- hw/arm/Kconfig                          |   1 +
- hw/arm/sysbus-fdt.c                     |  33 ++
- hw/arm/virt.c                           |   7 +
- hw/i386/Kconfig                         |   2 +-
- hw/i386/acpi-build.c                    |   6 +-
- hw/tpm/Kconfig                          |  12 +-
- hw/tpm/Makefile.objs                    |   4 +-
- hw/tpm/tpm_tis.h                        |  91 +++++
- hw/tpm/{tpm_tis.c => tpm_tis_common.c}  | 181 +---------
- hw/tpm/tpm_tis_isa.c                    | 170 +++++++++
- hw/tpm/tpm_tis_sysbus.c                 | 159 +++++++++
- include/sysemu/tpm.h                    |   7 +-
- tests/qtest/Makefile.include            |  11 +-
- tests/qtest/tpm-crb-swtpm-test.c        |   9 +-
- tests/qtest/tpm-crb-test.c              |   3 +
- tests/qtest/tpm-tests.c                 |  10 +-
- tests/qtest/tpm-tests.h                 |   5 +-
- tests/qtest/tpm-tis-device-swtpm-test.c |  76 ++++
- tests/qtest/tpm-tis-device-test.c       |  87 +++++
- tests/qtest/tpm-tis-swtpm-test.c        |   8 +-
- tests/qtest/tpm-tis-test.c              | 414 +---------------------
- tests/qtest/tpm-tis-util.c              | 451 ++++++++++++++++++++++++
- tests/qtest/tpm-tis-util.h              |  23 ++
- tests/qtest/tpm-util.c                  |  11 +-
- tests/qtest/tpm-util.h                  |   8 +-
- 27 files changed, 1207 insertions(+), 609 deletions(-)
- create mode 100644 hw/tpm/tpm_tis.h
- rename hw/tpm/{tpm_tis.c => tpm_tis_common.c} (85%)
- create mode 100644 hw/tpm/tpm_tis_isa.c
- create mode 100644 hw/tpm/tpm_tis_sysbus.c
- create mode 100644 tests/qtest/tpm-tis-device-swtpm-test.c
- create mode 100644 tests/qtest/tpm-tis-device-test.c
- create mode 100644 tests/qtest/tpm-tis-util.c
- create mode 100644 tests/qtest/tpm-tis-util.h
-
--- 
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 9c4e46fa74..26777f8828 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2026,7 +2026,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
+     }
+=20
+-    if (TPM_IS_TIS(tpm_find())) {
++    if (TPM_IS_TIS_ISA(tpm_find())) {
+         aml_append(crs, aml_memory32_fixed(TPM_TIS_ADDR_BASE,
+                    TPM_TIS_ADDR_SIZE, AML_READ_WRITE));
+     }
+@@ -2197,7 +2197,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             /* Scan all PCI buses. Generate tables to support hotplug. *=
+/
+             build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en=
+);
+=20
+-            if (TPM_IS_TIS(tpm)) {
++            if (TPM_IS_TIS_ISA(tpm)) {
+                 if (misc->tpm_version =3D=3D TPM_VERSION_2_0) {
+                     dev =3D aml_device("TPM");
+                     aml_append(dev, aml_name_decl("_HID",
+@@ -2304,7 +2304,7 @@ build_tpm2(GArray *table_data, BIOSLinker *linker, =
+GArray *tcpalog)
+         (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+=20
+     tpm2_ptr->platform_class =3D cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
+-    if (TPM_IS_TIS(tpm_find())) {
++    if (TPM_IS_TIS_ISA(tpm_find())) {
+         tpm2_ptr->control_area_address =3D cpu_to_le64(0);
+         tpm2_ptr->start_method =3D cpu_to_le32(TPM2_START_METHOD_MMIO);
+     } else if (TPM_IS_CRB(tpm_find())) {
+diff --git a/hw/tpm/tpm_tis.c b/hw/tpm/tpm_tis.c
+index 31facb896d..c609737272 100644
+--- a/hw/tpm/tpm_tis.c
++++ b/hw/tpm/tpm_tis.c
+@@ -91,7 +91,7 @@ typedef struct TPMState {
+     TPMPPI ppi;
+ } TPMState;
+=20
+-#define TPM(obj) OBJECT_CHECK(TPMState, (obj), TYPE_TPM_TIS)
++#define TPM(obj) OBJECT_CHECK(TPMState, (obj), TYPE_TPM_TIS_ISA)
+=20
+ #define DEBUG_TIS 0
+=20
+@@ -1008,7 +1008,7 @@ static void tpm_tis_class_init(ObjectClass *klass, =
+void *data)
+ }
+=20
+ static const TypeInfo tpm_tis_info =3D {
+-    .name =3D TYPE_TPM_TIS,
++    .name =3D TYPE_TPM_TIS_ISA,
+     .parent =3D TYPE_ISA_DEVICE,
+     .instance_size =3D sizeof(TPMState),
+     .instance_init =3D tpm_tis_initfn,
+diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+index 15979a3647..1691b92c28 100644
+--- a/include/sysemu/tpm.h
++++ b/include/sysemu/tpm.h
+@@ -43,12 +43,12 @@ typedef struct TPMIfClass {
+     enum TPMVersion (*get_version)(TPMIf *obj);
+ } TPMIfClass;
+=20
+-#define TYPE_TPM_TIS                "tpm-tis"
++#define TYPE_TPM_TIS_ISA            "tpm-tis"
+ #define TYPE_TPM_CRB                "tpm-crb"
+ #define TYPE_TPM_SPAPR              "tpm-spapr"
+=20
+-#define TPM_IS_TIS(chr)                             \
+-    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS)
++#define TPM_IS_TIS_ISA(chr)                         \
++    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
+ #define TPM_IS_CRB(chr)                             \
+     object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
+ #define TPM_IS_SPAPR(chr)                           \
+--=20
 2.24.1
 
 
