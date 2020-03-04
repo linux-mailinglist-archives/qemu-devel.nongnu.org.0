@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A6817939E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 16:36:05 +0100 (CET)
-Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 452B91793B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 16:38:43 +0100 (CET)
+Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9W44-0001zz-LO
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 10:36:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45288)
+	id 1j9W6c-0008Do-Av
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 10:38:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45332)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9W1l-0007Gd-Vh
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:33:44 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9W1q-0007NX-Lz
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:33:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9W1k-0003za-Gp
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:33:41 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59638
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9W1p-00046v-5e
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:33:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51953
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9W1k-0003yc-5I
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:33:40 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9W1p-00046N-28
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:33:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583336019;
+ s=mimecast20190719; t=1583336024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ncXvKgCh7oNRxNDfr+HT+HXiEUoLIL65NXTlOR8SRiw=;
- b=gGRjgiME74yKTwWRkpZNZ0v4HWXqIWkrpoNSoOklTb1juQmP9QKf0uj38SKUNwBvPAYUjS
- rzKGlAYAmYb565v6OTDXOQ/j1CW7KWXXh1Ew3U7ginnTAcRXxcsGPpBywD65VJHKDnNnFP
- CYC//tVI6UN7rjbprOURzQnP72cDoSw=
+ bh=M6bOA2bmzs7vUmurz3p844VtrEnDUzC6kMVk052Rcfs=;
+ b=ZJEuigYYTHAfK+kJHJ0POC4ELIj12yMAiYVyTGeGBPmVGLRAVFNN+pMnKU4WNFQ/m/3+L7
+ MF4EqaXvhDWK53RVxEwNzIbvM78AeR11CGLCxotDgSi/vmTCCexxY/BLvZh9H1PAgSsbQu
+ 7aWPVpaKBJoaTg7LEKArxNJocQ2y74o=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-CEQtzDW0P9CP5AxUZ6E2UQ-1; Wed, 04 Mar 2020 10:33:38 -0500
-X-MC-Unique: CEQtzDW0P9CP5AxUZ6E2UQ-1
-Received: by mail-wm1-f70.google.com with SMTP id y7so1006160wmd.4
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 07:33:37 -0800 (PST)
+ us-mta-7-bm9XURKgM6iR7sGxVrtWBg-1; Wed, 04 Mar 2020 10:33:43 -0500
+X-MC-Unique: bm9XURKgM6iR7sGxVrtWBg-1
+Received: by mail-wm1-f70.google.com with SMTP id v21so694466wml.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 07:33:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lIsPttx7EyIfrKo8AXy0rWHmebp0Fo3V9l7UpmGnTwA=;
- b=B39ijL5C29EvWBywl8gro0Krh/Z5va27I0mB528UTq8iw90PBqf7EYFy2fXwTKGD0b
- 1/9KOdZkDIS/EQNtKzLMExxVE8jWig09AnQ5UISuDhhjnc2tXMJjP72JeO1LhTHU7LtA
- x17VlajcdVhq7nO632YW+0bUQwQph4Cn8hT0O8lejrTXjOLTzELX4gMHkGZrRt2Cz1C2
- vb+851YG3x9WVt8LCbsnbsSeAID35fljngZYhWdjvwED1Y/SafJXrBclvUmE6bVbyqCk
- nJBFM3WEqnDWx1hdEjTDJNpV8/2zHjp+FmsRC1lfgrKBb5J8EwZZ5ycVEGIoBueFQpeS
- WBhg==
-X-Gm-Message-State: ANhLgQ0M+wLyoa9lQ9wyelEf6Jbv2gnIO2XQwZm4ZavlKzfji1ud91wu
- LIXKhKMEo6y8v7IQM+nF8Km+8wnWm2ULPy+RLvkTnr1pb9i8LStbqsEelY37DiZRBzSTmXgRGNQ
- fsxKO/1YJaFGaL+Q=
-X-Received: by 2002:adf:ee86:: with SMTP id b6mr4483540wro.282.1583336016764; 
- Wed, 04 Mar 2020 07:33:36 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vvDPT3fAJASBFYUhOP6MiWlX7Asqyk+TsRCO4jq26QmdxrKeTswAcy9CJXcU3BXH/gwzsK+2Q==
-X-Received: by 2002:adf:ee86:: with SMTP id b6mr4483519wro.282.1583336016489; 
- Wed, 04 Mar 2020 07:33:36 -0800 (PST)
+ bh=UqS7KKOYNA08wTI1vIP1P7qHtBq16EhluaX19XU82to=;
+ b=P1oYxNpU3rVlPQDw0hFfeIIDZqEPM11lHO9z51lZ3okHY9vc5isSlYmoqSAq76ieYh
+ YG9O/iP5Ior2uK04EH5J7ehaM7L1Be+fyPPvfHCloB822oF2xQlsxP/b8sQgJOtiE8o1
+ rNGeVgdBOauHqT1HLwPZAJjK84LOYxcHKCaSrhTearqvYt8wkr6Wq0iMrprE0HO6MRk0
+ LBBkhhsoZah6Gyh98IlpIDp/2LzC2nwZe7DY9/W6aXxqy2WYN2X+FLq7LNIoRAmx+7tp
+ MRvux/KXv6AQLghSwyg/cCB90xVJxfKC+vsWnCf5Vlp7vOHtrsvM0XEUsSe36R3Rnqr2
+ hE9w==
+X-Gm-Message-State: ANhLgQ00RH3UDoV4KaY9Zgl6aZCG8AtK/dZTaqbUqiZMyBdRuTszFPfU
+ DxEbTYyVFuZoh2++vMkLr/JWb0X3VpYRg3kZd1MbAhzBCADCirCPf6vSZZDvWuGA+pGEUv3YE01
+ 73N9oSXaOA6OZTCs=
+X-Received: by 2002:adf:e9c2:: with SMTP id l2mr4498463wrn.86.1583336021882;
+ Wed, 04 Mar 2020 07:33:41 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vs3DEEsqfl+Fix8m+E1ul4OTPsKX/aNWB+jmFCsGcVuJb1J59/YT49qLAcYOzAnSWSCy32sSg==
+X-Received: by 2002:adf:e9c2:: with SMTP id l2mr4498450wrn.86.1583336021688;
+ Wed, 04 Mar 2020 07:33:41 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id h10sm5165717wml.18.2020.03.04.07.33.35
+ by smtp.gmail.com with ESMTPSA id c26sm4622481wmb.8.2020.03.04.07.33.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2020 07:33:36 -0800 (PST)
+ Wed, 04 Mar 2020 07:33:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/scsi/spapr_vscsi: Introduce req_ui() helper
-Date: Wed,  4 Mar 2020 16:33:10 +0100
-Message-Id: <20200304153311.22959-5-philmd@redhat.com>
+Subject: [PATCH 5/5] hw/scsi/spapr_vscsi: Do not mix SRP IU size with DMA
+ buffer size
+Date: Wed,  4 Mar 2020 16:33:11 +0100
+Message-Id: <20200304153311.22959-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200304153311.22959-1-philmd@redhat.com>
 References: <20200304153311.22959-1-philmd@redhat.com>
@@ -77,7 +78,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,197 +97,95 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the req_ui() helper which returns a pointer to
-the viosrp_iu union held in the vscsi_req structure.
-This simplifies the next patch.
+The 'union srp_iu' is meant as a pointer to any SRP Information
+Unit type, it is not related to the size of a VIO DMA buffer.
+
+Use a plain buffer for the VIO DMA read/write calls.
+We can remove the reserved buffer from the 'union srp_iu'.
+
+This issue was noticed when replacing the zero-length arrays
+from hw/scsi/srp.h with flexible array member,
+'clang -fsanitize=3Dundefined' reported:
+
+  hw/scsi/spapr_vscsi.c:69:29: error: field 'iu' with variable sized type '=
+union viosrp_iu' not at the end of a struct or class is a GNU extension [-W=
+error,-Wgnu-variable-sized-type-not-at-end]
+       union viosrp_iu         iu;
+                               ^
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/scsi/spapr_vscsi.c | 40 ++++++++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 16 deletions(-)
+ hw/scsi/viosrp.h      |  2 +-
+ hw/scsi/spapr_vscsi.c | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
+index 25676c2383..aba3203028 100644
+--- a/hw/scsi/viosrp.h
++++ b/hw/scsi/viosrp.h
+@@ -49,8 +49,8 @@ union srp_iu {
+     struct srp_tsk_mgmt tsk_mgmt;
+     struct srp_cmd cmd;
+     struct srp_rsp rsp;
+-    uint8_t reserved[SRP_MAX_IU_LEN];
+ };
++_Static_assert(sizeof(union srp_iu) <=3D SRP_MAX_IU_LEN, "srp_iu size inco=
+rrect");
+=20
+ enum viosrp_crq_formats {
+     VIOSRP_SRP_FORMAT =3D 0x01,
 diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
-index 3cb5a38181..f1a0bbdc31 100644
+index f1a0bbdc31..f9be68e44e 100644
 --- a/hw/scsi/spapr_vscsi.c
 +++ b/hw/scsi/spapr_vscsi.c
-@@ -97,6 +97,12 @@ typedef struct {
-     vscsi_req reqs[VSCSI_REQ_LIMIT];
- } VSCSIState;
+@@ -66,7 +66,7 @@ typedef union vscsi_crq {
 =20
-+static union viosrp_iu *req_iu(vscsi_req *req)
-+{
-+    return (union viosrp_iu *)req->iu.srp.reserved;
-+}
-+
-+
- static struct vscsi_req *vscsi_get_req(VSCSIState *s)
+ typedef struct vscsi_req {
+     vscsi_crq               crq;
+-    union viosrp_iu         iu;
++    uint8_t                 viosrp_iu_buf[SRP_MAX_IU_LEN];
+=20
+     /* SCSI request tracking */
+     SCSIRequest             *sreq;
+@@ -99,7 +99,7 @@ typedef struct {
+=20
+ static union viosrp_iu *req_iu(vscsi_req *req)
  {
-     vscsi_req *req;
-@@ -121,7 +127,7 @@ static struct vscsi_req *vscsi_find_req(VSCSIState *s, =
-uint64_t srp_tag)
+-    return (union viosrp_iu *)req->iu.srp.reserved;
++    return (union viosrp_iu *)req->viosrp_iu_buf;
+ }
 =20
-     for (i =3D 0; i < VSCSI_REQ_LIMIT; i++) {
-         req =3D &s->reqs[i];
--        if (req->iu.srp.cmd.tag =3D=3D srp_tag) {
-+        if (req_iu(req)->srp.cmd.tag =3D=3D srp_tag) {
-             return req;
-         }
+=20
+@@ -184,7 +184,7 @@ static int vscsi_send_iu(VSCSIState *s, vscsi_req *req,
+=20
+     /* First copy the SRP */
+     rc =3D spapr_vio_dma_write(&s->vdev, req->crq.s.IU_data_ptr,
+-                             &req->iu, length);
++                             &req->viosrp_iu_buf, length);
+     if (rc) {
+         fprintf(stderr, "vscsi_send_iu: DMA write failure !\n");
      }
-@@ -188,7 +194,7 @@ static int vscsi_send_iu(VSCSIState *s, vscsi_req *req,
-     req->crq.s.reserved =3D 0x00;
-     req->crq.s.timeout =3D cpu_to_be16(0x0000);
-     req->crq.s.IU_length =3D cpu_to_be16(length);
--    req->crq.s.IU_data_ptr =3D req->iu.srp.rsp.tag; /* right byte order */
-+    req->crq.s.IU_data_ptr =3D req_iu(req)->srp.rsp.tag; /* right byte ord=
-er */
+@@ -603,7 +603,7 @@ static const VMStateDescription vmstate_spapr_vscsi_req=
+ =3D {
+     .minimum_version_id =3D 1,
+     .fields =3D (VMStateField[]) {
+         VMSTATE_BUFFER(crq.raw, vscsi_req),
+-        VMSTATE_BUFFER(iu.srp.reserved, vscsi_req),
++        VMSTATE_BUFFER(viosrp_iu_buf, vscsi_req),
+         VMSTATE_UINT32(qtag, vscsi_req),
+         VMSTATE_BOOL(active, vscsi_req),
+         VMSTATE_UINT32(data_len, vscsi_req),
+@@ -1104,7 +1104,7 @@ static void vscsi_got_payload(VSCSIState *s, vscsi_cr=
+q *crq)
+     }
 =20
-     if (rc =3D=3D 0) {
-         req->crq.s.status =3D VIOSRP_OK;
-@@ -224,7 +230,7 @@ static void vscsi_makeup_sense(VSCSIState *s, vscsi_req=
- *req,
- static int vscsi_send_rsp(VSCSIState *s, vscsi_req *req,
-                           uint8_t status, int32_t res_in, int32_t res_out)
- {
--    union viosrp_iu *iu =3D &req->iu;
-+    union viosrp_iu *iu =3D req_iu(req);
-     uint64_t tag =3D iu->srp.rsp.tag;
-     int total_len =3D sizeof(iu->srp.rsp);
-     uint8_t sol_not =3D iu->srp.cmd.sol_not;
-@@ -285,7 +291,7 @@ static int vscsi_fetch_desc(VSCSIState *s, struct vscsi=
-_req *req,
-                             unsigned n, unsigned buf_offset,
-                             struct srp_direct_buf *ret)
- {
--    struct srp_cmd *cmd =3D &req->iu.srp.cmd;
-+    struct srp_cmd *cmd =3D &req_iu(req)->srp.cmd;
-=20
-     switch (req->dma_fmt) {
-     case SRP_NO_DATA_DESC: {
-@@ -473,7 +479,7 @@ static int data_out_desc_size(struct srp_cmd *cmd)
-=20
- static int vscsi_preprocess_desc(vscsi_req *req)
- {
--    struct srp_cmd *cmd =3D &req->iu.srp.cmd;
-+    struct srp_cmd *cmd =3D &req_iu(req)->srp.cmd;
-=20
-     req->cdb_offset =3D cmd->add_cdb_len & ~3;
-=20
-@@ -655,7 +661,7 @@ static void *vscsi_load_request(QEMUFile *f, SCSIReques=
-t *sreq)
-=20
- static void vscsi_process_login(VSCSIState *s, vscsi_req *req)
- {
--    union viosrp_iu *iu =3D &req->iu;
-+    union viosrp_iu *iu =3D req_iu(req);
-     struct srp_login_rsp *rsp =3D &iu->srp.login_rsp;
-     uint64_t tag =3D iu->srp.rsp.tag;
-=20
-@@ -681,7 +687,7 @@ static void vscsi_process_login(VSCSIState *s, vscsi_re=
-q *req)
-=20
- static void vscsi_inquiry_no_target(VSCSIState *s, vscsi_req *req)
- {
--    uint8_t *cdb =3D req->iu.srp.cmd.cdb;
-+    uint8_t *cdb =3D req_iu(req)->srp.cmd.cdb;
-     uint8_t resp_data[36];
-     int rc, len, alen;
-=20
-@@ -770,7 +776,7 @@ static void vscsi_report_luns(VSCSIState *s, vscsi_req =
-*req)
-=20
- static int vscsi_queue_cmd(VSCSIState *s, vscsi_req *req)
- {
--    union srp_iu *srp =3D &req->iu.srp;
-+    union srp_iu *srp =3D &req_iu(req)->srp;
-     SCSIDevice *sdev;
-     int n, lun;
-=20
-@@ -821,7 +827,7 @@ static int vscsi_queue_cmd(VSCSIState *s, vscsi_req *re=
-q)
-=20
- static int vscsi_process_tsk_mgmt(VSCSIState *s, vscsi_req *req)
- {
--    union viosrp_iu *iu =3D &req->iu;
-+    union viosrp_iu *iu =3D req_iu(req);
-     vscsi_req *tmpreq;
-     int i, lun =3D 0, resp =3D SRP_TSK_MGMT_COMPLETE;
-     SCSIDevice *d;
-@@ -831,7 +837,8 @@ static int vscsi_process_tsk_mgmt(VSCSIState *s, vscsi_=
-req *req)
-     fprintf(stderr, "vscsi_process_tsk_mgmt %02x\n",
-             iu->srp.tsk_mgmt.tsk_mgmt_func);
-=20
--    d =3D vscsi_device_find(&s->bus, be64_to_cpu(req->iu.srp.tsk_mgmt.lun)=
-, &lun);
-+    d =3D vscsi_device_find(&s->bus,
-+                          be64_to_cpu(req_iu(req)->srp.tsk_mgmt.lun), &lun=
-);
-     if (!d) {
-         resp =3D SRP_TSK_MGMT_FIELDS_INVALID;
-     } else {
-@@ -842,7 +849,7 @@ static int vscsi_process_tsk_mgmt(VSCSIState *s, vscsi_=
-req *req)
-                 break;
-             }
-=20
--            tmpreq =3D vscsi_find_req(s, req->iu.srp.tsk_mgmt.task_tag);
-+            tmpreq =3D vscsi_find_req(s, req_iu(req)->srp.tsk_mgmt.task_ta=
-g);
-             if (tmpreq && tmpreq->sreq) {
-                 assert(tmpreq->sreq->hba_private);
-                 scsi_req_cancel(tmpreq->sreq);
-@@ -867,7 +874,8 @@ static int vscsi_process_tsk_mgmt(VSCSIState *s, vscsi_=
-req *req)
-=20
-             for (i =3D 0; i < VSCSI_REQ_LIMIT; i++) {
-                 tmpreq =3D &s->reqs[i];
--                if (tmpreq->iu.srp.cmd.lun !=3D req->iu.srp.tsk_mgmt.lun) =
-{
-+                if (req_iu(tmpreq)->srp.cmd.lun
-+                        !=3D req_iu(req)->srp.tsk_mgmt.lun) {
-                     continue;
-                 }
-                 if (!tmpreq->active || !tmpreq->sreq) {
-@@ -911,7 +919,7 @@ static int vscsi_process_tsk_mgmt(VSCSIState *s, vscsi_=
-req *req)
-=20
- static int vscsi_handle_srp_req(VSCSIState *s, vscsi_req *req)
- {
--    union srp_iu *srp =3D &req->iu.srp;
-+    union srp_iu *srp =3D &req_iu(req)->srp;
-     int done =3D 1;
-     uint8_t opcode =3D srp->rsp.opcode;
-=20
-@@ -948,7 +956,7 @@ static int vscsi_send_adapter_info(VSCSIState *s, vscsi=
-_req *req)
-     struct mad_adapter_info_data info;
-     int rc;
-=20
--    sinfo =3D &req->iu.mad.adapter_info;
-+    sinfo =3D &req_iu(req)->mad.adapter_info;
-=20
- #if 0 /* What for ? */
-     rc =3D spapr_vio_dma_read(&s->vdev, be64_to_cpu(sinfo->buffer),
-@@ -984,7 +992,7 @@ static int vscsi_send_capabilities(VSCSIState *s, vscsi=
-_req *req)
-     uint64_t buffer;
-     int rc;
-=20
--    vcap =3D &req->iu.mad.capabilities;
-+    vcap =3D &req_iu(req)->mad.capabilities;
-     req_len =3D len =3D be16_to_cpu(vcap->common.length);
-     buffer =3D be64_to_cpu(vcap->buffer);
-     if (len > sizeof(cap)) {
-@@ -1029,7 +1037,7 @@ static int vscsi_send_capabilities(VSCSIState *s, vsc=
-si_req *req)
-=20
- static int vscsi_handle_mad_req(VSCSIState *s, vscsi_req *req)
- {
--    union mad_iu *mad =3D &req->iu.mad;
-+    union mad_iu *mad =3D &req_iu(req)->mad;
-     bool request_handled =3D false;
-     uint64_t retlen =3D 0;
-=20
+     /* XXX Handle failure differently ? */
+-    if (spapr_vio_dma_read(&s->vdev, crq->s.IU_data_ptr, &req->iu,
++    if (spapr_vio_dma_read(&s->vdev, crq->s.IU_data_ptr, &req->viosrp_iu_b=
+uf,
+                            crq->s.IU_length)) {
+         fprintf(stderr, "vscsi_got_payload: DMA read failure !\n");
+         vscsi_put_req(req);
 --=20
 2.21.1
 
