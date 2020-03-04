@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FC51792D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 15:57:34 +0100 (CET)
-Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E67A1792F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 16:05:25 +0100 (CET)
+Received: from localhost ([::1]:35432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9VSn-0008KK-01
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 09:57:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35260)
+	id 1j9VaN-0006jc-Qu
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 10:05:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j9VRu-0007pk-DQ
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 09:56:39 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j9VZV-0006JY-4d
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:04:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j9VRs-0006g0-IY
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 09:56:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48083
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9VRs-0006fb-76
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 09:56:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583333795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dMhlNvChTW9zAB9M1obZ6GdzhjzT2fgL9+a5XaNVyLQ=;
- b=X27MD7Q3LnH8U4ZCY8clppnS3LEwiVRn7yOjWrexOt8qaemeJLpN69BNoq5cz8RTFKKV5V
- lQlijt3Ga5T3WrcTq3GAp82pV4wHkexBVATgoAhThBnSujQ8Iz7uklJSaGZ7l9jdXpF1kW
- jhhQYMRoKmBpAOpotabllO2lf9bUalo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-DwzA9PmrPx2DwSPe_FlQ-Q-1; Wed, 04 Mar 2020 09:56:32 -0500
-X-MC-Unique: DwzA9PmrPx2DwSPe_FlQ-Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 259B818A6EC3;
- Wed,  4 Mar 2020 14:56:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
- [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67D0190CC3;
- Wed,  4 Mar 2020 14:56:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 05A0611386A6; Wed,  4 Mar 2020 15:56:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH v5 2/5] qcow2: introduce compression type feature
-References: <20200304133538.9159-1-dplotnikov@virtuozzo.com>
- <20200304133538.9159-3-dplotnikov@virtuozzo.com>
-Date: Wed, 04 Mar 2020 15:56:27 +0100
-In-Reply-To: <20200304133538.9159-3-dplotnikov@virtuozzo.com> (Denis
- Plotnikov's message of "Wed, 4 Mar 2020 16:35:35 +0300")
-Message-ID: <87d09si2xw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <no-reply@patchew.org>) id 1j9VZT-00044h-DB
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:04:28 -0500
+Resent-Date: Wed, 04 Mar 2020 10:04:28 -0500
+Resent-Message-Id: <E1j9VZT-00044h-DB@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21136)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j9VZS-00040r-FR
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 10:04:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1583334251; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ZgDbl0lWkuIkEr/XrXCfPKZSkaaXX7vC1o/BS03V2hcKid3eesZWrT022J1yNn20Fxyr85xLSaSXh6P0vZJ3rNlyd5MIYjgFmS3QUI2ncncWJ07NkqeL/WDYVXy2W/8eMqvtpjepBV/17w1ViRq/afr9StjgRygJcjFubR5ydto=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583334251;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=N86vLXN82zMWz0o5cH5pLQz9EmGlZJXYwR60eKXnGFU=; 
+ b=UwqyaPe+iFaFn2F/+Ey8utwjLB/+h369I5uX5nk4EJm4Ii0xz7ozyutfYcrUTu/cm/QxFVSZV4sFQ9sg+++dobBz2QVMmENUUugpxgq0ZuMkjQa+TYy5DLVqDTqmYNqBj6HZv5SkZktCv3rKwcRki7ZnyYnY9KYjcJ68sR71WR8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1583334247572164.4891805943339;
+ Wed, 4 Mar 2020 07:04:07 -0800 (PST)
+In-Reply-To: <20200304145003.GB15649@humpty.home.comstyle.com>
+Subject: Re: [PATCH] audio: Add sndio backend
+Message-ID: <158333424649.21741.12510392429749383012@abdcc9e1aa82>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: brad@comstyle.com
+Date: Wed, 4 Mar 2020 07:04:07 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,134 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- den@openvz.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Denis Plotnikov <dplotnikov@virtuozzo.com> writes:
-
-> The patch adds some preparation parts for incompatible compression type
-> feature to qcow2 allowing the use different compression methods for
-> image clusters (de)compressing.
->
-> It is implied that the compression type is set on the image creation and
-> can be changed only later by image conversion, thus compression type
-> defines the only compression algorithm used for the image, and thus,
-> for all image clusters.
->
-> The goal of the feature is to add support of other compression methods
-> to qcow2. For example, ZSTD which is more effective on compression than Z=
-LIB.
->
-> The default compression is ZLIB. Images created with ZLIB compression typ=
-e
-> are backward compatible with older qemu versions.
->
-> Adding of the compression type breaks a number of tests because now the
-> compression type is reported on image creation and there are some changes
-> in the qcow2 header in size and offsets.
->
-> The tests are fixed in the following ways:
->     * filter out compression_type for all the tests
->     * fix header size, feature table size and backing file offset
->       affected tests: 031, 036, 061, 080
->       header_size +=3D8: 1 byte compression type
->                        7 bytes padding
->       feature_table +=3D 48: incompatible feture compression type
->       backing_file_offset +=3D 56 (8 + 48 -> header_change + fature_table=
-_change)
->     * add "compression type" for test output matching when it isn't filte=
-red
->       affected tests: 049, 060, 061, 065, 144, 182, 242, 255
->
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  qapi/block-core.json             |  22 ++++++-
->  block/qcow2.h                    |  18 +++++-
->  include/block/block_int.h        |   1 +
->  block/qcow2.c                    | 101 ++++++++++++++++++++++++++++++
->  tests/qemu-iotests/031.out       |  14 ++---
->  tests/qemu-iotests/036.out       |   4 +-
->  tests/qemu-iotests/049.out       | 102 +++++++++++++++----------------
->  tests/qemu-iotests/060.out       |   1 +
->  tests/qemu-iotests/061.out       |  34 ++++++-----
->  tests/qemu-iotests/065           |  28 ++++++---
->  tests/qemu-iotests/080           |   2 +-
->  tests/qemu-iotests/144.out       |   4 +-
->  tests/qemu-iotests/182.out       |   2 +-
->  tests/qemu-iotests/242.out       |   5 ++
->  tests/qemu-iotests/255.out       |   8 +--
->  tests/qemu-iotests/common.filter |   3 +-
->  16 files changed, 253 insertions(+), 96 deletions(-)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 85e27bb61f..a67eb8bff4 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -78,6 +78,8 @@
->  #
->  # @bitmaps: A list of qcow2 bitmap details (since 4.0)
->  #
-> +# @compression-type: the image cluster compression method (since 5.0)
-> +#
->  # Since: 1.7
->  ##
->  { 'struct': 'ImageInfoSpecificQCow2',
-> @@ -89,7 +91,8 @@
->        '*corrupt': 'bool',
->        'refcount-bits': 'int',
->        '*encrypt': 'ImageInfoSpecificQCow2Encryption',
-> -      '*bitmaps': ['Qcow2BitmapInfo']
-> +      '*bitmaps': ['Qcow2BitmapInfo'],
-> +      'compression-type': 'Qcow2CompressionType'
->    } }
-> =20
->  ##
-> @@ -4392,6 +4395,18 @@
->    'data': [ 'v2', 'v3' ] }
-> =20
-> =20
-> +##
-> +# @Qcow2CompressionType:
-> +#
-> +# Compression type used in qcow2 image file
-> +#
-> +# @zlib:  zlib compression, see <http://zlib.net/>
-> +#
-> +# Since: 5.0
-> +##
-> +{ 'enum': 'Qcow2CompressionType',
-> +  'data': [ 'zlib' ] }
-> +
->  ##
->  # @BlockdevCreateOptionsQcow2:
->  #
-> @@ -4415,6 +4430,8 @@
->  #                 allowed values: off, falloc, full, metadata)
->  # @lazy-refcounts: True if refcounts may be updated lazily (default: off=
-)
->  # @refcount-bits: Width of reference counts in bits (default: 16)
-> +# @compression-type: The image cluster compression method
-> +#                    (default: zlib, since 5.0)
->  #
->  # Since: 2.12
->  ##
-> @@ -4430,7 +4447,8 @@
->              '*cluster-size':    'size',
->              '*preallocation':   'PreallocMode',
->              '*lazy-refcounts':  'bool',
-> -            '*refcount-bits':   'int' } }
-> +            '*refcount-bits':   'int',
-> +            '*compression-type':'Qcow2CompressionType' } }
-> =20
->  ##
->  # @BlockdevCreateOptionsQed:
-[...]
-
-QAPI part:
-Acked-by: Markus Armbruster <armbru@redhat.com>
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwNDE0NTAwMy5HQjE1
+NjQ5QGh1bXB0eS5ob21lLmNvbXN0eWxlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIXSBhdWRpbzogQWRkIHNuZGlvIGJhY2tl
+bmQKTWVzc2FnZS1pZDogMjAyMDAzMDQxNDUwMDMuR0IxNTY0OUBodW1wdHkuaG9tZS5jb21zdHls
+ZS5jb20KVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
+CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
+dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
+Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWdd
+ICAgICAgICAgcGF0Y2hldy8yMDIwMDMwNDE0NTAwMy5HQjE1NjQ5QGh1bXB0eS5ob21lLmNvbXN0
+eWxlLmNvbSAtPiBwYXRjaGV3LzIwMjAwMzA0MTQ1MDAzLkdCMTU2NDlAaHVtcHR5LmhvbWUuY29t
+c3R5bGUuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNDIxYWI2MiBhdWRpbzog
+QWRkIHNuZGlvIGJhY2tlbmQKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBzcGFjZSBwcm9o
+aWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojNDE6IEZJTEU6IGF1ZGlv
+L2F1ZGlvLmM6MTk3NzoKKyAgICAgICAgQ0FTRShTTkRJTywgc25kaW8sICk7CgpXQVJOSU5HOiBh
+ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
+YXRpbmc/CiM1OTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogZ19mcmVlKE5VTEwpIGlz
+IHNhZmUgdGhpcyBjaGVjayBpcyBwcm9iYWJseSBub3QgcmVxdWlyZWQKIzM4MTogRklMRTogYXVk
+aW8vc25kaW9hdWRpby5jOjMxODoKKyAgICBpZiAoc2VsZi0+cGZkcykgeworICAgICAgICBnX2Zy
+ZWUoc2VsZi0+cGZkcyk7CgpFUlJPUjogZ19mcmVlKE5VTEwpIGlzIHNhZmUgdGhpcyBjaGVjayBp
+cyBwcm9iYWJseSBub3QgcmVxdWlyZWQKIzM4NjogRklMRTogYXVkaW8vc25kaW9hdWRpby5jOjMy
+MzoKKyAgICBpZiAoc2VsZi0+cGluZGV4ZXMpIHsKKyAgICAgICAgZ19mcmVlKHNlbGYtPnBpbmRl
+eGVzKTsKCkVSUk9SOiBnX2ZyZWUoTlVMTCkgaXMgc2FmZSB0aGlzIGNoZWNrIGlzIHByb2JhYmx5
+IG5vdCByZXF1aXJlZAojMzkxOiBGSUxFOiBhdWRpby9zbmRpb2F1ZGlvLmM6MzI4OgorICAgIGlm
+IChzZWxmLT5idWYpIHsKKyAgICAgICAgZ19mcmVlKHNlbGYtPmJ1Zik7Cgp0b3RhbDogNCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDc4MCBsaW5lcyBjaGVja2VkCgpDb21taXQgNDIxYWI2MmMxNjliIChh
+dWRpbzogQWRkIHNuZGlvIGJhY2tlbmQpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBP
+VVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVs
+bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMzA0MTQ1
+MDAzLkdCMTU2NDlAaHVtcHR5LmhvbWUuY29tc3R5bGUuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
