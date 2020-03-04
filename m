@@ -2,93 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B08717918D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 14:39:54 +0100 (CET)
-Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D1D179189
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 14:39:25 +0100 (CET)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9UFd-0007jG-CA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 08:39:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44589)
+	id 1j9UFA-0006yC-RI
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 08:39:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44695)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j9UD5-0003vj-0e
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:37:16 -0500
+ (envelope-from <david@redhat.com>) id 1j9UDR-0004dT-JJ
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:37:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j9UD3-000508-8X
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:37:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35524
+ (envelope-from <david@redhat.com>) id 1j9UDQ-0005eG-Ll
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:37:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29003
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j9UD1-0004wE-OX
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:37:12 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9UDQ-0005a1-Gz
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:37:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583329030;
+ s=mimecast20190719; t=1583329053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=szksgriR2PczV19DSaTwRW+5lJXWlb+Zw9O3ByYy/P4=;
- b=A+xyAiO1gCFzM9sbZL7/3Z9ZwO4wIaTQKxSKFSPA+zalOBrH3kHoaqT+fEG8pNNQ100wHb
- WPbB9R6aKFpNZZFn0GVi5Dv80+CYl3ZvSwoDlrQovf8c9gUBSQanQJ/Wi9Z8iUAFTlqXiZ
- c7pcHh39T6WS0SKsVDN1HCveEsjg8ks=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-s1W8Bd55M7aPNeKSAOo5Pw-1; Wed, 04 Mar 2020 08:37:08 -0500
-X-MC-Unique: s1W8Bd55M7aPNeKSAOo5Pw-1
-Received: by mail-wm1-f70.google.com with SMTP id d129so879532wmd.2
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 05:37:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=szksgriR2PczV19DSaTwRW+5lJXWlb+Zw9O3ByYy/P4=;
- b=lC6CEKBJEGdDRjOp8avysm6eu+bB6qGpRfQPGcwx+HY/41Gi8uBaZDNFITLfBr1X49
- 2CfzWKOmWqJJleGT9VdzMKwtSsmOfYokrAN3iab8n9Mh8p2OS+dTrFAgK1/ZrUUi1+Uq
- WtRtiAg4alW+E81CQC1hWR7Ju+w2Nia8sjRI8g2BEOnbigO9e821bUedh4ptX1ybw9qG
- eWTYQDsCScjUgYSjZg4Kn+e2RXLyA9joAoPEPUb3K/SYFwXGe0YqJ9iC1zMgw9CZV10Z
- xfntzt3VuLNp00ReyDfTaoTuijZYoqlmApD301Qj9u2bPkUn0WPrr+am6j2IPlOfUd6I
- h7GA==
-X-Gm-Message-State: ANhLgQ0rDbOgp5TCd5tBolia6kTuTWzbOQrYVrOw/6IvjW5CgYGjmyPb
- fjHKz51QmZUe9T2EdLs7ZKIm+3XEwne2FDm1bZ4+KcYtKg5DcWG0BTqaevWzpreveM8XRi/v80q
- c7wmT7odeHImCFN4=
-X-Received: by 2002:adf:f343:: with SMTP id e3mr4136053wrp.402.1583329027131; 
- Wed, 04 Mar 2020 05:37:07 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vs1Yh9bP2hy/Abu5UkkPnfsV6q97xsL0Qaluo4yXblECySqhzb8fMEQJaNlU1j8MMvnyV5jeA==
-X-Received: by 2002:adf:f343:: with SMTP id e3mr4136031wrp.402.1583329026884; 
- Wed, 04 Mar 2020 05:37:06 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:9def:34a0:b68d:9993?
- ([2001:b07:6468:f312:9def:34a0:b68d:9993])
- by smtp.gmail.com with ESMTPSA id v8sm4562427wma.28.2020.03.04.05.37.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Mar 2020 05:37:06 -0800 (PST)
-Subject: Re: [PATCH V4 0/5] Introduce Advanced Watch Dog module
-To: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>
-References: <20191217124554.30818-1-chen.zhang@intel.com>
- <fa1ed6cb-63d7-ee83-a5a0-b099b662fef2@intel.com>
- <0502a0db0a17484c9220b3a63c40b397@intel.com>
- <08a1a225-52c1-4e6c-85f7-fcf6612b5383@redhat.com>
- <3049425105b94f6cb9cd846c84c95a84@intel.com>
- <783bac16-0e4d-f027-3e4a-b6fff500c244@redhat.com>
- <c6564993-ec06-7fe1-137d-956f3d554e74@intel.com>
- <679426098de74479a19c2287c68785c4@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <029efd6f-f461-da09-c6b6-1acf67818b64@redhat.com>
-Date: Wed, 4 Mar 2020 14:37:03 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CskZHhshp9k0zrzCbM2C8Ug8ITcPRlKA0+5lglpAQ+g=;
+ b=PH5G5EX/Bzg69XdzHJyGNL1pkr7ZYsfuAssbLkjqGpOa23b1RNRxE0kvfKlpyXZzqniY4P
+ ZZHBD5IA3wK3dVKxtOpxY32ZrMamCsTFI2tqDgBsSebWBBuqGaovfRchajRSwagGUlknXk
+ 0g1wGA6gBPcMADNOZewV8CUtjXH9PeQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-OvOpIZoxPaCtqGi1MG9wKQ-1; Wed, 04 Mar 2020 08:37:30 -0500
+X-MC-Unique: OvOpIZoxPaCtqGi1MG9wKQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F101BDBAD;
+ Wed,  4 Mar 2020 13:37:28 +0000 (UTC)
+Received: from [10.36.117.195] (ovpn-117-195.ams2.redhat.com [10.36.117.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 698F78CCE2;
+ Wed,  4 Mar 2020 13:37:27 +0000 (UTC)
+Subject: Re: [PATCH v6 18/18] pc-bios: s390x: Save iplb location in lowcore
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200304114231.23493-1-frankja@linux.ibm.com>
+ <20200304114231.23493-19-frankja@linux.ibm.com>
+ <23191e82-1f87-f132-c3aa-cb52d495bad6@de.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <9b356bf9-6f6b-b113-4147-ae8ed70c4cf3@redhat.com>
+Date: Wed, 4 Mar 2020 14:37:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <679426098de74479a19c2287c68785c4@intel.com>
+In-Reply-To: <23191e82-1f87-f132-c3aa-cb52d495bad6@de.ibm.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,45 +121,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/03/20 09:06, Zhang, Chen wrote:
->> Hi Eric and Paolo, Can you give some comments about this series?
+On 04.03.20 14:25, Christian Borntraeger wrote:
+> On 04.03.20 12:42, Janosch Frank wrote:
+>> The POP states that for a list directed IPL the IPLB is stored into
+>> memory by the machine loader and its address is stored at offset 0x14
+>> of the lowcore.
 >>
+>> ZIPL currently uses the address in offset 0x14 to access the IPLB and
+>> acquire flags about secure boot. If the IPLB address points into
+>> memory which has an unsupported mix of flags set, ZIPL will panic
+>> instead of booting the OS.
 >>
-> No news for a while...
-> We already have some users(Cloud Service Provider) try to use is module in their product.
-> But they also need to follow the Qemu upstream code.
+>> As the lowcore can have quite a high entropy for a guest that did drop
+>> out of protected mode (i.e. rebooted) we encountered the ZIPL panic
+>> quite often.
+>>
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+> 
+> I think this makes sense even without protected virtualization, no?
+> Unless somebody complains, I think I will pick this up while Conny is
+> on vacation.
 
-My main comment about this series is that it's not clear why it is
-needed and how to use it.  The documentation includes a demo, but no
-description of what is an awd_node, a notification_node and an
-opt_script.  I can more or less understand the notification_node and
-opt_script role from the documentation, but not entirely because, for
-example, the two-host demo has hardcoded IP addresses without saying
-which host is which IP address.
+Yes, makes sense!
 
-The documentation does not describe the protocol, which is absolutely
-necessary, and does not describe _why_ the protocol was designed like
-that.  Without such documentation it's not clear if, for example, the
-watchdog protocol could be implemented as QMP commands (e.g.
-start-watchdog, stop-watchdog, notify-watchdog).  Another possibility
-could be to use the systemd watchdog protocol, which consists of
-essentially three commands (WATCHDOG=1, WATCHDOG=trigger,
-WATCHDOG_USEC=...) which are transmitted as datagrams.  Documentation is
-important for reviewers to judge the merits of the protocol without (or
-before) diving into the code.
 
-In the demo, the opt_script mechanism is currently using the "human"
-monitor as opposed to QMP.  The human monitor interface is not stable
-and not meant for consumption by management interface.  It is not clear
-if this is just a sample usage, and in practice the notification_node
-would be outside of QEMU, or not.  In general I would prefer to have the
-script as an optional feature, and report the triggering of the watchdog
-via QMP events.
+-- 
+Thanks,
 
-Paolo
+David / dhildenb
 
 
