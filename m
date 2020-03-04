@@ -2,83 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4F917873F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 01:52:53 +0100 (CET)
-Received: from localhost ([::1]:55678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2127817874E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 01:57:45 +0100 (CET)
+Received: from localhost ([::1]:55794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9IHM-0002Wl-DZ
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 19:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36163)
+	id 1j9IM4-0007ks-7O
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 19:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9IFw-00011t-Bb
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:51:26 -0500
+ (envelope-from <jasper.lowell@bt.com>) id 1j9IK5-0006bb-Go
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:55:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9IFt-00035J-Nf
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:51:24 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56497
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9IFt-000341-J9
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:51:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583283081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bAxCUTlEovM/fU09MDnH1hHI8VKYx8THgKQ+RZFIk0w=;
- b=AXKDblI9lS6suIxfwg+ZFQ2eXMTKTtcESDAsC/c/BISEWDywwMVirma1IX47S7VVYVRf3W
- ZRmlgrbr05rEpdFqE5BUWZEd/FBKvqd0+9eLoWLBNEH2lTHJa7PbVXmK6tuPc229qjVSPg
- wcFt8nWc1WzR83Gdf7v3eO0JwxCzTk4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-XYrKrlshPxW0RoxG_qGmkg-1; Tue, 03 Mar 2020 19:51:16 -0500
-X-MC-Unique: XYrKrlshPxW0RoxG_qGmkg-1
-Received: by mail-wm1-f71.google.com with SMTP id r19so170208wmh.1
- for <qemu-devel@nongnu.org>; Tue, 03 Mar 2020 16:51:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7LkDkgRJKtRUTZtwrkHpbPVQSUDF9jaja8Ab0uuI2i4=;
- b=q15MvvHZdqn3auNju/dy79w5RxfclxHjJyAK8unZeUzWOhL7Pso1s4A4wQ8TIg+4AE
- IesuwKdOpLizCYxfdxPieZ9l0d0fnFecErHY/XqHwdkU2eq9+fsFV+FmdD2KVr2hHZ8j
- 56eDmzMd1BpYBrWLObiThGm7Tw4hqfThnGtLJ6zc0at2qUe8VXBjEiAoofNuw4aNzv2D
- Cuq8uT2OjKSNTmPTI4IgBH0dQ33KXMUWU05zslXPLGQu1dHUTwJ1dV5bLYbcjupJguPB
- 6uKxYqYnNXKcd63KCEZxv/PY1evLUphV227v0/7CKGxFcw1yhL43oEWRbx/C064waT8e
- R3uQ==
-X-Gm-Message-State: ANhLgQ1pY7jrANdB7ruMUvZIzjeQ1prLcde3ZZgOUKKFkx4XVyZVbPvM
- nZrc4B/pRUGcAwgoUpebDdejreyzN7Kt+Ftw6T6Bqk/3GvARujT5+ytg39ahVstHzoNH1SyzE/1
- 4HyHyPxFn1RDCcrw=
-X-Received: by 2002:a1c:9c52:: with SMTP id f79mr323455wme.30.1583283075491;
- Tue, 03 Mar 2020 16:51:15 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vu52gb9t4WLiSN05PSNS0+uGZOtvnFngd95rPm0xOnZVKTOGkhYxWkTk5E5h35lMUtEmCRRAA==
-X-Received: by 2002:a1c:9c52:: with SMTP id f79mr323393wme.30.1583283074920;
- Tue, 03 Mar 2020 16:51:14 -0800 (PST)
-Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id m19sm1242650wmc.34.2020.03.03.16.51.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Mar 2020 16:51:14 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] misc: Replace zero-length arrays with flexible array
- member (automatic)
-Date: Wed,  4 Mar 2020 01:51:04 +0100
-Message-Id: <20200304005105.27454-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200304005105.27454-1-philmd@redhat.com>
-References: <20200304005105.27454-1-philmd@redhat.com>
+ (envelope-from <jasper.lowell@bt.com>) id 1j9IK4-0007iu-CR
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:55:41 -0500
+Received: from smtpe1.intersmtp.com ([213.121.35.75]:56789)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasper.lowell@bt.com>)
+ id 1j9IK3-0007gH-PC
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:55:40 -0500
+Received: from tpw09926dag09e.domain1.systemhost.net (10.9.202.36) by
+ BWP09926080.bt.com (10.36.82.111) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Wed, 4 Mar
+ 2020 00:55:31 +0000
+Received: from tpw09926dag17g.domain1.systemhost.net (10.9.212.33) by
+ tpw09926dag09e.domain1.systemhost.net (10.9.202.36) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 4 Mar 2020 00:55:36 +0000
+Received: from bwp09926084.bt.com (10.36.82.115) by
+ tpw09926dag17g.domain1.systemhost.net (10.9.212.33) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4 via Frontend Transport; Wed, 4 Mar 2020 00:55:37
+ +0000
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.57) by
+ smtpe1.intersmtp.com (10.36.82.115) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+ 15.1.1713.5; Wed, 4 Mar 2020 00:55:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lNJcYvYmMSQuMvZe8I76k0QmYnD15cUyLRFjrTBd/E3q3wGex77HwNaPBa5oTcp6Id8Y+XejLey1Tj1HqMQNdyS9BzV5AUFjsx27hs6HhPkG5JOLE05yH5oUBldHrGTEs49zBDsI+uIIsl3Re+zRje8YAV3RSwpi5JvEMch1fiQ4J8iJNlgXyzK+/tZ6fCnEjq6cgix8mxAZNNB9UsFOC21TaBw4WUe/JxuiG1PhUDk4ykrZ6Oq2PdiIHRuiTloAoK9CxvTMqfZ5lmpdT1u8A73sJwuQqgQw8q588QnxgTHC2I6Pywei6GrcBGyVtKpLKvN7aemhqNyEhgIqkt8Oeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=anNNpf2G4VMou2CPKPY37nou7uJrcDZBwBWiAMmm8vM=;
+ b=gyLU0Kgay1SxYEnN7GNYMHi356E/tcpQ7/g4WZGMDH+acMJ02F1N5YTDh6xHdD06Zr6x/sFlYmPXARirOmcIvBCB0X6hiwCdbV+Rc6e40CIfn1e7exZzeHj6HWVtM57Yof4taVnNgBtw18eYboOnl2sF98vyxJK/6/BmVRcmGZEpdelwstAlIvg2sjbFAI7K6e2/+LqtgFAPTjpDDYqffd+VrTRNdkDGLqocF+d6OQps8ZbE6a4mudKe1YMPJWGEz+VdiTW4LMwmVAruEgAJ41xAJxdKjSCO/tovAgK+t2KNYA9Cacqy3LZHYg6HIXI6kSxNrGkwP0hftf1FwBmq5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bt.com; dmarc=pass action=none header.from=bt.com; dkim=pass
+ header.d=bt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bt.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=anNNpf2G4VMou2CPKPY37nou7uJrcDZBwBWiAMmm8vM=;
+ b=fgt5v/QxE/BQy6x8mIxy7NbBgxhjKyL2vvyteAaLoui3DdbR1kh++YCxJPgGvaY9n4Xgp1ZXZvtEeSZP+59UQWuj8SvZHoKmz9843L3lJ9bZdxTMuB+77W83s2jgJjae16xTn2LcQ4AvzawtxWVOTJ+Vi61uHcVMVO6iwJtDZ+U=
+Received: from LO2P123MB2271.GBRP123.PROD.OUTLOOK.COM (20.176.154.209) by
+ LO2P123MB2271.GBRP123.PROD.OUTLOOK.COM (20.176.154.209) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2772.18; Wed, 4 Mar 2020 00:55:36 +0000
+Received: from LO2P123MB2271.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::312f:184d:74b1:28c5]) by LO2P123MB2271.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::312f:184d:74b1:28c5%4]) with mapi id 15.20.2772.019; Wed, 4 Mar 2020
+ 00:55:36 +0000
+From: <jasper.lowell@bt.com>
+To: <balaton@eik.bme.hu>
+Subject: Re: [PATCH] hw/ide: Remove status register read side effect
+Thread-Topic: [PATCH] hw/ide: Remove status register read side effect
+Thread-Index: AQHV6IMztk0nS91QXUSAhbuFxp1TiagnnJkAgAADjoCAAAXGgIAAvUiAgACESgCAAmZZAIAAvBaAgADuooCAAGA3gIABLrQAgAAM7ICAAF5/AIAIu1oA
+Date: Wed, 4 Mar 2020 00:55:36 +0000
+Message-ID: <2a5e2ee4af4a45273a47327ad8cc78c9c5cc4663.camel@bt.com>
+References: <20200221065015.337915-1-jasper.lowell@bt.com>
+ <f432a118-f6be-d6ff-fe37-35b6244f3b97@ilande.co.uk>
+ <alpine.LMD.2.03.2002222042370.1577@eik.bme.hu>
+ <alpine.LMD.2.03.2002222101580.1577@eik.bme.hu>
+ <5f336bc8838b5bfebfcc5829a3fae0a34a2ebac0.camel@bt.com>
+ <alpine.BSF.2.22.395.2002231522530.69746@zero.eik.bme.hu>
+ <5ca992b3a358610c897d923009fe9f7a8febc17f.camel@bt.com>
+ <alpine.BSF.2.22.395.2002251515290.22173@zero.eik.bme.hu>
+ <2e972e94627a39cf45504ed244828d065d743910.camel@bt.com>
+ <alpine.BSF.2.22.395.2002261109290.39786@zero.eik.bme.hu>
+ <e7758063db7312ab052e595a508f0baa70d454dc.camel@bt.com>
+ <ec3861e40717ef1ccfba29671e4dd42356e63cf1.camel@bt.com>
+ <alpine.BSF.2.22.395.2002271233220.21840@zero.eik.bme.hu>
+In-Reply-To: <alpine.BSF.2.22.395.2002271233220.21840@zero.eik.bme.hu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=jasper.lowell@bt.com; 
+x-originating-ip: [61.68.11.94]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0d28342c-4642-444a-3a14-08d7bfd6c03b
+x-ms-traffictypediagnostic: LO2P123MB2271:
+x-microsoft-antispam-prvs: <LO2P123MB22711B6006C3BCC18AEA026E83E50@LO2P123MB2271.GBRP123.PROD.OUTLOOK.COM>
+x-antispam-2: 1
+x-ms-oob-tlc-oobclassifiers: OLM:3276;
+x-forefront-prvs: 0332AACBC3
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(346002)(136003)(376002)(39860400002)(366004)(189003)(199004)(81166006)(8936002)(8676002)(4326008)(81156014)(6486002)(54906003)(5660300002)(186003)(6506007)(2616005)(6512007)(478600001)(76116006)(91956017)(36756003)(86362001)(66946007)(66556008)(4744005)(71200400001)(2906002)(64756008)(316002)(26005)(6916009)(66476007)(66446008);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:LO2P123MB2271;
+ H:LO2P123MB2271.GBRP123.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: bt.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nGsI1P2gw0zfy+P3EPFdoYK6X5idmQkE3LgpHgV8vCdHIhDkDXQbBJIGLp2xwiNKuE+QMFYeVb9W9Tgpo+olUY4M4Igc5qxsw+7EsyZ5UprTop1tu/reIEeUNGykOk6C+QWEXlQPonaaKQXO/Jb2xf/hqjpJNP9ENEsIFEH1GJXxCHUgqedlRRhNQsV3IXB2bfxxRa23+SJTpk3LCuv3BajTgm1SY+E0SzV66G6PchWmNSaess2VUvoLWtViiieh1C13iYoTOddxuD/x2P8A+Ypk2vp/zQMYAXXgoSMgDgRNeuGpCmDSOEnEQ0nLHsmL86XPdy02bgsFrvZ1Qjf9NBGlC6HX0OixIHAyRvsGlgG3yqihmHb2c4TVBwd8NijnqO/uWla/3ztQ/+ixiaz3Lj343+yTUApXUVNxHsg3B09phrLMbr476wgNQsIyNO/Q
+x-ms-exchange-antispam-messagedata: hCpdUGpuWNr2i0EVluFjAkIaJRWR4T8qsXLDOccHMf0gJYg5zGqYtLlvpE9g0CH987trDf25qY8ZfKCLOpi/4HfCDLhth4dMTpWGgZOexadrOZ6Q4Uq7u9QBGRxH1uBaW0SkdHPmInVaXjIggSXhTQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CE2EAEA591CDAE4CA2F174649DB4E48C@GBRP123.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d28342c-4642-444a-3a14-08d7bfd6c03b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2020 00:55:36.4068 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7f35688-9c00-4d5e-ba41-29f146377ab0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: u8tYwKCf3Xyf6F68Dyc+KQMYB9qVORhMmOUYKr69CzhRINy2HjzKFKYX4kOoPnUV/j/seq6ltwJ/uwRTMQyZbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P123MB2271
+X-OriginatorOrg: bt.com
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,562 +130,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>,
- "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Eric Auger <eric.auger@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>, Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Description copied from Linux kernel commit from Gustavo A. R. Silva
-(see [3]):
-
---v-- description start --v--
-
-  The current codebase makes use of the zero-length array language
-  extension to the C90 standard, but the preferred mechanism to
-  declare variable-length types such as these ones is a flexible
-  array member [1], introduced in C99:
-
-  struct foo {
-      int stuff;
-      struct boo array[];
-  };
-
-  By making use of the mechanism above, we will get a compiler
-  warning in case the flexible array does not occur last in the
-  structure, which will help us prevent some kind of undefined
-  behavior bugs from being unadvertenly introduced [2] to the
-  Linux codebase from now on.
-
---^-- description end --^--
-
-Do the similar housekeeping in the QEMU codebase (which uses
-C99 since commit 7be41675f7cb).
-
-All these instances of code were found with the help of the
-following Coccinelle script:
-
-  @@
-  identifier s, a;
-  type T;
-  @@
-   struct s {
-      ...
-  -   T a[0];
-  +   T a[];
-  };
-  @@
-  identifier s, a;
-  type T;
-  @@
-   struct s {
-      ...
-  -   T a[0];
-  +   T a[];
-   } QEMU_PACKED;
-
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3D76497732932f
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/co=
-mmit/?id=3D17642a2fbd2c1
-
-Inspired-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- bsd-user/qemu.h                       |  2 +-
- contrib/libvhost-user/libvhost-user.h |  2 +-
- hw/m68k/bootinfo.h                    |  2 +-
- hw/scsi/srp.h                         |  6 +++---
- hw/xen/xen_pt.h                       |  2 +-
- include/hw/acpi/acpi-defs.h           | 12 ++++++------
- include/hw/arm/smmu-common.h          |  2 +-
- include/hw/i386/intel_iommu.h         |  3 ++-
- include/hw/virtio/virtio-iommu.h      |  2 +-
- include/sysemu/cryptodev.h            |  2 +-
- include/tcg/tcg.h                     |  2 +-
- pc-bios/s390-ccw/bootmap.h            |  2 +-
- pc-bios/s390-ccw/sclp.h               |  2 +-
- tests/qtest/libqos/ahci.h             |  2 +-
- block/linux-aio.c                     |  2 +-
- hw/acpi/nvdimm.c                      |  6 +++---
- hw/dma/soc_dma.c                      |  2 +-
- hw/i386/x86.c                         |  2 +-
- hw/misc/omap_l4.c                     |  2 +-
- hw/nvram/eeprom93xx.c                 |  2 +-
- hw/rdma/vmw/pvrdma_qp_ops.c           |  4 ++--
- hw/usb/dev-network.c                  |  2 +-
- hw/usb/dev-smartcard-reader.c         |  4 ++--
- hw/virtio/virtio.c                    |  4 ++--
- net/queue.c                           |  2 +-
- 25 files changed, 38 insertions(+), 37 deletions(-)
-
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 09e8aed9c7..f8bb1e5459 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -95,7 +95,7 @@ typedef struct TaskState {
-     struct sigqueue *first_free; /* first free siginfo queue entry */
-     int signal_pending; /* non zero if a signal may be pending */
-=20
--    uint8_t stack[0];
-+    uint8_t stack[];
- } __attribute__((aligned(16))) TaskState;
-=20
- void init_task_state(TaskState *ts);
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/=
-libvhost-user.h
-index 6fc8000e99..f30394fab6 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -286,7 +286,7 @@ typedef struct VuVirtqInflight {
-     uint16_t used_idx;
-=20
-     /* Used to track the state of each descriptor in descriptor table */
--    VuDescStateSplit desc[0];
-+    VuDescStateSplit desc[];
- } VuVirtqInflight;
-=20
- typedef struct VuVirtqInflightDesc {
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-index 5f8ded2686..c954270aad 100644
---- a/hw/m68k/bootinfo.h
-+++ b/hw/m68k/bootinfo.h
-@@ -14,7 +14,7 @@
- struct bi_record {
-     uint16_t tag;        /* tag ID */
-     uint16_t size;       /* size of record */
--    uint32_t data[0];    /* data */
-+    uint32_t data[];     /* data */
- };
-=20
- /* machine independent tags */
-diff --git a/hw/scsi/srp.h b/hw/scsi/srp.h
-index d27f31d2d5..54c954badd 100644
---- a/hw/scsi/srp.h
-+++ b/hw/scsi/srp.h
-@@ -112,7 +112,7 @@ struct srp_direct_buf {
- struct srp_indirect_buf {
-     struct srp_direct_buf    table_desc;
-     uint32_t                 len;
--    struct srp_direct_buf    desc_list[0];
-+    struct srp_direct_buf    desc_list[];
- } QEMU_PACKED;
-=20
- enum {
-@@ -211,7 +211,7 @@ struct srp_cmd {
-     uint8_t    reserved4;
-     uint8_t    add_cdb_len;
-     uint8_t    cdb[16];
--    uint8_t    add_data[0];
-+    uint8_t    add_data[];
- } QEMU_PACKED;
-=20
- enum {
-@@ -241,7 +241,7 @@ struct srp_rsp {
-     uint32_t   data_in_res_cnt;
-     uint32_t   sense_data_len;
-     uint32_t   resp_data_len;
--    uint8_t    data[0];
-+    uint8_t    data[];
- } QEMU_PACKED;
-=20
- #endif /* SCSI_SRP_H */
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index 9167bbaf6d..179775db7b 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -203,7 +203,7 @@ typedef struct XenPTMSIX {
-     uint64_t mmio_base_addr;
-     MemoryRegion mmio;
-     void *phys_iomem_base;
--    XenPTMSIXEntry msix_entry[0];
-+    XenPTMSIXEntry msix_entry[];
- } XenPTMSIX;
-=20
- struct XenPCIPassthroughState {
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index 57a3f58b0c..19f7ba7b70 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -518,7 +518,7 @@ struct AcpiDmarDeviceScope {
-     struct {
-         uint8_t device;
-         uint8_t function;
--    } path[0];
-+    } path[];
- } QEMU_PACKED;
- typedef struct AcpiDmarDeviceScope AcpiDmarDeviceScope;
-=20
-@@ -530,7 +530,7 @@ struct AcpiDmarHardwareUnit {
-     uint8_t reserved;
-     uint16_t pci_segment;   /* The PCI Segment associated with this unit *=
-/
-     uint64_t address;   /* Base address of remapping hardware register-set=
- */
--    AcpiDmarDeviceScope scope[0];
-+    AcpiDmarDeviceScope scope[];
- } QEMU_PACKED;
- typedef struct AcpiDmarHardwareUnit AcpiDmarHardwareUnit;
-=20
-@@ -541,7 +541,7 @@ struct AcpiDmarRootPortATS {
-     uint8_t flags;
-     uint8_t reserved;
-     uint16_t pci_segment;
--    AcpiDmarDeviceScope scope[0];
-+    AcpiDmarDeviceScope scope[];
- } QEMU_PACKED;
- typedef struct AcpiDmarRootPortATS AcpiDmarRootPortATS;
-=20
-@@ -604,7 +604,7 @@ typedef struct AcpiIortMemoryAccess AcpiIortMemoryAcces=
-s;
- struct AcpiIortItsGroup {
-     ACPI_IORT_NODE_HEADER_DEF
-     uint32_t its_count;
--    uint32_t identifiers[0];
-+    uint32_t identifiers[];
- } QEMU_PACKED;
- typedef struct AcpiIortItsGroup AcpiIortItsGroup;
-=20
-@@ -621,7 +621,7 @@ struct AcpiIortSmmu3 {
-     uint32_t pri_gsiv;
-     uint32_t gerr_gsiv;
-     uint32_t sync_gsiv;
--    AcpiIortIdMapping id_mapping_array[0];
-+    AcpiIortIdMapping id_mapping_array[];
- } QEMU_PACKED;
- typedef struct AcpiIortSmmu3 AcpiIortSmmu3;
-=20
-@@ -630,7 +630,7 @@ struct AcpiIortRC {
-     AcpiIortMemoryAccess memory_properties;
-     uint32_t ats_attribute;
-     uint32_t pci_segment_number;
--    AcpiIortIdMapping id_mapping_array[0];
-+    AcpiIortIdMapping id_mapping_array[];
- } QEMU_PACKED;
- typedef struct AcpiIortRC AcpiIortRC;
-=20
-diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-index 1f37844e5c..ca4a4b1ad1 100644
---- a/include/hw/arm/smmu-common.h
-+++ b/include/hw/arm/smmu-common.h
-@@ -85,7 +85,7 @@ typedef struct SMMUDevice {
-=20
- typedef struct SMMUPciBus {
-     PCIBus       *bus;
--    SMMUDevice   *pbdev[0]; /* Parent array is sparse, so dynamically allo=
-c */
-+    SMMUDevice   *pbdev[]; /* Parent array is sparse, so dynamically alloc=
- */
- } SMMUPciBus;
-=20
- typedef struct SMMUIOTLBKey {
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 66b931e526..67aaa64c1b 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -118,7 +118,8 @@ struct VTDAddressSpace {
-=20
- struct VTDBus {
-     PCIBus* bus;=09=09/* A reference to the bus to provide translation for=
- */
--    VTDAddressSpace *dev_as[0];=09/* A table of VTDAddressSpace objects in=
-dexed by devfn */
-+    /* A table of VTDAddressSpace objects indexed by devfn */
-+    VTDAddressSpace *dev_as[];
- };
-=20
- struct VTDIOTLBEntry {
-diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-io=
-mmu.h
-index 6f67f1020a..e653004d7c 100644
---- a/include/hw/virtio/virtio-iommu.h
-+++ b/include/hw/virtio/virtio-iommu.h
-@@ -41,7 +41,7 @@ typedef struct IOMMUDevice {
-=20
- typedef struct IOMMUPciBus {
-     PCIBus       *bus;
--    IOMMUDevice  *pbdev[0]; /* Parent array is sparse, so dynamically allo=
-c */
-+    IOMMUDevice  *pbdev[]; /* Parent array is sparse, so dynamically alloc=
- */
- } IOMMUPciBus;
-=20
- typedef struct VirtIOIOMMU {
-diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
-index a9afb7e5b5..35eab06d0e 100644
---- a/include/sysemu/cryptodev.h
-+++ b/include/sysemu/cryptodev.h
-@@ -143,7 +143,7 @@ typedef struct CryptoDevBackendSymOpInfo {
-     uint8_t *dst;
-     uint8_t *aad_data;
-     uint8_t *digest_result;
--    uint8_t data[0];
-+    uint8_t data[];
- } CryptoDevBackendSymOpInfo;
-=20
- typedef struct CryptoDevBackendClass {
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 54e5446880..c48bd76b0a 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -267,7 +267,7 @@ struct TCGLabel {
- typedef struct TCGPool {
-     struct TCGPool *next;
-     int size;
--    uint8_t data[0] __attribute__ ((aligned));
-+    uint8_t data[] __attribute__ ((aligned));
- } TCGPool;
-=20
- #define TCG_POOL_CHUNK_SIZE 32768
-diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
-index 94f53a5f1e..12a0166aae 100644
---- a/pc-bios/s390-ccw/bootmap.h
-+++ b/pc-bios/s390-ccw/bootmap.h
-@@ -136,7 +136,7 @@ typedef struct BootMapScriptHeader {
-=20
- typedef struct BootMapScript {
-     BootMapScriptHeader header;
--    BootMapScriptEntry  entry[0];
-+    BootMapScriptEntry  entry[];
- } __attribute__ ((packed)) BootMapScript;
-=20
- /*
-diff --git a/pc-bios/s390-ccw/sclp.h b/pc-bios/s390-ccw/sclp.h
-index 8450161ba7..64b53cad29 100644
---- a/pc-bios/s390-ccw/sclp.h
-+++ b/pc-bios/s390-ccw/sclp.h
-@@ -95,7 +95,7 @@ typedef struct EventBufferHeader {
- typedef struct WriteEventData {
-     SCCBHeader h;
-     EventBufferHeader ebh;
--    char data[0];
-+    char data[];
- } __attribute__((packed)) WriteEventData;
-=20
- typedef struct ReadEventData {
-diff --git a/tests/qtest/libqos/ahci.h b/tests/qtest/libqos/ahci.h
-index f05b3e5fce..44ab1104b5 100644
---- a/tests/qtest/libqos/ahci.h
-+++ b/tests/qtest/libqos/ahci.h
-@@ -351,7 +351,7 @@ typedef struct AHCIQState {
- typedef struct FIS {
-     uint8_t fis_type;
-     uint8_t flags;
--    char data[0];
-+    char data[];
- } __attribute__((__packed__)) FIS;
-=20
- /**
-diff --git a/block/linux-aio.c b/block/linux-aio.c
-index 91204a25a2..3c0527c2bf 100644
---- a/block/linux-aio.c
-+++ b/block/linux-aio.c
-@@ -121,7 +121,7 @@ struct aio_ring {
-     unsigned    incompat_features;
-     unsigned    header_length;  /* size of aio_ring */
-=20
--    struct io_event io_events[0];
-+    struct io_event io_events[];
- };
-=20
- /**
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 5219dd0e2e..eb6a37b14e 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -485,7 +485,7 @@ struct NvdimmFuncGetLabelDataOut {
-     /* the size of buffer filled by QEMU. */
-     uint32_t len;
-     uint32_t func_ret_status; /* return status code. */
--    uint8_t out_buf[0]; /* the data got via Get Namesapce Label function. =
-*/
-+    uint8_t out_buf[]; /* the data got via Get Namesapce Label function. *=
-/
- } QEMU_PACKED;
- typedef struct NvdimmFuncGetLabelDataOut NvdimmFuncGetLabelDataOut;
- QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncGetLabelDataOut) > NVDIMM_DSM_MEMORY_SI=
-ZE);
-@@ -493,7 +493,7 @@ QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncGetLabelDataOut) > N=
-VDIMM_DSM_MEMORY_SIZE);
- struct NvdimmFuncSetLabelDataIn {
-     uint32_t offset; /* the offset in the namespace label data area. */
-     uint32_t length; /* the size of data is to be written via the function=
-. */
--    uint8_t in_buf[0]; /* the data written to label data area. */
-+    uint8_t in_buf[]; /* the data written to label data area. */
- } QEMU_PACKED;
- typedef struct NvdimmFuncSetLabelDataIn NvdimmFuncSetLabelDataIn;
- QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncSetLabelDataIn) +
-@@ -510,7 +510,7 @@ struct NvdimmFuncReadFITOut {
-     /* the size of buffer filled by QEMU. */
-     uint32_t len;
-     uint32_t func_ret_status; /* return status code. */
--    uint8_t fit[0]; /* the FIT data. */
-+    uint8_t fit[]; /* the FIT data. */
- } QEMU_PACKED;
- typedef struct NvdimmFuncReadFITOut NvdimmFuncReadFITOut;
- QEMU_BUILD_BUG_ON(sizeof(NvdimmFuncReadFITOut) > NVDIMM_DSM_MEMORY_SIZE);
-diff --git a/hw/dma/soc_dma.c b/hw/dma/soc_dma.c
-index c3e41581b6..3a430057f5 100644
---- a/hw/dma/soc_dma.c
-+++ b/hw/dma/soc_dma.c
-@@ -80,7 +80,7 @@ struct dma_s {
-     } *memmap;
-     int memmap_size;
-=20
--    struct soc_dma_ch_s ch[0];
-+    struct soc_dma_ch_s ch[];
- };
-=20
- static void soc_dma_ch_schedule(struct soc_dma_ch_s *ch, int delay_bytes)
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 7f38e6ba8b..08246523f2 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -328,7 +328,7 @@ struct setup_data {
-     uint64_t next;
-     uint32_t type;
-     uint32_t len;
--    uint8_t data[0];
-+    uint8_t data[];
- } __attribute__((packed));
-=20
-=20
-diff --git a/hw/misc/omap_l4.c b/hw/misc/omap_l4.c
-index 61b6df564a..54aeaecd69 100644
---- a/hw/misc/omap_l4.c
-+++ b/hw/misc/omap_l4.c
-@@ -24,7 +24,7 @@ struct omap_l4_s {
-     MemoryRegion *address_space;
-     hwaddr base;
-     int ta_num;
--    struct omap_target_agent_s ta[0];
-+    struct omap_target_agent_s ta[];
- };
-=20
- struct omap_l4_s *omap_l4_init(MemoryRegion *address_space,
-diff --git a/hw/nvram/eeprom93xx.c b/hw/nvram/eeprom93xx.c
-index 07f09549ed..ca6f591c84 100644
---- a/hw/nvram/eeprom93xx.c
-+++ b/hw/nvram/eeprom93xx.c
-@@ -86,7 +86,7 @@ struct _eeprom_t {
-     uint8_t  addrbits;
-     uint16_t size;
-     uint16_t data;
--    uint16_t contents[0];
-+    uint16_t contents[];
- };
-=20
- /* Code for saving and restoring of EEPROM state. */
-diff --git a/hw/rdma/vmw/pvrdma_qp_ops.c b/hw/rdma/vmw/pvrdma_qp_ops.c
-index bd6db858de..8050287a6c 100644
---- a/hw/rdma/vmw/pvrdma_qp_ops.c
-+++ b/hw/rdma/vmw/pvrdma_qp_ops.c
-@@ -34,13 +34,13 @@ typedef struct CompHandlerCtx {
- /* Send Queue WQE */
- typedef struct PvrdmaSqWqe {
-     struct pvrdma_sq_wqe_hdr hdr;
--    struct pvrdma_sge sge[0];
-+    struct pvrdma_sge sge[];
- } PvrdmaSqWqe;
-=20
- /* Recv Queue WQE */
- typedef struct PvrdmaRqWqe {
-     struct pvrdma_rq_wqe_hdr hdr;
--    struct pvrdma_sge sge[0];
-+    struct pvrdma_sge sge[];
- } PvrdmaRqWqe;
-=20
- /*
-diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
-index 9a78ad928b..6210427544 100644
---- a/hw/usb/dev-network.c
-+++ b/hw/usb/dev-network.c
-@@ -626,7 +626,7 @@ static const uint32_t oid_supported_list[] =3D
- struct rndis_response {
-     QTAILQ_ENTRY(rndis_response) entries;
-     uint32_t length;
--    uint8_t buf[0];
-+    uint8_t buf[];
- };
-=20
- typedef struct USBNetState {
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index 02693a26ad..ef72738ced 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -227,7 +227,7 @@ typedef struct QEMU_PACKED CCID_Parameter {
- typedef struct QEMU_PACKED CCID_DataBlock {
-     CCID_BULK_IN b;
-     uint8_t      bChainParameter;
--    uint8_t      abData[0];
-+    uint8_t      abData[];
- } CCID_DataBlock;
-=20
- /* 6.1.4 PC_to_RDR_XfrBlock */
-@@ -235,7 +235,7 @@ typedef struct QEMU_PACKED CCID_XferBlock {
-     CCID_Header  hdr;
-     uint8_t      bBWI; /* Block Waiting Timeout */
-     uint16_t     wLevelParameter; /* XXX currently unused */
--    uint8_t      abData[0];
-+    uint8_t      abData[];
- } CCID_XferBlock;
-=20
- typedef struct QEMU_PACKED CCID_IccPowerOn {
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b2d415e5dd..b6c8ef5bc0 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -54,7 +54,7 @@ typedef struct VRingAvail
- {
-     uint16_t flags;
-     uint16_t idx;
--    uint16_t ring[0];
-+    uint16_t ring[];
- } VRingAvail;
-=20
- typedef struct VRingUsedElem
-@@ -67,7 +67,7 @@ typedef struct VRingUsed
- {
-     uint16_t flags;
-     uint16_t idx;
--    VRingUsedElem ring[0];
-+    VRingUsedElem ring[];
- } VRingUsed;
-=20
- typedef struct VRingMemoryRegionCaches {
-diff --git a/net/queue.c b/net/queue.c
-index 61276ca4be..0164727e39 100644
---- a/net/queue.c
-+++ b/net/queue.c
-@@ -46,7 +46,7 @@ struct NetPacket {
-     unsigned flags;
-     int size;
-     NetPacketSent *sent_cb;
--    uint8_t data[0];
-+    uint8_t data[];
- };
-=20
- struct NetQueue {
---=20
-2.21.1
-
+SSBoYXZlbid0Lg0KDQpJIGRpZCBhIHB1bGwgdGhpcyBtb3JuaW5nIG9uIG1hc3RlciBhbmQgZXZl
+cnl0aGluZyBzZWVtcyB0byBiZSB3b3JraW5nDQphZ2Fpbi4gVGhlIHByb2JsZW0gd2FzIGxpa2Vs
+eSB0aGUgc2FtZS4NCg0KVGhhbmtzLA0KSmFzcGVyIExvd2VsbC4NCg0KT24gVGh1LCAyMDIwLTAy
+LTI3IGF0IDEyOjM1ICswMTAwLCBCQUxBVE9OIFpvbHRhbiB3cm90ZToNCj4gT24gVGh1LCAyNyBG
+ZWIgMjAyMCwgamFzcGVyLmxvd2VsbEBidC5jb20gd3JvdGU6DQo+ID4gPiBJJ2xsIHN1Ym1pdCBh
+IFJGQyBWMiBwYXRjaCB3aXRoIGEgcHJvcG9zZWQgZml4Lg0KPiA+IA0KPiA+IFRoaXMgd2lsbCBo
+YXZlIHRvIHdhaXQuDQo+ID4gDQo+ID4gUmVjZW50IGNvbW1pdHMgaGF2ZSBjYXVzZWQgU29sYXJp
+cyAxMCB0byBlcnJvciBvdXQgb2YgYm9vdGluZyBtdWNoDQo+ID4gZWFybGllciB0aGFuIHByZXZp
+b3VzbHkuDQo+IA0KPiBDYW4geW91IGJpc2VjdCB3aGljaCBjb21taXQgYnJva2UgaXQ/IElzIGl0
+IHRoZSBzYW1lIHRoYXQgY2F1c2VkDQo+IHNsb3duZXNzIA0KPiBmb3IgYXJtIGFuZCBwcGM/IEZv
+ciB0aGF0IG9uZSB0aGVyZSBhcmUgcGF0Y2hlcyB0aGF0IHNob3VsZCBmaXggaXQgb24NCj4gdGhl
+IA0KPiBsaXN0Lg0KPiANCj4gUmVnYXJkcywNCj4gQkFMQVRPTiBab2x0YW4NCj4gDQo=
 
