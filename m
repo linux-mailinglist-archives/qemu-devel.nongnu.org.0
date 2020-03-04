@@ -2,86 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D0179148
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 14:27:25 +0100 (CET)
-Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB033179182
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 14:37:45 +0100 (CET)
+Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9U3Y-0004fp-IN
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 08:27:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42413)
+	id 1j9UDZ-0003nZ-0G
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 08:37:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44308)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9U2L-0004Ef-7I
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:26:10 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j9UBt-0002IC-Sw
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:36:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9U2I-0000XZ-Nd
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:26:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53627
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j9UBr-0002Ww-Ny
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:36:01 -0500
+Received: from relay.sw.ru ([185.231.240.75]:44148)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9U2I-0000Te-Hf
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 08:26:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583328365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7F2QiWloHhAFkCmA6zmIexGhCnKFGx20dUCZNlZveLU=;
- b=Y7YPP2Gf0m+NUUlOtcCmcjSYKfPd/UeJ6lmeIo96VD8D6c15AAQ9B1HKR/Ca87G1ZOlnU6
- VqdJOzeo9XAAHbjfOoSAvAPAZ2bXBXjROdzh12JSCD00bCSldsnXEMYBB3IV4k3bPXn0Tf
- Ig1QhfexvVQW3J8lHsC33P0IDJQnj5M=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-KCm75fPwOi20RGLbl55H1Q-1; Wed, 04 Mar 2020 08:26:03 -0500
-X-MC-Unique: KCm75fPwOi20RGLbl55H1Q-1
-Received: by mail-ed1-f72.google.com with SMTP id u12so1575592edb.20
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 05:26:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OdSzQ8mTXhVpM/SpNBxv5GPGPX4nKw3S6fpG0cimgxM=;
- b=Q9n5fCViGSyldgB48McJe5S7HeKsd7sEucAIdmxHg6HNeKh/PFZfI2yfLV2c+Cvjld
- K1U2WDXMtZRfDlP9cclrGPERoS/2uju2V7XrTAiH9+P48OhkpTrwNJrP10Gdj3yOFfrF
- YkyiW+EnsncQwVIxjciAPfhmDpmm3dU+0hDFq0LIAWHIRihhpuDAg2ySUMliatKzqwdd
- xlZBjzWjwLZbpm6r2islOp0gclg69z6p5WdlelhPDzbYIU/jld/P78dnh+kqzAruXYgi
- ELuRbBHBASKNS6gMpsW26EMOzPFEss3muklhKx2SB+7OitEiGjZLtLV+PimQdKf5vjAF
- s0rA==
-X-Gm-Message-State: ANhLgQ3gJatc504RjavgQpHS3gdi+DpTRltW6VGWxnXAW+q/mlKikjrs
- JypA+bgtqb1HhafCI5N+Jy+Hss4qqA89LUZczSVadQ/kpY0QwfdN7hKJ9PZ7Wh13qUYmJcA3OD0
- 6q9tG2eUny9IKpV4=
-X-Received: by 2002:a17:906:ff01:: with SMTP id
- zn1mr2312529ejb.323.1583328362303; 
- Wed, 04 Mar 2020 05:26:02 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vumzUMnNJzzRXTFwa2Zbg2sMS0E6IrFNn09DoMwJq03qV7TTapOzG/Y2hXw5TIjGUwn7edYAA==
-X-Received: by 2002:a17:906:ff01:: with SMTP id
- zn1mr2312514ejb.323.1583328362069; 
- Wed, 04 Mar 2020 05:26:02 -0800 (PST)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id q26sm1188886ejb.50.2020.03.04.05.26.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Mar 2020 05:26:01 -0800 (PST)
-Subject: Re: [PATCH] dp8393x: Mask EOL bit from descriptor addresses, take 2
-To: Finn Thain <fthain@telegraphics.com.au>, Jason Wang <jasowang@redhat.com>
-References: <alpine.LNX.2.22.394.2003041421280.12@nippy.intranet>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ab614cdb-0bbc-23cc-890a-0a15e9016ba6@redhat.com>
-Date: Wed, 4 Mar 2020 14:26:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <alpine.LNX.2.22.394.2003041421280.12@nippy.intranet>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j9UBr-0002QY-Fr; Wed, 04 Mar 2020 08:35:59 -0500
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j9UBf-00070I-Hi; Wed, 04 Mar 2020 16:35:47 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/5]  qcow2: Implement zstd cluster compression method
+Date: Wed,  4 Mar 2020 16:35:33 +0300
+Message-Id: <20200304133538.9159-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,40 +43,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/20 4:23 AM, Finn Thain wrote:
-> A portion of a recent patch got lost due to a merge snafu. That patch is
-> now commit 88f632fbb1 ("dp8393x: Mask EOL bit from descriptor addresses")=
-.
-> This patch restores the portion that got lost.
->=20
-> Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-> ---
->   hw/net/dp8393x.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index 8a3504d962..81fc13ee9f 100644
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -525,8 +525,8 @@ static void dp8393x_do_transmit_packets(dp8393xState =
-*s)
->                                    * (4 + 3 * s->regs[SONIC_TFC]),
->                                  MEMTXATTRS_UNSPECIFIED, s->data,
->                                  size);
-> -            s->regs[SONIC_CTDA] =3D dp8393x_get(s, width, 0) & ~0x1;
-> -            if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
-> +            s->regs[SONIC_CTDA] =3D dp8393x_get(s, width, 0);
-> +            if (s->regs[SONIC_CTDA] & SONIC_DESC_EOL) {
->                   /* EOL detected */
->                   break;
->               }
->=20
+v5:
+   * replace -ENOTSUP with abort in qcow2_co_decompress [Vladimir]
+   * set cluster size for all test cases in the beginning of the 287 test
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+v4:
+   * the series is rebased on top of 01 "block/qcow2-threads: fix qcow2_decompress"
+   * 01 is just a no-change resend to avoid extra dependencies. Still, it may be merged in separate
+
+v3:
+   * remove redundant max compression type value check [Vladimir, Eric]
+     (the switch below checks everything)
+   * prevent compression type changing on "qemu-img amend" [Vladimir]
+   * remove zstd config setting, since it has been added already by
+     "migration" patches [Vladimir]
+   * change the compression type error message [Vladimir] 
+   * fix alignment and 80-chars exceeding [Vladimir]
+
+v2:
+   * rework compression type setting [Vladimir]
+   * squash iotest changes to the compression type introduction patch [Vladimir, Eric]
+   * fix zstd availability checking in zstd iotest [Vladimir]
+   * remove unnecessry casting [Eric]
+   * remove rudundant checks [Eric]
+   * fix compressed cluster layout in qcow2 spec [Vladimir]
+   * fix wording [Eric, Vladimir]
+   * fix compression type filtering in iotests [Eric]
+
+v1:
+   the initial series
+
+Denis Plotnikov (4):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+  iotests: 287: add qcow2 compression type test
+
+Vladimir Sementsov-Ogievskiy (1):
+  block/qcow2-threads: fix qcow2_decompress
+
+ docs/interop/qcow2.txt           |  20 +++
+ configure                        |   2 +-
+ qapi/block-core.json             |  23 +++-
+ block/qcow2.h                    |  18 ++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-threads.c            | 206 ++++++++++++++++++++++++++++---
+ block/qcow2.c                    | 108 ++++++++++++++++
+ tests/qemu-iotests/031.out       |  14 +--
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 +++++++--------
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  34 ++---
+ tests/qemu-iotests/065           |  28 +++--
+ tests/qemu-iotests/080           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/287           | 128 +++++++++++++++++++
+ tests/qemu-iotests/287.out       |  43 +++++++
+ tests/qemu-iotests/common.filter |   3 +-
+ tests/qemu-iotests/group         |   1 +
+ 22 files changed, 644 insertions(+), 113 deletions(-)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
+
+-- 
+2.17.0
 
 
