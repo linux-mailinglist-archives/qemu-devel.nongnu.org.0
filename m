@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904CE178E04
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 11:07:05 +0100 (CET)
-Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF3A178E0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 11:10:56 +0100 (CET)
+Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Qvg-0006Rp-L1
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 05:07:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43103)
+	id 1j9QzP-0002ER-Hg
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 05:10:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1j9QuU-0004js-GP
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:05:51 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j9QyS-0001eZ-Bi
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:09:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1j9QuT-0007Q9-DC
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:05:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24946
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1j9QyP-0005tI-RL
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:09:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27322
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1j9QuT-0007Oj-9I
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:05:49 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j9QyP-0005s5-H8
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:09:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583316348;
+ s=mimecast20190719; t=1583316592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yFZvnO7SRFkr/YoV0CZyxV0dNe3GFf/k4xW7rH3uqaA=;
- b=OujExTItlbbCTJElO7piGe6GZHxTinlUPFA9nC9vOTugfeH1ekZ2b+qEZoZb2fbdvMiEBT
- 5Y+b/QrNHxh1K2uWJ7A9khoHFDAHMgHQ7U0AN9vBdP74t+42wEtfLoXSLp3WXFtJgeMttZ
- fS9brWiTa4UdDb53GNEZ0PrjEQtq2mU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n3YnEWzefIEP6vPwHwy3+XjapI2lE8/ZRyLbmDrmFj4=;
+ b=aUTErjiGNgECHikcuAqNLzOz2e80rsKoUcAisLQS+oCvFChT7UQAGjjr7PG4NC2PmDf8JJ
+ /sN8dGretOucyjTpCPZAYU41/cvPKjff1tMGkpNFuIZ1NrYZx4zBjuFcVXhc6wmn6PZizJ
+ kFpZh6ZD26fXvAoJ93X/YzHENG1gIa4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-A9ak0mhtOpe1IIWXq3dZWg-1; Wed, 04 Mar 2020 05:05:46 -0500
-X-MC-Unique: A9ak0mhtOpe1IIWXq3dZWg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-458-AWf4ueL-MGah7GTxbKpNjg-1; Wed, 04 Mar 2020 05:09:48 -0500
+X-MC-Unique: AWf4ueL-MGah7GTxbKpNjg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D666189F77C
- for <qemu-devel@nongnu.org>; Wed,  4 Mar 2020 10:05:45 +0000 (UTC)
-Received: from kh066.redhat.com (ovpn-117-137.ams2.redhat.com [10.36.117.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 336A05C54A;
- Wed,  4 Mar 2020 10:05:37 +0000 (UTC)
-From: Oksana Vohchana <ovoshcha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] python/qemu/qmp.py: QMP debug with VM label
-Date: Wed,  4 Mar 2020 12:05:34 +0200
-Message-Id: <20200304100534.13155-1-ovoshcha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9665C107ACC7;
+ Wed,  4 Mar 2020 10:09:46 +0000 (UTC)
+Received: from work-vm (ovpn-116-225.ams2.redhat.com [10.36.116.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83A791001B3F;
+ Wed,  4 Mar 2020 10:09:34 +0000 (UTC)
+Date: Wed, 4 Mar 2020 10:09:32 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 14/50] mutli-process: build remote command line args
+Message-ID: <20200304100932.GA4104@work-vm>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+ <588dafeecd20f8562f4a0dd68fa4bafbd6ea18bb.1582576372.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <588dafeecd20f8562f4a0dd68fa4bafbd6ea18bb.1582576372.git.jag.raman@oracle.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,98 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ovoshcha@redhat.com, ehabkost@redhat.com, wainersm@redhat.com,
- crosa@redhat.com
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, liran.alon@oracle.com,
+ stefanha@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMUMachine writes some messages to the default logger.
-But it sometimes to hard the read the output if we have requested to
-more than one VM.
-This patch adds name in QMP command if it needs and labels with it in
-debug mode.
+* Jagannathan Raman (jag.raman@oracle.com) wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> ---
+>  v4 -> v5:
+>   - Added "exec" suboption to get the executable's name
+>   - Addressed feedback about variable names
+>   - Removed redundant check for spawning a process
+>=20
+>  hw/proxy/qemu-proxy.c         | 68 +++++++++++++++++++++++++++++++++----=
+------
+>  include/hw/proxy/qemu-proxy.h |  2 +-
+>  2 files changed, 54 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+> index 828bbd7..d792e86 100644
+> --- a/hw/proxy/qemu-proxy.c
+> +++ b/hw/proxy/qemu-proxy.c
+> @@ -19,19 +19,50 @@
+> =20
+>  static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
+> =20
+> +static int add_argv(char *opts_str, char **argv, int argc)
+> +{
+> +    int max_args =3D 64;
 
-Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
----
- python/qemu/machine.py | 8 ++++----
- python/qemu/qmp.py     | 9 ++++++---
- 2 files changed, 10 insertions(+), 7 deletions(-)
+...
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 183d8f3d38..060e68f06b 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -391,7 +391,7 @@ class QEMUMachine(object):
-             self._qmp_set =3D False
-             self._qmp =3D None
-=20
--    def qmp(self, cmd, conv_keys=3DTrue, **args):
-+    def qmp(self, cmd, conv_keys=3DTrue, vm_name=3DNone, **args):
-         """
-         Invoke a QMP command and return the response dict
-         """
-@@ -402,15 +402,15 @@ class QEMUMachine(object):
-             else:
-                 qmp_args[key] =3D value
-=20
--        return self._qmp.cmd(cmd, args=3Dqmp_args)
-+        return self._qmp.cmd(cmd, args=3Dqmp_args, vm_name=3Dvm_name)
-=20
--    def command(self, cmd, conv_keys=3DTrue, **args):
-+    def command(self, cmd, conv_keys=3DTrue, vm_name=3DNone, **args):
-         """
-         Invoke a QMP command.
-         On success return the response dict.
-         On failure raise an exception.
-         """
--        reply =3D self.qmp(cmd, conv_keys, **args)
-+        reply =3D self.qmp(cmd, conv_keys, vm_name, **args)
-         if reply is None:
-             raise qmp.QMPError("Monitor is closed")
-         if "error" in reply:
-diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index f40586eedd..96b455b53f 100644
---- a/python/qemu/qmp.py
-+++ b/python/qemu/qmp.py
-@@ -180,11 +180,12 @@ class QEMUMonitorProtocol:
-         self.__sockfile =3D self.__sock.makefile()
-         return self.__negotiate_capabilities()
-=20
--    def cmd_obj(self, qmp_cmd):
-+    def cmd_obj(self, qmp_cmd, vm_name=3DNone):
-         """
-         Send a QMP command to the QMP Monitor.
-=20
-         @param qmp_cmd: QMP command to be sent as a Python dict
-+        @param vm_name: name for the virtual machine (string)
-         @return QMP response as a Python dict or None if the connection ha=
-s
-                 been closed
-         """
-@@ -196,10 +197,12 @@ class QEMUMonitorProtocol:
-                 return None
-             raise err
-         resp =3D self.__json_read()
-+        if vm_name:
-+            self.logger.debug("<<< {'vm_name' : %s }",  vm_name)
-         self.logger.debug("<<< %s", resp)
-         return resp
-=20
--    def cmd(self, name, args=3DNone, cmd_id=3DNone):
-+    def cmd(self, name, args=3DNone, cmd_id=3DNone, vm_name=3DNone):
-         """
-         Build a QMP command and send it to the QMP Monitor.
-=20
-@@ -212,7 +215,7 @@ class QEMUMonitorProtocol:
-             qmp_cmd['arguments'] =3D args
-         if cmd_id:
-             qmp_cmd['id'] =3D cmd_id
--        return self.cmd_obj(qmp_cmd)
-+        return self.cmd_obj(qmp_cmd, vm_name)
-=20
-     def command(self, cmd, **kwds):
-         """
---=20
-2.21.1
+> +
+> +static int make_argv(char *opts_str, char **argv, int argc)
+> +{
+> +    int max_args =3D 64;
+
+.....
+
+> +
+>  static int remote_spawn(PCIProxyDev *pdev, const char *opts,
+>                          const char *exec_name, Error **errp)
+>  {
+> -    char *args[3];
+>      pid_t rpid;
+>      int fd[2] =3D {-1, -1};
+>      Error *local_error =3D NULL;
+> +    char *argv[64];
+
+
+Magic '64' in a lot of places; that should be one constant somewhere
+(if it's actually needed).
+
+Dave
+
+
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
