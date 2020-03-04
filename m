@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43761796E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 18:41:45 +0100 (CET)
-Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6051796F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 18:43:15 +0100 (CET)
+Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Y1g-00010S-JN
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 12:41:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47441)
+	id 1j9Y39-00034S-0O
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 12:43:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1j9Y0m-0000FI-E5
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:40:49 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j9Y2O-0002XX-2d
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:42:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1j9Y0l-0003lx-9Y
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:40:48 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:45192)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1j9Y0l-0003jb-0D
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:40:47 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 024HOKE3132248;
- Wed, 4 Mar 2020 17:40:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=o5M69noFxkyvpJ14JVB5JPXJcFk8kRfKPovdExpo4dA=;
- b=rOFMVr7GNeVP7IFjxMAK/K2wKIqY4wpnxGTzpyctFHSQqnVJ5X+McW5MNKr9KLiBusIh
- 6obrmxLYW46peWJFkLXt7mpYGA0LTJkFkFBSmZitM53WNG0WsFcvzZrp2BVMbo+LCMGk
- FGx9nFJBimpIX0JMomAmaWiRyxh2ulo8JVwna16Sm0BuuxfuUWyTedURsAOMx+AALnoG
- Z132wPNoMA660lu5u6Iy/tMoAWbydHu1JeR5fcJn4pX4GmFV79B8m+e6+FU20ulB4bdj
- bKF1ecIxKMavJdHjW9WPzp3twWMbkKy1JigLuOVFen9E2cPJNxYEnLGxNclTH+Q5PkyQ nA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2yffcuqy6f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 04 Mar 2020 17:40:43 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 024HNC5T063076;
- Wed, 4 Mar 2020 17:40:43 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2yg1eqcy9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 04 Mar 2020 17:40:43 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 024HeZZg004954;
- Wed, 4 Mar 2020 17:40:35 GMT
-Received: from spark.ravello.local (/213.57.127.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 04 Mar 2020 09:40:15 -0800
-From: Liran Alon <liran.alon@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] configure: Fix pkg_config --exists parameter
-Date: Wed,  4 Mar 2020 19:41:20 +0200
-Message-Id: <20200304174120.11970-1-liran.alon@oracle.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <dgilbert@redhat.com>) id 1j9Y2M-0005p7-VM
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:42:27 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37898
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j9Y2M-0005op-Rd
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 12:42:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583343746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0CDaMOul+qCp31zR1dor2G1jGyCvnMHJhLOgNAhpqIg=;
+ b=bAi59vi0rV3oQVzLSr1diFrgsOde+mLmo5vDmvoh1b8etsz1KypMbVJ+pjnqWcvuscyR+3
+ tYbbwmNIoBSCh5sQ05OS4AdZbUlG2cSFY8agXTlWkEE+X8AZPDhscJo2/rxwk2zg0IkHi8
+ GjR0JbYKNWc+zzpXky7PMrD7MlTyh98=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-129-8jPz1fe3NLG7tLemm__fVw-1; Wed, 04 Mar 2020 12:42:22 -0500
+X-MC-Unique: 8jPz1fe3NLG7tLemm__fVw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FCDD801A0E;
+ Wed,  4 Mar 2020 17:42:21 +0000 (UTC)
+Received: from work-vm (ovpn-116-225.ams2.redhat.com [10.36.116.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14D568F341;
+ Wed,  4 Mar 2020 17:42:19 +0000 (UTC)
+Date: Wed, 4 Mar 2020 17:42:17 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH] configure: Fix pkg_config --exists parameter
+Message-ID: <20200304174217.GI4104@work-vm>
+References: <20200304174120.11970-1-liran.alon@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=1 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003040122
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 bulkscore=0
- adultscore=0 suspectscore=1 spamscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003040122
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+In-Reply-To: <20200304174120.11970-1-liran.alon@oracle.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,34 +74,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pbonzini@redhat.com, Bhavesh Davda <bhavesh.davda@oracle.com>,
- Liran Alon <liran.alon@oracle.com>, dgilbert@redhat.com, quintela@redhat.com
+ qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pkg_config parameter should be "--exists", not "--exist".
-This is probably a typo.
+* Liran Alon (liran.alon@oracle.com) wrote:
+> pkg_config parameter should be "--exists", not "--exist".
+> This is probably a typo.
+>=20
+> Fixes: 3a67848134d0 ("configure: Enable test and libs for zstd")
+> Reviewed-by: Bhavesh Davda <bhavesh.davda@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
 
-Fixes: 3a67848134d0 ("configure: Enable test and libs for zstd")
-Reviewed-by: Bhavesh Davda <bhavesh.davda@oracle.com>
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That's the same as 20200303124925.28079-1-dplotnikov@virtuozzo.com from
+Denis yesterday.
 
-diff --git a/configure b/configure
-index 50c4d96e2a8c..280f3654f786 100755
---- a/configure
-+++ b/configure
-@@ -2464,7 +2464,7 @@ fi
- # zstd check
- 
- if test "$zstd" != "no" ; then
--    if $pkg_config --exist libzstd ; then
-+    if $pkg_config --exists libzstd ; then
-         zstd_cflags="$($pkg_config --cflags libzstd)"
-         zstd_libs="$($pkg_config --libs libzstd)"
-         LIBS="$zstd_libs $LIBS"
--- 
-2.20.1
+Dave
+
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/configure b/configure
+> index 50c4d96e2a8c..280f3654f786 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2464,7 +2464,7 @@ fi
+>  # zstd check
+> =20
+>  if test "$zstd" !=3D "no" ; then
+> -    if $pkg_config --exist libzstd ; then
+> +    if $pkg_config --exists libzstd ; then
+>          zstd_cflags=3D"$($pkg_config --cflags libzstd)"
+>          zstd_libs=3D"$($pkg_config --libs libzstd)"
+>          LIBS=3D"$zstd_libs $LIBS"
+> --=20
+> 2.20.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
