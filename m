@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6311786F8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 01:23:19 +0100 (CET)
-Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3AA178740
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 01:53:33 +0100 (CET)
+Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9Hok-0000as-1o
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 19:23:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
+	id 1j9II0-0003ki-WA
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 19:53:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j9Hnq-000077-9O
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:22:24 -0500
+ (envelope-from <prvs=3258e4f7a=alistair.francis@wdc.com>)
+ id 1j9IGd-0002MF-K5
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:52:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j9Hno-0006lE-9o
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:22:22 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:13855)
+ (envelope-from <prvs=3258e4f7a=alistair.francis@wdc.com>)
+ id 1j9IGc-0003rx-9e
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 19:52:07 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:32343)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1j9Hnh-0006TC-TH; Tue, 03 Mar 2020 19:22:15 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 93A547476D5;
- Wed,  4 Mar 2020 01:22:02 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4C92D74637C; Wed,  4 Mar 2020 01:22:02 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 49A8974569F;
- Wed,  4 Mar 2020 01:22:02 +0100 (CET)
-Date: Wed, 4 Mar 2020 01:22:02 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 2/2] via-ide: Also emulate non 100% native mode
-In-Reply-To: <2a39ccab-e4d4-8172-9a1d-0bc089e0104c@ilande.co.uk>
-Message-ID: <alpine.BSF.2.22.395.2003032356230.41934@zero.eik.bme.hu>
-References: <cover.1583017348.git.balaton@eik.bme.hu>
- <32bb2eab213344151ca342bab5db2cf8c2758fb7.1583017348.git.balaton@eik.bme.hu>
- <f7f6bca9-ce20-cc3d-5366-1e947d729c21@ilande.co.uk>
- <bdbef976-a853-7178-8163-579e4bf9e2e0@ilande.co.uk>
- <alpine.BSF.2.22.395.2003011731130.95594@zero.eik.bme.hu>
- <57ff6676-5054-d3f6-f4fc-6ff02b09019f@ilande.co.uk>
- <alpine.BSF.2.22.395.2003011902490.28669@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2003011951370.28669@zero.eik.bme.hu>
- <38cb0f83-79fc-7021-38fc-c1e28c3c0fa0@ilande.co.uk>
- <alpine.BSF.2.22.395.2003012202330.79908@zero.eik.bme.hu>
- <9ce6d135-4169-96ae-c457-1131b4510c49@ilande.co.uk>
- <alpine.BSF.2.22.395.2003022145430.47473@zero.eik.bme.hu>
- <2a39ccab-e4d4-8172-9a1d-0bc089e0104c@ilande.co.uk>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.71) (envelope-from <prvs=3258e4f7a=alistair.francis@wdc.com>)
+ id 1j9IGb-0003oR-ED; Tue, 03 Mar 2020 19:52:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1583283125; x=1614819125;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Hlg8DJS04VgDpDw7IoezSh/cg0dJmfuauTvaMCX9uQ4=;
+ b=APhWaKh7G585bKP8DKBCxKzsRhKvsPB+3D2HM6bh8Xsc0Bzj3p4NVs8D
+ clWPGXiWWkLY4R1PpABHk0Vy3rtzL9xkR4qaUUL27D+0HC1bQhK3i02i8
+ S7EQFfOS9U+PHXqkMptKTUha7c95X58mWRD9sJrF0djLJqZ3wc8x4GKqk
+ GqJ7hQBXOAr0IA9X+8T7K9r54sz9tGldtE2YJoJV2If6tZpxuXCA9dmvu
+ pLDcxzpVdpUL9Jfv8BZ4+ama3TORlFrUt638Y6nP6ivXiP27rEYT68bRM
+ hwW3hQMuo/WinvSJIjClccnawx09cUzQfvrn5HApTMTBDjRAP4l9OznR5 Q==;
+IronPort-SDR: Kzhd6rv4ebbrfW28bbeUQVWcBr9P+iCPR14oBzn1QyARz6F6vN5UJrBqTwJaKe2gWXmbmDrgUj
+ B/Z9q7DgaTINKJTDp8HEkDwpSsGPxfhmOXVRgh7+caHdqtIuuKFmIAVLIIZQqZkRzd/cpuPyMd
+ zLNMePS7xQ0q0lO/Zj5VU76Z0O18gMzHKd2ndZI10rQ9uQVOndJVS2yHEKOx3P/ULH9VpzUsPq
+ HkdaiFOLJzDujKqn89x4gIKJZiA7WUlmCyJOKfjhHtoS6mhe/y0ATMXzmGHAGdpE33zMFtEskI
+ 544=
+X-IronPort-AV: E=Sophos;i="5.70,511,1574092800"; d="scan'208";a="131861934"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Mar 2020 08:52:02 +0800
+IronPort-SDR: NwMvrosOHkq9tpzzG12Cd7ldJ3wjrfjgJXOAl3MgB6TwIC1ABVphRjE9Hhyt5rnICs/ZSrAEVt
+ iIl4FnjfxRSiJY0TvwTzpOjqZo0Vtio8lellm/DL/djHmvgMQd+q3OPqwKNXbCiUc985kxzYuq
+ GlS6QoqrWSJbUcabuFm8UMDqZ9W9k7tVrmFfCfR8MFX1uhPLOjGjjMyowS+eegy3nenPEKwqFm
+ 6hn0iAw3EG08V+ggPiffKVkI8oNzyexXuAqlawz/XgMkZt/8oZLxVGbzBlJC452XpJN2z6iGOI
+ mTQ8lKBm2HbuNSTwQN6F9RqU
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2020 16:44:16 -0800
+IronPort-SDR: 6ppMV3z5c+1dCBMUL+6LtHz9XFn9a4Fksvh+gj1srkdolU2wbBqbYgBNDQz3vSvNDLt2TmIE5l
+ 6vkX09Oq4+FsHgcEmneaBRihRk0Ghi1occMEvThnRjJMM1FJ2vSBZ6tOMUi7BliyRJCVj+HPlp
+ 40oyrWxGe8yNQpJOxl/iYEMMSR5tTnNYpO+jTiYiUzDSiwn1IePsrQwrFNDP+KJnetbAVMQyTM
+ bC0bRhx3q0OKK6BC5dhkKwWQnJN5q/Wr19HWrg/O1UbDM7VULkHO8aTmKOhg9I5ybtJhOWaQtp
+ X98=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 Mar 2020 16:52:02 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org,
+	laurent@vivier.eu
+Subject: [PATCH v4 0/3]  linux-user: generate syscall_nr.sh for RISC-V
+Date: Tue,  3 Mar 2020 16:44:48 -0800
+Message-Id: <cover.1583282640.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.153.144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,176 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Mar 2020, Mark Cave-Ayland wrote:
-> On 02/03/2020 21:40, BALATON Zoltan wrote:
->>> I had a quick look at the schematics linked from the page above, and they confirm
->>> that the VIA IDE interface is connected directly to IRQs 14 and 15 and not to the PCI
->>> interrupt pins.
->>
->> Where did you see that? What I got from trying to look this up in the schematics was
->> that VT8231 has two pins named IRQ14 and IRQ15 (but described as Primary and
->> Secondary Channel Interrupt Request in doc) where the interrupt lines of the two IDE
->> ports/channels are connected but how they are routed within the chip after that was
->> not clear. The chip doc says that in native mode the interrupt should be configurable
->> and use a single interrupt for both channels and in legacy mode they use the usual 14
->> and 15 but this is not what guest drivers expect so I think not how really works on
->> PegasosII. It is true however that connection to PCI interrupts aren't mentioned so
->> it always uses ISA IRQ numbers, it just depends on legacy vs. native mode which line
->> is raised. But that was never really a question for VT8231 and maybe only CMD646
->> could have such interconnection with PCI interrupts. (Proabable reason is that
->> via-ide is part of a southbridge chip where it has connections to ISA bus while
->> CMD646 is a PCI IDE controller but I could be wrong as my knowledge is limited about
->> these.)
->
-> Presumably the VIA southbridge has its own internal pair of cascaded 8259s so the IRQ
-> line from the drive is connected to IRQ14/15 as per an typical ISA PC. You can see
-> this in the "Common Hardware Reference Platform: I/O Device Reference" PDF section 4.1.
+This series updates the RISC-V syscall_nr.sh based on the 5.5 kernel.
 
-Yes the VIA southbridge chip integrates all usual PC devices including 
-PICs so these may have connection internally. I haven't checked these docs 
-before but now I think another chapter in the doc you referenced and its 
-companion "Common Hardware Reference Platform: A System Architecture" may 
-explain the unusal combination of PCI like io regs with legacy interrupts 
-the Pegasos2 seems to have. In the I/O Device Reference, chapter 11 about 
-IDE says that the device must be addressed only with PCI I/O addresses 
-where io addresses are completely relocatable and that when OpenFirmware 
-passes control to the OS IDE must be configured as a PCI device. So this 
-probably means io addresses coming from PCI BARs. But the CHRP System 
-Architecture, chapter 9.2 about ISA devices says that "ISA devices 
-included in a PCI part must route their interrupt signals to the legacy 
-interrupt controller" and this is what the Pegasos2 seems to do. This may 
-be a misinterpretation of the spec because elsewhere (I've lost the exact 
-reference and have no time to find it again) it also says something about 
-native devices must be using OpenPIC but Pegasos2 does not have OpenPIC so 
-that part surely cannot apply anyway.
+There are two parts to this. One is just adding the new syscalls, the
+other part is updating the RV32 syscalls to match the fact that RV32 is
+a 64-bit time_t architectures (y2038) safe.
 
->>> So on that basis the best explanation as to what is happening is the
->>> comment in the link you provided here:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/platforms/chrp/pci.c?h=v4.14.172#n353
->>>
->>>
->>> /* Pegasos2 firmware version 20040810 configures the built-in IDE controller
->>> * in legacy mode, but sets the PCI registers to PCI native mode.
->>> * The chip can only operate in legacy mode, so force the PCI class into legacy
->>> * mode as well. The same fixup must be done to the class-code property in
->>> * the IDE node /pci@80000000/ide@C,1
->>> */
->>
->> I'm not sure that it makes much sense that the firmware configures the chip one way
->> then puts info about a different way in the device tree. There could be bugs but this
->> is not likely. Especially because I see in traces that the firmware does try to
->> configure the device in native mode. These are the first few accesses of the firmware
->> to via-ide:
->
-> But that is exactly what is happening! The comment above clearly indicates the
-> firmware incorrectly sets the IDE controller in native mode which is in exact
-> agreement with the trace you provide below. And in fact if you look at
+We need to make some changes to syscall.c to avoid warnings/errors
+during compliling with the new syscall.
 
-I may be reading the comment wrong but to me that says that "firmware 
-configures IDE in _legacy_ mode" whereas the trace shows it actually 
-configures it in _native_ mode which is complying to the CHRP doc above. 
-But since it cannot comply to the "native devices using OpenPIC" part it 
-probably tries to apply the "ISA devices embedded in PCI" part and locks 
-IRQ to 14 and 15. Or it just wants to avoid sharing IRQs as much as 
-possible and the designers decided they will use IRQ14 and 15 for IDE.
+I did some RV32 user space testing after applying these patches. I ran the
+glibc testsuite in userspace and I don't see any regressions.
 
-> https://www.powerdeveloper.org/platforms/pegasos/devicetree you can see the nvramrc
-> hack that was released in order to fix the device tree to boot Linux which alters the
-> class-code and sets interrupts to 14 (which I believe is invalid, but seemingly good
-> enough here).
+Alistair Francis (3):
+  linux-user: Protect more syscalls
+  linux-user/syscall: Add support for clock_gettime64/clock_settime64
+  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
 
-Isn't this the same fixup that newer Linux kernels already include? Maybe 
-this was needed before Linux properly supported Pegasos2 but later kernels 
-will do this anyway. This does not give us any new info we did not have 
-before I think maybe just easier to see all fixups in one place.
+ linux-user/riscv/syscall32_nr.h | 295 +++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall64_nr.h | 301 ++++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall_nr.h   | 294 +------------------------------
+ linux-user/strace.c             |   2 +
+ linux-user/syscall.c            | 120 ++++++++++++-
+ 5 files changed, 717 insertions(+), 295 deletions(-)
+ create mode 100644 linux-user/riscv/syscall32_nr.h
+ create mode 100644 linux-user/riscv/syscall64_nr.h
 
->> pci_cfg_write via-ide 12:1 @0x9 <- 0xf
->> pci_cfg_write via-ide 12:1 @0x40 <- 0xb
->> pci_cfg_write via-ide 12:1 @0x41 <- 0xf2
->> pci_cfg_write via-ide 12:1 @0x43 <- 0x35
->> pci_cfg_write via-ide 12:1 @0x44 <- 0x18
->> pci_cfg_write via-ide 12:1 @0x45 <- 0x1c
->> pci_cfg_write via-ide 12:1 @0x46 <- 0xc0
->> pci_cfg_write via-ide 12:1 @0x50 <- 0x17171717
->> pci_cfg_write via-ide 12:1 @0x54 <- 0x14
->> pci_cfg_read via-ide 12:1 @0x0 -> 0x5711106
->> pci_cfg_read via-ide 12:1 @0x0 -> 0x5711106
->> pci_cfg_read via-ide 12:1 @0x8 -> 0x1018f06
->> pci_cfg_read via-ide 12:1 @0xc -> 0x0
->> pci_cfg_read via-ide 12:1 @0x2c -> 0x11001af4
->> pci_cfg_read via-ide 12:1 @0x3c -> 0x10e
->> pci_cfg_read via-ide 12:1 @0x4 -> 0x2800080
->> pci_cfg_read via-ide 12:1 @0x3c -> 0x10e
->> pci_cfg_write via-ide 12:1 @0x3c <- 0x109
->>
->> The very first write is to turn on native mode, so I think it's not about what the
->> firmware does but something about how hardware is wired on Pegasos II or the VT8231
->> chip itself that only allows legacy interrupts instead of 100% native mode for IDE.
->>
->>> Given that the DT is wrong, then we should assume that all OSs would have to
->>> compensate for this in the same way as Linux, and therefore this should be handled
->>> automatically.
->>>
->>> AFAICT this then only leaves the question: why does the firmware set
->>> PCI_INTERRUPT_LINE to 9, which is presumably why you are seeing problems running
->>> MorphOS under QEMU.
->>
->> Linux does try to handle both true native mode and half-native mode. It only uses
->> half-native mode if finds IRQ14 on Pegasos, otherwise skips Pegasos specific fixup
->> and uses true native mode setup. I don't know what MorphOS does but I think it justs
->> knows that Pegasos2 has this quirk and does not look at the device tree at all.
->>
->>> Could it be that setting prog-if to 0x8a legacy mode also resets PCI_INTERRUPT_LINE
->>> to 14? You should be able to confirm this easily on real hardware using the Forth
->>> config-* words on the IDE node and reading the prog-if byte before and after.
->>
->> I don't have direct access to real hardware and would also need to come up with some
->> Forth to verify that but given the above trace that the firmware does before we can
->> enter any Forth we would likely find @0x9 = 0x8f and @0x3c = 0x0e because after
->> booting Linux we see 0x8a and 0x0e and Linux only touches the two mode bits.
->
-> Again to summarise: this is a known bug in Pegasos2 firmware and the VIA is a
-> standard chip, so let's try and figure out exactly what is happening using a real
-> firmware and emulate that behaviour in QEMU. This should then make all guests happy,
-> regardless of architecture, without requiring the introduction of feature bits or
-> risk of introducing other incompatibilities.
+-- 
+2.25.1
 
-I think I've already done that with this patch (within the limits possible 
-in QEMU). The Pegasos2 seems to always use IRQ14 and 15 even when IDE is 
-set to native mode (which the firmware does immediately, I'm using a real 
-firmware to test) and all guests are happy with this. This behaviour is 
-confirmed by excpectations of AmigaOS and MorphOS drivers and also Linux 
-comments (although those comments may get the reason wrong, they confirm 
-the behaviour). I'm not sure how real hardware implements this behaviour 
-and also not sure if it's a bug in the firmware or rather a peculiar 
-design choice for Pegasos2. But that probably does not matter for the fact 
-that it's how it works which is all we need to emulate it.
-
-Also consider that QEMU via-ide is only emulating native mode of the chip 
-because we can't switch between the two modes so it's either legacy only 
-or native only because all other implemented controllers are either ISA or 
-native PCI so QEMU does not have way to deregister ISA IDE and PCI code 
-does not have way to use io BARs despite not being enabled via PCI config 
-which could be needed to use them when device is in legacy mode. 
-Previously via-ide was emulating legacy only and that worked with Linux 
-but not with anything else. I'm not planning to rewrite large parts of the 
-IDE and PCI code to allow switching back and forth which is not even 
-needed. Unless you know a better way to implement this I think the 
-proposed patch is achieving this with minimal changes. I don't see a need 
-to more exactly emulate some kind of hardware bug or peculiar design 
-choices of a board than what's needed to make clients happy and boot.
-
-Is this series good enough now to be merged or are any changes needed? I'd 
-like to not miss the deadline for the freeze and get this delayed for 
-months for not good reason because I'm not sure when will I have time to 
-work on it again.
-
-Regards,
-BALATON Zoltan
 
