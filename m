@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF82179BA7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 23:20:14 +0100 (CET)
-Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69894179BAE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 23:21:41 +0100 (CET)
+Received: from localhost ([::1]:40530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9cNB-0002NJ-Et
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 17:20:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
+	id 1j9cOa-0005Uq-Bv
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 17:21:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9cLa-0000Io-8E
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:35 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9cLf-0000Wd-Qa
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9cLZ-0006qJ-5M
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:34 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33645
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9cLe-0006vp-QE
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36563
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9cLZ-0006py-1N
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:33 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9cLe-0006va-N4
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583360312;
+ s=mimecast20190719; t=1583360318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8g6dQ3CpRHKhm3JtMqVTXiTXrin8V/riv5Rhf5txJno=;
- b=fw08/QfeeWa0QGNYY/7RVPhCLO+3xHITguMS7pewmASzK4eiX1RnEa7PwBIezq81PmfwCA
- wZwrgmbMNPRLiR3TaPvVlEKm0XAqq7h+4UyehYgczb0FTFqYL5PrnIAjr9tYOiBj2Pm/ir
- OCn5cpfiL+rBgamybTOTtAyulZQfv0A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-_bGDrGbbMjO37IDn_5BCwA-1; Wed, 04 Mar 2020 17:18:31 -0500
-X-MC-Unique: _bGDrGbbMjO37IDn_5BCwA-1
-Received: by mail-wr1-f72.google.com with SMTP id n12so1429757wrp.19
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 14:18:30 -0800 (PST)
+ bh=CFcihQRQW984a0z/mekZG0vNwXsxhiN/8+AlkGU0X9k=;
+ b=XKTuAcrSm3awrrlcZIVhOvaP5diNQ0SHz+OJ6M/A4HwGQ/HBsSEHY20cmMymyDSUmRvNoA
+ 1oN77DXlJdoYexzMHblMCgHPms3ZpU4R8ZxQE6L0RSCuUsym7qouEGP4JzOOXTYPx3+snd
+ 3bfUeNZKYSAM8Yb05YNSzlqzhyPZr2o=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-40ZlwSWsOfmwVbFthSEnmg-1; Wed, 04 Mar 2020 17:18:36 -0500
+X-MC-Unique: 40ZlwSWsOfmwVbFthSEnmg-1
+Received: by mail-ed1-f70.google.com with SMTP id a11so1291904eds.15
+ for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 14:18:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8ag/+xxkZSZEkgkSM8quJuguUY+bU0lgLQ4HQ0DMXWs=;
- b=eVi3NXqYYwIagkkSrlsomJX03bmdC9ErWqXzSY7TSmU88U0jTIMgcXRa1dics3z8/C
- Rf6XagxTD1PeyFSWnIYWXLifECT+v241yCAiRyGGgXWrCdhlU8ImnNS1RVmsWtZZQonQ
- GntkOHL/lT0LoJFE7/BMVdzdrJiPoVqZlsG3IDP+p80vkAb0rRobPLyZBvS5Xd7c0QSV
- HJsJ4G8pCb4QQQyrR7wUTezZh+OHdL/1o04qykC2N4l2NP5KcQVdxvpGuYOOFo6l8qLL
- YDo0+f7y8M0YjtcY7ORLhIBENsWINrRpxleP2qpkJrXM+I4j9UX2lUVxa6FIGWdyV2LR
- TEeg==
-X-Gm-Message-State: ANhLgQ0fpspeZGOgc43W7q9+8woIVvQq+Cl2XTT4hjWw+xV9A3bknbJA
- tP0nsoI/lCfIE7L1IRop2g4v+rllgdu4hMtwd80kbt7PGrhprmM+JXH4UKhIAbp/Pzd8En/Nwzy
- fp2Yuig4Aj05MK3U=
-X-Received: by 2002:a1c:9e85:: with SMTP id h127mr5311631wme.145.1583360309774; 
- Wed, 04 Mar 2020 14:18:29 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vtKcWBVy9Ebsa5ZD89bCp6BN1joSIMvdFbksX94m3Mg3Rrj4N072ncdORfw0lP3e8sa5zBJbg==
-X-Received: by 2002:a1c:9e85:: with SMTP id h127mr5311613wme.145.1583360309508; 
- Wed, 04 Mar 2020 14:18:29 -0800 (PST)
+ bh=NxwSRvf3xC8N2g5o+oXCsfEFodIN9fcThiRrbeywMlg=;
+ b=a9hufVGYEH0L+XjUlRtC0MBzx+bcNPXrwEH2ZDnzPleOXbaMCDNKUvhc3IrzcKp24N
+ oa+cPpd1Ygq0Vlyodvx9NyLbK/LhULGXW/lus4mByWJ9NT4fPCVk/D3hHP1f0jickyXE
+ LdudB1teLB3AZ2tTCmBx+9M38NvUo9cdSIRLxEhBfbIhmqkZHsGW+KhbQZCSYX1zn1ul
+ I9UnjZCgc2XahSmPraEsTpDpnRzJ5T08R+lHq/2lgVgjB65Y66/ayBACXsqTgR/SXlGy
+ gEzGn/KhxwPLlbRYBbXIuiK7Rv/SlAyyfFSQlSUCDLwEiV/3qMcpiwiy561epWAew3g8
+ EBRg==
+X-Gm-Message-State: ANhLgQ1rrAopIdpMrhl2+zBy6fDC1mTif6Siw36yguaQnOJdDpbXYdB0
+ 9xR/Za3zZJ9nlcN0t5XxnoxZ1PUjokNaMoMpnCzBe6JHLD2yjU+wgPeDMfGCQUbpGBOH8hT/YU9
+ Z/lcaEWOABx4fvpY=
+X-Received: by 2002:aa7:c247:: with SMTP id y7mr4714026edo.376.1583360315010; 
+ Wed, 04 Mar 2020 14:18:35 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vsCGvKZw64GnBwnakygOFTqcpNPa/Q3gqpp7wrdeUodsHHy6zRbfAFju5NyQpibcxt/UU0/iw==
+X-Received: by 2002:aa7:c247:: with SMTP id y7mr4713988edo.376.1583360314628; 
+ Wed, 04 Mar 2020 14:18:34 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id q125sm6721082wme.19.2020.03.04.14.18.28
+ by smtp.gmail.com with ESMTPSA id a10sm1714629edt.50.2020.03.04.14.18.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2020 14:18:29 -0800 (PST)
+ Wed, 04 Mar 2020 14:18:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] hw/audio/intel-hda: Use memory region alias to reduce
- .rodata by 4.34MB
-Date: Wed,  4 Mar 2020 23:18:05 +0100
-Message-Id: <20200304221807.25212-5-philmd@redhat.com>
+Subject: [PATCH 5/6] ui/curses: Make control_characters[] array const
+Date: Wed,  4 Mar 2020 23:18:06 +0100
+Message-Id: <20200304221807.25212-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200304221807.25212-1-philmd@redhat.com>
 References: <20200304221807.25212-1-philmd@redhat.com>
@@ -77,8 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,92 +94,26 @@ Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The intel-hda model uses an array of register indexed by the
-register address. This array also contains a pair of aliased
-registers at offset 0x2000. This creates a huge hole in the
-array, which ends up eating 4.6MiB of .rodata (size reported
-on x86_64 host, building with --extra-cflags=3D-Os).
-
-By using a memory region alias, we reduce this array to 132kB.
-
-Before:
-
-  (qemu) info mtree
-    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
-
-After:
-
-  (qemu) info mtree
-    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda
-    00000000febd4000-00000000febd7fff (prio 1, i/o): intel-hda-container
-      00000000febd4000-00000000febd5fff (prio 0, i/o): intel-hda
-      00000000febd6000-00000000febd7fff (prio 0, i/o): alias intel-hda-alia=
-s @intel-hda 0000000000000000-0000000000001fff
+As we only use this array as input, make it const.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/audio/intel-hda.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+ ui/curses.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index 1bcc3e5cf8..e8d18b7c58 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -181,7 +181,9 @@ struct IntelHDAState {
-     IntelHDAStream st[8];
-=20
-     /* state */
-+    MemoryRegion container;
-     MemoryRegion mmio;
-+    MemoryRegion alias;
-     uint32_t rirb_count;
-     int64_t wall_base_ns;
-=20
-@@ -670,12 +672,6 @@ static const struct IntelHDAReg regtab[] =3D {
-         .offset   =3D offsetof(IntelHDAState, wall_clk),
-         .rhandler =3D intel_hda_get_wall_clk,
-     },
--    [ ICH6_REG_WALLCLK + 0x2000 ] =3D {
--        .name     =3D "WALLCLK(alias)",
--        .size     =3D 4,
--        .offset   =3D offsetof(IntelHDAState, wall_clk),
--        .rhandler =3D intel_hda_get_wall_clk,
--    },
-=20
-     /* dma engine */
-     [ ICH6_REG_CORBLBASE ] =3D {
-@@ -837,12 +833,6 @@ static const struct IntelHDAReg regtab[] =3D {
-         .size     =3D 4,                                                \
-         .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
-     },                                                                \
--    [ ST_REG(_i, ICH6_REG_SD_LPIB) + 0x2000 ] =3D {                     \
--        .stream   =3D _i,                                               \
--        .name     =3D _t stringify(_i) " LPIB(alias)",                  \
--        .size     =3D 4,                                                \
--        .offset   =3D offsetof(IntelHDAState, st[_i].lpib),             \
--    },                                                                \
-     [ ST_REG(_i, ICH6_REG_SD_CBL) ] =3D {                               \
-         .stream   =3D _i,                                               \
-         .name     =3D _t stringify(_i) " CBL",                          \
-@@ -1125,9 +1115,15 @@ static void intel_hda_realize(PCIDevice *pci, Error =
-**errp)
-         error_free(err);
-     }
-=20
-+    memory_region_init(&d->container, OBJECT(d),
-+                       "intel-hda-container", 0x4000);
-     memory_region_init_io(&d->mmio, OBJECT(d), &intel_hda_mmio_ops, d,
--                          "intel-hda", 0x4000);
--    pci_register_bar(&d->pci, 0, 0, &d->mmio);
-+                          "intel-hda", 0x2000);
-+    memory_region_add_subregion(&d->container, 0x0000, &d->mmio);
-+    memory_region_init_alias(&d->alias, OBJECT(d), "intel-hda-alias",
-+                             &d->mmio, 0, 0x2000);
-+    memory_region_add_subregion(&d->container, 0x2000, &d->alias);
-+    pci_register_bar(&d->pci, 0, 0, &d->container);
-=20
-     hda_codec_bus_init(DEVICE(pci), &d->codecs, sizeof(d->codecs),
-                        intel_hda_response, intel_hda_xfer);
+diff --git a/ui/curses.c b/ui/curses.c
+index 3a1b71451c..3bafc10c1c 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -529,7 +529,7 @@ static void font_setup(void)
+      * Control characters are normally non-printable, but VGA does have
+      * well-known glyphs for them.
+      */
+-    static uint16_t control_characters[0x20] =3D {
++    static const uint16_t control_characters[0x20] =3D {
+       0x0020,
+       0x263a,
+       0x263b,
 --=20
 2.21.1
 
