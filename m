@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31D3178DFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 11:05:41 +0100 (CET)
-Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E683178DF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 11:03:58 +0100 (CET)
+Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9QuL-0003kh-0U
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 05:05:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41707)
+	id 1j9Qsf-0000ns-JM
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 05:03:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j9Qqs-00070O-IZ
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:02:09 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j9Qqp-000701-RL
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:02:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j9Qqq-0000cd-Ps
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:02:06 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54337)
+ (envelope-from <alex.bennee@linaro.org>) id 1j9Qqo-0000Wd-PL
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:02:03 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35858)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j9Qqq-0000aD-Da
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:02:04 -0500
-Received: by mail-wm1-x329.google.com with SMTP id i9so1281265wml.4
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 02:02:04 -0800 (PST)
+ id 1j9Qqo-0000UJ-IT
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 05:02:02 -0500
+Received: by mail-wm1-x332.google.com with SMTP id g83so1197668wme.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 02:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YDS2krmEOwHmyFHZND8chhdsDOBM1s0eAUxp7rCjnHk=;
- b=gi7t4uivDk4XaBJ8/Opj2+UHYexHhEaaOtGLWu6aNoNxguNL1I1ctEGcq6mjuejGgZ
- LOMmNLKJ5FZ4TEN6cGCuePL/JGF4fztlQiMkie2j5ypabAEBCwgC77zLNX7hM4lRvFZ+
- kro9bh1nfzVliF3f4AOf6ZkvpxM7QVCR4DdwX+yGxCwpsF7xkx4V16A4aSSEqb7/Doyj
- tp7trLm7M8Pi8J3ezazifJSMB9oBqfoaBF7ezVKLFPsXooKfhczg7h2iZ9BLysnKzxZ3
- zelqTlCxGsg9zX5YMcrDWyoG1bwdW5jQXBHeYQUfXy49QSxivfX6/Mup1PaRh8MYlevd
- +RLA==
+ bh=2ljA/K0enCk+cxQzY+NtXvus6XERwMgueLpDeNPRhYg=;
+ b=nCQkguHHdp1vCaeiq+brp8A84YpuA61FRDtY6ROEK5OKf+HsLZwBVzf8QCaOS18sVJ
+ 4U4296VxFquoQA2wglpzQm/3SzIf/31tBi/H2BMVFGhq6nfHs4gd2CCjUQ0j5T/1UqM9
+ dwsTn1Ogo/XM7mg/F+NKLC5eGG0OzGJpIPSd0qTRW8Ggg2TjTUM+JBurSdB3WT3IpbxB
+ w3qIBkxeZMsHKil87CV0TSwern3QXlaDj76OTMnnvsvg+RuYrI5a1huF2pIC7Hv7hsA2
+ WiupLmClKsBSoICo+QBrrhxIkI0BmWfpOuSN0uQfi7HyzXnuKCFe95mbtq2fg+VM9zXx
+ EydQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YDS2krmEOwHmyFHZND8chhdsDOBM1s0eAUxp7rCjnHk=;
- b=H2c1n87KnXGwDa8m6ueQCaGpU2BKex7mDCo+VW9QnGPQECxlvpFOlta7azioFoq1Xa
- /MZQtw1DCTFyBo0eAZWqewsNADjXXx7GNJK5+HxPm7j8EEfebBKNAomjXUwfx9H+8l78
- PEKxNyHv3UW1zVBapxjkqrgZKO/SWZ/US+TnoaKoCj/ujduHFpP1OJyQHEaOnMVy6C1q
- z+Q46efGxwiSY0ee0rKtV5ywmGcGAxMB1WAwRqCYKjAEKAKfOZVJg2998gUsM6JwqqIK
- t4nnqHLDESW+TciIhnEjNpAi6QOjm0kRxe7BulCUtSuDIjl4sfM1m7ed/J4TU2nLfXvA
- nz1w==
-X-Gm-Message-State: ANhLgQ2GTp2qXY0VHaNPg7WPgrlkmXiw1aVDMVUVYyF248Yb4nKp8rOs
- p2ITu8nzHlJcTRR4/X4R9n2NcuaRmZs=
-X-Google-Smtp-Source: ADFU+vv5GwxIoo9Kc7vi+MXPP9koJtc3BXb99d27YwSA+ppE8wCyCCOEFrJnaWUPoZnqNXGjDeiOSg==
-X-Received: by 2002:a7b:cb03:: with SMTP id u3mr2811611wmj.41.1583316123360;
- Wed, 04 Mar 2020 02:02:03 -0800 (PST)
+ bh=2ljA/K0enCk+cxQzY+NtXvus6XERwMgueLpDeNPRhYg=;
+ b=Kw9NqXCH81Z0fNp/qXX7OShGDzZG2RteeaT4A03P1eTkZXUCXPXU3Nz5TSo4zc7sHt
+ 1iZ1x8iBvi/2rYkZTZ5jd+L8YJyAW17gPpTaE+eLD30i/Hi1QzDGmqyixvUZjPNJqqEJ
+ GGC3ne55nmwPQBlWm9EYw/2RvKTroLlxr44IaPk/xKU9H59wyGKUG0AmcwcJQQYuimLI
+ EMOr3BzKrQYXV2J2qSw9Y/aCi2GhwW2LBaJO2og5kT5pyFGNQ/QhMIxdLLs/UFVpCJXX
+ 9rK7LZImDt6ffltjBM8iAAwBOHD32UojNKkRnQl0i19t2vNMmuZi2RyWF4LCkTtzkkQK
+ 7DCA==
+X-Gm-Message-State: ANhLgQ2L/JPWS8kLH7GJlLqcOJbSxpbjt9IXfV8vH6R1ZOdmvUHuGxFU
+ yWQIxF0BTc+FLcDfZll6qjKu8g==
+X-Google-Smtp-Source: ADFU+vsCLzjfh/Xc0T5IRaARj6sffqub8ltzlrJG6a++0R5YF8k32T3B+v68hT29V04uHBSYCi7xNw==
+X-Received: by 2002:a7b:c5d9:: with SMTP id n25mr2999445wmk.65.1583316121560; 
+ Wed, 04 Mar 2020 02:02:01 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h16sm3318625wmd.10.2020.03.04.02.01.57
+ by smtp.gmail.com with ESMTPSA id z10sm3323397wmk.31.2020.03.04.02.01.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 04 Mar 2020 02:02:00 -0800 (PST)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 572AF1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 6B3CF1FF93;
  Wed,  4 Mar 2020 10:01:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 5/9] tests/vm: Added gen_cloud_init_iso() to basevm.py
-Date: Wed,  4 Mar 2020 10:01:50 +0000
-Message-Id: <20200304100154.14822-6-alex.bennee@linaro.org>
+Subject: [PULL 6/9] travis: enable tools build on OS X
+Date: Wed,  4 Mar 2020 10:01:51 +0000
+Message-Id: <20200304100154.14822-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200304100154.14822-1-alex.bennee@linaro.org>
 References: <20200304100154.14822-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,182 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Robert Foley <robert.foley@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Foley <robert.foley@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
 
-This method was located in both centos and ubuntu.i386.
+As we can build tools on OS X we should check we don't break build
+when we submit new codes.
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200219163537.22098-6-robert.foley@linaro.org>
-Message-Id: <20200303150622.20133-6-alex.bennee@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200302154630.45620-3-lvivier@redhat.com>
+Message-Id: <20200303150622.20133-7-alex.bennee@linaro.org>
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 7f268922685..8400b0e07f6 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -345,6 +345,46 @@ class BaseVM(object):
-     def qmp(self, *args, **kwargs):
-         return self._guest.qmp(*args, **kwargs)
+diff --git a/.travis.yml b/.travis.yml
+index 9867272177d..70a24bf2fc8 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -273,6 +273,7 @@ jobs:
  
-+    def gen_cloud_init_iso(self):
-+        cidir = self._tmpdir
-+        mdata = open(os.path.join(cidir, "meta-data"), "w")
-+        name = self.name.replace(".","-")
-+        mdata.writelines(["instance-id: {}-vm-0\n".format(name),
-+                          "local-hostname: {}-guest\n".format(name)])
-+        mdata.close()
-+        udata = open(os.path.join(cidir, "user-data"), "w")
-+        print("guest user:pw {}:{}".format(self._config['guest_user'],
-+                                           self._config['guest_pass']))
-+        udata.writelines(["#cloud-config\n",
-+                          "chpasswd:\n",
-+                          "  list: |\n",
-+                          "    root:%s\n" % self._config['root_pass'],
-+                          "    %s:%s\n" % (self._config['guest_user'],
-+                                           self._config['guest_pass']),
-+                          "  expire: False\n",
-+                          "users:\n",
-+                          "  - name: %s\n" % self._config['guest_user'],
-+                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
-+                          "    ssh-authorized-keys:\n",
-+                          "    - %s\n" % self._config['ssh_pub_key'],
-+                          "  - name: root\n",
-+                          "    ssh-authorized-keys:\n",
-+                          "    - %s\n" % self._config['ssh_pub_key'],
-+                          "locale: en_US.UTF-8\n"])
-+        proxy = os.environ.get("http_proxy")
-+        if not proxy is None:
-+            udata.writelines(["apt:\n",
-+                              "  proxy: %s" % proxy])
-+        udata.close()
-+        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
-+                               "-volid", "cidata", "-joliet", "-rock",
-+                               "user-data", "meta-data"],
-+                               cwd=cidir,
-+                               stdin=self._devnull, stdout=self._stdout,
-+                               stderr=self._stdout)
-+
-+        return os.path.join(cidir, "cloud-init.iso")
-+
- def parse_args(vmcls):
- 
-     def get_default_jobs():
-diff --git a/tests/vm/centos b/tests/vm/centos
-index a41ff109eb5..0ad4ecf4190 100755
---- a/tests/vm/centos
-+++ b/tests/vm/centos
-@@ -31,37 +31,6 @@ class CentosVM(basevm.BaseVM):
-         make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
-     """
- 
--    def _gen_cloud_init_iso(self):
--        cidir = self._tmpdir
--        mdata = open(os.path.join(cidir, "meta-data"), "w")
--        mdata.writelines(["instance-id: centos-vm-0\n",
--                          "local-hostname: centos-guest\n"])
--        mdata.close()
--        udata = open(os.path.join(cidir, "user-data"), "w")
--        udata.writelines(["#cloud-config\n",
--                          "chpasswd:\n",
--                          "  list: |\n",
--                          "    root:%s\n" % self.ROOT_PASS,
--                          "    %s:%s\n" % (self.GUEST_USER, self.GUEST_PASS),
--                          "  expire: False\n",
--                          "users:\n",
--                          "  - name: %s\n" % self.GUEST_USER,
--                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "  - name: root\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "locale: en_US.UTF-8\n"])
--        udata.close()
--        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
--                               "-volid", "cidata", "-joliet", "-rock",
--                               "user-data", "meta-data"],
--                               cwd=cidir,
--                               stdin=self._devnull, stdout=self._stdout,
--                               stderr=self._stdout)
--        return os.path.join(cidir, "cloud-init.iso")
--
-     def build_image(self, img):
-         cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
-         img_tmp = img + ".tmp"
-@@ -69,7 +38,7 @@ class CentosVM(basevm.BaseVM):
-         subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
-         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
-         self.exec_qemu_img("resize", img_tmp, "50G")
--        self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
-+        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-         self.wait_ssh()
-         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
-         self.ssh_root_check("yum update -y")
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 48e9cb1ad3d..3266038fbde 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -29,41 +29,6 @@ class UbuntuX86VM(basevm.BaseVM):
-         make --output-sync {target} -j{jobs} {verbose};
-     """
- 
--    def _gen_cloud_init_iso(self):
--        cidir = self._tmpdir
--        mdata = open(os.path.join(cidir, "meta-data"), "w")
--        mdata.writelines(["instance-id: ubuntu-vm-0\n",
--                          "local-hostname: ubuntu-guest\n"])
--        mdata.close()
--        udata = open(os.path.join(cidir, "user-data"), "w")
--        udata.writelines(["#cloud-config\n",
--                          "chpasswd:\n",
--                          "  list: |\n",
--                          "    root:%s\n" % self.ROOT_PASS,
--                          "    %s:%s\n" % (self.GUEST_USER, self.GUEST_PASS),
--                          "  expire: False\n",
--                          "users:\n",
--                          "  - name: %s\n" % self.GUEST_USER,
--                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "  - name: root\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "locale: en_US.UTF-8\n"])
--        proxy = os.environ.get("http_proxy")
--        if not proxy is None:
--            udata.writelines(["apt:\n",
--                              "  proxy: %s" % proxy])
--        udata.close()
--        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
--                               "-volid", "cidata", "-joliet", "-rock",
--                               "user-data", "meta-data"],
--                               cwd=cidir,
--                               stdin=self._devnull, stdout=self._stdout,
--                               stderr=self._stdout)
--        return os.path.join(cidir, "cloud-init.iso")
--
-     def build_image(self, img):
-         cimg = self._download_with_cache(
-             "https://cloud-images.ubuntu.com/releases/bionic/release-20191114/ubuntu-18.04-server-cloudimg-i386.img",
-@@ -71,7 +36,7 @@ class UbuntuX86VM(basevm.BaseVM):
-         img_tmp = img + ".tmp"
-         subprocess.check_call(["cp", "-f", cimg, img_tmp])
-         self.exec_qemu_img("resize", img_tmp, "50G")
--        self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
-+        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-         self.wait_ssh()
-         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
-         self.ssh_root_check("apt-get update")
+     - name: "OSX Xcode 10.3"
+       env:
++        - BASE_CONFIG="--disable-docs --enable-tools"
+         - CONFIG="--target-list=i386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu"
+       os: osx
+       osx_image: xcode10.3
 -- 
 2.20.1
 
