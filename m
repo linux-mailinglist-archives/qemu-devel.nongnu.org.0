@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC6C179BA2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 23:19:44 +0100 (CET)
-Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120F3179BA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 23:20:09 +0100 (CET)
+Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9cMh-0001dR-BK
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 17:19:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32968)
+	id 1j9cN5-00029s-V9
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 17:20:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9cLN-0008ON-AI
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9cLR-0008TB-5k
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9cLM-0006Xy-FD
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27054
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9cLP-0006e3-7g
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:25 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24703
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9cLM-0006Wr-Bw
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:20 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9cLP-0006dH-41
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 17:18:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583360299;
+ s=mimecast20190719; t=1583360302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rtGLaqsaZvVKv8neLsnCoHMeb27hmi8Np6ey/SFBDes=;
- b=M7/QAqPFeUknx4e+nyVyLcGitNkPQOQFZmPU0ScQvWdrulklSlfLsq0tziTFLaZ6NhC9uw
- 1oPiYqw4FTY7Vhk1PiwiPB2MLnSWSf3OFlHzZ/bIrDMs96gvABwvoVcLDuIloKJW+l/TIR
- ML+PF/oQL+4YZYZ9xYuXPVHFP862+tY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-2XMKtcL5MC63Oders68UQQ-1; Wed, 04 Mar 2020 17:18:16 -0500
-X-MC-Unique: 2XMKtcL5MC63Oders68UQQ-1
-Received: by mail-wr1-f69.google.com with SMTP id n12so1429477wrp.19
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 14:18:15 -0800 (PST)
+ bh=HfnT8d1lOc8oOW388s3B4mt/9tuFbIC8PeXMCcmaMOk=;
+ b=EC66bnapAmehsR4VB3RZNyVUCRPC3PYiujP9vxs3ZXguQGxTIe+V0sNXKUEezAS1krpxAD
+ VP2aEpAN+0B8wrzuxWpVNZdytKIFEU4o3tG/wFiJFHpwK9w99eJMxv4TBba8obmyoyPEhQ
+ FkACEBbOcql09rJ7zQEE/W/AV6zjBeo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-dWEvxEqFOrGvEW--I5etOQ-1; Wed, 04 Mar 2020 17:18:21 -0500
+X-MC-Unique: dWEvxEqFOrGvEW--I5etOQ-1
+Received: by mail-wr1-f70.google.com with SMTP id b12so1463859wro.4
+ for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 14:18:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wqft5lo3Zm47BUbzrIIQxJ61cvphsmqIQUJGbmyNiH4=;
- b=PHD7WYiFR4NR3ey4xYEH/Zeh1K4nxpHu+a4YiiiVRBNfL1Tqe4zYYJkDc2dgJGLMJy
- z9+WlHiBdSf6ACMtTemSEsA9bZiAYLtXRg9DjotKPs3TAuDhmVATvoFDukMtlfVjymZ+
- igg5EPBSeEoPbGd1oyo+EfcEUKwXCR+aQsDw/SjQvGT6eeKOBcBQLcdOEtu2SpgtmUcR
- Q548GWC/Qfz5/cOqxqhF6ulF5yCv60JOW1YO9GziCDh+qN4QqLKPLww6fbPQACWlQZhV
- cNBEPTCK0jXbz8/OgOIOtUJmwb/PyEZCFE0xn0TQ7AZ9EtO8y6E+vdweLWJVpiAp0Kxv
- Whcg==
-X-Gm-Message-State: ANhLgQ3uD4mmkhoT79db4WH8Y6keQb2J+fzVAvfqVel6CcrK8/veJCrY
- E6JTK0bKnN8WgUQ75CHQoA9s+UkQACmcKQMp79msbPxHOYb2SMmVwnZnR/TFAjyuPGXSlaN/Vaj
- 8XmiR8qcMRh4ISA0=
-X-Received: by 2002:a05:6000:1246:: with SMTP id
- j6mr4283579wrx.253.1583360294786; 
- Wed, 04 Mar 2020 14:18:14 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vsRtmVe+UpthqG+srK5guxiwnqy+NJfe/5y7pjqxGmb4mD83SZz0mvaBII5LFhzV7eC0Fhkxw==
-X-Received: by 2002:a05:6000:1246:: with SMTP id
- j6mr4283558wrx.253.1583360294504; 
- Wed, 04 Mar 2020 14:18:14 -0800 (PST)
+ bh=7WthtJEuF/N+eAMadHF0Sd51QGcmnmZoupRAgou8XDo=;
+ b=Wvp9MGwesigHjt8922uAlQbgACSjvfkVvXk62xCRGNcm2eUKQdbE7l2TmbK8nKym3R
+ CGldigWebki7r8ewBN6MsCii300wzxaH6o1pwdMBY7o2n/KvlZRZVfB1e84/gYsfrcat
+ Nl4Y0UAn7PseW8uFTQL+PQWHW2PeLCCSUKcSLuZOMBWU7dnQ52kd6J3s4JwrnV2F1kmB
+ cUNAUC9Hs0WnTbqADfWyGKF401MwNCIdoUN7n4a9YQpre+2mCziyGXwWhyQUI91Nfqsm
+ E8db8BZ0Ui58ioxUIPKOx5e38As/SXUsQBJJexhrwBUaXUtoFzzSZn2v0PskwVDtn3rq
+ uC3A==
+X-Gm-Message-State: ANhLgQ0lweqIkjoEatisnw704zkEHEBMQzRRFU93YJRcDJ3XjoTWIggI
+ BpJku6aq86O2Lj04jV2iKp03ay7mbkiwAGZKKHfTzvZJ3tiHAlfDGk/WRmOHUWXjGMXWvzoY1HY
+ wSqkY+ttOA/RFKcM=
+X-Received: by 2002:a1c:7c05:: with SMTP id x5mr5409982wmc.67.1583360299678;
+ Wed, 04 Mar 2020 14:18:19 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vslSkLYmU0p/p71iLp1NDP15gsZCNYU3xL69nA9zpOzAMa1N/ZkbHvZSvLrf1G1vtro/6DR/w==
+X-Received: by 2002:a1c:7c05:: with SMTP id x5mr5409970wmc.67.1583360299484;
+ Wed, 04 Mar 2020 14:18:19 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id j5sm6058032wmi.33.2020.03.04.14.18.13
+ by smtp.gmail.com with ESMTPSA id g129sm7333661wmg.12.2020.03.04.14.18.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2020 14:18:14 -0800 (PST)
+ Wed, 04 Mar 2020 14:18:19 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] hw/audio/fmopl: Fix a typo twice
-Date: Wed,  4 Mar 2020 23:18:02 +0100
-Message-Id: <20200304221807.25212-2-philmd@redhat.com>
+Subject: [PATCH 2/6] hw/audio/fmopl: Move ENV_CURVE to .heap to save 32KiB of
+ .bss
+Date: Wed,  4 Mar 2020 23:18:03 +0100
+Message-Id: <20200304221807.25212-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200304221807.25212-1-philmd@redhat.com>
 References: <20200304221807.25212-1-philmd@redhat.com>
@@ -78,7 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,33 +95,43 @@ Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This buffer is only used by the adlib audio device. Move it to
+the .heap to release 32KiB of .bss (size reported on x86_64 host).
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/audio/fmopl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/audio/fmopl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
-index 9f50a89b4a..173a7521f2 100644
+index 173a7521f2..356d4dfbca 100644
 --- a/hw/audio/fmopl.c
 +++ b/hw/audio/fmopl.c
-@@ -1066,7 +1066,7 @@ static void OPLResetChip(FM_OPL *OPL)
- =09}
+@@ -186,7 +186,7 @@ static int32_t *VIB_TABLE;
+=20
+ /* envelope output curve table */
+ /* attack + decay + OFF */
+-static int32_t ENV_CURVE[2*EG_ENT+1];
++static int32_t *ENV_CURVE;
+=20
+ /* multiple table */
+ #define ML 2
+@@ -1090,6 +1090,7 @@ FM_OPL *OPLCreate(int clock, int rate)
+ =09OPL->clock =3D clock;
+ =09OPL->rate  =3D rate;
+ =09OPL->max_ch =3D max_ch;
++    ENV_CURVE =3D g_new(int32_t, 2 * EG_ENT + 1);
+ =09/* init grobal tables */
+ =09OPL_initialize(OPL);
+ =09/* reset chip */
+@@ -1127,6 +1128,7 @@ void OPLDestroy(FM_OPL *OPL)
+ #endif
+ =09OPL_UnLockTable();
+ =09free(OPL);
++    g_free(ENV_CURVE);
  }
 =20
--/* ----------  Create one of vietual YM3812 ----------       */
-+/* ----------  Create one of virtual YM3812 ----------       */
- /* 'rate'  is sampling rate and 'bufsiz' is the size of the  */
- FM_OPL *OPLCreate(int clock, int rate)
- {
-@@ -1115,7 +1115,7 @@ FM_OPL *OPLCreate(int clock, int rate)
- =09return OPL;
- }
-=20
--/* ----------  Destroy one of vietual YM3812 ----------       */
-+/* ----------  Destroy one of virtual YM3812 ----------       */
- void OPLDestroy(FM_OPL *OPL)
- {
- #ifdef OPL_OUTPUT_LOG
+ /* ----------  Option handlers ----------       */
 --=20
 2.21.1
 
