@@ -2,78 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2E51787A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 02:39:09 +0100 (CET)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D311788B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Mar 2020 03:57:38 +0100 (CET)
+Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9J08-00061u-5v
-	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 20:39:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47838)
+	id 1j9KE4-0007gN-Nl
+	for lists+qemu-devel@lfdr.de; Tue, 03 Mar 2020 21:57:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=3258e4f7a=alistair.francis@wdc.com>)
- id 1j9Ixc-0003Ei-JR
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 20:36:33 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j9KCd-0006oe-DC
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:56:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=3258e4f7a=alistair.francis@wdc.com>)
- id 1j9Ixb-0004W4-EM
- for qemu-devel@nongnu.org; Tue, 03 Mar 2020 20:36:32 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:26823)
+ (envelope-from <dgibson@ozlabs.org>) id 1j9KCX-0000tu-BD
+ for qemu-devel@nongnu.org; Tue, 03 Mar 2020 21:56:06 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:49557)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=3258e4f7a=alistair.francis@wdc.com>)
- id 1j9Ixb-0004Pn-5U; Tue, 03 Mar 2020 20:36:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1583285792; x=1614821792;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=hLfzBwQY0GHBELl4LwyEgvgs3lqC1dQdMfJRHFbzMPY=;
- b=VAGxd6+EdaiWi7MJ4eT8mf5kNabXeNB4ezQB5Uf47Z8cFrzh71k7483H
- Mxxicd6nVD5Y0ITvTSPWbBkmdWIDQGdgkZWk3VBm4xP/cxXshwWzEP3tz
- ff8RpDcdq0IacxLc4fUPcH52aHpd5Jf1jklFTqFdinl3WiofnrjfS94EI
- GkzJRTAVfmaFKhZcfM6bqo2CkumRAX35edS6Z87h9ppQjU/5NkbhGOunw
- cgjHxQIujCD9s+6c7H/jd7s1x9v8D6Ygg/0wq7Gjb44fasA59hFuOiUBR
- NLd+kQak/wwV48cx6Gn+aNz+VoQqX/kZls/uAqc33ui0vPyzomfRuqn5K g==;
-IronPort-SDR: RbUBcKzTaBXoQlSyelxrW+DOQKQOixwj5WrJHc3iIW4rs6XeBtRU6ZECKZOcv7RamPFFahN83Y
- glK5rY5qw9ZrK3QyQ/twnOY9eaoQDt8Bex7di0MW6xFUOEaJ6IfwvYtieuH4PyWjU1Br1VtEhF
- ywKeRc+5/CwadryLg54HOxI3q8Jp3EkYOd3+ahjCcy6CuqKuiyaqtE5wjP288b0JNihrONcV/A
- 93Zemzs9iayYKATevvrG6foxwnz1Ff+6JdEPUX0mCN6Cg2u4Shmtpok82VfmqIVxX9kdTQilPg
- VKQ=
-X-IronPort-AV: E=Sophos;i="5.70,511,1574092800"; d="scan'208";a="131866070"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 Mar 2020 09:36:31 +0800
-IronPort-SDR: +Rv7o+QWpKbJaMl0VCvcKjzrXQm4mH9kXjLwrksKm3AgRXISWaGC8zNgDhL1sMMhm0yjee0Dyo
- TS7jVp5AjST8IZR9crIR+dPipD0qesQ29uWEWjXeAEM6sXEmZuGeUcEqaUWt2Q6BhgwHw12bGi
- 6xg13OnoqW1wM6PnypJkb00ASUeD33OC5CJKQz/MHqKCUwqrI0e0wi48Bpi5bkKXptzlgTmadr
- h6eujJMvBxf9jf7Pk/dCsec5XcYa9diJ6zCo5wOn21iq5uq4GFnz9Psits+NtYU/4VmFiQQqFp
- 7BGFRydmGwN6sat3XQT1aAqY
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2020 17:28:21 -0800
-IronPort-SDR: AU/UdIHFl+8WWvgg1bZIN22I63oe+qy6xca90DwU4fJkuUoL7Akxh0aG6aZdyI9oEwvuK4wN8A
- 8/AVMLo7LX/uCm0rrz5r+FJNoABTr0SIl8KHd9Ht3EWXRpxUVshV4GLZNaTnv3y08UPANJCakN
- dWQn8KdlqDcHqC5X0mRPRuNhYa502oPOybIAUADOsZh4zQFcit+HP67uaHpNzcFRATn5fT33WC
- /w91QclCAJ4f5u0Laxz0VOWa4SycGdhMe2ROBUdVA2JVdhI9EubzPOxd9knHYn1l1yX1mcHOuS
- qs8=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip02.wdc.com with ESMTP; 03 Mar 2020 17:36:30 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 3/3] riscv/sifive_u: Add a serial property to the sifive_u
- machine
-Date: Tue,  3 Mar 2020 17:29:17 -0800
-Message-Id: <edb4719fd6a829eb7ec4cf4c4d73f3d2f02dbf2d.1583285287.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1583285287.git.alistair.francis@wdc.com>
-References: <cover.1583285287.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j9KCW-0000bp-6Y; Tue, 03 Mar 2020 21:56:01 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48XJRC1JpMz9sSJ; Wed,  4 Mar 2020 13:55:51 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1583290551;
+ bh=kZCwuhYhg29cWynjHyHPJ7PEKmg88R0Fi26fq1/Afds=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OXhbL6pwHU6Eet4oFhbyZ7HTPTUVHoi+q0kuvMbS1h/4uN+07j0F20CqnuWbSzUmw
+ dNbW9OfM4FAo69Vl2uSsoNakWk1rxj7xAjjLIUCiFHyilw5QXgNlfQXHeThb7uK8zm
+ X3Vc48p8aO17//DBE+1WrKr+8iw8dAn+mGbQAVxw=
+Date: Wed, 4 Mar 2020 12:25:55 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v7 17/17] spapr: Fold spapr_node0_size() into its only
+ caller
+Message-ID: <20200304012555.GH35885@umbus.fritz.box>
+References: <20200303034351.333043-1-david@gibson.dropbear.id.au>
+ <20200303034351.333043-18-david@gibson.dropbear.id.au>
+ <20200303113012.26a79a30@bahia.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.153.144
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="poemUeGtc2GQvHuH"
+Content-Disposition: inline
+In-Reply-To: <20200303113012.26a79a30@bahia.home>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +57,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>, farosas@linux.ibm.com,
+ aik@ozlabs.ru, "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org, clg@kaod.org,
+ Igor Mammedov <imammedo@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
 
-At present the board serial number is hard-coded to 1, and passed
-to OTP model during initialization. Firmware (FSBL, U-Boot) uses
-the serial number to generate a unique MAC address for the on-chip
-ethernet controller. When multiple QEMU 'sifive_u' instances are
-created and connected to the same subnet, they all have the same
-MAC address hence it creates a unusable network.
+--poemUeGtc2GQvHuH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A new "serial" property is introduced to specify the board serial
-number. When not given, the default serial number 1 is used.
+On Tue, Mar 03, 2020 at 11:32:49AM +0100, Greg Kurz wrote:
+> On Tue,  3 Mar 2020 14:43:51 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > The Real Mode Area (RMA) needs to fit within the NUMA node owning memory
+> > at address 0.  That's usually node 0, but can be a later one if there a=
+re
+> > some nodes which have no memory (only CPUs).
+> >=20
+> > This is currently handled by the spapr_node0_size() helper.  It has only
+> > one caller, so there's not a lot of point splitting it out.  It's also
+> > extremely easy to misread the code as clamping to the size of the small=
+est
+> > node rather than the first node with any memory.
+> >=20
+> > So, fold it into the caller, and add some commentary to make it a bit
+> > clearer exactly what it's doing.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/ppc/spapr.c | 37 +++++++++++++++++++++----------------
+> >  1 file changed, 21 insertions(+), 16 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 2eb0d8f70d..d674a9f48f 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -296,20 +296,6 @@ static void spapr_populate_pa_features(SpaprMachin=
+eState *spapr,
+> >      _FDT((fdt_setprop(fdt, offset, "ibm,pa-features", pa_features, pa_=
+size)));
+> >  }
+> > =20
+> > -static hwaddr spapr_node0_size(MachineState *machine)
+> > -{
+> > -    if (machine->numa_state->num_nodes) {
+> > -        int i;
+> > -        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
+> > -            if (machine->numa_state->nodes[i].node_mem) {
+> > -                return MIN(pow2floor(machine->numa_state->nodes[i].nod=
+e_mem),
+> > -                           machine->ram_size);
+> > -            }
+> > -        }
+> > -    }
+> > -    return machine->ram_size;
+> > -}
+> > -
+> >  static void add_str(GString *s, const gchar *s1)
+> >  {
+> >      g_string_append_len(s, s1, strlen(s1) + 1);
+> > @@ -2653,10 +2639,24 @@ static hwaddr spapr_rma_size(SpaprMachineState =
+*spapr, Error **errp)
+> >      MachineState *machine =3D MACHINE(spapr);
+> >      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+> >      hwaddr rma_size =3D machine->ram_size;
+> > -    hwaddr node0_size =3D spapr_node0_size(machine);
+> > =20
+> >      /* RMA has to fit in the first NUMA node */
+> > -    rma_size =3D MIN(rma_size, node0_size);
+> > +    if (machine->numa_state->num_nodes) {
+> > +        /*
+> > +         * It's possible for there to be some zero-memory nodes first
+> > +         * in the list.  We need the RMA to fit inside the memory of
+> > +         * the first node which actually has some memory.
+> > +         */
+> > +        int i;
+> > +
+> > +        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
+> > +            if (machine->numa_state->nodes[i].node_mem !=3D 0) {
+> > +                rma_size =3D MIN(rma_size,
+> > +                               machine->numa_state->nodes[i].node_mem);
+> > +                break;
+> > +            }
+> > +        }
+> > +    }
+> > =20
+> >      /*
+> >       * VRMA access is via a special 1TiB SLB mapping, so the RMA can
+> > @@ -2673,6 +2673,11 @@ static hwaddr spapr_rma_size(SpaprMachineState *=
+spapr, Error **errp)
+> >          rma_size =3D MIN(rma_size, smc->rma_limit);
+> >      }
+> > =20
+> > +    /*
+> > +     * RMA size must be a power of 2
+> > +     */
+> > +    rma_size =3D pow2floor(rma_size);
+> > +
+>=20
+> I saw somewhere else that the reason behind this might be
+> related to:
+>=20
+> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D6010818c30ce9c
+>=20
+> commit 6010818c30ce9c796b4e22fd261fc6fea1cecbfc
+> Author: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Date:   Thu Jul 3 13:10:05 2014 +1000
+>=20
+>     spapr: Split memory nodes to power-of-two blocks
+>=20
+> Is this the reason ?
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1573916930-19068-1-git-send-email-bmeng.cn@gmail.com>
-[ Changed by AF:
- - Use the SoC's serial property to pass the info to the SoC
- - Fixup commit title
- - Rebase on file restructuring
-]
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/sifive_u.c         | 20 ++++++++++++++++++++
- include/hw/riscv/sifive_u.h |  1 +
- 2 files changed, 21 insertions(+)
+Quite likely.
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index e52f9d0bd4..f3f67cc0e3 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -34,6 +34,7 @@
- #include "qemu/log.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "qapi/visitor.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/sysbus.h"
-@@ -322,6 +323,8 @@ static void riscv_sifive_u_init(MachineState *machine)
-     object_initialize_child(OBJECT(machine), "soc", &s->soc,
-                             sizeof(s->soc), TYPE_RISCV_U_SOC,
-                             &error_abort, NULL);
-+    object_property_set_uint(OBJECT(&s->soc), s->serial, "serial",
-+                            &error_abort);
-     object_property_set_bool(OBJECT(&s->soc), true, "realized",
-                             &error_abort);
- 
-@@ -413,6 +416,18 @@ static void sifive_u_set_start_in_flash(Object *obj, bool value, Error **errp)
-     s->start_in_flash = value;
- }
- 
-+static void sifive_u_get_serial(Object *obj, Visitor *v, const char *name,
-+                                void *opaque, Error **errp)
-+{
-+    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
-+}
-+
-+static void sifive_u_set_serial(Object *obj, Visitor *v, const char *name,
-+                                void *opaque, Error **errp)
-+{
-+    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
-+}
-+
- static void riscv_sifive_u_machine_instance_init(Object *obj)
- {
-     SiFiveUState *s = RISCV_U_MACHINE(obj);
-@@ -424,6 +439,11 @@ static void riscv_sifive_u_machine_instance_init(Object *obj)
-                                     "Set on to tell QEMU's ROM to jump to " \
-                                     "flash. Otherwise QEMU will jump to DRAM",
-                                     NULL);
-+
-+    s->serial = OTP_SERIAL;
-+    object_property_add(obj, "serial", "uint32", sifive_u_get_serial,
-+                        sifive_u_set_serial, NULL, &s->serial, NULL);
-+    object_property_set_description(obj, "serial", "Board serial number", NULL);
- }
- 
- 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index a2baa1de5f..16c297ec5f 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -61,6 +61,7 @@ typedef struct SiFiveUState {
-     int fdt_size;
- 
-     bool start_in_flash;
-+    uint32_t serial;
- } SiFiveUState;
- 
- enum {
--- 
-2.25.1
+> In any case, it would probably help to mention somewhere
+> why the rounding is introduced by this patch.
 
+Drat.  I meant to sort out your comment on the last spin better than
+this, but got part way through and forgot what I was doing.
+
+I'm going to merge everything except this last patch into ppc-for-5.0
+now, and try to sort out this one a bit later.
+
+>=20
+> >      if (rma_size < MIN_RMA_SLOF) {
+> >          error_setg(errp,
+> >  "pSeries SLOF firmware requires >=3D %ldMiB guest RMA (Real Mode Area =
+memory)",
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--poemUeGtc2GQvHuH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5fA6AACgkQbDjKyiDZ
+s5KpeBAArFEJqvmdCKft4jAvhRM2gSm4aDOnjcPJtfy094k0RAcHQrglJltYGBxb
+sd61aTFsF15eE60cgBjqmg/pZTBR8rANpUFVO2H9q+TpzJ+ZWrfJdAss9cM2UUnO
+K1m8X7ixYPAEaSJJWVZAFrRv5acxVmzfjyX5NESW/dd2ea1NElcUjzi/TobhRuJR
+CtgELdwCmDe291FlYehBVw2QLTRp1jEIoAGOgW1wePowEg4fDrSt7hp5cmmS+IYt
+QIlUC0kbSdeYZnqClchmJibr6g9UwFPGmJc5cIzhDK9ZutuigIGCge1oyrB2xZtk
+qMLr6G78A0Be/LSKFaFhQhtNjv+xZ0frWgJRqEMbyldO9UAQTZY4ySRL70N+Ek/y
+9NvNM3an1g/3nkTltRsvsL3a1oWhBwhVeZBB9eOC5ZC9/WVHM7wD3AzLANDzPNOm
+x+VCiJjxDtsMUB6eG5cesXJ+ggQB0IRJJ1DJRgY8pAq114uzWlL+aHuLavx0ENrU
+XNz52ake556wNHKSgJbpKVhKCz8EX5SjtLn0mjwnppD8GJXK5Pq7QAnMnNORfKKC
+psb6OvsdZQUNcfmR+AsyVrH0aXNLCweka0Ehmath+75nTpt5Wgjkh6lN84WP9yTk
+Nb3FZdpGc+eAmPiKcEZo7o990IY32fZxycyI0z6maWCA3WXbIE4=
+=m8Sa
+-----END PGP SIGNATURE-----
+
+--poemUeGtc2GQvHuH--
 
