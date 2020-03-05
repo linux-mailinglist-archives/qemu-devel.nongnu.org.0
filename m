@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA13417B055
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 22:14:01 +0100 (CET)
-Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CE417B0EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 22:51:39 +0100 (CET)
+Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9xoe-0004qw-Gi
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 16:14:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51264)
+	id 1j9yP4-0003N2-WD
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 16:51:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1j9xnh-0004AY-HK
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 16:13:02 -0500
+ (envelope-from <bounces@canonical.com>) id 1j9yOB-0002uV-Vi
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 16:50:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1j9xnc-000135-BC
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 16:12:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21156
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j9xnc-00011D-7Y
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 16:12:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583442775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9FaFwJ8YTCR9x2/zuMJUZ3S12ukUihOBv5GfPznv3ic=;
- b=A8kBDSNG8puHy5WSmbJlzz3UPAKk4TSzN/QVsjI9Qs4WetVG0qj800L/5AJQtRR6U3J+nn
- S8bYLRN8wqJOrJ4GQnR2ugZprudFp5MjvzkOmBG4XxmuKaa4q9YI74a3IZf6/J9/eTVZ5a
- SVe52aew+FCq7u/r5u8hKr59gNKKTlU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-GONn9LG-PdOALPr61BenSw-1; Thu, 05 Mar 2020 16:12:38 -0500
-X-MC-Unique: GONn9LG-PdOALPr61BenSw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EC92107BA99;
- Thu,  5 Mar 2020 21:12:37 +0000 (UTC)
-Received: from localhost (ovpn-126-90.rdu2.redhat.com [10.10.126.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EF878D57F;
- Thu,  5 Mar 2020 21:12:34 +0000 (UTC)
-Date: Thu, 5 Mar 2020 16:12:33 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: "Moger, Babu" <Babu.Moger@amd.com>
-Subject: Re: [PATCH v2 0/2] Add support for 2nd generation AMD EPYC processors
-Message-ID: <20200305211233.GY4440@habkost.net>
-References: <157314957337.23828.3860599077487615762.stgit@naples-babu.amd.com>
+ (envelope-from <bounces@canonical.com>) id 1j9yOA-00026F-8l
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 16:50:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43394)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j9yOA-00025W-0M
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 16:50:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j9yO7-00066G-FX
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 21:50:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 741E92E80D4
+ for <qemu-devel@nongnu.org>; Thu,  5 Mar 2020 21:50:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <157314957337.23828.3860599077487615762.stgit@naples-babu.amd.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 05 Mar 2020 21:37:57 -0000
+From: Ottavio Caruso <1743191@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson ottaviocr
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: Ottavio Caruso (ottaviocr)
+References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
+Message-Id: <158344427762.12830.17457166762960943310.malone@soybean.canonical.com>
+Subject: [Bug 1743191] Re: Interacting with NetBSD serial console boot blocks
+ no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 00f0d7fcef19a6a18a583d5d4bf68fb5b5590b6e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,28 +66,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>
+Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 07, 2019 at 06:00:51PM +0000, Moger, Babu wrote:
-> The following series adds the support for 2nd generation AMD EPYC Process=
-ors
-> on qemu guests. The model display name for 2nd generation will be EPYC-Ro=
-me.
->=20
-> Also fixes few missed cpu feature bits in 1st generation EPYC models.
->=20
-> The Reference documents are available at
-> https://developer.amd.com/wp-content/resources/55803_0.54-PUB.pdf
-> https://www.amd.com/system/files/TechDocs/24594.pdf
+Reverting to Seabios 1.10 (version rel-1.10.3.0-gb76661dd) fixes this
+problem.
 
-Queued, thanks and sorry for taking so long to handle this.
+Steps:
 
---=20
-Eduardo
+$ cd && mkdir seabios-test && cd seabios-test
+$ git clone -b 1.10-stable https://github.com/coreboot/seabios.git
+$ cd seabios
+$ make
+$ qemu-system-x86_64 \
+-drive if=3Dvirtio,file=3D/home/oc/VM/img/netbsd.image,index=3D0,media=3Ddi=
+sk \
+-M q35,accel=3Dkvm -m 350M -cpu host -smp $(nproc) \
+-nic user,model=3Dvirtio-net-pci,ipv6=3Doff \
+-nographic -bios /home/oc/seabios-test/seabios/out/bios.bin
 
+Result: =
+
+I can interact with NetBSD boot menu and select one of the available option=
+s.
+
+Host:
+Linux e130 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20) x86_6=
+4 GNU/Linux
+
+QEMU emulator version 4.2.0
+
+
+** Also affects: seabios
+   Importance: Undecided
+       Status: New
+
+** No longer affects: seabios
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1743191
+
+Title:
+  Interacting with NetBSD serial console boot blocks no longer works
+
+Status in QEMU:
+  New
+
+Bug description:
+  The NetBSD boot blocks display a menu allowing the user to make a
+  selection using the keyboard.  For example, when booting a NetBSD
+  installation CD-ROM, the menu looks like this:
+
+           1. Install NetBSD
+           2. Install NetBSD (no ACPI)
+           3. Install NetBSD (no ACPI, no SMP)
+           4. Drop to boot prompt
+
+      Choose an option; RETURN for default; SPACE to stop countdown.
+      Option 1 will be chosen in 30 seconds.
+
+  When booting NetBSD in a recent qemu using an emulated serial console,
+  making this menu selection no longer works: when you type the selected
+  number, the keyboard input is ignored, and the 30-second countdown
+  continues.  In older versions of qemu, it works.
+
+  To reproduce the problem, run:
+
+     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
+cdrom/boot-com.iso
+     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+
+  During the 30-second countdown, press 4
+
+  Expected behavior: The countdown stops and you get a ">" prompt
+
+  Incorrect behavior: The countdown continues
+
+  There may also be some corruption of the terminal output; for example,
+  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+  will be chosen in p0 seconds".
+
+  Using bisection, I have determined that the problem appeared with qemu
+  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+  updated to 1.11 prerelease, and the problem is still there as of
+  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+  system used for the tests was Debian 9 x86_64.
+
+  Credit for discovering this bug goes to Paul Goyette.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
