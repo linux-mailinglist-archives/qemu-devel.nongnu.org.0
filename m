@@ -2,69 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D3517AB27
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 18:06:35 +0100 (CET)
-Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3ECD17ABDF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 18:19:04 +0100 (CET)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9txC-0004EQ-To
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 12:06:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37235)
+	id 1j9u9H-0007n4-VS
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 12:19:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j9tvX-00022P-FQ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:04:54 -0500
+ (envelope-from <borntraeger@de.ibm.com>) id 1j9tvJ-0001cQ-4T
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:04:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j9tvT-0000Nh-Tj
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:04:50 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28265
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j9tvT-0000Ld-EE
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:04:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583427886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PZM4emyGl1edtc8y6Xx9aw9kJAunPTokTt8KV3IRhOk=;
- b=FgkXtxHuN8ORKhl7JQrTyDjT6kHCX29y1fpXzFns3ZvEb9JjJVw+oSywx0OFq0Q2iax9mU
- ftoL6zXDHlePJEgjsyhDeF5ACN/ZeYGZVIexoJyB18Sh6GneUHUl8ktl56tTP6YJfQGDjR
- 9s7Z7BNkNUpoSYIGbcLsQyi1wbeNEik=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-ogtwWgPjMYW6xaH0GXhOBQ-1; Thu, 05 Mar 2020 12:04:42 -0500
-X-MC-Unique: ogtwWgPjMYW6xaH0GXhOBQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CD23B07B0;
- Thu,  5 Mar 2020 17:04:40 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D21327BD8;
- Thu,  5 Mar 2020 17:04:25 +0000 (UTC)
-Date: Thu, 5 Mar 2020 17:04:22 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v5 41/50] multi-process/mig: Enable VMSD save in the
- Proxy object
-Message-ID: <20200305170422.GN3130@work-vm>
-References: <cover.1582576372.git.jag.raman@oracle.com>
- <f056d73bb7f749171626cb8abc5a317b0ec17845.1582576372.git.jag.raman@oracle.com>
- <20200305123155.GH3130@work-vm>
- <566485f3-bc78-991a-5ff7-b0f99977d0e8@oracle.com>
+ (envelope-from <borntraeger@de.ibm.com>) id 1j9tvH-0000BU-O7
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:04:37 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28086)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1j9tvH-00009Z-IC
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:04:35 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 025GqxgA089712
+ for <qemu-devel@nongnu.org>; Thu, 5 Mar 2020 12:04:34 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yfkndax21-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 12:04:33 -0500
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Thu, 5 Mar 2020 17:04:30 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 5 Mar 2020 17:04:28 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 025H4RqQ59965572
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Mar 2020 17:04:27 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48B115205F;
+ Thu,  5 Mar 2020 17:04:27 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.81.94])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E18A252051;
+ Thu,  5 Mar 2020 17:04:26 +0000 (GMT)
+Subject: Re: [PATCH v6 18/18] pc-bios: s390x: Save iplb location in lowcore
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200304114231.23493-1-frankja@linux.ibm.com>
+ <20200304114231.23493-19-frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Thu, 5 Mar 2020 18:04:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <566485f3-bc78-991a-5ff7-b0f99977d0e8@oracle.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200304114231.23493-19-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20030517-4275-0000-0000-000003A8B7C9
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20030517-4276-0000-0000-000038BDC86A
+Message-Id: <54988021-5c31-9198-56e4-86ee3787576b@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-05_05:2020-03-05,
+ 2020-03-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ mlxlogscore=858 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 suspectscore=0 clxscore=1015 mlxscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003050106
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,327 +134,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, liran.alon@oracle.com,
- stefanha@redhat.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jag Raman (jag.raman@oracle.com) wrote:
->=20
->=20
-> On 3/5/2020 7:31 AM, Dr. David Alan Gilbert wrote:
-> > * Jagannathan Raman (jag.raman@oracle.com) wrote:
-> > > Collect the VMSD from remote process on the source and save
-> > > it to the channel leading to the destination
-> > >=20
-> > > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > > ---
-> > >   v4 -> v5:
-> > >    - Using qemu_file_shutdown() instead of qemu_thread_cancel(). Remo=
-ved patch
-> > >      which introduced qemu_thread_cancel()
-> > >=20
-> > >   hw/proxy/qemu-proxy.c         | 135 +++++++++++++++++++++++++++++++=
-+++++++++++
-> > >   include/hw/proxy/qemu-proxy.h |   2 +
-> > >   include/io/mpqemu-link.h      |   1 +
-> > >   3 files changed, 138 insertions(+)
-> > >=20
-> > > diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-> > > index b1b9282..19f0dbb 100644
-> > > --- a/hw/proxy/qemu-proxy.c
-> > > +++ b/hw/proxy/qemu-proxy.c
-> > > @@ -23,6 +23,14 @@
-> > >   #include "util/event_notifier-posix.c"
-> > >   #include "hw/boards.h"
-> > >   #include "include/qemu/log.h"
-> > > +#include "io/channel.h"
-> > > +#include "migration/qemu-file-types.h"
-> > > +#include "qapi/error.h"
-> > > +#include "io/channel-util.h"
-> > > +#include "migration/qemu-file-channel.h"
-> > > +#include "migration/qemu-file.h"
-> > > +#include "migration/migration.h"
-> > > +#include "migration/vmstate.h"
-> > >   QEMUTimer *hb_timer;
-> > >   static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
-> > > @@ -35,6 +43,9 @@ static void broadcast_init(void);
-> > >   static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t=
- *val, int l,
-> > >                             unsigned int op);
-> > > +#define PAGE_SIZE qemu_real_host_page_size
-> > > +uint8_t *mig_data;
-> > > +
-> > >   static void childsig_handler(int sig, siginfo_t *siginfo, void *ctx=
-)
-> > >   {
-> > >       /* TODO: Add proper handler. */
-> > > @@ -460,6 +471,129 @@ static void pci_proxy_dev_inst_init(Object *obj=
-)
-> > >       dev->mem_init =3D false;
-> > >   }
-> > > +typedef struct {
-> > > +    QEMUFile *rem;
-> > > +    PCIProxyDev *dev;
-> > > +} proxy_mig_data;
-> > > +
-> > > +static void *proxy_mig_out(void *opaque)
-> > > +{
-> > > +    proxy_mig_data *data =3D opaque;
-> > > +    PCIProxyDev *dev =3D data->dev;
-> > > +    uint8_t byte;
-> > > +    uint64_t data_size =3D PAGE_SIZE;
-> > > +
-> > > +    mig_data =3D g_malloc(data_size);
-> > > +
-> > > +    while (true) {
-> > > +        byte =3D qemu_get_byte(data->rem);
-> > > +
-> > > +        if (qemu_file_get_error(data->rem)) {
-> > > +            break;
-> > > +        }
-> > > +
-> > > +        mig_data[dev->migsize++] =3D byte;
-> > > +        if (dev->migsize =3D=3D data_size) {
-> > > +            data_size +=3D PAGE_SIZE;
-> > > +            mig_data =3D g_realloc(mig_data, data_size);
-> > > +        }
-> > > +    }
-> > > +
-> > > +    return NULL;
-> > > +}
-> > > +
-> > > +static int proxy_pre_save(void *opaque)
-> > > +{
-> > > +    PCIProxyDev *pdev =3D opaque;
-> > > +    proxy_mig_data *mig_data;
-> > > +    QEMUFile *f_remote;
-> > > +    MPQemuMsg msg =3D {0};
-> > > +    QemuThread thread;
-> > > +    Error *err =3D NULL;
-> > > +    QIOChannel *ioc;
-> > > +    uint64_t size;
-> > > +    int fd[2];
-> > > +
-> > > +    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
-> > > +        return -1;
-> > > +    }
-> > > +
-> > > +    ioc =3D qio_channel_new_fd(fd[0], &err);
-> > > +    if (err) {
-> > > +        error_report_err(err);
-> > > +        return -1;
-> > > +    }
-> > > +
-> > > +    qio_channel_set_name(QIO_CHANNEL(ioc), "PCIProxyDevice-mig");
-> > > +
-> > > +    f_remote =3D qemu_fopen_channel_input(ioc);
-> > > +
-> > > +    pdev->migsize =3D 0;
-> > > +
-> > > +    mig_data =3D g_malloc0(sizeof(proxy_mig_data));
-> > > +    mig_data->rem =3D f_remote;
-> >=20
-> > This feels way too complicated.   Since we know f_remote is always just
-> > a simple fd we're getting we don't need to use qio or qemu_file here;
-> > just use the fd - nice and simple.
-> >=20
-> > Then the code to read it can just use read(2) with a sensible size chun=
-k
-> > rather than reading a byte at a time.
->=20
-> Hi Dave,
->=20
-> Upon closer inspection, we found that the migration code on the remote
-> (which uses QEMUFile) could sometimes set an error on the channel using
-> qemu_file_set_error(). We needed to use qemu_file_get_error() to catch
-> these errors and abort migration. So we had to stick with QEMUFile at
-> the receiving end as well.
 
-I realise you need to use a QEMUFile on the part that connects to the
-Savevm code/vmstate code - but that doesn't mean you need it on the side
-that just connects between your pipe and the qemu.
+On 04.03.20 12:42, Janosch Frank wrote:
+> The POP states that for a list directed IPL the IPLB is stored into
+> memory by the machine loader and its address is stored at offset 0x14
+> of the lowcore.
+> 
+> ZIPL currently uses the address in offset 0x14 to access the IPLB and
+> acquire flags about secure boot. If the IPLB address points into
+> memory which has an unsupported mix of flags set, ZIPL will panic
+> instead of booting the OS.
+> 
+> As the lowcore can have quite a high entropy for a guest that did drop
+> out of protected mode (i.e. rebooted) we encountered the ZIPL panic
+> quite often.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
 
-> >=20
-> > > +    mig_data->dev =3D pdev;
-> > > +
-> > > +    qemu_thread_create(&thread, "Proxy MIG_OUT", proxy_mig_out, mig_=
-data,
-> > > +                       QEMU_THREAD_DETACHED);
-> >=20
-> > I'm just checking why a thread is necessary; is this because you need t=
-o
-> > be able to start reading before you block waiting for the remote to tel=
-l
-> > you the size - worrying that if you don't start reading then the remote
-> > might block waiting for us?
->=20
-> Yes, Dave. That is correct.
->=20
-> >=20
-> > > +    msg.cmd =3D START_MIG_OUT;
-> > > +    msg.bytestream =3D 0;
-> > > +    msg.num_fds =3D 2;
-> > > +    msg.fds[0] =3D fd[1];
-> > > +    msg.fds[1] =3D GET_REMOTE_WAIT;
-> > > +
-> > > +    mpqemu_msg_send(&msg, pdev->mpqemu_link->com);
-> > > +    size =3D wait_for_remote(msg.fds[1]);
-> > > +    PUT_REMOTE_WAIT(msg.fds[1]);
-> > > +
-> > > +    assert(size !=3D ULLONG_MAX);
-> > > +
-> > > +    /*
-> > > +     * migsize is being update by a separate thread. Using volatile =
-to
-> > > +     * instruct the compiler to fetch the value of this variable fro=
-m
-> > > +     * memory during every read
-> > > +     */
-> > > +    while (*((volatile uint64_t *)&pdev->migsize) < size) {
-> > > +    }
-> >=20
-> > Hmm.  I suggest the following:
-> >=20
-> >    a) You create a shared 'size' variable;  and initialize it to
-> >      UINT64_MAX.
-> >    b) The thread uses atomic_read(shared_size) to read that value.
-> >    c) When you receive the size from the remote you do
-> >       atomic_set(&shared_size, size);
-> >    d) The thread does:
-> >       while (received_size < atomic_read(&shared_size))
-> >=20
-> >       so the thread will quit either on EOF or it hitting the size.
-> >=20
-> >    e) We pthread_join here to wait for the thread
-> >    f) We then check a received size to make sure it matches what we
-> > expect.
-> >=20
-> > That removes the tight loop.
->=20
-> Sure, will do.
->=20
-> >=20
-> > > +    qemu_file_shutdown(f_remote);
-> > > +
-> > > +    qemu_fclose(f_remote);
-> > > +    close(fd[1]);
-> > > +
-> > > +    return 0;
-> > > +}
-> > > +
-> > > +static int proxy_post_save(void *opaque)
-> > > +{
-> > > +    MigrationState *ms =3D migrate_get_current();
-> > > +    PCIProxyDev *pdev =3D opaque;
-> > > +    uint64_t pos =3D 0;
-> > > +
-> > > +    while (pos < pdev->migsize) {
-> > > +        qemu_put_byte(ms->to_dst_file, mig_data[pos]);
-> > > +        pos++;
-> > > +    }
-> > > +
-> > > +    qemu_fflush(ms->to_dst_file);
-> > > +
-> > > +    return 0;
-> >=20
-> > I don't think you need that.
-> >=20
-> > > +}
-> > > +
-> > > +const VMStateDescription vmstate_pci_proxy_device =3D {
-> > > +    .name =3D "PCIProxyDevice",
-> > > +    .version_id =3D 2,
-> > > +    .minimum_version_id =3D 1,
-> > > +    .pre_save =3D proxy_pre_save,
-> > > +    .post_save =3D proxy_post_save,
-> > > +    .fields =3D (VMStateField[]) {
-> > > +        VMSTATE_PCI_DEVICE(parent_dev, PCIProxyDev),
-> > > +        VMSTATE_UINT64(migsize, PCIProxyDev),
-> >=20
-> > I think instead you should use a VMSTATE_VBUFFER here to save
-> > the mig_data.
-> > What we should do is the post_save should g_free the buffer.
-> > (mig_data should be a field in proxy).
->=20
-> We noticed that VMSTATE_BUFFER requires that the buffer be part of a
-> "struct" and that the buffer is an array. Since the buffer we're using
-> is neither an array nor part of a "struct", we decided to go with
-> writing the buffer directly to the migration stream in proxy_post_save()
-> instead of using VMSTATE_BUFFER.
->=20
-> I think we should nevertheless g_free this buffer in post_save like you
-> pointed out.
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Note I'm suggesting using VMSTATE_VBUFFER, not VMSTATE_BUFFER;
-VBUFFER is expecting a unsigned char *; it does expect that to be in
-your structure, so I'd expect your proxy to have a mig_data and uint32_t
-mig_len fields.
+Thanks applied.
 
-Dave
-
-> Thank you!
-> --
-> Jag
->=20
-> >=20
-> > Dave
-> >=20
-> >=20
-> > > +        VMSTATE_END_OF_LIST()
-> > > +    }
-> > > +};
-> > > +
-> > >   static void pci_proxy_dev_class_init(ObjectClass *klass, void *data=
-)
-> > >   {
-> > >       PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
-> > > @@ -471,6 +605,7 @@ static void pci_proxy_dev_class_init(ObjectClass =
-*klass, void *data)
-> > >       k->config_write =3D pci_proxy_write_config;
-> > >       dc->reset =3D proxy_device_reset;
-> > > +    dc->vmsd =3D &vmstate_pci_proxy_device;
-> > >   }
-> > >   static const TypeInfo pci_proxy_dev_type_info =3D {
-> > > diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-pr=
-oxy.h
-> > > index 5de8129..537c227 100644
-> > > --- a/include/hw/proxy/qemu-proxy.h
-> > > +++ b/include/hw/proxy/qemu-proxy.h
-> > > @@ -75,6 +75,8 @@ struct PCIProxyDev {
-> > >                           bool need_spawn, Error **errp);
-> > >       ProxyMemoryRegion region[PCI_NUM_REGIONS];
-> > > +
-> > > +    uint64_t migsize;
-> > >   };
-> > >   typedef struct PCIProxyDevClass {
-> > > diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
-> > > index d2234ca..b42c003 100644
-> > > --- a/include/io/mpqemu-link.h
-> > > +++ b/include/io/mpqemu-link.h
-> > > @@ -63,6 +63,7 @@ typedef enum {
-> > >       PROXY_PING,
-> > >       MMIO_RETURN,
-> > >       DEVICE_RESET,
-> > > +    START_MIG_OUT,
-> > >       MAX,
-> > >   } mpqemu_cmd_t;
-> > > --=20
-> > > 1.8.3.1
-> > >=20
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> ---
+>  pc-bios/s390-ccw/jump2ipl.c  |  1 +
+>  pc-bios/s390-ccw/main.c      |  8 +++++++-
+>  pc-bios/s390-ccw/netmain.c   |  1 +
+>  pc-bios/s390-ccw/s390-arch.h | 10 ++++++++--
+>  pc-bios/s390-ccw/s390-ccw.h  |  1 +
+>  5 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index da13c43cc0..4eba2510b0 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -35,6 +35,7 @@ void jump_to_IPL_code(uint64_t address)
+>  {
+>      /* store the subsystem information _after_ the bootmap was loaded */
+>      write_subsystem_identification();
+> +    write_iplb_location();
+>  
+>      /* prevent unknown IPL types in the guest */
+>      if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
+> diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+> index a21b386280..4e65b411e1 100644
+> --- a/pc-bios/s390-ccw/main.c
+> +++ b/pc-bios/s390-ccw/main.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include "libc.h"
+> +#include "helper.h"
+>  #include "s390-arch.h"
+>  #include "s390-ccw.h"
+>  #include "cio.h"
+> @@ -22,7 +23,7 @@ QemuIplParameters qipl;
+>  IplParameterBlock iplb __attribute__((__aligned__(PAGE_SIZE)));
+>  static bool have_iplb;
+>  static uint16_t cutype;
+> -LowCore const *lowcore; /* Yes, this *is* a pointer to address 0 */
+> +LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
+>  
+>  #define LOADPARM_PROMPT "PROMPT  "
+>  #define LOADPARM_EMPTY  "        "
+> @@ -42,6 +43,11 @@ void write_subsystem_identification(void)
+>      *zeroes = 0;
+>  }
+>  
+> +void write_iplb_location(void)
+> +{
+> +    lowcore->ptr_iplb = ptr2u32(&iplb);
+> +}
+> +
+>  void panic(const char *string)
+>  {
+>      sclp_print(string);
+> diff --git a/pc-bios/s390-ccw/netmain.c b/pc-bios/s390-ccw/netmain.c
+> index f2dcc01e27..309ffa30d9 100644
+> --- a/pc-bios/s390-ccw/netmain.c
+> +++ b/pc-bios/s390-ccw/netmain.c
+> @@ -40,6 +40,7 @@
+>  #define DEFAULT_TFTP_RETRIES 20
+>  
+>  extern char _start[];
+> +void write_iplb_location(void) {}
+>  
+>  #define KERNEL_ADDR             ((void *)0L)
+>  #define KERNEL_MAX_SIZE         ((long)_start)
+> diff --git a/pc-bios/s390-ccw/s390-arch.h b/pc-bios/s390-ccw/s390-arch.h
+> index 504fc7c2f0..5f36361c02 100644
+> --- a/pc-bios/s390-ccw/s390-arch.h
+> +++ b/pc-bios/s390-ccw/s390-arch.h
+> @@ -36,7 +36,13 @@ typedef struct LowCore {
+>      /* prefix area: defined by architecture */
+>      PSWLegacy       ipl_psw;                  /* 0x000 */
+>      uint32_t        ccw1[2];                  /* 0x008 */
+> -    uint32_t        ccw2[2];                  /* 0x010 */
+> +    union {
+> +        uint32_t        ccw2[2];                  /* 0x010 */
+> +        struct {
+> +            uint32_t reserved10;
+> +            uint32_t ptr_iplb;
+> +        };
+> +    };
+>      uint8_t         pad1[0x80 - 0x18];        /* 0x018 */
+>      uint32_t        ext_params;               /* 0x080 */
+>      uint16_t        cpu_addr;                 /* 0x084 */
+> @@ -85,7 +91,7 @@ typedef struct LowCore {
+>      PSW             io_new_psw;               /* 0x1f0 */
+>  } __attribute__((packed, aligned(8192))) LowCore;
+>  
+> -extern LowCore const *lowcore;
+> +extern LowCore *lowcore;
+>  
+>  static inline void set_prefix(uint32_t address)
+>  {
+> diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+> index 11bce7d73c..21f27e7990 100644
+> --- a/pc-bios/s390-ccw/s390-ccw.h
+> +++ b/pc-bios/s390-ccw/s390-ccw.h
+> @@ -57,6 +57,7 @@ void consume_io_int(void);
+>  /* main.c */
+>  void panic(const char *string);
+>  void write_subsystem_identification(void);
+> +void write_iplb_location(void);
+>  extern char stack[PAGE_SIZE * 8] __attribute__((__aligned__(PAGE_SIZE)));
+>  unsigned int get_loadparm_index(void);
+>  
+> 
 
 
