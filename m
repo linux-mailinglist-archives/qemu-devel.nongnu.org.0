@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6CD17AAC5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:44:41 +0100 (CET)
-Received: from localhost ([::1]:52706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D29217AA99
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:36:33 +0100 (CET)
+Received: from localhost ([::1]:52502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tc0-0007em-Ph
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:44:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
+	id 1j9tU8-0002zx-H6
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:36:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP6-0003Ru-1p
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:21 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP6-0003S3-HH
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP4-0002Ge-Ob
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:19 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38032)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP5-0002HS-B9
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:20 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38951)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tP4-0002F7-Hf
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:18 -0500
-Received: by mail-wm1-x331.google.com with SMTP id u9so6432649wml.3
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:18 -0800 (PST)
+ id 1j9tP5-0002GO-52
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:19 -0500
+Received: by mail-wm1-x329.google.com with SMTP id j1so6421149wmi.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WBubcm43hZcBFxzyb7e4AboA5LBFrKCvg3PbaEHjM5U=;
- b=N0a1uH7Y2UzJakzCzlzWALcLXVi7TOQhgU/Ojxs0yB/A2UKDXyD+TnMhNp+Z1WoAR/
- P00rHiPFL5XHauhlBbVTRLCamnyXlFWVo2O4E2IfZOnxhxhh9dqD/Hv2yhI0T/CoY8Z4
- oPU6hAauS3NYvAIm+cWShrWRZhzMbRXtkxJfO9nr/4rmrgJJXqBNNeUo0it5kU2vMwvg
- /1boaYjFjCUKNPAl09CJy3Ku/iEuvCQ5FZRzdQxTPv1+TWd9bUre9gtK/Tv3CBi26ETR
- ualmbs0aDzCqoZzwGCr1uaYUl7Njyyx49SOoCbX/xELMb/jaDpq2pkrPTWRHuJyWjxX1
- n5+g==
+ bh=3GK41nG/OoUPXZ9s0SYYzwW0XMBSCvTJmH8pW+e8Jw8=;
+ b=c16OyJIc/hZ0Zou0sp0AnJXZWpb2lpshAHN5j0ff/dGNAh7x9PJC6vvpszBC4Q/9d2
+ hFC4FP1zlEEN/Q3mkoipJwxFB/WeR+9Vkzu75STlsZse4FiDy2K1bfBScE19o4pptpjC
+ 0/YxYrSjAEPMXxTfZbpVoj6vjedrV01soOaFw5FZ5FoBLolvKDooFt5Xm07RmZiXpMPd
+ eEIZIggUum6U7xpuXX4AvkltfThWp3sLVRjG/ModDI7XYXX3j3yTyYLRAIyp5k1KewkQ
+ u/iylW8ADsRsGam5sy0CwsBoh5x2em47vApEA1OYHcl8v5BqOR2MxKZhOBHpfk3Cmvtv
+ HieA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WBubcm43hZcBFxzyb7e4AboA5LBFrKCvg3PbaEHjM5U=;
- b=kW2wGqTF8nK+jtqwKsgUYXEd8xLX14dpq9mgEgGb2Hc6ZhlCwVpUhNqTSSfJ4otHEA
- rS7MLCKgg9yWmyFNXEEMEbyfUHEkZpD+yFv2Y0dwhODcX8sINlkJ6mqir9TiKRoOsbxl
- oHYwBzmEjqHuJ9f3NRyHYnNyGVtYx8/XOLYPwHWwlrJTxF7oC6o5TcCkU6VtQUJ7jKQb
- 3da/3KVMCX3neOOySUD6ueD9n3/fGo8bJ0c3m/SEZLjoMKcGGPX5A7GgBeR2Sf+4br/G
- Qls4/BC57kxiNwVcWO9GEegfSbMjMKUkKAegT0LC/PjP4Z37dFf+jS2tcO2vZasL02/4
- 7YpQ==
-X-Gm-Message-State: ANhLgQ2tDJDYAOHQa93ysj0eF8GS0UXdrh6991l8me6iu0fpA/7bm9Cz
- h7udbNhgfRPHjK4ws86HSOvLXz4jv/oeHA==
-X-Google-Smtp-Source: ADFU+vsFkDCCNv8FBWpbIXcTB9AD6o+4pIUSR+N/D6PT7jlsrB9CIlhIOod+G9IiW+h4MpH9ujGBcg==
-X-Received: by 2002:a05:600c:2255:: with SMTP id
- a21mr6282568wmm.91.1583425876750; 
- Thu, 05 Mar 2020 08:31:16 -0800 (PST)
+ bh=3GK41nG/OoUPXZ9s0SYYzwW0XMBSCvTJmH8pW+e8Jw8=;
+ b=khwg7fefMJUj4GDqBDHKTeYnkspjWKqQn7bre+jdzgn+N8pERTuKp1EtJ7nQ55HPi4
+ 8OQANdaumJ8Ig4PVRzrtGAHwMTGzD9Vf50xdtQPzKOUpvfjKFDpFCbdi+rsGSdqQNWEp
+ aaO3IaMPLkYDax6WownWBW7MWEZ3kYeA+tUPpqP+xMl1jj1n6KBykm3wEdErQn7yZLuV
+ VnH3BgSJgXg5848Al0DhZV7A606Wi9sqAwa32u1wWLPwEXNA0WrmXfv9dqvmYu3ETUCr
+ 3kGBfHUqHsaS1PwY4zP/qFzfdrjNBhhNCSJ/NUBTzM5p/cBOATK5t68ZuFLDWv5O0O3G
+ lwRA==
+X-Gm-Message-State: ANhLgQ15wNunNj0CnjGKCvlyDuVwkyCm+b3mOHN8Nb6uaWQQj0TiGHdJ
+ TyYdIVqMl9GOOnHdACHyDFqRHaxmlQmRVg==
+X-Google-Smtp-Source: ADFU+vu1xYX3jmOugfIzZdbMNUJW/m3L0ZEpHE3+CnwLVnGTEcPsEpJaEVbPe1t5UC34S6Spte1apg==
+X-Received: by 2002:a1c:9a45:: with SMTP id c66mr6239189wme.115.1583425877865; 
+ Thu, 05 Mar 2020 08:31:17 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.15
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:16 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:17 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/37] hw/arm/strongarm: move timer_new from init() into
+Subject: [PULL 14/37] hw/timer/cadence_ttc: move timer_new from init() into
  realize() to avoid memleaks
-Date: Thu,  5 Mar 2020 16:30:36 +0000
-Message-Id: <20200305163100.22912-14-peter.maydell@linaro.org>
+Date: Thu,  5 Mar 2020 16:30:37 +0000
+Message-Id: <20200305163100.22912-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,69 +88,56 @@ There are some memleaks when we call 'device_list_properties'. This patch move t
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-id: 20200227025055.14341-5-pannengyuan@huawei.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20200227025055.14341-7-pannengyuan@huawei.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/strongarm.c | 18 ++++++++++++------
+ hw/timer/cadence_ttc.c | 18 ++++++++++++------
  1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
-index cd8a99aaf2e..3010d765bb7 100644
---- a/hw/arm/strongarm.c
-+++ b/hw/arm/strongarm.c
-@@ -399,9 +399,6 @@ static void strongarm_rtc_init(Object *obj)
-     s->last_rcnr = (uint32_t) mktimegm(&tm);
-     s->last_hz = qemu_clock_get_ms(rtc_clock);
- 
--    s->rtc_alarm = timer_new_ms(rtc_clock, strongarm_rtc_alarm_tick, s);
--    s->rtc_hz = timer_new_ms(rtc_clock, strongarm_rtc_hz_tick, s);
+diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
+index 5e3128c1e37..b0ba6b2bbae 100644
+--- a/hw/timer/cadence_ttc.c
++++ b/hw/timer/cadence_ttc.c
+@@ -412,18 +412,23 @@ static void cadence_timer_init(uint32_t freq, CadenceTimerState *s)
+ static void cadence_ttc_init(Object *obj)
+ {
+     CadenceTTCState *s = CADENCE_TTC(obj);
+-    int i;
 -
-     sysbus_init_irq(dev, &s->rtc_irq);
-     sysbus_init_irq(dev, &s->rtc_hz_irq);
+-    for (i = 0; i < 3; ++i) {
+-        cadence_timer_init(133000000, &s->timer[i]);
+-        sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->timer[i].irq);
+-    }
  
-@@ -410,6 +407,13 @@ static void strongarm_rtc_init(Object *obj)
-     sysbus_init_mmio(dev, &s->iomem);
+     memory_region_init_io(&s->iomem, obj, &cadence_ttc_ops, s,
+                           "timer", 0x1000);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
  }
  
-+static void strongarm_rtc_realize(DeviceState *dev, Error **errp)
++static void cadence_ttc_realize(DeviceState *dev, Error **errp)
 +{
-+    StrongARMRTCState *s = STRONGARM_RTC(dev);
-+    s->rtc_alarm = timer_new_ms(rtc_clock, strongarm_rtc_alarm_tick, s);
-+    s->rtc_hz = timer_new_ms(rtc_clock, strongarm_rtc_hz_tick, s);
++    CadenceTTCState *s = CADENCE_TTC(dev);
++    int i;
++
++    for (i = 0; i < 3; ++i) {
++        cadence_timer_init(133000000, &s->timer[i]);
++        sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->timer[i].irq);
++    }
 +}
 +
- static int strongarm_rtc_pre_save(void *opaque)
+ static int cadence_timer_pre_save(void *opaque)
  {
-     StrongARMRTCState *s = opaque;
-@@ -451,6 +455,7 @@ static void strongarm_rtc_sysbus_class_init(ObjectClass *klass, void *data)
+     cadence_timer_sync((CadenceTimerState *)opaque);
+@@ -479,6 +484,7 @@ static void cadence_ttc_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
  
-     dc->desc = "StrongARM RTC Controller";
-     dc->vmsd = &vmstate_strongarm_rtc_regs;
-+    dc->realize = strongarm_rtc_realize;
+     dc->vmsd = &vmstate_cadence_ttc;
++    dc->realize = cadence_ttc_realize;
  }
  
- static const TypeInfo strongarm_rtc_sysbus_info = {
-@@ -1240,15 +1245,16 @@ static void strongarm_uart_init(Object *obj)
-                           "uart", 0x10000);
-     sysbus_init_mmio(dev, &s->iomem);
-     sysbus_init_irq(dev, &s->irq);
--
--    s->rx_timeout_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, strongarm_uart_rx_to, s);
--    s->tx_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, strongarm_uart_tx, s);
- }
- 
- static void strongarm_uart_realize(DeviceState *dev, Error **errp)
- {
-     StrongARMUARTState *s = STRONGARM_UART(dev);
- 
-+    s->rx_timeout_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                       strongarm_uart_rx_to,
-+                                       s);
-+    s->tx_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, strongarm_uart_tx, s);
-     qemu_chr_fe_set_handlers(&s->chr,
-                              strongarm_uart_can_receive,
-                              strongarm_uart_receive,
+ static const TypeInfo cadence_ttc_info = {
 -- 
 2.20.1
 
