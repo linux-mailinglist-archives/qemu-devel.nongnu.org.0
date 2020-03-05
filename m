@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F4017AA9E
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:36:51 +0100 (CET)
-Received: from localhost ([::1]:52518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE4E17AAA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:38:30 +0100 (CET)
+Received: from localhost ([::1]:52566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tUP-0003iZ-UR
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:36:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59037)
+	id 1j9tW1-0007TI-15
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:38:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tOt-0003Cr-Io
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:08 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tOv-0003Gx-42
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tOs-00025F-EL
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:07 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39600)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tOt-00026N-S2
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:09 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39801)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tOs-00024k-7q
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:06 -0500
-Received: by mail-wr1-x441.google.com with SMTP id y17so7802534wrn.6
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:06 -0800 (PST)
+ id 1j9tOt-00025Y-LF
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:07 -0500
+Received: by mail-wr1-x436.google.com with SMTP id y17so7802676wrn.6
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yEiymKhkPROqYzNJ51XYaQjzjgzEBScugFbYELCXiTs=;
- b=WAZdIyJtpvTzEe2dl4d/NyQM5LyI8aBJcyzH3QLfvySD0Nlz7CTEFomvWpACmrlAKc
- ezylUjdtp6oM1+6+wBa51tPRB20ilUyqBWZt8LsFnz1hYXgM7oHtAZKcLyXKZ0j/WCep
- xUMiObVoG1F7VYAGypc4e+gCwR8RRendsxTbm24eYNfho9BplXCDiQh7o6hOOqertbC+
- Xo55/CkYya5ymlmjEIMnRwADbrKl5+AC9xoMerRDRALvSedICUc/aBnMQvTg37nfgmWZ
- PQs0xZIabR4ajaxu7x5nPCc9eZxjo1KnLQz8KR9g3lViRybyWx2lKIg55ZFlTuW0Svpx
- n7KA==
+ bh=1ef+BYDS8rTe5i0BI9ywJQpdyAoxyoAQZCX8XvfU9aI=;
+ b=V5g94zARXCWjtrHWfE9gIuQpbY1ZKvJcCm4ihRaOFXNd6Cxd2Zv+6gQPa38Bq7Oehs
+ BnTQAX/Pi7vyekCZyIuVpoVldvn+iaWr23ZDoEXQVk0YtVMTl3c3YnNN5cP8nyWNWunL
+ 1s1gMo4zMaVVfbwDRvgBcXnmnnTIqOrmVvJQW4kp8+uETQB9xdn3iqlYM6W+A2StHaYT
+ TrL2OkaXue6rbTa4TErZ/00/8kFVgaixhsMK30c96GgNg5gQ3B5AgEI+SDNir/QcDqNG
+ w3J0xXIs+x1iAsHs+e0KjJyrkrmb5xlQUarWDyw6gBvt67hEyIoTqkj9Kb1BH/5YzGRM
+ 1evw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yEiymKhkPROqYzNJ51XYaQjzjgzEBScugFbYELCXiTs=;
- b=RwRWLFUjoH4obSVMBhpCN3J/AadEsT3rlyxH8wQ6UI/+FjvNZd9xuZ2G9RAlN2L6KX
- F+lbHlB30BhoiPIgaVtIv7FXzVj7JHY/UA5tegN9hVbajV15NzQ/wl3Cv0uZsO6s6EFN
- 0VSZJfxvKGcY8FMy7CcQs4XiXDF/eXBrBAYCrnVlNzt2WQIjF5AwF9dI5G1Tb4xQRQSY
- NvC33qx2uYDlSCheQ/2/sh9mDxtEoYUz3wXnFMDW+tPozgdwBR9oZPVWk01Bx6Ql9mNT
- DHQuIFH8uHeYlwXySZn++TIRXV9b3VS+IhS2l/cfYY3g0CWXhwSh0KbJK/t7/zrYnK1Q
- CJYQ==
-X-Gm-Message-State: ANhLgQ0NQXvpEnbfDkLbvShr3OqqtWIUdTaKyXDkI2APSgvOfqINbgzU
- k/XhGtcT16pZbzCj65XVRwTd+j+cntnEdA==
-X-Google-Smtp-Source: ADFU+vtA0kPCR5Orj3C6WQw9qTciGUtirEnCMl0eWew44VVFLEroUEpemEPgEXySrn2mUyESbvuByw==
-X-Received: by 2002:a5d:5043:: with SMTP id h3mr5963574wrt.274.1583425864900; 
- Thu, 05 Mar 2020 08:31:04 -0800 (PST)
+ bh=1ef+BYDS8rTe5i0BI9ywJQpdyAoxyoAQZCX8XvfU9aI=;
+ b=avTuGDnYFvxvXnhK2rNBf8+oQf3zuPXrBylS9N49RiqJl+11QgBWimRJg4FiiE0ru/
+ hmpUm1Rf6rGyie+elFVCnfHytH1cSHMSWCIs8avIZo22p7m2a+hqaMnDjmAgcwrol8Cx
+ TyMd3lf4Fz6O7uE28Wy4ShbyTjE7t8C1V3ZnXrgyqAZF2LAJgfo8MBuW9g7DalLWxkUQ
+ 31REvxNUpAnx7fThZwBJTuDpwh8Zr9fYm8Ahm9GJ0GQeAEjftfGQj/fSYpZd6EzLDNTs
+ /9zXzUW2A2whlexLAi8PsEkXmYmWJK3N/K5Hke5Ww3bQPWBGUa3wHn77oJpHNWa6+72l
+ 0+ow==
+X-Gm-Message-State: ANhLgQ2klPo8TpGdM6NbBP6fnGgNPwsc399eqPLOH26YiwV1uogx6GSV
+ VPcKyBqnobIwF7ziI7paCys5+eXFL44Qmg==
+X-Google-Smtp-Source: ADFU+vsLGq40XEGFIxc6tct9GkXAyKJ7azS8wlp649g8+b8+oGYtDg3pQ/y1mcssALeN0uQpq2HE+Q==
+X-Received: by 2002:adf:b345:: with SMTP id k5mr11656251wrd.55.1583425866143; 
+ Thu, 05 Mar 2020 08:31:06 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.03
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:04 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:05 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/37] hw/arm: versal: Generate xlnx-versal-virt zdma FDT nodes
-Date: Thu,  5 Mar 2020 16:30:25 +0000
-Message-Id: <20200305163100.22912-3-peter.maydell@linaro.org>
+Subject: [PULL 03/37] target/arm: Implement (trivially) ARMv8.2-TTCNP
+Date: Thu,  5 Mar 2020 16:30:26 +0000
+Message-Id: <20200305163100.22912-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,65 +81,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+The ARMv8.2-TTCNP extension allows an implementation to optimize by
+sharing TLB entries between multiple cores, provided that software
+declares that it's ready to deal with this by setting a CnP bit in
+the TTBRn_ELx.  It is mandatory from ARMv8.2 onward.
 
-Generate xlnx-versal-virt zdma FDT nodes.
+For QEMU's TLB implementation, sharing TLB entries between different
+cores would not really benefit us and would be a lot of work to
+implement.  So we implement this extension in the "trivial" manner:
+we allow the guest to set and read back the CnP bit, but don't change
+our behaviour (this is an architecturally valid implementation
+choice).
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+The only code path which looks at the TTBRn_ELx values for the
+long-descriptor format where the CnP bit is defined is already doing
+enough masking to not get confused when the CnP bit at the bottom of
+the register is set, so we can simply add a comment noting why we're
+relying on that mask.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200225193822.18874-1-peter.maydell@linaro.org
 ---
- hw/arm/xlnx-versal-virt.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ target/arm/cpu.c    | 1 +
+ target/arm/cpu64.c  | 2 ++
+ target/arm/helper.c | 4 ++++
+ 3 files changed, 7 insertions(+)
 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index e7f4ca8bf95..878a2751400 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -229,6 +229,33 @@ static void fdt_add_gem_nodes(VersalVirt *s)
-     }
- }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index e6016e33cec..de00a45e903 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2702,6 +2702,7 @@ static void arm_max_initfn(Object *obj)
+             t = cpu->isar.id_mmfr4;
+             t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+             t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
++            t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+             cpu->isar.id_mmfr4 = t;
+         }
+ #endif
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index b842e2b664a..62d36f9e8d3 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -677,6 +677,7 @@ static void aarch64_max_initfn(Object *obj)
  
-+static void fdt_add_zdma_nodes(VersalVirt *s)
-+{
-+    const char clocknames[] = "clk_main\0clk_apb";
-+    const char compat[] = "xlnx,zynqmp-dma-1.0";
-+    int i;
-+
-+    for (i = XLNX_VERSAL_NR_ADMAS - 1; i >= 0; i--) {
-+        uint64_t addr = MM_ADMA_CH0 + MM_ADMA_CH0_SIZE * i;
-+        char *name = g_strdup_printf("/dma@%" PRIx64, addr);
-+
-+        qemu_fdt_add_subnode(s->fdt, name);
-+
-+        qemu_fdt_setprop_cell(s->fdt, name, "xlnx,bus-width", 64);
-+        qemu_fdt_setprop_cells(s->fdt, name, "clocks",
-+                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
-+        qemu_fdt_setprop(s->fdt, name, "clock-names",
-+                         clocknames, sizeof(clocknames));
-+        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-+                               GIC_FDT_IRQ_TYPE_SPI, VERSAL_ADMA_IRQ_0 + i,
-+                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+                                     2, addr, 2, 0x1000);
-+        qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-+        g_free(name);
-+    }
-+}
-+
- static void fdt_nop_memory_nodes(void *fdt, Error **errp)
- {
-     Error *err = NULL;
-@@ -427,6 +454,7 @@ static void versal_virt_init(MachineState *machine)
-     fdt_add_uart_nodes(s);
-     fdt_add_gic_nodes(s);
-     fdt_add_timer_nodes(s);
-+    fdt_add_zdma_nodes(s);
-     fdt_add_cpu_nodes(s, psci_conduit);
-     fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
-     fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
+         t = cpu->isar.id_aa64mmfr2;
+         t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
++        t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
+         cpu->isar.id_aa64mmfr2 = t;
+ 
+         /* Replicate the same data to the 32-bit id registers.  */
+@@ -704,6 +705,7 @@ static void aarch64_max_initfn(Object *obj)
+         u = cpu->isar.id_mmfr4;
+         u = FIELD_DP32(u, ID_MMFR4, HPDS, 1); /* AA32HPD */
+         u = FIELD_DP32(u, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
++        u = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
+         cpu->isar.id_mmfr4 = u;
+ 
+         u = cpu->isar.id_aa64dfr0;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6be9ffa09ef..4eaf7333c7b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10591,6 +10591,10 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+ 
+     /* Now we can extract the actual base address from the TTBR */
+     descaddr = extract64(ttbr, 0, 48);
++    /*
++     * We rely on this masking to clear the RES0 bits at the bottom of the TTBR
++     * and also to mask out CnP (bit 0) which could validly be non-zero.
++     */
+     descaddr &= ~indexmask;
+ 
+     /* The address field in the descriptor goes up to bit 39 for ARMv7
 -- 
 2.20.1
 
