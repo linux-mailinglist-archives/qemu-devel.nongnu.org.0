@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A68E17AE0B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 19:28:21 +0100 (CET)
-Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5814017AE0C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 19:28:41 +0100 (CET)
+Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9vEK-00046c-F8
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 13:28:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51781)
+	id 1j9vEe-0004qe-Er
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 13:28:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j9vD6-0002ZT-BN
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:27:05 -0500
+ (envelope-from <bounces@canonical.com>) id 1j9vCj-00027W-7q
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:26:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j9vD4-00075G-M5
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:27:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48574)
+ (envelope-from <bounces@canonical.com>) id 1j9vCh-0006jQ-Q2
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:26:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47604)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j9vD4-00073l-Fr
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:27:02 -0500
+ id 1j9vCh-0006j9-Kh
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:26:39 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j9vD2-0001Z8-5c
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 18:27:00 +0000
+ id 1j9vCe-0001ef-Sc
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 18:26:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1EBD52EAF7B
+ by loganberry.canonical.com (Postfix) with ESMTP id D57822EB2B4
  for <qemu-devel@nongnu.org>; Thu,  5 Mar 2020 18:01:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Mar 2020 17:21:07 -0000
+Date: Thu, 05 Mar 2020 17:22:12 -0000
 From: tstrike <1813165@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
 X-Launchpad-Bug-Reporter: Thomas (himbeere)
 X-Launchpad-Bug-Modifier: tstrike (tstrike34)
 References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
-Message-Id: <158342886801.11468.15864047318498999129.malone@wampee.canonical.com>
+Message-Id: <158342893284.12323.14425228425017661164.malone@soybean.canonical.com>
 Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 55fa7d74d9518f922cb2338ab7dde110cda3ca2f
+X-Launchpad-Hash: e2681d0a138e2f69ff966d466545773a40bc2a07
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,12 +69,28 @@ Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is the error:
+Here is the CLI error I get:
 
-2020-03-05T02:01:00.287202Z qemu-system-x86_64: warning: host doesn't suppo=
-rt requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-KVM internal error. Suberror: 1
-emulation failure
+Error unpausing domain: internal error: unable to execute QEMU command
+'cont': Resetting the Virtual Machine is required
+
+Traceback (most recent call last):
+  File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_wr=
+apper
+    callback(asyncjob, *args, **kwargs)
+  File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tmpcb
+    callback(*args, **kwargs)
+  File "/usr/share/virt-manager/virtManager/object/libvirtobject.py", line =
+66, in newfn
+    ret =3D fn(self, *args, **kwargs)
+  File "/usr/share/virt-manager/virtManager/object/domain.py", line 1311, i=
+n resume
+    self._backend.resume()
+  File "/usr/lib/python3/dist-packages/libvirt.py", line 2174, in resume
+    if ret =3D=3D -1: raise libvirtError ('virDomainResume() failed', dom=
+=3Dself)
+libvirt.libvirtError: internal error: unable to execute QEMU command 'cont'=
+: Resetting the Virtual Machine is required
 
 -- =
 
