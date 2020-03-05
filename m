@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3888517A5B2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:52:21 +0100 (CET)
-Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F5517A590
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:47:28 +0100 (CET)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9pzA-0001G7-7H
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:52:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41573)
+	id 1j9puR-00007o-Bh
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:47:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9psd-0005wU-Fw
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:36 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9psg-00066m-J7
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9psc-0001I4-3L
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:35 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42022
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9psf-0001Km-FB
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58044
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9psb-0001Hq-WA
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:34 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9psf-0001Ke-Am
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583412333;
+ s=mimecast20190719; t=1583412336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Nhwgrxnqpunrz8zBbMeODrFA6z+v6v0KC0yLbmsGqoc=;
- b=eAiKzlYlJOnUY5nVl7U3Z9SJRBqZRZyHZvlEXegFiLAaHTqVCblM2U12USG2tYEWcVG7pI
- bhirRKwWvtoCsW+SxF6Wbyfp5Njb09sJ9nyclQY/LjNf2p2ecv9p7GvypPp7j6b473/TCs
- APuuFJRnaFGaBfRDP9A5Fs0rVP7PXLg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-Uy2ASBgwO3eTBN12HiHQkA-1; Thu, 05 Mar 2020 07:45:30 -0500
-X-MC-Unique: Uy2ASBgwO3eTBN12HiHQkA-1
-Received: by mail-wm1-f70.google.com with SMTP id i16so174848wmd.9
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:45:29 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g8JgHjC2tXoZAEY+Z+QWQFzxkwOUopjQLXjv3/2fagw=;
+ b=AHyeOnsSnrDsx5B/GH9UcQVwIsdQbrgBK1Rcw9FjHArxO7/dpvigDu2fGAiFjENOGYplRd
+ +t9lv4ZoP/e9IOomdxJFNR7BeKDCZ91FSw5DcC22wy1ArsASIy1PkyJooNWuiJntKRwgvD
+ EK1wry7DJ0TUfrh3TAiCWBlLL+j9t0g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-Ew-UClyXMz64FZgDfKNDVQ-1; Thu, 05 Mar 2020 07:45:35 -0500
+X-MC-Unique: Ew-UClyXMz64FZgDfKNDVQ-1
+Received: by mail-wr1-f72.google.com with SMTP id b12so2282043wro.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:45:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VZtzsSVzb5DX3o4pkmW7ktCi9rq5BRkqUN3Jv0Apib8=;
- b=B4b00bMR/7SQIrHkfPUle6wRQr/tlA7TEuJyLo1z6wZpttpJZJNASsXgIIlxhVYIyc
- Po+CEDF7BCqJSaiuBH1cAjtMCWz6hRBziKwwxSrnYmP+Gyjl7BctBBk/aZA0qpSJgczZ
- VrafbszNg1CrLf+9DOZhex1uOt6MYYm+nt5bhYZT2ARZh8rlE0ZYylkjX2GSMzk0DrIf
- EqsSbo1O8HULVRFbdaeXpH6X/VOU1SkJ836tHsc+f3WCDY6Mcp/YAYoNSRcDr6gdqknE
- wwGcYRw0xTsePPmlHgh5I1/ougBEd+KqAWgrK+FRcHv0ogTCUBMZavgw67FSv3jyf/0Y
- jD6A==
-X-Gm-Message-State: ANhLgQ0wn7b+FK00TxgXejCgl+Y7W/89HqKDSOOS7EYtcyAPbVxXePPf
- gf9m7RSZ7bLepzWd1ETYWDBgMY61PZukimrbONWy4bfXKXYjVz9ONvW2sxXiod+nT7T0CcbAkDU
- /lIipS/Zj5ZIxGU4=
-X-Received: by 2002:a5d:4f85:: with SMTP id d5mr9009099wru.130.1583412328858; 
- Thu, 05 Mar 2020 04:45:28 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vsj+5NKjCRIPqq/H/Brzjh0otlE9Qe8SQpdfKd2O3ZmDaikh5SOyIb4K+v2hWE41E3CKuSJxw==
-X-Received: by 2002:a5d:4f85:: with SMTP id d5mr9009071wru.130.1583412328568; 
- Thu, 05 Mar 2020 04:45:28 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=e8/VptnNWOgnx0RgaFPk1+9lrGqKzxjndWbawBpy4oA=;
+ b=EDswy+DAyadaUm0gVo0CI+nBuNIEznZeX/YX3CcdOuqFx467Z0bJry4+UUSKgPvoTv
+ kOKsQho6Yv9X4BfZv+HYYdRQGQLMPRJktL0zdGrLUblLrhUiM/EkTILUI43LoHVyZ8Dv
+ qlMT8yQzw3Ua0ZskiieNBBR50At2/3fFTeLFMjdNdDh+TqLZR7s7nBcOgARdoc/Bk3h7
+ 00XX86EfTWNFT/LuSh6k1DOnyaJUullCNnkAHyWOBdfKB3vEfhz2g72GW2L1q29dyhII
+ 4WABqcAPaWX7wL/fxzenjMFq+37MBmBXHHWBTGGPDO1OsXSJ6N7Na2Ewnr9REqY/XoiO
+ KJ8A==
+X-Gm-Message-State: ANhLgQ300zMXqCmcJ9wxzTpKg2bkedS4MoqqpJf0DdWpweVAOZtt/Nfe
+ +b5AOLvyaoning5oqeRn9E/Bl0NbqNwOwXsy4rqaX+N7KkMQ4+sTR3G63t+2B+rTD03mVyholwN
+ Y/91swfqyvN14PJA=
+X-Received: by 2002:adf:f041:: with SMTP id t1mr9555754wro.98.1583412334057;
+ Thu, 05 Mar 2020 04:45:34 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvBJX4eBPj6deoHJ3R1XiuP/1oQusUpv01W1MI5QD8pSRm/PrjA2JhtMn33wjd9Ey+mMm3Npg==
+X-Received: by 2002:adf:f041:: with SMTP id t1mr9555734wro.98.1583412333897;
+ Thu, 05 Mar 2020 04:45:33 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id u17sm8282608wmj.47.2020.03.05.04.45.27
+ by smtp.gmail.com with ESMTPSA id w16sm10556707wrp.8.2020.03.05.04.45.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 04:45:28 -0800 (PST)
+ Thu, 05 Mar 2020 04:45:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-trivial@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 0/9] hw, ui,
- virtfs-proxy-helper: Reduce QEMU .data/.rodata/.bss footprint
-Date: Thu,  5 Mar 2020 13:45:16 +0100
-Message-Id: <20200305124525.14555-1-philmd@redhat.com>
+Subject: [PATCH v2 1/9] hw/audio/fmopl: Fix a typo twice
+Date: Thu,  5 Mar 2020 13:45:17 +0100
+Message-Id: <20200305124525.14555-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200305124525.14555-1-philmd@redhat.com>
+References: <20200305124525.14555-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,55 +92,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
  Jason Wang <jasowang@redhat.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1:
-- merged 2 series
-- reworked hw/usb/quirks
-- added R-b/A-b tags
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/audio/fmopl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This series reduce the footprint of the QEMU binary:
-.bss: 106KiB (moved to .heap)
-.data: 1MiB
-.rodata: 4.34MiB
-(sizes on x86_64 building with -Os)
-
-The elf-dissector tool [1] [2] helped to notice the big array.
-
-[1] https://phabricator.kde.org/source/elf-dissector/
-[2] https://www.volkerkrause.eu/2019/06/22/elf-dissector-aarch64-support.ht=
-ml
-[heap equivalent tool working with QEMU: https://github.com/KDE/heaptrack]
-
-Supersedes: <20200304221807.25212-1-philmd@redhat.com>
-Supersedes: <20200305010446.17029-1-philmd@redhat.com>
-
-Philippe Mathieu-Daud=C3=A9 (9):
-  hw/audio/fmopl: Fix a typo twice
-  hw/audio/fmopl: Move ENV_CURVE to .heap to save 32KiB of .bss
-  hw/audio/intel-hda: Use memory region alias to reduce .rodata by
-    4.34MB
-  hw/net/e1000: Add readops/writeops typedefs
-  hw/net/e1000: Move macreg[] arrays to .rodata to save 1MiB of .data
-  hw/usb/quirks: Use smaller types to reduce .rodata by 10KiB
-  ui/curses: Make control_characters[] array const
-  ui/curses: Move arrays to .heap to save 74KiB of .bss
-  virtfs-proxy-helper: Make the helper_opts[] array const
-
- hw/usb/quirks.h             | 22 +++++++++++++---------
- fsdev/virtfs-proxy-helper.c |  2 +-
- hw/audio/fmopl.c            |  8 +++++---
- hw/audio/intel-hda.c        | 24 ++++++++++--------------
- hw/net/e1000.c              |  6 ++++--
- hw/net/e1000e_core.c        |  6 ++++--
- hw/usb/quirks.c             |  4 ++--
- ui/curses.c                 | 10 +++++++---
- 8 files changed, 46 insertions(+), 36 deletions(-)
-
+diff --git a/hw/audio/fmopl.c b/hw/audio/fmopl.c
+index 9f50a89b4a..173a7521f2 100644
+--- a/hw/audio/fmopl.c
++++ b/hw/audio/fmopl.c
+@@ -1066,7 +1066,7 @@ static void OPLResetChip(FM_OPL *OPL)
+ =09}
+ }
+=20
+-/* ----------  Create one of vietual YM3812 ----------       */
++/* ----------  Create one of virtual YM3812 ----------       */
+ /* 'rate'  is sampling rate and 'bufsiz' is the size of the  */
+ FM_OPL *OPLCreate(int clock, int rate)
+ {
+@@ -1115,7 +1115,7 @@ FM_OPL *OPLCreate(int clock, int rate)
+ =09return OPL;
+ }
+=20
+-/* ----------  Destroy one of vietual YM3812 ----------       */
++/* ----------  Destroy one of virtual YM3812 ----------       */
+ void OPLDestroy(FM_OPL *OPL)
+ {
+ #ifdef OPL_OUTPUT_LOG
 --=20
 2.21.1
 
