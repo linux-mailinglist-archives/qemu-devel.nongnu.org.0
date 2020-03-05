@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E5017ACE9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 18:23:29 +0100 (CET)
-Received: from localhost ([::1]:53984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10DB17AD40
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 18:29:35 +0100 (CET)
+Received: from localhost ([::1]:54080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9uDY-00067H-Es
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 12:23:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40223)
+	id 1j9uJS-00048Z-PC
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 12:29:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9uAx-0002H4-Ac
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:20:48 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1j9uIX-0003dz-Oa
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:28:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9uAw-0003Id-4G
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:20:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41312
+ (envelope-from <pbonzini@redhat.com>) id 1j9uIW-0000b1-FJ
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:28:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22351
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9uAv-0003HM-Nk
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:20:45 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j9uIW-0000aW-Ai
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 12:28:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583428845;
+ s=mimecast20190719; t=1583429315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dLkB9BSm7Is6yJ0510IOvVsMgRVA2lYlOEvMCiPgrwI=;
- b=ABjERMJXMx0UEaVmbjZIIcKNViQ41EUD7zvqZcEzg46ifZFmW2qv/PmzOAQAT03PjNsIhH
- wfgujvTPJDTb1vVrUCKAezsXHMVZdjnshh/SmuwavVHXlFkxrNaxnbQB8chQSJaGWT1UCf
- CDAiXf/GBEH9FdFacfLNx5+FzUQFVAA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-icoXBAkrNkqJ59hdHl9BTA-1; Thu, 05 Mar 2020 12:20:43 -0500
-X-MC-Unique: icoXBAkrNkqJ59hdHl9BTA-1
-Received: by mail-wm1-f72.google.com with SMTP id p17so998486wmc.9
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 09:20:43 -0800 (PST)
+ bh=SHZQIWyX/5Hz1UwE7NhmczpoZtEm6zAg/llvWf5DNMc=;
+ b=UCASKiomKdAN9GCwNQHDpzUYxCh6qyoGy3zLjRT2WEFsw4y6vj6QKZhUvpwGK9zYVe8PpV
+ SH3xoflEprx9nwgKLMKftySm3/racgCdCQm0vrFUFe3e8uZkRtzN45dLLJFtGsABHqD0RZ
+ oK6n95aGCHJ+J6cxYBKMTDGTOyYFq8Q=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-BnMfnEccM9-yWRvez31PcA-1; Thu, 05 Mar 2020 12:28:34 -0500
+X-MC-Unique: BnMfnEccM9-yWRvez31PcA-1
+Received: by mail-wr1-f71.google.com with SMTP id b12so2595126wro.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 09:28:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dLkB9BSm7Is6yJ0510IOvVsMgRVA2lYlOEvMCiPgrwI=;
- b=jWayFHxQOcnfNKTVo/LI9v7273KyuVppu0iui3WS01X9zsW0VTdHryKWZKlDSxTwM6
- 4X7AUSED6VYuTD+dIjGOC7HwYNtMeyPc64uGqMHgme+y2r4pgtjtyizocIsxbB1Hfx7V
- EIFz7wJ0ERCHQKfVAxYfdGYJh2peISzUDtXB9rfoN9wBlIcC/bfkUP9OUZqSITEopx/p
- kkDCEvqMeIutPZodcpjtG4cZoHvCK7decZfLHpXkPwQwZ/eU0p7EsCHd2Td727bwxo/J
- AfnqZmuv+bEhlCcX5FZZTViNTQHQApk5DiaqivbTsqkeLSCdxQMi9XWV4p8vh963lc4/
- kLWw==
-X-Gm-Message-State: ANhLgQ3kly+EOesLrE5dhXBTF0F8/alaxfTLWhbRQva340d07veHDjqy
- Hlt2mglMolZXSmVkhKxrJrKp+/1nkx4BAaPSHX1uhMJYGTn3VjU86iP+OO+Pup/h3QPumNbYE7n
- 1ptmuRTTPyuToz+ADnu8kz30bzfYmQkU=
-X-Received: by 2002:a7b:ca55:: with SMTP id m21mr10644559wml.162.1583428842505; 
- Thu, 05 Mar 2020 09:20:42 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vsDv7+ycUAaUOWYb2OGm5L5VPnf3T9wqIt5vfbbAL5YXY9uzfsn5W3Zr1qa7SQnVZaZuoQMy/0TiVnC27tmMpI=
-X-Received: by 2002:a7b:ca55:: with SMTP id m21mr10644540wml.162.1583428842269; 
- Thu, 05 Mar 2020 09:20:42 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SHZQIWyX/5Hz1UwE7NhmczpoZtEm6zAg/llvWf5DNMc=;
+ b=K3L81b93IkqOzz2e4NDsCfxd5FO8RgTbypITJHFqLQNclf1RNvEmSg5RNO0z89IyFB
+ PvAncbZf8KU0WisOFNAfyIiP7F3O8C6clISW5YL9EFJ9If6HSTaApuhlAMLk92tX0AeJ
+ lv6o4sTqRYWagXVOIDuzhmdJ5nvZ7HylDvd3Rvy/ksGbieW7i0zxdU4/rLX7EWiHbRq8
+ eoLaPVLhpOnjNRHPbjfW4US9hxXuV16QZDVAPEf7ancfwqPxqbUxVkJYwrwjonAsqamM
+ 9nOzRWV4Tz/a8Lgy1so8a/PD8GDxAOjnZlN7rK16LZDGhjh/XiuwZHlfUxnNgq4Q3JHk
+ B+HQ==
+X-Gm-Message-State: ANhLgQ1GUgoZz/k2OFST7xx/kq+3PhcmsIzIfGqirDsgD4WlQtjGHioz
+ bJnwlo7ySpdZimL5NVXG/H1CVXanCUejm8I5AxeNHQnrKmnOj+5lmo43WDUOS+sfgOeR79VkL9F
+ gNZI05Z0X7nyRviY=
+X-Received: by 2002:adf:eac1:: with SMTP id o1mr24050wrn.234.1583429312780;
+ Thu, 05 Mar 2020 09:28:32 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvocFhIdWvbsVx3vWhlLXrGEkUBIhxfEj0ARNz363226voURm61kSMYgQ1RCJp2OvjnrgFfqw==
+X-Received: by 2002:adf:eac1:: with SMTP id o1mr24033wrn.234.1583429312583;
+ Thu, 05 Mar 2020 09:28:32 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:9def:34a0:b68d:9993?
+ ([2001:b07:6468:f312:9def:34a0:b68d:9993])
+ by smtp.gmail.com with ESMTPSA id t1sm49560138wrs.41.2020.03.05.09.28.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Mar 2020 09:28:31 -0800 (PST)
+Subject: Re: [PATCH 7/7] aio-posix: remove idle poll handlers to improve
+ scalability
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200305170806.1313245-1-stefanha@redhat.com>
+ <20200305170806.1313245-8-stefanha@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <58ce9251-77ba-9db2-b1c1-fd97cd175e9a@redhat.com>
+Date: Thu, 5 Mar 2020 18:28:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200305164839.201311-1-palmerdabbelt@google.com>
- <cfc728aa-56a5-6a2d-a997-e1dfd871885c@redhat.com>
-In-Reply-To: <cfc728aa-56a5-6a2d-a997-e1dfd871885c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Thu, 5 Mar 2020 18:20:31 +0100
-Message-ID: <CAP+75-XPHkSkcOmLct=jerOPx_WmYTc6a-=f2LfvtFku_p1WBw@mail.gmail.com>
-Subject: Re: [PATCH] RISC-V: Add a missing "," in riscv_excp_names
-To: Palmer Dabbelt <palmerdabbelt@google.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+In-Reply-To: <20200305170806.1313245-8-stefanha@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,57 +92,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial@ in case there is a pending PR in  progress, it
-might get merged quicker.
+On 05/03/20 18:08, Stefan Hajnoczi wrote:
+> +    /*
+> +     * List of handlers participating in userspace polling.  Accessed almost
+> +     * exclusively from aio_poll() and therefore not an RCU list.  Protected by
+> +     * ctx->list_lock.
+> +     */
+> +    AioHandlerList poll_aio_handlers;
+> +
 
-On Thu, Mar 5, 2020 at 6:19 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> On 3/5/20 5:48 PM, Palmer Dabbelt wrote:
-> > THis would almost certainly cause the exception names to be reported
-> > incorrectly.  Covarity found the issue (CID 1420223).  As per Peter's
->
-> "This", "Coverity" typos.
->
-> Fixes: ab67a1d07a4
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> > suggestion, I've also added a comma at the end of the list to avoid the=
- issue
-> > reappearing in the future.
-> >
-> > Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
-> > ---
-> >   target/riscv/cpu.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index c47d10b739..c0b7023100 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -66,7 +66,7 @@ const char * const riscv_excp_names[] =3D {
-> >       "exec_page_fault",
-> >       "load_page_fault",
-> >       "reserved",
-> > -    "store_page_fault"
-> > +    "store_page_fault",
-> >       "reserved",
-> >       "reserved",
-> >       "reserved",
-> > @@ -74,7 +74,7 @@ const char * const riscv_excp_names[] =3D {
-> >       "guest_exec_page_fault",
-> >       "guest_load_page_fault",
-> >       "reserved",
-> > -    "guest_store_page_fault"
-> > +    "guest_store_page_fault",
-> >   };
-> >
-> >   const char * const riscv_intr_names[] =3D {
-> >
+Not sure I understand the "almost" part.  If it's accessed only from
+aio_poll() it is protected via either AIO_WAIT_WHILE or the BQL, not by
+ctx->list_lock; if it's protected by ctx->list_lock (using
+qemu_lockcnt_inc in readers), it is an RCU list.
+
+Paolo
 
 
