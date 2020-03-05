@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE8B17A4FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:15:06 +0100 (CET)
-Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0009A17A500
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:15:29 +0100 (CET)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9pP7-0007or-IV
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:15:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35447)
+	id 1j9pPV-0008WB-1B
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:15:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9pN6-0005j5-N7
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:13:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9pNB-0005jg-LQ
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:13:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9pN5-0000Gv-Ix
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:13:00 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20997
+ (envelope-from <philmd@redhat.com>) id 1j9pNA-0000JH-OD
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:13:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29809
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9pN5-0000Gn-Fr
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:12:59 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9pNA-0000J9-KU
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:13:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583410378;
+ s=mimecast20190719; t=1583410384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+56ePGmcoq5HykhcZAo7kepR5r52+6ZEFhWUGu2Ti+0=;
- b=i7dVnrbn5HSOBmNFKOK1VddBPHlpsc9feKBw8XYlprWUSneKgYfs6qt3tR4CCFNFGCP2Bp
- zX61NmKanGZCHo8GeCRPUvuaDQBI8OPrKEIhTaoelH6y4iBSqdLJhaSIWk3QibgZTsz0n4
- hD9c+gMqlggN2McVXlbB83w3hzp7icU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-msrKl2yHNbGajcQISJ-Lsw-1; Thu, 05 Mar 2020 07:12:57 -0500
-X-MC-Unique: msrKl2yHNbGajcQISJ-Lsw-1
-Received: by mail-wm1-f70.google.com with SMTP id b23so2009529wmj.3
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:12:57 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=biiTpzltwU1sZnuHfx0nIZ3HPWdcfFfqBiK+XWGwsSg=;
+ b=FqkyEv7fh6XQmLIwAFyNpxdNdxH9Hm19oUU6KjxPXpmBe84cMekOvZB2ZfAuWP58V4R9Yw
+ Bnz7gUY+dfVdmJ+YBywfcFgfFffqxLmrkrZb0B325mRlVS9bL0Ql5iYA8SXiFhDKM2pVy2
+ QY4yr/6lzOBI2qP8hn1whwsZgpXIhIo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-fNCr9ntDNy-PdqQoOPCwLQ-1; Thu, 05 Mar 2020 07:13:02 -0500
+X-MC-Unique: fNCr9ntDNy-PdqQoOPCwLQ-1
+Received: by mail-wm1-f71.google.com with SMTP id b23so2009628wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:13:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b+3jo3N8d74YrpwOeB7pNboZd0jkS+c2ioGwyFUoFzI=;
- b=lIBhxv5kKmSywDfNjRIhmcZtaGfwN6vLDr7WI2Po04PSzDIWgnJSe3NctZg2krY85Y
- ZRrUpn1FRwns3+9Sf4O1uK5bpp+O2jR5TtC8QJP/f0h+xzBT3w2NN6PW2J+uLk4gMP3V
- SqsnNBSVDYjNgcxvQ4wKLYvT1ZG5lGLOgbDwHX2ae/ECUjeSKVkhg9eUOyfnKyifhzV1
- US9bWScXWsbskzbPbRCv6Opyl2Y2mwIGZVlkiq5nlRxzLFljG84GXSMLVsHnVND7p7WX
- oMIQ7h2qB5Syu1yH5mn1RqJJXAA++zPOGcqoHoFuRJGua6dLSjpnDLbqV8t9OTMX/aOa
- +NNA==
-X-Gm-Message-State: ANhLgQ2OGdvsJDrySyHun2oCxr0AgSrgT5Gga3uXDW8zeNTsjoCvUP/K
- +UBBUDRxA+3tcWd/jaSlLZzmo3dbFKYkMch+fv6hYhKyBr7U3GY1gas0xfrC8egewsH6vjSMEXJ
- JiK9jyTi8QcLf6W8=
-X-Received: by 2002:a7b:c391:: with SMTP id s17mr9426458wmj.116.1583410376032; 
- Thu, 05 Mar 2020 04:12:56 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vtOg2OYMFkXseO6aX/PFLVwFGALH7wLn6zIGjdxv5vPJMXDH9J7kVGhSVFjNXx+wk1qI/E5kA==
-X-Received: by 2002:a7b:c391:: with SMTP id s17mr9426436wmj.116.1583410375830; 
- Thu, 05 Mar 2020 04:12:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/S7pAhQdbWIOFjZggLKf3SMhfw5UacO71zzf9J+ONfw=;
+ b=LCNPGzBn952UrIiqEQM1gncPyy3bpBC6Vvo/bWte47FQoYdEb6+YEVe1WJEIWzEm6s
+ o/7yWRTH2qOm+E49+pdB+Wl89Ob5NlKV35p0GhrsO60Jc5qkZI/95RHdkPM8bHrxm/3M
+ H2hmVgGf7WeVNR8BizRPYuVy2gut5ztUZ4sQIcXjFSAPWW8CWQ6VgrNrdiROuKrjG/gP
+ Z1Nnjg0z5JVbNTf1L6DkFXW865ZCE4o6ccIRjDYf6t4+krCsNDISCzr2KM3IlnkyG90y
+ wl63vDTnByKLuJHRIVf2QyUqI2wbO2qrpz7VWnmBGx57sQakGWxVLgl8SE6TYaXSHvjX
+ NsWQ==
+X-Gm-Message-State: ANhLgQ3vdorlK2jAfmrWujx+1tzFVS/6cbV684D/w9DRWy/er1GRf8Ob
+ ZHJFLp5wMg0v8ZfCiAEDsZot3ezRkSlrXvZ2N1q7n+VHJ4iYuV+5j/OqWSuJuQApmCj80C93v54
+ v66F/K0EETWuOnvY=
+X-Received: by 2002:a7b:cc69:: with SMTP id n9mr9674718wmj.175.1583410381262; 
+ Thu, 05 Mar 2020 04:13:01 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vth+6calAOVZz2Cyvlkq7snsT+nQmo+Q0iFdPDQwSWqAa0yB2+ceW1MpbH3tGHogbQFXs4Hxw==
+X-Received: by 2002:a7b:cc69:: with SMTP id n9mr9674693wmj.175.1583410381056; 
+ Thu, 05 Mar 2020 04:13:01 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id a26sm9260336wmm.18.2020.03.05.04.12.54
+ by smtp.gmail.com with ESMTPSA id q1sm2518037wrx.19.2020.03.05.04.12.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 04:12:55 -0800 (PST)
+ Thu, 05 Mar 2020 04:13:00 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/7] hw/scsi/spapr_vscsi: Fix time bomb buffer overflow
-Date: Thu,  5 Mar 2020 13:12:46 +0100
-Message-Id: <20200305121253.19078-1-philmd@redhat.com>
+Subject: [PATCH v3 1/7] hw/scsi/viosrp: Add missing 'hw/scsi/srp.h' include
+Date: Thu,  5 Mar 2020 13:12:47 +0100
+Message-Id: <20200305121253.19078-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200305121253.19078-1-philmd@redhat.com>
+References: <20200305121253.19078-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,37 +95,26 @@ Cc: Fam Zheng <fam@euphon.net>, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fixes a possible buffer overflow.
+This header use the srp_* structures declared in "hw/scsi/srp.h".
 
-Simples patches first (dissociate the buffer holding DMA
-requests with pointer to SRP Information Unit packets) to
-clean the issue in the penultimate patch.
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/scsi/viosrp.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v3:
-- Fixed typo reported by Greg Kurz
-- Addressed Paolo Bonzini review comments as an extra patch
-- Added another patch converting a fprintf() call while here
-
-v2:
-- Addressed David Gibson review comments
-
-Supersedes: <20200305083135.8270-1-philmd@redhat.com>
-
-Philippe Mathieu-Daud=C3=A9 (7):
-  hw/scsi/viosrp: Add missing 'hw/scsi/srp.h' include
-  hw/scsi/spapr_vscsi: Use SRP_MAX_IU_LEN instead of sizeof flexible
-    array
-  hw/scsi/spapr_vscsi: Simplify a bit
-  hw/scsi/spapr_vscsi: Introduce req_iu() helper
-  hw/scsi/spapr_vscsi: Do not mix SRP IU size with DMA buffer size
-  hw/scsi/spapr_vscsi: Prevent buffer overflow
-  hw/scsi/spapr_vscsi: Convert debug fprintf() to trace event
-
- hw/scsi/viosrp.h      |  3 +-
- hw/scsi/spapr_vscsi.c | 72 +++++++++++++++++++++++++------------------
- hw/scsi/trace-events  |  1 +
- 3 files changed, 45 insertions(+), 31 deletions(-)
-
+diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
+index d8e365db1e..25676c2383 100644
+--- a/hw/scsi/viosrp.h
++++ b/hw/scsi/viosrp.h
+@@ -34,6 +34,8 @@
+ #ifndef PPC_VIOSRP_H
+ #define PPC_VIOSRP_H
+=20
++#include "hw/scsi/srp.h"
++
+ #define SRP_VERSION "16.a"
+ #define SRP_MAX_IU_LEN    256
+ #define SRP_MAX_LOC_LEN 32
 --=20
 2.21.1
 
