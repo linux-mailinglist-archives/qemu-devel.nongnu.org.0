@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B403117AAFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:54:14 +0100 (CET)
-Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787F017AAEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:51:56 +0100 (CET)
+Received: from localhost ([::1]:52900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tlF-0007BC-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:54:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59737)
+	id 1j9tj1-0002qO-I7
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:51:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1j9tQa-0005qK-RA
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:32:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tY4-000380-5e
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:40:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1j9tQY-0005Hx-4c
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:32:52 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:55414)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1j9tQX-0005Bb-QH
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:32:50 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 025GRpPG066334;
- Thu, 5 Mar 2020 16:32:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=u0u0xs267FZvCMxU1Rm4i7cW2EO/zxzCrO5DE5HpWBE=;
- b=dmpLanyaGjGsuQTmuGPBWRpERCE9BJLcbikEOufn7tTVefAGQbHf6G3ijqenkQ2zITAi
- PEu/QTV5TNWrTors5hBbcPHaprVcQg6no7M3yUhQX9f51cOHOsIlpsAuCaUt9ZkCRXtu
- iCuDbOWSEMxKsPg+rwXSl12goeuYtYJWRRx2tT8OjQMUdxTi7tqMyb58MjO6ceAorl+B
- balwX3ync/RCZ07Eox9tRgKnrkNEhza1K2qKgZ6c9jIhARQCpCuRlCt5q21EXcqthmaK
- 1sOphOrsg88713YqI9WJhVPG7v/YcsZFZ6fESyJ6POCgw+7elbothp+BUSifcHWjExXJ Jg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2yffcuxb4f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 Mar 2020 16:32:34 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 025GRBk1164918;
- Thu, 5 Mar 2020 16:32:34 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2yg1h3ugmq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 Mar 2020 16:32:33 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 025GWWEJ017160;
- Thu, 5 Mar 2020 16:32:32 GMT
-Received: from flaka (/174.207.16.221) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 05 Mar 2020 08:32:31 -0800
-Date: Thu, 5 Mar 2020 08:32:28 -0800
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v5 42/50] multi-process/mig: Send VMSD of remote to the
- Proxy object
-Message-ID: <20200305163228.GA26883@flaka>
-References: <cover.1582576372.git.jag.raman@oracle.com>
- <74d6f7b67720a31a53c25164f8d9769c32d8c643.1582576372.git.jag.raman@oracle.com>
- <20200305143949.GI3130@work-vm>
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tY2-0007A8-16
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:40:35 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42967)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j9tY0-00076v-MW
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:40:33 -0500
+Received: by mail-oi1-x243.google.com with SMTP id l12so6593251oil.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:40:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uqrF7yqAMbwz92BOwVaq6smzSWGbuVcVn8Zf/0+Yiao=;
+ b=osTZE+WmoTbxfXIYEBst6acHOaf56qEr67NzJNHaU3/MwJdFudZ21/LMb+yvUyJzfK
+ eQfwlwcaZByJ8gBP5Sx/u+w73d2wnlQna8kvZho5yXzN2aikIgWrZvWN3cRLFhjvqCoN
+ fr8BUTFccqr2qu9lhXvPFrspnISzh6U/Y58wOMPCGkIVeU81KeVDCABcjE8lgp4JcH37
+ OCLAE0HfdNeKRKm73sFdqWk6PcZqgtJHgOYEiFbNj/7FEUMSshJgI0GGhaOjiBl7bwb1
+ iitc0Fw3OjtfJYE/CeD5qpkisgpP2Oi2qoP90kcE5puNVA+ZBVFKjU83wIPXqck8GLPs
+ WyCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uqrF7yqAMbwz92BOwVaq6smzSWGbuVcVn8Zf/0+Yiao=;
+ b=QSkVnAdoTqvgE/Y5J9Ea+9OsYEYVrWCrpPlO2c1fvBqUiRdO8u5+PcEYnKNEbAnFLL
+ Hg6dYMYTH3qcJlj845fg6Rdfs33NrZdtOBQ1ptbW6KH9RrzrybX1wOr2bjmd1fjPeofO
+ d1kZLpQ8akBZm6Gnq+XH9/JrdukRmZ8hsYXHqHqxmKwQxigoNTJpwk+SN5iCvQYipoMV
+ jwjk/uQWg0qX4DlaJk/Jcfl88QyTD/8ovPA9z7uld5BJj1nS9Wzqmts6gQ/2bz9jYtKR
+ 2u3vWrQK7lwC9ycS43A2b5+3VazN0doBsTrV600MXGt8Gglx2MSW3ZOr6I003jBa9PCT
+ MngQ==
+X-Gm-Message-State: ANhLgQ0sBmHfOkOf7BhJzj+1XRKLIJ4531990nLwo2Ac6tldRds57ABi
+ AqJq/k8xbdDZ9BTHPCO554rVIuqh42uLaqXHuEpaYA==
+X-Google-Smtp-Source: ADFU+vuQK7nk35vQJDuZObHA5SSeVLR1H2ZEdSd1MlWgW9mDUETvV6qgZsZTRM+9zwWMhCGcF26sS/mmYgR/eKN5Uug=
+X-Received: by 2002:a54:478b:: with SMTP id o11mr1345121oic.146.1583426431560; 
+ Thu, 05 Mar 2020 08:40:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200305143949.GI3130@work-vm>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003050105
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 bulkscore=0
- adultscore=0 suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003050105
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+References: <20200305154142.63070-1-jingqi.liu@intel.com>
+ <20200305161047.GB3627464@lpt>
+In-Reply-To: <20200305161047.GB3627464@lpt>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Mar 2020 16:40:20 +0000
+Message-ID: <CAFEAcA-OQncMrU_-DJJ9g5rEcrJvbhTOjOVs0YqO3NS_Y413OQ@mail.gmail.com>
+Subject: Re: [PATCH] util: fix to get configuration macros in util/mmap-alloc.c
+To: =?UTF-8?Q?J=C3=A1n_Tomko?= <jtomko@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,179 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Jingqi Liu <jingqi.liu@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 05, 2020 at 02:39:49PM +0000, Dr. David Alan Gilbert wrote:
-> * Jagannathan Raman (jag.raman@oracle.com) wrote:
-> > The remote process sends the VMSD to the Proxy object, on the source
-> > side
-> > 
-> > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > ---
-> >  migration/savevm.c   | 27 +++++++++++++++++++++++++++
-> >  migration/savevm.h   |  2 ++
-> >  remote/remote-main.c | 43 +++++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 72 insertions(+)
-> > 
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index 1d4220e..09af14d 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -2942,3 +2942,30 @@ bool vmstate_check_only_migratable(const VMStateDescription *vmsd)
-> >  
-> >      return !(vmsd && vmsd->unmigratable);
-> >  }
-> > +
-> 
-> Can we add something here commenting, e.g.
-> /* Called by the remote process to serialise migration back to the qemu
->  * */
-
-Will add this.
-> > +int qemu_remote_savevm(QEMUFile *f)
-> > +{
-> > +    SaveStateEntry *se;
-> > +    int ret;
-> > +
-> > +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-> > +        if (!se->vmsd || !vmstate_save_needed(se->vmsd, se->opaque)) {
-> > +            continue;
-> > +        }
-> > +
-> > +        save_section_header(f, se, QEMU_VM_SECTION_FULL);
-> > +
-> > +        ret = vmstate_save(f, se, NULL);
-> > +        if (ret) {
-> > +            qemu_file_set_error(f, ret);
-> > +            return ret;
-> > +        }
-> > +
-> > +        save_section_footer(f, se);
-> > +    }
-> > +
-> > +    qemu_put_byte(f, QEMU_VM_EOF);
-> > +    qemu_fflush(f);
-> 
-> You have a qemu_fflush in process_start_mig_out  just after you call it
-> - so you don't need both; I suggest you remove this one.
+On Thu, 5 Mar 2020 at 16:11, J=C3=A1n Tomko <jtomko@redhat.com> wrote:
 >
-Ok. 
-> > +    return 0;
-> 
-> And make this return qemu_file_get_error(f);  just like
-> qemu_save_device_state and then makybe some day we can merge them.
+> On a Thursday in 2020, Jingqi Liu wrote:
+> >The CONFIG_LINUX symbol is always not defined in this file.
+> >This fixes that "config-host.h" header file is not included
+> >for getting macros.
+> >
+> >Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+> >---
+> > util/mmap-alloc.c | 2 ++
+> > 1 file changed, 2 insertions(+)
+> >
+> >diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> >index 27dcccd8ec..24c0e380f3 100644
+> >--- a/util/mmap-alloc.c
+> >+++ b/util/mmap-alloc.c
+> >@@ -10,6 +10,8 @@
+> >  * later.  See the COPYING file in the top-level directory.
+> >  */
+> >
+> >+#include "config-host.h"
+> >+
 >
-Will do.
-> > +}
-> 
-> 
-> > diff --git a/migration/savevm.h b/migration/savevm.h
-> > index ba64a7e..0491d3a 100644
-> > --- a/migration/savevm.h
-> > +++ b/migration/savevm.h
-> > @@ -65,4 +65,6 @@ void qemu_loadvm_state_cleanup(void);
-> >  int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
-> >  int qemu_load_device_state(QEMUFile *f);
-> >  
-> > +int qemu_remote_savevm(QEMUFile *f);
-> > +
-> >  #endif
-> > diff --git a/remote/remote-main.c b/remote/remote-main.c
-> > index 58d9905..e97eb76 100644
-> > --- a/remote/remote-main.c
-> > +++ b/remote/remote-main.c
-> > @@ -53,6 +53,16 @@
-> >  #include "qemu/log.h"
-> >  #include "qemu/cutils.h"
-> >  #include "remote-opts.h"
-> > +#include "qapi/error.h"
-> > +#include "io/channel-util.h"
-> > +
-> > +#include "io/channel.h"
-> > +#include "io/channel-socket.h"
-> > +#include "migration/qemu-file-types.h"
-> > +#include "migration/savevm.h"
-> > +#include "migration/qemu-file-channel.h"
-> > +#include "migration/qemu-file.h"
-> > +
-> >  #include "monitor/monitor.h"
-> >  #include "chardev/char.h"
-> >  #include "sysemu/reset.h"
-> > @@ -322,6 +332,36 @@ static int setup_device(MPQemuMsg *msg, Error **errp)
-> >  
-> >  }
-> >  
-> > +static void process_start_mig_out(MPQemuMsg *msg)
-> > +{
-> > +    int wait = msg->fds[1];
-> > +    Error *err = NULL;
-> > +    QIOChannel *ioc;
-> > +    QEMUFile *f;
-> > +
-> > +    ioc = qio_channel_new_fd(msg->fds[0], &err);
-> > +    if (err) {
-> > +        error_report_err(err);
-> > +        return;
-> > +    }
-> > +
-> > +    qio_channel_set_name(QIO_CHANNEL(ioc), "remote-migration-channel");
-> > +
-> > +    f = qemu_fopen_channel_output(ioc);
-> > +
-> > +    bdrv_drain_all();
-> > +    (void)bdrv_flush_all();
-> 
-> Do remote process always have block code? I mean can't we have a remote
-> process that's just say a NIC ?
+> According to CODING_STYLE.rst, qemu/osdep.h is the header file
+> that should be included first, before all the other includes.
+>
+> So the minimal fix would be moving qemu/osdep.h up here.
 
-Not always (in the future), we will account for this.
+Yes, osdep must always be first.
 
-> 
-> > +    (void)qemu_remote_savevm(f);
-> 
-> It's probably bad to ignore errors here; what you could do is if there's
-> an error, you shoul dprint something and then send a poison value back
-> to the QEMU to let it know that you've failed.
-> 
+> > #ifdef CONFIG_LINUX
+> > #include <linux/mman.h>
+> > #else  /* !CONFIG_LINUX */
 
-Yes, will add this.
+Do we really need this? osdep.h will pull in sys/mman.h
+for you, which should define the MAP_* constants.
 
-> > +    qemu_fflush(f);
-> > +
-> > +    notify_proxy(wait, (uint64_t)qemu_ftell(f));
-> > +    PUT_REMOTE_WAIT(wait);
-> > +
-> > +    qemu_fclose(f);
-> > +}
-> > +
-> >  static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-> >  {
-> >      MPQemuMsg *msg = NULL;
-> > @@ -411,6 +451,9 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
-> >              notify_proxy(msg->fds[0], 0);
-> >          }
-> >          break;
-> > +    case START_MIG_OUT:
-> > +        process_start_mig_out(msg);
-> > +        break;
-> >      default:
-> >          error_setg(&err, "Unknown command");
-> >          goto finalize_loop;
-> > -- 
-> > 1.8.3.1
-> 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+Also, you have no fallbmack for "I'm on Linux but the
+system headers don't define MAP_SHARED_VALIDATE or
+MAP_SYNC". Wouldn't it be better to just have
+#ifndef MAP_SYNC
+#define MAP_SYNC 0
+#endif
+
+etc ?
+
+thanks
+-- PMM
 
