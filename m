@@ -2,82 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF99E179D27
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 02:06:42 +0100 (CET)
-Received: from localhost ([::1]:42010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A180179D86
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 02:44:53 +0100 (CET)
+Received: from localhost ([::1]:42226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9eyH-0006sE-V7
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 20:06:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39528)
+	id 1j9fZD-0001uW-P4
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 20:44:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9ewn-0004Lq-B4
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 20:05:10 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j9fXz-0000ND-Fl
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 20:43:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9ewm-0005Vf-DX
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 20:05:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56337
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1j9fXy-0006nM-6v
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 20:43:35 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:58009)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9ewm-0005VM-9y
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 20:05:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583370308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Pobed26pNltZm/I9CiNxzmUNaY+9kG51Kk6vz3G8IU=;
- b=WrPgRn7uIZnoaVorPNiZXX4Am3uOwT5nUdzrseNAQszgP7qt/BueZbL47iRtyTE4bfSecl
- iaSQZ2GQJzqg8V9Lp5WnYaaKEhxwTo3t0Kq7/L9kShmwXwdEOV4YFgCCV5G+w9lj1C71az
- AeaKMi0oga7wb/SSDEMVryipz5JBDuQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-lut5XvbfNH2cZBwFwl13dg-1; Wed, 04 Mar 2020 20:05:06 -0500
-X-MC-Unique: lut5XvbfNH2cZBwFwl13dg-1
-Received: by mail-wr1-f72.google.com with SMTP id l15so1106800wrr.21
- for <qemu-devel@nongnu.org>; Wed, 04 Mar 2020 17:05:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jMnU2Ro3TeTUnU2ZUl/yMOyKuppxic5kPK7lhjxznVI=;
- b=Q5200ylrolOhfnxAR7Ys/9dmuHgVa2GrG+3CnxPuIFG8SKxqt2m5S7QRPwKTrpWhEY
- sSYvAWujY5a+61RVhYIbJaGpMujQKgEYED1HZZyEZeSb9a+hfZmJWqnQUGOiDIJgpgUM
- EVj/QRRf+nMnXfbv7kqNLw4j+vU/sG0oMXX+M1FngBAdmk+nxovVj9xG4CkWO5pLuwiA
- M8NN/l48CPS1FYIKAadH60NfInbyPIoKPkc6n0vSvgL10zNCHLrc80zbTQmXQo14RW73
- 3b5jnJsC3Ydebu/DFoi/dTRNRJluKli7BXScts9dwqMgabmsOjUfgjtrjEfojFZ3Dxbe
- /eSw==
-X-Gm-Message-State: ANhLgQ3eQF43c4dZLvXl1zNUqLnZwIW71tqq4q0YRaWEUBLGUJIUvaL3
- URzHzQKLM7l0lR4UaWSmvDO/uX1JHpjXMCaDXfd7Z31/ushC1ec0KQ9obeuqhxB+fGE8CWPH8Yw
- WrTCJjQwEMtOEBT8=
-X-Received: by 2002:a1c:488b:: with SMTP id v133mr5910586wma.159.1583370304860; 
- Wed, 04 Mar 2020 17:05:04 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vsACmAuVe5lYfeAoDO8kBmBnjPUB2CXcZOhSjuKqXRx0ACmPOcBDdZJM9Oi+/8DUXp8ycY47Q==
-X-Received: by 2002:a1c:488b:: with SMTP id v133mr5910560wma.159.1583370304662; 
- Wed, 04 Mar 2020 17:05:04 -0800 (PST)
-Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id g7sm39625648wrm.72.2020.03.04.17.05.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Mar 2020 17:05:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] virtfs-proxy-helper: Make the helper_opts[] array const
-Date: Thu,  5 Mar 2020 02:04:46 +0100
-Message-Id: <20200305010446.17029-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200305010446.17029-1-philmd@redhat.com>
-References: <20200305010446.17029-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j9fXx-0006jJ-DO; Wed, 04 Mar 2020 20:43:34 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48XtnF2n9yz9sRR; Thu,  5 Mar 2020 12:43:29 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1583372609;
+ bh=KfFScldfDJRFXoF+zStRnA+4pS6Brq4igwumwcCUZ0Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RuXp9In0Wg7c6rjGLALM/R215BodlOwA7BO8hA7+0BldeuwwBJUp1aIcMJ4hyNsYl
+ vU5EpPSJuGBJv41KjFz//dZDekSe8YmZvBIqvFTfjXNzQOER2ict1Gh1/b7rRBkroW
+ JA9JkOE6WNcidq8kPy7WEXa/+jjRMBHYFrfgh3Pk=
+Date: Thu, 5 Mar 2020 11:39:53 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/5] hw/scsi/viosrp: Add missing 'hw/scsi/srp.h' include
+Message-ID: <20200305003953.GG593957@umbus.fritz.box>
+References: <20200304153311.22959-1-philmd@redhat.com>
+ <20200304153311.22959-2-philmd@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8JPrznbw0YAQ/KXy"
+Content-Disposition: inline
+In-Reply-To: <20200304153311.22959-2-philmd@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,36 +55,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reduce a bit the memory footprint by making the helper_opts[]
-array const.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- fsdev/virtfs-proxy-helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--8JPrznbw0YAQ/KXy
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-index aa1ab2590d..de061a8a0e 100644
---- a/fsdev/virtfs-proxy-helper.c
-+++ b/fsdev/virtfs-proxy-helper.c
-@@ -43,7 +43,7 @@
- #define BTRFS_SUPER_MAGIC 0x9123683E
- #endif
-=20
--static struct option helper_opts[] =3D {
-+static const struct option helper_opts[] =3D {
-     {"fd", required_argument, NULL, 'f'},
-     {"path", required_argument, NULL, 'p'},
-     {"nodaemon", no_argument, NULL, 'n'},
+On Wed, Mar 04, 2020 at 04:33:07PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> This header use the srp_* structures declared in "hw/scsi/srp.h".
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+Applied to ppc-for-5.0.
+
+> ---
+>  hw/scsi/viosrp.h | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
+> index d8e365db1e..25676c2383 100644
+> --- a/hw/scsi/viosrp.h
+> +++ b/hw/scsi/viosrp.h
+> @@ -34,6 +34,8 @@
+>  #ifndef PPC_VIOSRP_H
+>  #define PPC_VIOSRP_H
+> =20
+> +#include "hw/scsi/srp.h"
+> +
+>  #define SRP_VERSION "16.a"
+>  #define SRP_MAX_IU_LEN    256
+>  #define SRP_MAX_LOC_LEN 32
+
 --=20
-2.21.1
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--8JPrznbw0YAQ/KXy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5gSlcACgkQbDjKyiDZ
+s5K3GxAAne9165hJvwlB60B256HGkEL3F1CP+2Ij2MveX7p9SKaGpu0XVnIdevQy
+CgbH17BK2UL5+Rt1hEMAMYf8Hc4gD7gxMYwrnWJM7VpX28HGVwYTTSWOSbJVzgg1
+EWi9Y3EDmMDOg/pmdecqdeOrQt2OrZEnX95zBctIY7O90wtzO+MeYWcpzRkhlWAO
+Oyv8d3l/x+q4Bruh3yrH2bGgjKsRErhyBzm8H75EQqUzQy0OhsTS3nIaH8rMnSwH
+B5C9+BnZbu4hg7PHoRKX0As7TACekVq7c6ftPhbrX8bTLH0Odmw7jlVtaUq3xmI6
+npDbUIfphIpAD9WxX+wzs5TXjgG+6oguaezfZ4jBIXif//Ezx+EGbNmeKVJVUyxR
+COZX+gWmy4S7DrtS7SoKqs9QjojYD5yKEYMJw2pQ+spPKNE22dXdeFcjD81rvNC3
+RGTPAyFJ7DAyTh5Ttgfp85eAUepzOYuDkUoeyp0eQnzot5hhPoJ11NgPZ7CpPvhh
+n5FZ/Ng1fnmx6nrUTIeJiCtoTkpha60eHlgjMSk1Z1/P9mt4qkCKZZoDoQFK1nBc
+ZM+LRzT/a+RPv+QjOPoIVZmAGDQDNbhsp4Zr2mL52aJ0JSkO3tF4VmCum0wSKZhm
+E47+y6WAhEWZaJRhm8eK09bPO0T469tHfCb4M2iK4mGoLUxBL7E=
+=0ZLL
+-----END PGP SIGNATURE-----
+
+--8JPrznbw0YAQ/KXy--
 
