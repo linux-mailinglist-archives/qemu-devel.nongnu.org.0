@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD0817B22C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 00:19:26 +0100 (CET)
-Received: from localhost ([::1]:57352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8491C17B212
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 00:11:18 +0100 (CET)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9zm1-0000iz-EW
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 18:19:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42975)
+	id 1j9ze9-0004RZ-5K
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 18:11:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41959)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j9zkf-00009h-LK
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:18:04 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j9zdI-0003ZP-FZ
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:10:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j9zkd-0002DW-6T
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:18:01 -0500
-Received: from mail-ua1-x941.google.com ([2607:f8b0:4864:20::941]:41363)
+ (envelope-from <alex.bennee@linaro.org>) id 1j9zdG-0001OF-OS
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:10:23 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41807)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j9zkb-0002Af-Jb; Thu, 05 Mar 2020 18:17:59 -0500
-Received: by mail-ua1-x941.google.com with SMTP id d19so40654uak.8;
- Thu, 05 Mar 2020 15:17:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=funjGOLXnLTCLLz6+ezXE6saKhCd9zFIxVk+VMUMsd0=;
- b=hE7fwriTX0O4qGtiZb9oItQEXjLP7YSrDnF5tkkKLQ95HHUVReIPXyfNaw85FAx72v
- +uygvbKOoBYyk9pUaFRwNWEPABjJmMcv+tu/PNedT6NmoVqz+VVItO/EZin869aNG8gx
- GcEI7qG5tT5xEIv0jzPM5zAQ98s7ikmJYInCxRbjAsZJgdWrHbAvinjAoenndy8QSmf+
- 88tV2XIKOB+StRuPOfrufmGIHa1z+t0kxPLz/8QXX5N7lA6C5Qi5Q371YHAbVj0bUhO7
- H74P79fGA3OARCWhligVgehdY2jTMtNUOh2VY96Ir0KDwm2PrmgnacBzkz+E1rv/pFuw
- Vn3w==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j9zdG-0001JM-En
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:10:22 -0500
+Received: by mail-wr1-x443.google.com with SMTP id v4so163704wrs.8
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 15:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=aR7S8foBTaR7sMMxcqfDtjZoIfyL7NJ5YTTxmVrniYw=;
+ b=Ov+4CBg92XTW/ws1zIlZ+aHtUIjawfnd1FecDVWquRsx8fPqw4LZZah7KZXiWqsA+X
+ vfhOsaVEYQknOJb4QGc6zfSvEQVuHfb36yByFqXRLwMntLPs6Ngsfjz67LLiav6ETkvB
+ MxATssnQRq8Evz5S/mkoHdnb5uZk/F3OwIaQswXh70AK+iScqteyrtsUGpGg8umFNFUJ
+ BpkVkroySBvGhmD1ol6vkRH88AMiFqCKOMnQ3RJNM4OC0pzyqYQ4kYR10Fg/4itS6mOa
+ OIiiDKAfc8AdN891E/6XM1z1PONOTVdd+rHNbaBByhDbCwfW3Vi5WQ/4x51qf9t80V71
+ ADPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=funjGOLXnLTCLLz6+ezXE6saKhCd9zFIxVk+VMUMsd0=;
- b=epmcv+6Tav5d1Mm+aKiu8iPYnp2Nk64y82l1Yf2FnitNoE10OKjoeG6pGORMkv7DwH
- 0cDORtfafnk/nMMvNLFmL+yE7h5fyKP5f4vZsWZNJf+sFKm7hfF6+oR27jon24ub0LsI
- UJjtbNfVWX42JJwmGlShpho0uBiuKuaW0WmX1Q8mhEWUDvFeN0wspMCrwAxXrfTJml4n
- w0gS+IrBxAJhefTI9fXJTsBSLpy7YNaS+HW6mueIOuAajLlb6cGn6rmHNSEl03P6x9IE
- mA978gaKmXriq7bMZGTxULmMOc0JnvxFmehJwgG4TTRGFFMYCjQrLuUYOQue0sXzLTDi
- scog==
-X-Gm-Message-State: ANhLgQ2GyOz+zZUDP4d6zBP0uoUBfPtPjZbG8dl2FJ2w5Zi26kxGMYLH
- j4nlnBwwjxUyWOl+ik+UiiadCIkgGGxed9sybTc=
-X-Google-Smtp-Source: ADFU+vtwx8OPvUfhLHHokRUhmdNvmxbgriaof5LpQlOCDb6rw0fBUC4NIBlVrIUeowRC5tf1C8zG07GBY3FpUZTxXpE=
-X-Received: by 2002:ab0:143:: with SMTP id 61mr150265uak.85.1583450276917;
- Thu, 05 Mar 2020 15:17:56 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=aR7S8foBTaR7sMMxcqfDtjZoIfyL7NJ5YTTxmVrniYw=;
+ b=iUJzohtHkTsSVnADPTfa9WVl6fyHOXY8EaEkGtlCWFglboUnZKve5hbPEoOZL2xvkM
+ eef4EIJq3/Fcqn/HGuUBrM3YH6z8iViGgQM0ri5nGK+jMi/FP5WxNHvmcE8AbmHmZBav
+ xlAGpG7cmmPx4lGPL9IQBwDBOfJVXbASMLM3KP7crVfxduKa2Z01aOMzOYtOd+NrYLqM
+ ecRE+UvLxOMzjbAJOtw8j0E2kGJO6rwd9VOciCzpCQjyvCAWGTgAUwssceSHh2binXaw
+ XDVAUhD8odJBlyH7mvkLpse5ZeyDDqYxkvQAwNfU2Utnx+q3K2LraqD033Hw0vbWbt5M
+ jhrg==
+X-Gm-Message-State: ANhLgQ1nKjMhbcUYSj2iybuWh/8QTk4zrN2Hc31Ghlenp7aizpG1f9sC
+ yfIuZTTpbcTCVpraBeGFNXEkvQ==
+X-Google-Smtp-Source: ADFU+vsKRBixmHmFHBxl6zLXNpPs3qxkexVWCLvV9wZmq0IW4a59oCKTPmj3uLnTYlys1M2Afoh6TA==
+X-Received: by 2002:adf:cd03:: with SMTP id w3mr245599wrm.191.1583449820736;
+ Thu, 05 Mar 2020 15:10:20 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p10sm42629181wrx.81.2020.03.05.15.10.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2020 15:10:19 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B84A21FF87;
+ Thu,  5 Mar 2020 23:10:18 +0000 (GMT)
+References: <20200305103427.157658-1-quintela@redhat.com>
+ <87imji6eio.fsf@linaro.org> <87h7z2g6te.fsf@secure.laptop>
+User-agent: mu4e 1.3.9; emacs 27.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: quintela@redhat.com
+Subject: Re: [PATCH] configure: Improve zstd test
+In-reply-to: <87h7z2g6te.fsf@secure.laptop>
+Date: Thu, 05 Mar 2020 23:10:18 +0000
+Message-ID: <87eeu65rfp.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200305175651.4563-1-philmd@redhat.com>
- <20200305175651.4563-6-philmd@redhat.com>
-In-Reply-To: <20200305175651.4563-6-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 5 Mar 2020 15:10:14 -0800
-Message-ID: <CAKmqyKN2k=dUA7RjzPsMsBJ10rNywqfYjUN9R0=QSVdac_h7JA@mail.gmail.com>
-Subject: Re: [PATCH 5/6] hw/net: Make NetCanReceive() return a boolean
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::941
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,582 +82,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, "open list:New World" <qemu-ppc@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Chubb <peter.chubb@nicta.com.au>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 5, 2020 at 9:57 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> The NetCanReceive handler return whether the device can or
-> can not receive new packets. Make it obvious by returning
-> a boolean type.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Juan Quintela <quintela@redhat.com> writes:
 
-Alistair
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+>> Juan Quintela <quintela@redhat.com> writes:
+>>
+>>> There were one error on the test (missing an s for --exists).
+>>> But we really need a recent zstd (0.8.1).
+>>> That version was released in 2016, so it is newer that some of our trav=
+is
+>>> images.  Just check for the version that we need.
+>>>
+>>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>>> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>  configure | 3 ++-
+>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/configure b/configure
+>>> index 7b373bc0bb..1bf48df1ef 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -2464,7 +2464,8 @@ fi
+>>>  # zstd check
+>>>=20=20
+>>>  if test "$zstd" !=3D "no" ; then
+>>> -    if $pkg_config --exist libzstd ; then
+>>> +    libzstd_minver=3D"0.8.1"
+>>> +    if $pkg_config --atleast-version=3D$libzstd_minver libzstd ; then
+>>>          zstd_cflags=3D"$($pkg_config --cflags libzstd)"
+>>>          zstd_libs=3D"$($pkg_config --libs libzstd)"
+>>>          LIBS=3D"$zstd_libs $LIBS"
+>>
+>> Hmm still breaks with:
+>>
+>>    make docker-test-build@ubuntu J=3D9 V=3D1
+>
+> Thanks.
+>
+>> With:
+>>
+>>   FY_SOURCE=3D2 -g   -c -o monitor/qmp.o /tmp/qemu-test/src/monitor/qmp.c
+>>   /tmp/qemu-test/src/migration/multifd-zstd.c: In function 'zstd_send_pr=
+epare':
+>>   /tmp/qemu-test/src/migration/multifd-zstd.c:125:9: error: unknown type=
+ name 'ZSTD_EndDirective'; did you mean 'ZSTD_DDict'?
+>>            ZSTD_EndDirective flush =3D ZSTD_e_continue;
+>>            ^~~~~~~~~~~~~~~~~
+>
+> Greate, more things were introduced later.
+> As it would be too easy, the zstd repository is not lineal, you need to
+> checkout the tag you want to see when something has been introduced.
+>
+> Will try to get this fixed.
+>
+> Sorry for the inconveniences.
+>
+>
+>>   Version: 1.3.8+dfsg-3
+>>   Depends: libzstd1 (=3D 1.3.8+dfsg-3)
+>>   Description: fast lossless compression algorithm -- development files
+>
+> I don't undertsand now.
+>
+> ZSTD_EndDirective was included in 1.3.0.
+>
+> I can just change that for 1.3.9, but I don't know why is that there.
+> Could you do a grep ZSTD_EndDirective /usr/lib/zstd.h?
 
-> ---
->  hw/net/i82596.h         |  2 +-
->  include/net/net.h       |  2 +-
->  hw/net/allwinner_emac.c |  2 +-
->  hw/net/cadence_gem.c    |  8 ++++----
->  hw/net/dp8393x.c        |  8 +++-----
->  hw/net/e1000.c          |  2 +-
->  hw/net/e1000e.c         |  2 +-
->  hw/net/ftgmac100.c      |  6 +++---
->  hw/net/i82596.c         | 10 +++++-----
->  hw/net/imx_fec.c        |  2 +-
->  hw/net/opencores_eth.c  |  5 ++---
->  hw/net/rtl8139.c        |  8 ++++----
->  hw/net/smc91c111.c      |  2 +-
->  hw/net/spapr_llan.c     |  4 ++--
->  hw/net/sungem.c         |  6 +++---
->  hw/net/sunhme.c         |  4 ++--
->  hw/net/virtio-net.c     | 10 +++++-----
->  hw/net/xilinx_ethlite.c |  2 +-
->  net/filter-buffer.c     |  2 +-
->  net/hub.c               |  6 +++---
->  20 files changed, 45 insertions(+), 48 deletions(-)
->
-> diff --git a/hw/net/i82596.h b/hw/net/i82596.h
-> index 1238ac11f8..f0bbe810eb 100644
-> --- a/hw/net/i82596.h
-> +++ b/hw/net/i82596.h
-> @@ -48,7 +48,7 @@ void i82596_ioport_writel(void *opaque, uint32_t addr, =
-uint32_t val);
->  uint32_t i82596_ioport_readl(void *opaque, uint32_t addr);
->  uint32_t i82596_bcr_readw(I82596State *s, uint32_t rap);
->  ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t si=
-ze_);
-> -int i82596_can_receive(NetClientState *nc);
-> +bool i82596_can_receive(NetClientState *nc);
->  void i82596_set_link_status(NetClientState *nc);
->  void i82596_common_init(DeviceState *dev, I82596State *s, NetClientInfo =
-*info);
->  extern const VMStateDescription vmstate_i82596;
-> diff --git a/include/net/net.h b/include/net/net.h
-> index e175ba9677..d191ee777e 100644
-> --- a/include/net/net.h
-> +++ b/include/net/net.h
-> @@ -42,7 +42,7 @@ typedef struct NICConf {
->  /* Net clients */
->
->  typedef void (NetPoll)(NetClientState *, bool enable);
-> -typedef int (NetCanReceive)(NetClientState *);
-> +typedef bool (NetCanReceive)(NetClientState *);
->  typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
->  typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, =
-int);
->  typedef void (NetCleanup) (NetClientState *);
-> diff --git a/hw/net/allwinner_emac.c b/hw/net/allwinner_emac.c
-> index e9bbff8710..ddddf35c45 100644
-> --- a/hw/net/allwinner_emac.c
-> +++ b/hw/net/allwinner_emac.c
-> @@ -178,13 +178,13 @@ static uint32_t fifo8_pop_word(Fifo8 *fifo)
->      return ret;
->  }
->
-> -static int aw_emac_can_receive(NetClientState *nc)
-> +static bool aw_emac_can_receive(NetClientState *nc)
->  {
->      AwEmacState *s =3D qemu_get_nic_opaque(nc);
->
->      /*
->       * To avoid packet drops, allow reception only when there is space
->       * for a full frame: 1522 + 8 (rx headers) + 2 (padding).
->       */
->      return (s->ctl & EMAC_CTL_RX_EN) && (fifo8_num_free(&s->rx_fifo) >=
-=3D 1532);
->  }
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 6340c1eaf8..51ec5a072d 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -505,44 +505,44 @@ static void phy_update_link(CadenceGEMState *s)
->      }
->  }
->
-> -static int gem_can_receive(NetClientState *nc)
-> +static bool gem_can_receive(NetClientState *nc)
->  {
->      CadenceGEMState *s;
->      int i;
->
->      s =3D qemu_get_nic_opaque(nc);
->
->      /* Do nothing if receive is not enabled. */
->      if (!(s->regs[GEM_NWCTRL] & GEM_NWCTRL_RXENA)) {
->          if (s->can_rx_state !=3D 1) {
->              s->can_rx_state =3D 1;
->              DB_PRINT("can't receive - no enable\n");
->          }
-> -        return 0;
-> +        return false;
->      }
->
->      for (i =3D 0; i < s->num_priority_queues; i++) {
->          if (rx_desc_get_ownership(s->rx_desc[i]) !=3D 1) {
->              break;
->          }
->      };
->
->      if (i =3D=3D s->num_priority_queues) {
->          if (s->can_rx_state !=3D 2) {
->              s->can_rx_state =3D 2;
->              DB_PRINT("can't receive - all the buffer descriptors are bus=
-y\n");
->          }
-> -        return 0;
-> +        return false;
->      }
->
->      if (s->can_rx_state !=3D 0) {
->          s->can_rx_state =3D 0;
->          DB_PRINT("can receive\n");
->      }
-> -    return 1;
-> +    return true;
->  }
->
->  /*
->   * gem_update_int_status:
->   * Raise or lower interrupt based on current status.
->   */
-> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index 8a3504d962..900ba5ca65 100644
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -414,7 +414,7 @@ static void dp8393x_do_stop_timer(dp8393xState *s)
->      dp8393x_update_wt_regs(s);
->  }
->
-> -static int dp8393x_can_receive(NetClientState *nc);
-> +static bool dp8393x_can_receive(NetClientState *nc);
->
->  static void dp8393x_do_receiver_enable(dp8393xState *s)
->  {
-> @@ -718,13 +718,11 @@ static void dp8393x_watchdog(void *opaque)
->      dp8393x_update_irq(s);
->  }
->
-> -static int dp8393x_can_receive(NetClientState *nc)
-> +static bool dp8393x_can_receive(NetClientState *nc)
->  {
->      dp8393xState *s =3D qemu_get_nic_opaque(nc);
->
-> -    if (!(s->regs[SONIC_CR] & SONIC_CR_RXEN))
-> -        return 0;
-> -    return 1;
-> +    return !!(s->regs[SONIC_CR] & SONIC_CR_RXEN);
->  }
->
->  static int dp8393x_receive_filter(dp8393xState *s, const uint8_t * buf,
-> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> index 0b833d5a15..6b89df8f0a 100644
-> --- a/hw/net/e1000.c
-> +++ b/hw/net/e1000.c
-> @@ -845,7 +845,7 @@ static bool e1000_has_rxbufs(E1000State *s, size_t to=
-tal_size)
->      return total_size <=3D bufs * s->rxbuf_size;
->  }
->
-> -static int
-> +static bool
->  e1000_can_receive(NetClientState *nc)
->  {
->      E1000State *s =3D qemu_get_nic_opaque(nc);
-> diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-> index a91dbdca3c..f49fa1c7b1 100644
-> --- a/hw/net/e1000e.c
-> +++ b/hw/net/e1000e.c
-> @@ -199,7 +199,7 @@ static const MemoryRegionOps io_ops =3D {
->      },
->  };
->
-> -static int
-> +static bool
->  e1000e_nc_can_receive(NetClientState *nc)
->  {
->      E1000EState *s =3D qemu_get_nic_opaque(nc);
-> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-> index 2f92b65d4e..041ed21017 100644
-> --- a/hw/net/ftgmac100.c
-> +++ b/hw/net/ftgmac100.c
-> @@ -562,24 +562,24 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint=
-32_t tx_ring,
->      ftgmac100_update_irq(s);
->  }
->
-> -static int ftgmac100_can_receive(NetClientState *nc)
-> +static bool ftgmac100_can_receive(NetClientState *nc)
->  {
->      FTGMAC100State *s =3D FTGMAC100(qemu_get_nic_opaque(nc));
->      FTGMAC100Desc bd;
->
->      if ((s->maccr & (FTGMAC100_MACCR_RXDMA_EN | FTGMAC100_MACCR_RXMAC_EN=
-))
->           !=3D (FTGMAC100_MACCR_RXDMA_EN | FTGMAC100_MACCR_RXMAC_EN)) {
-> -        return 0;
-> +        return false;
->      }
->
->      if (ftgmac100_read_bd(&bd, s->rx_descriptor)) {
-> -        return 0;
-> +        return false;
->      }
->      return !(bd.des0 & FTGMAC100_RXDES0_RXPKT_RDY);
->  }
->
->  /*
->   * This is purely informative. The HW can poll the RW (and RX) ring
->   * buffers for available descriptors but we don't need to trigger a
->   * timer for that in qemu.
->   */
-> diff --git a/hw/net/i82596.c b/hw/net/i82596.c
-> index fe9f2390a9..e5547fa3c2 100644
-> --- a/hw/net/i82596.c
-> +++ b/hw/net/i82596.c
-> @@ -474,23 +474,23 @@ void i82596_h_reset(void *opaque)
->      i82596_s_reset(s);
->  }
->
-> -int i82596_can_receive(NetClientState *nc)
-> +bool i82596_can_receive(NetClientState *nc)
->  {
->      I82596State *s =3D qemu_get_nic_opaque(nc);
->
->      if (s->rx_status =3D=3D RX_SUSPENDED) {
-> -        return 0;
-> +        return false;
->      }
->
->      if (!s->lnkst) {
-> -        return 0;
-> +        return false;
->      }
->
->      if (USE_TIMER && !timer_pending(s->flush_queue_timer)) {
-> -        return 1;
-> +        return true;
->      }
->
-> -    return 1;
-> +    return true;
->  }
->
->  #define MIN_BUF_SIZE 60
-> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-> index 6a124a154a..5dec813d6d 100644
-> --- a/hw/net/imx_fec.c
-> +++ b/hw/net/imx_fec.c
-> @@ -1047,11 +1047,11 @@ static void imx_eth_write(void *opaque, hwaddr of=
-fset, uint64_t value,
->      imx_eth_update(s);
->  }
->
-> -static int imx_eth_can_receive(NetClientState *nc)
-> +static bool imx_eth_can_receive(NetClientState *nc)
->  {
->      IMXFECState *s =3D IMX_FEC(qemu_get_nic_opaque(nc));
->
->      FEC_PRINTF("\n");
->
->      return !!s->regs[ENET_RDAR];
->  }
-> diff --git a/hw/net/opencores_eth.c b/hw/net/opencores_eth.c
-> index 6b338c2f29..2ba0dc8c2f 100644
-> --- a/hw/net/opencores_eth.c
-> +++ b/hw/net/opencores_eth.c
-> @@ -349,12 +349,11 @@ static void open_eth_reset(void *opaque)
->      open_eth_set_link_status(qemu_get_queue(s->nic));
->  }
->
-> -static int open_eth_can_receive(NetClientState *nc)
-> +static bool open_eth_can_receive(NetClientState *nc)
->  {
->      OpenEthState *s =3D qemu_get_nic_opaque(nc);
->
-> -    return GET_REGBIT(s, MODER, RXEN) &&
-> -        (s->regs[TX_BD_NUM] < 0x80);
-> +    return GET_REGBIT(s, MODER, RXEN) && (s->regs[TX_BD_NUM] < 0x80);
->  }
->
->  static ssize_t open_eth_receive(NetClientState *nc,
-> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> index be9a0af629..70aca7ec26 100644
-> --- a/hw/net/rtl8139.c
-> +++ b/hw/net/rtl8139.c
-> @@ -793,26 +793,26 @@ static bool rtl8139_cp_rx_valid(RTL8139State *s)
->      return !(s->RxRingAddrLO =3D=3D 0 && s->RxRingAddrHI =3D=3D 0);
->  }
->
-> -static int rtl8139_can_receive(NetClientState *nc)
-> +static bool rtl8139_can_receive(NetClientState *nc)
->  {
->      RTL8139State *s =3D qemu_get_nic_opaque(nc);
->      int avail;
->
->      /* Receive (drop) packets if card is disabled.  */
->      if (!s->clock_enabled) {
-> -        return 1;
-> +        return true;
->      }
->      if (!rtl8139_receiver_enabled(s)) {
-> -        return 1;
-> +        return true;
->      }
->
->      if (rtl8139_cp_receiver_enabled(s) && rtl8139_cp_rx_valid(s)) {
->          /* ??? Flow control not implemented in c+ mode.
->             This is a hack to work around slirp deficiencies anyway.  */
-> -        return 1;
-> +        return true;
->      }
->
->      avail =3D MOD2(s->RxBufferSize + s->RxBufPtr - s->RxBufAddr,
->                   s->RxBufferSize);
->      return avail =3D=3D 0 || avail >=3D 1514 || (s->IntrMask & RxOverflo=
-w);
->  }
-> diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
-> index 02be60c955..b3240b9335 100644
-> --- a/hw/net/smc91c111.c
-> +++ b/hw/net/smc91c111.c
-> @@ -667,9 +667,9 @@ static void smc91c111_writefn(void *opaque, hwaddr ad=
-dr,
->      }
->  }
->
-> -static int smc91c111_can_receive_nc(NetClientState *nc)
-> +static bool smc91c111_can_receive_nc(NetClientState *nc)
->  {
->      smc91c111_state *s =3D qemu_get_nic_opaque(nc);
->
->      return smc91c111_can_receive(s);
->  }
-> diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
-> index 80f5a1dd37..a2377025a7 100644
-> --- a/hw/net/spapr_llan.c
-> +++ b/hw/net/spapr_llan.c
-> @@ -110,17 +110,17 @@ typedef struct SpaprVioVlan {
->      RxBufPool *rx_pool[RX_MAX_POOLS];  /* Receive buffer descriptor pool=
-s */
->  } SpaprVioVlan;
->
-> -static int spapr_vlan_can_receive(NetClientState *nc)
-> +static bool spapr_vlan_can_receive(NetClientState *nc)
->  {
->      SpaprVioVlan *dev =3D qemu_get_nic_opaque(nc);
->
-> -    return (dev->isopen && dev->rx_bufs > 0);
-> +    return dev->isopen && dev->rx_bufs > 0;
->  }
->
->  /**
->   * The last 8 bytes of the receive buffer list page (that has been
->   * supplied by the guest with the H_REGISTER_LOGICAL_LAN call) contain
->   * a counter for frames that have been dropped because there was no
->   * suitable receive buffer available. This function is used to increase
->   * this counter by one.
->   */
-> diff --git a/hw/net/sungem.c b/hw/net/sungem.c
-> index 89da51f7f6..b01197d952 100644
-> --- a/hw/net/sungem.c
-> +++ b/hw/net/sungem.c
-> @@ -433,31 +433,31 @@ static bool sungem_rx_full(SunGEMState *s, uint32_t=
- kick, uint32_t done)
->      return kick =3D=3D ((done + 1) & s->rx_mask);
->  }
->
-> -static int sungem_can_receive(NetClientState *nc)
-> +static bool sungem_can_receive(NetClientState *nc)
->  {
->      SunGEMState *s =3D qemu_get_nic_opaque(nc);
->      uint32_t kick, done, rxdma_cfg, rxmac_cfg;
->      bool full;
->
->      rxmac_cfg =3D s->macregs[MAC_RXCFG >> 2];
->      rxdma_cfg =3D s->rxdmaregs[RXDMA_CFG >> 2];
->
->      /* If MAC disabled, can't receive */
->      if ((rxmac_cfg & MAC_RXCFG_ENAB) =3D=3D 0) {
->          trace_sungem_rx_mac_disabled();
-> -        return 0;
-> +        return false;
->      }
->      if ((rxdma_cfg & RXDMA_CFG_ENABLE) =3D=3D 0) {
->          trace_sungem_rx_txdma_disabled();
-> -        return 0;
-> +        return false;
->      }
->
->      /* Check RX availability */
->      kick =3D s->rxdmaregs[RXDMA_KICK >> 2];
->      done =3D s->rxdmaregs[RXDMA_DONE >> 2];
->      full =3D sungem_rx_full(s, kick, done);
->
->      trace_sungem_rx_check(!full, kick, done);
->
->      return !full;
->  }
-> diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-> index 8863601f6c..9c38583180 100644
-> --- a/hw/net/sunhme.c
-> +++ b/hw/net/sunhme.c
-> @@ -657,11 +657,11 @@ static void sunhme_transmit(SunHMEState *s)
->      sunhme_update_irq(s);
->  }
->
-> -static int sunhme_can_receive(NetClientState *nc)
-> +static bool sunhme_can_receive(NetClientState *nc)
->  {
->      SunHMEState *s =3D qemu_get_nic_opaque(nc);
->
-> -    return s->macregs[HME_MACI_RXCFG >> 2] & HME_MAC_RXCFG_ENABLE;
-> +    return !!(s->macregs[HME_MACI_RXCFG >> 2] & HME_MAC_RXCFG_ENABLE);
->  }
->
->  static void sunhme_link_status_changed(NetClientState *nc)
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 3627bb1717..a46e3b37a7 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -1234,26 +1234,26 @@ static void virtio_net_handle_rx(VirtIODevice *vd=
-ev, VirtQueue *vq)
->      qemu_flush_queued_packets(qemu_get_subqueue(n->nic, queue_index));
->  }
->
-> -static int virtio_net_can_receive(NetClientState *nc)
-> +static bool virtio_net_can_receive(NetClientState *nc)
->  {
->      VirtIONet *n =3D qemu_get_nic_opaque(nc);
->      VirtIODevice *vdev =3D VIRTIO_DEVICE(n);
->      VirtIONetQueue *q =3D virtio_net_get_subqueue(nc);
->
->      if (!vdev->vm_running) {
-> -        return 0;
-> +        return false;
->      }
->
->      if (nc->queue_index >=3D n->curr_queues) {
-> -        return 0;
-> +        return false;
->      }
->
->      if (!virtio_queue_ready(q->rx_vq) ||
->          !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> -        return 0;
-> +        return false;
->      }
->
-> -    return 1;
-> +    return true;
->  }
->
->  static int virtio_net_has_buffers(VirtIONetQueue *q, int bufsize)
-> diff --git a/hw/net/xilinx_ethlite.c b/hw/net/xilinx_ethlite.c
-> index cf07e698b3..71d16fef3d 100644
-> --- a/hw/net/xilinx_ethlite.c
-> +++ b/hw/net/xilinx_ethlite.c
-> @@ -175,10 +175,10 @@ static const MemoryRegionOps eth_ops =3D {
->      }
->  };
->
-> -static int eth_can_rx(NetClientState *nc)
-> +static bool eth_can_rx(NetClientState *nc)
->  {
->      struct xlx_ethlite *s =3D qemu_get_nic_opaque(nc);
->      unsigned int rxbase =3D s->rxbuf * (0x800 / 4);
->
->      return !(s->regs[rxbase + R_RX_CTRL0] & CTRL_S);
->  }
-> diff --git a/net/filter-buffer.c b/net/filter-buffer.c
-> index 88da78f821..12e0254287 100644
-> --- a/net/filter-buffer.c
-> +++ b/net/filter-buffer.c
-> @@ -59,28 +59,28 @@ static void filter_buffer_release_timer(void *opaque)
->  /* filter APIs */
->  static ssize_t filter_buffer_receive_iov(NetFilterState *nf,
->                                           NetClientState *sender,
->                                           unsigned flags,
->                                           const struct iovec *iov,
->                                           int iovcnt,
->                                           NetPacketSent *sent_cb)
->  {
->      FilterBufferState *s =3D FILTER_BUFFER(nf);
->
->      /*
->       * We return size when buffer a packet, the sender will take it as
->       * a already sent packet, so sent_cb should not be called later.
->       *
->       * FIXME: Even if the guest can't receive packets for some reasons,
->       * the filter can still accept packets until its internal queue is f=
-ull.
->       * For example:
->       *   For some reason, receiver could not receive more packets
-> -     * (.can_receive() returns zero). Without a filter, at most one pack=
-et
-> +     * (.can_receive() returns false). Without a filter, at most one pac=
-ket
->       * will be queued in incoming queue and sender's poll will be disabl=
-ed
->       * unit its sent_cb() was called. With a filter, it will keep receiv=
-ing
->       * the packets without caring about the receiver. This is suboptimal=
-.
->       * May need more thoughts (e.g keeping sent_cb).
->       */
->      qemu_net_queue_append_iov(s->incoming_queue, sender, flags,
->                                iov, iovcnt, NULL);
->      return iov_size(iov, iovcnt);
->  }
-> diff --git a/net/hub.c b/net/hub.c
-> index 5795a678ed..e7de173171 100644
-> --- a/net/hub.c
-> +++ b/net/hub.c
-> @@ -90,23 +90,23 @@ static NetHub *net_hub_new(int id)
->      return hub;
->  }
->
-> -static int net_hub_port_can_receive(NetClientState *nc)
-> +static bool net_hub_port_can_receive(NetClientState *nc)
->  {
->      NetHubPort *port;
->      NetHubPort *src_port =3D DO_UPCAST(NetHubPort, nc, nc);
->      NetHub *hub =3D src_port->hub;
->
->      QLIST_FOREACH(port, &hub->ports, next) {
->          if (port =3D=3D src_port) {
->              continue;
->          }
->
->          if (qemu_can_send_packet(&port->nc)) {
-> -            return 1;
-> +            return true;
->          }
->      }
->
-> -    return 0;
-> +    return false;
->  }
->
->  static ssize_t net_hub_port_receive(NetClientState *nc,
-> --
-> 2.21.1
->
->
+23:07:26 [alex@zen:~/l/q/b/all] review/misc-bits|=E2=80=A6 2 + docker run -=
+-rm -it qemu:ubuntu grep -r "ZSTD_End" /usr/include/
+/usr/include/zstd.h:} ZSTD_EndDirective;
+/usr/include/zstd.h:                                         ZSTD_EndDirect=
+ive endOp);
+/usr/include/zstd.h:                            ZSTD_EndDirective endOp);
+
+>
+> Or if there is some documentation that shows how to use that docker
+> images.
+
+Setting up docker is described in docs/devel/testing.rst - once setup
+the make invocations I listed work. The final images are all tagged
+qemu:FOO so for ubuntu the general form:
+
+  docker run --rm -it qemu:ubuntu COMMAND
+
+Will do what you want.
+
+>
+> Later, Juan.
+
+
+--=20
+Alex Benn=C3=A9e
 
