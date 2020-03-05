@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117C617A7FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:43:08 +0100 (CET)
-Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A5B17A800
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:45:40 +0100 (CET)
+Received: from localhost ([::1]:50536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9riN-0001kN-51
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:43:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37753)
+	id 1j9rkp-0005fV-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:45:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j9rg3-0006V9-Mp
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:40:44 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9rgL-00079t-A8
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:41:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j9rg2-000329-Gp
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:40:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22460
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j9rg2-00031W-CZ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:40:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583419242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hn0YIGyfHl+O6XUJ5nHyG1yent3/MBPqFXxf/LfpEkk=;
- b=bhskNOBOEaqAdErTSeZyC+UhYI2tMRWr1p9ItYSfSWT2p7KdGjKsAK7CvdLmSL5JQPx8v4
- nJvnPe4RAYpVABUdx01CFD/2cQMgSnyXY3Un/+ahcQxlLaw/yZJ6ZkRegeomoi9qhsIAW1
- /PdIWUf81RACacqa3gdhguYY56682h4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-sHMUgyyrNRWePgwlgQ9HdA-1; Thu, 05 Mar 2020 09:40:40 -0500
-X-MC-Unique: sHMUgyyrNRWePgwlgQ9HdA-1
-Received: by mail-wr1-f71.google.com with SMTP id m13so2396002wrw.3
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:40:40 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9rgI-0003Ml-VP
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:41:01 -0500
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:36802)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j9rgI-0003Ll-P2
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:40:58 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id j14so5892063otq.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=D6vD/BGwYDylDk/vNGZM2seMTRBYQaq3Klv4RkFKxvM=;
+ b=SGCn/Oh+TnQDIGEk0YngKuAugUrJyoZ5mhpfmJOfTNn0lTE86/+n7C4072KJEMJsYX
+ LFmRjow+w0f16Y7EdrJXtPcsvgR6bL/yWGreNvJWjJoxGIIx1lDhPPSVJ3tsiLVacbjD
+ usiCZKY6h8w1awgIiyw8Gqh848wGUD/ZYzwqUyLzdSuOkPsgXb1mlmcu1Mt2EJsaM9To
+ JDrC8xmBVsFmlVrXtibLsTPBjcLo9dhhLOEse1PSH69yFbmqh5kUTvHIN/QSI6htHGF1
+ SegumCxNe0Kj2dA1//41tgBwJC0xAl3PAR3jA+i6kWnuRUO6crhb+YdL7OjjkbPc6JRV
+ y1Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5nTfBo1AjozwuH2fY56tBvVbThFhIHlIG6d3trpW31I=;
- b=g0dyzqIYwsYYx5kXpUSQeHhJwGZCmy+ftyMWy3KlImnwXPOryuEFrKbsKKhm2UkGmL
- ZII++WkantPCNXGrMdWSh0xlXcL/H4faZoN6M/eRXnqLDP5yl+jz3HTrSicYxNaXGSDj
- YZZH/GCeGA35ZAOXUBNHEZs/k6Q5paHZMT4HBSF+CPUnBPnP+w0Tn8lxVVosKRttUL8u
- VKpeZzacDIKkLRlHVZzJecO60MhpkmC/88nzI/Tq1aBGVdKmn9GypwfcASoFF8hnTFhJ
- 4IdHXAJULDZ169Gy/G8vEY/IMW7CCoQIuPcdz0v8uQCtd7t34Y/yiwHy3LBjQ+JieJ6H
- ufIQ==
-X-Gm-Message-State: ANhLgQ20/wxP3RwjF5T5nRcL2jcAguhTFZ6pSSZqy6D1PD99LUExPop1
- OIDRsVPneNM1srGEca7pHgN1km8dFABAC3gGGA+vkfA4BFUAIE2eK9o10nvmz+8LxlI0vwJICOv
- eGYZhih+FE4A3A6o=
-X-Received: by 2002:a5d:68ce:: with SMTP id p14mr10402482wrw.315.1583419238940; 
- Thu, 05 Mar 2020 06:40:38 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vtaj5cQYnkiErgB3yw7XSWXYWEMSi5KEHtnZpwZVTrTqVK5AYSfHvTi9cL8UBUCyIAAXxASgw==
-X-Received: by 2002:a5d:68ce:: with SMTP id p14mr10402467wrw.315.1583419238677; 
- Thu, 05 Mar 2020 06:40:38 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:9def:34a0:b68d:9993?
- ([2001:b07:6468:f312:9def:34a0:b68d:9993])
- by smtp.gmail.com with ESMTPSA id v16sm27460899wrp.84.2020.03.05.06.40.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Mar 2020 06:40:38 -0800 (PST)
-Subject: Re: [PATCH v3 0/7] hw/scsi/spapr_vscsi: Fix time bomb buffer overflow
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200305121253.19078-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <eac8c380-eb0d-b075-f70b-bd339ce5fc6e@redhat.com>
-Date: Thu, 5 Mar 2020 15:40:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=D6vD/BGwYDylDk/vNGZM2seMTRBYQaq3Klv4RkFKxvM=;
+ b=HMBY9H1q6VxiygPSnidkywRqe49yvj2Y9FRJFyJ7Jz+ueTbDfUEWGl211o+7VC9Ka4
+ OsF74vm2Jhd71MoDQCuhqbOS7183Fe/5UCVijtMCGGI5hs4pt/r+Ot5PW4hu3rSfIajE
+ UaZYXJ/XaVJpfqjbaicSDMV1QfzglFKCA67vroIvLqSkYCZdDyAcb2rVaCM+kkOM7XXO
+ 441NRTfOvBxmApM5aB+mdSHPJLlwcn7RzzYew3B5YIaq3I0ZXZl1SqnbnLiBDW4WfQyN
+ JYXB2Y7lLhXs02zeDIz/VjLUi/r7V7+YcIQ3yBSXyZbcs8PivZXbO8/j9O6f42WpkcHA
+ Cfmg==
+X-Gm-Message-State: ANhLgQ2uqiEV4EN+y/sdcLkv9yE0wKYlYMvWwj+l+wLRBSRYpooDKpZE
+ QErjBZ5XEQ4OnCU5pCqSkbDsEKZpFFnJ9xU2LjtzYw==
+X-Google-Smtp-Source: ADFU+vvF7JApbA6/vvJB9PXdavpvB9sjfjpNiAHK9JGYnOMyVYM0Vv61cfUHca94q7WxqgJnZpH8z63OeTtbdETIAoY=
+X-Received: by 2002:a05:6830:30ac:: with SMTP id
+ g12mr5614302ots.221.1583419257500; 
+ Thu, 05 Mar 2020 06:40:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200305121253.19078-1-philmd@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <20200304100154.14822-1-alex.bennee@linaro.org>
+In-Reply-To: <20200304100154.14822-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Mar 2020 14:40:46 +0000
+Message-ID: <CAFEAcA_g6vusM99LxD=rakuABaDO5BXmktsiwYJmyxNqGsHasg@mail.gmail.com>
+Subject: Re: [PULL 0/9] testing updates (tests/vm and acceptance tweaks)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,44 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/03/20 13:12, Philippe Mathieu-Daud=C3=A9 wrote:
-> This series fixes a possible buffer overflow.
->=20
-> Simples patches first (dissociate the buffer holding DMA
-> requests with pointer to SRP Information Unit packets) to
-> clean the issue in the penultimate patch.
->=20
-> v3:
-> - Fixed typo reported by Greg Kurz
-> - Addressed Paolo Bonzini review comments as an extra patch
-> - Added another patch converting a fprintf() call while here
->=20
-> v2:
-> - Addressed David Gibson review comments
->=20
-> Supersedes: <20200305083135.8270-1-philmd@redhat.com>
->=20
-> Philippe Mathieu-Daud=C3=A9 (7):
->   hw/scsi/viosrp: Add missing 'hw/scsi/srp.h' include
->   hw/scsi/spapr_vscsi: Use SRP_MAX_IU_LEN instead of sizeof flexible
->     array
->   hw/scsi/spapr_vscsi: Simplify a bit
->   hw/scsi/spapr_vscsi: Introduce req_iu() helper
->   hw/scsi/spapr_vscsi: Do not mix SRP IU size with DMA buffer size
->   hw/scsi/spapr_vscsi: Prevent buffer overflow
->   hw/scsi/spapr_vscsi: Convert debug fprintf() to trace event
->=20
->  hw/scsi/viosrp.h      |  3 +-
->  hw/scsi/spapr_vscsi.c | 72 +++++++++++++++++++++++++------------------
->  hw/scsi/trace-events  |  1 +
->  3 files changed, 45 insertions(+), 31 deletions(-)
->=20
+On Wed, 4 Mar 2020 at 10:01, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> The following changes since commit abfa865014ab17941eb1fcb7cc2fa293a25843=
+c4:
+>
+>   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiof=
+s-20200303' into staging (2020-03-03 15:20:12 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-testing-040320-1
+>
+> for you to fetch changes up to c2e09ad8cdf4705a91eb6c20a9f3d4d90a0f46aa:
+>
+>   travis.yml: install python3 numpy and opencv libraries (2020-03-04 09:5=
+7:33 +0000)
+>
+> ----------------------------------------------------------------
+> Testing updates
+>
+>   - some clean-ups for tests/vm
+>   - enable tools build for MacOSX
+>   - bump avocado to a newer version
+>   - bump travis env for avocado
+>
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
