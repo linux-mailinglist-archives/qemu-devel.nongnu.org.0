@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787F017AAEC
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:51:56 +0100 (CET)
-Received: from localhost ([::1]:52900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C30417AAF9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:53:59 +0100 (CET)
+Received: from localhost ([::1]:53034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tj1-0002qO-I7
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:51:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
+	id 1j9tl0-0006fB-5R
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:53:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tY4-000380-5e
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:40:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tbx-0000Vt-MM
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:44:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tY2-0007A8-16
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:40:35 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42967)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tbw-0007cn-Cz
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:44:37 -0500
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:32888)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tY0-00076v-MW
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:40:33 -0500
-Received: by mail-oi1-x243.google.com with SMTP id l12so6593251oil.9
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:40:32 -0800 (PST)
+ id 1j9tbw-0007by-8W
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:44:36 -0500
+Received: by mail-ot1-x334.google.com with SMTP id a20so6350638otl.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uqrF7yqAMbwz92BOwVaq6smzSWGbuVcVn8Zf/0+Yiao=;
- b=osTZE+WmoTbxfXIYEBst6acHOaf56qEr67NzJNHaU3/MwJdFudZ21/LMb+yvUyJzfK
- eQfwlwcaZByJ8gBP5Sx/u+w73d2wnlQna8kvZho5yXzN2aikIgWrZvWN3cRLFhjvqCoN
- fr8BUTFccqr2qu9lhXvPFrspnISzh6U/Y58wOMPCGkIVeU81KeVDCABcjE8lgp4JcH37
- OCLAE0HfdNeKRKm73sFdqWk6PcZqgtJHgOYEiFbNj/7FEUMSshJgI0GGhaOjiBl7bwb1
- iitc0Fw3OjtfJYE/CeD5qpkisgpP2Oi2qoP90kcE5puNVA+ZBVFKjU83wIPXqck8GLPs
- WyCQ==
+ :cc; bh=8RQgxAytKvFsrqMKrCpxhTLSrB87xnJaR0cBqI+uAPM=;
+ b=MlMq69bwI+qfCkLQfhaohorZEArrafzZGqJWVgEMKU3B7tbswQj6zZbpX7DV9qYjnn
+ M3NORKzLyQi5YpVMgrKX8ytnekVWx8AtBQmL5g89KSVJJXJOUH9oSRBgTSAqd7MYiUOU
+ IXqdQTaIz5x6lYiN68QKUXXSf4fHtJMeZG1sn5YAtmmqtXIzcM+kbaYoZOBVbu1/J1uo
+ WCP155qg/DJbI6Bh78CGXuGnv2dIUHFgOGOy9GMUKxvtN3bCQ7Y4+47nU5Ii+qUuGs87
+ 6o3Wi+cQ2JgMUjQAepu3uPEbgHFrSuNC2/K4OR3O6JBQco///Ah/52yMDBblLwXvk8sK
+ A/lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uqrF7yqAMbwz92BOwVaq6smzSWGbuVcVn8Zf/0+Yiao=;
- b=QSkVnAdoTqvgE/Y5J9Ea+9OsYEYVrWCrpPlO2c1fvBqUiRdO8u5+PcEYnKNEbAnFLL
- Hg6dYMYTH3qcJlj845fg6Rdfs33NrZdtOBQ1ptbW6KH9RrzrybX1wOr2bjmd1fjPeofO
- d1kZLpQ8akBZm6Gnq+XH9/JrdukRmZ8hsYXHqHqxmKwQxigoNTJpwk+SN5iCvQYipoMV
- jwjk/uQWg0qX4DlaJk/Jcfl88QyTD/8ovPA9z7uld5BJj1nS9Wzqmts6gQ/2bz9jYtKR
- 2u3vWrQK7lwC9ycS43A2b5+3VazN0doBsTrV600MXGt8Gglx2MSW3ZOr6I003jBa9PCT
- MngQ==
-X-Gm-Message-State: ANhLgQ0sBmHfOkOf7BhJzj+1XRKLIJ4531990nLwo2Ac6tldRds57ABi
- AqJq/k8xbdDZ9BTHPCO554rVIuqh42uLaqXHuEpaYA==
-X-Google-Smtp-Source: ADFU+vuQK7nk35vQJDuZObHA5SSeVLR1H2ZEdSd1MlWgW9mDUETvV6qgZsZTRM+9zwWMhCGcF26sS/mmYgR/eKN5Uug=
-X-Received: by 2002:a54:478b:: with SMTP id o11mr1345121oic.146.1583426431560; 
- Thu, 05 Mar 2020 08:40:31 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=8RQgxAytKvFsrqMKrCpxhTLSrB87xnJaR0cBqI+uAPM=;
+ b=Q0keIy0MfkJGaQ1X9pZFwD9d99Qi0GKcLvl12nUT+ZLbsGNwbpur/8Hc6LqySGpIHb
+ /A+6CFNSvdpXoPg0vOv22JhEH9O9fmFKtPyM7Bah1WWwcls7wKwqhqkuj57WN/eXazim
+ F5u3XKc+HLkFNAlDdNzxg3TjakGUyT/i5wVmwKCL8mw9Yh/h3TOUnadLy803nO2PJ7Lp
+ z10rXcbooDXWAwrHZSzXEbAlnyKJj0SfW3ewaUc6zEAgsGzRHaeOZmi8L2+KkAIdX0gw
+ QQoIjx1c9q5DIGnIF+ax8MtAYgIGR+/iE9ub/21CdWyl0RXYkjQrY3Q31CFOYCdX19Qs
+ +iLQ==
+X-Gm-Message-State: ANhLgQ39gvTs+sYqUBCI7lLrxsT3BQAaHog6SZyFHLlH6+jGE1SntFdL
+ k+4H8wqZFdSzHZZ9CsTCgH9VScicJS0FFyajbDvDsg==
+X-Google-Smtp-Source: ADFU+vu6RVLX6O6uZ79AIUc2TsahspZghA3XNueFG+MI1/6mmVBtYpGGZke9sjgEbni6iel6vgj5zR+6Xk1blMnqe/Q=
+X-Received: by 2002:a05:6830:30ac:: with SMTP id
+ g12mr6057165ots.221.1583426675327; 
+ Thu, 05 Mar 2020 08:44:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20200305154142.63070-1-jingqi.liu@intel.com>
- <20200305161047.GB3627464@lpt>
-In-Reply-To: <20200305161047.GB3627464@lpt>
+References: <20200303004848.136788-1-palmerdabbelt@google.com>
+ <20200303004848.136788-5-palmerdabbelt@google.com>
+In-Reply-To: <20200303004848.136788-5-palmerdabbelt@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Mar 2020 16:40:20 +0000
-Message-ID: <CAFEAcA-OQncMrU_-DJJ9g5rEcrJvbhTOjOVs0YqO3NS_Y413OQ@mail.gmail.com>
-Subject: Re: [PATCH] util: fix to get configuration macros in util/mmap-alloc.c
-To: =?UTF-8?Q?J=C3=A1n_Tomko?= <jtomko@redhat.com>
+Date: Thu, 5 Mar 2020 16:44:20 +0000
+Message-ID: <CAFEAcA9gHNXfGutEZiW-PYJbhdUZEd-dPDp8iwO-Ni_cSD9gZw@mail.gmail.com>
+Subject: Re: [PULL 04/38] target/riscv: Add support for the new execption
+ numbers
+To: Palmer Dabbelt <palmerdabbelt@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,56 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Mar 2020 at 16:11, J=C3=A1n Tomko <jtomko@redhat.com> wrote:
+On Tue, 3 Mar 2020 at 00:49, Palmer Dabbelt <palmerdabbelt@google.com> wrote:
 >
-> On a Thursday in 2020, Jingqi Liu wrote:
-> >The CONFIG_LINUX symbol is always not defined in this file.
-> >This fixes that "config-host.h" header file is not included
-> >for getting macros.
-> >
-> >Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-> >---
-> > util/mmap-alloc.c | 2 ++
-> > 1 file changed, 2 insertions(+)
-> >
-> >diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-> >index 27dcccd8ec..24c0e380f3 100644
-> >--- a/util/mmap-alloc.c
-> >+++ b/util/mmap-alloc.c
-> >@@ -10,6 +10,8 @@
-> >  * later.  See the COPYING file in the top-level directory.
-> >  */
-> >
-> >+#include "config-host.h"
-> >+
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
-> According to CODING_STYLE.rst, qemu/osdep.h is the header file
-> that should be included first, before all the other includes.
+> The v0.5 Hypervisor spec add new execption numbers, let's add support
+> for those.
 >
-> So the minimal fix would be moving qemu/osdep.h up here.
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> ---
+>  target/riscv/cpu.c        |  8 ++++++++
+>  target/riscv/cpu_bits.h   | 35 +++++++++++++++++++----------------
+>  target/riscv/cpu_helper.c |  7 +++++--
+>  target/riscv/csr.c        |  7 +++++--
+>  4 files changed, 37 insertions(+), 20 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index efbd676edb..2f62f5ea19 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -67,6 +67,14 @@ const char * const riscv_excp_names[] = {
+>      "load_page_fault",
+>      "reserved",
+>      "store_page_fault"
+> +    "reserved",
 
-Yes, osdep must always be first.
+Hi; Coverity (CID 1420223) notice that there's no comma
+after "store_page_fault", which means that there's been
+a concatenation of that string and the following "reserved".
+Could one of you send a patch which adds the missing comma?
 
-> > #ifdef CONFIG_LINUX
-> > #include <linux/mman.h>
-> > #else  /* !CONFIG_LINUX */
+> +    "reserved",
+> +    "reserved",
+> +    "reserved",
+> +    "guest_exec_page_fault",
+> +    "guest_load_page_fault",
+> +    "reserved",
+> +    "guest_store_page_fault"
 
-Do we really need this? osdep.h will pull in sys/mman.h
-for you, which should define the MAP_* constants.
+You might also like to add a trailing comma here to avoid
+the bug happening again in future.
 
-Also, you have no fallbmack for "I'm on Linux but the
-system headers don't define MAP_SHARED_VALIDATE or
-MAP_SYNC". Wouldn't it be better to just have
-#ifndef MAP_SYNC
-#define MAP_SYNC 0
-#endif
-
-etc ?
+>  };
+>
 
 thanks
 -- PMM
