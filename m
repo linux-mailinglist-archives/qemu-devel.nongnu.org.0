@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A490F17AF64
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 21:07:47 +0100 (CET)
-Received: from localhost ([::1]:55700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB4817AF65
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 21:08:35 +0100 (CET)
+Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9wmY-0003B4-Np
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 15:07:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40299)
+	id 1j9wnK-0004u4-Pk
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 15:08:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40411)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j9wlH-0001ch-MT
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 15:06:28 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j9wmA-0003F1-8a
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 15:07:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j9wlG-0000RK-MH
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 15:06:27 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42276)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j9wm8-0001AR-P5
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 15:07:22 -0500
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:38544)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j9wlG-0000Qw-Gt
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 15:06:26 -0500
-Received: by mail-pl1-x644.google.com with SMTP id u3so3091472plr.9
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 12:06:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=aK2JQAB7Q1gn7fdcHul4fN6uds+oVK0UvAfAjO2mZ9Q=;
- b=nkLciiEOFdnmJr4oaNmteD5JKyspPP2UPNugBq1tAic4ve8l5Go3WA297cbIfocXnq
- BMxP9DE+LMWiv5M0NoYtrF2ixRGqcVgpxowEdPeRYaakQIejO/tLvLl2PtMSjTFqmXhI
- tP/cnCetytZdexpXIQtUB7w6Q/t3X4ZE20Sb/BbZ9Au603Z8ZtV8N0iUJvnOgQsIL75G
- psKuKZurxHD7A6TXquL8Z2Q+dXVAjHtL/D976QhA6+cyvwJnuq+nvFDq63WvuA9xFEUe
- uILwGjbduMG1YXCNqMuw9zN27eNRkO3ZJehju+jkVFs/Mjh3pH+D/4Gu1RJmvDosub2H
- ziog==
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1j9wm8-0001A6-GE; Thu, 05 Mar 2020 15:07:20 -0500
+Received: by mail-il1-x12e.google.com with SMTP id f5so6199489ilq.5;
+ Thu, 05 Mar 2020 12:07:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KEzPboJB6JCs5k214g5oOJeAWpMAUeoVymAHK5jdb0U=;
+ b=Ew4+zdbBWdux/czmoU/zebNdM7su8m0gnxumYsbuP3/9JggPjPs+rtNZGddzA+I75c
+ ufkaw1zudVhFopWrN2cAtOEZhRicl9ixlRJnnB2vf62wI7nw4hNeL/1ZhuuNPIvu1ftP
+ E5VPzCxGb1YbhlVWZARya6NGgMjZX/PBQiakfCG/NOA3OPC+PSuF5gprzXYlWwJwjrgT
+ rym4TMLsGJCduTXxKFqBjBOBKbM+YUqT4Q53WqlX6QS7WMR7R+CkdCOo+/TwpkDF7aGk
+ yJfGqrLQmmx7ThTANUD9WI1rZsNGl2Zbw3hiwv3rWSE0Ry8ry9g3gT6sspirInZh9TVv
+ da8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=aK2JQAB7Q1gn7fdcHul4fN6uds+oVK0UvAfAjO2mZ9Q=;
- b=Zn1IBOixyrR0MNFX8KBGHf5EZD7mrLk9fJ2lEuQMnSCzreCvb5JqhksnaM9w3hSeMn
- oxAU31EBSwf4uWXGW00OdCS34zzjAPff6wcpXQdlVmdIp7/g9t45TR+QcvZ71413pFQc
- radaHTYxb7wtgDki4T3+YfPean9ecFiCViI+4nuzP9krgLUq8zDLXK/y1IA2DLCgZoxu
- HGXGTxr3DYmEA8NJGWIlqDL16H1y1wjMy6lwDnGlnwbvQp/DfP7E2OplHAmu/2Qo7zkN
- OODxgW9co0VOCIM1dhHnxiya9yLtmDOj9aSt4KOUHzpwba7dWEY7k/e3ygYFjy52NHcL
- lK9w==
-X-Gm-Message-State: ANhLgQ1U49N2Cg/xmja7oyubRgtzBBePkKUCczAp7lj3ijfzfCbgbu5R
- 1JtcpyL3PZ7Q9aEEMITCpyoM5Q==
-X-Google-Smtp-Source: ADFU+vsOxdipjlXH6tWhcB8BNh2LE6l/eUDwDH4lZXskAUlEvO2bwAXVEzAT0oFf5hTuNGjRjmEtWg==
-X-Received: by 2002:a17:90a:22cd:: with SMTP id
- s71mr299051pjc.181.1583438785358; 
- Thu, 05 Mar 2020 12:06:25 -0800 (PST)
-Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id r13sm6969216pjp.14.2020.03.05.12.06.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 12:06:24 -0800 (PST)
-Date: Thu, 05 Mar 2020 12:06:24 -0800 (PST)
-X-Google-Original-Date: Thu, 05 Mar 2020 12:06:22 PST (-0800)
-Subject: Re: [PATCH] RISC-V: Add a missing "," in riscv_excp_names
-In-Reply-To: <CAP+75-XPHkSkcOmLct=jerOPx_WmYTc6a-=f2LfvtFku_p1WBw@mail.gmail.com>
-CC: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-To: philmd@redhat.com
-Message-ID: <mhng-9606b2d7-09a7-4598-81ad-120a74a40e68@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KEzPboJB6JCs5k214g5oOJeAWpMAUeoVymAHK5jdb0U=;
+ b=t9LOCpPwJcQFg4ZxyH7bH///lMunrSCTcaIm+w2TvLLh4ttm/Ac8PORusOWyjk2bfF
+ yFLlCV02yqcM4dtcdpgZXCJru/rDnF8jj/aizHdCx5UtDg85m7zqv1zgoRG4qAj13Hef
+ W/1oJAg6mYj5u6qjnFvgFzUWc3MBE8yCyDrQwCtMiPVW1BOGaZEEAQ6o5ERxUC8bVIpX
+ hGQhCgfxuafEN8MzMmvy7/WwpQe582oOXlwKSKyg0Zxhn47XC5muM1rVZx/W8j7AJWFx
+ GkJ1n92fMvDGKn0PwajV9sS0lhEvGv01fMt5j1fyVGhSgaplBh2HAhS5MjtBMYlI0ejn
+ 87Mw==
+X-Gm-Message-State: ANhLgQ2C/SsA8KFJcmJI0fYfFZWPM1tkAgYo2S01OaJ5pUjmSAAlprvK
+ BcjrsxaC1FjJtIqjmPGm/0gkpiox1Xa4+AWvWD0=
+X-Google-Smtp-Source: ADFU+vtJ17b6xarMyQT0RoN9IxOGRnrfivjwEA6o58D+al+Jdfx9/YblNkU9nFysKdQuUuySdACxhV+1YpHp0M73Tl0=
+X-Received: by 2002:a92:90c:: with SMTP id y12mr656860ilg.306.1583438839867;
+ Thu, 05 Mar 2020 12:07:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20200303091254.22373-1-imammedo@redhat.com>
+In-Reply-To: <20200303091254.22373-1-imammedo@redhat.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Thu, 5 Mar 2020 21:07:08 +0100
+Message-ID: <CAPan3Wqr8HuXSmZL1DZTSjD_PfcoxNO5FkKAr36rzY8+vyOORg@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/cubieboard: make sure SOC object isn't leaked
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000092f06005a021157f"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::12e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,59 +70,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, drjones@redhat.com,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 05 Mar 2020 09:20:31 PST (-0800), philmd@redhat.com wrote:
-> Cc'ing qemu-trivial@ in case there is a pending PR in  progress, it
-> might get merged quicker.
+--00000000000092f06005a021157f
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Igor,
+
+On Tue, Mar 3, 2020 at 10:13 AM Igor Mammedov <imammedo@redhat.com> wrote:
+
+> SOC object returned by object_new() is leaked in current code.
+> Set SOC parent explicitly to board and then unref to SOC object
+> to make sure that refererence returned by object_new() is taken
+> care of.
 >
-> On Thu, Mar 5, 2020 at 6:19 PM Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> On 3/5/20 5:48 PM, Palmer Dabbelt wrote:
->> > THis would almost certainly cause the exception names to be reported
->> > incorrectly.  Covarity found the issue (CID 1420223).  As per Peter's
->>
->> "This", "Coverity" typos.
->>
->> Fixes: ab67a1d07a4
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> The SOC object will be kept alive by its parent (machine) and
+> will be automatically freed when MachineState is destroyed.
+>
 
-Thanks.  I guess I'll just send the PR, as there's really no reason to block
-this on the other RISC-V stuff.  It'll just be a single patch PR, so if the
-patch goes in some other way then it should be easy to drop.  I usually don't
-like rushing these sorts of things, but this one seems pretty safe.
+Thanks for reporting this issue. In the Allwinner H3 series, I actually
+inherited this pattern as well,
+so I'll include this fix as well in the next version of that series.
 
->>
->> > suggestion, I've also added a comma at the end of the list to avoid the issue
->> > reappearing in the future.
->> >
->> > Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
->> > ---
->> >   target/riscv/cpu.c | 4 ++--
->> >   1 file changed, 2 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> > index c47d10b739..c0b7023100 100644
->> > --- a/target/riscv/cpu.c
->> > +++ b/target/riscv/cpu.c
->> > @@ -66,7 +66,7 @@ const char * const riscv_excp_names[] = {
->> >       "exec_page_fault",
->> >       "load_page_fault",
->> >       "reserved",
->> > -    "store_page_fault"
->> > +    "store_page_fault",
->> >       "reserved",
->> >       "reserved",
->> >       "reserved",
->> > @@ -74,7 +74,7 @@ const char * const riscv_excp_names[] = {
->> >       "guest_exec_page_fault",
->> >       "guest_load_page_fault",
->> >       "reserved",
->> > -    "guest_store_page_fault"
->> > +    "guest_store_page_fault",
->> >   };
->> >
->> >   const char * const riscv_intr_names[] = {
->> >
+
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reported-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  hw/arm/cubieboard.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+> index 089f9a30c1..12f8ac798d 100644
+> --- a/hw/arm/cubieboard.c
+> +++ b/hw/arm/cubieboard.c
+> @@ -30,9 +30,14 @@ static struct arm_boot_info cubieboard_binfo = {
+>
+>  static void cubieboard_init(MachineState *machine)
+>  {
+> -    AwA10State *a10 = AW_A10(object_new(TYPE_AW_A10));
+> +    AwA10State *a10;
+>      Error *err = NULL;
+>
+> +    a10 = AW_A10(object_new(TYPE_AW_A10));
+> +    object_property_add_child(OBJECT(machine), "soc", OBJECT(a10),
+> +                              &error_abort);
+> +    object_unref(OBJECT(a10));
+>
+
+I see that there are a few machines which also do
+object_property_add_child() to add its
+SoC object to the machine, but they do not do the object_unref(). Can you
+explain why it is needed here?
+Or do the other machines still have a leak due to the missing
+object_unref()? Examples are:
+  hw/arm/sabrelite.c
+  hw/arm/mcimx7d-sabre.c
+  hw/arm/mcimx6ul-evk.c
+
+Regards,
+Niek
+
+
+> +
+>      object_property_set_int(OBJECT(&a10->emac), 1, "phy-addr", &err);
+>      if (err != NULL) {
+>          error_reportf_err(err, "Couldn't set phy address: ");
+> --
+> 2.18.1
+>
+>
+>
+
+-- 
+Niek Linnenbank
+
+--00000000000092f06005a021157f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Igor,<br></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 3, 2020 at 10:13 AM Igor Mamm=
+edov &lt;<a href=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">SOC obje=
+ct returned by object_new() is leaked in current code.<br>
+Set SOC parent explicitly to board and then unref to SOC object<br>
+to make sure that refererence returned by object_new() is taken<br>
+care of.<br>
+<br>
+The SOC object will be kept alive by its parent (machine) and<br>
+will be automatically freed when MachineState is destroyed.<br></blockquote=
+><div><br></div><div>Thanks for reporting this issue. In the Allwinner H3 s=
+eries, I actually inherited this pattern as well,</div><div>so I&#39;ll inc=
+lude this fix as well in the next version of that series.<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" tar=
+get=3D"_blank">imammedo@redhat.com</a>&gt;<br>
+Reported-by: Andrew Jones &lt;<a href=3D"mailto:drjones@redhat.com" target=
+=3D"_blank">drjones@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/arm/cubieboard.c | 7 ++++++-<br>
+=C2=A01 file changed, 6 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c<br>
+index 089f9a30c1..12f8ac798d 100644<br>
+--- a/hw/arm/cubieboard.c<br>
++++ b/hw/arm/cubieboard.c<br>
+@@ -30,9 +30,14 @@ static struct arm_boot_info cubieboard_binfo =3D {<br>
+<br>
+=C2=A0static void cubieboard_init(MachineState *machine)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 AwA10State *a10 =3D AW_A10(object_new(TYPE_AW_A10));<br>
++=C2=A0 =C2=A0 AwA10State *a10;<br>
+=C2=A0 =C2=A0 =C2=A0Error *err =3D NULL;<br>
+<br>
++=C2=A0 =C2=A0 a10 =3D AW_A10(object_new(TYPE_AW_A10));<br>
++=C2=A0 =C2=A0 object_property_add_child(OBJECT(machine), &quot;soc&quot;, =
+OBJECT(a10),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_abort);<br>
++=C2=A0 =C2=A0 object_unref(OBJECT(a10));<br></blockquote><div><br></div><d=
+iv>I see that there are a few machines which also do object_property_add_ch=
+ild() to add its</div><div>SoC object to the machine, but they do not do th=
+e object_unref(). Can you explain why it is needed here?</div><div>Or do th=
+e other machines still have a leak due to the missing object_unref()? Examp=
+les are:</div><div>=C2=A0 hw/arm/sabrelite.c</div><div>=C2=A0 hw/arm/mcimx7=
+d-sabre.c</div><div>=C2=A0 hw/arm/mcimx6ul-evk.c</div><div><br></div><div>R=
+egards,</div><div>Niek<br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
++<br>
+=C2=A0 =C2=A0 =C2=A0object_property_set_int(OBJECT(&amp;a10-&gt;emac), 1, &=
+quot;phy-addr&quot;, &amp;err);<br>
+=C2=A0 =C2=A0 =C2=A0if (err !=3D NULL) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_reportf_err(err, &quot;Couldn&#39;t=
+ set phy address: &quot;);<br>
+-- <br>
+2.18.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div></div>
+
+--00000000000092f06005a021157f--
 
