@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5011E17A7F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:40:49 +0100 (CET)
-Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B656117A791
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:36:21 +0100 (CET)
+Received: from localhost ([::1]:50346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rg8-0005eE-8P
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:40:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35789)
+	id 1j9rbo-0006na-OW
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:36:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j9rXx-0000QZ-IX
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:22 -0500
+ (envelope-from <david@redhat.com>) id 1j9rXy-0000Sd-7N
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j9rXw-0003O4-6l
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41326
+ (envelope-from <david@redhat.com>) id 1j9rXw-0003Oq-NU
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34147
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rXw-0003N6-2N
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rXw-0003O9-Hj
  for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418739;
+ s=mimecast20190719; t=1583418740;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2eknTrxrpZwJTyM4q9bbVp/0nK/Ipyt3w1hOhR5L378=;
- b=X4ORHxKooLCqQOKeU5fnoQlYaaRZRXXf8jDe/OObYv1TqkiM3nclYqWP29wa4JWW45K4Jo
- BQpIa9i+XkaZsJuLJzvPCutqD2Cq91qaaiFlRFOoM5PL2jP60qg2TZizcM/oS4r1l0eeeX
- D90GLfeArConvQcr5ZbLAxj05nkX7xQ=
+ bh=MVaLnjXvJg6zL4YkvtGMVqzRgwjU5unEthNhKZGounY=;
+ b=ZvwrFpjnrezPkQnlYmpPpwccCx7/V20I0jy2DyYgSA9N5Ws38WJPSRNmQk+OvsPK7tHY/t
+ AzuIar20LngzjiJE/TjPJVRsZLkHPMSXK7WrRiSLLcVuyRfkLp+8NS9qWKccGnQt+oZQ0j
+ bQUZPEdJpbZLNW3rkNhzGlklhSSutmk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-nFi3yssxP-akRBGnaTv5rQ-1; Thu, 05 Mar 2020 09:32:16 -0500
-X-MC-Unique: nFi3yssxP-akRBGnaTv5rQ-1
+ us-mta-316-xdx8g9ajNhOd9JEkwZUm-w-1; Thu, 05 Mar 2020 09:32:18 -0500
+X-MC-Unique: xdx8g9ajNhOd9JEkwZUm-w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B40EA1005510;
- Thu,  5 Mar 2020 14:32:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DB9013EA;
+ Thu,  5 Mar 2020 14:32:17 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-120-166.rdu2.redhat.com [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9743F91D7A;
- Thu,  5 Mar 2020 14:32:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 086BF90538;
+ Thu,  5 Mar 2020 14:32:14 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/15] util/mmap-alloc: Prepare for resizeable mmaps
-Date: Thu,  5 Mar 2020 15:29:40 +0100
-Message-Id: <20200305142945.216465-11-david@redhat.com>
+Subject: [PATCH v4 11/15] util/mmap-alloc: Implement resizeable mmaps
+Date: Thu,  5 Mar 2020 15:29:41 +0100
+Message-Id: <20200305142945.216465-12-david@redhat.com>
 In-Reply-To: <20200305142945.216465-1-david@redhat.com>
 References: <20200305142945.216465-1-david@redhat.com>
 MIME-Version: 1.0
@@ -58,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,149 +82,159 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When shrinking a mmap we want to re-reserve the already activated area.
-When growing a memory region, we want to activate starting with a given
-fd_offset. Prepare by allowing to pass these parameters.
+Implement resizeable mmaps. For now, the actual resizing is not wired up.
+Introduce qemu_ram_mmap_resizeable() and qemu_ram_mmap_resize(). Make
+qemu_ram_mmap() a wrapper of qemu_ram_mmap_resizeable().
 
-Also, let's make sure we always process full pages, to avoid
-unmapping/remapping pages that are already in use when
-growing/shrinking. Add some asserts.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Xu <peterx@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Greg Kurz <groug@kaod.org>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/mmap-alloc.c | 34 +++++++++++++++++++++++-----------
- 1 file changed, 23 insertions(+), 11 deletions(-)
+ include/qemu/mmap-alloc.h | 21 +++++++++++--------
+ util/mmap-alloc.c         | 43 ++++++++++++++++++++++++++++-----------
+ 2 files changed, 44 insertions(+), 20 deletions(-)
 
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index e786266b92..ca8f7edf70 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -7,11 +7,13 @@ size_t qemu_fd_getpagesize(int fd);
+ size_t qemu_mempath_getpagesize(const char *mem_path);
+=20
+ /**
+- * qemu_ram_mmap: mmap the specified file or device.
++ * qemu_ram_mmap_resizeable: reserve a memory region of @max_size to mmap =
+the
++ *                           specified file or device and mmap @size of it=
+.
+  *
+  * Parameters:
+  *  @fd: the file or the device to mmap
+  *  @size: the number of bytes to be mmaped
++ *  @max_size: the number of bytes to be reserved
+  *  @align: if not zero, specify the alignment of the starting mapping add=
+ress;
+  *          otherwise, the alignment in use will be determined by QEMU.
+  *  @shared: map has RAM_SHARED flag.
+@@ -21,12 +23,15 @@ size_t qemu_mempath_getpagesize(const char *mem_path);
+  *  On success, return a pointer to the mapped area.
+  *  On failure, return MAP_FAILED.
+  */
+-void *qemu_ram_mmap(int fd,
+-                    size_t size,
+-                    size_t align,
+-                    bool shared,
+-                    bool is_pmem);
+-
+-void qemu_ram_munmap(int fd, void *ptr, size_t size);
++void *qemu_ram_mmap_resizeable(int fd, size_t size, size_t max_size,
++                              size_t align, bool shared, bool is_pmem);
++bool qemu_ram_mmap_resize(void *ptr, int fd, size_t old_size, size_t new_s=
+ize,
++                          bool shared, bool is_pmem);
++static inline void *qemu_ram_mmap(int fd, size_t size, size_t align,
++                                  bool shared, bool is_pmem)
++{
++    return qemu_ram_mmap_resizeable(fd, size, size, align, shared, is_pmem=
+);
++}
++void qemu_ram_munmap(int fd, void *ptr, size_t max_size);
+=20
+ #endif
 diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 8f40ef4fed..2767caa33b 100644
+index 2767caa33b..7ed85f16d3 100644
 --- a/util/mmap-alloc.c
 +++ b/util/mmap-alloc.c
-@@ -83,12 +83,12 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
- }
-=20
- /*
-- * Reserve a new memory region of the requested size to be used for mappin=
-g
-- * from the given fd (if any).
-+ * Reserve a new memory region of the requested size or re-reserve parts
-+ * of an activated region to be used for mapping from the given fd (if any=
-).
-  */
--static void *mmap_reserve(size_t size, int fd)
-+static void *mmap_reserve(void *ptr, size_t size, int fd)
- {
--    int flags =3D MAP_PRIVATE;
-+    int flags =3D MAP_PRIVATE | (ptr ? MAP_FIXED : 0);
-=20
- #if defined(__powerpc64__) && defined(__linux__)
-     /*
-@@ -111,20 +111,24 @@ static void *mmap_reserve(size_t size, int fd)
-     flags |=3D MAP_ANONYMOUS;
+@@ -174,11 +174,8 @@ static inline size_t mmap_guard_pagesize(int fd)
  #endif
-=20
--    return mmap(0, size, PROT_NONE, flags, fd, 0);
-+    return mmap(ptr, size, PROT_NONE, flags, fd, 0);
  }
 =20
- /*
-  * Activate memory in a reserved region from the given fd (if any), to mak=
-e
-  * it accessible.
-  */
--static void *mmap_activate(void *ptr, size_t size, int fd, bool shared,
--                           bool is_pmem)
-+static void *mmap_activate(void *ptr, size_t size, int fd, size_t fd_offse=
-t,
-+                           bool shared, bool is_pmem)
- {
-     int map_sync_flags =3D 0;
-     int flags =3D MAP_FIXED;
-     void *activated_ptr;
-=20
-+    if (fd =3D=3D -1) {
-+        fd_offset =3D 0;
-+    }
-+
-     flags |=3D fd =3D=3D -1 ? MAP_ANONYMOUS : 0;
-     flags |=3D shared ? MAP_SHARED : MAP_PRIVATE;
-     if (shared && is_pmem) {
-@@ -132,7 +136,7 @@ static void *mmap_activate(void *ptr, size_t size, int =
-fd, bool shared,
-     }
-=20
-     activated_ptr =3D mmap(ptr, size, PROT_READ | PROT_WRITE,
--                         flags | map_sync_flags, fd, 0);
-+                         flags | map_sync_flags, fd, fd_offset);
-     if (activated_ptr =3D=3D MAP_FAILED && map_sync_flags) {
-         if (errno =3D=3D ENOTSUP) {
-             char *proc_link =3D g_strdup_printf("/proc/self/fd/%d", fd);
-@@ -154,7 +158,8 @@ static void *mmap_activate(void *ptr, size_t size, int =
-fd, bool shared,
-          * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC, we will try
-          * again without these flags to handle backwards compatibility.
-          */
--        activated_ptr =3D mmap(ptr, size, PROT_READ | PROT_WRITE, flags, f=
-d, 0);
-+        activated_ptr =3D mmap(ptr, size, PROT_READ | PROT_WRITE, flags, f=
-d,
-+                             fd_offset);
-     }
-     return activated_ptr;
- }
-@@ -176,16 +181,19 @@ void *qemu_ram_mmap(int fd,
-                     bool is_pmem)
+-void *qemu_ram_mmap(int fd,
+-                    size_t size,
+-                    size_t align,
+-                    bool shared,
+-                    bool is_pmem)
++void *qemu_ram_mmap_resizeable(int fd, size_t size, size_t max_size,
++                               size_t align, bool shared, bool is_pmem)
  {
      const size_t guard_pagesize =3D mmap_guard_pagesize(fd);
-+    const size_t pagesize =3D qemu_fd_getpagesize(fd);
-     size_t offset, total;
+     const size_t pagesize =3D qemu_fd_getpagesize(fd);
+@@ -186,12 +183,14 @@ void *qemu_ram_mmap(int fd,
      void *ptr, *guardptr;
 =20
-+    g_assert(QEMU_IS_ALIGNED(size, pagesize));
-+
+     g_assert(QEMU_IS_ALIGNED(size, pagesize));
++    g_assert(QEMU_IS_ALIGNED(max_size, pagesize));
+=20
      /*
       * Note: this always allocates at least one extra page of virtual addr=
 ess
-      * space, even if size is already aligned.
+-     * space, even if size is already aligned.
++     * space, even if the size is already aligned. We will reserve an area=
+ of
++     * at least max_size, but only activate the requested part of it.
       */
-     total =3D size + align;
+-    total =3D size + align;
++    total =3D max_size + align;
 =20
--    guardptr =3D mmap_reserve(total, fd);
-+    guardptr =3D mmap_reserve(NULL, total, fd);
+     guardptr =3D mmap_reserve(NULL, total, fd);
      if (guardptr =3D=3D MAP_FAILED) {
-         return MAP_FAILED;
-     }
-@@ -196,7 +204,7 @@ void *qemu_ram_mmap(int fd,
-=20
-     offset =3D QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guar=
-dptr;
-=20
--    ptr =3D mmap_activate(guardptr + offset, size, fd, shared, is_pmem);
-+    ptr =3D mmap_activate(guardptr + offset, size, fd, 0, shared, is_pmem)=
+@@ -219,21 +218,41 @@ void *qemu_ram_mmap(int fd,
+      * a guard page guarding against potential buffer overflows.
+      */
+     total -=3D offset;
+-    if (total > size + guard_pagesize) {
+-        munmap(ptr + size + guard_pagesize, total - size - guard_pagesize)=
 ;
-     if (ptr =3D=3D MAP_FAILED) {
-         munmap(guardptr, total);
-         return MAP_FAILED;
-@@ -220,6 +228,10 @@ void *qemu_ram_mmap(int fd,
++    if (total > max_size + guard_pagesize) {
++        munmap(ptr + max_size + guard_pagesize,
++               total - max_size - guard_pagesize);
+     }
 =20
- void qemu_ram_munmap(int fd, void *ptr, size_t size)
+     return ptr;
+ }
+=20
+-void qemu_ram_munmap(int fd, void *ptr, size_t size)
++bool qemu_ram_mmap_resize(void *ptr, int fd, size_t old_size, size_t new_s=
+ize,
++                          bool shared, bool is_pmem)
  {
+     const size_t pagesize =3D qemu_fd_getpagesize(fd);
+=20
+-    g_assert(QEMU_IS_ALIGNED(size, pagesize));
++    g_assert(QEMU_IS_ALIGNED(old_size, pagesize));
++    g_assert(QEMU_IS_ALIGNED(new_size, pagesize));
++
++    if (old_size < new_size) {
++        /* activate the missing piece in the reserved area */
++        ptr =3D mmap_activate(ptr + old_size, new_size - old_size, fd, old=
+_size,
++                            shared, is_pmem);
++    } else if (old_size > new_size) {
++        /* discard this piece, marking it reserved */
++        ptr =3D mmap_reserve(ptr + new_size, old_size - new_size, fd);
++    }
++    return ptr !=3D MAP_FAILED;
++}
++
++void qemu_ram_munmap(int fd, void *ptr, size_t max_size)
++{
 +    const size_t pagesize =3D qemu_fd_getpagesize(fd);
 +
-+    g_assert(QEMU_IS_ALIGNED(size, pagesize));
-+
++    g_assert(QEMU_IS_ALIGNED(max_size, pagesize));
+=20
      if (ptr) {
          /* Unmap both the RAM block and the guard page */
-         munmap(ptr, size + mmap_guard_pagesize(fd));
+-        munmap(ptr, size + mmap_guard_pagesize(fd));
++        munmap(ptr, max_size + mmap_guard_pagesize(fd));
+     }
+ }
 --=20
 2.24.1
 
