@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAAC17A5A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:49:41 +0100 (CET)
-Received: from localhost ([::1]:48374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357C217A5A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:49:13 +0100 (CET)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9pwa-0004Pb-3w
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:49:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41763)
+	id 1j9pw8-0003Wx-4A
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:49:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9pt7-0007NN-Kv
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:06 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9ptC-0007VO-8l
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9pt6-0001bi-Dk
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:05 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38156
+ (envelope-from <philmd@redhat.com>) id 1j9ptB-0001hx-CR
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39623
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9pt6-0001b6-9H
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:04 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9ptB-0001hS-8w
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583412363;
+ s=mimecast20190719; t=1583412368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BfL2wrp1xmfb4e/iaQpRjnEbNuM8Iy0Ua18MeCip/nA=;
- b=Z4bFPt15GH4RT06GeGeyeyZwS16pPZMLQG0Zkq5EDkaJPVUdji6oIr3q7BEA6hz8BtNn+y
- rw50v75zc/zOATP5Oa1u7orIYFFCbb1Imh/KLIo1WAundc4duwssRIDz094J3LXWbk1e8c
- uJLOpT3JIqCmcklBGRvGJr4fCx57Obc=
+ bh=CFcihQRQW984a0z/mekZG0vNwXsxhiN/8+AlkGU0X9k=;
+ b=LXZF6hxkRfrgJrPJPqdv3y0FvtkYPXEc95IEAzYNVH+roOc4gO3pZlb0pA/PXfo/e3rsom
+ +soeu/fMh7p9YMvUGtfambVdlE7fmXZU4FrfYarYz1VS2oiemEw3hAU+usVOAM4O6Y7fes
+ WbSd+K7Yv/fd7IGPlTOwc8Rg+1CbZmE=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-H9dQGy4OPBGMq5WN70j7lg-1; Thu, 05 Mar 2020 07:46:02 -0500
-X-MC-Unique: H9dQGy4OPBGMq5WN70j7lg-1
-Received: by mail-wr1-f69.google.com with SMTP id p11so2255787wrn.10
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:46:02 -0800 (PST)
+ us-mta-428--SSzPZvrMQ23pLLWQoIX2Q-1; Thu, 05 Mar 2020 07:46:07 -0500
+X-MC-Unique: -SSzPZvrMQ23pLLWQoIX2Q-1
+Received: by mail-wr1-f69.google.com with SMTP id u8so273486wrq.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:46:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cOfgZg45p005Cf8aNVaFJuLhPI+JdhyWRao0wzg6LoM=;
- b=kFoFRPYahhvk91z/Bz46XBTIDPHJ97T0ms3Q1CcdvftdlndharpeCq0y1XflRSpTMw
- Xe2NqAHxSp+UAQI5qQI1RhytsAb2U/+QyrkR1xKWRVzgJcNdtbaCAMB4ru/8S241IgdC
- K4CL7D8HYnoZk2TGc42ttUbr3R2/O4NnjUE3MsuHFS50fjf7W/9S5nZ2d+JxfaCAQiEO
- y0M30dHr1ir68HmjH68pjZxATP5uyLK679mRZ9CGEGF6+ycOqym6v/kY+VDRWRGCk3vy
- O1WKw7rlIWj+4TzTcWa/V1MwyYIYMs69P2tQ0HZOGOMgn8cC6Lz7eTWtfx3eskqPomOL
- MEDA==
-X-Gm-Message-State: ANhLgQ0yBSyhYcsWZXphUVAHXEcQ0WfAl60PkUyxtWNWXdsr+lgEYOLr
- zQzCOTs6NiR/OevF6Vyt5EmakV2aPQajq+kAXaFy5qLNVWk+eT5oYDwdywt+NFFUEP0tU+nKp35
- AnCAhuv1MyIJjkoY=
-X-Received: by 2002:a7b:ce99:: with SMTP id q25mr9353857wmj.34.1583412360850; 
- Thu, 05 Mar 2020 04:46:00 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vtYQ3Fcji41liGZ4F/ZeQyFAYO+TfPXs7EPSdszQCv1mrO1EYqxHjHgHw9ceMByt1uuFupuDw==
-X-Received: by 2002:a7b:ce99:: with SMTP id q25mr9353820wmj.34.1583412360562; 
- Thu, 05 Mar 2020 04:46:00 -0800 (PST)
+ bh=NxwSRvf3xC8N2g5o+oXCsfEFodIN9fcThiRrbeywMlg=;
+ b=o7PSfusuSPcNi5lhCyQMjMLhZ61ui8VX6woEc9oHJ4OHTO0WwpnbIFh/2x8Ypl7IEu
+ A+8vsC+H8aWUaiP2ECSEqy0vZDjdxHf7veNb2ghNVbv/VYzv9awzsYsiEj72QBGSVeJ2
+ nyG36/ICZtqlFOjaJ5wJtLw7Pnz6hFSsM5Evz4enre3uzzE8bF3MZLxX7+v9raolRWwJ
+ 5Yw5vg+DsK5V7meo0SFOhtX/IcWnIXtyZFILBtrry5ZlVJNy39zb6QpsjmY5eHyje0Jk
+ 24ft7RfNzp75oVMAp73DhxcSePx8cDATny2uWdOwmaD2hQHPtBGBQzwFb1xGVWEWX3DL
+ 0KCg==
+X-Gm-Message-State: ANhLgQ1o+Ju4N3bsV6JQ8XGOznff4L88NpDVi5W7v2vL7w0baIYH9pE4
+ E2bLY8PGdg1Qy3op01uIkrulRWSA11qQrjEkfFbvEifbPcA4w4tAk8f9I2e1cFxsb5TaUYeTe4/
+ OEEMGiC9yUF2swCk=
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr9396188wmk.172.1583412366070; 
+ Thu, 05 Mar 2020 04:46:06 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtEolt81viS5nizZiXUpufL+W79KWORVOPU66RVR7yAROIfUMT4WtGb5nf8YINqFgi/mzUU9A==
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr9396172wmk.172.1583412365912; 
+ Thu, 05 Mar 2020 04:46:05 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id z12sm17054451wrs.43.2020.03.05.04.45.59
+ by smtp.gmail.com with ESMTPSA id s15sm19858655wrr.45.2020.03.05.04.46.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 04:46:00 -0800 (PST)
+ Thu, 05 Mar 2020 04:46:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-trivial@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 6/9] hw/usb/quirks: Use smaller types to reduce .rodata by
- 10KiB
-Date: Thu,  5 Mar 2020 13:45:22 +0100
-Message-Id: <20200305124525.14555-7-philmd@redhat.com>
+Subject: [PATCH v2 7/9] ui/curses: Make control_characters[] array const
+Date: Thu,  5 Mar 2020 13:45:23 +0100
+Message-Id: <20200305124525.14555-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200305124525.14555-1-philmd@redhat.com>
 References: <20200305124525.14555-1-philmd@redhat.com>
@@ -78,7 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,97 +98,26 @@ Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The USB descriptor sizes are specified as 16-bit for idVendor /
-idProduct, and 8-bit for bInterfaceClass / bInterfaceSubClass /
-bInterfaceProtocol. Doing so we reduce the usbredir_raw_serial_ids[]
-and usbredir_ftdi_serial_ids[] arrays from 16KiB to 6KiB (size
-reported on x86_64 host, building with --extra-cflags=3D-Os).
+As we only use this array as input, make it const.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Add bitfield values and use unsigned types (Gerd)
----
- hw/usb/quirks.h | 22 +++++++++++++---------
- hw/usb/quirks.c |  4 ++--
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ ui/curses.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/usb/quirks.h b/hw/usb/quirks.h
-index 89480befd7..50ef2f9c2e 100644
---- a/hw/usb/quirks.h
-+++ b/hw/usb/quirks.h
-@@ -21,19 +21,23 @@
- #include "quirks-pl2303-ids.h"
-=20
- struct usb_device_id {
--    int vendor_id;
--    int product_id;
--    int interface_class;
--    int interface_subclass;
--    int interface_protocol;
-+    uint16_t vendor_id;
-+    uint16_t product_id;
-+    uint8_t interface_class;
-+    uint8_t interface_subclass;
-+    uint8_t interface_protocol;
-+    uint8_t interface_protocol_used:1,
-+            terminating_entry:1,
-+            reserved:6;
- };
-=20
- #define USB_DEVICE(vendor, product) \
--    .vendor_id =3D vendor, .product_id =3D product, .interface_class =3D -=
-1,
-+    .vendor_id =3D vendor, .product_id =3D product, .interface_protocol_us=
-ed =3D 0,
-=20
- #define USB_DEVICE_AND_INTERFACE_INFO(vend, prod, iclass, isubclass, iprot=
-o) \
-     .vendor_id =3D vend, .product_id =3D prod, .interface_class =3D iclass=
-, \
--    .interface_subclass =3D isubclass, .interface_protocol =3D iproto
-+    .interface_subclass =3D isubclass, .interface_protocol =3D iproto, \
-+    .interface_protocol_used =3D 1
-=20
- static const struct usb_device_id usbredir_raw_serial_ids[] =3D {
-     /*
-@@ -206,7 +210,7 @@ static const struct usb_device_id usbredir_raw_serial_i=
-ds[] =3D {
-     { USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530_PRODUCT_ID) },
-     { USB_DEVICE(SMART_VENDOR_ID, SMART_PRODUCT_ID) },
-=20
--    { USB_DEVICE(-1, -1) } /* Terminating Entry */
-+    { .terminating_entry =3D 1 } /* Terminating Entry */
- };
-=20
- static const struct usb_device_id usbredir_ftdi_serial_ids[] =3D {
-@@ -906,7 +910,7 @@ static const struct usb_device_id usbredir_ftdi_serial_=
-ids[] =3D {
-     { USB_DEVICE(FTDI_VID, FTDI_DISTORTEC_JTAG_LOCK_PICK_PID) },
-     { USB_DEVICE(FTDI_VID, FTDI_LUMEL_PD12_PID) },
-=20
--    { USB_DEVICE(-1, -1) } /* Terminating Entry */
-+    { .terminating_entry =3D 1 } /* Terminating Entry */
- };
-=20
- #undef USB_DEVICE
-diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
-index 38a9c5634a..23ea7a23ea 100644
---- a/hw/usb/quirks.c
-+++ b/hw/usb/quirks.c
-@@ -22,10 +22,10 @@ static bool usb_id_match(const struct usb_device_id *id=
-s,
-                          uint8_t interface_protocol) {
-     int i;
-=20
--    for (i =3D 0; ids[i].vendor_id !=3D -1; i++) {
-+    for (i =3D 0; ids[i].terminating_entry =3D=3D 0; i++) {
-         if (ids[i].vendor_id  =3D=3D vendor_id &&
-             ids[i].product_id =3D=3D product_id &&
--            (ids[i].interface_class =3D=3D -1 ||
-+            (ids[i].interface_protocol_used =3D=3D 0 ||
-              (ids[i].interface_class =3D=3D interface_class &&
-               ids[i].interface_subclass =3D=3D interface_subclass &&
-               ids[i].interface_protocol =3D=3D interface_protocol))) {
+diff --git a/ui/curses.c b/ui/curses.c
+index 3a1b71451c..3bafc10c1c 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -529,7 +529,7 @@ static void font_setup(void)
+      * Control characters are normally non-printable, but VGA does have
+      * well-known glyphs for them.
+      */
+-    static uint16_t control_characters[0x20] =3D {
++    static const uint16_t control_characters[0x20] =3D {
+       0x0020,
+       0x263a,
+       0x263b,
 --=20
 2.21.1
 
