@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF01417AE99
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 19:59:40 +0100 (CET)
-Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCBC17AEA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 20:00:54 +0100 (CET)
+Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9vie-0004w7-00
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 13:59:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
+	id 1j9vjp-0005nT-RN
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 14:00:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57411)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j9vho-0004Hh-4e
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:58:49 -0500
+ (envelope-from <viktor.prutyanov@phystech.edu>) id 1j9viC-0004iS-8q
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:59:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j9vhn-0008SJ-3x
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:58:48 -0500
-Received: from mail-vk1-xa42.google.com ([2607:f8b0:4864:20::a42]:36722)
+ (envelope-from <viktor.prutyanov@phystech.edu>) id 1j9vi9-0000JJ-Li
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:59:10 -0500
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45188)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j9vhn-0008RT-0P; Thu, 05 Mar 2020 13:58:47 -0500
-Received: by mail-vk1-xa42.google.com with SMTP id y125so1931271vkc.3;
- Thu, 05 Mar 2020 10:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ps/gAnOl+2H5dhWF4htQ1STgq0hnL5TSprkqaAKtMds=;
- b=Fn+AXIKa0tyZLvPEsoATtAMmR43aDdTuz9QVr59ZwI96OPkqPJX3Zw0g/njDKEjFOJ
- lpHuyJ3srMZ+o5PRJd8FkWKQnvvm17SlKAVurdec47voVPe2XA9Z7iI7TNhiGkfvxer+
- 0rFTx6G0l7DFXLJcSsSB54JhwPqoH/JPULaS3FVMGppT+gIRV/pwzvw1NKrzyHsMuAV1
- yjSsKicYdDBG0H0gjXtC6QdTsrW7wm1Lpiya3Rm1fxbSAx5apkkG0FsmvyL9rROTdOd1
- GdWjykiMsuvm10hTXdYHG2+71KWpoMM4vNmgFvSDxRe4oeHTXfDlEU4hJl2dZWtYBwJF
- nQZg==
+ (Exim 4.71) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1j9vi9-0000Fv-2S
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 13:59:09 -0500
+Received: by mail-lj1-x244.google.com with SMTP id e18so7310896ljn.12
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 10:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :organization:mime-version:content-transfer-encoding;
+ bh=6ctMZbT0iX5dwuANiokz+Sby/9fJ8AvTdWSX4ROvYbg=;
+ b=Gcr/mDzZuAsJurFgzb/OEw0IXr8qAmLvjqRk41k+Cg3KKIjbZAbjlcxElwJE3zY2M2
+ 5EEjmZ2hwASG4IXVBAWhZn0YaoDL7vAhocHD/CGpQIllYkvr/6vGBvmKhq8YjbWi4i3B
+ fHaLULRf60xBfuwggFU+vgGuGpqtLdGzp65Zlb6QsScFiVpmJMdVG+LEiFQyEKEqjY+f
+ Qqmj7GWlzzV22eSNsaEEzummn6M9vYDSxQMiv7eMQTO+Wdc232JesKX4daL/Niamp/qi
+ 3vmimgdgJ2RuB0wUCzG8sqqSQ339Bc0DNW48ya1cbHUSGDDzn77Hibc8E7tAa2Ye3fTJ
+ Ohyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ps/gAnOl+2H5dhWF4htQ1STgq0hnL5TSprkqaAKtMds=;
- b=Hv3UBOfEMFssEj9i10MxenuAfHBHsDdbSG5KzhkmLj7e5LxNwTTDAwuhzMM+uek1HJ
- /JiyqTClbmzt0P0ChVsLb3BOCu1S96JdgCKT9FtMOBLQoi8e2hC4k7EyeMkgNHYElMfx
- jDAwuoCZ+7R3YwoHeqMsXDx21g61MkeVG0/bJqnaSCckcyT7hi2ca46bb7ojZDjAX3Ad
- k/WonfRMqTGuChYoZSN31/E/461htNkA4yDgCZW8bWFs90xlQmkrYuURr7Bz7RF3ORS0
- 71zHG2i0ZPt/zT5XnNWW6bQmaJ18H5/mzjggIbqlz13pglM0mYV8Y8cpgckO90sRq4Ej
- d/RA==
-X-Gm-Message-State: ANhLgQ1xjsIDWzbsz05WH/BCKAKFNth0aNcC0c2qsTvm5anB3MlHcZsD
- 8C4y2AnqJb9xkNDRndVhyt/WwRxgcyr7OP15+7U=
-X-Google-Smtp-Source: ADFU+vtDeDFkq59RFTwoMXoO+voDOc7hbX9BW787KIz8gR/4fEVUNXh+mlUg04Co14mfmGB1aDkinsy7Fc/ygJtpdYo=
-X-Received: by 2002:a1f:284:: with SMTP id 126mr379543vkc.16.1583434726275;
- Thu, 05 Mar 2020 10:58:46 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=6ctMZbT0iX5dwuANiokz+Sby/9fJ8AvTdWSX4ROvYbg=;
+ b=FHrKMvmWQv9zvIGHHMABSnPbPJh79M5Edny19jyFzq1HfhRiJBGDRu4rBU6/arHzuo
+ loSbafETQaI5EjntABWQ/ZNuqAafaGtqc5/N3n2RAoz8OhGQzI7S/zT2qRAqRovkWPEe
+ vhUooMnCAtPnCPtNzfcjWQOyZD4AF50bqDHP+yW41kUBRAMGQ2n4yPfORwJ4OGm7ORus
+ ycIfTxBUQ/mGMuUw3n0CXw7bH4Fr5LWBWdL0u5p+IF+br89/u6cnCepvvHfAAUM1arMN
+ BnKbHSEHJB1U1iflbCwKsFALShS/WAJ97Nw8hQJQGc/1ZllnI/aNy7Crw32chczQy894
+ cC4g==
+X-Gm-Message-State: ANhLgQ18Q7fi+L1UcYtlzNNjPQ2pxDQmWOlcf/iLRjVbdX4til/niZ2O
+ HiE5fxfho/XBqRl7EO/ELGC1oQ==
+X-Google-Smtp-Source: ADFU+vvYP15BC4RlolCUBDWr9rDG22YG6kSKpnGmFbIoJmfPEasONKjyo0NgkhBDVI5KqlXv7/oxBQ==
+X-Received: by 2002:a2e:9110:: with SMTP id m16mr6072280ljg.42.1583434746956; 
+ Thu, 05 Mar 2020 10:59:06 -0800 (PST)
+Received: from localhost ([93.175.11.132])
+ by smtp.gmail.com with ESMTPSA id j6sm15718532lfk.88.2020.03.05.10.59.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2020 10:59:06 -0800 (PST)
+Date: Thu, 5 Mar 2020 21:59:02 +0300
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To: <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH] contrib/elf2dmp: prevent uninitialized warning
+Message-ID: <20200305215902.24bbe6ce@phystech.edu>
+In-Reply-To: <20200207041601.89668-1-kuhn.chenqun@huawei.com>
+References: <20200207041601.89668-1-kuhn.chenqun@huawei.com>
+Organization: MIPT
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200305175651.4563-1-philmd@redhat.com>
- <20200305175651.4563-5-philmd@redhat.com>
-In-Reply-To: <20200305175651.4563-5-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 5 Mar 2020 10:51:04 -0800
-Message-ID: <CAKmqyKMO+rJFheewHcHjTOCL_Z1ze=JMjNX8Y4Sq+jWCAN3p9A@mail.gmail.com>
-Subject: Re: [PATCH 4/6] hw/net/rtl8139: Update coding style to make
- checkpatch.pl happy
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a42
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,60 +80,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, "open list:New World" <qemu-ppc@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Peter Chubb <peter.chubb@nicta.com.au>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 5, 2020 at 9:59 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> We will modify this code in the next commit. Clean it up
-> first to avoid checkpatch.pl errors.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Fri, 7 Feb 2020 12:16:01 +0800
+<kuhn.chenqun@huawei.com> wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> From: Chen Qun <kuhn.chenqun@huawei.com>
+>=20
+> Fix compilation warnings:
+> contrib/elf2dmp/main.c:66:17: warning: =E2=80=98KdpDataBlockEncoded=E2=80=
+=99 may be
+> used uninitialized in this function [-Wmaybe-uninitialized]
+>          block =3D __builtin_bswap64(block ^ kdbe) ^ kwa;
+>                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> contrib/elf2dmp/main.c:78:24: note: =E2=80=98KdpDataBlockEncoded=E2=80=99=
+ was
+> declared here uint64_t kwn, kwa, KdpDataBlockEncoded;
+>                         ^~~~~~~~~~~~~~~~~~~
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
->  hw/net/rtl8139.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> index ef3211537f..be9a0af629 100644
-> --- a/hw/net/rtl8139.c
-> +++ b/hw/net/rtl8139.c
-> @@ -799,10 +799,12 @@ static int rtl8139_can_receive(NetClientState *nc)
->      int avail;
->
->      /* Receive (drop) packets if card is disabled.  */
-> -    if (!s->clock_enabled)
-> -      return 1;
-> -    if (!rtl8139_receiver_enabled(s))
-> -      return 1;
-> +    if (!s->clock_enabled) {
-> +        return 1;
+>  contrib/elf2dmp/main.c | 25 ++++++++++++-------------
+>  1 file changed, 12 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+> index 9a2dbc2902..203b9e6d04 100644
+> --- a/contrib/elf2dmp/main.c
+> +++ b/contrib/elf2dmp/main.c
+> @@ -76,6 +76,7 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t
+> KernBase, struct pdb_reader *pdb, DBGKD_DEBUG_DATA_HEADER64 kdbg_hdr;
+>      bool decode =3D false;
+>      uint64_t kwn, kwa, KdpDataBlockEncoded;
+> +    uint64_t KiWaitNever, KiWaitAlways;
+> =20
+>      if (va_space_rw(vs,
+>                  KdDebuggerDataBlock + offsetof(KDDEBUGGER_DATA64,
+> Header), @@ -84,21 +85,19 @@ static KDDEBUGGER_DATA64
+> *get_kdbg(uint64_t KernBase, struct pdb_reader *pdb, return NULL;
+>      }
+> =20
+> -    if (memcmp(&kdbg_hdr.OwnerTag, OwnerTag, sizeof(OwnerTag))) {
+> -        uint64_t KiWaitNever, KiWaitAlways;
+> -
+> -        decode =3D true;
+> +    if (!SYM_RESOLVE(KernBase, pdb, KiWaitNever) ||
+> +            !SYM_RESOLVE(KernBase, pdb, KiWaitAlways) ||
+> +            !SYM_RESOLVE(KernBase, pdb, KdpDataBlockEncoded)) {
+> +        return NULL;
 > +    }
-> +    if (!rtl8139_receiver_enabled(s)) {
-> +        return 1;
+> =20
+> -        if (!SYM_RESOLVE(KernBase, pdb, KiWaitNever) ||
+> -                !SYM_RESOLVE(KernBase, pdb, KiWaitAlways) ||
+> -                !SYM_RESOLVE(KernBase, pdb, KdpDataBlockEncoded)) {
+> -            return NULL;
+> -        }
+> +    if (va_space_rw(vs, KiWaitNever, &kwn, sizeof(kwn), 0) ||
+> +            va_space_rw(vs, KiWaitAlways, &kwa, sizeof(kwa), 0)) {
+> +        return NULL;
 > +    }
->
->      if (rtl8139_cp_receiver_enabled(s) && rtl8139_cp_rx_valid(s)) {
->          /* ??? Flow control not implemented in c+ mode.
-> --
-> 2.21.1
->
->
+> =20
+> -        if (va_space_rw(vs, KiWaitNever, &kwn, sizeof(kwn), 0) ||
+> -                va_space_rw(vs, KiWaitAlways, &kwa, sizeof(kwa), 0))
+> {
+> -            return NULL;
+> -        }
+> +    if (memcmp(&kdbg_hdr.OwnerTag, OwnerTag, sizeof(OwnerTag))) {
+> +        decode =3D true;
+> =20
+>          printf("[KiWaitNever] =3D 0x%016"PRIx64"\n", kwn);
+>          printf("[KiWaitAlways] =3D 0x%016"PRIx64"\n", kwa);
+
+Hi!
+
+I suppose the problem is in your compiler, because kdbg_decode() is
+only used when KdpDataBlockEncoded is already initialized by
+SYM_RESOLVE().=20
+
+--=20
+Viktor Prutyanov
 
