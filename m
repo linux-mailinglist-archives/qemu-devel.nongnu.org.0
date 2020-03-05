@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A380F17AAF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:53:17 +0100 (CET)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4467F17AAE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:51:18 +0100 (CET)
+Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tkK-0005M8-Ju
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:53:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59409)
+	id 1j9tiO-0001HR-7a
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:51:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPL-0003l3-3R
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPL-0003kw-1O
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPI-0002gl-0Z
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPJ-0002jt-Iv
  for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:34 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38864)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38032)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tPH-0002fK-Oe
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:31 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t11so7800765wrw.5
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:31 -0800 (PST)
+ id 1j9tPJ-0002j5-Cg
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:33 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id u9so6433675wml.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uJXmH/5kRWSP+xnkHKGQSvpL4CTmOayKZdrdHq01azk=;
- b=GQASX7fgj/AqhzqK/x6iBCSpv88ei+/EMlHcHZczAjYk37NWrXPvpuDcp6b39w4xr8
- qe2IL+SF4W7D03jivvLdScVVyC+RFW8ENly3Y/N706C31lqL1T4HcgW6NY9JKXM1dgPN
- +6c8WlFEBozwvnzqqIBofuiNwBa/5jhnY59YBuBHG4ftgiDSdHPJG+6eoK5ndNXzCkgI
- lWA7F5veNfGyLY8aeZIJUsOHo9Q0NhhzV1F7tQLXL2aiO1PJKcAXAdc59nnF1QwhsioZ
- 0t0s3HUS2QIxfCqjjv+ignSWGl/sw5pgwhNAUMJQs9muEqn9U/sAHGwB0c514XcANxIb
- autQ==
+ bh=6W8jzw/Q8S/83WHGlolRYzdtVt9ZYOyZtLguuMV9df0=;
+ b=s+pNFh/bqnRhFSESXDAQaPTs4lsSebmTBi5mPy+rxTau1/R/kKdojmbCKPaePk4EeA
+ lPX7XZhglWReqR41vsawiWZomT1ssXDaxGj3n/cKxs4Bm7z4Y1thwUMGGhK29Qpm51+d
+ LvasBo5O5MV9PJyt/BpQTcSM7ocMuNYja4Ra9h7G5wH9SZljSyhxXyRcU5n4LhQp+b+1
+ P/5pDu4jO+CsEJYgxT7FJvV/osP9kaGs/Vtks/fj+v+x756188pOWWXNo1hGCwI+gogJ
+ /cyNi1UUZx9aOmUfLy9oqeMx1Z5a3xS/WqqgxxstRL4k/UL+i9SQJIkzsadELl7FgiOc
+ d3mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uJXmH/5kRWSP+xnkHKGQSvpL4CTmOayKZdrdHq01azk=;
- b=MiMVZao2JE0hq9wWMte/nfzWVvORLYOwUTYacQ7kOuBMgYinYw3Brmo7GkZe72rRf/
- 6zRXn5iy4Z0BAJre7n0VJz4KCXuPsF8yNgaN9TgCTMNgWDqQliqGCV6e1ZiXEAPNPc7A
- TZKS6KtGuX8BJXi7RD2k0dnyJ2+xQaDxF9PhR4qxckw1LvpVA69Qdz5nOw/0kzo60iOu
- t2nX6cNnRU0jMAJ4VjmlI1zkkA6cHpEDyH+K7CBoHbPKEsr+j3rYEqyUQLIkWfPvQlsS
- luRbZ01nn3nmwtdhE/iCIkKLmi9N3k/qv+1sQegwwai+Bvq7VTJ3q4TdFaxjnHW3NqYa
- orfQ==
-X-Gm-Message-State: ANhLgQ2OGuRDneGo/zXFKX24qF/bSloBOowJNEn2S6ifCdB5sw1JBZCH
- qVKzx9stxiZxcTv1xVyM+ULubICb9lqEjw==
-X-Google-Smtp-Source: ADFU+vvMXhYxYRlW8gskrMamYthXqmMsMF6VQZFSzkR/9SyCJU+q81Pv5YLAssA2NqcWaIRquM1hqg==
-X-Received: by 2002:adf:a2d9:: with SMTP id t25mr10836910wra.84.1583425889527; 
- Thu, 05 Mar 2020 08:31:29 -0800 (PST)
+ bh=6W8jzw/Q8S/83WHGlolRYzdtVt9ZYOyZtLguuMV9df0=;
+ b=nQ7vos/BM/qlSuix0BeO2Jx89BznRTb3iA+ihwJ87oQ54NO6j11ZXHMzeTfj7k8HvQ
+ Wvxr5vUgSpwPzbid9K83PaD/DK4yox+CEAuc1jbsIU293TB2vqxw2vL5Jpa1O7aYMARW
+ OfEjiGF/4l3g4QVPvRBH0urwopSezONyNDsLfXjpu+G2CrA6gNnJGcy2vWH3EIxfc1+V
+ 3GuujuoFXTaJHqimOrw4+RfYX/3M2aiyOgfdKM6XWPrDe1NupjglUgshsQioIsB0pqms
+ I2LaowLtd29A9aFyG4+3oT45Tkh7zXV2eIFkxkO7LLoFNsCYlR54QfS/tTQdoFQ+Wq40
+ K16w==
+X-Gm-Message-State: ANhLgQ0JNUvywjpvEOZ5MTcUX+W3O1W8+LhGWw5WB92BsHcFIZoATr9I
+ tmEiHblAgjAi22VysvNrLW7nwqdklC7TQg==
+X-Google-Smtp-Source: ADFU+vvY/Si3GfXHWBKJEipssf0WPzEazhTHczZOsV/G5TzhEobR3JILWVcQCpxfXMxz2l1YoA7CoQ==
+X-Received: by 2002:a1c:b743:: with SMTP id h64mr4973274wmf.88.1583425891883; 
+ Thu, 05 Mar 2020 08:31:31 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.28
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:28 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/37] target/arm: Honor the HCR_EL2.TTLB bit
-Date: Thu,  5 Mar 2020 16:30:48 +0000
-Message-Id: <20200305163100.22912-26-peter.maydell@linaro.org>
+Subject: [PULL 27/37] hw/arm/cubieboard: use ARM Cortex-A8 as the default CPU
+ in machine definition
+Date: Thu,  5 Mar 2020 16:30:50 +0000
+Message-Id: <20200305163100.22912-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,193 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-This bit traps EL1 access to tlb maintenance insns.
+The Cubieboard is a singleboard computer with an Allwinner A10 System-on-Chip [1].
+As documented in the Allwinner A10 User Manual V1.5 [2], the SoC has an ARM
+Cortex-A8 processor. Currently the Cubieboard machine definition specifies the
+ARM Cortex-A9 in its description and as the default CPU.
 
+This patch corrects the Cubieboard machine definition to use the ARM Cortex-A8.
+
+The only user-visible effect is that our textual description of the
+machine was wrong, because hw/arm/allwinner-a10.c always creates a
+Cortex-A8 CPU regardless of the default value in the MachineClass struct.
+
+ [1] http://docs.cubieboard.org/products/start#cubieboard1
+ [2] https://linux-sunxi.org/File:Allwinner_A10_User_manual_V1.5.pdf
+
+Fixes: 8a863c8120994981a099
+Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Message-id: 20200227220149.6845-2-nieklinnenbank@gmail.com
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200229012811.24129-12-richard.henderson@linaro.org
+[note in commit message that the bug didn't have much visible effect]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 85 +++++++++++++++++++++++++++++----------------
- 1 file changed, 55 insertions(+), 30 deletions(-)
+ hw/arm/cubieboard.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 09b5022919a..6abf52db660 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -563,6 +563,16 @@ static CPAccessResult access_tacr(CPUARMState *env, const ARMCPRegInfo *ri,
-     return CP_ACCESS_OK;
- }
+diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
+index 089f9a30c12..0195925c73d 100644
+--- a/hw/arm/cubieboard.c
++++ b/hw/arm/cubieboard.c
+@@ -68,8 +68,8 @@ static void cubieboard_init(MachineState *machine)
  
-+/* Check for traps from EL1 due to HCR_EL2.TTLB. */
-+static CPAccessResult access_ttlb(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                  bool isread)
-+{
-+    if (arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_TTLB)) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+
- static void dacr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+ static void cubieboard_machine_init(MachineClass *mc)
  {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -2285,41 +2295,53 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-       .type = ARM_CP_NO_RAW, .access = PL1_R, .readfn = isr_read },
-     /* 32 bit ITLB invalidates */
-     { .name = "ITLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 0,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiall_write },
-     { .name = "ITLBIMVA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 1,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimva_write },
-     { .name = "ITLBIASID", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 2,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiasid_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiasid_write },
-     /* 32 bit DTLB invalidates */
-     { .name = "DTLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 0,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiall_write },
-     { .name = "DTLBIMVA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 1,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimva_write },
-     { .name = "DTLBIASID", .cp = 15, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 2,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiasid_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiasid_write },
-     /* 32 bit TLB invalidates */
-     { .name = "TLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 0,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiall_write },
-     { .name = "TLBIMVA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 1,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimva_write },
-     { .name = "TLBIASID", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 2,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiasid_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiasid_write },
-     { .name = "TLBIMVAA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 3,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimvaa_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimvaa_write },
-     REGINFO_SENTINEL
- };
- 
- static const ARMCPRegInfo v7mp_cp_reginfo[] = {
-     /* 32 bit TLB invalidates, Inner Shareable */
-     { .name = "TLBIALLIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 0,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_is_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbiall_is_write },
-     { .name = "TLBIMVAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 1,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_is_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimva_is_write },
-     { .name = "TLBIASIDIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 2,
--      .type = ARM_CP_NO_RAW, .access = PL1_W,
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-       .writefn = tlbiasid_is_write },
-     { .name = "TLBIMVAAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
--      .type = ARM_CP_NO_RAW, .access = PL1_W,
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-       .writefn = tlbimvaa_is_write },
-     REGINFO_SENTINEL
- };
-@@ -4780,51 +4802,51 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-     /* TLBI operations */
-     { .name = "TLBI_VMALLE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 0,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-     { .name = "TLBI_VAE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 1,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ASIDE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 2,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-     { .name = "TLBI_VAAE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VALE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 5,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VAALE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 7,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VMALLE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 0,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1_write },
-     { .name = "TLBI_VAE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 1,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1_write },
-     { .name = "TLBI_ASIDE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 2,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1_write },
-     { .name = "TLBI_VAAE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 3,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1_write },
-     { .name = "TLBI_VALE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 5,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1_write },
-     { .name = "TLBI_VAALE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 7,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1_write },
-     { .name = "TLBI_IPAS2E1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 0, .opc2 = 1,
-@@ -4910,14 +4932,17 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
- #endif
-     /* TLB invalidate last level of translation table walk */
-     { .name = "TLBIMVALIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 5,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_is_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimva_is_write },
-     { .name = "TLBIMVAALIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 7,
--      .type = ARM_CP_NO_RAW, .access = PL1_W,
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-       .writefn = tlbimvaa_is_write },
-     { .name = "TLBIMVAL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 5,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimva_write },
-     { .name = "TLBIMVAAL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 7,
--      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimvaa_write },
-+      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
-+      .writefn = tlbimvaa_write },
-     { .name = "TLBIMVALH", .cp = 15, .opc1 = 4, .crn = 8, .crm = 7, .opc2 = 5,
-       .type = ARM_CP_NO_RAW, .access = PL2_W,
-       .writefn = tlbimva_hyp_write },
+-    mc->desc = "cubietech cubieboard (Cortex-A9)";
+-    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a9");
++    mc->desc = "cubietech cubieboard (Cortex-A8)";
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a8");
+     mc->init = cubieboard_init;
+     mc->block_default_type = IF_IDE;
+     mc->units_per_default_bus = 1;
 -- 
 2.20.1
 
