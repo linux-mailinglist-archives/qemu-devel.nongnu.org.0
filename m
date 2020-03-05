@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1240C179E9F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 05:32:03 +0100 (CET)
-Received: from localhost ([::1]:43206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6FC179F4E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 06:33:16 +0100 (CET)
+Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9iAz-0006Cm-K0
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 23:32:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41207)
+	id 1j9j8E-0008IV-Nw
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 00:33:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j9i9O-0004xZ-7h
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 23:30:23 -0500
+ (envelope-from <armbru@redhat.com>) id 1j9j7J-0007qo-9s
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 00:32:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j9i9M-0003gp-Ks
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 23:30:21 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:41203 helo=ozlabs.org)
+ (envelope-from <armbru@redhat.com>) id 1j9j7H-0000XT-AG
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 00:32:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43363
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j9i9L-0003dT-NF; Wed, 04 Mar 2020 23:30:20 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48XyTb2z1Fz9sQx; Thu,  5 Mar 2020 15:30:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1583382611;
- bh=T/rehY0EMWJvQInxawyP6AROrA+skyuozSpPmM2NzLg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iFd7Ow6S3ofudvQ7TqM6HeMPDKOw9EgsBEmrWjhpjenF1x5ly0zgxk1nMEri1UlO3
- f+bbT0VvsVyNRCQdpHW6Q8p1PBVQFQcDexaYRp5558v/pdfroB4rw5R8bD1uSDKqwC
- im8lvJpVsM2VWwffYpTMNzhL2pYOXz7bm3nkDQjs=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: groug@kaod.org,
-	pair@us.ibm.com,
-	qemu-devel@nongnu.org,
-	clg@kaod.org
-Subject: [PATCH v3 2/2] spapr: Enable virtio iommu_platform=on by default
-Date: Thu,  5 Mar 2020 15:30:09 +1100
-Message-Id: <20200305043009.611636-3-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200305043009.611636-1-david@gibson.dropbear.id.au>
-References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9j7H-0000X5-54
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 00:32:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583386333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yazq3E9HhQri+jcMqN3NvXAVQ+2so0YJQFSkSqmfmNU=;
+ b=VbYq8sZMQW+sboXRvTXgU/aU6WHPXbmtUlMhDb1MWMd0duug2tTVkc4GoWYK+KryVFza+d
+ uhnADjPMz3m/+zwVG+xHAc1ThuXhnOJJC0pccl5CMDDxDUVqAK64CKreLu66lpeejFUvb7
+ P8NLBdK1Tqh87Ah8jYpD3I30ooaRWGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-vjSFNMZ-P6Cd0gVh_lJejg-1; Thu, 05 Mar 2020 00:32:10 -0500
+X-MC-Unique: vjSFNMZ-P6Cd0gVh_lJejg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0151107ACC7;
+ Thu,  5 Mar 2020 05:32:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
+ [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A593E46;
+ Thu,  5 Mar 2020 05:32:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3337011386A6; Thu,  5 Mar 2020 06:32:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Rui Prior <rprior@dcc.fc.up.pt>
+Subject: Re: vmx=on with -accel hax
+References: <19980599-1cbf-9179-070d-59aa68847968@dcc.fc.up.pt>
+Date: Thu, 05 Mar 2020 06:32:07 +0100
+In-Reply-To: <19980599-1cbf-9179-070d-59aa68847968@dcc.fc.up.pt> (Rui Prior's
+ message of "Wed, 4 Mar 2020 17:42:03 +0000")
+Message-ID: <87tv331i5k.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,67 +76,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, aik@ozlabs.ru, paulus@samba.org, mdroth@us.ibm.com,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Traditionally, virtio devices don't do DMA by the usual path on the
-guest platform.  In particular they usually bypass any virtual IOMMU
-the guest has, using hypervisor magic to access untranslated guest
-physical addresses.
+Cc'ing people listed by "scripts/get_maintainer.pl -f target/i386/hax*".
 
-There's now the optional iommu_platform flag which can tell virtio
-devices to use the platform's normal DMA path, including any IOMMUs.
-That flag was motiviated for the case of hardware virtio
-implementations, but there are other reasons to want it.
+Rui Prior <rprior@dcc.fc.up.pt> writes:
 
-Specifically, the fact that the virtio device doesn't use vIOMMU
-translation means that virtio devices are unsafe to pass to nested
-guests, or to use with VFIO userspace drivers inside the guest.  This
-is particularly noticeable on the pseries platform which *always* has
-a guest-visible vIOMMU.
-
-Not using the normal DMA path also causes difficulties for the guest
-side driver when using the upcoming POWER Secure VMs (a.k.a. PEF).
-While it's theoretically possible to handle this on the guest side,
-it's really fiddly.  Given the other problems with the non-translated
-virtio device, let's just enable vIOMMU translation for virtio devices
-by default in the pseries-5.0 (and later) machine types.
-
-This does mean the new machine type will no longer support guest
-kernels older than 4.8, unless they have support for the virtio
-IOMMU_PLATFORM flag backported (which some distro kernels like RHEL7
-do).
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3cfc98ac61..5ef099536e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4575,6 +4575,7 @@ static void spapr_machine_latest_class_options(Mach=
-ineClass *mc)
-      */
-     static GlobalProperty compat[] =3D {
-         { TYPE_VIRTIO_PCI, "disable-legacy", "on", },
-+        { TYPE_VIRTIO_DEVICE, "iommu_platform", "on", },
-     };
-=20
-     mc->alias =3D "pseries";
-@@ -4622,6 +4623,7 @@ static void spapr_machine_4_2_class_options(Machine=
-Class *mc)
-     SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-     static GlobalProperty compat[] =3D {
-         { TYPE_VIRTIO_PCI, "disable-legacy", "auto" },
-+        { TYPE_VIRTIO_DEVICE, "iommu_platform", "off", },
-     };
-=20
-     spapr_machine_5_0_class_options(mc);
---=20
-2.24.1
+> Dear qemu developers,
+>
+> I found a bug/limitation of qemu on windows (qemu-w64-setup-20200201.exe
+> from https://qemu.weilnetz.de/w64/ ) that makes qemu terminate
+> immediately with "VCPU shutdown request" (twice) if I try to use the
+> "vmx=3Don" CPU option while simultaneously using "-accel hax".  Without
+> "vmx=3Don", it works fine (but it prevents me from using nested
+> virtualization).
+>
+> I am using HAXM v7.5.6.
+>
+> Should you need any further information, please let me know.
+>
+> Best regards,
 
 
