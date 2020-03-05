@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC71017A75D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:26:47 +0100 (CET)
-Received: from localhost ([::1]:50142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B2617A763
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:28:20 +0100 (CET)
+Received: from localhost ([::1]:50180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rSY-0008MI-PA
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:26:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33996)
+	id 1j9rU3-0003Rm-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:28:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9rQV-0004D5-HR
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:24:40 -0500
+ (envelope-from <pkrempa@redhat.com>) id 1j9rQx-0005C5-IG
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:25:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9rQU-00052t-MJ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:24:39 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36456)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9rQU-000528-Gs
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:24:38 -0500
-Received: by mail-oi1-x244.google.com with SMTP id t24so6127326oij.3
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:24:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tNV/JKsgRC4ZNNe/XdPiKH5Cx2UyJVFV6zJT/fjG9FA=;
- b=u753pTUWYh+7oUO2PPdo0m/nmRojHTZ1WIJLVU/w6fShuoC3hFnIVEssXV6FZ50a1g
- zQU3eUQJXCwZCR1SpnI4iGFXqmnBnzmg0xTGvWe1HpFw0UIKyH9cC5+dUhip2Zh9nf46
- Cfv6MZTMVGBOB86RXNTBJjulPzcuPmlfaCQGOpASWhcLkxnqk1PLIkIGSRTa0XuJ0/g5
- v0rbEdRD9immVhB8SsaNrnuf/qb+KJkqplCFR4CFOGilkJ8Nv9en3Fobu5KQgtRpc06k
- G0+duHjvsMPEe6961kSxNdjZQH+J5YIswP3f3fsZtIzB8hKhO/XQg7Aqaz1G4h+BYF1p
- FcsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tNV/JKsgRC4ZNNe/XdPiKH5Cx2UyJVFV6zJT/fjG9FA=;
- b=jkp74IM6qeYQBr80MWf+9MACaCdxIBeMXPq94j3lrvEhDbfnblhbeojkQdV1I5ng+B
- CDq6Nl++u4Sqj3zl2X4y1Z3CRbZcEpUGILajjqvp30xyavBCb0Jk8XP2Nmtvf5KasIhk
- J63w0YIiEeKFSEl4/qTzsBFRvjhqbCQQb053m1ULGyJw9L1rUISCRR36KujZgY6pFWuA
- jekL7ydcPuf9Cg0r/WarqRWeBCPPXoai/oFmMDV2WhqEhhH1amZTz1lJcUepqyJ/SUQr
- 86Csqc0EFMIBdbxFt78uIICIV5pDzktnfok/0UIVWjUvEz3h0qo9vUwWamAusSg1BIY5
- caSw==
-X-Gm-Message-State: ANhLgQ3jdp5YX1N4hpRiRkbh2b9Bsn2d9udOkVg3ekidNHAVA4PLYz7u
- 7eabbx/FuxW5ffmATnA3x1gI1vMFesUY9LZkzRrOl1M9QfA=
-X-Google-Smtp-Source: ADFU+vtUHYe8h+Ebxqm4vMqH+AQbYkik4BLUQ/PgoZzp1IQR9v6egkxsfGpW4UFwTlPUwigUgQ/ict3cGZVJQW8tlao=
-X-Received: by 2002:a05:6808:289:: with SMTP id
- z9mr5606096oic.48.1583418277704; 
- Thu, 05 Mar 2020 06:24:37 -0800 (PST)
+ (envelope-from <pkrempa@redhat.com>) id 1j9rQw-0005NZ-C6
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:25:07 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28532
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1j9rQw-0005MU-7T
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:25:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583418305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e6yj0eboud6+o9YoABF1tA5EkPKXsi/SEr1m1TuT1ss=;
+ b=FgbJhiKZEPAlTA0PPgES7q/HOtNcc7iLBMc4GZMqx9DP310fTAbrYS2WhK0R+YkzMI8Ids
+ 7lPM7pyUVn8I/aOqwRE10wtlUy6ZeRlYKupPbWgvD2xSq0OqSnbiiYGrPXvwqOV5NGYrbw
+ KAV9LEk0RrZzEdwkr1lGHUJXHo6O4rU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-K72vRQ44N5iqKfsyoDfEeQ-1; Thu, 05 Mar 2020 09:24:51 -0500
+X-MC-Unique: K72vRQ44N5iqKfsyoDfEeQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E23611902EA8;
+ Thu,  5 Mar 2020 14:24:50 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.43.2.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E024C5C221;
+ Thu,  5 Mar 2020 14:24:49 +0000 (UTC)
+Date: Thu, 5 Mar 2020 15:24:47 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 0/4] block: Relax restrictions for blockdev-snapshot
+Message-ID: <20200305142447.GH1320660@angien.pipo.sk>
+References: <20200305125100.386-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20200302175829.2183-1-richard.henderson@linaro.org>
- <20200302175829.2183-5-richard.henderson@linaro.org>
-In-Reply-To: <20200302175829.2183-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Mar 2020 14:24:26 +0000
-Message-ID: <CAFEAcA9A1i9QtuM-eB6ZSjLio1CDdtUnBvb5qv8T6=eGi-Fi+A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] target/arm: Apply TBI to ESR_ELx in
- helper_exception_return
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+In-Reply-To: <20200305125100.386-1-kwolf@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,22 +74,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Mar 2020 at 17:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We missed this case within AArch64.ExceptionReturn.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper-a64.c | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
+On Thu, Mar 05, 2020 at 13:50:56 +0100, Kevin Wolf wrote:
+> This series allows libvirt to fix a regression that its switch from
+> drive-mirror to blockdev-mirror caused: It currently requires that the
+> backing chain of the target image is already available when the mirror
+> operation is started.
+>=20
+> In reality, the backing chain may only be copied while the operation is
+> in progress, so the backing file of the target image needs to stay
+> disabled until the operation completes and should be attached only at
+> that point. Without this series, we don't have a supported API to attach
+> the backing file at that later point.
+>=20
+> Kevin Wolf (4):
+>   block: Make bdrv_get_cumulative_perm() public
+>   block: Relax restrictions for blockdev-snapshot
+>   iotests: Fix run_job() with use_log=3DFalse
+>   iotests: Test mirror with temporarily disabled target backing file
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I've modified the libvirt code I have to try this. It works as expected
+without iothreads, but I get the following error when iothread is used:
 
-thanks
--- PMM
+ error: internal error: unable to execute QEMU command 'transaction': Canno=
+t change iothread of active block backend
+
+I've tested it also with your Aio context patches for blockdev-reopen
+applied and also added a feature flag for blockdev-snapshot
+
+ https://gitlab.com/pipo.sk/qemu/-/commits/kevin-snapshot-blockcopy
+
+I can post the feature patch if you want after I clean it up or perhaps
+suggest a better name or wording for it.
+
+The libvirt code is a subset of
+
+ https://www.redhat.com/archives/libvir-list/2020-February/msg01125.html
+
+with the blockdev-reopen bits removed and replaced by blockdev-snapshot.
+
+You can have a look at the libvirt impl here:
+
+ https://gitlab.com/pipo.sk/libvirt/-/commits/block-copy-reopen-snapshot
+
+I'll post it for review if it's clear that iothreads can be supported
+using this approach.
+
 
