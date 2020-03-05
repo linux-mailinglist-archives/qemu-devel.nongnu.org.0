@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E450179EA1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 05:33:04 +0100 (CET)
-Received: from localhost ([::1]:43220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1240C179E9F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 05:32:03 +0100 (CET)
+Received: from localhost ([::1]:43206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9iBz-0007bE-6b
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 23:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41205)
+	id 1j9iAz-0006Cm-K0
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 23:32:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j9i9O-0004xQ-7u
+ (envelope-from <dgibson@ozlabs.org>) id 1j9i9O-0004xZ-7h
  for qemu-devel@nongnu.org; Wed, 04 Mar 2020 23:30:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j9i9M-0003gh-H0
+ (envelope-from <dgibson@ozlabs.org>) id 1j9i9M-0003gp-Ks
  for qemu-devel@nongnu.org; Wed, 04 Mar 2020 23:30:21 -0500
-Received: from ozlabs.org ([203.11.71.1]:40371)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41203 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j9i9L-0003dS-Je; Wed, 04 Mar 2020 23:30:20 -0500
+ id 1j9i9L-0003dT-NF; Wed, 04 Mar 2020 23:30:20 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48XyTb0bJrz9sPK; Thu,  5 Mar 2020 15:30:10 +1100 (AEDT)
+ id 48XyTb2z1Fz9sQx; Thu,  5 Mar 2020 15:30:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1583382611;
- bh=SNFwgbzOvCRy87QUp6Yhx7yIEmwyU2cBc5gclGTgUKE=;
+ bh=T/rehY0EMWJvQInxawyP6AROrA+skyuozSpPmM2NzLg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kJjDeqhG+vdlKr8sDfF8X34fX1y09DnHFIzTopkOkf/1gREfMQzGGMfXKXqy7NaGL
- UYgx3UqgmU7t5Dxy6TrqmTRvUPVrwvB3fUiB0RQIw9E/Ml4qaehjzMQz0m43jRr2wv
- NI54NpI5KgYmdZaEyIfF6d5PxM546MTU1sFl2kn0=
+ b=iFd7Ow6S3ofudvQ7TqM6HeMPDKOw9EgsBEmrWjhpjenF1x5ly0zgxk1nMEri1UlO3
+ f+bbT0VvsVyNRCQdpHW6Q8p1PBVQFQcDexaYRp5558v/pdfroB4rw5R8bD1uSDKqwC
+ im8lvJpVsM2VWwffYpTMNzhL2pYOXz7bm3nkDQjs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: groug@kaod.org,
 	pair@us.ibm.com,
 	qemu-devel@nongnu.org,
 	clg@kaod.org
-Subject: [PATCH v3 1/2] spapr: Disable legacy virtio devices for pseries-5.0
- and later
-Date: Thu,  5 Mar 2020 15:30:08 +1100
-Message-Id: <20200305043009.611636-2-david@gibson.dropbear.id.au>
+Subject: [PATCH v3 2/2] spapr: Enable virtio iommu_platform=on by default
+Date: Thu,  5 Mar 2020 15:30:09 +1100
+Message-Id: <20200305043009.611636-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200305043009.611636-1-david@gibson.dropbear.id.au>
 References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
@@ -62,80 +61,61 @@ Cc: mst@redhat.com, aik@ozlabs.ru, paulus@samba.org, mdroth@us.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PAPR specifies a kind of odd, paravirtualized PCI bus, which looks to
-the guess mostly like classic PCI, even if some of the individual
-devices on the bus are PCI Express.  One consequence of that is that
-virtio-pci devices still default to being in transitional mode, though
-legacy mode is now disabled by default on current q35 x86 machine
-types.
+Traditionally, virtio devices don't do DMA by the usual path on the
+guest platform.  In particular they usually bypass any virtual IOMMU
+the guest has, using hypervisor magic to access untranslated guest
+physical addresses.
 
-Legacy mode virtio devices aren't really necessary any more, and are
-causing some problems for future changes.  Therefore, for the
-pseries-5.0 machine type (and onwards), switch to modern-only
-virtio-pci devices by default.
+There's now the optional iommu_platform flag which can tell virtio
+devices to use the platform's normal DMA path, including any IOMMUs.
+That flag was motiviated for the case of hardware virtio
+implementations, but there are other reasons to want it.
 
-This does mean we no longer support guest kernels prior to 4.0, unless
-they have modern virtio support backported (which some distro kernels
-like that in RHEL7 do).
+Specifically, the fact that the virtio device doesn't use vIOMMU
+translation means that virtio devices are unsafe to pass to nested
+guests, or to use with VFIO userspace drivers inside the guest.  This
+is particularly noticeable on the pseries platform which *always* has
+a guest-visible vIOMMU.
+
+Not using the normal DMA path also causes difficulties for the guest
+side driver when using the upcoming POWER Secure VMs (a.k.a. PEF).
+While it's theoretically possible to handle this on the guest side,
+it's really fiddly.  Given the other problems with the non-translated
+virtio device, let's just enable vIOMMU translation for virtio devices
+by default in the pseries-5.0 (and later) machine types.
+
+This does mean the new machine type will no longer support guest
+kernels older than 4.8, unless they have support for the virtio
+IOMMU_PLATFORM flag backported (which some distro kernels like RHEL7
+do).
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/ppc/spapr.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 2eb0d8f70d..3cfc98ac61 100644
+index 3cfc98ac61..5ef099536e 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -65,6 +65,7 @@
+@@ -4575,6 +4575,7 @@ static void spapr_machine_latest_class_options(Mach=
+ineClass *mc)
+      */
+     static GlobalProperty compat[] =3D {
+         { TYPE_VIRTIO_PCI, "disable-legacy", "on", },
++        { TYPE_VIRTIO_DEVICE, "iommu_platform", "on", },
+     };
 =20
- #include "hw/pci/pci.h"
- #include "hw/scsi/scsi.h"
-+#include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-scsi.h"
- #include "hw/virtio/vhost-scsi-common.h"
-=20
-@@ -4566,8 +4567,20 @@ static const TypeInfo spapr_machine_info =3D {
-=20
- static void spapr_machine_latest_class_options(MachineClass *mc)
- {
-+    /*
-+     * Most defaults for the latest behaviour are inherited from the
-+     * base class, but we need to override the (non ppc specific)
-+     * default behaviour for virtio.  We can't do that from the base
-+     * class since it doesn't have a compat_props.
-+     */
-+    static GlobalProperty compat[] =3D {
-+        { TYPE_VIRTIO_PCI, "disable-legacy", "on", },
-+    };
-+
      mc->alias =3D "pseries";
-     mc->is_default =3D true;
-+
-+    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
- }
-=20
- #define DEFINE_SPAPR_MACHINE(suffix, verstr, latest)                 \
-@@ -4607,6 +4620,9 @@ DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
- static void spapr_machine_4_2_class_options(MachineClass *mc)
- {
+@@ -4622,6 +4623,7 @@ static void spapr_machine_4_2_class_options(Machine=
+Class *mc)
      SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-+    static GlobalProperty compat[] =3D {
-+        { TYPE_VIRTIO_PCI, "disable-legacy", "auto" },
-+    };
+     static GlobalProperty compat[] =3D {
+         { TYPE_VIRTIO_PCI, "disable-legacy", "auto" },
++        { TYPE_VIRTIO_DEVICE, "iommu_platform", "off", },
+     };
 =20
      spapr_machine_5_0_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len)=
-;
-@@ -4614,6 +4630,7 @@ static void spapr_machine_4_2_class_options(Machine=
-Class *mc)
-     smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
-     smc->rma_limit =3D 16 * GiB;
-     mc->nvdimm_supported =3D false;
-+    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
- }
-=20
- DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
 --=20
 2.24.1
 
