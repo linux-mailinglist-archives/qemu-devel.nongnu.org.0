@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C474D17A5BC
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:55:16 +0100 (CET)
-Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFDE17A5C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:56:59 +0100 (CET)
+Received: from localhost ([::1]:48556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9q1z-0005kW-RA
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:55:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43212)
+	id 1j9q3e-0007kV-Dl
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:56:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43249)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j9py5-0008Or-9J
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:51:14 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j9py6-0008Rq-No
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:51:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j9py4-0006JL-1c
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:51:13 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30464
+ (envelope-from <kwolf@redhat.com>) id 1j9py5-0006Lu-JM
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:51:14 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35539
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j9py3-0006Ik-Uu
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:51:12 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j9py5-0006Km-FU
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:51:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583412671;
+ s=mimecast20190719; t=1583412673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tmfXvHKaAYfmdyuEH+HGHNe3Vb7rTFVd+tbKs+hk7xA=;
- b=H7IZGvWvgsJiYZh+BMGcn2hEHMmDOTzkruafSDMqTQtwU8msA/qXr65IqQ+K/Fx+IeKfXV
- eHoT+adDq+LJh0abivxQ3+GG5KZfopn/n29tUDx/GpkpZMNM5kQSETFsvFi/ByEnmwPat3
- 3B8mdMKFf1ZfS3A2fPnYejdYWwRZQ+Q=
+ bh=GWmFsTqSPEH50eOtsc4mu7xbbfJh9pJRysylAo4hCak=;
+ b=UACtu4tl3YSmcW1cn/Vllbn81bzMkOWUuGmDHsjUUiA8krZV3qgoSS4Fx6DS+Vf1NgtIYG
+ chX5QT6Dtl6yEPcHbxUnyx0WVFAx1dZ4BEFEbVCKNivWTm+UShBz3wlfphbCbhK1sLewsw
+ Yu7+rDIzcffeiKVUwRn8oS2AgHgbhzQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-PiE5bvpuNYCf75frQKaviw-1; Thu, 05 Mar 2020 07:51:10 -0500
-X-MC-Unique: PiE5bvpuNYCf75frQKaviw-1
+ us-mta-424-JtaASwOjNiCgZIYnOROrSg-1; Thu, 05 Mar 2020 07:51:11 -0500
+X-MC-Unique: JtaASwOjNiCgZIYnOROrSg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 222C01005510;
- Thu,  5 Mar 2020 12:51:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B5CA19067E1;
+ Thu,  5 Mar 2020 12:51:10 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-210.ams2.redhat.com
  [10.36.117.210])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00760272A3;
- Thu,  5 Mar 2020 12:51:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67CC5272A9;
+ Thu,  5 Mar 2020 12:51:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/4] block: Relax restrictions for blockdev-snapshot
-Date: Thu,  5 Mar 2020 13:50:58 +0100
-Message-Id: <20200305125100.386-3-kwolf@redhat.com>
+Subject: [PATCH 3/4] iotests: Fix run_job() with use_log=False
+Date: Thu,  5 Mar 2020 13:50:59 +0100
+Message-Id: <20200305125100.386-4-kwolf@redhat.com>
 In-Reply-To: <20200305125100.386-1-kwolf@redhat.com>
 References: <20200305125100.386-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -76,81 +76,30 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-blockdev-snapshot returned an error if the overlay was already in use,
-which it defined as having any BlockBackend parent. This is in fact both
-too strict (some parents can tolerate the change of visible data caused
-by attaching a backing file) and too loose (some non-BlockBackend
-parents may not be happy with it).
-
-One important use case that is prevented by the too strict check is live
-storage migration with blockdev-mirror. Here, the target node is
-usually opened without a backing file so that the active layer is
-mirrored while its backing chain can be copied in the background.
-
-The backing chain should be attached to the mirror target node when
-finalising the job, just before switching the users of the source node
-to the new copy (at which point the mirror job still has a reference to
-the node). drive-mirror did this automatically, but with blockdev-mirror
-this is the job of the QMP client, so it needs a way to do this.
-
-blockdev-snapshot is the obvious way, so this patch makes it work in
-this scenario. The new condition is that no parent uses CONSISTENT_READ
-permissions. This will ensure that the operation will still be blocked
-when the node is attached to the guest device, so blockdev-snapshot
-remains safe.
-
-(For the sake of completeness, x-blockdev-reopen can be used to achieve
-the same, however it is a big hammer, performs the graph change
-completely unchecked and is still experimental. So even with the option
-of using x-blockdev-reopen, there are reasons why blockdev-snapshot
-should be able to perform this operation.)
+The 'job-complete' QMP command should be run with qmp() rather than
+qmp_log() if use_log=3DFalse is passed.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- blockdev.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/iotests.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 3e44fa766b..bba0e9775b 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1501,6 +1501,7 @@ static void external_snapshot_prepare(BlkActionState =
-*common,
-     TransactionAction *action =3D common->action;
-     AioContext *aio_context;
-     AioContext *old_context;
-+    uint64_t perm, shared;
-     int ret;
-=20
-     /* 'blockdev-snapshot' and 'blockdev-snapshot-sync' have similar
-@@ -1616,16 +1617,17 @@ static void external_snapshot_prepare(BlkActionStat=
-e *common,
-         goto out;
-     }
-=20
--    if (bdrv_has_blk(state->new_bs)) {
-+    /*
-+     * Allow attaching a backing file to an overlay that's already in use =
-only
-+     * if the parents don't assume that they are already seeing a valid im=
-age.
-+     * (Specifically, allow it as a mirror target, which is write-only acc=
-ess.)
-+     */
-+    bdrv_get_cumulative_perm(state->new_bs, &perm, &shared);
-+    if (perm & BLK_PERM_CONSISTENT_READ) {
-         error_setg(errp, "The overlay is already in use");
-         goto out;
-     }
-=20
--    if (bdrv_op_is_blocked(state->new_bs, BLOCK_OP_TYPE_EXTERNAL_SNAPSHOT,
--                           errp)) {
--        goto out;
--    }
--
-     if (state->new_bs->backing !=3D NULL) {
-         error_setg(errp, "The overlay already has a backing image");
-         goto out;
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 8815052eb5..23043baa26 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -624,7 +624,10 @@ class VM(qtest.QEMUQtestMachine):
+                         if use_log:
+                             log('Job failed: %s' % (j['error']))
+             elif status =3D=3D 'ready':
+-                self.qmp_log('job-complete', id=3Djob)
++                if use_log:
++                    self.qmp_log('job-complete', id=3Djob)
++                else:
++                    self.qmp('job-complete', id=3Djob)
+             elif status =3D=3D 'pending' and not auto_finalize:
+                 if pre_finalize:
+                     pre_finalize()
 --=20
 2.20.1
 
