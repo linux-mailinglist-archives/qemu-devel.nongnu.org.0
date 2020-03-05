@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22A317A77A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:32:42 +0100 (CET)
-Received: from localhost ([::1]:50264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8A217A780
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:33:27 +0100 (CET)
+Received: from localhost ([::1]:50294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rYH-0008Ga-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:32:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35358)
+	id 1j9rZ0-0001GF-K1
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:33:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j9rWd-0006je-NN
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:00 -0500
+ (envelope-from <david@redhat.com>) id 1j9rX8-0007U2-2L
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j9rWc-0002Ni-GU
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:30:59 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36421
+ (envelope-from <david@redhat.com>) id 1j9rX6-0002jF-OC
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:29 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46123
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rWc-0002Mr-CQ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:30:58 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rX6-0002it-Jw
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418657;
+ s=mimecast20190719; t=1583418688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tSdqeDwxoY+yI2Z7vVys/AxXflRczSoFv2iz+5GIaqc=;
- b=HhbrqhWzFWWyIP0ZCt+XFhYuFQJijIdFzxI/mRxonNcCNeJ/NIDYNmUDciMoWLPVVDxmS3
- Nh2EFdn4TMm14hMbVK5CPejmkZfXyS4F1250WvmMRopa1tSGSYgXzL5sQ92P39c1TL9o3F
- jXM2yF9wwaxIl2hXlZ65OnHAKeFmJO4=
+ bh=0oUugQEab4bqH2Kasf8WtgB6oPJtcM2uppzFCmdwZI8=;
+ b=JUHKsOwfi1Kc0W/U2f6gTaLNzEItgpz1+Dup93ILvn1F+lrF2Ohwd5YNpfw/hCMQpEcEr0
+ zjMTvMVXs5cw5InhGt0e2Z8q1t4C6skyGYQ3kEDzMZhYqlSiqGuin3l6yMs2K3zcS+VENu
+ TiEtM8wfS5gBc4Wq2j0jMG+k37h6GUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-JwQVP6qjO4WMU0B9XcPW4Q-1; Thu, 05 Mar 2020 09:30:56 -0500
-X-MC-Unique: JwQVP6qjO4WMU0B9XcPW4Q-1
+ us-mta-408-YfrNahMhMHGve8jcxcwk8A-1; Thu, 05 Mar 2020 09:31:21 -0500
+X-MC-Unique: YfrNahMhMHGve8jcxcwk8A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8A5110CE780;
- Thu,  5 Mar 2020 14:30:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7638107ACCD;
+ Thu,  5 Mar 2020 14:31:19 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-120-166.rdu2.redhat.com [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F11BD91D79;
- Thu,  5 Mar 2020 14:30:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E882E90538;
+ Thu,  5 Mar 2020 14:30:55 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/15] util: vfio-helpers: Remove Error parameter from
+Subject: [PATCH v4 03/15] util: vfio-helpers: Factor out removal from
  qemu_vfio_undo_mapping()
-Date: Thu,  5 Mar 2020 15:29:32 +0100
-Message-Id: <20200305142945.216465-3-david@redhat.com>
+Date: Thu,  5 Mar 2020 15:29:33 +0100
+Message-Id: <20200305142945.216465-4-david@redhat.com>
 In-Reply-To: <20200305142945.216465-1-david@redhat.com>
 References: <20200305142945.216465-1-david@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +59,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,14 +83,11 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Everybody discards the error. Let's error_report() instead so this error
-doesn't get lost.
+Factor it out and properly use it where applicable. Make
+qemu_vfio_undo_mapping() look like qemu_vfio_do_mapping(), passing the
+size and iova, not the mapping.
 
-This is now the same error handling as in qemu_vfio_do_mapping(). However,
-we don't report any errors via the return value to the caller. This seems
-to be one of these "will never happen, but let's better print an error
-because the caller can't handle it either way" cases.
-
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
@@ -100,59 +96,103 @@ Cc: Alex Williamson <alex.williamson@redhat.com>
 Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/vfio-helpers.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ util/vfio-helpers.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index f31aa77ffe..7085ca702c 100644
+index 7085ca702c..f0c77f0d69 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -541,8 +541,7 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, void =
-*host, size_t size,
+@@ -518,6 +518,20 @@ static IOVAMapping *qemu_vfio_add_mapping(QEMUVFIOStat=
+e *s,
+     return insert;
+ }
+=20
++/**
++ * Remove the mapping from @s and free it.
++ */
++static void qemu_vfio_remove_mapping(QEMUVFIOState *s, IOVAMapping *mappin=
+g)
++{
++    const int index =3D mapping - s->mappings;
++
++    assert(index >=3D 0 && index < s->nr_mappings);
++    memmove(mapping, &s->mappings[index + 1],
++            sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
++    s->nr_mappings--;
++    s->mappings =3D g_renew(IOVAMapping, s->mappings, s->nr_mappings);
++}
++
+ /* Do the DMA mapping with VFIO. */
+ static int qemu_vfio_do_mapping(QEMUVFIOState *s, void *host, size_t size,
+                                 uint64_t iova)
+@@ -539,29 +553,22 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, voi=
+d *host, size_t size,
+ }
+=20
  /**
-  * Undo the DMA mapping from @s with VFIO, and remove from mapping list.
+- * Undo the DMA mapping from @s with VFIO, and remove from mapping list.
++ * Undo the DMA mapping from @s with VFIO.
   */
--static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping,
--                                   Error **errp)
-+static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping)
+-static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping)
++static void qemu_vfio_undo_mapping(QEMUVFIOState *s, size_t size, uint64_t=
+ iova)
  {
-     int index;
+-    int index;
      struct vfio_iommu_type1_dma_unmap unmap =3D {
-@@ -557,7 +556,7 @@ static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IO=
-VAMapping *mapping,
-     assert(QEMU_IS_ALIGNED(mapping->size, qemu_real_host_page_size));
-     assert(index >=3D 0 && index < s->nr_mappings);
+         .argsz =3D sizeof(unmap),
+         .flags =3D 0,
+-        .iova =3D mapping->iova,
+-        .size =3D mapping->size,
++        .iova =3D iova,
++        .size =3D size,
+     };
+=20
+-    index =3D mapping - s->mappings;
+-    assert(mapping->size > 0);
+-    assert(QEMU_IS_ALIGNED(mapping->size, qemu_real_host_page_size));
+-    assert(index >=3D 0 && index < s->nr_mappings);
++    assert(size > 0);
++    assert(QEMU_IS_ALIGNED(size, qemu_real_host_page_size));
      if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
--        error_setg_errno(errp, errno, "VFIO_UNMAP_DMA failed");
-+        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
+         error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
      }
-     memmove(mapping, &s->mappings[index + 1],
-             sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
-@@ -622,7 +621,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, siz=
+-    memmove(mapping, &s->mappings[index + 1],
+-            sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
+-    s->nr_mappings--;
+-    s->mappings =3D g_renew(IOVAMapping, s->mappings, s->nr_mappings);
+ }
+=20
+ /* Check if the mapping list is (ascending) ordered. */
+@@ -621,7 +628,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, siz=
 e_t size,
              assert(qemu_vfio_verify_mappings(s));
              ret =3D qemu_vfio_do_mapping(s, host, size, iova0);
              if (ret) {
--                qemu_vfio_undo_mapping(s, mapping, NULL);
-+                qemu_vfio_undo_mapping(s, mapping);
+-                qemu_vfio_undo_mapping(s, mapping);
++                qemu_vfio_remove_mapping(s, mapping);
                  goto out;
              }
              s->low_water_mark +=3D size;
-@@ -682,7 +681,7 @@ void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host)
+@@ -681,7 +688,8 @@ void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host)
      if (!m) {
          goto out;
      }
--    qemu_vfio_undo_mapping(s, m, NULL);
-+    qemu_vfio_undo_mapping(s, m);
+-    qemu_vfio_undo_mapping(s, m);
++    qemu_vfio_undo_mapping(s, m->size, m->iova);
++    qemu_vfio_remove_mapping(s, m);
  out:
      qemu_mutex_unlock(&s->lock);
  }
-@@ -699,7 +698,7 @@ void qemu_vfio_close(QEMUVFIOState *s)
+@@ -698,7 +706,10 @@ void qemu_vfio_close(QEMUVFIOState *s)
          return;
      }
      while (s->nr_mappings) {
--        qemu_vfio_undo_mapping(s, &s->mappings[s->nr_mappings - 1], NULL);
-+        qemu_vfio_undo_mapping(s, &s->mappings[s->nr_mappings - 1]);
+-        qemu_vfio_undo_mapping(s, &s->mappings[s->nr_mappings - 1]);
++        IOVAMapping *m =3D &s->mappings[s->nr_mappings - 1];
++
++        qemu_vfio_undo_mapping(s, m->size, m->iova);
++        qemu_vfio_remove_mapping(s, m);
      }
      ram_block_notifier_remove(&s->ram_notifier);
      qemu_vfio_reset(s);
