@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E96217A759
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:26:06 +0100 (CET)
-Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FA817A756
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:24:54 +0100 (CET)
+Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rRt-000619-LO
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:26:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33447)
+	id 1j9rQj-0003vu-JX
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:24:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9rPE-0002KO-6U
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:21 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9rPa-0002tg-N2
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9rPC-0003qK-6a
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:19 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38682)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9rPZ-0004GK-Hw
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:42 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:32826)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9rPC-0003ps-1T
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:18 -0500
-Received: by mail-oi1-x242.google.com with SMTP id x75so6096779oix.5
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:23:17 -0800 (PST)
+ id 1j9rPZ-0004Fe-Dd
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:41 -0500
+Received: by mail-oi1-x243.google.com with SMTP id q81so6144592oig.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:23:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ankb0BBJk3e+XHds1kX6Vse78CMnD2YPH2pAnI5TDRc=;
- b=Es5xVb7t02KTrWd26gaSQyK/IKc27No/LZdMNlYNYvXqGfM47RqCk093MsxfVAEUwT
- 6ZbUx3JeSQElCS0X1LjDOoC3lVGZPeIhjEqC95bBqLDV1HuLL4Pq1nXh2Ftp0oyWBPCz
- vJTc6VFvg2h7mISvwA2yhs3nBYZDX92USui2e6oAKDvNArJ9hHwwLEWA7l1iSlObU6Dm
- YBWZGx6jpDU3qA/PjT6qJlySHMi/Zc5dxIyTsf+vfWMSFBcA6z1xwWzPPOG6Tf8RxFRD
- t1U1gM4p6poTMwkE78oZ39ltt7kGFlMQocTx62n1GfkUQLyILT8QDaQhGvh4SOG6aYT0
- 4gqw==
+ :cc; bh=s+7bS6l8n8+BhRIGmgGOgT4La+ye5ARyZS/sNnK/XjA=;
+ b=hQDu4BhMQpYebD+Gc97l4ygie7llkfAsopNrUeaxpYID7Jzd+7aOhicpWqmai37/hH
+ hsr/wVQkmtdqS3SEM9f6bupcGIzgijzVuxnjkEhShtnKHxmyFtpqrt6PlDjlT6SMP4x6
+ bvZ7Z0aiabLjlXbcC5GScC5XSIEbl96tzQP7IvhJ2dj+kQ42EKVPdND8gC2EJSO37gM2
+ XJ4gflk8W8pmczud2tAWIRjp9HhlEpmG/9cEjtdiKYlk+WmvcOATyM1Pcb1fqr1QhPzy
+ 6BA06LeQ0egI0MGPhvpGcxwnRhRn0mlpyKcke6/xyX/gbxCaOjac3YUp22yoTydiJF6V
+ BoxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ankb0BBJk3e+XHds1kX6Vse78CMnD2YPH2pAnI5TDRc=;
- b=CRjqR0cDDPm3rlzkmKS8IelqJ77EIRBe/n5xllrS8QVGRG6X2UE0giN6yJMRjBhato
- J9LTZuJDwY//eAkVGUov9Fbpxp0nejEIV0q264vwZN3cqB+7Fj6hi20Wsf6DH1Dd7/ge
- 4JidQVDC9rzFJXrPFX7ut1ya4hkCUntPpXAefUK3lhwbasDC7ifmF4XIHt17XeVPxt4F
- XtUiGPCN4emyfnxwzJwbGICsWJ7RWFZp5XA562BQ81XilnBmdA+itmCwpFYL6D+7pw89
- KqjLGd0Fcf/hiJhcefMNGK4CTkLvOfoVAxX2JjBi16OOr8oD3WzpuncJRRtlPb6+IxTH
- fv+w==
-X-Gm-Message-State: ANhLgQ0mNJoghdwzeG6Qz4T3aV3JiSklV+SP/+4y/RQl8N54Mlhf6v6E
- lkhVA1+RslvrM3F7qA3SSlEvn+7krauWA6ekI29jEg==
-X-Google-Smtp-Source: ADFU+vuL1j2h5tfCshFZIhc9Scav1fwTmASecsbr4tTpZI9XVvPu3EiNpgpMD4xBeBljPaP+kkttshkZDmQQZImJ0WY=
+ bh=s+7bS6l8n8+BhRIGmgGOgT4La+ye5ARyZS/sNnK/XjA=;
+ b=hYjWmFNDfnAeB4prv6/66Bi4dbsVDp4BPVwpg7OHd48z+iyJjtfOlvj6sd3qShw/A7
+ t3QAyEl4Drlu0m1N/dh0nmQeVgU6XkBfU79vfil89Cmq2PY3jIr9zk4g5aB7AjYQBPH0
+ /1nAiCUiY7/UoqxlgbuhtP66K65pj8K/25ieFFfCYSQhgVxTCHgi7nPumHqMTvpBIuQ5
+ siBKSdEK7aoImBDL/yEWEJER6Hl3VGOQDHTOPIqh/hgqoXTeqCFWnc0KCidvJPFEcg1K
+ jXFI1iGTcynYSlPKc+/e0JS5UK6Cv+cUG4AZicvkbzAYdldYw9l6P0coANub84EORoCp
+ XVPQ==
+X-Gm-Message-State: ANhLgQ0i/D9qtRY/dG3N+7rd3KBCCnV+1jdasoU1B4ph9Ic2hAUOrOe5
+ RsIXLC+xKCLMq7uToj1dxmqbH9QWorc4QKKIHTve0w==
+X-Google-Smtp-Source: ADFU+vtTGvNEKMOX6JUJHvAzTNu//WWCUedwkkD3VQPFPPP3CAvSlSh3CjMP28xjrdn1hKIfHec94ECM6+hAcbDp+gQ=
 X-Received: by 2002:a05:6808:289:: with SMTP id
- z9mr5600961oic.48.1583418197103; 
- Thu, 05 Mar 2020 06:23:17 -0800 (PST)
+ z9mr5602546oic.48.1583418220700; 
+ Thu, 05 Mar 2020 06:23:40 -0800 (PST)
 MIME-Version: 1.0
 References: <20200302175829.2183-1-richard.henderson@linaro.org>
- <20200302175829.2183-3-richard.henderson@linaro.org>
-In-Reply-To: <20200302175829.2183-3-richard.henderson@linaro.org>
+ <20200302175829.2183-4-richard.henderson@linaro.org>
+In-Reply-To: <20200302175829.2183-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Mar 2020 14:23:06 +0000
-Message-ID: <CAFEAcA9N9zKxg6zvOCG9021e4nRcs_ij_VaGszG0O1Suc4r2fw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] target/arm: Optimize cpu_mmu_index
+Date: Thu, 5 Mar 2020 14:23:29 +0000
+Message-ID: <CAFEAcA_ZRi+F6+KH7y_C_ZbAGjLyDWd9LkbtJkLn6mFNjqkaWg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] target/arm: Introduce core_to_aa64_mmu_idx
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,13 +80,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 2 Mar 2020 at 17:58, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We now cache the core mmu_idx in env->hflags.  Rather than recompute
-> from scratch, extract the field.  All of the uses of cpu_mmu_index
-> within target/arm are within helpers, and env->hflags is always stable
-> within a translation block from whence helpers are called.
+> If by context we know that we're in AArch64 mode, we need not
+> test for M-profile when reconstructing the full ARMMMUIdx.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  target/arm/internals.h     | 6 ++++++
+>  target/arm/translate-a64.c | 2 +-
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 9f96a2359f..e633aff36e 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -783,6 +783,12 @@ static inline ARMMMUIdx core_to_arm_mmu_idx(CPUARMState *env, int mmu_idx)
+>      }
+>  }
+>
+> +static inline ARMMMUIdx core_to_aa64_mmu_idx(int mmu_idx)
+> +{
+> +    /* AArch64 is always a-profile. */
+> +    return mmu_idx | ARM_MMU_IDX_A;
+> +}
+> +
+>  int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx);
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
