@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1023517A760
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:27:56 +0100 (CET)
-Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D0317A776
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:31:36 +0100 (CET)
+Received: from localhost ([::1]:50244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rTe-0002Kx-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:27:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34487)
+	id 1j9rXD-0006nc-H5
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:31:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lekiravi@yandex-team.ru>) id 1j9rS3-00089r-8C
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:26:16 -0500
+ (envelope-from <david@redhat.com>) id 1j9rW2-0006AS-6L
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:30:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lekiravi@yandex-team.ru>) id 1j9rS1-0006Uc-Pz
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:26:15 -0500
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:50416)
+ (envelope-from <david@redhat.com>) id 1j9rVz-0001bC-UQ
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:30:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60796
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lekiravi@yandex-team.ru>)
- id 1j9rRw-0006Pa-E7; Thu, 05 Mar 2020 09:26:08 -0500
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7F6512E150E;
- Thu,  5 Mar 2020 17:26:04 +0300 (MSK)
-Received: from localhost (localhost [::1])
- by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- lmIY5ZYDjo-Q1JafvBO; Thu, 05 Mar 2020 17:26:04 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1583418364; bh=Srk5hoK6N/ILVxS/BdFaqyldfaW+4xH22sDBZLRIUKo=;
- h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
- b=xfMj54YtmzrxGsfNyyBmS+T5yHIheJNguvkvQ+6fVi+x9J5uRgkr8o+MXC/FnKe6/
- y3jm1ZRS9qO7WrzEJD1zj2t0cqyolQYpvpb3/otn2Enfs4T5XR535sC116wgUCoB22
- Sy7l+SaqRqXg7XOzxH43Q6v2df+z92YsAgl2xg8w=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000161690
-X-Yandex-Avir: 1
-Received: from mxbackcorp1j.mail.yandex.net (localhost [::1])
- by mxbackcorp1j.mail.yandex.net with LMTP id 2XQNYKuRZl-2ePGDZXI
- for <lekiravi@yandex-team.ru>; Thu, 05 Mar 2020 17:25:51 +0300
-Received: by sas2-b8502101ee6d.qloud-c.yandex.net with HTTP;
- Thu, 05 Mar 2020 17:25:50 +0300
-From: Alexey Kirillov <lekiravi@yandex-team.ru>
-To: Markus Armbruster <armbru@redhat.com>
-In-Reply-To: <87y2sff1qo.fsf@dusky.pond.sub.org>
-References: <20200304130656.16859-1-lekiravi@yandex-team.ru>
- <20200304130656.16859-2-lekiravi@yandex-team.ru>
- <87y2sff1qo.fsf@dusky.pond.sub.org>
-Subject: Re: [PATCH v2 1/4] qapi: net: Add query-netdevs command
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rVz-0001aN-PX
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:30:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583418619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+yb+HU79wQ5wpyAGtb6fdjgiUkzdh/6ve5pXenuwDxc=;
+ b=LM/L241SSZUbsyfSgTRrE9OpU6Wz91cFRsmLZlVHfqx7ZunFJzjuIK5Q0UsuITecU8k0qf
+ INF0wtGSoHAHkTd1dkM/cKVOGOTubn2ZDFycF4yxpc2XTKooe+PsboM0uUZ/Gn3KlcGEz1
+ aXluXUcs84h0NO5j6U2fnH7aVRSCuEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-XzsmhgBLPYqK0djINuIsEg-1; Thu, 05 Mar 2020 09:30:15 -0500
+X-MC-Unique: XzsmhgBLPYqK0djINuIsEg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77E74107ACCD;
+ Thu,  5 Mar 2020 14:30:13 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-120-166.rdu2.redhat.com [10.10.120.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D108991D91;
+ Thu,  5 Mar 2020 14:29:47 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/15] Ram blocks with resizeable anonymous allocations
+ under POSIX
+Date: Thu,  5 Mar 2020 15:29:30 +0100
+Message-Id: <20200305142945.216465-1-david@redhat.com>
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Thu, 05 Mar 2020 17:26:00 +0300
-Message-Id: <1041781583412683@myt4-457577cc370d.qloud-c.yandex.net>
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1619::183
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,263 +68,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Vincenzo Maffione <v.maffione@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Sven Schnelle <svens@stackframe.org>, Rob Herring <robh@kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Laurent Vivier <lvivier@redhat.com>,
- Jiri Pirko <jiri@resnulli.us>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Stefan Weil <sw@weilnetz.de>, Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
- David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <huth@tuxfamily.org>,
- Andrew Jeffery <andrew@aj.id.au>, Michael Walle <michael@walle.cc>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Alex Williamson <alex.williamson@redhat.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series is based on [1]:
+    "[PATCH v3 00/13] migrate/ram: Fix resizing RAM blocks while migrating"
 
+We already allow resizable ram blocks for anonymous memory, however, they
+are not actually resized. All memory is mmaped() R/W, including the memory
+exceeding the used_length, up to the max_length.
 
-05.03.2020, 15:03, "Markus Armbruster" <armbru@redhat.com>:
-> Alexey Kirillov <lekiravi@yandex-team.ru> writes:
->
->> =C2=A0Add a qmp command that provides information about currently atta=
-ched
->> =C2=A0network devices and their configuration.
->
-> Closes a gap in QMP; appreciated!
->
->> =C2=A0Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
->
-> [...]
->> =C2=A0diff --git a/qapi/net.json b/qapi/net.json
->> =C2=A0index 1cb9a7d782..4f329a1de0 100644
->> =C2=A0--- a/qapi/net.json
->> =C2=A0+++ b/qapi/net.json
->> =C2=A0@@ -750,3 +750,92 @@
->> =C2=A0=C2=A0##
->> =C2=A0=C2=A0{ 'event': 'FAILOVER_NEGOTIATED',
->> =C2=A0=C2=A0=C2=A0=C2=A0'data': {'device-id': 'str'} }
->> =C2=A0+
->> =C2=A0+##
->> =C2=A0+# @NetdevInfo:
->> =C2=A0+#
->> =C2=A0+# Configuration of a network device.
->> =C2=A0+#
->> =C2=A0+# @id: Device identifier.
->> =C2=A0+#
->> =C2=A0+# @type: Specify the driver used for interpreting remaining arg=
-uments.
->> =C2=A0+#
->> =C2=A0+# @peer: Connected network device.
->
-> @peer is optional. I assume its present when the device is connected
-> (frontend to backend or vice versa). Correct?
->
+When resizing, effectively only the boundary is moved. Implement actually
+resizable anonymous allocations and make use of them in resizable ram
+blocks when possible. Memory exceeding the used_length will be
+inaccessible. Especially ram block notifiers require care.
 
-Yes, this field stores connected frontend/backend device @id.
+Having actually resizable anonymous allocations (via mmap-hackery) allows
+to reserve a big region in virtual address space and grow the
+accessible/usable part on demand. Even if "/proc/sys/vm/overcommit_memory"
+is set to "never" under Linux, huge reservations will succeed. If there is
+not enough memory when resizing (to populate parts of the reserved region),
+trying to resize will fail. Only the actually used size is reserved in the
+OS.
 
->> =C2=A0+#
->> =C2=A0+# @queues-count: Number of queues.
->
-> We use plain @queues elsewhere in the schema.
->
+Especially, memory notifiers already handle resizing by first removing
+the old region, and then re-adding the resized region. prealloc is
+currently not possible with resizable ram blocks. mlock() should continue
+to work as is. Resizing is currently rare and must only happen on the
+start of an incoming migration, or during resets. No code path (except
+HAX and SEV ram block notifiers) should access memory outside of the usable
+range - and if we ever find one, that one has to be fixed (I did not
+identify any).
 
-It can conflict with fields inside Netdev*Options, isn't it?
+E.g., virtio-mem [2] wants to reserve big resizable memory regions and
+grow the usable part on demand. I think this change is worth sending out
+individually. I did excessive tests of this with virtio-mem (which makes
+it very easy to trigger resizes), including precopy and postcopy migration.
 
->> =C2=A0+#
->> =C2=A0+# @hub: hubid of hub, if connected to.
->
-> How @hub is related to @peer is not quite obvious to me. Can you give
-> an example where @hub is present?
->
+Accompanied by a bunch of minor fixes and cleanups.
 
-NetdevHubPortOptions has an option @hubid. @hub gives that id, if
-netdev is connected to the hub via hubport. As example:
+v3 -> v4:
+- Added RBs
+- "util/mmap-alloc: Factor out activating of memory to mmap_activate()"
+-- use "activate" instead of "populate"
+- "util: vfio-helpers: Implement ram_block_resized()"
+-- Also store max_size in mappings and assert against i
+-- Better comment why atomic resizes are not possible
+- "exec: Ram blocks with resizeable anonymous allocations under POSIX"
+-- Assert that RAM_RESIZEABLE_ALLOC is not set before allocating
 
-HMP:
+v2 -> v3:
+- Rebased on current master/[1].
+- "util: vfio-helpers: Factor out and fix processing of existing ram
+   blocks"
+-- moved to [1]
+- "util: vfio-helpers: Remove Error parameter from qemu_vfio_undo_mapping()=
+"
+-- Better parch description
+- "util/mmap-alloc: Factor out calculation of pagesize to mmap_pagesize()"
+-- is now "util/mmap-alloc: Factor out calculation of the pagesize for the
+   guard page"
+-- Decided to keep special handling for the guard page for now
+-- Dropped rb's
+- "util/mmap-alloc: Prepare for resizeable mmaps"
+-- No asserts sizes against the real page size
+- "numa: Teach ram block notifiers about resizable ram blocks"
+-- Split. One part is in [1], the other is now in "numa: Introduce
+   ram_block_notifiers_support_resize()"
+- "exec: Ram blocks with resizeable anonymous allocations under POSIX"
+-- Call qemu_ram_apply_settings() only populated parts. Call it on
+   freshly populated parts when growing.
+- Minor changes
 
-hub 0
- \ hub0port1: socket.0: index=3D0,type=3Dsocket,
- \ hub0port0: virtio-net-pci.0: index=3D0,type=3Dnic,model=3Dvirtio-net-p=
-ci,macaddr=3D52:54:00:12:34:56
+v1 -> v2:
+- Add "util: vfio-helpers: Fix qemu_vfio_close()"
+- Add "util: vfio-helpers: Remove Error parameter from
+       qemu_vfio_undo_mapping()"
+- Add "util: vfio-helpers: Factor out removal from
+       qemu_vfio_undo_mapping()"
+- "util/mmap-alloc: ..."
+ -- Minor changes due to review feedback (e.g., assert alignment, return
+    bool when resizing)
+- "util: vfio-helpers: Implement ram_block_resized()"
+ -- Reserve max_size in the IOVA address space.
+ -- On resize, undo old mapping and do new mapping. We can later implement
+    a new ioctl to resize the mapping directly.
+- "numa: Teach ram block notifiers about resizable ram blocks"
+ -- Pass size/max_size to ram block notifiers, which makes things easier an
+    cleaner
+- "exec: Ram blocks with resizable anonymous allocations under POSIX"
+ -- Adapt to new ram block notifiers
+ -- Shrink after notifying. Always trigger ram block notifiers on resizes
+ -- Add a safety net that all ram block notifiers registered at runtime
+    support resizes.
 
-QMP:
+[1] https://lkml.kernel.org/r/20200226155304.60219-1-david@redhat.com
+[2] https://lore.kernel.org/kvm/20191212171137.13872-1-david@redhat.com/
 
-[
-  {
-    "peer": "hub0port0",
-    "netdev": "hub0port0",
-    "hub": 0,
-    "model": "virtio-net-pci",
-    "macaddr": "52:54:00:12:34:56",
-    "type": "nic",
-    "queues-count": 1,
-    "id": "virtio-net-pci.0"
-  },
-  {
-    "peer": "hub0port1",
-    "listen": "127.0.0.1:90",
-    "hub": 0,
-    "type": "socket",
-    "queues-count": 1,
-    "id": "socket.0"
-  },
-  {
-    "peer": "socket.0",
-    "netdev": "socket.0",
-    "hub": 0,
-    "hubid": 0,
-    "type": "hubport",
-    "queues-count": 1,
-    "id": "hub0port1"
-  },
-  {
-    "peer": "virtio-net-pci.0",
-    "netdev": "virtio-net-pci.0",
-    "hub": 0,
-    "hubid": 0,
-    "type": "hubport",
-    "queues-count": 1,
-    "id": "hub0port0"
-  }
-]
+David Hildenbrand (15):
+  util: vfio-helpers: Fix qemu_vfio_close()
+  util: vfio-helpers: Remove Error parameter from
+    qemu_vfio_undo_mapping()
+  util: vfio-helpers: Factor out removal from qemu_vfio_undo_mapping()
+  exec: Factor out setting ram settings (madvise ...) into
+    qemu_ram_apply_settings()
+  exec: Reuse qemu_ram_apply_settings() in qemu_ram_remap()
+  exec: Drop "shared" parameter from ram_block_add()
+  util/mmap-alloc: Factor out calculation of the pagesize for the guard
+    page
+  util/mmap-alloc: Factor out reserving of a memory region to
+    mmap_reserve()
+  util/mmap-alloc: Factor out activating of memory to mmap_activate()
+  util/mmap-alloc: Prepare for resizeable mmaps
+  util/mmap-alloc: Implement resizeable mmaps
+  util: vfio-helpers: Implement ram_block_resized()
+  util: oslib: Resizeable anonymous allocations under POSIX
+  numa: Introduce ram_block_notifiers_support_resize()
+  exec: Ram blocks with resizeable anonymous allocations under POSIX
 
->> =C2=A0+#
->> =C2=A0+# @perm-mac: Original MAC address.
->
-> What does "perm-" mean?
->
-> It's optional. When exactly is it present?
->
+ exec.c                    | 100 ++++++++++++++++++-----
+ hw/core/numa.c            |  19 +++++
+ include/exec/cpu-common.h |   2 +
+ include/exec/memory.h     |   8 ++
+ include/exec/ramlist.h    |   1 +
+ include/qemu/mmap-alloc.h |  21 +++--
+ include/qemu/osdep.h      |   6 +-
+ util/mmap-alloc.c         | 168 ++++++++++++++++++++++++--------------
+ util/oslib-posix.c        |  37 ++++++++-
+ util/oslib-win32.c        |  14 ++++
+ util/trace-events         |  11 ++-
+ util/vfio-helpers.c       | 145 ++++++++++++++++++++++++--------
+ 12 files changed, 404 insertions(+), 128 deletions(-)
 
-@perm-mac is the permanent (original) MAC address. It only used
-for nic, because most of nic realizations can change MAC at
-runtime and/or reset it to default (permanent) value.
-
->> =C2=A0+#
->> =C2=A0+# Since: 5.0
->> =C2=A0+##
->> =C2=A0+{ 'union': 'NetdevInfo',
->> =C2=A0+ 'base': { 'id': 'str',
->> =C2=A0+ 'type': 'NetClientDriver',
->> =C2=A0+ '*peer': 'str',
->> =C2=A0+ 'queues-count': 'int',
->> =C2=A0+ '*hub': 'int',
->> =C2=A0+ '*perm-mac': 'str' },
->> =C2=A0+ 'discriminator': 'type',
->> =C2=A0+ 'data': {
->> =C2=A0+ 'nic': 'NetLegacyNicOptions',
->> =C2=A0+ 'user': 'NetdevUserOptions',
->> =C2=A0+ 'tap': 'NetdevTapOptions',
->> =C2=A0+ 'l2tpv3': 'NetdevL2TPv3Options',
->> =C2=A0+ 'socket': 'NetdevSocketOptions',
->> =C2=A0+ 'vde': 'NetdevVdeOptions',
->> =C2=A0+ 'bridge': 'NetdevBridgeOptions',
->> =C2=A0+ 'hubport': 'NetdevHubPortOptions',
->> =C2=A0+ 'netmap': 'NetdevNetmapOptions',
->> =C2=A0+ 'vhost-user': 'NetdevVhostUserOptions' } }
->
-> This is a copy of union 'Netdev' with a few additional common members
-> (@peer, @queues-count, @hub, @perm-mac). I can't see how to avoid the
-> duplication without adding nesting on the wire.
->
->> =C2=A0+
->> =C2=A0+##
->> =C2=A0+# @query-netdevs:
->> =C2=A0+#
->> =C2=A0+# Get a list of @NetdevInfo for all virtual network devices.
->> =C2=A0+#
->> =C2=A0+# Returns: a list of @NetdevInfo describing each virtual networ=
-k device.
->> =C2=A0+#
->> =C2=A0+# Since: 5.0
->> =C2=A0+#
->> =C2=A0+# Example:
->> =C2=A0+#
->> =C2=A0+# -> { "execute": "query-netdevs" }
->> =C2=A0+# <- { "return": [
->> =C2=A0+# {
->> =C2=A0+# "peer": "netdev0",
->> =C2=A0+# "netdev": "netdev0",
->> =C2=A0+# "perm-mac": "52:54:00:12:34:56"
->> =C2=A0+# "model": "virtio-net-pci",
->> =C2=A0+# "macaddr": "52:54:00:12:34:56",
->> =C2=A0+# "queues-count": 1,
->> =C2=A0+# "type": "nic",
->> =C2=A0+# "id": "net0"
->> =C2=A0+# },
->> =C2=A0+# {
->> =C2=A0+# "peer": "net0",
->> =C2=A0+# "ipv6": true,
->> =C2=A0+# "ipv4": true,
->> =C2=A0+# "host": "10.0.2.2",
->> =C2=A0+# "queues-count": 1,
->> =C2=A0+# "ipv6-dns": "fec0::3",
->> =C2=A0+# "ipv6-prefix": "fec0::",
->> =C2=A0+# "net": "10.0.2.0/255.255.255.0",
->> =C2=A0+# "ipv6-host": "fec0::2",
->> =C2=A0+# "type": "user",
->> =C2=A0+# "dns": "10.0.2.3",
->> =C2=A0+# "hostfwd": [
->> =C2=A0+# {
->> =C2=A0+# "str": "tcp::20004-:22"
->> =C2=A0+# }
->> =C2=A0+# ],
->> =C2=A0+# "ipv6-prefixlen": 64,
->> =C2=A0+# "id": "netdev0",
->> =C2=A0+# "restrict": false
->> =C2=A0+# }
->> =C2=A0+# ]
->> =C2=A0+# }
->> =C2=A0+#
->> =C2=A0+##
->> =C2=A0+{ 'command': 'query-netdevs', 'returns': ['NetdevInfo'] }
->
-> Like HMP "info network" and -net, this mixes frontends ("type": "nic")
-> and backends. Unlike query-chardev and query-block. Hmm.
->
-> A long time ago, all we had was -net: "-net nic" for configuring
-> frontends, "-net none" for suppressing a default frontend + backend, an=
-d
-> "-net anything-else" for configuring backends. "info network" showed
-> the stuff set up with -net.
->
-> In v0.12, we got -device for configuring frontends, and -netdev for
-> backends. -netdev is like -net less "none", "nic", and the hub
-> weirdness. "info network" was extended to also show all this.
->
-> In v2.12, we got -nic, replacing -net nic.
->
-> Unless I'm missing something, -net is just for backward compatibility
-> now.
->
-> What's the use case for query-networks reporting frontends?
-
-In my vision, new QMP command is the replacement for old
-HMP command. It must provide information about all
-network devices, mainly for recreate similar net topology.
-Currently, there are no differrence between fronted and
-backend devices in context of my command, because
-all of them use the same interface in NetClientState.
-
->
-
---=C2=A0
-Alexey Kirillov
-Yandex.Cloud
+--=20
+2.24.1
 
 
