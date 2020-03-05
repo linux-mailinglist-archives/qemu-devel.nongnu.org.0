@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682BE17AA90
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:34:21 +0100 (CET)
-Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4D017AA97
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:35:43 +0100 (CET)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tS0-0007RP-AO
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:34:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59176)
+	id 1j9tTK-00017c-S2
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP4-0003QC-JV
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP2-0003PB-ID
  for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tOy-0002BB-V9
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:17 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35110)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP0-0002CY-ID
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:15 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37752)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tOy-0002Ac-MC
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:12 -0500
-Received: by mail-wr1-x441.google.com with SMTP id r7so7822185wro.2
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:12 -0800 (PST)
+ id 1j9tP0-0002Bc-Bu
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:14 -0500
+Received: by mail-wr1-x442.google.com with SMTP id 6so2374682wre.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=kriMcQzkMm95EhhcHWuzwV+BnRHVXDuG3tsQM4aq6Cw=;
- b=k9Tak1XIl5hpRS2IycmEMeNJAl2hJxRw/4geQF27jaiogi8lSH4HeUzU2x5VxYT7K3
- s24QmCAMNNOMYZARxiYBgZ7fGPJWiDYqlz4PI9/YVP8wN34yBoQAMFStI/hnEx/tp79b
- OCOfBJfw1Ob8++fdmnY07yuxKC4EoNc5n3sz36t12kYtzShPDc2Q0dslb7zbFQl1hGts
- 2zIfbjaRqRLv/WCXeWjdYV4rXC4Kxhouead59KgvIU4N0avNYb1pYNmIWtmF/IrSXO8t
- +UzGlbbcBsJAbxPYiRb0qbcclHZb4TrqLcZY1A8xLx+QriUV0lDDbsQ+puyPd0h8VCvi
- f78Q==
+ bh=srKZx6+JQVSktw34hlVpZslhqf3wdIxhXrsJ7DiNWzA=;
+ b=qkka7/kLUm1EEp7zTZwq1HX5481ZQrz3D67GJgd1XpGMU0nnSIUDhHPCGD1//Et5Zc
+ fdjpJiJM8bicRywBBkXbpe8l1Cg0TCUMES2oh3BcenRzGpEtFHhpmoETShqxxH7HVwwY
+ D36AnmtI9X83ixxjV6EX+WOfpeI+NlAnCw98GLoq3rHg1kkqjckFRHXqyAyeuGz5zIpo
+ UbdgCbfVcTsV6S+8ar/FljH3wPWNifA6C/SNagYcfImNZ45O2gwcqan96AS4p3wxGbM5
+ 2GPqvF+cJjgYKl9cuMPcWTy3g4sAg+VTKjArdHYDJN6rF5Y0xGMvxABwR+oi73d2bL2A
+ uL4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kriMcQzkMm95EhhcHWuzwV+BnRHVXDuG3tsQM4aq6Cw=;
- b=ZquwsIxlXErs/sck2bPQhU6sdpFfgfFdIFBuoleAIqxFhRtF8e+jU9xw32uArwfeD/
- 8z3VhWyua7GO5cVBSE8K8doLvKdtL3G4cG+S17fMJhB3tTZ3tr5iZzK2EzpVOzYRvzxB
- qtdrXgwVIJVOeyj5tsOWiIhYge+5syA9CfRI4lcfJDtEFSADF6JnvGRgG1ULFfO50Kpv
- pUZmTpBAxtOc27RBxhihXIigjudTqiQruTaoMzqlxQVrQMJJ5AhRPQYRYxFHI7RrrzMt
- I01mpkIB0riMwbBPuj7TpqAtxJYrz7Q3IkM0y7LFKBajqZDkTv7cL4yTqBkRWE2ieqML
- xUDA==
-X-Gm-Message-State: ANhLgQ3kxxCZe9mmRyZySEkkRkqwx0xCPSeSU1IsebiF9sjPe4dSlOOR
- hekZPpb1/3n4TFbFGetN+pB/k3oiWJ34sQ==
-X-Google-Smtp-Source: ADFU+vv2nOB6gcwQFVx9X7UpbJB7rGuW1k7W+LyfeFmnyZwTO2+Z0uF92A/4C3sLElXfK5ryBk2v4Q==
-X-Received: by 2002:adf:ec50:: with SMTP id w16mr11311848wrn.9.1583425871400; 
- Thu, 05 Mar 2020 08:31:11 -0800 (PST)
+ bh=srKZx6+JQVSktw34hlVpZslhqf3wdIxhXrsJ7DiNWzA=;
+ b=GQKNi2GC8AV22AK0j8OzXN+UjOGz/srqXOGHSojNCp09shfvM/HILZWbo+DWft/9lZ
+ Nv4z6zp1cdP2RVk858s03JUz7lIf8HVJL+0Hoba6YQ+cJ5+J12ARLMjI1Ur8ZQIKWura
+ za+PpdOffmw5tH1LwS3/eeFHC3n5AXxg8S9kQtIRHugN8FHqK71mDIRZR25jFtlZr38e
+ MZUN2PkSbdVFxbfH14bWvX+vROdPxvbXpE6DCKx/+puTutL3ZzVGpdaFuuRFIxatQxID
+ emjo6Zo1Iv6TP1OKXZALX2DEie/BENof9rszoxIOifdIMPFf5G3ttYvze6G1vPu/cwOC
+ djKQ==
+X-Gm-Message-State: ANhLgQ3K79mMMc2yOqmwjZem2HRxp3FnGqidG1YvC8Q+3NN52LJq1prp
+ quIGR4dVCM7Bi+ryYEOTeACgwHg3NXeUFw==
+X-Google-Smtp-Source: ADFU+vstNPmWYtrPXoFBGj4ivzZE+cIIyKEo/uvnBpUUef2U8DJYBNtxe004leh6hbV0l4vhagNL6w==
+X-Received: by 2002:adf:a419:: with SMTP id d25mr11662565wra.210.1583425872994; 
+ Thu, 05 Mar 2020 08:31:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.10
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:10 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/37] hw/arm/omap_sx1: Simplify since the machines are
- little-endian only
-Date: Thu,  5 Mar 2020 16:30:31 +0000
-Message-Id: <20200305163100.22912-9-peter.maydell@linaro.org>
+Subject: [PULL 09/37] hw/arm/z2: Simplify since the machines are little-endian
+ only
+Date: Thu,  5 Mar 2020 16:30:32 +0000
+Message-Id: <20200305163100.22912-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,49 +92,38 @@ Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/omap_sx1.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ hw/arm/z2.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/arm/omap_sx1.c b/hw/arm/omap_sx1.c
-index 2bebab4171b..de5ff447dcf 100644
---- a/hw/arm/omap_sx1.c
-+++ b/hw/arm/omap_sx1.c
-@@ -114,7 +114,6 @@ static void sx1_init(MachineState *machine, const int version)
+diff --git a/hw/arm/z2.c b/hw/arm/z2.c
+index 4bb237f22d2..a0f40959904 100644
+--- a/hw/arm/z2.c
++++ b/hw/arm/z2.c
+@@ -300,7 +300,6 @@ static void z2_init(MachineState *machine)
+     uint32_t sector_len = 0x10000;
+     PXA2xxState *mpu;
      DriveInfo *dinfo;
-     int fl_idx;
-     uint32_t flash_size = flash0_size;
 -    int be;
+     void *z2_lcd;
+     I2CBus *bus;
+     DeviceState *wm;
+@@ -308,15 +307,10 @@ static void z2_init(MachineState *machine)
+     /* Setup CPU & memory */
+     mpu = pxa270_init(address_space_mem, z2_binfo.ram_size, machine->cpu_type);
  
-     if (machine->ram_size != mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
-@@ -154,17 +153,11 @@ static void sx1_init(MachineState *machine, const int version)
-                                 OMAP_CS2_BASE, &cs[3]);
- 
-     fl_idx = 0;
 -#ifdef TARGET_WORDS_BIGENDIAN
 -    be = 1;
 -#else
 -    be = 0;
 -#endif
--
-     if ((dinfo = drive_get(IF_PFLASH, 0, fl_idx)) != NULL) {
-         if (!pflash_cfi01_register(OMAP_CS0_BASE,
-                                    "omap_sx1.flash0-1", flash_size,
-                                    blk_by_legacy_dinfo(dinfo),
--                                   sector_size, 4, 0, 0, 0, 0, be)) {
-+                                   sector_size, 4, 0, 0, 0, 0, 0)) {
-             fprintf(stderr, "qemu: Error registering flash memory %d.\n",
-                            fl_idx);
-         }
-@@ -187,7 +180,7 @@ static void sx1_init(MachineState *machine, const int version)
-         if (!pflash_cfi01_register(OMAP_CS1_BASE,
-                                    "omap_sx1.flash1-1", flash1_size,
-                                    blk_by_legacy_dinfo(dinfo),
--                                   sector_size, 4, 0, 0, 0, 0, be)) {
-+                                   sector_size, 4, 0, 0, 0, 0, 0)) {
-             fprintf(stderr, "qemu: Error registering flash memory %d.\n",
-                            fl_idx);
-         }
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+     if (!pflash_cfi01_register(Z2_FLASH_BASE, "z2.flash0", Z2_FLASH_SIZE,
+                                dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
+-                               sector_len, 4, 0, 0, 0, 0, be)) {
++                               sector_len, 4, 0, 0, 0, 0, 0)) {
+         error_report("Error registering flash memory");
+         exit(1);
+     }
 -- 
 2.20.1
 
