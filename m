@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA2C179FFE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 07:32:00 +0100 (CET)
-Received: from localhost ([::1]:43822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB51117A022
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 07:47:42 +0100 (CET)
+Received: from localhost ([::1]:43990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9k35-0000ya-JJ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 01:31:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
+	id 1j9kIH-0002fh-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 01:47:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuzenghui@huawei.com>) id 1j9k1t-0000Nm-T8
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 01:30:47 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j9kHS-00027W-Gl
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 01:46:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuzenghui@huawei.com>) id 1j9k1s-00009A-Nz
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 01:30:45 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3259 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
- id 1j9k1p-0008PR-RU; Thu, 05 Mar 2020 01:30:42 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 4BB4BA99A342402E1B34;
- Thu,  5 Mar 2020 14:30:29 +0800 (CST)
-Received: from [127.0.0.1] (10.173.222.27) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Thu, 5 Mar 2020
- 14:30:18 +0800
-Subject: Re: [kvm-unit-tests PATCH v3 08/14] arm/arm64: ITS:
- its_enable_defaults
-To: Auger Eric <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
- <maz@kernel.org>, <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-References: <20200128103459.19413-1-eric.auger@redhat.com>
- <20200128103459.19413-9-eric.auger@redhat.com>
- <10d0630f-1464-b12a-5ad5-ee617eaa5cca@huawei.com>
- <a49227ce-355a-be35-c006-441e2adca8e1@redhat.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <1b91ddb6-5139-5deb-2325-c18af7657825@huawei.com>
-Date: Thu, 5 Mar 2020 14:30:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <no-reply@patchew.org>) id 1j9kHQ-0005z9-UW
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 01:46:50 -0500
+Resent-Date: Thu, 05 Mar 2020 01:46:50 -0500
+Resent-Message-Id: <E1j9kHQ-0005z9-UW@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21192)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j9kHP-0005uo-US
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 01:46:48 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1583390791; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ByEIFKRNb4NuC3D7kuKUNKaq1ohUOev6SlWvvncnOxYGddT+KaB7YEnDOSZTSMK51UsI9Z9MUWbSrjlxun7lSVQRdDSxOYLD57xy+ISa0nxtvVeSx4/dm5HvdEn+6yR/QfahrTa0Yci6H0T3Q9P/5btvpKxwoz6wvh14fqdcv2Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583390791;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=U0mCt237GOSF99Qq9i2J67u8U41alymRVjO/8RHH9jY=; 
+ b=VRJfNeYonuM9a/81PkjVhJfgn2Pb6e39Djp9JejiKsYeOCABA6Y04NOgxyZtA4tfp+9b8GUsLYpmBdO3h/c8PA642eRQvCXr2y7qBGT2j2M96knZelCP57Fpu8N39CroXtDbs5LDHcC8Ksm6kmhTqlZtaKUAfvh5EkCH8Tw6IZY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1583390787779664.3875363527235;
+ Wed, 4 Mar 2020 22:46:27 -0800 (PST)
+In-Reply-To: <20200305065422.12707-1-pannengyuan@huawei.com>
+Subject: Re: [PATCH v4 0/3] delay timer_new from init to realize to fix
+ memleaks.
+Message-ID: <158339078635.21741.17139522732073942467@abdcc9e1aa82>
 MIME-Version: 1.0
-In-Reply-To: <a49227ce-355a-be35-c006-441e2adca8e1@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pannengyuan@huawei.com
+Date: Wed, 4 Mar 2020 22:46:27 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,118 +65,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andre.przywara@arm.com, drjones@redhat.com, alexandru.elisei@arm.com,
- thuth@redhat.com, peter.maydell@linaro.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, euler.robot@huawei.com, pannengyuan@huawei.com,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
-
-On 2020/3/4 22:26, Auger Eric wrote:
-> Hi Zenghui,
-> On 2/7/20 4:20 AM, Zenghui Yu wrote:
->> Hi Eric,
->>
->> On 2020/1/28 18:34, Eric Auger wrote:
->>> its_enable_defaults() is the top init function that allocates the
->>> command queue and all the requested tables (device, collection,
->>> lpi config and pending tables), enable LPIs at distributor level
->>> and ITS level.
->>>
->>> gicv3_enable_defaults must be called before.
->>>
->>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>
->>> ---
->>>
->>> v2 -> v3:
->>> - introduce its_setup_baser in this patch
->>> - squash "arm/arm64: ITS: Init the command queue" in this patch.
->>> ---
->>>  =C2=A0 lib/arm/asm/gic-v3-its.h |=C2=A0 8 ++++
->>>  =C2=A0 lib/arm/gic-v3-its.c=C2=A0=C2=A0=C2=A0=C2=A0 | 89 +++++++++++=
-+++++++++++++++++++++++++++++
->>>  =C2=A0 2 files changed, 97 insertions(+)
->>>
->>> diff --git a/lib/arm/asm/gic-v3-its.h b/lib/arm/asm/gic-v3-its.h
->>> index 815c515..fe73c04 100644
->>> --- a/lib/arm/asm/gic-v3-its.h
->>> +++ b/lib/arm/asm/gic-v3-its.h
->>> @@ -36,6 +36,8 @@ struct its_data {
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *base;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct its_typer typer;
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct its_baser baser[GITS_BASER_NR_=
-REGS];
->>> +=C2=A0=C2=A0=C2=A0 struct its_cmd_block *cmd_base;
->>> +=C2=A0=C2=A0=C2=A0 struct its_cmd_block *cmd_write;
->>>  =C2=A0 };
->>>  =C2=A0 =C2=A0 extern struct its_data its_data;
->>> @@ -88,10 +90,16 @@ extern struct its_data its_data;
->>>  =C2=A0 #define GITS_BASER_TYPE_DEVICE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 1
->>>  =C2=A0 #define GITS_BASER_TYPE_COLLECTION=C2=A0=C2=A0=C2=A0 4
->>>  =C2=A0 +
->>> +struct its_cmd_block {
->>> +=C2=A0=C2=A0=C2=A0 u64 raw_cmd[4];
->>> +};
->>> +
->>>  =C2=A0 extern void its_parse_typer(void);
->>>  =C2=A0 extern void its_init(void);
->>>  =C2=A0 extern int its_parse_baser(int i, struct its_baser *baser);
->>>  =C2=A0 extern struct its_baser *its_lookup_baser(int type);
->>> +extern void its_enable_defaults(void);
->>>  =C2=A0 =C2=A0 #else /* __arm__ */
->>>  =C2=A0 diff --git a/lib/arm/gic-v3-its.c b/lib/arm/gic-v3-its.c
->>> index 2c0ce13..d1e7e52 100644
->>> --- a/lib/arm/gic-v3-its.c
->>> +++ b/lib/arm/gic-v3-its.c
->>> @@ -86,3 +86,92 @@ void its_init(void)
->>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 its_parse_bas=
-er(i, &its_data.baser[i]);
->>>  =C2=A0 }
->>>  =C2=A0 +static void its_setup_baser(int i, struct its_baser *baser)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned long n =3D (baser->nr_pages * baser->psz=
-) >> PAGE_SHIFT;
->>> +=C2=A0=C2=A0=C2=A0 unsigned long order =3D is_power_of_2(n) ? fls(n)=
- : fls(n) + 1;
->>> +=C2=A0=C2=A0=C2=A0 u64 val;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 baser->table_addr =3D (u64)virt_to_phys(alloc_pag=
-es(order));
->>> +
->>> +=C2=A0=C2=A0=C2=A0 val =3D ((u64)baser->table_addr=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((u64)baser->type=C2=A0=C2=
-=A0=C2=A0 << GITS_BASER_TYPE_SHIFT)=C2=A0=C2=A0=C2=A0 |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((u64)(baser->esz - 1)=C2=
-=A0=C2=A0=C2=A0 << GITS_BASER_ENTRY_SIZE_SHIFT)=C2=A0=C2=A0=C2=A0 |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((baser->nr_pages - 1)=C2=
-=A0=C2=A0=C2=A0 << GITS_BASER_PAGES_SHIFT)=C2=A0=C2=A0=C2=A0 |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (u64)baser->indirect=C2=A0=
-=C2=A0=C2=A0 << 62=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
->>
->> I haven't seen the 'nr_pages' and 'indirect' are programmed anywhere
->> except in its_parse_baser(). It looks like they're treated as RO (but
->> they shouldn't) and I now don't think it makes sense to parse them in
->> its_parse_baser(), in patch#5.
->=20
-> First of all please forgive me for the delay.
-
-Never mind.
-
->=20
-> I agree with you on nr_pages. However indirect also indicates the BASER
-> capability to support or not 2 level tables. So I think it makes sense
-> to read it on init.
-
-Yes, you're right. As the spec says, the Indirect field "is RAZ/WI for
-GIC implementations that only support flat tables".
-
-
-Thanks,
-Zenghui
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwNTA2NTQyMi4xMjcw
+Ny0xLXBhbm5lbmd5dWFuQGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2NCAwLzNdIGRlbGF5IHRpbWVyX25ldyBm
+cm9tIGluaXQgdG8gcmVhbGl6ZSB0byBmaXggbWVtbGVha3MuCk1lc3NhZ2UtaWQ6IDIwMjAwMzA1
+MDY1NDIyLjEyNzA3LTEtcGFubmVuZ3l1YW5AaHVhd2VpLmNvbQpUeXBlOiBzZXJpZXMKCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rl
+di9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sg
+YmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9w
+YXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAwMzA1
+MDY1NDIyLjEyNzA3LTEtcGFubmVuZ3l1YW5AaHVhd2VpLmNvbSAtPiBwYXRjaGV3LzIwMjAwMzA1
+MDY1NDIyLjEyNzA3LTEtcGFubmVuZ3l1YW5AaHVhd2VpLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBi
+cmFuY2ggJ3Rlc3QnCmU4N2FhOTkgaHcvbWlzYy9tb3M2NTIyOiBtb3ZlIHRpbWVyX25ldyBmcm9t
+IGluaXQoKSBpbnRvIHJlYWxpemUoKSB0byBhdm9pZCBtZW1sZWFrcwowYzY1ODhiIG1hY192aWE6
+IGZpeCBpbmNvcnJlY3QgY3JlYXRpb24gb2YgbW9zNjUyMiBkZXZpY2UgaW4gbWFjX3ZpYQoxYWZk
+YjRlIHMzOTB4OiBmaXggbWVtbGVha3MgaW4gY3B1X2ZpbmFsaXplCgo9PT0gT1VUUFVUIEJFR0lO
+ID09PQoxLzMgQ2hlY2tpbmcgY29tbWl0IDFhZmRiNGUxODFmMSAoczM5MHg6IGZpeCBtZW1sZWFr
+cyBpbiBjcHVfZmluYWxpemUpCjIvMyBDaGVja2luZyBjb21taXQgMGM2NTg4YmIwOTkxIChtYWNf
+dmlhOiBmaXggaW5jb3JyZWN0IGNyZWF0aW9uIG9mIG1vczY1MjIgZGV2aWNlIGluIG1hY192aWEp
+CkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM3MTogRklMRTogaHcvbWlzYy9tYWNfdmlhLmM6
+OTU0OgorICAgIG9iamVjdF9pbml0aWFsaXplX2NoaWxkKE9CSkVDVChtKSwgInZpYTEiLCAmbS0+
+bW9zNjUyMl92aWExLCAkCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDY2IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDIvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
+bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
+IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy8zIENoZWNraW5n
+IGNvbW1pdCBlODdhYTk5Mzc2ZDYgKGh3L21pc2MvbW9zNjUyMjogbW92ZSB0aW1lcl9uZXcgZnJv
+bSBpbml0KCkgaW50byByZWFsaXplKCkgdG8gYXZvaWQgbWVtbGVha3MpCj09PSBPVVRQVVQgRU5E
+ID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMg
+YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMzA1MDY1NDIyLjEyNzA3
+LTEtcGFubmVuZ3l1YW5AaHVhd2VpLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
