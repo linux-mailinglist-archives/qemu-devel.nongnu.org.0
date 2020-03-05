@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4D717A789
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:35:09 +0100 (CET)
-Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A8B17A77F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:33:21 +0100 (CET)
+Received: from localhost ([::1]:50290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rae-0004qe-KQ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:35:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35577)
+	id 1j9rYu-00014K-4v
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:33:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35580)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j9rXN-0007rT-Ph
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:50 -0500
+ (envelope-from <david@redhat.com>) id 1j9rXO-0007rz-5Q
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j9rXI-0002rW-MP
+ (envelope-from <david@redhat.com>) id 1j9rXM-0002vo-UG
  for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53051
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50650
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rXI-0002rD-I0
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:40 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rXM-0002tn-KJ
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418700;
+ s=mimecast20190719; t=1583418703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H1vGZKqDhRtg8g2lSBh3C+rY8EjMrCl2v+tMPCxz9io=;
- b=MsYyAbrOF3gFRlQ7tnAYc72bXbR1dzCc/70ZkX7iCtmznTo0zUuli3RmNKclJawXsxCstG
- ceHAE7uAe0Uj7g5u2xwXwkYuhPJ5W1gL8kZaS5Lno0/CJWfYKR63Qqfhc8pVwl3ABS9D8l
- 2P2NJB0OtlLtboXNhtr7+shFhy/6g48=
+ bh=Gkp7fjbvX7Nm/DRryTdHidK6wwGuuVyuDCVl3FhjKwo=;
+ b=goUES688jWbNcOxl5HA+CsVx2eypA2Scjbj77gHKLhMbtDY9BGtUCUNF6mRdbgwn0gacZ9
+ dGZaVqymhdHfWfN0yksA0zx3dj/WeQ5+Kwz2PRC2pCdAdvROlum884I0uPUq4eh3m+0+S8
+ FeVSJ5QJwyuJvpilcIyd1YZfkw0jV0w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-5rRkZvsoMnC8HeoaK5BQaA-1; Thu, 05 Mar 2020 09:31:38 -0500
-X-MC-Unique: 5rRkZvsoMnC8HeoaK5BQaA-1
+ us-mta-391-oWn3h0PHMmmhPibmANd0fg-1; Thu, 05 Mar 2020 09:31:41 -0500
+X-MC-Unique: oWn3h0PHMmmhPibmANd0fg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B4DA107ACC4;
- Thu,  5 Mar 2020 14:31:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0302F100550E;
+ Thu,  5 Mar 2020 14:31:40 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-120-166.rdu2.redhat.com [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4724F90538;
- Thu,  5 Mar 2020 14:31:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4A8090538;
+ Thu,  5 Mar 2020 14:31:34 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/15] exec: Factor out setting ram settings (madvise ...)
- into qemu_ram_apply_settings()
-Date: Thu,  5 Mar 2020 15:29:34 +0100
-Message-Id: <20200305142945.216465-5-david@redhat.com>
+Subject: [PATCH v4 05/15] exec: Reuse qemu_ram_apply_settings() in
+ qemu_ram_remap()
+Date: Thu,  5 Mar 2020 15:29:35 +0100
+Message-Id: <20200305142945.216465-6-david@redhat.com>
 In-Reply-To: <20200305142945.216465-1-david@redhat.com>
 References: <20200305142945.216465-1-david@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,11 +84,11 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor all settings out into qemu_ram_apply_settings().
+I don't see why we shouldn't apply all settings to make it look like the
+surrounding RAM (and enable proper VMA merging).
 
-For memory_try_enable_merging(), the important bit is that it won't be
-called with XEN - which is now still the case as new_block->host will
-remain NULL.
+Note: memory backend settings might have overridden these settings. We
+would need a callback to let the memory backend fix that up.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Xu <peterx@redhat.com>
@@ -96,71 +97,23 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- exec.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ exec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/exec.c b/exec.c
-index 3e980e14e0..13a0ca91fb 100644
+index 13a0ca91fb..7df1ecaf5d 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -2069,6 +2069,21 @@ static int memory_try_enable_merging(void *addr, siz=
-e_t len)
-     return qemu_madvise(addr, len, QEMU_MADV_MERGEABLE);
- }
-=20
-+static void qemu_ram_apply_settings(void *host, size_t length)
-+{
-+    memory_try_enable_merging(host, length);
-+    qemu_ram_setup_dump(host, length);
-+    qemu_madvise(host, length, QEMU_MADV_HUGEPAGE);
-+    /*
-+     * MADV_DONTFORK is also needed by KVM in absence of synchronous MMU
-+     * Configure it unless the machine is a qtest server, in which case KV=
-M is
-+     * not used and it may be forked (eg for fuzzing purposes).
-+     */
-+    if (!qtest_enabled()) {
-+        qemu_madvise(host, length, QEMU_MADV_DONTFORK);
-+    }
-+}
-+
- /*
-  * Resizing RAM while migrating can result in the migration being canceled=
-.
-  * Care has to be taken if the guest might have already detected the memor=
-y.
-@@ -2227,7 +2242,6 @@ static void ram_block_add(RAMBlock *new_block, Error =
-**errp, bool shared)
-                 qemu_mutex_unlock_ramlist();
-                 return;
+@@ -2516,8 +2516,7 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t lengt=
+h)
+                                  length, addr);
+                     exit(1);
+                 }
+-                memory_try_enable_merging(vaddr, length);
+-                qemu_ram_setup_dump(vaddr, length);
++                qemu_ram_apply_settings(vaddr, length);
              }
--            memory_try_enable_merging(new_block->host, new_block->max_leng=
-th);
          }
-     }
-=20
-@@ -2265,17 +2279,7 @@ static void ram_block_add(RAMBlock *new_block, Error=
- **errp, bool shared)
-                                         DIRTY_CLIENTS_ALL);
-=20
-     if (new_block->host) {
--        qemu_ram_setup_dump(new_block->host, new_block->max_length);
--        qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUG=
-EPAGE);
--        /*
--         * MADV_DONTFORK is also needed by KVM in absence of synchronous M=
-MU
--         * Configure it unless the machine is a qtest server, in which cas=
-e
--         * KVM is not used and it may be forked (eg for fuzzing purposes).
--         */
--        if (!qtest_enabled()) {
--            qemu_madvise(new_block->host, new_block->max_length,
--                         QEMU_MADV_DONTFORK);
--        }
-+        qemu_ram_apply_settings(new_block->host, new_block->max_length);
-         ram_block_notify_add(new_block->host, new_block->used_length,
-                              new_block->max_length);
      }
 --=20
 2.24.1
