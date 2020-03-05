@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A8B17A77F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:33:21 +0100 (CET)
-Received: from localhost ([::1]:50290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1EC17A78A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:35:15 +0100 (CET)
+Received: from localhost ([::1]:50322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rYu-00014K-4v
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:33:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35580)
+	id 1j9rak-00056a-97
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:35:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j9rXO-0007rz-5Q
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:47 -0500
+ (envelope-from <david@redhat.com>) id 1j9rXd-0008G0-5s
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j9rXM-0002vo-UG
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50650
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j9rXb-00035w-28
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53291
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rXM-0002tn-KJ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:44 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rXa-00035c-U4
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418703;
+ s=mimecast20190719; t=1583418718;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gkp7fjbvX7Nm/DRryTdHidK6wwGuuVyuDCVl3FhjKwo=;
- b=goUES688jWbNcOxl5HA+CsVx2eypA2Scjbj77gHKLhMbtDY9BGtUCUNF6mRdbgwn0gacZ9
- dGZaVqymhdHfWfN0yksA0zx3dj/WeQ5+Kwz2PRC2pCdAdvROlum884I0uPUq4eh3m+0+S8
- FeVSJ5QJwyuJvpilcIyd1YZfkw0jV0w=
+ bh=ShYiHE6kFQxkIi922zjEjjdiqynzXHmbI7RWuGJZQ88=;
+ b=ZD8iDThms2iogs2qLUfCBwYjnHpPlP0f+dRWMQDAHh+/1DRbIVRyRQTm2eTsTLjf8wWGT0
+ Ka1l57AsKiCwfr2HdazYA0fZBAjyY36fAqZuS2ak0W1vvsZn+hu37qYXtTOnkmpe4Dfm3V
+ m5sTxlkK+WXnwVonryDQXv/fJbVFuE0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-oWn3h0PHMmmhPibmANd0fg-1; Thu, 05 Mar 2020 09:31:41 -0500
-X-MC-Unique: oWn3h0PHMmmhPibmANd0fg-1
+ us-mta-130-8A-VtGG1Pki5QstW2By9pw-1; Thu, 05 Mar 2020 09:31:57 -0500
+X-MC-Unique: 8A-VtGG1Pki5QstW2By9pw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0302F100550E;
- Thu,  5 Mar 2020 14:31:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9A1110CE780;
+ Thu,  5 Mar 2020 14:31:55 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-120-166.rdu2.redhat.com [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4A8090538;
- Thu,  5 Mar 2020 14:31:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01DF691D68;
+ Thu,  5 Mar 2020 14:31:40 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/15] exec: Reuse qemu_ram_apply_settings() in
- qemu_ram_remap()
-Date: Thu,  5 Mar 2020 15:29:35 +0100
-Message-Id: <20200305142945.216465-6-david@redhat.com>
+Subject: [PATCH v4 06/15] exec: Drop "shared" parameter from ram_block_add()
+Date: Thu,  5 Mar 2020 15:29:36 +0100
+Message-Id: <20200305142945.216465-7-david@redhat.com>
 In-Reply-To: <20200305142945.216465-1-david@redhat.com>
 References: <20200305142945.216465-1-david@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,12 +82,13 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't see why we shouldn't apply all settings to make it look like the
-surrounding RAM (and enable proper VMA merging).
+Properly store it in the flags of the ram block instead (and the flag
+even already exists and is used).
 
-Note: memory backend settings might have overridden these settings. We
-would need a callback to let the memory backend fix that up.
+E.g., qemu_ram_is_shared() now properly succeeds on all ram blocks that are
+actually shared.
 
+Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Cc: Richard Henderson <rth@twiddle.net>
@@ -97,24 +96,62 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- exec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ exec.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/exec.c b/exec.c
-index 13a0ca91fb..7df1ecaf5d 100644
+index 7df1ecaf5d..9c3cc79193 100644
 --- a/exec.c
 +++ b/exec.c
-@@ -2516,8 +2516,7 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t lengt=
-h)
-                                  length, addr);
-                     exit(1);
-                 }
--                memory_try_enable_merging(vaddr, length);
--                qemu_ram_setup_dump(vaddr, length);
-+                qemu_ram_apply_settings(vaddr, length);
-             }
-         }
+@@ -2211,7 +2211,7 @@ static void dirty_memory_extend(ram_addr_t old_ram_si=
+ze,
      }
+ }
+=20
+-static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
++static void ram_block_add(RAMBlock *new_block, Error **errp)
+ {
+     RAMBlock *block;
+     RAMBlock *last_block =3D NULL;
+@@ -2234,7 +2234,8 @@ static void ram_block_add(RAMBlock *new_block, Error =
+**errp, bool shared)
+             }
+         } else {
+             new_block->host =3D phys_mem_alloc(new_block->max_length,
+-                                             &new_block->mr->align, shared=
+);
++                                             &new_block->mr->align,
++                                             qemu_ram_is_shared(new_block)=
+);
+             if (!new_block->host) {
+                 error_setg_errno(errp, errno,
+                                  "cannot set up guest memory '%s'",
+@@ -2339,7 +2340,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, Mem=
+oryRegion *mr,
+         return NULL;
+     }
+=20
+-    ram_block_add(new_block, &local_err, ram_flags & RAM_SHARED);
++    ram_block_add(new_block, &local_err);
+     if (local_err) {
+         g_free(new_block);
+         error_propagate(errp, local_err);
+@@ -2401,10 +2402,13 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, =
+ram_addr_t max_size,
+     if (host) {
+         new_block->flags |=3D RAM_PREALLOC;
+     }
++    if (share) {
++        new_block->flags |=3D RAM_SHARED;
++    }
+     if (resizeable) {
+         new_block->flags |=3D RAM_RESIZEABLE;
+     }
+-    ram_block_add(new_block, &local_err, share);
++    ram_block_add(new_block, &local_err);
+     if (local_err) {
+         g_free(new_block);
+         error_propagate(errp, local_err);
 --=20
 2.24.1
 
