@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133EB17AF15
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 20:42:00 +0100 (CET)
-Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3C817AF21
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 20:43:35 +0100 (CET)
+Received: from localhost ([::1]:55392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9wNb-0003st-2w
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 14:41:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
+	id 1j9wP8-0006lT-K2
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 14:43:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9wKj-0007Ou-SV
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:39:03 -0500
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9wKl-0007P5-0U
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:39:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9wKi-0005Fh-EH
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:39:01 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14304
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <stefanb@linux.vnet.ibm.com>) id 1j9wKj-0005H4-9c
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:39:02 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27594)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1j9wKi-0005Dt-9U
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:39:00 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 025JLZxi008656; Thu, 5 Mar 2020 14:38:58 -0500
+ id 1j9wKj-0005G1-1u
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:39:01 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 025JOkcv118157; Thu, 5 Mar 2020 14:38:59 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yjrtsx3s0-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yj4q2udh7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Mar 2020 14:38:58 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 025JM3aA011171;
+ Thu, 05 Mar 2020 14:38:59 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 025JPBVS120744;
  Thu, 5 Mar 2020 14:38:58 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yjrtsx3rp-1
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yj4q2udgp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 05 Mar 2020 14:38:58 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 025JaHEM020278;
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 025JacEW015070;
  Thu, 5 Mar 2020 19:38:57 GMT
 Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03wdc.us.ibm.com with ESMTP id 2yffk7dquq-1
+ [9.57.198.24]) by ppma01wdc.us.ibm.com with ESMTP id 2yffk6nqt9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 05 Mar 2020 19:38:57 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 025Jcvu035848694
+ 025Jcv0q48365928
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 5 Mar 2020 19:38:57 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0F4A1124053;
+ by IMSVA (Postfix) with ESMTP id 3BA0A124055;
  Thu,  5 Mar 2020 19:38:57 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 01E0B124060;
+ by IMSVA (Postfix) with ESMTP id 1AA83124054;
  Thu,  5 Mar 2020 19:38:57 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu,  5 Mar 2020 19:38:56 +0000 (GMT)
+ Thu,  5 Mar 2020 19:38:57 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/10] docs/specs/tpm: Document TPM_TIS sysbus device for ARM
-Date: Thu,  5 Mar 2020 14:38:52 -0500
-Message-Id: <20200305193855.278878-8-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v2 08/10] test: tpm: pass optional machine options to swtpm
+ test functions
+Date: Thu,  5 Mar 2020 14:38:53 -0500
+Message-Id: <20200305193855.278878-9-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200305193855.278878-1-stefanb@linux.vnet.ibm.com>
 References: <20200305193855.278878-1-stefanb@linux.vnet.ibm.com>
@@ -74,13 +74,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-05_06:2020-03-05,
  2020-03-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1 adultscore=0
- mlxscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 mlxlogscore=999 clxscore=1015 malwarescore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ suspectscore=3 adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003050114
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,62 +99,182 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Update the documentation with recent changes related to the
-sysbus TPM_TIS device addition and add the command line
-to be used with arm VIRT.
+We plan to use swtpm test functions on ARM for testing the
+sysbus TPM-TIS device. However on ARM there is no default machine
+type. So we need to explictly pass some machine options on startup.
+Let's allow this by adding a new parameter to both swtpm test
+functions and update all call sites.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20200305165149.618-8-eric.auger@redhat.com
+Message-id: 20200305165149.618-9-eric.auger@redhat.com
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
- docs/specs/tpm.rst | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ tests/qtest/tpm-crb-swtpm-test.c |  5 +++--
+ tests/qtest/tpm-tests.c          | 10 ++++++----
+ tests/qtest/tpm-tests.h          |  5 +++--
+ tests/qtest/tpm-tis-swtpm-test.c |  5 +++--
+ tests/qtest/tpm-util.c           |  8 ++++++--
+ tests/qtest/tpm-util.h           |  3 ++-
+ 6 files changed, 23 insertions(+), 13 deletions(-)
 
-diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-index 2bdf637f55..da9eb39ca9 100644
---- a/docs/specs/tpm.rst
-+++ b/docs/specs/tpm.rst
-@@ -18,9 +18,15 @@ The TIS interface makes a memory mapped IO region in the area
- 0xfed40000-0xfed44fff available to the guest operating system.
+diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
+index 2c4fb8ae29..5228cb7af4 100644
+--- a/tests/qtest/tpm-crb-swtpm-test.c
++++ b/tests/qtest/tpm-crb-swtpm-test.c
+@@ -29,7 +29,8 @@ static void tpm_crb_swtpm_test(const void *data)
+ {
+     const TestState *ts = data;
  
- QEMU files related to TPM TIS interface:
-- - ``hw/tpm/tpm_tis.c``
-+ - ``hw/tpm/tpm_tis_common.c``
-+ - ``hw/tpm/tpm_tis_isa.c``
-+ - ``hw/tpm/tpm_tis_sysbus.c``
-  - ``hw/tpm/tpm_tis.h``
+-    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_crb_transfer, "tpm-crb");
++    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_crb_transfer,
++                        "tpm-crb", NULL);
+ }
  
-+Both an ISA device and a sysbus device are available. The former is
-+used with pc/q35 machine while the latter can be instantiated in the
-+ARM virt machine.
-+
- CRB interface
- -------------
+ static void tpm_crb_swtpm_migration_test(const void *data)
+@@ -37,7 +38,7 @@ static void tpm_crb_swtpm_migration_test(const void *data)
+     const TestState *ts = data;
  
-@@ -325,6 +331,23 @@ In case a pSeries machine is emulated, use the following command line:
-     -device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x3,drive=drive-virtio-disk0,id=virtio-disk0 \
-     -drive file=test.img,format=raw,if=none,id=drive-virtio-disk0
+     tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
+-                                  tpm_util_crb_transfer, "tpm-crb");
++                                  tpm_util_crb_transfer, "tpm-crb", NULL);
+ }
  
-+In case an ARM virt machine is emulated, use the following command line:
-+
-+.. code-block:: console
-+
-+  qemu-system-aarch64 -machine virt,gic-version=3,accel=kvm \
-+    -cpu host -m 4G \
-+    -nographic -no-acpi \
-+    -chardev socket,id=chrtpm,path=/tmp/mytpm1/swtpm-sock \
-+    -tpmdev emulator,id=tpm0,chardev=chrtpm \
-+    -device tpm-tis-device,tpmdev=tpm0 \
-+    -device virtio-blk-pci,drive=drv0 \
-+    -drive format=qcow2,file=hda.qcow2,if=none,id=drv0 \
-+    -drive if=pflash,format=raw,file=flash0.img,readonly \
-+    -drive if=pflash,format=raw,file=flash1.img
-+
-+  On ARM, ACPI boot with TPM is not yet supported.
-+
- In case SeaBIOS is used as firmware, it should show the TPM menu item
- after entering the menu with 'ESC'.
+ int main(int argc, char **argv)
+diff --git a/tests/qtest/tpm-tests.c b/tests/qtest/tpm-tests.c
+index 6e45a0ba85..a2f2838e15 100644
+--- a/tests/qtest/tpm-tests.c
++++ b/tests/qtest/tpm-tests.c
+@@ -30,7 +30,7 @@ tpm_test_swtpm_skip(void)
+ }
+ 
+ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+-                         const char *ifmodel)
++                         const char *ifmodel, const char *machine_options)
+ {
+     char *args = NULL;
+     QTestState *s;
+@@ -47,10 +47,11 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+     g_assert_true(succ);
+ 
+     args = g_strdup_printf(
++        "%s "
+         "-chardev socket,id=chr,path=%s "
+         "-tpmdev emulator,id=dev,chardev=chr "
+         "-device %s,tpmdev=dev",
+-        addr->u.q_unix.path, ifmodel);
++        machine_options ? : "", addr->u.q_unix.path, ifmodel);
+ 
+     s = qtest_start(args);
+     g_free(args);
+@@ -78,7 +79,8 @@ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+                                    const char *dst_tpm_path,
+                                    const char *uri, tx_func *tx,
+-                                   const char *ifmodel)
++                                   const char *ifmodel,
++                                   const char *machine_options)
+ {
+     gboolean succ;
+     GPid src_tpm_pid, dst_tpm_pid;
+@@ -100,7 +102,7 @@ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+ 
+     tpm_util_migration_start_qemu(&src_qemu, &dst_qemu,
+                                   src_tpm_addr, dst_tpm_addr, uri,
+-                                  ifmodel);
++                                  ifmodel, machine_options);
+ 
+     tpm_util_startup(src_qemu, tx);
+     tpm_util_pcrextend(src_qemu, tx);
+diff --git a/tests/qtest/tpm-tests.h b/tests/qtest/tpm-tests.h
+index b97688fe75..a5df35ab5b 100644
+--- a/tests/qtest/tpm-tests.h
++++ b/tests/qtest/tpm-tests.h
+@@ -16,11 +16,12 @@
+ #include "tpm-util.h"
+ 
+ void tpm_test_swtpm_test(const char *src_tpm_path, tx_func *tx,
+-                         const char *ifmodel);
++                         const char *ifmodel, const char *machine_options);
+ 
+ void tpm_test_swtpm_migration_test(const char *src_tpm_path,
+                                    const char *dst_tpm_path,
+                                    const char *uri, tx_func *tx,
+-                                   const char *ifmodel);
++                                   const char *ifmodel,
++                                   const char *machine_options);
+ 
+ #endif /* TESTS_TPM_TESTS_H */
+diff --git a/tests/qtest/tpm-tis-swtpm-test.c b/tests/qtest/tpm-tis-swtpm-test.c
+index 9f58a3a92b..9470f15751 100644
+--- a/tests/qtest/tpm-tis-swtpm-test.c
++++ b/tests/qtest/tpm-tis-swtpm-test.c
+@@ -29,7 +29,8 @@ static void tpm_tis_swtpm_test(const void *data)
+ {
+     const TestState *ts = data;
+ 
+-    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer, "tpm-tis");
++    tpm_test_swtpm_test(ts->src_tpm_path, tpm_util_tis_transfer,
++                        "tpm-tis", NULL);
+ }
+ 
+ static void tpm_tis_swtpm_migration_test(const void *data)
+@@ -37,7 +38,7 @@ static void tpm_tis_swtpm_migration_test(const void *data)
+     const TestState *ts = data;
+ 
+     tpm_test_swtpm_migration_test(ts->src_tpm_path, ts->dst_tpm_path, ts->uri,
+-                                  tpm_util_tis_transfer, "tpm-tis");
++                                  tpm_util_tis_transfer, "tpm-tis", NULL);
+ }
+ 
+ int main(int argc, char **argv)
+diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
+index e08b137651..7ecdae2fc6 100644
+--- a/tests/qtest/tpm-util.c
++++ b/tests/qtest/tpm-util.c
+@@ -258,23 +258,27 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
+                                    SocketAddress *src_tpm_addr,
+                                    SocketAddress *dst_tpm_addr,
+                                    const char *miguri,
+-                                   const char *ifmodel)
++                                   const char *ifmodel,
++                                   const char *machine_options)
+ {
+     char *src_qemu_args, *dst_qemu_args;
+ 
+     src_qemu_args = g_strdup_printf(
++        "%s "
+         "-chardev socket,id=chr,path=%s "
+         "-tpmdev emulator,id=dev,chardev=chr "
+         "-device %s,tpmdev=dev ",
+-        src_tpm_addr->u.q_unix.path, ifmodel);
++        machine_options ? : "", src_tpm_addr->u.q_unix.path, ifmodel);
+ 
+     *src_qemu = qtest_init(src_qemu_args);
+ 
+     dst_qemu_args = g_strdup_printf(
++        "%s "
+         "-chardev socket,id=chr,path=%s "
+         "-tpmdev emulator,id=dev,chardev=chr "
+         "-device %s,tpmdev=dev "
+         "-incoming %s",
++        machine_options ? : "",
+         dst_tpm_addr->u.q_unix.path,
+         ifmodel, miguri);
+ 
+diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
+index 5755698ad2..15e3924942 100644
+--- a/tests/qtest/tpm-util.h
++++ b/tests/qtest/tpm-util.h
+@@ -44,7 +44,8 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
+                                    SocketAddress *src_tpm_addr,
+                                    SocketAddress *dst_tpm_addr,
+                                    const char *miguri,
+-                                   const char *ifmodel);
++                                   const char *ifmodel,
++                                   const char *machine_options);
+ 
+ void tpm_util_wait_for_migration_complete(QTestState *who);
  
 -- 
 2.24.1
