@@ -2,71 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4904A17A7FF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:44:14 +0100 (CET)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB18317A7F4
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:41:18 +0100 (CET)
+Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rjQ-0003jH-7d
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:44:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36495)
+	id 1j9rgb-0006d5-Nn
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:41:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j9raA-0005Ct-AH
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:34:39 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1j9rfG-0005GG-1l
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:39:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j9ra8-0005l2-1t
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:34:38 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53009
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j9ra7-0005ko-V9
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:34:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=krX3gDbpIAPOR6Dt66bZ4ORH7zF5XP/GGnCiX9UoZtI=;
- b=ZwiKLlAgDu62iHbCBVV5/TTcTX4PBI+6pHzA6sfqbVe7IfjeS2hsz/zrn5V2j1cGvB0y3M
- ZL2XKBCZ2CkcYgs0yZP3L9eSf3KsRYiCxNOx16qcjr1M1C38uy2SFkbIcJZO/C8H8JWxQu
- Jh33JfrBvrVVeCk0x/vfygqHSoCU4p0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-RHk3sziXMoqANvyLxvZjhw-1; Thu, 05 Mar 2020 09:34:32 -0500
-X-MC-Unique: RHk3sziXMoqANvyLxvZjhw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE174189F760;
- Thu,  5 Mar 2020 14:34:30 +0000 (UTC)
-Received: from [10.3.117.177] (ovpn-117-177.phx2.redhat.com [10.3.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A712272D3;
- Thu,  5 Mar 2020 14:34:26 +0000 (UTC)
-Subject: Re: [PATCH v2 0/9] hw, ui, virtfs-proxy-helper: Reduce QEMU
- .data/.rodata/.bss footprint
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200305124525.14555-1-philmd@redhat.com>
- <20200305134229.GB2112347@redhat.com>
- <a7c0746f-75dc-99ed-62df-26f26cf23ec0@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <daf7eac5-1796-06f0-1e95-ee86d50d629f@redhat.com>
-Date: Thu, 5 Mar 2020 08:34:25 -0600
+ (envelope-from <frankja@linux.ibm.com>) id 1j9rfE-0002Kf-LI
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:39:53 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39360)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1j9rfE-0002JN-Cq
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:39:52 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 025EY6jg064601
+ for <qemu-devel@nongnu.org>; Thu, 5 Mar 2020 09:39:51 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yhryexfx5-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 09:39:50 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Thu, 5 Mar 2020 14:39:47 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 5 Mar 2020 14:39:44 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 025EciGR43385094
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Mar 2020 14:38:44 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3B5AF52050;
+ Thu,  5 Mar 2020 14:39:43 +0000 (GMT)
+Received: from dyn-9-152-224-184.boeblingen.de.ibm.com (unknown
+ [9.152.224.184])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 0791252057;
+ Thu,  5 Mar 2020 14:39:43 +0000 (GMT)
+Subject: Re: [PATCH v6 02/18] s390x: protvirt: Add diag308 subcodes 8 - 10
+To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+References: <20200304114231.23493-1-frankja@linux.ibm.com>
+ <20200304114231.23493-3-frankja@linux.ibm.com>
+ <0e56347f-eb63-84e8-3d6d-cbdac47a22f6@de.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Date: Thu, 5 Mar 2020 15:39:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <a7c0746f-75dc-99ed-62df-26f26cf23ec0@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <0e56347f-eb63-84e8-3d6d-cbdac47a22f6@de.ibm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="yyHPuXZZUHUK8zUUW4WK89pfNbhbh9JgF"
+X-TM-AS-GCONF: 00
+x-cbid: 20030514-0020-0000-0000-000003B0CB22
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20030514-0021-0000-0000-000022090736
+Message-Id: <b0358db9-d3a4-75d5-f10d-26997fe6f403@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-05_04:2020-03-05,
+ 2020-03-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=3 malwarescore=0
+ bulkscore=0 phishscore=0 impostorscore=0 spamscore=0 adultscore=0
+ clxscore=1015 mlxlogscore=999 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003050095
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,59 +135,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/5/20 7:56 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 3/5/20 2:42 PM, Daniel P. Berrang=C3=A9 wrote:
->> On Thu, Mar 05, 2020 at 01:45:16PM +0100, Philippe Mathieu-Daud=C3=A9 wr=
-ote:
->>> Since v1:
->>> - merged 2 series
->>> - reworked hw/usb/quirks
->>> - added R-b/A-b tags
->>>
->>> This series reduce the footprint of the QEMU binary:
->>> .bss: 106KiB (moved to .heap)
->>
->> Did this actually have an impact on the binary size, or just on the
->> size the elf-dissector reports ?=C2=A0 I'm not very familiar with ELF,
->> but Wikipedia's description of BSS makes me question it...
->>
->> =C2=A0=C2=A0 "Typically only the length of the bss section, but no data,
->> =C2=A0=C2=A0=C2=A0 is stored in the object file. The program loader allo=
-cates
->> =C2=A0=C2=A0=C2=A0 memory for the bss section when it loads the program.=
- On
->> =C2=A0=C2=A0=C2=A0 some platforms, some or all of the bss section is ini=
-tialized
->> =C2=A0=C2=A0=C2=A0 to zeroes. Unix-like systems and Windows initialize t=
-he bss
->> =C2=A0=C2=A0=C2=A0 section to zero"
->>
->> This suggests .bss has no on-disk overhead, only runtime overhead,
->> which is presumably going to be the same with heap allocations.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--yyHPuXZZUHUK8zUUW4WK89pfNbhbh9JgF
+Content-Type: multipart/mixed; boundary="Y3RVSWn4rCskJKhA0x7xMiFPSQWOc5gdy"
+
+--Y3RVSWn4rCskJKhA0x7xMiFPSQWOc5gdy
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 3/4/20 7:59 PM, Christian Borntraeger wrote:
 >=20
-> IIUC when stored in the .bss, the buffer are always allocated in memory,=
-=20
-> even if not used. By moving them to the .heap, we only allocate them=20
-> when using either the adlib audio device or curses.
+>=20
+> On 04.03.20 12:42, Janosch Frank wrote:
+>> For diag308 subcodes 8 - 10 we have a new ipib of type 5. The ipib
+>> holds the address and length of the secure execution header, as well
+>> as a list of guest components.
+>>
+>> Each component is a block of memory, for example kernel or initrd,
+>> which needs to be decrypted by the Ultravisor in order to run a
+>> protected VM. The secure execution header instructs the Ultravisor on
+>> how to handle the protected VM and its components.
+>>
+>> Subcodes 8 and 9 are similiar to 5 and 6 and subcode 10 will finally
+>> start the protected guest.
+>>
+>> Subcodes 8-10 are not valid in protected mode, we have to do a subcode=
 
-Virtual memory is cheap on 64-bit platforms.  Just because the address=20
-range is reserved does not actually change the amount of memory in use=20
-by the machine, if the application does not touch those virtual=20
-addresses.  But you do have a potential point on a 32-bit platform,=20
-where a heap allocation only when needed may avoid address space=20
-exhaustion for other cases.
+>> 3 and then the 8 and 10 combination for a protected reboot.
+>>
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  hw/s390x/ipl.c      | 47 ++++++++++++++++++++++++++++++++++++++++++--=
+-
+>>  hw/s390x/ipl.h      | 32 ++++++++++++++++++++++++++++++
+>>  target/s390x/diag.c | 26 ++++++++++++++++++++++---
+>>  3 files changed, 99 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+>> index 9c1ecd423c..80c6ab233a 100644
+>> --- a/hw/s390x/ipl.c
+>> +++ b/hw/s390x/ipl.c
+>=20
+> Can you update the copyright dates for files that you touch?
+>=20
+>> @@ -538,15 +538,55 @@ static bool is_virtio_scsi_device(IplParameterBl=
+ock *iplb)
+>>      return is_virtio_ccw_device_of_type(iplb, VIRTIO_ID_SCSI);
+>>  }
+>> =20
+>> +int s390_ipl_pv_check_components(IplParameterBlock *iplb)
+>> +{
+>> +    int i;
+>> +    IPLBlockPV *ipib_pv =3D &iplb->pv;
+>> +
+>> +    if (ipib_pv->num_comp =3D=3D 0) {
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    for (i =3D 0; i < ipib_pv->num_comp; i++) {
+>> +        /* Addr must be 4k aligned */
+>> +        if (ipib_pv->components[i].addr & ~TARGET_PAGE_MASK) {
+>> +            return -EINVAL;
+>> +        }
+>> +
+>> +        /* Tweak prefix is monotonously increasing with each componen=
+t */
+>> +        if (i < ipib_pv->num_comp - 1 &&
+>=20
+> Why do we need this check? Isnt that already ensured by the for loop?
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+This is "i < ipib_pv->num_comp - 1" because we use i + 1 below, not "i <
+ipib_pv->num_comp"
+
+>=20
+>> +            ipib_pv->components[i].tweak_pref >
+>> +            ipib_pv->components[i + 1].tweak_pref) {
+>=20
+> I think i+1 must be greater than i. So ">=3D" instead?
+
+Ack
+
+>=20
+>> +            return -EINVAL;
+>> +        }
+>> +    }
+>> +    return 0;
+>> +}
+>> +
+>>  void s390_ipl_update_diag308(IplParameterBlock *iplb)
+>=20
+> maybe add a comment that explains that a guest can have 2 IPLBs. one fo=
+r
+> the secure guest and one thsat we go back to when rebooting.
+
+Sure
+
+>>  {
+>>      S390IPLState *ipl =3D get_ipl_device();
+>> =20
+>> -    ipl->iplb =3D *iplb;
+>> -    ipl->iplb_valid =3D true;
+>> +    if (iplb->pbt =3D=3D S390_IPL_TYPE_PV) {
+>> +        ipl->iplb_pv =3D *iplb;
+>> +        ipl->iplb_valid_pv =3D true;
+>> +    } else {
+>> +        ipl->iplb =3D *iplb;
+>> +        ipl->iplb_valid =3D true;
+>> +    }
+>>      ipl->netboot =3D is_virtio_net_device(iplb);
+>>  }
+>> =20
+>> +IplParameterBlock *s390_ipl_get_iplb_secure(void)
+>> +{
+>> +    S390IPLState *ipl =3D get_ipl_device();
+>> +
+>> +    if (!ipl->iplb_valid_pv) {
+>> +        return NULL;
+>> +    }
+>> +    return &ipl->iplb_pv;
+>> +}
+>> +
+>>  IplParameterBlock *s390_ipl_get_iplb(void)
+>>  {
+>>      S390IPLState *ipl =3D get_ipl_device();
+>> @@ -561,7 +601,8 @@ void s390_ipl_reset_request(CPUState *cs, enum s39=
+0_reset reset_type)
+>>  {
+>>      S390IPLState *ipl =3D get_ipl_device();
+>> =20
+>> -    if (reset_type =3D=3D S390_RESET_EXTERNAL || reset_type =3D=3D S3=
+90_RESET_REIPL) {
+>> +    if (reset_type =3D=3D S390_RESET_EXTERNAL || reset_type =3D=3D S3=
+90_RESET_REIPL ||
+>> +        reset_type =3D=3D S390_RESET_PV) {
+>>          /* use CPU 0 for full resets */
+>>          ipl->reset_cpu_index =3D 0;
+>>      } else {
+>> diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+>> index d4813105db..04be63cee1 100644
+>> --- a/hw/s390x/ipl.h
+>> +++ b/hw/s390x/ipl.h
+>> @@ -15,6 +15,24 @@
+>>  #include "cpu.h"
+>>  #include "hw/qdev-core.h"
+>> =20
+>> +struct IPLBlockPVComp {
+>> +    uint64_t tweak_pref;
+>> +    uint64_t addr;
+>> +    uint64_t size;
+>> +} QEMU_PACKED;
+>> +typedef struct IPLBlockPVComp IPLBlockPVComp;
+>> +
+>> +struct IPLBlockPV {
+>> +    uint8_t  reserved[87];
+>> +    uint8_t  version;
+>> +    uint32_t reserved70;
+>=20
+> Here you have 70 (the offset in hex I guess), I t=C3=9Fhink this is an =
+odd name. In addition the reserved field 2 lines above has no address par=
+t in its
+> name.=20
+
+I wanted to prepare for my ipl cleanup patch set which adds offsets to
+all the reserved fields. Do you want me to remove it or make the first
+one "reserved18" ?
+
+
+
+--Y3RVSWn4rCskJKhA0x7xMiFPSQWOc5gdy--
+
+--yyHPuXZZUHUK8zUUW4WK89pfNbhbh9JgF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5hDy4ACgkQ41TmuOI4
+ufiETg/+Polubxwg8Ig3Ln429F800nMRYJpDUA3brMgkeF4JSyF44VT1ucLxroEg
++b4fcdptHMWxEjt5z44f6CS2yNFIG4Pb1vEdmYJ41ZlOwo6B5A5jsPlb3KAdFfJi
+bH2rcwrFHrj+SMSoMt/7Td6dkEVYrxCYfKRouPPNwhsa6VxII9KOaK2OQhqXj8J8
+lhG2+vJt+mWuuJW/wvkjQ7PFSq/kUKzXQ68vyd/3er35CiesKXWW7xgiJMvk9ag/
+VfE0B+B674lUxsayKUxSzd9NnXACQg/svjNj+3aUsJM/JxzhKZgdl1+kz9xTPvMo
+A3c6LO7jiWfmc+O0ka0vJEf2Hrum0b5Y099P8hTWTbJimMfO4+uCk4qkREzEdDf/
+JGl3/a9f05Vl/ArKOFbKQx1wSBgVxNyE0FVTjov0ayXjoHdZZ1bbk8sDQr3BCTFb
+BnOUtEq7aOiSnioBwDI57otN4UZXsNrLIJtyPxkQLYiQCN0lByQ1HBNmb01h7qAj
+J3xas7UV5aSTJWHBFK38xopd7T8QGoQNPE1m/e+cm2DWcV5wqKD43I1Q2+QY7uWk
+O/7DrDWDBt+snSjVNvuslbejdUfhmJYmojWsYoJEs2NN5Wn91w+7EJPNn/WfyttL
+D8U9kehQefpFFiWLmuoC4f8A7iVslrLZFA2J55A7oPzxsCOkN0E=
+=5UvV
+-----END PGP SIGNATURE-----
+
+--yyHPuXZZUHUK8zUUW4WK89pfNbhbh9JgF--
 
 
