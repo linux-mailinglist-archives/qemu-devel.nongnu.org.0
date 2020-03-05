@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F69B17AAB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:40:56 +0100 (CET)
-Received: from localhost ([::1]:52598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A380F17AAF2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:53:17 +0100 (CET)
+Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tYN-0001zO-Iy
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:40:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59423)
+	id 1j9tkK-0005M8-Ju
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:53:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPL-0003m0-Es
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:36 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPL-0003l3-3R
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPG-0002dj-3X
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:35 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51181)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPI-0002gl-0Z
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:34 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38864)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tPF-0002am-S7
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:30 -0500
-Received: by mail-wm1-x342.google.com with SMTP id a5so7065813wmb.0
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:29 -0800 (PST)
+ id 1j9tPH-0002fK-Oe
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:31 -0500
+Received: by mail-wr1-x441.google.com with SMTP id t11so7800765wrw.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=e+/afNoZqx1Svd6138SnxY+KW5NBVyXfjUhJrOnjzdI=;
- b=bzhhlXN284HsCmGfYzBdl07YuwBU7tEZEoGZiJbiGWRSBkj3wfKFhWCwDpTJVEgipT
- tqhJsX6pvF8dtfsUU6rIxahqDjgp6qyzNua61IqJX21uBbYnCTTdBDLInjAXoVdUkXax
- S92m5S9aXVOdsPUcfLmWOAqWD3HncMdXjPGbZ3+pgIrF4zaFgGDqlUqAp9GJiGb7aVXS
- CJA5rK3XmxXoQK3jlRZzVG/WOrDOjF8aiUWcl15U/FWPNsvzoJ5PCwurRS+N/V4ophyW
- a4LZ3zC+sTpkOiSiOi0y+xbeHU3U00O33F7fuWrkyvvjyUp8E+T7/1cZmOCBZFmqcwy+
- WNyw==
+ bh=uJXmH/5kRWSP+xnkHKGQSvpL4CTmOayKZdrdHq01azk=;
+ b=GQASX7fgj/AqhzqK/x6iBCSpv88ei+/EMlHcHZczAjYk37NWrXPvpuDcp6b39w4xr8
+ qe2IL+SF4W7D03jivvLdScVVyC+RFW8ENly3Y/N706C31lqL1T4HcgW6NY9JKXM1dgPN
+ +6c8WlFEBozwvnzqqIBofuiNwBa/5jhnY59YBuBHG4ftgiDSdHPJG+6eoK5ndNXzCkgI
+ lWA7F5veNfGyLY8aeZIJUsOHo9Q0NhhzV1F7tQLXL2aiO1PJKcAXAdc59nnF1QwhsioZ
+ 0t0s3HUS2QIxfCqjjv+ignSWGl/sw5pgwhNAUMJQs9muEqn9U/sAHGwB0c514XcANxIb
+ autQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e+/afNoZqx1Svd6138SnxY+KW5NBVyXfjUhJrOnjzdI=;
- b=ZOzgJ4rXosrfqPmeAWseU5f0h17pzNU/aBM+aHyO2iooIqlAqUED7ftcGW8CrVFWXX
- DVwXwkllBSrmFSvJwK/+Yt2E8EqxQmmjAt2TfIRopau8MBfgP+4QYXrEs9XdgAVEngsG
- YMOXoWjAfKcpi4E6zjItNlwOfSVibg41i0w2GnShnQTAAXuixf/dLSyjOaWumEXB0fqo
- rc8xyrMX8hYYNvNo1qVmYQ4gW/igvFo1G2tAVFZm+twW8Sp64n9tV0euMR3G7M2xNPUo
- IDOqpSFE2Og+u0Ylmrl5le3DYsDJ82Y7wjAZ3mV+qE7uqfYR6jccjLXITqziKRzD48tG
- REhg==
-X-Gm-Message-State: ANhLgQ39vVinGxTQJcQ16n762OxXvkCuDF/befd5kDipEbqR01v7cgS4
- Rmzkx5m4O5kQyHZNbLFKcHWsa1xlJWviTw==
-X-Google-Smtp-Source: ADFU+vsy+9BjEQOI/+asEBVPi4zMGLxIAOSLe21iigi5I0HIWooG8VVtbP286Lm7R+JPmtIUtuCtiw==
-X-Received: by 2002:a1c:41c3:: with SMTP id o186mr10249722wma.27.1583425888351; 
- Thu, 05 Mar 2020 08:31:28 -0800 (PST)
+ bh=uJXmH/5kRWSP+xnkHKGQSvpL4CTmOayKZdrdHq01azk=;
+ b=MiMVZao2JE0hq9wWMte/nfzWVvORLYOwUTYacQ7kOuBMgYinYw3Brmo7GkZe72rRf/
+ 6zRXn5iy4Z0BAJre7n0VJz4KCXuPsF8yNgaN9TgCTMNgWDqQliqGCV6e1ZiXEAPNPc7A
+ TZKS6KtGuX8BJXi7RD2k0dnyJ2+xQaDxF9PhR4qxckw1LvpVA69Qdz5nOw/0kzo60iOu
+ t2nX6cNnRU0jMAJ4VjmlI1zkkA6cHpEDyH+K7CBoHbPKEsr+j3rYEqyUQLIkWfPvQlsS
+ luRbZ01nn3nmwtdhE/iCIkKLmi9N3k/qv+1sQegwwai+Bvq7VTJ3q4TdFaxjnHW3NqYa
+ orfQ==
+X-Gm-Message-State: ANhLgQ2OGuRDneGo/zXFKX24qF/bSloBOowJNEn2S6ifCdB5sw1JBZCH
+ qVKzx9stxiZxcTv1xVyM+ULubICb9lqEjw==
+X-Google-Smtp-Source: ADFU+vvMXhYxYRlW8gskrMamYthXqmMsMF6VQZFSzkR/9SyCJU+q81Pv5YLAssA2NqcWaIRquM1hqg==
+X-Received: by 2002:adf:a2d9:: with SMTP id t25mr10836910wra.84.1583425889527; 
+ Thu, 05 Mar 2020 08:31:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.27
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:27 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/37] target/arm: Honor the HCR_EL2.TPU bit
-Date: Thu,  5 Mar 2020 16:30:47 +0000
-Message-Id: <20200305163100.22912-25-peter.maydell@linaro.org>
+Subject: [PULL 25/37] target/arm: Honor the HCR_EL2.TTLB bit
+Date: Thu,  5 Mar 2020 16:30:48 +0000
+Message-Id: <20200305163100.22912-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,126 +83,191 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This bit traps EL1 access to cache maintenance insns that operate
-to the point of unification.  There are no longer any references to
-plain aa64_cacheop_access, so remove it.
+This bit traps EL1 access to tlb maintenance insns.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200229012811.24129-11-richard.henderson@linaro.org
+Message-id: 20200229012811.24129-12-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 53 +++++++++++++++++++++++++++------------------
- 1 file changed, 32 insertions(+), 21 deletions(-)
+ target/arm/helper.c | 85 +++++++++++++++++++++++++++++----------------
+ 1 file changed, 55 insertions(+), 30 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e6eaec8ad31..09b5022919a 100644
+index 09b5022919a..6abf52db660 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4301,19 +4301,6 @@ static const ARMCPRegInfo uao_reginfo = {
-     .readfn = aa64_uao_read, .writefn = aa64_uao_write
- };
- 
--static CPAccessResult aa64_cacheop_access(CPUARMState *env,
--                                          const ARMCPRegInfo *ri,
--                                          bool isread)
--{
--    /* Cache invalidate/clean: NOP, but EL0 must UNDEF unless
--     * SCTLR_EL1.UCI is set.
--     */
--    if (arm_current_el(env) == 0 && !(arm_sctlr(env, 0) & SCTLR_UCI)) {
--        return CP_ACCESS_TRAP;
--    }
--    return CP_ACCESS_OK;
--}
--
- static CPAccessResult aa64_cacheop_poc_access(CPUARMState *env,
-                                               const ARMCPRegInfo *ri,
-                                               bool isread)
-@@ -4336,6 +4323,28 @@ static CPAccessResult aa64_cacheop_poc_access(CPUARMState *env,
+@@ -563,6 +563,16 @@ static CPAccessResult access_tacr(CPUARMState *env, const ARMCPRegInfo *ri,
      return CP_ACCESS_OK;
  }
  
-+static CPAccessResult aa64_cacheop_pou_access(CPUARMState *env,
-+                                              const ARMCPRegInfo *ri,
-+                                              bool isread)
++/* Check for traps from EL1 due to HCR_EL2.TTLB. */
++static CPAccessResult access_ttlb(CPUARMState *env, const ARMCPRegInfo *ri,
++                                  bool isread)
 +{
-+    /* Cache invalidate/clean to Point of Unification... */
-+    switch (arm_current_el(env)) {
-+    case 0:
-+        /* ... EL0 must UNDEF unless SCTLR_EL1.UCI is set.  */
-+        if (!(arm_sctlr(env, 0) & SCTLR_UCI)) {
-+            return CP_ACCESS_TRAP;
-+        }
-+        /* fall through */
-+    case 1:
-+        /* ... EL1 must trap to EL2 if HCR_EL2.TPU is set.  */
-+        if (arm_hcr_el2_eff(env) & HCR_TPU) {
-+            return CP_ACCESS_TRAP_EL2;
-+        }
-+        break;
++    if (arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_TTLB)) {
++        return CP_ACCESS_TRAP_EL2;
 +    }
 +    return CP_ACCESS_OK;
 +}
 +
- /* See: D4.7.2 TLB maintenance requirements and the TLB maintenance instructions
-  * Page D4-1736 (DDI0487A.b)
-  */
-@@ -4733,14 +4742,16 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-     /* Cache ops: all NOPs since we don't emulate caches */
-     { .name = "IC_IALLUIS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 1, .opc2 = 0,
--      .access = PL1_W, .type = ARM_CP_NOP },
-+      .access = PL1_W, .type = ARM_CP_NOP,
-+      .accessfn = aa64_cacheop_pou_access },
-     { .name = "IC_IALLU", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 5, .opc2 = 0,
--      .access = PL1_W, .type = ARM_CP_NOP },
-+      .access = PL1_W, .type = ARM_CP_NOP,
-+      .accessfn = aa64_cacheop_pou_access },
-     { .name = "IC_IVAU", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 5, .opc2 = 1,
-       .access = PL0_W, .type = ARM_CP_NOP,
--      .accessfn = aa64_cacheop_access },
-+      .accessfn = aa64_cacheop_pou_access },
-     { .name = "DC_IVAC", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 1,
-       .access = PL1_W, .accessfn = aa64_cacheop_poc_access,
-@@ -4758,7 +4769,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-     { .name = "DC_CVAU", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 11, .opc2 = 1,
-       .access = PL0_W, .type = ARM_CP_NOP,
--      .accessfn = aa64_cacheop_access },
-+      .accessfn = aa64_cacheop_pou_access },
-     { .name = "DC_CIVAC", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 1,
-       .access = PL0_W, .type = ARM_CP_NOP,
-@@ -4932,13 +4943,13 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-       .writefn = tlbiipas2_is_write },
-     /* 32 bit cache operations */
-     { .name = "ICIALLUIS", .cp = 15, .opc1 = 0, .crn = 7, .crm = 1, .opc2 = 0,
--      .type = ARM_CP_NOP, .access = PL1_W },
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = aa64_cacheop_pou_access },
-     { .name = "BPIALLUIS", .cp = 15, .opc1 = 0, .crn = 7, .crm = 1, .opc2 = 6,
-       .type = ARM_CP_NOP, .access = PL1_W },
-     { .name = "ICIALLU", .cp = 15, .opc1 = 0, .crn = 7, .crm = 5, .opc2 = 0,
--      .type = ARM_CP_NOP, .access = PL1_W },
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = aa64_cacheop_pou_access },
-     { .name = "ICIMVAU", .cp = 15, .opc1 = 0, .crn = 7, .crm = 5, .opc2 = 1,
--      .type = ARM_CP_NOP, .access = PL1_W },
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = aa64_cacheop_pou_access },
-     { .name = "BPIALL", .cp = 15, .opc1 = 0, .crn = 7, .crm = 5, .opc2 = 6,
-       .type = ARM_CP_NOP, .access = PL1_W },
-     { .name = "BPIMVA", .cp = 15, .opc1 = 0, .crn = 7, .crm = 5, .opc2 = 7,
-@@ -4952,7 +4963,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-     { .name = "DCCSW", .cp = 15, .opc1 = 0, .crn = 7, .crm = 10, .opc2 = 2,
-       .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-     { .name = "DCCMVAU", .cp = 15, .opc1 = 0, .crn = 7, .crm = 11, .opc2 = 1,
--      .type = ARM_CP_NOP, .access = PL1_W },
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = aa64_cacheop_pou_access },
-     { .name = "DCCIMVAC", .cp = 15, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 1,
-       .type = ARM_CP_NOP, .access = PL1_W, .accessfn = aa64_cacheop_poc_access },
-     { .name = "DCCISW", .cp = 15, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 2,
+ static void dacr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -2285,41 +2295,53 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+       .type = ARM_CP_NO_RAW, .access = PL1_R, .readfn = isr_read },
+     /* 32 bit ITLB invalidates */
+     { .name = "ITLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 0,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiall_write },
+     { .name = "ITLBIMVA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 1,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimva_write },
+     { .name = "ITLBIASID", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 2,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiasid_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiasid_write },
+     /* 32 bit DTLB invalidates */
+     { .name = "DTLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 0,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiall_write },
+     { .name = "DTLBIMVA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 1,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimva_write },
+     { .name = "DTLBIASID", .cp = 15, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 2,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiasid_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiasid_write },
+     /* 32 bit TLB invalidates */
+     { .name = "TLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 0,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiall_write },
+     { .name = "TLBIMVA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 1,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimva_write },
+     { .name = "TLBIASID", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 2,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiasid_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiasid_write },
+     { .name = "TLBIMVAA", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 3,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimvaa_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimvaa_write },
+     REGINFO_SENTINEL
+ };
+ 
+ static const ARMCPRegInfo v7mp_cp_reginfo[] = {
+     /* 32 bit TLB invalidates, Inner Shareable */
+     { .name = "TLBIALLIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 0,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbiall_is_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbiall_is_write },
+     { .name = "TLBIMVAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 1,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_is_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimva_is_write },
+     { .name = "TLBIASIDIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 2,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
+       .writefn = tlbiasid_is_write },
+     { .name = "TLBIMVAAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
+       .writefn = tlbimvaa_is_write },
+     REGINFO_SENTINEL
+ };
+@@ -4780,51 +4802,51 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+     /* TLBI operations */
+     { .name = "TLBI_VMALLE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 0,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1is_write },
+     { .name = "TLBI_VAE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 1,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_ASIDE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 2,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1is_write },
+     { .name = "TLBI_VAAE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_VALE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 5,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_VAALE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 7,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_VMALLE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 0,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1_write },
+     { .name = "TLBI_VAE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 1,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1_write },
+     { .name = "TLBI_ASIDE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 2,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1_write },
+     { .name = "TLBI_VAAE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 3,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1_write },
+     { .name = "TLBI_VALE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 5,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1_write },
+     { .name = "TLBI_VAALE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 7,
+-      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1_write },
+     { .name = "TLBI_IPAS2E1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 0, .opc2 = 1,
+@@ -4910,14 +4932,17 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+ #endif
+     /* TLB invalidate last level of translation table walk */
+     { .name = "TLBIMVALIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 5,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_is_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimva_is_write },
+     { .name = "TLBIMVAALIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 7,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
+       .writefn = tlbimvaa_is_write },
+     { .name = "TLBIMVAL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 5,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimva_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimva_write },
+     { .name = "TLBIMVAAL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 7,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .writefn = tlbimvaa_write },
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .writefn = tlbimvaa_write },
+     { .name = "TLBIMVALH", .cp = 15, .opc1 = 4, .crn = 8, .crm = 7, .opc2 = 5,
+       .type = ARM_CP_NO_RAW, .access = PL2_W,
+       .writefn = tlbimva_hyp_write },
 -- 
 2.20.1
 
