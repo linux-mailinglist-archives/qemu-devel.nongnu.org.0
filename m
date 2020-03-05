@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4429017A2DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 11:10:34 +0100 (CET)
-Received: from localhost ([::1]:46196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDB217A2E1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 11:11:42 +0100 (CET)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9nSa-00079Q-VL
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 05:10:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
+	id 1j9nTh-0000JN-NK
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 05:11:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j9nRX-0006ON-OU
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 05:09:28 -0500
+ (envelope-from <groug@kaod.org>) id 1j9nSY-0007nV-Et
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 05:10:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j9nRV-0002Qu-7H
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 05:09:26 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46001)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j9nRU-0002Qf-VA
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 05:09:25 -0500
-Received: by mail-wr1-x442.google.com with SMTP id v2so6215914wrp.12
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 02:09:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=j77nLhOwoWG/siSHqClrE51PrP47M+Q7dbHrF2aVhSw=;
- b=XsGwA9NgMU6/DNQ3JL6uFssdB4eUNF5WqWNX08fsVYSaWq//F51LrgPvVQgj6D2QtF
- Kf5T34VA+kuVMddZBbKHkqF5r2S9+uPCZ+eDJ20MxCteoa54kMmJjvnCG/cyAosEtOJ2
- Ns77+tVP6Gmw9KwioFckkIPAxcz1uRevbAZ0mzkl+dg25QsUKPyhy3iRNgJj7+kx9GU5
- tmGQGVutrDVumVuG4YkMJeTLLHYqRnFuPi6DDSl2b8oVCWXwfbPtNKnRCUniCdV4lNtN
- OrMP4yv7QQ78qm1SU0yombmCcLEQjN2XzeU/08CHf3YUGOPjFoI83E91VIONmJbR2ID5
- tIyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=j77nLhOwoWG/siSHqClrE51PrP47M+Q7dbHrF2aVhSw=;
- b=F6Q8fFYaEBV3oY8Lz78/haIGScSvfvc369hmHGckiv2i2dU9usyieWVxS4WPMzB2hI
- DsbN5IDXIG9czbRhlHCNJjpcUEaSttCAz4dqfj5gCOg1HvXCHEAPCNhTsVggoM5u1sfb
- MlsMRUEReXQ1Bj7vfQmE+E8Wl4pXequh/Bv1ft2zNNaB/ertDuwd0XSA6SMRU5JM2dFA
- LB9lmsbH1a6VsHB9elIP+RytHktGZ5xrVnlDdaw1jttEI52u2xRq7t2eRYlIR2GaPlH9
- v8nrA/HDtfDfdLvNWs+iA+RXfOZHiuyuQzrnMcM3cI33nNwLOsmiUIHl/3hCg+FPwgYN
- 5U+Q==
-X-Gm-Message-State: ANhLgQ3b53F+GBRM+KrSCaqmoJACApVwgifNncYZBwVm6Kg4rFnd/mOS
- EEgMA6lMJwOtJEunBKWRJP4YHTqAFuk=
-X-Google-Smtp-Source: ADFU+vti0xdiS73ZZ4mdetOBwuA+gDhYqfEatIxldvBklpcZv/xQWC5lskNtKKSg36fg2/nxTIKFWw==
-X-Received: by 2002:adf:fa05:: with SMTP id m5mr9464790wrr.352.1583402962867; 
- Thu, 05 Mar 2020 02:09:22 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p17sm41027959wre.89.2020.03.05.02.09.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 02:09:21 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EAD831FF87;
- Thu,  5 Mar 2020 10:09:20 +0000 (GMT)
-References: <20200302181907.32110-1-alex.bennee@linaro.org>
- <20200302181907.32110-8-alex.bennee@linaro.org>
- <874kv68lg9.fsf@linaro.org> <87v9njf87n.fsf@secure.laptop>
-User-agent: mu4e 1.3.9; emacs 27.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: quintela@redhat.com
-Subject: Re: [PATCH  v1 07/10] configure: fix check for libzstd
-In-reply-to: <87v9njf87n.fsf@secure.laptop>
-Date: Thu, 05 Mar 2020 10:09:20 +0000
-Message-ID: <87o8tb5d0v.fsf@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1j9nSX-00039Y-Ew
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 05:10:30 -0500
+Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:55797)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j9nSX-00032p-9W
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 05:10:29 -0500
+Received: from player697.ha.ovh.net (unknown [10.108.42.82])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 857F01271D1
+ for <qemu-devel@nongnu.org>; Thu,  5 Mar 2020 11:10:26 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 3A4601016F37D;
+ Thu,  5 Mar 2020 10:10:19 +0000 (UTC)
+Date: Thu, 5 Mar 2020 11:10:15 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH 3/3] virtfs-proxy-helper: Make the helper_opts[] array
+ const
+Message-ID: <20200305111015.10ad9479@bahia.home>
+In-Reply-To: <20200305010446.17029-4-philmd@redhat.com>
+References: <20200305010446.17029-1-philmd@redhat.com>
+ <20200305010446.17029-4-philmd@redhat.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Ovh-Tracer-Id: 14992764638741895459
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddutddgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.37.72
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,89 +57,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-trivial@nongnu.org,
+ Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu,  5 Mar 2020 02:04:46 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Juan Quintela <quintela@redhat.com> writes:
+> Reduce a bit the memory footprint by making the helper_opts[]
+> array const.
+>=20
 
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>
->>> Fixes: 3a67848134d0
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>> ---
->>>  configure | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/configure b/configure
->>> index 7b373bc0bb8..caa65f58831 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -2464,7 +2464,7 @@ fi
->>>  # zstd check
->>>=20=20
->>>  if test "$zstd" !=3D "no" ; then
->>> -    if $pkg_config --exist libzstd ; then
->>> +    if $pkg_config --exists libzstd ; then
->
-> Hi
->
-> several things:
->
-> a- I found why I didn't get the error.  Fedora pkg-config is really
-> "smart":
->
-> b- I have tried (with this patch), the following configurations:
->    * --enable-zstd
->    * --disable-zstd
->    with both libzstd-devel installed and not installed. Everything
->    worked as expected.
->    (BTW, I tested that before submmiting the patch in the first place, I
->    thought that I had done all testing needed for such a check).
->
-> Can you told me what architecture/distro/os are you using.
+... and, maybe most importantly, make it clear helper_opts[] is
+not supposed to be modified at runtime.
 
-It broke on the CI setup - it could be another issue with the ageing
-Travis images (Ubuntu 16.04).
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
 
->> Dropping this patch as it breaks the build even more!
->>
->>   CC      migration/block.o
->>
->> /home/travis/build/stsquad/qemu/migration/multifd-zstd.c:24:5: error: un=
-known type name =E2=80=98ZSTD_CStream=E2=80=99
->>
->>      ZSTD_CStream *zcs;
->>
->>      ^
->
-> This is really weird.  if you arrive here, that means:
-> - you have zstd devel installed (whatever is that called for your
->   os/distro/whatever).
+Assuming this goes to the trivial tree:
 
-Well it detected it:
+Acked-by: Greg Kurz <groug@kaod.org>
 
-  zstd support      yes
+>  fsdev/virtfs-proxy-helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
+> index aa1ab2590d..de061a8a0e 100644
+> --- a/fsdev/virtfs-proxy-helper.c
+> +++ b/fsdev/virtfs-proxy-helper.c
+> @@ -43,7 +43,7 @@
+>  #define BTRFS_SUPER_MAGIC 0x9123683E
+>  #endif
+> =20
+> -static struct option helper_opts[] =3D {
+> +static const struct option helper_opts[] =3D {
+>      {"fd", required_argument, NULL, 'f'},
+>      {"path", required_argument, NULL, 'p'},
+>      {"nodaemon", no_argument, NULL, 'n'},
 
->
-> - pkg-config has found zstd devel packages and configured them (that
->   file depends on CONFiG_ZSTD beoing defined)
->
-> - gcc has found <zstd.h> (i.e. it don't give one error about that
->   include file not found).
->
-> And zstd don't have ZSTD_CStream defined?  What is going on here?
-> Can you post/show what is on your zstd.h file?
-> What zstd library version do you have?
->
-> I thought that zstd was a new library, and that we didn't need to check
-> for versions.  It appears that I was wrong.  And no, the include file
-> don't show what features are new/old.
-
-Obviously not that new but has changed since it first got introduced.
-
---=20
-Alex Benn=C3=A9e
 
