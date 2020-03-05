@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5315917A068
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 08:12:12 +0100 (CET)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95DFB17A075
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 08:20:07 +0100 (CET)
+Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9kfy-0002AM-RB
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 02:12:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36547)
+	id 1j9kne-0004aF-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 02:20:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j9kf7-0001j7-CH
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 02:11:18 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1j9kmt-0003r4-C9
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 02:19:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j9kf5-0007Tu-TV
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 02:11:17 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3262 helo=huawei.com)
+ (envelope-from <pannengyuan@huawei.com>) id 1j9kmr-0000Fw-TA
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 02:19:19 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:37732 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j9kf5-0007Nc-Ho
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 02:11:15 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id D5BEA429CBAD55E72282;
- Thu,  5 Mar 2020 15:11:09 +0800 (CST)
+ id 1j9kmr-000089-HK
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 02:19:17 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D4DA7D618F8887097F14;
+ Thu,  5 Mar 2020 15:19:11 +0800 (CST)
 Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
- (10.3.19.214) with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 5 Mar 2020
- 15:11:03 +0800
+ (10.3.19.203) with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 5 Mar 2020
+ 15:19:03 +0800
 Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
  in mac_via
 To: <qemu-devel@nongnu.org>
 References: <20200305065422.12707-1-pannengyuan@huawei.com>
  <20200305065422.12707-3-pannengyuan@huawei.com>
 From: Pan Nengyuan <pannengyuan@huawei.com>
-Message-ID: <a62eaf5d-69ec-c0c8-3acc-2df8e8533c93@huawei.com>
-Date: Thu, 5 Mar 2020 15:10:58 +0800
+Message-ID: <4729be78-23b6-48cf-f492-0ec53c764096@huawei.com>
+Date: Thu, 5 Mar 2020 15:18:59 +0800
 User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
@@ -45,7 +45,7 @@ X-Originating-IP: [10.184.39.213]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -140,23 +140,8 @@ On 3/5/2020 2:54 PM, Pan Nengyuan wrote:
 >                          TYPE_ADB_BUS, DEVICE(obj), "adb.0");
 > +
 > +    /* Init VIAs 1 and 2 */
-> +    object_initialize_child(OBJECT(m), "via1", &m->mos6522_via1,Sorry, one more space at the end of the above line, and fail to run checkpatch.
+> +    object_initialize_child(OBJECT(m), "via1", &m->mos6522_via1, 
 
-> +                            sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1,
-> +                            &error_abort, NULL);
-> +    object_initialize_child(OBJECT(m), "via2", &m->mos6522_via2,
-> +                            sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2,
-> +                            &error_abort, NULL);
-> +
-> +    /* Pass through mos6522 output IRQs */
-> +    ms = MOS6522(&m->mos6522_via1);
-> +    object_property_add_alias(OBJECT(m), "irq[0]", OBJECT(ms),
-> +                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
-> +    ms = MOS6522(&m->mos6522_via2);
-> +    object_property_add_alias(OBJECT(m), "irq[1]", OBJECT(ms),
-> +                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
->  }
->  
->  static void postload_update_cb(void *opaque, int running, RunState state)
-> 
+Sorry, one more space at the end of the above line, and fail to run checkpatch.
+
 
