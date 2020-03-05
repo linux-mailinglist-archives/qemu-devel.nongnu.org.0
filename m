@@ -2,116 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5631E17A754
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:24:24 +0100 (CET)
-Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E96217A759
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:26:06 +0100 (CET)
+Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rQF-000374-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33396)
+	id 1j9rRt-000619-LO
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:26:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j9rP5-0002A4-0g
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:12 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9rPE-0002KO-6U
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j9rP3-0003i9-Sy
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26378
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j9rP3-0003ht-OQ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=q94WhIybI1+VGjRIZSBK+55zySJUjx570ld/8neUPGE=;
- b=Z5ZyR35BDZ0HeJxRZaYjApoQo1+mkW1cOU+4WIzyp88mTc5jQxRyRZx1yyGEGe8qLvJd/F
- voBd/bVtoTQy61kPhe7xVlz0imR5LMXih0JE8b4pzp4EYVyFNx7DPdGQ2QjtoZFmeJeD5m
- kZsvq3DxI+ikvNrh1piH9/Rw5vXxKCs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-ICYin2ovNECQGNLVpsI13g-1; Thu, 05 Mar 2020 09:23:07 -0500
-X-MC-Unique: ICYin2ovNECQGNLVpsI13g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7636A1060DB4;
- Thu,  5 Mar 2020 14:23:06 +0000 (UTC)
-Received: from [10.10.120.166] (ovpn-120-166.rdu2.redhat.com [10.10.120.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D584272A7;
- Thu,  5 Mar 2020 14:23:03 +0000 (UTC)
-Subject: Re: [PATCH v6 03/18] s390x: protvirt: Support unpack facility
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200304114231.23493-1-frankja@linux.ibm.com>
- <20200304114231.23493-4-frankja@linux.ibm.com>
- <2a93ff2e-4955-67c4-e7af-766a49fc8b32@redhat.com>
- <8fcf6bcf-137c-b488-64b3-4c0bce48b909@linux.ibm.com>
- <8018f651-8800-3c9f-0764-188472a41dae@redhat.com>
- <91a4bd8b-6c88-a9d8-42a4-154df21a0c08@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <5afa8775-5382-f128-7bfd-39643a02c454@redhat.com>
-Date: Thu, 5 Mar 2020 15:23:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1j9rPC-0003qK-6a
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:19 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38682)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j9rPC-0003ps-1T
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:18 -0500
+Received: by mail-oi1-x242.google.com with SMTP id x75so6096779oix.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:23:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ankb0BBJk3e+XHds1kX6Vse78CMnD2YPH2pAnI5TDRc=;
+ b=Es5xVb7t02KTrWd26gaSQyK/IKc27No/LZdMNlYNYvXqGfM47RqCk093MsxfVAEUwT
+ 6ZbUx3JeSQElCS0X1LjDOoC3lVGZPeIhjEqC95bBqLDV1HuLL4Pq1nXh2Ftp0oyWBPCz
+ vJTc6VFvg2h7mISvwA2yhs3nBYZDX92USui2e6oAKDvNArJ9hHwwLEWA7l1iSlObU6Dm
+ YBWZGx6jpDU3qA/PjT6qJlySHMi/Zc5dxIyTsf+vfWMSFBcA6z1xwWzPPOG6Tf8RxFRD
+ t1U1gM4p6poTMwkE78oZ39ltt7kGFlMQocTx62n1GfkUQLyILT8QDaQhGvh4SOG6aYT0
+ 4gqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ankb0BBJk3e+XHds1kX6Vse78CMnD2YPH2pAnI5TDRc=;
+ b=CRjqR0cDDPm3rlzkmKS8IelqJ77EIRBe/n5xllrS8QVGRG6X2UE0giN6yJMRjBhato
+ J9LTZuJDwY//eAkVGUov9Fbpxp0nejEIV0q264vwZN3cqB+7Fj6hi20Wsf6DH1Dd7/ge
+ 4JidQVDC9rzFJXrPFX7ut1ya4hkCUntPpXAefUK3lhwbasDC7ifmF4XIHt17XeVPxt4F
+ XtUiGPCN4emyfnxwzJwbGICsWJ7RWFZp5XA562BQ81XilnBmdA+itmCwpFYL6D+7pw89
+ KqjLGd0Fcf/hiJhcefMNGK4CTkLvOfoVAxX2JjBi16OOr8oD3WzpuncJRRtlPb6+IxTH
+ fv+w==
+X-Gm-Message-State: ANhLgQ0mNJoghdwzeG6Qz4T3aV3JiSklV+SP/+4y/RQl8N54Mlhf6v6E
+ lkhVA1+RslvrM3F7qA3SSlEvn+7krauWA6ekI29jEg==
+X-Google-Smtp-Source: ADFU+vuL1j2h5tfCshFZIhc9Scav1fwTmASecsbr4tTpZI9XVvPu3EiNpgpMD4xBeBljPaP+kkttshkZDmQQZImJ0WY=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr5600961oic.48.1583418197103; 
+ Thu, 05 Mar 2020 06:23:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <91a4bd8b-6c88-a9d8-42a4-154df21a0c08@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200302175829.2183-1-richard.henderson@linaro.org>
+ <20200302175829.2183-3-richard.henderson@linaro.org>
+In-Reply-To: <20200302175829.2183-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Mar 2020 14:23:06 +0000
+Message-ID: <CAFEAcA9N9zKxg6zvOCG9021e4nRcs_ij_VaGszG0O1Suc4r2fw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] target/arm: Optimize cpu_mmu_index
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,90 +73,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.03.20 15:20, Janosch Frank wrote:
-> On 3/5/20 3:15 PM, David Hildenbrand wrote:
->>>>>  
->>>>> +static void s390_machine_unprotect(S390CcwMachineState *ms)
->>>>> +{
->>>>> +    CPUState *t;
->>>>> +
->>>>> +    if (!ms->pv)
->>>>> +        return;
->>>>
->>>> How can this ever happen? g_assert(ms->pv) ?
->>>
->>> Currently not, that's only used in the follow up patches with the ballon
->>> and migration blocker
->>
->> Even then, why should we unprotect when not protected. That looks wrong
->> to me and has to be fixed in the other patches,
-> 
-> I fixed it this morning :)
-> 
->>
->>>
->>>>
->>>> Also, i don't see this function getting called from anywhere else except
->>>> when s390_machine_protect() fails. That looks wrong. This has to be
->>>> called when going out of PV mode.
->>>
->>> Yes, but that's in the diag308 1-4 patch.
->>
->> The way patches were split up is somewhat sub-optimal for review.
-> 
-> Thanks
-> I'll try to find a better split up of the code
-> 
->>
->> [...]
->>
->>>>> +        break;
->>>>> +    case S390_RESET_PV: /* Subcode 10 */
->>>>> +        subsystem_reset();
->>>>> +        s390_crypto_reset();
->>>>> +
->>>>> +        CPU_FOREACH(t) {
->>>>> +            if (t == cs) {
->>>>> +                continue;
->>>>> +            }
->>>>> +            run_on_cpu(t, s390_do_cpu_full_reset, RUN_ON_CPU_NULL);
->>>>> +        }
->>>>> +        run_on_cpu(cs, s390_do_cpu_reset, RUN_ON_CPU_NULL);
->>>>> +
->>>>> +        if (s390_machine_protect(ms)) {
->>>>> +            s390_machine_inject_pv_error(cs);
->>>>
->>>> Ah, so it's not an actual exception. BUT: All other guest cpus were
->>>> reset, can the guest deal with that?
->>>
->>> Well, all other CPUs should be stopped for diag308, no?
->>> Also it's done by the bootloader and not a OS which just stops its cpus
->>> and goes into protected mode.
->>>
->>>>
->>>> (run_on_cpu(cs, s390_do_cpu_reset, RUN_ON_CPU_NULL) should go after the
->>>> s390_machine_protect() I assume - the change you had in the other patch)
->>>
->>> That's not a good idea, I want to reset before we automatically call the
->>> UV routines on a reset.
->>
->> But how can s390_machine_inject_pv_error(cs) be any effective if you
->> already reset the CPU?
->>
-> 
-> Because a normal cpu reset does not clear out the registers.
+On Mon, 2 Mar 2020 at 17:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We now cache the core mmu_idx in env->hflags.  Rather than recompute
+> from scratch, extract the field.  All of the uses of cpu_mmu_index
+> within target/arm are within helpers, and env->hflags is always stable
+> within a translation block from whence helpers are called.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Okay, so a guest (e.g., Linux) can deal with some other things getting
-reset I assume?
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
