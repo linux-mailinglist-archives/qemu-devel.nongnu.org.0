@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FA817A756
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:24:54 +0100 (CET)
-Received: from localhost ([::1]:50060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E5517A75F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:27:37 +0100 (CET)
+Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rQj-0003vu-JX
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:24:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
+	id 1j9rTM-0001nc-3J
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:27:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9rPa-0002tg-N2
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:43 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j9rPw-0003RJ-Rp
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:24:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9rPZ-0004GK-Hw
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:42 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:32826)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9rPZ-0004Fe-Dd
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:23:41 -0500
-Received: by mail-oi1-x243.google.com with SMTP id q81so6144592oig.0
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 06:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s+7bS6l8n8+BhRIGmgGOgT4La+ye5ARyZS/sNnK/XjA=;
- b=hQDu4BhMQpYebD+Gc97l4ygie7llkfAsopNrUeaxpYID7Jzd+7aOhicpWqmai37/hH
- hsr/wVQkmtdqS3SEM9f6bupcGIzgijzVuxnjkEhShtnKHxmyFtpqrt6PlDjlT6SMP4x6
- bvZ7Z0aiabLjlXbcC5GScC5XSIEbl96tzQP7IvhJ2dj+kQ42EKVPdND8gC2EJSO37gM2
- XJ4gflk8W8pmczud2tAWIRjp9HhlEpmG/9cEjtdiKYlk+WmvcOATyM1Pcb1fqr1QhPzy
- 6BA06LeQ0egI0MGPhvpGcxwnRhRn0mlpyKcke6/xyX/gbxCaOjac3YUp22yoTydiJF6V
- BoxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s+7bS6l8n8+BhRIGmgGOgT4La+ye5ARyZS/sNnK/XjA=;
- b=hYjWmFNDfnAeB4prv6/66Bi4dbsVDp4BPVwpg7OHd48z+iyJjtfOlvj6sd3qShw/A7
- t3QAyEl4Drlu0m1N/dh0nmQeVgU6XkBfU79vfil89Cmq2PY3jIr9zk4g5aB7AjYQBPH0
- /1nAiCUiY7/UoqxlgbuhtP66K65pj8K/25ieFFfCYSQhgVxTCHgi7nPumHqMTvpBIuQ5
- siBKSdEK7aoImBDL/yEWEJER6Hl3VGOQDHTOPIqh/hgqoXTeqCFWnc0KCidvJPFEcg1K
- jXFI1iGTcynYSlPKc+/e0JS5UK6Cv+cUG4AZicvkbzAYdldYw9l6P0coANub84EORoCp
- XVPQ==
-X-Gm-Message-State: ANhLgQ0i/D9qtRY/dG3N+7rd3KBCCnV+1jdasoU1B4ph9Ic2hAUOrOe5
- RsIXLC+xKCLMq7uToj1dxmqbH9QWorc4QKKIHTve0w==
-X-Google-Smtp-Source: ADFU+vtTGvNEKMOX6JUJHvAzTNu//WWCUedwkkD3VQPFPPP3CAvSlSh3CjMP28xjrdn1hKIfHec94ECM6+hAcbDp+gQ=
-X-Received: by 2002:a05:6808:289:: with SMTP id
- z9mr5602546oic.48.1583418220700; 
- Thu, 05 Mar 2020 06:23:40 -0800 (PST)
+ (envelope-from <kwolf@redhat.com>) id 1j9rPw-0004Z2-0B
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:24:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27256
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j9rPv-0004XD-SE
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:24:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583418242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fycpKbmYa2MQQ2I7T+8TZlDL2cOuDrd4KBMm76xA6i0=;
+ b=aKAWu0BKD6IGkfppItfQNi7j+f24ZoJz2D32u4WyIplNNTVplV2mCJ0eEV07/zn0HBFxL1
+ nAgpo9NHifa/XCpo+F318sMBG6gj3KzTks6N1YT0IjmrjALkOVRs/jt1KmGYPyO6aPby4+
+ +WOFagMl9iHZrcxYmoMjkSfXN+SPOMw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-4FGCqqzINVW_kSiew_vgrA-1; Thu, 05 Mar 2020 09:23:58 -0500
+X-MC-Unique: 4FGCqqzINVW_kSiew_vgrA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCD318048F5;
+ Thu,  5 Mar 2020 14:23:57 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-210.ams2.redhat.com [10.36.117.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BA3B5C54A;
+ Thu,  5 Mar 2020 14:23:53 +0000 (UTC)
+Date: Thu, 5 Mar 2020 15:23:52 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Florian Florensa <fflorensa@online.net>
+Subject: Re: [PATCH v3 0/1] block/rbd: Add support for ceph namespaces
+Message-ID: <20200305142352.GB5363@linux.fritz.box>
+References: <20200110111513.321728-1-fflorensa@online.net>
 MIME-Version: 1.0
-References: <20200302175829.2183-1-richard.henderson@linaro.org>
- <20200302175829.2183-4-richard.henderson@linaro.org>
-In-Reply-To: <20200302175829.2183-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Mar 2020 14:23:29 +0000
-Message-ID: <CAFEAcA_ZRi+F6+KH7y_C_ZbAGjLyDWd9LkbtJkLn6mFNjqkaWg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/9] target/arm: Introduce core_to_aa64_mmu_idx
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+In-Reply-To: <20200110111513.321728-1-fflorensa@online.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,40 +72,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: dillaman@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ mreitz@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Mar 2020 at 17:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> If by context we know that we're in AArch64 mode, we need not
-> test for M-profile when reconstructing the full ARMMMUIdx.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/internals.h     | 6 ++++++
->  target/arm/translate-a64.c | 2 +-
->  2 files changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index 9f96a2359f..e633aff36e 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -783,6 +783,12 @@ static inline ARMMMUIdx core_to_arm_mmu_idx(CPUARMState *env, int mmu_idx)
->      }
->  }
->
-> +static inline ARMMMUIdx core_to_aa64_mmu_idx(int mmu_idx)
-> +{
-> +    /* AArch64 is always a-profile. */
-> +    return mmu_idx | ARM_MMU_IDX_A;
-> +}
-> +
->  int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx);
+Am 10.01.2020 um 12:15 hat Florian Florensa geschrieben:
+> Fixed the white space issue, no changes other than that.
+>=20
+> Florian Florensa (1):
+>   block/rbd: Add support for ceph namespaces
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Thanks, applied to the block branch.
 
-thanks
--- PMM
+Kevin
+
 
