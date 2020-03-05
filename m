@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88CE17AAF1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:52:55 +0100 (CET)
-Received: from localhost ([::1]:52950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E7617AAAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:39:33 +0100 (CET)
+Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tjy-0004gu-Rv
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:52:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59434)
+	id 1j9tX2-0000Sk-DZ
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:39:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPL-0003mu-Rz
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPN-0003pm-3W
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPK-0002kY-BJ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:35 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53126)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPL-0002mq-Jt
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:37 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38092)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tPK-0002jx-5J
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:34 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p9so7065739wmc.2
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:34 -0800 (PST)
+ id 1j9tPL-0002lL-Br
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:35 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t11so7801026wrw.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+/QONm9mCjYrTI58R499ADlTKWCo0qILa5h+DSFHsjY=;
- b=wZJAZ4vqdfbQhPQG6XzKi/ENSFRlc15CuB3vgz+eO999AlEUyvARG79aNATz3044Z8
- /MJYe8vXUi8ZxyUdRvpuFbW5mcVwDRuMuw/4NDrpgwVPowCHRfzPWrnXEkDDAVJX558I
- w0YPFCLnHpAhlsow9uBXIZi4wlOcejCOBGv5i+ZdyxaRWkDNz5vvNys6CQFBSpowLaKQ
- 0fGUkt4buzYgZbNOxwgzmBYbemwh7uVHWzyfFuZpiKvsMuKe0twTYJGtsE5DcjemJdQW
- gGuHP7vrKX0PAwel8950WJYnd+zmBKWaHlwIXZ3GnSCU+P09ZyQkyn3R2nwybEOkXXWj
- ZNcg==
+ bh=FMoHaWzahHswrnGpkdh208+DyOcSTnJAR/zWbqH+ju4=;
+ b=CtvgfVOF29kYiBq0PFvd4/I0ohFnWZ8ilwn9b7c3Y03eulrxR+c9Huz9T9QTk3vnaZ
+ wUctaNSU2ls7VeD73hnvqvRr7fL/nI0iAkSMoG6Ge5xYUYTLSWDS1Ej49av6eHTzpTm7
+ UWsI3XdCtanqAJasWeVECRjvIEdYWTX6uw2qoONjBP2WadSiaXBhOuidcUCfPBtyW51x
+ y8q5+8016q6Qp5PqSuPeKkUYsX3TeL29HkVhoigv4Dx2KZ+oV55E4Upa9IGAzwUMy+Iq
+ af506oyDkymmoQRAzqMPv37H0I4J6zFsj7CKhWesIzODHzg609qA11MUTb6QAa9EmUEH
+ gJbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+/QONm9mCjYrTI58R499ADlTKWCo0qILa5h+DSFHsjY=;
- b=dSVn/ODNtA6fo1N7SiesUuDC8+d7ir20kIkz3VjQE43NqE2tqEsY259+pCh+X7b6pJ
- aLin5LnIaLEsGQ5yE3gUvngbN9C1Fqajsklrr8R93x9sySrm4leMXCddIi5jJASf8oe6
- pepx9owCnP1Q6yrVe8Tf5BPTF2ZrXFI8Pcpt0mTyzpbhwvQWgThU4fM2NYVn9Ld0fC2q
- MRrWaz5wu9FxOoVFID0UZlGmHMkR6MI2ordiWNq6Tyo1myZJwxCwm439D0uTEfUwNBcV
- N2FHYpNgwfnGyuG2Scg7FTItPKG+ZLgq+ImLs2WWGt633IAHmDyXxqMjHrEbgOJ8iLyy
- fH1A==
-X-Gm-Message-State: ANhLgQ1oVBtphM6U2Rjoq/18zZr8fEuTfiA1F9lqJmvdiFokPuqgxILT
- Goj2sWzc+meNRvb0Eq0Ue8plyrQRgUJB5Q==
-X-Google-Smtp-Source: ADFU+vvU61SHWOjAXsG3W+q9wvScGyUTkOTbjEoxYZgZfxZ7Om+Aw+i6zH6xLIUzMaHQwuQNhVg1Yg==
-X-Received: by 2002:a1c:9a45:: with SMTP id c66mr6240139wme.115.1583425892951; 
- Thu, 05 Mar 2020 08:31:32 -0800 (PST)
+ bh=FMoHaWzahHswrnGpkdh208+DyOcSTnJAR/zWbqH+ju4=;
+ b=rAWval41F8IhMEKTj45AOgkOwa9GiVu4Zrt6xtwlfvZ3pwNU7Vrbhl9z2Ap+AObANF
+ SjMINhVVhtphABoYGhJfZ2tsCDWmSD0QxZ+FviC4TK+1suDBe9T4rWwG+BMEBfgO5hV4
+ K6R8sBDceH8EeDyEONUrAfjZMtAnSbANP0pueVzuyMZAc32ppLNnSfozLZrwKw56bQOe
+ 3w/15o9NCiugVeuwqZfryJuuBwFxcD+vls4vnzNbuOMXr4k6ztqxY6Ex/awgK1AZMf/d
+ uQfex8UPJ01tsKMKj4sGThbSiVDL8N5Ovn3DymLx7aUoJtZkfVmVhNm922VET4xzvCy2
+ sDQQ==
+X-Gm-Message-State: ANhLgQ12pmtfnIOltSpaUVMrkgWEEqT6O/3LzXPb84uTHvxzzS6qTbW4
+ wAEfU4Bg5bI3ayhJIpmgEuSsDbejooDu7Q==
+X-Google-Smtp-Source: ADFU+vvCXhofhRjBfj42sx19syxjRM8lQaigNP5RgkB0kfzqBigAf4EKYCMdvv80sBb0zUNDN9hP3w==
+X-Received: by 2002:a5d:4dc7:: with SMTP id f7mr8079744wru.72.1583425893880;
+ Thu, 05 Mar 2020 08:31:33 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.32
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:32 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/37] hw/arm/cubieboard: restrict allowed CPU type to ARM
- Cortex-A8
-Date: Thu,  5 Mar 2020 16:30:51 +0000
-Message-Id: <20200305163100.22912-29-peter.maydell@linaro.org>
+Subject: [PULL 29/37] hw/arm/cubieboard: restrict allowed RAM size to 512MiB
+ and 1GiB
+Date: Thu,  5 Mar 2020 16:30:52 +0000
+Message-Id: <20200305163100.22912-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,43 +85,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-The Cubieboard has an ARM Cortex-A8.  Instead of simply ignoring a
-bogus -cpu option provided by the user, give them an error message so
-they know their command line is wrong.
+The Cubieboard contains either 512MiB or 1GiB of onboard RAM [1].
+Prevent changing RAM to a different size which could break user programs.
+
+ [1] http://linux-sunxi.org/Cubieboard
 
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20200227220149.6845-3-nieklinnenbank@gmail.com
+Message-id: 20200227220149.6845-4-nieklinnenbank@gmail.com
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: tweaked commit message]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/cubieboard.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/arm/cubieboard.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index 0195925c73d..010375f0a8d 100644
+index 010375f0a8d..6c55d9056f5 100644
 --- a/hw/arm/cubieboard.c
 +++ b/hw/arm/cubieboard.c
-@@ -30,9 +30,17 @@ static struct arm_boot_info cubieboard_binfo = {
- 
- static void cubieboard_init(MachineState *machine)
- {
--    AwA10State *a10 = AW_A10(object_new(TYPE_AW_A10));
-+    AwA10State *a10;
+@@ -33,6 +33,13 @@ static void cubieboard_init(MachineState *machine)
+     AwA10State *a10;
      Error *err = NULL;
  
-+    /* Only allow Cortex-A8 for this board */
-+    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a8")) != 0) {
-+        error_report("This board can only be used with cortex-a8 CPU");
++    /* This board has fixed size RAM (512MiB or 1GiB) */
++    if (machine->ram_size != 512 * MiB &&
++        machine->ram_size != 1 * GiB) {
++        error_report("This machine can only be used with 512MiB or 1GiB RAM");
 +        exit(1);
 +    }
 +
-+    a10 = AW_A10(object_new(TYPE_AW_A10));
-+
-     object_property_set_int(OBJECT(&a10->emac), 1, "phy-addr", &err);
-     if (err != NULL) {
-         error_reportf_err(err, "Couldn't set phy address: ");
+     /* Only allow Cortex-A8 for this board */
+     if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a8")) != 0) {
+         error_report("This board can only be used with cortex-a8 CPU");
+@@ -78,6 +85,7 @@ static void cubieboard_machine_init(MachineClass *mc)
+ {
+     mc->desc = "cubietech cubieboard (Cortex-A8)";
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a8");
++    mc->default_ram_size = 1 * GiB;
+     mc->init = cubieboard_init;
+     mc->block_default_type = IF_IDE;
+     mc->units_per_default_bus = 1;
 -- 
 2.20.1
 
