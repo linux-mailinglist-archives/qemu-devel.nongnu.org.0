@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F3E179C94
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 01:03:47 +0100 (CET)
-Received: from localhost ([::1]:41480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592AB179CB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 01:13:11 +0100 (CET)
+Received: from localhost ([::1]:41560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9dzN-00033l-HY
-	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 19:03:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55494)
+	id 1j9e8U-0006yV-DU
+	for lists+qemu-devel@lfdr.de; Wed, 04 Mar 2020 19:13:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57332)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j9dxt-00021L-Kq
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 19:02:14 -0500
+ (envelope-from <jsnow@redhat.com>) id 1j9e6w-0005HA-Ix
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 19:11:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j9dxs-0002cZ-8X
- for qemu-devel@nongnu.org; Wed, 04 Mar 2020 19:02:13 -0500
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:44635)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j9dxs-0002bc-4Z; Wed, 04 Mar 2020 19:02:12 -0500
-Received: by mail-vs1-xe42.google.com with SMTP id u24so2414537vso.11;
- Wed, 04 Mar 2020 16:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lgKn0m21RATykAjfa8cP+IEC/G3g6jyw/uYKrhhAzY4=;
- b=LiRCwgKCgzk4OmUu5U/drOMRXT6uivxjH5+fYMKQIyNSh4WKiYxQQSJH65ML3a51MP
- 2uaW/liFFK0//CiG+qFG5KSE0nxsMX5wEA3jGx2KVVlU8ot4bl8XtNFt0OtwmgkjInph
- 7RBE1Rn7pstYyCDRyqkLWOkHJkJprXZ93ouYO4jaGeMrqXU/h8BFzUkSqoSmDcE0BCS8
- L1BuxkrtO7bjb7pMHL6ki1Ln0TfKMCTuot7+RI19ShlQuCHaj8f+5L6rEOOE37ASOGnM
- K+tQf0AJJ+NSUsYINCV3ZvTrQeCTjml52z/AnpBx5ZV93a6o+6kP7+SsPJ3VXvyxgtZl
- tqFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lgKn0m21RATykAjfa8cP+IEC/G3g6jyw/uYKrhhAzY4=;
- b=GkJFn9YzgqS7eXhWjmpD8WNcc9IvD1E698dKOLDuRzcC7ge1yrXYBcgIxvrnj1I1bN
- nkYZLMXtN1PsF/W1rR09znGdHPUHI1qK+U50ZEl4OUU738NRsX8cVHUbCMOZ57wVaarB
- 7wS65NY3v7SORFeqRQ84wKY/LPwdV0HjZCarBbl5xE1oNQ5aAJhYH5Atzl5U4Xj02wGV
- tilpOo2fUGe1UMMMluaeNlcGtvymnJLoMPrDvc/H78SkZlWlyes6FEVMQsBvglNCuz9s
- vNGw4WERXG/GMPk9vnmPDW1C9u8h9v8i5HcrXAvfzl5oM3LKJooWOPSfWylUY8UXoPpD
- eHSw==
-X-Gm-Message-State: ANhLgQ0n5LTta4iNy3oeZx5M4LrPi/rx6GY33WQZzsOaU/mIGAhn8j/p
- KtOgZ/hcVcfsMixxIL09huIVAcsRJzbJ59dJwbw=
-X-Google-Smtp-Source: ADFU+vvhmPJPZyxkPJMGGHMvQ/KT6lQCwX97k23GqaXqWqGxeIRJgWA0HYk0r8mbjc7qcsXJiz/+xFZL2Fs2qeiRvtY=
-X-Received: by 2002:a67:fa43:: with SMTP id j3mr2767865vsq.70.1583366530912;
- Wed, 04 Mar 2020 16:02:10 -0800 (PST)
+ (envelope-from <jsnow@redhat.com>) id 1j9e6v-0003mb-6A
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 19:11:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33179
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1j9e6u-0003iR-S6
+ for qemu-devel@nongnu.org; Wed, 04 Mar 2020 19:11:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583367092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mHzwVPuv77fgWBY71V72hhks/WbfScD9P0tgU3xjl8Y=;
+ b=Yt3KdMBlnOUN/7lVKQg7/yleJSCbtcsD9IkB9fgtv1gT5y2nuRrB7AzWfsVJnZ3yG4DiAU
+ Y5GwtGkl1xGxW88Owtm0id6lmX+s6q9EcOqTvy23AJFHCrrtsnh+ue7dYOlypE5j02Q+Ms
+ iSU4ei0nam2FjuFwnWz5gh1p5ErAwt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-GKVxr4XmOHixX_KHYvDwqA-1; Wed, 04 Mar 2020 19:11:28 -0500
+X-MC-Unique: GKVxr4XmOHixX_KHYvDwqA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A46613E2;
+ Thu,  5 Mar 2020 00:11:27 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-120-212.rdu2.redhat.com [10.10.120.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60C2C5C1D4;
+ Thu,  5 Mar 2020 00:11:26 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] iotests: add JobRunner framework
+Date: Wed,  4 Mar 2020 19:11:22 -0500
+Message-Id: <20200305001125.27549-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <cover.1583285287.git.alistair.francis@wdc.com>
- <3f5f5106d357f6ff911e4b81973840d414920b78.1583285287.git.alistair.francis@wdc.com>
- <CAEUhbmW=T50FcppnLFAzdQNwQEwofX9U-Zyo2oJikSiS8ti4QQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmW=T50FcppnLFAzdQNwQEwofX9U-Zyo2oJikSiS8ti4QQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 4 Mar 2020 15:54:29 -0800
-Message-ID: <CAKmqyKOuHG4ACEf4y3gyUZijduXvN703qTtkSz4vBT1srLwE5g@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] riscv/sifive_u: Fix up file ordering
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e42
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,174 +67,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 4, 2020 at 6:10 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Wed, Mar 4, 2020 at 9:37 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > Split the file into clear machine and SoC sections.
-> >
->
-> Yep, I found functions in this file are a little bit confusing as well ..
->
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/sifive_u.c | 107 ++++++++++++++++++++++----------------------
-> >  1 file changed, 54 insertions(+), 53 deletions(-)
-> >
-> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> > index 156a003642..9a0145b5b4 100644
-> > --- a/hw/riscv/sifive_u.c
-> > +++ b/hw/riscv/sifive_u.c
-> > @@ -399,6 +399,60 @@ static void riscv_sifive_u_init(MachineState *machine)
->
-> So while we are here, could we rename this to something like:
-> sifive_u_machine_init()? ie: drop the riscv_ prefix.
->
-> >                            &address_space_memory);
-> >  }
-> >
-> > +static bool sifive_u_get_start_in_flash(Object *obj, Error **errp)
->
-> and sifive_u_machine_get_start_in_flash()? and other functions too?
->
-> > +{
-> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > +
-> > +    return s->start_in_flash;
-> > +}
-> > +
-> > +static void sifive_u_set_start_in_flash(Object *obj, bool value, Error **errp)
-> > +{
-> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > +
-> > +    s->start_in_flash = value;
-> > +}
-> > +
-> > +static void riscv_sifive_u_machine_instance_init(Object *obj)
-> > +{
-> > +    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > +
-> > +    s->start_in_flash = false;
-> > +    object_property_add_bool(obj, "start-in-flash", sifive_u_get_start_in_flash,
-> > +                             sifive_u_set_start_in_flash, NULL);
-> > +    object_property_set_description(obj, "start-in-flash",
-> > +                                    "Set on to tell QEMU's ROM to jump to " \
-> > +                                    "flash. Otherwise QEMU will jump to DRAM",
-> > +                                    NULL);
-> > +}
-> > +
-> > +
-> > +static void riscv_sifive_u_machine_class_init(ObjectClass *oc, void *data)
-> > +{
-> > +    MachineClass *mc = MACHINE_CLASS(oc);
-> > +
-> > +    mc->desc = "RISC-V Board compatible with SiFive U SDK";
-> > +    mc->init = riscv_sifive_u_init;
-> > +    mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
-> > +    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
-> > +    mc->default_cpus = mc->min_cpus;
-> > +}
-> > +
-> > +static const TypeInfo riscv_sifive_u_machine_typeinfo = {
-> > +    .name       = MACHINE_TYPE_NAME("sifive_u"),
-> > +    .parent     = TYPE_MACHINE,
-> > +    .class_init = riscv_sifive_u_machine_class_init,
-> > +    .instance_init = riscv_sifive_u_machine_instance_init,
-> > +    .instance_size = sizeof(SiFiveUState),
-> > +};
-> > +
-> > +static void riscv_sifive_u_machine_init_register_types(void)
-> > +{
-> > +    type_register_static(&riscv_sifive_u_machine_typeinfo);
-> > +}
-> > +
-> > +type_init(riscv_sifive_u_machine_init_register_types)
-> > +
-> >  static void riscv_sifive_u_soc_init(Object *obj)
->
-> Similarly this can be renamed to: sifive_u_soc_init(), and other soc functions.
+Requires: 20200304213818.15341-1-jsnow@redhat.com
 
-I missed this in v2, fixed in the next version.
+(This requires the iotests pylint & logging series.)
 
-Alistair
+The basic idea is to make a generic job runtime manager and allow
+callers to subclass the manager. Then, instead of adding callback
+arguments to the function all the time, we have =C3=A0 la carte customizati=
+on
+of the loop.
 
->
-> >  {
-> >      MachineState *ms = MACHINE(qdev_get_machine());
-> > @@ -439,33 +493,6 @@ static void riscv_sifive_u_soc_init(Object *obj)
-> >                            TYPE_CADENCE_GEM);
-> >  }
-> >
-> > -static bool sifive_u_get_start_in_flash(Object *obj, Error **errp)
-> > -{
-> > -    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > -
-> > -    return s->start_in_flash;
-> > -}
-> > -
-> > -static void sifive_u_set_start_in_flash(Object *obj, bool value, Error **errp)
-> > -{
-> > -    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > -
-> > -    s->start_in_flash = value;
-> > -}
-> > -
-> > -static void riscv_sifive_u_machine_instance_init(Object *obj)
-> > -{
-> > -    SiFiveUState *s = RISCV_U_MACHINE(obj);
-> > -
-> > -    s->start_in_flash = false;
-> > -    object_property_add_bool(obj, "start-in-flash", sifive_u_get_start_in_flash,
-> > -                             sifive_u_set_start_in_flash, NULL);
-> > -    object_property_set_description(obj, "start-in-flash",
-> > -                                    "Set on to tell QEMU's ROM to jump to " \
-> > -                                    "flash. Otherwise QEMU will jump to DRAM",
-> > -                                    NULL);
-> > -}
-> > -
-> >  static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-> >  {
-> >      MachineState *ms = MACHINE(qdev_get_machine());
-> > @@ -603,29 +630,3 @@ static void riscv_sifive_u_soc_register_types(void)
-> >  }
-> >
-> >  type_init(riscv_sifive_u_soc_register_types)
-> > -
-> > -static void riscv_sifive_u_machine_class_init(ObjectClass *oc, void *data)
-> > -{
-> > -    MachineClass *mc = MACHINE_CLASS(oc);
-> > -
-> > -    mc->desc = "RISC-V Board compatible with SiFive U SDK";
-> > -    mc->init = riscv_sifive_u_init;
-> > -    mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
-> > -    mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
-> > -    mc->default_cpus = mc->min_cpus;
-> > -}
-> > -
-> > -static const TypeInfo riscv_sifive_u_machine_typeinfo = {
-> > -    .name       = MACHINE_TYPE_NAME("sifive_u"),
-> > -    .parent     = TYPE_MACHINE,
-> > -    .class_init = riscv_sifive_u_machine_class_init,
-> > -    .instance_init = riscv_sifive_u_machine_instance_init,
-> > -    .instance_size = sizeof(SiFiveUState),
-> > -};
-> > -
-> > -static void riscv_sifive_u_machine_init_register_types(void)
-> > -{
-> > -    type_register_static(&riscv_sifive_u_machine_typeinfo);
-> > -}
-> > -
-> > -type_init(riscv_sifive_u_machine_init_register_types)
-> > --
->
-> Regards,
-> Bin
+To showcase this a little bit, I removed the pre_finalization argument
+and made existing callers use a custom JobRunner; and then converted
+test 040 to use this style of job runner.
+
+Is it a simplification? No. Is it cool? Maybe. Did it remove the
+duplicated job-running code in 040? yes.
+
+V2:
+ - Rebased on logging series; logging conditionals are pretty now.
+ - Inlined callback login in 257
+ - No longer based on bitmap-populate job (no test 287)
+ - Moved super() call to the beginning of test 040's callback
+ - Added docstrings and type annotations
+
+John Snow (3):
+  qmp.py: change event_wait to use a dict
+  iotests: add JobRunner class
+  iotests: modify test 040 to use JobRunner
+
+ python/qemu/machine.py        |  10 +-
+ tests/qemu-iotests/040        |  51 +++++----
+ tests/qemu-iotests/255        |   9 +-
+ tests/qemu-iotests/257        |  54 +++++----
+ tests/qemu-iotests/260        |   5 +-
+ tests/qemu-iotests/iotests.py | 201 +++++++++++++++++++++++++---------
+ tests/qemu-iotests/pylintrc   |  11 ++
+ 7 files changed, 233 insertions(+), 108 deletions(-)
+
+--=20
+2.21.1
+
 
