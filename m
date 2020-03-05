@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547C717A784
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:34:26 +0100 (CET)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4904A17A7FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:44:14 +0100 (CET)
+Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rZx-0003La-9a
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:34:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
+	id 1j9rjQ-0003jH-7d
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:44:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j9rY5-0000hq-CV
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:31 -0500
+ (envelope-from <eblake@redhat.com>) id 1j9raA-0005Ct-AH
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:34:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j9rY4-0003XS-2U
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37830
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j9ra8-0005l2-1t
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:34:38 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53009
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j9rY3-0003Ws-UU
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:27 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j9ra7-0005ko-V9
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:34:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583418747;
+ s=mimecast20190719; t=1583418875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RH9DzqKHDivFvpFtqVzHnKT1qfAPENXHjniwkNggmGE=;
- b=BuRfxcpnXoGl6mVGcxhQCpCgEzZc0CBki+ecUhCWLvGyzIsPeRB4MbZdD9yamEF4hof7kM
- 14l9kR4sXL2GBKiC1R+ZUiLuIhpoC7nYmTrFJLWnyAbEVG/CnIlA3qyoQUCz06JCuK3nFZ
- GlC0ElrwmDTYUFZAGnAQrPnYrnKu34w=
+ bh=krX3gDbpIAPOR6Dt66bZ4ORH7zF5XP/GGnCiX9UoZtI=;
+ b=ZwiKLlAgDu62iHbCBVV5/TTcTX4PBI+6pHzA6sfqbVe7IfjeS2hsz/zrn5V2j1cGvB0y3M
+ ZL2XKBCZ2CkcYgs0yZP3L9eSf3KsRYiCxNOx16qcjr1M1C38uy2SFkbIcJZO/C8H8JWxQu
+ Jh33JfrBvrVVeCk0x/vfygqHSoCU4p0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-n0mPh_S2PhGMYpF9KqmJlg-1; Thu, 05 Mar 2020 09:32:25 -0500
-X-MC-Unique: n0mPh_S2PhGMYpF9KqmJlg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-144-RHk3sziXMoqANvyLxvZjhw-1; Thu, 05 Mar 2020 09:34:32 -0500
+X-MC-Unique: RHk3sziXMoqANvyLxvZjhw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F615100DFD0;
- Thu,  5 Mar 2020 14:32:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE174189F760;
+ Thu,  5 Mar 2020 14:34:30 +0000 (UTC)
 Received: from [10.3.117.177] (ovpn-117-177.phx2.redhat.com [10.3.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9641C84D90;
- Thu,  5 Mar 2020 14:32:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A712272D3;
+ Thu,  5 Mar 2020 14:34:26 +0000 (UTC)
 Subject: Re: [PATCH v2 0/9] hw, ui, virtfs-proxy-helper: Reduce QEMU
  .data/.rodata/.bss footprint
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20200305124525.14555-1-philmd@redhat.com>
  <20200305134229.GB2112347@redhat.com>
+ <a7c0746f-75dc-99ed-62df-26f26cf23ec0@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <5bcca2de-16bc-4026-23cc-1bf3f18cf9a2@redhat.com>
-Date: Thu, 5 Mar 2020 08:32:20 -0600
+Message-ID: <daf7eac5-1796-06f0-1e95-ee86d50d629f@redhat.com>
+Date: Thu, 5 Mar 2020 08:34:25 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200305134229.GB2112347@redhat.com>
+In-Reply-To: <a7c0746f-75dc-99ed-62df-26f26cf23ec0@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,54 +86,47 @@ Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/5/20 7:42 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Thu, Mar 05, 2020 at 01:45:16PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> Since v1:
->> - merged 2 series
->> - reworked hw/usb/quirks
->> - added R-b/A-b tags
+On 3/5/20 7:56 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 3/5/20 2:42 PM, Daniel P. Berrang=C3=A9 wrote:
+>> On Thu, Mar 05, 2020 at 01:45:16PM +0100, Philippe Mathieu-Daud=C3=A9 wr=
+ote:
+>>> Since v1:
+>>> - merged 2 series
+>>> - reworked hw/usb/quirks
+>>> - added R-b/A-b tags
+>>>
+>>> This series reduce the footprint of the QEMU binary:
+>>> .bss: 106KiB (moved to .heap)
 >>
->> This series reduce the footprint of the QEMU binary:
->> .bss: 106KiB (moved to .heap)
+>> Did this actually have an impact on the binary size, or just on the
+>> size the elf-dissector reports ?=C2=A0 I'm not very familiar with ELF,
+>> but Wikipedia's description of BSS makes me question it...
+>>
+>> =C2=A0=C2=A0 "Typically only the length of the bss section, but no data,
+>> =C2=A0=C2=A0=C2=A0 is stored in the object file. The program loader allo=
+cates
+>> =C2=A0=C2=A0=C2=A0 memory for the bss section when it loads the program.=
+ On
+>> =C2=A0=C2=A0=C2=A0 some platforms, some or all of the bss section is ini=
+tialized
+>> =C2=A0=C2=A0=C2=A0 to zeroes. Unix-like systems and Windows initialize t=
+he bss
+>> =C2=A0=C2=A0=C2=A0 section to zero"
+>>
+>> This suggests .bss has no on-disk overhead, only runtime overhead,
+>> which is presumably going to be the same with heap allocations.
 >=20
-> Did this actually have an impact on the binary size, or just on the
-> size the elf-dissector reports ?  I'm not very familiar with ELF,
-> but Wikipedia's description of BSS makes me question it...
->=20
->    "Typically only the length of the bss section, but no data,
->     is stored in the object file. The program loader allocates
->     memory for the bss section when it loads the program. On
->     some platforms, some or all of the bss section is initialized
->     to zeroes. Unix-like systems and Windows initialize the bss
->     section to zero"
->=20
-> This suggests .bss has no on-disk overhead, only runtime overhead,
-> which is presumably going to be the same with heap allocations.
+> IIUC when stored in the .bss, the buffer are always allocated in memory,=
+=20
+> even if not used. By moving them to the .heap, we only allocate them=20
+> when using either the adlib audio device or curses.
 
-Or even LESS overhead.  Heap allocationhave unspecified contents=20
-requiring runtime effort (true, some implementations of malloc() handle=20
-large allocations specially as anonymous mmap initially backed by=20
-/dev/zero, so that those allocations start life 0-allocated, but you=20
-can't rely on that optimization), while .bss is required by the C=20
-language to be 0 initialized (and you CAN rely on the OS implementing=20
-that as efficiently as possible, generally by starting with COW mapping=20
-initially backed by the zero page).
-
-In fact, on nbdkit, we hit an interesting case where using .bss instead=20
-of .rodata is actually beneficial:
-https://www.redhat.com/archives/libguestfs/2019-July/msg00074.html
-Marking a large array that will always consist only of zero bytes as=20
-const actually pessimized the image size and load time, because the=20
-addition of const moved the array from .bss into .rodata.
-
->=20
->> .data: 1MiB
->> .rodata: 4.34MiB
->=20
-> These looks useful though in terms of disk footprint.
-
-Yes. Smaller data structures allow for smaller binaries and faster loading.
+Virtual memory is cheap on 64-bit platforms.  Just because the address=20
+range is reserved does not actually change the amount of memory in use=20
+by the machine, if the application does not touch those virtual=20
+addresses.  But you do have a potential point on a 32-bit platform,=20
+where a heap allocation only when needed may avoid address space=20
+exhaustion for other cases.
 
 --=20
 Eric Blake, Principal Software Engineer
