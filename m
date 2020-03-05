@@ -2,66 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE8317A58A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:45:55 +0100 (CET)
-Received: from localhost ([::1]:48267 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC50917A5A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:50:49 +0100 (CET)
+Received: from localhost ([::1]:48396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9psv-0005E1-U8
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:45:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41253)
+	id 1j9pxg-0007Kh-QJ
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:50:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41441)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j9pr0-0002vI-Sa
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:43:56 -0500
+ (envelope-from <borntraeger@de.ibm.com>) id 1j9prk-0003sM-7I
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:44:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j9pqz-0000A0-EH
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:43:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44012
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j9pqz-00009R-Ab
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:43:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583412232;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J8mhNEgNEnlIU+Fo+21yo3liYk+LW4qcV4nXDwG3ntY=;
- b=NHxql1ZnWO5PJcUXhfMvdD/uB9BIqIdJSxd20/9e9//vhAT0NFpYfPey7nN8lzX2IMsbjt
- chCBxlqx93XoU6InFIiXmb+MTgS30pf2ufmNEzGS85yPkkVoftl8o732wpd5w1aPyqdpNq
- kUo9MeZKAsnCgdKz95zAsZiXHBqTY5k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-k_nP0fkKM3yZYXKd5me4bw-1; Thu, 05 Mar 2020 07:43:49 -0500
-X-MC-Unique: k_nP0fkKM3yZYXKd5me4bw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BF113EA
- for <qemu-devel@nongnu.org>; Thu,  5 Mar 2020 12:43:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-129.ams2.redhat.com
- [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 546AD94B41;
- Thu,  5 Mar 2020 12:43:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D440A11366CB; Thu,  5 Mar 2020 13:43:46 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] qapi: Brush off some (py)lint
-Date: Thu,  5 Mar 2020 13:43:46 +0100
-Message-Id: <20200305124346.22053-5-armbru@redhat.com>
-In-Reply-To: <20200305124346.22053-1-armbru@redhat.com>
-References: <20200305124346.22053-1-armbru@redhat.com>
+ (envelope-from <borntraeger@de.ibm.com>) id 1j9pri-0000mz-Rd
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:44:40 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32846
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1j9pri-0000mP-GS
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:44:38 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 025CcvAn003170
+ for <qemu-devel@nongnu.org>; Thu, 5 Mar 2020 07:44:37 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2yk043kduc-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 07:44:37 -0500
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Thu, 5 Mar 2020 12:44:35 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 5 Mar 2020 12:44:33 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 025CiWdY38142086
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Mar 2020 12:44:32 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0D4624204C;
+ Thu,  5 Mar 2020 12:44:32 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC64242041;
+ Thu,  5 Mar 2020 12:44:31 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Mar 2020 12:44:31 +0000 (GMT)
+Subject: Re: [PATCH 1/1] s390/ipl: sync back loadparm
+To: Viktor Mihajlovski <mihajlov@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+References: <20200224150213.21253-1-pasic@linux.ibm.com>
+ <05f7dcf7-a0c7-8811-6b88-df86d5fa0974@redhat.com>
+ <20200225125641.72e8cc86.pasic@linux.ibm.com>
+ <853387e3-4425-731b-bb09-a7210ea6b299@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Thu, 5 Mar 2020 13:44:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <853387e3-4425-731b-bb09-a7210ea6b299@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 20030512-4275-0000-0000-000003A8A1A7
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20030512-4276-0000-0000-000038BDB17D
+Message-Id: <c019ecc6-900e-8653-a603-de8d03017e95@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-05_03:2020-03-05,
+ 2020-03-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0 mlxlogscore=999
+ clxscore=1015 lowpriorityscore=0 spamscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003050082
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id 025CcvAn003170
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,190 +143,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200304155932.20452-5-armbru@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/commands.py   |  2 +-
- scripts/qapi/expr.py       |  3 +--
- scripts/qapi/gen.py        |  9 ++++++---
- scripts/qapi/introspect.py |  2 --
- scripts/qapi/parser.py     |  6 ++----
- scripts/qapi/schema.py     | 11 +++++------
- 6 files changed, 15 insertions(+), 18 deletions(-)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 8bb6316061..0e13e82989 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -274,7 +274,7 @@ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVis=
-itor):
-=20
- void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds);
- ''',
--                       c_prefix=3Dc_name(self._prefix, protect=3DFalse)))
-+                             c_prefix=3Dc_name(self._prefix, protect=3DFal=
-se)))
-         self._genc.preamble_add(mcgen('''
- #include "qemu/osdep.h"
- #include "%(prefix)sqapi-commands.h"
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index d7a289eded..fecf466fa7 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -35,7 +35,6 @@ def check_name_is_str(name, info, source):
- def check_name_str(name, info, source,
-                    allow_optional=3DFalse, enum_member=3DFalse,
-                    permit_upper=3DFalse):
--    global valid_name
-     membername =3D name
-=20
-     if allow_optional and name.startswith('*'):
-@@ -249,7 +248,7 @@ def check_union(expr, info):
- def check_alternate(expr, info):
-     members =3D expr['data']
-=20
--    if len(members) =3D=3D 0:
-+    if not members:
-         raise QAPISemError(info, "'data' must not be empty")
-     for (key, value) in members.items():
-         source =3D "'data' member '%s'" % key
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index e17354392b..33690bfa3b 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -45,10 +45,10 @@ class QAPIGen:
-=20
-     def write(self, output_dir):
-         pathname =3D os.path.join(output_dir, self.fname)
--        dir =3D os.path.dirname(pathname)
--        if dir:
-+        odir =3D os.path.dirname(pathname)
-+        if odir:
-             try:
--                os.makedirs(dir)
-+                os.makedirs(odir)
-             except os.error as e:
-                 if e.errno !=3D errno.EEXIST:
-                     raise
-@@ -261,6 +261,9 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-             genc.write(output_dir)
-             genh.write(output_dir)
-=20
-+    def _begin_system_module(self, name):
-+        pass
-+
-     def _begin_user_module(self, name):
-         pass
-=20
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 0cc655fd9f..b5537eddc0 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -10,8 +10,6 @@ This work is licensed under the terms of the GNU GPL, ver=
-sion 2.
- See the COPYING file in the top-level directory.
- """
-=20
--import string
--
- from qapi.common import *
- from qapi.gen import QAPISchemaMonolithicCVisitor
- from qapi.schema import (QAPISchemaArrayType, QAPISchemaBuiltinType,
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 340f7c4633..abadacbb0e 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -282,8 +282,7 @@ class QAPISchemaParser:
-                 doc.end_comment()
-                 self.accept()
-                 return doc
--            else:
--                doc.append(self.val)
-+            doc.append(self.val)
-             self.accept(False)
-=20
-         raise QAPIParseError(self, "documentation comment must end with '#=
-#'")
-@@ -492,7 +491,7 @@ class QAPIDoc:
-             raise QAPIParseError(self._parser,
-                                  "'%s' can't follow '%s' section"
-                                  % (name, self.sections[0].name))
--        elif self._is_section_tag(name):
-+        if self._is_section_tag(name):
-             line =3D line[len(name)+1:]
-             self._start_section(name[:-1])
-=20
-@@ -556,7 +555,6 @@ class QAPIDoc:
-             raise QAPISemError(feature.info,
-                                "feature '%s' lacks documentation"
-                                % feature.name)
--            self.features[feature.name] =3D QAPIDoc.ArgSection(feature.nam=
-e)
-         self.features[feature.name].connect(feature)
-=20
-     def check_expr(self, expr):
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 87837e224e..d759308b4e 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -19,7 +19,7 @@ import re
- from collections import OrderedDict
-=20
- from qapi.common import c_name, pointer_suffix
--from qapi.error import QAPIError, QAPIParseError, QAPISemError
-+from qapi.error import QAPIError, QAPISemError
- from qapi.expr import check_exprs
- from qapi.parser import QAPISchemaParser
-=20
-@@ -96,14 +96,14 @@ class QAPISchemaVisitor:
-     def visit_end(self):
-         pass
-=20
--    def visit_module(self, fname):
-+    def visit_module(self, name):
-         pass
-=20
-     def visit_needed(self, entity):
-         # Default to visiting everything
-         return True
-=20
--    def visit_include(self, fname, info):
-+    def visit_include(self, name, info):
-         pass
-=20
-     def visit_builtin_type(self, name, info, json_type):
-@@ -576,7 +576,7 @@ class QAPISchemaObjectTypeVariants:
-             assert self.tag_member.ifcond =3D=3D []
-         if self._tag_name:    # flat union
-             # branches that are not explicitly covered get an empty type
--            cases =3D set([v.name for v in self.variants])
-+            cases =3D {v.name for v in self.variants}
-             for m in self.tag_member.type.members:
-                 if m.name not in cases:
-                     v =3D QAPISchemaObjectTypeVariant(m.name, self.info,
-@@ -848,7 +848,7 @@ class QAPISchema:
-=20
-     def _make_module(self, fname):
-         name =3D self._module_name(fname)
--        if not name in self._module_dict:
-+        if name not in self._module_dict:
-             self._module_dict[name] =3D QAPISchemaModule(name)
-         return self._module_dict[name]
-=20
-@@ -1097,7 +1097,6 @@ class QAPISchema:
-=20
-     def visit(self, visitor):
-         visitor.visit_begin(self)
--        module =3D None
-         for mod in self._module_dict.values():
-             mod.visit(visitor)
-         visitor.visit_end()
---=20
-2.21.1
+
+On 25.02.20 15:35, Viktor Mihajlovski wrote:
+>=20
+>=20
+> On 2/25/20 12:56 PM, Halil Pasic wrote:
+>> On Tue, 25 Feb 2020 10:39:40 +0100
+>> David Hildenbrand <david@redhat.com> wrote:
+>>
+>>> On 24.02.20 16:02, Halil Pasic wrote:
+>>>> We expose loadparm as a r/w machine property, but if loadparm is set=
+ by
+>>>> the guest via DIAG 308, we don't update the property. Having a
+>>>> disconnect between the guest view and the QEMU property is not nice =
+in
+>>>> itself, but things get even worse for SCSI, where under certain
+>>>> circumstances (see 789b5a401b "s390: Ensure IPL from SCSI works as
+>>>> expected" for details) we call s390_gen_initial_iplb() on resets
+>>>> effectively overwriting the guest/user supplied loadparm with the st=
+ale
+>>>> value.
+>>>>
+>>>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>>>> Fixes: 7104bae9de "hw/s390x: provide loadparm property for the machi=
+ne"
+>>>> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>>>> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+>>>> Reviewed-by: Viktor Mihajlovski <mihajlov@linux.ibm.com>
+>>>> Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>>>> ---
+>>>> =C2=A0 hw/s390x/ipl.c | 21 +++++++++++++++++++++
+>>>> =C2=A0 1 file changed, 21 insertions(+)
+>>>>
+>>>> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+> [...]
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 /* Sync loadparm */
+>>>> +=C2=A0=C2=A0=C2=A0 if (iplb->flags & DIAG308_FLAGS_LP_VALID) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char ascii_loadparm[8];
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t *ebcdic_loadparm=
+ =3D iplb->loadparm;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 8 && e=
+bcdic_loadparm[i]; i++) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+ascii_loadparm[i] =3D ebcdic2ascii[(uint8_t) ebcdic_loadparm[i]];
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ascii_loadparm[i] =3D 0;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_set_str(=
+mo, ascii_loadparm, "loadparm", NULL);
+>>>> +=C2=A0=C2=A0=C2=A0 } else {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_set_str(=
+mo, "", "loadparm", NULL);
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>
+>>> &error_abort instead of NULL, we certainly want to know if this would
+>>> ever surprisingly fail.
+>>
+>> IMHO this is a typical assert() situation where one would like to have
+>> a fast and obvious failure when testing, but not in production.
+>>
+>> AFAIU the guest can trigger this code at any time, and crashing the
+>> whole (production) system seems a bit heavy handed to me. The setter
+>> should only fail if something is buggy.
+>>
+>> But if the majority says &error_abort I can certainly do. Other opinio=
+ns?
+>>
+> We might consider to return 0x0402 (invalid parameter) from the diag308=
+ "set", which is less drastic and would allow the OS to do whatever it fi=
+nds appropriate to deal with the failure. Not that Linux would care about=
+ that today :-).
+
+I think it is not an error. It is perfectly fine for a guest to not set D=
+IAG308_FLAGS_LP_VALID if the guest does not want to set it. The LOADPARM =
+is supposed to be ignored then.
+
+So we have two options:
+a. leave the patch as-is. This means that we replace the loadparm with an=
+ empty string
+b. remove the else. THis means that we leave the global loadparm unchange=
+d if the guest does not specify one (but it specifies a new IPLB).
+
+I will double check what LPAR does.
+
 
 
