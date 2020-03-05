@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337D917AADE
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:49:43 +0100 (CET)
-Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B403117AAFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:54:14 +0100 (CET)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tgs-0007Jx-7N
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:49:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59610)
+	id 1j9tlF-0007BC-Mk
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:54:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59737)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPU-0003za-PW
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:46 -0500
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1j9tQa-0005qK-RA
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:32:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tPT-0002wj-ON
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:44 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40435)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tPT-0002vy-HP
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:43 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id e26so6424324wme.5
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=+6Wt2pwTNDCu5XTMFcnjWDpEDWtcbB8BiinZAb1YGOE=;
- b=Rmnnodo6rVibdthmjl55H5P8+W+NaTAwt4/81MJQ+gGOWPKepTW4H0FpQIEYKvsaFc
- WUyifFo00VObdWTtx+WcFB1zyWyhNiLdVQpvB6fPM08MdZo+xnSpGcapLYyT/v9TJYFY
- 7of5XJCXj2zWKE/YxrFj+8LOk3iTwwveG01bn4rRk8FhtvlOEM0ro99/1qpmFIxwQifA
- fIblqe//hsEQpB1WqAfV6ImJYBu1PnY4Fc4R0mQPxppNrNA263vOzROpD7/7nV2Ufg20
- Wc1KlVKK2V9GgxtxAL+5CdOJP30CJt53+gH/o5J1B7znS3AQZl9TMcLFfs0MyTrw4oaN
- 8BnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+6Wt2pwTNDCu5XTMFcnjWDpEDWtcbB8BiinZAb1YGOE=;
- b=WdVnGPbMKaDgxhawCEHbw1xYw48WkLtusaXJEdrob0Kr3F9kbpQsku6uZBA9apOtHy
- dC/rA797cq57b9hJdG4b3KvM/vHEVEknJ9QgS/WKuNsr+SCPPlcupGGFVz12+DAAqceA
- SZO0ebnaTAbyoB0h/TZutw+5TUBgPnIoPoF9ENwd7VC2ggEgFNQMcG3gtRd8aR5kRQFx
- jPh6LdkOgGYkECtgYWGd9O2j2+1KM7Jag5ugGGUF0pgXaZ1g4Q34SLwKIC23HvKI1RNZ
- lkrxDF3GCTLwwvacKctXp7uFJfzb+tTZl+yKKI9RRHKEALBfRroPkJZ+4s6ffEO/aEvb
- JxrQ==
-X-Gm-Message-State: ANhLgQ2pxB9ld3kCbeIH5hYljP2zWZNEqguaskHqFvZhXbAECbRXbqSS
- 6xmnITt9/qiFLVEbV8THir7z9Zl4eNxm8w==
-X-Google-Smtp-Source: ADFU+vs1t19Utr016N2bRIc1sB627mT0dbfnr/G+Kmy33flvGHtV2INCQCzzjZXFT5xLB/UJTvusQw==
-X-Received: by 2002:a05:600c:2255:: with SMTP id
- a21mr6284361wmm.91.1583425902364; 
- Thu, 05 Mar 2020 08:31:42 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.41
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:41 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 37/37] target/arm: Clean address for DC ZVA
-Date: Thu,  5 Mar 2020 16:31:00 +0000
-Message-Id: <20200305163100.22912-38-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
-References: <20200305163100.22912-1-peter.maydell@linaro.org>
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1j9tQY-0005Hx-4c
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:32:52 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:55414)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1j9tQX-0005Bb-QH
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:32:50 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 025GRpPG066334;
+ Thu, 5 Mar 2020 16:32:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=u0u0xs267FZvCMxU1Rm4i7cW2EO/zxzCrO5DE5HpWBE=;
+ b=dmpLanyaGjGsuQTmuGPBWRpERCE9BJLcbikEOufn7tTVefAGQbHf6G3ijqenkQ2zITAi
+ PEu/QTV5TNWrTors5hBbcPHaprVcQg6no7M3yUhQX9f51cOHOsIlpsAuCaUt9ZkCRXtu
+ iCuDbOWSEMxKsPg+rwXSl12goeuYtYJWRRx2tT8OjQMUdxTi7tqMyb58MjO6ceAorl+B
+ balwX3ync/RCZ07Eox9tRgKnrkNEhza1K2qKgZ6c9jIhARQCpCuRlCt5q21EXcqthmaK
+ 1sOphOrsg88713YqI9WJhVPG7v/YcsZFZ6fESyJ6POCgw+7elbothp+BUSifcHWjExXJ Jg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2yffcuxb4f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 05 Mar 2020 16:32:34 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 025GRBk1164918;
+ Thu, 5 Mar 2020 16:32:34 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 2yg1h3ugmq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 05 Mar 2020 16:32:33 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 025GWWEJ017160;
+ Thu, 5 Mar 2020 16:32:32 GMT
+Received: from flaka (/174.207.16.221) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 05 Mar 2020 08:32:31 -0800
+Date: Thu, 5 Mar 2020 08:32:28 -0800
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v5 42/50] multi-process/mig: Send VMSD of remote to the
+ Proxy object
+Message-ID: <20200305163228.GA26883@flaka>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+ <74d6f7b67720a31a53c25164f8d9769c32d8c643.1582576372.git.jag.raman@oracle.com>
+ <20200305143949.GI3130@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200305143949.GI3130@work-vm>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003050105
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9550
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003050105
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,37 +92,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ liran.alon@oracle.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Thu, Mar 05, 2020 at 02:39:49PM +0000, Dr. David Alan Gilbert wrote:
+> * Jagannathan Raman (jag.raman@oracle.com) wrote:
+> > The remote process sends the VMSD to the Proxy object, on the source
+> > side
+> > 
+> > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> > ---
+> >  migration/savevm.c   | 27 +++++++++++++++++++++++++++
+> >  migration/savevm.h   |  2 ++
+> >  remote/remote-main.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 72 insertions(+)
+> > 
+> > diff --git a/migration/savevm.c b/migration/savevm.c
+> > index 1d4220e..09af14d 100644
+> > --- a/migration/savevm.c
+> > +++ b/migration/savevm.c
+> > @@ -2942,3 +2942,30 @@ bool vmstate_check_only_migratable(const VMStateDescription *vmsd)
+> >  
+> >      return !(vmsd && vmsd->unmigratable);
+> >  }
+> > +
+> 
+> Can we add something here commenting, e.g.
+> /* Called by the remote process to serialise migration back to the qemu
+>  * */
 
-This data access was forgotten when we added support for cleaning
-addresses of TBI information.
+Will add this.
+> > +int qemu_remote_savevm(QEMUFile *f)
+> > +{
+> > +    SaveStateEntry *se;
+> > +    int ret;
+> > +
+> > +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+> > +        if (!se->vmsd || !vmstate_save_needed(se->vmsd, se->opaque)) {
+> > +            continue;
+> > +        }
+> > +
+> > +        save_section_header(f, se, QEMU_VM_SECTION_FULL);
+> > +
+> > +        ret = vmstate_save(f, se, NULL);
+> > +        if (ret) {
+> > +            qemu_file_set_error(f, ret);
+> > +            return ret;
+> > +        }
+> > +
+> > +        save_section_footer(f, se);
+> > +    }
+> > +
+> > +    qemu_put_byte(f, QEMU_VM_EOF);
+> > +    qemu_fflush(f);
+> 
+> You have a qemu_fflush in process_start_mig_out  just after you call it
+> - so you don't need both; I suggest you remove this one.
+>
+Ok. 
+> > +    return 0;
+> 
+> And make this return qemu_file_get_error(f);  just like
+> qemu_save_device_state and then makybe some day we can merge them.
+>
+Will do.
+> > +}
+> 
+> 
+> > diff --git a/migration/savevm.h b/migration/savevm.h
+> > index ba64a7e..0491d3a 100644
+> > --- a/migration/savevm.h
+> > +++ b/migration/savevm.h
+> > @@ -65,4 +65,6 @@ void qemu_loadvm_state_cleanup(void);
+> >  int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+> >  int qemu_load_device_state(QEMUFile *f);
+> >  
+> > +int qemu_remote_savevm(QEMUFile *f);
+> > +
+> >  #endif
+> > diff --git a/remote/remote-main.c b/remote/remote-main.c
+> > index 58d9905..e97eb76 100644
+> > --- a/remote/remote-main.c
+> > +++ b/remote/remote-main.c
+> > @@ -53,6 +53,16 @@
+> >  #include "qemu/log.h"
+> >  #include "qemu/cutils.h"
+> >  #include "remote-opts.h"
+> > +#include "qapi/error.h"
+> > +#include "io/channel-util.h"
+> > +
+> > +#include "io/channel.h"
+> > +#include "io/channel-socket.h"
+> > +#include "migration/qemu-file-types.h"
+> > +#include "migration/savevm.h"
+> > +#include "migration/qemu-file-channel.h"
+> > +#include "migration/qemu-file.h"
+> > +
+> >  #include "monitor/monitor.h"
+> >  #include "chardev/char.h"
+> >  #include "sysemu/reset.h"
+> > @@ -322,6 +332,36 @@ static int setup_device(MPQemuMsg *msg, Error **errp)
+> >  
+> >  }
+> >  
+> > +static void process_start_mig_out(MPQemuMsg *msg)
+> > +{
+> > +    int wait = msg->fds[1];
+> > +    Error *err = NULL;
+> > +    QIOChannel *ioc;
+> > +    QEMUFile *f;
+> > +
+> > +    ioc = qio_channel_new_fd(msg->fds[0], &err);
+> > +    if (err) {
+> > +        error_report_err(err);
+> > +        return;
+> > +    }
+> > +
+> > +    qio_channel_set_name(QIO_CHANNEL(ioc), "remote-migration-channel");
+> > +
+> > +    f = qemu_fopen_channel_output(ioc);
+> > +
+> > +    bdrv_drain_all();
+> > +    (void)bdrv_flush_all();
+> 
+> Do remote process always have block code? I mean can't we have a remote
+> process that's just say a NIC ?
 
-Fixes: 3a471103ac1823ba
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200302175829.2183-8-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate-a64.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Not always (in the future), we will account for this.
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index c910a49b4e0..fefe8af7f52 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1784,7 +1784,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
-         return;
-     case ARM_CP_DC_ZVA:
-         /* Writes clear the aligned block of memory which rt points into. */
--        tcg_rt = cpu_reg(s, rt);
-+        tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
-         gen_helper_dc_zva(cpu_env, tcg_rt);
-         return;
-     default:
--- 
-2.20.1
+> 
+> > +    (void)qemu_remote_savevm(f);
+> 
+> It's probably bad to ignore errors here; what you could do is if there's
+> an error, you shoul dprint something and then send a poison value back
+> to the QEMU to let it know that you've failed.
+> 
 
+Yes, will add this.
+
+> > +    qemu_fflush(f);
+> > +
+> > +    notify_proxy(wait, (uint64_t)qemu_ftell(f));
+> > +    PUT_REMOTE_WAIT(wait);
+> > +
+> > +    qemu_fclose(f);
+> > +}
+> > +
+> >  static void process_msg(GIOCondition cond, MPQemuChannel *chan)
+> >  {
+> >      MPQemuMsg *msg = NULL;
+> > @@ -411,6 +451,9 @@ static void process_msg(GIOCondition cond, MPQemuChannel *chan)
+> >              notify_proxy(msg->fds[0], 0);
+> >          }
+> >          break;
+> > +    case START_MIG_OUT:
+> > +        process_start_mig_out(msg);
+> > +        break;
+> >      default:
+> >          error_setg(&err, "Unknown command");
+> >          goto finalize_loop;
+> > -- 
+> > 1.8.3.1
+> 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
