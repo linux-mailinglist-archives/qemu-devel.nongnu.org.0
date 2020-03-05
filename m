@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6585717A5BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:54:23 +0100 (CET)
-Received: from localhost ([::1]:48518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8672C17A5B3
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:52:28 +0100 (CET)
+Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9q18-0004D3-FN
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:54:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41835)
+	id 1j9pzH-0001O0-KB
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:52:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9ptH-0007bk-LL
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:16 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9ptN-0007kf-HO
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9ptG-0001mP-M9
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:15 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46563
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9ptM-0001pR-DD
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51949
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9ptG-0001mJ-J0
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:14 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9ptM-0001pC-9H
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583412374;
+ s=mimecast20190719; t=1583412380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bHjWSXQJGHXqNSVRp2m+ndgaVWWtzd8pKBpNi2noriY=;
- b=icWHILUMfHGiRIMH+8LQ3lLAU9/Eq+mopmOdCsFMeCQwDyF3iD0r9NA/0p5X7xWW6WohBn
- QmvP//+7PpyZQkY0VVqoz4hyjwGe42pdKJkqrdI+GTDsHuu5Ak8hQdeZp5ca1MHtMOJyd8
- c+apTWfqv7zW4T5Lh1GaZmpvCoUAEdw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-9d7VKVjiMzC7hnrtXTy9-g-1; Thu, 05 Mar 2020 07:46:12 -0500
-X-MC-Unique: 9d7VKVjiMzC7hnrtXTy9-g-1
-Received: by mail-wm1-f69.google.com with SMTP id 7so2033004wmo.7
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:46:12 -0800 (PST)
+ bh=PX36u3szPgZ2Q41knWXAoeXL+fhHmUrIIdFIn10MJtI=;
+ b=Xk5phjzFY4/qeHNpugGsyn3awK2cUsg7BRv51zeAmrewZZbEXftUDw/MdC06f+yhlMAe+b
+ baSEUUXlffXnL38uFSUNBmwnmnR6tRXq9RsOALHGaji1x1ELfgWuOnN8TW3VP+6hqSRKR1
+ a7bWd3Gl/jKfv6QiGPa9O8i14+lXUDU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-93-JK7X30X1NeKRKAZ99QGIGA-1; Thu, 05 Mar 2020 07:46:18 -0500
+X-MC-Unique: JK7X30X1NeKRKAZ99QGIGA-1
+Received: by mail-ed1-f72.google.com with SMTP id d11so4280264eds.7
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:46:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=37TekRuQ1Sj7bzipU9xMQGxHx7Oe/Uk9FNfgupkTT1U=;
- b=Ihshiq1QR0i3zYBgCFnTEuNee0aTeqQouZhwysqM10Zt/XxCBA8/u9beoyrHk2blgP
- +ZLuguDDB2RZbm04cN0r6i1H52rvmLWx1qGJ80Vj9ZqTP7xURQwW0di1kBOjNX7P/Kvj
- CewrPGJYSam01yNziVHRJtmWmX0AMlUM5h8EK3wyB7IXjqw0TJd49Ar2w1p1TgTH/HNi
- GdxMabZWnjOGf8cWNn8SCNdmTsg76YTvWWJaVaBRCAYIbCw7XyFer/hWtALni9S6NG6o
- 8clMABtLZUMcFS+R5Z7kjg9yvFaag6lmscQtbb7cWPKua0a/YRch9tLVZRQoFj2h+8Oo
- AeFg==
-X-Gm-Message-State: ANhLgQ35Tuhqr9egYW61YPzuHtxGKhEUyFhLTDguAWWIqHrUBMI41jkb
- pbhqUPfjB9G1fYdTCrdEIeXynnTmFPjqQwkWOkwg6BCGKw6V0cJzNDxO9n/91/FpTE/GNVxRfsj
- +fzb1CJCEw/FVIhQ=
-X-Received: by 2002:a5d:6544:: with SMTP id z4mr9651516wrv.31.1583412371623;
- Thu, 05 Mar 2020 04:46:11 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vvVrt/Sswq4FSHm0E1EBtr0g0kjYs6V37K0HOy2fXC7aQIxGtsR2optAa52Vkzx0QP0QDKzXQ==
-X-Received: by 2002:a5d:6544:: with SMTP id z4mr9651493wrv.31.1583412371400;
- Thu, 05 Mar 2020 04:46:11 -0800 (PST)
+ bh=AaV1ZZro3f+XiD92hHRr5sJi0Jy1dhCplYtiC3TxZ9Q=;
+ b=NisteF513YSRStQ2ksNywRutmUAtbtLOpexNK6hOh2UE0HtYKi4nUoXOKXL3uzbSVd
+ oE0YrV3Uch4rVYJ/9+j+n7bJ0s9xOE3G7mX32OctGLqrL60XDSsKZfp1gG9QVt62AfCi
+ zfePykFpXv8g2sa7rEyaGTDujGXr+OzEk9t4SPXPmR1DBzLmzH4n+H1wg1UBlygulBVh
+ 9e6WWdrrVAneFdYkuRGEw6Hmh//SAPtpdu0Lxk1ZcFX7tNK5qsCGqESwqHdmWGTnsINn
+ +sONUaPkkrGvcruiQ48sm5XZAjtxGMwcLkCQt1YYi9ptdpcN7QjchCSYOYrUxlcrUpS3
+ vlww==
+X-Gm-Message-State: ANhLgQ1STfqbFdxyQFYKsP8tNgqUuv3/e1buWJ32LYNp2UeefJ+KTvvd
+ 1mKXi7t6ZPB0aIB8QoQjcJhXGM6PymSkkNFNUxCi25hlQ4PAqjfXJoHPaiJjpQhyXCm6XRkyaSr
+ GMAyIxiSDonF52gQ=
+X-Received: by 2002:a17:907:20ae:: with SMTP id
+ pw14mr5158861ejb.347.1583412376855; 
+ Thu, 05 Mar 2020 04:46:16 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vsXzhx6R4H7sx/neIO4/kU2XBgcI7lnVex83myb4LLHWpAvKquZR8H+zNUYUqKhe7Q024X6Zw==
+X-Received: by 2002:a17:907:20ae:: with SMTP id
+ pw14mr5158849ejb.347.1583412376669; 
+ Thu, 05 Mar 2020 04:46:16 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id r12sm9493551wrw.77.2020.03.05.04.46.09
+ by smtp.gmail.com with ESMTPSA id q26sm1529544ejb.50.2020.03.05.04.46.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 04:46:10 -0800 (PST)
+ Thu, 05 Mar 2020 04:46:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-trivial@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 8/9] ui/curses: Move arrays to .heap to save 74KiB of .bss
-Date: Thu,  5 Mar 2020 13:45:24 +0100
-Message-Id: <20200305124525.14555-9-philmd@redhat.com>
+Subject: [PATCH v2 9/9] virtfs-proxy-helper: Make the helper_opts[] array const
+Date: Thu,  5 Mar 2020 13:45:25 +0100
+Message-Id: <20200305124525.14555-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200305124525.14555-1-philmd@redhat.com>
 References: <20200305124525.14555-1-philmd@redhat.com>
@@ -78,7 +80,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,54 +101,29 @@ Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We only need these arrays when using the curses display.
-Move them from the .bss to the .heap (sizes reported on
-x86_64 host: screen[] is 64KiB, vga_to_curses 7KiB).
+Reduce a bit the memory footprint by making the helper_opts[]
+array const.
 
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Acked-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- ui/curses.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ fsdev/virtfs-proxy-helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ui/curses.c b/ui/curses.c
-index 3bafc10c1c..a59b23a9cf 100644
---- a/ui/curses.c
-+++ b/ui/curses.c
-@@ -54,13 +54,13 @@ enum maybe_keycode {
- };
+diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
+index aa1ab2590d..de061a8a0e 100644
+--- a/fsdev/virtfs-proxy-helper.c
++++ b/fsdev/virtfs-proxy-helper.c
+@@ -43,7 +43,7 @@
+ #define BTRFS_SUPER_MAGIC 0x9123683E
+ #endif
 =20
- static DisplayChangeListener *dcl;
--static console_ch_t screen[160 * 100];
-+static console_ch_t *screen;
- static WINDOW *screenpad =3D NULL;
- static int width, height, gwidth, gheight, invalidate;
- static int px, py, sminx, sminy, smaxx, smaxy;
-=20
- static const char *font_charset =3D "CP437";
--static cchar_t vga_to_curses[256];
-+static cchar_t *vga_to_curses;
-=20
- static void curses_update(DisplayChangeListener *dcl,
-                           int x, int y, int w, int h)
-@@ -405,6 +405,8 @@ static void curses_refresh(DisplayChangeListener *dcl)
- static void curses_atexit(void)
- {
-     endwin();
-+    g_free(vga_to_curses);
-+    g_free(screen);
- }
-=20
- /*
-@@ -783,6 +785,8 @@ static void curses_display_init(DisplayState *ds, Displ=
-ayOptions *opts)
-     if (opts->u.curses.charset) {
-         font_charset =3D opts->u.curses.charset;
-     }
-+    screen =3D g_new0(console_ch_t, 160 * 100);
-+    vga_to_curses =3D g_new0(cchar_t, 256);
-     curses_setup();
-     curses_keyboard_setup();
-     atexit(curses_atexit);
+-static struct option helper_opts[] =3D {
++static const struct option helper_opts[] =3D {
+     {"fd", required_argument, NULL, 'f'},
+     {"path", required_argument, NULL, 'p'},
+     {"nodaemon", no_argument, NULL, 'n'},
 --=20
 2.21.1
 
