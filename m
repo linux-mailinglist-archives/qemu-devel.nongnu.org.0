@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDFE17AAFF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:55:59 +0100 (CET)
-Received: from localhost ([::1]:53106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76BC17AB12
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 18:01:14 +0100 (CET)
+Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tmw-0002rM-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:55:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
+	id 1j9ts1-0002WJ-Rh
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 12:01:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59401)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j9tjk-0005Z0-SE
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:52:42 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPK-0003ja-Gk
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j9tjj-0007eT-F9
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:52:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36602
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j9tjj-0007dv-BV
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:52:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583427158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pBMYPQTpT4z9y9NXEy1rgVmObE2q5HUSpKBYsUNnJ7g=;
- b=KdPTIvPczT/naYMqXSBv121usU62OrFQC+BS6X1kDhVyKLaSQ/VYCJ+Fs5L6ohNRTyFuXq
- DUQjX04MN6ed5fg6iY6WDbzj2NbzW7OB1ALBi27cGJfO/zYaEcBfcYVLOtYcv7063x4Bhp
- PXlbNaOx1xd9f+tErSKTlPYd0u1WaPQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-PY6qN3bINYqW29hFZnUkIQ-1; Thu, 05 Mar 2020 11:52:35 -0500
-X-MC-Unique: PY6qN3bINYqW29hFZnUkIQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDE25800D50;
- Thu,  5 Mar 2020 16:52:33 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC9539A;
- Thu,  5 Mar 2020 16:52:31 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-Subject: [PATCH v5 06/10] hw/arm/virt: vTPM support
-Date: Thu,  5 Mar 2020 17:51:45 +0100
-Message-Id: <20200305165149.618-7-eric.auger@redhat.com>
-In-Reply-To: <20200305165149.618-1-eric.auger@redhat.com>
-References: <20200305165149.618-1-eric.auger@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tPI-0002i8-Eu
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:34 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36173)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j9tPI-0002gA-8I
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:32 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id g83so6438357wme.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=RzB+Z8qRSlkYR5jjZd32X9gmPCCsZy1SF2ry7LYaxxA=;
+ b=sieT12oT/MSYkcgdUn6h82ekgTnC1A9e6Lk09FTx6Kj7HLqB63dTaztX4YBwVJb5Os
+ W28nJPVoHsbdHSU3nQ8UE2gaxTCtKoIjDUYPPQlIQIzpA1kEtwDT/73m8kl96fwKHxiL
+ m08UoAuvBlzd+/C7V+gKKjAxvXInCndcObHhT7FQPmJJTrnV4iG3lQnrWkcNkdEGdv8x
+ VZ6RVCq7KqKBa2yI+x1HpkKJ8v36D2OclsjPzYWRhknnQWxKdDJdSd4zjbQQXxyJ5DDP
+ MDlEge3DIaRY0+iM5JJaTCWKuKes0HahpIJdZsDEtsILjyJwz6H8oQn7F6rL1x85wcmQ
+ nz6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RzB+Z8qRSlkYR5jjZd32X9gmPCCsZy1SF2ry7LYaxxA=;
+ b=iG3YPTwzqiblTc3vIDvI+CAEb8faLwYIDKA1VnCzeoXY5rzM7IPWvV/Q6Uaifxx8D6
+ piXxE2fcQeUWlxs8DzkcHQ7n03szHJz9sZ43eZjb5weltCMAavXgt0MO3NhFn1F9auvs
+ zwvmWq9wtYSjkhs7z8RQm+0OcwxsOuHONsCtR0XPMDCgKWPsuA2mA/z8GFZ7KAwjST04
+ OuCkO1Ig/66D4q+H6EvYvWha26ldpSDfDkGxemwr9qeaypGIcCWeIy/B+zeOG28FedaF
+ mV3J89snWiBVJJXtxpqauXe1pkdp3LXBZ9r5TfqRB6iL3CP21gLiJdc7KfwAejWQwAyW
+ 7SjA==
+X-Gm-Message-State: ANhLgQ1lLqI64t97OWAr5DyT9gjt6BI8pwA/zfRvYNjGCM2JLFVcN4ZE
+ zOcnUwqOLebBkY5ybxtZiO53OQjlghj3Rw==
+X-Google-Smtp-Source: ADFU+vs7ghi3pmrkjdUrz958wCE5MDbcdQpb3rnBgkTaaQ1O05hIjX5bAYbDh0tbt84rGRyUIjamfQ==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr9925271wmg.136.1583425890998; 
+ Thu, 05 Mar 2020 08:31:30 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.30
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Mar 2020 08:31:30 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 26/37] tests/tcg/aarch64: Add newline in pauth-1 printf
+Date: Thu,  5 Mar 2020 16:30:49 +0000
+Message-Id: <20200305163100.22912-27-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
+References: <20200305163100.22912-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,152 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let the TPM TIS SYSBUS device be dynamically instantiable
-in ARM virt.  A device tree node is dynamically created
-(TPM via MMIO).
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The TPM Physical Presence interface (PPI) is not supported.
+Make the output just a bit prettier when running by hand.
 
-To run with the swtmp TPM emulator, the qemu command line must
-be augmented with:
-
-        -chardev socket,id=3Dchrtpm,path=3Dswtpm-sock \
-        -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
-        -device tpm-tis-device,tpmdev=3Dtpm0 \
-
-swtpm/libtpms command line example:
-
-swtpm socket --tpm2 -t -d --tpmstate dir=3D/tmp/tpm \
---ctrl type=3Dunixio,path=3Dswtpm-sock
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Tested-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Acked-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200229012811.24129-13-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
+ tests/tcg/aarch64/pauth-1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v4 -> v5:
-- Move "TYPE_BINDING(TYPE_TPM_TIS_SYSBUS, add_tpm_tis_fdt_node),"
-  and add_tpm_tis_fdt_node outside of the CONFIG_LINUX
----
- hw/arm/sysbus-fdt.c | 33 +++++++++++++++++++++++++++++++++
- hw/arm/virt.c       |  7 +++++++
- hw/arm/Kconfig      |  1 +
- 3 files changed, 41 insertions(+)
-
-diff --git a/hw/arm/sysbus-fdt.c b/hw/arm/sysbus-fdt.c
-index 022fc97ecd..6b6906f4cf 100644
---- a/hw/arm/sysbus-fdt.c
-+++ b/hw/arm/sysbus-fdt.c
-@@ -30,6 +30,7 @@
- #include "hw/arm/sysbus-fdt.h"
- #include "qemu/error-report.h"
- #include "sysemu/device_tree.h"
-+#include "sysemu/tpm.h"
- #include "hw/platform-bus.h"
- #include "hw/vfio/vfio-platform.h"
- #include "hw/vfio/vfio-calxeda-xgmac.h"
-@@ -436,6 +437,37 @@ static bool vfio_platform_match(SysBusDevice *sbdev,
-=20
- #endif /* CONFIG_LINUX */
-=20
-+/*
-+ * add_tpm_tis_fdt_node: Create a DT node for TPM TIS
-+ *
-+ * See kernel documentation:
-+ * Documentation/devicetree/bindings/security/tpm/tpm_tis_mmio.txt
-+ * Optional interrupt for command completion is not exposed
-+ */
-+static int add_tpm_tis_fdt_node(SysBusDevice *sbdev, void *opaque)
-+{
-+    PlatformBusFDTData *data =3D opaque;
-+    PlatformBusDevice *pbus =3D data->pbus;
-+    void *fdt =3D data->fdt;
-+    const char *parent_node =3D data->pbus_node_name;
-+    char *nodename;
-+    uint32_t reg_attr[2];
-+    uint64_t mmio_base;
-+
-+    mmio_base =3D platform_bus_get_mmio_addr(pbus, sbdev, 0);
-+    nodename =3D g_strdup_printf("%s/tpm_tis@%" PRIx64, parent_node, mmio_=
-base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "tcg,tpm-tis-mmio=
-");
-+
-+    reg_attr[0] =3D cpu_to_be32(mmio_base);
-+    reg_attr[1] =3D cpu_to_be32(0x5000);
-+    qemu_fdt_setprop(fdt, nodename, "reg", reg_attr, 2 * sizeof(uint32_t))=
-;
-+
-+    g_free(nodename);
-+    return 0;
-+}
-+
- static int no_fdt_node(SysBusDevice *sbdev, void *opaque)
- {
+diff --git a/tests/tcg/aarch64/pauth-1.c b/tests/tcg/aarch64/pauth-1.c
+index ea0984ea823..d3878cbeb6e 100644
+--- a/tests/tcg/aarch64/pauth-1.c
++++ b/tests/tcg/aarch64/pauth-1.c
+@@ -29,7 +29,7 @@ int main()
+     }
+ 
+     perc = (float) count / (float) (TESTS * 2);
+-    printf("Ptr Check: %0.2f%%", perc * 100.0);
++    printf("Ptr Check: %0.2f%%\n", perc * 100.0);
+     assert(perc > 0.95);
      return 0;
-@@ -456,6 +488,7 @@ static const BindingEntry bindings[] =3D {
-     TYPE_BINDING(TYPE_VFIO_AMD_XGBE, add_amd_xgbe_fdt_node),
-     VFIO_PLATFORM_BINDING("amd,xgbe-seattle-v1a", add_amd_xgbe_fdt_node),
- #endif
-+    TYPE_BINDING(TYPE_TPM_TIS_SYSBUS, add_tpm_tis_fdt_node),
-     TYPE_BINDING(TYPE_RAMFB_DEVICE, no_fdt_node),
-     TYPE_BINDING("", NULL), /* last element */
- };
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 856808599d..32d865a488 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -48,6 +48,7 @@
- #include "sysemu/numa.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/tpm.h"
- #include "sysemu/kvm.h"
- #include "hw/loader.h"
- #include "exec/address-spaces.h"
-@@ -2083,6 +2084,7 @@ static void virt_machine_class_init(ObjectClass *oc, =
-void *data)
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_AMD_XGBE);
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_PLATFORM);
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
-     mc->block_default_type =3D IF_VIRTIO;
-     mc->no_cdrom =3D 1;
-     mc->pci_allow_0_address =3D true;
-@@ -2196,6 +2198,11 @@ type_init(machvirt_machine_init);
-=20
- static void virt_machine_5_0_options(MachineClass *mc)
- {
-+    static GlobalProperty compat[] =3D {
-+        { TYPE_TPM_TIS_SYSBUS, "ppi", "false" },
-+    };
-+
-+    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
  }
- DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
-=20
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 61635f52c4..bc54fd61f9 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -5,6 +5,7 @@ config ARM_VIRT
-     imply VFIO_AMD_XGBE
-     imply VFIO_PLATFORM
-     imply VFIO_XGMAC
-+    imply TPM_TIS_SYSBUS
-     select A15MPCORE
-     select ACPI
-     select ARM_SMMUV3
---=20
+-- 
 2.20.1
 
 
