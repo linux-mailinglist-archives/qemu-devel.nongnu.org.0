@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8491C17B212
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 00:11:18 +0100 (CET)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C762317B22D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 00:20:03 +0100 (CET)
+Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9ze9-0004RZ-5K
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 18:11:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41959)
+	id 1j9zmc-0001Yo-T7
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 18:20:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j9zdI-0003ZP-FZ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:10:25 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j9zlF-0000aG-F4
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:18:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j9zdG-0001OF-OS
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:10:23 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41807)
+ (envelope-from <alistair23@gmail.com>) id 1j9zlE-0002ld-Aw
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:18:37 -0500
+Received: from mail-vs1-xe44.google.com ([2607:f8b0:4864:20::e44]:35302)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j9zdG-0001JM-En
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:10:22 -0500
-Received: by mail-wr1-x443.google.com with SMTP id v4so163704wrs.8
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 15:10:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=aR7S8foBTaR7sMMxcqfDtjZoIfyL7NJ5YTTxmVrniYw=;
- b=Ov+4CBg92XTW/ws1zIlZ+aHtUIjawfnd1FecDVWquRsx8fPqw4LZZah7KZXiWqsA+X
- vfhOsaVEYQknOJb4QGc6zfSvEQVuHfb36yByFqXRLwMntLPs6Ngsfjz67LLiav6ETkvB
- MxATssnQRq8Evz5S/mkoHdnb5uZk/F3OwIaQswXh70AK+iScqteyrtsUGpGg8umFNFUJ
- BpkVkroySBvGhmD1ol6vkRH88AMiFqCKOMnQ3RJNM4OC0pzyqYQ4kYR10Fg/4itS6mOa
- OIiiDKAfc8AdN891E/6XM1z1PONOTVdd+rHNbaBByhDbCwfW3Vi5WQ/4x51qf9t80V71
- ADPw==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j9zlD-0002kW-Qn; Thu, 05 Mar 2020 18:18:35 -0500
+Received: by mail-vs1-xe44.google.com with SMTP id u26so379131vsg.2;
+ Thu, 05 Mar 2020 15:18:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8G8DYzV4+k5eDdvlRAgIYoVYwz7I40ZoA9ZyhuMHNt0=;
+ b=NONVj+NmsZBgXIsULysZoWvneAWUpVGagTFX7aDH759+CcPtugtTWe6Ej/EC806PPW
+ CW0OlaN0zVXvUfNkrYR/GdiQ7DjkFH0qwl76qUM0G4kZLpvVTdgeN7YnNtt1CpN9rFK7
+ Le5QNjkFq/CFeeMEygPLLAuQT5lJyDUA5YnTLyLJPUOlWQfYfNPjCT1vA9CH2FVLriiX
+ jftMCWcnKg5Rz1wwn+b2BRfIH1R5BCqOQt6uFcrrm0w45YLrBtOm0hU1holOQ5Syyohs
+ N0JIb8GkRSB7map0GKDWDaUjI9RQ9IMu4TsmV/syBrbujt/5T/RIAwUQdw2XcwBAXNPh
+ exLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=aR7S8foBTaR7sMMxcqfDtjZoIfyL7NJ5YTTxmVrniYw=;
- b=iUJzohtHkTsSVnADPTfa9WVl6fyHOXY8EaEkGtlCWFglboUnZKve5hbPEoOZL2xvkM
- eef4EIJq3/Fcqn/HGuUBrM3YH6z8iViGgQM0ri5nGK+jMi/FP5WxNHvmcE8AbmHmZBav
- xlAGpG7cmmPx4lGPL9IQBwDBOfJVXbASMLM3KP7crVfxduKa2Z01aOMzOYtOd+NrYLqM
- ecRE+UvLxOMzjbAJOtw8j0E2kGJO6rwd9VOciCzpCQjyvCAWGTgAUwssceSHh2binXaw
- XDVAUhD8odJBlyH7mvkLpse5ZeyDDqYxkvQAwNfU2Utnx+q3K2LraqD033Hw0vbWbt5M
- jhrg==
-X-Gm-Message-State: ANhLgQ1nKjMhbcUYSj2iybuWh/8QTk4zrN2Hc31Ghlenp7aizpG1f9sC
- yfIuZTTpbcTCVpraBeGFNXEkvQ==
-X-Google-Smtp-Source: ADFU+vsKRBixmHmFHBxl6zLXNpPs3qxkexVWCLvV9wZmq0IW4a59oCKTPmj3uLnTYlys1M2Afoh6TA==
-X-Received: by 2002:adf:cd03:: with SMTP id w3mr245599wrm.191.1583449820736;
- Thu, 05 Mar 2020 15:10:20 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p10sm42629181wrx.81.2020.03.05.15.10.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 15:10:19 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B84A21FF87;
- Thu,  5 Mar 2020 23:10:18 +0000 (GMT)
-References: <20200305103427.157658-1-quintela@redhat.com>
- <87imji6eio.fsf@linaro.org> <87h7z2g6te.fsf@secure.laptop>
-User-agent: mu4e 1.3.9; emacs 27.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: quintela@redhat.com
-Subject: Re: [PATCH] configure: Improve zstd test
-In-reply-to: <87h7z2g6te.fsf@secure.laptop>
-Date: Thu, 05 Mar 2020 23:10:18 +0000
-Message-ID: <87eeu65rfp.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8G8DYzV4+k5eDdvlRAgIYoVYwz7I40ZoA9ZyhuMHNt0=;
+ b=pN3NxR3PSU1/gg1qiFKSsNNKQd3sVFOOl9zX+nUxCCnxQFcZGIIvG0fZP/SW1ucDFe
+ SMUj1vqZHxLC94F+4jb0LndF3MoW7T0YQ07DFusKc/Z3Gh5L0pBuN1r7k5J2Adgr0lmx
+ 9lcwvePz4MBIE5NsjR1SfC/LkcVYpYtgRe+BAOaK4521GkanWC6A3GDeqZLa2n5VIyUq
+ gFXh6E95ud3GMNz+IUQZmbj++F+bE0YAgGYKzRui0tSmScA6Cy/PqvSJ5g0EELGWwfzB
+ KupF4nvqpm/ItSGMpvrEj2epwYSqexmGjwIB2Ds1vH/imIlmgaM7rA4Q6aP0qqt17E5K
+ M30Q==
+X-Gm-Message-State: ANhLgQ0aAI5JtDc9l965xDWJyMJ3801lJMfpVdYwHXtBG09MnllOxYtp
+ Y/NeyHxktJpvb/SODqCFZHl7qiX6jvC2FBOonag=
+X-Google-Smtp-Source: ADFU+vs4ziIyRL2LBoaIObKiQDaAYezXZhwa7vIGLSxBVKyqcTAfQTzPuZoPLzxMC1FIRp9ZV7ReEGq8ZAtyARIHW+8=
+X-Received: by 2002:a05:6102:3c2:: with SMTP id
+ n2mr517363vsq.172.1583450314758; 
+ Thu, 05 Mar 2020 15:18:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200305175651.4563-1-philmd@redhat.com>
+ <20200305175651.4563-7-philmd@redhat.com>
+In-Reply-To: <20200305175651.4563-7-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 5 Mar 2020 15:10:52 -0800
+Message-ID: <CAKmqyKN0f_Tx1x06i3X4Pp1s8EVV8-cvLex-U-nTUCFz=8bZTA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] hw/net/can: Make CanBusClientInfo::can_receive()
+ return a boolean
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::e44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,102 +75,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "open list:New World" <qemu-ppc@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Mar 5, 2020 at 9:59 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> The CanBusClientInfo::can_receive handler return whether the
+> device can or can not receive new frames. Make it obvious by
+> returning a boolean type.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Juan Quintela <quintela@redhat.com> writes:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
->> Juan Quintela <quintela@redhat.com> writes:
->>
->>> There were one error on the test (missing an s for --exists).
->>> But we really need a recent zstd (0.8.1).
->>> That version was released in 2016, so it is newer that some of our trav=
-is
->>> images.  Just check for the version that we need.
->>>
->>> Signed-off-by: Juan Quintela <quintela@redhat.com>
->>> Reported-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>  configure | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/configure b/configure
->>> index 7b373bc0bb..1bf48df1ef 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -2464,7 +2464,8 @@ fi
->>>  # zstd check
->>>=20=20
->>>  if test "$zstd" !=3D "no" ; then
->>> -    if $pkg_config --exist libzstd ; then
->>> +    libzstd_minver=3D"0.8.1"
->>> +    if $pkg_config --atleast-version=3D$libzstd_minver libzstd ; then
->>>          zstd_cflags=3D"$($pkg_config --cflags libzstd)"
->>>          zstd_libs=3D"$($pkg_config --libs libzstd)"
->>>          LIBS=3D"$zstd_libs $LIBS"
->>
->> Hmm still breaks with:
->>
->>    make docker-test-build@ubuntu J=3D9 V=3D1
->
-> Thanks.
->
->> With:
->>
->>   FY_SOURCE=3D2 -g   -c -o monitor/qmp.o /tmp/qemu-test/src/monitor/qmp.c
->>   /tmp/qemu-test/src/migration/multifd-zstd.c: In function 'zstd_send_pr=
-epare':
->>   /tmp/qemu-test/src/migration/multifd-zstd.c:125:9: error: unknown type=
- name 'ZSTD_EndDirective'; did you mean 'ZSTD_DDict'?
->>            ZSTD_EndDirective flush =3D ZSTD_e_continue;
->>            ^~~~~~~~~~~~~~~~~
->
-> Greate, more things were introduced later.
-> As it would be too easy, the zstd repository is not lineal, you need to
-> checkout the tag you want to see when something has been introduced.
->
-> Will try to get this fixed.
->
-> Sorry for the inconveniences.
->
->
->>   Version: 1.3.8+dfsg-3
->>   Depends: libzstd1 (=3D 1.3.8+dfsg-3)
->>   Description: fast lossless compression algorithm -- development files
->
-> I don't undertsand now.
->
-> ZSTD_EndDirective was included in 1.3.0.
->
-> I can just change that for 1.3.9, but I don't know why is that there.
-> Could you do a grep ZSTD_EndDirective /usr/lib/zstd.h?
+Alistair
 
-23:07:26 [alex@zen:~/l/q/b/all] review/misc-bits|=E2=80=A6 2 + docker run -=
--rm -it qemu:ubuntu grep -r "ZSTD_End" /usr/include/
-/usr/include/zstd.h:} ZSTD_EndDirective;
-/usr/include/zstd.h:                                         ZSTD_EndDirect=
-ive endOp);
-/usr/include/zstd.h:                            ZSTD_EndDirective endOp);
-
+> ---
+>  hw/net/can/can_sja1000.h | 2 +-
+>  include/net/can_emu.h    | 2 +-
+>  hw/net/can/can_sja1000.c | 8 ++++----
+>  net/can/can_socketcan.c  | 4 ++--
+>  4 files changed, 8 insertions(+), 8 deletions(-)
 >
-> Or if there is some documentation that shows how to use that docker
-> images.
-
-Setting up docker is described in docs/devel/testing.rst - once setup
-the make invocations I listed work. The final images are all tagged
-qemu:FOO so for ubuntu the general form:
-
-  docker run --rm -it qemu:ubuntu COMMAND
-
-Will do what you want.
-
+> diff --git a/hw/net/can/can_sja1000.h b/hw/net/can/can_sja1000.h
+> index 220a622087..7ca9cd681e 100644
+> --- a/hw/net/can/can_sja1000.h
+> +++ b/hw/net/can/can_sja1000.h
+> @@ -137,7 +137,7 @@ void can_sja_disconnect(CanSJA1000State *s);
 >
-> Later, Juan.
-
-
---=20
-Alex Benn=C3=A9e
+>  int can_sja_init(CanSJA1000State *s, qemu_irq irq);
+>
+> -int can_sja_can_receive(CanBusClientState *client);
+> +bool can_sja_can_receive(CanBusClientState *client);
+>
+>  ssize_t can_sja_receive(CanBusClientState *client,
+>                          const qemu_can_frame *frames, size_t frames_cnt)=
+;
+> diff --git a/include/net/can_emu.h b/include/net/can_emu.h
+> index d4fc51b57d..fce9770928 100644
+> --- a/include/net/can_emu.h
+> +++ b/include/net/can_emu.h
+> @@ -83,7 +83,7 @@ typedef struct CanBusClientState CanBusClientState;
+>  typedef struct CanBusState CanBusState;
+>
+>  typedef struct CanBusClientInfo {
+> -    int (*can_receive)(CanBusClientState *);
+> +    bool (*can_receive)(CanBusClientState *);
+>      ssize_t (*receive)(CanBusClientState *,
+>          const struct qemu_can_frame *frames, size_t frames_cnt);
+>  } CanBusClientInfo;
+> diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+> index 39c78faf9b..ea915a023a 100644
+> --- a/hw/net/can/can_sja1000.c
+> +++ b/hw/net/can/can_sja1000.c
+> @@ -733,21 +733,21 @@ uint64_t can_sja_mem_read(CanSJA1000State *s, hwadd=
+r addr, unsigned size)
+>      return temp;
+>  }
+>
+> -int can_sja_can_receive(CanBusClientState *client)
+> +bool can_sja_can_receive(CanBusClientState *client)
+>  {
+>      CanSJA1000State *s =3D container_of(client, CanSJA1000State, bus_cli=
+ent);
+>
+>      if (s->clock & 0x80) { /* PeliCAN Mode */
+>          if (s->mode & 0x01) { /* reset mode. */
+> -            return 0;
+> +            return false;
+>          }
+>      } else { /* BasicCAN mode */
+>          if (s->control & 0x01) {
+> -            return 0;
+> +            return false;
+>          }
+>      }
+>
+> -    return 1; /* always return 1, when operation mode */
+> +    return true; /* always return true, when operation mode */
+>  }
+>
+>  ssize_t can_sja_receive(CanBusClientState *client, const qemu_can_frame =
+*frames,
+> diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
+> index 29bfacd4f8..807f31fcde 100644
+> --- a/net/can/can_socketcan.c
+> +++ b/net/can/can_socketcan.c
+> @@ -110,9 +110,9 @@ static void can_host_socketcan_read(void *opaque)
+>      }
+>  }
+>
+> -static int can_host_socketcan_can_receive(CanBusClientState *client)
+> +static bool can_host_socketcan_can_receive(CanBusClientState *client)
+>  {
+> -    return 1;
+> +    return true;
+>  }
+>
+>  static ssize_t can_host_socketcan_receive(CanBusClientState *client,
+> --
+> 2.21.1
+>
+>
 
