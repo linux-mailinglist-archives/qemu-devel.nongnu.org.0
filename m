@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F6417B247
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 00:36:53 +0100 (CET)
-Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AC817B28C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 01:00:05 +0100 (CET)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jA02u-0007yM-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 18:36:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45766)
+	id 1jA0PM-0004bO-Cy
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 19:00:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jA02C-0007Sg-1p
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:36:09 -0500
+ (envelope-from <alex.williamson@redhat.com>) id 1jA0OV-00048f-Qa
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:59:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jA02A-0004T7-LY
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:36:07 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:49830)
+ (envelope-from <alex.williamson@redhat.com>) id 1jA0OT-00021D-3n
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:59:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54740
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jA024-00041q-GR; Thu, 05 Mar 2020 18:36:03 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 290FD74637E;
- Fri,  6 Mar 2020 00:35:50 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DFBCC74637C; Fri,  6 Mar 2020 00:35:49 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DC87D74569F;
- Fri,  6 Mar 2020 00:35:49 +0100 (CET)
-Date: Fri, 6 Mar 2020 00:35:49 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 2/2] via-ide: Also emulate non 100% native mode
-In-Reply-To: <b3bce0d3-3ab3-7fb3-ed3c-60f1f19159d6@ilande.co.uk>
-Message-ID: <alpine.BSF.2.22.395.2003060007040.48868@zero.eik.bme.hu>
-References: <cover.1583017348.git.balaton@eik.bme.hu>
- <32bb2eab213344151ca342bab5db2cf8c2758fb7.1583017348.git.balaton@eik.bme.hu>
- <f7f6bca9-ce20-cc3d-5366-1e947d729c21@ilande.co.uk>
- <bdbef976-a853-7178-8163-579e4bf9e2e0@ilande.co.uk>
- <alpine.BSF.2.22.395.2003011731130.95594@zero.eik.bme.hu>
- <57ff6676-5054-d3f6-f4fc-6ff02b09019f@ilande.co.uk>
- <alpine.BSF.2.22.395.2003011902490.28669@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2003011951370.28669@zero.eik.bme.hu>
- <38cb0f83-79fc-7021-38fc-c1e28c3c0fa0@ilande.co.uk>
- <alpine.BSF.2.22.395.2003012202330.79908@zero.eik.bme.hu>
- <9ce6d135-4169-96ae-c457-1131b4510c49@ilande.co.uk>
- <alpine.BSF.2.22.395.2003022145430.47473@zero.eik.bme.hu>
- <2a39ccab-e4d4-8172-9a1d-0bc089e0104c@ilande.co.uk>
- <alpine.BSF.2.22.395.2003032356230.41934@zero.eik.bme.hu>
- <a579c016-fd6c-ad4f-c091-2286265c9a57@ilande.co.uk>
- <alpine.BSF.2.22.395.2003042227190.70853@zero.eik.bme.hu>
- <b3bce0d3-3ab3-7fb3-ed3c-60f1f19159d6@ilande.co.uk>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jA0OS-0001zX-Ss
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 18:59:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583452748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DWNxRJ8WlPXdol16rWT4OshMWcJmQyf76OCjD2Xachk=;
+ b=Qpcj7Tqj2Yo/p3/gvr1Ien91sg0AWyaZdDU699gTlsrNCxTGQnqmmq4hUu8yeGz23lW/oY
+ /nzLocMEtGELZOxqwnBduzMSip6jyEBocgfy9hXgc9+c9iMpkGUufhiYr+iX5TGURPjE0W
+ WuPbQkeCqjAkCnUPkZ0l92WygQbcGcc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-bhjH8cT5Pk6P4Bbho52tYg-1; Thu, 05 Mar 2020 18:59:04 -0500
+X-MC-Unique: bhjH8cT5Pk6P4Bbho52tYg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756E6800D50
+ for <qemu-devel@nongnu.org>; Thu,  5 Mar 2020 23:59:03 +0000 (UTC)
+Received: from w520.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A4AB8F34E;
+ Thu,  5 Mar 2020 23:58:57 +0000 (UTC)
+Date: Thu, 5 Mar 2020 16:58:57 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v2 4/5] KVM: Kick resamplefd for split kernel irqchip
+Message-ID: <20200305165857.6a3ec29f@w520.home>
+In-Reply-To: <20200228161503.382656-5-peterx@redhat.com>
+References: <20200228161503.382656-1-peterx@redhat.com>
+ <20200228161503.382656-5-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,136 +72,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Mar 2020, Mark Cave-Ayland wrote:
-> On 04/03/2020 22:33, BALATON Zoltan wrote:
->>>>>>> AFAICT this then only leaves the question: why does the firmware set
->>>>>>> PCI_INTERRUPT_LINE to 9, which is presumably why you are seeing problems running
->>>>>>> MorphOS under QEMU.
->>>>>>
->>>>>> Linux does try to handle both true native mode and half-native mode. It only uses
->>>>>> half-native mode if finds IRQ14 on Pegasos, otherwise skips Pegasos specific fixup
->>>>>> and uses true native mode setup. I don't know what MorphOS does but I think it
->>>>>> justs
->>>>>> knows that Pegasos2 has this quirk and does not look at the device tree at all.
->
-> I just a quick look at the PCI specification and found this interesting paragraph in
-> the section about "Interrupt Line":
->
->
-> "The Interrupt Line register is an eight-bit register used to communicate interrupt
-> line routing information. The register is read/write and must be implemented by any
-> device (or device function) that uses an interrupt pin. POST software will write the
-> routing information into this register as it initializes and configures the system."
->
-> "The value in this register tells which input of the system interrupt controller(s)
-> the device's interrupt pin is connected to. The device itself does not use this
-> value, rather it is used by device drivers and operating systems. Device drivers and
-> operating systems can use this information to determine priority and vector
-> information. Values in this register are architecture-specific [43]."
->
-> [43] For x86 based PCs, the values in this register correspond to IRQ numbers (0-15)
-> of the standard dual 8259 configuration. The value 255 is defined as meaning
-> "unknown" or "no connection" to the interrupt controller. Values between 15 and 254
-> are reserved.
->
->
-> The key part here is "The device itself does not use this value, rather it is used by
-> device drivers and operating systems" since this immediately tells us that the
-> existing code in hw/ide/via.c which uses the interrupt line value for IRQ routing is
-> incorrect and should be removed.
+On Fri, 28 Feb 2020 11:15:02 -0500
+Peter Xu <peterx@redhat.com> wrote:
 
-On real hardware this may be true but in QEMU how would it otherwise raise 
-the correct interrupt line the guest expects? This probably does not 
-matter for pegasos2 but I think is needed for 100% native mode used with 
-the fulong2e so it gets the IRQ it expects.
+> This is majorly only for X86 because that's the only one that supports
+> split irqchip for now.
+> 
+> When the irqchip is split, we face a dilemma that KVM irqfd will be
+> enabled, however the slow irqchip is still running in the userspace.
+> It means that the resamplefd in the kernel irqfds won't take any
+> effect and it will miss to ack INTx interrupts on EOIs.
+> 
+> One example is split irqchip with VFIO INTx, which will break if we
+> use the VFIO INTx fast path.
+> 
+> This patch can potentially supports the VFIO fast path again for INTx,
+> that the IRQ delivery will still use the fast path, while we don't
+> need to trap MMIOs in QEMU for the device to emulate the EIOs (see the
+> callers of vfio_eoi() hook).  However the EOI of the INTx will still
+> need to be done from the userspace by caching all the resamplefds in
+> QEMU and kick properly for IOAPIC EOI broadcast.
+> 
+> This is tricky because in this case the userspace ioapic irr &
+> remote-irr will be bypassed.  However such a change will greatly boost
+> performance for assigned devices using INTx irqs (TCP_RR boosts 46%
+> after this patch applied).
+> 
+> When the userspace is responsible for the resamplefd kickup, don't
+> register it on the kvm_irqfd anymore, because on newer kernels (after
+> commit 654f1f13ea56, 5.2+) the KVM_IRQFD will fail if with both split
+> irqchip and resamplefd.  This will make sure that the fast path will
+> work for all supported kernels.
+> 
+> https://patchwork.kernel.org/patch/10738541/#22609933
+> 
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c    | 85 +++++++++++++++++++++++++++++++++++++++++-
+>  accel/kvm/trace-events |  1 +
+>  hw/intc/ioapic.c       | 23 +++++++++++-
+>  include/sysemu/kvm.h   |  7 ++++
+>  4 files changed, 112 insertions(+), 4 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index d49b74512a..89771ea114 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -159,9 +159,65 @@ static const KVMCapabilityInfo kvm_required_capabilites[] = {
+>  static NotifierList kvm_irqchip_change_notifiers =
+>      NOTIFIER_LIST_INITIALIZER(kvm_irqchip_change_notifiers);
+>  
+> +struct KVMResampleFd {
+> +    int gsi;
+> +    EventNotifier *resample_event;
+> +    QLIST_ENTRY(KVMResampleFd) node;
+> +};
+> +typedef struct KVMResampleFd KVMResampleFd;
+> +
+> +/*
+> + * Only used with split irqchip where we need to do the resample fd
+> + * kick for the kernel from userspace.
+> + */
+> +static QLIST_HEAD(, KVMResampleFd) kvm_resample_fd_list =
+> +    QLIST_HEAD_INITIALIZER(kvm_resample_fd_list);
+> +
+>  #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+>  #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
+>  
+> +static inline void kvm_resample_fd_remove(int gsi)
+> +{
+> +    KVMResampleFd *rfd;
+> +
+> +    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
+> +        if (rfd->gsi == gsi) {
+> +            QLIST_REMOVE(rfd, node);
+> +            g_free(rfd);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+> +static inline void kvm_resample_fd_insert(int gsi, EventNotifier *event)
+> +{
+> +    KVMResampleFd *rfd = g_new0(KVMResampleFd, 1);
+> +
+> +    rfd->gsi = gsi;
+> +    rfd->resample_event = event;
+> +
+> +    QLIST_INSERT_HEAD(&kvm_resample_fd_list, rfd, node);
+> +}
+> +
+> +bool kvm_resample_fd_notify(int gsi)
+> +{
+> +    KVMResampleFd *rfd;
+> +
+> +    if (!kvm_irqchip_is_split()) {
+> +        return false;
+> +    }
 
-> If we do that the next question is how does the VIA know whether the use the PCI
-> interrupt or the legacy interrupt? Another look at the datasheet showed that there is
+Nit, checking split irqchip here seems unnecessary.  We're only adding
+and removing list entries based on split irqchip below, so the list
+would be empty anyway, unless another user comes along that might have
+a reason for this functionality that isn't as tied to split irqchip.
 
-I don't think via-ide ever uses a PCI interrupt, if you look at its 
-datasheet the description of the prog-if reg (0x9) says in native mode irq 
-is programmable via config reg 0x3c which then lists all the ISA IRQs as 
-possible values, default 14 and 0 meaning disable.
+Overall the series looks like a big improvement versus falling back to
+our crappy generic EOI hackery with split irqchip.  Thanks,
 
-> another possibility: PCI configuration space register 0x3d (Interrupt pin) is
-> documented as having value 0 == Legacy IRQ routing which should be the initial value
-> on reset, but QEMU incorrectly sets it to 1 which indicates PCI IRQ routing.
+Alex
 
-The VT8231 docs say this should always read 1 but may be this is somehow 
-set to 0 on the Pegasos2. What does that mean? Should we use this value 
-instead of the feature bit to force using legacy interrupts? We'd still 
-need a property in via-ide to set this reg or is it possible to set it 
-from board code overriding the default after device is created? That would 
-allow to drop patch 1. I can try this.
+> +
+> +    QLIST_FOREACH(rfd, &kvm_resample_fd_list, node) {
+> +        if (rfd->gsi == gsi) {
+> +            event_notifier_set(rfd->resample_event);
+> +            trace_kvm_resample_fd_notify(gsi);
+> +            return true;
+> +        }
+> +    }
+> +
+> +    return false;
+> +}
+> +
+>  int kvm_get_max_memslots(void)
+>  {
+>      KVMState *s = KVM_STATE(current_accel());
+> @@ -1642,8 +1698,33 @@ static int kvm_irqchip_assign_irqfd(KVMState *s, EventNotifier *event,
+>      };
+>  
+>      if (rfd != -1) {
+> -        irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
+> -        irqfd.resamplefd = rfd;
+> +        assert(assign);
+> +        if (kvm_irqchip_is_split()) {
+> +            /*
+> +             * When the slow irqchip (e.g. IOAPIC) is in the
+> +             * userspace, KVM kernel resamplefd will not work because
+> +             * the EOI of the interrupt will be delivered to userspace
+> +             * instead, so the KVM kernel resamplefd kick will be
+> +             * skipped.  The userspace here mimics what the kernel
+> +             * provides with resamplefd, remember the resamplefd and
+> +             * kick it when we receive EOI of this IRQ.
+> +             *
+> +             * This is hackery because IOAPIC is mostly bypassed
+> +             * (except EOI broadcasts) when irqfd is used.  However
+> +             * this can bring much performance back for split irqchip
+> +             * with INTx IRQs (for VFIO, this gives 93% perf of the
+> +             * full fast path, which is 46% perf boost comparing to
+> +             * the INTx slow path).
+> +             */
+> +            kvm_resample_fd_insert(virq, resample);
+> +        } else {
+> +            irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
+> +            irqfd.resamplefd = rfd;
+> +        }
+> +    } else if (!assign) {
+> +        if (kvm_irqchip_is_split()) {
+> +            kvm_resample_fd_remove(virq);
+> +        }
+>      }
+>  
+>      if (!kvm_irqfds_enabled()) {
+> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+> index 4fb6e59d19..a68eb66534 100644
+> --- a/accel/kvm/trace-events
+> +++ b/accel/kvm/trace-events
+> @@ -16,4 +16,5 @@ kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_
+>  kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
+>  kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
+>  kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
+> +kvm_resample_fd_notify(int gsi) "gsi %d"
+>  
+> diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+> index 15747fe2c2..13921b333d 100644
+> --- a/hw/intc/ioapic.c
+> +++ b/hw/intc/ioapic.c
+> @@ -236,8 +236,27 @@ void ioapic_eoi_broadcast(int vector)
+>          for (n = 0; n < IOAPIC_NUM_PINS; n++) {
+>              entry = s->ioredtbl[n];
+>  
+> -            if ((entry & IOAPIC_VECTOR_MASK) != vector ||
+> -                ((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) != IOAPIC_TRIGGER_LEVEL) {
+> +            if ((entry & IOAPIC_VECTOR_MASK) != vector) {
+> +                continue;
+> +            }
+> +
+> +            /*
+> +             * When IOAPIC is in the userspace while APIC is still in
+> +             * the kernel (i.e., split irqchip), we have a trick to
+> +             * kick the resamplefd logic for registered irqfds from
+> +             * userspace to deactivate the IRQ.  When that happens, it
+> +             * means the irq bypassed userspace IOAPIC (so the irr and
+> +             * remote-irr of the table entry should be bypassed too
+> +             * even if interrupt come), then we don't need to clear
+> +             * the remote-IRR and check irr again because they'll
+> +             * always be zeros.
+> +             */
+> +            if (kvm_resample_fd_notify(n)) {
+> +                continue;
+> +            }
+> +
+> +            if (((entry >> IOAPIC_LVT_TRIGGER_MODE_SHIFT) & 1) !=
+> +                IOAPIC_TRIGGER_LEVEL) {
+>                  continue;
+>              }
+>  
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index 141342de98..3f0830cc4f 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -555,4 +555,11 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source);
+>  int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
+>  struct ppc_radix_page_info *kvm_get_radix_page_info(void);
+>  int kvm_get_max_memslots(void);
+> +
+> +/*
+> + * Notify resamplefd for EOI of specific interrupts.  Returns true
+> + * when one resamplefd is notified, false if no such IRQ found.
+> + */
+> +bool kvm_resample_fd_notify(int gsi);
+> +
+>  #endif
 
-> In your previous email you included a trace of the PCI configuration accesses to the
-> via-ide device. Can you try this again with the following diff and post the same
-> output once again?
->
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index 096de8dba0..db9f4af861 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -139,7 +139,7 @@ static void via_ide_reset(DeviceState *dev)
->     pci_set_long(pci_conf + PCI_BASE_ADDRESS_2, 0x00000170);
->     pci_set_long(pci_conf + PCI_BASE_ADDRESS_3, 0x00000374);
->     pci_set_long(pci_conf + PCI_BASE_ADDRESS_4, 0x0000cc01); /* BMIBA: 20-23h */
-> -    pci_set_long(pci_conf + PCI_INTERRUPT_LINE, 0x0000010e);
-> +    pci_set_long(pci_conf + PCI_INTERRUPT_LINE, 0x0000000e);
->
->     /* IDE chip enable, IDE configuration 1/2, IDE FIFO Configuration*/
->     pci_set_long(pci_conf + 0x40, 0x0a090600);
-
-This does not change much:
-
-pci_cfg_write via-ide 12:1 @0x9 <- 0xf
-pci_cfg_write via-ide 12:1 @0x40 <- 0xb
-pci_cfg_write via-ide 12:1 @0x41 <- 0xf2
-pci_cfg_write via-ide 12:1 @0x43 <- 0x35
-pci_cfg_write via-ide 12:1 @0x44 <- 0x18
-pci_cfg_write via-ide 12:1 @0x45 <- 0x1c
-pci_cfg_write via-ide 12:1 @0x46 <- 0xc0
-pci_cfg_write via-ide 12:1 @0x50 <- 0x17171717
-pci_cfg_write via-ide 12:1 @0x54 <- 0x14
-pci_cfg_read via-ide 12:1 @0x0 -> 0x5711106
-pci_cfg_read via-ide 12:1 @0x0 -> 0x5711106
-pci_cfg_read via-ide 12:1 @0x8 -> 0x1018f06
-pci_cfg_read via-ide 12:1 @0xc -> 0x0
-pci_cfg_read via-ide 12:1 @0x2c -> 0x11001af4
-pci_cfg_read via-ide 12:1 @0x3c -> 0xe
-pci_cfg_read via-ide 12:1 @0x4 -> 0x2800080
-pci_cfg_read via-ide 12:1 @0x3c -> 0xe
-pci_cfg_write via-ide 12:1 @0x3c <- 0x9
-
-compared to
-
-> pci_cfg_write via-ide 12:1 @0x9 <- 0xf
-> pci_cfg_write via-ide 12:1 @0x40 <- 0xb
-> pci_cfg_write via-ide 12:1 @0x41 <- 0xf2
-> pci_cfg_write via-ide 12:1 @0x43 <- 0x35
-> pci_cfg_write via-ide 12:1 @0x44 <- 0x18
-> pci_cfg_write via-ide 12:1 @0x45 <- 0x1c
-> pci_cfg_write via-ide 12:1 @0x46 <- 0xc0
-> pci_cfg_write via-ide 12:1 @0x50 <- 0x17171717
-> pci_cfg_write via-ide 12:1 @0x54 <- 0x14
-> pci_cfg_read via-ide 12:1 @0x0 -> 0x5711106
-> pci_cfg_read via-ide 12:1 @0x0 -> 0x5711106
-> pci_cfg_read via-ide 12:1 @0x8 -> 0x1018f06
-> pci_cfg_read via-ide 12:1 @0xc -> 0x0
-> pci_cfg_read via-ide 12:1 @0x2c -> 0x11001af4
-> pci_cfg_read via-ide 12:1 @0x3c -> 0x10e
-> pci_cfg_read via-ide 12:1 @0x4 -> 0x2800080
-> pci_cfg_read via-ide 12:1 @0x3c -> 0x10e
-> pci_cfg_write via-ide 12:1 @0x3c <- 0x109
-
-firmware does not seem to care about this value.
-
-Regards,
-BALATON Zoltan
 
