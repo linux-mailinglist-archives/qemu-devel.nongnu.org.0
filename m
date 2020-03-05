@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DC417AAE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:49:58 +0100 (CET)
-Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6CD17AAC5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:44:41 +0100 (CET)
+Received: from localhost ([::1]:52706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9th7-0007vL-44
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:49:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59206)
+	id 1j9tc0-0007em-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:44:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP5-0003RA-Hu
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP6-0003Ru-1p
  for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP4-0002G6-C4
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP4-0002Ge-Ob
  for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:19 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36171)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38032)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tP3-0002Du-Dq
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:17 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id g83so6437339wme.1
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:16 -0800 (PST)
+ id 1j9tP4-0002F7-Hf
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:18 -0500
+Received: by mail-wm1-x331.google.com with SMTP id u9so6432649wml.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WO6MlmMNplhxoUnWkFVSAFSYs5grFV+Q/M4i3h2rCwI=;
- b=NVmGKZWSoiLVIP8O3WoaGkAUz+Cwo9gHnE4fr602Lc/OPm1pksvXMY/AmTmPX5ZvY1
- kGUntyocYKQJmSPgwceDbWAc2A2oxUSvp2EWDW/xPqtc5KJDkzmx3luWbEh9j+P+AVVT
- CvmAIm5J50OcqxVuLdywePGr4YURErBGZ6TWIlwUkKRRPusg6gKgWqjIxWSK1iIDo+5W
- OycPUMwGehkXZUy6RVYs2mqN9//NZAHolvOdV+gm8wJgyFgSmYBi1dAsdSdicGnB/cqy
- 74xDOTMVtjq/4bVIaD32P+oJYTXA2GC6JEyUVsn3FYKqpl1kRGgUqnx+pQJt4sOaTNa5
- S6eA==
+ bh=WBubcm43hZcBFxzyb7e4AboA5LBFrKCvg3PbaEHjM5U=;
+ b=N0a1uH7Y2UzJakzCzlzWALcLXVi7TOQhgU/Ojxs0yB/A2UKDXyD+TnMhNp+Z1WoAR/
+ P00rHiPFL5XHauhlBbVTRLCamnyXlFWVo2O4E2IfZOnxhxhh9dqD/Hv2yhI0T/CoY8Z4
+ oPU6hAauS3NYvAIm+cWShrWRZhzMbRXtkxJfO9nr/4rmrgJJXqBNNeUo0it5kU2vMwvg
+ /1boaYjFjCUKNPAl09CJy3Ku/iEuvCQ5FZRzdQxTPv1+TWd9bUre9gtK/Tv3CBi26ETR
+ ualmbs0aDzCqoZzwGCr1uaYUl7Njyyx49SOoCbX/xELMb/jaDpq2pkrPTWRHuJyWjxX1
+ n5+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WO6MlmMNplhxoUnWkFVSAFSYs5grFV+Q/M4i3h2rCwI=;
- b=Si9NUW3CHwZRfKiS/ssb6JO1v+AEFI+qt2YDbqmFPTaK4QkaGZuosw6hR/oYkytk/g
- uX2U1m91cfA+K430/LaFMkRMHBTj6YB0c3zhbMjK3wJ1VbFW0dZrPw3myrhWCvroweCR
- 2GKfe3ZbW9dTyspIfBk7zm02dQgW6jsr6ZpzJTeZEuCJ3wT9XDOWwDTOYKWWGo9ppPec
- eDXEgixtm75PTmOKR9GoloMXe/TIYBDWCMUCCe4SGnsY2p1zPdURWLZbXw54s0PsLOu1
- k6DPKhH4eo6uy5hzWcrIBYtPJgYhUnP2Ks1GpJVMtEF3RUwE3/21cS9cy80yclSBXzjB
- NPPg==
-X-Gm-Message-State: ANhLgQ3meMMBqWbalm/x5F6XmeYIL0cT+bmNJmp+3B24pFj0elfgUlIL
- f9gh2X+b9xBF0mbLws0YHvSjSPjvzE88RQ==
-X-Google-Smtp-Source: ADFU+vu04e27+PF5VuIm571xYGq16mhP3QUoIWGP8gj7MiYzTCrSndGbPW3PL3pvfs1e5HUcC1L2ow==
-X-Received: by 2002:a05:600c:4108:: with SMTP id
- j8mr10357134wmi.188.1583425875784; 
- Thu, 05 Mar 2020 08:31:15 -0800 (PST)
+ bh=WBubcm43hZcBFxzyb7e4AboA5LBFrKCvg3PbaEHjM5U=;
+ b=kW2wGqTF8nK+jtqwKsgUYXEd8xLX14dpq9mgEgGb2Hc6ZhlCwVpUhNqTSSfJ4otHEA
+ rS7MLCKgg9yWmyFNXEEMEbyfUHEkZpD+yFv2Y0dwhODcX8sINlkJ6mqir9TiKRoOsbxl
+ oHYwBzmEjqHuJ9f3NRyHYnNyGVtYx8/XOLYPwHWwlrJTxF7oC6o5TcCkU6VtQUJ7jKQb
+ 3da/3KVMCX3neOOySUD6ueD9n3/fGo8bJ0c3m/SEZLjoMKcGGPX5A7GgBeR2Sf+4br/G
+ Qls4/BC57kxiNwVcWO9GEegfSbMjMKUkKAegT0LC/PjP4Z37dFf+jS2tcO2vZasL02/4
+ 7YpQ==
+X-Gm-Message-State: ANhLgQ2tDJDYAOHQa93ysj0eF8GS0UXdrh6991l8me6iu0fpA/7bm9Cz
+ h7udbNhgfRPHjK4ws86HSOvLXz4jv/oeHA==
+X-Google-Smtp-Source: ADFU+vsFkDCCNv8FBWpbIXcTB9AD6o+4pIUSR+N/D6PT7jlsrB9CIlhIOod+G9IiW+h4MpH9ujGBcg==
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+ a21mr6282568wmm.91.1583425876750; 
+ Thu, 05 Mar 2020 08:31:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.14
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:15 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/37] hw/arm/spitz: move timer_new from init() into realize()
- to avoid memleaks
-Date: Thu,  5 Mar 2020 16:30:35 +0000
-Message-Id: <20200305163100.22912-13-peter.maydell@linaro.org>
+Subject: [PULL 13/37] hw/arm/strongarm: move timer_new from init() into
+ realize() to avoid memleaks
+Date: Thu,  5 Mar 2020 16:30:36 +0000
+Message-Id: <20200305163100.22912-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,43 +89,69 @@ There are some memleaks when we call 'device_list_properties'. This patch move t
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-id: 20200227025055.14341-4-pannengyuan@huawei.com
+Message-id: 20200227025055.14341-5-pannengyuan@huawei.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/spitz.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/arm/strongarm.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
-index e0010881038..cbfa6934cfd 100644
---- a/hw/arm/spitz.c
-+++ b/hw/arm/spitz.c
-@@ -524,11 +524,16 @@ static void spitz_keyboard_init(Object *obj)
+diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
+index cd8a99aaf2e..3010d765bb7 100644
+--- a/hw/arm/strongarm.c
++++ b/hw/arm/strongarm.c
+@@ -399,9 +399,6 @@ static void strongarm_rtc_init(Object *obj)
+     s->last_rcnr = (uint32_t) mktimegm(&tm);
+     s->last_hz = qemu_clock_get_ms(rtc_clock);
  
-     spitz_keyboard_pre_map(s);
+-    s->rtc_alarm = timer_new_ms(rtc_clock, strongarm_rtc_alarm_tick, s);
+-    s->rtc_hz = timer_new_ms(rtc_clock, strongarm_rtc_hz_tick, s);
+-
+     sysbus_init_irq(dev, &s->rtc_irq);
+     sysbus_init_irq(dev, &s->rtc_hz_irq);
  
--    s->kbdtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, spitz_keyboard_tick, s);
-     qdev_init_gpio_in(dev, spitz_keyboard_strobe, SPITZ_KEY_STROBE_NUM);
-     qdev_init_gpio_out(dev, s->sense, SPITZ_KEY_SENSE_NUM);
+@@ -410,6 +407,13 @@ static void strongarm_rtc_init(Object *obj)
+     sysbus_init_mmio(dev, &s->iomem);
  }
  
-+static void spitz_keyboard_realize(DeviceState *dev, Error **errp)
++static void strongarm_rtc_realize(DeviceState *dev, Error **errp)
 +{
-+    SpitzKeyboardState *s = SPITZ_KEYBOARD(dev);
-+    s->kbdtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, spitz_keyboard_tick, s);
++    StrongARMRTCState *s = STRONGARM_RTC(dev);
++    s->rtc_alarm = timer_new_ms(rtc_clock, strongarm_rtc_alarm_tick, s);
++    s->rtc_hz = timer_new_ms(rtc_clock, strongarm_rtc_hz_tick, s);
 +}
 +
- /* LCD backlight controller */
+ static int strongarm_rtc_pre_save(void *opaque)
+ {
+     StrongARMRTCState *s = opaque;
+@@ -451,6 +455,7 @@ static void strongarm_rtc_sysbus_class_init(ObjectClass *klass, void *data)
  
- #define LCDTG_RESCTL	0x00
-@@ -1115,6 +1120,7 @@ static void spitz_keyboard_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->vmsd = &vmstate_spitz_kbd;
-+    dc->realize = spitz_keyboard_realize;
+     dc->desc = "StrongARM RTC Controller";
+     dc->vmsd = &vmstate_strongarm_rtc_regs;
++    dc->realize = strongarm_rtc_realize;
  }
  
- static const TypeInfo spitz_keyboard_info = {
+ static const TypeInfo strongarm_rtc_sysbus_info = {
+@@ -1240,15 +1245,16 @@ static void strongarm_uart_init(Object *obj)
+                           "uart", 0x10000);
+     sysbus_init_mmio(dev, &s->iomem);
+     sysbus_init_irq(dev, &s->irq);
+-
+-    s->rx_timeout_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, strongarm_uart_rx_to, s);
+-    s->tx_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, strongarm_uart_tx, s);
+ }
+ 
+ static void strongarm_uart_realize(DeviceState *dev, Error **errp)
+ {
+     StrongARMUARTState *s = STRONGARM_UART(dev);
+ 
++    s->rx_timeout_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                       strongarm_uart_rx_to,
++                                       s);
++    s->tx_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, strongarm_uart_tx, s);
+     qemu_chr_fe_set_handlers(&s->chr,
+                              strongarm_uart_can_receive,
+                              strongarm_uart_receive,
 -- 
 2.20.1
 
