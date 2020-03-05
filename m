@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A05417AF33
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 20:52:32 +0100 (CET)
-Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFB117AF3B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 20:57:37 +0100 (CET)
+Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9wXn-0008E0-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 14:52:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38135)
+	id 1j9wci-0003Xt-ED
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 14:57:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1j9wWv-0007gf-DV
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:51:38 -0500
+ (envelope-from <prvs=32645a587=alistair.francis@wdc.com>)
+ id 1j9wbT-0002Se-8Z
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:56:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1j9wWu-00048l-CG
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:51:37 -0500
-Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:40099)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1j9wWu-00048X-8V; Thu, 05 Mar 2020 14:51:36 -0500
-Received: by mail-vs1-xe41.google.com with SMTP id c18so4420987vsq.7;
- Thu, 05 Mar 2020 11:51:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GKElllibpcvRWEhrnifCMB0YbyIa2Zcxj7sNsXWVa0g=;
- b=dahG+KWo92MfpdfHw15aexMlALyGlJxjk8/C7ouogLkWeWm6SS3ewQy/JbL/Ok+v+e
- KwZNU7IxkesshiU7il/UanRlofUOLpOZniRVEj9VXYXp8kJwueXly9VKPaDvvY7x0GSh
- +41JMQBbTujawmo8NB/O3U1H3Tk1RYQUw3GjPxKk+RrIrBlv35eyLVtoZ3mZ+Zl2gMG3
- /cEj3n2yotkhvE38ltexHM9aPesNmaW+LmB6eSuXuYN9HaOhPTRIusvE405LtcEWOVio
- hd8lMjELok7BglDlI+BrqwxN+xVYEkqIO2PwIRxWOGStuz9t0AY6yD3NjI7ZIaGFWOHS
- J5rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GKElllibpcvRWEhrnifCMB0YbyIa2Zcxj7sNsXWVa0g=;
- b=TkpmQRJi5aHD51hkDnjY4pS/QjfHuIpkN2vgKlYqK0f40aD3KJpNT4sDTbZM1G7eQd
- soPHHdqAoZeGc8sl6fYSCOFcUgIdPV8weD/dY3Vv/WpLpEgj9fEhSZ4WgcW/YL4Hdvh5
- o5sc3hkP9IOGrhkHJf7z8VkZfzmbYrio9P2D5ljG61MljoZxWjQYvmG1Gye+VYtMoy1R
- d8OWzrruJSAZOIWGVwT6CjMPS2yajxoPbzrUm7k2+MWky1M0hDU61HXl6Tn6AjkWdw2m
- Wh25yjCgGx6GuC4GhaZQenuXveu+s60dcAurVhnKvdVga0T3NVjxU0lwkslnCGUst9Oj
- yjlw==
-X-Gm-Message-State: ANhLgQ16EQlLrOFGUB9PhVhtfdVrUirW+HUAlhXKKLsL1F/CxDSdSf61
- moxrHf8CTMfC1PZJR5n+fE/thUGu8SH0mZ4R8+s=
-X-Google-Smtp-Source: ADFU+vvsC4LrLUIYuABUPh7RqDB3m1BMz+8X9SMEDWgfoVEImmXEvk5ow2cu7lOvoCiFKnjzS1WQWD6Eb6PIUCfUPIE=
-X-Received: by 2002:a05:6102:205:: with SMTP id
- z5mr324369vsp.151.1583437895635; 
- Thu, 05 Mar 2020 11:51:35 -0800 (PST)
+ (envelope-from <prvs=32645a587=alistair.francis@wdc.com>)
+ id 1j9wbO-00084j-FD
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 14:56:19 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:34391)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=32645a587=alistair.francis@wdc.com>)
+ id 1j9wbN-00082A-PE; Thu, 05 Mar 2020 14:56:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1583438174; x=1614974174;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=o3vESU61BoXDEjtVVgudRMtMIPsVP5OUrgAJ+d5WuPI=;
+ b=CUTpNhKvyVcGcIrzeQCaCJB3vgcEayIKxG6O1B8sKomFydZ/zZI3EhJU
+ AkAkOL45kh59OswzwCEO1Np38RNcxow3nusV8rgQbNRMWTyOaYGmd848/
+ LgCwPCvdqJFNe4kXUxyLT7TCQv1uInl7JnQCM6ArcNp4w95SsnY11CJgp
+ ywfqIG7TCD5QcgvdNsGwnya+vyCAu7Z1q4wUxO38/dk5yuXcsLuAgKZtg
+ Q8PCtuqC2dj6mAtwF+bL5bTalkI/zGYa2jVdqKvPkOw2Dp5FyKprsA1TT
+ qZ0SJvRvZqwWrIYn9OblVZU8J+9SiI3A+28NNglyQZaT8WzLWfzcdrzp1 g==;
+IronPort-SDR: jQ8wGOvJPMozPRdELj53HBOpyAVHs0Fix1byd/YxPz4AclVpDn7ZPmgTTZ3+EMAmr3gTOgDunl
+ Alc3Jg0TDZxxg0QvNHoLNoh1n2BtW7+vi/226zZWto1dK/ygAgUWi8/w6FXVgPdSiOEEkmx4dr
+ xmAUNvvAxIzfAeIdrvgwbFUVD/but1IT4vW04jP9zyabalTD2tUY6EvEKzZAsjY8txw4TP3F5g
+ aZyBUE91qmyvAwlMQHPLPvNaYytr9GbXS4cPtyJgvAk59B4PGfDFhE6VMPt+pjsbwgEtXtAUn9
+ AdM=
+X-IronPort-AV: E=Sophos;i="5.70,519,1574092800"; d="scan'208";a="133083875"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 06 Mar 2020 03:56:10 +0800
+IronPort-SDR: JyZb+VsUMAd7OuvWEmraCkrSOIFusLaV6cWfO22dU7mlKEwvVviuoSWo0s9aBGsustjgeZtOO0
+ bvddhbpIYDAemfCc6CfQ+XlXGPmYLBJLmqwsaz33SdRfRaKJwV0eN827eNausfqjW1IJau7P8x
+ KfLvINKjhINxufUGXsf9rT+/KxwxEUGEEFXS7Xjgr3jTT2jpDkXC9ZXeS1sya6pYtWo45nMivF
+ fjGVnHAF7+iAwGFzmYRNJkNBmo7GIpHETKpTSeRI2dKLJlhQvoTtPlaGOb/1eXWu7PEVKRtUvw
+ TkL9Z6ksD/kHKrQ8Amn23ctq
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Mar 2020 11:47:57 -0800
+IronPort-SDR: hT79s1OkpTje5B8f6Rzt4c/m6ZgyQRPZ6bzlkhSn6Y5qMxC4DulW8x7gM51Lj4jc20BK983T6q
+ iBIN3XRug6nMgUS6xNibPS38vxXojjHTvkZhVek1Jx1pOX7IQM5lOwrOHCwXIKXqtpPbq8ADHY
+ 1T2kORBTibIoP9pJ/6KD48ZA8OmgPIz/nUmcDRHW86hxSEcMCzPmUABHCuFU0NzQfnyItLAtrV
+ zjZu4v+QjlqBesr3lvJCO+406+MvJSv+KGx1lO/wx3qTO7jyrmA6Sg/Ja+CMdCFvJtr7vdmSh9
+ trk=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip01.wdc.com with ESMTP; 05 Mar 2020 11:56:10 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, aleksandar.m.mail@gmail.com,
+ laurent@vivier.eu
+Subject: [PATCH v5 0/3]  linux-user: generate syscall_nr.sh for RISC-V
+Date: Thu,  5 Mar 2020 11:48:53 -0800
+Message-Id: <cover.1583437651.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200229141011.58989-1-root@stephanos.io>
- <CAKmqyKP1QFiWSQzUsoV9TLWBQ8hrx+yg7UM2=DnAoCAanLRuwA@mail.gmail.com>
- <CAFEAcA_O6ScMF0fJgHORVXDQ+PvFNW4w6kBkeeB0vHixHo0zqA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_O6ScMF0fJgHORVXDQ+PvFNW4w6kBkeeB0vHixHo0zqA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 5 Mar 2020 11:43:47 -0800
-Message-ID: <CAKmqyKPp3tSf4vpxPh9ozH0G9=__DSU3BFYB2JPvJUjgg9-iyw@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/stm32f405: Add preliminary RCC emulation support
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e41
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 216.71.154.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,62 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- Stephanos Ioannidis <root@stephanos.io>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 5, 2020 at 11:30 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 5 Mar 2020 at 19:24, Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Sat, Feb 29, 2020 at 6:12 AM Stephanos Ioannidis <root@stephanos.io> wrote:
->
-> > > +typedef union {
-> > > +    struct {
-> > > +        uint32_t hsion : 1;
-> > > +        uint32_t hsirdy : 1;
-> > > +        uint32_t reserved0 : 1;
-> > > +        uint32_t hsitrim : 5;
-> > > +        uint32_t hsical : 8;
-> > > +        uint32_t hseon : 1;
-> > > +        uint32_t hserdy : 1;
-> > > +        uint32_t hsebyp : 1;
-> > > +        uint32_t csson : 1;
-> > > +        uint32_t reserved1 : 4;
-> > > +        uint32_t pllon : 1;
-> > > +        uint32_t pllrdy : 1;
-> > > +        uint32_t plli2son : 1;
-> > > +        uint32_t plli2srdy : 1;
-> > > +        uint32_t reserved2 : 4;
-> > > +    };
-> > > +    uint32_t reg;
-> > > +} RccCrType;
-> >
-> > This is a pretty interesting way to represent the registers
->
-> Is it portable, though? I thought C bitfield order and
-> packing was implementation-defined, which would mean that
-> you can't guarantee that this union will give you the
-> required thing in the uint32_t half.
+This series updates the RISC-V syscall_nr.sh based on the 5.5 kernel.
 
-Yep, it is implementation defined, this won't work correctly then.
+There are two parts to this. One is just adding the new syscalls, the
+other part is updating the RV32 syscalls to match the fact that RV32 is
+a 64-bit time_t architectures (y2038) safe.
 
->
-> I think it would be better to do this the way that
-> other device models do it, and avoid bitfields.
+We need to make some changes to syscall.c to avoid warnings/errors
+during compliling with the new syscall.
 
-I agree, I would recommend the bit fields I mentioned earlier as that
-is similar to what you already have. You don't have to use the
-RegisterAccessInfo method if you don't want to. I think the ARM SMMUv3
-is an example of using the bit fields with the traditional QEMU
-read/write functions.
+I did some RV32 user space testing after applying these patches. I ran the
+glibc testsuite in userspace and I don't see any regressions.
 
-Alistair
+v5:
+ - Addres comments raised on v4
+   - Don't require 64-bit host for * _time64 functions
 
->
-> thanks
-> -- PMM
+Alistair Francis (3):
+  linux-user: Protect more syscalls
+  linux-user/syscall: Add support for clock_gettime64/clock_settime64
+  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
+
+ linux-user/riscv/syscall32_nr.h | 295 +++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall64_nr.h | 301 ++++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall_nr.h   | 294 +------------------------------
+ linux-user/strace.c             |   2 +
+ linux-user/syscall.c            | 116 +++++++++++-
+ 5 files changed, 713 insertions(+), 295 deletions(-)
+ create mode 100644 linux-user/riscv/syscall32_nr.h
+ create mode 100644 linux-user/riscv/syscall64_nr.h
+
+-- 
+2.25.1
+
 
