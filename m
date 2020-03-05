@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA42B17A594
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:47:52 +0100 (CET)
-Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAAC17A5A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 13:49:41 +0100 (CET)
+Received: from localhost ([::1]:48374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9pup-0000vj-M8
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:47:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41728)
+	id 1j9pwa-0004Pb-3w
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 07:49:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j9pt1-0007Ai-Rr
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:00 -0500
+ (envelope-from <philmd@redhat.com>) id 1j9pt7-0007NN-Kv
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j9pt0-0001Y7-LX
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:59 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30985
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j9pt6-0001bi-Dk
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38156
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9pt0-0001XT-Gk
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:45:58 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j9pt6-0001b6-9H
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 07:46:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583412358;
+ s=mimecast20190719; t=1583412363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bpO/T7UwPAvLhYM4LuPfNzVKKs4kmwvLsNBfOTPVceU=;
- b=FSUWYO0+BRW2EDPETDgQ3JAamjrnkxXVR7t379nMo/0uiXZtscsVUaJp03SHgZ1d0aE0co
- SddVhXbjIv3D+yLz70cOCiCkajQ4gMYH4Aku8iuCxfxh33jaEtb01wa7DICqxeingoFHt2
- naSDbdSSY7/oXDNpLqEBC8WHzOD5qEs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-Ph6ukPyvND-1XKyBXVjKNQ-1; Thu, 05 Mar 2020 07:45:56 -0500
-X-MC-Unique: Ph6ukPyvND-1XKyBXVjKNQ-1
-Received: by mail-wr1-f72.google.com with SMTP id 72so2260218wrc.6
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:45:56 -0800 (PST)
+ bh=BfL2wrp1xmfb4e/iaQpRjnEbNuM8Iy0Ua18MeCip/nA=;
+ b=Z4bFPt15GH4RT06GeGeyeyZwS16pPZMLQG0Zkq5EDkaJPVUdji6oIr3q7BEA6hz8BtNn+y
+ rw50v75zc/zOATP5Oa1u7orIYFFCbb1Imh/KLIo1WAundc4duwssRIDz094J3LXWbk1e8c
+ uJLOpT3JIqCmcklBGRvGJr4fCx57Obc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-H9dQGy4OPBGMq5WN70j7lg-1; Thu, 05 Mar 2020 07:46:02 -0500
+X-MC-Unique: H9dQGy4OPBGMq5WN70j7lg-1
+Received: by mail-wr1-f69.google.com with SMTP id p11so2255787wrn.10
+ for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 04:46:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E/nIlQM3WrOtft5YLrhenWftF1BsF4c8+Al/4nVYdhE=;
- b=If4HnAJM7ZloAuMg3ypwIhXGwUdLXNKwnsSj3BdfxUU/iniNivsvznnOJdUVyKYn7+
- vyaIah+gVXkKqpP03lP4hn3TBTVUMWvLzoWcmxOAlRFc2xSkkWp/76au9Om2NH0YSJxF
- T8hE88rbpMqSs3SOkFq9uYmKeTkzX+qf/y3QtXuMnU0KIkXyIC3cyJVPqfjfbJea2xsb
- BVFhVtDr7P6wrN0Z6e4UTmU2huHg27yVwaYxMwcPuza0DalkQosF8p+G1IhJaZqjJj5B
- QemYzQUkhvmcxHr9MRyRHq8LrYk03WaTTAvG2csIT1wPMdSmdTlLi7nFQ2V5wF2FNjj9
- f79g==
-X-Gm-Message-State: ANhLgQ3ER9hudZOWhhB6FEyvTSEYP8qG2C62bsyBBCd5q6SMDFYpyocG
- +SrlCPyMLPlLuA+XEJv+kKEAEo+u4QVSe95RbnKBvG71Q4BpmWP/I38GCfe7VAEQgmNiW/wRM19
- ltlh3Ws1n+7doiVU=
-X-Received: by 2002:a05:600c:218d:: with SMTP id
- e13mr4741077wme.127.1583412355474; 
- Thu, 05 Mar 2020 04:45:55 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vs1oX/E7fiCsD5PzTUeaRwCXmsMRvTr+x5pc79kbnj7zmdYKLg5JMMhcW6UJhtQzYxketXY/Q==
-X-Received: by 2002:a05:600c:218d:: with SMTP id
- e13mr4741057wme.127.1583412355279; 
- Thu, 05 Mar 2020 04:45:55 -0800 (PST)
+ bh=cOfgZg45p005Cf8aNVaFJuLhPI+JdhyWRao0wzg6LoM=;
+ b=kFoFRPYahhvk91z/Bz46XBTIDPHJ97T0ms3Q1CcdvftdlndharpeCq0y1XflRSpTMw
+ Xe2NqAHxSp+UAQI5qQI1RhytsAb2U/+QyrkR1xKWRVzgJcNdtbaCAMB4ru/8S241IgdC
+ K4CL7D8HYnoZk2TGc42ttUbr3R2/O4NnjUE3MsuHFS50fjf7W/9S5nZ2d+JxfaCAQiEO
+ y0M30dHr1ir68HmjH68pjZxATP5uyLK679mRZ9CGEGF6+ycOqym6v/kY+VDRWRGCk3vy
+ O1WKw7rlIWj+4TzTcWa/V1MwyYIYMs69P2tQ0HZOGOMgn8cC6Lz7eTWtfx3eskqPomOL
+ MEDA==
+X-Gm-Message-State: ANhLgQ0yBSyhYcsWZXphUVAHXEcQ0WfAl60PkUyxtWNWXdsr+lgEYOLr
+ zQzCOTs6NiR/OevF6Vyt5EmakV2aPQajq+kAXaFy5qLNVWk+eT5oYDwdywt+NFFUEP0tU+nKp35
+ AnCAhuv1MyIJjkoY=
+X-Received: by 2002:a7b:ce99:: with SMTP id q25mr9353857wmj.34.1583412360850; 
+ Thu, 05 Mar 2020 04:46:00 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vtYQ3Fcji41liGZ4F/ZeQyFAYO+TfPXs7EPSdszQCv1mrO1EYqxHjHgHw9ceMByt1uuFupuDw==
+X-Received: by 2002:a7b:ce99:: with SMTP id q25mr9353820wmj.34.1583412360562; 
+ Thu, 05 Mar 2020 04:46:00 -0800 (PST)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id z16sm43034175wrp.33.2020.03.05.04.45.53
+ by smtp.gmail.com with ESMTPSA id z12sm17054451wrs.43.2020.03.05.04.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 04:45:54 -0800 (PST)
+ Thu, 05 Mar 2020 04:46:00 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-trivial@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 5/9] hw/net/e1000: Move macreg[] arrays to .rodata to save
- 1MiB of .data
-Date: Thu,  5 Mar 2020 13:45:21 +0100
-Message-Id: <20200305124525.14555-6-philmd@redhat.com>
+Subject: [PATCH v2 6/9] hw/usb/quirks: Use smaller types to reduce .rodata by
+ 10KiB
+Date: Thu,  5 Mar 2020 13:45:22 +0100
+Message-Id: <20200305124525.14555-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200305124525.14555-1-philmd@redhat.com>
 References: <20200305124525.14555-1-philmd@redhat.com>
@@ -101,64 +99,97 @@ Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each array consumes 256KiB of .data. As we do not reassign entries,
-we can move it to the .rodata section, and save a total of 1MiB of
-.data (size reported on x86_64 host).
+The USB descriptor sizes are specified as 16-bit for idVendor /
+idProduct, and 8-bit for bInterfaceClass / bInterfaceSubClass /
+bInterfaceProtocol. Doing so we reduce the usbredir_raw_serial_ids[]
+and usbredir_ftdi_serial_ids[] arrays from 16KiB to 6KiB (size
+reported on x86_64 host, building with --extra-cflags=3D-Os).
 
-Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/net/e1000.c       | 4 ++--
- hw/net/e1000e_core.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+v2: Add bitfield values and use unsigned types (Gerd)
+---
+ hw/usb/quirks.h | 22 +++++++++++++---------
+ hw/usb/quirks.c |  4 ++--
+ 2 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 972d9b5083..9233248c9a 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -1151,7 +1151,7 @@ set_ims(E1000State *s, int index, uint32_t val)
+diff --git a/hw/usb/quirks.h b/hw/usb/quirks.h
+index 89480befd7..50ef2f9c2e 100644
+--- a/hw/usb/quirks.h
++++ b/hw/usb/quirks.h
+@@ -21,19 +21,23 @@
+ #include "quirks-pl2303-ids.h"
 =20
- #define getreg(x)    [x] =3D mac_readreg
- typedef uint32_t (*readops)(E1000State *, int);
--static readops macreg_readops[] =3D {
-+static const readops macreg_readops[] =3D {
-     getreg(PBA),      getreg(RCTL),     getreg(TDH),      getreg(TXDCTL),
-     getreg(WUFC),     getreg(TDT),      getreg(CTRL),     getreg(LEDCTL),
-     getreg(MANC),     getreg(MDIC),     getreg(SWSM),     getreg(STATUS),
-@@ -1207,7 +1207,7 @@ enum { NREADOPS =3D ARRAY_SIZE(macreg_readops) };
+ struct usb_device_id {
+-    int vendor_id;
+-    int product_id;
+-    int interface_class;
+-    int interface_subclass;
+-    int interface_protocol;
++    uint16_t vendor_id;
++    uint16_t product_id;
++    uint8_t interface_class;
++    uint8_t interface_subclass;
++    uint8_t interface_protocol;
++    uint8_t interface_protocol_used:1,
++            terminating_entry:1,
++            reserved:6;
+ };
 =20
- #define putreg(x)    [x] =3D mac_writereg
- typedef void (*writeops)(E1000State *, int, uint32_t);
--static writeops macreg_writeops[] =3D {
-+static const writeops macreg_writeops[] =3D {
-     putreg(PBA),      putreg(EERD),     putreg(SWSM),     putreg(WUFC),
-     putreg(TDBAL),    putreg(TDBAH),    putreg(TXDCTL),   putreg(RDBAH),
-     putreg(RDBAL),    putreg(LEDCTL),   putreg(VET),      putreg(FCRUC),
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 38bdb90114..df957e0c1a 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -2856,7 +2856,7 @@ e1000e_set_gcr(E1000ECore *core, int index, uint32_t =
-val)
+ #define USB_DEVICE(vendor, product) \
+-    .vendor_id =3D vendor, .product_id =3D product, .interface_class =3D -=
+1,
++    .vendor_id =3D vendor, .product_id =3D product, .interface_protocol_us=
+ed =3D 0,
 =20
- #define e1000e_getreg(x)    [x] =3D e1000e_mac_readreg
- typedef uint32_t (*readops)(E1000ECore *, int);
--static readops e1000e_macreg_readops[] =3D {
-+static const readops e1000e_macreg_readops[] =3D {
-     e1000e_getreg(PBA),
-     e1000e_getreg(WUFC),
-     e1000e_getreg(MANC),
-@@ -3063,7 +3063,7 @@ enum { E1000E_NREADOPS =3D ARRAY_SIZE(e1000e_macreg_r=
-eadops) };
+ #define USB_DEVICE_AND_INTERFACE_INFO(vend, prod, iclass, isubclass, iprot=
+o) \
+     .vendor_id =3D vend, .product_id =3D prod, .interface_class =3D iclass=
+, \
+-    .interface_subclass =3D isubclass, .interface_protocol =3D iproto
++    .interface_subclass =3D isubclass, .interface_protocol =3D iproto, \
++    .interface_protocol_used =3D 1
 =20
- #define e1000e_putreg(x)    [x] =3D e1000e_mac_writereg
- typedef void (*writeops)(E1000ECore *, int, uint32_t);
--static writeops e1000e_macreg_writeops[] =3D {
-+static const writeops e1000e_macreg_writeops[] =3D {
-     e1000e_putreg(PBA),
-     e1000e_putreg(SWSM),
-     e1000e_putreg(WUFC),
+ static const struct usb_device_id usbredir_raw_serial_ids[] =3D {
+     /*
+@@ -206,7 +210,7 @@ static const struct usb_device_id usbredir_raw_serial_i=
+ds[] =3D {
+     { USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530_PRODUCT_ID) },
+     { USB_DEVICE(SMART_VENDOR_ID, SMART_PRODUCT_ID) },
+=20
+-    { USB_DEVICE(-1, -1) } /* Terminating Entry */
++    { .terminating_entry =3D 1 } /* Terminating Entry */
+ };
+=20
+ static const struct usb_device_id usbredir_ftdi_serial_ids[] =3D {
+@@ -906,7 +910,7 @@ static const struct usb_device_id usbredir_ftdi_serial_=
+ids[] =3D {
+     { USB_DEVICE(FTDI_VID, FTDI_DISTORTEC_JTAG_LOCK_PICK_PID) },
+     { USB_DEVICE(FTDI_VID, FTDI_LUMEL_PD12_PID) },
+=20
+-    { USB_DEVICE(-1, -1) } /* Terminating Entry */
++    { .terminating_entry =3D 1 } /* Terminating Entry */
+ };
+=20
+ #undef USB_DEVICE
+diff --git a/hw/usb/quirks.c b/hw/usb/quirks.c
+index 38a9c5634a..23ea7a23ea 100644
+--- a/hw/usb/quirks.c
++++ b/hw/usb/quirks.c
+@@ -22,10 +22,10 @@ static bool usb_id_match(const struct usb_device_id *id=
+s,
+                          uint8_t interface_protocol) {
+     int i;
+=20
+-    for (i =3D 0; ids[i].vendor_id !=3D -1; i++) {
++    for (i =3D 0; ids[i].terminating_entry =3D=3D 0; i++) {
+         if (ids[i].vendor_id  =3D=3D vendor_id &&
+             ids[i].product_id =3D=3D product_id &&
+-            (ids[i].interface_class =3D=3D -1 ||
++            (ids[i].interface_protocol_used =3D=3D 0 ||
+              (ids[i].interface_class =3D=3D interface_class &&
+               ids[i].interface_subclass =3D=3D interface_subclass &&
+               ids[i].interface_protocol =3D=3D interface_protocol))) {
 --=20
 2.21.1
 
