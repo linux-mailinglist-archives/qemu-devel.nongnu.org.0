@@ -2,98 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DE817A796
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:36:50 +0100 (CET)
-Received: from localhost ([::1]:50360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547C717A784
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:34:26 +0100 (CET)
+Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rcH-0007mq-VF
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:36:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35630)
+	id 1j9rZx-0003La-9a
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:34:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sw@weilnetz.de>) id 1j9rXZ-00088O-Vp
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:59 -0500
+ (envelope-from <eblake@redhat.com>) id 1j9rY5-0000hq-CV
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sw@weilnetz.de>) id 1j9rXY-00034H-My
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:57 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:40990
- helo=v2201612906741603.powersrv.de)
+ (envelope-from <eblake@redhat.com>) id 1j9rY4-0003XS-2U
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37830
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1j9rXY-00032Z-CJ
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:31:56 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id C53F7DBC09A;
- Thu,  5 Mar 2020 15:31:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id 1-WNsZavjXVC; Thu,  5 Mar 2020 15:31:52 +0100 (CET)
-Received: from mobile-148-146.wlan.uni-mannheim.de
- (mobile-148-146.wlan.uni-mannheim.de [134.155.148.146])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j9rY3-0003Ws-UU
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:32:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583418747;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RH9DzqKHDivFvpFtqVzHnKT1qfAPENXHjniwkNggmGE=;
+ b=BuRfxcpnXoGl6mVGcxhQCpCgEzZc0CBki+ecUhCWLvGyzIsPeRB4MbZdD9yamEF4hof7kM
+ 14l9kR4sXL2GBKiC1R+ZUiLuIhpoC7nYmTrFJLWnyAbEVG/CnIlA3qyoQUCz06JCuK3nFZ
+ GlC0ElrwmDTYUFZAGnAQrPnYrnKu34w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-n0mPh_S2PhGMYpF9KqmJlg-1; Thu, 05 Mar 2020 09:32:25 -0500
+X-MC-Unique: n0mPh_S2PhGMYpF9KqmJlg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 30A20DBC099;
- Thu,  5 Mar 2020 15:31:52 +0100 (CET)
-Subject: Re: [PULL 1/2] Arithmetic error in EDID generation fixed
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200302091836.29012-1-kraxel@redhat.com>
- <20200302091836.29012-2-kraxel@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-Autocrypt: addr=sw@weilnetz.de; keydata=
- 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
-Message-ID: <0255817c-5cff-f206-297b-620463c241db@weilnetz.de>
-Date: Thu, 5 Mar 2020 15:31:50 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F615100DFD0;
+ Thu,  5 Mar 2020 14:32:24 +0000 (UTC)
+Received: from [10.3.117.177] (ovpn-117-177.phx2.redhat.com [10.3.117.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9641C84D90;
+ Thu,  5 Mar 2020 14:32:20 +0000 (UTC)
+Subject: Re: [PATCH v2 0/9] hw, ui, virtfs-proxy-helper: Reduce QEMU
+ .data/.rodata/.bss footprint
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200305124525.14555-1-philmd@redhat.com>
+ <20200305134229.GB2112347@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5bcca2de-16bc-4026-23cc-1bf3f18cf9a2@redhat.com>
+Date: Thu, 5 Mar 2020 08:32:20 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200302091836.29012-2-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200305134229.GB2112347@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 37.120.169.71
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,48 +78,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Anton V. Boyarshinov" <boyarsh@altlinux.org>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-trivial@nongnu.org,
+ Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.03.20 um 10:18 schrieb Gerd Hoffmann:
+On 3/5/20 7:42 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Mar 05, 2020 at 01:45:16PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> Since v1:
+>> - merged 2 series
+>> - reworked hw/usb/quirks
+>> - added R-b/A-b tags
+>>
+>> This series reduce the footprint of the QEMU binary:
+>> .bss: 106KiB (moved to .heap)
+>=20
+> Did this actually have an impact on the binary size, or just on the
+> size the elf-dissector reports ?  I'm not very familiar with ELF,
+> but Wikipedia's description of BSS makes me question it...
+>=20
+>    "Typically only the length of the bss section, but no data,
+>     is stored in the object file. The program loader allocates
+>     memory for the bss section when it loads the program. On
+>     some platforms, some or all of the bss section is initialized
+>     to zeroes. Unix-like systems and Windows initialize the bss
+>     section to zero"
+>=20
+> This suggests .bss has no on-disk overhead, only runtime overhead,
+> which is presumably going to be the same with heap allocations.
 
-> From: "Anton V. Boyarshinov" <boyarsh@altlinux.org>
->
-> To calculate screen size in centimeters we should calculate:
-> pixels/dpi*2.54
-> but not
-> pixels*dpi/2540
->
-> Using wrong formula we actually get 65 DPI and very small fonts.
->
-> Signed-off-by: Anton V. Boyarshinov <boyarsh@altlinux.org>
-> Message-id: 20200226122054.366b9cda@table.localdomain
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/edid-generate.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
-> index 75c945a94813..e58472fde501 100644
-> --- a/hw/display/edid-generate.c
-> +++ b/hw/display/edid-generate.c
-> @@ -360,8 +360,8 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
->      edid[20] = 0xa5;
->  
->      /* screen size: undefined */
-> -    edid[21] = info->prefx * info->dpi / 2540;
-> -    edid[22] = info->prefy * info->dpi / 2540;
-> +    edid[21] = info->prefx * 254 / 100 / info->dpi;
-> +    edid[22] = info->prefy * 254 / 100 / info->dpi;
+Or even LESS overhead.  Heap allocationhave unspecified contents=20
+requiring runtime effort (true, some implementations of malloc() handle=20
+large allocations specially as anonymous mmap initially backed by=20
+/dev/zero, so that those allocations start life 0-allocated, but you=20
+can't rely on that optimization), while .bss is required by the C=20
+language to be 0 initialized (and you CAN rely on the OS implementing=20
+that as efficiently as possible, generally by starting with COW mapping=20
+initially backed by the zero page).
 
+In fact, on nbdkit, we hit an interesting case where using .bss instead=20
+of .rodata is actually beneficial:
+https://www.redhat.com/archives/libguestfs/2019-July/msg00074.html
+Marking a large array that will always consist only of zero bytes as=20
+const actually pessimized the image size and load time, because the=20
+addition of const moved the array from .bss into .rodata.
 
-Gerd, the required rounding (see my previous e-mail) for both values is
-still missing.
+>=20
+>> .data: 1MiB
+>> .rodata: 4.34MiB
+>=20
+> These looks useful though in terms of disk footprint.
 
-Cheers,
+Yes. Smaller data structures allow for smaller binaries and faster loading.
 
-Stefan
-
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
