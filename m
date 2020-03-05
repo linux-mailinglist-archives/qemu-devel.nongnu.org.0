@@ -2,140 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDB717A76B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:29:36 +0100 (CET)
-Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1023517A760
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 15:27:56 +0100 (CET)
+Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9rVH-0004op-Cv
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:29:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34382)
+	id 1j9rTe-0002Kx-Tr
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 09:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1j9rRX-0006Yk-B1
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:25:44 -0500
+ (envelope-from <lekiravi@yandex-team.ru>) id 1j9rS3-00089r-8C
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:26:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1j9rRV-00069i-Tn
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:25:43 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7722
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1j9rRV-00069R-Oj
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:25:41 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 025EKFCM110137
- for <qemu-devel@nongnu.org>; Thu, 5 Mar 2020 09:25:41 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yj6nkkhnq-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 09:25:40 -0500
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Thu, 5 Mar 2020 14:25:20 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 5 Mar 2020 14:25:16 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 025EPFtN37290036
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Mar 2020 14:25:15 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1770442052;
- Thu,  5 Mar 2020 14:25:15 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C665C4204C;
- Thu,  5 Mar 2020 14:25:14 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  5 Mar 2020 14:25:14 +0000 (GMT)
-Subject: Re: [PATCH 1/1] s390/ipl: sync back loadparm
-To: Halil Pasic <pasic@linux.ibm.com>
-References: <20200224150213.21253-1-pasic@linux.ibm.com>
- <05f7dcf7-a0c7-8811-6b88-df86d5fa0974@redhat.com>
- <20200225125641.72e8cc86.pasic@linux.ibm.com>
- <853387e3-4425-731b-bb09-a7210ea6b299@linux.ibm.com>
- <c019ecc6-900e-8653-a603-de8d03017e95@de.ibm.com>
- <20200305151119.6cd63e96.pasic@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Thu, 5 Mar 2020 15:25:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <lekiravi@yandex-team.ru>) id 1j9rS1-0006Uc-Pz
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 09:26:15 -0500
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:50416)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lekiravi@yandex-team.ru>)
+ id 1j9rRw-0006Pa-E7; Thu, 05 Mar 2020 09:26:08 -0500
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7F6512E150E;
+ Thu,  5 Mar 2020 17:26:04 +0300 (MSK)
+Received: from localhost (localhost [::1])
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ lmIY5ZYDjo-Q1JafvBO; Thu, 05 Mar 2020 17:26:04 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1583418364; bh=Srk5hoK6N/ILVxS/BdFaqyldfaW+4xH22sDBZLRIUKo=;
+ h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
+ b=xfMj54YtmzrxGsfNyyBmS+T5yHIheJNguvkvQ+6fVi+x9J5uRgkr8o+MXC/FnKe6/
+ y3jm1ZRS9qO7WrzEJD1zj2t0cqyolQYpvpb3/otn2Enfs4T5XR535sC116wgUCoB22
+ Sy7l+SaqRqXg7XOzxH43Q6v2df+z92YsAgl2xg8w=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+X-Yandex-Sender-Uid: 1120000000161690
+X-Yandex-Avir: 1
+Received: from mxbackcorp1j.mail.yandex.net (localhost [::1])
+ by mxbackcorp1j.mail.yandex.net with LMTP id 2XQNYKuRZl-2ePGDZXI
+ for <lekiravi@yandex-team.ru>; Thu, 05 Mar 2020 17:25:51 +0300
+Received: by sas2-b8502101ee6d.qloud-c.yandex.net with HTTP;
+ Thu, 05 Mar 2020 17:25:50 +0300
+From: Alexey Kirillov <lekiravi@yandex-team.ru>
+To: Markus Armbruster <armbru@redhat.com>
+In-Reply-To: <87y2sff1qo.fsf@dusky.pond.sub.org>
+References: <20200304130656.16859-1-lekiravi@yandex-team.ru>
+ <20200304130656.16859-2-lekiravi@yandex-team.ru>
+ <87y2sff1qo.fsf@dusky.pond.sub.org>
+Subject: Re: [PATCH v2 1/4] qapi: net: Add query-netdevs command
 MIME-Version: 1.0
-In-Reply-To: <20200305151119.6cd63e96.pasic@linux.ibm.com>
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Thu, 05 Mar 2020 17:26:00 +0300
+Message-Id: <1041781583412683@myt4-457577cc370d.qloud-c.yandex.net>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-x-cbid: 20030514-0016-0000-0000-000002ED7BB7
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20030514-0017-0000-0000-00003350CFBC
-Message-Id: <98038ac5-c2dd-7536-2399-459fea7dc6ce@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-05_04:2020-03-05,
- 2020-03-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxlogscore=999 suspectscore=0
- impostorscore=0 priorityscore=1501 bulkscore=0 phishscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003050093
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id 025EKFCM110137
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a02:6b8:0:1619::183
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -144,114 +70,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Marc Hartmayer <mhartmay@linux.ibm.com>,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Vincenzo Maffione <v.maffione@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Sven Schnelle <svens@stackframe.org>, Rob Herring <robh@kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>, Laurent Vivier <lvivier@redhat.com>,
+ Jiri Pirko <jiri@resnulli.us>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Stefan Weil <sw@weilnetz.de>, Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
+ David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <huth@tuxfamily.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Michael Walle <michael@walle.cc>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 05.03.20 15:11, Halil Pasic wrote:
-> On Thu, 5 Mar 2020 13:44:31 +0100
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->=20
->>
->>
->> On 25.02.20 15:35, Viktor Mihajlovski wrote:
->>>
->>>
->>> On 2/25/20 12:56 PM, Halil Pasic wrote:
->>>> On Tue, 25 Feb 2020 10:39:40 +0100
->>>> David Hildenbrand <david@redhat.com> wrote:
->>>>
->>>>> On 24.02.20 16:02, Halil Pasic wrote:
->>>>>> We expose loadparm as a r/w machine property, but if loadparm is s=
-et by
->>>>>> the guest via DIAG 308, we don't update the property. Having a
->>>>>> disconnect between the guest view and the QEMU property is not nic=
-e in
->>>>>> itself, but things get even worse for SCSI, where under certain
->>>>>> circumstances (see 789b5a401b "s390: Ensure IPL from SCSI works as
->>>>>> expected" for details) we call s390_gen_initial_iplb() on resets
->>>>>> effectively overwriting the guest/user supplied loadparm with the =
-stale
->>>>>> value.
->>>>>>
->>>>>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->>>>>> Fixes: 7104bae9de "hw/s390x: provide loadparm property for the mac=
-hine"
->>>>>> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
->>>>>> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
->>>>>> Reviewed-by: Viktor Mihajlovski <mihajlov@linux.ibm.com>
->>>>>> Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
->>>>>> ---
->>>>>> =C2=A0 hw/s390x/ipl.c | 21 +++++++++++++++++++++
->>>>>> =C2=A0 1 file changed, 21 insertions(+)
->>>>>>
->>>>>> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
->>> [...]
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0 /* Sync loadparm */
->>>>>> +=C2=A0=C2=A0=C2=A0 if (iplb->flags & DIAG308_FLAGS_LP_VALID) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char ascii_loadparm[8]=
-;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t *ebcdic_loadpa=
-rm =3D iplb->loadparm;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 8 &&=
- ebcdic_loadparm[i]; i++) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ascii_loadparm[i] =3D ebcdic2ascii[(uint8_t) ebcdic_loadparm[i]];
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ascii_loadparm[i] =3D =
-0;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_set_st=
-r(mo, ascii_loadparm, "loadparm", NULL);
->>>>>> +=C2=A0=C2=A0=C2=A0 } else {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_set_st=
-r(mo, "", "loadparm", NULL);
->>>>>> +=C2=A0=C2=A0=C2=A0 }
->>>>>
->>>>> &error_abort instead of NULL, we certainly want to know if this wou=
-ld
->>>>> ever surprisingly fail.
->>>>
->>>> IMHO this is a typical assert() situation where one would like to ha=
-ve
->>>> a fast and obvious failure when testing, but not in production.
->>>>
->>>> AFAIU the guest can trigger this code at any time, and crashing the
->>>> whole (production) system seems a bit heavy handed to me. The setter
->>>> should only fail if something is buggy.
->>>>
->>>> But if the majority says &error_abort I can certainly do. Other opin=
-ions?
->>>>
->>> We might consider to return 0x0402 (invalid parameter) from the diag3=
-08 "set", which is less drastic and would allow the OS to do whatever it =
-finds appropriate to deal with the failure. Not that Linux would care abo=
-ut that today :-).
->>
->> I think it is not an error. It is perfectly fine for a guest to not se=
-t DIAG308_FLAGS_LP_VALID if the guest does not want to set it. The LOADPA=
-RM is supposed to be ignored then.
->>
->=20
-> I believe David's concern was not the else branch, but the last
-> parameter of object_property_set_str(), which tells us what to do if th=
-e
-> validation/normalization done by the setter of the loadparm qemu
-> property fails the set operation.
+05.03.2020, 15:03, "Markus Armbruster" <armbru@redhat.com>:
+> Alexey Kirillov <lekiravi@yandex-team.ru> writes:
+>
+>> =C2=A0Add a qmp command that provides information about currently atta=
+ched
+>> =C2=A0network devices and their configuration.
+>
+> Closes a gap in QMP; appreciated!
+>
+>> =C2=A0Signed-off-by: Alexey Kirillov <lekiravi@yandex-team.ru>
+>
+> [...]
+>> =C2=A0diff --git a/qapi/net.json b/qapi/net.json
+>> =C2=A0index 1cb9a7d782..4f329a1de0 100644
+>> =C2=A0--- a/qapi/net.json
+>> =C2=A0+++ b/qapi/net.json
+>> =C2=A0@@ -750,3 +750,92 @@
+>> =C2=A0=C2=A0##
+>> =C2=A0=C2=A0{ 'event': 'FAILOVER_NEGOTIATED',
+>> =C2=A0=C2=A0=C2=A0=C2=A0'data': {'device-id': 'str'} }
+>> =C2=A0+
+>> =C2=A0+##
+>> =C2=A0+# @NetdevInfo:
+>> =C2=A0+#
+>> =C2=A0+# Configuration of a network device.
+>> =C2=A0+#
+>> =C2=A0+# @id: Device identifier.
+>> =C2=A0+#
+>> =C2=A0+# @type: Specify the driver used for interpreting remaining arg=
+uments.
+>> =C2=A0+#
+>> =C2=A0+# @peer: Connected network device.
+>
+> @peer is optional. I assume its present when the device is connected
+> (frontend to backend or vice versa). Correct?
+>
 
-Ah I see. I still think that the guest could provoke the an error by putt=
-ing
-invalid characters in the loadparm field. So error_abort seems wrong.
-And in fact for that case, the 0x0402 proposal from Viktor seems like the
-right thing to do.
+Yes, this field stores connected frontend/backend device @id.
+
+>> =C2=A0+#
+>> =C2=A0+# @queues-count: Number of queues.
+>
+> We use plain @queues elsewhere in the schema.
+>
+
+It can conflict with fields inside Netdev*Options, isn't it?
+
+>> =C2=A0+#
+>> =C2=A0+# @hub: hubid of hub, if connected to.
+>
+> How @hub is related to @peer is not quite obvious to me. Can you give
+> an example where @hub is present?
+>
+
+NetdevHubPortOptions has an option @hubid. @hub gives that id, if
+netdev is connected to the hub via hubport. As example:
+
+HMP:
+
+hub 0
+ \ hub0port1: socket.0: index=3D0,type=3Dsocket,
+ \ hub0port0: virtio-net-pci.0: index=3D0,type=3Dnic,model=3Dvirtio-net-p=
+ci,macaddr=3D52:54:00:12:34:56
+
+QMP:
+
+[
+  {
+    "peer": "hub0port0",
+    "netdev": "hub0port0",
+    "hub": 0,
+    "model": "virtio-net-pci",
+    "macaddr": "52:54:00:12:34:56",
+    "type": "nic",
+    "queues-count": 1,
+    "id": "virtio-net-pci.0"
+  },
+  {
+    "peer": "hub0port1",
+    "listen": "127.0.0.1:90",
+    "hub": 0,
+    "type": "socket",
+    "queues-count": 1,
+    "id": "socket.0"
+  },
+  {
+    "peer": "socket.0",
+    "netdev": "socket.0",
+    "hub": 0,
+    "hubid": 0,
+    "type": "hubport",
+    "queues-count": 1,
+    "id": "hub0port1"
+  },
+  {
+    "peer": "virtio-net-pci.0",
+    "netdev": "virtio-net-pci.0",
+    "hub": 0,
+    "hubid": 0,
+    "type": "hubport",
+    "queues-count": 1,
+    "id": "hub0port0"
+  }
+]
+
+>> =C2=A0+#
+>> =C2=A0+# @perm-mac: Original MAC address.
+>
+> What does "perm-" mean?
+>
+> It's optional. When exactly is it present?
+>
+
+@perm-mac is the permanent (original) MAC address. It only used
+for nic, because most of nic realizations can change MAC at
+runtime and/or reset it to default (permanent) value.
+
+>> =C2=A0+#
+>> =C2=A0+# Since: 5.0
+>> =C2=A0+##
+>> =C2=A0+{ 'union': 'NetdevInfo',
+>> =C2=A0+ 'base': { 'id': 'str',
+>> =C2=A0+ 'type': 'NetClientDriver',
+>> =C2=A0+ '*peer': 'str',
+>> =C2=A0+ 'queues-count': 'int',
+>> =C2=A0+ '*hub': 'int',
+>> =C2=A0+ '*perm-mac': 'str' },
+>> =C2=A0+ 'discriminator': 'type',
+>> =C2=A0+ 'data': {
+>> =C2=A0+ 'nic': 'NetLegacyNicOptions',
+>> =C2=A0+ 'user': 'NetdevUserOptions',
+>> =C2=A0+ 'tap': 'NetdevTapOptions',
+>> =C2=A0+ 'l2tpv3': 'NetdevL2TPv3Options',
+>> =C2=A0+ 'socket': 'NetdevSocketOptions',
+>> =C2=A0+ 'vde': 'NetdevVdeOptions',
+>> =C2=A0+ 'bridge': 'NetdevBridgeOptions',
+>> =C2=A0+ 'hubport': 'NetdevHubPortOptions',
+>> =C2=A0+ 'netmap': 'NetdevNetmapOptions',
+>> =C2=A0+ 'vhost-user': 'NetdevVhostUserOptions' } }
+>
+> This is a copy of union 'Netdev' with a few additional common members
+> (@peer, @queues-count, @hub, @perm-mac). I can't see how to avoid the
+> duplication without adding nesting on the wire.
+>
+>> =C2=A0+
+>> =C2=A0+##
+>> =C2=A0+# @query-netdevs:
+>> =C2=A0+#
+>> =C2=A0+# Get a list of @NetdevInfo for all virtual network devices.
+>> =C2=A0+#
+>> =C2=A0+# Returns: a list of @NetdevInfo describing each virtual networ=
+k device.
+>> =C2=A0+#
+>> =C2=A0+# Since: 5.0
+>> =C2=A0+#
+>> =C2=A0+# Example:
+>> =C2=A0+#
+>> =C2=A0+# -> { "execute": "query-netdevs" }
+>> =C2=A0+# <- { "return": [
+>> =C2=A0+# {
+>> =C2=A0+# "peer": "netdev0",
+>> =C2=A0+# "netdev": "netdev0",
+>> =C2=A0+# "perm-mac": "52:54:00:12:34:56"
+>> =C2=A0+# "model": "virtio-net-pci",
+>> =C2=A0+# "macaddr": "52:54:00:12:34:56",
+>> =C2=A0+# "queues-count": 1,
+>> =C2=A0+# "type": "nic",
+>> =C2=A0+# "id": "net0"
+>> =C2=A0+# },
+>> =C2=A0+# {
+>> =C2=A0+# "peer": "net0",
+>> =C2=A0+# "ipv6": true,
+>> =C2=A0+# "ipv4": true,
+>> =C2=A0+# "host": "10.0.2.2",
+>> =C2=A0+# "queues-count": 1,
+>> =C2=A0+# "ipv6-dns": "fec0::3",
+>> =C2=A0+# "ipv6-prefix": "fec0::",
+>> =C2=A0+# "net": "10.0.2.0/255.255.255.0",
+>> =C2=A0+# "ipv6-host": "fec0::2",
+>> =C2=A0+# "type": "user",
+>> =C2=A0+# "dns": "10.0.2.3",
+>> =C2=A0+# "hostfwd": [
+>> =C2=A0+# {
+>> =C2=A0+# "str": "tcp::20004-:22"
+>> =C2=A0+# }
+>> =C2=A0+# ],
+>> =C2=A0+# "ipv6-prefixlen": 64,
+>> =C2=A0+# "id": "netdev0",
+>> =C2=A0+# "restrict": false
+>> =C2=A0+# }
+>> =C2=A0+# ]
+>> =C2=A0+# }
+>> =C2=A0+#
+>> =C2=A0+##
+>> =C2=A0+{ 'command': 'query-netdevs', 'returns': ['NetdevInfo'] }
+>
+> Like HMP "info network" and -net, this mixes frontends ("type": "nic")
+> and backends. Unlike query-chardev and query-block. Hmm.
+>
+> A long time ago, all we had was -net: "-net nic" for configuring
+> frontends, "-net none" for suppressing a default frontend + backend, an=
+d
+> "-net anything-else" for configuring backends. "info network" showed
+> the stuff set up with -net.
+>
+> In v0.12, we got -device for configuring frontends, and -netdev for
+> backends. -netdev is like -net less "none", "nic", and the hub
+> weirdness. "info network" was extended to also show all this.
+>
+> In v2.12, we got -nic, replacing -net nic.
+>
+> Unless I'm missing something, -net is just for backward compatibility
+> now.
+>
+> What's the use case for query-networks reporting frontends?
+
+In my vision, new QMP command is the replacement for old
+HMP command. It must provide information about all
+network devices, mainly for recreate similar net topology.
+Currently, there are no differrence between fronted and
+backend devices in context of my command, because
+all of them use the same interface in NetClientState.
+
+>
+
+--=C2=A0
+Alexey Kirillov
+Yandex.Cloud
 
 
