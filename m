@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C530F17AA8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:33:51 +0100 (CET)
-Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DC417AAE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Mar 2020 17:49:58 +0100 (CET)
+Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j9tRW-0005s9-LK
-	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:33:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59177)
+	id 1j9th7-0007vL-44
+	for lists+qemu-devel@lfdr.de; Thu, 05 Mar 2020 11:49:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59206)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP4-0003QE-KB
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP5-0003RA-Hu
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j9tP2-0002ER-O5
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:18 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53657)
+ (envelope-from <peter.maydell@linaro.org>) id 1j9tP4-0002G6-C4
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:19 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36171)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j9tP2-0002Cz-Gm
- for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:16 -0500
-Received: by mail-wm1-x329.google.com with SMTP id g134so7043542wme.3
+ id 1j9tP3-0002Du-Dq
+ for qemu-devel@nongnu.org; Thu, 05 Mar 2020 11:31:17 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id g83so6437339wme.1
  for <qemu-devel@nongnu.org>; Thu, 05 Mar 2020 08:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=GAoBKDlZfxCwYkYrGHnP4g29Dujg66/yINbEGmDpBFY=;
- b=SbMhz/LzQEGinciFRS2RibMCmnMpc4yM1hwoVDo43pfN81w9hLjnpkeUNxReEo9Ak7
- AT4TW8z6bPKTjTNva0zP+rrfnocyj0B7fH6Qq+NHm6qoobl1xpd0U8KphzZZWSFeHacs
- 6OQxYtfKzjhLMvBkkrbWAv16iD7I6i+nmlZzrslAZ1BtbbnSDI7TEIsO3nRksMjeFai7
- WJs4IFxcj4bTtevlli84HopAojPbCj9rtGtm09QfUmqI9raZXxFtJFdUMznQS7oc2DsN
- 1H7g9ZUaxEAKUcz6c0OE6d4BZNjS+nn3lW0lN7TzVoSgmwtlfQ+umyIfw3hJful/GW3N
- Ca6g==
+ bh=WO6MlmMNplhxoUnWkFVSAFSYs5grFV+Q/M4i3h2rCwI=;
+ b=NVmGKZWSoiLVIP8O3WoaGkAUz+Cwo9gHnE4fr602Lc/OPm1pksvXMY/AmTmPX5ZvY1
+ kGUntyocYKQJmSPgwceDbWAc2A2oxUSvp2EWDW/xPqtc5KJDkzmx3luWbEh9j+P+AVVT
+ CvmAIm5J50OcqxVuLdywePGr4YURErBGZ6TWIlwUkKRRPusg6gKgWqjIxWSK1iIDo+5W
+ OycPUMwGehkXZUy6RVYs2mqN9//NZAHolvOdV+gm8wJgyFgSmYBi1dAsdSdicGnB/cqy
+ 74xDOTMVtjq/4bVIaD32P+oJYTXA2GC6JEyUVsn3FYKqpl1kRGgUqnx+pQJt4sOaTNa5
+ S6eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GAoBKDlZfxCwYkYrGHnP4g29Dujg66/yINbEGmDpBFY=;
- b=iltEX3YABWaJi0p8r3/L4aM0ElTmb5hnQlBUVua+ISS8rEr2VzxdsVgzZXr0O4W3Us
- H2ORi36yD53vGqHuGW40IMkz6HQ3dz4ght7A8sNgujQpX4lR6mjppsKXCABcKmRJyxzV
- Euhg65OVkGYX37TRe4T+PwDtccMXfxmqsYAIWVgHBq9HlYyQyZAyQjPPzSaBV1dR+pIc
- 9iNEBl8SGhMXmjAr/8/fvaLDtMGQrZy7fMqqK5/u7Y39NlWJgCVwwb6MqYOQbGxrQ8Gr
- JwRqfVp5oHo0D6rIWUNSrUoQ1Tl0P9DX0XUIwsECvhHiM+v2GD8FA9UJ11o4cJGo/BED
- TKWg==
-X-Gm-Message-State: ANhLgQ0N00lHTjiMGP+Xayy7wt/m/7VPgfLmpXEeWeMGL8VZqCQDcOm3
- HvSlECW+c0FdCCA2bSU5Vyah3tJMgYUMNQ==
-X-Google-Smtp-Source: ADFU+vtgKIc5ohNp4lmALMiD1zOHW42Ht0TolAghhv1943wqZZ+uj3jwKDMIJsBRyvRrOH9z4Phg1Q==
-X-Received: by 2002:a1c:a1c2:: with SMTP id k185mr1541615wme.164.1583425874807; 
- Thu, 05 Mar 2020 08:31:14 -0800 (PST)
+ bh=WO6MlmMNplhxoUnWkFVSAFSYs5grFV+Q/M4i3h2rCwI=;
+ b=Si9NUW3CHwZRfKiS/ssb6JO1v+AEFI+qt2YDbqmFPTaK4QkaGZuosw6hR/oYkytk/g
+ uX2U1m91cfA+K430/LaFMkRMHBTj6YB0c3zhbMjK3wJ1VbFW0dZrPw3myrhWCvroweCR
+ 2GKfe3ZbW9dTyspIfBk7zm02dQgW6jsr6ZpzJTeZEuCJ3wT9XDOWwDTOYKWWGo9ppPec
+ eDXEgixtm75PTmOKR9GoloMXe/TIYBDWCMUCCe4SGnsY2p1zPdURWLZbXw54s0PsLOu1
+ k6DPKhH4eo6uy5hzWcrIBYtPJgYhUnP2Ks1GpJVMtEF3RUwE3/21cS9cy80yclSBXzjB
+ NPPg==
+X-Gm-Message-State: ANhLgQ3meMMBqWbalm/x5F6XmeYIL0cT+bmNJmp+3B24pFj0elfgUlIL
+ f9gh2X+b9xBF0mbLws0YHvSjSPjvzE88RQ==
+X-Google-Smtp-Source: ADFU+vu04e27+PF5VuIm571xYGq16mhP3QUoIWGP8gj7MiYzTCrSndGbPW3PL3pvfs1e5HUcC1L2ow==
+X-Received: by 2002:a05:600c:4108:: with SMTP id
+ j8mr10357134wmi.188.1583425875784; 
+ Thu, 05 Mar 2020 08:31:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.13
+ by smtp.gmail.com with ESMTPSA id w22sm10310729wmk.34.2020.03.05.08.31.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 08:31:14 -0800 (PST)
+ Thu, 05 Mar 2020 08:31:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/37] hw/arm/pxa2xx: move timer_new from init() into realize()
+Subject: [PULL 12/37] hw/arm/spitz: move timer_new from init() into realize()
  to avoid memleaks
-Date: Thu,  5 Mar 2020 16:30:34 +0000
-Message-Id: <20200305163100.22912-12-peter.maydell@linaro.org>
+Date: Thu,  5 Mar 2020 16:30:35 +0000
+Message-Id: <20200305163100.22912-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200305163100.22912-1-peter.maydell@linaro.org>
 References: <20200305163100.22912-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,54 +89,43 @@ There are some memleaks when we call 'device_list_properties'. This patch move t
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-id: 20200227025055.14341-3-pannengyuan@huawei.com
+Message-id: 20200227025055.14341-4-pannengyuan@huawei.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/pxa2xx.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ hw/arm/spitz.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
-index b33f8f1351f..56a36202d71 100644
---- a/hw/arm/pxa2xx.c
-+++ b/hw/arm/pxa2xx.c
-@@ -1134,18 +1134,22 @@ static void pxa2xx_rtc_init(Object *obj)
-     s->last_rtcpicr = 0;
-     s->last_hz = s->last_sw = s->last_pi = qemu_clock_get_ms(rtc_clock);
+diff --git a/hw/arm/spitz.c b/hw/arm/spitz.c
+index e0010881038..cbfa6934cfd 100644
+--- a/hw/arm/spitz.c
++++ b/hw/arm/spitz.c
+@@ -524,11 +524,16 @@ static void spitz_keyboard_init(Object *obj)
  
-+    sysbus_init_irq(dev, &s->rtc_irq);
-+
-+    memory_region_init_io(&s->iomem, obj, &pxa2xx_rtc_ops, s,
-+                          "pxa2xx-rtc", 0x10000);
-+    sysbus_init_mmio(dev, &s->iomem);
+     spitz_keyboard_pre_map(s);
+ 
+-    s->kbdtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, spitz_keyboard_tick, s);
+     qdev_init_gpio_in(dev, spitz_keyboard_strobe, SPITZ_KEY_STROBE_NUM);
+     qdev_init_gpio_out(dev, s->sense, SPITZ_KEY_SENSE_NUM);
+ }
+ 
++static void spitz_keyboard_realize(DeviceState *dev, Error **errp)
++{
++    SpitzKeyboardState *s = SPITZ_KEYBOARD(dev);
++    s->kbdtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, spitz_keyboard_tick, s);
 +}
 +
-+static void pxa2xx_rtc_realize(DeviceState *dev, Error **errp)
-+{
-+    PXA2xxRTCState *s = PXA2XX_RTC(dev);
-     s->rtc_hz    = timer_new_ms(rtc_clock, pxa2xx_rtc_hz_tick,    s);
-     s->rtc_rdal1 = timer_new_ms(rtc_clock, pxa2xx_rtc_rdal1_tick, s);
-     s->rtc_rdal2 = timer_new_ms(rtc_clock, pxa2xx_rtc_rdal2_tick, s);
-     s->rtc_swal1 = timer_new_ms(rtc_clock, pxa2xx_rtc_swal1_tick, s);
-     s->rtc_swal2 = timer_new_ms(rtc_clock, pxa2xx_rtc_swal2_tick, s);
-     s->rtc_pi    = timer_new_ms(rtc_clock, pxa2xx_rtc_pi_tick,    s);
--
--    sysbus_init_irq(dev, &s->rtc_irq);
--
--    memory_region_init_io(&s->iomem, obj, &pxa2xx_rtc_ops, s,
--                          "pxa2xx-rtc", 0x10000);
--    sysbus_init_mmio(dev, &s->iomem);
+ /* LCD backlight controller */
+ 
+ #define LCDTG_RESCTL	0x00
+@@ -1115,6 +1120,7 @@ static void spitz_keyboard_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_spitz_kbd;
++    dc->realize = spitz_keyboard_realize;
  }
  
- static int pxa2xx_rtc_pre_save(void *opaque)
-@@ -1203,6 +1207,7 @@ static void pxa2xx_rtc_sysbus_class_init(ObjectClass *klass, void *data)
- 
-     dc->desc = "PXA2xx RTC Controller";
-     dc->vmsd = &vmstate_pxa2xx_rtc_regs;
-+    dc->realize = pxa2xx_rtc_realize;
- }
- 
- static const TypeInfo pxa2xx_rtc_sysbus_info = {
+ static const TypeInfo spitz_keyboard_info = {
 -- 
 2.20.1
 
