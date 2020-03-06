@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CEE17C88C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 23:53:40 +0100 (CET)
-Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5981B17C8A2
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Mar 2020 00:01:21 +0100 (CET)
+Received: from localhost ([::1]:43332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jALqd-00065w-5y
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 17:53:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33507)
+	id 1jALy4-0001gB-4S
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 18:01:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45420)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jALot-0004Oj-TJ
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 17:51:53 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1jALwm-000148-S1
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 18:00:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jALos-0004Wj-5D
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 17:51:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43096
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <balaton@eik.bme.hu>) id 1jALwk-0005vJ-UW
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 18:00:00 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:62770)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jALos-0004Ve-26
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 17:51:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583535109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nm9e2v416ZUux5YdKkVbER6rLHHPvqabxo5SvkuL/cA=;
- b=FQMwHY99M5z5IL2cAov+MTTjNEqfYmn4+Mk0G+ThHxz0nA7lXLtMf0smhOHdBIzYW91Reu
- vNloxY1aZ1QE48Ba9y/Ywlu2cxy7x7cXGmPHuVq155yGqNhWLad9gQ5TSnU7x3cURkhSzC
- KFCcB9rrHd2rhjW8L1cQIwFgpAIr038=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-33A0LfiSO1OHwn0a6O3_qg-1; Fri, 06 Mar 2020 17:51:46 -0500
-X-MC-Unique: 33A0LfiSO1OHwn0a6O3_qg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EC37100726D;
- Fri,  6 Mar 2020 22:51:45 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-117-177.phx2.redhat.com [10.3.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0B5A60BE0;
- Fri,  6 Mar 2020 22:51:44 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] qemu-img: Deprecate use of -b without -F
-Date: Fri,  6 Mar 2020 16:51:21 -0600
-Message-Id: <20200306225121.3199279-5-eblake@redhat.com>
-In-Reply-To: <20200306225121.3199279-1-eblake@redhat.com>
-References: <20200306225121.3199279-1-eblake@redhat.com>
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1jALwc-0005A6-31; Fri, 06 Mar 2020 17:59:54 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CDD94746383;
+ Fri,  6 Mar 2020 23:59:47 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 84D9C74637E; Fri,  6 Mar 2020 23:59:47 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 819167461AE;
+ Fri,  6 Mar 2020 23:59:47 +0100 (CET)
+Date: Fri, 6 Mar 2020 23:59:47 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 2/2] via-ide: Also emulate non 100% native mode
+In-Reply-To: <5380d048-8224-78a5-04b6-d946987fef08@ilande.co.uk>
+Message-ID: <alpine.BSF.2.22.395.2003062306560.78331@zero.eik.bme.hu>
+References: <cover.1583017348.git.balaton@eik.bme.hu>
+ <alpine.BSF.2.22.395.2003011951370.28669@zero.eik.bme.hu>
+ <38cb0f83-79fc-7021-38fc-c1e28c3c0fa0@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003012202330.79908@zero.eik.bme.hu>
+ <9ce6d135-4169-96ae-c457-1131b4510c49@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003022145430.47473@zero.eik.bme.hu>
+ <2a39ccab-e4d4-8172-9a1d-0bc089e0104c@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003032356230.41934@zero.eik.bme.hu>
+ <a579c016-fd6c-ad4f-c091-2286265c9a57@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003042227190.70853@zero.eik.bme.hu>
+ <b3bce0d3-3ab3-7fb3-ed3c-60f1f19159d6@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003060007040.48868@zero.eik.bme.hu>
+ <071fff0a-e922-502d-da18-2572f73cecdf@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003061221220.10004@zero.eik.bme.hu>
+ <bb74c3a0-7d58-11d8-2558-d24057383d0e@ilande.co.uk>
+ <alpine.BSF.2.22.395.2003062008070.34226@zero.eik.bme.hu>
+ <5380d048-8224-78a5-04b6-d946987fef08@ilande.co.uk>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,200 +67,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: qemu-block@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Creating an image that requires format probing of the backing image is
-inherently unsafe (we've had several CVEs over the years based on
-probes leaking information to the guest on a subsequent boot, although
-these days tools like libvirt are aware of the issue enough to prevent
-the worst effects).  However, if our probing algorithm ever changes,
-or if other tools like libvirt determine a different probe result than
-we do, then subsequent use of that backing file under a different
-format will present corrupted data to the guest.  Start a deprecation
-clock so that future qemu-img can refuse to create unsafe backing
-chains that would rely on probing.  The warnings are intentionally
-emitted from the block layer rather than qemu-img (thus, all paths
-into image creation or rewriting perform the check).
+On Fri, 6 Mar 2020, Mark Cave-Ayland wrote:
+> On 06/03/2020 19:38, BALATON Zoltan wrote:
+>> On Fri, 6 Mar 2020, Mark Cave-Ayland wrote:
+>>> On 06/03/2020 12:06, BALATON Zoltan wrote:
+>>>> On Fri, 6 Mar 2020, Mark Cave-Ayland wrote:
+>>>>> On 05/03/2020 23:35, BALATON Zoltan wrote:
+>>>>>> On real hardware this may be true but in QEMU how would it otherwise raise the
+>>>>>> correct interrupt line the guest expects? This probably does not matter for
+>>>>>> pegasos2
+>>>>>> but I think is needed for 100% native mode used with the fulong2e so it gets the
+>>>>>> IRQ
+>>>>>> it expects.
+>>>>>
+>>>>> That's easy - remember that both the PCI and IRQ interrupts are separate pins on the
+>>>>> chip, so all that needs to be done is expose the legacy IRQ via qdev and use that to
+>>>>> wire it up to your interrupt controller.
+>>>>
+>>>> This "chip" is part of an integrated southbridge/superio/everything chip the also
+>>>> includes the two PICs and how they are internally connected is not known so we would
+>>>> be guessing here anyway. I don't see a need to make it more complicated than it is
+>>>> now by modeling internal pins but how would I wire up gpio to the i8259 model and
+>>>> where should I connect the PCI irq?
+>>>
+>>> For now I would say not to worry about the PCI IRQ: the reason for discussing this
+>>> before was because we believed that if the controller was in native mode it must be
+>>> using the IRQ in PCI_INTERRUPT_LINE. But from yesterday's read of the specification
+>>> we know that PCI_INTERRUPT_LINE is never used by the device itself, and so given that
+>>> the existing via-ide device doesn't currently attempt to use the PCI IRQ in
+>>> via_ide_set_irq() then we should be good.
+>>>
+>>> If someone had a machine somewhere that did use the PCI IRQ then it would need
+>>> investigation, but since there isn't then I don't see any need to do this now.
+>>>
+>>>>> Okay so this is interesting: I've been switching between the VT8231 and the
+>>>>> VT82C686B
+>>>>> datasheets, and there is a difference here. You are correct in what you say above in
+>>>>> that the 8231 docs specify that this is set to 1, but on the 686B this is clearly
+>>>>> not
+>>>>> the case.
+>>>>
+>>>> The 82C686B says this reg can be 0 or 1, where 0 is legacy interrupt routing and 1 is
+>>>> native mode. Given that we only model native mode of the chip it does not make sense
+>>>> to set it to anything else than 1 and setting it to 0 confuses MorphOS and Linux on
+>>>> pegasos2 while setting it to 1 works with everything I've tried both on pegasos2 and
+>>>> fulong2e even if that may not completely match how it's implemented in hardware.
+>>>>
+>>>>> What is rather unusual here is that both the 8231 and 686B have exactly the same
+>>>>> device and vendor ids, so I'm not sure how you'd distinguish between them?
+>>>>
+>>>> Guests distinguish by looking at the parent device (function 0) which is the chip
+>>>> this IDE device is part of (on function 1).
+>>>
+>>> Okay thanks, that's useful to know.
+>>>
+>>> I've done a quick grep of the source tree and AFAICT the only IDE controller that
+>>> tries to use the PCI_INTERRUPT_LINE register is via-ide, which means this should be
+>>> fairly easy. In short:
+>>>
+>>> 1) Add qemu_irq legacy_irqs[2] into PCIIDEState
+>>>
+>>> (You could argue that it should belong in a separate VIAIDEState, however quite a few
+>>> of the BMDMA controllers in QEMU don't have their own device state and just use
+>>> PCIIDEState. And whilst via-ide is the only one that currently needs support for
+>>> legacy IRQs, I think it's good to put it there in case other controllers need it in
+>>> future)
+>>>
+>>> 2) Add via_ide_initfn() to hw/ide/via.c and add qdev_init_gpio_out_named() with a
+>>> name of "legacy-irq" to it
+>>
+>> I don't like this. This adds two via-ide specific data to to common PCI IDE code
+>> where it does not belong and subclassing it just for this also seems to be more
+>> changes than really needed. Reusing the existing CMD646 field and generalising it to
+>> allow implementation specific feature flags seems much less intrusive and not less
+>> clean than your proposal.
+>
+> It's not VIA-specific though: the ISA legacy and PCI buses have different electrical
+> characteristics and so by definition their signals must be driven by separate
+> physical pins. Have a look at the CMD646 datasheet for example, and you will see that
+> separate pins exist for legacy and PCI native IRQs.
 
-However, there is one time where probing is safe: if we probe raw,
-then it is safe to record that implicitly in the image (but we still
-warn, as it's better to teach the user to supply -F always than to
-make them guess when it is safe).
+For CMD646 we only use PCI interrupt which is in PCIDevice. Its legacy 
+mode and thus those pins are not modelled so not needed now. For via-ide 
+we only use ISA interrupts because even if we don't model legacy mode, 
+boards expect ISA interrupts also in native mode maybe because this 
+controller is not a separate PCI device only found embedded in 
+southbridge/superio chips where they connect to the also embedded ISA PICs 
+so even in native mode it should raise one of the ISA IRQs. My patch 
+accesses ISA irqs with isa_get_irq() so no gpios and legacy irqs in 
+PCIIDEState is neeeded and I don't see the need to introduce this 
+complexity here. Also newer PCI ATA and SATA controllers such as sii3112 
+do not have a legacy mode so I'd keep things related to that out of common 
+PCI IDE code and model it instead in the controllers that have this as 
+this does not seem to belong to PCI IDE.
 
-iotest 114 specifically wants to create an unsafe image for later
-amendment rather than defaulting to our new default of recording a
-probed format, so it needs an update.  While touching it, expand it to
-cover all of the various warnings enabled by this patch.
+>>> 3) Inline via_ide_init() into hw/mips/mips_fulong2e.c, changing pci_create_simple()
+>>> to pci_create() because the device shouldn't be realised immediately
+>>>
+>>> 4) In vt82c686b_southbridge_init use qdev_connect_gpio_out_named() to connect
+>>> legacy_irq[0] to 8259 IRQ 14 and legacy_irq[1] to 8259 IRQ 15, and then realise the
+>>> device
+>>
+>> How do I connect gpios to 8259 interrupts? That seems to be internal state of 8259
+>> that I'm not sure how to access cleanly from code instantiating it. Is this better
+>> than my patch? It seems it achieves the same via-ide specific behaviour just in a
+>> more complicated way and would still need the feature bit to know when to use
+>> legacy_irq[1].
+>
+> We know from the PCI specification that the existing code for via-ide is incorrect,
+> and given that none of the other IDE controllers in QEMU use PCI_INTERRUPT_LINE in
+> this way then both of these strongly suggest that current via-ide implementation is
+> wrong. Rather than add a hack on top of a hack then the simplest solution is to
+> physically wire the IRQ pin using qdev at the board level, as is done on real hardware.
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- docs/system/deprecated.rst | 19 +++++++++++++++++++
- block.c                    | 21 ++++++++++++++++++++-
- qemu-img.c                 |  2 +-
- tests/qemu-iotests/114     | 11 +++++++++++
- tests/qemu-iotests/114.out |  8 ++++++++
- 5 files changed, 59 insertions(+), 2 deletions(-)
+But it's not done that way on real hardware and via-ide is not a PCI 
+device but all this is internal to the VT8231 chip, the PICs, via-ide and 
+a lot of other things which are modelled in QEMU by reusing existing 
+components but I think we don't want to model the internal of the chip 
+down to the smallest detail. In via-ide's case the PCI_INTERRUPT_LINE is 
+probably not used by the IDE controller function but is used by some other 
+function of the southbridge chip that implements interrupt controller but 
+we don't have a separate model of that in QEMU so we can just emulate this 
+function within via-ide which I think is OK as this IDE controller is part 
+of these southbridges and not used anywhere else. This partly mixes IDE 
+controller function and interrupt controller function but probably OK 
+until we want to model this southbridge in more detail which could be done 
+in later clean up patches. The piix model seems to do the same embedding a 
+8259 which even less belongs to an IDE controller and acceses irqs array 
+directly.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 6c1d9034d9e3..a8ffacf54a52 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -376,6 +376,25 @@ The above, converted to the current supported format::
- Related binaries
- ----------------
+> Looking at the code it seems that i8259_init() returns the PIC IRQ array so it should
+> just be a case of returning the nth entry and using that with qdev_init_gpio_out_named().
+>
+>>> 5) Remove the PCI_INTERRUPT_LINE logic from via_ide_set_irq() and instead just do
+>>> qemu_set_irq() on legacy_irq[0] (in theory I guess it should be legacy_irq[n] but it
+>>> seems that both drives on MIPS and Pegasos both use IRQ 14).
+>>
+>> According to the 8231 datasheet in legacy mode (and on pegasos2's half-native mode)
+>> the interrupts should be 14 and 15 so legacy_irq[n] with your way but in 100% native
+>> mode (used on the fulong2e) it should be the one set in PCI_INTERRUPT_LINE. The 686B
+>> datasheet does not detail this but I believe it works the same. Since we currently
+>> fixed the native mode interrupt to 14 to work around pegasos2 firmware and QEMU PCI
+>> reset interactions using legacy_irq[0] might work but is not correct, the current way
+>> using PCI_INTERRUPT_LINE is better modelling what hardware does in my opinion.
+>
+> This is not correct though: please re-read my previous email which quotes from the
+> PCI specification itself that defines PCI_INTERRUPT_LINE has *no effect* upon the
+> device itself, and is merely advisory to the OS. Possibly the MIPS BIOS could be
+> placing a value other than 14 there, but if it does then that suggests the board IRQs
+> are physically wired differently which again should be handled at board level by qdev.
 
-+qemu-img backing file without format (since 5.0.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The use of ``qemu-img create``, ``qemu-img rebase``, ``qemu-img
-+convert``, or ``qemu-img amend`` to create or modify an image that
-+depends on a backing file now recommends that an explicit backing
-+format be provided.  This is for safety: if qemu probes a different
-+format than what you thought, the data presented to the guest will be
-+corrupt; similarly, presenting a raw image to a guest allows a
-+potential security exploit if a future probe sees a non-raw image
-+based on guest writes.  To avoid the warning message, or even future
-+refusal to create an unsafe image, you must pass ``-o backing_fmt=3D``
-+(or the shorthand ``-F`` during create) to specify the intended
-+backing format.  You may use ``qemu-img rebase -u`` to retroactively
-+add a backing format to an existing image.  However, be aware that
-+there are already potential security risks to blindly using ``qemu-img
-+info`` to probe the format of an untrusted backing image, when
-+deciding what format to add into an existing image.
-+
- ``qemu-img convert -n -o`` (since 4.2.0)
- ''''''''''''''''''''''''''''''''''''''''
+Correct or not or follows the spec or not this is how it works on real 
+hardware and to get guests running we need to emulate this. Again, this 
+controller is embedded in the 868B and 8231 southbridge chips so they may 
+not completely confirm to PCI spec but their own datasheets. We can argue 
+in how much detail do we want to model the internals of these chips (which 
+we don't know for sure) but I think this patch is good enough for now and 
+could be refined later or we likely won't be able to finish this before 
+the freeze.
 
-diff --git a/block.c b/block.c
-index 43452976acdc..ad49d515809c 100644
---- a/block.c
-+++ b/block.c
-@@ -6039,6 +6039,20 @@ void bdrv_img_create(const char *filename, const cha=
-r *fmt,
-                               "Could not open backing image to determine s=
-ize.\n");
-             goto out;
-         } else {
-+            if (!backing_fmt) {
-+                warn_report("Deprecated use of backing file without explic=
-it "
-+                            "backing format (detected format of %s)",
-+                            bs->drv->format_name);
-+                if (bs->drv =3D=3D &bdrv_raw) {
-+                    /*
-+                     * A probe of raw is always correct, so in this one
-+                     * case, we can write that into the image.
-+                     */
-+                    backing_fmt =3D bs->drv->format_name;
-+                    qemu_opt_set(opts, BLOCK_OPT_BACKING_FMT, backing_fmt,
-+                                 NULL);
-+                }
-+            }
-             if (size =3D=3D -1) {
-                 /* Opened BS, have no size */
-                 size =3D bdrv_getlength(bs);
-@@ -6052,7 +6066,12 @@ void bdrv_img_create(const char *filename, const cha=
-r *fmt,
-             }
-             bdrv_unref(bs);
-         }
--    } /* (backing_file && !(flags & BDRV_O_NO_BACKING)) */
-+        /* (backing_file && !(flags & BDRV_O_NO_BACKING)) */
-+    } else if (backing_file && !backing_fmt) {
-+        warn_report("Deprecated use of unopened backing file without "
-+                    "explicit backing format, use of this image requires "
-+                    "potentially unsafe format probing");
-+    }
+Another way to look at it is that this patch gets some guests running and 
+does not break anything as far as I know so is there anything in it that's 
+unacceptable now and needs to be changed for it to be merged? Unless you 
+can propose a way to achieve the same in a simpler way now I think we 
+could go with this and you can submit follow up patches to clean it up as 
+you like later.
 
-     if (size =3D=3D -1) {
-         error_setg(errp, "Image creation needs a size parameter");
-diff --git a/qemu-img.c b/qemu-img.c
-index b9375427404d..48424f8dbcd4 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3637,7 +3637,7 @@ static int img_rebase(int argc, char **argv)
-      * doesn't change when we switch the backing file.
-      */
-     if (out_baseimg && *out_baseimg) {
--        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, fal=
-se);
-+        ret =3D bdrv_change_backing_file(bs, out_baseimg, out_basefmt, tru=
-e);
-     } else {
-         ret =3D bdrv_change_backing_file(bs, NULL, NULL, false);
-     }
-diff --git a/tests/qemu-iotests/114 b/tests/qemu-iotests/114
-index 26104fff6c67..5b06eab0ceee 100755
---- a/tests/qemu-iotests/114
-+++ b/tests/qemu-iotests/114
-@@ -42,9 +42,15 @@ _unsupported_proto vxhs
- # qcow2.py does not work too well with external data files
- _unsupported_imgopts data_file
-
-+# Intentionally specify backing file without backing format; demonstrate
-+# the difference in warning messages when backing file could be probed.
-+# Note that only a raw probe result will affect the resulting image.
-+truncate --size=3D64M "$TEST_IMG.orig"
-+_make_test_img -b "$TEST_IMG.orig" 64M
-
- TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
- _make_test_img -b "$TEST_IMG.base" 64M
-+_make_test_img -u -b "$TEST_IMG.base" 64M
-
- # Set an invalid backing file format
- $PYTHON qcow2.py "$TEST_IMG" add-header-ext 0xE2792ACA "foo"
-@@ -55,6 +61,11 @@ _img_info
- $QEMU_IO -c "open $TEST_IMG" -c "read 0 4k" 2>&1 | _filter_qemu_io | _filt=
-er_testdir
- $QEMU_IO -c "open -o backing.driver=3D$IMGFMT $TEST_IMG" -c "read 0 4k" | =
-_filter_qemu_io
-
-+# Rebase the image, to show that omitting backing format triggers a warnin=
-g,
-+# but probing now lets us use the backing file.
-+$QEMU_IMG rebase -u -b "$TEST_IMG.base" "$TEST_IMG"
-+$QEMU_IO -c "open $TEST_IMG" -c "read 0 4k" 2>&1 | _filter_qemu_io | _filt=
-er_testdir
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/114.out b/tests/qemu-iotests/114.out
-index 67adef37a4f6..59673abcd5e3 100644
---- a/tests/qemu-iotests/114.out
-+++ b/tests/qemu-iotests/114.out
-@@ -1,5 +1,10 @@
- QA output created by 114
-+qemu-img: warning: Deprecated use of backing file without explicit backing=
- format (detected format of raw)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
-=3DTEST_DIR/t.IMGFMT.orig backing_fmt=3Draw
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
-+qemu-img: warning: Deprecated use of backing file without explicit backing=
- format (detected format of IMGFMT)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
-=3DTEST_DIR/t.IMGFMT.base
-+qemu-img: warning: Deprecated use of unopened backing file without explici=
-t backing format, use of this image requires potentially unsafe format prob=
-ing
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
-=3DTEST_DIR/t.IMGFMT.base
- image: TEST_DIR/t.IMGFMT
- file format: IMGFMT
-@@ -11,4 +16,7 @@ qemu-io: can't open device TEST_DIR/t.qcow2: Could not op=
-en backing file: Unknow
- no file open, try 'help open'
- read 4096/4096 bytes at offset 0
- 4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+qemu-img: warning: Deprecated use of backing file without explicit backing=
- format, use of this image requires potentially unsafe format probing
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- *** done
---=20
-2.25.1
-
+Regards,
+BALATON Zoltan
 
