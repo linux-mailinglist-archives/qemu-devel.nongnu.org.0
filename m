@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B908A17B943
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:31:14 +0100 (CET)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7934817B963
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:36:20 +0100 (CET)
+Received: from localhost ([::1]:33478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jA9K5-0001pB-Jj
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:31:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60288)
+	id 1jA9P1-0004qn-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:36:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43300)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jA9Iy-0001FY-JH
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:30:06 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1jA9OE-0004Rx-9W
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:35:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jA9Ix-0002Kw-0t
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:30:04 -0500
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:35654)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jA9Iw-00029E-E5
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:30:02 -0500
-Received: by mail-yw1-xc43.google.com with SMTP id d79so564755ywd.2
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 01:30:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+ksCe5Jc98L0pmo/e3S2bX3rGcdZERk2XP+iiIuC6co=;
- b=y+n9YbtN+cSmKlNbqm01F45kErh3Ztk3Xipgd2fdS3u609oNOU5WYxHPHXumS+ywxT
- aOB+1hKOpjsd16nWTAImU2edNEq7G3/kcuMADfMmeWeyknc42/gJZQ8kLoLYHpZ15jV9
- lYGYNM6s/MhgdeTRrQbB385beR9pWM3jWhQRNvJZx3rdSxxOX8xDq7/x71tb3TyK/1Hk
- 0qpGJK1GmBgPU2EU+XUJmwPWcEpFBmWdxerVtxwBRMSeZSuRsk/05VY4Om3HiKeI+qgM
- TsFthoDRLrYG05lM8+9VM2OAvvN1bg94YhZLYNPVg3+6nUxv7HmCtawTvQYC3h6kR9Wi
- c8Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+ksCe5Jc98L0pmo/e3S2bX3rGcdZERk2XP+iiIuC6co=;
- b=EQam1sOZcKde2BBiVo1NtQ1Zj/iX6ggAdUywq+icjrYgfCgQDcsnetNfL7Xa226+fH
- 3Oz3OxPz5hLEBTfzwJ8jf/up1W64Pjs3dfwW3hDyqQasZTYk4fks6IvCXCBB+YLnh0Bp
- /sUoZzHXbg5iv8tv06TzFAiMpldwVrg/vKN46T+aRwLvqzm6G8cHSteQsvf9JwTwhX88
- MoRkJvZ5NiGohnM5k0P8zETC5TcBYPM2Cevq+EsmmWFk6cG264jATF8XaqTxBkh9nKCC
- 6FQeomzAMEW2bINhKame8djxN2RP+3TlFv5aRyKT8HB//gnYfVJbCoyHdaKU11eciq6M
- OjUg==
-X-Gm-Message-State: ANhLgQ12L3nNKk5hl9rkpNCpEMqoYS3tyQNEVShxuCbCZ1Q/IMnYSHg0
- En/A/LCEQlHRL3FbEZwYnUJr8j/WoJIMdBYMqPmTjQ==
-X-Google-Smtp-Source: ADFU+vt49/9zmx0LRA+xjQ7bz4gGKiAGvUta5paSpBHIsUBwo6z595mpAKA+V/vh8eeMbit8tKs46QvLpx9ipILnnjs=
-X-Received: by 2002:a81:449:: with SMTP id 70mr3091774ywe.133.1583487001408;
- Fri, 06 Mar 2020 01:30:01 -0800 (PST)
+ (envelope-from <pannengyuan@huawei.com>) id 1jA9OC-0005FA-R8
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:35:30 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3186 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1jA9OC-0004nn-ES
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:35:28 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id C857DC38F9C6470AF914;
+ Fri,  6 Mar 2020 17:35:17 +0800 (CST)
+Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server (TLS) id 14.3.439.0; Fri, 6 Mar 2020
+ 17:35:07 +0800
+Subject: Re: [PATCH v2] virtio-serial-bus: do cleanup on the error path in
+ realize() to avoid memleaks
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200306025030.28824-1-pannengyuan@huawei.com>
+ <871rq57tor.fsf@dusky.pond.sub.org>
+From: Pan Nengyuan <pannengyuan@huawei.com>
+Message-ID: <65938c80-07b0-d1fa-1261-0801a29269d9@huawei.com>
+Date: Fri, 6 Mar 2020 17:35:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20200226174809.9675-1-yuri.benditovich@daynix.com>
- <20200226174809.9675-2-yuri.benditovich@daynix.com>
- <20200305082023-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200305082023-mutt-send-email-mst@kernel.org>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Fri, 6 Mar 2020 11:29:50 +0200
-Message-ID: <CAOEp5Oc+dTzJHzof9suUbXEgBnYoa4bh87K-ALWMzw_MzYf4Mw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] virtio-net: introduce RSS RX steering feature
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000039c85705a02c4c84"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
+In-Reply-To: <871rq57tor.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,257 +57,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, zhang.zhanghailiang@huawei.com, mst@redhat.com,
+ amit@kernel.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000039c85705a02c4c84
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Mar 5, 2020 at 3:21 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-
-> On Wed, Feb 26, 2020 at 07:48:07PM +0200, Yuri Benditovich wrote:
-> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> > ---
-> >  include/standard-headers/linux/virtio_net.h | 37 +++++++++++++++++++--
-> >  1 file changed, 35 insertions(+), 2 deletions(-)
->
->
-> It will take a bit until next merge window when the linux
-> headers will be updated.
-> Until that happens you can just put these defines where
-> they are used.
->
-
-We also extend the configuration virtio_net_config structure and its
-field 'supported_hash_types' uses these defines. Please advise.
 
 
->
-> > diff --git a/include/standard-headers/linux/virtio_net.h
-> b/include/standard-headers/linux/virtio_net.h
-> > index 260c3681d7..3bc100afe3 100644
-> > --- a/include/standard-headers/linux/virtio_net.h
-> > +++ b/include/standard-headers/linux/virtio_net.h
-> > @@ -57,6 +57,7 @@
-> >                                        * Steering */
-> >  #define VIRTIO_NET_F_CTRL_MAC_ADDR 23        /* Set MAC address */
-> >
-> > +#define VIRTIO_NET_F_RSS       60    /* Supports RSS RX steering */
-> >  #define VIRTIO_NET_F_STANDBY   62    /* Act as standby for another
-> device
-> >                                        * with the same MAC.
-> >                                        */
-> > @@ -69,6 +70,16 @@
-> >  #define VIRTIO_NET_S_LINK_UP 1       /* Link is up */
-> >  #define VIRTIO_NET_S_ANNOUNCE        2       /* Announcement is needed
-> */
-> >
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_IPv4              (1 << 0)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4             (1 << 1)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4             (1 << 2)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_IPv6              (1 << 3)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6             (1 << 4)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6             (1 << 5)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX             (1 << 6)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX            (1 << 7)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX            (1 << 8)
-> > +
-> >  struct virtio_net_config {
-> >       /* The config defining mac address (if VIRTIO_NET_F_MAC) */
-> >       uint8_t mac[ETH_ALEN];
-> > @@ -92,6 +103,14 @@ struct virtio_net_config {
-> >        * Any other value stands for unknown.
-> >        */
-> >       uint8_t duplex;
-> > +
-> > +     /* maximal size of RSS key */
-> > +     uint8_t rss_max_key_size;
-> > +     /* maximal number of indirection table entries */
-> > +     uint16_t rss_max_indirection_table_length;
-> > +     /* bitmask of supported VIRTIO_NET_RSS_HASH_ types */
-> > +     uint32_t supported_hash_types;
-> > +
-> >  } QEMU_PACKED;
-> >
-> >  /*
-> > @@ -237,15 +256,29 @@ struct virtio_net_ctrl_mac {
-> >   * Accordingly, driver should not transmit new packets  on virtqueues
-> other than
-> >   * specified.
-> >   */
-> > +#define VIRTIO_NET_CTRL_MQ   4
-> > + #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET        0
-> > + #define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
-> > +
-> > +/* for VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET */
-> >  struct virtio_net_ctrl_mq {
-> >       __virtio16 virtqueue_pairs;
-> >  };
-> >
-> > -#define VIRTIO_NET_CTRL_MQ   4
-> > - #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET        0
-> >   #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN        1
-> >   #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX        0x8000
-> >
-> > +/* for VIRTIO_NET_CTRL_MQ_RSS_CONFIG */
-> > +struct virtio_net_rss_config {
-> > +    uint32_t hash_types;
-> > +    uint16_t indirection_table_mask;
-> > +    uint16_t unclassified_queue;
-> > +    uint16_t indirection_table[1/* + indirection_table_mask*/];
-> > +    uint16_t max_tx_vq;
-> > +    uint8_t hash_key_length;
-> > +    uint8_t hash_key_data[/*hash_key_length*/];
-> > +};
-> > +
-> >  /*
-> >   * Control network offloads
-> >   *
-> > --
-> > 2.17.1
->
->
+On 3/6/2020 4:51 PM, Markus Armbruster wrote:
+> Pan Nengyuan <pannengyuan@huawei.com> writes:
+> 
+>> port->bh forgot to delete on the error path, this patch add it to fix memleaks. It's easy to reproduce as follow(add a same nr port):
+> 
+> Long line.  Suggest:
+> 
+>     virtio-serial-bus: Plug memory leak on realize() error paths
+> 
+>     We neglect to free port->bh on the error paths.  Fix that.
+>     Reproducer:
+Good suggestion. Looks simple and clear.
 
---00000000000039c85705a02c4c84
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 5, 2020 at 3:21 PM Michae=
-l S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Fe=
-b 26, 2020 at 07:48:07PM +0200, Yuri Benditovich wrote:<br>
-&gt; Signed-off-by: Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich=
-@daynix.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 include/standard-headers/linux/virtio_net.h | 37 +++++++++++++++=
-++++--<br>
-&gt;=C2=A0 1 file changed, 35 insertions(+), 2 deletions(-)<br>
-<br>
-<br>
-It will take a bit until next merge window when the linux<br>
-headers will be updated.<br>
-Until that happens you can just put these defines where<br>
-they are used.<br></blockquote><div><br></div><div>We also extend the confi=
-guration virtio_net_config structure and its</div><div>field &#39;supported=
-_hash_types&#39; uses these defines. Please advise.</div><div>=C2=A0<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; diff --git a/include/standard-headers/linux/virtio_net.h b/include/sta=
-ndard-headers/linux/virtio_net.h<br>
-&gt; index 260c3681d7..3bc100afe3 100644<br>
-&gt; --- a/include/standard-headers/linux/virtio_net.h<br>
-&gt; +++ b/include/standard-headers/linux/virtio_net.h<br>
-&gt; @@ -57,6 +57,7 @@<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Ste=
-ering */<br>
-&gt;=C2=A0 #define VIRTIO_NET_F_CTRL_MAC_ADDR 23=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- /* Set MAC address */<br>
-&gt;=C2=A0 <br>
-&gt; +#define VIRTIO_NET_F_RSS=C2=A0 =C2=A0 =C2=A0 =C2=A060=C2=A0 =C2=A0 /*=
- Supports RSS RX steering */<br>
-&gt;=C2=A0 #define VIRTIO_NET_F_STANDBY=C2=A0 =C2=A062=C2=A0 =C2=A0 /* Act =
-as standby for another device<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * wit=
-h the same MAC.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br=
->
-&gt; @@ -69,6 +70,16 @@<br>
-&gt;=C2=A0 #define VIRTIO_NET_S_LINK_UP 1=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Link=
- is up */<br>
-&gt;=C2=A0 #define VIRTIO_NET_S_ANNOUNCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 2=C2=A0=
- =C2=A0 =C2=A0 =C2=A0/* Announcement is needed */<br>
-&gt;=C2=A0 <br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_IPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 0)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0(1 &lt;&lt; 1)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0(1 &lt;&lt; 2)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_IPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 (1 &lt;&lt; 3)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0(1 &lt;&lt; 4)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0(1 &lt;&lt; 5)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0(1 &lt;&lt; 6)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 (1 &lt;&lt; 7)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 (1 &lt;&lt; 8)<br>
-&gt; +<br>
-&gt;=C2=A0 struct virtio_net_config {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* The config defining mac address (if VIRTI=
-O_NET_F_MAC) */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t mac[ETH_ALEN];<br>
-&gt; @@ -92,6 +103,14 @@ struct virtio_net_config {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 * Any other value stands for unknown.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t duplex;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* maximal size of RSS key */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0uint8_t rss_max_key_size;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* maximal number of indirection table entries */=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0uint16_t rss_max_indirection_table_length;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* bitmask of supported VIRTIO_NET_RSS_HASH_ type=
-s */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0uint32_t supported_hash_types;<br>
-&gt; +<br>
-&gt;=C2=A0 } QEMU_PACKED;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 /*<br>
-&gt; @@ -237,15 +256,29 @@ struct virtio_net_ctrl_mac {<br>
-&gt;=C2=A0 =C2=A0* Accordingly, driver should not transmit new packets=C2=
-=A0 on virtqueues other than<br>
-&gt;=C2=A0 =C2=A0* specified.<br>
-&gt;=C2=A0 =C2=A0*/<br>
-&gt; +#define VIRTIO_NET_CTRL_MQ=C2=A0 =C2=A04<br>
-&gt; + #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET=C2=A0 =C2=A0 =C2=A0 =C2=A0 0=
-<br>
-&gt; + #define VIRTIO_NET_CTRL_MQ_RSS_CONFIG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 1<br>
-&gt; +<br>
-&gt; +/* for VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET */<br>
-&gt;=C2=A0 struct virtio_net_ctrl_mq {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0__virtio16 virtqueue_pairs;<br>
-&gt;=C2=A0 };<br>
-&gt;=C2=A0 <br>
-&gt; -#define VIRTIO_NET_CTRL_MQ=C2=A0 =C2=A04<br>
-&gt; - #define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET=C2=A0 =C2=A0 =C2=A0 =C2=A0 0=
-<br>
-&gt;=C2=A0 =C2=A0#define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 1<br>
-&gt;=C2=A0 =C2=A0#define VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 0x8000<br>
-&gt;=C2=A0 <br>
-&gt; +/* for VIRTIO_NET_CTRL_MQ_RSS_CONFIG */<br>
-&gt; +struct virtio_net_rss_config {<br>
-&gt; +=C2=A0 =C2=A0 uint32_t hash_types;<br>
-&gt; +=C2=A0 =C2=A0 uint16_t indirection_table_mask;<br>
-&gt; +=C2=A0 =C2=A0 uint16_t unclassified_queue;<br>
-&gt; +=C2=A0 =C2=A0 uint16_t indirection_table[1/* + indirection_table_mask=
-*/];<br>
-&gt; +=C2=A0 =C2=A0 uint16_t max_tx_vq;<br>
-&gt; +=C2=A0 =C2=A0 uint8_t hash_key_length;<br>
-&gt; +=C2=A0 =C2=A0 uint8_t hash_key_data[/*hash_key_length*/];<br>
-&gt; +};<br>
-&gt; +<br>
-&gt;=C2=A0 /*<br>
-&gt;=C2=A0 =C2=A0* Control network offloads<br>
-&gt;=C2=A0 =C2=A0*<br>
-&gt; -- <br>
-&gt; 2.17.1<br>
-<br>
-</blockquote></div></div>
-
---00000000000039c85705a02c4c84--
+> 
+> Perhaps the maintainer can tweak this for you without a respin.
+> 
+>>     {'execute': 'device_add', 'arguments': {'id': 'virtio_serial_pci0', 'driver': 'virtio-serial-pci', 'bus': 'pci.0', 'addr': '0x5'}, 'id': 'yVkZcGgV'}
+>>     {'execute': 'device_add', 'arguments': {'id': 'port1', 'driver': 'virtserialport', 'name': 'port1', 'chardev': 'channel1', 'bus': 'virtio_serial_pci0.0', 'nr': 1}, 'id': '3dXdUgJA'}
+>>     {'execute': 'device_add', 'arguments': {'id': 'port2', 'driver': 'virtserialport', 'name': 'port2', 'chardev': 'channel2', 'bus': 'virtio_serial_pci0.0', 'nr': 1}, 'id': 'qLzcCkob'}
+>>     {'execute': 'device_add', 'arguments': {'id': 'port2', 'driver': 'virtserialport', 'name': 'port2', 'chardev': 'channel2', 'bus': 'virtio_serial_pci0.0', 'nr': 2}, 'id': 'qLzcCkob'}
+>>
+>> The leak stack:
+>> Direct leak of 40 byte(s) in 1 object(s) allocated from:
+>>     #0 0x7f04a8008ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae8)
+>>     #1 0x7f04a73cf1d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
+>>     #2 0x56273eaee484 in aio_bh_new /mnt/sdb/backup/qemu/util/async.c:125
+>>     #3 0x56273eafe9a8 in qemu_bh_new /mnt/sdb/backup/qemu/util/main-loop.c:532
+>>     #4 0x56273d52e62e in virtser_port_device_realize /mnt/sdb/backup/qemu/hw/char/virtio-serial-bus.c:946
+>>     #5 0x56273dcc5040 in device_set_realized /mnt/sdb/backup/qemu/hw/core/qdev.c:891
+>>     #6 0x56273e5ebbce in property_set_bool /mnt/sdb/backup/qemu/qom/object.c:2238
+>>     #7 0x56273e5e5a9c in object_property_set /mnt/sdb/backup/qemu/qom/object.c:1324
+>>     #8 0x56273e5ef5f8 in object_property_set_qobject /mnt/sdb/backup/qemu/qom/qom-qobject.c:26
+>>     #9 0x56273e5e5e6a in object_property_set_bool /mnt/sdb/backup/qemu/qom/object.c:1390
+>>     #10 0x56273daa40de in qdev_device_add /mnt/sdb/backup/qemu/qdev-monitor.c:680
+>>     #11 0x56273daa53e9 in qmp_device_add /mnt/sdb/backup/qemu/qdev-monitor.c:805
+>>
+>> Fixes: 199646d81522509ac2dba6d28c31e8c7d807bc93
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+>> ---
+>> v1->v2:
+>> - simply create port->bh last in virtser_port_device_realize() to fix memleaks.(Suggested by Markus Armbruster)
+>> ---
+>>  hw/char/virtio-serial-bus.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+>> index 941ed5aca9..99a65bab7f 100644
+>> --- a/hw/char/virtio-serial-bus.c
+>> +++ b/hw/char/virtio-serial-bus.c
+>> @@ -943,7 +943,6 @@ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
+>>      Error *err = NULL;
+>>  
+>>      port->vser = bus->vser;
+>> -    port->bh = qemu_bh_new(flush_queued_data_bh, port);
+>>  
+>>      assert(vsc->have_data);
+>>  
+>> @@ -992,6 +991,7 @@ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
+>>          return;
+>>      }
+>>  
+>> +    port->bh = qemu_bh_new(flush_queued_data_bh, port);
+>>      port->elem = NULL;
+>>  }
+> 
+> Preferably with a tidied up commit message:
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> 
+> .
+> 
 
