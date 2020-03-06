@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AF917BB61
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:15:15 +0100 (CET)
-Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D2517BB40
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:13:30 +0100 (CET)
+Received: from localhost ([::1]:34784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAAwk-0003J6-1P
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:15:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39049)
+	id 1jAAv2-0008Hl-Qf
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:13:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38988)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jAArw-0003KM-Lr
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:18 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jAArs-0004Yy-OS
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAru-0003Fr-TO
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:16 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36859)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <peter.maydell@linaro.org>) id 1jAArt-0004bb-Jq
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:14 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36861)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jAArs-0004Vz-GD
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:12 -0500
-Received: by mail-wr1-x433.google.com with SMTP id s17so955683wrs.3
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:12 -0800 (PST)
+ id 1jAArt-0004Yg-CY
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:13 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s17so955730wrs.3
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JOna8LKhtleQtjiKaXcgaGEoiplWxi2ucM1nzHdSZwA=;
- b=biestkwMy73EPkOJpxuYC9J3H4mCgLDXihEyflgnMDriU0gFTSF/MC8fUFCB0u7fMg
- meV1NOWZyWbCbirGokjxw5fpoXvkOW1FMkyivVjbZ6UTULNus6MlI2iv9jJF5jrKchNa
- abzd/3uwrGPY6zYpEBAz19+zFw4Nbpqz7r5/VZGClUB2cTvp99GZLYnzLcwzSar2gQaP
- OookDvUO/SOGS79HBM9WRFEk9brejEZsBXLO1v56nQtRMW6Q09G+xx4T2TtCy2ZLly1H
- FnQ8DypCnvK3g/br6aniu5HDfuFho5kyUOh/4GeO1D5Gs89xjl5kAHu0Ov4OD3BMoB3Q
- NH7g==
+ bh=j948o00wX+jLqnNVakqaDFVSuLWgzJuT/5nvfGKmzs0=;
+ b=yQPcb7wfzjCcEwnKdUCGRg5IRi+zJNDSYbiV/u0A8/MvKrGcANogKdggrva41p0bco
+ HzkxeHp6MZmGHoSsYgXv0BHD9LaPtEJZcDrH7SeguzvhbyuGgJzgIOxqGH+GNyPIwkM2
+ nGUo/yK8BqSCCiu9RJUY8X6tDA8czavVhv6QUbCHp4hsFgGI3bIkOo15mkTMoTOGUEG0
+ o6CpjPEVv5eUVJOle2niBdaJ2u2sFdjqxWXWWNK8zIRloy3mUyOb5cq+0/gV5E3OWMp+
+ WtP5WdsLW6OvpQTOMZh2xI0fE1SyPlsYq+u+7Sq1vPZE4C7vTf2CX4VAcQlYrGdCTLEV
+ WZtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JOna8LKhtleQtjiKaXcgaGEoiplWxi2ucM1nzHdSZwA=;
- b=TMwZoBIt1y2r6bJzIIzw+2duhS5vTRWkgxWeN7FDbzLIOO/RBOw0MEOD2pUSlJkcZP
- NwLyDT1OWLlNqbQVHmoXPfN2+X3AbAQof3LVtWNU+xhPtLiuoXSEMZ2uqSfpogL/CBTV
- n5wFMaBbniyqQnsiEw2jYTsoHmfrb0iBPyWthqFzxGd4s30y+rgzYtoOOLWD05GeF/0s
- F+2eKvnbjqS8TrQGbSUI1Rjn1suWI0XuL8MFdMlLNPuLHaGd+CinG2RWjtsXJ16ZzD/s
- KpgtBUZNZ1uyo0LAgITcmj07aY2AHc0rVZvtiTbRBEZcONsuuBXzEdFAmjmYGZKUpZTt
- GIsw==
-X-Gm-Message-State: ANhLgQ1SF8BcyNLxQuuJO1EVUoCpcWmUQJqP1ws1cM/bPQtVojDcR4md
- f72kLdHXVzNdS/RQmE/KkurvRX/+2tmg9g==
-X-Google-Smtp-Source: ADFU+vvv2uYBZ+yAhThLvlxuZj5zBlqzxJOZ0yNKPASuDC4aZuvzIl15CwcMJd0F5hXRinwBuL7hFw==
-X-Received: by 2002:adf:f2ca:: with SMTP id d10mr3692620wrp.247.1583493011129; 
- Fri, 06 Mar 2020 03:10:11 -0800 (PST)
+ bh=j948o00wX+jLqnNVakqaDFVSuLWgzJuT/5nvfGKmzs0=;
+ b=gd3dEbjRKX2Xc18w9l9P41Hh9QgWl5/aYSe2dhKSpPsJ6uFold4NWt9dsIUsP93NH4
+ gj1hPDDmyQj+nvPmbRUF2j1k7xV/B+j4qYeNr8j5ZiaNI13DXj7Y+OtRHngPclnV5L3y
+ LUG8pBnmWnJWQZoweqI9iOaiCgEBkABxTGKfUm4MRb7fKPzktmM7PFQaBdycDgNnM4bK
+ yR5l3aqvhBT7R1UuRD39DS4VOYVHN5FU49PU9L4FDhz3sW6mFU5zc9Fb4HUsDC5IftKQ
+ xO6gD7xFYRULktTDt5sGFOpi9lOVIF/2Wwt+5nunX7DKMFaXLuXp4wtiA+2Di0/+J3A9
+ Jf6Q==
+X-Gm-Message-State: ANhLgQ2B7sYIMQdqPHcmU/ou3ZXOvWeNW5rtHHSXAAA1siEgCLTQuMrl
+ GKDIPEH6qurRT8J7KIeR8tnRjyWQWVXK7w==
+X-Google-Smtp-Source: ADFU+vu7UT7uTn/IibU8oKwInsGzzXOMAO+vRgojZoANfofcW+CKoxNeLVSq8x4dX8ahkDuZSAk4Zg==
+X-Received: by 2002:adf:a50b:: with SMTP id i11mr3851554wrb.60.1583493012014; 
+ Fri, 06 Mar 2020 03:10:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.10
+ by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 03:10:10 -0800 (PST)
+ Fri, 06 Mar 2020 03:10:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/33] qemu-doc: extract common system emulator documentation
- from the PC section
-Date: Fri,  6 Mar 2020 11:09:32 +0000
-Message-Id: <20200306110959.29461-7-peter.maydell@linaro.org>
+Subject: [PULL 07/33] qemu-doc: move system requirements chapter inside PC
+ section
+Date: Fri,  6 Mar 2020 11:09:33 +0000
+Message-Id: <20200306110959.29461-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306110959.29461-1-peter.maydell@linaro.org>
 References: <20200306110959.29461-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,182 +85,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Move the section on PC peripherals together with other targets.
-While some x86-specific information remains in the main system
-emulation chapter, it can be tackled more easily a section at a
-time.
+The system requirements documented in this chapter are limited to x86 KVM targets.
+Clean them up and move them to the target section.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200228153619.9906-7-peter.maydell@linaro.org
-Message-id: 20200226113034.6741-7-pbonzini@redhat.com
+Message-id: 20200228153619.9906-8-peter.maydell@linaro.org
+Message-id: 20200226113034.6741-8-pbonzini@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/quickstart.texi |   2 +-
- qemu-doc.texi               | 102 ++++++++++++++++++++----------------
- 2 files changed, 57 insertions(+), 47 deletions(-)
+ qemu-doc.texi | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/docs/system/quickstart.texi b/docs/system/quickstart.texi
-index 8cd5b4bc6e5..ed7295de7a2 100644
---- a/docs/system/quickstart.texi
-+++ b/docs/system/quickstart.texi
-@@ -2,7 +2,7 @@
- @section Quick Start
- @cindex quick start
- 
--Download and uncompress a hard disk image with Linux installed (e.g.
-+Download and uncompress a PC hard disk image with Linux installed (e.g.
- @file{linux.img}) and type:
- 
- @example
 diff --git a/qemu-doc.texi b/qemu-doc.texi
-index 33d24caf946..88e84300e91 100644
+index 88e84300e91..40fab523f35 100644
 --- a/qemu-doc.texi
 +++ b/qemu-doc.texi
-@@ -36,8 +36,8 @@
- 
- @menu
+@@ -38,7 +38,6 @@
  * Introduction::
--* QEMU PC System emulator::
--* QEMU System emulator for non PC targets::
-+* QEMU System emulator::
-+* QEMU System emulator targets::
- * System requirements::
+ * QEMU System emulator::
+ * QEMU System emulator targets::
+-* System requirements::
  * Security::
  * Implementation notes::
-@@ -127,19 +127,16 @@ accelerator is required to use more than one host CPU for emulation.
- 
- @end itemize
- 
--
--@node QEMU PC System emulator
--@chapter QEMU PC System emulator
--@cindex system emulation (PC)
-+@node QEMU System emulator
-+@chapter QEMU System emulator
-+@cindex system emulation
- 
+ * Deprecated features::
+@@ -190,6 +189,7 @@ various targets are mentioned in the following sections.
  @menu
--* pcsys_introduction:: Introduction
--* pcsys_quickstart::   Quick Start
-+* pcsys_quickstart::   Quick start
- * sec_invocation::     Invocation
- * pcsys_keys::         Keys in the graphical frontends
- * mux_keys::           Keys in the character backend multiplexer
- * pcsys_monitor::      QEMU Monitor
--* cpu_models_x86::     Supported CPU model configurations on x86 hosts
- * disk_images::        Disk Images
- * pcsys_network::      Network emulation
- * pcsys_usb::          USB emulation
-@@ -150,13 +147,57 @@ accelerator is required to use more than one host CPU for emulation.
- * gdb_usage::          GDB usage
+ * pcsys_devices::      Peripherals
+ * cpu_models_x86::     Supported CPU model configurations on x86 hosts
++* pcsys_req::          OS requirements
  @end menu
  
--@node pcsys_introduction
--@section Introduction
-+@include docs/system/quickstart.texi
-+@include docs/system/invocation.texi
-+@include docs/system/keys.texi
-+@include docs/system/mux-chardev.texi
-+@include docs/system/monitor.texi
-+@include docs/system/images.texi
-+@include docs/system/net.texi
-+@include docs/system/usb.texi
-+@include docs/system/ivshmem.texi
-+@include docs/system/linuxboot.texi
-+@include docs/system/vnc-security.texi
-+@include docs/system/tls.texi
-+@include docs/system/gdb.texi
-+
-+@node QEMU System emulator targets
-+@chapter QEMU System emulator targets
-+@cindex system emulation (PC)
-+
-+QEMU is a generic emulator and it emulates many machines. Most of the
-+options are similar for all machines. Specific information about the
-+various targets are mentioned in the following sections.
-+
-+@menu
-+* x86 (PC) System emulator::
-+* PowerPC System emulator::
-+* Sparc32 System emulator::
-+* Sparc64 System emulator::
-+* MIPS System emulator::
-+* ARM System emulator::
-+* ColdFire System emulator::
-+* Cris System emulator::
-+* Microblaze System emulator::
-+* SH4 System emulator::
-+* Xtensa System emulator::
-+@end menu
-+
-+@node x86 (PC) System emulator
-+@section x86 (PC) System emulator
-+@cindex system emulation (PC)
-+
-+@menu
-+* pcsys_devices::      Peripherals
-+* cpu_models_x86::     Supported CPU model configurations on x86 hosts
-+@end menu
-+
-+@node pcsys_devices
-+@subsection Peripherals
+ @node pcsys_devices
+@@ -267,6 +267,13 @@ CS4231A is the chip used in Windows Sound System and GUSMAX products
+ @include docs/system/cpu-models-x86.texi
+ @raisesections
  
- @c man begin DESCRIPTION
- 
--The QEMU PC System emulator simulates the
--following peripherals:
-+The QEMU PC System emulator simulates the following peripherals:
- 
- @itemize @minus
- @item
-@@ -222,40 +263,9 @@ CS4231A is the chip used in Windows Sound System and GUSMAX products
++@node pcsys_req
++@subsection OS requirements
++
++On x86_64 hosts, the default set of CPU features enabled by the KVM accelerator
++require the host to be running Linux v4.5 or newer.  Red Hat Enterprise Linux
++7 is also supported, since the required functionality was backported.
++
+ @node PowerPC System emulator
+ @section PowerPC System emulator
+ @cindex system emulation (PowerPC)
+@@ -1038,19 +1045,6 @@ so should only be used with trusted guest OS.
  
  @c man end
  
--@include docs/system/quickstart.texi
--@include docs/system/invocation.texi
--@include docs/system/keys.texi
--@include docs/system/mux-chardev.texi
--@include docs/system/monitor.texi
-+@lowersections
- @include docs/system/cpu-models-x86.texi
--@include docs/system/images.texi
--@include docs/system/net.texi
--@include docs/system/usb.texi
--@include docs/system/ivshmem.texi
--@include docs/system/linuxboot.texi
--@include docs/system/vnc-security.texi
--@include docs/system/tls.texi
--@include docs/system/gdb.texi
+-@node System requirements
+-@chapter System requirements
 -
--@node QEMU System emulator for non PC targets
--@chapter QEMU System emulator for non PC targets
+-@section KVM kernel module
 -
--QEMU is a generic emulator and it emulates many non PC
--machines. Most of the options are similar to the PC emulator. The
--differences are mentioned in the following sections.
+-On x86_64 hosts, the default set of CPU features enabled by the KVM accelerator
+-require the host to be running Linux v4.5 or newer.
 -
--@menu
--* PowerPC System emulator::
--* Sparc32 System emulator::
--* Sparc64 System emulator::
--* MIPS System emulator::
--* ARM System emulator::
--* ColdFire System emulator::
--* Cris System emulator::
--* Microblaze System emulator::
--* SH4 System emulator::
--* Xtensa System emulator::
--@end menu
-+@raisesections
+-The OpteronG[345] CPU models require KVM support for RDTSCP, which was
+-added with Linux 4.5 which is supported by the major distros. And even
+-if RHEL7 has kernel 3.10, KVM there has the required functionality there
+-to make it close to a 4.5 or newer kernel.
+-
+ @include docs/security.texi
  
- @node PowerPC System emulator
- @section PowerPC System emulator
+ @include qemu-tech.texi
 -- 
 2.20.1
 
