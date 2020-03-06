@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7944017C301
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 17:31:49 +0100 (CET)
-Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC5517C340
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 17:46:34 +0100 (CET)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAFt6-0004p0-A7
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 11:31:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49254)
+	id 1jAG7M-0003hj-RN
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 11:46:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jAFsA-0004Fr-0m
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:30:51 -0500
+ (envelope-from <bounces@canonical.com>) id 1jAG6V-00032R-TR
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:45:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jAFs8-0000BI-Kf
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:30:49 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23456
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jAFs7-00005b-2f
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:30:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583512245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IJ3T8VDeEdf4QPSfBN/uyW43REKRGspM88r1/Bt1za4=;
- b=ViMgYCCrW4ykmSzpyBPQ2aDwVD5emCcQu0z6EWdarhlN5/swLawTa6heit/u33F84MlEsc
- Z/M3pbMNZph3Hcnk8nUW50HNb/PvCbt5RtgpMMDUrSHI1jKfwCMZgYvmJot7s8xu9oTzef
- dRMmDfuuGbogK5EA181gi0vdHnS8FGs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-bkZhMRAGN8-FtvyxajdmFw-1; Fri, 06 Mar 2020 11:30:43 -0500
-X-MC-Unique: bkZhMRAGN8-FtvyxajdmFw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5F2E107ACC7;
- Fri,  6 Mar 2020 16:30:42 +0000 (UTC)
-Received: from work-vm (ovpn-116-247.ams2.redhat.com [10.36.116.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C6B573893;
- Fri,  6 Mar 2020 16:30:35 +0000 (UTC)
-Date: Fri, 6 Mar 2020 16:30:33 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 09/13] migration/ram: Consolidate variable reset after
- placement in ram_load_postcopy()
-Message-ID: <20200306163033.GF3033@work-vm>
-References: <20200226155304.60219-1-david@redhat.com>
- <20200226155304.60219-10-david@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1jAG6U-0003tX-Fk
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:45:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53026)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jAG6U-0003qQ-9l
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:45:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jAG6S-0003qp-N6
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 16:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 913492E80CC
+ for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 16:45:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200226155304.60219-10-david@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Fri, 06 Mar 2020 16:36:34 -0000
+From: tstrike <1813165@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
+ tstrike34 vkuznets
+X-Launchpad-Bug-Reporter: Thomas (himbeere)
+X-Launchpad-Bug-Modifier: tstrike (tstrike34)
+References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
+Message-Id: <158351259422.7585.8058152568234704679.malone@chaenomeles.canonical.com>
+Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 945e0a517dd375d954338a6b81fdb81bddc1d2a4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,90 +65,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
-> Let's consolidate resetting the variables.
->=20
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Nested Configuration check
+tstrike39@islandhealthcenter-media:~$ sudo cat /sys/module/kvm_intel/parame=
+ters/nested
+[sudo] password for tstrike39: =
 
-Thanks, I think that's actually fixing a case where huge zero pages
-weren't placed as zero pages?
+Y
 
-Dave
 
-> ---
->  migration/ram.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index f815f4e532..1a5ff07997 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3126,7 +3126,7 @@ static int ram_load_postcopy(QEMUFile *f)
->      /* Temporary page that is later 'placed' */
->      void *postcopy_host_page =3D mis->postcopy_tmp_page;
->      void *host_page =3D NULL;
-> -    bool all_zero =3D false;
-> +    bool all_zero =3D true;
->      int target_pages =3D 0;
-> =20
->      while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
-> @@ -3152,7 +3152,6 @@ static int ram_load_postcopy(QEMUFile *f)
->          addr &=3D TARGET_PAGE_MASK;
-> =20
->          trace_ram_load_postcopy_loop((uint64_t)addr, flags);
-> -        place_needed =3D false;
->          if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
->                       RAM_SAVE_FLAG_COMPRESS_PAGE)) {
->              block =3D ram_block_from_stream(f, flags);
-> @@ -3180,9 +3179,7 @@ static int ram_load_postcopy(QEMUFile *f)
->               */
->              page_buffer =3D postcopy_host_page +
->                            host_page_offset_from_ram_block_offset(block, =
-addr);
-> -            /* If all TP are zero then we can optimise the place */
->              if (target_pages =3D=3D 1) {
-> -                all_zero =3D true;
->                  host_page =3D host_page_from_ram_block_offset(block, add=
-r);
->              } else if (host_page !=3D host_page_from_ram_block_offset(bl=
-ock,
->                                                                      addr=
-)) {
-> @@ -3199,7 +3196,6 @@ static int ram_load_postcopy(QEMUFile *f)
->               */
->              if (target_pages =3D=3D (block->page_size / TARGET_PAGE_SIZE=
-)) {
->                  place_needed =3D true;
-> -                target_pages =3D 0;
->              }
->              place_source =3D postcopy_host_page;
->          }
-> @@ -3276,6 +3272,10 @@ static int ram_load_postcopy(QEMUFile *f)
->                  ret =3D postcopy_place_page(mis, host_page, place_source=
-,
->                                            block);
->              }
-> +            place_needed =3D false;
-> +            target_pages =3D 0;
-> +            /* Assume we have a zero page until we detect something diff=
-erent */
-> +            all_zero =3D true;
->          }
->      }
-> =20
-> --=20
-> 2.24.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Not UEFI enabled
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813165
+
+Title:
+  KVM internal error. Suberror: 1 emulation failure
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello Devs.
+
+  Having problems getting VM to run with qemu 3.1.0. I should mention
+  it's a nested configuration.
+
+  2019-01-24 13:46:08.648+0000: starting up libvirt version: 4.10.0, qemu v=
+ersion: 3.1.0, kernel: 4.14.94, hostname: one....
+  LC_ALL=3DC PATH=3D/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/=
+sbin:/usr/local/bin:/usr/local/sbin:/opt/bin HOME=3D/root USER=3Droot QEMU_=
+AUDIO_DRV=3Dnone /usr/bin/kvm -name guest=3Done-266,debug-threads=3Don -S -=
+object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
+ain-1-one-266/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,usb=3Doff,d=
+ump-guest-core=3Doff -cpu Skylake-Client-IBRS,ss=3Don,hypervisor=3Don,tsc_a=
+djust=3Don,clflushopt=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don -m 1024 -real=
+time mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid b219b45d-a2=
+f0-4128-a948-8673a7abf968 -no-user-config -nodefaults -chardev socket,id=3D=
+charmonitor,fd=3D21,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,m=
+ode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device piix3-=
+usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive file=3D/var/lib/one//da=
+tastores/0/266/disk.0,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cach=
+e=3Dnone -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dd=
+rive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1,write-cache=3Don -drive f=
+ile=3D/var/lib/one//datastores/0/266/disk.1,format=3Draw,if=3Dnone,id=3Ddri=
+ve-ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive=
+-ide0-0-0,id=3Dide0-0-0 -netdev tap,fd=3D23,id=3Dhostnet0 -device rtl8139,n=
+etdev=3Dhostnet0,id=3Dnet0,mac=3D02:00:00:76:69:85,bus=3Dpci.0,addr=3D0x3 -=
+chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3D=
+serial0 -vnc 0.0.0.0:266 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D=
+0x2 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 -sandbo=
+x on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
+=3Ddeny -msg timestamp=3Don
+  char device redirected to /dev/pts/1 (label charserial0)
+  KVM internal error. Suberror: 1
+  emulation failure
+  EAX=3D00000001 EBX=3D000f7c2c ECX=3D00000001 EDX=3D00000001
+  ESI=3D00006a26 EDI=3D3ffbdc48 EBP=3D000069e6 ESP=3D000a8000
+  EIP=3D000fd057 EFL=3D00010016 [----AP-] CPL=3D0 II=3D0 A20=3D1 SMM=3D1 HL=
+T=3D0
+  ES =3D0010 00000000 ffffffff 00c09300
+  CS =3D0000 00000000 00000fff 00809b00
+  SS =3D0010 00000000 ffffffff 00c09300
+  DS =3D0010 00000000 ffffffff 00c09300
+  FS =3D0010 00000000 ffffffff 00c09300
+  GS =3D0010 00000000 ffffffff 00c09300
+  LDT=3D0000 00000000 0000ffff 00008200
+  TR =3D0000 00000000 0000ffff 00008b00
+  GDT=3D     10387cfe 0000fe6c
+  IDT=3D     0010387c 00003810
+  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000
+  DR6=3D00000000fffecffc DR7=3D000000000e1e0400
+  EFER=3D0000000000000000
+  Code=3Dcb 66 ba 4d d0 0f 00 e9 c8 fe bc 00 80 0a 00 e8 31 3a ff ff <0f> a=
+a fa fc 66 ba 66 d0 0f 00 e9 b1 fe f3 90 f0 0f ba 2d ac 3b 0f 00 00 72 f3 8=
+b 25 a8 3b
+  2019-01-24T13:47:39.383366Z kvm: terminating on signal 15 from pid 2708 (=
+/usr/sbin/libvirtd)
+
+  Someone has an idea whats going wrong here?
+
+  thanks and cheers
+  t.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813165/+subscriptions
 
