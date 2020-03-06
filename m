@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8458B17BB46
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:13:35 +0100 (CET)
-Received: from localhost ([::1]:34796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C8817BB62
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:15:35 +0100 (CET)
+Received: from localhost ([::1]:34840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAAv8-00006x-H6
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:13:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39217)
+	id 1jAAx4-0003YA-JN
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:15:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39287)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAs1-0003Xd-MW
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:23 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAs4-0003e4-1g
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jAArz-0004vV-S3
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:21 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50483)
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAs1-000502-Hg
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:23 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51442)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jAArz-0004rp-Gv
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:19 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id a5so1947891wmb.0
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:19 -0800 (PST)
+ id 1jAAs1-0004yp-83
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:21 -0500
+Received: by mail-wm1-x331.google.com with SMTP id a132so1934334wme.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lSS9b7qPiBKIY3bTnFe/9lzY1JcnBag0mvZBgxxrEXE=;
- b=VrCDslvStIZc8WdPjPUPv+1kb3Y6HCTS8fogBfZ5AyqB9MxqaJgevl+eM0zll/i4ie
- fNWAylVEJi/dxsRZPkvMYJ5Cepo73iglw9Io28a67hD4NYP3MSiTEY97X4RHLB0CO0Zv
- kABOw8bBY8Da47i5Vi+ll+nXS/pmHOLYP/co8Bf6T49V0gAvojE/pyiBxwsloEnm9fp7
- RGq7H/aWQVoW6usy0F0xixrO03Cd1JoK8XHFfMeSy65DcQnPrVjs+E/Y1ENTod9eMRrO
- 1CpafQo3yzSOziMTXbSczCcDDRHcEkOSoguNBS+0xpP1y77Mw/L6XKBtRB9P6J2+tCHe
- Iw0Q==
+ bh=dQ7uQWHPnlVErAB4L0byEijgk6LslSpBchTS6V+rMYw=;
+ b=bXzjV5C/jycqUmnpZw0KTFFr8eMksFzd1rLWcOd6xPrnZwche7Sr0JGi4WJfvzYxL7
+ N92DL+5+rTLD0yBBXfO4jCZ+wBVTHFkIrM/Y5mKZxPLKUCSgHmWY+XrxCOOjM9xYijIm
+ NT/lfe0e3R4yCodjmuMC4C2Q7SV27H+i7nax7ebsVTe9vouDPxFX/YgxON+s5bPSRgr+
+ TV8uQ5kbfX1ey/PliQ/I6DAI/QQke61PgJGruLq/jBWMl0NjTG/6Gh+/RjPZPfMp/1nL
+ MkQIDpCvpRKLoLYt7Sx+8TdMJd/ywSS6/2ALMxDnNFvTUqou0/tvPm/2FOdAX/CJku2g
+ TPWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lSS9b7qPiBKIY3bTnFe/9lzY1JcnBag0mvZBgxxrEXE=;
- b=MspkhHIcloN0t+FHrcejt+iXdlZvKSFxoMicQmakJVv2vUvq5ArOe3geSEUj/bPETh
- 2mFxKml26pMclrdEsUFEI4ET+qngxFBKYlKXTzg4ARWvxpVhpGoU7yev5Ff/gfn/Jx7j
- PeSI69/LjdbjEB8f+1OFPnhDrhdhfd3I/6k0ZJsJ2BgFpgvIy2fBkMXQM/rhHIimJXWl
- q7lcNMsuIB7ZTzmMzIbGvL2UthgW+rPoOoJqAHV2cuzRuGKjF9iuczHsvn0y25BxoKyq
- qc5C+oCJcW1t72sCM+JlBoxfhseb1hKlnRtAbKfv5+7va6HTpi70rfCRwwro8jSX2/sv
- nbFg==
-X-Gm-Message-State: ANhLgQ2VP7ghCu2fVskY2IvbqUVbfBjKMB31v2G/IWqbqTsVi+GX4LqC
- uW6/RwDYy2qiqoeOQH6P8UFiSr4vbQKg7w==
-X-Google-Smtp-Source: ADFU+vukxt8yxRVNU7vsGQz5338/LYMZiuXgKFYYDzsYtudiIH354T1/cgIp9JJIluOM7Ztl7uO+7Q==
-X-Received: by 2002:a7b:c8c9:: with SMTP id f9mr3388798wml.43.1583493018120;
- Fri, 06 Mar 2020 03:10:18 -0800 (PST)
+ bh=dQ7uQWHPnlVErAB4L0byEijgk6LslSpBchTS6V+rMYw=;
+ b=rrgwvUJE5AGNWQGQm3qZDP6BqVEfhuNEMoctgC8+xRNIlKYdXodaLI+c63rUfCQ5Xb
+ j6Jp7Z+EiUJk/kbW0H8lSATbSr8P3Zc1y5nH4NhRo5LSETwpgy8zAZnHQJZ+qRVLwhN5
+ QJjNQRkCiufA20NY+sQfFGkZ5o1K2bIBU5QpXeLHOsR7j57gfrvfhYkCdkYpr3ad1edA
+ lfX4uvwGnnBXqyc7UPsY4S/Bsuyc1SgMWqDtXaEXm6HVlJM1YrCUzGppInhuzrrhCNYO
+ 3s+9Isv5UDlFU/z5eckzs+O3Uwp1QAC2EHxetncyAmx/iXsCY9u2UV025eB3upkaEMUe
+ txlQ==
+X-Gm-Message-State: ANhLgQ1hEEa9InwzEOvYQ+/i8uCCNvdZP0kM4/jVptoTh9xzIz88CLee
+ RrbYElwAN0nrva2sNEuucAh3rWxKlZbuAg==
+X-Google-Smtp-Source: ADFU+vsHTnsWMAqEhwiW6Dk/JQlw0rqC6bFMgNX4hrTAwKyyjcVSefAKh0pcZX0EYN3IRG4DhENkQA==
+X-Received: by 2002:a1c:8041:: with SMTP id b62mr3412769wmd.76.1583493019314; 
+ Fri, 06 Mar 2020 03:10:19 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.16
+ by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 03:10:17 -0800 (PST)
+ Fri, 06 Mar 2020 03:10:18 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/33] qemu-doc: move included files to docs/system
-Date: Fri,  6 Mar 2020 11:09:37 +0000
-Message-Id: <20200306110959.29461-12-peter.maydell@linaro.org>
+Subject: [PULL 12/33] qemu-doc: remove indices other than findex
+Date: Fri,  6 Mar 2020 11:09:38 +0000
+Message-Id: <20200306110959.29461-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306110959.29461-1-peter.maydell@linaro.org>
 References: <20200306110959.29461-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,129 +84,312 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Since qemu-doc.texi is mostly including files from docs/system,
-move the existing include files there for consistency.
+These indices are not well-maintained, and pandoc also chokes on the
+directives.  Just nuke them.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200228153619.9906-12-peter.maydell@linaro.org
-Message-id: 20200226113034.6741-12-pbonzini@redhat.com
-[PMM: update MAINTAINERS line for qemu-option-trace.texi]
+Message-id: 20200228153619.9906-13-peter.maydell@linaro.org
+Message-id: 20200226113034.6741-13-pbonzini@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- Makefile                                                  | 8 ++++----
- MAINTAINERS                                               | 5 +++--
- qemu-deprecated.texi => docs/system/deprecated.texi       | 0
- .../system/qemu-option-trace.texi                         | 0
- docs/{ => system}/security.texi                           | 0
- qemu-doc.texi                                             | 4 ++--
- qemu-options.hx                                           | 2 +-
- 7 files changed, 10 insertions(+), 9 deletions(-)
- rename qemu-deprecated.texi => docs/system/deprecated.texi (100%)
- rename qemu-option-trace.texi => docs/system/qemu-option-trace.texi (100%)
- rename docs/{ => system}/security.texi (100%)
+ docs/system/keys.texi           | 10 --------
+ docs/system/monitor.texi        |  1 -
+ docs/system/mux-chardev.texi    |  7 ------
+ docs/system/quickstart.texi     |  1 -
+ docs/system/target-arm.texi     |  1 -
+ docs/system/target-i386.texi    |  1 -
+ docs/system/target-m68k.texi    |  2 --
+ docs/system/target-mips.texi    |  2 --
+ docs/system/target-ppc.texi     |  1 -
+ docs/system/target-sparc.texi   |  1 -
+ docs/system/target-sparc64.texi |  1 -
+ docs/system/target-xtensa.texi  |  1 -
+ qemu-doc.texi                   | 44 ---------------------------------
+ 13 files changed, 73 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 56382a45936..7e60a435426 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1110,7 +1110,7 @@ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
- 	@cp -p $< $@
+diff --git a/docs/system/keys.texi b/docs/system/keys.texi
+index 4c74b3bf4dd..c04daf54f23 100644
+--- a/docs/system/keys.texi
++++ b/docs/system/keys.texi
+@@ -10,23 +10,18 @@ then the modifier is Ctrl-Alt-Shift (instead of Ctrl-Alt) and if you use
  
- qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
--qemu.1: qemu-option-trace.texi
-+qemu.1: docs/system/qemu-option-trace.texi
- docs/system/qemu-cpu-models.7: docs/system/qemu-cpu-models.texi docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi
+ @table @key
+ @item Ctrl-Alt-f
+-@kindex Ctrl-Alt-f
+ Toggle full screen
  
- html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
-@@ -1120,8 +1120,7 @@ txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+ @item Ctrl-Alt-+
+-@kindex Ctrl-Alt-+
+ Enlarge the screen
  
- qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
- 	qemu-options.texi \
--	qemu-option-trace.texi \
--	qemu-deprecated.texi qemu-monitor.texi \
-+	qemu-monitor.texi \
- 	qemu-monitor-info.texi \
-         docs/system/quickstart.texi \
-         docs/system/invocation.texi \
-@@ -1140,7 +1139,8 @@ qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
-         docs/system/build-platforms.texi \
-         docs/system/license.texi \
- 	docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi \
--	docs/security.texi
-+	docs/system/deprecated.texi docs/system/qemu-option-trace.texi \
-+	docs/system/security.texi
+ @item Ctrl-Alt--
+-@kindex Ctrl-Alt--
+ Shrink the screen
  
- docs/interop/qemu-ga-ref.dvi docs/interop/qemu-ga-ref.html \
-     docs/interop/qemu-ga-ref.info docs/interop/qemu-ga-ref.pdf \
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 615615c32f3..584264535c2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2234,7 +2234,7 @@ M: Stefan Hajnoczi <stefanha@redhat.com>
- S: Maintained
- F: trace/
- F: trace-events
--F: qemu-option-trace.texi
-+F: docs/system/qemu-option-trace.texi
- F: scripts/tracetool.py
- F: scripts/tracetool/
- F: scripts/qemu-trace-stap*
-@@ -2804,7 +2804,8 @@ F: contrib/gitdm/*
+ @item Ctrl-Alt-u
+-@kindex Ctrl-Alt-u
+ Restore the screen's un-scaled dimensions
  
- Incompatible changes
- R: libvir-list@redhat.com
--F: qemu-deprecated.texi
-+F: docs/system/deprecated.texi
-+F: docs/system/deprecated.rst
+ @item Ctrl-Alt-n
+-@kindex Ctrl-Alt-n
+ Switch to virtual console 'n'. Standard console mappings are:
+ @table @emph
+ @item 1
+@@ -38,14 +33,9 @@ Serial port
+ @end table
  
- Build System
- ------------
-diff --git a/qemu-deprecated.texi b/docs/system/deprecated.texi
-similarity index 100%
-rename from qemu-deprecated.texi
-rename to docs/system/deprecated.texi
-diff --git a/qemu-option-trace.texi b/docs/system/qemu-option-trace.texi
-similarity index 100%
-rename from qemu-option-trace.texi
-rename to docs/system/qemu-option-trace.texi
-diff --git a/docs/security.texi b/docs/system/security.texi
-similarity index 100%
-rename from docs/security.texi
-rename to docs/system/security.texi
+ @item Ctrl-Alt
+-@kindex Ctrl-Alt
+ Toggle mouse and keyboard grab.
+ @end table
+ 
+-@kindex Ctrl-Up
+-@kindex Ctrl-Down
+-@kindex Ctrl-PageUp
+-@kindex Ctrl-PageDown
+ In the virtual consoles, you can use @key{Ctrl-Up}, @key{Ctrl-Down},
+ @key{Ctrl-PageUp} and @key{Ctrl-PageDown} to move in the back log.
+ 
+diff --git a/docs/system/monitor.texi b/docs/system/monitor.texi
+index c5b6a9b38e4..b41b144885d 100644
+--- a/docs/system/monitor.texi
++++ b/docs/system/monitor.texi
+@@ -1,6 +1,5 @@
+ @node pcsys_monitor
+ @section QEMU Monitor
+-@cindex QEMU monitor
+ 
+ The QEMU monitor is used to give complex commands to the QEMU
+ emulator. You can use it to:
+diff --git a/docs/system/mux-chardev.texi b/docs/system/mux-chardev.texi
+index c9a2d14cb88..b21c2c56540 100644
+--- a/docs/system/mux-chardev.texi
++++ b/docs/system/mux-chardev.texi
+@@ -12,26 +12,19 @@ you're using the default.
+ 
+ @table @key
+ @item Ctrl-a h
+-@kindex Ctrl-a h
+ Print this help
+ @item Ctrl-a x
+-@kindex Ctrl-a x
+ Exit emulator
+ @item Ctrl-a s
+-@kindex Ctrl-a s
+ Save disk data back to file (if -snapshot)
+ @item Ctrl-a t
+-@kindex Ctrl-a t
+ Toggle console timestamps
+ @item Ctrl-a b
+-@kindex Ctrl-a b
+ Send break (magic sysrq in Linux)
+ @item Ctrl-a c
+-@kindex Ctrl-a c
+ Rotate between the frontends connected to the multiplexer (usually
+ this switches between the monitor and the console)
+ @item Ctrl-a Ctrl-a
+-@kindex Ctrl-a Ctrl-a
+ Send the escape character to the frontend
+ @end table
+ @c man end
+diff --git a/docs/system/quickstart.texi b/docs/system/quickstart.texi
+index ed7295de7a2..baceaa96eb2 100644
+--- a/docs/system/quickstart.texi
++++ b/docs/system/quickstart.texi
+@@ -1,6 +1,5 @@
+ @node pcsys_quickstart
+ @section Quick Start
+-@cindex quick start
+ 
+ Download and uncompress a PC hard disk image with Linux installed (e.g.
+ @file{linux.img}) and type:
+diff --git a/docs/system/target-arm.texi b/docs/system/target-arm.texi
+index 040d77b5e05..c56b5f6ebfe 100644
+--- a/docs/system/target-arm.texi
++++ b/docs/system/target-arm.texi
+@@ -1,6 +1,5 @@
+ @node ARM System emulator
+ @section ARM System emulator
+-@cindex system emulation (ARM)
+ 
+ Use the executable @file{qemu-system-arm} to simulate a ARM
+ machine. The ARM Integrator/CP board is emulated with the following
+diff --git a/docs/system/target-i386.texi b/docs/system/target-i386.texi
+index edd23fa8df5..cc352b89a84 100644
+--- a/docs/system/target-i386.texi
++++ b/docs/system/target-i386.texi
+@@ -1,6 +1,5 @@
+ @node x86 (PC) System emulator
+ @section x86 (PC) System emulator
+-@cindex system emulation (PC)
+ 
+ @menu
+ * pcsys_devices::      Peripherals
+diff --git a/docs/system/target-m68k.texi b/docs/system/target-m68k.texi
+index b5bc9df40ae..a77b19ea0f1 100644
+--- a/docs/system/target-m68k.texi
++++ b/docs/system/target-m68k.texi
+@@ -1,7 +1,5 @@
+ @node ColdFire System emulator
+ @section ColdFire System emulator
+-@cindex system emulation (ColdFire)
+-@cindex system emulation (M68K)
+ 
+ Use the executable @file{qemu-system-m68k} to simulate a ColdFire machine.
+ The emulator is able to boot a uClinux kernel.
+diff --git a/docs/system/target-mips.texi b/docs/system/target-mips.texi
+index f722c00912a..fe12ee94c73 100644
+--- a/docs/system/target-mips.texi
++++ b/docs/system/target-mips.texi
+@@ -1,6 +1,5 @@
+ @node MIPS System emulator
+ @section MIPS System emulator
+-@cindex system emulation (MIPS)
+ 
+ @menu
+ * recommendations_cpu_models_MIPS:: Supported CPU model configurations on MIPS hosts
+@@ -126,7 +125,6 @@ MIPSnet network emulation
+ 
+ @node nanoMIPS System emulator
+ @subsection nanoMIPS System emulator
+-@cindex system emulation (nanoMIPS)
+ 
+ Executable @file{qemu-system-mipsel} also covers simulation of
+ 32-bit nanoMIPS system in little endian mode:
+diff --git a/docs/system/target-ppc.texi b/docs/system/target-ppc.texi
+index c2c254d3d23..55f98f65b12 100644
+--- a/docs/system/target-ppc.texi
++++ b/docs/system/target-ppc.texi
+@@ -1,6 +1,5 @@
+ @node PowerPC System emulator
+ @section PowerPC System emulator
+-@cindex system emulation (PowerPC)
+ 
+ Use the executable @file{qemu-system-ppc} to simulate a complete 40P (PREP)
+ or PowerMac PowerPC system.
+diff --git a/docs/system/target-sparc.texi b/docs/system/target-sparc.texi
+index 7fe0aec9c39..7748001f734 100644
+--- a/docs/system/target-sparc.texi
++++ b/docs/system/target-sparc.texi
+@@ -1,6 +1,5 @@
+ @node Sparc32 System emulator
+ @section Sparc32 System emulator
+-@cindex system emulation (Sparc32)
+ 
+ Use the executable @file{qemu-system-sparc} to simulate the following
+ Sun4m architecture machines:
+diff --git a/docs/system/target-sparc64.texi b/docs/system/target-sparc64.texi
+index 9e7a27de0ce..4db4ca3842b 100644
+--- a/docs/system/target-sparc64.texi
++++ b/docs/system/target-sparc64.texi
+@@ -1,6 +1,5 @@
+ @node Sparc64 System emulator
+ @section Sparc64 System emulator
+-@cindex system emulation (Sparc64)
+ 
+ Use the executable @file{qemu-system-sparc64} to simulate a Sun4u
+ (UltraSPARC PC-like machine), Sun4v (T1 PC-like machine), or generic
+diff --git a/docs/system/target-xtensa.texi b/docs/system/target-xtensa.texi
+index 08b0b362991..40327de6fa7 100644
+--- a/docs/system/target-xtensa.texi
++++ b/docs/system/target-xtensa.texi
+@@ -1,6 +1,5 @@
+ @node Xtensa System emulator
+ @section Xtensa System emulator
+-@cindex system emulation (Xtensa)
+ 
+ Two executables cover simulation of both Xtensa endian options,
+ @file{qemu-system-xtensa} and @file{qemu-system-xtensaeb}.
 diff --git a/qemu-doc.texi b/qemu-doc.texi
-index e4bff7edbee..d3e743719ab 100644
+index d3e743719ab..c2b9c87c645 100644
 --- a/qemu-doc.texi
 +++ b/qemu-doc.texi
-@@ -189,9 +189,9 @@ various targets are mentioned in the following sections.
- @include docs/system/target-m68k.texi
- @include docs/system/target-xtensa.texi
+@@ -62,17 +62,14 @@
+ QEMU is a FAST! processor emulator using dynamic translation to
+ achieve good emulation speed.
  
--@include docs/security.texi
-+@include docs/system/security.texi
+-@cindex operating modes
+ QEMU has two operating modes:
  
--@include qemu-deprecated.texi
-+@include docs/system/deprecated.texi
+ @itemize
+-@cindex system emulation
+ @item Full system emulation. In this mode, QEMU emulates a full system (for
+ example a PC), including one or several processors and various
+ peripherals. It can be used to launch different Operating Systems
+ without rebooting the PC or to debug system code.
  
- @include docs/system/build-platforms.texi
+-@cindex user mode emulation
+ @item User mode emulation. In this mode, QEMU can launch
+ processes compiled for one CPU on another CPU. It can be used to
+ launch the Wine Windows API emulator (@url{https://www.winehq.org}) or
+@@ -127,7 +124,6 @@ accelerator is required to use more than one host CPU for emulation.
  
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 084a1c1f8c9..5a4ac8e2396 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4221,7 +4221,7 @@ HXCOMM This line is not accurate, as some sub-options are backend-specific but
- HXCOMM HX does not support conditional compilation of text.
- @item -trace [[enable=]@var{pattern}][,events=@var{file}][,file=@var{file}]
- @findex -trace
--@include qemu-option-trace.texi
-+@include docs/system/qemu-option-trace.texi
- ETEXI
- DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
-     "-plugin [file=]<file>[,arg=<string>]\n"
+ @node QEMU System emulator
+ @chapter QEMU System emulator
+-@cindex system emulation
+ 
+ @menu
+ * pcsys_quickstart::   Quick start
+@@ -163,7 +159,6 @@ accelerator is required to use more than one host CPU for emulation.
+ 
+ @node QEMU System emulator targets
+ @chapter QEMU System emulator targets
+-@cindex system emulation (PC)
+ 
+ QEMU is a generic emulator and it emulates many machines. Most of the
+ options are similar for all machines. Specific information about the
+@@ -200,46 +195,7 @@ various targets are mentioned in the following sections.
+ 
+ @node Index
+ @appendix Index
+-@menu
+-* Concept Index::
+-* Function Index::
+-* Keystroke Index::
+-* Program Index::
+-* Data Type Index::
+-* Variable Index::
+-@end menu
+ 
+-@node Concept Index
+-@section Concept Index
+-This is the main index. Should we combine all keywords in one index? TODO
+-@printindex cp
+-
+-@node Function Index
+-@section Function Index
+-This index could be used for command line options and monitor functions.
+ @printindex fn
+ 
+-@node Keystroke Index
+-@section Keystroke Index
+-
+-This is a list of all keystrokes which have a special function
+-in system emulation.
+-
+-@printindex ky
+-
+-@node Program Index
+-@section Program Index
+-@printindex pg
+-
+-@node Data Type Index
+-@section Data Type Index
+-
+-This index could be used for qdev device names and options.
+-
+-@printindex tp
+-
+-@node Variable Index
+-@section Variable Index
+-@printindex vr
+-
+ @bye
 -- 
 2.20.1
 
