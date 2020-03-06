@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4E517C1BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 16:28:06 +0100 (CET)
-Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E799717C1C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 16:29:12 +0100 (CET)
+Received: from localhost ([::1]:38210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAEtR-0000Vp-Is
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 10:28:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51116)
+	id 1jAEuV-0002GT-VB
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 10:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jAEsJ-0007hU-9R
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:56 -0500
+ (envelope-from <clg@kaod.org>) id 1jAEsW-00088q-8P
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:27:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jAEsI-0005zv-83
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:55 -0500
-Received: from 20.mo4.mail-out.ovh.net ([46.105.33.73]:46111)
+ (envelope-from <clg@kaod.org>) id 1jAEsV-0006Kb-60
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:27:08 -0500
+Received: from 14.mo5.mail-out.ovh.net ([188.165.51.82]:42582)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jAEsI-0005xr-2R
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:54 -0500
-Received: from player789.ha.ovh.net (unknown [10.108.57.211])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 66A1521C33A
- for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 16:26:52 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jAEsU-0006J5-W2
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:27:07 -0500
+Received: from player787.ha.ovh.net (unknown [10.110.171.215])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 67BF226BEB8
+ for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 16:27:05 +0100 (CET)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player789.ha.ovh.net (Postfix) with ESMTPSA id 7EDB9102D211E;
- Fri,  6 Mar 2020 15:26:32 +0000 (UTC)
-Subject: Re: [PATCH 3/6] hw/net/rtl8139: Simplify if/else statement
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id 09F821052F4B3;
+ Fri,  6 Mar 2020 15:26:47 +0000 (UTC)
+Subject: Re: [PATCH 4/6] hw/net/rtl8139: Update coding style to make
+ checkpatch.pl happy
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200305175651.4563-1-philmd@redhat.com>
- <20200305175651.4563-4-philmd@redhat.com>
+ <20200305175651.4563-5-philmd@redhat.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <b53d8a77-544b-c7c4-b208-13dacc437913@kaod.org>
-Date: Fri, 6 Mar 2020 16:26:31 +0100
+Message-ID: <c8988327-3fdb-3568-2df6-1101b7ccf445@kaod.org>
+Date: Fri, 6 Mar 2020 16:26:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200305175651.4563-4-philmd@redhat.com>
+In-Reply-To: <20200305175651.4563-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 7763079858530520019
+X-Ovh-Tracer-Id: 7766739036414118867
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudduvddgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudduvddgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.33.73
+X-Received-From: 188.165.51.82
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,57 +73,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/5/20 6:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Rewrite:
->=20
->       if (E) {
->           return A;
->       } else {
->           return B;
->       }
->       /* EOF */
->   }
->=20
-> as:
->=20
->       if (E) {
->           return A;
->       }
->       return B;
->   }
+> We will modify this code in the next commit. Clean it up
+> first to avoid checkpatch.pl errors.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 > ---
->  hw/net/rtl8139.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  hw/net/rtl8139.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-> index ae4739bc09..ef3211537f 100644
+> index ef3211537f..be9a0af629 100644
 > --- a/hw/net/rtl8139.c
 > +++ b/hw/net/rtl8139.c
-> @@ -808,11 +808,11 @@ static int rtl8139_can_receive(NetClientState *nc=
+> @@ -799,10 +799,12 @@ static int rtl8139_can_receive(NetClientState *nc=
 )
->          /* ??? Flow control not implemented in c+ mode.
->             This is a hack to work around slirp deficiencies anyway.  *=
-/
->          return 1;
-> -    } else {
-> -        avail =3D MOD2(s->RxBufferSize + s->RxBufPtr - s->RxBufAddr,
-> -                     s->RxBufferSize);
-> -        return (avail =3D=3D 0 || avail >=3D 1514 || (s->IntrMask & Rx=
-Overflow));
->      }
-> +
-> +    avail =3D MOD2(s->RxBufferSize + s->RxBufPtr - s->RxBufAddr,
-> +                 s->RxBufferSize);
-> +    return avail =3D=3D 0 || avail >=3D 1514 || (s->IntrMask & RxOverf=
-low);
->  }
+>      int avail;
 > =20
->  static ssize_t rtl8139_do_receive(NetClientState *nc, const uint8_t *b=
-uf, size_t size_, int do_interrupt)
+>      /* Receive (drop) packets if card is disabled.  */
+> -    if (!s->clock_enabled)
+> -      return 1;
+> -    if (!rtl8139_receiver_enabled(s))
+> -      return 1;
+> +    if (!s->clock_enabled) {
+> +        return 1;
+> +    }
+> +    if (!rtl8139_receiver_enabled(s)) {
+> +        return 1;
+> +    }
+> =20
+>      if (rtl8139_cp_receiver_enabled(s) && rtl8139_cp_rx_valid(s)) {
+>          /* ??? Flow control not implemented in c+ mode.
 >=20
 
 
