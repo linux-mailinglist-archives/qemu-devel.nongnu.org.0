@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D6D17BBA4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:27:31 +0100 (CET)
-Received: from localhost ([::1]:35238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614CC17BBA9
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:29:10 +0100 (CET)
+Received: from localhost ([::1]:35268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAB8b-0001Jz-Ve
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:27:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40194)
+	id 1jABAD-0003Dp-6N
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:29:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAse-0004YW-BM
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:11:05 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAsU-00067T-8j
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAsY-0004WU-Mv
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:59 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55356)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAsX-0006HH-8s
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:54 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52289)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jAAsT-000657-W4
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:50 -0500
-Received: by mail-wm1-x333.google.com with SMTP id 6so1921439wmi.5
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:49 -0800 (PST)
+ id 1jAAsW-00068E-R3
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:53 -0500
+Received: by mail-wm1-x336.google.com with SMTP id p9so1931321wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ohs9Otf2cvL4qP/fbKtn8DSCDnRv4jYFVg8c3pXFWWM=;
- b=qSPyRwf1u7uFQ0XcDmP1A4URqBLMI7Ew4dYcQwPEtZXTDPTAlw8uYtWTJOiAMHjYWU
- rRD6GnCHKZP0uaC8IcSulrdRcazLHL+qA9HW6OXp/OgJ0crNVqXNrVl0N4tkh4h1Uw68
- MGhORw4HLhBGB/s5aOTlmJC2AYjbnDF/+xkN0tvB97wk5e1pwjzqQ0zxoLRbSuuPmgGN
- 6eXsh80dp2qcVBcQzSEXCsAQWNVGe2sSwRje+OjL6fja5bLDWkzUDv2yYXHs+CG35IT3
- RiLqQArgECbJI1FF7PC4ClCBXMqA5kfx7FlwqRr3AfFNpIkpygzT1lG9chUE68LkiodY
- 8dhg==
+ bh=bpB7oaRkghBQMQU5VFov+2/nC+u5q6dHi7FMVSXg1VU=;
+ b=WbIk0Wd9Bx9YuWLPr3zRwaRo+xZYwWFzPs+OOtsZXxVhXVganGC3CSmEp8c3xrM5Yy
+ d2pCaHf6IxFjAGR4MA3scDzhuxAOcD+7gayVvjg8UiowWeln1F7ObaQukSoxcMPQNBQ5
+ 1GdgoyAt6JbaKKpyF9golHswjGEAq/6cdfHSVA4gNPmC405/QpLgXBVl3Ud/NpiRbyAP
+ hW/HSmNghZgX5TZHpaOqxapR/DUvDDboiOyzW3bnM4ymTxYAxoEnBSYquiPmmW3ObyGu
+ MWk/oeIihAxVLcO45F5M0TqpIzv4vWx9oHRfckl0kBHH4aUEIsRzkqkNkMCMP+S9SzUl
+ Eo2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ohs9Otf2cvL4qP/fbKtn8DSCDnRv4jYFVg8c3pXFWWM=;
- b=nOIBltt65HVaQZrhb1ysAC38DEekTp6RVzzMHlkCDfJ3r4Je6bTJ6asweNAV0C6fAu
- Zjt8EKRAzu6HU8ebu8w0vSVNbCU34QYa81Ye7Q+OWXiundz+O+qwQOO8TXfnXFNFYegR
- rKpn/3jpnYEgWizzwLhxqVKE4qxN0rDdnndWhW8XTeW7KxgdLCRtacsJOIwkqLfnjBOH
- dJ8r/3Cn6a5el4i1RanjSkufG8CxdS3a3jDThBFuhrAe3uWvOig4+zmZ4ArtZYZh+EOD
- e7poudFV8oocMMmoxn3jFSwcizIS6gNGr5MuFSpPh5wGjc4KzIpC78yhd/EuuwMIj7uD
- kaXA==
-X-Gm-Message-State: ANhLgQ0e/O5KiTnPO0XfQPpLcJORARmk8bJ16LPluL4QADJNg6g5UxEB
- ITahkzgBygW3RXTS+JpYTTcnTH6sNTqq7g==
-X-Google-Smtp-Source: ADFU+vvSTobYbMJv/1aBEoyAIALJQ+OgBisV9Xb913l+qGjScy4VjSKmZBA81RP0JiIwkOj7Y8G9iA==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr3635698wmi.133.1583493048702; 
- Fri, 06 Mar 2020 03:10:48 -0800 (PST)
+ bh=bpB7oaRkghBQMQU5VFov+2/nC+u5q6dHi7FMVSXg1VU=;
+ b=ImkxqhQE/3DGAg6tDovs4Ep2QjGz7CLRFTy9amkw10L3fi3aoVFmO8eUOdwa3nFGWs
+ VO0zGaOHBY0cftNDAvVuZq3Ak0eO6UFnz0tZWAMWQ5Z05ksbGTmYoJXMJt4WSC4Sc+Lo
+ ZbAlzRzanh0pVvYXsyBROliQQAbLriOtLbTG9WWBFJmi4DG7evU52pQHdA31HOIXCPnB
+ mKdgsQVmyoFS1CIYxmcFiXLvn0nBCTVnDkVHRG1Na4k2vzJv/a+J396dW1GQckfguKn1
+ LRNxbbjSYlhCibVROB+UgnNO8OqtT0rstwJ9GbAe6wD7/auiihWZm8YC3I5OIdAhhxBZ
+ irPA==
+X-Gm-Message-State: ANhLgQ2PC0htWRB26AlaBTAuAbb9So0vE+YLSjZVywJKTM90s2yvdjRI
+ KC9GSIfDb6Xm35U3op2jeJIT05lsjhT0LQ==
+X-Google-Smtp-Source: ADFU+vs0JIqnGsI68U0tIkl9DOwPbTH/6G1OX1PeENq8JaOVJJO1Z3cK8JGsHUVOB1VypK06F62LFQ==
+X-Received: by 2002:a1c:4e03:: with SMTP id g3mr3479774wmh.22.1583493049714;
+ Fri, 06 Mar 2020 03:10:49 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.47
+ by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 03:10:48 -0800 (PST)
+ Fri, 06 Mar 2020 03:10:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/33] ui/cocoa.m: Update documentation file and pathname
-Date: Fri,  6 Mar 2020 11:09:56 +0000
-Message-Id: <20200306110959.29461-31-peter.maydell@linaro.org>
+Subject: [PULL 31/33] docs: Stop building qemu-doc
+Date: Fri,  6 Mar 2020 11:09:57 +0000
+Message-Id: <20200306110959.29461-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306110959.29461-1-peter.maydell@linaro.org>
 References: <20200306110959.29461-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,42 +82,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to stop generating the old qemu-doc.html; first we
-must update places that refer to it so they instead go to
-our top level index.html documentation landing page.
-The Cocoa UI has a menu option to bring up the documentation;
-make it point to the new top level index.html instead.
+Stop building the old texinfo qemu-doc; all its contents are
+now available in the Sphinx-generated manuals and manpages.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200228153619.9906-31-peter.maydell@linaro.org
+Message-id: 20200228153619.9906-32-peter.maydell@linaro.org
 ---
- ui/cocoa.m | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/specs/ivshmem-spec.txt |  4 ++--
+ Makefile                    | 39 ++++---------------------------------
+ .gitignore                  |  3 ---
+ docs/index.html.in          |  1 -
+ 4 files changed, 6 insertions(+), 41 deletions(-)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 747a70839af..cb556e4e668 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1174,7 +1174,7 @@ QemuCocoaView *cocoaView;
- - (void) openDocumentation: (NSString *) filename
- {
-     /* Where to look for local files */
--    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../"};
-+    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
-     NSString *full_file_path;
+diff --git a/docs/specs/ivshmem-spec.txt b/docs/specs/ivshmem-spec.txt
+index 042f7eae225..1beb3a01ec3 100644
+--- a/docs/specs/ivshmem-spec.txt
++++ b/docs/specs/ivshmem-spec.txt
+@@ -38,8 +38,8 @@ There are two basic configurations:
+   Interrupts are message-signaled (MSI-X).  vectors=N configures the
+   number of vectors to use.
  
-     /* iterate thru the possible paths until the file is found */
-@@ -1198,7 +1198,7 @@ QemuCocoaView *cocoaView;
- {
-     COCOA_DEBUG("QemuCocoaAppController: showQEMUDoc\n");
+-For more details on ivshmem device properties, see The QEMU Emulator
+-User Documentation (qemu-doc.*).
++For more details on ivshmem device properties, see the QEMU Emulator
++user documentation.
  
--    [self openDocumentation: @"qemu-doc.html"];
-+    [self openDocumentation: @"index.html"];
- }
  
- /* Stretches video to fit host monitor size */
+ == The ivshmem PCI device's guest interface ==
+diff --git a/Makefile b/Makefile
+index ef10b9a031d..9d4b2241265 100644
+--- a/Makefile
++++ b/Makefile
+@@ -344,7 +344,6 @@ MANUAL_BUILDDIR := docs
+ endif
+ 
+ ifdef BUILD_DOCS
+-DOCS=qemu-doc.html qemu-doc.txt
+ DOCS+=$(MANUAL_BUILDDIR)/system/qemu.1
+ DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-img.1
+ DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-nbd.8
+@@ -768,10 +767,6 @@ distclean: clean
+ 	rm -f $(SUBDIR_DEVICES_MAK)
+ 	rm -f po/*.mo tests/qemu-iotests/common.env
+ 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
+-	rm -f qemu-doc.info qemu-doc.aux qemu-doc.cp qemu-doc.cps
+-	rm -f qemu-doc.fn qemu-doc.fns qemu-doc.info qemu-doc.ky qemu-doc.kys
+-	rm -f qemu-doc.log qemu-doc.pdf qemu-doc.pg qemu-doc.toc qemu-doc.tp
+-	rm -f qemu-doc.vr qemu-doc.txt
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+ 	rm -f config.log
+ 	rm -f linux-headers/asm
+@@ -851,8 +846,6 @@ install-sphinxdocs: sphinxdocs
+ install-doc: $(DOCS) install-sphinxdocs
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/index.html "$(DESTDIR)$(qemu_docdir)"
+-	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
+-	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.txt "$(DESTDIR)$(qemu_docdir)"
+ ifdef CONFIG_POSIX
+@@ -1110,34 +1103,10 @@ docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
+ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
+ 	@cp -p $< $@
+ 
+-html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
+-info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
+-pdf: qemu-doc.pdf docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
+-txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+-
+-qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
+-	qemu-options.texi \
+-	qemu-monitor.texi \
+-	qemu-monitor-info.texi \
+-        docs/system/quickstart.texi \
+-        docs/system/invocation.texi \
+-        docs/system/keys.texi \
+-        docs/system/mux-chardev.texi \
+-        docs/system/monitor.texi \
+-        docs/system/cpu-models-x86.texi \
+-        docs/system/images.texi \
+-        docs/system/net.texi \
+-        docs/system/usb.texi \
+-        docs/system/ivshmem.texi \
+-        docs/system/linuxboot.texi \
+-        docs/system/vnc-security.texi \
+-        docs/system/tls.texi \
+-        docs/system/gdb.texi \
+-        docs/system/build-platforms.texi \
+-        docs/system/license.texi \
+-	docs/system/cpu-models-x86.texi docs/system/cpu-models-mips.texi \
+-	docs/system/deprecated.texi docs/system/qemu-option-trace.texi \
+-	docs/system/security.texi
++html: docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
++info: docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
++pdf: docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
++txt: docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
+ 
+ docs/interop/qemu-ga-ref.dvi docs/interop/qemu-ga-ref.html \
+     docs/interop/qemu-ga-ref.info docs/interop/qemu-ga-ref.pdf \
+diff --git a/.gitignore b/.gitignore
+index bc0a035f9cc..0c5af83aa74 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -46,9 +46,6 @@
+ !/qapi/qapi-visit-core.c
+ /qapi/qapi-visit.[ch]
+ /qapi/qapi-doc.texi
+-/qemu-doc.html
+-/qemu-doc.info
+-/qemu-doc.txt
+ /qemu-edid
+ /qemu-img
+ /qemu-nbd
+diff --git a/docs/index.html.in b/docs/index.html.in
+index a576ace8a27..cc19aad2ec5 100644
+--- a/docs/index.html.in
++++ b/docs/index.html.in
+@@ -7,7 +7,6 @@
+     <body>
+         <h1>QEMU @@VERSION@@ Documentation</h1>
+         <ul>
+-            <li><a href="qemu-doc.html">User Documentation</a></li>
+             <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
+             <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+             <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
 -- 
 2.20.1
 
