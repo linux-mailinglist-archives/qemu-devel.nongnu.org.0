@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A713F17C031
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 15:28:37 +0100 (CET)
-Received: from localhost ([::1]:37564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB0C17BFC6
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 15:00:28 +0100 (CET)
+Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jADxs-0000mZ-OC
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 09:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51658)
+	id 1jADWd-0000Xy-Qv
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 09:00:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pdurrant@gmail.com>) id 1jA92g-0000Ef-91
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:13:15 -0500
+ (envelope-from <pr0f3ss0r1492@yahoo.com>) id 1jADTt-00058K-Rj
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:57:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pdurrant@gmail.com>) id 1jA92f-0002Ds-3k
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:13:14 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:38407)
+ (envelope-from <pr0f3ss0r1492@yahoo.com>) id 1jADTs-00041A-IK
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:57:37 -0500
+Received: from sonic305-21.consmr.mail.ne1.yahoo.com ([66.163.185.147]:42979)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pdurrant@gmail.com>)
- id 1jA92e-0002A0-UJ; Fri, 06 Mar 2020 04:13:13 -0500
-Received: by mail-pg1-f195.google.com with SMTP id x7so800468pgh.5;
- Fri, 06 Mar 2020 01:13:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UvWmgp0NFp/mKgDyS1K2Nd14v5giX0K4pPVrUcKgo+Q=;
- b=ZRobFLBqa6jRIN7lhNMY7LH7oo194t5jRM1W5E4tAKem0hmljzPs+lE1jXRbm+oP4x
- VBcEoGbSxlBKmeQ6NHVId7vCs12grhbVZTZFjoTtqUFTxp9pz7jjl4MAMKtG+AhICONj
- Ee/dhLfzymcFtiCv9IwuRCtgTZZUn84Q42faWGUulP4HsunZcuDmGIgT/6hb4yAso6pR
- x+arewxP/arUJOGpOfVvn/otIxr8/YqedxqlAsARB4KWmcIRhUuRMaLCGUBHF5/ECANw
- sXx2q9p+3cDC7MUngRfMGmUzCNCzByLh0yuMKSEr8e3jQT9RuWOqkBdXodb1Jz+xnDKn
- HGUA==
-X-Gm-Message-State: ANhLgQ2tfHqp64SwbDUuCbFgSDRJfLmkVKgFCuluTjjXkQsU/Jopv2X3
- ttXVe0dJrNncmL830Qs+TYYOZxUOJlINkBIU
-X-Google-Smtp-Source: ADFU+vtui8tgZliuX0vOJyHdcY5aaD3AgZssxxkV1UlumqLYK+0s2lZEtZAjHv12ZaZESiFnr2dSxg==
-X-Received: by 2002:a63:7a5a:: with SMTP id j26mr2413045pgn.447.1583485991166; 
- Fri, 06 Mar 2020 01:13:11 -0800 (PST)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com.
- [209.85.214.176])
- by smtp.gmail.com with ESMTPSA id t126sm989771pfd.54.2020.03.06.01.13.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Mar 2020 01:13:10 -0800 (PST)
-Received: by mail-pl1-f176.google.com with SMTP id f8so607139plt.10;
- Fri, 06 Mar 2020 01:13:10 -0800 (PST)
-X-Received: by 2002:a17:90a:ec0f:: with SMTP id
- l15mr2568366pjy.133.1583485990255; 
- Fri, 06 Mar 2020 01:13:10 -0800 (PST)
+ (Exim 4.71) (envelope-from <pr0f3ss0r1492@yahoo.com>)
+ id 1jADTs-0003lG-Bl
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:57:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1583503055; bh=8KndwukGcs4eu5RHDhQRwW+z5XukBHFaafK1Gnjz9IU=;
+ h=From:Date:Subject:To:Cc:References:From:Subject;
+ b=jZMrjff5XlfYC7DJjZrE460JkLddR94zNG2sUgoNowrdk/Ivz6zf5tggXaBXAwfi2bVFmp1peN6N7oK6ycXzPr0eOnnNKRiRuQ5dcGwQx0W7DxFh58fpl7i2T1mHzJPkd4mKwMwUkgcNIb7AwSPT2EyL9xoea1je4aKxEhqc0TsOVKXKbTXgJIgr4EvaZUf3IxCFGBAxi96JA46stJsU0zNCLuWS/9c/lyA0WPShEnhaBXcJLq+/kmfr6+i67UuXhdJBlnEkpRFrYM7zPBMLN4p7ggSrdqJxGxNrt+sCFaNy5f6FYrWajxCaxAvirwqNOGaHdf/grccHQs3JUeQW4A==
+X-YMail-OSG: jQuVyZ8VM1lQa.R6GY7_BeWbT1Ocuzzh0OZCdMKTNY90XPSPG7pB99yiM5_5SGC
+ .IhIhqJGRrVhFHLb7uDxQbYUaza7iRLbOnNX_hZtGdzKt0JHyzvdc1G7aBWdyiyfeBu4Q7bjgoDj
+ 93IgqFZGsjZRQGY2BoDBGGFLSq_sfCGlaBiaJlwyQ0R5VLCh22zUZ_jS1eMuky4eK3tF2bmRNZKr
+ lbpJQSqGfV3h58K7UWyAjGdAasYmHprZrCDebdTnCya3QOiCmYKj.z9Qus_ZQ.abQyag9KjLQNGO
+ 6qDx04MtxAY4uw3Vw44Fcphtem2WE1EJVefv0ou4Zm8PtSgoqqwGamyiOriU9345ZOgLYmFmR_eC
+ srr9C4pssSuRUT2X.GRYaO1bd79mNHBBIgp8SrzN3R5HIdD2A4DIOSLNNbntMIovaORjowWpcB71
+ erX1AHUG04MT06EmNviA0_amzFAQMYvz.FyK9jbtXlBTBbgzU4dWMLZuYHFjjezsPuu0xtQhI.eM
+ ILuBfVvjRjtT1uY7Qh2vJIgf8.fzLYfqSAxqgllQbm_WGz.L9K5EruMsHroxYr9eg_D9mAmOeHVU
+ yAp9pcW.iuyio.Mmju4z0aBDqdy3oFndlskgLcLBfQj_zHqfVyh5xA1V.A0uBIDO.jUKtWgpHXfm
+ 5zm2PJ1mmkWsOpxZAehgEQCtwGB.E_z6fcihg2TaLX0CfFTNrWc3aEm3YVUsca26qmEdlZYH1fde
+ p1kwC5BLbFrNM1iD0NI0pp12c2mL9baUEURWHuSLxqxOKjWADduQ.7ZX9EUpcyrs5dsVaVmxqQlK
+ ITe27A7AufdX_EF0PtOvTDVAc.uX.eeZf7JYgXx5ubN.rvfyYdEFo394xQf9rw_iZL6B88GTc6mr
+ 0rYsQ3HGJad4YAEhpFoW0BExLg6x85xk0njo3RVhOiruv6RvKotlUGkeTyBV7PJQPCaveQeOzBdK
+ xy4ZI0BOsBX0.Cr2uJepFvMFVP.zpmaPYH9RBhKqrYSyFIzl5ojG._29MC5RNdHoSWtxZ.447H0O
+ 3VpWljxSZksJ9j4lqDQeEVUyMfJW.WgQEpeBPHEJVxrsd1Pol2qT1aV_cpdEURbLfOoYbTODjtpf
+ R97Zy3LKaE3AKYGIIMb.UkKyYFP54D3.9_BQWZ0tVr8xszsFjB7Tx26OYiGURGHdXJiIkPz_wq1s
+ KtN2UKzQvgzkRHz.auYgMgTcQupeRbCVckXU2xisDtBHR83auaM56YQkoU8fDxeQyHawhhQ30FdU
+ pgF2oq1yTnIY27eE6yLPGTJH0eoobZRfgRwb0smImvox9PTSGNFhU9.MdDvYULqB4tYMt3M6lPsR
+ U1E_Bmhin_KJiORtcUc0wrAI5_dKYQKVyC.ete6X4OkZeGTO4qcJyMl2Cel9UZL.ANK.NZoSNM.M
+ ndJ_AaP7.E_eHeQZkPnEF_buOECZFr66kUfkv5fHc
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic305.consmr.mail.ne1.yahoo.com with HTTP; Fri, 6 Mar 2020 13:57:35 +0000
+Received: by smtp423.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+ ID eb97a8e4912140956332028c25276864; 
+ Fri, 06 Mar 2020 13:57:32 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id m15so1112812pgv.12
+ for <kraxel@redhat.com>; Fri, 06 Mar 2020 05:57:32 -0800 (PST)
+X-Gm-Message-State: ANhLgQ1kGOr13DgBP+6pibt7n3pM/a4JriRkWvxkkbKRMuoshOvs9fzA
+ L41uCMQ8m1/fteYiiT7Ltx3n7zQboE5eunR7qws=
+X-Google-Smtp-Source: ADFU+vvTGCt9DHrYu398KByEiMp26mrXAZZpwAs+wwWXw95fsYQJIuk54FF/mzjAYWuvT5KpKRtEk+IQLj6IpRXF8xU=
+X-Received: by 2002:a63:8c18:: with SMTP id m24mr3558690pgd.70.1583503051818; 
+ Fri, 06 Mar 2020 05:57:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20200306051536.27803-1-vsementsov@virtuozzo.com>
- <20200306051536.27803-11-vsementsov@virtuozzo.com>
-In-Reply-To: <20200306051536.27803-11-vsementsov@virtuozzo.com>
-From: Paul Durrant <paul@xen.org>
-Date: Fri, 6 Mar 2020 09:12:59 +0000
-X-Gmail-Original-Message-ID: <CACCGGhAdx_OX-V59omuSQZccUWBNft063BO4-TPAw=JHNbuGoQ@mail.gmail.com>
-Message-ID: <CACCGGhAdx_OX-V59omuSQZccUWBNft063BO4-TPAw=JHNbuGoQ@mail.gmail.com>
-Subject: Re: [PATCH v8 10/10] xen: introduce ERRP_AUTO_PROPAGATE
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Ottavio Caruso <ottavio2006-usenet2012@yahoo.com>
+Date: Fri, 6 Mar 2020 13:57:15 +0000
+X-Gmail-Original-Message-ID: <CAEJNuHy_O23m0ttcPUYDeeFWLCC2dSvGk8WZPEVr9XkTaAx7Yg@mail.gmail.com>
+Message-ID: <CAEJNuHy_O23m0ttcPUYDeeFWLCC2dSvGk8WZPEVr9XkTaAx7Yg@mail.gmail.com>
+Subject: Re: [PATCH] sercon: vbe modeset is int 10h function 4f02 not 4f00
+To: Gerd Hoffmann <kraxel@redhat.com>, seabios@seabios.org
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.215.195
-X-Mailman-Approved-At: Fri, 06 Mar 2020 09:27:28 -0500
+References: <CAEJNuHy_O23m0ttcPUYDeeFWLCC2dSvGk8WZPEVr9XkTaAx7Yg.ref@mail.gmail.com>
+X-Mailer: WebService/1.1.15302 hermes Apache-HttpAsyncClient/4.1.4
+ (Java/1.8.0_241)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 66.163.185.147
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Greg Kurz <groug@kaod.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- xen-devel <xen-devel@lists.xenproject.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Mar 2020 at 05:16, Vladimir Sementsov-Ogievskiy
-<vsementsov@virtuozzo.com> wrote:
+On 06/03/2020 09:03, Gerd Hoffmann wrote:
+> Fixes console redirection for NetBSD primary bootloader.
 >
-> If we want to add some info to errp (by error_prepend() or
-> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-> Otherwise, this info will not be added when errp == &error_fatal
-> (the program will exit prior to the error_append_hint() or
-> error_prepend() call).  Fix such cases.
+> https://bugs.launchpad.net/bugs/1743191
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+> src/sercon.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> If we want to check error after errp-function call, we need to
-> introduce local_err and then propagate it to errp. Instead, use
-> ERRP_AUTO_PROPAGATE macro, benefits are:
-> 1. No need of explicit error_propagate call
-> 2. No need of explicit local_err variable: use errp directly
-> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
->    &error_fatal, this means that we don't break error_abort
->    (we'll abort on error_set, not on error_propagate)
+> diff --git a/src/sercon.c b/src/sercon.c
+> index a5dadb7261af..66a1f2412e77 100644
+> --- a/src/sercon.c
+> +++ b/src/sercon.c
+> @@ -464,7 +464,7 @@ static void sercon_104f(struct bregs *regs)
+> regs->ax = 0x0100;
+> } else {
+> // Disable sercon entry point on any vesa modeset
+> - if (regs->al == 0x00)
+> + if (regs->al == 0x02)
+> SET_LOW(sercon_enable, 0);
+> }
+> }
 >
-> This commit is generated by command
->
->     sed -n '/^X86 Xen CPUs$/,/^$/{s/^F: //p}' MAINTAINERS | \
->     xargs git ls-files | grep '\.[hc]$' | \
->     xargs spatch \
->         --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
->         --macro-file scripts/cocci-macro-file.h \
->         --in-place --no-show-diff --max-width 80
->
-> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> Reported-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Unfortunately, this patch doesn't sort it for me. It also slightly
+messes up with the console, see:
+
+https://i.imgur.com/3ANAQC7.png
+
+-- 
+Ottavio Caruso
 
