@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7399D17B9A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:55:56 +0100 (CET)
-Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD4217B9B3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:58:37 +0100 (CET)
+Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jA9hz-0006gU-BO
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:55:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46455)
+	id 1jA9kZ-0007n3-Tf
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:58:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jA9gx-0005nT-OJ
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:54:52 -0500
+ (envelope-from <bauerchen@tencent.com>) id 1jA9jc-0007Nr-NL
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:57:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jA9gw-0004wC-D6
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:54:51 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43483)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jA9gw-0004tU-6v
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:54:50 -0500
-Received: by mail-oi1-x244.google.com with SMTP id p125so1947802oif.10
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 01:54:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5mqvOeQPRdC0xpis/LcpEbxJY2rwTbFGI1AuPRFCDp4=;
- b=C1ks/bWdi4sJWrj8rP0VkhNTH9vBVhh0x5NLd2w5nsVJWijOTIWpvsPEspaKdMYcsG
- /D7q3Nmm+zQ4v/eR3gEnq5/ID5qme1f04xY+hZu7jkQ9qmovzlEf/GTrcimn7rguyXlZ
- ATO1wwprP1IkZiQtNEA/L7y35QcRYLtxcE2xvG53WPE8vvq3kValKG8FEW0mIQKrFZ2E
- 8eSHTtUGfTgebWUxOG7Kvv+tVTTayEG9geYXrjYSpHoQJA0k62JSkClV0IxXX28i/9TB
- eXfz+o8h5Jr41kzrjKebB8FWGpnVSTrHkICLusVQMw2122zoifoNoxF8UuUUCaeCQ35u
- WM3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5mqvOeQPRdC0xpis/LcpEbxJY2rwTbFGI1AuPRFCDp4=;
- b=XVhVckhKPUjQzmTJMUedIbBqsK45owBrozTz2zmDVo1WSQpy0dvSLRZfluZ+o0RqoW
- rVvmmUnGXEzLJqgbPHRRjhhTniMOeLKWP4XCCG+aWcY2DhpL2Dyvv3y6RhEPhldJXi2R
- c9gMIyKo/f+WQtQfx/nS5ehNvXe+M2RyZ+TNg1GMBq4QvAR7YnOXo1wDWtJlxbZv0Bi8
- 7J2TWWNrWHrnMHCUvSqdm8Mt2HXYh6UOh7W7s43BB5VXAx0M4GhvA9V7VJgwhJP9uTJB
- 2+yc/Isr8f6HboDhvDu6Rr69E/tWW6Fdv1NUFqOmDmejvFMLkcEPKq2IHFSWJsTSqkUP
- HknQ==
-X-Gm-Message-State: ANhLgQ33SOz4jRUJx39g3OL2goOWAQvngw6le8wqEubehtr7lWbOBLd6
- pbmGpCVgMyj5H6PiPXCKv/WANaUTLSicbW0sYvTRFg==
-X-Google-Smtp-Source: ADFU+vudnS6HLIw9sZOxbuyM7gYSDQ1TmH8IKV5dnmKszldvaXDN8HTQyHL2Shfi+Hq6cGAAlJQZLsK3tnoCfOJqWDY=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr1989658oid.98.1583488488963;
- Fri, 06 Mar 2020 01:54:48 -0800 (PST)
+ (envelope-from <bauerchen@tencent.com>) id 1jA9jT-0002pK-8g
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:57:28 -0500
+Received: from mail6.tencent.com ([220.249.245.26]:55528)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <bauerchen@tencent.com>)
+ id 1jA9jP-0002GI-KU; Fri, 06 Mar 2020 04:57:27 -0500
+Received: from EX-SZ019.tencent.com (unknown [10.28.6.74])
+ by mail6.tencent.com (Postfix) with ESMTP id 1FED3CC538;
+ Fri,  6 Mar 2020 17:57:45 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tencent.com;
+ s=s202002; t=1583488665;
+ bh=vXRGqYLfLn+t2valEtnzd7cHE0AuNyj6JvhmbRRLP6s=;
+ h=From:To:CC:Subject:Date:References;
+ b=EvQLS9FBiYls8vNJNcPG5EZ+GgxvJyhsQ29cjG6yRxBHIwKqNArQ3XOi3LOdGCGWf
+ PACkfkgmAmbIFlfpPv9y3UwZQw7GRuiqYTLDDTTYxh9MfhlBff0kIqHAL57Uqpqsw9
+ HEJlKmLl/kuuqi6X75qxsT+POrNd3dyIz1GQkAG4=
+Received: from EX-SZ008.tencent.com (10.28.6.32) by EX-SZ019.tencent.com
+ (10.28.6.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 6 Mar 2020
+ 17:57:14 +0800
+Received: from EX-SZ005.tencent.com (10.28.6.29) by EX-SZ008.tencent.com
+ (10.28.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 6 Mar 2020
+ 17:57:14 +0800
+Received: from EX-SZ005.tencent.com ([fe80::ed4f:20ce:ec0d:e637]) by
+ EX-SZ005.tencent.com ([fe80::ed4f:20ce:ec0d:e637%4]) with mapi id
+ 15.01.1713.004; Fri, 6 Mar 2020 17:57:14 +0800
+From: =?utf-8?B?YmF1ZXJjaGVuKOmZiOiSmeiSmSk=?= <bauerchen@tencent.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel
+ <qemu-devel@nongnu.org>
+Subject: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIG1lbS1wcmVhbGxvYzogaW5pdGlhbGl6ZSBjb25k?=
+ =?utf-8?Q?_and_mutex(Internet_mail)?=
+Thread-Topic: [PATCH] mem-prealloc: initialize cond and mutex(Internet mail)
+Thread-Index: AQHV85RZkOhBH6vxAEysUkxz/tkQww==
+Date: Fri, 6 Mar 2020 09:57:13 +0000
+Message-ID: <cd400f3194624bc6905384ba7cbb4a9e@tencent.com>
+References: <20200306085014.120669-1-borntraeger@de.ibm.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [9.19.161.120]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200305200558.71104-1-palmerdabbelt@google.com>
-In-Reply-To: <20200305200558.71104-1-palmerdabbelt@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Mar 2020 09:54:37 +0000
-Message-ID: <CAFEAcA8vUdrYRbi+KxHDaMiE2enUWKEZujYGN6yJnUdrATMr-g@mail.gmail.com>
-Subject: Re: [PULL] A single RISC-V fixup
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 220.249.245.26
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ pbonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Mar 2020 at 20:06, Palmer Dabbelt <palmerdabbelt@google.com> wrote:
->
-> merged tag 'pull-target-arm-20200305'
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200305' into staging (2020-03-05 16:47:37 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-sf4
->
-> for you to fetch changes up to fd990e86a7c99f5c99d430160243a3bcc64b0dea:
->
->   RISC-V: Add a missing "," in riscv_excp_names (2020-03-05 12:01:43 -0800)
->
-> ----------------------------------------------------------------
-> A single RISC-V fixup
->
-> This is just a single patch, which fixes a bug found by Coverity.
->
-
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
-
--- PMM
+VmVyeSBzb3JyeSBmb3IgbXkgZmF1bHQsIGluIGZhY3QsSSB0ZXN0IMKgaW4gYSBvbGQgcWVtdSB2
+ZXJzaW9uICxhbmQgcGF0Y2ggZ2VuZXJhdGVkIGJhc2VkIGEgbmV3IG9uZSA7wqAKQWxsIGluIGFs
+bO+8jGl0cyBteSBmYXVsdCwgYW5kIEkgd2lsbCBjaGVjayBhbmQgdGVzdCBwYXRjaCBjYXJlZnVs
+bHkgSW4gdGhlIGZ1dHVyZQpJZiBJIMKgbmVlZCB0byDCoHN1Ym1pdCB0aGUgcGF0Y2ggYWdhaW4g
+PwoKwqAKCsKgCuWPkeS7tuS6uu+8msKgQ2hyaXN0aWFuIEJvcm50cmFlZ2VyCuWPkemAgeaXtumX
+tO+8msKgMjAyMC0wMy0wNsKgMTY6NTAK5pS25Lu25Lq677yawqBxZW11LWRldmVsCuaKhOmAge+8
+msKgcWVtdS1zMzkweDsgQ2hyaXN0aWFuIEJvcm50cmFlZ2VyOyBiYXVlcmNoZW4o6ZmI6JKZ6JKZ
+KTsgUGFvbG8gQm9uemluaTsgTWFyYyBIYXJ0bWF5ZXIK5Li76aKY77yawqBbUEFUQ0hdIG1lbS1w
+cmVhbGxvYzogaW5pdGlhbGl6ZSBjb25kIGFuZCBtdXRleChJbnRlcm5ldCBtYWlsKQpHdWVzdHMg
+d2l0aCBtZW0tcHJlYWxsb2MgZG8gZmFpbCB3aXRoCnFlbXUtc3lzdGVtLXMzOTB4OiAvaG9tZS9j
+Ym9ybnRyYS9SRVBPUy9xZW11L3V0aWwvcWVtdS10aHJlYWQtcG9zaXguYzo3NjogcWVtdV9tdXRl
+eF9sb2NrX2ltcGw6IEFzc2VydGlvbiBgbXV0ZXgtPmluaXRpYWxpemVkJyBmYWlsZWQuCnFlbXUt
+c3lzdGVtLXMzOTB4OiAvaG9tZS9jYm9ybnRyYS9SRVBPUy9xZW11L3V0aWwvcWVtdS10aHJlYWQt
+cG9zaXguYzoxNjE6IHFlbXVfY29uZF9icm9hZGNhc3Q6IEFzc2VydGlvbiBgY29uZC0+aW5pdGlh
+bGl6ZWQnIGZhaWxlZC4KwqAKTGV0IHVzIGluaXRpYWxpemUgY29uZCBhbmQgbXV0ZXguCsKgCkNj
+OiBiYXVlcmNoZW4gPGJhdWVyY2hlbkB0ZW5jZW50LmNvbT4KQ2M6IFBhb2xvIEJvbnppbmkgPHBi
+b256aW5pQHJlZGhhdC5jb20+ClJlcG9ydGVkLWJ5OiBNYXJjIEhhcnRtYXllciA8bWhhcnRtYXlA
+bGludXguaWJtLmNvbT4KRml4ZXM6IDAzN2ZiNWViMzk0MSAoIm1lbS1wcmVhbGxvYzogb3B0aW1p
+emUgbGFyZ2UgZ3Vlc3Qgc3RhcnR1cCIpClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBCb3JudHJh
+ZWdlciA8Ym9ybnRyYWVnZXJAZGUuaWJtLmNvbT4KLS0tCnV0aWwvb3NsaWItcG9zaXguYyB8IDIg
+KysKMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQrCoApkaWZmIC0tZ2l0IGEvdXRpbC9v
+c2xpYi1wb3NpeC5jIGIvdXRpbC9vc2xpYi1wb3NpeC5jCmluZGV4IDg5N2U4ZjNiYTYuLjUyNjUw
+MTgzZDMgMTAwNjQ0Ci0tLSBhL3V0aWwvb3NsaWItcG9zaXguYworKysgYi91dGlsL29zbGliLXBv
+c2l4LmMKQEAgLTQ3MCw2ICs0NzAsOCBAQCBzdGF0aWMgYm9vbCB0b3VjaF9hbGxfcGFnZXMoY2hh
+ciAqYXJlYSwgc2l6ZV90IGhwYWdlc2l6ZSwgc2l6ZV90IG51bXBhZ2VzLArCoMKgwqDCoCBjaGFy
+ICphZGRyID0gYXJlYTsKwqDCoMKgwqAgaW50IGkgPSAwOworwqDCoMKgIHFlbXVfY29uZF9pbml0
+KCZwYWdlX2NvbmQpOworwqDCoMKgIHFlbXVfbXV0ZXhfaW5pdCgmcGFnZV9tdXRleCk7CsKgwqDC
+oMKgIG1lbXNldF90aHJlYWRfZmFpbGVkID0gZmFsc2U7CsKgwqDCoMKgIHRocmVhZHNfY3JlYXRl
+ZF9mbGFnID0gZmFsc2U7CsKgwqDCoMKgIG1lbXNldF9udW1fdGhyZWFkcyA9IGdldF9tZW1zZXRf
+bnVtX3RocmVhZHMoc21wX2NwdXMpOwotLQoyLjI1LjAKwqAKwqA=
 
