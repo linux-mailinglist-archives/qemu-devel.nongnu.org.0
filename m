@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABD617BFBE
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7F517BFBD
 	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 14:59:04 +0100 (CET)
-Received: from localhost ([::1]:37048 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jADVH-0006vK-Bj
+	id 1jADVH-0006rk-2l
 	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 08:59:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35993)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pr0f3ss0r1492@yahoo.com>) id 1jADTs-00057X-WC
+ (envelope-from <pr0f3ss0r1492@yahoo.com>) id 1jADTs-000575-Hn
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:57:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pr0f3ss0r1492@yahoo.com>) id 1jADTr-0003nX-KP
+ (envelope-from <pr0f3ss0r1492@yahoo.com>) id 1jADTr-0003j1-9k
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:57:36 -0500
-Received: from sonic307-56.consmr.mail.ne1.yahoo.com ([66.163.190.31]:44389)
+Received: from sonic307-56.consmr.mail.ne1.yahoo.com ([66.163.190.31]:44562)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <pr0f3ss0r1492@yahoo.com>)
- id 1jADTr-0003ST-CV
+ id 1jADTr-0003Tg-2D
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:57:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
  t=1583503054; bh=8KndwukGcs4eu5RHDhQRwW+z5XukBHFaafK1Gnjz9IU=;
