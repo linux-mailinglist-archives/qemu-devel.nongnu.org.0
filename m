@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BF717C43E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:23:36 +0100 (CET)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C5917C439
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:23:04 +0100 (CET)
+Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGhD-0007qt-Hb
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:23:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48451)
+	id 1jAGgh-0006eB-Hg
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:23:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZR-0004sd-PO
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:36 -0500
+ (envelope-from <kwolf@redhat.com>) id 1jAGZV-0004zT-3T
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZP-0007oS-86
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:33 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20481
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jAGZR-0007wF-9M
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:36 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29936
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZN-0007bZ-Ao
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:29 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZP-0007hz-Ek
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583514928;
+ s=mimecast20190719; t=1583514929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KrGbiQzS51UahfnmWeKqS0q0ozeE43ff9NeocMrkrpM=;
- b=TO671U49ZIaNdQPq0ypNsv4KnkXnoxMYT11WGWpysTNt3SxBVtbXMIEtclAwwxTj4JLNu1
- 9LcyE5ZwhfJxNItN7dWiVl08S6Y/N2g5YUG4UVPIKIH0pFL87CP6uVlr9t6Q1ucWQQkDyb
- Thc3nhJpSJfh4YeoskSTtcWfpfdibGY=
+ bh=tboAIphVvqU1ZFgI6+jiEo1h3mxn9y2aYL7rSvanyKM=;
+ b=e5Wx+XnDSt/cJNhOCug22t113m15yllEMRY33moBBw+hSeTifZeDEj5YdZuTEqt+CCIvfU
+ RgQX0ReTHljYndBIySwtCobTov2K6Nhu+ppwqmyO1dggoM0/XJlhmGfTJ9NF3o8U/OqahV
+ /zMLUhrjDOH4MhtWeg12NumeqjiGqLo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-ytIUMpC2PQakGXy24jpGtA-1; Fri, 06 Mar 2020 12:15:26 -0500
-X-MC-Unique: ytIUMpC2PQakGXy24jpGtA-1
+ us-mta-425-atHyNf73OeqRTLra91MlRw-1; Fri, 06 Mar 2020 12:15:27 -0500
+X-MC-Unique: atHyNf73OeqRTLra91MlRw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58E901005509;
- Fri,  6 Mar 2020 17:15:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CC4E184C805;
+ Fri,  6 Mar 2020 17:15:26 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A81C73873;
- Fri,  6 Mar 2020 17:15:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CC9473873;
+ Fri,  6 Mar 2020 17:15:25 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 15/29] qemu-storage-daemon: Add --nbd-server option
-Date: Fri,  6 Mar 2020 18:14:44 +0100
-Message-Id: <20200306171458.1848-16-kwolf@redhat.com>
+Subject: [PULL 16/29] blockdev-nbd: Boxed argument type for nbd-server-add
+Date: Fri,  6 Mar 2020 18:14:45 +0100
+Message-Id: <20200306171458.1848-17-kwolf@redhat.com>
 In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
 References: <20200306171458.1848-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -75,185 +75,196 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a --nbd-server option to qemu-storage-daemon to start the built-in
-NBD server right away. It maps the arguments for nbd-server-start to the
-command line, with the exception that it uses SocketAddress instead of
-SocketAddressLegacy: New interfaces shouldn't use legacy types, and the
-additional nesting would be nasty on the command line.
-
-Example (only with required options):
-
-    --nbd-server addr.type=3Dinet,addr.host=3Dlocalhost,addr.port=3D10809
+Move the arguments of nbd-server-add to a new struct BlockExportNbd and
+convert the command to 'boxed': true. This makes it easier to share code
+with the storage daemon.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200224143008.13362-10-kwolf@redhat.com>
+Message-Id: <20200224143008.13362-11-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-core.json  | 24 ++++++++++++++++++++++++
- include/block/nbd.h   |  1 +
- blockdev-nbd.c        |  5 +++++
- qemu-storage-daemon.c | 26 +++++++++++++++++++++++++-
- Makefile.objs         |  2 +-
- 5 files changed, 56 insertions(+), 2 deletions(-)
+ qapi/block-core.json | 18 ++++++++++++++----
+ blockdev-nbd.c       | 35 ++++++++++++++++-------------------
+ monitor/hmp-cmds.c   | 21 +++++++++++++++++----
+ 3 files changed, 47 insertions(+), 27 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index b65b6a9f49..f8888f06c8 100644
+index f8888f06c8..cdc585385c 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -5062,6 +5062,27 @@
-              'iothread': 'StrOrNull',
-              '*force': 'bool' } }
+@@ -5112,9 +5112,9 @@
+             '*tls-authz': 'str'} }
 =20
-+##
-+# @NbdServerOptions:
-+#
-+# @addr: Address on which to listen.
-+# @tls-creds: ID of the TLS credentials object (since 2.6).
-+# @tls-authz: ID of the QAuthZ authorization object used to validate
-+#             the client's x509 distinguished name. This object is
-+#             is only resolved at time of use, so can be deleted and
-+#             recreated on the fly while the NBD server is active.
-+#             If missing, it will default to denying access (since 4.0).
-+#
-+# Keep this type consistent with the nbd-server-start arguments. The only
-+# intended difference is using SocketAddress instead of SocketAddressLegac=
-y.
-+#
-+# Since: 4.2
-+##
-+{ 'struct': 'NbdServerOptions',
-+  'data': { 'addr': 'SocketAddress',
-+            '*tls-creds': 'str',
-+            '*tls-authz': 'str'} }
-+
  ##
- # @nbd-server-start:
+-# @nbd-server-add:
++# @BlockExportNbd:
  #
-@@ -5080,6 +5101,9 @@
+-# Export a block node to QEMU's embedded NBD server.
++# An NBD block export.
  #
- # Returns: error if the server is already running.
+ # @device: The device name or node name of the node to be exported
  #
-+# Keep this type consistent with the NbdServerOptions type. The only inten=
-ded
-+# difference is using SocketAddressLegacy instead of SocketAddress.
+@@ -5131,14 +5131,24 @@
+ #          NBD client can use NBD_OPT_SET_META_CONTEXT with
+ #          "qemu:dirty-bitmap:NAME" to inspect the bitmap. (since 4.0)
+ #
++# Since: 5.0
++##
++{ 'struct': 'BlockExportNbd',
++  'data': {'device': 'str', '*name': 'str', '*description': 'str',
++           '*writable': 'bool', '*bitmap': 'str' } }
++
++##
++# @nbd-server-add:
 +#
++# Export a block node to QEMU's embedded NBD server.
++#
+ # Returns: error if the server is not running, or export with the same nam=
+e
+ #          already exists.
+ #
  # Since: 1.3.0
  ##
- { 'command': 'nbd-server-start',
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 7f46932d80..20363280ae 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -353,6 +353,7 @@ void nbd_client_put(NBDClient *client);
+ { 'command': 'nbd-server-add',
+-  'data': {'device': 'str', '*name': 'str', '*description': 'str',
+-           '*writable': 'bool', '*bitmap': 'str' } }
++  'data': 'BlockExportNbd', 'boxed': true }
 =20
- void nbd_server_start(SocketAddress *addr, const char *tls_creds,
-                       const char *tls_authz, Error **errp);
-+void nbd_server_start_options(NbdServerOptions *arg, Error **errp);
-=20
- /* nbd_read
-  * Reads @size bytes from @ioc. Returns 0 on success.
+ ##
+ # @NbdServerRemoveMode:
 diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index de2f2ff713..d8c892f7da 100644
+index d8c892f7da..1a95d89f00 100644
 --- a/blockdev-nbd.c
 +++ b/blockdev-nbd.c
-@@ -132,6 +132,11 @@ void nbd_server_start(SocketAddress *addr, const char =
-*tls_creds,
-     nbd_server =3D NULL;
+@@ -148,10 +148,7 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+     qapi_free_SocketAddress(addr_flat);
  }
 =20
-+void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
-+{
-+    nbd_server_start(arg->addr, arg->tls_creds, arg->tls_authz, errp);
-+}
+-void qmp_nbd_server_add(const char *device, bool has_name, const char *nam=
+e,
+-                        bool has_description, const char *description,
+-                        bool has_writable, bool writable,
+-                        bool has_bitmap, const char *bitmap, Error **errp)
++void qmp_nbd_server_add(BlockExportNbd *arg, Error **errp)
+ {
+     BlockDriverState *bs =3D NULL;
+     BlockBackend *on_eject_blk;
+@@ -164,28 +161,28 @@ void qmp_nbd_server_add(const char *device, bool has_=
+name, const char *name,
+         return;
+     }
+=20
+-    if (!has_name) {
+-        name =3D device;
++    if (!arg->has_name) {
++        arg->name =3D arg->device;
+     }
+=20
+-    if (strlen(name) > NBD_MAX_STRING_SIZE) {
+-        error_setg(errp, "export name '%s' too long", name);
++    if (strlen(arg->name) > NBD_MAX_STRING_SIZE) {
++        error_setg(errp, "export name '%s' too long", arg->name);
+         return;
+     }
+=20
+-    if (has_description && strlen(description) > NBD_MAX_STRING_SIZE) {
+-        error_setg(errp, "description '%s' too long", description);
++    if (arg->description && strlen(arg->description) > NBD_MAX_STRING_SIZE=
+) {
++        error_setg(errp, "description '%s' too long", arg->description);
+         return;
+     }
+=20
+-    if (nbd_export_find(name)) {
+-        error_setg(errp, "NBD server already has export named '%s'", name)=
+;
++    if (nbd_export_find(arg->name)) {
++        error_setg(errp, "NBD server already has export named '%s'", arg->=
+name);
+         return;
+     }
+=20
+-    on_eject_blk =3D blk_by_name(device);
++    on_eject_blk =3D blk_by_name(arg->device);
+=20
+-    bs =3D bdrv_lookup_bs(device, device, errp);
++    bs =3D bdrv_lookup_bs(arg->device, arg->device, errp);
+     if (!bs) {
+         return;
+     }
+@@ -199,15 +196,15 @@ void qmp_nbd_server_add(const char *device, bool has_=
+name, const char *name,
+         goto out;
+     }
+=20
+-    if (!has_writable) {
+-        writable =3D false;
++    if (!arg->has_writable) {
++        arg->writable =3D false;
+     }
+     if (bdrv_is_read_only(bs)) {
+-        writable =3D false;
++        arg->writable =3D false;
+     }
+=20
+-    exp =3D nbd_export_new(bs, 0, len, name, description, bitmap,
+-                         !writable, !writable,
++    exp =3D nbd_export_new(bs, 0, len, arg->name, arg->description, arg->b=
+itmap,
++                         !arg->writable, !arg->writable,
+                          NULL, false, on_eject_blk, errp);
+     if (!exp) {
+         goto out;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 30313858c2..fb4c2fd2a8 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -2341,6 +2341,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *=
+qdict)
+     Error *local_err =3D NULL;
+     BlockInfoList *block_list, *info;
+     SocketAddress *addr;
++    BlockExportNbd export;
+=20
+     if (writable && !all) {
+         error_setg(&local_err, "-w only valid together with -a");
+@@ -2373,8 +2374,13 @@ void hmp_nbd_server_start(Monitor *mon, const QDict =
+*qdict)
+             continue;
+         }
+=20
+-        qmp_nbd_server_add(info->value->device, false, NULL, false, NULL,
+-                           true, writable, false, NULL, &local_err);
++        export =3D (BlockExportNbd) {
++            .device         =3D info->value->device,
++            .has_writable   =3D true,
++            .writable       =3D writable,
++        };
 +
- void qmp_nbd_server_start(SocketAddressLegacy *addr,
-                           bool has_tls_creds, const char *tls_creds,
-                           bool has_tls_authz, const char *tls_authz,
-diff --git a/qemu-storage-daemon.c b/qemu-storage-daemon.c
-index 0cd8144c81..276a412915 100644
---- a/qemu-storage-daemon.c
-+++ b/qemu-storage-daemon.c
-@@ -28,11 +28,14 @@
- #include <getopt.h>
++        qmp_nbd_server_add(&export, &local_err);
 =20
- #include "block/block.h"
-+#include "block/nbd.h"
- #include "crypto/init.h"
+         if (local_err !=3D NULL) {
+             qmp_nbd_server_stop(NULL);
+@@ -2395,8 +2401,15 @@ void hmp_nbd_server_add(Monitor *mon, const QDict *q=
+dict)
+     bool writable =3D qdict_get_try_bool(qdict, "writable", false);
+     Error *local_err =3D NULL;
 =20
- #include "qapi/error.h"
--#include "qapi/qapi-visit-block-core.h"
-+#include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-block-core.h"
-+#include "qapi/qapi-visit-block.h"
-+#include "qapi/qapi-visit-block-core.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qobject-input-visitor.h"
-=20
-@@ -67,6 +70,12 @@ static void help(void)
- "             [,driver specific parameters...]\n"
- "                         configure a block backend\n"
- "\n"
-+"  --nbd-server addr.type=3Dinet,addr.host=3D<host>,addr.port=3D<port>\n"
-+"               [,tls-creds=3D<id>][,tls-authz=3D<id>]\n"
-+"  --nbd-server addr.type=3Dunix,addr.path=3D<path>\n"
-+"               [,tls-creds=3D<id>][,tls-authz=3D<id>]\n"
-+"                         start an NBD server for exporting block nodes\n"
-+"\n"
- "  --object help          list object types that can be added\n"
- "  --object <type>,help   list properties for the given object type\n"
- "  --object <type>[,<property>=3D<value>...]\n"
-@@ -82,6 +91,7 @@ QEMU_HELP_BOTTOM "\n",
-=20
- enum {
-     OPTION_BLOCKDEV =3D 256,
-+    OPTION_NBD_SERVER,
-     OPTION_OBJECT,
- };
-=20
-@@ -101,6 +111,7 @@ static void process_options(int argc, char *argv[])
-     static const struct option long_options[] =3D {
-         {"blockdev", required_argument, NULL, OPTION_BLOCKDEV},
-         {"help", no_argument, NULL, 'h'},
-+        {"nbd-server", required_argument, NULL, OPTION_NBD_SERVER},
-         {"object", required_argument, NULL, OPTION_OBJECT},
-         {"trace", required_argument, NULL, 'T'},
-         {"version", no_argument, NULL, 'V'},
-@@ -145,6 +156,19 @@ static void process_options(int argc, char *argv[])
-                 qapi_free_BlockdevOptions(options);
-                 break;
-             }
-+        case OPTION_NBD_SERVER:
-+            {
-+                Visitor *v;
-+                NbdServerOptions *options;
+-    qmp_nbd_server_add(device, !!name, name, false, NULL, true, writable,
+-                       false, NULL, &local_err);
++    BlockExportNbd export =3D {
++        .device         =3D (char *) device,
++        .has_name       =3D !!name,
++        .name           =3D (char *) name,
++        .has_writable   =3D true,
++        .writable       =3D writable,
++    };
 +
-+                v =3D qobject_input_visitor_new_str(optarg, NULL, &error_f=
-atal);
-+                visit_type_NbdServerOptions(v, NULL, &options, &error_fata=
-l);
-+                visit_free(v);
-+
-+                nbd_server_start_options(options, &error_fatal);
-+                qapi_free_NbdServerOptions(options);
-+                break;
-+            }
-         case OPTION_OBJECT:
-             {
-                 QemuOpts *opts;
-diff --git a/Makefile.objs b/Makefile.objs
-index b5d9e1e134..bacbdb55bc 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -32,7 +32,7 @@ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
- # used for system emulation, too, but specified separately there)
++    qmp_nbd_server_add(&export, &local_err);
+     hmp_handle_error(mon, local_err);
+ }
 =20
- storage-daemon-obj-y =3D block/ qom/
--storage-daemon-obj-y +=3D blockdev.o iothread.o
-+storage-daemon-obj-y +=3D blockdev.o blockdev-nbd.o iothread.o
-=20
- ######################################################################
- # Target independent part of system emulation. The long term path is to
 --=20
 2.20.1
 
