@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B44C17BE66
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 14:28:52 +0100 (CET)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A04F17BED3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 14:33:51 +0100 (CET)
+Received: from localhost ([::1]:36766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAD23-0004jJ-Fh
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 08:28:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55693)
+	id 1jAD6s-0000C2-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 08:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jAD0r-0003y7-WB
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:27:39 -0500
+ (envelope-from <bounces@canonical.com>) id 1jAD3q-0006OX-VL
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:30:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jAD0r-0003la-22
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:27:37 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:40132)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jAD0q-0003fw-RO
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:27:37 -0500
-Received: from mail-vs1-f70.google.com ([209.85.217.70])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jAD0p-0001zF-Ta
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 13:27:36 +0000
-Received: by mail-vs1-f70.google.com with SMTP id 123so248008vsg.2
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 05:27:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xZvT8uUNZMylziLw6p34RRvwz28sCmZkC3j+MAmH1cY=;
- b=o78Oaj4YUahXBVxnsHQ527M6mdo+EsfpMM94PDOCQki6eNOQWZ2qXnvYg3wbJdqEdF
- wZb7ygiih4673ValaNauwtX60GAiZUQXhOfqVlVKzF1bjp2amtY6L7j5ljFfjaezlBy3
- KiZy16e5zSv4t+gbX+KiYtuvTju7z+f4zXHmapGbbP9jQCSmsev5vT/zKke02mzUTOiC
- PXebKJDvWrHZkfzNQL7ZOuMfLxX9EpjM93onoZbuaz5218/63ZSEWp0RI8DmsphhGtb4
- s/J49SrJOhWowq9g7HVHcInAVLcK/qAjHZXMPwPAEveq1hcNEUZIGO6MYH/PtGvQ2tyT
- aX0Q==
-X-Gm-Message-State: ANhLgQ06mglfHvYtgx1B3fqHVWzdK6/fCg4tMMYVBtUV9gUX0hlB/rYo
- M2eb7gPDyhrgjGxssDEhdgpkUjJKZ7lnpoZu/gjbBs2z9gI3mwSQTvWyuukpnY2agZJxVaBpZnm
- 4wffUDxD0G6dcDAWpMf2/e+mLH4mSPdrvv4xHr1NSq/FEMITp
-X-Received: by 2002:ab0:670c:: with SMTP id q12mr1616902uam.120.1583501255078; 
- Fri, 06 Mar 2020 05:27:35 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vs3w+81WB1bvMo8BztGMuU9IcVTk151PZqqCudO7ulAafDNjlarUkHe2rMqIlh0Gj+5/qQrJuBZzgYPMfP0mvE=
-X-Received: by 2002:ab0:670c:: with SMTP id q12mr1616893uam.120.1583501254865; 
- Fri, 06 Mar 2020 05:27:34 -0800 (PST)
+ (envelope-from <bounces@canonical.com>) id 1jAD3p-0003QW-Gn
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:30:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51294)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jAD3p-0003Hr-Ap
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:30:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jAD3o-0006q7-2n
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 13:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 11F222E80C0
+ for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 13:30:40 +0000 (UTC)
 MIME-Version: 1.0
-References: <CAATJJ0L+jdk3ggWx61=AGoTd-FZ64tJ1tzPK8Frgg9Ez+dv6XQ@mail.gmail.com>
- <20200304093946.18682-1-christian.ehrhardt@canonical.com>
- <20200306105426.GH1335569@stefanha-x1.localdomain>
-In-Reply-To: <20200306105426.GH1335569@stefanha-x1.localdomain>
-From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Date: Fri, 6 Mar 2020 14:27:09 +0100
-Message-ID: <CAATJJ0+XYK5My==A0o+o9BhRDuN9H3=GQX89kMB1VbfNM4QFOw@mail.gmail.com>
-Subject: Re: [PATCH] modules: load modules from versioned /var/run dir
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000cc51e505a02f9d31"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 91.189.89.112
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Mar 2020 13:24:54 -0000
+From: Gerd Hoffmann <1743191@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr philmd stefanha
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
+References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
+Message-Id: <158350109449.12121.2672684123892693893.malone@soybean.canonical.com>
+Subject: [Bug 1743191] Re: Interacting with NetBSD serial console boot blocks
+ no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8623b79506b53eb1c4c0887eb69a91da300fd418
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,51 +66,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cc51e505a02f9d31
-Content-Type: text/plain; charset="UTF-8"
+Ah, it's a special serial console boot iso.  I was trying the normal
+NetBSD-<version>-amd64.iso.
 
-On Fri, Mar 6, 2020 at 11:54 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+So, it seems seabios sercon and bootloader are fighting over the serial
+line.
 
-> On Wed, Mar 04, 2020 at 10:39:46AM +0100, Christian Ehrhardt wrote:
->
-> Please start a new email thread.  Patches sent as replies to existing
-> email threads are easily missed by humans and tooling also doesn't
-> recognize them.
->
+seabios enables sercon for no-graphical guests ("-machine graphics=3Doff",
+"-nographics" enables this too).
 
-Sure, thanks Stefan for the hint about how that will be processed/looked at
-by maintainers and reviewers.
+So one option is to turn off seabios sercon: "qemu -nographic -machine
+graphics=3Don".
 
--- 
-Christian Ehrhardt
-Staff Engineer, Ubuntu Server
-Canonical Ltd
+The other option is to turn on seabios sercon and use the normal
+boot.iso (this needs the "-vga none" workaround from comment 3, or the
+sercon patch).
 
---000000000000cc51e505a02f9d31
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 6, 2020 at 11:54 AM Stefa=
-n Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmail.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On W=
-ed, Mar 04, 2020 at 10:39:46AM +0100, Christian Ehrhardt wrote:<br>
-<br>
-Please start a new email thread.=C2=A0 Patches sent as replies to existing<=
-br>
-email threads are easily missed by humans and tooling also doesn&#39;t<br>
-recognize them.<br>
-</blockquote></div><div><br></div><div>Sure, thanks Stefan for the hint abo=
-ut how that will be processed/looked at by maintainers and reviewers.</div>=
-<div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Christian =
-Ehrhardt<br>Staff Engineer, Ubuntu Server<br>Canonical Ltd</div></div>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1743191
 
---000000000000cc51e505a02f9d31--
+Title:
+  Interacting with NetBSD serial console boot blocks no longer works
+
+Status in QEMU:
+  New
+
+Bug description:
+  The NetBSD boot blocks display a menu allowing the user to make a
+  selection using the keyboard.  For example, when booting a NetBSD
+  installation CD-ROM, the menu looks like this:
+
+           1. Install NetBSD
+           2. Install NetBSD (no ACPI)
+           3. Install NetBSD (no ACPI, no SMP)
+           4. Drop to boot prompt
+
+      Choose an option; RETURN for default; SPACE to stop countdown.
+      Option 1 will be chosen in 30 seconds.
+
+  When booting NetBSD in a recent qemu using an emulated serial console,
+  making this menu selection no longer works: when you type the selected
+  number, the keyboard input is ignored, and the 30-second countdown
+  continues.  In older versions of qemu, it works.
+
+  To reproduce the problem, run:
+
+     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
+cdrom/boot-com.iso
+     qemu-system-x86_64 -nographic -cdrom boot-com.iso
+
+  During the 30-second countdown, press 4
+
+  Expected behavior: The countdown stops and you get a ">" prompt
+
+  Incorrect behavior: The countdown continues
+
+  There may also be some corruption of the terminal output; for example,
+  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
+  will be chosen in p0 seconds".
+
+  Using bisection, I have determined that the problem appeared with qemu
+  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
+  updated to 1.11 prerelease, and the problem is still there as of
+  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
+  system used for the tests was Debian 9 x86_64.
+
+  Credit for discovering this bug goes to Paul Goyette.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
