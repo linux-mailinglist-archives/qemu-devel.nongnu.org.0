@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2CA17C492
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:37:46 +0100 (CET)
-Received: from localhost ([::1]:40242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976E417C475
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:32:23 +0100 (CET)
+Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGuv-0007tU-0W
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:37:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
+	id 1jAGpf-0005O8-NL
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:32:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jAGbj-0000Tp-Ig
+ (envelope-from <peter.maydell@linaro.org>) id 1jAGbj-0000Tn-IO
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:17:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jAGbi-0007mU-AU
+ (envelope-from <peter.maydell@linaro.org>) id 1jAGbi-0007mZ-Ax
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:17:55 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39895)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42183)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jAGbi-0007ey-1f
+ id 1jAGbi-0007jX-42
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:17:54 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id y17so3266068wrn.6
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:17:53 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id v11so3244516wrm.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:17:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=HxBRa5zP5bAdChIgC8UmIomdyrcpexWIdFB2HnoF5Oc=;
- b=HECo2tFGlBspdhsJe3z64FxVcnDeXR1LTZPzs7NhvlIIFDXGOd84iWPQBLA3tinzGT
- tJLzXzpSVvJdID2pMtwo2q1UzMye3acpBSwOW3a27NvthEcSSAkVLmmzwYkTBMi3yUNU
- eX4X/Z7N+NOsF5Ju529BLCVFIsxgw2T59gRstjnrnjzpxyKINMrU34Zaquk3q02CRlgQ
- LCmRjp7bucBwmhq6dW0w6ayq/7/ZLtGWSALW560eRTDfk0j/gO3Mc+v1QdXMvxoRe8HM
- paQlroWZX03Rn7/tYdgBVZc7HB/ALznL7kctIK8r1tnP8doGLYrLmIAsE6P335seAnuU
- v7QA==
+ bh=/M3Q1G0HKQfPtdI//TVmv2AXSWRuvnLUfsWsWozX0D8=;
+ b=vMiVjIeAxCSysxI6JPX156+OLh+tgh/KmamOQ9kWVz99yx50EFmilqfi+Du8WgkJt7
+ dmwTwe2pHPpeMfH9O42kpkugO8n0i7f46KGO++0YSw7O6usRvWgWiGDXElzvThC4td+o
+ ij2MmT9GHTDTcqVokYkzETUm74jQb9/CwFYF/hOBZ5M+25z4AU5+QLm76PZBJidLOMtP
+ KkzIauGdbzUKRSs/wnKap2WSAnUYSeJ03BfemZLkY5JNbLKE0KXpRpYLzBYKb9B9ZLjI
+ 3cdhAw8b7YmrKwssOwll0b3EeaKZeU9S1rFU5Sd0gICf+UkbEvwPwFhHl+VMmnGoCc7D
+ 3G0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HxBRa5zP5bAdChIgC8UmIomdyrcpexWIdFB2HnoF5Oc=;
- b=AS2OmpYwhlcSicJaygiWRvVaus01gJtpAkBljn+hFgVpZUxOx3TdBZxIF08ZytB82Q
- kGB7X6YnGV6fNDVmAA6VMRk1VvBxntAIKbw4LxQcjKHAdG+Au3P0GZ+HhTllJ/DLVeMN
- n3y7IfqLfffCaRpy4Xv5ltIbbgwYHNI3NFUEN/RjtelVODkYLUQboQ1t1QtR6qhJzWRC
- LMaLwiU6xYe/ywkWXAHuqlEScP1guWNmK7qT4axXfytboJVKbK5Ovu7M6CL6kJ3WmXmC
- nAgc53JPiw5iJNDiRFTbs+3tDCMkFABz65Zo7rWbne5duYbUDxcpY4corliKh6ynwlMV
- KVbw==
-X-Gm-Message-State: ANhLgQ30HSHOQm3W2LUBu30ByKvKZ4V+8QWfiKGeDlozRiLkKjxu8LmL
- k6O1hE99aYavkuw/DJlF/lMI8z2FlVozxg==
-X-Google-Smtp-Source: ADFU+vsoCb3Ukiah8o1qb6Ul/0R0YZCllfi4s7mxBQCmfXnOhXO72IxOKWprRMRG72P4kXqzgIEi1Q==
-X-Received: by 2002:a5d:6986:: with SMTP id g6mr5007274wru.421.1583515071691; 
- Fri, 06 Mar 2020 09:17:51 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/M3Q1G0HKQfPtdI//TVmv2AXSWRuvnLUfsWsWozX0D8=;
+ b=lbLYs36JrHzFnMdoSXsRpcJGR4gGLFuLMijv0noV5mC+VzLE5skSos2ax4Si8isSLA
+ Oc3gSd4KK6ENZn7HjU93irKZV6gyK4d9Bwo2zzN/mXU29vdSxyVW4kZbss16PFnzTL53
+ hl6VkJxUGY46pBAjX9+KjnUIiCO5RgQG2ZQ1M30uM+2eg8VEKgSz6xkG/uLABevNaHxq
+ O74iPNL0E4HEpRwNDUiRws/VuGv/m6Iee6pMiMJNd+f+HveeSv5IAJOFxZr7sBUAllcj
+ zMGR2xre6rcFEyCOr8/w03yCtYd/WVPRyitwHcpNHF7EFg4e0z/ONN7QiPMJ1MLLQHGz
+ oLcQ==
+X-Gm-Message-State: ANhLgQ2UcKPaGpmo/qAcxwBijzJD4v1zDzDGDnH6BnC7+GqMsMHmCWeB
+ Y9zSDGmuMaE5lSMSNcYubPrIL12zyGiNAA==
+X-Google-Smtp-Source: ADFU+vtlRjyus0oCpLOlKh+eLSWNzXhLOPdPTC8SEDPk4wIrTpII0/jC0xQJ8o68Zo4PU4Y4BbkbWw==
+X-Received: by 2002:adf:f70f:: with SMTP id r15mr5041239wrp.269.1583515072719; 
+ Fri, 06 Mar 2020 09:17:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f8sm6948346wmf.20.2020.03.06.09.17.50
+ by smtp.gmail.com with ESMTPSA id f8sm6948346wmf.20.2020.03.06.09.17.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 09:17:51 -0800 (PST)
+ Fri, 06 Mar 2020 09:17:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] post-rst-conversion cleanups
-Date: Fri,  6 Mar 2020 17:17:42 +0000
-Message-Id: <20200306171749.10756-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/7] Makefile: Remove redundant Texinfo related code
+Date: Fri,  6 Mar 2020 17:17:43 +0000
+Message-Id: <20200306171749.10756-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200306171749.10756-1-peter.maydell@linaro.org>
+References: <20200306171749.10756-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,38 +81,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series has some small cleanups now that the conversion
-of qemu-doc to rST has gone into master:
- * reorder the index.html.in/index.rst as it looks a bit odd
-   now that qemu-doc.html has gone from the top of the list
- * remove various bits of redundant code, makefile runes, etc
- * update some comments still talking about texi
- * add a missing dependency so that editing the Sphinx
-   extension source code triggers a rebuild of the docs
+The recent conversion of qemu-doc.texi to rST forgot a few stray bits
+of makefile code that are now redundant. Remove them.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ Makefile | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-Peter Maydell (7):
-  Makefile: Remove redundant Texinfo related code
-  Update comments in .hx files that mention Texinfo
-  hxtool: Remove Texinfo generation support
-  docs/sphinx/hxtool.py: Remove STEXI/ETEXI support
-  Makefile: Make all Sphinx documentation depend on the extensions
-  docs/index.rst, docs/index.html.in: Reorder manuals
-  docs/qemu-option-trace.rst.inc: Remove redundant comment
-
- Makefile                       | 14 ++----
- docs/index.html.in             | 10 ++---
- docs/index.rst                 |  8 ++--
- docs/qemu-option-trace.rst.inc |  4 --
- docs/sphinx/hxtool.py          | 28 ++----------
- hmp-commands-info.hx           |  8 ++--
- hmp-commands.hx                |  8 ++--
- qemu-options.hx                |  8 ++--
- scripts/hxtool                 | 78 +---------------------------------
- 9 files changed, 29 insertions(+), 137 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index 9d4b2241265..2ccd80065b6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -761,7 +761,7 @@ rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(M
+ endef
+ 
+ distclean: clean
+-	rm -f config-host.mak config-host.h* config-host.ld $(DOCS) qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
++	rm -f config-host.mak config-host.h* config-host.ld $(DOCS)
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config-all-devices.mak config-all-disas.mak config.status
+ 	rm -f $(SUBDIR_DEVICES_MAK)
+@@ -1088,15 +1088,6 @@ $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
+ 	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
+              "GEN","$@")
+ 
+-qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+-qemu-monitor.texi: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+-qemu-monitor-info.texi: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
+-	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
+-
+ docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
+ 	@cp -p $< $@
+ 
 -- 
 2.20.1
 
