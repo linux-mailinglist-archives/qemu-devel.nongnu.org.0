@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1243C17C446
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:25:53 +0100 (CET)
-Received: from localhost ([::1]:39932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015EA17C44E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:27:52 +0100 (CET)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGjQ-0002df-3d
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:25:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48771)
+	id 1jAGlL-0006TB-11
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:27:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZa-00056v-At
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:45 -0500
+ (envelope-from <kwolf@redhat.com>) id 1jAGZi-0005K6-Pq
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZX-0008E8-6B
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28222
+ (envelope-from <kwolf@redhat.com>) id 1jAGZh-0000Ba-7B
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37857
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZW-00089V-Rk
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:39 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZg-000084-5q
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583514937;
+ s=mimecast20190719; t=1583514947;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vuk8YHYDza90ATlmaEIWbc3X3FXvkSlMAwPxLNGqdu0=;
- b=U5t/y9cjky5HXjRCZWaf9ujdFFn8XHKzKsPKVAMIrmd+8d49pPxObNE2c1FGVeb0WcwUgS
- KiUL5hTanedFtzHjknl09bDATA6x7dV916wD3ZH8eACSyU7mq0L044LIl8Cz7Yi03ZFP/+
- OuZq6Nt4Tuhju6MEfSRvsH4SSNhKVqI=
+ bh=hvR1SEgAX4EHwymKc6mgoUAURYh382YfZyHV5CLq2mk=;
+ b=cuUKbp+UK+k9QogXKQhi0x1e5WqzjPLVhHqywiD234tnO9FK9HmzDjGJMJbbOUxm5+RHia
+ oPlrt3LK9SgGNEtxHbbsrya3q32N1uC7tzILajbnx/VTE2m/EYUKKvBo3k20LiLCOCJJhP
+ HGehr8vQO/vsmft9PPxmevll79Uq4Hg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-XxMMVn0jNN-In6--St_YUw-1; Fri, 06 Mar 2020 12:15:33 -0500
-X-MC-Unique: XxMMVn0jNN-In6--St_YUw-1
+ us-mta-423-zA2JxtlLNtu2Jjj7hAv0Vw-1; Fri, 06 Mar 2020 12:15:45 -0500
+X-MC-Unique: zA2JxtlLNtu2Jjj7hAv0Vw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E49178014D1;
- Fri,  6 Mar 2020 17:15:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA29713F9;
+ Fri,  6 Mar 2020 17:15:41 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECA1273873;
- Fri,  6 Mar 2020 17:15:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4DE873873;
+ Fri,  6 Mar 2020 17:15:40 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/29] qapi: Create 'pragma' module
-Date: Fri,  6 Mar 2020 18:14:50 +0100
-Message-Id: <20200306171458.1848-22-kwolf@redhat.com>
+Subject: [PULL 28/29] iotests: Refactor blockdev-reopen test for iothreads
+Date: Fri,  6 Mar 2020 18:14:57 +0100
+Message-Id: <20200306171458.1848-29-kwolf@redhat.com>
 In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
 References: <20200306171458.1848-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,110 +75,124 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to share the whitelists between the system emulator schema and
-the storage daemon schema, so move all the pragmas from the main schema
-file into a separate file that can be included from both.
+We'll want to test more than one successful case in the future, so
+prepare the test for that by a refactoring that runs each scenario in a
+separate VM.
+
+test_iothreads_switch_{backing,overlay} currently produce errors, but
+these are cases that should actually work, by switching either the
+backing file node or the overlay node to the AioContext of the other
+node.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200224143008.13362-16-kwolf@redhat.com>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+Tested-by: Peter Krempa <pkrempa@redhat.com>
+Message-Id: <20200306141413.30705-2-kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/pragma.json      | 24 ++++++++++++++++++++++++
- qapi/qapi-schema.json | 25 +------------------------
- qapi/Makefile.objs    |  2 +-
- 3 files changed, 26 insertions(+), 25 deletions(-)
- create mode 100644 qapi/pragma.json
+ tests/qemu-iotests/245     | 47 ++++++++++++++++++++++++++++++--------
+ tests/qemu-iotests/245.out |  4 ++--
+ 2 files changed, 39 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/pragma.json b/qapi/pragma.json
-new file mode 100644
-index 0000000000..cffae27666
---- /dev/null
-+++ b/qapi/pragma.json
-@@ -0,0 +1,24 @@
-+{ 'pragma': { 'doc-required': true } }
-+
-+# Whitelists to permit QAPI rule violations; think twice before you
-+# add to them!
-+{ 'pragma': {
-+    # Commands allowed to return a non-dictionary:
-+    'returns-whitelist': [
-+        'human-monitor-command',
-+        'qom-get',
-+        'query-migrate-cache-size',
-+        'query-tpm-models',
-+        'query-tpm-types',
-+        'ringbuf-read' ],
-+    'name-case-whitelist': [
-+        'ACPISlotType',             # DIMM, visible through query-acpi-osp=
-m-status
-+        'CpuInfoMIPS',              # PC, visible through query-cpu
-+        'CpuInfoTricore',           # PC, visible through query-cpu
-+        'BlockdevVmdkSubformat',    # all members, to match VMDK spec spel=
-lings
-+        'BlockdevVmdkAdapterType',  # legacyESX, to match VMDK spec spelli=
-ngs
-+        'QapiErrorClass',           # all members, visible through errors
-+        'UuidInfo',                 # UUID, visible through query-uuid
-+        'X86CPURegister32',         # all members, visible indirectly thro=
-ugh qom-get
-+        'CpuInfo'                   # CPU, visible through query-cpu
-+    ] } }
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index fe980ce437..43b0ba0dea 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -49,30 +49,7 @@
- #
- ##
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index 489bf78bd0..7d9eb6285c 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -970,8 +970,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.assertEqual(self.get_node('hd1'), None)
+         self.assert_qmp(self.get_node('hd2'), 'ro', True)
 =20
--{ 'pragma': { 'doc-required': true } }
+-    # We don't allow setting a backing file that uses a different AioConte=
+xt
+-    def test_iothreads(self):
++    def run_test_iothreads(self, iothread_a, iothread_b, errmsg =3D None):
+         opts =3D hd_opts(0)
+         result =3D self.vm.qmp('blockdev-add', conv_keys =3D False, **opts=
+)
+         self.assert_qmp(result, 'return', {})
+@@ -986,20 +985,48 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         result =3D self.vm.qmp('object-add', qom_type=3D'iothread', id=3D'=
+iothread1')
+         self.assert_qmp(result, 'return', {})
+=20
+-        result =3D self.vm.qmp('x-blockdev-set-iothread', node_name=3D'hd0=
+', iothread=3D'iothread0')
++        result =3D self.vm.qmp('device_add', driver=3D'virtio-scsi', id=3D=
+'scsi0',
++                             iothread=3Diothread_a)
+         self.assert_qmp(result, 'return', {})
+=20
+-        self.reopen(opts, {'backing': 'hd2'}, "Cannot use a new backing fi=
+le with a different AioContext")
 -
--# Whitelists to permit QAPI rule violations; think twice before you
--# add to them!
--{ 'pragma': {
--    # Commands allowed to return a non-dictionary:
--    'returns-whitelist': [
--        'human-monitor-command',
--        'qom-get',
--        'query-migrate-cache-size',
--        'query-tpm-models',
--        'query-tpm-types',
--        'ringbuf-read' ],
--    'name-case-whitelist': [
--        'ACPISlotType',             # DIMM, visible through query-acpi-osp=
-m-status
--        'CpuInfoMIPS',              # PC, visible through query-cpu
--        'CpuInfoTricore',           # PC, visible through query-cpu
--        'BlockdevVmdkSubformat',    # all members, to match VMDK spec spel=
-lings
--        'BlockdevVmdkAdapterType',  # legacyESX, to match VMDK spec spelli=
-ngs
--        'QapiErrorClass',           # all members, visible through errors
--        'UuidInfo',                 # UUID, visible through query-uuid
--        'X86CPURegister32',         # all members, visible indirectly thro=
-ugh qom-get
--        'CpuInfo'                   # CPU, visible through query-cpu
--    ] } }
-+{ 'include': 'pragma.json' }
+-        result =3D self.vm.qmp('x-blockdev-set-iothread', node_name=3D'hd2=
+', iothread=3D'iothread1')
++        result =3D self.vm.qmp('device_add', driver=3D'virtio-scsi', id=3D=
+'scsi1',
++                             iothread=3Diothread_b)
+         self.assert_qmp(result, 'return', {})
 =20
- # Documentation generated with qapi-gen.py is in source order, with
- # included sub-schemas inserted at the first include directive
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index 20fcc37c2c..cf33fd9cc0 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -7,7 +7,7 @@ util-obj-y +=3D qapi-util.o
+-        self.reopen(opts, {'backing': 'hd2'}, "Cannot use a new backing fi=
+le with a different AioContext")
++        if iothread_a:
++            result =3D self.vm.qmp('device_add', driver=3D'scsi-hd', drive=
+=3D'hd0',
++                                 share_rw=3DTrue, bus=3D"scsi0.0")
++            self.assert_qmp(result, 'return', {})
 =20
- QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
-rypto
- QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
--QAPI_COMMON_MODULES +=3D net qdev qom rdma rocker run-state sockets tpm
-+QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
- tpm
- QAPI_COMMON_MODULES +=3D trace transaction ui
- QAPI_TARGET_MODULES =3D machine-target misc-target
- QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+-        result =3D self.vm.qmp('x-blockdev-set-iothread', node_name=3D'hd2=
+', iothread=3D'iothread0')
+-        self.assert_qmp(result, 'return', {})
++        if iothread_b:
++            result =3D self.vm.qmp('device_add', driver=3D'scsi-hd', drive=
+=3D'hd2',
++                                 share_rw=3DTrue, bus=3D"scsi1.0")
++            self.assert_qmp(result, 'return', {})
+=20
+-        self.reopen(opts, {'backing': 'hd2'})
++        # Attaching the backing file may or may not work
++        self.reopen(opts, {'backing': 'hd2'}, errmsg)
++
++        # But removing the backing file should always work
++        self.reopen(opts, {'backing': None})
++
++        self.vm.shutdown()
++
++    # We don't allow setting a backing file that uses a different AioConte=
+xt if
++    # neither of them can switch to the other AioContext
++    def test_iothreads_error(self):
++        self.run_test_iothreads('iothread0', 'iothread1',
++                                "Cannot use a new backing file with a diff=
+erent AioContext")
++
++    def test_iothreads_compatible_users(self):
++        self.run_test_iothreads('iothread0', 'iothread0')
++
++    def test_iothreads_switch_backing(self):
++        self.run_test_iothreads('iothread0', None,
++                                "Cannot use a new backing file with a diff=
+erent AioContext")
++
++    def test_iothreads_switch_overlay(self):
++        self.run_test_iothreads(None, 'iothread0',
++                                "Cannot use a new backing file with a diff=
+erent AioContext")
+=20
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D["qcow2"],
+diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
+index a19de5214d..682b93394d 100644
+--- a/tests/qemu-iotests/245.out
++++ b/tests/qemu-iotests/245.out
+@@ -1,6 +1,6 @@
+-..................
++.....................
+ ----------------------------------------------------------------------
+-Ran 18 tests
++Ran 21 tests
+=20
+ OK
+ {"execute": "job-finalize", "arguments": {"id": "commit0"}}
 --=20
 2.20.1
 
