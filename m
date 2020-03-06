@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DE517C40C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:17:47 +0100 (CET)
-Received: from localhost ([::1]:39744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD5517C42E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:21:25 +0100 (CET)
+Received: from localhost ([::1]:39838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGbZ-0007LJ-W5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:17:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48260)
+	id 1jAGf6-0003qN-9z
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZA-0004gE-39
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:19 -0500
+ (envelope-from <kwolf@redhat.com>) id 1jAGZ8-0004fm-M3
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZ8-00075P-6g
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55162
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZ8-00074F-3Q
+ (envelope-from <kwolf@redhat.com>) id 1jAGZ7-00073g-Ek
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:14 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54198
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZ7-00072t-AU
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1583514913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Omoi/sEq5CITopR+p4fflWC2UR9+E6aTKjKMk9A1Res=;
- b=THdfdnPOrdfpTinlcn6KADwLQY4db+27xFzASJ0WMFqM34/OF2N4XLyh2LUKBftiREnEh/
- i0QR9DYizJILK84w/VKuU9ys47A5qA/romNGYWmJAboft5zMxPe8ffrlrCXoNM3YNZTNHy
- kFK/r09Ly+nvftzVf7TjNeajrJQUwUM=
+ bh=ZZRM5vgUAJU2FA1AmspXimPttE4N5rGzBVUC8cRGLtw=;
+ b=FlZ5FeaFoy6fvvGbwGpcPcbUOqOwTPNjgG/ONV/mKr+b0JEHNFv96yxNE66FOdntrn3OIU
+ FhoAVEAC9yYsMVhHv1vMLJ8lPYV5xpHStCFhGCNiJ0CoWRIg4xkiOUb1Vat7VO+2DI28fa
+ jRRJLKNYVLr4lb0Rk9vPeVatVuyYMfQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-wDEMXzbSMhedwOdEZQxCog-1; Fri, 06 Mar 2020 12:15:09 -0500
-X-MC-Unique: wDEMXzbSMhedwOdEZQxCog-1
+ us-mta-489-1nJCWdC6Ny6RXdrY1GlFdw-1; Fri, 06 Mar 2020 12:15:10 -0500
+X-MC-Unique: 1nJCWdC6Ny6RXdrY1GlFdw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71EC7801E6D;
- Fri,  6 Mar 2020 17:15:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B90D313F6;
+ Fri,  6 Mar 2020 17:15:09 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2E973873;
- Fri,  6 Mar 2020 17:15:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B782C73873;
+ Fri,  6 Mar 2020 17:15:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/29] iotests/026: Test EIO on preallocated zero cluster
-Date: Fri,  6 Mar 2020 18:14:31 +0100
-Message-Id: <20200306171458.1848-3-kwolf@redhat.com>
+Subject: [PULL 03/29] iotests/026: Test EIO on allocation in a data-file
+Date: Fri,  6 Mar 2020 18:14:32 +0100
+Message-Id: <20200306171458.1848-4-kwolf@redhat.com>
 In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
 References: <20200306171458.1848-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,47 +77,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Test what happens when writing data to a preallocated zero cluster, but
-the data write fails.
+Test what happens when writing data to an external data file, where the
+write requires an L2 entry to be allocated, but the data write fails.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200225143130.111267-3-mreitz@redhat.com>
+Message-Id: <20200225143130.111267-4-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/026             | 21 +++++++++++++++++++++
- tests/qemu-iotests/026.out         | 10 ++++++++++
- tests/qemu-iotests/026.out.nocache | 10 ++++++++++
- 3 files changed, 41 insertions(+)
+ tests/qemu-iotests/026             | 32 ++++++++++++++++++++++++++++++
+ tests/qemu-iotests/026.out         |  6 ++++++
+ tests/qemu-iotests/026.out.nocache |  6 ++++++
+ 3 files changed, 44 insertions(+)
 
 diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
-index a4aa74764f..0c1273c339 100755
+index 0c1273c339..b05a4692cf 100755
 --- a/tests/qemu-iotests/026
 +++ b/tests/qemu-iotests/026
-@@ -218,6 +218,27 @@ _make_test_img 64M
- $QEMU_IO -c "write 0 1M" -c "write 0 1M" "$BLKDBG_TEST_IMG" | _filter_qemu=
-_io
+@@ -30,6 +30,7 @@ _cleanup()
+ {
+ =09_cleanup_test_img
+     rm "$TEST_DIR/blkdebug.conf"
++    rm -f "$TEST_IMG.data_file"
+ }
+ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
+@@ -239,6 +240,37 @@ $QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG"=
+ | _filter_qemu_io
+=20
  _check_test_img
 =20
 +echo
-+echo =3D=3D=3D Avoid freeing preallocated zero clusters on failure =3D=3D=
-=3D
++echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
 +echo
 +
-+cat > "$TEST_DIR/blkdebug.conf" <<EOF
-+[inject-error]
-+event =3D "write_aio"
-+errno =3D "5"
-+once =3D "on"
-+EOF
++# Similar test as the last one, except we test what happens when there
++# is an error when writing to an external data file instead of when
++# writing to a preallocated zero cluster
++_make_test_img -o "data_file=3D$TEST_IMG.data_file" $CLUSTER_SIZE
 +
-+_make_test_img $CLUSTER_SIZE
-+# Create a preallocated zero cluster
-+$QEMU_IO -c "write 0 $CLUSTER_SIZE" -c "write -z 0 $CLUSTER_SIZE" "$TEST_I=
-MG" \
++# Put blkdebug above the data-file, and a raw node on top of that so
++# that blkdebug will see a write_aio event and emit an error
++$QEMU_IO -c "write 0 $CLUSTER_SIZE" \
++    "json:{
++         'driver': 'qcow2',
++         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
++         'data-file': {
++             'driver': 'raw',
++             'file': {
++                 'driver': 'blkdebug',
++                 'config': '$TEST_DIR/blkdebug.conf',
++                 'image': {
++                     'driver': 'file',
++                     'filename': '$TEST_IMG.data_file'
++                 }
++             }
++         }
++     }" \
 +    | _filter_qemu_io
-+# Try to overwrite it (prompting an I/O error from blkdebug), thus
-+# triggering the alloc abort code
-+$QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG" | _filter_qemu_io
 +
 +_check_test_img
 +
@@ -124,41 +141,35 @@ MG" \
  echo "*** done"
  rm -f $seq.full
 diff --git a/tests/qemu-iotests/026.out b/tests/qemu-iotests/026.out
-index ff0817b6f2..83989996ff 100644
+index 83989996ff..c1b3b58482 100644
 --- a/tests/qemu-iotests/026.out
 +++ b/tests/qemu-iotests/026.out
-@@ -643,4 +643,14 @@ write failed: Input/output error
- wrote 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -653,4 +653,10 @@ wrote 1024/1024 bytes at offset 0
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ write failed: Input/output error
  No errors were found on the image.
 +
-+=3D=3D=3D Avoid freeing preallocated zero clusters on failure =3D=3D=3D
++=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
+DIR/t.IMGFMT.data_file
 +write failed: Input/output error
 +No errors were found on the image.
  *** done
 diff --git a/tests/qemu-iotests/026.out.nocache b/tests/qemu-iotests/026.ou=
 t.nocache
-index 495d013007..9359d26d7e 100644
+index 9359d26d7e..8d5001648a 100644
 --- a/tests/qemu-iotests/026.out.nocache
 +++ b/tests/qemu-iotests/026.out.nocache
-@@ -651,4 +651,14 @@ write failed: Input/output error
- wrote 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -661,4 +661,10 @@ wrote 1024/1024 bytes at offset 0
+ 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ write failed: Input/output error
  No errors were found on the image.
 +
-+=3D=3D=3D Avoid freeing preallocated zero clusters on failure =3D=3D=3D
++=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
 +
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1024/1024 bytes at offset 0
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
+DIR/t.IMGFMT.data_file
 +write failed: Input/output error
 +No errors were found on the image.
  *** done
