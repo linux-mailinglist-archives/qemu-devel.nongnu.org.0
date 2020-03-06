@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B839517C46C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:30:32 +0100 (CET)
-Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE20017C479
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:33:36 +0100 (CET)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGnv-0002Us-M5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:30:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48763)
+	id 1jAGqt-00080o-Tb
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:33:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZa-00056L-1h
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:45 -0500
+ (envelope-from <kwolf@redhat.com>) id 1jAGZc-0005A3-1H
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZX-0008Fy-L1
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:41 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33262
+ (envelope-from <kwolf@redhat.com>) id 1jAGZY-0008JI-J9
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:43 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31248
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZX-0008E7-Fq
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:39 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZY-0008Gn-CA
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583514938;
+ s=mimecast20190719; t=1583514939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FfVKE4oQOv+fEEApXhx4oJW0V8OXPw6JlAQlw/LRLN4=;
- b=cuQ+Q4TWA0RTy1RlmEiUigA0gGBuqVbz8oMSqenycF5EYlc1gUg93rh9WT1QOB6H5thd8g
- T0RmkWc7/ffkDYi3/hIfFvV1Q+7x4Zk+SbOsMN/uEe9/AXRtsCQcAW4ZM0kKVWjzlZ+VK5
- 0oyuK7H3oCfGAE1DITcFcK+CSmiGDQg=
+ bh=3uFL4C+g/wYV+XiCjlejBiTbCr21q+WQpO8lPEL1vkA=;
+ b=e3U3LVU0BjzJXFbTNMPe63W9nLyP2Ma9CdPtm2UZYLmlumL3O66R45xUXpGDQTcKodCXFK
+ S2JHJu3xVZLI7NgJKbAEZxwCsSwlB+mQtsqZj1QFC2DWYNxsU+/lnUpGGc4JXEumvzSKGK
+ IuQUwyy+0oIaCFZb8cB6+svvwCkyxnE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-6XZNeu-rOqG2R3Jc9Q75Yg-1; Fri, 06 Mar 2020 12:15:36 -0500
-X-MC-Unique: 6XZNeu-rOqG2R3Jc9Q75Yg-1
+ us-mta-324-5xXzSdz6NsGse4T3DnQPTQ-1; Fri, 06 Mar 2020 12:15:37 -0500
+X-MC-Unique: 5xXzSdz6NsGse4T3DnQPTQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 725A213F5;
- Fri,  6 Mar 2020 17:15:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B19EA184C801;
+ Fri,  6 Mar 2020 17:15:36 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76A3673873;
- Fri,  6 Mar 2020 17:15:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9EE973873;
+ Fri,  6 Mar 2020 17:15:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 23/29] qmp: Fail gracefully if chardev is already in use
-Date: Fri,  6 Mar 2020 18:14:52 +0100
-Message-Id: <20200306171458.1848-24-kwolf@redhat.com>
+Subject: [PULL 24/29] hmp: Fail gracefully if chardev is already in use
+Date: Fri,  6 Mar 2020 18:14:53 +0100
+Message-Id: <20200306171458.1848-25-kwolf@redhat.com>
 In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
 References: <20200306171458.1848-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -74,138 +74,146 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trying to attach a QMP monitor to a chardev that is already in use
-results in a crash because monitor_init_qmp() passes &error_abort to
+Trying to attach a HMP monitor to a chardev that is already in use
+results in a crash because monitor_init_hmp() passes &error_abort to
 qemu_chr_fe_init():
 
-$ ./x86_64-softmmu/qemu-system-x86_64 --chardev stdio,id=3Dfoo --mon foo,mo=
-de=3Dcontrol --mon foo,mode=3Dcontrol
-Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
-qemu-system-x86_64: --mon foo,mode=3Dcontrol: Device 'foo' is in use
+$ ./x86_64-softmmu/qemu-system-x86_64 --chardev stdio,id=3Dfoo --mon foo --=
+mon foo
+QEMU 4.2.50 monitor - type 'help' for more information
+(qemu) Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
+qemu-system-x86_64: --mon foo: Device 'foo' is in use
 Abgebrochen (Speicherabzug geschrieben)
 
-Fix this by allowing monitor_init_qmp() to return an error and passing
+Fix this by allowing monitor_init_hmp() to return an error and passing
 any error in qemu_chr_fe_init() to its caller instead of aborting.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200224143008.13362-18-kwolf@redhat.com>
+Message-Id: <20200224143008.13362-19-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/monitor/monitor.h |  2 +-
- monitor/monitor.c         |  7 ++++++-
- monitor/qmp.c             | 11 +++++++----
- stubs/monitor-core.c      |  2 +-
- tests/test-util-sockets.c |  2 +-
- 5 files changed, 16 insertions(+), 8 deletions(-)
+ include/monitor/monitor.h | 2 +-
+ chardev/char.c            | 8 +++++++-
+ gdbstub.c                 | 2 +-
+ monitor/hmp.c             | 8 ++++++--
+ monitor/monitor.c         | 2 +-
+ stubs/monitor.c           | 2 +-
+ tests/test-util-sockets.c | 2 +-
+ 7 files changed, 18 insertions(+), 8 deletions(-)
 
 diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index db1112552c..e55a3b57e0 100644
+index e55a3b57e0..ad823b9edb 100644
 --- a/include/monitor/monitor.h
 +++ b/include/monitor/monitor.h
-@@ -17,7 +17,7 @@ bool monitor_cur_is_qmp(void);
-=20
+@@ -18,7 +18,7 @@ bool monitor_cur_is_qmp(void);
  void monitor_init_globals(void);
  void monitor_init_globals_core(void);
--void monitor_init_qmp(Chardev *chr, bool pretty);
-+void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp);
- void monitor_init_hmp(Chardev *chr, bool use_readline);
+ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp);
+-void monitor_init_hmp(Chardev *chr, bool use_readline);
++void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp);
  int monitor_init(MonitorOptions *opts, Error **errp);
  int monitor_init_opts(QemuOpts *opts, Error **errp);
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index f8a6ef795b..00d287655e 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -614,6 +614,7 @@ void monitor_init_globals_core(void)
- int monitor_init(MonitorOptions *opts, Error **errp)
- {
-     Chardev *chr;
-+    Error *local_err =3D NULL;
+ void monitor_cleanup(void);
+diff --git a/chardev/char.c b/chardev/char.c
+index 87237568df..e77564060d 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -737,7 +737,13 @@ Chardev *qemu_chr_new_noreplay(const char *label, cons=
+t char *filename,
 =20
-     chr =3D qemu_chr_find(opts->chardev);
-     if (chr =3D=3D NULL) {
-@@ -623,7 +624,7 @@ int monitor_init(MonitorOptions *opts, Error **errp)
-=20
-     switch (opts->mode) {
-     case MONITOR_MODE_CONTROL:
--        monitor_init_qmp(chr, opts->pretty);
-+        monitor_init_qmp(chr, opts->pretty, &local_err);
-         break;
-     case MONITOR_MODE_READLINE:
-         if (opts->pretty) {
-@@ -636,6 +637,10 @@ int monitor_init(MonitorOptions *opts, Error **errp)
-         g_assert_not_reached();
+     if (qemu_opt_get_bool(opts, "mux", 0)) {
+         assert(permit_mux_mon);
+-        monitor_init_hmp(chr, true);
++        monitor_init_hmp(chr, true, &err);
++        if (err) {
++            error_report_err(err);
++            object_unparent(OBJECT(chr));
++            chr =3D NULL;
++            goto out;
++        }
      }
 =20
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return -1;
-+    }
-     return 0;
+ out:
+diff --git a/gdbstub.c b/gdbstub.c
+index ce304ff482..22a2d630cd 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3367,7 +3367,7 @@ int gdbserver_start(const char *device)
+         /* Initialize a monitor terminal for gdb */
+         mon_chr =3D qemu_chardev_new(NULL, TYPE_CHARDEV_GDB,
+                                    NULL, NULL, &error_abort);
+-        monitor_init_hmp(mon_chr, false);
++        monitor_init_hmp(mon_chr, false, &error_abort);
+     } else {
+         qemu_chr_fe_deinit(&s->chr, true);
+         mon_chr =3D s->mon_chr;
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index 944fa9651e..d598dd02bb 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1399,12 +1399,16 @@ static void monitor_readline_flush(void *opaque)
+     monitor_flush(&mon->common);
  }
 =20
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 8379c8f96e..f89e7daf27 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -395,10 +395,16 @@ static void monitor_qmp_setup_handlers_bh(void *opaqu=
-e)
-     monitor_list_append(&mon->common);
- }
-=20
--void monitor_init_qmp(Chardev *chr, bool pretty)
-+void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+-void monitor_init_hmp(Chardev *chr, bool use_readline)
++void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp)
  {
-     MonitorQMP *mon =3D g_new0(MonitorQMP, 1);
+     MonitorHMP *mon =3D g_new0(MonitorHMP, 1);
 =20
 +    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
 +        g_free(mon);
 +        return;
 +    }
-+    qemu_chr_fe_set_echo(&mon->common.chr, true);
 +
-     /* Note: we run QMP monitor in I/O thread when @chr supports that */
-     monitor_data_init(&mon->common, true, false,
-                       qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT=
-));
-@@ -408,9 +414,6 @@ void monitor_init_qmp(Chardev *chr, bool pretty)
-     qemu_mutex_init(&mon->qmp_queue_lock);
-     mon->qmp_requests =3D g_queue_new();
-=20
+     monitor_data_init(&mon->common, false, false, false);
 -    qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
--    qemu_chr_fe_set_echo(&mon->common.chr, true);
--
-     json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
-     if (mon->common.use_io_thread) {
-         /*
-diff --git a/stubs/monitor-core.c b/stubs/monitor-core.c
-index 403c00a6d0..6cff1c4e1d 100644
---- a/stubs/monitor-core.c
-+++ b/stubs/monitor-core.c
-@@ -5,7 +5,7 @@
 =20
- __thread Monitor *cur_mon;
+     mon->use_readline =3D use_readline;
+     if (mon->use_readline) {
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 00d287655e..2282bf6780 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -631,7 +631,7 @@ int monitor_init(MonitorOptions *opts, Error **errp)
+             warn_report("'pretty' is deprecated for HMP monitors, it has n=
+o "
+                         "effect and will be removed in future versions");
+         }
+-        monitor_init_hmp(chr, true);
++        monitor_init_hmp(chr, true, &local_err);
+         break;
+     default:
+         g_assert_not_reached();
+diff --git a/stubs/monitor.c b/stubs/monitor.c
+index 9403f8e72c..20786ac4ff 100644
+--- a/stubs/monitor.c
++++ b/stubs/monitor.c
+@@ -9,7 +9,7 @@ int monitor_get_fd(Monitor *mon, const char *name, Error **=
+errp)
+     return -1;
+ }
 =20
--void monitor_init_qmp(Chardev *chr, bool pretty)
-+void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+-void monitor_init_hmp(Chardev *chr, bool use_readline)
++void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp)
  {
  }
 =20
 diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-index 8ce55efe70..2edb4c539d 100644
+index 2edb4c539d..5fd947c7bf 100644
 --- a/tests/test-util-sockets.c
 +++ b/tests/test-util-sockets.c
-@@ -71,7 +71,7 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Erro=
+@@ -72,7 +72,7 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Erro=
 r **errp)
-  */
  __thread Monitor *cur_mon;
  int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap) { abort(); =
 }
--void monitor_init_qmp(Chardev *chr, bool pretty) {}
-+void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp) {}
- void monitor_init_hmp(Chardev *chr, bool use_readline) {}
+ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp) {}
+-void monitor_init_hmp(Chardev *chr, bool use_readline) {}
++void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp) {}
 =20
 =20
+ static void test_socket_fd_pass_name_good(void)
 --=20
 2.20.1
 
