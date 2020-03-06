@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386D917BD00
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 13:41:58 +0100 (CET)
-Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E625017BD05
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 13:44:58 +0100 (CET)
+Received: from localhost ([::1]:36068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jACIf-0005e5-AO
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 07:41:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33555)
+	id 1jACLZ-0007hb-Ox
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 07:44:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jACHM-0004t4-1v
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 07:40:37 -0500
+ (envelope-from <eblake@redhat.com>) id 1jACKc-0006q9-0h
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 07:43:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jACHK-0007rO-Hc
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 07:40:35 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:64311)
+ (envelope-from <eblake@redhat.com>) id 1jACKb-0001Zj-20
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 07:43:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25109
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jACHG-0007Tb-QY; Fri, 06 Mar 2020 07:40:31 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E56C67476D5;
- Fri,  6 Mar 2020 13:40:26 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A49727475F6; Fri,  6 Mar 2020 13:40:26 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A14BF74638A;
- Fri,  6 Mar 2020 13:40:26 +0100 (CET)
-Date: Fri, 6 Mar 2020 13:40:26 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 2/2] via-ide: Also emulate non 100% native mode
-In-Reply-To: <e8f3fe10-7a44-5552-bb80-7bc24fe68cc6@ilande.co.uk>
-Message-ID: <alpine.BSF.2.22.395.2003061306500.10004@zero.eik.bme.hu>
-References: <cover.1583017348.git.balaton@eik.bme.hu>
- <alpine.BSF.2.22.395.2003011731130.95594@zero.eik.bme.hu>
- <57ff6676-5054-d3f6-f4fc-6ff02b09019f@ilande.co.uk>
- <alpine.BSF.2.22.395.2003011902490.28669@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2003011951370.28669@zero.eik.bme.hu>
- <38cb0f83-79fc-7021-38fc-c1e28c3c0fa0@ilande.co.uk>
- <alpine.BSF.2.22.395.2003012202330.79908@zero.eik.bme.hu>
- <9ce6d135-4169-96ae-c457-1131b4510c49@ilande.co.uk>
- <alpine.BSF.2.22.395.2003022145430.47473@zero.eik.bme.hu>
- <2a39ccab-e4d4-8172-9a1d-0bc089e0104c@ilande.co.uk>
- <alpine.BSF.2.22.395.2003032356230.41934@zero.eik.bme.hu>
- <a579c016-fd6c-ad4f-c091-2286265c9a57@ilande.co.uk>
- <alpine.BSF.2.22.395.2003042227190.70853@zero.eik.bme.hu>
- <b3bce0d3-3ab3-7fb3-ed3c-60f1f19159d6@ilande.co.uk>
- <alpine.BSF.2.22.395.2003060007040.48868@zero.eik.bme.hu>
- <alpine.BSF.2.22.395.2003060115170.85813@zero.eik.bme.hu>
- <e8f3fe10-7a44-5552-bb80-7bc24fe68cc6@ilande.co.uk>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jACKa-0001W0-UI
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 07:43:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583498636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H/txHChYAsFlVrUHZBgmVdcxpU3iJMCzrGbMnmiY4G8=;
+ b=Z8VFjpjClyTB9D3prTqUlE278DHeEiQn3L5yWtY86/0y8KFNuuDgV6vrMnZYmrXmyjDOPe
+ AfE0SNfR3OjsgB2GaGuoaxnkgtpjoFH6ewgm2JykcLJeYKwT5/QmNmvzCHm/pwikzfPBy7
+ bP6bcutGYCKM520/aK/qkROg7vKsGN0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-nkUAVqrpNFydeiZfafpZ-g-1; Fri, 06 Mar 2020 07:43:54 -0500
+X-MC-Unique: nkUAVqrpNFydeiZfafpZ-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A9BD107ACC9;
+ Fri,  6 Mar 2020 12:43:52 +0000 (UTC)
+Received: from [10.3.117.177] (ovpn-117-177.phx2.redhat.com [10.3.117.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E054746;
+ Fri,  6 Mar 2020 12:43:43 +0000 (UTC)
+Subject: Re: [PATCH v8 02/10] scripts: add coccinelle script to use auto
+ propagated errp
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200306051536.27803-1-vsementsov@virtuozzo.com>
+ <20200306051536.27803-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <8b4ef7d1-f1dd-91f3-0c34-787818cbecd1@redhat.com>
+Date: Fri, 6 Mar 2020 06:43:43 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+In-Reply-To: <20200306051536.27803-3-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,107 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, Laszlo Ersek <lersek@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ armbru@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Mar 2020, Mark Cave-Ayland wrote:
-> On 06/03/2020 00:21, BALATON Zoltan wrote:
->> On Fri, 6 Mar 2020, BALATON Zoltan wrote:
->>> On Thu, 5 Mar 2020, Mark Cave-Ayland wrote:
->>>> On 04/03/2020 22:33, BALATON Zoltan wrote:
->>>> another possibility: PCI configuration space register 0x3d (Interrupt pin) is
->>>> documented as having value 0 == Legacy IRQ routing which should be the initial value
->>>> on reset, but QEMU incorrectly sets it to 1 which indicates PCI IRQ routing.
->>>
->>> The VT8231 docs say this should always read 1 but may be this is somehow set to 0
->>> on the Pegasos2. What does that mean? Should we use this value instead of the
->>> feature bit to force using legacy interrupts? We'd still need a property in via-ide
->>> to set this reg or is it possible to set it from board code overriding the default
->>> after device is created? That would allow to drop patch 1. I can try this.
->>
->> This seemed like it could simplify patches a bit but it does not work. Setting this
->> reg to 0 breaks Linux and MorphOS which then think the device does not have an
->> interrupt at all and fail as before waiting for the irq. So we still need the feature
->> bit, cant use this reg to force legacy interrupts. I've spent considerable time
->> testing different OSes before I've ended up with this patch series I've submitted and
->> I could not find a simpler way that works with everything.
->
-> I appreciate that testing these things can take a lot of time, but what is important
-> thing to ask here is whether these hacks are attempting to work around something in
-> QEMU that doesn't match the hardware specification, and to me it feels that this is
-> what is happening here.
+On 3/5/20 11:15 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Script adds ERRP_AUTO_PROPAGATE macro invocation where appropriate and
+> does corresponding changes in code (look for details in
+> include/qapi/error.h)
+> 
+> Usage example:
+> spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+>   --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff \
+>   blockdev-nbd.c qemu-nbd.c {block/nbd*,nbd/*,include/block/nbd*}.[hc]
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
 
-It may be we need to work around some incomplete modelling of devices in 
-QEMU, e.g. we only model the native mode of these IDE interfaces so 
-anything involving legacy mode is out of scope. To also emulate legacy 
-mode we'd need changing common ISA code and maybe PIC code as well. As 
-those parts are also used by other more commonly used machine models I'd 
-avoid breaking those and rather implement it confined to these machines 
-that are not yet finished or complete anyway than try to change all 
-dependent devices that would need even more testing. These "hacks" could 
-be cleaned up later and this would not be the only hack in QEMU, I don't 
-have time to fix everything and it's unreasonable to demand it I think. 
-I'd suggest to take this patch as it is now and if you don't like it you 
-can submit patches that clean it up the way you think is correct or submit 
-an alternative patch now that shows how do you think it can be done in a 
-cleaner way because I don't see it and don't have more time for it now.
+I'll let Markus do the final review of this, but my personal take is 
+that if the subsequent patches created by using this script are 
+reasonable, then this script was good enough.
 
-> Obviously this thread has become quite long (and even I'm struggling to find previous
-> discussions) but here is my summary below:
->
-> - I don't think the patch in its current form is the right way to do this. Instead of
-> adding a feature bit to fudge the existing IRQ routing when the existing IRQ routing
-> is wrong, let's fix the existing IRQ routing instead.
+> +// Always use the same patter for checking error
 
-I think that would involve changing parts which could break other machines 
-so I'd rather go with a featute bit only affecting pegasos2 and fulonge2 
-than touch i8259 or ISA emulation basing that on some guess how the real 
-chip may be implemented. Is it possible to implement what you propose 
-without changing common IDE, ISA and PIC emulation only in via-ide and 
-fulong2e code?
+pattern
 
-> - There is no mention of "non-100%" native mode in the 8231 or 686B datasheet: this
-> is simply a term used within the Linux patches. The controller is either in native
-> mode, or legacy mode. It may be that guests are making use of some undefined
-> behaviour here.
+> +@@
+> +identifier rule1.fn;
+> +symbol errp;
+> +@@
+> +
+> + fn(...)
+> + {
+> +     <...
+> +-    *errp != NULL
+> ++    *errp
+> +     ...>
+> + }
+> 
 
-Yes, this is a Linux term and Linux also uses a feature bit to enable this 
-workaround. If that's good enough for Linux why isn't it good enough for 
-you?
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-> - The code that uses the value of PCI_INTERRUPT_LINE in via-ide is incorrect (as your
-> patch comment points out, some guests ignore it anyway).
-
-You're misunderstanding the comment. The via_ide_config_read function is 
-needed to restore value in interrupt line that common PCI reset code 
-deletes. Linux depends on this value to be the same as on real hardware so 
-this is needed to work around QEMU and Linux pecularities.
-
-I've tried using PCI_INTERRUPT_PIN in place of the feature bit but setting 
-that to 0 breaks Linux and MorphOS on pegasos2 because these apparently 
-expect this to be set to 1 corresponding to native mode. (Firmware only 
-sets native mode enable bits in prog-if but datasheet says this reg should 
-be 1 by default and other PCI docs say 0 here means no interrupt used so 
-maybe that's why Linux and MorphOS don't like it.)
-
-> - There is different behaviour here between the 8231 and 686B in this area, despite
-> having the same vendor/device id.
->
->
-> The first thing you need to fix is the PCI_INTERRUPT_LINE part; I would start by
-> removing the existing code and instead expose a qdev named gpio "legacy-irq" and
-> wiring that up to your interrupt controller. Note you'd have to do the same for
-> fulong2e, but that is reasonably trivial.
-
-Please go ahead and do it but if you don't submit an alternative patch 
-before the freeze I'd ask John and Peter to make a judgement here and tell 
-if my series is acceptable or not in its current form and if it is then 
-please merge it and leave clean ups for subsequent patches. This is 
-blocking my further patches to implement pegasos2 emulation.
-
-Regards,
-BALATON Zoltan
 
