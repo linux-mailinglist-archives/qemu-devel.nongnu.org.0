@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FB317C471
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:32:12 +0100 (CET)
-Received: from localhost ([::1]:40072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2CA17C492
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:37:46 +0100 (CET)
+Received: from localhost ([::1]:40242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGpX-000577-As
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:32:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1jAGuv-0007tU-0W
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:37:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZg-0005GK-67
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:49 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1jAGbj-0000Tp-Ig
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:17:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZc-0008RH-7K
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:47 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30438
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZb-0008PM-Ub
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583514943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BDPIE2uBT9lfTxkITaSTNTPtgcdUQnhMi/Dy/IkXucU=;
- b=Z1Hu78QgBJRkQj4BL3fdspJMrcSedMyQlbJ39A7nq/PX98WlOgFHCYa2RqETvp2z1bWz1d
- 3ouZmH0/YL7nG+PiFftuWKWj4ONgtN5eKjXJxkWDVkVascXGJONKE1JT+vyHMdF4ljhYgI
- gBJJlkqKY/cOupeejwBe5SHJQq61wgU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-EbNrTc4wMniklePYqClmcw-1; Fri, 06 Mar 2020 12:15:41 -0500
-X-MC-Unique: EbNrTc4wMniklePYqClmcw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FE241005509;
- Fri,  6 Mar 2020 17:15:40 +0000 (UTC)
-Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8343F73873;
- Fri,  6 Mar 2020 17:15:39 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 27/29] block/rbd: Add support for ceph namespaces
-Date: Fri,  6 Mar 2020 18:14:56 +0100
-Message-Id: <20200306171458.1848-28-kwolf@redhat.com>
-In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
-References: <20200306171458.1848-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jAGbi-0007mU-AU
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:17:55 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39895)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jAGbi-0007ey-1f
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:17:54 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id y17so3266068wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:17:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HxBRa5zP5bAdChIgC8UmIomdyrcpexWIdFB2HnoF5Oc=;
+ b=HECo2tFGlBspdhsJe3z64FxVcnDeXR1LTZPzs7NhvlIIFDXGOd84iWPQBLA3tinzGT
+ tJLzXzpSVvJdID2pMtwo2q1UzMye3acpBSwOW3a27NvthEcSSAkVLmmzwYkTBMi3yUNU
+ eX4X/Z7N+NOsF5Ju529BLCVFIsxgw2T59gRstjnrnjzpxyKINMrU34Zaquk3q02CRlgQ
+ LCmRjp7bucBwmhq6dW0w6ayq/7/ZLtGWSALW560eRTDfk0j/gO3Mc+v1QdXMvxoRe8HM
+ paQlroWZX03Rn7/tYdgBVZc7HB/ALznL7kctIK8r1tnP8doGLYrLmIAsE6P335seAnuU
+ v7QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HxBRa5zP5bAdChIgC8UmIomdyrcpexWIdFB2HnoF5Oc=;
+ b=AS2OmpYwhlcSicJaygiWRvVaus01gJtpAkBljn+hFgVpZUxOx3TdBZxIF08ZytB82Q
+ kGB7X6YnGV6fNDVmAA6VMRk1VvBxntAIKbw4LxQcjKHAdG+Au3P0GZ+HhTllJ/DLVeMN
+ n3y7IfqLfffCaRpy4Xv5ltIbbgwYHNI3NFUEN/RjtelVODkYLUQboQ1t1QtR6qhJzWRC
+ LMaLwiU6xYe/ywkWXAHuqlEScP1guWNmK7qT4axXfytboJVKbK5Ovu7M6CL6kJ3WmXmC
+ nAgc53JPiw5iJNDiRFTbs+3tDCMkFABz65Zo7rWbne5duYbUDxcpY4corliKh6ynwlMV
+ KVbw==
+X-Gm-Message-State: ANhLgQ30HSHOQm3W2LUBu30ByKvKZ4V+8QWfiKGeDlozRiLkKjxu8LmL
+ k6O1hE99aYavkuw/DJlF/lMI8z2FlVozxg==
+X-Google-Smtp-Source: ADFU+vsoCb3Ukiah8o1qb6Ul/0R0YZCllfi4s7mxBQCmfXnOhXO72IxOKWprRMRG72P4kXqzgIEi1Q==
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr5007274wru.421.1583515071691; 
+ Fri, 06 Mar 2020 09:17:51 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id f8sm6948346wmf.20.2020.03.06.09.17.50
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Mar 2020 09:17:51 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] post-rst-conversion cleanups
+Date: Fri,  6 Mar 2020 17:17:42 +0000
+Message-Id: <20200306171749.10756-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,168 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Florian Florensa <fflorensa@online.net>
+This series has some small cleanups now that the conversion
+of qemu-doc to rST has gone into master:
+ * reorder the index.html.in/index.rst as it looks a bit odd
+   now that qemu-doc.html has gone from the top of the list
+ * remove various bits of redundant code, makefile runes, etc
+ * update some comments still talking about texi
+ * add a missing dependency so that editing the Sphinx
+   extension source code triggers a rebuild of the docs
 
-Starting from ceph Nautilus, RBD has support for namespaces, allowing
-for finer grain ACLs on images inside a pool, and tenant isolation.
+thanks
+-- PMM
 
-In the rbd cli tool documentation, the new image-spec and snap-spec are :
- - [pool-name/[namespace-name/]]image-name
- - [pool-name/[namespace-name/]]image-name@snap-name
+Peter Maydell (7):
+  Makefile: Remove redundant Texinfo related code
+  Update comments in .hx files that mention Texinfo
+  hxtool: Remove Texinfo generation support
+  docs/sphinx/hxtool.py: Remove STEXI/ETEXI support
+  Makefile: Make all Sphinx documentation depend on the extensions
+  docs/index.rst, docs/index.html.in: Reorder manuals
+  docs/qemu-option-trace.rst.inc: Remove redundant comment
 
-When using an non namespace's enabled qemu, it complains about not
-finding the image called namespace-name/image-name, thus we only need to
-parse the image once again to find if there is a '/' in its name, and if
-there is, use what is before it as the name of the namespace to later
-pass it to rados_ioctx_set_namespace.
-rados_ioctx_set_namespace if called with en empty string or a null
-pointer as the namespace parameters pretty much does nothing, as it then
-defaults to the default namespace.
+ Makefile                       | 14 ++----
+ docs/index.html.in             | 10 ++---
+ docs/index.rst                 |  8 ++--
+ docs/qemu-option-trace.rst.inc |  4 --
+ docs/sphinx/hxtool.py          | 28 ++----------
+ hmp-commands-info.hx           |  8 ++--
+ hmp-commands.hx                |  8 ++--
+ qemu-options.hx                |  8 ++--
+ scripts/hxtool                 | 78 +---------------------------------
+ 9 files changed, 29 insertions(+), 137 deletions(-)
 
-The namespace is extracted inside qemu_rbd_parse_filename, stored in the
-qdict, and used in qemu_rbd_connect to make it work with both qemu-img,
-and qemu itself.
-
-Signed-off-by: Florian Florensa <fflorensa@online.net>
-Message-Id: <20200110111513.321728-2-fflorensa@online.net>
-Reviewed-by: Jason Dillaman <dillaman@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qapi/block-core.json |  3 +++
- block/rbd.c          | 44 +++++++++++++++++++++++++++++++-------------
- 2 files changed, 34 insertions(+), 13 deletions(-)
-
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 48631218fa..9758fc48d2 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3544,6 +3544,8 @@
- #
- # @pool: Ceph pool name.
- #
-+# @namespace: Rados namespace name in the Ceph pool. (Since 5.0)
-+#
- # @image: Image name in the Ceph pool.
- #
- # @conf: path to Ceph configuration file.  Values
-@@ -3570,6 +3572,7 @@
- ##
- { 'struct': 'BlockdevOptionsRbd',
-   'data': { 'pool': 'str',
-+            '*namespace': 'str',
-             'image': 'str',
-             '*conf': 'str',
-             '*snapshot': 'str',
-diff --git a/block/rbd.c b/block/rbd.c
-index 027cbcc695..84115d34b4 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -104,6 +104,7 @@ typedef struct BDRVRBDState {
-     rbd_image_t image;
-     char *image_name;
-     char *snap;
-+    char *namespace;
-     uint64_t image_size;
- } BDRVRBDState;
-=20
-@@ -152,7 +153,7 @@ static void qemu_rbd_parse_filename(const char *filenam=
-e, QDict *options,
-     const char *start;
-     char *p, *buf;
-     QList *keypairs =3D NULL;
--    char *found_str;
-+    char *found_str, *image_name;
-=20
-     if (!strstart(filename, "rbd:", &start)) {
-         error_setg(errp, "File name must start with 'rbd:'");
-@@ -171,18 +172,24 @@ static void qemu_rbd_parse_filename(const char *filen=
-ame, QDict *options,
-     qdict_put_str(options, "pool", found_str);
-=20
-     if (strchr(p, '@')) {
--        found_str =3D qemu_rbd_next_tok(p, '@', &p);
--        qemu_rbd_unescape(found_str);
--        qdict_put_str(options, "image", found_str);
-+        image_name =3D qemu_rbd_next_tok(p, '@', &p);
-=20
-         found_str =3D qemu_rbd_next_tok(p, ':', &p);
-         qemu_rbd_unescape(found_str);
-         qdict_put_str(options, "snapshot", found_str);
-     } else {
--        found_str =3D qemu_rbd_next_tok(p, ':', &p);
-+        image_name =3D qemu_rbd_next_tok(p, ':', &p);
-+    }
-+    /* Check for namespace in the image_name */
-+    if (strchr(image_name, '/')) {
-+        found_str =3D qemu_rbd_next_tok(image_name, '/', &image_name);
-         qemu_rbd_unescape(found_str);
--        qdict_put_str(options, "image", found_str);
-+        qdict_put_str(options, "namespace", found_str);
-+    } else {
-+        qdict_put_str(options, "namespace", "");
-     }
-+    qemu_rbd_unescape(image_name);
-+    qdict_put_str(options, "image", image_name);
-     if (!p) {
-         goto done;
-     }
-@@ -343,6 +350,11 @@ static QemuOptsList runtime_opts =3D {
-             .type =3D QEMU_OPT_STRING,
-             .help =3D "Rados pool name",
-         },
-+        {
-+            .name =3D "namespace",
-+            .type =3D QEMU_OPT_STRING,
-+            .help =3D "Rados namespace name in the pool",
-+        },
-         {
-             .name =3D "image",
-             .type =3D QEMU_OPT_STRING,
-@@ -467,13 +479,14 @@ static int coroutine_fn qemu_rbd_co_create_opts(const=
- char *filename,
-      * schema, but when they come from -drive, they're all QString.
-      */
-     loc =3D rbd_opts->location;
--    loc->pool     =3D g_strdup(qdict_get_try_str(options, "pool"));
--    loc->conf     =3D g_strdup(qdict_get_try_str(options, "conf"));
--    loc->has_conf =3D !!loc->conf;
--    loc->user     =3D g_strdup(qdict_get_try_str(options, "user"));
--    loc->has_user =3D !!loc->user;
--    loc->image    =3D g_strdup(qdict_get_try_str(options, "image"));
--    keypairs      =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
-+    loc->pool        =3D g_strdup(qdict_get_try_str(options, "pool"));
-+    loc->conf        =3D g_strdup(qdict_get_try_str(options, "conf"));
-+    loc->has_conf    =3D !!loc->conf;
-+    loc->user        =3D g_strdup(qdict_get_try_str(options, "user"));
-+    loc->has_user    =3D !!loc->user;
-+    loc->q_namespace =3D g_strdup(qdict_get_try_str(options, "namespace"))=
-;
-+    loc->image       =3D g_strdup(qdict_get_try_str(options, "image"));
-+    keypairs         =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
-=20
-     ret =3D qemu_rbd_do_create(create_options, keypairs, password_secret, =
-errp);
-     if (ret < 0) {
-@@ -648,6 +661,11 @@ static int qemu_rbd_connect(rados_t *cluster, rados_io=
-ctx_t *io_ctx,
-         error_setg_errno(errp, -r, "error opening pool %s", opts->pool);
-         goto failed_shutdown;
-     }
-+    /*
-+     * Set the namespace after opening the io context on the pool,
-+     * if nspace =3D=3D NULL or if nspace =3D=3D "", it is just as we did =
-nothing
-+     */
-+    rados_ioctx_set_namespace(*io_ctx, opts->q_namespace);
-=20
-     return 0;
-=20
---=20
+-- 
 2.20.1
 
 
