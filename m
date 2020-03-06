@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658EC17C48C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:36:41 +0100 (CET)
-Received: from localhost ([::1]:40217 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7069817C574
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 19:33:44 +0100 (CET)
+Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGts-00068Q-E2
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:36:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
+	id 1jAHn4-0000jP-Uj
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 13:33:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1jAGqu-0000po-QE
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:33:38 -0500
+ (envelope-from <prvs=32724e9af=alistair.francis@wdc.com>)
+ id 1jAHlW-0008EG-HF
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 13:32:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1jAGqr-00065X-Ta
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:33:36 -0500
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:42950)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jAGqr-00062y-Lt
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:33:33 -0500
-Received: by mail-lj1-x236.google.com with SMTP id q19so3045201ljp.9
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:33:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eijE0ycxMZz5nfPaqfYDIiyOBeNFjIfRksRWHONug+w=;
- b=ACtgPYPH46+6siS5M/Amt9Tb2vF/kYd9u+RS9jScz/QE568jLdhpvye4nnYLnWVXqz
- YmmTdFAgcC6YvcZfkEuzltOiqMlGi/WTQEu1TZJg7b+XOPQoe/PxSaUQii1v+QoMs5JC
- /FZHyXxj4vgRmV1veykk5SERkeXul1FKbQ03HKC7JD8lNm+RH+o3ycWUBfy5KG1Ql8fb
- C0QLasvOb4b8yRspoAnaOq2XsERbL7kc3GXrhHmhi8oRC5hXZULrJV+RX66TpKP0sgxT
- nXIwEgABK4QQ8jN8dguii5XXAFetnm+k0XCsbrMTQRzAwWrRWjJhrkg+KNa33D9V61XW
- RJPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eijE0ycxMZz5nfPaqfYDIiyOBeNFjIfRksRWHONug+w=;
- b=tUVLGeWqtqRMeoCSWUbQU9aGQZTprCwTjXRbD0h+3awY4q1iMGD8AZynZyqTe83dWE
- NDwC/wL0Wv1H2u5wm59+zoauzerUbtfzm3qKgsnNo4OJ/mH+CV7ljUPQtgxTSttZkkog
- 2Dy3SUYcJg1V2iOPF3zwHV7lOXWV9BBBTvargRauJkXDsPc41bCbGcPpILTytF9lDtci
- PSMoNMc7da/vDQJrbiCNOaq9O7YSICMU4aHVAxUZQC+Q2LLjWLNL1hh7yza2gBC37Z2j
- vvRfY6t8Vle6D9DWdRnp103NSy1g+qHUghlCW3kT6Jz1U2IEX95AKRQTPrYI/hGVN+Zk
- oJHQ==
-X-Gm-Message-State: ANhLgQ3kyeNCqkon4c7yr8HvK6QEuej2fUsGsSvXpgngjWdDHCHDYibq
- uDhoceP2IcmASKzB09rUJ9ONn2Mo16nwXIyZFc3+0w==
-X-Google-Smtp-Source: ADFU+vs8KjIYkm31rX48B6FLhkmjm9JeOhXahvvNb6pHG+SBD8GmREOhkp/arEa3wPhdtEM+eRAQIlJJoPCrNsRODAM=
-X-Received: by 2002:a2e:2c13:: with SMTP id s19mr2574415ljs.210.1583516011751; 
- Fri, 06 Mar 2020 09:33:31 -0800 (PST)
+ (envelope-from <prvs=32724e9af=alistair.francis@wdc.com>)
+ id 1jAHlV-0003Rf-8V
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 13:32:06 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:47137)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=32724e9af=alistair.francis@wdc.com>)
+ id 1jAHlU-0003Db-GI; Fri, 06 Mar 2020 13:32:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1583519531; x=1615055531;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hnhaF5RvT9lzfI/K64BjONUKPQNqcdgYEwIREUbIPfc=;
+ b=eFvoepmdeNNbYv75p4la56g/AnmMsCO8rTcRq4ijEr2kU1exymWMhh8c
+ 8kqCovmj4gFuTpknEGrg7gUg2O/kfoRnjRHdm1kBfhwDypUM4ZVv3tQf2
+ qd4sh8ON2h/ZcjTLLEMcTAfPP1ZqqehsCeqgaIlupZ/OHKcCR8qt8KAtx
+ Kyb6ubhLpBv3JtzerWlgHzfrVCK5l7Ip39g2DOQ2dfgWcTtckJq8yegEi
+ h20XNAJF8n904wwyYpCIUTxHUsVsCe/mhLW9JShO7Y+L909wQ0u0GOJf/
+ p5MNPF+ifj7KcvXioUdKApiQ433jKCEXHiRbTw3p53MXMVWbgSKZF8D5Z g==;
+IronPort-SDR: XLoFDld+QX8fV8L4XOaoBo+U2sqFDfiklP7ZNmubDgJeArfXxSLSpDzfPaKLzIFCrddnyqj1NF
+ 2ARLOe57Eu/0tNwxEA/1qafy5CgysfRG0FweCqkMqXyjo/0HZvFcY/whZ+c7XhgBkFa108UjgP
+ jeI7D506JHeedzzSH3bE1OzMu55H4R2hP7XIIK1dCthwGqWgmlTnMTVL9hzKubnya60Lp/zPmH
+ E4lbP0CjQWbKfoKg8m+b0+KCD79CBQkH5dC8Xobamtzrg4zAhTQ6oXLjiu7eIvrggBFAkVddMI
+ N3s=
+X-IronPort-AV: E=Sophos;i="5.70,523,1574092800"; d="scan'208";a="233755468"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Mar 2020 02:31:51 +0800
+IronPort-SDR: j+HM8K4WqY9KXAIgMOlCYnuMfWCHcNXXqOLQDc13uOknI2i2AqO9ZkxYWZE5p7NqMdis3qkl8y
+ 2TzC6ZSIf0/q/B/ivnGofn3NQXCCFrw9mkls0aNtuA285Y6f1yowTWYiU8Z0CDNUCMxNsKi0nl
+ SC7ombC/ru8+BaodkbItpnPwQjBPiPoyWVE18zFbi0QA94+fy/LvluDNTQJ/xW4epkJuBbAS4p
+ YsvDw9R8SVm99tdgV+u2P/MA7AWyMPfSTK1+h7PDTT0hdi1IN6JeZAEMuXXEJK1YMMF2iljLNd
+ howoNC9MLKQAcNj8AuRCaVcy
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2020 10:23:47 -0800
+IronPort-SDR: lBLV0u3lRdUgtXjg3Qi1/qvmOkxXTlVelU4Gq8I73zE/UtfovI1k6+LJqiZUNgDAStIwBPtyHP
+ oN5VgWp/VzoBWUJKhui7jmygM+EytYDYXflXVr4+iu7yguXK75ps2yxtQlZrDSxAQLXgECZFd9
+ eBF0htFu3uWcx99pJUF4a9McDOFYuWC5IXJj7mUnkJIU/V7dQMUouEEbg0MW1tgXbP66X0t8ju
+ cMeGTWq5wyHWczlAR5Qzv5VblCFUqYeWv9e8/xXYi5eTv6PI2IyhnPIy8PIN8Ln+kC4ETaoVOU
+ ws4=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+ by uls-op-cesaip02.wdc.com with ESMTP; 06 Mar 2020 10:31:37 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, aleksandar.m.mail@gmail.com,
+ laurent@vivier.eu
+Subject: [PATCH v6 0/4]  linux-user: generate syscall_nr.sh for RISC-V
+Date: Fri,  6 Mar 2020 10:24:19 -0800
+Message-Id: <cover.1583518447.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200306140917.26726-1-jandryuk@gmail.com>
- <158351119581.14529.12409093643313383178@39012742ff91>
-In-Reply-To: <158351119581.14529.12409093643313383178@39012742ff91>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Fri, 6 Mar 2020 12:33:20 -0500
-Message-ID: <CAKf6xpvVJd-ObnFcZLHte78-m1ebzaULx922n4aXXdOEUEiVOg@mail.gmail.com>
-Subject: Re: [PATCH] usb-serial: wakeup device on input
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::236
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 68.232.143.124
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,104 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 6, 2020 at 11:13 AM <no-reply@patchew.org> wrote:
->
-> Patchew URL: https://patchew.org/QEMU/20200306140917.26726-1-jandryuk@gma=
-il.com/
->
->
->
-> Hi,
->
-> This series failed the docker-clang@ubuntu build test. Please find the te=
-sting commands and
-> their output below. If you have Docker installed, you can probably reprod=
-uce it
-> locally.
->
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #!/bin/bash
-> make docker-image-ubuntu V=3D1 NETWORK=3D1
-> time make docker-test-clang@ubuntu SHOW_ENV=3D1 J=3D14 NETWORK=3D1
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+This series updates the RISC-V syscall_nr.sh based on the 5.5 kernel.
 
-I ran these two commands locally and they completed successfully.
+There are two parts to this. One is just adding the new syscalls, the
+other part is updating the RV32 syscalls to match the fact that RV32 is
+a 64-bit time_t architectures (y2038) safe.
 
->   LINK    fp-test
-> ---
-> dbus-daemon[5453]: Could not get password database information for UID of=
- current process: User "???" unknown or no memory to allocate password entr=
-y
+We need to make some changes to syscall.c to avoid warnings/errors
+during compliling with the new syscall.
 
-Was there a problem with this container's password db and/or
-out-of-memory like this message states?
+I did some RV32 user space testing after applying these patches. I ran the
+glibc testsuite in userspace and I don't see any regressions.
 
-Regards,
-Jason
+v6:
+ - Split out futex patch and make it more robust
+v5:
+ - Addres comments raised on v4
+   - Don't require 64-bit host for * _time64 functions
 
-> **
-> ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connecti=
-on: assertion failed (err =3D=3D NULL): The connection is closed (g-io-erro=
-r-quark, 18)
-> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.=
-c:114:get_connection: assertion failed (err =3D=3D NULL): The connection is=
- closed (g-io-error-quark, 18)
-> Aborted (core dumped)
-> cleaning up pid 5453
-> make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-i38=
-6] Error 1
-> make: *** Waiting for unfinished jobs....
->
-> Looking for expected file 'tests/data/acpi/pc/FACP.bridge'
-> ---
-> dbus-daemon[6892]: Could not get password database information for UID of=
- current process: User "???" unknown or no memory to allocate password entr=
-y
->
-> **
-> ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connecti=
-on: assertion failed (err =3D=3D NULL): The connection is closed (g-io-erro=
-r-quark, 18)
-> Aborted (core dumped)
-> cleaning up pid 6892
-> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.=
-c:114:get_connection: assertion failed (err =3D=3D NULL): The connection is=
- closed (g-io-error-quark, 18)
-> make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-x86=
-_64] Error 1
->   TEST    check-qtest-arm: tests/qtest/test-hmp
->   TEST    check-qtest-arm: tests/qtest/qos-test
->   TEST    check-qtest-aarch64: tests/qtest/test-hmp
-> ---
->     raise CalledProcessError(retcode, cmd)
-> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '=
---label', 'com.qemu.instance.uuid=3D2e42e92cfb504ed5b5cb56b2c8b512df', '-u'=
-, '1003', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET_L=
-IST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '-e=
-', 'DEBUG=3D', '-e', 'SHOW_ENV=3D1', '-e', 'CCACHE_DIR=3D/var/tmp/ccache', =
-'-v', '/home/patchew2/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '=
-/var/tmp/patchew-tester-tmp-dwbsabkq/src/docker-src.2020-03-06-10.32.46.219=
-4:/var/tmp/qemu:z,ro', 'qemu:ubuntu', '/var/tmp/qemu/run', 'test-clang']' r=
-eturned non-zero exit status 2.
-> filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3D2e42e92cfb504ed5b5cb=
-56b2c8b512df
-> make[1]: *** [docker-run] Error 1
-> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-dwbsabkq/src'
-> make: *** [docker-run-test-clang@ubuntu] Error 2
->
-> real    40m29.624s
-> user    0m9.675s
->
->
-> The full log is available at
-> http://patchew.org/logs/20200306140917.26726-1-jandryuk@gmail.com/testing=
-.docker-clang@ubuntu/?type=3Dmessage.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+Alistair Francis (4):
+  linux-user: Protect more syscalls
+  linux-user/syscall: Add support for clock_gettime64/clock_settime64
+  linux-user: Support futex_time64
+  linux-user/riscv: Update the syscall_nr's to the 5.5 kernel
+
+ linux-user/riscv/syscall32_nr.h | 295 +++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall64_nr.h | 301 ++++++++++++++++++++++++++++++++
+ linux-user/riscv/syscall_nr.h   | 294 +------------------------------
+ linux-user/strace.c             |   2 +
+ linux-user/syscall.c            | 199 +++++++++++++++++++--
+ 5 files changed, 783 insertions(+), 308 deletions(-)
+ create mode 100644 linux-user/riscv/syscall32_nr.h
+ create mode 100644 linux-user/riscv/syscall64_nr.h
+
+-- 
+2.25.1
+
 
