@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6595417C489
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:35:36 +0100 (CET)
-Received: from localhost ([::1]:40154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C690D17C487
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:34:24 +0100 (CET)
+Received: from localhost ([::1]:40114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGsp-0003mB-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:35:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48895)
+	id 1jAGrf-0001RD-QA
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:34:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZd-0005Dh-Jl
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:50 -0500
+ (envelope-from <kwolf@redhat.com>) id 1jAGZY-00052t-F7
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZU-00083z-7C
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58832
+ (envelope-from <kwolf@redhat.com>) id 1jAGZS-0007zD-0t
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29187
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZS-0007Ur-3b
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:34 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZR-0007Uw-NK
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1583514923;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TZdfB9uUnkpbgxbQFnOfaUQie/7861t/X8KZlyloYYA=;
- b=KMm8aH8an1Ye9q/bIKxkr4zz5Hk49IdrRqfoCmFNYjJtbHQ9EMrq4dr0VTsODm5ammdE9Y
- uBHXRLZwV/cDiS8tql2uegYhXmSH81oeI0PFV6YKFlkZ2HlS3vM5/evTqhGRqi0GCkHXfD
- 24E27Y+6PUjhrrY7t5GkSxW49ugUQxU=
+ bh=OcH8eKi4Qiy97MK/pvkScSLH84ymuY0qvlO8RIyaeec=;
+ b=KTtrnOGtpMrXPcOlQmeTfxSHkN8/aROQ2Gv0tNB8S/JIXmUSH8wLYXtJfMPf15OGqam4uy
+ XN9/DivluLsuqCjt9RDLzLm6e0PS5e32irHfvTgeRxonCcqar4dgH8qZKKvFSsNFIGmPJJ
+ 195rkPhwezEWwWMJn8e19lFEa73YnL0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-PYRYH2DON5a7V2pLGlrl6w-1; Fri, 06 Mar 2020 12:15:18 -0500
-X-MC-Unique: PYRYH2DON5a7V2pLGlrl6w-1
+ us-mta-339-5rz8zRRLMuODSRccqYVl8A-1; Fri, 06 Mar 2020 12:15:21 -0500
+X-MC-Unique: 5rz8zRRLMuODSRccqYVl8A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC4C1107ACC7;
- Fri,  6 Mar 2020 17:15:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BDE4800053;
+ Fri,  6 Mar 2020 17:15:20 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6380A73873;
- Fri,  6 Mar 2020 17:15:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41E5C73873;
+ Fri,  6 Mar 2020 17:15:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/29] block: Move system emulator QMP commands to
- block/qapi-sysemu.c
-Date: Fri,  6 Mar 2020 18:14:38 +0100
-Message-Id: <20200306171458.1848-10-kwolf@redhat.com>
+Subject: [PULL 11/29] block: Move sysemu QMP commands to QAPI block module
+Date: Fri,  6 Mar 2020 18:14:40 +0100
+Message-Id: <20200306171458.1848-12-kwolf@redhat.com>
 In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
 References: <20200306171458.1848-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,8 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,1288 +75,892 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These commands make only sense for system emulators and their
-implementations call functions that don't exist in tools (e.g. to
-resolve qdev IDs). Move them out so that blockdev.c can be linked to
-qemu-storage-daemon.
+QMP commands that are related to the system emulator and don't make
+sense in the context of tools such as qemu-storage-daemon should live in
+qapi/block.json rather than qapi/block-core.json. Move them there.
+
+The associated data types are actually also used in code shared with the
+tools, so they stay in block-core.json.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200224143008.13362-4-kwolf@redhat.com>
+Message-Id: <20200224143008.13362-6-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qapi-sysemu.c | 590 ++++++++++++++++++++++++++++++++++++++++++++
- blockdev.c          | 559 -----------------------------------------
- block/Makefile.objs |   2 +
- 3 files changed, 592 insertions(+), 559 deletions(-)
- create mode 100644 block/qapi-sysemu.c
+ qapi/block-core.json | 386 -------------------------------------------
+ qapi/block.json      | 386 +++++++++++++++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c   |   2 +-
+ 3 files changed, 387 insertions(+), 387 deletions(-)
 
-diff --git a/block/qapi-sysemu.c b/block/qapi-sysemu.c
-new file mode 100644
-index 0000000000..8498402ad4
---- /dev/null
-+++ b/block/qapi-sysemu.c
-@@ -0,0 +1,590 @@
-+/*
-+ * QMP command handlers specific to the system emulators
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ * This file incorporates work covered by the following copyright and
-+ * permission notice:
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 60860ead68..b65b6a9f49 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -563,78 +563,6 @@
+ { 'struct': 'BlockLatencyHistogramInfo',
+   'data': {'boundaries': ['uint64'], 'bins': ['uint64'] } }
+=20
+-##
+-# @block-latency-histogram-set:
+-#
+-# Manage read, write and flush latency histograms for the device.
+-#
+-# If only @id parameter is specified, remove all present latency histogram=
+s
+-# for the device. Otherwise, add/reset some of (or all) latency histograms=
+.
+-#
+-# @id: The name or QOM path of the guest device.
+-#
+-# @boundaries: list of interval boundary values (see description in
+-#              BlockLatencyHistogramInfo definition). If specified, all
+-#              latency histograms are removed, and empty ones created for =
+all
+-#              io types with intervals corresponding to @boundaries (excep=
+t for
+-#              io types, for which specific boundaries are set through the
+-#              following parameters).
+-#
+-# @boundaries-read: list of interval boundary values for read latency
+-#                   histogram. If specified, old read latency histogram is
+-#                   removed, and empty one created with intervals
+-#                   corresponding to @boundaries-read. The parameter has h=
+igher
+-#                   priority then @boundaries.
+-#
+-# @boundaries-write: list of interval boundary values for write latency
+-#                    histogram.
+-#
+-# @boundaries-flush: list of interval boundary values for flush latency
+-#                    histogram.
+-#
+-# Returns: error if device is not found or any boundary arrays are invalid=
+.
+-#
+-# Since: 4.0
+-#
+-# Example: set new histograms for all io types with intervals
+-# [0, 10), [10, 50), [50, 100), [100, +inf):
+-#
+-# -> { "execute": "block-latency-histogram-set",
+-#      "arguments": { "id": "drive0",
+-#                     "boundaries": [10, 50, 100] } }
+-# <- { "return": {} }
+-#
+-# Example: set new histogram only for write, other histograms will remain
+-# not changed (or not created):
+-#
+-# -> { "execute": "block-latency-histogram-set",
+-#      "arguments": { "id": "drive0",
+-#                     "boundaries-write": [10, 50, 100] } }
+-# <- { "return": {} }
+-#
+-# Example: set new histograms with the following intervals:
+-#   read, flush: [0, 10), [10, 50), [50, 100), [100, +inf)
+-#   write: [0, 1000), [1000, 5000), [5000, +inf)
+-#
+-# -> { "execute": "block-latency-histogram-set",
+-#      "arguments": { "id": "drive0",
+-#                     "boundaries": [10, 50, 100],
+-#                     "boundaries-write": [1000, 5000] } }
+-# <- { "return": {} }
+-#
+-# Example: remove all latency histograms:
+-#
+-# -> { "execute": "block-latency-histogram-set",
+-#      "arguments": { "id": "drive0" } }
+-# <- { "return": {} }
+-##
+-{ 'command': 'block-latency-histogram-set',
+-  'data': {'id': 'str',
+-           '*boundaries': ['uint64'],
+-           '*boundaries-read': ['uint64'],
+-           '*boundaries-write': ['uint64'],
+-           '*boundaries-flush': ['uint64'] } }
+-
+ ##
+ # @BlockInfo:
+ #
+@@ -2356,78 +2284,6 @@
+             '*copy-mode': 'MirrorCopyMode',
+             '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
+=20
+-##
+-# @block_set_io_throttle:
+-#
+-# Change I/O throttle limits for a block drive.
+-#
+-# Since QEMU 2.4, each device with I/O limits is member of a throttle
+-# group.
+-#
+-# If two or more devices are members of the same group, the limits
+-# will apply to the combined I/O of the whole group in a round-robin
+-# fashion. Therefore, setting new I/O limits to a device will affect
+-# the whole group.
+-#
+-# The name of the group can be specified using the 'group' parameter.
+-# If the parameter is unset, it is assumed to be the current group of
+-# that device. If it's not in any group yet, the name of the device
+-# will be used as the name for its group.
+-#
+-# The 'group' parameter can also be used to move a device to a
+-# different group. In this case the limits specified in the parameters
+-# will be applied to the new group only.
+-#
+-# I/O limits can be disabled by setting all of them to 0. In this case
+-# the device will be removed from its group and the rest of its
+-# members will not be affected. The 'group' parameter is ignored.
+-#
+-# Returns: - Nothing on success
+-#          - If @device is not a valid block device, DeviceNotFound
+-#
+-# Since: 1.1
+-#
+-# Example:
+-#
+-# -> { "execute": "block_set_io_throttle",
+-#      "arguments": { "id": "virtio-blk-pci0/virtio-backend",
+-#                     "bps": 0,
+-#                     "bps_rd": 0,
+-#                     "bps_wr": 0,
+-#                     "iops": 512,
+-#                     "iops_rd": 0,
+-#                     "iops_wr": 0,
+-#                     "bps_max": 0,
+-#                     "bps_rd_max": 0,
+-#                     "bps_wr_max": 0,
+-#                     "iops_max": 0,
+-#                     "iops_rd_max": 0,
+-#                     "iops_wr_max": 0,
+-#                     "bps_max_length": 0,
+-#                     "iops_size": 0 } }
+-# <- { "return": {} }
+-#
+-# -> { "execute": "block_set_io_throttle",
+-#      "arguments": { "id": "ide0-1-0",
+-#                     "bps": 1000000,
+-#                     "bps_rd": 0,
+-#                     "bps_wr": 0,
+-#                     "iops": 0,
+-#                     "iops_rd": 0,
+-#                     "iops_wr": 0,
+-#                     "bps_max": 8000000,
+-#                     "bps_rd_max": 0,
+-#                     "bps_wr_max": 0,
+-#                     "iops_max": 0,
+-#                     "iops_rd_max": 0,
+-#                     "iops_wr_max": 0,
+-#                     "bps_max_length": 60,
+-#                     "iops_size": 0 } }
+-# <- { "return": {} }
+-##
+-{ 'command': 'block_set_io_throttle', 'boxed': true,
+-  'data': 'BlockIOThrottle' }
+-
+ ##
+ # @BlockIOThrottle:
+ #
+@@ -4757,248 +4613,6 @@
+   'data': { 'job-id': 'str',
+             'options': 'BlockdevCreateOptions' } }
+=20
+-##
+-# @blockdev-open-tray:
+-#
+-# Opens a block device's tray. If there is a block driver state tree inser=
+ted as
+-# a medium, it will become inaccessible to the guest (but it will remain
+-# associated to the block device, so closing the tray will make it accessi=
+ble
+-# again).
+-#
+-# If the tray was already open before, this will be a no-op.
+-#
+-# Once the tray opens, a DEVICE_TRAY_MOVED event is emitted. There are cas=
+es in
+-# which no such event will be generated, these include:
+-#
+-# - if the guest has locked the tray, @force is false and the guest does n=
+ot
+-#   respond to the eject request
+-# - if the BlockBackend denoted by @device does not have a guest device at=
+tached
+-#   to it
+-# - if the guest device does not have an actual tray
+-#
+-# @device: Block device name (deprecated, use @id instead)
+-#
+-# @id: The name or QOM path of the guest device (since: 2.8)
+-#
+-# @force: if false (the default), an eject request will be sent to
+-#         the guest if it has locked the tray (and the tray will not be op=
+ened
+-#         immediately); if true, the tray will be opened regardless of whe=
+ther
+-#         it is locked
+-#
+-# Since: 2.5
+-#
+-# Example:
+-#
+-# -> { "execute": "blockdev-open-tray",
+-#      "arguments": { "id": "ide0-1-0" } }
+-#
+-# <- { "timestamp": { "seconds": 1418751016,
+-#                     "microseconds": 716996 },
+-#      "event": "DEVICE_TRAY_MOVED",
+-#      "data": { "device": "ide1-cd0",
+-#                "id": "ide0-1-0",
+-#                "tray-open": true } }
+-#
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'blockdev-open-tray',
+-  'data': { '*device': 'str',
+-            '*id': 'str',
+-            '*force': 'bool' } }
+-
+-##
+-# @blockdev-close-tray:
+-#
+-# Closes a block device's tray. If there is a block driver state tree asso=
+ciated
+-# with the block device (which is currently ejected), that tree will be lo=
+aded
+-# as the medium.
+-#
+-# If the tray was already closed before, this will be a no-op.
+-#
+-# @device: Block device name (deprecated, use @id instead)
+-#
+-# @id: The name or QOM path of the guest device (since: 2.8)
+-#
+-# Since: 2.5
+-#
+-# Example:
+-#
+-# -> { "execute": "blockdev-close-tray",
+-#      "arguments": { "id": "ide0-1-0" } }
+-#
+-# <- { "timestamp": { "seconds": 1418751345,
+-#                     "microseconds": 272147 },
+-#      "event": "DEVICE_TRAY_MOVED",
+-#      "data": { "device": "ide1-cd0",
+-#                "id": "ide0-1-0",
+-#                "tray-open": false } }
+-#
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'blockdev-close-tray',
+-  'data': { '*device': 'str',
+-            '*id': 'str' } }
+-
+-##
+-# @blockdev-remove-medium:
+-#
+-# Removes a medium (a block driver state tree) from a block device. That b=
+lock
+-# device's tray must currently be open (unless there is no attached guest
+-# device).
+-#
+-# If the tray is open and there is no medium inserted, this will be a no-o=
+p.
+-#
+-# @id: The name or QOM path of the guest device
+-#
+-# Since: 2.12
+-#
+-# Example:
+-#
+-# -> { "execute": "blockdev-remove-medium",
+-#      "arguments": { "id": "ide0-1-0" } }
+-#
+-# <- { "error": { "class": "GenericError",
+-#                 "desc": "Tray of device 'ide0-1-0' is not open" } }
+-#
+-# -> { "execute": "blockdev-open-tray",
+-#      "arguments": { "id": "ide0-1-0" } }
+-#
+-# <- { "timestamp": { "seconds": 1418751627,
+-#                     "microseconds": 549958 },
+-#      "event": "DEVICE_TRAY_MOVED",
+-#      "data": { "device": "ide1-cd0",
+-#                "id": "ide0-1-0",
+-#                "tray-open": true } }
+-#
+-# <- { "return": {} }
+-#
+-# -> { "execute": "blockdev-remove-medium",
+-#      "arguments": { "id": "ide0-1-0" } }
+-#
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'blockdev-remove-medium',
+-  'data': { 'id': 'str' } }
+-
+-##
+-# @blockdev-insert-medium:
+-#
+-# Inserts a medium (a block driver state tree) into a block device. That b=
+lock
+-# device's tray must currently be open (unless there is no attached guest
+-# device) and there must be no medium inserted already.
+-#
+-# @id: The name or QOM path of the guest device
+-#
+-# @node-name: name of a node in the block driver state graph
+-#
+-# Since: 2.12
+-#
+-# Example:
+-#
+-# -> { "execute": "blockdev-add",
+-#      "arguments": {
+-#          "node-name": "node0",
+-#          "driver": "raw",
+-#          "file": { "driver": "file",
+-#                    "filename": "fedora.iso" } } }
+-# <- { "return": {} }
+-#
+-# -> { "execute": "blockdev-insert-medium",
+-#      "arguments": { "id": "ide0-1-0",
+-#                     "node-name": "node0" } }
+-#
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'blockdev-insert-medium',
+-  'data': { 'id': 'str',
+-            'node-name': 'str'} }
+-
+-
+-##
+-# @BlockdevChangeReadOnlyMode:
+-#
+-# Specifies the new read-only mode of a block device subject to the
+-# @blockdev-change-medium command.
+-#
+-# @retain: Retains the current read-only mode
+-#
+-# @read-only: Makes the device read-only
+-#
+-# @read-write: Makes the device writable
+-#
+-# Since: 2.3
+-#
+-##
+-{ 'enum': 'BlockdevChangeReadOnlyMode',
+-  'data': ['retain', 'read-only', 'read-write'] }
+-
+-
+-##
+-# @blockdev-change-medium:
+-#
+-# Changes the medium inserted into a block device by ejecting the current =
+medium
+-# and loading a new image file which is inserted as the new medium (this c=
+ommand
+-# combines blockdev-open-tray, blockdev-remove-medium, blockdev-insert-med=
+ium
+-# and blockdev-close-tray).
+-#
+-# @device: Block device name (deprecated, use @id instead)
+-#
+-# @id: The name or QOM path of the guest device
+-#      (since: 2.8)
+-#
+-# @filename: filename of the new image to be loaded
+-#
+-# @format: format to open the new image with (defaults to
+-#          the probed format)
+-#
+-# @read-only-mode: change the read-only mode of the device; defaults
+-#                  to 'retain'
+-#
+-# Since: 2.5
+-#
+-# Examples:
+-#
+-# 1. Change a removable medium
+-#
+-# -> { "execute": "blockdev-change-medium",
+-#      "arguments": { "id": "ide0-1-0",
+-#                     "filename": "/srv/images/Fedora-12-x86_64-DVD.iso",
+-#                     "format": "raw" } }
+-# <- { "return": {} }
+-#
+-# 2. Load a read-only medium into a writable drive
+-#
+-# -> { "execute": "blockdev-change-medium",
+-#      "arguments": { "id": "floppyA",
+-#                     "filename": "/srv/images/ro.img",
+-#                     "format": "raw",
+-#                     "read-only-mode": "retain" } }
+-#
+-# <- { "error":
+-#      { "class": "GenericError",
+-#        "desc": "Could not open '/srv/images/ro.img': Permission denied" =
+} }
+-#
+-# -> { "execute": "blockdev-change-medium",
+-#      "arguments": { "id": "floppyA",
+-#                     "filename": "/srv/images/ro.img",
+-#                     "format": "raw",
+-#                     "read-only-mode": "read-only" } }
+-#
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'blockdev-change-medium',
+-  'data': { '*device': 'str',
+-            '*id': 'str',
+-            'filename': 'str',
+-            '*format': 'str',
+-            '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
+-
+-
+ ##
+ # @BlockErrorAction:
+ #
+diff --git a/qapi/block.json b/qapi/block.json
+index d2f3fc01ed..97bf52b7c7 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -115,6 +115,248 @@
+             '*id': 'str',
+             '*force': 'bool' } }
+=20
++##
++# @blockdev-open-tray:
++#
++# Opens a block device's tray. If there is a block driver state tree inser=
+ted as
++# a medium, it will become inaccessible to the guest (but it will remain
++# associated to the block device, so closing the tray will make it accessi=
+ble
++# again).
++#
++# If the tray was already open before, this will be a no-op.
++#
++# Once the tray opens, a DEVICE_TRAY_MOVED event is emitted. There are cas=
+es in
++# which no such event will be generated, these include:
++#
++# - if the guest has locked the tray, @force is false and the guest does n=
+ot
++#   respond to the eject request
++# - if the BlockBackend denoted by @device does not have a guest device at=
+tached
++#   to it
++# - if the guest device does not have an actual tray
++#
++# @device: Block device name (deprecated, use @id instead)
++#
++# @id: The name or QOM path of the guest device (since: 2.8)
++#
++# @force: if false (the default), an eject request will be sent to
++#         the guest if it has locked the tray (and the tray will not be op=
+ened
++#         immediately); if true, the tray will be opened regardless of whe=
+ther
++#         it is locked
++#
++# Since: 2.5
++#
++# Example:
++#
++# -> { "execute": "blockdev-open-tray",
++#      "arguments": { "id": "ide0-1-0" } }
++#
++# <- { "timestamp": { "seconds": 1418751016,
++#                     "microseconds": 716996 },
++#      "event": "DEVICE_TRAY_MOVED",
++#      "data": { "device": "ide1-cd0",
++#                "id": "ide0-1-0",
++#                "tray-open": true } }
++#
++# <- { "return": {} }
++#
++##
++{ 'command': 'blockdev-open-tray',
++  'data': { '*device': 'str',
++            '*id': 'str',
++            '*force': 'bool' } }
 +
-+#include "qemu/osdep.h"
++##
++# @blockdev-close-tray:
++#
++# Closes a block device's tray. If there is a block driver state tree asso=
+ciated
++# with the block device (which is currently ejected), that tree will be lo=
+aded
++# as the medium.
++#
++# If the tray was already closed before, this will be a no-op.
++#
++# @device: Block device name (deprecated, use @id instead)
++#
++# @id: The name or QOM path of the guest device (since: 2.8)
++#
++# Since: 2.5
++#
++# Example:
++#
++# -> { "execute": "blockdev-close-tray",
++#      "arguments": { "id": "ide0-1-0" } }
++#
++# <- { "timestamp": { "seconds": 1418751345,
++#                     "microseconds": 272147 },
++#      "event": "DEVICE_TRAY_MOVED",
++#      "data": { "device": "ide1-cd0",
++#                "id": "ide0-1-0",
++#                "tray-open": false } }
++#
++# <- { "return": {} }
++#
++##
++{ 'command': 'blockdev-close-tray',
++  'data': { '*device': 'str',
++            '*id': 'str' } }
 +
-+#include "qapi/error.h"
++##
++# @blockdev-remove-medium:
++#
++# Removes a medium (a block driver state tree) from a block device. That b=
+lock
++# device's tray must currently be open (unless there is no attached guest
++# device).
++#
++# If the tray is open and there is no medium inserted, this will be a no-o=
+p.
++#
++# @id: The name or QOM path of the guest device
++#
++# Since: 2.12
++#
++# Example:
++#
++# -> { "execute": "blockdev-remove-medium",
++#      "arguments": { "id": "ide0-1-0" } }
++#
++# <- { "error": { "class": "GenericError",
++#                 "desc": "Tray of device 'ide0-1-0' is not open" } }
++#
++# -> { "execute": "blockdev-open-tray",
++#      "arguments": { "id": "ide0-1-0" } }
++#
++# <- { "timestamp": { "seconds": 1418751627,
++#                     "microseconds": 549958 },
++#      "event": "DEVICE_TRAY_MOVED",
++#      "data": { "device": "ide1-cd0",
++#                "id": "ide0-1-0",
++#                "tray-open": true } }
++#
++# <- { "return": {} }
++#
++# -> { "execute": "blockdev-remove-medium",
++#      "arguments": { "id": "ide0-1-0" } }
++#
++# <- { "return": {} }
++#
++##
++{ 'command': 'blockdev-remove-medium',
++  'data': { 'id': 'str' } }
++
++##
++# @blockdev-insert-medium:
++#
++# Inserts a medium (a block driver state tree) into a block device. That b=
+lock
++# device's tray must currently be open (unless there is no attached guest
++# device) and there must be no medium inserted already.
++#
++# @id: The name or QOM path of the guest device
++#
++# @node-name: name of a node in the block driver state graph
++#
++# Since: 2.12
++#
++# Example:
++#
++# -> { "execute": "blockdev-add",
++#      "arguments": {
++#          "node-name": "node0",
++#          "driver": "raw",
++#          "file": { "driver": "file",
++#                    "filename": "fedora.iso" } } }
++# <- { "return": {} }
++#
++# -> { "execute": "blockdev-insert-medium",
++#      "arguments": { "id": "ide0-1-0",
++#                     "node-name": "node0" } }
++#
++# <- { "return": {} }
++#
++##
++{ 'command': 'blockdev-insert-medium',
++  'data': { 'id': 'str',
++            'node-name': 'str'} }
++
++
++##
++# @BlockdevChangeReadOnlyMode:
++#
++# Specifies the new read-only mode of a block device subject to the
++# @blockdev-change-medium command.
++#
++# @retain: Retains the current read-only mode
++#
++# @read-only: Makes the device read-only
++#
++# @read-write: Makes the device writable
++#
++# Since: 2.3
++#
++##
++{ 'enum': 'BlockdevChangeReadOnlyMode',
++  'data': ['retain', 'read-only', 'read-write'] }
++
++
++##
++# @blockdev-change-medium:
++#
++# Changes the medium inserted into a block device by ejecting the current =
+medium
++# and loading a new image file which is inserted as the new medium (this c=
+ommand
++# combines blockdev-open-tray, blockdev-remove-medium, blockdev-insert-med=
+ium
++# and blockdev-close-tray).
++#
++# @device: Block device name (deprecated, use @id instead)
++#
++# @id: The name or QOM path of the guest device
++#      (since: 2.8)
++#
++# @filename: filename of the new image to be loaded
++#
++# @format: format to open the new image with (defaults to
++#          the probed format)
++#
++# @read-only-mode: change the read-only mode of the device; defaults
++#                  to 'retain'
++#
++# Since: 2.5
++#
++# Examples:
++#
++# 1. Change a removable medium
++#
++# -> { "execute": "blockdev-change-medium",
++#      "arguments": { "id": "ide0-1-0",
++#                     "filename": "/srv/images/Fedora-12-x86_64-DVD.iso",
++#                     "format": "raw" } }
++# <- { "return": {} }
++#
++# 2. Load a read-only medium into a writable drive
++#
++# -> { "execute": "blockdev-change-medium",
++#      "arguments": { "id": "floppyA",
++#                     "filename": "/srv/images/ro.img",
++#                     "format": "raw",
++#                     "read-only-mode": "retain" } }
++#
++# <- { "error":
++#      { "class": "GenericError",
++#        "desc": "Could not open '/srv/images/ro.img': Permission denied" =
+} }
++#
++# -> { "execute": "blockdev-change-medium",
++#      "arguments": { "id": "floppyA",
++#                     "filename": "/srv/images/ro.img",
++#                     "format": "raw",
++#                     "read-only-mode": "read-only" } }
++#
++# <- { "return": {} }
++#
++##
++{ 'command': 'blockdev-change-medium',
++  'data': { '*device': 'str',
++            '*id': 'str',
++            'filename': 'str',
++            '*format': 'str',
++            '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
++
++
+ ##
+ # @DEVICE_TRAY_MOVED:
+ #
+@@ -167,3 +409,147 @@
+ ##
+ { 'event': 'PR_MANAGER_STATUS_CHANGED',
+   'data': { 'id': 'str', 'connected': 'bool' } }
++
++##
++# @block_set_io_throttle:
++#
++# Change I/O throttle limits for a block drive.
++#
++# Since QEMU 2.4, each device with I/O limits is member of a throttle
++# group.
++#
++# If two or more devices are members of the same group, the limits
++# will apply to the combined I/O of the whole group in a round-robin
++# fashion. Therefore, setting new I/O limits to a device will affect
++# the whole group.
++#
++# The name of the group can be specified using the 'group' parameter.
++# If the parameter is unset, it is assumed to be the current group of
++# that device. If it's not in any group yet, the name of the device
++# will be used as the name for its group.
++#
++# The 'group' parameter can also be used to move a device to a
++# different group. In this case the limits specified in the parameters
++# will be applied to the new group only.
++#
++# I/O limits can be disabled by setting all of them to 0. In this case
++# the device will be removed from its group and the rest of its
++# members will not be affected. The 'group' parameter is ignored.
++#
++# Returns: - Nothing on success
++#          - If @device is not a valid block device, DeviceNotFound
++#
++# Since: 1.1
++#
++# Example:
++#
++# -> { "execute": "block_set_io_throttle",
++#      "arguments": { "id": "virtio-blk-pci0/virtio-backend",
++#                     "bps": 0,
++#                     "bps_rd": 0,
++#                     "bps_wr": 0,
++#                     "iops": 512,
++#                     "iops_rd": 0,
++#                     "iops_wr": 0,
++#                     "bps_max": 0,
++#                     "bps_rd_max": 0,
++#                     "bps_wr_max": 0,
++#                     "iops_max": 0,
++#                     "iops_rd_max": 0,
++#                     "iops_wr_max": 0,
++#                     "bps_max_length": 0,
++#                     "iops_size": 0 } }
++# <- { "return": {} }
++#
++# -> { "execute": "block_set_io_throttle",
++#      "arguments": { "id": "ide0-1-0",
++#                     "bps": 1000000,
++#                     "bps_rd": 0,
++#                     "bps_wr": 0,
++#                     "iops": 0,
++#                     "iops_rd": 0,
++#                     "iops_wr": 0,
++#                     "bps_max": 8000000,
++#                     "bps_rd_max": 0,
++#                     "bps_wr_max": 0,
++#                     "iops_max": 0,
++#                     "iops_rd_max": 0,
++#                     "iops_wr_max": 0,
++#                     "bps_max_length": 60,
++#                     "iops_size": 0 } }
++# <- { "return": {} }
++##
++{ 'command': 'block_set_io_throttle', 'boxed': true,
++  'data': 'BlockIOThrottle' }
++
++##
++# @block-latency-histogram-set:
++#
++# Manage read, write and flush latency histograms for the device.
++#
++# If only @id parameter is specified, remove all present latency histogram=
+s
++# for the device. Otherwise, add/reset some of (or all) latency histograms=
+.
++#
++# @id: The name or QOM path of the guest device.
++#
++# @boundaries: list of interval boundary values (see description in
++#              BlockLatencyHistogramInfo definition). If specified, all
++#              latency histograms are removed, and empty ones created for =
+all
++#              io types with intervals corresponding to @boundaries (excep=
+t for
++#              io types, for which specific boundaries are set through the
++#              following parameters).
++#
++# @boundaries-read: list of interval boundary values for read latency
++#                   histogram. If specified, old read latency histogram is
++#                   removed, and empty one created with intervals
++#                   corresponding to @boundaries-read. The parameter has h=
+igher
++#                   priority then @boundaries.
++#
++# @boundaries-write: list of interval boundary values for write latency
++#                    histogram.
++#
++# @boundaries-flush: list of interval boundary values for flush latency
++#                    histogram.
++#
++# Returns: error if device is not found or any boundary arrays are invalid=
+.
++#
++# Since: 4.0
++#
++# Example: set new histograms for all io types with intervals
++# [0, 10), [10, 50), [50, 100), [100, +inf):
++#
++# -> { "execute": "block-latency-histogram-set",
++#      "arguments": { "id": "drive0",
++#                     "boundaries": [10, 50, 100] } }
++# <- { "return": {} }
++#
++# Example: set new histogram only for write, other histograms will remain
++# not changed (or not created):
++#
++# -> { "execute": "block-latency-histogram-set",
++#      "arguments": { "id": "drive0",
++#                     "boundaries-write": [10, 50, 100] } }
++# <- { "return": {} }
++#
++# Example: set new histograms with the following intervals:
++#   read, flush: [0, 10), [10, 50), [50, 100), [100, +inf)
++#   write: [0, 1000), [1000, 5000), [5000, +inf)
++#
++# -> { "execute": "block-latency-histogram-set",
++#      "arguments": { "id": "drive0",
++#                     "boundaries": [10, 50, 100],
++#                     "boundaries-write": [1000, 5000] } }
++# <- { "return": {} }
++#
++# Example: remove all latency histograms:
++#
++# -> { "execute": "block-latency-histogram-set",
++#      "arguments": { "id": "drive0" } }
++# <- { "return": {} }
++##
++{ 'command': 'block-latency-histogram-set',
++  'data': {'id': 'str',
++           '*boundaries': ['uint64'],
++           '*boundaries-read': ['uint64'],
++           '*boundaries-write': ['uint64'],
++           '*boundaries-flush': ['uint64'] } }
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index da7083087e..864cbfa32e 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -30,7 +30,7 @@
+ #include "sysemu/blockdev.h"
+ #include "sysemu/block-backend.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-commands-block-core.h"
 +#include "qapi/qapi-commands-block.h"
-+#include "qapi/qmp/qdict.h"
-+#include "sysemu/block-backend.h"
-+#include "sysemu/blockdev.h"
-+
-+static BlockBackend *qmp_get_blk(const char *blk_name, const char *qdev_id=
-,
-+                                 Error **errp)
-+{
-+    BlockBackend *blk;
-+
-+    if (!blk_name =3D=3D !qdev_id) {
-+        error_setg(errp, "Need exactly one of 'device' and 'id'");
-+        return NULL;
-+    }
-+
-+    if (qdev_id) {
-+        blk =3D blk_by_qdev_id(qdev_id, errp);
-+    } else {
-+        blk =3D blk_by_name(blk_name);
-+        if (blk =3D=3D NULL) {
-+            error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-+                      "Device '%s' not found", blk_name);
-+        }
-+    }
-+
-+    return blk;
-+}
-+
-+/*
-+ * Attempt to open the tray of @device.
-+ * If @force, ignore its tray lock.
-+ * Else, if the tray is locked, don't open it, but ask the guest to open i=
-t.
-+ * On error, store an error through @errp and return -errno.
-+ * If @device does not exist, return -ENODEV.
-+ * If it has no removable media, return -ENOTSUP.
-+ * If it has no tray, return -ENOSYS.
-+ * If the guest was asked to open the tray, return -EINPROGRESS.
-+ * Else, return 0.
-+ */
-+static int do_open_tray(const char *blk_name, const char *qdev_id,
-+                        bool force, Error **errp)
-+{
-+    BlockBackend *blk;
-+    const char *device =3D qdev_id ?: blk_name;
-+    bool locked;
-+
-+    blk =3D qmp_get_blk(blk_name, qdev_id, errp);
-+    if (!blk) {
-+        return -ENODEV;
-+    }
-+
-+    if (!blk_dev_has_removable_media(blk)) {
-+        error_setg(errp, "Device '%s' is not removable", device);
-+        return -ENOTSUP;
-+    }
-+
-+    if (!blk_dev_has_tray(blk)) {
-+        error_setg(errp, "Device '%s' does not have a tray", device);
-+        return -ENOSYS;
-+    }
-+
-+    if (blk_dev_is_tray_open(blk)) {
-+        return 0;
-+    }
-+
-+    locked =3D blk_dev_is_medium_locked(blk);
-+    if (locked) {
-+        blk_dev_eject_request(blk, force);
-+    }
-+
-+    if (!locked || force) {
-+        blk_dev_change_media_cb(blk, false, &error_abort);
-+    }
-+
-+    if (locked && !force) {
-+        error_setg(errp, "Device '%s' is locked and force was not specifie=
-d, "
-+                   "wait for tray to open and try again", device);
-+        return -EINPROGRESS;
-+    }
-+
-+    return 0;
-+}
-+
-+void qmp_blockdev_open_tray(bool has_device, const char *device,
-+                            bool has_id, const char *id,
-+                            bool has_force, bool force,
-+                            Error **errp)
-+{
-+    Error *local_err =3D NULL;
-+    int rc;
-+
-+    if (!has_force) {
-+        force =3D false;
-+    }
-+    rc =3D do_open_tray(has_device ? device : NULL,
-+                      has_id ? id : NULL,
-+                      force, &local_err);
-+    if (rc && rc !=3D -ENOSYS && rc !=3D -EINPROGRESS) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    error_free(local_err);
-+}
-+
-+void qmp_blockdev_close_tray(bool has_device, const char *device,
-+                             bool has_id, const char *id,
-+                             Error **errp)
-+{
-+    BlockBackend *blk;
-+    Error *local_err =3D NULL;
-+
-+    device =3D has_device ? device : NULL;
-+    id =3D has_id ? id : NULL;
-+
-+    blk =3D qmp_get_blk(device, id, errp);
-+    if (!blk) {
-+        return;
-+    }
-+
-+    if (!blk_dev_has_removable_media(blk)) {
-+        error_setg(errp, "Device '%s' is not removable", device ?: id);
-+        return;
-+    }
-+
-+    if (!blk_dev_has_tray(blk)) {
-+        /* Ignore this command on tray-less devices */
-+        return;
-+    }
-+
-+    if (!blk_dev_is_tray_open(blk)) {
-+        return;
-+    }
-+
-+    blk_dev_change_media_cb(blk, true, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+}
-+
-+static void blockdev_remove_medium(bool has_device, const char *device,
-+                                   bool has_id, const char *id, Error **er=
-rp)
-+{
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+    AioContext *aio_context;
-+    bool has_attached_device;
-+
-+    device =3D has_device ? device : NULL;
-+    id =3D has_id ? id : NULL;
-+
-+    blk =3D qmp_get_blk(device, id, errp);
-+    if (!blk) {
-+        return;
-+    }
-+
-+    /* For BBs without a device, we can exchange the BDS tree at will */
-+    has_attached_device =3D blk_get_attached_dev(blk);
-+
-+    if (has_attached_device && !blk_dev_has_removable_media(blk)) {
-+        error_setg(errp, "Device '%s' is not removable", device ?: id);
-+        return;
-+    }
-+
-+    if (has_attached_device && blk_dev_has_tray(blk) &&
-+        !blk_dev_is_tray_open(blk))
-+    {
-+        error_setg(errp, "Tray of device '%s' is not open", device ?: id);
-+        return;
-+    }
-+
-+    bs =3D blk_bs(blk);
-+    if (!bs) {
-+        return;
-+    }
-+
-+    aio_context =3D bdrv_get_aio_context(bs);
-+    aio_context_acquire(aio_context);
-+
-+    if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_EJECT, errp)) {
-+        goto out;
-+    }
-+
-+    blk_remove_bs(blk);
-+
-+    if (!blk_dev_has_tray(blk)) {
-+        /* For tray-less devices, blockdev-open-tray is a no-op (or may no=
-t be
-+         * called at all); therefore, the medium needs to be ejected here.
-+         * Do it after blk_remove_bs() so blk_is_inserted(blk) returns the=
- @load
-+         * value passed here (i.e. false). */
-+        blk_dev_change_media_cb(blk, false, &error_abort);
-+    }
-+
-+out:
-+    aio_context_release(aio_context);
-+}
-+
-+void qmp_blockdev_remove_medium(const char *id, Error **errp)
-+{
-+    blockdev_remove_medium(false, NULL, true, id, errp);
-+}
-+
-+static void qmp_blockdev_insert_anon_medium(BlockBackend *blk,
-+                                            BlockDriverState *bs, Error **=
-errp)
-+{
-+    Error *local_err =3D NULL;
-+    bool has_device;
-+    int ret;
-+
-+    /* For BBs without a device, we can exchange the BDS tree at will */
-+    has_device =3D blk_get_attached_dev(blk);
-+
-+    if (has_device && !blk_dev_has_removable_media(blk)) {
-+        error_setg(errp, "Device is not removable");
-+        return;
-+    }
-+
-+    if (has_device && blk_dev_has_tray(blk) && !blk_dev_is_tray_open(blk))=
- {
-+        error_setg(errp, "Tray of the device is not open");
-+        return;
-+    }
-+
-+    if (blk_bs(blk)) {
-+        error_setg(errp, "There already is a medium in the device");
-+        return;
-+    }
-+
-+    ret =3D blk_insert_bs(blk, bs, errp);
-+    if (ret < 0) {
-+        return;
-+    }
-+
-+    if (!blk_dev_has_tray(blk)) {
-+        /* For tray-less devices, blockdev-close-tray is a no-op (or may n=
-ot be
-+         * called at all); therefore, the medium needs to be pushed into t=
-he
-+         * slot here.
-+         * Do it after blk_insert_bs() so blk_is_inserted(blk) returns the=
- @load
-+         * value passed here (i.e. true). */
-+        blk_dev_change_media_cb(blk, true, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            blk_remove_bs(blk);
-+            return;
-+        }
-+    }
-+}
-+
-+static void blockdev_insert_medium(bool has_device, const char *device,
-+                                   bool has_id, const char *id,
-+                                   const char *node_name, Error **errp)
-+{
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+
-+    blk =3D qmp_get_blk(has_device ? device : NULL,
-+                      has_id ? id : NULL,
-+                      errp);
-+    if (!blk) {
-+        return;
-+    }
-+
-+    bs =3D bdrv_find_node(node_name);
-+    if (!bs) {
-+        error_setg(errp, "Node '%s' not found", node_name);
-+        return;
-+    }
-+
-+    if (bdrv_has_blk(bs)) {
-+        error_setg(errp, "Node '%s' is already in use", node_name);
-+        return;
-+    }
-+
-+    qmp_blockdev_insert_anon_medium(blk, bs, errp);
-+}
-+
-+void qmp_blockdev_insert_medium(const char *id, const char *node_name,
-+                                Error **errp)
-+{
-+    blockdev_insert_medium(false, NULL, true, id, node_name, errp);
-+}
-+
-+void qmp_blockdev_change_medium(bool has_device, const char *device,
-+                                bool has_id, const char *id,
-+                                const char *filename,
-+                                bool has_format, const char *format,
-+                                bool has_read_only,
-+                                BlockdevChangeReadOnlyMode read_only,
-+                                Error **errp)
-+{
-+    BlockBackend *blk;
-+    BlockDriverState *medium_bs =3D NULL;
-+    int bdrv_flags;
-+    bool detect_zeroes;
-+    int rc;
-+    QDict *options =3D NULL;
-+    Error *err =3D NULL;
-+
-+    blk =3D qmp_get_blk(has_device ? device : NULL,
-+                      has_id ? id : NULL,
-+                      errp);
-+    if (!blk) {
-+        goto fail;
-+    }
-+
-+    if (blk_bs(blk)) {
-+        blk_update_root_state(blk);
-+    }
-+
-+    bdrv_flags =3D blk_get_open_flags_from_root_state(blk);
-+    bdrv_flags &=3D ~(BDRV_O_TEMPORARY | BDRV_O_SNAPSHOT | BDRV_O_NO_BACKI=
-NG |
-+        BDRV_O_PROTOCOL | BDRV_O_AUTO_RDONLY);
-+
-+    if (!has_read_only) {
-+        read_only =3D BLOCKDEV_CHANGE_READ_ONLY_MODE_RETAIN;
-+    }
-+
-+    switch (read_only) {
-+    case BLOCKDEV_CHANGE_READ_ONLY_MODE_RETAIN:
-+        break;
-+
-+    case BLOCKDEV_CHANGE_READ_ONLY_MODE_READ_ONLY:
-+        bdrv_flags &=3D ~BDRV_O_RDWR;
-+        break;
-+
-+    case BLOCKDEV_CHANGE_READ_ONLY_MODE_READ_WRITE:
-+        bdrv_flags |=3D BDRV_O_RDWR;
-+        break;
-+
-+    default:
-+        abort();
-+    }
-+
-+    options =3D qdict_new();
-+    detect_zeroes =3D blk_get_detect_zeroes_from_root_state(blk);
-+    qdict_put_str(options, "detect-zeroes", detect_zeroes ? "on" : "off");
-+
-+    if (has_format) {
-+        qdict_put_str(options, "driver", format);
-+    }
-+
-+    medium_bs =3D bdrv_open(filename, NULL, options, bdrv_flags, errp);
-+    if (!medium_bs) {
-+        goto fail;
-+    }
-+
-+    rc =3D do_open_tray(has_device ? device : NULL,
-+                      has_id ? id : NULL,
-+                      false, &err);
-+    if (rc && rc !=3D -ENOSYS) {
-+        error_propagate(errp, err);
-+        goto fail;
-+    }
-+    error_free(err);
-+    err =3D NULL;
-+
-+    blockdev_remove_medium(has_device, device, has_id, id, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        goto fail;
-+    }
-+
-+    qmp_blockdev_insert_anon_medium(blk, medium_bs, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        goto fail;
-+    }
-+
-+    qmp_blockdev_close_tray(has_device, device, has_id, id, errp);
-+
-+fail:
-+    /* If the medium has been inserted, the device has its own reference, =
-so
-+     * ours must be relinquished; and if it has not been inserted successf=
-ully,
-+     * the reference must be relinquished anyway */
-+    bdrv_unref(medium_bs);
-+}
-+
-+void qmp_eject(bool has_device, const char *device,
-+               bool has_id, const char *id,
-+               bool has_force, bool force, Error **errp)
-+{
-+    Error *local_err =3D NULL;
-+    int rc;
-+
-+    if (!has_force) {
-+        force =3D false;
-+    }
-+
-+    rc =3D do_open_tray(has_device ? device : NULL,
-+                      has_id ? id : NULL,
-+                      force, &local_err);
-+    if (rc && rc !=3D -ENOSYS) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    error_free(local_err);
-+
-+    blockdev_remove_medium(has_device, device, has_id, id, errp);
-+}
-+
-+/* throttling disk I/O limits */
-+void qmp_block_set_io_throttle(BlockIOThrottle *arg, Error **errp)
-+{
-+    ThrottleConfig cfg;
-+    BlockDriverState *bs;
-+    BlockBackend *blk;
-+    AioContext *aio_context;
-+
-+    blk =3D qmp_get_blk(arg->has_device ? arg->device : NULL,
-+                      arg->has_id ? arg->id : NULL,
-+                      errp);
-+    if (!blk) {
-+        return;
-+    }
-+
-+    aio_context =3D blk_get_aio_context(blk);
-+    aio_context_acquire(aio_context);
-+
-+    bs =3D blk_bs(blk);
-+    if (!bs) {
-+        error_setg(errp, "Device has no medium");
-+        goto out;
-+    }
-+
-+    throttle_config_init(&cfg);
-+    cfg.buckets[THROTTLE_BPS_TOTAL].avg =3D arg->bps;
-+    cfg.buckets[THROTTLE_BPS_READ].avg  =3D arg->bps_rd;
-+    cfg.buckets[THROTTLE_BPS_WRITE].avg =3D arg->bps_wr;
-+
-+    cfg.buckets[THROTTLE_OPS_TOTAL].avg =3D arg->iops;
-+    cfg.buckets[THROTTLE_OPS_READ].avg  =3D arg->iops_rd;
-+    cfg.buckets[THROTTLE_OPS_WRITE].avg =3D arg->iops_wr;
-+
-+    if (arg->has_bps_max) {
-+        cfg.buckets[THROTTLE_BPS_TOTAL].max =3D arg->bps_max;
-+    }
-+    if (arg->has_bps_rd_max) {
-+        cfg.buckets[THROTTLE_BPS_READ].max =3D arg->bps_rd_max;
-+    }
-+    if (arg->has_bps_wr_max) {
-+        cfg.buckets[THROTTLE_BPS_WRITE].max =3D arg->bps_wr_max;
-+    }
-+    if (arg->has_iops_max) {
-+        cfg.buckets[THROTTLE_OPS_TOTAL].max =3D arg->iops_max;
-+    }
-+    if (arg->has_iops_rd_max) {
-+        cfg.buckets[THROTTLE_OPS_READ].max =3D arg->iops_rd_max;
-+    }
-+    if (arg->has_iops_wr_max) {
-+        cfg.buckets[THROTTLE_OPS_WRITE].max =3D arg->iops_wr_max;
-+    }
-+
-+    if (arg->has_bps_max_length) {
-+        cfg.buckets[THROTTLE_BPS_TOTAL].burst_length =3D arg->bps_max_leng=
-th;
-+    }
-+    if (arg->has_bps_rd_max_length) {
-+        cfg.buckets[THROTTLE_BPS_READ].burst_length =3D arg->bps_rd_max_le=
-ngth;
-+    }
-+    if (arg->has_bps_wr_max_length) {
-+        cfg.buckets[THROTTLE_BPS_WRITE].burst_length =3D arg->bps_wr_max_l=
-ength;
-+    }
-+    if (arg->has_iops_max_length) {
-+        cfg.buckets[THROTTLE_OPS_TOTAL].burst_length =3D arg->iops_max_len=
-gth;
-+    }
-+    if (arg->has_iops_rd_max_length) {
-+        cfg.buckets[THROTTLE_OPS_READ].burst_length =3D arg->iops_rd_max_l=
-ength;
-+    }
-+    if (arg->has_iops_wr_max_length) {
-+        cfg.buckets[THROTTLE_OPS_WRITE].burst_length =3D arg->iops_wr_max_=
-length;
-+    }
-+
-+    if (arg->has_iops_size) {
-+        cfg.op_size =3D arg->iops_size;
-+    }
-+
-+    if (!throttle_is_valid(&cfg, errp)) {
-+        goto out;
-+    }
-+
-+    if (throttle_enabled(&cfg)) {
-+        /* Enable I/O limits if they're not enabled yet, otherwise
-+         * just update the throttling group. */
-+        if (!blk_get_public(blk)->throttle_group_member.throttle_state) {
-+            blk_io_limits_enable(blk,
-+                                 arg->has_group ? arg->group :
-+                                 arg->has_device ? arg->device :
-+                                 arg->id);
-+        } else if (arg->has_group) {
-+            blk_io_limits_update_group(blk, arg->group);
-+        }
-+        /* Set the new throttling configuration */
-+        blk_set_io_limits(blk, &cfg);
-+    } else if (blk_get_public(blk)->throttle_group_member.throttle_state) =
-{
-+        /* If all throttling settings are set to 0, disable I/O limits */
-+        blk_io_limits_disable(blk);
-+    }
-+
-+out:
-+    aio_context_release(aio_context);
-+}
-+
-+void qmp_block_latency_histogram_set(
-+    const char *id,
-+    bool has_boundaries, uint64List *boundaries,
-+    bool has_boundaries_read, uint64List *boundaries_read,
-+    bool has_boundaries_write, uint64List *boundaries_write,
-+    bool has_boundaries_flush, uint64List *boundaries_flush,
-+    Error **errp)
-+{
-+    BlockBackend *blk =3D qmp_get_blk(NULL, id, errp);
-+    BlockAcctStats *stats;
-+    int ret;
-+
-+    if (!blk) {
-+        return;
-+    }
-+
-+    stats =3D blk_get_stats(blk);
-+
-+    if (!has_boundaries && !has_boundaries_read && !has_boundaries_write &=
-&
-+        !has_boundaries_flush)
-+    {
-+        block_latency_histograms_clear(stats);
-+        return;
-+    }
-+
-+    if (has_boundaries || has_boundaries_read) {
-+        ret =3D block_latency_histogram_set(
-+            stats, BLOCK_ACCT_READ,
-+            has_boundaries_read ? boundaries_read : boundaries);
-+        if (ret) {
-+            error_setg(errp, "Device '%s' set read boundaries fail", id);
-+            return;
-+        }
-+    }
-+
-+    if (has_boundaries || has_boundaries_write) {
-+        ret =3D block_latency_histogram_set(
-+            stats, BLOCK_ACCT_WRITE,
-+            has_boundaries_write ? boundaries_write : boundaries);
-+        if (ret) {
-+            error_setg(errp, "Device '%s' set write boundaries fail", id);
-+            return;
-+        }
-+    }
-+
-+    if (has_boundaries || has_boundaries_flush) {
-+        ret =3D block_latency_histogram_set(
-+            stats, BLOCK_ACCT_FLUSH,
-+            has_boundaries_flush ? boundaries_flush : boundaries);
-+        if (ret) {
-+            error_setg(errp, "Device '%s' set flush boundaries fail", id);
-+            return;
-+        }
-+    }
-+}
-diff --git a/blockdev.c b/blockdev.c
-index 011dcfec27..3e44fa766b 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -67,14 +67,6 @@
- static QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =3D
-     QTAILQ_HEAD_INITIALIZER(monitor_bdrv_states);
-=20
--static int do_open_tray(const char *blk_name, const char *qdev_id,
--                        bool force, Error **errp);
--static void blockdev_remove_medium(bool has_device, const char *device,
--                                   bool has_id, const char *id, Error **er=
-rp);
--static void blockdev_insert_medium(bool has_device, const char *device,
--                                   bool has_id, const char *id,
--                                   const char *node_name, Error **errp);
--
- static const char *const if_name[IF_COUNT] =3D {
-     [IF_NONE] =3D "none",
-     [IF_IDE] =3D "ide",
-@@ -1047,29 +1039,6 @@ static BlockDriverState *qmp_get_root_bs(const char =
-*name, Error **errp)
-     return bs;
- }
-=20
--static BlockBackend *qmp_get_blk(const char *blk_name, const char *qdev_id=
-,
--                                 Error **errp)
--{
--    BlockBackend *blk;
--
--    if (!blk_name =3D=3D !qdev_id) {
--        error_setg(errp, "Need exactly one of 'device' and 'id'");
--        return NULL;
--    }
--
--    if (qdev_id) {
--        blk =3D blk_by_qdev_id(qdev_id, errp);
--    } else {
--        blk =3D blk_by_name(blk_name);
--        if (blk =3D=3D NULL) {
--            error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
--                      "Device '%s' not found", blk_name);
--        }
--    }
--
--    return blk;
--}
--
- void hmp_commit(Monitor *mon, const QDict *qdict)
- {
-     const char *device =3D qdict_get_str(qdict, "device");
-@@ -2508,29 +2477,6 @@ exit:
-     job_txn_unref(block_job_txn);
- }
-=20
--void qmp_eject(bool has_device, const char *device,
--               bool has_id, const char *id,
--               bool has_force, bool force, Error **errp)
--{
--    Error *local_err =3D NULL;
--    int rc;
--
--    if (!has_force) {
--        force =3D false;
--    }
--
--    rc =3D do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      force, &local_err);
--    if (rc && rc !=3D -ENOSYS) {
--        error_propagate(errp, local_err);
--        return;
--    }
--    error_free(local_err);
--
--    blockdev_remove_medium(has_device, device, has_id, id, errp);
--}
--
- void qmp_block_passwd(bool has_device, const char *device,
-                       bool has_node_name, const char *node_name,
-                       const char *password, Error **errp)
-@@ -2539,455 +2485,6 @@ void qmp_block_passwd(bool has_device, const char *=
-device,
-                "Setting block passwords directly is no longer supported");
- }
-=20
--/*
-- * Attempt to open the tray of @device.
-- * If @force, ignore its tray lock.
-- * Else, if the tray is locked, don't open it, but ask the guest to open i=
-t.
-- * On error, store an error through @errp and return -errno.
-- * If @device does not exist, return -ENODEV.
-- * If it has no removable media, return -ENOTSUP.
-- * If it has no tray, return -ENOSYS.
-- * If the guest was asked to open the tray, return -EINPROGRESS.
-- * Else, return 0.
-- */
--static int do_open_tray(const char *blk_name, const char *qdev_id,
--                        bool force, Error **errp)
--{
--    BlockBackend *blk;
--    const char *device =3D qdev_id ?: blk_name;
--    bool locked;
--
--    blk =3D qmp_get_blk(blk_name, qdev_id, errp);
--    if (!blk) {
--        return -ENODEV;
--    }
--
--    if (!blk_dev_has_removable_media(blk)) {
--        error_setg(errp, "Device '%s' is not removable", device);
--        return -ENOTSUP;
--    }
--
--    if (!blk_dev_has_tray(blk)) {
--        error_setg(errp, "Device '%s' does not have a tray", device);
--        return -ENOSYS;
--    }
--
--    if (blk_dev_is_tray_open(blk)) {
--        return 0;
--    }
--
--    locked =3D blk_dev_is_medium_locked(blk);
--    if (locked) {
--        blk_dev_eject_request(blk, force);
--    }
--
--    if (!locked || force) {
--        blk_dev_change_media_cb(blk, false, &error_abort);
--    }
--
--    if (locked && !force) {
--        error_setg(errp, "Device '%s' is locked and force was not specifie=
-d, "
--                   "wait for tray to open and try again", device);
--        return -EINPROGRESS;
--    }
--
--    return 0;
--}
--
--void qmp_blockdev_open_tray(bool has_device, const char *device,
--                            bool has_id, const char *id,
--                            bool has_force, bool force,
--                            Error **errp)
--{
--    Error *local_err =3D NULL;
--    int rc;
--
--    if (!has_force) {
--        force =3D false;
--    }
--    rc =3D do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      force, &local_err);
--    if (rc && rc !=3D -ENOSYS && rc !=3D -EINPROGRESS) {
--        error_propagate(errp, local_err);
--        return;
--    }
--    error_free(local_err);
--}
--
--void qmp_blockdev_close_tray(bool has_device, const char *device,
--                             bool has_id, const char *id,
--                             Error **errp)
--{
--    BlockBackend *blk;
--    Error *local_err =3D NULL;
--
--    device =3D has_device ? device : NULL;
--    id =3D has_id ? id : NULL;
--
--    blk =3D qmp_get_blk(device, id, errp);
--    if (!blk) {
--        return;
--    }
--
--    if (!blk_dev_has_removable_media(blk)) {
--        error_setg(errp, "Device '%s' is not removable", device ?: id);
--        return;
--    }
--
--    if (!blk_dev_has_tray(blk)) {
--        /* Ignore this command on tray-less devices */
--        return;
--    }
--
--    if (!blk_dev_is_tray_open(blk)) {
--        return;
--    }
--
--    blk_dev_change_media_cb(blk, true, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--}
--
--static void blockdev_remove_medium(bool has_device, const char *device,
--                                   bool has_id, const char *id, Error **er=
-rp)
--{
--    BlockBackend *blk;
--    BlockDriverState *bs;
--    AioContext *aio_context;
--    bool has_attached_device;
--
--    device =3D has_device ? device : NULL;
--    id =3D has_id ? id : NULL;
--
--    blk =3D qmp_get_blk(device, id, errp);
--    if (!blk) {
--        return;
--    }
--
--    /* For BBs without a device, we can exchange the BDS tree at will */
--    has_attached_device =3D blk_get_attached_dev(blk);
--
--    if (has_attached_device && !blk_dev_has_removable_media(blk)) {
--        error_setg(errp, "Device '%s' is not removable", device ?: id);
--        return;
--    }
--
--    if (has_attached_device && blk_dev_has_tray(blk) &&
--        !blk_dev_is_tray_open(blk))
--    {
--        error_setg(errp, "Tray of device '%s' is not open", device ?: id);
--        return;
--    }
--
--    bs =3D blk_bs(blk);
--    if (!bs) {
--        return;
--    }
--
--    aio_context =3D bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
--
--    if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_EJECT, errp)) {
--        goto out;
--    }
--
--    blk_remove_bs(blk);
--
--    if (!blk_dev_has_tray(blk)) {
--        /* For tray-less devices, blockdev-open-tray is a no-op (or may no=
-t be
--         * called at all); therefore, the medium needs to be ejected here.
--         * Do it after blk_remove_bs() so blk_is_inserted(blk) returns the=
- @load
--         * value passed here (i.e. false). */
--        blk_dev_change_media_cb(blk, false, &error_abort);
--    }
--
--out:
--    aio_context_release(aio_context);
--}
--
--void qmp_blockdev_remove_medium(const char *id, Error **errp)
--{
--    blockdev_remove_medium(false, NULL, true, id, errp);
--}
--
--static void qmp_blockdev_insert_anon_medium(BlockBackend *blk,
--                                            BlockDriverState *bs, Error **=
-errp)
--{
--    Error *local_err =3D NULL;
--    bool has_device;
--    int ret;
--
--    /* For BBs without a device, we can exchange the BDS tree at will */
--    has_device =3D blk_get_attached_dev(blk);
--
--    if (has_device && !blk_dev_has_removable_media(blk)) {
--        error_setg(errp, "Device is not removable");
--        return;
--    }
--
--    if (has_device && blk_dev_has_tray(blk) && !blk_dev_is_tray_open(blk))=
- {
--        error_setg(errp, "Tray of the device is not open");
--        return;
--    }
--
--    if (blk_bs(blk)) {
--        error_setg(errp, "There already is a medium in the device");
--        return;
--    }
--
--    ret =3D blk_insert_bs(blk, bs, errp);
--    if (ret < 0) {
--        return;
--    }
--
--    if (!blk_dev_has_tray(blk)) {
--        /* For tray-less devices, blockdev-close-tray is a no-op (or may n=
-ot be
--         * called at all); therefore, the medium needs to be pushed into t=
-he
--         * slot here.
--         * Do it after blk_insert_bs() so blk_is_inserted(blk) returns the=
- @load
--         * value passed here (i.e. true). */
--        blk_dev_change_media_cb(blk, true, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            blk_remove_bs(blk);
--            return;
--        }
--    }
--}
--
--static void blockdev_insert_medium(bool has_device, const char *device,
--                                   bool has_id, const char *id,
--                                   const char *node_name, Error **errp)
--{
--    BlockBackend *blk;
--    BlockDriverState *bs;
--
--    blk =3D qmp_get_blk(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      errp);
--    if (!blk) {
--        return;
--    }
--
--    bs =3D bdrv_find_node(node_name);
--    if (!bs) {
--        error_setg(errp, "Node '%s' not found", node_name);
--        return;
--    }
--
--    if (bdrv_has_blk(bs)) {
--        error_setg(errp, "Node '%s' is already in use", node_name);
--        return;
--    }
--
--    qmp_blockdev_insert_anon_medium(blk, bs, errp);
--}
--
--void qmp_blockdev_insert_medium(const char *id, const char *node_name,
--                                Error **errp)
--{
--    blockdev_insert_medium(false, NULL, true, id, node_name, errp);
--}
--
--void qmp_blockdev_change_medium(bool has_device, const char *device,
--                                bool has_id, const char *id,
--                                const char *filename,
--                                bool has_format, const char *format,
--                                bool has_read_only,
--                                BlockdevChangeReadOnlyMode read_only,
--                                Error **errp)
--{
--    BlockBackend *blk;
--    BlockDriverState *medium_bs =3D NULL;
--    int bdrv_flags;
--    bool detect_zeroes;
--    int rc;
--    QDict *options =3D NULL;
--    Error *err =3D NULL;
--
--    blk =3D qmp_get_blk(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      errp);
--    if (!blk) {
--        goto fail;
--    }
--
--    if (blk_bs(blk)) {
--        blk_update_root_state(blk);
--    }
--
--    bdrv_flags =3D blk_get_open_flags_from_root_state(blk);
--    bdrv_flags &=3D ~(BDRV_O_TEMPORARY | BDRV_O_SNAPSHOT | BDRV_O_NO_BACKI=
-NG |
--        BDRV_O_PROTOCOL | BDRV_O_AUTO_RDONLY);
--
--    if (!has_read_only) {
--        read_only =3D BLOCKDEV_CHANGE_READ_ONLY_MODE_RETAIN;
--    }
--
--    switch (read_only) {
--    case BLOCKDEV_CHANGE_READ_ONLY_MODE_RETAIN:
--        break;
--
--    case BLOCKDEV_CHANGE_READ_ONLY_MODE_READ_ONLY:
--        bdrv_flags &=3D ~BDRV_O_RDWR;
--        break;
--
--    case BLOCKDEV_CHANGE_READ_ONLY_MODE_READ_WRITE:
--        bdrv_flags |=3D BDRV_O_RDWR;
--        break;
--
--    default:
--        abort();
--    }
--
--    options =3D qdict_new();
--    detect_zeroes =3D blk_get_detect_zeroes_from_root_state(blk);
--    qdict_put_str(options, "detect-zeroes", detect_zeroes ? "on" : "off");
--
--    if (has_format) {
--        qdict_put_str(options, "driver", format);
--    }
--
--    medium_bs =3D bdrv_open(filename, NULL, options, bdrv_flags, errp);
--    if (!medium_bs) {
--        goto fail;
--    }
--
--    rc =3D do_open_tray(has_device ? device : NULL,
--                      has_id ? id : NULL,
--                      false, &err);
--    if (rc && rc !=3D -ENOSYS) {
--        error_propagate(errp, err);
--        goto fail;
--    }
--    error_free(err);
--    err =3D NULL;
--
--    blockdev_remove_medium(has_device, device, has_id, id, &err);
--    if (err) {
--        error_propagate(errp, err);
--        goto fail;
--    }
--
--    qmp_blockdev_insert_anon_medium(blk, medium_bs, &err);
--    if (err) {
--        error_propagate(errp, err);
--        goto fail;
--    }
--
--    qmp_blockdev_close_tray(has_device, device, has_id, id, errp);
--
--fail:
--    /* If the medium has been inserted, the device has its own reference, =
-so
--     * ours must be relinquished; and if it has not been inserted successf=
-ully,
--     * the reference must be relinquished anyway */
--    bdrv_unref(medium_bs);
--}
--
--/* throttling disk I/O limits */
--void qmp_block_set_io_throttle(BlockIOThrottle *arg, Error **errp)
--{
--    ThrottleConfig cfg;
--    BlockDriverState *bs;
--    BlockBackend *blk;
--    AioContext *aio_context;
--
--    blk =3D qmp_get_blk(arg->has_device ? arg->device : NULL,
--                      arg->has_id ? arg->id : NULL,
--                      errp);
--    if (!blk) {
--        return;
--    }
--
--    aio_context =3D blk_get_aio_context(blk);
--    aio_context_acquire(aio_context);
--
--    bs =3D blk_bs(blk);
--    if (!bs) {
--        error_setg(errp, "Device has no medium");
--        goto out;
--    }
--
--    throttle_config_init(&cfg);
--    cfg.buckets[THROTTLE_BPS_TOTAL].avg =3D arg->bps;
--    cfg.buckets[THROTTLE_BPS_READ].avg  =3D arg->bps_rd;
--    cfg.buckets[THROTTLE_BPS_WRITE].avg =3D arg->bps_wr;
--
--    cfg.buckets[THROTTLE_OPS_TOTAL].avg =3D arg->iops;
--    cfg.buckets[THROTTLE_OPS_READ].avg  =3D arg->iops_rd;
--    cfg.buckets[THROTTLE_OPS_WRITE].avg =3D arg->iops_wr;
--
--    if (arg->has_bps_max) {
--        cfg.buckets[THROTTLE_BPS_TOTAL].max =3D arg->bps_max;
--    }
--    if (arg->has_bps_rd_max) {
--        cfg.buckets[THROTTLE_BPS_READ].max =3D arg->bps_rd_max;
--    }
--    if (arg->has_bps_wr_max) {
--        cfg.buckets[THROTTLE_BPS_WRITE].max =3D arg->bps_wr_max;
--    }
--    if (arg->has_iops_max) {
--        cfg.buckets[THROTTLE_OPS_TOTAL].max =3D arg->iops_max;
--    }
--    if (arg->has_iops_rd_max) {
--        cfg.buckets[THROTTLE_OPS_READ].max =3D arg->iops_rd_max;
--    }
--    if (arg->has_iops_wr_max) {
--        cfg.buckets[THROTTLE_OPS_WRITE].max =3D arg->iops_wr_max;
--    }
--
--    if (arg->has_bps_max_length) {
--        cfg.buckets[THROTTLE_BPS_TOTAL].burst_length =3D arg->bps_max_leng=
-th;
--    }
--    if (arg->has_bps_rd_max_length) {
--        cfg.buckets[THROTTLE_BPS_READ].burst_length =3D arg->bps_rd_max_le=
-ngth;
--    }
--    if (arg->has_bps_wr_max_length) {
--        cfg.buckets[THROTTLE_BPS_WRITE].burst_length =3D arg->bps_wr_max_l=
-ength;
--    }
--    if (arg->has_iops_max_length) {
--        cfg.buckets[THROTTLE_OPS_TOTAL].burst_length =3D arg->iops_max_len=
-gth;
--    }
--    if (arg->has_iops_rd_max_length) {
--        cfg.buckets[THROTTLE_OPS_READ].burst_length =3D arg->iops_rd_max_l=
-ength;
--    }
--    if (arg->has_iops_wr_max_length) {
--        cfg.buckets[THROTTLE_OPS_WRITE].burst_length =3D arg->iops_wr_max_=
-length;
--    }
--
--    if (arg->has_iops_size) {
--        cfg.op_size =3D arg->iops_size;
--    }
--
--    if (!throttle_is_valid(&cfg, errp)) {
--        goto out;
--    }
--
--    if (throttle_enabled(&cfg)) {
--        /* Enable I/O limits if they're not enabled yet, otherwise
--         * just update the throttling group. */
--        if (!blk_get_public(blk)->throttle_group_member.throttle_state) {
--            blk_io_limits_enable(blk,
--                                 arg->has_group ? arg->group :
--                                 arg->has_device ? arg->device :
--                                 arg->id);
--        } else if (arg->has_group) {
--            blk_io_limits_update_group(blk, arg->group);
--        }
--        /* Set the new throttling configuration */
--        blk_set_io_limits(blk, &cfg);
--    } else if (blk_get_public(blk)->throttle_group_member.throttle_state) =
-{
--        /* If all throttling settings are set to 0, disable I/O limits */
--        blk_io_limits_disable(blk);
--    }
--
--out:
--    aio_context_release(aio_context);
--}
--
- void qmp_block_dirty_bitmap_add(const char *node, const char *name,
-                                 bool has_granularity, uint32_t granularity=
-,
-                                 bool has_persistent, bool persistent,
-@@ -4595,62 +4092,6 @@ void qmp_x_blockdev_set_iothread(const char *node_na=
-me, StrOrNull *iothread,
-     aio_context_release(old_context);
- }
-=20
--void qmp_block_latency_histogram_set(
--    const char *id,
--    bool has_boundaries, uint64List *boundaries,
--    bool has_boundaries_read, uint64List *boundaries_read,
--    bool has_boundaries_write, uint64List *boundaries_write,
--    bool has_boundaries_flush, uint64List *boundaries_flush,
--    Error **errp)
--{
--    BlockBackend *blk =3D qmp_get_blk(NULL, id, errp);
--    BlockAcctStats *stats;
--    int ret;
--
--    if (!blk) {
--        return;
--    }
--
--    stats =3D blk_get_stats(blk);
--
--    if (!has_boundaries && !has_boundaries_read && !has_boundaries_write &=
-&
--        !has_boundaries_flush)
--    {
--        block_latency_histograms_clear(stats);
--        return;
--    }
--
--    if (has_boundaries || has_boundaries_read) {
--        ret =3D block_latency_histogram_set(
--            stats, BLOCK_ACCT_READ,
--            has_boundaries_read ? boundaries_read : boundaries);
--        if (ret) {
--            error_setg(errp, "Device '%s' set read boundaries fail", id);
--            return;
--        }
--    }
--
--    if (has_boundaries || has_boundaries_write) {
--        ret =3D block_latency_histogram_set(
--            stats, BLOCK_ACCT_WRITE,
--            has_boundaries_write ? boundaries_write : boundaries);
--        if (ret) {
--            error_setg(errp, "Device '%s' set write boundaries fail", id);
--            return;
--        }
--    }
--
--    if (has_boundaries || has_boundaries_flush) {
--        ret =3D block_latency_histogram_set(
--            stats, BLOCK_ACCT_FLUSH,
--            has_boundaries_flush ? boundaries_flush : boundaries);
--        if (ret) {
--            error_setg(errp, "Device '%s' set flush boundaries fail", id);
--            return;
--        }
--    }
--}
--
- QemuOptsList qemu_common_drive_opts =3D {
-     .name =3D "drive",
-     .head =3D QTAILQ_HEAD_INITIALIZER(qemu_common_drive_opts.head),
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index 3bcb35c81d..e06cf0b284 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -48,6 +48,8 @@ block-obj-y +=3D filter-compress.o
-=20
- common-obj-y +=3D stream.o
-=20
-+common-obj-y +=3D qapi-sysemu.o
-+
- nfs.o-libs         :=3D $(LIBNFS_LIBS)
- iscsi.o-cflags     :=3D $(LIBISCSI_CFLAGS)
- iscsi.o-libs       :=3D $(LIBISCSI_LIBS)
+ #include "qapi/qapi-commands-control.h"
+ #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-misc.h"
 --=20
 2.20.1
 
