@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E6C17C4A3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:40:48 +0100 (CET)
-Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658EC17C48C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:36:41 +0100 (CET)
+Received: from localhost ([::1]:40217 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGxr-0005s8-Qj
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:40:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58209)
+	id 1jAGts-00068Q-E2
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:36:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1jAGoe-0004jf-7b
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:31:18 -0500
+ (envelope-from <jandryuk@gmail.com>) id 1jAGqu-0000po-QE
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:33:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1jAGoc-0003ia-Bq
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:31:15 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38737)
+ (envelope-from <jandryuk@gmail.com>) id 1jAGqr-00065X-Ta
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:33:36 -0500
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:42950)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1jAGoa-0003eG-LI
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:31:13 -0500
-Received: by mail-pl1-x641.google.com with SMTP id w3so1135273plz.5
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:31:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=UygXtcOquP2uukbvmDPtogXvWNDERxgs47LKEBGVpuM=;
- b=HtmpVxtXBu3s2SvVO1xTXufD//yEf3iSUGLoHJIoG4H9Yb/6hfBjd316S4JUUpeTD+
- y/te8aR1QUYTmo88SFNHAMA70YFBNDXVPy3GzUSIsbP+qhq3G2f7M0oQpsYkmKsB40pu
- HbavdHJBOOLxhl6idIfOdGmDKvVuTItmQ9X07SyNx/S5jhXN42u6+MfzeU73zwuM7qhb
- 0Rmg/LF+nR4UafazVAviL3EaYH0iqBwrdR0qzsb+pqXjsxQBltPAi2lXca8Fx/6Uu3f9
- WVWQd+lwMSK71PcUfljfz8UdcXA0g35Q3Dvf++jkWSDErePJso0QgIptvoRO58bBzSxA
- l/5w==
+ (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jAGqr-00062y-Lt
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:33:33 -0500
+Received: by mail-lj1-x236.google.com with SMTP id q19so3045201ljp.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eijE0ycxMZz5nfPaqfYDIiyOBeNFjIfRksRWHONug+w=;
+ b=ACtgPYPH46+6siS5M/Amt9Tb2vF/kYd9u+RS9jScz/QE568jLdhpvye4nnYLnWVXqz
+ YmmTdFAgcC6YvcZfkEuzltOiqMlGi/WTQEu1TZJg7b+XOPQoe/PxSaUQii1v+QoMs5JC
+ /FZHyXxj4vgRmV1veykk5SERkeXul1FKbQ03HKC7JD8lNm+RH+o3ycWUBfy5KG1Ql8fb
+ C0QLasvOb4b8yRspoAnaOq2XsERbL7kc3GXrhHmhi8oRC5hXZULrJV+RX66TpKP0sgxT
+ nXIwEgABK4QQ8jN8dguii5XXAFetnm+k0XCsbrMTQRzAwWrRWjJhrkg+KNa33D9V61XW
+ RJPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=UygXtcOquP2uukbvmDPtogXvWNDERxgs47LKEBGVpuM=;
- b=Oqgd7OHqg57kWeK7xG22dq7fB/XTOfRrOnAyTxxtcHkbry3L8rC66YLoG08uITIota
- Tu+hSuJfnoOVrFFpn9zfDDR17KOd1SDlUHfjsaMgob78bmnoPUjEbxYD5Wkvh+WeBRHe
- 7GO0auls+kYb+HG1LUmBZ6xdC9x3H/n8/7QGzMgZ5/3yDX0CQMcOa0hyeVi6tFOmb39L
- Dy703QrHb0M2fTvNbnt6zLzF2LpoTZ0kZrOVEAVq/gROOZwH4ISWVGbuyljykhhjUlO9
- 18ReGC+Vp9HelIf4NUwZixdiz7GZpl1EIyZYpnhFeFnvuqKcLx2bLMaZuHOnHhqNZe5v
- 0k3A==
-X-Gm-Message-State: ANhLgQ0dlM/ejA05Go8uGZzQUYnQwqqF9ui9hMpUuls9qUZXFNy20uyt
- WeTy/KAHBh5ZFhoQ1kG8posGzw==
-X-Google-Smtp-Source: ADFU+vumMQk9seVGom+SQkz8SLHJHP4r/sBiSaGD3PvX50CI6YaRXuXsCCDA7xcrJq6Zro3KEvKE/Q==
-X-Received: by 2002:a17:90a:d101:: with SMTP id
- l1mr4874944pju.130.1583515869863; 
- Fri, 06 Mar 2020 09:31:09 -0800 (PST)
-Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
- by smtp.gmail.com with ESMTPSA id i5sm10206907pju.42.2020.03.06.09.31.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 09:31:08 -0800 (PST)
-Date: Fri, 06 Mar 2020 09:31:08 -0800 (PST)
-X-Google-Original-Date: Fri, 06 Mar 2020 09:30:47 PST (-0800)
-Subject: Re: [PATCH 1/1] target/riscv: Fix VS mode interrupts forwarding.
-In-Reply-To: <CAKmqyKMDPXLig4E4VJvqwvd7O7DtFD0PmWD44zoGDY-izJLsHQ@mail.gmail.com>
-CC: rajnesh.kanwal49@gmail.com, josemartins90@gmail.com, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-To: alistair23@gmail.com
-Message-ID: <mhng-4a8f061d-5e72-44e7-a2a2-b72cd52332a3@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eijE0ycxMZz5nfPaqfYDIiyOBeNFjIfRksRWHONug+w=;
+ b=tUVLGeWqtqRMeoCSWUbQU9aGQZTprCwTjXRbD0h+3awY4q1iMGD8AZynZyqTe83dWE
+ NDwC/wL0Wv1H2u5wm59+zoauzerUbtfzm3qKgsnNo4OJ/mH+CV7ljUPQtgxTSttZkkog
+ 2Dy3SUYcJg1V2iOPF3zwHV7lOXWV9BBBTvargRauJkXDsPc41bCbGcPpILTytF9lDtci
+ PSMoNMc7da/vDQJrbiCNOaq9O7YSICMU4aHVAxUZQC+Q2LLjWLNL1hh7yza2gBC37Z2j
+ vvRfY6t8Vle6D9DWdRnp103NSy1g+qHUghlCW3kT6Jz1U2IEX95AKRQTPrYI/hGVN+Zk
+ oJHQ==
+X-Gm-Message-State: ANhLgQ3kyeNCqkon4c7yr8HvK6QEuej2fUsGsSvXpgngjWdDHCHDYibq
+ uDhoceP2IcmASKzB09rUJ9ONn2Mo16nwXIyZFc3+0w==
+X-Google-Smtp-Source: ADFU+vs8KjIYkm31rX48B6FLhkmjm9JeOhXahvvNb6pHG+SBD8GmREOhkp/arEa3wPhdtEM+eRAQIlJJoPCrNsRODAM=
+X-Received: by 2002:a2e:2c13:: with SMTP id s19mr2574415ljs.210.1583516011751; 
+ Fri, 06 Mar 2020 09:33:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20200306140917.26726-1-jandryuk@gmail.com>
+ <158351119581.14529.12409093643313383178@39012742ff91>
+In-Reply-To: <158351119581.14529.12409093643313383178@39012742ff91>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Fri, 6 Mar 2020 12:33:20 -0500
+Message-ID: <CAKf6xpvVJd-ObnFcZLHte78-m1ebzaULx922n4aXXdOEUEiVOg@mail.gmail.com>
+Subject: Re: [PATCH] usb-serial: wakeup device on input
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2a00:1450:4864:20::236
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,89 +73,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Feb 2020 09:55:34 PST (-0800), alistair23@gmail.com wrote:
-> On Wed, Feb 26, 2020 at 12:54 AM Rajnesh Kanwal
-> <rajnesh.kanwal49@gmail.com> wrote:
->>
->> Here is the link to the patch
->> https://lists.nongnu.org/archive/html/qemu-riscv/2020-01/msg00191.html
+On Fri, Mar 6, 2020 at 11:13 AM <no-reply@patchew.org> wrote:
 >
-> Ah, it doesn't look like it made it to the QEMU-devel list. Can you
-> re-send it to QEMU-devel?
+> Patchew URL: https://patchew.org/QEMU/20200306140917.26726-1-jandryuk@gma=
+il.com/
+>
+>
+>
+> Hi,
+>
+> This series failed the docker-clang@ubuntu build test. Please find the te=
+sting commands and
+> their output below. If you have Docker installed, you can probably reprod=
+uce it
+> locally.
+>
+> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> #!/bin/bash
+> make docker-image-ubuntu V=3D1 NETWORK=3D1
+> time make docker-test-clang@ubuntu SHOW_ENV=3D1 J=3D14 NETWORK=3D1
+> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
 
-I can't find the older patch in my inbox, so I'm just taking this one.
+I ran these two commands locally and they completed successfully.
 
+>   LINK    fp-test
+> ---
+> dbus-daemon[5453]: Could not get password database information for UID of=
+ current process: User "???" unknown or no memory to allocate password entr=
+y
+
+Was there a problem with this container's password db and/or
+out-of-memory like this message states?
+
+Regards,
+Jason
+
+> **
+> ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connecti=
+on: assertion failed (err =3D=3D NULL): The connection is closed (g-io-erro=
+r-quark, 18)
+> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.=
+c:114:get_connection: assertion failed (err =3D=3D NULL): The connection is=
+ closed (g-io-error-quark, 18)
+> Aborted (core dumped)
+> cleaning up pid 5453
+> make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-i38=
+6] Error 1
+> make: *** Waiting for unfinished jobs....
 >
-> Alistair
+> Looking for expected file 'tests/data/acpi/pc/FACP.bridge'
+> ---
+> dbus-daemon[6892]: Could not get password database information for UID of=
+ current process: User "???" unknown or no memory to allocate password entr=
+y
 >
->>
->> -Rajnesh
->>
->> On Tue, Feb 25, 2020 at 12:06 AM Alistair Francis <alistair23@gmail.com> wrote:
->>>
->>> On Sun, Feb 23, 2020 at 11:23 AM Jose Martins <josemartins90@gmail.com> wrote:
->>> >
->>> > Hello rajnesh,
->>> >
->>> > I had already submitted almost this exact patch a few weeks ago.
->>>
->>> To QEMU? I don't see the patch.
->>>
->>> Alistair
->>>
->>> >
->>> > Jose
->>> >
->>> > On Sun, 23 Feb 2020 at 13:51, <rajnesh.kanwal49@gmail.com> wrote:
->>> > >
->>> > > From: Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
->>> > >
->>> > > Currently riscv_cpu_local_irq_pending is used to find out pending
->>> > > interrupt and VS mode interrupts are being shifted to represent
->>> > > S mode interrupts in this function. So when the cause returned by
->>> > > this function is passed to riscv_cpu_do_interrupt to actually
->>> > > forward the interrupt, the VS mode forwarding check does not work
->>> > > as intended and interrupt is actually forwarded to hypervisor. This
->>> > > patch fixes this issue.
->>> > >
->>> > > Signed-off-by: Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
->>> > > ---
->>> > >  target/riscv/cpu_helper.c | 9 ++++++++-
->>> > >  1 file changed, 8 insertions(+), 1 deletion(-)
->>> > >
->>> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->>> > > index b9e90dfd9a..59535ecba6 100644
->>> > > --- a/target/riscv/cpu_helper.c
->>> > > +++ b/target/riscv/cpu_helper.c
->>> > > @@ -46,7 +46,7 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
->>> > >      target_ulong pending = env->mip & env->mie &
->>> > >                                 ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
->>> > >      target_ulong vspending = (env->mip & env->mie &
->>> > > -                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)) >> 1;
->>> > > +                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
->>> > >
->>> > >      target_ulong mie    = env->priv < PRV_M ||
->>> > >                            (env->priv == PRV_M && mstatus_mie);
->>> > > @@ -900,6 +900,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->>> > >
->>> > >              if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1) &&
->>> > >                  !force_hs_execp) {
->>> > > +                /*
->>> > > +                 * See if we need to adjust cause. Yes if its VS mode interrupt
->>> > > +                 * no if hypervisor has delegated one of hs mode's interrupt
->>> > > +                 */
->>> > > +                if (cause == IRQ_VS_TIMER || cause == IRQ_VS_SOFT ||
->>> > > +                    cause == IRQ_VS_EXT)
->>> > > +                    cause = cause - 1;
->>> > >                  /* Trap to VS mode */
->>> > >              } else if (riscv_cpu_virt_enabled(env)) {
->>> > >                  /* Trap into HS mode, from virt */
->>> > > --
->>> > > 2.17.1
->>> > >
->>> > >
->>> >
+> **
+> ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connecti=
+on: assertion failed (err =3D=3D NULL): The connection is closed (g-io-erro=
+r-quark, 18)
+> Aborted (core dumped)
+> cleaning up pid 6892
+> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.=
+c:114:get_connection: assertion failed (err =3D=3D NULL): The connection is=
+ closed (g-io-error-quark, 18)
+> make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-x86=
+_64] Error 1
+>   TEST    check-qtest-arm: tests/qtest/test-hmp
+>   TEST    check-qtest-arm: tests/qtest/qos-test
+>   TEST    check-qtest-aarch64: tests/qtest/test-hmp
+> ---
+>     raise CalledProcessError(retcode, cmd)
+> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '=
+--label', 'com.qemu.instance.uuid=3D2e42e92cfb504ed5b5cb56b2c8b512df', '-u'=
+, '1003', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET_L=
+IST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '-e=
+', 'DEBUG=3D', '-e', 'SHOW_ENV=3D1', '-e', 'CCACHE_DIR=3D/var/tmp/ccache', =
+'-v', '/home/patchew2/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '=
+/var/tmp/patchew-tester-tmp-dwbsabkq/src/docker-src.2020-03-06-10.32.46.219=
+4:/var/tmp/qemu:z,ro', 'qemu:ubuntu', '/var/tmp/qemu/run', 'test-clang']' r=
+eturned non-zero exit status 2.
+> filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3D2e42e92cfb504ed5b5cb=
+56b2c8b512df
+> make[1]: *** [docker-run] Error 1
+> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-dwbsabkq/src'
+> make: *** [docker-run-test-clang@ubuntu] Error 2
+>
+> real    40m29.624s
+> user    0m9.675s
+>
+>
+> The full log is available at
+> http://patchew.org/logs/20200306140917.26726-1-jandryuk@gmail.com/testing=
+.docker-clang@ubuntu/?type=3Dmessage.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
