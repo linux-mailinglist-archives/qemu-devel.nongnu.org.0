@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7734417BB8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:23:42 +0100 (CET)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D6D17BBA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:27:31 +0100 (CET)
+Received: from localhost ([::1]:35238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAB4v-0002wI-IM
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:23:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40094)
+	id 1jAB8b-0001Jz-Ve
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:27:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAsV-0004TN-Jn
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:53 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAse-0004YW-BM
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:11:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAsT-00064f-3z
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:50 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36998)
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAsU-00067T-8j
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:59 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55356)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jAAsS-00060m-Rh
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:49 -0500
-Received: by mail-wm1-x330.google.com with SMTP id a141so1931204wme.2
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:48 -0800 (PST)
+ id 1jAAsT-000657-W4
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:50 -0500
+Received: by mail-wm1-x333.google.com with SMTP id 6so1921439wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=eAz9K3AzjJyegY4XFNXzdynmBguX2kLl9F5Z2dLMquI=;
- b=w7MldQtm00YzyIKn/3tlNutVmJOuonr95yE7Ek93FSkFIf58r2Tfr2v2TfTutpURib
- EJ5kTiZW6QzvOq4eKbo+Ywv0ax8N6kMbjAlelN/Dh5yijG21hpxWm5wzf12NjpQtJndC
- 8nfMLsa58ErkNoB3F80nIZaUK/S7RAkqv2cBEkYFKu+xlAAqytYK9YY/XFauiNt342x5
- SPeMYFO8apBL9SQ7A50JocTf0JWG9+trf/AyE6ETY7gyZznkAmkIXIiStzFtsxY/cGkD
- mWtWG1uiDBTXQYSEnTBRsop2i87mKsyYMASrcOdWHsPTh821oZU8C9hNHSu2+NtMA8bm
- yBFQ==
+ bh=ohs9Otf2cvL4qP/fbKtn8DSCDnRv4jYFVg8c3pXFWWM=;
+ b=qSPyRwf1u7uFQ0XcDmP1A4URqBLMI7Ew4dYcQwPEtZXTDPTAlw8uYtWTJOiAMHjYWU
+ rRD6GnCHKZP0uaC8IcSulrdRcazLHL+qA9HW6OXp/OgJ0crNVqXNrVl0N4tkh4h1Uw68
+ MGhORw4HLhBGB/s5aOTlmJC2AYjbnDF/+xkN0tvB97wk5e1pwjzqQ0zxoLRbSuuPmgGN
+ 6eXsh80dp2qcVBcQzSEXCsAQWNVGe2sSwRje+OjL6fja5bLDWkzUDv2yYXHs+CG35IT3
+ RiLqQArgECbJI1FF7PC4ClCBXMqA5kfx7FlwqRr3AfFNpIkpygzT1lG9chUE68LkiodY
+ 8dhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eAz9K3AzjJyegY4XFNXzdynmBguX2kLl9F5Z2dLMquI=;
- b=FZzAl+j3ZnJwraOP/kUweZzU/fWr9iDlvfKiT+YOonz9TQemOVnXbJ7hsCD2PUXntX
- Tu6LbknnUPvdIGDRYdNlSkJjZCKJXhbDktnQAn9S3hKJsblAhJMZ9nAqch1+o7hQfAAE
- d1FJSlTlKwtPCFgjoJ70sln27SGoqIwKzpRLiXauWHKemgr+uSBJIv09GaDwP7IvpMEx
- 03UoCa1Hi7ixVEKa0fPaVpfKTuQR7Licg9TOG47AHLxXpQtbnQrgaEA/QJU8Hz+aIfDi
- Z5RBkBG8j/2qE6/3419C/LOEKzmYyqr59ISwf28amEKXbLWUwz2RBxYOkVIbod9kVWvV
- NMGQ==
-X-Gm-Message-State: ANhLgQ2UqU2VNGMz+XXQJmDYZ1nQ1RjobXwJgQ/ou897hAot3whWQ0uh
- b4RHVoJJMABiT3Oz60nyNCwjt76kJiurSg==
-X-Google-Smtp-Source: ADFU+vs7I5tPQ5mfnhhTOkpymqFXJ0mNM7CUsK/6E9ICUawSBjCOSTjQsB9Y9xRBrBneDDazPzNxRA==
-X-Received: by 2002:a1c:c257:: with SMTP id s84mr2302565wmf.9.1583493047465;
- Fri, 06 Mar 2020 03:10:47 -0800 (PST)
+ bh=ohs9Otf2cvL4qP/fbKtn8DSCDnRv4jYFVg8c3pXFWWM=;
+ b=nOIBltt65HVaQZrhb1ysAC38DEekTp6RVzzMHlkCDfJ3r4Je6bTJ6asweNAV0C6fAu
+ Zjt8EKRAzu6HU8ebu8w0vSVNbCU34QYa81Ye7Q+OWXiundz+O+qwQOO8TXfnXFNFYegR
+ rKpn/3jpnYEgWizzwLhxqVKE4qxN0rDdnndWhW8XTeW7KxgdLCRtacsJOIwkqLfnjBOH
+ dJ8r/3Cn6a5el4i1RanjSkufG8CxdS3a3jDThBFuhrAe3uWvOig4+zmZ4ArtZYZh+EOD
+ e7poudFV8oocMMmoxn3jFSwcizIS6gNGr5MuFSpPh5wGjc4KzIpC78yhd/EuuwMIj7uD
+ kaXA==
+X-Gm-Message-State: ANhLgQ0e/O5KiTnPO0XfQPpLcJORARmk8bJ16LPluL4QADJNg6g5UxEB
+ ITahkzgBygW3RXTS+JpYTTcnTH6sNTqq7g==
+X-Google-Smtp-Source: ADFU+vvSTobYbMJv/1aBEoyAIALJQ+OgBisV9Xb913l+qGjScy4VjSKmZBA81RP0JiIwkOj7Y8G9iA==
+X-Received: by 2002:a7b:cb93:: with SMTP id m19mr3635698wmi.133.1583493048702; 
+ Fri, 06 Mar 2020 03:10:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.46
+ by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 03:10:46 -0800 (PST)
+ Fri, 06 Mar 2020 03:10:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/33] docs: Generate qemu.1 manpage with Sphinx
-Date: Fri,  6 Mar 2020 11:09:55 +0000
-Message-Id: <20200306110959.29461-30-peter.maydell@linaro.org>
+Subject: [PULL 30/33] ui/cocoa.m: Update documentation file and pathname
+Date: Fri,  6 Mar 2020 11:09:56 +0000
+Message-Id: <20200306110959.29461-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306110959.29461-1-peter.maydell@linaro.org>
 References: <20200306110959.29461-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,128 +82,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generate the qemu.1 manpage using Sphinx; we do this with a new
-top-level rst source file which is just the skeleton of the manpage
-and which includes .rst.inc fragments where it needs to incorporate
-sections from the larger HTML manuals.
+We want to stop generating the old qemu-doc.html; first we
+must update places that refer to it so they instead go to
+our top level index.html documentation landing page.
+The Cocoa UI has a menu option to bring up the documentation;
+make it point to the new top level index.html instead.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200228153619.9906-30-peter.maydell@linaro.org
+Message-id: 20200228153619.9906-31-peter.maydell@linaro.org
 ---
- Makefile                     | 10 ++++----
- docs/system/conf.py          |  2 ++
- docs/system/qemu-manpage.rst | 45 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+), 6 deletions(-)
- create mode 100644 docs/system/qemu-manpage.rst
+ ui/cocoa.m | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index f7d08997dbf..ef10b9a031d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -344,7 +344,8 @@ MANUAL_BUILDDIR := docs
- endif
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 747a70839af..cb556e4e668 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1174,7 +1174,7 @@ QemuCocoaView *cocoaView;
+ - (void) openDocumentation: (NSString *) filename
+ {
+     /* Where to look for local files */
+-    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../"};
++    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
+     NSString *full_file_path;
  
- ifdef BUILD_DOCS
--DOCS=qemu-doc.html qemu-doc.txt qemu.1
-+DOCS=qemu-doc.html qemu-doc.txt
-+DOCS+=$(MANUAL_BUILDDIR)/system/qemu.1
- DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-img.1
- DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-nbd.8
- DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-ga.8
-@@ -856,7 +857,7 @@ install-doc: $(DOCS) install-sphinxdocs
- 	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.txt "$(DESTDIR)$(qemu_docdir)"
- ifdef CONFIG_POSIX
- 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
--	$(INSTALL_DATA) qemu.1 "$(DESTDIR)$(mandir)/man1"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/system/qemu.1 "$(DESTDIR)$(mandir)/man1"
- 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man7"
- 	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.7 "$(DESTDIR)$(mandir)/man7"
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/system/qemu-block-drivers.7 "$(DESTDIR)$(mandir)/man7"
-@@ -1082,7 +1083,7 @@ $(MANUAL_BUILDDIR)/user/index.html: $(call manual-deps,user)
+     /* iterate thru the possible paths until the file is found */
+@@ -1198,7 +1198,7 @@ QemuCocoaView *cocoaView;
+ {
+     COCOA_DEBUG("QemuCocoaAppController: showQEMUDoc\n");
  
- $(call define-manpage-rule,interop,qemu-ga.8)
+-    [self openDocumentation: @"qemu-doc.html"];
++    [self openDocumentation: @"index.html"];
+ }
  
--$(call define-manpage-rule,system,qemu-block-drivers.7 qemu-cpu-models.7)
-+$(call define-manpage-rule,system,qemu.1 qemu-block-drivers.7 qemu-cpu-models.7)
- 
- $(call define-manpage-rule,tools,\
-        qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
-@@ -1109,9 +1110,6 @@ docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
- docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
- 	@cp -p $< $@
- 
--qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
--qemu.1: docs/system/qemu-option-trace.texi
--
- html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
- info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
- pdf: qemu-doc.pdf docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
-diff --git a/docs/system/conf.py b/docs/system/conf.py
-index 23cab3fb364..6251849fefc 100644
---- a/docs/system/conf.py
-+++ b/docs/system/conf.py
-@@ -17,6 +17,8 @@ html_theme_options['description'] = u'System Emulation User''s Guide'
- # One entry per manual page. List of tuples
- # (source start file, name, description, authors, manual section).
- man_pages = [
-+    ('qemu-manpage', 'qemu', u'QEMU User Documentation',
-+     ['Fabrice Bellard'], 1),
-     ('qemu-block-drivers', 'qemu-block-drivers',
-      u'QEMU block drivers reference',
-      ['Fabrice Bellard and the QEMU Project developers'], 7),
-diff --git a/docs/system/qemu-manpage.rst b/docs/system/qemu-manpage.rst
-new file mode 100644
-index 00000000000..e9a25d0680f
---- /dev/null
-+++ b/docs/system/qemu-manpage.rst
-@@ -0,0 +1,45 @@
-+:orphan:
-+
-+..
-+   This file is the skeleton for the qemu.1 manpage. It mostly
-+   should simply include the .rst.inc files corresponding to the
-+   parts of the documentation that go in the manpage as well as the
-+   HTML manual.
-+
-+Title
-+=====
-+
-+Synopsis
-+--------
-+
-+.. parsed-literal::
-+
-+   |qemu_system| [options] [disk_image]
-+
-+Description
-+-----------
-+
-+.. include:: target-i386-desc.rst.inc
-+
-+Options
-+-------
-+
-+disk_image is a raw hard disk image for IDE hard disk 0. Some targets do
-+not need a disk image.
-+
-+.. hxtool-doc:: qemu-options.hx
-+
-+.. include:: keys.rst.inc
-+
-+.. include:: mux-chardev.rst.inc
-+
-+Notes
-+-----
-+
-+.. include:: device-url-syntax.rst.inc
-+
-+See also
-+--------
-+
-+The HTML documentation of QEMU for more precise information and Linux
-+user mode emulator invocation.
+ /* Stretches video to fit host monitor size */
 -- 
 2.20.1
 
