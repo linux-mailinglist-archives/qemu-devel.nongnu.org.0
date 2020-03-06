@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F7717C45A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:29:28 +0100 (CET)
-Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1243C17C446
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 18:25:53 +0100 (CET)
+Received: from localhost ([::1]:39932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAGmt-0000g6-0f
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:29:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48735)
+	id 1jAGjQ-0002df-3d
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 12:25:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jAGZZ-00054m-8w
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:44 -0500
+ (envelope-from <kwolf@redhat.com>) id 1jAGZa-00056v-At
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jAGZV-00087A-7M
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:41 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28211
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jAGZX-0008E8-6B
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28222
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZU-00083H-RG
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:36 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jAGZW-00089V-Rk
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 12:15:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583514935;
+ s=mimecast20190719; t=1583514937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K8jVIwNKgc74b+swgvdH5lh6YjNauzZp09UL06irv9Q=;
- b=MTVrgv8rNsZlcCr5YQ6SVq+IHCtVqPK+L5UBVYq9V0g8InPg9RVIYwJ+5kEMJ7NQYKA+jI
- N9f9vkjV7wsjDaVM1DS1STKdKIlwp9yMRHfvTzvgl7+2x2Y3NruyTkFTjxOhfE8olXOy90
- wou6gxedRS8R4lEs46FH8WzHBHQ5J0Y=
+ bh=Vuk8YHYDza90ATlmaEIWbc3X3FXvkSlMAwPxLNGqdu0=;
+ b=U5t/y9cjky5HXjRCZWaf9ujdFFn8XHKzKsPKVAMIrmd+8d49pPxObNE2c1FGVeb0WcwUgS
+ KiUL5hTanedFtzHjknl09bDATA6x7dV916wD3ZH8eACSyU7mq0L044LIl8Cz7Yi03ZFP/+
+ OuZq6Nt4Tuhju6MEfSRvsH4SSNhKVqI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-cpozvw4xMNqiiQRq1Om0dg-1; Fri, 06 Mar 2020 12:15:32 -0500
-X-MC-Unique: cpozvw4xMNqiiQRq1Om0dg-1
+ us-mta-42-XxMMVn0jNN-In6--St_YUw-1; Fri, 06 Mar 2020 12:15:33 -0500
+X-MC-Unique: XxMMVn0jNN-In6--St_YUw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4B7C13F5;
- Fri,  6 Mar 2020 17:15:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E49178014D1;
+ Fri,  6 Mar 2020 17:15:32 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ADAED73873;
- Fri,  6 Mar 2020 17:15:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECA1273873;
+ Fri,  6 Mar 2020 17:15:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 20/29] stubs: Update monitor stubs for qemu-storage-daemon
-Date: Fri,  6 Mar 2020 18:14:49 +0100
-Message-Id: <20200306171458.1848-21-kwolf@redhat.com>
+Subject: [PULL 21/29] qapi: Create 'pragma' module
+Date: Fri,  6 Mar 2020 18:14:50 +0100
+Message-Id: <20200306171458.1848-22-kwolf@redhat.com>
 In-Reply-To: <20200306171458.1848-1-kwolf@redhat.com>
 References: <20200306171458.1848-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,101 +74,110 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before we can add the monitor to qemu-storage-daemon, we need to add a
-stubs for monitor_fdsets_cleanup().
-
-We also need to make sure that stubs that are actually implemented in
-the monitor core aren't linked to qemu-storage-daemon so that we don't
-get linker errors because of duplicate symbols. This is achieved by
-moving the stubs in question to a new file stubs/monitor-core.c.
+We want to share the whitelists between the system emulator schema and
+the storage daemon schema, so move all the pragmas from the main schema
+file into a separate file that can be included from both.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200224143008.13362-15-kwolf@redhat.com>
+Message-Id: <20200224143008.13362-16-kwolf@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- stubs/monitor-core.c | 21 +++++++++++++++++++++
- stubs/monitor.c      | 15 ++-------------
- stubs/Makefile.objs  |  1 +
- 3 files changed, 24 insertions(+), 13 deletions(-)
- create mode 100644 stubs/monitor-core.c
+ qapi/pragma.json      | 24 ++++++++++++++++++++++++
+ qapi/qapi-schema.json | 25 +------------------------
+ qapi/Makefile.objs    |  2 +-
+ 3 files changed, 26 insertions(+), 25 deletions(-)
+ create mode 100644 qapi/pragma.json
 
-diff --git a/stubs/monitor-core.c b/stubs/monitor-core.c
+diff --git a/qapi/pragma.json b/qapi/pragma.json
 new file mode 100644
-index 0000000000..403c00a6d0
+index 0000000000..cffae27666
 --- /dev/null
-+++ b/stubs/monitor-core.c
-@@ -0,0 +1,21 @@
-+#include "qemu/osdep.h"
-+#include "monitor/monitor.h"
-+#include "qemu-common.h"
-+#include "qapi/qapi-emit-events.h"
++++ b/qapi/pragma.json
+@@ -0,0 +1,24 @@
++{ 'pragma': { 'doc-required': true } }
 +
-+__thread Monitor *cur_mon;
-+
-+void monitor_init_qmp(Chardev *chr, bool pretty)
-+{
-+}
-+
-+void qapi_event_emit(QAPIEvent event, QDict *qdict)
-+{
-+}
-+
-+int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
-+{
-+    abort();
-+}
-+
-+
-diff --git a/stubs/monitor.c b/stubs/monitor.c
-index c3e9a2e4dc..9403f8e72c 100644
---- a/stubs/monitor.c
-+++ b/stubs/monitor.c
-@@ -1,14 +1,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
--#include "qapi/qapi-emit-events.h"
- #include "monitor/monitor.h"
--
--__thread Monitor *cur_mon;
--
--int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
--{
--    abort();
--}
-+#include "../monitor/monitor-internal.h"
++# Whitelists to permit QAPI rule violations; think twice before you
++# add to them!
++{ 'pragma': {
++    # Commands allowed to return a non-dictionary:
++    'returns-whitelist': [
++        'human-monitor-command',
++        'qom-get',
++        'query-migrate-cache-size',
++        'query-tpm-models',
++        'query-tpm-types',
++        'ringbuf-read' ],
++    'name-case-whitelist': [
++        'ACPISlotType',             # DIMM, visible through query-acpi-osp=
+m-status
++        'CpuInfoMIPS',              # PC, visible through query-cpu
++        'CpuInfoTricore',           # PC, visible through query-cpu
++        'BlockdevVmdkSubformat',    # all members, to match VMDK spec spel=
+lings
++        'BlockdevVmdkAdapterType',  # legacyESX, to match VMDK spec spelli=
+ngs
++        'QapiErrorClass',           # all members, visible through errors
++        'UuidInfo',                 # UUID, visible through query-uuid
++        'X86CPURegister32',         # all members, visible indirectly thro=
+ugh qom-get
++        'CpuInfo'                   # CPU, visible through query-cpu
++    ] } }
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index fe980ce437..43b0ba0dea 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -49,30 +49,7 @@
+ #
+ ##
 =20
- int monitor_get_fd(Monitor *mon, const char *name, Error **errp)
- {
-@@ -16,14 +9,10 @@ int monitor_get_fd(Monitor *mon, const char *name, Error=
- **errp)
-     return -1;
- }
-=20
--void monitor_init_qmp(Chardev *chr, bool pretty)
--{
--}
+-{ 'pragma': { 'doc-required': true } }
 -
- void monitor_init_hmp(Chardev *chr, bool use_readline)
- {
- }
+-# Whitelists to permit QAPI rule violations; think twice before you
+-# add to them!
+-{ 'pragma': {
+-    # Commands allowed to return a non-dictionary:
+-    'returns-whitelist': [
+-        'human-monitor-command',
+-        'qom-get',
+-        'query-migrate-cache-size',
+-        'query-tpm-models',
+-        'query-tpm-types',
+-        'ringbuf-read' ],
+-    'name-case-whitelist': [
+-        'ACPISlotType',             # DIMM, visible through query-acpi-osp=
+m-status
+-        'CpuInfoMIPS',              # PC, visible through query-cpu
+-        'CpuInfoTricore',           # PC, visible through query-cpu
+-        'BlockdevVmdkSubformat',    # all members, to match VMDK spec spel=
+lings
+-        'BlockdevVmdkAdapterType',  # legacyESX, to match VMDK spec spelli=
+ngs
+-        'QapiErrorClass',           # all members, visible through errors
+-        'UuidInfo',                 # UUID, visible through query-uuid
+-        'X86CPURegister32',         # all members, visible indirectly thro=
+ugh qom-get
+-        'CpuInfo'                   # CPU, visible through query-cpu
+-    ] } }
++{ 'include': 'pragma.json' }
 =20
--void qapi_event_emit(QAPIEvent event, QDict *qdict)
-+void monitor_fdsets_cleanup(void)
- {
- }
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 24062ce7d9..45be5dc0ed 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -19,6 +19,7 @@ stub-obj-y +=3D machine-init-done.o
- stub-obj-y +=3D migr-blocker.o
- stub-obj-y +=3D change-state-handler.o
- stub-obj-y +=3D monitor.o
-+stub-obj-y +=3D monitor-core.o
- stub-obj-y +=3D notify-event.o
- stub-obj-y +=3D qtest.o
- stub-obj-y +=3D replay.o
+ # Documentation generated with qapi-gen.py is in source order, with
+ # included sub-schemas inserted at the first include directive
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 20fcc37c2c..cf33fd9cc0 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -7,7 +7,7 @@ util-obj-y +=3D qapi-util.o
+=20
+ QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
+rypto
+ QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
+-QAPI_COMMON_MODULES +=3D net qdev qom rdma rocker run-state sockets tpm
++QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
+ tpm
+ QAPI_COMMON_MODULES +=3D trace transaction ui
+ QAPI_TARGET_MODULES =3D machine-target misc-target
+ QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
 --=20
 2.20.1
 
