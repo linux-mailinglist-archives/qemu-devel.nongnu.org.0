@@ -2,62 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE8917B905
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:11:57 +0100 (CET)
-Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7AD17B8F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:07:28 +0100 (CET)
+Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jA91Q-0007Bt-Pa
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:11:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
+	id 1jA8x5-0005C0-Lc
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:07:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jA90a-0006Yk-IE
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:11:05 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1jA8w8-0004jE-RR
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:06:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jA90Z-0002YD-B1
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:11:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53402)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jA90Z-0002VV-4w
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:11:03 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jA90X-0001cD-Cu
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:11:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 03D932E80CD
- for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 09:11:01 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1jA8vz-0000v6-DG
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:06:28 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39699
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jA8vz-0000rl-9N
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:06:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583485576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZwooMAFgDjeQScf1c3SoI9bssB6zjdw9PwGn9Ek7z0M=;
+ b=L01LkpduU0CuPsCDCqCmUn8hLyBBHbv/ak4evYcE0baMWgv15Dqiey/jA5cdJYkFuXuKWv
+ KiyL/7gxJQ3uhRAW0XbMZ86mXGc/WHrU3DZq16bCNq7mLF66d3lzMX3yWVaCpbMx+TVg0l
+ AuJaRJEFcV9iaS28HM6tCyJ06mJ64AQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-s2tPgnD-ONa0UwSuwIaN_w-1; Fri, 06 Mar 2020 04:06:14 -0500
+X-MC-Unique: s2tPgnD-ONa0UwSuwIaN_w-1
+Received: by mail-wm1-f71.google.com with SMTP id y7so630822wmd.4
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 01:06:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZwooMAFgDjeQScf1c3SoI9bssB6zjdw9PwGn9Ek7z0M=;
+ b=QqV3dXfuW5OWiGqMT6NAM/Un1GxvFiMhM0J8hoF6se0iE7tz0J7Gh99JkqSduP6Q9e
+ KJHcnBKk7xtyZLpzdwPooiYgqcF/JgG0fJ5FyRVHOBK/HMVXvQEkCdPNdfYpdhmTXDK/
+ CQvvOGSfH6Uc7oTpGzdovg6cTSv8jmJ92dOI+Rldop88qdX91Ekpk2WebzyEwdI1+xzX
+ tz6V2s26H5QydfMHojlYYyQkcff7TQ+Qxnh4T2twtxW09DCxSwz8HVnidejRMS2BEE0h
+ EFkU/bzRW/7N/Y4rtItf3MBt5nKvT6wexFqXYa7hVFS3A66FPm0p7Z/nX3Io2Co7TWPz
+ E7qw==
+X-Gm-Message-State: ANhLgQ2XewpR83q50N7g1YQqxhu/nx/1Kjn/A9fB6yPh2ztb6wIHhkqo
+ foygwab1J55F+GHkI1p6zLEm7o0nlugSLRdVw1mRzJHJs+s3/gVc+dh+HWiRHo8qoPwHu+I0/A3
+ F2EMpLvI6RunCXKM=
+X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr3043320wmj.56.1583485573535;
+ Fri, 06 Mar 2020 01:06:13 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vt6BgmCGj2RwV8Z9+4MeOZ6+BRHdukgUKJ1mDqwo71wkYGdq21ULDW9JtckHq6nX1MRHrgrHg==
+X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr3043247wmj.56.1583485572889;
+ Fri, 06 Mar 2020 01:06:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:b99a:4374:773d:f32e?
+ ([2001:b07:6468:f312:b99a:4374:773d:f32e])
+ by smtp.gmail.com with ESMTPSA id p17sm45206297wre.89.2020.03.06.01.06.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Mar 2020 01:06:11 -0800 (PST)
+Subject: Re: [PATCH] mem-prealloc: initialize cond and mutex
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <20200306085014.120669-1-borntraeger@de.ibm.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b39d4dcf-fbcf-7f9f-7124-28f407d023e7@redhat.com>
+Date: Fri, 6 Mar 2020 10:06:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Mar 2020 09:04:25 -0000
-From: Gerd Hoffmann <1743191@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: regression
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr philmd
-X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
-References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
-Message-Id: <158348546579.12734.18206344320523628353.malone@wampee.canonical.com>
-Subject: [Bug 1743191] Re: Interacting with NetBSD serial console boot blocks
- no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a9bc81463059c47416f4d642beb06b20b1e3334d
+In-Reply-To: <20200306085014.120669-1-borntraeger@de.ibm.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,66 +92,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ bauerchen <bauerchen@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Workaround: add "-vga none" to the qemu command line.
+On 06/03/20 09:50, Christian Borntraeger wrote:
+> Guests with mem-prealloc do fail with
+> qemu-system-s390x: /home/cborntra/REPOS/qemu/util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Assertion `mutex->initialized' failed.
+> qemu-system-s390x: /home/cborntra/REPOS/qemu/util/qemu-thread-posix.c:161: qemu_cond_broadcast: Assertion `cond->initialized' failed.
+> 
+> Let us initialize cond and mutex.
+> 
+> Cc: bauerchen <bauerchen@tencent.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+> Fixes: 037fb5eb3941 ("mem-prealloc: optimize large guest startup")
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  util/oslib-posix.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 897e8f3ba6..52650183d3 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -470,6 +470,8 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>      char *addr = area;
+>      int i = 0;
+>  
+> +    qemu_cond_init(&page_cond);
+> +    qemu_mutex_init(&page_mutex);
+>      memset_thread_failed = false;
+>      threads_created_flag = false;
+>      memset_num_threads = get_memset_num_threads(smp_cpus);
+> 
 
--- =
+Thank you very much.  It's my fault, but is it too much to ask that
+submitters test their patches???
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743191
+Paolo
 
-Title:
-  Interacting with NetBSD serial console boot blocks no longer works
-
-Status in QEMU:
-  New
-
-Bug description:
-  The NetBSD boot blocks display a menu allowing the user to make a
-  selection using the keyboard.  For example, when booting a NetBSD
-  installation CD-ROM, the menu looks like this:
-
-           1. Install NetBSD
-           2. Install NetBSD (no ACPI)
-           3. Install NetBSD (no ACPI, no SMP)
-           4. Drop to boot prompt
-
-      Choose an option; RETURN for default; SPACE to stop countdown.
-      Option 1 will be chosen in 30 seconds.
-
-  When booting NetBSD in a recent qemu using an emulated serial console,
-  making this menu selection no longer works: when you type the selected
-  number, the keyboard input is ignored, and the 30-second countdown
-  continues.  In older versions of qemu, it works.
-
-  To reproduce the problem, run:
-
-     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
-cdrom/boot-com.iso
-     qemu-system-x86_64 -nographic -cdrom boot-com.iso
-
-  During the 30-second countdown, press 4
-
-  Expected behavior: The countdown stops and you get a ">" prompt
-
-  Incorrect behavior: The countdown continues
-
-  There may also be some corruption of the terminal output; for example,
-  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
-  will be chosen in p0 seconds".
-
-  Using bisection, I have determined that the problem appeared with qemu
-  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
-  updated to 1.11 prerelease, and the problem is still there as of
-  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
-  system used for the tests was Debian 9 x86_64.
-
-  Credit for discovering this bug goes to Paul Goyette.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
