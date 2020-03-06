@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8295517BAD7
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 11:55:18 +0100 (CET)
-Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4899F17BB0F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:00:59 +0100 (CET)
+Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAAdR-0006IJ-Dy
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 05:55:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60678)
+	id 1jAAiv-0007dN-4F
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:00:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jAAcg-0005to-WB
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:54:32 -0500
+ (envelope-from <tianjia.zhang@linux.alibaba.com>) id 1jAAhr-0007Br-3w
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:59:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jAAcg-0006Xz-0m
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:54:30 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39551)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jAAcf-0006Si-Qm
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:54:29 -0500
-Received: by mail-wr1-x443.google.com with SMTP id y17so1800292wrn.6
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 02:54:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ty91UAM7hwMYXU1bLpuTftrHDBEENhgcAyl1PfJUQq8=;
- b=vhboJshHz/fZOWiKurq4YaRFTuCFcaC9beC53glqJtupw4Saoy05hJqMkJ9Eu9NeBm
- /SDlKLtiSuc8AWyZnc5JEtrwD6JtYnSWp9peR55tGs8dNW8NsDVMeqIeyrqEoWyP8WET
- MakwkJLlWftgl3yfEJv/BOnQ6xiRMc3B8CZZVSHyx/UvzSOm4+trNemA0tLKqPK5Ja3P
- agPnh4m4s4iHA5Oe8qQRymeSliSGlTHcrskyW3OzYzvFxrQDxPPeZDw2/DEQxyDn5OS6
- zeHcWxlWcCJHGrBY1Vb5+wUR/T6NOEWzC2bHVDlqaP3vbnWdgoRwBWYn0lgyZxvuDI5w
- isZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ty91UAM7hwMYXU1bLpuTftrHDBEENhgcAyl1PfJUQq8=;
- b=sBZ6pipPH034HFZDM1Q2dlVywET0z1WqiqHP9DwPacLvlttOcqMF8OoDMNhFF6ftSD
- wZbTB7Lgaq0Ha11dFAsPDrv6S1gu6eTmyGM0/zLMIpAPh/hBq/8HyqvskSEairH4i0iI
- UV25MYrIxiMSHu8XFzYsA90vpiwsLLfRQ0TqAforHEU72F30G1ngxun3PpLL8yT8p9BF
- aq+gbZIfbkmuIZhwXbJPTguM/bB9bejfWMSPTo5sGEw8T4HQiPFIWXPHX48qH/TnNZ1/
- OjWDxD6eW2AaUgXS3+HhnfVGPFwwcDo8xN4Q5l3KsXEeILff3ES5BMqjMmgU18aBfkEd
- 5DTw==
-X-Gm-Message-State: ANhLgQ15OTjVgDXeld5r7QWEL7POEc00Q+J1x9OrTDCK1rIDr2seblgJ
- t9MOAV0nwo73aBQCd4vgtWj2CeW80j8=
-X-Google-Smtp-Source: ADFU+vun6t25bsilYBBvqqzSgW/wxOWbWo4RIa2n/ohahjj/nm09oJN4oX2S5uDjTXCK+FMJMcDQPw==
-X-Received: by 2002:adf:bc87:: with SMTP id g7mr3520380wrh.121.1583492068562; 
- Fri, 06 Mar 2020 02:54:28 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id g187sm15341296wma.5.2020.03.06.02.54.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 02:54:27 -0800 (PST)
-Date: Fri, 6 Mar 2020 10:54:26 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Subject: Re: [PATCH] modules: load modules from versioned /var/run dir
-Message-ID: <20200306105426.GH1335569@stefanha-x1.localdomain>
-References: <CAATJJ0L+jdk3ggWx61=AGoTd-FZ64tJ1tzPK8Frgg9Ez+dv6XQ@mail.gmail.com>
- <20200304093946.18682-1-christian.ehrhardt@canonical.com>
+ (envelope-from <tianjia.zhang@linux.alibaba.com>) id 1jAAhk-0001Qs-RA
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:59:45 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:54289)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tianjia.zhang@linux.alibaba.com>)
+ id 1jAAhk-0000qL-Gq
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:59:44 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R401e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04428;
+ MF=tianjia.zhang@linux.alibaba.com; NM=1; PH=DS; RN=2; SR=0;
+ TI=SMTPD_---0TrozvF9_1583492361; 
+Received: from 30.27.224.42(mailfrom:tianjia.zhang@linux.alibaba.com
+ fp:SMTPD_---0TrozvF9_1583492361) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 06 Mar 2020 18:59:22 +0800
+Subject: Re: [PATCH] tests: Fix a bug with count variables
+From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20200207115433.118254-1-tianjia.zhang@linux.alibaba.com>
+ <20200212135937.GD432724@stefanha-x1.localdomain>
+ <6a59cc95-4c75-6b36-eaf7-c5a5d2ecdf2d@linux.alibaba.com>
+Message-ID: <1e613efd-6e9a-218a-35a4-b60d58086a7f@linux.alibaba.com>
+Date: Fri, 6 Mar 2020 18:59:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Bg2esWel0ueIH/G/"
-Content-Disposition: inline
-In-Reply-To: <20200304093946.18682-1-christian.ehrhardt@canonical.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <6a59cc95-4c75-6b36-eaf7-c5a5d2ecdf2d@linux.alibaba.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 47.88.44.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,37 +55,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Bg2esWel0ueIH/G/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, Mar 04, 2020 at 10:39:46AM +0100, Christian Ehrhardt wrote:
+On 2020/3/6 18:22, Tianjia Zhang wrote:
+> 
+> On 2020/2/12 21:59, Stefan Hajnoczi wrote:
+>> On Fri, Feb 07, 2020 at 07:54:33PM +0800, Tianjia Zhang wrote:
+>>> The counting code here should use the local variable n_nodes_local.
+>>> Otherwise, the variable n_nodes is counting incorrectly, causing the
+>>> counting logic of the code to be wrong.
+>>>
+>>> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+>>> ---
+>>>   tests/test-rcu-list.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>
+> 
+> Hi,
+> 
+> I see that this patch has not entered the mainline. It has been more 
+> than 20 days. Dont forget it.
+> 
+> Thanks,
+> Tianjia
 
-Please start a new email thread.  Patches sent as replies to existing
-email threads are easily missed by humans and tooling also doesn't
-recognize them.
-
---Bg2esWel0ueIH/G/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5iK+IACgkQnKSrs4Gr
-c8hudgf/d0qDq7jUFqqAR/mGKtq4mzxhL2XTOM8rEaV1xQPu/83sjMc6tFMrNnS9
-mAAwd4xV5qTCfGUm5WeX92shN+z69+Sc+uzxAwrGzmS2p8YQRAurmc8pVutIBqhq
-svXAaByUk0Va0y3zI+d1udeLxU9daOc5tnqZbENyUqBbawcO8KgohrdzgYesPNx/
-sOE2Noq8mxY08pASYtFCmZdZf3Sf9pjOodRb4mtfRjGNLJ9AfoU3O/BIoe1FgCaV
-XsH8K/sCSwlfl0ygpH1HUqXoVBEocRLw8iIwsP6k0ljO3hFxCDe3iRSq7r6H/rfn
-mULkR54ELrWgo/P8nbERmk1ESMf0cw==
-=J1eQ
------END PGP SIGNATURE-----
-
---Bg2esWel0ueIH/G/--
+Thanks and Best,
+Tianjia
 
