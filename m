@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A3A17C1C2
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 16:29:04 +0100 (CET)
-Received: from localhost ([::1]:38200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B6B17C1CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 16:30:31 +0100 (CET)
+Received: from localhost ([::1]:38234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAEuN-0001t2-Q8
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 10:29:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51441)
+	id 1jAEvm-0004NL-PZ
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 10:30:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50690)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jAEsu-0000WD-4s
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:27:33 -0500
+ (envelope-from <clg@kaod.org>) id 1jAErc-0006oZ-Pm
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1jAEst-0006lZ-0f
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:27:32 -0500
-Received: from 15.mo7.mail-out.ovh.net ([87.98.180.21]:55849)
+ (envelope-from <clg@kaod.org>) id 1jAErb-00053i-NV
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:12 -0500
+Received: from 18.mo4.mail-out.ovh.net ([188.165.54.143]:44663)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jAEss-0006jz-Qt
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:27:30 -0500
-Received: from player762.ha.ovh.net (unknown [10.108.54.67])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 1C33A14D385
- for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 16:27:28 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jAErb-00050Y-1C
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:11 -0500
+Received: from player731.ha.ovh.net (unknown [10.108.54.119])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 5E1F8229F24
+ for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 16:26:08 +0100 (CET)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player762.ha.ovh.net (Postfix) with ESMTPSA id 8928010240994;
- Fri,  6 Mar 2020 15:27:10 +0000 (UTC)
-Subject: Re: [PATCH 6/6] hw/net/can: Make CanBusClientInfo::can_receive()
- return a boolean
+ by player731.ha.ovh.net (Postfix) with ESMTPSA id B1892FF23ABD;
+ Fri,  6 Mar 2020 15:25:48 +0000 (UTC)
+Subject: Re: [PATCH 1/6] hw/net/e1000e_core: Let e1000e_can_receive() return a
+ boolean
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200305175651.4563-1-philmd@redhat.com>
- <20200305175651.4563-7-philmd@redhat.com>
+ <20200305175651.4563-2-philmd@redhat.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <1c54e106-bcf6-b899-a236-8044604a1cfd@kaod.org>
-Date: Fri, 6 Mar 2020 16:27:10 +0100
+Message-ID: <7fe2e414-076f-e361-f940-798613292634@kaod.org>
+Date: Fri, 6 Mar 2020 16:25:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200305175651.4563-7-philmd@redhat.com>
+In-Reply-To: <20200305175651.4563-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 7773212959322049491
+X-Ovh-Tracer-Id: 7750413487324892115
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudduvddgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejiedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudduvddgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.180.21
+X-Received-From: 188.165.54.143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,98 +73,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/5/20 6:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> The CanBusClientInfo::can_receive handler return whether the
-> device can or can not receive new frames. Make it obvious by
-> returning a boolean type.
+> The e1000e_can_receive() function simply returns a boolean value.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-
 > ---
->  hw/net/can/can_sja1000.h | 2 +-
->  include/net/can_emu.h    | 2 +-
->  hw/net/can/can_sja1000.c | 8 ++++----
->  net/can/can_socketcan.c  | 4 ++--
->  4 files changed, 8 insertions(+), 8 deletions(-)
+>  hw/net/e1000e_core.h | 2 +-
+>  hw/net/e1000e_core.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/hw/net/can/can_sja1000.h b/hw/net/can/can_sja1000.h
-> index 220a622087..7ca9cd681e 100644
-> --- a/hw/net/can/can_sja1000.h
-> +++ b/hw/net/can/can_sja1000.h
-> @@ -137,7 +137,7 @@ void can_sja_disconnect(CanSJA1000State *s);
+> diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
+> index 49abb136dd..aee32f7e48 100644
+> --- a/hw/net/e1000e_core.h
+> +++ b/hw/net/e1000e_core.h
+> @@ -143,7 +143,7 @@ e1000e_core_set_link_status(E1000ECore *core);
+>  void
+>  e1000e_core_pci_uninit(E1000ECore *core);
 > =20
->  int can_sja_init(CanSJA1000State *s, qemu_irq irq);
+> -int
+> +bool
+>  e1000e_can_receive(E1000ECore *core);
 > =20
-> -int can_sja_can_receive(CanBusClientState *client);
-> +bool can_sja_can_receive(CanBusClientState *client);
-> =20
->  ssize_t can_sja_receive(CanBusClientState *client,
->                          const qemu_can_frame *frames, size_t frames_cn=
-t);
-> diff --git a/include/net/can_emu.h b/include/net/can_emu.h
-> index d4fc51b57d..fce9770928 100644
-> --- a/include/net/can_emu.h
-> +++ b/include/net/can_emu.h
-> @@ -83,7 +83,7 @@ typedef struct CanBusClientState CanBusClientState;
->  typedef struct CanBusState CanBusState;
-> =20
->  typedef struct CanBusClientInfo {
-> -    int (*can_receive)(CanBusClientState *);
-> +    bool (*can_receive)(CanBusClientState *);
->      ssize_t (*receive)(CanBusClientState *,
->          const struct qemu_can_frame *frames, size_t frames_cnt);
->  } CanBusClientInfo;
-> diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
-> index 39c78faf9b..ea915a023a 100644
-> --- a/hw/net/can/can_sja1000.c
-> +++ b/hw/net/can/can_sja1000.c
-> @@ -733,21 +733,21 @@ uint64_t can_sja_mem_read(CanSJA1000State *s, hwa=
-ddr addr, unsigned size)
->      return temp;
->  }
-> =20
-> -int can_sja_can_receive(CanBusClientState *client)
-> +bool can_sja_can_receive(CanBusClientState *client)
->  {
->      CanSJA1000State *s =3D container_of(client, CanSJA1000State, bus_c=
-lient);
-> =20
->      if (s->clock & 0x80) { /* PeliCAN Mode */
->          if (s->mode & 0x01) { /* reset mode. */
-> -            return 0;
-> +            return false;
->          }
->      } else { /* BasicCAN mode */
->          if (s->control & 0x01) {
-> -            return 0;
-> +            return false;
->          }
->      }
-> =20
-> -    return 1; /* always return 1, when operation mode */
-> +    return true; /* always return true, when operation mode */
->  }
-> =20
->  ssize_t can_sja_receive(CanBusClientState *client, const qemu_can_fram=
-e *frames,
-> diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
-> index 29bfacd4f8..807f31fcde 100644
-> --- a/net/can/can_socketcan.c
-> +++ b/net/can/can_socketcan.c
-> @@ -110,9 +110,9 @@ static void can_host_socketcan_read(void *opaque)
+>  ssize_t
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 94ea34dca5..e0bafe975b 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -967,7 +967,7 @@ e1000e_start_recv(E1000ECore *core)
 >      }
 >  }
 > =20
-> -static int can_host_socketcan_can_receive(CanBusClientState *client)
-> +static bool can_host_socketcan_can_receive(CanBusClientState *client)
+> -int
+> +bool
+>  e1000e_can_receive(E1000ECore *core)
 >  {
-> -    return 1;
-> +    return true;
->  }
-> =20
->  static ssize_t can_host_socketcan_receive(CanBusClientState *client,
+>      int i;
 >=20
 
 
