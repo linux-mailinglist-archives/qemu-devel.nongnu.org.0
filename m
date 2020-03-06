@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1305117C1A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 16:24:48 +0100 (CET)
-Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE04317C1B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 16:27:22 +0100 (CET)
+Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAEqF-00053f-4Y
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 10:24:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48995)
+	id 1jAEsk-0007hX-1Z
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 10:27:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1jAEpG-0004ZM-Dp
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:23:47 -0500
+ (envelope-from <clg@kaod.org>) id 1jAErq-00076x-2m
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1jAEpF-0008CI-9g
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:23:46 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:45699)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jAEpE-00088j-Ow
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:23:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=1XUk7rQ+1fEVdVUuAVOTHvk4V6WXfz2h9CTcsCjE/3w=; b=RDKu6J537f3xfAhD0hWWYkiFLG
- MU9L43y0Qun4A0vuyESjSSRFaePGUBuNAX9fECyoKOhIZC2WShmSh8/uNpn8uJY90LDYn0TJ/UzP5
- TWTc2NBygkfAVc5Yj6+boCFCy3+BvP0xsQAFehrTM4GuxQ4OAG7hyTMmudHCU1jow7w2wgSxhymEV
- LfBfGSbg6FLDc2a8Iv+I/ZtJKSb8GEy87XVp0XUwFYFg6tiUoaa3cENP25ZnTSKtC5wBxV/okfM/e
- GU5YvL92u0Qvx8Ce+4Ap9KYDkiGM6ruzVBdVbQ1yKblKpJz/hVfWsorGnjQNHLQkplppwJbCOyVci
- aFJfCzWTwDS/6ZJpmCS4D9mazkuggFpwURJd6zFJD0Cht40mQbWjMECGQIYwgmMLwQIhwpukKs5fW
- KcOTeGU3983deElNZZpWOeEW4EGK4vhjne3P28zD/JOJHkR1nKfFS8Cfi2kgebW0mkWMKCIl/zeLR
- iXThESbzZOhCMuaDGryXEiN7n9dkuTrEotLEFN32Ku1PTQO5Z2eKQEpJftt2BNjuZeBUtKbnbCYqM
- gInxYGlz19ncx3gcT/PbzfsN7yJKdegRUooaIMIruZ+FZsSxbmekjXICGf/VCKCO4BzYorZFAneWH
- eVM+fFiEFVChlWfxM2A5OWX+PzsAWLNldDizYIUTQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-1?Q?St=E9phane?= Graber <stgraber@ubuntu.com>
-Subject: Re: [PATCH] 9p/proxy: Fix export_flags
-Date: Fri, 06 Mar 2020 16:23:41 +0100
-Message-ID: <5999542.GsCrKgYN1H@silver>
-In-Reply-To: <158349633705.1237488.8895481990204796135.stgit@bahia.lan>
-References: <158349633705.1237488.8895481990204796135.stgit@bahia.lan>
+ (envelope-from <clg@kaod.org>) id 1jAErp-0005Gs-53
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:26 -0500
+Received: from 18.mo3.mail-out.ovh.net ([87.98.172.162]:54366)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jAEro-0005EQ-Ve
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 10:26:25 -0500
+Received: from player168.ha.ovh.net (unknown [10.108.54.237])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 462202462B4
+ for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 16:26:23 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player168.ha.ovh.net (Postfix) with ESMTPSA id 1E75B101E137E;
+ Fri,  6 Mar 2020 15:26:05 +0000 (UTC)
+Subject: Re: [PATCH 2/6] hw/net/smc91c111: Let smc91c111_can_receive() return
+ a boolean
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200305175651.4563-1-philmd@redhat.com>
+ <20200305175651.4563-3-philmd@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <838916bc-7fb4-37ee-d6db-ea119fc3b864@kaod.org>
+Date: Fri, 6 Mar 2020 16:26:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200305175651.4563-3-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 7754917084798159827
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudduvddgjeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduieekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
+X-Received-From: 87.98.172.162
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,41 +60,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Beniamino Galvani <b.galvani@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ Joel Stanley <joel@jms.id.au>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 6. M=E4rz 2020 13:05:37 CET Greg Kurz wrote:
-> The common fsdev options are set by qemu_fsdev_add() before it calls
-> the backend specific option parsing code. In the case of "proxy" this
-> means "writeout" or "readonly" were simply ignored. This has been
-> broken from the beginning.
+On 3/5/20 6:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> The smc91c111_can_receive() function simply returns a boolean value.
 >=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 > ---
->  hw/9pfs/9p-proxy.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/net/smc91c111.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-> index 8136e1342d78..6f598a0f111c 100644
-> --- a/hw/9pfs/9p-proxy.c
-> +++ b/hw/9pfs/9p-proxy.c
-> @@ -1139,10 +1139,10 @@ static int proxy_parse_opts(QemuOpts *opts,
-> FsDriverEntry *fs, Error **errp) }
->      if (socket) {
->          fs->path =3D g_strdup(socket);
-> -        fs->export_flags =3D V9FS_PROXY_SOCK_NAME;
-> +        fs->export_flags |=3D V9FS_PROXY_SOCK_NAME;
->      } else {
->          fs->path =3D g_strdup(sock_fd);
-> -        fs->export_flags =3D V9FS_PROXY_SOCK_FD;
-> +        fs->export_flags |=3D V9FS_PROXY_SOCK_FD;
->      }
->      return 0;
+> diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
+> index e9eb6f6c05..02be60c955 100644
+> --- a/hw/net/smc91c111.c
+> +++ b/hw/net/smc91c111.c
+> @@ -130,16 +130,16 @@ static void smc91c111_update(smc91c111_state *s)
+>      qemu_set_irq(s->irq, level);
 >  }
-
-
+> =20
+> -static int smc91c111_can_receive(smc91c111_state *s)
+> +static bool smc91c111_can_receive(smc91c111_state *s)
+>  {
+>      if ((s->rcr & RCR_RXEN) =3D=3D 0 || (s->rcr & RCR_SOFT_RST)) {
+> -        return 1;
+> +        return true;
+>      }
+>      if (s->allocated =3D=3D (1 << NUM_PACKETS) - 1 ||
+>          s->rx_fifo_len =3D=3D NUM_PACKETS) {
+> -        return 0;
+> +        return false;
+>      }
+> -    return 1;
+> +    return true;
+>  }
+> =20
+>  static inline void smc91c111_flush_queued_packets(smc91c111_state *s)
+>=20
 
 
