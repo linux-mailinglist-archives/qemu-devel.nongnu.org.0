@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAD917C801
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 22:47:10 +0100 (CET)
-Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A06E17C816
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 23:05:25 +0100 (CET)
+Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAKoH-0003Rw-4L
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 16:47:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35271)
+	id 1jAL5w-0001W5-0N
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 17:05:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=32724e9af=alistair.francis@wdc.com>)
- id 1jAKlR-0008WA-Oy
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 16:44:14 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jAL4g-0000yE-3O
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 17:04:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=32724e9af=alistair.francis@wdc.com>)
- id 1jAKlQ-0002YW-Jf
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 16:44:13 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:5222)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=32724e9af=alistair.francis@wdc.com>)
- id 1jAKlQ-0002Wr-BD; Fri, 06 Mar 2020 16:44:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1583531058; x=1615067058;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oUDyZha+UP2T6K4Wg1D/+zB6S5n/oFK58M6oTJnOjPI=;
- b=Di/ChBGOByJMOKF/Wc2OAHfUD28xGsLnr0HRtEZ2OK1OJJJs5CC5VIXC
- zWgkc4IX1kdPjEGD7ucd2sV4fpCGkuNvcu5n1L/FFf1vh7neYppCzvIQn
- MXDXkrXzLR46zKN0j68T6OSG2AupjhwzZiQBDXcppr2FhVqFUHMtNbusl
- 9W0F5frV6YRAT+CJrqCTvF/0xEAH5zVc2Npcaa6itCmcXYRUx7cioMlJt
- S5OEUtGnG5VrbE2XKqugryUJZ/yH4s+1R0YaU6NbtFwO+sxSXhxG4PY6Y
- t3yb8Vodt9DWYQq2glQ1A+SisqIlLs4KLd2anD6l3paiVxy9BKA/1aGUN w==;
-IronPort-SDR: 75X+OYJkTMlSbyAbOkK4fGalRgO55Qe7hts7huQfz2aSyGg/omWN8yBXSeS+0617Eu3mRBTfjb
- kGx0V/kQp+o6ltLBrmr7qE2UZ69Jcwk6eiJQ+2yZitbZGoSaXbTdeBC30UzdtFRjLhFrG8/g4w
- An5wPww1XRRZ4qs2mtgq13Oe6/YYLKkCVYCofxr4uoSBGS/CYfA4WfmlBOdJTn5+1toSgxHy18
- W78/kCYubx/eQRhhkOwHZxm/MGzhg5Csxj17saQ8ZgNObWHl0PP/Cxmfyq5HEG5+vTnAFrJn2b
- tm4=
-X-IronPort-AV: E=Sophos;i="5.70,523,1574092800"; d="scan'208";a="233784294"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Mar 2020 05:44:16 +0800
-IronPort-SDR: eHtLSfL1ruD7D79YqyC+O7apdxR/hcaHf/bpa6vAI2fISuoz1MoZ6zvza2IoXiFSTVZELDILTP
- V/ZxVRNQL66T03tD26ptv/QeBQ+2FuzvlTvx6PZ0TzX4GyLtmVQoM63KdYc7DGb7X8C9o9nyO3
- AEb2TwYU9oVlqZkeIN736XRo6WsMSuUdjQOM7861NOU87NAbC1NBlhoTcLGwxmwBWoXxT/egou
- 0Aceo2fJywI1i6loIOV0xqFMd9ib6OzaS24iEyXwkCnc5gPmn4YipX344kEza0l6Os6cWstIWK
- Kp5zl45Zy6qZ+MIVrw1vGMYF
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2020 13:35:57 -0800
-IronPort-SDR: Nvy4I/rMYB8hPlDRenNn91bQ0srciovlVXPUOEYD+Lm9DQB6whh8gBc6W6DokYzT2bqS/tV6ds
- HFZOvlUV48h6wmYohRGkdMAhAzTeON0nW+GSlrEGCFhVYd3mdAYv34Y/Jlj1CDrU/hMFbd/gQr
- 25Vj/Z5P+tCeda6C/8Si19NCagpMTC7uJwSLeXECEGkwF+0djj8eDu7h7xQXW01sCOr7j74EL+
- 19xRg9iIOQJ8d6oxLiCsuPbFYUTog0JuIiumwAf8eoXmwdZHJujZ85edo37pFJhT+FeIVaGAsC
- bF4=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip02.wdc.com with ESMTP; 06 Mar 2020 13:44:12 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3 3/3] riscv/sifive_u: Add a serial property to the sifive_u
- machine
-Date: Fri,  6 Mar 2020 13:36:52 -0800
-Message-Id: <6132e0b3554868acd16b45eb8ca365cae68a4712.1583530528.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1583530528.git.alistair.francis@wdc.com>
-References: <cover.1583530528.git.alistair.francis@wdc.com>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jAL4e-0005CT-Mz
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 17:04:05 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56264)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jAL4c-00059f-SB; Fri, 06 Mar 2020 17:04:03 -0500
+Received: by mail-wm1-x341.google.com with SMTP id 6so4081655wmi.5;
+ Fri, 06 Mar 2020 14:04:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=q6qD/VobKcCH4PwUpLuXbHKucAr9l2DoQW/rKV85TBI=;
+ b=eZgkaVMrbhSKVHcOreCjqH/r2S1Zv+J3+FaifRd/FuJtf3VN4P8Iiz/+qgXPyFd0c2
+ C2s8CkYAtK6r4ndEqPwwjktCBwGodw8FLlsnLXZc3QOQdEaB4Pt9BvYKr8CJADJLGnrw
+ HVV9y5H7ghmztdLzwk/HyWqndzh4RrnfwHjzGGlmlrSxqHYr4D7B2D9WsKA6Tq28Hi+u
+ YKiZHi848tIqoMr+a+p9c6JD0MJFqWY8p1V7+8s2B6/dOtuLHsg0JJ+qxaFvia1L8LAO
+ u7bqALqoNAEwCVq19+SOCMSZWdJiEfclQ6QhS6rRM0EiAsM6/Qw6j2mMh5/V2XIKo/G7
+ bw+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=q6qD/VobKcCH4PwUpLuXbHKucAr9l2DoQW/rKV85TBI=;
+ b=N5+4+H/jDXD5AgCgg3BGo1996xQaSPVaDA5hUHZMCKlWrdIL72Z/TE8nW+MH8a6vc5
+ RudBUx0UF1q9TJQnwo/t+M0OQGkPZBexm6x1phtIxQpAXvzzVmWoIRNMGJnz/cUzbVal
+ RbRBijfPF5g6qKdZNBCKdA1JWNiIra/Dpf07mbUXUH14+V/2vzBzDU49GWEH4Z7W7BKq
+ t7Jl/z0niD+KxWLpLrD6QPHQntYCPL4tpU+XRMYIgGdMS45nRqmEKtjzvpS0u73bZLTE
+ EKqoJROisOQoLFJEnlncp7B0RSPS7zO6uhXM1MW4GhU2rbvmzLz3dtd7Jn36RpOjKP4Q
+ UTng==
+X-Gm-Message-State: ANhLgQ3bqlPnzBjDwuurfJC2gLGJvEMeptHy02zvs/W9n/d5QNRN4RIo
+ +PackxYpaRPEerbwZUQk0daFe8baLwZteRY+f18=
+X-Google-Smtp-Source: ADFU+vsTDhW5MA2GP5axZ1GK+FGmBNTIrpWqnlXHibZ1wJ2gixF7hi06BbfPmYyXiZMTuLPg1m2ieLeFA9Q/1ElPYjM=
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr5684586wmi.37.1583532239442; 
+ Fri, 06 Mar 2020 14:03:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.143.124
+References: <20200306170456.21977-1-philmd@redhat.com>
+In-Reply-To: <20200306170456.21977-1-philmd@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 6 Mar 2020 23:03:47 +0100
+Message-ID: <CAJ+F1C+MyXcKOGygp9jPk6J+-oiMhYqKM7Z6DTq0Fywty3ZSrA@mail.gmail.com>
+Subject: Re: [PATCH] build-sys: Move the print-variable rule to rules.mak
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +72,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: qemu trival <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+On Fri, Mar 6, 2020 at 6:05 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> Currently the print-variable rule can only be used in the
+> root directory:
+>
+>   $ make print-vhost-user-json-y
+>   vhost-user-json-y=3D contrib/vhost-user-gpu/50-qemu-gpu.json tools/virt=
+iofsd/50-qemu-virtiofsd.json
+>
+>   $ make -C i386-softmmu print-obj-y
+>   make: Entering directory 'build/i386-softmmu'
+>   make: *** No rule to make target 'print-obj-y'.  Stop.
+>   make: Leaving directory 'build/i386-softmmu'
+>
+> Move it to rules.mak so we can use it from other directories:
+>
+>   $ make -C i386-softmmu print-obj-y
+>   make: Entering directory 'build/i386-softmmu'
+>   obj-y=3Dqapi-introspect.o qapi-types-machine-target.o qapi-types-misc-t=
+arget.o qapi-types.o qapi-visit-machine-target.o qapi-visit-misc-target.o q=
+api-visit.o qapi-events-machine-target.o qapi-events-misc-target.o qapi-eve=
+nts.o qapi-commands-machine-target.o qapi-commands-misc-target.o qapi-comma=
+nds.o qapi-init-commands.o
+>   make: Leaving directory 'build/i386-softmmu'
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-At present the board serial number is hard-coded to 1, and passed
-to OTP model during initialization. Firmware (FSBL, U-Boot) uses
-the serial number to generate a unique MAC address for the on-chip
-ethernet controller. When multiple QEMU 'sifive_u' instances are
-created and connected to the same subnet, they all have the same
-MAC address hence it creates a unusable network.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-A new "serial" property is introduced to specify the board serial
-number. When not given, the default serial number 1 is used.
+> ---
+>  Makefile  | 3 ---
+>  rules.mak | 3 +++
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 9d4b224126..fdc5d29bb9 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -15,9 +15,6 @@ UNCHECKED_GOALS :=3D %clean TAGS cscope ctags dist \
+>      help check-help print-% \
+>      docker docker-% vm-help vm-test vm-build-%
+>
+> -print-%:
+> -       @echo '$*=3D$($*)'
+> -
+>  # All following code might depend on configuration variables
+>  ifneq ($(wildcard config-host.mak),)
+>  # Put the all: rule here so that config-host.mak can contain dependencie=
+s.
+> diff --git a/rules.mak b/rules.mak
+> index e39b073d46..694865b63e 100644
+> --- a/rules.mak
+> +++ b/rules.mak
+> @@ -435,3 +435,6 @@ sentinel =3D .$(subst $(SPACE),_,$(subst /,_,$1)).sen=
+tinel.
+>  atomic =3D $(eval $1: $(call sentinel,$1) ; @:) \
+>           $(call sentinel,$1) : $2 ; @touch $$@ \
+>           $(foreach t,$1,$(if $(wildcard $t),,$(shell rm -f $(call sentin=
+el,$1))))
+> +
+> +print-%:
+> +       @echo '$*=3D$($*)'
+> --
+> 2.21.1
+>
+>
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <1573916930-19068-1-git-send-email-bmeng.cn@gmail.com>
-[ Changed by AF:
- - Use the SoC's serial property to pass the info to the SoC
- - Fixup commit title
- - Rebase on file restructuring
-]
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/sifive_u.c         | 20 ++++++++++++++++++++
- include/hw/riscv/sifive_u.h |  1 +
- 2 files changed, 21 insertions(+)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index dc572c761a..44cb72f09e 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -34,6 +34,7 @@
- #include "qemu/log.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "qapi/visitor.h"
- #include "hw/boards.h"
- #include "hw/loader.h"
- #include "hw/sysbus.h"
-@@ -322,6 +323,8 @@ static void sifive_u_machine_init(MachineState *machine)
-     object_initialize_child(OBJECT(machine), "soc", &s->soc,
-                             sizeof(s->soc), TYPE_RISCV_U_SOC,
-                             &error_abort, NULL);
-+    object_property_set_uint(OBJECT(&s->soc), s->serial, "serial",
-+                            &error_abort);
-     object_property_set_bool(OBJECT(&s->soc), true, "realized",
-                             &error_abort);
- 
-@@ -413,6 +416,18 @@ static void sifive_u_machine_set_start_in_flash(Object *obj, bool value, Error *
-     s->start_in_flash = value;
- }
- 
-+static void sifive_u_machine_get_serial(Object *obj, Visitor *v, const char *name,
-+                                void *opaque, Error **errp)
-+{
-+    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
-+}
-+
-+static void sifive_u_machine_set_serial(Object *obj, Visitor *v, const char *name,
-+                                void *opaque, Error **errp)
-+{
-+    visit_type_uint32(v, name, (uint32_t *)opaque, errp);
-+}
-+
- static void sifive_u_machine_instance_init(Object *obj)
- {
-     SiFiveUState *s = RISCV_U_MACHINE(obj);
-@@ -424,6 +439,11 @@ static void sifive_u_machine_instance_init(Object *obj)
-                                     "Set on to tell QEMU's ROM to jump to " \
-                                     "flash. Otherwise QEMU will jump to DRAM",
-                                     NULL);
-+
-+    s->serial = OTP_SERIAL;
-+    object_property_add(obj, "serial", "uint32", sifive_u_machine_get_serial,
-+                        sifive_u_machine_set_serial, NULL, &s->serial, NULL);
-+    object_property_set_description(obj, "serial", "Board serial number", NULL);
- }
- 
- 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index a2baa1de5f..16c297ec5f 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -61,6 +61,7 @@ typedef struct SiFiveUState {
-     int fdt_size;
- 
-     bool start_in_flash;
-+    uint32_t serial;
- } SiFiveUState;
- 
- enum {
--- 
-2.25.1
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
