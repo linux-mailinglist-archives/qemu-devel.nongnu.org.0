@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2AE17C337
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 17:44:19 +0100 (CET)
-Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E959C17C34E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 17:53:34 +0100 (CET)
+Received: from localhost ([::1]:39084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAG5B-0001jj-TZ
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 11:44:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54441)
+	id 1jAGE9-00064y-P4
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 11:53:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jAG47-00013T-Dq
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:43:12 -0500
+ (envelope-from <stefanha@redhat.com>) id 1jAGDJ-0005ag-FQ
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:52:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jAG45-0007q3-Pm
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:43:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26935
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1jAGDH-0007Sl-Tb
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:52:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31718
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jAG45-0007nh-HM
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:43:09 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jAGDH-0007Mj-M4
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 11:52:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583512988;
+ s=mimecast20190719; t=1583513558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fDODrePrkT9nqUWcNW4xVEQs8r2GEs5sWXvCHbj4BJM=;
- b=Qc7v6BpCqjfQj6FbJl6J3Xf68D33EweomTf8jzDtMrXRuSS/6iKAbyX6bLxmQ9K0PQyLYI
- 9BTceKlWYzYHKwDDV+99eQiICPspoJYCk0MpAyPol2nsvDX344sroWHWpoJdelAY76tLtq
- VxgkI35z1QT2Sn63MddqU0bSK4jyoek=
+ bh=OX9oW55qz6ty0aA7vKNlmc8qYkUjZPUuJJK1iZmYRac=;
+ b=feyoQGNIYWAdVa62iM1vShhgwer5nL/6zX1BSqrrc05mwyrHh4OPhSyPdL0U9NpyiYGnVk
+ 0Cm98reYsWABpQ6Qf/s8SndMWOun9sx5b7lrOD5mc1sH8i3oESUfd0QQZu0QyEgvLHL0K5
+ yQlua1775T1Ykdjq2JHYp5u/JjYP3PI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-xhJytotcMcGC4FUk6RKIpw-1; Fri, 06 Mar 2020 11:43:05 -0500
-X-MC-Unique: xhJytotcMcGC4FUk6RKIpw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-284-dJ7Aii3uNKarqCvRqMlSDg-1; Fri, 06 Mar 2020 11:52:37 -0500
+X-MC-Unique: dJ7Aii3uNKarqCvRqMlSDg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B66E818A5507;
- Fri,  6 Mar 2020 16:43:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA23D13F6;
+ Fri,  6 Mar 2020 16:52:34 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97FF491D8A;
- Fri,  6 Mar 2020 16:42:49 +0000 (UTC)
-Date: Fri, 6 Mar 2020 16:42:48 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0067B5DA7D;
+ Fri,  6 Mar 2020 16:52:28 +0000 (UTC)
+Date: Fri, 6 Mar 2020 16:52:27 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH v5 50/50] multi-process: add configure and usage
- information
-Message-ID: <20200306164248.GC1438162@stefanha-x1.localdomain>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v5 32/50] multi-process: Use separate MMIO communication
+ channel
+Message-ID: <20200306165227.GD1438162@stefanha-x1.localdomain>
 References: <cover.1582576372.git.jag.raman@oracle.com>
- <bbba8cdef9f876ec6d194f3e1974347860eca732.1582576372.git.jag.raman@oracle.com>
- <20200227165804.GE315098@stefanha-x1.localdomain>
- <20200228184343.GB25838@flaka>
+ <d776913e1796fe9f929a665c0265eff3978fcc16.1582576372.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200228184343.GB25838@flaka>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <d776913e1796fe9f929a665c0265eff3978fcc16.1582576372.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uh9ZiVrAOUUm9fzH"
+ protocol="application/pgp-signature"; boundary="tEFtbjk+mNEviIIX"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,126 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, liran.alon@oracle.com, thanos.makatos@nutanix.com,
- rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
  ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uh9ZiVrAOUUm9fzH
+--tEFtbjk+mNEviIIX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 28, 2020 at 10:43:44AM -0800, Elena Ufimtseva wrote:
-> On Thu, Feb 27, 2020 at 04:58:04PM +0000, Stefan Hajnoczi wrote:
-> > On Mon, Feb 24, 2020 at 03:55:41PM -0500, Jagannathan Raman wrote:
-> > > +* The devices to be emulated in the separate process are defined as
-> > > +  before with addition of "rid" suboption that serves as a remote gr=
-oup
-> > > +  identificator.
-> > > +
-> > > +  -device <device options>,rid=3D"remote process id"
-> > > +
-> > > +  For example, for non multi-process qemu:
-> > > +    -device lsi53c895a,id=3Dscsi0 device
-> > > +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0
-> > > +    -drive id=3Ddrive0,file=3Ddata-disk.img
-> > > +
-> > > +  and for multi-process qemu and no libvirt
-> > > +  support (i.e. QEMU forks child processes):
-> > > +    -device lsi53c895a,id=3Dscsi0,rid=3D0
-> > > +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0,rid=3D0
+This went unanswered in the last revision:
+
+On Thu, Nov 21, 2019 at 12:31:42PM +0000, Stefan Hajnoczi wrote:
+> On Wed, Nov 13, 2019 at 11:14:50AM -0500, Jag Raman wrote:
+> > On 11/11/2019 11:21 AM, Stefan Hajnoczi wrote:
+> > > On Thu, Oct 24, 2019 at 05:09:13AM -0400, Jagannathan Raman wrote:
+> > > > Using a separate communication channel for MMIO helps
+> > > > with improving Performance
+> > >=20
+> > > Why?
 > >=20
-> > This approach is invasive:
-> >  * lsi53c895a should not need to be modified with a new rid=3D option.
-> >  * QEMU should not know about the scsi-hd device or drive0.  Only the
-> >    device emulation process needs to know about scsi-hd.
+> > Typical initiation of IO operations involves multiple MMIO accesses per
+> > IO operation. In some legacy devices like LSI, the completion of the IO
+> > operations is also accomplished by polling on MMIO registers. Therefore=
+,
+> > MMIO traffic can be hefty in some cases and contribute to Performance.
 > >=20
-> > In order to cleanly separate QEMU and the device emulation process
-> > syntax like this is needed:
-> >=20
-> >   -object remote-device,id=3Drid0,...
-> >   -device remote-pci-device,id=3Dscsi0,remote-device=3Drid0
-> >=20
-> > The "remote-device" object could be part of remote-pci-device, but
-> > keeping it separate may be useful in the future in order to support
-> > things like reconnection.
-> >=20
-> > The generic "remote-pci-device" device handles any remote PCI device,
-> > not just the LSI SCSI controller.
-> >=20
-> > Do you agree with this approach?
-> >=20
+> > Having a dedicated channel for MMIO ensures that it doesn't have to
+> > compete with other messages to the remote process, especially when ther=
+e
+> > are multiple devices emulated by a single remote process.
 >=20
-> We discussed these changes and they seem to be along the lines with
-> the future work on vfio over socket approach we will be working on later.
+> A vCPU doing a polling read on an MMIO register will cause a BAR_READ
+> message to be sent to the remote process.  The vCPU thread waits for the
+> response to this message.
 >=20
-> Could we for this experimental version have the changes you propose here
-> with one modification - instead of having generic remote-pci-device imply=
- that that is LSI
-> device? And while we work towards vfio over socket this will become any r=
-emote
-> PCI device?
-
-Yes, that sounds good.
-
-> > > +  The drives to be emulated by the remote process are specified as p=
-art of
-> > > +  this command sub-option. The device to be used to connect to the m=
-onitor
-> > > +  is also specified as part of this suboption.
-> > > +
-> > > +  For example, the following option adds a drive and monitor to the =
-remote
-> > > +  process:
-> > > +  -remote rid=3D0,exec=3D"qemu-scsi-dev",command=3D"-drive id=3Ddriv=
-e0,,file=3Ddata-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
-> > > +
-> > > +  Note: There's an issue with this "command" sub-option which we are=
- in the
-> > > +  process of fixing. To work around this issue, it requires addition=
-al
-> > > +  "comma" characters as illustrated above, and in the example below.
-> >=20
-> > command=3D (which could be called args=3D for clarity) will be difficul=
-t to
-> > use not just because of comma escaping but also because of double-quote
-> > escaping.  How do you pass a command-line argument that contains spaces=
-?
+> When there are multiple remote devices each has its own socket, so
+> communication with different remote processes does not interfere.
 >=20
-> Yes, this is not great. And spaces are the problem at the moment.
-> I am looking if the -object has some properties that can allow for arbitr=
-ary
-> strings. Maybe such as data for "secret" object  would do?
+> The only scenarios I can think of are:
+> 1. Interference within a single device between vCPUs and/or the QEMU
+>    monitor.
+> 2. A single process serving multiple devices that is implemented in a
+>    way such that different devices interfere with each other.
+>=20
+> It sounds like you are saying the problem is #2, but this is still
+> unclear to me.  If the remote process can be implemented in a way such
+> that there is no interference when each device has a special MMIO
+> socket, then why can't it be implemented in a way such that there is no
+> interference when each device's main socket is used (each device has
+> it's own!).
+>=20
+> Maybe I've missed the point.  It would be good if you could explain in
+> more detail.
+>=20
+> Stefan
 
-I'm not aware of a way to avoid the comma escaping.  The space escaping
-is a question of how the remote process is spawned.  If the command-line
-is processed by a shell like with system(3) then backslash can be used
-to escape spaces.
-
-Stefan
-
---uh9ZiVrAOUUm9fzH
+--tEFtbjk+mNEviIIX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5ifYgACgkQnKSrs4Gr
-c8hCBAf/d7+5+qufheB2wuJIIeVxgTuVIqGMEtNesBk/225W0XXSF+dA3X9tmhLX
-QvT5JTzAHgfFQyqJsFwPo3ydMlIzb1ilWLwVvhyJ5y/0tJmQbdnmRM6AoM2LaN2N
-iAqHpKhmcqdKZoGGnyBpQheugJF+pN1lIx4Z3IWxAvLH40fam1TdsJ5rE9P/jRs3
-sxH5VBlLzGNlxT6N5rk+NL9e8/9X5NizGGEjIDNg6tE6Hn6tJ/GrOndZt1sqQYbu
-DsYeZTfjQfCVUgvzszDY+2llTyykzhpSE7hZCIOTMDyghrSHZKHZ5DnmVNuPO4U5
-/APVtJtXl+Dx3T6ed2n0C+hGk52o1w==
-=FEeU
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5if8sACgkQnKSrs4Gr
+c8h5rgf9HHNzinZxU3gtQWEe+hugGVtE7G6SkgQff9+w9hNLx0fxQuTXwbtoeNUm
+jppvs1d+18zpRsrKu6r69PV0eq6vK36sjI2LO+Z89rxh9YghKG4XH9/+akDNd/AY
+0xO3ugEgNShkdVCkW6hZzjxfjD6VemhEzDWQogVSzvc4rjRthmQldtS/J9ghHKud
+rw7Uq72WsnmlMIJEC2Y4nKg+m67FicG5GjmBZzBGyJmW7CSeTwXbuyFQQz4VcNm+
+F87ovDDqzmAt1nuJNy2/dtvbHrqUa1IOaT/d4akgLygA97rTIjvzpRrwIwjOv0ok
+4RqV+I+6mPRIpv9vpsGtsp3Rb+UeJQ==
+=tlHN
 -----END PGP SIGNATURE-----
 
---uh9ZiVrAOUUm9fzH--
+--tEFtbjk+mNEviIIX--
 
 
