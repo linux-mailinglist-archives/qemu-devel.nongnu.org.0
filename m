@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F3417C02D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 15:28:17 +0100 (CET)
-Received: from localhost ([::1]:37558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314C017C04B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 15:33:36 +0100 (CET)
+Received: from localhost ([::1]:37622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jADxY-0008Sw-CY
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 09:28:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34894)
+	id 1jAE2g-0003KQ-Tg
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 09:33:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jADwG-0006w0-Rs
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 09:26:58 -0500
+ (envelope-from <pmenzel@molgen.mpg.de>) id 1jAAKW-0007mr-DE
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:35:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jADwA-0005iw-9x
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 09:26:56 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51417
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pmenzel@molgen.mpg.de>) id 1jAAKV-0007ZC-0b
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:35:44 -0500
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:56783 helo=mx1.molgen.mpg.de)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jADwA-0005We-5i
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 09:26:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583504809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zeg+YUYQUPLxY3PnDCNPPYGBs+dQ1QlqOi/kow4hIsE=;
- b=Sl1+WXG75LSVV2roMLI/+eRmH49BPuJbr/oVLgFuJbORXlg8ZNMIO/APe2d80itOBhDGFj
- c38LrPBOE45hnS0Uwf3sEzNcRnQzzxUeiEmWk6HgCtuO4SLHcIXqC2dZZ64/f5H5rJ7Gwf
- 67lhbtLLokrJgdadS4OZ96Jq4CsXoQM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-b9aYUqBYOfWR3gxLXHLs3g-1; Fri, 06 Mar 2020 09:26:47 -0500
-X-MC-Unique: b9aYUqBYOfWR3gxLXHLs3g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6420818FE864;
- Fri,  6 Mar 2020 14:26:46 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC54D91D8E;
- Fri,  6 Mar 2020 14:26:41 +0000 (UTC)
-Date: Fri, 6 Mar 2020 15:26:40 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 1/4] qapi: Add a 'coroutine' flag for commands
-Message-ID: <20200306142640.GE7240@linux.fritz.box>
-References: <20200121181122.15941-1-kwolf@redhat.com>
- <20200121181122.15941-2-kwolf@redhat.com>
- <87lfq0yp9v.fsf@dusky.pond.sub.org>
- <20200122101021.GB5268@linux.fritz.box>
- <87h7z2ddjj.fsf@dusky.pond.sub.org>
- <20200305160654.GC5363@linux.fritz.box>
- <87pndq7xnj.fsf@dusky.pond.sub.org>
- <20200306095232.GB7240@linux.fritz.box>
- <87blp94q11.fsf@dusky.pond.sub.org>
+ (Exim 4.71) (envelope-from <pmenzel@molgen.mpg.de>)
+ id 1jAAKU-0007EK-LJ
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 05:35:42 -0500
+Received: from hypnotoad.molgen.mpg.de (hypnotoad.molgen.mpg.de [141.14.18.16])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: pmenzel)
+ by mx.molgen.mpg.de (Postfix) with ESMTPSA id 4A869206441C2;
+ Fri,  6 Mar 2020 11:35:32 +0100 (CET)
+Subject: Re: [SeaBIOS] [PATCH] sercon: vbe modeset is int 10h function 4f02
+ not 4f00
+To: Gerd Hoffmann <kraxel@redhat.com>, seabios@seabios.org
+References: <20200306090321.24811-1-kraxel@redhat.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <e99dcde7-5730-1e6d-b86b-bb63428cd606@molgen.mpg.de>
+Date: Fri, 6 Mar 2020 11:35:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <87blp94q11.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+In-Reply-To: <20200306090321.24811-1-kraxel@redhat.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="------------ms070708010500060203080507"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 141.14.17.11
+X-Mailman-Approved-At: Fri, 06 Mar 2020 09:27:28 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,180 +53,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- David Alan Gilbert <dgilbert@redhat.com>, marcandre.lureau@gmail.com,
- stefanha@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.03.2020 um 13:38 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
->=20
-> > Am 06.03.2020 um 08:25 hat Markus Armbruster geschrieben:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >>=20
-> >> > Am 05.03.2020 um 16:30 hat Markus Armbruster geschrieben:
-> >> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >> >>=20
-> >> >> > Am 22.01.2020 um 07:32 hat Markus Armbruster geschrieben:
-> >> >> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >> >> >>=20
-> >> >> >> > This patch adds a new 'coroutine' flag to QMP command definiti=
-ons that
-> >> >> >> > tells the QMP dispatcher that the command handler is safe to b=
-e run in a
-> >> >> >> > coroutine.
-> >> >> >>=20
-> >> >> >> I'm afraid I missed this question in my review of v3: when is a =
-handler
-> >> >> >> *not* safe to be run in a coroutine?
-> >> >> >
-> >> >> > That's a hard one to answer fully.
-> >> >> >
-> >> >> > Basically, I think the biggest problem is with calling functions =
-that
-> >> >> > change their behaviour if run in a coroutine compared to running =
-them
-> >> >> > outside of coroutine context. In most cases the differences like =
-having
-> >> >> > a nested event loop instead of yielding are just fine, but they a=
-re
-> >> >> > still subtly different.
-> >> >> >
-> >> >> > I know this is vague, but I can assure you that problematic cases=
- exist.
-> >> >> > I hit one of them with my initial hack that just moved everything=
- into a
-> >> >> > coroutine. It was related to graph modifications and bdrv_drain a=
-nd
-> >> >> > resulted in a hang. For the specifics, I would have to try and re=
-produce
-> >> >> > the problem again.
-> >> >>=20
-> >> >> I'm afraid it's even more complicated.
-> >> >>=20
-> >> >> Monitors (HMP and QMP) run in the main loop.  Before this patch, HM=
-P and
-> >> >> QMP commands run start to finish, one after the other.
-> >> >>=20
-> >> >> After this patch, QMP commands may elect to yield.  QMP commands st=
-ill
-> >> >> run one after the other (the shared dispatcher ensures this even wh=
-en we
-> >> >> have multiple QMP monitors).
-> >> >>=20
-> >> >> However, *HMP* commands can now run interleaved with a coroutine-en=
-abled
-> >> >> QMP command, i.e. between a yield and its re-enter.
-> >> >
-> >> > I guess that's right. :-(
-> >> >
-> >> >> Consider an HMP screendump running in the middle of a coroutine-ena=
-bled
-> >> >> QMP screendump, using Marc-Andr=E9's patch.  As far as I can tell, =
-it
-> >> >> works, because:
-> >> >>=20
-> >> >> 1. HMP does not run in a coroutine.  If it did, and both dumps dump=
-ed
-> >> >> the same @con, then it would overwrite con->screndump_co.  If we ev=
-er
-> >> >> decide to make HMP coroutine-capable so it doesn't block the main l=
-oop,
-> >> >> this will become unsafe in a nasty way.
-> >> >
-> >> > At the same time, switching HMP to coroutines would give us an easy =
-way
-> >> > to fix the problem: Just use a CoMutex so that HMP and QMP commands
-> >> > never run in parallel. Unless we actually _want_ to run both at the =
-same
-> >> > time for some commands, but I don't see why.
-> >>=20
-> >> As long as running QMP commands from *all* monitors one after the othe=
-r
-> >> is good enough, I can't see why running HMP commands interleaved is
-> >> worth the risk.
-> >
-> > There is one exception, actually: Obviously, human-monitor-command must
-> > allow HMP commands to run in parallel.
->=20
-> Yes.
->=20
-> >> > While we don't have this, maybe it's worth considering if there is
-> >> > another simple way to achieve the same thing. Could QMP just suspend=
- all
-> >> > HMP monitors while it's executing a command? At first sight it seems
-> >> > that this would work only for "interactive" monitors.
-> >>=20
-> >> I believe the non-"interactive" HMP code is used only by gdbstub.c.
-> >
-> > monitor_init_hmp() is called from (based on my block branch):
-> >
-> > * monitor_init(): This is interactive.
-> > * qemu_chr_new_noreplay(): Interactive, too.
-> > * gdbserver_start(): Non-interactive.
-> >
-> > There is also qmp_human_monitor_command(), which manually creates a
-> > MonitorHMP without going through monitor_init_hmp(). It does call
-> > monitor_data_init(), though. There are no additional callers of
-> > monitor_data_init() and I think I would have added it to every creation
-> > of a Monitor object when I did the QMP/HMP split of the struct.
-> >
-> > So GDB and human-monitor-command should be the two non-interactive
-> > cases.
->=20
-> Yes.
->=20
-> >> I keep forgetting our GDB server stub creates an "HMP" monitor.
-> >> Possibly because I don't understand why.  Alex, Philippe, can you
-> >> enlighten me?
-> >
-> > I think you can send HMP commands from within gdb with it:
-> >
-> > (gdb) tar rem:1234
-> > Remote debugging using :1234
-> > [...]
-> > (gdb) monitor info block
-> > ide1-cd0: [not inserted]
-> >     Attached to:      /machine/unattached/device[23]
-> >     Removable device: not locked, tray closed
-> >
-> > floppy0: [not inserted]
-> >     Attached to:      /machine/unattached/device[16]
-> >     Removable device: not locked, tray closed
-> >
-> > sd0: [not inserted]
-> >     Removable device: not locked, tray closed
->=20
-> Argh!
->=20
-> Any idea where we define GDB command "monitor"?
+This is a cryptographically signed message in MIME format.
 
-Just following the s->mon_chr that is assigned in gdbserver_start(), it
-looks like handle_query_rcmd() sends the HMP command to the monitor.
+--------------ms070708010500060203080507
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-gdb_gen_query_table has a function pointer to handle_query_rcmd() for
-the gdb protocol command "Rcmd", and I think this is what gdb will send
-for the "monitor" command.
+Dear Gerd,
 
-> > So we do want stop it from processing requests while a QMP command is
-> > running.
+
+Maybe in imperative mood:
+
+> Correct VBE modeset to int 10h function 4f02 not 4f00
+
+On 2020-03-06 10:03, Gerd Hoffmann wrote:
+> Fixes console redirection for NetBSD primary bootloader.
+
+Add how to reproduce this:
+
+    wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation=
+/cdrom/boot-com.iso
+    qemu-system-x86_64 -nographic -cdrom boot-com.iso
+
+For backports add:
+
+Fixes: d6728f30 ("add serial console support")
+
+> https://bugs.launchpad.net/bugs/1743191
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  src/sercon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> Then a slow QMP command can interfere with debugging.
->=20
-> Perhaps we can synchronize just the "monitor" command.
+> diff --git a/src/sercon.c b/src/sercon.c
+> index a5dadb7261af..66a1f2412e77 100644
+> --- a/src/sercon.c
+> +++ b/src/sercon.c
+> @@ -464,7 +464,7 @@ static void sercon_104f(struct bregs *regs)
+>          regs->ax =3D 0x0100;
+>      } else {
+>          // Disable sercon entry point on any vesa modeset
+> -        if (regs->al =3D=3D 0x00)
+> +        if (regs->al =3D=3D 0x02)
+>              SET_LOW(sercon_enable, 0);
+>      }
+>  }
 
-I didn't mean stop processing of gdb commands, but only of HMP commands
-submitted via gdb (which will probably still block gdb while it's
-waiting for a response, but only if a "monitor" command was given).
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
 
-This is probably still not trivial because so far we have no buffering
-involved anywhere and handle_query_rcmd() (or probably the whole gdbstub
-command processing) is synchronous. Maybe run a nested event loop until
-the QMP command is done or something.
 
-Kevin
+Kind regards,
 
+Paul
+
+
+--------------ms070708010500060203080507
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
+EFowggUSMIID+qADAgECAgkA4wvV+K8l2YEwDQYJKoZIhvcNAQELBQAwgYIxCzAJBgNVBAYT
+AkRFMSswKQYDVQQKDCJULVN5c3RlbXMgRW50ZXJwcmlzZSBTZXJ2aWNlcyBHbWJIMR8wHQYD
+VQQLDBZULVN5c3RlbXMgVHJ1c3QgQ2VudGVyMSUwIwYDVQQDDBxULVRlbGVTZWMgR2xvYmFs
+Um9vdCBDbGFzcyAyMB4XDTE2MDIyMjEzMzgyMloXDTMxMDIyMjIzNTk1OVowgZUxCzAJBgNV
+BAYTAkRFMUUwQwYDVQQKEzxWZXJlaW4genVyIEZvZXJkZXJ1bmcgZWluZXMgRGV1dHNjaGVu
+IEZvcnNjaHVuZ3NuZXR6ZXMgZS4gVi4xEDAOBgNVBAsTB0RGTi1QS0kxLTArBgNVBAMTJERG
+Ti1WZXJlaW4gQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgMjCCASIwDQYJKoZIhvcNAQEBBQAD
+ggEPADCCAQoCggEBAMtg1/9moUHN0vqHl4pzq5lN6mc5WqFggEcVToyVsuXPztNXS43O+FZs
+FVV2B+pG/cgDRWM+cNSrVICxI5y+NyipCf8FXRgPxJiZN7Mg9mZ4F4fCnQ7MSjLnFp2uDo0p
+eQcAIFTcFV9Kltd4tjTTwXS1nem/wHdN6r1ZB+BaL2w8pQDcNb1lDY9/Mm3yWmpLYgHurDg0
+WUU2SQXaeMpqbVvAgWsRzNI8qIv4cRrKO+KA3Ra0Z3qLNupOkSk9s1FcragMvp0049ENF4N1
+xDkesJQLEvHVaY4l9Lg9K7/AjsMeO6W/VRCrKq4Xl14zzsjz9AkH4wKGMUZrAcUQDBHHWekC
+AwEAAaOCAXQwggFwMA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUk+PYMiba1fFKpZFK4OpL
+4qIMz+EwHwYDVR0jBBgwFoAUv1kgNgB5oKAia4zV8mHSuCzLgkowEgYDVR0TAQH/BAgwBgEB
+/wIBAjAzBgNVHSAELDAqMA8GDSsGAQQBga0hgiwBAQQwDQYLKwYBBAGBrSGCLB4wCAYGZ4EM
+AQICMEwGA1UdHwRFMEMwQaA/oD2GO2h0dHA6Ly9wa2kwMzM2LnRlbGVzZWMuZGUvcmwvVGVs
+ZVNlY19HbG9iYWxSb290X0NsYXNzXzIuY3JsMIGGBggrBgEFBQcBAQR6MHgwLAYIKwYBBQUH
+MAGGIGh0dHA6Ly9vY3NwMDMzNi50ZWxlc2VjLmRlL29jc3ByMEgGCCsGAQUFBzAChjxodHRw
+Oi8vcGtpMDMzNi50ZWxlc2VjLmRlL2NydC9UZWxlU2VjX0dsb2JhbFJvb3RfQ2xhc3NfMi5j
+ZXIwDQYJKoZIhvcNAQELBQADggEBAIcL/z4Cm2XIVi3WO5qYi3FP2ropqiH5Ri71sqQPrhE4
+eTizDnS6dl2e6BiClmLbTDPo3flq3zK9LExHYFV/53RrtCyD2HlrtrdNUAtmB7Xts5et6u5/
+MOaZ/SLick0+hFvu+c+Z6n/XUjkurJgARH5pO7917tALOxrN5fcPImxHhPalR6D90Bo0fa3S
+PXez7vTXTf/D6OWST1k+kEcQSrCFWMBvf/iu7QhCnh7U3xQuTY+8npTD5+32GPg8SecmqKc2
+2CzeIs2LgtjZeOJVEqM7h0S2EQvVDFKvaYwPBt/QolOLV5h7z/0HJPT8vcP9SpIClxvyt7bP
+ZYoaorVyGTkwggWNMIIEdaADAgECAgwcOtRQhH7u81j4jncwDQYJKoZIhvcNAQELBQAwgZUx
+CzAJBgNVBAYTAkRFMUUwQwYDVQQKEzxWZXJlaW4genVyIEZvZXJkZXJ1bmcgZWluZXMgRGV1
+dHNjaGVuIEZvcnNjaHVuZ3NuZXR6ZXMgZS4gVi4xEDAOBgNVBAsTB0RGTi1QS0kxLTArBgNV
+BAMTJERGTi1WZXJlaW4gQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgMjAeFw0xNjExMDMxNTI0
+NDhaFw0zMTAyMjIyMzU5NTlaMGoxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xETAP
+BgNVBAcMCE11ZW5jaGVuMSAwHgYDVQQKDBdNYXgtUGxhbmNrLUdlc2VsbHNjaGFmdDEVMBMG
+A1UEAwwMTVBHIENBIC0gRzAyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnhx4
+59Lh4WqgOs/Md04XxU2yFtfM15ZuJV0PZP7BmqSJKLLPyqmOrADfNdJ5PIGBto2JBhtRRBHd
+G0GROOvTRHjzOga95WOTeura79T21FWwwAwa29OFnD3ZplQs6HgdwQrZWNi1WHNJxn/4mA19
+rNEBUc5urSIpZPvZi5XmlF3v3JHOlx3KWV7mUteB4pwEEfGTg4npPAJbp2o7arxQdoIq+Pu2
+OsvqhD7Rk4QeaX+EM1QS4lqd1otW4hE70h/ODPy1xffgbZiuotWQLC6nIwa65Qv6byqlIX0q
+Zuu99Vsu+r3sWYsL5SBkgecNI7fMJ5tfHrjoxfrKl/ErTAt8GQIDAQABo4ICBTCCAgEwEgYD
+VR0TAQH/BAgwBgEB/wIBATAOBgNVHQ8BAf8EBAMCAQYwKQYDVR0gBCIwIDANBgsrBgEEAYGt
+IYIsHjAPBg0rBgEEAYGtIYIsAQEEMB0GA1UdDgQWBBTEiKUH7rh7qgwTv9opdGNSG0lwFjAf
+BgNVHSMEGDAWgBST49gyJtrV8UqlkUrg6kviogzP4TCBjwYDVR0fBIGHMIGEMECgPqA8hjpo
+dHRwOi8vY2RwMS5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWcyLWNhL3B1Yi9jcmwvY2Fjcmwu
+Y3JsMECgPqA8hjpodHRwOi8vY2RwMi5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWcyLWNhL3B1
+Yi9jcmwvY2FjcmwuY3JsMIHdBggrBgEFBQcBAQSB0DCBzTAzBggrBgEFBQcwAYYnaHR0cDov
+L29jc3AucGNhLmRmbi5kZS9PQ1NQLVNlcnZlci9PQ1NQMEoGCCsGAQUFBzAChj5odHRwOi8v
+Y2RwMS5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWcyLWNhL3B1Yi9jYWNlcnQvY2FjZXJ0LmNy
+dDBKBggrBgEFBQcwAoY+aHR0cDovL2NkcDIucGNhLmRmbi5kZS9nbG9iYWwtcm9vdC1nMi1j
+YS9wdWIvY2FjZXJ0L2NhY2VydC5jcnQwDQYJKoZIhvcNAQELBQADggEBABLpeD5FygzqOjj+
+/lAOy20UQOGWlx0RMuPcI4nuyFT8SGmK9lD7QCg/HoaJlfU/r78ex+SEide326evlFAoJXIF
+jVyzNltDhpMKrPIDuh2N12zyn1EtagqPL6hu4pVRzcBpl/F2HCvtmMx5K4WN1L1fmHWLcSap
+dhXLvAZ9RG/B3rqyULLSNN8xHXYXpmtvG0VGJAndZ+lj+BH7uvd3nHWnXEHC2q7iQlDUqg0a
+wIqWJgdLlx1Q8Dg/sodv0m+LN0kOzGvVDRCmowBdWGhhusD+duKV66pBl+qhC+4LipariWaM
+qK5ppMQROATjYeNRvwI+nDcEXr2vDaKmdbxgDVwwggWvMIIEl6ADAgECAgweKlJIhfynPMVG
+/KIwDQYJKoZIhvcNAQELBQAwajELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVybjERMA8G
+A1UEBwwITXVlbmNoZW4xIDAeBgNVBAoMF01heC1QbGFuY2stR2VzZWxsc2NoYWZ0MRUwEwYD
+VQQDDAxNUEcgQ0EgLSBHMDIwHhcNMTcxMTE0MTEzNDE2WhcNMjAxMTEzMTEzNDE2WjCBizEL
+MAkGA1UEBhMCREUxIDAeBgNVBAoMF01heC1QbGFuY2stR2VzZWxsc2NoYWZ0MTQwMgYDVQQL
+DCtNYXgtUGxhbmNrLUluc3RpdHV0IGZ1ZXIgbW9sZWt1bGFyZSBHZW5ldGlrMQ4wDAYDVQQL
+DAVNUElNRzEUMBIGA1UEAwwLUGF1bCBNZW56ZWwwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+ggEKAoIBAQDIh/UR/AX/YQ48VWWDMLTYtXjYJyhRHMc81ZHMMoaoG66lWB9MtKRTnB5lovLZ
+enTIUyPsCrMhTqV9CWzDf6v9gOTWVxHEYqrUwK5H1gx4XoK81nfV8oGV4EKuVmmikTXiztGz
+peyDmOY8o/EFNWP7YuRkY/lPQJQBeBHYq9AYIgX4StuXu83nusq4MDydygVOeZC15ts0tv3/
+6WmibmZd1OZRqxDOkoBbY3Djx6lERohs3IKS6RKiI7e90rCSy9rtidJBOvaQS9wvtOSKPx0a
++2pAgJEVzZFjOAfBcXydXtqXhcpOi2VCyl+7+LnnTz016JJLsCBuWEcB3kP9nJYNAgMBAAGj
+ggIxMIICLTAJBgNVHRMEAjAAMA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcD
+AgYIKwYBBQUHAwQwHQYDVR0OBBYEFHM0Mc3XjMLlhWpp4JufRELL4A/qMB8GA1UdIwQYMBaA
+FMSIpQfuuHuqDBO/2il0Y1IbSXAWMCAGA1UdEQQZMBeBFXBtZW56ZWxAbW9sZ2VuLm1wZy5k
+ZTB9BgNVHR8EdjB0MDigNqA0hjJodHRwOi8vY2RwMS5wY2EuZGZuLmRlL21wZy1nMi1jYS9w
+dWIvY3JsL2NhY3JsLmNybDA4oDagNIYyaHR0cDovL2NkcDIucGNhLmRmbi5kZS9tcGctZzIt
+Y2EvcHViL2NybC9jYWNybC5jcmwwgc0GCCsGAQUFBwEBBIHAMIG9MDMGCCsGAQUFBzABhido
+dHRwOi8vb2NzcC5wY2EuZGZuLmRlL09DU1AtU2VydmVyL09DU1AwQgYIKwYBBQUHMAKGNmh0
+dHA6Ly9jZHAxLnBjYS5kZm4uZGUvbXBnLWcyLWNhL3B1Yi9jYWNlcnQvY2FjZXJ0LmNydDBC
+BggrBgEFBQcwAoY2aHR0cDovL2NkcDIucGNhLmRmbi5kZS9tcGctZzItY2EvcHViL2NhY2Vy
+dC9jYWNlcnQuY3J0MEAGA1UdIAQ5MDcwDwYNKwYBBAGBrSGCLAEBBDARBg8rBgEEAYGtIYIs
+AQEEAwYwEQYPKwYBBAGBrSGCLAIBBAMGMA0GCSqGSIb3DQEBCwUAA4IBAQCQs6bUDROpFO2F
+Qz2FMgrdb39VEo8P3DhmpqkaIMC5ZurGbbAL/tAR6lpe4af682nEOJ7VW86ilsIJgm1j0ueY
+aOuL8jrN4X7IF/8KdZnnNnImW3QVni6TCcc+7+ggci9JHtt0IDCj5vPJBpP/dKXLCN4M+exl
+GXYpfHgxh8gclJPY1rquhQrihCzHfKB01w9h9tWZDVMtSoy9EUJFhCXw7mYUsvBeJwZesN2B
+fndPkrXx6XWDdU3S1LyKgHlLIFtarLFm2Hb5zAUR33h+26cN6ohcGqGEEzgIG8tXS8gztEaj
+1s2RyzmKd4SXTkKR3GhkZNVWy+gM68J7jP6zzN+cMYIDmjCCA5YCAQEwejBqMQswCQYDVQQG
+EwJERTEPMA0GA1UECAwGQmF5ZXJuMREwDwYDVQQHDAhNdWVuY2hlbjEgMB4GA1UECgwXTWF4
+LVBsYW5jay1HZXNlbGxzY2hhZnQxFTATBgNVBAMMDE1QRyBDQSAtIEcwMgIMHipSSIX8pzzF
+RvyiMA0GCWCGSAFlAwQCAQUAoIIB8TAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqG
+SIb3DQEJBTEPFw0yMDAzMDYxMDM1MzJaMC8GCSqGSIb3DQEJBDEiBCAcEPb1BJuPtkoOgkRA
+S5Qgds8XCS1ScMzMSB0yLg5vtjBsBgkqhkiG9w0BCQ8xXzBdMAsGCWCGSAFlAwQBKjALBglg
+hkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqGSIb3DQMCAgFAMAcG
+BSsOAwIHMA0GCCqGSIb3DQMCAgEoMIGJBgkrBgEEAYI3EAQxfDB6MGoxCzAJBgNVBAYTAkRF
+MQ8wDQYDVQQIDAZCYXllcm4xETAPBgNVBAcMCE11ZW5jaGVuMSAwHgYDVQQKDBdNYXgtUGxh
+bmNrLUdlc2VsbHNjaGFmdDEVMBMGA1UEAwwMTVBHIENBIC0gRzAyAgweKlJIhfynPMVG/KIw
+gYsGCyqGSIb3DQEJEAILMXygejBqMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMREw
+DwYDVQQHDAhNdWVuY2hlbjEgMB4GA1UECgwXTWF4LVBsYW5jay1HZXNlbGxzY2hhZnQxFTAT
+BgNVBAMMDE1QRyBDQSAtIEcwMgIMHipSSIX8pzzFRvyiMA0GCSqGSIb3DQEBAQUABIIBALGd
+Uv4Sfj13PWyFFXhZufdBXUeGgow5edAG5MZWOo2uOf++ZLLWDu28zl+qPqIiBhSuFiKgRmUp
+YRx+rBAcGXjK75Qu1ciyC+NtnVTYBru14F2khSzXWeO48ZQUwOp0lhPgZKHqPDnn8bbOqUUm
+wg6f1wxpcGCuCoZXQkJkcoRiQy5SeRDy+9rmeprRnBXPfn0436WGw8NZ4IhPVf52hLdXHIxL
+0X0ol8ktolHsCeTKZrDxWqy4OvzfoFdAyDC1OstcCvycIjAi8WytPFXhVFYwPifYIvPnsAlv
+aJ8l/UAWhSx/jJpeJc7u231iW8atFalyVSt8ZX9wzVk9IRzEV6QAAAAAAAA=
+--------------ms070708010500060203080507--
 
