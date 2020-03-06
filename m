@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE0717BB9D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:26:03 +0100 (CET)
-Received: from localhost ([::1]:35174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFB317BB82
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:21:29 +0100 (CET)
+Received: from localhost ([::1]:35056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAB7C-0006bi-8t
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:26:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39898)
+	id 1jAB2m-0006ty-1y
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:21:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAsP-0004Gi-NH
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:47 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAsT-0004Pv-9f
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jAAsN-0005mf-W1
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:45 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51437)
+ (envelope-from <peter.maydell@linaro.org>) id 1jAAsQ-0005wP-RU
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:49 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38127)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jAAsN-0005io-Ha
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:43 -0500
-Received: by mail-wm1-x329.google.com with SMTP id a132so1935368wme.1
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:40 -0800 (PST)
+ id 1jAAsQ-0005tU-GL
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:10:46 -0500
+Received: by mail-wm1-x331.google.com with SMTP id u9so1921096wml.3
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 03:10:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KEuiqLQJQeVIcNdqiDmm+jMBwfWT2SyGRR7407Clxj8=;
- b=xAzZgT306BpsxEsIzrzeH2R0ba7leC42M3kH+8GLSabzcRbwAJXtl02Xt4Gw0DswTM
- SKcMfgRvi+qvrvcG5i9h7xERK+x54sI3+xNHp4ZiR9VYUg3XzTEQQ/wSFSuDEVlbeqzh
- /ihAooOP//6fVWgkljlxLM/URuV8ntdiGTbCMGfGateIPPJNI0/r6I2fVQbolDUqQv6g
- W6uUNFQuvL3hNwH3vaGLGcD31meRBTS9CpT3W4Wa576FekZuGDIuuyqjMOIyqqWrh1F4
- EcM+vznR3aueKp+svdNj19CQfftMCEIkvrSmXcbyUiDxEYZGUGRDFDLrjMFoY2WjGmMv
- mNaw==
+ bh=40y6gw9q6c1bYWZXVfnTGt9s5WXySo/OTNRfD2ddx44=;
+ b=ExdRZUcbtxETNiLM9X+rQ79s66PbOCktTBl6vtMCdtI0TmiMOAQkWxL56PtUidfxYg
+ oUCpLOCqJmz2vR4uUlu3Ddu7MMFDqutJVUXzLDiieunAXryr91DLI00JCyHFIow9Mike
+ 4vGJzGpzmU6tkN1kZPNeM+otxXNwMWtoJabAKrNRT1gbVuY5oz9EW8oRMu5WDdhlnVhL
+ aiO71aw9MUVEQpWJPs54NP6vKBkErVgUxCAu7qolzVy6xeNYoHL82zet9yNWIJiGk4TN
+ ycIC0c34zXFo3IR4H9V11mvgM2RjZNrTVqQ7cpT8n0SrU+pLWaHO0/ka6i99wAKu8zR7
+ 1rHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KEuiqLQJQeVIcNdqiDmm+jMBwfWT2SyGRR7407Clxj8=;
- b=XExI/jDkGtrw8VwlGMbmziYKUUCSxNEjp1nn78Y1ycPYiBDNeYcSgTGLFhbDIVSDO6
- btYwb/pRltzFZpkLNYjUHEApxOeoFHRTdgYn/1T5Egvo75uoywxf7v0dPG5JIAzht5kH
- 1KHWO9npbXLtBPZkGrjzyFXGrlm8dBprxVi0kRRxQ7tvjFfM7q5PkJUMQ6TlOvHINajC
- 3YcC0W3yNsNN06xpaVtNMaiNgBG0858fCuJCP7ifYR6jnHQpJ5d1P7xRFz7XNh0ZNbjf
- xeIjMh66Bjs6WE6gmuh05IeNiKJE/xqAq7supRsEvmmhIQhl+FbUIQCbY/8/u0uV5J8J
- qpTA==
-X-Gm-Message-State: ANhLgQ07ORNR9nqZCXwBw7QpLM+IPvy2hF8us5IKQ6mLbbEXE3+O+zYU
- Hpco8YrQdXOi5PmCC9IavpFDy7w2aRez8g==
-X-Google-Smtp-Source: ADFU+vvM48ilmydGx6ykhlxvSDSxP4cK9RvsMlrYXJPY0HsfE9qFpKAVH8uSEi9TD1kI5mdOB/lhHA==
-X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr3650043wmj.56.1583493038315;
- Fri, 06 Mar 2020 03:10:38 -0800 (PST)
+ bh=40y6gw9q6c1bYWZXVfnTGt9s5WXySo/OTNRfD2ddx44=;
+ b=PK4b8lUJMAyvOrKN4s5PJXYHdjVvpkbXJgzbHpv0oEc/gQaNuY/p2hzlQH9wZDLAtt
+ VsHnpbJvcgeIpqC1j9yQj8sbkpFBZj+thS1SLW+EMM4eFXAJ5q92Q/4k7+cWrM+b4NBf
+ usFJws+98Nmn1OCgHMCO009A2VYr1lPN2qVJYoiDSdzDVNLk/rbU4K3YLxFganahdhcm
+ slkaU23AJJ66DRIEqxgtfoGNlyfgqVSwNmWwdn4EA6xvNCPcBreTykhcA2YkuCLjDoye
+ weCLbnhTDqEuPkmhCyY+RXo6zpRXxkHbV7fW2yeVz8WZHB97FsorHDH7l7Rh05KnysXZ
+ sUtw==
+X-Gm-Message-State: ANhLgQ3P62GiDNZK2h+JPsCZqcFn4RW67Nx43J9ILtCXx1sFxWxGuklJ
+ qpQ1bXGS9WXPCkjToA7ZaNZpFj3DNMBNXw==
+X-Google-Smtp-Source: ADFU+vvlKKC+smM0aPJNcGeoshuxeGgGNPHpLGk5dkkcdn5P6Lkf5UCTHq9zDGnVF7VaaPdjcvOarg==
+X-Received: by 2002:a1c:8041:: with SMTP id b62mr3414518wmd.76.1583493044648; 
+ Fri, 06 Mar 2020 03:10:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.37
+ by smtp.gmail.com with ESMTPSA id y10sm12553029wma.26.2020.03.06.03.10.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 03:10:37 -0800 (PST)
+ Fri, 06 Mar 2020 03:10:44 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/33] scripts/hxtool-conv: Archive script used in
- qemu-options.hx conversion
-Date: Fri,  6 Mar 2020 11:09:51 +0000
-Message-Id: <20200306110959.29461-26-peter.maydell@linaro.org>
+Subject: [PULL 27/33] qemu-options.hx: Fix up the autogenerated rST
+Date: Fri,  6 Mar 2020 11:09:53 +0000
+Message-Id: <20200306110959.29461-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200306110959.29461-1-peter.maydell@linaro.org>
 References: <20200306110959.29461-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,163 +82,468 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit archives the perl script used to do conversion of the
-STEXI/ETEXI blocks in qemu-options.hx. (The other .hx files were
-manually converted, but qemu-options.hx is complicated enough that
-I felt I needed some scripting.)
+This commit contains hand-written fixes for some issues with the
+autogenerated rST fragments in qemu-options.hx:
+
+ * Sphinx complains about the UTF-8 art table in the documentation of
+   the -drive option.  Replace it with a proper rST format table.
+
+ * rST does not like definition list entries with no actual
+   definition, but it is possible to work around this by putting a
+   single escaped literal space as the definition line.
+
+ * The "-g widthxheight" option documentation suffers particularly
+   badly from losing the distinction between italics and fixed-width
+   as a result of the auto conversion, so put it back in again.
+
+ * The script missed some places that use the |qemu_system| etc
+   macros and need to be marked up as parsed-literal blocks.
+
+ * The script autogenerated an expanded out version of the
+   contents of qemu-option-trace.texi; replace it with an
+   qemu-option-trace.rst.inc include.
+
+This is sufficient that we can enable inclusion of the
+option documentation from invocation.rst.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200228153619.9906-26-peter.maydell@linaro.org
+Message-id: 20200228153619.9906-28-peter.maydell@linaro.org
 ---
- scripts/hxtool-conv.pl | 137 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 137 insertions(+)
- create mode 100755 scripts/hxtool-conv.pl
+ Makefile                   |   2 +-
+ docs/system/invocation.rst |   2 +
+ qemu-options.hx            | 143 +++++++++++++++++++++----------------
+ 3 files changed, 84 insertions(+), 63 deletions(-)
 
-diff --git a/scripts/hxtool-conv.pl b/scripts/hxtool-conv.pl
-new file mode 100755
-index 00000000000..eede40b3462
---- /dev/null
-+++ b/scripts/hxtool-conv.pl
-@@ -0,0 +1,137 @@
-+#!/usr/bin/perl -w
-+#
-+# Script to convert .hx file STEXI/ETEXI blocks to SRST/ERST
-+#
-+# Copyright (C) 2020 Linaro
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# (at your option) any later version. See the COPYING file in the
-+# top-level directory.
+diff --git a/Makefile b/Makefile
+index 98ef06ab8e8..f7d08997dbf 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1071,7 +1071,7 @@ $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
+ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+ 	$(call build-manual,specs,html)
+ 
+-$(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system) $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/hmp-commands-info.hx
++$(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system) $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/qemu-options.hx
+ 	$(call build-manual,system,html)
+ 
+ $(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
+diff --git a/docs/system/invocation.rst b/docs/system/invocation.rst
+index c112bcb45a4..d77dd13d4f7 100644
+--- a/docs/system/invocation.rst
++++ b/docs/system/invocation.rst
+@@ -10,6 +10,8 @@ Invocation
+ disk_image is a raw hard disk image for IDE hard disk 0. Some targets do
+ not need a disk image.
+ 
++.. hxtool-doc:: qemu-options.hx
 +
-+# This script was only ever intended as a one-off conversion operation.
-+# Please excuse the places where it is a bit hacky.
-+# Some manual intervention after the conversion is expected, as are
-+# some warnings from makeinfo.
-+# Warning: this script is not idempotent: don't try to run it on
-+# a .hx file that already has SRST/ERST sections.
-+
-+# Expected usage:
-+# scripts/hxtool-conv.pl file.hx > file.hx.new
-+
-+use utf8;
-+
-+my $reading_texi = 0;
-+my $texiblock = '';
-+my @tables = ();
-+
-+sub update_tables($) {
-+    my ($texi) = @_;
-+    # Update our list of open table directives: every @table
-+    # line in the texi fragment is added to the list, and every
-+    # @end table line means we remove an entry from the list.
-+    # If this fragment had a completely self contained table with
-+    # both the @table and @end table lines, this will be a no-op.
-+    foreach (split(/\n/, $texi)) {
-+        push @tables, $_ if /^\@table/;
-+        pop @tables if /^\@end table/;
-+    }
-+}
-+
-+sub only_table_directives($) {
-+    # Return true if every line in the fragment is a start or end table directive
-+    my ($texi) = @_;
-+    foreach (split(/\n/, $texi)) {
-+        return 0 unless /^\@table/ or /^\@end table/;
-+    }
-+    return 1;
-+}
-+
-+sub output_rstblock($) {
-+    # Write the output to /tmp/frag.texi, wrapped in whatever current @table
-+    # lines we need.
-+    my ($texi) = @_;
-+
-+    # As a special case, if this fragment is only table directives and
-+    # nothing else, update our set of open table directives but otherwise
-+    # ignore it. This avoids emitting an empty SRST/ERST block.
-+    if (only_table_directives($texi)) {
-+        update_tables($texi);
-+        return;
-+    }
-+
-+    open(my $fragfh, '>', '/tmp/frag.texi');
-+    # First output the currently active set of open table directives
-+    print $fragfh join("\n", @tables);
-+    # Next, update our list of open table directives.
-+    # We need to do this before we emit the closing table directives
-+    # so that we emit the right number if this fragment had an
-+    # unbalanced set of directives.
-+    update_tables($texi);
-+    # Then emit the texi fragment itself.
-+    print $fragfh "\n$texi\n";
-+    # Finally, add the necessary closing table directives.
-+    print $fragfh "\@end table\n" x scalar @tables;
-+    close $fragfh;
-+
-+    # Now invoke makeinfo/pandoc on it and slurp the results into a string
-+    open(my $fh, '-|', "makeinfo --force -o - --docbook "
-+         . "-D 'qemu_system_x86 QEMU_SYSTEM_X86_MACRO' "
-+         . "-D 'qemu_system     QEMU_SYSTEM_MACRO'  /tmp/frag.texi "
-+         . " | pandoc  -f docbook -t rst")
-+        or die "can't start makeinfo/pandoc: $!";
-+
-+    binmode $fh, ':encoding(utf8)';
-+
-+    print "SRST\n";
-+
-+    # Slurp the whole thing into a string so we can do multiline
-+    # string matches on it.
-+    my $rst = do {
-+        local $/ = undef;
-+        <$fh>;
-+    };
-+    $rst =~ s/^-  − /-  /gm;
-+    $rst =~ s/“/"/gm;
-+    $rst =~ s/”/"/gm;
-+    $rst =~ s/‘/'/gm;
-+    $rst =~ s/’/'/gm;
-+    $rst =~ s/QEMU_SYSTEM_MACRO/|qemu_system|/g;
-+    $rst =~ s/QEMU_SYSTEM_X86_MACRO/|qemu_system_x86|/g;
-+    $rst =~ s/(?=::\n\n +\|qemu)/.. parsed-literal/g;
-+    $rst =~ s/:\n\n::$/::/gm;
-+
-+    # Fix up the invalid reference format makeinfo/pandoc emit:
-+    # `Some string here <#anchorname>`__
-+    # should be:
-+    # :ref:`anchorname`
-+    $rst =~ s/\`[^<`]+\<\#([^>]+)\>\`__/:ref:`$1`/gm;
-+    print $rst;
-+
-+    close $fh or die "error on close: $!";
-+    print "ERST\n";
-+}
-+
-+# Read the whole .hx input file.
-+while (<>) {
-+    # Always print the current line
-+    print;
-+    if (/STEXI/) {
-+        $reading_texi = 1;
-+        $texiblock = '';
-+        next;
-+    }
-+    if (/ETEXI/) {
-+        $reading_texi = 0;
-+        # dump RST version of block
-+        output_rstblock($texiblock);
-+        next;
-+    }
-+    if ($reading_texi) {
-+        # Accumulate the texi into a string
-+        # but drop findex entries as they will confuse makeinfo
-+        next if /^\@findex/;
-+        $texiblock .= $_;
-+    }
-+}
-+
-+die "Unexpectedly still in texi block at EOF" if $reading_texi;
+ Device URL Syntax
+ ~~~~~~~~~~~~~~~~~
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 37b5c75cf2e..62b7f3b38a6 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -448,7 +448,17 @@ cache, size is 10KB, policy is write-back, the cache Line size is 8 bytes:
+ 
+ ETEXI
+ SRST
+-``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``; \ ``-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``; \ ``-numa dist,src=source,dst=destination,val=distance``; \ ``-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]``; \ ``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``; \ ``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
++``-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
++  \ 
++``-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=initiator]``
++  \
++``-numa dist,src=source,dst=destination,val=distance``
++  \ 
++``-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]``
++  \ 
++``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``
++  \ 
++``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
+     Define a NUMA node and assign RAM and VCPUs to it. Set the NUMA
+     distance from a source node to a destination node. Set the ACPI
+     Heterogeneous Memory Attributes for the given nodes.
+@@ -687,7 +697,9 @@ driver=@var{driver},property=@var{prop},value=@var{value}.  The
+ longhand syntax works even when @var{driver} contains a dot.
+ ETEXI
+ SRST
+-``-global driver.prop=value``; \ ``-global driver=driver,property=property,value=value``
++``-global driver.prop=value``
++  \ 
++``-global driver=driver,property=property,value=value``
+     Set default value of driver's property prop to value, e.g.:
+ 
+     .. parsed-literal::
+@@ -788,7 +800,7 @@ SRST
+     it. This only effects when boot priority is changed by bootindex
+     options. The default is non-strict boot.
+ 
+-    ::
++    .. parsed-literal::
+ 
+         # try to boot from network first, then from hard disk
+         |qemu_system_x86| -boot order=nc
+@@ -1618,7 +1630,9 @@ STEXI
+ Use @var{file} as floppy disk 0/1 image (@pxref{disk_images}).
+ ETEXI
+ SRST
+-``-fda file``; \ ``-fdb file``
++``-fda file``
++  \
++``-fdb file``
+     Use file as floppy disk 0/1 image (see
+     :ref:`disk_005fimages`).
+ ERST
+@@ -1641,7 +1655,13 @@ STEXI
+ Use @var{file} as hard disk 0, 1, 2 or 3 image (@pxref{disk_images}).
+ ETEXI
+ SRST
+-``-hda file``; \ ``-hdb file``; \ ``-hdc file``; \ ``-hdd file``
++``-hda file``
++  \
++``-hdb file``
++  \ 
++``-hdc file``
++  \ 
++``-hdd file``
+     Use file as hard disk 0, 1, 2 or 3 image (see
+     :ref:`disk_005fimages`).
+ ERST
+@@ -2295,15 +2315,15 @@ SRST
+         the ``write-cache`` option of block guest devices (as in
+         ``-device``). The modes correspond to the following settings:
+ 
+-        ::
+-
+-            �            │ cache.writeback   cache.direct   cache.no-flush
+-            ─────────────┼─────────────────────────────────────────────────
+-            writeback    │ on                off            off
+-            none         │ on                on             off
+-            writethrough │ off               off            off
+-            directsync   │ off               on             off
+-            unsafe       │ on                off            on
++        =============  ===============   ============   ==============
++        \              cache.writeback   cache.direct   cache.no-flush
++        =============  ===============   ============   ==============
++        writeback      on                off            off
++        none           on                on             off
++        writethrough   off               off            off
++        directsync     off               on             off
++        unsafe         on                off            on
++        =============  ===============   ============   ==============
+ 
+         The default mode is ``cache=writeback``.
+ 
+@@ -2594,7 +2614,13 @@ Specifies the tag name to be used by the guest to mount this export point.
+ 
+ ETEXI
+ SRST
+-``-fsdev local,id=id,path=path,security_model=security_model [,writeout=writeout][,readonly][,fmode=fmode][,dmode=dmode] [,throttling.option=value[,throttling.option=value[,...]]]``; \ ``-fsdev proxy,id=id,socket=socket[,writeout=writeout][,readonly]``; \ ``-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=writeout][,readonly]``; \ ``-fsdev synth,id=id[,readonly]``
++``-fsdev local,id=id,path=path,security_model=security_model [,writeout=writeout][,readonly][,fmode=fmode][,dmode=dmode] [,throttling.option=value[,throttling.option=value[,...]]]``
++  \ 
++``-fsdev proxy,id=id,socket=socket[,writeout=writeout][,readonly]``
++  \
++``-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=writeout][,readonly]``
++  \
++``-fsdev synth,id=id[,readonly]``
+     Define a new file system device. Valid options are:
+ 
+     ``local``
+@@ -2791,7 +2817,13 @@ would still return entries from other devices).
+ @end table
+ ETEXI
+ SRST
+-``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``; \ ``-virtfs proxy,socket=socket,mount_tag=mount_tag [,writeout=writeout][,readonly]``; \ ``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``; \ ``-virtfs synth,mount_tag=mount_tag``
++``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``
++  \ 
++``-virtfs proxy,socket=socket,mount_tag=mount_tag [,writeout=writeout][,readonly]``
++  \ 
++``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``
++  \
++``-virtfs synth,mount_tag=mount_tag``
+     Define a new filesystem device and expose it to the guest using a
+     virtio-9p-device. The general form of a Virtual File system
+     pass-through options are:
+@@ -3568,7 +3600,7 @@ of 1152x900x8 for people who wish to use OBP.
+ 
+ ETEXI
+ SRST
+-``-g widthxheight[xdepth]``
++``-g`` *width*\ ``x``\ *height*\ ``[x``\ *depth*\ ``]``
+     Set the initial graphical resolution and depth (PPC, SPARC only).
+ 
+     For PPC the default is 800x600x32.
+@@ -4847,7 +4879,7 @@ SRST
+         For example, to redirect host X11 connection from screen 1 to
+         guest screen 0, use the following:
+ 
+-        ::
++        .. parsed-literal::
+ 
+             # on the host
+             |qemu_system| -nic user,hostfwd=tcp:127.0.0.1:6001-:6000
+@@ -4857,7 +4889,7 @@ SRST
+         To redirect telnet connections from host port 5555 to telnet
+         port on the guest, use the following:
+ 
+-        ::
++        .. parsed-literal::
+ 
+             # on the host
+             |qemu_system| -nic user,hostfwd=tcp::5555-:23
+@@ -4875,7 +4907,7 @@ SRST
+         You can either use a chardev directly and have that one used
+         throughout QEMU's lifetime, like in the following example:
+ 
+-        ::
++        .. parsed-literal::
+ 
+             # open 10.10.1.1:4321 on bootup, connect 10.0.2.100:1234 to it whenever
+             # the guest accesses it
+@@ -4885,7 +4917,7 @@ SRST
+         by the guest, so that QEMU behaves similar to an inetd process
+         for that virtual server:
+ 
+-        ::
++        .. parsed-literal::
+ 
+             # call "netcat 10.10.1.1 4321" on every TCP connection to 10.0.2.100:1234
+             # and connect the TCP stream to its stdin/stdout
+@@ -4912,12 +4944,12 @@ SRST
+ 
+     Examples:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         #launch a QEMU instance with the default network script
+         |qemu_system| linux.img -nic tap
+ 
+-    ::
++    .. parsed-literal::
+ 
+         #launch a QEMU instance with two NICs, each one connected
+         #to a TAP device
+@@ -4925,7 +4957,7 @@ SRST
+                 -netdev tap,id=nd0,ifname=tap0 -device e1000,netdev=nd0 \
+                 -netdev tap,id=nd1,ifname=tap1 -device rtl8139,netdev=nd1
+ 
+-    ::
++    .. parsed-literal::
+ 
+         #launch a QEMU instance with the default network helper to
+         #connect a TAP device to bridge br0
+@@ -4942,13 +4974,13 @@ SRST
+ 
+     Examples:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         #launch a QEMU instance with the default network helper to
+         #connect a TAP device to bridge br0
+         |qemu_system| linux.img -netdev bridge,id=n1 -device virtio-net,netdev=n1
+ 
+-    ::
++    .. parsed-literal::
+ 
+         #launch a QEMU instance with the default network helper to
+         #connect a TAP device to bridge qemubr0
+@@ -4964,7 +4996,7 @@ SRST
+ 
+     Example:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         # launch a first QEMU instance
+         |qemu_system| linux.img \
+@@ -4991,7 +5023,7 @@ SRST
+ 
+     Example:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         # launch one QEMU instance
+         |qemu_system| linux.img \
+@@ -5008,7 +5040,7 @@ SRST
+ 
+     Example (User Mode Linux compat.):
+ 
+-    ::
++    .. parsed-literal::
+ 
+         # launch QEMU instance (note mcast address selected is UML's default)
+         |qemu_system| linux.img \
+@@ -5074,7 +5106,7 @@ SRST
+     For example, to attach a VM running on host 4.3.2.1 via L2TPv3 to
+     the bridge br-lan on the remote Linux host 1.2.3.4:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         # Setup tunnel on linux host using raw ip as encapsulation
+         # on 1.2.3.4
+@@ -5102,7 +5134,7 @@ SRST
+ 
+     Example:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         # launch vde switch
+         vde_switch -F -sock /tmp/myswitch
+@@ -5731,7 +5763,9 @@ The available backends are:
+ 
+     ``path`` specifies the path to the tty. ``path`` is required.
+ 
+-``-chardev parallel,id=id,path=path``; \ ``-chardev parport,id=id,path=path``
++``-chardev parallel,id=id,path=path``
++  \
++``-chardev parport,id=id,path=path``
+     ``parallel`` is only available on Linux, FreeBSD and DragonFlyBSD
+     hosts.
+ 
+@@ -6569,6 +6603,7 @@ utilization will be incorrect, not taking into account guest idle time.
+ ETEXI
+ SRST
+ ``-overcommit mem-lock=on|off``
++  \ 
+ ``-overcommit cpu-pm=on|off``
+     Run qemu with hints about host resource overcommit. The default is
+     to assume that host overcommits all resources.
+@@ -6607,7 +6642,7 @@ SRST
+     use case. The latter is allowing to start QEMU from within gdb and
+     establish the connection via a pipe:
+ 
+-    ::
++    .. parsed-literal::
+ 
+         (gdb) target remote | exec |qemu_system| -gdb stdio ...
+ ERST
+@@ -7196,7 +7231,9 @@ be used to change settings (such as migration parameters) prior to issuing
+ the migrate_incoming to allow the migration to begin.
+ ETEXI
+ SRST
+-``-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]``; \ ``-incoming rdma:host:port[,ipv4][,ipv6]``
++``-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]``
++  \ 
++``-incoming rdma:host:port[,ipv4][,ipv6]``
+     Prepare for incoming migration, listen on a given tcp port.
+ 
+ ``-incoming unix:socketpath``
+@@ -7537,27 +7574,8 @@ HXCOMM HX does not support conditional compilation of text.
+ ETEXI
+ SRST
+ ``-trace [[enable=]pattern][,events=file][,file=file]``
+-    Specify tracing options.
++  .. include:: ../qemu-option-trace.rst.inc
+ 
+-    ``[enable=]pattern``
+-        Immediately enable events matching pattern (either event name or
+-        a globbing pattern). This option is only available if QEMU has
+-        been compiled with the simple, log or ftrace tracing backend. To
+-        specify multiple events or patterns, specify the ``-trace``
+-        option multiple times.
+-
+-        Use ``-trace help`` to print a list of names of trace points.
+-
+-    ``events=file``
+-        Immediately enable events listed in file. The file must contain
+-        one event name (as listed in the ``trace-events-all`` file) per
+-        line; globbing patterns are accepted too. This option is only
+-        available if QEMU has been compiled with the simple, log or
+-        ftrace tracing backend.
+-
+-    ``file=file``
+-        Log output traces to file. This option is only available if QEMU
+-        has been compiled with the simple tracing backend.
+ ERST
+ DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
+     "-plugin [file=]<file>[,arg=<string>]\n"
+@@ -8749,7 +8767,7 @@ SRST
+         which specify the queue number of cryptodev backend, the default
+         of queues is 1.
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| \
+                [...] \
+@@ -8768,7 +8786,7 @@ SRST
+         specify the queue number of cryptodev backend for multiqueue
+         vhost-user, the default of queues is 1.
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| \
+                [...] \
+@@ -8778,6 +8796,7 @@ SRST
+                [...]
+ 
+     ``-object secret,id=id,data=string,format=raw|base64[,keyid=secretid,iv=string]``
++      \ 
+     ``-object secret,id=id,file=filename,format=raw|base64[,keyid=secretid,iv=string]``
+         Defines a secret to store a password, encryption key, or some
+         other sensitive data. The sensitive data can either be passed
+@@ -8805,7 +8824,7 @@ SRST
+ 
+         The simplest (insecure) usage is to provide the secret inline
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| -object secret,id=sec0,data=letmein,format=raw
+ 
+@@ -8849,7 +8868,7 @@ SRST
+         ``key.b64`` and specify that to be used to decrypt the user
+         password. Pass the contents of ``iv.b64`` to the second secret
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| \
+                  -object secret,id=secmaster0,format=base64,file=key.b64 \
+@@ -8898,7 +8917,7 @@ SRST
+ 
+         e.g to launch a SEV guest
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system_x86| \
+                  ......
+@@ -8919,7 +8938,7 @@ SRST
+         An example authorization object to validate a x509 distinguished
+         name would look like:
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| \
+                  ...
+@@ -8970,7 +8989,7 @@ SRST
+         An example authorization object to validate a SASL username
+         would look like:
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| \
+                  ...
+@@ -8989,7 +9008,7 @@ SRST
+         An example authorization object to validate a TLS x509
+         distinguished name would look like:
+ 
+-        ::
++        .. parsed-literal::
+ 
+              # |qemu_system| \
+                  ...
 -- 
 2.20.1
 
