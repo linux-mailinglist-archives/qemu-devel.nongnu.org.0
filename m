@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634B317BB9A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:25:15 +0100 (CET)
-Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72EE17BB9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 12:26:22 +0100 (CET)
+Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAB6Q-0005gr-AG
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:25:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59299)
+	id 1jAB7V-0007P5-P0
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 06:26:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jAB24-0006VG-9w
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:20:45 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jAAwq-0004ce-SI
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:15:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jAB22-0008ST-Ow
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:20:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59432)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jAAwo-0004uW-RF
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:15:20 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33951)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jAB22-0008PR-HK
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 06:20:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jAB20-0000Uv-Kd
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 11:20:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4D9462E80C9
- for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 11:20:40 +0000 (UTC)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jAAwm-0004s6-Vg; Fri, 06 Mar 2020 06:15:18 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z15so1900895wrl.1;
+ Fri, 06 Mar 2020 03:15:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=oCZBJIEBCvrQGpahK+7VEXYVj3F5dRm7ZwQ1Yq1AzY0=;
+ b=OhX4W5/AlTFIKNZ37yDRGA6A48yphq+SKvRlOfttruPg8Uq3UMALwp56LNiU6pk68y
+ zvB4GkNnE1sUNSpWibwC1bK+r6gcd7ouwLMRmfNM7LEb2oq6ChL+EGp61YGyd1sETfEq
+ ouO9jYeZiAbwQsLltODvQozg8arG8PH1ml309hrl8MPaHmm67HE9vWcpyz4RNqmta2Ra
+ 1IDZlm7BirN13WWdzdp7MhTA4vj+4coMd09lky4f3gecIjNOW83On2dPgo5larY96/mU
+ xYZQscMAumOVe7DcoSWHJpEvtEQJp0SnUhbVada+TYj1suCs+8avVz2nBQAdk3nzU92i
+ A4HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oCZBJIEBCvrQGpahK+7VEXYVj3F5dRm7ZwQ1Yq1AzY0=;
+ b=LPukTCjpq1Lzcam3LiBB/BaPaDXN+PqM6zYWkB2SD67JwdjebhWhTWKrD/rmCmCpKh
+ e7CMPCfGK29UANhh0OB240MXPbhV+EnfgS1HtwxQWAkLdn7xLt+p75X4kO3FANy+zzcK
+ 6VG/SHwRyJNMRgzBzTUEFbMOoDAuLrzGKLNzN3sni/Q/p7dP/vbSkj0a4/jp700xFdfB
+ FU4I1tudaIFvqMnjkXRcGUJVm+PUT1jWg3eeZl3Xm4Ea93HyYWcmKrbeAT+UG9h9r2/+
+ k70n/mBhYaz2LBxKM1N5VcuI4tyDyxOHCcWtSPvXMMtvqqIWF/xh0enHyJTRpxgRSV8V
+ STZA==
+X-Gm-Message-State: ANhLgQ0XbAcczLDWCkd9ddKdBJoWOLxFznyeS4XMXWIAnLKpiTA2qDcd
+ RfdyDnhqCCB2S0sEoP3TJuePj7e7LBW9gOT7PKE=
+X-Google-Smtp-Source: ADFU+vtV/v6zWYMJUyTge1ZpwAuJnmYE+3U+r2vIyHyi+/LCxI9tzZFQcNUcLJCGf/eiliE8uUALh8VwT7HLJyWntAY=
+X-Received: by 2002:adf:cc85:: with SMTP id p5mr3525999wrj.196.1583493314778; 
+ Fri, 06 Mar 2020 03:15:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200224031319.84392-1-gshan@redhat.com>
+In-Reply-To: <20200224031319.84392-1-gshan@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 6 Mar 2020 12:15:01 +0100
+Message-ID: <CAJ+F1C+NiqauJzufJ5qeR78UPBgAZ3tEBSnJu0Y-hv0-nYHuhA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/char/pl011: Enable TxFIFO and async transmission
+To: Gavin Shan <gshan@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Mar 2020 11:13:07 -0000
-From: Stefan Hajnoczi <1862874@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: joshuazhu stefanha
-X-Launchpad-Bug-Reporter: JZ (joshuazhu)
-X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
-References: <158147969798.15014.16243548781914826913.malonedeb@soybean.canonical.com>
-Message-Id: <158349318708.26762.16772221076564419762.malone@gac.canonical.com>
-Subject: [Bug 1862874] Re: java may stuck for a long time in system mode with
- "-cpu max"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f236430df7e7da5b13eeefe75535eadf0e4859a4
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,121 +72,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862874 <1862874@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>,
+ "open list:ARM" <qemu-arm@nongnu.org>, shan.gavin@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have you tried with KVM ("-M accel=3Dkvm")?
+Hi
 
-Please try "strace -o /var/tmp/java.log -f java -version" and upload the
-strace.  If the strace is very large, it's probably safe to remove
-everything after around 10 seconds.
+On Mon, Feb 24, 2020 at 4:13 AM Gavin Shan <gshan@redhat.com> wrote:
+>
+> The depth of TxFIFO can be 1 or 16 depending on LCR[4]. The TxFIFO is
+> disabled when its depth is 1. It's nice to have TxFIFO enabled if
+> possible because more characters can be piled and transmitted at once,
+> which would have less overhead. Besides, we can be blocked because of
+> qemu_chr_fe_write_all(), which isn't nice.
+>
+> This enables TxFIFO if possible. On ther other hand, the asynchronous
+> transmission is enabled if needed, as we did in hw/char/cadence_uart.c
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+> v2: Put write_{count,fifo} into migration subsection
+>     Don't start async IO handle if it has been started, to avoid race
+>     Update with PL011_FLAG_{TXFF,TXFE} on changing write_count
+> ---
+>  hw/char/pl011.c         | 105 +++++++++++++++++++++++++++++++++++++---
+>  include/hw/char/pl011.h |   3 ++
+>  2 files changed, 102 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+> index 13e784f9d9..de5c4254fe 100644
+> --- a/hw/char/pl011.c
+> +++ b/hw/char/pl011.c
+> @@ -169,6 +169,73 @@ static void pl011_set_read_trigger(PL011State *s)
+>          s->read_trigger =3D 1;
+>  }
+>
+> +static gboolean pl011_xmit(GIOChannel *chan, GIOCondition cond, void *op=
+aque)
+> +{
+> +    PL011State *s =3D (PL011State *)opaque;
 
--- =
+Useless casts, perhaps use PL011() instead?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862874
+> +    int ret;
+> +
+> +    /* Drain FIFO if there is no backend */
+> +    if (!qemu_chr_fe_backend_connected(&s->chr)) {
+> +        s->write_count =3D 0;
+> +        s->flags &=3D ~PL011_FLAG_TXFF;
+> +        s->flags |=3D PL011_FLAG_TXFE;
+> +        return FALSE;
 
-Title:
-  java may stuck for a long time in system mode with "-cpu max"
+Perhaps use G_SOURCE_REMOVE ?
 
-Status in QEMU:
-  New
+> +    }
+> +
+> +    /* Nothing to do */
+> +    if (!s->write_count) {
+> +        return FALSE;
+> +    }
+> +
+> +    ret =3D qemu_chr_fe_write(&s->chr, s->write_fifo, s->write_count);
+> +    if (ret > 0) {
+> +        s->write_count -=3D ret;
+> +        memmove(s->write_fifo, s->write_fifo + ret, s->write_count);
+> +        s->flags &=3D ~PL011_FLAG_TXFF;
+> +        if (!s->write_count) {
+> +            s->flags |=3D PL011_FLAG_TXFE;
+> +        }
+> +    }
+> +
+> +    if (s->write_count) {
+> +        s->watch_tag =3D qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_=
+HUP,
+> +                                             pl011_xmit, s);
+> +        if (!s->watch_tag) {
+> +            s->write_count =3D 0;
+> +            s->flags &=3D ~PL011_FLAG_TXFF;
+> +            s->flags |=3D PL011_FLAG_TXFE;
+> +            return FALSE;
+> +        }
+> +    }
+> +
+> +    s->int_level |=3D PL011_INT_TX;
+> +    pl011_update(s);
+> +    return FALSE;
+> +}
+> +
+> +static void pl011_write_fifo(void *opaque, const unsigned char *buf, int=
+ size)
+> +{
+> +    PL011State *s =3D (PL011State *)opaque;
+> +    int depth =3D (s->lcr & 0x10) ? 16 : 1;
+> +
+> +    if (size >=3D (depth - s->write_count)) {
 
-Bug description:
-  Bug Description:
-  Run "java -version" in guest VM, java may stuck for a long time (several =
-hours) and then recover.
+parenthesis could be dropped
 
-  Steps to reproduce:
-  1. Launch VM by attached simple script: launch.sh
-  2. Execute "java -version" and then print "date" in a loop
-      while :
-      do
-        /home/bot/jdk/bin/java -version
-        date
-      done
-  3. A long time gap will be observed: may > 24 hours.
+> +        size =3D depth - s->write_count;
+> +    }
+> +
 
-  Technical details:
-  * host: x86_64 Linux 4.15.0-70-generic
-  * qemu v4.2.0
-  * java: tried two versions: openjdk-11-jre-headless or compiled java-13 =
+Why make a function that accepts size !=3D 1 (and may silently drop
+data), when the only caller is pl011_write_fifo(opaque, &ch, 1); ?
 
-  * command-line: (See details in launch.sh)
-  /home/bot/qemu/qemu-build/qemu-4.2.0/binaries/bin/qemu-system-x86_64 \
-    -drive "file=3D${img},format=3Dqcow2" \
-    -drive "file=3D${user_data},format=3Draw" \
-    -cpu max \
-    -m 24G \
-    -serial mon:stdio \
-    -smp 8 \
-    -nographic \
-  ;
+> +    if (size > 0) {
 
-  * Observed by java core dump generated by "kill -SIGSEGV" when java stuck=
-ed:
-  Different pthreads are blocked on their own condition variables:
+I don't think other cases are supposed to happen.
 
-    Id   Target Id         Frame
-    1    Thread 0x7f48a041a080 (LWP 22470) __GI_raise (sig=3Dsig@entry=3D6)
-      at ../sysdeps/unix/sysv/linux/raise.c:51
-    2    Thread 0x7f487197d700 (LWP 22473) 0x00007f489f5c49f3 in futex_wait=
-_cancelable (private=3D<optimized out>, expected=3D0, futex_word=3D0x7f4898=
-0197c0)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:88
-    3    Thread 0x7f4861b89700 (LWP 22483) 0x00007f489f5c4ed9 in futex_relt=
-imed_wait_cancelable (private=3D<optimized out>, reltime=3D0x7f4861b88960, =
-expected=3D0,
-      futex_word=3D0x7f489801b084)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:142
-    4    Thread 0x7f4861e8c700 (LWP 22480) 0x00007f489f5c76d6 in futex_abst=
-imed_wait_cancelable (private=3D0, abstime=3D0x0, expected=3D0, futex_word=
-=3D0x7f48980107c0)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-    5    Thread 0x7f4861c8a700 (LWP 22482) 0x00007f489f5c4ed9 in futex_relt=
-imed_wait_cancelable (private=3D<optimized out>, reltime=3D0x7f4861c89800, =
-expected=3D0,
-      futex_word=3D0x7f489801ed44)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:142
-    6    Thread 0x7f48a0418700 (LWP 22471) 0x00007f4880b13200 in ?? ()
-    7    Thread 0x7f48703ea700 (LWP 22478) 0x00007f489f5c49f3 in futex_wait=
-_cancelable (private=3D<optimized out>, expected=3D0, futex_word=3D0x7f4898=
-01dfc0)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:88
-    8    Thread 0x7f48702e9700 (LWP 22479) 0x00007f489f5c49f3 in futex_wait=
-_cancelable (private=3D<optimized out>, expected=3D0, futex_word=3D0x7f4898=
-38cd84)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:88
-    9    Thread 0x7f4870f71700 (LWP 22475) 0x00007f489f5c49f3 in futex_wait=
-_cancelable (private=3D<optimized out>, expected=3D0, futex_word=3D0x7f4898=
-01a300)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:88
-    10   Thread 0x7f487187b700 (LWP 22474) 0x00007f489f5c76d6 in futex_abst=
-imed_wait_cancelable (private=3D0, abstime=3D0x0, expected=3D0, futex_word=
-=3D0x7f48980cf770)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-    11   Thread 0x7f4871a7f700 (LWP 22472) 0x00007f489f5c76d6 in futex_abst=
-imed_wait_cancelable (private=3D0, abstime=3D0x0, expected=3D0, futex_word=
-=3D0x7f489809ba30)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-    12   Thread 0x7f4861d8b700 (LWP 22481) 0x00007f489f5c4ed9 in futex_relt=
-imed_wait_cancelable (private=3D<optimized out>, reltime=3D0x7f4861d8a680, =
-expected=3D0,
-      futex_word=3D0x7f489801ed44)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:142
-    13   Thread 0x7f48704ec700 (LWP 22477) 0x00007f489f5c4ed9 in futex_relt=
-imed_wait_cancelable (private=3D<optimized out>, reltime=3D0x7f48704eb910, =
-expected=3D0,
-      futex_word=3D0x7f489801d120)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:142
-    14   Thread 0x7f4870e6f700 (LWP 22476) 0x00007f489f5c4ed9 in futex_relt=
-imed_wait_cancelable (private=3D<optimized out>, reltime=3D0x7f4870e6eb20, =
-expected=3D0,
-      futex_word=3D0x7f489828abd0)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:142
+> +        memcpy(s->write_fifo + s->write_count, buf, size);
+> +        s->write_count +=3D size;
+> +        if (s->write_count >=3D depth) {
+> +            s->flags |=3D PL011_FLAG_TXFF;
+> +        }
+> +        s->flags &=3D ~PL011_FLAG_TXFE;
+> +    }
+> +
+> +    if (!s->watch_tag) {
+> +        pl011_xmit(NULL, G_IO_OUT, s);
+> +    }
+> +}
+> +
+>  static void pl011_write(void *opaque, hwaddr offset,
+>                          uint64_t value, unsigned size)
+>  {
+> @@ -179,13 +246,8 @@ static void pl011_write(void *opaque, hwaddr offset,
+>
+>      switch (offset >> 2) {
+>      case 0: /* UARTDR */
+> -        /* ??? Check if transmitter is enabled.  */
+>          ch =3D value;
+> -        /* XXX this blocks entire thread. Rewrite to use
+> -         * qemu_chr_fe_write and background I/O callbacks */
+> -        qemu_chr_fe_write_all(&s->chr, &ch, 1);
+> -        s->int_level |=3D PL011_INT_TX;
+> -        pl011_update(s);
+> +        pl011_write_fifo(opaque, &ch, 1);
+>          break;
+>      case 1: /* UARTRSR/UARTECR */
+>          s->rsr =3D 0;
+> @@ -207,7 +269,16 @@ static void pl011_write(void *opaque, hwaddr offset,
+>          if ((s->lcr ^ value) & 0x10) {
+>              s->read_count =3D 0;
+>              s->read_pos =3D 0;
+> +
+> +            if (s->watch_tag) {
+> +                g_source_remove(s->watch_tag);
+> +                s->watch_tag =3D 0;
+> +            }
+> +            s->write_count =3D 0;
+> +            s->flags &=3D ~PL011_FLAG_TXFF;
+> +            s->flags |=3D PL011_FLAG_TXFE;
+>          }
+> +
+>          s->lcr =3D value;
+>          pl011_set_read_trigger(s);
+>          break;
+> @@ -292,6 +363,24 @@ static const MemoryRegionOps pl011_ops =3D {
+>      .endianness =3D DEVICE_NATIVE_ENDIAN,
+>  };
+>
+> +static bool pl011_write_fifo_needed(void *opaque)
+> +{
+> +    PL011State *s =3D (PL011State *)opaque;
+> +    return s->write_count > 0;
+> +}
+> +
+> +static const VMStateDescription vmstate_pl011_write_fifo =3D {
+> +    .name =3D "pl011/write_fifo",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .needed =3D pl011_write_fifo_needed,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_INT32(write_count, PL011State),
+> +        VMSTATE_UINT8_ARRAY(write_fifo, PL011State, 16),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_pl011 =3D {
+>      .name =3D "pl011",
+>      .version_id =3D 2,
+> @@ -314,6 +403,10 @@ static const VMStateDescription vmstate_pl011 =3D {
+>          VMSTATE_INT32(read_count, PL011State),
+>          VMSTATE_INT32(read_trigger, PL011State),
+>          VMSTATE_END_OF_LIST()
+> +    },
+> +    .subsections =3D (const VMStateDescription * []) {
+> +        &vmstate_pl011_write_fifo,
+> +        NULL
+>      }
+>  };
+>
+> diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
+> index 14187165c6..9d1c24db48 100644
+> --- a/include/hw/char/pl011.h
+> +++ b/include/hw/char/pl011.h
+> @@ -38,6 +38,7 @@ typedef struct PL011State {
+>      uint32_t int_enabled;
+>      uint32_t int_level;
+>      uint32_t read_fifo[16];
+> +    uint8_t  write_fifo[16];
+>      uint32_t ilpr;
+>      uint32_t ibrd;
+>      uint32_t fbrd;
+> @@ -45,6 +46,8 @@ typedef struct PL011State {
+>      int read_pos;
+>      int read_count;
+>      int read_trigger;
+> +    int write_count;
+> +    guint watch_tag;
+>      CharBackend chr;
+>      qemu_irq irq[6];
+>      const unsigned char *id;
+> --
+> 2.23.0
+>
+>
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862874/+subscriptions
+Looks ok otherwise
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
