@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6AC17B94F
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:32:25 +0100 (CET)
-Received: from localhost ([::1]:33432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837F917B94E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 10:32:23 +0100 (CET)
+Received: from localhost ([::1]:33430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jA9LE-00037i-PH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:32:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34966)
+	id 1jA9LC-00037J-Id
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 04:32:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jA9K6-00028M-8j
+ (envelope-from <bounces@canonical.com>) id 1jA9K6-00028S-9h
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:31:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jA9K4-00089p-MS
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:31:13 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44798)
+ (envelope-from <bounces@canonical.com>) id 1jA9K4-0008Ac-Pg
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:31:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jA9K4-00082i-De
+ id 1jA9K4-00085z-JM
  for qemu-devel@nongnu.org; Fri, 06 Mar 2020 04:31:12 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jA9K1-0006cf-HR
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:31:09 +0000
+ id 1jA9K2-0006dN-8X
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 09:31:10 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 45B8E2E80C7
+ by loganberry.canonical.com (Postfix) with ESMTP id BB0172E80F4
  for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 09:31:07 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Mar 2020 09:21:28 -0000
-From: Ottavio Caruso <1743191@bugs.launchpad.net>
+Date: Fri, 06 Mar 2020 09:22:43 -0000
+From: Andreas Gustafsson <gson@gson.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,9 +42,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr philmd
 X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Ottavio Caruso (ottaviocr)
+X-Launchpad-Bug-Modifier: Andreas Gustafsson (gson)
 References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
-Message-Id: <158348648883.12830.8917092964521940305.malone@soybean.canonical.com>
+Message-Id: <158348656381.26177.1832242074650808603.malone@gac.canonical.com>
 Subject: [Bug 1743191] Re: Interacting with NetBSD serial console boot blocks
  no longer works
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e7a8cd4c8e1adbd9e598638315bc682f8b52d580
+X-Launchpad-Hash: c5601b37949201abac9d9c28c0d3cd1ee8b4e8a1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,12 +70,10 @@ Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@kraxel-redhat,
+Gerd Hommann wrote:
+> Workaround: add "-vga none" to the qemu command line.
 
-I guess "-vga none" is implicit when using -nographic?
-
-However, for the sake of trying, I've added "-vga none" and it won't
-solve it for me (when using default bios).
+This supposed workaround does not work for me.
 
 -- =
 
