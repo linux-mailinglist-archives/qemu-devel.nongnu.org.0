@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7942E17BDD2
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 14:09:50 +0100 (CET)
-Received: from localhost ([::1]:36536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E0F17BE50
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Mar 2020 14:26:56 +0100 (CET)
+Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jACjd-00053t-AZ
-	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 08:09:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53731)
+	id 1jAD0B-00031X-05
+	for lists+qemu-devel@lfdr.de; Fri, 06 Mar 2020 08:26:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1jACio-0004cU-QJ
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:08:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1jACz8-0002YE-TC
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:25:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1jACin-0008RF-Mt
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:08:58 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52556)
+ (envelope-from <bounces@canonical.com>) id 1jACz3-0007mW-U1
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:25:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51116)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1jACin-0008JV-DR
- for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:08:57 -0500
-Received: by mail-wm1-x344.google.com with SMTP id p9so2347161wmc.2
- for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 05:08:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=YI79KPeQMiqAjmTP5kXb/9g2Wdnldi1gzLXBCSsc7Jo=;
- b=uihzrtfgHX9sLr2Y6n2y9g4ns79Y+jQ2vsOy9xg6yPzBCmKQcU3SRMAJlWYLcTZg5Q
- 40AwTYzaE/H8PbuVFIYHt1xuc5StowB44d+Mt+thIZ3LMKpvKWnPC02Af3/KfSLDXaIb
- pbP+FvjEUYcA3oRrLig7hFVqwW4W8VIo/HR+KhTcJCIzjvBYU5Q7X/ECQTzbRdX96NZr
- NwX4yAdXcQgVK71u5BptIJnJtS7Wl51ID6NbWdwDh3eJyOhPqzWX/gryasyxMI7DkrXv
- Z5anzurZR2eCFY1L6O4ZMzovbs12mW4d47APN0VkidwoFJd9FufMdREinuLNCib+9rm+
- +WMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YI79KPeQMiqAjmTP5kXb/9g2Wdnldi1gzLXBCSsc7Jo=;
- b=tcVMoOeJW+56YWX8AHnUrrJtiiXaMGuszo0QTz+Ge1644SMOSBjVh/okWnQKr1dIV+
- P82iFiwKEPGgEGJ92VuKxiGMh7yn+cv0eDHGgz5uU1sLPvEeoi129hgETE1TVFrgU64V
- 8aY02LbjlDc2CLacb7YNXeWrGWBliyM1BQJn9djm8Ixs7etTM1nxncrRqzho+j/YA2kL
- 2Ko1gKeLzwDX8h9u6HJVXjIlX7qKnd2uWHOCYe8maJB68YGcfzMyrIU9B4J9TZ3cZPKt
- SP1CH4NabywjtAMx05lnc/te8YH/u4IRqw0E2U3SfhCfx2Ygg4tOaPuiDc5VZadfxtSL
- SebA==
-X-Gm-Message-State: ANhLgQ0HN7nEMf/9FTFXkYPx25A488ZNvsoyjaS098uQtw5Rsz4O89Gm
- cWjEdrCLhB8BRUrAKvdadaE=
-X-Google-Smtp-Source: ADFU+vtNoAHGnVz2yE+YdmXSRB3isEPlPVYRiXkkb7UTMrAMzwwkdGBip0lK8gDM/1LKXobxmPpGtA==
-X-Received: by 2002:a05:600c:552:: with SMTP id
- k18mr4074920wmc.171.1583500136085; 
- Fri, 06 Mar 2020 05:08:56 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id w8sm15081235wmm.0.2020.03.06.05.08.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Mar 2020 05:08:54 -0800 (PST)
-Date: Fri, 6 Mar 2020 13:08:53 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: P J P <ppandit@redhat.com>
-Subject: Re: [PATCH v3 2/2] net: tulip: add .can_recieve routine
-Message-ID: <20200306130853.GM1335569@stefanha-x1.localdomain>
-References: <20200303104724.233375-1-ppandit@redhat.com>
- <20200303104724.233375-3-ppandit@redhat.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jACz3-0007Vd-MS
+ for qemu-devel@nongnu.org; Fri, 06 Mar 2020 08:25:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jACz1-0006ZR-PE
+ for <qemu-devel@nongnu.org>; Fri, 06 Mar 2020 13:25:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BDD7C2E80C7
+ for <qemu-devel@nongnu.org>; Fri,  6 Mar 2020 13:25:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="x38akuY2VS0PywU3"
-Content-Disposition: inline
-In-Reply-To: <20200303104724.233375-3-ppandit@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Mar 2020 13:17:45 -0000
+From: tstrike <1813165@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
+ tstrike34 vkuznets
+X-Launchpad-Bug-Reporter: Thomas (himbeere)
+X-Launchpad-Bug-Modifier: tstrike (tstrike34)
+References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
+Message-Id: <158350066522.26815.12160642359431177562.malone@gac.canonical.com>
+Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f5119ae926b9fd6b405e84884bb63e2c982ccf41
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,63 +65,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>, Jason Wang <jasowang@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>, Li Qiang <pangpei.lq@antfin.com>,
- Sven Schnelle <svens@stackframe.org>, Ziming Zhang <ezrakiez@gmail.com>
+Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ok Vitaly I will take a look and report back.
 
---x38akuY2VS0PywU3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-On Tue, Mar 03, 2020 at 04:17:24PM +0530, P J P wrote:
-> diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-> index fbe40095da..757f12c710 100644
-> --- a/hw/net/tulip.c
-> +++ b/hw/net/tulip.c
-> @@ -229,6 +229,18 @@ static bool tulip_filter_address(TULIPState *s, cons=
-t uint8_t *addr)
->      return ret;
->  }
-> =20
-> +static int
-> +tulip_can_receive(NetClientState *nc)
-> +{
-> +    TULIPState *s =3D qemu_get_nic_opaque(nc);
-> +
-> +    if (s->rx_frame_len || tulip_rx_stopped(s)) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813165
 
-Are the required qemu_flush_queued_packets() calls in place so that
-packet transfer wakes up again when .can_receive() transitions from
-false to true?
+Title:
+  KVM internal error. Suberror: 1 emulation failure
 
-(If qemu_flush_queued_packets() is missing then transmission hangs after
-=2Ecan_receive() becomes false.)
+Status in QEMU:
+  New
 
-Stefan
+Bug description:
+  Hello Devs.
 
---x38akuY2VS0PywU3
-Content-Type: application/pgp-signature; name="signature.asc"
+  Having problems getting VM to run with qemu 3.1.0. I should mention
+  it's a nested configuration.
 
------BEGIN PGP SIGNATURE-----
+  2019-01-24 13:46:08.648+0000: starting up libvirt version: 4.10.0, qemu v=
+ersion: 3.1.0, kernel: 4.14.94, hostname: one....
+  LC_ALL=3DC PATH=3D/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/=
+sbin:/usr/local/bin:/usr/local/sbin:/opt/bin HOME=3D/root USER=3Droot QEMU_=
+AUDIO_DRV=3Dnone /usr/bin/kvm -name guest=3Done-266,debug-threads=3Don -S -=
+object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
+ain-1-one-266/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,usb=3Doff,d=
+ump-guest-core=3Doff -cpu Skylake-Client-IBRS,ss=3Don,hypervisor=3Don,tsc_a=
+djust=3Don,clflushopt=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don -m 1024 -real=
+time mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid b219b45d-a2=
+f0-4128-a948-8673a7abf968 -no-user-config -nodefaults -chardev socket,id=3D=
+charmonitor,fd=3D21,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,m=
+ode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device piix3-=
+usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive file=3D/var/lib/one//da=
+tastores/0/266/disk.0,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cach=
+e=3Dnone -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dd=
+rive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1,write-cache=3Don -drive f=
+ile=3D/var/lib/one//datastores/0/266/disk.1,format=3Draw,if=3Dnone,id=3Ddri=
+ve-ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive=
+-ide0-0-0,id=3Dide0-0-0 -netdev tap,fd=3D23,id=3Dhostnet0 -device rtl8139,n=
+etdev=3Dhostnet0,id=3Dnet0,mac=3D02:00:00:76:69:85,bus=3Dpci.0,addr=3D0x3 -=
+chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3D=
+serial0 -vnc 0.0.0.0:266 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D=
+0x2 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 -sandbo=
+x on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
+=3Ddeny -msg timestamp=3Don
+  char device redirected to /dev/pts/1 (label charserial0)
+  KVM internal error. Suberror: 1
+  emulation failure
+  EAX=3D00000001 EBX=3D000f7c2c ECX=3D00000001 EDX=3D00000001
+  ESI=3D00006a26 EDI=3D3ffbdc48 EBP=3D000069e6 ESP=3D000a8000
+  EIP=3D000fd057 EFL=3D00010016 [----AP-] CPL=3D0 II=3D0 A20=3D1 SMM=3D1 HL=
+T=3D0
+  ES =3D0010 00000000 ffffffff 00c09300
+  CS =3D0000 00000000 00000fff 00809b00
+  SS =3D0010 00000000 ffffffff 00c09300
+  DS =3D0010 00000000 ffffffff 00c09300
+  FS =3D0010 00000000 ffffffff 00c09300
+  GS =3D0010 00000000 ffffffff 00c09300
+  LDT=3D0000 00000000 0000ffff 00008200
+  TR =3D0000 00000000 0000ffff 00008b00
+  GDT=3D     10387cfe 0000fe6c
+  IDT=3D     0010387c 00003810
+  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000
+  DR6=3D00000000fffecffc DR7=3D000000000e1e0400
+  EFER=3D0000000000000000
+  Code=3Dcb 66 ba 4d d0 0f 00 e9 c8 fe bc 00 80 0a 00 e8 31 3a ff ff <0f> a=
+a fa fc 66 ba 66 d0 0f 00 e9 b1 fe f3 90 f0 0f ba 2d ac 3b 0f 00 00 72 f3 8=
+b 25 a8 3b
+  2019-01-24T13:47:39.383366Z kvm: terminating on signal 15 from pid 2708 (=
+/usr/sbin/libvirtd)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5iS2QACgkQnKSrs4Gr
-c8hXugf9GwMyICGs0Ch4MVbj5q6kR7jfeTdnm4nKPM+vej0m/2XMObOuBWdhHh1F
-uv+RejKOsIvuMZ567v0FHjnk7n+0ShwvwKerCsDF95m/dKj/ZW9j3ZQWsJdLMILX
-clQT8dtlVLlbAlxDCkJ6KcItbZSzhzSBocqlKuGmi4Nkfyzk9dfOifdV0otO9Fmw
-2qtUKfl7KglfTztBr9J9GtGzcwgL1GW+Hp+oLG4oaBm3yzXBCfyIBBuPiaentwMc
-7fOdFiicm+JZBWDCfcvB6qglQpnXLrtB3HwNzU/WJbgifeaxckYi9gIpsasQNWG8
-d7Owq6UF0OlQ9opOmJqc/xiuzwSWwg==
-=DY8b
------END PGP SIGNATURE-----
+  Someone has an idea whats going wrong here?
 
---x38akuY2VS0PywU3--
+  thanks and cheers
+  t.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813165/+subscriptions
 
