@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D8317CF6F
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Mar 2020 18:26:07 +0100 (CET)
-Received: from localhost ([::1]:51078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B68B17CF68
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Mar 2020 18:24:06 +0100 (CET)
+Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAdDC-0001K2-30
-	for lists+qemu-devel@lfdr.de; Sat, 07 Mar 2020 12:26:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52217)
+	id 1jAdBF-0006lt-EX
+	for lists+qemu-devel@lfdr.de; Sat, 07 Mar 2020 12:24:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jAd9r-0005jW-Pt
- for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:40 -0500
+ (envelope-from <philmd@redhat.com>) id 1jAd9v-0005mF-V4
+ for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jAd9q-0005QO-Kh
- for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26279
+ (envelope-from <philmd@redhat.com>) id 1jAd9u-0005ax-On
+ for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24217
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jAd9q-0005Q6-H0
- for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:38 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jAd9u-0005ZE-L7
+ for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583601758;
+ s=mimecast20190719; t=1583601762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H7T7L99OQDVbIxCTEB+jIvaqywtD0ZftuDW6r9s/Hf0=;
- b=LaD9RS/TI+u42zbfNdAGHZWsckk8ZDRVcXu0VVIoEDJAEj5NxEyRKB2cLPmnnVBYztymou
- MrgOOO8fJIwLGiqxP/b1O1DQOLmHcVPyNKcJ/rDYlKnwxzbQKBPD1Z8RIcxG0lk1UFGJwS
- NpmkJFokk/GwcQJISZK+KnhY1CTHG0Y=
+ bh=sBJ1sudf5WnnIaHPde8WDgODXPCnsbhLM8rbqsSbxFI=;
+ b=fWk/yfGNGrsSHl6SntbZ2KvCKaMxU5xLz3eI8jvS9PNP/vBOAJyKa8iUGYsWdFdhVqTF+z
+ xUkyGcloGnjXi9i4JrHYiPydvoocYLwkKCVJt9WR3/5UtE9bBQiIJeAOnskh5XVDAdxKu7
+ OITgHliKd3N6ybD8xQkC8nvZxIcYM3E=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-TOvEIdJSNI23YAd9C8GNBg-1; Sat, 07 Mar 2020 12:22:35 -0500
-X-MC-Unique: TOvEIdJSNI23YAd9C8GNBg-1
-Received: by mail-wr1-f71.google.com with SMTP id w11so2605729wrp.20
- for <qemu-devel@nongnu.org>; Sat, 07 Mar 2020 09:22:35 -0800 (PST)
+ us-mta-46-87mcYfgiN7Our3ygrlnUPg-1; Sat, 07 Mar 2020 12:22:40 -0500
+X-MC-Unique: 87mcYfgiN7Our3ygrlnUPg-1
+Received: by mail-wr1-f71.google.com with SMTP id y5so1973097wrq.8
+ for <qemu-devel@nongnu.org>; Sat, 07 Mar 2020 09:22:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iKSYfxKjMD7Cb1qgoag60tedE3tMw/hvzBypcSrEkXA=;
- b=gK2By/XmtnR4cFazYNFsTaLjbREagPfMHq3QREzcpOjV75aDwK492Gb2tnwnY5n0hU
- YNFFTfUhdwp5X4//jZ36BoxraUYYXILQ8rXDNDUvHZ+L6LluJsyXI5ow8kw6StyYNhf6
- MA7Re9q+gOE+Ep7oLkxYPYzsWtq4npz40UTaG2DUvxv1XW0aViDXHayVFpA+aYMLias6
- u4yGeJ6TFDRc0fcpfGHLw8gzRpWe/+NW5Iem57mgdSumxXHCt6mOM1q/K7dwMO8jGgd1
- i9ucAFAatidLV8xwUQjPbOyypcmuGekdhXa/6gssCd+ctVb+EhYMdVNkH4gallMmGpsP
- UBFA==
-X-Gm-Message-State: ANhLgQ3qJTO9hdfLA6vbRWE4Uxz0QoXUrBtvnrb39wxUY+0b3W5KffLl
- pOdgb+CLj+4xWvEpjwExKyiIC/WJN47sQlO3ApfxL5WmZh9LdItVRdcVxJoVYGfOv1uQZvFGjGS
- ti6MIMZ8078rJLlo=
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr10512317wmh.22.1583601754228; 
- Sat, 07 Mar 2020 09:22:34 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vvWrC2cd3D+wn8unY4UnsfDnUISFeshpqpt2X7p1OHittKMLP9otmBPzOdrQ3XnDr61wZZEjg==
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr10512292wmh.22.1583601753976; 
- Sat, 07 Mar 2020 09:22:33 -0800 (PST)
+ bh=gH+PqTi7GdMZxsgDCI5jLrLvY6uT/rdhdrDjJ1UgrFU=;
+ b=NeV/lDiY5Gex857HPO7clh4YBIdOYi7l783bfMmEM3PGN0rT44zujJOa6P2MrFzBDB
+ DCWglAkgkNtRyt8kyJcbWnHDcuMg0aPfM1yZRzJQlfld2EkGuEKnb5076HXszLna8PQ8
+ wSw1cWSS00Lp15vKyqkUneDGxnU6qkYHZNSFCHXYsoWxafGO9Nq0YdICEK8hFE5PGGQy
+ E4+RRXlc0rC5iqHqthfC7uaQa+zNpSFiHQjYfLyScWInaWVBESJwrBKZ5Z5xTdAGxyi/
+ U52XZbatH/yWgK88Hg35PYCgoO3W8NdBazEZEYlkqLU6CS+CO98ZAFx8rcJrrDyGyg3M
+ SVTA==
+X-Gm-Message-State: ANhLgQ0iIk1squhAK7cnRZDDiRB+kRkGXAkpfcdqhje2NQ0ctZKbV1WS
+ s4WiHXpM5hMQ7qxYvfYhmZWhdtN32XYP4HL7NMd0GRVnvtcMugK55xcODsiY1b1wQLeVyh5lBte
+ Y/qyHuk2ZYzRABOs=
+X-Received: by 2002:a1c:5fc4:: with SMTP id t187mr8846420wmb.81.1583601758936; 
+ Sat, 07 Mar 2020 09:22:38 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvhCY0Ko3v2KLxDptgqCScrHgxUdUEebQp/4yxib+vRMI2iV+JdmXNuPQRzC0jEUSu1xViK7g==
+X-Received: by 2002:a1c:5fc4:: with SMTP id t187mr8846400wmb.81.1583601758773; 
+ Sat, 07 Mar 2020 09:22:38 -0800 (PST)
 Received: from x1w.redhat.com (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id d15sm52096074wrp.37.2020.03.07.09.22.32
+ by smtp.gmail.com with ESMTPSA id b24sm18074821wmj.13.2020.03.07.09.22.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Mar 2020 09:22:33 -0800 (PST)
+ Sat, 07 Mar 2020 09:22:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] configure: Fix building with SASL on Windows
-Date: Sat,  7 Mar 2020 18:22:21 +0100
-Message-Id: <20200307172222.14764-3-philmd@redhat.com>
+Subject: [PATCH 3/3] tests/docker: Install SASL library to extend code
+ coverage on amd64
+Date: Sat,  7 Mar 2020 18:22:22 +0100
+Message-Id: <20200307172222.14764-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200307172222.14764-1-philmd@redhat.com>
 References: <20200307172222.14764-1-philmd@redhat.com>
@@ -76,8 +77,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,7 +89,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Alexey Pavlov <alexpux@gmail.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?=D0=90=D0=BB=D0=B5=D0=BA=D1=81=D0=B5=D0=B9=20=D0=9F=D0=B0=D0=B2=D0=BB=D0=BE=D0=B2?=
@@ -97,49 +97,30 @@ Cc: Fam Zheng <fam@euphon.net>, Alexey Pavlov <alexpux@gmail.com>,
  =?UTF-8?q?=D0=9C=D0=B5=D1=82=D0=BB=D0=B8=D1=86=D0=BA=D0=B8=D0=B9=20=D0=AE=D1=80=D0=B8=D0=B9=20=D0=92=D0=B8=D0=BA=D1=82=D0=BE=D1=80=D0=BE=D0=B2=D0=B8=D1=87?=
  <winaes@narod.ru>, Biswapriyo Nath <nathbappai@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Youry Metlitsky <winaes@yandex.ru>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Simple Authentication and Security Layer (SASL) library
-re-defines the struct iovec on Win32 [*]. QEMU also re-defines
-it in "qemu/osdep.h". The two definitions then clash on a MinGW
-build.
-We can avoid the SASL definition by defining STRUCT_IOVEC_DEFINED.
-Add the definition to vnc_sasl_cflags if we are uing MinGW.
+Install the SASL library to build the VNC SASL auth protocol code.
 
-[*] https://github.com/cyrusimap/cyrus-sasl/blob/cyrus-sasl-2.1.27/include/=
-sasl.h#L187
-
-Cc: Alexey Pavlov <alexpux@gmail.com>
-Cc: Biswapriyo Nath <nathbappai@gmail.com>
-Cc: Youry Metlitsky <winaes@yandex.ru>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- configure | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/debian-amd64.docker | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index 0c2dd1eb08..0bc87ce42a 100755
---- a/configure
-+++ b/configure
-@@ -3375,7 +3375,13 @@ if test "$vnc" =3D "yes" && test "$vnc_sasl" !=3D "n=
-o" ; then
- int main(void) { sasl_server_init(NULL, "qemu"); return 0; }
- EOF
-   # Assuming Cyrus-SASL installed in /usr prefix
--  vnc_sasl_cflags=3D""
-+  if test "$mingw32" =3D "yes" && test "$iovec" !=3D "yes"; then
-+    # QEMU defines struct iovec in "qemu/osdep.h",
-+    # we don't want libsasl to redefine it in <sasl/sasl.h>.
-+    vnc_sasl_cflags=3D"-DSTRUCT_IOVEC_DEFINED"
-+  else
-+    vnc_sasl_cflags=3D""
-+  fi
-   vnc_sasl_libs=3D"-lsasl2"
-   if compile_prog "$vnc_sasl_cflags" "$vnc_sasl_libs" ; then
-     vnc_sasl=3Dyes
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/do=
+ckerfiles/debian-amd64.docker
+index 3b860af106..0456fc7a0c 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -17,6 +17,7 @@ RUN apt update && \
+         libbz2-dev \
+         liblzo2-dev \
+         librdmacm-dev \
++        libsasl2-dev \
+         libsnappy-dev \
+         libvte-dev
+=20
 --=20
 2.21.1
 
