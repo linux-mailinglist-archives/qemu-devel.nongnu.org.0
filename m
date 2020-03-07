@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E33D17CF69
-	for <lists+qemu-devel@lfdr.de>; Sat,  7 Mar 2020 18:24:25 +0100 (CET)
-Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC5917CF70
+	for <lists+qemu-devel@lfdr.de>; Sat,  7 Mar 2020 18:27:36 +0100 (CET)
+Received: from localhost ([::1]:51090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAdBY-0007Rx-L3
-	for lists+qemu-devel@lfdr.de; Sat, 07 Mar 2020 12:24:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52271)
+	id 1jAdEd-0002XY-DZ
+	for lists+qemu-devel@lfdr.de; Sat, 07 Mar 2020 12:27:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52481)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jAdAC-00067U-ND
- for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:23:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1jAdCJ-0000kN-CK
+ for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:25:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jAdAA-0006LH-20
- for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:59 -0500
-Received: from smtp.lg.ehu.es ([158.227.0.66]:23868 helo=smtp.ehu.eus)
+ (envelope-from <philmd@redhat.com>) id 1jAdCE-00025t-FX
+ for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:25:11 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60368
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <unai.martinezcorral@ehu.eus>)
- id 1jAdA9-0006GA-Mc
- for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:22:58 -0500
-Received: from imsva1.lgp.ehu.es (imsva1.lgp.ehu.es [10.0.3.245])
- by postfix.smtp1.imsva1 (Postfix) with ESMTPS id ACCD13825B;
- Sat,  7 Mar 2020 18:22:55 +0100 (CET)
-Received: from imsva1.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5F2A311004A;
- Sat,  7 Mar 2020 18:22:55 +0100 (CET)
-Received: from imsva1.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 52C98110045;
- Sat,  7 Mar 2020 18:22:55 +0100 (CET)
-Received: from smtp.ehu.eus (unknown [10.0.100.73])
- by imsva1.lgp.ehu.es (Postfix) with ESMTPS;
- Sat,  7 Mar 2020 18:22:55 +0100 (CET)
-Received: from afee69d503a7 (unknown [81.0.0.187])
- by smtp1 (Postfix) with ESMTPSA id 0E3D53852D;
- Sat,  7 Mar 2020 18:22:54 +0100 (CET)
-Date: Sat, 7 Mar 2020 17:22:48 +0000
-From: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 1/9] qemu-binfmt-conf.sh: enforce safe style consistency
-Message-ID: <20200307172248.GA9@afee69d503a7>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jAdCE-00023N-Bg
+ for qemu-devel@nongnu.org; Sat, 07 Mar 2020 12:25:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583601905;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lh90gGYAk8QvLVzs07G5jCYn3W9yhXmJTVrVdNb9rfI=;
+ b=TNkm5VejIbs4dsY/AuxHPsZT4qBE3HnQMDrvuaEhmeDrhypv2ihxUjWyt+Ch3td8MqtjK9
+ eeLgIJw3NCCUNC1bprjo226f7VkBMGGVeENPCKkMURcNe0lTEr5HUPa9h3/qLJO9A7h/fA
+ dQsJ8FGZAlkCA95FgQaBrlqSsGqf0w8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-zXN1k5wWM6u-HqFLjd1C3A-1; Sat, 07 Mar 2020 12:25:03 -0500
+X-MC-Unique: zXN1k5wWM6u-HqFLjd1C3A-1
+Received: by mail-wm1-f72.google.com with SMTP id r19so1732464wmh.1
+ for <qemu-devel@nongnu.org>; Sat, 07 Mar 2020 09:25:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=r+5XvISQl2TUgvJevlL7U7XQgfRJIcGJswdM8a1m8l4=;
+ b=qyE1q57KshfVQfy8/9DZP/+CZS3CaJzL1qs9z7shiPunoTFuKIZ6Gl/P3BvpOPCTG3
+ KBI2+LcJxgkhAVTSmQE/wYK/6qHXoiJpPRv6gea2YG0bY7A+vLd+R8ouUy7O22Gx/0lX
+ GEpCtAK1JMYrTeU+xK41hs64FBWw32pT4I4qLU6Vt3uK/2gthD1RDcWOuM5gARxZS+NJ
+ YvgN8OrV27sUkVxt/9+Ow1FMmxkruqi/zz9MZ9C+sgWuQXHO/TGWzGd/E1jv0GKTSE3s
+ tl49Y3hLfIRkxr6AM034u1vkn1lJEHGifvIYTE1HzeLQ8yhb5/Orjxj3Wpo8+8Tr2wmT
+ 79tA==
+X-Gm-Message-State: ANhLgQ2GouVc9M+rmsw5AAkjZwBqru6kU4dq1FJF2nRHFHUhAy9e7e7z
+ YVL6lHUEBte5gxnkEAItO+h7LwxoEJLi2r6oEmIiCkZ0EHwu1JIcQ2tZjK3F8VhAIEV7YlDcyRM
+ DldQqkEwtD3b4iW8=
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr10152973wmc.129.1583601901950; 
+ Sat, 07 Mar 2020 09:25:01 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvWxxKhmYL2Y+1ED5eaVil7p2rZuumjdO42sE+4uEFZ/I6qFJQdNelbrCK/nvZh0Qll5W+hlw==
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr10152956wmc.129.1583601901704; 
+ Sat, 07 Mar 2020 09:25:01 -0800 (PST)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id m3sm34956351wrx.9.2020.03.07.09.25.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 Mar 2020 09:25:01 -0800 (PST)
+Subject: Re: [PATCH 1/2] cmd646: register cmd646_reset() function in
+ DeviceClass
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, jsnow@redhat.com
+References: <20200307151536.32709-1-mark.cave-ayland@ilande.co.uk>
+ <20200307151536.32709-2-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <caafe241-c7ee-7b8b-685b-9c03a3da02cb@redhat.com>
+Date: Sat, 7 Mar 2020 18:25:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Greylist: ACL 184 matched, not delayed by milter-greylist-4.6.2 (smtp1
- [10.0.100.73]); Sat, 07 Mar 2020 18:22:55 +0100 (CET)
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSVA-9.1.0.1631-8.5.0.1020-25276.001
-X-TM-AS-Result: No-0.108-7.0-31-10
-X-imss-scan-details: No-0.108-7.0-31-10
-X-TMASE-Version: IMSVA-9.1.0.1631-8.5.1020-25276.001
-X-TMASE-Result: 10-0.108400-10.000000
-X-TMASE-MatchedRID: AvuQOGDihJo8mRT0SYY6frBZAi3nrnzbopGQY5bbP3KQsRqSXMRkV//v
- RwcN6CxcWk3vlkEkcgdqAxBaFFZ85HTKrg3nLjv1A9lly13c/gEEa8g1x8eqFzL/GHoao0dVgm7
- WCykPm9Q9E3MQ72s42pG96/hbJzFNSulibHZJx6EvLP1C8DIeOuuLFZZYlisfQ6tklRJO9ij9bM
- g3kSk56LG0WsdjH6wrKrauXd3MZDX371moSn0VOMz/CtjUqsbyxz9rP9TWxuBvW+kI3v1nLJi+R
- f9itKUQlDqYxZzV3eDCaeyUt/P3/ctZSdlP7Xii9SPW45P4yzatXkfeF49j3hKGdgr8x4f4BBSv
- +oarUQsKtuXWKSlXVpNHmClQkxEB+rL5VW+ofZc=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
-X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
- milter-greylist-4.6.2 (postfix.smtp1.imsva1 [10.0.100.73]);
- Sat, 07 Mar 2020 18:22:55 +0100 (CET)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 158.227.0.66
+In-Reply-To: <20200307151536.32709-2-mark.cave-ayland@ilande.co.uk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,78 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Spaces are added before '; then', for consistency.
+On 3/7/20 4:15 PM, Mark Cave-Ayland wrote:
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   hw/ide/cmd646.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+> index 335c060673..2f11d8de24 100644
+> --- a/hw/ide/cmd646.c
+> +++ b/hw/ide/cmd646.c
+> @@ -207,9 +207,9 @@ static void cmd646_set_irq(void *opaque, int channel,=
+ int level)
+>       cmd646_update_irq(pd);
+>   }
+>  =20
+> -static void cmd646_reset(void *opaque)
+> +static void cmd646_reset(DeviceState *dev)
+>   {
+> -    PCIIDEState *d =3D opaque;
+> +    PCIIDEState *d =3D PCI_IDE(dev);
+>       unsigned int i;
+>  =20
+>       for (i =3D 0; i < 2; i++) {
+> @@ -303,7 +303,6 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Er=
+ror **errp)
+>       g_free(irq);
+>  =20
+>       vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
+> -    qemu_register_reset(cmd646_reset, d);
+>   }
+>  =20
+>   static void pci_cmd646_ide_exitfn(PCIDevice *dev)
+> @@ -339,6 +338,7 @@ static void cmd646_ide_class_init(ObjectClass *klass,=
+ void *data)
+>       DeviceClass *dc =3D DEVICE_CLASS(klass);
+>       PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
+>  =20
+> +    dc->reset =3D cmd646_reset;
+>       k->realize =3D pci_cmd646_ide_realize;
+>       k->exit =3D pci_cmd646_ide_exitfn;
+>       k->vendor_id =3D PCI_VENDOR_ID_CMD;
+>=20
 
-All the tests are prefixed with 'x', in order to avoid risky comparisons
-(i.e. a user deliberately trying to provoke a syntax error).
-
-Signed-off-by: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
- scripts/qemu-binfmt-conf.sh | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 9f1580a91c..672ce716b6 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -223,12 +223,12 @@ qemu_check_access() {
- 
- qemu_check_bintfmt_misc() {
-     # load the binfmt_misc module
--    if [ ! -d /proc/sys/fs/binfmt_misc ]; then
-+    if [ ! -d /proc/sys/fs/binfmt_misc ] ; then
-       if ! /sbin/modprobe binfmt_misc ; then
-           exit 1
-       fi
-     fi
--    if [ ! -f /proc/sys/fs/binfmt_misc/register ]; then
-+    if [ ! -f /proc/sys/fs/binfmt_misc/register ] ; then
-       if ! mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc ; then
-           exit 1
-       fi
-@@ -259,10 +259,10 @@ qemu_check_systemd() {
- 
- qemu_generate_register() {
-     flags=""
--    if [ "$CREDENTIAL" = "yes" ] ; then
-+    if [ "x$CREDENTIAL" = "xyes" ] ; then
-         flags="OC"
-     fi
--    if [ "$PERSISTENT" = "yes" ] ; then
-+    if [ "x$PERSISTENT" = "xyes" ] ; then
-         flags="${flags}F"
-     fi
- 
-@@ -300,18 +300,18 @@ qemu_set_binfmts() {
-         mask=$(eval echo \$${cpu}_mask)
-         family=$(eval echo \$${cpu}_family)
- 
--        if [ "$magic" = "" ] || [ "$mask" = "" ] || [ "$family" = "" ] ; then
-+        if [ "x$magic" = "x" ] || [ "x$mask" = "x" ] || [ "x$family" = "x" ] ; then
-             echo "INTERNAL ERROR: unknown cpu $cpu" 1>&2
-             continue
-         fi
- 
-         qemu="$QEMU_PATH/qemu-$cpu"
--        if [ "$cpu" = "i486" ] ; then
-+        if [ "x$cpu" = "xi486" ] ; then
-             qemu="$QEMU_PATH/qemu-i386"
-         fi
- 
-         qemu="$qemu$QEMU_SUFFIX"
--        if [ "$host_family" != "$family" ] ; then
-+        if [ "x$host_family" != "x$family" ] ; then
-             $BINFMT_SET
-         fi
-     done
--- 
-2.25.1
-
-
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 
