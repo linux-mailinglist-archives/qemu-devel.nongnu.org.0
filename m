@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7B117D5E3
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Mar 2020 20:36:23 +0100 (CET)
-Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9F517D5E5
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Mar 2020 20:37:30 +0100 (CET)
+Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jB1io-0004yi-RZ
-	for lists+qemu-devel@lfdr.de; Sun, 08 Mar 2020 15:36:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37267)
+	id 1jB1jt-0006fh-KP
+	for lists+qemu-devel@lfdr.de; Sun, 08 Mar 2020 15:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1jB1g9-0002Rk-RQ
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 15:33:38 -0400
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jB1gF-0002b1-SY
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 15:33:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <volker.ruemelin@t-online.de>) id 1jB1g8-000723-UQ
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 15:33:37 -0400
-Received: from mailout06.t-online.de ([194.25.134.19]:48954)
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jB1gD-00074I-VI
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 15:33:43 -0400
+Received: from mailout04.t-online.de ([194.25.134.18]:59386)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jB1g8-00071Z-OI
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 15:33:36 -0400
-Received: from fwd24.aul.t-online.de (fwd24.aul.t-online.de [172.20.26.129])
- by mailout06.t-online.de (Postfix) with SMTP id 6CF10417E467;
- Sun,  8 Mar 2020 20:33:35 +0100 (CET)
+ id 1jB1gD-00073f-PT
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 15:33:41 -0400
+Received: from fwd23.aul.t-online.de (fwd23.aul.t-online.de [172.20.26.128])
+ by mailout04.t-online.de (Postfix) with SMTP id 7A76241FBAE9;
+ Sun,  8 Mar 2020 20:33:40 +0100 (CET)
 Received: from linpower.localnet
- (rXpqIYZfohqLY+clO6MgLyQ3aZgR2oSiY7BLQbrYIZnbOIaXplSPlwfrDvRRXsLZPv@[79.208.31.100])
- by fwd24.t-online.de
+ (ZGIpCEZfYhOFuRT-iXyhPwadEndrGEIus5q6UampyI1dAeVKSKH820GPUD2w-jhZUD@[79.208.31.100])
+ by fwd23.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jB1g4-1Samyu0; Sun, 8 Mar 2020 20:33:32 +0100
+ esmtp id 1jB1g7-4CbgkS0; Sun, 8 Mar 2020 20:33:35 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 99A702006D0; Sun,  8 Mar 2020 20:33:21 +0100 (CET)
+ id 9BC152006D1; Sun,  8 Mar 2020 20:33:21 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 5/6] audio: fix saturation nonlinearity in clip_* functions
-Date: Sun,  8 Mar 2020 20:33:20 +0100
-Message-Id: <20200308193321.20668-5-vr_qemu@t-online.de>
+Subject: [PATCH v2 6/6] audio: add audiodev format=f32 option documentation
+Date: Sun,  8 Mar 2020 20:33:21 +0100
+Message-Id: <20200308193321.20668-6-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <2a4ade5f-d39b-3094-578f-6cced4650720@t-online.de>
 References: <2a4ade5f-d39b-3094-578f-6cced4650720@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-ID: rXpqIYZfohqLY+clO6MgLyQ3aZgR2oSiY7BLQbrYIZnbOIaXplSPlwfrDvRRXsLZPv
-X-TOI-MSGID: ea02d5cd-b794-468a-8c7a-c5530fe25ba6
+X-ID: ZGIpCEZfYhOFuRT-iXyhPwadEndrGEIus5q6UampyI1dAeVKSKH820GPUD2w-jhZUD
+X-TOI-MSGID: d23c3cc6-9297-41cf-8435-c13075e488a8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 194.25.134.19
+X-Received-From: 194.25.134.18
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,31 +66,39 @@ Cc: John Arbuckle <programmingkidx@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current positive limit for the saturation nonlinearity is
-only correct if the type of the result has 8 bits or less.
+The documentaion for -audiodev format=3Df32 option was missing.
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 ---
- audio/mixeng_template.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ qemu-options.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/audio/mixeng_template.h b/audio/mixeng_template.h
-index fc8e1d4d9e..bc8509e423 100644
---- a/audio/mixeng_template.h
-+++ b/audio/mixeng_template.h
-@@ -83,10 +83,9 @@ static inline int64_t glue (conv_, ET) (IN_T v)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index f9fefd43be..2919eddf4d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -551,7 +551,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "                in|out.frequency=3D frequency to use with fixed set=
+tings\n"
+     "                in|out.channels=3D number of channels to use with f=
+ixed settings\n"
+     "                in|out.format=3D sample format to use with fixed se=
+ttings\n"
+-    "                valid values: s8, s16, s32, u8, u16, u32\n"
++    "                valid values: s8, s16, s32, u8, u16, u32, f32\n"
+     "                in|out.voices=3D number of voices to use\n"
+     "                in|out.buffer-length=3D length of buffer in microse=
+conds\n"
+     "-audiodev none,id=3Did,[,prop[=3Dvalue][,...]]\n"
+@@ -647,7 +647,7 @@ SRST
+     ``in|out.format=3Dformat``
+         Specify the sample format to use when using fixed-settings.
+         Valid values are: ``s8``, ``s16``, ``s32``, ``u8``, ``u16``,
+-        ``u32``. Default is ``s16``.
++        ``u32``, ``f32``. Default is ``s16``.
 =20
- static inline IN_T glue (clip_, ET) (int64_t v)
- {
--    if (v >=3D 0x7f000000) {
-+    if (v >=3D 0x7fffffffLL) {
-         return IN_MAX;
--    }
--    else if (v < -2147483648LL) {
-+    } else if (v < -2147483648LL) {
-         return IN_MIN;
-     }
-=20
+     ``in|out.voices=3Dvoices``
+         Specify the number of voices to use. Default is 1.
 --=20
 2.16.4
 
