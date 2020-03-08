@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FEE17D3EA
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Mar 2020 14:34:09 +0100 (CET)
-Received: from localhost ([::1]:57954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF77C17D3EC
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Mar 2020 14:40:39 +0100 (CET)
+Received: from localhost ([::1]:57990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jAw4G-0007IQ-UD
-	for lists+qemu-devel@lfdr.de; Sun, 08 Mar 2020 09:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53087)
+	id 1jAwAY-00014w-Qo
+	for lists+qemu-devel@lfdr.de; Sun, 08 Mar 2020 09:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jAw1s-0004uk-BE
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 09:31:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jAw9e-0000gO-Bh
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 09:39:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jAw1o-0006hF-QX
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 09:31:39 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51863
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jAw1o-0006gR-MI
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 09:31:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583674295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WD83umNxm2ky0VXPPRkxHn9Dl02EzVTi3i3J6pm7IYQ=;
- b=CDYFBWWZ0iQicSG3JlMQ+CdNzF1oDfW2yZ6/LVoE90nR3thX19KtJiW1CLILYClICDWsnC
- 9NOq8H9hjdcCdm8Bp6bYUQ4VsXLO5yixsTwZhgtIeqjrN6XhWyKDZrjubstS8LmJ6EMnfN
- C5SFssv1gp9p01XX3D3EXsorDDO9xuk=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-DCS703EIMsCvZ4-e6arM1g-1; Sun, 08 Mar 2020 09:31:32 -0400
-X-MC-Unique: DCS703EIMsCvZ4-e6arM1g-1
-Received: by mail-qt1-f199.google.com with SMTP id f25so4957431qtp.12
- for <qemu-devel@nongnu.org>; Sun, 08 Mar 2020 06:31:32 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1jAw9d-0001Rs-9l
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 09:39:42 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36315)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jAw9c-0001RQ-6s
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 09:39:41 -0400
+Received: by mail-ot1-x342.google.com with SMTP id j14so7016875otq.3
+ for <qemu-devel@nongnu.org>; Sun, 08 Mar 2020 06:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qaLQB60mLc0a24h1kEuz7djD22ltvJvtl5ExQk4HHys=;
+ b=WRlLMhsTWF6dGyUleAMXFA4+tF9Qnfmzla3JgaOZO8KmZkQ73qh4WzL56PXCt8xp3P
+ ke3zd/OybuG89CkkjQgR/iGB8oWiqMITlwKcSny9owCuNUU0qB+3yWPZU0OmsaNdqjS6
+ n72pOYknZ1Qchtu3YMrgswQYDhf8SXjrQNKcR+N74c4dizdxJCAS+jVg89W5JO9Y4Xo5
+ s6KBCeOmJXJRkT4W+fq/Nmp16bPPadC0ngjQ/bqT0/P/Ep5cxCcB1kP+IetxRCNqmTPA
+ g2gtG35szOfdY+zKpMRutfB/AbLCizRn0YWUctiq8G/lZAvXJHJDY4FyURuHwr6D83Df
+ 2noA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hDANYJtJJ6fz/Foo93IRg8oS9InICE/RlX6g+g3k1KI=;
- b=NDssei9ZI8dHEpfmcP0mHAOsI+yeOLW0QrO8w8uCipARXf3m6+Isb7xrc2pXncD2oY
- ilQ3nSxpUbD7tUrj4gj9osyG+6uk1sNQJlnMQwNt6oCYpE+vP1aS4E5PXTe28fGi51F3
- Hbg3i7VYuDhbGShZnMOZGLaGoGxriCjO9+czUEL/IlpLJQ8H47har72VwF9h6lEADFvF
- 4LQEaGDubilxulUw6eTlk7DRtl54K8CVNojGqOcyN3IF+eGqiKqay2j+jkW4IQq3dD/7
- A2CKTiqs+u67nWrbT3FoAmfOmxDskjVJmabgj2A+jbYIwPOTFzVBDLBq7kkfPc6l0ikI
- MWrw==
-X-Gm-Message-State: ANhLgQ0GZj5PERzyl3J4qr2TwEPdpJKkqpqapwVysslfyGpxja1UO8Dt
- iIIVkxKJ62cFFAqPos3nMO9kFOt0WR0xtSB0gsHUzCOnj+j5Um2zGA4KrDq1pk4IIdR+BbBWOcW
- Keam2yQbvWqRhaLg=
-X-Received: by 2002:a05:620a:2209:: with SMTP id
- m9mr10778077qkh.71.1583674291392; 
- Sun, 08 Mar 2020 06:31:31 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsp4dv1bezoMHrXC/3zAlA2zYBMlRcCbUtQwyB7yUKScheb3XnsU/3yJQQa5uiJRMhsL7tZZA==
-X-Received: by 2002:a05:620a:2209:: with SMTP id
- m9mr10778060qkh.71.1583674291069; 
- Sun, 08 Mar 2020 06:31:31 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
- by smtp.gmail.com with ESMTPSA id w41sm21001422qtj.49.2020.03.08.06.31.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Mar 2020 06:31:30 -0700 (PDT)
-Date: Sun, 8 Mar 2020 09:31:26 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] hw/i386/intel_iommu: Simplify vtd_find_as_from_bus_num()
- logic
-Message-ID: <20200308133054.1563705-5-mst@redhat.com>
-References: <20200308133054.1563705-1-mst@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qaLQB60mLc0a24h1kEuz7djD22ltvJvtl5ExQk4HHys=;
+ b=X3Yo0Xt6BH+kyheD/VteCKL4UuMoCA+6952JrcA/SSAY0I/bYKKWAKsx1uM14iFSKb
+ +0LmXMDcvUAC5zgVSEqZGgzoA3rO9m/xX8VLUEuNY3iXHC1RTHaIv77JdXxYuJh4Fcss
+ MwatObVrvLlDw84J0DLnBb7jaXpuhI2Y30eEROcAXubrj4M4H2V3J2WPzYID+L+23Npj
+ GiwV8Z9jBIQIfVamg4ozO96a6C27EPmYUdGzaPTAf+EduJyEMxH0muWRJGfPUSj9smCO
+ 3NVMTROjkEsue/hQTTX8yt0qcPgj9CG6+Ud/iJPpoQcJFD6xDZu52skqfe4061SXip63
+ FPHA==
+X-Gm-Message-State: ANhLgQ3OZf2Yo4rkOYs+QXDW/7+fLzKyrj7I7WknvH0OnofPqeXmA5rN
+ 3wwQve/2L+D7h2uFCKzQ03pXRamIdijf1P5wsOUNQQ==
+X-Google-Smtp-Source: ADFU+vuSkyHHHUvVxRFJGzbxaOQkk+ry5U+JlFcSqIzz1jcLKjUX+5Y7NE+XNApU4qo4JY2CROntQmCLb3nTPuMgfSU=
+X-Received: by 2002:a05:6830:19e2:: with SMTP id
+ t2mr2498553ott.97.1583674779119; 
+ Sun, 08 Mar 2020 06:39:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200308133054.1563705-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200305065422.12707-1-pannengyuan@huawei.com>
+ <8af2cdaa-7e3e-409f-5351-7fc54e00aab5@ilande.co.uk>
+In-Reply-To: <8af2cdaa-7e3e-409f-5351-7fc54e00aab5@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 8 Mar 2020 13:39:28 +0000
+Message-ID: <CAFEAcA_8SWR6MrNL98GFNASs0_qE_U4pgiw_LyiydKVaSb7C8A@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] delay timer_new from init to realize to fix
+ memleaks.
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,84 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Euler Robot <euler.robot@huawei.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Sun, 8 Mar 2020 at 11:58, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+> I just tried this patchset applied on top of git master and it causes qemu-system-ppc
+> to segfault on startup:
+>
+> $ gdb --args ./qemu-system-ppc
+> ...
+> ...
+> Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+> 0x0000555555e7e38c in timer_del (ts=0x0) at util/qemu-timer.c:429
+> 429         QEMUTimerList *timer_list = ts->timer_list;
+> (gdb) bt
+> #0  0x0000555555e7e38c in timer_del (ts=0x0) at util/qemu-timer.c:429
+> #1  0x0000555555b5d2c1 in mos6522_reset (dev=0x555556e0ac50) at hw/misc/mos6522.c:468
+> #2  0x0000555555b63570 in mos6522_cuda_reset (dev=0x555556e0ac50) at
+> hw/misc/macio/cuda.c:599
 
-The vtd_find_as_from_bus_num() function was introduced (in commit
-dbaabb25f) in a code format that could return an incorrect pointer,
-which was later fixed by commit a2e1cd41ccf.
-We could have avoided this by writing the if() statement differently.
-Do it now, in case this function is re-used. The code is easier to
-review (harder to miss bugs).
+It looks like we haven't caught all the cases of "somebody created a
+MOS6522 (or one of its subclasses) but forgot to realize it". This
+particular one I think is the s->cuda which is inited in macio_oldworld_init()
+but not realized in macio_oldworld_realize(). I think that pmu_init() in
+hw/misc/macio/pmu.c also has this bug. We need to go through and
+audit all the places where we create TYPE_MOS6522 or any of its
+subclasses and make sure they are also realizing the devices they create.
+(The presence of the new 3-phase reset infrastructure in the backtrace
+is a red herring here -- this would have crashed the same way with the
+old code too.)
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200305102702.31512-1-philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/i386/intel_iommu.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+We should probably find some generic place in Device code where we
+can stick an assert "are we trying to reset an unrealized device?"
+because I bet we have other instances of this bug which we haven't
+noticed because the reset function happens to not misbehave on
+an inited-but-not-realized device...
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 6258c58ac9..204b6841ec 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -987,24 +987,26 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, ui=
-nt32_t level)
- static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_nu=
-m)
- {
-     VTDBus *vtd_bus =3D s->vtd_as_by_bus_num[bus_num];
--    if (!vtd_bus) {
--        /*
--         * Iterate over the registered buses to find the one which
--         * currently hold this bus number, and update the bus_num
--         * lookup table:
--         */
--        GHashTableIter iter;
-+    GHashTableIter iter;
-=20
--        g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
--        while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
--            if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
--                s->vtd_as_by_bus_num[bus_num] =3D vtd_bus;
--                return vtd_bus;
--            }
--        }
--        vtd_bus =3D NULL;
-+    if (vtd_bus) {
-+        return vtd_bus;
-     }
--    return vtd_bus;
-+
-+    /*
-+     * Iterate over the registered buses to find the one which
-+     * currently holds this bus number and update the bus_num
-+     * lookup table.
-+     */
-+    g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
-+        if (pci_bus_num(vtd_bus->bus) =3D=3D bus_num) {
-+            s->vtd_as_by_bus_num[bus_num] =3D vtd_bus;
-+            return vtd_bus;
-+        }
-+    }
-+
-+    return NULL;
- }
-=20
- /* Given the @iova, get relevant @slptep. @slpte_level will be the last le=
-vel
---=20
-MST
-
+thanks
+-- PMM
 
