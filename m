@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A35C17DCE4
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:04:17 +0100 (CET)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFEF17DCEA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:06:43 +0100 (CET)
+Received: from localhost ([::1]:39892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBFGi-0000nB-30
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:04:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34213)
+	id 1jBFJ4-00048G-W8
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:06:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1jBFEv-0007yI-NL
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:02:27 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jBFGB-0000ny-Ds
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:03:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1jBFEu-00071v-If
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:02:25 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3191 helo=huawei.com)
+ (envelope-from <imammedo@redhat.com>) id 1jBFG9-0007zF-08
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:03:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29359
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1jBFEu-000709-68
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:02:24 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id EE6491921CE1FC3999D5;
- Mon,  9 Mar 2020 18:02:18 +0800 (CST)
-Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
- (10.3.19.209) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 9 Mar 2020
- 18:02:09 +0800
-Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
- in mac_via
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200305065422.12707-1-pannengyuan@huawei.com>
- <20200305065422.12707-3-pannengyuan@huawei.com>
- <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
- <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
- <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
-From: Pan Nengyuan <pannengyuan@huawei.com>
-Message-ID: <0c3ae5aa-36c3-a809-4a42-159348f44780@huawei.com>
-Date: Mon, 9 Mar 2020 18:02:06 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jBFG7-0007yi-4x
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:03:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583748217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oUUCXen90C2Znpu0RoandKXNGqev0sXvwOrDBiVuIXw=;
+ b=JSo5BAvIzOWoIhxbR9AXpoxgjNV/kibCY/Pzl+4Hl5c/a5Y2eRqm/8G7ze9WlM8Koqyxq2
+ GnVdOwIy8jm0RBBUBLiJs+CraoA8SC4u3LPCtgFe6WGmD9aVJuRjGw8XJwd9UgXB3kUnVk
+ TecmxZTXWLjQC/S0blIaFC6/00H9ifQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-0iGmHh0ENdGtDfv9Mh79NQ-1; Mon, 09 Mar 2020 06:03:36 -0400
+X-MC-Unique: 0iGmHh0ENdGtDfv9Mh79NQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 821728018A5;
+ Mon,  9 Mar 2020 10:03:34 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B73260BFB;
+ Mon,  9 Mar 2020 10:03:32 +0000 (UTC)
+Date: Mon, 9 Mar 2020 11:03:31 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH] mem-prealloc: initialize cond and mutex
+Message-ID: <20200309110331.3ef650a9@redhat.com>
+In-Reply-To: <20200306085014.120669-1-borntraeger@de.ibm.com>
+References: <20200306085014.120669-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,87 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>, qemu-devel <qemu-devel@nongnu.org>,
+ bauerchen <bauerchen@tencent.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri,  6 Mar 2020 03:50:14 -0500
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-
-On 3/9/2020 5:21 PM, Peter Maydell wrote:
-> On Mon, 9 Mar 2020 at 00:56, Pan Nengyuan <pannengyuan@huawei.com> wrote:
->>
->>
->>
->> On 3/8/2020 9:29 PM, Peter Maydell wrote:
->>> On Thu, 5 Mar 2020 at 06:39, Pan Nengyuan <pannengyuan@huawei.com> wrote:
->>>> -    /* Init VIAs 1 and 2 */
->>>> -    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
->>>> -                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
->>>> +    qdev_set_parent_bus(DEVICE(&m->mos6522_via1), sysbus_get_default());
->>>> +    qdev_set_parent_bus(DEVICE(&m->mos6522_via2), sysbus_get_default());
->>>
->>> Rather than manually setting the parent bus, you can use
->>> sysbus_init_child_obj() instead of object_initialize_child() --
->>> it is a convenience function that does both object_initialize_child()
->>> and qdev_set_parent_bus() for you.
->>
->> Actually I used sysbus_init_child_obj() first, but it will fail to run device-introspect-test.
->> Because qdev_set_parent_bus() will change 'info qtree' after we call 'device-list-properties'.
->> Thus, I do it in the realize.
+> Guests with mem-prealloc do fail with
+> qemu-system-s390x: /home/cborntra/REPOS/qemu/util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Assertion `mutex->initialized' failed.
+> qemu-system-s390x: /home/cborntra/REPOS/qemu/util/qemu-thread-posix.c:161: qemu_cond_broadcast: Assertion `cond->initialized' failed.
 > 
-> Could you explain more? My thought is that we should be using
-> sysbus_init_child_obj() and we should be doing it in the init method.
-> Why does that break the tests ? It's the same thing various other
-> devices do.
-
-device-introspect-test do the follow check for each device type:
-
-    qtree_start = qtest_hmp(qts, "info qtree");
-    ...
-    qtest_qmp(qts, "{'execute': 'device-list-properties','arguments': {'typename': %s}}", type);
-    ...
-    qtree_end = qtest_hmp(qts, "info qtree");
-    g_assert_cmpstr(qtree_start, ==, qtree_end);
-
-If we do qdev_set_parent_bus in init, it will check fail when type = 'mac_via'.
-mac_via_init() is called by q800_init(). But it will not be called in qtest(-machine none) in the step qtree_start.
-And after we call 'device-list-properties', mac_via_init() was called and set dev parent bus. We can find these
-devices in the qtree_end. So it break the test on the assert.
-
-Here is the output:
-
-# Testing device 'mac_via'
-  adb.0=<child<apple-desktop-bus>>
-  drive=<str>            - Node name or ID of a block device to use as a backend
-  irq[0]=<link<irq>>
-  irq[1]=<link<irq>>
-  mac-via[0]=<child<qemu:memory-region>>
-  via1=<child<mos6522-q800-via1>>
-  via1[0]=<child<qemu:memory-region>>
-  via2=<child<mos6522-q800-via2>>
-  via2[0]=<child<qemu:memory-region>>
-qtree_start: bus: main-system-bus
-  type System
-
-qtree_end: bus: main-system-bus
-  type System
-  dev: mos6522-q800-via2, id ""
-    gpio-in "via2-irq" 8
-    gpio-out "sysbus-irq" 1
-    frequency = 0 (0x0)
-    mmio ffffffffffffffff/0000000000000010
-  dev: mos6522-q800-via1, id ""
-    gpio-in "via1-irq" 8
-    gpio-out "sysbus-irq" 1
-    frequency = 0 (0x0)
-    mmio ffffffffffffffff/0000000000000010
-
+> Let us initialize cond and mutex.
 > 
-> thanks
-> -- PMM
-> .
+> Cc: bauerchen <bauerchen@tencent.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+> Fixes: 037fb5eb3941 ("mem-prealloc: optimize large guest startup")
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  util/oslib-posix.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 897e8f3ba6..52650183d3 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -470,6 +470,8 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>      char *addr = area;
+>      int i = 0;
+>  
+> +    qemu_cond_init(&page_cond);
+> +    qemu_mutex_init(&page_mutex);
+
+Is it possible for touch_all_pages to be called several times?
+If it's then it probably needs a guard against that to make
+sure it won't explode, something like:
+
+static bool page_mutex_inited;
+
+if(page_mutex_inited)
+  page_mutex_inited = true
+  qemu_mutex_init(&page_mutex) 
+  ...
+
+>      memset_thread_failed = false;
+>      threads_created_flag = false;
+>      memset_num_threads = get_memset_num_threads(smp_cpus);
+
 
