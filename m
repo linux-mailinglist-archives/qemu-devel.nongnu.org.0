@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D7D17E3AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:33:55 +0100 (CET)
-Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52C617E3BF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:37:33 +0100 (CET)
+Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKPi-00089s-CF
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:33:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34474)
+	id 1jBKTE-00058Q-TJ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK3S-00017C-3h
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:58 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK3L-000133-VO
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK3Q-0008Uc-PO
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:54 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:43841)
+ (envelope-from <laurent@vivier.eu>) id 1jBK3K-0008Rc-U3
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:48315)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK3L-0008RQ-IP; Mon, 09 Mar 2020 11:10:47 -0400
+ id 1jBK3K-0008QD-KH; Mon, 09 Mar 2020 11:10:46 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MplPf-1jhdfT0Kcv-00qBcx; Mon, 09 Mar 2020 16:09:54 +0100
+ id 1Mnq0K-1jhv381qnK-00pMwm; Mon, 09 Mar 2020 16:09:56 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/33] scsi/scsi-disk: Remove redundant statement in
- scsi_disk_emulate_command()
-Date: Mon,  9 Mar 2020 16:08:34 +0100
-Message-Id: <20200309150837.3193387-31-laurent@vivier.eu>
+Subject: [PULL 31/33] display/pxa2xx_lcd: Remove redundant statement in
+ pxa2xx_palette_parse()
+Date: Mon,  9 Mar 2020 16:08:35 +0100
+Message-Id: <20200309150837.3193387-32-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6U5wEHkdFwT3kDr22VsD0fPTXG5OlUqnb2ZOctZu9kWAsabqMPX
- /lsz5U72zKPEX8SKZiKzfqb7OGburV/dBCDU6bo7WqyC+E8BPUckivUuhMEiR9HfOs9xcvi
- 4o3TFnrXxHanpwoOCuJcIGS2XD7qdFGKi1H1PVzXALWeT+4mnoIqJu2NExqZ48ue1LEvuyu
- +et7iqnwBNGqjOIsuHhCg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EKnD7kcJ+Hk=:hC1YPwabFBImO5nS5mLgVl
- nOtTkJ7R+S3ycDX3BfxIEPA3JgfxL2pOuNqS7IxjKEVfmMWwvSY0uT93gdnPkRWF8tpmNovFO
- Fwfu8LfXuJSEPPs2/5qOa9MtOUgwvsew3t3Nx7wrSZ9nyqolYNR0cI9S8FEnLVFVOwDEZ5vlk
- h0D6/LVwym0nthv9tDfBNxLFlprKjjP5+juVlUWExS9ku5XY6FwYSgBF5oWdxJV8lAekbjUh0
- Fb6L1znfPbLYn4K3ueM/Wu2Wi7PVOY9WgYIQ6s0Pd2DC7JyyBCR6LWhdOhFD6/rqxrbYVruQq
- LskQm3AbbJmbHlD7NUx4a64H+KvW1wQzSfcMdMxitVXIvbH6B+gNjBJ40FuX1BF6fyojFxfGV
- c7ndvWn755btxIE/2DnGq1xnq/tCx9lyixwWQ0u8D+h67fyJvnN7KkKSSoJgFhd/8Ryhaah1g
- rBMq672qGOnOSArZ1T0Dj0udF9pR6vxPsVNaOCQA7sLdRhp+nYZveycScl+TmDhq5fnFPiywx
- +3BtjiBGVElddVZeIwPKh8zhbVqyUed660ZlfPCh2tSuGdHyLsr7BT1JuElr/SsM3ar6Sy33Q
- N6Os1qQ+zkKE6KZ+zCMEy4d7sh/gz3cFfw+Mr9yOecL3/9IHIAmhqBq8CgfwM3m6g8zULo5cm
- cWYsSN9geXwdImFXBmpyVdqeHZRoVPHoHuO8C25M6wVLidzsoTT8zTc9gTHgvxnV/EtL5hfQy
- AjQrIaakojbf4pdXe0KDgAfA4sTVB5FJZNfjpZMsKaAE2TMQpa7HodD4bruCI1hyq2PCxQLmQ
- DTSNR2dBp78JRVgOPVkOsbs+O2Ybp6MnSdlzPTWe/I2EGnb8TrfSBphOWYsqtCuLBo9Ru03
+X-Provags-ID: V03:K1:0ZarNXicwnBKj9J9FMdMNcdU3DRCu0rkKMaoTuRHns0GqwH3ZvJ
+ N14XFeavkwMTWI4zaDmKiaQdapB0uzbHlSrNBFE9B6eTbYoJrLepzSJVlF1pXBLKo88fMP2
+ P0qpb0etOg5/BSz/bTRTZdYZbWPBowIaxCg7NKX/lZtUXNk6zTqaRPMivTvIRDZIErdH7wo
+ BG4vKVERVC1sx3TLIjdVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kjGuiN/P8HU=:rT5JMBaeRa6M9Vlj0MdT/Y
+ Pl7es7mxm+MfAt4MnjJtzfzmDv2xe6rCQf++J156YGGkasOoma8krVX7KOYC/DAAWCZxW5FKx
+ nFbcSZU009zR4zFKaMABf5DgTLrVFdduWtOW4A19Jm9cYnOMhmiw656EkOmesWbwWKPSDCELp
+ wMC41K3oKgWo84p5DnFjkZo2jv0wJvut1xuaLP26llgzt9L3A+2lZG+wG0Z/b0vR04q3cOSyn
+ ArV/yuqJKrPZGimphVTQFmH4gX3uwdAck26/VfYBqZWAKRCYgqI9ANfhupb3MfNe3JgJe8jM2
+ YQYNV5JRkjbxgYUEEsf3E7QzuFbqsnk8DlsADUcKa9admhrEJqztFUpH43R8bEB26w1/Zmvfi
+ kXnPsuDPyVWjgb9CRPrVUCIgEoRmPEpfJnr2Fd6+ugJtJIFDSdYU1eeLWI8MI0uQtiiMq0D1P
+ +qr90FEnNvSSOXyntUjbzL/uXYK3wa6HbTKq2VRmGeUMgPrI/bt2llNvLJzRG4EoA++6JBczq
+ 8olLJFnLtNc04MDVEgags9FsM2+27l7z0Haw1M7+PZLvU+/etB8px/FRdrn6qZhBEYjjB/E4D
+ JK8s+jOyp6wLYy4sz1hn1kehmjiJEY0LaAwF6k7oVFvGFtAb6SIvWk6wJg1yeSJfaA80EGwLZ
+ pI/e/Ov02oRRPl13OK1eP1byqDzFc6XaA4T75LZuotnZRJPqj8GfplPCCWcpg2uXzwqAMPNSH
+ mzQLmw+kZPIJMR4/uvWRlb7chTMAeyBsPzjM3ppnGpGu/V6c5E7WMmoT2tRMhPn0Bp3ip2tJ2
+ edFskB9w09y66oJ9apTzuFxOE3sWz7yPjtl97hJAwIMcWBq0HCTY5TA8Qv18ZrlsNUGe7O2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,31 +89,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-scsi/scsi-disk.c:1918:5: warning: Value stored to 'buflen' is never read
-    buflen = req->cmd.xfer;
-    ^        ~~~~~~~~~~~~~
+hw/display/pxa2xx_lcd.c:596:9: warning: Value stored to 'format' is never read
+        format = 0;
+        ^        ~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200302130715.29440-7-kuhn.chenqun@huawei.com>
+Message-Id: <20200302130715.29440-8-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/scsi-disk.c | 1 -
+ hw/display/pxa2xx_lcd.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 10d0794d60f1..1c0cb63a6fe0 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1915,7 +1915,6 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
-         r->iov.iov_base = blk_blockalign(s->qdev.conf.blk, r->buflen);
+diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+index 05f5f8467123..464e93161a21 100644
+--- a/hw/display/pxa2xx_lcd.c
++++ b/hw/display/pxa2xx_lcd.c
+@@ -593,7 +593,6 @@ static void pxa2xx_palette_parse(PXA2xxLCDState *s, int ch, int bpp)
+         n = 256;
+         break;
+     default:
+-        format = 0;
+         return;
      }
  
--    buflen = req->cmd.xfer;
-     outbuf = r->iov.iov_base;
-     memset(outbuf, 0, r->buflen);
-     switch (req->cmd.buf[0]) {
 -- 
 2.24.1
 
