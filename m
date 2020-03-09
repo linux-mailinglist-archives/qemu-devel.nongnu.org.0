@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D582417E07A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:47:04 +0100 (CET)
-Received: from localhost ([::1]:42556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006A917E078
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:44:45 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHoF-0002w3-73
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:47:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58315)
+	id 1jBHm0-0000XS-26
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jBHT9-0000kt-P4
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:25:17 -0400
+ (envelope-from <berrange@redhat.com>) id 1jBHYJ-0008G5-Aa
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:30:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jBHT8-0005Ev-Jt
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:25:15 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57649
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jBHYH-0005fR-Qw
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:30:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26556
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBHT8-0005Bc-4D
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:25:14 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jBHYH-0005dt-Kc
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:30:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583756712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1583757033;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r1UIJmWp50NCXJ9jA3JpEhNiS4tUEpUfB6wtljAS87M=;
- b=Dnuk7+r44juGgQjAgEP8aUJ9nas3kRQUjQ30D2YvhZanKNc4A8/MH+/msC33r7k7c8Yzq/
- 3BUpw/zLpXOFsnb1b9aaepuoU+KN3+tbk1R4JrXkJ/4R3mD5SxrrbbCBERXY3QNSHINU/V
- eM31EdYwBXMDMqcGlOU+MA4w2dO4pUw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-3AWDmbtJNr2xVZnLaufDLQ-1; Mon, 09 Mar 2020 08:25:11 -0400
-X-MC-Unique: 3AWDmbtJNr2xVZnLaufDLQ-1
-Received: by mail-wr1-f70.google.com with SMTP id j17so455124wru.19
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 05:25:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WtSYnxMTIM2oSCTkFU21A7hWXD9gH2v5a4TadNHL0EQ=;
- b=QgOV3K7VB8mpsJCwTtK2N/PgVEfho+GQWXODOjDK3KwwsPC9T0y2ZACy/coqa0vqyJ
- kXaxPE45kdqF5cWGjcbyjqKj0iFsWbfpBQQ/IZZNzIUWY5OyMJw3olYtxnyEt6MGJjC4
- ebq5i/pfIxFQgVKHm8rxJdKLi7hekbQ8xsrAl7IaOj5GCbZkRSbxzNrwC3PBW0vEzni7
- f65IO3SyLAEtQtMU13HdhWxKYe3QeU7I2eewyldMr9dVTk8miPQurXHqZZPIKiGOH+Bg
- Oup2uOPW0JtwBbkRE6u3IIuUNhBGWFn4qR7XF5F285F6lFVW/ah7VtHy/AgBWhzPtLPv
- 2nxg==
-X-Gm-Message-State: ANhLgQ3XGry3ZLPx8z1uL1AuJ2WM308ttBhI2AK/7ySStxD28ByX7xSq
- gGno2Tp8hbVUwvG194CXyxxW7fEP+pekHGo87vqa5VqjkW/R4n4KMwGOi1sqPe8gIhT2/GElEP/
- 4f+TvIXajH1bScdQ=
-X-Received: by 2002:a5d:640e:: with SMTP id z14mr6417604wru.204.1583756709482; 
- Mon, 09 Mar 2020 05:25:09 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vv1/ZMZyQiOQQODKhAnvnqYZuAATY//ISYLjApLUNURBLvmbdVT3xtt6MJbEZMi8l5urw/Y9Q==
-X-Received: by 2002:a5d:640e:: with SMTP id z14mr6417588wru.204.1583756709332; 
- Mon, 09 Mar 2020 05:25:09 -0700 (PDT)
-Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id s14sm49317097wrv.44.2020.03.09.05.25.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 05:25:08 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] tests/docker: Install SASL library to extend code
- coverage on amd64
-Date: Mon,  9 Mar 2020 13:24:54 +0100
-Message-Id: <20200309122454.22551-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200309122454.22551-1-philmd@redhat.com>
+ bh=oIb8Qj//o39YEFSRkDOz2zsLUsRlM+H3U8by2hYbNTQ=;
+ b=Wvfvp9xGIPxZsQqHzomLpSaX+b9r9+r43lg0HD56X6E3ZT71wJ/ldNmt8yGMrW2dLdxtXC
+ xL431PmkXqADJ3hLBGLF9F7e0kK5i9hRZRBI+NUv8PO4HC+9kKz15SgybutKeJ4OxF+cgb
+ Y2Cc1Vw+wvDzgXdZI6ZMsPuq6P/OcQA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-5GELrb-rMhOlkOfIeh_wCA-1; Mon, 09 Mar 2020 08:30:23 -0400
+X-MC-Unique: 5GELrb-rMhOlkOfIeh_wCA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E958D18A8C80;
+ Mon,  9 Mar 2020 12:30:20 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 878FF5C1C3;
+ Mon,  9 Mar 2020 12:30:17 +0000 (UTC)
+Date: Mon, 9 Mar 2020 12:30:14 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/2] configure: Fix building with SASL on Windows
+Message-ID: <20200309123014.GH3033513@redhat.com>
 References: <20200309122454.22551-1-philmd@redhat.com>
+ <20200309122454.22551-2-philmd@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20200309122454.22551-2-philmd@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,40 +74,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?=D0=90=D0=BB=D0=B5=D0=BA=D1=81=D0=B5=D0=B9=20=D0=9F=D0=B0=D0=B2=D0=BB=D0=BE=D0=B2?=
- <alexey.pawlow@gmail.com>,
- =?UTF-8?q?=D0=9C=D0=B5=D1=82=D0=BB=D0=B8=D1=86=D0=BA=D0=B8=D0=B9=20=D0=AE=D1=80=D0=B8=D0=B9=20=D0=92=D0=B8=D0=BA=D1=82=D0=BE=D1=80=D0=BE=D0=B2=D0=B8=D1=87?=
- <winaes@narod.ru>, Biswapriyo Nath <nathbappai@gmail.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Alexey Pavlov <alexpux@gmail.com>,
+ =?utf-8?B?0JDQu9C10LrRgdC10Lkg0J/QsNCy0LvQvtCy?= <alexey.pawlow@gmail.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?B?0JzQtdGC0LvQuNGG0LrQuNC5INCu0YDQuNC5INCS0LjQutGC0L7RgNC+0LI=?=
+ =?utf-8?B?0LjRhw==?= <winaes@narod.ru>, Biswapriyo Nath <nathbappai@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Youry Metlitsky <winaes@yandex.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install the SASL library to build the VNC SASL auth protocol code.
+On Mon, Mar 09, 2020 at 01:24:53PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> The Simple Authentication and Security Layer (SASL) library
+> re-defines the struct iovec on Win32 [*]. QEMU also re-defines
+> it in "qemu/osdep.h". The two definitions then clash on a MinGW
+> build.
+> We can avoid the SASL definition by defining STRUCT_IOVEC_DEFINED.
+> Since QEMU already defines 'struct iovec' if it is missing, add
+> the definition to vnc_sasl_cflags to avoid SASL re-defining it.
+>=20
+> [*] https://github.com/cyrusimap/cyrus-sasl/blob/cyrus-sasl-2.1.27/includ=
+e/sasl.h#L187
+>=20
+> Cc: Alexey Pavlov <alexpux@gmail.com>
+> Cc: Biswapriyo Nath <nathbappai@gmail.com>
+> Reported-by: Youry Metlitsky <winaes@yandex.ru>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v2:
+> Since QEMU provides 'struct iovec' if missing, always define
+> STRUCT_IOVEC_DEFINED (danpb review).
+> ---
+>  configure | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/configure b/configure
+> index cbf864bff1..a4cd4bccfb 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3349,7 +3349,9 @@ if test "$vnc" =3D "yes" && test "$vnc_sasl" !=3D "=
+no" ; then
+>  int main(void) { sasl_server_init(NULL, "qemu"); return 0; }
+>  EOF
+>    # Assuming Cyrus-SASL installed in /usr prefix
+> -  vnc_sasl_cflags=3D""
+> +  # QEMU defines struct iovec in "qemu/osdep.h",
+> +  # we don't want libsasl to redefine it in <sasl/sasl.h>.
+> +  vnc_sasl_cflags=3D"-DSTRUCT_IOVEC_DEFINED"
+>    vnc_sasl_libs=3D"-lsasl2"
+>    if compile_prog "$vnc_sasl_cflags" "$vnc_sasl_libs" ; then
+>      vnc_sasl=3Dyes
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/docker/dockerfiles/debian-amd64.docker | 1 +
- 1 file changed, 1 insertion(+)
+This works so:
 
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/do=
-ckerfiles/debian-amd64.docker
-index 3b860af106..0456fc7a0c 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -17,6 +17,7 @@ RUN apt update && \
-         libbz2-dev \
-         liblzo2-dev \
-         librdmacm-dev \
-+        libsasl2-dev \
-         libsnappy-dev \
-         libvte-dev
-=20
+  Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+
+
+however, I'm wondering if we'd be better doing this in a more
+localized place. This applies to everything we compile, but
+only one place imports sasl.h, so should we instead do
+
+   #define STRUCT_IOVEC_DEFINED
+   #include <sasl/saslh.>
+
+in vnc-auth-sasl.h, so we localize the namespace pollution.
+
+
+Regards,
+Daniel
 --=20
-2.21.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
