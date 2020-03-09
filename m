@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49BE17E05B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:35:31 +0100 (CET)
-Received: from localhost ([::1]:42342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5955B17E051
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:33:05 +0100 (CET)
+Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHd4-0004Iw-Na
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
+	id 1jBHai-0000zi-Di
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:33:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHJy-0002Kl-0j
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:49 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHJy-0002Ki-1O
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHJu-00034O-I0
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHJu-00033r-CJ
  for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:45 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:50084)
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:48397)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jBHJt-0002bm-Qw; Mon, 09 Mar 2020 08:15:42 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.074415|-1; CH=blue; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.687276-0.000105434-0.312618;
- FP=10292831519337153542|1|1|7|0|-1|-1|-1; HT=e02c03295;
- MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=10; RT=10; SR=0;
- TI=SMTPD_---.GyaeXy8_1583756101; 
+ id 1jBHJt-0002bn-Mi; Mon, 09 Mar 2020 08:15:42 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08249524|-1;
+ BR=01201311R931S41ruler364_34042_170522; CH=green; DM=||false|;
+ DS=SPAM|spam_ad|0.858603-0.00040499-0.140992;
+ FP=774595684858660470|1|1|7|0|-1|-1|-1; HT=e02c03293; MF=zhiwei_liu@c-sky.com;
+ NM=1; PH=DS; RN=10; RT=10; SR=0; TI=SMTPD_---.GyaeXy8_1583756101; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.GyaeXy8_1583756101)
  by smtp.aliyun-inc.com(10.147.41.199);
- Mon, 09 Mar 2020 20:15:12 +0800
+ Mon, 09 Mar 2020 20:15:13 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: richard.henderson@linaro.org, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v3 19/60] target/riscv: vector widening integer multiply
+Subject: [PATCH v3 22/60] target/riscv: vector integer merge and move
  instructions
-Date: Mon,  9 Mar 2020 20:14:16 +0800
-Message-Id: <20200309121457.13719-20-zhiwei_liu@c-sky.com>
+Date: Mon,  9 Mar 2020 20:14:19 +0800
+Message-Id: <20200309121457.13719-23-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200309121457.13719-1-zhiwei_liu@c-sky.com>
 References: <20200309121457.13719-1-zhiwei_liu@c-sky.com>
@@ -62,138 +62,141 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- target/riscv/helper.h                   | 19 +++++++++
- target/riscv/insn32.decode              |  6 +++
- target/riscv/insn_trans/trans_rvv.inc.c |  8 ++++
- target/riscv/vector_helper.c            | 51 +++++++++++++++++++++++++
- 4 files changed, 84 insertions(+)
+ target/riscv/helper.h                   |  9 ++++
+ target/riscv/insn32.decode              |  3 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 24 ++++++++++
+ target/riscv/vector_helper.c            | 58 +++++++++++++++++++++++++
+ 4 files changed, 94 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 357f149198..1704b8c512 100644
+index 1f0d3d60e3..121e9e57e7 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -591,3 +591,22 @@ DEF_HELPER_6(vrem_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vrem_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vrem_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vrem_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+@@ -665,3 +665,12 @@ DEF_HELPER_6(vwmaccsu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vwmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vwmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vwmaccus_vx_w, void, ptr, ptr, tl, ptr, env, i32)
 +
-+DEF_HELPER_6(vwmul_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmul_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmul_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmulu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmulu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmulu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmulsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmulsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmulsu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vwmul_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmul_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmul_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmulu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmulu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmulu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmulsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmulsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-+DEF_HELPER_6(vwmulsu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmerge_vvm_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmerge_vvm_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmerge_vvm_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmerge_vvm_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vmerge_vxm_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmerge_vxm_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmerge_vxm_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vmerge_vxm_d, void, ptr, ptr, tl, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 2afe24dd34..ceddfe4b6c 100644
+index 2a5b945139..bcb8273bcc 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -378,6 +378,12 @@ vremu_vv        100010 . ..... ..... 010 ..... 1010111 @r_vm
- vremu_vx        100010 . ..... ..... 110 ..... 1010111 @r_vm
- vrem_vv         100011 . ..... ..... 010 ..... 1010111 @r_vm
- vrem_vx         100011 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmulu_vv       111000 . ..... ..... 010 ..... 1010111 @r_vm
-+vwmulu_vx       111000 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmulsu_vv      111010 . ..... ..... 010 ..... 1010111 @r_vm
-+vwmulsu_vx      111010 . ..... ..... 110 ..... 1010111 @r_vm
-+vwmul_vv        111011 . ..... ..... 010 ..... 1010111 @r_vm
-+vwmul_vx        111011 . ..... ..... 110 ..... 1010111 @r_vm
+@@ -399,6 +399,9 @@ vwmacc_vx       111101 . ..... ..... 110 ..... 1010111 @r_vm
+ vwmaccsu_vv     111110 . ..... ..... 010 ..... 1010111 @r_vm
+ vwmaccsu_vx     111110 . ..... ..... 110 ..... 1010111 @r_vm
+ vwmaccus_vx     111111 . ..... ..... 110 ..... 1010111 @r_vm
++vmerge_vvm      010111 . ..... ..... 000 ..... 1010111 @r_vm
++vmerge_vxm      010111 . ..... ..... 100 ..... 1010111 @r_vm
++vmerge_vim      010111 . ..... ..... 011 ..... 1010111 @r_vm
  
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 9f0645a92b..990433f866 100644
+index 958737d097..aff5ca8663 100644
 --- a/target/riscv/insn_trans/trans_rvv.inc.c
 +++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1454,3 +1454,11 @@ GEN_OPIVX_TRANS(vdivu_vx, opivx_check)
- GEN_OPIVX_TRANS(vdiv_vx, opivx_check)
- GEN_OPIVX_TRANS(vremu_vx, opivx_check)
- GEN_OPIVX_TRANS(vrem_vx, opivx_check)
+@@ -1481,3 +1481,27 @@ GEN_OPIVX_WIDEN_TRANS(vwmaccu_vx)
+ GEN_OPIVX_WIDEN_TRANS(vwmacc_vx)
+ GEN_OPIVX_WIDEN_TRANS(vwmaccsu_vx)
+ GEN_OPIVX_WIDEN_TRANS(vwmaccus_vx)
 +
-+/* Vector Widening Integer Multiply Instructions */
-+GEN_OPIVV_WIDEN_TRANS(vwmul_vv, opivv_widen_check)
-+GEN_OPIVV_WIDEN_TRANS(vwmulu_vv, opivv_widen_check)
-+GEN_OPIVV_WIDEN_TRANS(vwmulsu_vv, opivv_widen_check)
-+GEN_OPIVX_WIDEN_TRANS(vwmul_vx)
-+GEN_OPIVX_WIDEN_TRANS(vwmulu_vx)
-+GEN_OPIVX_WIDEN_TRANS(vwmulsu_vx)
++/* Vector Integer Merge and Move Instructions */
++static bool opivv_vmerge_check(DisasContext *s, arg_rmrr *a)
++{
++    return (vext_check_isa_ill(s, RVV) &&
++            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
++            vext_check_reg(s, a->rd, false) &&
++            vext_check_reg(s, a->rs2, false) &&
++            vext_check_reg(s, a->rs1, false) &&
++            ((a->vm == 0) || (a->rs2 == 0)));
++}
++GEN_OPIVV_TRANS(vmerge_vvm, opivv_vmerge_check)
++
++static bool opivx_vmerge_check(DisasContext *s, arg_rmrr *a)
++{
++    return (vext_check_isa_ill(s, RVV) &&
++            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
++            vext_check_reg(s, a->rd, false) &&
++            vext_check_reg(s, a->rs2, false) &&
++            ((a->vm == 0) || (a->rs2 == 0)));
++}
++GEN_OPIVX_TRANS(vmerge_vxm, opivx_vmerge_check)
++
++GEN_OPIVI_TRANS(vmerge_vim, 0, vmerge_vxm, opivx_vmerge_check)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 6330f5882f..beb84f9674 100644
+index 5109654f9f..273b705847 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -857,6 +857,18 @@ GEN_VEXT_AMO(vamomaxuw_v_w, uint32_t, uint32_t, idx_w, clearl)
- #define OP_SUS_H int16_t, uint16_t, int16_t, uint16_t, int16_t
- #define OP_SUS_W int32_t, uint32_t, int32_t, uint32_t, int32_t
- #define OP_SUS_D int64_t, uint64_t, int64_t, uint64_t, int64_t
-+#define WOP_UUU_B uint16_t, uint8_t, uint8_t, uint16_t, uint16_t
-+#define WOP_UUU_H uint32_t, uint16_t, uint16_t, uint32_t, uint32_t
-+#define WOP_UUU_W uint64_t, uint32_t, uint32_t, uint64_t, uint64_t
-+#define WOP_SSS_B int16_t, int8_t, int8_t, int16_t, int16_t
-+#define WOP_SSS_H int32_t, int16_t, int16_t, int32_t, int32_t
-+#define WOP_SSS_W int64_t, int32_t, int32_t, int64_t, int64_t
-+#define WOP_SUS_B int16_t, uint8_t, int8_t, uint16_t, int16_t
-+#define WOP_SUS_H int32_t, uint16_t, int16_t, uint32_t, int32_t
-+#define WOP_SUS_W int64_t, uint32_t, int32_t, uint64_t, int64_t
-+#define WOP_SSU_B int16_t, int8_t, uint8_t, int16_t, uint16_t
-+#define WOP_SSU_H int32_t, int16_t, uint16_t, int32_t, uint32_t
-+#define WOP_SSU_W int64_t, int32_t, uint32_t, int64_t, uint64_t
- 
- /* operation of two vector elements */
- #define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
-@@ -1771,3 +1783,42 @@ GEN_VEXT_VX(vrem_vx_b, 1, 1, clearb)
- GEN_VEXT_VX(vrem_vx_h, 2, 2, clearh)
- GEN_VEXT_VX(vrem_vx_w, 4, 4, clearl)
- GEN_VEXT_VX(vrem_vx_d, 8, 8, clearq)
+@@ -1955,3 +1955,61 @@ GEN_VEXT_VX(vwmaccsu_vx_w, 4, 8, clearq)
+ GEN_VEXT_VX(vwmaccus_vx_b, 1, 2, clearh)
+ GEN_VEXT_VX(vwmaccus_vx_h, 2, 4, clearl)
+ GEN_VEXT_VX(vwmaccus_vx_w, 4, 8, clearq)
 +
-+/* Vector Widening Integer Multiply Instructions */
-+RVVCALL(OPIVV2, vwmul_vv_b, WOP_SSS_B, H2, H1, H1, DO_MUL)
-+RVVCALL(OPIVV2, vwmul_vv_h, WOP_SSS_H, H4, H2, H2, DO_MUL)
-+RVVCALL(OPIVV2, vwmul_vv_w, WOP_SSS_W, H8, H4, H4, DO_MUL)
-+RVVCALL(OPIVV2, vwmulu_vv_b, WOP_UUU_B, H2, H1, H1, DO_MUL)
-+RVVCALL(OPIVV2, vwmulu_vv_h, WOP_UUU_H, H4, H2, H2, DO_MUL)
-+RVVCALL(OPIVV2, vwmulu_vv_w, WOP_UUU_W, H8, H4, H4, DO_MUL)
-+RVVCALL(OPIVV2, vwmulsu_vv_b, WOP_SUS_B, H2, H1, H1, DO_MUL)
-+RVVCALL(OPIVV2, vwmulsu_vv_h, WOP_SUS_H, H4, H2, H2, DO_MUL)
-+RVVCALL(OPIVV2, vwmulsu_vv_w, WOP_SUS_W, H8, H4, H4, DO_MUL)
-+GEN_VEXT_VV(vwmul_vv_b, 1, 2, clearh)
-+GEN_VEXT_VV(vwmul_vv_h, 2, 4, clearl)
-+GEN_VEXT_VV(vwmul_vv_w, 4, 8, clearq)
-+GEN_VEXT_VV(vwmulu_vv_b, 1, 2, clearh)
-+GEN_VEXT_VV(vwmulu_vv_h, 2, 4, clearl)
-+GEN_VEXT_VV(vwmulu_vv_w, 4, 8, clearq)
-+GEN_VEXT_VV(vwmulsu_vv_b, 1, 2, clearh)
-+GEN_VEXT_VV(vwmulsu_vv_h, 2, 4, clearl)
-+GEN_VEXT_VV(vwmulsu_vv_w, 4, 8, clearq)
++/* Vector Integer Merge and Move Instructions */
++#define GEN_VEXT_VMERGE_VV(NAME, ETYPE, H, CLEAR_FN)                 \
++void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,          \
++        CPURISCVState *env, uint32_t desc)                           \
++{                                                                    \
++    uint32_t mlen = vext_mlen(desc);                                 \
++    uint32_t vm = vext_vm(desc);                                     \
++    uint32_t vl = env->vl;                                           \
++    uint32_t esz = sizeof(ETYPE);                                    \
++    uint32_t vlmax = vext_maxsz(desc) / esz;                         \
++    uint32_t i;                                                      \
++                                                                     \
++    for (i = 0; i < vl; i++) {                                       \
++        if (!vm && !vext_elem_mask(v0, mlen, i)) {                   \
++            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
++            *((ETYPE *)vd + H1(i)) = s2;                             \
++        } else {                                                     \
++            ETYPE s1 = *((ETYPE *)vs1 + H(i));                       \
++            *((ETYPE *)vd + H(i)) = s1;                              \
++        }                                                            \
++    }                                                                \
++    if (i != 0) {                                                    \
++        CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                     \
++    }                                                                \
++}
++GEN_VEXT_VMERGE_VV(vmerge_vvm_b, int8_t,  H1, clearb)
++GEN_VEXT_VMERGE_VV(vmerge_vvm_h, int16_t, H2, clearh)
++GEN_VEXT_VMERGE_VV(vmerge_vvm_w, int32_t, H4, clearl)
++GEN_VEXT_VMERGE_VV(vmerge_vvm_d, int64_t, H8, clearq)
 +
-+RVVCALL(OPIVX2, vwmul_vx_b, WOP_SSS_B, H2, H1, DO_MUL)
-+RVVCALL(OPIVX2, vwmul_vx_h, WOP_SSS_H, H4, H2, DO_MUL)
-+RVVCALL(OPIVX2, vwmul_vx_w, WOP_SSS_W, H8, H4, DO_MUL)
-+RVVCALL(OPIVX2, vwmulu_vx_b, WOP_UUU_B, H2, H1, DO_MUL)
-+RVVCALL(OPIVX2, vwmulu_vx_h, WOP_UUU_H, H4, H2, DO_MUL)
-+RVVCALL(OPIVX2, vwmulu_vx_w, WOP_UUU_W, H8, H4, DO_MUL)
-+RVVCALL(OPIVX2, vwmulsu_vx_b, WOP_SUS_B, H2, H1, DO_MUL)
-+RVVCALL(OPIVX2, vwmulsu_vx_h, WOP_SUS_H, H4, H2, DO_MUL)
-+RVVCALL(OPIVX2, vwmulsu_vx_w, WOP_SUS_W, H8, H4, DO_MUL)
-+GEN_VEXT_VX(vwmul_vx_b, 1, 2, clearh)
-+GEN_VEXT_VX(vwmul_vx_h, 2, 4, clearl)
-+GEN_VEXT_VX(vwmul_vx_w, 4, 8, clearq)
-+GEN_VEXT_VX(vwmulu_vx_b, 1, 2, clearh)
-+GEN_VEXT_VX(vwmulu_vx_h, 2, 4, clearl)
-+GEN_VEXT_VX(vwmulu_vx_w, 4, 8, clearq)
-+GEN_VEXT_VX(vwmulsu_vx_b, 1, 2, clearh)
-+GEN_VEXT_VX(vwmulsu_vx_h, 2, 4, clearl)
-+GEN_VEXT_VX(vwmulsu_vx_w, 4, 8, clearq)
++#define GEN_VEXT_VMERGE_VX(NAME, ETYPE, H, CLEAR_FN)                 \
++void HELPER(NAME)(void *vd, void *v0, target_ulong s1,               \
++        void *vs2, CPURISCVState *env, uint32_t desc)                \
++{                                                                    \
++    uint32_t mlen = vext_mlen(desc);                                 \
++    uint32_t vm = vext_vm(desc);                                     \
++    uint32_t vl = env->vl;                                           \
++    uint32_t esz = sizeof(ETYPE);                                    \
++    uint32_t vlmax = vext_maxsz(desc) / esz;                         \
++    uint32_t i;                                                      \
++                                                                     \
++    for (i = 0; i < vl; i++) {                                       \
++        if (!vm && !vext_elem_mask(v0, mlen, i)) {                   \
++            ETYPE s2 = *((ETYPE *)vs2 + H(i));                       \
++            *((ETYPE *)vd + H1(i)) = s2;                             \
++        } else {                                                     \
++            *((ETYPE *)vd + H(i)) = (ETYPE)(target_long)s1;          \
++        }                                                            \
++    }                                                                \
++    if (i != 0) {                                                    \
++        CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                     \
++    }                                                                \
++}
++GEN_VEXT_VMERGE_VX(vmerge_vxm_b, int8_t,  H1, clearb)
++GEN_VEXT_VMERGE_VX(vmerge_vxm_h, int16_t, H2, clearh)
++GEN_VEXT_VMERGE_VX(vmerge_vxm_w, int32_t, H4, clearl)
++GEN_VEXT_VMERGE_VX(vmerge_vxm_d, int64_t, H8, clearq)
 -- 
 2.23.0
 
