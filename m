@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4BC17E08C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:50:22 +0100 (CET)
-Received: from localhost ([::1]:42622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB6E17E095
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:51:22 +0100 (CET)
+Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHrP-0006uH-9x
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33813)
+	id 1jBHsP-0000UX-VX
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jBHl4-00009d-A2
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:43:47 -0400
+ (envelope-from <armbru@redhat.com>) id 1jBHnc-0003J9-U4
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:46:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jBHl2-0005mh-0p
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:43:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24806
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jBHna-0003g9-Tw
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:46:24 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32718
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBHl1-0005fE-3O
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:43:43 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jBHna-0003eW-Qr
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:46:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583757821;
+ s=mimecast20190719; t=1583757982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUPnh3b4Vmsns6SmCmuv6rjABRc4D3rtbZ3vM8IAHZ4=;
- b=OHrt5/cJMKawLoL71CnR/BE15uhzc3KTJtcGw3zJaC6lHff0zo6fC83S9MlNOuLCYVGs8c
- dZGdL+orPMK5vyNX+TrtLhLkkiKwECc8QJ/PPPrPn8GbmRgq/1oQEBf3S+IQXrsgJ5qOUm
- b+p6PJXcIAKA2ccBk56mU8xpV3cUJHE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-0dhXTRTBPia0v-OYew1OMg-1; Mon, 09 Mar 2020 08:43:39 -0400
-X-MC-Unique: 0dhXTRTBPia0v-OYew1OMg-1
-Received: by mail-ed1-f72.google.com with SMTP id y35so7894090ede.4
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 05:43:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HfIe3ut4m22quuHm0kzJtSMf+2mHRDjoamnFT3+Cs/8=;
- b=Am10CK8Z2RvDbvRuJ9K8fa1pfpW4LMwTdmfnLlI8PuJdSFzwClYnT7FOoZK7FZHa71
- 7H0GlsEuaVD+AruvCHUsiZ8ffPqUC5AP8oWf6etMt564vMd3RyBSJCHuhtzgqaOGJI1n
- JPTgUqxQU5If3nMsYKcokyvSrB+y91BnNS0XgJvDKRi5IyipXiWD168RIrIUrGXxhLSr
- u4sqoAUdYdk4RJDdNCX0ei0mGw8w6sOIQMwDIMv6jC/76bSqCmUcgNCcYoyov1Y2hEYs
- Vj3H4WvnfRzLiOMl3tzd5w2msvXvCm+ge1MMwCFnj5S9a0AN14P3YMrK1ijTMi7Bl3vs
- ueeQ==
-X-Gm-Message-State: ANhLgQ1LXFXW/HtMwBN8Qp428BivyjkXDK8xzrwW+bTpMQWb7EYAzC9G
- 5bb1zIMxuY0U5P1fYDHSVOeuB/IRY5fbzJvu7rg4xxzZVefsqvjoQErN2wnQep5cjDR7dXDp57O
- 6qSdC6EmLKdQ9btQ=
-X-Received: by 2002:a17:906:2484:: with SMTP id
- e4mr14281586ejb.204.1583757818016; 
- Mon, 09 Mar 2020 05:43:38 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtALj28q1FCsd1BBGGonWYh8/K1VfmwmaLRwxgNhOHO8D/Kk3d+G1XkHaa2/vHzaK/s7KO4Tw==
-X-Received: by 2002:a17:906:2484:: with SMTP id
- e4mr14281564ejb.204.1583757817736; 
- Mon, 09 Mar 2020 05:43:37 -0700 (PDT)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id l9sm904297edw.83.2020.03.09.05.43.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Mar 2020 05:43:37 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] configure: Fix building with SASL on Windows
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200309122454.22551-1-philmd@redhat.com>
- <20200309122454.22551-2-philmd@redhat.com>
- <20200309123014.GH3033513@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4b275fa8-45e9-a3bf-a915-70c1651ce84c@redhat.com>
-Date: Mon, 9 Mar 2020 13:43:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E8payL5s+10rc7kxHEuBGEKw4JwKFNTqewLbbgio3m4=;
+ b=HSxKqduCWu+CtQXYsaSXuX5pTRZNoOMFLWyU5BJt3kfTs/EYvOmm8AKPxe+YBvW7A2oCe3
+ Z1qQkYHCAVhna2bMtJNpVdWLdpCbn8iYpzqQWW8ZYB9EvsvvQhHKJM05280KZ8WskF5MRx
+ 0Y7uUcCmt0tzT5iO0yduF0zYWGIIUNw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-nlLdzh2DNoSnCIc1mKO26A-1; Mon, 09 Mar 2020 08:46:18 -0400
+X-MC-Unique: nlLdzh2DNoSnCIc1mKO26A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC59C18A6EC0
+ for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 12:46:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
+ [10.36.116.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E7E5261CF
+ for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 12:46:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2979D11386A6; Mon,  9 Mar 2020 13:46:16 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] Error reporting patches for 2020-03-09
+Date: Mon,  9 Mar 2020 13:46:12 +0100
+Message-Id: <20200309124616.4372-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200309123014.GH3033513@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,80 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Alexey Pavlov <alexpux@gmail.com>,
- =?UTF-8?B?0JDQu9C10LrRgdC10Lkg0J/QsNCy0LvQvtCy?= <alexey.pawlow@gmail.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?B?0JzQtdGC0LvQuNGG0LrQuNC5INCu0YDQuNC5INCS0LjQutGC0L7RgNC+0LLQuNGH?=
- <winaes@narod.ru>, Biswapriyo Nath <nathbappai@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Youry Metlitsky <winaes@yandex.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/20 1:30 PM, Daniel P. Berrang=C3=A9 wrote:
-> On Mon, Mar 09, 2020 at 01:24:53PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> The Simple Authentication and Security Layer (SASL) library
->> re-defines the struct iovec on Win32 [*]. QEMU also re-defines
->> it in "qemu/osdep.h". The two definitions then clash on a MinGW
->> build.
->> We can avoid the SASL definition by defining STRUCT_IOVEC_DEFINED.
->> Since QEMU already defines 'struct iovec' if it is missing, add
->> the definition to vnc_sasl_cflags to avoid SASL re-defining it.
->>
->> [*] https://github.com/cyrusimap/cyrus-sasl/blob/cyrus-sasl-2.1.27/inclu=
-de/sasl.h#L187
->>
->> Cc: Alexey Pavlov <alexpux@gmail.com>
->> Cc: Biswapriyo Nath <nathbappai@gmail.com>
->> Reported-by: Youry Metlitsky <winaes@yandex.ru>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> v2:
->> Since QEMU provides 'struct iovec' if missing, always define
->> STRUCT_IOVEC_DEFINED (danpb review).
->> ---
->>   configure | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/configure b/configure
->> index cbf864bff1..a4cd4bccfb 100755
->> --- a/configure
->> +++ b/configure
->> @@ -3349,7 +3349,9 @@ if test "$vnc" =3D "yes" && test "$vnc_sasl" !=3D =
-"no" ; then
->>   int main(void) { sasl_server_init(NULL, "qemu"); return 0; }
->>   EOF
->>     # Assuming Cyrus-SASL installed in /usr prefix
->> -  vnc_sasl_cflags=3D""
->> +  # QEMU defines struct iovec in "qemu/osdep.h",
->> +  # we don't want libsasl to redefine it in <sasl/sasl.h>.
->> +  vnc_sasl_cflags=3D"-DSTRUCT_IOVEC_DEFINED"
->>     vnc_sasl_libs=3D"-lsasl2"
->>     if compile_prog "$vnc_sasl_cflags" "$vnc_sasl_libs" ; then
->>       vnc_sasl=3Dyes
->=20
-> This works so:
->=20
->    Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->=20
->=20
-> however, I'm wondering if we'd be better doing this in a more
-> localized place. This applies to everything we compile, but
-> only one place imports sasl.h, so should we instead do
->=20
->     #define STRUCT_IOVEC_DEFINED
->     #include <sasl/saslh.>
->=20
-> in vnc-auth-sasl.h, so we localize the namespace pollution.
+The following changes since commit 67f17e23baca5dd545fe98b01169cc351a70fe35=
+:
 
-Good idea, but we'll need to remember this fix if we ever use=20
-<sasl/sasl.h> in another header.
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
+ng (2020-03-06 17:15:36 +0000)
 
->=20
-> Regards,
-> Daniel
->=20
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-03-09
+
+for you to fetch changes up to d1eddab86f92e7e060c8a473695c7f24ec00c9ab:
+
+  qga: Fix a memory leak (2020-03-09 13:36:15 +0100)
+
+----------------------------------------------------------------
+Error reporting patches for 2020-03-09
+
+* Improve error reporting on Windows
+
+----------------------------------------------------------------
+Philippe Mathieu-Daud=C3=A9 (4):
+      chardev: Improve error report by calling error_setg_win32()
+      util/osdep: Improve error report by calling error_setg_win32()
+      qga: Improve error report by calling error_setg_win32()
+      qga: Fix a memory leak
+
+ chardev/char-pipe.c  | 2 +-
+ chardev/char-win.c   | 2 +-
+ qga/channel-win32.c  | 7 ++++---
+ qga/commands-win32.c | 8 +++++---
+ util/osdep.c         | 4 ++--
+ 5 files changed, 13 insertions(+), 10 deletions(-)
+
+--=20
+2.21.1
 
 
