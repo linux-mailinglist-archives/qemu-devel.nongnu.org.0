@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37C617E087
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:49:02 +0100 (CET)
-Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F6517E05E
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:36:16 +0100 (CET)
+Received: from localhost ([::1]:42360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHq9-0005Li-Lo
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59730)
+	id 1jBHdn-0005kn-Nj
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHZZ-0000in-MM
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:31:55 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHaW-0001uR-2U
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:32:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHZX-0007jq-HR
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:31:53 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:36997)
+ (envelope-from <laurent@vivier.eu>) id 1jBHaU-0001XG-VM
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:32:52 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52227)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHZR-0007TE-DP; Mon, 09 Mar 2020 08:31:46 -0400
+ id 1jBHaU-0001Q9-Lx; Mon, 09 Mar 2020 08:32:50 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M9WmQ-1jEYo845wK-005WWB; Mon, 09 Mar 2020 13:30:49 +0100
-Subject: Re: [PATCH v3 05/12] scsi/scsi-disk: Remove redundant statement in
- scsi_disk_emulate_command()
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M8QFi-1jFfJ32tPs-004QUO; Mon, 09 Mar 2020 13:32:41 +0100
+Subject: Re: [PATCH v3 06/12] display/pxa2xx_lcd: Remove redundant statement
+ in pxa2xx_palette_parse()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-7-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-8-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,34 +72,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <8354d3b7-d632-12fc-de79-e3fcae97c4fa@vivier.eu>
-Date: Mon, 9 Mar 2020 13:30:46 +0100
+Message-ID: <4788a9e2-795e-9ee8-ba3f-5a1f7e5d5cf4@vivier.eu>
+Date: Mon, 9 Mar 2020 13:32:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-7-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200302130715.29440-8-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1zdvKBWzrIt9rkuATXZxXHM+RnYbN0BjWGx+NS9RgFK0vahAP5r
- MPRavXH2/Ms5z+QnPWfPedCkiX9qaYyx+WN7pQe61KLnLh4Z4P7hN1MyTa4ZlQUskeD8NTy
- fs82A7vF/qh5zTPIH/MULPimMJ+etn00TUF/AuimMTr1yquGdxRsoXAIh22ZZZP/cnD9E5J
- saBCxTUrqliVhKD2ugVvQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lk5e5yM663g=:sITGnOcElomp9X+9m0lVA7
- DVDTr2X2R+4igHRj+c9Om9ScvaJkOGqK4T7CdpAaSefhjUP64+n3x8Ovqfqv1P0DOAif/cBGN
- joYIUne8/8DQkOXiN8zeHbgv60TAZnBwXSiDQzu+NWr6AMzB3rbdkYVWzbRE8FEo4naegssWR
- a1F1e+hmrzSHhHIW8jGBO4J2Bjf04cfBRJ7rbtkXBfxjgY8u3rHunvUfHYuoCsfFTajigWGcD
- oA/1TIAoEwnT2hHqRukru44C5zQjrJ8U3Q+BR+5h4aAhVvEoUuDT5Xd+/tI5NJlUmIn31AORP
- SMLz4RYIzbDYjV8TopOv7qnSx5tkPEDidt7MU53Svcq69cQfjxlYVpiv5eOEN1jeUj4ONOEYE
- GF1LVYjHrKRF618ksuix5OLwcEnRFvdAgOtI/nSijJwxZu2z09k4a4/6tyiV/qWmwfbXrIzt+
- /r9XU0VgV7kzSmwSz3zAYBQ+rtQ/w9XyQJ54zPLbHxZ+fc+F/sBhO0CkUDJ7WnRZnzHlG278/
- 4/QKIXylZsKuWJwOekCZpLIA55p8+gLmfsm1VY9YDQ0SyiiVxdqmAvpZ5+FETanpGziuw6Wf+
- zSLL9oWL0DqACpWU56rXYQHF056SD05q8GHHEsOPFJZMaopJGBbzOR9qks5AbEtgdKwGIcovA
- xRR2FCQrrx5qFpBSyfCwEKR90kItOKBT3JlQ3x2TEOiAAkn1HcZXDiZ3PdRYo0i6X+7xc7GdW
- uE6IGtod/Faixyl2sbyebxH+DYxGGEmorAQNZ2+dOBrm1on9AkYOmvAvjmtD4OmLDrWeX2L/u
- alUu2+0zfeUhf+kEKif3gl+Ss7mY39gyun7tkGoMAJYI5+/Hpvaasqvd+ncmFz4uVaHvLBJ
+X-Provags-ID: V03:K1:vXXS9Qb5ZN7fYZNot1QYMJazqZjcpugT9a6q3UglUx0HGpgqTF8
+ qyjipVLZj47WRakLaYZAOgdHUhgzyD9+4XcPF1nnKMTrkG1NiYxX8cxz8yresfaHuaN3FSE
+ EEFut2YajfQOuNOatOuF26K3MvNv5YHKcY9BDIt1/hosbBJ8/T0F3Ezpmg7+SKW7SHhIc5W
+ 8IEnEDeWA57t+mNG6xVzg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3EjPF7mpZgs=:JWXBdpAErOKb5Nspd6k5Xn
+ zseUYkynOOw0w5Eynu9ZlQrkk8APtw337imOkS97xS2dJRKo4HWIyDS1vNg7hMEfSmv0dr259
+ GRa4fMu7n+K0ycbdNKAFfmBqoLTYr8aU4yO6MVZMHXalIfoiVF18/ShEUgqClv+qnIIGA2REO
+ vzqwIHotmERyKaM96P7ulacn/J8hXhE58D6s2kmY5qAxHvq599dAqjkjodOgSedhjZLFcdpwx
+ MGX9ZYKSg6MXpNkpElKUS6RiWR/nVXqXcLWr0gH0mBEdvNu/WYq3wLSPbVWDabZAubgpsEm2u
+ Kt23t2xyur7d+j8/y+QBqCQf/plGOEJF+A/giqD/+fAcl2FKaLhnijfJ+kRpz45fevBNhivIx
+ FKlGYRZhbrGVeLG0ErQmi3+EGcUD+LfnX4SWlqSjC90bEQod4gk2rLK7uwROcwEEyXLCLw9R9
+ bUsXfdOlWPA66Ya6Z0AXIRpm2ZYokKOpY9sUR6GIfUcq5IwWTlJacsFnbfizR9HmJIDsCHscX
+ OFuWOmZ2bCalF+GT8KWPi2XKuNGnRPrOQMTDacSX6pzLSJh7d07X7jPbzHDJQdjQKB4eMNwC4
+ s62nFUUYmjWOa2sSixPOKOSsURb3xNf/e612XJZgu4aCc2HK0KjPQ82ooCO/hhO0xP4j2OgJZ
+ g5mmSafUhTyxBdJKdeX924IiPRjqIoHYx+Y4QxD0lSS0ej7V0nmFumaevAwc5aBeNgDPkzcq/
+ aTtt9tv/p1EebGzoa0Gyukq6A9CbQrEiaho2wmxRJTDmEt/YVAwIIUI+dQHPYoY0T41gMsQSx
+ ii+i3BHGz7TMAjTzl9IkNrrAlLDrml3uyqaKu7C7U66xrxcAb4uMxIPkPvOhTrHgLyGvRVK
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,42 +111,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- Paolo Bonzini <pbonzini@redhat.com>, zhang.zhanghailiang@huawei.com,
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
  Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 02/03/2020 à 14:07, Chen Qun a écrit :
 > Clang static code analyzer show warning:
-> scsi/scsi-disk.c:1918:5: warning: Value stored to 'buflen' is never read
->     buflen = req->cmd.xfer;
->     ^        ~~~~~~~~~~~~~
+> hw/display/pxa2xx_lcd.c:596:9: warning: Value stored to 'format' is never read
+>         format = 0;
+>         ^        ~
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Fam Zheng <fam@euphon.net>
+> Cc: Andrzej Zaborowski <balrogg@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/scsi/scsi-disk.c | 1 -
+>  hw/display/pxa2xx_lcd.c | 1 -
 >  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index 10d0794d60..1c0cb63a6f 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -1915,7 +1915,6 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
->          r->iov.iov_base = blk_blockalign(s->qdev.conf.blk, r->buflen);
+> diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+> index 05f5f84671..464e93161a 100644
+> --- a/hw/display/pxa2xx_lcd.c
+> +++ b/hw/display/pxa2xx_lcd.c
+> @@ -593,7 +593,6 @@ static void pxa2xx_palette_parse(PXA2xxLCDState *s, int ch, int bpp)
+>          n = 256;
+>          break;
+>      default:
+> -        format = 0;
+>          return;
 >      }
 >  
-> -    buflen = req->cmd.xfer;
->      outbuf = r->iov.iov_base;
->      memset(outbuf, 0, r->buflen);
->      switch (req->cmd.buf[0]) {
 > 
 
-Fixes: c8dcb531bcd3 ("scsi: do not return short responses for emulated
-commands")
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
