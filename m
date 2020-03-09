@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E448C17EAA9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 22:00:43 +0100 (CET)
-Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C6217EABF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 22:05:41 +0100 (CET)
+Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBPVy-00035I-Tw
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 17:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48413)
+	id 1jBPam-0005pd-0u
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 17:05:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <unai.martinezcorral@ehui.eus>) id 1jBNr2-0003Vz-N8
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:14:22 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jBPZq-0005NH-Nr
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:04:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <unai.martinezcorral@ehui.eus>) id 1jBNr1-0003xb-I9
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:14:20 -0400
-Received: from smtp.lg.ehu.es ([158.227.0.66]:24394 helo=smtp.ehu.eus)
+ (envelope-from <alex.williamson@redhat.com>) id 1jBPZo-0000Lq-RQ
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:04:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28475
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <unai.martinezcorral@ehui.eus>)
- id 1jBNr1-0003w4-7k
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:14:19 -0400
-Received: from imsva2.lgp.ehu.es (imsva2.lgp.ehu.es [10.0.3.246])
- by postfix.smtp2.imsva2 (Postfix) with ESMTPS id A6BB32D29;
- Mon,  9 Mar 2020 20:01:28 +0100 (CET)
-Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 98CBB5A04F;
- Mon,  9 Mar 2020 20:01:28 +0100 (CET)
-Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D74D5A045;
- Mon,  9 Mar 2020 20:01:28 +0100 (CET)
-Received: from smtp.ehu.eus (unknown [10.0.100.76])
- by imsva2.lgp.ehu.es (Postfix) with ESMTPS;
- Mon,  9 Mar 2020 20:01:28 +0100 (CET)
-Received: from 669c1c222ef4 (static.187.0.0.81.ibercom.com [81.0.0.187])
- by smtp2 (Postfix) with ESMTPSA id 3CCC62D29;
- Mon,  9 Mar 2020 20:01:28 +0100 (CET)
-Date: Mon, 9 Mar 2020 19:01:19 +0000
-From: Unai Martinez-Corral <unai.martinezcorral@ehui.eus>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 0/10] qemu-binfmt-conf.sh
-Message-ID: <20200309190110.GA31@669c1c222ef4>
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jBPZo-0000JT-Lb
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583787876;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fbC3+SCZRcbY25ZcwpCM3r5UPj8OcIpA81tZN1IWAv8=;
+ b=dGQmdJKS/WS1UeGSIC7XWjLmDZInkrfUDwwfE3rBlG6TVSrobe5FtZ+WWf9oRR5YwXem9K
+ MgelAgQmFPnIsLyavocDEKx3G1HJrYzJDhoFYvMlnO6ECyJVcqw3Wsos8COe2soiZrtJ1h
+ Aa22op7VO4tt3h2LS/CvptHgdEO/j/Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-4lT2vwygMEGGbOw8952zxA-1; Mon, 09 Mar 2020 17:04:35 -0400
+X-MC-Unique: 4lT2vwygMEGGbOw8952zxA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9770B1937FC0
+ for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 21:04:34 +0000 (UTC)
+Received: from w520.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B92861000325;
+ Mon,  9 Mar 2020 21:04:29 +0000 (UTC)
+Date: Mon, 9 Mar 2020 15:04:28 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v2 4/5] KVM: Kick resamplefd for split kernel irqchip
+Message-ID: <20200309150428.1eb36e78@w520.home>
+In-Reply-To: <20200306004324.GG7146@xz-x1>
+References: <20200228161503.382656-1-peterx@redhat.com>
+ <20200228161503.382656-5-peterx@redhat.com>
+ <20200305165857.6a3ec29f@w520.home> <20200306004324.GG7146@xz-x1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Greylist: ACL 191 matched, not delayed by milter-greylist-4.6.2 (smtp2
- [10.0.100.76]); Mon, 09 Mar 2020 20:01:28 +0100 (CET)
-X-TM-AS-GCONF: 00
-X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
- milter-greylist-4.6.2 (postfix.smtp2.imsva2 [10.0.100.76]);
- Mon, 09 Mar 2020 20:01:28 +0100 (CET)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 158.227.0.66
-X-Mailman-Approved-At: Mon, 09 Mar 2020 16:57:38 -0400
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,82 +73,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi, laurent@vivier.eu
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, 5 Mar 2020 19:43:24 -0500
+Peter Xu <peterx@redhat.com> wrote:
 
-This series reworks qemu-binfmt-conf.sh:
+> On Thu, Mar 05, 2020 at 04:58:57PM -0700, Alex Williamson wrote:
+> 
+> Hi, Alex,
+> 
+> [...]
+> 
+> > > +bool kvm_resample_fd_notify(int gsi)
+> > > +{
+> > > +    KVMResampleFd *rfd;
+> > > +
+> > > +    if (!kvm_irqchip_is_split()) {
+> > > +        return false;
+> > > +    }  
+> > 
+> > Nit, checking split irqchip here seems unnecessary.  We're only adding
+> > and removing list entries based on split irqchip below, so the list
+> > would be empty anyway, unless another user comes along that might have
+> > a reason for this functionality that isn't as tied to split irqchip.  
+> 
+> Right, now it's more or less a hint to readers, and we can remove it.
+> I'll see whether I'll repost a new version, and I'll drop it if so.
+> 
+> > 
+> > Overall the series looks like a big improvement versus falling back to
+> > our crappy generic EOI hackery with split irqchip.  Thanks,  
+> 
+> Yes I was pretty happy to see the numbers too when I first tested the
+> series, after all I was still uncertain about how much overhead the
+> userspace EOI would take on the irq return path.  It turns out that
+> the injection seems to be more important.
+> 
+> In all cases, major credits go to Paolo for the idea. :)
 
-* Argument <CPU> from option '--systemd' is generalized to <TARGETS>, and it is
-  accepted for any mode (default, debian or systemd). It can be a single target
-  arch or a list of them.
-* Option '-r|--clear' is added, which allows to remove an already registered
-  target interpreter or a list of them. The implementation is functional but
-  partial. Please, see the corresponding commit.
-* Option '-t|--test' is added, which allows to execute the CHECK according
-  to the provided arguments, but no interpreter is configured.
-* Support to set options through environment variables: QEMU_TARGETS, QEMU_PATH,
-  QEMU_SUFFIX, QEMU_PERSISTENT, QEMU_CREDENTIAL, QEMU_CLEAR and QEMU_TEST.
+Hey Peter, I'm trying to test this myself and my VM just hangs as soon
+as I enable split irqchip.  It boots up to discovering the virtio
+disks, then nothing more.  My host kernel is 5.3.7-301.fc31.x86_64,
+QEMU is 373c7068dd61 + this patch series.  VM script is:
 
-The following changes are not backward compatible:
+/usr/local/bin/qemu-system-x86_64 \
+-S \
+-machine pc-q35-5.0,accel=kvm,usb=off,vmport=off,dump-guest-core=off,kernel-irqchip=split \
+-cpu host \
+-m 2048 \
+-smp 2,sockets=2,cores=1,threads=1 \
+-no-user-config \
+-nodefaults \
+-monitor stdio \
+-serial none \
+-parallel none \
+-no-hpet \
+-device pcie-root-port,port=0x10,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x2 \
+-device pcie-root-port,port=0x11,chassis=2,id=pci.2,bus=pcie.0,addr=0x2.0x1 \
+-device pcie-root-port,port=0x12,chassis=3,id=pci.3,bus=pcie.0,addr=0x2.0x2 \
+-device pcie-root-port,port=0x13,chassis=4,id=pci.4,bus=pcie.0,addr=0x2.0x3 \
+-device pcie-root-port,port=0x14,chassis=5,id=pci.5,bus=pcie.0,addr=0x2.0x4 \
+-device pcie-root-port,port=0x15,chassis=6,id=pci.6,bus=pcie.0,addr=0x2.0x5 \
+-drive file=/var/lib/libvirt/images/fedora31-1.qcow2,format=qcow2,if=none,id=drive-virtio-disk0 \
+-device virtio-blk-pci,scsi=off,bus=pci.3,addr=0x0,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1 \
+-vnc :0 \
+-device VGA,id=video0,vgamem_mb=16,bus=pcie.0,addr=0x1 \
+-device vfio-pci,host=02:00.0,id=e1000e,bus=pci.2,addr=0x0
 
-* Option '--persistent' no longer requires/accepts an argument.
-* Option '--credential' no longer requires/accepts an argument.
-* Option '--systemd' no longer requires/accepts an argument.
-* Option '--qemu-path' is renamed to '--path'.
-* Option '--qemu-suffix' is renamed to '--suffix'.
+Guest has pci=nomsi on the kernel command line.  It boots with
+irqchip=on, also boots with x-no-kvm-intx=on as an arg to the vfio-pci
+device.  I'm afraid there's a regression here unless I'm failing to add
+something necessary for split irqchip.  Thanks,
 
-The functionality of all of them is untouched. Changes are related to syntax only.
+Alex
 
-v10
-
-* Split style related commit
-
-v9
-
-* Make style coherent with the dominant pattern
-
-v8:
-
-* Fix typos and address review comments
-
-v7:
-
-* Check that a interpreter exists before trying to remove it.
-
-v6:
-
-* Don't need to use "find".
-* Put the ";;" at the same position.
-* Set BINFMT_CLEAR to ':', to allow --test to work with --clear.
-* Do not show DEBIANDIR and SYSTEMDDIR in the Env-variable column.
-
-Based on:
-
-* [PATCH v5 0/10] qemu-binfmt-conf.sh
-   * should have been [PATCH v5 0/9] qemu-binfmt-conf.sh
-* [PATCH v4 0/10] qemu-binfmt-conf.sh
-* [PATCH v3 0/10] qemu-binfmt-conf.sh
-* [PATCH v2] qemu-binfmt-conf.sh: add CPUS, add --reset, make -p and -c boolean (no arg)
-* [PATCH] qemu-binfmt-conf.sh: add CPUS, add --reset, make -p and -c boolean (no arg)
-* scripts/qemu-binfmt-conf.sh: allow clearing of entries
-
-Regards
-
-Unai Martinez-Corral (10):
-      qemu-binfmt-conf.sh: enforce style consistency
-      qemu-binfmt-conf.sh: enforce safe tests
-      qemu-binfmt-conf.sh: make opts -p and -c boolean
-      qemu-binfmt-conf.sh: add QEMU_CREDENTIAL and QEMU_PERSISTENT
-      qemu-binfmt-conf.sh: use the same presentation format as for qemu-*
-      qemu-binfmt-conf.sh: remove 'qemu' prefix from cli options
-      qemu-binfmt-conf.sh: honour QEMU_PATH and/or QEMU_SUFFIX
-      qemu-binfmt-conf.sh: generalize <CPU> to positional TARGETS
-      qemu-binfmt-conf.sh: add option --clear
-      qemu-binfmt-conf.sh: add --test
-
-scripts/qemu-binfmt-conf.sh | 221
-1 file changed, 138 insertions(+), 83 deletions(-i)
 
