@@ -2,81 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC35C17DFA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:15:08 +0100 (CET)
-Received: from localhost ([::1]:41974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75C017DFA8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:17:13 +0100 (CET)
+Received: from localhost ([::1]:42027 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHJL-0000Kj-TF
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55660)
+	id 1jBHLK-0003RK-Jp
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:17:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jBHFj-0003kS-HZ
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:28 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHIH-0007YH-PG
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:14:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jBHFi-0008SC-Jt
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54428
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHIG-0001bV-Ca
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:14:01 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:36985)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBHFi-0008Rp-GO
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583755882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LM9DMNWiI760NtiO1+iofmugtapmqUkn1Z+NOomLjok=;
- b=Q9NbdP7lUHkwQ/7xCDLlnetDoqwR8I/cxiQO44MetNKzKoB42D/BMKWJUMenIWMFZ9smGl
- RhJltkW7Oji5C1bkoxV4ZRJfigDUGS3c1zUBHwzxiieqg8uGdLJxgpHYecfBslI79+XLtJ
- wQxrCpl5iueKE4MfRlz9523kZ/aQtzA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-mjFoLki7OkWkxLck-tHGvQ-1; Mon, 09 Mar 2020 08:11:20 -0400
-X-MC-Unique: mjFoLki7OkWkxLck-tHGvQ-1
-Received: by mail-ed1-f69.google.com with SMTP id y4so7822697edm.0
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 05:11:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=WfHxGWmhrgeXSkoiuMTUncVrwHERBg1P30j9pqJHkrE=;
- b=dIYqt3PMg6rnhIa11JuvpNl+cIzTpK5GRFZUhDE9jm9N5a+ey12VOg26qub5jvNweS
- kMEvAst7v4s9GFZmdbFvh3qVx0Gjo5JdEmy57D2qVLYr0eoBHwolNa58XYcB6yknCtf7
- yVLJV2zdKTrZ0jQs8TH67iIII9WC+C2FAWMA13l5DQRhYPmNt4UklHK8S1/kpdoF+CvR
- T1fimSAWgXsHWulVjz5Mz36MXCpyn9u318TKlgYineLk5DJraB9aKXQJAxbDm+nwMfcE
- NE5zed+464w0VSExG92UhPi/y9al/M5CC4gTWD4cTo5z5g4q1CjDC88O0q1XJ0Hlb2iO
- JvJw==
-X-Gm-Message-State: ANhLgQ0CSMDlpsm4ZaiiNfMYIo6Vh/j/uv/LpXPKoRZ2yBssTHiPO7a/
- j94QV4nJoiJJoW4JN+cfKR4KRi88W0DRFTmOicVXHMxaHBfMbUB/wxmXEUr4+ZVUMv5+qv23F/Q
- lGn3ojSS1XwKf25Q=
-X-Received: by 2002:aa7:d689:: with SMTP id d9mr16927240edr.228.1583755879001; 
- Mon, 09 Mar 2020 05:11:19 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vs6xnGbBLi2ziq5PuHRL2x6ef9phKTCiI0J3KHZiX1lNv19kEQVD0jVzxfGnTPw7HyF6lJ8Tw==
-X-Received: by 2002:aa7:d689:: with SMTP id d9mr16927219edr.228.1583755878859; 
- Mon, 09 Mar 2020 05:11:18 -0700 (PDT)
-Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id c13sm953733edf.36.2020.03.09.05.11.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 05:11:18 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] cpu: Assert a vCPU is created before resetting it
-Date: Mon,  9 Mar 2020 13:11:03 +0100
-Message-Id: <20200309121103.20234-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200309121103.20234-1-philmd@redhat.com>
-References: <20200309121103.20234-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jBHIF-0001Wg-Q7; Mon, 09 Mar 2020 08:14:00 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07954461|-1; CH=blue; DM=||false|;
+ DS=CONTINUE|ham_regular_dialog|0.146651-0.000331899-0.853017;
+ FP=764458034101132543|1|1|7|0|-1|-1|-1; HT=e02c03294; MF=zhiwei_liu@c-sky.com;
+ NM=1; PH=DS; RN=10; RT=10; SR=0; TI=SMTPD_---.Gyap3GW_1583756030; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Gyap3GW_1583756030) by smtp.aliyun-inc.com(10.147.40.2);
+ Mon, 09 Mar 2020 20:13:50 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: richard.henderson@linaro.org, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+Subject: [PATCH v3 43/60] target/riscv: narrowing floating-point/integer
+ type-convert instructions
+Date: Mon,  9 Mar 2020 20:12:58 +0800
+Message-Id: <20200309121315.13611-44-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,43 +50,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Michael Walle <michael@walle.cc>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_reset() might modify architecture-specific fields allocated
-by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
-commit 00d0f7cb66 when introducing new architectures, assert a
-vCPU is created before resetting it.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- hw/core/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/helper.h                   | 11 +++++++
+ target/riscv/insn32.decode              |  5 +++
+ target/riscv/insn_trans/trans_rvv.inc.c | 42 +++++++++++++++++++++++++
+ target/riscv/vector_helper.c            | 42 +++++++++++++++++++++++++
+ 4 files changed, 100 insertions(+)
 
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index fe65ca62ac..09e49f8d6a 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -251,6 +251,7 @@ void cpu_reset(CPUState *cpu)
- {
-     CPUClass *klass =3D CPU_GET_CLASS(cpu);
-=20
-+    assert(cpu->created);
-     if (klass->reset !=3D NULL) {
-         (*klass->reset)(cpu);
-     }
---=20
-2.21.1
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 90b4d50c62..008c5b9868 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1010,3 +1010,14 @@ DEF_HELPER_5(vfwcvt_f_x_v_h, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfwcvt_f_x_v_w, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfwcvt_f_f_v_h, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfwcvt_f_f_v_w, void, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_5(vfncvt_xu_f_v_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_xu_f_v_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_x_f_v_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_x_f_v_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_f_xu_v_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_f_xu_v_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_f_x_v_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_f_x_v_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_f_f_v_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vfncvt_f_f_v_w, void, ptr, ptr, ptr, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 247419937e..ffc58698c6 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -518,6 +518,11 @@ vfwcvt_x_f_v    100010 . ..... 01001 001 ..... 1010111 @r2_vm
+ vfwcvt_f_xu_v   100010 . ..... 01010 001 ..... 1010111 @r2_vm
+ vfwcvt_f_x_v    100010 . ..... 01011 001 ..... 1010111 @r2_vm
+ vfwcvt_f_f_v    100010 . ..... 01100 001 ..... 1010111 @r2_vm
++vfncvt_xu_f_v   100010 . ..... 10000 001 ..... 1010111 @r2_vm
++vfncvt_x_f_v    100010 . ..... 10001 001 ..... 1010111 @r2_vm
++vfncvt_f_xu_v   100010 . ..... 10010 001 ..... 1010111 @r2_vm
++vfncvt_f_x_v    100010 . ..... 10011 001 ..... 1010111 @r2_vm
++vfncvt_f_f_v    100010 . ..... 10100 001 ..... 1010111 @r2_vm
+ 
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+index 0566132d4e..bdb765bf13 100644
+--- a/target/riscv/insn_trans/trans_rvv.inc.c
++++ b/target/riscv/insn_trans/trans_rvv.inc.c
+@@ -1981,3 +1981,45 @@ GEN_OPFV_WIDEN_TRANS(vfwcvt_x_f_v)
+ GEN_OPFV_WIDEN_TRANS(vfwcvt_f_xu_v)
+ GEN_OPFV_WIDEN_TRANS(vfwcvt_f_x_v)
+ GEN_OPFV_WIDEN_TRANS(vfwcvt_f_f_v)
++
++/* Narrowing Floating-Point/Integer Type-Convert Instructions */
++
++/*
++ * If the current SEW does not correspond to a supported IEEE floating-point
++ * type, an illegal instruction exception is raised
++ */
++static bool opfv_narrow_check(DisasContext *s, arg_rmr *a)
++{
++    return (vext_check_isa_ill(s, RVV) &&
++            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
++            vext_check_reg(s, a->rd, false) &&
++            vext_check_reg(s, a->rs2, true) &&
++            vext_check_overlap_group(a->rd, 1 << s->lmul, a->rs2,
++                2 << s->lmul) &&
++            (s->lmul < 0x3) && (s->sew < 0x3) && (s->sew != 0));
++}
++
++#define GEN_OPFV_NARROW_TRANS(NAME)                                \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
++{                                                                  \
++    if (opfv_narrow_check(s, a)) {                                 \
++        uint32_t data = 0;                                         \
++        static gen_helper_gvec_3_ptr * const fns[2] = {            \
++            gen_helper_##NAME##_h,                                 \
++            gen_helper_##NAME##_w,                                 \
++        };                                                         \
++        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
++        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
++        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
++        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
++            vreg_ofs(s, a->rs2), cpu_env, 0,                       \
++            s->vlen / 8, data, fns[s->sew - 1]);                   \
++        return true;                                               \
++    }                                                              \
++    return false;                                                  \
++}
++GEN_OPFV_NARROW_TRANS(vfncvt_xu_f_v)
++GEN_OPFV_NARROW_TRANS(vfncvt_x_f_v)
++GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_v)
++GEN_OPFV_NARROW_TRANS(vfncvt_f_x_v)
++GEN_OPFV_NARROW_TRANS(vfncvt_f_f_v)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 6454c54500..bb143b9216 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4020,3 +4020,45 @@ RVVCALL(OPFVV1, vfwcvt_f_f_v_h, WOP_UU_H, H4, H2, vfwcvtffv16)
+ RVVCALL(OPFVV1, vfwcvt_f_f_v_w, WOP_UU_W, H8, H4, vfwcvtffv32)
+ GEN_VEXT_V_ENV(vfwcvt_f_f_v_h, 2, 4, clearl)
+ GEN_VEXT_V_ENV(vfwcvt_f_f_v_w, 4, 8, clearq)
++
++/* Narrowing Floating-Point/Integer Type-Convert Instructions */
++/* (TD, T2, TX2) */
++#define NOP_UU_H uint16_t, uint32_t, uint32_t
++#define NOP_UU_W uint32_t, uint64_t, uint64_t
++/* vfncvt.xu.f.v vd, vs2, vm # Convert float to unsigned integer. */
++RVVCALL(OPFVV1, vfncvt_xu_f_v_h, NOP_UU_H, H2, H4, float32_to_uint16)
++RVVCALL(OPFVV1, vfncvt_xu_f_v_w, NOP_UU_W, H4, H8, float64_to_uint32)
++GEN_VEXT_V_ENV(vfncvt_xu_f_v_h, 2, 2, clearh)
++GEN_VEXT_V_ENV(vfncvt_xu_f_v_w, 4, 4, clearl)
++
++/* vfncvt.x.f.v vd, vs2, vm # Convert double-width float to signed integer. */
++RVVCALL(OPFVV1, vfncvt_x_f_v_h, NOP_UU_H, H2, H4, float32_to_int16)
++RVVCALL(OPFVV1, vfncvt_x_f_v_w, NOP_UU_W, H4, H8, float64_to_int32)
++GEN_VEXT_V_ENV(vfncvt_x_f_v_h, 2, 2, clearh)
++GEN_VEXT_V_ENV(vfncvt_x_f_v_w, 4, 4, clearl)
++
++/* vfncvt.f.xu.v vd, vs2, vm # Convert double-width unsigned integer to float */
++RVVCALL(OPFVV1, vfncvt_f_xu_v_h, NOP_UU_H, H2, H4, uint32_to_float16)
++RVVCALL(OPFVV1, vfncvt_f_xu_v_w, NOP_UU_W, H4, H8, uint64_to_float32)
++GEN_VEXT_V_ENV(vfncvt_f_xu_v_h, 2, 2, clearh)
++GEN_VEXT_V_ENV(vfncvt_f_xu_v_w, 4, 4, clearl)
++
++/* vfncvt.f.x.v vd, vs2, vm # Convert double-width integer to float. */
++RVVCALL(OPFVV1, vfncvt_f_x_v_h, NOP_UU_H, H2, H4, int32_to_float16)
++RVVCALL(OPFVV1, vfncvt_f_x_v_w, NOP_UU_W, H4, H8, int64_to_float32)
++GEN_VEXT_V_ENV(vfncvt_f_x_v_h, 2, 2, clearh)
++GEN_VEXT_V_ENV(vfncvt_f_x_v_w, 4, 4, clearl)
++
++/* vfncvt.f.f.v vd, vs2, vm # Convert double float to single-width float. */
++static uint16_t vfncvtffv16(uint32_t a, float_status *s)
++{
++    return float32_to_float16(a, true, s);
++}
++static uint32_t vfncvtffv32(uint64_t a, float_status *s)
++{
++    return float64_to_float32(a, s);
++}
++RVVCALL(OPFVV1, vfncvt_f_f_v_h, NOP_UU_H, H2, H4, vfncvtffv16)
++RVVCALL(OPFVV1, vfncvt_f_f_v_w, NOP_UU_W, H4, H8, vfncvtffv32)
++GEN_VEXT_V_ENV(vfncvt_f_f_v_h, 2, 2, clearh)
++GEN_VEXT_V_ENV(vfncvt_f_f_v_w, 4, 4, clearl)
+-- 
+2.23.0
 
 
