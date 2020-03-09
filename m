@@ -2,54 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7D117DA8C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 09:19:57 +0100 (CET)
-Received: from localhost ([::1]:38132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3169B17DAA5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 09:23:23 +0100 (CET)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBDdk-0004mh-GW
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 04:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43455)
+	id 1jBDh4-00086Z-5q
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 04:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <amit@kernel.org>) id 1jBDcm-00046A-GX
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:18:58 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDfe-00063e-7P
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:21:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <amit@kernel.org>) id 1jBDcl-0005lj-AG
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:18:56 -0400
-Received: from bombadil.infradead.org ([2607:7c80:54:e::133]:47028)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <amit@kernel.org>) id 1jBDck-0005kz-NZ
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:18:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Mime-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=WBEmrFWdAI/cBre5Z2IU5yeGwDsevePNG+SZnkmuGdE=; b=qXRvUB8lcwQ+zP2ZHfkI7vKc7A
- hwVEbV02d205VqsRq/Pcno4DtlxaumQ5KcF6+4fnhL/wDTEovTt02193xYynNvJLAblQ7M7QlBhUt
- apnu//25/lwy14hdyd2+VDe6PPdLhf9hMfY/QrOwsy3O8CwCkpDG6AgoilYCyJkb8XjNyJzbZ90Bd
- zys6oWHhDrrrmpPks4OUiKWENUOiCqqx4QF5eD5Gc40+d+kY6kbHAxMvVqmpZiBsAEnSkgr6dquHz
- KWv0fUMRsso8ZIsowofyhrVUTK2wACbmmVXvwecmlnr3enEP1FZEoxryj7HHQqRbZSJg5YRbVN7IW
- 0pp+zMgw==;
-Received: from [54.239.6.185] (helo=u0c626add9cce5a.ant.amazon.com)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jBDce-000475-2V; Mon, 09 Mar 2020 08:18:48 +0000
-Message-ID: <aa7ae0db0b16efc14f22954c244c0673ceb21f59.camel@kernel.org>
-Subject: Re: [PATCH v3] virtio-serial-bus: Plug memory leak on realize()
- error paths
-From: Amit Shah <amit@kernel.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Pan Nengyuan
- <pannengyuan@huawei.com>
-Date: Mon, 09 Mar 2020 09:18:43 +0100
-In-Reply-To: <20200309030140-mutt-send-email-mst@kernel.org>
-References: <20200309021738.30072-1-pannengyuan@huawei.com>
- <20200309030140-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:7c80:54:e::133
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDfc-0007PH-J9
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:21:54 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:55115)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jBDfc-0007Ko-2U; Mon, 09 Mar 2020 04:21:52 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07495327|-1; CH=green; DM=||false|;
+ DS=CONTINUE|ham_system_inform|0.03378-0.000359326-0.965861;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03296; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=10; RT=10; SR=0; TI=SMTPD_---.GyTxIXp_1583742101; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.GyTxIXp_1583742101)
+ by smtp.aliyun-inc.com(10.147.41.137);
+ Mon, 09 Mar 2020 16:21:41 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: richard.henderson@linaro.org, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+Subject: [PATCH v3 00/60] target/riscv: support vector extension v0.7.1
+Date: Mon,  9 Mar 2020 16:19:42 +0800
+Message-Id: <20200309082042.12967-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,68 +50,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, euler.robot@huawei.com, marcandre.lureau@redhat.com
+Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-03-09 at 03:02 -0400, Michael S. Tsirkin wrote:
-> On Mon, Mar 09, 2020 at 10:17:38AM +0800, Pan Nengyuan wrote:
-> > We neglect to free port->bh on the error paths.  Fix that.
-> > Reproducer:
-> >     {'execute': 'device_add', 'arguments': {'id':
-> > 'virtio_serial_pci0', 'driver': 'virtio-serial-pci', 'bus':
-> > 'pci.0', 'addr': '0x5'}, 'id': 'yVkZcGgV'}
-> >     {'execute': 'device_add', 'arguments': {'id': 'port1',
-> > 'driver': 'virtserialport', 'name': 'port1', 'chardev': 'channel1',
-> > 'bus': 'virtio_serial_pci0.0', 'nr': 1}, 'id': '3dXdUgJA'}
-> >     {'execute': 'device_add', 'arguments': {'id': 'port2',
-> > 'driver': 'virtserialport', 'name': 'port2', 'chardev': 'channel2',
-> > 'bus': 'virtio_serial_pci0.0', 'nr': 1}, 'id': 'qLzcCkob'}
-> >     {'execute': 'device_add', 'arguments': {'id': 'port2',
-> > 'driver': 'virtserialport', 'name': 'port2', 'chardev': 'channel2',
-> > 'bus': 'virtio_serial_pci0.0', 'nr': 2}, 'id': 'qLzcCkob'}
-> > 
-> > The leak stack:
-> > Direct leak of 40 byte(s) in 1 object(s) allocated from:
-> >     #0 0x7f04a8008ae8 in __interceptor_malloc
-> > (/lib64/libasan.so.5+0xefae8)
-> >     #1 0x7f04a73cf1d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
-> >     #2 0x56273eaee484 in aio_bh_new
-> > /mnt/sdb/backup/qemu/util/async.c:125
-> >     #3 0x56273eafe9a8 in qemu_bh_new
-> > /mnt/sdb/backup/qemu/util/main-loop.c:532
-> >     #4 0x56273d52e62e in virtser_port_device_realize
-> > /mnt/sdb/backup/qemu/hw/char/virtio-serial-bus.c:946
-> >     #5 0x56273dcc5040 in device_set_realized
-> > /mnt/sdb/backup/qemu/hw/core/qdev.c:891
-> >     #6 0x56273e5ebbce in property_set_bool
-> > /mnt/sdb/backup/qemu/qom/object.c:2238
-> >     #7 0x56273e5e5a9c in object_property_set
-> > /mnt/sdb/backup/qemu/qom/object.c:1324
-> >     #8 0x56273e5ef5f8 in object_property_set_qobject
-> > /mnt/sdb/backup/qemu/qom/qom-qobject.c:26
-> >     #9 0x56273e5e5e6a in object_property_set_bool
-> > /mnt/sdb/backup/qemu/qom/object.c:1390
-> >     #10 0x56273daa40de in qdev_device_add
-> > /mnt/sdb/backup/qemu/qdev-monitor.c:680
-> >     #11 0x56273daa53e9 in qmp_device_add /mnt/sdb/backup/qemu/qdev-
-> > monitor.c:805
-> > 
-> > Fixes: 199646d81522509ac2dba6d28c31e8c7d807bc93
-> > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > Reviewed-by: Amit Shah <amit@kernel.org>
-> > ---
-> > v1->v2:
-> > - simply create port->bh last in virtser_port_device_realize() to
-> > fix memleaks.(Suggested by Markus Armbruster)
-> 
-> 
-> Markus, Amit do your Reviewed-by tags still stand?
+This patchset implements the vector extension for RISC-V on QEMU.
 
-Yep, the review was for v2.
+You can also find the patchset and all *test cases* in
+my repo(https://github.com/romanheros/qemu.git branch:vector-upstream-v3).
+All the test cases are in the directory qemu/tests/riscv/vector/. They are
+riscv64 linux user mode programs.
 
+You can test the patchset by the script qemu/tests/riscv/vector/runcase.sh.
+
+Features:
+  * support specification riscv-v-spec-0.7.1.(https://github.com/riscv/riscv-v-spec/releases/tag/0.7.1/)
+  * support basic vector extension.
+  * support Zvlsseg.
+  * support Zvamo.
+  * not support Zvediv as it is changing.
+  * SLEN always equals VLEN.
+  * element width support 8bit, 16bit, 32bit, 64bit.
+
+Changelog:
+v3
+  * move check code from execution-time to translation-time
+  * use a continous memory block for vector register description.
+  * vector registers as direct fields in RISCVCPUState.
+  * support VLEN configure from qemu command line.
+  * support ELEN configure from qemu command line.
+  * support vector specification version configure from qemu command line.
+  * probe pages before real load or store access.
+  * use probe_page_check for no-fault operations in linux user mode.
+  * generation atomic exit exception when in parallel environment.
+  * fixup a lot of concrete bugs.
+
+V2
+  * use float16_compare{_quiet}
+  * only use GETPC() in outer most helper
+  * add ctx.ext_v Property
+
+
+LIU Zhiwei (60):
+  target/riscv: add vector extension field in CPURISCVState
+  target/riscv: implementation-defined constant parameters
+  target/riscv: support vector extension csr
+  target/riscv: add vector configure instruction
+  target/riscv: add vector stride load and store instructions
+  target/riscv: add vector index load and store instructions
+  target/riscv: add fault-only-first unit stride load
+  target/riscv: add vector amo operations
+  target/riscv: vector single-width integer add and subtract
+  target/riscv: vector widening integer add and subtract
+  target/riscv: vector integer add-with-carry / subtract-with-borrow
+    instructions
+  target/riscv: vector bitwise logical instructions
+  target/riscv: vector single-width bit shift instructions
+  target/riscv: vector narrowing integer right shift instructions
+  target/riscv: vector integer comparison instructions
+  target/riscv: vector integer min/max instructions
+  target/riscv: vector single-width integer multiply instructions
+  target/riscv: vector integer divide instructions
+  target/riscv: vector widening integer multiply instructions
+  target/riscv: vector single-width integer multiply-add instructions
+  target/riscv: vector widening integer multiply-add instructions
+  target/riscv: vector integer merge and move instructions
+  target/riscv: vector single-width saturating add and subtract
+  target/riscv: vector single-width averaging add and subtract
+  target/riscv: vector single-width fractional multiply with rounding
+    and saturation
+  target/riscv: vector widening saturating scaled multiply-add
+  target/riscv: vector single-width scaling shift instructions
+  target/riscv: vector narrowing fixed-point clip instructions
+  target/riscv: vector single-width floating-point add/subtract
+    instructions
+  target/riscv: vector widening floating-point add/subtract instructions
+  target/riscv: vector single-width floating-point multiply/divide
+    instructions
+  target/riscv: vector widening floating-point multiply
+  target/riscv: vector single-width floating-point fused multiply-add
+    instructions
+  target/riscv: vector widening floating-point fused multiply-add
+    instructions
+  target/riscv: vector floating-point square-root instruction
+  target/riscv: vector floating-point min/max instructions
+  target/riscv: vector floating-point sign-injection instructions
+  target/riscv: vector floating-point compare instructions
+  target/riscv: vector floating-point classify instructions
+  target/riscv: vector floating-point merge instructions
+  target/riscv: vector floating-point/integer type-convert instructions
+  target/riscv: widening floating-point/integer type-convert
+    instructions
+  target/riscv: narrowing floating-point/integer type-convert
+    instructions
+  target/riscv: vector single-width integer reduction instructions
+  target/riscv: vector wideing integer reduction instructions
+  target/riscv: vector single-width floating-point reduction
+    instructions
+  target/riscv: vector widening floating-point reduction instructions
+  target/riscv: vector mask-register logical instructions
+  target/riscv: vector mask population count vmpopc
+  target/riscv: vmfirst find-first-set mask bit
+  target/riscv: set-X-first mask bit
+  target/riscv: vector iota instruction
+  target/riscv: vector element index instruction
+  target/riscv: integer extract instruction
+  target/riscv: integer scalar move instruction
+  target/riscv: floating-point scalar move instructions
+  target/riscv: vector slide instructions
+  target/riscv: vector register gather instruction
+  target/riscv: vector compress instruction
+  target/riscv: configure and turn on vector extension from command line
+
+ target/riscv/Makefile.objs              |    2 +-
+ target/riscv/cpu.c                      |   49 +
+ target/riscv/cpu.h                      |   89 +-
+ target/riscv/cpu_bits.h                 |   15 +
+ target/riscv/csr.c                      |   75 +-
+ target/riscv/helper.h                   | 1075 +++++
+ target/riscv/insn32-64.decode           |   11 +
+ target/riscv/insn32.decode              |  366 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 2386 ++++++++++++
+ target/riscv/translate.c                |   24 +-
+ target/riscv/vector_helper.c            | 4745 +++++++++++++++++++++++
+ 11 files changed, 8824 insertions(+), 13 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+ create mode 100644 target/riscv/vector_helper.c
+
+-- 
+2.23.0
 
 
