@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8130C17E3B0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:35:00 +0100 (CET)
-Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FBF17E3CF
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:40:49 +0100 (CET)
+Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKQl-0001Sr-Hh
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34348)
+	id 1jBKWO-0003Mn-Rx
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK3K-0000zR-Nf
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:47 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jBK7G-0007us-Sg
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:14:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK3H-0008Np-AH
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:44 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:57057)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK3H-0008M0-1F; Mon, 09 Mar 2020 11:10:43 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MwQKp-1jSA6N3Q1t-00sMOB; Mon, 09 Mar 2020 16:09:59 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 32/33] display/exynos4210_fimd: Remove redundant statement in
- exynos4210_fimd_update()
-Date: Mon,  9 Mar 2020 16:08:36 +0100
-Message-Id: <20200309150837.3193387-33-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
-References: <20200309150837.3193387-1-laurent@vivier.eu>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1jBK7F-0001cO-HX
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:14:50 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42515)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jBK7F-0001bv-93
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:14:49 -0400
+Received: by mail-wr1-x442.google.com with SMTP id v11so11643802wrm.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=lqpgCIJAa53wjMOChqCdeNGb6iakq3HluBlJugDn9cQ=;
+ b=ReOk1uckgQlWL7pykCUUXLDWTJN6PWGwzFl2M4XlQ6emGbwMAa/DMG3eAVx54F44lo
+ 5d6I6fve6kHJmNrIHVSueiJXWbwqqsvUu/wmBrXtHfcU11K+Z7TqxtgN3KqV7hgzZ/1a
+ T7KKeADq2L9ruC2cml9LX3yViSp5RRo6aK2x4+Q6fu/LjKEwlrKmkZeZ5D25uOHdZg8N
+ 0QukyaKpyFMdAybw0B8TbmzMGAXG113+1kLA+QCkVbvitfiQrePvqETNq5BT5hddLiPE
+ T1szjGS4hMibcD8uHNbpicB6SBFb0zUDWSsUtJlP1mOb6uBkvc267zOCoj37sSgNHw+K
+ /RRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lqpgCIJAa53wjMOChqCdeNGb6iakq3HluBlJugDn9cQ=;
+ b=bJ2eFgCpqhVZpGAeuU3okazdiGdRD0RO047TuwXRfuBTsjkJ3iHshwSgF9GgFDHiqn
+ bu3A30I9hS+q/aUoc56Od7mANQQZHb5AzFrNTxNcA0enuckzVKbNIT3G8dON4gPPXJh0
+ WPgVSaMAPTzSubkXyPDsEU/i8RCWAL8vTyVOodkRJz/BwwKuFTjb92LyLxNxtN5V1Huf
+ TCABM1INYzk1cgS5T9B5xv+CoiUeb6ol6+lQ1woyVR2+iSzBTYPv91RgME3EYs4Ix3xF
+ LBROb8ZkEJKI/47Ro0e3oHx5cAAVoA/QIiSugN+oIksiUp2sF9Bzv+1BFwG7dXEheS8H
+ nsgw==
+X-Gm-Message-State: ANhLgQ1JA/yU3H2MC86i4GxCQ4xrtJ0NoyrNLJJYbC5DaOisZnLbdRhK
+ IZlIBYqZTFZp3w7dIX2Cxju0Y+ElPvEysiggSBU=
+X-Google-Smtp-Source: ADFU+vtkteEmwWLN5H9tv1m5nUl1rcXMVJ/Z+wkBW68l8fpPzS0X+7dedG84bkvTabi4II6Ug4noihJ1KXf2+fV85+M=
+X-Received: by 2002:adf:9e8b:: with SMTP id a11mr20823129wrf.32.1583766887384; 
+ Mon, 09 Mar 2020 08:14:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vnjbFk+4XeEO6Y7jzUGToROLl3IXCk9V3Q5V/w1bgIDJkoBbJUq
- Rt0UUGtbZQ9WFlsz9dJscI+gw//SWSi9MfbBkqjjXKYpyN0yeYDgQa0RXsS1YWnRVRctQHr
- 8Zoo+VCnvsd8plirugAetWJF6BpPX+FDPAB0sPsKc7ItAAdMWEb/R/RHixvLLe3SoAedMN3
- 5trKziwslXaWxH1wEVdZg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PVN/VKUgigo=:FhbXvK/Xvtl+yIGhXW2hn/
- P2HCxe6JY1samg9teh4w1/0xqyRec41DWzYWFe/K4ij3wWtUBemc0JfvtHYVGPuWYlT48H3Vi
- 8qNNchT3iOWYHS6BnXTZcLysjs5cvKjmQPfNt143SaG5CLPhAmf52SLT26YUxrfjWNiGOJuVx
- k1skcHA4l8jTUcZNgR1v9TCm+uwDlkjYZM3Z6gIrzFTeCsI4+8iI6WKibm9VfGXX1wokHZxkS
- CBp6avvIci1O7W5063i84wbe9ZNgFswO3vtGBm3sUox12292pJglT4kDnjZIoIbsyDP94brSf
- LcqZKKwyiRnezy6O0G9fgA8iqR5OdZHgpPR2ab0aHJ+e+1IqqWkXNVHKD79MiV/SUjJo7Jx5F
- vMUccIiHeFx+tMAA/49HUev95X5LO3xjpvxkfNyLms5GsLse4kckQ/fsVwQS7X9HJ8YqO5BYl
- WbWQpJU9ChtZU0G7UZDfKexxFIDKkxavPEQgHhvH8vgntSm3J+NiTkqGPEeJCn0GDi8q2qCW7
- ysrMJQUdYhH+k2evorDPHrs8qH6wMdKPDaPwHKw8fR7EAaUY7BGcIvwFVO9hyuY5zASkddG0+
- p67nOAEI0/aeqo2qkQqCPA022zwKQjWojO5CEmi0MQOURQG/QMcZUSq/1eyzQ/sgjUEm8/5AV
- XMBwZ0SwuWYAzD3qIjp43D1bz35Fd2HPJw8SGlEC/6OHyscKZ3iZIWM14a+p/fKNbyq2Ls5+J
- YVvARaG6BkQmE/Jm93qb+TUk6nrdjJV+31bIIXw8AD09Tx/AaSdizSp997Bg/HBol6/3QgEMF
- YJYWBL1UGqfMZVVfEGqfx4CS0OulIbE2TPRBvOmcrVPppAO6KbEDTl/YjdA6XfDe9taftKo
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+References: <20200304172748.15338-1-imammedo@redhat.com>
+In-Reply-To: <20200304172748.15338-1-imammedo@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 9 Mar 2020 16:14:35 +0100
+Message-ID: <CAJ+F1CLNRn7UaS2Z4jSsorFnVfeTDzBmjJkuTURz1B4ni8SU0Q@mail.gmail.com>
+Subject: Re: [PATCH for-5.0] vl.c: fix migration failure for 3.1 and older
+ machine types
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,56 +74,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Euler Robot <euler.robot@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: ldoktor@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+Hi
 
-Clang static code analyzer show warning:
-hw/display/exynos4210_fimd.c:1313:17: warning: Value stored to 'is_dirty' is never read
-                is_dirty = false;
+On Wed, Mar 4, 2020 at 6:28 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> Migration from QEMU(v4.0) fails when using 3.1 or older machine
+> type. For example if one attempts to migrate
+> QEMU-2.12 started as
+>   qemu-system-ppc64 -nodefaults -M pseries-2.12 -m 4096 -mem-path /tmp/
+> to current master, it will fail with
+>   qemu-system-ppc64: Unknown ramblock "ppc_spapr.ram", cannot accept migr=
+ation
+>   qemu-system-ppc64: error while loading state for instance 0x0 of device=
+ 'ram'
+>   qemu-system-ppc64: load of migration failed: Invalid argument
+>
+> Caused by 900c0ba373 commit which switches main RAM allocation to
+> memory backends and the fact in 3.1 and older QEMU, backends used
+> full[***] QOM path as memory region name instead of backend's name.
+> That was changed after 3.1 to use prefix-less names by default
+> (fa0cb34d22) for new machine types.
+> *** effectively makes main RAM memory region names defined by
+> MachineClass::default_ram_id being altered with '/objects/' prefix
+> and therefore migration fails as old QEMU sends prefix-less
+> name while new QEMU expects name with prefix when using 3.1 and
+> older machine types.
+>
+> Fix it by forcing implicit[1] memory backend to always use
+> prefix-less names for its memory region by setting
+>   'x-use-canonical-path-for-ramblock-id'
+> property to false.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200302130715.29440-9-kuhn.chenqun@huawei.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/display/exynos4210_fimd.c | 1 -
- 1 file changed, 1 deletion(-)
+ahah, ok. If main RAM allocation was always using prefix-less name,
+then that should be good enough:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
-index ec6776680e41..1c0266ce9f2d 100644
---- a/hw/display/exynos4210_fimd.c
-+++ b/hw/display/exynos4210_fimd.c
-@@ -1311,7 +1311,6 @@ static void exynos4210_fimd_update(void *opaque)
-                 }
-                 host_fb_addr += inc_size;
-                 fb_line_addr += inc_size;
--                is_dirty = false;
-             }
-             g_free(snap);
-             blend = true;
--- 
-2.24.1
 
+>
+> 1) i.e. memory backend created by compat glue which maps
+> -m/-mem-path/-mem-prealloc/default RAM size into
+> appropriate backend type/options to match old CLI format.
+>
+> Fixes: 900c0ba373
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+> ---
+> CC: ldoktor@redhat.com
+> CC: marcandre.lureau@redhat.com
+> CC: dgilbert@redhat.com
+> ---
+>  softmmu/vl.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5549f4b619..1101b1cb41 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2800,6 +2800,9 @@ static void create_default_memdev(MachineState *ms,=
+ const char *path)
+>      object_property_set_int(obj, ms->ram_size, "size", &error_fatal);
+>      object_property_add_child(object_get_objects_root(), mc->default_ram=
+_id,
+>                                obj, &error_fatal);
+> +    /* Ensure backend's memory region name is equal to mc->default_ram_i=
+d */
+> +    object_property_set_bool(obj, false, "x-use-canonical-path-for-rambl=
+ock-id",
+> +                             &error_fatal);
+>      user_creatable_complete(USER_CREATABLE(obj), &error_fatal);
+>      object_unref(obj);
+>      object_property_set_str(OBJECT(ms), mc->default_ram_id, "memory-back=
+end",
+> --
+> 2.18.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
