@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFF817E922
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:50:49 +0100 (CET)
-Received: from localhost ([::1]:48870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F5417E964
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:53:47 +0100 (CET)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOQK-0002m9-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54485)
+	id 1jBOTC-0000qx-2n
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jBOMq-00066G-3t
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:13 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jBOMm-0005xJ-7z
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jBOMo-000070-Fl
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:11 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22475
+ (envelope-from <dgilbert@redhat.com>) id 1jBOMk-0008W1-Gw
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:08 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31575
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jBOMo-00006j-B7
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:10 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jBOMk-0008Vg-Br
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583783230;
+ s=mimecast20190719; t=1583783226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d+ZQggYrwC2aHURFye9MJWb37s6Jv3ICl1jJ/qQLxsI=;
- b=ULIpdaoP4dkvB0HbtxYlxjqUwIX8tYAKbUu4I8SQi7hT4WMSEEHyw0Y6ZYtV65lYuLfqFl
- ehXybUScKJOAWDeizA6zcgRgY9uC6hS8RqLTGpRwVmCfhRWfK8Fe1v79a+CMIxbQcbCydt
- LHlLcJZkqw63YsZbB0yuihL8XmUJ2Mc=
+ bh=nFAs+OpKYRWhCwTaLheh2EhuVyZgT48DWrj/HJkwA10=;
+ b=GMYIZuvkNr6LGR4SYU34eWhkAI9UVqmrQ5nrt+qOApvA7Ug5tinsPAFrHy5CSy8gyJPFhw
+ Io3IEi4k606+uLGYkYLiHWy2WTo8WbxC3eafVVbl/MxQWoH63EHsImm3qkW+eXzjlhI18x
+ Peoj5Nc3+kgU6iDzBBmwwqmeY82/A+o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-b92WVh3xMW-VvdaDYXltjg-1; Mon, 09 Mar 2020 15:47:02 -0400
-X-MC-Unique: b92WVh3xMW-VvdaDYXltjg-1
+ us-mta-82-HhWja8vINV-Wwww_w4miGQ-1; Mon, 09 Mar 2020 15:47:03 -0400
+X-MC-Unique: HhWja8vINV-Wwww_w4miGQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9FA5DBA3
- for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 19:47:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F393118C43C8
+ for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 19:47:02 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEEBE5C28D;
- Mon,  9 Mar 2020 19:47:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 219575C28D;
+ Mon,  9 Mar 2020 19:47:01 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	mlevitsk@redhat.com,
 	thuth@redhat.com
-Subject: [PULL 07/12] monitor/hmp: move hmp_snapshot_* to block-hmp-cmds.c
-Date: Mon,  9 Mar 2020 19:46:45 +0000
-Message-Id: <20200309194650.160552-8-dgilbert@redhat.com>
+Subject: [PULL 08/12] monitor/hmp: move hmp_nbd_server* to block-hmp-cmds.c
+Date: Mon,  9 Mar 2020 19:46:46 +0000
+Message-Id: <20200309194650.160552-9-dgilbert@redhat.com>
 In-Reply-To: <20200309194650.160552-1-dgilbert@redhat.com>
 References: <20200309194650.160552-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,8 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,191 +77,289 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxim Levitsky <mlevitsk@redhat.com>
 
-hmp_snapshot_blkdev is from GPLv2 version of the hmp-cmds.c thus
-have to change the licence to GPLv2
-
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200308092440.23564-8-mlevitsk@redhat.com>
+Message-Id: <20200308092440.23564-9-mlevitsk@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- block/monitor/block-hmp-cmds.c | 58 ++++++++++++++++++++++++++++++++--
- include/block/block-hmp-cmds.h |  4 +++
- include/monitor/hmp.h          |  3 --
- monitor/hmp-cmds.c             | 47 ---------------------------
- 4 files changed, 60 insertions(+), 52 deletions(-)
+ block/monitor/block-hmp-cmds.c | 101 +++++++++++++++++++++++++++++++++
+ include/block/block-hmp-cmds.h |   5 ++
+ include/monitor/hmp.h          |   4 --
+ monitor/hmp-cmds.c             | 100 --------------------------------
+ 4 files changed, 106 insertions(+), 104 deletions(-)
 
 diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.=
 c
-index 8e8288c2f1..0131be8ecf 100644
+index 0131be8ecf..188374abbc 100644
 --- a/block/monitor/block-hmp-cmds.c
 +++ b/block/monitor/block-hmp-cmds.c
-@@ -1,10 +1,15 @@
- /*
-  * Blockdev HMP commands
-  *
-+ *  Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-  * Copyright (c) 2003-2008 Fabrice Bellard
-  *
-- * This work is licensed under the terms of the GNU GPL, version 2 or
-- * later.  See the COPYING file in the top-level directory.
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ * Contributions after 2012-01-13 are licensed under the terms of the
-+ * GNU GPL, version 2 or (at your option) any later version.
-  *
-  * This file incorporates work covered by the following copyright and
-  * permission notice:
-@@ -299,3 +304,52 @@ void hmp_block_job_complete(Monitor *mon, const QDict =
-*qdict)
+@@ -45,9 +45,11 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/config-file.h"
+ #include "qemu/option.h"
++#include "qemu/sockets.h"
+ #include "sysemu/sysemu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp.h"
++#include "block/nbd.h"
+ #include "block/block_int.h"
+ #include "block/block-hmp-cmds.h"
 =20
-     hmp_handle_error(mon, error);
+@@ -353,3 +355,102 @@ void hmp_snapshot_delete_blkdev_internal(Monitor *mon=
+, const QDict *qdict)
+                                                true, name, &err);
+     hmp_handle_error(mon, err);
  }
 +
-+void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
++void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
 +{
-+    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *filename =3D qdict_get_try_str(qdict, "snapshot-file");
-+    const char *format =3D qdict_get_try_str(qdict, "format");
-+    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
-+    enum NewImageMode mode;
-+    Error *err =3D NULL;
++    const char *uri =3D qdict_get_str(qdict, "uri");
++    bool writable =3D qdict_get_try_bool(qdict, "writable", false);
++    bool all =3D qdict_get_try_bool(qdict, "all", false);
++    Error *local_err =3D NULL;
++    BlockInfoList *block_list, *info;
++    SocketAddress *addr;
++    BlockExportNbd export;
 +
-+    if (!filename) {
-+        /*
-+         * In the future, if 'snapshot-file' is not specified, the snapsho=
-t
-+         * will be taken internally. Today it's actually required.
-+         */
-+        error_setg(&err, QERR_MISSING_PARAMETER, "snapshot-file");
-+        hmp_handle_error(mon, err);
++    if (writable && !all) {
++        error_setg(&local_err, "-w only valid together with -a");
++        goto exit;
++    }
++
++    /* First check if the address is valid and start the server.  */
++    addr =3D socket_parse(uri, &local_err);
++    if (local_err !=3D NULL) {
++        goto exit;
++    }
++
++    nbd_server_start(addr, NULL, NULL, &local_err);
++    qapi_free_SocketAddress(addr);
++    if (local_err !=3D NULL) {
++        goto exit;
++    }
++
++    if (!all) {
 +        return;
 +    }
 +
-+    mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PAT=
-HS;
-+    qmp_blockdev_snapshot_sync(true, device, false, NULL,
-+                               filename, false, NULL,
-+                               !!format, format,
-+                               true, mode, &err);
++    /* Then try adding all block devices.  If one fails, close all and
++     * exit.
++     */
++    block_list =3D qmp_query_block(NULL);
++
++    for (info =3D block_list; info; info =3D info->next) {
++        if (!info->value->has_inserted) {
++            continue;
++        }
++
++        export =3D (BlockExportNbd) {
++            .device         =3D info->value->device,
++            .has_writable   =3D true,
++            .writable       =3D writable,
++        };
++
++        qmp_nbd_server_add(&export, &local_err);
++
++        if (local_err !=3D NULL) {
++            qmp_nbd_server_stop(NULL);
++            break;
++        }
++    }
++
++    qapi_free_BlockInfoList(block_list);
++
++exit:
++    hmp_handle_error(mon, local_err);
++}
++
++void hmp_nbd_server_add(Monitor *mon, const QDict *qdict)
++{
++    const char *device =3D qdict_get_str(qdict, "device");
++    const char *name =3D qdict_get_try_str(qdict, "name");
++    bool writable =3D qdict_get_try_bool(qdict, "writable", false);
++    Error *local_err =3D NULL;
++
++    BlockExportNbd export =3D {
++        .device         =3D (char *) device,
++        .has_name       =3D !!name,
++        .name           =3D (char *) name,
++        .has_writable   =3D true,
++        .writable       =3D writable,
++    };
++
++    qmp_nbd_server_add(&export, &local_err);
++    hmp_handle_error(mon, local_err);
++}
++
++void hmp_nbd_server_remove(Monitor *mon, const QDict *qdict)
++{
++    const char *name =3D qdict_get_str(qdict, "name");
++    bool force =3D qdict_get_try_bool(qdict, "force", false);
++    Error *err =3D NULL;
++
++    /* Rely on NBD_SERVER_REMOVE_MODE_SAFE being the default */
++    qmp_nbd_server_remove(name, force, NBD_SERVER_REMOVE_MODE_HARD, &err);
 +    hmp_handle_error(mon, err);
 +}
 +
-+void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict)
++void hmp_nbd_server_stop(Monitor *mon, const QDict *qdict)
 +{
-+    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *name =3D qdict_get_str(qdict, "name");
 +    Error *err =3D NULL;
 +
-+    qmp_blockdev_snapshot_internal_sync(device, name, &err);
-+    hmp_handle_error(mon, err);
-+}
-+
-+void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)
-+{
-+    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *name =3D qdict_get_str(qdict, "name");
-+    const char *id =3D qdict_get_try_str(qdict, "id");
-+    Error *err =3D NULL;
-+
-+    qmp_blockdev_snapshot_delete_internal_sync(device, !!id, id,
-+                                               true, name, &err);
++    qmp_nbd_server_stop(&err);
 +    hmp_handle_error(mon, err);
 +}
 diff --git a/include/block/block-hmp-cmds.h b/include/block/block-hmp-cmds.=
 h
-index fcdf1eec48..cc81779c7c 100644
+index cc81779c7c..50ff802598 100644
 --- a/include/block/block-hmp-cmds.h
 +++ b/include/block/block-hmp-cmds.h
-@@ -29,4 +29,8 @@ void hmp_block_job_pause(Monitor *mon, const QDict *qdict=
+@@ -33,4 +33,9 @@ void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict=
 );
- void hmp_block_job_resume(Monitor *mon, const QDict *qdict);
- void hmp_block_job_complete(Monitor *mon, const QDict *qdict);
-=20
-+void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict);
-+void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict);
-+void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)=
+ void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict);
+ void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)=
 ;
+=20
++void hmp_nbd_server_start(Monitor *mon, const QDict *qdict);
++void hmp_nbd_server_add(Monitor *mon, const QDict *qdict);
++void hmp_nbd_server_remove(Monitor *mon, const QDict *qdict);
++void hmp_nbd_server_stop(Monitor *mon, const QDict *qdict);
 +
  #endif
 diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 592ce0ccfe..6d34e29bb6 100644
+index 6d34e29bb6..736a969131 100644
 --- a/include/monitor/hmp.h
 +++ b/include/monitor/hmp.h
-@@ -61,9 +61,6 @@ void hmp_set_link(Monitor *mon, const QDict *qdict);
- void hmp_block_passwd(Monitor *mon, const QDict *qdict);
- void hmp_balloon(Monitor *mon, const QDict *qdict);
- void hmp_block_resize(Monitor *mon, const QDict *qdict);
--void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict);
--void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict);
--void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)=
-;
- void hmp_loadvm(Monitor *mon, const QDict *qdict);
- void hmp_savevm(Monitor *mon, const QDict *qdict);
- void hmp_delvm(Monitor *mon, const QDict *qdict);
+@@ -94,10 +94,6 @@ void hmp_getfd(Monitor *mon, const QDict *qdict);
+ void hmp_closefd(Monitor *mon, const QDict *qdict);
+ void hmp_sendkey(Monitor *mon, const QDict *qdict);
+ void hmp_screendump(Monitor *mon, const QDict *qdict);
+-void hmp_nbd_server_start(Monitor *mon, const QDict *qdict);
+-void hmp_nbd_server_add(Monitor *mon, const QDict *qdict);
+-void hmp_nbd_server_remove(Monitor *mon, const QDict *qdict);
+-void hmp_nbd_server_stop(Monitor *mon, const QDict *qdict);
+ void hmp_chardev_add(Monitor *mon, const QDict *qdict);
+ void hmp_chardev_change(Monitor *mon, const QDict *qdict);
+ void hmp_chardev_remove(Monitor *mon, const QDict *qdict);
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 25d1c19a96..7b199794b0 100644
+index 7b199794b0..573ddf473a 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1342,53 +1342,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdi=
-ct)
+@@ -47,7 +47,6 @@
+ #include "qapi/string-output-visitor.h"
+ #include "qom/object_interfaces.h"
+ #include "ui/console.h"
+-#include "block/nbd.h"
+ #include "block/qapi.h"
+ #include "qemu-io.h"
+ #include "qemu/cutils.h"
+@@ -2176,105 +2175,6 @@ void hmp_screendump(Monitor *mon, const QDict *qdic=
+t)
      hmp_handle_error(mon, err);
  }
 =20
--void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
+-void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
 -{
--    const char *device =3D qdict_get_str(qdict, "device");
--    const char *filename =3D qdict_get_try_str(qdict, "snapshot-file");
--    const char *format =3D qdict_get_try_str(qdict, "format");
--    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
--    enum NewImageMode mode;
--    Error *err =3D NULL;
+-    const char *uri =3D qdict_get_str(qdict, "uri");
+-    bool writable =3D qdict_get_try_bool(qdict, "writable", false);
+-    bool all =3D qdict_get_try_bool(qdict, "all", false);
+-    Error *local_err =3D NULL;
+-    BlockInfoList *block_list, *info;
+-    SocketAddress *addr;
+-    BlockExportNbd export;
 -
--    if (!filename) {
--        /* In the future, if 'snapshot-file' is not specified, the snapsho=
-t
--           will be taken internally. Today it's actually required. */
--        error_setg(&err, QERR_MISSING_PARAMETER, "snapshot-file");
--        hmp_handle_error(mon, err);
+-    if (writable && !all) {
+-        error_setg(&local_err, "-w only valid together with -a");
+-        goto exit;
+-    }
+-
+-    /* First check if the address is valid and start the server.  */
+-    addr =3D socket_parse(uri, &local_err);
+-    if (local_err !=3D NULL) {
+-        goto exit;
+-    }
+-
+-    nbd_server_start(addr, NULL, NULL, &local_err);
+-    qapi_free_SocketAddress(addr);
+-    if (local_err !=3D NULL) {
+-        goto exit;
+-    }
+-
+-    if (!all) {
 -        return;
 -    }
 -
--    mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PAT=
-HS;
--    qmp_blockdev_snapshot_sync(true, device, false, NULL,
--                               filename, false, NULL,
--                               !!format, format,
--                               true, mode, &err);
--    hmp_handle_error(mon, err);
+-    /* Then try adding all block devices.  If one fails, close all and
+-     * exit.
+-     */
+-    block_list =3D qmp_query_block(NULL);
+-
+-    for (info =3D block_list; info; info =3D info->next) {
+-        if (!info->value->has_inserted) {
+-            continue;
+-        }
+-
+-        export =3D (BlockExportNbd) {
+-            .device         =3D info->value->device,
+-            .has_writable   =3D true,
+-            .writable       =3D writable,
+-        };
+-
+-        qmp_nbd_server_add(&export, &local_err);
+-
+-        if (local_err !=3D NULL) {
+-            qmp_nbd_server_stop(NULL);
+-            break;
+-        }
+-    }
+-
+-    qapi_free_BlockInfoList(block_list);
+-
+-exit:
+-    hmp_handle_error(mon, local_err);
 -}
 -
--void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict)
+-void hmp_nbd_server_add(Monitor *mon, const QDict *qdict)
 -{
 -    const char *device =3D qdict_get_str(qdict, "device");
--    const char *name =3D qdict_get_str(qdict, "name");
--    Error *err =3D NULL;
+-    const char *name =3D qdict_get_try_str(qdict, "name");
+-    bool writable =3D qdict_get_try_bool(qdict, "writable", false);
+-    Error *local_err =3D NULL;
 -
--    qmp_blockdev_snapshot_internal_sync(device, name, &err);
--    hmp_handle_error(mon, err);
+-    BlockExportNbd export =3D {
+-        .device         =3D (char *) device,
+-        .has_name       =3D !!name,
+-        .name           =3D (char *) name,
+-        .has_writable   =3D true,
+-        .writable       =3D writable,
+-    };
+-
+-    qmp_nbd_server_add(&export, &local_err);
+-    hmp_handle_error(mon, local_err);
 -}
 -
--void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)
+-void hmp_nbd_server_remove(Monitor *mon, const QDict *qdict)
 -{
--    const char *device =3D qdict_get_str(qdict, "device");
 -    const char *name =3D qdict_get_str(qdict, "name");
--    const char *id =3D qdict_get_try_str(qdict, "id");
+-    bool force =3D qdict_get_try_bool(qdict, "force", false);
 -    Error *err =3D NULL;
 -
--    qmp_blockdev_snapshot_delete_internal_sync(device, !!id, id,
--                                               true, name, &err);
+-    /* Rely on NBD_SERVER_REMOVE_MODE_SAFE being the default */
+-    qmp_nbd_server_remove(name, force, NBD_SERVER_REMOVE_MODE_HARD, &err);
 -    hmp_handle_error(mon, err);
 -}
 -
- void hmp_loadvm(Monitor *mon, const QDict *qdict)
+-void hmp_nbd_server_stop(Monitor *mon, const QDict *qdict)
+-{
+-    Error *err =3D NULL;
+-
+-    qmp_nbd_server_stop(&err);
+-    hmp_handle_error(mon, err);
+-}
+-
+ void hmp_chardev_add(Monitor *mon, const QDict *qdict)
  {
-     int saved_vm_running  =3D runstate_is_running();
+     const char *args =3D qdict_get_str(qdict, "args");
 --=20
 2.24.1
 
