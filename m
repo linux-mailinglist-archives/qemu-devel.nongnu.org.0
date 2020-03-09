@@ -2,104 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCE117E88A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:34:49 +0100 (CET)
-Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385CD17E8BA
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:37:04 +0100 (CET)
+Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOAq-00059v-SO
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51854)
+	id 1jBOD1-0007s4-8f
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1jBO7q-0002lz-IA
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:31:43 -0400
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jBOBw-0006yo-Fk
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:35:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1jBO7p-00075K-9c
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:31:42 -0400
-Received: from mail-mw2nam12on2071.outbound.protection.outlook.com
- ([40.107.244.71]:19914 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1jBO7o-00073r-V8
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:31:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QYPmWoHADhDF89lBpa4DeyllG3s88ncJdjOKTHWi3+X7lxSOiCKipZV5MNMfIp/kJ9LJtA2FmkePX79bHDH1Too7MxAJFo8I3WdzhjEDh3HWUWNpz19ixmP+zwxZ3uUgjq22xLDIQHUJ8ldnb1cYBIFQqX/14tFonB/rmzSnkC/LPWXKQW7EnXoa6fraFRzUKFw7+V6Gjo6lBlv/v34TemJN4pCbt7HP8EcVnNRmFy7DLfUnC6S3639ggoN1526OdaEfKeFYijIQgmCylIvYKhYFP7w81mwwR1eEP8jEkaK5xnzQV7gJJzniQo+MCUDbkRhlqX22fIcQ2NkRX8Koxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hl+EIHkb32oyI35tbO2yRW7tb43f3Dx3ujrmluFuAyQ=;
- b=ETHR6TNw9m1mr+m+5LdqY7N7vxeFJwstXeys+cKBXfb+WvBGBQKDvRCXvEYgpW8+swGhXRep2np8XjLjUKjhdaKK4rVVieR3CTzKPbLf6jSXZIyA37aZqEVvFHaVhRxja3eZ3RsxHjHq2pG+udE2at6Yxu7nKUtOaQGwiL3FCGuq3odBPbPKkQCMy5DTtp/+UhaUxG6d0oUNsMoFo0LMbRLw5cTGtKi/VjjEWBm/kWUk1bxz++Ww6gigjgfTtVhmjytyRhwFfG9NoW8n5PQG7P7z36tvBWmggxgmj0zrLcctLssU86+VUrlx/a0Fah1TXVPZ+clvtiEXdX3rXtIzYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hl+EIHkb32oyI35tbO2yRW7tb43f3Dx3ujrmluFuAyQ=;
- b=vkmlevpNsgP6vbQooUSumd4oAn49C+G+7k4YX831n2FWL9Ndt3sdOZjiKJac9qHHSSpQlST2u8JR32Oi2QhvZbO7RKaVvxBvL74KT3D80FYK01DRSRoWB7FpYUNCHDxILTocTHxJUEP62btprLF4Lu5fLRP2oHjG0oVInHHRlcI=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2528.namprd12.prod.outlook.com (2603:10b6:802:28::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.17; Mon, 9 Mar
- 2020 19:31:34 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::382f:640c:215f:be93]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::382f:640c:215f:be93%5]) with mapi id 15.20.2793.013; Mon, 9 Mar 2020
- 19:31:34 +0000
-Subject: Re: [PATCH v5 14/16] hw/i386: Move arch_id decode inside x86_cpus_init
-To: Igor Mammedov <imammedo@redhat.com>
-References: <158326531474.40452.11433722850425537745.stgit@naples-babu.amd.com>
- <158326550403.40452.15934956681175349815.stgit@naples-babu.amd.com>
- <20200309162123.5ab6a750@Igors-MacBook-Pro>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <b008461c-d7c0-58f2-1c77-69a2fb5dae3e@amd.com>
-Date: Mon, 9 Mar 2020 14:31:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <20200309162123.5ab6a750@Igors-MacBook-Pro>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM5PR2001CA0010.namprd20.prod.outlook.com
- (2603:10b6:4:16::20) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jBOBu-0000kS-PL
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:35:56 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:42526)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1jBOBu-0000jv-Id; Mon, 09 Mar 2020 15:35:54 -0400
+Received: by mail-io1-xd41.google.com with SMTP id q128so10349972iof.9;
+ Mon, 09 Mar 2020 12:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VslxQD5mjwP9d8RwPmpfr07T+MCRCllTZgrsy2E+pms=;
+ b=hib+sE8lHyVO4pmAJGBiDiFHavijvtBbmV+VysS3LwlJX3ofKE0M4INKjJMMX5ZTww
+ +siOWuOuAROhc/IDaTMAPos2uUpBj1bLMQ5GTca23SKIVweOHxY/RmJcCHGyT5KBhUUM
+ p/VbRbgnIu2Q4jqsItnbDQQ1mrd+NHzLr+sbje6jHvaejWcBTq6uKkg8kZOLqcplqQXB
+ DQTNuRP+NBT9tgD6rF7UjiEhwSKd4zHaK1tF2IzGpTzzlvPnK38uNAqyIa9YQ+BrRuoU
+ kvd2oT4tiDl9x5Ah3lR0i3r4beW2NZpvc7S2nWFTdvyUOdL2iAcx4SGvyrcAZs2eU+eH
+ YRxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VslxQD5mjwP9d8RwPmpfr07T+MCRCllTZgrsy2E+pms=;
+ b=LpSmISOoi28IdqNV48qYHl31xQ2DvdYgstwGj6oxiOLo5TvZ7oOk9+dwQ0NfNU0CE/
+ ug9oeQ36Ncu45rI8mFMYJ1nqJydNUvZepRWp9tElfqQ38lQqajIVMyKU05YZP+JgsmPD
+ uO4cX+z9xurMb1AIQqwrsztl9+NbiL+GzQbQg/OxO4UzdE49439jiE0YMM6dVQTr+5cX
+ WD9lCWLP/uDF0N/XCyC37ffusgvCOhB+JYOpCUUEjrXF68kkSROHV6eQYJSTx4xUpfla
+ ERDp8lt+CMk9u1Vui80RxXmG6LbxhjFavpSoRbhw0/32OFRsmJXRorm7cfwxS0AoGfUr
+ /NFQ==
+X-Gm-Message-State: ANhLgQ0fy7Hy7CbxG4EUF6/K2oddtOwW6ZFC91eBr+VTVHr0VHrUcq6P
+ lSlWOHZgKYQWdWZmmkJ3dRr9jUN/+dspZKPouHc=
+X-Google-Smtp-Source: ADFU+vs3TAacZFigCb7I0mJXfNDoYnoXWdD5TCBm5PdkKd1XnkwZ7XkdmxB7ngptHThEq1233YQD+oNQtuTaOEqREwo=
+X-Received: by 2002:a6b:2bc2:: with SMTP id r185mr9793071ior.60.1583782553572; 
+ Mon, 09 Mar 2020 12:35:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.87] (165.204.77.1) by
- DM5PR2001CA0010.namprd20.prod.outlook.com (2603:10b6:4:16::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.15 via Frontend Transport; Mon, 9 Mar 2020 19:31:33 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 92a00db9-6897-4712-2832-08d7c4607a0a
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2528:
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2528433EF1D32EF72AD9D19195FE0@SN1PR12MB2528.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-Forefront-PRVS: 0337AFFE9A
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(396003)(39860400002)(346002)(376002)(366004)(199004)(189003)(2906002)(2616005)(316002)(4326008)(956004)(36756003)(52116002)(53546011)(16576012)(44832011)(6486002)(5660300002)(478600001)(6916009)(81166006)(81156014)(31696002)(66556008)(31686004)(66946007)(86362001)(8936002)(8676002)(186003)(66476007)(16526019)(26005);
- DIR:OUT; SFP:1101; SCL:1; SRVR:SN1PR12MB2528;
- H:SN1PR12MB2560.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Wi1DNtGDzY2kCmWerA1bh8kTtOeSAa7KckgfXURku7VZ2E6BB2q7RONQ0ikwATjgySkeR7dJZtyD2CIZS0pju2mITKimXt5p54/zNy6KiVangolYlNSKb57M6fQybxwHzwFglc2BtktDb8fg9g34H/7eFGuXw3he0cqROE8a8aaEcTXRlbIg+jRtLFzEKO1tc6UWxI51lBt+3SjCC8iAkIYDu9LREtrlOlqMcPVOvGVZp24BqK+4rcBdeJ4BJaa0ZHmR98LVX7XWRDNr9Br2G95KODE9C9IX7aH+8hg6Iyt7yESqibsNOO0IRzfwrRVUFoa2gvTwePw8UyhaEjbTA2VzAdJmqFel1oD5rRRlBhI0TzJe2uZ/iRMjyJPoSfdzqyjEAKlmeIO1Z7J9PMm9cJnBTRx1S6cZgCKthrncVMZ4sumWfyoY+toY6BMXDqM/
-X-MS-Exchange-AntiSpam-MessageData: Q3ZfhnsKxqP5XC3JLQSFx16cCCMoqd3qfn0oHNr9wLkMVV0Atv/l25Vf+n75j7I7z3rWPWh/EgXxnurbyyY2nU2CLK2ogQW0S1PtzDI/V2sviVG3HbcIhZRBP0hrGepvrlyt7IEKUWcfHztjc2yJ6g==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92a00db9-6897-4712-2832-08d7c4607a0a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2020 19:31:34.5331 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YeE5ri9ozSmhWjql8+upTuAAr1iMcqED3oqgbUusN1edaVU+atiN/ZXl/5Gvix8t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2528
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.244.71
+References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
+ <20200301215029.15196-19-nieklinnenbank@gmail.com> <871rq876h3.fsf@linaro.org>
+ <CAPan3WrNnrnngwE4pGeYpR9HS7Vr936-ojPZZovNo8ZdoAA0sg@mail.gmail.com>
+In-Reply-To: <CAPan3WrNnrnngwE4pGeYpR9HS7Vr936-ojPZZovNo8ZdoAA0sg@mail.gmail.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Mon, 9 Mar 2020 20:35:42 +0100
+Message-ID: <CAPan3WqOT1B4xuJeAYUh4Np1UjJuypCDSQVGeV2yyNbH5mBxKw@mail.gmail.com>
+Subject: Re: [PATCH v6 18/18] docs: add Orange Pi PC document
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000081dc3505a0711c08"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,101 +72,310 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000081dc3505a0711c08
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alex,
+
+On Wed, Mar 4, 2020 at 9:55 PM Niek Linnenbank <nieklinnenbank@gmail.com>
+wrote:
+
+> Hello Alex,
+>
+> On Wed, Mar 4, 2020 at 11:35 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> wrote:
+>
+>>
+>> Niek Linnenbank <nieklinnenbank@gmail.com> writes:
+>>
+>> > The Xunlong Orange Pi PC machine is a functional ARM machine
+>> > based on the Allwinner H3 System-on-Chip. It supports mainline
+>> > Linux, U-Boot, NetBSD and is covered by acceptance tests.
+>> >
+>> > This commit adds a documentation text file with a description
+>> > of the machine and instructions for the user.
+>>
+>> This is great, thanks for taking the time to include documentation.
+>>
+>
+> Sure, I'm happy to contribute it. I tried to include most relevant
+> information
+> in there for developers and potential users of the machine. If something
+> is missing
+> just let me know and I'll make an update for it.
+>
+>
+>>
+>> >
+>> > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+>> > ---
+>> >  docs/orangepi.rst | 226
+>> > ++++++++++++++++++++++++++++++++++++++++++++++
+>>
+>> I suspect there is a better place to put this is than the top level. I
+>> wonder if it should be docs/specs?
+>>
+>
+> Yeah I'm fine to move it to a different subdirectory if needed. Right now
+> its placed in docs,
+> as it seems that documents for machines are also placed there, for exampl=
+e
+> docs/microvm.rst
+>
+>
+>>
+>> >  MAINTAINERS       |   1 +
+>> >  2 files changed, 227 insertions(+)
+>> >  create mode 100644 docs/orangepi.rst
+>> >
+>> > diff --git a/docs/orangepi.rst b/docs/orangepi.rst
+>> > new file mode 100644
+>> > index 0000000000..a9b46f553c
+>> > --- /dev/null
+>> > +++ b/docs/orangepi.rst
+>> > @@ -0,0 +1,226 @@
+>> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>> > +Orange Pi PC Machine Type
+>> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>> > +
+>> > +The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
+>> > +based embedded computer with mainline support in both U-Boot
+>> > +and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
+>> > +1GiB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
+>> > +various other I/O.
+>>
+>> When Peter's document PR goes in later this week there will also be a:
+>>
+>>   docs/system/target-arm.rst
+>>
+>> which would benefit from a section for the Orange Pi in it.
+>>
+>
+> Nice, I'll have a look at it when it gets merged and add a section for
+> Orange Pi.
+> I'll try to include that in the next version of this series.
+>
+>
+>>
+>> > +
+>> > +Supported devices
+>> > +-----------------
+>> > +
+>> > +The Orange Pi PC machine supports the following devices:
+>> > +
+>> > + * SMP (Quad Core Cortex A7)
+>> > + * Generic Interrupt Controller configuration
+>> > + * SRAM mappings
+>> > + * SDRAM controller
+>> > + * Real Time Clock
+>> > + * Timer device (re-used from Allwinner A10)
+>> > + * UART
+>> > + * SD/MMC storage controller
+>> > + * EMAC ethernet
+>>
+>> Do we ever exercise the ethernet in the acceptance tests? I see we have
+>> some that boots a full OS but boot console only seems to touch the
+>> serial console.
+>>
+>
+> Good point. Currently in the acceptance tests U-Boot and Linux detect
+> the ethernet device, but there are no explicit checks for that in the
+> acceptance tests
+> nor any actual packet transmission.
+>
+> I'll try to extend the current tests in the next version of this series t=
+o
+> include some
+> basic checks for the ethernet device, perhaps with DHCP or a ping.
+> I'm open to suggestions for the preferred way to do this.
+>
+
+FYI, I added some coverage for the ethernet device by extending the
+test_arm_orangepi_sd test with a few lines like:
+
++        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 up', 'eth0:
+Link is Up')
++        exec_command_and_wait_for_pattern(self, 'udhcpc eth0',
++                                                'udhcpc: lease of
+10.0.2.15 obtained')
++        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
++            '3 packets transmitted, 3 packets received, 0% packet loss')
+
+Regards,
+Niek
 
 
-On 3/9/20 10:21 AM, Igor Mammedov wrote:
-> On Tue, 03 Mar 2020 13:58:24 -0600
-> Babu Moger <babu.moger@amd.com> wrote:
-> 
->> Apicid calculation depends on knowing the total number of numa nodes
->> for EPYC cpu models. Right now, we are calculating the arch_id while
->> parsing the numa(parse_numa). At this time, it is not known how many
->> total numa nodes are configured in the system.
+> Regards,
+> Niek
+>
+>
+>
+>
+>
+>
 >>
->> Move the arch_id inside x86_cpus_init. At this time smp parameter is already
->> completed and numa node information is available.
+>> <snip>
 >>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->>  hw/i386/x86.c |   17 +++++++++++------
->>  1 file changed, 11 insertions(+), 6 deletions(-)
+>> --
+>> Alex Benn=C3=A9e
 >>
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index d46dd4ad9e..66998b065c 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -121,6 +121,9 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->>      MachineState *ms = MACHINE(x86ms);
->>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
->>  
->> +    /* Initialize apicid handlers first */
->> +    cpu_x86_init_apicid_fns(ms);
->> +
->>      x86_cpu_set_default_version(default_cpu_version);
->>  
->>      /*
->> @@ -134,6 +137,12 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->>      x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
->>                                                        ms->smp.max_cpus - 1) + 1;
->>      possible_cpus = mc->possible_cpu_arch_ids(ms);
->> +
->> +    for (i = 0; i < ms->smp.cpus; i++) {
->> +        ms->possible_cpus->cpus[i].arch_id =
->> +            x86_cpu_apic_id_from_index(x86ms, i);
->> +    }
->> +
->>      for (i = 0; i < ms->smp.cpus; i++) {
->>          x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
->>      }
->> @@ -158,8 +167,7 @@ int64_t x86_get_default_cpu_node_id(const MachineState *ms, int idx)
->>     init_topo_info(&topo_info, x86ms);
->>  
->>     assert(idx < ms->possible_cpus->len);
->> -   x86ms->topo_ids_from_apicid(ms->possible_cpus->cpus[idx].arch_id,
->> -                               &topo_info, &topo_ids);
->> +   x86_topo_ids_from_idx(&topo_info, idx, &topo_ids);
-> not necessary if default x86ms->topo_ids_from_apicid were initialized from x86 machine class
-> 
-> I also wonder if this default contraption we have is going to work
-> in case of EPYC cpu (i.e. is would generate valid nodeids).
+>
+>
+> --
+> Niek Linnenbank
+>
+>
 
-From what I understand, we call this x86_get_default_cpu_node_id only when
-the user does not specify the numa binding requirements. We tried to
-generate the default node it for a given config. This works fine for EPYC
-also. I am not sure about changing this right now. what do you think?
+--=20
+Niek Linnenbank
 
-> 
-> Bot instead of than trying to fix it if it's broken,
-> I'd rather deprecate and drop get_default_cpu_node_id() requiring users
-> to explicitly define CPU mapping to numa nodes.
-> That would be consistent with req for explicit RAM for numa nodes
-> (postponed till 5.1 due to libvirt not being ready),
-> i.e if one wants numa, one should explicitly provide necessary mapping
-> or machine won't start.
-> 
-> 
->>     return topo_ids.pkg_id % ms->numa_state->num_nodes;
->>  }
->>  
->> @@ -193,10 +201,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
->>  
->>          ms->possible_cpus->cpus[i].type = ms->cpu_type;
->>          ms->possible_cpus->cpus[i].vcpus_count = 1;
->> -        ms->possible_cpus->cpus[i].arch_id =
->> -            x86_cpu_apic_id_from_index(x86ms, i);
->> -        x86ms->topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
->> -                                 &topo_info, &topo_ids);
->> +        x86_topo_ids_from_idx(&topo_info, i, &topo_ids);
-> ditto
-> 
->>          ms->possible_cpus->cpus[i].props.has_socket_id = true;
->>          ms->possible_cpus->cpus[i].props.socket_id = topo_ids.pkg_id;
->>          if (x86ms->smp_dies > 1) {
->>
-> 
+--00000000000081dc3505a0711c08
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Alex,<br></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 4, 2020 at 9:55 PM Niek Linne=
+nbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div dir=3D"ltr"><div dir=3D"ltr">Hello Alex,<br></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 4, 2020 at =
+11:35 AM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" tar=
+get=3D"_blank">alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex"><br>
+Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com" target=3D"_=
+blank">nieklinnenbank@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; The Xunlong Orange Pi PC machine is a functional ARM machine<br>
+&gt; based on the Allwinner H3 System-on-Chip. It supports mainline<br>
+&gt; Linux, U-Boot, NetBSD and is covered by acceptance tests.<br>
+&gt;<br>
+&gt; This commit adds a documentation text file with a description<br>
+&gt; of the machine and instructions for the user.<br>
+<br>
+This is great, thanks for taking the time to include documentation.<br></bl=
+ockquote><div><br></div><div>Sure, I&#39;m happy to contribute it. I tried =
+to include most relevant information</div><div>in there for developers and =
+potential users of the machine. If something is missing</div><div>just let =
+me know and I&#39;ll make an update for it.<br></div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;<br>
+&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gm=
+ail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/orangepi.rst | 226<br>
+&gt; ++++++++++++++++++++++++++++++++++++++++++++++<br>
+<br>
+I suspect there is a better place to put this is than the top level. I<br>
+wonder if it should be docs/specs?<br></blockquote><div><br></div><div>Yeah=
+ I&#39;m fine to move it to a different subdirectory if needed. Right now i=
+ts placed in docs,</div><div>as it seems that documents for machines are al=
+so placed there, for example docs/microvm.rst<br></div><div>=C2=A0</div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+&gt;=C2=A0 2 files changed, 227 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 docs/orangepi.rst<br>
+&gt;<br>
+&gt; diff --git a/docs/orangepi.rst b/docs/orangepi.rst<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..a9b46f553c<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/docs/orangepi.rst<br>
+&gt; @@ -0,0 +1,226 @@<br>
+&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D<br>
+&gt; +Orange Pi PC Machine Type<br>
+&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D<br>
+&gt; +<br>
+&gt; +The Xunlong Orange Pi PC is an Allwinner H3 System on Chip<br>
+&gt; +based embedded computer with mainline support in both U-Boot<br>
+&gt; +and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,<br>
+&gt; +1GiB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and<br>
+&gt; +various other I/O.<br>
+<br>
+When Peter&#39;s document PR goes in later this week there will also be a:<=
+br>
+<br>
+=C2=A0 docs/system/target-arm.rst<br>
+<br>
+which would benefit from a section for the Orange Pi in it.<br></blockquote=
+><div><br></div><div>Nice, I&#39;ll have a look at it when it gets merged a=
+nd add a section for Orange Pi.</div><div>I&#39;ll try to include that in t=
+he next version of this series.<br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+&gt; +<br>
+&gt; +Supported devices<br>
+&gt; +-----------------<br>
+&gt; +<br>
+&gt; +The Orange Pi PC machine supports the following devices:<br>
+&gt; +<br>
+&gt; + * SMP (Quad Core Cortex A7)<br>
+&gt; + * Generic Interrupt Controller configuration<br>
+&gt; + * SRAM mappings<br>
+&gt; + * SDRAM controller<br>
+&gt; + * Real Time Clock<br>
+&gt; + * Timer device (re-used from Allwinner A10)<br>
+&gt; + * UART<br>
+&gt; + * SD/MMC storage controller<br>
+&gt; + * EMAC ethernet<br>
+<br>
+Do we ever exercise the ethernet in the acceptance tests? I see we have<br>
+some that boots a full OS but boot console only seems to touch the<br>
+serial console.<br></blockquote><div><br></div><div>Good point. Currently i=
+n the acceptance tests U-Boot and Linux detect</div><div>the ethernet devic=
+e, but there are no explicit checks for that in the acceptance tests</div><=
+div>nor any actual packet transmission. <br></div><div><br></div><div>I&#39=
+;ll try to extend the current tests in the next version of this series to i=
+nclude some</div><div>basic checks for the ethernet device, perhaps with DH=
+CP or a ping.</div><div>I&#39;m open to suggestions for the preferred way t=
+o do this.<br></div></div></div></blockquote><div><br></div><div>FYI, I add=
+ed some coverage for the ethernet device by extending the test_arm_orangepi=
+_sd test with a few lines like:</div><div><br></div><div>+ =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0exec_command_and_wait_for_pattern(self, &#39;ifconfig eth0 up&=
+#39;, &#39;eth0: Link is Up&#39;)<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_comm=
+and_and_wait_for_pattern(self, &#39;udhcpc eth0&#39;,<br>+ =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&#39;udhcpc: lease of 10.0.2.15 obtained&#39;)<br>+ =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0exec_command_and_wait_for_pattern(self, &#39;ping -c 3 10.0.2.2&#=
+39;,<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;3 packets transmitt=
+ed, 3 packets received, 0% packet loss&#39;)<br></div><div>=C2=A0</div><div=
+>Regards,</div><div>Niek<br></div><div><br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></=
+div><div><br></div><div>Regards,</div><div>Niek<br></div><div><br></div><di=
+v><br></div><br><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+<br>
+&lt;snip&gt;<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr"><div dir=
+=3D"ltr"><div>Niek Linnenbank<br><br></div></div></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div></div>
+
+--00000000000081dc3505a0711c08--
 
