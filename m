@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C0617E3C0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:37:41 +0100 (CET)
-Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF02E17E3C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:39:50 +0100 (CET)
+Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKTM-0005Ju-2X
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36162)
+	id 1jBKVR-0001GV-KB
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jBKDf-0000CA-SX
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:21:28 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jBKDo-0000Mp-Ip
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:21:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jBKDe-0003vs-O2
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:21:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54417
+ (envelope-from <imammedo@redhat.com>) id 1jBKDn-0003xo-E9
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:21:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52091
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jBKDe-0003va-Kx
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:21:26 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jBKDn-0003xf-A6
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:21:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583767286;
+ s=mimecast20190719; t=1583767294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5LbgiGGlJQ3AL4Gec/ApZifD2V3O4x1g104VF59gBMI=;
- b=M3ElGOfWh0av3ofH0bjUK7F5OB8G+PieauacY4hyTERC3OnfBr5GBkn3/QzOvLHCrmcr3K
- CArA4Zc6Ny/0l550MLl0VWCfwu1/f5sbCBCM020SJhd5XpwgrN9rB+GOvkgOmlqnyXJm4I
- ryPfyVUlFXlDl9INIzgnSJwrZSlAmls=
+ bh=HELmnNtWJ71wRrhf98JC1nxLhMjqn+RveJ2NEHu+2Hs=;
+ b=Vq+Y4ttMMUNK3VcwbX6aD01F6UPKfgwNI0lImhtoajZ3QFNoTTup/0HPCi7BXikHTh+cja
+ /fks7rjKtxbYY95NbAkVyEEYrmQyjBAeF34CyCFVGH2unHTs2KuteGuhjy4lqCWgG8gCJK
+ SzvDHdtsy59E1QuBueTUPwx/AGgJnTQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-NVrN1dDSOL2aiJ5ImoulCg-1; Mon, 09 Mar 2020 11:21:22 -0400
-X-MC-Unique: NVrN1dDSOL2aiJ5ImoulCg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-220-qpJ6_nQvOTGvts83jdVjMA-1; Mon, 09 Mar 2020 11:21:33 -0400
+X-MC-Unique: qpJ6_nQvOTGvts83jdVjMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9982107ACC9;
- Mon,  9 Mar 2020 15:21:20 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-162.ams2.redhat.com [10.36.116.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9744B5C3F8;
- Mon,  9 Mar 2020 15:21:13 +0000 (UTC)
-Date: Mon, 9 Mar 2020 16:21:12 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 1/4] block: Add trivial backing_fmt support to qcow,
- sheepdog, vmdk
-Message-ID: <20200309152112.GC6478@linux.fritz.box>
-References: <20200306225121.3199279-1-eblake@redhat.com>
- <20200306225121.3199279-2-eblake@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14F501088380;
+ Mon,  9 Mar 2020 15:21:32 +0000 (UTC)
+Received: from Igors-MacBook-Pro (ovpn-206-77.brq.redhat.com [10.40.206.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4E0D5D9C5;
+ Mon,  9 Mar 2020 15:21:27 +0000 (UTC)
+Date: Mon, 9 Mar 2020 16:21:23 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v5 14/16] hw/i386: Move arch_id decode inside x86_cpus_init
+Message-ID: <20200309162123.5ab6a750@Igors-MacBook-Pro>
+In-Reply-To: <158326550403.40452.15934956681175349815.stgit@naples-babu.amd.com>
+References: <158326531474.40452.11433722850425537745.stgit@naples-babu.amd.com>
+ <158326550403.40452.15934956681175349815.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20200306225121.3199279-2-eblake@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,30 +71,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, pkrempa@redhat.com,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- libvir-list@redhat.com, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org, mreitz@redhat.com,
- "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Liu Yuan <namei.unix@gmail.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.03.2020 um 23:51 hat Eric Blake geschrieben:
-> For qcow2 and qed, we want to encourage the use of -F always, as these
-> formats can suffer from data corruption or security holes if backing
-> format is probed.  But for other formats, the backing format cannot be
-> recorded.  Making the user decide on a per-format basis whether to
-> supply a backing format string is awkward, better is to just blindly
-> accept a backing format argument even if it is ignored by the
-> contraints of the format at hand.
->=20
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+On Tue, 03 Mar 2020 13:58:24 -0600
+Babu Moger <babu.moger@amd.com> wrote:
 
-I'm not sure if I agree with this reasoning. Accepting and silently
-ignoring -F could give users a false sense of security. If I specify a
--F raw and QEMU later probes qcow2, that would be very surprising.
+> Apicid calculation depends on knowing the total number of numa nodes
+> for EPYC cpu models. Right now, we are calculating the arch_id while
+> parsing the numa(parse_numa). At this time, it is not known how many
+> total numa nodes are configured in the system.
+> 
+> Move the arch_id inside x86_cpus_init. At this time smp parameter is already
+> completed and numa node information is available.
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  hw/i386/x86.c |   17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index d46dd4ad9e..66998b065c 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -121,6 +121,9 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>      MachineState *ms = MACHINE(x86ms);
+>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+>  
+> +    /* Initialize apicid handlers first */
+> +    cpu_x86_init_apicid_fns(ms);
+> +
+>      x86_cpu_set_default_version(default_cpu_version);
+>  
+>      /*
+> @@ -134,6 +137,12 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+>      x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
+>                                                        ms->smp.max_cpus - 1) + 1;
+>      possible_cpus = mc->possible_cpu_arch_ids(ms);
+> +
+> +    for (i = 0; i < ms->smp.cpus; i++) {
+> +        ms->possible_cpus->cpus[i].arch_id =
+> +            x86_cpu_apic_id_from_index(x86ms, i);
+> +    }
+> +
+>      for (i = 0; i < ms->smp.cpus; i++) {
+>          x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
+>      }
+> @@ -158,8 +167,7 @@ int64_t x86_get_default_cpu_node_id(const MachineState *ms, int idx)
+>     init_topo_info(&topo_info, x86ms);
+>  
+>     assert(idx < ms->possible_cpus->len);
+> -   x86ms->topo_ids_from_apicid(ms->possible_cpus->cpus[idx].arch_id,
+> -                               &topo_info, &topo_ids);
+> +   x86_topo_ids_from_idx(&topo_info, idx, &topo_ids);
+not necessary if default x86ms->topo_ids_from_apicid were initialized from x86 machine class
 
-Kevin
+I also wonder if this default contraption we have is going to work
+in case of EPYC cpu (i.e. is would generate valid nodeids).
+
+Bot instead of than trying to fix it if it's broken,
+I'd rather deprecate and drop get_default_cpu_node_id() requiring users
+to explicitly define CPU mapping to numa nodes.
+That would be consistent with req for explicit RAM for numa nodes
+(postponed till 5.1 due to libvirt not being ready),
+i.e if one wants numa, one should explicitly provide necessary mapping
+or machine won't start.
+
+
+>     return topo_ids.pkg_id % ms->numa_state->num_nodes;
+>  }
+>  
+> @@ -193,10 +201,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
+>  
+>          ms->possible_cpus->cpus[i].type = ms->cpu_type;
+>          ms->possible_cpus->cpus[i].vcpus_count = 1;
+> -        ms->possible_cpus->cpus[i].arch_id =
+> -            x86_cpu_apic_id_from_index(x86ms, i);
+> -        x86ms->topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
+> -                                 &topo_info, &topo_ids);
+> +        x86_topo_ids_from_idx(&topo_info, i, &topo_ids);
+ditto
+
+>          ms->possible_cpus->cpus[i].props.has_socket_id = true;
+>          ms->possible_cpus->cpus[i].props.socket_id = topo_ids.pkg_id;
+>          if (x86ms->smp_dies > 1) {
+> 
 
 
