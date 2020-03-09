@@ -2,40 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B25E17E41F
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:57:15 +0100 (CET)
-Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BA317E3DD
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:43:56 +0100 (CET)
+Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKmI-0004j3-7M
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:57:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39095)
+	id 1jBKZP-0008Ee-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <roman.kapl@sysgo.com>) id 1jBKSs-0005Mf-RL
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:37:12 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBKXM-0005w0-Q9
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:41:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <roman.kapl@sysgo.com>) id 1jBKSp-000665-O6
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:37:09 -0400
-Received: from mail.sysgo.com ([176.9.12.79]:38182)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <roman.kapl@sysgo.com>) id 1jBKSp-00065i-Dp
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:37:07 -0400
-Subject: Re: [PATCH] vfio: avoid SET_ACTION_TRIGGER ioctls
-From: Roman Kapl <roman.kapl@sysgo.com>
-To: qemu-devel@nongnu.org
-References: <20200228120800.5979-1-rka@sysgo.com>
- <20200305153735.238a9ddd@w520.home>
- <734a8a2f-4659-c0e3-8c6f-8df8a3b6a75a@sysgo.com>
-Message-ID: <83e8fbdf-4e11-151c-2ec7-fee699bc0d2d@sysgo.com>
-Date: Mon, 9 Mar 2020 16:37:05 +0100
+ (envelope-from <philmd@redhat.com>) id 1jBKXL-0000LB-57
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:41:48 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56776
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBKXL-0000Kh-1K
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:41:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583768506;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V9CeH3IkcYVWI8EMq4UDI1RY7gGN/4pWBugXj67tYak=;
+ b=Vf5ItLFNakJmgnciwbj+o3Xh5uOqRxk+B5ZVKl45p0UfzfIVcOr0EimxoCmcLJ1HZSj7R8
+ aHtdAtzvWDAIWg/6F1d/fOHgfVraX82QTkwWt9dnt44+m9YSfMw4K/r0SPGr7m+oE61fFM
+ Vca8Wke9w40cUZG/X5DRMJQa1rYoqYk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-aUKzQX0JPeOFpqJfe75Q-w-1; Mon, 09 Mar 2020 11:41:42 -0400
+X-MC-Unique: aUKzQX0JPeOFpqJfe75Q-w-1
+Received: by mail-ed1-f70.google.com with SMTP id x13so8300690eds.19
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:41:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8uVqvEC+I7iFp6JtqO4lH60g2L2zMJeC5RmESOlUfOo=;
+ b=MdJEOIkYWSfw0RHX7QMi3OncBij7RWYFJ1kCWduFIx3D7paDD6kJG21hUmqbt/xD09
+ UN75SiZOkBPSbEhPyxYFZ9cRYo8Sr2qKxh0RFuFSmtNDUTlabXEx+scgZtWAEaiHopjL
+ QFmAeT1f55X/WGv6KXFu/JT5tXsvWldKgz1v+av9VSPS4J2cggBJkXr247ljYjMUUceX
+ 8VyED0+km5YpjVbWprxK6tpO3Mk7P6YuH4sxDtlfyqiMfh1Fi2GeS13dKGiv7ejg4rJF
+ D+MSGB92MCb6q7IYAyWj1w6OZL0DARkUw18okXTOvSyOZHVglHv454SDSecys049UiUC
+ 9eGQ==
+X-Gm-Message-State: ANhLgQ0db5SJTU0bLtzGPhrebsm07tqrQecw3PPfudzvnnKZQe4jtd0P
+ 7gMo+Zjm90LzdT7IXp+BKqxUEIQ9CF9YSiJHaaz1ZIP81QJaSHqg5QKfabuPllEfTJjL6ivC2ll
+ KRX6uCbxiEcm2DXA=
+X-Received: by 2002:aa7:d318:: with SMTP id p24mr10079166edq.386.1583768501081; 
+ Mon, 09 Mar 2020 08:41:41 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtSENMX1eNkyZxN3I+UaJWd6I33plwpYDldrCrz5m5vknb0k4f7hIVmvb8+oRJ7WFU14jl7Fw==
+X-Received: by 2002:aa7:d318:: with SMTP id p24mr10079141edq.386.1583768500766; 
+ Mon, 09 Mar 2020 08:41:40 -0700 (PDT)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id d1sm3328465ejy.3.2020.03.09.08.41.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Mar 2020 08:41:40 -0700 (PDT)
+Subject: Re: [PATCH 2/5] hw/core/loader: Prohibit loading ROMs bigger than
+ memory region
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200309144353.26457-1-philmd@redhat.com>
+ <20200309144353.26457-3-philmd@redhat.com>
+ <CAFEAcA-4BmEvo73a-1pvQx5r+T0gXRa2GcqAmAdYxZBsfAJqFw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <35729031-6c76-6f0e-a3f9-d88869aaef5f@redhat.com>
+Date: Mon, 9 Mar 2020 16:41:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <734a8a2f-4659-c0e3-8c6f-8df8a3b6a75a@sysgo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA-4BmEvo73a-1pvQx5r+T0gXRa2GcqAmAdYxZBsfAJqFw@mail.gmail.com>
 Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 176.9.12.79
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,314 +93,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 3/9/20 12:43 PM, Roman Kapl wrote:
-> On 3/5/20 11:37 PM, Alex Williamson wrote:
->> On Fri, 28 Feb 2020 13:08:00 +0100
->> Roman Kapl <rka@sysgo.com> wrote:
+On 3/9/20 3:48 PM, Peter Maydell wrote:
+> On Mon, 9 Mar 2020 at 14:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >>
->>> For MSI-X interrupts, remember what the last used eventfd was (KVM
->>> bypass vs QEMU) and only call vfio_set_irq_signaling if it has change=
-d.
->>>
->>> This not only helps with performance, but it seems that interrupts ca=
-n
->>> be lost during VFIO_IRQ_SET_ACTION_TRIGGER. With the 'x-no-kvm-msix'
->>> switch and this patch, SET_ACTION_TRIGGER is not called during
->>> mask/unmask. This really only affects guests that actively use MSI-X=20
->>> masking.
->>>
->>> Signed-off-by: Roman Kapl <rka@sysgo.com>
->>> ---
->>>
->>> This patch scratches my particular itch. I am able to get our guest=20
->>> (which masks
->>> MSI on each interrupt) running, without getting randomly stuck on=20
->>> waiting for
->>> interrupt. However, the solution is far from perfect (x-no-kvm-msix=20
->>> is required)
->>> and pretty slow. I would be interested in hearing any ideas how to=20
->>> improve this.
->>> Some ideas:
->>>
->>> 1) Fix the kernel so that SET_ACTION_TRIGGER does not loose=20
->>> interrupts (I think
->>> the problem is there, but not 100% sure). I've tested on=20
->>> 5.3.0-40-generic
->>> #32~18.04.1-Ubuntu SMP.
+>> We must not write more data than the memory region size.
 >>
->> I'd be curious if this (yet unmerged) series resolve this:
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   hw/core/loader.c | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
 >>
->> https://lore.kernel.org/lkml/cover.1567394624.git.luoben@linux.alibaba=
-.com/=20
->>
+>> diff --git a/hw/core/loader.c b/hw/core/loader.c
+>> index d1b78f60cd..c67c483936 100644
+>> --- a/hw/core/loader.c
+>> +++ b/hw/core/loader.c
+>> @@ -1136,7 +1136,10 @@ static void rom_reset(void *unused)
+>>               continue;
+>>           }
+>>           if (rom->mr) {
+>> -            void *host =3D memory_region_get_ram_ptr(rom->mr);
+>> +            void *host;
+>> +
+>> +            assert(memory_region_size(rom->mr) >=3D rom->datasize);
+>> +            host =3D memory_region_get_ram_ptr(rom->mr);
+>>               memcpy(host, rom->data, rom->datasize);
 >=20
-> Indeed it does. Thanks for pointing out this patch. This seems to nicel=
-y=20
-> fix the underlying issue and thus QEMU now work both with and without=20
-> KVM bypass.
->=20
->>> 2) Add support for MASK/UNMASK for MSI-X in kernel and use that. But=20
->>> I don't
->>> know how to do PBA in that case. Another IOCTL? We could look at the=20
->>> real PBA
->>> array, if mapping is supported, but that seems hacky.
->>
->> That lack of a masking API in the host kernel is part of the reason we
->> take the hacky approach of emulating the PBA in QEMU.=C2=A0 We could h=
-ave
->> the PBA MemoryRegion do a pread() from the device, but if we're doing
->> some ioctls on every un/mask, we're probably already digging ourselves
->> out of a hole.
->>
->> It would be interesting to see if the series above prevents dropping
->> interrupts, how it compares with the reduced ioctls + QEMU handling yo=
-u
->> have here.
->=20
-> Unfortunately I was not able to get any reasonable performance data=20
-> here, because in the interrupt latency seems to be pretty bad (cca 1.5m=
-s=20
-> - 2ms) in all three options I've tried: no-KVM-bypass, KVM-bypass,=20
-> no-KVM-bypass + my patch). So saving one IOCTL does not really make a=20
-> dent in that.
->=20
-> If I will be able to find out why the latency is so bad, or reduce it, =
-I=20
-> will get back.
+> Does this really only happen if there's a QEMU bug,
+> or could a user trigger this assert by accidentally
+> passing an oversize file on the command line?
 
-Ok, just to recapitulate, with the kernel patch linked above, the only=20
-issue now is performance, not corectness.
-
-Using perf, I've found out the bad performance was caused by=20
-memory_region_set_enabled(msix_pba_mmio). Simply leaving it enabled had=20
-a huge effect (maybe 5x) on my workload.
-
-Second in line is adding x-no-kvm-msix, which has modest impact. I've=20
-also tried this proposed patch and I've also removed the unecessary=20
-qemu_set_fd_handler. Both have a small impact in comparison
-
-So the priority now would be to avoid the calls to=20
-memory_region_set_enabled. I can think of two options:
-
-1) Add a flag, e.g. 'x-pba-always-on' and possibly also 'x-pba-disable'.=20
-This is probably the simplest thing to do.
-
-2) Add auto-detection. If the guest tries to switch PBA on/off too many=20
-times, just permanently enable it. The same goes for KVM bypass.
-'x-pba-disable' flag would still probably be useful for guests where PBA=20
-would cause performance degradation, but the guest does not use it.
-
-Any thoughts? Or is there some faster way to toggle the memory region=20
-emulation?
-
-Thank you, Roman Kapl
+This is definitively command-line triggered, but it occurred when I was=20
+trying the RX port (not yet merged) so the bug might be an incorrect API=20
+use there. I'll check tonight. Meanwhile I went consolidating the rest=20
+of the code to feel safer.
 
 >=20
->>
->>> 3) Twiddle the bits behing kernel's back, if it can be mapped?
->>
->> I'm not sure what you're thinking here, you mean mask vectors directly
->> on the device w/o a host kernel masking API and then read the PBA
->> directly from the device, mapping it directly to the guest if possible=
-?
->> The MSI-X MMIO space can be mmapped by QEMU, we rely on interrupt
->> remmappers to protect us from malicious users.=C2=A0 QEMU certainly
->> shouldn't touch the vector or data fields, but masking might be
->> reasonably safe, then we could leave the KVM route in place.=C2=A0 I'm
->> afraid it might be difficult to integrate with QEMU MSI-X support
->> though.
+> thanks
+> -- PMM
 >=20
-> Yes, that's what I was thinking. But that's just an idea.
->=20
->>
->>> Still, I think this patch does not hurt anything and could be applied=
-=20
->>> if no-one
->>> can think of a better way.
->>>
->>> ---
->>>
->>> =C2=A0 hw/vfio/pci.c | 32 ++++++++++++++++++++++----------
->>> =C2=A0 hw/vfio/pci.h |=C2=A0 2 ++
->>> =C2=A0 2 files changed, 24 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>> index e6569a7968..5f7ce91519 100644
->>> --- a/hw/vfio/pci.c
->>> +++ b/hw/vfio/pci.c
->>> @@ -390,12 +390,16 @@ static int vfio_enable_vectors(VFIOPCIDevice=20
->>> *vdev, bool msix)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * MSI-X =
-mask and pending bits are emulated, so we want to=20
->>> use the
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * KVM si=
-gnaling path only when configured and unmasked.
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vdev->msi_vectors[i].=
-use) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
-f (vdev->msi_vectors[i].virq < 0 ||
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (msix && msix_is_masked(&vdev->pdev, i))) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 fd =3D=20
->>> event_notifier_get_fd(&vdev->msi_vectors[i].interrupt);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VFIOMSIVector *vector =3D=
- &vdev->msi_vectors[i];
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vector->use) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
-f (vector->virq < 0 ||
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (msix && msix_is_masked(&vdev->pdev, i)))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 vector->kvm_path_active =3D false;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 fd =3D event_notifier_get_fd(&vector->interrupt);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 } else {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 fd =3D=20
->>> event_notifier_get_fd(&vdev->msi_vectors[i].kvm_interrupt);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 vector->kvm_path_active =3D true;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 fd =3D event_notifier_get_fd(&vector->kvm_interrupt=
-);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> @@ -509,17 +513,23 @@ static int vfio_msix_vector_do_use(PCIDevice=20
->>> *pdev, unsigned int nr,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D=
- NULL;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int32_t fd;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool kvm_path;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vector->vi=
-rq >=3D 0) {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 fd =3D event_notifier_get_fd(&vector->kvm_interrupt);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 k=
-vm_path =3D true;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 fd =3D event_notifier_get_fd(&vector->interrupt);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 k=
-vm_path =3D false;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vfio_set_irq_signalin=
-g(&vdev->vbasedev,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-VFIO_PCI_MSIX_IRQ_INDEX, nr,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-VFIO_IRQ_SET_ACTION_TRIGGER,=20
->>> fd, &err)) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e=
-rror_reportf_err(err, VFIO_MSG_PREFIX,=20
->>> vdev->vbasedev.name);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vector->kvm_path_acti=
-ve !=3D kvm_path) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
-f (vfio_set_irq_signaling(&vdev->vbasedev,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 VFIO_PCI_MSIX_IRQ_INDEX, nr,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 VFIO_IRQ_SET_ACTION_TRIGGER,=20
->>> fd, &err)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 error_reportf_err(err, VFIO_MSG_PREFIX,=20
->>> vdev->vbasedev.name);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v=
-ector->kvm_path_active =3D kvm_path;
->>
->>
->> Wouldn't this be more intuitive if we just cached the current fd on th=
-e
->> VFIOMSIVector object and created a vfio_set_irq_signaling() wrapper fo=
-r
->> vectors that only calls through when the fd changes, updating the fd o=
-n
->> successful return otherwise?=C2=A0 AIUI, you're only trying to prevent
->> gratuitous calls to vfio_set_irq_signaling() when the eventfd remains
->> unchanged, which is the common case for your configuration of running
->> in QEMU interrupt mode.=C2=A0 Thanks,
->=20
-> I am not against that. If we decide to apply the patch, I can replace=20
-> the two call sites with the wrapper. It's not applicable in=20
-> vfio_enable_vectors.
->=20
->>
->> Alex
->=20
-> Thanks for comments, Roman Kapl
->=20
->>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> @@ -555,13 +565,15 @@ static void vfio_msix_vector_release(PCIDevice=20
->>> *pdev, unsigned int nr)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * core will mask the interrupt a=
-nd set pending bits, allowing=20
->>> it to
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * be re-asserted on unmask.=C2=A0=
- Nothing to do if already using=20
->>> QEMU mode.
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> -=C2=A0=C2=A0=C2=A0 if (vector->virq >=3D 0) {
->>> +=C2=A0=C2=A0=C2=A0 if (vector->virq >=3D 0 && vector->kvm_path_activ=
-e) {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int32_t fd =3D=
- event_notifier_get_fd(&vector->interrupt);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D=
- NULL;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vfio_set_i=
-rq_signaling(&vdev->vbasedev,=20
->>> VFIO_PCI_MSIX_IRQ_INDEX, nr,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-VFIO_IRQ_SET_ACTION_TRIGGER, fd,=20
->>> &err)) {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 error_reportf_err(err, VFIO_MSG_PREFIX,=20
->>> vdev->vbasedev.name);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v=
-ector->kvm_path_active =3D false;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0 }
->>> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
->>> index b329d50338..b01d2676cf 100644
->>> --- a/hw/vfio/pci.h
->>> +++ b/hw/vfio/pci.h
->>> @@ -91,6 +91,8 @@ typedef struct VFIOMSIVector {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EventNotifier interrupt;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EventNotifier kvm_interrupt;
->>> +=C2=A0=C2=A0=C2=A0 /* Set when the trigger action is set to the KVM =
-bypass FD */
->>> +=C2=A0=C2=A0=C2=A0 bool kvm_path_active;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct VFIOPCIDevice *vdev; /* back po=
-inter to device */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int virq;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool use;
->>
->>
->=20
+
 
