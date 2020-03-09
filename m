@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE63717E063
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:38:39 +0100 (CET)
-Received: from localhost ([::1]:42421 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A41A17E07C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:48:10 +0100 (CET)
+Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHg6-0001HP-P5
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:38:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60617)
+	id 1jBHpJ-000403-2b
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHdl-0006uF-2k
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:36:14 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHgn-0003ih-GU
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:39:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHdk-00022t-03
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:36:13 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:53317)
+ (envelope-from <laurent@vivier.eu>) id 1jBHgm-0001g8-7n
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:39:21 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:53945)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHdj-0001xK-MM; Mon, 09 Mar 2020 08:36:11 -0400
+ id 1jBHgj-0001Td-AW; Mon, 09 Mar 2020 08:39:17 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N79ly-1jPjXs1R2S-017ZJT; Mon, 09 Mar 2020 13:35:56 +0100
-Subject: Re: [PATCH v3 07/12] display/exynos4210_fimd: Remove redundant
- statement in exynos4210_fimd_update()
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MTRhS-1im11h2Bga-00ToJ8; Mon, 09 Mar 2020 13:38:57 +0100
+Subject: Re: [PATCH v3 09/12] dma/xlnx-zdma: Remove redundant statement in
+ zdma_write_dst()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-9-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-11-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,34 +72,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <9ff0b76f-a316-505a-852d-15790c4e1e6f@vivier.eu>
-Date: Mon, 9 Mar 2020 13:35:55 +0100
+Message-ID: <1cc0cdb6-1eb1-6cc5-1936-5cf98787b476@vivier.eu>
+Date: Mon, 9 Mar 2020 13:38:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-9-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200302130715.29440-11-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SeAvPVup5wS5LFL7xFTfTQcfW7xVfP1S7aZICbv6ZLY5UvDLZi6
- /yJeP4r8tOwQmtrD+q3yDpBs7W1MyQqT4DL8a2DvFcmmLABJHKbTa0Xh2O5tXO/mmYlsUzT
- vvtzxpsna6H0yEZi4WuaNv9lKgQnUZKzLbb/0ed9+yH1AmhjuK5NypyHxlo7DMcvX195L7A
- zt3EDlq9HDRf0B02aeGSQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iy17NU6q1BM=:ibdU/N8ginG99LjwWepUxB
- PMtC2KnIC6eWv7rW/zxZ4pHSkrHGNZsZ5q5iWqU7uIlqYg8/aQs/iWV6pAjB11wlFt7ZvnDXi
- 0Os3a1vzWtL8PsVHeIgTiqLX/L2ojd899FDQPqzOemV+/cNJE4vxN3N5KNGX0/Fw4Xi10NCgh
- 5DIbh96/PGoVRQGbkLpG1yxXJ9S90qlakZhV08Fv9+cEegcL8Ac7J3y0fxDLQPWFd90sVl+Ha
- FUt00kDamldbw8fNrlWInLmRouHQBgRAf/yF5ptiM0+ZV6VeLdro+rMJHG/18FnBuUfMaUpJi
- r2+g9hkAL3cTjeFbuLEgCwtMCkxW6mgE6lvpOp8cRwRmJCcc96NnC1hQI+3sVfuOU12JOs+fm
- VY0rBjMoUa0J6cCfxCzWdNm1iOd0h24NNsuzdZqv/QxGjWKWvw22NkKaL23v+433Z/WfXZuyT
- 1h8K5jAtK4CkMEXYXm9ds1iU4e7SFesBA7n6btjNut/ni3E93hl8RRHCEr+Hqfadx+JKIuIQW
- SrRJ4xOX9fp/h/SWzk1zLkQlNlRVf2tU5pp6dppX7JVjS5ujNJSFDdc0vRdaCLXLep+9L8ibE
- fwHrJSmkdLoJIag+nJXJ63f4wdK4w09DZMuSKy7RmR/T+dwDGNDQ5tzybHt4UZBqdnTA8dndp
- t6ACf0x+IHpVtO8elUKmbFED8Xc6E0whUUj17gguo6Yym8nxWihEWxiSXXkboCA+09Aw/HQX6
- a9PTSqXOpQ8zEI3XNVYpJOQZ0XBo+xyjyKtdv9KRNdOMxeE3BDk2Xy/7pkrUM/g8pIwvBRFMU
- G5EDBhqS3GVW7sFpsZX5BzNu+p2L/FCO/vagPISf2rH3Hw9uQhYHcWAEA9J8lrqVZZrUHmo
+X-Provags-ID: V03:K1:qAiAoG4W6J7sTN/RlB08bgl6FefYiICyYGEUSaNuAqm1yxMP382
+ zRMzJLshl+LrF5H90mRrH4Clw7fmAN5dopwn8EomPqWeGXhozDBM0I+oyRiOXuF7VtdFLvy
+ U2C80K1O6uRLdjmLXSjo1rSLP2Syk//D30UR8J+lCR1ZfL+MA7kqQdCi4obNHgfbcV5lmH1
+ PQ/OoeazFSizHfvX+pA2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5L/83/Yj1mA=:6Eh1YNG3J+7Mhhg6BF/oSO
+ WcUXWpbkVgMhpuP+PwDioUZ6pybEs29zbItsDwltS8FRq5KZ4ANiQ8HPPeU6691+fhTNksXLV
+ yUB7v+eGH0h58Ic53yzI987ZT8fnJIgWfdpITxy0dKM2T41lLKIDvP+hx0j3TyE486imy+Cjc
+ kWKU3ccMhqFTQB3XHr+nvQMeAmAjisGXYEST6OftclBCxyi8woeIdhT+eXsHDyP84LeOn0vkH
+ H5qdIjrQrnDLJc6c8Hrw0IqVKVCQWNSn8w9mtpUFB48tpKICUd3+FW97qVZH5pmVlqioaFn59
+ 9RZUI05LQXys0SKeblJ4maV1URqRq/ii3lYl9Ha1Q6RWznWbo9FuBQ+4gEZyRhmQ0IdkYwC1O
+ LWR9U1MQXNWm6oOl/ejwnghZoxF2u4WuXc91uIIIDso33NJ9Cuvw3eMB7J6ZiZNyK1WGneW7q
+ gRjRsyWc2I0ovk0z2rbdCIaIAFJo9RYpdfyY1exX15L0cOA5gDsCQhNOLXGcY0HWxHKHKgJdO
+ 06pCcwVofvIUJnb3v4pvWe9Su2Jyh34BBtJdIfymZbSUNlAe/cqKe9LJcPjzutuzohcZRtM7A
+ cy2pbZVWXDR8oxmlrBppyymDvgO0uWq0vGrl5KxgPrTRJLKhOHD5myqO4+LuEaRGDUTLJnNxh
+ ddk0IMIFBr0t9EwtQYAWXDOOiiGYkEOszNjUT0DfQlrxjBFED7e81T9fRswjWv9UqYEbY8FtQ
+ plxTX19JOrnA6MvNDCNp7vEojEdh7kZNywJiFrmsIIQzh8rSbX1qyBimUjXxrRg2Gdou79CZ6
+ tx/woKzHR3aA9arfQv4QOuIXAR1SK3O6zbq3Jm1a1kZSmyZOA8gKMVoDxMZ0UEW3AIM2GHE
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,38 +111,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, peter.maydell@linaro.org,
- zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Euler Robot <euler.robot@huawei.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 02/03/2020 à 14:07, Chen Qun a écrit :
 > Clang static code analyzer show warning:
-> hw/display/exynos4210_fimd.c:1313:17: warning: Value stored to 'is_dirty' is never read
->                 is_dirty = false;
+> hw/dma/xlnx-zdma.c:399:13: warning: Value stored to 'dst_type' is never read
+>             dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3,
+>             ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
-> Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
+> Cc: Alistair Francis <alistair@alistair23.me>
+> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 > Cc: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/display/exynos4210_fimd.c | 1 -
->  1 file changed, 1 deletion(-)
+> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
-> index c1071ecd46..05d3265b76 100644
-> --- a/hw/display/exynos4210_fimd.c
-> +++ b/hw/display/exynos4210_fimd.c
-> @@ -1310,7 +1310,6 @@ static void exynos4210_fimd_update(void *opaque)
->                  }
->                  host_fb_addr += inc_size;
->                  fb_line_addr += inc_size;
-> -                is_dirty = false;
->              }
->              g_free(snap);
->              blend = true;
+> v1->v2: move the 'dst_type' declaration.(Base on Philippe's suggestion).
+> ---
+>  hw/dma/xlnx-zdma.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
+> index 8fb83f5b07..eeacad59ce 100644
+> --- a/hw/dma/xlnx-zdma.c
+> +++ b/hw/dma/xlnx-zdma.c
+> @@ -373,7 +373,7 @@ static uint64_t zdma_update_descr_addr(XlnxZDMA *s, bool type,
+>  static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+>  {
+>      uint32_t dst_size, dlen;
+> -    bool dst_intr, dst_type;
+> +    bool dst_intr;
+>      unsigned int ptype = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POINT_TYPE);
+>      unsigned int rw_mode = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, MODE);
+>      unsigned int burst_type = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_DATA_ATTR,
+> @@ -387,17 +387,17 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
+>      while (len) {
+>          dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
+>                                SIZE);
+> -        dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3,
+> -                              TYPE);
+>          if (dst_size == 0 && ptype == PT_MEM) {
+>              uint64_t next;
+> +            bool dst_type = FIELD_EX32(s->dsc_dst.words[3],
+> +                                       ZDMA_CH_DST_DSCR_WORD3,
+> +                                       TYPE);
+> +
+>              next = zdma_update_descr_addr(s, dst_type,
+>                                            R_ZDMA_CH_DST_CUR_DSCR_LSB);
+>              zdma_load_descriptor(s, next, &s->dsc_dst);
+>              dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
+>                                    SIZE);
+> -            dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3,
+> -                                  TYPE);
+>          }
+>  
+>          /* Match what hardware does by ignoring the dst_size and only using
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my trivial-patches branch.
+
+Thanks,
+Laurent
+
 
