@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED1817E057
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:34:42 +0100 (CET)
-Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85DA17E05F
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:36:31 +0100 (CET)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHcH-0002s8-G9
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:34:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57274)
+	id 1jBHe2-0006JY-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHMT-0006gy-0K
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:18:21 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHQ8-0004KL-Us
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:22:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHMR-0005p3-T3
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:18:20 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:57965)
+ (envelope-from <laurent@vivier.eu>) id 1jBHQ6-0001A4-O7
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:22:08 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:32787)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHMO-0005iS-F6; Mon, 09 Mar 2020 08:18:16 -0400
+ id 1jBHQ6-00017k-EA; Mon, 09 Mar 2020 08:22:06 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MtfRp-1jTuy31B2l-00v7Og; Mon, 09 Mar 2020 13:18:04 +0100
-Subject: Re: [PATCH v3 03/12] block/file-posix: Remove redundant statement in
- raw_handle_perm_lock()
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MuDTn-1jUSrZ1urV-00uaMh; Mon, 09 Mar 2020 13:21:56 +0100
+Subject: Re: [PATCH v3 04/12] scsi/esp-pci: Remove redundant statement in
+ esp_pci_io_write()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-5-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-6-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,32 +72,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <2e5e3dc1-4853-6ea6-3b98-dc529e4a0509@vivier.eu>
-Date: Mon, 9 Mar 2020 13:18:02 +0100
+Message-ID: <111d4416-2281-6f8d-9b1d-66e60a05e02a@vivier.eu>
+Date: Mon, 9 Mar 2020 13:21:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-5-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200302130715.29440-6-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:PJCiHkaRJR8HMofr4hJhTAc4ll1/UZisRAj7J3i/SV+b/JYR9FL
- GJM+qhBlRq40xnsZT6FGpSsMrCa4P2NswcE6CDFOkyUu0Oil7+MySjg6sc4lFoqzcvCRvFV
- OOUi3CymlV0DgCMh8Jv+50zMdmRNVjdeSWNkyR1RBjNmdeRdHwDygjEUR/UCV7Ey2q+DoZU
- UE5YHGsscuSSsxDvFwGHw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hfCfatswNzA=:wQfwrGg2fjEjbxHgQe21YQ
- 6Uw4AvrGj31ulcpxeDVTbEVem8BTiQb87SGPigfcryAMtzJEthZQyKJP5WifRdYbV5yvHFW20
- FUoVjDd9nWkT9dKYR6jkGocgK0gVinWJMIAU4Fwag8ebObGDhmNFsJXd/pSx+qytyQ0K8xSFq
- pUYoF5lPjrrMM81CnMhUa8MVOBPkVmsMRvrpSNghpd9mKGUioCRStkUeeZopJMChGvXFvXDsN
- 3dKZ6oYbrBH3yAqeQcOyB4JMs+AnRcc/Wb4xVbFQsM322EUWjTxLW9RR13o5tGmozvOr9tHYw
- IyZzUJJGlEJOxjDf7tiEEWPD3o/TVdZh4u7y+f6vxYy4t/j0vVTRomeSd/SqXR3llmgMwqGR7
- If3YhkL0dYn/vMXd7ehSF6PuPPokD0w2j+PkRauTM6Xppqlw53+sng/7iw44tSYkcTwexmLML
- sMhWVtf/UoLD1uQwlsd9uGW+Hiw3rdMYtdR+BPWnIeZ0vmPSiWrFYqSc5fcRtr37gr6LDY7Yh
- XcR42zVFgxCWZn6mVJeZw1xeTLXdQ+C/IH/yVls6S3T8L5jOs5LljJx7l68OB/8XaXUc8G9Hi
- a3TNqiIh3ozbkgTIYfd+KIU5+C2b2pTdSWfrKV14neOOBPUvgimlC7i0xlTlsrd5VsJkOb8v8
- EsVUcIzFtVVbvLQuDIQ6Ree68eXz/DQCqKvJYII6LrmXTsWm+w013s442I6kVtny/Lvf2rwx6
- OS5HAYbwdJex0cD+FXh8EnvGCVLpaBkAC32k/LCSL+Ho12X2mJ63kw3NzJexvSKSKkvqUEPQl
- oy/AoRC6psEhhiF0lHXV6DjXEUJ2XtcNiXjLtFUq8Y37CdbhDsoRimD7qmiv0ZzVSJUK3FR
+X-Provags-ID: V03:K1:N7nZ+yRlmt+ldpJyL0zhhKdixUDNFobjmk2n2+0g0k72SaZRgn7
+ V644D96QsN44GDbOqRqd2yOAbiwPBDspgRYGMVeUSeCZAiU8wskq+bYnpS00/Bnbcom+usR
+ slRupE1QocsPBNEMczkQtt5eRGfbOCiqOFjya2mbZjTR24G+BmuaYAarYkjeq0nHAdkQchl
+ u/vy1pZ4rGhLfCp5557xA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lxVcRoxmxj0=:dEiBv5UT0dpoKvJ0iGtaPR
+ mj6sr8lKEcFW+MCHSAy1GD6+bAYlDjd3i/6BCq2qM0jQMqtjRgfesGi5bt9Cyzg8H440ymrZy
+ S1F3369LW7595frNqAHJOgzHGod80154RXivMueS42dPLxglMrgnS2TbFpOfP5ggrYZG155j6
+ vPF6aO/iUw/O7th5GE2D87tNQBRBi0CV7TdqKow1Ynw7DxPJxFyncb/tprYXmpv3vCXXfwi92
+ ieLC84hMFQLSMhW10IZJIOcqT6lbm74N7OqpQ/CsXchfh/BoJM9TzTMn7dtBOcPRgw5UFvyrz
+ yBsoheltMRSWjIsxhDAclkI5dGMqYcukohwTNiIPkOUKHnJDMKux6uMR/Dx6ydqcs+hE8ULMC
+ 3fQ49iHnzV4NxFDZ1H6TkZ89D57KLv2NDdEZUZzIr0/HRJC8zFut2qaytdbhfhHuU6MC9fc4C
+ iMEZLDV51NPjoei3Ps3MlMO6LME6egZBKGjYy4DczLCcjsp3ez8GmDErFGW7MJGKx9UpI+RFC
+ DrRVuSgwLusx/LXYwzLew45tyFfeFBeZ1QGNz17RA+jCOcNDmSc3HzeARKBPpv4LAHPRIXJ/v
+ X6TQNv1kCKy8uvZSijTptTLLPk4r7f5akAap0aCDAvVNvaFYnR3YRqsji3uZevTDAZULmYOrd
+ AgpMih3JE4yj/Pz2t6SUK1iBjJuwfUfT2sknn46gyCl5Iqfqeqk0F93kN5E6Gzj34rKrLqgIM
+ K9t69fUtLOSvUS8e5BNf2HbsBmaC/guXIFfzFec8TgmWDQbX+GfOthmfTknwPHzenqG9uqhta
+ AUQ4JwHX37SMZjFtCyIxJRC37/XhLpeVN4rIY7bLeWgGDacly/rwduhBUXfed3NJBoNls55
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,44 +111,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- Euler Robot <euler.robot@huawei.com>, zhang.zhanghailiang@huawei.com,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+ zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 02/03/2020 à 14:07, Chen Qun a écrit :
 > Clang static code analyzer show warning:
->   block/file-posix.c:891:9: warning: Value stored to 'op' is never read
->         op = RAW_PL_ABORT;
->         ^    ~~~~~~~~~~~~
+>   hw/scsi/esp-pci.c:198:9: warning: Value stored to 'size' is never read
+>         size = 4;
+>         ^      ~
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 > ---
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc:Fam Zheng <fam@euphon.net>
 > ---
->  block/file-posix.c | 1 -
+>  hw/scsi/esp-pci.c | 1 -
 >  1 file changed, 1 deletion(-)
 > 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 6345477112..0f77447a25 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -888,7 +888,6 @@ static int raw_handle_perm_lock(BlockDriverState *bs,
->                                "Is another process using the image [%s]?\n",
->                                bs->filename);
->          }
-> -        op = RAW_PL_ABORT;
->          /* fall through to unlock bytes. */
->      case RAW_PL_ABORT:
->          raw_apply_lock_bytes(s, s->fd, s->perm, ~s->shared_perm,
-> 
+> diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+> index d5a1f9e017..2e6cc07d4e 100644
+> --- a/hw/scsi/esp-pci.c
+> +++ b/hw/scsi/esp-pci.c
+> @@ -195,7 +195,6 @@ static void esp_pci_io_write(void *opaque, hwaddr addr,
+>          val <<= shift;
+>          val |= current & ~(mask << shift);
+>          addr &= ~3;
+> -        size = 4;
+>      }
 
-Applied to my trivial-patches branch.
+perhaps a "g_assert(size >= 4)" instead would be cleaner to mute the
+warning?
+
+I think it's a good point to update the size if in the future the code
+below is modified to use size.
 
 Thanks,
 Laurent
+
+
 
