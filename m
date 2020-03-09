@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF3717E919
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:49:26 +0100 (CET)
-Received: from localhost ([::1]:48840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E8617E966
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:54:59 +0100 (CET)
+Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOOz-0007pr-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54474)
+	id 1jBOUN-0003PD-2M
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54497)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jBOMp-00064e-Dp
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:12 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jBOMq-00067q-SU
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jBOMo-00006d-0I
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:11 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26418
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1jBOMp-00007s-9m
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28350
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jBOMn-00006A-SW
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:09 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jBOMp-00007J-5G
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583783229;
+ s=mimecast20190719; t=1583783230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hQ/C5H9ZHWd9e0vRA66ucApVN2X1FNblsT0bMCZhQkA=;
- b=Kgk/lqYdfL+BdlH991XD2wdMeTBhOmAnfWA7nDGZDQYjJe9HNWnbiG2q98/Ih2mjCjhRbU
- lk9PJo5LcrLHpsUUM1hJoq3z8IMFH33i6sECZf748zhO2qY9OsvQwUgx/ukLQEHCSLB1qu
- w9OxAhzYKsovP8EVauKjHOgXuQ5v47Q=
+ bh=sJBV+28rB+qWj4imlLqi5ZAwAVNhuWvoD1lasvHrGQ0=;
+ b=ezm3raCa+ksz9r4uUDGJGKOCWjwceFwx/uTVw4J3V+8AiTy9yZ7XwdQHRA2mJl8Z/0Rwj3
+ UGnzHh0qh9G1T7rj9S21+scfizMPvOAvZ2Y8lwxZZQFdINwGvfZQ+G8jbPl+wUcKUT9dqN
+ 6RrLHK+ldI4UFw9VTjlQv4O2l/01aU8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-USczxk7DO9G3SmkTGRRJ0Q-1; Mon, 09 Mar 2020 15:47:07 -0400
-X-MC-Unique: USczxk7DO9G3SmkTGRRJ0Q-1
+ us-mta-207-QejU-jk5MjuglryfhnnyQg-1; Mon, 09 Mar 2020 15:47:08 -0400
+X-MC-Unique: QejU-jk5MjuglryfhnnyQg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C70E51005509
- for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 19:47:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E636C801E66
+ for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 19:47:07 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E82BE5C28D;
- Mon,  9 Mar 2020 19:47:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ACFB5C54A;
+ Mon,  9 Mar 2020 19:47:06 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	mlevitsk@redhat.com,
 	thuth@redhat.com
-Subject: [PULL 11/12] monitor/hmp: Move hmp_drive_add_node to block-hmp-cmds.c
-Date: Mon,  9 Mar 2020 19:46:49 +0000
-Message-Id: <20200309194650.160552-12-dgilbert@redhat.com>
+Subject: [PULL 12/12] net: Remove deprecated [hub_id name] tuple of
+ 'hostfwd_add' / 'hostfwd_remove'
+Date: Mon,  9 Mar 2020 19:46:50 +0000
+Message-Id: <20200309194650.160552-13-dgilbert@redhat.com>
 In-Reply-To: <20200309194650.160552-1-dgilbert@redhat.com>
 References: <20200309194650.160552-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +62,7 @@ Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,161 +77,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200308092440.23564-12-mlevitsk@redhat.com>
+It's been deprecated since QEMU v3.1.0. Time to finally remove it now.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191205104109.18680-1-thuth@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  Reworked Thomas's deprecated.texi to the rst
 ---
- block/monitor/block-hmp-cmds.c | 30 ++++++++++++++++++++++++
- blockdev.c                     | 43 +++++++---------------------------
- include/block/block_int.h      |  5 ++--
- 3 files changed, 41 insertions(+), 37 deletions(-)
+ docs/system/deprecated.rst | 15 +++++++------
+ hmp-commands.hx            |  8 +++----
+ net/hub.c                  | 23 --------------------
+ net/hub.h                  |  2 --
+ net/slirp.c                | 44 +++++++++++---------------------------
+ 5 files changed, 25 insertions(+), 67 deletions(-)
 
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.=
-c
-index aebf1dce0d..c3a6368dfc 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -56,6 +56,36 @@
- #include "block/block-hmp-cmds.h"
- #include "qemu-io.h"
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 6c1d9034d9..0838338d8f 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -248,12 +248,6 @@ the 'wait' field, which is only applicable to sockets =
+in server mode
+ Human Monitor Protocol (HMP) commands
+ -------------------------------------
 =20
-+static void hmp_drive_add_node(Monitor *mon, const char *optstr)
-+{
-+    QemuOpts *opts;
-+    QDict *qdict;
-+    Error *local_err =3D NULL;
-+
-+    opts =3D qemu_opts_parse_noisily(&qemu_drive_opts, optstr, false);
-+    if (!opts) {
-+        return;
-+    }
-+
-+    qdict =3D qemu_opts_to_qdict(opts, NULL);
-+
-+    if (!qdict_get_try_str(qdict, "node-name")) {
-+        qobject_unref(qdict);
-+        error_report("'node-name' needs to be specified");
-+        goto out;
-+    }
-+
-+    BlockDriverState *bs =3D bds_tree_init(qdict, &local_err);
-+    if (!bs) {
-+        error_report_err(local_err);
-+        goto out;
-+    }
-+
-+    bdrv_set_monitor_owned(bs);
-+out:
-+    qemu_opts_del(opts);
-+}
-+
- void hmp_drive_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
-diff --git a/blockdev.c b/blockdev.c
-index b38c247cdc..257cb37682 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -64,9 +64,14 @@
- #include "qemu/main-loop.h"
- #include "qemu/throttle-options.h"
-=20
--static QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =3D
-+QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =3D
-     QTAILQ_HEAD_INITIALIZER(monitor_bdrv_states);
-=20
-+void bdrv_set_monitor_owned(BlockDriverState *bs)
-+{
-+    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
-+}
-+
- static const char *const if_name[IF_COUNT] =3D {
-     [IF_NONE] =3D "none",
-     [IF_IDE] =3D "ide",
-@@ -640,7 +645,7 @@ err_no_opts:
- }
-=20
- /* Takes the ownership of bs_opts */
--static BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
-+BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
- {
-     int bdrv_flags =3D 0;
-=20
-@@ -3719,38 +3724,6 @@ out:
-     aio_context_release(aio_context);
- }
-=20
+-The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (since 3.=
+1)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+''
 -
--void hmp_drive_add_node(Monitor *mon, const char *optstr)
+-The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
+-'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
+-
+ ``cpu-add`` (since 4.0)
+ '''''''''''''''''''''''
+=20
+@@ -430,6 +424,15 @@ QEMU Machine Protocol (QMP) commands
+ The "autoload" parameter has been ignored since 2.12.0. All bitmaps
+ are automatically loaded from qcow2 images.
+=20
++Human Monitor Protocol (HMP) commands
++-------------------------------------
++
++The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed =
+in 5.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
+'''''''
++
++The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
++'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
++
+ Related binaries
+ ----------------
+=20
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index eb3d1605fd..f12263e071 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1369,8 +1369,8 @@ ERST
+ #ifdef CONFIG_SLIRP
+     {
+         .name       =3D "hostfwd_add",
+-        .args_type  =3D "arg1:s,arg2:s?,arg3:s?",
+-        .params     =3D "[hub_id name]|[netdev_id] [tcp|udp]:[hostaddr]:ho=
+stport-[guestaddr]:guestport",
++        .args_type  =3D "arg1:s,arg2:s?",
++        .params     =3D "[netdev_id] [tcp|udp]:[hostaddr]:hostport-[guesta=
+ddr]:guestport",
+         .help       =3D "redirect TCP or UDP connections from host to gues=
+t (requires -net user)",
+         .cmd        =3D hmp_hostfwd_add,
+     },
+@@ -1383,8 +1383,8 @@ ERST
+ #ifdef CONFIG_SLIRP
+     {
+         .name       =3D "hostfwd_remove",
+-        .args_type  =3D "arg1:s,arg2:s?,arg3:s?",
+-        .params     =3D "[hub_id name]|[netdev_id] [tcp|udp]:[hostaddr]:ho=
+stport",
++        .args_type  =3D "arg1:s,arg2:s?",
++        .params     =3D "[netdev_id] [tcp|udp]:[hostaddr]:hostport",
+         .help       =3D "remove host-to-guest TCP or UDP redirection",
+         .cmd        =3D hmp_hostfwd_remove,
+     },
+diff --git a/net/hub.c b/net/hub.c
+index 5795a678ed..88cfb876f3 100644
+--- a/net/hub.c
++++ b/net/hub.c
+@@ -193,29 +193,6 @@ NetClientState *net_hub_add_port(int hub_id, const cha=
+r *name,
+     return &port->nc;
+ }
+=20
+-/**
+- * Find a specific client on a hub
+- */
+-NetClientState *net_hub_find_client_by_name(int hub_id, const char *name)
 -{
--    QemuOpts *opts;
--    QDict *qdict;
--    Error *local_err =3D NULL;
+-    NetHub *hub;
+-    NetHubPort *port;
+-    NetClientState *peer;
 -
--    opts =3D qemu_opts_parse_noisily(&qemu_drive_opts, optstr, false);
--    if (!opts) {
--        return;
+-    QLIST_FOREACH(hub, &hubs, next) {
+-        if (hub->id =3D=3D hub_id) {
+-            QLIST_FOREACH(port, &hub->ports, next) {
+-                peer =3D port->nc.peer;
+-
+-                if (peer && strcmp(peer->name, name) =3D=3D 0) {
+-                    return peer;
+-                }
+-            }
+-        }
 -    }
--
--    qdict =3D qemu_opts_to_qdict(opts, NULL);
--
--    if (!qdict_get_try_str(qdict, "node-name")) {
--        qobject_unref(qdict);
--        error_report("'node-name' needs to be specified");
--        goto out;
--    }
--
--    BlockDriverState *bs =3D bds_tree_init(qdict, &local_err);
--    if (!bs) {
--        error_report_err(local_err);
--        goto out;
--    }
--
--    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
--
--out:
--    qemu_opts_del(opts);
+-    return NULL;
 -}
 -
- void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
- {
-     BlockDriverState *bs;
-@@ -3780,7 +3753,7 @@ void qmp_blockdev_add(BlockdevOptions *options, Error=
- **errp)
-         goto fail;
-     }
+ /**
+  * Find a available port on a hub; otherwise create one new port
+  */
+diff --git a/net/hub.h b/net/hub.h
+index 66d3322fac..ce45f7b399 100644
+--- a/net/hub.h
++++ b/net/hub.h
+@@ -15,10 +15,8 @@
+ #ifndef NET_HUB_H
+ #define NET_HUB_H
 =20
--    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
-+    bdrv_set_monitor_owned(bs);
-=20
- fail:
-     visit_free(v);
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index f422c0bff0..3f70a98b2d 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1216,8 +1216,6 @@ BlockJob *backup_job_create(const char *job_id, Block=
-DriverState *bs,
-                             BlockCompletionFunc *cb, void *opaque,
-                             JobTxn *txn, Error **errp);
-=20
--void hmp_drive_add_node(Monitor *mon, const char *optstr);
 -
- BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-                                   const char *child_name,
-                                   const BdrvChildRole *child_role,
-@@ -1322,4 +1320,7 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src=
-, uint64_t src_offset,
+ NetClientState *net_hub_add_port(int hub_id, const char *name,
+                                  NetClientState *hubpeer);
+-NetClientState *net_hub_find_client_by_name(int hub_id, const char *name);
+ void net_hub_info(Monitor *mon);
+ void net_hub_check_clients(void);
+ bool net_hub_flush(NetClientState *nc);
+diff --git a/net/slirp.c b/net/slirp.c
+index c4334ee876..77042e6df7 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -610,25 +610,13 @@ error:
+     return -1;
+ }
 =20
- int refresh_total_sectors(BlockDriverState *bs, int64_t hint);
+-static SlirpState *slirp_lookup(Monitor *mon, const char *hub_id,
+-                                const char *name)
++static SlirpState *slirp_lookup(Monitor *mon, const char *id)
+ {
+-    if (name) {
+-        NetClientState *nc;
+-        if (hub_id) {
+-            nc =3D net_hub_find_client_by_name(strtol(hub_id, NULL, 0), na=
+me);
+-            if (!nc) {
+-                monitor_printf(mon, "unrecognized (hub-id, stackname) pair=
+\n");
+-                return NULL;
+-            }
+-            warn_report("Using 'hub-id' is deprecated, specify the netdev =
+id "
+-                        "directly instead");
+-        } else {
+-            nc =3D qemu_find_netdev(name);
+-            if (!nc) {
+-                monitor_printf(mon, "unrecognized netdev id '%s'\n", name)=
+;
+-                return NULL;
+-            }
++    if (id) {
++        NetClientState *nc =3D qemu_find_netdev(id);
++        if (!nc) {
++            monitor_printf(mon, "unrecognized netdev id '%s'\n", id);
++            return NULL;
+         }
+         if (strcmp(nc->model, "user")) {
+             monitor_printf(mon, "invalid device specified\n");
+@@ -655,16 +643,12 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qd=
+ict)
+     int err;
+     const char *arg1 =3D qdict_get_str(qdict, "arg1");
+     const char *arg2 =3D qdict_get_try_str(qdict, "arg2");
+-    const char *arg3 =3D qdict_get_try_str(qdict, "arg3");
 =20
-+void bdrv_set_monitor_owned(BlockDriverState *bs);
-+BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp);
-+
- #endif /* BLOCK_INT_H */
+-    if (arg3) {
+-        s =3D slirp_lookup(mon, arg1, arg2);
+-        src_str =3D arg3;
+-    } else if (arg2) {
+-        s =3D slirp_lookup(mon, NULL, arg1);
++    if (arg2) {
++        s =3D slirp_lookup(mon, arg1);
+         src_str =3D arg2;
+     } else {
+-        s =3D slirp_lookup(mon, NULL, NULL);
++        s =3D slirp_lookup(mon, NULL);
+         src_str =3D arg1;
+     }
+     if (!s) {
+@@ -784,16 +768,12 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict=
+)
+     SlirpState *s;
+     const char *arg1 =3D qdict_get_str(qdict, "arg1");
+     const char *arg2 =3D qdict_get_try_str(qdict, "arg2");
+-    const char *arg3 =3D qdict_get_try_str(qdict, "arg3");
+=20
+-    if (arg3) {
+-        s =3D slirp_lookup(mon, arg1, arg2);
+-        redir_str =3D arg3;
+-    } else if (arg2) {
+-        s =3D slirp_lookup(mon, NULL, arg1);
++    if (arg2) {
++        s =3D slirp_lookup(mon, arg1);
+         redir_str =3D arg2;
+     } else {
+-        s =3D slirp_lookup(mon, NULL, NULL);
++        s =3D slirp_lookup(mon, NULL);
+         redir_str =3D arg1;
+     }
+     if (s) {
 --=20
 2.24.1
 
