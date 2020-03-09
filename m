@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A41A17E07C
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:48:10 +0100 (CET)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8686017E079
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:45:24 +0100 (CET)
+Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHpJ-000403-2b
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:48:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33110)
+	id 1jBHmd-00018v-JF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHgn-0003ih-GU
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:39:22 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHkd-00080C-4w
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:43:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHgm-0001g8-7n
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:39:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:53945)
+ (envelope-from <laurent@vivier.eu>) id 1jBHkc-0004PJ-0p
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:43:19 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:58367)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHgj-0001Td-AW; Mon, 09 Mar 2020 08:39:17 -0400
+ id 1jBHkb-0004K7-OB; Mon, 09 Mar 2020 08:43:17 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MTRhS-1im11h2Bga-00ToJ8; Mon, 09 Mar 2020 13:38:57 +0100
-Subject: Re: [PATCH v3 09/12] dma/xlnx-zdma: Remove redundant statement in
- zdma_write_dst()
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MZk5x-1invyW3DYV-00Wjvk; Mon, 09 Mar 2020 13:43:00 +0100
+Subject: Re: [PATCH v3 11/12] usb/hcd-ehci: Remove redundant statements
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-11-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-13-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,34 +71,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <1cc0cdb6-1eb1-6cc5-1936-5cf98787b476@vivier.eu>
-Date: Mon, 9 Mar 2020 13:38:55 +0100
+Message-ID: <e786f342-7ba6-1c25-dea7-a34372a4ff81@vivier.eu>
+Date: Mon, 9 Mar 2020 13:42:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-11-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200302130715.29440-13-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qAiAoG4W6J7sTN/RlB08bgl6FefYiICyYGEUSaNuAqm1yxMP382
- zRMzJLshl+LrF5H90mRrH4Clw7fmAN5dopwn8EomPqWeGXhozDBM0I+oyRiOXuF7VtdFLvy
- U2C80K1O6uRLdjmLXSjo1rSLP2Syk//D30UR8J+lCR1ZfL+MA7kqQdCi4obNHgfbcV5lmH1
- PQ/OoeazFSizHfvX+pA2w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5L/83/Yj1mA=:6Eh1YNG3J+7Mhhg6BF/oSO
- WcUXWpbkVgMhpuP+PwDioUZ6pybEs29zbItsDwltS8FRq5KZ4ANiQ8HPPeU6691+fhTNksXLV
- yUB7v+eGH0h58Ic53yzI987ZT8fnJIgWfdpITxy0dKM2T41lLKIDvP+hx0j3TyE486imy+Cjc
- kWKU3ccMhqFTQB3XHr+nvQMeAmAjisGXYEST6OftclBCxyi8woeIdhT+eXsHDyP84LeOn0vkH
- H5qdIjrQrnDLJc6c8Hrw0IqVKVCQWNSn8w9mtpUFB48tpKICUd3+FW97qVZH5pmVlqioaFn59
- 9RZUI05LQXys0SKeblJ4maV1URqRq/ii3lYl9Ha1Q6RWznWbo9FuBQ+4gEZyRhmQ0IdkYwC1O
- LWR9U1MQXNWm6oOl/ejwnghZoxF2u4WuXc91uIIIDso33NJ9Cuvw3eMB7J6ZiZNyK1WGneW7q
- gRjRsyWc2I0ovk0z2rbdCIaIAFJo9RYpdfyY1exX15L0cOA5gDsCQhNOLXGcY0HWxHKHKgJdO
- 06pCcwVofvIUJnb3v4pvWe9Su2Jyh34BBtJdIfymZbSUNlAe/cqKe9LJcPjzutuzohcZRtM7A
- cy2pbZVWXDR8oxmlrBppyymDvgO0uWq0vGrl5KxgPrTRJLKhOHD5myqO4+LuEaRGDUTLJnNxh
- ddk0IMIFBr0t9EwtQYAWXDOOiiGYkEOszNjUT0DfQlrxjBFED7e81T9fRswjWv9UqYEbY8FtQ
- plxTX19JOrnA6MvNDCNp7vEojEdh7kZNywJiFrmsIIQzh8rSbX1qyBimUjXxrRg2Gdou79CZ6
- tx/woKzHR3aA9arfQv4QOuIXAR1SK3O6zbq3Jm1a1kZSmyZOA8gKMVoDxMZ0UEW3AIM2GHE
+X-Provags-ID: V03:K1:2BogqhItHXwrsp4pFSDX1PZbN6KvKyOzNrkhnUo3Q1GK5gXN2hW
+ eFC+ncAyDSQM2QO69Tae/p404rDdFC3zJXjvVFxtGDv7Y47IkmRDDsScwUrNrqAGufUPv78
+ y1OhzR18UWt91cyHjCY7VlsZxLPoL7wboreITrF0S4wyPcOzlhaM6JwfYvu+BNq9zlMg5oO
+ Py4FR/NaNSl9sevoPp3cA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D93EgEEFv50=:eLtdwutNdfmzhE1I7M6BzP
+ 9JjzQjNboabVGi3XQvNhMj6fyTwtx9gx8aOScFsKopEfRtvj9/8LRNaRLycGH/yEhbtspX9QK
+ NDxNUCdQQAEczz4gb/jCGLdDbBq23e74B85r5ORpxwWA+ABAreJ7SB7ctvH4jf2Hbp/i16LRe
+ nsbs+iahMsWM+qagIQ6OVCMxrVQGcf8dc+906L2UrEhpwgbKd0wQztzzUXRc+Hj63XSj2jMJL
+ E7GtV3jlqey1N1v2m1Ep0hfMrxBoD5I0Ltc5PmsDQ4q+N+QoIxowflfC5bXfFJSYlAuPct6FS
+ qEnZBJ1CaAJlcrAFO0o5bWmeimncJl2QFAkyFgRNZwhJKMr1RiCZUwrBB4LV2I+/z+QSr18z1
+ nTpNjzgyxH4cE8QrYyi+Nsg4UMTzIOJT/bVnG9kOCBMnX9a7zzoyLwVIoqRvQIL8aq9PxBDuI
+ BCAUbOFuJYQ3N5RbHpHpac33wCidNx6UqTxFE/RHv2GZpvpijSdBNyhlgu3hNCzwbvpqZ1d92
+ 3k0gSh257Dy9I+gwabHK9ooL2Y776EjuudSArTYyqlozm8wM0cUxcKLD8p9o8hmRMA+G+AaX/
+ xNdYU2JQG9O5OCv3MkH65mc+clJdH83y+/eXiHhQvD+uogCLQmdu9IKW3kiMUxYC990T/aFV+
+ jibipq0AimCBXL1h9lo/REcE5GhLP91bciA0h72nFzqhYVg5tSwyxSkv32BTSVz5TWbzoPEqC
+ eGIX5sv0Z36MojDHr0keoWJbQlJSIgaIagUOPKaIBLlQCklhHhDFCyaYiIXLEcirg4/QVZ0kV
+ S2P30u2YVXHL3l+l/mEPp9Wi0oK3eQzqCXpF3osI5m/P4attPtCC2uq/RDPtc7lG5OsWoDB
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,73 +110,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Alistair Francis <alistair.francis@wdc.com>,
- Euler Robot <euler.robot@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Euler Robot <euler.robot@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ zhang.zhanghailiang@huawei.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 02/03/2020 à 14:07, Chen Qun a écrit :
+> The "again" assignment is meaningless before g_assert_not_reached.
+> In addition, the break statements no longer needs to be after
+> g_assert_not_reached.
+> 
 > Clang static code analyzer show warning:
-> hw/dma/xlnx-zdma.c:399:13: warning: Value stored to 'dst_type' is never read
->             dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3,
->             ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> hw/usb/hcd-ehci.c:2108:13: warning: Value stored to 'again' is never read
+>             again = -1;
+>             ^       ~~
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> v1->v2: move the 'dst_type' declaration.(Base on Philippe's suggestion).
 > ---
->  hw/dma/xlnx-zdma.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  hw/usb/hcd-ehci.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
-> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-> index 8fb83f5b07..eeacad59ce 100644
-> --- a/hw/dma/xlnx-zdma.c
-> +++ b/hw/dma/xlnx-zdma.c
-> @@ -373,7 +373,7 @@ static uint64_t zdma_update_descr_addr(XlnxZDMA *s, bool type,
->  static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
->  {
->      uint32_t dst_size, dlen;
-> -    bool dst_intr, dst_type;
-> +    bool dst_intr;
->      unsigned int ptype = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, POINT_TYPE);
->      unsigned int rw_mode = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_CTRL0, MODE);
->      unsigned int burst_type = ARRAY_FIELD_EX32(s->regs, ZDMA_CH_DATA_ATTR,
-> @@ -387,17 +387,17 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
->      while (len) {
->          dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
->                                SIZE);
-> -        dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3,
-> -                              TYPE);
->          if (dst_size == 0 && ptype == PT_MEM) {
->              uint64_t next;
-> +            bool dst_type = FIELD_EX32(s->dsc_dst.words[3],
-> +                                       ZDMA_CH_DST_DSCR_WORD3,
-> +                                       TYPE);
-> +
->              next = zdma_update_descr_addr(s, dst_type,
->                                            R_ZDMA_CH_DST_CUR_DSCR_LSB);
->              zdma_load_descriptor(s, next, &s->dsc_dst);
->              dst_size = FIELD_EX32(s->dsc_dst.words[2], ZDMA_CH_DST_DSCR_WORD2,
->                                    SIZE);
-> -            dst_type = FIELD_EX32(s->dsc_dst.words[3], ZDMA_CH_DST_DSCR_WORD3,
-> -                                  TYPE);
+> diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
+> index 56ab2f457f..29d49c2d7e 100644
+> --- a/hw/usb/hcd-ehci.c
+> +++ b/hw/usb/hcd-ehci.c
+> @@ -1301,7 +1301,6 @@ static void ehci_execute_complete(EHCIQueue *q)
+>          /* should not be triggerable */
+>          fprintf(stderr, "USB invalid response %d\n", p->packet.status);
+>          g_assert_not_reached();
+> -        break;
+>      }
+>  
+>      /* TODO check 4.12 for splits */
+> @@ -2105,9 +2104,7 @@ static void ehci_advance_state(EHCIState *ehci, int async)
+>  
+>          default:
+>              fprintf(stderr, "Bad state!\n");
+> -            again = -1;
+>              g_assert_not_reached();
+> -            break;
 >          }
 >  
->          /* Match what hardware does by ignoring the dst_size and only using
+>          if (again < 0 || itd_count > 16) {
 > 
 
 Applied to my trivial-patches branch.
