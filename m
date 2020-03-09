@@ -2,69 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B588A17E319
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:08:09 +0100 (CET)
-Received: from localhost ([::1]:44470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDDE17E358
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:18:14 +0100 (CET)
+Received: from localhost ([::1]:44696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBK0m-0005sL-Rf
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60934)
+	id 1jBKAX-0003RQ-9v
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jBJzx-0005J0-5H
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:07:18 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2P-0007ea-L3
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jBJzw-0006fT-7l
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:07:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28162
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jBJzw-0006fI-3B
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:07:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583766435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rCTQqPb0MqrRy0isFN56NKQxK9h/ZHsOznKh3+eYFh4=;
- b=az5XhZ+bWVIsn6HefTnzrPBBmqID7z0o2KjZ/51xZIjkLD9OUVMsFf5kzEQirxicZ47bkL
- okklzDmSqH4qgdHVQ2irCl6NyGji3oF0LMQfYbnCQ2xJO0Rg1vbaOnrXfIPN607O8dEI94
- kd62TXhkN1NDi4utSobM9UqMwqxnvzc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-AM1LnAZDODynjMvpyO0LEg-1; Mon, 09 Mar 2020 11:07:12 -0400
-X-MC-Unique: AM1LnAZDODynjMvpyO0LEg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA54785EE90;
- Mon,  9 Mar 2020 15:07:10 +0000 (UTC)
-Received: from [10.3.116.177] (ovpn-116-177.phx2.redhat.com [10.3.116.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CA0A7389B;
- Mon,  9 Mar 2020 15:07:10 +0000 (UTC)
-Subject: Re: [PATCH] docs: Add RX target.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org,
- philmd@redhat.com
-References: <20200308130637.37651-1-ysato@users.sourceforge.jp>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e6ccf136-cf93-865d-31bb-4463b65416a9@redhat.com>
-Date: Mon, 9 Mar 2020 10:07:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <laurent@vivier.eu>) id 1jBK2O-0007eV-Ci
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:49 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:55997)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1jBK2H-0007ZW-NY; Mon, 09 Mar 2020 11:09:41 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MBDvU-1j36H63dRW-00CkKu; Mon, 09 Mar 2020 16:08:43 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/33] Trivial branch patches
+Date: Mon,  9 Mar 2020 16:08:04 +0100
+Message-Id: <20200309150837.3193387-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200308130637.37651-1-ysato@users.sourceforge.jp>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:SApzpcpsmSfYibdb12MFYd1QAcw82t9w97GzLJeXDPb/WJsBOB8
+ zZUEbwiC/d8fSglVHMz/fCsVgBhbDSq1I9QbdgMSXZ0MaDdYyJmYVLm0HyJ4pkdpbjBJZzG
+ pywRwjJXcw4HWEXQBpaNmg7JLeySPbNrbZvOx1Wo6vn1+eEDzYOIq3v4NlFCOLtxn+EKqhV
+ 2v1pwrOgQgpHPQFnRhdHw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lcXOGMhUGlc=:kZ/DjWtgceH3kkelzqPL7P
+ bkqCjNXTeDZdHd9A7rlKvvyM6ExUIvub/tImaEzlC3h8/uzb7+ETM1W/AAW+pwvu2vHV76x+I
+ TYmpbBK6LwSIRwrqfp+3Uc15ky9DD9evBV66+RF1/AnrdwYHXTQzYoY/l0F8hO1iLEBzJZthT
+ XXAC9gZlYCqwUDWpq7uu3Bg8ktFxPmEQ9JBLCx0ewSAbwEj12SnonmGIOsEZOrUhOjCeeL0aR
+ lbm8b9RGejL72IWQw66vz3qUmS1FYZHVa80faQrFaL9LQ6T/ShtQLsvGETh4Rf31bwFIgnd0M
+ 9O2849cmO/FmPfkT8JDB/BrDJDI+2w/7hn/90kapL09fntqOSgp6PuC98LpaE6dxjRWTOZc1T
+ knr9pKck/JbnmQga/gC7t+ZfjdLOpLSIm/qLyr/5HSIdpLNV/3SIFL/uoKpamzvLNKFK9ae3S
+ B2R/DkQE1ABklRfiypKjm/oyCQvwyiLJx5qlio3Pts7OWV2MOf4kbznDeo5lb3qAqYVPSxSVN
+ 3y9MUx75QkU3DhBEz1uzaIjoSX3uWghh9VtQAi/XbfDU4yK5ibIsJzoIz7Wu2pXHUYH4TfXtN
+ sLtDbRKxwK5gZ0c/QdjtJW76AufweNjCH6HZggU2bAicJBIV/Fo2kuQtnhL+E25HoL7jzRikc
+ GM2pY+nQc+8zfl8XFAgeZ1pZbs6eCNEg4SsH+Y3HyrpokKDYeSoZHHq0QqxJUmGKSwNP8Y2kK
+ 7vHyaV3WEQ+71rEALxFJ91W4T97mYcustMBGd1ZSA8Bb8UiVcQCGr69tT+gC41IjrUsarTFNv
+ Dfb0btiPnpYgJn2KXaGGV4F9o6OMCRDu9+KB08e92kyywBvQkJJtGxLZWRmKFeU3ZnQYhPY
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,52 +62,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/20 8:06 AM, Yoshinori Sato wrote:
-> Add rx-virt target specificaion document.
+The following changes since commit 7a5853cec479a448edae0fb2aaf4e2f78c9c774d:
 
-specification
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-03-09 10:32:53 +0000)
 
-> 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->   docs/system/target-rx.rst | 35 +++++++++++++++++++++++++++++++++++
->   docs/system/targets.rst   |  1 +
->   2 files changed, 36 insertions(+)
->   create mode 100644 docs/system/target-rx.rst
-> 
-> diff --git a/docs/system/target-rx.rst b/docs/system/target-rx.rst
-> new file mode 100644
-> index 0000000000..8540fd5218
-> --- /dev/null
-> +++ b/docs/system/target-rx.rst
-> @@ -0,0 +1,35 @@
-> +.. _RX-System-emulator:
-> +
-> +RX System emulator
-> +--------------------
-> +
-> +Use the executable ``qemu-system-rx`` to simulate a Virtual RX target.
-> +This target emulated following devices.
+are available in the Git repository at:
 
-s/emulated/emulates the/
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
 
+for you to fetch changes up to 916c92503bd5348a33e561db600d8894bde636bb:
 
-> +++ b/docs/system/targets.rst
-> @@ -17,3 +17,4 @@ Contents:
->      target-arm
->      target-m68k
->      target-xtensa
-> +   target-rx
+  monitor/hmp-cmds: Remove redundant statement in hmp_rocker_of_dpa_groups() (2020-03-09 15:59:31 +0100)
 
-Is it worth keeping this list alphabetically sorted?
+----------------------------------------------------------------
+- includes cleanup
+- reduce .data footprint
+- fix warnings reported by Clang static code analyzer
+- fix dp8393x part lost in merge
+- update git.orderfile and rules.mak
+
+----------------------------------------------------------------
+
+Chen Qun (7):
+  block/stream: Remove redundant statement in stream_run()
+  block/file-posix: Remove redundant statement in raw_handle_perm_lock()
+  dma/xlnx-zdma: Remove redundant statement in zdma_write_dst()
+  scsi/scsi-disk: Remove redundant statement in
+    scsi_disk_emulate_command()
+  display/pxa2xx_lcd: Remove redundant statement in
+    pxa2xx_palette_parse()
+  display/exynos4210_fimd: Remove redundant statement in
+    exynos4210_fimd_update()
+  monitor/hmp-cmds: Remove redundant statement in
+    hmp_rocker_of_dpa_groups()
+
+Eric Blake (1):
+  maint: Include top-level *.rst files early in git diff
+
+Finn Thain (1):
+  dp8393x: Mask EOL bit from descriptor addresses, take 2
+
+Pan Nengyuan (1):
+  core/qdev: fix memleak in qdev_get_gpio_out_connector()
+
+Philippe Mathieu-Daudé (23):
+  build-sys: Move the print-variable rule to rules.mak
+  hw/audio/fmopl: Fix a typo twice
+  hw/net/e1000: Add readops/writeops typedefs
+  hw/net/e1000: Move macreg[] arrays to .rodata to save 1MiB of .data
+  virtfs-proxy-helper: Make the helper_opts[] array const
+  vl: Add missing "hw/boards.h" include
+  hw/southbridge/ich9: Removed unused headers
+  hw/i386/ioapic_internal: Remove unused "hw/i386/ioapic.h" header
+  hw/timer: Remove unused "ui/console.h" header
+  hw/usb/dev-storage: Remove unused "ui/console.h" header
+  hw/i386/intel_iommu: Remove unused includes
+  hw/alpha/alpha_sys: Remove unused "hw/ide.h" header
+  hw/alpha/dp264: Include "net/net.h"
+  hw/hppa/machine: Include "net/net.h"
+  hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
+  hw/timer/hpet: Include "exec/address-spaces.h"
+  hw/pci-host/q35: Include "qemu/range.h"
+  hw/i2c/smbus_ich9: Include "qemu/range.h"
+  hw/pci-host/piix: Include "qemu/range.h"
+  hw/acpi: Include "hw/mem/nvdimm.h"
+  hw/i386: Include "hw/mem/nvdimm.h"
+  hw/pci-host/q35: Remove unused includes
+  hw/i386/pc: Clean up includes
+
+ Makefile                          |  3 ---
+ block/file-posix.c                |  1 -
+ block/stream.c                    |  3 +--
+ fsdev/virtfs-proxy-helper.c       |  2 +-
+ hw/acpi/cpu_hotplug.c             |  1 +
+ hw/acpi/ich9.c                    |  2 +-
+ hw/acpi/piix4.c                   |  1 +
+ hw/alpha/alpha_sys.h              |  1 -
+ hw/alpha/dp264.c                  |  1 +
+ hw/audio/fmopl.c                  |  4 ++--
+ hw/core/qdev.c                    |  2 +-
+ hw/display/exynos4210_fimd.c      |  1 -
+ hw/display/pxa2xx_lcd.c           |  1 -
+ hw/dma/xlnx-zdma.c                | 10 +++++-----
+ hw/hppa/machine.c                 |  1 +
+ hw/i2c/smbus_ich9.c               |  1 +
+ hw/i386/acpi-build.c              |  1 +
+ hw/i386/pc.c                      |  1 +
+ hw/i386/pc_piix.c                 |  1 +
+ hw/i386/pc_q35.c                  |  1 +
+ hw/isa/lpc_ich9.c                 |  1 -
+ hw/net/dp8393x.c                  |  4 ++--
+ hw/net/e1000.c                    |  6 ++++--
+ hw/net/e1000e_core.c              |  6 ++++--
+ hw/pci-host/i440fx.c              |  1 +
+ hw/pci-host/q35.c                 |  1 +
+ hw/rtc/twl92230.c                 |  1 -
+ hw/scsi/scsi-disk.c               |  1 -
+ hw/timer/hpet.c                   |  2 +-
+ hw/usb/dev-storage.c              |  1 -
+ include/hw/i386/ich9.h            |  1 -
+ include/hw/i386/intel_iommu.h     |  4 ----
+ include/hw/i386/ioapic_internal.h |  1 -
+ include/hw/i386/pc.h              | 11 +++--------
+ include/hw/pci-host/q35.h         |  8 +-------
+ monitor/hmp-cmds.c                |  5 +----
+ rules.mak                         |  3 +++
+ scripts/git.orderfile             |  1 +
+ softmmu/vl.c                      |  1 +
+ 39 files changed, 43 insertions(+), 55 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.24.1
 
 
