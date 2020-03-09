@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1179E17E4DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:37:13 +0100 (CET)
-Received: from localhost ([::1]:46716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6257717E4E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:38:33 +0100 (CET)
+Received: from localhost ([::1]:46738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBLOy-0007iT-4L
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
+	id 1jBLQG-0000wb-Fa
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jBLO2-0007Hr-Ov
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:36:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBLOM-0007UH-3o
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:36:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jBLO0-000367-Uy
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:36:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31806
+ (envelope-from <philmd@redhat.com>) id 1jBLOL-0003Dw-29
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:36:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35243
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jBLO0-00035g-QC
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:36:12 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBLOK-0003Dq-V5
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:36:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583771771;
+ s=mimecast20190719; t=1583771792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZqY78kua6euK7T6jlQgIdw10C7zaiY/jjQ0p+9kzJe8=;
- b=de7MvioqH+Hhb0oTbMW/L4k4nxGxYRHbnLMrr61dtoh2A4C3ZhmuOoBFqxAeYPxLjaUMfD
- VGS/kYT8ta9tHRoAkyNIYNmKKCWegR9g3qvgq6TRv8bH+gK1CDJ8d1MIkJX5lD/DyCBwrj
- 848S34F0L6Q5QZxijv0pjnH+s4W818k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-xCIWFIb9P6Kb4iWSgZRu4w-1; Mon, 09 Mar 2020 12:36:10 -0400
-X-MC-Unique: xCIWFIb9P6Kb4iWSgZRu4w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C4B9100550E;
- Mon,  9 Mar 2020 16:36:09 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57C6B2CE1A;
- Mon,  9 Mar 2020 16:35:57 +0000 (UTC)
-Message-ID: <617c5b0b8385d195bb73534f677064d88116669a.camel@redhat.com>
-Subject: Re: [PATCH v5 05/11] monitor/hmp: move hmp_drive_mirror and
- hmp_drive_backup to block-hmp-cmds.c Moved code was added after 2012-01-13,
- thus under GPLv2+
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Mon, 09 Mar 2020 18:35:56 +0200
-In-Reply-To: <20200309163113.GH3088@work-vm>
-References: <20200308092440.23564-1-mlevitsk@redhat.com>
- <20200308092440.23564-6-mlevitsk@redhat.com>
- <9cf9655745608e9a12208524dc72196493644290.camel@redhat.com>
- <20200309163113.GH3088@work-vm>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ bh=CcAsGXiG2VF6QQr/mDlUnLtJ9aFGI4GNn9FNRHU9V5k=;
+ b=gLh2Acc+ss08Yjvlu8AGQV3CteB4CSECINeGsyDKMVFqG8V387IrsSI9Z1/hMBchrh10du
+ s/XSm15RJNdDwGFkQTiKZ7i2cVD4biF9LMuT8x4vzz5DZV3ZB4AI7lQGESJ/VpLbS6tgpz
+ eAn9e7+RlgpzjIY0XMcjy846PJRy3MI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-GPxexTMuN0qqHdXetiK7zQ-1; Mon, 09 Mar 2020 12:36:30 -0400
+X-MC-Unique: GPxexTMuN0qqHdXetiK7zQ-1
+Received: by mail-ed1-f69.google.com with SMTP id f13so8471188edy.21
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 09:36:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ss3xfdQgnPA3E1OJ1aBzz8H7ez/25Mo6ELaDcKhXc+k=;
+ b=mxHq2rF1j5qS2CxIR4TxJVPTnQlO9y5exUN9izxhsOsPihAsdYBobYvkxJxwv8cZi3
+ 7rfsfp/6nrei7BRVimWRwM3TgoY2VYjDs8WxTBnhVeffvmUjq3AXdHUtCcPY7BVA0HEF
+ SO+Jq7DCRYL9Z7fKyh9sy+j9W4d2yPlMyOW/qlOhsqGCLgHp+gjX7Kfpis/0apnH2P5C
+ Nh0We7DA+7SjOADw7xTcb3t0hfJ/JwIE6e8Hdrh9yxikr0O9TNQGJpOFTXb2hmz8zq3a
+ 28bTBaqw2b/vOYk0S7isfVBz/VFCqNNJ8Ro1nphw1j0l9/6/owBt2fOIV8ViMFPjsiQ/
+ X2EA==
+X-Gm-Message-State: ANhLgQ1aVGpMalLg43prCi36x0V4d+WCkXR82zOiQYqUVDdNh2jnTc6M
+ viChvJEa3uV6VrJaN1yKRLhtwhlLP+fyYUXAeWJpozfeIt4nl04v5k9qsnTCiw8iQWT1CC7VWsh
+ UqyhOLmsgx9MRscw=
+X-Received: by 2002:a50:f149:: with SMTP id z9mr18610386edl.246.1583771789778; 
+ Mon, 09 Mar 2020 09:36:29 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtLgeYqYsBVT/60/2YAsZb8q8UjPdTyHLQ97h15dkLThauXG2lZH8CUxut+EyzUJ8zbiE2nNw==
+X-Received: by 2002:a50:f149:: with SMTP id z9mr18610372edl.246.1583771789543; 
+ Mon, 09 Mar 2020 09:36:29 -0700 (PDT)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id p24sm349426edx.34.2020.03.09.09.36.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Mar 2020 09:36:29 -0700 (PDT)
+Subject: Re: [PATCH] softmmu: fix crash with invalid -M memory-backend=
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200309145155.168942-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <caa7121c-47ce-9003-7666-74f8b6f42704@redhat.com>
+Date: Mon, 9 Mar 2020 17:36:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200309145155.168942-1-marcandre.lureau@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -76,240 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-03-09 at 16:31 +0000, Dr. David Alan Gilbert wrote:
-> * Maxim Levitsky (mlevitsk@redhat.com) wrote:
-> > 
-> > I see that I have the same issue of long subject line here.
-> > Its because I forgot the space after first line, when adding this.
-> > If I need to resend another version of this patchset I'll fix this,
-> > but otherwise maybe that can be fixed when applying this to one of maintainer's
-> > trees.
-> > 
-> > Sorry for noise.
-> 
-> I can just fix the commit message.
+On 3/9/20 3:51 PM, Marc-Andr=C3=A9 Lureau wrote:
+> Fixes: fe64d06afc1c5d895f220c268cfe4d5f1e65d44e ("vl.c: ensure that
+> ram_size matches size of machine.memory-backend")
 
+<new line>
 
-Thank you!!
-Best regards,
-	Maxim Levitsky
-> 
-> Dave
-> 
-> > Best regards,
-> > 	Maxim Levitsky
-> > 
-> > On Sun, 2020-03-08 at 11:24 +0200, Maxim Levitsky wrote:
-> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > ---
-> > >  block/monitor/block-hmp-cmds.c | 60 ++++++++++++++++++++++++++++++++++
-> > >  include/block/block-hmp-cmds.h | 12 +++++--
-> > >  include/monitor/hmp.h          |  2 --
-> > >  monitor/hmp-cmds.c             | 58 --------------------------------
-> > >  4 files changed, 69 insertions(+), 63 deletions(-)
-> > > 
-> > > diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-> > > index ad727a6b08..d6dd5d97f7 100644
-> > > --- a/block/monitor/block-hmp-cmds.c
-> > > +++ b/block/monitor/block-hmp-cmds.c
-> > > @@ -37,10 +37,12 @@
-> > >  #include "qapi/qapi-commands-block.h"
-> > >  #include "qapi/qmp/qdict.h"
-> > >  #include "qapi/error.h"
-> > > +#include "qapi/qmp/qerror.h"
-> > >  #include "qemu/config-file.h"
-> > >  #include "qemu/option.h"
-> > >  #include "sysemu/sysemu.h"
-> > >  #include "monitor/monitor.h"
-> > > +#include "monitor/hmp.h"
-> > >  #include "block/block_int.h"
-> > >  #include "block/block-hmp-cmds.h"
-> > >  
-> > > @@ -187,3 +189,61 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
-> > >          error_report("'commit' error for '%s': %s", device, strerror(-ret));
-> > >      }
-> > >  }
-> > > +
-> > > +void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
-> > > +{
-> > > +    const char *filename = qdict_get_str(qdict, "target");
-> > > +    const char *format = qdict_get_try_str(qdict, "format");
-> > > +    bool reuse = qdict_get_try_bool(qdict, "reuse", false);
-> > > +    bool full = qdict_get_try_bool(qdict, "full", false);
-> > > +    Error *err = NULL;
-> > > +    DriveMirror mirror = {
-> > > +        .device = (char *)qdict_get_str(qdict, "device"),
-> > > +        .target = (char *)filename,
-> > > +        .has_format = !!format,
-> > > +        .format = (char *)format,
-> > > +        .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-> > > +        .has_mode = true,
-> > > +        .mode = reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PATHS,
-> > > +        .unmap = true,
-> > > +    };
-> > > +
-> > > +    if (!filename) {
-> > > +        error_setg(&err, QERR_MISSING_PARAMETER, "target");
-> > > +        hmp_handle_error(mon, err);
-> > > +        return;
-> > > +    }
-> > > +    qmp_drive_mirror(&mirror, &err);
-> > > +    hmp_handle_error(mon, err);
-> > > +}
-> > > +
-> > > +void hmp_drive_backup(Monitor *mon, const QDict *qdict)
-> > > +{
-> > > +    const char *device = qdict_get_str(qdict, "device");
-> > > +    const char *filename = qdict_get_str(qdict, "target");
-> > > +    const char *format = qdict_get_try_str(qdict, "format");
-> > > +    bool reuse = qdict_get_try_bool(qdict, "reuse", false);
-> > > +    bool full = qdict_get_try_bool(qdict, "full", false);
-> > > +    bool compress = qdict_get_try_bool(qdict, "compress", false);
-> > > +    Error *err = NULL;
-> > > +    DriveBackup backup = {
-> > > +        .device = (char *)device,
-> > > +        .target = (char *)filename,
-> > > +        .has_format = !!format,
-> > > +        .format = (char *)format,
-> > > +        .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-> > > +        .has_mode = true,
-> > > +        .mode = reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PATHS,
-> > > +        .has_compress = !!compress,
-> > > +        .compress = compress,
-> > > +    };
-> > > +
-> > > +    if (!filename) {
-> > > +        error_setg(&err, QERR_MISSING_PARAMETER, "target");
-> > > +        hmp_handle_error(mon, err);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    qmp_drive_backup(&backup, &err);
-> > > +    hmp_handle_error(mon, err);
-> > > +}
-> > > diff --git a/include/block/block-hmp-cmds.h b/include/block/block-hmp-cmds.h
-> > > index 30b0f56415..a64b737b3a 100644
-> > > --- a/include/block/block-hmp-cmds.h
-> > > +++ b/include/block/block-hmp-cmds.h
-> > > @@ -3,10 +3,13 @@
-> > >   *
-> > >   * Copyright (c) 2003-2008 Fabrice Bellard
-> > >   * Copyright (c) 2020 Red Hat, Inc.
-> > > + * Copyright IBM, Corp. 2011
-> > >   *
-> > > - * This work is licensed under the terms of the GNU GPL, version 2.
-> > > - * or (at your option) any later version.
-> > > - * See the COPYING file in the top-level directory.
-> > > + * Authors:
-> > > + *  Anthony Liguori   <aliguori@us.ibm.com>
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2.  See
-> > > + * the COPYING file in the top-level directory.
-> > >   */
-> > >  
-> > >  #ifndef BLOCK_HMP_COMMANDS_H
-> > > @@ -17,4 +20,7 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict);
-> > >  void hmp_commit(Monitor *mon, const QDict *qdict);
-> > >  void hmp_drive_del(Monitor *mon, const QDict *qdict);
-> > >  
-> > > +void hmp_drive_mirror(Monitor *mon, const QDict *qdict);
-> > > +void hmp_drive_backup(Monitor *mon, const QDict *qdict);
-> > > +
-> > >  #endif
-> > > diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> > > index 3d329853b2..c1b363ee57 100644
-> > > --- a/include/monitor/hmp.h
-> > > +++ b/include/monitor/hmp.h
-> > > @@ -64,8 +64,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdict);
-> > >  void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict);
-> > >  void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict);
-> > >  void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict);
-> > > -void hmp_drive_mirror(Monitor *mon, const QDict *qdict);
-> > > -void hmp_drive_backup(Monitor *mon, const QDict *qdict);
-> > >  void hmp_loadvm(Monitor *mon, const QDict *qdict);
-> > >  void hmp_savevm(Monitor *mon, const QDict *qdict);
-> > >  void hmp_delvm(Monitor *mon, const QDict *qdict);
-> > > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > > index fb4c2fd2a8..06f0cb4bb9 100644
-> > > --- a/monitor/hmp-cmds.c
-> > > +++ b/monitor/hmp-cmds.c
-> > > @@ -1342,64 +1342,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdict)
-> > >      hmp_handle_error(mon, err);
-> > >  }
-> > >  
-> > > -void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
-> > > -{
-> > > -    const char *filename = qdict_get_str(qdict, "target");
-> > > -    const char *format = qdict_get_try_str(qdict, "format");
-> > > -    bool reuse = qdict_get_try_bool(qdict, "reuse", false);
-> > > -    bool full = qdict_get_try_bool(qdict, "full", false);
-> > > -    Error *err = NULL;
-> > > -    DriveMirror mirror = {
-> > > -        .device = (char *)qdict_get_str(qdict, "device"),
-> > > -        .target = (char *)filename,
-> > > -        .has_format = !!format,
-> > > -        .format = (char *)format,
-> > > -        .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-> > > -        .has_mode = true,
-> > > -        .mode = reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PATHS,
-> > > -        .unmap = true,
-> > > -    };
-> > > -
-> > > -    if (!filename) {
-> > > -        error_setg(&err, QERR_MISSING_PARAMETER, "target");
-> > > -        hmp_handle_error(mon, err);
-> > > -        return;
-> > > -    }
-> > > -    qmp_drive_mirror(&mirror, &err);
-> > > -    hmp_handle_error(mon, err);
-> > > -}
-> > > -
-> > > -void hmp_drive_backup(Monitor *mon, const QDict *qdict)
-> > > -{
-> > > -    const char *device = qdict_get_str(qdict, "device");
-> > > -    const char *filename = qdict_get_str(qdict, "target");
-> > > -    const char *format = qdict_get_try_str(qdict, "format");
-> > > -    bool reuse = qdict_get_try_bool(qdict, "reuse", false);
-> > > -    bool full = qdict_get_try_bool(qdict, "full", false);
-> > > -    bool compress = qdict_get_try_bool(qdict, "compress", false);
-> > > -    Error *err = NULL;
-> > > -    DriveBackup backup = {
-> > > -        .device = (char *)device,
-> > > -        .target = (char *)filename,
-> > > -        .has_format = !!format,
-> > > -        .format = (char *)format,
-> > > -        .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-> > > -        .has_mode = true,
-> > > -        .mode = reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PATHS,
-> > > -        .has_compress = !!compress,
-> > > -        .compress = compress,
-> > > -    };
-> > > -
-> > > -    if (!filename) {
-> > > -        error_setg(&err, QERR_MISSING_PARAMETER, "target");
-> > > -        hmp_handle_error(mon, err);
-> > > -        return;
-> > > -    }
-> > > -
-> > > -    qmp_drive_backup(&backup, &err);
-> > > -    hmp_handle_error(mon, err);
-> > > -}
-> > > -
-> > >  void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
-> > >  {
-> > >      const char *device = qdict_get_str(qdict, "device");
-> > 
-> > 
-> 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> ---
+>   softmmu/vl.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>=20
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5549f4b619..38e9c404f2 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -4287,6 +4287,11 @@ void qemu_init(int argc, char **argv, char **envp)
+>  =20
+>           backend =3D object_resolve_path_type(current_machine->ram_memde=
+v_id,
+>                                              TYPE_MEMORY_BACKEND, NULL);
+> +        if (!backend) {
+> +            error_report("Memory backend '%s' not found",
+> +                         current_machine->ram_memdev_id);
+> +            exit(EXIT_FAILURE);
+> +        }
+>           backend_size =3D object_property_get_uint(backend, "size",  &er=
+ror_abort);
+>           if (have_custom_ram_size && backend_size !=3D ram_size) {
+>                   error_report("Size specified by -m option must match si=
+ze of "
+>=20
 
 
