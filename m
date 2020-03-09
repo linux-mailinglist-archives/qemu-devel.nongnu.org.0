@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427B317E447
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:06:26 +0100 (CET)
-Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC9517E44A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:07:51 +0100 (CET)
+Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKvB-0000dB-9E
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40332)
+	id 1jBKwZ-00033u-0Z
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBKZm-0001qD-05
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:19 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBKZs-0001ub-Tv
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBKZj-0001MY-V5
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:17 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44462)
+ (envelope-from <peter.maydell@linaro.org>) id 1jBKZq-0001Rb-Tm
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:23 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39299)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBKZi-0001LV-DP
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:15 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id l18so1741016wru.11
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:44:14 -0700 (PDT)
+ id 1jBKZq-0001Qz-H1
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:22 -0400
+Received: by mail-wr1-x434.google.com with SMTP id r15so6771172wrx.6
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nWSMAlzi0oMRfWAEf8TA2pk4lWoUJVNUT6Q1IhJAJTw=;
- b=pQXkB1kMbN2sUFn1XurCnvTAozVEaogD8qp5qN7ePBOwmWb5VuQ87UjKNOpp0vb9Cx
- +SIvab09lKqIUM5UwLcZbMJU5EmDAu+/A1OANgMK1Ys52uSNgOl1cH6h5nf0IAlsM7wF
- mDHOOhoqZ60U2tNVSxXVaNK86Y3eaAnk2RlVr03DUmLKUgFqhYDnqLqS93cGnqP/HnU4
- uAbDf3cwLlOVpC8ZsHjdi7EeZuLQCx5GjYLcBFSkD4o7IxtgyV69yTuNBBXdQEnGBRLi
- tR8qOL/rwLYPtUbuYPEeijrjvjp/UCcf4oo26iIbOsT3XdzAdnzkremtwgJiyd/MKzjB
- UqSw==
+ bh=MdwVWEG8hNJRFTkFaf2CNe1RBfSUpiMOo7qqDUbXW8o=;
+ b=gEKRq8iDoAqZkWTBvkuHXwNHCY68GM5AzQAThXtkGZWNiT4Y3xvqtEq9m7VFX/ZzBw
+ wR13w7QPQyolMqockjEHsOvxRLU/Widh3owIt+YZUvt/WfFkLkeUabMFdO0oNZWFdDrP
+ ImqIV2VFLJHya5g8I8UFCDgKWVc5QrcE59SXPRsgImT8tWtaQ6U/0g5RZbFTO0rMqHWx
+ gkCv6yObbKfa6T1HEvZd6dXK1EYCGnZS8KP4TvctZ3FC2y5/TI79Wf82nzTwxiqUYWxT
+ QooF+DSTD6XPt9/us2tAu/Egyja6VBLgmzkKRXZ7KUFdPOPaUkrheQed4W7LGwf9zipt
+ 1Ysg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nWSMAlzi0oMRfWAEf8TA2pk4lWoUJVNUT6Q1IhJAJTw=;
- b=mU5oEurZ/N4/L9BN4PwXkjJLvdIlwVwfcJdPHe1cz5aQPhYfn441UDuQFrBeBOjjCT
- eCs7TXe2yF8z7gUmjL+FxR0s/FcfF/S5l47L0zyORJdyEcTammDpA1K3zu94EvF38U9e
- tqQmICXgS+SZXacQiitKM9KGIWQQ1CTY9zPjgE5W6KeKr6O09J7xecLBZ6s/pG/ZNovK
- NNr7zhJumwN5FF3HmBfoJr+0QBLhB+vegeSpuSdXi+hBgleIrFobT2zE8UxgHl4blA0S
- 9PgKGI2tmj4ffBi2UCbWaM42tExV5uaZRvBRRF0tsaUE21KdQ1bRYSw+NNP8Z1slZzwP
- CJ5w==
-X-Gm-Message-State: ANhLgQ1QeH0H3JfnLKxLk00vNd7udY078QyNNzmJvqX8NLmtYMNmaGa/
- 8oMSz3jSZ/aKbxFypC9wnPryhj2h/P9ruw==
-X-Google-Smtp-Source: ADFU+vsSgHQI4g//WoEhtqdkOPMcFBWKNNEztsa+iIBET4BScmFsd2p/Z19QqH13T5Mkl4eCyEIg0Q==
-X-Received: by 2002:adf:b317:: with SMTP id j23mr21968013wrd.413.1583768653111; 
- Mon, 09 Mar 2020 08:44:13 -0700 (PDT)
+ bh=MdwVWEG8hNJRFTkFaf2CNe1RBfSUpiMOo7qqDUbXW8o=;
+ b=ErxjfL6zI3Siq9WvwkprXzKI7bk/RO43pg2bRYVwlbSAmrhfRSRbSiRqI7+FuJUGUe
+ ukPqKRW7Pb38YLmsUR4cLIk/r8yfpDL//Awua9e0/G//PHZdwwp+kg065eRVWnCCaW86
+ BRTrlpRR3QJ6zX/RWG2er7e+z4X1IF3065/BEZPZY+7daldBYhadctt31/obOHQObBZR
+ AhhpTAX7u6ERbpvPI+LjsYFaMmtv4d9XkEFB5/eyXfpp31lB6r8aQnuIV1OZeUDhKQXn
+ aHw36wU3cNy77NZZe+u4voQ/MJ4ibMlir7OlpozddUcy6WGRT3i6Wm7HjUVxJ5RMsSHi
+ FcWw==
+X-Gm-Message-State: ANhLgQ3nYfFDfWeBZHtxFCDotZDtRC+QJGjVtN9yvBeR2oAnXn1ygCF9
+ TYK+y1icYoeUVi/CUlQRPQ1qhLc2lP3t+w==
+X-Google-Smtp-Source: ADFU+vsgdDwT0ukFvqOXftOTGTRnFvkqi1ICSrDx80fDr/iOG58ZKccaCUv350y6IXTFHbch8rDUUQ==
+X-Received: by 2002:adf:e9c4:: with SMTP id l4mr9747058wrn.421.1583768661252; 
+ Mon, 09 Mar 2020 08:44:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d63sm25932166wmd.44.2020.03.09.08.44.12
+ by smtp.gmail.com with ESMTPSA id d63sm25932166wmd.44.2020.03.09.08.44.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 08:44:12 -0700 (PDT)
+ Mon, 09 Mar 2020 08:44:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/18] tests/qapi/doc-good.json: Clean up markup
-Date: Mon,  9 Mar 2020 15:43:51 +0000
-Message-Id: <20200309154405.13548-5-peter.maydell@linaro.org>
+Subject: [PATCH v4 10/18] qapi: Use rST markup for literal blocks
+Date: Mon,  9 Mar 2020 15:43:57 +0000
+Message-Id: <20200309154405.13548-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200309154405.13548-1-peter.maydell@linaro.org>
 References: <20200309154405.13548-1-peter.maydell@linaro.org>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,181 +84,71 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-doc-good.json tests some oddities of markup that we don't want to
-accept.  Make them match the more restrictive rST syntax:
+There are exactly two places in our json doc comments where we
+use the markup accepted by the texi doc generator where a '|' in
+the first line of a doc comment means the line should be emitted
+as a literal block (fixed-width font, whitespace preserved).
 
- * in a single list the bullet types must all match
- * lists must have leading and following blank lines
- * indentation is important
- * the '|' example syntax is going to go away entirely, so stop
-   testing it
+Since we use this syntax so rarely, instead of making the rST
+generator support it, instead just convert the two uses to
+rST-format literal blocks, which are indented and introduced
+with '::'.
 
-This will avoid the tests spuriously breaking when we tighten up the
-parser code in the following commits.
+(The rST generator doesn't complain about the old style syntax,
+it just emits it with the '|' and with the whitespace not
+preserved, which looks odd, but means we can safely leave this
+change until after we've stopped generating texinfo.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-New patch in v2
----
- tests/qapi-schema/doc-good.json | 25 +++++++++++++------------
- tests/qapi-schema/doc-good.out  | 12 ++++++------
- tests/qapi-schema/doc-good.texi | 12 +++---------
- 3 files changed, 22 insertions(+), 27 deletions(-)
+ qapi/block-core.json  | 16 +++++++++-------
+ qapi/qapi-schema.json |  6 ++++--
+ 2 files changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-index d992e713d97..a45dc22848c 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -10,25 +10,25 @@
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 85e27bb61f4..0c9c21927f9 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -550,13 +550,15 @@
+ #        For the example above, @bins may be something like [3, 1, 5, 2],
+ #        and corresponding histogram looks like:
  #
- # *strong* _with emphasis_
- # @var {in braces}
+-# |      5|           *
+-# |      4|           *
+-# |      3| *         *
+-# |      2| *         *    *
+-# |      1| *    *    *    *
+-# |       +------------------
+-# |           10   50   100
++# ::
 +#
- # * List item one
--# - Two, multiple
-+# * Two, multiple
- #   lines
++#        5|           *
++#        4|           *
++#        3| *         *
++#        2| *         *    *
++#        1| *    *    *    *
++#         +------------------
++#             10   50   100
  #
--# 3. Three
--# Still in list
-+# * Three
-+#   Still in list
+ # Since: 4.0
+ ##
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index ff5aea59451..440fece703f 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -22,8 +22,10 @@
+ #
+ # Example:
+ #
+-# | -> data issued by the Client
+-# | <- Server data response
++# ::
 +#
-+# Not in list
++#   -> data issued by the Client
++#   <- Server data response
  #
--#   Not in list
- # - Second list
--# Note: still in list
-+#   Note: still in list
- #
- # Note: not in list
-+#
- # 1. Third list
- #    is numbered
- #
--# - another item
--#
--# | example
--# | multiple lines
-+# 2. another item
- #
- # Returns: the King
- # Since: the first age
-@@ -62,7 +62,7 @@
- ##
- # @Base:
- # @base1:
--#   the first member
-+# the first member
- ##
- { 'struct': 'Base', 'data': { 'base1': 'Enum' } }
- 
-@@ -101,7 +101,7 @@
- ##
- # @Alternate:
- # @i: an integer
--# @b is undocumented
-+#     @b is undocumented
- ##
- { 'alternate': 'Alternate',
-   'data': { 'i': 'int', 'b': 'bool' } }
-@@ -115,7 +115,7 @@
- # @arg1: the first argument
- #
- # @arg2: the second
--# argument
-+#        argument
- #
- # Features:
- # @cmd-feat1: a feature
-@@ -124,6 +124,7 @@
- # Returns: @Object
- # TODO: frobnicate
- # Notes:
-+#
- # - Lorem ipsum dolor sit amet
- # - Ut enim ad minim veniam
- #
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 4c9406a464d..9503a3a3178 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -68,25 +68,25 @@ doc freeform
- 
- *strong* _with emphasis_
- @var {in braces}
-+
- * List item one
--- Two, multiple
-+* Two, multiple
- lines
- 
--3. Three
-+* Three
- Still in list
- 
- Not in list
-+
- - Second list
- Note: still in list
- 
- Note: not in list
-+
- 1. Third list
- is numbered
- 
--- another item
--
--| example
--| multiple lines
-+2. another item
- 
- Returns: the King
- Since: the first age
-diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.texi
-index d4b15dabf03..1e8063c8579 100644
---- a/tests/qapi-schema/doc-good.texi
-+++ b/tests/qapi-schema/doc-good.texi
-@@ -6,6 +6,7 @@
- 
- @strong{strong} @emph{with emphasis}
- @code{var} @{in braces@}
-+
- @itemize @bullet
- @item
- List item one
-@@ -20,6 +21,7 @@ Still in list
- @end itemize
- 
- Not in list
-+
- @itemize @minus
- @item
- Second list
-@@ -28,6 +30,7 @@ Note: still in list
- @end itemize
- 
- Note: not in list
-+
- @enumerate
- @item
- Third list
-@@ -36,15 +39,6 @@ is numbered
- @item
- another item
- 
--@example
--example
--@end example
--
--@example
--multiple lines
--@end example
--
--
- @end enumerate
- 
- Returns: the King
+ # Please, refer to the QMP specification (docs/interop/qmp-spec.txt) for
+ # detailed information on the Server command and response formats.
 -- 
 2.20.1
 
