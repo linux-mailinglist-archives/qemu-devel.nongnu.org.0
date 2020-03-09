@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1545717E452
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:10:41 +0100 (CET)
-Received: from localhost ([::1]:46262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC56217E438
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:03:41 +0100 (CET)
+Received: from localhost ([::1]:46004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKzI-0007E7-6F
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40481)
+	id 1jBKsW-00053k-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:03:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jBKZx-00027i-Kj
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:31 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jBKeK-00087q-1P
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:49:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jBKZv-0001Um-UJ
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:29 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57408
+ (envelope-from <kwolf@redhat.com>) id 1jBKeG-00048A-Jr
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:48:57 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42564
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jBKZv-0001U8-Q2
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:27 -0400
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jBKeE-00046N-Nr
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:48:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583768667;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1583768934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kpTBlitmyrw4ZgnVEIygjf55ErpI+6cvdfGZY1NHMj0=;
- b=bFZIxM0gBto0mK8UrjdAY7E+HFCv6FKrZtytzlwyqDqk0bcx//VXZ3EKMsoHsAGQ5Filwp
- zBIX4N2qWDTUdqWRo4siXOEozV4MMVXwzc9sj+ltNK2enOmUTllHrneCvX9dZKoQic8mq8
- oXP6hZE+MhwqOv4VGfcez16y8qrhBLg=
+ bh=QTzvaWYpXAmYgOGjTaIaGIZhtWr/UkZXteo1ZOWQ76M=;
+ b=Jy44Wbgtd+m6xrVWB1tvMZ6LUzrPa8hc9tW9CzSQDdPXpw4F1XDJvZYHaNTnGg+54UcbdV
+ d6654qVHWlq0cEXXdFVkoVVj8X70XvJZZHFOlGnG0axj6Ud5BKPRvna5m+BoLNNmNJklNZ
+ sTGW/UkDQ8GCjEneYpeVvZyL3/RkiA0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-HlWGHwjzM-eHHlPgbsM04g-1; Mon, 09 Mar 2020 11:44:23 -0400
-X-MC-Unique: HlWGHwjzM-eHHlPgbsM04g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-435-UtQq4H23O4SclwClJRtZ5A-1; Mon, 09 Mar 2020 11:48:49 -0400
+X-MC-Unique: UtQq4H23O4SclwClJRtZ5A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97A84100550E;
- Mon,  9 Mar 2020 15:44:21 +0000 (UTC)
-Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93FAE19C69;
- Mon,  9 Mar 2020 15:44:15 +0000 (UTC)
-Date: Mon, 9 Mar 2020 15:44:12 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B64D3DBA7;
+ Mon,  9 Mar 2020 15:48:47 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-162.ams2.redhat.com [10.36.116.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C104F7388F;
+ Mon,  9 Mar 2020 15:48:42 +0000 (UTC)
+Date: Mon, 9 Mar 2020 16:48:41 +0100
+From: Kevin Wolf <kwolf@redhat.com>
 To: Eric Blake <eblake@redhat.com>
 Subject: Re: [PATCH v3 1/4] block: Add trivial backing_fmt support to qcow,
  sheepdog, vmdk
-Message-ID: <20200309154412.GL3033513@redhat.com>
+Message-ID: <20200309154841.GD6478@linux.fritz.box>
 References: <20200306225121.3199279-1-eblake@redhat.com>
  <20200306225121.3199279-2-eblake@redhat.com>
  <20200309152112.GC6478@linux.fritz.box>
  <7b7f12f8-ca03-12d4-b93d-2edefb51cb42@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <7b7f12f8-ca03-12d4-b93d-2edefb51cb42@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -78,17 +77,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- pkrempa@redhat.com, "open list:Sheepdog" <sheepdog@lists.wpkg.org>,
- qemu-block@nongnu.org, libvir-list@redhat.com,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org, mreitz@redhat.com,
+Cc: Fam Zheng <fam@euphon.net>, pkrempa@redhat.com,
+ "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
+ libvir-list@redhat.com, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org, mreitz@redhat.com,
  "open list:Trivial patches" <qemu-trivial@nongnu.org>,
  Liu Yuan <namei.unix@gmail.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 09, 2020 at 10:32:52AM -0500, Eric Blake wrote:
+Am 09.03.2020 um 16:32 hat Eric Blake geschrieben:
 > On 3/9/20 10:21 AM, Kevin Wolf wrote:
 > > Am 06.03.2020 um 23:51 hat Eric Blake geschrieben:
 > > > For qcow2 and qed, we want to encourage the use of -F always, as thes=
@@ -114,34 +112,12 @@ ge
 > ignoring it - but at the same time, the image formats have no where to
 > record a backing format.
 
-Consider the user creates an image with "-F raw". We can validate the backi=
-ng
-image is raw, and so our check succeeds.  Later the malicious <something> c=
-an
-write a qcow header into this raw file and QEMU will thereafter probe the
-image as qcow, not raw.
-
-IOW, in the case of "-F raw", even if we immediately check the format, we'r=
-e
-still not offering the protection promised by the "-F" flag, because that
-promise refers to the runtime behaviour of the QEMU emulator, not the
-immediate qemu-img cmd.
-
-We could support "-F ..." and validate any non-raw formats, while raising a
-runtime error in the case of "-F raw", as only the "raw" backing format has
-the probing security risk.
-
-Users who need  to use qcow, with a backing file, without a format can
-just not pass "-F" and in doing so will be insecure.
-
-We could take this opportunity to deprecate 'qcow' perhaps, declare it
-a read-only format, restricted to qemu-img/qemu-io for purpose of data
-liberation ?
-
-For sheepdog, if it is something we genuinely still care about, then
-adding a backing file format record seems neccessary, unless we either
-forbid use of raw backing files, or forbid use of non-raw backing files,
-either way would be safe.
+The important distinction (and in fact the only one that qed makes) is
+raw and non-raw. Problems only arise if a guest can write an image
+header to a raw file and get it probed as non-raw when opening the
+image the next time. If you start with a non-raw format, at least the
+first 512 bytes (which are used for probing) are used for metadata and
+not accessible for the guest.
 
 > I'm guessing that qcow works with either raw or qcow as backing format (a=
 nd
@@ -149,8 +125,24 @@ nd
 > better to reject).  I'm not sure if sheepdog can be backed by anything bu=
 t
 > another sheepdog, similarly, I'm not sure if a vmdk can be backed by
-> anything but another vmdk.  If so, it should be simple enough to do a v4 =
-of
+> anything but another vmdk.
+
+I think vmdk only expects vmdk as backing files, even though QEMU
+supports everything else, too. However, this is a format for
+compatibility with another hypervisor and you're unlikely to find
+QEMU-only VMDK images, so requiring non-raw unconditionally might make
+sense.
+
+I have no idea about how backing files in Sheepdog are used in practice.
+However, QEMU is a primary target for Sheepdog. It wouldn't surprise me
+if it's used for both raw and non-raw.
+
+qcow is definitely used for both, as you already said. Allowing only raw
+and qcow and forbidding other formats doesn't improve the situation
+because the problem is with supporting raw and non-raw at the same time
+and you would still have this.
+>
+> If so, it should be simple enough to do a v4 of
 > this patch which requires -F to be a known-acceptable probe type for thes=
 e
 > images.
@@ -161,21 +153,9 @@ e
 > iotests are broken for these image formats.  Patch 2 is a lot harder to
 > write if we have to make our use of -F conditional on the image format in
 > question.
->=20
-> --=20
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
->=20
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Hm... Maybe _make_test_img can insert/filter out -F depending on $IMGFMT?
+
+Kevin
 
 
