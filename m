@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B601017E0B0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:56:28 +0100 (CET)
-Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE5F17E0B1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:57:25 +0100 (CET)
+Received: from localhost ([::1]:42844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHxL-0000FC-Pd
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35461)
+	id 1jBHyG-0001FS-O2
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHvj-0006iP-0m
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:54:47 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHxH-0000V4-7B
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:56:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHvd-0004pd-TN
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:54:46 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:45627)
+ (envelope-from <laurent@vivier.eu>) id 1jBHxD-0000qo-Ra
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:56:22 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:42173)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHva-0004h8-C4; Mon, 09 Mar 2020 08:54:38 -0400
+ id 1jBHxD-0000kv-Ih; Mon, 09 Mar 2020 08:56:19 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MfqGN-1jrTQT3c4X-00gLK7; Mon, 09 Mar 2020 13:54:21 +0100
-Subject: Re: [PATCH v3 07/12] display/exynos4210_fimd: Remove redundant
- statement in exynos4210_fimd_update()
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N4Q8u-1jIbgc2uP8-011VBi; Mon, 09 Mar 2020 13:56:00 +0100
+Subject: Re: [PATCH v3 11/12] usb/hcd-ehci: Remove redundant statements
+To: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-9-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-13-kuhn.chenqun@huawei.com>
+ <e786f342-7ba6-1c25-dea7-a34372a4ff81@vivier.eu>
+ <7412CDE03601674DA8197E2EBD8937E83B67D5D6@dggemm511-mbx.china.huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,34 +74,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <c9ecbec0-981b-2a57-690f-3c8d8150fc49@vivier.eu>
-Date: Mon, 9 Mar 2020 13:54:19 +0100
+Message-ID: <85ae07ca-3751-305e-618d-1ab741e9cdbc@vivier.eu>
+Date: Mon, 9 Mar 2020 13:55:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-9-kuhn.chenqun@huawei.com>
+In-Reply-To: <7412CDE03601674DA8197E2EBD8937E83B67D5D6@dggemm511-mbx.china.huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eeOWQ4eBNfEWXijBCegNKXvqQZoMQytCQ7p0ooIqDonFTm0pNHm
- Sc4lnKyQaCtL7hO0S2KLK/e8R0wUhWpaNTqqxMBHT63dQ8uyzg86bDO+2Y48/6/qYiEyxuL
- jug4zPy1bCUQNcRMyaQt3j+s3YBF43A78EomUOoOtW7em8ApPgL0jBpWLHIaH0hjlFlsiKH
- B9oMk1eRrm0a+vSTd5+Zw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2QmUTetGIc0=:DG/UkHPtUkEXEjDa19HgfC
- 8P9SA1l4uba9SI1kEz5AdZzcA1x47JilHbu+ZZwGhLbbVAF7a16YxxFcAwr/19TadqDcAQzjs
- Gy/zcm7MLdnDEAOsez4kHqZsfyLmLQXfKmFoF0Zftr6ptzTUVosQ5LvEVM3XQgN2xOvz+20U8
- 6FLC6lv0dZC7heBwN7iaRN/OFGUqgz3wU6iq15VrNlE8GonoDC6I7KuD6P6hZwPx4acdTARh5
- WiaOcMalcZCAQjc9rgNtLZpYktdAjy5l5DnMc+cozyOeM3jAvcoebWw9mnoi4LcSTXw68F5Hd
- wTwzSqGmGvXiRBxSUG0362efH3TCKNqWc/61MOBCglf4TaoD5wlA4vaAI3HP1kgFyatRTDNxD
- DmOdr61l0a6e5KRyWZfMxdkdMaeV0YY7elGUsg06wlZ5ug0xHI3LNzvoXm/ml9MPG+dempOtm
- YA9wh1uZ1iYinz6ukP+jXDU7ayasYRx/gkZhfCkm4Gl4jwZXcb2TaCBNa+Ld/zU+WpVujniTE
- Z8s69dC68UG1yBYIxBBm3wBeUU+dUl1yw0fYKMTuTbz6yBgOVI8FRBIa97nbgqcunuePVAQM1
- gGhE3CCXGP5iGj/+jC7J9LNLatFf4+Xq+rACA+jys8dl9LgCp0s4sWamrNAHWMzH58A2rSwmY
- 0WnSHPLpiidGLVu8t1BEixBXyOSfdt2DXj2Oo0BiUwbixJez7Jm6okYKDYBqiT+LELEhGoyS2
- 1mLvkmlpLW/wiTOtIgZyS7rj2bIaEhWBufRG4CxbKIhat0xh+3WcGb1bnDERAt50ejf8n55SQ
- U76xlD2H0hbYPZxhFu/KLoiW2W9bliW/XgBa2O1hlbE6V4kGRG/gtOMsgGtQDplTkMDxPFO
+X-Provags-ID: V03:K1:wbR5t0XVnl5VVGV4MSgxCKgg9PT2a08/+I+Y6lVxE+l98ffFBGZ
+ fKYZIGIX/e89XtQUse2339npPWi3UGrG2dvEOByGGHfALfgIeOmLC1dDpSDkPSrm3EnRwRT
+ 3GjVWIgfd+3oPSB80pz4GL9C39OHLWd8KtUBRnUEyhwK/4lWrbuY8v+Xnu6wbe7vce8vo2g
+ 91s/bQ7YQ8IL3Ahc2tBXg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ceOf0KLACEo=:ESRNaeotz4H9DuaaCOQd1a
+ Nbgg+LXpl7JA9usnzHylckWn5mAXS/xPOCwQkFVLMZDnfiC2mXGs49trr8belxtpotQSVKHhm
+ t++z57A3fwTpVirdudmIIY2qCMmL4gPD5Qt0QxbFRFQV3kaDaPaIK8FP0hjdEqE5fJxQpMWAn
+ 3JmK6q6YML/MvaYJ0UKhbAAPPCiA9SlcuxsO+Tw16EwrUAi8hia8pHdric+o9kvaJIriEiy3S
+ lTyQgg02MKiOBC4tOKTe4g/lcd13cDAukAmiAu8QUPXVAwpAH7xHmdKs1KtVl88vyhaK53VYc
+ eg/ORQ4UWUoAi1Xa/02fk1V29zt/kMOUaDIkpMHzgvzL873xwQKe/GUgDZ/ImTzX0tMb8kW8C
+ HIToxqo75hj6YLwexmT5dlYxbbDZC+ZETvrRleHnXrZXIwk+ekADVKQmh0xsuOLMVIGCqE++u
+ nd9izw0DwX51RX7V/EIVM/HsLvXa68XJc4tExGwRhTpIIdp/CSKJwZ4rapitLmOJYZCjQRj1N
+ J/AlAcZSeFGNsUG9truUpdmUss9dNgVmH8l5ux++fl1BjY16F7b/iwNxckSsC2R3vSXE38KPO
+ R84JpCz84QTdlXdaQzG9CyMcx5HFmrKWwZIEb2ZCBQD6TimS8j7l2uIHTjbdcNksDR1W91/jH
+ rlDOzfLEdfw04pjcpyNv+rKCELX872UuSpIDH+75IwEqgjbZQhayxsSlfeQvwV7F3e6sadxoZ
+ 4rA6oKMweY/wbKt3lLlr75jUJzFTUD69lq9lErGF2I1rtNd/ZylIY3QBa0qk1oPJQIz1KJJaQ
+ 6B1bJvd+6LcG+O5MsKnilbjQpurmwZWru1r11an0gg8lFonIi/QIiGrs6+mFNAu+Hfc7yqx
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,38 +113,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, peter.maydell@linaro.org,
- zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/03/2020 à 14:07, Chen Qun a écrit :
-> Clang static code analyzer show warning:
-> hw/display/exynos4210_fimd.c:1313:17: warning: Value stored to 'is_dirty' is never read
->                 is_dirty = false;
+Le 09/03/2020 à 13:52, Chenqun (kuhn) a écrit :
 > 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/display/exynos4210_fimd.c | 1 -
->  1 file changed, 1 deletion(-)
+>> -----Original Message-----
+>> From: Laurent Vivier [mailto:laurent@vivier.eu]
+>> Sent: Monday, March 9, 2020 8:43 PM
+>> To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-
+>> devel@nongnu.org; qemu-trivial@nongnu.org
+>> Cc: peter.maydell@linaro.org; Zhanghailiang
+>> <zhang.zhanghailiang@huawei.com>; Gerd Hoffmann <kraxel@redhat.com>;
+>> Euler Robot <euler.robot@huawei.com>; Philippe Mathieu-Daudé
+>> <philmd@redhat.com>
+>> Subject: Re: [PATCH v3 11/12] usb/hcd-ehci: Remove redundant statements
+>>
+>> Le 02/03/2020 à 14:07, Chen Qun a écrit :
+>>> The "again" assignment is meaningless before g_assert_not_reached.
+>>> In addition, the break statements no longer needs to be after
+>>> g_assert_not_reached.
+>>>
+>>> Clang static code analyzer show warning:
+>>> hw/usb/hcd-ehci.c:2108:13: warning: Value stored to 'again' is never read
+>>>             again = -1;
+>>>             ^       ~~
+>>>
+>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+>>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>  hw/usb/hcd-ehci.c | 3 ---
+>>>  1 file changed, 3 deletions(-)
+>>>
+>>> diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c index
+>>> 56ab2f457f..29d49c2d7e 100644
+>>> --- a/hw/usb/hcd-ehci.c
+>>> +++ b/hw/usb/hcd-ehci.c
+>>> @@ -1301,7 +1301,6 @@ static void ehci_execute_complete(EHCIQueue *q)
+>>>          /* should not be triggerable */
+>>>          fprintf(stderr, "USB invalid response %d\n", p->packet.status);
+>>>          g_assert_not_reached();
+>>> -        break;
+>>>      }
+>>>
+>>>      /* TODO check 4.12 for splits */
+>>> @@ -2105,9 +2104,7 @@ static void ehci_advance_state(EHCIState *ehci,
+>>> int async)
+>>>
+>>>          default:
+>>>              fprintf(stderr, "Bad state!\n");
+>>> -            again = -1;
+>>>              g_assert_not_reached();
+>>> -            break;
+>>>          }
+>>>
+>>>          if (again < 0 || itd_count > 16) {
+>>>
+>>
+>> Applied to my trivial-patches branch.
+>>
+> Hi, Laurent
 > 
-> diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
-> index c1071ecd46..05d3265b76 100644
-> --- a/hw/display/exynos4210_fimd.c
-> +++ b/hw/display/exynos4210_fimd.c
-> @@ -1310,7 +1310,6 @@ static void exynos4210_fimd_update(void *opaque)
->                  }
->                  host_fb_addr += inc_size;
->                  fb_line_addr += inc_size;
-> -                is_dirty = false;
->              }
->              g_free(snap);
->              blend = true;
+> Gerd has added a patch to the USB queue today.
 > 
+> https://patchwork.kernel.org/patch/11405615/
+>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Ok, removing it from mine.
+
+Thanks,
+Laurent
+
 
