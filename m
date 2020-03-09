@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D0A17E386
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:25:04 +0100 (CET)
-Received: from localhost ([::1]:44818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4653A17E39A
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:28:58 +0100 (CET)
+Received: from localhost ([::1]:44904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKH9-0003bL-HH
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
+	id 1jBKKv-0001w1-9g
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK31-0000Sn-Kj
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:31 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2c-0008Ct-Eq
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK2z-00086c-Bg
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:27 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:45891)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2b-0007qI-E0
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:02 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:55201)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2j-0007wA-AA; Mon, 09 Mar 2020 11:10:09 -0400
+ id 1jBK2Y-0007lh-OO; Mon, 09 Mar 2020 11:09:58 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MA7Su-1j4CU42fhi-00BePM; Mon, 09 Mar 2020 16:09:22 +0100
+ id 1Moex5-1jik6Y1NUX-00p5hP; Mon, 09 Mar 2020 16:09:27 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/33] hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
-Date: Mon,  9 Mar 2020 16:08:21 +0100
-Message-Id: <20200309150837.3193387-18-laurent@vivier.eu>
+Subject: [PULL 19/33] hw/pci-host/q35: Include "qemu/range.h"
+Date: Mon,  9 Mar 2020 16:08:23 +0100
+Message-Id: <20200309150837.3193387-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:S3Pxp97NJqxzqXNktaGYJQ8nZy3lTVUpo6FHg9n/lfsaCvu/jCM
- RKXtM+9/sl1lC2UU6z7Enz4ywq6EsJjd8jmR99TVnhXddFlNXJAfZ4rY8qlWfkvFQEKXdRg
- c7cUkeAM5h7ge/pao0QIN67+RJChKjZud8czO47cpDyjw3l3mCHTLkZROLm8cPqoP7SiOci
- rc5taa+9BnG+goLi7rNZw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kUTho+sfP00=:/RR78Ov2r4fg9Mqs6/P7t4
- QgRnn/05kM+qVunwSFPMYuoO5Br0L0OTVPvk1DS676JqeEV56ko4pVlxa1kvlYpLNvDqPEZnJ
- EODUyOZ0j+XugzoxYTuWhM/rSTm4gf0BIyDTaQ0AHRxpvt8Zc0wObIL5maaRB8bRN5ZQ5vS5A
- FThsEhNNb17Jbm7slqX9UcIgU+Cwkl96gUY/fdObfmxgpfIf4D1GEQN0EqGJbr9qTPCtIj5WB
- CtiioVkafDYGjbZF0cmKKn7ofELdaMPv5UvesCCkCbV3R3CTaLqWIJhCCYqOKlQwnpn44Ah7y
- PM8W0pnKFKHCqwBVmObIaXLjatJPiF9Om2kqBDWtBPeE1JbJ2fmyyPtrhZ/lXdhiqECEMi6PN
- vCjR/VkUlgIIdI6eFw/dMWGCS76yRPRvbr5FsoCrYRzysysWyugFKiiG2zDIaaTSbsz02kt1I
- kIYiHF/Oy1Zh8ZCXs3FiDTiRRoI3BGPZ5MJFeYGJle33GiiiV1zOtOspmbZ5eJXlXjyjxxs1z
- +9KU9V4FXQZe7WLyT3WDbbzZVa+/ucWq7eLub7mlARtam/W1qxY/A7ba1zELPDxlSCoHwiDGJ
- N74YEd4habXjkT7oN8S1PndzYEQd5LUsAVn1vVBiKy43OGA/Qe9ofUsXDYi3KOau1H552s72j
- UEQFI8vq603b0sgjyoJjYVsdKzT6cd9t89f0pzhWTt3kNZgjf13BF3GP1GwKUvv1MbsSJtMsW
- CTfGXauFq86rDTjUyWZ6Le1A7oTqq9ssGDrTLFmn5Gnkmo+JOc6ea5S6vc1t8205n1gq9YUoK
- D4Stg6L6QqvSDiFVeQWV6BKsghc9C+sMS/0o+ndV7aa5OcaH6acMjEgSon+7ZKpowbkUo/l
+X-Provags-ID: V03:K1:bDf+R+TkyUWaYGGT4Rw8RwyZQRZFhUKc76uXRlzIYLOjqGHIbry
+ aog87OGgxYXkb+GEk5vws7NgiRPu1/0Mfrbe6ahc7llLY5adLC4PB4xZuTgedJltIOK+rvv
+ IjhMmrsrT2wIZV8hhvJri1k4E/nTqlJhEM+7qhjpyrZDy8wcOPKeNYts9nnN75fx86dzqmi
+ cIwCWwzsT6mUNUSmTgnIQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oTF7Y6BYuTM=:m0dC/7n1v0qsJFRdheP0yz
+ O9X7FXs1T6jt4MUX38OC3mqAv+flzFusYESDYhH80Gxs/e7wYwmJ2G0vzk5WPIUSO2eqvikhV
+ BlNauqZH4g3r/MzkBdh6kl+qeEAQUBv9VZblVNZYYMgjCncCPiVKxqpuFNumUysRqeHGzKg6W
+ ILaP80lK5KXW8qahodoA0MzX5RASYlkf9wH/xnvMx0tNkX9AhGNbPl1z3BnndgTD2NCGs0LOB
+ qBLEO2lHpSB7Xivc2udzA+TTW/gt3Fi55YPpUspM8hq/wsJ3pjRITIvDxb81l0/S0n9F1rRaS
+ 6NyC1kW6c49RtlXfprpEr9lPaaKKd3hmD3Tcor63GMAfSjmm1LpjE3fg8XoLoN/7HidYFCreH
+ jVei8qZFWpzcEhMKcnMv1MRgpPQoRUv/cWjaImH5RGrQGWT7com7Xh7bMa6LAnCOO5+2vbc95
+ Mm3Ki5dCbLZfUey9NU/VCz+opifeQBtzuPADxsYL8qT/E3Do7KPh97+Mw6NB8BNE9qOFuTUvK
+ J+WNn1deRQVwKIjcVg4508Y4YSvinC4yMgCsQZxwjTEFfFK/bbo1yPOMn4r7h1kgrfTAuD9w7
+ pxbQuxPDBGT5hIKB0LlHLR0odXDixhpOrW2qsb4hgBxO2ATN/F+j7xi1yGZGh1U88ZF4/4wvL
+ CwX1vj2LyO8azMHF8NgzrJSlqCf/t7SndWOSBLwvZj90vz0rErkJFBf9HjAeoAQAEkXMFG68Z
+ CcUMmm+v3wm7bPZvXH/ADBjpOrrUZawuoA8flQg+tkPcd6uW0ZlY7cpXKVvR8hCfMjyTeVl+k
+ TdI2MNk3KYAdxcmgBpQRw0pmqp3rAivVMgLc/gHEWMswTuvahh31DAHLSWS4NuzO/XJWYXx
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,36 +87,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-hw/acpi/cpu_hotplug.c calls pci_address_space_io(). Include
-"hw/pci/pci.h" which declares it.
+The MCHPCIState structure uses the Range type which is declared in
+"qemu/range.h". Include it.
 
 This fixes (when modifying unrelated headers):
 
-  hw/acpi/cpu_hotplug.c:103:28: error: implicit declaration of function 'pci_address_space_io' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      MemoryRegion *parent = pci_address_space_io(PCI_DEVICE(gpe_cpu->device));
-                             ^
+  In file included from hw/pci-host/q35.c:32:
+  include/hw/pci-host/q35.h:57:11: error: field has incomplete type 'Range' (aka 'struct Range')
+      Range pci_hole;
+            ^
+  include/qemu/typedefs.h:116:16: note: forward declaration of 'struct Range'
+  typedef struct Range Range;
+                 ^
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-11-philmd@redhat.com>
+Message-Id: <20200228114649.12818-13-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/acpi/cpu_hotplug.c | 1 +
+ include/hw/pci-host/q35.h | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
-index 9c3bcc84de56..3e687d227a65 100644
---- a/hw/acpi/cpu_hotplug.c
-+++ b/hw/acpi/cpu_hotplug.c
-@@ -14,6 +14,7 @@
- #include "qapi/error.h"
- #include "hw/core/cpu.h"
- #include "hw/i386/pc.h"
-+#include "hw/pci/pci.h"
- #include "qemu/error-report.h"
+diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
+index 976fbae5996b..47086c645e9f 100644
+--- a/include/hw/pci-host/q35.h
++++ b/include/hw/pci-host/q35.h
+@@ -33,6 +33,7 @@
+ #include "hw/pci-host/pam.h"
+ #include "hw/i386/intel_iommu.h"
+ #include "qemu/units.h"
++#include "qemu/range.h"
  
- #define CPU_EJECT_METHOD "CPEJ"
+ #define TYPE_Q35_HOST_DEVICE "q35-pcihost"
+ #define Q35_HOST_DEVICE(obj) \
 -- 
 2.24.1
 
