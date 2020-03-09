@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A529A17EB95
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 22:59:38 +0100 (CET)
-Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D323417EB97
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 22:59:49 +0100 (CET)
+Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBQQz-0004Ug-4t
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 17:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46780)
+	id 1jBQRA-0004qt-Rt
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 17:59:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBQPo-0003AB-0d
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:58:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBQPr-0003Cr-8Y
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:58:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBQPm-0005cR-IU
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:58:23 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53675)
+ (envelope-from <peter.maydell@linaro.org>) id 1jBQPp-0005fY-PE
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:58:27 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39902)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBQPm-0005b4-BI
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:58:22 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id g134so1192854wme.3
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 14:58:22 -0700 (PDT)
+ id 1jBQPp-0005eh-JJ
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 17:58:25 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r15so8141846wrx.6
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 14:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I+5a9zEgMMFR0bDZiCYRjxV9Bygk+g13EGfEiLMSujY=;
- b=NSMFt2rMi1DKZ+ESjSQfMbWSAEKiLzndHEKXIUCvpzHXfcaObj11OHNMyaBsdwbsQW
- jKblpArBHezoNI88URb0UcTDaUBt6Q4od9/f6sezMdIoxTax7pPncCML7IOt2zSslATB
- 1nkJ5CcowWJNyy/bIiBlEl5bQMoG0AwSuuNYxdknVVY6pYuRcYvM8qHs5eeP5PEqnXzt
- ZjwkSwdtfPQ4nD4VHqSXPBPoLjTox291yD7N9WBZEs21LYNulVj2lIZ/FQ+LZM7wrUYv
- M/nyMAtj7UiQofFisu2D6IAXv3DwQe4pMVNPI22hqlbcnqoOIYmKTwlJXLllUZw3lQdx
- WDlQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KVtpWgIwwzMF83+VNcjr1nSyeeNlCy4J0V0Nywm5kyY=;
+ b=dH1SrzP49JRlZlJlxMlHH1Xb5v7tPa65U/3XB+bKaDsrLfkjo00LWEYo6VPwfFM4ei
+ aDQlnfEuMbocQCkndl0F+t/4dVngvXNz8iR2x0FcSDGyDF9RQ72hSPDoeR1jPzmu+igr
+ LPkhLSjMKpTJBpz3Rl/T5AlzgHbKX4lXfeVRBTVIz5LIc0F8I1ec+oF2cXbgW8RcDr+k
+ VpblqKG9Y4R/0CTJamfLLcasURFnpMv2twfPydelT6f7LVy5klqZDRnPExzt0kmzqzUh
+ VHZN/DN5pIj8h5Wwsxyxenv9Luw1b333nppSe5ENyWNUj7UXg6XM1lY1WWbTK+Fe22b9
+ OczQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I+5a9zEgMMFR0bDZiCYRjxV9Bygk+g13EGfEiLMSujY=;
- b=dLZM5zV/KAz5FLLt9Or6kOSP1mb8FXofnQVZoS9ycTJhUh6K3Aq8l0/DQm4qHy+iO8
- iWe01qM0nMDi8+/82NGY+crNdaf43AziCSRIyDa1CEwGpvXpP1kW5VDja5gLdcHqTgaS
- fdmzsul5S7yG8gKsj6bS6SKK59LME2naiB58TW1649u4gN0vkMAYZnkUNjMsIa/JNjS8
- CtVjiKOtVh3HsIakBweY8o+VlCGeXsdX08FsZnGt0gjK5UVh8FR9Ngac0qk3CSbp1o52
- ucTF8bzu2IKkWapHEM81WBNRtfHQxHYuRq13RlowP8JOjPKVZO0BzOdhGkDWCouyLC3w
- +Wgg==
-X-Gm-Message-State: ANhLgQ1UGTGKfi5N8E5YZ4iL4o0wqWqgUcr9ePOnbuwhFHrra/LcneSX
- 6L7wjsq21zcajmuLzRkBkNVc5Q==
-X-Google-Smtp-Source: ADFU+vtJsABeKC1IcC999OiFGQ01Ke8zQkZNgoo+eYELE3BosTC/Ihe39cDUmYa8JLDKwU4rKfwcDQ==
-X-Received: by 2002:a1c:e442:: with SMTP id b63mr1267839wmh.174.1583791101100; 
- Mon, 09 Mar 2020 14:58:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KVtpWgIwwzMF83+VNcjr1nSyeeNlCy4J0V0Nywm5kyY=;
+ b=Uji7ZRjb7bMLjZjXUtxKiuVR/8WsvnFecAWAXcUOhutTlh/3eV0cydn0l1YIoTYxiJ
+ CfEdd+cYcexPfVjSXmXFQ3EZ4Bi6ghGfcedDPY6+MI9XDWvkNzNXVZ/91VxdR0In/Q0Z
+ uvxh0w0HiB/8qsM5hQTYIZRrTZkBkbqljR78Z6If373UjUxxVTboSwUT/K97vEvpeVzB
+ J4zkupSf2nLqOMvcUerevOrLrC3zWs2f+e/vjENvqG4oKKePyx6dKT5AEMSnmj21p39J
+ 3AVWjKGWaj2ReYryxzIgG1tiU5q5ORwLhjQwkou8L2NmpuAkH7Tz5mlFBELW/GBBMeRH
+ gW3Q==
+X-Gm-Message-State: ANhLgQ1UJdwJowgqUXMqOoEF469pwmP/1lbmZCRpM2T5+EqJiXMGUOlq
+ G4Nzwgg4rzjP+Lhbb9K7qG5BnA==
+X-Google-Smtp-Source: ADFU+vuRiC26y16qb8sQM+SwYsQV8qNQqFtL6kBvAZAWWqLE8uFROeiejtniqewPT4rBx4PBd/otGA==
+X-Received: by 2002:a05:6000:370:: with SMTP id
+ f16mr16801789wrf.9.1583791104553; 
+ Mon, 09 Mar 2020 14:58:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f17sm42207068wrm.3.2020.03.09.14.58.20
+ by smtp.gmail.com with ESMTPSA id f17sm42207068wrm.3.2020.03.09.14.58.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 14:58:20 -0700 (PDT)
+ Mon, 09 Mar 2020 14:58:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/5] docs/system: Split target-arm.rst
-Date: Mon,  9 Mar 2020 21:58:13 +0000
-Message-Id: <20200309215818.2021-1-peter.maydell@linaro.org>
+Subject: [PATCH 3/5] docs/system/target-arm.rst: Add some introductory text
+Date: Mon,  9 Mar 2020 21:58:16 +0000
+Message-Id: <20200309215818.2021-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200309215818.2021-1-peter.maydell@linaro.org>
+References: <20200309215818.2021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,86 +83,98 @@ Cc: Niek Linnenbank <nieklinnenbank@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries splits the 'target-arm.rst' file in the System
-manual into one file per board or family of boards.  It's not
-sensible for us to document all 50-odd boards in a single enormous
-page, and the split will encourage more detailed and useful per-board
-information.
+Now we've moved the various bits of per-board documentation into
+their own files, the top level document is a little bare. Add
+some introductory information, including a note that many
+of the board models we support are currently undocumented.
 
-The impetus for doing this split is that it gives somewhere for the
-documentation for the upcoming Orangepi board model to live.  It also
-means we can move arm-cpu-features.rst out of being an orphan unused
-file in the docs/ directory.
+(Most sections of this new text were originally written by me
+for the wiki page https://wiki.qemu.org/Documentation/Platforms/ARM)
 
-I've also added some of the text I originally wrote for the wiki as a
-general introduction to the Arm system emulation and to how to choose
-a board model, plus some apologetic text about how most of our boards
-are undocumented.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+---
+ docs/system/target-arm.rst | 66 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 2 deletions(-)
 
-The last patch in this series smooths out an inconsistency in how we
-spell 'Arm' (there was a corporate rebranding back in 2017, so we
-have a mix of old-style 'ARM' and new-style 'Arm'); I don't feel very
-strongly about this but the inconsistency did look a bit odd in some
-of the docs that this series moves around, and it was 5 minutes work
-to make docs/ consistent on one style.
-
-Side notes:
- (1) I still think it would be nice to be able to generate some of
-this from doc comments and/or the board declaration macros; that
-would be definitely not 5.0 material, though
-
- (2) Anybody want to tackle the target-x86 part?  There's a
-docs/microvm.rst which would naturally live in
-docs/system/x86/microvm.rst if target-x86.rst was restructured along
-the same lines as this series, but it would need something
-writing for the other x86 machine types...
-
-thanks
--- PMM
-
-
-Peter Maydell (5):
-  Makefile: Allow for subdirectories in Sphinx manual dependencies
-  docs/system: Split target-arm.rst into sub-documents
-  docs/system/target-arm.rst: Add some introductory text
-  docs: Move arm-cpu-features.rst into the system manual
-  docs: Be consistent about capitalization of 'Arm'
-
- docs/can.txt                                  |   2 +-
- docs/devel/atomics.txt                        |   2 +-
- docs/devel/multi-thread-tcg.txt               |   8 +-
- docs/replay.txt                               |   2 +-
- docs/specs/fw_cfg.txt                         |   2 +-
- Makefile                                      |   2 +-
- MAINTAINERS                                   |   9 +
- docs/devel/kconfig.rst                        |   2 +-
- docs/devel/loads-stores.rst                   |   2 +-
- docs/devel/tcg.rst                            |   2 +-
- docs/specs/tpm.rst                            |   6 +-
- .../arm/cpu-features.rst}                     |  12 +-
- docs/system/arm/integratorcp.rst              |  16 +
- docs/system/arm/musicpal.rst                  |  19 ++
- docs/system/arm/nseries.rst                   |  33 ++
- docs/system/arm/palm.rst                      |  23 ++
- docs/system/arm/realview.rst                  |  34 ++
- docs/system/arm/stellaris.rst                 |  26 ++
- docs/system/arm/sx1.rst                       |  18 ++
- docs/system/arm/versatile.rst                 |  29 ++
- docs/system/arm/xscale.rst                    |  29 ++
- docs/system/target-arm.rst                    | 295 +++++-------------
- docs/user/main.rst                            |   8 +-
- 23 files changed, 340 insertions(+), 241 deletions(-)
- rename docs/{arm-cpu-features.rst => system/arm/cpu-features.rst} (98%)
- create mode 100644 docs/system/arm/integratorcp.rst
- create mode 100644 docs/system/arm/musicpal.rst
- create mode 100644 docs/system/arm/nseries.rst
- create mode 100644 docs/system/arm/palm.rst
- create mode 100644 docs/system/arm/realview.rst
- create mode 100644 docs/system/arm/stellaris.rst
- create mode 100644 docs/system/arm/sx1.rst
- create mode 100644 docs/system/arm/versatile.rst
- create mode 100644 docs/system/arm/xscale.rst
-
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index c7df6fc1f97..86ea6f2f568 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -1,9 +1,71 @@
+ .. _ARM-System-emulator:
+ 
+-ARM System emulator
++Arm System emulator
+ -------------------
+ 
+-Use the executable ``qemu-system-arm`` to simulate a ARM machine.
++QEMU can emulate both 32-bit and 64-bit Arm CPUs. Use the
++``qemu-system-aarch64`` executable to simulate a 64-bit Arm machine.
++You can use either ``qemu-system-arm`` or ``qemu-system-aarch64``
++to simulate a 32-bit Arm machine: in general, command lines that
++work for ``qemu-system-arm`` will behave the same when used with
++``qemu-system-aarch64``.
++
++QEMU has generally good support for Arm guests. It has support for
++nearly fifty different machines. The reason we support so many is that
++Arm hardware is much more widely varying than x86 hardware. Arm CPUs
++are generally built into "system-on-chip" (SoC) designs created by
++many different companies with different devices, and these SoCs are
++then built into machines which can vary still further even if they use
++the same SoC. Even with fifty boards QEMU does not cover more than a
++small fraction of the Arm hardware ecosystem.
++
++The situation for 64-bit Arm is fairly similar, except that we don't
++implement so many different machines.
++
++As well as the more common "A-profile" CPUs (which have MMUs and will
++run Linux) QEMU also supports "M-profile" CPUs such as the Cortex-M0,
++Cortex-M4 and Cortex-M33 (which are microcontrollers used in very
++embedded boards). For most boards the CPU type is fixed (matching what
++the hardware has), so typically you don't need to specify the CPU type
++by hand, except for special cases like the ``virt`` board.
++
++Choosing a board model
++======================
++
++For QEMU's Arm system emulation, you must specify which board
++model you want to use with the ``-M`` or ``--machine`` option;
++there is no default.
++
++Because Arm systems differ so much and in fundamental ways, typically
++operating system or firmware images intended to run on one machine
++will not run at all on any other. This is often surprising for new
++users who are used to the x86 world where every system looks like a
++standard PC. (Once the kernel has booted, most userspace software
++cares much less about the detail of the hardware.)
++
++If you already have a system image or a kernel that works on hardware
++and you want to boot with QEMU, check whether QEMU lists that machine
++in its ``-machine help`` output. If it is listed, then you can probably
++use that board model. If it is not listed, then unfortunately your image
++will almost certainly not boot on QEMU. (You might be able to
++extract the filesystem and use that with a different kernel which
++boots on a system that QEMU does emulate.)
++
++If you don't care about reproducing the idiosyncrasies of a particular
++bit of hardware, such as small amount of RAM, no PCI or other hard
++disk, etc., and just want to run Linux, the best option is to use the
++``virt`` board. This is a platform which doesn't correspond to any
++real hardware and is designed for use in virtual machines. You'll
++need to compile Linux with a suitable configuration for running on
++the ``virt`` board. ``virt`` supports PCI, virtio, recent CPUs and
++large amounts of RAM. It also supports 64-bit CPUs.
++
++Board-specific documentation
++============================
++
++Unfortunately many of the Arm boards QEMU supports are currently
++undocumented; you can get a complete list by running
++``qemu-system-aarch64 --machine help``.
+ 
+ .. toctree::
+ 
 -- 
 2.20.1
 
