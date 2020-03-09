@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2C717E855
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:25:43 +0100 (CET)
-Received: from localhost ([::1]:48474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9B917E846
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:23:37 +0100 (CET)
+Received: from localhost ([::1]:48444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBO22-0006Sa-Jo
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50086)
+	id 1jBO00-0004O1-R9
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBNyo-00032t-TM
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:22:23 -0400
+ (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBNzC-0003fJ-OK
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:22:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBNyn-0001Gx-HK
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:22:22 -0400
-Received: from smtp.lg.ehu.es ([158.227.0.66]:46785 helo=smtp.ehu.eus)
+ (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBNzB-0001bQ-PT
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:22:46 -0400
+Received: from smtp.lg.ehu.es ([158.227.0.66]:23268 helo=smtp.ehu.eus)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <unai.martinezcorral@ehu.eus>)
- id 1jBNyn-0001DT-5o
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:22:21 -0400
+ id 1jBNzB-0001ay-Do
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:22:45 -0400
 Received: from imsva2.lgp.ehu.es (imsva2.lgp.ehu.es [10.0.3.246])
- by postfix.smtp2.imsva2 (Postfix) with ESMTPS id 08F4465B6;
- Mon,  9 Mar 2020 20:22:19 +0100 (CET)
+ by postfix.smtp2.imsva2 (Postfix) with ESMTPS id 6523A65B6;
+ Mon,  9 Mar 2020 20:22:44 +0100 (CET)
 Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C8A895A04F;
- Mon,  9 Mar 2020 20:22:18 +0100 (CET)
+ by IMSVA (Postfix) with ESMTP id 37CEE5A050;
+ Mon,  9 Mar 2020 20:22:44 +0100 (CET)
 Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD88B5A045;
- Mon,  9 Mar 2020 20:22:18 +0100 (CET)
+ by IMSVA (Postfix) with ESMTP id 2B9FB5A045;
+ Mon,  9 Mar 2020 20:22:44 +0100 (CET)
 Received: from smtp.ehu.eus (unknown [10.0.100.76])
  by imsva2.lgp.ehu.es (Postfix) with ESMTPS;
- Mon,  9 Mar 2020 20:22:18 +0100 (CET)
+ Mon,  9 Mar 2020 20:22:44 +0100 (CET)
 Received: from 669c1c222ef4 (static.187.0.0.81.ibercom.com [81.0.0.187])
- by smtp2 (Postfix) with ESMTPSA id 2F68C5F6F;
- Mon,  9 Mar 2020 20:22:18 +0100 (CET)
-Date: Mon, 9 Mar 2020 19:22:17 +0000
+ by smtp2 (Postfix) with ESMTPSA id DD1F05F6F;
+ Mon,  9 Mar 2020 20:22:43 +0100 (CET)
+Date: Mon, 9 Mar 2020 19:22:42 +0000
 From: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 06/10] qemu-binfmt-conf.sh: remove 'qemu' prefix from cli
- options
-Message-ID: <20200309192217.GF65@669c1c222ef4>
+Subject: [PATCH v10 07/10] qemu-binfmt-conf.sh: honour QEMU_PATH and/or
+ QEMU_SUFFIX
+Message-ID: <20200309192242.GG65@669c1c222ef4>
 References: <20200309191200.GA60@669c1c222ef4>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20200309191200.GA60@669c1c222ef4>
 X-Greylist: ACL 191 matched, not delayed by milter-greylist-4.6.2 (smtp2
- [10.0.100.76]); Mon, 09 Mar 2020 20:22:18 +0100 (CET)
+ [10.0.100.76]); Mon, 09 Mar 2020 20:22:44 +0100 (CET)
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSVA-9.1.0.1631-8.5.0.1020-25280.002
-X-TM-AS-Result: No-0.609-7.0-31-10
-X-imss-scan-details: No-0.609-7.0-31-10
+X-TM-AS-Result: No-1.584-7.0-31-10
+X-imss-scan-details: No-1.584-7.0-31-10
 X-TMASE-Version: IMSVA-9.1.0.1631-8.5.1020-25280.002
-X-TMASE-Result: 10-0.609300-10.000000
-X-TMASE-MatchedRID: zi/SDN/U4yNXxVT6/C14BeFgDmzNVVKokRkcrpA9poA3ZbGC9oP/OzB9
- ccde3hbUf+3yqvQrlggtpxclXgLOJWQZ31TQwyj3YXOD42j+642nU+NxqV3DDV2YKfSY6fzM1jx
- n/1gr0UiuQih3+HqEP1e9QrNgNMNku1aOOerCaCkoSebb2328i30tCKdnhB58HOI0tZ7A+B36C0
- ePs7A07Vg3wwZ5miMr2cOXvTonNPWdHfeCwcL8t/8rdP67VOvYeOinbHU82mz2/oVCAcZOCtknc
- E4yvAb30DAZ/DlCKGolA3mJ1t7KdEded2413hE4NDDkhDzsQTLp+5dP4kj0S+Fheyow6ZGG0vzW
- LJp2OfpVyvbTg/runA==
+X-TMASE-Result: 10-1.583800-10.000000
+X-TMASE-MatchedRID: SUQ+NPRnbh0NdWPTMyGlNi2416nc3bQlcZ9gNqdc/asHZBaLwEXlKGb6
+ PphVtfZgqZ4KncYE2LPA1r83Ndy7E4G9V0kqQ2uQ2bpX2XJNwqFzHsCOuSqn1gMADm5EdqKWPBz
+ wxTDfHyKE97yr4g+GPn8mA3sDDq0A5MIx11wv+COujVRFkkVsmyu9MWoaIV++oCrkB9D9Rc3SCY
+ H0rJ+PYyaWRAPBnAfOQu5sCWJbCQGvuCSV9Tys1qlBSdyOhbC1Ru9sLwisTQje2feJC1tWylDwi
+ PJ9vtHU1pHp569Iswjf5J+T5huzBH9c2E6+vBYDhCWCIvLE6iA=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
 X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
  milter-greylist-4.6.2 (postfix.smtp2.imsva2 [10.0.100.76]);
- Mon, 09 Mar 2020 20:22:19 +0100 (CET)
+ Mon, 09 Mar 2020 20:22:44 +0100 (CET)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 158.227.0.66
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,64 +81,52 @@ Cc: riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This breaks backward compatibility.
-
-Options 'qemu-path' and 'qemu-suffix' have the 'qemu-' prefix, which is
-not present in other option names ('debian', 'systemd', 'persistent',
-'credential'...). In order to keep consistency, the prefix is removed.
+Allow to set 'path' or 'suffix' through environment variables,
+consistently with 'persistent' and 'credential'.
 
 Signed-off-by: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/qemu-binfmt-conf.sh | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ scripts/qemu-binfmt-conf.sh | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 870815fb22..5cc6db6aed 100755
+index 5cc6db6aed..b1a54aa470 100755
 --- a/scripts/qemu-binfmt-conf.sh
 +++ b/scripts/qemu-binfmt-conf.sh
-@@ -171,6 +171,7 @@ qemu_get_family() {
- 
- usage() {
-     cat <<EOF
-+
- Usage: qemu-binfmt-conf.sh [options]
- 
- Configure binfmt_misc to use qemu interpreter
-@@ -179,8 +180,8 @@ Options and associated environment variables:
- 
+@@ -181,7 +181,7 @@ Options and associated environment variables:
  Argument             Env-variable     Description
  -h|--help                             display this usage
---Q|--qemu-path PATH  QEMU_PATH        set path to qemu interpreter
---F|--qemu-suffix SUFFIX               add a suffix to the default interpreter name
-+-Q|--path PATH       QEMU_PATH        set path to qemu interpreter(s)
-+-F|--suffix SUFFIX                    add a suffix to the default interpreter name
+ -Q|--path PATH       QEMU_PATH        set path to qemu interpreter(s)
+--F|--suffix SUFFIX                    add a suffix to the default interpreter name
++-F|--suffix SUFFIX   QEMU_SUFFIX      add a suffix to the default interpreter name
  -p|--persistent      QEMU_PERSISTENT  (yes) load the interpreter and keep it in memory; all future
                                        uses are cloned from the open file.
  -c|--credential      QEMU_CREDENTIAL  (yes) credential and security tokens are calculated according
-@@ -333,7 +334,7 @@ QEMU_CREDENTIAL="${QEMU_CREDENTIAL:-no}"
+@@ -195,6 +195,7 @@ Argument             Env-variable     Description
  
- QEMU_SUFFIX=""
+ Defaults:
+ QEMU_PATH=$QEMU_PATH
++QEMU_SUFFIX=$QEMU_SUFFIX
+ QEMU_PERSISTENT=$QEMU_PERSISTENT
+ QEMU_CREDENTIAL=$QEMU_CREDENTIAL
  
--options=$(getopt -o ds:Q:S:e:hcp -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential,persistent -- "$@")
-+options=$(getopt -o ds:Q:S:e:hcp -l debian,systemd:,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
+@@ -327,13 +328,11 @@ BINFMT_SET=qemu_register_interpreter
+ SYSTEMDDIR="/etc/binfmt.d"
+ DEBIANDIR="/usr/share/binfmts"
+ 
+-QEMU_PATH=/usr/local/bin
+-
++QEMU_PATH="${QEMU_PATH:-/usr/local/bin}"
++QEMU_SUFFIX="${QEMU_SUFFIX:-}"
+ QEMU_PERSISTENT="${QEMU_PERSISTENT:-no}"
+ QEMU_CREDENTIAL="${QEMU_CREDENTIAL:-no}"
+ 
+-QEMU_SUFFIX=""
+-
+ options=$(getopt -o ds:Q:S:e:hcp -l debian,systemd:,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
  eval set -- "$options"
  
- while true; do
-@@ -365,11 +366,11 @@ while true; do
-             fi
-         fi
-         ;;
--    -Q|--qemu-path)
-+    -Q|--path)
-         shift
-         QEMU_PATH="$1"
-         ;;
--    -F|--qemu-suffix)
-+    -F|--suffix)
-         shift
-         QEMU_SUFFIX="$1"
-         ;;
 -- 
 2.25.1
 
