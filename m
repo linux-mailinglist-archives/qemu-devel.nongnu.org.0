@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC90C17DECC
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 12:37:02 +0100 (CET)
-Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685E217DEC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 12:31:20 +0100 (CET)
+Received: from localhost ([::1]:41190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBGiK-0004D9-DB
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 07:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49757)
+	id 1jBGcx-0008LQ-Fu
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 07:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBGhT-0003Jr-2X
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 07:36:00 -0400
+ (envelope-from <drjones@redhat.com>) id 1jBGZo-0003RY-Uf
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 07:28:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBGhR-0001dd-IA
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 07:35:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60736)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBGhR-0001dL-C9
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 07:35:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBGhO-0001Er-R7
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 11:35:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C46372E80CF
- for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 11:35:54 +0000 (UTC)
+ (envelope-from <drjones@redhat.com>) id 1jBGZm-0007mp-Bq
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 07:28:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21231
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jBGZm-0007ln-71
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 07:28:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583753280;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZXvdMJEgW8utCn7FonEpgPrYzs7ym8h0kN9CF9LzEks=;
+ b=JTokeT7KtOy+cVUGRP1YI4a10OKWBua8eWkMi4iCiE2x6rAZnTj73d6rQfDYvVjVH9AzLi
+ nZHQbnN7MwLcEShY2xNkcEGmzcJJwXHHkEklHykFf+ZHN+Cda5oHpZzRjqzakceyUOTJnC
+ JC+sFQa3fwqFGCBNSliQ7DSBISDwJHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-QqAxODeTNq2CiixcGg8blg-1; Mon, 09 Mar 2020 07:27:58 -0400
+X-MC-Unique: QqAxODeTNq2CiixcGg8blg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD7408017CC;
+ Mon,  9 Mar 2020 11:27:56 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31C031001DC2;
+ Mon,  9 Mar 2020 11:27:51 +0000 (UTC)
+Date: Mon, 9 Mar 2020 12:27:49 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [kvm-unit-tests PATCH v4 07/13] arm/arm64: ITS:
+ its_enable_defaults
+Message-ID: <20200309112749.jeatdhajxqght7so@kamzik.brq.redhat.com>
+References: <20200309102420.24498-1-eric.auger@redhat.com>
+ <20200309102420.24498-8-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Mar 2020 11:25:56 -0000
-From: Vitaly Kuznetsov <1813165@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
- tstrike34 vkuznets
-X-Launchpad-Bug-Reporter: Thomas (himbeere)
-X-Launchpad-Bug-Modifier: Vitaly Kuznetsov (vkuznets)
-References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
-Message-Id: <158375315651.26324.13017604709996207170.malone@gac.canonical.com>
-Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f30443c9c1b610ff7163c492f6d3c1e4a77b75d6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200309102420.24498-8-eric.auger@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,103 +69,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
+ maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
+ kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'nested' parameter for kvm_intel module controls whether you're able to
-run nested configurations and it is enabled by default, it doesn't say
-anything about whether your configuration is nested or not.
+On Mon, Mar 09, 2020 at 11:24:14AM +0100, Eric Auger wrote:
+> its_enable_defaults() enable LPIs at distributor level
+> and ITS level.
+> 
+> gicv3_enable_defaults must be called before.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
+> ---
+> v3 -> v4:
+> - use GITS_BASER_INDIRECT & GITS_BASER_VALID in its_setup_baser()
+> - don't parse BASERs again in its_enable_defaults
+> - rename its_setup_baser into its_baser_alloc_table
+> - All allocations moved to the init function
+> - squashed "arm/arm64: gicv3: Enable/Disable LPIs at re-distributor level"
+>   into this patch
+> - introduce gicv3_lpi_rdist_enable and gicv3_lpi_rdist_disable
+> - pend and prop table bases stored as virt addresses
+> - move some init functions from enable() to its_init
+> - removed GICR_PROPBASER_IDBITS_MASK
+> - introduced LPI_OFFSET
+> - lpi_prop becomes u8 *
+> - gicv3_lpi_set_config/get_config became macro
+> - renamed gicv3_lpi_set_pending_table_bit into gicv3_lpi_set_clr_pending
+> 
+> v2 -> v3:
+> - introduce its_setup_baser in this patch
+> - squash "arm/arm64: ITS: Init the command queue" in this patch.
+> ---
+>  lib/arm/asm/gic-v3.h       | 28 +++++++++++------
+>  lib/arm/gic-v3.c           | 64 ++++++++++++++++++++++----------------
+>  lib/arm64/asm/gic-v3-its.h |  1 +
+>  lib/arm64/gic-v3-its.c     | 16 ++++++++--
+>  4 files changed, 71 insertions(+), 38 deletions(-)
+> 
+> diff --git a/lib/arm/asm/gic-v3.h b/lib/arm/asm/gic-v3.h
+> index 12134ef..ea9ae8e 100644
+> --- a/lib/arm/asm/gic-v3.h
+> +++ b/lib/arm/asm/gic-v3.h
+> @@ -50,15 +50,16 @@
+>  #define MPIDR_TO_SGI_AFFINITY(cluster_id, level) \
+>  	(MPIDR_AFFINITY_LEVEL(cluster_id, level) << ICC_SGI1R_AFFINITY_## level ## _SHIFT)
+>  
+> -#define GICR_PROPBASER_IDBITS_MASK                      (0x1f)
+> +#define GICR_PENDBASER_PTZ		BIT_ULL(62)
+>  
+> -#define GICR_PENDBASER_PTZ                              BIT_ULL(62)
+> +#define LPI_PROP_GROUP1			(1 << 1)
+> +#define LPI_PROP_ENABLED		(1 << 0)
+> +#define LPI_PROP_DEFAULT_PRIO		0xa0
+> +#define LPI_PROP_DEFAULT		(LPI_PROP_DEFAULT_PRIO | LPI_PROP_GROUP1 | LPI_PROP_ENABLED)
+>  
+> -#define LPI_PROP_GROUP1		(1 << 1)
+> -#define LPI_PROP_ENABLED	(1 << 0)
+> -#define LPI_PROP_DEFAULT_PRIO   0xa0
+> -#define LPI_PROP_DEFAULT	(LPI_PROP_DEFAULT_PRIO | LPI_PROP_GROUP1 | \
+> -				 LPI_PROP_ENABLED)
 
-Could you please describe your environment? In case it is nested, it will l=
-ook like:
-L0(host) Linux 5.4.0 .... with KVM
-L1(guest) Linux xxxx with KVM
-L2(nested guest) Linux xxxx
+This reformatting should be squashed into 5/13.
 
-Note that L2 in this scenario is running "inside" L1 and that's why it
-is nested.
+> +#define LPI_ID_BASE			8192
+> +#define LPI(lpi)			((lpi) + LPI_ID_BASE)
+> +#define LPI_OFFSET(intid)		((intid) - LPI_ID_BASE)
+>  
+>  #include <asm/arch_gicv3.h>
+>  
+> @@ -76,7 +77,7 @@ struct gicv3_data {
+>  	void *dist_base;
+>  	void *redist_bases[GICV3_NR_REDISTS];
+>  	void *redist_base[NR_CPUS];
+> -	void *lpi_prop;
+> +	u8 *lpi_prop;
+>  	void *lpi_pend[NR_CPUS];
+>  	unsigned int irq_nr;
+>  };
+> @@ -96,8 +97,10 @@ extern void gicv3_ipi_send_mask(int irq, const cpumask_t *dest);
+>  extern void gicv3_set_redist_base(size_t stride);
+>  extern void gicv3_lpi_set_config(int n, u8 val);
+>  extern u8 gicv3_lpi_get_config(int n);
+> -extern void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set);
+> +extern void gicv3_lpi_set_clr_pending(int rdist, int n, bool set);
+>  extern void gicv3_lpi_alloc_tables(void);
+> +extern void gicv3_lpi_rdist_enable(int redist);
+> +extern void gicv3_lpi_rdist_disable(int redist);
+>  
+>  static inline void gicv3_do_wait_for_rwp(void *base)
+>  {
+> @@ -143,5 +146,12 @@ static inline u64 mpidr_uncompress(u32 compressed)
+>  	return mpidr;
+>  }
+>  
+> +#define gicv3_lpi_set_config(intid, value) ({		\
+> +	gicv3_data.lpi_prop[LPI_OFFSET(intid)] = value; \
+> +})
+> +
+> +#define gicv3_lpi_get_config(intid) (gicv3_data.lpi_prop[LPI_OFFSET(intid)])
+> +
+> +
+>  #endif /* !__ASSEMBLY__ */
+>  #endif /* _ASMARM_GIC_V3_H_ */
+> diff --git a/lib/arm/gic-v3.c b/lib/arm/gic-v3.c
+> index 949a986..a3b55b2 100644
+> --- a/lib/arm/gic-v3.c
+> +++ b/lib/arm/gic-v3.c
+> @@ -150,7 +150,14 @@ void gicv3_ipi_send_single(int irq, int cpu)
+>  }
+>  
+>  #if defined(__aarch64__)
+> -/* alloc_lpi_tables: Allocate LPI config and pending tables */
+> +
+> +/**
 
-Also, it is important to know if L1 or L2 in this configuration are UEFI
-booted, it is not very important how you boot the host (L0).
+*
 
--- =
+> + * alloc_lpi_tables - Allocate LPI config and pending tables
+> + * and set PROPBASER (shared by all rdistributors) and per
+> + * redistributor PENDBASER.
+> + *
+> + * gicv3_set_redist_base() must be called before
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1813165
+How about asserting gicv3_redist_base() isn't NULL?
 
-Title:
-  KVM internal error. Suberror: 1 emulation failure
+> + */
+>  void gicv3_lpi_alloc_tables(void)
+>  {
+>  	unsigned long n = SZ_64K >> PAGE_SHIFT;
+> @@ -161,13 +168,9 @@ void gicv3_lpi_alloc_tables(void)
+>  	gicv3_data.lpi_prop = alloc_pages(order);
+>  
+>  	/* ID bits = 13, ie. up to 14b LPI INTID */
+> -	prop_val = (u64)virt_to_phys(gicv3_data.lpi_prop) | 13;
+> +	prop_val = (u64)(virt_to_phys(gicv3_data.lpi_prop)) | 13;
+>  
+> -	/*
+> -	 * Allocate pending tables for each redistributor
+> -	 * and set PROPBASER and PENDBASER
+> -	 */
+> -	for_each_present_cpu(cpu) {
+> +	for (cpu = 0; cpu < nr_cpus; cpu++) {
+>  		u64 pend_val;
+>  		void *ptr;
+>  
+> @@ -176,30 +179,14 @@ void gicv3_lpi_alloc_tables(void)
+>  		writeq(prop_val, ptr + GICR_PROPBASER);
+>  
+>  		gicv3_data.lpi_pend[cpu] = alloc_pages(order);
+> -
+> -		pend_val = (u64)virt_to_phys(gicv3_data.lpi_pend[cpu]);
+> -
+> +		pend_val = (u64)(virt_to_phys(gicv3_data.lpi_pend[cpu]));
+>  		writeq(pend_val, ptr + GICR_PENDBASER);
+>  	}
+>  }
+>  
+> -void gicv3_lpi_set_config(int n, u8 value)
+> +void gicv3_lpi_set_clr_pending(int rdist, int n, bool set)
+>  {
+> -	u8 *entry = (u8 *)(gicv3_data.lpi_prop + (n - 8192));
+> -
+> -	*entry = value;
+> -}
+> -
+> -u8 gicv3_lpi_get_config(int n)
+> -{
+> -	u8 *entry = (u8 *)(gicv3_data.lpi_prop + (n - 8192));
+> -
+> -	return *entry;
+> -}
+> -
+> -void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set)
+> -{
+> -	u8 *ptr = phys_to_virt((phys_addr_t)gicv3_data.lpi_pend[rdist]);
+> +	u8 *ptr = gicv3_data.lpi_pend[rdist];
+>  	u8 mask = 1 << (n % 8), byte;
+>  
+>  	ptr += (n / 8);
+> @@ -210,4 +197,29 @@ void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set)
+>  		byte &= ~mask;
+>  	*ptr = byte;
+>  }
+> +
+> +static void gicv3_lpi_rdist_ctrl(u32 redist, bool set)
+> +{
+> +	void *ptr;
+> +	u64 val;
+> +
+> +	assert(redist < nr_cpus);
+> +
+> +	ptr = gicv3_data.redist_base[redist];
+> +	val = readl(ptr + GICR_CTLR);
+> +	if (set)
+> +		val |= GICR_CTLR_ENABLE_LPIS;
+> +	else
+> +		val &= ~GICR_CTLR_ENABLE_LPIS;
+> +	writel(val,  ptr + GICR_CTLR);
+> +}
+> +
+> +void gicv3_lpi_rdist_enable(int redist)
+> +{
+> +	gicv3_lpi_rdist_ctrl(redist, true);
+> +}
+> +void gicv3_lpi_rdist_disable(int redist)
+> +{
+> +	gicv3_lpi_rdist_ctrl(redist, false);
+> +}
+>  #endif /* __aarch64__ */
+> diff --git a/lib/arm64/asm/gic-v3-its.h b/lib/arm64/asm/gic-v3-its.h
+> index 331ba0e..1e95977 100644
+> --- a/lib/arm64/asm/gic-v3-its.h
+> +++ b/lib/arm64/asm/gic-v3-its.h
+> @@ -88,5 +88,6 @@ extern struct its_data its_data;
+>  extern void its_parse_typer(void);
+>  extern void its_init(void);
+>  extern int its_baser_lookup(int i, struct its_baser *baser);
+> +extern void its_enable_defaults(void);
+>  
+>  #endif /* _ASMARM64_GIC_V3_ITS_H_ */
+> diff --git a/lib/arm64/gic-v3-its.c b/lib/arm64/gic-v3-its.c
+> index 23b0d06..2f480ae 100644
+> --- a/lib/arm64/gic-v3-its.c
+> +++ b/lib/arm64/gic-v3-its.c
+> @@ -94,9 +94,19 @@ void its_init(void)
+>  	its_baser_alloc_table(&its_data.device_baser, SZ_64K);
+>  	its_baser_alloc_table(&its_data.coll_baser, SZ_64K);
+>  
+> -	/* Allocate LPI config and pending tables */
+> -	gicv3_lpi_alloc_tables();
+> -
+>  	its_cmd_queue_init();
+>  }
+>  
+> +/* must be called after gicv3_enable_defaults */
+> +void its_enable_defaults(void)
+> +{
+> +	int i;
+> +
+> +	/* Allocate LPI config and pending tables */
+> +	gicv3_lpi_alloc_tables();
+> +
+> +	for (i = 0; i < nr_cpus; i++)
+> +		gicv3_lpi_rdist_enable(i);
+> +
+> +	writel(GITS_CTLR_ENABLE, its_data.base + GITS_CTLR);
+> +}
+> -- 
+> 2.20.1
+> 
 
-Status in QEMU:
-  New
-
-Bug description:
-  Hello Devs.
-
-  Having problems getting VM to run with qemu 3.1.0. I should mention
-  it's a nested configuration.
-
-  2019-01-24 13:46:08.648+0000: starting up libvirt version: 4.10.0, qemu v=
-ersion: 3.1.0, kernel: 4.14.94, hostname: one....
-  LC_ALL=3DC PATH=3D/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/=
-sbin:/usr/local/bin:/usr/local/sbin:/opt/bin HOME=3D/root USER=3Droot QEMU_=
-AUDIO_DRV=3Dnone /usr/bin/kvm -name guest=3Done-266,debug-threads=3Don -S -=
-object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
-ain-1-one-266/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,usb=3Doff,d=
-ump-guest-core=3Doff -cpu Skylake-Client-IBRS,ss=3Don,hypervisor=3Don,tsc_a=
-djust=3Don,clflushopt=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don -m 1024 -real=
-time mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid b219b45d-a2=
-f0-4128-a948-8673a7abf968 -no-user-config -nodefaults -chardev socket,id=3D=
-charmonitor,fd=3D21,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,m=
-ode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device piix3-=
-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive file=3D/var/lib/one//da=
-tastores/0/266/disk.0,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cach=
-e=3Dnone -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dd=
-rive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1,write-cache=3Don -drive f=
-ile=3D/var/lib/one//datastores/0/266/disk.1,format=3Draw,if=3Dnone,id=3Ddri=
-ve-ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive=
--ide0-0-0,id=3Dide0-0-0 -netdev tap,fd=3D23,id=3Dhostnet0 -device rtl8139,n=
-etdev=3Dhostnet0,id=3Dnet0,mac=3D02:00:00:76:69:85,bus=3Dpci.0,addr=3D0x3 -=
-chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3D=
-serial0 -vnc 0.0.0.0:266 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D=
-0x2 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 -sandbo=
-x on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
-=3Ddeny -msg timestamp=3Don
-  char device redirected to /dev/pts/1 (label charserial0)
-  KVM internal error. Suberror: 1
-  emulation failure
-  EAX=3D00000001 EBX=3D000f7c2c ECX=3D00000001 EDX=3D00000001
-  ESI=3D00006a26 EDI=3D3ffbdc48 EBP=3D000069e6 ESP=3D000a8000
-  EIP=3D000fd057 EFL=3D00010016 [----AP-] CPL=3D0 II=3D0 A20=3D1 SMM=3D1 HL=
-T=3D0
-  ES =3D0010 00000000 ffffffff 00c09300
-  CS =3D0000 00000000 00000fff 00809b00
-  SS =3D0010 00000000 ffffffff 00c09300
-  DS =3D0010 00000000 ffffffff 00c09300
-  FS =3D0010 00000000 ffffffff 00c09300
-  GS =3D0010 00000000 ffffffff 00c09300
-  LDT=3D0000 00000000 0000ffff 00008200
-  TR =3D0000 00000000 0000ffff 00008b00
-  GDT=3D     10387cfe 0000fe6c
-  IDT=3D     0010387c 00003810
-  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
-  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
-=3D0000000000000000
-  DR6=3D00000000fffecffc DR7=3D000000000e1e0400
-  EFER=3D0000000000000000
-  Code=3Dcb 66 ba 4d d0 0f 00 e9 c8 fe bc 00 80 0a 00 e8 31 3a ff ff <0f> a=
-a fa fc 66 ba 66 d0 0f 00 e9 b1 fe f3 90 f0 0f ba 2d ac 3b 0f 00 00 72 f3 8=
-b 25 a8 3b
-  2019-01-24T13:47:39.383366Z kvm: terminating on signal 15 from pid 2708 (=
-/usr/sbin/libvirtd)
-
-  Someone has an idea whats going wrong here?
-
-  thanks and cheers
-  t.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1813165/+subscriptions
 
