@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD2F17E2B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 15:51:37 +0100 (CET)
-Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E713A17E2C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 15:52:47 +0100 (CET)
+Received: from localhost ([::1]:44210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBJkm-00078O-Bp
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 10:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57177)
+	id 1jBJlu-0000Uo-LL
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 10:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBJhm-0003NN-De
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 10:48:31 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jBJi8-00043x-0Q
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 10:48:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBJhj-0008Sk-9M
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 10:48:30 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33399)
+ (envelope-from <alex.bennee@linaro.org>) id 1jBJi7-0000Br-1n
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 10:48:51 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41556)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBJhj-0008SA-2e
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 10:48:27 -0400
-Received: by mail-ot1-x341.google.com with SMTP id g15so3685798otr.0
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 07:48:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jBJi6-0000Az-Ri
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 10:48:50 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v4so11547607wrs.8
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 07:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vl3ODH/+9cQlurQMjvMak6d1qO2peD3ZSVEKtUKOC/4=;
- b=l2mpiECXtvERk3d4kfZp8+e8wjepzK52nSmaEuY3R38pRch5TpUb3W2azKJ7yMhv1J
- uutDXaJJlmUhFXxPAuu1G6HXiv9f8mwVktZI13BeiBqeP9/2otMPKNRhws94EnEJonTW
- NekH5SQtqjsC2zPN32h27NLseQ4ip9bakSfvLUa2MshZ4Ty7q9w0aLZb8GTTKWxBk94g
- Vhl2JybeBn6TGQofXRWJNzJBcbjYOKbgaZ9MWcvg7bv8EeL97T5d6Ry1NoJk04HzUOyt
- wPNo75cNOELH95/aYrnNkbDmAYOF5LXUqbZTX/O1i/HrUUAtYR0gv7RsRXRG1RiKN8mQ
- 7dkw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=9KQyVLMP2rWBD3L3Q5N3RsBNyz1wOU3TYRnGw6z72bE=;
+ b=OxSjscx1ycU0Z/ejCpw6jk8TBcS65ArP70hz27c8STANiTSqpcX5a3T1pqy80kp6po
+ xzb+kNLB7/6lWDvstizGgzIV7WmFEqSe+SIB7STlJ7vQfKHpOyoNSuiU+X0H0KUq2L2u
+ DiI7c8abOxsp4nlDJKRr0lFr3KOk4NT40ngcKMcodx1VGoYyRGiUjRxNxkHj69xmwd4m
+ /z/SS1XPH74eYgxgvdEhZO08XtYyV9LB6RcpSlhv+7w6vZtOid8JLmkWhbXl9A1ej9R9
+ ZHEhxKhkhHgqautMcXLtsL9bka+u2BYDsjKxFrMHeybgSSAFpm6Qii5FVad18gvJ/IXz
+ eDgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vl3ODH/+9cQlurQMjvMak6d1qO2peD3ZSVEKtUKOC/4=;
- b=U+UZHk3lk7vLTRN6b3Tdal0w4oRCAVFKDv1ZuCN/vwGLtKEuq/1KYwnjsrHvau/zXX
- LAJDL01Cu+PlTyMUeVhoF7SlQ7v6Il7CDtFrD5PlMWFFNtVYU80cV/+tqwd/3EzbAg4U
- rsUw9U7rX7f2IVGjVkBc7HiqVx16PwDjrdYNKcSSKYpHe4WsXoC5tWiXAZIO3T5d/SAo
- s4vTw0RnI/c2GEKRFkIU5EtbD2nzUClDDIG8hBfjdBPj/7zk8BNAjPId8JeuAtlzJE6Z
- IbQI83T5h9MaqbPoA8UtXS+kIyLjYmIQ3DpJDdaXGbCD7PpAYwlH7WObgaTzG8w8cPwg
- XLyQ==
-X-Gm-Message-State: ANhLgQ2lDTjMYz3Jj+PqDPlt5Ol776nhVZ8eyi1sE6WdbY4lm+oer3qq
- A3bCm9fmJcNu07dMwfhdyLbO1CtXqITZkxVlBWYzvA==
-X-Google-Smtp-Source: ADFU+vsrD5dQcey+NfLehLrTza6l1K6UF2qmk3HqY5VZroSH31EXZE/PgLK6sePkMVCVI9XkiAgZop8bwtdQuaiu9eI=
-X-Received: by 2002:a9d:76c9:: with SMTP id p9mr13269048otl.135.1583765306061; 
- Mon, 09 Mar 2020 07:48:26 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=9KQyVLMP2rWBD3L3Q5N3RsBNyz1wOU3TYRnGw6z72bE=;
+ b=jkEKORtsCdkLdQ3ekZayGTRGjZLN4Hk2lqkeTHQ1g7vZBnzY7GKuyEdHstghgvhCrJ
+ 8eWuxVFMiIQOJxvllqGOXDfta20KrIKwvemWi4Vmj3gOy8gArgJC6Mb9dF4eBrZrcMAJ
+ a5NTZCHOb7k+w6T/j3uCxFrUoxEt5vphdUqeAT5d6HcVzZUr8kWmh72hebwUjqfdWrTZ
+ I/8uHqKPGGAe5J2oRnwt0vkGYqr2ppxmGIQtxFip0kBZKLpUcFwdEAqeIG9W0T0qgiAu
+ +5IKWOSEKHjxeCNTUUIJSVaj1SOTXMdW5MPXgw33EpkJtX6OM4FjCTrguGX2KmSEip0/
+ SQ8A==
+X-Gm-Message-State: ANhLgQ2Icy9unqRKnIjkySOszo5rnjaWn3DOYuXzOOsyvqWBD9akVAXC
+ BqSGY4uzyWujICDk1vCaBaj3Fk+19aM=
+X-Google-Smtp-Source: ADFU+vuvs3lem4fQE73SyhDLXbtUd/kHXb9uyxfGB7aFHQTM0LRhpdbI3xrlu2vdVWXNvoQA63WYHg==
+X-Received: by 2002:a5d:498a:: with SMTP id r10mr5182271wrq.278.1583765329182; 
+ Mon, 09 Mar 2020 07:48:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c124sm9535091wma.10.2020.03.09.07.48.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Mar 2020 07:48:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 23DBD1FF7E;
+ Mon,  9 Mar 2020 14:48:47 +0000 (GMT)
+References: <20200221002559.6768-1-changbin.du@gmail.com>
+ <20200309104322.u6ktpdl5yjdfcvqa@mail.google.com>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Changbin Du <changbin.du@gmail.com>
+Subject: Re: [PATCH v2] gdbstub: Fix single-step issue by confirming
+ 'vContSupported+' feature to gdb
+In-reply-to: <20200309104322.u6ktpdl5yjdfcvqa@mail.google.com>
+Date: Mon, 09 Mar 2020 14:48:47 +0000
+Message-ID: <874kuxk2i8.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200309144353.26457-1-philmd@redhat.com>
- <20200309144353.26457-3-philmd@redhat.com>
-In-Reply-To: <20200309144353.26457-3-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Mar 2020 14:48:14 +0000
-Message-ID: <CAFEAcA-4BmEvo73a-1pvQx5r+T0gXRa2GcqAmAdYxZBsfAJqFw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] hw/core/loader: Prohibit loading ROMs bigger than
- memory region
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Mar 2020 at 14:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> We must not write more data than the memory region size.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/core/loader.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index d1b78f60cd..c67c483936 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -1136,7 +1136,10 @@ static void rom_reset(void *unused)
->              continue;
->          }
->          if (rom->mr) {
-> -            void *host =3D memory_region_get_ram_ptr(rom->mr);
-> +            void *host;
-> +
-> +            assert(memory_region_size(rom->mr) >=3D rom->datasize);
-> +            host =3D memory_region_get_ram_ptr(rom->mr);
->              memcpy(host, rom->data, rom->datasize);
 
-Does this really only happen if there's a QEMU bug,
-or could a user trigger this assert by accidentally
-passing an oversize file on the command line?
+Changbin Du <changbin.du@gmail.com> writes:
 
-thanks
--- PMM
+> hello, is this patch ready to merge now? Thanks!
+>
+> On Fri, Feb 21, 2020 at 08:25:59AM +0800, Changbin Du wrote:
+>> Recently when debugging an arm32 system on qemu, I found sometimes the
+>> single-step command (stepi) is not working. This can be reproduced by
+>> below steps:
+>>  1) start qemu-system-arm -s -S .. and wait for gdb connection.
+>>  2) start gdb and connect to qemu. In my case, gdb gets a wrong value
+>>     (0x60) for PC, which is an another bug.
+>>  3) After connected, type 'stepi' and expect it will stop at next ins.
+>>=20
+>> But, it has never stopped. This because:
+>>  1) We doesn't report =E2=80=98vContSupported=E2=80=99 feature to gdb ex=
+plicitly and gdb
+>>     think we do not support it. In this case, gdb use a software breakpo=
+int
+>>     to emulate single-step.
+>>  2) Since gdb gets a wrong initial value of PC, then gdb inserts a
+>>     breakpoint to wrong place (PC+4).
+
+OK I was initially confused because I couldn't replicate the failure
+with the aarch64 tests. With or without the vContSupported reply I saw
+the exact same set of messages go between gdbstub and gdb.
+
+However I did replicate with:
+
+  ./arm-softmmu/qemu-system-arm -monitor none -display none \
+     -chardev file,path=3Dtest-armv6m-undef.out,id=3Doutput \
+     -semihosting -M microbit \
+     -kernel tests/tcg/arm-softmmu/test-armv6m-undef \
+     -s -S -d trace:gdbstub\* -D gdbstub.dump
+
+So I have applied it to me tree.
+
+--=20
+Alex Benn=C3=A9e
 
