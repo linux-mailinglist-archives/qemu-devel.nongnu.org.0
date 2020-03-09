@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E397117E382
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:24:27 +0100 (CET)
-Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C9D17E392
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:26:54 +0100 (CET)
+Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKGY-0002sw-NS
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33424)
+	id 1jBKIv-0006Vg-Ij
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK2X-000800-44
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:58 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2Y-00083g-KT
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK2V-0007jZ-TS
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:56 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:37415)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2X-0007lE-Hz
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:58 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:33815)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2R-0007fp-AF; Mon, 09 Mar 2020 11:09:51 -0400
+ id 1jBK2U-0007iF-TR; Mon, 09 Mar 2020 11:09:55 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mw9Lu-1jRt0S2TYa-00s5PG; Mon, 09 Mar 2020 16:09:08 +0100
+ id 1N0X4c-1jWGih02Fg-00wT7y; Mon, 09 Mar 2020 16:09:11 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/33] hw/timer: Remove unused "ui/console.h" header
-Date: Mon,  9 Mar 2020 16:08:15 +0100
-Message-Id: <20200309150837.3193387-12-laurent@vivier.eu>
+Subject: [PULL 12/33] hw/usb/dev-storage: Remove unused "ui/console.h" header
+Date: Mon,  9 Mar 2020 16:08:16 +0100
+Message-Id: <20200309150837.3193387-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tM2YDmot9ihGaPhyf6qhTyarNgEYi/pV4Q4kB4JhgYFNz9yEN62
- 6m9K4srE81GDTMvq6HW+nrSU05dgDqxVxoc6T1JP8ZoPzReEsm9oCFmiYrW7TFq6QNQ9Ivb
- QL8ROcBTlwseBc7uI2EEjChxJ4a5Yi/bNPj9QgQihMxcuhPos3qlUU4111hzZvhfx/icFOB
- qfLvLwApS1ROlZFps2Qmg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BIzu0BJEkmM=:abdPkxT3jKmvPh6xvVPRht
- tK6BS77CiBwZeTxvxE/HDiQIU3QjYLrT8MuFRRjUjleEfVxDtRCC84+xETfRuzkLYUlhk3Xiv
- uuN/i6cvXRag8xpnAUFbHxMX0/AVjBbSh3BfmOMlu4AOqoqTZzh1F8Uojf3TZhCs3FSlw5A05
- 9RE4fRJrhC9j11rZ4zTwvhxyTT/pS2H+dkT9cPkeg01384pxU+lTXSIsXeXcHWARfu5HwJ5uW
- L4hxSdHjOWHAG5j5PPHs19o5Cgt5QttzkQo31YNsfu9ONMnRHnwZpyRdYzPNmTyn1ScPwXOX3
- pyXw9qmMrBoqsdM4/1kShYW75XxpQknfOzqXB7FTeVWHe/k09aqNjRGPsZ/b98+rD2qYJz3nY
- G7AC5aaz8+k596vl/EKgMCVMhY3GcCVzKBa74hJxWwXxhp7eMmNuyjVg5E7C1SUx0GVaa9+wM
- 8zt8mkwLe+ac4sBLiqCs6++21kVyZ+FIA1MzLWx6YWEwkkFkOAWmEOoRvbHipb464ftaOcwOT
- ThR5B95U/L6ubo6ecMzlppO5VGa8OtcbsbqiVmA3Pt7g2zBgZmEcCjzi6qZV2qkVDxifen7/K
- OUMaNmIQYSHKU+WBFIVc+WfLeex+9V9bijKEimyn1ZBRGROGfbuLaRXY5GavIS0mNVdUrZPRi
- Xm9DJPcAWhNoFJXi2WB1aSo8uYOOxEnWHbevGVcXXK0BRNc5lSEQ/DVH3mow1nH3P5PnF0QyB
- 9hvSfqmF8cQyM6aquaQRP/JrvCL0/yhDrtg6J16ZSIK0q3Y6ZRq7HcazP8E87BrUpdyore2xK
- uUIag31ivesa3qSz6jlHiV7PLLFVTcHV5aZjyP+G5JW0W/V/MAXyzUmGqscHZfp1ui1rVQy
+X-Provags-ID: V03:K1:cx4oEENfxr2esELXcSzclJo1ER6icxlnYhY9ZGi8Hz1d0GQw3/J
+ V3O8tJqht91pGcTQkOnoKk2gaJ3MEQhwcCuCxma5dLH2fGpYBzuiIjAkk2djRj8xuvgKUK5
+ FEtpQUeaqrZP1Kilxgjn5td/+H4RHB1hM1EYmBjG20ped+UMXbcq8XRLava2nvAqORnu9qD
+ tjzauQTLhL51KPtlXORug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:neaUZy5AqdU=:ZxWR/fHhRlXmI8Ju/HKRUJ
+ /8aRdKLbKre+x7HHGW2sq4nuiF8rwxXP+iAeJqpG7MU/qFRae00K8wDu07lxyGY3RgwYkhj1A
+ J+A5yzcc6+CM59lShCT7gzckvbSEClR4XEdj3sf6rRWMEffEvIzpSbDUyRmX8KpDgP0awjUxu
+ W29kueU4rEWxv9ydm+Uh01fW+DOt5m6QMYT9QhbpbxbVgg03Qe/qMyRBnKAbLGcLbDjEQsgQf
+ k+F8hPsFkWzPlCiTU7yQq8ofB9Y3Akwq8ftyEySGE2QmbJMtOjUwVtgBl3bKpvtIBNClo1t86
+ pWvtdhg6rKRiT+AgNuWwZFarmgqyBrEr9AC/OmUhm742hJ/kRw8ZqJOm4lGRrdiNgXp+2EsaM
+ Uu4IsQX9o6Ps15JHrx/oNwuLhH763tEg7+R7UXOLxRg6HtS25EyyA4RUEnfae4aaD3Q5sEibW
+ Nyy4EyaXY3UCsH8uSGgKZ4IFrIfqr9gcPWtoq46/oGZwGOFa8C9562S+26fp8QwlV4SbedHAH
+ jp2Mg6CSy5mC3CeXRu5Hv+1vdO2BjnqM3gNgXPZ0DDq9XlzPCCIyL3IgA3TsNekcOTbcv/+vS
+ urwoKZ0YtKaRyhR97XE/zUJt+uVur/UxIYLEIgJgPGnL+/xdvrjmGZz9ne2kCJfGZgbbvgNcN
+ bJGVk73Rk/Hg6Z+VpiqOICixyNG+vNkrUxoEhYRsw2vO7m6KSiYYpphSgAFxLBj4h+Ua3bOIw
+ Me8CVhqYmc2c/vDYdTmL1kXNVxRg93J6Hr2M/ITzFGYiQXhdsJWcT6k0/P35AKjfq4TLjz/Bs
+ FYZWfBsBPRX0ZX8fJxyD5X7Nn3KRa4SppXZz9DNFibkODng+z2nO5j+sS6RDFNSyBbAw0XL
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,43 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The timer models don't need anything from "ui/console.h".
-Remove it.
+The USB models related to storage don't need anything from
+"ui/console.h". Remove it.
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-5-philmd@redhat.com>
+Message-Id: <20200228114649.12818-6-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rtc/twl92230.c | 1 -
- hw/timer/hpet.c   | 1 -
- 2 files changed, 2 deletions(-)
+ hw/usb/dev-storage.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
-index 63bd13d2caa4..d0011be89eef 100644
---- a/hw/rtc/twl92230.c
-+++ b/hw/rtc/twl92230.c
-@@ -27,7 +27,6 @@
- #include "migration/qemu-file-types.h"
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index 90da008df18c..4883c1d89e0c 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -17,7 +17,6 @@
+ #include "desc.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/scsi/scsi.h"
+-#include "ui/console.h"
  #include "migration/vmstate.h"
+ #include "monitor/monitor.h"
  #include "sysemu/sysemu.h"
--#include "ui/console.h"
- #include "qemu/bcd.h"
- #include "qemu/module.h"
- 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 8dbcbdca16a6..4f30dd50a40a 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -27,7 +27,6 @@
- #include "qemu/osdep.h"
- #include "hw/i386/pc.h"
- #include "hw/irq.h"
--#include "ui/console.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
 -- 
 2.24.1
 
