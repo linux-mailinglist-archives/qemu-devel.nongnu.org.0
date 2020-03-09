@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C2017E3F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:52:25 +0100 (CET)
-Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E73117E416
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:54:42 +0100 (CET)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKhc-0004SP-6y
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
+	id 1jBKjp-00005J-26
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:54:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBKZw-00025V-Ov
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBKZx-00027r-MH
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBKZv-0001Ts-3b
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:28 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35210)
+ (envelope-from <peter.maydell@linaro.org>) id 1jBKZw-0001V3-3O
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:29 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40359)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBKZu-0001T5-Sl
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:27 -0400
-Received: by mail-wm1-x341.google.com with SMTP id m3so18490wmi.0
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:44:26 -0700 (PDT)
+ id 1jBKZv-0001U2-Rz
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:44:28 -0400
+Received: by mail-wr1-x443.google.com with SMTP id p2so11015255wrw.7
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=TGoLeNuEJ/TkzEEkucpSjmr87po1trVzN4R2j50DSb4Hru8kMGvalx697qakamPQd2
- 5FXyUw8LXPqyjzsOMN+bpgQFLz5X4Shs+OXR5h/d4ORCyw3m5OJnSb/20blOUZGg+OAd
- J4EYKcgkjP69lvVpZbYGy77oKP1PZFv8Twroi8q8E/iK3KY90ND1PsSq1DQu1ih0Khv2
- 6rNW5xpmyrOg9trLjm2fQBJKc25b5ZZ4QcE8NtB2C17KrIcn4mvxZ/ANb/44mlJZptx6
- 2Xq9S22CuvZjQQQzekwsF7bIAc4oZjGfhwQKZblYsQIZqHd+mQG9NoTuTPxIJMeqnOE4
- bGPw==
+ bh=xNFVrqrgv4Q6fMRbpldg27PAr4NFe+ct3Bp7b377yzc=;
+ b=m2jlWF/94JET/z9oJjviUIgEbcRO2EagzBLwqW4xFn8j33UQ/Meixbu7zzt1elTpw6
+ Jq6NiZgL0nUoyngKm/BOkTbt0ugwoS+8iUvceAJFGO0mXf1Y1w3L/A0mD7FpWy/newag
+ Km6S3SLurzo6i4TBlskTMwVoWoQ5iYlohb1DU7PlmPGe68xRR4b0LbWdznRT4tD6Dh7D
+ YE2QtZWVGhh99TRWUNBtCXUAVaaR1/V7THnJqqzzaWHTcJuGJUAyaH7+4UfJI8w6vU2x
+ 73kCc/iyzzsNHQqtRWQd40p5493i2fVPGt/0bB3L9CFI5pXMveebECIeM5jSfiskvXU8
+ PYSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=ZtDEbGqrXB6il6Gz5N2NOKUByxOv24I/42t4c5VGWMVnq754zOQItcWtEvTgJSw52S
- KKfWEVp82B0lUP6pNRyF6WQerlNQ0gZC2/JH0jXDG79ba02iRNMmH7ctyJAk/oJS2XJV
- ZxdBaNi3R/GgpF/8Hq/k+HnRw6njRoeSv0lt3vLMxiTxOAZCbXnLwQ760D7aB0XkKxns
- APAKI8y1hLevssUfQiLEIHP5WczW8ezTih5OobL1tnOg2zWh33yYIOswVZPyFRen2mwv
- nIv74wz5oSi4YD6bFAN6XmOqKDgepKIbvxsV1cAfiSqDC3fCsy+EZVi23AEa7eZsLy2t
- BAQA==
-X-Gm-Message-State: ANhLgQ1FPEl+AWhTDBYwMo/Nb98rMw63HQ3yaWSF/c1PVgAtgYJU1Uuu
- obbkWqRSmi0TnqGf8akIZXZPTN39gOQ4dg==
-X-Google-Smtp-Source: ADFU+vuGhX+RwyBU5IWua38XiGPf4N2victvAnVK+6ufOjq79v0h38BjQfQ0PIHfc32OgHXXDRsZsw==
-X-Received: by 2002:a05:600c:22cd:: with SMTP id
- 13mr13157162wmg.186.1583768665188; 
- Mon, 09 Mar 2020 08:44:25 -0700 (PDT)
+ bh=xNFVrqrgv4Q6fMRbpldg27PAr4NFe+ct3Bp7b377yzc=;
+ b=cEJ/dh1Fw6B3bQjc3PiIN65kEogDdA89UT/+aPO3RL7eQN4cIXZjenn+TxG1U8JOyj
+ kqBCF1d+grZ5tqWdfH2iL7MEIoACG2r+FzisOHEbF69G94lb6GisMbcAlMgDG9WTL3m3
+ nTkbucjuNv79E7jeH51Xf05NWcOdpp8mZBTQNO5f8NQzrF4PBF+I3iGxx2yxZ4qiCsdp
+ buRwwvzTeT0HElZsAtNAqCZ7HOY2IHz/ZpaR2a6KiufoVEpY+XjtTMarQmc3rYOPDlQ1
+ o1uuF99ZGbgAn88YITB79Djluj6ACEhRRCM8iaL1B/zkU26k+5OqMVAW3wLfpLEpemOf
+ vG/A==
+X-Gm-Message-State: ANhLgQ32Bed/NRtflW1fBkUu24QAXS8eAwFUxp15y+Au+uOokieYFG5N
+ wrGzqgWEI5zDaquWZOVDG5mtpW9ECf1p6g==
+X-Google-Smtp-Source: ADFU+vsfM5f2wLk1VSe1Vi7MgxjbEtoWjgmH6saOXNW+kPrY3qii6r2FH63C8mio9104KwfMc/5y/w==
+X-Received: by 2002:a5d:4386:: with SMTP id i6mr12854243wrq.412.1583768666516; 
+ Mon, 09 Mar 2020 08:44:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d63sm25932166wmd.44.2020.03.09.08.44.23
+ by smtp.gmail.com with ESMTPSA id d63sm25932166wmd.44.2020.03.09.08.44.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 08:44:24 -0700 (PDT)
+ Mon, 09 Mar 2020 08:44:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/18] docs/devel/qapi-code-gen.txt: Update to new rST
- backend conventions
-Date: Mon,  9 Mar 2020 15:44:00 +0000
-Message-Id: <20200309154405.13548-14-peter.maydell@linaro.org>
+Subject: [PATCH v4 14/18] Makefile: Remove redundant Texinfo related rules
+Date: Mon,  9 Mar 2020 15:44:01 +0000
+Message-Id: <20200309154405.13548-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200309154405.13548-1-peter.maydell@linaro.org>
 References: <20200309154405.13548-1-peter.maydell@linaro.org>
@@ -67,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,171 +84,112 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the documentation of QAPI document comment syntax to match
-the new rST backend requirements. The principal changes are:
- * whitespace is now significant, and multiline definitions
-   must have their second and subsequent lines indented to
-   match the first line
- * general rST format markup is permitted, not just the small
-   set of markup the old texinfo generator handled. For most
-   things (notably bulleted and itemized lists) the old format
-   is the same as rST was.
- * Specific things that might trip people up:
-   - instead of *bold* and _italic_ rST has **bold** and *italic*
-   - lists need a preceding and following blank line
-   - a lone literal '*' will need to be backslash-escaped to
-     avoid a rST syntax error
- * the old leading '|' for example (literal text) blocks is
-   replaced by the standard rST '::' literal block.
- * headings and subheadings must now be in a freeform
-   documentation comment of their own
- * we support arbitrary levels of sub- and sub-sub-heading, not
-   just a main and sub-heading like the old texinfo generator
+We now don't build anything from Texinfo, so we can remove
+some redundant Makefile pattern rules and the rule for
+generating the version.texi file that used to be included
+from many Texinfo source files.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/qapi-code-gen.txt | 90 ++++++++++++++++++++++++------------
- 1 file changed, 61 insertions(+), 29 deletions(-)
+ Makefile  | 31 +------------------------------
+ rules.mak | 14 +-------------
+ 2 files changed, 2 insertions(+), 43 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 59d6973e1ec..688eb2a0237 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -795,21 +795,39 @@ See below for more on definition documentation.
- Free-form documentation may be used to provide additional text and
- structuring content.
+diff --git a/Makefile b/Makefile
+index 98f58b84ef0..36fe8d6e641 100644
+--- a/Makefile
++++ b/Makefile
+@@ -732,8 +732,7 @@ clean: recurse-clean
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+ 	rm -f $(edk2-decompressed)
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+-	rm -f fsdev/*.pod scsi/*.pod
++	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *~ */*~
+ 	rm -f qemu-img-cmds.h
+ 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+ 	@# May not be present in generated-files-y
+@@ -766,7 +765,6 @@ distclean: clean
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+ 	rm -f config.log
+ 	rm -f linux-headers/asm
+-	rm -f docs/version.texi
+ 	rm -rf .doctrees
+ 	$(call clean-manual,devel)
+ 	$(call clean-manual,interop)
+@@ -987,31 +985,6 @@ ui/shader.o: $(SRC_PATH)/ui/shader.c \
+ 	ui/shader/texture-blit-frag.h
  
-+==== Headings and subheadings ====
-+
-+A free-form documentation comment containing a single line
-+which starts with some '=' symbols and then a space defines
-+a section heading:
-+
-+    ##
-+    # = This is a top level heading
-+    ##
-+
-+    ##
-+    # This is a free-form comment which will go under the
-+    # top level heading.
-+    ##
-+
-+    ##
-+    # == This is a second level heading
-+    ##
-+
-+Section headings must always be correctly nested, so you can only
-+define a third-level heading inside a second-level heading, and so
-+on. The documentation generator will catch nesting mistakes and report
-+a syntax error.
- 
- ==== Documentation markup ====
- 
--Comment text starting with '=' is a section title:
-+Documentation comments can use most rST markup. In particular,
-+a '::' literal block can be used for examples:
- 
--    # = Section title
+ # documentation
+-MAKEINFO=makeinfo
+-MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
+-MAKEINFOFLAGS=--no-split --number-sections $(MAKEINFOINCLUDES)
+-TEXI2PODFLAGS=$(MAKEINFOINCLUDES) -DVERSION="$(VERSION)" -DCONFDIR="$(qemu_confdir)"
+-TEXI2PDFFLAGS=$(if $(V),,--quiet) -I $(SRC_PATH) $(MAKEINFOINCLUDES)
 -
--Double the '=' for a subsection title:
+-docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+-	$(call quiet-command,(\
+-		echo "@set VERSION $(VERSION)" && \
+-		echo "@set CONFDIR $(qemu_confdir)" \
+-	)> $@,"GEN","$@")
 -
--    # == Subsection title
+-%.html: %.texi docs/version.texi
+-	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
+-	--html $< -o $@,"GEN","$@")
 -
--'|' denotes examples:
+-%.info: %.texi docs/version.texi
+-	$(call quiet-command,$(MAKEINFO) $(MAKEINFOFLAGS) $< -o $@,"GEN","$@")
 -
--    # | Text of the example, may span
--    # | multiple lines
-+    # ::
-+    #
-+    #   Text of the example, may span
-+    #   multiple lines
- 
- '*' starts an itemized list:
- 
-@@ -825,37 +843,35 @@ A decimal number followed by '.' starts a numbered list:
-     #    multiple lines
-     # 2. Second item
- 
--The actual number doesn't matter.  You could even use '*' instead of
--'2.' for the second item.
-+The actual number doesn't matter.
- 
--Lists can't be nested.  Blank lines are currently not supported within
--lists.
-+Lists of either kind must be preceded and followed by a blank line.
-+If a list item's text spans multiple lines, then the second and
-+subsequent lines must be correctly indented to line up with the
-+first character of the first line.
- 
--Additional whitespace between the initial '#' and the comment text is
--permitted.
+-%.txt: %.texi docs/version.texi
+-	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
+-	--plaintext $< -o $@,"GEN","$@")
 -
--*foo* and _foo_ are for strong and emphasis styles respectively (they
--do not work over multiple lines).  @foo is used to reference a name in
--the schema.
-+The usual '**strong**', '*emphasised*' and '``literal``' markup should
-+be used. If you need a single literal '*' you will need to backslash-escape it.
-+As an extension beyond the usual rST syntax, you can also
-+use '@foo' to reference a name in the schema; this is rendered
-+the same way as '``foo``'.
+-%.pdf: %.texi docs/version.texi
+-	$(call quiet-command,texi2pdf $(TEXI2PDFFLAGS) $< -o $@,"GEN","$@")
  
- Example:
+ # Sphinx builds all its documentation at once in one invocation
+ # and handles "don't rebuild things unless necessary" itself.
+@@ -1081,8 +1054,6 @@ $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
  
- ##
--# = Section
--# == Subsection
--#
--# Some text foo with *strong* and _emphasis_
-+# Some text foo with **bol** and *emphasis*
- # 1. with a list
- # 2. like that
- #
- # And some code:
--# | $ echo foo
--# | -> do this
--# | <- get that
- #
-+# ::
-+#
-+#   $ echo foo
-+#   -> do this
-+#   <- get that
- ##
+ html: sphinxdocs
  
+-$(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
 -
- ==== Definition documentation ====
+ # Reports/Analysis
  
- Definition documentation, if present, must immediately precede the
-@@ -870,6 +886,12 @@ commands and events), member (for structs and unions), branch (for
- alternates), or value (for enums), and finally optional tagged
- sections.
+ %/coverage-report.html:
+diff --git a/rules.mak b/rules.mak
+index e39b073d464..00d323a071a 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -144,7 +144,7 @@ cc-option = $(if $(shell $(CC) $1 $2 -S -o /dev/null -xc /dev/null \
+ cc-c-option = $(if $(shell $(CC) $1 $2 -c -o /dev/null -xc /dev/null \
+                 >/dev/null 2>&1 && echo OK), $2, $3)
  
-+Descriptions of arguments can span multiple lines; if they
-+do then the second and subsequent lines must be indented
-+to line up with the first character of the first line of the
-+description. The parser will report a syntax error if there
-+is insufficient indentation.
-+
- FIXME: the parser accepts these things in almost any order.
- FIXME: union branches should be described, too.
+-VPATH_SUFFIXES = %.c %.h %.S %.cc %.cpp %.m %.mak %.texi %.sh %.rc Kconfig% %.json.in
++VPATH_SUFFIXES = %.c %.h %.S %.cc %.cpp %.m %.mak %.sh %.rc Kconfig% %.json.in
+ set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
  
-@@ -883,6 +905,16 @@ The section ends with the start of a new section.
- A 'Since: x.y.z' tagged section lists the release that introduced the
- definition.
+ # install-prog list, dir
+@@ -381,18 +381,6 @@ define unnest-vars
+         $(eval $v := $(filter-out %/,$($v))))
+ endef
  
-+The text of a section can start on a new line, in
-+which case it must not be indented at all. It can also start
-+on the same line as the 'Note:', 'Returns:', etc tag. In this
-+case if it spans multiple lines then second and subsequent
-+lines must be indented to match the first.
-+
-+An 'Example' or 'Examples' section is automatically rendered
-+entirely as literal fixed-width text. In other sections,
-+the text is formatted, and rST markup can be used.
-+
- For example:
- 
- ##
+-TEXI2MAN = $(call quiet-command, \
+-	perl -Ww -- $(SRC_PATH)/scripts/texi2pod.pl $(TEXI2PODFLAGS) $< $@.pod && \
+-	$(POD2MAN) --section=$(subst .,,$(suffix $@)) --center=" " --release=" " $@.pod > $@, \
+-	"GEN","$@")
+-
+-%.1:
+-	$(call TEXI2MAN)
+-%.7:
+-	$(call TEXI2MAN)
+-%.8:
+-	$(call TEXI2MAN)
+-
+ GEN_SUBST = $(call quiet-command, \
+ 	sed -e "s!@libexecdir@!$(libexecdir)!g" < $< > $@, \
+ 	"GEN","$@")
 -- 
 2.20.1
 
