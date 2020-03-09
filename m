@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2E217E9EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 21:24:39 +0100 (CET)
-Received: from localhost ([::1]:49362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F3817E9FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 21:25:55 +0100 (CET)
+Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOx3-0003P8-PM
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 16:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60869)
+	id 1jBOyI-0006B7-Dg
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 16:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jBOvr-0001p9-Ks
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jBOvt-0001rW-Qf
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jBOvq-000598-JY
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:23 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40272)
+ (envelope-from <alex.bennee@linaro.org>) id 1jBOvr-00059i-PZ
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:25 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44666)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jBOvq-00058l-Dx
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:22 -0400
-Received: by mail-wm1-x333.google.com with SMTP id e26so54097wme.5
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 13:23:22 -0700 (PDT)
+ id 1jBOvr-00059M-Jh
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:23 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id l18so2820647wru.11
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 13:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=opP09aUpVqbLeEIEW2//0Q0JIWRT0FGPjndrXn93n2Y=;
- b=kUhopCZo+TC4h06Xv1pYZ5rlgl9pO5N5yoZJWM5juabuZTzR2Cpb9QF9hKsk9VCnRK
- TrP0yQ3XxBHz7t9ERmedvNehLpY3EUbHA0kf8m6539wyNWIyAE19MdVb/Ct/XeaWwX3e
- sxtkJjp2tgrS/VUlS1uWW4b232UQPRgF/cizQnL1bG/Jjbg5TTWPB7iYNKiJERN5rBNy
- fA/755aKqpGTvXyCl51ZYuVhQgT633v5Jdtcazp+qmfRbxlkLHNiFjnKfbg0TfPpxsXA
- PL2t0KvBLSlF24NaAxdjyUuc17A4UJxzBjStV5Uc15RsWcQb2XiqFW/ufrci6YMxVQgo
- CuUA==
+ bh=ZZCLDV01NVJMn0TsI5hdBQQvWUb6UiKnEo9bNWpw6gs=;
+ b=tBl0CxhEddlGiVwNHE56dFZ7jFvrV/PKy9CUR5+xDbsa3TyHVlJ3HH/ywnC8rYbWdv
+ JxwgZVd48rPZKWkxGRT0aMqXcIEwrJR9yasXb0XgwC0Cle6v5oEn8BAY+PDN6kx5X7xZ
+ hfIy4JMckZk5zqRvmBZdyxDgYjDUSGRSklN+JvmIk3RtQ8VvUvEFjbB8un1XeZyJIXlx
+ b7oeZQl2Y7VB6gt0E2aBJ1cU2+VJqSifP2yq1iH6JdNgfW2zTXq01PzFLsMFgrcgJfkA
+ /180eUFDprD/iTjuS69FN0fEO5DVwBXVzWQFgzuyFeh7KYEzfwpa0YYDcQZKQsY/T3DO
+ TmsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=opP09aUpVqbLeEIEW2//0Q0JIWRT0FGPjndrXn93n2Y=;
- b=IQl6sbUushOYQjhdrPC0Mj8y1J76hX8RgVHN1gNaV7pZEk73wVeM+rZgvTFi1bv4X9
- RO4m5dYqVIZwz+RpVK2TnlnE2J40b6YPjTdSlPBvp2WX8x/PVikbrQfglOr7NsISOAJY
- Y2eMitbwucck4r4jRnHuTAUtssdhLaoC++K2TLxbSKnfXE7M7K5A7BoaEWXsOXtjkYGP
- 1jVy3hbnk1Bu7uXO6AeJyjFCnraBtw4+2LrQ883MW2sbOSgSZznsrTdcmeKG9rbqqBHL
- OO/A52bVEm0IIjMaXf6Rvx6N0T0nTJ1gB+wzSYAhpJAkFYJkJF3UEx0MSRfD/P1LdEzV
- PxoA==
-X-Gm-Message-State: ANhLgQ2LYhXVlMWpKw+v/2GGRnVoa/9867qtu4WuM6x7hnSqYWxhz4wA
- 5EfYaHdbp+9KFUokbWG4SfE7yQ==
-X-Google-Smtp-Source: ADFU+vucnKC1XQ3pTUvJ8DsafHA+UNSzCrrOxbkTk0mWbG76ZACB3m80vzRh/aS07BRji2YFO+78/Q==
-X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr97183wml.173.1583785401452;
- Mon, 09 Mar 2020 13:23:21 -0700 (PDT)
+ bh=ZZCLDV01NVJMn0TsI5hdBQQvWUb6UiKnEo9bNWpw6gs=;
+ b=ozvv4gf3wyQzpQHvW9EvQt58qMagktCy7cFSpCokBYD7ZlTDsLbbt7Vf1sQ2iVbImd
+ m3whBF6r7R6gccAkOoCH07OUZtiLRh7zE3PezOhFIIQhs8QxJV7aT5cPpL/1pHZ/iGs8
+ pYeP6V0AcAWsbX2eOUErgiSqetbTRuLPqtstCTaXSsFU8YWLlalGeRY/MGOWp/oRi3zX
+ gbV4i4iZ53k+r7hYValrV9Aol3qQxSxRWWSiCk2uFjHipbRp9JjdHWUF5cSGTNvZJ/j1
+ nS5TfRgA+L22LuFTEOdH0uIx0SEKcQ8pdq5YFvSVfai2VpHOYh9q86Uynr8wY/w+S6oV
+ S6Cw==
+X-Gm-Message-State: ANhLgQ0jRfJvTg24ipdimzcBSCV8SqTu5yrQEFn6TnScvk0wOiK9F8v8
+ 72q54dQrVhwYrKs7OA2YHjbXiw==
+X-Google-Smtp-Source: ADFU+vtsQnyxHlmpEoUP5d4tRTGPNNW8JZXLL7OPg+vCcRJCnNBW5fePu0sIXm/i1nICIVihuY6TNA==
+X-Received: by 2002:adf:80cb:: with SMTP id 69mr21550944wrl.320.1583785402609; 
+ Mon, 09 Mar 2020 13:23:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h20sm43417800wrc.47.2020.03.09.13.23.19
+ by smtp.gmail.com with ESMTPSA id z135sm868506wmc.20.2020.03.09.13.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 09 Mar 2020 13:23:19 -0700 (PDT)
 Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 994E41FF87;
+ by zen.linaroharston (Postfix) with ESMTP id AD33B1FF8C;
  Mon,  9 Mar 2020 20:23:18 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/5] tests/docker: Install tools to cross-debug and build
- Linux kernels
-Date: Mon,  9 Mar 2020 20:23:14 +0000
-Message-Id: <20200309202318.3481-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/5] tests/docker: Update VirGL git repository URL
+Date: Mon,  9 Mar 2020 20:23:15 +0000
+Message-Id: <20200309202318.3481-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200309202318.3481-1-alex.bennee@linaro.org>
 References: <20200309202318.3481-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,74 +82,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We often run Linux kernels to test QEMU. We sometimes need
-to build them manually to use non-default features. We only
-miss the tiny 'bc' tool.
+freedesktop.org is moving to a GitLab instance,
+use the new url.
 
-The ncurses library is helpful to run 'make menuconfig'.
+- https://www.fooishbar.org/blog/gitlab-fdo-introduction/
+- https://gitlab.freedesktop.org/freedesktop/freedesktop/-/wikis/home
 
-Finally, gdb-multiarch allow us to debug a TCG guest when its
-architecture is different than the host.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200212202738.12986-1-philmd@redhat.com>
+Message-Id: <20200212202709.12665-2-philmd@redhat.com>
 ---
- tests/docker/dockerfiles/debian10.docker | 3 +++
- tests/docker/dockerfiles/debian9.docker  | 3 +++
- 2 files changed, 6 insertions(+)
+ tests/docker/dockerfiles/debian-amd64.docker | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 5de79ae5527..2fcdc406e83 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -17,14 +17,17 @@ RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bc \
-         bison \
-         build-essential \
-         ca-certificates \
-         clang \
-         dbus \
-         flex \
-+        gdb-multiarch \
-         gettext \
-         git \
-+        libncurses5-dev \
-         pkg-config \
-         psmisc \
-         python3 \
-diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
-index 8cbd742bb5f..92edbbf0f48 100644
---- a/tests/docker/dockerfiles/debian9.docker
-+++ b/tests/docker/dockerfiles/debian9.docker
-@@ -17,13 +17,16 @@ RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bc \
-         bison \
-         build-essential \
-         ca-certificates \
-         clang \
-         flex \
-+        gdb-multiarch \
-         gettext \
-         git \
-+        libncurses5-dev \
-         pkg-config \
-         psmisc \
-         python3 \
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
+index 3b860af1068..b67fad54cb7 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -27,7 +27,7 @@ RUN apt update && \
+         libegl1-mesa-dev \
+         libepoxy-dev \
+         libgbm-dev
+-RUN git clone https://anongit.freedesktop.org/git/virglrenderer.git /usr/src/virglrenderer && \
++RUN git clone https://gitlab.freedesktop.org/virgl/virglrenderer.git /usr/src/virglrenderer && \
+     cd /usr/src/virglrenderer && git checkout virglrenderer-0.7.0
+ RUN cd /usr/src/virglrenderer && ./autogen.sh && ./configure --with-glx --disable-tests && make install
+ 
 -- 
 2.20.1
 
