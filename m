@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A95517E399
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:28:20 +0100 (CET)
-Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1999017E3A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:31:22 +0100 (CET)
+Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKKJ-0000zj-JZ
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
+	id 1jBKNF-0005Ml-4B
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK3X-00019n-FI
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:11:00 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2c-0008D6-Ma
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK3W-000057-96
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:59 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:40747)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2b-0007qX-JT
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:02 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:36727)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK3S-0008Uo-1s; Mon, 09 Mar 2020 11:10:58 -0400
+ id 1jBK2U-0007hq-Ac; Mon, 09 Mar 2020 11:09:54 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MQeI4-1iwNvb0hB0-00NgXY; Mon, 09 Mar 2020 16:10:01 +0100
+ id 1MGz5h-1j6f2k11LX-00E6BZ; Mon, 09 Mar 2020 16:08:45 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/33] monitor/hmp-cmds: Remove redundant statement in
- hmp_rocker_of_dpa_groups()
-Date: Mon,  9 Mar 2020 16:08:37 +0100
-Message-Id: <20200309150837.3193387-34-laurent@vivier.eu>
+Subject: [PULL 01/33] dp8393x: Mask EOL bit from descriptor addresses, take 2
+Date: Mon,  9 Mar 2020 16:08:05 +0100
+Message-Id: <20200309150837.3193387-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jfwKfoPjr7zrnq8FDhlW9uePbmxruYIoEt+I+yjPnRYbdFlKkua
- tdXKO9O9BZUFuWiy49PARSmvQ7Ss0HF958+8hy49oWQ8O6i/Ca0rcOKj0n1RcOyMXakt2i+
- LcZ5Ipd227VHf94lDiRP6S524cMLUUbYjBbxZ3quIHQMoz3M9p1K0IxMscsgqI3HRa899dP
- CQAgCBKjnMUNjZ1yyL/jQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:07BCFlNsqHE=:8Fk1VE+ORh94zJl6uqKPXe
- ygq0lfKEHY/cAC+q8CaBGv62XUZ+60PJmsrFL19cYNMlCv8HcMz7jsyfWEDZV5mWsJ67WOd7b
- bLj7iAiTXJPHoCSyD+PmZRJ8r2Vo/cRwQPqdFipX1CvFVPBDrL+zojCiEDImEDxPAooYX74N/
- FZa1ReFgoe+ait/2ifULGjUG3sTj8W2xJ8SY9g6FEKNrJMi9Vl0h2rZGPu31o9+X7DwxmFZ9u
- Mg1GWb8GMEbh2w1uSvgaeiiJ+SmlLfhOR2k6VPw8MDx/+GHhmjNYDEkd6GT75iDT1fXfiyMyR
- OeO1Azq66IwU2OuVx841B78ezZxdbby5Mdtt1U4zxhOIxJ/MYD0e/jF7xEaToaeGrCMCofCuB
- hJV0ATd7TFcExHjtMk+BA4EtIu7Rh7KZ0MriYG3KbzC7imyQ00LEM4Y8FlVzCfLNK5QRARFD8
- OtEF0HC4iwXmwxQe5SDe0mP2BYQmY3jODhv5bUZILYkw4tNDKLtYBk42J8VX9MKVxAqtt+VwE
- 4UrrePqXA/HhNBBLxtA6ZbbW/JPp7Xw3OR5orVpLXm0qvT4Sts2r0+yc7QAOCdClbyHtkOae1
- 37tkkkOeo8YDs0fmBoItB51qO18n8MNu8CyKSSN71GVuQPR6WlGVI4YCf7714EbffskL8CQ5L
- SI4IndVKoVvTKvAH7aBudUSiAl/vK/5Hy314gfikfQ6frT5DtUFMbgbmops/o02zB0n2HOy14
- gPE2gqucUxjO/2E8r3t29aXExW8GFJuCEd1HlphAi6l6k17LSiUtOpF0OPNO1y7KBl5j6wIt1
- qAOCJDSGo0vEzFB+t1+xA9tRPxgciJqgc9gifOCP/0nWBIKI47Zt6Ea5DHpPinCBAMneVfs
+X-Provags-ID: V03:K1:+TAkKLV0CIXTz0Mr9Xhgny60rXsV/drmGR3EGLSIm7g4KaxGwJI
+ G9/nP0tkn2RsIVSHMo3zDeqfWVPCU5u8OsIGMRp6MPT1tObWdaR5XhatwW5JtZaeoGsP9hK
+ x4kCPcJkFNLak0tc9qIZe13RsQgC3/YogsfGkwe/EFem+BGe1d0vqnByv9dq45pLrNGFase
+ PtXgyvDDGPTc4EM9+D9pw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EbA4j4yfY2A=:CQ09mVT0DAh1Fg/k4OfT0F
+ 6LewUgHUDckKH+qV1GR4e8ySJyFS1F7oSJSySzvqe1pZDaMq/gwHJZUO9vKkqtmatAr2YMbxD
+ 8wtxRXH5OLzWonGxXBjvP06irGV8X75YTFnqGz2eNHT1lscKjCr8Aum4uYZmnNu61tgvB+HVt
+ DMg4yr1FCxw67WL4F+v+psjyNRYaDlTUXYiacTvmTt0MU7tp2JcCBXunQ8fVFOcTn8K63/8Hj
+ iDKrAh03iCNYtO5eC2m+SKdG0Rit8Q3GkhoYamZIM7+ic4SAMuz4/lhTQa91awr7PXy0NHvju
+ 7TMhdWUFazTyb3aaln9guCY39fY2R9lA1QPa1L6BgDbcMYMKlUUWSavlLpUWLKa4uIL7PeWYK
+ IrE4hFBhGe7hiYoeoyTrCaUvJv8AlX9mPx+rhElDSz0FtlSRjQeMXGlJNqkAGMvED1LA9qFBB
+ NBn2FUVVXCS0xCY0JYy92aUsaHknmD9cn07xvHanGhdNPUpCptfqRMVaN0CiDKwBL0DzmcYBX
+ mzcrlZHZWhOomn61U3vspLHyfDCI1Qz7Ukc2eG85GHDzezr5QCoE2A/q1ey+Ro7B5lEwRp9Zj
+ VjZ8mGdEYlUJHo0o56195ermlFZRBL6gMwYY5+WX5rzHlxz8Ez5J09NbZ0ZOKWqfTmJPHiWzl
+ XYagUH5AyC1100p+vwgrNaswbCDRG8CtTs7ZV4+sHajS7kFglMlwA8oR9422iJTGNNwrQDzvN
+ /yLENPHNOd07Utz9nQNBYlK5V1rCRJQU7oLt/PDUTtCDJs2KJk8EEdqCApYJwJ0KqnbZmNAuC
+ /Gua+Kx4Aguvwrfs2qN8wxRU80M0KqCWxNAdoXRN+EGBptf7dhtwdArDoPW4aAB9l9tOKEv
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,73 +71,50 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
  qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
+ Finn Thain <fthain@telegraphics.com.au>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
  Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Igor Mitsyanko <i.mitsyanko@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
  Max Reitz <mreitz@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Euler Robot <euler.robot@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Finn Thain <fthain@telegraphics.com.au>
 
-Clang static code analyzer show warning:
-monitor/hmp-cmds.c:2867:17: warning: Value stored to 'set' is never read
-                set = true;
-                ^     ~~~~
+A portion of a recent patch got lost due to a merge snafu. That patch is
+now commit 88f632fbb1 ("dp8393x: Mask EOL bit from descriptor addresses").
+This patch restores the portion that got lost.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200302130715.29440-14-kuhn.chenqun@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <alpine.LNX.2.22.394.2003041421280.12@nippy.intranet>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- monitor/hmp-cmds.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/net/dp8393x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index fb4c2fd2a875..6fd7aca5007b 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2842,7 +2842,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const QDict *qdict)
-     const char *name = qdict_get_str(qdict, "name");
-     uint8_t type = qdict_get_try_int(qdict, "type", 9);
-     Error *err = NULL;
--    bool set = false;
- 
-     list = qmp_query_rocker_of_dpa_groups(name, type != 9, type, &err);
-     if (err != NULL) {
-@@ -2854,6 +2853,7 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const QDict *qdict)
- 
-     for (g = list; g; g = g->next) {
-         RockerOfDpaGroup *group = g->value;
-+        bool set = false;
- 
-         monitor_printf(mon, "0x%08x", group->id);
- 
-@@ -2898,14 +2898,11 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const QDict *qdict)
- 
-         if (group->has_set_eth_dst) {
-             if (!set) {
--                set = true;
-                 monitor_printf(mon, " set");
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 8a3504d9628e..81fc13ee9fa7 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -525,8 +525,8 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+                                  * (4 + 3 * s->regs[SONIC_TFC]),
+                                MEMTXATTRS_UNSPECIFIED, s->data,
+                                size);
+-            s->regs[SONIC_CTDA] = dp8393x_get(s, width, 0) & ~0x1;
+-            if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
++            s->regs[SONIC_CTDA] = dp8393x_get(s, width, 0);
++            if (s->regs[SONIC_CTDA] & SONIC_DESC_EOL) {
+                 /* EOL detected */
+                 break;
              }
-             monitor_printf(mon, " dst %s", group->set_eth_dst);
-         }
- 
--        set = false;
--
-         if (group->has_ttl_check && group->ttl_check) {
-             monitor_printf(mon, " check TTL");
-         }
 -- 
 2.24.1
 
