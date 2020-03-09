@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4EE17DCF7
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:10:27 +0100 (CET)
-Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BC017DCFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:11:54 +0100 (CET)
+Received: from localhost ([::1]:40024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBFMg-0001ED-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35130)
+	id 1jBFO5-0002mA-Gc
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jBFJR-00061U-Hg
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:07:06 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jBFKm-0007q5-6q
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:08:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jBFJQ-0000iN-Ad
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:07:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51220
+ (envelope-from <kraxel@redhat.com>) id 1jBFKl-0001Tu-Bn
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:08:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53667
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jBFJQ-0000iF-7K
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:07:04 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jBFKl-0001Tp-7z
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:08:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583748423;
+ s=mimecast20190719; t=1583748506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IeR8UK5dAc7AbSztdWqLPO01N7LGDPAoX2U01nGvZC4=;
- b=MapkUnGJl+ymjXcj/Lxs8xYvYVnJKK1xu4T3nNs58KGfCG0v4jbZd98xUi3JMv5dO3Ur5/
- m76Of7fy6ocngPwRfvyAQCw9wHvmL1hPI73OBqVpUCIxf7W6js0+9qYV/Ny/l+V64HRl0u
- xkXO4U6UP6G1asWzIscrlt75TMQ/hvI=
+ bh=NTHpBV488e5aZnDPw7jU4Q8YTFTJdQkjmSE3RhUCd7Q=;
+ b=ITy1N5M0cqSyVspeRUtbSPmyRq70kkOmPYEQLImWaZxZq9v4Dv1YozmZ/nR5JkXOfg/j08
+ 2c8x37G/XZ6V00AN90tgFvNfVZYEtdAllS+erhirA/+v73JXQ+siJ6bpXkJnFFU7di+05D
+ jO5FgAFKudo2D9xwtB7cUliV/QZyTuw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-JTFV7Q60MeqHVRNHo7rCqA-1; Mon, 09 Mar 2020 06:07:02 -0400
-X-MC-Unique: JTFV7Q60MeqHVRNHo7rCqA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-196-0cR0bNcePi2uOTgfhmQ_RA-1; Mon, 09 Mar 2020 06:08:24 -0400
+X-MC-Unique: 0cR0bNcePi2uOTgfhmQ_RA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFB9D1083E86;
- Mon,  9 Mar 2020 10:07:00 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
- [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A902A8F365;
- Mon,  9 Mar 2020 10:07:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CA66711386A6; Mon,  9 Mar 2020 11:06:58 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH] qom-qmp-cmds: fix two memleaks in qmp_object_add
-References: <20200309092212.3249-1-pannengyuan@huawei.com>
-Date: Mon, 09 Mar 2020 11:06:58 +0100
-In-Reply-To: <20200309092212.3249-1-pannengyuan@huawei.com> (Pan Nengyuan's
- message of "Mon, 9 Mar 2020 17:22:12 +0800")
-Message-ID: <87lfo97sfx.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1DD919251A6;
+ Mon,  9 Mar 2020 10:08:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
+ [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77FB95C545;
+ Mon,  9 Mar 2020 10:08:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 849769D43; Mon,  9 Mar 2020 11:08:22 +0100 (CET)
+Date: Mon, 9 Mar 2020 11:08:22 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jason Andryuk <jandryuk@gmail.com>
+Subject: Re: [PATCH] usb-serial: wakeup device on input
+Message-ID: <20200309100822.kf3hftjdnkmbl5vx@sirius.home.kraxel.org>
+References: <20200306140917.26726-1-jandryuk@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200306140917.26726-1-jandryuk@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,77 +74,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, ehabkost@redhat.com,
- qemu-devel@nongnu.org, euler.robot@huawei.com, pbonzini@redhat.com,
- zhang.zhanghailiang@huawei.com
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Kevin in the hope of a review.
+On Fri, Mar 06, 2020 at 09:09:17AM -0500, Jason Andryuk wrote:
+> Currently usb-serial devices are unable to send data into guests with
+> the xhci controller.  Data is copied into the usb-serial's buffer, but
+> it is not sent into the guest.  Data coming out of the guest works
+> properly.  usb-serial devices work properly with ehci.
+>=20
+> Have usb-serial call usb_wakeup() when receiving data from the chardev.
+> This seems to notify the xhci controller and fix inbound data flow.
+>=20
+> Also add USB_CFG_ATT_WAKEUP to the device's bmAttributes.  This matches
+> a real FTDI serial adapter's bmAttributes.
+>=20
+> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
 
-Pan Nengyuan <pannengyuan@huawei.com> writes:
+Added to usb patch queue.
 
-> 'type/id' forgot to free in qmp_object_add, this patch fix that.
->
-> The leak stack:
-> Direct leak of 84 byte(s) in 6 object(s) allocated from:
->     #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef76=
-8)
->     #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
->     #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
->     #3 0x56344954e692 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
-qom/qom-qmp-cmds.c:258
->     #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
-/qapi/qmp-dispatch.c:132
->     #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
-pi/qmp-dispatch.c:175
->     #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
-/qemu/monitor/qmp.c:145
->     #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
-_test/qemu/monitor/qmp.c:234
->     #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
-l/async.c:136
->
-> Direct leak of 54 byte(s) in 6 object(s) allocated from:
->     #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef76=
-8)
->     #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
->     #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
->     #3 0x56344954e6c4 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
-qom/qom-qmp-cmds.c:267
->     #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
-/qapi/qmp-dispatch.c:132
->     #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
-pi/qmp-dispatch.c:175
->     #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
-/qemu/monitor/qmp.c:145
->     #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
-_test/qemu/monitor/qmp.c:234
->     #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
-l/async.c:136
->
-> Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> ---
->  qom/qom-qmp-cmds.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-> index 49db926fcc..ac59ba1aa8 100644
-> --- a/qom/qom-qmp-cmds.c
-> +++ b/qom/qom-qmp-cmds.c
-> @@ -247,8 +247,8 @@ void qmp_object_add(QDict *qdict, QObject **ret_data,=
- Error **errp)
->      QDict *pdict;
->      Visitor *v;
->      Object *obj;
-> -    const char *type;
-> -    const char *id;
-> +    g_autofree const char *type =3D NULL;
-> +    g_autofree const char *id =3D NULL;
-> =20
->      type =3D qdict_get_try_str(qdict, "qom-type");
->      if (!type) {
+thanks,
+  Gerd
 
 
