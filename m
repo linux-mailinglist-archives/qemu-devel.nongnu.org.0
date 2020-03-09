@@ -2,40 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498A217D806
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 03:07:33 +0100 (CET)
-Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1429117D803
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 03:06:51 +0100 (CET)
+Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jB7pM-0000Rh-9c
-	for lists+qemu-devel@lfdr.de; Sun, 08 Mar 2020 22:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55337)
+	id 1jB7og-0007Vu-3A
+	for lists+qemu-devel@lfdr.de; Sun, 08 Mar 2020 22:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jB7nq-0006ym-Sd
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 22:06:00 -0400
+ (envelope-from <gshan@redhat.com>) id 1jB7nV-0006aG-BB
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 22:05:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jB7np-0004MM-Bf
- for qemu-devel@nongnu.org; Sun, 08 Mar 2020 22:05:58 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15514)
+ (envelope-from <gshan@redhat.com>) id 1jB7nT-0003ZE-AY
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 22:05:36 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43469
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jB7nl-0004Ho-PX; Sun, 08 Mar 2020 22:05:54 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2A9B3747D5D;
- Mon,  9 Mar 2020 01:49:29 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 899757475F6; Mon,  9 Mar 2020 01:49:28 +0100 (CET)
-Message-Id: <2acb7e522055bb9ac45586c1792edc7615ef3ae6.1583714522.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1583714522.git.balaton@eik.bme.hu>
-References: <cover.1583714522.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 2/2] via-ide: Also emulate non 100% native mode
-Date: Mon, 09 Mar 2020 01:42:02 +0100
-To: qemu-devel@nongnu.org,
-    qemu-block@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+ (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1jB7nT-0003XP-5v
+ for qemu-devel@nongnu.org; Sun, 08 Mar 2020 22:05:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583719534;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8NVD5c+HmZmp6E/+XviRWF4heSJnwRKd5Y1lYYgE9IY=;
+ b=I1tWmV9+uuDzI/tmnOjJLwD32IwmXSo0p7unisVLPyiGdijU+/BX2R1Fw4o7M/Ex9D+Ph0
+ kQk3tO9r5HnEgfM49MyFy8DhIEwCj4DCCZyBIQl9HEHnV5/8w4WLiQn0hMna8SP51kR/+u
+ LUizn9WZNGuw7NUOsrn1pUy7Po49LPQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-eiJ1RjLqMIa6GIfuiuoGEg-1; Sun, 08 Mar 2020 21:05:12 -0400
+X-MC-Unique: eiJ1RjLqMIa6GIfuiuoGEg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58A58A0CBF;
+ Mon,  9 Mar 2020 01:05:11 +0000 (UTC)
+Received: from localhost.localdomain (vpn2-54-34.bne.redhat.com [10.64.54.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2688F60BE2;
+ Mon,  9 Mar 2020 01:05:08 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/char/pl011: Enable TxFIFO and async transmission
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20200224031319.84392-1-gshan@redhat.com>
+ <CAJ+F1C+NiqauJzufJ5qeR78UPBgAZ3tEBSnJu0Y-hv0-nYHuhA@mail.gmail.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <4f191b2b-ece8-f809-e9a0-c4b4758fcfd4@redhat.com>
+Date: Mon, 9 Mar 2020 12:05:07 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ+F1C+NiqauJzufJ5qeR78UPBgAZ3tEBSnJu0Y-hv0-nYHuhA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,175 +75,257 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>,
+ "open list:ARM" <qemu-arm@nongnu.org>, shan.gavin@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some machines operate in "non 100% native mode" where interrupts are
-fixed at legacy IDE interrupts and some guests expect this behaviour
-without checking based on knowledge about hardware. Even Linux has
-arch specific workarounds for this that are activated on such boards
-so this needs to be emulated as well.
+On 3/6/20 10:15 PM, Marc-Andr=C3=A9 Lureau wrote:
+>=20
+> On Mon, Feb 24, 2020 at 4:13 AM Gavin Shan <gshan@redhat.com> wrote:
+>>
+>> The depth of TxFIFO can be 1 or 16 depending on LCR[4]. The TxFIFO is
+>> disabled when its depth is 1. It's nice to have TxFIFO enabled if
+>> possible because more characters can be piled and transmitted at once,
+>> which would have less overhead. Besides, we can be blocked because of
+>> qemu_chr_fe_write_all(), which isn't nice.
+>>
+>> This enables TxFIFO if possible. On ther other hand, the asynchronous
+>> transmission is enabled if needed, as we did in hw/char/cadence_uart.c
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>> v2: Put write_{count,fifo} into migration subsection
+>>      Don't start async IO handle if it has been started, to avoid race
+>>      Update with PL011_FLAG_{TXFF,TXFE} on changing write_count
+>> ---
+>>   hw/char/pl011.c         | 105 +++++++++++++++++++++++++++++++++++++---
+>>   include/hw/char/pl011.h |   3 ++
+>>   2 files changed, 102 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+>> index 13e784f9d9..de5c4254fe 100644
+>> --- a/hw/char/pl011.c
+>> +++ b/hw/char/pl011.c
+>> @@ -169,6 +169,73 @@ static void pl011_set_read_trigger(PL011State *s)
+>>           s->read_trigger =3D 1;
+>>   }
+>>
+>> +static gboolean pl011_xmit(GIOChannel *chan, GIOCondition cond, void *o=
+paque)
+>> +{
+>> +    PL011State *s =3D (PL011State *)opaque;
+>=20
+> Useless casts, perhaps use PL011() instead?
+>=20
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
-v2: Don't use PCI_INTERRUPT_LINE in via_ide_set_irq()
+Yes, PL011() makes the code a bit more safer. It will be used in next respi=
+n.
 
- hw/ide/via.c            | 57 +++++++++++++++++++++++++++++++++++------
- hw/mips/mips_fulong2e.c |  2 +-
- include/hw/ide.h        |  3 ++-
- 3 files changed, 52 insertions(+), 10 deletions(-)
+>> +    int ret;
+>> +
+>> +    /* Drain FIFO if there is no backend */
+>> +    if (!qemu_chr_fe_backend_connected(&s->chr)) {
+>> +        s->write_count =3D 0;
+>> +        s->flags &=3D ~PL011_FLAG_TXFF;
+>> +        s->flags |=3D PL011_FLAG_TXFE;
+>> +        return FALSE;
+>=20
+> Perhaps use G_SOURCE_REMOVE ?
+>=20
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 096de8dba0..44ecc2af29 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -1,9 +1,10 @@
- /*
-- * QEMU IDE Emulation: PCI VIA82C686B support.
-+ * QEMU VIA southbridge IDE emulation (VT82C686B, VT8231)
-  *
-  * Copyright (c) 2003 Fabrice Bellard
-  * Copyright (c) 2006 Openedhand Ltd.
-  * Copyright (c) 2010 Huacai Chen <zltjiangshi@gmail.com>
-+ * Copyright (c) 2019-2020 BALATON Zoltan
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-@@ -25,6 +26,8 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/range.h"
-+#include "hw/qdev-properties.h"
- #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
-@@ -111,14 +114,40 @@ static void via_ide_set_irq(void *opaque, int n, int level)
-     } else {
-         d->config[0x70 + n * 8] &= ~0x80;
-     }
--
-     level = (d->config[0x70] & 0x80) || (d->config[0x78] & 0x80);
--    n = pci_get_byte(d->config + PCI_INTERRUPT_LINE);
--    if (n) {
--        qemu_set_irq(isa_get_irq(NULL, n), level);
-+
-+    /*
-+     * Some machines operate in "non 100% native mode" where PCI_INTERRUPT_LINE
-+     * is not used but IDE always uses ISA IRQ 14 and 15 even in native mode.
-+     * Some guest drivers expect this, often without checking.
-+     */
-+    if (!(pci_get_byte(d->config + PCI_CLASS_PROG) & (n ? 4 : 1)) ||
-+        PCI_IDE(d)->flags & BIT(PCI_IDE_LEGACY_IRQ)) {
-+        qemu_set_irq(isa_get_irq(NULL, (n ? 15 : 14)), level);
-+    } else {
-+        qemu_set_irq(isa_get_irq(NULL, 14), level);
-     }
- }
- 
-+static uint32_t via_ide_config_read(PCIDevice *d, uint32_t address, int len)
-+{
-+    /*
-+     * The pegasos2 firmware writes to PCI_INTERRUPT_LINE but on real
-+     * hardware it's fixed at 14 and won't change. Some guests also expect
-+     * legacy interrupts, without reading PCI_INTERRUPT_LINE but Linux
-+     * depends on this to read 14. We set it to 14 in the reset method and
-+     * also set the wmask to 0 to emulate this but that turns out to be not
-+     * enough. QEMU resets the PCI bus after this device and
-+     * pci_do_device_reset() called from pci_device_reset() will zero
-+     * PCI_INTERRUPT_LINE so this config_read function is to counter that and
-+     * restore the correct value, otherwise this should not be needed.
-+     */
-+    if (range_covers_byte(address, len, PCI_INTERRUPT_LINE)) {
-+        pci_set_byte(d->config + PCI_INTERRUPT_LINE, 14);
-+    }
-+    return pci_default_read_config(d, address, len);
-+}
-+
- static void via_ide_reset(DeviceState *dev)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-@@ -169,7 +198,8 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
- 
-     pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mode */
-     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
--    dev->wmask[PCI_INTERRUPT_LINE] = 0xf;
-+    dev->wmask[PCI_CLASS_PROG] = 5;
-+    dev->wmask[PCI_INTERRUPT_LINE] = 0;
- 
-     memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops,
-                           &d->bus[0], "via-ide0-data", 8);
-@@ -213,14 +243,23 @@ static void via_ide_exitfn(PCIDevice *dev)
-     }
- }
- 
--void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
-+void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
-+                  bool legacy_irq)
- {
-     PCIDevice *dev;
- 
--    dev = pci_create_simple(bus, devfn, "via-ide");
-+    dev = pci_create(bus, devfn, "via-ide");
-+    qdev_prop_set_bit(&dev->qdev, "legacy-irq", legacy_irq);
-+    qdev_init_nofail(&dev->qdev);
-     pci_ide_create_devs(dev, hd_table);
- }
- 
-+static Property via_ide_properties[] = {
-+    DEFINE_PROP_BIT("legacy-irq", PCIIDEState, flags, PCI_IDE_LEGACY_IRQ,
-+                    false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void via_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -229,10 +268,12 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
-     dc->reset = via_ide_reset;
-     k->realize = via_ide_realize;
-     k->exit = via_ide_exitfn;
-+    k->config_read = via_ide_config_read;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
-     k->device_id = PCI_DEVICE_ID_VIA_IDE;
-     k->revision = 0x06;
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-+    device_class_set_props(dc, via_ide_properties);
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
- }
- 
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 4727b1d3a4..150182c62a 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -257,7 +257,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
- 
-     ide_drive_get(hd, ARRAY_SIZE(hd));
--    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1));
-+    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1), false);
- 
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index d88c5ee695..2a7001ccba 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -18,7 +18,8 @@ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
- PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
- PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
--void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
-+void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
-+                  bool legacy_irq);
- 
- /* ide-mmio.c */
- void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
--- 
-2.21.1
+Yes, it's more precise even it's equal to false. It will be used in next re=
+spin.
+
+>> +    }
+>> +
+>> +    /* Nothing to do */
+>> +    if (!s->write_count) {
+>> +        return FALSE;
+>> +    }
+>> +
+>> +    ret =3D qemu_chr_fe_write(&s->chr, s->write_fifo, s->write_count);
+>> +    if (ret > 0) {
+>> +        s->write_count -=3D ret;
+>> +        memmove(s->write_fifo, s->write_fifo + ret, s->write_count);
+>> +        s->flags &=3D ~PL011_FLAG_TXFF;
+>> +        if (!s->write_count) {
+>> +            s->flags |=3D PL011_FLAG_TXFE;
+>> +        }
+>> +    }
+>> +
+>> +    if (s->write_count) {
+>> +        s->watch_tag =3D qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO=
+_HUP,
+>> +                                             pl011_xmit, s);
+>> +        if (!s->watch_tag) {
+>> +            s->write_count =3D 0;
+>> +            s->flags &=3D ~PL011_FLAG_TXFF;
+>> +            s->flags |=3D PL011_FLAG_TXFE;
+>> +            return FALSE;
+>> +        }
+>> +    }
+>> +
+>> +    s->int_level |=3D PL011_INT_TX;
+>> +    pl011_update(s);
+>> +    return FALSE;
+>> +}
+>> +
+>> +static void pl011_write_fifo(void *opaque, const unsigned char *buf, in=
+t size)
+>> +{
+>> +    PL011State *s =3D (PL011State *)opaque;
+>> +    int depth =3D (s->lcr & 0x10) ? 16 : 1;
+>> +
+>> +    if (size >=3D (depth - s->write_count)) {
+>=20
+> parenthesis could be dropped
+>=20
+
+It's really personal taste, but it will be dropped in next respin :)
+
+>> +        size =3D depth - s->write_count;
+>> +    }
+>> +
+>=20
+> Why make a function that accepts size !=3D 1 (and may silently drop
+> data), when the only caller is pl011_write_fifo(opaque, &ch, 1); ?
+>=20
+>> +    if (size > 0) {
+>=20
+> I don't think other cases are supposed to happen.
+>=20
+
+The function will be reused when loopback mode is enabled in future. The
+received characters could be sent in batch mode in loopback mode. So we
+have variable size here. The caller won't lose data by checking the amount
+of characters are sent successfully. Also, the check on @size makes the cod=
+e
+looks complete and lets keep it.
+
+>> +        memcpy(s->write_fifo + s->write_count, buf, size);
+>> +        s->write_count +=3D size;
+>> +        if (s->write_count >=3D depth) {
+>> +            s->flags |=3D PL011_FLAG_TXFF;
+>> +        }
+>> +        s->flags &=3D ~PL011_FLAG_TXFE;
+>> +    }
+>> +
+>> +    if (!s->watch_tag) {
+>> +        pl011_xmit(NULL, G_IO_OUT, s);
+>> +    }
+>> +}
+>> +
+>>   static void pl011_write(void *opaque, hwaddr offset,
+>>                           uint64_t value, unsigned size)
+>>   {
+>> @@ -179,13 +246,8 @@ static void pl011_write(void *opaque, hwaddr offset=
+,
+>>
+>>       switch (offset >> 2) {
+>>       case 0: /* UARTDR */
+>> -        /* ??? Check if transmitter is enabled.  */
+>>           ch =3D value;
+>> -        /* XXX this blocks entire thread. Rewrite to use
+>> -         * qemu_chr_fe_write and background I/O callbacks */
+>> -        qemu_chr_fe_write_all(&s->chr, &ch, 1);
+>> -        s->int_level |=3D PL011_INT_TX;
+>> -        pl011_update(s);
+>> +        pl011_write_fifo(opaque, &ch, 1);
+>>           break;
+>>       case 1: /* UARTRSR/UARTECR */
+>>           s->rsr =3D 0;
+>> @@ -207,7 +269,16 @@ static void pl011_write(void *opaque, hwaddr offset=
+,
+>>           if ((s->lcr ^ value) & 0x10) {
+>>               s->read_count =3D 0;
+>>               s->read_pos =3D 0;
+>> +
+>> +            if (s->watch_tag) {
+>> +                g_source_remove(s->watch_tag);
+>> +                s->watch_tag =3D 0;
+>> +            }
+>> +            s->write_count =3D 0;
+>> +            s->flags &=3D ~PL011_FLAG_TXFF;
+>> +            s->flags |=3D PL011_FLAG_TXFE;
+>>           }
+>> +
+>>           s->lcr =3D value;
+>>           pl011_set_read_trigger(s);
+>>           break;
+>> @@ -292,6 +363,24 @@ static const MemoryRegionOps pl011_ops =3D {
+>>       .endianness =3D DEVICE_NATIVE_ENDIAN,
+>>   };
+>>
+>> +static bool pl011_write_fifo_needed(void *opaque)
+>> +{
+>> +    PL011State *s =3D (PL011State *)opaque;
+>> +    return s->write_count > 0;
+>> +}
+>> +
+>> +static const VMStateDescription vmstate_pl011_write_fifo =3D {
+>> +    .name =3D "pl011/write_fifo",
+>> +    .version_id =3D 1,
+>> +    .minimum_version_id =3D 1,
+>> +    .needed =3D pl011_write_fifo_needed,
+>> +    .fields =3D (VMStateField[]) {
+>> +        VMSTATE_INT32(write_count, PL011State),
+>> +        VMSTATE_UINT8_ARRAY(write_fifo, PL011State, 16),
+>> +        VMSTATE_END_OF_LIST()
+>> +    }
+>> +};
+>> +
+>>   static const VMStateDescription vmstate_pl011 =3D {
+>>       .name =3D "pl011",
+>>       .version_id =3D 2,
+>> @@ -314,6 +403,10 @@ static const VMStateDescription vmstate_pl011 =3D {
+>>           VMSTATE_INT32(read_count, PL011State),
+>>           VMSTATE_INT32(read_trigger, PL011State),
+>>           VMSTATE_END_OF_LIST()
+>> +    },
+>> +    .subsections =3D (const VMStateDescription * []) {
+>> +        &vmstate_pl011_write_fifo,
+>> +        NULL
+>>       }
+>>   };
+>>
+>> diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
+>> index 14187165c6..9d1c24db48 100644
+>> --- a/include/hw/char/pl011.h
+>> +++ b/include/hw/char/pl011.h
+>> @@ -38,6 +38,7 @@ typedef struct PL011State {
+>>       uint32_t int_enabled;
+>>       uint32_t int_level;
+>>       uint32_t read_fifo[16];
+>> +    uint8_t  write_fifo[16];
+>>       uint32_t ilpr;
+>>       uint32_t ibrd;
+>>       uint32_t fbrd;
+>> @@ -45,6 +46,8 @@ typedef struct PL011State {
+>>       int read_pos;
+>>       int read_count;
+>>       int read_trigger;
+>> +    int write_count;
+>> +    guint watch_tag;
+>>       CharBackend chr;
+>>       qemu_irq irq[6];
+>>       const unsigned char *id;
+>> --
+>> 2.23.0
+>>
+>>
+>=20
+> Looks ok otherwise
+>=20
+
+Thanks for your comments. I will post v3 after you think it's fine to chang=
+e
+the code as above :)
+
+Thanks,
+Gavin
 
 
