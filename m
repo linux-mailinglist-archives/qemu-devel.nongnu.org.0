@@ -2,104 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905F517DFA0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:15:07 +0100 (CET)
-Received: from localhost ([::1]:41972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEF017E016
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:21:31 +0100 (CET)
+Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHJK-0000Ft-Ma
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:15:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
+	id 1jBHPW-0001qE-L5
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHI3-0007CT-VR
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:13:48 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHJO-000152-2Y
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHI2-0001SN-WC
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:13:47 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:54311)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHI0-0001PU-Gj; Mon, 09 Mar 2020 08:13:44 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MmkfQ-1ja8Ap12uM-00jr7h; Mon, 09 Mar 2020 13:13:29 +0100
-Subject: Re: [PATCH v3 01/12] block/stream: Remove redundant statement in
- stream_run()
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-3-kuhn.chenqun@huawei.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <66182cbb-7492-dd16-4552-e4cf0f1911ab@vivier.eu>
-Date: Mon, 9 Mar 2020 13:13:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHJM-0002Qg-IT
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:10 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:44286)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jBHJL-0002Mi-BI; Mon, 09 Mar 2020 08:15:08 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07495327|-1; CH=blue; DM=||false|;
+ DS=CONTINUE|ham_system_inform|0.03378-0.000359325-0.965861;
+ FP=1649258829762365013|2|1|7|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com;
+ NM=1; PH=DS; RN=10; RT=10; SR=0; TI=SMTPD_---.GyaeXy8_1583756101; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.GyaeXy8_1583756101)
+ by smtp.aliyun-inc.com(10.147.41.199);
+ Mon, 09 Mar 2020 20:15:01 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: richard.henderson@linaro.org, alistair23@gmail.com,
+ chihmin.chao@sifive.com, palmer@dabbelt.com
+Subject: [PATCH v3 00/60] target/riscv: support vector extension v0.7.1
+Date: Mon,  9 Mar 2020 20:13:57 +0800
+Message-Id: <20200309121457.13719-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-3-kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:R0yNBrn9cVFozWcqfejX3Sim6HkSZMhIkY99/rb0SwJOL/Ujzwg
- mbjk+6v+q65A5b2lMMb26vbsjfrnAO1PLVqJSn1XC6ULvBw/b+B5iIwHUEu6s9hYejF9ymj
- x9hip6p1AX6yDLSvA7FtPk87BHTiW9PLKxBALE3+YqhDeIVp3J7x5CZUmHQVVapSmfTjLNo
- lEQzWqlDVmfcT0KSmvRZA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GWOS/nlNgLM=:7dY99Ss43YOdEdiHoCVcGE
- WlYO/Ae/+/uV+PGNgj4LOILyDEf6cXjP4UvwZQ/Dx2dE/9+ABGMIYlIjkrHHJ/NANDGvxh0wp
- XKuXiqiRAMSa9gXOCuXAYJDsk+hXrwy4ldOBcEJXcm4ZNNz0ps96MLy0DzDhCGdK1aPuBwNrA
- MsdkYQr/+Bd2toR4hJV4YYhc/jslgYJkG0PtUp4g+8+6FibxzdCeLchOsf8kJY4y1mpaoa1tK
- r6tA3Xlf7pKY1mkw3OrYCYkzRnY76PgmiPSJGtcKm3PGMBtKU5Qu6yTmbeG7Dh8k9OBf+ySi1
- IbblUNGVYTZddEgaykLhTUXzH/X5NqGE8nI1m2Qw1hwPHs7OJoCu9OUzPAvxfZZFv+4gliFXR
- o+m5hoClDyJHP19uvBCO6Asy34ekl88YPJeM5c/o0TDEWyZLjmBkj9xo5PQ9AG6frs/wNs8XB
- aQlI5mBFumKTYzSoMXpFuPSam8tMX/mTWci1h1cKqCKHqj2DswvefR3BmOpu5ta00AYgR7bcJ
- RD8fS7sQeWAC/+lX4OJujGXQEed2vvxlnhv00sPFlurR3ydL+u8R8O38J4Q3fAA/YxeMkaveG
- 6rLIi+X1WGz40SOfDaiVlsIqswtikm1JLwkJ14oIG65rF7UC2T8JZJjEsIqdXh2PB+d08E/iq
- VcYoH394LGww1JPjCVTwEiH6HHbD2/BYYvkyDC4emKm+mC7wDFMqUOXPCXknHS2t7P7y3Q5hc
- a/bptzhH8Gdi1EvRejBYZJR6w33EWLunjH/YwiLwDp6pbxI+4GjKbIxtwScIG5hlTX0wJXWmg
- CQ36hVlA8sK/4FB+Ykw0bPhZ/xxFvchlv4bYnfkWqIFRNax47NoYKHkLkebq+n8N5GYrEvN
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 121.197.200.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,64 +50,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- zhang.zhanghailiang@huawei.com, Max Reitz <mreitz@redhat.com>,
- Euler Robot <euler.robot@huawei.com>, John Snow <jsnow@redhat.com>
+Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/03/2020 à 14:07, Chen Qun a écrit :
-> Clang static code analyzer show warning:
->   block/stream.c:186:9: warning: Value stored to 'ret' is never read
->         ret = 0;
->         ^     ~
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> ---
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Max Reitz <mreitz@redhat.com>
-> 
-> v1->v2:move 'ret' declaration to the for() statement(Base on Kevin's comments).
-> ---
->  block/stream.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/block/stream.c b/block/stream.c
-> index 5562ccbf57..aa2e7af98e 100644
-> --- a/block/stream.c
-> +++ b/block/stream.c
-> @@ -114,7 +114,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
->      int64_t offset = 0;
->      uint64_t delay_ns = 0;
->      int error = 0;
-> -    int ret = 0;
->      int64_t n = 0; /* bytes */
->  
->      if (bs == s->bottom) {
-> @@ -139,6 +138,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
->  
->      for ( ; offset < len; offset += n) {
->          bool copy;
-> +        int ret;
->  
->          /* Note that even when no rate limit is applied we need to yield
->           * with no pending I/O here so that bdrv_drain_all() returns.
-> @@ -183,7 +183,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
->                  break;
->              }
->          }
-> -        ret = 0;
->  
->          /* Publish progress */
->          job_progress_update(&s->common.job, n);
-> 
+This patchset implements the vector extension for RISC-V on QEMU.
 
-Applied to my trivial-patches branch.
+You can also find the patchset and all *test cases* in
+my repo(https://github.com/romanheros/qemu.git branch:vector-upstream-v3).
+All the test cases are in the directory qemu/tests/riscv/vector/. They are
+riscv64 linux user mode programs.
 
-Thanks,
-Laurent
+You can test the patchset by the script qemu/tests/riscv/vector/runcase.sh.
+
+Features:
+  * support specification riscv-v-spec-0.7.1.(https://github.com/riscv/riscv-v-spec/releases/tag/0.7.1/)
+  * support basic vector extension.
+  * support Zvlsseg.
+  * support Zvamo.
+  * not support Zvediv as it is changing.
+  * SLEN always equals VLEN.
+  * element width support 8bit, 16bit, 32bit, 64bit.
+
+Changelog:
+v3
+  * move check code from execution-time to translation-time
+  * use a continous memory block for vector register description.
+  * vector registers as direct fields in RISCVCPUState.
+  * support VLEN configure from qemu command line.
+  * support ELEN configure from qemu command line.
+  * support vector specification version configure from qemu command line.
+  * probe pages before real load or store access.
+  * use probe_page_check for no-fault operations in linux user mode.
+  * generation atomic exit exception when in parallel environment.
+  * fixup a lot of concrete bugs.
+
+V2
+  * use float16_compare{_quiet}
+  * only use GETPC() in outer most helper
+  * add ctx.ext_v Property
+
+
+LIU Zhiwei (60):
+  target/riscv: add vector extension field in CPURISCVState
+  target/riscv: implementation-defined constant parameters
+  target/riscv: support vector extension csr
+  target/riscv: add vector configure instruction
+  target/riscv: add vector stride load and store instructions
+  target/riscv: add vector index load and store instructions
+  target/riscv: add fault-only-first unit stride load
+  target/riscv: add vector amo operations
+  target/riscv: vector single-width integer add and subtract
+  target/riscv: vector widening integer add and subtract
+  target/riscv: vector integer add-with-carry / subtract-with-borrow
+    instructions
+  target/riscv: vector bitwise logical instructions
+  target/riscv: vector single-width bit shift instructions
+  target/riscv: vector narrowing integer right shift instructions
+  target/riscv: vector integer comparison instructions
+  target/riscv: vector integer min/max instructions
+  target/riscv: vector single-width integer multiply instructions
+  target/riscv: vector integer divide instructions
+  target/riscv: vector widening integer multiply instructions
+  target/riscv: vector single-width integer multiply-add instructions
+  target/riscv: vector widening integer multiply-add instructions
+  target/riscv: vector integer merge and move instructions
+  target/riscv: vector single-width saturating add and subtract
+  target/riscv: vector single-width averaging add and subtract
+  target/riscv: vector single-width fractional multiply with rounding
+    and saturation
+  target/riscv: vector widening saturating scaled multiply-add
+  target/riscv: vector single-width scaling shift instructions
+  target/riscv: vector narrowing fixed-point clip instructions
+  target/riscv: vector single-width floating-point add/subtract
+    instructions
+  target/riscv: vector widening floating-point add/subtract instructions
+  target/riscv: vector single-width floating-point multiply/divide
+    instructions
+  target/riscv: vector widening floating-point multiply
+  target/riscv: vector single-width floating-point fused multiply-add
+    instructions
+  target/riscv: vector widening floating-point fused multiply-add
+    instructions
+  target/riscv: vector floating-point square-root instruction
+  target/riscv: vector floating-point min/max instructions
+  target/riscv: vector floating-point sign-injection instructions
+  target/riscv: vector floating-point compare instructions
+  target/riscv: vector floating-point classify instructions
+  target/riscv: vector floating-point merge instructions
+  target/riscv: vector floating-point/integer type-convert instructions
+  target/riscv: widening floating-point/integer type-convert
+    instructions
+  target/riscv: narrowing floating-point/integer type-convert
+    instructions
+  target/riscv: vector single-width integer reduction instructions
+  target/riscv: vector wideing integer reduction instructions
+  target/riscv: vector single-width floating-point reduction
+    instructions
+  target/riscv: vector widening floating-point reduction instructions
+  target/riscv: vector mask-register logical instructions
+  target/riscv: vector mask population count vmpopc
+  target/riscv: vmfirst find-first-set mask bit
+  target/riscv: set-X-first mask bit
+  target/riscv: vector iota instruction
+  target/riscv: vector element index instruction
+  target/riscv: integer extract instruction
+  target/riscv: integer scalar move instruction
+  target/riscv: floating-point scalar move instructions
+  target/riscv: vector slide instructions
+  target/riscv: vector register gather instruction
+  target/riscv: vector compress instruction
+  target/riscv: configure and turn on vector extension from command line
+
+ target/riscv/Makefile.objs              |    2 +-
+ target/riscv/cpu.c                      |   49 +
+ target/riscv/cpu.h                      |   89 +-
+ target/riscv/cpu_bits.h                 |   15 +
+ target/riscv/csr.c                      |   75 +-
+ target/riscv/helper.h                   | 1075 +++++
+ target/riscv/insn32-64.decode           |   11 +
+ target/riscv/insn32.decode              |  366 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 2386 ++++++++++++
+ target/riscv/translate.c                |   24 +-
+ target/riscv/vector_helper.c            | 4745 +++++++++++++++++++++++
+ 11 files changed, 8824 insertions(+), 13 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+ create mode 100644 target/riscv/vector_helper.c
+
+-- 
+2.23.0
 
 
