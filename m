@@ -2,46 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D95817E04B
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:31:35 +0100 (CET)
-Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED1817E057
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:34:42 +0100 (CET)
+Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHZD-0007ZP-1h
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56917)
+	id 1jBHcH-0002s8-G9
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHK8-0002aL-7X
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:57 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHMT-0006gy-0K
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:18:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBHK5-0003J6-2x
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:15:56 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:39676)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jBHK3-0002nm-QB; Mon, 09 Mar 2020 08:15:52 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0762825|-1; CH=blue; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.203792-0.00091317-0.795295;
- FP=2203226386301782615|1|1|7|0|-1|-1|-1; HT=e02c03305; MF=zhiwei_liu@c-sky.com;
- NM=1; PH=DS; RN=10; RT=10; SR=0; TI=SMTPD_---.GyaeXy8_1583756101; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.GyaeXy8_1583756101)
- by smtp.aliyun-inc.com(10.147.41.199);
- Mon, 09 Mar 2020 20:15:20 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v3 35/60] target/riscv: vector floating-point square-root
- instruction
-Date: Mon,  9 Mar 2020 20:14:32 +0800
-Message-Id: <20200309121457.13719-36-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200309121457.13719-1-zhiwei_liu@c-sky.com>
-References: <20200309121457.13719-1-zhiwei_liu@c-sky.com>
+ (envelope-from <laurent@vivier.eu>) id 1jBHMR-0005p3-T3
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:18:20 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:57965)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1jBHMO-0005iS-F6; Mon, 09 Mar 2020 08:18:16 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MtfRp-1jTuy31B2l-00v7Og; Mon, 09 Mar 2020 13:18:04 +0100
+Subject: Re: [PATCH v3 03/12] block/file-posix: Remove redundant statement in
+ raw_handle_perm_lock()
+To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-5-kuhn.chenqun@huawei.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <2e5e3dc1-4853-6ea6-3b98-dc529e4a0509@vivier.eu>
+Date: Mon, 9 Mar 2020 13:18:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200302130715.29440-5-kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+X-Provags-ID: V03:K1:PJCiHkaRJR8HMofr4hJhTAc4ll1/UZisRAj7J3i/SV+b/JYR9FL
+ GJM+qhBlRq40xnsZT6FGpSsMrCa4P2NswcE6CDFOkyUu0Oil7+MySjg6sc4lFoqzcvCRvFV
+ OOUi3CymlV0DgCMh8Jv+50zMdmRNVjdeSWNkyR1RBjNmdeRdHwDygjEUR/UCV7Ey2q+DoZU
+ UE5YHGsscuSSsxDvFwGHw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hfCfatswNzA=:wQfwrGg2fjEjbxHgQe21YQ
+ 6Uw4AvrGj31ulcpxeDVTbEVem8BTiQb87SGPigfcryAMtzJEthZQyKJP5WifRdYbV5yvHFW20
+ FUoVjDd9nWkT9dKYR6jkGocgK0gVinWJMIAU4Fwag8ebObGDhmNFsJXd/pSx+qytyQ0K8xSFq
+ pUYoF5lPjrrMM81CnMhUa8MVOBPkVmsMRvrpSNghpd9mKGUioCRStkUeeZopJMChGvXFvXDsN
+ 3dKZ6oYbrBH3yAqeQcOyB4JMs+AnRcc/Wb4xVbFQsM322EUWjTxLW9RR13o5tGmozvOr9tHYw
+ IyZzUJJGlEJOxjDf7tiEEWPD3o/TVdZh4u7y+f6vxYy4t/j0vVTRomeSd/SqXR3llmgMwqGR7
+ If3YhkL0dYn/vMXd7ehSF6PuPPokD0w2j+PkRauTM6Xppqlw53+sng/7iw44tSYkcTwexmLML
+ sMhWVtf/UoLD1uQwlsd9uGW+Hiw3rdMYtdR+BPWnIeZ0vmPSiWrFYqSc5fcRtr37gr6LDY7Yh
+ XcR42zVFgxCWZn6mVJeZw1xeTLXdQ+C/IH/yVls6S3T8L5jOs5LljJx7l68OB/8XaXUc8G9Hi
+ a3TNqiIh3ozbkgTIYfd+KIU5+C2b2pTdSWfrKV14neOOBPUvgimlC7i0xlTlsrd5VsJkOb8v8
+ EsVUcIzFtVVbvLQuDIQ6Ree68eXz/DQCqKvJYII6LrmXTsWm+w013s442I6kVtny/Lvf2rwx6
+ OS5HAYbwdJex0cD+FXh8EnvGCVLpaBkAC32k/LCSL+Ho12X2mJ63kw3NzJexvSKSKkvqUEPQl
+ oy/AoRC6psEhhiF0lHXV6DjXEUJ2XtcNiXjLtFUq8Y37CdbhDsoRimD7qmiv0ZzVSJUK3FR
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,154 +111,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
+ Euler Robot <euler.robot@huawei.com>, zhang.zhanghailiang@huawei.com,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/helper.h                   |  4 +++
- target/riscv/insn32.decode              |  3 ++
- target/riscv/insn_trans/trans_rvv.inc.c | 37 +++++++++++++++++++++++
- target/riscv/vector_helper.c            | 40 +++++++++++++++++++++++++
- 4 files changed, 84 insertions(+)
+Le 02/03/2020 à 14:07, Chen Qun a écrit :
+> Clang static code analyzer show warning:
+>   block/file-posix.c:891:9: warning: Value stored to 'op' is never read
+>         op = RAW_PL_ABORT;
+>         ^    ~~~~~~~~~~~~
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> ---
+>  block/file-posix.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 6345477112..0f77447a25 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -888,7 +888,6 @@ static int raw_handle_perm_lock(BlockDriverState *bs,
+>                                "Is another process using the image [%s]?\n",
+>                                bs->filename);
+>          }
+> -        op = RAW_PL_ABORT;
+>          /* fall through to unlock bytes. */
+>      case RAW_PL_ABORT:
+>          raw_apply_lock_bytes(s, s->fd, s->perm, ~s->shared_perm,
+> 
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 57e0fee929..c2f9871490 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -905,3 +905,7 @@ DEF_HELPER_6(vfwmsac_vf_h, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vfwmsac_vf_w, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vfwnmsac_vf_h, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vfwnmsac_vf_w, void, ptr, ptr, i64, ptr, env, i32)
-+
-+DEF_HELPER_5(vfsqrt_v_h, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfsqrt_v_w, void, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_5(vfsqrt_v_d, void, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index b7cb116cf4..fc9aebc6d6 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -45,6 +45,7 @@
- &shift     shamt rs1 rd
- &atomic    aq rl rs2 rs1 rd
- &rmrr      vm rd rs1 rs2
-+&rmr       vm rd rs2
- &rwdvm     vm wd rd rs1 rs2
- &r2nfvm    vm rd rs1 nf
- &rnfvm     vm rd rs1 rs2 nf
-@@ -68,6 +69,7 @@
- @r2_rm   .......   ..... ..... ... ..... ....... %rs1 %rm %rd
- @r2      .......   ..... ..... ... ..... ....... %rs1 %rd
- @r2_nfvm ... ... vm:1 ..... ..... ... ..... ....... &r2nfvm %nf %rs1 %rd
-+@r2_vm   ...... vm:1 ..... ..... ... ..... ....... &rmr %rs2 %rd
- @r_nfvm  ... ... vm:1 ..... ..... ... ..... ....... &rnfvm %nf %rs2 %rs1 %rd
- @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
- @r_wdvm  ..... wd:1 vm:1 ..... ..... ... ..... ....... &rwdvm %rs2 %rs1 %rd
-@@ -482,6 +484,7 @@ vfwmsac_vv      111110 . ..... ..... 001 ..... 1010111 @r_vm
- vfwmsac_vf      111110 . ..... ..... 101 ..... 1010111 @r_vm
- vfwnmsac_vv     111111 . ..... ..... 001 ..... 1010111 @r_vm
- vfwnmsac_vf     111111 . ..... ..... 101 ..... 1010111 @r_vm
-+vfsqrt_v        100011 . ..... 00000 001 ..... 1010111 @r2_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 06d6e2625b..3e4f7de240 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -1834,3 +1834,40 @@ GEN_OPFVF_WIDEN_TRANS(vfwmacc_vf)
- GEN_OPFVF_WIDEN_TRANS(vfwnmacc_vf)
- GEN_OPFVF_WIDEN_TRANS(vfwmsac_vf)
- GEN_OPFVF_WIDEN_TRANS(vfwnmsac_vf)
-+
-+/* Vector Floating-Point Square-Root Instruction */
-+
-+/*
-+ * If the current SEW does not correspond to a supported IEEE floating-point
-+ * type, an illegal instruction exception is raised
-+ */
-+static bool opfv_check(DisasContext *s, arg_rmr *a)
-+{
-+   return (vext_check_isa_ill(s, RVV) &&
-+            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
-+            vext_check_reg(s, a->rd, false) &&
-+            vext_check_reg(s, a->rs2, false) &&
-+            (s->sew != 0));
-+}
-+
-+#define GEN_OPFV_TRANS(NAME, CHECK)                                \
-+static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-+{                                                                  \
-+    if (CHECK(s, a)) {                                             \
-+        uint32_t data = 0;                                         \
-+        static gen_helper_gvec_3_ptr * const fns[3] = {            \
-+            gen_helper_##NAME##_h,                                 \
-+            gen_helper_##NAME##_w,                                 \
-+            gen_helper_##NAME##_d,                                 \
-+        };                                                         \
-+        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-+        data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-+            vreg_ofs(s, a->rs2), cpu_env, 0,                       \
-+            s->vlen / 8, data, fns[s->sew - 1]);                   \
-+        return true;                                               \
-+    }                                                              \
-+    return false;                                                  \
-+}
-+GEN_OPFV_TRANS(vfsqrt_v, opfv_check)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 9bff516a15..088bb51af0 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -3488,3 +3488,43 @@ RVVCALL(OPFVF3, vfwnmsac_vf_h, WOP_UUU_H, H4, H2, fwnmsac16)
- RVVCALL(OPFVF3, vfwnmsac_vf_w, WOP_UUU_W, H8, H4, fwnmsac32)
- GEN_VEXT_VF(vfwnmsac_vf_h, 2, 4, clearl)
- GEN_VEXT_VF(vfwnmsac_vf_w, 4, 8, clearq)
-+
-+/* Vector Floating-Point Square-Root Instruction */
-+/* (TD, T2, TX2) */
-+#define OP_UU_H uint16_t, uint16_t, uint16_t
-+#define OP_UU_W uint32_t, uint32_t, uint32_t
-+#define OP_UU_D uint64_t, uint64_t, uint64_t
-+
-+#define OPFVV1(NAME, TD, T2, TX2, HD, HS2, OP)        \
-+static void do_##NAME(void *vd, void *vs2, int i,      \
-+        CPURISCVState *env)                            \
-+{                                                      \
-+    TX2 s2 = *((T2 *)vs2 + HS2(i));                    \
-+    *((TD *)vd + HD(i)) = OP(s2, &env->fp_status);     \
-+}
-+
-+#define GEN_VEXT_V_ENV(NAME, ESZ, DSZ, CLEAR_FN)       \
-+void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
-+        CPURISCVState *env, uint32_t desc)             \
-+{                                                      \
-+    uint32_t vlmax = vext_maxsz(desc) / ESZ;           \
-+    uint32_t mlen = vext_mlen(desc);                   \
-+    uint32_t vm = vext_vm(desc);                       \
-+    uint32_t vl = env->vl;                             \
-+    uint32_t i;                                        \
-+    for (i = 0; i < vl; i++) {                         \
-+        if (!vm && !vext_elem_mask(v0, mlen, i)) {     \
-+            continue;                                  \
-+        }                                              \
-+        do_##NAME(vd, vs2, i, env);                    \
-+    }                                                  \
-+    if (i != 0) {                                      \
-+        CLEAR_FN(vd, vl, vl * DSZ,  vlmax * DSZ);      \
-+    }                                                  \
-+}
-+RVVCALL(OPFVV1, vfsqrt_v_h, OP_UU_H, H2, H2, float16_sqrt)
-+RVVCALL(OPFVV1, vfsqrt_v_w, OP_UU_W, H4, H4, float32_sqrt)
-+RVVCALL(OPFVV1, vfsqrt_v_d, OP_UU_D, H8, H8, float64_sqrt)
-+GEN_VEXT_V_ENV(vfsqrt_v_h, 2, 2, clearh)
-+GEN_VEXT_V_ENV(vfsqrt_v_w, 4, 4, clearl)
-+GEN_VEXT_V_ENV(vfsqrt_v_d, 8, 8, clearq)
--- 
-2.23.0
+Applied to my trivial-patches branch.
 
+Thanks,
+Laurent
 
