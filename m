@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1653917ECE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 00:55:27 +0100 (CET)
-Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACF517ECEA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 00:56:50 +0100 (CET)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBSF4-0000bS-3F
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 19:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35400)
+	id 1jBSGP-00034Q-Pa
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 19:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jBSCT-0005SH-Po
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:52:46 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1jBSCk-0005x8-PC
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:53:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jBSCS-0006hw-SA
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:52:45 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:47632)
+ (envelope-from <liran.alon@oracle.com>) id 1jBSCj-0006ym-Ox
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:53:02 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:60382)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jBSCS-0006hF-Kc
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:52:44 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 029NqePi147313;
- Mon, 9 Mar 2020 23:52:43 GMT
+ id 1jBSCj-0006xj-Gs
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:53:01 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 029NhFXD016965;
+ Mon, 9 Mar 2020 23:53:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=2wjVYVusXqahreDVrx8ai5a0+xGSxKRX3/lG+CE5nvI=;
- b=fsqjprscASjLhyXo3a9TUJunT0kQXmlQCVBrlfs4loanP/OFntIdCkpQfBXkSdKDfEuG
- UD+0Nt/8+5R59lEgh158R5Ett/+Tw/fv6egmMI5zS9GLEJbQD+1jQJAYylBvp3CKPPi7
- mALiPcBPvhaqhTgkIZ9Ol687hK/plqBxbF4GtxIqVHKfNjLLeJWleOxd6My4IWp7cOxv
- 17mBJHcCTkw725GiqNfhI9RYS3x1gorTOuqC0QKjTu+PrTSE99nPXdeb2fhX6xfruVuu
- lFL380oCALLpyre9asCVPtKZHhIYQ31FncLGb3jEf3SpLRtpitsDT4iRutocL8AWy7Sk 2A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2ym31ua65s-1
+ bh=CZple/MNn1m0Ap+EilGNEJvBr/MWvXgtRAyz9gI0rvA=;
+ b=ZExoTwHrM8TsurelaychaA75yh1IWwV4i9fobTGBrwYYPUoxV+7TFG3WPMtS8RPlJkO2
+ aeD61tmYAMBl65hUZ1UGYYnqGkgklCsq67rl2mWZ5RWm8fGb5mfQZwSgK3SMKp8xUOAw
+ e4ugAZl/OhktGYyJAMLs71UNlgibPLNnP52sVoNLCIrRWRK+KnVWAshADIY6eXPP7tCv
+ ZVh9oDv7AYlGBQ0KHdBvQsNco0h5VqqGATyiQsL/SM8DLICE1lGSYaG6vdUy7lqJiql7
+ 7ckwPTj4U6R/vCl57VatsOQmXcPcjZQFtxvffodNFW70yDupi1jJBVdWRdDVhX7ygza+ qg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2ym48st188-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Mar 2020 23:52:42 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 029Npi2f101380;
- Mon, 9 Mar 2020 23:52:42 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2ymun81dcj-1
+ Mon, 09 Mar 2020 23:52:59 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 029NqxpT095582;
+ Mon, 9 Mar 2020 23:52:59 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2ymnb1karr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Mar 2020 23:52:42 +0000
+ Mon, 09 Mar 2020 23:52:59 +0000
 Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 029Nqffb027463;
- Mon, 9 Mar 2020 23:52:41 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 029NqiWu008509;
+ Mon, 9 Mar 2020 23:52:44 GMT
 Received: from spark.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 09 Mar 2020 16:52:41 -0700
+ with ESMTP ; Mon, 09 Mar 2020 16:52:43 -0700
 From: Liran Alon <liran.alon@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/14] hw/i386/vmport: Allow x2apic without IR
-Date: Tue, 10 Mar 2020 01:54:08 +0200
-Message-Id: <20200309235411.76587-12-liran.alon@oracle.com>
+Subject: [PATCH 12/14] i386/cpu: Store LAPIC bus frequency in CPU structure
+Date: Tue, 10 Mar 2020 01:54:09 +0200
+Message-Id: <20200309235411.76587-13-liran.alon@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200309235411.76587-1-liran.alon@oracle.com>
 References: <20200309235411.76587-1-liran.alon@oracle.com>
@@ -63,21 +63,21 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0
- mlxlogscore=799 phishscore=0 adultscore=0 suspectscore=1 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003090144
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- lowpriorityscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=1
- phishscore=0 mlxlogscore=863 mlxscore=0 malwarescore=0 clxscore=1015
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ mlxscore=0 mlxlogscore=999
+ spamscore=0 suspectscore=1 adultscore=0 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
  definitions=main-2003090144
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ impostorscore=0
+ mlxlogscore=999 suspectscore=1 priorityscore=1501 lowpriorityscore=0
+ phishscore=0 adultscore=0 spamscore=0 mlxscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003090143
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,40 +95,66 @@ Cc: ehabkost@redhat.com, mst@redhat.com, Liran Alon <liran.alon@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signal to guest that hypervisor supports x2apic without VT-d/IOMMU
-Interrupt-Remapping support. This allows guest to use x2apic in
-case all APIC IDs fits in 8-bit (i.e. Max APIC ID < 255).
-
-See Linux kernel commit 4cca6ea04d31 ("x86/apic: Allow x2apic
-without IR on VMware platform") and Linux try_to_enable_x2apic()
-function.
+No functional change.
+This information will be used by following patches.
 
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
 ---
- hw/i386/vmport.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ linux-headers/asm-x86/kvm.h | 4 ++++
+ target/i386/cpu.h           | 1 +
+ target/i386/kvm.c           | 6 +++---
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index b33ef9c01d65..2b0a623f19c1 100644
---- a/hw/i386/vmport.c
-+++ b/hw/i386/vmport.c
-@@ -182,7 +182,14 @@ static uint32_t vmport_cmd_time_full(void *opaque, uint32_t addr)
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 503d3f42da16..99eeaaf2f0b4 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -446,4 +446,8 @@ struct kvm_pmu_event_filter {
+ #define KVM_PMU_EVENT_ALLOW 0
+ #define KVM_PMU_EVENT_DENY 1
  
- static uint32_t vmport_cmd_get_vcpu_info(void *opaque, uint32_t addr)
- {
--    return (1 << VCPU_INFO_RESERVED_BIT);
-+    X86CPU *cpu = X86_CPU(current_cpu);
-+    uint32_t ret = 0;
++/* From arch/x86/kvm/lapic.h */
++#define KVM_APIC_BUS_CYCLE_NS       1
++#define KVM_APIC_BUS_FREQUENCY      (1000000000ULL / KVM_APIC_BUS_CYCLE_NS)
 +
-+    if (cpu->env.features[FEAT_1_ECX] & CPUID_EXT_X2APIC) {
-+        ret |= 1 << VCPU_INFO_LEGACY_X2APIC_BIT;
-+    }
-+
-+    return ret;
- }
+ #endif /* _ASM_X86_KVM_H */
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 576f309bbfc8..9c7cd7cde107 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1580,6 +1580,7 @@ typedef struct CPUX86State {
+     bool tsc_valid;
+     int64_t tsc_khz;
+     int64_t user_tsc_khz; /* for sanity check only */
++    uint64_t apic_bus_freq;
+ #if defined(CONFIG_KVM) || defined(CONFIG_HVF)
+     void *xsave_buf;
+ #endif
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 69eb43d796e6..00917196dffb 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1496,6 +1496,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         }
+     }
  
- /* vmmouse helpers */
++    env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
++
+     /* Paravirtualization CPUIDs */
+     r = hyperv_handle_properties(cs, cpuid_data.entries);
+     if (r < 0) {
+@@ -1800,9 +1802,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         c = &cpuid_data.entries[cpuid_i++];
+         c->function = KVM_CPUID_SIGNATURE | 0x10;
+         c->eax = env->tsc_khz;
+-        /* LAPIC resolution of 1ns (freq: 1GHz) is hardcoded in KVM's
+-         * APIC_BUS_CYCLE_NS */
+-        c->ebx = 1000000;
++        c->ebx = env->apic_bus_freq / 1000; /* Hz to KHz */
+         c->ecx = c->edx = 0;
+ 
+         c = cpuid_find_entry(&cpuid_data.cpuid, kvm_base, 0);
 -- 
 2.20.1
 
