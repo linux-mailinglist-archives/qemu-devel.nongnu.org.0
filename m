@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692B817DF9A
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:12:37 +0100 (CET)
-Received: from localhost ([::1]:41942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC35C17DFA1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:15:08 +0100 (CET)
+Received: from localhost ([::1]:41974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHGu-0004ga-Fr
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55635)
+	id 1jBHJL-0000Kj-TF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jBHFg-0003gS-9l
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:21 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBHFj-0003kS-HZ
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jBHFf-0008Nr-1h
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29179
+ (envelope-from <philmd@redhat.com>) id 1jBHFi-0008SC-Jt
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54428
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBHFe-0008MD-U5
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:18 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBHFi-0008Rp-GO
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583755878;
+ s=mimecast20190719; t=1583755882;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZXgAGrtPhgvzRQUXqhGwMk2tMOYYjzi9xaVe5yS64Z0=;
- b=Pi0cDb4yQqy1Qi3wpBSrpfm2nq9wd89nhi14hNfl8GH6Srt6F3I+Q3wEZBkkFn4M7aSxls
- zrme7DoMisYj/FjAhj1c/SPRVXnUPESbt8YWu8ojMzrdxJk43qrfAkwaj//qJkgPwn/yxf
- n5TVVKFVrZ4/JZ10oZbTIvVM7rmZToA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-gdC24AESNpWBG2KJmuneIA-1; Mon, 09 Mar 2020 08:11:16 -0400
-X-MC-Unique: gdC24AESNpWBG2KJmuneIA-1
-Received: by mail-ed1-f72.google.com with SMTP id p17so2567028edt.20
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 05:11:16 -0700 (PDT)
+ bh=LM9DMNWiI760NtiO1+iofmugtapmqUkn1Z+NOomLjok=;
+ b=Q9NbdP7lUHkwQ/7xCDLlnetDoqwR8I/cxiQO44MetNKzKoB42D/BMKWJUMenIWMFZ9smGl
+ RhJltkW7Oji5C1bkoxV4ZRJfigDUGS3c1zUBHwzxiieqg8uGdLJxgpHYecfBslI79+XLtJ
+ wQxrCpl5iueKE4MfRlz9523kZ/aQtzA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-mjFoLki7OkWkxLck-tHGvQ-1; Mon, 09 Mar 2020 08:11:20 -0400
+X-MC-Unique: mjFoLki7OkWkxLck-tHGvQ-1
+Received: by mail-ed1-f69.google.com with SMTP id y4so7822697edm.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 05:11:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3ecVRP3opc1bGNljJ0SHMIFQGzksaL6md721N6NDR1Y=;
- b=h4Sz2mBcHnoataKZnPMgkz/2/iedAeymsrMBtiCd2h7j3ysyYDpFADngYDgmbUIQaM
- I6YZpQDoMZESxbrBhFEecnHzgRqFvvBq2qn7tbKDjr5hGymYw1oiQMGf/s+zFp8YOyZ0
- qzSVubM9s35QuRfUCU04e8+Tw4KOZaBvLCpyFq52DEX/d/w6/UJ3tRBZJDwBrFhgPKzQ
- tgBfrYwzJKVFcCIFqRaBKOn9hgXlJSwMxc0dNfuTsNNIu/HsmMqeN/eIulBIApbIoIJ2
- XMHaXUzLC6J8WJJXvnlxjG6VBMVRLK2JK1GUcinQ1G54O6//qoE8slXULRuZCpyRPqpO
- ZcDg==
-X-Gm-Message-State: ANhLgQ0wlbq4h5Uuqj/S9SoXP6dDhjKdzrn8SW5uFJ22ZXbYl/WxUKZz
- gyeFJtLUbS00/jmVRE8Xnnj77+z4K7kRokpFONywzaF4C7OF26N7jq1siQsAMGjPKgl2abMmLwb
- wpugqqxp7LhB0njQ=
-X-Received: by 2002:a50:ff09:: with SMTP id a9mr16288250edu.157.1583755873067; 
- Mon, 09 Mar 2020 05:11:13 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvyaYsutgc3cOXPbr+YH7cJP2+1avA+Vn46vBRKl6DXVkc7BvhXZ9bbg+5ZgN6fdlPIPzzXHg==
-X-Received: by 2002:a50:ff09:: with SMTP id a9mr16288232edu.157.1583755872882; 
- Mon, 09 Mar 2020 05:11:12 -0700 (PDT)
+ bh=WfHxGWmhrgeXSkoiuMTUncVrwHERBg1P30j9pqJHkrE=;
+ b=dIYqt3PMg6rnhIa11JuvpNl+cIzTpK5GRFZUhDE9jm9N5a+ey12VOg26qub5jvNweS
+ kMEvAst7v4s9GFZmdbFvh3qVx0Gjo5JdEmy57D2qVLYr0eoBHwolNa58XYcB6yknCtf7
+ yVLJV2zdKTrZ0jQs8TH67iIII9WC+C2FAWMA13l5DQRhYPmNt4UklHK8S1/kpdoF+CvR
+ T1fimSAWgXsHWulVjz5Mz36MXCpyn9u318TKlgYineLk5DJraB9aKXQJAxbDm+nwMfcE
+ NE5zed+464w0VSExG92UhPi/y9al/M5CC4gTWD4cTo5z5g4q1CjDC88O0q1XJ0Hlb2iO
+ JvJw==
+X-Gm-Message-State: ANhLgQ0CSMDlpsm4ZaiiNfMYIo6Vh/j/uv/LpXPKoRZ2yBssTHiPO7a/
+ j94QV4nJoiJJoW4JN+cfKR4KRi88W0DRFTmOicVXHMxaHBfMbUB/wxmXEUr4+ZVUMv5+qv23F/Q
+ lGn3ojSS1XwKf25Q=
+X-Received: by 2002:aa7:d689:: with SMTP id d9mr16927240edr.228.1583755879001; 
+ Mon, 09 Mar 2020 05:11:19 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vs6xnGbBLi2ziq5PuHRL2x6ef9phKTCiI0J3KHZiX1lNv19kEQVD0jVzxfGnTPw7HyF6lJ8Tw==
+X-Received: by 2002:aa7:d689:: with SMTP id d9mr16927219edr.228.1583755878859; 
+ Mon, 09 Mar 2020 05:11:18 -0700 (PDT)
 Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id a22sm2771026edx.25.2020.03.09.05.11.10
+ by smtp.gmail.com with ESMTPSA id c13sm953733edf.36.2020.03.09.05.11.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 05:11:12 -0700 (PDT)
+ Mon, 09 Mar 2020 05:11:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] cpu: Do not reset a vCPU before it is created
-Date: Mon,  9 Mar 2020 13:11:02 +0100
-Message-Id: <20200309121103.20234-2-philmd@redhat.com>
+Subject: [PATCH 2/2] cpu: Assert a vCPU is created before resetting it
+Date: Mon,  9 Mar 2020 13:11:03 +0100
+Message-Id: <20200309121103.20234-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200309121103.20234-1-philmd@redhat.com>
 References: <20200309121103.20234-1-philmd@redhat.com>
@@ -76,7 +76,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,126 +104,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 cpu_reset() might modify architecture-specific fields allocated
 by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
-commit 00d0f7cb66 when introducing new architectures, move the
-cpu_reset() calls after qemu_init_vcpu().
+commit 00d0f7cb66 when introducing new architectures, assert a
+vCPU is created before resetting it.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/cris/cpu.c    | 2 +-
- target/lm32/cpu.c    | 3 +--
- target/m68k/cpu.c    | 2 +-
- target/mips/cpu.c    | 2 +-
- target/sh4/cpu.c     | 2 +-
- target/tilegx/cpu.c  | 2 +-
- target/tricore/cpu.c | 2 +-
- 7 files changed, 7 insertions(+), 8 deletions(-)
+ hw/core/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index 17c6712e29..9b8b99840d 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -134,8 +134,8 @@ static void cris_cpu_realizefn(DeviceState *dev, Error =
-**errp)
-         return;
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index fe65ca62ac..09e49f8d6a 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -251,6 +251,7 @@ void cpu_reset(CPUState *cpu)
+ {
+     CPUClass *klass =3D CPU_GET_CLASS(cpu);
+=20
++    assert(cpu->created);
+     if (klass->reset !=3D NULL) {
+         (*klass->reset)(cpu);
      }
-=20
--    cpu_reset(cs);
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     ccc->parent_realize(dev, errp);
- }
-diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-index 687bf35e65..56f7b97c8f 100644
---- a/target/lm32/cpu.c
-+++ b/target/lm32/cpu.c
-@@ -132,9 +132,8 @@ static void lm32_cpu_realizefn(DeviceState *dev, Error =
-**errp)
-         return;
-     }
-=20
--    cpu_reset(cs);
--
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     lcc->parent_realize(dev, errp);
- }
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index f0653cda2f..51ca62694e 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -247,8 +247,8 @@ static void m68k_cpu_realizefn(DeviceState *dev, Error =
-**errp)
-=20
-     m68k_cpu_init_gdb(cpu);
-=20
--    cpu_reset(cs);
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     mcc->parent_realize(dev, errp);
- }
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 6cd6b9650b..553945005f 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -149,8 +149,8 @@ static void mips_cpu_realizefn(DeviceState *dev, Error =
-**errp)
-=20
-     cpu_mips_realize_env(&cpu->env);
-=20
--    cpu_reset(cs);
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     mcc->parent_realize(dev, errp);
- }
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 70c8d8170f..2564436719 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -184,8 +184,8 @@ static void superh_cpu_realizefn(DeviceState *dev, Erro=
-r **errp)
-         return;
-     }
-=20
--    cpu_reset(cs);
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     scc->parent_realize(dev, errp);
- }
-diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-index cd422a0467..7e9982197f 100644
---- a/target/tilegx/cpu.c
-+++ b/target/tilegx/cpu.c
-@@ -91,8 +91,8 @@ static void tilegx_cpu_realizefn(DeviceState *dev, Error =
-**errp)
-         return;
-     }
-=20
--    cpu_reset(cs);
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     tcc->parent_realize(dev, errp);
- }
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 85bc9f03a1..c5a5d54569 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -94,8 +94,8 @@ static void tricore_cpu_realizefn(DeviceState *dev, Error=
- **errp)
-     if (tricore_feature(env, TRICORE_FEATURE_131)) {
-         set_feature(env, TRICORE_FEATURE_13);
-     }
--    cpu_reset(cs);
-     qemu_init_vcpu(cs);
-+    cpu_reset(cs);
-=20
-     tcc->parent_realize(dev, errp);
- }
 --=20
 2.21.1
 
