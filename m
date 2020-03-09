@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F4717E9F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 21:24:44 +0100 (CET)
-Received: from localhost ([::1]:49366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3B217EA2D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 21:37:37 +0100 (CET)
+Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOx9-0003aE-6K
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 16:24:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60917)
+	id 1jBP9b-0000qm-UT
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 16:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jBOvw-0001wH-M2
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:29 -0400
+ (envelope-from <mst@redhat.com>) id 1jBP8a-0000CS-T6
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:36:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jBOvv-0005BP-Kv
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:28 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51696)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jBOvv-0005Az-FA
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:23:27 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id a132so956475wme.1
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 13:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MUtXuY++HJCf6YAR3b18aJ7DI0jQE6PA6a/VAxt1sw0=;
- b=xISKCMDTTXi/uzKuRaIgRkM/LuB0rPgjK8s8K2jPkJizeESg+VXXF+Z+k2wBoBSnWi
- az2oGnXIWucmRcEz0yqPoS5E+1UOW09D7B5DK11DjAQkSbXCzUwsx6yBD+FFvsQZtHQE
- 2OiwkxbTfzfvzens89KC/OALVAvjyPcrBNckIa8L/EIhdWFIV1QhlSht5LLM3yCsj8gl
- 3pfV1mH3QIe5pT8ojtca2e84jtjnxK+kFItJnSEhATMRP4tR3Lt50l5Dz4jAKhqwiZoq
- 6RzPFlDCiNj+XfZD+NWMEFzMjSq32nws5ZqJp0dIxxhju1a9ht+Up2ps//PNVMR7T3XO
- eFAw==
+ (envelope-from <mst@redhat.com>) id 1jBP8Y-00064i-V4
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:36:32 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49005
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBP8Y-00064O-QW
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:36:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583786190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wD6vZcXRaG39R8nB7Nwb8P9389zEZtKV2JYzfRAip/w=;
+ b=H6HhQtuDS9PtotKWkUd93Mf1d3bZkXJA7x8zch8gB5jtY2gCv8F921Vjtn073z9eHaNraI
+ vDxzyQewSw7ZlP7fO3oQ0C5c9vSxF0ZX935+ZMEPFO8xBdC131SIzeajrkiQFj/nicUqXM
+ 0YBNY9sN3QfLENs6lsQUf+qNS4ayotY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-WpdcVpkRPQi3-FyDO1NEoA-1; Mon, 09 Mar 2020 16:36:28 -0400
+X-MC-Unique: WpdcVpkRPQi3-FyDO1NEoA-1
+Received: by mail-wr1-f70.google.com with SMTP id p11so5717940wrn.10
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 13:36:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MUtXuY++HJCf6YAR3b18aJ7DI0jQE6PA6a/VAxt1sw0=;
- b=F97WPNXQ/0iwGi5B/taQLHmUyP37vH3UJljSkWsj3bDdHrzypGe0lE3hEc4YYDreIt
- bcifzolgpGL42RjZ4xEg18LSLOH5Mouc8nDcNW+QUF3K/4J9oyOFkCpUDoy/RfUMbl5R
- GnFOwZ1c3uUMlpIIyAJ9M8OYdFVUY8QJ+f90X3lT9mfe6L5UJoWoDeqxvMfeEfvhpllg
- vDWmpH2x1BJ5HtnWIEhpu19n5uADjuIdDnzudFvo43EoxKGD0zLokJDMk+ORWhTYkaTc
- GyRwnxose9ctv9j3mIEP1QVTy20GHVOb8DFb607nkpZhmVl4mKWh+R0/yyCokAHYiDB9
- hGlQ==
-X-Gm-Message-State: ANhLgQ3TUR06hGkcC6H/Mu9dlVFirSmrJmwE5D7CBqyES4Xaa6jQc7yF
- 2ld1MEkIz0CwvxVZ7ktmV0rPxA==
-X-Google-Smtp-Source: ADFU+vtL05d+bu3es8+XVt0YSoRuVK8h00OsNs9xDZBEDVU0sA7FfzjpTzu/1NUy0TovGn26jRkoow==
-X-Received: by 2002:a7b:ce09:: with SMTP id m9mr104815wmc.49.1583785406392;
- Mon, 09 Mar 2020 13:23:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v8sm60809339wrw.2.2020.03.09.13.23.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gCcEIxdfDGEuVQbiHnkew/NRhw04KBgfgm5q349vZpk=;
+ b=GbRbPH0IENNMMA9eseEKIJsCmkRkSWb7R+McaW5hC7RosRuivHFp6Y++cqoM0dC6s+
+ dWtGDoElaxgREffjGyx4mPJP2Du7Hl9RyYNTxbT70zj9h+/CPeY3VNNCgyM989vO8TUA
+ OWx3Gpw0oSMV/PSZgkRmOdKGKHDnfkW7H09OUKokVzHEYnDPgkCNHqa2aE7uifBmVqJu
+ 1yzCwCyodt+V27AyLet5pwQfTMxuJSsHAXGaSlTrGRNIAmrQhuO6/QpEa36XI6UTDiEO
+ cuuP1Yca6IUbI27J7m/ClpfBFfZ7wO67zBKQ+JQIakg/KIOKrtngsguTRYih+PDANdmA
+ 8gsA==
+X-Gm-Message-State: ANhLgQ3mLYnsCLynTpkrwEndH7EXHLIa7ryCPkH4NOjoWZx6bAidI4Lu
+ d3kPu9Gqsk7IPQZNdAxEYMoAjR2HYWNDDI6/tdZOyQuFBKJMAKX54jSxmpbv3N+0SF+uaZPYCkd
+ ZR3qv/jh2QNB3Kb4=
+X-Received: by 2002:a1c:59c6:: with SMTP id n189mr966177wmb.178.1583786187040; 
+ Mon, 09 Mar 2020 13:36:27 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vv3SwGpT3xweUpTVyFUIZDolCAbc03qC0RcoRqFk7KpTuPxwp8DElDkTURuhaB7UDrJqPB6FA==
+X-Received: by 2002:a1c:59c6:: with SMTP id n189mr966155wmb.178.1583786186678; 
+ Mon, 09 Mar 2020 13:36:26 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
+ by smtp.gmail.com with ESMTPSA id x24sm956137wmc.36.2020.03.09.13.36.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Mar 2020 13:23:23 -0700 (PDT)
-Received: from zen.home.arpa (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ED3901FF91;
- Mon,  9 Mar 2020 20:23:18 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 5/5] tests/acceptance: disable two more tests while in CI
-Date: Mon,  9 Mar 2020 20:23:18 +0000
-Message-Id: <20200309202318.3481-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200309202318.3481-1-alex.bennee@linaro.org>
-References: <20200309202318.3481-1-alex.bennee@linaro.org>
+ Mon, 09 Mar 2020 13:36:26 -0700 (PDT)
+Date: Mon, 9 Mar 2020 16:36:23 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v3 3/3] via-ide: Also emulate non 100% native mode
+Message-ID: <20200309163537-mutt-send-email-mst@kernel.org>
+References: <cover.1583781493.git.balaton@eik.bme.hu>
+ <ac37e5f5b86a3b2680c01d7b0d027dafd27a3ac7.1583781494.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+In-Reply-To: <ac37e5f5b86a3b2680c01d7b0d027dafd27a3ac7.1583781494.git.balaton@eik.bme.hu>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,52 +88,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-block@nongnu.org, philmd@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These keep timing out on Travis. The reason is unknown so add a FIXME
-for those who want to track down exactly why this is happening. In the
-meantime you can still run check-acceptance manually without change.
+On Mon, Mar 09, 2020 at 08:18:13PM +0100, BALATON Zoltan wrote:
+> Some machines operate in "non 100% native mode" where interrupts are
+> fixed at legacy IDE interrupts and some guests expect this behaviour
+> without checking based on knowledge about hardware. Even Linux has
+> arch specific workarounds for this that are activated on such boards
+> so this needs to be emulated as well.
+>=20
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+> v2: Don't use PCI_INTERRUPT_LINE in via_ide_set_irq()
+> v3: Patch pci.c instead of local workaround for PCI reset clearing
+>     PCI_INTERRUPT_PIN config reg
+>=20
+>  hw/ide/via.c            | 37 +++++++++++++++++++++++++++++--------
+>  hw/mips/mips_fulong2e.c |  2 +-
+>  include/hw/ide.h        |  3 ++-
+>  3 files changed, 32 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index 096de8dba0..02d29809f2 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -1,9 +1,10 @@
+>  /*
+> - * QEMU IDE Emulation: PCI VIA82C686B support.
+> + * QEMU VIA southbridge IDE emulation (VT82C686B, VT8231)
+>   *
+>   * Copyright (c) 2003 Fabrice Bellard
+>   * Copyright (c) 2006 Openedhand Ltd.
+>   * Copyright (c) 2010 Huacai Chen <zltjiangshi@gmail.com>
+> + * Copyright (c) 2019-2020 BALATON Zoltan
+>   *
+>   * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+>   * of this software and associated documentation files (the "Software"),=
+ to deal
+> @@ -25,6 +26,8 @@
+>   */
+> =20
+>  #include "qemu/osdep.h"
+> +#include "qemu/range.h"
+> +#include "hw/qdev-properties.h"
+>  #include "hw/pci/pci.h"
+>  #include "migration/vmstate.h"
+>  #include "qemu/module.h"
+> @@ -111,11 +114,18 @@ static void via_ide_set_irq(void *opaque, int n, in=
+t level)
+>      } else {
+>          d->config[0x70 + n * 8] &=3D ~0x80;
+>      }
+> -
+>      level =3D (d->config[0x70] & 0x80) || (d->config[0x78] & 0x80);
+> -    n =3D pci_get_byte(d->config + PCI_INTERRUPT_LINE);
+> -    if (n) {
+> -        qemu_set_irq(isa_get_irq(NULL, n), level);
+> +
+> +    /*
+> +     * Some machines operate in "non 100% native mode" where PCI_INTERRU=
+PT_LINE
+> +     * is not used but IDE always uses ISA IRQ 14 and 15 even in native =
+mode.
+> +     * Some guest drivers expect this, often without checking.
+> +     */
+> +    if (!(pci_get_byte(d->config + PCI_CLASS_PROG) & (n ? 4 : 1)) ||
+> +        PCI_IDE(d)->flags & BIT(PCI_IDE_LEGACY_IRQ)) {
+> +        qemu_set_irq(isa_get_irq(NULL, (n ? 15 : 14)), level);
+> +    } else {
+> +        qemu_set_irq(isa_get_irq(NULL, 14), level);
+>      }
+>  }
+> =20
+> @@ -169,7 +179,8 @@ static void via_ide_realize(PCIDevice *dev, Error **e=
+rrp)
+> =20
+>      pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mod=
+e */
+>      pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+> -    dev->wmask[PCI_INTERRUPT_LINE] =3D 0xf;
+> +    dev->wmask[PCI_CLASS_PROG] =3D 5;
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/acceptance/machine_mips_malta.py  | 2 ++
- tests/acceptance/machine_sparc_leon3.py | 2 ++
- 2 files changed, 4 insertions(+)
+What's the story here? Why is class suddenly writeable?
 
-diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/machine_mips_malta.py
-index 92b4f28a112..deebf532e95 100644
---- a/tests/acceptance/machine_mips_malta.py
-+++ b/tests/acceptance/machine_mips_malta.py
-@@ -99,6 +99,8 @@ class MaltaMachineFramebuffer(Test):
-         """
-         self.do_test_i6400_framebuffer_logo(1)
- 
-+    # FIXME: why does this keep timing out on Travis?
-+    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-     def test_mips_malta_i6400_framebuffer_logo_7cores(self):
-         """
-         :avocado: tags=arch:mips64el
-diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance/machine_sparc_leon3.py
-index f77e210ccb4..91d94d967de 100644
---- a/tests/acceptance/machine_sparc_leon3.py
-+++ b/tests/acceptance/machine_sparc_leon3.py
-@@ -13,6 +13,8 @@ class Leon3Machine(Test):
- 
-     timeout = 60
- 
-+    # FIXME: why does this keep timing out on Travis?
-+    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
-     def test_leon3_helenos_uimage(self):
-         """
-         :avocado: tags=arch:sparc
--- 
-2.20.1
+> +    dev->wmask[PCI_INTERRUPT_LINE] =3D 0;
+> =20
+>      memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_o=
+ps,
+>                            &d->bus[0], "via-ide0-data", 8);
+> @@ -213,14 +224,23 @@ static void via_ide_exitfn(PCIDevice *dev)
+>      }
+>  }
+> =20
+> -void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
+> +void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
+> +                  bool legacy_irq)
+>  {
+>      PCIDevice *dev;
+> =20
+> -    dev =3D pci_create_simple(bus, devfn, "via-ide");
+> +    dev =3D pci_create(bus, devfn, "via-ide");
+> +    qdev_prop_set_bit(&dev->qdev, "legacy-irq", legacy_irq);
+> +    qdev_init_nofail(&dev->qdev);
+>      pci_ide_create_devs(dev, hd_table);
+>  }
+> =20
+> +static Property via_ide_properties[] =3D {
+> +    DEFINE_PROP_BIT("legacy-irq", PCIIDEState, flags, PCI_IDE_LEGACY_IRQ=
+,
+> +                    false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+>  static void via_ide_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> @@ -233,6 +253,7 @@ static void via_ide_class_init(ObjectClass *klass, vo=
+id *data)
+>      k->device_id =3D PCI_DEVICE_ID_VIA_IDE;
+>      k->revision =3D 0x06;
+>      k->class_id =3D PCI_CLASS_STORAGE_IDE;
+> +    device_class_set_props(dc, via_ide_properties);
+>      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>  }
+> =20
+> diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+> index 4727b1d3a4..150182c62a 100644
+> --- a/hw/mips/mips_fulong2e.c
+> +++ b/hw/mips/mips_fulong2e.c
+> @@ -257,7 +257,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bu=
+s, int slot, qemu_irq intc,
+>      isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+> =20
+>      ide_drive_get(hd, ARRAY_SIZE(hd));
+> -    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1));
+> +    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1), false);
+> =20
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci")=
+;
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci")=
+;
+> diff --git a/include/hw/ide.h b/include/hw/ide.h
+> index d88c5ee695..2a7001ccba 100644
+> --- a/include/hw/ide.h
+> +++ b/include/hw/ide.h
+> @@ -18,7 +18,8 @@ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInf=
+o **hd_table, int devfn);
+>  PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
+fn);
+>  PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int dev=
+fn);
+>  int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+> -void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+> +void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
+> +                  bool legacy_irq);
+> =20
+>  /* ide-mmio.c */
+>  void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *h=
+d1);
+> --=20
+> 2.21.1
+>=20
+>=20
 
 
