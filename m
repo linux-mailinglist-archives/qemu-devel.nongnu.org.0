@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF7E17E3B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:36:51 +0100 (CET)
-Received: from localhost ([::1]:45110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21D017E3C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:39:07 +0100 (CET)
+Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKSZ-0003QL-00
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33835)
+	id 1jBKUk-0008L3-TV
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK2x-0000HL-VB
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:25 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK32-0000TZ-K9
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK2w-000844-On
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:23 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:38419)
+ (envelope-from <laurent@vivier.eu>) id 1jBK31-00088I-KR
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:28 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:58415)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2m-0007yY-As; Mon, 09 Mar 2020 11:10:12 -0400
+ id 1jBK2v-0007zo-C1; Mon, 09 Mar 2020 11:10:21 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1My3AX-1jYBjR1Hm3-00zVGb; Mon, 09 Mar 2020 16:09:06 +0100
+ id 1Mv2tK-1jSzTQ44v2-00qzTi; Mon, 09 Mar 2020 16:09:25 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/33] hw/i386/ioapic_internal: Remove unused
- "hw/i386/ioapic.h" header
-Date: Mon,  9 Mar 2020 16:08:14 +0100
-Message-Id: <20200309150837.3193387-11-laurent@vivier.eu>
+Subject: [PULL 18/33] hw/timer/hpet: Include "exec/address-spaces.h"
+Date: Mon,  9 Mar 2020 16:08:22 +0100
+Message-Id: <20200309150837.3193387-19-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:u3cPHvNvPGZ71fbGyaPeuOYlBQ264xiRTyGLhSmLmH67HijXfLa
- Y/qoXbhDzpPStZaVi8UaZJHHsBWYEYYo4GbKgMgSUSzEmvFukXni5rNTb74DFo151g7oIxi
- dpsTu61sW3Wtu1cntATyfaBQ1zSOTP7c5tLLEKT6h+m28jrS6w/F4c2ae0QzxhHS0Y8rfUr
- AyJ0kIDUuVP4xkFH2c3WA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MIrVBrtyA2c=:o3LjRP0DEiWUwk9amWDB/8
- LvmxIIbSkJi+oVil9V4+sj2po18yeoP0ZdBYcJlNUkLUMRusu6NlHxNG5g8xnz4/N5Lw5/UDa
- U/AMdA1HG++9XdJPUIB9EpzeYICB2F/Fn7CWl1tn1NJGyP0BpyNAqAZczbqLMwrwJy1SnPx8R
- N2HwHd8deHULP2tzUO4d8gATrp65MeKWmt0vGxN9S9ZEPe7C5EZJBjt3Z+vkb3g8fof2O8u4m
- 3yg6Qqrp+9qcGm4Q7QDSZvYDrdFF3gA2Hm47Cx5dB6AtfCIvsKQKzMEDDcIzoYWCrTtx4Hh0j
- ZjsPA/+hNVp2YS4SMbbvySVyskubCOYgfBB2CISmX0mWoD0jeLQfZ0DsjT8TtQWuQ+wGDH76c
- 4Ivo+aQVKcF06BSUQ94OVN3FFSjqYzKQzRWXsS2gDJmqR1WXoB8evoS7rRPnQW9xRPq5AGARd
- O9jNqsfg2G29v0fT01Xw/G+tfTtzt/dU7LchYctnZDOW/P+Iyibl4ST6ddi7lQFL/ql03EOj/
- Gz/EGXp/w4+kUrqQL9PLZ3awYU8oiHN04Pt+P66bekr6sD5mMVQcrlKAaqvJ5zpo/eaI9Ueaf
- De+tPClMoGMYg/IswaS6fmezKptwNOafBN3/k8Ok9/xH+qT/qZ8FDazpaVxdZzJmfRzwaq5Ig
- ab1CkZwoL4MRqEyyZfm5Ft1nHArvR51vRVVXK5+dfua2MUPc5Pf2mkjSEYWsJVT+i7UyjBlAJ
- 1q24dxVpAGwkYWMLrTCKofEcI9QsrXdjMrBOke77JtOVixNNzkjnakYzV21DUN4cYfymwENXe
- X2Dzz+hOuA0iTrV6ryhcNjZXva4icWSW+jk08jK6NRIw6UbreyCqETJeWugpaSh2c4RnfqX
+X-Provags-ID: V03:K1:O5ktA5u/pvyBqK+lJEE+rKA/tVmNCUJ8OU4Z4k0rTqvuYlimz6i
+ zz5oDt9n7A5K5U6qdBg+9And87yDAwyhK9O4lur6RV8vEajaOF+C8CsCQBL3n7+T3N31dTV
+ G1pRP6Htz2hbJt7FWPJNyDHsqKaic4trqLzYucN6GzIBjQTPgCbRXIpJfnap/Zzg3Wg5mtg
+ 8EvDCJ+xA1OdsbxcQtiqQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:515utrpxNXo=:RiGyt17IZdJ98n0ovCeb4p
+ I3JIIC5TapNk/BxUyyZ0u33IlpH42C4UYBtNGtbHRaE3yLlvja2v6459g0Gxm7/3MPvwUBqqa
+ XkSVXaZJevXpHFocvlkvuq967E/ppVlhjbhkmOJXkT0juDsvn2A0M+k58mFSC/6SleYLpYZaM
+ 9KfAdza59Gg9MINcDQ7wuI8HTB0AztnjO+nvIYM8sXO+X6+f53YrZKdvkbrfhs2Ytf15lK5/8
+ k40qP2Ds8V9Or7ZPX6n8K2Xa1VDCTZJtrEqOElZZYG3jcUImQtiBJF/wRheSLdvbgCJd7/aE+
+ ZvMc7WdfcJskgKWUWq5AJtk2URs6KbUeLL0amun2501bMehfAs/ocpXzT8joXm63webEMOBA+
+ RyjaDCuk8zzuC9vXZUK3FsOtsVh2rfnZNgF9FUcgcY8QN7izrD/iI3efDF4vowEBHT5AdEvhQ
+ OE3aNSR2hSCBZpXkifG20W1TJh8s1CUNXj1Qg7f0PGDA/qCOJDL1evsbD0eCavIOxju3mZZct
+ MA+JjYpkvN9fDH/lwxemkkeAVLuRk2s+sGW8LmsdA9wwEMWRsbvD5q0HJo0Lk4sx8N8gITo2U
+ F51qmdfWW18MNNLOqPN5EmnFsEzZZFBscuMUG17X4Ys5j+bXzjjnWfHDKB02o9fTAznEint5o
+ aIm5DzlODVRAV+pjVZNq/77T0oKWTm2p4tgRhhdgQICnjbSbwCdIIBCOcWDZTPcBDZvFgWHk7
+ Qi4P+WvcPAT6AOs3QxA0gGSoh5QPV+GEqT49Qp9FhRi1XR20q56Mq2O6324sHUXHIpBPKCoVL
+ O71gEHKw5XxiBJpu5KDXqAg0KXGTbju2tdh+ILPGw8YxAXcr1T5uK6L4fBezgB805fE/NJZ
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,30 +87,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The "ioapic_internal.h" does not use anything from
-"hw/i386/ioapic.h", remove it.
+hw/timer/hpet.c calls address_space_stl_le() declared in
+"exec/address-spaces.h". Include it.
+
+This fixes (when modifying unrelated headers):
+
+  hw/timer/hpet.c:210:31: error: use of undeclared identifier 'address_space_memory'
+          address_space_stl_le(&address_space_memory, timer->fsb >> 32,
+                               ^~~~~~~~~~~~~~~~~~~~
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-4-philmd@redhat.com>
+Message-Id: <20200228114649.12818-12-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/i386/ioapic_internal.h | 1 -
- 1 file changed, 1 deletion(-)
+ hw/timer/hpet.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
-index d46c87c51030..fe06938bda47 100644
---- a/include/hw/i386/ioapic_internal.h
-+++ b/include/hw/i386/ioapic_internal.h
-@@ -23,7 +23,6 @@
- #define QEMU_IOAPIC_INTERNAL_H
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 4f30dd50a40a..380acfa7c8a5 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
+@@ -36,6 +36,7 @@
+ #include "hw/rtc/mc146818rtc_regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/timer/i8254.h"
++#include "exec/address-spaces.h"
  
- #include "exec/memory.h"
--#include "hw/i386/ioapic.h"
- #include "hw/sysbus.h"
- #include "qemu/notify.h"
- 
+ //#define HPET_DEBUG
+ #ifdef HPET_DEBUG
 -- 
 2.24.1
 
