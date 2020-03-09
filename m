@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C021117E761
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 19:41:40 +0100 (CET)
-Received: from localhost ([::1]:47964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885B917E766
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 19:42:50 +0100 (CET)
+Received: from localhost ([::1]:48000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBNLP-0000I4-MY
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 14:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42196)
+	id 1jBNMX-0002dD-GF
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 14:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42177)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jandryuk@gmail.com>) id 1jBNIm-0005X1-1j
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 14:38:56 -0400
+ (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBNIi-0005Ut-LV
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 14:38:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jandryuk@gmail.com>) id 1jBNIk-0004TP-0C
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 14:38:55 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:39392)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jandryuk@gmail.com>) id 1jBNIj-0004SV-Nb
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 14:38:53 -0400
-Received: by mail-lj1-x243.google.com with SMTP id f10so11089687ljn.6
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 11:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x+g5J1w0OmqiClDOsCGofXUvS/N6rpssEiz/rhBpeNs=;
- b=u7vv9C5z20mmheCGX99CwWNjukQ1NnXDyBeG7NK6qvYLgZuFauABVYM3G2slENvjaz
- gw3N1ryJZhdejVbtor+sGtc1zc9eYw8lFTs3JuUGAQ1obJeTlkhhcbWQ1BT3p0o0v5uS
- oEo0+CCPjKBZoCseLrSXRLj3KyFgXCOoQw+GCAq28dsX5n0GVxdd3V8cIxy3fZ/eDWle
- 6CU3/mhfjov1O9w/SSub7uzT1EjX1aph4fqXvm4dLVKPy3Mf7fyqHHRGJ4ut5W0uD6PR
- NNspZG74N1Cesy4Yz2xY6viZeKpB+Ozpie051r7QjYZdOX6HOdZ+yevvLZnAqo7fSh5n
- ZrpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x+g5J1w0OmqiClDOsCGofXUvS/N6rpssEiz/rhBpeNs=;
- b=jtTI79UHQUTlhpehwZwEC5lJxIw5noCu0MDY0IxTQo+i07U80CUjPEaPCymm4bJeWq
- 1c0UqhUBmyaOTd32m9r+8MBk8kGoNQ+9xTuUMCCWQJ3UbI+pFbgVtLJ4bhAiGpcxKyZa
- CTaaEqD/8yTRy8ouSE/XdGpkbLvZu90UuHKW2/GOxUdZhAU1PwI3mVXrG2Hv20f67YnM
- 308hsTGmp1ol3AVBrPf2n3TxJFPIia/gJSxhaAOzr2ihYHuvaas+jmonBjWJRbUc/tLr
- Mk+H1gvItnFRbC3BhPaCh/sNMHYDTa/I6hpfvcWZZElMyMd3kxmti2/AyzxeTD/dyptI
- Ml+w==
-X-Gm-Message-State: ANhLgQ20C8sUvnHkweLdgrNj22sHB4qZhtgkjPqHnvkivdoMxqde2D4F
- xjc6gOouR/Q/MoIbdGEBWsOr/d9cWhY9QEKQJ3o=
-X-Google-Smtp-Source: ADFU+vu8j/PCWsfyCIXrsuGuKMo+UXZAukPpOJnYerD/4niczG7OZoeClOdJKey8Lv5SfNH9HXSB3g9UuxYIKax0aPE=
-X-Received: by 2002:a2e:918f:: with SMTP id f15mr1998118ljg.246.1583779131783; 
- Mon, 09 Mar 2020 11:38:51 -0700 (PDT)
+ (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBNIh-0004Rl-3X
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 14:38:52 -0400
+Received: from smtp.lg.ehu.es ([158.227.0.66]:52095 helo=smtp.ehu.eus)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <unai.martinezcorral@ehu.eus>)
+ id 1jBNIg-0004Qv-IG
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 14:38:50 -0400
+Received: from imsva2.lgp.ehu.es (imsva2.lgp.ehu.es [10.0.3.246])
+ by postfix.smtp2.imsva2 (Postfix) with ESMTPS id 7783E64BB;
+ Mon,  9 Mar 2020 19:38:49 +0100 (CET)
+Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4F54F5A04F;
+ Mon,  9 Mar 2020 19:38:49 +0100 (CET)
+Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 43FCE5A045;
+ Mon,  9 Mar 2020 19:38:49 +0100 (CET)
+Received: from smtp.ehu.eus (unknown [10.0.100.76])
+ by imsva2.lgp.ehu.es (Postfix) with ESMTPS;
+ Mon,  9 Mar 2020 19:38:49 +0100 (CET)
+Received: from 669c1c222ef4 (static.187.0.0.81.ibercom.com [81.0.0.187])
+ by smtp2 (Postfix) with ESMTPSA id F3EB061E1;
+ Mon,  9 Mar 2020 19:38:48 +0100 (CET)
+Date: Mon, 9 Mar 2020 18:38:47 +0000
+From: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 4/9] qemu-binfmt-conf.sh: use the same presentation format
+ as for qemu-*
+Message-ID: <20200309183847.GD14@669c1c222ef4>
+References: <20200309183521.GA9@669c1c222ef4>
 MIME-Version: 1.0
-References: <20200306140917.26726-1-jandryuk@gmail.com>
- <20200309100822.kf3hftjdnkmbl5vx@sirius.home.kraxel.org>
-In-Reply-To: <20200309100822.kf3hftjdnkmbl5vx@sirius.home.kraxel.org>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Mon, 9 Mar 2020 14:38:40 -0400
-Message-ID: <CAKf6xpvy_41mHYkr3YFCsb1PNYagMjV=OGDJcNr7fFmLpWst7w@mail.gmail.com>
-Subject: Re: [PATCH] usb-serial: wakeup device on input
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200309183521.GA9@669c1c222ef4>
+X-Greylist: ACL 191 matched, not delayed by milter-greylist-4.6.2 (smtp2
+ [10.0.100.76]); Mon, 09 Mar 2020 19:38:49 +0100 (CET)
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.1631-8.5.0.1020-25280.001
+X-TM-AS-Result: No--0.153-7.0-31-10
+X-imss-scan-details: No--0.153-7.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.1631-8.5.1020-25280.001
+X-TMASE-Result: 10--0.153400-10.000000
+X-TMASE-MatchedRID: 8TN2djYOGuT9T2Lkmecl6ZJsWTCuaRDiS1zwNuiBtITfUZT83lbkENcP
+ Az195hI2GSFUsm29mSFhPO8j3auvUoG9V0kqQ2uQbWsCUkrA4Em7xmCZDXruteZYcdJgScjxdg1
+ +34sLG7ZQY4w7oxnsdyNhKgIJyVjTKkPeqGW0ZSPZulfZck3CoStTx/ehjzxgrSZr8U2Z6jx576
+ my5IxjuqzXIr1dtYg7fyYDewMOrQDkwjHXXC/4I66NVEWSRWybiqm7B70NuZJ9Z7hyAFJY9jESk
+ h5cnZPz9M/qVkhwHg4h7eRfVadpKdYdycLRSQDdH8ObHSuXbim7MLwPLbnnjAjE5VHLyndBUPCI
+ 8n2+0dTWkennr0izCN/kn5PmG7MEf1zYTr68FgO5XBEMs6Idug==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
+X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
+ milter-greylist-4.6.2 (postfix.smtp2.imsva2 [10.0.100.76]);
+ Mon, 09 Mar 2020 19:38:49 +0100 (CET)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 158.227.0.66
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,47 +78,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 9, 2020 at 6:08 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Fri, Mar 06, 2020 at 09:09:17AM -0500, Jason Andryuk wrote:
-> > Currently usb-serial devices are unable to send data into guests with
-> > the xhci controller.  Data is copied into the usb-serial's buffer, but
-> > it is not sent into the guest.  Data coming out of the guest works
-> > properly.  usb-serial devices work properly with ehci.
-> >
-> > Have usb-serial call usb_wakeup() when receiving data from the chardev.
-> > This seems to notify the xhci controller and fix inbound data flow.
-> >
-> > Also add USB_CFG_ATT_WAKEUP to the device's bmAttributes.  This matches
-> > a real FTDI serial adapter's bmAttributes.
-> >
-> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
->
-> Added to usb patch queue.
+Signed-off-by: umarcor <unai.martinezcorral@ehu.eus>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+---
+ scripts/qemu-binfmt-conf.sh | 63 +++++++++++++++++++------------------
+ 1 file changed, 32 insertions(+), 31 deletions(-)
 
-Thanks.  Unfortunately, while this seemed okay in my early testing,
-something is still off.  Typing at slow (human) speed, input seems
-fine.  Pasting a large chunk of data into netcat has some of the data
-dropped (not coming out of /dev/ttyUSB0 in the guest).  The VM kernel
-reports "ttyUSB0: X input overrun(s)" with X seen between 1 and 8.
-EHCI seems fine, even for chunks greater than the 384 byte buffer of
-usb-serial.
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 0c28db5ca4..870815fb22 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -171,47 +171,48 @@ qemu_get_family() {
+ 
+ usage() {
+     cat <<EOF
+-Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
+-                           [--help][--credential][--exportdir PATH]
+-                           [--persistent][--qemu-suffix SUFFIX]
++Usage: qemu-binfmt-conf.sh [options]
+ 
+-       Configure binfmt_misc to use qemu interpreter
++Configure binfmt_misc to use qemu interpreter
+ 
+-       --help:        display this usage
+-       --qemu-path:   set path to qemu interpreter ($QEMU_PATH)
+-       --qemu-suffix: add a suffix to the default interpreter name
+-       --debian:      don't write into /proc,
+-                      instead generate update-binfmts templates
+-       --systemd:     don't write into /proc,
+-                      instead generate file for systemd-binfmt.service
+-                      for the given CPU. If CPU is "ALL", generate a
+-                      file for all known cpus
+-       --exportdir:   define where to write configuration files
+-                      (default: $SYSTEMDDIR or $DEBIANDIR)
+-       --credential:  if present, credential and security tokens are
+-                      calculated according to the binary to interpret
+-                      (QEMU_CREDENTIAL=yes)
+-       --persistent:  if present, the interpreter is loaded when binfmt is
+-                      configured and remains in memory. All future uses
+-                      are cloned from the open file.
+-                      (QEMU_PERSISTENT=yes)
++Options and associated environment variables:
+ 
+-    To import templates with update-binfmts, use :
++Argument             Env-variable     Description
++-h|--help                             display this usage
++-Q|--qemu-path PATH  QEMU_PATH        set path to qemu interpreter
++-F|--qemu-suffix SUFFIX               add a suffix to the default interpreter name
++-p|--persistent      QEMU_PERSISTENT  (yes) load the interpreter and keep it in memory; all future
++                                      uses are cloned from the open file.
++-c|--credential      QEMU_CREDENTIAL  (yes) credential and security tokens are calculated according
++                                      to the binary to interpret
++-e|--exportdir PATH                   define where to write configuration files
++                                      (default: $SYSTEMDDIR or $DEBIANDIR)
++-s|--systemd CPU                      don't write into /proc, generate file for
++                                      systemd-binfmt.service for the given CPU; if CPU is "ALL",
++                                      generate a file for all known cpus.
++-d|--debian                           don't write into /proc, generate update-binfmts templates
+ 
+-        sudo update-binfmts --importdir ${EXPORTDIR:-$DEBIANDIR} --import qemu-CPU
++Defaults:
++QEMU_PATH=$QEMU_PATH
++QEMU_PERSISTENT=$QEMU_PERSISTENT
++QEMU_CREDENTIAL=$QEMU_CREDENTIAL
+ 
+-    To remove interpreter, use :
++To import templates with update-binfmts, use :
+ 
+-        sudo update-binfmts --package qemu-CPU --remove qemu-CPU $QEMU_PATH
++    sudo update-binfmts --importdir ${EXPORTDIR:-$DEBIANDIR} --import qemu-CPU
+ 
+-    With systemd, binfmt files are loaded by systemd-binfmt.service
++To remove interpreter, use :
+ 
+-    The environment variable HOST_ARCH allows to override 'uname' to generate
+-    configuration files for a different architecture than the current one.
++    sudo update-binfmts --package qemu-CPU --remove qemu-CPU $QEMU_PATH
+ 
+-    where CPU is one of:
++With systemd, binfmt files are loaded by systemd-binfmt.service
+ 
+-        $qemu_target_list
++The environment variable HOST_ARCH allows to override 'uname' to generate configuration files for a
++different architecture than the current one.
++
++where CPU is one of:
++
++    $qemu_target_list
+ 
+ EOF
+ }
+-- 
+2.25.1
 
-As one example, pasting
-Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0
-looks to only have the following output in the guest
-Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Acc1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0
 
-Characters 62 & 63 don't make it through "c0Ac" -> "cc".  The guest
-kernel does *not* report input overruns in this case.
-
-Any ideas?
-
-Thanks,
-Jason
 
