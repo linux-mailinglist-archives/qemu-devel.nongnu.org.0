@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB4E17DD86
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:27:56 +0100 (CET)
-Received: from localhost ([::1]:40280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B132117DD8C
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:29:16 +0100 (CET)
+Received: from localhost ([::1]:40308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBFdc-0004lM-17
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
+	id 1jBFet-0007Sb-Dz
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jBFac-0008Ha-CP
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:51 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jBFan-00008B-CH
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:25:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jBFab-0001wU-Dk
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:50 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26696
+ (envelope-from <eric.auger@redhat.com>) id 1jBFam-000228-AX
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:25:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31158
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jBFab-0001wG-Aa
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:49 -0400
+ id 1jBFam-0001zw-71
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:25:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583749489;
+ s=mimecast20190719; t=1583749498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MvayPD2KrkjvVludp3nPmXgg5XhOf+bBUlyipWBvYKU=;
- b=L+ozH3rudY9vHAlZErViOP10OdoYp4zH/88HEpf2tOLoN57SVig1spxu4gjuUfnPKzBV5Z
- aV6yXmfA5U8d2Xe8efLoGAQnu8mRz+cJK8lC3xVWDxPnIgvC92e8ahEyzKHn3Sai0TbjuU
- YkE+FM+IhbOE3KobaaSPe7fVUFIecU8=
+ bh=HV5vvbw31wyEYrQ32o2dc0uwSfN4maLDv7794Qu4y+I=;
+ b=Lt1GtvhvEGHVkuYDyLP/RKU8uOlAeUopsEcIPgrKUOQZZN6fK8tZki1/ZaTBDAo9CZFjp0
+ e1Em1ld6HasRK1urOE6ojMJpR9mr4E9rHg3tPKYMyl9LvTBq6pHyg5MNZ+8AgZ9uh9HEfc
+ WSMjR2Hwf8Je5HLZkZoQuojxnBOXKhs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-jnfEeXoHOma61Zys7wINog-1; Mon, 09 Mar 2020 06:24:47 -0400
-X-MC-Unique: jnfEeXoHOma61Zys7wINog-1
+ us-mta-65-QK0iUyyRMlKOBTk4pdRpKg-1; Mon, 09 Mar 2020 06:24:56 -0400
+X-MC-Unique: QK0iUyyRMlKOBTk4pdRpKg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7F078017CC;
- Mon,  9 Mar 2020 10:24:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D124A8017CC;
+ Mon,  9 Mar 2020 10:24:53 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D85CB90779;
- Mon,  9 Mar 2020 10:24:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BFE487B08;
+ Mon,  9 Mar 2020 10:24:45 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v4 03/13] arm/arm64: gic: Introduce setup_irq()
- helper
-Date: Mon,  9 Mar 2020 11:24:10 +0100
-Message-Id: <20200309102420.24498-4-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH v4 04/13] arm/arm64: gicv3: Add some
+ re-distributor defines
+Date: Mon,  9 Mar 2020 11:24:11 +0100
+Message-Id: <20200309102420.24498-5-eric.auger@redhat.com>
 In-Reply-To: <20200309102420.24498-1-eric.auger@redhat.com>
 References: <20200309102420.24498-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -77,83 +77,43 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ipi_enable() code would be reusable for other interrupts
-than IPI. Let's rename it setup_irq() and pass an interrupt
-handler pointer.
+PROPBASER, PENDBASE and GICR_CTRL will be used for LPI management.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Zenghui Yu <yuzenghui@huawei.com>
 
 ---
 
-v2 -> v3:
-- do not export setup_irq anymore
+v3 -> v4:
+- replace some spaces by tabs and added Zenghui's R-b
 ---
- arm/gic.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ lib/arm/asm/gic-v3.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arm/gic.c b/arm/gic.c
-index fcf4c1f..abf08c7 100644
---- a/arm/gic.c
-+++ b/arm/gic.c
-@@ -34,6 +34,7 @@ static struct gic *gic;
- static int acked[NR_CPUS], spurious[NR_CPUS];
- static int bad_sender[NR_CPUS], bad_irq[NR_CPUS];
- static cpumask_t ready;
-+typedef void (*handler_t)(struct pt_regs *regs __unused);
+diff --git a/lib/arm/asm/gic-v3.h b/lib/arm/asm/gic-v3.h
+index e2736a1..47df051 100644
+--- a/lib/arm/asm/gic-v3.h
++++ b/lib/arm/asm/gic-v3.h
+@@ -18,6 +18,7 @@
+  * We expect to be run in Non-secure mode, thus we define the
+  * group1 enable bits with respect to that view.
+  */
++#define GICD_CTLR			0x0000
+ #define GICD_CTLR_RWP			(1U << 31)
+ #define GICD_CTLR_ARE_NS		(1U << 4)
+ #define GICD_CTLR_ENABLE_G1A		(1U << 1)
+@@ -38,6 +39,11 @@
+ #define GICR_ICACTIVER0			GICD_ICACTIVER
+ #define GICR_IPRIORITYR0		GICD_IPRIORITYR
 =20
- static void nr_cpu_check(int nr)
- {
-@@ -215,20 +216,20 @@ static void ipi_test_smp(void)
- 	report_prefix_pop();
- }
-=20
--static void ipi_enable(void)
-+static void setup_irq(handler_t handler)
- {
- 	gic_enable_defaults();
- #ifdef __arm__
--	install_exception_handler(EXCPTN_IRQ, ipi_handler);
-+	install_exception_handler(EXCPTN_IRQ, handler);
- #else
--	install_irq_handler(EL1H_IRQ, ipi_handler);
-+	install_irq_handler(EL1H_IRQ, handler);
- #endif
- 	local_irq_enable();
- }
-=20
- static void ipi_send(void)
- {
--	ipi_enable();
-+	setup_irq(ipi_handler);
- 	wait_on_ready();
- 	ipi_test_self();
- 	ipi_test_smp();
-@@ -238,7 +239,7 @@ static void ipi_send(void)
-=20
- static void ipi_recv(void)
- {
--	ipi_enable();
-+	setup_irq(ipi_handler);
- 	cpumask_set_cpu(smp_processor_id(), &ready);
- 	while (1)
- 		wfi();
-@@ -295,14 +296,7 @@ static void ipi_clear_active_handler(struct pt_regs =
-*regs __unused)
- static void run_active_clear_test(void)
- {
- 	report_prefix_push("active");
--	gic_enable_defaults();
--#ifdef __arm__
--	install_exception_handler(EXCPTN_IRQ, ipi_clear_active_handler);
--#else
--	install_irq_handler(EL1H_IRQ, ipi_clear_active_handler);
--#endif
--	local_irq_enable();
--
-+	setup_irq(ipi_clear_active_handler);
- 	ipi_test_self();
- 	report_prefix_pop();
- }
++#define GICR_PROPBASER			0x0070
++#define GICR_PENDBASER			0x0078
++#define GICR_CTLR			GICD_CTLR
++#define GICR_CTLR_ENABLE_LPIS		(1UL << 0)
++
+ #define ICC_SGI1R_AFFINITY_1_SHIFT	16
+ #define ICC_SGI1R_AFFINITY_2_SHIFT	32
+ #define ICC_SGI1R_AFFINITY_3_SHIFT	48
 --=20
 2.20.1
 
