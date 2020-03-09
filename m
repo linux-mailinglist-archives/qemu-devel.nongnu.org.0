@@ -2,71 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB9D17E857
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:26:13 +0100 (CET)
-Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718D417E967
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:55:25 +0100 (CET)
+Received: from localhost ([::1]:48970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBO2W-0007Qp-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50724)
+	id 1jBOUm-00045f-HT
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBO0w-0005yJ-Is
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:24:36 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jBONm-0007D9-Jh
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:48:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBO0u-0003tf-Bb
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:24:34 -0400
-Received: from smtp.lg.ehu.es ([158.227.0.66]:56367 helo=smtp.ehu.eus)
+ (envelope-from <balaton@eik.bme.hu>) id 1jBONl-0000qN-F7
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:48:10 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <unai.martinezcorral@ehu.eus>)
- id 1jBO0t-0003se-VN
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:24:32 -0400
-Received: from imsva2.lgp.ehu.es (imsva2.lgp.ehu.es [10.0.3.246])
- by postfix.smtp2.imsva2 (Postfix) with ESMTPS id 8369A5F6F;
- Mon,  9 Mar 2020 20:24:30 +0100 (CET)
-Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5CA425A04F;
- Mon,  9 Mar 2020 20:24:30 +0100 (CET)
-Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5127D5A045;
- Mon,  9 Mar 2020 20:24:30 +0100 (CET)
-Received: from smtp.ehu.eus (unknown [10.0.100.76])
- by imsva2.lgp.ehu.es (Postfix) with ESMTPS;
- Mon,  9 Mar 2020 20:24:30 +0100 (CET)
-Received: from 669c1c222ef4 (static.187.0.0.81.ibercom.com [81.0.0.187])
- by smtp2 (Postfix) with ESMTPSA id 0E6655F6F;
- Mon,  9 Mar 2020 20:24:30 +0100 (CET)
-Date: Mon, 9 Mar 2020 19:24:28 +0000
-From: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 10/10] qemu-binfmt-conf.sh: add --test
-Message-ID: <20200309192428.GJ65@669c1c222ef4>
-References: <20200309191200.GA60@669c1c222ef4>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200309191200.GA60@669c1c222ef4>
-X-Greylist: ACL 191 matched, not delayed by milter-greylist-4.6.2 (smtp2
- [10.0.100.76]); Mon, 09 Mar 2020 20:24:30 +0100 (CET)
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSVA-9.1.0.1631-8.5.0.1020-25280.002
-X-TM-AS-Result: No--2.997-7.0-31-10
-X-imss-scan-details: No--2.997-7.0-31-10
-X-TMASE-Version: IMSVA-9.1.0.1631-8.5.1020-25280.002
-X-TMASE-Result: 10--2.997200-10.000000
-X-TMASE-MatchedRID: C2Ox2wkr63hnuEpLNqEJsi2416nc3bQlcZ9gNqdc/asHZBaLwEXlKGb6
- PphVtfZgqZ4KncYE2LNLKA6O53vFEgcVh2A5MTJF6OX7GFz9H1DnaaW2UTafyBpW65Njg4aDrr5
- TE4GLzk3aw+TzluSPBbpxDH0YWH+IrjwZVDJcDJ81VHP4fCovgg4fD/I06RGBn7jOJQ+rgvE6dE
- UNf2ygXDTG16mgO0fW4dBoWJ2sWPf83RazFYjhB8zSKGx9g8xhZlQDEANheHGbKItl61J/yX2PY
- bDNMTe9KrauXd3MZDUICxwHjpo31YoYktjoiBld8EHDYeu6aOx/tQ+DjcDZGP4mk7dfXIjcMrNm
- uxw7xuQsiMsxQdKpYMoSPqztN/qGizrT0rPamKW745kuiEUqFFi7FP9SiiauF1qISuK4qVqjyqn
- hL+I3r7JQSBWmvqaR
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
-X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
- milter-greylist-4.6.2 (postfix.smtp2.imsva2 [10.0.100.76]);
- Mon, 09 Mar 2020 20:24:30 +0100 (CET)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 158.227.0.66
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1jBONh-0000jn-Is; Mon, 09 Mar 2020 15:48:05 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 91506747E06;
+ Mon,  9 Mar 2020 20:48:02 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 73C23747DFA; Mon,  9 Mar 2020 20:48:02 +0100 (CET)
+Message-Id: <cover.1583781493.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v3 0/3] Implement "non 100% native mode" in via-ide
+Date: Mon, 09 Mar 2020 20:18:13 +0100
+To: qemu-devel@nongnu.org,
+    qemu-block@nongnu.org
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,89 +45,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi, laurent@vivier.eu
+Cc: John Snow <jsnow@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, philmd@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
- scripts/qemu-binfmt-conf.sh | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+This small series implements "non-100% native mode" of via-ide found
+at least on pegasos2 where io addresses come from PCI BARs but
+interrupts are hard coded to legacy IRQ14 and 15. This is needed for
+guests that expect it and activate work arounds on that platform and
+don't work unless this is emulated. (Symptom is missing IDE IRQs after
+enabling BMDMA and boot freezes waiting for interrupt.)
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 55224a68e1..21c8f63916 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -201,8 +201,7 @@ Options and associated environment variables:
- 
- Argument             Env-variable     Description
- TARGETS              QEMU_TARGETS     A single arch name or a list of them (see all names below);
--                                      if empty, configure/clear all known targets;
--                                      if 'NONE', no interpreter is configured.
-+                                      if empty, configure/clear all known targets.
- -h|--help                             display this usage
- -Q|--path PATH       QEMU_PATH        set path to qemu interpreter(s)
- -F|--suffix SUFFIX   QEMU_SUFFIX      add a suffix to the default interpreter name
-@@ -212,6 +211,8 @@ TARGETS              QEMU_TARGETS     A single arch name or a list of them (see
-                                       to the binary to interpret
- -r|--clear           QEMU_CLEAR       (yes) remove registered interpreters for target TARGETS;
-                                       then exit.
-+-t|--test            QEMU_TEST        (yes) test the setup with the provided arguments, but do not
-+                                      configure any of the interpreters.
- -e|--exportdir PATH                   define where to write configuration files
-                                       (default: $SYSTEMDDIR or $DEBIANDIR)
- -s|--systemd                          don't write into /proc, generate file(s) for
-@@ -225,6 +226,7 @@ QEMU_SUFFIX=$QEMU_SUFFIX
- QEMU_PERSISTENT=$QEMU_PERSISTENT
- QEMU_CREDENTIAL=$QEMU_CREDENTIAL
- QEMU_CLEAR=$QEMU_CLEAR
-+QEMU_TEST=$QEMU_TEST
- 
- To import templates with update-binfmts, use :
- 
-@@ -323,9 +325,6 @@ qemu_set_binfmts() {
- 
-     # reduce the list of target interpreters to those given in the CLI
-     targets=${@:-$QEMU_TARGET}
--    if [ "x$targets" = "xNONE" ]; then
--      return
--    fi
-     qemu_check_target_list $targets
- 
-     # register the interpreter for each target except for the native one
-@@ -377,12 +376,16 @@ QEMU_SUFFIX="${QEMU_SUFFIX:-}"
- QEMU_PERSISTENT="${QEMU_PERSISTENT:-no}"
- QEMU_CREDENTIAL="${QEMU_CREDENTIAL:-no}"
- QEMU_CLEAR="${QEMU_CLEAR:-no}"
-+QEMU_TEST="${QEMU_TEST:-no}"
- 
--options=$(getopt -o rdsQ:S:e:hcp -l clear,debian,systemd,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
-+options=$(getopt -o trdsQ:S:e:hcp -l test,clear,debian,systemd,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
- eval set -- "$options"
- 
- while true; do
-     case "$1" in
-+    -t|--test)
-+        QEMU_TEST="yes"
-+        ;;
-     -r|--clear)
-         QEMU_CLEAR="yes"
-         ;;
-@@ -431,6 +434,11 @@ shift
- 
- $CHECK
- 
-+if [ "x$QEMU_TEST" = "xyes" ]; then
-+    BINFMT_SET=:
-+    BINFMT_CLEAR=:
-+fi
-+
- if [ "x$QEMU_CLEAR" = "xyes" ]; then
-     qemu_check_target_list "$@"
-     for t in $checked_target_list; do
+We need a flag to turn this mode on or off so the first patch
+repurposes the last remaining CMD646 specific field in PCIIDEState to
+allow more flags and make room for the new legacy-irq flag there. (The
+CMD646 may need similar mode or something else may need more flags in
+the future.) Boards using CMD646 and VIA IDE are updated for the above
+changes. Second patch fixes up PCI reset to not clear value set by
+device emulation on bus reset when wmask does not allow that.
+
+Tested with Linux and MorphOS on pegasos2 and a Gentoo live CD kernel
+for mips_fulong2e that's the only one I could find but being beta not
+sure if that fully works on real hardware. (The mips_fulong2e also
+seems to have problems with pci devices so to boot Linux you need
+-net none -vga none and use serial console otherwise the kernel panics.)
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (3):
+  ide: Make room for flags in PCIIDEState and add one for legacy IRQ
+    routing
+  pci: Honour wmask when resetting PCI_INTERRUPT_LINE
+  via-ide: Also emulate non 100% native mode
+
+ hw/alpha/dp264.c        |  2 +-
+ hw/ide/cmd646.c         | 12 ++++++------
+ hw/ide/via.c            | 37 +++++++++++++++++++++++++++++--------
+ hw/mips/mips_fulong2e.c |  2 +-
+ hw/pci/pci.c            |  4 +++-
+ hw/sparc64/sun4u.c      |  9 ++-------
+ include/hw/ide.h        |  7 ++++---
+ include/hw/ide/pci.h    |  7 ++++++-
+ 8 files changed, 52 insertions(+), 28 deletions(-)
+
 -- 
-2.25.1
-
+2.21.1
 
 
