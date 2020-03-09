@@ -2,35 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D7517E4A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:21:04 +0100 (CET)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E450717E48F
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:18:46 +0100 (CET)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBL9L-0007mt-UW
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45909)
+	id 1jBL77-0005I3-Le
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBL3L-0002i6-0u
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:14:52 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBL5R-0004R4-OI
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:17:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBL3J-00015X-S2
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:14:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42120
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBL5Q-0002TN-9H
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:17:01 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42130
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jBL3J-00014g-LS
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:14:49 -0400
+ id 1jBL5Q-0002Sx-1P
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:17:00 -0400
 Received: from host86-162-6-80.range86-162.btcentralplus.com ([86.162.6.80]
  helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jBL3W-0006s6-VB; Mon, 09 Mar 2020 16:15:08 +0000
-To: Peter Maydell <peter.maydell@linaro.org>
+ id 1jBL5f-0006se-Rm; Mon, 09 Mar 2020 16:17:21 +0000
+To: Markus Armbruster <armbru@redhat.com>,
+ Pan Nengyuan <pannengyuan@huawei.com>
 References: <20200305065422.12707-1-pannengyuan@huawei.com>
- <8af2cdaa-7e3e-409f-5351-7fc54e00aab5@ilande.co.uk>
- <CAFEAcA_8SWR6MrNL98GFNASs0_qE_U4pgiw_LyiydKVaSb7C8A@mail.gmail.com>
+ <20200305065422.12707-3-pannengyuan@huawei.com>
+ <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
+ <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
+ <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
+ <0c3ae5aa-36c3-a809-4a42-159348f44780@huawei.com>
+ <CAFEAcA8_RkECOT=YJ3ML0wxBrKiqVw=CssORU=jyryfcNueB0w@mail.gmail.com>
+ <87a74pso48.fsf@dusky.pond.sub.org>
+ <2ff8e8e8-a281-1d50-417d-96383240c2df@huawei.com>
+ <87ftehd39i.fsf@dusky.pond.sub.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -56,19 +64,19 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <0d93118d-8829-bc6b-6957-92f7da9a4120@ilande.co.uk>
-Date: Mon, 9 Mar 2020 16:14:34 +0000
+Message-ID: <4fe9c8c9-7dd4-0a6e-15f5-9006ea27744a@ilande.co.uk>
+Date: Mon, 9 Mar 2020 16:16:49 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_8SWR6MrNL98GFNASs0_qE_U4pgiw_LyiydKVaSb7C8A@mail.gmail.com>
+In-Reply-To: <87ftehd39i.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.162.6.80
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 0/3] delay timer_new from init to realize to fix
- memleaks.
+Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
+ in mac_via
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -85,53 +93,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Pan Nengyuan <pannengyuan@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Euler Robot <euler.robot@huawei.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Euler Robot <euler.robot@huawei.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/03/2020 13:39, Peter Maydell wrote:
+On 09/03/2020 14:14, Markus Armbruster wrote:
 
-> On Sun, 8 Mar 2020 at 11:58, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->> I just tried this patchset applied on top of git master and it causes qemu-system-ppc
->> to segfault on startup:
+> Pan Nengyuan <pannengyuan@huawei.com> writes:
+> 
+>> On 3/9/2020 8:34 PM, Markus Armbruster wrote:
+>>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>>
+>>>> On Mon, 9 Mar 2020 at 10:02, Pan Nengyuan <pannengyuan@huawei.com> wrote:
+>>>>> On 3/9/2020 5:21 PM, Peter Maydell wrote:
+>>>>>> Could you explain more? My thought is that we should be using
+>>>>>> sysbus_init_child_obj() and we should be doing it in the init method.
+>>>>>> Why does that break the tests ? It's the same thing various other
+>>>>>> devices do.
+>>>>>
+>>>>> device-introspect-test do the follow check for each device type:
+>>>>>
+>>>>>     qtree_start = qtest_hmp(qts, "info qtree");
+>>>>>     ...
+>>>>>     qtest_qmp(qts, "{'execute': 'device-list-properties','arguments': {'typename': %s}}", type);
+>>>>>     ...
+>>>>>     qtree_end = qtest_hmp(qts, "info qtree");
+>>>>>     g_assert_cmpstr(qtree_start, ==, qtree_end);
+>>>>>
+>>>>> If we do qdev_set_parent_bus in init, it will check fail when type = 'mac_via'.
+>>>>> mac_via_init() is called by q800_init(). But it will not be called in qtest(-machine none) in the step qtree_start.
+>>>>> And after we call 'device-list-properties', mac_via_init() was called and set dev parent bus. We can find these
+>>>>> devices in the qtree_end. So it break the test on the assert.
+>>>>
+>>>> Markus, do you know what's happening here? Why is
+>>>> trying to use sysbus_init_child_obj() breaking the
+>>>> device-introspect-test for this particular device,
+>>>> but fine for the other places where we use it?
+>>>> (Maybe we're accidentally leaking a reference to
+>>>> something so the sub-device stays on the sysbus
+>>>> when it should have removed itself when the
+>>>> device was deinited ?)
+>>>
+>>> Pan Nengyuan, please provide the exact patch that fails for you.
 >>
->> $ gdb --args ./qemu-system-ppc
->> ...
->> ...
->> Thread 1 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
->> 0x0000555555e7e38c in timer_del (ts=0x0) at util/qemu-timer.c:429
->> 429         QEMUTimerList *timer_list = ts->timer_list;
->> (gdb) bt
->> #0  0x0000555555e7e38c in timer_del (ts=0x0) at util/qemu-timer.c:429
->> #1  0x0000555555b5d2c1 in mos6522_reset (dev=0x555556e0ac50) at hw/misc/mos6522.c:468
->> #2  0x0000555555b63570 in mos6522_cuda_reset (dev=0x555556e0ac50) at
->> hw/misc/macio/cuda.c:599
+>> As the follow patch:
+>>
+>> >From 9b4f35e294597410cc03b967c127242ce099692e Mon Sep 17 00:00:00 2001
+>> From: Pan Nengyuan <pannengyuan@huawei.com>
+>> Date: Wed, 4 Mar 2020 11:29:28 +0800
+>> Subject: [PATCH] mac_via: fix incorrect creation of mos6522 device in mac_via
+>>
+>> This patch fix a bug in mac_via where it failed to actually realize devices it was using.
+>> And move the init codes which inits the mos6522 objects and properties on them from realize()
+>> into init(). However, we keep qdev_set_parent_bus in realize(), otherwise it will cause
+>> device-introspect-test test fail. Then do the realize mos6522 device in the mac_vir_realize.
+>>
+>> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+>> ---
+>>  hw/misc/mac_via.c | 40 ++++++++++++++++++++++++++--------------
+>>  1 file changed, 26 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+>> index b7d0012794..4c5c432140 100644
+>> --- a/hw/misc/mac_via.c
+>> +++ b/hw/misc/mac_via.c
+>> @@ -868,24 +868,21 @@ static void mac_via_reset(DeviceState *dev)
+>>  static void mac_via_realize(DeviceState *dev, Error **errp)
+>>  {
+>>      MacVIAState *m = MAC_VIA(dev);
+>> -    MOS6522State *ms;
+>>      struct tm tm;
+>>      int ret;
+>> +    Error *err = NULL;
+>>
+>> -    /* Init VIAs 1 and 2 */
+>> -    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
+>> -                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
+>> -
+>> -    sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
+>> -                          sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
+>> +    object_property_set_bool(OBJECT(&m->mos6522_via1), true, "realized", &err);
+>> +    if (err != NULL) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+>>
+>> -    /* Pass through mos6522 output IRQs */
+>> -    ms = MOS6522(&m->mos6522_via1);
+>> -    object_property_add_alias(OBJECT(dev), "irq[0]", OBJECT(ms),
+>> -                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
+>> -    ms = MOS6522(&m->mos6522_via2);
+>> -    object_property_add_alias(OBJECT(dev), "irq[1]", OBJECT(ms),
+>> -                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
+>> +    object_property_set_bool(OBJECT(&m->mos6522_via2), true, "realized", &err);
+>> +    if (err != NULL) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+>>
+>>      /* Pass through mos6522 input IRQs */
+>>      qdev_pass_gpios(DEVICE(&m->mos6522_via1), dev, "via1-irq");
+>> @@ -932,6 +929,7 @@ static void mac_via_init(Object *obj)
+>>  {
+>>      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+>>      MacVIAState *m = MAC_VIA(obj);
+>> +    MOS6522State *ms;
+>>
+>>      /* MMIO */
+>>      memory_region_init(&m->mmio, obj, "mac-via", 2 * VIA_SIZE);
+>> @@ -948,6 +946,20 @@ static void mac_via_init(Object *obj)
+>>      /* ADB */
+>>      qbus_create_inplace((BusState *)&m->adb_bus, sizeof(m->adb_bus),
+>>                          TYPE_ADB_BUS, DEVICE(obj), "adb.0");
+>> +
+>> +    /* Init VIAs 1 and 2 */
+>> +    sysbus_init_child_obj(OBJECT(m), "via1", &m->mos6522_via1,
+>> +                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
+>> +    sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
+>> +                          sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VIA2);
+>> +
+>> +    /* Pass through mos6522 output IRQs */
+>> +    ms = MOS6522(&m->mos6522_via1);
+>> +    object_property_add_alias(OBJECT(m), "irq[0]", OBJECT(ms),
+>> +                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
+>> +    ms = MOS6522(&m->mos6522_via2);
+>> +    object_property_add_alias(OBJECT(m), "irq[1]", OBJECT(ms),
+>> +                              SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abort);
+>>  }
+>>
+>>  static void postload_update_cb(void *opaque, int running, RunState state)
+>> --
+>> 2.18.2
 > 
-> It looks like we haven't caught all the cases of "somebody created a
-> MOS6522 (or one of its subclasses) but forgot to realize it". This
-> particular one I think is the s->cuda which is inited in macio_oldworld_init()
-> but not realized in macio_oldworld_realize(). I think that pmu_init() in
-> hw/misc/macio/pmu.c also has this bug. We need to go through and
-> audit all the places where we create TYPE_MOS6522 or any of its
-> subclasses and make sure they are also realizing the devices they create.
-> (The presence of the new 3-phase reset infrastructure in the backtrace
-> is a red herring here -- this would have crashed the same way with the
-> old code too.)
+> In file included from /work/armbru/qemu/include/hw/vmstate-if.h:12,
+>                  from /work/armbru/qemu/include/migration/vmstate.h:30,
+>                  from /work/armbru/qemu/hw/misc/mac_via.c:20:
+> /work/armbru/qemu/hw/misc/mac_via.c: In function ‘mac_via_init’:
+> /work/armbru/qemu/hw/misc/mac_via.c:953:34: error: ‘dev’ undeclared (first use in this function); did you mean ‘div’?
+>   953 |     sysbus_init_child_obj(OBJECT(dev), "via2", &m->mos6522_via2,
+>       |                                  ^~~
 > 
-> We should probably find some generic place in Device code where we
-> can stick an assert "are we trying to reset an unrealized device?"
-> because I bet we have other instances of this bug which we haven't
-> noticed because the reset function happens to not misbehave on
-> an inited-but-not-realized device...
+> Try again?
 
-Yeah that's probably my fault - I remember struggling quite a bit to get everything
-to initialise correctly in the right order when I worked on this.
-
-I tested first on cuda and then used the same pattern for pmu and mac_via so I'm not
-surprised at all that the same problem appears in all three.
+Looks like a simple copy/paste error: I think that line should read OBJECT(m) like
+the one above it?
 
 
 ATB,
