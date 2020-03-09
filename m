@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C3117E4E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:38:20 +0100 (CET)
-Received: from localhost ([::1]:46734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8081D17E4E8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:41:16 +0100 (CET)
+Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBLQ3-0000b3-Nh
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51356)
+	id 1jBLSt-0002k7-JH
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jBLP0-00087i-Fu
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:37:15 -0400
+ (envelope-from <stefanha@redhat.com>) id 1jBLRx-0002F4-Oe
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:40:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1jBLOz-0003WL-GW
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:37:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22953
+ (envelope-from <stefanha@redhat.com>) id 1jBLRw-0004UU-NP
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:40:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45303
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jBLOz-0003W2-CO
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:37:13 -0400
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1jBLRw-0004UG-JG
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:40:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583771832;
+ s=mimecast20190719; t=1583772016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mvjBMxUVEOtbEs9CFdXl72orXnBKwQ9Q4ke9ZDtmjB8=;
- b=ZOjj4r/OXb59UxddD6omjUJOVSA1WAlHFm7vwBEXAbsfrkFevf2E+lOeEN7fG4qUL98Ood
- 5Bl+eCGqHt/A4hlwliDCt1b7wiMVV8s9IhHoV+ShBWk54WKIRo9vIwU5iwdjjox5gycnkR
- VVXwD6XQKtfKLmnSEMdi7bUXro9MFXc=
+ bh=vthUwcoR83pkJX6727uEbcs9bqc6PktRpq7keoSX31I=;
+ b=GpFDwzyS73KNG1XzbI42FlMcia+hfT/UqW5S/KvRZm9fz1jE1wzh2lQ4tFHncRqH0abRQ0
+ KgTHcJsffGkbbOTbrGyUO+d1swBUqsWfQVrcI6Z6sfg0Bsz0Mo2OQYWdVtbkcM7QQL6dJt
+ FuR0+FbRwCX2vqjIjh00/1S9AEmEPAE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-Yp94qDBCOCGrA0pQYOfIEg-1; Mon, 09 Mar 2020 12:37:10 -0400
-X-MC-Unique: Yp94qDBCOCGrA0pQYOfIEg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-102-klQ2cae4OyG441xOcCY0YQ-1; Mon, 09 Mar 2020 12:40:13 -0400
+X-MC-Unique: klQ2cae4OyG441xOcCY0YQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E13E8024DD;
- Mon,  9 Mar 2020 16:37:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66DAF107ACC4;
+ Mon,  9 Mar 2020 16:40:12 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3F0C90A00;
- Mon,  9 Mar 2020 16:37:08 +0000 (UTC)
-Date: Mon, 9 Mar 2020 16:37:07 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F00BE19C58;
+ Mon,  9 Mar 2020 16:40:11 +0000 (UTC)
+Date: Mon, 9 Mar 2020 16:40:10 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 7/7] aio-posix: remove idle poll handlers to improve
- scalability
-Message-ID: <20200309163707.GC46227@stefanha-x1.localdomain>
-References: <20200305170806.1313245-1-stefanha@redhat.com>
- <20200305170806.1313245-8-stefanha@redhat.com>
- <58ce9251-77ba-9db2-b1c1-fd97cd175e9a@redhat.com>
- <20200306135036.GP1335569@stefanha-x1.localdomain>
- <56306d86-cd1b-07b6-f538-7cfbcb6b5ab1@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/2] qemu/queue.h: clear linked list pointers on remove
+Message-ID: <20200309164010.GD46227@stefanha-x1.localdomain>
+References: <20200224103406.1894923-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <56306d86-cd1b-07b6-f538-7cfbcb6b5ab1@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200224103406.1894923-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UPT3ojh+0CqEDtpF"
+ protocol="application/pgp-signature"; boundary="TybLhxa8M7aNoW+V"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -75,55 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UPT3ojh+0CqEDtpF
+--TybLhxa8M7aNoW+V
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 06, 2020 at 03:17:40PM +0100, Paolo Bonzini wrote:
-> On 06/03/20 14:50, Stefan Hajnoczi wrote:
-> >> Not sure I understand the "almost" part.  If it's accessed only from
-> >> aio_poll() it is protected via either AIO_WAIT_WHILE or the BQL, not b=
-y
-> >> ctx->list_lock; if it's protected by ctx->list_lock (using
-> >> qemu_lockcnt_inc in readers), it is an RCU list.
-> > aio_remove_fd_handler() removes nodes from the list during
-> > aio_set_fd_handler(), but only while holding ctx->list_lock and the
-> > count is zero (no readers).
-> >=20
-> > All other access is done from with ctx->list_lock incremented.  This
-> > code needs to be reentrant in case of nested aio_poll() but nothing els=
-e
-> > will access the list at the same time.
+On Mon, Feb 24, 2020 at 10:34:04AM +0000, Stefan Hajnoczi wrote:
+> QLIST_REMOVE() and friends leave dangling linked list pointers in the nod=
+e that
+> was removed.  This makes it impossible to decide whether a node is curren=
+tly in
+> a list or not.  It also makes debugging harder.
 >=20
-> Oh, I see, adds are only done under ctx->list_lock and those are the
-> part that need the write barriers in the RCU iterators.
+> Based-on: 20200222085030.1760640-1-stefanha@redhat.com
+>           ("[PULL 00/31] Block patches")
+>=20
+> Stefan Hajnoczi (2):
+>   qemu/queue.h: clear linked list pointers on remove
+>   aio-posix: remove confusing QLIST_SAFE_REMOVE()
+>=20
+>  include/qemu/queue.h | 19 +++++++++++++++----
+>  util/aio-posix.c     |  2 +-
+>  2 files changed, 16 insertions(+), 5 deletions(-)
+>=20
+> --=20
+> 2.24.1
+>=20
 
-I'll update the comment when merging this series.
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
 Stefan
 
---UPT3ojh+0CqEDtpF
+--TybLhxa8M7aNoW+V
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5mcLMACgkQnKSrs4Gr
-c8hJQQgAoF1g/XuS3re0q4P03VCE9cnGkQhH4PJKuD1smJ5aoO3F0WwSN9zUNHsY
-DNEFy1gvait8JUx0WQNWd1lUYDltQVNKbFz5QQGoS8Zsm0RduI0RqllYNGS+6imu
-b35nJT1YTHvEYY/NtP+Wj4vbW00QKl5Zaajh7lPwzmjmnbHJqgf/5+JD/OhnE6LM
-1FG32l6ZbnYa3VP2syJKBpJZeMGdz4el/foQeK6QVXz9vAse/ZZ9sNZDhiF29RId
-CkDTAGjodLvXu7pWqSkl5d9I3v2/OSCeFhEh2uVwYn5ATHy58VmSWqX6o3WMiOlb
-N2wwIiaycjwBQ5IN+8v3JVWLkOufRg==
-=55I2
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5mcWoACgkQnKSrs4Gr
+c8jsvQgAr4mX4XmwyL/Gcpvp/KLHpflsCue4DKTmNqY+Sc+tLrQDjbR5thYdl9js
+rKFUaH1Sv9/h5m4b0AompqrEotPfJEIbpP5gNNbBtehU9PCdzespKp0dKeXLNeLI
+tqz4zwMIeTuZpQ1kk3VAXPubvxbdYxajnv/EN7rA4bmLx5I5UaGP8Lf7ZogoF5pt
+C/TDjo8oLq3338mrMm17m4KFs4rhPVJr0wBm9CFY1ysVTqMUEJdPkng40plKZsqC
+Iab5MrWaud/MNGzZ8+ChHcsF0LewqXRmxKC5Px8DmBHkOUxV0ym723BGV7I5RvAs
+DBTKJHEuxi/dVCAucQ8LxBZs6d14QQ==
+=20Qh
 -----END PGP SIGNATURE-----
 
---UPT3ojh+0CqEDtpF--
+--TybLhxa8M7aNoW+V--
 
 
