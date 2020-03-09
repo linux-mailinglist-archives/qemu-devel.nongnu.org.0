@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A6C17E395
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:27:12 +0100 (CET)
-Received: from localhost ([::1]:44879 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F44417E331
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:12:53 +0100 (CET)
+Received: from localhost ([::1]:44570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKJD-0007N3-6G
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34160)
+	id 1jBK5M-0003JK-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33169)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK39-0000eZ-ML
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:36 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2K-0007QF-Rh
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK38-0008EA-L9
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:35 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:47881)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2I-0007af-Q0
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:44 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:37311)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2m-0007yk-Pi; Mon, 09 Mar 2020 11:10:14 -0400
+ id 1jBK2G-0007Ya-Dt; Mon, 09 Mar 2020 11:09:40 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mzhax-1jXeIs1XM1-00veBL; Mon, 09 Mar 2020 16:08:59 +0100
+ id 1MHX3X-1j7DR62up7-00DXxH; Mon, 09 Mar 2020 16:09:01 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/33] virtfs-proxy-helper: Make the helper_opts[] array const
-Date: Mon,  9 Mar 2020 16:08:11 +0100
-Message-Id: <20200309150837.3193387-8-laurent@vivier.eu>
+Subject: [PULL 08/33] vl: Add missing "hw/boards.h" include
+Date: Mon,  9 Mar 2020 16:08:12 +0100
+Message-Id: <20200309150837.3193387-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:J0ElaOma/BrvYx5wmtzVLW2iD0CdbHsBWhXdnly3lXC/+3tUaSh
- PDNcOP401aIpi92ruYia3szL0I1ky8SlEY7+g6MyJYTtROe+iO+sr98eXL8jA7dIHcV/mZc
- O/fK5VV3+4tMDbqK/IDi4pFehQv4HXNnWu8b8QaJLgX2f1J5WMOLWHXtAgHh5R0MwEJoYdU
- /ml8kexxfQBFrDBK4H3ZQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WFSktFvnpCA=:UyCBB0Kfxm+Xa0FW34RDDR
- FdPZbFMKs8DR2oIqBnrndUmSNhPSP1q34Wh1yB1rExeIMkHFGSEl+EycJqkQTwphfgugMwEwO
- kIUFW4/7eiraRV8UpI7U82Tu1Z9O5/bHePpMpYfZRF1yBAYYZj28A1XI+oItd4qLTdTTXpq6D
- YN7yNF6q2W1ZTgIOUUQEAk2bTkLPPA9b5UjdDcSJgcOJFIDsre/cu9FAOSUUfnf6brJaK4SLR
- yu/Q6oxUEKuNrjg68ZWQKeTClHYX2+BbfZGqFUSdvlbTOWZbQw9s0jRF5ENckp1zwrqqiv9Tz
- oqnrclWPcy1kNhBanue7hHzXs2gaJI8lUmPoczmRe81MNVei2GjWHr8F0eciXsQmKyN7eFRin
- fioKWt/s4sAAl4qOzSbZtGCg987eaRqEbOnRefEo6jF4o0HfaU9knh6iBFng1r8WQ6bbGgKey
- fbBombimekyD4cPef7xbAc4JWSEL9irKuzIhVQmG7meXd+/07Ib2nPmu1NXNsLkCovj3VxvhO
- 408m1cekIFZ81ZjTrU00i5GTWhjpkIVrEHdf3G83uX582Q5y5f5yBNiFt04NWwv6yTR8NlbRZ
- NaPOVp8P9NmjwZWx3Bj7sE4ejSEGsqRWKUHxVHgDnJSqpyKW+4vfe2UQ73+QWGMGOjr+rI5Re
- 92xik3YYztKO8s1CqznYPwAfvscXA+25eekCi356utVnH18SoSAgsrkoS0LUu+BlMm+7x3r4Q
- BHNAkq1AnrGaeqxpl6GTpZdTrCTr73e9nxG2xu5Qo2dVPzqSaKxNjG4kn8h3A9y6TuICgFtrU
- Fs5RznH8eq/FTdtRLxcs6eKVbYYRgFM7rc+Bgvt7bvK/ahov7c9pac9XgCDg97hotz1mUVT
+X-Provags-ID: V03:K1:0Fkei+2Tt1Tdpv8J++VfECwShiRaK3eOrGgS7RSiid7DnfG9jQ7
+ wiHY6j6PhMpnumCxFjkerbQ6HhAkUIKw8m/a4HZ5tawrCyfvCwH/sIX4hE+dC1Vpy+nOc0N
+ byu+c+a91Nu3kUNh7/b4Yk29kfjlPSmrpewB5Q3haXNQTbDp+d8d4r8D2YtenHl9zffWqsS
+ ML/O7o0l0ZYVKQz3xBAvg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Mzwa1rvCDwA=:pXKJSSDa+HrCXHL1s9xszf
+ nEicKRMDuoRr4cPdjnIc6z0BFL42vaQLcNKyUQkvI/yO4SC4TmUUtWb2bld/im6rsttBxn7Rh
+ lBuyX7He+FQbPQisrwdwLV7PiUWwA8R9fAdnegTI9n9qKT16KeXUdeo1dXe0rFHfjrOJl9KFc
+ ralgwx9UNhcki3/lBeFJyrmmnc8ZRIUsXS1SxBwdx/+j6HMQkjrbPuqTMdG8RNTgU61rqP7mF
+ k4tfaXmcek85v7eptBqp/eKu4NzENr98JlfbTgI8ipZhYpI0vrbwJOzpivvABI2yOMPgWH/en
+ ysBGNhYGfF5tsJHmVj5LVWsb3rP5fawdbh12tlQ0cL9MTRi1DiVozkKQ6yKEy9XmhbwWOeDWX
+ 3XnT5Zs9+Fs+CISWGhQSmRlTFE0ojs3umaM406SKRF6CTLt42PuphAj3zmBCEZv8LIr15TUt4
+ ARwLh/gk3TiXEZ06ogccC9KXYksdgoFgx/1B6YQZVflxeDmshtFbU1XNxjAzqyEmnwHXnGIKD
+ cZNYUTFij5dXOjVRlDMbD7IDTNYYctyJuyQBoAMb8bh3NiGY9gV04npEtaXC8wwUJOKae2SSf
+ mgi4PCcwq0lEpCfooRz4jEdc/61O8zW26OGn3GJPjhiMVAIPAmiL3nEORipsSTLES/wfOqf/N
+ o/Aq+wjOANi9v9vPzx1b9ASiDxFF+q3vV325XIK0nQHy04+VYhQ3X8lPzpfhp5TRPLgEnq3Ov
+ IN8r2GHKYl08xclBMj74s0nBqIvpXRH++/rJB5QuaA9AqIFp5cccoyn4S0TBrSL/2sDu/BvsX
+ vXLm3Ues3mv+FEn7D8J25OrjuUb+m4vQizwd4ZoWNxtBDgqxyfs6+W5T1hGJshO228LVf7l
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,9 +72,9 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
  qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
  Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
@@ -87,32 +87,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reduce a bit the memory footprint by making the helper_opts[]
-array const.
+vl.c calls machine_usb() declared in "hw/boards.h". Include it.
 
+This fixes (when modifying unrelated headers):
+
+  vl.c:1283:10: error: implicit declaration of function 'machine_usb' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+      if (!machine_usb(current_machine)) {
+           ^
+  vl.c:1283:10: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+  vl.c:1283:22: error: use of undeclared identifier 'current_machine'
+      if (!machine_usb(current_machine)) {
+                       ^
+
+Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200305010446.17029-4-philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200228114649.12818-2-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- fsdev/virtfs-proxy-helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ softmmu/vl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-index aa1ab2590d42..de061a8a0eaa 100644
---- a/fsdev/virtfs-proxy-helper.c
-+++ b/fsdev/virtfs-proxy-helper.c
-@@ -43,7 +43,7 @@
- #define BTRFS_SUPER_MAGIC 0x9123683E
- #endif
- 
--static struct option helper_opts[] = {
-+static const struct option helper_opts[] = {
-     {"fd", required_argument, NULL, 'f'},
-     {"path", required_argument, NULL, 'p'},
-     {"nodaemon", no_argument, NULL, 'n'},
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 5549f4b61986..ff2685dff845 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/units.h"
++#include "hw/boards.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu-version.h"
 -- 
 2.24.1
 
