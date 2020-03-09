@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFEF17DCEA
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:06:43 +0100 (CET)
-Received: from localhost ([::1]:39892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF52817DCE7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:06:11 +0100 (CET)
+Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBFJ4-00048G-W8
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
+	id 1jBFIY-0003Am-UZ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jBFGB-0000ny-Ds
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:03:46 -0400
+ (envelope-from <coiby.xu@gmail.com>) id 1jBFGt-0001gU-Tp
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:04:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jBFG9-0007zF-08
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:03:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29359
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jBFG7-0007yi-4x
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:03:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583748217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oUUCXen90C2Znpu0RoandKXNGqev0sXvwOrDBiVuIXw=;
- b=JSo5BAvIzOWoIhxbR9AXpoxgjNV/kibCY/Pzl+4Hl5c/a5Y2eRqm/8G7ze9WlM8Koqyxq2
- GnVdOwIy8jm0RBBUBLiJs+CraoA8SC4u3LPCtgFe6WGmD9aVJuRjGw8XJwd9UgXB3kUnVk
- TecmxZTXWLjQC/S0blIaFC6/00H9ifQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-0iGmHh0ENdGtDfv9Mh79NQ-1; Mon, 09 Mar 2020 06:03:36 -0400
-X-MC-Unique: 0iGmHh0ENdGtDfv9Mh79NQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 821728018A5;
- Mon,  9 Mar 2020 10:03:34 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B73260BFB;
- Mon,  9 Mar 2020 10:03:32 +0000 (UTC)
-Date: Mon, 9 Mar 2020 11:03:31 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH] mem-prealloc: initialize cond and mutex
-Message-ID: <20200309110331.3ef650a9@redhat.com>
-In-Reply-To: <20200306085014.120669-1-borntraeger@de.ibm.com>
-References: <20200306085014.120669-1-borntraeger@de.ibm.com>
+ (envelope-from <coiby.xu@gmail.com>) id 1jBFGs-00089S-Kx
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:04:27 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:51965)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1jBFGs-00089A-Cr
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:04:26 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id y7so771938pjn.1
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 03:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oiwse/YzcLSP3TKb1cI5ve515PYVpRW0oxbEWocif88=;
+ b=dnMFeQgAEYC937YKP0+MBhTVHqraxXC+5QCavH8DLXQNXjFnaeQzQSGjcviqyxT3CZ
+ ZqcCxp8YGDXZ+906Xxw/rvY/kCoXgu4uCcK0baAVDWNebId2eQpLEUEMJIUO/43lq7o6
+ TMcv4/h4NtA6UBGQwyD9t2YqDl+8J70HtsnL8hN4JWcGh9pbIS6fahmQ3IfKpT7T6d9x
+ fn3orOZSEPqP5nQ/YWWJlPxeNNzKYP58GogZHH43n1v8JP4RPcXagFiOQBWMajjxPPwa
+ GTeK3nlSCjJDDFYC6i4dAfpiS9yRDCIFgGl2p8t02GTcMvIw9dKqF4JQ0xrbkb8rvOXi
+ ZeLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oiwse/YzcLSP3TKb1cI5ve515PYVpRW0oxbEWocif88=;
+ b=ozli4p/P3nTFpVoMvGryFXOEwnFvo5cf568/U98nKnQk/lSR/X0rdLRWtj58UU/PlP
+ XkZ4JxQCmcoCWjXwvwP9VS4AjuV0d0ZI/G2D0s7Pgi4BydtQnnO4waRCxhUMtYPA/QHw
+ sOWy4zfBTKugKQDgP3iUs7N4rfvtq9p+0YyB2t9F+pWumPtGdIGiNCw9ka+twDk03rwg
+ EfAupnoxWk+59l3A+MbV+b6Svi9lvw5cpo4LaAG0yJ3PuTFBDZjOUXepv5Z4dvXRV4c1
+ cyq2wmkPA09EqD/ek3obnSk52EFAfRm2TixdybzJC3aEpJpnU62uOUCvMUWMoGJUIqTL
+ GAjQ==
+X-Gm-Message-State: ANhLgQ0VG+im1s9vtakXTIekcNvJnvzawrLPfAIxqjmHmld6emIZvwbP
+ KwUcPpvBoLY909tZBxEG7PrvXHIOQ8XbVw==
+X-Google-Smtp-Source: ADFU+vt3f3zBj69uAYItAykB4PQawXgsn0F0f5tZmB7eYvm6893G8fz4e/u/zBoooSjFnDBZTDoOwA==
+X-Received: by 2002:a17:902:76c8:: with SMTP id
+ j8mr14791662plt.273.1583748264694; 
+ Mon, 09 Mar 2020 03:04:24 -0700 (PDT)
+Received: from localhost.localdomain
+ (tunnel571398-pt.tunnel.tserv14.sea1.ipv6.he.net. [2001:470:a:247::2])
+ by smtp.googlemail.com with ESMTPSA id s21sm16077377pfd.99.2020.03.09.03.04.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Mar 2020 03:04:24 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/5] vhost-user block device backend implementation
+Date: Mon,  9 Mar 2020 18:03:37 +0800
+Message-Id: <20200309100342.14921-1-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,54 +76,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Marc Hartmayer <mhartmay@linux.ibm.com>, qemu-devel <qemu-devel@nongnu.org>,
- bauerchen <bauerchen@tencent.com>
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, Coiby Xu <coiby.xu@gmail.com>,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  6 Mar 2020 03:50:14 -0500
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+v5:
+ * re-use vu_kick_cb in libvhost-user
+ * keeping processing VhostUserMsg in the same coroutine until there is
+   detachment/attachment of AIOContext
+ * Spawn separate coroutine for each VuVirtqElement
+ * Other changes including relocating vhost-user-blk-server.c, coding
+   style etc.
 
-> Guests with mem-prealloc do fail with
-> qemu-system-s390x: /home/cborntra/REPOS/qemu/util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Assertion `mutex->initialized' failed.
-> qemu-system-s390x: /home/cborntra/REPOS/qemu/util/qemu-thread-posix.c:161: qemu_cond_broadcast: Assertion `cond->initialized' failed.
-> 
-> Let us initialize cond and mutex.
-> 
-> Cc: bauerchen <bauerchen@tencent.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-> Fixes: 037fb5eb3941 ("mem-prealloc: optimize large guest startup")
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  util/oslib-posix.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index 897e8f3ba6..52650183d3 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -470,6 +470,8 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
->      char *addr = area;
->      int i = 0;
->  
-> +    qemu_cond_init(&page_cond);
-> +    qemu_mutex_init(&page_mutex);
+v4:
+ * add object properties in class_init
+ * relocate vhost-user-blk-test
+ * other changes including using SocketAddress, coding style, etc.
 
-Is it possible for touch_all_pages to be called several times?
-If it's then it probably needs a guard against that to make
-sure it won't explode, something like:
+v3:
+ * separate generic vhost-user-server code from vhost-user-blk-server
+   code
+ * re-write vu_message_read and kick hander function as coroutines to
+   directly call blk_co_preadv, blk_co_pwritev, etc.
+ * add aio_context notifier functions to support multi-threading model
+ * other fixes regarding coding style, warning report, etc.
 
-static bool page_mutex_inited;
+v2:
+ * Only enable this feauture for Linux because eventfd is a Linux-specific
+   feature
 
-if(page_mutex_inited)
-  page_mutex_inited = true
-  qemu_mutex_init(&page_mutex) 
-  ...
 
->      memset_thread_failed = false;
->      threads_created_flag = false;
->      memset_num_threads = get_memset_num_threads(smp_cpus);
+This patch series is an implementation of vhost-user block device
+backend server, thanks to Stefan and Kevin's guidance.
+
+Vhost-user block device backend server is a UserCreatable object and can be
+started using object_add,
+
+ (qemu) object_add vhost-user-blk-server,id=ID,unix-socket=/tmp/vhost-user-blk_vhost.socket,node-name=DRIVE_NAME,writable=off,blk-size=512
+ (qemu) object_del ID
+
+or appending the "-object" option when starting QEMU,
+
+  $ -object vhost-user-blk-server,id=disk,unix-socket=/tmp/vhost-user-blk_vhost.socket,node-name=DRIVE_NAME,writable=off,blk-size=512
+
+Then vhost-user client can connect to the server backend.
+For example, QEMU could act as a client,
+
+  $ -m 256 -object memory-backend-memfd,id=mem,size=256M,share=on -numa node,memdev=mem -chardev socket,id=char1,path=/tmp/vhost-user-blk_vhost.socket -device vhost-user-blk-pci,id=blk0,chardev=char1
+
+And guest OS could access this vhost-user block device after mouting it.
+
+Coiby Xu (5):
+  allow vu_message_read to be replaced
+  generic vhost user server
+  vhost-user block device backend server
+  a standone-alone tool to directly share disk image file via vhost-user
+    protocol
+  new qTest case to test the vhost-user-blk-server
+
+ Makefile                                   |   4 +
+ block/Makefile.objs                        |   3 +
+ block/export/vhost-user-blk-server.c       | 727 +++++++++++++++++++++
+ block/export/vhost-user-blk-server.h       |  21 +
+ configure                                  |   3 +
+ contrib/libvhost-user/libvhost-user-glib.c |   2 +-
+ contrib/libvhost-user/libvhost-user.c      |  10 +-
+ contrib/libvhost-user/libvhost-user.h      |   6 +
+ qemu-vu.c                                  | 252 +++++++
+ softmmu/vl.c                               |   4 +
+ tests/Makefile.include                     |   3 +-
+ tests/qtest/Makefile.include               |   2 +
+ tests/qtest/libqos/vhost-user-blk.c        | 126 ++++
+ tests/qtest/libqos/vhost-user-blk.h        |  44 ++
+ tests/qtest/vhost-user-blk-test.c          | 694 ++++++++++++++++++++
+ tests/vhost-user-bridge.c                  |   2 +
+ tools/virtiofsd/fuse_virtio.c              |   4 +-
+ util/Makefile.objs                         |   3 +
+ util/vhost-user-server.c                   | 360 ++++++++++
+ util/vhost-user-server.h                   |  57 ++
+ 20 files changed, 2318 insertions(+), 9 deletions(-)
+ create mode 100644 block/export/vhost-user-blk-server.c
+ create mode 100644 block/export/vhost-user-blk-server.h
+ create mode 100644 qemu-vu.c
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.c
+ create mode 100644 tests/qtest/libqos/vhost-user-blk.h
+ create mode 100644 tests/qtest/vhost-user-blk-test.c
+ create mode 100644 util/vhost-user-server.c
+ create mode 100644 util/vhost-user-server.h
+
+--
+2.25.1
 
 
