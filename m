@@ -2,45 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FED317DC51
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 10:22:41 +0100 (CET)
-Received: from localhost ([::1]:39254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE0117DC56
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 10:23:47 +0100 (CET)
+Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBEcS-0001M9-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 05:22:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56130)
+	id 1jBEdV-0002mO-3h
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 05:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56177)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBEbO-000079-9e
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:35 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBEbY-0000RC-8N
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBEbM-0002Ch-Ha
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:34 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:35083)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jBEbM-0002BO-56; Mon, 09 Mar 2020 05:21:32 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=blue; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.284299-0.00020209-0.715499;
- FP=9121874194399893506|1|1|7|0|-1|-1|-1; HT=e02c03307; MF=zhiwei_liu@c-sky.com;
- NM=1; PH=DS; RN=10; RT=10; SR=0; TI=SMTPD_---.GyVpCil_1583745606; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.GyVpCil_1583745606)
- by smtp.aliyun-inc.com(10.147.41.121);
- Mon, 09 Mar 2020 17:21:28 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v3 03/60] target/riscv: support vector extension csr
-Date: Mon,  9 Mar 2020 17:19:07 +0800
-Message-Id: <20200309092004.13335-4-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200309092004.13335-1-zhiwei_liu@c-sky.com>
-References: <20200309092004.13335-1-zhiwei_liu@c-sky.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jBEbX-0002Ga-2B
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:43 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38586)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jBEbW-0002GH-RQ
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:43 -0400
+Received: by mail-ot1-x344.google.com with SMTP id i14so8863331otp.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 02:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AHAHIhwFKs2k8PQfvg9sekLc+EdY0MRJArKE4TiyhMk=;
+ b=ccjbiq+L6VUbhQPKNgIh3Dg2VtniXMnxS2HZVafcLPfQ/ztgcqlBCkLN/Jb/GewEB5
+ 1vRtrWGCSz+IJjm0WbjF+iLtl7LKQr8A0Fesc5QjAzROhhoxJEbNYwOtWpC/WH85P25H
+ qL9Voa+K4NjS8RntX9Vh6dMl5Qw0Ias7y3m8aJVqsyepfVpqiH5wRJCDWXtN6ISvRiB/
+ N6Mb172vTz5QsgfPwbJ7ZNXoSStJfyt2B9nDSmf41z9fqBJXGCTEVqOcUH4m+OwNB+t2
+ yLXanybggdzECxrjB+ODch+MlIt+bmO8glZJBC9f8bs6tfChml9zc9ThI4UvmU45/fgD
+ U7vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AHAHIhwFKs2k8PQfvg9sekLc+EdY0MRJArKE4TiyhMk=;
+ b=ZL1jSDLCUcigDVyNJ8/wqbL1m6kkYicJFilxBlH45f0NFq0/+jPPHEIKs75VM0kS3T
+ EXLVFlXQbUWwNS7L1DWkYEWk2Aukq6DafMvLNFcCpLFMSfTtwourSZjxgv4OUMjaLu/1
+ s8vwyTsQan2tuDJFiGFSfixZDXD4bKCHIXXx198D93MfrvgOy7OMztJ80NODNRjy93pf
+ NtW/czddpz9c7+oZc224CkNo+BXRv8SJTiE/1t5eaD4N/rGz3ExjywFSW7KsQ3ZCyeFN
+ ldnC8PYkrPb59R+R5pb4XGnb+j8sNVJgfmrHJXkcx1FzCAARdavfBBAxsrzEy4MytuYI
+ MzHg==
+X-Gm-Message-State: ANhLgQ1ZE+tPY/goiLVwjoSpck09/xd/ltQX4fVrpLaKdlhvturAtTTh
+ s5HFwQC89MOhT7ha3BoswnUbUlBGZsy+3VlLdOvWGw==
+X-Google-Smtp-Source: ADFU+vso+6lDlFwhsMcwMjSQc8EZY/JEfefYfwNk9Lz6HyEpUXtUZB9r3EabCofvyoBclHw3FryNZmzpESCUyUNArTg=
+X-Received: by 2002:a9d:76c9:: with SMTP id p9mr12300099otl.135.1583745701474; 
+ Mon, 09 Mar 2020 02:21:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+References: <20200305065422.12707-1-pannengyuan@huawei.com>
+ <20200305065422.12707-3-pannengyuan@huawei.com>
+ <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
+ <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
+In-Reply-To: <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 Mar 2020 09:21:30 +0000
+Message-ID: <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
+ in mac_via
+To: Pan Nengyuan <pannengyuan@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,173 +75,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The v0.7.1 specification does not define vector status within mstatus.
-A future revision will define the privileged portion of the vector status.
+On Mon, 9 Mar 2020 at 00:56, Pan Nengyuan <pannengyuan@huawei.com> wrote:
+>
+>
+>
+> On 3/8/2020 9:29 PM, Peter Maydell wrote:
+> > On Thu, 5 Mar 2020 at 06:39, Pan Nengyuan <pannengyuan@huawei.com> wrote:
+> >> -    /* Init VIAs 1 and 2 */
+> >> -    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
+> >> -                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
+> >> +    qdev_set_parent_bus(DEVICE(&m->mos6522_via1), sysbus_get_default());
+> >> +    qdev_set_parent_bus(DEVICE(&m->mos6522_via2), sysbus_get_default());
+> >
+> > Rather than manually setting the parent bus, you can use
+> > sysbus_init_child_obj() instead of object_initialize_child() --
+> > it is a convenience function that does both object_initialize_child()
+> > and qdev_set_parent_bus() for you.
+>
+> Actually I used sysbus_init_child_obj() first, but it will fail to run device-introspect-test.
+> Because qdev_set_parent_bus() will change 'info qtree' after we call 'device-list-properties'.
+> Thus, I do it in the realize.
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/cpu_bits.h | 15 +++++++++
- target/riscv/csr.c      | 75 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 89 insertions(+), 1 deletion(-)
+Could you explain more? My thought is that we should be using
+sysbus_init_child_obj() and we should be doing it in the init method.
+Why does that break the tests ? It's the same thing various other
+devices do.
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 7f64ee1174..8117e8b5a7 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -29,6 +29,14 @@
- #define FSR_NXA             (FPEXC_NX << FSR_AEXC_SHIFT)
- #define FSR_AEXC            (FSR_NVA | FSR_OFA | FSR_UFA | FSR_DZA | FSR_NXA)
- 
-+/* Vector Fixed-Point round model */
-+#define FSR_VXRM_SHIFT      9
-+#define FSR_VXRM            (0x3 << FSR_VXRM_SHIFT)
-+
-+/* Vector Fixed-Point saturation flag */
-+#define FSR_VXSAT_SHIFT     8
-+#define FSR_VXSAT           (0x1 << FSR_VXSAT_SHIFT)
-+
- /* Control and Status Registers */
- 
- /* User Trap Setup */
-@@ -48,6 +56,13 @@
- #define CSR_FRM             0x002
- #define CSR_FCSR            0x003
- 
-+/* User Vector CSRs */
-+#define CSR_VSTART          0x008
-+#define CSR_VXSAT           0x009
-+#define CSR_VXRM            0x00a
-+#define CSR_VL              0xc20
-+#define CSR_VTYPE           0xc21
-+
- /* User Timers and Counters */
- #define CSR_CYCLE           0xc00
- #define CSR_TIME            0xc01
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 11d184cd16..d71c49dfff 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -46,6 +46,10 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
- static int fs(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
-+    /* loose check condition for fcsr in vector extension */
-+    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
-+        return 0;
-+    }
-     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-         return -1;
-     }
-@@ -53,6 +57,14 @@ static int fs(CPURISCVState *env, int csrno)
-     return 0;
- }
- 
-+static int vs(CPURISCVState *env, int csrno)
-+{
-+    if (env->misa & RVV) {
-+        return 0;
-+    }
-+    return -1;
-+}
-+
- static int ctr(CPURISCVState *env, int csrno)
- {
- #if !defined(CONFIG_USER_ONLY)
-@@ -174,6 +186,10 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
- #endif
-     *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
-         | (env->frm << FSR_RD_SHIFT);
-+    if (vs(env, csrno) >= 0) {
-+        *val |= (env->vxrm << FSR_VXRM_SHIFT)
-+                | (env->vxsat << FSR_VXSAT_SHIFT);
-+    }
-     return 0;
- }
- 
-@@ -186,10 +202,62 @@ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
-     env->mstatus |= MSTATUS_FS;
- #endif
-     env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-+    if (vs(env, csrno) >= 0) {
-+        env->vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
-+        env->vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
-+    }
-     riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
-     return 0;
- }
- 
-+static int read_vtype(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vtype;
-+    return 0;
-+}
-+
-+static int read_vl(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vl;
-+    return 0;
-+}
-+
-+static int read_vxrm(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vxrm;
-+    return 0;
-+}
-+
-+static int write_vxrm(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vxrm = val;
-+    return 0;
-+}
-+
-+static int read_vxsat(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vxsat;
-+    return 0;
-+}
-+
-+static int write_vxsat(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vxsat = val;
-+    return 0;
-+}
-+
-+static int read_vstart(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val = env->vstart;
-+    return 0;
-+}
-+
-+static int write_vstart(CPURISCVState *env, int csrno, target_ulong val)
-+{
-+    env->vstart = val;
-+    return 0;
-+}
-+
- /* User Timers and Counters */
- static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
- {
-@@ -1269,7 +1337,12 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags      },
-     [CSR_FRM] =                 { fs,   read_frm,         write_frm         },
-     [CSR_FCSR] =                { fs,   read_fcsr,        write_fcsr        },
--
-+    /* Vector CSRs */
-+    [CSR_VSTART] =              { vs,   read_vstart,      write_vstart      },
-+    [CSR_VXSAT] =               { vs,   read_vxsat,       write_vxsat       },
-+    [CSR_VXRM] =                { vs,   read_vxrm,        write_vxrm        },
-+    [CSR_VL] =                  { vs,   read_vl                             },
-+    [CSR_VTYPE] =               { vs,   read_vtype                          },
-     /* User Timers and Counters */
-     [CSR_CYCLE] =               { ctr,  read_instret                        },
-     [CSR_INSTRET] =             { ctr,  read_instret                        },
--- 
-2.23.0
-
+thanks
+-- PMM
 
