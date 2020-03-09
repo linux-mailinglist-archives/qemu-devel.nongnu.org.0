@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFD817E0A9
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:55:14 +0100 (CET)
-Received: from localhost ([::1]:42772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B601017E0B0
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:56:28 +0100 (CET)
+Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHw9-0006hY-Gt
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35264)
+	id 1jBHxL-0000FC-Pd
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35461)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHuj-0004Xq-TH
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:53:46 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBHvj-0006iP-0m
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:54:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHui-0002ip-SS
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:53:45 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:45585)
+ (envelope-from <laurent@vivier.eu>) id 1jBHvd-0004pd-TN
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:54:46 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:45627)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHui-0002fY-Ji; Mon, 09 Mar 2020 08:53:44 -0400
+ id 1jBHva-0004h8-C4; Mon, 09 Mar 2020 08:54:38 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
  (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N4Q4m-1jIbjH0dkc-011NxF; Mon, 09 Mar 2020 13:53:33 +0100
-Subject: Re: [PATCH v3 06/12] display/pxa2xx_lcd: Remove redundant statement
- in pxa2xx_palette_parse()
+ 1MfqGN-1jrTQT3c4X-00gLK7; Mon, 09 Mar 2020 13:54:21 +0100
+Subject: Re: [PATCH v3 07/12] display/exynos4210_fimd: Remove redundant
+ statement in exynos4210_fimd_update()
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
- <20200302130715.29440-8-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-9-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,34 +72,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <55bc2e2a-501a-a490-b6c3-61378b835730@vivier.eu>
-Date: Mon, 9 Mar 2020 13:53:31 +0100
+Message-ID: <c9ecbec0-981b-2a57-690f-3c8d8150fc49@vivier.eu>
+Date: Mon, 9 Mar 2020 13:54:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200302130715.29440-8-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200302130715.29440-9-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LhTtOqCT+COxlagONHcZ8lIX/8bMOFXgqBvAvKMzVXKHR62Irk6
- wEGJ9Zzqr7WDrcJBppt3vpvCd/iaIAVwPnKvOD+GzIk5bytXRuRcQbwSyoKukC4qd4lqoPA
- 7DrsCF/jcl7rFBVJSjjMZ8Qv5lfktnSHRHzgPe5236y/SPhrF8LPKTTCaJFDAlDMkYvtDp8
- otvjnoMSQ341m/P0K+74Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:46n/JzO7tME=:AEpDB3yLuixhdmAlGBFTO3
- 9Y/TlW8QIIia0B3D1iwUZq2N6UEAce3PYMZTBVfLZl0ct1KYMAhOX9Ajgbxc/Vmfakz3xrinW
- Pdcx0LRUgxr/oywoP/o2ao88drzThRDmcz8WwGxN0hWx0yhoMOP66g7CaVWIHMHByRUcpJ9vJ
- hKmurm2ubAGNmWUR89tpFQuIdxGBYOUJ1p/1Fx7Tg3DLItQ+xGWkAJpxmCGSkdxwoRDiQ0NMo
- hxv2WlbGMwn1sFI47Q0p/UGztJImdiz453AjAly6nP01wD7qeJheoYl5OjjXATeL8JpOJw7Q9
- r35BLfmJlUjRvrt+oNwhHWFS6vPo2DiJEUMzsSulOSm/ix1Muh/yijjkI1dqFL1OElpJ2auJy
- XIyzKA+vA03IImuj5seS9sBzhdG15P/EiN+QoKvo6Z6v+uCakb1x26sPgRO9GJuQZkLg1G/mq
- LgjI8b4IF+AD96vMMRNFr0UoBRW9OFhM1kroGjmk2tWO2j1bU8qsjC2aXt6Q/eiuIrzYaotTD
- AeclqcA9z5ODXu52kqI/xxMr8mMFcyVUym7ipU/6bl/FJJOOxY/jjqWCKcKK0hRQw1TcXjfSg
- ZxhyOg9fCfTFplN0lBWEQX0s+ew9oxsOax89+8ZkPvtN2JqbeT4h17VaEDrreggHZoNS/kTMe
- VJ1O9VusljkvtN7Gxvr3vOx3+EpksKsWCq9M4UqmpS7fXDGDG7s9bjcqGwdcsfBnAoufTDu3e
- T47f3OyE89BHB4gnoIBe68t6QQ4pm+S1ECsYqcjTvMVOV8odpRPjU/R1vOfvjNs9VU14doenI
- WIrcic2u69YxUttf6qvtYu++ogLmTYE3zE+051JtuzP27WZsTzs65KMci8qXnJBRHzQ3SVL
+X-Provags-ID: V03:K1:eeOWQ4eBNfEWXijBCegNKXvqQZoMQytCQ7p0ooIqDonFTm0pNHm
+ Sc4lnKyQaCtL7hO0S2KLK/e8R0wUhWpaNTqqxMBHT63dQ8uyzg86bDO+2Y48/6/qYiEyxuL
+ jug4zPy1bCUQNcRMyaQt3j+s3YBF43A78EomUOoOtW7em8ApPgL0jBpWLHIaH0hjlFlsiKH
+ B9oMk1eRrm0a+vSTd5+Zw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2QmUTetGIc0=:DG/UkHPtUkEXEjDa19HgfC
+ 8P9SA1l4uba9SI1kEz5AdZzcA1x47JilHbu+ZZwGhLbbVAF7a16YxxFcAwr/19TadqDcAQzjs
+ Gy/zcm7MLdnDEAOsez4kHqZsfyLmLQXfKmFoF0Zftr6ptzTUVosQ5LvEVM3XQgN2xOvz+20U8
+ 6FLC6lv0dZC7heBwN7iaRN/OFGUqgz3wU6iq15VrNlE8GonoDC6I7KuD6P6hZwPx4acdTARh5
+ WiaOcMalcZCAQjc9rgNtLZpYktdAjy5l5DnMc+cozyOeM3jAvcoebWw9mnoi4LcSTXw68F5Hd
+ wTwzSqGmGvXiRBxSUG0362efH3TCKNqWc/61MOBCglf4TaoD5wlA4vaAI3HP1kgFyatRTDNxD
+ DmOdr61l0a6e5KRyWZfMxdkdMaeV0YY7elGUsg06wlZ5ug0xHI3LNzvoXm/ml9MPG+dempOtm
+ YA9wh1uZ1iYinz6ukP+jXDU7ayasYRx/gkZhfCkm4Gl4jwZXcb2TaCBNa+Ld/zU+WpVujniTE
+ Z8s69dC68UG1yBYIxBBm3wBeUU+dUl1yw0fYKMTuTbz6yBgOVI8FRBIa97nbgqcunuePVAQM1
+ gGhE3CCXGP5iGj/+jC7J9LNLatFf4+Xq+rACA+jys8dl9LgCp0s4sWamrNAHWMzH58A2rSwmY
+ 0WnSHPLpiidGLVu8t1BEixBXyOSfdt2DXj2Oo0BiUwbixJez7Jm6okYKDYBqiT+LELEhGoyS2
+ 1mLvkmlpLW/wiTOtIgZyS7rj2bIaEhWBufRG4CxbKIhat0xh+3WcGb1bnDERAt50ejf8n55SQ
+ U76xlD2H0hbYPZxhFu/KLoiW2W9bliW/XgBa2O1hlbE6V4kGRG/gtOMsgGtQDplTkMDxPFO
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,42 +111,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Euler Robot <euler.robot@huawei.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, peter.maydell@linaro.org,
+ zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 02/03/2020 à 14:07, Chen Qun a écrit :
 > Clang static code analyzer show warning:
-> hw/display/pxa2xx_lcd.c:596:9: warning: Value stored to 'format' is never read
->         format = 0;
->         ^        ~
+> hw/display/exynos4210_fimd.c:1313:17: warning: Value stored to 'is_dirty' is never read
+>                 is_dirty = false;
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
-> Cc: Andrzej Zaborowski <balrogg@gmail.com>
+> Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
 > Cc: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/display/pxa2xx_lcd.c | 1 -
+>  hw/display/exynos4210_fimd.c | 1 -
 >  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
-> index 05f5f84671..464e93161a 100644
-> --- a/hw/display/pxa2xx_lcd.c
-> +++ b/hw/display/pxa2xx_lcd.c
-> @@ -593,7 +593,6 @@ static void pxa2xx_palette_parse(PXA2xxLCDState *s, int ch, int bpp)
->          n = 256;
->          break;
->      default:
-> -        format = 0;
->          return;
->      }
->  
+> diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
+> index c1071ecd46..05d3265b76 100644
+> --- a/hw/display/exynos4210_fimd.c
+> +++ b/hw/display/exynos4210_fimd.c
+> @@ -1310,7 +1310,6 @@ static void exynos4210_fimd_update(void *opaque)
+>                  }
+>                  host_fb_addr += inc_size;
+>                  fb_line_addr += inc_size;
+> -                is_dirty = false;
+>              }
+>              g_free(snap);
+>              blend = true;
 > 
 
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
