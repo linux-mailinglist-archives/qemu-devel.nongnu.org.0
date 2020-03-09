@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CA717E37E
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:24:09 +0100 (CET)
-Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058F817E35D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:18:24 +0100 (CET)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKGG-0002Kn-Db
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
+	id 1jBKAg-0003hZ-Uk
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:18:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK35-0000Ti-1q
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:32 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK39-0000cY-3J
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK30-00087I-6s
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:30 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:43071)
+ (envelope-from <laurent@vivier.eu>) id 1jBK37-0008DC-QM
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:34 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:52167)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2w-00080q-Qu; Mon, 09 Mar 2020 11:10:23 -0400
+ id 1jBK34-00089Z-PV; Mon, 09 Mar 2020 11:10:31 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mz9d7-1jX6La2m0Z-00wCPd; Mon, 09 Mar 2020 16:09:29 +0100
+ id 1MVNEv-1ijVu8455z-00SLFB; Mon, 09 Mar 2020 16:09:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/33] hw/i2c/smbus_ich9: Include "qemu/range.h"
-Date: Mon,  9 Mar 2020 16:08:24 +0100
-Message-Id: <20200309150837.3193387-21-laurent@vivier.eu>
+Subject: [PULL 21/33] hw/pci-host/piix: Include "qemu/range.h"
+Date: Mon,  9 Mar 2020 16:08:25 +0100
+Message-Id: <20200309150837.3193387-22-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Alwa6Yq6anJ25qqFb2ZJCqayl5qxuKrCwWQL2K641TjDVv8DxnD
- UJkIGN3SM0DllsWqOE1Q2KYBM0cIesPhI79sdPoQyBdoLbAXe9AJLhVRYpKiLGQqpDKHzDt
- GrC7m/3NQDbiIJRmlWUBWUgCziy5lGGkrNjNN5Bor9wIBQ+JOLewBBQgn8yVC1/vrTmv4rS
- cz4gI88sb4xqWMZZ0aC6g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PuxzSjGLkMI=:rKTJ09YAr7MO8ckm3p+HHB
- nTQRRCXJ2wnTUopWfg0flpXTcAvErHxm0yhofCwSwtfMkxvZYCUmlww4Rr5KjT0ebccRMoJV2
- sWbXdgymVKmJsuUnJr+Cx3Hrfxtu8O5zCnWsUbaWn3q5bz3cpKQ7AFEuNccDI/kWt89TzCgxf
- 14BUy+Ay1kIj9ZaMtJYQWkKTJMVYIad5jHYJyijOYkHy9wlg1roIGHDgjzhYhqCMKd/4KxyjC
- QYfsJJahDeu4o5Jx0bH100FvOCImi3vF2X5QFtpvbsEKl78DbmlwBrmvvX/ZBTlXdF3wvi7Dw
- 7E5sDlMt/RZwc53y3kx013vZYz5VD4iTrqw62D0G+TTC9ksGNQdPHstZlbD+yZCFbjr6f6nMP
- crFuMsqjos+n2Owy5H7y2BG4Pb+CLIpqTIN+9F39PDSyzueQLuf7wsZAIkKtUG4iXKoFaXmgi
- NSZuZjsb55f+8Of5wjTfQiQRjYVhhpHwVUcJwxC5ds1BsS3KBRzjMkkc82LjYhFhw0Sh/TfJ/
- fanwylNwK4bbIVBb/KWeEi7y6sN7tZUB4G+BIC8K5VFzT7UzCpe2SlDwLtFdYLXCA2guwGhR6
- +h/TEbmQW9cdtfZsX4k7pRZx1LetraWGqUN3LYaHVxFjsjaolT86SQzPcTTQ+HoMq9NFGgdL6
- kn0Ex0zP1qvLA70+6i6VN7G6jmr2AmIIFy4G/54vkqR9vfTeA+VOdst7ntoZYCXzBTXrCX4BU
- /2Fe/dAkdmLwyTtmNHgzhmdpqnl/W4JpieDDgL0jufxp1kxgvtl21OjePQTmKSMttB/8r/0jO
- H5ORpJRfTO/RZIbCVT6OUbbg3Nv2pQRAUAqN529o4yy+sHk2WHfvJGvZm7JQ6rmv22X+T4T
+X-Provags-ID: V03:K1:haYMxJVRXzVW0hYOJCRTrEMLEtH4cwttsRRYvJAL/M1lUNCla+1
+ HCyndljMQ5dWOqyAn/mTV7An6tP6oGZ1qu4uY+cMOrrXs8yLQis3rKJILw0VX20Pp0liIpA
+ scv0V69rv++UazF8zy7Q/i6rZcXxcPKLRhOyp/p1/tE5af8IUp8fbuqc6zBrcxXtE9QT32R
+ Uh41WmmMnbrqy6QluAzfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PG9DHECbHZw=:w6hC1i9Mr2jROOLcIYZVhU
+ Cs4t4l0MQMKJe5eIxLKy//Max3kmtwFbo2xim2sLdptA0wVuY9z3MI9SmqTgTa5Jzji41KWHc
+ WawZYNaPfREOZHQULjXxjlOV7rW/TjZRN4wx+4uMh+DCHIRjUwu526wn8leI9xlIGdtuzH+aY
+ 4H0/lgXCzfEhX8Mm40D77t78DiCOLgBjmeHa67IAh2TCkyMxQLCyKl+28bKKm99aEPwhJDhZt
+ LYSGUFrZiit0TxPbzB0yprXQDUqfSNJlRVX/hqq2f2+MfYY4EohK578BlNgyRjmpW1KjwwaHB
+ tGcjJLRzG9irhapv/7gTKweaRDaF1iNoDm8KlMF6cRtrUwJmyiCKgSQok0KQciBV+cq81izhr
+ y0cFKvh2jb6s/BLGDtcO8h1Z9C89/sZf8ZIL7pA3ZPbkrs2RWD8hkZNOOT0lS5lpf01sdc3rP
+ 1uGKCI3wryWzp4Nr4QNPVZNG1tLAflEFyzkDB+JduLTl4lzcZDUfR8THuYsgoPank9eEUqvvR
+ Zl0qHuHMTRo3vOeARLptMjgx99tGElPKIXE/hxLmwenGdZUSGF6TWjAkWwzQFQu7O+rxQ4el1
+ g6PJYLXRfgJVW3uYKM/QR/2fFMHEpPg97efcVoNdHFSu7EXDVja4qB6flps/B5XtmI3mMMC9Y
+ vynuBRDeeDeortGcRL2VoN24Bw+vsAD1bj+8Epb0ORHA4AioajzfttjCf9JscENxFkA4gwaq9
+ nilCplfreNpHoB0IBt3z1ie8tY4ZEgHuFwChqZV6VW+meONWC9azV+SGiYiUbViK/HEZ6q3lD
+ 6k/D907N2oL0h3QgOyDrt0UzEaoJFzgnNr8F+KZH8uTKFv2XDsX1FINJelvdDkVQ1tcH8MA
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,36 +87,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-hw/i2c/smbus_ich9.c calls range_covers_byte(). Include "qemu/range.h"
-which declares it.
+hw/pci-host/piix.c calls various functions from the Range API.
+Include "qemu/range.h" which declares them.
 
 This fixes (when modifying unrelated headers):
 
-  hw/i2c/smbus_ich9.c:66:9: error: implicit declaration of function 'range_covers_byte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      if (range_covers_byte(address, len, ICH9_SMB_HOSTC)) {
+  hw/pci-host/i440fx.c:54:11: error: field has incomplete type 'Range' (aka 'struct Range')
+      Range pci_hole;
+           ^
+  include/qemu/typedefs.h:116:16: note: forward declaration of 'struct Range'
+  typedef struct Range Range;
+                 ^
+  hw/pci-host/i440fx.c:126:9: error: implicit declaration of function 'ranges_overlap' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+      if (ranges_overlap(address, len, I440FX_PAM, I440FX_PAM_SIZE) ||
           ^
+  hw/pci-host/i440fx.c:126:9: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+  hw/pci-host/i440fx.c:127:9: error: implicit declaration of function 'range_covers_byte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+          range_covers_byte(address, len, I440FX_SMRAM)) {
+          ^
+  hw/pci-host/i440fx.c:127:9: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
+  hw/pci-host/i440fx.c:189:13: error: implicit declaration of function 'range_is_empty' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+      val64 = range_is_empty(&s->pci_hole) ? 0 : range_lob(&s->pci_hole);
+              ^
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-14-philmd@redhat.com>
+Message-Id: <20200228114649.12818-15-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/i2c/smbus_ich9.c | 1 +
+ hw/pci-host/i440fx.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-index fd50fb851af4..48f1ff419174 100644
---- a/hw/i2c/smbus_ich9.c
-+++ b/hw/i2c/smbus_ich9.c
-@@ -21,6 +21,7 @@
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 11050a0f8bb9..d980c9704906 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -23,6 +23,7 @@
   */
  
  #include "qemu/osdep.h"
 +#include "qemu/range.h"
- #include "hw/i2c/pm_smbus.h"
+ #include "hw/i386/pc.h"
  #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
+ #include "hw/pci/pci_host.h"
 -- 
 2.24.1
 
