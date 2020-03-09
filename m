@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E8617E966
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:54:59 +0100 (CET)
-Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3187417E972
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:57:15 +0100 (CET)
+Received: from localhost ([::1]:49006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOUN-0003PD-2M
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54497)
+	id 1jBOWY-0006Wf-9G
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:57:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jBOMq-00067q-SU
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:15 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBOQY-0004XZ-DC
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:51:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1jBOMp-00007s-9m
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28350
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jBOMp-00007J-5G
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:47:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583783230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sJBV+28rB+qWj4imlLqi5ZAwAVNhuWvoD1lasvHrGQ0=;
- b=ezm3raCa+ksz9r4uUDGJGKOCWjwceFwx/uTVw4J3V+8AiTy9yZ7XwdQHRA2mJl8Z/0Rwj3
- UGnzHh0qh9G1T7rj9S21+scfizMPvOAvZ2Y8lwxZZQFdINwGvfZQ+G8jbPl+wUcKUT9dqN
- 6RrLHK+ldI4UFw9VTjlQv4O2l/01aU8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-QejU-jk5MjuglryfhnnyQg-1; Mon, 09 Mar 2020 15:47:08 -0400
-X-MC-Unique: QejU-jk5MjuglryfhnnyQg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E636C801E66
- for <qemu-devel@nongnu.org>; Mon,  9 Mar 2020 19:47:07 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1ACFB5C54A;
- Mon,  9 Mar 2020 19:47:06 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	mlevitsk@redhat.com,
-	thuth@redhat.com
-Subject: [PULL 12/12] net: Remove deprecated [hub_id name] tuple of
- 'hostfwd_add' / 'hostfwd_remove'
-Date: Mon,  9 Mar 2020 19:46:50 +0000
-Message-Id: <20200309194650.160552-13-dgilbert@redhat.com>
-In-Reply-To: <20200309194650.160552-1-dgilbert@redhat.com>
-References: <20200309194650.160552-1-dgilbert@redhat.com>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBOQW-0002ck-Os
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:51:02 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42600
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jBOQS-0002ZA-AR; Mon, 09 Mar 2020 15:50:56 -0400
+Received: from host86-177-178-88.range86-177.btcentralplus.com
+ ([86.177.178.88] helo=[192.168.1.110])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jBOQe-0007XN-SP; Mon, 09 Mar 2020 19:51:14 +0000
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+References: <cover.1583714522.git.balaton@eik.bme.hu>
+ <2acb7e522055bb9ac45586c1792edc7615ef3ae6.1583714522.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <e6a293bb-5019-9d2e-c694-2c0917bb0a35@ilande.co.uk>
+Date: Mon, 9 Mar 2020 19:50:42 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <2acb7e522055bb9ac45586c1792edc7615ef3ae6.1583714522.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 86.177.178.88
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 2/2] via-ide: Also emulate non 100% native mode
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:41c9:1:41f::167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,226 +84,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: philmd@redhat.com, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On 09/03/2020 00:42, BALATON Zoltan wrote:
 
-It's been deprecated since QEMU v3.1.0. Time to finally remove it now.
+> Some machines operate in "non 100% native mode" where interrupts are
+> fixed at legacy IDE interrupts and some guests expect this behaviour
+> without checking based on knowledge about hardware. Even Linux has
+> arch specific workarounds for this that are activated on such boards
+> so this needs to be emulated as well.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+> v2: Don't use PCI_INTERRUPT_LINE in via_ide_set_irq()
+> 
+>  hw/ide/via.c            | 57 +++++++++++++++++++++++++++++++++++------
+>  hw/mips/mips_fulong2e.c |  2 +-
+>  include/hw/ide.h        |  3 ++-
+>  3 files changed, 52 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index 096de8dba0..44ecc2af29 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -1,9 +1,10 @@
+>  /*
+> - * QEMU IDE Emulation: PCI VIA82C686B support.
+> + * QEMU VIA southbridge IDE emulation (VT82C686B, VT8231)
+>   *
+>   * Copyright (c) 2003 Fabrice Bellard
+>   * Copyright (c) 2006 Openedhand Ltd.
+>   * Copyright (c) 2010 Huacai Chen <zltjiangshi@gmail.com>
+> + * Copyright (c) 2019-2020 BALATON Zoltan
+>   *
+>   * Permission is hereby granted, free of charge, to any person obtaining a copy
+>   * of this software and associated documentation files (the "Software"), to deal
+> @@ -25,6 +26,8 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/range.h"
+> +#include "hw/qdev-properties.h"
+>  #include "hw/pci/pci.h"
+>  #include "migration/vmstate.h"
+>  #include "qemu/module.h"
+> @@ -111,14 +114,40 @@ static void via_ide_set_irq(void *opaque, int n, int level)
+>      } else {
+>          d->config[0x70 + n * 8] &= ~0x80;
+>      }
+> -
+>      level = (d->config[0x70] & 0x80) || (d->config[0x78] & 0x80);
+> -    n = pci_get_byte(d->config + PCI_INTERRUPT_LINE);
+> -    if (n) {
+> -        qemu_set_irq(isa_get_irq(NULL, n), level);
+> +
+> +    /*
+> +     * Some machines operate in "non 100% native mode" where PCI_INTERRUPT_LINE
+> +     * is not used but IDE always uses ISA IRQ 14 and 15 even in native mode.
+> +     * Some guest drivers expect this, often without checking.
+> +     */
+> +    if (!(pci_get_byte(d->config + PCI_CLASS_PROG) & (n ? 4 : 1)) ||
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191205104109.18680-1-thuth@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Reworked Thomas's deprecated.texi to the rst
----
- docs/system/deprecated.rst | 15 +++++++------
- hmp-commands.hx            |  8 +++----
- net/hub.c                  | 23 --------------------
- net/hub.h                  |  2 --
- net/slirp.c                | 44 +++++++++++---------------------------
- 5 files changed, 25 insertions(+), 67 deletions(-)
+One other thing whilst I'm here: the above line is quite cryptic to read unless
+you're very familiar with the PCI IDE specifications. How about something like this
+towards the top of the function:
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 6c1d9034d9..0838338d8f 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -248,12 +248,6 @@ the 'wait' field, which is only applicable to sockets =
-in server mode
- Human Monitor Protocol (HMP) commands
- -------------------------------------
-=20
--The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (since 3.=
-1)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
-''
--
--The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
--'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
--
- ``cpu-add`` (since 4.0)
- '''''''''''''''''''''''
-=20
-@@ -430,6 +424,15 @@ QEMU Machine Protocol (QMP) commands
- The "autoload" parameter has been ignored since 2.12.0. All bitmaps
- are automatically loaded from qcow2 images.
-=20
-+Human Monitor Protocol (HMP) commands
-+-------------------------------------
-+
-+The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed =
-in 5.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''=
-'''''''
-+
-+The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
-+'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
-+
- Related binaries
- ----------------
-=20
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index eb3d1605fd..f12263e071 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1369,8 +1369,8 @@ ERST
- #ifdef CONFIG_SLIRP
-     {
-         .name       =3D "hostfwd_add",
--        .args_type  =3D "arg1:s,arg2:s?,arg3:s?",
--        .params     =3D "[hub_id name]|[netdev_id] [tcp|udp]:[hostaddr]:ho=
-stport-[guestaddr]:guestport",
-+        .args_type  =3D "arg1:s,arg2:s?",
-+        .params     =3D "[netdev_id] [tcp|udp]:[hostaddr]:hostport-[guesta=
-ddr]:guestport",
-         .help       =3D "redirect TCP or UDP connections from host to gues=
-t (requires -net user)",
-         .cmd        =3D hmp_hostfwd_add,
-     },
-@@ -1383,8 +1383,8 @@ ERST
- #ifdef CONFIG_SLIRP
-     {
-         .name       =3D "hostfwd_remove",
--        .args_type  =3D "arg1:s,arg2:s?,arg3:s?",
--        .params     =3D "[hub_id name]|[netdev_id] [tcp|udp]:[hostaddr]:ho=
-stport",
-+        .args_type  =3D "arg1:s,arg2:s?",
-+        .params     =3D "[netdev_id] [tcp|udp]:[hostaddr]:hostport",
-         .help       =3D "remove host-to-guest TCP or UDP redirection",
-         .cmd        =3D hmp_hostfwd_remove,
-     },
-diff --git a/net/hub.c b/net/hub.c
-index 5795a678ed..88cfb876f3 100644
---- a/net/hub.c
-+++ b/net/hub.c
-@@ -193,29 +193,6 @@ NetClientState *net_hub_add_port(int hub_id, const cha=
-r *name,
-     return &port->nc;
- }
-=20
--/**
-- * Find a specific client on a hub
-- */
--NetClientState *net_hub_find_client_by_name(int hub_id, const char *name)
--{
--    NetHub *hub;
--    NetHubPort *port;
--    NetClientState *peer;
--
--    QLIST_FOREACH(hub, &hubs, next) {
--        if (hub->id =3D=3D hub_id) {
--            QLIST_FOREACH(port, &hub->ports, next) {
--                peer =3D port->nc.peer;
--
--                if (peer && strcmp(peer->name, name) =3D=3D 0) {
--                    return peer;
--                }
--            }
--        }
--    }
--    return NULL;
--}
--
- /**
-  * Find a available port on a hub; otherwise create one new port
-  */
-diff --git a/net/hub.h b/net/hub.h
-index 66d3322fac..ce45f7b399 100644
---- a/net/hub.h
-+++ b/net/hub.h
-@@ -15,10 +15,8 @@
- #ifndef NET_HUB_H
- #define NET_HUB_H
-=20
--
- NetClientState *net_hub_add_port(int hub_id, const char *name,
-                                  NetClientState *hubpeer);
--NetClientState *net_hub_find_client_by_name(int hub_id, const char *name);
- void net_hub_info(Monitor *mon);
- void net_hub_check_clients(void);
- bool net_hub_flush(NetClientState *nc);
-diff --git a/net/slirp.c b/net/slirp.c
-index c4334ee876..77042e6df7 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -610,25 +610,13 @@ error:
-     return -1;
- }
-=20
--static SlirpState *slirp_lookup(Monitor *mon, const char *hub_id,
--                                const char *name)
-+static SlirpState *slirp_lookup(Monitor *mon, const char *id)
- {
--    if (name) {
--        NetClientState *nc;
--        if (hub_id) {
--            nc =3D net_hub_find_client_by_name(strtol(hub_id, NULL, 0), na=
-me);
--            if (!nc) {
--                monitor_printf(mon, "unrecognized (hub-id, stackname) pair=
-\n");
--                return NULL;
--            }
--            warn_report("Using 'hub-id' is deprecated, specify the netdev =
-id "
--                        "directly instead");
--        } else {
--            nc =3D qemu_find_netdev(name);
--            if (!nc) {
--                monitor_printf(mon, "unrecognized netdev id '%s'\n", name)=
-;
--                return NULL;
--            }
-+    if (id) {
-+        NetClientState *nc =3D qemu_find_netdev(id);
-+        if (!nc) {
-+            monitor_printf(mon, "unrecognized netdev id '%s'\n", id);
-+            return NULL;
-         }
-         if (strcmp(nc->model, "user")) {
-             monitor_printf(mon, "invalid device specified\n");
-@@ -655,16 +643,12 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qd=
-ict)
-     int err;
-     const char *arg1 =3D qdict_get_str(qdict, "arg1");
-     const char *arg2 =3D qdict_get_try_str(qdict, "arg2");
--    const char *arg3 =3D qdict_get_try_str(qdict, "arg3");
-=20
--    if (arg3) {
--        s =3D slirp_lookup(mon, arg1, arg2);
--        src_str =3D arg3;
--    } else if (arg2) {
--        s =3D slirp_lookup(mon, NULL, arg1);
-+    if (arg2) {
-+        s =3D slirp_lookup(mon, arg1);
-         src_str =3D arg2;
-     } else {
--        s =3D slirp_lookup(mon, NULL, NULL);
-+        s =3D slirp_lookup(mon, NULL);
-         src_str =3D arg1;
-     }
-     if (!s) {
-@@ -784,16 +768,12 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict=
-)
-     SlirpState *s;
-     const char *arg1 =3D qdict_get_str(qdict, "arg1");
-     const char *arg2 =3D qdict_get_try_str(qdict, "arg2");
--    const char *arg3 =3D qdict_get_try_str(qdict, "arg3");
-=20
--    if (arg3) {
--        s =3D slirp_lookup(mon, arg1, arg2);
--        redir_str =3D arg3;
--    } else if (arg2) {
--        s =3D slirp_lookup(mon, NULL, arg1);
-+    if (arg2) {
-+        s =3D slirp_lookup(mon, arg1);
-         redir_str =3D arg2;
-     } else {
--        s =3D slirp_lookup(mon, NULL, NULL);
-+        s =3D slirp_lookup(mon, NULL);
-         redir_str =3D arg1;
-     }
-     if (s) {
---=20
-2.24.1
+int native = n ? pci_get_byte(d->config + PCI_CLASS_PROG) & 4 :
+                 pci_get_byte(d->config + PCI_CLASS_PROG) & 1;
 
+and change the if() accordingly:
+
+if (native) {
+   ...
+} else {
+   ...
+}
+
+With that you can could probably drop the comment since it's really obvious what the
+code is doing when reading it against the datasheet.
+
+> +        PCI_IDE(d)->flags & BIT(PCI_IDE_LEGACY_IRQ)) {
+> +        qemu_set_irq(isa_get_irq(NULL, (n ? 15 : 14)), level);
+> +    } else {
+> +        qemu_set_irq(isa_get_irq(NULL, 14), level);
+>      }
+>  }
+>  
+> +static uint32_t via_ide_config_read(PCIDevice *d, uint32_t address, int len)
+> +{
+> +    /*
+> +     * The pegasos2 firmware writes to PCI_INTERRUPT_LINE but on real
+> +     * hardware it's fixed at 14 and won't change. Some guests also expect
+> +     * legacy interrupts, without reading PCI_INTERRUPT_LINE but Linux
+> +     * depends on this to read 14. We set it to 14 in the reset method and
+> +     * also set the wmask to 0 to emulate this but that turns out to be not
+> +     * enough. QEMU resets the PCI bus after this device and
+> +     * pci_do_device_reset() called from pci_device_reset() will zero
+> +     * PCI_INTERRUPT_LINE so this config_read function is to counter that and
+> +     * restore the correct value, otherwise this should not be needed.
+> +     */
+> +    if (range_covers_byte(address, len, PCI_INTERRUPT_LINE)) {
+> +        pci_set_byte(d->config + PCI_INTERRUPT_LINE, 14);
+> +    }
+> +    return pci_default_read_config(d, address, len);
+> +}
+> +
+>  static void via_ide_reset(DeviceState *dev)
+>  {
+>      PCIIDEState *d = PCI_IDE(dev);
+> @@ -169,7 +198,8 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
+>  
+>      pci_config_set_prog_interface(pci_conf, 0x8f); /* native PCI ATA mode */
+>      pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+> -    dev->wmask[PCI_INTERRUPT_LINE] = 0xf;
+> +    dev->wmask[PCI_CLASS_PROG] = 5;
+> +    dev->wmask[PCI_INTERRUPT_LINE] = 0;
+>  
+>      memory_region_init_io(&d->data_bar[0], OBJECT(d), &pci_ide_data_le_ops,
+>                            &d->bus[0], "via-ide0-data", 8);
+> @@ -213,14 +243,23 @@ static void via_ide_exitfn(PCIDevice *dev)
+>      }
+>  }
+>  
+> -void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn)
+> +void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
+> +                  bool legacy_irq)
+>  {
+>      PCIDevice *dev;
+>  
+> -    dev = pci_create_simple(bus, devfn, "via-ide");
+> +    dev = pci_create(bus, devfn, "via-ide");
+> +    qdev_prop_set_bit(&dev->qdev, "legacy-irq", legacy_irq);
+> +    qdev_init_nofail(&dev->qdev);
+>      pci_ide_create_devs(dev, hd_table);
+>  }
+>  
+> +static Property via_ide_properties[] = {
+> +    DEFINE_PROP_BIT("legacy-irq", PCIIDEState, flags, PCI_IDE_LEGACY_IRQ,
+> +                    false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+>  static void via_ide_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -229,10 +268,12 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+>      dc->reset = via_ide_reset;
+>      k->realize = via_ide_realize;
+>      k->exit = via_ide_exitfn;
+> +    k->config_read = via_ide_config_read;
+>      k->vendor_id = PCI_VENDOR_ID_VIA;
+>      k->device_id = PCI_DEVICE_ID_VIA_IDE;
+>      k->revision = 0x06;
+>      k->class_id = PCI_CLASS_STORAGE_IDE;
+> +    device_class_set_props(dc, via_ide_properties);
+>      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>  }
+>  
+> diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+> index 4727b1d3a4..150182c62a 100644
+> --- a/hw/mips/mips_fulong2e.c
+> +++ b/hw/mips/mips_fulong2e.c
+> @@ -257,7 +257,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>      isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+>  
+>      ide_drive_get(hd, ARRAY_SIZE(hd));
+> -    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1));
+> +    via_ide_init(pci_bus, hd, PCI_DEVFN(slot, 1), false);
+>  
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+> diff --git a/include/hw/ide.h b/include/hw/ide.h
+> index d88c5ee695..2a7001ccba 100644
+> --- a/include/hw/ide.h
+> +++ b/include/hw/ide.h
+> @@ -18,7 +18,8 @@ PCIDevice *pci_piix3_xen_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+>  PCIDevice *pci_piix3_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+>  PCIDevice *pci_piix4_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+>  int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux);
+> -void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn);
+> +void via_ide_init(PCIBus *bus, DriveInfo **hd_table, int devfn,
+> +                  bool legacy_irq);
+>  
+>  /* ide-mmio.c */
+>  void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
+
+
+ATB,
+
+Mark.
 
