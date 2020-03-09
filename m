@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058F817E35D
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:18:24 +0100 (CET)
-Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B181E17E396
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:27:21 +0100 (CET)
+Received: from localhost ([::1]:44882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKAg-0003hZ-Uk
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
+	id 1jBKJM-0007jT-OC
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK39-0000cY-3J
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:36 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK37-0008DC-QM
+ (envelope-from <laurent@vivier.eu>) id 1jBK37-0000Xu-Ao
  for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:34 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:52167)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <laurent@vivier.eu>) id 1jBK35-0008BE-Rl
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:33 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:37509)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK34-00089Z-PV; Mon, 09 Mar 2020 11:10:31 -0400
+ id 1jBK2w-000808-Uv; Mon, 09 Mar 2020 11:10:23 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MVNEv-1ijVu8455z-00SLFB; Mon, 09 Mar 2020 16:09:32 +0100
+ id 1MeCxd-1jjHXV17Qd-00bNlh; Mon, 09 Mar 2020 16:09:34 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/33] hw/pci-host/piix: Include "qemu/range.h"
-Date: Mon,  9 Mar 2020 16:08:25 +0100
-Message-Id: <20200309150837.3193387-22-laurent@vivier.eu>
+Subject: [PULL 22/33] hw/acpi: Include "hw/mem/nvdimm.h"
+Date: Mon,  9 Mar 2020 16:08:26 +0100
+Message-Id: <20200309150837.3193387-23-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:haYMxJVRXzVW0hYOJCRTrEMLEtH4cwttsRRYvJAL/M1lUNCla+1
- HCyndljMQ5dWOqyAn/mTV7An6tP6oGZ1qu4uY+cMOrrXs8yLQis3rKJILw0VX20Pp0liIpA
- scv0V69rv++UazF8zy7Q/i6rZcXxcPKLRhOyp/p1/tE5af8IUp8fbuqc6zBrcxXtE9QT32R
- Uh41WmmMnbrqy6QluAzfg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PG9DHECbHZw=:w6hC1i9Mr2jROOLcIYZVhU
- Cs4t4l0MQMKJe5eIxLKy//Max3kmtwFbo2xim2sLdptA0wVuY9z3MI9SmqTgTa5Jzji41KWHc
- WawZYNaPfREOZHQULjXxjlOV7rW/TjZRN4wx+4uMh+DCHIRjUwu526wn8leI9xlIGdtuzH+aY
- 4H0/lgXCzfEhX8Mm40D77t78DiCOLgBjmeHa67IAh2TCkyMxQLCyKl+28bKKm99aEPwhJDhZt
- LYSGUFrZiit0TxPbzB0yprXQDUqfSNJlRVX/hqq2f2+MfYY4EohK578BlNgyRjmpW1KjwwaHB
- tGcjJLRzG9irhapv/7gTKweaRDaF1iNoDm8KlMF6cRtrUwJmyiCKgSQok0KQciBV+cq81izhr
- y0cFKvh2jb6s/BLGDtcO8h1Z9C89/sZf8ZIL7pA3ZPbkrs2RWD8hkZNOOT0lS5lpf01sdc3rP
- 1uGKCI3wryWzp4Nr4QNPVZNG1tLAflEFyzkDB+JduLTl4lzcZDUfR8THuYsgoPank9eEUqvvR
- Zl0qHuHMTRo3vOeARLptMjgx99tGElPKIXE/hxLmwenGdZUSGF6TWjAkWwzQFQu7O+rxQ4el1
- g6PJYLXRfgJVW3uYKM/QR/2fFMHEpPg97efcVoNdHFSu7EXDVja4qB6flps/B5XtmI3mMMC9Y
- vynuBRDeeDeortGcRL2VoN24Bw+vsAD1bj+8Epb0ORHA4AioajzfttjCf9JscENxFkA4gwaq9
- nilCplfreNpHoB0IBt3z1ie8tY4ZEgHuFwChqZV6VW+meONWC9azV+SGiYiUbViK/HEZ6q3lD
- 6k/D907N2oL0h3QgOyDrt0UzEaoJFzgnNr8F+KZH8uTKFv2XDsX1FINJelvdDkVQ1tcH8MA
+X-Provags-ID: V03:K1:NTc9gYTo1zgyCCMIFWflspFVQs5HlnqOXjyevZODLe+VuCqABS8
+ GY+4Lfy4w8V1/7Ii+pM2ITHpvgrBl4n/WB7gEZ1ygjTKo2+zdiGL64CZ9omlp7p8X5Ppv2+
+ BNZ8qiuuOECCmS21vLcsfmCKV25dgP2dyeiW+r0Y/e1J2SkBWk916H6cUuBZU6VGt4kYPYw
+ Ao2QYdJ/uIRHXnwGRkuEQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EVY8x1Sb0zQ=:GiXNbmkKkMkwrteb3NG5o2
+ tngeP6MhBD/AUrGRFUHSNyiYcSLgRJaTUtwDX+SlKsiFg3ZvD/+qvJPT/DYczPgj6IwFPv2Tg
+ KyRu7yYP+dmL3k+uapJbNE98TYPsO5ujtCD6GF+ul0hPKN8QSf6RNSTvUbq2CEx41zVq1Q1x0
+ 8aHLEwQw0GLQhDwUz6P/D/RahmWCTn2ydQ/d68GD3sJHwIdwG/DgDbFw0dOfMyl8KzuOecEfG
+ SxAq2fArd9R2G0xwdPso1xc5YD2+MFdQxLU8GqJD6LYiS8EN0Qlf7B97ExOx8ibRWXNIbyh+D
+ gCb8EvzNtsa8AuFBzAc1l0+JR0fW4SHXhrziiEq54cY8DPowRcMRT4Pp764h7sNfQe26DuWIS
+ V+PglYHc6lT/iX1I70jmpicwkqcLxcShjt/r8shPOAgw6pz7LHnWNU4ciDCt0qavHM0F6NTfd
+ oS7AKxs4vLun2QvS/kdKoGiNVyjyNw7f/CwvINhffGkUVC2wTtSum8Gf7TWfF0BhneCarH1aN
+ hh807vQmwk4c9Co5pBOI+7TsFJ6AZzdv9hHDVPux9MzRdi3cTHq23b4dQt6DIaZOMOn10wW14
+ cQ6iKZJRAvRsSa+bBJWa7/zbCXLmNiKuFeaRCU0Nx68iS50pRvhIQ2dFdEckc1SnUAP3CGii/
+ j6KOlWG/59yywa1PlL63AnkLkGY/BF1qUDGNbRKbdOt0v1bcIuv78VoELkUFbQhRe1C0SD7kW
+ 2535KZ7lQcqGIRzpzLcrTJIOH5RPY36Dt0tIEIq1ZajP8KUn8/HTyeTDDLE7zofCsbmTJRRjA
+ V8+dTEqT7gQ9xpHKCYR5dclL9p3fOrp6onJddhgi7VCNkmf2goBxkGKd5FloHeAn93I893f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,50 +87,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-hw/pci-host/piix.c calls various functions from the Range API.
-Include "qemu/range.h" which declares them.
+Both ich9.c and piix4.c use methods/definitions declared in the
+NVDIMM device header. Include it.
 
 This fixes (when modifying unrelated headers):
 
-  hw/pci-host/i440fx.c:54:11: error: field has incomplete type 'Range' (aka 'struct Range')
-      Range pci_hole;
-           ^
-  include/qemu/typedefs.h:116:16: note: forward declaration of 'struct Range'
-  typedef struct Range Range;
-                 ^
-  hw/pci-host/i440fx.c:126:9: error: implicit declaration of function 'ranges_overlap' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      if (ranges_overlap(address, len, I440FX_PAM, I440FX_PAM_SIZE) ||
-          ^
-  hw/pci-host/i440fx.c:126:9: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
-  hw/pci-host/i440fx.c:127:9: error: implicit declaration of function 'range_covers_byte' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-          range_covers_byte(address, len, I440FX_SMRAM)) {
-          ^
-  hw/pci-host/i440fx.c:127:9: error: this function declaration is not a prototype [-Werror,-Wstrict-prototypes]
-  hw/pci-host/i440fx.c:189:13: error: implicit declaration of function 'range_is_empty' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      val64 = range_is_empty(&s->pci_hole) ? 0 : range_lob(&s->pci_hole);
-              ^
+  hw/acpi/ich9.c:507:46: error: use of undeclared identifier 'TYPE_NVDIMM'
+        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
+                                             ^
+  hw/acpi/ich9.c:508:13: error: implicit declaration of function 'nvdimm_acpi_plug_cb' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+            nvdimm_acpi_plug_cb(hotplug_dev, dev);
+            ^
+  hw/acpi/piix4.c:403:46: error: use of undeclared identifier 'TYPE_NVDIMM'
+        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
+                                             ^
+  hw/acpi/piix4.c:404:13: error: implicit declaration of function 'nvdimm_acpi_plug_cb' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+            nvdimm_acpi_plug_cb(hotplug_dev, dev);
+            ^
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-15-philmd@redhat.com>
+Message-Id: <20200228114649.12818-16-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/pci-host/i440fx.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/acpi/ich9.c  | 1 +
+ hw/acpi/piix4.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 11050a0f8bb9..d980c9704906 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -23,6 +23,7 @@
-  */
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index fdd0a6c79e11..4e74284b65b7 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -39,6 +39,7 @@
  
- #include "qemu/osdep.h"
-+#include "qemu/range.h"
- #include "hw/i386/pc.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
+ #include "hw/i386/ich9.h"
+ #include "hw/mem/pc-dimm.h"
++#include "hw/mem/nvdimm.h"
+ 
+ //#define DEBUG
+ 
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 6d621c31e751..b84dbba2c3e8 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -38,6 +38,7 @@
+ #include "hw/acpi/cpu.h"
+ #include "hw/hotplug.h"
+ #include "hw/mem/pc-dimm.h"
++#include "hw/mem/nvdimm.h"
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/acpi_dev_interface.h"
+ #include "hw/xen/xen.h"
 -- 
 2.24.1
 
