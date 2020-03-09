@@ -2,109 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05ED417E3F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:50:50 +0100 (CET)
-Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7316217E3C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:38:31 +0100 (CET)
+Received: from localhost ([::1]:45156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKg5-000113-0H
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37239)
+	id 1jBKUA-0006lI-FT
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jBKK5-000215-Rq
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:28:07 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBKMe-0005kN-Lj
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:30:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jBKK3-0007Rh-0E
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:28:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44657
+ (envelope-from <philmd@redhat.com>) id 1jBKMc-0001dk-FE
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:30:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49692
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jBKK1-0007QX-A3
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:28:01 -0400
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBKMZ-0001VC-Dk
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:30:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583767681;
+ s=mimecast20190719; t=1583767839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=82zrjJBhKppaWDktfeKrZYUBmctHGVdwgl2gVBqELh8=;
- b=fxbI7r+Bfa0Jl3/rAOeNLcte3sBdp9JhUCAyrF5BZmnJyMhWXSLIwsnKXqVYlxdCoYmBCt
- 16GGUfayqBEtLmYTTUhcNM1ExatTpRF4bD6rh03gyjejBb37k6+rWPGRBT6+kZDCxqKApr
- qMTP6c9WUutLvqlQSSaNwUc1q/oM3F4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-dLlKazW7PVyKyi5_5I2W7A-1; Mon, 09 Mar 2020 11:27:59 -0400
-X-MC-Unique: dLlKazW7PVyKyi5_5I2W7A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8EBD800D50;
- Mon,  9 Mar 2020 15:27:57 +0000 (UTC)
-Received: from [10.36.118.226] (unknown [10.36.118.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06E985C3F8;
- Mon,  9 Mar 2020 15:27:53 +0000 (UTC)
-Subject: Re: [PATCH v7 08/15] s390x: protvirt: SCLP interpretation
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200309112206.20261-1-frankja@linux.ibm.com>
- <20200309112206.20261-9-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <6b57a6b8-f864-c5f6-f53f-1ac09e95e271@redhat.com>
-Date: Mon, 9 Mar 2020 16:27:51 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=iTeCDE/9MCbqa9s+51QJ++GgmQ1hHlz5hPFba+dvFt8=;
+ b=LHQZPPo0bYtzIDMm4sxPhKGSvgMgjHZaCQk3a31uYBP5aG39rEZoa1qATZAEgec5IOvPEz
+ XW+frxDFMdLIAjeVNinYrShEb7WJQ+AxR5VR/HLOwFXiTmFH6qO3KxQBAlKQc2Uzt9+e4E
+ hY5gDtCGPBlCyncyOI6x/THeAnkNJWg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-UdQRurAEOlOx8DS2ziwk0Q-1; Mon, 09 Mar 2020 11:30:35 -0400
+X-MC-Unique: UdQRurAEOlOx8DS2ziwk0Q-1
+Received: by mail-ed1-f71.google.com with SMTP id a32so8186225edf.17
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 08:30:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qVhpe5hMLG4rzQPr30+5xgFoEb3+rFH1q64WjBoWnAw=;
+ b=rms3XytNPk5T7YTuetNWPBx8/j39R8Nm4m2ncQqYsZN5Um0S8zsbY3cHU4/ySMqXx/
+ 7Jzk57YbkMeKumd4Uel3um2eZntkU3SBx6GerF3P0kR23lSTipR2972sR28TdR0kkNoN
+ 8+mRA/+1J4CIb28Jv1YK3rVKjwpBrOEfXv3W92uieiE9LJ1UA17LQgteS+PCA7AIeMr8
+ gUUkAj57x3QuNaJF26u03XjitYPGlWW49SwnLS/DSG1DEV0raR2hNLRQdp+d1dmpL2C6
+ eb5OADYlTbRHScejBFnuiYJAjAekiBg7CP0iKalxarkqTAm3orbSTWL+vxfAS2vweX5B
+ pZZg==
+X-Gm-Message-State: ANhLgQ3T3AZMOBtMX5WAd+o/UN4DgPS38Piw1ax7mKtYf2iglZ9Jo5rO
+ 9Axx6qdrT6KkRQLjzUsCJZYPA01BHRDULvHFGDwAfiCAg7mzS+rsVX6AtdrKEx0EZemXDWqXs13
+ ktjgtNwRl+kkLSC8=
+X-Received: by 2002:a17:906:e094:: with SMTP id
+ gh20mr15383145ejb.230.1583767833953; 
+ Mon, 09 Mar 2020 08:30:33 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvUXP9h1qa4fUJnDdTd+xMOOonXQYV3iJRvswRALnW4LdLuwa437zisdfz5k5ojv7il6ByNWw==
+X-Received: by 2002:a17:906:e094:: with SMTP id
+ gh20mr15383110ejb.230.1583767833712; 
+ Mon, 09 Mar 2020 08:30:33 -0700 (PDT)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id m3sm861910ejj.22.2020.03.09.08.30.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Mar 2020 08:30:32 -0700 (PDT)
+Subject: Re: [PATCH 2/2] cpu: Assert a vCPU is created before resetting it
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20200309121103.20234-1-philmd@redhat.com>
+ <20200309121103.20234-3-philmd@redhat.com>
+ <CAFEAcA9LcTUmBuzsHmOSPKOfiyfPy0+gPhKpQdd91EV76HapxA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <630fc27e-6a37-b31c-a0f8-5d850fd42e2a@redhat.com>
+Date: Mon, 9 Mar 2020 16:30:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200309112206.20261-9-frankja@linux.ibm.com>
+In-Reply-To: <CAFEAcA9LcTUmBuzsHmOSPKOfiyfPy0+gPhKpQdd91EV76HapxA@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -119,127 +96,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Michael Walle <michael@walle.cc>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.03.20 12:21, Janosch Frank wrote:
-> SCLP for a protected guest is done over the SIDAD, so we need to use
-> the s390_cpu_pv_mem_* functions to access the SIDAD instead of guest
-> memory when reading/writing SCBs.
-> 
-> To not confuse the sclp emulation, we set 0x4000 as the SCCB address,
-> since the function that injects the sclp external interrupt would
-> reject a zero sccb address.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  hw/s390x/sclp.c         | 28 ++++++++++++++++++++++++++++
->  include/hw/s390x/sclp.h |  2 ++
->  target/s390x/kvm.c      | 21 ++++++++++++++++-----
->  3 files changed, 46 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-> index af0bfbc2ec..b4bc2dd659 100644
-> --- a/hw/s390x/sclp.c
-> +++ b/hw/s390x/sclp.c
-> @@ -193,6 +193,34 @@ static void sclp_execute(SCLPDevice *sclp, SCCB *sccb, uint32_t code)
->      }
->  }
->  
-> +/*
-> +* We only need the address to have something valid for the
-> +* service_interrupt call.
-> +*/
-> +#define SCLP_PV_DUMMY_ADDR 0x4000
-> +int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-> +                                uint32_t code)
-> +{
-> +    SCLPDevice *sclp = get_sclp_device();
-> +    SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
-> +    SCCB work_sccb;
-> +    hwaddr sccb_len = sizeof(SCCB);
-> +
-> +    /*
-> +     * Only a very limited amount of calls is permitted by the
-> +     * Ultravisor and we support all of them, so we don't check for
-> +     * them. All other specification exceptions are also interpreted
-> +     * by the Ultravisor and hence never cause an exit we need to
-> +     * handle.
-> +     */
-> +    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
-> +    sclp_c->execute(sclp, &work_sccb, code);
-> +    s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
-> +                          be16_to_cpu(work_sccb.h.length));
-> +    sclp_c->service_interrupt(sclp, SCLP_PV_DUMMY_ADDR);
-> +    return 0;
-> +}
-> +
->  int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
->  {
->      SCLPDevice *sclp = get_sclp_device();
-> diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-> index c54413b78c..c0a3faa37d 100644
-> --- a/include/hw/s390x/sclp.h
-> +++ b/include/hw/s390x/sclp.h
-> @@ -217,5 +217,7 @@ void s390_sclp_init(void);
->  void sclp_service_interrupt(uint32_t sccb);
->  void raise_irq_cpu_hotplug(void);
->  int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code);
-> +int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-> +                                uint32_t code);
->  
->  #endif
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index 295ed12a38..5c7757ac28 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -1226,12 +1226,23 @@ static void kvm_sclp_service_call(S390CPU *cpu, struct kvm_run *run,
->      sccb = env->regs[ipbh0 & 0xf];
->      code = env->regs[(ipbh0 & 0xf0) >> 4];
->  
-> -    r = sclp_service_call(env, sccb, code);
-> -    if (r < 0) {
-> -        kvm_s390_program_interrupt(cpu, -r);
-> -        return;
-> +    switch (run->s390_sieic.icptcode) {
-> +    case ICPT_PV_INSTR_NOTIFICATION:
-> +        /* The notification intercepts are currently handled by KVM */
-> +        fprintf(stderr, "unexpected SCLP PV notification\n");
+On 3/9/20 2:10 PM, Peter Maydell wrote:
+> On Mon, 9 Mar 2020 at 12:11, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>>
+>> cpu_reset() might modify architecture-specific fields allocated
+>> by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
+>> commit 00d0f7cb66 when introducing new architectures, assert a
+>> vCPU is created before resetting it.
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   hw/core/cpu.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+>> index fe65ca62ac..09e49f8d6a 100644
+>> --- a/hw/core/cpu.c
+>> +++ b/hw/core/cpu.c
+>> @@ -251,6 +251,7 @@ void cpu_reset(CPUState *cpu)
+>>   {
+>>       CPUClass *klass =3D CPU_GET_CLASS(cpu);
+>>
+>> +    assert(cpu->created);
+>>       if (klass->reset !=3D NULL) {
+>>           (*klass->reset)(cpu);
+>>       }
+>=20
+> This will conflict with the change to use DeviceClass::reset.
+>=20
+> Ideally we should do an equivalent assert in the DeviceClass
+> (and flush out all the bugs where we forgot to realize the
+> device before using it).
 
-Maybe g_assert(env->pv);
+OK (I should have sent as RFC probably).
 
-error_report() ?
+Anyway this fails the ppc64le/s390x linux-user tests on Travis-CI:
 
-> +        exit(1);
-> +        break;
-> +    case ICPT_PV_INSTR:
-> +        sclp_service_call_protected(env, sccb, code);
-> +        break;
-> +    case ICPT_INSTRUCTION:
+qemu-ppc64le: hw/core/cpu.c:254: cpu_reset: Assertion `cpu->created' failed=
+.
 
-Maybe g_assert(!env->pv);
+qemu-s390x: hw/core/cpu.c:254: cpu_reset: Assertion `cpu->created' failed.
 
-> +        r = sclp_service_call(env, sccb, code);
-> +        if (r < 0) {
-> +            kvm_s390_program_interrupt(cpu, -r);
-> +            return;
-> +        }
-> +        setcc(cpu, r);
->      }
-> -    setcc(cpu, r);
-
-What about the cc in case of ICPT_PV_INSTR?
-
->  }
->  
->  static int handle_b2(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
-> 
-
-
--- 
-Thanks,
-
-David / dhildenb
+>=20
+> thanks
+> -- PMM
+>=20
 
 
