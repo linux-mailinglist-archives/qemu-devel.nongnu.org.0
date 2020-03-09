@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA8317E9B1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 21:06:44 +0100 (CET)
-Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B82F17E9C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 21:13:42 +0100 (CET)
+Received: from localhost ([::1]:49200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBOfj-0001KV-5p
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 16:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57437)
+	id 1jBOmS-00065j-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 16:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jBOeh-0000K1-FP
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:05:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBOlj-0005fV-Ur
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:12:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jBOeg-00034q-0O
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:05:39 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:46280)
+ (envelope-from <peter.maydell@linaro.org>) id 1jBOli-0006V0-Se
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:12:55 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35558)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1jBOef-00033c-R6; Mon, 09 Mar 2020 16:05:37 -0400
-Received: by mail-il1-x134.google.com with SMTP id e8so9866397ilc.13;
- Mon, 09 Mar 2020 13:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jBOli-0006UU-MB
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 16:12:54 -0400
+Received: by mail-oi1-x241.google.com with SMTP id c1so11511786oiy.2
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 13:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bCYjf/nlzsguEkQ3fBcBcG1cf7H0czOyrYB+Vo3sjRk=;
- b=EPlgBjCmOk44QDTFZu9P8HU05uklFnrxiT0sygEUZDUmWPKjzrRmgEcoviXhpxXkxu
- 3gzEzbCpnU33Z8u4x2M9wZ1T901+TZK6T9w7E8wd7GPH1gLVq15CkYSM03CvbFzMLbe1
- bRjPAFY4sN8UBOCZv5V1BN0/b8rRbD95MQVCLfofc4fuw7UWIireAufbLMQIU7dGnx2/
- i8kcgtsH2vs3w+6GEOg3ECBYeV0TPzExLzvWLWdEqKDGF8YPPejBjU5kSeAyb5MK/IGL
- uWglFq1O4mn05eiVQOVdhdv4JhTJnFveta8FO49fRQM5RLZEeDRpDE0uPpx6GKEilb5C
- 4dkA==
+ :cc; bh=MukV8bwpsqSAxofwaBDyokC/kqbpn0QCRqVHMM8OanM=;
+ b=RJHvbec9aEPIcGfdJiuJWKGbGiuTJYLyKOp+6XcLnr9TnRtVGySR/wVDgzE0tUNo4K
+ 5qziLvHwejDYnKqKt7HGKd/Po8SXg9kXJX5f2NGI3u2bNbPByoIX3RlpZ/H6f0P2YxTR
+ ZxTQviwTOsQVwGgMj/L/8z/F6hAJPQpJEfYJ2Tt3l4TyIbfF1XhZ/dvyg6zm9xQqEykj
+ UO+pIrKvYwF37ykfvahzoJ42megsIoqHqJ2K/zWzIiD9sm8y3we/Dmofv8OTSkgzj9yi
+ EniswR8HQ5uK+yoH/EhPUazeYAl5cTPScKLjsNGUyVhg6pg3BsFT7AV0w4fARRylEE7k
+ dN3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bCYjf/nlzsguEkQ3fBcBcG1cf7H0czOyrYB+Vo3sjRk=;
- b=AVVvvAXOgPA/Kblx4CG5nlh7xt4eXAAG2ZhPVE3x6NU71nvk24Ct/Tt2Bi6imlUueS
- PW9CA3jzS5EuaxI83Dpa+oy4xRukBrc9s66fxGzxqM53oKRwcjxxPciYrs8DiBdzVbCO
- vpTt0QBSWqEtifinnHnabR5oF/CSFvdzTf5vDlaRSB3zJqKcu8habDltgijGQ2uEsxjI
- HvKMwZujQRrW8QkExTBDiXEFMSzkMHHYLjJhJfUuQcV9EqQjJ1gURnlo9nMMa5OsXfYR
- QnXnW0U95m+XkTSx/XJ5+aV1r9bMrKLhY4jv5YpjfNdzmvFhAF1sWesfmeq3351bVGxq
- ONWg==
-X-Gm-Message-State: ANhLgQ1vKjYSJ0TgWe+fK/G86vC8yTiHr7D7unetjjhDIPpTIbVVwRQk
- cbiac81kwYx2mbAeA/i7K9dwNOeDsRQ2/Kxh1Ms=
-X-Google-Smtp-Source: ADFU+vuL2w+fj5uxwgVGvT0yw4jfqLtY4PekeokxsqS0iYfanr5JdvYeg1Y8txU9HoAjqUZJdhY9wXIOeyHUHqOeERs=
-X-Received: by 2002:a92:d3c7:: with SMTP id c7mr2609319ilh.265.1583784336853; 
- Mon, 09 Mar 2020 13:05:36 -0700 (PDT)
+ bh=MukV8bwpsqSAxofwaBDyokC/kqbpn0QCRqVHMM8OanM=;
+ b=dL7Xk83AhxmG5YOYQXGZf2X+GdDcPXeIH4BDCRMUlD6Qbmq0dtZhv/PBrDziRsy+Ar
+ eQImZaZf4C6H/oJwdQ4nbHJLlc14MvkrkNSW5ZiTmOQGDTNd8MdwtqQDCG0YINRgBif2
+ hzDMNtwbNEZP5vrSmKdLqgBepOECF5u4U7qzbiO7il2Yn55Bt4tspePjgQAewhI7ciJP
+ xNC5hSSSetzuRO3JmJlL5iCtug6Aw+N0+/UX5B290V/ym7s/0ynEE66g3HVnyiorFUkG
+ Z8sT1FL6lSqrLDZ6lyjJIFHyoTzgopDXCgwFUJEDu+yX9mdVAIRatb+Vchh/rfW5rkE2
+ CaAw==
+X-Gm-Message-State: ANhLgQ2UtHf7CzySqVcIF2BaTgWcmkNLyf3pUVSbToPAjX8n+4CBZ7Ui
+ +xKjdmwm86nEpxRkWF+ZqMCmAyWMBTfjkPOb0Fv47g==
+X-Google-Smtp-Source: ADFU+vvNgAkU3h+0JOs2DFa43m4Vv+kmI2VGjdkBX/NG/BCZp2MZ//pLrHK3lafRdqx93U68AJ6afaS30zqCpnWllnY=
+X-Received: by 2002:a54:4f16:: with SMTP id e22mr730285oiy.170.1583784773544; 
+ Mon, 09 Mar 2020 13:12:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
  <20200301215029.15196-19-nieklinnenbank@gmail.com> <871rq876h3.fsf@linaro.org>
@@ -54,16 +55,17 @@ References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
  <CAFEAcA_6Lm-JwbXFLWeetc7+fhnrc5m2+YU28ymFw0MSoKOhwg@mail.gmail.com>
  <CAPan3Wo2Nf_d4AxsV5=sfOxv66rmQNfN==rpMn9=FtM5cZG9rw@mail.gmail.com>
  <CAFEAcA-2-tz7F1vmbggpLnc1SSX+_W5pij-w8Vgjx+vqr-LRUA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-2-tz7F1vmbggpLnc1SSX+_W5pij-w8Vgjx+vqr-LRUA@mail.gmail.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Mon, 9 Mar 2020 21:05:25 +0100
-Message-ID: <CAPan3Wr-oS-QRxmCDPXLRBG81yqjnp56B2WNuxtBMOxr2b9D6A@mail.gmail.com>
+ <CAPan3Wr-oS-QRxmCDPXLRBG81yqjnp56B2WNuxtBMOxr2b9D6A@mail.gmail.com>
+In-Reply-To: <CAPan3Wr-oS-QRxmCDPXLRBG81yqjnp56B2WNuxtBMOxr2b9D6A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 Mar 2020 20:12:41 +0000
+Message-ID: <CAFEAcA_rY1hXNbzsj6EJvKzODX_EWdTOK1Gfxi2Jbv+UsYxRtQ@mail.gmail.com>
 Subject: Re: [PATCH v6 18/18] docs: add Orange Pi PC document
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000cc916e05a071866c"
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::134
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,132 +85,30 @@ Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cc916e05a071866c
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 9 Mar 2020 at 20:05, Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+> Ah now I see what is going on here. So the new rst files are ment to automatically generate
+> documentation in various formats using the Python sphinx tool, correct?
 
-On Mon, Mar 9, 2020 at 8:43 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+Yep. Assuming you have Sphinx installed, "make" should build the
+documentation as well as the executables (ie you don't need
+specifically 'make html').
 
-> On Mon, 9 Mar 2020 at 19:38, Niek Linnenbank <nieklinnenbank@gmail.com>
-> wrote:
-> > On Mon, Mar 9, 2020 at 12:22 PM Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> >> Yes, this is now the right place to put arm board-specific
-> >> documentation (the rearranging and conversion from texinfo
-> >> is now in master). I should move microvm.rst's contents there
-> >> I guess.
-> >
-> >
-> > OK, I'll move orangepi.rst to docs/system/orangepi.rst and add a short
-> section
-> > about the Orange Pi PC machine to docs/system/target-arm.rst as well.
+> I played around a bit with running 'make html' and using the include directive you suggested in
+> the target-arm.rst file like:
 >
-> You should include/reference the orangepi.rst from target-arm.rst, I think
-> --
-> that's where the per-board docs would belong in the structure we have.
-> If you just drop a .rst file into the docs directory somewhere it won't
-> actually go into the documentation and instead Sphinx will error
-> out about it not being in the table of contents anywhere.
->
+>   .. include:: orangepi.rst
 
-Ah now I see what is going on here. So the new rst files are ment to
-automatically generate
-documentation in various formats using the Python sphinx tool, correct?
-I played around a bit with running 'make html' and using the include
-directive you suggested in
-the target-arm.rst file like:
+I'm currently writing a patchset which splits the existing
+target-arm.rst into a bunch of per-board files in
+docs/system/arm/. If that patchset goes in before you
+roll the next verison of the series then it should
+just be a matter of putting orangepi.rst in the
+docs/system/arm/ directory and adding a line to the
+table-of-contents in docs/system/target-arm.rst.
+If you're ready to send out the next version before that,
+then leave it with the include:: directive and we can
+fix it up to the new structure later.
 
-  .. include:: orangepi.rst
-
-That seems to work. And, now I also see that the orangepi.rst file contains
-rst syntax errors which
-I need to resolve. I'll make sure those are resolved in the next version.
-
-
->
-> (I'll have a look at microvm.rst to see how best to make the structure
-> work -- at the moment it kind of assumes there board documentation
-> is always quite short so they're all in one file.)
->
-
-Yeah that is fine Peter. If you have any update on that later, I'll adjust
-the orangepi.rst file to fit in as well.
-
-Regards,
-Niek
-
-
->
-> thanks
-> -- PMM
->
-
-
--- 
-Niek Linnenbank
-
---000000000000cc916e05a071866c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 9, 2020 at 8:43 PM Peter =
-Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On Mon, 9 Mar 2020 at 19:38, Niek Linnenbank &lt;<a href=3D"mailto:nie=
-klinnenbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt; w=
-rote:<br>
-&gt; On Mon, Mar 9, 2020 at 12:22 PM Peter Maydell &lt;<a href=3D"mailto:pe=
-ter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; =
-wrote:<br>
-&gt;&gt; Yes, this is now the right place to put arm board-specific<br>
-&gt;&gt; documentation (the rearranging and conversion from texinfo<br>
-&gt;&gt; is now in master). I should move microvm.rst&#39;s contents there<=
-br>
-&gt;&gt; I guess.<br>
-&gt;<br>
-&gt;<br>
-&gt; OK, I&#39;ll move orangepi.rst to docs/system/orangepi.rst and add a s=
-hort section<br>
-&gt; about the Orange Pi PC machine to docs/system/target-arm.rst as well.<=
-br>
-<br>
-You should include/reference the orangepi.rst from target-arm.rst, I think =
---<br>
-that&#39;s where the per-board docs would belong in the structure we have.<=
-br>
-If you just drop a .rst file into the docs directory somewhere it won&#39;t=
-<br>
-actually go into the documentation and instead Sphinx will error<br>
-out about it not being in the table of contents anywhere.<br></blockquote><=
-div><br></div><div>Ah now I see what is going on here. So the new rst files=
- are ment to automatically generate</div><div>documentation in various form=
-ats using the Python sphinx tool, correct?</div><div>I played around a bit =
-with running &#39;make html&#39; and using the include directive you sugges=
-ted in</div><div>the target-arm.rst file like:</div><div><br></div><div>=C2=
-=A0 .. include:: orangepi.rst</div><div><br></div><div>That seems to work. =
-And, now I also see that the orangepi.rst file contains rst syntax errors w=
-hich</div><div>I need to resolve. I&#39;ll make sure those are resolved in =
-the next version.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-<br>
-(I&#39;ll have a look at microvm.rst to see how best to make the structure<=
-br>
-work -- at the moment it kind of assumes there board documentation<br>
-is always quite short so they&#39;re all in one file.)<br></blockquote><div=
-><br></div><div>Yeah that is fine Peter. If you have any update on that lat=
-er, I&#39;ll adjust the orangepi.rst file to fit in as well.</div><div><br>=
-</div><div>Regards,</div><div>Niek<br></div><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
-
---000000000000cc916e05a071866c--
+thanks
+-- PMM
 
