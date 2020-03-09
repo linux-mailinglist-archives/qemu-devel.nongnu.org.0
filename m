@@ -2,101 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CCD17DF7F
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:07:10 +0100 (CET)
-Received: from localhost ([::1]:41834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BC217DF9D
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 13:13:41 +0100 (CET)
+Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBHBc-0004kb-SL
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54701)
+	id 1jBHHw-0006SZ-1F
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 08:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBHAm-0004EL-PL
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:06:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBHFa-0003ba-05
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBHAl-0006fq-PI
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:06:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:43639)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBHAj-0006fF-ET; Mon, 09 Mar 2020 08:06:13 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MowOm-1jgj2C0C6Q-00qRo9; Mon, 09 Mar 2020 13:05:54 +0100
-Subject: Re: [PATCH] core/qdev: fix memleak in qdev_get_gpio_out_connector()
-To: Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org
-References: <20200307030756.5913-1-pannengyuan@huawei.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <065a73ce-c0ee-07be-b442-c98763f99e1c@vivier.eu>
-Date: Mon, 9 Mar 2020 13:05:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <philmd@redhat.com>) id 1jBHFW-0008GS-Ut
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56888
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBHFW-0008Fq-MD
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 08:11:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583755869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cPI4zNorbWHS6HjxG0B3SiZTh2w729y+VHbYK0yShfc=;
+ b=NEdD+nsktsHLFaBMVERMq1krhuDYYNKkufsIRoldv/ijJyltf/5QQUtW8VHTYRGMDK81c9
+ spLMaQ2cuTxaSKxuB+KJISSl8Nzl4poLTl8EeTyI+7rNBGa4w4Mm4QejRty98bobQw6mU2
+ Hqgu2apfUcOxGFewekX11DlgZv+blkY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-4lfbrDdiOge0Ym0NNR-yRg-1; Mon, 09 Mar 2020 08:11:08 -0400
+X-MC-Unique: 4lfbrDdiOge0Ym0NNR-yRg-1
+Received: by mail-wm1-f72.google.com with SMTP id m4so2445647wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 05:11:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QRRKJgovBYHISJ7BzEKk+7D8fpDhIeHZpbnoQFsGQ/I=;
+ b=nNvwwzHLtBbDC1Q+P1xruI/UMdYm+VkT4T/AupZQjr25P+i71toCqm9z1jaO1qE/1x
+ WEwIJm7WryNNf3om7JxAwM68PWqpKYT648MK1AAYJ/zui+7nJNzWeAupZ4o0jYK6H+cg
+ N5cARannSDrMy6pu0eXr1bALLnDYXRwYSxiWWTSUl5CZt25cGWnHd7CpQvze5+GD3FnE
+ QC/yhAlA9mLkrRrwKH4CN/VPa4C4s5K1uvQNxhEB8J7fOnlefFOiTnGZ3BphgLxi4ayp
+ imZixemf6LfBXScBGVlJWcOdX/RsSJKgU6POXV+YZCpL3BB0h+8YjQO1wEX7i7fGafk4
+ wmfA==
+X-Gm-Message-State: ANhLgQ3r9sswwHp7HxGHEEkPCKzPpprj1jLEIbU2W8kevb0wfW40VJJv
+ 9u77POYfMvAOaaXHS+Y9+XZdEjnrDkewk62bhEBTNigStVnHbjtDZM4dY77p0jBnu6vEOUIKo4i
+ I3FIIbPEFCQO9hGs=
+X-Received: by 2002:adf:e742:: with SMTP id c2mr8771021wrn.361.1583755866999; 
+ Mon, 09 Mar 2020 05:11:06 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtutV6sHjy7+X4Ed0YQIg8EwOHZEcLM53D+fV+ePOaC7xlvtw0+qff/Z4Uex3aud8B5siRqkQ==
+X-Received: by 2002:adf:e742:: with SMTP id c2mr8770989wrn.361.1583755866749; 
+ Mon, 09 Mar 2020 05:11:06 -0700 (PDT)
+Received: from localhost.localdomain (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id t1sm66355565wrs.41.2020.03.09.05.11.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Mar 2020 05:11:06 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] cpu: Avoid latent bug calling cpu_reset() on
+ uninitialized vCPU
+Date: Mon,  9 Mar 2020 13:11:01 +0100
+Message-Id: <20200309121103.20234-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200307030756.5913-1-pannengyuan@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xH/ThBAAXWcjDMLwZPCc0yT6eD/9YcwuXFAXxJQ60OkagyQWA03
- SLMRKiQ6HTRcIH+zpTC9rgqf2Hp/C/f2ZdNWZM/pI5D5jSJow0CKmk1jEBPeMY/X124gLAQ
- lsYBuLNdgxXr96ru79eq4zRWwNNumDpo9jq+yrQKq47hIwlktgbODFWmM8RmK5cNEFnsq2v
- uFds54OYZNFLkH7Qsz+8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iTyDS3J4pSo=:Afc28itw6n3t7VNL15Il/l
- 4gVv5Bp+K4DGEFR5Hu4YtR1kjqz4LRXWiadLmLQ/3p48QKGn8Tln5mvKIxfz1Ayj/fY1gVj6l
- KE8lD75IlYfjQsCzsZgMul6nx78o6OAeGajGbctr2FmemM75nGPdXkkl7XRHl0Cm2DLaDpUhY
- ZKBjmkRUGVDzrOPrL9s+/gHWGJ9Q81rLm+xSDfNeL42720iPQdxHLA8PHs8R4a4bAWH5eok5P
- OlXL7X8zHVAjsM6n6Dn8jRs9hExAT+sj86FUe+u2XJgaxfIWvoAL+9XIhxTYOjPZl1pVgeW8s
- KNEhT8qXO2OiZwEGX7HYbitg7tr+rm2JugryiU5qHIWP4a0shFDRAsk4wZN44kCXcXGpf6OT3
- A6fqMUjKTl4C96wDnUd6kLkXAFY6krFkLcJdfqrnVen2NICpqO0KLAXuIge+Sz/8MHQRlCoEI
- H1S8URoMCneYQC7I0bZBPJNUAgCA/pWXe0g6MXLLoX99cunf00Bc9am7FJ3waxpUuIPY8Hem8
- L3AEzk2Hnm5W41ALLKg1A3vh2O5Be/H1z+v+D2JRlC8KbvVHcf1BjCVVqZFF3iW/yeXushFDz
- Gxp2HZg9p/M1KOnE8bHNCW4GKiWPzbAssHSED7xQxtDJFltPAI7/EnWX70//3SswtgnN1konz
- IRiIvjd468R//Rq2li3Y6sLfODC8zOVxNyciqE9KVAZBfL0uybyrZR8T4MeQjeFIP/yAMDHon
- O4Vz5RosQVPe+RtInyQT5Nd615MgKUcLYzyDtje+ycbamyeYjSMeGBky6ZXCfUsMw7OoPNKlm
- 6EEfvwS2zJ+W4bpZm9Ax4s1eZmJTo8RtCRLasi9dFES7mYp+TOMb2k7lr0sCKIu6Up10Ka5
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,38 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org, euler.robot@huawei.com, pbonzini@redhat.com,
- ehabkost@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Michael Walle <michael@walle.cc>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/03/2020 à 04:07, Pan Nengyuan a écrit :
-> Fix a memory leak in qdev_get_gpio_out_connector().
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> ---
->  hw/core/qdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 3937d1eb1a..85f062def7 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -557,7 +557,7 @@ void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
->  
->  qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char *name, int n)
->  {
-> -    char *propname = g_strdup_printf("%s[%d]",
-> +    g_autofree char *propname = g_strdup_printf("%s[%d]",
->                                       name ? name : "unnamed-gpio-out", n);
->  
->      qemu_irq ret = (qemu_irq)object_property_get_link(OBJECT(dev), propname,
-> 
+Two trivial patches to avoid each (new) architecture to track
+a bug already resolved once on ARM: cpu_reset() modify fields
+in the CpuState while the state is not yet allocated.
 
-Applied to my trivial-patches branch.
+Philippe Mathieu-Daud=C3=A9 (2):
+  cpu: Do not reset a vCPU before it is created
+  cpu: Assert a vCPU is created before resetting it
 
-Thanks,
-Laurent
+ hw/core/cpu.c        | 1 +
+ target/cris/cpu.c    | 2 +-
+ target/lm32/cpu.c    | 3 +--
+ target/m68k/cpu.c    | 2 +-
+ target/mips/cpu.c    | 2 +-
+ target/sh4/cpu.c     | 2 +-
+ target/tilegx/cpu.c  | 2 +-
+ target/tricore/cpu.c | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+--=20
+2.21.1
+
 
