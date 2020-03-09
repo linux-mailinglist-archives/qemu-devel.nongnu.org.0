@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34B417DAA6
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 09:23:23 +0100 (CET)
-Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F4917DAC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 09:25:01 +0100 (CET)
+Received: from localhost ([::1]:38222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBDh4-00087E-Nc
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 04:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44129)
+	id 1jBDie-000358-9R
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 04:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDfe-00063c-0P
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDfe-00063l-N8
  for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:21:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDfc-0007PB-IN
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:21:53 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:35323)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDfd-0007Ps-B2
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:21:54 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:34068)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jBDfc-0007Ku-4w; Mon, 09 Mar 2020 04:21:52 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.09717409|-1; CH=green; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.0359546-0.000358177-0.963687;
- FP=12030644411456161715|1|1|3|0|-1|-1|-1; HT=e02c03307;
+ id 1jBDfc-0007L8-T6; Mon, 09 Mar 2020 04:21:53 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07504124|-1; CH=green; DM=||false|;
+ DS=CONTINUE|ham_alarm|0.0122184-0.000164815-0.987617;
+ FP=13170635624411961626|1|1|3|0|-1|-1|-1; HT=e02c03295;
  MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=11; RT=11; SR=0;
  TI=SMTPD_---.GyTxIXp_1583742101; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
@@ -32,10 +32,10 @@ Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: richard.henderson@linaro.org, alistair23@gmail.com,
  chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v3 01/60] target/riscv: add vector extension field in
- CPURISCVState
-Date: Mon,  9 Mar 2020 16:19:43 +0800
-Message-Id: <20200309082042.12967-2-zhiwei_liu@c-sky.com>
+Subject: [PATCH v3 02/60] target/riscv: implementation-defined constant
+ parameters
+Date: Mon,  9 Mar 2020 16:19:44 +0800
+Message-Id: <20200309082042.12967-3-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200309082042.12967-1-zhiwei_liu@c-sky.com>
 References: <20200309082042.12967-1-zhiwei_liu@c-sky.com>
@@ -60,51 +60,80 @@ Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 32 vector registers will be viewed as a continuous memory block.
-It avoids the convension between element index and (regno, offset).
-Thus elements can be directly accessed by offset from the first vector
-base address.
+vlen is the vector register length in bits.
+elen is the max element size in bits.
+vext_spec is the vector specification version, default value is v0.7.1.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ target/riscv/cpu.c | 7 +++++++
+ target/riscv/cpu.h | 5 +++++
+ 2 files changed, 12 insertions(+)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index c0b7023100..6e4135583d 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -106,6 +106,11 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+     env->priv_ver = priv_ver;
+ }
+ 
++static void set_vext_version(CPURISCVState *env, int vext_ver)
++{
++    env->vext_ver = vext_ver;
++}
++
+ static void set_feature(CPURISCVState *env, int feature)
+ {
+     env->features |= (1ULL << feature);
+@@ -364,6 +369,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+     int priv_version = PRIV_VERSION_1_11_0;
++    int vext_version = VEXT_VERSION_0_07_1;
+     target_ulong target_misa = 0;
+     Error *local_err = NULL;
+ 
+@@ -389,6 +395,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     set_priv_version(env, priv_version);
++    set_vext_version(env, vext_version);
+     set_resetvec(env, DEFAULT_RSTVEC);
+ 
+     if (cpu->cfg.mmu) {
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3dcdf92227..0c1f7bdd8b 100644
+index 0c1f7bdd8b..603715f849 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -64,6 +64,7 @@
- #define RVA RV('A')
- #define RVF RV('F')
- #define RVD RV('D')
-+#define RVV RV('V')
- #define RVC RV('C')
- #define RVS RV('S')
- #define RVU RV('U')
-@@ -94,9 +95,20 @@ typedef struct CPURISCVState CPURISCVState;
+@@ -84,6 +84,8 @@ enum {
+ #define PRIV_VERSION_1_10_0 0x00011000
+ #define PRIV_VERSION_1_11_0 0x00011100
  
- #include "pmp.h"
++#define VEXT_VERSION_0_07_1 0x00000701
++
+ #define TRANSLATE_PMP_FAIL 2
+ #define TRANSLATE_FAIL 1
+ #define TRANSLATE_SUCCESS 0
+@@ -119,6 +121,7 @@ struct CPURISCVState {
+     target_ulong guest_phys_fault_addr;
  
-+#define RV_VLEN_MAX 512
-+
- struct CPURISCVState {
-     target_ulong gpr[32];
-     uint64_t fpr[32]; /* assume both F and D extensions */
-+
-+    /* vector coprocessor state. */
-+    uint64_t vreg[32 * RV_VLEN_MAX / 64] QEMU_ALIGNED(16);
-+    target_ulong vxrm;
-+    target_ulong vxsat;
-+    target_ulong vl;
-+    target_ulong vstart;
-+    target_ulong vtype;
-+
-     target_ulong pc;
-     target_ulong load_res;
-     target_ulong load_val;
+     target_ulong priv_ver;
++    target_ulong vext_ver;
+     target_ulong misa;
+     target_ulong misa_mask;
+ 
+@@ -281,6 +284,8 @@ typedef struct RISCVCPU {
+ 
+         char *priv_spec;
+         char *user_spec;
++        uint16_t vlen;
++        uint16_t elen;
+         bool mmu;
+         bool pmp;
+     } cfg;
 -- 
 2.23.0
 
