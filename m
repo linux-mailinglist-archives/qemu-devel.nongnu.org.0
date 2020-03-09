@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAE317E0D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 14:11:24 +0100 (CET)
-Received: from localhost ([::1]:43012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA4F17E0D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 14:11:22 +0100 (CET)
+Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBIBn-0007El-6i
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 09:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37641)
+	id 1jBIBl-0007DA-M6
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 09:11:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBI9o-0005WT-Cn
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 09:09:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBIAl-0006O3-MV
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 09:10:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBI9n-0001VQ-2b
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 09:09:20 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40627)
+ (envelope-from <peter.maydell@linaro.org>) id 1jBIAk-0003FX-Kd
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 09:10:19 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42826)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBI9m-0001T8-T5
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 09:09:19 -0400
-Received: by mail-ot1-x343.google.com with SMTP id x19so9449973otp.7
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 06:09:18 -0700 (PDT)
+ id 1jBIAk-0003ER-FR
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 09:10:18 -0400
+Received: by mail-ot1-x341.google.com with SMTP id 66so9421383otd.9
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 06:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=aEaJkjoh8PyYMze+XyHwkawwQHMhjHvwyU4PhyTkIBo=;
- b=V7IOYdv9UhamHFADAFYU8H/zdBsXWEI8VzEabcjCVIQlIg3WZFW0yiAPjj5odJQKr6
- GjiVsvDSghkN77QJYbYus05hL0ljlG/0bun1IbnAM8VtcCmAqhZzSCEUtbLfgKtrOPUa
- QCzNihIWamZvvPKBIqbxQmcy7c5eXD7k9loiRQR/NK9x9jDcr5zJoEEa9GCUbUcwziEa
- c5zBc9butPVcsodQLwJDVUmFJFDo/80e5gFI6jFhM+OTPNIcC9zklw5WS4bg5w5Elqx9
- cmVp1gCV5T/rJwmOVTXj4PrRTZF/acTJzAHCnuW15gnOzdtTjNo3Y795yNZttnS0lHrE
- KmFg==
+ bh=9zliDx7aCLMb1lENxXSmv9CK/doIX6UYfnvb3yYb7wE=;
+ b=zpJOoVdpQ9kPHMHgMRvuScwpAWQzU68pPxFxldtNk41SjAek+sjKkeP/iwmt2mVoXG
+ 9lQOxP+7SErhzmOmtqkA73bxje83eykNHIDX9pXufa4Z9l5OQ53xrcwubSOhR5gMJnvu
+ C3Hbw6DFzV5hsGNgtAR+HqvBd25MDqtyZjVjRoySuFbL7DcnxtNTW7yXZKkROQ0kedyd
+ 0vdYnJhPzcDqOL98U3qhY0CITTWWBXV0uFeVSbUG36O5wCWE42UKZ+W+kpdhe/nQI6Q8
+ 0dj/enf0MaHvyf4L48T0Uo1Zmp2xxcGQavSwyvAkVqrYSrFu6zAAXs+jAFS/shPBeEje
+ /Xjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=aEaJkjoh8PyYMze+XyHwkawwQHMhjHvwyU4PhyTkIBo=;
- b=Z72OyJFfImqqG3r1a2qLPy0SK332us8hmHfAkRxDyemB3/fuY5YVk1VEMP9065Jhph
- DxD+P9IQy6NAwakuTmIdIdN6l6+BF+v0XG5VEv7oZ2gKNNEv2X3z7/4QNsZdfabPN6ms
- 4DBowkCtYf4zxM9u9560RPrAhsOCbPC8KPlX6vPTnsb0blql/k8ljQnOu6GQ5k8veYlH
- P4QXFcgfdOHAnLUe6W5JUoIO63bh72uQq4kbeqSQDbLI60SWlfNcoO4Mxujx2/nNei+d
- ID7QfBewnqT5Vk+/Ko5I+070yhugTWQjOUIFb5Mecs79sk6PNPz03nQTdBS3EgE/n1XA
- xJdg==
-X-Gm-Message-State: ANhLgQ0HvfJVK5EWiAm3S6jtApaVm2sfAdDE4tEMi8JkB+t2gx4JE/m3
- fKxzJWws2KRar+d3BlSfyHR/Xwv92HQUgzTiohTX2w==
-X-Google-Smtp-Source: ADFU+vstbi/ClbrLkvAtqB+s+lQ/CHWEj+JTGfxgsaK+SOpeAK5YhxCWwpZJuVgpb9dAY5OWovrTn9LF+j+JkjTGIt4=
-X-Received: by 2002:a9d:6c05:: with SMTP id f5mr2093354otq.232.1583759357831; 
- Mon, 09 Mar 2020 06:09:17 -0700 (PDT)
+ bh=9zliDx7aCLMb1lENxXSmv9CK/doIX6UYfnvb3yYb7wE=;
+ b=tZT+XVB1OI7ql0grjoiRrIA1bGz7HaMrpgN1r6ftI+DBNp2nA6dMDjD0wyptNlNc0O
+ bfRViMrJTMBbMNjrkMUq+6iDObE98itsxtRCTqQzo3QldP6S2iKF/eE5LBVxYPAbBkir
+ +R5yr1jcJM/LfuaXk3LiqjN39eufWMRpBIIO2b/G3xd4M5Pi5sBN4olPGthRjo+efAxn
+ lJNvCvfZiQDoERPUfTd7HgdRSVigDyjl4PAoZgErcpYpeKu25U42tL+ThYLcjN/CjmbP
+ LoHrAsYxSaC/BMf+Pf9VQBsy0WILxglTqStu3S/miG6abakzFff9qL9ymzBW5+GeEzin
+ p0Gg==
+X-Gm-Message-State: ANhLgQ3OaGauZPyp0ijTKf0tBq0JdSuhSqIGKd1KHccOeF4eBpGKMCB2
+ CV87k8dPT08M5v3NHiLYa5OkPaMIOAGSgy/VEyUUHg==
+X-Google-Smtp-Source: ADFU+vtpsAVjF3lahxFyC3B4Y2LlloXKYruSIhFC6ddxG9HfVpQSUH3aw7meiInAXy7OB6961SAPEkkAlTQn4qHJWZs=
+X-Received: by 2002:a9d:1920:: with SMTP id j32mr4331538ota.221.1583759417703; 
+ Mon, 09 Mar 2020 06:10:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200309121103.20234-1-philmd@redhat.com>
- <20200309121103.20234-2-philmd@redhat.com>
-In-Reply-To: <20200309121103.20234-2-philmd@redhat.com>
+ <20200309121103.20234-3-philmd@redhat.com>
+In-Reply-To: <20200309121103.20234-3-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Mar 2020 13:09:06 +0000
-Message-ID: <CAFEAcA_OHcfsYueYRpXjihgwEDericqkzGqB1EBqaSULAC1YDw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] cpu: Do not reset a vCPU before it is created
+Date: Mon, 9 Mar 2020 13:10:06 +0000
+Message-ID: <CAFEAcA9LcTUmBuzsHmOSPKOfiyfPy0+gPhKpQdd91EV76HapxA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] cpu: Assert a vCPU is created before resetting it
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,20 +92,32 @@ On Mon, 9 Mar 2020 at 12:11, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
 >
 > cpu_reset() might modify architecture-specific fields allocated
 > by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
-> commit 00d0f7cb66 when introducing new architectures, move the
-> cpu_reset() calls after qemu_init_vcpu().
+> commit 00d0f7cb66 when introducing new architectures, assert a
+> vCPU is created before resetting it.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/core/cpu.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+> index fe65ca62ac..09e49f8d6a 100644
+> --- a/hw/core/cpu.c
+> +++ b/hw/core/cpu.c
+> @@ -251,6 +251,7 @@ void cpu_reset(CPUState *cpu)
+>  {
+>      CPUClass *klass =3D CPU_GET_CLASS(cpu);
+>
+> +    assert(cpu->created);
+>      if (klass->reset !=3D NULL) {
+>          (*klass->reset)(cpu);
+>      }
 
-Why do we need to call cpu_reset() from realize anyway?
-Generally for devices this is incorrect as they should be
-being reset by some other mechanism.
+This will conflict with the change to use DeviceClass::reset.
 
-Obviously actually determining that dropping the cpu_reset()
-call is safe would require some tedious auditing.
-
-If we do do a cpu_reset() in realize, should it be after
-the call to the parent realize function ?
+Ideally we should do an equivalent assert in the DeviceClass
+(and flush out all the bugs where we forgot to realize the
+device before using it).
 
 thanks
 -- PMM
