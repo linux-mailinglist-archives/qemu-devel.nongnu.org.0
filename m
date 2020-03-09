@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4259E17E852
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:25:16 +0100 (CET)
-Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB9D17E857
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 20:26:13 +0100 (CET)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBO1b-0005zG-9z
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50491)
+	id 1jBO2W-0007Qp-Rh
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 15:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBO0K-0004xa-U5
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:23:58 -0400
+ (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBO0w-0005yJ-Is
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:24:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBO0J-0002pr-K2
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:23:56 -0400
-Received: from smtp.lg.ehu.es ([158.227.0.66]:60506 helo=smtp.ehu.eus)
+ (envelope-from <unai.martinezcorral@ehu.eus>) id 1jBO0u-0003tf-Bb
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:24:34 -0400
+Received: from smtp.lg.ehu.es ([158.227.0.66]:56367 helo=smtp.ehu.eus)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <unai.martinezcorral@ehu.eus>)
- id 1jBO0J-0002pO-5o
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:23:55 -0400
+ id 1jBO0t-0003se-VN
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 15:24:32 -0400
 Received: from imsva2.lgp.ehu.es (imsva2.lgp.ehu.es [10.0.3.246])
- by postfix.smtp2.imsva2 (Postfix) with ESMTPS id E62F05F6F;
- Mon,  9 Mar 2020 20:23:53 +0100 (CET)
+ by postfix.smtp2.imsva2 (Postfix) with ESMTPS id 8369A5F6F;
+ Mon,  9 Mar 2020 20:24:30 +0100 (CET)
 Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A60375A050;
- Mon,  9 Mar 2020 20:23:53 +0100 (CET)
+ by IMSVA (Postfix) with ESMTP id 5CA425A04F;
+ Mon,  9 Mar 2020 20:24:30 +0100 (CET)
 Received: from imsva2.lgp.ehu.es (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9A9295A04F;
- Mon,  9 Mar 2020 20:23:53 +0100 (CET)
+ by IMSVA (Postfix) with ESMTP id 5127D5A045;
+ Mon,  9 Mar 2020 20:24:30 +0100 (CET)
 Received: from smtp.ehu.eus (unknown [10.0.100.76])
  by imsva2.lgp.ehu.es (Postfix) with ESMTPS;
- Mon,  9 Mar 2020 20:23:53 +0100 (CET)
+ Mon,  9 Mar 2020 20:24:30 +0100 (CET)
 Received: from 669c1c222ef4 (static.187.0.0.81.ibercom.com [81.0.0.187])
- by smtp2 (Postfix) with ESMTPSA id 56C006311;
- Mon,  9 Mar 2020 20:23:53 +0100 (CET)
-Date: Mon, 9 Mar 2020 19:23:52 +0000
+ by smtp2 (Postfix) with ESMTPSA id 0E6655F6F;
+ Mon,  9 Mar 2020 20:24:30 +0100 (CET)
+Date: Mon, 9 Mar 2020 19:24:28 +0000
 From: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 09/10] qemu-binfmt-conf.sh: add option --clear
-Message-ID: <20200309192352.GI65@669c1c222ef4>
+Subject: [PATCH v10 10/10] qemu-binfmt-conf.sh: add --test
+Message-ID: <20200309192428.GJ65@669c1c222ef4>
 References: <20200309191200.GA60@669c1c222ef4>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20200309191200.GA60@669c1c222ef4>
 X-Greylist: ACL 191 matched, not delayed by milter-greylist-4.6.2 (smtp2
- [10.0.100.76]); Mon, 09 Mar 2020 20:23:53 +0100 (CET)
+ [10.0.100.76]); Mon, 09 Mar 2020 20:24:30 +0100 (CET)
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSVA-9.1.0.1631-8.5.0.1020-25280.002
-X-TM-AS-Result: No-1.776-7.0-31-10
-X-imss-scan-details: No-1.776-7.0-31-10
+X-TM-AS-Result: No--2.997-7.0-31-10
+X-imss-scan-details: No--2.997-7.0-31-10
 X-TMASE-Version: IMSVA-9.1.0.1631-8.5.1020-25280.002
-X-TMASE-Result: 10-1.775800-10.000000
-X-TMASE-MatchedRID: YJG9ytXm/s5nuEpLNqEJsme0F1HB9i2hMVx/3ZYby796pt1oU+C/pOwX
- ofcWCzMeR5VEg2WHb7e6w0blN6o1l/MNTbjUKZM+20204SCJw/rLvfc3C6SWwnO0TctWrlA9dfu
- huqa4A1AZw5ucm3NLWhvYV6pkN/jgOLzSBOk91M5bF+jvJlkOptxs0lj1L8rvaUoLEaPNsPSl+9
- Tl6lXp3K3aC25avUuauxliYAiybD/AHXRKkXCmPIIK2tjTqNotp1Pjcaldww0aVuuTY4OGgweWZ
- DV/J9uBGHD/KNtC9kNVhnxWlpagXK0iin8P0KjVKrDHzH6zmUXf+zJsO3bf/t9zZd3pUn7KlMa9
- Q0Vx5vSl0s9gTN4+NZpBpHnW+wt+Wb1kI9uGZd+eAiCmPx4NwNivpTdmVCR2xEHRux+uk8ifEzJ
- 5hPndGUR2Aq4Um6WRV1zLC9mTVRhSAsTokdR7WGO0y7D0GVueICk5FL7LDyVdI/LEbhioFrXUoT
- tgaXn8FB4XFXJmq0QbF0Vx8tSB9AnoQr0aJHnc0egPf++T1T/YdbOkPFfd3aWs8euL9yX5w8g2H
- BNcF5k=
+X-TMASE-Result: 10--2.997200-10.000000
+X-TMASE-MatchedRID: C2Ox2wkr63hnuEpLNqEJsi2416nc3bQlcZ9gNqdc/asHZBaLwEXlKGb6
+ PphVtfZgqZ4KncYE2LNLKA6O53vFEgcVh2A5MTJF6OX7GFz9H1DnaaW2UTafyBpW65Njg4aDrr5
+ TE4GLzk3aw+TzluSPBbpxDH0YWH+IrjwZVDJcDJ81VHP4fCovgg4fD/I06RGBn7jOJQ+rgvE6dE
+ UNf2ygXDTG16mgO0fW4dBoWJ2sWPf83RazFYjhB8zSKGx9g8xhZlQDEANheHGbKItl61J/yX2PY
+ bDNMTe9KrauXd3MZDUICxwHjpo31YoYktjoiBld8EHDYeu6aOx/tQ+DjcDZGP4mk7dfXIjcMrNm
+ uxw7xuQsiMsxQdKpYMoSPqztN/qGizrT0rPamKW745kuiEUqFFi7FP9SiiauF1qISuK4qVqjyqn
+ hL+I3r7JQSBWmvqaR
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
 X-Greylist: Sender IP whitelisted, Sender succeeded SMTP AUTH, not delayed by
  milter-greylist-4.6.2 (postfix.smtp2.imsva2 [10.0.100.76]);
- Mon, 09 Mar 2020 20:23:53 +0100 (CET)
+ Mon, 09 Mar 2020 20:24:30 +0100 (CET)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 158.227.0.66
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,121 +82,83 @@ Cc: riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a partial implementation.
-
-Allows to remove a single or a list of already registered binfmt
-interpreters. Valid values are those in qemu_target_list.
-If TARGETS is empty, all the existing 'qemu-*' interpreters are
-removed.
-
-This is partial because 'debian' and 'systemd' configurations are not
-supported. The script will exit with error 'option clear not
-implemented for this mode yet'.
-
-Removal is done by printing '-1' as explained at:
-https://www.kernel.org/doc/Documentation/admin-guide/binfmt-misc.rst
-
 Signed-off-by: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/qemu-binfmt-conf.sh | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+ scripts/qemu-binfmt-conf.sh | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 538ef4aec0..55224a68e1 100755
+index 55224a68e1..21c8f63916 100755
 --- a/scripts/qemu-binfmt-conf.sh
 +++ b/scripts/qemu-binfmt-conf.sh
-@@ -201,7 +201,7 @@ Options and associated environment variables:
+@@ -201,8 +201,7 @@ Options and associated environment variables:
  
  Argument             Env-variable     Description
  TARGETS              QEMU_TARGETS     A single arch name or a list of them (see all names below);
--                                      if empty, configure all known targets;
-+                                      if empty, configure/clear all known targets;
-                                       if 'NONE', no interpreter is configured.
+-                                      if empty, configure/clear all known targets;
+-                                      if 'NONE', no interpreter is configured.
++                                      if empty, configure/clear all known targets.
  -h|--help                             display this usage
  -Q|--path PATH       QEMU_PATH        set path to qemu interpreter(s)
-@@ -210,6 +210,8 @@ TARGETS              QEMU_TARGETS     A single arch name or a list of them (see
-                                       uses are cloned from the open file.
- -c|--credential      QEMU_CREDENTIAL  (yes) credential and security tokens are calculated according
+ -F|--suffix SUFFIX   QEMU_SUFFIX      add a suffix to the default interpreter name
+@@ -212,6 +211,8 @@ TARGETS              QEMU_TARGETS     A single arch name or a list of them (see
                                        to the binary to interpret
-+-r|--clear           QEMU_CLEAR       (yes) remove registered interpreters for target TARGETS;
-+                                      then exit.
+ -r|--clear           QEMU_CLEAR       (yes) remove registered interpreters for target TARGETS;
+                                       then exit.
++-t|--test            QEMU_TEST        (yes) test the setup with the provided arguments, but do not
++                                      configure any of the interpreters.
  -e|--exportdir PATH                   define where to write configuration files
                                        (default: $SYSTEMDDIR or $DEBIANDIR)
  -s|--systemd                          don't write into /proc, generate file(s) for
-@@ -222,6 +224,7 @@ QEMU_PATH=$QEMU_PATH
- QEMU_SUFFIX=$QEMU_SUFFIX
+@@ -225,6 +226,7 @@ QEMU_SUFFIX=$QEMU_SUFFIX
  QEMU_PERSISTENT=$QEMU_PERSISTENT
  QEMU_CREDENTIAL=$QEMU_CREDENTIAL
-+QEMU_CLEAR=$QEMU_CLEAR
+ QEMU_CLEAR=$QEMU_CLEAR
++QEMU_TEST=$QEMU_TEST
  
  To import templates with update-binfmts, use :
  
-@@ -348,8 +351,22 @@ qemu_set_binfmts() {
-     done
- }
+@@ -323,9 +325,6 @@ qemu_set_binfmts() {
  
-+qemu_clear_notimplemented() {
-+    echo "ERROR: option clear not implemented for this mode yet" 1>&2
-+    usage
-+    exit 1
-+}
-+
-+qemu_clear_interpreter() {
-+    p="/proc/sys/fs/binfmt_misc/$1"
-+    if [ -f "$p" ]; then
-+      printf %s -1 > "$p"
-+    fi
-+}
-+
- CHECK=qemu_check_bintfmt_misc
- BINFMT_SET=qemu_register_interpreter
-+BINFMT_CLEAR=qemu_clear_interpreter
+     # reduce the list of target interpreters to those given in the CLI
+     targets=${@:-$QEMU_TARGET}
+-    if [ "x$targets" = "xNONE" ]; then
+-      return
+-    fi
+     qemu_check_target_list $targets
  
- SYSTEMDDIR="/etc/binfmt.d"
- DEBIANDIR="/usr/share/binfmts"
-@@ -359,20 +376,26 @@ QEMU_PATH="${QEMU_PATH:-/usr/local/bin}"
- QEMU_SUFFIX="${QEMU_SUFFIX:-}"
+     # register the interpreter for each target except for the native one
+@@ -377,12 +376,16 @@ QEMU_SUFFIX="${QEMU_SUFFIX:-}"
  QEMU_PERSISTENT="${QEMU_PERSISTENT:-no}"
  QEMU_CREDENTIAL="${QEMU_CREDENTIAL:-no}"
-+QEMU_CLEAR="${QEMU_CLEAR:-no}"
+ QEMU_CLEAR="${QEMU_CLEAR:-no}"
++QEMU_TEST="${QEMU_TEST:-no}"
  
--options=$(getopt -o dsQ:S:e:hcp -l debian,systemd,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
-+options=$(getopt -o rdsQ:S:e:hcp -l clear,debian,systemd,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
+-options=$(getopt -o rdsQ:S:e:hcp -l clear,debian,systemd,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
++options=$(getopt -o trdsQ:S:e:hcp -l test,clear,debian,systemd,path:,suffix:,exportdir:,help,credential,persistent -- "$@")
  eval set -- "$options"
  
  while true; do
      case "$1" in
-+    -r|--clear)
-+        QEMU_CLEAR="yes"
++    -t|--test)
++        QEMU_TEST="yes"
 +        ;;
-     -d|--debian)
-         CHECK=qemu_check_debian
-         BINFMT_SET=qemu_generate_debian
-+        BINFMT_CLEAR=qemu_clear_notimplemented
-         EXPORTDIR=${EXPORTDIR:-$DEBIANDIR}
+     -r|--clear)
+         QEMU_CLEAR="yes"
          ;;
-     -s|--systemd)
-         CHECK=qemu_check_systemd
-         BINFMT_SET=qemu_generate_systemd
-+        BINFMT_CLEAR=qemu_clear_notimplemented
-         EXPORTDIR=${EXPORTDIR:-$SYSTEMDDIR}
-         ;;
-     -Q|--path)
-@@ -407,4 +430,13 @@ done
- shift
+@@ -431,6 +434,11 @@ shift
  
  $CHECK
-+
-+if [ "x$QEMU_CLEAR" = "xyes" ]; then
-+    qemu_check_target_list "$@"
-+    for t in $checked_target_list; do
-+        $BINFMT_CLEAR "qemu-$t"
-+    done
-+    exit
+ 
++if [ "x$QEMU_TEST" = "xyes" ]; then
++    BINFMT_SET=:
++    BINFMT_CLEAR=:
 +fi
 +
- qemu_set_binfmts "$@"
+ if [ "x$QEMU_CLEAR" = "xyes" ]; then
+     qemu_check_target_list "$@"
+     for t in $checked_target_list; do
 -- 
 2.25.1
 
