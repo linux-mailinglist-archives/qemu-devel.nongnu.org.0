@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BC217DB38
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 09:39:48 +0100 (CET)
-Received: from localhost ([::1]:38634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB2D17DB10
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 09:36:53 +0100 (CET)
+Received: from localhost ([::1]:38552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBDwx-0000oh-Q9
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 04:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44972)
+	id 1jBDu8-0002gr-EY
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 04:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDgJ-0007T7-Ve
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:22:37 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jBDsC-0007Wx-1r
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:34:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jBDgH-00080o-Ru
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:22:35 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:40037)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jBDgH-0007cF-As; Mon, 09 Mar 2020 04:22:33 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08635416|-1; CH=blue; DM=||false|;
- DS=CONTINUE|ham_system_inform|0.0171917-8.47537e-05-0.982724;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03296; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.GyTxIXp_1583742101; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.GyTxIXp_1583742101)
- by smtp.aliyun-inc.com(10.147.41.137);
- Mon, 09 Mar 2020 16:22:07 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: richard.henderson@linaro.org, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-Subject: [PATCH v3 48/60] target/riscv: vector mask-register logical
- instructions
-Date: Mon,  9 Mar 2020 16:20:30 +0800
-Message-Id: <20200309082042.12967-49-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200309082042.12967-1-zhiwei_liu@c-sky.com>
-References: <20200309082042.12967-1-zhiwei_liu@c-sky.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jBDsA-0007Iw-3o
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:34:51 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39816)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jBDs9-0007H9-ER
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 04:34:50 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f7so4204135wml.4
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 01:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=lPu7ZqrTM6XiIoVuprg1Iv/S16uxcjwi4lN0jg0rcaM=;
+ b=vtsZYVsNYk3MPyOc1o8LXzThpUnIrutrTGLZJTDYQN+BfflYdheImSF5RpQVACzAQx
+ 7sG875j36ImNU6b033Lz7V8J5QU9ky8XxnYFCmV/uP30LPPEdETnDuqMBZ2U3GRqHOvf
+ uoqyVdiVMHg1vfM7R8S2oMIU0Ob0A1Z3J2Qrh1/SHbBQXzopDILPN+u8J0/6i8jThk8o
+ IOVxB2LLljbulfdO4z0/olcpYZ44xDkzPQoBDhjYPGKOUuSljjmJfBNowI/na7UP4t2E
+ LBw79RruZVaAT7KMQsNV/SIWwN4TCrB9CEuhmPvImqx17QWJCkG9Diay7Nh5mGXVSyS1
+ sNMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=lPu7ZqrTM6XiIoVuprg1Iv/S16uxcjwi4lN0jg0rcaM=;
+ b=U2jre2yoK0LgNRzTUlvj496K1lAg64XNCxa+WfZVDTk1UvTFDaLBcnwFBlVrfK9F/n
+ AXBE6ObPdE6kCPaAm92RrdbS1ZH5PQAQhDk3xUAnNe5W+bBGHdqXsG5nCiSiPGmZPZpX
+ AgAkVwEXpcpY1719uN1VwRf5o8FQNhaxIbTplCosgev0+OCEzzbrsvOY9tWS0HV8FwkE
+ we5K+XrjqtqbQVsFEKN15N3xUFwaUrED3QM9oMcNFdrwxCdpzkLtvqcVSzMZknrV9gLa
+ xk0JOcbbyW8+nOL9d80ldnZtIKPCBi90cvmXZAkdp8stTuDVtl/IwdP8Z5Pu+4e4JbzZ
+ B5bA==
+X-Gm-Message-State: ANhLgQ0dJxtDuIvsCK5PNGVpDYxpwMCRu1D3dMc+DPdTe2zFIlzbIEv1
+ +QCt/hPNctdO/uKvaJg92TpR6T7YOmYtmA==
+X-Google-Smtp-Source: ADFU+vvq9H44tdXCHS/LxdC6yGIZ7QosO796gLRRK+UCwxowZHWHV22/uCYT45o3QCENqpzpCiM0RQ==
+X-Received: by 2002:a1c:bc84:: with SMTP id
+ m126mr18951033wmf.171.1583742888025; 
+ Mon, 09 Mar 2020 01:34:48 -0700 (PDT)
+Received: from f2.redhat.com (bzq-79-177-42-131.red.bezeqint.net.
+ [79.177.42.131])
+ by smtp.gmail.com with ESMTPSA id h3sm63749726wrb.23.2020.03.09.01.34.46
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 09 Mar 2020 01:34:47 -0700 (PDT)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com,
+	jasowang@redhat.com
+Subject: [PATCH v2 0/4] reference implementation of RSS
+Date: Mon,  9 Mar 2020 10:34:34 +0200
+Message-Id: <20200309083438.2389-1-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,141 +76,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/riscv/helper.h                   |  9 ++++++
- target/riscv/insn32.decode              |  8 +++++
- target/riscv/insn_trans/trans_rvv.inc.c | 28 +++++++++++++++++
- target/riscv/vector_helper.c            | 40 +++++++++++++++++++++++++
- 4 files changed, 85 insertions(+)
+Support for VIRTIO_NET_F_RSS feature in QEMU for reference
+purpose. Implements Toeplitz hash calculation for incoming
+packets according to configuration provided by driver.
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index b0bb617b42..9301ce0e00 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1074,3 +1074,12 @@ DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
- 
- DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+
-+DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmandnot_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmxor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index f1efc8886d..76a9bae8bb 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -539,6 +539,14 @@ vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
- vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
- # Vector widening ordered and unordered float reduction sum
- vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
-+vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
-+vmandnot_mm     011000 - ..... ..... 010 ..... 1010111 @r
-+vmxor_mm        011011 - ..... ..... 010 ..... 1010111 @r
-+vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
-+vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
-+vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
-+vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index ad864c9742..065b415abb 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2052,3 +2052,31 @@ GEN_OPFVV_TRANS(vfredmin_vs, reduction_check)
- 
- /* Vector Widening Floating-Point Reduction Instructions */
- GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check)
-+
-+/*
-+ *** Vector Mask Operations
-+ */
-+/* Vector Mask-Register Logical Instructions */
-+#define GEN_MM_TRANS(NAME)                                         \
-+static bool trans_##NAME(DisasContext *s, arg_r *a)                \
-+{                                                                  \
-+    if (vext_check_isa_ill(s, RVV)) {                              \
-+        uint32_t data = 0;                                         \
-+        gen_helper_gvec_4_ptr * fn = gen_helper_##NAME;            \
-+        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-+            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),              \
-+            cpu_env, 0, s->vlen / 8, data, fn);                    \
-+        return true;                                               \
-+    }                                                              \
-+    return false;                                                  \
-+}
-+GEN_MM_TRANS(vmand_mm)
-+GEN_MM_TRANS(vmnand_mm)
-+GEN_MM_TRANS(vmandnot_mm)
-+GEN_MM_TRANS(vmxor_mm)
-+GEN_MM_TRANS(vmor_mm)
-+GEN_MM_TRANS(vmnor_mm)
-+GEN_MM_TRANS(vmornot_mm)
-+GEN_MM_TRANS(vmxnor_mm)
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index d325fe5e2e..9e9d172cda 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4238,3 +4238,43 @@ void HELPER(vfwredsum_vs_w)(void *vd, void *v0, void *vs1,
-         clearq(vd, 1, sizeof(uint64_t), tot);
-     }
- }
-+
-+/*
-+ *** Vector Mask Operations
-+ */
-+/* Vector Mask-Register Logical Instructions */
-+#define GEN_VEXT_MASK_VV(NAME, OP)                        \
-+void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-+        void *vs2, CPURISCVState *env, uint32_t desc)     \
-+{                                                         \
-+    uint32_t mlen = vext_mlen(desc);                      \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;   \
-+    uint32_t vl = env->vl;                                \
-+    uint32_t i;                                           \
-+    int a, b;                                             \
-+    for (i = 0; i < vl; i++) {                            \
-+        a = vext_elem_mask(vs1, mlen, i);                 \
-+        b = vext_elem_mask(vs2, mlen, i);                 \
-+        vext_set_elem_mask(vd, mlen, i, OP(b, a));        \
-+    }                                                     \
-+    if (i == 0) {                                         \
-+        return;                                           \
-+    }                                                     \
-+    for (; i < vlmax; i++) {                              \
-+        vext_set_elem_mask(vd, mlen, i, 0);               \
-+    }                                                     \
-+}
-+#define DO_NAND(N, M)  (!(N & M))
-+#define DO_ANDNOT(N, M)  (N & !M)
-+#define DO_NOR(N, M)  (!(N | M))
-+#define DO_ORNOT(N, M)  (N | !M)
-+#define DO_XNOR(N, M)  (!(N ^ M))
-+
-+GEN_VEXT_MASK_VV(vmand_mm, DO_AND)
-+GEN_VEXT_MASK_VV(vmnand_mm, DO_NAND)
-+GEN_VEXT_MASK_VV(vmandnot_mm, DO_ANDNOT)
-+GEN_VEXT_MASK_VV(vmxor_mm, DO_XOR)
-+GEN_VEXT_MASK_VV(vmor_mm, DO_OR)
-+GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
-+GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
-+GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
+Changes from v1:
+Changes in standard virtio_net.h moved to virtio-net.c until
+standard Linux header is updated and merged to QEMU
+Added migration blocker if RSS is negotiated
+
+Yuri Benditovich (4):
+  virtio-net: introduce RSS and hash report features
+  virtio-net: implement RSS configuration command
+  virtio-net: implement RX RSS processing
+  virtio-net: block migration if RSS feature negotiated
+
+ hw/net/trace-events            |   3 +
+ hw/net/virtio-net.c            | 347 +++++++++++++++++++++++++++++++--
+ include/hw/virtio/virtio-net.h |  13 ++
+ 3 files changed, 352 insertions(+), 11 deletions(-)
+
 -- 
-2.23.0
+2.17.1
 
 
