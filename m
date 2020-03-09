@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C08117DD78
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:26:30 +0100 (CET)
-Received: from localhost ([::1]:40250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB4E17DD86
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 11:27:56 +0100 (CET)
+Received: from localhost ([::1]:40280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBFcC-0001VA-4k
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37751)
+	id 1jBFdc-0004lM-17
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 06:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jBFaZ-0008CK-MZ
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:48 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jBFac-0008Ha-CP
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jBFaY-0001v3-Pp
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52147
+ (envelope-from <eric.auger@redhat.com>) id 1jBFab-0001wU-Dk
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26696
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jBFaY-0001uh-MB
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:46 -0400
+ id 1jBFab-0001wG-Aa
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 06:24:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583749486;
+ s=mimecast20190719; t=1583749489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jUPGPmIvaDDGzVaAE49y1ve21avwQxlD6sBJrt5aqiw=;
- b=UTUqO30TPKFqz/Znns9sVN+bEOm+a0tJt/Lmp3Bw0QJQf7qsGR0ccEtIwlwrv1wW3gYYdN
- kNaOeM7WqqyIKdUqDjbd7Otiaif4ykYiE22sy/5hKh/osqyGXxBe7IYF9i17XOqN2bjJc3
- /EwL/vyE3sxnLp1FqeW4bKOsfYIGv88=
+ bh=MvayPD2KrkjvVludp3nPmXgg5XhOf+bBUlyipWBvYKU=;
+ b=L+ozH3rudY9vHAlZErViOP10OdoYp4zH/88HEpf2tOLoN57SVig1spxu4gjuUfnPKzBV5Z
+ aV6yXmfA5U8d2Xe8efLoGAQnu8mRz+cJK8lC3xVWDxPnIgvC92e8ahEyzKHn3Sai0TbjuU
+ YkE+FM+IhbOE3KobaaSPe7fVUFIecU8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-kn_oEwKnOn2anCLGpUgNTg-1; Mon, 09 Mar 2020 06:24:44 -0400
-X-MC-Unique: kn_oEwKnOn2anCLGpUgNTg-1
+ us-mta-373-jnfEeXoHOma61Zys7wINog-1; Mon, 09 Mar 2020 06:24:47 -0400
+X-MC-Unique: jnfEeXoHOma61Zys7wINog-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FDD0800D48;
- Mon,  9 Mar 2020 10:24:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7F078017CC;
+ Mon,  9 Mar 2020 10:24:45 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-59.ams2.redhat.com [10.36.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1269587B08;
- Mon,  9 Mar 2020 10:24:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D85CB90779;
+ Mon,  9 Mar 2020 10:24:42 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v4 02/13] page_alloc: Introduce get_order()
-Date: Mon,  9 Mar 2020 11:24:09 +0100
-Message-Id: <20200309102420.24498-3-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH v4 03/13] arm/arm64: gic: Introduce setup_irq()
+ helper
+Date: Mon,  9 Mar 2020 11:24:10 +0100
+Message-Id: <20200309102420.24498-4-eric.auger@redhat.com>
 In-Reply-To: <20200309102420.24498-1-eric.auger@redhat.com>
 References: <20200309102420.24498-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -76,49 +77,83 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compute the power of 2 order of a size. Use it in
-page_memalign. Other users are looming.
+ipi_enable() code would be reusable for other interrupts
+than IPI. Let's rename it setup_irq() and pass an interrupt
+handler pointer.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- lib/alloc_page.c | 7 ++++++-
- lib/alloc_page.h | 1 +
- 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/lib/alloc_page.c b/lib/alloc_page.c
-index ed23638..7c8461a 100644
---- a/lib/alloc_page.c
-+++ b/lib/alloc_page.c
-@@ -155,7 +155,7 @@ static void *page_memalign(size_t alignment, size_t s=
-ize)
- 	if (!size)
- 		return NULL;
+---
+
+v2 -> v3:
+- do not export setup_irq anymore
+---
+ arm/gic.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
+
+diff --git a/arm/gic.c b/arm/gic.c
+index fcf4c1f..abf08c7 100644
+--- a/arm/gic.c
++++ b/arm/gic.c
+@@ -34,6 +34,7 @@ static struct gic *gic;
+ static int acked[NR_CPUS], spurious[NR_CPUS];
+ static int bad_sender[NR_CPUS], bad_irq[NR_CPUS];
+ static cpumask_t ready;
++typedef void (*handler_t)(struct pt_regs *regs __unused);
 =20
--	order =3D is_power_of_2(n) ? fls(n) : fls(n) + 1;
-+	order =3D get_order(n);
-=20
- 	return alloc_pages(order);
- }
-@@ -175,3 +175,8 @@ void page_alloc_ops_enable(void)
+ static void nr_cpu_check(int nr)
  {
- 	alloc_ops =3D &page_alloc_ops;
+@@ -215,20 +216,20 @@ static void ipi_test_smp(void)
+ 	report_prefix_pop();
  }
-+
-+int get_order(size_t size)
-+{
-+	return is_power_of_2(size) ? fls(size) : fls(size) + 1;
-+}
-diff --git a/lib/alloc_page.h b/lib/alloc_page.h
-index 739a91d..e6a51d2 100644
---- a/lib/alloc_page.h
-+++ b/lib/alloc_page.h
-@@ -15,5 +15,6 @@ void *alloc_pages(unsigned long order);
- void free_page(void *page);
- void free_pages(void *mem, unsigned long size);
- void free_pages_by_order(void *mem, unsigned long order);
-+int get_order(size_t size);
 =20
+-static void ipi_enable(void)
++static void setup_irq(handler_t handler)
+ {
+ 	gic_enable_defaults();
+ #ifdef __arm__
+-	install_exception_handler(EXCPTN_IRQ, ipi_handler);
++	install_exception_handler(EXCPTN_IRQ, handler);
+ #else
+-	install_irq_handler(EL1H_IRQ, ipi_handler);
++	install_irq_handler(EL1H_IRQ, handler);
  #endif
+ 	local_irq_enable();
+ }
+=20
+ static void ipi_send(void)
+ {
+-	ipi_enable();
++	setup_irq(ipi_handler);
+ 	wait_on_ready();
+ 	ipi_test_self();
+ 	ipi_test_smp();
+@@ -238,7 +239,7 @@ static void ipi_send(void)
+=20
+ static void ipi_recv(void)
+ {
+-	ipi_enable();
++	setup_irq(ipi_handler);
+ 	cpumask_set_cpu(smp_processor_id(), &ready);
+ 	while (1)
+ 		wfi();
+@@ -295,14 +296,7 @@ static void ipi_clear_active_handler(struct pt_regs =
+*regs __unused)
+ static void run_active_clear_test(void)
+ {
+ 	report_prefix_push("active");
+-	gic_enable_defaults();
+-#ifdef __arm__
+-	install_exception_handler(EXCPTN_IRQ, ipi_clear_active_handler);
+-#else
+-	install_irq_handler(EL1H_IRQ, ipi_clear_active_handler);
+-#endif
+-	local_irq_enable();
+-
++	setup_irq(ipi_clear_active_handler);
+ 	ipi_test_self();
+ 	report_prefix_pop();
+ }
 --=20
 2.20.1
 
