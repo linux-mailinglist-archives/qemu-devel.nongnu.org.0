@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0212B17E3A0
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:29:38 +0100 (CET)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D0A17E386
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:25:04 +0100 (CET)
+Received: from localhost ([::1]:44818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKLY-00032D-OW
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34083)
+	id 1jBKH9-0003bL-HH
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK37-0000Xt-AL
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:38 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK31-0000Sn-Kj
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK35-0008Aw-Qs
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:33 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:55661)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2z-00086c-Bg
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:27 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:45891)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2w-00080n-85; Mon, 09 Mar 2020 11:10:22 -0400
+ id 1jBK2j-0007wA-AA; Mon, 09 Mar 2020 11:10:09 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N3bb3-1jJxBL1GF9-010a8L; Mon, 09 Mar 2020 16:09:20 +0100
+ id 1MA7Su-1j4CU42fhi-00BePM; Mon, 09 Mar 2020 16:09:22 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/33] hw/hppa/machine: Include "net/net.h"
-Date: Mon,  9 Mar 2020 16:08:20 +0100
-Message-Id: <20200309150837.3193387-17-laurent@vivier.eu>
+Subject: [PULL 17/33] hw/acpi/cpu_hotplug: Include "hw/pci/pci.h"
+Date: Mon,  9 Mar 2020 16:08:21 +0100
+Message-Id: <20200309150837.3193387-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MPGPHjvrWrdssREGZDVoZoVrd73jIw1m3oj0biUTv8d+aJFuRkj
- rovYptmQLlybR3QtYGKPpX9Y9rJhygQx9ZdOzUXOI1AmVHh98pGIX38wKzRT6TmqZvqMs9U
- j0eXKwFTXefiYkV04vGrNZvfw1QlrsCt7sR96JWBEdU53VOlkb2kHr54MmODXWhLk/PgLL2
- m722h1UJfEb52ipcrKJYQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ldie3iEqQ94=:Qb+p9BgwIF0Dttg3FBut/7
- etrGFk0fngaGrTOxJhQId/D7B4iqKXWOrle/WnxFieIQrgp+hOXUpKEkjUAbQJRP/L4ZrzmMl
- sJo2qjyx32a8+/JZVy+F2CSdbomtu6ca6e93Rut1/+LcjAauaUSXITHKYXo9AC86RxpLJ6Xoo
- hwZSpBF52pyrugY8sRv4l3TQQIGt9Q4eOYBemhqU/64HWAARi7e0wX/gSZrisa8iVJTzWyqK9
- 3ttbqcnboZnQF69ZfpZdpa2J2DmOAGv0+NdYjarptpexTBWtiubTC7U1FMbihMQOqZKWGxRER
- hH+BOquwoBBBl4tSHUukhhjbnN5L0zl79Fvw6TXFYBstqc584rF0MIkxeBjs6o8nUUENOitcm
- fHzATEcS/3pYnhiLW5OLHrahUCko7I4Lwn0407qlD1J81rLs18HWbMm9Z3PMEOUJrEhjR++Dk
- j83v6bTJE/86hkB8rMdyN8N+YWzmINgzudjlkkzW8j0W2EOhy3B8tFBqDJhyrIiwfl2kshq29
- Pt05ocQCGqmqi+HpVdDB8uF8Gsu4X3/UqazacRmQkCz3ZOHa9D2ixiDeXU63Yz6LnWE/nuLMj
- pcvftQnE6IffAsTNcLnHxwU16XgW6MmLCaSTIP80X/NQv67xykiVEIAq0wAW6Q5DThBsKjQiN
- p9yfM8OzPdETG0thmMfpRQvyxwdu5YPmsxxMLf9NNKF2bLTmMF76E+SHlLYv4ERgoO+AfiGgP
- ej20EYfq7h6zg1w0C9K7FoT6mzeSCLp4UZGp4G6zmT2f19Nsauck5Hrswsh8BIpwWoBQFWEmP
- JAg/QkzjG8TpRl2J1M65v6B77z+V+dQz9Qd7sC5DfW/LVDfGQsfb2TDNkPkjal0N+mpoFCy
+X-Provags-ID: V03:K1:S3Pxp97NJqxzqXNktaGYJQ8nZy3lTVUpo6FHg9n/lfsaCvu/jCM
+ RKXtM+9/sl1lC2UU6z7Enz4ywq6EsJjd8jmR99TVnhXddFlNXJAfZ4rY8qlWfkvFQEKXdRg
+ c7cUkeAM5h7ge/pao0QIN67+RJChKjZud8czO47cpDyjw3l3mCHTLkZROLm8cPqoP7SiOci
+ rc5taa+9BnG+goLi7rNZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kUTho+sfP00=:/RR78Ov2r4fg9Mqs6/P7t4
+ QgRnn/05kM+qVunwSFPMYuoO5Br0L0OTVPvk1DS676JqeEV56ko4pVlxa1kvlYpLNvDqPEZnJ
+ EODUyOZ0j+XugzoxYTuWhM/rSTm4gf0BIyDTaQ0AHRxpvt8Zc0wObIL5maaRB8bRN5ZQ5vS5A
+ FThsEhNNb17Jbm7slqX9UcIgU+Cwkl96gUY/fdObfmxgpfIf4D1GEQN0EqGJbr9qTPCtIj5WB
+ CtiioVkafDYGjbZF0cmKKn7ofELdaMPv5UvesCCkCbV3R3CTaLqWIJhCCYqOKlQwnpn44Ah7y
+ PM8W0pnKFKHCqwBVmObIaXLjatJPiF9Om2kqBDWtBPeE1JbJ2fmyyPtrhZ/lXdhiqECEMi6PN
+ vCjR/VkUlgIIdI6eFw/dMWGCS76yRPRvbr5FsoCrYRzysysWyugFKiiG2zDIaaTSbsz02kt1I
+ kIYiHF/Oy1Zh8ZCXs3FiDTiRRoI3BGPZ5MJFeYGJle33GiiiV1zOtOspmbZ5eJXlXjyjxxs1z
+ +9KU9V4FXQZe7WLyT3WDbbzZVa+/ucWq7eLub7mlARtam/W1qxY/A7ba1zELPDxlSCoHwiDGJ
+ N74YEd4habXjkT7oN8S1PndzYEQd5LUsAVn1vVBiKy43OGA/Qe9ofUsXDYi3KOau1H552s72j
+ UEQFI8vq603b0sgjyoJjYVsdKzT6cd9t89f0pzhWTt3kNZgjf13BF3GP1GwKUvv1MbsSJtMsW
+ CTfGXauFq86rDTjUyWZ6Le1A7oTqq9ssGDrTLFmn5Gnkmo+JOc6ea5S6vc1t8205n1gq9YUoK
+ D4Stg6L6QqvSDiFVeQWV6BKsghc9C+sMS/0o+ndV7aa5OcaH6acMjEgSon+7ZKpowbkUo/l
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,39 +87,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-hw/hppa/machine.c uses NICInfo variables which are declared in
-"net/net.h". Include it.
+hw/acpi/cpu_hotplug.c calls pci_address_space_io(). Include
+"hw/pci/pci.h" which declares it.
 
 This fixes (when modifying unrelated headers):
 
-  hw/hppa/machine.c:126:21: error: use of undeclared identifier 'nb_nics'
-      for (i = 0; i < nb_nics; i++) {
-                      ^
-  hw/hppa/machine.c:127:30: error: use of undeclared identifier 'nd_table'
-          pci_nic_init_nofail(&nd_table[i], pci_bus, "e1000", NULL);
-                               ^
+  hw/acpi/cpu_hotplug.c:103:28: error: implicit declaration of function 'pci_address_space_io' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+      MemoryRegion *parent = pci_address_space_io(PCI_DEVICE(gpe_cpu->device));
+                             ^
 
 Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-10-philmd@redhat.com>
+Message-Id: <20200228114649.12818-11-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/hppa/machine.c | 1 +
+ hw/acpi/cpu_hotplug.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index bf18767e2494..9175f4b790f5 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -22,6 +22,7 @@
+diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
+index 9c3bcc84de56..3e687d227a65 100644
+--- a/hw/acpi/cpu_hotplug.c
++++ b/hw/acpi/cpu_hotplug.c
+@@ -14,6 +14,7 @@
  #include "qapi/error.h"
- #include "net/net.h"
- #include "qemu/log.h"
-+#include "net/net.h"
+ #include "hw/core/cpu.h"
+ #include "hw/i386/pc.h"
++#include "hw/pci/pci.h"
+ #include "qemu/error-report.h"
  
- #define MAX_IDE_BUS 2
- 
+ #define CPU_EJECT_METHOD "CPEJ"
 -- 
 2.24.1
 
