@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCE217E362
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:19:24 +0100 (CET)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E397117E382
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:24:27 +0100 (CET)
+Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKBf-00059u-1b
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33653)
+	id 1jBKGY-0002sw-NS
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK2h-0008NY-5m
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:08 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2X-000800-44
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK2c-0007rB-4p
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:10:07 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:39435)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2V-0007jZ-TS
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:56 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:37415)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2X-0007ju-1I; Mon, 09 Mar 2020 11:09:57 -0400
+ id 1jBK2R-0007fp-AF; Mon, 09 Mar 2020 11:09:51 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N3Kc8-1jJg4w01ac-010J9Q; Mon, 09 Mar 2020 16:09:04 +0100
+ id 1Mw9Lu-1jRt0S2TYa-00s5PG; Mon, 09 Mar 2020 16:09:08 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/33] hw/southbridge/ich9: Removed unused headers
-Date: Mon,  9 Mar 2020 16:08:13 +0100
-Message-Id: <20200309150837.3193387-10-laurent@vivier.eu>
+Subject: [PULL 11/33] hw/timer: Remove unused "ui/console.h" header
+Date: Mon,  9 Mar 2020 16:08:15 +0100
+Message-Id: <20200309150837.3193387-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:He56TwfhJa52GOGz0EJqZEjoGZlFdNLZsoH3h/kooJRBmO3UGxH
- tKyYkftvnQTlB+T1skORNFDy8AzTmEPvISinUrtkUNnNj45ZqRv2R7bSrs3ee3Cnx5cT0WI
- YGYoZAhBpGPOwmc5FGBsBGyk8uJKJc2HOrkXlVlO1n3vR1bcnjFftYXy63DXylETT2vk1EQ
- kj11Rtk709JH9zDXwjusA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nkohTncFmnU=:X8IHw1mNLvGEWBqMFnaX5Y
- Q1CvPz3i/rGpm7UY2HJlWtdWiMMccEFNdmxNyYsPtBR10fUnC7QXg+IykaTAjlJDO85a0+YLm
- PTJS8WiCnIvMT8h9rbKLZEyMvkwRaBmLzDHgfRFKjFKEef/UawYHvuIs9zLbao7gHResGUcof
- HSySVUlY1rFX7pm/BQ9rdcpW40AVPRKalvEETCU3m4zJbWj0xEkD/dKMpL7ZXaNwtRE15npsy
- itvmFfF+OVpVcj6Zs9m0LuHyTGnmnnhY6PVVpKdHIrXpODm06dPYsGUC5BN6fiHvfDkJKbSAU
- TElOp5Vds0k4cM8ol6aK8XeJQe/dIuzHoWaJQgJ7SBzcb+oOI0HK2KtfVOBlgoCWx33LdAM7O
- sYQCHNCezbeOxlNJNnA5FzPZQZmXiJkNbH5b5vDygWhiBRG9fKSsYkUwR6VmxSsmdrsxd5kaK
- ZWJvUpwycNp5tALkXiCsJX/IUbER+DasVzZ0tjAL0wqHYfB84yPxugjH0uC+eP61dFPw2Kax7
- tHHptPy+nUmKyEXSqbXgIPtcGs9oP8fPRtQqEe+L/+wN1j7bDNoP/4ukKPMSfmrJRBHGRFRyC
- /JEqkc2ZmCL3YmhWRCR+OhTXgIIYuNHVAXICwJh3Eq/2HwlXRzeTwBvMOgR//tZ2Fnvn3agLY
- sQ99S4XvwSGTtuZ8ayxyU3xKe2dR9VkPC13yTHJcjxB7HBqTWP/MRNRdyTOWftguhMfrADiDl
- FaVzu0JsLwDDI6hqXjJCMndVvdz/LKv3DgHT+GWGExDbi870hyEq2orl/FdIsykPpbGbKE8ut
- ADNHx6UurIWeSmhdi9OEDkFr9wyZ67jsbaAJ8V9UJZq6Cg5GDV+wFqy9eikoKHPLHnfQg/P
+X-Provags-ID: V03:K1:tM2YDmot9ihGaPhyf6qhTyarNgEYi/pV4Q4kB4JhgYFNz9yEN62
+ 6m9K4srE81GDTMvq6HW+nrSU05dgDqxVxoc6T1JP8ZoPzReEsm9oCFmiYrW7TFq6QNQ9Ivb
+ QL8ROcBTlwseBc7uI2EEjChxJ4a5Yi/bNPj9QgQihMxcuhPos3qlUU4111hzZvhfx/icFOB
+ qfLvLwApS1ROlZFps2Qmg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BIzu0BJEkmM=:abdPkxT3jKmvPh6xvVPRht
+ tK6BS77CiBwZeTxvxE/HDiQIU3QjYLrT8MuFRRjUjleEfVxDtRCC84+xETfRuzkLYUlhk3Xiv
+ uuN/i6cvXRag8xpnAUFbHxMX0/AVjBbSh3BfmOMlu4AOqoqTZzh1F8Uojf3TZhCs3FSlw5A05
+ 9RE4fRJrhC9j11rZ4zTwvhxyTT/pS2H+dkT9cPkeg01384pxU+lTXSIsXeXcHWARfu5HwJ5uW
+ L4hxSdHjOWHAG5j5PPHs19o5Cgt5QttzkQo31YNsfu9ONMnRHnwZpyRdYzPNmTyn1ScPwXOX3
+ pyXw9qmMrBoqsdM4/1kShYW75XxpQknfOzqXB7FTeVWHe/k09aqNjRGPsZ/b98+rD2qYJz3nY
+ G7AC5aaz8+k596vl/EKgMCVMhY3GcCVzKBa74hJxWwXxhp7eMmNuyjVg5E7C1SUx0GVaa9+wM
+ 8zt8mkwLe+ac4sBLiqCs6++21kVyZ+FIA1MzLWx6YWEwkkFkOAWmEOoRvbHipb464ftaOcwOT
+ ThR5B95U/L6ubo6ecMzlppO5VGa8OtcbsbqiVmA3Pt7g2zBgZmEcCjzi6qZV2qkVDxifen7/K
+ OUMaNmIQYSHKU+WBFIVc+WfLeex+9V9bijKEimyn1ZBRGROGfbuLaRXY5GavIS0mNVdUrZPRi
+ Xm9DJPcAWhNoFJXi2WB1aSo8uYOOxEnWHbevGVcXXK0BRNc5lSEQ/DVH3mow1nH3P5PnF0QyB
+ 9hvSfqmF8cQyM6aquaQRP/JrvCL0/yhDrtg6J16ZSIK0q3Y6ZRq7HcazP8E87BrUpdyore2xK
+ uUIag31ivesa3qSz6jlHiV7PLLFVTcHV5aZjyP+G5JW0W/V/MAXyzUmGqscHZfp1ui1rVQy
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,58 +87,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The ICH9 chipset is not X86/PC specific.
+The timer models don't need anything from "ui/console.h".
+Remove it.
 
-These files don't use anything declared by the "hw/i386/pc.h"
-or "hw/i386/ioapic.h" headers. Remove them.
-
-Reviewed-by: John Snow <jsnow@redhat.com>
+Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200228114649.12818-3-philmd@redhat.com>
+Message-Id: <20200228114649.12818-5-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/acpi/ich9.c         | 1 -
- hw/isa/lpc_ich9.c      | 1 -
- include/hw/i386/ich9.h | 1 -
- 3 files changed, 3 deletions(-)
+ hw/rtc/twl92230.c | 1 -
+ hw/timer/hpet.c   | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 2034dd749edc..fdd0a6c79e11 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
+diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
+index 63bd13d2caa4..d0011be89eef 100644
+--- a/hw/rtc/twl92230.c
++++ b/hw/rtc/twl92230.c
+@@ -27,7 +27,6 @@
+ #include "migration/qemu-file-types.h"
+ #include "migration/vmstate.h"
+ #include "sysemu/sysemu.h"
+-#include "ui/console.h"
+ #include "qemu/bcd.h"
+ #include "qemu/module.h"
+ 
+diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
+index 8dbcbdca16a6..4f30dd50a40a 100644
+--- a/hw/timer/hpet.c
++++ b/hw/timer/hpet.c
 @@ -27,7 +27,6 @@
  #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
--#include "hw/i386/pc.h"
- #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
- #include "qemu/timer.h"
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index f85b484eac63..cb79616cede8 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -37,7 +37,6 @@
- #include "migration/vmstate.h"
- #include "hw/irq.h"
- #include "hw/isa/apm.h"
--#include "hw/i386/ioapic.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/i386/ich9.h"
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index 72e803f6e2e0..a98d10b252df 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -5,7 +5,6 @@
- #include "hw/sysbus.h"
  #include "hw/i386/pc.h"
- #include "hw/isa/apm.h"
--#include "hw/i386/ioapic.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci_bridge.h"
+ #include "hw/irq.h"
+-#include "ui/console.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
 -- 
 2.24.1
 
