@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A0E17E4A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:20:45 +0100 (CET)
-Received: from localhost ([::1]:46486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AC217E4D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 17:32:43 +0100 (CET)
+Received: from localhost ([::1]:46640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBL92-000767-VS
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:20:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46623)
+	id 1jBLKa-0003MA-7h
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 12:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50037)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1jBL7M-00066u-Uo
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:19:02 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jBLJB-0002aW-Dj
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:31:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1jBL7I-00048X-0Y
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:18:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22659
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jBLJ9-0005ep-J9
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:31:12 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53397
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1jBL7H-000482-Sm
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:18:55 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jBLJ9-0005dm-Ct
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 12:31:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583770734;
+ s=mimecast20190719; t=1583771470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BtiGEoJia1AqzBWVUCUWdrJNVUUPcohcr3UDrNrmzRw=;
- b=fulgjTkN+3zI6Hys49i5xcOyPtjjI8ZeOQvSy16MtZVYKCWqHr+1D7BVXwKqlgZWZa56Zn
- nY9I3MtPTYNvTTsiUZZxXMajqeGTuoZa7z9cNTPNhqs+5aZArHUFClzEhAcJ2qNx3Dijl9
- 8pXVxXc7ng9+3NLoj5aiXfkIUO344LE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-45O50bQaPyScazyaISRcTQ-1; Mon, 09 Mar 2020 12:18:50 -0400
-X-MC-Unique: 45O50bQaPyScazyaISRcTQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ACA2801E70;
- Mon,  9 Mar 2020 16:18:49 +0000 (UTC)
-Received: from localhost (ovpn-121-49.rdu2.redhat.com [10.10.121.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 985A210246F4;
- Mon,  9 Mar 2020 16:18:48 +0000 (UTC)
-Date: Mon, 9 Mar 2020 12:18:47 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
+ bh=23w+mVzoSvMwUoe3UZNGBxBVhIGiteJSVAn3xu6wbws=;
+ b=Fj0XHHKC4rsyzmBDjdH2qnlj4xSnbPFWTpaZ1UCxs0SZgfGJrYgZ5LaEYrW0J3dg70RWo0
+ qoxVgnUH6Z9WsgAvi0D61/pTHLUoBo8qfgFDVYIdWpsc5HC0TkYZWDKKR2UAm7uCkFCtO2
+ P1O3b6KaE3LfGlQbsEVa38yfSh8Y+nI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-NW6Pzk9wMpykwRBL4mTHvw-1; Mon, 09 Mar 2020 12:31:08 -0400
+X-MC-Unique: NW6Pzk9wMpykwRBL4mTHvw-1
+Received: by mail-wr1-f69.google.com with SMTP id y5so4785253wrq.8
+ for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 09:31:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=23w+mVzoSvMwUoe3UZNGBxBVhIGiteJSVAn3xu6wbws=;
+ b=gKrQ8i8F/ECGQoXkaBHewN0mgsQjfYS/76gVaW2NSyvB0jsHKQOogQRcuUbwo7FMlb
+ ynTcuvaaONMpkleKzpwUU2rGpuxzoFP+JT6HO/USuHgnlOmOetJbmHlEfEz1quy/IJrn
+ JiREFVcX0MazQDzURWqfv8RX/i2VqjbvtAIIcvt1MHGVAkEtQZEbWaAqzUKnt7JIK4Lq
+ ekzZ5k4N4QruByCSEssjwsgIGLjU6Vt6vPmSeU/957reXbYk9qczC8ln91t1TXGEasyH
+ 2oowQ+TYd4CprtU1QjlbccBoMRxHCgRwlXDPFKl8G8AjcdQdixLIvYoudtdVEA2LvkSp
+ PEzg==
+X-Gm-Message-State: ANhLgQ1wBbIVuS7Tiui4CtnS6jyuuNRqZBwIIZRlyR3qP/Jx5KNK4bA1
+ jjR176nm+uFErKLeqPJLvpm0zkL4fkkUZDtnhfImdj9rb3rOPnckKg5Uufkmi5RCz7u22QtENMe
+ bmupgcUcICd+s/iE=
+X-Received: by 2002:a1c:e918:: with SMTP id q24mr109798wmc.25.1583771467489;
+ Mon, 09 Mar 2020 09:31:07 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuuup2Z4KIAizt8UefYpT6AeO1h+NYa0Y57Zb4onaVDB3TH1dXA4HCEmnBA1xu68XBD5Zlbdg==
+X-Received: by 2002:a1c:e918:: with SMTP id q24mr109778wmc.25.1583771467249;
+ Mon, 09 Mar 2020 09:31:07 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:f1b5:9f9:3125:2a5a?
+ ([2001:b07:6468:f312:f1b5:9f9:3125:2a5a])
+ by smtp.gmail.com with ESMTPSA id y3sm24525657wrm.46.2020.03.09.09.31.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Mar 2020 09:31:06 -0700 (PDT)
 Subject: Re: vmx=on with -accel hax
-Message-ID: <20200309161847.GD1187748@habkost.net>
+To: Markus Armbruster <armbru@redhat.com>, Rui Prior <rprior@dcc.fc.up.pt>
 References: <19980599-1cbf-9179-070d-59aa68847968@dcc.fc.up.pt>
  <87tv331i5k.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <af2f04c9-f4eb-19d0-ef8b-788516297fce@redhat.com>
+Date: Mon, 9 Mar 2020 17:31:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
 In-Reply-To: <87tv331i5k.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,47 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xin Xiaohui <xiaohui.xin@intel.com>,
- Vincent Palatin <vpalatin@chromium.org>,
- Jiang Yunhong <yunhong.jiang@intel.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Rui Prior <rprior@dcc.fc.up.pt>,
- Zhang Xiantao <xiantao.zhang@intel.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 05, 2020 at 06:32:07AM +0100, Markus Armbruster wrote:
+On 05/03/20 06:32, Markus Armbruster wrote:
 > Cc'ing people listed by "scripts/get_maintainer.pl -f target/i386/hax*".
->=20
-
-Thanks!  get_maintainer.pl output here is a bit misleading.  We
-have no maintainers listed for the hax accel.  CCing the original
-authors, hoping they can help.
-
+> 
 > Rui Prior <rprior@dcc.fc.up.pt> writes:
->=20
-> > Dear qemu developers,
-> >
-> > I found a bug/limitation of qemu on windows (qemu-w64-setup-20200201.ex=
-e
-> > from https://qemu.weilnetz.de/w64/ ) that makes qemu terminate
-> > immediately with "VCPU shutdown request" (twice) if I try to use the
-> > "vmx=3Don" CPU option while simultaneously using "-accel hax".  Without
-> > "vmx=3Don", it works fine (but it prevents me from using nested
-> > virtualization).
-> >
-> > I am using HAXM v7.5.6.
-> >
+> 
+>> Dear qemu developers,
+>>
+>> I found a bug/limitation of qemu on windows (qemu-w64-setup-20200201.exe
+>> from https://qemu.weilnetz.de/w64/ ) that makes qemu terminate
+>> immediately with "VCPU shutdown request" (twice) if I try to use the
+>> "vmx=on" CPU option while simultaneously using "-accel hax".  Without
+>> "vmx=on", it works fine (but it prevents me from using nested
+>> virtualization).
+>>
+>> I am using HAXM v7.5.6.
 
-I don't see any CPUID handling in the hax accel code, so "vmx=3Don"
-isn't even supposed to have any effect.  I don't think HAXM
-supports nested virtualization, does it?
+Hello, as far as I know HAXM does not support nested virtualization.
 
-
-> > Should you need any further information, please let me know.
-> >
-> > Best regards,
-
---=20
-Eduardo
+Paolo
 
 
