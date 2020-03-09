@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE0117DC56
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 10:23:47 +0100 (CET)
-Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E1317DC1F
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 10:07:57 +0100 (CET)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBEdV-0002mO-3h
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 05:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56177)
+	id 1jBEOC-0002UG-BZ
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 05:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBEbY-0000RC-8N
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:45 -0400
+ (envelope-from <pannengyuan@huawei.com>) id 1jBEN5-0001cv-5G
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:06:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBEbX-0002Ga-2B
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:43 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38586)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBEbW-0002GH-RQ
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:21:43 -0400
-Received: by mail-ot1-x344.google.com with SMTP id i14so8863331otp.5
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 02:21:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AHAHIhwFKs2k8PQfvg9sekLc+EdY0MRJArKE4TiyhMk=;
- b=ccjbiq+L6VUbhQPKNgIh3Dg2VtniXMnxS2HZVafcLPfQ/ztgcqlBCkLN/Jb/GewEB5
- 1vRtrWGCSz+IJjm0WbjF+iLtl7LKQr8A0Fesc5QjAzROhhoxJEbNYwOtWpC/WH85P25H
- qL9Voa+K4NjS8RntX9Vh6dMl5Qw0Ias7y3m8aJVqsyepfVpqiH5wRJCDWXtN6ISvRiB/
- N6Mb172vTz5QsgfPwbJ7ZNXoSStJfyt2B9nDSmf41z9fqBJXGCTEVqOcUH4m+OwNB+t2
- yLXanybggdzECxrjB+ODch+MlIt+bmO8glZJBC9f8bs6tfChml9zc9ThI4UvmU45/fgD
- U7vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AHAHIhwFKs2k8PQfvg9sekLc+EdY0MRJArKE4TiyhMk=;
- b=ZL1jSDLCUcigDVyNJ8/wqbL1m6kkYicJFilxBlH45f0NFq0/+jPPHEIKs75VM0kS3T
- EXLVFlXQbUWwNS7L1DWkYEWk2Aukq6DafMvLNFcCpLFMSfTtwourSZjxgv4OUMjaLu/1
- s8vwyTsQan2tuDJFiGFSfixZDXD4bKCHIXXx198D93MfrvgOy7OMztJ80NODNRjy93pf
- NtW/czddpz9c7+oZc224CkNo+BXRv8SJTiE/1t5eaD4N/rGz3ExjywFSW7KsQ3ZCyeFN
- ldnC8PYkrPb59R+R5pb4XGnb+j8sNVJgfmrHJXkcx1FzCAARdavfBBAxsrzEy4MytuYI
- MzHg==
-X-Gm-Message-State: ANhLgQ1ZE+tPY/goiLVwjoSpck09/xd/ltQX4fVrpLaKdlhvturAtTTh
- s5HFwQC89MOhT7ha3BoswnUbUlBGZsy+3VlLdOvWGw==
-X-Google-Smtp-Source: ADFU+vso+6lDlFwhsMcwMjSQc8EZY/JEfefYfwNk9Lz6HyEpUXtUZB9r3EabCofvyoBclHw3FryNZmzpESCUyUNArTg=
-X-Received: by 2002:a9d:76c9:: with SMTP id p9mr12300099otl.135.1583745701474; 
- Mon, 09 Mar 2020 02:21:41 -0700 (PDT)
+ (envelope-from <pannengyuan@huawei.com>) id 1jBEN4-0001UH-0g
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:06:46 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:50274 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1jBEN3-0001Sj-Lu
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 05:06:45 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 5899E161FA5BD74F81AF;
+ Mon,  9 Mar 2020 17:06:39 +0800 (CST)
+Received: from localhost.huawei.com (10.175.104.216) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 9 Mar 2020 17:06:31 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <pbonzini@redhat.com>, <berrange@redhat.com>, <ehabkost@redhat.com>
+Subject: [PATCH] qom-qmp-cmds: fix two memleaks in qmp_object_add
+Date: Mon, 9 Mar 2020 17:22:12 +0800
+Message-ID: <20200309092212.3249-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-References: <20200305065422.12707-1-pannengyuan@huawei.com>
- <20200305065422.12707-3-pannengyuan@huawei.com>
- <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
- <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
-In-Reply-To: <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 9 Mar 2020 09:21:30 +0000
-Message-ID: <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
- in mac_via
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.216]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,39 +51,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Mar 2020 at 00:56, Pan Nengyuan <pannengyuan@huawei.com> wrote:
->
->
->
-> On 3/8/2020 9:29 PM, Peter Maydell wrote:
-> > On Thu, 5 Mar 2020 at 06:39, Pan Nengyuan <pannengyuan@huawei.com> wrote:
-> >> -    /* Init VIAs 1 and 2 */
-> >> -    sysbus_init_child_obj(OBJECT(dev), "via1", &m->mos6522_via1,
-> >> -                          sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VIA1);
-> >> +    qdev_set_parent_bus(DEVICE(&m->mos6522_via1), sysbus_get_default());
-> >> +    qdev_set_parent_bus(DEVICE(&m->mos6522_via2), sysbus_get_default());
-> >
-> > Rather than manually setting the parent bus, you can use
-> > sysbus_init_child_obj() instead of object_initialize_child() --
-> > it is a convenience function that does both object_initialize_child()
-> > and qdev_set_parent_bus() for you.
->
-> Actually I used sysbus_init_child_obj() first, but it will fail to run device-introspect-test.
-> Because qdev_set_parent_bus() will change 'info qtree' after we call 'device-list-properties'.
-> Thus, I do it in the realize.
+'type/id' forgot to free in qmp_object_add, this patch fix that.
 
-Could you explain more? My thought is that we should be using
-sysbus_init_child_obj() and we should be doing it in the init method.
-Why does that break the tests ? It's the same thing various other
-devices do.
+The leak stack:
+Direct leak of 84 byte(s) in 6 object(s) allocated from:
+    #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef768)
+    #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
+    #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
+    #3 0x56344954e692 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/qom/qom-qmp-cmds.c:258
+    #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qapi/qmp-dispatch.c:132
+    #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qapi/qmp-dispatch.c:175
+    #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/monitor/qmp.c:145
+    #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu_test/qemu/monitor/qmp.c:234
+    #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/util/async.c:136
 
-thanks
--- PMM
+Direct leak of 54 byte(s) in 6 object(s) allocated from:
+    #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef768)
+    #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
+    #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
+    #3 0x56344954e6c4 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/qom/qom-qmp-cmds.c:267
+    #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qapi/qmp-dispatch.c:132
+    #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qapi/qmp-dispatch.c:175
+    #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/monitor/qmp.c:145
+    #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu_test/qemu/monitor/qmp.c:234
+    #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/util/async.c:136
+
+Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+---
+ qom/qom-qmp-cmds.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index 49db926fcc..ac59ba1aa8 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -247,8 +247,8 @@ void qmp_object_add(QDict *qdict, QObject **ret_data, Error **errp)
+     QDict *pdict;
+     Visitor *v;
+     Object *obj;
+-    const char *type;
+-    const char *id;
++    g_autofree const char *type = NULL;
++    g_autofree const char *id = NULL;
+ 
+     type = qdict_get_try_str(qdict, "qom-type");
+     if (!type) {
+-- 
+2.18.2
+
 
