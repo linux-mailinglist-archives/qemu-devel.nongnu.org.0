@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DCC17E34D
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:18:05 +0100 (CET)
-Received: from localhost ([::1]:44692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B1B17E32B
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Mar 2020 16:11:52 +0100 (CET)
+Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBKAO-0003F4-5u
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33413)
+	id 1jBK4M-0001Fd-VW
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 11:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBK2W-0007yZ-Gf
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:57 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBK2G-0007H5-8n
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBK2V-0007jA-Eh
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:56 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:56317)
+ (envelope-from <laurent@vivier.eu>) id 1jBK2F-0007YP-7t
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 11:09:40 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:39165)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBK2O-0007dx-Ih; Mon, 09 Mar 2020 11:09:48 -0400
+ id 1jBK29-0007U2-EG; Mon, 09 Mar 2020 11:09:33 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MlwBh-1jbc562ffX-00j3HZ; Mon, 09 Mar 2020 16:08:47 +0100
+ id 1MJm8N-1iw7ce3yYr-00K8ZL; Mon, 09 Mar 2020 16:08:50 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/33] maint: Include top-level *.rst files early in git diff
-Date: Mon,  9 Mar 2020 16:08:06 +0100
-Message-Id: <20200309150837.3193387-3-laurent@vivier.eu>
+Subject: [PULL 03/33] build-sys: Move the print-variable rule to rules.mak
+Date: Mon,  9 Mar 2020 16:08:07 +0100
+Message-Id: <20200309150837.3193387-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200309150837.3193387-1-laurent@vivier.eu>
 References: <20200309150837.3193387-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mld9B2FysAyq/JRuJU+HFs/fY2Io+TPiAPpRJFtmcONIGZ7Rto7
- jJngslIHaKNCPsm6Jad44FfZYle4J+6wCXsvIg+eevB7FPsW8i/2B6S/wQ0UuUmvv+k4XfL
- MhUkN6utxBSs6g0zJ1g4BnqSzC/pU7OydL3bgdaqwI450A+P7TjcOC7DelGlHUzvqN/mkrg
- jffHr+MimU0GPcCXXHKIg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fI/dpnRvQCE=:004FYDGB+IXXAKS5m2OuEq
- iZgWkTOPZvx6OXWgcaA9G2+5FYYFSvkdty/JRl2zEMtKq+HtDm3zKoZprgiJISrSF/Dc5Undy
- VsA+CGtFua24pZWKwQdfHUCVozfTllzbtvnVMO78pvGM8WMqgKXaCSyi6DoQ/piNMTX9io4eJ
- 8PPXAQjP0oX1eVe/o60yV+uHdmLuztVi8EReo13c+8x2a3tl5Umz4UTAg9rYOXwNxCfBgMXAB
- iizvsmBPQoz3dARVsTTBSuwVkVaANhJVNEE1N02y0x/zaembnwNc2eF4pQsnGoQJf1ClnV6dO
- yHFVAmld2/6rMW3NDdm6dB1lRlYeNrDuZSCvN8q+1ttOqmZA7dsCCBF0AoR1/Ise2ScB89cK8
- vOrr/JvvhaEvTr0zOtXrV7G+8ZbIieoPyJvEsWQgLSS7gI0KLeTLRNwNjLqciriZm/NE/bXRn
- +rI6PCih5nYdVR8reMjX8TY/RKRIH/C+qXsObPHg5w7/shoQrDQrTAbVtL4rJmoIDwgXrQamy
- cUnhRPJPMuLKa+14MSDSxYvT8An7GWFRo2GiwONhSlpRVnLAzndyMJ6WLP1oRABdQ3pRziGld
- tMfjT5igKE4yAH6SlhMjvCCb/snjW65pfOO/g1C5H90SfEXEggtXj1DOU9eEk47t9UXHmKRMG
- srR2YiIkNBUZ6HxwuZj3sa2o169Ayoo1VpytZyjr2HZVk/Ht+BPFiBpSluUBfbr4pnpomCI+g
- QFvkFDPavc07FsHHb2bCUdZIncL7QRH9yWZOj6iT8fp7IZZZKpFyAhiXPEEPSeRpGCSOFwLH8
- Kb8JYqmKFMJ00Sh6NzMvtAeRRnu+l9Iwczk+nXXCMhUMrNanwc3h5+pNBEAfApeHjJQnf/8
+X-Provags-ID: V03:K1:Ai7ynpyxzGre05ka6l4GHxtd8qdyahqT071p9CAte9wTwaVdbM3
+ pHDOymBtC/BvQqlP10iUnTuKFyHWpDKASXeJ/bW6G0v0fVTGSF5Ljp4PCjGqP+TIJ9ZNDRF
+ K6HMcD16Vs7MQh6h8BIGO8yntewAIqBTOekGCjOlFf2vEJIEV7rOrXubkpjFZ57I8MB07eU
+ O+rjV/JwLevP1eAGA39mw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Sfa1dDNsXDU=:9u5wgKBUFXudeh8bQQnT2U
+ hdCTsT6kbqwpRz7WgE7IHH/m+OwP6e+qOyrrV37mgpctyPzGgwd4pVO4zhtJJZMGm3K9fmsmr
+ cfMDp+t3pwTTrcyCCsrlKo5ljsWP6qyu1dFFt4mtJKol1kOpoU7kudYcjRmR+yX9rT2sGvsuQ
+ k2wiNcXnuJzvUze1hfR6MS3HSLrjGRk3u1KHYBnA+JDnraMuhRnfSXbR/VBhAH/9WzGKiTQUf
+ c38sngokSEH+Kdx7DZs7U1rz70Ln/+5eDQmuUq0Snbclge1aZnKt8iEfaAQPh4pJh5BGJql7K
+ Xp6NryO9xJrV/V8ekAZwWB8Q6QY3LFDEFuxkWbSDFtsVOgY1Bhq6HjKQ1r/Iy9OUvhEXhYJab
+ ClcnAPME1ZKDIuLThJl0DHvkahAhJVFJhiz9yaQlGoJ5KSwFf12kc7VQy8ufGNcRfwMOUQ1iN
+ rPmNU4x5+VM5TaDJP1kTA4StxGQMQXFZAm5+9kk2PpSnIX9ct9DRK6O8X1G0IXeskjiR0Hsmx
+ D3gx/WAf4Fn17MUQvQE5txRg7MEE8LoBgwhiOazCpMzRHHRxZ1t0T15Rx30W9AIOLdc9r+iOl
+ n2diFPff6lpEso40mpvi/sUNl8N1qyFoWOYnDJEY99qXC8Pb0kMy2mduiT18q0k6ys18+HPIE
+ sAVLRQ8EoOLIL6P1b39TtKEdOmKHKj4VQzvuMpG1khli4vSfSgdyIA8LSnJqGeGDP9iHxhAXT
+ 8xdPd7qOaGHPh4ugoblbVTAM4oI+1I4vLASJXigLq2UzBmbJqxof15K69EzZKFp/ok+Zql7JY
+ ERfm375SNigSccT6w0HvKAEPc5CeXgtBPj5Oq4PwtCUb+YWjF1Sj2e3Vy2FNf5KHIewmKww
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,8 +71,8 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
  qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
  Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
@@ -84,32 +85,60 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We are converting more doc files to *.rst rather than *.texi.  Most
-doc files are already listed early in diffs due to our catchall
-docs/*, but a few top-level files get missed by that glob.
+Currently the print-variable rule can only be used in the
+root directory:
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20200220162214.3474280-1-eblake@redhat.com>
+  $ make print-vhost-user-json-y
+  vhost-user-json-y= contrib/vhost-user-gpu/50-qemu-gpu.json tools/virtiofsd/50-qemu-virtiofsd.json
+
+  $ make -C i386-softmmu print-obj-y
+  make: Entering directory 'build/i386-softmmu'
+  make: *** No rule to make target 'print-obj-y'.  Stop.
+  make: Leaving directory 'build/i386-softmmu'
+
+Move it to rules.mak so we can use it from other directories:
+
+  $ make -C i386-softmmu print-obj-y
+  make: Entering directory 'build/i386-softmmu'
+  obj-y=qapi-introspect.o qapi-types-machine-target.o qapi-types-misc-target.o qapi-types.o qapi-visit-machine-target.o qapi-visit-misc-target.o qapi-visit.o qapi-events-machine-target.o qapi-events-misc-target.o qapi-events.o qapi-commands-machine-target.o qapi-commands-misc-target.o qapi-commands.o qapi-init-commands.o
+  make: Leaving directory 'build/i386-softmmu'
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20200306170456.21977-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/git.orderfile | 1 +
- 1 file changed, 1 insertion(+)
+ Makefile  | 3 ---
+ rules.mak | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-index 7cf22e0bf546..73fd818d7f3e 100644
---- a/scripts/git.orderfile
-+++ b/scripts/git.orderfile
-@@ -11,6 +11,7 @@
+diff --git a/Makefile b/Makefile
+index 2e930688942b..37aed4a24422 100644
+--- a/Makefile
++++ b/Makefile
+@@ -15,9 +15,6 @@ UNCHECKED_GOALS := %clean TAGS cscope ctags dist \
+     help check-help print-% \
+     docker docker-% vm-help vm-test vm-build-%
  
- # Documentation
- docs/*
-+*.rst
- *.texi
- 
- # build system
+-print-%:
+-	@echo '$*=$($*)'
+-
+ # All following code might depend on configuration variables
+ ifneq ($(wildcard config-host.mak),)
+ # Put the all: rule here so that config-host.mak can contain dependencies.
+diff --git a/rules.mak b/rules.mak
+index e39b073d4648..694865b63ee8 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -435,3 +435,6 @@ sentinel = .$(subst $(SPACE),_,$(subst /,_,$1)).sentinel.
+ atomic = $(eval $1: $(call sentinel,$1) ; @:) \
+          $(call sentinel,$1) : $2 ; @touch $$@ \
+          $(foreach t,$1,$(if $(wildcard $t),,$(shell rm -f $(call sentinel,$1))))
++
++print-%:
++	@echo '$*=$($*)'
 -- 
 2.24.1
 
