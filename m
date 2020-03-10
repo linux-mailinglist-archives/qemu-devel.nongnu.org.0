@@ -2,62 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB3E17F386
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:27:27 +0100 (CET)
-Received: from localhost ([::1]:56086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEAE517F341
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:16:15 +0100 (CET)
+Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBbAc-0005Q0-DF
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48824)
+	id 1jBazm-0005NH-ST
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBb9A-0003jn-9v
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:25:59 -0400
+ (envelope-from <longpeng2@huawei.com>) id 1jBayk-0004rx-4I
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:15:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBb99-0008DI-1L
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:25:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41594)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBb98-0008BJ-S1
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:25:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBb97-0005Dc-VU
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:25:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EC2E12E80C8
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:25:53 +0000 (UTC)
+ (envelope-from <longpeng2@huawei.com>) id 1jBayi-0002rO-Ib
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:15:09 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3268 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
+ id 1jBayi-0002bP-7C
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:15:08 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 88E969DBF840174FD901;
+ Tue, 10 Mar 2020 17:15:01 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.173.228.124) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 10 Mar 2020 17:14:54 +0800
+From: "Longpeng(Mike)" <longpeng2@huawei.com>
+To: <pbonzini@redhat.com>, <rth@twiddle.net>
+Subject: [RFC] cpus: avoid get stuck in pause_all_vcpus
+Date: Tue, 10 Mar 2020 17:14:43 +0800
+Message-ID: <20200310091443.1326-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain
+X-Originating-IP: [10.173.228.124]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Mar 2020 09:13:34 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=th.huth@googlemail.com; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: jgkammerer laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: Jean-Gabriel Kammerer (jgkammerer)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <158005183659.18916.14986952783973408797.malonedeb@gac.canonical.com>
-Message-Id: <158383161468.27057.14100059222360517034.malone@gac.canonical.com>
-Subject: [Bug 1860920] Re: qemu-s390x-softmmu: crash 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 004974176bfb5e4b794722b78e3fbbc9be3f45dd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,64 +52,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860920 <1860920@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>,
+ "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, Longpeng <longpeng2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D0bab189c96c7
+From: Longpeng <longpeng2@huawei.com>
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
+We find an issue when repeat reboot in guest during migration, it cause t=
+he
+migration thread never be waken up again.
 
--- =
+<main loop>                        |<migration_thread>
+                                   |
+LOCK BQL                           |
+...                                |
+main_loop_should_exit              |
+ pause_all_vcpus                   |
+  1. set all cpus ->stop=3Dtrue      |
+     and then kick                 |
+  2. return if all cpus is paused  |
+     (by '->stopped =3D=3D true'), else|
+  3. qemu_cond_wait [BQL UNLOCK]   |
+                                   |LOCK BQL
+                                   |...
+                                   |do_vm_stop
+                                   | pause_all_vcpus
+                                   |  (A)set all cpus ->stop=3Dtrue
+                                   |     and then kick
+                                   |  (B)return if all cpus is paused
+                                   |     (by '->stopped =3D=3D true'), el=
+se
+                                   |  (C)qemu_cond_wait [BQL UNLOCK]
+  4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
+  5. goto 2.                       |
+ (BQL is still LOCKed)             |
+ resume_all_vcpus                  |
+  1. set all cpus ->stop=3Dfalse     |
+     and ->stopped=3Dfalse           |
+...                                |
+BQL UNLOCK                         |  (E)LOCK BQL
+                                   |  (F)goto B. [but stopped is false no=
+w!]
+                                   |Finally, sleep at step 3 forever.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860920
 
-Title:
-  qemu-s390x-softmmu: crash
+Note: This patch is just for discuss this issue, I'm looking forward to
+      your suggestions, thanks!
 
-Status in QEMU:
-  Fix Committed
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+Signed-off-by: Longpeng <longpeng2@huawei.com>
+---
+ cpus.c | 41 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 36 insertions(+), 5 deletions(-)
 
-Bug description:
-  Trying to compile and use rust programs on an s390x emulated machine,
-  crash in qemu/target/s390x/translate.c line 3894
+diff --git a/cpus.c b/cpus.c
+index b4f8b84..15e8b21 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1857,10 +1857,30 @@ static bool all_vcpus_paused(void)
+     return true;
+ }
+=20
++static bool all_vcpus_resumed(void)
++{
++    CPUState *cpu;
++
++    CPU_FOREACH(cpu) {
++        if (cpu->stopped) {
++            return false;
++        }
++    }
++
++    return true;
++}
++
+ void pause_all_vcpus(void)
+ {
+     CPUState *cpu;
+=20
++    /* We need to drop the replay_lock so any vCPU threads woken up
++     * can finish their replay tasks
++     */
++retry_unlock:
++    replay_mutex_unlock();
++
++retry_pause:
+     qemu_clock_enable(QEMU_CLOCK_VIRTUAL, false);
+     CPU_FOREACH(cpu) {
+         if (qemu_cpu_is_self(cpu)) {
+@@ -1871,13 +1891,17 @@ void pause_all_vcpus(void)
+         }
+     }
+=20
+-    /* We need to drop the replay_lock so any vCPU threads woken up
+-     * can finish their replay tasks
+-     */
+-    replay_mutex_unlock();
+-
+     while (!all_vcpus_paused()) {
+         qemu_cond_wait(&qemu_pause_cond, &qemu_global_mutex);
++        /*
++         * All of the vcpus maybe resumed due to the race with other
++         * threads that doing pause && resume, and we'll stuck as a
++         * result. So we need to request again if the race occurs.
++         */
++        if (all_vcpus_resumed()) {
++            goto retry_pause;
++        }
++
+         CPU_FOREACH(cpu) {
+             qemu_cpu_kick(cpu);
+         }
+@@ -1886,6 +1910,13 @@ void pause_all_vcpus(void)
+     qemu_mutex_unlock_iothread();
+     replay_mutex_lock();
+     qemu_mutex_lock_iothread();
++    /*
++     * The vcpus maybe resumed during the mutex is unlocking, we must
++     * make sure all of the vcpus are paused before return.
++     */
++    if (!all_vcpus_paused()) {
++        goto retry_unlock;
++    }
+ }
+=20
+ void cpu_resume(CPUState *cpu)
+--=20
+1.8.3.1
 
-  Steps to reproduce:
-  on a amd64 PC, installed debian on s390x emulated by qemu, seems to work =
-fine (installed some packages, etc.)
-  installed rust cargo (either from rustup or from debian)
-  cargo install anything makes *qemu* crash when beginning to compile
-
-  Technical details:
-  * host: amd64 Linux
-  * qemu v4.2.0 (recompiled from git with debug options using configure --t=
-arget-list=3Ds390x-softmmu --enable-debug) (problem appears also with older=
- versions of qemu from git, with default compilation options, with qemu fro=
-m debian, etc.)
-  * compiled with gcc 9.2
-  * command line, relevant part: qemu-system-s390x -snapshot -machine s390-=
-ccw-virtio -cpu max,zpci=3Don -serial mon:stdio -display none -m 512
-  (tested with -smp 4  -m 4096 as well and without snapshotting)
-  * command line, less relevant part: -drive file=3D./debian.qcow2,if=3Dnon=
-e,id=3Ddrive-virtio-disk0,format=3Dqcow2,cache=3Dnone    -device virtio-blk=
--ccw,devno=3Dfe.0.0001,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk0,bootind=
-ex=3D1,scsi=3Doff    -netdev user,id=3Dmynet0,hostfwd=3Dtcp::2223-:22 -devi=
-ce virtio-net-pci,netdev=3Dmynet0
-  * core dump: abort in qemu/target/s390x/translate.c line 3894 ; s->field:=
- op has value 0xEC and op2 has value 0x54
-  (more info available if needed)
-
-  Tried to patch source to add 0x54 case to no avail.
-  Tried other cpu variants to no avail as well.
-
-  Reporting this in security as well since it also looks very much like
-  a DoS (albeit somewhat minor), feel free to tell me to report the bug
-  somewhere else.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860920/+subscriptions
 
