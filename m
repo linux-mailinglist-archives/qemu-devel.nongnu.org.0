@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15F9180132
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:08:06 +0100 (CET)
-Received: from localhost ([::1]:35098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1ACF1800FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:03:27 +0100 (CET)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgUH-0002HO-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35136)
+	id 1jBgPm-0002iO-Re
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33026)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jBgIA-0008JK-Ee
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:35 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jBgGz-0005ha-Ru
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jBgI8-0003jR-Na
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:34 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57755
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jBgI8-0003jA-KT
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583852132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AW4Dpadwv9KvI99qJhPRmUnuMZSlqBERCvP34WOH9to=;
- b=LVDcs3om8hhfZWPuzHD6S9K/JjAsUGuIZ1WY3N44QGTIC/MLQDFkvfu1siFhKRfYhYI152
- IBEhlxAfRHsEXjiePMwxO4gP3PxcwATUcfgu59cEhnCxo3mbWrZaRcBIxiHRAFE1MwPurW
- RkTB9sYqVMIm+M/mOyrSzELGSAFVyQ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-7-dyeq4iOsOohr5XMImhyw-1; Tue, 10 Mar 2020 10:55:28 -0400
-X-MC-Unique: 7-dyeq4iOsOohr5XMImhyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA665107ACC4;
- Tue, 10 Mar 2020 14:55:26 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-117-85.ams2.redhat.com [10.36.117.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAA6560BF3;
- Tue, 10 Mar 2020 14:55:23 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v5 13/13] arm/arm64: ITS: pending table
- migration test
-Date: Tue, 10 Mar 2020 15:54:10 +0100
-Message-Id: <20200310145410.26308-14-eric.auger@redhat.com>
-In-Reply-To: <20200310145410.26308-1-eric.auger@redhat.com>
-References: <20200310145410.26308-1-eric.auger@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jBgGy-0008Vm-4c
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:21 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36392)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jBgGx-0008Sg-S1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:20 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s5so12362074wrg.3
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 07:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=IoDmdowU2DTHqu0Gp90+Y8f/NqJVCyaDVnCZ0mf2Kr8=;
+ b=lGW4ZUFebK1oSpDbNeYjngRWWJ1hIs1PtjABRNacHzSmHkC5dFd+V4oVRQ9bSNvh1V
+ pId9uV81sAN0sWmF7y61aB0uCOYXDXRBdz5xrnA9ViUEXkJg5VF5ozXclhHfD+0t9Jt9
+ q2zF57E7caJNdp+Ysa5lmzw0eCksF58Un5Hde7fYqLpSOHJznMG5iH0sIDbBQ8IFb4e6
+ iQcb0/mkrP4JA6EkURHzZrzIcnVG9DBda1idqcpPQq3Qw7hgjO+ecbZ+7sgu/hAHsFHA
+ Is3iZfALdiS0rihI73iMg6+bh8o5nSl6qlweZh5cXRgiRNj42MwzBRlowUUJWknhP70r
+ hC1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=IoDmdowU2DTHqu0Gp90+Y8f/NqJVCyaDVnCZ0mf2Kr8=;
+ b=QRyGGMDZfwaqrohRNprGoJ/jh4ao2LHGbOOr9QyLmtVLg5p/Z0Tg0Xtauv8rivbJdV
+ qD4gUsMtgcXNXbS5jVBRowX9uue+FN1/KWXO2YQgQM01y2kgqn5hzIZLdyrh4URkZvqf
+ Y9u3jWOk4s1gRUthulr1wa5hwDwJkSXDnRGLDyZzNHtIICeIzP06IFK6Mh0nyyoQiVte
+ IXcPpDfL+sAXwbu+bPVQrbij6zmO+JlsoH8A2TNWOwBO1YtfFcYrqOujjGwnhsX57zNS
+ fkuDiUHY+hXKWg3CEsh8SPtL7sQwJv3/z391WOWUwMU2jlv9cOacu3Osl7fr7J6lZnaC
+ bQVg==
+X-Gm-Message-State: ANhLgQ1NVNazUDQk4+tS5VcGWx4Nbh5V5A4S4ne9pBlt/39+v2OF6rI4
+ C3fFkoev+Z9OoJc3PG7Ki/PAyQ==
+X-Google-Smtp-Source: ADFU+vv64or2Jyapr9vvw3Nhi/0OA9hPAIAdb20LXBan7iEDwdLkvjuT+aQG3KE4jMkI3kJtvGCEkA==
+X-Received: by 2002:adf:ed86:: with SMTP id c6mr25376855wro.53.1583852057572; 
+ Tue, 10 Mar 2020 07:54:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n1sm21145923wrj.77.2020.03.10.07.54.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 07:54:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3E3B61FF7E;
+ Tue, 10 Mar 2020 14:54:14 +0000 (GMT)
+References: <20200309215818.2021-1-peter.maydell@linaro.org>
+ <20200309215818.2021-4-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/5] docs/system/target-arm.rst: Add some introductory text
+In-reply-to: <20200309215818.2021-4-peter.maydell@linaro.org>
+Date: Tue, 10 Mar 2020 14:54:14 +0000
+Message-ID: <877dzsi7l5.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,261 +82,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
- thuth@redhat.com, yuzenghui@huawei.com, alexandru.elisei@arm.com
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two new migration tests. One testing the migration of
-a topology where collection were unmapped. The second test
-checks the migration of the pending table.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
----
+> Now we've moved the various bits of per-board documentation into
+> their own files, the top level document is a little bare. Add
+> some introductory information, including a note that many
+> of the board models we support are currently undocumented.
+>
+> (Most sections of this new text were originally written by me
+> for the wiki page https://wiki.qemu.org/Documentation/Platforms/ARM)
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-v4 -> v5:
-- move stub from header to arm/gic.c
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-v3 -> v4:
-- do not talk about odd/even CPUs, use pe0 and pe1
-- comment the delay
+> ---
+> ---
+>  docs/system/target-arm.rst | 66 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 64 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+> index c7df6fc1f97..86ea6f2f568 100644
+> --- a/docs/system/target-arm.rst
+> +++ b/docs/system/target-arm.rst
+> @@ -1,9 +1,71 @@
+>  .. _ARM-System-emulator:
+>=20=20
+> -ARM System emulator
+> +Arm System emulator
+>  -------------------
+>=20=20
+> -Use the executable ``qemu-system-arm`` to simulate a ARM machine.
+> +QEMU can emulate both 32-bit and 64-bit Arm CPUs. Use the
+> +``qemu-system-aarch64`` executable to simulate a 64-bit Arm machine.
+> +You can use either ``qemu-system-arm`` or ``qemu-system-aarch64``
+> +to simulate a 32-bit Arm machine: in general, command lines that
+> +work for ``qemu-system-arm`` will behave the same when used with
+> +``qemu-system-aarch64``.
+> +
+> +QEMU has generally good support for Arm guests. It has support for
+> +nearly fifty different machines. The reason we support so many is that
+> +Arm hardware is much more widely varying than x86 hardware. Arm CPUs
+> +are generally built into "system-on-chip" (SoC) designs created by
+> +many different companies with different devices, and these SoCs are
+> +then built into machines which can vary still further even if they use
+> +the same SoC. Even with fifty boards QEMU does not cover more than a
+> +small fraction of the Arm hardware ecosystem.
+> +
+> +The situation for 64-bit Arm is fairly similar, except that we don't
+> +implement so many different machines.
+> +
+> +As well as the more common "A-profile" CPUs (which have MMUs and will
+> +run Linux) QEMU also supports "M-profile" CPUs such as the Cortex-M0,
+> +Cortex-M4 and Cortex-M33 (which are microcontrollers used in very
+> +embedded boards). For most boards the CPU type is fixed (matching what
+> +the hardware has), so typically you don't need to specify the CPU type
+> +by hand, except for special cases like the ``virt`` board.
+> +
+> +Choosing a board model
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +For QEMU's Arm system emulation, you must specify which board
+> +model you want to use with the ``-M`` or ``--machine`` option;
+> +there is no default.
+> +
+> +Because Arm systems differ so much and in fundamental ways, typically
+> +operating system or firmware images intended to run on one machine
+> +will not run at all on any other. This is often surprising for new
+> +users who are used to the x86 world where every system looks like a
+> +standard PC. (Once the kernel has booted, most userspace software
+> +cares much less about the detail of the hardware.)
+> +
+> +If you already have a system image or a kernel that works on hardware
+> +and you want to boot with QEMU, check whether QEMU lists that machine
+> +in its ``-machine help`` output. If it is listed, then you can probably
+> +use that board model. If it is not listed, then unfortunately your image
+> +will almost certainly not boot on QEMU. (You might be able to
+> +extract the filesystem and use that with a different kernel which
+> +boots on a system that QEMU does emulate.)
+> +
+> +If you don't care about reproducing the idiosyncrasies of a particular
+> +bit of hardware, such as small amount of RAM, no PCI or other hard
+> +disk, etc., and just want to run Linux, the best option is to use the
+> +``virt`` board. This is a platform which doesn't correspond to any
+> +real hardware and is designed for use in virtual machines. You'll
+> +need to compile Linux with a suitable configuration for running on
+> +the ``virt`` board. ``virt`` supports PCI, virtio, recent CPUs and
+> +large amounts of RAM. It also supports 64-bit CPUs.
+> +
+> +Board-specific documentation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +Unfortunately many of the Arm boards QEMU supports are currently
+> +undocumented; you can get a complete list by running
+> +``qemu-system-aarch64 --machine help``.
+>=20=20
+>  .. toctree::
 
-v2 -> v3:
-- tests belong to both its and migration groups
-- use LPI(i)
-- gicv3_lpi_set_pending_table_bit renamed into gicv3_lpi_set_clr_pending
----
- arm/gic.c         | 146 ++++++++++++++++++++++++++++++++++++++++++++++
- arm/unittests.cfg |  16 +++++
- 2 files changed, 162 insertions(+)
 
-diff --git a/arm/gic.c b/arm/gic.c
-index b8fbc13..e6ffbc3 100644
---- a/arm/gic.c
-+++ b/arm/gic.c
-@@ -193,6 +193,7 @@ static void lpi_handler(struct pt_regs *regs __unused=
-)
- 	smp_rmb(); /* pairs with wmb in lpi_stats_expect */
- 	lpi_stats.observed.cpu_id =3D smp_processor_id();
- 	lpi_stats.observed.lpi_id =3D irqnr;
-+	acked[lpi_stats.observed.cpu_id]++;
- 	smp_wmb(); /* pairs with rmb in check_lpi_stats */
- }
-=20
-@@ -236,6 +237,22 @@ static void secondary_lpi_test(void)
- 	while (1)
- 		wfi();
- }
-+
-+static void check_lpi_hits(int *expected, const char *msg)
-+{
-+	bool pass =3D true;
-+	int i;
-+
-+	for (i =3D 0; i < nr_cpus; i++) {
-+		if (acked[i] !=3D expected[i]) {
-+			report_info("expected %d LPIs on PE #%d, %d observed",
-+				    expected[i], i, acked[i]);
-+			pass =3D false;
-+			break;
-+		}
-+	}
-+	report(pass, "%s", msg);
-+}
- #endif
-=20
- static void gicv2_ipi_send_self(void)
-@@ -591,6 +608,8 @@ static void gic_test_mmio(void)
- static void test_its_introspection(void) {}
- static void test_its_trigger(void) {}
- static void test_its_migration(void) {}
-+static void test_its_pending_migration(void) {}
-+static void test_migrate_unmapped_collection(void) {}
-=20
- #else /* __aarch64__ */
-=20
-@@ -659,6 +678,17 @@ static int its_prerequisites(int nb_cpus)
- 	return 0;
- }
-=20
-+static void set_lpi(struct its_device *dev, u32 eventid, u32 physid,
-+		    struct its_collection *col)
-+{
-+	assert(dev && col);
-+
-+	its_send_mapti(dev, physid, eventid, col);
-+
-+	gicv3_lpi_set_config(physid, LPI_PROP_DEFAULT);
-+	its_send_invall(col);
-+}
-+
- /*
-  * Setup the configuration for those mappings:
-  * dev_id=3D2 event=3D20 -> vcpu 3, intid=3D8195
-@@ -799,6 +829,114 @@ static void test_its_migration(void)
- 	its_send_int(dev7, 255);
- 	check_lpi_stats("dev7/eventid=3D255 triggers LPI 8196 on PE #2 after mi=
-gration");
- }
-+
-+static void test_migrate_unmapped_collection(void)
-+{
-+	struct its_collection *col;
-+	struct its_device *dev2, *dev7;
-+	int pe0 =3D nr_cpus - 1;
-+	u8 config;
-+
-+	if (its_setup1())
-+		return;
-+
-+	col =3D its_create_collection(pe0, pe0);
-+	dev2 =3D its_get_device(2);
-+	dev7 =3D its_get_device(7);
-+
-+	/* MAPTI with the collection unmapped */
-+	set_lpi(dev2, 0, 8192, col);
-+
-+	puts("Now migrate the VM, then press a key to continue...\n");
-+	(void)getchar();
-+	report_info("Migration complete");
-+
-+	/* on the destination, map the collection */
-+	its_send_mapc(col, true);
-+
-+	lpi_stats_expect(2, 8196);
-+	its_send_int(dev7, 255);
-+	check_lpi_stats("dev7/eventid=3D 255 triggered LPI 8196 on PE #2");
-+
-+	config =3D gicv3_lpi_get_config(8192);
-+	report(config =3D=3D LPI_PROP_DEFAULT,
-+	       "Config of LPI 8192 was properly migrated");
-+
-+	lpi_stats_expect(pe0, 8192);
-+	its_send_int(dev2, 0);
-+	check_lpi_stats("dev2/eventid =3D 0 triggered LPI 8192 on PE0");
-+
-+	/* unmap the collection */
-+	its_send_mapc(col, false);
-+
-+	lpi_stats_expect(-1, -1);
-+	its_send_int(dev2, 0);
-+	check_lpi_stats("no LPI triggered after collection unmapping");
-+}
-+
-+static void test_its_pending_migration(void)
-+{
-+	struct its_device *dev;
-+	struct its_collection *collection[2];
-+	int *expected =3D malloc(nr_cpus * sizeof(int));
-+	int pe0 =3D nr_cpus - 1, pe1 =3D nr_cpus - 2;
-+	u64 pendbaser;
-+	void *ptr;
-+	int i;
-+
-+	if (its_prerequisites(4))
-+		return;
-+
-+	dev =3D its_create_device(2 /* dev id */, 8 /* nb_ites */);
-+	its_send_mapd(dev, true);
-+
-+	collection[0] =3D its_create_collection(pe0, pe0);
-+	collection[1] =3D its_create_collection(pe1, pe1);
-+	its_send_mapc(collection[0], true);
-+	its_send_mapc(collection[1], true);
-+
-+	/* disable lpi at redist level */
-+	gicv3_lpi_rdist_disable(pe0);
-+	gicv3_lpi_rdist_disable(pe1);
-+
-+	/* lpis are interleaved inbetween the 2 PEs */
-+	for (i =3D 0; i < 256; i++) {
-+		struct its_collection *col =3D i % 2 ? collection[0] :
-+						     collection[1];
-+		int vcpu =3D col->target_address >> 16;
-+
-+		its_send_mapti(dev, LPI(i), i, col);
-+		gicv3_lpi_set_config(LPI(i), LPI_PROP_DEFAULT);
-+		gicv3_lpi_set_clr_pending(vcpu, LPI(i), true);
-+	}
-+	its_send_invall(collection[0]);
-+	its_send_invall(collection[1]);
-+
-+	/* Set the PTZ bit on each pendbaser */
-+
-+	expected[pe0] =3D 128;
-+	expected[pe1] =3D 128;
-+
-+	ptr =3D gicv3_data.redist_base[pe0] + GICR_PENDBASER;
-+	pendbaser =3D readq(ptr);
-+	writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
-+
-+	ptr =3D gicv3_data.redist_base[pe1] + GICR_PENDBASER;
-+	pendbaser =3D readq(ptr);
-+	writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
-+
-+	gicv3_lpi_rdist_enable(pe0);
-+	gicv3_lpi_rdist_enable(pe1);
-+
-+	puts("Now migrate the VM, then press a key to continue...\n");
-+	(void)getchar();
-+	report_info("Migration complete");
-+
-+	/* let's wait for the 256 LPIs to be handled */
-+	mdelay(1000);
-+
-+	check_lpi_hits(expected, "128 LPIs on both PE0 and PE1 after migration"=
-);
-+}
- #endif
-=20
- int main(int argc, char **argv)
-@@ -840,6 +978,14 @@ int main(int argc, char **argv)
- 		report_prefix_push(argv[1]);
- 		test_its_migration();
- 		report_prefix_pop();
-+	} else if (!strcmp(argv[1], "its-pending-migration")) {
-+		report_prefix_push(argv[1]);
-+		test_its_pending_migration();
-+		report_prefix_pop();
-+	} else if (!strcmp(argv[1], "its-migrate-unmapped-collection")) {
-+		report_prefix_push(argv[1]);
-+		test_migrate_unmapped_collection();
-+		report_prefix_pop();
- 	} else if (strcmp(argv[1], "its-introspection") =3D=3D 0) {
- 		report_prefix_push(argv[1]);
- 		test_its_introspection();
-diff --git a/arm/unittests.cfg b/arm/unittests.cfg
-index 480adec..b96f0a1 100644
---- a/arm/unittests.cfg
-+++ b/arm/unittests.cfg
-@@ -144,6 +144,22 @@ extra_params =3D -machine gic-version=3D3 -append 'i=
-ts-migration'
- groups =3D its migration
- arch =3D arm64
-=20
-+[its-pending-migration]
-+file =3D gic.flat
-+smp =3D $MAX_SMP
-+accel =3D kvm
-+extra_params =3D -machine gic-version=3D3 -append 'its-pending-migration=
-'
-+groups =3D its migration
-+arch =3D arm64
-+
-+[its-migrate-unmapped-collection]
-+file =3D gic.flat
-+smp =3D $MAX_SMP
-+accel =3D kvm
-+extra_params =3D -machine gic-version=3D3 -append 'its-migrate-unmapped-=
-collection'
-+groups =3D its migration
-+arch =3D arm64
-+
- # Test PSCI emulation
- [psci]
- file =3D psci.flat
 --=20
-2.20.1
-
+Alex Benn=C3=A9e
 
