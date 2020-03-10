@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708C717EF8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 05:14:14 +0100 (CET)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D2F17EFB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 05:29:28 +0100 (CET)
+Received: from localhost ([::1]:53358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBWHV-0004wx-1o
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 00:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49770)
+	id 1jBWWF-0006kd-1C
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 00:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jBWGU-0004JW-Fq
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 00:13:11 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1jBWVV-0006MA-HZ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 00:28:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jBWGT-0005PJ-8H
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 00:13:10 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36946)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jBWGT-0005Mb-0J
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 00:13:09 -0400
-Received: by mail-pf1-x443.google.com with SMTP id p14so5860300pfn.4
- for <qemu-devel@nongnu.org>; Mon, 09 Mar 2020 21:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=13LZGGSje/BizSMjRtHM4ssIOqPqkxSLbX+zU/X8Cro=;
- b=XoYzD6BxkXnjKdvnhpdcWXjgzVskuk6yo4ti98ERidB+joYNCre6B4JCgYS+CsES8y
- g09YJqLmGeVi9cIEo/uMe5Go4ycuCngNLLjIv8PPY4AqA4bTuJY2pUZp02f2QanBBncA
- 1sSGe/8+WZkjij92pU1Kx4UgUB5Eqj8p3ltDNixLK7S+T/f7RRPSXdaysfpBQho8u+Vx
- OzREAQPBNsRutAkfSa0sYFb4TRQ7LlSH3lu/1byS/OQ4yYC41wwdkOSYL75lrcgbc+Ly
- uGEy+T6s45YqrO6cDIVLZlHbbtuG+8RsGGc/auo/Cgv6srHpc1zVl97kOEeE7cxV8/2w
- cfbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=13LZGGSje/BizSMjRtHM4ssIOqPqkxSLbX+zU/X8Cro=;
- b=o5VrRpiB7Y796k7vzlm5UbWhTnUusR8dPJ7dy6YNCr0OvRtYI11/I5v/69IWkrpqtl
- /Ol7pemUWLPKiCljAZkUleM590CilmIiXeEI/pw1D7OYJ2tJTRkj8xCEGC9UuzCLlesB
- 4f+XikSVfBkH1pRb514RYmMIp6DiGZ8PaPBtpea6HDsSFEDr5stQS8+lKG89uUUQRUDI
- z1+PT3yOI/ZsVqScGN+EhsBwvq13F7yb9d9KW9FHb6Ivznx+HMwCXenSO5sb7fSn1clw
- +11kc3t/24PS9TzT3Zr6BCTz5Jxlf/ZEXlA4YFbyspNZYGduHgXzYXQdguloNVeuL/wg
- DZFg==
-X-Gm-Message-State: ANhLgQ2ndmbNNN70GXTQX7J5BlvpuQr9PhTTxAbR61qNr33SGmb9fjx9
- 0HgYDSQ1SgY4WpmHzF9LrMt8tQ==
-X-Google-Smtp-Source: ADFU+vvRIVHmNx3FVuJ+pP0VMipoRMQG5+6YIIyIYuaGUQgIywlltOjGSJC7IvKYbB7HIvoKDUhUHQ==
-X-Received: by 2002:a05:6a00:42:: with SMTP id
- i2mr6720553pfk.108.1583813587580; 
- Mon, 09 Mar 2020 21:13:07 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id a9sm972915pjh.6.2020.03.09.21.13.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Mar 2020 21:13:06 -0700 (PDT)
-Subject: Re: [PATCH] target/ppc: Fix rlwinm on ppc64
-To: Vitaly Chikunov <vt@altlinux.org>,
- David Gibson <david@gibson.dropbear.id.au>, Alexander Graf <agraf@suse.de>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20200309204557.14836-1-vt@altlinux.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dbf91244-ad5d-0d3b-7c0b-e11a6e0192a2@linaro.org>
-Date: Mon, 9 Mar 2020 21:13:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <ysato@users.sourceforge.jp>) id 1jBWVU-0006Vc-HQ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 00:28:41 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:42262)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1jBWVU-0006Qg-9X
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 00:28:40 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 66366E5A40;
+ Tue, 10 Mar 2020 13:28:37 +0900 (JST)
+Received: from www.ysato.name (localhost [IPv6:::1])
+ by sakura.ysato.name (Postfix) with ESMTPA id EBDC41C0DCD;
+ Tue, 10 Mar 2020 13:28:36 +0900 (JST)
 MIME-Version: 1.0
-In-Reply-To: <20200309204557.14836-1-vt@altlinux.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date: Tue, 10 Mar 2020 13:28:36 +0900
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] docs: Add RX target.
+In-Reply-To: <e6ccf136-cf93-865d-31bb-4463b65416a9@redhat.com>
+References: <20200308130637.37651-1-ysato@users.sourceforge.jp>
+ <e6ccf136-cf93-865d-31bb-4463b65416a9@redhat.com>
+Message-ID: <b075c69c2528772f9f047baba7adc368@users.sourceforge.jp>
+X-Sender: ysato@users.sourceforge.jp
+User-Agent: Roundcube Webmail/1.3.10
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 202.224.55.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +55,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/20 1:45 PM, Vitaly Chikunov wrote:
-> rlwinm cannot just AND with Mask if shift value is zero on ppc64 when
-> Mask Begin is greater than Mask End and high bits are set to 1.
-> 
-> Note that PowerISA 3.0B says that for `rlwinm' ROTL32 is used, and
-> ROTL32 is defined (in 3.3.14) so that rotated value should have two
-> copies of lower word of the source value.
-> 
-> This seems to be another incarnation of the fix from 820724d170
-> ("target-ppc: Fix rlwimi, rlwinm, rlwnm again"), except I leave
-> optimization when Mask value is less than 32 bits.
-> 
-> Fixes: 7b4d326f47 ("target-ppc: Use the new deposit and extract ops")
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-> ---
+2020-03-10 00:07 =E3=81=AB Eric Blake =E3=81=95=E3=82=93=E3=81=AF=E6=9B=B8=
+=E3=81=8D=E3=81=BE=E3=81=97=E3=81=9F:
+> On 3/8/20 8:06 AM, Yoshinori Sato wrote:
+>> Add rx-virt target specificaion document.
+>=20
+> specification
+>=20
+>>=20
+>> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+>> ---
+>>   docs/system/target-rx.rst | 35 +++++++++++++++++++++++++++++++++++
+>>   docs/system/targets.rst   |  1 +
+>>   2 files changed, 36 insertions(+)
+>>   create mode 100644 docs/system/target-rx.rst
+>>=20
+>> diff --git a/docs/system/target-rx.rst b/docs/system/target-rx.rst
+>> new file mode 100644
+>> index 0000000000..8540fd5218
+>> --- /dev/null
+>> +++ b/docs/system/target-rx.rst
+>> @@ -0,0 +1,35 @@
+>> +.. _RX-System-emulator:
+>> +
+>> +RX System emulator
+>> +--------------------
+>> +
+>> +Use the executable ``qemu-system-rx`` to simulate a Virtual RX=20
+>> target.
+>> +This target emulated following devices.
+>=20
+> s/emulated/emulates the/
+>=20
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+OK. I'll fix it.
 
+>=20
+>> +++ b/docs/system/targets.rst
+>> @@ -17,3 +17,4 @@ Contents:
+>>      target-arm
+>>      target-m68k
+>>      target-xtensa
+>> +   target-rx
+>=20
+> Is it worth keeping this list alphabetically sorted?
 
-r~
+It was not in alphabetical order, it was added at the last. Is it better=20
+to arrange in alphabetical order?
+
+---
+Yoshinori Sato
 
