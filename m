@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4703F17F6D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:56:34 +0100 (CET)
-Received: from localhost ([::1]:58754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF09217F6DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:57:00 +0100 (CET)
+Received: from localhost ([::1]:58770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBdUv-0006PT-9Y
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54819)
+	id 1jBdVL-00078H-VD
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55529)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBdSw-0005Ez-2C
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:54:34 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jBdTF-0005fq-5p
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:54:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBdSu-0001cT-Ul
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:54:29 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43208)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBdSu-0001aH-P9
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:54:28 -0400
-Received: by mail-oi1-x244.google.com with SMTP id p125so13496717oif.10
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 04:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xNSpyHyw9uu9iZuHrpN3jYNpH/YxQIqdv9/m8XBKvZM=;
- b=KEOSsRiRzwrUy6Eempx4S9Z7eNF+8RxFZ6mbXy7Qp4UGOj/c5vxjvj+XT0if80J4Io
- W0yldzGIpM9BMQZaCjB/LbKRQsggXtlnLCKVOXBrOLlkWS3bVFVCpp7Mv6qzJ9AXmB3R
- GKOGhKvAD6VA7YTp0bXrCTNa/kjcuvyNJYm6UwspnQ0DfRbmkM0MgW9DCDHxMZcSOuhg
- iwux4RWQsVYsEt8o3JhYOKQx3R8p1mEXQDgHgAOzrXlV1b4SRtNpWK6zgh1BUfPILDI0
- wrj590R6MhvTUkNRoktLsVlRZZB3GIvA99wa1Sg9duA378ipj1PgfkYxvHwsZ/36jTG2
- /C2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xNSpyHyw9uu9iZuHrpN3jYNpH/YxQIqdv9/m8XBKvZM=;
- b=b1R1qyWNojXdYmdqM4mJ2wUztR8y88E+aeubB4rTjZB1wp0h+9sT9dS1i2sqB9MI6K
- RYl5RWluJzF0+x01XKwjWbV1qmvrm1F0D/rwjETOmoZN0eyhxGNNzU3JqCd3FBdWVYmg
- HZaanw358ZySIXNIo03W8vPRk71IZzhYhdEk5pwUR2WdvGFU5cMx95GIjqIhXGoop8jn
- vMJb0JcVSAmkV6yta+b4uGoBGQ4OZLfDZNJY+3dBoJl61wwjCbLE/fqahrhQvR6B3LNi
- WEtJc7eGmvTF7+U6MkKMQLNJHX80b9Ts46Lu1c8rK0KSh7pvBLAno0O6db3NRFn3keIq
- WUYA==
-X-Gm-Message-State: ANhLgQ36OdYdu6I7uWYP4mTOxpGVA1/DlFiwur7xiUpwERlAcBnMON3O
- RT1jqnOTznw2gApfulNgPME7crhf+NBatPZpAkJovQ==
-X-Google-Smtp-Source: ADFU+vtzmKlk6X0sq8vAb65jJcxdMlwDV1PphHI8yVk84IB8iGL0/5hrWnbjSHhuq+a4wr6C3o1UkZoz0Hc9E5sTnr8=
-X-Received: by 2002:aca:c608:: with SMTP id w8mr819485oif.163.1583841267793;
- Tue, 10 Mar 2020 04:54:27 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1jBdTC-0002Vd-SJ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:54:48 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27582
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jBdTC-0002ST-OC
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:54:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583841285;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QuTzLdYeeDSPwdq8KjUruBMKypL1L9Mm2b7XjAGUqoA=;
+ b=C2eqVg6HwJhqMlHZ5hVO81VGv8GrJ95Byfsyc92iZs18Bof953ABjxP3jxK3P04m+VxtfN
+ ecYHtSIj/UOztyMCKOxjt5e7+pyJWUPRnSJgtW6U6jqYSMWsIFYSEsIJe/PRFhNgZLLNoj
+ XesZIY/aLe9/dAS1hSNoXiWw9brXp3M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-H-DM9qrAOESkKmX1llFX3w-1; Tue, 10 Mar 2020 07:54:42 -0400
+X-MC-Unique: H-DM9qrAOESkKmX1llFX3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BB081085936;
+ Tue, 10 Mar 2020 11:54:41 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B42A287B2F;
+ Tue, 10 Mar 2020 11:54:39 +0000 (UTC)
+Date: Tue, 10 Mar 2020 12:54:38 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Pan Nengyuan <pannengyuan@huawei.com>
+Subject: Re: [PATCH v2] qom-qmp-cmds: fix two memleaks in qmp_object_add
+Message-ID: <20200310115438.GB6926@linux.fritz.box>
+References: <20200310064640.5059-1-pannengyuan@huawei.com>
 MIME-Version: 1.0
-References: <20200308130637.37651-1-ysato@users.sourceforge.jp>
- <e6ccf136-cf93-865d-31bb-4463b65416a9@redhat.com>
- <b075c69c2528772f9f047baba7adc368@users.sourceforge.jp>
- <6d90fc45-6d99-af60-bca0-0a84b91d0408@redhat.com>
-In-Reply-To: <6d90fc45-6d99-af60-bca0-0a84b91d0408@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Mar 2020 11:54:16 +0000
-Message-ID: <CAFEAcA9aOFA7_Tpgvk9Q0yH16B1SLG5zfrU5ZftMsMJ0Zo9YPQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: Add RX target.
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+In-Reply-To: <20200310064640.5059-1-pannengyuan@huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,36 +72,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ euler.robot@huawei.com, pbonzini@redhat.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Mar 2020 at 11:30, Eric Blake <eblake@redhat.com> wrote:
->
-> On 3/9/20 11:28 PM, Yoshinori Sato wrote:
->
-> >>> +++ b/docs/system/targets.rst
-> >>> @@ -17,3 +17,4 @@ Contents:
-> >>>      target-arm
-> >>>      target-m68k
-> >>>      target-xtensa
-> >>> +   target-rx
-> >>
-> >> Is it worth keeping this list alphabetically sorted?
-> >
-> > It was not in alphabetical order, it was added at the last. Is it better
-> > to arrange in alphabetical order?
->
-> The 3 lines of context was alphabetical, but looking at the whole file,
-> the overall list is not. So sticking yours last is fine after all.
+Am 10.03.2020 um 07:46 hat Pan Nengyuan geschrieben:
+> 'type/id' forgot to free in qmp_object_add, this patch fix that.
+>=20
+> The leak stack:
+> Direct leak of 84 byte(s) in 6 object(s) allocated from:
+>     #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef76=
+8)
+>     #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
+>     #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
+>     #3 0x56344954e692 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
+qom/qom-qmp-cmds.c:258
+>     #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
+/qapi/qmp-dispatch.c:132
+>     #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
+pi/qmp-dispatch.c:175
+>     #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
+/qemu/monitor/qmp.c:145
+>     #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
+_test/qemu/monitor/qmp.c:234
+>     #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
+l/async.c:136
+>=20
+> Direct leak of 54 byte(s) in 6 object(s) allocated from:
+>     #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef76=
+8)
+>     #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
+>     #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
+>     #3 0x56344954e6c4 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
+qom/qom-qmp-cmds.c:267
+>     #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
+/qapi/qmp-dispatch.c:132
+>     #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
+pi/qmp-dispatch.c:175
+>     #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
+/qemu/monitor/qmp.c:145
+>     #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
+_test/qemu/monitor/qmp.c:234
+>     #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
+l/async.c:136
+>=20
+> Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 
-In an ideal world the correct order would probably be
-"alphabetical order of the headline titles in the referenced
-files", so that the displayed ToC is alphabetized.
+Thanks, applied to the block branch. (It might not be obvious why this
+should go through the block tree, but the bug was introduced through my
+tree, so I'll take care to get it fixed through my tree, too.)
 
-thanks
--- PMM
+Kevin
+
 
