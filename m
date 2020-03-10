@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C7217F077
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 07:24:09 +0100 (CET)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3271A17F0B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 07:42:45 +0100 (CET)
+Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBYJE-000192-4y
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 02:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
+	id 1jBYbE-00057Z-2e
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 02:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jBYIN-0000hs-ER
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 02:23:16 -0400
+ (envelope-from <clg@kaod.org>) id 1jBYaT-0004br-SM
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 02:41:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1jBYIM-0004cA-OB
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 02:23:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26787
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1jBYaS-0005qb-EM
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 02:41:57 -0400
+Received: from 6.mo179.mail-out.ovh.net ([46.105.56.76]:53412)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jBYIM-0004aB-KS
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 02:23:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583821393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dVNsNEcw8TGjgHwfI+qgun3dMWws0fEf5O1ZWqWd+rI=;
- b=AOIY4g5APC4Vatg+CRYSfn4QZ608bvc98RhGssMUHeWoth93Z65Z5XXIPnzpMXdSt9h5yo
- jU6XjCjAlmgG9nsc7ZEqS+LYX/YkjozmP7q48DPu7G02vBipeGHh5528tl4r5A9s1TmL3L
- oo1blmE+YNCvBisDTt4wrYW7mQTA6vo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-_H10Y8rUMKSlZ4ovGIR7jw-1; Tue, 10 Mar 2020 02:23:10 -0400
-X-MC-Unique: _H10Y8rUMKSlZ4ovGIR7jw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2483107ACC7
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 06:23:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
- [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93C495D9CA;
- Tue, 10 Mar 2020 06:23:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 09D7B11386A6; Tue, 10 Mar 2020 07:23:08 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] docs/devel/qapi-code-gen: Fix typo in grammar
-References: <20200309142638.19988-1-armbru@redhat.com>
-Date: Tue, 10 Mar 2020 07:23:08 +0100
-In-Reply-To: <20200309142638.19988-1-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 9 Mar 2020 15:26:38 +0100")
-Message-ID: <87k13s919v.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1jBYaS-0005m1-8q
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 02:41:56 -0400
+Received: from player739.ha.ovh.net (unknown [10.110.171.125])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 733C815E58C
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 07:41:54 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player739.ha.ovh.net (Postfix) with ESMTPSA id 2EE93C36DBE7;
+ Tue, 10 Mar 2020 06:41:47 +0000 (UTC)
+Subject: Re: [PATCH qemu v8 1/3] ppc/spapr: Move GPRs setup to one place
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
+References: <20200310050733.29805-1-aik@ozlabs.ru>
+ <20200310050733.29805-2-aik@ozlabs.ru>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <0365dff7-7135-7118-3e12-e07472e9937d@kaod.org>
+Date: Tue, 10 Mar 2020 07:41:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200310050733.29805-2-aik@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 3941212626391436262
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudduledgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.56.76
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,10 +58,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued.
+On 3/10/20 6:07 AM, Alexey Kardashevskiy wrote:
+> At the moment "pseries" starts in SLOF which only expects the FDT blob
+> pointer in r3. As we are going to introduce a OpenFirmware support in
+> QEMU, we will be booting OF clients directly and these expect a stack
+> pointer in r1, Linux looks at r3/r4 for the initramdisk location
+> (although vmlinux can find this from the device tree but zImage from
+> distro kernels cannot).
+> 
+> This extends spapr_cpu_set_entry_state() to take more registers. This
+> should cause no behavioral change.
+
+LGTM, one question below.
+
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+> Changes:
+> v7:
+> * removed r5 as it points to prom entry which is now provided by
+> a new firmware in later patches
+> ---
+>  include/hw/ppc/spapr_cpu_core.h | 4 +++-
+>  hw/ppc/spapr.c                  | 2 +-
+>  hw/ppc/spapr_cpu_core.c         | 6 +++++-
+>  hw/ppc/spapr_rtas.c             | 2 +-
+>  4 files changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
+> index 1c4cc6559c52..7aed8f555b4f 100644
+> --- a/include/hw/ppc/spapr_cpu_core.h
+> +++ b/include/hw/ppc/spapr_cpu_core.h
+> @@ -40,7 +40,9 @@ typedef struct SpaprCpuCoreClass {
+>  } SpaprCpuCoreClass;
+>  
+>  const char *spapr_get_cpu_core_type(const char *cpu_type);
+> -void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target_ulong r3);
+> +void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+> +                               target_ulong r1, target_ulong r3,
+> +                               target_ulong r4);
+>  
+>  typedef struct SpaprCpuState {
+>      uint64_t vpa_addr;
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 2eb0d8f70de6..64bc8b83e91e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1698,7 +1698,7 @@ static void spapr_machine_reset(MachineState *machine)
+>      spapr->fdt_blob = fdt;
+>  
+>      /* Set up the entry state */
+> -    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, fdt_addr);
+> +    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, 0, fdt_addr, 0);
+>      first_ppc_cpu->env.gpr[5] = 0;
+
+
+Why is this done in the machine reset handler and not in the CPU reset 
+handler ? 
+
+C. 
+
+
+>      spapr->cas_reboot = false;
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 36ed3a2b665b..ac1c10942771 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -76,13 +76,17 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+>      spapr_irq_cpu_intc_reset(spapr, cpu);
+>  }
+>  
+> -void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target_ulong r3)
+> +void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+> +                               target_ulong r1, target_ulong r3,
+> +                               target_ulong r4)
+>  {
+>      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+>      CPUPPCState *env = &cpu->env;
+>  
+>      env->nip = nip;
+> +    env->gpr[1] = r1;
+>      env->gpr[3] = r3;
+> +    env->gpr[4] = r4;
+>      kvmppc_set_reg_ppc_online(cpu, 1);
+>      CPU(cpu)->halted = 0;
+>      /* Enable Power-saving mode Exit Cause exceptions */
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 656fdd221665..fe83b50c6629 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -190,7 +190,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
+>       */
+>      newcpu->env.tb_env->tb_offset = callcpu->env.tb_env->tb_offset;
+>  
+> -    spapr_cpu_set_entry_state(newcpu, start, r3);
+> +    spapr_cpu_set_entry_state(newcpu, start, 0, r3, 0);
+>  
+>      qemu_cpu_kick(CPU(newcpu));
+>  
+> 
 
 
