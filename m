@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D8B17FF0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:44:28 +0100 (CET)
-Received: from localhost ([::1]:33332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F9717FF84
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:51:23 +0100 (CET)
+Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBfBL-0004jp-Rm
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43134)
+	id 1jBfI2-0000EE-G4
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43041)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jBfA7-00031y-37
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:43:12 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jBf9z-0002yg-Mw
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:43:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jBfA5-0000JD-S8
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:43:11 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24356
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <frankja@linux.ibm.com>) id 1jBf9x-0000A4-IZ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:43:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44536)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jBfA5-0007XA-Le
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:43:09 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02ADgKGp074573
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:20 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ym649xm9f-1
+ id 1jBf9w-00006H-J1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:43:00 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02ADgrQn033299
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:56 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ym7abya3t-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:19 -0400
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:45 -0400
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Tue, 10 Mar 2020 13:42:02 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Tue, 10 Mar 2020 13:42:01 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Mar 2020 13:41:58 -0000
+ Tue, 10 Mar 2020 13:42:00 -0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02ADfvD152691032
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02ADexXF44958158
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 13:41:57 GMT
+ Tue, 10 Mar 2020 13:40:59 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 843B911C052;
+ by IMSVA (Postfix) with ESMTP id 0B26011C04C;
+ Tue, 10 Mar 2020 13:41:59 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D57E511C052;
  Tue, 10 Mar 2020 13:41:57 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 51CEB11C04A;
- Tue, 10 Mar 2020 13:41:56 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.23.214])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 10 Mar 2020 13:41:56 +0000 (GMT)
+ Tue, 10 Mar 2020 13:41:57 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 00/15] s390x: Protected Virtualization support
-Date: Tue, 10 Mar 2020 09:39:53 -0400
+Subject: [PATCH v8 01/15] Sync pv
+Date: Tue, 10 Mar 2020 09:39:54 -0400
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200310134008.130038-1-frankja@linux.ibm.com>
+References: <20200310134008.130038-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031013-0020-0000-0000-000003B25543
+x-cbid: 20031013-4275-0000-0000-000003AA3A7A
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031013-0021-0000-0000-0000220AA13F
-Message-Id: <20200310134008.130038-1-frankja@linux.ibm.com>
+x-cbparentid: 20031013-4276-0000-0000-000038BF53DA
+Message-Id: <20200310134008.130038-2-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-10_07:2020-03-10,
  2020-03-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 mlxscore=0 suspectscore=1 bulkscore=0 spamscore=0
- clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 spamscore=0 suspectscore=1
+ adultscore=0 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003100091
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
@@ -94,99 +95,85 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the QEMU changes for PV are related to the new IPL type with
-subcodes 8 - 10 and the execution of the necessary Ultravisor calls to
-IPL secure guests. Note that we can only boot into secure mode from
-normal mode, i.e. stfle 161 is not active in secure mode.
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ linux-headers/linux/kvm.h | 45 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 43 insertions(+), 2 deletions(-)
 
-The other changes related to data gathering for emulation and
-disabling addressing checks in secure mode, as well as CPU resets.
-
-v8:
-	* Removed the iplb_valid changes as they are picked
-	* Checkpatch fixes
-	* Review fixes
-	* Replaced env/ms->pv with s390_is_pv()
-v7:
-	* Merged the diag 308 subcode patches and the unpack
-	* Moved the SIDA memops into the sync patch
-	* Bailout for the none machien and fencing of CONFIG_USER_ONLY
-	* Changes due to review
-
-v6:
-	* diag308 rc numbers were changed by architecture
-	* IPL pv block received one more reserved field by architecture
-	* Officially added the bios patch to the series
-	* Dropped picked constant rename patch
-
-v5:
-	* Moved docs into docs/system
-	* Some more enable/disable changes
-	* Moved enablement/disablement of pv in separate functions
-	* Some review fixes
-
-v4:
-	* Sync with KVM changes
-	* Review changes
-
-V3:
-	* Use dedicated functions to access SIDA
-	* Smaller cleanups and segfault fixes
-	* Error reporting for Ultravisor calls
-	* Inject of RC of diag308 subcode 10 fails
-
-V2:
-	* Split out cleanups
-	* Internal PV state tracking
-	* Review feedback
-
-
-Christian Borntraeger (1):
-  s390x: Add unpack facility feature to GA1
-
-Janosch Frank (14):
-  Sync pv
-  s390x: protvirt: Support unpack facility
-  s390x: protvirt: Add migration blocker
-  s390x: protvirt: Inhibit balloon when switching to protected mode
-  s390x: protvirt: KVM intercept changes
-  s390x: Add SIDA memory ops
-  s390x: protvirt: Move STSI data over SIDAD
-  s390x: protvirt: SCLP interpretation
-  s390x: protvirt: Set guest IPL PSW
-  s390x: protvirt: Move diag 308 data over SIDA
-  s390x: protvirt: Disable address checks for PV guest IO emulation
-  s390x: protvirt: Move IO control structures over SIDA
-  s390x: protvirt: Handle SIGP store status correctly
-  docs: Add protvirt docs
-
- docs/system/index.rst               |   1 +
- docs/system/protvirt.rst            |  56 +++++++++++
- hw/s390x/Makefile.objs              |   1 +
- hw/s390x/ipl.c                      |  56 ++++++++++-
- hw/s390x/ipl.h                      |  79 ++++++++++++++++
- hw/s390x/pv.c                       | 104 +++++++++++++++++++++
- hw/s390x/pv.h                       |  33 +++++++
- hw/s390x/s390-virtio-ccw.c          | 140 +++++++++++++++++++++++++++-
- hw/s390x/sclp.c                     |  30 ++++++
- include/hw/s390x/s390-virtio-ccw.h  |   1 +
- include/hw/s390x/sclp.h             |   2 +
- linux-headers/linux/kvm.h           |  45 ++++++++-
- target/s390x/cpu.c                  |  45 +++++++--
- target/s390x/cpu.h                  |   8 +-
- target/s390x/cpu_features_def.inc.h |   1 +
- target/s390x/diag.c                 |  57 +++++++++--
- target/s390x/gen-features.c         |   1 +
- target/s390x/helper.c               |   5 +
- target/s390x/ioinst.c               | 119 ++++++++++++++++-------
- target/s390x/kvm.c                  |  68 ++++++++++++--
- target/s390x/kvm_s390x.h            |   2 +
- target/s390x/mmu_helper.c           |  14 +++
- 22 files changed, 804 insertions(+), 64 deletions(-)
- create mode 100644 docs/system/protvirt.rst
- create mode 100644 hw/s390x/pv.c
- create mode 100644 hw/s390x/pv.h
-
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 265099100e..c30344ab00 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -474,12 +474,17 @@ struct kvm_s390_mem_op {
+ 	__u32 size;		/* amount of bytes */
+ 	__u32 op;		/* type of operation */
+ 	__u64 buf;		/* buffer in userspace */
+-	__u8 ar;		/* the access register number */
+-	__u8 reserved[31];	/* should be set to 0 */
++	union {
++		__u8 ar;	/* the access register number */
++		__u32 sida_offset; /* offset into the sida */
++		__u8 reserved[32]; /* should be set to 0 */
++	};
+ };
+ /* types for kvm_s390_mem_op->op */
+ #define KVM_S390_MEMOP_LOGICAL_READ	0
+ #define KVM_S390_MEMOP_LOGICAL_WRITE	1
++#define KVM_S390_MEMOP_SIDA_READ	2
++#define KVM_S390_MEMOP_SIDA_WRITE	3
+ /* flags for kvm_s390_mem_op->flags */
+ #define KVM_S390_MEMOP_F_CHECK_ONLY		(1ULL << 0)
+ #define KVM_S390_MEMOP_F_INJECT_EXCEPTION	(1ULL << 1)
+@@ -1010,6 +1015,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ARM_NISV_TO_USER 177
+ #define KVM_CAP_ARM_INJECT_EXT_DABT 178
+ #define KVM_CAP_S390_VCPU_RESETS 179
++#define KVM_CAP_S390_PROTECTED 180
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1478,6 +1484,41 @@ struct kvm_enc_region {
+ #define KVM_S390_NORMAL_RESET	_IO(KVMIO,   0xc3)
+ #define KVM_S390_CLEAR_RESET	_IO(KVMIO,   0xc4)
+ 
++struct kvm_s390_pv_sec_parm {
++	__u64 origin;
++	__u64 length;
++};
++
++struct kvm_s390_pv_unp {
++	__u64 addr;
++	__u64 size;
++	__u64 tweak;
++};
++
++enum pv_cmd_id {
++	KVM_PV_ENABLE,
++	KVM_PV_DISABLE,
++	KVM_PV_VM_SET_SEC_PARMS,
++	KVM_PV_VM_UNPACK,
++	KVM_PV_VM_VERIFY,
++	KVM_PV_VM_PREP_RESET,
++	KVM_PV_VM_UNSHARE_ALL,
++	KVM_PV_VCPU_CREATE,
++	KVM_PV_VCPU_DESTROY,
++};
++
++struct kvm_pv_cmd {
++	__u32 cmd;	/* Command to be executed */
++	__u16 rc;	/* Ultravisor return code */
++	__u16 rrc;	/* Ultravisor return reason code */
++	__u64 data;	/* Data or address */
++	__u32 flags;    /* flags for future extensions. Must be 0 for now */
++	__u32 reserved[3];
++};
++
++/* Available with KVM_CAP_S390_PROTECTED */
++#define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
 -- 
 2.20.1
 
