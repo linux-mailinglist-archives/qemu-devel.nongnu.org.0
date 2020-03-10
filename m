@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D3717FF13
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:44:41 +0100 (CET)
-Received: from localhost ([::1]:33334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1409E17FED7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:42:09 +0100 (CET)
+Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBfBY-0005HN-LN
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42433)
+	id 1jBf96-0001xf-5x
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jBf9Q-0002Sb-4G
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:29 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jBf7p-0001V9-En
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:40:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jBf9O-0007lX-8P
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37600
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jBf9N-0007jO-Vo
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:26 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02ADgJZv074555
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:25 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ym649xmne-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:25 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Tue, 10 Mar 2020 13:42:23 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Mar 2020 13:42:22 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02ADgL6b56557702
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 13:42:21 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5318A11C04C;
- Tue, 10 Mar 2020 13:42:21 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27A9E11C04A;
- Tue, 10 Mar 2020 13:42:20 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.23.214])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 10 Mar 2020 13:42:19 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 15/15] s390x: Add unpack facility feature to GA1
-Date: Tue, 10 Mar 2020 09:40:08 -0400
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200310134008.130038-1-frankja@linux.ibm.com>
-References: <20200310134008.130038-1-frankja@linux.ibm.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jBf7n-0003oO-BM
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:40:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39103)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jBf7n-0003j7-2g
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:40:47 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r15so10873849wrx.6
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 06:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3c0cJvcAMctTZuD5Yu/ZuAhVdLo0yyDCDdEEtCcYzO4=;
+ b=jBw4d8GVaxRFJCna973Wu3JqHtgcpg1jqU/D/y4QeyQdJeHy+JBOusd4tAv1V7GR+W
+ +Te5zDL/t7URVtfy2uadcVJ/mGcSPcdnlqw4jCq8pQ+I1fTV7M9fNAk1eEY3VP4YvKUL
+ SVWhfk6A4Zi8v9xr8BIgQpWsgYLjweL8FI+VEidVrRssSyIC9Fwe1QRyIBZH8xL1VrWV
+ FUYz1AJ6J0BeUwidjhTM8IPKZsxwBiNJgw1z823F+OAoB8iQjLBkknrm3UG8zRHNb9Cl
+ uA2MFubXK4b3TIlvHyAX2b/7vWg/eXmngq1mBSFJ07CQx7rFhtog0Wiur4NR6u1damya
+ uL0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=3c0cJvcAMctTZuD5Yu/ZuAhVdLo0yyDCDdEEtCcYzO4=;
+ b=TDksMy1zQd3Kl2VrVhEPfenL3F989g+AZJnI1Rb6I1tUZBSu9O65DpkMEf9FQDKeW/
+ vzPJhWN9zyBhPzG0y3Gwo4n6AYBhXOl2gdtEFOvWCPAKh74KKSoZbsouCLl8Pmn2Z2XG
+ Mfy4aIWc/z86XkZTTv4oZsxXWAl8nDp5AarYQ1idZJj+o/cR+gicdU3hiq/anvew9580
+ K3m044io+u5PU4CM8rsEyhJCjNb2m9ECvZtdFOAKqOUV/Jqp/YcGheRLu6j40nSBSFTO
+ Lud9LxOsRE5hd9bezqF2hecxt9+nCCBWmg5iKkEX9QPuprkY70I5izZRUVOPBqYdtVy+
+ 2rFQ==
+X-Gm-Message-State: ANhLgQ0HK7xhkQXVeMavAgJObCqB05jaKO/7oMcy8fdB3003gDYJr9E3
+ VGtL9nE1WiU8eLrGld4zqG//wg==
+X-Google-Smtp-Source: ADFU+vs6t+umDuH+X/+hXJagpC508IOpolepb0POCkvCZppiGegdyip4QPv89j643XnD5GRnisIpOw==
+X-Received: by 2002:adf:df8f:: with SMTP id z15mr27188185wrl.184.1583847641000; 
+ Tue, 10 Mar 2020 06:40:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c3sm15567902wrw.95.2020.03.10.06.40.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 06:40:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D0E9B1FF7E;
+ Tue, 10 Mar 2020 13:40:38 +0000 (GMT)
+References: <20200310083218.26355-1-kraxel@redhat.com>
+ <20200310083218.26355-4-kraxel@redhat.com> <87lfo8ijfg.fsf@linaro.org>
+ <20200310120232.6lor5opu7iykqgcr@sirius.home.kraxel.org>
+ <87imjcies8.fsf@linaro.org>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 3/4] tests/vm: update FreeBSD to 12.1
+In-reply-to: <87imjcies8.fsf@linaro.org>
+Date: Tue, 10 Mar 2020 13:40:38 +0000
+Message-ID: <87ftegiazt.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031013-4275-0000-0000-000003AA3A7E
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031013-4276-0000-0000-000038BF53DE
-Message-Id: <20200310134008.130038-16-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-10_07:2020-03-10,
- 2020-03-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 mlxscore=0 suspectscore=1 bulkscore=0 spamscore=0
- clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0 mlxlogscore=890
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003100091
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,61 +84,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kamil Rytarowski <kamil@netbsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-The unpack facility is an indication that diagnose 308 subcodes 8-10
-are available to the guest. That means, that the guest can put itself
-into protected mode.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Once it is in protected mode, the hardware stops any attempt of VM
-introspection by the hypervisor.
+> Gerd Hoffmann <kraxel@redhat.com> writes:
+>
+>>> > -    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/1=
+2.0/FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
+>>> > -    csum =3D "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954f=
+b485fb99db"
+>>> > +    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/1=
+2.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
+>>> > +    csum =3D "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f=
+26b1cfcd88"
+>>
+>>> Warning: Permanently added '[127.0.0.1]:39533' (ECDSA) to the list of k=
+nown hosts.
+>>> Bootstrapping pkg from
+>>> pkg+http://pkg.FreeBSD.org/FreeBSD:12:amd64/quarterly, please wait...
+>>> Verifying signature with trusted certificate
+>>> pkg.freebsd.org.2013102301... done
+>>> Installing pkg-1.12.0_1...
+>>> Newer FreeBSD version for package pkg:
+>>> To ignore this error set IGNORE_OSVERSION=3Dyes
+>>> - package: 1201000
+>>              ^^^^
+>> 12.1 package
+>>
+>>> - running kernel: 1200086
+>>                     ^^^^
+>> 12.0 running
+>>
+>> I saw that too, but only *without* the patch.  The upgrade to 12.1 fixes
+>> that.
+>
+> Hmm I wonder if the cached assets got confused? It certainly re-ran the
+> install rather than skipping straight to running the test.
 
-Some features are currently not supported in protected mode:
-     * Passthrough devices
-     * Migration
-     * Huge page backings
+OK I'm an idiot... I hadn't correctly updated the branch on my test
+machine:
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/gen-features.c | 1 +
- target/s390x/kvm.c          | 5 +++++
- 2 files changed, 6 insertions(+)
+  git fetch origin; and git checkout testing/next; and git reset --hard git=
+hub/testing/next
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 6278845b12..8ddeebc544 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] = {
-     S390_FEAT_GROUP_MSA_EXT_9,
-     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
-     S390_FEAT_ETOKEN,
-+    S390_FEAT_UNPACK,
- };
- 
- /* Default features (in order of release)
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index e92e0d5943..8731547158 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -2402,6 +2402,11 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
-         clear_bit(S390_FEAT_BPB, model->features);
-     }
- 
-+    /* we do have the IPL enhancements */
-+    if (cap_protected) {
-+        set_bit(S390_FEAT_UNPACK, model->features);
-+    }
-+
-     /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
-     set_bit(S390_FEAT_ZPCI, model->features);
-     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
--- 
-2.20.1
+vs
 
+  git fetch github; and git checkout testing/next; and git reset --hard git=
+hub/testing/next
+
+>
+>> We might consider setting IGNORE_OSVERSION=3Dyes, so this doesn't happen
+>> again after FreeBSD 12.2 release.  Not sure whenever that can have
+>> unwanted side effects though, like packages not working properly.
+>>
+>> Any advise from the bsd guys?
+>>
+>> cheers,
+>>   Gerd
+
+
+--=20
+Alex Benn=C3=A9e
 
