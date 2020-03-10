@@ -2,129 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC8B1801A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:21:47 +0100 (CET)
-Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C98C1801BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:24:25 +0100 (CET)
+Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBghW-00073P-HW
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33067)
+	id 1jBgk4-00033l-4n
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jBgaA-0004vH-15
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:11 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jBgab-0005i9-Ba
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jBga8-00009h-Rq
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11094)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jBga8-0008Uo-Hx
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:08 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02AExmQa096806
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:14:07 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ynr9m2apq-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:14:07 -0400
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Tue, 10 Mar 2020 15:14:05 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Mar 2020 15:14:03 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02AFE2cw47382668
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 15:14:02 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2528C52054;
- Tue, 10 Mar 2020 15:14:02 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.23.214])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C9F475204F;
- Tue, 10 Mar 2020 15:14:01 +0000 (GMT)
-Subject: Re: [PATCH v8 03/15] s390x: protvirt: Add migration blocker
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20200310134008.130038-1-frankja@linux.ibm.com>
- <20200310134008.130038-4-frankja@linux.ibm.com>
- <984a38e2-f73c-dd68-b32d-ff419046c7ac@redhat.com>
- <be1990f6-c1a2-f657-0ab8-ec764ecb6a47@linux.ibm.com>
- <ec12bc79-c209-da27-e45f-cf8f35e97ec0@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Date: Tue, 10 Mar 2020 16:14:01 +0100
+ (envelope-from <mreitz@redhat.com>) id 1jBgaZ-0001nE-S9
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:37 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31341
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jBgaZ-0001iv-M7
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583853274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=VFXndVEcrrcJoj9rsE1Gsu7mPRy/UFGeBBhOuluBo4E=;
+ b=EXRhACLoQSMGdOoiiAUcygIUc5Zb9/b+KClTEwSgwrSOvaEZTLztzWIf/Wjwybtim9wk2J
+ qyyFOUUBz8Wgcmtm2W73xEcNtDSWQHmjw9dFNANISroHBVKDoL6HkcNhApNOdxEuW2WlN2
+ ZsLe8YK+T0aGBqpzCP2VkuE1ETz5Xok=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-AWeFPntMP22tAtheb3kvtg-1; Tue, 10 Mar 2020 11:14:30 -0400
+X-MC-Unique: AWeFPntMP22tAtheb3kvtg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 966BB106E5BC;
+ Tue, 10 Mar 2020 15:14:29 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81CF5100164D;
+ Tue, 10 Mar 2020 15:14:27 +0000 (UTC)
+Subject: Re: [PATCH v3 7/9] block/block-copy: rename start to offset in
+ interfaces
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200306073831.7737-1-vsementsov@virtuozzo.com>
+ <20200306073831.7737-8-vsementsov@virtuozzo.com>
+ <826a06c1-49d0-24a0-4098-fc0ec8f9f5a0@redhat.com>
+ <5b30a84f-3b03-d894-f908-b0fae89615d5@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7d19fbd3-29ee-c414-38ec-1dc67735043c@redhat.com>
+Date: Tue, 10 Mar 2020 16:14:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <ec12bc79-c209-da27-e45f-cf8f35e97ec0@redhat.com>
+In-Reply-To: <5b30a84f-3b03-d894-f908-b0fae89615d5@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="hTPzqvXf4724qaYkA5ReY1RSufK96EwAQ"
-X-TM-AS-GCONF: 00
-x-cbid: 20031015-0028-0000-0000-000003E2C200
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031015-0029-0000-0000-000024A8035B
-Message-Id: <bf3483a7-5898-5411-f9ed-1892f20205d4@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-10_08:2020-03-10,
- 2020-03-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 suspectscore=2 impostorscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003100099
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+ boundary="xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,97 +102,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---hTPzqvXf4724qaYkA5ReY1RSufK96EwAQ
-Content-Type: multipart/mixed; boundary="4MLMnuxnTbFoS7xtMSrDdUjhGLcUvwSTP"
+--xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of
+Content-Type: multipart/mixed; boundary="mnTayVElV6tli8cFZHYsfZ2lo3XTYZVmA"
 
---4MLMnuxnTbFoS7xtMSrDdUjhGLcUvwSTP
+--mnTayVElV6tli8cFZHYsfZ2lo3XTYZVmA
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 3/10/20 4:08 PM, David Hildenbrand wrote:
-> On 10.03.20 16:02, Janosch Frank wrote:
->> On 3/10/20 3:57 PM, David Hildenbrand wrote:
->>> On 10.03.20 14:39, Janosch Frank wrote:
->>>> Migration is not yet supported.
->>>>
->>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>>> ---
->>>>  hw/s390x/s390-virtio-ccw.c | 17 +++++++++++++++++
->>>>  1 file changed, 17 insertions(+)
->>>>
->>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c=
-
->>>> index 455ad31718..1ceb42c0b5 100644
->>>> --- a/hw/s390x/s390-virtio-ccw.c
->>>> +++ b/hw/s390x/s390-virtio-ccw.c
->>>> @@ -43,6 +43,9 @@
->>>>  #include "sysemu/sysemu.h"
->>>>  #include "hw/s390x/pv.h"
->>>>  #include <linux/kvm.h>
->>>> +#include "migration/blocker.h"
->>>> +
->>>> +static Error *pv_mig_blocker;
->>>> =20
->>>>  S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
->>>>  {
->>>> @@ -323,15 +326,29 @@ static void s390_machine_unprotect(S390CcwMach=
-ineState *ms)
->>>> =20
->>>>      s390_pv_vm_disable();
->>>>      ms->pv =3D false;
->>>> +    migrate_del_blocker(pv_mig_blocker);
->>>> +    error_free_or_abort(&pv_mig_blocker);
->>>>  }
->>>> =20
->>>>  static int s390_machine_protect(S390CcwMachineState *ms)
->>>>  {
->>>> +    static Error *local_err;
+On 10.03.20 15:55, Andrey Shinkevich wrote:
+>=20
+>=20
+> On 10/03/2020 17:50, Max Reitz wrote:
+>> On 06.03.20 08:38, Vladimir Sementsov-Ogievskiy wrote:
+>>> offset/bytes pair is more usual naming in block layer, let's use it.
 >>>
->>> You have to initialize it to NULL.
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>>> ---
+>>> =A0 include/block/block-copy.h |=A0 4 +-
+>>> =A0 block/block-copy.c=A0=A0=A0=A0=A0=A0=A0=A0 | 84 +++++++++++++++++++=
+-------------------
+>>> =A0 2 files changed, 44 insertions(+), 44 deletions(-)
 >>
->> That's a static variable, am I missing something?
+>> [...]
+>>
+>>> diff --git a/block/block-copy.c b/block/block-copy.c
+>>> index 4c947e548b..2b29131653 100644
+>>> --- a/block/block-copy.c
+>>> +++ b/block/block-copy.c
+>>> @@ -25,13 +25,13 @@
+>>> =A0 #define BLOCK_COPY_MAX_MEM (128 * MiB)
+>>> =A0 =A0 static BlockCopyInFlightReq
+>>> *find_conflicting_inflight_req(BlockCopyState *s,
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
+>>> start,
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
+>>> bytes)
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
+>>> offset,
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
+>>> bytes)
+>>
+>> The alignment=92s off now.
+>>
+>> Max
+>>
 >=20
-> No, I was missing that :) Why is that a static variable?
->=20
-> git grep "static Error *" will tell you that this is not common.
->=20
+> After applying the patch, it looks aligned in my vim editor.
 
-I'd guess I copied the other Error which is static...
+I did apply it and it wasn=92t aligned for me.
 
-So I now removed the static and set it to NULL.
+Now we (Red Hat) have some mailing agent for a couple of months now that
+for some reason likes to change incoming mails=92 encodings (in this case
+from, I presume, 8bit to quoted-printable), so I have to use a script to
+translate it back.  But judging from what I can see in the archive:
+
+https://lists.nongnu.org/archive/html/qemu-block/2020-03/msg00196.html
+
+the alignment is indeed off.  Otherwise, the second line (with the
+@bytes parameter) would not be changed.
+
+Max
 
 
+--mnTayVElV6tli8cFZHYsfZ2lo3XTYZVmA--
 
---4MLMnuxnTbFoS7xtMSrDdUjhGLcUvwSTP--
-
---hTPzqvXf4724qaYkA5ReY1RSufK96EwAQ
+--xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5nrrkACgkQ41TmuOI4
-ufiQ1RAAqZNWGccNaekIRmKCGP2asYtX1Bm/stGzY9hy+o6kVURibvaTnRYcvTsx
-BS0O44GNbl1/iQ6j+PCoWFcIS9+kzVLvLxyX3SFv7JR8ZbeOXdKZQf/hKEASfUPl
-G2JExWXMgBbgUop3Lrr9vNYIGzQ/BUMmVGFBN+0mrTzZKdzis/8pswXL8sfSOhWH
-9xrCnjjuqBI+/zqJQupK3bR7/1GRiq9bDuBZl4Zt0lJW0fOuxggov9H7not6BPQt
-Kp53Tf4b7rEKJPbclB9ZwO3PCC84vz0F3D3SydDxgGjeuHFDxtAVDqBeHeKLEFwK
-WJXQ7I8/Ve55zxnaLWDfejsTPTG5CFAG/5FEvRyiX0TK8bYITJkoXLpqpc4z0bcV
-J2rO1NZ/FT1vo4Xg8ulAJpsmzD0EGxrpHZFyp0+XEupHZkox4gSHsckR4PMZlOvx
-/2M0p/OTuWhx8O2FxsVUcevQQQJW2ZaQ52ZAmHGKKJoY8Pm8wVByerBIUHsWxeHX
-AxiTJ0iqLw8HcPLAt7YvQVPsV7yEe45+/0kG/iQvnB4z7P+HkhgHe+/9htsBODrc
-5IhXl//N8Tmr9jkxq/kl9a+SzUSdX5yqvO3cjxhnDyiD3xaz0l7gBrbp9JOFy0m7
-iWeHZvfts6ShGWGK5sVTbUHxmwsJkEKLzeF1hw4y5AfY/5pdJjU=
-=Uigm
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5nrtEACgkQ9AfbAGHV
+z0Bmswf+KwWP+D4IOu2dp9+s4Kykt9xCzBQS8TjNlPhRgxDCmSoCrAQMAe9uJze9
+S8oWm0L/3nURvACGpyZcADo/Fg2/l7hx97cbQebJQNcuBPqMyZx9/UYTS7BpLIAB
+801GM7ujiO+IcHmVc4eP5+l8s9HfgbMLNyiAggwXCPEfmHsMu+JYMuvGbyBPHtnl
+kG/s4uXvgjK5/tNqoTNHoEdMF96R2bAN/KSuIsYgLKruLsuLBsQo0pKHgvSBHHl/
+TAvc6RFm5gyyOYggWpapyvPhHR4CLeLUfX6Ossh5SLqgooxzFXcPEtmPPkkDatM2
+AWtQg4zxnP8wETX+qkp6ZfFfHD5iLg==
+=BI31
 -----END PGP SIGNATURE-----
 
---hTPzqvXf4724qaYkA5ReY1RSufK96EwAQ--
+--xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of--
 
 
