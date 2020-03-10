@@ -2,83 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67691801D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:29:43 +0100 (CET)
-Received: from localhost ([::1]:35710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAF41801CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:28:28 +0100 (CET)
+Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgpC-0003tW-T8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49515)
+	id 1jBgnz-0000k4-Be
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jBglO-0005ug-51
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:25:47 -0400
+ (envelope-from <david@redhat.com>) id 1jBgmO-0007TM-Ls
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:26:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jBglM-00068E-V1
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:25:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14504)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jBglM-00063o-Ls
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:25:44 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02AFPN5C096573
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:25:43 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ynr9m2rr6-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:25:43 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Tue, 10 Mar 2020 15:25:41 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Mar 2020 15:25:38 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02AFPbXQ53870600
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 15:25:37 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A058AA405C;
- Tue, 10 Mar 2020 15:25:37 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 745E7A405B;
- Tue, 10 Mar 2020 15:25:36 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.23.214])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 10 Mar 2020 15:25:36 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9] s390x: protvirt: Add migration blocker
-Date: Tue, 10 Mar 2020 11:24:44 -0400
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <ec12bc79-c209-da27-e45f-cf8f35e97ec0@redhat.com>
+ (envelope-from <david@redhat.com>) id 1jBgmN-0000oR-LD
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:26:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24265
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jBgmN-0000na-I5
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:26:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583854007;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2AC8lxIYtwagf++HALc1Bm5c9vNrouebkR7kGDCS/LM=;
+ b=i7+W6MY5EYgyuy1QC9UyKFu0eJxCUoN1dJSXyBqmDYF/g7XKD+wE+26C0cukedg84RFnI8
+ ypyHFmBDuo5GAJ4cHo6Q8bcRlIlrORHLx6QebVtySe5BQiu51HX5c/x3KDKoQ4JldwQgsr
+ WoNLgFEfscVsL6Vd25YJMY6upHd4Am8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-n94th80NMf2yS5iWp4E9rw-1; Tue, 10 Mar 2020 11:26:43 -0400
+X-MC-Unique: n94th80NMf2yS5iWp4E9rw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E134A0CC1;
+ Tue, 10 Mar 2020 15:26:42 +0000 (UTC)
+Received: from [10.36.116.71] (ovpn-116-71.ams2.redhat.com [10.36.116.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EAAF9610D9;
+ Tue, 10 Mar 2020 15:26:37 +0000 (UTC)
+Subject: Re: [PATCH v9] s390x: protvirt: Add migration blocker
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <ec12bc79-c209-da27-e45f-cf8f35e97ec0@redhat.com>
+ <20200310152444.17088-1-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <517a00b3-b0f3-1835-c6ba-2c634455e620@redhat.com>
+Date: Tue, 10 Mar 2020 16:26:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031015-0016-0000-0000-000002EF0E39
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031015-0017-0000-0000-0000335272E1
-Message-Id: <20200310152444.17088-1-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-10_10:2020-03-10,
- 2020-03-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 suspectscore=3 impostorscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=558
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003100100
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+In-Reply-To: <20200310152444.17088-1-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,64 +119,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Migration is not yet supported.
+On 10.03.20 16:24, Janosch Frank wrote:
+> Migration is not yet supported.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 455ad31718..f18d98bb32 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -43,6 +43,9 @@
+>  #include "sysemu/sysemu.h"
+>  #include "hw/s390x/pv.h"
+>  #include <linux/kvm.h>
+> +#include "migration/blocker.h"
+> +
+> +static Error *pv_mig_blocker;
+>  
+>  S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
+>  {
+> @@ -323,15 +326,30 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
+>  
+>      s390_pv_vm_disable();
+>      ms->pv = false;
+> +    migrate_del_blocker(pv_mig_blocker);
+> +    error_free_or_abort(&pv_mig_blocker);
+>  }
+>  
+>  static int s390_machine_protect(S390CcwMachineState *ms)
+>  {
+> +    Error *local_err = NULL;
+>      int rc;
+>  
+> +    error_setg(&pv_mig_blocker,
+> +               "protected VMs are currently not migrateable.");
+> +    rc = migrate_add_blocker(pv_mig_blocker, &local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +        error_free_or_abort(&pv_mig_blocker);
+> +        return rc;
+> +    }
+> +
+>      /* Create SE VM */
+>      rc = s390_pv_vm_enable();
+>      if (rc) {
+> +        error_report_err(local_err);
+> +        migrate_del_blocker(pv_mig_blocker);
+> +        error_free_or_abort(&pv_mig_blocker);
+>          return rc;
+>      }
+>  
+> 
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- hw/s390x/s390-virtio-ccw.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 455ad31718..f18d98bb32 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -43,6 +43,9 @@
- #include "sysemu/sysemu.h"
- #include "hw/s390x/pv.h"
- #include <linux/kvm.h>
-+#include "migration/blocker.h"
-+
-+static Error *pv_mig_blocker;
- 
- S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
- {
-@@ -323,15 +326,30 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
- 
-     s390_pv_vm_disable();
-     ms->pv = false;
-+    migrate_del_blocker(pv_mig_blocker);
-+    error_free_or_abort(&pv_mig_blocker);
- }
- 
- static int s390_machine_protect(S390CcwMachineState *ms)
- {
-+    Error *local_err = NULL;
-     int rc;
- 
-+    error_setg(&pv_mig_blocker,
-+               "protected VMs are currently not migrateable.");
-+    rc = migrate_add_blocker(pv_mig_blocker, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+        error_free_or_abort(&pv_mig_blocker);
-+        return rc;
-+    }
-+
-     /* Create SE VM */
-     rc = s390_pv_vm_enable();
-     if (rc) {
-+        error_report_err(local_err);
-+        migrate_del_blocker(pv_mig_blocker);
-+        error_free_or_abort(&pv_mig_blocker);
-         return rc;
-     }
- 
 -- 
-2.25.0
+Thanks,
+
+David / dhildenb
 
 
