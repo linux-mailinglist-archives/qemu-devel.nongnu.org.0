@@ -2,39 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0038D1807E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 20:21:49 +0100 (CET)
-Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A611807AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 20:10:29 +0100 (CET)
+Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBkRp-0005RI-3Z
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 15:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43871)
+	id 1jBkGq-0003Ip-3J
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 15:10:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jBkQ3-0003SJ-VB
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:20:00 -0400
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jBkFx-0002oY-3v
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:09:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jBkQ2-0000YW-U6
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:19:59 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:60284)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jBkNw-0002rN-Ap; Tue, 10 Mar 2020 15:19:56 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 95B25747E04;
- Tue, 10 Mar 2020 20:17:46 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 189A6747DFE; Tue, 10 Mar 2020 20:17:46 +0100 (CET)
-Message-Id: <5e372f6a73d4f45c0c18a264e986c29fc075f2d4.1583867210.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1583867210.git.balaton@eik.bme.hu>
-References: <cover.1583867210.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 3/4] pci: Honour wmask when resetting PCI_INTERRUPT_LINE
-Date: Tue, 10 Mar 2020 20:06:50 +0100
-To: qemu-devel@nongnu.org,
-    qemu-block@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jBkFw-0004QV-0x
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:09:33 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:44188)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1jBkFv-0004Ow-Qf; Tue, 10 Mar 2020 15:09:31 -0400
+Received: by mail-il1-x142.google.com with SMTP id j69so13033691ila.11;
+ Tue, 10 Mar 2020 12:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WgUuyKjM3IhQD1E2N+STyZ/xweajPSeBqqEjx/rZUD4=;
+ b=s9MKKizKrSglBl2D9krtypMPSDhYD2TQY2MRziSG7tCsr7UsbLT0XZAU87+5LhYnpQ
+ XalgYtwJDybqvj8cc3uh7fryKpZ0feHHuYa2R92aLx9hZK6dtTe6nRHbhM0vMmFzJ06p
+ GlXfmYr2XF++9ABJrVxXMb2Z5inNJlOPGxH5x9mX27sfskSSCab0JyCzx/lCuRLjeqk6
+ mvbXRdFQRdDY8X9ohGXd2wz951ya80gZXO6TNjTv5FgjzscvmJYSRTiw/RwYbiBSdQlO
+ ejCfiWdR2fVyFpiJB05kfsrB8cpC/rqU/So7dJbW6kIbWimLGRxlhyr+awSgpHHhKvoi
+ sbjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WgUuyKjM3IhQD1E2N+STyZ/xweajPSeBqqEjx/rZUD4=;
+ b=rF9MkLVs+5KjttURdD8g3Cn5ZyILtibFTj/en2QTGmXogG5TATNqPL4SXAF2HsW6eA
+ MtxD8Xa7yp6ycALKdoovWyFOH6PYgn4F+R0yeWOpKxVsyYUzQaoGcCevsuBXZoUHRgp2
+ w/fQ3pY0QSIExfWrl70AgSLw4WA0O94G9ziendysoN9UTpN7YRHh74sTxu1dzWuDYJ5C
+ AvvuQskSIFPWh9yUIYII0oWCpIklfZ0fUV0UWC6uWVcIRSG00un/HuPP0XAQuyHfJNiB
+ PjzrLBiUm+yDyhWj5+OvxhA0CSQ68VH+NwojyFlWCHqQo5gBPB7AXWavXyBlB13Rl3VR
+ 2zEg==
+X-Gm-Message-State: ANhLgQ06NV4XaRrz5XMI2GT9wF1KC2FUHiA94eWMprQEa92193ILPVPU
+ qbEzveqvs3jsDE4CshkcXyNmpAPqT9miHfUtElY=
+X-Google-Smtp-Source: ADFU+vsPIjdzOjLRgB94tHflqQ0OqbbNAqiDdywOxCPT0TaYJjKirsPbxVyAWmLViNd0Tk3CQmYdWWNgkRz9hMzxF2Q=
+X-Received: by 2002:a92:9e99:: with SMTP id s25mr6348378ilk.306.1583867371063; 
+ Tue, 10 Mar 2020 12:09:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200301215029.15196-1-nieklinnenbank@gmail.com>
+ <20200301215029.15196-19-nieklinnenbank@gmail.com> <871rq876h3.fsf@linaro.org>
+ <CAPan3WrNnrnngwE4pGeYpR9HS7Vr936-ojPZZovNo8ZdoAA0sg@mail.gmail.com>
+ <CAFEAcA_6Lm-JwbXFLWeetc7+fhnrc5m2+YU28ymFw0MSoKOhwg@mail.gmail.com>
+ <CAPan3Wo2Nf_d4AxsV5=sfOxv66rmQNfN==rpMn9=FtM5cZG9rw@mail.gmail.com>
+ <CAFEAcA-2-tz7F1vmbggpLnc1SSX+_W5pij-w8Vgjx+vqr-LRUA@mail.gmail.com>
+ <CAPan3Wr-oS-QRxmCDPXLRBG81yqjnp56B2WNuxtBMOxr2b9D6A@mail.gmail.com>
+ <CAFEAcA_rY1hXNbzsj6EJvKzODX_EWdTOK1Gfxi2Jbv+UsYxRtQ@mail.gmail.com>
+ <CAFEAcA-m2GJ01=-aEW0VLrY-nJgOpAMFOBF8+0jXeW+H7wkM-A@mail.gmail.com>
+In-Reply-To: <CAFEAcA-m2GJ01=-aEW0VLrY-nJgOpAMFOBF8+0jXeW+H7wkM-A@mail.gmail.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Tue, 10 Mar 2020 20:09:20 +0100
+Message-ID: <CAPan3WrWND1w8QfPpemO_6brNuAaPKhns7TkbhBOfqfamPAnhg@mail.gmail.com>
+Subject: Re: [PATCH v6 18/18] docs: add Orange Pi PC document
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000060f9e05a084dcc6"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,44 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, philmd@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pci_do_device_reset() function (called from pci_device_reset)
-clears the PCI_INTERRUPT_LINE config reg of devices on the bus but did
-this without taking wmask into account. We'll have a device model now
-that needs to set a constant value for this reg and this patch allows
-to do that without additional workaround in device emulation to
-reverse the effect of this PCI bus reset function.
+--000000000000060f9e05a084dcc6
+Content-Type: text/plain; charset="UTF-8"
 
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/pci/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Hi Peter,
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index e1ed6677e1..b5bc842fac 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -302,8 +302,11 @@ static void pci_do_device_reset(PCIDevice *dev)
-     pci_word_test_and_clear_mask(dev->config + PCI_STATUS,
-                                  pci_get_word(dev->wmask + PCI_STATUS) |
-                                  pci_get_word(dev->w1cmask + PCI_STATUS));
-+    /* Some devices make bits of PCI_INTERRUPT_LINE read only */
-+    pci_byte_test_and_clear_mask(dev->config + PCI_INTERRUPT_LINE,
-+                              pci_get_word(dev->wmask + PCI_INTERRUPT_LINE) |
-+                              pci_get_word(dev->w1cmask + PCI_INTERRUPT_LINE));
-     dev->config[PCI_CACHE_LINE_SIZE] = 0x0;
--    dev->config[PCI_INTERRUPT_LINE] = 0x0;
-     for (r = 0; r < PCI_NUM_REGIONS; ++r) {
-         PCIIORegion *region = &dev->io_regions[r];
-         if (!region->size) {
+On Mon, Mar 9, 2020 at 11:01 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Mon, 9 Mar 2020 at 20:12, Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+> > If you're ready to send out the next version before that,
+> > then leave it with the include:: directive and we can
+> > fix it up to the new structure later.
+>
+> PS: in case you weren't aware, softfreeze for the 5.0 release
+> is 17th March, so if this series is going to go in for 5.0
+> then (a) people interested in reviewing it should hurry up
+> and review patches 9..18 and (b) the final version would
+> need to be on the list sometime this week so it can go into
+> a pull request by the 17th.
+>
+
+Ah I was not aware of that date indeed! Yes, ofcourse, if we can get the
+remaining parts reviewed as well to include it in 5.0, that would be great.
+
+As a side note, I'm basically doing this project in my spare time in the
+(late) evenings (Amsterdam timezone),
+so I'll make sure to reserve some extra time the coming days so I can reply
+and respin fast if needed.
+
+I'm finalizing & testing the v7 update now and will send it out in a few
+hours to the list.
+
+Regards,
+Niek
+
+
+>
+> It's no big deal if it goes into 5.1 instead I guess,
+> but it feels like the series is nearly ready so I figured
+> I'd set out the timeline if people want to push to get it
+> into 5.0.
+>
+
+> thanks
+> -- PMM
+>
+
+
 -- 
-2.21.1
+Niek Linnenbank
 
+--000000000000060f9e05a084dcc6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Peter,<br></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 9, 2020 at 11:01 PM Peter Ma=
+ydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.=
+org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">On Mon, 9 Mar 2020 at 20:12, Peter Maydell &lt;<a href=3D"mailto:peter.m=
+aydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; wrote=
+:<br>
+&gt; If you&#39;re ready to send out the next version before that,<br>
+&gt; then leave it with the include:: directive and we can<br>
+&gt; fix it up to the new structure later.<br>
+<br>
+PS: in case you weren&#39;t aware, softfreeze for the 5.0 release<br>
+is 17th March, so if this series is going to go in for 5.0<br>
+then (a) people interested in reviewing it should hurry up<br>
+and review patches 9..18 and (b) the final version would<br>
+need to be on the list sometime this week so it can go into<br>
+a pull request by the 17th.<br></blockquote><div><br></div><div>Ah I was no=
+t aware of that date indeed! Yes, ofcourse, if we can get the</div><div>rem=
+aining parts reviewed as well to include it in 5.0, that would be great.</d=
+iv><div><br></div><div>As a side note, I&#39;m basically doing this project=
+ in my spare time in the (late) evenings (Amsterdam timezone),</div><div>so=
+ I&#39;ll make sure to reserve some extra time the coming days so I can rep=
+ly and respin fast if needed.<br></div><div><br></div><div>I&#39;m finalizi=
+ng &amp; testing the v7 update now and will send it out in a few hours to t=
+he list.</div><div><br></div><div>Regards,</div><div>Niek<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+It&#39;s no big deal if it goes into 5.1 instead I guess,<br>
+but it feels like the series is nearly ready so I figured<br>
+I&#39;d set out the timeline if people want to push to get it<br>
+into 5.0.<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div></div>
+
+--000000000000060f9e05a084dcc6--
 
