@@ -2,62 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A2417F279
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:58:42 +0100 (CET)
-Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3026717F243
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:49:46 +0100 (CET)
+Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBain-0001O6-E8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
+	id 1jBaa9-0004V7-8L
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBafz-0007Nw-4G
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:55:48 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBaZB-00044d-H6
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:48:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBafx-0000vo-Rw
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:55:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37312)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBafx-0000sU-LQ
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:55:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBafw-0002BF-Sn
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 08:55:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D7D9E2E8048
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 08:55:44 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jBaZA-0000nY-Gw
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:48:45 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26078
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBaZA-0000mr-DR
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:48:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583830124;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LH3eDAHJLHzHFJvTcWo2PG+w8F0qATDDsUi9V7pyDkg=;
+ b=SyDz/eT1xiv+WpcYORG/XTxsLp01JwhCwNjEb0NAyAmACTdt/cvzhX8mIN5yIbG/o6vbB6
+ z8wsiKD3XPWmx22GaF5mMSafdYUG2yt1TmrizNIqHcnYvKDcr8NJY46VKwvMYg4KptTf10
+ ibFwfnYEcyEt1Z2QFxjIX2wo/l2U6TQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-U8Yp4JHrNVeHtlk6JbTPJw-1; Tue, 10 Mar 2020 04:48:42 -0400
+X-MC-Unique: U8Yp4JHrNVeHtlk6JbTPJw-1
+Received: by mail-wr1-f72.google.com with SMTP id u18so6422577wrn.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 01:48:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xdoxmqgw6lgZ083x2Ybw81i6SW4P0r23IIK1cjF1Ge4=;
+ b=H9KTKGAyie9pqsyfc6QFQh15zZOCRq0V3QKYNytqdQrE9elQQ5l1qcinhaxacH9zPw
+ 2hv313WfkH9rmq1/m7jGbgtRpdofBiJlQj9peegJeVAP7+yfirfjmCGIYeot7xP2sjKi
+ X9gl4fLk/MG25o/Sz2UNRvQZeWNirhNrN5X7cFcC9IiEkZnBOLURjJxfaD9eWAj+cIq4
+ JJnU9hnyL86K5m/4Dygu2Ym2wH2F5Wz3jV7c1b0eh9lbVMF7F1lnYCccSDT0M0PF6IVD
+ eU0BNVw7t0bnW/LuXOBt/QkT0px8MU+jsYPaHQHA6rxNmB2sS7qkgAQUT/TlkNBIFxGP
+ PD3w==
+X-Gm-Message-State: ANhLgQ1kxglJmrq3sy/6h2X88IJi0LT7dwQOnsFK1etzuX7h5n/PiQsw
+ z93Oi7XU1RPdRtPW+yjrIjfq1gAPN7EUP5+cQV6721kr1975xr1AuHpU9ViLi6sPvXA2V5dzJ6L
+ ONyVJL8N+mfmAxOM=
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr25929427wrn.405.1583830121117; 
+ Tue, 10 Mar 2020 01:48:41 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtZ9zK46yeJCqxsjRdVhLwaKBx7hmbM1tQmHYymLYzMG5JBRUOrKtlFpeEh+mck8Q2e64Fr9w==
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr25929411wrn.405.1583830120969; 
+ Tue, 10 Mar 2020 01:48:40 -0700 (PDT)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id c8sm56385228wru.7.2020.03.10.01.48.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Mar 2020 01:48:40 -0700 (PDT)
+Subject: Re: [PATCH 1/4] tests/vm: write raw console log
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200310083218.26355-1-kraxel@redhat.com>
+ <20200310083218.26355-2-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e968d21b-6982-61e9-c396-1b0773e9458e@redhat.com>
+Date: Tue, 10 Mar 2020 09:48:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200310083218.26355-2-kraxel@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Mar 2020 08:48:36 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alex-bennee pmaydell scherft th-huth
-X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158383011784.26092.13468469140059449176.launchpad@gac.canonical.com>
-Subject: [Bug 1836558] Re: Qemu-ppc Memory leak creating threads
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ce16fd092d9eb1ebd72822784e1b338c9a2cb306
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,82 +92,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Released
+Hi Gerd,
 
--- =
+On 3/10/20 9:32 AM, Gerd Hoffmann wrote:
+> Run "tail -f /var/tmp/*/qemu*console.raw" in another terminal
+> to watch the install console.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836558
+Better to document that in the code/documentation rather than this=20
+commit description. Can you send a patch Alex can squash in?
 
-Title:
-  Qemu-ppc Memory leak creating threads
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Status in QEMU:
-  Fix Released
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>   tests/vm/basevm.py | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>=20
+> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+> index 8400b0e07f65..c53fd354d955 100644
+> --- a/tests/vm/basevm.py
+> +++ b/tests/vm/basevm.py
+> @@ -213,6 +213,9 @@ class BaseVM(object):
+>       def console_init(self, timeout =3D 120):
+>           vm =3D self._guest
+>           vm.console_socket.settimeout(timeout)
+> +        self.console_raw_path =3D os.path.join(vm._temp_dir,
+> +                                             vm._name + "-console.raw")
+> +        self.console_raw_file =3D open(self.console_raw_path, 'wb')
+>  =20
+>       def console_log(self, text):
+>           for line in re.split("[\r\n]", text):
+> @@ -234,6 +237,9 @@ class BaseVM(object):
+>           while True:
+>               try:
+>                   chars =3D vm.console_socket.recv(1)
+> +                if self.console_raw_file:
+> +                    self.console_raw_file.write(chars)
+> +                    self.console_raw_file.flush()
+>               except socket.timeout:
+>                   sys.stderr.write("console: *** read timeout ***\n")
+>                   sys.stderr.write("console: waiting for: '%s'\n" % expec=
+t)
+>=20
 
-Bug description:
-  When creating c++ threads (with c++ std::thread), the resulting binary
-  has memory leaks when running with qemu-ppc.
-
-  Eg the following c++ program, when compiled with gcc, consumes more
-  and more memory while running at qemu-ppc. (does not have memory leaks
-  when compiling for Intel, when running same binary on real powerpc CPU
-  hardware also no memory leaks).
-
-  (Note I used function getCurrentRSS to show available memory, see
-  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
-  runtime-using-c; calls commented out here)
-
-  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
-with older g++ compilers even 4.9)
-  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
-  qemu: qemu-ppc version 3.1.50
-
-
-  ---
-
-  #include <iostream>
-  #include <thread>
-  #include <chrono>
-
-  =
-
-  using namespace std::chrono_literals;
-
-  // Create/run and join a 100 threads.
-  void Fun100()
-  {
-  //    auto b4 =3D getCurrentRSS();
-  //    std::cout << getCurrentRSS() << std::endl;
-      for(int n =3D 0; n < 100; n++)
-      {
-          std::thread t([]
-          {
-              std::this_thread::sleep_for( 10ms );
-          });
-  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
-          t.join();
-      }
-      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
- memory...
-  //    auto after =3D getCurrentRSS();
-      std::cout << b4 << ' ' << after << std::endl;
-  }
-
-  =
-
-  int main(int, char **)
-  {
-      Fun100();
-      Fun100();  // memory used keeps increasing
-  }
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
