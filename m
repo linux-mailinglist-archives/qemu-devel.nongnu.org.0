@@ -2,65 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF1917F5B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:07:03 +0100 (CET)
-Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D73317F5C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:09:58 +0100 (CET)
+Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBcj0-00061f-CR
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57663)
+	id 1jBclp-0000Fb-2m
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:09:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jBchl-000559-J9
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:05:50 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBckC-0007F5-MF
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:08:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jBchk-0004AY-9S
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:05:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56815
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jBchk-00047m-4V
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583838343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOrYtebzWs5T8vZLph595O+4tY01ibwYEiZfW61llmk=;
- b=hI41R7QoTSm6Ep+Sbxfj8UvpHw9SH6YWMbBWkiLS5R9LG9MpWuqUk3dToBDrgpm/E04ujN
- g6HCTPWWb+vRLhHf1RRUVF+64tV7Hbkf+sxyhEcYifae5izoqSSnkYUi59hGyS/XzTx54f
- 49n2ClHup/AnjTKYcQGxy37g89zA4dM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-14tsecbYPNOPTpTYZLR1mw-1; Tue, 10 Mar 2020 07:05:42 -0400
-X-MC-Unique: 14tsecbYPNOPTpTYZLR1mw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 016F5107ACC4;
- Tue, 10 Mar 2020 11:05:41 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B94B419C70;
- Tue, 10 Mar 2020 11:05:38 +0000 (UTC)
-Message-ID: <5f1390648d98ac52928985185522cb58f1bc7253.camel@redhat.com>
-Subject: Re: [PATCH v2 02/14] qcrypto/luks: implement encryption key management
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Date: Tue, 10 Mar 2020 13:05:37 +0200
-In-Reply-To: <704e841b-a5e1-2bea-0a1f-1b6fe1058a17@redhat.com>
-References: <20200308151903.25941-1-mlevitsk@redhat.com>
- <20200308151903.25941-3-mlevitsk@redhat.com>
- <704e841b-a5e1-2bea-0a1f-1b6fe1058a17@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <laurent@vivier.eu>) id 1jBckB-0002Ew-BW
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:08:16 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:44803)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jBckB-0002Ad-2I
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:08:15 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N7zNt-1jO17y3CBn-0155H8; Tue, 10 Mar 2020 12:08:01 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] linux-user: generate syscall_nr.h from linux unistd.h
+Date: Tue, 10 Mar 2020 12:07:55 +0100
+Message-Id: <20200310110759.3331020-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UFFP/OXAJmlBGPbARCQzW4v4p50jpPWmf/t1Xg2Rctv94QBd2AC
+ VXJu0ssHL06yHS4nLrBU4Wkc4Tlhnlo7hcslVPIkMdu1BdkER3K+TJWhrh2hMo9xC0YEXBL
+ zKzfwQ5awqiTOOCJdK7i+cx8PBE8oOQ6AR1u5LqD2vKQTYkUTGoNkGFF4p5OlGzU2JE2j5G
+ sTCExT74aRSPKhK2PfxZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:J9fk6/9ZeeQ=:Mz+j6zPsFFe5rOMg/uIonA
+ btotU+GRphOoSyyD+gMiXG0j3OZZ179ZuoOGtY1ZJzh+EOfxD4csndfSjfb97BpOnp0t7YIE6
+ 1sRSDRhYD+iYEFYWUqnGzVw6xIEGep3lOaxlTPHKR/mfCcT4v9W2wPrueqie8ouZ3Q17Bl88e
+ a+KOmwB/zlycDiRDc58CjsPJ3g+ft+d11QilljzYbrzQcvLNJb0MJecqrnZ8ZkfzShUMERpy3
+ N/gWagApX7e3K/8wtI3habVNFcC+J62tyfQOkRuYwynpNhXt91CPPVHtoFQPk3db8Qa5O6Lh+
+ 8bXn5YOX8f3i3ZZryDivOZn9wUTDmMHsGXObxfM23qonLuKxRRU6c20/HllQHeBHS0B9wR3OE
+ T+Uv2KQm+wEl1liobioyhWpSEwZ2inimuXH0+S3lTbwa/PrJvKD7yebwlQylB3Yr1FrxyocuI
+ w9i5oOi7OdzzU2aldjUAbpT0nwScxZsngRsLThzDBmnVZ7diSYkGlu7nK9VTmmXVLHpsJw0sl
+ YK9JvAVLLOqcAEQ/oeZQCTloRAU8qX/ZHsQZP9uMc+dguO/1XKKxMG3Sdz0nD25U6i8U7zJhm
+ Mu1z/unDvWZSa0Mu9D9HiYe1LqpX8DUNDXFEP3eWZzRhBARZNv34HIulLT8WEw3s3nUC0DBdT
+ voZCirhJ7P+Jaa9y0+WnNr1h4bwqkDJNOjrdnHVBrjHBKJOk19VjfpOrJiypsFiQR1abqzNuh
+ ETTY2PQSV6SFM+WopEExB7iCDr/3nwR+ZO/sWYLSZCg0AdjvRNiPRLEx198KuEgcussrMWahm
+ FrRQvtzJpKsMonOMK8aASC6zHK43tzXSnh3w+YISng0TdcRV4KX5kVr7Aed+mRJKuP075TP
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,99 +61,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Jia Liu <proljc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-03-10 at 11:58 +0100, Max Reitz wrote:
-> On 08.03.20 16:18, Maxim Levitsky wrote:
-> > Next few patches will expose that functionality
-> > to the user.
-> >=20
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  crypto/block-luks.c | 398 +++++++++++++++++++++++++++++++++++++++++++-
-> >  qapi/crypto.json    |  61 ++++++-
-> >  2 files changed, 455 insertions(+), 4 deletions(-)
->=20
-> [...]
->=20
-> > +##
-> > +# @QCryptoBlockAmendOptionsLUKS:
-> > +#
-> > +# This struct defines the update parameters that activate/de-activate =
-set
-> > +# of keyslots
-> > +#
-> > +# @state: the desired state of the keyslots
-> > +#
-> > +# @new-secret:    The ID of a QCryptoSecret object providing the passw=
-ord to be
-> > +#                 written into added active keyslots
-> > +#
-> > +# @old-secret:    Optional (for deactivation only)
-> > +#                 If given will deactive all keyslots that
-> > +#                 match password located in QCryptoSecret with this ID
-> > +#
-> > +# @iter-time:     Optional (for activation only)
-> > +#                 Number of milliseconds to spend in
-> > +#                 PBKDF passphrase processing for the newly activated =
-keyslot.
-> > +#                 Currently defaults to 2000.
-> > +#
-> > +# @keyslot:       Optional. ID of the keyslot to activate/deactivate.
-> > +#                 For keyslot activation, keyslot should not be active=
- already
-> > +#                 (this is unsafe to update an active keyslot),
-> > +#                 but possible if 'force' parameter is given.
-> > +#                 If keyslot is not given, first free keyslot will be =
-written.
-> > +#
-> > +#                 For keyslot deactivation, this parameter specifies t=
-he exact
-> > +#                 keyslot to deactivate
-> > +#
-> > +# @unlock-secret: Optional. The ID of a QCryptoSecret object providing=
- the
-> > +#                 password to use to retrive current master key.
-> > +#                 Defaults to the same secret that was used to open th=
-e image
->=20
-> So this matches Markus=E2=80=99 proposal except everything is flattened (=
-because
-> we don=E2=80=99t support nested unions, AFAIU).  Sounds OK to me.  The on=
-ly
-> difference is @unlock-secret, which did not appear in his proposal.  Why
-> do we need it again?
+This series adds a script to generate syscall_nr.h for
+architectures that don't use syscall.tbl but asm-generic/unistd.h
 
-That a little undocumented hack that will disappear one day.
-Its because the driver currently doesn't keep a copy of the master key,
-and instead only keeps ciper objects, often from outside libraries,
-and in theory these objects might even be implemented in hardware so that
-master key might be not in memory at all, so I kind of don't want yet
-to keep it in memory.
-Thus when doing the key management, I need to retrieve the master key again=
-,
-similar to how it is done on image opening. I use the same secret as was us=
-ed for opening,
-but in case the keys were changed already, that secret might not work anymo=
-re.
-Thus I added this parameter to specify basically the old password, which is=
- reasonable
-when updating passwords.
-I usually omit this hack in the discussions as it is orthogonal to the rest=
- of the API.
+The script uses several cpp passes and filters result with a grep/sed/tr sequence.
+The result must be checked before being used, so it's why the script is not
+automatically run.
 
-Best regards,
-=09Maxim Levitsky
+I have run the script, checked and added new files for arm64, nios2, openrisc.
 
+I don't include result for riscv as Alistair is already working on a series
+for this architecture and it needs some changes in syscall.c as some
+syscalls are not defined.
 
->=20
-> Max
->=20
+We also need to add the _time64 variant of syscalls added by the update of the
+syscall_nr.h.
 
+Based-on: <20200310103403.3284090-1-laurent@vivier.eu>
+
+Laurent Vivier (4):
+  scripts: add a script to generate syscall_nr.h
+  linux-user,aarch64: sync syscall numbers with kernel v5.5
+  linux-user,nios2: sync syscall numbers with kernel v5.5
+  linux-user,openrisc: sync syscall numbers with kernel v5.5
+
+ linux-user/aarch64/syscall_nr.h  |  32 +-
+ linux-user/nios2/syscall_nr.h    | 648 +++++++++++++++----------------
+ linux-user/openrisc/syscall_nr.h | 307 +++------------
+ scripts/gensyscalls.sh           |  94 +++++
+ 4 files changed, 499 insertions(+), 582 deletions(-)
+ create mode 100755 scripts/gensyscalls.sh
+
+-- 
+2.24.1
 
 
