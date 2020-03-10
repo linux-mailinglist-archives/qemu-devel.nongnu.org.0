@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B071807E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 20:22:50 +0100 (CET)
-Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87911807DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 20:21:17 +0100 (CET)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBkSn-00071X-U5
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 15:22:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43697)
+	id 1jBkRI-0004dN-RD
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 15:21:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41840)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jBkPq-0003EQ-Dh
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:19:48 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1jBkO2-00018u-6w
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:17:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jBkPp-0008Cn-Bz
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:19:46 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:60290)
+ (envelope-from <balaton@eik.bme.hu>) id 1jBkO0-00038Q-5X
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 15:17:54 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60272)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jBkNw-0002rQ-AY; Tue, 10 Mar 2020 15:19:43 -0400
+ id 1jBkNx-0002rL-87; Tue, 10 Mar 2020 15:17:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 96A84747E06;
+ by localhost (Postfix) with SMTP id 267BC747E00;
  Tue, 10 Mar 2020 20:17:46 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1442F747DF7; Tue, 10 Mar 2020 20:17:46 +0100 (CET)
-Message-Id: <f6656fa8b7a198cbf58b6d8bbb1faaebf1b8a69d.1583867210.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1583867210.git.balaton@eik.bme.hu>
-References: <cover.1583867210.git.balaton@eik.bme.hu>
+ id 081DF74637D; Tue, 10 Mar 2020 20:17:46 +0100 (CET)
+Message-Id: <cover.1583867210.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 2/4] ide: Make room for flags in PCIIDEState and add one
- for legacy IRQ routing
+Subject: [PATCH v4 0/4] Implement "non 100% native mode" in via-ide
 Date: Tue, 10 Mar 2020 20:06:50 +0100
 To: qemu-devel@nongnu.org,
     qemu-block@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,80 +52,51 @@ Cc: John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll need a flag for implementing some device specific behaviour in
-via-ide but we already have a currently CMD646 specific field that can
-be repurposed for this and leave room for furhter flags if needed in
-the future. This patch changes the "secondary" field to "flags" and
-define the flags for CMD646 and via-ide and change CMD646 and its
-users accordingly.
+This (started to be small but getting bigger) series implements
+"non-100% native mode" of via-ide found at least on pegasos2 where io
+addresses come from PCI BARs but interrupts are hard coded to legacy
+IRQ14 and 15. This is needed for guests that expect it and activate
+work arounds on that platform and don't work unless this is emulated.
+(Symptom is missing IDE IRQs after enabling BMDMA and boot freezes
+waiting for interrupt.)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ide/cmd646.c      | 4 ++--
- hw/sparc64/sun4u.c   | 2 +-
- include/hw/ide/pci.h | 7 ++++++-
- 3 files changed, 9 insertions(+), 4 deletions(-)
+We need a flag to turn this mode on or off so we repurpose the last
+remaining CMD646 specific field in PCIIDEState to allow more flags and
+make room for the new legacy-irq flag there. (The CMD646 may need
+similar mode or something else may need more flags in the future.)
+Boards using CMD646 and VIA IDE are updated for the above changes.
+Also included a patch fixing up PCI reset to not clear value set by
+device emulation on bus reset when wmask does not allow that and
+another getting rid of via_ide_init helper that's now out of fashion.
 
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index d953932104..a48141a689 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -256,7 +256,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
-     pci_conf[PCI_CLASS_PROG] = 0x8f;
- 
-     pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
--    if (d->secondary) {
-+    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
-         /* XXX: if not enabled, really disable the seconday IDE controller */
-         pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
-     }
-@@ -318,7 +318,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
- }
- 
- static Property cmd646_ide_properties[] = {
--    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
-+    DEFINE_PROP_BIT("secondary", PCIIDEState, flags, PCI_IDE_SECONDARY, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index d33e84f831..92c3ebfaa9 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -666,7 +666,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     ide_drive_get(hd, ARRAY_SIZE(hd));
- 
-     pci_dev = pci_create(pci_busA, PCI_DEVFN(3, 0), "cmd646-ide");
--    qdev_prop_set_uint32(&pci_dev->qdev, "secondary", 1);
-+    qdev_prop_set_bit(&pci_dev->qdev, "secondary", true);
-     qdev_init_nofail(&pci_dev->qdev);
-     pci_ide_create_devs(pci_dev, hd);
- 
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index a9f2c33e68..21075edf16 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -40,6 +40,11 @@ typedef struct BMDMAState {
- #define TYPE_PCI_IDE "pci-ide"
- #define PCI_IDE(obj) OBJECT_CHECK(PCIIDEState, (obj), TYPE_PCI_IDE)
- 
-+enum {
-+    PCI_IDE_SECONDARY, /* used only for cmd646 */
-+    PCI_IDE_LEGACY_IRQ
-+};
-+
- typedef struct PCIIDEState {
-     /*< private >*/
-     PCIDevice parent_obj;
-@@ -47,7 +52,7 @@ typedef struct PCIIDEState {
- 
-     IDEBus bus[2];
-     BMDMAState bmdma[2];
--    uint32_t secondary; /* used only for cmd646 */
-+    uint32_t flags;
-     MemoryRegion bmdma_bar;
-     MemoryRegion cmd_bar[2];
-     MemoryRegion data_bar[2];
+Tested with Linux and MorphOS on pegasos2 and a Gentoo live CD kernel
+for mips_fulong2e that's the only one I could find but being beta not
+sure if that fully works on real hardware. (The mips_fulong2e also
+seems to have problems with pci devices so to boot Linux you need
+-net none -vga none and use serial console otherwise the kernel panics.)
+
+v4 is rebased on top of Mark's cmd646 patches that are now on the ide
+tree.
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (4):
+  ide/via: Get rid of via_init_ide()
+  ide: Make room for flags in PCIIDEState and add one for legacy IRQ
+    routing
+  pci: Honour wmask when resetting PCI_INTERRUPT_LINE
+  via-ide: Also emulate non 100% native mode
+
+ hw/ide/cmd646.c         |  4 ++--
+ hw/ide/via.c            | 36 +++++++++++++++++++++++-------------
+ hw/mips/mips_fulong2e.c |  5 ++++-
+ hw/pci/pci.c            |  5 ++++-
+ hw/sparc64/sun4u.c      |  2 +-
+ include/hw/ide.h        |  1 -
+ include/hw/ide/pci.h    |  7 ++++++-
+ 7 files changed, 40 insertions(+), 20 deletions(-)
+
 -- 
 2.21.1
 
