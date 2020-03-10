@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C461801AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:22:25 +0100 (CET)
-Received: from localhost ([::1]:35498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213131801A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:21:46 +0100 (CET)
+Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgi8-0007hO-9y
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54573)
+	id 1jBghV-00070w-4W
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jBgW6-0005tx-8K
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:59 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jBgW7-0005vH-Bo
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:10:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jBgW5-0003q8-61
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:58 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24496)
+ (envelope-from <borntraeger@de.ibm.com>) id 1jBgW5-0003rb-JL
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39768)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jBgW5-0003pX-1N
+ id 1jBgW5-0003pR-Aq
  for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:57 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02AF3HgG195376
+ 02AExhot112515
  for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:09:56 -0400
 Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ym7ac258q-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ym8n8qybn-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:09:56 -0400
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:09:55 -0400
 Received: from localhost
  by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
  Tue, 10 Mar 2020 15:09:53 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
  by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
  Tue, 10 Mar 2020 15:09:50 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02AF8nQe39977226
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02AF9n5349610980
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 15:08:49 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AC1254C06F;
- Tue, 10 Mar 2020 15:09:48 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9A85C4C06E;
+ Tue, 10 Mar 2020 15:09:49 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F2E3F5204E;
  Tue, 10 Mar 2020 15:09:48 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id E253052052;
  Tue, 10 Mar 2020 15:09:48 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id 59EC1E01C3; Tue, 10 Mar 2020 16:09:48 +0100 (CET)
+ id A7756E0249; Tue, 10 Mar 2020 16:09:48 +0100 (CET)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/4] s390x/ipl: Fixes for ipl and bios
-Date: Tue, 10 Mar 2020 16:09:43 +0100
+Subject: [PULL 1/4] pc-bios: s390x: Save iplb location in lowcore
+Date: Tue, 10 Mar 2020 16:09:44 +0100
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200310150947.3510824-1-borntraeger@de.ibm.com>
+References: <20200310150947.3510824-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031015-4275-0000-0000-000003AA4266
+x-cbid: 20031015-4275-0000-0000-000003AA4267
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031015-4276-0000-0000-000038BF5C0E
-Message-Id: <20200310150947.3510824-1-borntraeger@de.ibm.com>
+x-cbparentid: 20031015-4276-0000-0000-000038BF5C0F
+Message-Id: <20200310150947.3510824-2-borntraeger@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-10_08:2020-03-10,
  2020-03-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  lowpriorityscore=0
- mlxlogscore=495 malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0
- adultscore=0 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 mlxlogscore=701 mlxscore=0 suspectscore=0 spamscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003100099
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,55 +89,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Halil Pasic <pasic@linux.ibm.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
+ qemu-s390x <qemu-s390x@nongnu.org>, Marc Hartmayer <mhartmay@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter,
+From: Janosch Frank <frankja@linux.ibm.com>
 
-The following changes since commit 373c7068dd610e97f0b551b5a6d0a27cd6da4506:
+The POP states that for a list directed IPL the IPLB is stored into
+memory by the machine loader and its address is stored at offset 0x14
+of the lowcore.
 
-  qemu.nsi: Install Sphinx documentation (2020-03-09 16:45:00 +0000)
+ZIPL currently uses the address in offset 0x14 to access the IPLB and
+acquire flags about secure boot. If the IPLB address points into
+memory which has an unsupported mix of flags set, ZIPL will panic
+instead of booting the OS.
 
-are available in the Git repository at:
+As the lowcore can have quite a high entropy for a guest that did drop
+out of protected mode (i.e. rebooted) we encountered the ZIPL panic
+quite often.
 
-  git://github.com/borntraeger/qemu.git tags/s390x-20200310
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+Message-Id: <20200304114231.23493-19-frankja@linux.ibm.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ pc-bios/s390-ccw/jump2ipl.c  |  1 +
+ pc-bios/s390-ccw/main.c      |  8 +++++++-
+ pc-bios/s390-ccw/netmain.c   |  1 +
+ pc-bios/s390-ccw/s390-arch.h | 10 ++++++++--
+ pc-bios/s390-ccw/s390-ccw.h  |  1 +
+ 5 files changed, 18 insertions(+), 3 deletions(-)
 
-for you to fetch changes up to 94c21436e5a89143f8b9cb4d089d1a2f3f4fd377:
-
-  s390x: ipl: Consolidate iplb validity check into one function (2020-03-10 10:18:20 +0100)
-
-----------------------------------------------------------------
-s390x/ipl: Fixes for ipl and bios
-
-- provide a pointer to the loadparm. This fixes crashes in zipl
-- do not throw away guest changes of the IPL parameter during reset
-- refactor IPLB checks
-
-----------------------------------------------------------------
-Christian Borntraeger (1):
-      s390x/bios: rebuild s390-ccw.img
-
-Halil Pasic (1):
-      s390/ipl: sync back loadparm
-
-Janosch Frank (2):
-      pc-bios: s390x: Save iplb location in lowcore
-      s390x: ipl: Consolidate iplb validity check into one function
-
- hw/s390x/ipl.c               |  25 +++++++++++++++++++++++++
- hw/s390x/ipl.h               |  18 +++++++++---------
- pc-bios/s390-ccw.img         | Bin 42608 -> 42608 bytes
- pc-bios/s390-ccw/jump2ipl.c  |   1 +
- pc-bios/s390-ccw/main.c      |   8 +++++++-
- pc-bios/s390-ccw/netmain.c   |   1 +
- pc-bios/s390-ccw/s390-arch.h |  10 ++++++++--
- pc-bios/s390-ccw/s390-ccw.h  |   1 +
- target/s390x/diag.c          |   2 +-
- 9 files changed, 53 insertions(+), 13 deletions(-)
+diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+index da13c43cc047..4eba2510b045 100644
+--- a/pc-bios/s390-ccw/jump2ipl.c
++++ b/pc-bios/s390-ccw/jump2ipl.c
+@@ -35,6 +35,7 @@ void jump_to_IPL_code(uint64_t address)
+ {
+     /* store the subsystem information _after_ the bootmap was loaded */
+     write_subsystem_identification();
++    write_iplb_location();
+ 
+     /* prevent unknown IPL types in the guest */
+     if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index a21b38628075..4e65b411e1d8 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include "libc.h"
++#include "helper.h"
+ #include "s390-arch.h"
+ #include "s390-ccw.h"
+ #include "cio.h"
+@@ -22,7 +23,7 @@ QemuIplParameters qipl;
+ IplParameterBlock iplb __attribute__((__aligned__(PAGE_SIZE)));
+ static bool have_iplb;
+ static uint16_t cutype;
+-LowCore const *lowcore; /* Yes, this *is* a pointer to address 0 */
++LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
+ 
+ #define LOADPARM_PROMPT "PROMPT  "
+ #define LOADPARM_EMPTY  "        "
+@@ -42,6 +43,11 @@ void write_subsystem_identification(void)
+     *zeroes = 0;
+ }
+ 
++void write_iplb_location(void)
++{
++    lowcore->ptr_iplb = ptr2u32(&iplb);
++}
++
+ void panic(const char *string)
+ {
+     sclp_print(string);
+diff --git a/pc-bios/s390-ccw/netmain.c b/pc-bios/s390-ccw/netmain.c
+index f2dcc01e2725..309ffa30d992 100644
+--- a/pc-bios/s390-ccw/netmain.c
++++ b/pc-bios/s390-ccw/netmain.c
+@@ -40,6 +40,7 @@
+ #define DEFAULT_TFTP_RETRIES 20
+ 
+ extern char _start[];
++void write_iplb_location(void) {}
+ 
+ #define KERNEL_ADDR             ((void *)0L)
+ #define KERNEL_MAX_SIZE         ((long)_start)
+diff --git a/pc-bios/s390-ccw/s390-arch.h b/pc-bios/s390-ccw/s390-arch.h
+index 504fc7c2f098..5f36361c0223 100644
+--- a/pc-bios/s390-ccw/s390-arch.h
++++ b/pc-bios/s390-ccw/s390-arch.h
+@@ -36,7 +36,13 @@ typedef struct LowCore {
+     /* prefix area: defined by architecture */
+     PSWLegacy       ipl_psw;                  /* 0x000 */
+     uint32_t        ccw1[2];                  /* 0x008 */
+-    uint32_t        ccw2[2];                  /* 0x010 */
++    union {
++        uint32_t        ccw2[2];                  /* 0x010 */
++        struct {
++            uint32_t reserved10;
++            uint32_t ptr_iplb;
++        };
++    };
+     uint8_t         pad1[0x80 - 0x18];        /* 0x018 */
+     uint32_t        ext_params;               /* 0x080 */
+     uint16_t        cpu_addr;                 /* 0x084 */
+@@ -85,7 +91,7 @@ typedef struct LowCore {
+     PSW             io_new_psw;               /* 0x1f0 */
+ } __attribute__((packed, aligned(8192))) LowCore;
+ 
+-extern LowCore const *lowcore;
++extern LowCore *lowcore;
+ 
+ static inline void set_prefix(uint32_t address)
+ {
+diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
+index 11bce7d73c85..21f27e79906e 100644
+--- a/pc-bios/s390-ccw/s390-ccw.h
++++ b/pc-bios/s390-ccw/s390-ccw.h
+@@ -57,6 +57,7 @@ void consume_io_int(void);
+ /* main.c */
+ void panic(const char *string);
+ void write_subsystem_identification(void);
++void write_iplb_location(void);
+ extern char stack[PAGE_SIZE * 8] __attribute__((__aligned__(PAGE_SIZE)));
+ unsigned int get_loadparm_index(void);
+ 
+-- 
+2.24.1
 
 
