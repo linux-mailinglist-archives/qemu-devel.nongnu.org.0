@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1073F17F35F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:21:02 +0100 (CET)
-Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2246F17F366
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:23:00 +0100 (CET)
+Received: from localhost ([::1]:55946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBb4P-0003W9-3K
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
+	id 1jBb6J-0006Wj-5w
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37567)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhukeqian1@huawei.com>) id 1jBb2v-0001pv-ED
+ (envelope-from <zhukeqian1@huawei.com>) id 1jBb2v-0001pu-F5
  for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:19:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhukeqian1@huawei.com>) id 1jBb2t-00065N-Ao
+ (envelope-from <zhukeqian1@huawei.com>) id 1jBb2t-00065H-Ah
  for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:19:29 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3269 helo=huawei.com)
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3270 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhukeqian1@huawei.com>)
- id 1jBb2p-0005ih-N1; Tue, 10 Mar 2020 05:19:24 -0400
+ id 1jBb2p-0005io-N7; Tue, 10 Mar 2020 05:19:24 -0400
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 3DD00CAF2E97E0FBE086;
+ by Forcepoint Email with ESMTP id 42AA56A27B560642CA2B;
  Tue, 10 Mar 2020 17:19:19 +0800 (CST)
 Received: from linux-kDCJWP.huawei.com (10.175.104.212) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 10 Mar 2020 17:19:09 +0800
+ 14.3.487.0; Tue, 10 Mar 2020 17:19:11 +0800
 From: Keqian Zhu <zhukeqian1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 1/2] memory: Introduce start_global variable in dirty
- bitmap sync
-Date: Tue, 10 Mar 2020 17:17:03 +0800
-Message-ID: <20200310091704.42340-2-zhukeqian1@huawei.com>
+Subject: [PATCH v2 2/2] migration: not require length align when choose fast
+ dirty sync path
+Date: Tue, 10 Mar 2020 17:17:04 +0800
+Message-ID: <20200310091704.42340-3-zhukeqian1@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20200310091704.42340-1-zhukeqian1@huawei.com>
 References: <20200310091704.42340-1-zhukeqian1@huawei.com>
@@ -60,56 +60,47 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the cpu_physical_memory_sync_dirty_bitmap func, use start_global
-variable to make code more clear. And the addr variable is only used
-in slow path, so move it to slow path.
+In commit aa777e297c84 ("cpu_physical_memory_sync_dirty_bitmap: Another
+alignment fix"), ramblock length is required to align word pages when
+we choose the fast dirty sync path. The reason is that "If the Ramblock
+is less than 64 pages in length that long can contain bits representing
+two different RAMBlocks, but the code will update the bmap belinging to
+the 1st RAMBlock only while having updated the total dirty page count
+for both."
+
+This is right before commit 801110ab22be ("find_ram_offset: Align
+ram_addr_t allocation on long boundaries"), which align ram_addr_t
+allocation on long boundaries. So currently we wont "updated the total
+dirty page count for both".
+
+By removing the alignment constraint of length in fast path, we can alway=
+s
+use fast dirty sync path if start_global is aligned to word page.
 
 Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
 ---
- include/exec/ram_addr.h | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ include/exec/ram_addr.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 5e59a3d8d7..8311efb7bc 100644
+index 8311efb7bc..57b3edf376 100644
 --- a/include/exec/ram_addr.h
 +++ b/include/exec/ram_addr.h
-@@ -445,14 +445,13 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMB=
-lock *rb,
-                                                ram_addr_t length,
-                                                uint64_t *real_dirty_page=
-s)
- {
--    ram_addr_t addr;
--    unsigned long word =3D BIT_WORD((start + rb->offset) >> TARGET_PAGE_=
-BITS);
-+    ram_addr_t start_global =3D start + rb->offset;
-+    unsigned long word =3D BIT_WORD(start_global >> TARGET_PAGE_BITS);
+@@ -450,9 +450,8 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlo=
+ck *rb,
      uint64_t num_dirty =3D 0;
      unsigned long *dest =3D rb->bmap;
 =20
-     /* start address and length is aligned at the start of a word? */
--    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D
--         (start + rb->offset) &&
-+    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start_global=
+-    /* start address and length is aligned at the start of a word? */
+-    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start_global=
  &&
-         !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
+-        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
++    /* start address is aligned at the start of a word? */
++    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start_global=
+) {
          int k;
          int nr =3D BITS_TO_LONGS(length >> TARGET_PAGE_BITS);
-@@ -495,11 +494,11 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMB=
-lock *rb,
-             memory_region_clear_dirty_bitmap(rb->mr, start, length);
-         }
-     } else {
--        ram_addr_t offset =3D rb->offset;
-+        ram_addr_t addr;
-=20
-         for (addr =3D 0; addr < length; addr +=3D TARGET_PAGE_SIZE) {
-             if (cpu_physical_memory_test_and_clear_dirty(
--                        start + addr + offset,
-+                        start_global + addr,
-                         TARGET_PAGE_SIZE,
-                         DIRTY_MEMORY_MIGRATION)) {
-                 *real_dirty_pages +=3D 1;
+         unsigned long * const *src;
 --=20
 2.19.1
 
