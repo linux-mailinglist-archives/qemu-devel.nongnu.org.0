@@ -2,82 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD32217ED05
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 01:01:03 +0100 (CET)
-Received: from localhost ([::1]:51748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8A817ED2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 01:14:49 +0100 (CET)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBSKU-00082N-T7
-	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 20:01:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35688)
+	id 1jBSXo-0002vj-4d
+	for lists+qemu-devel@lfdr.de; Mon, 09 Mar 2020 20:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jBSCn-00063Y-Ui
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:53:07 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jBSWm-0002Wx-GQ
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 20:13:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jBSCm-00072B-OX
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:53:05 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:47914)
+ (envelope-from <no-reply@patchew.org>) id 1jBSWk-0007dW-ON
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 20:13:44 -0400
+Resent-Date: Mon, 09 Mar 2020 20:13:44 -0400
+Resent-Message-Id: <E1jBSWk-0007dW-ON@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21179)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jBSCm-00070l-Go
- for qemu-devel@nongnu.org; Mon, 09 Mar 2020 19:53:04 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 029NqUus147112;
- Mon, 9 Mar 2020 23:53:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=xeXTfkCIs233YAHIBuNOs5RVrM+SnIVuZZRDkCcUbG8=;
- b=rrrl1qWpMGGG89rzRbjnZnfdaojjnaRIBAD9jOBuCh6K38uptGNjoM1knYgmTej1Thos
- 9QBRfWqT6oT97O7MUi0WX7fe1N/OGgr5XRlX4Y1xuBniMnfPpsvNkp1tG81jcqjiuNV1
- avH9eFIATpMPQruPTtHAMzh8O2NNqZM6tTFKMVN8mvhuS4WQCLaKgdHdqXGBHfqkSoqC
- KmmbaU3XP9XyxxG0DChrHGPlAvrdhBqA2ahKMDFEbS8y79e84o3a44PIA3opyxh0/X9e
- yAg9f8TDTgxISo6jP/RJ+qeKLNz987YKOut8C8zQ7QCwPsb/S7T8REqSU6noiLupuJe3 Ew== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2ym31ua669-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Mar 2020 23:53:02 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 029NqxYu095547;
- Mon, 9 Mar 2020 23:53:02 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2ymnb1kas9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Mar 2020 23:53:02 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 029NqkGp027472;
- Mon, 9 Mar 2020 23:52:46 GMT
-Received: from spark.ravello.local (/213.57.127.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 09 Mar 2020 16:52:46 -0700
-From: Liran Alon <liran.alon@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 13/14] hw/i386/vmport: Add support for CMD_GETHZ
-Date: Tue, 10 Mar 2020 01:54:10 +0200
-Message-Id: <20200309235411.76587-14-liran.alon@oracle.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jBSWk-0007cS-Gb
+ for qemu-devel@nongnu.org; Mon, 09 Mar 2020 20:13:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1583799210; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GQC537YtsPiT2dLr682A/Zrvv2U5VNpGFLpmrOM0JvKsNgZRfeN6po3hvbk7Slg9+fAQ3lWD/YRJE6OD+MUMnJmQtH0hDfE66zQ+GsSVkXr/cH33cRKHQjS0IKBzdialVlnYYuPG/L9eUeu4cVtGlz7+89m99lc5uGig9RSdzpo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583799210;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=8fhfZfWQ6N8Pb45FoCHo1wDKfh+uMzZTmE/6RCY4mS8=; 
+ b=I+6xM2Hv9oqzjjK92ACbJywsmXXu3mW3SwPAp2kph6RCb1+3dV3YtKBroEWb9Od4x6J6TgqlzBL8k1wktfyvwOr95hTPVxvIAJVVCLgC3uBTFyFhqnvY0Wvv4tcd3vsSqgMRICuI2Lvk67YQf5H54i29Z/ErKLUfNFurgqu6WtE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 15837992092091008.0129849226496;
+ Mon, 9 Mar 2020 17:13:29 -0700 (PDT)
 In-Reply-To: <20200309235411.76587-1-liran.alon@oracle.com>
-References: <20200309235411.76587-1-liran.alon@oracle.com>
+Subject: Re: [PATCH 00/14]: hw/i386/vmport: Bug fixes and improvements
+Message-ID: <158379920808.20878.11449383700170470292@39012742ff91>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 mlxlogscore=999
- spamscore=0 suspectscore=1 adultscore=0 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003090144
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- lowpriorityscore=0
- spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=1
- phishscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003090144
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: liran.alon@oracle.com
+Date: Mon, 9 Mar 2020 17:13:29 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,76 +64,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, Liran Alon <liran.alon@oracle.com>,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
- rth@twiddle.net
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This command returns to guest information on LAPIC bus frequency and TSC
-frequency.
-
-One can see how this interface is used by Linux vmware_platform_setup()
-introduced in Linux commit 88b094fb8d4f ("x86: Hypervisor detection and
-get tsc_freq from hypervisor").
-
-Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
----
- hw/i386/vmport.c     | 19 +++++++++++++++++++
- include/hw/i386/pc.h |  1 +
- 2 files changed, 20 insertions(+)
-
-diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index 2b0a623f19c1..95d4a23ce9ba 100644
---- a/hw/i386/vmport.c
-+++ b/hw/i386/vmport.c
-@@ -150,6 +150,24 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
-     return ram_size;
- }
- 
-+static uint32_t vmport_cmd_get_hz(void *opaque, uint32_t addr)
-+{
-+    X86CPU *cpu = X86_CPU(current_cpu);
-+
-+    if (cpu->env.tsc_khz && cpu->env.apic_bus_freq) {
-+        uint64_t tsc_freq = (uint64_t)cpu->env.tsc_khz * 1000;
-+
-+        cpu->env.regs[R_ECX] = cpu->env.apic_bus_freq;
-+        cpu->env.regs[R_EBX] = (uint32_t)(tsc_freq >> 32);
-+        cpu->env.regs[R_EAX] = (uint32_t)tsc_freq;
-+    } else {
-+        /* Signal cmd as not supported */
-+        cpu->env.regs[R_EBX] = UINT32_MAX;
-+    }
-+
-+    return cpu->env.regs[R_EAX];
-+}
-+
- static uint32_t vmport_cmd_time(void *opaque, uint32_t addr)
- {
-     X86CPU *cpu = X86_CPU(current_cpu);
-@@ -237,6 +255,7 @@ static void vmport_realizefn(DeviceState *dev, Error **errp)
-     vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid, NULL);
-     vmport_register(VMPORT_CMD_GETRAMSIZE, vmport_cmd_ram_size, NULL);
-     vmport_register(VMPORT_CMD_GETTIME, vmport_cmd_time, NULL);
-+    vmport_register(VMPORT_CMD_GETHZ, vmport_cmd_get_hz, NULL);
-     vmport_register(VMPORT_CMD_GETTIMEFULL, vmport_cmd_time_full, NULL);
-     vmport_register(VMPORT_CMD_GET_VCPU_INFO, vmport_cmd_get_vcpu_info, NULL);
- }
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index e880ca39ee3b..679bf429c6a5 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -146,6 +146,7 @@ typedef enum {
-     VMPORT_CMD_VMMOUSE_DATA     = 39,
-     VMPORT_CMD_VMMOUSE_STATUS   = 40,
-     VMPORT_CMD_VMMOUSE_COMMAND  = 41,
-+    VMPORT_CMD_GETHZ            = 45,
-     VMPORT_CMD_GETTIMEFULL      = 46,
-     VMPORT_CMD_GET_VCPU_INFO    = 68,
-     VMPORT_ENTRIES
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMwOTIzNTQxMS43NjU4
+Ny0xLWxpcmFuLmFsb25Ab3JhY2xlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIDAwLzE0XTogaHcvaTM4Ni92bXBvcnQ6IEJ1
+ZyBmaXhlcyBhbmQgaW1wcm92ZW1lbnRzCk1lc3NhZ2UtaWQ6IDIwMjAwMzA5MjM1NDExLjc2NTg3
+LTEtbGlyYW4uYWxvbkBvcmFjbGUuY29tClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJF
+R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
+aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
+U1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZWM1NDQx
+NCBody9pMzg2L3ZtcG9ydDogQXNzZXJ0IHZtcG9ydCBpbml0aWFsaXplZCBiZWZvcmUgcmVnaXN0
+ZXJpbmcgY29tbWFuZHMKNzdlYTRlZCBody9pMzg2L3ZtcG9ydDogQWRkIHN1cHBvcnQgZm9yIENN
+RF9HRVRIWgpiMWVkOTIwIGkzODYvY3B1OiBTdG9yZSBMQVBJQyBidXMgZnJlcXVlbmN5IGluIENQ
+VSBzdHJ1Y3R1cmUKNjJkNzcwZiBody9pMzg2L3ZtcG9ydDogQWxsb3cgeDJhcGljIHdpdGhvdXQg
+SVIKNWM5N2Q1MiBody9pMzg2L3ZtcG9ydDogQWRkIHN1cHBvcnQgZm9yIENNRF9HRVRfVkNQVV9J
+TkZPCmU0YTcxNmQgaHcvaTM4Ni92bXBvcnQ6IEFkZCBzdXBwb3J0IGZvciBDTURfR0VUVElNRUZV
+TEwKZmViY2I0NyBody9pMzg2L3ZtcG9ydDogQWRkIHN1cHBvcnQgZm9yIENNRF9HRVRUSU1FCjI1
+ODkwZGYgaHcvaTM4Ni92bXBvcnQ6IEFkZCBzdXBwb3J0IGZvciBDTURfR0VUQklPU1VVSUQKOWU2
+MjExZCBody9pMzg2L3ZtcG9ydDogRGVmaW5lIGVudW0gZm9yIGFsbCBjb21tYW5kcwpmYzVmNWVj
+IGh3L2kzODYvdm1wb3J0OiBSZXBvcnQgVk1YIHR5cGUgaW4gQ01EX0dFVFZFUlNJT04KZjI4NDc1
+NCBody9pMzg2L3ZtcG9ydDogSW50cm9kdWNlIHZteC12ZXJzaW9uIHByb3BlcnR5CjExNGJmNTkg
+aHcvaTM4Ni92bXBvcnQ6IEFkZCBkZXZpY2UgcHJvcGVydGllcwo4YWNmNWEyIGh3L2kzODYvdm1w
+b3J0OiBTZXQgRUFYIHRvIC0xIG9uIGZhaWxlZCBhbmQgdW5zdXBwb3J0ZWQgY29tbWFuZHMKOTdj
+M2RlNyBody9pMzg2L3ZtcG9ydDogUHJvcGFnYXRlIElPUG9ydCByZWFkIHRvIHZDUFUgRUFYIHJl
+Z2lzdGVyCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE0IENoZWNraW5nIGNvbW1pdCA5N2MzZGU3
+YjFiOTggKGh3L2kzODYvdm1wb3J0OiBQcm9wYWdhdGUgSU9Qb3J0IHJlYWQgdG8gdkNQVSBFQVgg
+cmVnaXN0ZXIpCjIvMTQgQ2hlY2tpbmcgY29tbWl0IDhhY2Y1YTJiNzYzMCAoaHcvaTM4Ni92bXBv
+cnQ6IFNldCBFQVggdG8gLTEgb24gZmFpbGVkIGFuZCB1bnN1cHBvcnRlZCBjb21tYW5kcykKMy8x
+NCBDaGVja2luZyBjb21taXQgMTE0YmY1OTAyMWIzIChody9pMzg2L3ZtcG9ydDogQWRkIGRldmlj
+ZSBwcm9wZXJ0aWVzKQo0LzE0IENoZWNraW5nIGNvbW1pdCBmMjg0NzU0ZTAxYTMgKGh3L2kzODYv
+dm1wb3J0OiBJbnRyb2R1Y2Ugdm14LXZlcnNpb24gcHJvcGVydHkpCjUvMTQgQ2hlY2tpbmcgY29t
+bWl0IGZjNWY1ZWM2ZjcyZiAoaHcvaTM4Ni92bXBvcnQ6IFJlcG9ydCBWTVggdHlwZSBpbiBDTURf
+R0VUVkVSU0lPTikKNi8xNCBDaGVja2luZyBjb21taXQgOWU2MjExZDRkZjAxIChody9pMzg2L3Zt
+cG9ydDogRGVmaW5lIGVudW0gZm9yIGFsbCBjb21tYW5kcykKNy8xNCBDaGVja2luZyBjb21taXQg
+MjU4OTBkZjA3NjdiIChody9pMzg2L3ZtcG9ydDogQWRkIHN1cHBvcnQgZm9yIENNRF9HRVRCSU9T
+VVVJRCkKRVJST1I6ICIoZm9vKikiIHNob3VsZCBiZSAiKGZvbyAqKSIKIzMzOiBGSUxFOiBody9p
+Mzg2L3ZtcG9ydC5jOjEyODoKKyAgICB1aW50MzJfdCAqdXVpZF9wYXJ0cyA9ICh1aW50MzJfdCop
+KHFlbXVfdXVpZC5kYXRhKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMzkgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggNy8xNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKOC8xNCBDaGVj
+a2luZyBjb21taXQgZmViY2I0NzMwY2IyIChody9pMzg2L3ZtcG9ydDogQWRkIHN1cHBvcnQgZm9y
+IENNRF9HRVRUSU1FKQo5LzE0IENoZWNraW5nIGNvbW1pdCBlNGE3MTZkZTNmMDYgKGh3L2kzODYv
+dm1wb3J0OiBBZGQgc3VwcG9ydCBmb3IgQ01EX0dFVFRJTUVGVUxMKQoxMC8xNCBDaGVja2luZyBj
+b21taXQgNWM5N2Q1MmMzNjBhIChody9pMzg2L3ZtcG9ydDogQWRkIHN1cHBvcnQgZm9yIENNRF9H
+RVRfVkNQVV9JTkZPKQpFUlJPUjogcmV0dXJuIGlzIG5vdCBhIGZ1bmN0aW9uLCBwYXJlbnRoZXNl
+cyBhcmUgbm90IHJlcXVpcmVkCiM0MTogRklMRTogaHcvaTM4Ni92bXBvcnQuYzoxODU6CisgICAg
+cmV0dXJuICgxIDw8IFZDUFVfSU5GT19SRVNFUlZFRF9CSVQpOwoKdG90YWw6IDEgZXJyb3JzLCAw
+IHdhcm5pbmdzLCAzOCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xNCBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoKMTEvMTQgQ2hlY2tpbmcgY29tbWl0IDYyZDc3MGYzNzViNiAoaHcvaTM4Ni92
+bXBvcnQ6IEFsbG93IHgyYXBpYyB3aXRob3V0IElSKQoxMi8xNCBDaGVja2luZyBjb21taXQgYjFl
+ZDkyMGIwYmYzIChpMzg2L2NwdTogU3RvcmUgTEFQSUMgYnVzIGZyZXF1ZW5jeSBpbiBDUFUgc3Ry
+dWN0dXJlKQoxMy8xNCBDaGVja2luZyBjb21taXQgNzdlYTRlZDQyNDIwIChody9pMzg2L3ZtcG9y
+dDogQWRkIHN1cHBvcnQgZm9yIENNRF9HRVRIWikKMTQvMTQgQ2hlY2tpbmcgY29tbWl0IGVjNTQ0
+MTRiZWExNCAoaHcvaTM4Ni92bXBvcnQ6IEFzc2VydCB2bXBvcnQgaW5pdGlhbGl6ZWQgYmVmb3Jl
+IHJlZ2lzdGVyaW5nIGNvbW1hbmRzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
+eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8yMDIwMDMwOTIzNTQxMS43NjU4Ny0xLWxpcmFuLmFsb25Ab3JhY2xl
+LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
+ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
+IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
