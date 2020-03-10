@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443E817F1DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:24:34 +0100 (CET)
-Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB9117F1E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:26:20 +0100 (CET)
+Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBaBl-0004xF-8Y
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53736)
+	id 1jBaDT-0007aq-By
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jBaAr-0004Y8-FW
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:23:38 -0400
+ (envelope-from <mst@redhat.com>) id 1jBaAw-0004aZ-2E
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:23:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jBaAp-0001TK-Ec
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:23:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55574
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1jBaAu-0001d3-OB
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:23:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45457
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jBaAp-0001RR-8P
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:23:35 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBaAu-0001bI-J6
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:23:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583828614;
+ s=mimecast20190719; t=1583828619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Loeg49si0X+YANqIvcDFEujdKJfttjEMR2Becynuzgo=;
- b=gvecGhrQtcadBybCUFwooEi8XEmBaBB/xwWml19uaKw+k3vf69bABCEVv9yMus/6lvJjtR
- GKLm1QJ2Cp84xh8sVac/AxJiMIXXdTPg17yMpMK4jccB7Lr+DZdrTw73IE+Fr+M9QPfBsy
- /fXHZY/8mpF5z3viMhHL4KNlI/022Xs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-SecMlvimOVyYHuyCT5GBTQ-1; Tue, 10 Mar 2020 04:23:30 -0400
-X-MC-Unique: SecMlvimOVyYHuyCT5GBTQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B634B18C8C03;
- Tue, 10 Mar 2020 08:23:29 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0E985C1D4;
- Tue, 10 Mar 2020 08:23:27 +0000 (UTC)
-Date: Tue, 10 Mar 2020 09:23:25 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH v2] qom-qmp-cmds: fix two memleaks in qmp_object_add
-Message-ID: <20200310092325.39d7d2c0@redhat.com>
-In-Reply-To: <20200310064640.5059-1-pannengyuan@huawei.com>
-References: <20200310064640.5059-1-pannengyuan@huawei.com>
+ bh=bYyMF0SYhMcB9q/PrJidBG3YyscB2bBcWXaPes19A0U=;
+ b=NvOTmHqylf/iiKqaFnotfwIqz/3sBJdd/5u339hYZ5etHEgiZM5qcq4pIkPAurpxaPIHVJ
+ Fcsd/lYkaD4zYcAbTBVLOVxk27JTOFWoN7G20rB1ZJPZT6wgLZiAtrVDUCkSoK0MX3A4mt
+ 1qZQQMnQxLdkFGNxGSoPJvjZ22ZPmVc=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-qzSLJWIAODaC-KXnltu6Bw-1; Tue, 10 Mar 2020 04:23:38 -0400
+X-MC-Unique: qzSLJWIAODaC-KXnltu6Bw-1
+Received: by mail-qk1-f197.google.com with SMTP id t186so9158297qkh.22
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 01:23:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4kcjNagKtBmbwTHZG5jQmqgCDI41Q7T81jp0gK06mV8=;
+ b=cbUucVJeCKhZVrtSDgYcP2jh07QTslUwf8ddXwU6AiqiSNSsALe5EY113jGfMLcg59
+ IYHzJE6LTRQUz+zPNXMlaSE1hYZsUEoENu5KW1TVs0PP/ZmCp+nz1R+6BSl1qfyMlqrs
+ AdhRBS8jp1Uqi88RJb1ytoq2NGkg0HaeYShtOdbnhnY3B2hOixS3rCaaUKN57gtj0hZq
+ hyukdTeK8WODHbWyXC6l7KCjIpilcfdHqJmYJ+rce1VGmn+D/iHyffEdahei9uS/kM/J
+ wvbdq1ilfJBuWNKDViBYxiMfES5+0WV/A4MZviIq06Uvt4g5hN0eRobkaxNPZ6hJdjsO
+ 7yvA==
+X-Gm-Message-State: ANhLgQ0W9JXQtmttB0X3SpdvRJ1iKKwyKJW6h5taRe/shPYK94mRhjvk
+ BZ0Mn19zrHGgmnGM7BpV57/e1fsheSQas/JDtkduAeLHhN+BHdtfEuhOJRGU/zHm26Xp4Pio/HH
+ vWyp2gDOqHbEh0HU=
+X-Received: by 2002:a05:620a:2f1:: with SMTP id
+ a17mr5283092qko.438.1583828617567; 
+ Tue, 10 Mar 2020 01:23:37 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvOk++5q56j3DIqOkp7eTpuv4mkLGC+d/+KbVhrAUCrDszy2TVOWOcuB/NnToD4hUgQ+sVD/g==
+X-Received: by 2002:a05:620a:2f1:: with SMTP id
+ a17mr5283075qko.438.1583828617138; 
+ Tue, 10 Mar 2020 01:23:37 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
+ by smtp.gmail.com with ESMTPSA id q142sm3716528qke.45.2020.03.10.01.23.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 01:23:35 -0700 (PDT)
+Date: Tue, 10 Mar 2020 04:23:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Longpeng (Mike,
+ Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
+Subject: Re: [PATCH RESEND 2/3] vhost: fix a null pointer reference of
+ vhost_log
+Message-ID: <20200310042017-mutt-send-email-mst@kernel.org>
+References: <20200224064219.1434-1-longpeng2@huawei.com>
+ <20200224064219.1434-3-longpeng2@huawei.com>
+ <20200310014623-mutt-send-email-mst@kernel.org>
+ <7da2b8b6-afe7-7f1f-9252-925b6bc543d8@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <7da2b8b6-afe7-7f1f-9252-925b6bc543d8@huawei.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,105 +94,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- euler.robot@huawei.com, pbonzini@redhat.com, zhang.zhanghailiang@huawei.com
+Cc: weifuqiang@huawei.com, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Mar 2020 14:46:40 +0800
-Pan Nengyuan <pannengyuan@huawei.com> wrote:
-
-> 'type/id' forgot to free in qmp_object_add, this patch fix that.
+On Tue, Mar 10, 2020 at 04:04:35PM +0800, Longpeng (Mike, Cloud Infrastruct=
+ure Service Product Dept.) wrote:
 >=20
-> The leak stack:
-> Direct leak of 84 byte(s) in 6 object(s) allocated from:
->     #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef76=
-8)
->     #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
->     #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
->     #3 0x56344954e692 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
-qom/qom-qmp-cmds.c:258
->     #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
-/qapi/qmp-dispatch.c:132
->     #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
-pi/qmp-dispatch.c:175
->     #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
-/qemu/monitor/qmp.c:145
->     #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
-_test/qemu/monitor/qmp.c:234
->     #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
-l/async.c:136
 >=20
-> Direct leak of 54 byte(s) in 6 object(s) allocated from:
->     #0 0x7fe2a5ebf768 in __interceptor_malloc (/lib64/libasan.so.5+0xef76=
-8)
->     #1 0x7fe2a5044445 in g_malloc (/lib64/libglib-2.0.so.0+0x52445)
->     #2 0x7fe2a505dd92 in g_strdup (/lib64/libglib-2.0.so.0+0x6bd92)
->     #3 0x56344954e6c4 in qmp_object_add /mnt/sdb/qemu-new/qemu_test/qemu/=
-qom/qom-qmp-cmds.c:267
->     #4 0x563449960f5a in do_qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu=
-/qapi/qmp-dispatch.c:132
->     #5 0x563449960f5a in qmp_dispatch /mnt/sdb/qemu-new/qemu_test/qemu/qa=
-pi/qmp-dispatch.c:175
->     #6 0x563449498a30 in monitor_qmp_dispatch /mnt/sdb/qemu-new/qemu_test=
-/qemu/monitor/qmp.c:145
->     #7 0x56344949a64f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu-new/qemu=
-_test/qemu/monitor/qmp.c:234
->     #8 0x563449a92a3a in aio_bh_call /mnt/sdb/qemu-new/qemu_test/qemu/uti=
-l/async.c:136
+> On 2020/3/10 13:57, Michael S. Tsirkin wrote:
+> > On Mon, Feb 24, 2020 at 02:42:18PM +0800, Longpeng(Mike) wrote:
+> >> From: Longpeng <longpeng2@huawei.com>
+> >>
+> >> vhost_log_alloc() may fails and returned pointer of log is null.
+> >> However there're two places derefernce the return pointer without
+> >> check.
+> >>
+> >> Signed-off-by: Longpeng <longpeng2@huawei.com>
+> >> ---
+> >>  hw/virtio/vhost.c | 19 +++++++++++++++++--
+> >>  1 file changed, 17 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >> index 9edfadc..c7ad6e5 100644
+> >> --- a/hw/virtio/vhost.c
+> >> +++ b/hw/virtio/vhost.c
+> >> @@ -219,6 +219,10 @@ static struct vhost_log *vhost_log_get(uint64_t s=
+ize, bool share)
+> >> =20
+> >>      if (!log || log->size !=3D size) {
+> >>          log =3D vhost_log_alloc(size, share);
+> >> +        if (!log) {
+> >> +            return NULL;
+> >> +        }
+> >> +
+> >>          if (share) {
+> >>              vhost_log_shm =3D log;
+> >>          } else {
+> >> @@ -270,10 +274,17 @@ static bool vhost_dev_log_is_shared(struct vhost=
+_dev *dev)
+> >> =20
+> >>  static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64=
+_t size)
+> >>  {
+> >> -    struct vhost_log *log =3D vhost_log_get(size, vhost_dev_log_is_sh=
+ared(dev));
+> >> -    uint64_t log_base =3D (uintptr_t)log->log;
+> >> +    struct vhost_log *log;
+> >> +    uint64_t log_base;
+> >>      int r;
+> >> =20
+> >> +    log =3D vhost_log_get(size, vhost_dev_log_is_shared(dev));
+> >> +    if (!log) {
+> >> +        return;
+> >> +    }
+> >> +
+> >=20
+> > I'm not sure silently failing like this is safe. Callers assume
+> > log can be resized. What can be done? I suspect not much
+> > beside exiting ...
+> > Speaking of which, lots of other failures in log resizing
+> > path seem to be silently ignored.
+> > I guess we should propagate them, and fix callers to check
+> > the return code?
+> >=20
+> How about to let the callers treat the failure of log_resize as a fatal e=
+rror ?
 >=20
-> Fixes: 5f07c4d60d091320186e7b0edaf9ed2cc16b2d1e
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
-> v2->v1:
-> - do not store both a const and non-const string in the same variable, ch=
-ange it to a non-const string.
->   (Suggested by Daniel P. Berrang=C3=A9)
-> ---
->  qom/qom-qmp-cmds.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
+> -static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint64_t =
+size)
+> +static inline int vhost_dev_log_resize(struct vhost_dev *dev, uint64_t s=
+ize)
+>  {
+> -    struct vhost_log *log =3D vhost_log_get(size, vhost_dev_log_is_share=
+d(dev));
+> -    uint64_t log_base =3D (uintptr_t)log->log;
+> +    struct vhost_log *log;
+> +    uint64_t log_base;
+>      int r;
 >=20
-> diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-> index 49db926fcc..435193b036 100644
-> --- a/qom/qom-qmp-cmds.c
-> +++ b/qom/qom-qmp-cmds.c
-> @@ -247,26 +247,22 @@ void qmp_object_add(QDict *qdict, QObject **ret_dat=
-a, Error **errp)
->      QDict *pdict;
->      Visitor *v;
->      Object *obj;
-> -    const char *type;
-> -    const char *id;
-> +    g_autofree char *type =3D NULL;
-> +    g_autofree char *id =3D NULL;
-> =20
-> -    type =3D qdict_get_try_str(qdict, "qom-type");
-> +    type =3D g_strdup(qdict_get_try_str(qdict, "qom-type"));
->      if (!type) {
->          error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
->          return;
-> -    } else {
-> -        type =3D g_strdup(type);
-> -        qdict_del(qdict, "qom-type");
+> +    log =3D vhost_log_get(size, vhost_dev_log_is_shared(dev));
+> +    if (!log) {
+> +        r =3D -1;
+> +        goto out;
+> +    }
+> +
+> +    log_base =3D (uintptr_t)log->log;
+> +
+>      /* inform backend of log switching, this must be done before
+>         releasing the current log, to ensure no logging is lost */
+>      r =3D dev->vhost_ops->vhost_set_log_base(dev, log_base, log);
+> @@ -284,6 +296,9 @@ static inline void vhost_dev_log_resize(struct vhost_=
+dev
+> *dev, uint64_t size)
+>      vhost_log_put(dev, true);
+>      dev->log =3D log;
+>      dev->log_size =3D size;
+> +
+> +out:
+> +    return 0;
+>  }
+>=20
+>=20
+> @@ -510,7 +525,9 @@ static void vhost_commit(MemoryListener *listener)
+>  #define VHOST_LOG_BUFFER (0x1000 / sizeof *dev->log)
+>      /* To log more, must increase log size before table update. */
+>      if (dev->log_size < log_size) {
+> -        vhost_dev_log_resize(dev, log_size + VHOST_LOG_BUFFER);
+> +        if (vhost_dev_log_resize(dev, log_size + VHOST_LOG_BUFFER) < 0) =
+{
+> +            abort();
+> +        }
 >      }
-> +    qdict_del(qdict, "qom-type");
-> =20
-> -    id =3D qdict_get_try_str(qdict, "id");
-> +    id =3D g_strdup(qdict_get_try_str(qdict, "id"));
->      if (!id) {
->          error_setg(errp, QERR_MISSING_PARAMETER, "id");
->          return;
-> -    } else {
-> -        id =3D g_strdup(id);
-> -        qdict_del(qdict, "id");
+>      r =3D dev->vhost_ops->vhost_set_mem_table(dev, dev->mem);
+>      if (r < 0) {
+> @@ -518,7 +535,9 @@ static void vhost_commit(MemoryListener *listener)
 >      }
-> +    qdict_del(qdict, "id");
-> =20
->      props =3D qdict_get(qdict, "props");
->      if (props) {
+>      /* To log less, can only decrease log size after table update. */
+>      if (dev->log_size > log_size + VHOST_LOG_BUFFER) {
+> -        vhost_dev_log_resize(dev, log_size);
+> +        if (vhost_dev_log_resize(dev, log_size + VHOST_LOG_BUFFER) < 0) =
+{
+> +            abort();
+> +        }
+>      }
+>=20
+>  out:
+
+
+I think the suggested handling is
+=09error_report() and exit().
+we also need to propagate errno. So how about passing in Error then?
+
+
+> @@ -818,7 +837,11 @@ static int vhost_migration_log(MemoryListener *liste=
+ner,
+> int enable)
+>          }
+>          vhost_log_put(dev, false);
+>      } else {
+> -        vhost_dev_log_resize(dev, vhost_get_log_size(dev));
+> +        r =3D vhost_dev_log_resize(dev, vhost_get_log_size(dev));
+> +        if (r < 0) {
+> +            return r;
+> +        }
+> +
+>          r =3D vhost_dev_set_log(dev, true);
+>          if (r < 0) {
+>              return r;
+>=20
+>=20
+> >=20
+> > .
+> >=20
+>=20
+> --=20
+> ---
+> Regards,
+> Longpeng(Mike)
 
 
