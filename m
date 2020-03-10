@@ -2,120 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5253617F4F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:22:38 +0100 (CET)
-Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E78FF17F4F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:20:19 +0100 (CET)
+Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBc21-0006BB-77
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:22:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
+	id 1jBbzn-0005Xx-0l
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48037)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1jBbwi-0004cN-3r
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:17:10 -0400
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jBbyP-0004uu-KC
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:18:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1jBbwh-00026c-23
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:17:07 -0400
-Received: from mout.gmx.net ([212.227.15.18]:55065)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1jBbwg-0001yH-LI
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:17:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1583835400;
- bh=5IWOH5hYUMoiZGMY0ojyFdt65FL4Vuk3hLa68m32lqk=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=gWB6iqUBRc8/BSHNM5n16GlRosQyoV99JRaNc6FDb7qjPtHCJPS9ZEvJDzuBpDu+d
- 8V2zE3uFVR4Eo1IQMAKWKfnJGq7R3ouMlYEeS/gsjf6urHCgcQ1oYKVdxsmMKajpB5
- VKFci9nBfMmN+dfWDdp3/CNbXBGWRfHAQIZc1+10=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.241] ([89.79.191.25]) by mail.gmx.com (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M8ygO-1jENtZ39bK-006ADY; Tue, 10
- Mar 2020 11:16:39 +0100
-Subject: Re: [PATCH v4 3/4] Introduce the NVMM impl
-To: Maxime Villard <max@m00nbsd.net>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200206115731.13552-1-n54@gmx.com>
- <20200206213232.1918-1-n54@gmx.com> <20200206213232.1918-4-n54@gmx.com>
- <e85f03be-60bc-2852-7856-91790ba5958b@redhat.com>
- <ca1210a3-2ea5-3862-c4fa-bdcd5624fe29@m00nbsd.net>
- <CABgObfZjnFFV3hosrP+sf5d3KmPPGuFJZo-oY5=u340wtxLYGg@mail.gmail.com>
- <a646f01d-fcf5-5984-d7ea-ccbb9a20ce2b@m00nbsd.net>
-From: Kamil Rytarowski <n54@gmx.com>
-Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
- 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
- 4XSbcg==
-Message-ID: <b5933e42-dc91-008f-6220-ec515afbbea2@gmx.com>
-Date: Tue, 10 Mar 2020 11:15:40 +0100
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <yuri.benditovich@daynix.com>) id 1jBbyO-0006zQ-AN
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:18:53 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:33470)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jBbyN-0006rr-V0
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:18:52 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id j186so13147240ywe.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 03:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DQ+Ezx+0gy/mLJbBzP38vOaqQJNHWm0H2BcNWkNBAVI=;
+ b=f400WaS/3rpJInj8cYqTwXjELKAYyG2RGADKVcb/f7YqxzbtZWmVWwTdH+v1pe2MAo
+ m+TNBS4Nm86MEzLuxDZUE6RaoqCWP95/9MBamRBeBdL63R+xa7LTphLMiLzPd+IIqSq8
+ oDAJUITZrsZVbZc173HHdPeYOnH3lT9dCLMWB5zt88xANTWhnn/LHnsyOh/lyP5xvRmy
+ UP9t9Y3CFq88boJYKQLYfes4vG7AkTqUsKrysl3nGpr4ybs5C5G9fsciTZxFl5tqrjKk
+ SG9DoNeLUtv/88+M9twiI2UztNqZdkGUYCcAnLtmHgBbO1VjH/SEDwynC1TErjd4S33y
+ YKrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DQ+Ezx+0gy/mLJbBzP38vOaqQJNHWm0H2BcNWkNBAVI=;
+ b=QlP4r0x95BkOghpj2wwHpVIrjtIt97n09zJsOJwWv38anhAzGtV/vO9rOpBdv3rfpQ
+ TIigZ9hUjW/zIgc0tkxfwJdszieeJmYhHWTbmVqhITbCylAQklW18USr321cnmJKV4q0
+ 5ryz8P1B1X1z0e13ET9ESL++c74eh0V0NVTsatA2Q5yFqWj/7rbz5yHIN++ntQe0Fujz
+ VNDciNbA0Dm589N7yBoK7tO3qCq71QLokuWQGyWVIZf6KiWX9cKBKH9fHmW3Hkw0XTzX
+ NHBOQq+7T4rqgJNIa0fNUkzU1d+00NRJ8E6nv77mULXeog66mWbxQxCK/ZGCJT/HjrzD
+ FIzQ==
+X-Gm-Message-State: ANhLgQ09htAfnsTzrQspVI0p+gXmg7EFqiPh63rJByy3kqaVLeQRvf7z
+ v+wK/mDXV3nvm8jucqgc9VROYjLerXoctgIQ9AiyRQ==
+X-Google-Smtp-Source: ADFU+vv6zNZB+AC61CSzDU0BP/FSn6PxiAL0OWgiwuuenrKiH/EYi68zmWyZjqoQjDK4ysBWc5cB/lfkmMVRsmX3jsk=
+X-Received: by 2002:a05:6902:6b0:: with SMTP id
+ j16mr22860651ybt.370.1583835530546; 
+ Tue, 10 Mar 2020 03:18:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a646f01d-fcf5-5984-d7ea-ccbb9a20ce2b@m00nbsd.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+References: <20200309083438.2389-1-yuri.benditovich@daynix.com>
+ <20200309083438.2389-4-yuri.benditovich@daynix.com>
+ <4dc38e82-ed58-9835-5e27-f893b9580152@redhat.com>
+In-Reply-To: <4dc38e82-ed58-9835-5e27-f893b9580152@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Tue, 10 Mar 2020 12:18:38 +0200
+Message-ID: <CAOEp5OeEQn39StVHQHycC1s+DoX6iOnRAuKwc4OuFHdEkUUYDg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] virtio-net: implement RX RSS processing
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/drBLkbgL9tOudSepPOZ54AQYKiKN6XUqlXWD9SvTN18F2tnGhl
- E3pJE/ibEiCcrRGjsxtnRDTauGe/uKfOXJNi5/eIX/m1Y6EwSG3hea+DNylBIT7F6k05u9B
- JYP5/jez/+p4uucWhcMmq0qNUmffve5+XgpHkDCV5AwyKTa6d+rDn4MGS4h9gKb3Ke+B+cd
- pCdZhbJ1umniD2UmrLlMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iH8datTGZ18=:H7+gX1pVhRFPkaS11K9qdf
- FZ0jUjKnSqWneYlRLgp/UaYRjZzqBXLqjeYrm8sHu2nqMUbbEruL5jnnRA4Mg9a7uY40LC4Nu
- O5IQXRlWjmrj0I2vnFdCZLZfnt2Anm0hyzq9vTwJ98N0vTZrWxnFpi2rXl6kR7qPlU0KgWmGH
- qY4T5hm+2Xkv88mXjQyIBqrBU7XZMoSz078driRKLhtYs17ELfmdPnMYG4fuRYJLmnrUIA5JH
- kZ7mNAy6Bxxz4bP3xAioIaPhtJCZh+KUR1sVDb0UdTB3c7gf/DIAr+W2p9rdDHPpcdWi1RYSw
- Hd27FwmBTaiRM2louTtcbkNNXAPVsA5zjTPDpBkv4XQr1u7KgD7gjKZJYlzdIo2iiHGmhuBOe
- 4BjA1ybw08XKK4KKLo/UIFQsos3E3gBP8gekh+HpAMTgDAWs02lcQBuRsub60/781sEy3XU/D
- x32qJBeQ+g/J8YH/n0H6Plv9WXJz3S9ktHQpT4MiJR6vilaZFCM1PjXZMXy/GdlggleNSWdQS
- pgYBlE+clxSvBhpSwb4c5SzpKKOh2zJQCvK/tP/VAd/THTrmGLe2WJCuoZ3YLc//Xi7OS3wPk
- E/zHkUcfAg08SDazC/VnKzs2ur5tnyt/BundbQRlXcPZqjwVOX5jBxyvqyNNLHyEoKCO4H/tA
- pO/c0i906txKMgec54aTiGRsku9d35VlBdHsvWw28vR0CmuNDUfk3dr2efQWkvhlD/N2fQy5I
- tK2Mfe8xQOECFalKEw9z026GjywFkI8G82G/U8PeHQ9xTqX6IM5unpLwF/1LuGAXROtvV5blA
- ddkT5sXbhZupgpS/3WsOT3BVnDheS5s4XRi7QkOO7JaRTW7ahdPKksT6iu6F7Y4oNlQLhR954
- L7ZQRVzZ9+ZMzMceVuMLl79N3DaSuM8kWijVajdPCv6KowboJpaoJ/VnPfKwcfJoxPEBMCkGE
- qCuryrST589O86M/Cc/gesyAVccjZGC1Ip7gi/tb4/i5hqvjJuOpsmQWn3+CmY1peAPUoal0r
- mMK2MCrBaAn7AE1ULNEAQguBuO9s9+nLAgyWNNYla+WTVScw6R6FNfGf/R1YAph2nW2+mmrXK
- qAklBGP62aglYG0OEIv22TSJ5+e1s0mIZU+aubSmk53mUDZ9EsXXu0cYqM2Pzwf+t8AJPuQzU
- 0RJ9QECIj7V+cVXIEjw5H6nQxtnhpEUB3o5STfiAsgEzRlAoIclzM1cUdVsoI62EDU6iw=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.18
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -127,61 +77,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, slp@redhat.com,
- qemu-devel@nongnu.org, jmcneill@invisible.ca, philmd@redhat.com,
- rth <rth@twiddle.net>
+Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.03.2020 07:45, Maxime Villard wrote:
-> Le 02/03/2020 =C3=A0 20:35, Paolo Bonzini a =C3=A9crit=C2=A0:
->>
->>
->> Il lun 2 mar 2020, 20:28 Maxime Villard <max@m00nbsd.net <mailto:max@m0=
-0nbsd.net>> ha scritto:
->>
->>
->>     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 nvmm_vcpu_pre_run(cpu);
->>     >> +
->>     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (atomic_read(&cpu->exit_request)=
-) {
->>     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_cpu_kick_self();
->>     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->>     >> +
->>     >
->>     > This is racy without something like KVM's immediate_exit mechanis=
-m.
->>     > This should be fixed in NVMM.
->>
->>     I don't immediately see how this is racy.
->>
->>
->> You can get an IPI signal immediately after reading cpu->exit_request.
->>
->>     It reproduces the existing
->>     logic found in whpx-all.c, and if there is a real problem it can be
->>     fixed in a future commit along with WHPX.
->>
->>
->> It's buggy there too and it has to be fixed in the hypervisor so it can=
-'t be done at the same time I'm both. KVM does it right by having a flag (=
-"immediate_exit") that is set by the signal handler and checked by the hyp=
-ervisor.
->>
->> An earlier version of KVM instead atomically unblocked the signal while=
- executing the guest, and then ate it with a sigwaitinfo after exiting bac=
-k to userspace.
->>
->> You don't have to fix it immediately, but adding a FIXME would be a goo=
-d idea.
->>
->> Paolo
+On Tue, Mar 10, 2020 at 5:10 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Kamil, please add /* FIXME: possible race here */ before the atomic_read=
-().
 >
-> Thanks
+> On 2020/3/9 =E4=B8=8B=E5=8D=884:34, Yuri Benditovich wrote:
+> > If VIRTIO_NET_F_RSS negotiated and RSS is enabled, process
+> > incoming packets, calculate packet's hash and place the
+> > packet into respective RX virtqueue.
+> >
+> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+> > ---
+> >   hw/net/virtio-net.c            | 86 +++++++++++++++++++++++++++++++++=
+-
+> >   include/hw/virtio/virtio-net.h |  1 +
+> >   2 files changed, 85 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index 27071eccd2..abc41fdb16 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -42,6 +42,7 @@
+> >   #include "trace.h"
+> >   #include "monitor/qdev.h"
+> >   #include "hw/pci/pci.h"
+> > +#include "net_rx_pkt.h"
+> >
+> >   #define VIRTIO_NET_VM_VERSION    11
+> >
+> > @@ -1610,8 +1611,78 @@ static int receive_filter(VirtIONet *n, const ui=
+nt8_t *buf, int size)
+> >       return 0;
+> >   }
+> >
+> > +static uint8_t virtio_net_get_hash_type(bool isip4,
+> > +                                        bool isip6,
+> > +                                        bool isudp,
+> > +                                        bool istcp,
+> > +                                        uint32_t types)
+> > +{
+> > +    uint32_t mask;
+> > +    if (isip4) {
+> > +        if (istcp && (types & VIRTIO_NET_RSS_HASH_TYPE_TCPv4)) {
+> > +            return NetPktRssIpV4Tcp;
+> > +        }
+> > +        if (isudp && (types & VIRTIO_NET_RSS_HASH_TYPE_UDPv4)) {
+> > +            return NetPktRssIpV4Udp;
+> > +        }
+> > +        if (types & VIRTIO_NET_RSS_HASH_TYPE_IPv4) {
+> > +            return NetPktRssIpV4;
+> > +        }
+> > +    } else if (isip6) {
+> > +        mask =3D VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | VIRTIO_NET_RSS_HASH=
+_TYPE_TCPv6;
+> > +        if (istcp && (types & mask)) {
+> > +            return (types & VIRTIO_NET_RSS_HASH_TYPE_TCP_EX) ?
+> > +                NetPktRssIpV6TcpEx : NetPktRssIpV6Tcp;
+> > +        }
+> > +        mask =3D VIRTIO_NET_RSS_HASH_TYPE_UDP_EX | VIRTIO_NET_RSS_HASH=
+_TYPE_UDPv6;
+> > +        if (isudp && (types & mask)) {
+> > +            return (types & VIRTIO_NET_RSS_HASH_TYPE_UDP_EX) ?
+> > +                NetPktRssIpV6UdpEx : NetPktRssIpV6Udp;
+> > +        }
+> > +        mask =3D VIRTIO_NET_RSS_HASH_TYPE_IP_EX | VIRTIO_NET_RSS_HASH_=
+TYPE_IPv6;
+> > +        if (types & mask) {
+> > +            return (types & VIRTIO_NET_RSS_HASH_TYPE_IP_EX) ?
+> > +                NetPktRssIpV6Ex : NetPktRssIpV6;
+> > +        }
+> > +    }
+> > +    return 0xff;
+> > +}
+> > +
+> > +static int virtio_net_process_rss(NetClientState *nc, const uint8_t *b=
+uf,
+> > +                                  size_t size)
+> > +{
+> > +    VirtIONet *n =3D qemu_get_nic_opaque(nc);
+> > +    unsigned int index =3D nc->queue_index, new_index;
+> > +    struct NetRxPkt *pkt =3D n->rss_data.pkt;
+> > +    uint8_t net_hash_type;
+> > +    uint32_t hash;
+> > +    bool isip4, isip6, isudp, istcp;
+> > +    net_rx_pkt_set_protocols(pkt, buf + n->host_hdr_len,
+> > +                             size - n->host_hdr_len);
+> > +    net_rx_pkt_get_protocols(pkt, &isip4, &isip6, &isudp, &istcp);
+> > +    if (isip4 && (net_rx_pkt_get_ip4_info(pkt)->fragment)) {
+> > +        istcp =3D isudp =3D false;
+> > +    }
+> > +    if (isip6 && (net_rx_pkt_get_ip6_info(pkt)->fragment)) {
+> > +        istcp =3D isudp =3D false;
+> > +    }
+> > +    net_hash_type =3D virtio_net_get_hash_type(isip4, isip6, isudp, is=
+tcp,
+> > +                                             n->rss_data.hash_types);
+> > +    if (net_hash_type > NetPktRssIpV6UdpEx) {
+> > +        return n->rss_data.default_queue;
+> > +    }
+> > +
+> > +    hash =3D net_rx_pkt_calc_rss_hash(pkt, net_hash_type, n->rss_data.=
+key);
+> > +    new_index =3D hash & (n->rss_data.indirections_len - 1);
+> > +    new_index =3D n->rss_data.indirections[new_index];
+> > +    if (index =3D=3D new_index) {
+> > +        return -1;
+> > +    }
+> > +    return new_index;
+> > +}
+> > +
+> >   static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8=
+_t *buf,
+> > -                                      size_t size)
+> > +                                      size_t size, bool no_rss)
+> >   {
+> >       VirtIONet *n =3D qemu_get_nic_opaque(nc);
+> >       VirtIONetQueue *q =3D virtio_net_get_subqueue(nc);
+> > @@ -1625,6 +1696,14 @@ static ssize_t virtio_net_receive_rcu(NetClientS=
+tate *nc, const uint8_t *buf,
+> >           return -1;
+> >       }
+> >
+> > +    if (!no_rss && n->rss_data.enabled) {
+> > +        int index =3D virtio_net_process_rss(nc, buf, size);
+> > +        if (index >=3D 0) {
+> > +            NetClientState *nc2 =3D qemu_get_subqueue(n->nic, index);
+> > +            return virtio_net_receive_rcu(nc2, buf, size, true);
+> > +        }
+> > +    }
+>
+>
+> In the long run, we need to implement steering ops and allow device
+> model to implement their own policy instead of doing hack like this.
 >
 
-I will do it and submit a new patchset revision.
+Are you talking about support for RSS in tap driver or about something
+different?
+
+> Thanks
+>
+>
+> > +
+> >       /* hdr_len refers to the header we supply to the guest */
+> >       if (!virtio_net_has_buffers(q, size + n->guest_hdr_len - n->host_=
+hdr_len)) {
+> >           return 0;
+> > @@ -1719,7 +1798,7 @@ static ssize_t virtio_net_do_receive(NetClientSta=
+te *nc, const uint8_t *buf,
+> >   {
+> >       RCU_READ_LOCK_GUARD();
+> >
+> > -    return virtio_net_receive_rcu(nc, buf, size);
+> > +    return virtio_net_receive_rcu(nc, buf, size, false);
+> >   }
+> >
+> >   static void virtio_net_rsc_extract_unit4(VirtioNetRscChain *chain,
+> > @@ -3295,6 +3374,8 @@ static void virtio_net_device_realize(DeviceState=
+ *dev, Error **errp)
+> >
+> >       QTAILQ_INIT(&n->rsc_chains);
+> >       n->qdev =3D dev;
+> > +
+> > +    net_rx_pkt_init(&n->rss_data.pkt, false);
+> >   }
+> >
+> >   static void virtio_net_device_unrealize(DeviceState *dev, Error **err=
+p)
+> > @@ -3331,6 +3412,7 @@ static void virtio_net_device_unrealize(DeviceSta=
+te *dev, Error **errp)
+> >       g_free(n->vqs);
+> >       qemu_del_nic(n->nic);
+> >       virtio_net_rsc_cleanup(n);
+> > +    net_rx_pkt_uninit(n->rss_data.pkt);
+> >       virtio_cleanup(vdev);
+> >   }
+> >
+> > diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-=
+net.h
+> > index cf16f5192e..45670dd054 100644
+> > --- a/include/hw/virtio/virtio-net.h
+> > +++ b/include/hw/virtio/virtio-net.h
+> > @@ -209,6 +209,7 @@ struct VirtIONet {
+> >           uint16_t indirections[VIRTIO_NET_RSS_MAX_TABLE_LEN];
+> >           uint16_t indirections_len;
+> >           uint16_t default_queue;
+> > +        struct NetRxPkt *pkt;
+> >       } rss_data;
+> >   };
+> >
+>
 
