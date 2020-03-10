@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAEAD17F70D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:05:56 +0100 (CET)
-Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBDC17F721
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:10:39 +0100 (CET)
+Received: from localhost ([::1]:59468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBddz-0001XS-NR
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39819)
+	id 1jBdiY-00048g-FI
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:10:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1jBdb9-0006YW-98
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:03:00 -0400
+ (envelope-from <longpeng2@huawei.com>) id 1jBdhe-0003jw-2N
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:09:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1jBdb7-0004pT-Az
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:02:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52591
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <longpeng2@huawei.com>) id 1jBdhc-0008GH-NO
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:09:41 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:44750 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1jBdb7-0004mA-3q
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:02:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583841775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/kazORsQqbHcXYgDlDbERsJ3TqvOE8kzXaavbFTp+Yc=;
- b=cdZeETsOldpqQtjZmDFReWF6GZmkw6gbCi84Na9hQfQmpgadU7ZIAcAWL//8C29gP/i3ZY
- b5qCGEjeb2+FKmUx5j2tSwnPgYR5KG9Lfd3CgdOidvF1IInouQKwoS7DJsb8nYtop5cVDp
- MJlropMjTv6VyR2r3nMsEz06veV1ezg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-v6IA4f65NKaH48MY70saSw-1; Tue, 10 Mar 2020 08:02:54 -0400
-X-MC-Unique: v6IA4f65NKaH48MY70saSw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57622107ACC7;
- Tue, 10 Mar 2020 12:02:53 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0B6C92972;
- Tue, 10 Mar 2020 12:02:47 +0000 (UTC)
-Message-ID: <d24c41cc125f3d9295dc40825878ef7fc62c289e.camel@redhat.com>
-Subject: Re: [PATCH v2 02/14] qcrypto/luks: implement encryption key management
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Date: Tue, 10 Mar 2020 14:02:43 +0200
-In-Reply-To: <20200310115926.GC6926@linux.fritz.box>
-References: <20200308151903.25941-1-mlevitsk@redhat.com>
- <20200308151903.25941-3-mlevitsk@redhat.com>
- <704e841b-a5e1-2bea-0a1f-1b6fe1058a17@redhat.com>
- <5f1390648d98ac52928985185522cb58f1bc7253.camel@redhat.com>
- <20200310115926.GC6926@linux.fritz.box>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
+ id 1jBdhc-0007yu-BQ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:09:40 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 367925BFBD1AE201AAF7;
+ Tue, 10 Mar 2020 20:09:34 +0800 (CST)
+Received: from [127.0.0.1] (10.177.246.209) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0;
+ Tue, 10 Mar 2020 20:09:27 +0800
+Subject: Re: [RFC] cpus: avoid get stuck in pause_all_vcpus
+To: <qemu-devel@nongnu.org>
+References: <158383564824.20878.9634431361481694557@39012742ff91>
+From: "Longpeng (Mike)" <longpeng2@huawei.com>
+Message-ID: <fed91a01-c545-bcfa-7215-36d69ab0f2ac@huawei.com>
+Date: Tue, 10 Mar 2020 20:09:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <158383564824.20878.9634431361481694557@39012742ff91>
+Content-Type: text/plain; charset="utf-8"
+X-Originating-IP: [10.177.246.209]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,115 +55,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: peter.maydell@linaro.org, dgilbert@redhat.com, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-03-10 at 12:59 +0100, Kevin Wolf wrote:
-> Am 10.03.2020 um 12:05 hat Maxim Levitsky geschrieben:
-> > On Tue, 2020-03-10 at 11:58 +0100, Max Reitz wrote:
-> > > On 08.03.20 16:18, Maxim Levitsky wrote:
-> > > > Next few patches will expose that functionality
-> > > > to the user.
-> > > >=20
-> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > > ---
-> > > >  crypto/block-luks.c | 398 ++++++++++++++++++++++++++++++++++++++++=
-+++-
-> > > >  qapi/crypto.json    |  61 ++++++-
-> > > >  2 files changed, 455 insertions(+), 4 deletions(-)
-> > >=20
-> > > [...]
-> > >=20
-> > > > +##
-> > > > +# @QCryptoBlockAmendOptionsLUKS:
-> > > > +#
-> > > > +# This struct defines the update parameters that activate/de-activ=
-ate set
-> > > > +# of keyslots
-> > > > +#
-> > > > +# @state: the desired state of the keyslots
-> > > > +#
-> > > > +# @new-secret:    The ID of a QCryptoSecret object providing the p=
-assword to be
-> > > > +#                 written into added active keyslots
-> > > > +#
-> > > > +# @old-secret:    Optional (for deactivation only)
-> > > > +#                 If given will deactive all keyslots that
-> > > > +#                 match password located in QCryptoSecret with thi=
-s ID
-> > > > +#
-> > > > +# @iter-time:     Optional (for activation only)
-> > > > +#                 Number of milliseconds to spend in
-> > > > +#                 PBKDF passphrase processing for the newly activa=
-ted keyslot.
-> > > > +#                 Currently defaults to 2000.
-> > > > +#
-> > > > +# @keyslot:       Optional. ID of the keyslot to activate/deactiva=
-te.
-> > > > +#                 For keyslot activation, keyslot should not be ac=
-tive already
-> > > > +#                 (this is unsafe to update an active keyslot),
-> > > > +#                 but possible if 'force' parameter is given.
-> > > > +#                 If keyslot is not given, first free keyslot will=
- be written.
-> > > > +#
-> > > > +#                 For keyslot deactivation, this parameter specifi=
-es the exact
-> > > > +#                 keyslot to deactivate
-> > > > +#
-> > > > +# @unlock-secret: Optional. The ID of a QCryptoSecret object provi=
-ding the
-> > > > +#                 password to use to retrive current master key.
-> > > > +#                 Defaults to the same secret that was used to ope=
-n the image
-> > >=20
-> > > So this matches Markus=E2=80=99 proposal except everything is flatten=
-ed (because
-> > > we don=E2=80=99t support nested unions, AFAIU).  Sounds OK to me.  Th=
-e only
-> > > difference is @unlock-secret, which did not appear in his proposal.  =
-Why
-> > > do we need it again?
-> >=20
-> > That a little undocumented hack that will disappear one day.
+=E5=9C=A8 2020/3/10 18:20, no-reply@patchew.org =E5=86=99=E9=81=93:
+> Patchew URL: https://patchew.org/QEMU/20200310091443.1326-1-longpeng2@h=
+uawei.com/
 >=20
-> It is very much documented (just a few lines above this one), and even
-> if it weren't documented, that wouldn't make it an unstable ABI.
 >=20
-> If you don't want to make it to become stable ABI, you either need to
-> drop it or it needs an x- prefix, and its documentation should specify
-> what prevents it from being a stable ABI.
 >=20
-> > Its because the driver currently doesn't keep a copy of the master key,
-> > and instead only keeps ciper objects, often from outside libraries,
-> > and in theory these objects might even be implemented in hardware so th=
-at
-> > master key might be not in memory at all, so I kind of don't want yet
-> > to keep it in memory.
-> > Thus when doing the key management, I need to retrieve the master key a=
-gain,
-> > similar to how it is done on image opening. I use the same secret as wa=
-s used for opening,
-> > but in case the keys were changed already, that secret might not work a=
-nymore.
-> > Thus I added this parameter to specify basically the old password, whic=
-h is reasonable
-> > when updating passwords.
-> > I usually omit this hack in the discussions as it is orthogonal to the =
-rest of the API.
+> Hi,
 >=20
-> How will this requirement disappear one day?
-If I cave in and keep a copy of the master key in the memory :-)
+> This series failed the asan build test. Please find the testing command=
+s and
+> their output below. If you have Docker installed, you can probably repr=
+oduce it
+> locally.
+>=20
 
-Best regards,
-=09Maxim Levitsky
+Hi guys,
+It seems this failure is NOT caused by my patch, so let's ignore it for t=
+he
+moment...
 
+> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}  QTE=
+ST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64 QTEST_QEMU_IMG=3Dqemu-=
+img tests/qtest/wdt_ib700-test -m=3Dquick -k --tap < /dev/null | ./script=
+s/tap-driver.pl --test-name=3D"wdt_ib700-test"=20
+> PASS 1 wdt_ib700-test /x86_64/wdt_ib700/pause
+> ---
+> dbus-daemon[8273]: Could not get password database information for UID =
+of current process: User "???" unknown or no memory to allocate password =
+entry
 >=20
-> Kevin
+> **
+> ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connec=
+tion: assertion failed (err =3D=3D NULL): The connection is closed (g-io-=
+error-quark, 18)
+> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-tes=
+t.c:114:get_connection: assertion failed (err =3D=3D NULL): The connectio=
+n is closed (g-io-error-quark, 18)
+> cleaning up pid 8273
+> make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-x=
+86_64] Error 1
+> make: *** Waiting for unfinished jobs....
+> Traceback (most recent call last):
+>   File "./tests/docker/docker.py", line 664, in <module>
+> ---
+>     raise CalledProcessError(retcode, cmd)
+> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run',=
+ '--label', 'com.qemu.instance.uuid=3D88af8ba44214464d881ef7c7786167f4', =
+'-u', '1003', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TA=
+RGET_LIST=3Dx86_64-softmmu', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D=
+', '-e', 'J=3D14', '-e', 'DEBUG=3D', '-e', 'SHOW_ENV=3D', '-e', 'CCACHE_D=
+IR=3D/var/tmp/ccache', '-v', '/home/patchew2/.cache/qemu-docker-ccache:/v=
+ar/tmp/ccache:z', '-v', '/var/tmp/patchew-tester-tmp-a0j9h14_/src/docker-=
+src.2020-03-10-05.52.52.1292:/var/tmp/qemu:z,ro', 'qemu:fedora', '/var/tm=
+p/qemu/run', 'test-debug']' returned non-zero exit status 2.
+> filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3D88af8ba44214464d88=
+1ef7c7786167f4
+> make[1]: *** [docker-run] Error 1
+> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-a0j9h14_/src'
+> make: *** [docker-run-test-debug@fedora] Error 2
+>=20
+> real    27m55.506s
+> user    0m8.248s
+>=20
+>=20
+> The full log is available at
+> http://patchew.org/logs/20200310091443.1326-1-longpeng2@huawei.com/test=
+ing.asan/?type=3Dmessage.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
+>=20
 
+
+--=20
+Regards,
+Longpeng(Mike)
 
 
