@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08FB17FF80
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:50:07 +0100 (CET)
-Received: from localhost ([::1]:33518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5542417FF71
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:47:54 +0100 (CET)
+Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBfGo-0006rG-Oy
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42801)
+	id 1jBfEf-0002q9-EG
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46431)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jBf9d-0002mR-FW
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:46 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jBfC9-0007XF-Vj
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:45:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jBf9c-0008GI-3f
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24032)
+ (envelope-from <frankja@linux.ibm.com>) id 1jBfC8-00066A-Q2
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:45:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37952
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jBf9b-0008Dz-R2
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:40 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02ADga8P019076
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:39 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ynraspkr4-1
+ id 1jBfC8-00065I-Ih
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:45:16 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02ADinUL078188
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:45:16 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ynr9ddkky-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:42:38 -0400
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:44:51 -0400
 Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Tue, 10 Mar 2020 13:42:13 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Tue, 10 Mar 2020 13:42:15 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Mar 2020 13:42:11 -0000
+ Tue, 10 Mar 2020 13:42:12 -0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02ADgA5i59965618
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02ADgBkX47055064
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 13:42:10 GMT
+ Tue, 10 Mar 2020 13:42:12 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5500911C04A;
+ by IMSVA (Postfix) with ESMTP id D1BF411C050;
+ Tue, 10 Mar 2020 13:42:11 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A6F2D11C04C;
  Tue, 10 Mar 2020 13:42:10 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1731811C04C;
- Tue, 10 Mar 2020 13:42:09 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.23.214])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 10 Mar 2020 13:42:08 +0000 (GMT)
+ Tue, 10 Mar 2020 13:42:10 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 08/15] s390x: protvirt: SCLP interpretation
-Date: Tue, 10 Mar 2020 09:40:01 -0400
+Subject: [PATCH v8 09/15] s390x: protvirt: Set guest IPL PSW
+Date: Tue, 10 Mar 2020 09:40:02 -0400
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200310134008.130038-1-frankja@linux.ibm.com>
 References: <20200310134008.130038-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031013-0016-0000-0000-000002EF054E
+x-cbid: 20031013-0028-0000-0000-000003E2B9A8
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031013-0017-0000-0000-00003352696E
-Message-Id: <20200310134008.130038-9-frankja@linux.ibm.com>
+x-cbparentid: 20031013-0029-0000-0000-000024A7FAAE
+Message-Id: <20200310134008.130038-10-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-10_07:2020-03-10,
  2020-03-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 mlxscore=0 mlxlogscore=842 bulkscore=0
- suspectscore=1 clxscore=1015 malwarescore=0 adultscore=0
+ mlxlogscore=999 spamscore=0
+ suspectscore=1 malwarescore=0 adultscore=0 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 phishscore=0
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003100091
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,111 +96,51 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SCLP for a protected guest is done over the SIDAD, so we need to use
-the s390_cpu_pv_mem_* functions to access the SIDAD instead of guest
-memory when reading/writing SCBs.
-
-To not confuse the sclp emulation, we set 0x4000 as the SCCB address,
-since the function that injects the sclp external interrupt would
-reject a zero sccb address.
+Handling of CPU reset and setting of the IPL psw from guest storage at
+offset 0 is done by a Ultravisor call. Let's only fetch it if
+necessary.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- hw/s390x/sclp.c         | 30 ++++++++++++++++++++++++++++++
- include/hw/s390x/sclp.h |  2 ++
- target/s390x/kvm.c      | 24 +++++++++++++++++++-----
- 3 files changed, 51 insertions(+), 5 deletions(-)
+ target/s390x/cpu.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index af0bfbc2ec..5f3aa30d62 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -193,6 +193,36 @@ static void sclp_execute(SCLPDevice *sclp, SCCB *sccb, uint32_t code)
-     }
- }
- 
-+/*
-+ * We only need the address to have something valid for the
-+ * service_interrupt call.
-+ */
-+#define SCLP_PV_DUMMY_ADDR 0x4000
-+int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-+                                uint32_t code)
-+{
-+    SCLPDevice *sclp = get_sclp_device();
-+    SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
-+    SCCB work_sccb;
-+    hwaddr sccb_len = sizeof(SCCB);
-+
-+    /*
-+     * Only a very limited amount of calls is permitted by the
-+     * Ultravisor and we support all of them, so we don't check for
-+     * them. All other specification exceptions are also interpreted
-+     * by the Ultravisor and hence never cause an exit we need to
-+     * handle.
-+     *
-+     * Setting the CC is also done by the Ultravisor.
-+     */
-+    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
-+    sclp_c->execute(sclp, &work_sccb, code);
-+    s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
-+                          be16_to_cpu(work_sccb.h.length));
-+    sclp_c->service_interrupt(sclp, SCLP_PV_DUMMY_ADDR);
-+    return 0;
-+}
-+
- int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index bcb9e47767..bb28493009 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -78,16 +78,20 @@ static bool s390_cpu_has_work(CPUState *cs)
+ static void s390_cpu_load_normal(CPUState *s)
  {
-     SCLPDevice *sclp = get_sclp_device();
-diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-index c54413b78c..c0a3faa37d 100644
---- a/include/hw/s390x/sclp.h
-+++ b/include/hw/s390x/sclp.h
-@@ -217,5 +217,7 @@ void s390_sclp_init(void);
- void sclp_service_interrupt(uint32_t sccb);
- void raise_irq_cpu_hotplug(void);
- int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code);
-+int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-+                                uint32_t code);
+     S390CPU *cpu = S390_CPU(s);
+-    uint64_t spsw = ldq_phys(s->as, 0);
+-
+-    cpu->env.psw.mask = spsw & PSW_MASK_SHORT_CTRL;
+-    /*
+-     * Invert short psw indication, so SIE will report a specification
+-     * exception if it was not set.
+-     */
+-    cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
+-    cpu->env.psw.addr = spsw & PSW_MASK_SHORT_ADDR;
++    uint64_t spsw;
  
- #endif
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index e85ede3770..e92e0d5943 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -1226,12 +1226,26 @@ static void kvm_sclp_service_call(S390CPU *cpu, struct kvm_run *run,
-     sccb = env->regs[ipbh0 & 0xf];
-     code = env->regs[(ipbh0 & 0xf0) >> 4];
- 
--    r = sclp_service_call(env, sccb, code);
--    if (r < 0) {
--        kvm_s390_program_interrupt(cpu, -r);
--        return;
-+    switch (run->s390_sieic.icptcode) {
-+    case ICPT_PV_INSTR_NOTIFICATION:
-+        g_assert(s390_is_pv());
-+        /* The notification intercepts are currently handled by KVM */
-+        error_report("unexpected SCLP PV notification");
-+        exit(1);
-+        break;
-+    case ICPT_PV_INSTR:
-+        g_assert(s390_is_pv());
-+        sclp_service_call_protected(env, sccb, code);
-+        break;
-+    case ICPT_INSTRUCTION:
-+        g_assert(!s390_is_pv());
-+        r = sclp_service_call(env, sccb, code);
-+        if (r < 0) {
-+            kvm_s390_program_interrupt(cpu, -r);
-+            return;
-+        }
-+        setcc(cpu, r);
-     }
--    setcc(cpu, r);
++    if (!s390_is_pv()) {
++        spsw = ldq_phys(s->as, 0);
++        cpu->env.psw.mask = spsw & PSW_MASK_SHORT_CTRL;
++        /*
++         * Invert short psw indication, so SIE will report a specification
++         * exception if it was not set.
++         */
++        cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
++        cpu->env.psw.addr = spsw & PSW_MASK_SHORT_ADDR;
++    } else {
++        s390_cpu_set_state(S390_CPU_STATE_LOAD, cpu);
++    }
+     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
  }
- 
- static int handle_b2(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+ #endif
 -- 
 2.20.1
 
