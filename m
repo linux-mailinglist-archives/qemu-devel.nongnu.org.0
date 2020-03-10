@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047411805DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:09:21 +0100 (CET)
-Received: from localhost ([::1]:38084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D1E1805C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:06:22 +0100 (CET)
+Received: from localhost ([::1]:38028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjJg-0004hP-45
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53325)
+	id 1jBjGm-00087k-H0
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50816)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1jBjHL-0001Vi-5h
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:06:56 -0400
+ (envelope-from <peterx@redhat.com>) id 1jBjF8-0006mY-I5
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:04:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1jBjHJ-0002d9-Lr
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:06:54 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:45000)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1jBjHJ-00025i-B1
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:06:53 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AI2NSU028550;
- Tue, 10 Mar 2020 18:06:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=8QvUq+Ufv1VOrTlkNTw3FOUYcLjYpcDkpxPgfeSXPXc=;
- b=EsmQAMHTsz2Mv8D1hu1OVeWxANrOYUR+OT5xUbGDH3dgei6piyvF+x1ctluy/Zk3WdP1
- Lxd12KHQGec/eK6BujWeAzFi52mWU5S/5MPbeBSeSLCRfJ5YaYZnrwigG+R1gn0j1HfJ
- nmwDLhhXzsD8TdsdiND2fnsyM1HNxB7QCE9JqOaRKQTE12l/wxUG4nAMDnzRs8i0CKfu
- x0mvpWx4R3OW7e3b5hd8DfxQAEctn+c5QuQmgKmB+WG5/yI3V9EFhTna0EX/pQjrrSyF
- qj6ES/odluLfJfrrvOK7dJueZaI2QbG3sLGrfDcsdfg9BNfD1F8OtZ9CtmTGpX4pvF3R 5g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2yp9v629f1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 18:06:31 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AI3YfW054219;
- Tue, 10 Mar 2020 18:04:30 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2yp8qpku2p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 18:04:30 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02AI4QXR021388;
- Tue, 10 Mar 2020 18:04:26 GMT
-Received: from [10.152.34.2] (/10.152.34.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 10 Mar 2020 11:04:25 -0700
-Subject: Re: [PATCH v5 32/50] multi-process: Use separate MMIO communication
- channel
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <cover.1582576372.git.jag.raman@oracle.com>
- <d776913e1796fe9f929a665c0265eff3978fcc16.1582576372.git.jag.raman@oracle.com>
- <20200306165227.GD1438162@stefanha-x1.localdomain>
-From: Jag Raman <jag.raman@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <520c4a37-2d8a-8d5c-fa12-fc33929a183b@oracle.com>
-Date: Tue, 10 Mar 2020 14:04:23 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peterx@redhat.com>) id 1jBjF7-0001Ke-Ji
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:04:38 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46076
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1jBjF7-0001Fn-Aa
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:04:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583863476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c+xOX9mv1vWnOIs8IVFTxa/x0zvudG4n7w9pUfQnze4=;
+ b=JoO+4W0gWKSwKaIjisOkvP/L09nisCOs3bO3Y8FL1ES57hr5CAmYJI3s4/Et/G007shgIT
+ Nqm1MGvf+4ElnT21Ey8iau79+7fcjLRb9qMQVHLwDR92K7v67D8NcGD2z7YOWXmNewEv4o
+ H94QQiKzC8Memtd9gDCAvODJEOX9dOc=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-66Nx8vOeMWK-rC6l1rbuFQ-1; Tue, 10 Mar 2020 14:04:35 -0400
+X-MC-Unique: 66Nx8vOeMWK-rC6l1rbuFQ-1
+Received: by mail-qk1-f198.google.com with SMTP id b82so3317581qkc.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:04:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=X35yfMQwReR+oTrvPOM9crrpSHxbP8d45e9HTzSa+XQ=;
+ b=sLZ4RffJy6sz7mDYuK34c5AeB7hWqPeb3vNetph961RRqGctBsPhK3o7udp5DP6PLQ
+ 9zBGF71N+fCGZqL3lvR2h8au+mNh5+DIPpMlMeNFkuZ1ewUPCpvSQoVNv/M0m7t2CdDI
+ t+qLWUZApKCWra/tTT1lu8z4ZA7iderl3436cIP+87x4zP96yEwDb5Q4Samk3OnAhKBP
+ yPTrnqv6obHF8gyrMoFjGhq6l52hGWeOqtNSkiXx2QK7NbEmvCgA1F2FA3B6vTs3071n
+ L9pV9mGM+menCQHcoRskthgWCl/OeUZ52zy7uzihgE6u9wAvqFbDd9a5TDHJIDop/qtS
+ C29w==
+X-Gm-Message-State: ANhLgQ3SPdG6DPsA8RDVxtJSsFlKdoHZobMaYaGQotQ7OGWOMuuSvnsm
+ 1hsGDZ6bQ+osqHWgEnWnGLf4UKwbj4Fwx9EJnk6HeCm9EIJCaSf1stHL13Jgm+XMOn32LWH+Z7n
+ 1F7HLvJJVhKP91ec=
+X-Received: by 2002:aed:2266:: with SMTP id o35mr20192942qtc.392.1583863474460; 
+ Tue, 10 Mar 2020 11:04:34 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vupJ9MZihiUVW/UcGwd8JnUygSYSdRRMpjccDmheeO6ochpXKGqUCT2sOLtGxhjDQqYp6q3KQ==
+X-Received: by 2002:aed:2266:: with SMTP id o35mr20192923qtc.392.1583863474153; 
+ Tue, 10 Mar 2020 11:04:34 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id w204sm11834507qkb.133.2020.03.10.11.04.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 11:04:33 -0700 (PDT)
+Date: Tue, 10 Mar 2020 14:04:32 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [PATCH] hw/i386/intel_iommu: Fix out-of-bounds access on guest IRT
+Message-ID: <20200310180432.GB479302@xz-x1>
+References: <4b15b728-bdfe-3bbe-3a5c-ca3baeef3c5c@siemens.com>
 MIME-Version: 1.0
-In-Reply-To: <20200306165227.GD1438162@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0 mlxscore=0
- adultscore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003100109
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003100109
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+In-Reply-To: <4b15b728-bdfe-3bbe-3a5c-ca3baeef3c5c@siemens.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,76 +86,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 10, 2020 at 06:42:11PM +0100, Jan Kiszka wrote:
+> From: Jan Kiszka <jan.kiszka@siemens.com>
+>=20
+> vtd_irte_get failed to check the index against the configured table
+> size, causing an out-of-bounds access on guest memory and potentially
+> misinterpreting the result.
+>=20
+> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
 
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-On 3/6/2020 11:52 AM, Stefan Hajnoczi wrote:
-> This went unanswered in the last revision:
-> 
-> On Thu, Nov 21, 2019 at 12:31:42PM +0000, Stefan Hajnoczi wrote:
->> On Wed, Nov 13, 2019 at 11:14:50AM -0500, Jag Raman wrote:
->>> On 11/11/2019 11:21 AM, Stefan Hajnoczi wrote:
->>>> On Thu, Oct 24, 2019 at 05:09:13AM -0400, Jagannathan Raman wrote:
->>>>> Using a separate communication channel for MMIO helps
->>>>> with improving Performance
->>>>
->>>> Why?
->>>
->>> Typical initiation of IO operations involves multiple MMIO accesses per
->>> IO operation. In some legacy devices like LSI, the completion of the IO
->>> operations is also accomplished by polling on MMIO registers. Therefore,
->>> MMIO traffic can be hefty in some cases and contribute to Performance.
->>>
->>> Having a dedicated channel for MMIO ensures that it doesn't have to
->>> compete with other messages to the remote process, especially when there
->>> are multiple devices emulated by a single remote process.
->>
->> A vCPU doing a polling read on an MMIO register will cause a BAR_READ
->> message to be sent to the remote process.  The vCPU thread waits for the
->> response to this message.
->>
->> When there are multiple remote devices each has its own socket, so
->> communication with different remote processes does not interfere.
->>
->> The only scenarios I can think of are:
->> 1. Interference within a single device between vCPUs and/or the QEMU
->>     monitor.
->> 2. A single process serving multiple devices that is implemented in a
->>     way such that different devices interfere with each other.
->>
->> It sounds like you are saying the problem is #2, but this is still
->> unclear to me.  If the remote process can be implemented in a way such
->> that there is no interference when each device has a special MMIO
->> socket, then why can't it be implemented in a way such that there is no
->> interference when each device's main socket is used (each device has
->> it's own!).
->>
->> Maybe I've missed the point.  It would be good if you could explain in
->> more detail.
+> ---
+>=20
+> BTW, we still miss error reporting emulation, right? Therefore, I added=
+=20
+> that simple error_report_once thing, like the other paths do.
 
-Hi Stefan,
+Yes...
 
-Sorry we missed this comment. We originally added this to enable
-separate MMIO channels for each device in the remote process.
+Thanks,
 
-Given we are going to add a separate channel for each device in the
-remote process based on the recent discussions, we could remove the
-separate channel for MMIO.
+--=20
+Peter Xu
 
-Thank you very much!
---
-Jag
-
->>
->> Stefan
 
