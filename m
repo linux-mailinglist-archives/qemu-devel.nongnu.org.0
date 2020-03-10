@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53F917F629
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:22:19 +0100 (CET)
-Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0E617F62F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:23:16 +0100 (CET)
+Received: from localhost ([::1]:58168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBcxm-0006Oj-TD
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52780)
+	id 1jBcyh-0007u0-2A
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1jBcwI-00052i-Av
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:20:47 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jBcxm-00072g-2V
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:22:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1jBcwH-0004rH-3X
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:20:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38769
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jBcxj-00080h-CI
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:22:17 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2080 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1jBcwG-0004p8-Vk
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:20:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583839244;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=arw5L5YsoJ87khZVMFIrLcsKvVPIlQcfxYIOv80kSBg=;
- b=USeLbF6syXUtDxWjfJUhraMfZJpa1S3RQbwQD2wxB2bs+mQHP/su5WgvFJuDIp2YdTjTCq
- qEyBI4g8j/UvmspDahhioQFOCPRStviEHKEtg8il9YFdO4HPVaJeFc8slqgPZHNQZdepsz
- qwNQkQvoLjjaids+cZv3HJiBIGU7Kos=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-jfRFySz4PDiWwTidYnC3Bg-1; Tue, 10 Mar 2020 07:20:40 -0400
-X-MC-Unique: jfRFySz4PDiWwTidYnC3Bg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2EAA18FF686;
- Tue, 10 Mar 2020 11:20:39 +0000 (UTC)
-Received: from redhat.com (ovpn-116-72.ams2.redhat.com [10.36.116.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4652360BF3;
- Tue, 10 Mar 2020 11:20:39 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-Subject: KVM call today 2020-03-10
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 10 Mar 2020 12:20:33 +0100
-Message-ID: <87a74ozcam.fsf@secure.laptop>
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jBcxg-0007gK-6j; Tue, 10 Mar 2020 07:22:12 -0400
+Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id B6295C1C3748F61208F1;
+ Tue, 10 Mar 2020 11:22:05 +0000 (GMT)
+Received: from lhreml707-chm.china.huawei.com (10.201.108.56) by
+ LHREML712-CAH.china.huawei.com (10.201.108.35) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 10 Mar 2020 11:22:05 +0000
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml707-chm.china.huawei.com (10.201.108.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1713.5; Tue, 10 Mar 2020 11:22:04 +0000
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.1713.004; Tue, 10 Mar 2020 11:22:05 +0000
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: RE: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+ output buffer length
+Thread-Topic: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+ output buffer length
+Thread-Index: AQHV3Qdz5JGOPsnNwE6dDrrHrA5o8ahB4dxg
+Date: Tue, 10 Mar 2020 11:22:05 +0000
+Message-ID: <feb0b61b1bf741219e08b8c2dc6260f8@huawei.com>
+References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+ <20200117174522.22044-3-shameerali.kolothum.thodi@huawei.com>
+ <20200206170604.12899caf@redhat.com>
+In-Reply-To: <20200206170604.12899caf@redhat.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.237]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 185.176.76.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,45 +71,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei
+ \(O\)" <xuwei5@huawei.com>, "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Hi
+> -----Original Message-----
+> From: Igor Mammedov [mailto:imammedo@redhat.com]
+> Sent: 06 February 2020 16:06
+> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org;
+> eric.auger@redhat.com; peter.maydell@linaro.org;
+> xiaoguangrong.eric@gmail.com; mst@redhat.com; Linuxarm
+> <linuxarm@huawei.com>; xuwei (O) <xuwei5@huawei.com>;
+> shannon.zhaosl@gmail.com; lersek@redhat.com
+> Subject: Re: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+> output buffer length
+>=20
+> On Fri, 17 Jan 2020 17:45:17 +0000
+> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
+>=20
+> > As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if the
+> > Buffer Field <=3D to the size of an Integer (in bits), it will be
+> > treated as an integer. Moreover, the integer size depends on DSDT
+> > tables revision number. If revision number is < 2, integer size is 32
+> > bits, otherwise it is 64 bits. Current NVDIMM common DSM aml code
+> > (NCAL) uses CreateField() for creating DSM output buffer. This creates
+> > an issue in arm/virt platform where DSDT revision number is 2 and
+> > results in DSM buffer with a wrong
+> > size(8 bytes) gets returned when actual length is < 8 bytes.
+> > This causes guest kernel to report,
+> >
+> > "nfit ACPI0012:00: found a zero length table '0' parsing nfit"
+> >
+> > In order to fix this, aml code is now modified such that it builds the
+> > DSM output buffer in a byte by byte fashion when length is smaller
+> > than Integer size.
+> >
+> > Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> > Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> > ---
+> > Please find the previous discussion on this here,
+> > https://patchwork.kernel.org/cover/11174959/
+> >
+> > ---
+> >  hw/acpi/nvdimm.c                            | 36
+> +++++++++++++++++++--
+> >  tests/qtest/bios-tables-test-allowed-diff.h |  2 ++
+> >  2 files changed, 35 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c index
+> > 9fdad6dc3f..5e7b8318d0 100644
+> > --- a/hw/acpi/nvdimm.c
+> > +++ b/hw/acpi/nvdimm.c
+> > @@ -964,6 +964,7 @@ static void nvdimm_build_common_dsm(Aml *dev)
+> >      Aml *method, *ifctx, *function, *handle, *uuid, *dsm_mem,
+> *elsectx2;
+> >      Aml *elsectx, *unsupport, *unpatched, *expected_uuid, *uuid_invali=
+d;
+> >      Aml *pckg, *pckg_index, *pckg_buf, *field, *dsm_out_buf,
+> > *dsm_out_buf_size;
+> > +    Aml *whilectx, *offset;
+> >      uint8_t byte_list[1];
+> >
+> >      method =3D aml_method(NVDIMM_COMMON_DSM, 5,
+> AML_SERIALIZED); @@
+> > -1117,13 +1118,42 @@ static void nvdimm_build_common_dsm(Aml *dev)
+> >      /* RLEN is not included in the payload returned to guest. */
+> >      aml_append(method,
+> aml_subtract(aml_name(NVDIMM_DSM_OUT_BUF_SIZE),
+> >                 aml_int(4), dsm_out_buf_size));
+> > +
+> > +    /*
+> > +     * As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
+> > +     * the Buffer Field <=3D to the size of an Integer (in bits), it w=
+ill
+> > +     * be treated as an integer. Moreover, the integer size depends on
+> > +     * DSDT tables revision number. If revision number is < 2, integer
+> > +     * size is 32 bits, otherwise it is 64 bits.
+> > +     * Because of this CreateField() canot be used if RLEN < Integer S=
+ize.
+> > +     * Hence build dsm_out_buf byte by byte.
+> > +     */
+> > +    ifctx =3D aml_if(aml_lless(dsm_out_buf_size,
+> > + aml_sizeof(aml_int(0))));
+>=20
+> this decomplies into
+>=20
+>  If (Local1 < SizeOf ())
+>=20
+> which doesn't look right
 
-Today is a call becasue there are topics, in case you missed.
-Notice that this call is in USA time, so if you are not there, it is
-inside possiblity that it is one hour sooner that you are used to. See
-the calendar.
+Ok. I tried printing the value returned(SizeOf) and that looks alright.
 
- * Clarify the feedback on the latest revision of multi-process QEMU
-   patches concerning:
-   - Command-line: It's not clear what's the preferred approach to pass
-     command-line parameters for the remote process. We are wondering if
-     it's OK to accept the command-line parameters for the remote as a
-     single string, or if it should be on multiple lines?
-   - Refactoring migration related code: We realize that some of the
-     modules we have built into the remote process (such as block and
-     migration) compile more code than is required by the remote process.
-     Ideally, we could refactor them to utilize just the pieces of code
-     needed. However, this problem of refactoring has a larger scope.
-     Could this be addressed in later projects?
+Anyway, changed it into aml_int(1) which decompiles to
 
+   If (Local1 < SizeOf (One))
 
+Hope this is acceptable.
 
- Call details:
-
-By popular demand, a google calendar public entry with it
-
-  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-
-(Let me know if you have any problems with the calendar entry.  I just
-gave up about getting right at the same time CEST, CET, EDT and DST).
-
-If you need phone number details,  contact me privately
-
-Thanks, Juan.
-
+Thanks,
+Shameer
 
