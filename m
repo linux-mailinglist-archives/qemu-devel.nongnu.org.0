@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CAE17F207
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:37:29 +0100 (CET)
-Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DA717F204
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:36:32 +0100 (CET)
+Received: from localhost ([::1]:55316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBaOG-000344-UT
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
+	id 1jBaNL-0001d6-PW
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jBaJe-0004ve-FH
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:43 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jBaJi-0004zb-CF
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jBaJd-0004Cr-5B
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25943
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jBaJc-0004BO-Sc
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583829160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=umJLVabTlxfOYRdcqqJPgQHpfKmMGvR8MmZg0s3LCOY=;
- b=ZYGld0+RYuji3HpDpv2iZlaT7Dm7BgDrqfiaWyC5BNoJDkYN65K2V941ZLUKypqySFZ3gy
- 47O+u0m3PAXY9ccJRiYl2rAlD5uDznC+yRJMk3Ld7ZSBTM6MiCXGVcZ4Mo4qUrxBrIBnpQ
- iCjR0DDQ6Z96vTBHyJUOYWyrTJLw0eg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-swIc5mRaMLKyaIn18emcJQ-1; Tue, 10 Mar 2020 04:32:23 -0400
-X-MC-Unique: swIc5mRaMLKyaIn18emcJQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AD911005513;
- Tue, 10 Mar 2020 08:32:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
- [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F305391D6E;
- Tue, 10 Mar 2020 08:32:18 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 47EE09D3C; Tue, 10 Mar 2020 09:32:18 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (envelope-from <frankja@linux.ibm.com>) id 1jBaJg-0004M1-Ok
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:46 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10322)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1jBaJg-0004Ig-Cp
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:44 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02A8OcCw136540
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 04:32:42 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ym8k8jyht-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 04:32:42 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Tue, 10 Mar 2020 08:32:40 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 10 Mar 2020 08:32:38 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02A8WbS857344212
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 08:32:37 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 92B744C04A;
+ Tue, 10 Mar 2020 08:32:37 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 23D454C040;
+ Tue, 10 Mar 2020 08:32:36 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.23.214])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 10 Mar 2020 08:32:35 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] tests/vm: update NetBSD to 9.0
-Date: Tue, 10 Mar 2020 09:32:18 +0100
-Message-Id: <20200310083218.26355-5-kraxel@redhat.com>
-In-Reply-To: <20200310083218.26355-1-kraxel@redhat.com>
-References: <20200310083218.26355-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Subject: [PATCH v8 1/2] s390x: ipl: Consolidate iplb validity check into one
+ function
+Date: Tue, 10 Mar 2020 04:32:31 -0400
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <b608f7d8-81ac-1e5b-011d-bd576f77aade@redhat.com>
+References: <b608f7d8-81ac-1e5b-011d-bd576f77aade@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031008-0012-0000-0000-0000038EE7C2
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031008-0013-0000-0000-000021CBB21B
+Message-Id: <20200310083232.29805-1-frankja@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-10_04:2020-03-09,
+ 2020-03-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ bulkscore=0 priorityscore=1501 adultscore=0 suspectscore=1 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003100057
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,92 +91,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The installer supports GPT now, so the install workflow has changed a
-bit.  Also: run without VGA device.  This works around a bug in the
-seabios sercon code and makes the bootloader menu show up on the serial
-line, so we can drop the quirk for that.
+It's nicer to just call one function than calling a function for each
+possible iplb type.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- tests/vm/netbsd | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ hw/s390x/ipl.h      | 20 +++++++++++---------
+ target/s390x/diag.c |  2 +-
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index f3257bc245a3..b10c9d429ded 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
-     name =3D "netbsd"
-     arch =3D "x86_64"
-=20
--    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetBSD-8=
-.1-amd64.iso"
--    csum =3D "718f275b7e0879599bdac95630c5e3f2184700032fdb6cdebf3bdd636878=
-98c48ff3f08f57b89f4437a86cdd8ea07c01a39d432dbb37e1e4b008f4985f98da3f"
-+    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9=
-.0-amd64.iso"
-+    csum =3D "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc=
-2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
-     size =3D "20G"
-     pkgs =3D [
-         # tools
-@@ -86,42 +86,31 @@ class NetBSDVM(basevm.BaseVM):
-         self.boot(img_tmp, extra_args =3D [
-             "-bios", "pc-bios/bios-256k.bin",
-             "-machine", "graphics=3Doff",
--            "-device", "VGA",
-             "-cdrom", iso
-         ])
-         self.console_init()
--        self.console_wait("Primary Bootstrap")
+diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
+index d4813105db..211ce2dbeb 100644
+--- a/hw/s390x/ipl.h
++++ b/hw/s390x/ipl.h
+@@ -173,16 +173,18 @@ static inline bool iplb_valid_len(IplParameterBlock *iplb)
+     return be32_to_cpu(iplb->len) <= sizeof(IplParameterBlock);
+ }
+ 
+-static inline bool iplb_valid_ccw(IplParameterBlock *iplb)
++static inline bool iplb_valid(IplParameterBlock *iplb)
+ {
+-    return be32_to_cpu(iplb->len) >= S390_IPLB_MIN_CCW_LEN &&
+-           iplb->pbt == S390_IPL_TYPE_CCW;
+-}
 -
--        # serial console boot menu output doesn't work for some
--        # reason, so we have to fly blind ...
--        for char in list("5consdev com0\n"):
--            time.sleep(0.2)
--            self.console_send(char)
--            self.console_consume()
-+        self.console_wait_send("3. Drop to boot prompt", "3")
-+        self.console_wait_send("> ", "consdev com0\n")
-         self.console_wait_send("> ", "boot\n")
-=20
-         self.console_wait_send("Terminal type",            "xterm\n")
-         self.console_wait_send("a: Installation messages", "a\n")
--        self.console_wait_send("b: US-English",            "b\n")
-         self.console_wait_send("a: Install NetBSD",        "a\n")
-         self.console_wait("Shall we continue?")
-         self.console_wait_send("b: Yes",                   "b\n")
-=20
-         self.console_wait_send("a: ld0",                   "a\n")
-+        self.console_wait_send("a: Guid Partition Table",  "a\n")
-         self.console_wait_send("a: This is the correct",   "a\n")
--        self.console_wait_send("b: Use the entire disk",   "b\n")
--        self.console_wait("NetBSD bootcode")
--        self.console_wait_send("a: Yes",                   "a\n")
--        self.console_wait_send("b: Use existing part",     "b\n")
-+        self.console_wait_send("b: Use default part",      "b\n")
-         self.console_wait_send("x: Partition sizes ok",    "x\n")
--        self.console_wait_send("for your NetBSD disk",     "\n")
-         self.console_wait("Shall we continue?")
-         self.console_wait_send("b: Yes",                   "b\n")
-=20
-         self.console_wait_send("b: Use serial port com0",  "b\n")
-         self.console_wait_send("f: Set serial baud rate",  "f\n")
-         self.console_wait_send("a: 9600",                  "a\n")
--        self.console_wait_send("x: Exit",                  "x\n")
-+        self.console_wait_send("x: Continue",              "x\n")
-=20
-         self.console_wait_send("a: Full installation",     "a\n")
-         self.console_wait_send("a: CD-ROM",                "a\n")
---=20
-2.18.2
+-static inline bool iplb_valid_fcp(IplParameterBlock *iplb)
+-{
+-    return be32_to_cpu(iplb->len) >= S390_IPLB_MIN_FCP_LEN &&
+-           iplb->pbt == S390_IPL_TYPE_FCP;
++    switch (iplb->pbt) {
++    case S390_IPL_TYPE_FCP:
++        return (be32_to_cpu(iplb->len) >= S390_IPLB_MIN_FCP_LEN &&
++                iplb->pbt == S390_IPL_TYPE_FCP);
++    case S390_IPL_TYPE_CCW:
++        return (be32_to_cpu(iplb->len) >= S390_IPLB_MIN_CCW_LEN &&
++                iplb->pbt == S390_IPL_TYPE_CCW);
++    default:
++        return false;
++    }
+ }
+ 
+ #endif
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index b5aec06d6b..54e5670b3f 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -117,7 +117,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+ 
+         cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+ 
+-        if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb)) {
++        if (!iplb_valid(iplb)) {
+             env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+             goto out;
+         }
+-- 
+2.20.1
 
 
