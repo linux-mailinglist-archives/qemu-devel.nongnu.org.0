@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6321717F580
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:58:40 +0100 (CET)
-Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9198617F586
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:59:55 +0100 (CET)
+Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBcat-0007Pu-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44116)
+	id 1jBcc6-0000oI-Ll
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liran.alon@oracle.com>) id 1jBcZt-0006m6-3O
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:57:38 -0400
+ (envelope-from <kchamart@redhat.com>) id 1jBcaD-00076z-Rb
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:57:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1jBcZr-0002AG-6d
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:57:36 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:55452)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1jBcZq-00028p-Uy
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:57:35 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AAsK9e028151;
- Tue, 10 Mar 2020 10:57:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=fwdNYg9BCEEX9ZJ/WGxhtl+43x98Tss6VokBwCY7WIo=;
- b=o+6fSHZOOefIQVwIfZTJCildsZ6HXlX0kCDEQr2AkaX9FTEFia1rGhy94sa+9ObMWR5i
- 78kiMm8Mw8j/pDSRB0sBfRFla1H0KCcH9W7wJnlke3fpmvNGQGM5jghNZvu48joZlSZR
- A226Ff/QBluEROiJUj4/10jqcef5WtzGZ8oNJcAivFDnD40bB2RAStWlZQcmiXlZ/+YP
- c5fI6pMOvkcpXpl/F0IeIXKrKPWS0pQpgOEcrSfYAK52QAN6UH8HXV5v0XX0FhSgQ53+
- /biapBeU5G47hrhgYoyQ1lDvGN2BM0/6wsRH1ouzljjfAA48uXCJKgQTcL08jvFHqoEg 5w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2ym3jqmu9v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 10:57:32 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AAmEv4091857;
- Tue, 10 Mar 2020 10:57:32 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 2yp8ns0t8r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 10:57:31 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02AAvVD5031650;
- Tue, 10 Mar 2020 10:57:31 GMT
-Received: from [192.168.14.112] (/79.181.212.171)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 10 Mar 2020 03:57:30 -0700
-Subject: Re: [PATCH 14/14] hw/i386/vmport: Assert vmport initialized before
- registering commands
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200309235411.76587-1-liran.alon@oracle.com>
- <20200309235411.76587-15-liran.alon@oracle.com>
- <20200310053029-mutt-send-email-mst@kernel.org>
-From: Liran Alon <liran.alon@oracle.com>
-Message-ID: <e24fcd0a-041e-72b5-0b5d-5010b6c0322d@oracle.com>
-Date: Tue, 10 Mar 2020 12:57:26 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
+ (envelope-from <kchamart@redhat.com>) id 1jBcaC-0002fd-5Q
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:57:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51397
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1jBcaB-0002dN-Tv
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:57:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583837875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jr8Vu6v/pBge/0z08JM5B3yDPs5iGKfVAWac49oXhtY=;
+ b=M251AT2f3JHqVGstfGxnixxsWp11l1ViW/xXrGHSE/LuUDXK/Mu69kybE8mcAyhG6Lcnn0
+ gG+7svvcUZkuPI0TLX7Czd7XOYYQw4l3lo/s6ujJPx+RwUKkQ3xgfBKVAr0mLJLpJ6mTpJ
+ YEt3ihxn3x733XMHwdtif7K7Jvq5Dj4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-lCqsECi8O1q-CJLglU6JbA-1; Tue, 10 Mar 2020 06:57:53 -0400
+X-MC-Unique: lCqsECi8O1q-CJLglU6JbA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F922805750;
+ Tue, 10 Mar 2020 10:57:52 +0000 (UTC)
+Received: from paraplu.localdomain (unknown [10.36.118.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B635D92D32;
+ Tue, 10 Mar 2020 10:57:48 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id 58A373E04B8; Tue, 10 Mar 2020 11:57:46 +0100 (CET)
+Date: Tue, 10 Mar 2020 11:57:46 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 4/4] qemu-img: Deprecate use of -b without -F
+Message-ID: <20200310105746.GD22884@paraplu>
+References: <20200306225121.3199279-1-eblake@redhat.com>
+ <20200306225121.3199279-5-eblake@redhat.com>
+ <20200309153119.GA20640@paraplu>
+ <11ba06c9-fa1e-3168-0322-1859040b655e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200310053029-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxscore=0 phishscore=0
- spamscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003100072
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9555
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- clxscore=1015
- priorityscore=1501 mlxscore=0 phishscore=0 mlxlogscore=999 impostorscore=0
- bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003100073
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+In-Reply-To: <11ba06c9-fa1e-3168-0322-1859040b655e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,49 +77,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Mar 09, 2020 at 10:42:25AM -0500, Eric Blake wrote:
 
-On 10/03/2020 11:30, Michael S. Tsirkin wrote:
-> On Tue, Mar 10, 2020 at 01:54:11AM +0200, Liran Alon wrote:
->> vmport_register() is also called from other modules such as vmmouse.
->> Therefore, these modules rely that vmport is realized before those call
->> sites. If this is violated, vmport_register() will NULL-deref.
->>
->> To make such issues easier to debug, assert in vmport_register() that
->> vmport is already realized.
->>
->> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
->> Signed-off-by: Liran Alon <liran.alon@oracle.com>
->
-> Hmm and what does actually make sure it is realized?
+[...]
 
-port_state global var is only set in vmport_realizefn().
+> > > +qemu-img backing file without format (since 5.0.0)
+> > > +''''''''''''''''''''''''''''''''''''''''''''''''''
+> > > +
+> > > +The use of ``qemu-img create``, ``qemu-img rebase``, ``qemu-img
+> > > +convert``, or ``qemu-img amend`` to create or modify an image that
+> > > +depends on a backing file now recommends that an explicit backing
+> > > +format be provided.
 
--Liran
+Also for the `qemu-img amend` case, I'm not clear if the following scenario
+ought to throw the warning:
 
->
->> ---
->>   hw/i386/vmport.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
->> index 95d4a23ce9ba..659a323e8448 100644
->> --- a/hw/i386/vmport.c
->> +++ b/hw/i386/vmport.c
->> @@ -68,6 +68,8 @@ static VMPortState *port_state;
->>   void vmport_register(VMPortCommand command, VMPortReadFunc *func, void *opaque)
->>   {
->>       assert(command < VMPORT_ENTRIES);
->> +    assert(port_state);
->> +
->>       trace_vmport_register(command, func, opaque);
->>       port_state->func[command] = func;
->>       port_state->opaque[command] = opaque;
->> -- 
->> 2.20.1
+    $> ~/build/qemu/qemu-img info --backing-chain overlay1.qcow2=20
+    image: overlay1.qcow2
+    file format: qcow2
+    virtual size: 4 GiB (4294967296 bytes)
+    disk size: 196 KiB
+    cluster_size: 65536
+    backing file: base.raw
+    Format specific information:
+        compat: 1.1
+        lazy refcounts: false
+        refcount bits: 16
+        corrupt: false
+   =20
+    image: base.raw
+    file format: raw
+    virtual size: 4 GiB (4294967296 bytes)
+    disk size: 778 MiB
+
+    $> ~/build/qemu/qemu-img amend -o compat=3Dv3 overlay1.qcow2=20
+
+    $> echo $?
+    0
+
+I'm just trying to work out the scenarios where the warnings ought to
+show up (for all the four cases: create, rebase, convert, amend).
+
+[...]
+
+--=20
+/kashyap
+
 
