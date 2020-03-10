@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07F418011F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:06:01 +0100 (CET)
-Received: from localhost ([::1]:35074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71EB180133
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:08:10 +0100 (CET)
+Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgSH-0008AN-0J
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
+	id 1jBgUL-0002PB-Ud
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jBgIE-0008TL-TT
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:40 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jBgIQ-0000Y2-Sc
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jBgID-0003vM-7p
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:38 -0400
-Received: from mail-eopbgr80094.outbound.protection.outlook.com
- ([40.107.8.94]:46318 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jBgIP-0004WT-PQ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:50 -0400
+Received: from mail-eopbgr80104.outbound.protection.outlook.com
+ ([40.107.8.104]:35022 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jBgIC-0003p7-HS; Tue, 10 Mar 2020 10:55:37 -0400
+ id 1jBgIP-0004RN-HF; Tue, 10 Mar 2020 10:55:49 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mKMvk6klje7gQLiZhEYXuhiVkN22h4g2iQW0WaQWZUMlupPyHF2QHugUQ+BQCe8w1V9GUfSuwJVbzv2QbFAO9XEki0sjLFMl3sIEvLCwZY1kaLSCainMZHXuT0lF7mDn+H7s32bU0YafwXbBohD5ZhDhdF6vwSjrRj0Ow0y5J4MZPgkX9BL7zr2laT41FBuNcwejcZCNJMZCOuuSJRuva0WVlZKs2s+bt81IEqtFEAmbJVyaN7LrSM/OUjXhQkQ2ya1AzsYwHCK9PkGFFLlGi2V4YPuAuv7s4nNI6xUEd11zaDQYLZtdrIBZS7eeBpvVtBUGw/8aa4dQ1fgpmmsSQg==
+ b=ePsrFSiGe0HPsQTByFbfpLbJ2ykh3B6i66k9NB8mxs73SB+q0A2QHqxwQQfuFWZmWP9xEdAx9/V6CecehOyUBfk6VIPimFJaV4r+G9m9jsrM1xl+VGX++WrgxFi0S6vT2DDFhDbGi2/zTdw7BgNeKRMeFxQecw3iGVMuvepPWIhM8QPgxmjYrdQ7J/Ol042sM+1yYOrtPlCIpZfv6Z4gsN4cWZ+x+bxPXrVmRPIxe/J4tfM8+hd+Cz/rY0JMIPhQwsH4BnWg5kfckR7ghTSKI6o+7NEfWLuPKBUSnv7dz9enbe+5GUWvqD3vexCGyt5cJsOWS1d1UCEIQhdhQIgCZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v05jTBMkbGbgR99xFJN9Zq/PgC7NflE5Q663MmukdJY=;
- b=FLG2xi0IZhCsLYsZHCVzGtXle+J3GUs+YfEML6oE9o+CAv6qocpz/z8x/CCa95MTK+cd3vp6RCLi6sxNhpi5tLoAwEPreZf05MdzkscPfHVHADPx3PP+xWhjzo3ddZn7SSrSNwlQrYcfPjPyz0kEsHHUHWZet1S5Zvn2AMgWhiMWmu22IzQ/6bEicNVYE6wjwVnnkCDyttrB4t7CyV/E/OM1TkGKpKajX48cdQcTsXo+lLwmB96BF7/jx923rf2UiVUktUTb8Oacm08mhK0ZHCyqhd/Vd0PvZwry8QxXDdPgUaApdyH1NRx0kT0g17UPAoPCdLlQ1nmShI9R2822Nw==
+ bh=vEKf6sQmYSYy/ZD+ghkY2jm6avDREmPMv26pgiyq/hw=;
+ b=Uew7WTxTZOD7/V1uajBLZ1jBpLgNYFuYEUDj/dg8ZivI/9vEjExBhGBVHB20nUYUUfd2a7MaKtBMWHOWkJGw7MhsVpAsZQ7NIpu6SGf75jiGzqS2Bv8YvSIMZtXkBaUQdtWo9GDAN12/7sDwv6KoVo/67bhQJGVZKY8N+9tudOmk+ZBkRqpFKV5Ux5AKrq51OYplBNweIilLRwIJ8F6nvu4UItNY82pw9+HYDsGI9jiLjUZQgYoPF528HOzrl+zV6NFg5bfX5dwvrxFYmgPAmNMTLniDct3UJ2VBJArN5R6lDL044afAd7cq3xkrJkr8vNtvTKmNpbN2X9RJDNLW4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v05jTBMkbGbgR99xFJN9Zq/PgC7NflE5Q663MmukdJY=;
- b=QPpoZ/fAJQc8Ox7zGzSNb/nv6xvuX+fdK6MpiTKiSZrjgcwN4+V5ugy6HTBeBScP0YlpQbYiA3/9Rgd+UWOBIpJL2+I6UodRm5dLD2iHAFl+ABWOu7xM/33ZRW4+OFgL3TCLG64PR5WQdAWb/k4xj0BsJAVIpM7NeoSrOpMyiHM=
+ bh=vEKf6sQmYSYy/ZD+ghkY2jm6avDREmPMv26pgiyq/hw=;
+ b=fZBfHBv/YcqHtNWvdGtHG3zW1nhra/69IYE9YbSfybicI7R7w5l2oaRiczHIOhko8S/sQwVK70i0a8uHymez+XjBhUf9z3M3UDm6unhVzzlKSB/M2jzfOMWBPv1L4JZ1MLyJk6pvfWMkzIfiveNaTAqWj5eM+ph7HR8cwPYhCI4=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
 Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
  AM6PR08MB3989.eurprd08.prod.outlook.com (20.179.3.209) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Tue, 10 Mar 2020 14:55:33 +0000
+ 15.20.2793.17; Tue, 10 Mar 2020 14:55:47 +0000
 Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
  ([fe80::41e2:2f20:9b54:a0f5]) by AM6PR08MB5048.eurprd08.prod.outlook.com
  ([fe80::41e2:2f20:9b54:a0f5%7]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 14:55:33 +0000
-Subject: Re: [PATCH v3 7/9] block/block-copy: rename start to offset in
- interfaces
-To: Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ 14:55:47 +0000
+Subject: Re: [PATCH v3 9/9] block/block-copy: hide structure definitions
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200306073831.7737-1-vsementsov@virtuozzo.com>
- <20200306073831.7737-8-vsementsov@virtuozzo.com>
- <826a06c1-49d0-24a0-4098-fc0ec8f9f5a0@redhat.com>
+ <20200306073831.7737-10-vsementsov@virtuozzo.com>
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Organization: Virtuozzo
-Message-ID: <5b30a84f-3b03-d894-f908-b0fae89615d5@virtuozzo.com>
-Date: Tue, 10 Mar 2020 17:55:31 +0300
+Message-ID: <c7af156f-a9b6-2b9e-ae9b-10e9d13f2fd2@virtuozzo.com>
+Date: Tue, 10 Mar 2020 17:55:45 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
-In-Reply-To: <826a06c1-49d0-24a0-4098-fc0ec8f9f5a0@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20200306073831.7737-10-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: HE1PR0902CA0007.eurprd09.prod.outlook.com
- (2603:10a6:3:e5::17) To AM6PR08MB5048.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR0902CA0006.eurprd09.prod.outlook.com
+ (2603:10a6:3:e5::16) To AM6PR08MB5048.eurprd08.prod.outlook.com
  (2603:10a6:20b:ee::31)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [172.16.24.225] (185.231.240.5) by
- HE1PR0902CA0007.eurprd09.prod.outlook.com (2603:10a6:3:e5::17) with Microsoft
+ HE1PR0902CA0006.eurprd09.prod.outlook.com (2603:10a6:3:e5::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.15 via Frontend Transport; Tue, 10 Mar 2020 14:55:32 +0000
+ 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 14:55:46 +0000
 X-Originating-IP: [185.231.240.5]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ed00f732-f708-45e0-871e-08d7c503155a
+X-MS-Office365-Filtering-Correlation-Id: ac81f340-eb67-47a3-e18b-08d7c5031de8
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3989:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3989B35AA825E4F4712817C6F4FF0@AM6PR08MB3989.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3989150152E4C96D591C4E0AF4FF0@AM6PR08MB3989.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:983;
 X-Forefront-PRVS: 033857D0BD
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(366004)(376002)(39850400004)(136003)(346002)(396003)(199004)(189003)(478600001)(4326008)(36756003)(66476007)(8676002)(956004)(2616005)(53546011)(2906002)(36916002)(66946007)(86362001)(52116002)(44832011)(31686004)(66556008)(31696002)(186003)(16526019)(110136005)(26005)(6486002)(16576012)(81166006)(5660300002)(81156014)(316002)(8936002);
+ SFS:(10019020)(366004)(376002)(39850400004)(136003)(346002)(396003)(199004)(189003)(478600001)(4326008)(36756003)(66476007)(8676002)(956004)(2616005)(53546011)(2906002)(36916002)(66946007)(86362001)(52116002)(44832011)(31686004)(66556008)(31696002)(4744005)(186003)(16526019)(26005)(6486002)(16576012)(81166006)(5660300002)(81156014)(316002)(8936002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3989;
  H:AM6PR08MB5048.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -90,18 +87,18 @@ Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yWMb+ig7+SAqpTcbVQ9YpawFMUUDkubqnfAsHSsZ/9CJo6BbNrod+/DpGzqZ1LIMnfeBMSxKduAgLmoTagZyvo9Y/6oM1LrEv+bWgadhTyk9UVi1pf+7no6KR6I3Hm/IBy8R2e86PGRx2NPOC3/83SPKBQcQ97UlNO+fbuhoVy+vDq72ERNJx81Iyo2pTUmkpVaSQG9CZC9yLE/Am27cReRakJbzsDmwNnNp2MRE/DZSUsovEXkLjvUxNTOAZlpwIdohfN7vv87+fpZHEQfIgQNmDmlCZxYroa3gm2JUuN16kLp1AA+igBonuOYU5RrT+FmyvZVngyM11XM13MCoksmXuXSSmcA3TQpSYUGl+byVsWJnzO/kKWRMpSN+X2R2Voz+eO4tow47KH7fMIR5xhoaGhFzSQ/BVlArIh5WObFmZHsiP6ujhA4PkOLAfUjr
-X-MS-Exchange-AntiSpam-MessageData: PtYFo2wVOT9qR2jRMFRDWWJZFBqmG9vLwxOa+e7iLFF7b4XXF8UgYzbBMe9ArrEnT1VjFZsxrKWhWOul/70TDLtEA4O9vj/+043zG1eMCbFpSYOdhvarDmDHvZF/Vi+epVjdF1+pPBLyP2RLapVWwA==
+X-Microsoft-Antispam-Message-Info: IAKxATjasV9pbrgqhlAeEFAmn5kBuENVDfJ5YjdIsfbPB23FKbKqGfTlWB7fEm1zlxlqFOIsp7C6ELvBcs8IDX7RSlVxa2Wbr18e+UlJ4pibPR7HeClRNDzPsDGHKlm6qhZplC/8M19HchNl9mk6eybN60HJvEsOciKYbepj70zuZRmzj6vh/17pOsq1ip6iAaufs9VlTDSGqNvrd/Cfloc3NtHnPdNpvkUE6XRXinjkG2AdehK1qObsnD+aGbmH/dQHq2k0WKamI6SpL1S01NUvLMcT+nqmsuVvdyCYY2i68h8HwRNUozxyq8Zs4OGrzT0D9DDOAcjN0PA14wFkN/SzC8uEAVqUwQxyXzPksulDq/1bthZO35AvVmBRL4s7yXQ38/EAKu1ddgAlvjV+IFG3/oCq9mdRAmWFW2uR26gEtr+FUTZux+EJvXD7Yx3M
+X-MS-Exchange-AntiSpam-MessageData: h5YY0lNHO0ZfLZANewlb5qNdQLztAjV/AuoqSUCMIi4Nf2WTJj2MSiTSRtsvuPOcmd0vSw6aesOgdOKRZgkq6OxC4nql671+z7uRtlxtrvRF7wId4OLPRkLpeCiQwViVF6GpVmBbp+uoZzl1DkEaNQ==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed00f732-f708-45e0-871e-08d7c503155a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 14:55:33.1231 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac81f340-eb67-47a3-e18b-08d7c5031de8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 14:55:47.4539 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hf1WcOSX6NZOtRGDHa8XuItBxtrcw0QcIMTCgdcS9/z0bgwRDK1WsHTwdXXsToeCl2so5mwx0RC9qpT17rsvU1iBc5xjgdYyjTk7GETgEb0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cu6mzwUH1c5DKonG7NKW96vl7vbNxuQ+f/2phVrd3dByqvJpSqbl/K9JL9rbcPnOqISHDhAvYtyqXeY0dElF7W5EoKclLkn6xCXqXPcOPjU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3989
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.94
+X-Received-From: 40.107.8.104
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,52 +110,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 10/03/2020 17:50, Max Reitz wrote:
-> On 06.03.20 08:38, Vladimir Sementsov-Ogievskiy wrote:
->> offset/bytes pair is more usual naming in block layer, let's use it.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   include/block/block-copy.h |  4 +-
->>   block/block-copy.c         | 84 +++++++++++++++++++-------------------
->>   2 files changed, 44 insertions(+), 44 deletions(-)
->=20
-> [...]
->=20
->> diff --git a/block/block-copy.c b/block/block-copy.c
->> index 4c947e548b..2b29131653 100644
->> --- a/block/block-copy.c
->> +++ b/block/block-copy.c
->> @@ -25,13 +25,13 @@
->>   #define BLOCK_COPY_MAX_MEM (128 * MiB)
->>  =20
->>   static BlockCopyInFlightReq *find_conflicting_inflight_req(BlockCopySt=
-ate *s,
->> -                                                           int64_t star=
-t,
->> -                                                           int64_t byte=
-s)
->> +                                                          int64_t offse=
-t,
->> +                                                          int64_t bytes=
-)
->=20
-> The alignment=92s off now.
->=20
-> Max
->=20
+On 06/03/2020 10:38, Vladimir Sementsov-Ogievskiy wrote:
+> Hide structure definitions and add explicit API instead, to keep an
+> eye on the scope of the shared fields.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> ---
+>   include/block/block-copy.h | 52 +++----------------------------
+>   block/backup-top.c         |  6 ++--
+>   block/backup.c             | 25 +++++++--------
+>   block/block-copy.c         | 63 ++++++++++++++++++++++++++++++++++++--
+>   4 files changed, 82 insertions(+), 64 deletions(-)
+> 
+> diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+> index c46b382cc6..9718c241c9 100644
+> --- a/include/block/block-copy.h
+> +++ b/include/block/block-copy.h
 
-After applying the patch, it looks aligned in my vim editor.
---=20
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+-- 
 With the best regards,
 Andrey Shinkevich
-
 
