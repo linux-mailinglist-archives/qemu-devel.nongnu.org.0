@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B29017F6A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:48:11 +0100 (CET)
-Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B3917F6AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:49:21 +0100 (CET)
+Received: from localhost ([::1]:58648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBdMo-0007Bh-A3
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42253)
+	id 1jBdNw-0000xx-DN
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jBdKv-0005Vm-GH
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:46:14 -0400
+ (envelope-from <mst@redhat.com>) id 1jBdKx-0005Y3-Ft
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:46:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jBdKt-0006O9-Cu
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:46:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57419
+ (envelope-from <mst@redhat.com>) id 1jBdKv-0006V1-MG
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:46:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41057
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jBdKp-0006L8-Qn
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:46:09 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBdKv-0006P8-Fc
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:46:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583840766;
+ s=mimecast20190719; t=1583840771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZGqiBJ0CZ5WpkyFas6I7eUP/AIVUqtGGfpTG+U12qXY=;
- b=HETtd8yGJQN+tCoJqgajtcxU1fdxOhx/pj9FDoYvPgHmTMgaNi8UNucEtJnBfDr31D5umE
- SunXUAzzzwiUssZuBHCRxo8nTA1yh/qk2ov0/RzDAQ6bWmnmvUhB+ArwXFSA7rnSQ/FCEC
- kpNpRx91+6O/a1m3E3zvmQjsgcbTwWA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-Sc4CF4rQPUqcyMlVXzSYDQ-1; Tue, 10 Mar 2020 07:46:05 -0400
-X-MC-Unique: Sc4CF4rQPUqcyMlVXzSYDQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2CCA108442C;
- Tue, 10 Mar 2020 11:46:02 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74EEA10013A1;
- Tue, 10 Mar 2020 11:45:49 +0000 (UTC)
-Date: Tue, 10 Mar 2020 12:45:48 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 00/33] Trivial branch patches
-Message-ID: <20200310114548.GA6926@linux.fritz.box>
-References: <20200309150837.3193387-1-laurent@vivier.eu>
- <20200309151621-mutt-send-email-mst@kernel.org>
- <8db36062-b45d-6c2e-c7d8-98dd2b9db06f@redhat.com>
- <0bb2eac1-74ab-bee8-e8d0-bac542562cdd@vivier.eu>
+ bh=pHACq79Q+NVuoZ07xxxZN5ECuXOXur+MoD8TeNpTdr0=;
+ b=PRQCmbonr3KlMh5p8hVXF3x3W+rkkkqYYxYUyGbBvKDiMxYkFCuxseTQKtNybFyXZ7ia28
+ axf0N0jnbd7NlzUUQ7+zJLT1bKCOsdzxLDKcPYrm8ig+ekGLifD8k2xFbMy8LsU8JQVva6
+ ZiabiFGa30tUHXI+nQxZgBPHSJHxB8A=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-B_-G27IuOYeVoe30xHdUMQ-1; Tue, 10 Mar 2020 07:46:09 -0400
+X-MC-Unique: B_-G27IuOYeVoe30xHdUMQ-1
+Received: by mail-qt1-f197.google.com with SMTP id w3so3398161qtc.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 04:46:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WAM8uyefeS70PNpz/ifLl52vFGBm1sEkxH1Ot44WZfw=;
+ b=mOGxn/7ucOAR3+48mlD9SKPFAzwWGZicY93f1VWO4bEP7/STm/NEVxJTZi73R5lq7C
+ bcerWlTXCVh+R9kN2UpZ6dzvonqCthvEWqRLQATX85lezmKqKw2MCM34MW/aDyguEmH5
+ 2z0MKR+9YcdsOlqfV4z+Vep6RdMHMUIvg5N3GLDsnYT039rD262OgsnPyFLFYMOvcwPT
+ Cdc/l/vsdEwacEt3Yb0AMeT+ti0atZaC3aB5BMcHo/VnVpdq5u4rj1vwtre8LL5pCTN2
+ HMkeIq6eDaAcxHchUKSKJz3OZlaudRfrH2Jp7qcRnRqMj4pkP9wA641L1ShOA6+bHPnZ
+ ouYQ==
+X-Gm-Message-State: ANhLgQ0hemCjj3nfmSTB5ZQL3YOBnnw7ipQIWyXU7pENdBXyetoWJNpP
+ x9A0xIfgO+iEYwBZoVIpc0bKxfDB3RtAxou+yd2hVQbl1aVeDCbQ4+8y+vepZlpcRoCo1Tf/VAg
+ HCpQ9aUMWGwQRYQY=
+X-Received: by 2002:a05:620a:848:: with SMTP id
+ u8mr8809652qku.495.1583840769092; 
+ Tue, 10 Mar 2020 04:46:09 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvkTpcZWeQzITXS9Gcl5PGhemo5ZTVlmBXF8cTj/DIAU4SetmWRXC0GUF+Dy1V3CJOmRhHxcA==
+X-Received: by 2002:a05:620a:848:: with SMTP id
+ u8mr8809621qku.495.1583840768727; 
+ Tue, 10 Mar 2020 04:46:08 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
+ by smtp.gmail.com with ESMTPSA id i28sm24796737qtc.57.2020.03.10.04.46.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 04:46:06 -0700 (PDT)
+Date: Tue, 10 Mar 2020 07:46:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH 06/14] hw/i386/vmport: Define enum for all commands
+Message-ID: <20200310074457-mutt-send-email-mst@kernel.org>
+References: <20200309235411.76587-1-liran.alon@oracle.com>
+ <20200309235411.76587-7-liran.alon@oracle.com>
+ <20200310052327-mutt-send-email-mst@kernel.org>
+ <63a5be78-65e2-4092-f771-984572cd07cf@oracle.com>
+ <20200310072236-mutt-send-email-mst@kernel.org>
+ <6de0d982-aa39-4188-455e-fe8c11a11b7e@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <0bb2eac1-74ab-bee8-e8d0-bac542562cdd@vivier.eu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <6de0d982-aa39-4188-455e-fe8c11a11b7e@oracle.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,66 +93,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.03.2020 um 09:02 hat Laurent Vivier geschrieben:
-> Le 09/03/2020 =E0 20:30, Philippe Mathieu-Daud=E9 a =E9crit=A0:
-> > On 3/9/20 8:17 PM, Michael S. Tsirkin wrote:
-> >> On Mon, Mar 09, 2020 at 04:08:04PM +0100, Laurent Vivier wrote:
-> >>> The following changes since commit
-> >>> 7a5853cec479a448edae0fb2aaf4e2f78c9c774d:
-> >>>
-> >>> =A0=A0 Merge remote-tracking branch 'remotes/mst/tags/for_upstream' i=
-nto
-> >>> staging (2020-03-09 10:32:53 +0000)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>> =A0=A0 git://github.com/vivier/qemu.git tags/trivial-branch-pull-requ=
-est
-> >>>
-> >>> for you to fetch changes up to 916c92503bd5348a33e561db600d8894bde636=
-bb:
-> >>>
-> >>> =A0=A0 monitor/hmp-cmds: Remove redundant statement in
-> >>> hmp_rocker_of_dpa_groups() (2020-03-09 15:59:31 +0100)
-> >>
-> >>
-> >> Could you avoid CC everyone involved on the whole PULL req?
-> >> I was involved in a patch or two and don't really need to see
-> >> the whole series. Just the cover and the relevant patches
-> >> would be enough - if I do want it there's always lore.
-> >=20
-> > I suppose Laurent used git-publish, which has this limitation.
-> >=20
+On Tue, Mar 10, 2020 at 01:37:40PM +0200, Liran Alon wrote:
 >=20
-> Yes, I use git publish and CC are automatically added.
+> On 10/03/2020 13:23, Michael S. Tsirkin wrote:
+> > On Tue, Mar 10, 2020 at 01:16:51PM +0200, Liran Alon wrote:
+> > > On 10/03/2020 11:28, Michael S. Tsirkin wrote:
+> > > > On Tue, Mar 10, 2020 at 01:54:03AM +0200, Liran Alon wrote:
+> > > > > No functional change.
+> > > > >=20
+> > > > > Defining an enum for all VMPort commands have the following advan=
+tages:
+> > > > > * It gets rid of the error-prone requirement to update VMPORT_ENT=
+RIES
+> > > > > when new VMPort commands are added to QEMU.
+> > > > > * It makes it clear to know by looking at one place at the source=
+, what
+> > > > > are all the VMPort commands supported by QEMU.
+> > > > >=20
+> > > > > Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+> > > > > Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> > > > > ---
+> > > > >=20
+> > > > > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> > > > > index d5ac76d54e1f..7f15a01137b1 100644
+> > > > > --- a/include/hw/i386/pc.h
+> > > > > +++ b/include/hw/i386/pc.h
+> > > > > @@ -138,12 +138,21 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bo=
+ol pci_enabled);
+> > > > >    #define TYPE_VMPORT "vmport"
+> > > > >    typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t addre=
+ss);
+> > > > > +typedef enum {
+> > > > > +    VMPORT_CMD_GETVERSION       =3D 10,
+> > > > > +    VMPORT_CMD_GETRAMSIZE       =3D 20,
+> > > > > +    VMPORT_CMD_VMMOUSE_DATA     =3D 39,
+> > > > > +    VMPORT_CMD_VMMOUSE_STATUS   =3D 40,
+> > > > > +    VMPORT_CMD_VMMOUSE_COMMAND  =3D 41,
+> > > > > +    VMPORT_ENTRIES
+> > > > > +} VMPortCommand;
+> > > > > +
+> > > > Please don't, let's leave pc.h alone. If you must add a new header =
+for
+> > > > vmport/vmmouse and put this stuff there.
+> > > As you can see, pc.h already contains definitions which are specific =
+to
+> > > vmport. E.g. TYPE_VMPORT, VMPortReadFunc(), vmport_register(),
+> > > vmmouse_get_data(), vmmouse_set_data(). Adding this enum is not what =
+makes
+> > > the difference.
+> > > It is possible to create a new vmport.h header file but it's not real=
+ly
+> > > related to this patch. It's just general refactoring. I can do that i=
+n v2 if
+> > > you think it's appropriate.
+> > >=20
+> > > -Liran
+> > Well I just don't want lots of enums in pc.h
 >=20
-> Philippe, you told me some time ago you have a patch to fix this
-> behaviour and only CC people on a patch base. Is it available?
+> This is the only one which is global, and makes sense as it's directly
+> related to vmport_register() exposed API.
+> Similar to how the VMPortReadFunc typedef is put in here.
+>=20
+> -Liran
 
-Actually, I don't think it's even necessary to CC anyone at all (except
-the relevant lists) for pull requests. These patches were already
-reviewed.
+So pls find another home for this stuff. Whoever touches legacy code
+gets to clean it up a bit first :) Tough but that's the only stick
+maintainers have to make maintainance happen.
 
-Kevin
+--=20
+MST
 
 
