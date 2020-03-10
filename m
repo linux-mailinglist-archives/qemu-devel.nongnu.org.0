@@ -2,85 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3026717F243
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:49:46 +0100 (CET)
-Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6217417F287
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:00:11 +0100 (CET)
+Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBaa9-0004V7-8L
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39723)
+	id 1jBakE-0002md-FP
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:00:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57707)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jBaZB-00044d-H6
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:48:46 -0400
+ (envelope-from <jingqi.liu@intel.com>) id 1jBais-0001lj-S5
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:58:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1jBaZA-0000nY-Gw
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:48:45 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26078
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jingqi.liu@intel.com>) id 1jBaiq-00019c-Sh
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:58:46 -0400
+Received: from mga14.intel.com ([192.55.52.115]:2407)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBaZA-0000mr-DR
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:48:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583830124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LH3eDAHJLHzHFJvTcWo2PG+w8F0qATDDsUi9V7pyDkg=;
- b=SyDz/eT1xiv+WpcYORG/XTxsLp01JwhCwNjEb0NAyAmACTdt/cvzhX8mIN5yIbG/o6vbB6
- z8wsiKD3XPWmx22GaF5mMSafdYUG2yt1TmrizNIqHcnYvKDcr8NJY46VKwvMYg4KptTf10
- ibFwfnYEcyEt1Z2QFxjIX2wo/l2U6TQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-U8Yp4JHrNVeHtlk6JbTPJw-1; Tue, 10 Mar 2020 04:48:42 -0400
-X-MC-Unique: U8Yp4JHrNVeHtlk6JbTPJw-1
-Received: by mail-wr1-f72.google.com with SMTP id u18so6422577wrn.11
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 01:48:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xdoxmqgw6lgZ083x2Ybw81i6SW4P0r23IIK1cjF1Ge4=;
- b=H9KTKGAyie9pqsyfc6QFQh15zZOCRq0V3QKYNytqdQrE9elQQ5l1qcinhaxacH9zPw
- 2hv313WfkH9rmq1/m7jGbgtRpdofBiJlQj9peegJeVAP7+yfirfjmCGIYeot7xP2sjKi
- X9gl4fLk/MG25o/Sz2UNRvQZeWNirhNrN5X7cFcC9IiEkZnBOLURjJxfaD9eWAj+cIq4
- JJnU9hnyL86K5m/4Dygu2Ym2wH2F5Wz3jV7c1b0eh9lbVMF7F1lnYCccSDT0M0PF6IVD
- eU0BNVw7t0bnW/LuXOBt/QkT0px8MU+jsYPaHQHA6rxNmB2sS7qkgAQUT/TlkNBIFxGP
- PD3w==
-X-Gm-Message-State: ANhLgQ1kxglJmrq3sy/6h2X88IJi0LT7dwQOnsFK1etzuX7h5n/PiQsw
- z93Oi7XU1RPdRtPW+yjrIjfq1gAPN7EUP5+cQV6721kr1975xr1AuHpU9ViLi6sPvXA2V5dzJ6L
- ONyVJL8N+mfmAxOM=
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr25929427wrn.405.1583830121117; 
- Tue, 10 Mar 2020 01:48:41 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vtZ9zK46yeJCqxsjRdVhLwaKBx7hmbM1tQmHYymLYzMG5JBRUOrKtlFpeEh+mck8Q2e64Fr9w==
-X-Received: by 2002:adf:eb0a:: with SMTP id s10mr25929411wrn.405.1583830120969; 
- Tue, 10 Mar 2020 01:48:40 -0700 (PDT)
-Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.47])
- by smtp.gmail.com with ESMTPSA id c8sm56385228wru.7.2020.03.10.01.48.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Mar 2020 01:48:40 -0700 (PDT)
-Subject: Re: [PATCH 1/4] tests/vm: write raw console log
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200310083218.26355-1-kraxel@redhat.com>
- <20200310083218.26355-2-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e968d21b-6982-61e9-c396-1b0773e9458e@redhat.com>
-Date: Tue, 10 Mar 2020 09:48:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <jingqi.liu@intel.com>)
+ id 1jBaiq-0000uy-K1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:58:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2020 01:58:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,535,1574150400"; d="scan'208";a="265552435"
+Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.4.117])
+ ([10.238.4.117])
+ by fmsmga004.fm.intel.com with ESMTP; 10 Mar 2020 01:58:39 -0700
+Subject: Re: [PATCH] util: fix to get configuration macros in util/mmap-alloc.c
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200305154142.63070-1-jingqi.liu@intel.com>
+ <20200305161047.GB3627464@lpt>
+ <CAFEAcA-OQncMrU_-DJJ9g5rEcrJvbhTOjOVs0YqO3NS_Y413OQ@mail.gmail.com>
+ <f774652b-5145-1e47-62c4-99a69a037506@intel.com>
+ <CAFEAcA8HMSg8nS27YGPEQsPeGW2UicWRxeJDQf3oKbyHH2TY6Q@mail.gmail.com>
+From: "Liu, Jingqi" <jingqi.liu@intel.com>
+Message-ID: <a57d479a-c9d5-0acc-b808-fe4e5a20ae80@intel.com>
+Date: Tue, 10 Mar 2020 16:58:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200310083218.26355-2-kraxel@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA8HMSg8nS27YGPEQsPeGW2UicWRxeJDQf3oKbyHH2TY6Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,53 +61,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?J=c3=a1n_Tomko?= <jtomko@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+On 3/9/2020 9:35 PM, Peter Maydell wrote:
+> On Mon, 9 Mar 2020 at 13:23, Liu, Jingqi <jingqi.liu@intel.com> wrote:
+>> On 3/6/2020 12:40 AM, Peter Maydell wrote:
+>>> On Thu, 5 Mar 2020 at 16:11, Ján Tomko <jtomko@redhat.com> wrote:
+>>>> On a Thursday in 2020, Jingqi Liu wrote:
+>>>>> The CONFIG_LINUX symbol is always not defined in this file.
+>>>>> This fixes that "config-host.h" header file is not included
+>>>>> for getting macros.
+>>>>>
+>>>>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+>>>>> ---
+>>>>> util/mmap-alloc.c | 2 ++
+>>>>> 1 file changed, 2 insertions(+)
+>>>>>
+>>>>> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+>>>>> index 27dcccd8ec..24c0e380f3 100644
+>>>>> --- a/util/mmap-alloc.c
+>>>>> +++ b/util/mmap-alloc.c
+>>>>> @@ -10,6 +10,8 @@
+>>>>>    * later.  See the COPYING file in the top-level directory.
+>>>>>    */
+>>>>>
+>>>>> +#include "config-host.h"
+>>>>> +
+>>>> According to CODING_STYLE.rst, qemu/osdep.h is the header file
+>>>> that should be included first, before all the other includes.
+>>>>
+>>>> So the minimal fix would be moving qemu/osdep.h up here.
+>>> Yes, osdep must always be first.
+>>>
+>>>>> #ifdef CONFIG_LINUX
+>>>>> #include <linux/mman.h>
+>>>>> #else  /* !CONFIG_LINUX */
+>>> Do we really need this? osdep.h will pull in sys/mman.h
+>>> for you, which should define the MAP_* constants.
+>>>
+>>> Also, you have no fallbmack for "I'm on Linux but the
+>>> system headers don't define MAP_SHARED_VALIDATE or
+>>> MAP_SYNC". Wouldn't it be better to just have
+>>> #ifndef MAP_SYNC
+>>> #define MAP_SYNC 0
+>>> #endif
+>>>
+>>> etc ?
+>> osdep.h pulls in sys/mman.h, which defines the MAP_* constants
+>>
+>> except for MAP_SYNC and MAP_SHARED_VALIDATE on Linux.
+> Why not? Is this just "not yet in the version of glibc
+> we're using", or is it a bug/missed feature in glibc
+> that needs to be addressed there ?
 
-On 3/10/20 9:32 AM, Gerd Hoffmann wrote:
-> Run "tail -f /var/tmp/*/qemu*console.raw" in another terminal
-> to watch the install console.
+I'm using the version 2.27 of glibc.
 
-Better to document that in the code/documentation rather than this=20
-commit description. Can you send a patch Alex can squash in?
+I downloaded the version 2.28 of glibc source for compilation and 
+installation.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I found MAP_SYNC and MAP_SHARED_VALIDATE are defined in this version.
 
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->   tests/vm/basevm.py | 6 ++++++
->   1 file changed, 6 insertions(+)
->=20
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 8400b0e07f65..c53fd354d955 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -213,6 +213,9 @@ class BaseVM(object):
->       def console_init(self, timeout =3D 120):
->           vm =3D self._guest
->           vm.console_socket.settimeout(timeout)
-> +        self.console_raw_path =3D os.path.join(vm._temp_dir,
-> +                                             vm._name + "-console.raw")
-> +        self.console_raw_file =3D open(self.console_raw_path, 'wb')
->  =20
->       def console_log(self, text):
->           for line in re.split("[\r\n]", text):
-> @@ -234,6 +237,9 @@ class BaseVM(object):
->           while True:
->               try:
->                   chars =3D vm.console_socket.recv(1)
-> +                if self.console_raw_file:
-> +                    self.console_raw_file.write(chars)
-> +                    self.console_raw_file.flush()
->               except socket.timeout:
->                   sys.stderr.write("console: *** read timeout ***\n")
->                   sys.stderr.write("console: waiting for: '%s'\n" % expec=
-t)
->=20
+Seems it's older glibc version issue.
 
+>
+>> How about just adding the following code in util/mmap-alloc.c ?
+>> #ifndef MAP_SYNC
+>> #define MAP_SYNC 0x80000
+>> #endif
+>>
+>> #ifndef MAP_SHARED_VALIDATE
+>> #define MAP_SHARED_VALIDATE 0x03
+>> #endif
+> You don't want to do that for non-Linux systems, so there
+> you need to fall back to defining them to be 0.
+>
+> Are there any systems (distros) where the standard system
+> sys/mman.h does not define these new MAP_* constants but we
+> still really really need to use them? If not, then we
+> could just have the fallback-to-0 fallback everywhere.
+
+Good point.
+
+So as you mentioned, it would be better to just have the following code:
+
+#ifndef MAP_SYNC
+#define MAP_SYNC 0
+#endif
+
+#ifndef MAP_SHARED_VALIDATE
+#define MAP_SHARED_VALIDATE 0
+#endif
+
+Thanks,
+
+Jingqi
+
+>
+> thanks
+> -- PMM
 
