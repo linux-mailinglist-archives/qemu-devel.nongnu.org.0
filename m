@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA0517F6FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:01:54 +0100 (CET)
-Received: from localhost ([::1]:58986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1473A17F704
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:03:21 +0100 (CET)
+Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBda5-0004W4-4j
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:01:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34925)
+	id 1jBdbU-0005ir-2G
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jBdXy-0002vd-UM
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:59:44 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jBdY2-0002yP-FP
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:59:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1jBdXv-0001xI-4g
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:59:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34903
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jBdY0-00023A-RG
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:59:46 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2081 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1jBdXr-0001tx-5p
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:59:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583841572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NZDwBwkYgPt0TOu0vlpswih9P/jzvnxpCAGdq+mzunA=;
- b=PRCSRMxTXQlqFnLjn0O/VVwDHFHcmLQ7CJ+Q1krCp60A5poqnBeEDLLU+WMD0TVEjw43Vw
- 7C5samfgYRMBshx3ea0sTYbgmGhr2vIobf111nvLJw/nu4FUyfzF9XzYQUnAN73I7fzlkD
- Ffsm1WpL73De4/nqwCXE0HmbYutgvuI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329--JAIbGKFMO6vQON5LF4Yxw-1; Tue, 10 Mar 2020 07:59:30 -0400
-X-MC-Unique: -JAIbGKFMO6vQON5LF4Yxw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42F86100550E;
- Tue, 10 Mar 2020 11:59:29 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C2D419C58;
- Tue, 10 Mar 2020 11:59:27 +0000 (UTC)
-Date: Tue, 10 Mar 2020 12:59:26 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v2 02/14] qcrypto/luks: implement encryption key management
-Message-ID: <20200310115926.GC6926@linux.fritz.box>
-References: <20200308151903.25941-1-mlevitsk@redhat.com>
- <20200308151903.25941-3-mlevitsk@redhat.com>
- <704e841b-a5e1-2bea-0a1f-1b6fe1058a17@redhat.com>
- <5f1390648d98ac52928985185522cb58f1bc7253.camel@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <5f1390648d98ac52928985185522cb58f1bc7253.camel@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jBdXo-0001qo-Kr; Tue, 10 Mar 2020 07:59:34 -0400
+Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id 9CBA2DD7AA6C02762C35;
+ Tue, 10 Mar 2020 11:59:28 +0000 (GMT)
+Received: from lhreml705-chm.china.huawei.com (10.201.108.54) by
+ LHREML714-CAH.china.huawei.com (10.201.108.37) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 10 Mar 2020 11:59:28 +0000
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml705-chm.china.huawei.com (10.201.108.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1713.5; Tue, 10 Mar 2020 11:59:28 +0000
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.1713.004; Tue, 10 Mar 2020 11:59:28 +0000
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: RE: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+ output buffer length
+Thread-Topic: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+ output buffer length
+Thread-Index: AQHV3Qdz5JGOPsnNwE6dDrrHrA5o8ahB4dxggAAEOQCAAAS10A==
+Date: Tue, 10 Mar 2020 11:59:28 +0000
+Message-ID: <b1fa434f52cc4570b7443225967a4b9f@huawei.com>
+References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+ <20200117174522.22044-3-shameerali.kolothum.thodi@huawei.com>
+ <20200206170604.12899caf@redhat.com>
+ <feb0b61b1bf741219e08b8c2dc6260f8@huawei.com>
+ <20200310072644-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200310072644-mutt-send-email-mst@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.237]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 185.176.76.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,107 +73,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.03.2020 um 12:05 hat Maxim Levitsky geschrieben:
-> On Tue, 2020-03-10 at 11:58 +0100, Max Reitz wrote:
-> > On 08.03.20 16:18, Maxim Levitsky wrote:
-> > > Next few patches will expose that functionality
-> > > to the user.
-> > >=20
-> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > ---
-> > >  crypto/block-luks.c | 398 ++++++++++++++++++++++++++++++++++++++++++=
-+-
-> > >  qapi/crypto.json    |  61 ++++++-
-> > >  2 files changed, 455 insertions(+), 4 deletions(-)
-> >=20
-> > [...]
-> >=20
-> > > +##
-> > > +# @QCryptoBlockAmendOptionsLUKS:
-> > > +#
-> > > +# This struct defines the update parameters that activate/de-activat=
-e set
-> > > +# of keyslots
-> > > +#
-> > > +# @state: the desired state of the keyslots
-> > > +#
-> > > +# @new-secret:    The ID of a QCryptoSecret object providing the pas=
-sword to be
-> > > +#                 written into added active keyslots
-> > > +#
-> > > +# @old-secret:    Optional (for deactivation only)
-> > > +#                 If given will deactive all keyslots that
-> > > +#                 match password located in QCryptoSecret with this =
-ID
-> > > +#
-> > > +# @iter-time:     Optional (for activation only)
-> > > +#                 Number of milliseconds to spend in
-> > > +#                 PBKDF passphrase processing for the newly activate=
-d keyslot.
-> > > +#                 Currently defaults to 2000.
-> > > +#
-> > > +# @keyslot:       Optional. ID of the keyslot to activate/deactivate=
-.
-> > > +#                 For keyslot activation, keyslot should not be acti=
-ve already
-> > > +#                 (this is unsafe to update an active keyslot),
-> > > +#                 but possible if 'force' parameter is given.
-> > > +#                 If keyslot is not given, first free keyslot will b=
-e written.
-> > > +#
-> > > +#                 For keyslot deactivation, this parameter specifies=
- the exact
-> > > +#                 keyslot to deactivate
-> > > +#
-> > > +# @unlock-secret: Optional. The ID of a QCryptoSecret object providi=
-ng the
-> > > +#                 password to use to retrive current master key.
-> > > +#                 Defaults to the same secret that was used to open =
-the image
-> >=20
-> > So this matches Markus=E2=80=99 proposal except everything is flattened=
- (because
-> > we don=E2=80=99t support nested unions, AFAIU).  Sounds OK to me.  The =
-only
-> > difference is @unlock-secret, which did not appear in his proposal.  Wh=
-y
-> > do we need it again?
+
+
+> -----Original Message-----
+> From: Qemu-devel
+> [mailto:qemu-devel-bounces+shameerali.kolothum.thodi=3Dhuawei.com@nongn
+> u.org] On Behalf Of Michael S. Tsirkin
+> Sent: 10 March 2020 11:36
+> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> Cc: peter.maydell@linaro.org; xiaoguangrong.eric@gmail.com;
+> shannon.zhaosl@gmail.com; qemu-devel@nongnu.org; Linuxarm
+> <linuxarm@huawei.com>; eric.auger@redhat.com; qemu-arm@nongnu.org;
+> xuwei (O) <xuwei5@huawei.com>; Igor Mammedov
+> <imammedo@redhat.com>; lersek@redhat.com
+> Subject: Re: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+> output buffer length
 >=20
-> That a little undocumented hack that will disappear one day.
+> On Tue, Mar 10, 2020 at 11:22:05AM +0000, Shameerali Kolothum Thodi
+> wrote:
+> >
+> >
+> > > -----Original Message-----
+> > > From: Igor Mammedov [mailto:imammedo@redhat.com]
+> > > Sent: 06 February 2020 16:06
+> > > To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> > > Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org;
+> > > eric.auger@redhat.com; peter.maydell@linaro.org;
+> > > xiaoguangrong.eric@gmail.com; mst@redhat.com; Linuxarm
+> > > <linuxarm@huawei.com>; xuwei (O) <xuwei5@huawei.com>;
+> > > shannon.zhaosl@gmail.com; lersek@redhat.com
+> > > Subject: Re: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect
+> DSM
+> > > output buffer length
+> > >
+> > > On Fri, 17 Jan 2020 17:45:17 +0000
+> > > Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
+> > >
+> > > > As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if the
+> > > > Buffer Field <=3D to the size of an Integer (in bits), it will be
+> > > > treated as an integer. Moreover, the integer size depends on DSDT
+> > > > tables revision number. If revision number is < 2, integer size is =
+32
+> > > > bits, otherwise it is 64 bits. Current NVDIMM common DSM aml code
+> > > > (NCAL) uses CreateField() for creating DSM output buffer. This crea=
+tes
+> > > > an issue in arm/virt platform where DSDT revision number is 2 and
+> > > > results in DSM buffer with a wrong
+> > > > size(8 bytes) gets returned when actual length is < 8 bytes.
+> > > > This causes guest kernel to report,
+> > > >
+> > > > "nfit ACPI0012:00: found a zero length table '0' parsing nfit"
+> > > >
+> > > > In order to fix this, aml code is now modified such that it builds =
+the
+> > > > DSM output buffer in a byte by byte fashion when length is smaller
+> > > > than Integer size.
+> > > >
+> > > > Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> > > > Signed-off-by: Shameer Kolothum
+> <shameerali.kolothum.thodi@huawei.com>
+> > > > ---
+> > > > Please find the previous discussion on this here,
+> > > > https://patchwork.kernel.org/cover/11174959/
+> > > >
+> > > > ---
+> > > >  hw/acpi/nvdimm.c                            | 36
+> > > +++++++++++++++++++--
+> > > >  tests/qtest/bios-tables-test-allowed-diff.h |  2 ++
+> > > >  2 files changed, 35 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c index
+> > > > 9fdad6dc3f..5e7b8318d0 100644
+> > > > --- a/hw/acpi/nvdimm.c
+> > > > +++ b/hw/acpi/nvdimm.c
+> > > > @@ -964,6 +964,7 @@ static void nvdimm_build_common_dsm(Aml
+> *dev)
+> > > >      Aml *method, *ifctx, *function, *handle, *uuid, *dsm_mem,
+> > > *elsectx2;
+> > > >      Aml *elsectx, *unsupport, *unpatched, *expected_uuid,
+> *uuid_invalid;
+> > > >      Aml *pckg, *pckg_index, *pckg_buf, *field, *dsm_out_buf,
+> > > > *dsm_out_buf_size;
+> > > > +    Aml *whilectx, *offset;
+> > > >      uint8_t byte_list[1];
+> > > >
+> > > >      method =3D aml_method(NVDIMM_COMMON_DSM, 5,
+> > > AML_SERIALIZED); @@
+> > > > -1117,13 +1118,42 @@ static void nvdimm_build_common_dsm(Aml
+> *dev)
+> > > >      /* RLEN is not included in the payload returned to guest. */
+> > > >      aml_append(method,
+> > > aml_subtract(aml_name(NVDIMM_DSM_OUT_BUF_SIZE),
+> > > >                 aml_int(4), dsm_out_buf_size));
+> > > > +
+> > > > +    /*
+> > > > +     * As per ACPI spec 6.3, Table 19-419 Object Conversion Rules,=
+ if
+> > > > +     * the Buffer Field <=3D to the size of an Integer (in bits), =
+it will
+> > > > +     * be treated as an integer. Moreover, the integer size depend=
+s on
+> > > > +     * DSDT tables revision number. If revision number is < 2, int=
+eger
+> > > > +     * size is 32 bits, otherwise it is 64 bits.
+> > > > +     * Because of this CreateField() canot be used if RLEN < Integ=
+er
+> Size.
+> > > > +     * Hence build dsm_out_buf byte by byte.
+> > > > +     */
+> > > > +    ifctx =3D aml_if(aml_lless(dsm_out_buf_size,
+> > > > + aml_sizeof(aml_int(0))));
+> > >
+> > > this decomplies into
+> > >
+> > >  If (Local1 < SizeOf ())
+> > >
+> > > which doesn't look right
+> >
+> > Ok. I tried printing the value returned(SizeOf) and that looks alright.
+>=20
+> Well it's illegal in ACPI, it's possible that OSPMs handle it the way
+> you want them to, but it's probably not a good idea to assume they will
+> always do.
+>=20
+> The spec says:
+>=20
+> DefSizeOf :=3D SizeOfOp SuperName
+>=20
+>=20
+>=20
+> > Anyway, changed it into aml_int(1) which decompiles to
+> >
+> >    If (Local1 < SizeOf (One))
+> >
+> > Hope this is acceptable.
+> >
+> > Thanks,
+> > Shameer
+>=20
+> I suspect it doesn't. And going into semantics, since they are set by
+> ASL:
+>=20
+>=20
+> 19.6.125 SizeOf (Get Data Object Size)
+> Syntax
+> SizeOf (ObjectName) =3D> Integer
+> Arguments
+> ObjectName must be a buffer, string or package object.
+> Description
+> Returns the size of a buffer, string, or package data object.
+> For a buffer, it returns the size in bytes of the data. For a string, it =
+returns the
+> size in bytes of the
+> string, not counting the trailing NULL. For a package, it returns the num=
+ber of
+> elements. For an
+> object reference, the size of the referenced object is returned. Other da=
+ta
+> types cause a fatal run-time
+> error.
 
-It is very much documented (just a few lines above this one), and even
-if it weren't documented, that wouldn't make it an unstable ABI.
+Yes, I read that and was concerned. I did some experiments with SizeOf() wi=
+th
+different integer numbers and all were returning 8. But yes, it doesn't loo=
+k like
+the right approach.
+=20
+>=20
+> Bottom line, I don't think you can figure out the integer size like this.
+> What's wrong with just assuming 8 byte integers? I guess sizes 5 to 8
+> will be slower with a 32 bit DSDT but why is that a problem?
 
-If you don't want to make it to become stable ABI, you either need to
-drop it or it needs an x- prefix, and its documentation should specify
-what prevents it from being a stable ABI.
+Right. I guess that would work. I will add a comment to explain why we
+are using 8.
 
-> Its because the driver currently doesn't keep a copy of the master key,
-> and instead only keeps ciper objects, often from outside libraries,
-> and in theory these objects might even be implemented in hardware so that
-> master key might be not in memory at all, so I kind of don't want yet
-> to keep it in memory.
-> Thus when doing the key management, I need to retrieve the master key aga=
-in,
-> similar to how it is done on image opening. I use the same secret as was =
-used for opening,
-> but in case the keys were changed already, that secret might not work any=
-more.
-> Thus I added this parameter to specify basically the old password, which =
-is reasonable
-> when updating passwords.
-> I usually omit this hack in the discussions as it is orthogonal to the re=
-st of the API.
+Thanks,
+Shameer
 
-How will this requirement disappear one day?
-
-Kevin
+> MST
+>=20
 
 
