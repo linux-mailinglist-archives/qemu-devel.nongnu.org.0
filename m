@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7619F1805B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:00:15 +0100 (CET)
-Received: from localhost ([::1]:37924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5331805BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:03:58 +0100 (CET)
+Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjAs-00047s-Hx
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:00:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45611)
+	id 1jBjET-0006BA-F9
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1jBjA6-0003fz-HK
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:59:27 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jBjCt-0005by-BW
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:02:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1jBjA5-0003pz-CD
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:59:26 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54451)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1jBjA5-0003nP-6a
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:59:25 -0400
-Received: by mail-wm1-x343.google.com with SMTP id n8so2433398wmc.4
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 10:59:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xf0fbwrnoS7q4GYuxg7MyRF8yDH9ohH5cYbSWyDgGbw=;
- b=MqH+C20fRVK7WDL98cjaoasuoQRNlA8e+q7whqJCYXtB4xLceNlr3eKU6zBk4QZx6/
- nZQWGztgTZsScG7D0vGOzfhoprwx1qUQSi2/q2XPx7Ebwuy3qBmlQbqjqCafxLHhotQo
- ASuawTIat0NbXtLSLFqXJEGUKl+XgZLBiZFj9pRrYQX2gMhqpqQqIputNczSkC5ORDPh
- 3UnC5kuS7s6XKWwgrnIlC3OVh82po+ziY5/LwJc2kFWHHMAcAQEqcZkIFl9qnMmLWmcg
- UZXMdc0qB5z1013lxmrdKJNXh4phl+R0NZvSIz2CIK4mIQxk7ygovFr/bFcDULQHGUMb
- jsZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xf0fbwrnoS7q4GYuxg7MyRF8yDH9ohH5cYbSWyDgGbw=;
- b=npULp4sCWYXheegvX56TFg2S4J6L8Q0lV2R5yBsyIkDMhwURH9xAXj2roooysvs62g
- Gdr/1HJpsnA9xZWT8EvRGxOT7U/SGXIvVD4rTcKbYa4W9pgzOEHFpfRgT5jMyPHl8UnU
- eu65/5Ky+8cl9DVomxM0JsXSucQ0Di2VVP3N4BIalpM2wHEqaKoOFkgrEZEq9BYS8pBq
- yXj8XlfJgoKymRzcuUQPnYV452VfnO7l6sIeExUZKkxe+3U7T32tPk83akeILCgcbk+y
- y3Fbo7sDg4JhlkFWzkwAQQ6RRLmrQq5GbgKh0bD/DMkFsTa8B8uzRSSsPbUHRWUayVoh
- 3YYA==
-X-Gm-Message-State: ANhLgQ2s06pky+K3liz+RaP+Tti8Is6WmG2CjkydNi90qBM1183EXOCm
- 66R1STsd3GeUOkZGqRPzNVyu42EE
-X-Google-Smtp-Source: ADFU+vuxR+WYdPNgpfsuDIHIyxK3YdsE+UQME3iVCru80oRZBAHLTrbymvYGq0ooyoepFT1oqy2RCw==
-X-Received: by 2002:a7b:c414:: with SMTP id k20mr1841756wmi.119.1583863163425; 
- Tue, 10 Mar 2020 10:59:23 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:f1b5:9f9:3125:2a5a])
- by smtp.gmail.com with ESMTPSA id a7sm12082594wrn.25.2020.03.10.10.59.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 10:59:22 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] oslib-posix: initialize mutex and condition variable
-Date: Tue, 10 Mar 2020 18:59:21 +0100
-Message-Id: <20200310175921.501191-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <eric.auger@redhat.com>) id 1jBjCr-0003ru-OM
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:02:18 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54222
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jBjCn-0003Yn-IS
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:02:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583863327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3bPxUy2EcaU0ypCm1YQuIIqo9A/ro6me+r8HBiJeNNo=;
+ b=IC+L5b+ZmNeyMNDSjOn5Kyu2WlpkPJdr6tBK4riLlfl8qLm0TJYH2ANOIkYDF0SOYoLKcg
+ 4ZmHqS29NvL8+EzCI09Resbvbqad3v8/tgAmlOoDFD5hvyuV1Of60xWzs7BFL1tVjmc4ik
+ I7OFgY5+GD3w787IVlhwPe3VzQkW+Pk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-3WPwxFC-PaqWf0O45R4Xtw-1; Tue, 10 Mar 2020 14:02:05 -0400
+X-MC-Unique: 3WPwxFC-PaqWf0O45R4Xtw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93787107ACCA;
+ Tue, 10 Mar 2020 18:02:04 +0000 (UTC)
+Received: from [10.36.117.85] (ovpn-117-85.ams2.redhat.com [10.36.117.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 187BE10013A1;
+ Tue, 10 Mar 2020 18:02:02 +0000 (UTC)
+Subject: Re: [PATCH v3 5/6] hw/arm/virt: kvm: Check the chosen gic version is
+ supported by the host
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200302105516.5972-1-eric.auger@redhat.com>
+ <20200302105516.5972-6-eric.auger@redhat.com>
+ <CAFEAcA-XD9LiokquaHj+kCYWA3N=7k3V3R8r5gA1HZM9Adus1A@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <1370e0bc-ae17-c891-72b5-4cbc58ff3247@redhat.com>
+Date: Tue, 10 Mar 2020 19:02:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <CAFEAcA-XD9LiokquaHj+kCYWA3N=7k3V3R8r5gA1HZM9Adus1A@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +77,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- bauerchen <bauerchen@tencent.com>
+Cc: Marc Zyngier <maz@kernel.org>, Andrew Jones <drjones@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mutex and condition variable were never initialized, causing
--mem-prealloc to abort with an assertion failure.
+Hi Peter,
 
-Fixes: 037fb5eb3941c80a2b7c36a843e47207ddb004d4
-Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: bauerchen <bauerchen@tencent.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- util/oslib-posix.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 3/9/20 2:28 PM, Peter Maydell wrote:
+> On Mon, 2 Mar 2020 at 10:55, Eric Auger <eric.auger@redhat.com> wrote:
+>>
+>> Restructure the finalize_gic_version with switch cases and, in
+>> KVM mode, explictly check whether the chosen version is supported
+>> by the host.
+>>
+>> if the end-user explicitly sets v2/v3 and this is not supported by
+>> the host, then the user gets an explicit error message.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>>
+>> ---
+>>
+>> v2 -> v3:
+>> - explictly list V2 and V3 in the switch/case
+>> - fix indent
+>> ---
+>>  hw/arm/virt.c | 77 +++++++++++++++++++++++++++++++++++----------------
+>>  1 file changed, 53 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index eb8c57c85e..aeb6c45e51 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -1542,33 +1542,62 @@ static void virt_set_memmap(VirtMachineState *vms)
+>>   */
+>>  static void finalize_gic_version(VirtMachineState *vms)
+>>  {
+>> -    if (vms->gic_version == VIRT_GIC_VERSION_HOST ||
+>> -        vms->gic_version == VIRT_GIC_VERSION_MAX) {
+>> -        if (!kvm_enabled()) {
+>> -            if (vms->gic_version == VIRT_GIC_VERSION_HOST) {
+>> -                error_report("gic-version=host requires KVM");
+>> -                exit(1);
+>> -            } else {
+>> -                /* "max": currently means 3 for TCG */
+>> -                vms->gic_version = VIRT_GIC_VERSION_3;
+>> -            }
+>> -        } else {
+>> -            int probe_bitmap = kvm_arm_vgic_probe();
+>> +    if (kvm_enabled()) {
+>> +        int probe_bitmap = kvm_arm_vgic_probe();
+> 
+> Previously we would only do kvm_arm_vgic_probe() if the
+> user asked for 'host' or 'max'. Now we do it always,
+> which means that if the user is on a really old kernel
+> where the CREATE_DEVICE ioctl doesn't exist then we
+> will now fail if the user specifically asked for gicv2,
+> where previously we (probably) would have succeeded.
+> I don't think we should put too much weight on continuing
+> to theoretically support ancient kernels which we're not
+> actually testing against, but it does seem a bit odd to
+> probe even if we don't need to know the answer.
+> 
+> More relevant to actual plausible use cases, if
+> kvm_irqchip_in_kernel() == false, we shouldn't be
+> probing the kernel to ask what kind of GIC to use.
+I think the existing code also does the same:
+kvm_arm_vgic_probe() gets called as soon as vms->gic_version <= 0 &&
+kvm_enabled() whatever the state of kvm_irqchip_in_kernel().
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 897e8f3ba6..4dd6d7d4b4 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -466,10 +466,17 @@ static inline int get_memset_num_threads(int smp_cpus)
- static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-                             int smp_cpus)
- {
-+    static gsize initialized = 0;
-     size_t numpages_per_thread, leftover;
-     char *addr = area;
-     int i = 0;
- 
-+    if (g_once_init_enter(&initialized)) {
-+        qemu_mutex_init(&page_mutex);
-+        qemu_cond_init(&page_cond);
-+        g_once_init_leave(&initialized, 1);
-+    }
-+
-     memset_thread_failed = false;
-     threads_created_flag = false;
-     memset_num_threads = get_memset_num_threads(smp_cpus);
--- 
-2.24.1
+So in case the host only supports GICv2, in kvm mode with userspace
+irqchip we would use GICV2 in host/max mode. If host supports GICv3 we
+would select GICv3 which is not supported in !kvm_irqchip_in_kernel().
+
+So do I understand correctly that you want me to change that behavior
+and always set v2 in KVM/!kvm_irqchip_in_kernel() max/host mode?
+
+Thanks
+
+Eric
+
+> 
+> thanks
+> -- PMM
+> 
 
 
