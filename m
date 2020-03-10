@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5331805BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:03:58 +0100 (CET)
-Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047411805DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:09:21 +0100 (CET)
+Received: from localhost ([::1]:38084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjET-0006BA-F9
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:03:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
+	id 1jBjJg-0004hP-45
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:09:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jBjCt-0005by-BW
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:02:20 -0400
+ (envelope-from <jag.raman@oracle.com>) id 1jBjHL-0001Vi-5h
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:06:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jBjCr-0003ru-OM
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:02:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54222
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jBjCn-0003Yn-IS
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:02:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583863327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3bPxUy2EcaU0ypCm1YQuIIqo9A/ro6me+r8HBiJeNNo=;
- b=IC+L5b+ZmNeyMNDSjOn5Kyu2WlpkPJdr6tBK4riLlfl8qLm0TJYH2ANOIkYDF0SOYoLKcg
- 4ZmHqS29NvL8+EzCI09Resbvbqad3v8/tgAmlOoDFD5hvyuV1Of60xWzs7BFL1tVjmc4ik
- I7OFgY5+GD3w787IVlhwPe3VzQkW+Pk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-3WPwxFC-PaqWf0O45R4Xtw-1; Tue, 10 Mar 2020 14:02:05 -0400
-X-MC-Unique: 3WPwxFC-PaqWf0O45R4Xtw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93787107ACCA;
- Tue, 10 Mar 2020 18:02:04 +0000 (UTC)
-Received: from [10.36.117.85] (ovpn-117-85.ams2.redhat.com [10.36.117.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 187BE10013A1;
- Tue, 10 Mar 2020 18:02:02 +0000 (UTC)
-Subject: Re: [PATCH v3 5/6] hw/arm/virt: kvm: Check the chosen gic version is
- supported by the host
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200302105516.5972-1-eric.auger@redhat.com>
- <20200302105516.5972-6-eric.auger@redhat.com>
- <CAFEAcA-XD9LiokquaHj+kCYWA3N=7k3V3R8r5gA1HZM9Adus1A@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <1370e0bc-ae17-c891-72b5-4cbc58ff3247@redhat.com>
-Date: Tue, 10 Mar 2020 19:02:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <jag.raman@oracle.com>) id 1jBjHJ-0002d9-Lr
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:06:54 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:45000)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
+ id 1jBjHJ-00025i-B1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:06:53 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AI2NSU028550;
+ Tue, 10 Mar 2020 18:06:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=8QvUq+Ufv1VOrTlkNTw3FOUYcLjYpcDkpxPgfeSXPXc=;
+ b=EsmQAMHTsz2Mv8D1hu1OVeWxANrOYUR+OT5xUbGDH3dgei6piyvF+x1ctluy/Zk3WdP1
+ Lxd12KHQGec/eK6BujWeAzFi52mWU5S/5MPbeBSeSLCRfJ5YaYZnrwigG+R1gn0j1HfJ
+ nmwDLhhXzsD8TdsdiND2fnsyM1HNxB7QCE9JqOaRKQTE12l/wxUG4nAMDnzRs8i0CKfu
+ x0mvpWx4R3OW7e3b5hd8DfxQAEctn+c5QuQmgKmB+WG5/yI3V9EFhTna0EX/pQjrrSyF
+ qj6ES/odluLfJfrrvOK7dJueZaI2QbG3sLGrfDcsdfg9BNfD1F8OtZ9CtmTGpX4pvF3R 5g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2yp9v629f1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 18:06:31 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AI3YfW054219;
+ Tue, 10 Mar 2020 18:04:30 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2yp8qpku2p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 18:04:30 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02AI4QXR021388;
+ Tue, 10 Mar 2020 18:04:26 GMT
+Received: from [10.152.34.2] (/10.152.34.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 10 Mar 2020 11:04:25 -0700
+Subject: Re: [PATCH v5 32/50] multi-process: Use separate MMIO communication
+ channel
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+ <d776913e1796fe9f929a665c0265eff3978fcc16.1582576372.git.jag.raman@oracle.com>
+ <20200306165227.GD1438162@stefanha-x1.localdomain>
+From: Jag Raman <jag.raman@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <520c4a37-2d8a-8d5c-fa12-fc33929a183b@oracle.com>
+Date: Tue, 10 Mar 2020 14:04:23 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-XD9LiokquaHj+kCYWA3N=7k3V3R8r5gA1HZM9Adus1A@mail.gmail.com>
+In-Reply-To: <20200306165227.GD1438162@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0 mlxscore=0
+ adultscore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003100109
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003100109
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,92 +96,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, Andrew Jones <drjones@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
 
-On 3/9/20 2:28 PM, Peter Maydell wrote:
-> On Mon, 2 Mar 2020 at 10:55, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> Restructure the finalize_gic_version with switch cases and, in
->> KVM mode, explictly check whether the chosen version is supported
->> by the host.
->>
->> if the end-user explicitly sets v2/v3 and this is not supported by
->> the host, then the user gets an explicit error message.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Reviewed-by: Andrew Jones <drjones@redhat.com>
->>
->> ---
->>
->> v2 -> v3:
->> - explictly list V2 and V3 in the switch/case
->> - fix indent
->> ---
->>  hw/arm/virt.c | 77 +++++++++++++++++++++++++++++++++++----------------
->>  1 file changed, 53 insertions(+), 24 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index eb8c57c85e..aeb6c45e51 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -1542,33 +1542,62 @@ static void virt_set_memmap(VirtMachineState *vms)
->>   */
->>  static void finalize_gic_version(VirtMachineState *vms)
->>  {
->> -    if (vms->gic_version == VIRT_GIC_VERSION_HOST ||
->> -        vms->gic_version == VIRT_GIC_VERSION_MAX) {
->> -        if (!kvm_enabled()) {
->> -            if (vms->gic_version == VIRT_GIC_VERSION_HOST) {
->> -                error_report("gic-version=host requires KVM");
->> -                exit(1);
->> -            } else {
->> -                /* "max": currently means 3 for TCG */
->> -                vms->gic_version = VIRT_GIC_VERSION_3;
->> -            }
->> -        } else {
->> -            int probe_bitmap = kvm_arm_vgic_probe();
->> +    if (kvm_enabled()) {
->> +        int probe_bitmap = kvm_arm_vgic_probe();
+
+On 3/6/2020 11:52 AM, Stefan Hajnoczi wrote:
+> This went unanswered in the last revision:
 > 
-> Previously we would only do kvm_arm_vgic_probe() if the
-> user asked for 'host' or 'max'. Now we do it always,
-> which means that if the user is on a really old kernel
-> where the CREATE_DEVICE ioctl doesn't exist then we
-> will now fail if the user specifically asked for gicv2,
-> where previously we (probably) would have succeeded.
-> I don't think we should put too much weight on continuing
-> to theoretically support ancient kernels which we're not
-> actually testing against, but it does seem a bit odd to
-> probe even if we don't need to know the answer.
-> 
-> More relevant to actual plausible use cases, if
-> kvm_irqchip_in_kernel() == false, we shouldn't be
-> probing the kernel to ask what kind of GIC to use.
-I think the existing code also does the same:
-kvm_arm_vgic_probe() gets called as soon as vms->gic_version <= 0 &&
-kvm_enabled() whatever the state of kvm_irqchip_in_kernel().
+> On Thu, Nov 21, 2019 at 12:31:42PM +0000, Stefan Hajnoczi wrote:
+>> On Wed, Nov 13, 2019 at 11:14:50AM -0500, Jag Raman wrote:
+>>> On 11/11/2019 11:21 AM, Stefan Hajnoczi wrote:
+>>>> On Thu, Oct 24, 2019 at 05:09:13AM -0400, Jagannathan Raman wrote:
+>>>>> Using a separate communication channel for MMIO helps
+>>>>> with improving Performance
+>>>>
+>>>> Why?
+>>>
+>>> Typical initiation of IO operations involves multiple MMIO accesses per
+>>> IO operation. In some legacy devices like LSI, the completion of the IO
+>>> operations is also accomplished by polling on MMIO registers. Therefore,
+>>> MMIO traffic can be hefty in some cases and contribute to Performance.
+>>>
+>>> Having a dedicated channel for MMIO ensures that it doesn't have to
+>>> compete with other messages to the remote process, especially when there
+>>> are multiple devices emulated by a single remote process.
+>>
+>> A vCPU doing a polling read on an MMIO register will cause a BAR_READ
+>> message to be sent to the remote process.  The vCPU thread waits for the
+>> response to this message.
+>>
+>> When there are multiple remote devices each has its own socket, so
+>> communication with different remote processes does not interfere.
+>>
+>> The only scenarios I can think of are:
+>> 1. Interference within a single device between vCPUs and/or the QEMU
+>>     monitor.
+>> 2. A single process serving multiple devices that is implemented in a
+>>     way such that different devices interfere with each other.
+>>
+>> It sounds like you are saying the problem is #2, but this is still
+>> unclear to me.  If the remote process can be implemented in a way such
+>> that there is no interference when each device has a special MMIO
+>> socket, then why can't it be implemented in a way such that there is no
+>> interference when each device's main socket is used (each device has
+>> it's own!).
+>>
+>> Maybe I've missed the point.  It would be good if you could explain in
+>> more detail.
 
-So in case the host only supports GICv2, in kvm mode with userspace
-irqchip we would use GICV2 in host/max mode. If host supports GICv3 we
-would select GICv3 which is not supported in !kvm_irqchip_in_kernel().
+Hi Stefan,
 
-So do I understand correctly that you want me to change that behavior
-and always set v2 in KVM/!kvm_irqchip_in_kernel() max/host mode?
+Sorry we missed this comment. We originally added this to enable
+separate MMIO channels for each device in the remote process.
 
-Thanks
+Given we are going to add a separate channel for each device in the
+remote process based on the recent discussions, we could remove the
+separate channel for MMIO.
 
-Eric
+Thank you very much!
+--
+Jag
 
-> 
-> thanks
-> -- PMM
-> 
-
+>>
+>> Stefan
 
