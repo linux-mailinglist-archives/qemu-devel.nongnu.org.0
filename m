@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE28518061E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:21:59 +0100 (CET)
-Received: from localhost ([::1]:38234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41991180640
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:28:30 +0100 (CET)
+Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjVu-0002OB-Jo
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39132)
+	id 1jBjcD-0005ix-7z
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jBjV4-0001t2-MW
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:21:07 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jBjal-0004R6-IO
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1jBjV3-0000d2-Lz
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:21:06 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:37317)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1jBjV0-0000QL-R7; Tue, 10 Mar 2020 14:21:02 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2151F746381;
- Tue, 10 Mar 2020 19:20:59 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F117174637D; Tue, 10 Mar 2020 19:20:58 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id EE8A1745953;
- Tue, 10 Mar 2020 19:20:58 +0100 (CET)
-Date: Tue, 10 Mar 2020 19:20:58 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v3 2/3] pci: Honour wmask when resetting PCI_INTERRUPT_LINE
-In-Reply-To: <aa0c718b-ca5c-520f-5cbc-fb711b1e3008@ilande.co.uk>
-Message-ID: <alpine.BSF.2.22.395.2003101920390.30321@zero.eik.bme.hu>
-References: <cover.1583781493.git.balaton@eik.bme.hu>
- <857e327a240f2175fe5105f0ebdfe1357fef32c7.1583781494.git.balaton@eik.bme.hu>
- <20200309163632-mutt-send-email-mst@kernel.org>
- <alpine.BSF.2.22.395.2003092151340.94024@zero.eik.bme.hu>
- <aa0c718b-ca5c-520f-5cbc-fb711b1e3008@ilande.co.uk>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <robert.foley@linaro.org>) id 1jBjak-0001RM-6z
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:59 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43980)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
+ id 1jBjak-0001Og-16
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:58 -0400
+Received: by mail-pg1-x544.google.com with SMTP id u12so6675917pgb.10
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:26:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nrzh0Vy8XOLZcUSvtUSHG8edtZbHgxfhuR5ZP2r40nk=;
+ b=yms+s4LZUz72EwOzhEZHkClxN89zv1UakkrTA9lnSneywbBFJDXPljDQNrNIIMUx9q
+ pJB0TTNy0S5Hx2iAoiCAiAYl2+LAtQ+4wULWmclVCF/83xEciLrFhvVusTL37R0UY3tt
+ lJwpFeCWrk/u2QAouCDXpNVjsiPCB5Uut1vM9ZNih2ZU2rnOQgttkqgNb5LviFJM5c1v
+ LO8OTxPtOhagrTW8g0c0L+/LP4FV05mfhzhfMf2y3sIxhHh5KeqVDvmpojcAoJ1hgv09
+ eB6MS+kNReCAgSKlZ071R/CIsARhmOQ3M0PCD7Aip5wJlHJdgjnc30vj7HKe5wMUuEiB
+ S4vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Nrzh0Vy8XOLZcUSvtUSHG8edtZbHgxfhuR5ZP2r40nk=;
+ b=kwTkbYrn0lxp+0WDNdvwNfvYhe9cZJ1L6Pj9W5fAmPfyRv/muz6scFpy35zVmaqAPG
+ YqWh0/KPDdX2eR+VJWZC5Ypip8JPlDe6QoJfxCKHNlbIE2OnndhoM5/R/2SZUolbpL0l
+ Mjjp55cSXeUwnCc34yZsaULcAFWP3pHZWSw08Yu10/Ft1MxSIhKk+9czSk1Sy6T2q2le
+ B+bhNT05BjrZowUuQOkpHyR33jm2d7Z8JHPixArjHMlWmT9EKzSPISkMjBtor7MqjN0m
+ xoB6qbWMrwwFVDCWBVmgXb6DL6TJ+M4waiXLDxKy7NJhJvwYOomcPQgmywLGwOow+II0
+ uxMw==
+X-Gm-Message-State: ANhLgQ2tfj0FRY+46p1yfTx4RNHyQnQKwI6rprTR+cTJ168Isr+TLZ1b
+ KZx+qwxhwMBwU4zPh5+ZYTCBBVtLC5k=
+X-Google-Smtp-Source: ADFU+vu9pXMSPhe+78aNaGEZcFHlnUMyM98rBVFFIjoKsqUR3k0Y46KDCJkjTbY1vZ5dvUKWKDL+6Q==
+X-Received: by 2002:aa7:91ce:: with SMTP id z14mr15283833pfa.62.1583864815098; 
+ Tue, 10 Mar 2020 11:26:55 -0700 (PDT)
+Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
+ by smtp.gmail.com with ESMTPSA id p1sm8730692pfq.114.2020.03.10.11.26.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 11:26:54 -0700 (PDT)
+From: Robert Foley <robert.foley@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/10] tests/vm: Add support for aarch64 VMs
+Date: Tue, 10 Mar 2020 14:25:26 -0400
+Message-Id: <20200310182536.11137-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-769047215-1583864458=:30321"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2001:738:2001:2001::2001
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,86 +76,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- philmd@redhat.com, qemu-devel@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
+ peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This is version 3 of the patch series to 
+add support for aarch64 VMs in the vm-build infrastructure.
+ - Ubuntu 18.04 aarch64 VM
+ - CentOS 8 aarch64 VM
 
---3866299591-769047215-1583864458=:30321
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+V2: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05310.html
 
-On Tue, 10 Mar 2020, Mark Cave-Ayland wrote:
-> On 09/03/2020 20:54, BALATON Zoltan wrote:
->> On Mon, 9 Mar 2020, Michael S. Tsirkin wrote:
->>> On Mon, Mar 09, 2020 at 08:18:13PM +0100, BALATON Zoltan wrote:
->>>> The pci_do_device_reset() function (called from pci_device_reset)
->>>> clears the PCI_INTERRUPT_LINE config reg of devices on the bus but d=
-id
->>>> this without taking wmask into account. We'll have a device model no=
-w
->>>> that needs to set a constant value for this reg and this patch allow=
-s
->>>> to do that without additional workaround in device emulation to
->>>> reverse the effect of this PCI bus reset function.
->>>>
->>>> Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>> =C2=A0hw/pci/pci.c | 4 +++-
->>>> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->>>> index e1ed6677e1..d07e4ed9de 100644
->>>> --- a/hw/pci/pci.c
->>>> +++ b/hw/pci/pci.c
->>>> @@ -302,8 +302,10 @@ static void pci_do_device_reset(PCIDevice *dev)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 pci_word_test_and_clear_mask(dev->config + =
-PCI_STATUS,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_get_word(dev->=
-wmask + PCI_STATUS) |
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_get_word(dev->=
-w1cmask + PCI_STATUS));
->>>> +=C2=A0=C2=A0=C2=A0 pci_word_test_and_clear_mask(dev->config + PCI_I=
-NTERRUPT_LINE,
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_get_word(dev->wmask + PCI_INTERRUPT_LI=
-NE) |
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_get_word(dev->w1cmask + PCI_INTERRUPT_=
-LINE));
->>>
->>> PCI spec says:
->>>
->>> Interrupt Line
->>> The Interrupt Line register is an eight-bit register used to communic=
-ate interrupt
->>> line routing
->>> information.
->>>
->>> I don't see how it makes sense to access it as a word.
->>
->> Patch actually comes from Mark, I don't know. Should we change it to
->> pci_byte_test_and_clear_mask or what's the appropriate way here?
->
-> Ooops yes it should pci_byte_test_and_clear_mask(). Clearly I got a bit=
- too excited
-> from copying the existing examples in pci_do_device_reset().
+Changes in V3.
+- Most changes were around checking for dependencies
+  needed for the aarch64 VMs (qemu-efi-aarch64) and 
+  for the python3-yaml package.
+  - Added checks to configure for dependencies of aarch64 VMs 
+    as well as the python3-yaml dependency.
+  - Also added checks in tests/vm/Makefile.include to check for 
+    dependencies and output the appropriate text for vm-help.
+- Moved the workaround for consuming the console to the end of the patch.
+- Added patch to validate the target of vm-build operations.
 
-OK will test it and send updated version.
+Robert Foley (10):
+  tests/vm: Add validation of target to Makefile.include
+  tests/vm: Add configuration to basevm.py
+  tests/vm: Added configuration file support
+  tests/vm: add --boot-console switch
+  tests/vm: Add ability to select QEMU from current build.
+  tests/vm: allow wait_ssh() to specify command
+  tests/vm: Added a new script for ubuntu.aarch64.
+  tests/vm: Added a new script for centos.aarch64.
+  tests/vm: change scripts to use self._config
+  tests/vm: Add workaround to consume console
 
-Regards,
-BALATON Zoltan
---3866299591-769047215-1583864458=:30321--
+ configure                         |  25 +++
+ python/qemu/console_socket.py     | 162 +++++++++++++++++++
+ python/qemu/machine.py            |  12 +-
+ tests/vm/Makefile.include         |  43 ++++-
+ tests/vm/aarch64vm.py             | 100 ++++++++++++
+ tests/vm/basevm.py                | 252 ++++++++++++++++++++++++------
+ tests/vm/centos-8-aarch64.ks      |  51 ++++++
+ tests/vm/centos.aarch64           | 226 +++++++++++++++++++++++++++
+ tests/vm/conf_example_aarch64.yml |  51 ++++++
+ tests/vm/conf_example_x86.yml     |  50 ++++++
+ tests/vm/fedora                   |  17 +-
+ tests/vm/freebsd                  |  16 +-
+ tests/vm/netbsd                   |  19 +--
+ tests/vm/openbsd                  |  17 +-
+ tests/vm/ubuntu.aarch64           | 117 ++++++++++++++
+ 15 files changed, 1075 insertions(+), 83 deletions(-)
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+
+-- 
+2.17.1
+
 
