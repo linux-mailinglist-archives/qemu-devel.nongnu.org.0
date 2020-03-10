@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBAE1803F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 17:51:33 +0100 (CET)
-Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89851803FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 17:52:56 +0100 (CET)
+Received: from localhost ([::1]:36898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBi6N-0005iM-N3
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 12:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47698)
+	id 1jBi7j-0007h1-Le
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 12:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBi5B-0005Du-Sr
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 12:50:18 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1jBi6O-0006Ih-Kl
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 12:51:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBi5A-0002KB-Ig
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 12:50:17 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:39572)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBi5A-0002Iq-D2
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 12:50:16 -0400
-Received: by mail-ot1-x336.google.com with SMTP id a9so7625928otl.6
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3lwpQDPB9V7m5IZWUs0qHQ2Sr7Q1+VLt/P6z7ZkysiE=;
- b=MNBkO/Su0BDmMt2PYKhbPXSko7Mo076FfubjzwcifIqE2H1B1LJ6DUfqydUB2av/J0
- NUnra3YMcW0n8OKJQLFqQ+hLMPT0axwWKRu+r4vjJ5dPLai8MqV8jhh/d0E+LzZA2bAh
- YMIhzxGUr0qiQNq6D6xIs0ItVcaET/r56z9evpMXwSH4uaOla/xDvPV9NtG/teVdX9pc
- HFzSyp8OJE/TE80yl4CDQ0MPlhVhf+fVfgzQ52Yowmiv30em5rjj9sr4z2MCeKaN42mY
- MbifJlgc+Ww/HN4pJTMQb58r5uY0SYqKi0XllNHjiW6aFJkAvx3hPFQ3aEmSfVsocYnC
- EUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3lwpQDPB9V7m5IZWUs0qHQ2Sr7Q1+VLt/P6z7ZkysiE=;
- b=C675DHCInIydeoKQ3o/pCO7rxoUvVvzkN1bPDheLbYsle1bq7QXPCvWCiX+yxhcVEG
- mJHuatBD/wrb3Q7xeFCgowOYZlrMa1EICuLbpRwE57gaR/9rRxx6raRbBP/RvuYfKeeE
- Zz2pU8MHNPZNSrgRpcJrh3ibQYoyyiBYvBwnHxW0RamUwKi/uE3e26IdZWbOY8V/YdAN
- rv5+5xeVqUCTEcByo6S03ulWPesuVUNoo59QlLhDi3sT0ksAT9Ec4eehVPR3mxdlg/wh
- Ll2G5ZnNl5Gcj6cDlgHGhXu5AfbSefNdXSvuFiROF/PPqOIPA4OnZPNpwX4yDwWgcTui
- HbrA==
-X-Gm-Message-State: ANhLgQ1YdRuppyAb2acU8t2IhUh7FqvB70MAXhGcJYRs8e43qIpMuyPW
- GHto1tY0R/8bGfO5s47nvfzYEtGPMag6wSMYvUYTHA==
-X-Google-Smtp-Source: ADFU+vu8bKkKntatWSQ8vQ/wyYnukKCO045M9tXLb4m5VTe3HXNaSAcp3kWlOZTdxjsLJccNHkvHTskhOlPBZnEMywg=
-X-Received: by 2002:a9d:76c9:: with SMTP id p9mr17644101otl.135.1583859014846; 
- Tue, 10 Mar 2020 09:50:14 -0700 (PDT)
+ (envelope-from <liran.alon@oracle.com>) id 1jBi6M-00050B-KQ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 12:51:31 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:47750)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1jBi6M-0004uI-3s
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 12:51:30 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AGcLie010599;
+ Tue, 10 Mar 2020 16:51:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=YbVeSlgughlbReU7FCK0S5UiDbyQ+kkAKjbxgBMSydc=;
+ b=tRJFpqXrki0j/yUSYP/UMe5NyBNNc0oJV8GPTRDtufSZtE7g2yjhGWcwpWgrEo2KFRiX
+ 1cgHQ42QWLx10hn64YVCT1r5l6IAnjakShnNLss1v4qac62cCk4yWMkMzEaSiAwZSg8a
+ JsTxbEJp0V5e0UKMPDg+FxDzeBICDYWwtozc86jwAS8fch1pZn0Bx16Tzc6VDdVb75VS
+ m1fgYMORq5nq8n94Ty23PK6lO/gRPIX0WVstAq4sRIiIfkjGNe8heRDYxrLvhgWbtK+A
+ ECmjZIHGltj0yYFfTHo0kVkI1TVW7vYncyxddNkeLwC5RKHxpsHajOHASlbtOzCrEzwH aw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 2yp9v61vay-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 16:51:27 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AGcA2s053871;
+ Tue, 10 Mar 2020 16:51:27 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 2yp8psg3r9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 16:51:27 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02AGpPvl031514;
+ Tue, 10 Mar 2020 16:51:26 GMT
+Received: from spark.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 10 Mar 2020 09:51:25 -0700
+From: Liran Alon <liran.alon@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/16]:  hw/i386/vmport: Bug fixes and improvements
+Date: Tue, 10 Mar 2020 18:53:16 +0200
+Message-Id: <20200310165332.140774-1-liran.alon@oracle.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200310082402.22839-1-kraxel@redhat.com>
-In-Reply-To: <20200310082402.22839-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Mar 2020 16:50:03 +0000
-Message-ID: <CAFEAcA9OafwmrJ2MUtSJve6u8MMahdqjWcTeypWOm4VYoJ-+pA@mail.gmail.com>
-Subject: Re: [PULL 0/2] Usb 20200310 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::336
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0
+ mlxlogscore=951 bulkscore=0 suspectscore=1 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003100103
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003100103
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: nikita.leshchenko@oracle.com, mst@redhat.com, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Mar 2020 at 08:25, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 67f17e23baca5dd545fe98b01169cc351a70fe35:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2020-03-06 17:15:36 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20200310-pull-request
->
-> for you to fetch changes up to e13a22db0d47012e19ad02c9dafacbe25f94e1b4:
->
->   usb/hcd-ehci: Remove redundant statements (2020-03-09 11:12:55 +0100)
->
-> ----------------------------------------------------------------
-> usb: bugfixes for ehci & serial.
->
-> ----------------------------------------------------------------
+Hi,
 
+This series aims to fix several bugs in VMPort and improve it by supporting
+more VMPort commands and make command results more configurable to
+user via QEMU command-line.
 
-Applied, thanks.
+This functionality was proven to be useful to run various VMware VMs
+when attempting to run them as-is on top of QEMU/KVM.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+For more details, see commit messages.
 
--- PMM
+Regards,
+-Liran
+
+v1->v2:
+* Fix coding convention [Patchew Bot & MST].
+* Create new header file for vmport.h [MST].
+* Move KVM_APIC_BUS_FREQUENCY from linux-headers/asm-x86/kvm.h
+  auto-generated header [MST]
+* Elaborate more that vmx-version refers to the VMware userspace
+  VMM in commit message. [MST]
+* Use le32_to_cpu() on BIOS_UUID vmport command. [MST]
+* Introduce VMPort compatability version property to maintain migration
+  compatibility. [MST]
+
 
