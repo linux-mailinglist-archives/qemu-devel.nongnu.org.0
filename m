@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE98017F6A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:49:08 +0100 (CET)
-Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA50717F6B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:50:37 +0100 (CET)
+Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBdNj-0000Z7-SH
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44661)
+	id 1jBdPA-0002kv-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jBdM7-0007N5-RY
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:47:28 -0400
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBdMy-0000Cs-NG
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:48:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1jBdM6-0003LV-Jf
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:47:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54771
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jBdM6-0003H9-Du
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:47:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583840846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sFOoQypaldymGm6peVs0Pbqr2KwRZZOB5n57kO+CrQk=;
- b=FvwNTxtZ0qzBFNG9n+Q1JF2aN3SqO2ojmgsWl18sVHBsWPoNW4kmVhTAMgsne7ls+4pVsR
- 2EiQXlSCGzp2eMDGCtH17QEKUiZFPf8cnGhBtkFEe73PDC6N0eNOoUojt/HzdaE/z9d6pN
- pXlDBlcBsqrdDUFwvGkPdVPYPpMoNn0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-Uj-NcjqxNcipBsKd8OK1Gg-1; Tue, 10 Mar 2020 07:47:22 -0400
-X-MC-Unique: Uj-NcjqxNcipBsKd8OK1Gg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A390DB21;
- Tue, 10 Mar 2020 11:47:21 +0000 (UTC)
-Received: from [10.3.116.177] (ovpn-116-177.phx2.redhat.com [10.3.116.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D651A5C28D;
- Tue, 10 Mar 2020 11:47:20 +0000 (UTC)
-Subject: Re: [PATCH v10 02/10] qemu-binfmt-conf.sh: enforce safe tests
-To: Laurent Vivier <laurent@vivier.eu>,
- Unai Martinez-Corral <unai.martinezcorral@ehu.eus>, qemu-devel@nongnu.org
-References: <20200309191200.GA60@669c1c222ef4>
- <20200309191924.GB65@669c1c222ef4>
- <b7389e46-c96b-a95b-5831-accfdbd1da4a@vivier.eu>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <62decc58-62e9-9352-ce64-9f8c3a796162@redhat.com>
-Date: Tue, 10 Mar 2020 06:47:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBdMw-0007Ns-Lc
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:48:20 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:48315)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBdMw-0007Fv-Bc
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:48:18 -0400
+Received: from mail-vs1-f69.google.com ([209.85.217.69])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBdMu-0004lz-Pf
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:48:16 +0000
+Received: by mail-vs1-f69.google.com with SMTP id s17so558080vss.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 04:48:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1Q2kHRdbl/K1sVLqMMLp9u0rpSNaEdkKPA+VQ2h4zFY=;
+ b=fn95+Dl/3EK6LezII95ofocvWxlqG7C7T6nomHENIzwHS6dcuyiiXxAI0NFXhV8Trx
+ b+3/P7wQRo+mj+kqhn4vrhm13qagoaZKEn1gsSYtr2mCDHvDeuiQVdb/ZXV26CjxQ2MH
+ lx7QNNlXmkGt4AfJ6ysDzYZMMXOCVCWAJ8ErmByCeoKSjkTOp4823xrGF+e1l8GGN0bE
+ xP2Jlxv3wPEXj2ETcCZrjxtTYhoTUKdNGXkdM6uN0xLhUubn/supcga59zrR1dnUqcGr
+ E7epW+4e9O055uCjLhpsrD4kLgFSFxNOvzN8dA4Ghexq4XUqUAVErjhK+GhwZlnSVL4h
+ l1dA==
+X-Gm-Message-State: ANhLgQ10dP9WnEShxoRR2DDonEPRiZUzm/LCHyjBM4RsZ01p5dDQW3jJ
+ q9zciccG0yHUinDZuLajko6a8NxgpzMrozoe3MoT3amky/OHIGpCdX59i4c4j/onU4cYKib7jaE
+ p0l7qHrURVM6DdjWm9O69at1ay2xnRobTax60mbPNig9Wz+A5
+X-Received: by 2002:a67:f648:: with SMTP id u8mr7770489vso.50.1583840895889;
+ Tue, 10 Mar 2020 04:48:15 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuEVtslS3DZJpCo+a1tHZJxj5cDnSRkbPYPl2aCY6kBNBkSIzgh5R2lBZ0pEPWbo31J5YyXvmFTvGA9DZ2BayY=
+X-Received: by 2002:a67:f648:: with SMTP id u8mr7770480vso.50.1583840895615;
+ Tue, 10 Mar 2020 04:48:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b7389e46-c96b-a95b-5831-accfdbd1da4a@vivier.eu>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200306132648.27577-1-christian.ehrhardt@canonical.com>
+ <20200310093910.GB140737@stefanha-x1.localdomain>
+In-Reply-To: <20200310093910.GB140737@stefanha-x1.localdomain>
+From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Date: Tue, 10 Mar 2020 12:47:49 +0100
+Message-ID: <CAATJJ0KvA65i4463wCX1m2e4L=r=O1oaFjojXDvOX3otmMX=dg@mail.gmail.com>
+Subject: Re: [PATCH] modules: load modules from versioned /var/run dir
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000f6dd8505a07eb10e"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 91.189.89.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +73,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, pkg-qemu-devel@lists.alioth.debian.org,
+ Cole Robinson <crobinso@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/20 3:28 AM, Laurent Vivier wrote:
-> Le 09/03/2020 =C3=A0 20:19, Unai Martinez-Corral a =C3=A9crit=C2=A0:
->> All the tests are prefixed with 'x', in order to avoid risky comparisons
->> (i.e. a user deliberately trying to provoke a syntax error).
->=20
-> With the quotes I don't see how we can provoke a syntax error.
-> Could you provide an example?
+--000000000000f6dd8505a07eb10e
+Content-Type: text/plain; charset="UTF-8"
 
-Historically, in some shells:
+On Tue, Mar 10, 2020 at 10:39 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
 
-foo=3D\(
-bar=3D\)
-if [ "$foo" =3D "$bar" ]; then echo hello world; fi
+> On Fri, Mar 06, 2020 at 02:26:48PM +0100, Christian Ehrhardt wrote:
+> > On upgrades the old .so files usually are replaced. But on the other
+> > hand since a qemu process represents a guest instance it is usually kept
+> > around.
+> >
+> > That makes late addition of dynamic features e.g. 'hot-attach of a ceph
+> > disk' fail by trying to load a new version of e.f. block-rbd.so into an
+> > old still running qemu binary.
+> >
+> > This adds a fallback to also load modules from a versioned directory in
+> the
+> > temporary /var/run path. That way qemu is providing a way for packaging
+> > to store modules of an upgraded qemu package as needed until the next
+> reboot.
+> >
+> > An example how that can then be used in packaging can be seen in:
+> >
+> https://git.launchpad.net/~paelzer/ubuntu/+source/qemu/log/?h=bug-1847361-miss-old-so-on-upgrade-UBUNTU
+> >
+> > Fixes: https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1847361
+> > Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+> > ---
+> >  util/module.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+>
+> CCing Debian, Fedora, and Red Hat package maintainers in case they have
+> comments.
+>
 
-could output 'hello world' (by parsing a parenthesized one-argument=20
-test, and the string '=3D' is non-empty), but:
+Yeah that seems worth, thanks Stefan.
 
-if [ "x$foo" =3D "x$bar" ]; then echo goodbye; fi
+The use of /var/run makes me a little uneasy.  I guess it's related to
+> wanting to uninstall the old package so the .so in their original
+> location cannot be used (even if they had a versioned path)?
+>
 
-did not (since no operator begins with 'x', you have guaranteed the=20
-syntax that [ will parse).  Similarly, if foo=3D! or foo=3D-a, you could ge=
-t=20
-syntax errors (if [ tried to treat the expansion of $foo as an operator=20
-and got thrown off by the remaining arguments not matching an expected=20
-pattern).
+Yes you'd want to uninstall the old bits from disk - even if there would be
+a versioned path.
+/var/run was considered a nice place as it is auto-cleaned on a reboot
+avoiding a massive
+and most likely broken logic trying to detect which qemu versions still
+have running binaries.
 
-These days, POSIX says that with three arguments when the 2nd is a=20
-binary operator, there is no ambiguity (the binary operator takes=20
-precedence over the ( and ) around the non-empty string test), and=20
-modern bash obeys the POSIX rule without needing the x prefix.  But it=20
-is still better to prefix with x for copy-paste portability to older=20
-shells that do not match current POSIX rules.
+And no distro will have so many qemu updates that N*~<100k for the .so
+files will really grow too big.
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Also if the path would end up to be the major concern and we can't agree
+on a single one we can consider making this:
+1. not checking an extra path if not configured
+2. on configure packaging can set a path of their choice
 
+I have not done so yet as I was hoping for a simpler patch and
+everyone knowing what to expect across e.g. distros.
+It also will make isolation easier for example I also have apparmor changes
+for libvirt allowing that path which is more complex if it ends up
+configurable.
+
+And finally this has to be considered an "offer" by qemu to the packagers
+to fix a real field issue.
+The packaging does not "have to" exploit this, every Distro is free to just
+ignore it.
+
+I'm not a package maintainer though so I hope the others will make
+> suggestions if there are other solutions :).
+>
+> >
+> > diff --git a/util/module.c b/util/module.c
+> > index 236a7bb52a..d2446104be 100644
+> > --- a/util/module.c
+> > +++ b/util/module.c
+> > @@ -19,6 +19,7 @@
+> >  #endif
+> >  #include "qemu/queue.h"
+> >  #include "qemu/module.h"
+> > +#include "qemu-version.h"
+> >
+> >  typedef struct ModuleEntry
+> >  {
+> > @@ -170,6 +171,7 @@ bool module_load_one(const char *prefix, const char
+> *lib_name)
+> >  #ifdef CONFIG_MODULES
+> >      char *fname = NULL;
+> >      char *exec_dir;
+> > +    char *version_dir;
+> >      const char *search_dir;
+> >      char *dirs[4];
+> >      char *module_name;
+> > @@ -201,6 +203,11 @@ bool module_load_one(const char *prefix, const char
+> *lib_name)
+> >      dirs[n_dirs++] = g_strdup_printf("%s", CONFIG_QEMU_MODDIR);
+> >      dirs[n_dirs++] = g_strdup_printf("%s/..", exec_dir ? : "");
+> >      dirs[n_dirs++] = g_strdup_printf("%s", exec_dir ? : "");
+> > +    version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
+> > +                             G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS
+> "+-.~",
+> > +                             '_');
+> > +    dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
+> > +
+> >      assert(n_dirs <= ARRAY_SIZE(dirs));
+> >
+> >      g_free(exec_dir);
+> > --
+> > 2.25.1
+> >
+> >
+>
+
+
+-- 
+Christian Ehrhardt
+Staff Engineer, Ubuntu Server
+Canonical Ltd
+
+--000000000000f6dd8505a07eb10e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 10, 2020 at 10:39 AM Stef=
+an Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmail.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
+Fri, Mar 06, 2020 at 02:26:48PM +0100, Christian Ehrhardt wrote:<br>
+&gt; On upgrades the old .so files usually are replaced. But on the other<b=
+r>
+&gt; hand since a qemu process represents a guest instance it is usually ke=
+pt<br>
+&gt; around.<br>
+&gt; <br>
+&gt; That makes late addition of dynamic features e.g. &#39;hot-attach of a=
+ ceph<br>
+&gt; disk&#39; fail by trying to load a new version of e.f. block-rbd.so in=
+to an<br>
+&gt; old still running qemu binary.<br>
+&gt; <br>
+&gt; This adds a fallback to also load modules from a versioned directory i=
+n the<br>
+&gt; temporary /var/run path. That way qemu is providing a way for packagin=
+g<br>
+&gt; to store modules of an upgraded qemu package as needed until the next =
+reboot.<br>
+&gt; <br>
+&gt; An example how that can then be used in packaging can be seen in:<br>
+&gt; <a href=3D"https://git.launchpad.net/~paelzer/ubuntu/+source/qemu/log/=
+?h=3Dbug-1847361-miss-old-so-on-upgrade-UBUNTU" rel=3D"noreferrer" target=
+=3D"_blank">https://git.launchpad.net/~paelzer/ubuntu/+source/qemu/log/?h=
+=3Dbug-1847361-miss-old-so-on-upgrade-UBUNTU</a><br>
+&gt; <br>
+&gt; Fixes: <a href=3D"https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/=
+1847361" rel=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/ub=
+untu/+source/qemu/+bug/1847361</a><br>
+&gt; Signed-off-by: Christian Ehrhardt &lt;<a href=3D"mailto:christian.ehrh=
+ardt@canonical.com" target=3D"_blank">christian.ehrhardt@canonical.com</a>&=
+gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 util/module.c | 7 +++++++<br>
+&gt;=C2=A0 1 file changed, 7 insertions(+)<br>
+<br>
+CCing Debian, Fedora, and Red Hat package maintainers in case they have<br>
+comments.<br></blockquote><div>=C2=A0</div><div>Yeah that seems worth, than=
+ks Stefan.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+The use of /var/run makes me a little uneasy.=C2=A0 I guess it&#39;s relate=
+d to<br>
+wanting to uninstall the old package so the .so in their original<br>
+location cannot be used (even if they had a versioned path)?<br></blockquot=
+e><div>=C2=A0</div><div>Yes you&#39;d want to uninstall the old bits from d=
+isk - even if there would be a versioned path.</div><div>/var/run was consi=
+dered a nice place as it is auto-cleaned on a reboot avoiding a massive</di=
+v><div>and most likely broken logic trying to detect which qemu versions st=
+ill have running binaries.</div><div><br></div><div>And no distro will have=
+ so many qemu updates that N*~&lt;100k for the .so files will really grow t=
+oo big.</div><div><br></div><div>Also if the path would end up to be the ma=
+jor concern and we can&#39;t agree</div><div>on a single one we can conside=
+r making this:</div><div>1. not checking an extra path if not configured</d=
+iv><div>2. on configure packaging can set a path of their choice</div><div>=
+<br></div><div>I have not done so yet as I was hoping for a simpler patch a=
+nd everyone=C2=A0knowing what to expect across e.g. distros.</div><div>It a=
+lso will make isolation easier for example I also have apparmor changes for=
+ libvirt allowing that path which is more complex if it ends up configurabl=
+e.</div><div><br></div><div>And finally this has to be considered an &quot;=
+offer&quot; by qemu to the packagers to fix a real field issue.</div><div>T=
+he=C2=A0packaging does not &quot;have to&quot; exploit this, every=C2=A0Dis=
+tro is free to just ignore it.</div><div><br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
+I&#39;m not a package maintainer though so I hope the others will make<br>
+suggestions if there are other solutions :).<br>
+<br>
+&gt; <br>
+&gt; diff --git a/util/module.c b/util/module.c<br>
+&gt; index 236a7bb52a..d2446104be 100644<br>
+&gt; --- a/util/module.c<br>
+&gt; +++ b/util/module.c<br>
+&gt; @@ -19,6 +19,7 @@<br>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 #include &quot;qemu/queue.h&quot;<br>
+&gt;=C2=A0 #include &quot;qemu/module.h&quot;<br>
+&gt; +#include &quot;qemu-version.h&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 typedef struct ModuleEntry<br>
+&gt;=C2=A0 {<br>
+&gt; @@ -170,6 +171,7 @@ bool module_load_one(const char *prefix, const cha=
+r *lib_name)<br>
+&gt;=C2=A0 #ifdef CONFIG_MODULES<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 char *fname =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 char *exec_dir;<br>
+&gt; +=C2=A0 =C2=A0 char *version_dir;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 const char *search_dir;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 char *dirs[4];<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 char *module_name;<br>
+&gt; @@ -201,6 +203,11 @@ bool module_load_one(const char *prefix, const ch=
+ar *lib_name)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 dirs[n_dirs++] =3D g_strdup_printf(&quot;%s&quot;,=
+ CONFIG_QEMU_MODDIR);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 dirs[n_dirs++] =3D g_strdup_printf(&quot;%s/..&quo=
+t;, exec_dir ? : &quot;&quot;);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 dirs[n_dirs++] =3D g_strdup_printf(&quot;%s&quot;,=
+ exec_dir ? : &quot;&quot;);<br>
+&gt; +=C2=A0 =C2=A0 version_dir =3D g_strcanon(g_strdup(QEMU_PKGVERSION),<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS =
+&quot;+-.~&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;_&#39;);<br>
+&gt; +=C2=A0 =C2=A0 dirs[n_dirs++] =3D g_strdup_printf(&quot;/var/run/qemu/=
+%s&quot;, version_dir);<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 assert(n_dirs &lt;=3D ARRAY_SIZE(dirs));<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 g_free(exec_dir);<br>
+&gt; -- <br>
+&gt; 2.25.1<br>
+&gt; <br>
+&gt; <br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Christian Ehrhardt<br>Staff Engineer, Ubuntu Ser=
+ver<br>Canonical Ltd</div></div>
+
+--000000000000f6dd8505a07eb10e--
 
