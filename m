@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783A217F200
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:34:56 +0100 (CET)
-Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CAE17F207
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:37:29 +0100 (CET)
+Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBaLn-0006jO-DB
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40497)
+	id 1jBaOG-000344-UT
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jBaJo-000524-Nb
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:54 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jBaJe-0004ve-FH
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jBaJi-0004Po-GE
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37585
+ (envelope-from <kraxel@redhat.com>) id 1jBaJd-0004Cr-5B
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25943
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jBaJi-0004N5-9D
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:46 -0400
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jBaJc-0004BO-Sc
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:32:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583829165;
+ s=mimecast20190719; t=1583829160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sOVMOqnxDkodmVut3xrgbX07a4xhm8JWDSSQd23JJJE=;
- b=AqC1gt8r1Q6LkKe76BkGn7G3+DV8pWkRJlEDFH365HkXi+EKgFJPPc3YAgaK4cyFt1JkqG
- 7e+1ywspBoZ2BEEK7LcgxxPRV0uPbpwifElh/p8GovDXxwkqtvGlSUEQ7kLlRcT66/Hi02
- eqC9DQHaBBjTt/WpAt6PAs2ln9gw3NY=
+ bh=umJLVabTlxfOYRdcqqJPgQHpfKmMGvR8MmZg0s3LCOY=;
+ b=ZYGld0+RYuji3HpDpv2iZlaT7Dm7BgDrqfiaWyC5BNoJDkYN65K2V941ZLUKypqySFZ3gy
+ 47O+u0m3PAXY9ccJRiYl2rAlD5uDznC+yRJMk3Ld7ZSBTM6MiCXGVcZ4Mo4qUrxBrIBnpQ
+ iCjR0DDQ6Z96vTBHyJUOYWyrTJLw0eg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-UUIK3UqRM4ioH2PfF2z8uQ-1; Tue, 10 Mar 2020 04:32:22 -0400
-X-MC-Unique: UUIK3UqRM4ioH2PfF2z8uQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-304-swIc5mRaMLKyaIn18emcJQ-1; Tue, 10 Mar 2020 04:32:23 -0400
+X-MC-Unique: swIc5mRaMLKyaIn18emcJQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9828713F5;
- Tue, 10 Mar 2020 08:32:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AD911005513;
+ Tue, 10 Mar 2020 08:32:22 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
  [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2B0E5C1D4;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F305391D6E;
  Tue, 10 Mar 2020 08:32:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3F82F9D26; Tue, 10 Mar 2020 09:32:18 +0100 (CET)
+ id 47EE09D3C; Tue, 10 Mar 2020 09:32:18 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] tests/vm: update FreeBSD to 12.1
-Date: Tue, 10 Mar 2020 09:32:17 +0100
-Message-Id: <20200310083218.26355-4-kraxel@redhat.com>
+Subject: [PATCH 4/4] tests/vm: update NetBSD to 9.0
+Date: Tue, 10 Mar 2020 09:32:18 +0100
+Message-Id: <20200310083218.26355-5-kraxel@redhat.com>
 In-Reply-To: <20200310083218.26355-1-kraxel@redhat.com>
 References: <20200310083218.26355-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +80,83 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The installer supports GPT now, so the install workflow has changed a
+bit.  Also: run without VGA device.  This works around a bug in the
+seabios sercon code and makes the bootloader menu show up on the serial
+line, so we can drop the quirk for that.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/vm/freebsd | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/vm/netbsd | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 58166766d915..298967fe9cf4 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -24,8 +24,8 @@ class FreeBSDVM(basevm.BaseVM):
-     name =3D "freebsd"
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index f3257bc245a3..b10c9d429ded 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
+     name =3D "netbsd"
      arch =3D "x86_64"
 =20
--    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/Fr=
-eeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
--    csum =3D "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485fb=
-99db"
-+    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/Fr=
-eeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
-+    csum =3D "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cf=
-cd88"
+-    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.1/images/NetBSD-8=
+.1-amd64.iso"
+-    csum =3D "718f275b7e0879599bdac95630c5e3f2184700032fdb6cdebf3bdd636878=
+98c48ff3f08f57b89f4437a86cdd8ea07c01a39d432dbb37e1e4b008f4985f98da3f"
++    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9=
+.0-amd64.iso"
++    csum =3D "34da4882ee61bdbf69f241195a8933dc800949d30b43fc6988da853d57fc=
+2b8cac50cf97a0d2adaf93250b4e329d189c1a8b83c33bd515226f37745d50c33369"
      size =3D "20G"
      pkgs =3D [
-         # build tools
+         # tools
+@@ -86,42 +86,31 @@ class NetBSDVM(basevm.BaseVM):
+         self.boot(img_tmp, extra_args =3D [
+             "-bios", "pc-bios/bios-256k.bin",
+             "-machine", "graphics=3Doff",
+-            "-device", "VGA",
+             "-cdrom", iso
+         ])
+         self.console_init()
+-        self.console_wait("Primary Bootstrap")
+-
+-        # serial console boot menu output doesn't work for some
+-        # reason, so we have to fly blind ...
+-        for char in list("5consdev com0\n"):
+-            time.sleep(0.2)
+-            self.console_send(char)
+-            self.console_consume()
++        self.console_wait_send("3. Drop to boot prompt", "3")
++        self.console_wait_send("> ", "consdev com0\n")
+         self.console_wait_send("> ", "boot\n")
+=20
+         self.console_wait_send("Terminal type",            "xterm\n")
+         self.console_wait_send("a: Installation messages", "a\n")
+-        self.console_wait_send("b: US-English",            "b\n")
+         self.console_wait_send("a: Install NetBSD",        "a\n")
+         self.console_wait("Shall we continue?")
+         self.console_wait_send("b: Yes",                   "b\n")
+=20
+         self.console_wait_send("a: ld0",                   "a\n")
++        self.console_wait_send("a: Guid Partition Table",  "a\n")
+         self.console_wait_send("a: This is the correct",   "a\n")
+-        self.console_wait_send("b: Use the entire disk",   "b\n")
+-        self.console_wait("NetBSD bootcode")
+-        self.console_wait_send("a: Yes",                   "a\n")
+-        self.console_wait_send("b: Use existing part",     "b\n")
++        self.console_wait_send("b: Use default part",      "b\n")
+         self.console_wait_send("x: Partition sizes ok",    "x\n")
+-        self.console_wait_send("for your NetBSD disk",     "\n")
+         self.console_wait("Shall we continue?")
+         self.console_wait_send("b: Yes",                   "b\n")
+=20
+         self.console_wait_send("b: Use serial port com0",  "b\n")
+         self.console_wait_send("f: Set serial baud rate",  "f\n")
+         self.console_wait_send("a: 9600",                  "a\n")
+-        self.console_wait_send("x: Exit",                  "x\n")
++        self.console_wait_send("x: Continue",              "x\n")
+=20
+         self.console_wait_send("a: Full installation",     "a\n")
+         self.console_wait_send("a: CD-ROM",                "a\n")
 --=20
 2.18.2
 
