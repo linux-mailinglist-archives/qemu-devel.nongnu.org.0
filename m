@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41991180640
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:28:30 +0100 (CET)
-Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3A1180647
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:29:43 +0100 (CET)
+Received: from localhost ([::1]:38394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjcD-0005ix-7z
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:28:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43621)
+	id 1jBjdO-0000Bz-Ma
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43923)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jBjal-0004R6-IO
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:00 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jBjb4-0004xJ-Tt
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jBjak-0001RM-6z
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:59 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43980)
+ (envelope-from <robert.foley@linaro.org>) id 1jBjb2-00022b-Kv
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:17 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39718)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jBjak-0001Og-16
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:58 -0400
-Received: by mail-pg1-x544.google.com with SMTP id u12so6675917pgb.10
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:26:56 -0700 (PDT)
+ id 1jBjb2-00020n-F1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:16 -0400
+Received: by mail-pg1-x541.google.com with SMTP id s2so6681695pgv.6
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nrzh0Vy8XOLZcUSvtUSHG8edtZbHgxfhuR5ZP2r40nk=;
- b=yms+s4LZUz72EwOzhEZHkClxN89zv1UakkrTA9lnSneywbBFJDXPljDQNrNIIMUx9q
- pJB0TTNy0S5Hx2iAoiCAiAYl2+LAtQ+4wULWmclVCF/83xEciLrFhvVusTL37R0UY3tt
- lJwpFeCWrk/u2QAouCDXpNVjsiPCB5Uut1vM9ZNih2ZU2rnOQgttkqgNb5LviFJM5c1v
- LO8OTxPtOhagrTW8g0c0L+/LP4FV05mfhzhfMf2y3sIxhHh5KeqVDvmpojcAoJ1hgv09
- eB6MS+kNReCAgSKlZ071R/CIsARhmOQ3M0PCD7Aip5wJlHJdgjnc30vj7HKe5wMUuEiB
- S4vg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=gBa/eZgenJryGWjkA8q6oRG/FDhBu8JGwHX1oWSrDEI=;
+ b=DYmmx94qb8D05NaSaEY1Bq3iYKyYtEGvuyJE8AGczrBiN85W/yVdvUq9mgfELxAgub
+ BWZTd1ZVLcZUkmmleaDa2A0RB6aTGqNL0zBHxqrR4f2N1bPeDdGObbQMQaz5T+Jl47aN
+ gjFnmryC6Q6jmMPHF6zVeVL5OoJjCPnBsEV0Hq+7AfhDqBLZ54fsyy1SwrNwxndrl8+U
+ ndWN8vNOwO66wbKcr+T4ixPjUebsVIqVKKBFov0C+QRF5Rz3PT6LMjZqN1HHLWxuTJbB
+ d0C/cJ8g6t0lSF9Sn51xSGgfg5vXkaMElXpbHYw+HKn6AFyyX/p57J+dXtmp6CTcOD5E
+ bXAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nrzh0Vy8XOLZcUSvtUSHG8edtZbHgxfhuR5ZP2r40nk=;
- b=kwTkbYrn0lxp+0WDNdvwNfvYhe9cZJ1L6Pj9W5fAmPfyRv/muz6scFpy35zVmaqAPG
- YqWh0/KPDdX2eR+VJWZC5Ypip8JPlDe6QoJfxCKHNlbIE2OnndhoM5/R/2SZUolbpL0l
- Mjjp55cSXeUwnCc34yZsaULcAFWP3pHZWSw08Yu10/Ft1MxSIhKk+9czSk1Sy6T2q2le
- B+bhNT05BjrZowUuQOkpHyR33jm2d7Z8JHPixArjHMlWmT9EKzSPISkMjBtor7MqjN0m
- xoB6qbWMrwwFVDCWBVmgXb6DL6TJ+M4waiXLDxKy7NJhJvwYOomcPQgmywLGwOow+II0
- uxMw==
-X-Gm-Message-State: ANhLgQ2tfj0FRY+46p1yfTx4RNHyQnQKwI6rprTR+cTJ168Isr+TLZ1b
- KZx+qwxhwMBwU4zPh5+ZYTCBBVtLC5k=
-X-Google-Smtp-Source: ADFU+vu9pXMSPhe+78aNaGEZcFHlnUMyM98rBVFFIjoKsqUR3k0Y46KDCJkjTbY1vZ5dvUKWKDL+6Q==
-X-Received: by 2002:aa7:91ce:: with SMTP id z14mr15283833pfa.62.1583864815098; 
- Tue, 10 Mar 2020 11:26:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=gBa/eZgenJryGWjkA8q6oRG/FDhBu8JGwHX1oWSrDEI=;
+ b=ArIG2A3yi8Di9hf7Ti74GEtnkTX6DpuERlZUc+Fgi74VOrH7icjnT1L23m336m1DrT
+ Z15L96XFIbOQfT8VKODThxb11AgvIx6hn71zn036s644NFW9euXom0tr+5ZiPkH7mUWW
+ vdIWRkD1e/hVW3vuqkC2lVKvbhoWqL33zwG7LDv6ZIviJG7S02E4+TKyfnxw0GT6tCIV
+ WQKCL4l9qkpAQZYyVQPjfbXRPRHAe4Qnflf21R4bqtgkRivMdhdsUR1BztoyO2K04h0G
+ ShCJaQaLTrl/lsdzLpbTm5MeKX4qttz5POyb/oleDgigMrhB4Ko6/d4K1l91jIRzGi+D
+ gtUw==
+X-Gm-Message-State: ANhLgQ2VcvDaYNHrlrMqKM+ssQO2fhguIvS9P6O516joMqGwxUBnUbRa
+ gyGEfnSt9z+AX/WYDz52KGGBQNk0eUk=
+X-Google-Smtp-Source: ADFU+vuUvscJG8gx7WCLvW6mz+AybyvnIVDW/ar6iy53aFartoKQPEL200HGOn/xsI8wo4W8o26lAw==
+X-Received: by 2002:a63:a35a:: with SMTP id v26mr23060473pgn.40.1583864835169; 
+ Tue, 10 Mar 2020 11:27:15 -0700 (PDT)
 Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id p1sm8730692pfq.114.2020.03.10.11.26.52
+ by smtp.gmail.com with ESMTPSA id p1sm8730692pfq.114.2020.03.10.11.27.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 11:26:54 -0700 (PDT)
+ Tue, 10 Mar 2020 11:27:14 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/10] tests/vm: Add support for aarch64 VMs
-Date: Tue, 10 Mar 2020 14:25:26 -0400
-Message-Id: <20200310182536.11137-1-robert.foley@linaro.org>
+Subject: [PATCH v3 01/10] tests/vm: Add validation of target
+Date: Tue, 10 Mar 2020 14:25:27 -0400
+Message-Id: <20200310182536.11137-2-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200310182536.11137-1-robert.foley@linaro.org>
+References: <20200310182536.11137-1-robert.foley@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,60 +79,74 @@ Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is version 3 of the patch series to 
-add support for aarch64 VMs in the vm-build infrastructure.
- - Ubuntu 18.04 aarch64 VM
- - CentOS 8 aarch64 VM
+This validation is now useful since some targets
+may not be valid if their dependencies are not installed.
+Instead of allowing the scripts to fail with missing dependencies
+we will fail earlier with a helpful error message.
 
-V2: https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg05310.html
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+---
+ tests/vm/Makefile.include | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-Changes in V3.
-- Most changes were around checking for dependencies
-  needed for the aarch64 VMs (qemu-efi-aarch64) and 
-  for the python3-yaml package.
-  - Added checks to configure for dependencies of aarch64 VMs 
-    as well as the python3-yaml dependency.
-  - Also added checks in tests/vm/Makefile.include to check for 
-    dependencies and output the appropriate text for vm-help.
-- Moved the workaround for consuming the console to the end of the patch.
-- Added patch to validate the target of vm-build operations.
-
-Robert Foley (10):
-  tests/vm: Add validation of target to Makefile.include
-  tests/vm: Add configuration to basevm.py
-  tests/vm: Added configuration file support
-  tests/vm: add --boot-console switch
-  tests/vm: Add ability to select QEMU from current build.
-  tests/vm: allow wait_ssh() to specify command
-  tests/vm: Added a new script for ubuntu.aarch64.
-  tests/vm: Added a new script for centos.aarch64.
-  tests/vm: change scripts to use self._config
-  tests/vm: Add workaround to consume console
-
- configure                         |  25 +++
- python/qemu/console_socket.py     | 162 +++++++++++++++++++
- python/qemu/machine.py            |  12 +-
- tests/vm/Makefile.include         |  43 ++++-
- tests/vm/aarch64vm.py             | 100 ++++++++++++
- tests/vm/basevm.py                | 252 ++++++++++++++++++++++++------
- tests/vm/centos-8-aarch64.ks      |  51 ++++++
- tests/vm/centos.aarch64           | 226 +++++++++++++++++++++++++++
- tests/vm/conf_example_aarch64.yml |  51 ++++++
- tests/vm/conf_example_x86.yml     |  50 ++++++
- tests/vm/fedora                   |  17 +-
- tests/vm/freebsd                  |  16 +-
- tests/vm/netbsd                   |  19 +--
- tests/vm/openbsd                  |  17 +-
- tests/vm/ubuntu.aarch64           | 117 ++++++++++++++
- 15 files changed, 1075 insertions(+), 83 deletions(-)
- create mode 100644 python/qemu/console_socket.py
- create mode 100644 tests/vm/aarch64vm.py
- create mode 100644 tests/vm/centos-8-aarch64.ks
- create mode 100755 tests/vm/centos.aarch64
- create mode 100644 tests/vm/conf_example_aarch64.yml
- create mode 100644 tests/vm/conf_example_x86.yml
- create mode 100755 tests/vm/ubuntu.aarch64
-
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 1bf9693d19..835e3f3549 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -2,7 +2,7 @@
+ 
+ .PHONY: vm-build-all vm-clean-all
+ 
+-IMAGES := freebsd netbsd openbsd centos fedora
++IMAGES := freebsd netbsd openbsd fedora
+ ifneq ($(GENISOIMAGE),)
+ IMAGES += ubuntu.i386 centos
+ endif
+@@ -49,9 +49,20 @@ vm-build-all: $(addprefix vm-build-, $(IMAGES))
+ vm-clean-all:
+ 	rm -f $(IMAGE_FILES)
+ 
++# Validate the target since some targets will not
++# be valid if their software dependencies are not installed.
++define validate_target
++	@echo $(1) | grep $(2) || \
++	(echo "Invalid target ($(2))"; \
++	echo "Valid Targets are: $(1)"; \
++	echo "See make vm-help for more information."; \
++	exit 1;)
++endef
++
+ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+ 			$(SRC_PATH)/tests/vm/basevm.py \
+ 			$(SRC_PATH)/tests/vm/Makefile.include
++	$(call validate_target,${IMAGES},$*)
+ 	@mkdir -p $(IMAGES_DIR)
+ 	$(call quiet-command, \
+ 		$(PYTHON) $< \
+@@ -64,6 +75,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+ 
+ # Build in VM $(IMAGE)
+ vm-build-%: $(IMAGES_DIR)/%.img
++	$(call validate_target,${IMAGES},$*)
+ 	$(call quiet-command, \
+ 		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
+ 		$(if $(V)$(DEBUG), --debug) \
+@@ -79,6 +91,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
+ 		"  VM-BUILD $*")
+ 
+ vm-boot-serial-%: $(IMAGES_DIR)/%.img
++	$(call validate_target,${IMAGES},$*)
+ 	qemu-system-x86_64 -enable-kvm -m 4G -smp 2 -nographic \
+ 		-drive if=none,id=vblk,cache=writeback,file="$<" \
+ 		-netdev user,id=vnet \
+@@ -87,6 +100,7 @@ vm-boot-serial-%: $(IMAGES_DIR)/%.img
+ 	|| true
+ 
+ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
++	$(call validate_target,${IMAGES},$*)
+ 	$(call quiet-command, \
+ 		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
+ 		$(if $(J),--jobs $(J)) \
 -- 
 2.17.1
 
