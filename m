@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D656B180503
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 18:38:54 +0100 (CET)
-Received: from localhost ([::1]:37732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524241804DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 18:33:19 +0100 (CET)
+Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBiqD-0000ac-V8
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 13:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43134)
+	id 1jBiko-0003qg-5C
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 13:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jBioL-0007Kf-CT
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:37:00 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jBij5-0003LJ-SP
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:31:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1jBioJ-00060B-2c
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:36:57 -0400
-Received: from mail-vs1-xe42.google.com ([2607:f8b0:4864:20::e42]:36192)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1jBioH-0005xP-Th
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:36:55 -0400
-Received: by mail-vs1-xe42.google.com with SMTP id n6so8989345vsc.3
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 10:36:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Mzm5bsMJ0gSPcB+wy9+3zRg4Uc8nl3HBB7KEUJTFNQM=;
- b=AerCv02IvZ749Rvq957tSH84yDBODyBm4TCGrCZHenMST7AvVjKT/UhJGZYvHev78j
- Vly5oW6Q00CVyHpsbURNYMxcqHOWZIawFLf75xkB/0Hst22G1c20K4kFK9ttEojURGOy
- y8AZdN1TTXTfnitDrNyOzmqMKUNyxjJJqHSr7ZbyI+AqpjHUGxK//l8S+3wV9tXeabKN
- yFqUfjEgrs1sX1PiuBKojOMbNfeQde5jqfmMcIRe90sWhlyFm0TJW5mZaA0q+duRIk0n
- 7o4umJAX8Z6TjZSVYrmRBdPwCJnmRjZh6NaBLH62pQ1BWFnKWSuo4nlSC5DtlaxYO/PV
- IACg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Mzm5bsMJ0gSPcB+wy9+3zRg4Uc8nl3HBB7KEUJTFNQM=;
- b=snxWNwg5SpynNafOrVpIy8/HiRg/l7Qf+N93hghsicC6PI8m24cztWVUl2mXnJ4xnt
- 6t9LaVioohgeeRktNVR27XxW0s+xqJJESdIsz//zbtsIqwyIRZCW9yLnJyQFjQp6mGuP
- DcXwSq2nd/gYJx3uoT/A1DgvKC3VlwdlisXy9LCAR2UAId9eyBuDNbissYrwyyZH/xnf
- gO+6RNhb/O05VXyRWEY+KGqnDS7dZNyBdbbKBIQP6y07mwvZS+9S/aEWsxGPd29zhooc
- jxt+jn682G/kiPQgKPa77lGgwUKpTGac5HM+d39nB0/hurATouwjAKGxgiA2bAiDZ7kd
- taUA==
-X-Gm-Message-State: ANhLgQ1AjRqF1aLsy6zV0JI+F0pctZ3zD3fUNGbyFJs9Ers2SHUndsFh
- PsT+7jjUK6SftFDzpTsAHZCQX90s2wag1HCwG94=
-X-Google-Smtp-Source: ADFU+vv8UcPJg5XcYKtXoucaaSghgWgmlDK0ALki4PrWp9LEwmMADJzkrzifvo3/o6r8XuK7jreAJA7rZvjFgnmLSQc=
-X-Received: by 2002:a05:6102:3c2:: with SMTP id
- n2mr13532495vsq.172.1583861813314; 
- Tue, 10 Mar 2020 10:36:53 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1jBij4-000241-8H
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:31:31 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32649
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jBij4-00020n-2A
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 13:31:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583861488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Q2VVjoerMZgjTEd6HOjMIk4rVKB//n0r3rQnFhdtEQc=;
+ b=O8k99UK5gMZ40Svl5EZUAaZY9dPZp/GjbqKfRp9NMxVXZp8WjcZm7hxVxe7+e5KVU7z5X/
+ mNTfKAaT6Nw7jj6NvbDQPaUB+N3W7h1nti/L8fH0DZPnO7WBbRM/HN5m6tIO/tmMOX5PHP
+ PK7L8bMQ/YhIulpQJHUQZrPNflRpx+s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-jh6VlSwkMbKfIugjQNOlGg-1; Tue, 10 Mar 2020 13:31:26 -0400
+X-MC-Unique: jh6VlSwkMbKfIugjQNOlGg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4ED618A72A1;
+ Tue, 10 Mar 2020 17:31:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB2B28F354;
+ Tue, 10 Mar 2020 17:31:23 +0000 (UTC)
+Subject: Re: [PATCH 3/3] iotests/138: Test leaks/corruptions fixed report
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200227170251.86113-1-mreitz@redhat.com>
+ <20200227170251.86113-4-mreitz@redhat.com>
+ <7336bd34-0f48-acf2-ef2b-0fb466f564f4@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9c583104-a108-3aca-44bd-82782fd19cd2@redhat.com>
+Date: Tue, 10 Mar 2020 18:31:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200310110759.3331020-1-laurent@vivier.eu>
- <20200310110759.3331020-5-laurent@vivier.eu>
-In-Reply-To: <20200310110759.3331020-5-laurent@vivier.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 10 Mar 2020 10:29:05 -0700
-Message-ID: <CAKmqyKOh4p2VZ=PsTKL31qTVhNLprfftt6WB05w=SqVMuxPozQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] linux-user, openrisc: sync syscall numbers with
- kernel v5.5
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e42
+In-Reply-To: <7336bd34-0f48-acf2-ef2b-0fb466f564f4@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="X4ErPtTaRn0If7lHduoUwaisPjyFmddEv"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,540 +98,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- Jia Liu <proljc@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 10, 2020 at 4:09 AM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Use helper script scripts/gensyscalls.sh to generate the file.
->
-> Add TARGET_NR_or1k_atomic
-> Remove useless comments and blank lines.
-> Define diretly the __NR_XXX64 syscalls rather than using the
-> intermediate __NR3264 definition.
->
-> Remove wrong cut'n'paste (like "#ifdef __ARCH_WANT_SYNC_FILE_RANGE2")
->
-> Add new syscalls from 286 (preadv) to 434 (pidfd_open).
->
-> Remove obsolete syscalls 1204 (open) to 1079 (fork).
->
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--X4ErPtTaRn0If7lHduoUwaisPjyFmddEv
+Content-Type: multipart/mixed; boundary="B1BgaGV71RvVT2Djg16AKGWOVjj87on6B"
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--B1BgaGV71RvVT2Djg16AKGWOVjj87on6B
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
+On 27.02.20 19:56, Eric Blake wrote:
+> On 2/27/20 11:02 AM, Max Reitz wrote:
+>> Test that qemu-img check reports the number of leaks and corruptions
+>> fixed in its JSON report (after a successful run).
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>> =C2=A0 tests/qemu-iotests/138=C2=A0=C2=A0=C2=A0=C2=A0 | 41 +++++++++++++=
++++++++++++++++++++++++--
+>> =C2=A0 tests/qemu-iotests/138.out | 14 +++++++++++++
+>> =C2=A0 2 files changed, 53 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
+>> index 54b01046ad..25bfbd4cca 100755
+>> --- a/tests/qemu-iotests/138
+>> +++ b/tests/qemu-iotests/138
+>> @@ -41,8 +41,10 @@ _supported_fmt qcow2
+>> =C2=A0 _supported_proto file
+>> =C2=A0 _supported_os Linux
+>> =C2=A0 # With an external data file, data clusters are not refcounted
+>> -# (and so qemu-img check does not check their refcount)
+>> -_unsupported_imgopts data_file
+>> +# (and so qemu-img check does not check their refcount);
+>=20
+> Not this patch's problem, but is that a bug in 'qemu-img check' for not
+> validating refcounts on an external data file?=C2=A0 Or is it merely this
+> comment wording is not quite perfect?
 
-> ---
->  linux-user/openrisc/syscall_nr.h | 307 ++++++-------------------------
->  1 file changed, 60 insertions(+), 247 deletions(-)
->
-> diff --git a/linux-user/openrisc/syscall_nr.h b/linux-user/openrisc/syscall_nr.h
-> index 7763dbcfd8b3..a4b614005d69 100644
-> --- a/linux-user/openrisc/syscall_nr.h
-> +++ b/linux-user/openrisc/syscall_nr.h
-> @@ -1,13 +1,15 @@
-> +/*
-> + * This file contains the system call numbers.
-> + */
->  #ifndef LINUX_USER_OPENRISC_SYSCALL_NR_H
->  #define LINUX_USER_OPENRISC_SYSCALL_NR_H
->
->  #define TARGET_NR_io_setup 0
-> +#define TARGET_NR_or1k_atomic TARGET_NR_arch_specific_syscall
->  #define TARGET_NR_io_destroy 1
->  #define TARGET_NR_io_submit 2
->  #define TARGET_NR_io_cancel 3
->  #define TARGET_NR_io_getevents 4
-> -
-> -/* fs/xattr.c */
->  #define TARGET_NR_setxattr 5
->  #define TARGET_NR_lsetxattr 6
->  #define TARGET_NR_fsetxattr 7
-> @@ -20,63 +22,36 @@
->  #define TARGET_NR_removexattr 14
->  #define TARGET_NR_lremovexattr 15
->  #define TARGET_NR_fremovexattr 16
-> -
-> -/* fs/dcache.c */
->  #define TARGET_NR_getcwd 17
-> -
-> -/* fs/cookies.c */
->  #define TARGET_NR_lookup_dcookie 18
-> -
-> -/* fs/eventfd.c */
->  #define TARGET_NR_eventfd2 19
-> -
-> -/* fs/eventpoll.c */
->  #define TARGET_NR_epoll_create1 20
->  #define TARGET_NR_epoll_ctl 21
->  #define TARGET_NR_epoll_pwait 22
-> -
-> -/* fs/fcntl.c */
->  #define TARGET_NR_dup 23
->  #define TARGET_NR_dup3 24
-> -#define TARGET_NR_3264_fcntl 25
-> -
-> -/* fs/inotify_user.c */
-> +#define TARGET_NR_fcntl64 25
->  #define TARGET_NR_inotify_init1 26
->  #define TARGET_NR_inotify_add_watch 27
->  #define TARGET_NR_inotify_rm_watch 28
-> -
-> -/* fs/ioctl.c */
->  #define TARGET_NR_ioctl 29
-> -
-> -/* fs/ioprio.c */
->  #define TARGET_NR_ioprio_set 30
->  #define TARGET_NR_ioprio_get 31
-> -
-> -/* fs/locks.c */
->  #define TARGET_NR_flock 32
-> -
-> -/* fs/namei.c */
->  #define TARGET_NR_mknodat 33
->  #define TARGET_NR_mkdirat 34
->  #define TARGET_NR_unlinkat 35
->  #define TARGET_NR_symlinkat 36
->  #define TARGET_NR_linkat 37
->  #define TARGET_NR_renameat 38
-> -
-> -/* fs/namespace.c */
->  #define TARGET_NR_umount2 39
->  #define TARGET_NR_mount 40
->  #define TARGET_NR_pivot_root 41
-> -
-> -/* fs/nfsctl.c */
->  #define TARGET_NR_nfsservctl 42
-> -
-> -/* fs/open.c */
-> -#define TARGET_NR_3264_statfs 43
-> -#define TARGET_NR_3264_fstatfs 44
-> -#define TARGET_NR_3264_truncate 45
-> -#define TARGET_NR_3264_ftruncate 46
-> -
-> +#define TARGET_NR_statfs64 43
-> +#define TARGET_NR_fstatfs64 44
-> +#define TARGET_NR_truncate64 45
-> +#define TARGET_NR_ftruncate64 46
->  #define TARGET_NR_fallocate 47
->  #define TARGET_NR_faccessat 48
->  #define TARGET_NR_chdir 49
-> @@ -89,18 +64,10 @@
->  #define TARGET_NR_openat 56
->  #define TARGET_NR_close 57
->  #define TARGET_NR_vhangup 58
-> -
-> -/* fs/pipe.c */
->  #define TARGET_NR_pipe2 59
-> -
-> -/* fs/quota.c */
->  #define TARGET_NR_quotactl 60
-> -
-> -/* fs/readdir.c */
->  #define TARGET_NR_getdents64 61
-> -
-> -/* fs/read_write.c */
-> -#define TARGET_NR_3264_lseek 62
-> +#define TARGET_NR_llseek 62
->  #define TARGET_NR_read 63
->  #define TARGET_NR_write 64
->  #define TARGET_NR_readv 65
-> @@ -109,85 +76,42 @@
->  #define TARGET_NR_pwrite64 68
->  #define TARGET_NR_preadv 69
->  #define TARGET_NR_pwritev 70
-> -
-> -/* fs/sendfile.c */
-> -#define TARGET_NR_3264_sendfile 71
-> -
-> -/* fs/select.c */
-> +#define TARGET_NR_sendfile64 71
->  #define TARGET_NR_pselect6 72
->  #define TARGET_NR_ppoll 73
-> -
-> -/* fs/signalfd.c */
->  #define TARGET_NR_signalfd4 74
-> -
-> -/* fs/splice.c */
->  #define TARGET_NR_vmsplice 75
->  #define TARGET_NR_splice 76
->  #define TARGET_NR_tee 77
-> -
-> -/* fs/stat.c */
->  #define TARGET_NR_readlinkat 78
-> -#define TARGET_NR_3264_fstatat 79
-> -#define TARGET_NR_3264_fstat 80
-> -
-> -/* fs/sync.c */
-> +#define TARGET_NR_fstatat64 79
-> +#define TARGET_NR_fstat64 80
->  #define TARGET_NR_sync 81
->  #define TARGET_NR_fsync 82
->  #define TARGET_NR_fdatasync 83
-> -
-> -#ifdef __ARCH_WANT_SYNC_FILE_RANGE2
-> -#define TARGET_NR_sync_file_range2 84
-> -#else
->  #define TARGET_NR_sync_file_range 84
-> -#endif
-> -
-> -/* fs/timerfd.c */
->  #define TARGET_NR_timerfd_create 85
->  #define TARGET_NR_timerfd_settime 86
->  #define TARGET_NR_timerfd_gettime 87
-> -
-> -/* fs/utimes.c */
->  #define TARGET_NR_utimensat 88
-> -
-> -/* kernel/acct.c */
->  #define TARGET_NR_acct 89
-> -
-> -/* kernel/capability.c */
->  #define TARGET_NR_capget 90
->  #define TARGET_NR_capset 91
-> -
-> -/* kernel/exec_domain.c */
->  #define TARGET_NR_personality 92
-> -
-> -/* kernel/exit.c */
->  #define TARGET_NR_exit 93
->  #define TARGET_NR_exit_group 94
->  #define TARGET_NR_waitid 95
-> -
-> -/* kernel/fork.c */
->  #define TARGET_NR_set_tid_address 96
->  #define TARGET_NR_unshare 97
-> -
-> -/* kernel/futex.c */
->  #define TARGET_NR_futex 98
->  #define TARGET_NR_set_robust_list 99
->  #define TARGET_NR_get_robust_list 100
-> -
-> -/* kernel/hrtimer.c */
->  #define TARGET_NR_nanosleep 101
-> -
-> -/* kernel/itimer.c */
->  #define TARGET_NR_getitimer 102
->  #define TARGET_NR_setitimer 103
-> -
-> -/* kernel/kexec.c */
->  #define TARGET_NR_kexec_load 104
-> -
-> -/* kernel/module.c */
->  #define TARGET_NR_init_module 105
->  #define TARGET_NR_delete_module 106
-> -
-> -/* kernel/posix-timers.c */
->  #define TARGET_NR_timer_create 107
->  #define TARGET_NR_timer_gettime 108
->  #define TARGET_NR_timer_getoverrun 109
-> @@ -197,14 +121,8 @@
->  #define TARGET_NR_clock_gettime 113
->  #define TARGET_NR_clock_getres 114
->  #define TARGET_NR_clock_nanosleep 115
-> -
-> -/* kernel/printk.c */
->  #define TARGET_NR_syslog 116
-> -
-> -/* kernel/ptrace.c */
->  #define TARGET_NR_ptrace 117
-> -
-> -/* kernel/sched.c */
->  #define TARGET_NR_sched_setparam 118
->  #define TARGET_NR_sched_setscheduler 119
->  #define TARGET_NR_sched_getscheduler 120
-> @@ -215,8 +133,6 @@
->  #define TARGET_NR_sched_get_priority_max 125
->  #define TARGET_NR_sched_get_priority_min 126
->  #define TARGET_NR_sched_rr_get_interval 127
-> -
-> -/* kernel/signal.c */
->  #define TARGET_NR_restart_syscall 128
->  #define TARGET_NR_kill 129
->  #define TARGET_NR_tkill 130
-> @@ -229,8 +145,6 @@
->  #define TARGET_NR_rt_sigtimedwait 137
->  #define TARGET_NR_rt_sigqueueinfo 138
->  #define TARGET_NR_rt_sigreturn 139
-> -
-> -/* kernel/sys.c */
->  #define TARGET_NR_setpriority 140
->  #define TARGET_NR_getpriority 141
->  #define TARGET_NR_reboot 142
-> @@ -260,13 +174,9 @@
->  #define TARGET_NR_umask 166
->  #define TARGET_NR_prctl 167
->  #define TARGET_NR_getcpu 168
-> -
-> -/* kernel/time.c */
->  #define TARGET_NR_gettimeofday 169
->  #define TARGET_NR_settimeofday 170
->  #define TARGET_NR_adjtimex 171
-> -
-> -/* kernel/timer.c */
->  #define TARGET_NR_getpid 172
->  #define TARGET_NR_getppid 173
->  #define TARGET_NR_getuid 174
-> @@ -275,34 +185,24 @@
->  #define TARGET_NR_getegid 177
->  #define TARGET_NR_gettid 178
->  #define TARGET_NR_sysinfo 179
-> -
-> -/* ipc/mqueue.c */
->  #define TARGET_NR_mq_open 180
->  #define TARGET_NR_mq_unlink 181
->  #define TARGET_NR_mq_timedsend 182
->  #define TARGET_NR_mq_timedreceive 183
->  #define TARGET_NR_mq_notify 184
->  #define TARGET_NR_mq_getsetattr 185
-> -
-> -/* ipc/msg.c */
->  #define TARGET_NR_msgget 186
->  #define TARGET_NR_msgctl 187
->  #define TARGET_NR_msgrcv 188
->  #define TARGET_NR_msgsnd 189
-> -
-> -/* ipc/sem.c */
->  #define TARGET_NR_semget 190
->  #define TARGET_NR_semctl 191
->  #define TARGET_NR_semtimedop 192
->  #define TARGET_NR_semop 193
-> -
-> -/* ipc/shm.c */
->  #define TARGET_NR_shmget 194
->  #define TARGET_NR_shmctl 195
->  #define TARGET_NR_shmat 196
->  #define TARGET_NR_shmdt 197
-> -
-> -/* net/socket.c */
->  #define TARGET_NR_socket 198
->  #define TARGET_NR_socketpair 199
->  #define TARGET_NR_bind 200
-> @@ -318,30 +218,17 @@
->  #define TARGET_NR_shutdown 210
->  #define TARGET_NR_sendmsg 211
->  #define TARGET_NR_recvmsg 212
-> -
-> -/* mm/filemap.c */
->  #define TARGET_NR_readahead 213
-> -
-> -/* mm/nommu.c, also with MMU */
->  #define TARGET_NR_brk 214
->  #define TARGET_NR_munmap 215
->  #define TARGET_NR_mremap 216
-> -
-> -/* security/keys/keyctl.c */
->  #define TARGET_NR_add_key 217
->  #define TARGET_NR_request_key 218
->  #define TARGET_NR_keyctl 219
-> -
-> -/* arch/example/kernel/sys_example.c */
->  #define TARGET_NR_clone 220
->  #define TARGET_NR_execve 221
-> -
-> -#define TARGET_NR_3264_mmap 222
-> -/* mm/fadvise.c */
-> -#define TARGET_NR_3264_fadvise64 223
-> -
-> -/* mm/, CONFIG_MMU only */
-> -#ifndef __ARCH_NOMMU
-> +#define TARGET_NR_mmap2 222
-> +#define TARGET_NR_fadvise64_64 223
->  #define TARGET_NR_swapon 224
->  #define TARGET_NR_swapoff 225
->  #define TARGET_NR_mprotect 226
-> @@ -358,25 +245,17 @@
->  #define TARGET_NR_set_mempolicy 237
->  #define TARGET_NR_migrate_pages 238
->  #define TARGET_NR_move_pages 239
-> -#endif
-> -
->  #define TARGET_NR_rt_tgsigqueueinfo 240
->  #define TARGET_NR_perf_event_open 241
->  #define TARGET_NR_accept4 242
->  #define TARGET_NR_recvmmsg 243
-> -
-> -/*
-> - * Architectures may provide up to 16 syscalls of their own
-> - * starting with this value.
-> - */
->  #define TARGET_NR_arch_specific_syscall 244
-> -
->  #define TARGET_NR_wait4 260
->  #define TARGET_NR_prlimit64 261
->  #define TARGET_NR_fanotify_init 262
->  #define TARGET_NR_fanotify_mark 263
-> -#define TARGET_NR_name_to_handle_at         264
-> -#define TARGET_NR_open_by_handle_at         265
-> +#define TARGET_NR_name_to_handle_at 264
-> +#define TARGET_NR_open_by_handle_at 265
->  #define TARGET_NR_clock_adjtime 266
->  #define TARGET_NR_syncfs 267
->  #define TARGET_NR_setns 268
-> @@ -397,113 +276,47 @@
->  #define TARGET_NR_membarrier 283
->  #define TARGET_NR_mlock2 284
->  #define TARGET_NR_copy_file_range 285
-> +#define TARGET_NR_preadv2 286
-> +#define TARGET_NR_pwritev2 287
-> +#define TARGET_NR_pkey_mprotect 288
-> +#define TARGET_NR_pkey_alloc 289
-> +#define TARGET_NR_pkey_free 290
-> +#define TARGET_NR_statx 291
-> +#define TARGET_NR_io_pgetevents 292
-> +#define TARGET_NR_rseq 293
-> +#define TARGET_NR_kexec_file_load 294
-> +#define TARGET_NR_clock_gettime64 403
-> +#define TARGET_NR_clock_settime64 404
-> +#define TARGET_NR_clock_adjtime64 405
-> +#define TARGET_NR_clock_getres_time64 406
-> +#define TARGET_NR_clock_nanosleep_time64 407
-> +#define TARGET_NR_timer_gettime64 408
-> +#define TARGET_NR_timer_settime64 409
-> +#define TARGET_NR_timerfd_gettime64 410
-> +#define TARGET_NR_timerfd_settime64 411
-> +#define TARGET_NR_utimensat_time64 412
-> +#define TARGET_NR_pselect6_time64 413
-> +#define TARGET_NR_ppoll_time64 414
-> +#define TARGET_NR_io_pgetevents_time64 416
-> +#define TARGET_NR_recvmmsg_time64 417
-> +#define TARGET_NR_mq_timedsend_time64 418
-> +#define TARGET_NR_mq_timedreceive_time64 419
-> +#define TARGET_NR_semtimedop_time64 420
-> +#define TARGET_NR_rt_sigtimedwait_time64 421
-> +#define TARGET_NR_futex_time64 422
-> +#define TARGET_NR_sched_rr_get_interval_time64 423
-> +#define TARGET_NR_pidfd_send_signal 424
-> +#define TARGET_NR_io_uring_setup 425
-> +#define TARGET_NR_io_uring_enter 426
-> +#define TARGET_NR_io_uring_register 427
-> +#define TARGET_NR_open_tree 428
-> +#define TARGET_NR_move_mount 429
-> +#define TARGET_NR_fsopen 430
-> +#define TARGET_NR_fsconfig 431
-> +#define TARGET_NR_fsmount 432
-> +#define TARGET_NR_fspick 433
-> +#define TARGET_NR_pidfd_open 434
-> +#define TARGET_NR_syscalls 436
-> +
-> +#endif /* LINUX_USER_OPENRISC_SYSCALL_NR_H */
->
-> -/*
-> - * All syscalls below here should go away really,
-> - * these are provided for both review and as a porting
-> - * help for the C library version.
-> -*
-> - * Last chance: are any of these important enough to
-> - * enable by default?
-> - */
-> -#define TARGET_NR_open 1024
-> -#define TARGET_NR_link 1025
-> -#define TARGET_NR_unlink 1026
-> -#define TARGET_NR_mknod 1027
-> -#define TARGET_NR_chmod 1028
-> -#define TARGET_NR_chown 1029
-> -#define TARGET_NR_mkdir 1030
-> -#define TARGET_NR_rmdir 1031
-> -#define TARGET_NR_lchown 1032
-> -#define TARGET_NR_access 1033
-> -#define TARGET_NR_rename 1034
-> -#define TARGET_NR_readlink 1035
-> -#define TARGET_NR_symlink 1036
-> -#define TARGET_NR_utimes 1037
-> -#define TARGET_NR_3264_stat 1038
-> -#define TARGET_NR_3264_lstat 1039
-> -
-> -#define TARGET_NR_pipe 1040
-> -#define TARGET_NR_dup2 1041
-> -#define TARGET_NR_epoll_create 1042
-> -#define TARGET_NR_inotify_init 1043
-> -#define TARGET_NR_eventfd 1044
-> -#define TARGET_NR_signalfd 1045
-> -
-> -#define TARGET_NR_sendfile 1046
-> -#define TARGET_NR_ftruncate 1047
-> -#define TARGET_NR_truncate 1048
-> -#define TARGET_NR_stat 1049
-> -#define TARGET_NR_lstat 1050
-> -#define TARGET_NR_fstat 1051
-> -#define TARGET_NR_fcntl 1052
-> -#define TARGET_NR_fadvise64 1053
-> -#define __ARCH_WANT_SYS_FADVISE64
-> -#define TARGET_NR_newfstatat 1054
-> -#define __ARCH_WANT_SYS_NEWFSTATAT
-> -#define TARGET_NR_fstatfs 1055
-> -#define TARGET_NR_statfs 1056
-> -#define TARGET_NR_lseek 1057
-> -#define TARGET_NR_mmap 1058
-> -
-> -#define TARGET_NR_alarm 1059
-> -#define __ARCH_WANT_SYS_ALARM
-> -#define TARGET_NR_getpgrp 1060
-> -#define __ARCH_WANT_SYS_GETPGRP
-> -#define TARGET_NR_pause 1061
-> -#define __ARCH_WANT_SYS_PAUSE
-> -#define TARGET_NR_time 1062
-> -#define __ARCH_WANT_SYS_TIME
-> -#define __ARCH_WANT_COMPAT_SYS_TIME
-> -#define TARGET_NR_utime 1063
-> -#define __ARCH_WANT_SYS_UTIME
-> -
-> -#define TARGET_NR_creat 1064
-> -#define TARGET_NR_getdents 1065
-> -#define __ARCH_WANT_SYS_GETDENTS
-> -#define TARGET_NR_futimesat 1066
-> -#define TARGET_NR_poll 1068
-> -#define TARGET_NR_epoll_wait 1069
-> -#define TARGET_NR_ustat 1070
-> -#define TARGET_NR_vfork 1071
-> -#define TARGET_NR_oldwait4 1072
-> -#define TARGET_NR_recv 1073
-> -#define TARGET_NR_send 1074
-> -#define TARGET_NR_bdflush 1075
-> -#define TARGET_NR_umount 1076
-> -#define __ARCH_WANT_SYS_OLDUMOUNT
-> -#define TARGET_NR_uselib 1077
-> -#define TARGET_NR__sysctl 1078
-> -
-> -#define TARGET_NR_fork 1079
-> -
-> -
-> -/*
-> - * 32 bit systems traditionally used different
-> - * syscalls for off_t and loff_t arguments, while
-> - * 64 bit systems only need the off_t version.
-> - * For new 32 bit platforms, there is no need to
-> - * implement the old 32 bit off_t syscalls, so
-> - * they take different names.
-> - * Here we map the numbers so that both versions
-> - * use the same syscall table layout.
-> - */
-> -
-> -#define TARGET_NR_fcntl64 TARGET_NR_3264_fcntl
-> -#define TARGET_NR_statfs64 TARGET_NR_3264_statfs
-> -#define TARGET_NR_fstatfs64 TARGET_NR_3264_fstatfs
-> -#define TARGET_NR_truncate64 TARGET_NR_3264_truncate
-> -#define TARGET_NR_ftruncate64 TARGET_NR_3264_ftruncate
-> -#define TARGET_NR_llseek TARGET_NR_3264_lseek
-> -#define TARGET_NR_sendfile64 TARGET_NR_3264_sendfile
-> -#define TARGET_NR_fstatat64 TARGET_NR_3264_fstatat
-> -#define TARGET_NR_fstat64 TARGET_NR_3264_fstat
-> -#define TARGET_NR_mmap2 TARGET_NR_3264_mmap
-> -#define TARGET_NR_fadvise64_64 TARGET_NR_3264_fadvise64
-> -
-> -#ifdef TARGET_NR_3264_stat
-> -#define TARGET_NR_stat64 TARGET_NR_3264_stat
-> -#define TARGET_NR_lstat64 TARGET_NR_3264_lstat
-> -#endif
-> -
-> -#endif
-> --
-> 2.24.1
->
->
+There are no refcounts for an external data file, because every cluster
+is refcounted exactly once and we don=E2=80=99t need refcounts to allocated
+clusters (the offset in the data file is the same as the guest offset in
+the image).
+
+It kind of is what the comment says, but I suppose we could drop the
+part about qemu-img check?
+
+>> +# we want to modify the refcounts, so we need them to have a specific
+>> +# format (namely u16)
+>> +_unsupported_imgopts data_file 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)'
+>> =C2=A0 =C2=A0 echo
+>> =C2=A0 echo '=3D=3D=3D Check on an image with a multiple of 2^32 cluster=
+s =3D=3D=3D'
+>> @@ -65,6 +67,41 @@ poke_file "$TEST_IMG" $((2048 + 8))
+>> "\x00\x80\x00\x00\x00\x00\x00\x00"
+>> =C2=A0 # allocate memory", we have an error showing that l2 entry is inv=
+alid.
+>> =C2=A0 _check_test_img
+>> =C2=A0 +echo
+>> +echo '=3D=3D=3D Check leaks-fixed/corruptions-fixed report'
+>> +echo
+>> +
+>> +# After leaks and corruptions were fixed, those numbers should be
+>> +# reported by qemu-img check
+>> +_make_test_img 64k
+>> +
+>> +# Allocate data cluster
+>> +$QEMU_IO -c 'write 0 64k' "$TEST_IMG" | _filter_qemu_io
+>> +
+>> +reftable_ofs=3D$(peek_file_be "$TEST_IMG" 48 8)
+>> +refblock_ofs=3D$(peek_file_be "$TEST_IMG" $reftable_ofs 8)
+>> +
+>> +# Introduce a leak: Make the image header's refcount 2
+>> +poke_file "$TEST_IMG" "$refblock_ofs" "\x00\x02"
+>=20
+> Why not use your brand-new poke_file_be "$TEST_IMG" "$refblock_ofs" 2 2
+
+Because I didn=E2=80=99t need it at this point.  I only needed it for the n=
+ext
+line, so I wrote it in between. :)
+
+But yes, it does make sense to use it wherever possible now that we have it=
+.
+
+>> +
+>> +l1_ofs=3D$(peek_file_be "$TEST_IMG" 40 8)
+>> +
+>> +# Introduce a corruption: Drop the COPIED flag from the (first) L1 entr=
+y
+>> +l1_entry=3D$(peek_file_be "$TEST_IMG" $l1_ofs 8)
+>> +l1_entry=3D$((l1_entry & ~(1 << 63)))
+>> +poke_file_be "$TEST_IMG" $l1_ofs 8 $l1_entry
+>=20
+> Yep, the new function makes this task easier.=C2=A0 (You could also just =
+peek
+> 1 byte at $((l1_ofs+7)) then write it back out with poke_file
+> "$TEST_IMG" $((l1_ofs + 7)) $(printf '\\x%02x' $((val & 0xfe)))", but
+> that just doesn't look as nice)
+>=20
+>> +
+>> +echo
+>> +# Should print the number of corruptions and leaks fixed
+>> +# (Filter out all JSON fields (recognizable by their four-space
+>> +# indentation), but keep the "-fixed" fields (by removing two spaces
+>> +# from their indentation))
+>> +# (Also filter out the L1 entry, because why not)
+>> +_check_test_img -r all --output=3Djson \
+>> +=C2=A0=C2=A0=C2=A0 | sed -e 's/^=C2=A0 \(.*\)-fixed"/\1-fixed"/' \
+>> +=C2=A0=C2=A0=C2=A0 | grep -v '^=C2=A0=C2=A0=C2=A0 ' \
+>> +=C2=A0=C2=A0=C2=A0 | sed -e "s/\\<$(printf %x $l1_entry)\\>/L1_ENTRY_VA=
+LUE/"
+>=20
+> sed | grep | sed can often be done with a single sed:
+>=20
+> ... | sed -e 's/^=C2=A0 \(.*\)-fixed"/\1-fixed"/' \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -e '/^=C2=A0=C2=A0=C2=A0 /d' \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -e "s/\\..."
+
+Nice.
+
+> Using \\< and \\> in the sed regex is a GNUism; do we want this test to
+> run on BSD?
+
+Hm.  I suppose we can just use [^0-9a-f] instead.
+
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Thanks!
+
+Max
+
+
+--B1BgaGV71RvVT2Djg16AKGWOVjj87on6B--
+
+--X4ErPtTaRn0If7lHduoUwaisPjyFmddEv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5nzuoACgkQ9AfbAGHV
+z0APfgf/bNclRfYT6KApAG8ODCKH+WqS/BqTZiXgwEg+py8uOvZrXaMGV0+w49Gq
+uatcg/BXyQ8lGTEtYbpaP/V4ziJ0/DRjKoeKcFwWr5ZYttZLIByt5ljRFGVuqIpg
+XBUni7DYZHKlUMTAJNvrRiv4EoX3KLf3MNUW4Jwx2T6iIwHUCshCziRvK+xTQM5k
+n6igbX/A93egzs6mczWdt2yxoklSefJ9spzymRAyVKckFjjsYofK5ZPTPiKrfeQL
+iqk3AaKOk/tgqdjDTM5Xa7onLvgWlXraCcpj20x3DL7GfbIRbDV1W1Q5lU7oEAII
+JsKl6ML6LoQnRCQegUBC+CgG+FEI6w==
+=l2QU
+-----END PGP SIGNATURE-----
+
+--X4ErPtTaRn0If7lHduoUwaisPjyFmddEv--
+
 
