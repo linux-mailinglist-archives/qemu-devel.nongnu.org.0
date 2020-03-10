@@ -2,48 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAE517F341
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:16:15 +0100 (CET)
-Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8834E17F393
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:29:19 +0100 (CET)
+Received: from localhost ([::1]:56128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBazm-0005NH-ST
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:16:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58487)
+	id 1jBbCQ-00006R-Kh
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:29:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <longpeng2@huawei.com>) id 1jBayk-0004rx-4I
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:15:11 -0400
+ (envelope-from <bounces@canonical.com>) id 1jBb9A-0003jf-7a
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:25:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <longpeng2@huawei.com>) id 1jBayi-0002rO-Ib
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:15:09 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3268 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
- id 1jBayi-0002bP-7C
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:15:08 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 88E969DBF840174FD901;
- Tue, 10 Mar 2020 17:15:01 +0800 (CST)
-Received: from DESKTOP-27KDQMV.china.huawei.com (10.173.228.124) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 10 Mar 2020 17:14:54 +0800
-From: "Longpeng(Mike)" <longpeng2@huawei.com>
-To: <pbonzini@redhat.com>, <rth@twiddle.net>
-Subject: [RFC] cpus: avoid get stuck in pause_all_vcpus
-Date: Tue, 10 Mar 2020 17:14:43 +0800
-Message-ID: <20200310091443.1326-1-longpeng2@huawei.com>
-X-Mailer: git-send-email 2.25.0.windows.1
+ (envelope-from <bounces@canonical.com>) id 1jBb98-0008Cz-Rx
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:25:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41586)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jBb98-0008AQ-MJ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:25:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jBb97-0005CC-9g
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:25:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 45BF52E80C0
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:25:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.173.228.124]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Mar 2020 09:14:44 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: mttcg tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee laurent-vivier yifanlu
+X-Launchpad-Bug-Reporter: Yifan (yifanlu)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
+Message-Id: <158383168411.7681.10081222011480059251.malone@chaenomeles.canonical.com>
+Subject: [Bug 1863025] Re: Use-after-free after flush in TCG accelerator
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 45a72f10448d8c52f58bceb13f32669d9757cbb8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -52,137 +66,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel @ nongnu . org" <qemu-devel@nongnu.org>, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, Longpeng <longpeng2@huawei.com>
+Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Longpeng <longpeng2@huawei.com>
+Fixed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D886cc68943eb
 
-We find an issue when repeat reboot in guest during migration, it cause t=
-he
-migration thread never be waken up again.
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Committed
 
-<main loop>                        |<migration_thread>
-                                   |
-LOCK BQL                           |
-...                                |
-main_loop_should_exit              |
- pause_all_vcpus                   |
-  1. set all cpus ->stop=3Dtrue      |
-     and then kick                 |
-  2. return if all cpus is paused  |
-     (by '->stopped =3D=3D true'), else|
-  3. qemu_cond_wait [BQL UNLOCK]   |
-                                   |LOCK BQL
-                                   |...
-                                   |do_vm_stop
-                                   | pause_all_vcpus
-                                   |  (A)set all cpus ->stop=3Dtrue
-                                   |     and then kick
-                                   |  (B)return if all cpus is paused
-                                   |     (by '->stopped =3D=3D true'), el=
-se
-                                   |  (C)qemu_cond_wait [BQL UNLOCK]
-  4. be waken up and LOCK BQL      |  (D)be waken up BUT wait for  BQL
-  5. goto 2.                       |
- (BQL is still LOCKed)             |
- resume_all_vcpus                  |
-  1. set all cpus ->stop=3Dfalse     |
-     and ->stopped=3Dfalse           |
-...                                |
-BQL UNLOCK                         |  (E)LOCK BQL
-                                   |  (F)goto B. [but stopped is false no=
-w!]
-                                   |Finally, sleep at step 3 forever.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863025
 
-Note: This patch is just for discuss this issue, I'm looking forward to
-      your suggestions, thanks!
+Title:
+  Use-after-free after flush in TCG accelerator
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-Signed-off-by: Longpeng <longpeng2@huawei.com>
----
- cpus.c | 41 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 36 insertions(+), 5 deletions(-)
+Status in QEMU:
+  Fix Committed
 
-diff --git a/cpus.c b/cpus.c
-index b4f8b84..15e8b21 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -1857,10 +1857,30 @@ static bool all_vcpus_paused(void)
-     return true;
- }
-=20
-+static bool all_vcpus_resumed(void)
-+{
-+    CPUState *cpu;
-+
-+    CPU_FOREACH(cpu) {
-+        if (cpu->stopped) {
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
- void pause_all_vcpus(void)
- {
-     CPUState *cpu;
-=20
-+    /* We need to drop the replay_lock so any vCPU threads woken up
-+     * can finish their replay tasks
-+     */
-+retry_unlock:
-+    replay_mutex_unlock();
-+
-+retry_pause:
-     qemu_clock_enable(QEMU_CLOCK_VIRTUAL, false);
-     CPU_FOREACH(cpu) {
-         if (qemu_cpu_is_self(cpu)) {
-@@ -1871,13 +1891,17 @@ void pause_all_vcpus(void)
-         }
-     }
-=20
--    /* We need to drop the replay_lock so any vCPU threads woken up
--     * can finish their replay tasks
--     */
--    replay_mutex_unlock();
--
-     while (!all_vcpus_paused()) {
-         qemu_cond_wait(&qemu_pause_cond, &qemu_global_mutex);
-+        /*
-+         * All of the vcpus maybe resumed due to the race with other
-+         * threads that doing pause && resume, and we'll stuck as a
-+         * result. So we need to request again if the race occurs.
-+         */
-+        if (all_vcpus_resumed()) {
-+            goto retry_pause;
-+        }
-+
-         CPU_FOREACH(cpu) {
-             qemu_cpu_kick(cpu);
-         }
-@@ -1886,6 +1910,13 @@ void pause_all_vcpus(void)
-     qemu_mutex_unlock_iothread();
-     replay_mutex_lock();
-     qemu_mutex_lock_iothread();
-+    /*
-+     * The vcpus maybe resumed during the mutex is unlocking, we must
-+     * make sure all of the vcpus are paused before return.
-+     */
-+    if (!all_vcpus_paused()) {
-+        goto retry_unlock;
-+    }
- }
-=20
- void cpu_resume(CPUState *cpu)
---=20
-1.8.3.1
+Bug description:
+  I believe I found a UAF in TCG that can lead to a guest VM escape. The
+  security list informed me "This can not be treated as a security
+  issue." and to post it here. I am looking at the 4.2.0 source code.
+  The issue requires a race and I will try to describe it in terms of
+  three concurrent threads.
 
+  Thread A:
+
+  A1. qemu_tcg_cpu_thread_fn runs work loop
+  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
+_cpu_work
+  A3. start_exclusive critical section entered
+  A4. do_tb_flush is called, TB memory freed/re-allocated
+  A5. end_exclusive exits critical section
+
+  Thread B:
+
+  B1. qemu_tcg_cpu_thread_fn runs work loop
+  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
+  B3. tcg_tb_alloc obtains a new TB
+
+  Thread C:
+
+  C1. qemu_tcg_cpu_thread_fn runs work loop
+  C2. cpu_exec_step_atomic executes
+  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
+  C4. start_exclusive critical section entered
+  C5. cpu_tb_exec executes the TB code
+  C6. end_exclusive exits critical section
+
+  Consider the following sequence of events:
+  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
+ =3D> A5 =3D> B2 =3D>
+  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
+ now executing) =3D> C6
+
+  In short, because thread C uses the TB in the critical section, there
+  is no guarantee that the pointer has not been "freed" (rather the
+  memory is marked as re-usable) and therefore a use-after-free occurs.
+
+  Since the TCG generated code can be in the same memory as the TB data
+  structure, it is possible for an attacker to overwrite the UAF pointer
+  with code generated from TCG. This can overwrite key pointer values
+  and could lead to code execution on the host outside of the TCG
+  sandbox.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
 
