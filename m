@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942A61800D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 15:55:50 +0100 (CET)
-Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F251800D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 15:56:50 +0100 (CET)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgIP-0007Vj-LF
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 10:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33133)
+	id 1jBgJN-00013O-Qb
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 10:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1jBgH4-0005of-3G
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:27 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jBgHC-00060d-AI
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1jBgH2-0000Nb-Qk
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:26 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21925
+ (envelope-from <eric.auger@redhat.com>) id 1jBgHB-0000nM-Ag
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:34 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49445
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1jBgH2-0000Jb-LT
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:24 -0400
+ id 1jBgHB-0000lC-6s
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:54:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583852063;
+ s=mimecast20190719; t=1583852072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=abFuB6UupSAbj5Uii0ujQcwLeLzAp81W5ty1h0cqZu4=;
- b=DdVNuPgwdyRhhC/bo4ok8MT7lsl9dKAXob23/aNXLbWzxbuzlnPC3DWufqwqXGRMjjQ9wu
- Y2/uX8TcrfuCAx5n83tkUo6D8PkJo76HV893v1pOi/L0ubluGOwaltW9eyakSJP2OeJI0K
- tzStCHvPN3wTDtcV7l8ENDqOW1e764k=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jUPGPmIvaDDGzVaAE49y1ve21avwQxlD6sBJrt5aqiw=;
+ b=VppiYYVYTdzlT6OLNEglArBzkZVG9ozMfVFfr2wsoZJ0NtaKsc02I1PtaZFhnUatRm2L+i
+ YSnPTxnMcg6Xfkf4Y74R5Iu9Q9a9j+6CxleDpEwgWT3WdL+QF6Rfv5R8c15q3VvIJ7QwlH
+ qQdL7c+bqgVQTN7XvTyS4uUzOkkecuY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-QwUxF7bNOPWOI1gJGvvNaw-1; Tue, 10 Mar 2020 10:54:22 -0400
-X-MC-Unique: QwUxF7bNOPWOI1gJGvvNaw-1
+ us-mta-363-X2jbR5sjN_-1IeYNAHOm9Q-1; Tue, 10 Mar 2020 10:54:29 -0400
+X-MC-Unique: X2jbR5sjN_-1IeYNAHOm9Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CA718017CC;
- Tue, 10 Mar 2020 14:54:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78519800D4E;
+ Tue, 10 Mar 2020 14:54:27 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-117-85.ams2.redhat.com [10.36.117.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B599B60C88;
- Tue, 10 Mar 2020 14:54:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C67660FC1;
+ Tue, 10 Mar 2020 14:54:23 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v5 00/13] arm/arm64: Add ITS tests
-Date: Tue, 10 Mar 2020 15:53:57 +0100
-Message-Id: <20200310145410.26308-1-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH v5 02/13] page_alloc: Introduce get_order()
+Date: Tue, 10 Mar 2020 15:53:59 +0100
+Message-Id: <20200310145410.26308-3-eric.auger@redhat.com>
+In-Reply-To: <20200310145410.26308-1-eric.auger@redhat.com>
+References: <20200310145410.26308-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Content-Transfer-Encoding: quoted-printable
@@ -73,98 +76,49 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series is a revival of an RFC series sent in Dec 2016 [1].
-Given the amount of code and the lack of traction at that time,
-I haven't respinned until now. However a recent bug found related
-to the ITS migration convinced me that this work may deserve to be
-respinned and enhanced.
+Compute the power of 2 order of a size. Use it in
+page_memalign. Other users are looming.
 
-Tests exercise main ITS commands and also test migration.
-With the migration framework, we are able to trigger the
-migration from guest and that is very practical actually.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+---
+ lib/alloc_page.c | 7 ++++++-
+ lib/alloc_page.h | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-What is particular with the ITS programming is that most of
-the commands are passed through queues and there is real error
-handling. Invalid commands are just ignored and that is not
-really tester friendly.
-
-The series can be fount at:
-https://github.com/eauger/kut/tree/its-v5
-
-Best Regards
-
-Eric
-
-History:
-v4 -> v5:
-- 32b stubs moved back to arm/gic.c
-- some changes reordering
-- minor style issues
-
-v3 -> v4:
-- addressed comments from Drew and Zenghui
-- added "page_alloc: Introduce get_order()"
-- removed "arm: gic: Provide per-IRQ helper functions"
-- ITS files moved to lib64
-- and many more, see individual logs
-
-v2 -> v3:
-- fix 32b compilation
-- take into account Drew's comments (see individual diff logs)
-
-v1 -> v2:
-- took into account Zenghui's comments
-- collect R-b's from Thomas
-
-References:
-[1] [kvm-unit-tests RFC 00/15] arm/arm64: add ITS framework
-    https://lists.gnu.org/archive/html/qemu-devel/2016-12/msg00575.html
-
-Execution:
-x For other ITS tests:
-  ./run_tests.sh -g its
-
-x non migration tests can be launched invidually. For instance:
-  ./arm-run arm/gic.flat -smp 8 -append 'its-trigger'
-
-Eric Auger (13):
-  libcflat: Add other size defines
-  page_alloc: Introduce get_order()
-  arm/arm64: gic: Introduce setup_irq() helper
-  arm/arm64: gicv3: Add some re-distributor defines
-  arm/arm64: gicv3: Set the LPI config and pending tables
-  arm/arm64: ITS: Introspection tests
-  arm/arm64: ITS: its_enable_defaults
-  arm/arm64: ITS: Device and collection Initialization
-  arm/arm64: ITS: Commands
-  arm/arm64: ITS: INT functional tests
-  arm/run: Allow Migration tests
-  arm/arm64: ITS: migration tests
-  arm/arm64: ITS: pending table migration test
-
- arm/Makefile.arm64         |   1 +
- arm/Makefile.common        |   2 +-
- arm/gic.c                  | 477 +++++++++++++++++++++++++++++++++++--
- arm/run                    |   2 +-
- arm/unittests.cfg          |  38 +++
- lib/alloc_page.c           |   7 +-
- lib/alloc_page.h           |   1 +
- lib/arm/asm/gic-v3-its.h   |  22 ++
- lib/arm/asm/gic-v3.h       |  34 +++
- lib/arm/asm/processor.h    |   2 +
- lib/arm/gic-v3.c           |  78 ++++++
- lib/arm/gic.c              |  34 ++-
- lib/arm/io.c               |  28 +++
- lib/arm64/asm/gic-v3-its.h | 172 +++++++++++++
- lib/arm64/gic-v3-its-cmd.c | 463 +++++++++++++++++++++++++++++++++++
- lib/arm64/gic-v3-its.c     | 172 +++++++++++++
- lib/libcflat.h             |   3 +
- 17 files changed, 1507 insertions(+), 29 deletions(-)
- create mode 100644 lib/arm/asm/gic-v3-its.h
- create mode 100644 lib/arm64/asm/gic-v3-its.h
- create mode 100644 lib/arm64/gic-v3-its-cmd.c
- create mode 100644 lib/arm64/gic-v3-its.c
-
+diff --git a/lib/alloc_page.c b/lib/alloc_page.c
+index ed23638..7c8461a 100644
+--- a/lib/alloc_page.c
++++ b/lib/alloc_page.c
+@@ -155,7 +155,7 @@ static void *page_memalign(size_t alignment, size_t s=
+ize)
+ 	if (!size)
+ 		return NULL;
+=20
+-	order =3D is_power_of_2(n) ? fls(n) : fls(n) + 1;
++	order =3D get_order(n);
+=20
+ 	return alloc_pages(order);
+ }
+@@ -175,3 +175,8 @@ void page_alloc_ops_enable(void)
+ {
+ 	alloc_ops =3D &page_alloc_ops;
+ }
++
++int get_order(size_t size)
++{
++	return is_power_of_2(size) ? fls(size) : fls(size) + 1;
++}
+diff --git a/lib/alloc_page.h b/lib/alloc_page.h
+index 739a91d..e6a51d2 100644
+--- a/lib/alloc_page.h
++++ b/lib/alloc_page.h
+@@ -15,5 +15,6 @@ void *alloc_pages(unsigned long order);
+ void free_page(void *page);
+ void free_pages(void *mem, unsigned long size);
+ void free_pages_by_order(void *mem, unsigned long order);
++int get_order(size_t size);
+=20
+ #endif
 --=20
 2.20.1
 
