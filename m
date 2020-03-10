@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC5817F584
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:59:19 +0100 (CET)
-Received: from localhost ([::1]:57570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B93317F58D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:01:24 +0100 (CET)
+Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBcbW-0008Nx-HT
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
+	id 1jBcdX-0001qc-7A
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jBcaX-0007UA-U5
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:58:18 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jBcao-0007vy-IP
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:58:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jBcaW-0003FX-UG
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:58:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50530
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1jBcan-0003kX-Jv
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:58:34 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33170
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jBcaW-0003Ep-PB
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:58:16 -0400
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1jBcan-0003jr-FX
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:58:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583837896;
+ s=mimecast20190719; t=1583837913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DEyJBOrb+cai9D4GAS3KKMomFZM2Tg1+XNHYdYdahwg=;
- b=VV/3M7AEIRhAZBbzmoeCuzThjoK5+kZbaCK+T27MBnidHvkQk79ap0qaG1cbZ1vkYBAmEE
- 0NPY7MUe5PpKcCBJREtcpJPPQnWXIaYuQYZ3rJwnP/aWX66BIE7kQRm1rjCpynqCZPqdZG
- /+OP7l3tsBR27SutdphBSW0GKuBlGhs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-9nsUccUTOEueVviSsYOhqw-1; Tue, 10 Mar 2020 06:58:14 -0400
-X-MC-Unique: 9nsUccUTOEueVviSsYOhqw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ED6D10115F9;
- Tue, 10 Mar 2020 10:58:13 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0364909FA;
- Tue, 10 Mar 2020 10:58:03 +0000 (UTC)
-Subject: Re: [PATCH v2 02/14] qcrypto/luks: implement encryption key management
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20200308151903.25941-1-mlevitsk@redhat.com>
- <20200308151903.25941-3-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <704e841b-a5e1-2bea-0a1f-1b6fe1058a17@redhat.com>
-Date: Tue, 10 Mar 2020 11:58:01 +0100
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SZH700B7j00PQlDsDjUOLvroZz4mzS5XKsuvb7LeVsk=;
+ b=grRrHKLK808UnmfBOARzlmVyGRUALTnljRTEg2RZLXvDnmnleP4JtaMVQW7BLuO7e4k6Lk
+ 337jcvd3LqG5ZDiKwofH3GZVGY4Xt46XaNzosLKEVr8q0cZjNXqp5VDFW7jW+aKgUAa+//
+ eXXj9OOKF9zj1FdSv/6WAoBWVF6A7rc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-zkKMRHKyPl279M1i2wmTJg-1; Tue, 10 Mar 2020 06:58:30 -0400
+X-MC-Unique: zkKMRHKyPl279M1i2wmTJg-1
+Received: by mail-wm1-f69.google.com with SMTP id a23so217288wmm.8
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 03:58:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SZH700B7j00PQlDsDjUOLvroZz4mzS5XKsuvb7LeVsk=;
+ b=SrKQJSgTrXOF8rfp6495YQk6kD+Uo3JWBYsZ4xWzOCGWqrrf422579aemCAYnSUfmd
+ Qi6xX2AdJOF0jr+hk1rNI6o+7DPnUiq05o98CL9EnalMVe8HfiRHbBVH5Ft7MSooCfRT
+ aEFCHcPzDRN6CSDbf7KDGQrmCUAmasFATty+oxlRQY4TaeTv4EyM7nqwjrS8lg4iBaRO
+ WoDTxx/0UW3Ph2oCQ/WhbhNrlc2dg9JScpXIEQh4qsu+4xND55QCWWS4SHj4MQlQGBj7
+ Tk+wQyva3F+xHsZIKpFyBBoxM9jL+S9C0g5bUrnZeYXTJDnRNgqsORcA6KMb+BUM69aT
+ T1iQ==
+X-Gm-Message-State: ANhLgQ0jnSapXDxTPu7BV8sGFMsn2k/yl/00uKboCrf6AnPHk1Kyl3P6
+ sy1Bpo4QI/hgW+PsBZ3dm+Jby6ZEtVXN8HhbYn11hEqiEMO+kX3ft5TDHUKKXp3XXQF8eKmqwop
+ pBMNzjKXfno+pSd8=
+X-Received: by 2002:a1c:cc06:: with SMTP id h6mr1650708wmb.118.1583837907474; 
+ Tue, 10 Mar 2020 03:58:27 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vsETdVdYlC2o1JeIlMvTK1GQsehzbpYwvmPmmcObrRqvpv0jG0D7W33siTdtcTrpzcU7wrlxA==
+X-Received: by 2002:a1c:cc06:: with SMTP id h6mr1650679wmb.118.1583837907234; 
+ Tue, 10 Mar 2020 03:58:27 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:4887:2313:c0bc:e3a8?
+ ([2001:b07:6468:f312:4887:2313:c0bc:e3a8])
+ by smtp.gmail.com with ESMTPSA id j15sm26480746wrp.85.2020.03.10.03.58.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Mar 2020 03:58:26 -0700 (PDT)
+Subject: Re: [PATCH v4 3/4] Introduce the NVMM impl
+To: Maxime Villard <max@m00nbsd.net>
+References: <20200206115731.13552-1-n54@gmx.com>
+ <20200206213232.1918-1-n54@gmx.com> <20200206213232.1918-4-n54@gmx.com>
+ <e85f03be-60bc-2852-7856-91790ba5958b@redhat.com>
+ <ca1210a3-2ea5-3862-c4fa-bdcd5624fe29@m00nbsd.net>
+ <CABgObfZjnFFV3hosrP+sf5d3KmPPGuFJZo-oY5=u340wtxLYGg@mail.gmail.com>
+ <a646f01d-fcf5-5984-d7ea-ccbb9a20ce2b@m00nbsd.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <24fe7b93-8a34-e5d7-18b5-0f7607221ad3@redhat.com>
+Date: Tue, 10 Mar 2020 11:58:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200308151903.25941-3-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <a646f01d-fcf5-5984-d7ea-ccbb9a20ce2b@m00nbsd.net>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="yH4xbau4Gst5kdmZlvhEq6Wuk8NLpyi0k"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,103 +95,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, slp@redhat.com,
+ qemu-devel@nongnu.org, jmcneill@invisible.ca, Kamil Rytarowski <n54@gmx.com>,
+ philmd@redhat.com, rth <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yH4xbau4Gst5kdmZlvhEq6Wuk8NLpyi0k
-Content-Type: multipart/mixed; boundary="Bcg8d40f1OHoJtyWmF7spzGYUo1uYZlDy"
+On 10/03/20 07:45, Maxime Villard wrote:
+> > It reproduces the existing logic found in whpx-all.c, and if there is
+> >
+> 
+> It's buggy there too and it has to be fixed in the hypervisor so it
+> can't be done at the same time I'm both. KVM does it right by having
+> a flag ("immediate_exit") that is set by the signal handler and
+> checked by the hypervisor.
 
---Bcg8d40f1OHoJtyWmF7spzGYUo1uYZlDy
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+For what it's worth, WHPX's whpx_kick_vcpu invokes a "cancel entry" API
+that is probably similar to what KVM does, so there's nothing to do there.
 
-On 08.03.20 16:18, Maxim Levitsky wrote:
-> Next few patches will expose that functionality
-> to the user.
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  crypto/block-luks.c | 398 +++++++++++++++++++++++++++++++++++++++++++-
->  qapi/crypto.json    |  61 ++++++-
->  2 files changed, 455 insertions(+), 4 deletions(-)
-
-[...]
-
-> +##
-> +# @QCryptoBlockAmendOptionsLUKS:
-> +#
-> +# This struct defines the update parameters that activate/de-activate se=
-t
-> +# of keyslots
-> +#
-> +# @state: the desired state of the keyslots
-> +#
-> +# @new-secret:    The ID of a QCryptoSecret object providing the passwor=
-d to be
-> +#                 written into added active keyslots
-> +#
-> +# @old-secret:    Optional (for deactivation only)
-> +#                 If given will deactive all keyslots that
-> +#                 match password located in QCryptoSecret with this ID
-> +#
-> +# @iter-time:     Optional (for activation only)
-> +#                 Number of milliseconds to spend in
-> +#                 PBKDF passphrase processing for the newly activated ke=
-yslot.
-> +#                 Currently defaults to 2000.
-> +#
-> +# @keyslot:       Optional. ID of the keyslot to activate/deactivate.
-> +#                 For keyslot activation, keyslot should not be active a=
-lready
-> +#                 (this is unsafe to update an active keyslot),
-> +#                 but possible if 'force' parameter is given.
-> +#                 If keyslot is not given, first free keyslot will be wr=
-itten.
-> +#
-> +#                 For keyslot deactivation, this parameter specifies the=
- exact
-> +#                 keyslot to deactivate
-> +#
-> +# @unlock-secret: Optional. The ID of a QCryptoSecret object providing t=
-he
-> +#                 password to use to retrive current master key.
-> +#                 Defaults to the same secret that was used to open the =
-image
-
-So this matches Markus=E2=80=99 proposal except everything is flattened (be=
-cause
-we don=E2=80=99t support nested unions, AFAIU).  Sounds OK to me.  The only
-difference is @unlock-secret, which did not appear in his proposal.  Why
-do we need it again?
-
-Max
-
-
---Bcg8d40f1OHoJtyWmF7spzGYUo1uYZlDy--
-
---yH4xbau4Gst5kdmZlvhEq6Wuk8NLpyi0k
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5ncrkACgkQ9AfbAGHV
-z0Cs2ggAngwy5bTpD7n5eJGEados6puQupwP9CR6SOOBVHAQPMdpDDcbj3tLlNpk
-AcEEqO+R3Kf65xR3PcbFsTLeeI0uQXjW8zTbEDVRkG/s/jZNa421BqltnmFg4gRL
-iLrTLJigxBkliqHirl1745oW93/6CaoePIe9utsAOuAX9RWP4DeVsMiZtoQx8SCb
-/c+xAzZeqKxkUPv6mT4MufvFgkA7mXx3fssunuSKVRPGROyShYV3DLCC64mKwv/B
-NuqGIhZ4nqAoVLpmVuZRJRBzFYPk3GqcL87HUgC1Hlwtos8oq3FfbzESR3k1LCi5
-+ME6VGS/MXY+Te2K8SnxPLs81uB62Q==
-=AXpq
------END PGP SIGNATURE-----
-
---yH4xbau4Gst5kdmZlvhEq6Wuk8NLpyi0k--
+Paolo
 
 
