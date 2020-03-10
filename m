@@ -2,143 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACF11801B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:23:40 +0100 (CET)
-Received: from localhost ([::1]:35542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29B91801BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:26:18 +0100 (CET)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgjL-0001W6-MR
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42243)
+	id 1jBglt-0005mV-Gd
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jBggW-0005zd-B7
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:20:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBghY-00080j-J2
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:21:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1jBggU-00009i-Co
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:20:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45638
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1jBggU-00007T-7X
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:20:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583853641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F1xuD1XMuuzvbobhOA1hZG4kd0T86IoMLR1Ix120dJo=;
- b=iBP6NPLXkud0lAUdP2d5/OvjKUhIxDLDnX7LwoSXiS/yrV1UP0i0D1iUGQEKYzsBY5tNt6
- i3MmmVMUe1oSEJxz+We9ZVpV9cI8QRm2JZQGHNHmDaGT5JJ5BaaXneN4L3/O39MBGy2SjP
- Cl5GFbQyPpUUGtSlHN3NwOcBz2HhE88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-LBvJf8y3P0qvQd4M2_CsWA-1; Tue, 10 Mar 2020 11:20:37 -0400
-X-MC-Unique: LBvJf8y3P0qvQd4M2_CsWA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 041CB801E53;
- Tue, 10 Mar 2020 15:20:36 +0000 (UTC)
-Received: from [10.10.120.212] (ovpn-120-212.rdu2.redhat.com [10.10.120.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F18818882D;
- Tue, 10 Mar 2020 15:20:32 +0000 (UTC)
-Subject: Re: [PATCH] qcow2: remove QCowL2Meta parameter from handle_copied
-To: Alberto Garcia <berto@igalia.com>, Yi Li <yili@winhong.com>,
- qemu-devel@nongnu.org
-References: <20200309163553.39106-1-yili@winhong.com>
- <73e26cf3-1ead-4902-98e0-d80825f0a812@redhat.com>
- <w5136agihix.fsf@maestria.local.igalia.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <3f8423ec-bc28-d882-4b2f-c1cc39880946@redhat.com>
-Date: Tue, 10 Mar 2020 11:20:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <peter.maydell@linaro.org>) id 1jBghX-0003tQ-9s
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:21:48 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50657)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jBghX-0003lF-1n
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:21:47 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a5so1866813wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 08:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Hj0Y3He2pns4P8rEr+hvQWBwPDxCqgnnx2gyymh94c=;
+ b=HT2EXLjG6jiTBe4dZ4SHOrmUTsQXrxQ7Y+r8TH3s8ckmEet7Ug++eq6U0PkuOw9yxJ
+ aKD9EuzocTGB1MiZ3bcW5U3ArnCFL+DwFOeHwFUVMfKoH5MxJ8uz/b3XkfVxZFVBgUWU
+ bNsLB7046FKR3Dh77lABdh5Cs15bP7EExlCQG3lWa9485jYZ0tq2cABy+ldzd2ErxtQm
+ H54czXwHOzRx/ksApsQPuInmU89J9gNJK8JtTNqerKcZxFO6oYyq2+GncKIOKmjKiCfL
+ MnmERl2XlhjhaPPV/RlcW3LzGwJZ+KkmjcPbRt+TIj4BWCcCAq7Jle38rDhbRy0hpeKa
+ yrAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6Hj0Y3He2pns4P8rEr+hvQWBwPDxCqgnnx2gyymh94c=;
+ b=XQRyJiauJJkelE6iySngbehzFbmSXyiN+xXUBr5dXXLO7VvWsq8PCJbgWt6SC4YO28
+ O+gYIRcqvLW+QH96MaNSQCBv/8/FWHjR6cozzYFhTipClBhHgH5h6qxdjpZyV3/l07b1
+ vsULLRg64DfV3Hzv7Oq5akGOuN14kY4D9fBm3hbMo5m3APluuMkSJssN+c2PkPOJPDhf
+ InMSx7uqQH2VeQFEQEDiFQGFubiHpNDwNKNDhIhLX48IP/o+NjsaOSR3UTYTYrQppZMk
+ ARG6CBx9q8+5NAwtlE2yzUO3GKH5+7pxlaAB/wZgd9cgVfHKoAENhckEevdV27M/l8D5
+ X8jg==
+X-Gm-Message-State: ANhLgQ3uO/VHVEQ+bexh7i+2vuZQUMEnokP0K7+u8yE1TMQbPmRpiArp
+ SOIM4+NC+3JQ1TA8DrVBHGeke4GJDxiaKg==
+X-Google-Smtp-Source: ADFU+vtEYgThX98Y2gSeyDRpHSH5V3lU2yVfL7gPtqsVhEk21o0Cjgglg+GNKaBPCZ9OKMg99g4b7g==
+X-Received: by 2002:a1c:7ec5:: with SMTP id z188mr2626871wmc.52.1583853704611; 
+ Tue, 10 Mar 2020 08:21:44 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id i9sm4554232wmd.37.2020.03.10.08.21.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 08:21:44 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests: Disable dbus-vmstate-test
+Date: Tue, 10 Mar 2020 15:21:41 +0000
+Message-Id: <20200310152141.13959-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <w5136agihix.fsf@maestria.local.igalia.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -150,46 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The dbus-vmstate-test has been failing in some Patchew configs
+since about the 6th March:
 
+  dbus-daemon[9321]: Could not get password database information for UID of current process: User "???" unknown or no memory to allocate password entry
 
-On 3/10/20 7:19 AM, Alberto Garcia wrote:
-> On Tue 10 Mar 2020 03:04:47 AM CET, John Snow wrote:
->>>  static int handle_copied(BlockDriverState *bs, uint64_t guest_offset,
->>> -    uint64_t *host_offset, uint64_t *bytes, QCowL2Meta **m)
->>> +    uint64_t *host_offset, uint64_t *bytes)
->>>  {
->>>      BDRVQcow2State *s = bs->opaque;
->>>      int l2_index;
->>> @@ -1567,7 +1567,7 @@ again:
->>>          /*
->>>           * 2. Count contiguous COPIED clusters.
->>>           */
->>> -        ret = handle_copied(bs, start, &cluster_offset, &cur_bytes, m);
->>> +        ret = handle_copied(bs, start, &cluster_offset, &cur_bytes);
->>>          if (ret < 0) {
->>>              return ret;
->>>          } else if (ret) {
->>>
->>
->> Seems OK to me -- it is definitely unused.
->> (Is _that_ a problem?  For qcow2 maintainers to know.)
-> 
-> It is unused now, but I'm using it in my subcluster allocation patches:
-> 
->    https://lists.gnu.org/archive/html/qemu-block/2019-12/msg00588.html
-> 
-> (I expect to send v4 soon, probably this week)
-> 
-> Berto
-> 
+  **
+  ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connection: assertion failed (err == NULL): The connection is closed (g-io-error-quark, 18)
+  cleaning up pid 9321
+  ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/qtest/dbus-vmstate-test.c:114:get_connection: assertion failed (err == NULL): The connection is closed (g-io-error-quark, 18)
+  make: *** [/tmp/qemu-test/src/tests/Makefile.include:632: check-qtest-x86_64] Error 1
+  make: *** Waiting for unfinished jobs....
 
-I had a hunch.
+It's not clear why this is happening (perhaps a recently revealed
+race condition or a change in the patchew build environment?).
 
-Thanks!
+For the moment, disable this test so that patchew test runs are
+useful and don't email the list with spurious failure mails.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ tests/qtest/Makefile.include | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 383b0ab2171..5115f7897db 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -18,7 +18,8 @@ check-qtest-pci-$(CONFIG_IVSHMEM_DEVICE) += ivshmem-test
+ DBUS_DAEMON := $(shell which dbus-daemon 2>/dev/null)
+ ifneq ($(GDBUS_CODEGEN),)
+ ifneq ($(DBUS_DAEMON),)
+-check-qtest-pci-$(CONFIG_GIO) += dbus-vmstate-test
++# Temporarily disabled due to Patchew failures:
++#check-qtest-pci-$(CONFIG_GIO) += dbus-vmstate-test
+ endif
+ endif
+ 
+-- 
+2.20.1
 
 
