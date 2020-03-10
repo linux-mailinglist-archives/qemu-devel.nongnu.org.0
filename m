@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCA51806D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:35:30 +0100 (CET)
-Received: from localhost ([::1]:38526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E6218069A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:34:07 +0100 (CET)
+Received: from localhost ([::1]:38494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjiz-00005l-L5
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47782)
+	id 1jBjhe-0006BG-8b
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48169)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBjfB-0003hj-FU
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:31:39 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jBjg2-0004cp-JV
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:32:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jBjfA-00024A-8a
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:31:33 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45210
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jBjf6-0001tj-Ft; Tue, 10 Mar 2020 14:31:28 -0400
-Received: from host86-177-178-88.range86-177.btcentralplus.com
- ([86.177.178.88] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jBjfK-0004SD-L0; Tue, 10 Mar 2020 18:31:43 +0000
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-References: <cover.1583781493.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <9b16aa01-9220-86a8-f0ae-dd297dc0254e@ilande.co.uk>
-Date: Tue, 10 Mar 2020 18:31:16 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <dgilbert@redhat.com>) id 1jBjg0-0002zB-HS
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:32:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43451
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1jBjg0-0002wI-DI
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:32:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583865143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cXuXw4DBaOzdg+q+VXm5E8SyfZQgxSIR7fPdakovdLE=;
+ b=A2iUQO3vGjqGC50V6VTxCVDc7+EYL1noeAC7+BtwoYBVJIj59VfmTrxrOFI+VFxKaiBBke
+ tX/JB8oWMqeLi5culSI4SCxDXoF6veckZXevpzvR3vGP7+NuMQ0OT3lQiWJh/qth91tuEk
+ huEONhBW3oSIVvu7bafFgTg0GJCdo64=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-x811HGBjPM69XTwHIAROvQ-1; Tue, 10 Mar 2020 14:32:21 -0400
+X-MC-Unique: x811HGBjPM69XTwHIAROvQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5587C100550E;
+ Tue, 10 Mar 2020 18:32:20 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF2A87388D;
+ Tue, 10 Mar 2020 18:32:18 +0000 (UTC)
+Date: Tue, 10 Mar 2020 18:32:16 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: "Unknown option --exist" message when building qemu
+Message-ID: <20200310183216.GE3304@work-vm>
+References: <66841404-892f-edef-eb1a-37ed2e2e08ee@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <cover.1583781493.git.balaton@eik.bme.hu>
+In-Reply-To: <66841404-892f-edef-eb1a-37ed2e2e08ee@roeck-us.net>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.177.178.88
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 0/3] Implement "non 100% native mode" in via-ide
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:41c9:1:41f::167
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,67 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, John Snow <jsnow@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/03/2020 19:18, BALATON Zoltan wrote:
+* Guenter Roeck (linux@roeck-us.net) wrote:
+> Hi,
+>=20
+> when building qemu, I keep seeing the following message.
+>=20
+> Unknown option --exist
+>=20
+> This was introduced with commit 3a67848134d0 ("configure: Enable test and=
+ libs for zstd").
+> If I replace "--exist" with "--exists", on a system with libzstd-dev inst=
+alled, I get
+> a number of error messages.
+>=20
+> migration/multifd-zstd.c:125:9: error: unknown type name =E2=80=98ZSTD_En=
+dDirective=E2=80=99; did you mean =E2=80=98ZSTD_DDict=E2=80=99?
+> migration/multifd-zstd.c:125:35: error: =E2=80=98ZSTD_e_continue=E2=80=99=
+ undeclared
+> migration/multifd-zstd.c:128:21: error: =E2=80=98ZSTD_e_flush=E2=80=99 un=
+declared
+> migration/multifd-zstd.c:143:19: error: implicit declaration of function =
+=E2=80=98ZSTD_compressStream2=E2=80=99
+> migration/multifd-zstd.c:143:19: error: nested extern declaration of =E2=
+=80=98ZSTD_compressStream2=E2=80=99
+>=20
+> Any idea, anyone, what might be wrong ?
 
-> This small series implements "non-100% native mode" of via-ide found
-> at least on pegasos2 where io addresses come from PCI BARs but
-> interrupts are hard coded to legacy IRQ14 and 15. This is needed for
-> guests that expect it and activate work arounds on that platform and
-> don't work unless this is emulated. (Symptom is missing IDE IRQs after
-> enabling BMDMA and boot freezes waiting for interrupt.)
-> 
-> We need a flag to turn this mode on or off so the first patch
-> repurposes the last remaining CMD646 specific field in PCIIDEState to
-> allow more flags and make room for the new legacy-irq flag there. (The
-> CMD646 may need similar mode or something else may need more flags in
-> the future.) Boards using CMD646 and VIA IDE are updated for the above
-> changes. Second patch fixes up PCI reset to not clear value set by
-> device emulation on bus reset when wmask does not allow that.
-> 
-> Tested with Linux and MorphOS on pegasos2 and a Gentoo live CD kernel
-> for mips_fulong2e that's the only one I could find but being beta not
-> sure if that fully works on real hardware. (The mips_fulong2e also
-> seems to have problems with pci devices so to boot Linux you need
-> -net none -vga none and use serial console otherwise the kernel panics.)
-> 
-> Regards,
-> BALATON Zoltan
-> 
-> BALATON Zoltan (3):
->   ide: Make room for flags in PCIIDEState and add one for legacy IRQ
->     routing
->   pci: Honour wmask when resetting PCI_INTERRUPT_LINE
->   via-ide: Also emulate non 100% native mode
-> 
->  hw/alpha/dp264.c        |  2 +-
->  hw/ide/cmd646.c         | 12 ++++++------
->  hw/ide/via.c            | 37 +++++++++++++++++++++++++++++--------
->  hw/mips/mips_fulong2e.c |  2 +-
->  hw/pci/pci.c            |  4 +++-
->  hw/sparc64/sun4u.c      |  9 ++-------
->  include/hw/ide.h        |  7 ++++---
->  include/hw/ide/pci.h    |  7 ++++++-
->  8 files changed, 52 insertions(+), 28 deletions(-)
+Yep, Juan's just trying to fix it.
 
-To summarise what has been quite a long thread, I don't believe the approach of
-introducing a feature flag for legacy IRQ routing is the correct solution here. It
-seems to me that qdev can do all the work: provide qdev gpio connectors for 2 IRQ
-sets: a named "legacy-irq" array and a standard ("irq") qdev connector and then let
-the boards wire up the ones as they need.
+Dave
 
-With this in place it is simple to always fallback to the legacy IRQs if no PCI IRQ
-is connected regardless of mode, and this also allows the deprecated isa_get_irq()
-function to be removed.
+> Thanks,
+> Guenter
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-
-ATB,
-
-Mark.
 
