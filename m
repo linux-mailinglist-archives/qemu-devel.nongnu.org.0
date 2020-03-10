@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C17317F1EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:27:19 +0100 (CET)
-Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C095517F1E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:25:28 +0100 (CET)
+Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBaEQ-0000iq-LN
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54787)
+	id 1jBaCd-0006Og-PW
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jBaBO-00052J-V1
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:24:12 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jBaBO-00051m-HB
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:24:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1jBaBN-0002V7-Te
+ (envelope-from <kraxel@redhat.com>) id 1jBaBN-0002Tx-IC
  for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:24:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54739
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57684
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jBaBN-0002Tl-PN
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1jBaBN-0002St-Dv
  for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:24:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1583828649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U6HPKAeSkHD4ZWtar2rKi2M8k92l3FoWWhgkRdAHs9I=;
- b=JPA7yIcj/0AMAUxChUwqx7JuJn0fNvFsYAXTpZjQ7d1HJLYO2wx96ORihHPaDHyQo1Udll
- MwG068YCV8Mi9RgbHOdxIqvYe123akJruTu1JVmfp550tOgZz8cUJRyPEjs8VzI/+9wTlU
- ErFvo1px00yP68djMD5nzcqZwMgyyoc=
+ bh=KnhJs1Qv5CJ2LifBUYIlnTyitzEv0YQIGzR5BcCJIhw=;
+ b=e8Qp/qLgumo6llwOcKwvJ/FwwvtzOA3kYVR64VzFhInNx9sbI0HFMg8dCtWxBqXxdPjcJx
+ 3CRuzlbZhVcmqas7INPhyqZcMrQ6a7i9euBW7+kfgJcFexzs5h+k/TPK8mt/Fk2mLLEuWJ
+ biR2B7t5Xffn353ak2GKl+R+t6HK5NI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274--duWB2tmNNCJfzyMQhzFsA-1; Tue, 10 Mar 2020 04:24:07 -0400
-X-MC-Unique: -duWB2tmNNCJfzyMQhzFsA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-274-ML854L6eOFWeCGX5_YsnRQ-1; Tue, 10 Mar 2020 04:24:06 -0400
+X-MC-Unique: ML854L6eOFWeCGX5_YsnRQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A7218C8C02;
- Tue, 10 Mar 2020 08:24:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDA3F18C8C01;
+ Tue, 10 Mar 2020 08:24:05 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-117.ams2.redhat.com
  [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC967388;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C962060BF3;
  Tue, 10 Mar 2020 08:24:02 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 16C199D6B; Tue, 10 Mar 2020 09:24:02 +0100 (CET)
+ id 1F0A49D1F; Tue, 10 Mar 2020 09:24:02 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] usb-serial: wakeup device on input
-Date: Tue, 10 Mar 2020 09:24:01 +0100
-Message-Id: <20200310082402.22839-2-kraxel@redhat.com>
+Subject: [PULL 2/2] usb/hcd-ehci: Remove redundant statements
+Date: Tue, 10 Mar 2020 09:24:02 +0100
+Message-Id: <20200310082402.22839-3-kraxel@redhat.com>
 In-Reply-To: <20200310082402.22839-1-kraxel@redhat.com>
 References: <20200310082402.22839-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -73,72 +74,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Andryuk <jandryuk@gmail.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Andryuk <jandryuk@gmail.com>
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-Currently usb-serial devices are unable to send data into guests with
-the xhci controller.  Data is copied into the usb-serial's buffer, but
-it is not sent into the guest.  Data coming out of the guest works
-properly.  usb-serial devices work properly with ehci.
+The "again" assignment is meaningless before g_assert_not_reached.
+In addition, the break statements no longer needs to be after
+g_assert_not_reached.
 
-Have usb-serial call usb_wakeup() when receiving data from the chardev.
-This seems to notify the xhci controller and fix inbound data flow.
+Clang static code analyzer show warning:
+hw/usb/hcd-ehci.c:2108:13: warning: Value stored to 'again' is never read
+            again =3D -1;
+            ^       ~~
 
-Also add USB_CFG_ATT_WAKEUP to the device's bmAttributes.  This matches
-a real FTDI serial adapter's bmAttributes.
-
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-Message-id: 20200306140917.26726-1-jandryuk@gmail.com
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20200226084647.20636-13-kuhn.chenqun@huawei.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-serial.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/usb/hcd-ehci.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 98465990ef6b..daac75b7aec2 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -98,6 +98,7 @@ do { printf("usb-serial: " fmt , ## __VA_ARGS__); } while=
- (0)
-=20
- typedef struct {
-     USBDevice dev;
-+    USBEndpoint *intr;
-     uint8_t recv_buf[RECV_BUF];
-     uint16_t recv_ptr;
-     uint16_t recv_used;
-@@ -153,7 +154,7 @@ static const USBDescDevice desc_device =3D {
-         {
-             .bNumInterfaces        =3D 1,
-             .bConfigurationValue   =3D 1,
--            .bmAttributes          =3D USB_CFG_ATT_ONE,
-+            .bmAttributes          =3D USB_CFG_ATT_ONE | USB_CFG_ATT_WAKEU=
-P,
-             .bMaxPower             =3D 50,
-             .nif =3D 1,
-             .ifs =3D &desc_iface0,
-@@ -459,6 +460,8 @@ static void usb_serial_read(void *opaque, const uint8_t=
- *buf, int size)
-         memcpy(s->recv_buf + start, buf, size);
+diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
+index 56ab2f457f4c..29d49c2d7e68 100644
+--- a/hw/usb/hcd-ehci.c
++++ b/hw/usb/hcd-ehci.c
+@@ -1301,7 +1301,6 @@ static void ehci_execute_complete(EHCIQueue *q)
+         /* should not be triggerable */
+         fprintf(stderr, "USB invalid response %d\n", p->packet.status);
+         g_assert_not_reached();
+-        break;
      }
-     s->recv_used +=3D size;
-+
-+    usb_wakeup(s->intr, 0);
- }
 =20
- static void usb_serial_event(void *opaque, QEMUChrEvent event)
-@@ -513,6 +516,7 @@ static void usb_serial_realize(USBDevice *dev, Error **=
-errp)
-     if (qemu_chr_fe_backend_open(&s->cs) && !dev->attached) {
-         usb_device_attach(dev, &error_abort);
-     }
-+    s->intr =3D usb_ep_get(dev, USB_TOKEN_IN, 1);
- }
+     /* TODO check 4.12 for splits */
+@@ -2105,9 +2104,7 @@ static void ehci_advance_state(EHCIState *ehci, int a=
+sync)
 =20
- static USBDevice *usb_braille_init(USBBus *bus, const char *unused)
+         default:
+             fprintf(stderr, "Bad state!\n");
+-            again =3D -1;
+             g_assert_not_reached();
+-            break;
+         }
+=20
+         if (again < 0 || itd_count > 16) {
 --=20
 2.18.2
 
