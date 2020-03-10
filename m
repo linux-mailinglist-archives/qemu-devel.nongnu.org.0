@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBF417F697
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:45:39 +0100 (CET)
-Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4367C17F699
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:46:25 +0100 (CET)
+Received: from localhost ([::1]:58566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBdKM-0003eb-42
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38980)
+	id 1jBdL6-0004Y6-Au
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jBdIy-0002Qw-Ve
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:44:14 -0400
+ (envelope-from <mst@redhat.com>) id 1jBdJK-0002yH-0c
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:44:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1jBdIx-0006fY-Fj
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:44:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20376
+ (envelope-from <mst@redhat.com>) id 1jBdJI-0008WQ-Qz
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:44:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44467
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1jBdIx-0006eF-Bo
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:44:11 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBdJI-0008Ut-M4
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:44:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583840651;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1583840672;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LDnQavxU8gZN2w2F6zAw3ujNqTyugxHfhN4Hm+CvElc=;
- b=HPM0ZpwoD70Pw1FeOq7J5y0VjIhJgOgg7CxOgzsaMYmWrP5Lt51ozPzUAu5wlKRFox/ik4
- cCyHF+O6Z2fUdjZdtx8+uzd5GohIr2IgO77w3RxS27IgqQL9bvkOT/l2iexi1fDa+PgL2Z
- KCOpqE/vUMUqOx5e1sRLLV2mQZaGDy0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-B2Hx4XoKN7m9wm4d3s_n8A-1; Tue, 10 Mar 2020 07:43:54 -0400
-X-MC-Unique: B2Hx4XoKN7m9wm4d3s_n8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8F3D8017DF;
- Tue, 10 Mar 2020 11:43:52 +0000 (UTC)
-Received: from redhat.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E8DDD10013A1;
- Tue, 10 Mar 2020 11:43:46 +0000 (UTC)
-Date: Tue, 10 Mar 2020 11:43:43 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Upstream QEMU guest support policy ? Re: [PATCH v3 0/2] spapr: Use
- vIOMMU translation for virtio by default
-Message-ID: <20200310114343.GD3234052@redhat.com>
-References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
+ bh=DTwRAJ3LNF1O9otFXMNVuRgN0vuzrSLngHBFXgqG0Cc=;
+ b=hhOgEKfLaLDl4RFlE9NAKM7NameOQxVfqdIx0GKXKXM+hhpRJkVt5/GVkgC1XA5s0VXUVp
+ vikAeEr4LGZucCalbMp+LMVi9mSy42N9NHNMFRiRGQLwWgbuhiFfzfl0D3C1PTYTtkSEss
+ C4BFXWbSP9FwMHAky4g/eQJiNzRluUw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-yuYI92GvNNaXD2V-5GiZqA-1; Tue, 10 Mar 2020 07:44:30 -0400
+X-MC-Unique: yuYI92GvNNaXD2V-5GiZqA-1
+Received: by mail-qt1-f198.google.com with SMTP id k20so8904404qtm.11
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 04:44:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=H3KCJixxh3Z0Kxp9RwH1KEoyvWhDg/ZX78PZop0lPeg=;
+ b=ErMZa7bl+fb3vECAwVx61pCBI5aO6q3HtNmhOQeJsltJXDSeayd3FGewr5j2p7i/+u
+ LnayotOrmutwjpu4uVrTC0NT++yJ0QziZa0ize9m80JOUGYrGykuZsvRxHBWhhQX6/VE
+ bKkwZEu2XQnGJQT5PyFFs4xNUoHb6rD7uiw32uphM1b0R6ZVLOd/qBIZU1ZIejAJunHS
+ sQZqQxkQYmOnd41sVO+zRhGQAiX8o6uE+MFB5TgBmFumM6YS6OOoYJjoUJPEwNLr3z8e
+ ZxqadPlCYatk43RHD+OpZLOrIPP57L/Epc4y4vlADUCuNb2lpjEzO9kwHR1Xr4rYJYgQ
+ qxUw==
+X-Gm-Message-State: ANhLgQ1CN3uOUpnkZpKZreEmnhkq5KY5yqBwSgqMhA1FEh5KALrYjvVQ
+ YFIIZyqDPwgtHqQZKPmyOhFHqbRigj3uHxWn3U6VVMSolfhDjTwQhSbsS3VoY0fR4bHJ4WZbKj1
+ NHQvwo9mp3C1b0bg=
+X-Received: by 2002:a05:6214:928:: with SMTP id
+ dk8mr3250227qvb.170.1583840670326; 
+ Tue, 10 Mar 2020 04:44:30 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvQ8dolH/tXyHVc89emF3+k8dbf4Gi/48wvlkPCSZGFq9HL2gHqcPGqJqzlGJbn+jMCC2oNrQ==
+X-Received: by 2002:a05:6214:928:: with SMTP id
+ dk8mr3250212qvb.170.1583840670070; 
+ Tue, 10 Mar 2020 04:44:30 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
+ by smtp.gmail.com with ESMTPSA id s56sm8450667qtk.9.2020.03.10.04.44.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 04:44:28 -0700 (PDT)
+Date: Tue, 10 Mar 2020 07:44:24 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH 04/14] hw/i386/vmport: Introduce vmx-version property
+Message-ID: <20200310073629-mutt-send-email-mst@kernel.org>
+References: <20200309235411.76587-1-liran.alon@oracle.com>
+ <20200309235411.76587-5-liran.alon@oracle.com>
+ <20200310053210-mutt-send-email-mst@kernel.org>
+ <0dd22d9c-e1d2-db1e-372e-5009be705dab@oracle.com>
+ <20200310071453-mutt-send-email-mst@kernel.org>
+ <10ffd04f-30f9-6333-26ef-169cd1615341@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200305043009.611636-1-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <10ffd04f-30f9-6333-26ef-169cd1615341@oracle.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,122 +93,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru, groug@kaod.org,
- qemu-devel@nongnu.org, paulus@samba.org, clg@kaod.org, mdroth@us.ibm.com,
- qemu-ppc@nongnu.org
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 05, 2020 at 03:30:07PM +1100, David Gibson wrote:
-> Upcoming Secure VM support for pSeries machines introduces some
-> complications for virtio, since the transfer buffers need to be
-> explicitly shared so that the hypervisor can access them.
+On Tue, Mar 10, 2020 at 01:28:32PM +0200, Liran Alon wrote:
 >=20
-> While it's not strictly speaking dependent on it, the fact that virtio
-> devices bypass normal platform IOMMU translation complicates the issue
-> on the guest side.  Since there are some significan downsides to
-> bypassing the vIOMMU anyway, let's just disable that.
+> On 10/03/2020 13:18, Michael S. Tsirkin wrote:
+> > On Tue, Mar 10, 2020 at 01:05:02PM +0200, Liran Alon wrote:
+> > > On 10/03/2020 11:32, Michael S. Tsirkin wrote:
+> > > > On Tue, Mar 10, 2020 at 01:54:01AM +0200, Liran Alon wrote:
+> > > > > Instead of hard-coding the VMX version, make it a VMPORT object p=
+roperty.
+> > > > > This would allow user to control it's value via "-global vmport.v=
+mx-version=3DX".
+> > > > >=20
+> > > > > Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+> > > > > Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> > > > More detail on why this is useful?
+> > > It's more useful than returning a hard-coded "6" as the vmx-version..=
+.
+> >=20
+> > Maybe default should be 6 (a bit of explanation why 6 could be nice).
+> The default is indeed defined as 6. As it was before this patch.
+> There is not much to explain besides the fact that recent VMware products
+> returns 6 here.
 >=20
-> There's already a flag to do this in virtio, just turn it on by
-> default for forthcoming pseries machine types.
+> I don't recall any mapping between the returned version here and the
+> supported set of VMPort commands. There is a separate mechanism (which we
+> implement in another patch) to signal that a command is unsupported /
+> failed.
+>=20
+> The term "vmx-version" refers to the version of the Userspace-VMM of VMwa=
+re
+> which is called (confusingly) "vmx".
 
-Breaking existing guest OS to support a new secure VM feature that
-may not even be used/wanted doesn't seems like a sensible tradeoff
-for default out of the box behaviour.
+Short for Virtual Machine eXecutable. Sigh.  People do come up with
+names that aren't great. I don't even know whether vmware was there
+first and intel shouldn't have shortened virtual machine extensions to
+vmx, but in KVM and QEMU it's quite entrenched by now. So let's try to
+avoid this in code. If you like how about VMPortExec and
+vm-exec-version?  Also lets you use CamelCase consistently and not a mix
+of underscores and CamelCase.
 
-IOW, if Secure VM needs this, can we tie the change in virtio and
-IOMMU defaults to the machine type flag that enables the use of
-Secure VM.
-
-That way the changed virtio defaults only take effect if a user/mgmt
-app has explicitly opted in to the new Secure VM feature, and existing
-users won't be broken by a new feature they don't even use.
-
-> Any opinions on whether dropping support for the older guest kernels
-> is acceptable at this point?
-
-
-I think this question has different answers depending on whether you
-are considering downstream vendor policy, current upstream policy,
-and a possible new downstream policy on guest support. IOW a bit of a
-can of worms...
-
-
-In the case of RHEL downstream there is a very narrow matrix for
-what guest OS are considered supported.
-
-In the case of current upstream, there has essentially never been
-any documented guest matrix. The unwritten implicit rule upstream
-has followed is to not change defaults in a way that would break
-ability to run existing guest OS.
-
-
-As an example, on x86 upstream defaults to i440fx and thus still
-uses virtio devices in transitional mode by default, while downstream
-RHEL used its narrow support matrix as a justification for why it was
-ok to switch to q35 by default & loose guest support in many cases.
-Even that was problematic though, because RHEL still needed to support
-RHEL-6 guest which are broken by default with q35 since they only
-support legacy mode virtio. Thus we needed work in management apps
-to enable RHEL-6 to continue working with q35 chipset, by placing
-the devices onto a PCI bridge, instead of a PCIe root port, or by
-explicitly using i440fx instead.
-
-Thus if we follow our *current* upstream guest support policy, I don't
-think it is acceptable to break existing guests with the new machine
-type upstream.  It is reasonable to do it downstream if the downstream
-is willing to sacrifice these guests, or invest to make any mgmt apps=20
-add workaround/revert QEMU changes.
+> > > We have used it to preserve compatibility for some VMware guests that=
+ we run
+> > > as-is on top of QEMU/KVM which expects specific vmx-version or else t=
+hey
+> > > fail to run properly.
+> > >=20
+> > > -Liran
+> > Any detail on which guest it is?
+> I will need to dig in production history to find it... They are usually
+> proprietary appliances specially made to run as VMware VMs.
+> > Pretending to be a very advanced version has its pitfalls if we
+> > then don't behave the way vmware does, right?
+> In all those cases, we have taken the version number backwards, not forwa=
+rd.
+> > Figuring out the version number is I suspect a bit much to ask of users=
+.
+> Most users will indeed not need to touch this. This is for advanced users=
+,
+> such as Ravello.
+> We usually figured this out by reverse-engineering the failed guest and/o=
+r
+> examining the original VMware environment it used to run on.
+>=20
+> -Liran
 
 
-With that all said, I do *NOT* think current upstream practice is good
-or sustainable long term (though I admit I've argued on the other side
-in the past).
+Right if you want this for debugging, prefix property with "x-" so it does
+not need to be maintained. Point being, maintaining low level interfaces
+has real cost ...
 
-This policy is why we're still using a machine designed in 1995 on x86
-by default, in order that we avoid breaking the popular guest OS of the
-day, like Windows 95.
-
-This is similar to the problem we had with host build platforms, where
-we afraid to make any change which would break an existing build platform,
-or on the flipside made arbitrary ad-hoc changes with no consistent
-approach across different subsystems.
-
-
-I think that we should aim define some clearer policy around how we
-want to support guest OS in upstream. As we did with our host build
-platforms policy, any guest support policy should aim to move forward
-at a reasonable pace so that we are not locked at a specific point in
-time forever.
-
-I can imagine three tiers
-
- 1. Recommended. Expected to work well with machine type defaults
- 2. Supported. Should work with QEMU but may need special settings applied
- 3. Unsupported. Will not work with QEMU regardless of settings
-
-I don't have an opinion right now on what guest OS should fall in which
-category. One possible way to classify them would be to look at whether
-the vendor themselves still supported the OS.  IOW, to be in the
-"Recommended" criteria, it must be actively supported by the vendor.
-Once EOL by the vendor it would be capped at the "Supported" tier.
-
-That definition wouldn't help your pseries issue though, because RHEL-6
-is still considered a supported OS.
-
-Another possible way to classify guest OS would be to look purely at
-the original release date, and set a cap of "$TODAY - 5 years" for
-the "Recommended" tier. That would exclude RHEL-6.
-
-Regards,
-Daniel
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+MST
 
 
