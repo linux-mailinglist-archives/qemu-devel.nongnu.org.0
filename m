@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2A417F709
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:05:07 +0100 (CET)
-Received: from localhost ([::1]:59216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A929B17F70E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:06:36 +0100 (CET)
+Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBddC-0000JA-RY
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
+	id 1jBded-0002sP-P1
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jBda3-0005TV-HV
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:01:52 -0400
+ (envelope-from <longpeng2@huawei.com>) id 1jBdb7-0006Xo-5u
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:02:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1jBda2-0001tB-Aa
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:01:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56941
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <longpeng2@huawei.com>) id 1jBdb1-0004ik-5e
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:02:55 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3271 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBda1-0001pp-IV
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:01:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583841708;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tC+6wLHi524LbvtxXg/FsHiqGTc5BwuWVvX+ALGysHU=;
- b=bW041N1pXBO43OYE24xCwf2k+/3oLxOoiThGkS3kPXp7mxNaUnZB3iCPjtxwM/KGB/cWwR
- bztTgPTC5AeY/0fQnWuIasDCYjaYSLRrXOfQtjIOFpbG7UJJFO5SnPiiDcxRzCR4zsrkjm
- 58RjCFGs+1a0YdV3ETo3k4tIcVgSe/A=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-L5awXbzaNNGEtwXPJYeyIA-1; Tue, 10 Mar 2020 08:01:46 -0400
-X-MC-Unique: L5awXbzaNNGEtwXPJYeyIA-1
-Received: by mail-qt1-f197.google.com with SMTP id o10so8896622qtk.22
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 05:01:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=K+vW3tNAJr8+qNBSoFRZU7UIZ3SdxxURW7qpS3VG+n8=;
- b=eWVyhVzkK1c0sjeJCqHn8Xf1bACHG1uMncL/9VaYjDmPTVHh78/G1Deu6zcLX64n76
- uT9sYEWybmINoaXGFXP5XwT8pMeV8SmLpg/MPLOIot1VdbGrSbzz89Nvpsagyc1EukmV
- uIva9vHh5W5WacPjvSJC0Z6bxyiIzXxD032VhDIVVxh8Av91kpiKmPkfdNauSYtuIMvT
- bKmpaYzZ+7f2tHC8oQVeaO3mnJxbKVBnmEmfzvYiByP4Cs5f3YkH2coN8kg1A9V3J0po
- 6GQvhvF11/AVfWSERvSksi0fD2fvTeIMUMDTG/tIkgTCGCOolmyGANinwF/f5zx3m0QL
- 6lOQ==
-X-Gm-Message-State: ANhLgQ29Mm0urmNjx/QPSFb99oMBk7ooZzdlEdWkhIIE2A5DqO5VmxbY
- U6WAZJuEfCiEWZ7wMU9sqJv1PPoxD8ZJaLq46WNJfOtRQ1Q/KVTv8BTVB/I2b27njOcuxnqlMQ7
- PcxMOd7PtSfW5R/I=
-X-Received: by 2002:a37:5b81:: with SMTP id
- p123mr17412036qkb.284.1583841706197; 
- Tue, 10 Mar 2020 05:01:46 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vsLQvvcwtvEzlXdQOt7kcsYA7AA5UAZ+CZmUeoqvWksHYawsdIvknXzc/VTC8Xmhe6y84doBg==
-X-Received: by 2002:a37:5b81:: with SMTP id
- p123mr17412013qkb.284.1583841705958; 
- Tue, 10 Mar 2020 05:01:45 -0700 (PDT)
-Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
- by smtp.gmail.com with ESMTPSA id h34sm24531905qtc.62.2020.03.10.05.01.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 05:01:44 -0700 (PDT)
-Date: Tue, 10 Mar 2020 08:01:39 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Liran Alon <liran.alon@oracle.com>
-Subject: Re: [PATCH 07/14] hw/i386/vmport: Add support for CMD_GETBIOSUUID
-Message-ID: <20200310074821-mutt-send-email-mst@kernel.org>
-References: <20200309235411.76587-1-liran.alon@oracle.com>
- <20200309235411.76587-8-liran.alon@oracle.com>
- <20200310052226-mutt-send-email-mst@kernel.org>
- <c9374d4c-4d63-9302-0896-958950029ec5@oracle.com>
+ (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
+ id 1jBdaz-0004Qq-3a
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:02:51 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B0FC8A96B223C4310EE9;
+ Tue, 10 Mar 2020 20:02:40 +0800 (CST)
+Received: from [127.0.0.1] (10.177.246.209) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0;
+ Tue, 10 Mar 2020 20:02:32 +0800
+Subject: Re: [PATCH RESEND 2/3] vhost: fix a null pointer reference of
+ vhost_log
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200224064219.1434-1-longpeng2@huawei.com>
+ <20200224064219.1434-3-longpeng2@huawei.com>
+ <20200310014623-mutt-send-email-mst@kernel.org>
+ <7da2b8b6-afe7-7f1f-9252-925b6bc543d8@huawei.com>
+ <20200310042017-mutt-send-email-mst@kernel.org>
+From: "Longpeng (Mike)" <longpeng2@huawei.com>
+Message-ID: <6d5f2e31-cbf2-f7e5-adbd-7a3a03fb67ee@huawei.com>
+Date: Tue, 10 Mar 2020 20:02:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <c9374d4c-4d63-9302-0896-958950029ec5@oracle.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200310042017-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="gbk"
+X-Originating-IP: [10.177.246.209]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,70 +60,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: weifuqiang@huawei.com, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 10, 2020 at 04:44:54AM -0700, Liran Alon wrote:
->=20
-> On 10/03/2020 11:22, Michael S. Tsirkin wrote:
-> > On Tue, Mar 10, 2020 at 01:54:04AM +0200, Liran Alon wrote:
-> > > This is VMware documented functionallity that some guests rely on.
-> > > Returns the BIOS UUID of the current virtual machine.
-> > >=20
-> > > Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
-> > > Signed-off-by: Liran Alon <liran.alon@oracle.com>
-> > > ---
-> > >   hw/i386/vmport.c     | 14 ++++++++++++++
-> > >   include/hw/i386/pc.h |  1 +
-> > >   2 files changed, 15 insertions(+)
-> > >=20
-> > > diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-> > > index 2ae5afc42b50..7687f3368a55 100644
-> > > --- a/hw/i386/vmport.c
-> > > +++ b/hw/i386/vmport.c
-> > > @@ -26,6 +26,7 @@
-> > >   #include "hw/i386/pc.h"
-> > >   #include "hw/input/i8042.h"
-> > >   #include "hw/qdev-properties.h"
-> > > +#include "sysemu/sysemu.h"
-> > >   #include "sysemu/hw_accel.h"
-> > >   #include "qemu/log.h"
-> > >   #include "trace.h"
-> > > @@ -121,6 +122,18 @@ static uint32_t vmport_cmd_get_version(void *opa=
-que, uint32_t addr)
-> > >       return port_state->vmx_version;
-> > >   }
-> > > +static uint32_t vmport_cmd_get_bios_uuid(void *opaque, uint32_t addr=
-)
-> > > +{
-> > > +    X86CPU *cpu =3D X86_CPU(current_cpu);
-> > > +    uint32_t *uuid_parts =3D (uint32_t*)(qemu_uuid.data);
+=D4=DA 2020/3/10 16:23, Michael S. Tsirkin =D0=B4=B5=C0:
+> On Tue, Mar 10, 2020 at 04:04:35PM +0800, Longpeng (Mike, Cloud Infrast=
+ructure Service Product Dept.) wrote:
+>>
+>>
+>> On 2020/3/10 13:57, Michael S. Tsirkin wrote:
+>>> On Mon, Feb 24, 2020 at 02:42:18PM +0800, Longpeng(Mike) wrote:
+>>>> From: Longpeng <longpeng2@huawei.com>
+>>>>
+>>>> vhost_log_alloc() may fails and returned pointer of log is null.
+>>>> However there're two places derefernce the return pointer without
+>>>> check.
+>>>>
+[...]
 
-BTW missing space before * here.
+>>>>  static inline void vhost_dev_log_resize(struct vhost_dev *dev, uint=
+64_t size)
+>>>>  {
+>>>> -    struct vhost_log *log =3D vhost_log_get(size, vhost_dev_log_is_=
+shared(dev));
+>>>> -    uint64_t log_base =3D (uintptr_t)log->log;
+>>>> +    struct vhost_log *log;
+>>>> +    uint64_t log_base;
+>>>>      int r;
+>>>> =20
+>>>> +    log =3D vhost_log_get(size, vhost_dev_log_is_shared(dev));
+>>>> +    if (!log) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>
+>>> I'm not sure silently failing like this is safe. Callers assume
+>>> log can be resized. What can be done? I suspect not much
+>>> beside exiting ...
+>>> Speaking of which, lots of other failures in log resizing
+>>> path seem to be silently ignored.
+>>> I guess we should propagate them, and fix callers to check
+>>> the return code?
+>>>
+>> How about to let the callers treat the failure of log_resize as a fata=
+l error ?
+>>
+[...]
 
-> > > +
-> > > +    cpu->env.regs[R_EAX] =3D uuid_parts[0];
-> > > +    cpu->env.regs[R_EBX] =3D uuid_parts[1];
-> > > +    cpu->env.regs[R_ECX] =3D uuid_parts[2];
-> > > +    cpu->env.regs[R_EDX] =3D uuid_parts[3];
-> > > +    return cpu->env.regs[R_EAX];
-> > > +}
-> > > +
-> > Should be LE here?
+>>
+>> @@ -510,7 +525,9 @@ static void vhost_commit(MemoryListener *listener)
+>>  #define VHOST_LOG_BUFFER (0x1000 / sizeof *dev->log)
+>>      /* To log more, must increase log size before table update. */
+>>      if (dev->log_size < log_size) {
+>> -        vhost_dev_log_resize(dev, log_size + VHOST_LOG_BUFFER);
+>> +        if (vhost_dev_log_resize(dev, log_size + VHOST_LOG_BUFFER) < =
+0) {
+>> +            abort();
+>> +        }
+>>      }
+>>      r =3D dev->vhost_ops->vhost_set_mem_table(dev, dev->mem);
+>>      if (r < 0) {
+>> @@ -518,7 +535,9 @@ static void vhost_commit(MemoryListener *listener)
+>>      }
+>>      /* To log less, can only decrease log size after table update. */
+>>      if (dev->log_size > log_size + VHOST_LOG_BUFFER) {
+>> -        vhost_dev_log_resize(dev, log_size);
+>> +        if (vhost_dev_log_resize(dev, log_size + VHOST_LOG_BUFFER) < =
+0) {
+>> +            abort();
+>> +        }
+>>      }
+>>
+>>  out:
 >=20
-> No. This is how the UUID is expected to be returned to guest.
 >=20
-> -Liran
+> I think the suggested handling is
+> 	error_report() and exit().
+> we also need to propagate errno. So how about passing in Error then?
+>=20
+vhost_dev_log_resize
+  vhost_log_get
+    vhost_log_alloc
+      error_report_err (fail path, errno is in the errp)
+  VHOST_OPS_DEBUG (if ->vhost_set_log_base fail)
+      error_report (errno)
+
+Um, it seems log_resize will report error with errno internal, do we need
+error_report once more ?
+
+>=20
+>> @@ -818,7 +837,11 @@ static int vhost_migration_log(MemoryListener *li=
+stener,
+>> int enable)
+>>          }
+>>          vhost_log_put(dev, false);
+>>      } else {
+>> -        vhost_dev_log_resize(dev, vhost_get_log_size(dev));
+>> +        r =3D vhost_dev_log_resize(dev, vhost_get_log_size(dev));
+>> +        if (r < 0) {
+>> +            return r;
+>> +        }
+>> +
+>>          r =3D vhost_dev_set_log(dev, true);
+>>          if (r < 0) {
+>>              return r;
+>>
+>>
+>>>
+>>> .
+>>>
+>>
+>> --=20
+>> ---
+>> Regards,
+>> Longpeng(Mike)
+>=20
+>=20
+> .
 >=20
 
-Um *how* is it expected to be returned? IIUC this takes network order
-byte data and handles it as host endian. Assuming it's right on an LE
-host it isn't on a BE host.  So I am guessing you want le32_to_cpu here.
 
 --=20
-MST
+Regards,
+Longpeng(Mike)
 
 
