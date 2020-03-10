@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AC217F354
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:19:15 +0100 (CET)
-Received: from localhost ([::1]:55858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F343917F34D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:18:11 +0100 (CET)
+Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBb2g-0000sc-Ul
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60123)
+	id 1jBb1f-0007k7-2L
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBazc-0005Zy-HG
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:05 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBazb-00053p-6C
+ (envelope-from <bounces@canonical.com>) id 1jBazb-0005Z8-M8
  for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40102)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <bounces@canonical.com>) id 1jBaza-00051Q-HH
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40050)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBazb-00050o-0S
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:03 -0400
+ id 1jBaza-0004z4-BM
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBaza-000462-7p
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:16:02 +0000
+ id 1jBazY-0003rR-Kg
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:16:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 322652E80C0
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:16:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9B9042E80CD
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:16:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Mar 2020 09:08:25 -0000
+Date: Tue, 10 Mar 2020 09:09:20 -0000
 From: Laurent Vivier <Laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: i2c m68k rtc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange laurent-vivier npes87184 samuel-t
-X-Launchpad-Bug-Reporter: Samuel (samuel-t)
+X-Launchpad-Bug-Commenters: dcb314 laurent-vivier philmd
+X-Launchpad-Bug-Reporter: dcb (dcb314)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
-Message-Id: <158383130534.12830.16161237946111660876.malone@soybean.canonical.com>
-Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
- 'binary' subprotocol
+References: <157649490094.7480.17075229014510714852.malonedeb@soybean.canonical.com>
+Message-Id: <158383136090.26517.12563791436034539117.malone@gac.canonical.com>
+Subject: [Bug 1856549] Re: qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f66f8f2bfda89d5f0194e1338185592cf1ae6d68
+X-Launchpad-Hash: 9f6c6ee13eda426cdb9aeef8ecd42e95c3e5d897
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,48 +66,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
+Reply-To: Bug 1856549 <1856549@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dc64e1e75381d
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Db2619c158ab5
+
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1849644
+https://bugs.launchpad.net/bugs/1856549
 
 Title:
-  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+  qemu-4.2.0/hw/misc/mac_via.c: 2 * bad test ?
 
 Status in QEMU:
   Fix Committed
 
 Bug description:
-  When running a machine using "-vnc" and the "websocket" option QEMU
-  seems to require the subprotocol called 'binary'. This subprotocol
-  does not exist in the WebSocket specification. In fact it has never
-  existed in the spec, in one of the very early drafts of WebSockets it
-  was briefly mentioned but it never made it to a final version.
+  1.
 
-  When the WebSocket server requires a non-standard subprotocol any
-  WebSocket client that works correctly won't be able to connect.
+  qemu-4.2.0/hw/misc/mac_via.c:417:27: style: Expression is always false
+  because 'else if' condition matches previous condition at line 412.
+  [multiCondition]
 
-  One example of such a client is noVNC, it tells the server that it
-  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
-  let noVNC connect. If noVNC is modified to ask for 'binary' it will
-  work, this is, however, incorrect behavior.
+                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
+  ...
+                  } else if ((m->data_out & 0xf3) =3D=3D 0xa1) {
 
-  Looking at the code in "io/channel-websock.c" it seems it's quite
-  hard-coded to binary:
+  2.
 
-  Look at line 58 and 433 here:
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
+  qemu-4.2.0/hw/misc/mac_via.c:467:27: style: Expression is always false
+  because 'else if' condition matches previous condition at line 463.
+  [multiCondition]
 
-  This code has to be made more dynamic, and shouldn't require binary.
+  Duplicate.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1856549/+subscriptions
 
