@@ -2,61 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D44517F24D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:51:46 +0100 (CET)
-Received: from localhost ([::1]:55538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B6117F23E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:46:26 +0100 (CET)
+Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBac5-0005xP-Lv
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
+	id 1jBaWv-0002J7-Ds
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBabA-0005My-5N
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:50:50 -0400
+ (envelope-from <philmd@redhat.com>) id 1jBaVE-0001Za-6j
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:44:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBab8-0005wZ-QU
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:50:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36568)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBab8-0005tz-K5
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:50:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBab5-0001bi-Uj
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 08:50:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC0712E80CF
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 08:50:43 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1jBaVC-00089R-Kx
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:44:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31264
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1jBaVC-00088F-HV
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:44:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583829878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HIfAQubbXj361NTk4KLXeq9AoXc/azvX5UjfGDSifLk=;
+ b=NQP27/LPIXCwY8vWoD6Y5X7B0OsB8Ip3hg7Gmbu9F7D5HVOykfe9klS76aYUk93YOnS5cF
+ daa7nYfIJnUK6LXCYZfEzywM2NU7bD+fXAVdI59TSaezbeJWM8Xk2LT7yf1zofJy37R5OM
+ cUM4wRkTsAEw5MIrFO3fht7B2p8rXWs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-fWNIg4tsPWmuL4o98R4Ntw-1; Tue, 10 Mar 2020 04:44:31 -0400
+X-MC-Unique: fWNIg4tsPWmuL4o98R4Ntw-1
+Received: by mail-wm1-f69.google.com with SMTP id a13so89285wme.7
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 01:44:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nQp2Vswp1FgE90k74VLbwbB3lN6fqR0uKChLDHMGPhE=;
+ b=gERATzL2GSeHQfj7Vrs2pVvJoHjqyQ2vV3ErNjODzKVWh6TD30IxAAWWS/C01C1vqF
+ XS1H1V9JihZ1gkSW+NsVjjYf2NyDVjTfD2g8yIVL89+PO8mqJMaRG6HcqVW4gYv/LXpi
+ QjtKi/xIS1Ju32drTmx3IQsLZLz4gRdllpzvuqL6GwqAhGUwtek/pGDoRK8pqTkc6ZeA
+ GCL9V4r817p9LBV6hK6XYCKfcIyJ6tg2aoJ0erkQ1SJLxRRfncW2cHlsEt7QnnuHz0Nz
+ VeODnLcuaBl0OcdCE06BKJsbotn13xrPpT6Ik/w8TtBNRfvfzOigroyZoSzxqNwtfY0w
+ dnEw==
+X-Gm-Message-State: ANhLgQ1pCj+vm96yPvs91z884ewSXL+2kp64cQukYscg7CC6Bi9Ay5GL
+ Gtear/2ncu29/oUgtLQ/LqFXlFcXgPrFv15/OE5gmB8NQB5RBjleBRMe6fL3M9GVNOysNLFDZeN
+ 9SpVSyN3aPIJTjzI=
+X-Received: by 2002:a7b:c318:: with SMTP id k24mr1032001wmj.54.1583829870234; 
+ Tue, 10 Mar 2020 01:44:30 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vuMaLXW33miZn6TN4vuVPGZOS47FCSwFyzxBIHqtG6HsbRs/iPHVaNpjWGhX/hAU168VAfCew==
+X-Received: by 2002:a7b:c318:: with SMTP id k24mr1031960wmj.54.1583829869875; 
+ Tue, 10 Mar 2020 01:44:29 -0700 (PDT)
+Received: from [192.168.1.35] (47.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.47])
+ by smtp.gmail.com with ESMTPSA id q2sm5983863wrv.65.2020.03.10.01.44.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Mar 2020 01:44:29 -0700 (PDT)
+Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org hostname
+To: Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+References: <20200211134504.9156-1-philmd@redhat.com>
+ <87eeuewv4k.fsf@linaro.org> <20200310014116.GF660117@umbus.fritz.box>
+ <517418432.204149.1583807554368.JavaMail.zimbra@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <910181c0-b15f-a5d2-bc45-a4fd5d9736de@redhat.com>
+Date: Tue, 10 Mar 2020 09:44:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <517418432.204149.1583807554368.JavaMail.zimbra@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Mar 2020 08:44:12 -0000
-From: Vitaly Kuznetsov <1813165@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
- tstrike34 vkuznets
-X-Launchpad-Bug-Reporter: Thomas (himbeere)
-X-Launchpad-Bug-Modifier: Vitaly Kuznetsov (vkuznets)
-References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
-Message-Id: <158382985266.26092.15132413592734610422.malone@gac.canonical.com>
-Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1dd7e8019b36fbc3f6eb6b7909254e43e9eb53c3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,98 +92,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With Win10 you need to make sure it is not running Hyper-V under the
-hood (e.g. when you enable Hyper-V role Windows will put itself in a VM
--- and thus you will get a nested environment).
+On 3/10/20 3:32 AM, Cleber Rosa wrote:
+> ----- Original Message -----
+>> From: "David Gibson" <david@gibson.dropbear.id.au>
+>> To: "Alex Benn=C3=A9e" <alex.bennee@linaro.org>
+>> Cc: qemu-devel@nongnu.org, "Wainer dos Santos Moschetta" <wainersm@redha=
+t.com>, "Kamil Rytarowski"
+>> <kamil@netbsd.org>, "Herv=C3=A9 Poussineau" <hpoussin@reactos.org>, "Cle=
+ber Rosa" <crosa@redhat.com>,
+>> qemu-ppc@nongnu.org, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+>> Sent: Monday, March 9, 2020 9:41:16 PM
+>> Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org h=
+ostname
+>>
+>> On Fri, Feb 28, 2020 at 04:10:19PM +0000, Alex Benn=C3=A9e wrote:
+>>>
+>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>>
+>>>> Use NetBSD content delivery network to get faster downloads.
+>>>
+>>> Even with this patch I get failures on my big dev box:
+>>>
+>>>   (48/67)
+>>>   tests/acceptance/ppc_prep_40p.py:IbmPrep40pMachine.test_openbios_and_=
+netbsd:
+>>>   INTERRUPTED: Failed to fetch NetBSD-7.1.2-prep.iso.\nRunner error
+>>>   occurred: Timeout reached\nOriginal status: ERROR\n{'name':
+>>>   '48-tests/acceptance/ppc_prep_40p.py:IbmPrep40pMachine.test_openbios_=
+and_netbsd',
+>>>   'logdir': '/home/alex/lsrc/qemu.git/builds/all/tests/results/jo... (6=
+0.31
+>>>   s)
+>>>
+>>> I think ultimately a whole ISO download is just too much for an
+>>> acceptance test.
+>>
+>> I tend to agree.  Here in a network-remote part of the world, these
+>> always seem to cause timeouts and other problems, in a bunch of the
+>> testcases.
+>>
+>> Those are testing useful things though, so I'd really like to see the
+>> downloads split out into some sort of preparation step that can be
+>> done just once, rather than part of the test proper.
+>>
+>=20
+> We have added functionality in the latest Avocado that will let us
+> easily set a "cancel this test if the ISO has not being previously
+> downloaded", or "cancel if it fails to be downloaded during the test".
+>=20
+> +Willian can explain how it works, and if found to be suitable, and work
+> on a patch.
 
-To be 100% sure do the following:
-# rmmod kvm_intel
-# modprobe kvm_intel nested=3D0
+I suppose this is the relevant Avocado patch:
 
-And see if the issue reproduces. In case it does, this is definitely
-something different, the original bug only affects nested environments.
+'Extends fetch_asset core method to find assets and cancel the test'
+https://github.com/avocado-framework/avocado/commit/c345569fd
 
--- =
+>=20
+> -Cleber.
+>=20
+>>>> Suggested-by: Kamil Rytarowski <kamil@netbsd.org>
+>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>> ---
+>>>>   tests/acceptance/ppc_prep_40p.py | 4 ++--
+>>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/tests/acceptance/ppc_prep_40p.py
+>>>> b/tests/acceptance/ppc_prep_40p.py
+>>>> index efe06037ba..6729d96f5e 100644
+>>>> --- a/tests/acceptance/ppc_prep_40p.py
+>>>> +++ b/tests/acceptance/ppc_prep_40p.py
+>>>> @@ -34,7 +34,7 @@ def test_factory_firmware_and_netbsd(self):
+>>>>                       '7020-40p/P12H0456.IMG')
+>>>>           bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
+>>>>           bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_h=
+ash)
+>>>> -        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/NetBSD-arch=
+ive/'
+>>>> +        drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-arch=
+ive/'
+>>>>                        'NetBSD-4.0/prep/installation/floppy/generic_co=
+m0.fs')
+>>>>           drive_hash =3D 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
+>>>>           drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddriv=
+e_hash)
+>>>> @@ -67,7 +67,7 @@ def test_openbios_and_netbsd(self):
+>>>>           :avocado: tags=3Darch:ppc
+>>>>           :avocado: tags=3Dmachine:40p
+>>>>           """
+>>>> -        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/iso/7.1.2/'
+>>>> +        drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/'
+>>>>                        'NetBSD-7.1.2-prep.iso')
+>>>>           drive_hash =3D 'ac6fa2707d888b36d6fa64de6e7fe48e'
+>>>>           drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddriv=
+e_hash,
+>>>
+>>>
+>>
+>> --
+>> David Gibson=09=09=09| I'll have my music baroque, and my code
+>> david AT gibson.dropbear.id.au=09| minimalist, thank you.  NOT _the_ _ot=
+her_
+>> =09=09=09=09| _way_ _around_!
+>> http://www.ozlabs.org/~dgibson
+>>
+>=20
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1813165
-
-Title:
-  KVM internal error. Suberror: 1 emulation failure
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello Devs.
-
-  Having problems getting VM to run with qemu 3.1.0. I should mention
-  it's a nested configuration.
-
-  2019-01-24 13:46:08.648+0000: starting up libvirt version: 4.10.0, qemu v=
-ersion: 3.1.0, kernel: 4.14.94, hostname: one....
-  LC_ALL=3DC PATH=3D/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/=
-sbin:/usr/local/bin:/usr/local/sbin:/opt/bin HOME=3D/root USER=3Droot QEMU_=
-AUDIO_DRV=3Dnone /usr/bin/kvm -name guest=3Done-266,debug-threads=3Don -S -=
-object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
-ain-1-one-266/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,usb=3Doff,d=
-ump-guest-core=3Doff -cpu Skylake-Client-IBRS,ss=3Don,hypervisor=3Don,tsc_a=
-djust=3Don,clflushopt=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don -m 1024 -real=
-time mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid b219b45d-a2=
-f0-4128-a948-8673a7abf968 -no-user-config -nodefaults -chardev socket,id=3D=
-charmonitor,fd=3D21,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,m=
-ode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device piix3-=
-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive file=3D/var/lib/one//da=
-tastores/0/266/disk.0,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cach=
-e=3Dnone -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dd=
-rive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1,write-cache=3Don -drive f=
-ile=3D/var/lib/one//datastores/0/266/disk.1,format=3Draw,if=3Dnone,id=3Ddri=
-ve-ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive=
--ide0-0-0,id=3Dide0-0-0 -netdev tap,fd=3D23,id=3Dhostnet0 -device rtl8139,n=
-etdev=3Dhostnet0,id=3Dnet0,mac=3D02:00:00:76:69:85,bus=3Dpci.0,addr=3D0x3 -=
-chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3D=
-serial0 -vnc 0.0.0.0:266 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D=
-0x2 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 -sandbo=
-x on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
-=3Ddeny -msg timestamp=3Don
-  char device redirected to /dev/pts/1 (label charserial0)
-  KVM internal error. Suberror: 1
-  emulation failure
-  EAX=3D00000001 EBX=3D000f7c2c ECX=3D00000001 EDX=3D00000001
-  ESI=3D00006a26 EDI=3D3ffbdc48 EBP=3D000069e6 ESP=3D000a8000
-  EIP=3D000fd057 EFL=3D00010016 [----AP-] CPL=3D0 II=3D0 A20=3D1 SMM=3D1 HL=
-T=3D0
-  ES =3D0010 00000000 ffffffff 00c09300
-  CS =3D0000 00000000 00000fff 00809b00
-  SS =3D0010 00000000 ffffffff 00c09300
-  DS =3D0010 00000000 ffffffff 00c09300
-  FS =3D0010 00000000 ffffffff 00c09300
-  GS =3D0010 00000000 ffffffff 00c09300
-  LDT=3D0000 00000000 0000ffff 00008200
-  TR =3D0000 00000000 0000ffff 00008b00
-  GDT=3D     10387cfe 0000fe6c
-  IDT=3D     0010387c 00003810
-  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
-  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
-=3D0000000000000000
-  DR6=3D00000000fffecffc DR7=3D000000000e1e0400
-  EFER=3D0000000000000000
-  Code=3Dcb 66 ba 4d d0 0f 00 e9 c8 fe bc 00 80 0a 00 e8 31 3a ff ff <0f> a=
-a fa fc 66 ba 66 d0 0f 00 e9 b1 fe f3 90 f0 0f ba 2d ac 3b 0f 00 00 72 f3 8=
-b 25 a8 3b
-  2019-01-24T13:47:39.383366Z kvm: terminating on signal 15 from pid 2708 (=
-/usr/sbin/libvirtd)
-
-  Someone has an idea whats going wrong here?
-
-  thanks and cheers
-  t.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1813165/+subscriptions
 
