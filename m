@@ -2,103 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71EB180133
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:08:10 +0100 (CET)
-Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34686180143
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:11:19 +0100 (CET)
+Received: from localhost ([::1]:35190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgUL-0002PB-Ud
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35635)
+	id 1jBgXO-0007HM-9B
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jBgIQ-0000Y2-Sc
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:51 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1jBgIy-0001cY-Hu
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:56:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1jBgIP-0004WT-PQ
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:55:50 -0400
-Received: from mail-eopbgr80104.outbound.protection.outlook.com
- ([40.107.8.104]:35022 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jBgIP-0004RN-HF; Tue, 10 Mar 2020 10:55:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ePsrFSiGe0HPsQTByFbfpLbJ2ykh3B6i66k9NB8mxs73SB+q0A2QHqxwQQfuFWZmWP9xEdAx9/V6CecehOyUBfk6VIPimFJaV4r+G9m9jsrM1xl+VGX++WrgxFi0S6vT2DDFhDbGi2/zTdw7BgNeKRMeFxQecw3iGVMuvepPWIhM8QPgxmjYrdQ7J/Ol042sM+1yYOrtPlCIpZfv6Z4gsN4cWZ+x+bxPXrVmRPIxe/J4tfM8+hd+Cz/rY0JMIPhQwsH4BnWg5kfckR7ghTSKI6o+7NEfWLuPKBUSnv7dz9enbe+5GUWvqD3vexCGyt5cJsOWS1d1UCEIQhdhQIgCZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vEKf6sQmYSYy/ZD+ghkY2jm6avDREmPMv26pgiyq/hw=;
- b=Uew7WTxTZOD7/V1uajBLZ1jBpLgNYFuYEUDj/dg8ZivI/9vEjExBhGBVHB20nUYUUfd2a7MaKtBMWHOWkJGw7MhsVpAsZQ7NIpu6SGf75jiGzqS2Bv8YvSIMZtXkBaUQdtWo9GDAN12/7sDwv6KoVo/67bhQJGVZKY8N+9tudOmk+ZBkRqpFKV5Ux5AKrq51OYplBNweIilLRwIJ8F6nvu4UItNY82pw9+HYDsGI9jiLjUZQgYoPF528HOzrl+zV6NFg5bfX5dwvrxFYmgPAmNMTLniDct3UJ2VBJArN5R6lDL044afAd7cq3xkrJkr8vNtvTKmNpbN2X9RJDNLW4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vEKf6sQmYSYy/ZD+ghkY2jm6avDREmPMv26pgiyq/hw=;
- b=fZBfHBv/YcqHtNWvdGtHG3zW1nhra/69IYE9YbSfybicI7R7w5l2oaRiczHIOhko8S/sQwVK70i0a8uHymez+XjBhUf9z3M3UDm6unhVzzlKSB/M2jzfOMWBPv1L4JZ1MLyJk6pvfWMkzIfiveNaTAqWj5eM+ph7HR8cwPYhCI4=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
- AM6PR08MB3989.eurprd08.prod.outlook.com (20.179.3.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Tue, 10 Mar 2020 14:55:47 +0000
-Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
- ([fe80::41e2:2f20:9b54:a0f5]) by AM6PR08MB5048.eurprd08.prod.outlook.com
- ([fe80::41e2:2f20:9b54:a0f5%7]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 14:55:47 +0000
-Subject: Re: [PATCH v3 9/9] block/block-copy: hide structure definitions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200306073831.7737-1-vsementsov@virtuozzo.com>
- <20200306073831.7737-10-vsementsov@virtuozzo.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Organization: Virtuozzo
-Message-ID: <c7af156f-a9b6-2b9e-ae9b-10e9d13f2fd2@virtuozzo.com>
-Date: Tue, 10 Mar 2020 17:55:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <20200306073831.7737-10-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1PR0902CA0006.eurprd09.prod.outlook.com
- (2603:10a6:3:e5::16) To AM6PR08MB5048.eurprd08.prod.outlook.com
- (2603:10a6:20b:ee::31)
+ (envelope-from <eric.auger@redhat.com>) id 1jBgIx-0006GC-Hi
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:56:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37465
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1jBgIx-0006Ej-DJ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:56:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583852182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F6Y9O3L6ux6zcyjxR98H17Ex0dxMm2pHA4GBIrRUtcw=;
+ b=dptWWUK8xm+rNN/bFaX0eFQRYYXv+Fdc0PVCpHKn+PpKwkezxBCNjHbaHgv0LSOI7ka7/j
+ yJUZVCQhQvKB87YmNWqz/rbeEmlsQ9WEIEdhb9GaYfJSDI7ivlXNxAKfKMFCFzVJEk1L50
+ zF1dZyTEx1SkCZpiFydLu72UemmWBec=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-240-sfzD9SM5NJ6iyJlr4oKb0Q-1; Tue, 10 Mar 2020 10:56:19 -0400
+X-MC-Unique: sfzD9SM5NJ6iyJlr4oKb0Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47CA919067E1;
+ Tue, 10 Mar 2020 14:56:17 +0000 (UTC)
+Received: from [10.36.117.85] (ovpn-117-85.ams2.redhat.com [10.36.117.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A6F5E5C28D;
+ Tue, 10 Mar 2020 14:56:14 +0000 (UTC)
+Subject: Re: [kvm-unit-tests PATCH v4 00/13] arm/arm64: Add ITS tests
+To: Zenghui Yu <yuzenghui@huawei.com>, Andrew Jones <drjones@redhat.com>
+References: <20200309102420.24498-1-eric.auger@redhat.com>
+ <20200309115741.6stx5tpkb6s6ejzh@kamzik.brq.redhat.com>
+ <20200309120012.xkgmlbvd5trm6ewk@kamzik.brq.redhat.com>
+ <5cfe64d3-e609-cd1e-4f92-e24cf5f62c77@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <4a80c1d0-e33f-b1d9-c8d5-3a2fb01104db@redhat.com>
+Date: Tue, 10 Mar 2020 15:56:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.16.24.225] (185.231.240.5) by
- HE1PR0902CA0006.eurprd09.prod.outlook.com (2603:10a6:3:e5::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.11 via Frontend Transport; Tue, 10 Mar 2020 14:55:46 +0000
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac81f340-eb67-47a3-e18b-08d7c5031de8
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3989:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3989150152E4C96D591C4E0AF4FF0@AM6PR08MB3989.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
-X-Forefront-PRVS: 033857D0BD
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(366004)(376002)(39850400004)(136003)(346002)(396003)(199004)(189003)(478600001)(4326008)(36756003)(66476007)(8676002)(956004)(2616005)(53546011)(2906002)(36916002)(66946007)(86362001)(52116002)(44832011)(31686004)(66556008)(31696002)(4744005)(186003)(16526019)(26005)(6486002)(16576012)(81166006)(5660300002)(81156014)(316002)(8936002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3989;
- H:AM6PR08MB5048.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IAKxATjasV9pbrgqhlAeEFAmn5kBuENVDfJ5YjdIsfbPB23FKbKqGfTlWB7fEm1zlxlqFOIsp7C6ELvBcs8IDX7RSlVxa2Wbr18e+UlJ4pibPR7HeClRNDzPsDGHKlm6qhZplC/8M19HchNl9mk6eybN60HJvEsOciKYbepj70zuZRmzj6vh/17pOsq1ip6iAaufs9VlTDSGqNvrd/Cfloc3NtHnPdNpvkUE6XRXinjkG2AdehK1qObsnD+aGbmH/dQHq2k0WKamI6SpL1S01NUvLMcT+nqmsuVvdyCYY2i68h8HwRNUozxyq8Zs4OGrzT0D9DDOAcjN0PA14wFkN/SzC8uEAVqUwQxyXzPksulDq/1bthZO35AvVmBRL4s7yXQ38/EAKu1ddgAlvjV+IFG3/oCq9mdRAmWFW2uR26gEtr+FUTZux+EJvXD7Yx3M
-X-MS-Exchange-AntiSpam-MessageData: h5YY0lNHO0ZfLZANewlb5qNdQLztAjV/AuoqSUCMIi4Nf2WTJj2MSiTSRtsvuPOcmd0vSw6aesOgdOKRZgkq6OxC4nql671+z7uRtlxtrvRF7wId4OLPRkLpeCiQwViVF6GpVmBbp+uoZzl1DkEaNQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac81f340-eb67-47a3-e18b-08d7c5031de8
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 14:55:47.4539 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Cu6mzwUH1c5DKonG7NKW96vl7vbNxuQ+f/2phVrd3dByqvJpSqbl/K9JL9rbcPnOqISHDhAvYtyqXeY0dElF7W5EoKclLkn6xCXqXPcOPjU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3989
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.104
+In-Reply-To: <5cfe64d3-e609-cd1e-4f92-e24cf5f62c77@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,32 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
+ maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ andre.przywara@arm.com, alexandru.elisei@arm.com, kvmarm@lists.cs.columbia.edu,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Zenghui,
 
+On 3/10/20 11:18 AM, Zenghui Yu wrote:
+> On 2020/3/9 20:00, Andrew Jones wrote:
+>> On Mon, Mar 09, 2020 at 12:57:51PM +0100, Andrew Jones wrote:
+>>> This looks pretty good to me. It just needs some resquashing cleanups=
+.
+>>> Does Andre plan to review? I've only been reviewing with respect to
+>>> the framework, not ITS. If no other reviews are expected, then I'll
+>>> queue the next version.
+>>
+>> Oops, sorry Zenghui, I forgot to ask if you'll be reviewing again as
+>> well.
+>=20
+> I'd like to have a look again this week if time permits :-).=C2=A0 Than=
+ks
+> for reminding me.
+I have just sent:
 
-On 06/03/2020 10:38, Vladimir Sementsov-Ogievskiy wrote:
-> Hide structure definitions and add explicit API instead, to keep an
-> eye on the scope of the shared fields.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> ---
->   include/block/block-copy.h | 52 +++----------------------------
->   block/backup-top.c         |  6 ++--
->   block/backup.c             | 25 +++++++--------
->   block/block-copy.c         | 63 ++++++++++++++++++++++++++++++++++++--
->   4 files changed, 82 insertions(+), 64 deletions(-)
-> 
-> diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-> index c46b382cc6..9718c241c9 100644
-> --- a/include/block/block-copy.h
-> +++ b/include/block/block-copy.h
+[kvm-unit-tests PATCH v5 00/13] arm/arm64: Add ITS tests
 
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
--- 
-With the best regards,
-Andrey Shinkevich
+where I took last Drew's comments
+
+Thanks
+
+Eric
+>=20
+>=20
+> Zenghui
+>=20
+
 
