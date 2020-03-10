@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C192F17FF6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:47:39 +0100 (CET)
-Received: from localhost ([::1]:33466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4860217FF8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 14:53:33 +0100 (CET)
+Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBfEQ-0002Aa-QW
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:47:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42534)
+	id 1jBfK8-0003KB-CG
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 09:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jBf9U-0002Xb-OI
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jBfDe-0001t9-B1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:46:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jBf9S-0007rI-1Z
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60874)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jBf9Q-0007n1-8I
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:42:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583847746;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=KxLUBgrxM88Q1Nzsdfcb5tVk/cyez4wfetUgfza8qRs=;
- b=g1AJgccqH3Kxpu8xN/EO/Yjm8zDPcI1kEtXnf3peULZi9r/TEy4HSae4bKfYPNOO/Q6Kng
- gu9rrj6tfmclTOrDzT388fKqtKpFTi1zUI/ZredbiSRtM8w322dLOR/Ajo+DVb/4vgzuXp
- qdGZ0zHbch5oKayFQGMVVN7eMVFJ6tw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-yQR6KxZdPByMUEKVJLM8wg-1; Tue, 10 Mar 2020 09:42:24 -0400
-X-MC-Unique: yQR6KxZdPByMUEKVJLM8wg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 503008017CC;
- Tue, 10 Mar 2020 13:42:22 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 902995D9C5;
- Tue, 10 Mar 2020 13:42:20 +0000 (UTC)
-Subject: Re: [PATCH v3 3/9] block/block-copy: specialcase first copy_range
- request
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200306073831.7737-1-vsementsov@virtuozzo.com>
- <20200306073831.7737-4-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <db130e8d-80dd-40f5-851c-faebe9baab3e@redhat.com>
-Date: Tue, 10 Mar 2020 14:42:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jBfDd-0001ue-1o
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:46:50 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35239)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1jBfDc-0001sc-RM
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 09:46:48 -0400
+Received: by mail-oi1-x243.google.com with SMTP id c1so13882378oiy.2
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 06:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UriesWLsts8g3AWLL3Fr/KU3sYx2gYgtiZ9+aQWTYxI=;
+ b=EtL/ROEEMfsDdQCxW7ixrxfjnD+GmQCe/yjYNSS7W7og6xFtrnuT2frcZ5K/JSoCK6
+ PW1BeGoC3aLn821yTK/h+xIKJXy0FHlESIAeGV2JWBekoZ24MrusnZ+qFzanCqoni5oS
+ mi+c0WpEnZcnZwcnsjIGy9Yz2OI8d0bnZcLBwKd2H6DG1Sgw4W1YpCYn2w1oThW0azu9
+ VQH/zyucAu2D/rQZL5iDpIgQjGAkxil5XWponyH2FDbkX5rZTlLoe6lvcnq3x4Y/RzPl
+ i3mTJweXc2oxTxkrfzNLaABn4ogkmw75+UMC2Uda4a5iNoSY0kNElsNfonX3ptUXSARI
+ B5yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UriesWLsts8g3AWLL3Fr/KU3sYx2gYgtiZ9+aQWTYxI=;
+ b=S9irpa+vkptOZI2q2UExi5ctvRikCjV6eC1M+f5o1zO6HgW0vhNoIdo6p9S4rDbtwg
+ DbB10E1ID/6ZvvbxhNfLay6d3GNGwaGZTRWUo1dXxOzYGwSbUe5SvnCMouOgxTT5anHx
+ afxdWEtoByFUMY0RVxC552rNzlAkGxqo2JQv0ASH+p9nL0X1+LaQv/2+ms0SDTvDXmNP
+ iiV/XuA7xAeyd8gSMfobAHnz2Q+ra2yEvb3FjO30VncfubeGJ5ijOvNOXlKho9sbgA6N
+ nqVc94qVOA/oR1yr6xpocT6IWNduusjgkF29ldAgW0mwNWxy2uUyRlTyYNw/RldqHE/d
+ GJAg==
+X-Gm-Message-State: ANhLgQ0bhgo0PoNOly5z9+MHJ5t7OV485XOhmMqGr0FwHbeF5Y417D+m
+ qMHxrcPVBPfw4aQw6xDeDWXasiAhXZH+JlYaxzbeug==
+X-Google-Smtp-Source: ADFU+vvBq1lO9r1au90d1RE3F8//jA0ax/bbF4YpGGq2Lk9d7ZSa0TvP1aoYvVuHqIScMSo9NB86sAVZrnCMVk+aHeA=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr1170441oic.48.1583848007667; 
+ Tue, 10 Mar 2020 06:46:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200306073831.7737-4-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="hLZYl1SZvMmVsaCqpn3qXmuiXE1MxOv4J"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 10 Mar 2020 13:46:35 +0000
+Message-ID: <CAFEAcA_W2pRztEAmd1v+6O-1J9-CckVV8+G6kZ3igmR-ie6k+Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/scsi/megasas:Clean up some redundant code fix Clang
+ warnings
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,63 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com, jsnow@redhat.com,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Qemu-block <qemu-block@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---hLZYl1SZvMmVsaCqpn3qXmuiXE1MxOv4J
-Content-Type: multipart/mixed; boundary="AvBcarpGR50kdICRidYOI2pu2CJUJ4paG"
-
---AvBcarpGR50kdICRidYOI2pu2CJUJ4paG
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 06.03.20 08:38, Vladimir Sementsov-Ogievskiy wrote:
-> In block_copy_do_copy we fallback to read+write if copy_range failed.
-> In this case copy_size is larger than defined for buffered IO, and
-> there is corresponding commit. Still, backup copies data cluster by
-> cluster, and most of requests are limited to one cluster anyway, so the
-> only source of this one bad-limited request is copy-before-write
-> operation.
->=20
-> Further patch will move backup to use block_copy directly, than for
-> cases where copy_range is not supported, first request will be
-> oversized in each backup. It's not good, let's change it now.
->=20
-> Fix is simple: just limit first copy_range request like buffer-based
-> request. If it succeed, set larger copy_range limit.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+On Tue, 10 Mar 2020 at 13:10, Chen Qun <kuhn.chenqun@huawei.com> wrote:
+>
+> Here are some redundant statements, we can clean them up.
+> Clang static code analyzer show warning:
+> hw/scsi/megasas.c:1175:32: warning: Value stored to 'max_ld_disks' during its initialization is never read
+>     uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
+>                                ^~~~~~~~~~~~   ~~~~~~~~~~
+> hw/scsi/megasas.c:1183:9: warning: Value stored to 'max_ld_disks' is never read
+>         max_ld_disks = 0;
+>         ^              ~
+>
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
->  block/block-copy.c | 41 +++++++++++++++++++++++++++++++----------
->  1 file changed, 31 insertions(+), 10 deletions(-)
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Fam Zheng <fam@euphon.net>
+> Cc: Hannes Reinecke <hare@suse.com>
+> Cc: qemu-block@nongnu.org
+> ---
+>  hw/scsi/megasas.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+> index af18c88b65..3f982e1d3b 100644
+> --- a/hw/scsi/megasas.c
+> +++ b/hw/scsi/megasas.c
+> @@ -1172,7 +1172,7 @@ static int megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
+>      uint16_t flags;
+>      struct mfi_ld_targetid_list info;
+>      size_t dcmd_size = sizeof(info), resid;
+> -    uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
+> +    uint32_t num_ld_disks = 0, max_ld_disks;
+>      BusChild *kid;
+>
+>      /* mbox0 contains flags */
+> @@ -1180,7 +1180,6 @@ static int megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
+>      trace_megasas_dcmd_ld_list_query(cmd->index, flags);
+>      if (flags != MR_LD_QUERY_TYPE_ALL &&
+>          flags != MR_LD_QUERY_TYPE_EXPOSED_TO_HOST) {
+> -        max_ld_disks = 0;
+>      }
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+This doesn't look right -- your change removes the only statement
+in the body of this "if". I think you need to examine what the
+function is trying to do with the test it is doing on these flags
+in order to identify what the right change is... Probably this
+means going back to the h/w spec to identify the correct behaviour
+overall.
 
-
---AvBcarpGR50kdICRidYOI2pu2CJUJ4paG--
-
---hLZYl1SZvMmVsaCqpn3qXmuiXE1MxOv4J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5nmToACgkQ9AfbAGHV
-z0CN1AgAiQoFHNl3CcUY49lsmx55Zw4MyZxYKJFsr1W4FAfuEotN9A3fOb0hcMIx
-mYSfipooXBwKfrKNBON5Y/8TSQO1abKksfiuCNj4GN5FYp3dAF1wdNXq/fhir94F
-5lzmkISRlwxU1I3dZNZoe09ifYD2OLd4BQ9fU0hN623KPmefOcZwsjLsE/+5A/rS
-IAUI14cQAV7W9WTQet6sAGAT6ip46QS0cnrLKvO8xvm3nGFRSIJZWVJn7H6v3dsS
-5SGih7jVZS24YLSdf7YtEldAqYM0YQ3/3gSbCbWfyYB+2KyfF6XlfB52FZ5vyjnh
-mAmAXUaV1EhA4AceilhKK0xOO9+8xA==
-=bvrg
------END PGP SIGNATURE-----
-
---hLZYl1SZvMmVsaCqpn3qXmuiXE1MxOv4J--
-
+thanks
+-- PMM
 
