@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404DE180150
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:14:12 +0100 (CET)
-Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ADA18014A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:13:14 +0100 (CET)
+Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgaB-0003y1-BA
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
+	id 1jBgZF-00021p-CD
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jBgKj-0004fQ-Fj
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:14 -0400
+ id 1jBgKk-0004j4-Vi
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jBgKi-0001QE-7u
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:13 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:56878)
+ id 1jBgKj-0001Sf-H0
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:14 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:56881)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jBgKi-0001NU-1n
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:12 -0400
+ id 1jBgKj-0001RB-B1
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:13 -0400
 Received: from 2.general.paelzer.uk.vpn ([10.172.196.173]
  helo=localhost.localdomain) by youngberry.canonical.com with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
  (envelope-from <christian.ehrhardt@canonical.com>)
- id 1jBgKg-0004kR-IN; Tue, 10 Mar 2020 14:58:10 +0000
+ id 1jBgKi-0004kR-EK; Tue, 10 Mar 2020 14:58:12 +0000
 From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] avoid failing to load modules after upgrades
-Date: Tue, 10 Mar 2020 15:58:05 +0100
-Message-Id: <20200310145806.18335-1-christian.ehrhardt@canonical.com>
+Subject: [PATCH v2 1/1] modules: load modules from versioned /var/run dir
+Date: Tue, 10 Mar 2020 15:58:06 +0100
+Message-Id: <20200310145806.18335-2-christian.ehrhardt@canonical.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200310145806.18335-1-christian.ehrhardt@canonical.com>
+References: <20200310145806.18335-1-christian.ehrhardt@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
@@ -56,33 +58,128 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-this is a continuation of a discussion at KVM Forum eventually
-becoming [1] and the v1 of the patch [2].
+On upgrades the old .so files usually are replaced. But on the other
+hand since a qemu process represents a guest instance it is usually kept
+around.
 
-Overall it is about qemu providing some way for distribution
-packaging to allow loading shared objects for a qemu binary
-that was upgraded.
+That makes late addition of dynamic features e.g. 'hot-attach of a ceph
+disk' fail by trying to load a new version of e.f. block-rbd.so into an
+old still running qemu binary.
 
-I also refreshed the qemu test build for Ubuntu [3] and have started a
-libvirt change [4] to allow to read from there through apparmor protection.
-Upstreaming of that will follow once we agree and merge the qemu change.
+This adds a fallback to also load modules from a versioned directory in the
+temporary /var/run path. That way qemu is providing a way for packaging
+to store modules of an upgraded qemu package as needed until the next reboot.
 
-Updates since v1:
-- make the feature configurable and default off
+An example how that can then be used in packaging can be seen in:
+https://git.launchpad.net/~paelzer/ubuntu/+source/qemu/log/?h=bug-1847361-miss-old-so-on-upgrade-UBUNTU
 
-[1]: https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg00005.html
-[2]: https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg01593.html
-[3]: https://launchpad.net/~ci-train-ppa-service/+archive/ubuntu/3961
-[4]: https://code.launchpad.net/~paelzer/ubuntu/+source/libvirt/+git/libvirt/+merge/380469
-
-Christian Ehrhardt (1):
-  modules: load modules from versioned /var/run dir
-
+Fixes: https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1847361
+Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+---
  configure     | 15 +++++++++++++++
  util/module.c | 14 ++++++++++++++
  2 files changed, 29 insertions(+)
 
+diff --git a/configure b/configure
+index cbf864bff1..5911bf1a82 100755
+--- a/configure
++++ b/configure
+@@ -405,6 +405,7 @@ EXESUF=""
+ DSOSUF=".so"
+ LDFLAGS_SHARED="-shared"
+ modules="no"
++module_upgrades="no"
+ prefix="/usr/local"
+ mandir="\${prefix}/share/man"
+ datadir="\${prefix}/share"
+@@ -1032,6 +1033,10 @@ for opt do
+   --disable-modules)
+       modules="no"
+   ;;
++  --disable-module-upgrades) module_upgrades="no"
++  ;;
++  --enable-module-upgrades) module_upgrades="yes"
++  ;;
+   --cpu=*)
+   ;;
+   --target-list=*) target_list="$optarg"
+@@ -1786,6 +1791,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   guest-agent-msi build guest agent Windows MSI installation package
+   pie             Position Independent Executables
+   modules         modules support (non-Windows)
++  module-upgrades try to load modules from alternate paths for upgrades
+   debug-tcg       TCG debugging (default is disabled)
+   debug-info      debugging information
+   sparse          sparse checker
+@@ -2049,6 +2055,11 @@ if test "$modules" = "yes" && test "$mingw32" = "yes" ; then
+   error_exit "Modules are not available for Windows"
+ fi
+ 
++# module_upgrades is only reasonable if modules are enabled
++if test "$modules" = "no" && test "$module_upgrades" = "yes" ; then
++  error_exit "Can't enable module-upgrades as Modules are not enabled"
++fi
++
+ # Static linking is not possible with modules or PIE
+ if test "$static" = "yes" ; then
+   if test "$modules" = "yes" ; then
+@@ -6584,6 +6595,7 @@ if test "$slirp" != "no" ; then
+     echo "smbd              $smbd"
+ fi
+ echo "module support    $modules"
++echo "alt path mod load $module_upgrades"
+ echo "host CPU          $cpu"
+ echo "host big endian   $bigendian"
+ echo "target list       $target_list"
+@@ -6937,6 +6949,9 @@ if test "$modules" = "yes"; then
+   echo "CONFIG_STAMP=_$( (echo $qemu_version; echo $pkgversion; cat $0) | $shacmd - | cut -f1 -d\ )" >> $config_host_mak
+   echo "CONFIG_MODULES=y" >> $config_host_mak
+ fi
++if test "$module_upgrades" = "yes"; then
++  echo "CONFIG_MODULE_UPGRADES=y" >> $config_host_mak
++fi
+ if test "$have_x11" = "yes" && test "$need_x11" = "yes"; then
+   echo "CONFIG_X11=y" >> $config_host_mak
+   echo "X11_CFLAGS=$x11_cflags" >> $config_host_mak
+diff --git a/util/module.c b/util/module.c
+index 236a7bb52a..5f7896870a 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -19,6 +19,9 @@
+ #endif
+ #include "qemu/queue.h"
+ #include "qemu/module.h"
++#ifdef CONFIG_MODULE_UPGRADES
++#include "qemu-version.h"
++#endif
+ 
+ typedef struct ModuleEntry
+ {
+@@ -170,6 +173,9 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ #ifdef CONFIG_MODULES
+     char *fname = NULL;
+     char *exec_dir;
++#ifdef CONFIG_MODULE_UPGRADES
++    char *version_dir;
++#endif
+     const char *search_dir;
+     char *dirs[4];
+     char *module_name;
+@@ -201,6 +207,14 @@ bool module_load_one(const char *prefix, const char *lib_name)
+     dirs[n_dirs++] = g_strdup_printf("%s", CONFIG_QEMU_MODDIR);
+     dirs[n_dirs++] = g_strdup_printf("%s/..", exec_dir ? : "");
+     dirs[n_dirs++] = g_strdup_printf("%s", exec_dir ? : "");
++
++#ifdef CONFIG_MODULE_UPGRADES
++    version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
++                             G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS "+-.~",
++                             '_');
++    dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
++#endif
++
+     assert(n_dirs <= ARRAY_SIZE(dirs));
+ 
+     g_free(exec_dir);
 -- 
 2.25.1
 
