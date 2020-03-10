@@ -2,130 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09D017F367
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:23:23 +0100 (CET)
-Received: from localhost ([::1]:55952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A18F17F37F
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:26:28 +0100 (CET)
+Received: from localhost ([::1]:56068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBb6g-0007EC-S9
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:23:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41566)
+	id 1jBb9f-0003eP-8A
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1jBb4z-0005Wh-Fo
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:21:38 -0400
+ (envelope-from <mst@redhat.com>) id 1jBb6K-0007SM-Sv
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:23:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1jBb4u-0004fo-Sn
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:21:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3496)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1jBb4u-0004Wt-Lc
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:21:32 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02A9LSRn002690
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 05:21:28 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ynraxe2cs-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 05:21:27 -0400
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Tue, 10 Mar 2020 09:21:21 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 10 Mar 2020 09:21:19 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02A9KJb844696022
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 10 Mar 2020 09:20:19 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 769C34203F;
- Tue, 10 Mar 2020 09:21:18 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 47BF142049;
- Tue, 10 Mar 2020 09:21:18 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 10 Mar 2020 09:21:18 +0000 (GMT)
-Subject: Re: [PATCH v8] s390x: ipl: Consolidate iplb validity check into one
- function
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <c9fda605-7911-6c53-26d4-c18942b03773@de.ibm.com>
- <20200310090950.61172-1-frankja@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Tue, 10 Mar 2020 10:21:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <mst@redhat.com>) id 1jBb6J-0000Es-CC
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:23:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52968
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBb6J-00008Y-7I
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:22:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583832178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/Nhov+lZAi1bE724efsohrm05jpLLpjKIArTFBUXQz8=;
+ b=UhJSa31BOduo4/avpsjoQ64uCMUXITOW8Bc4JLZjLf3bM31tUcPtS3xuJlDaPPGzCl1FcF
+ 6U1nehtqfPggQ2RhVMcJ9abGOYaRP0AHJTRlIgl/iy/K15ZaT4Y45EFJ3aJ0EuaeXmq6qq
+ ti3hTOkVaqPFXP6cYJrTXoAbP3qeofk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-wkPDYstbOpeXOSr7rXCnfQ-1; Tue, 10 Mar 2020 05:22:56 -0400
+X-MC-Unique: wkPDYstbOpeXOSr7rXCnfQ-1
+Received: by mail-qk1-f197.google.com with SMTP id j10so6133943qkm.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 02:22:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vhQutCSuzQak2y7ZSN0+qHvJnX7RfoILuxD7UVDHp8Q=;
+ b=Sk/pa1ml7tr8dBITVi+9sww/RyYMi0J7Zki51hf7qvXvh0bka/JCpuCZSoIdJ7Xh43
+ wmxHdCilI/ILARDpAzLXBDf+OPa0KDlAOoc9lZIN8TiMtXP1y9+5fwEIq51k+cmcaXLw
+ QKGpx3BVlu3amhfJCb1IZrnUyDZO3FB+p+nF3lHEVBfP68ROzuXCfVBAvajhiddP7hxC
+ uKWwk8uwKogZix1x0Me9dcAc+G57g+mEOmQ66wdRK7iZhqJseT7bQVyvvgQrV+FefWLz
+ aryHIku91J8YOFyckHnaLXZhpBzR7HfLrlkMqBjrCd+Zd4o7FYex5LhXyehtQn4DXepk
+ BaFQ==
+X-Gm-Message-State: ANhLgQ22ruBVLXadXZ9Z1h5QoJ1dSYoHbyu+S79crZesfUUYZWPItEOw
+ idcpwniO+DBMtHt3sovLKq5aNevblAsNab64fQ9DWMslWAKi2AjJ+SKJyL5pUyofRsoAGfD8aD5
+ QzxdUcbQvGl2uGg0=
+X-Received: by 2002:ac8:351c:: with SMTP id y28mr17765547qtb.379.1583832176049; 
+ Tue, 10 Mar 2020 02:22:56 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtbFt27EGeRZe3gMQ0gix9Ic1h7TRVen2dT2LdFm0XMoSMYnUQPgzWApQUV1reM1G41ZCitwA==
+X-Received: by 2002:ac8:351c:: with SMTP id y28mr17765527qtb.379.1583832175771; 
+ Tue, 10 Mar 2020 02:22:55 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
+ by smtp.gmail.com with ESMTPSA id b145sm3046902qkg.52.2020.03.10.02.22.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 02:22:54 -0700 (PDT)
+Date: Tue, 10 Mar 2020 05:22:50 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH 07/14] hw/i386/vmport: Add support for CMD_GETBIOSUUID
+Message-ID: <20200310052226-mutt-send-email-mst@kernel.org>
+References: <20200309235411.76587-1-liran.alon@oracle.com>
+ <20200309235411.76587-8-liran.alon@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200310090950.61172-1-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20031009-0008-0000-0000-0000035B148C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031009-0009-0000-0000-00004A7C56F5
-Message-Id: <4f48499a-0a71-c84c-5ce4-369dab02f712@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-03-10_04:2020-03-09,
- 2020-03-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- malwarescore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0 mlxscore=0
- phishscore=0 impostorscore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003100064
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+In-Reply-To: <20200309235411.76587-8-liran.alon@oracle.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -137,18 +88,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 10, 2020 at 01:54:04AM +0200, Liran Alon wrote:
+> This is VMware documented functionallity that some guests rely on.
+> Returns the BIOS UUID of the current virtual machine.
+>=20
+> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> ---
+>  hw/i386/vmport.c     | 14 ++++++++++++++
+>  include/hw/i386/pc.h |  1 +
+>  2 files changed, 15 insertions(+)
+>=20
+> diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
+> index 2ae5afc42b50..7687f3368a55 100644
+> --- a/hw/i386/vmport.c
+> +++ b/hw/i386/vmport.c
+> @@ -26,6 +26,7 @@
+>  #include "hw/i386/pc.h"
+>  #include "hw/input/i8042.h"
+>  #include "hw/qdev-properties.h"
+> +#include "sysemu/sysemu.h"
+>  #include "sysemu/hw_accel.h"
+>  #include "qemu/log.h"
+>  #include "trace.h"
+> @@ -121,6 +122,18 @@ static uint32_t vmport_cmd_get_version(void *opaque,=
+ uint32_t addr)
+>      return port_state->vmx_version;
+>  }
+> =20
+> +static uint32_t vmport_cmd_get_bios_uuid(void *opaque, uint32_t addr)
+> +{
+> +    X86CPU *cpu =3D X86_CPU(current_cpu);
+> +    uint32_t *uuid_parts =3D (uint32_t*)(qemu_uuid.data);
+> +
+> +    cpu->env.regs[R_EAX] =3D uuid_parts[0];
+> +    cpu->env.regs[R_EBX] =3D uuid_parts[1];
+> +    cpu->env.regs[R_ECX] =3D uuid_parts[2];
+> +    cpu->env.regs[R_EDX] =3D uuid_parts[3];
+> +    return cpu->env.regs[R_EAX];
+> +}
+> +
 
-On 10.03.20 10:09, Janosch Frank wrote:
-> It's nicer to just call one function than calling a function for each
-> possible iplb type.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+Should be LE here?
 
-thanks applied.
+>  static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
+>  {
+>      X86CPU *cpu =3D X86_CPU(current_cpu);
+> @@ -171,6 +184,7 @@ static void vmport_realizefn(DeviceState *dev, Error =
+**errp)
+>      port_state =3D s;
+>      /* Register some generic port commands */
+>      vmport_register(VMPORT_CMD_GETVERSION, vmport_cmd_get_version, NULL)=
+;
+> +    vmport_register(VMPORT_CMD_GETBIOSUUID, vmport_cmd_get_bios_uuid, NU=
+LL);
+>      vmport_register(VMPORT_CMD_GETRAMSIZE, vmport_cmd_ram_size, NULL);
+>  }
+> =20
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 7f15a01137b1..ea87eb93511e 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -140,6 +140,7 @@ typedef uint32_t (VMPortReadFunc)(void *opaque, uint3=
+2_t address);
+> =20
+>  typedef enum {
+>      VMPORT_CMD_GETVERSION       =3D 10,
+> +    VMPORT_CMD_GETBIOSUUID      =3D 19,
+>      VMPORT_CMD_GETRAMSIZE       =3D 20,
+>      VMPORT_CMD_VMMOUSE_DATA     =3D 39,
+>      VMPORT_CMD_VMMOUSE_STATUS   =3D 40,
+> --=20
+> 2.20.1
 
 
