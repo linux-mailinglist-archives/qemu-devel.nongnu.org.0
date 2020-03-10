@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3C317F6F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 12:59:57 +0100 (CET)
-Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8117F705
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 13:04:16 +0100 (CET)
+Received: from localhost ([::1]:59124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBdYC-0002kc-Rn
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 07:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58600)
+	id 1jBdcN-00077f-Gs
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 08:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1jBdVI-00089K-7t
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:56:57 -0400
+ (envelope-from <bounces@canonical.com>) id 1jBdZs-0005OC-3d
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:01:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1jBdVG-0002RZ-61
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:56:56 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23151
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jBdVG-0002OU-1l
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 07:56:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583841413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mkbbEKW7QEXShSOEzrtREPglmDREmtovE720FoZTixg=;
- b=Fj5t5XMnV1YL3LKRFGqEAgpyYeGy+0kCX5hX/oCGEi5TvUlqDCI86rrK+ae2NIbDFcR0cV
- 2Bpe26cp46cro89qnTLFmGl7hICkLxv5F7RhBCMLKUNm5ZZNDi1YUidXMmSDyJtqLgg1Cn
- 4Aa1c7+OrnbjHd7mkgFZ4PCvxBFdKHw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-7XoWPANpNouHhszEpiwCag-1; Tue, 10 Mar 2020 07:56:51 -0400
-X-MC-Unique: 7XoWPANpNouHhszEpiwCag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5F13800EBD;
- Tue, 10 Mar 2020 11:56:49 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58D325C545;
- Tue, 10 Mar 2020 11:56:44 +0000 (UTC)
-Date: Tue, 10 Mar 2020 12:56:42 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [kvm-unit-tests PATCH v4 03/13] arm/arm64: gic: Introduce
- setup_irq() helper
-Message-ID: <20200310115642.vr7rx3gacl6xpjrf@kamzik.brq.redhat.com>
-References: <20200309102420.24498-1-eric.auger@redhat.com>
- <20200309102420.24498-4-eric.auger@redhat.com>
- <20200309105601.3hm2kfhuufgxoydl@kamzik.brq.redhat.com>
- <3e1e2c24-2f30-03f2-ca9c-a2d99aba0740@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1jBdZh-0001P7-66
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:01:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44156)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jBdZg-0001F6-UA
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 08:01:29 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jBdZf-0007HX-GA
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 12:01:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 75B422E8041
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 12:01:27 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3e1e2c24-2f30-03f2-ca9c-a2d99aba0740@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Mar 2020 11:51:45 -0000
+From: Vitaly Kuznetsov <1813165@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: albrt brogers-q dgilbert-h himbeere lersek
+ tstrike34 vkuznets
+X-Launchpad-Bug-Reporter: Thomas (himbeere)
+X-Launchpad-Bug-Modifier: Vitaly Kuznetsov (vkuznets)
+References: <154833838504.19548.14915901097039330455.malonedeb@gac.canonical.com>
+Message-Id: <158384110528.26666.948012100316876315.malone@gac.canonical.com>
+Subject: [Bug 1813165] Re: KVM internal error. Suberror: 1 emulation failure
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d9760a35b91fce5526558a619751b26e4d86d108
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,112 +65,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
- maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
- kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
+Reply-To: Bug 1813165 <1813165@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 10, 2020 at 12:00:19PM +0100, Auger Eric wrote:
-> Hi Drew,
-> On 3/9/20 11:56 AM, Andrew Jones wrote:
-> > On Mon, Mar 09, 2020 at 11:24:10AM +0100, Eric Auger wrote:
-> >> ipi_enable() code would be reusable for other interrupts
-> >> than IPI. Let's rename it setup_irq() and pass an interrupt
-> >> handler pointer.
-> >>
-> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >>
-> >> ---
-> >>
-> >> v2 -> v3:
-> >> - do not export setup_irq anymore
-> >> ---
-> >>  arm/gic.c | 20 +++++++-------------
-> >>  1 file changed, 7 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/arm/gic.c b/arm/gic.c
-> >> index fcf4c1f..abf08c7 100644
-> >> --- a/arm/gic.c
-> >> +++ b/arm/gic.c
-> >> @@ -34,6 +34,7 @@ static struct gic *gic;
-> >>  static int acked[NR_CPUS], spurious[NR_CPUS];
-> >>  static int bad_sender[NR_CPUS], bad_irq[NR_CPUS];
-> >>  static cpumask_t ready;
-> >> +typedef void (*handler_t)(struct pt_regs *regs __unused);
-> > 
-> > This is just irq_handler_fn, which is already defined in processor.h.
-> > We don't need the __unused, not since 6b07148d06b1 ("Replace -Wextra
-> > with a saner list of warning flags").
-> Shall I duplicate it into ./lib/arm/asm/processor.h as well?
+Thanks for checking,
 
-Yes, please do
+this is a different issue then, please open a new bug. Also, if I
+understood you correctly, the problem appeared after an upgrade? It
+would make sense to try to bisect between qemu and kernel versions
+(personally, I'd start with kernel because it's easier to rollback and
+has higher chances of being the root cause) to see when the issue
+appeared. Knowing which exact version brought the regression will likely
+help Ubuntu packagers in fixing the issue.
 
-Thanks,
-drew
-> 
-> Thanks
-> 
-> Eric
-> > 
-> >>  
-> >>  static void nr_cpu_check(int nr)
-> >>  {
-> >> @@ -215,20 +216,20 @@ static void ipi_test_smp(void)
-> >>  	report_prefix_pop();
-> >>  }
-> >>  
-> >> -static void ipi_enable(void)
-> >> +static void setup_irq(handler_t handler)
-> >>  {
-> >>  	gic_enable_defaults();
-> >>  #ifdef __arm__
-> >> -	install_exception_handler(EXCPTN_IRQ, ipi_handler);
-> >> +	install_exception_handler(EXCPTN_IRQ, handler);
-> >>  #else
-> >> -	install_irq_handler(EL1H_IRQ, ipi_handler);
-> >> +	install_irq_handler(EL1H_IRQ, handler);
-> >>  #endif
-> >>  	local_irq_enable();
-> >>  }
-> >>  
-> >>  static void ipi_send(void)
-> >>  {
-> >> -	ipi_enable();
-> >> +	setup_irq(ipi_handler);
-> >>  	wait_on_ready();
-> >>  	ipi_test_self();
-> >>  	ipi_test_smp();
-> >> @@ -238,7 +239,7 @@ static void ipi_send(void)
-> >>  
-> >>  static void ipi_recv(void)
-> >>  {
-> >> -	ipi_enable();
-> >> +	setup_irq(ipi_handler);
-> >>  	cpumask_set_cpu(smp_processor_id(), &ready);
-> >>  	while (1)
-> >>  		wfi();
-> >> @@ -295,14 +296,7 @@ static void ipi_clear_active_handler(struct pt_regs *regs __unused)
-> >>  static void run_active_clear_test(void)
-> >>  {
-> >>  	report_prefix_push("active");
-> >> -	gic_enable_defaults();
-> >> -#ifdef __arm__
-> >> -	install_exception_handler(EXCPTN_IRQ, ipi_clear_active_handler);
-> >> -#else
-> >> -	install_irq_handler(EL1H_IRQ, ipi_clear_active_handler);
-> >> -#endif
-> >> -	local_irq_enable();
-> >> -
-> >> +	setup_irq(ipi_clear_active_handler);
-> >>  	ipi_test_self();
-> >>  	report_prefix_pop();
-> >>  }
-> >> -- 
-> >> 2.20.1
-> >>
-> 
-> 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813165
+
+Title:
+  KVM internal error. Suberror: 1 emulation failure
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello Devs.
+
+  Having problems getting VM to run with qemu 3.1.0. I should mention
+  it's a nested configuration.
+
+  2019-01-24 13:46:08.648+0000: starting up libvirt version: 4.10.0, qemu v=
+ersion: 3.1.0, kernel: 4.14.94, hostname: one....
+  LC_ALL=3DC PATH=3D/bin:/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/bin:/usr/=
+sbin:/usr/local/bin:/usr/local/sbin:/opt/bin HOME=3D/root USER=3Droot QEMU_=
+AUDIO_DRV=3Dnone /usr/bin/kvm -name guest=3Done-266,debug-threads=3Don -S -=
+object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/dom=
+ain-1-one-266/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,usb=3Doff,d=
+ump-guest-core=3Doff -cpu Skylake-Client-IBRS,ss=3Don,hypervisor=3Don,tsc_a=
+djust=3Don,clflushopt=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don -m 1024 -real=
+time mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid b219b45d-a2=
+f0-4128-a948-8673a7abf968 -no-user-config -nodefaults -chardev socket,id=3D=
+charmonitor,fd=3D21,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,m=
+ode=3Dcontrol -rtc base=3Dutc -no-shutdown -boot strict=3Don -device piix3-=
+usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -drive file=3D/var/lib/one//da=
+tastores/0/266/disk.0,format=3Dqcow2,if=3Dnone,id=3Ddrive-virtio-disk0,cach=
+e=3Dnone -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Dd=
+rive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D1,write-cache=3Don -drive f=
+ile=3D/var/lib/one//datastores/0/266/disk.1,format=3Draw,if=3Dnone,id=3Ddri=
+ve-ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive=
+-ide0-0-0,id=3Dide0-0-0 -netdev tap,fd=3D23,id=3Dhostnet0 -device rtl8139,n=
+etdev=3Dhostnet0,id=3Dnet0,mac=3D02:00:00:76:69:85,bus=3Dpci.0,addr=3D0x3 -=
+chardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3D=
+serial0 -vnc 0.0.0.0:266 -device cirrus-vga,id=3Dvideo0,bus=3Dpci.0,addr=3D=
+0x2 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 -sandbo=
+x on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
+=3Ddeny -msg timestamp=3Don
+  char device redirected to /dev/pts/1 (label charserial0)
+  KVM internal error. Suberror: 1
+  emulation failure
+  EAX=3D00000001 EBX=3D000f7c2c ECX=3D00000001 EDX=3D00000001
+  ESI=3D00006a26 EDI=3D3ffbdc48 EBP=3D000069e6 ESP=3D000a8000
+  EIP=3D000fd057 EFL=3D00010016 [----AP-] CPL=3D0 II=3D0 A20=3D1 SMM=3D1 HL=
+T=3D0
+  ES =3D0010 00000000 ffffffff 00c09300
+  CS =3D0000 00000000 00000fff 00809b00
+  SS =3D0010 00000000 ffffffff 00c09300
+  DS =3D0010 00000000 ffffffff 00c09300
+  FS =3D0010 00000000 ffffffff 00c09300
+  GS =3D0010 00000000 ffffffff 00c09300
+  LDT=3D0000 00000000 0000ffff 00008200
+  TR =3D0000 00000000 0000ffff 00008b00
+  GDT=3D     10387cfe 0000fe6c
+  IDT=3D     0010387c 00003810
+  CR0=3D00000010 CR2=3D00000000 CR3=3D00000000 CR4=3D00000000
+  DR0=3D0000000000000000 DR1=3D0000000000000000 DR2=3D0000000000000000 DR3=
+=3D0000000000000000
+  DR6=3D00000000fffecffc DR7=3D000000000e1e0400
+  EFER=3D0000000000000000
+  Code=3Dcb 66 ba 4d d0 0f 00 e9 c8 fe bc 00 80 0a 00 e8 31 3a ff ff <0f> a=
+a fa fc 66 ba 66 d0 0f 00 e9 b1 fe f3 90 f0 0f ba 2d ac 3b 0f 00 00 72 f3 8=
+b 25 a8 3b
+  2019-01-24T13:47:39.383366Z kvm: terminating on signal 15 from pid 2708 (=
+/usr/sbin/libvirtd)
+
+  Someone has an idea whats going wrong here?
+
+  thanks and cheers
+  t.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813165/+subscriptions
 
