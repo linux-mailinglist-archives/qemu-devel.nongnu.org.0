@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65E117F563
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:52:07 +0100 (CET)
-Received: from localhost ([::1]:57358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8891617F578
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 11:55:37 +0100 (CET)
+Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBcUY-00006c-RB
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47274)
+	id 1jBcXw-0003tr-IA
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 06:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jBcHR-0001al-Ce
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:38:34 -0400
+ (envelope-from <groug@kaod.org>) id 1jBcMu-0008VB-Lq
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:44:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jBcHQ-0006fw-1d
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:38:33 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40935)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jBcHP-0006e4-P2
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:38:31 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p2so14348278wrw.7
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 03:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=KKkxfeELsCI57+jUUXb7wnduxs7fUd9hVi9x6ujerNw=;
- b=Ddn9wqec1zEgfDK4J1+Q7wyWni7tLSTayw4oVwASZ9OHRJzuXsCjTNZXibLUAkStiQ
- 2MWp3MpLCPOrkL82Y7dYYidUsFcctswEv2JXPWGWNhfz8ahDPKS5yqAxHaq2GVFTONiv
- JroCcvvYOQJ9XgTZ+nD/MlsNE0YiRLsl3QNFK2jJL2JcMKc6K+e4Ss2fIvyICJHZLlEZ
- F0KlUQnwO05Yxwk4FHA7apGc68KjX+P1kYkJmrpkGVwRItxbo1jp3ituu5nZ7nninZ+N
- 2Mt5GjdVy/80tmP/T8e2bChf4mnK3cWGAVffNc9i/vloMdAtFxAf7schpELmZfc1Fj1z
- 31GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=KKkxfeELsCI57+jUUXb7wnduxs7fUd9hVi9x6ujerNw=;
- b=EDVm3sViL4aQHPRF5518nlxTeTctHCnDfxzCJD780LtEU4lAUdU/rBqlBnfRYkXSnG
- X/TuG+88YjkfSElXJIPbmp6YupTkkP774Rgte+kMAEXZyqIPJGUYgceNukqMRjjeTOap
- U6zZqmnEgUB4Ds6tk4qE2hR6UdnSJTmAAy3H0OP++CKKf1GDvFUjsbIsq5EQwTFhGPv1
- OnWngASvNLGtM6JelChdyrwbJkNIXeEldkX2spPulpFIJr2IWBlJ8QDfS7omh/hXO9BM
- XzPiYNdr5KY218uGC+7yJIa+lJHC6jhjf1BvlvIUOhJ9x7XDN3Li39GgvV/l6rIzfsmn
- W60g==
-X-Gm-Message-State: ANhLgQ2DqKQQviyDWtK49mOwJRjcZRB8roRMdh3yv4slVFM5c+Ltd0ER
- RA6NTG1gv568RLZOkzte2metlg==
-X-Google-Smtp-Source: ADFU+vtSyD0bPHsbCH9pS2hQ0Ah566Uo18GFgKCBRViB46ewsanKFOCqgQg3xVP7nDqfDChi5Derqw==
-X-Received: by 2002:a5d:5541:: with SMTP id g1mr16414783wrw.220.1583836709943; 
- Tue, 10 Mar 2020 03:38:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v2sm3170761wme.2.2020.03.10.03.38.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 03:38:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57C771FF7E;
- Tue, 10 Mar 2020 10:38:27 +0000 (GMT)
-References: <20200310083218.26355-1-kraxel@redhat.com>
- <20200310083218.26355-4-kraxel@redhat.com>
-User-agent: mu4e 1.3.9; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 3/4] tests/vm: update FreeBSD to 12.1
-In-reply-to: <20200310083218.26355-4-kraxel@redhat.com>
-Date: Tue, 10 Mar 2020 10:38:27 +0000
-Message-ID: <87lfo8ijfg.fsf@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1jBcMt-0006fl-7o
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:44:12 -0400
+Received: from 14.mo3.mail-out.ovh.net ([188.165.43.98]:51158)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1jBcMt-0006dE-1I
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 06:44:11 -0400
+Received: from player772.ha.ovh.net (unknown [10.110.208.160])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id B00EB245995
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:44:08 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id 12A07104E439B;
+ Tue, 10 Mar 2020 10:43:56 +0000 (UTC)
+Date: Tue, 10 Mar 2020 11:43:51 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v3 2/2] spapr: Enable virtio iommu_platform=on by default
+Message-ID: <20200310114351.5381504e@bahia.home>
+In-Reply-To: <20200305125903.096c3897@bahia.home>
+References: <20200305043009.611636-1-david@gibson.dropbear.id.au>
+ <20200305043009.611636-3-david@gibson.dropbear.id.au>
+ <20200305125903.096c3897@bahia.home>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 8032169937567062502
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedruddvtddgudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 188.165.43.98
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,66 +57,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kamil Rytarowski <kamil@netbsd.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
+ paulus@samba.org, clg@kaod.org, mdroth@us.ibm.com, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 5 Mar 2020 12:59:03 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+> On Thu,  5 Mar 2020 15:30:09 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+> 
+> > Traditionally, virtio devices don't do DMA by the usual path on the
+> > guest platform.  In particular they usually bypass any virtual IOMMU
+> > the guest has, using hypervisor magic to access untranslated guest
+> > physical addresses.
+> > 
+> > There's now the optional iommu_platform flag which can tell virtio
+> > devices to use the platform's normal DMA path, including any IOMMUs.
+> > That flag was motiviated for the case of hardware virtio
+> > implementations, but there are other reasons to want it.
+> > 
+> > Specifically, the fact that the virtio device doesn't use vIOMMU
+> > translation means that virtio devices are unsafe to pass to nested
+> > guests, or to use with VFIO userspace drivers inside the guest.  This
+> > is particularly noticeable on the pseries platform which *always* has
+> > a guest-visible vIOMMU.
+> > 
+> > Not using the normal DMA path also causes difficulties for the guest
+> > side driver when using the upcoming POWER Secure VMs (a.k.a. PEF).
+> > While it's theoretically possible to handle this on the guest side,
+> > it's really fiddly.  Given the other problems with the non-translated
+> > virtio device, let's just enable vIOMMU translation for virtio devices
+> > by default in the pseries-5.0 (and later) machine types.
+> > 
+> > This does mean the new machine type will no longer support guest
+> > kernels older than 4.8, unless they have support for the virtio
+> > IOMMU_PLATFORM flag backported (which some distro kernels like RHEL7
+> > do).
+> > 
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> 
+> The patch looks good but I'm not sure if we're quite ready to merge
+> it yet. With this applied, I get zero output on a virtio-serial based
+> console:
+> 
+> ie.
+>   -chardev stdio,id=con0 -device virtio-serial -device virtconsole,chardev=con0 
+> 
+> FYI, virtio-serial is a bit broken for spapr with iommu_platform=off already:
+> 
+> (1) pressing a key in the console during SLOF or grub has no effect
+> 
+> (2) the guest kernel boot stays stuck around quiesce
+> 
+> These are regressions introduced by this SLOF update:
+> 
+> a363e9ed8731f45674260932a340a0d81c4b0a6f is the first bad commit
+> commit a363e9ed8731f45674260932a340a0d81c4b0a6f
+> Author: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Date:   Tue Dec 17 11:31:54 2019 +1100
+>     pseries: Update SLOF firmware image
+> 
+> A trivial fix was already posted on the SLOF list for (1) :
+> 
+> https://patchwork.ozlabs.org/patch/1249338/
+> 
+> (2) is still under investigation but the console is _at least_
+> functional until the guest OS takes control. This is no longer
+> the case with this patch.
+> 
 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  tests/vm/freebsd | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index 58166766d915..298967fe9cf4 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -24,8 +24,8 @@ class FreeBSDVM(basevm.BaseVM):
->      name =3D "freebsd"
->      arch =3D "x86_64"
->=20=20
-> -    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/=
-FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
-> -    csum =3D "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485=
-fb99db"
-> +    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/=
-FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
-> +    csum =3D "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1=
-cfcd88"
->      size =3D "20G"
->      pkgs =3D [
->          # build tools
+Some progress was made on the SLOF front:
 
-Hmm I'm seeing a failure during running which I had to manually override:
+https://patchwork.ozlabs.org/project/slof/list/?series=163314
 
-DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o
-UserKnownHostsFile=3D/dev/null -o ConnectTimeout=3D1 -p 39533 -i
-/home/alex.bennee/lsrc/qemu.git/builds/all/vm-test-_dqalech.tmp/id_rsa
--o SendEnv=3Dhttps_proxy -o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o
-SendEnv=3Dno_proxy root@127.0.0.1 pkg install -y git pkgconf bzip2
-python37 bash gmake gsed flex bison gnutls jpeg-turbo png sdl2 gtk3
-libxkbcommon libepoxy mesa-libs zstd
+With these series applied to SLOF, I can now boot a fedora31 guest
+with a virtio-serial console and iommu_platform=on... but now
+I'm trying out other virtio devices supported by SLOF and I'm
+running into issues around virtio-pci.disable-legacy as mentioned
+in some other mail...
 
-Warning: Permanently added '[127.0.0.1]:39533' (ECDSA) to the list of known=
- hosts.
-Bootstrapping pkg from
-pkg+http://pkg.FreeBSD.org/FreeBSD:12:amd64/quarterly, please wait...
-Verifying signature with trusted certificate
-pkg.freebsd.org.2013102301... done
-Installing pkg-1.12.0_1...
-Newer FreeBSD version for package pkg:
-To ignore this error set IGNORE_OSVERSION=3Dyes
-- package: 1201000
-- running kernel: 1200086
-Ignore the mismatch and continue? [Y/n]:
-Extracting pkg-1.12.0_1: 100%
+It seems we may not be ready to merge this series yet.
 
+> >  hw/ppc/spapr.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 3cfc98ac61..5ef099536e 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -4575,6 +4575,7 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+> >       */
+> >      static GlobalProperty compat[] = {
+> >          { TYPE_VIRTIO_PCI, "disable-legacy", "on", },
+> > +        { TYPE_VIRTIO_DEVICE, "iommu_platform", "on", },
+> >      };
+> >  
+> >      mc->alias = "pseries";
+> > @@ -4622,6 +4623,7 @@ static void spapr_machine_4_2_class_options(MachineClass *mc)
+> >      SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
+> >      static GlobalProperty compat[] = {
+> >          { TYPE_VIRTIO_PCI, "disable-legacy", "auto" },
+> > +        { TYPE_VIRTIO_DEVICE, "iommu_platform", "off", },
+> >      };
+> >  
+> >      spapr_machine_5_0_class_options(mc);
+> 
 
-
---=20
-Alex Benn=C3=A9e
 
