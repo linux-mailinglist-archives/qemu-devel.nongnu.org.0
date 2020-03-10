@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AAB17F361
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:21:13 +0100 (CET)
-Received: from localhost ([::1]:55912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F22117F2C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:09:03 +0100 (CET)
+Received: from localhost ([::1]:55738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBb4a-0003t6-RS
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60255)
+	id 1jBaso-0000TT-OT
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jBazg-0005gu-Rm
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:10 -0400
+ (envelope-from <armbru@redhat.com>) id 1jBart-0008US-Az
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:08:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jBazf-0005FB-JB
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40212)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jBazf-0005Bn-Ci
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:16:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jBazd-00046p-5y
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:16:05 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 25D582E8053
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 09:16:05 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1jBarr-00075p-Jx
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:08:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56684
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1jBarr-000723-Fn
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:08:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583831282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jIsliUlvw1W3uVXLTXuZ8l7aiC7ikdmwkMJ7oc+Ix8g=;
+ b=LXSBpNrihG2PV2JYT18KkcB9mv1tLq5+4QzDn77EP8dviQh5dOJtg/6MYm45Nfl5iYLwyc
+ ptzySi+VNg+cqoV0qgKNA+N0ucNyErl+PwYF1x3Ak8aSFPGOHRAz//dz9TRHOQEoZSBOvO
+ tLoEF7+AgtaABHKuft0cw2Bur8ngTHg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-0uRaBVgDPb-UKC3_CtyOYg-1; Tue, 10 Mar 2020 05:07:59 -0400
+X-MC-Unique: 0uRaBVgDPb-UKC3_CtyOYg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78AF218A6EC1;
+ Tue, 10 Mar 2020 09:07:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-34.ams2.redhat.com
+ [10.36.116.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C65775D9CA;
+ Tue, 10 Mar 2020 09:07:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E001811386A6; Tue, 10 Mar 2020 10:07:54 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 2/3] mac_via: fix incorrect creation of mos6522 device
+ in mac_via
+References: <20200305065422.12707-1-pannengyuan@huawei.com>
+ <20200305065422.12707-3-pannengyuan@huawei.com>
+ <CAFEAcA_twjUHpvf5ZpzA_bKyf8MZ4BuSY0MvNTgSEyVTYf9mXQ@mail.gmail.com>
+ <0b2d3222-d122-e0db-db04-1c4e3028f8f8@huawei.com>
+ <CAFEAcA9PQd=PwuF+j=3kOA_eCiRd_8TLEwPx8qB-jWvV_9CcMQ@mail.gmail.com>
+ <0c3ae5aa-36c3-a809-4a42-159348f44780@huawei.com>
+ <CAFEAcA8_RkECOT=YJ3ML0wxBrKiqVw=CssORU=jyryfcNueB0w@mail.gmail.com>
+Date: Tue, 10 Mar 2020 10:07:54 +0100
+In-Reply-To: <CAFEAcA8_RkECOT=YJ3ML0wxBrKiqVw=CssORU=jyryfcNueB0w@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 9 Mar 2020 10:10:07 +0000")
+Message-ID: <871rq08tn9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Mar 2020 09:07:09 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Confirmed; importance=Undecided; assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor
- laurent-vivier peterogden pmaydell rth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158383122921.12273.10374537303196181370.malone@soybean.canonical.com>
-Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
- PIE-compiled binary?
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6d1a6379e99a1272f6371a1d851cdf2a8e8b5b42
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,70 +83,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Pan Nengyuan <pannengyuan@huawei.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D6fd5944980f4
+Widespread QOM usage anti-pattern ahead; cc: QOM maintainers.
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+Peter Maydell <peter.maydell@linaro.org> writes:
 
--- =
+> On Mon, 9 Mar 2020 at 10:02, Pan Nengyuan <pannengyuan@huawei.com> wrote:
+>> On 3/9/2020 5:21 PM, Peter Maydell wrote:
+>> > Could you explain more? My thought is that we should be using
+>> > sysbus_init_child_obj() and we should be doing it in the init method.
+>> > Why does that break the tests ? It's the same thing various other
+>> > devices do.
+>>
+>> device-introspect-test do the follow check for each device type:
+>>
+>>     qtree_start =3D qtest_hmp(qts, "info qtree");
+>>     ...
+>>     qtest_qmp(qts, "{'execute': 'device-list-properties','arguments': {'=
+typename': %s}}", type);
+>>     ...
+>>     qtree_end =3D qtest_hmp(qts, "info qtree");
+>>     g_assert_cmpstr(qtree_start, =3D=3D, qtree_end);
+>>
+>> If we do qdev_set_parent_bus in init, it will check fail when type =3D '=
+mac_via'.
+>> mac_via_init() is called by q800_init(). But it will not be called in qt=
+est(-machine none) in the step qtree_start.
+>> And after we call 'device-list-properties', mac_via_init() was called an=
+d set dev parent bus. We can find these
+>> devices in the qtree_end. So it break the test on the assert.
+>
+> Markus, do you know what's happening here? Why is
+> trying to use sysbus_init_child_obj() breaking the
+> device-introspect-test for this particular device,
+> but fine for the other places where we use it?
+> (Maybe we're accidentally leaking a reference to
+> something so the sub-device stays on the sysbus
+> when it should have removed itself when the
+> device was deinited ?)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1749393
+Two questions: (1) why does it break here, and (2) why doesn't it break
+elsewhere.
 
-Title:
-  sbrk() not working under qemu-user with a PIE-compiled binary?
+First question: why does it break here?
 
-Status in QEMU:
-  Fix Committed
-Status in qemu package in Ubuntu:
-  Confirmed
+It breaks here because asking for help with "device_add mac_via,help"
+has a side effect visible in "info qtree".
 
-Bug description:
-  In Debian unstable, we recently switched bash to be a PIE-compiled
-  binary (for hardening). Unfortunately this resulted in bash being
-  broken when run under qemu-user (for all target architectures, host
-  being amd64 for me).
+>> Here is the output:
+>>
+>> # Testing device 'mac_via'
+[Uninteresting stuff snipped...]
 
-  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
-  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
-ated)
+"info qtree" before asking for help:
 
-  bash has its own malloc implementation based on sbrk():
-  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
+>> qtree_start: bus: main-system-bus
+>>   type System
 
-  When we disable this internal implementation and rely on glibc's
-  malloc, then everything is fine. But it might be that glibc has a
-  fallback when sbrk() is not working properly and it might hide the
-  underlying problem in qemu-user.
+"info qtree" after asking for help:
 
-  This issue has also been reported to the bash upstream author and he sugg=
-ested that the issue might be in qemu-user so I'm opening a ticket here. He=
-re's the discussion with the bash upstream author:
-  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+>> qtree_end: bus: main-system-bus
+>>   type System
+>>   dev: mos6522-q800-via2, id ""
+>>     gpio-in "via2-irq" 8
+>>     gpio-out "sysbus-irq" 1
+>>     frequency =3D 0 (0x0)
+>>     mmio ffffffffffffffff/0000000000000010
+>>   dev: mos6522-q800-via1, id ""
+>>     gpio-in "via1-irq" 8
+>>     gpio-out "sysbus-irq" 1
+>>     frequency =3D 0 (0x0)
+>>     mmio ffffffffffffffff/0000000000000010
 
-  You can find the problematic bash binary in that .deb file:
-  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
-sh/bash_4.4.18-1_i386.deb
+How come?
 
-  The version of qemu I have been using is 2.11 (Debian package qemu-
-  user-static version 1:2.11+dfsg-1) but I have had reports that the
-  problem is reproducible with older versions (back to 2.8 at least).
+"device_add mac_via,help" shows properties of device "mac_via".  It does
+so even though "mac_via" is not available with device_add.  Useful
+because "info qtree" shows properties for such devices.
 
-  Here are the related Debian bug reports:
-  https://bugs.debian.org/889869
-  https://bugs.debian.org/865599
+These properties are defined dynamically, either for the instance
+(traditional) or the class.  The former typically happens in QOM
+TypeInfo method .instance_init(), the latter in .class_init().
 
-  It's worth noting that bash used to have this problem (when compiled as a=
- PIE binary) even when run directly but then something got fixed in the ker=
-nel and now the problem only appears when run under qemu-user:
-  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
+"Typically", because properties can be added elsewhere, too.  In
+particular, QOM properties not meant for device_add are often created in
+DeviceClass method .realize().  More on that below.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
+To make properties created in .instance_init() visible in help, we need
+to create and destroy an instance.  This must be free of observable side
+effects.
+
+This has been such a fertile source of crashes that I added
+device-introspect-test:
+
+commit 2d1abb850fd15fd6eb75a92290be5f93b2772ec5
+Author: Markus Armbruster <armbru@redhat.com>
+Date:   Thu Oct 1 10:59:56 2015 +0200
+
+    device-introspect-test: New, covering device introspection
+   =20
+    The test doesn't check that the output makes any sense, only that QEMU
+    survives.  Useful since we've had an astounding number of crash bugs
+    around there.
+   =20
+    In fact, we have a bunch of them right now: a few devices crash or
+    hang, and some leave dangling pointers behind.  The test skips testing
+    the broken parts.  The next commits will fix them up, and drop the
+    skipping.
+   =20
+    Signed-off-by: Markus Armbruster <armbru@redhat.com>
+    Reviewed-by: Eric Blake <eblake@redhat.com>
+    Message-Id: <1443689999-12182-8-git-send-email-armbru@redhat.com>
+
+Now let's examine device "mac_via".  It defines properties both in its
+.class_init() and its .instance_init().
+
+    static void mac_via_class_init(ObjectClass *oc, void *data)
+    {
+        DeviceClass *dc =3D DEVICE_CLASS(oc);
+
+        dc->realize =3D mac_via_realize;
+        dc->reset =3D mac_via_reset;
+        dc->vmsd =3D &vmstate_mac_via;
+--->    device_class_set_props(dc, mac_via_properties);
+    }
+
+where
+
+    static Property mac_via_properties[] =3D {
+        DEFINE_PROP_DRIVE("drive", MacVIAState, blk),
+        DEFINE_PROP_END_OF_LIST(),
+    };
+
+And
+
+    static void mac_via_init(Object *obj)
+    {
+        SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+        MacVIAState *m =3D MAC_VIA(obj);
+        MOS6522State *ms;
+
+        /* MMIO */
+        memory_region_init(&m->mmio, obj, "mac-via", 2 * VIA_SIZE);
+        sysbus_init_mmio(sbd, &m->mmio);
+
+        memory_region_init_io(&m->via1mem, obj, &mos6522_q800_via1_ops,
+                              &m->mos6522_via1, "via1", VIA_SIZE);
+        memory_region_add_subregion(&m->mmio, 0x0, &m->via1mem);
+
+        memory_region_init_io(&m->via2mem, obj, &mos6522_q800_via2_ops,
+                              &m->mos6522_via2, "via2", VIA_SIZE);
+        memory_region_add_subregion(&m->mmio, VIA_SIZE, &m->via2mem);
+
+        /* ADB */
+        qbus_create_inplace((BusState *)&m->adb_bus, sizeof(m->adb_bus),
+                            TYPE_ADB_BUS, DEVICE(obj), "adb.0");
+
+        /* Init VIAs 1 and 2 */
+        sysbus_init_child_obj(OBJECT(m), "via1", &m->mos6522_via1,
+                              sizeof(m->mos6522_via1), TYPE_MOS6522_Q800_VI=
+A1);
+        sysbus_init_child_obj(OBJECT(m), "via2", &m->mos6522_via2,
+                              sizeof(m->mos6522_via2), TYPE_MOS6522_Q800_VI=
+A2);
+
+        /* Pass through mos6522 output IRQs */
+        ms =3D MOS6522(&m->mos6522_via1);
+        object_property_add_alias(OBJECT(m), "irq[0]", OBJECT(ms),
+                                  SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abor=
+t);
+        ms =3D MOS6522(&m->mos6522_via2);
+        object_property_add_alias(OBJECT(m), "irq[1]", OBJECT(ms),
+                                  SYSBUS_DEVICE_GPIO_IRQ "[0]", &error_abor=
+t);
+    }
+
+Resulting help:
+
+  adb.0=3D<child<apple-desktop-bus>>
+  drive=3D<str>            - Node name or ID of a block device to use as a =
+backend
+  irq[0]=3D<link<irq>>
+  irq[1]=3D<link<irq>>
+  mac-via[0]=3D<child<qemu:memory-region>>
+  via1=3D<child<mos6522-q800-via1>>
+  via1[0]=3D<child<qemu:memory-region>>
+  via2=3D<child<mos6522-q800-via2>>
+  via2[0]=3D<child<qemu:memory-region>>
+
+Observe that mac_via_init() has obvious side effects.  In particular, it
+creates two devices that are then visible in "info qtree", and that's
+caught by device-introspect-test.
+
+I believe these things need to be done in .realize().
+
+
+Second question: why doesn't it break elsewhere?
+
+We have >200 calls of sysbus_init_child_obj() in some 40 files.  I'm
+arbitrarily picking hw/arm/allwinner-a10.c for a closer look.
+
+It calls it from device allwinner-a10's .instance_init() method
+aw_a10_init().  Side effect, clearly wrong.
+
+But why doesn't it break device-introspect-test?  allwinner-a10 is a
+direct sub-type of TYPE_DEVICE.  Neither "info qtree" nor "info
+qom-tree" know how to show these.
+
+Perhaps the side effect is visible if I peek into QOM with just the
+right qom-list command.  Tell me, and I'll try to tighten
+device-introspect-test accordingly.
+
+
+Root cause of this issue: nobody knows how to use QOM correctly (first
+order approximation).  In particular, people are perenially confused on
+how to split work between .instance_init() and .realize().  We really,
+really, really need to provide some guidance there!  Right now, all we
+provide are hundreds of examples, many of them bad.
+
 
