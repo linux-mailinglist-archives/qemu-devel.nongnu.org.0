@@ -2,113 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35CA18019E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:20:43 +0100 (CET)
-Received: from localhost ([::1]:35422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C461801AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:22:25 +0100 (CET)
+Received: from localhost ([::1]:35498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBggU-0004rf-L3
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52554)
+	id 1jBgi8-0007hO-9y
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:22:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jBgUa-0003hA-Ht
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:08:25 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jBgW6-0005tx-8K
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jBgUY-00008u-TZ
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:08:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39011
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jBgUY-0008Uo-O5
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:08:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583852898;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B9Xxv9eG1vr+u4ZENgWuGQRJmUXfbXVTINEgcSiBkUo=;
- b=FzJ19hu1WV7sbf8okDnL0jYM4bIlpyjP9RSKbNmJsyYgUF5kh4sS+zUcg739Kd9LAiSrBH
- HRpzbXjka/I9tfd84sIm2jvdFMb5xGTERqXtexYJBDpt4/OUbjIXYr7Y6j3g1FAyUlwLE9
- yfmxxx9CqLWNVFkC2dyWdD1iTcOMT+E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-ZwnT6D1OPa-obri4n8i1TA-1; Tue, 10 Mar 2020 11:08:17 -0400
-X-MC-Unique: ZwnT6D1OPa-obri4n8i1TA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF88C107ACC4;
- Tue, 10 Mar 2020 15:08:15 +0000 (UTC)
-Received: from [10.36.116.71] (ovpn-116-71.ams2.redhat.com [10.36.116.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C9165C28D;
- Tue, 10 Mar 2020 15:08:14 +0000 (UTC)
-Subject: Re: [PATCH v8 03/15] s390x: protvirt: Add migration blocker
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200310134008.130038-1-frankja@linux.ibm.com>
- <20200310134008.130038-4-frankja@linux.ibm.com>
- <984a38e2-f73c-dd68-b32d-ff419046c7ac@redhat.com>
- <be1990f6-c1a2-f657-0ab8-ec764ecb6a47@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <ec12bc79-c209-da27-e45f-cf8f35e97ec0@redhat.com>
-Date: Tue, 10 Mar 2020 16:08:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <borntraeger@de.ibm.com>) id 1jBgW5-0003q8-61
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:58 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24496)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jBgW5-0003pX-1N
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:09:57 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02AF3HgG195376
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:09:56 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ym7ac258q-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:09:56 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Tue, 10 Mar 2020 15:09:53 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 10 Mar 2020 15:09:50 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 02AF8nQe39977226
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 15:08:49 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC1254C06F;
+ Tue, 10 Mar 2020 15:09:48 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A85C4C06E;
+ Tue, 10 Mar 2020 15:09:48 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue, 10 Mar 2020 15:09:48 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 59EC1E01C3; Tue, 10 Mar 2020 16:09:48 +0100 (CET)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/4] s390x/ipl: Fixes for ipl and bios
+Date: Tue, 10 Mar 2020 16:09:43 +0100
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <be1990f6-c1a2-f657-0ab8-ec764ecb6a47@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031015-4275-0000-0000-000003AA4266
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031015-4276-0000-0000-000038BF5C0E
+Message-Id: <20200310150947.3510824-1-borntraeger@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-10_08:2020-03-10,
+ 2020-03-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=495 malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003100099
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,58 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.03.20 16:02, Janosch Frank wrote:
-> On 3/10/20 3:57 PM, David Hildenbrand wrote:
->> On 10.03.20 14:39, Janosch Frank wrote:
->>> Migration is not yet supported.
->>>
->>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>> ---
->>>  hw/s390x/s390-virtio-ccw.c | 17 +++++++++++++++++
->>>  1 file changed, 17 insertions(+)
->>>
->>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->>> index 455ad31718..1ceb42c0b5 100644
->>> --- a/hw/s390x/s390-virtio-ccw.c
->>> +++ b/hw/s390x/s390-virtio-ccw.c
->>> @@ -43,6 +43,9 @@
->>>  #include "sysemu/sysemu.h"
->>>  #include "hw/s390x/pv.h"
->>>  #include <linux/kvm.h>
->>> +#include "migration/blocker.h"
->>> +
->>> +static Error *pv_mig_blocker;
->>>  
->>>  S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
->>>  {
->>> @@ -323,15 +326,29 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
->>>  
->>>      s390_pv_vm_disable();
->>>      ms->pv = false;
->>> +    migrate_del_blocker(pv_mig_blocker);
->>> +    error_free_or_abort(&pv_mig_blocker);
->>>  }
->>>  
->>>  static int s390_machine_protect(S390CcwMachineState *ms)
->>>  {
->>> +    static Error *local_err;
->>
->> You have to initialize it to NULL.
-> 
-> That's a static variable, am I missing something?
+Peter,
 
-No, I was missing that :) Why is that a static variable?
+The following changes since commit 373c7068dd610e97f0b551b5a6d0a27cd6da4506:
 
-git grep "static Error *" will tell you that this is not common.
+  qemu.nsi: Install Sphinx documentation (2020-03-09 16:45:00 +0000)
 
+are available in the Git repository at:
 
--- 
-Thanks,
+  git://github.com/borntraeger/qemu.git tags/s390x-20200310
 
-David / dhildenb
+for you to fetch changes up to 94c21436e5a89143f8b9cb4d089d1a2f3f4fd377:
+
+  s390x: ipl: Consolidate iplb validity check into one function (2020-03-10 10:18:20 +0100)
+
+----------------------------------------------------------------
+s390x/ipl: Fixes for ipl and bios
+
+- provide a pointer to the loadparm. This fixes crashes in zipl
+- do not throw away guest changes of the IPL parameter during reset
+- refactor IPLB checks
+
+----------------------------------------------------------------
+Christian Borntraeger (1):
+      s390x/bios: rebuild s390-ccw.img
+
+Halil Pasic (1):
+      s390/ipl: sync back loadparm
+
+Janosch Frank (2):
+      pc-bios: s390x: Save iplb location in lowcore
+      s390x: ipl: Consolidate iplb validity check into one function
+
+ hw/s390x/ipl.c               |  25 +++++++++++++++++++++++++
+ hw/s390x/ipl.h               |  18 +++++++++---------
+ pc-bios/s390-ccw.img         | Bin 42608 -> 42608 bytes
+ pc-bios/s390-ccw/jump2ipl.c  |   1 +
+ pc-bios/s390-ccw/main.c      |   8 +++++++-
+ pc-bios/s390-ccw/netmain.c   |   1 +
+ pc-bios/s390-ccw/s390-arch.h |  10 ++++++++--
+ pc-bios/s390-ccw/s390-ccw.h  |   1 +
+ target/s390x/diag.c          |   2 +-
+ 9 files changed, 53 insertions(+), 13 deletions(-)
 
 
