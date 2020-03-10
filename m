@@ -2,76 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02D2180149
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:12:48 +0100 (CET)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404DE180150
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:14:12 +0100 (CET)
+Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgYp-00016i-NW
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
+	id 1jBgaB-0003y1-BA
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:14:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jBgKS-00044a-5t
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:57:57 -0400
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBgKj-0004fQ-Fj
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jBgKQ-0000m1-R8
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:57:56 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54158)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jBgKQ-0000kC-Lq
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:57:54 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 25so1760009wmk.3
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 07:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=oSrHBCEthDr0+360W+Bn+h+UKU5Wjj1Xj/HsJNF3QW8=;
- b=nVHkjoqQr1/vppboc/Bby8mNW/yerk/3OIRw75dFIa6Tjq/fS9xBnfsH2563V65DK9
- uD9d3B6qs0/U6vGOo4jo+Yxw2ivxf1xhVHS7xtpQjD9WY6ldoD7Qt8KvlfpeNhvLVwwz
- JLqYmR4kg2Kldy4yh9qiGr4IwjSq81SBfKEbeY7XOgvBOWRihn9be/3TkhDBV/JCId62
- M5X8BFhFS8ynHAhfqsiW1zBdYBVPxs8brWL5gL3uvyYnAIoQMS8VYtJmLeMkh70bxRZZ
- Hmb9p4yOkwfP4iQ5FF7k1SwVripaD4sSsMuU+x+tqszQbCRKKOgVqy8m6nLXDN9giz5L
- z4ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=oSrHBCEthDr0+360W+Bn+h+UKU5Wjj1Xj/HsJNF3QW8=;
- b=MCOsUVs7wUzMBOs+rOs8VeQe9KHu+lyIsodZzfi2bL5ee5VJZhAX+SJemZ8TUK740p
- dcSK+QV+fGmqJoLIyBa4kVsyBXFpxK0Ca4TKNwfH4YR+8cCV15E8jZ/lNlBe0Ff5hWCM
- KZBPTJjlwdWIX9c7z59iIeoDnB00RxoqBh9BhcoG4lZXBhF34uPrlz3hAdUPsc8ABo6p
- Crq6P8Bgp8B14QChsS6ysZGlQGXmM5+PzrMqjibEmEdUz4DkELCl1f207v08vLS4s6qo
- 5/tXnuFt8MAfUDOi/wYeMOSu4iduqVgNTODyglWtGGDOAX4yoe3xcdn/dH6yMa8G8eGd
- E/nw==
-X-Gm-Message-State: ANhLgQ0dqpmE2xwQDK1V29eMKAFhIxQzGeooRrb1HQeQTB4AyE8YEJJB
- PST3OKhUOU35xSWK/L+q/1d3YQ==
-X-Google-Smtp-Source: ADFU+vv7A34oMksafKoLUA0SEOQ6YoqQmJ9kJTaAMTchXcvf/TuCceziifx7sT5y8ha5GWpP2NPvgA==
-X-Received: by 2002:a05:600c:214f:: with SMTP id
- v15mr2633381wml.110.1583852273052; 
- Tue, 10 Mar 2020 07:57:53 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s2sm4305192wmj.15.2020.03.10.07.57.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 07:57:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5ACE21FF7E;
- Tue, 10 Mar 2020 14:57:51 +0000 (GMT)
-References: <20200310133020.27196-1-alex.bennee@linaro.org>
- <CAFEAcA-S1g4ojEkYdEa-ZHH+=uNUgCDWo0Z29ikbvNoX8Ro7Cw@mail.gmail.com>
-User-agent: mu4e 1.3.9; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] docs/system: add a little more detail to ARM machines
-In-reply-to: <CAFEAcA-S1g4ojEkYdEa-ZHH+=uNUgCDWo0Z29ikbvNoX8Ro7Cw@mail.gmail.com>
-Date: Tue, 10 Mar 2020 14:57:51 +0000
-Message-ID: <87y2s8gsuo.fsf@linaro.org>
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBgKi-0001QE-7u
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:13 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:56878)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBgKi-0001NU-1n
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:58:12 -0400
+Received: from 2.general.paelzer.uk.vpn ([10.172.196.173]
+ helo=localhost.localdomain) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1jBgKg-0004kR-IN; Tue, 10 Mar 2020 14:58:10 +0000
+From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] avoid failing to load modules after upgrades
+Date: Tue, 10 Mar 2020 15:58:05 +0100
+Message-Id: <20200310145806.18335-1-christian.ehrhardt@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 91.189.89.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,40 +49,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ pkg-qemu-devel@lists.alioth.debian.org, Cole Robinson <crobinso@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
+this is a continuation of a discussion at KVM Forum eventually
+becoming [1] and the v1 of the patch [2].
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Overall it is about qemu providing some way for distribution
+packaging to allow loading shared objects for a qemu binary
+that was upgraded.
 
-> On Tue, 10 Mar 2020 at 13:30, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> Taking from the wiki page mention:
->>
->>   - both 32 and 64 bit architectures
->>   - the roll of A/M profile chips
->>   - warn about kernel portability
->>   - gently suggest -M virt
->>   - add headlines for groups of boards
->>
->> This is still incomplete but hopefully is a less of a straight dive
->> into a dry list of peripherals.
->
-> This is a semi-duplicate of the series I sent last night:
-> https://patchew.org/QEMU/20200309215818.2021-1-peter.maydell@linaro.org/
+I also refreshed the qemu test build for Ubuntu [3] and have started a
+libvirt change [4] to allow to read from there through apparmor protection.
+Upstreaming of that will follow once we agree and merge the qemu change.
 
-Ahh I missed that, as your changes are more comprehensive I've reviewed
-them. They render well enough:
+Updates since v1:
+- make the feature configurable and default off
 
-  https://qemu-stsquad.readthedocs.io/en/docs-review/system/target-arm.html
+[1]: https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg00005.html
+[2]: https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg01593.html
+[3]: https://launchpad.net/~ci-train-ppa-service/+archive/ubuntu/3961
+[4]: https://code.launchpad.net/~paelzer/ubuntu/+source/libvirt/+git/libvirt/+merge/380469
 
->
-> thanks
-> -- PMM
+Christian Ehrhardt (1):
+  modules: load modules from versioned /var/run dir
 
+ configure     | 15 +++++++++++++++
+ util/module.c | 14 ++++++++++++++
+ 2 files changed, 29 insertions(+)
 
---=20
-Alex Benn=C3=A9e
+-- 
+2.25.1
+
 
