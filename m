@@ -2,111 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ECD180156
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:14:47 +0100 (CET)
-Received: from localhost ([::1]:35260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8E0180163
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:17:29 +0100 (CET)
+Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgak-0004v3-C9
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:14:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41249)
+	id 1jBgdM-0008Az-Hh
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:17:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jBgMz-0007r8-N8
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:00:34 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBgOT-0001zv-W4
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:02:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1jBgMy-0006m7-DL
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:00:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53675
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1jBgMy-0006kb-6R
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:00:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583852431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5Qk1xdodGIr/NXIRhplzzUUyO7TJpvzfPO4ORtkTsnA=;
- b=huTQf5rEYmIDnrLR0cSHBgzPzRjVcn9bap3IdkFoQ4ThRtVkmas7aeMF2lIFDM80OaJ0z4
- n7ojeNxR+Ipxdda8IC+ulxk68EmMIlddI8qRjufVXJhgipV566V4DG+GT/IFW2tI4C4+Aq
- RE319Y93wZWbn052aSP4ZdizKs5Fg+g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-y5GHCVGaPv2YRY49mJe3Dg-1; Tue, 10 Mar 2020 11:00:29 -0400
-X-MC-Unique: y5GHCVGaPv2YRY49mJe3Dg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED05A8017DF;
- Tue, 10 Mar 2020 15:00:27 +0000 (UTC)
-Received: from [10.36.116.71] (ovpn-116-71.ams2.redhat.com [10.36.116.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3C40100164D;
- Tue, 10 Mar 2020 15:00:26 +0000 (UTC)
-Subject: Re: [PATCH v8 10/15] s390x: protvirt: Move diag 308 data over SIDA
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200310134008.130038-1-frankja@linux.ibm.com>
- <20200310134008.130038-11-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <d0971a85-4caa-9333-79ca-9f897107bcb5@redhat.com>
-Date: Tue, 10 Mar 2020 16:00:25 +0100
+ (envelope-from <laurent@vivier.eu>) id 1jBgOO-0001kV-T5
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:02:05 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:60543)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1jBgOL-0001Wa-RH; Tue, 10 Mar 2020 11:01:58 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MNKyQ-1j0Cyq2uZG-00OrTB; Tue, 10 Mar 2020 16:01:26 +0100
+To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
+ WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
+ SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
+ UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
+ Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
+ JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
+ q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
+ RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
+ 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
+ LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
+ dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
+ ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
+ HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
+ rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
+ jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
+ NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
+ WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
+ lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
+ BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
+ gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
+ +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
+ rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
+ 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
+ wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
+ ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
+ d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
+ 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
+ tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
+ inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
+ 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
+ VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
+ US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
+ w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
+ FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
+ hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
+ ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
+ ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
+ OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
+ JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
+ ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
+Subject: Re: [PATCH] hw/scsi/megasas:Clean up some redundant code fix Clang
+ warnings
+Message-ID: <bccf78b8-4c63-1587-742c-2595fe78e632@vivier.eu>
+Date: Tue, 10 Mar 2020 16:01:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200310134008.130038-11-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:GiHOeaRLQQTOTlINiy4SADyFp1QMn97dMKxLoWqoggbacfXI0Kr
+ YbK6/YNNVaRzB7maXqrAzYaEa3SLR4Y/tDuesMWYmmdbYNvxIp3i9tEBZoYgZLRc8I2Xs2Q
+ jd5Bq6TjmePli11p/mn3mOWJtZUOPIZAd1e5Wgc7PlIdrEPl2ksjHb7oNHbTwaXNwy1o2Kv
+ hDqTCF9lV3XxiLoJlypVQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DMFcKEtiNOw=:WXU03oMflDDRSp+6wIKLFj
+ IpfD4WkQd30WuM6MUPONDh5RpOQuUPZvLzPXuaNzdvQrDaAEobLUQLF7paCbrNP7iyVWOFn8Z
+ rrmJlCMpQmjRJ2hCwSlqYAG1AcPSwUXGfSmHkhrEwlwHrG/koNvSyp8mf23Y4AJn2BF2tMG4W
+ ZlOoRIbcOUdBzC6sTaA1lfHyhhpfTm4NFoX7OvnXd/oedDTRePNcb78PjuzqPJYHnytLXqH43
+ Awr9SdJkC8TIox6gp3IPO1It3X8v0aEhioygeEvwDhm6Skcgt50NmhWNatmSjsptCP6C6iFkD
+ WBj6WGYatQCpPFgCo6JZn8VoBjbED5gAXv7WvBHl8uO/p53vzos5Ujr253mO30CPzi4THmtDY
+ hJEGc89CHno1oemV5Z80tgl4zWCpNkZJeEZ0uwJjyLX0M1rCqPXOrxMpW6n+F/WZNdvnWe2oH
+ d56XxrSvHHcM8QAuk5ObX/jBxxTn1pqsz1cdyDjTuTqS87HMIqqrhj0g+apdeyOe1JWFa9kcf
+ EzvcE/tbX4ZGrg7leYODNBGGtay3XU3IZrdmWWCCajz7NU2yye22qY003314WiPJqgOPdk1bd
+ s+Irg0sry0NOeevDkTNFGvaYsugzXQxv/HxoDHbTFR+pCJPuZYLMcDY2vHJsXCDKnq34rnwgG
+ J+/deVywPGFprAYYlE1CM4ZbgBxY6daTtc6NfSEhWNY3tM+ydjKWM/5SzgIKZIGJrp8P6cauR
+ qGW5c8KdL8mdAjwXSO3Z/NvdTc6lFSK8YJ+nkHjdBjVmdZ93WitNyBUkk0X2I9hRl54zz2rjo
+ KkZmmU4bTI0RLM5IrfrD1UiazwZ3sKe+4gTDDUXGOKx8R5NCsYuXt4sMKrj3ab4zo6BVghv
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,85 +110,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
+ zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.03.20 14:40, Janosch Frank wrote:
-> For protected guests the IPIB is written/read to/from the SIDA, so we
-> need those accesses to go through s390_cpu_pv_mem_read/write().
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  target/s390x/diag.c | 27 +++++++++++++++++++++------
->  1 file changed, 21 insertions(+), 6 deletions(-)
-> 
-> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-> index 02918b37b8..417c4b53ab 100644
-> --- a/target/s390x/diag.c
-> +++ b/target/s390x/diag.c
-> @@ -87,6 +87,7 @@ static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
->  void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
->  {
->      CPUState *cs = env_cpu(env);
-> +    S390CPU *cpu = S390_CPU(cs);
->      uint64_t addr =  env->regs[r1];
->      uint64_t subcode = env->regs[r3];
->      IplParameterBlock *iplb;
-> @@ -123,13 +124,22 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
->              return;
->          }
->          iplb = g_new0(IplParameterBlock, 1);
-> -        cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
-> +        if (!s390_is_pv()) {
-> +            cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
-> +        } else {
-> +            s390_cpu_pv_mem_read(cpu, 0, iplb, sizeof(iplb->len));
-> +        }
-> +
->          if (!iplb_valid_len(iplb)) {
->              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
->              goto out;
->          }
->  
-> -        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-> +        if (!s390_is_pv()) {
-> +            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-> +        } else {
-> +            s390_cpu_pv_mem_read(cpu, 0, iplb, be32_to_cpu(iplb->len));
-> +        }
->  
->          if (!iplb_valid(iplb)) {
->              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
-> @@ -151,12 +161,17 @@ out:
->          } else {
->              iplb = s390_ipl_get_iplb();
->          }
-> -        if (iplb) {
-> -            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
-> -            env->regs[r1 + 1] = DIAG_308_RC_OK;
-> -        } else {
-> +        if (!iplb) {
->              env->regs[r1 + 1] = DIAG_308_RC_NO_CONF;
-> +            return;
->          }
-> +
-> +        if (!s390_is_pv()) {
-> +            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
-> +        } else {
-> +            s390_cpu_pv_mem_write(cpu, 0, iplb, be32_to_cpu(iplb->len));
-> +        }
-> +        env->regs[r1 + 1] = DIAG_308_RC_OK;
->          return;
->      case DIAG308_PV_START:
->          iplb = s390_ipl_get_iplb_pv();
-> 
+Le 10/03/2020 à 14:08, Chen Qun a écrit :
+> Here are some redundant statements, we can clean them up.
+> Clang static code analyzer show warning:
+> hw/scsi/megasas.c:1175:32: warning: Value stored to 'max_ld_disks' during its initialization is never read
+>     uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
+>                                ^~~~~~~~~~~~   ~~~~~~~~~~
+> hw/scsi/megasas.c:1183:9: warning: Value stored to 'max_ld_disks' is never read
+>         max_ld_disks = 0;
+>         ^              ~
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+This has been introduced by:
 
--- 
+d97ae3684863 ("megasas: fixup MFI_DCMD_LD_LIST_QUERY")
+
+And modified by:
+
+commit 3f2cd4dd47719497540fb0e0aa0635e127f2838f
+Author: Hannes Reinecke <hare@suse.de>
+Date:   Wed Oct 29 13:00:07 2014 +0100
+
+    megasas: fixup device mapping
+
+    Logical drives can only be addressed with the 'target_id' number;
+    LUN numbers cannot be selected.
+    Physical drives can be selected with both, target and LUN id.
+
+    So we should disallow LUN numbers not equal to 0 when in
+    RAID mode.
+
+    Signed-off-by: Hannes Reinecke <hare@suse.de>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+...
+@@ -1143,10 +1152,13 @@ static int
+megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
+         return MFI_STAT_INVALID_PARAMETER;
+     }
+     dcmd_size = sizeof(uint32_t) * 2 + 3;
+-
++    max_ld_disks = cmd->iov_size - dcmd_size;
+     if (megasas_is_jbod(s)) {
+         max_ld_disks = 0;
+     }
++    if (max_ld_disks > MFI_MAX_LD) {
++        max_ld_disks = MFI_MAX_LD;
++    }
+     QTAILQ_FOREACH(kid, &s->bus.qbus.children, sibling) {
+         SCSIDevice *sdev = DO_UPCAST(SCSIDevice, qdev, kid->child);
+...
+
+
 Thanks,
-
-David / dhildenb
-
+Laurent
 
