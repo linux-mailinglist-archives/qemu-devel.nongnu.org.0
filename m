@@ -2,104 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4063F17F215
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:41:08 +0100 (CET)
-Received: from localhost ([::1]:55376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B2717F21A
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 09:41:53 +0100 (CET)
+Received: from localhost ([::1]:55408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBaRn-0005Xq-9S
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52052)
+	id 1jBaSW-0006zc-5G
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 04:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53483)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBaQl-00057b-Cr
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:40:04 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jBaRO-0005dt-4l
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:40:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBaQk-00039N-7P
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:40:03 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:59059)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1jBaQj-00030a-Ud
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:40:02 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MNKuI-1izxQV09DG-00Oskk; Tue, 10 Mar 2020 09:39:49 +0100
-To: unai.martinezcorral@ehu.eus, Eric Blake <eblake@redhat.com>
-References: <20200309191200.GA60@669c1c222ef4>
- <20200309191846.GA65@669c1c222ef4>
- <9f03379d-f4fa-2ac4-409f-123222233cf4@redhat.com>
- <CAGZZdDHj6nA78YYXNOpncOTQSNqWKLwTXY_ppU+REikCQcpRtQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v10 01/10] qemu-binfmt-conf.sh: enforce style consistency
-Message-ID: <5e41fff2-20af-c4b1-5d57-26da7f08a57c@vivier.eu>
-Date: Tue, 10 Mar 2020 09:39:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <imammedo@redhat.com>) id 1jBaRK-0005Ef-8x
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:40:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35134)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jBaRK-0005DT-2p
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 04:40:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583829637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eL++fHJNJBn9UkXcjxdTRK6OFnfKTM53Nr9tWjRcnLQ=;
+ b=Z7mGDSnlLRgUQCiFZFLoDAN5ndtdhlxs9bwHJ+GDQ7Aa1Carf8SUqJSn4SsSwvdb7844WL
+ wHN3DREd1szSHFTic9cHwuKdfwsx41KTLeLCU7kmqmkmQX5yS/9Y7U9sSlq1ovXkGErbHk
+ y3L3DCjoNkk1JnoZ2AbI6Do+B6Y1lZg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-ObDqhq_9NIuLDs8vSuPFMA-1; Tue, 10 Mar 2020 04:40:33 -0400
+X-MC-Unique: ObDqhq_9NIuLDs8vSuPFMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB2411005514;
+ Tue, 10 Mar 2020 08:40:32 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFE205D9E2;
+ Tue, 10 Mar 2020 08:40:28 +0000 (UTC)
+Date: Tue, 10 Mar 2020 09:40:27 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v5 00/16] APIC ID fixes for AMD EPYC CPU model
+Message-ID: <20200310094027.48738e0e@redhat.com>
+In-Reply-To: <158326531474.40452.11433722850425537745.stgit@naples-babu.amd.com>
+References: <158326531474.40452.11433722850425537745.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGZZdDHj6nA78YYXNOpncOTQSNqWKLwTXY_ppU+REikCQcpRtQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Y8eKvHDkh52l1McAtke3sUeIkZ+CLLoN2oGUNkWe/plm/ELbG+Q
- EuvEclyZpc34WZRVQvh/9SrrBXIsn4GIyFCN9vjbpmAaiSBhYB2Iy0Phs3dxh3j/XB3RozF
- jcGXZWZ2BTFDSnxEdEPJtHvcVa5UCaOa7mBNbsbVjAQDp/aagvKzUaZdXx1IqxDmss/i3xp
- ww1cIDh5INT4VA1ootJwg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sDQXzaht94c=:T7C9QxjDYwz1dEhOb2HA7e
- Sh2EEZiiK/ngMYBd2TcPSPIUPuPkXS6S9+ST+/7B1qr8UYE5v5SEbpkiUqbr15Efp4hvKmzAv
- fVyZITqWEpSz95z4rtVTNB7NBt0LFBtPgjs59I9m63R0fPVY2qjWUu/SSZzdVTIateWluYr6o
- /Sd64+EugwNMMveyM1iw4waI8Agpp0Y3hnG8RqWlVhG47/DSc3xryWi8Ar6kCyIEMUmZHa8TG
- 8GWnXOoXBFsDAmi4Tc/BLIOJa3ZHi3SRlClPQqGDKGHzBanf+vz/kVBub2wxhZO3GuQ/GW4YH
- M1mSy+Azgld375vMGgv7jdyCkb6G9ZGy8PMhkNMH/WHSpPtiQ4Sf9UDFp5+uoFO31NrdQBEM5
- jlgbJIVGYcwrg1tCzky2DAiz2mQyCiOu/4BCOHAbU/ni91eenX4+4eB/tHy1uawEEGgHBePFA
- n95hlAYW730KLhpsM35Mkzj2pcf4iRAMBRsbnb/2aV7BnGaOQm4ShShKRq6TqwxPr9Xz/AWhH
- QEGrLErPlgE4+en14+ObeSdath2DqpE6912WL/dA3+fRU0Ivzl0ocqZ7btbXWwcP3N0bK/fra
- BeyM2m8Gl1lcEhi+u77n4TVFvrQokiYvW+hkmqpIMSJinevEKxRgLzj5AxJLTwWeIDPFodagN
- GxOrc+Y7qxjKb8FxKpfKjc0O/kJxY1iOAjikVhrzN35dk2k0TXLAFpykTgWFavKewwBAbbEqx
- QgYS2pW0c9qdKoMuvWMCFZ3i6QvwgaY82SdDcjtvBEyh7/+WHGYQIzY9e2sUR6RyWhnAw+Yrh
- 0rWeUg4LsZzxFWoGREH4YE3/fDc5ukq2DSrb3mlt7BYyWEc3QDLLQPkXDbA6sfSZD7qAs3e
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,36 +69,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/03/2020 à 20:36, Unai Martinez Corral a écrit :
-> 2020/3/9 20:30, Eric Blake:
-> 
->     On 3/9/20 2:18 PM, Unai Martinez-Corral wrote:
->     > Spaces are removed before '; then', for consistency with other scripts
->     > in the project.
->     >
->     > Signed-off-by: Unai Martinez-Corral <unai.martinezcorral@ehu.eus>
->     > Reviewed-by: Laurent Vivier <laurent@vivier.eu
->     <mailto:laurent@vivier.eu>>
-> 
->     Technically, since this change is different than what Laurent
->     previously
->     reviewed, it might have been better to drop the R-b to make sure
->     everything is still okay.  But I'll let Laurent chime in, no need to
->     respin just yet.
-> 
-> 
-> Thanks for clarifying. Honestly, I was not sure about how to proceed.
-> 
+On Tue, 03 Mar 2020 13:56:51 -0600
+Babu Moger <babu.moger@amd.com> wrote:
 
-Yes, it's better to drop the R-b if you change something that could
-impact the review.
+> This series fixes APIC ID encoding problem reported on AMD EPYC cpu model=
+s.
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D1728166
+>=20
+> Currently, the APIC ID is decoded based on the sequence
+> sockets->dies->cores->threads. This works for most standard AMD and other
+> vendors' configurations, but this decoding sequence does not follow that =
+of
+> AMD's APIC ID enumeration strictly. In some cases this can cause CPU topo=
+logy
+> inconsistency.  When booting a guest VM, the kernel tries to validate the
+> topology, and finds it inconsistent with the enumeration of EPYC cpu mode=
+ls.
+>=20
+> To fix the problem we need to build the topology as per the Processor
+> Programming Reference (PPR) for AMD Family 17h Model 01h, Revision B1
+> Processors. The documentation is available from the bugzilla Link below.
+>=20
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
+>=20
+> Here is the text from the PPR.
+> Operating systems are expected to use Core::X86::Cpuid::SizeId[ApicIdSize=
+], the
+> number of least significant bits in the Initial APIC ID that indicate cor=
+e ID
+> within a processor, in constructing per-core CPUID masks.
+> Core::X86::Cpuid::SizeId[ApicIdSize] determines the maximum number of cor=
+es
+> (MNC) that the processor could theoretically support, not the actual numb=
+er of
+> cores that are actually implemented or enabled on the processor, as indic=
+ated
+> by Core::X86::Cpuid::SizeId[NC].
+> Each Core::X86::Apic::ApicId[ApicId] register is preset as follows:
+> =E2=80=A2 ApicId[6] =3D Socket ID.
+> =E2=80=A2 ApicId[5:4] =3D Node ID.
+> =E2=80=A2 ApicId[3] =3D Logical CCX L3 complex ID
+> =E2=80=A2 ApicId[2:0]=3D (SMT) ? {LogicalCoreID[1:0],ThreadId} : {1'b0,Lo=
+gicalCoreID[1:0]}
+>=20
+> v5:
+>  Generated the patches on top of git://github.com/ehabkost/qemu.git (x86-=
+next).
+>  Changes from v4.
+>  1. Re-arranged the patches 2 and 4 as suggested by Igor.
+>  2. Kept the apicid handler functions inside X86MachineState as discussed=
+.
+>     These handlers are loaded from X86CPUDefinitions.
+>  3. Removed unnecessary X86CPUstate initialization from x86_cpu_new. Sugg=
+ested
+>     by Igor.
+>  4. And other minor changes related to patch format.
+>=20
+> v4:
+>  https://lore.kernel.org/qemu-devel/158161767653.48948.105780644828783995=
+56.stgit@naples-babu.amd.com/
+>  Changes from v3.
+>  1. Moved the arch_id calculation inside the function x86_cpus_init. With=
+ this change,
+>     we dont need to change common numa code.(suggested by Igor)
+>  2. Introduced the model specific handlers inside X86CPUDefinitions.
+>     These handlers are loaded into X86MachineState during the init.
+>  3. Removed llc_id from x86CPU.
+>  4. Removed init_apicid_fn hanlder from MachineClass. Kept all the code c=
+hanges
+>     inside the x86.
+>  5. Added new handler function apicid_pkg_offset for pkg_offset calculati=
+on.
+>  6. And some Other minor changes.
+>=20
+> v3:
+>   https://lore.kernel.org/qemu-devel/157541968844.46157.17994918142533791=
+313.stgit@naples-babu.amd.com/=20
+>   1. Consolidated the topology information in structure X86CPUTopoInfo.
+>   2. Changed the ccx_id to llc_id as commented by upstream.
+>   3. Generalized the apic id decoding. It is mostly similar to current ap=
+ic id
+>      except that it adds new field llc_id when numa configured. Removes a=
+ll the
+>      hardcoded values.
+>   4. Removed the earlier parse_numa split. And moved the numa node initia=
+lization
+>      inside the numa_complete_configuration. This is bit cleaner as comme=
+nted by=20
+>      Eduardo.
+>   5. Added new function init_apicid_fn inside machine_class structure. Th=
+is
+>      will be used to update the apic id handler specific to cpu model.
+>   6. Updated the cpuid unit tests.
+>   7. TODO : Need to figure out how to dynamically update the handlers usi=
+ng cpu models.
+>      I might some guidance on that.
+>=20
+> v2:
+>   https://lore.kernel.org/qemu-devel/156779689013.21957.16315515729506762=
+12.stgit@localhost.localdomain/
+>   1. Introduced the new property epyc to enable new epyc mode.
+>   2. Separated the epyc mode and non epyc mode function.
+>   3. Introduced function pointers in PCMachineState to handle the
+>      differences.
+>   4. Mildly tested different combinations to make things are working as e=
+xpected.
+>   5. TODO : Setting the epyc feature bit needs to be worked out. This fea=
+ture is
+>      supported only on AMD EPYC models. I may need some guidance on that.
+>=20
+> v1:
+>   https://lore.kernel.org/qemu-devel/20190731232032.51786-1-babu.moger@am=
+d.com/
 
-But this patch seems good, so you can let my R-b now.
+There will be soft freeze soon,
+if you respin it soon, I'll review it ASAP.
+I hope there won't be anything to amend, so
+we could try merging it this week (otherwise
+it will be postponed till next release).
 
-Thanks,
-Laurent
+I guess it should go via Eduardo's tree.
+
+>=20
+> ---
+>=20
+> Babu Moger (16):
+>       hw/i386: Rename X86CPUTopoInfo structure to X86CPUTopoIDs
+>       hw/i386: Introduce X86CPUTopoInfo to contain topology info
+>       hw/i386: Consolidate topology functions
+>       machine: Add SMP Sockets in CpuTopology
+>       hw/i386: Remove unnecessary initialization in x86_cpu_new
+>       hw/i386: Update structures to save the number of nodes per package
+>       hw/i386: Rename apicid_from_topo_ids to x86_apicid_from_topo_ids
+>       hw/386: Add EPYC mode topology decoding functions
+>       target/i386: Cleanup and use the EPYC mode topology functions
+>       hw/i386: Introduce apicid functions inside X86MachineState
+>       target/i386: Load apicid model specific handlers from X86CPUDefinit=
+ion
+>       hw/i386: Use the apicid handlers from X86MachineState
+>       target/i386: Add EPYC model specific handlers
+>       hw/i386: Move arch_id decode inside x86_cpus_init
+>       i386: Fix pkg_id offset for EPYC cpu models
+>       tests: Update the Unit tests
+>=20
+>=20
+>  hw/core/machine.c          |    1=20
+>  hw/i386/pc.c               |   54 ++++++-----
+>  hw/i386/x86.c              |   72 ++++++++++----
+>  include/hw/boards.h        |    2=20
+>  include/hw/i386/topology.h |  215 ++++++++++++++++++++++++++++++--------=
+----
+>  include/hw/i386/x86.h      |   12 ++
+>  target/i386/cpu.c          |  224 +++++++++++++++++---------------------=
+------
+>  target/i386/cpu.h          |    3 +
+>  tests/test-x86-cpuid.c     |  115 +++++++++++++----------
+>  vl.c                       |    1=20
+>  10 files changed, 403 insertions(+), 296 deletions(-)
+>=20
+> --
+> Signature
+>=20
+
 
