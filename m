@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59ACE180A99
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 22:38:46 +0100 (CET)
-Received: from localhost ([::1]:40814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5792C180AA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 22:40:44 +0100 (CET)
+Received: from localhost ([::1]:40840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBmaL-0002oW-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 17:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1jBmcF-0005ha-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 17:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53520)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jBmUG-0000tN-5L
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 17:32:30 -0400
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jBmUI-0000w9-3l
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 17:32:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1jBmUE-0008Nv-1F
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 17:32:28 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51889)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1jBmUF-0008QT-CL
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 17:32:30 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55106)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1jBmUD-0008NP-QB; Tue, 10 Mar 2020 17:32:25 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id a132so3062261wme.1;
- Tue, 10 Mar 2020 14:32:25 -0700 (PDT)
+ id 1jBmUF-0008O9-4X; Tue, 10 Mar 2020 17:32:27 -0400
+Received: by mail-wm1-x336.google.com with SMTP id n8so3056723wmc.4;
+ Tue, 10 Mar 2020 14:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/HJybUpdOHqvFv3N4GdlfFuG/BjvM7fIXK9BS11nCpY=;
- b=ePFXIF9WwAkQjjEQZs/lCgQSLeLEt3AZBpz6zng9XUHpF80jU2jWZ2oBhesKy81pAX
- RcPF/2MRWSb71keyRXmHs6H2mXttLzhJbsCWpB2Pa6B2yprC2znvuIpTRo9v0t0zUplC
- /hOBupEH4uaI37nTCrgdn3z8RXJ/6YzDgqdeiUzT1pUWkIB7RB04giau2/KBgVdH4X3T
- dIR3zNOZZwhfvQkME7KG5jXApeO7OQDp2PCv85TIgbtmssT8PRV+TVDIIQj7e6/dDE9f
- NdvHhu55dg8hpIdCIggyBacquHEmlqOtjfbAl+bYH4JX5A7DbJzpCOb5jOn/4yAhXimF
- MJ3A==
+ bh=RraY0qfx7X6byHyuRorNYuDURaLXwN/KHuDImst4oWU=;
+ b=BvQ/wmdPu6T+aD9nC5ekbuZD1CHF9pUmbe9ze9noBoiq+B/C0vJDF8p5dPKuH1BD9D
+ Q4yphFRde1QUyqldhasAHwyEgjLZFjIdVhEAjPH7Z6gDO6mTZsqC2CLHbV7ukhKVQfv8
+ FrA/rnF7cLM7WsfInUc4hP/3LKiU2+JY7leaGW7B+d3wUmlNsYCWpPNcMesMBV4QV3pF
+ Vk7NRvSqNzLO9q8aN5lrULy4fZlutPv+GDtdGgYGpVQ53SLSf5JPm78VHYWbwVBUBJ9O
+ qrvygWtsGbU1KWmNd/nvbPeyBXXtYQ9R2A3nSM3H6NdsHRu0TxRwwkcxZMNYW+5UPO5e
+ nZiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/HJybUpdOHqvFv3N4GdlfFuG/BjvM7fIXK9BS11nCpY=;
- b=pqYXHoHrpRYZpo/D0xasqFtpSzOWLWuGTYWcY78ae0NI8SFfXk/3jcB632OhESSCv7
- PnHC/4qfRCyZS7DVWv/TXkz0Lw1zfPqMDdK5iZ4jMk6Nic907pJsTyxQqXCNsoQD67zX
- zSmRePwQyEQWoOAxhK1cGaEmlEnQeEOavlcr4U6AJKdC2au3gw3qMN7wRgucn2wbAHmB
- muAER8mSALq4LWckawAseOC9lbaP5nhWjYycnvQ8N1kpI7KM+z8b9xfw3sE1HCenCdil
- 4jV/os9sOwGUv87Nw0jJ/3QkZXuai7B+UM+Wt1K3IXypy4eUdSnyRtCUJ0UM3oHOqO3b
- KngA==
-X-Gm-Message-State: ANhLgQ2qnCHHfsLue1J4k7Wk7xBY/P2+HXjA7sfzuO6C+4PWAhTiMDCU
- 63sv92YKbVD36LHLLhrSIzSzaCA2z/E=
-X-Google-Smtp-Source: ADFU+vvY1rBDYiIReTZ6CksCgm2aCIebiNSzEvx0Kp0vR1R5XpPJUdrYVgPwSrKoH96j4ABATLEHfA==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr3960143wma.89.1583875944357;
- Tue, 10 Mar 2020 14:32:24 -0700 (PDT)
+ bh=RraY0qfx7X6byHyuRorNYuDURaLXwN/KHuDImst4oWU=;
+ b=RlbMcoFFhztVsWkMen5gNIXGrdpugEax+wDWmyG+mxrMNQqQMW9hLrsZVs4dd/jvlz
+ eCydiEi64txokV711SIQh6zXfE2qfvuHEXIWjlExEmbKYGO/FgJVJAH138DWhzEbnQev
+ ZdIhfC5oiwYEcO2Xqa7/DP/a+OBElq1Hg1UYp2OfcvMypTk1f1UVs2MzXqVhsv4n2lJv
+ 18Eyig7S9y0NNl2BCguIeGt013oy8bRZMONbDGPV82sPMAqgoGuOr5C7DNP5EBi9bt5o
+ lloPOMOiCEbY8MMqtn+pYRakLia3mSjRZVDaV0ATHyBK6Vck3Y7w4GD/5qPzfHluD0O8
+ 934w==
+X-Gm-Message-State: ANhLgQ19U8j+Frf+5gF0vC8dfHyPficiqSr8WsWLjLBPKSl/tyYypmT6
+ E8uYSmPFK5tZK6bwZ1x8wrKoXnkbgXA=
+X-Google-Smtp-Source: ADFU+vvyD1gFSNT9oL2oxvGZuL9uJUX/BQrj9kYn0bHbjmUNwNM5xP6/G0riG4H8bSdLcdbmSL+GlQ==
+X-Received: by 2002:a1c:e442:: with SMTP id b63mr4101380wmh.174.1583875945474; 
+ Tue, 10 Mar 2020 14:32:25 -0700 (PDT)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id 2sm32803580wrf.79.2020.03.10.14.32.23
+ by smtp.gmail.com with ESMTPSA id 2sm32803580wrf.79.2020.03.10.14.32.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 14:32:23 -0700 (PDT)
+ Tue, 10 Mar 2020 14:32:24 -0700 (PDT)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 14/18] tests/boot_linux_console: Add initrd test for the
- Orange Pi PC board
-Date: Tue, 10 Mar 2020 22:31:59 +0100
-Message-Id: <20200310213203.18730-15-nieklinnenbank@gmail.com>
+Subject: [PATCH v7 15/18] tests/boot_linux_console: Add a SD card test for the
+ OrangePi PC board
+Date: Tue, 10 Mar 2020 22:32:00 +0100
+Message-Id: <20200310213203.18730-16-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200310213203.18730-1-nieklinnenbank@gmail.com>
 References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,15 +87,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This test boots a Linux kernel on a OrangePi PC board and verify
-the serial output is working.
-
 The kernel image and DeviceTree blob are built by the Armbian
 project (based on Debian):
 https://www.armbian.com/orange-pi-pc/
 
-The cpio image used comes from the linux-build-test project:
-https://github.com/groeck/linux-build-test
+The SD image is from the kernelci.org project:
+https://kernelci.org/faq/#the-code
 
 If ARM is a target being built, "make check-acceptance" will
 automatically include this test by the use of the "arch:arm" tags.
@@ -107,86 +104,67 @@ Alternatively, this test can be run using:
   console: Booting Linux on physical CPU 0x0
   console: Linux version 4.20.7-sunxi (root@armbian.com) (gcc version 7.2.1 20171011 (Linaro GCC 7.2-2017.11)) #5.75 SMP Fri Feb 8 09:02:10 CET 2019
   console: CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=50c5387d
-  console: CPU: div instructions available: patching division code
-  console: CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
-  console: OF: fdt: Machine model: Xunlong Orange Pi PC
   [...]
-  console: Trying to unpack rootfs image as initramfs...
-  console: Freeing initrd memory: 3256K
-  console: Freeing unused kernel memory: 1024K
-  console: Run /init as init process
-  console: mount: mounting devtmpfs on /dev failed: Device or resource busy
-  console: Starting logging: OK
-  console: Initializing random number generator... random: dd: uninitialized urandom read (512 bytes read)
-  console: done.
-  console: Starting network: OK
-  console: Found console ttyS0
-  console: Linux version 4.20.7-sunxi (root@armbian.com) (gcc version 7.2.1 20171011 (Linaro GCC 7.2-2017.11)) #5.75 SMP Fri Feb 8 09:02:10 CET 2019
-  console: Boot successful.
-  console: cat /proc/cpuinfo
-  console: / # cat /proc/cpuinfo
-  console: processor      : 0
-  console: model name     : ARMv7 Processor rev 5 (v7l)
-  console: BogoMIPS       : 125.00
-  console: Features       : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm
-  console: CPU implementer        : 0x41
-  console: CPU architecture: 7
-  console: CPU variant    : 0x0
-  console: CPU part       : 0xc07
-  console: CPU revision   : 5
+  console: sunxi-wdt 1c20ca0.watchdog: Watchdog enabled (timeout=16 sec, nowayout=0)
+  console: sunxi-mmc 1c0f000.mmc: Linked as a consumer to regulator.2
+  console: sunxi-mmc 1c0f000.mmc: Got CD GPIO
+  console: ledtrig-cpu: registered to indicate activity on CPUs
+  console: hidraw: raw HID events driver (C) Jiri Kosina
+  console: usbcore: registered new interface driver usbhid
+  console: usbhid: USB HID core driver
+  console: Initializing XFRM netlink socket
+  console: sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
+  console: NET: Registered protocol family 10
+  console: mmc0: host does not support reading read-only switch, assuming write-enable
+  console: mmc0: Problem switching card into high-speed mode!
+  console: mmc0: new SD card at address 4567
+  console: mmcblk0: mmc0:4567 QEMU! 60.0 MiB
   [...]
-  console: processor      : 3
-  console: model name     : ARMv7 Processor rev 5 (v7l)
-  console: BogoMIPS       : 125.00
-  console: Features       : half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt vfpd32 lpae evtstrm
-  console: CPU implementer        : 0x41
-  console: CPU architecture: 7
-  console: CPU variant    : 0x0
-  console: CPU part       : 0xc07
-  console: CPU revision   : 5
-  console: Hardware       : Allwinner sun8i Family
-  console: Revision       : 0000
-  console: Serial         : 0000000000000000
-  console: cat /proc/iomem
-  console: / # cat /proc/iomem
-  console: 01000000-010fffff : clock@1000000
-  console: 01c00000-01c00fff : system-control@1c00000
-  console: 01c02000-01c02fff : dma-controller@1c02000
-  [...]
+  console: EXT4-fs (mmcblk0): mounting ext2 file system using the ext4 subsystem
+  console: EXT4-fs (mmcblk0): mounted filesystem without journal. Opts: (null)
+  console: VFS: Mounted root (ext2 filesystem) on device 179:0.
+  console: Run /sbin/init as init process
+  console: EXT4-fs (mmcblk0): re-mounted. Opts: block_validity,barrier,user_xattr,acl
+  console: Starting syslogd: OK
+  console: Starting klogd: OK
+  console: Populating /dev using udev: udevd[203]: starting version 3.2.7
+  console: /bin/sh: can't access tty; job control turned off
+  console: cat /proc/partitions
+  console: / # cat /proc/partitions
+  console: major minor  #blocks  name
+  console: 1        0       4096 ram0
+  console: 1        1       4096 ram1
+  console: 1        2       4096 ram2
+  console: 1        3       4096 ram3
+  console: 179        0      61440 mmcblk0
   console: reboot
   console: / # reboot
-  console: / # Found console ttyS0
-  console: Stopping network: OK
-  console: hrtimer: interrupt took 21852064 ns
-  console: Saving random seed... random: dd: uninitialized urandom read (512 bytes read)
-  console: done.
-  console: Stopping logging: OK
   console: umount: devtmpfs busy - remounted read-only
-  console: umount: can't unmount /: Invalid argument
+  console: EXT4-fs (mmcblk0): re-mounted. Opts: (null)
   console: The system is going down NOW!
   console: Sent SIGTERM to all processes
   console: Sent SIGKILL to all processes
   console: Requesting system reboot
   console: reboot: Restarting system
-  PASS (48.32 s)
-  JOB TIME   : 49.16 s
+  JOB TIME   : 68.64 s
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 [NL: rename in commit message Raspbian to Armbian, remove vm.set_machine()]
+[NL: extend test with ethernet device checks]
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- tests/acceptance/boot_linux_console.py | 40 ++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 6f5af582f3..dabc8ef2af 100644
+index dabc8ef2af..0762dbe83a 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -532,6 +532,46 @@ class BootLinuxConsole(Test):
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
+@@ -572,6 +572,53 @@ class BootLinuxConsole(Test):
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
  
-+    def test_arm_orangepi_initrd(self):
++    def test_arm_orangepi_sd(self):
 +        """
 +        :avocado: tags=arch:arm
 +        :avocado: tags=machine:orangepi-pc
@@ -199,30 +177,37 @@ index 6f5af582f3..dabc8ef2af 100644
 +                                            '/boot/vmlinuz-4.20.7-sunxi')
 +        dtb_path = '/usr/lib/linux-image-dev-sunxi/sun8i-h3-orangepi-pc.dtb'
 +        dtb_path = self.extract_from_deb(deb_path, dtb_path)
-+        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
-+                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-+                      'arm/rootfs-armv7a.cpio.gz')
-+        initrd_hash = '604b2e45cdf35045846b8bbfbf2129b1891bdc9c'
-+        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+        initrd_path = os.path.join(self.workdir, 'rootfs.cpio')
-+        archive.gzip_uncompress(initrd_path_gz, initrd_path)
++        rootfs_url = ('http://storage.kernelci.org/images/rootfs/buildroot/'
++                      'kci-2019.02/armel/base/rootfs.ext2.xz')
++        rootfs_hash = '692510cb625efda31640d1de0a8d60e26040f061'
++        rootfs_path_xz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
++        rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
++        archive.lzma_uncompress(rootfs_path_xz, rootfs_path)
 +
 +        self.vm.set_console()
 +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
 +                               'console=ttyS0,115200 '
++                               'root=/dev/mmcblk0 rootwait rw '
 +                               'panic=-1 noreboot')
 +        self.vm.add_args('-kernel', kernel_path,
 +                         '-dtb', dtb_path,
-+                         '-initrd', initrd_path,
++                         '-drive', 'file=' + rootfs_path + ',if=sd,format=raw',
 +                         '-append', kernel_command_line,
 +                         '-no-reboot')
 +        self.vm.launch()
-+        self.wait_for_console_pattern('Boot successful.')
++        shell_ready = "/bin/sh: can't access tty; job control turned off"
++        self.wait_for_console_pattern(shell_ready)
 +
 +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
 +                                                'Allwinner sun8i Family')
-+        exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
-+                                                'system-control@1c00000')
++        exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
++                                                'mmcblk0')
++        exec_command_and_wait_for_pattern(self, 'ifconfig eth0 up',
++                                                 'eth0: Link is Up')
++        exec_command_and_wait_for_pattern(self, 'udhcpc eth0',
++            'udhcpc: lease of 10.0.2.15 obtained')
++        exec_command_and_wait_for_pattern(self, 'ping -c 3 10.0.2.2',
++            '3 packets transmitted, 3 packets received, 0% packet loss')
 +        exec_command_and_wait_for_pattern(self, 'reboot',
 +                                                'reboot: Restarting system')
 +
