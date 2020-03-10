@@ -2,30 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8E0180163
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:17:29 +0100 (CET)
-Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE78D180170
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:19:19 +0100 (CET)
+Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgdM-0008Az-Hh
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
+	id 1jBgf8-0002nL-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBgOT-0001zv-W4
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:02:10 -0400
+ (envelope-from <laurent@vivier.eu>) id 1jBgP5-0002n3-Oq
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:02:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBgOO-0001kV-T5
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:02:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:60543)
+ (envelope-from <laurent@vivier.eu>) id 1jBgP4-0003Z0-En
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:02:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:41961)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBgOL-0001Wa-RH; Tue, 10 Mar 2020 11:01:58 -0400
+ id 1jBgP1-0003Qg-S0; Tue, 10 Mar 2020 11:02:40 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MNKyQ-1j0Cyq2uZG-00OrTB; Tue, 10 Mar 2020 16:01:26 +0100
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MyK1E-1jYizR1dwy-00ydJN; Tue, 10 Mar 2020 16:02:05 +0100
+Subject: Re: [PATCH v3 02/12] block/iscsi:Remove redundant statement in
+ iscsi_open()
+To: Kevin Wolf <kwolf@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>
+References: <20200302130715.29440-1-kuhn.chenqun@huawei.com>
+ <20200302130715.29440-4-kuhn.chenqun@huawei.com>
+ <20200310142614.GF6926@linux.fritz.box>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,36 +72,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PATCH] hw/scsi/megasas:Clean up some redundant code fix Clang
- warnings
-Message-ID: <bccf78b8-4c63-1587-742c-2595fe78e632@vivier.eu>
-Date: Tue, 10 Mar 2020 16:01:24 +0100
+Message-ID: <a1ed92ff-4842-c437-4e22-a94c46760cc0@vivier.eu>
+Date: Tue, 10 Mar 2020 16:02:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200310142614.GF6926@linux.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GiHOeaRLQQTOTlINiy4SADyFp1QMn97dMKxLoWqoggbacfXI0Kr
- YbK6/YNNVaRzB7maXqrAzYaEa3SLR4Y/tDuesMWYmmdbYNvxIp3i9tEBZoYgZLRc8I2Xs2Q
- jd5Bq6TjmePli11p/mn3mOWJtZUOPIZAd1e5Wgc7PlIdrEPl2ksjHb7oNHbTwaXNwy1o2Kv
- hDqTCF9lV3XxiLoJlypVQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DMFcKEtiNOw=:WXU03oMflDDRSp+6wIKLFj
- IpfD4WkQd30WuM6MUPONDh5RpOQuUPZvLzPXuaNzdvQrDaAEobLUQLF7paCbrNP7iyVWOFn8Z
- rrmJlCMpQmjRJ2hCwSlqYAG1AcPSwUXGfSmHkhrEwlwHrG/koNvSyp8mf23Y4AJn2BF2tMG4W
- ZlOoRIbcOUdBzC6sTaA1lfHyhhpfTm4NFoX7OvnXd/oedDTRePNcb78PjuzqPJYHnytLXqH43
- Awr9SdJkC8TIox6gp3IPO1It3X8v0aEhioygeEvwDhm6Skcgt50NmhWNatmSjsptCP6C6iFkD
- WBj6WGYatQCpPFgCo6JZn8VoBjbED5gAXv7WvBHl8uO/p53vzos5Ujr253mO30CPzi4THmtDY
- hJEGc89CHno1oemV5Z80tgl4zWCpNkZJeEZ0uwJjyLX0M1rCqPXOrxMpW6n+F/WZNdvnWe2oH
- d56XxrSvHHcM8QAuk5ObX/jBxxTn1pqsz1cdyDjTuTqS87HMIqqrhj0g+apdeyOe1JWFa9kcf
- EzvcE/tbX4ZGrg7leYODNBGGtay3XU3IZrdmWWCCajz7NU2yye22qY003314WiPJqgOPdk1bd
- s+Irg0sry0NOeevDkTNFGvaYsugzXQxv/HxoDHbTFR+pCJPuZYLMcDY2vHJsXCDKnq34rnwgG
- J+/deVywPGFprAYYlE1CM4ZbgBxY6daTtc6NfSEhWNY3tM+ydjKWM/5SzgIKZIGJrp8P6cauR
- qGW5c8KdL8mdAjwXSO3Z/NvdTc6lFSK8YJ+nkHjdBjVmdZ93WitNyBUkk0X2I9hRl54zz2rjo
- KkZmmU4bTI0RLM5IrfrD1UiazwZ3sKe+4gTDDUXGOKx8R5NCsYuXt4sMKrj3ab4zo6BVghv
+X-Provags-ID: V03:K1:v8j2ig5QH8TsKZObjeVkeSJ+nkwqXBuvWMOHB+3jGzLXsQWnxd7
+ +y8hhrABcNlsW45PmTte1rPMjFFuJQtxXOIYrob2VxpErw5f9rouP8nwOGJY+pAUFS3tRhn
+ 9UIDKa1CozA+VhOX1naAUxFONUboB2DG+hExTdo2FbX2fN1XzlMW6D73peTYvhWJmX/0dXz
+ 9Qf5l69FvMixahUjHo8Ag==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BfgVxwcLdPs=:2NgBEW9SgghtpiG0KMWCAe
+ 3OVrqXt4Pziv0LuKktel4gur+fIUf/7tb1N0w0U2NIdObQ7lHhDd5p7PJFkw0n8cQ1TJR2zf5
+ CGfvh4Ayb8KxGQOUQvLlB44u0WhhYgWW7xI029Sj+nwAzPDIsvsDL99qVye9y7zNKW0MzugJb
+ NIELM+zvzNjdJyn4hJXbrmaB4xYXiE0HyWLWHBXV+VS3WbEuBbMNrV6NIxgE5dtQNR9c+z6kv
+ S34+Beof7UN4GPXAsFKBCoHIRnYi/fdYK6uXBCQ55RwbaZ4+aHsZgbjj67KVKwNxK4e6RbLVu
+ 5FT9j44he+G93iMzYDNICH9Z3QpzJRQY9jZXV0Cn0sW1XA0AaQ1oRPIYAXfK9WFLseMpP2GXy
+ M+ZIY34YcQ49aJ9sbiQ6dKHe1ACPJHleh1+IIsD946ndqKuVmQTaYUsNOE/vZzUw05NDREdWH
+ 1RSrixU+WAbPckUFtKKYTiFyq147+jDJKJiziHTVWwaHuo+SvQoWCMm3QqF75xv30ZLaOhRdU
+ TexAYjY30iFdmKJzCjqvfIUzY7vDkxXTq2a5MIfk3wK7EvSEWoSZnjJ1zNO+Tc6le60br7Drv
+ v2VAH+sMq03F6Iq1YBAoaEDF1YzZ5vjhEz5ryZ0NFdSoilYiXvW6M0qDHzQczztcpJQjdy0mK
+ 7RZIjx+F+DLO0SnfOnelZUk04JsxNqtiUvlE+2U/qBDGaOUvHwaNMig5yyWlA5eogH7XMA8T+
+ pSvlCSqo/KRycVR/vpCrXUueKcqQM8quALenOobTd9WDkNKvQxxyA7gZBD3VHkWg0EvCGoo8G
+ gPukj9BEIrehVeqoxNYkrXADtp4bmNjjdlyxfwvlJ+UHZHh1VdYUWrlzRStX8+lWuUQhZRP
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,62 +111,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
- zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
  Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2020 à 14:08, Chen Qun a écrit :
-> Here are some redundant statements, we can clean them up.
-> Clang static code analyzer show warning:
-> hw/scsi/megasas.c:1175:32: warning: Value stored to 'max_ld_disks' during its initialization is never read
->     uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
->                                ^~~~~~~~~~~~   ~~~~~~~~~~
-> hw/scsi/megasas.c:1183:9: warning: Value stored to 'max_ld_disks' is never read
->         max_ld_disks = 0;
->         ^              ~
+Le 10/03/2020 à 15:26, Kevin Wolf a écrit :
+> Am 02.03.2020 um 14:07 hat Chen Qun geschrieben:
+>> Clang static code analyzer show warning:
+>>   block/iscsi.c:1920:9: warning: Value stored to 'flags' is never read
+>>         flags &= ~BDRV_O_RDWR;
+>>         ^        ~~~~~~~~~~~~
+>>
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>> ---
+>> Cc: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: Peter Lieven <pl@kamp.de>
+>> Cc: Kevin Wolf <kwolf@redhat.com>
+>> Cc: Max Reitz <mreitz@redhat.com>
+>>
+>> v1->v2:
+>>  Keep the 'flags' then use it(Base on Kevin's comments).
+> 
+> I think this patch wants a different subject line now.
 
-This has been introduced by:
 
-d97ae3684863 ("megasas: fixup MFI_DCMD_LD_LIST_QUERY")
-
-And modified by:
-
-commit 3f2cd4dd47719497540fb0e0aa0635e127f2838f
-Author: Hannes Reinecke <hare@suse.de>
-Date:   Wed Oct 29 13:00:07 2014 +0100
-
-    megasas: fixup device mapping
-
-    Logical drives can only be addressed with the 'target_id' number;
-    LUN numbers cannot be selected.
-    Physical drives can be selected with both, target and LUN id.
-
-    So we should disallow LUN numbers not equal to 0 when in
-    RAID mode.
-
-    Signed-off-by: Hannes Reinecke <hare@suse.de>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-...
-@@ -1143,10 +1152,13 @@ static int
-megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
-         return MFI_STAT_INVALID_PARAMETER;
-     }
-     dcmd_size = sizeof(uint32_t) * 2 + 3;
--
-+    max_ld_disks = cmd->iov_size - dcmd_size;
-     if (megasas_is_jbod(s)) {
-         max_ld_disks = 0;
-     }
-+    if (max_ld_disks > MFI_MAX_LD) {
-+        max_ld_disks = MFI_MAX_LD;
-+    }
-     QTAILQ_FOREACH(kid, &s->bus.qbus.children, sibling) {
-         SCSIDevice *sdev = DO_UPCAST(SCSIDevice, qdev, kid->child);
-...
-
+It needs also a better explanation in the commit message and should not
+go through trivial as the change is not obvious.
 
 Thanks,
 Laurent
+
+> 
+>> diff --git a/block/iscsi.c b/block/iscsi.c
+>> index 682abd8e09..50bae51700 100644
+>> --- a/block/iscsi.c
+>> +++ b/block/iscsi.c
+>> @@ -2002,7 +2002,7 @@ static int iscsi_open(BlockDriverState *bs, QDict *options, int flags,
+>>          iscsilun->cluster_size = iscsilun->bl.opt_unmap_gran *
+>>              iscsilun->block_size;
+>>          if (iscsilun->lbprz) {
+>> -            ret = iscsi_allocmap_init(iscsilun, bs->open_flags);
+>> +            ret = iscsi_allocmap_init(iscsilun, flags);
+>>          }
+>>      }
+> 
+> The code looks good.
+> 
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> 
+> 
+
 
