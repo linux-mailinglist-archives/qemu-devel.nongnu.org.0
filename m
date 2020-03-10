@@ -2,104 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BD718016C
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:18:27 +0100 (CET)
-Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35CA18019E
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:20:43 +0100 (CET)
+Received: from localhost ([::1]:35422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgeI-0001rQ-Eg
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48740)
+	id 1jBggU-0004rf-L3
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:20:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jBgRh-00082H-Ed
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:05:26 -0400
+ (envelope-from <david@redhat.com>) id 1jBgUa-0003hA-Ht
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:08:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1jBgRg-0000SD-5p
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:05:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:53235)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1jBgRW-0008QU-Ox; Tue, 10 Mar 2020 11:05:15 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N1wdd-1jMITT02af-012Hyk; Tue, 10 Mar 2020 16:04:34 +0100
-Subject: Re: [PATCH] hw/scsi/megasas:Clean up some redundant code fix Clang
- warnings
-To: Peter Maydell <peter.maydell@linaro.org>,
- Chen Qun <kuhn.chenqun@huawei.com>
-References: <20200310130844.30076-1-kuhn.chenqun@huawei.com>
- <CAFEAcA_W2pRztEAmd1v+6O-1J9-CckVV8+G6kZ3igmR-ie6k+Q@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <3e551fba-8bda-a2b4-d223-356493cac4db@vivier.eu>
-Date: Tue, 10 Mar 2020 16:04:31 +0100
+ (envelope-from <david@redhat.com>) id 1jBgUY-00008u-TZ
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:08:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39011
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jBgUY-0008Uo-O5
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:08:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583852898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=B9Xxv9eG1vr+u4ZENgWuGQRJmUXfbXVTINEgcSiBkUo=;
+ b=FzJ19hu1WV7sbf8okDnL0jYM4bIlpyjP9RSKbNmJsyYgUF5kh4sS+zUcg739Kd9LAiSrBH
+ HRpzbXjka/I9tfd84sIm2jvdFMb5xGTERqXtexYJBDpt4/OUbjIXYr7Y6j3g1FAyUlwLE9
+ yfmxxx9CqLWNVFkC2dyWdD1iTcOMT+E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-ZwnT6D1OPa-obri4n8i1TA-1; Tue, 10 Mar 2020 11:08:17 -0400
+X-MC-Unique: ZwnT6D1OPa-obri4n8i1TA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF88C107ACC4;
+ Tue, 10 Mar 2020 15:08:15 +0000 (UTC)
+Received: from [10.36.116.71] (ovpn-116-71.ams2.redhat.com [10.36.116.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C9165C28D;
+ Tue, 10 Mar 2020 15:08:14 +0000 (UTC)
+Subject: Re: [PATCH v8 03/15] s390x: protvirt: Add migration blocker
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200310134008.130038-1-frankja@linux.ibm.com>
+ <20200310134008.130038-4-frankja@linux.ibm.com>
+ <984a38e2-f73c-dd68-b32d-ff419046c7ac@redhat.com>
+ <be1990f6-c1a2-f657-0ab8-ec764ecb6a47@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <ec12bc79-c209-da27-e45f-cf8f35e97ec0@redhat.com>
+Date: Tue, 10 Mar 2020 16:08:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_W2pRztEAmd1v+6O-1J9-CckVV8+G6kZ3igmR-ie6k+Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JkLH/S6Rec/tr78Bh6CWTV1WIIdEuqwtEB7ZH8DNQ3uVKiAxW6G
- BnpPLGIIo50DsNmfTd6mwBFDC5ZZ708uz4IhWemEC58iKeeBTVvOQyJ4Vji3niwoEJmL8ea
- I/FmCbwpwuw9glQQ0hxwE4kcqIlVYUhvEYLJqn/SnOYWdnfbMhZIpgqwjIK18pB5IqVGym4
- 6AIBEUhxnXA3Ke6TyjQfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SAtAZydQ0CQ=:AYTzFhbz+Jy1skKkrbbm3k
- w3Hn4whqLnwgWIOq+ls5kQ4bSRjaMlRiWyIXp/21WjHsY/EfSBTQPnCFO5ak1zJy3rpTGoUzg
- oYI+pJ+ZuVC7qGhhAHD2G6Pk4xEQdFXubrijcvKZeZ+ml7KzrFJcLh9EDJDjulXS+Y7TpmRD2
- QQLVDPmQlJsylkcBOlYIkxtAltmA4SsNVEZsdiqudHxfwBY8e6wWLXS9oX3UriFireSaR5mnt
- fnNlGn33ROx0VxVnu81IC6YORL1NpUpE6KOGZ7+wE3ifNZiSDQLSA/yxoFAih3Fs77sJKEaEF
- 3ivOMu7VY3D77VGqbt0lyt6nWVPwNClEA6jZqUb25fHsCJAVA9LN6s4GkfDcOdknOCWU67hK2
- odvdWUdkDEZ35T76rgDbBYc9U9hzPOVnqXy1bnhvuAcUcm5p8UdSmKrGlCxQjqFo0kwYg0kXE
- taJ1cKgiCWFS2C/CDnHPYY7afm43LQu1kx61hRsWMN96VMgCanpsv6K4PrrBXvLZkZSHERe/6
- SI1ptTQy5DfuAuzfGw6JNuQd80v/7X3QFTPzVUujI+4B30qyrZ7+wAZrD//K8mEVg2dxw3KtU
- NSBr7wLgUGV22ApRnzOyYjviAkOeCeji74A6hgzRS1BZctIbrDIu0eVq2CBDS3/SMik+OOGnF
- MmhwY5MxiyNIQBIQChFW3SFvoDZkx2pyr/fVVKU4xLLzcldgrNSqHyHljXaw1LTlNZy3zpXrV
- bnMkJFyFJcu5ucFzR+sxa7chAMNQOu3KNNx0Yt5bCFJbY5YiHyCXa0IInv9FWK7mi858c3PLk
- 9nmEByvKPYC1/ScUn5pTQop7MQcgitBRiEY0WNtmi06VUePjZpjihHySEVUg2sU2A7iLXQv
+In-Reply-To: <be1990f6-c1a2-f657-0ab8-ec764ecb6a47@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,68 +120,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/03/2020 à 14:46, Peter Maydell a écrit :
-> On Tue, 10 Mar 2020 at 13:10, Chen Qun <kuhn.chenqun@huawei.com> wrote:
+On 10.03.20 16:02, Janosch Frank wrote:
+> On 3/10/20 3:57 PM, David Hildenbrand wrote:
+>> On 10.03.20 14:39, Janosch Frank wrote:
+>>> Migration is not yet supported.
+>>>
+>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>>> ---
+>>>  hw/s390x/s390-virtio-ccw.c | 17 +++++++++++++++++
+>>>  1 file changed, 17 insertions(+)
+>>>
+>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>>> index 455ad31718..1ceb42c0b5 100644
+>>> --- a/hw/s390x/s390-virtio-ccw.c
+>>> +++ b/hw/s390x/s390-virtio-ccw.c
+>>> @@ -43,6 +43,9 @@
+>>>  #include "sysemu/sysemu.h"
+>>>  #include "hw/s390x/pv.h"
+>>>  #include <linux/kvm.h>
+>>> +#include "migration/blocker.h"
+>>> +
+>>> +static Error *pv_mig_blocker;
+>>>  
+>>>  S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
+>>>  {
+>>> @@ -323,15 +326,29 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
+>>>  
+>>>      s390_pv_vm_disable();
+>>>      ms->pv = false;
+>>> +    migrate_del_blocker(pv_mig_blocker);
+>>> +    error_free_or_abort(&pv_mig_blocker);
+>>>  }
+>>>  
+>>>  static int s390_machine_protect(S390CcwMachineState *ms)
+>>>  {
+>>> +    static Error *local_err;
 >>
->> Here are some redundant statements, we can clean them up.
->> Clang static code analyzer show warning:
->> hw/scsi/megasas.c:1175:32: warning: Value stored to 'max_ld_disks' during its initialization is never read
->>     uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
->>                                ^~~~~~~~~~~~   ~~~~~~~~~~
->> hw/scsi/megasas.c:1183:9: warning: Value stored to 'max_ld_disks' is never read
->>         max_ld_disks = 0;
->>         ^              ~
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
->> ---
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: Fam Zheng <fam@euphon.net>
->> Cc: Hannes Reinecke <hare@suse.com>
->> Cc: qemu-block@nongnu.org
->> ---
->>  hw/scsi/megasas.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
->> index af18c88b65..3f982e1d3b 100644
->> --- a/hw/scsi/megasas.c
->> +++ b/hw/scsi/megasas.c
->> @@ -1172,7 +1172,7 @@ static int megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
->>      uint16_t flags;
->>      struct mfi_ld_targetid_list info;
->>      size_t dcmd_size = sizeof(info), resid;
->> -    uint32_t num_ld_disks = 0, max_ld_disks = s->fw_luns;
->> +    uint32_t num_ld_disks = 0, max_ld_disks;
->>      BusChild *kid;
->>
->>      /* mbox0 contains flags */
->> @@ -1180,7 +1180,6 @@ static int megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
->>      trace_megasas_dcmd_ld_list_query(cmd->index, flags);
->>      if (flags != MR_LD_QUERY_TYPE_ALL &&
->>          flags != MR_LD_QUERY_TYPE_EXPOSED_TO_HOST) {
->> -        max_ld_disks = 0;
->>      }
+>> You have to initialize it to NULL.
 > 
-> This doesn't look right -- your change removes the only statement
-> in the body of this "if". I think you need to examine what the
-> function is trying to do with the test it is doing on these flags
-> in order to identify what the right change is... Probably this
-> means going back to the h/w spec to identify the correct behaviour
-> overall.
+> That's a static variable, am I missing something?
 
-Moreover this "if" is the only user of MR_LD_QUERY_TYPE_ALL and
-MR_LD_QUERY_TYPE_EXPOSED_TO_HOST.
+No, I was missing that :) Why is that a static variable?
 
+git grep "static Error *" will tell you that this is not common.
+
+
+-- 
 Thanks,
-Laurent
+
+David / dhildenb
 
 
