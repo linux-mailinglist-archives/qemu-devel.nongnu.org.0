@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876E418064D
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:30:10 +0100 (CET)
-Received: from localhost ([::1]:38412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403AD18063D
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 19:27:59 +0100 (CET)
+Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBjdp-000145-G4
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44118)
+	id 1jBjbi-0004vR-17
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 14:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jBjbD-0005CJ-BY
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:28 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jBjaX-00048V-Fh
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1jBjbC-0002MI-AG
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:27 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:32864)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1jBjbC-0002LF-3o
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:27:26 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id ay11so5778032plb.0
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8MBax5bvqnGFn59+X+0C/P+ZVgi3X2sGtV0kV14mTCU=;
- b=vhO0VdIYJSFchp3fKcitkAFupc8J8UfcV3mfm6YJ50fYh4rVAmPY+FuaTCjR0u2KSS
- JGT6+AXUhPUFaqzWRf3Wpn0zYIC1k2DzLBjdQ8kfx4xI4Hbor21wF7dU70pmoorwlo0k
- Yiv6TmIpWH3fV3A+4BV1ZyyrS4Ugo2d4UPGN50gLFyNJD2KwVI4taNqoNHm6nPg1s9z+
- fNJYk3dMCk1tpOIywr2GfCOCt4pEO0SNACV894NKNWaWvKTl+lcF3XsIeUVcEfBs4iGo
- 9y9peRgxqKIRBnP/vxLZTyH7eIWi9L82Hjd/XZqO33DjAWMJz7ImVNH8HnJvR5nzDVd0
- RkhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=8MBax5bvqnGFn59+X+0C/P+ZVgi3X2sGtV0kV14mTCU=;
- b=Pee3Beb/mCVIkZW1GczPMOAK4be96Rfs0KQjcs0Rbox20K9iefvCuOdCveylnEEW9h
- YCKitf2odQRTwq5nJfgF21G9UoCEKrq0EpZjhr4vOf/IPWAQlQ5kNBvdWAIMn8tctqcS
- Uy2K9pTUxRIxGZ1bmOP/cgwY3QN4/UHqHe2/cK/dM5Eo2H7Gvo/aiTbrl/iU7cOXSaCk
- 5ICG1mbKciCdc9uiuIV1uGorgFxH7kX6XEJrfDtCoO8Wgk2iDutyH/GR8OueLp81qnMT
- B2q0c5sXU6XS54DW5jS0gMjSV15GCzAMTqPXJCL9SFmX76NGO4rzIKr3o0VEE4MQLMo8
- 00sA==
-X-Gm-Message-State: ANhLgQ0Ug/0rFES5whsSVVWQyshaaC0LuoR+MYbWBCNBaSLZrIEm52vH
- Wp1lXddiw0TwIkeOMSFc/I20BABz6jQ=
-X-Google-Smtp-Source: ADFU+vvHAc0zQJ9KGH5qD0sR9j51rX4f6LTF7zdEERCfzkaTlqe335EZ0r66p+0OZ+qk3XGNC5lBFQ==
-X-Received: by 2002:a17:902:bf0b:: with SMTP id
- bi11mr10282373plb.245.1583864844846; 
- Tue, 10 Mar 2020 11:27:24 -0700 (PDT)
-Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id p1sm8730692pfq.114.2020.03.10.11.27.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Mar 2020 11:27:24 -0700 (PDT)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/10] tests/vm: allow wait_ssh() to specify command
-Date: Tue, 10 Mar 2020 14:25:32 -0400
-Message-Id: <20200310182536.11137-7-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200310182536.11137-1-robert.foley@linaro.org>
-References: <20200310182536.11137-1-robert.foley@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::62b
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1jBjaV-00011n-Pg
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:44 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:42404)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1jBjaV-0000wd-ET
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 14:26:43 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AIOd6s191498;
+ Tue, 10 Mar 2020 18:26:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=8s9ow+tMldhZCbTq5hAdX4GXcmxMtO9dagFa+1rOaYY=;
+ b=r8TDMXogblrFWmJZ8d9b65y+eHcrKgiAtDIYSgKyD9fOQA9ZLG84wYxaCzG7SMs/SAk7
+ EhC/0PsSJAdPZQsgsITZIWe/pHf+1hX74l5a8J+JDJV/TB5nTyAYiPAh11szWdk/jBoQ
+ t6RZbjr7h6Jw21Oe6YSNJpGfi7nIgJg+CgL7PV92jS99xdj2s1j/ttta3ttoj81DKoHw
+ ZYViPcM6Y7zxr+fLaBIE3CeYgv3ExXwRODK2YWTG+gufDB9FasQCtkb317Yl+ken99q7
+ uzWS2JJ83KaiV/sIy1m5qOwM15YakZBxQ1JmWqT9qoue++rR7/9e1G53TrB32ICZgyAE LQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2ym31ufb22-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 18:26:31 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02AIM8xR029203;
+ Tue, 10 Mar 2020 18:26:30 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2yp8pt3gum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 18:26:30 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02AIQSQx005220;
+ Tue, 10 Mar 2020 18:26:28 GMT
+Received: from flaka (/174.207.15.0) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 10 Mar 2020 11:26:28 -0700
+Date: Tue, 10 Mar 2020 11:26:23 -0700
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v5 07/50] multi-process: define mpqemu-link object
+Message-ID: <20200310182623.GA6543@flaka>
+References: <cover.1582576372.git.jag.raman@oracle.com>
+ <20ec6f6666cc8adb211642156f5230e478143b81.1582576372.git.jag.raman@oracle.com>
+ <20200310160941.GK140737@stefanha-x1.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200310160941.GK140737@stefanha-x1.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=0 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003100110
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ lowpriorityscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2003100110
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +91,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
- peter.puhov@linaro.org
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, liran.alon@oracle.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows for waiting for completion of arbitrary commands.
-
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
- tests/vm/basevm.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 3562a33ffa..305b839000 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -394,24 +394,24 @@ class BaseVM(object):
-     def print_step(self, text):
-         sys.stderr.write("### %s ...\n" % text)
+On Tue, Mar 10, 2020 at 04:09:41PM +0000, Stefan Hajnoczi wrote:
+> On Mon, Feb 24, 2020 at 03:54:58PM -0500, Jagannathan Raman wrote:
+> > +/*
+> > + * TODO: Dont use mpqemu link object since it is
+> > + * not needed to be created via -object.
+> > + */
+> 
+> Please investigate and resolve this TODO.
+>
+Thank you Stefan for reviewing more patches.
+This particular TODO have to be removed and I am guessing
+followed us from the earlier code.
  
--    def wait_ssh(self, wait_root=False, seconds=300):
-+    def wait_ssh(self, wait_root=False, seconds=300, cmd="exit 0"):
-         # Allow more time for VM to boot under TCG.
-         if not kvm_available(self.arch):
-             seconds *= self.tcg_ssh_timeout_multiplier
-         starttime = datetime.datetime.now()
-         endtime = starttime + datetime.timedelta(seconds=seconds)
--        guest_up = False
-+        cmd_success = False
-         while datetime.datetime.now() < endtime:
--            if wait_root and self.ssh_root("exit 0") == 0:
--                guest_up = True
-+            if wait_root and self.ssh_root(cmd) == 0:
-+                cmd_success = True
-                 break
--            elif self.ssh("exit 0") == 0:
--                guest_up = True
-+            elif self.ssh(cmd) == 0:
-+                cmd_success = True
-                 break
-             seconds = (endtime - datetime.datetime.now()).total_seconds()
-             logging.debug("%ds before timeout", seconds)
-             time.sleep(1)
--        if not guest_up:
-+        if not cmd_success:
-             raise Exception("Timeout while waiting for guest ssh")
- 
-     def shutdown(self):
--- 
-2.17.1
+> > +struct conf_data_msg {
+> > +    uint32_t addr;
+> > +    uint32_t val;
+> > +    int l;
+> 
+> Please use a self-explanatory field name.  I'm not sure what 'l' is.
+> 
+> conf_data_msg is not used in this patch.  Please introduce things when
+> they are needed to make the patch series easier to review in a linear
+> fashion.
 
+Will do.
+> 
+> > +/*
+> > + * TODO: make all communications asynchronous and run in the main
+> > + * loop or existing IOThread.
+> > + */
+> 
+> Please investigate and decide how to resolve this TODO.
+> 
+> > +void mpqemu_msg_send(MPQemuMsg *msg, MPQemuChannel *chan)
+> > +{
+> > +    int rc;
+> > +    uint8_t *data;
+> > +    union {
+> > +        char control[CMSG_SPACE(REMOTE_MAX_FDS * sizeof(int))];
+> > +        struct cmsghdr align;
+> > +    } u;
+> > +    struct msghdr hdr;
+> > +    struct cmsghdr *chdr;
+> > +    int sock = chan->sock;
+> > +    QemuMutex *lock = &chan->send_lock;
+> > +
+> > +    struct iovec iov = {
+> > +        .iov_base = (char *) msg,
+> > +        .iov_len = MPQEMU_MSG_HDR_SIZE,
+> > +    };
+> > +
+> > +    memset(&hdr, 0, sizeof(hdr));
+> > +    memset(&u, 0, sizeof(u));
+> > +
+> > +    hdr.msg_iov = &iov;
+> > +    hdr.msg_iovlen = 1;
+> > +
+> > +    if (msg->num_fds > REMOTE_MAX_FDS) {
+> > +        qemu_log_mask(LOG_REMOTE_DEBUG, "%s: Max FDs exceeded\n", __func__);
+> > +        return;
+> > +    }
+> > +
+> > +    if (msg->num_fds > 0) {
+> > +        size_t fdsize = msg->num_fds * sizeof(int);
+> > +
+> > +        hdr.msg_control = &u;
+> > +        hdr.msg_controllen = sizeof(u);
+> > +
+> > +        chdr = CMSG_FIRSTHDR(&hdr);
+> > +        chdr->cmsg_len = CMSG_LEN(fdsize);
+> > +        chdr->cmsg_level = SOL_SOCKET;
+> > +        chdr->cmsg_type = SCM_RIGHTS;
+> > +        memcpy(CMSG_DATA(chdr), msg->fds, fdsize);
+> > +        hdr.msg_controllen = CMSG_SPACE(fdsize);
+> > +    }
+> > +
+> > +    qemu_mutex_lock(lock);
+> > +
+> > +    do {
+> > +        rc = sendmsg(sock, &hdr, 0);
+> > +    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
+> > +
+> > +    if (rc < 0) {
+> > +        qemu_log_mask(LOG_REMOTE_DEBUG, "%s - sendmsg rc is %d, errno is %d,"
+> > +                      " sock %d\n", __func__, rc, errno, sock);
+> > +        qemu_mutex_unlock(lock);
+> > +        return;
+> > +    }
+> > +
+> > +    if (msg->bytestream) {
+> > +        data = msg->data2;
+> > +    } else {
+> > +        data = (uint8_t *)msg + MPQEMU_MSG_HDR_SIZE;
+> > +    }
+> > +
+> > +    do {
+> > +        rc = write(sock, data, msg->size);
+> > +    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
+> > +
+> > +    qemu_mutex_unlock(lock);
+> 
+> Can this lock be avoided by using a single sendmsg(2) syscall instead of
+> sendmsg() + write()?  I feel deja vu here, like I maybe have raised this
+> in a previous revision of this patch series.
+> 
+
+Indeed, you did mention this. Sorry, it got forgotten.
+It seems to be possible, we will investigate further and include in the
+next version.
+
+> > +    msg->num_fds = 0;
+> > +    for (chdr = CMSG_FIRSTHDR(&hdr); chdr != NULL;
+> > +         chdr = CMSG_NXTHDR(&hdr, chdr)) {
+> > +        if ((chdr->cmsg_level == SOL_SOCKET) &&
+> > +            (chdr->cmsg_type == SCM_RIGHTS)) {
+> > +            fdsize = chdr->cmsg_len - CMSG_LEN(0);
+> > +            msg->num_fds = fdsize / sizeof(int);
+> > +            if (msg->num_fds > REMOTE_MAX_FDS) {
+> > +                /*
+> > +                 * TODO: Security issue detected. Sender never sends more
+> > +                 * than REMOTE_MAX_FDS. This condition should be signaled to
+> > +                 * the admin
+> > +                 */
+> 
+> This TODO doesn't seem actionable.  The error is already handled.
+> 
+> > +                qemu_log_mask(LOG_REMOTE_DEBUG,
+> > +                              "%s: Max FDs exceeded\n", __func__);
+> > +                return -ERANGE;
+> 
+> The mutex must be released.
+
+Thank you! Will fix this and above.
+
+
+Elena
 
