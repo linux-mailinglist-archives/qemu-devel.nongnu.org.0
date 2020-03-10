@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD83217F3C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:34:56 +0100 (CET)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E74B17F3B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 10:32:42 +0100 (CET)
+Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBbHr-0000Ae-SY
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57240)
+	id 1jBbFh-0005YF-92
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 05:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jBbDg-0003ev-7s
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:30:37 -0400
+ (envelope-from <mst@redhat.com>) id 1jBbE3-0003sa-Tv
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:31:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1jBbDe-00045n-BY
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:30:35 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35883)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1jBbDe-000436-6g
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:30:34 -0400
-Received: by mail-ot1-x341.google.com with SMTP id j14so12494683otq.3
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 02:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k7uBdixYvCEv1V1U1omjA12/5GcQSgVKz/smCnHtkg4=;
- b=Ijyh/SbrHlQ/Pqj9Jy3W/AYwOl72F1Te2EqcNTtlz+Sw0BOG59Mtw5tZnzZZi4ZTLf
- fhbQOtIGPzziQAql6DwDsWK7TzJjb8SGdN/fAsXRCPc1FVCRDh+6To9PKhsgeeftZhRc
- huhGuyW9gy48xepUwSNi0dduPtshNXKfJrWoEw3c1ZKZPd9rLgPrKEGQD8p1Lazwsxs6
- OwVWimF6fPOrrh4gBT1pxoVBSzHL+wfO5d2dQMMLDVohvS9KlzQ75+bw7vOvqFS97RIY
- Qq0p+trqAdCDYawYlXBeWCeAj3hq0cIdiCemi5VBA0ELvcHmUaq2U9jUH7+B+WUwP0or
- OiOg==
+ (envelope-from <mst@redhat.com>) id 1jBbE2-0004pR-02
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:30:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50064
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1jBbE1-0004m0-QW
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 05:30:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1583832657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lkblQ/mvRQB15m+fcNk5kfkjqVrehaUYTvgxyQH/lhQ=;
+ b=iYkK54yNmvxlUuo4fcx3+qe+4hCNmt37PFmiQjZuEIKGSk3tC5ZsubsodKMGkioQKU5Fw4
+ whr/bwKGH0mZEwdAeGzxsjLlUu62grqQPZWPsoeYbsLDijSWO/JUH7XcaUOBFW7jsWaDc4
+ WFtGVr2XLmphV1O8wiWpkqDBgI6t53U=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-ZOtLt0m6OnSbjoEUyr1kXw-1; Tue, 10 Mar 2020 05:30:55 -0400
+X-MC-Unique: ZOtLt0m6OnSbjoEUyr1kXw-1
+Received: by mail-qt1-f197.google.com with SMTP id r16so8752622qtt.13
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 02:30:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k7uBdixYvCEv1V1U1omjA12/5GcQSgVKz/smCnHtkg4=;
- b=N/AEoVAcAcV5BRGieO8p78G0UsEpFlSy2qnj0EQOxwmpNfZnOK0MyhyDrWLdFi+NV4
- WnswHqPj515OcmPOqwlTohG9OSokcJ/O13OH09Jci+V6ZPOaNYRCDaOPLhX5S2l1AO/z
- 8xgWSJsFb6vMEXbYcXHYG7u5CilmaytmS6Ih3mu+S2JGewxYT2WvhS473wuH9j/6Xyil
- Z1YTZ+7wPdWET8CxeQcCD1EhDCrFYD/+5FWMCA+dxRE4brhjRCoB1WNYT5r3KVc2EaAz
- bwKJ+ZwYU7FxgFLMMkleqVVwM3m6EyfCYklUcMMF1mqWgWHk/KrgITyNqxeYnDaXpCcK
- ey6A==
-X-Gm-Message-State: ANhLgQ1oBnoXeLDvOsdbDps4AuStLHzVvi5Wn0YqsBqZy0uBuqeyj/fv
- ebm7aGdphNS+8dptQj0CRiBlkhH8Vz4l7PDyT4ivgg==
-X-Google-Smtp-Source: ADFU+vsMbWNgLZCTKw9QS9xl/W6tE2lXLiIsWeix5AxotEEgARvm2qHwsFp2QYMeVCrEDbLxDbSh6kPhRuYz+mWbPqg=
-X-Received: by 2002:a9d:76c9:: with SMTP id p9mr16153712otl.135.1583832633200; 
- Tue, 10 Mar 2020 02:30:33 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=q1ysSkYdfKTghMMyRvgkc7jgHIFFUD7Qqi1mTHd/RvM=;
+ b=Zhgc9ue7DBn0v4977u57mQBZhMAEDVqNT3bpLmvT7HznL9hJg17kuMWZqDgO+qP6vJ
+ X3sPLmIr1zGHqI9LbwFHTf9T1z8esmNVx6WsJiFNJ3IpteJpoGjxZLcJkbFnaObNmrsd
+ tK1ca0uDLtoPflFOorcw1BJ3N8Tw5dQqrZwRNcP/242cNcXv56yn+k/wuHvfJgkXEoYN
+ JA4KAre5+60wmim4/fgoxqDcW6YkTDqsKJurKERPbM9lUQVEVWWdD1T1rMcar/sqMbJO
+ AI2x+1ZiOYXwMfOy14TbgvKpew1KAO5YWfdu3mwlv8/Di+Ted9hvrfG9yQ+5Igi4EdXj
+ ZTTw==
+X-Gm-Message-State: ANhLgQ0Ditv16PJIzNOaU3xO3XVbf46Td0z5exGS2ZuDV/tUs2/54Q1+
+ rEybGVfcQcUyFLuKTBpGmYRH+D74EwrtNmzV7Ffq1lX01zBRDJYnxg4DWoWXZ7zvFrwqed0BZph
+ t50I+4yg3PEB+96U=
+X-Received: by 2002:ac8:6c6:: with SMTP id j6mr18163987qth.231.1583832654913; 
+ Tue, 10 Mar 2020 02:30:54 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vtOBJ2+7NTZEx/oCqG0DkK/xrOLf3STICQALM9lyKpaVfCSCqvaJVUgDyQtirnAIuFbkzcsbg==
+X-Received: by 2002:ac8:6c6:: with SMTP id j6mr18163972qth.231.1583832654677; 
+ Tue, 10 Mar 2020 02:30:54 -0700 (PDT)
+Received: from redhat.com (bzq-79-178-2-19.red.bezeqint.net. [79.178.2.19])
+ by smtp.gmail.com with ESMTPSA id w2sm23735330qto.73.2020.03.10.02.30.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 02:30:53 -0700 (PDT)
+Date: Tue, 10 Mar 2020 05:30:49 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Liran Alon <liran.alon@oracle.com>
+Subject: Re: [PATCH 14/14] hw/i386/vmport: Assert vmport initialized before
+ registering commands
+Message-ID: <20200310053029-mutt-send-email-mst@kernel.org>
+References: <20200309235411.76587-1-liran.alon@oracle.com>
+ <20200309235411.76587-15-liran.alon@oracle.com>
 MIME-Version: 1.0
-References: <20200203032328.12051-1-crosa@redhat.com>
- <20200203032328.12051-2-crosa@redhat.com>
- <a87e5634-903d-2ad5-4f33-b65f77703302@redhat.com>
- <20200207193429.GB13258@localhost.localdomain>
- <CAFEAcA8dF+1a3zjw2MBVfD5k5U4EeU21iOik1mhKqg1ubicA6Q@mail.gmail.com>
- <20200310050106.GB50141@localhost.localdomain>
-In-Reply-To: <20200310050106.GB50141@localhost.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 10 Mar 2020 09:30:22 +0000
-Message-ID: <CAFEAcA9mLypcRgH6qnrcUsWaTL0Tp283M_ZaNaRezhCma8OmiQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] GitLab CI: crude mapping of PMM's scripts to jobs
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+In-Reply-To: <20200309235411.76587-15-liran.alon@oracle.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,26 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Mar 2020 at 05:01, Cleber Rosa <crosa@redhat.com> wrote:
-> Thanks for the very straight answers here.  I'll work
-> on those two remaining points (windows cross builds, and
-> incremental builds).
+On Tue, Mar 10, 2020 at 01:54:11AM +0200, Liran Alon wrote:
+> vmport_register() is also called from other modules such as vmmouse.
+> Therefore, these modules rely that vmport is realized before those call
+> sites. If this is violated, vmport_register() will NULL-deref.
+>=20
+> To make such issues easier to debug, assert in vmport_register() that
+> vmport is already realized.
+>=20
+> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
 
-I did wonder if incremental build was going to be awkward
-to test in a CI setup.
 
-Anyway, I think it would be good to start working with the
-basic "do CI this way" framework now, rather than trying
-to get all the test configs I have now working with it.
-I can always run the builds through the new test setup
-and in parallel do the handful of "not yet implemented in
-the new setup" builds by hand with the old scripts.
+Hmm and what does actually make sure it is realized?
 
-thanks
--- PMM
+> ---
+>  hw/i386/vmport.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
+> index 95d4a23ce9ba..659a323e8448 100644
+> --- a/hw/i386/vmport.c
+> +++ b/hw/i386/vmport.c
+> @@ -68,6 +68,8 @@ static VMPortState *port_state;
+>  void vmport_register(VMPortCommand command, VMPortReadFunc *func, void *=
+opaque)
+>  {
+>      assert(command < VMPORT_ENTRIES);
+> +    assert(port_state);
+> +
+>      trace_vmport_register(command, func, opaque);
+>      port_state->func[command] =3D func;
+>      port_state->opaque[command] =3D opaque;
+> --=20
+> 2.20.1
+
 
