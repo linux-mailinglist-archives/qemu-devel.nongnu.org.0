@@ -2,95 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C98C1801BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:24:25 +0100 (CET)
-Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6508F1801C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 16:27:27 +0100 (CET)
+Received: from localhost ([::1]:35650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBgk4-00033l-4n
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:24:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
+	id 1jBgn0-0007M2-De
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 11:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41529)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jBgab-0005i9-Ba
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:38 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1jBggA-0005QR-U5
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:20:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jBgaZ-0001nE-S9
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31341
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jBgaZ-0001iv-M7
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:14:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583853274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VFXndVEcrrcJoj9rsE1Gsu7mPRy/UFGeBBhOuluBo4E=;
- b=EXRhACLoQSMGdOoiiAUcygIUc5Zb9/b+KClTEwSgwrSOvaEZTLztzWIf/Wjwybtim9wk2J
- qyyFOUUBz8Wgcmtm2W73xEcNtDSWQHmjw9dFNANISroHBVKDoL6HkcNhApNOdxEuW2WlN2
- ZsLe8YK+T0aGBqpzCP2VkuE1ETz5Xok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-AWeFPntMP22tAtheb3kvtg-1; Tue, 10 Mar 2020 11:14:30 -0400
-X-MC-Unique: AWeFPntMP22tAtheb3kvtg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 966BB106E5BC;
- Tue, 10 Mar 2020 15:14:29 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81CF5100164D;
- Tue, 10 Mar 2020 15:14:27 +0000 (UTC)
-Subject: Re: [PATCH v3 7/9] block/block-copy: rename start to offset in
- interfaces
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200306073831.7737-1-vsementsov@virtuozzo.com>
- <20200306073831.7737-8-vsementsov@virtuozzo.com>
- <826a06c1-49d0-24a0-4098-fc0ec8f9f5a0@redhat.com>
- <5b30a84f-3b03-d894-f908-b0fae89615d5@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <7d19fbd3-29ee-c414-38ec-1dc67735043c@redhat.com>
-Date: Tue, 10 Mar 2020 16:14:25 +0100
+ (envelope-from <borntraeger@de.ibm.com>) id 1jBgg9-0007kX-KN
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:20:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13532
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jBgg9-0007if-Dx
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 11:20:21 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 02AF13Qd118634
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:20:20 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2ynmxgrj7r-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 11:20:20 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Tue, 10 Mar 2020 15:20:18 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 10 Mar 2020 15:20:14 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02AFKDUm57409616
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 10 Mar 2020 15:20:13 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9D2805204E;
+ Tue, 10 Mar 2020 15:20:13 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.141])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 6D9665204F;
+ Tue, 10 Mar 2020 15:20:13 +0000 (GMT)
+Subject: Re: [PATCH v8 05/15] s390x: protvirt: KVM intercept changes
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200310134008.130038-1-frankja@linux.ibm.com>
+ <20200310134008.130038-6-frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Date: Tue, 10 Mar 2020 16:20:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <5b30a84f-3b03-d894-f908-b0fae89615d5@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200310134008.130038-6-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20031015-0020-0000-0000-000003B25DFF
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20031015-0021-0000-0000-0000220AAA6A
+Message-Id: <185070ea-2693-cb78-7238-ad08551bfb7c@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-03-10_08:2020-03-10,
+ 2020-03-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 impostorscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003100099
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,103 +135,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of
-Content-Type: multipart/mixed; boundary="mnTayVElV6tli8cFZHYsfZ2lo3XTYZVmA"
+On 10.03.20 14:39, Janosch Frank wrote:
+> Secure guests no longer intercept with code 4 for an instruction
+> interception. Instead they have codes 104 and 108 for secure
+> instruction interception and secure instruction notification
+> respectively.
+> 
+> The 104 mirrors the 4 interception.
+> 
+> The 108 is a notification interception to let KVM and QEMU know that
+> something changed and we need to update tracking information or
+> perform specific tasks. It's currently taken for the following
+> instructions:
+> 
+> * stpx (To inform about the changed prefix location)
 
---mnTayVElV6tli8cFZHYsfZ2lo3XTYZVmA
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Set prefix (SPX), no?
 
-On 10.03.20 15:55, Andrey Shinkevich wrote:
->=20
->=20
-> On 10/03/2020 17:50, Max Reitz wrote:
->> On 06.03.20 08:38, Vladimir Sementsov-Ogievskiy wrote:
->>> offset/bytes pair is more usual naming in block layer, let's use it.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> Reviewed-by: Max Reitz <mreitz@redhat.com>
->>> ---
->>> =A0 include/block/block-copy.h |=A0 4 +-
->>> =A0 block/block-copy.c=A0=A0=A0=A0=A0=A0=A0=A0 | 84 +++++++++++++++++++=
--------------------
->>> =A0 2 files changed, 44 insertions(+), 44 deletions(-)
->>
->> [...]
->>
->>> diff --git a/block/block-copy.c b/block/block-copy.c
->>> index 4c947e548b..2b29131653 100644
->>> --- a/block/block-copy.c
->>> +++ b/block/block-copy.c
->>> @@ -25,13 +25,13 @@
->>> =A0 #define BLOCK_COPY_MAX_MEM (128 * MiB)
->>> =A0 =A0 static BlockCopyInFlightReq
->>> *find_conflicting_inflight_req(BlockCopyState *s,
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
->>> start,
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
->>> bytes)
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
->>> offset,
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64_t
->>> bytes)
->>
->> The alignment=92s off now.
->>
->> Max
->>
->=20
-> After applying the patch, it looks aligned in my vim editor.
+> * sclp (On incorrect SCCB values, so we can inject a IRQ)
+> * sigp (All but "stop and store status")
+> * diag308 (Subcodes 0/1)
 
-I did apply it and it wasn=92t aligned for me.
+Furthermore SPX is also not reaching QEMU, no?
+Maybe add something like
 
-Now we (Red Hat) have some mailing agent for a couple of months now that
-for some reason likes to change incoming mails=92 encodings (in this case
-from, I presume, 8bit to quoted-printable), so I have to use a script to
-translate it back.  But judging from what I can see in the archive:
+Of these exits only sclp errors, state changing sigps and
+diag308 will reach QEMU.  QEMU will do its parts of the
+job, while the ultravisor has done the instruction part of
+the job. 
 
-https://lists.nongnu.org/archive/html/qemu-block/2020-03/msg00196.html
-
-the alignment is indeed off.  Otherwise, the second line (with the
-@bytes parameter) would not be changed.
-
-Max
+With that
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
 
---mnTayVElV6tli8cFZHYsfZ2lo3XTYZVmA--
-
---xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5nrtEACgkQ9AfbAGHV
-z0Bmswf+KwWP+D4IOu2dp9+s4Kykt9xCzBQS8TjNlPhRgxDCmSoCrAQMAe9uJze9
-S8oWm0L/3nURvACGpyZcADo/Fg2/l7hx97cbQebJQNcuBPqMyZx9/UYTS7BpLIAB
-801GM7ujiO+IcHmVc4eP5+l8s9HfgbMLNyiAggwXCPEfmHsMu+JYMuvGbyBPHtnl
-kG/s4uXvgjK5/tNqoTNHoEdMF96R2bAN/KSuIsYgLKruLsuLBsQo0pKHgvSBHHl/
-TAvc6RFm5gyyOYggWpapyvPhHR4CLeLUfX6Ossh5SLqgooxzFXcPEtmPPkkDatM2
-AWtQg4zxnP8wETX+qkp6ZfFfHD5iLg==
-=BI31
------END PGP SIGNATURE-----
-
---xLrOXYOjf19MWF3DGjJSfIT0MsRxH69of--
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/kvm.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 1d6fd6a27b..eec0b92479 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -115,6 +115,8 @@
+>  #define ICPT_CPU_STOP                   0x28
+>  #define ICPT_OPEREXC                    0x2c
+>  #define ICPT_IO                         0x40
+> +#define ICPT_PV_INSTR                   0x68
+> +#define ICPT_PV_INSTR_NOTIFICATION      0x6c
+>  
+>  #define NR_LOCAL_IRQS 32
+>  /*
+> @@ -1693,6 +1695,8 @@ static int handle_intercept(S390CPU *cpu)
+>              (long)cs->kvm_run->psw_addr);
+>      switch (icpt_code) {
+>          case ICPT_INSTRUCTION:
+> +        case ICPT_PV_INSTR:
+> +        case ICPT_PV_INSTR_NOTIFICATION:
+>              r = handle_instruction(cpu, run);
+>              break;
+>          case ICPT_PROGRAM:
+> 
 
 
