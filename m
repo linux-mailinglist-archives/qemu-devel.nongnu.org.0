@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C30B18001E
-	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 15:28:41 +0100 (CET)
-Received: from localhost ([::1]:34100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515A5180029
+	for <lists+qemu-devel@lfdr.de>; Tue, 10 Mar 2020 15:30:45 +0100 (CET)
+Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBfs8-0007zn-Hm
-	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 10:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56147)
+	id 1jBfu8-00022P-Cb
+	for lists+qemu-devel@lfdr.de; Tue, 10 Mar 2020 10:30:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58144)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jBfqz-0006Vb-CU
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:27:30 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jBfsl-0001Mq-Bs
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:29:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jBfqy-0007CW-AQ
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:27:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41825
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jBfqw-00079E-Uh
- for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:27:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583850446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JPsY4fhCiHmmzig8Y937HI4AvXc/3LTzL39V/EBFXYc=;
- b=TjVhbGbTaeuCllygwE9ujyg22G7KXcFvqCMJ2bj+3CemI0AEG8PojSTlQQF7S6QwnEVg5R
- 0KxXTeQeI0CNhx7XcCab+DNYYMC1opu2baS2A9Zky2NI9fijOHtntZa3z6zC6AJ35g8ZpC
- CX4w5Pn2WWJImlTVX7+rV8blTGuAsFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-99lZ77FFMumfKF6DR7CKfg-1; Tue, 10 Mar 2020 10:27:23 -0400
-X-MC-Unique: 99lZ77FFMumfKF6DR7CKfg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A2041005509;
- Tue, 10 Mar 2020 14:27:22 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 98C5D91D74;
- Tue, 10 Mar 2020 14:27:20 +0000 (UTC)
-Subject: Re: [PATCH v3 5/9] block/block-copy: factor out
- find_conflicting_inflight_req
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200306073831.7737-1-vsementsov@virtuozzo.com>
- <20200306073831.7737-6-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1a7f71e7-03a2-84df-3fca-b2b188f14c83@redhat.com>
-Date: Tue, 10 Mar 2020 15:27:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <alex.bennee@linaro.org>) id 1jBfsj-00025s-MB
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:29:18 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34354)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jBfsj-00022y-Cq
+ for qemu-devel@nongnu.org; Tue, 10 Mar 2020 10:29:17 -0400
+Received: by mail-wr1-x444.google.com with SMTP id z15so16178289wrl.1
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 07:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=EWcVS7Hv8O7iSevxGE37M4tGL/34ARgfBUuiLALKX6I=;
+ b=dfpBWbRfcNW3l3wU1YvRoYGtko2Av5O8ThIwD0Zorh6KHE8M60SXnEFe1tljKWTNuB
+ HgJGfjoDxRGAZMJAp/AXuASt0sqrzhXH4fXp/NAvw0xLWg94UgtGbqBplM+Cr7ZxERHH
+ DHHuq0NgQjLGcoEfzihFanC02WJzJ9khHRaxhDdijevhjjgF5m7O+urlfhTtExMZK1OD
+ a0TrSfwdWOyeU4bB9J3iI2OpZlj2+IweczUh4pxBBhC1iih+Vf4soosy64IAPppoMof2
+ QDwxDbkgl/FeSBDbp9fRgWBdGQpeHTdLmkWF+YkYkHfpSMoUTNrux7cs0EDOVee6kKWb
+ mwTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=EWcVS7Hv8O7iSevxGE37M4tGL/34ARgfBUuiLALKX6I=;
+ b=Tbar7UXrw0fBEJQCnUwE87eHtZG8HPvOcUkNbsnIgHAYdQkNfBSiTPQ2BZfBN/CpOJ
+ FDV9Mm8RbeIdspvK3Xj8jioe+6jDqAImK1NGnnldZEjrEybuv4y8GuF/EdaB2shEEV4f
+ i0EIzANH3ONJaggZjQ+Q3i2aB0fgb+dX5J9VfdMy8lPAO82SJu5ehjS1G24dPqpzWZHK
+ R0c4xyYH5YFOe+/e07Nl0nfi4FUJem7bpkuOwOGXvxo05z3ZrxpSyWpnDec0Bs6AsxSH
+ z+Jera0gGsM/sfEL4T8uuFktN5LH5WhFnIkg99MFK9iwv5Z8IIJj2Y+dDDo/3bnsnGiq
+ fiFA==
+X-Gm-Message-State: ANhLgQ09pvKDfvBAgs+KKZFTkrYUwZckSmUP5wBFh1W3j5CG00VAWoil
+ new9LSNZIzCK6p2N5iM5CPAuxQ==
+X-Google-Smtp-Source: ADFU+vvkPYt36yJF9sJ0+YXQ82JLuFkTGnrbLLLQhuMJS3GppTD6rY5AK5CjRhxEEc72c5377wrD9w==
+X-Received: by 2002:adf:de0d:: with SMTP id b13mr27796587wrm.297.1583850555806; 
+ Tue, 10 Mar 2020 07:29:15 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s13sm15093698wrw.29.2020.03.10.07.29.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Mar 2020 07:29:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C65C41FF7E;
+ Tue, 10 Mar 2020 14:29:13 +0000 (GMT)
+References: <20200309215818.2021-1-peter.maydell@linaro.org>
+ <20200309215818.2021-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/5] Makefile: Allow for subdirectories in Sphinx manual
+ dependencies
+In-reply-to: <20200309215818.2021-2-peter.maydell@linaro.org>
+Date: Tue, 10 Mar 2020 14:29:13 +0000
+Message-ID: <87d09ki8qu.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200306073831.7737-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="pGMFLM5SiZSrfrJGyoipvuDYJDLUqOB05"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,51 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com, jsnow@redhat.com,
+Cc: Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pGMFLM5SiZSrfrJGyoipvuDYJDLUqOB05
-Content-Type: multipart/mixed; boundary="xFWTQV69uiVdA7nOWl8YEkLMSEZ6HojCd"
 
---xFWTQV69uiVdA7nOWl8YEkLMSEZ6HojCd
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-On 06.03.20 08:38, Vladimir Sementsov-Ogievskiy wrote:
-> Split find_conflicting_inflight_req to be used separately.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Currently we put 'docs/foo/*.rst' in the Make list of dependencies
+> for the Sphinx 'foo' manual, which means all the files must be
+> in the top level of that manual's directory. We'd like to be
+> able to have subdirectories inside some of the manuals, so add
+> 'docs/foo/*/*.rst' to the dependencies too.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  block/block-copy.c | 31 +++++++++++++++++++------------
->  1 file changed, 19 insertions(+), 12 deletions(-)
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 2e930688942..5dba949947a 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1081,7 +1081,7 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
+>  # a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
+>  build-manual =3D $(call quiet-command,CONFDIR=3D"$(qemu_confdir)" $(SPHI=
+NX_BUILD) $(if $(V),,-q) -W -b $2 -D version=3D$(VERSION) -D release=3D"$(F=
+ULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 =
+,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+>  # We assume all RST files in the manual's directory are used in it
+> -manual-deps =3D $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
+> +manual-deps =3D $(wildcard $(SRC_PATH)/docs/$1/*.rst $(SRC_PATH)/docs/$1=
+/*/*.rst) \
+>                $(SRC_PATH)/docs/defs.rst.inc \
+>                $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
+>  # Macro to write out the rule and dependencies for building manpages
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-
---xFWTQV69uiVdA7nOWl8YEkLMSEZ6HojCd--
-
---pGMFLM5SiZSrfrJGyoipvuDYJDLUqOB05
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5no8YACgkQ9AfbAGHV
-z0D16Af9GXecQLbytZ42mb+DIUOyfIN7NaXIELtc9CgRJfCct5XyjFKyCMtizBkC
-kdxVDr3VPfM5Yp18nyb1WyBsHJg/fDliM51Vqs3O/QGyQWB0omE8TOAM3CJn8kem
-2in9hGObuuZGtRvNcqrGPFenDg0i1jQPpQUGvjK2HThPA3M2iq2zzGxjRkmmAmYN
-fAOOpU3uVPsBcx1PzcqCOE5kjBArGLZtqnI2Id6t2EI1l0DxyCCmYW3gJNaeKKeb
-tGyH/MUK/FHWKR/+Mp7S7vmjWkF0+1eiGApYHVtBCPZRRaaHKIyADjebzS9lOyGc
-RyJamLXrCY1WkZrv1axsvrc7gp+Smw==
-=4A1b
------END PGP SIGNATURE-----
-
---pGMFLM5SiZSrfrJGyoipvuDYJDLUqOB05--
-
+--=20
+Alex Benn=C3=A9e
 
