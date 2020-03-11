@@ -2,79 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12587181D26
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 17:05:14 +0100 (CET)
-Received: from localhost ([::1]:55098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0418B181D32
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 17:07:58 +0100 (CET)
+Received: from localhost ([::1]:55144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC3r6-0003GO-KK
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 12:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34533)
+	id 1jC3tl-0004JN-2I
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 12:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35876)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wrampazz@redhat.com>) id 1jC3nE-0005SS-Bx
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:01:13 -0400
+ (envelope-from <david@redhat.com>) id 1jC3sy-0003t6-9y
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:07:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wrampazz@redhat.com>) id 1jC3nD-0001lf-1Y
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:01:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28950
+ (envelope-from <david@redhat.com>) id 1jC3sw-0008R8-Us
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:07:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24355
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1jC3nC-0001lQ-T2
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:01:10 -0400
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1jC3sw-0008Qo-QY
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 12:07:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583942470;
+ s=mimecast20190719; t=1583942825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v7U8FqVeyNiJ4QL2vqEc3cbXsr0IiPM0HhRIpDe6M4E=;
- b=Jbdg207P1duEYLC6/j9GKMn5ic15HQQSPl4jnLD5YfzJEQI6leSFTwvLs2ZxR70rgKLGjS
- BVJxAkNWx4uE2KafgZNzUp42BCtNYf5B+WtXzZEQ18iK+R/5xU07hPcDZZTvjB1LLzBBxY
- KXbPEYUvfZLA75cxuG5gwQK6qbHKXc0=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-pqN8g_UMPaeBjz4GbzEVGw-1; Wed, 11 Mar 2020 12:00:00 -0400
-X-MC-Unique: pqN8g_UMPaeBjz4GbzEVGw-1
-Received: by mail-vk1-f199.google.com with SMTP id x124so1096597vkf.11
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:00:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FU+U9/CIaPeVP51KEkmy8zOPCQt0qoYb7ZJfboE1a2s=;
- b=a7T4DjcAxsMXDT0I15UJhtHz7m9zwpv8oc1hBvS+fmKV446qi/xsrzTGTclElwIblK
- v3qiXaPAt2Pa089b1xpv611ydifHUs1lfMARkFPrCIN3bPF0dXVXfpkvYW0WoT5ZZTCV
- PJVdEYh3YGRWnav99MzzQfUdsKUmjXkUeS/y2jY+59JsH07pWf7P2GaLCoXsUrOZIXqU
- ia6T5CAG7L6WmHPgEGOlYq0xbzgvZPcxsQ6Kna8sE8Mg7W8gcoODKfrzXHFYPbpfbFdl
- 1SJoOEmRFZ1gtkiNe+mHyUnMgKJHyF5fuup4eud1ev0/ODJHE17lRyUtFi8QItM95cN/
- fCQA==
-X-Gm-Message-State: ANhLgQ27TawkZs5ZC4YXYa4+eakSO2x3gWo3+Y5rCxReUsb96Z2r7vgG
- T3n2rkLRgdwGEmzpAJhlP9rXOZbunJ6mfDwAx/3nbniERI1CzNVCo/62+S8uC4a2EeFjRLj2CMa
- FFR6rxn3dqsY6KJHeX9pD2gtdhwEgZKg=
-X-Received: by 2002:a9f:2ac3:: with SMTP id d3mr2227461uaj.110.1583942399750; 
- Wed, 11 Mar 2020 08:59:59 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vv6TnStnnEqXy334txhxenzbObzis1hOCLNfAL0dmRA5ATabO74OwBHtu1JgGiepxlXu9oZCLAp73cdFBUYI+k=
-X-Received: by 2002:a9f:2ac3:: with SMTP id d3mr2227437uaj.110.1583942399427; 
- Wed, 11 Mar 2020 08:59:59 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ki27R2Xrjggttfi55VMIC/jYwiBMGXix+DPo4N8C35Y=;
+ b=N2y9tlXdwVx5nOgfQZobJ/go7n6JUiM+sQw8kMBolsqrPXg3AsL06FnsOVOhY1nbZ1JhMF
+ +CB8ZwjI6TTcgZf/Pd/HJc7400TXQ9YLrTVw9OH9OvxXDBD2n2rv0YY/ycujcnIfEGIMPb
+ 1zYtZxScjoMANxnTymz+enNDI/pr07I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-N9f8RnOMMwGTMkLAe7PflA-1; Wed, 11 Mar 2020 12:07:04 -0400
+X-MC-Unique: N9f8RnOMMwGTMkLAe7PflA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E711C1007274;
+ Wed, 11 Mar 2020 16:07:02 +0000 (UTC)
+Received: from [10.36.116.132] (ovpn-116-132.ams2.redhat.com [10.36.116.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73A3D60BF1;
+ Wed, 11 Mar 2020 16:07:01 +0000 (UTC)
+Subject: Re: [PATCH v9 02/15] s390x: protvirt: Support unpack facility
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-3-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <a0edb6d5-284f-5f10-02e5-d2f252043d71@redhat.com>
+Date: Wed, 11 Mar 2020 17:07:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200211134504.9156-1-philmd@redhat.com>
- <87eeuewv4k.fsf@linaro.org>
- <20200310014116.GF660117@umbus.fritz.box>
- <517418432.204149.1583807554368.JavaMail.zimbra@redhat.com>
- <20200311045449.GX660117@umbus.fritz.box>
-In-Reply-To: <20200311045449.GX660117@umbus.fritz.box>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 11 Mar 2020 12:59:44 -0300
-Message-ID: <CAKJDGDZpRrtSVkH0+h0ec8bfnAvfQGftTu7whOn9hXpYLLnDqA@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org hostname
-To: David Gibson <david@gibson.dropbear.id.au>
+In-Reply-To: <20200311132151.172389-3-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,65 +118,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> That certainly sounds like an improvement.  I still don't love the
-> idea that the test results will vary based on something outside of the
-> tested code, even if a cancel is definitely better than a fail.
 
-During the development of Avocado release 76.0, we have discussed how
-to implement a new resolver that gathers requirements listed for a
-test and fulfills them before the test starts. The discussion resulted
-in blueprint BP002 [1]. We are in the last development week of release
-77.0, so the development of this new feature should start during the
-next release cycle.
+> +++ b/include/hw/s390x/pv.h
+> @@ -0,0 +1,57 @@
+> +/*
+> + * Protected Virtualization header
+> + *
+> + * Copyright IBM Corp. 2020
+> + * Author(s):
+> + *  Janosch Frank <frankja@linux.ibm.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#ifndef HW_S390_PV_H
+> +#define HW_S390_PV_H
+> +
+> +#ifdef CONFIG_KVM
+> +#include "hw/s390x/s390-virtio-ccw.h"
+> +
+> +static inline bool s390_is_pv(void)
+> +{
+> +    static S390CcwMachineState *ccw;
+> +    Object *obj;
+> +
+> +    if (ccw) {
+> +        return ccw->pv;
+> +    }
+> +
+> +    /* we have to bail out for the "none" machine */
+> +    obj = object_dynamic_cast(qdev_get_machine(),
+> +                              TYPE_S390_CCW_MACHINE);
+> +    if (!obj) {
+> +        return false;
+> +    }
+> +    ccw = S390_CCW_MACHINE(obj);
+> +    return ccw->pv;
+> +}
+> +
+> +int s390_pv_vm_enable(void);
+> +void s390_pv_vm_disable(void);
+> +int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+> +int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+> +void s390_pv_perf_clear_reset(void);
+> +int s390_pv_verify(void);
+> +void s390_pv_unshare(void);
+> +#else
+> +static inline bool s390_is_pv(void) { return false; }
+> +static inline int s390_pv_vm_enable(void) { return 0; }
+> +static inline void s390_pv_vm_disable(void) {}
+> +static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
+> +static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) { return 0; }
+> +static inline void s390_pv_perf_clear_reset(void) {}
+> +static inline int s390_pv_verify(void) { return 0; }
+> +static inline void s390_pv_unshare(void) {}
+> +#endif
 
->
-> > +Willian can explain how it works, and if found to be suitable, and wor=
-k
-> > on a patch.
->
-> Ok.  That would be good to know - will there be some command to run in
-> advance to attempt to download all the necessary images?  Would that
-> run without a timeout - or at least a much longer timeout than the
-> testcase itself has.
+Maybe /* CONFIG_KVM */ for the else and endif. Whatever you prefer.
 
-In the current release development (77.0), we are adding a feature
-that makes it possible to cancel a test if an asset is not available
-in the cache. It should be as simple as setting two parameters during
-the fetch call, like:
+> +
+> +
+> +
 
-bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash,
-find_only=3DTrue, cancel_on_missing=3DTrue)
+Nit: too many newlines.
 
-Release 77.0 of Avocado is scheduled for the beginning of next week.
-As soon as it is available, I can send a patch to bump the Avocado
-version for qemu tests and a patch to this test enabling this new
-feature.
+> +#endif /* HW_S390_PV_H */
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 8aa27199c9123bab..cd1dccc6e3ba8645 100644
 
-Since avocado 73.0, it is possible to fetch the assets from a test
-without actually running the test. It is a feature that parses the
-test code looking for the fetch_asset call and its parameters defined
-as variables, at a limited depth. I have tested it on ppc_prep_40p.py,
-and it works as expected. This command does not have a timeout for
-fetching the assets and is as follows:
 
-avocado assets fetch ppc_prep_40p.py
+Nothing jumped at me :)
 
-The upcoming feature to cancel the test when an asset is not available
-used in conjunction with the command line fetch should give some
-flexibility to people running this test while the resolver is under
-development.
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-[1] https://avocado-framework.readthedocs.io/en/latest/blueprints/BP002.htm=
-l
+-- 
+Thanks,
+
+David / dhildenb
 
 
