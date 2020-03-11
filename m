@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC00181B0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:21:09 +0100 (CET)
-Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45028181B11
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:22:28 +0100 (CET)
+Received: from localhost ([::1]:53298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC2EO-0003uc-9s
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38737)
+	id 1jC2Ff-0006zs-BY
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jC1uD-0004Hc-8Z
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:23 -0400
+ (envelope-from <maz@kernel.org>) id 1jC1uS-0004d2-CI
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1jC1uC-0006UM-8k
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:17 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33026)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1jC1uC-0006TH-0u
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:16 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a25so2778819wrd.0
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 07:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=EJ8l74UHFox+uXHqAoEMtrjV6J+RCNSdy/uZaeqlAT4=;
- b=GpvaY9IBvh3/BQJydllHkTu0DLwVo/O/T+HbQjC5u2FBTEMxLHGmMaCChbZipDlEA7
- EajzGeydqKOpJJOo0+vOvThYUGgJ0XOpFyY/Yd8kxBdCbI1aoVZzPATbXvqwikZdZocS
- ZDuyqhIej4MvNsYCq1SMF94yJvMRvzRRhQubmYCfn1bZS2iC18fQjSixYS4mMnShJMQw
- dgogvLQoBwatilfZFLsWv1zkRUknfKcskKTQrPZFi/NobRUYRONJouJ2IUaHbdzmecEa
- dc07lwYK+bc2tLlQ74aaIAxUt1uNVfe20K+HUnbqpDIo7KUN2Gbcgp3GACoz82uHht+8
- vJtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=EJ8l74UHFox+uXHqAoEMtrjV6J+RCNSdy/uZaeqlAT4=;
- b=U3XBHr9rPnnnuiie4r7C/bJwPwCixgWZTcMpw2g20rWdRndi9i3qqBdpUIkqKu2mMH
- g49LpmwQ0gJ9Bp4vm+tbwAsXpJ2jDbpiixVcUvdRxgQF6plK0PER2etoWv775hj/S175
- 77IEMxyeLo23AqcWQb3LI+bM1SgeMIwzPEwmktmXFEVkaZFbQGI6yT5PjpZIpLTZDZ9a
- ztEeeYQ71mY76jUhVebtogfp/8NKNK8G5FFpI5eNXF8viOQ/u35xoulSII3LXYI9QuXW
- kZYgSrTdLvjkqc3y3fYx3EBL74Ty1Ura8D0xkoETABnf7PVAMdCXTltdAi32h8uEfALr
- lWEA==
-X-Gm-Message-State: ANhLgQ1/3QbVG7gyyAiKNMHPJew5XR/KAD3aXkNUePcM4bVnCJFg3XU+
- ps7cwXtXFtCJ2k2CbW+lKDdDfA==
-X-Google-Smtp-Source: ADFU+vtz51NvybQ4R0pjKxzpI2r01ZmvebAqHCViZFE0gTf06Kcz06AjSraazltkjOehYZ7eSm2zzQ==
-X-Received: by 2002:adf:80af:: with SMTP id 44mr4710671wrl.241.1583935214991; 
- Wed, 11 Mar 2020 07:00:14 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f17sm49715581wrm.3.2020.03.11.07.00.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 07:00:12 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 649F21FF7E;
- Wed, 11 Mar 2020 14:00:11 +0000 (GMT)
-References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
- <20200310213203.18730-19-nieklinnenbank@gmail.com>
-User-agent: mu4e 1.3.9; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: Re: [PATCH v7 18/18] docs: add Orange Pi PC document
-In-reply-to: <20200310213203.18730-19-nieklinnenbank@gmail.com>
-Date: Wed, 11 Mar 2020 14:00:11 +0000
-Message-ID: <875zfbgff8.fsf@linaro.org>
+ (envelope-from <maz@kernel.org>) id 1jC1uR-0006wy-7w
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:00:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53670)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <maz@kernel.org>)
+ id 1jC1uG-0006bp-Hz; Wed, 11 Mar 2020 10:00:20 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6D44A21D56;
+ Wed, 11 Mar 2020 14:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583935218;
+ bh=0OhcIcZrD2BAj+IbJhSUJLV6Mv2HMcdowWmdsbMbNhY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hT3EYx6uOpjy1EAwyCTjY6+WpJ5Jl4+nlTYOM1Vi2FQKFukSHtjNZeet9m2Em3MkX
+ ypwcs2QckRkoy2Vw4PJxXmM1eFw+8XI4FBzqmEwoVmOzFY8DCKKfvQwJttcf4jjYi+
+ b1nE90aNOKAZrzYelCvCXhL5i4jKplfAXywUiTgc=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <maz@kernel.org>)
+ id 1jC1uC-00BvZI-Lr; Wed, 11 Mar 2020 14:00:16 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Date: Wed, 11 Mar 2020 14:00:16 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [kvm-unit-tests PATCH v5 10/13] arm/arm64: ITS: INT functional
+ tests
+In-Reply-To: <46f0ed1d-3bda-f91b-e2b0-addf1c61c373@redhat.com>
+References: <20200310145410.26308-1-eric.auger@redhat.com>
+ <20200310145410.26308-11-eric.auger@redhat.com>
+ <d3f651a0-2344-4d6e-111b-be133db7e068@huawei.com>
+ <46f0ed1d-3bda-f91b-e2b0-addf1c61c373@redhat.com>
+Message-ID: <301a8b402ff7e480e927b0f8f8b093f2@kernel.org>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/1.3.10
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, yuzenghui@huawei.com,
+ eric.auger.pro@gmail.com, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, drjones@redhat.com,
+ andre.przywara@arm.com, peter.maydell@linaro.org, alexandru.elisei@arm.com,
+ thuth@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,27 +77,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
- b.galvani@gmail.com, qemu-arm@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, kvm@vger.kernel.org,
+ andre.przywara@arm.com, qemu-devel@nongnu.org, thuth@redhat.com,
+ qemu-arm@nongnu.org, Zenghui Yu <yuzenghui@huawei.com>,
+ alexandru.elisei@arm.com, kvmarm@lists.cs.columbia.edu,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2020-03-11 13:48, Auger Eric wrote:
+> Hi Zenghui,
+>=20
+> On 3/11/20 12:59 PM, Zenghui Yu wrote:
+>> Hi Eric,
+>>=20
+>> On 2020/3/10 22:54, Eric Auger wrote:
+>>> Triggers LPIs through the INT command.
+>>>=20
+>>> the test checks the LPI hits the right CPU and triggers
+>>> the right LPI intid, ie. the translation is correct.
+>>>=20
+>>> Updates to the config table also are tested, along with inv
+>>> and invall commands.
+>>>=20
+>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>=20
+>>> ---
+>>=20
+>> [...]
+>>=20
+>>> +static void test_its_trigger(void)
+>>> +{
+>>> +=C2=A0=C2=A0=C2=A0 struct its_collection *col3, *col2;
+>>> +=C2=A0=C2=A0=C2=A0 struct its_device *dev2, *dev7;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 if (its_prerequisites(4))
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 dev2 =3D its_create_device(2 /* dev id */, 8 /* n=
+b_ites */);
+>>> +=C2=A0=C2=A0=C2=A0 dev7 =3D its_create_device(7 /* dev id */, 8 /* n=
+b_ites */);
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 col3 =3D its_create_collection(3 /* col id */, 3/=
+* target PE */);
+>>> +=C2=A0=C2=A0=C2=A0 col2 =3D its_create_collection(2 /* col id */, 2/=
+* target PE */);
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 gicv3_lpi_set_config(8195, LPI_PROP_DEFAULT);
+>>> +=C2=A0=C2=A0=C2=A0 gicv3_lpi_set_config(8196, LPI_PROP_DEFAULT);
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 its_send_invall(col2);
+>>> +=C2=A0=C2=A0=C2=A0 its_send_invall(col3);
+>>=20
+>> These two INVALLs should be issued after col2 and col3 are mapped,
+>> otherwise this will cause the INVALL command error as per the spec
+>> (though KVM doesn't complain it at all).
+> Yes you're right. reading the spec again:
+>=20
+> A command error occurs if any of the following apply:
+> ../..
+> The collection specified by ICID has not been mapped to an RDbase using
+> MAPC.
+>=20
+> But as mentionned in the cover letter, no real means to retrieve the
+> error at the moment.
 
-Niek Linnenbank <nieklinnenbank@gmail.com> writes:
+That is still a problem with the ITS. There is no architectural way
+to report an error, even if the error numbers are architected...
 
-> The Xunlong Orange Pi PC machine is a functional ARM machine
-> based on the Allwinner H3 System-on-Chip. It supports mainline
-> Linux, U-Boot, NetBSD and is covered by acceptance tests.
->
-> This commit adds a documentation text file with a description
-> of the machine and instructions for the user.
+One thing we could do though is to implement the stall model (as=20
+described
+in 5.3.2). It still doesn't give us the error, but at least the command
+queue would stop on detecting an error.
 
-Awesome to have such comprehensive documentation for a system. Thanks
-;-)
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+         M.
 --=20
-Alex Benn=C3=A9e
+Jazz is not dead. It just smells funny...
 
