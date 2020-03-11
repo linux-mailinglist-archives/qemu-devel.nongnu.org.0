@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC8A181C7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 16:39:58 +0100 (CET)
-Received: from localhost ([::1]:54352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BD8181C80
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 16:40:46 +0100 (CET)
+Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC3Sf-0008Aq-R2
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 11:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58983)
+	id 1jC3TR-0000wa-Go
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 11:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1jC3Rk-00068F-V1
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:39:01 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1jC3Sd-0000LW-6t
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:39:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1jC3Rj-0003aV-NP
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:39:00 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44366
+ (envelope-from <alex.williamson@redhat.com>) id 1jC3Sb-0004m4-Oj
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:39:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42155
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jC3Rj-0003Wk-FA
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:38:59 -0400
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1jC3Sb-0004lx-K9
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 11:39:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583941138;
+ s=mimecast20190719; t=1583941193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W5t/PCQFrEfrTtXP6H3fAc6etVr5BGU7Jh+WijcxdM8=;
- b=HijIR8QCVAgNuCEFrDaymiJkwI7HZ3tejg9oZ9wR1xrcmz4e+vEL7qPSqIhtVDV9KB44a2
- FqMi7AEL1ESbmKP28u2FHhIyI4FqZrFK1uPN2ZiOTmBpQ4ZHPMV/qVy3YHByF+qfC/tOau
- z+fYGbhHcdybau1OPxgB7KP+vQ5xVEU=
+ bh=kiRayYM/egR16feYIVI3qhxcVPrFBXn2+XFbyKHXGf0=;
+ b=MhKC+MWb2SnKnhaUf4YshZZ5bXEI30OisTTNzmRoGsfS94n92ilbdYx6NQX7PT3P/13cpU
+ NgtyWlijYGX3dhYKQwjZz8LOu/Jn3FFCRck5ZgIZwfQefcekbJTLnV9BGtQpVj2/Qx4t2w
+ SxNrY86Q0SnVHbHzluYT1KO+dgBeJ0g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-ukR6C7iqPe-lkwOjA2QKpw-1; Wed, 11 Mar 2020 11:38:54 -0400
-X-MC-Unique: ukR6C7iqPe-lkwOjA2QKpw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-59-yFep3zs4NKGRuH9tGAHHzA-1; Wed, 11 Mar 2020 11:39:48 -0400
+X-MC-Unique: yFep3zs4NKGRuH9tGAHHzA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A8A189F764;
- Wed, 11 Mar 2020 15:38:52 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (ovpn-206-80.brq.redhat.com
- [10.40.206.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CF0F5C13D;
- Wed, 11 Mar 2020 15:38:45 +0000 (UTC)
-Date: Wed, 11 Mar 2020 16:38:42 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [kvm-unit-tests PATCH v6 07/13] arm/arm64: ITS:
- its_enable_defaults
-Message-ID: <20200311153842.knuyqfnzqopb35gj@kamzik.brq.redhat.com>
-References: <20200311135117.9366-1-eric.auger@redhat.com>
- <20200311135117.9366-8-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4DB8100DFCB;
+ Wed, 11 Mar 2020 15:39:46 +0000 (UTC)
+Received: from w520.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54FED5DA76;
+ Wed, 11 Mar 2020 15:39:43 +0000 (UTC)
+Date: Wed, 11 Mar 2020 09:39:39 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH RESEND 1/3] vfio/pci: fix a null pointer reference in
+ vfio_rom_read
+Message-ID: <20200311093939.494bfe27@w520.home>
+In-Reply-To: <87k13rl6df.fsf@dusky.pond.sub.org>
+References: <20200224064219.1434-1-longpeng2@huawei.com>
+ <20200224064219.1434-2-longpeng2@huawei.com>
+ <20200224090458.080152c0@w520.home>
+ <87k13rl6df.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200311135117.9366-8-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -71,37 +76,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
- maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
- kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
+Cc: mst@redhat.com, weifuqiang@huawei.com, qemu-devel@nongnu.org,
+ arei.gonglei@huawei.com, huangzhichao@huawei.com,
+ "Longpeng\(Mike\)" <longpeng2@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 11, 2020 at 02:51:11PM +0100, Eric Auger wrote:
-> +/* must be called after gicv3_enable_defaults */
-> +void its_enable_defaults(void)
-> +{
-> +	int i;
-> +
-> +	/* Allocate LPI config and pending tables */
-> +	gicv3_lpi_alloc_tables();
-> +
-> +	for (i = 0; i < nr_cpus; i++)
-> +		gicv3_lpi_rdist_enable(i);
+On Wed, 11 Mar 2020 08:04:28 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-You still haven't explained what's wrong with for_each_present_cpu. Also,
-I see you've added 'i < nr_cpus' loops in arm/gic.c too. I'd prefer we not
-assume that all cpu's are present (even though, currently, they must be),
-because we may want to integrate cpu hotplug tests with these tests at
-some point.
+> Alex Williamson <alex.williamson@redhat.com> writes:
+> 
+> > On Mon, 24 Feb 2020 14:42:17 +0800
+> > "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
+> >  
+> >> From: Longpeng <longpeng2@huawei.com>
+> >> 
+> >> vfio_pci_load_rom() maybe failed and then the vdev->rom is NULL in
+> >> some situation (though I've not encountered yet), maybe we should
+> >> avoid the VM abort.  
+> 
+> What "VM abort" exactly?
 
-> +
-> +	writel(GITS_CTLR_ENABLE, its_data.base + GITS_CTLR);
-> +}
-> -- 
-> 2.20.1
+There is none because memcpy() does something sane when size is zero,
+but to be ISO whatever spec compliant we shouldn't rely on that.
+
+> >> 
+> >> Signed-off-by: Longpeng <longpeng2@huawei.com>
+> >> ---
+> >>  hw/vfio/pci.c | 13 ++++++++-----
+> >>  1 file changed, 8 insertions(+), 5 deletions(-)
+> >> 
+> >> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> >> index 5e75a95..ed798ae 100644
+> >> --- a/hw/vfio/pci.c
+> >> +++ b/hw/vfio/pci.c
+> >> @@ -768,7 +768,7 @@ static void vfio_update_msi(VFIOPCIDevice *vdev)
+> >>      }
+> >>  }
+> >>  
+> >> -static void vfio_pci_load_rom(VFIOPCIDevice *vdev)
+> >> +static bool vfio_pci_load_rom(VFIOPCIDevice *vdev)
+> >>  {
+> >>      struct vfio_region_info *reg_info;
+> >>      uint64_t size;
+> >> @@ -778,7 +778,7 @@ static void vfio_pci_load_rom(VFIOPCIDevice *vdev)
+> >>      if (vfio_get_region_info(&vdev->vbasedev,
+> >>                               VFIO_PCI_ROM_REGION_INDEX, &reg_info)) {
+> >>          error_report("vfio: Error getting ROM info: %m");
+> >> -        return;
+> >> +        return false;
+> >>      }
+> >>  
+> >>      trace_vfio_pci_load_rom(vdev->vbasedev.name, (unsigned long)reg_info->size,
+> >> @@ -797,7 +797,7 @@ static void vfio_pci_load_rom(VFIOPCIDevice *vdev)
+> >>          error_printf("Device option ROM contents are probably invalid "
+> >>                      "(check dmesg).\nSkip option ROM probe with rombar=0, "
+> >>                      "or load from file with romfile=\n");
+> >> -        return;
+> >> +        return false;
+> >>      }
+> >>  
+> >>      vdev->rom = g_malloc(size);
+> >> @@ -849,6 +849,8 @@ static void vfio_pci_load_rom(VFIOPCIDevice *vdev)
+> >>              data[6] = -csum;
+> >>          }
+> >>      }
+> >> +
+> >> +    return true;
+> >>  }
+> >>  
+> >>  static uint64_t vfio_rom_read(void *opaque, hwaddr addr, unsigned size)
+> >> @@ -863,8 +865,9 @@ static uint64_t vfio_rom_read(void *opaque, hwaddr addr, unsigned size)  
+>     {
+>         VFIOPCIDevice *vdev = opaque;
+>         union {
+>             uint8_t byte;
+>             uint16_t word;
+>             uint32_t dword;
+>             uint64_t qword;
+>         } val;
+> >>      uint64_t data = 0;
+> >>  
+> >>      /* Load the ROM lazily when the guest tries to read it */
+> >> -    if (unlikely(!vdev->rom && !vdev->rom_read_failed)) {
+> >> -        vfio_pci_load_rom(vdev);
+> >> +    if (unlikely(!vdev->rom && !vdev->rom_read_failed) &&
+> >> +        !vfio_pci_load_rom(vdev)) {
+> >> +        return 0;
+> >>      }
+> >>  
+> >>      memcpy(&val, vdev->rom + addr,  
+> >
+> > Looks like an obvious bug, until you look at the rest of this memcpy():
+> >
+> > memcpy(&val, vdev->rom + addr,
+> >            (addr < vdev->rom_size) ? MIN(size, vdev->rom_size - addr) : 0);
+> >
+> > IOW, we'll do a zero sized memcpy() if rom_size is zero, so there's no
+> > risk of the concern identified in the commit log.  This patch is
+> > unnecessary.  Thanks,  
 > 
+> I'm blind: why does !vdev->rom imply !vdev->rom_size?
+
+See vfio_pci_load_rom(), rom_size and rom are set and allocated
+together.
+
+> Moreover, when MIN(size, vdev->rom_size - addr) < size, we seem to read
+> uninitialized data from @val:
+
+This is fixed in my patch
+https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg02778.html
+
 > 
+>         switch (size) {
+>         case 1:
+>             data = val.byte;
+>             break;
+>         case 2:
+>             data = le16_to_cpu(val.word);
+>             break;
+>         case 4:
+>             data = le32_to_cpu(val.dword);
+>             break;
+>         default:
+>             hw_error("vfio: unsupported read size, %d bytes\n", size);
+>             break;
+>         }
+> 
+>         trace_vfio_rom_read(vdev->vbasedev.name, addr, size, data);
+> 
+>         return data;
+>     }
+> 
+> Why is that okay?
+> 
+> Why do we initialize @data?
+
+Bug.  The switch was only added later (75bd0c7253f3) and we failed to
+catch it.  Prior to that we were initializing val and the memcpy() only
+overwrote it as necessary.  In any case, getting back garbage for the
+rom when there isn't one generally works ok since the chances of
+generating a proper rom signature are infinitesimal.  Clearly not what
+was intended though.
+
+> How can we get to the default case?  If we can get there, is hw_error()
+> really the right thing to do?  It almost never is...  If getting there
+> is the guest's fault, we need to tell it off the same way physical
+> hardware does.  If we should not ever get there (i.e. it's a QEMU bug),
+> then a plain abort() would be clearer.
+
+AFAIK this is relatively standard, if not somewhat paranoid, handling
+for a MemoryRegion ops callback.  The MemoryRegionOps code only allows
+certain size accesses, so it would effectively be an internal error to
+hit the default case, which seems to be not an uncommon use case of
+hw_error.  Thanks,
+
+Alex
 
 
