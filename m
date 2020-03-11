@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F811819E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:34:41 +0100 (CET)
-Received: from localhost ([::1]:51996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC8E1819C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:30:56 +0100 (CET)
+Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1VQ-0006wB-5P
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58973)
+	id 1jC1Rn-0001gT-2z
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1Oc-0004Z4-FO
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:27:39 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jC1On-0004pr-4l
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:27:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1Ob-0002Go-5C
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:27:38 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15034)
+ (envelope-from <frankja@linux.ibm.com>) id 1jC1Ol-0002Qf-Uv
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:27:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60510)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jC1Oa-0002Gg-UT
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:27:37 -0400
+ id 1jC1Ol-0002Pu-NG
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:27:47 -0400
 Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02BDMeTc003619
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:27:36 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yq0hdsm4j-1
+ 02BDMjN8003692
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:27:46 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yq0hdsmhd-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:27:34 -0400
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:27:46 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 11 Mar 2020 13:22:17 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Wed, 11 Mar 2020 13:22:27 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 11 Mar 2020 13:22:14 -0000
+ Wed, 11 Mar 2020 13:22:24 -0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 02BDLEJE48497012
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02BDMNSb44040430
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Mar 2020 13:21:14 GMT
+ Wed, 11 Mar 2020 13:22:23 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F00955204F;
- Wed, 11 Mar 2020 13:22:13 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7D88A52063;
+ Wed, 11 Mar 2020 13:22:23 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.36.208])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C3BDB52050;
- Wed, 11 Mar 2020 13:22:12 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 686BC52057;
+ Wed, 11 Mar 2020 13:22:22 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 04/15] s390x: protvirt: Inhibit balloon when switching to
- protected mode
-Date: Wed, 11 Mar 2020 09:21:40 -0400
+Subject: [PATCH v9 10/15] s390x: protvirt: Move diag 308 data over SIDA
+Date: Wed, 11 Mar 2020 09:21:46 -0400
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20031113-0028-0000-0000-000003E31F91
+x-cbid: 20031113-0012-0000-0000-0000038F6899
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031113-0029-0000-0000-000024A86405
-Message-Id: <20200311132151.172389-5-frankja@linux.ibm.com>
+x-cbparentid: 20031113-0013-0000-0000-000021CC374D
+Message-Id: <20200311132151.172389-11-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-11_05:2020-03-11,
  2020-03-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  impostorscore=0 phishscore=0
- malwarescore=0 lowpriorityscore=0 suspectscore=3 priorityscore=1501
- spamscore=0 adultscore=0 mlxlogscore=999 mlxscore=0 clxscore=1015
+ malwarescore=0 lowpriorityscore=0 suspectscore=1 priorityscore=1501
+ spamscore=0 adultscore=0 mlxlogscore=982 mlxscore=0 clxscore=1015
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2003110085
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
@@ -93,73 +92,74 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ballooning in protected VMs can only be done when the guest shares the
-pages it gives to the host. If pages are not shared, the integrity
-checks will fail once those pages have been altered and are given back
-to the guest.
-
-As we currently do not yet have a solution for this we will continue
-like this:
-
-1. We block ballooning now in QEMU (with this patch)
-
-2. Later we will provide a change to virtio that removes the blocker
-and adds VIRTIO_F_IOMMU_PLATFORM automatically by QEMU when doing the
-protvirt switch. This is ok as the guest balloon driver will reject to
-work with the IOMMU change
-
-3. Later we can fix the guest balloon driver to accept the IOMMU
-feature bit and correctly exercise sharing and unsharing of balloon
-pages
+For protected guests the IPIB is written/read to/from the SIDA, so we
+need those accesses to go through s390_cpu_pv_mem_read/write().
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/s390x/diag.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index deb31e060052d279..066e01f303c35671 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -41,6 +41,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/s390x/tod.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/balloon.h"
- #include "hw/s390x/pv.h"
- #include "migration/blocker.h"
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index b245e557037ded06..a733485caf162111 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -88,6 +88,7 @@ static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
+ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+ {
+     CPUState *cs = env_cpu(env);
++    S390CPU *cpu = S390_CPU(cs);
+     uint64_t addr =  env->regs[r1];
+     uint64_t subcode = env->regs[r3];
+     IplParameterBlock *iplb;
+@@ -124,13 +125,22 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+             return;
+         }
+         iplb = g_new0(IplParameterBlock, 1);
+-        cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
++        if (!s390_is_pv()) {
++            cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
++        } else {
++            s390_cpu_pv_mem_read(cpu, 0, iplb, sizeof(iplb->len));
++        }
++
+         if (!iplb_valid_len(iplb)) {
+             env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+             goto out;
+         }
  
-@@ -326,6 +327,7 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
-     ms->pv = false;
-     migrate_del_blocker(pv_mig_blocker);
-     error_free_or_abort(&pv_mig_blocker);
-+    qemu_balloon_inhibit(false);
- }
+-        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
++        if (!s390_is_pv()) {
++            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
++        } else {
++            s390_cpu_pv_mem_read(cpu, 0, iplb, be32_to_cpu(iplb->len));
++        }
  
- static int s390_machine_protect(S390CcwMachineState *ms)
-@@ -333,10 +335,12 @@ static int s390_machine_protect(S390CcwMachineState *ms)
-     Error *local_err = NULL;
-     int rc;
- 
-+    qemu_balloon_inhibit(true);
-     error_setg(&pv_mig_blocker,
-                "protected VMs are currently not migrateable.");
-     rc = migrate_add_blocker(pv_mig_blocker, &local_err);
-     if (local_err) {
-+        qemu_balloon_inhibit(false);
-         error_report_err(local_err);
-         error_free_or_abort(&pv_mig_blocker);
-         return rc;
-@@ -345,6 +349,7 @@ static int s390_machine_protect(S390CcwMachineState *ms)
-     /* Create SE VM */
-     rc = s390_pv_vm_enable();
-     if (rc) {
-+        qemu_balloon_inhibit(false);
-         error_report_err(local_err);
-         migrate_del_blocker(pv_mig_blocker);
-         error_free_or_abort(&pv_mig_blocker);
+         if (!iplb_valid(iplb)) {
+             env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+@@ -152,12 +162,17 @@ out:
+         } else {
+             iplb = s390_ipl_get_iplb();
+         }
+-        if (iplb) {
+-            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
+-            env->regs[r1 + 1] = DIAG_308_RC_OK;
+-        } else {
++        if (!iplb) {
+             env->regs[r1 + 1] = DIAG_308_RC_NO_CONF;
++            return;
+         }
++
++        if (!s390_is_pv()) {
++            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
++        } else {
++            s390_cpu_pv_mem_write(cpu, 0, iplb, be32_to_cpu(iplb->len));
++        }
++        env->regs[r1 + 1] = DIAG_308_RC_OK;
+         return;
+     case DIAG308_PV_START:
+         iplb = s390_ipl_get_iplb_pv();
 -- 
 2.25.1
 
