@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB197181F4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:24:46 +0100 (CET)
-Received: from localhost ([::1]:56232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51307181F52
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:25:11 +0100 (CET)
+Received: from localhost ([::1]:56238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC565-0003PO-QO
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57980)
+	id 1jC56U-0004Pe-8Z
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jC54z-0001or-Q7
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:23:38 -0400
+ id 1jC550-0001p3-PB
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:23:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jC54y-0003ai-Dn
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:23:37 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:35150 helo=huawei.com)
+ id 1jC54z-0003bD-5j
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:23:38 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3197 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jC54v-0003RM-QM; Wed, 11 Mar 2020 13:23:34 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 7F7603546F68F1E5A408;
- Thu, 12 Mar 2020 01:23:24 +0800 (CST)
+ id 1jC54v-0003Tj-U4; Wed, 11 Mar 2020 13:23:34 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 907E0EED1A18A9D8ED9C;
+ Thu, 12 Mar 2020 01:23:29 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
  DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 12 Mar 2020 01:23:17 +0800
+ 14.3.487.0; Thu, 12 Mar 2020 01:23:21 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Subject: [PATCH v3 01/10] acpi: Use macro for table-loader file name
-Date: Wed, 11 Mar 2020 17:20:05 +0000
-Message-ID: <20200311172014.33052-2-shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH v3 02/10] fw_cfg: Migrate ACPI table mr sizes separately
+Date: Wed, 11 Mar 2020 17:20:06 +0000
+Message-ID: <20200311172014.33052-3-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
 In-Reply-To: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
 References: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
@@ -43,7 +43,7 @@ X-Originating-IP: [10.202.227.237]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,54 +61,205 @@ Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use macro for "etc/table-loader" and move it to the header
-file similar to ACPI_BUILD_TABLE_FILE/ACPI_BUILD_RSDP_FILE etc.
+Any sub-page size update to ACPI table MRs will be lost during
+migration, as we use aligned size in ram_load_precopy() ->
+qemu_ram_resize() path. This will result in inconsistency in sizes
+between source and destination. In order to avoid this, save and
+restore them separately during migration.
 
+Suggested-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 ---
- hw/arm/virt-acpi-build.c    | 2 +-
- hw/i386/acpi-build.c        | 2 +-
- include/hw/acpi/aml-build.h | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+Please find the discussion here,
+https://patchwork.kernel.org/patch/11339591/
+---
+ hw/core/machine.c         |  1 +
+ hw/nvram/fw_cfg.c         | 86 ++++++++++++++++++++++++++++++++++++++-
+ include/hw/nvram/fw_cfg.h |  6 +++
+ 3 files changed, 92 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index fb4b166f82..c13710b727 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -929,7 +929,7 @@ void virt_acpi_setup(VirtMachineState *vms)
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 9e8c06036f..6d960bd47f 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -39,6 +39,7 @@ GlobalProperty hw_compat_4_2[] = {
+     { "usb-redir", "suppress-remote-wake", "off" },
+     { "qxl", "revision", "4" },
+     { "qxl-vga", "revision", "4" },
++    { "fw_cfg", "acpi-mr-restore", "false" },
+ };
+ const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
  
-     build_state->linker_mr =
-         acpi_add_rom_blob(virt_acpi_build_update, build_state,
--                          tables.linker->cmd_blob, "etc/table-loader", 0);
-+                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE, 0);
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 179b302f01..36d1e32f83 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -39,6 +39,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/cutils.h"
+ #include "qapi/error.h"
++#include "hw/acpi/aml-build.h"
  
-     fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
-                     acpi_data_len(tables.tcpalog));
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 9a19c14e66..80f05d728d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -3043,7 +3043,7 @@ void acpi_setup(void)
+ #define FW_CFG_FILE_SLOTS_DFLT 0x20
  
-     build_state->linker_mr =
-         acpi_add_rom_blob(acpi_build_update, build_state,
--                          tables.linker->cmd_blob, "etc/table-loader", 0);
-+                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE, 0);
+@@ -610,6 +611,50 @@ bool fw_cfg_dma_enabled(void *opaque)
+     return s->dma_enabled;
+ }
  
-     fw_cfg_add_file(x86ms->fw_cfg, ACPI_BUILD_TPMLOG_FILE,
-                     tables.tcpalog->data, acpi_data_len(tables.tcpalog));
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index de4a406568..0f4ed53d7f 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -13,6 +13,7 @@
- #define ACPI_BUILD_TABLE_FILE "etc/acpi/tables"
- #define ACPI_BUILD_RSDP_FILE "etc/acpi/rsdp"
- #define ACPI_BUILD_TPMLOG_FILE "etc/tpm/log"
-+#define ACPI_BUILD_LOADER_FILE "etc/table-loader"
++static bool fw_cfg_acpi_mr_restore(void *opaque)
++{
++    FWCfgState *s = opaque;
++    return s->acpi_mr_restore;
++}
++
++static void fw_cfg_update_mr(FWCfgState *s, uint16_t key, size_t size)
++{
++    MemoryRegion *mr;
++    ram_addr_t offset;
++    int arch = !!(key & FW_CFG_ARCH_LOCAL);
++    void *ptr;
++
++    key &= FW_CFG_ENTRY_MASK;
++    assert(key < fw_cfg_max_entry(s));
++
++    ptr = s->entries[arch][key].data;
++    mr = memory_region_from_host(ptr, &offset);
++
++    memory_region_ram_resize(mr, size, &error_abort);
++}
++
++static int fw_cfg_acpi_mr_restore_post_load(void *opaque, int version_id)
++{
++    FWCfgState *s = opaque;
++    int i, index;
++
++    assert(s->files);
++
++    index = be32_to_cpu(s->files->count);
++
++    for (i = 0; i < index; i++) {
++        if (!strcmp(s->files->f[i].name, ACPI_BUILD_TABLE_FILE)) {
++            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i, s->table_mr_size);
++        } else if (!strcmp(s->files->f[i].name, ACPI_BUILD_LOADER_FILE)) {
++            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i, s->linker_mr_size);
++        } else if (!strcmp(s->files->f[i].name, ACPI_BUILD_RSDP_FILE)) {
++            fw_cfg_update_mr(s, FW_CFG_FILE_FIRST + i, s->rsdp_mr_size);
++        }
++    }
++
++    return 0;
++}
++
+ static const VMStateDescription vmstate_fw_cfg_dma = {
+     .name = "fw_cfg/dma",
+     .needed = fw_cfg_dma_enabled,
+@@ -619,6 +664,20 @@ static const VMStateDescription vmstate_fw_cfg_dma = {
+     },
+ };
  
- #define AML_NOTIFY_METHOD "NTFY"
++static const VMStateDescription vmstate_fw_cfg_acpi_mr = {
++    .name = "fw_cfg/acpi_mr",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = fw_cfg_acpi_mr_restore,
++    .post_load = fw_cfg_acpi_mr_restore_post_load,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(table_mr_size, FWCfgState),
++        VMSTATE_UINT64(linker_mr_size, FWCfgState),
++        VMSTATE_UINT64(rsdp_mr_size, FWCfgState),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
+ static const VMStateDescription vmstate_fw_cfg = {
+     .name = "fw_cfg",
+     .version_id = 2,
+@@ -631,6 +690,7 @@ static const VMStateDescription vmstate_fw_cfg = {
+     },
+     .subsections = (const VMStateDescription*[]) {
+         &vmstate_fw_cfg_dma,
++        &vmstate_fw_cfg_acpi_mr,
+         NULL,
+     }
+ };
+@@ -815,6 +875,23 @@ static struct {
+ #define FW_CFG_ORDER_OVERRIDE_LAST 200
+ };
  
++/*
++ * Any sub-page size update to these table MRs will be lost during migration,
++ * as we use aligned size in ram_load_precopy() -> qemu_ram_resize() path.
++ * In order to avoid the inconsistency in sizes save them seperately and
++ * migrate over in vmstate post_load().
++ */
++static void fw_cfg_acpi_mr_save(FWCfgState *s, const char *filename, size_t len)
++{
++    if (!strcmp(filename, ACPI_BUILD_TABLE_FILE)) {
++        s->table_mr_size = len;
++    } else if (!strcmp(filename, ACPI_BUILD_LOADER_FILE)) {
++        s->linker_mr_size = len;
++    } else if (!strcmp(filename, ACPI_BUILD_RSDP_FILE)) {
++        s->rsdp_mr_size = len;
++    }
++}
++
+ static int get_fw_cfg_order(FWCfgState *s, const char *name)
+ {
+     int i;
+@@ -914,6 +991,7 @@ void fw_cfg_add_file_callback(FWCfgState *s,  const char *filename,
+     trace_fw_cfg_add_file(s, index, s->files->f[index].name, len);
+ 
+     s->files->count = cpu_to_be32(count+1);
++    fw_cfg_acpi_mr_save(s, filename, len);
+ }
+ 
+ void fw_cfg_add_file(FWCfgState *s,  const char *filename,
+@@ -937,6 +1015,7 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
+             ptr = fw_cfg_modify_bytes_read(s, FW_CFG_FILE_FIRST + i,
+                                            data, len);
+             s->files->f[i].size   = cpu_to_be32(len);
++            fw_cfg_acpi_mr_save(s, filename, len);
+             return ptr;
+         }
+     }
+@@ -973,7 +1052,10 @@ static void fw_cfg_machine_ready(struct Notifier *n, void *data)
+     qemu_register_reset(fw_cfg_machine_reset, s);
+ }
+ 
+-
++static Property fw_cfg_properties[] = {
++    DEFINE_PROP_BOOL("acpi-mr-restore", FWCfgState, acpi_mr_restore, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
+ 
+ static void fw_cfg_common_realize(DeviceState *dev, Error **errp)
+ {
+@@ -1097,6 +1179,8 @@ static void fw_cfg_class_init(ObjectClass *klass, void *data)
+ 
+     dc->reset = fw_cfg_reset;
+     dc->vmsd = &vmstate_fw_cfg;
++
++    device_class_set_props(dc, fw_cfg_properties);
+ }
+ 
+ static const TypeInfo fw_cfg_info = {
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index b5291eefad..457fee7425 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -53,6 +53,12 @@ struct FWCfgState {
+     dma_addr_t dma_addr;
+     AddressSpace *dma_as;
+     MemoryRegion dma_iomem;
++
++    /* restore during migration */
++    bool acpi_mr_restore;
++    size_t table_mr_size;
++    size_t linker_mr_size;
++    size_t rsdp_mr_size;
+ };
+ 
+ struct FWCfgIoState {
 -- 
 2.17.1
 
