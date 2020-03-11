@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AE71817D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:20:47 +0100 (CET)
-Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF491817F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:26:30 +0100 (CET)
+Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC0Lu-0002Vm-SB
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41136)
+	id 1jC0RS-00083e-0H
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jC0Ju-0001JG-Sf
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:18:44 -0400
+ (envelope-from <drjones@redhat.com>) id 1jC0P0-0003Db-Rd
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:23:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1jC0Jq-00067y-KX
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:18:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39331
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1jC0Oz-0000QU-Kp
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:23:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52291
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1jC0Jq-00067X-Gt
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:18:38 -0400
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jC0Oz-0000Q3-GM
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:23:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583929118;
+ s=mimecast20190719; t=1583929437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qEq/Lz+nBRFhqGbjMLpRhi3xUzELGMviYpvBRLnr/io=;
- b=VxSbtPDP8r9WK7tKzwC23viBM/naUcI+IsEvIoXTemJKF2aieTHAZOVthOAJmRAwLskXM8
- R2TBZnt+z/ohUJvtmkchYoOFkdOrsCrr8s+bzGBk9Ax+7GQ0y1JwErUJW01LFYrCjnbsrV
- XFEPF2aGMZ4uZZyBJ9wIYiJQcQY2R8M=
+ bh=79OoemiBPvP+Aownz+G2JvwW07yPBd9IeWXNr4iX7Hg=;
+ b=UO78TKZTX0bmndAE1IjOdGnkxTEOR0WzEqDf2cTrBxhPk+eHsATHM3Yko02rUnxIhT058m
+ 6/nP0PZYTmk/22fD6mU6jGTS+mYIsXYXNvTAPxURGJvzn1Oyen4cfXKQvlOkYwiUiej44c
+ bzLGZuWUdJluynpVvDOl0LDUZFIPSfM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-M1S3wXi0O5inoHzNRA6LXQ-1; Wed, 11 Mar 2020 08:18:22 -0400
-X-MC-Unique: M1S3wXi0O5inoHzNRA6LXQ-1
+ us-mta-420-Q1dETg8DNn-8_V0bCh-pfQ-1; Wed, 11 Mar 2020 08:23:23 -0400
+X-MC-Unique: Q1dETg8DNn-8_V0bCh-pfQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 231EA8017CC;
- Wed, 11 Mar 2020 12:18:21 +0000 (UTC)
-Received: from localhost (ovpn-200-57.brq.redhat.com [10.40.200.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8644391;
- Wed, 11 Mar 2020 12:18:15 +0000 (UTC)
-Date: Wed, 11 Mar 2020 13:18:14 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v6 11/13] target/i386: Enable new apic id encoding for
- EPYC based cpus models
-Message-ID: <20200311131814.67c804df@redhat.com>
-In-Reply-To: <158389407283.22020.13704666183488372052.stgit@naples-babu.amd.com>
-References: <158389385028.22020.7608244627303132902.stgit@naples-babu.amd.com>
- <158389407283.22020.13704666183488372052.stgit@naples-babu.amd.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 738E4477;
+ Wed, 11 Mar 2020 12:23:22 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (ovpn-206-80.brq.redhat.com
+ [10.40.206.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D5987391;
+ Wed, 11 Mar 2020 12:23:17 +0000 (UTC)
+Date: Wed, 11 Mar 2020 13:23:14 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v4 6/6] hw/arm/virt: kvm: allow gicv3 by default if v2
+ cannot work
+Message-ID: <20200311122314.eleinzggae3ctaqe@kamzik.brq.redhat.com>
+References: <20200311111626.5705-1-eric.auger@redhat.com>
+ <20200311111626.5705-7-eric.auger@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20200311111626.5705-7-eric.auger@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,86 +74,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: peter.maydell@linaro.org, maz@kernel.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, philmd@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 10 Mar 2020 21:34:32 -0500
-Babu Moger <babu.moger@amd.com> wrote:
-
-> The APIC ID is decoded based on the sequence sockets->dies->cores->thread=
-s.
-> This works fine for most standard AMD and other vendors' configurations,
-> but this decoding sequence does not follow that of AMD's APIC ID enumerat=
-ion
-> strictly. In some cases this can cause CPU topology inconsistency.
+On Wed, Mar 11, 2020 at 12:16:26PM +0100, Eric Auger wrote:
+> At the moment if the end-user does not specify the gic-version along
+> with KVM acceleration, v2 is set by default. However most of the
+> systems now have GICv3 and sometimes they do not support GICv2
+> compatibility.
 >=20
-> When booting a guest VM, the kernel tries to validate the topology, and f=
-inds
-> it inconsistent with the enumeration of EPYC cpu models. The more details=
- are
-> in the bug https://bugzilla.redhat.com/show_bug.cgi?id=3D1728166.
+> This patch keeps the default v2 selection in all cases except
+> in the KVM accelerated mode when either
+> - the host does not support GICv2 in-kernel emulation or
+> - number of VCPUS exceeds 8.
 >=20
-> To fix the problem we need to build the topology as per the Processor
-> Programming Reference (PPR) for AMD Family 17h Model 01h, Revision B1
-> Processors. The documentation is available from the bugzilla Link below.
+> Those cases did not work anyway so we do not break any compatibility.
+> Now we get v3 selected in such a case.
 >=20
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
-> It is also available at
-> https://www.amd.com/system/files/TechDocs/55570-B1_PUB.zip
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 >=20
-> Here is the text from the PPR.
-> Operating systems are expected to use Core::X86::Cpuid::SizeId[ApicIdSize=
-], the
-> number of least significant bits in the Initial APIC ID that indicate cor=
-e ID
-> within a processor, in constructing per-core CPUID masks.
-> Core::X86::Cpuid::SizeId[ApicIdSize] determines the maximum number of cor=
-es
-> (MNC) that the processor could theoretically support, not the actual numb=
-er of
-> cores that are actually implemented or enabled on the processor, as indic=
-ated
-> by Core::X86::Cpuid::SizeId[NC].
-> Each Core::X86::Apic::ApicId[ApicId] register is preset as follows:
-> =E2=80=A2 ApicId[6] =3D Socket ID.
-> =E2=80=A2 ApicId[5:4] =3D Node ID.
-> =E2=80=A2 ApicId[3] =3D Logical CCX L3 complex ID
-> =E2=80=A2 ApicId[2:0]=3D (SMT) ? {LogicalCoreID[1:0],ThreadId} : {1'b0,Lo=
-gicalCoreID[1:0]}
->=20
-> The new apic id encoding is enabled for EPYC and EPYC-Rome models.
->=20
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
 > ---
->  target/i386/cpu.c |    2 ++
->  1 file changed, 2 insertions(+)
 >=20
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 19de79d01c..5d5734af76 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3921,6 +3921,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
->          .xlevel =3D 0x8000001E,
->          .model_id =3D "AMD EPYC Processor",
->          .cache_info =3D &epyc_cache_info,
-> +        .use_epyc_apic_id_encoding =3D 1,
->          .versions =3D (X86CPUVersionDefinition[]) {
->              { .version =3D 1 },
->              {
-> @@ -4048,6 +4049,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
->          .xlevel =3D 0x8000001E,
->          .model_id =3D "AMD EPYC-Rome Processor",
->          .cache_info =3D &epyc_rome_cache_info,
-> +        .use_epyc_apic_id_encoding =3D 1,
->      },
->  };
+> v3 -> v4:
+> - Deal with the case where v3 is not supported by the host and
+>   the number of vcpus exceeds 8
+>=20
+> v2 -> v3:
+> - add ()
+> ---
+>  hw/arm/virt.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index f5ff2d9006..6becf9aaae 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1543,6 +1543,8 @@ static void virt_set_memmap(VirtMachineState *vms)
+>   */
+>  static void finalize_gic_version(VirtMachineState *vms)
+>  {
+> +    unsigned int max_cpus =3D MACHINE(vms)->smp.max_cpus;
+> +
+>      if (kvm_enabled()) {
+>          int probe_bitmap;
 > =20
+> @@ -1583,7 +1585,20 @@ static void finalize_gic_version(VirtMachineState =
+*vms)
+>              }
+>              return;
+>          case VIRT_GIC_VERSION_NOSEL:
+> -            vms->gic_version =3D VIRT_GIC_VERSION_2;
+> +            if ((probe_bitmap & KVM_ARM_VGIC_V2) && max_cpus <=3D GIC_NC=
+PU) {
+> +                vms->gic_version =3D VIRT_GIC_VERSION_2;
+> +            } else if (probe_bitmap & KVM_ARM_VGIC_V3) {
+> +                /*
+> +                 * in case the host does not support v2 in-kernel emulat=
+ion or
+> +                 * the end-user requested more than 8 VCPUs we now defau=
+lt
+> +                 * to v3. In any case defaulting to v2 would be broken.
+> +                 */
+> +                vms->gic_version =3D VIRT_GIC_VERSION_3;
+> +            } else {
+
+(probe & V3) is only =3D=3D !(probe & V2) since we don't have more versions=
+.
+If we did, then the assumption cpus > GIC_NCPU here wouldn't be correct.
+I'd just make this an 'else if (cpus > GIC_NCPU)' to be explicit.
+
+> +                error_report("host only supports in-kernel GICv2 emulati=
+on "
+> +                             "but more than 8 vcpus are requested");
+> +                exit(1);
+> +            }
+>              break;
+>          case VIRT_GIC_VERSION_2:
+>          case VIRT_GIC_VERSION_3:
+> --=20
+> 2.20.1
 >=20
+
+Otherwise
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
