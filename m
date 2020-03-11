@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66471181AD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:10:29 +0100 (CET)
-Received: from localhost ([::1]:52934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9815E181AF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:17:42 +0100 (CET)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC244-0006Lj-Ad
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38125)
+	id 1jC2B3-0006pO-KA
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jC1sC-00081p-R3
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1sD-00085Z-W1
  for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1jC1sA-00042J-SU
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:12 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:33142)
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1sC-00044C-Iz
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:13 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33726)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jC1sA-000413-E1
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:10 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id j186so2078815ywe.0
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 06:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k7A/UzDRc2+Rz5Rkwg1QAmtJW+ybq7G8OUMVidky5H0=;
- b=gTbWFTvJ0ft+5vzupDw1hLjzBTmfSHj5ALYCVphYsTf66FiiW/3Zwdvcs0ibxtWoGO
- kyUsBgGDq37QyZ35XpIe/Aes6tY+yXVuWTuAxZoJ/RFyLsthBySH6wb1p8AJWq0TzQ8f
- M1m9b7ZYKEB+UZjng0JFUvqevelJ2KfQMwYcBAYZvcqeundetqZ7rar8wuJrHZaN0OHG
- 7n2iQLnsyP5x0vQdhO8hUaZF50WAaArJdFo1/PLkvdlC+SQYIUvQtqKV9+xL/i+3pwxf
- UJMfKjZW0sG4goFpeZhCfGkI5P9nI+aanoHsPy7J0KWgGrznqqV++elipQqEkQB8fIfu
- tGLw==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jC1sC-00042x-AF
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:58:12 -0400
+Received: by mail-wm1-x344.google.com with SMTP id r7so3240266wmg.0
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 06:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=DyujtRVJDUvGTz1RJPeCTZdw8b14i6MgtBnZu1r0+e8=;
+ b=SCtuBLj9aTwra9v/S9xQ4+uuUSvnoKyg5wj3a+V/5tmoPseCyWWS8ZPTRm3f3+xnZC
+ ZspixT2ANiiA4roY4+FVRSE4JSHPUPk0J5K8fE3YkTiFw3aEPgdjiu/wJpdybtvyQ4IR
+ OKbP9VqKG5wPKi5dmH1h3XvyKguPfB6HcZJ6mpMzy3envfyI7qbPfzVjaKKwitBfCJVx
+ YKgx362RPpT2BliLnxf3WYBUb7QuPGzNKSjC9PMWD4rCMa802MQ4eL3RllckLdVdBipS
+ GVFTEEv81b5lFK2OzBCVKvMUyjusac3UQ0mj8zBs7PK1DDPdgFC+WALSwV2R1sVMNSKh
+ a96A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k7A/UzDRc2+Rz5Rkwg1QAmtJW+ybq7G8OUMVidky5H0=;
- b=F1+2FNGugNovM98N2svldxlqwGWpg91h+0XZb5Ku9XGfCHqQmK71BJIfLaGYZpgJ6x
- 9RcNA2z9ylU4wV5Ok7L7BbhfoddVeLk8xpspYEom3/+nSs4D1uRmr1NQBfNS0zCTg0u3
- 1e9duub2QXUDcrzlGd/ynsMiTvofUFn3buJKxOKNQ8RK8SXDOSvP9RUlLLOPvyrnj01N
- v8iABZvccFYkiHR5vZTlOOp4x64hBgv7pmQhTfLJDBy4HtIPOuAeXW1WfPvffGunJPaP
- rqG/A+pEsFIBwWXyM9jnf75g0gkR60Teju6rzyLSHZ/llsaZecTEM8K1mzTCQsSaLGHW
- pt6g==
-X-Gm-Message-State: ANhLgQ24ujmkWnsuTtoMkxnNiEN/0njOx0hFAO09dordOjVmKNiAk3l3
- 2wv384SgTmEK7oINuv7dDV7RQ3uFKNBVRCwSE/IRmA==
-X-Google-Smtp-Source: ADFU+vu9e2WxZh9wEtzhF0w1CCrMutP1KzS8o/F2eXc2uXGyleCZvqI9vNGRzOMN6HrDwCky/jO1IKMQ4qPwfkbnp3M=
-X-Received: by 2002:a25:6811:: with SMTP id d17mr3031531ybc.265.1583935089413; 
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=DyujtRVJDUvGTz1RJPeCTZdw8b14i6MgtBnZu1r0+e8=;
+ b=odiHzbOwVPtVyp1K3TQV10iB8fsKPnTjK9RJso7jGf7qcIHfbN2FqQY/KibDDKx0Kl
+ rZAOKIRg3DdS90gOHcU5AseHIymzpjODT0L5DGoZrzSFHe+0D1lw5Fv+yxmuQiTMvXnD
+ FIbEdIIDFhTutzmGQ6TIMu3MiA9GxMaDqpj8BFtzlUHPNIerGZM3b5jYguH7go1xCuzL
+ EBwHRLU3Q6X3zMK6xubzo3F2KoUszvWOA5zZk3SnAkCbiDxRX1e0rt74/yvvA9Q6la88
+ uBSe8guzt3GMv0aQkBs4FZUh3x0oMyaCvNSS8cOOh3qrRJLQVD28i2pYGTbAPXoHzQWC
+ f3rg==
+X-Gm-Message-State: ANhLgQ2ywSpPt0NjbSyjpmFOTgsJtlb6+LN61fPwoLxUzhuwDlwW56b3
+ OzpS9E87fZUyTjFBs2oXboNL+g==
+X-Google-Smtp-Source: ADFU+vvHNlBalzpclENNbNmu0hp0dq1zOb/OtNND0Z3mjg4RFbHV71L86+mH4ArHDjyHhSdwk8xWyg==
+X-Received: by 2002:a05:600c:22d9:: with SMTP id
+ 25mr122743wmg.41.1583935091041; 
+ Wed, 11 Mar 2020 06:58:11 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p16sm7468162wmi.40.2020.03.11.06.58.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 11 Mar 2020 06:58:09 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 250861FF7E;
+ Wed, 11 Mar 2020 13:58:09 +0000 (GMT)
+References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
+ <20200310213203.18730-11-nieklinnenbank@gmail.com>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Subject: Re: [PATCH v7 10/18] hw/arm/allwinner-h3: add Boot ROM support
+In-reply-to: <20200310213203.18730-11-nieklinnenbank@gmail.com>
+Date: Wed, 11 Mar 2020 13:58:09 +0000
+Message-ID: <87eetzgfim.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200311123518.4025-1-yuri.benditovich@daynix.com>
- <20200311123518.4025-2-yuri.benditovich@daynix.com>
- <20200311094553-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200311094553-mutt-send-email-mst@kernel.org>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Wed, 11 Mar 2020 15:57:58 +0200
-Message-ID: <CAOEp5OdgDB5u-SeZO3y4iCTjFy6hpNfPA-ADaBbnvx=MHD_dTw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] virtio-net: introduce RSS and hash report features
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000005a253b05a094a03f"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,326 +83,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ b.galvani@gmail.com, qemu-arm@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005a253b05a094a03f
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 11, 2020 at 3:47 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+Niek Linnenbank <nieklinnenbank@gmail.com> writes:
 
-> On Wed, Mar 11, 2020 at 02:35:13PM +0200, Yuri Benditovich wrote:
-> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> > ---
-> >  hw/net/virtio-net.c | 95 +++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 95 insertions(+)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 3627bb1717..9545b0e84f 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -71,6 +71,101 @@
-> >  #define VIRTIO_NET_IP6_ADDR_SIZE   32      /* ipv6 saddr + daddr */
-> >  #define VIRTIO_NET_MAX_IP6_PAYLOAD VIRTIO_NET_MAX_TCP_PAYLOAD
-> >
-> > +/* TODO: remove after virtio-net header update */
-> > +#if !defined(VIRTIO_NET_RSS_HASH_TYPE_IPv4)
-> > +#define VIRTIO_NET_F_HASH_REPORT    57  /* Supports hash report */
-> > +#define VIRTIO_NET_F_RSS            60  /* Supports RSS RX steering */
-> > +
-> > +/* supported/enabled hash types */
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_IPv4          (1 << 0)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4         (1 << 1)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4         (1 << 2)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_IPv6          (1 << 3)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6         (1 << 4)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6         (1 << 5)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX         (1 << 6)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX        (1 << 7)
-> > +#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX        (1 << 8)
-> > +
-> > +#define __le16 uint16_t
-> > +#define __le32 uint32_t
-> > +#define __u8   uint8_t
-> > +#define __u16  uint16_t
-> > +#define __u32  uint32_t
+> A real Allwinner H3 SoC contains a Boot ROM which is the
+> first code that runs right after the SoC is powered on.
+> The Boot ROM is responsible for loading user code (e.g. a bootloader)
+> from any of the supported external devices and writing the downloaded
+> code to internal SRAM. After loading the SoC begins executing the code
+> written to SRAM.
 >
-> Let's just use uint16_t etc directly please.
+> This commits adds emulation of the Boot ROM firmware setup functionality
+> by loading user code from SD card in the A1 SRAM. While the A1 SRAM is
+> 64KiB, we limit the size to 32KiB because the real H3 Boot ROM also rejec=
+ts
+> sizes larger than 32KiB. For reference, this behaviour is documented
+> by the Linux Sunxi project wiki at:
 >
-> > +struct virtio_net_config_with_rss {
-> > +    /* The config defining mac address (if VIRTIO_NET_F_MAC) */
-> > +    __u8 mac[ETH_ALEN];
-> > +    /* See VIRTIO_NET_F_STATUS and VIRTIO_NET_S_* above */
-> > +    __u16 status;
-> > +    /*
-> > +     * Maximum number of each of transmit and receive queues;
-> > +     * see VIRTIO_NET_F_MQ and VIRTIO_NET_CTRL_MQ.
-> > +     * Legal values are between 1 and 0x8000
-> > +     */
-> > +    __u16 max_virtqueue_pairs;
-> > +    /* Default maximum transmit unit advice */
-> > +    __u16 mtu;
-> > +    /*
-> > +     * speed, in units of 1Mb. All values 0 to INT_MAX are legal.
-> > +     * Any other value stands for unknown.
-> > +     */
-> > +    __u32 speed;
-> > +    /*
-> > +     * 0x00 - half duplex
-> > +     * 0x01 - full duplex
-> > +     * Any other value stands for unknown.
-> > +     */
-> > +    __u8 duplex;
-> > +    /* maximum size of RSS key */
-> > +    __u8 rss_max_key_size;
-> > +    /* maximum number of indirection table entries */
-> > +    __le16 rss_max_indirection_table_length;
-> > +    /* bitmask of supported VIRTIO_NET_RSS_HASH_ types */
-> > +    __le32 supported_hash_types;
-> > +} __attribute__((packed));
-> > +
-> > +#define virtio_net_config virtio_net_config_with_rss
+>   https://linux-sunxi.org/BROM#U-Boot_SPL_limitations
 >
-> Do we have to? Let's just tweak code to do the right thing...
+> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> ---
+>  include/hw/arm/allwinner-h3.h | 21 +++++++++++++++++++++
+>  hw/arm/allwinner-h3.c         | 18 ++++++++++++++++++
+>  hw/arm/orangepi.c             |  5 +++++
+>  3 files changed, 44 insertions(+)
 >
+> diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+> index f9b9a02373..d338003724 100644
+> --- a/include/hw/arm/allwinner-h3.h
+> +++ b/include/hw/arm/allwinner-h3.h
+> @@ -46,6 +46,7 @@
+>  #include "hw/sd/allwinner-sdhost.h"
+>  #include "hw/net/allwinner-sun8i-emac.h"
+>  #include "target/arm/cpu.h"
+> +#include "sysemu/block-backend.h"
+>=20=20
+>  /**
+>   * Allwinner H3 device list
+> @@ -129,4 +130,24 @@ typedef struct AwH3State {
+>      MemoryRegion sram_c;
+>  } AwH3State;
+>=20=20
+> +/**
+> + * Emulate Boot ROM firmware setup functionality.
+> + *
+> + * A real Allwinner H3 SoC contains a Boot ROM
+> + * which is the first code that runs right after
+> + * the SoC is powered on. The Boot ROM is responsible
+> + * for loading user code (e.g. a bootloader) from any
+> + * of the supported external devices and writing the
+> + * downloaded code to internal SRAM. After loading the SoC
+> + * begins executing the code written to SRAM.
+> + *
+> + * This function emulates the Boot ROM by copying 32 KiB
+> + * of data from the given block device and writes it to
+> + * the start of the first internal SRAM memory.
+> + *
+> + * @s: Allwinner H3 state object pointer
+> + * @blk: Block backend device object pointer
+> + */
+> +void allwinner_h3_bootrom_setup(AwH3State *s, BlockBackend *blk);
+> +
+>  #endif /* HW_ARM_ALLWINNER_H3_H */
+> diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+> index d1245d2b01..56b5c563a8 100644
+> --- a/hw/arm/allwinner-h3.c
+> +++ b/hw/arm/allwinner-h3.c
+> @@ -29,6 +29,7 @@
+>  #include "hw/char/serial.h"
+>  #include "hw/misc/unimp.h"
+>  #include "hw/usb/hcd-ehci.h"
+> +#include "hw/loader.h"
+>  #include "sysemu/sysemu.h"
+>  #include "hw/arm/allwinner-h3.h"
+>=20=20
+> @@ -170,6 +171,23 @@ enum {
+>      AW_H3_GIC_NUM_SPI       =3D 128
+>  };
+>=20=20
+> +void allwinner_h3_bootrom_setup(AwH3State *s, BlockBackend *blk)
+> +{
+> +    const int64_t rom_size =3D 32 * KiB;
+> +    uint8_t *buffer =3D g_new0(uint8_t, rom_size);
 
-Are we going to update the virtio_net some time?
-If yes, IMO makes sense to do less tweaking in the middle of the code.
-Then, upon update of virtio_net.h - easily remove all these defines that
-were added in virtio-net.c
+There is an opportunity to use g_autofree here so you can skip..
 
+> +    g_free(buffer);
+> +}
+> +
+<snip>
 
->
-> > +
-> > +struct virtio_net_hdr_v1_hash {
-> > +    struct virtio_net_hdr_v1 hdr;
-> > +    __le32 hash_value;
-> > +#define VIRTIO_NET_HASH_REPORT_NONE            0
-> > +#define VIRTIO_NET_HASH_REPORT_IPv4            1
-> > +#define VIRTIO_NET_HASH_REPORT_TCPv4           2
-> > +#define VIRTIO_NET_HASH_REPORT_UDPv4           3
-> > +#define VIRTIO_NET_HASH_REPORT_IPv6            4
-> > +#define VIRTIO_NET_HASH_REPORT_TCPv6           5
-> > +#define VIRTIO_NET_HASH_REPORT_UDPv6           6
-> > +#define VIRTIO_NET_HASH_REPORT_IPv6_EX         7
-> > +#define VIRTIO_NET_HASH_REPORT_TCPv6_EX        8
-> > +#define VIRTIO_NET_HASH_REPORT_UDPv6_EX        9
-> > +    __le16 hash_report;
-> > +    __le16 padding;
-> > +};
-> > +
-> > +/*
-> > + * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect as
-> > + * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configures
-> > + * the receive steering to use a hash calculated for incoming packet
-> > + * to decide on receive virtqueue to place the packet. The command
-> > + * also provides parameters to calculate a hash and receive virtqueue.
-> > + */
-> > +struct virtio_net_rss_config {
-> > +    __le32 hash_types;
-> > +    __le16 indirection_table_mask;
-> > +    __le16 unclassified_queue;
-> > +    __le16 indirection_table[1/* + indirection_table_mask */];
-> > +    __le16 max_tx_vq;
-> > +    __u8 hash_key_length;
-> > +    __u8 hash_key_data[/* hash_key_length */];
-> > +};
-> > +
-> > +#define VIRTIO_NET_CTRL_MQ_RSS_CONFIG          1
-> > +#define VIRTIO_NET_CTRL_MQ_HASH_CONFIG         2
-> > +
-> > +#endif
-> > +
-> >  /* Purge coalesced packets timer interval, This value affects the
-> performance
-> >     a lot, and should be tuned carefully, '300000'(300us) is the
-> recommended
-> >     value to pass the WHQL test, '50000' can gain 2x netperf throughput
-> with
-> > --
-> > 2.17.1
->
->
+Otherwise:
 
---0000000000005a253b05a094a03f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 11, 2020 at 3:47 PM Micha=
-el S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, M=
-ar 11, 2020 at 02:35:13PM +0200, Yuri Benditovich wrote:<br>
-&gt; Signed-off-by: Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich=
-@daynix.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/net/virtio-net.c | 95 +++++++++++++++++++++++++++++++++++++++=
-++++++<br>
-&gt;=C2=A0 1 file changed, 95 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c<br>
-&gt; index 3627bb1717..9545b0e84f 100644<br>
-&gt; --- a/hw/net/virtio-net.c<br>
-&gt; +++ b/hw/net/virtio-net.c<br>
-&gt; @@ -71,6 +71,101 @@<br>
-&gt;=C2=A0 #define VIRTIO_NET_IP6_ADDR_SIZE=C2=A0 =C2=A032=C2=A0 =C2=A0 =C2=
-=A0 /* ipv6 saddr + daddr */<br>
-&gt;=C2=A0 #define VIRTIO_NET_MAX_IP6_PAYLOAD VIRTIO_NET_MAX_TCP_PAYLOAD<br=
->
-&gt;=C2=A0 <br>
-&gt; +/* TODO: remove after virtio-net header update */<br>
-&gt; +#if !defined(VIRTIO_NET_RSS_HASH_TYPE_IPv4)<br>
-&gt; +#define VIRTIO_NET_F_HASH_REPORT=C2=A0 =C2=A0 57=C2=A0 /* Supports ha=
-sh report */<br>
-&gt; +#define VIRTIO_NET_F_RSS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 60=
-=C2=A0 /* Supports RSS RX steering */<br>
-&gt; +<br>
-&gt; +/* supported/enabled hash types */<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_IPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 (1 &lt;&lt; 0)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0(1 &lt;&lt; 1)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0(1 &lt;&lt; 2)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_IPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 (1 &lt;&lt; 3)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_TCPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0(1 &lt;&lt; 4)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_UDPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0(1 &lt;&lt; 5)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_IP_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0(1 &lt;&lt; 6)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_TCP_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 (1=
- &lt;&lt; 7)<br>
-&gt; +#define VIRTIO_NET_RSS_HASH_TYPE_UDP_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 (1=
- &lt;&lt; 8)<br>
-&gt; +<br>
-&gt; +#define __le16 uint16_t<br>
-&gt; +#define __le32 uint32_t<br>
-&gt; +#define __u8=C2=A0 =C2=A0uint8_t<br>
-&gt; +#define __u16=C2=A0 uint16_t<br>
-&gt; +#define __u32=C2=A0 uint32_t<br>
-<br>
-Let&#39;s just use uint16_t etc directly please.<br>
-<br>
-&gt; +struct virtio_net_config_with_rss {<br>
-&gt; +=C2=A0 =C2=A0 /* The config defining mac address (if VIRTIO_NET_F_MAC=
-) */<br>
-&gt; +=C2=A0 =C2=A0 __u8 mac[ETH_ALEN];<br>
-&gt; +=C2=A0 =C2=A0 /* See VIRTIO_NET_F_STATUS and VIRTIO_NET_S_* above */<=
-br>
-&gt; +=C2=A0 =C2=A0 __u16 status;<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Maximum number of each of transmit and receive =
-queues;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* see VIRTIO_NET_F_MQ and VIRTIO_NET_CTRL_MQ.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Legal values are between 1 and 0x8000<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 __u16 max_virtqueue_pairs;<br>
-&gt; +=C2=A0 =C2=A0 /* Default maximum transmit unit advice */<br>
-&gt; +=C2=A0 =C2=A0 __u16 mtu;<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* speed, in units of 1Mb. All values 0 to INT_MAX=
- are legal.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Any other value stands for unknown.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 __u32 speed;<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* 0x00 - half duplex<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* 0x01 - full duplex<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* Any other value stands for unknown.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 __u8 duplex;<br>
-&gt; +=C2=A0 =C2=A0 /* maximum size of RSS key */<br>
-&gt; +=C2=A0 =C2=A0 __u8 rss_max_key_size;<br>
-&gt; +=C2=A0 =C2=A0 /* maximum number of indirection table entries */<br>
-&gt; +=C2=A0 =C2=A0 __le16 rss_max_indirection_table_length;<br>
-&gt; +=C2=A0 =C2=A0 /* bitmask of supported VIRTIO_NET_RSS_HASH_ types */<b=
-r>
-&gt; +=C2=A0 =C2=A0 __le32 supported_hash_types;<br>
-&gt; +} __attribute__((packed));<br>
-&gt; +<br>
-&gt; +#define virtio_net_config virtio_net_config_with_rss<br>
-<br>
-Do we have to? Let&#39;s just tweak code to do the right thing...<br></bloc=
-kquote><div><br></div><div>Are we going to update the virtio_net some time?=
-</div><div>If yes, IMO makes sense to do less tweaking in the middle of the=
- code.</div><div>Then, upon update of virtio_net.h - easily remove all thes=
-e defines that were added in virtio-net.c=C2=A0</div><div>=C2=A0<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +<br>
-&gt; +struct virtio_net_hdr_v1_hash {<br>
-&gt; +=C2=A0 =C2=A0 struct virtio_net_hdr_v1 hdr;<br>
-&gt; +=C2=A0 =C2=A0 __le32 hash_value;<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_NONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 0<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_IPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 1<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_TCPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A02<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_UDPv4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A03<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_IPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 4<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_TCPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A05<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_UDPv6=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A06<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_IPv6_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A07<br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_TCPv6_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 8<=
-br>
-&gt; +#define VIRTIO_NET_HASH_REPORT_UDPv6_EX=C2=A0 =C2=A0 =C2=A0 =C2=A0 9<=
-br>
-&gt; +=C2=A0 =C2=A0 __le16 hash_report;<br>
-&gt; +=C2=A0 =C2=A0 __le16 padding;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +/*<br>
-&gt; + * The command VIRTIO_NET_CTRL_MQ_RSS_CONFIG has the same effect as<b=
-r>
-&gt; + * VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET does and additionally configures<b=
-r>
-&gt; + * the receive steering to use a hash calculated for incoming packet<=
-br>
-&gt; + * to decide on receive virtqueue to place the packet. The command<br=
->
-&gt; + * also provides parameters to calculate a hash and receive virtqueue=
-.<br>
-&gt; + */<br>
-&gt; +struct virtio_net_rss_config {<br>
-&gt; +=C2=A0 =C2=A0 __le32 hash_types;<br>
-&gt; +=C2=A0 =C2=A0 __le16 indirection_table_mask;<br>
-&gt; +=C2=A0 =C2=A0 __le16 unclassified_queue;<br>
-&gt; +=C2=A0 =C2=A0 __le16 indirection_table[1/* + indirection_table_mask *=
-/];<br>
-&gt; +=C2=A0 =C2=A0 __le16 max_tx_vq;<br>
-&gt; +=C2=A0 =C2=A0 __u8 hash_key_length;<br>
-&gt; +=C2=A0 =C2=A0 __u8 hash_key_data[/* hash_key_length */];<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +#define VIRTIO_NET_CTRL_MQ_RSS_CONFIG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 1<br>
-&gt; +#define VIRTIO_NET_CTRL_MQ_HASH_CONFIG=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A02<br>
-&gt; +<br>
-&gt; +#endif<br>
-&gt; +<br>
-&gt;=C2=A0 /* Purge coalesced packets timer interval, This value affects th=
-e performance<br>
-&gt;=C2=A0 =C2=A0 =C2=A0a lot, and should be tuned carefully, &#39;300000&#=
-39;(300us) is the recommended<br>
-&gt;=C2=A0 =C2=A0 =C2=A0value to pass the WHQL test, &#39;50000&#39; can ga=
-in 2x netperf throughput with<br>
-&gt; -- <br>
-&gt; 2.17.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000005a253b05a094a03f--
+--=20
+Alex Benn=C3=A9e
 
