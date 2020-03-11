@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8711181B10
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:22:09 +0100 (CET)
-Received: from localhost ([::1]:53294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463C6181AED
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:16:29 +0100 (CET)
+Received: from localhost ([::1]:53130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC2FM-0006ME-V0
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41353)
+	id 1jC29s-0004jr-8B
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jC24W-0002LM-Nb
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:10:58 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1vS-0006h2-V7
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:01:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jC24V-0001Dp-DU
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:10:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55962)
+ (envelope-from <alex.bennee@linaro.org>) id 1jC1vR-0008Fq-TX
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:01:34 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38058)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jC24V-0001C7-7o
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:10:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jC24T-0004pG-Dt
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 14:10:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 50ED62E80C8
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 14:10:53 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1jC1vR-0008DS-J9
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:01:33 -0400
+Received: by mail-wm1-x329.google.com with SMTP id n2so2262670wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 07:01:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YGxqzFOUpFvITOQR6E7VHDpZDH1wgNrJHk4jTZRcof0=;
+ b=t/zurEaf6dJCswKlPdzuHXDwEiPmjtn//Wd1KvgcJTLW3n6x8W+vqinTodx9MtJI2I
+ iixC2KO+C2dg9f90jQGFHTEXm7WoOJ/pN/xCUX7yOr1u4ZODRp5I1YnAz2e0kRoxNaIa
+ MZSPQOs93rZWNkhwK/iKA7e4iVyNsy1vKeSP1owkumRNs9bFMZwozVS1dFmEheB5Mfps
+ QaTbjK2JNFD249RGqtYabBFRN27Uux/bYyO/B1cSTZPySG2NjBRynJXn13FQr1dg/4zz
+ cgOSsuAGP/XAeYssxVeU42CyI52cP+A7gW+G8Mn6vX/Ub139bTVPd9SeR9ru2iNUjcVN
+ df0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=YGxqzFOUpFvITOQR6E7VHDpZDH1wgNrJHk4jTZRcof0=;
+ b=UbZU6FwCxxqQ1FgQ+GdN0K4OOnS2VwqUIHBPHGslX/gdMvUvYZCOHHPN8S+sCZLjdq
+ tAq62pjo6YW0TneKS+s6Xz2e5SnOft5C/ydKF6RF/qwVpnoExyUlwMUIjesYgBhCy/Ql
+ SGHcfSBe0hzguTM86owFXeC3NHtHn/X9Wvyqsm6pBB8r+4wsdRvh3BnS7f4JV91qtOCn
+ fKSy3dylP41fdBdFPuLekZHYU4abG9LiEC8uRPrTlzK6T/qTvzyjHOUJZ269ij1UbEYQ
+ yreT3SuEBw4NX/+4bGwaRzm+KF/PpaEzK3bV11fyhLhsvc33P89WR9FoA0F0x6ynXLe1
+ 9bRA==
+X-Gm-Message-State: ANhLgQ1x91vkq+B7WDJYqd53AatuymfjLuD7SoKUBHkCDzhb3xRAmBJG
+ youCU04MlTAq1XxCo5UuzfKy2w==
+X-Google-Smtp-Source: ADFU+vu/nWlV3RvqIJfAh5LaF1SNPHAt2TfDjlaI5dvgRDXHH4OiIzLvRrJcj+AwPPn3J9Ua05Phow==
+X-Received: by 2002:a7b:c202:: with SMTP id x2mr3930577wmi.71.1583935292128;
+ Wed, 11 Mar 2020 07:01:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o11sm61768470wrn.6.2020.03.11.07.01.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Mar 2020 07:01:30 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 252641FF7E;
+ Wed, 11 Mar 2020 14:01:30 +0000 (GMT)
+References: <20200310213203.18730-1-nieklinnenbank@gmail.com>
+ <20200310213203.18730-16-nieklinnenbank@gmail.com>
+User-agent: mu4e 1.3.9; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
+Subject: Re: [PATCH v7 15/18] tests/boot_linux_console: Add a SD card test
+ for the OrangePi PC board
+In-reply-to: <20200310213203.18730-16-nieklinnenbank@gmail.com>
+Date: Wed, 11 Mar 2020 14:01:30 +0000
+Message-ID: <87wo7rf0sl.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Mar 2020 14:01:04 -0000
-From: Eilert <1866792@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: backhus
-X-Launchpad-Bug-Reporter: Eilert (backhus)
-X-Launchpad-Bug-Modifier: Eilert (backhus)
-References: <158383423277.12441.11625227963369015627.malonedeb@soybean.canonical.com>
-Message-Id: <158393526531.6905.14209587413187669807.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1866792] Re: formating vdi-disk over nbd fails
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e0878392dc799b267dea80578fa65500a5d74155";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0a514b9f0b00e74cf069e7fd914ba8d0ed31cfea
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,171 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1866792 <1866792@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, b.galvani@gmail.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
 
-  Hi,
-  after creating a vdi-image with qemu-vdi and attaching it with qemu-nbd p=
-artitioning works fine, but the system hangs up during formating with mkfs.=
-ext4.
-  =
+Niek Linnenbank <nieklinnenbank@gmail.com> writes:
 
-- Same procedure with qcow2-image works fine =
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+<snip>
 
-+ Same procedure with qcow2-image works fine
-  Tested on Fedora 31 kernel  5.5.7-200.fc31.x86_64
-- =
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-  =
-
-  -----------------
-  #! /bin/sh
-  =
-
-  qemu-img create -f qcow2 ~/test.qcow2 32G
-  #qemu-img version 4.1.1 (qemu-4.1.1-1.fc31)
-  =
-
-  modprobe nbd max_part=3D8
-  qemu-nbd --connect=3D/dev/nbd2 ~/test.qcow2
-  #qemu-nbd 4.1.1 (qemu-4.1.1-1.fc31)
-  =
-
-  parted -s /dev/nbd2 "mklabel gpt"
-  parted -s -a optimal /dev/nbd2 "mkpart test ext4 2048 32G "
-  parted  -s -a optimal /dev/nbd2 "p"
-  =
-
-  mkfs.ext4 /dev/nbd2p1
-- #Format hangs up due to IO errors.
-- #Tested on Fedora 31, kernel 5.5.7-200.fc31.x86_64
-  =
-
-  mkdir /mnt/test_qcow2
-  =
-
-  mount /dev/nbd2p1 /mnt/test_qcow2
-  df -H
-  =
-
-  -------------------
-  #! /bin/sh
-  =
-
-  qemu-img create -f vdi ~/test.vdi 32G
-  =
-
-  modprobe nbd max_part=3D8
-  qemu-nbd --connect=3D/dev/nbd4 ~/test.vdi
-  =
-
-  parted -s /dev/nbd4 "mklabel gpt"
-  parted -s -a optimal /dev/nbd4 "mkpart test ext4 2048 32G "
-  parted  -s -a optimal /dev/nbd4 "p"
-  =
-
-  mkfs.ext4 /dev/nbd4p1
-- #Format hangs up due to IO errors =
-
-+ #Format hangs up due to IO errors
-  #Tested on Fedora 31 kernel  5.5.7-200.fc31.x86_64
-  =
-
-  mkdir /mnt/test_vdi
-  =
-
-  mount /dev/nbd4p1 /mnt/test_vdi
-  df -H
-  ----------------------
-  =
-
-- =
-
-  Kind regards
--   Eilert
-+ =C2=A0=C2=A0Eilert
-  =
-
-  PS.: There may be a connection to this bug:
-- =E2=80=8B 	=
-
-+ =E2=80=8B
-  #1661758 qemu-nbd causes data corruption in VDI-format disk images
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1866792
-
-Title:
-  formating vdi-disk over nbd fails
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-  after creating a vdi-image with qemu-vdi and attaching it with qemu-nbd p=
-artitioning works fine, but the system hangs up during formating with mkfs.=
-ext4.
-
-  Same procedure with qcow2-image works fine
-  Tested on Fedora 31 kernel  5.5.7-200.fc31.x86_64
-
-  -----------------
-  #! /bin/sh
-
-  qemu-img create -f qcow2 ~/test.qcow2 32G
-  #qemu-img version 4.1.1 (qemu-4.1.1-1.fc31)
-
-  modprobe nbd max_part=3D8
-  qemu-nbd --connect=3D/dev/nbd2 ~/test.qcow2
-  #qemu-nbd 4.1.1 (qemu-4.1.1-1.fc31)
-
-  parted -s /dev/nbd2 "mklabel gpt"
-  parted -s -a optimal /dev/nbd2 "mkpart test ext4 2048 32G "
-  parted  -s -a optimal /dev/nbd2 "p"
-
-  mkfs.ext4 /dev/nbd2p1
-
-  mkdir /mnt/test_qcow2
-
-  mount /dev/nbd2p1 /mnt/test_qcow2
-  df -H
-
-  -------------------
-  #! /bin/sh
-
-  qemu-img create -f vdi ~/test.vdi 32G
-
-  modprobe nbd max_part=3D8
-  qemu-nbd --connect=3D/dev/nbd4 ~/test.vdi
-
-  parted -s /dev/nbd4 "mklabel gpt"
-  parted -s -a optimal /dev/nbd4 "mkpart test ext4 2048 32G "
-  parted  -s -a optimal /dev/nbd4 "p"
-
-  mkfs.ext4 /dev/nbd4p1
-  #Format hangs up due to IO errors
-  #Tested on Fedora 31 kernel  5.5.7-200.fc31.x86_64
-
-  mkdir /mnt/test_vdi
-
-  mount /dev/nbd4p1 /mnt/test_vdi
-  df -H
-  ----------------------
-
-  Kind regards
-  =C2=A0=C2=A0Eilert
-
-  PS.: There may be a connection to this bug:
-  =E2=80=8B
-  #1661758 qemu-nbd causes data corruption in VDI-format disk images
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1866792/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
