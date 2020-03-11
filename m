@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B83418106A
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:09:18 +0100 (CET)
-Received: from localhost ([::1]:44732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7454B18106C
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 07:10:10 +0100 (CET)
+Received: from localhost ([::1]:44750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBuYP-0001qo-Hl
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47088)
+	id 1jBuZF-0002ln-HS
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 02:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jBuWt-0000Gd-EL
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:07:44 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jBuXm-0001Y9-KJ
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:08:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1jBuWs-0002U5-AH
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:07:43 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40261)
+ (envelope-from <richard.henderson@linaro.org>) id 1jBuXl-0004YI-It
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:08:38 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45287)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1jBuWs-0002Pu-3w
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:07:42 -0400
-Received: by mail-pg1-x544.google.com with SMTP id t24so582559pgj.7
- for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:07:42 -0700 (PDT)
+ id 1jBuXl-0004XM-C7
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 02:08:37 -0400
+Received: by mail-pl1-x643.google.com with SMTP id b22so561252pls.12
+ for <qemu-devel@nongnu.org>; Tue, 10 Mar 2020 23:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ynVFDAVHRMXzjhTETbeEqT6drJLSieuhSrJ0R347rog=;
- b=F4Mv0iXApd7DbZnymDbmN0rUL5urML6hx3qvbUx5XO5rMSqi0uV0KnVVqIE5Liaszb
- Jy8+yGtdljSPKdtN3Aruv/Fa3HfUCn4CApkbC6WRxjngEXQYTjEGXtNeJgYyj8ul+A9N
- /HyBiOw3Sf3+TOS/p2qdEVZ4QjwpaWz4G8L4yh8+gJC+MlsFVWlEnW3ZvrXoLynPijoE
- 6thlmsFlKQIHwxaeWbhbtEVg/5h/O5eTb21TOZwdRWVl9elWLelttbjBDImYAVN7P49Y
- 8uDF13zihPWW6AhbKvJZX3ML9omirFOh95s7Ui/iWDhePFf/p3l5CUDOKzGHiOHPY05G
- NLvA==
+ bh=p1lIF2kImK0p1JTHV0AhyUMpa3evnQy4rG4CBXktNko=;
+ b=CtvVESd3tw0NijHFXXjcu97T7cCnkrVFAWXhSwC7BfkyT06ojgnnPE8hHYLqgVkoeG
+ iE303sgMtTeR3PyIIlK5FntOlAoHGbCaDixKdath1U303sGn694+z6c4wVmt68heB47f
+ /s8XHlyZPYCDjrYVOCKd+vTCi3ewkE/P8UxoqWLVwyGMJLLI7KNH5X7Vf2Q8XwpUKHBQ
+ UIiKZV3MZLuZ9sX35IQMe3YV+Ai12PHNFsnaEKZ7wEWHcCOwxaw6sxF7ZZWOY4+Ts/EJ
+ erF1M4uXjCVexrJh/TTUauDGMd84ioKfu19Wo0sO9n3h25n8VwU5uO8lG8TGLo696RMG
+ 3NlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ynVFDAVHRMXzjhTETbeEqT6drJLSieuhSrJ0R347rog=;
- b=IFADKI8EACoSZA6IWdln2ICRK3OdgZlZI83xID/p5gFl97Gd3G2sTWwdydgYKnJCye
- qMQM8C6Qx7DwZZdsCJhxqaadPqbsiLwmmpT0hHuxJtdkDuedWBXKCZtdf61ON31prqO2
- pc7UC4t/jejaQU3hCnUomoCbdYGy6P7UAvorqBtkqIY3BsDpJ2Wf04vqbyUU53Mrvqvs
- GQCCljklmikXKDB5prVnX5Th9vAP9Y5tM4ODixf/kkM8PSuOg7ba8oL6J/HwsXSGEy+f
- QxWUeH+wuBPBb9twOFIsZtDNAxrmWvnrcursX327ZQnv1Km8CWZW2TtFEsY/w1lPdm4E
- 0XDw==
-X-Gm-Message-State: ANhLgQ27abLJJDIpLUGU7Xr6WPbWreSB/FzgFcC/FmjE3/1lz/tMVe1u
- W3wLckPKUD7ZD1hQiFAMcUDyJw==
-X-Google-Smtp-Source: ADFU+vspIq432Rs1HnAQfAqFg2BhHfNA7szsNtCcgbDnhD70Cfrd1RBC5CNTAfxn4X6vnvNH8yHnnQ==
-X-Received: by 2002:aa7:80d8:: with SMTP id a24mr1336751pfn.140.1583906861007; 
- Tue, 10 Mar 2020 23:07:41 -0700 (PDT)
+ bh=p1lIF2kImK0p1JTHV0AhyUMpa3evnQy4rG4CBXktNko=;
+ b=b60peszlXQDmjfS6rG2dVmHZV3omqv1Ct5O77D5v9EH2lfsbqHdQzTibJzUJbXF65d
+ cEou3ifgj1+TmbKs8mgh/mC4XjpnvAfWTEA/Pi2qCf72A/mgXf0T108IRPRv7c/xozCh
+ gpCQAFm+HKoTLKSa3YmS0ojyZ963wSSSrOdEkxjNxeSHIjQcxKYrqFaeHa9Kd2LfH6QI
+ HbmpWwwV/TMe6f9iLL11VqA48g5aH79hF/ChdYNb5N5Ew8pFn1VW7A+FtMMpydhDR2Mc
+ cloSRYhQu3rmG14KqLvWlzkNMuOkfCXW4LS5xoFnQGRCMEncPNb6EmoVcgcbgqU6EFkM
+ 1jvA==
+X-Gm-Message-State: ANhLgQ2ShRtbODBlLeHgnRDeI0uXOpilGqPAenD1nbAGFIqHieUsnnBm
+ 7zLrYwyj3pT1kXwnMYfqoAYd9w==
+X-Google-Smtp-Source: ADFU+vvdkN9hLv/ScXqKtCdkXxiwbt+h0RK/sMMZ8oKN7uhBF05KCSkeP/z+x6eaB1ny2jiyoFGxqA==
+X-Received: by 2002:a17:902:7886:: with SMTP id
+ q6mr1597614pll.237.1583906916303; 
+ Tue, 10 Mar 2020 23:08:36 -0700 (PDT)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- h12sm33638758pfk.124.2020.03.10.23.07.40
+ y7sm9582675pfq.159.2020.03.10.23.08.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Mar 2020 23:07:40 -0700 (PDT)
-Subject: Re: [PATCH v4 05/18] scripts/qapi: Move doc-comment whitespace
- stripping to doc.py
+ Tue, 10 Mar 2020 23:08:35 -0700 (PDT)
+Subject: Re: [PATCH v4 06/18] scripts/qapi/parser.py: improve doc comment
+ indent handling
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20200309154405.13548-1-peter.maydell@linaro.org>
- <20200309154405.13548-6-peter.maydell@linaro.org>
+ <20200309154405.13548-7-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0284e957-1cbd-83f1-e734-1c213e83c044@linaro.org>
-Date: Tue, 10 Mar 2020 23:07:38 -0700
+Message-ID: <58c7c296-083b-1152-878a-e27199714a33@linaro.org>
+Date: Tue, 10 Mar 2020 23:08:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200309154405.13548-6-peter.maydell@linaro.org>
+In-Reply-To: <20200309154405.13548-7-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,40 +93,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/9/20 8:43 AM, Peter Maydell wrote:
-> As we accumulate lines from doc comments when parsing the JSON, the
-> QAPIDoc class generally strips leading and trailing whitespace using
-> line.strip() when it calls _append_freeform().  This is fine for
-> texinfo, but for rST leading whitespace is significant.  We'd like to
-> move to having the text in doc comments be rST format rather than a
-> custom syntax, so move the removal of leading whitespace from the
-> QAPIDoc class to the texinfo-specific processing code in
-> texi_format() in qapi/doc.py.
+> Make the handling of indentation in doc comments more sophisticated,
+> so that when we see a section like:
 > 
-> (Trailing whitespace will always be stripped by the rstrip() in
-> Section::append regardless.)
+> Notes: some text
+>        some more text
+>           indented line 3
 > 
-> In a followup commit we will make the whitespace in the lines of doc
-> comment sections more consistently follow the input source.
+> we save it for the doc-comment processing code as:
 > 
-> There is no change to the generated .texi files before and after this
-> commit.
+> some text
+> some more text
+>    indented line 3
 > 
-> Because the qapi-schema test checks the exact values of the
-> documentation comments against a reference, we need to update that
-> reference to match the new whitespace.  In the first four places this
-> is now correctly checking that we did put in the amount of whitespace
-> to pass a rST-formatted list to the backend; in the last two places
-> the extra whitespace is 'wrong' and will go away again in the
-> following commit.
+> and when we see a section with the heading on its own line:
+> 
+> Notes:
+> 
+> some text
+> some more text
+>    indented text
+> 
+> we also accept that and save it in the same form.
+> 
+> The exception is that we always retain indentation as-is for Examples
+> sections, because these are literal text.
+> 
+> If we detect that the comment document text is not indented as much
+> as we expect it to be, we throw a parse error.  (We don't complain
+> about over-indented sections, because for rST this can be legitimate
+> markup.)
+> 
+> The golden reference for the doc comment text is updated to remove
+> the two 'wrong' indents; these now form a test case that we correctly
+> stripped leading whitespace from an indented multi-line argument
+> definition.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> New in v2: update doc-good.out as noted in final para of commit msg
+> v1->v2: Update doc-good.out as per final para.
 > ---
->  scripts/qapi/doc.py            |  1 +
->  scripts/qapi/parser.py         | 12 ++++--------
->  tests/qapi-schema/doc-good.out | 12 ++++++------
->  3 files changed, 11 insertions(+), 14 deletions(-)
+>  scripts/qapi/parser.py         | 81 +++++++++++++++++++++++++++-------
+>  tests/qapi-schema/doc-good.out |  4 +-
+>  2 files changed, 67 insertions(+), 18 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
