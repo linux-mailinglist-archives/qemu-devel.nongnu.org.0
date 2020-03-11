@@ -2,48 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E0A181F7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:29:56 +0100 (CET)
-Received: from localhost ([::1]:56348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895A8181F3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:22:56 +0100 (CET)
+Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC5B5-00068m-7c
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58255)
+	id 1jC54J-0001Ln-KT
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:22:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jC55S-0002wH-QB
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:24:08 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jC53Z-0000nd-He
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:22:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jC55R-0004ZB-FW
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:24:06 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3199 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1jC55O-0004RS-Ge; Wed, 11 Mar 2020 13:24:02 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 00894C60DA5574D4BE24;
- Thu, 12 Mar 2020 01:24:00 +0800 (CST)
-Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 12 Mar 2020 01:23:48 +0800
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
- <imammedo@redhat.com>
-Subject: [PATCH v3 10/10] tests/acpi: add expected tables for bios-tables-test
-Date: Wed, 11 Mar 2020 17:20:14 +0000
-Message-ID: <20200311172014.33052-11-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
-In-Reply-To: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
-References: <20200311172014.33052-1-shameerali.kolothum.thodi@huawei.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1jC53Y-0002AQ-6t
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:22:09 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40966)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1jC53Y-00029h-1K
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:22:08 -0400
+Received: by mail-pl1-x642.google.com with SMTP id t14so1396814plr.8
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 10:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/P3S/m9MSwDSJjJF6DEle31LnWPFIIeZ55U5cXyJnAM=;
+ b=K2blL/zp2a0gUZ7lQelZ+jpOhSCEBp8n/bQQTJHSWh/SnMiNuEFPwZ5XXLknp9RKRG
+ 1kRlWoiK9V+DgBLkT028JGrOr4pr+K+3qCXX15Qgx+YOKue95Jb1gzYtRfdas8eQWNrm
+ p+6sDpiRR49T7fspdBiL1tIXcrhMnbTNY+vefNL1siHcjAEkKKQ1G7+MKsudg4BjmSSN
+ 8syBfOrrhme5ltp5XMZb1ndxENBS3+pBNelMzGNWRnK1imsknhuY+ATIdqP1DHRpgSJS
+ 2UhWOub2lRlsC2WeHsQlnm0DwUidLv7RbwWyCF1pbrSQr7hTdY0gCc1y/jHBCd0JOvTW
+ ihQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/P3S/m9MSwDSJjJF6DEle31LnWPFIIeZ55U5cXyJnAM=;
+ b=XrcD3tylKPLKht01n8LgYmleEQRPB+sfR83ItltXzjpv5LL3ejUVPs4X3qzST2gVPc
+ jYf8fWswr9fb/AIXVi+Hd4O+0rHfITdzRTWVKh9FPqmxpWFiNOsTU7ivOoqFigyJOJxL
+ DQ6dbOQ5ViKzbzAAB9SSo0sqvN9TRrfamuloKXLXR+jOOT5aGf/YIqpDv4+fVvQQrLNy
+ oX+18LgDxKH0waqQ9cNpIJ/063tAcz3k5wGwtgVqHic4/z3js/Qun2eb9lO0CXEV0CBX
+ QDqmGMtehl9pW6N3/fBApQUD9w4IpwOpT4AnN/PsTCLcSG4zMZou64fGbH7H3mN23Ma2
+ oi+w==
+X-Gm-Message-State: ANhLgQ3Oc6X1VhgATv4C/wY5NOJBeVKexx9lHs9WW6+QQARCpYEP+t56
+ 0szHoVPrC4Va81hoA9YARskv2w==
+X-Google-Smtp-Source: ADFU+vseHI5fex/sdnCS6lVUIB0h5ZAOrQ8qmtJ431pLwzPgmLWaOU1y9nWw5FATrE6g3kXkaT5oCQ==
+X-Received: by 2002:a17:90b:370c:: with SMTP id
+ mg12mr4160249pjb.96.1583947319894; 
+ Wed, 11 Mar 2020 10:21:59 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ 5sm7819263pfw.98.2020.03.11.10.21.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Mar 2020 10:21:59 -0700 (PDT)
+Subject: Re: [PATCH v4 03/21] linux-user,hppa: add syscall table generation
+ support
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200310103403.3284090-1-laurent@vivier.eu>
+ <20200310103403.3284090-4-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ffc6073f-1c5d-6457-6694-e83ae6f4847d@linaro.org>
+Date: Wed, 11 Mar 2020 10:21:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.202.227.237]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.190
+In-Reply-To: <20200310103403.3284090-4-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,105 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, david@redhat.com,
- mst@redhat.com, linuxarm@huawei.com, xuwei5@hisilicon.com,
- shannon.zhaosl@gmail.com, lersek@redhat.com
+Cc: Cornelia Huck <cohuck@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Taylor Simpson <tsimpson@quicinc.com>, qemu-s390x@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because of the following changes, the expeacted tables for bios-tables-test
-needs to be updated.
+On 3/10/20 3:33 AM, Laurent Vivier wrote:
+> Copy syscall.tbl and syscallhdr.sh from linux/arch/parisc/kernel/syscalls v5.5
+> Update syscallhdr.sh to generate QEMU syscall_nr.h
+> 
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>  configure                     |   3 +-
+>  linux-user/Makefile.objs      |   1 +
+>  linux-user/hppa/Makefile.objs |   5 +
+>  linux-user/hppa/syscall.tbl   | 435 ++++++++++++++++++++++++++++++++++
+>  linux-user/hppa/syscall_nr.h  | 358 ----------------------------
+>  linux-user/hppa/syscallhdr.sh |  32 +++
+>  6 files changed, 475 insertions(+), 359 deletions(-)
+>  create mode 100644 linux-user/hppa/Makefile.objs
+>  create mode 100644 linux-user/hppa/syscall.tbl
+>  delete mode 100644 linux-user/hppa/syscall_nr.h
+>  create mode 100644 linux-user/hppa/syscallhdr.sh
 
-1. Changed NVDIM DSM output buffer AML code.
-2. Updated arm/virt test_acpi_virt_tcg_memhp() to add pc-dimm/nvdimm
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
----
- tests/data/acpi/pc/SSDT.dimmpxm             | Bin 685 -> 734 bytes
- tests/data/acpi/q35/SSDT.dimmpxm            | Bin 685 -> 734 bytes
- tests/data/acpi/virt/DSDT.memhp             | Bin 6644 -> 6668 bytes
- tests/data/acpi/virt/NFIT.memhp             | Bin 0 -> 224 bytes
- tests/data/acpi/virt/SSDT.memhp             | Bin 0 -> 736 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   5 -----
- 6 files changed, 5 deletions(-)
-
-diff --git a/tests/data/acpi/pc/SSDT.dimmpxm b/tests/data/acpi/pc/SSDT.dimmpxm
-index 8ba0e67cb72daa81a65da4906d37a5e0f4af1fd4..ac55387d57e48adb99eb738a102308688a262fb8 100644
-GIT binary patch
-delta 125
-zcmZ3>dXJSWIM^lR9uortW7tG4X>Nb5nD}6)_~<4#t%(LAOunKU-FO)N7nn^=<l-n`
-zNa6@_3Uw1?W@IQ3WMW8PBs(=Jv7oub-^DQ`iJ=1|$G}jW4x-abla{0xR3>sUGbBa}
-TgA_0%`UAz6fQZcnjJAvbW$GgJ
-
-delta 76
-zcmcb|x|WqIIM^j*EfWI+W57f%X>LFDnD}6)_~<5A^@#=|Og=&z-FO(~3Mv!1m>CkI
-dh5cO|Ll_eMokHD;1(_H?bo!F?%?lZA83Fei6ZHT9
-
-diff --git a/tests/data/acpi/q35/SSDT.dimmpxm b/tests/data/acpi/q35/SSDT.dimmpxm
-index 2d5b721bcf9c398feb6d005761f898015042e8a4..98e6f0e3f3bb02dd419e36bdd1db9b94c728c406 100644
-GIT binary patch
-delta 125
-zcmZ3>dXJSWIM^lR9uortquWF-X>Nb5nD}6)_~<4#t%(LAOunKU-FO)N7nn^=<l-n`
-zNa6@_3Uw1?W@IQ3WMW8PBs(=Jv7oub-^DQ`iJ=1|$G}jW4x-abla{0xR3>sUGbBa}
-TgA_0%`UAz6fQZcnjJAvbUiu>C
-
-delta 76
-zcmcb|x|WqIIM^j*EfWI+qr*flX>LFDnD}6)_~<5A^@#=|Og=&z-FO(~3Mv!1m>CkI
-dh5cO|Ll_eMokHD;1(_H?bo!F?%?lZA83FS;6XgH^
-
-diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
-index c527ac4739af3df3c3e042bf91c412033a2b73c3..730e95a46d2cce0af011ffc051d7342beb8f1328 100644
-GIT binary patch
-delta 66
-zcmexj++)J!66_MfBgMeL^l>7WG*kP$jq2<oOpaWW4Mc*Od{`#8h!~455Sv_`z{SGA
-W#nKj|7a!~t?-%A0w0WzDJu3iIl@a3r
-
-delta 43
-zcmeA%`C`oF66_N4MUsJmsc|BgG*kbajq2<oOr9K*4Mc(&O(wUB7;io=V#^8u9B2%1
-
-diff --git a/tests/data/acpi/virt/NFIT.memhp b/tests/data/acpi/virt/NFIT.memhp
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..738c6f74c0ce7dc329cc72cc7b930460ceb9b6a0 100644
-GIT binary patch
-literal 224
-zcmeZs^9*^wz`($G(aGQ0BUr&HBEZ=XD8>jB1F=Cg1XwVzFffCeAhF8JAJRT=DREfi
-z%xf&Mz2`Pir~{&ofdfQyG(dQa3<eBL5GGJRD~JV_hYBH45Sv&S0)VR88W<T6HiHy}
-Pn+P#5Laay9LzoEwN>da8
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.memhp
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..db61d6733284c90153e0e2c1d6c2ac25c22b1d84 100644
-GIT binary patch
-literal 736
-zcmZWnJ&4m_7=F{1Ynryuv=ve6ky!_O6-025G-+(0NlTIzAqUNmw7s^&hj$JlLfadz
-zo*?wXEh3U083lL2&DF`tL2x*5cM%-K?@e*=T;7-Od*1JPpXcE-P1*XE0AOy_+fvgM
-z^q#D08a)F*{Xs{<UJ!5W_RV_VUNo;$++h1nRnCi2N3B+OYEW)p(j~E#Ct5=j2lh<w
-zsBOprWHMZeo(xfgK^6-3Jc~$Dw-i;d=M@B!O}W(&j7HBCl&&rbifG)Q{Yu;OVvHKC
-zhAy;a(VG2EhgX9s5Wd6}qVI*9t2gKT^UuY*!Oz|I&iYQc9Zcy)W;5{P^^1q=PetkY
-zi~8|h?Stp6FUJq7Z!;2~Kj&8~7KGfZffHVN77XAd7&#DTf-yvVl8FmLrl^eUp)@i^
-zZDHkU@N&YXf};stvz!2U<k0hpkDAE<T^*oaF6D-|PhE~B;IUS{s~{)g6EHlxcIvt0
-zaEXRISRw|nKg2$K>_tQJ#O0FU+9ezSw@vROEagI9HnmiQA&>UP6JQO~5}~Z64Mnvw
-zY+ErcAR}x9XE39S5im?~i@}LFCFj@yO3@`)kSxrd1o2Hog_0x3J#f(n8@M!%1lT2q
-z6Jm8#juK%h-|N%mEE@9&_-9pypc>!7*C8JuYZjQl__`2oA({8ccl~|O@$5xK?^Ua8
-nUz82zqC>`BY*Tb6M!7_p|2F_GvB7H_Joz7<WbrFft6!x*uUOFm
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 862c49e675..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,6 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/SSDT.dimmpxm",
--"tests/data/acpi/q35/SSDT.dimmpxm",
--"tests/data/acpi/virt/DSDT.memhp",
--"tests/data/acpi/virt/SSDT.memhp",
--"tests/data/acpi/virt/NFIT.memhp",
--- 
-2.17.1
-
-
+r~
 
