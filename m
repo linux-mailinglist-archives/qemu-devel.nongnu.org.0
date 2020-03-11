@@ -2,61 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B7E181AEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:16:34 +0100 (CET)
-Received: from localhost ([::1]:53134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A112181B13
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 15:23:00 +0100 (CET)
+Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC29x-0004oO-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40613)
+	id 1jC2GB-0000Rw-44
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 10:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jC211-0007ZE-Fn
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:07:24 -0400
+ (envelope-from <no-reply@patchew.org>) id 1jC2FF-00074f-CC
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:22:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1jC20y-0005Pr-Ut
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:07:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40737
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1jC20y-0005Pf-RG
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:07:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583935636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=q1+xKLvY0Rc5gYIni1A+NEFzbp/PMO7k9dQobpBzxFc=;
- b=MTowrT896tZ5C37WPKtfw2SfWh3yXCrsUb+JwsVg44tydxOTVMuRFrdVx3xgp8OObOVsMC
- uEMPbTitKWxF9CK0bU4WVOqPFaaW5xnzhNq6k/zNYOghdvk9qRZf2O8XLWsX68Vnh2YsqY
- l0G4fo3GKXyR/A3JZMPGGRxEebTRChI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-iBSJ08WePqO8yqTbTeyIeg-1; Wed, 11 Mar 2020 10:07:11 -0400
-X-MC-Unique: iBSJ08WePqO8yqTbTeyIeg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34F3D1006183;
- Wed, 11 Mar 2020 14:07:10 +0000 (UTC)
-Received: from localhost (ovpn-117-216.ams2.redhat.com [10.36.117.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D0ED10013A1;
- Wed, 11 Mar 2020 14:07:09 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests/026: Move v3-exclusive test to new file
-Date: Wed, 11 Mar 2020 15:07:07 +0100
-Message-Id: <20200311140707.1243218-1-mreitz@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1jC2FD-0003ew-IM
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 10:22:01 -0400
+Resent-Date: Wed, 11 Mar 2020 10:22:01 -0400
+Resent-Message-Id: <E1jC2FD-0003ew-IM@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21182)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1jC2FD-0003e7-AA; Wed, 11 Mar 2020 10:21:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1583936157; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=TmhUdsfAq4MD9s0CWsCBsDvX6j47v0rQwroDWmwZp9wvVkLhcbjkXLQAPxMwIfhhtObxiO5G1AWbTAFxp8bA0GiG6Z5kshRzIrVpczKdD3JdmYw403nuZSS5b887jQheu5xTwEbftwcUpo6bv7XxgZ1GRFYKL1W/vipz6vUA4XY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1583936157;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=+/K5r6NwAYBq8WIK2gZgF7MHZRm56X31dSdmPF5jo/w=; 
+ b=KaYcJnRBqNdrTu7TWTx1dNWQJTyay+sxuy3+8wIJnntryWOW+VyFLfO4kjOTOdDZsH+Hpgu91Yju+iHSyV9HnyvzF+olBib+kixXzl+aMQ+yQXA8nu3sputARsI3LtSTC0Bw8rm6GNEVZRdsg2tgQ5ShaThgsTL4jMMcAp4h1TY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1583936154057646.1061055082562;
+ Wed, 11 Mar 2020 07:15:54 -0700 (PDT)
+In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
+Subject: Re: [PATCH v9 00/15] s390x: Protected Virtualization support
+Message-ID: <158393615275.5248.1912374950737499774@39012742ff91>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: frankja@linux.ibm.com
+Date: Wed, 11 Mar 2020 07:15:54 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,226 +63,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-data_file does not work with v2, and we probably want 026 to keep
-working for v2 images.  Thus, open a new file for v3-exclusive error
-path test cases.
-
-Fixes: 81311255f217859413c94f2cd9cebf2684bbda94
-       (=E2=80=9Ciotests/026: Test EIO on allocation in a data-file=E2=80=
-=9D)
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/026             | 31 -----------
- tests/qemu-iotests/026.out         |  6 --
- tests/qemu-iotests/026.out.nocache |  6 --
- tests/qemu-iotests/289             | 89 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/289.out         |  8 +++
- tests/qemu-iotests/group           |  1 +
- 6 files changed, 98 insertions(+), 43 deletions(-)
- create mode 100755 tests/qemu-iotests/289
- create mode 100644 tests/qemu-iotests/289.out
-
-diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
-index b05a4692cf..b9713eb591 100755
---- a/tests/qemu-iotests/026
-+++ b/tests/qemu-iotests/026
-@@ -240,37 +240,6 @@ $QEMU_IO -c "write 0 $CLUSTER_SIZE" "$BLKDBG_TEST_IMG"=
- | _filter_qemu_io
-=20
- _check_test_img
-=20
--echo
--echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
--echo
--
--# Similar test as the last one, except we test what happens when there
--# is an error when writing to an external data file instead of when
--# writing to a preallocated zero cluster
--_make_test_img -o "data_file=3D$TEST_IMG.data_file" $CLUSTER_SIZE
--
--# Put blkdebug above the data-file, and a raw node on top of that so
--# that blkdebug will see a write_aio event and emit an error
--$QEMU_IO -c "write 0 $CLUSTER_SIZE" \
--    "json:{
--         'driver': 'qcow2',
--         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
--         'data-file': {
--             'driver': 'raw',
--             'file': {
--                 'driver': 'blkdebug',
--                 'config': '$TEST_DIR/blkdebug.conf',
--                 'image': {
--                     'driver': 'file',
--                     'filename': '$TEST_IMG.data_file'
--                 }
--             }
--         }
--     }" \
--    | _filter_qemu_io
--
--_check_test_img
--
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/026.out b/tests/qemu-iotests/026.out
-index c1b3b58482..83989996ff 100644
---- a/tests/qemu-iotests/026.out
-+++ b/tests/qemu-iotests/026.out
-@@ -653,10 +653,4 @@ wrote 1024/1024 bytes at offset 0
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- write failed: Input/output error
- No errors were found on the image.
--
--=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
--
--Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
-DIR/t.IMGFMT.data_file
--write failed: Input/output error
--No errors were found on the image.
- *** done
-diff --git a/tests/qemu-iotests/026.out.nocache b/tests/qemu-iotests/026.ou=
-t.nocache
-index 8d5001648a..9359d26d7e 100644
---- a/tests/qemu-iotests/026.out.nocache
-+++ b/tests/qemu-iotests/026.out.nocache
-@@ -661,10 +661,4 @@ wrote 1024/1024 bytes at offset 0
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- write failed: Input/output error
- No errors were found on the image.
--
--=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
--
--Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1024 data_file=3DTEST_=
-DIR/t.IMGFMT.data_file
--write failed: Input/output error
--No errors were found on the image.
- *** done
-diff --git a/tests/qemu-iotests/289 b/tests/qemu-iotests/289
-new file mode 100755
-index 0000000000..1c11d4030e
---- /dev/null
-+++ b/tests/qemu-iotests/289
-@@ -0,0 +1,89 @@
-+#!/usr/bin/env bash
-+#
-+# qcow2 v3-exclusive error path testing
-+# (026 tests paths common to v2 and v3)
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm "$TEST_DIR/blkdebug.conf"
-+    rm -f "$TEST_IMG.data_file"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.pattern
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+# This is a v3-exclusive test;
-+# As for data_file, error paths often very much depend on whether
-+# there is an external data file or not; so we create one exactly when
-+# we want to test it
-+_unsupported_imgopts 'compat=3D0.10' data_file
-+
-+echo
-+echo =3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-+echo
-+
-+cat > "$TEST_DIR/blkdebug.conf" <<EOF
-+[inject-error]
-+event =3D "write_aio"
-+errno =3D "5"
-+once =3D "on"
-+EOF
-+
-+# Test what happens when there is an error when writing to an external
-+# data file instead of when writing to a preallocated zero cluster
-+_make_test_img -o "data_file=3D$TEST_IMG.data_file" 64k
-+
-+# Put blkdebug above the data-file, and a raw node on top of that so
-+# that blkdebug will see a write_aio event and emit an error.  This
-+# will then trigger the alloc abort code, which we want to test here.
-+$QEMU_IO -c "write 0 64k" \
-+    "json:{
-+         'driver': 'qcow2',
-+         'file': { 'driver': 'file', 'filename': '$TEST_IMG' },
-+         'data-file': {
-+             'driver': 'raw',
-+             'file': {
-+                 'driver': 'blkdebug',
-+                 'config': '$TEST_DIR/blkdebug.conf',
-+                 'image': {
-+                     'driver': 'file',
-+                     'filename': '$TEST_IMG.data_file'
-+                 }
-+             }
-+         }
-+     }" \
-+    | _filter_qemu_io
-+
-+_check_test_img
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/289.out b/tests/qemu-iotests/289.out
-new file mode 100644
-index 0000000000..e54e2629d4
---- /dev/null
-+++ b/tests/qemu-iotests/289.out
-@@ -0,0 +1,8 @@
-+QA output created by 289
-+
-+=3D=3D=3D Avoid freeing external data clusters on failure =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65536 data_file=3DTEST=
-_DIR/t.IMGFMT.data_file
-+write failed: Input/output error
-+No errors were found on the image.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 559edc139a..a898fe2c26 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -294,3 +294,4 @@
- 284 rw
- 286 rw quick
- 288 quick
-+289 rw quick
---=20
-2.24.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDMxMTEzMjE1MS4xNzIz
+ODktMS1mcmFua2phQGxpbnV4LmlibS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCB2OSAwMC8xNV0gczM5MHg6IFByb3RlY3Rl
+ZCBWaXJ0dWFsaXphdGlvbiBzdXBwb3J0Ck1lc3NhZ2UtaWQ6IDIwMjAwMzExMTMyMTUxLjE3MjM4
+OS0xLWZyYW5ramFAbGludXguaWJtLmNvbQpUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
+aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
+aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
+RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
+NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNTA5MTExMSBzMzkw
+eDogQWRkIHVucGFjayBmYWNpbGl0eSBmZWF0dXJlIHRvIEdBMQozMDE3OTQxIGRvY3M6IEFkZCBw
+cm90dmlydCBkb2NzCjg5NzE2MjYgczM5MHg6IHByb3R2aXJ0OiBIYW5kbGUgU0lHUCBzdG9yZSBz
+dGF0dXMgY29ycmVjdGx5CjgwNTM0ZjAgczM5MHg6IHByb3R2aXJ0OiBNb3ZlIElPIGNvbnRyb2wg
+c3RydWN0dXJlcyBvdmVyIFNJREEKNjQ2OWM5ZSBzMzkweDogcHJvdHZpcnQ6IERpc2FibGUgYWRk
+cmVzcyBjaGVja3MgZm9yIFBWIGd1ZXN0IElPIGVtdWxhdGlvbgpmY2YxN2I5IHMzOTB4OiBwcm90
+dmlydDogTW92ZSBkaWFnIDMwOCBkYXRhIG92ZXIgU0lEQQpiYzdjY2YxIHMzOTB4OiBwcm90dmly
+dDogU2V0IGd1ZXN0IElQTCBQU1cKMGRjNjUwOSBzMzkweDogcHJvdHZpcnQ6IFNDTFAgaW50ZXJw
+cmV0YXRpb24KNTViMzNmYiBzMzkweDogcHJvdHZpcnQ6IE1vdmUgU1RTSSBkYXRhIG92ZXIgU0lE
+QUQKY2Q4ODViYyBzMzkweDogQWRkIFNJREEgbWVtb3J5IG9wcwo0MjAxNjFkIHMzOTB4OiBwcm90
+dmlydDogS1ZNIGludGVyY2VwdCBjaGFuZ2VzCmRmMGU3M2YgczM5MHg6IHByb3R2aXJ0OiBJbmhp
+Yml0IGJhbGxvb24gd2hlbiBzd2l0Y2hpbmcgdG8gcHJvdGVjdGVkIG1vZGUKMWE1NzNiYSBzMzkw
+eDogcHJvdHZpcnQ6IEFkZCBtaWdyYXRpb24gYmxvY2tlcgpmMjE0YWE1IHMzOTB4OiBwcm90dmly
+dDogU3VwcG9ydCB1bnBhY2sgZmFjaWxpdHkKOWViMDEyOSBTeW5jIHB2Cgo9PT0gT1VUUFVUIEJF
+R0lOID09PQoxLzE1IENoZWNraW5nIGNvbW1pdCA5ZWIwMTI5NGM3ZDcgKFN5bmMgcHYpCjIvMTUg
+Q2hlY2tpbmcgY29tbWl0IGYyMTRhYTVjODc5NiAoczM5MHg6IHByb3R2aXJ0OiBTdXBwb3J0IHVu
+cGFjayBmYWNpbGl0eSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwg
+ZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjc0OiAKbmV3IGZpbGUgbW9kZSAxMDA2
+NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM2MDA6IEZJTEU6IGluY2x1ZGUv
+aHcvczM5MHgvcHYuaDo0ODoKK3N0YXRpYyBpbmxpbmUgaW50IHMzOTBfcHZfc2V0X3NlY19wYXJt
+cyh1aW50NjRfdCBvcmlnaW4sIHVpbnQ2NF90IGxlbmd0aCkgeyByZXR1cm4gMDsgfQoKRVJST1I6
+IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM2MDE6IEZJTEU6IGluY2x1ZGUvaHcvczM5MHgvcHYu
+aDo0OToKK3N0YXRpYyBpbmxpbmUgaW50IHMzOTBfcHZfdW5wYWNrKHVpbnQ2NF90IGFkZHIsIHVp
+bnQ2NF90IHNpemUsIHVpbnQ2NF90IHR3ZWFrKSB7IHJldHVybiAwOyB9Cgp0b3RhbDogMSBlcnJv
+cnMsIDIgd2FybmluZ3MsIDY0MiBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzE1IGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCgozLzE1IENoZWNraW5nIGNvbW1pdCAxYTU3M2JhMmI0NDkgKHMzOTB4
+OiBwcm90dmlydDogQWRkIG1pZ3JhdGlvbiBibG9ja2VyKQo0LzE1IENoZWNraW5nIGNvbW1pdCBk
+ZjBlNzNmMzE5MDEgKHMzOTB4OiBwcm90dmlydDogSW5oaWJpdCBiYWxsb29uIHdoZW4gc3dpdGNo
+aW5nIHRvIHByb3RlY3RlZCBtb2RlKQo1LzE1IENoZWNraW5nIGNvbW1pdCA0MjAxNjFkMTQ5MTEg
+KHMzOTB4OiBwcm90dmlydDogS1ZNIGludGVyY2VwdCBjaGFuZ2VzKQpFUlJPUjogc3dpdGNoIGFu
+ZCBjYXNlIHNob3VsZCBiZSBhdCB0aGUgc2FtZSBpbmRlbnQKIzQ4OiBGSUxFOiB0YXJnZXQvczM5
+MHgva3ZtLmM6MTY5NjoKICAgICBzd2l0Y2ggKGljcHRfY29kZSkgewpbLi4uXQorICAgICAgICBj
+YXNlIElDUFRfUFZfSU5TVFI6CisgICAgICAgIGNhc2UgSUNQVF9QVl9JTlNUUl9OT1RJRklDQVRJ
+T046Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE2IGxpbmVzIGNoZWNrZWQKClBhdGNo
+IDUvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjYvMTUgQ2hlY2tpbmcgY29tbWl0IGNk
+ODg1YmNiNTc1NiAoczM5MHg6IEFkZCBTSURBIG1lbW9yeSBvcHMpCjcvMTUgQ2hlY2tpbmcgY29t
+bWl0IDU1YjMzZmI4MjJiNyAoczM5MHg6IHByb3R2aXJ0OiBNb3ZlIFNUU0kgZGF0YSBvdmVyIFNJ
+REFEKQo4LzE1IENoZWNraW5nIGNvbW1pdCAwZGM2NTA5NzlmNzkgKHMzOTB4OiBwcm90dmlydDog
+U0NMUCBpbnRlcnByZXRhdGlvbikKOS8xNSBDaGVja2luZyBjb21taXQgYmM3Y2NmMWQxZDk5IChz
+MzkweDogcHJvdHZpcnQ6IFNldCBndWVzdCBJUEwgUFNXKQoxMC8xNSBDaGVja2luZyBjb21taXQg
+ZmNmMTdiOTZlN2NjIChzMzkweDogcHJvdHZpcnQ6IE1vdmUgZGlhZyAzMDggZGF0YSBvdmVyIFNJ
+REEpCjExLzE1IENoZWNraW5nIGNvbW1pdCA2NDY5YzllODRkYWIgKHMzOTB4OiBwcm90dmlydDog
+RGlzYWJsZSBhZGRyZXNzIGNoZWNrcyBmb3IgUFYgZ3Vlc3QgSU8gZW11bGF0aW9uKQoxMi8xNSBD
+aGVja2luZyBjb21taXQgODA1MzRmMDMwOWQyIChzMzkweDogcHJvdHZpcnQ6IE1vdmUgSU8gY29u
+dHJvbCBzdHJ1Y3R1cmVzIG92ZXIgU0lEQSkKMTMvMTUgQ2hlY2tpbmcgY29tbWl0IDg5NzE2MjZl
+M2U2OSAoczM5MHg6IHByb3R2aXJ0OiBIYW5kbGUgU0lHUCBzdG9yZSBzdGF0dXMgY29ycmVjdGx5
+KQoxNC8xNSBDaGVja2luZyBjb21taXQgMzAxNzk0MWQ2ZTJjIChkb2NzOiBBZGQgcHJvdHZpcnQg
+ZG9jcykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
+VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjI6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6
+IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNC8xNSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgoxNS8xNSBDaGVja2luZyBjb21taXQgNTA5MTExMTc4OTE4
+IChzMzkweDogQWRkIHVucGFjayBmYWNpbGl0eSBmZWF0dXJlIHRvIEdBMSkKPT09IE9VVFBVVCBF
+TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
+cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAzMTExMzIxNTEuMTcy
+Mzg5LTEtZnJhbmtqYUBsaW51eC5pYm0uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNz
+YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
+Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
+ZWxAcmVkaGF0LmNvbQ==
 
