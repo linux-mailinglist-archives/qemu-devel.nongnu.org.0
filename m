@@ -2,80 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A2D1819DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:33:36 +0100 (CET)
-Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB291819F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 14:36:20 +0100 (CET)
+Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC1UN-0005ZA-LD
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58667)
+	id 1jC1X1-0000hg-82
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 09:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1N6-000258-1y
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:26:07 -0400
+ (envelope-from <frankja@linux.ibm.com>) id 1jC1W5-0007yn-BA
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:35:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1jC1N4-0000h7-TI
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:26:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39710)
+ (envelope-from <frankja@linux.ibm.com>) id 1jC1W4-0006aB-32
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:35:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7504)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1jC1N4-0000gG-Lr
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:26:02 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1jC1W3-0006Zx-Ss
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 09:35:20 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 02BDLsKY194041
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:25:59 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yq0hbh95h-1
+ 02BDYKjQ073096
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:35:19 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ypypha80a-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:25:58 -0400
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 09:35:18 -0400
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 11 Mar 2020 13:22:35 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Wed, 11 Mar 2020 13:31:20 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 11 Mar 2020 13:22:32 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 02BDMV9153870800
+ Wed, 11 Mar 2020 13:31:17 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 02BDVGQ344761286
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Mar 2020 13:22:31 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9020A5204E;
- Wed, 11 Mar 2020 13:22:31 +0000 (GMT)
+ Wed, 11 Mar 2020 13:31:16 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A6D59A404D;
+ Wed, 11 Mar 2020 13:31:16 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 607EDA4040;
+ Wed, 11 Mar 2020 13:31:16 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.36.208])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 4C8325206B;
- Wed, 11 Mar 2020 13:22:30 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 15/15] s390x: Add unpack facility feature to GA1
-Date: Wed, 11 Mar 2020 09:21:51 -0400
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200311132151.172389-1-frankja@linux.ibm.com>
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 11 Mar 2020 13:31:16 +0000 (GMT)
+Subject: Re: [PATCH v9 08/15] s390x: protvirt: SCLP interpretation
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20200311132151.172389-1-frankja@linux.ibm.com>
+ <20200311132151.172389-9-frankja@linux.ibm.com>
+ <1d78418a-0306-ca1a-aef7-a0095ed17b30@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Date: Wed, 11 Mar 2020 14:31:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1d78418a-0306-ca1a-aef7-a0095ed17b30@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nl5LzX2PFjIifYZL7aDFL4EefpJAOWQfV"
 X-TM-AS-GCONF: 00
-x-cbid: 20031113-0028-0000-0000-000003E31FEF
+x-cbid: 20031113-0012-0000-0000-0000038F69C9
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20031113-0029-0000-0000-000024A8645B
-Message-Id: <20200311132151.172389-16-frankja@linux.ibm.com>
+x-cbparentid: 20031113-0013-0000-0000-000021CC3888
+Message-Id: <2fcd22f8-db47-8b49-027d-441dfeb77b65@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-03-11_05:2020-03-11,
  2020-03-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- priorityscore=1501 clxscore=1015 suspectscore=1 spamscore=0
- mlxlogscore=883 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003110085
+ malwarescore=0 clxscore=1015
+ adultscore=0 suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=839 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2003110086
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,61 +137,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nl5LzX2PFjIifYZL7aDFL4EefpJAOWQfV
+Content-Type: multipart/mixed; boundary="QpLD2kAHEffIkpxCJZc4UpF3FHLYOLcbR"
 
-The unpack facility is an indication that diagnose 308 subcodes 8-10
-are available to the guest. That means, that the guest can put itself
-into protected mode.
+--QpLD2kAHEffIkpxCJZc4UpF3FHLYOLcbR
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Once it is in protected mode, the hardware stops any attempt of VM
-introspection by the hypervisor.
+On 3/11/20 2:24 PM, David Hildenbrand wrote:
+>=20
+>> + * We only need the address to have something valid for the
+>> + * service_interrupt call.
+>> + */
+>> +#define SCLP_PV_DUMMY_ADDR 0x4000
+>> +int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>> +                                uint32_t code)
+>> +{
+>> +    SCLPDevice *sclp =3D get_sclp_device();
+>> +    SCLPDeviceClass *sclp_c =3D SCLP_GET_CLASS(sclp);
+>> +    SCCB work_sccb;
+>> +    hwaddr sccb_len =3D sizeof(SCCB);
+>> +
+>> +    /*
+>> +     * Only a very limited amount of calls is permitted by the
+>=20
+> s/amount/number/ ?
+>=20
+>=20
 
-Some features are currently not supported in protected mode:
-     * Passthrough devices
-     * Migration
-     * Huge page backings
+Ack
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/gen-features.c | 1 +
- target/s390x/kvm.c          | 5 +++++
- 2 files changed, 6 insertions(+)
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 6278845b12b8dee8..8ddeebc54419a3e2 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] = {
-     S390_FEAT_GROUP_MSA_EXT_9,
-     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
-     S390_FEAT_ETOKEN,
-+    S390_FEAT_UNPACK,
- };
- 
- /* Default features (in order of release)
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index ff6027036ec2f14a..e11e895a3d9038bb 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -2403,6 +2403,11 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
-         clear_bit(S390_FEAT_BPB, model->features);
-     }
- 
-+    /* we do have the IPL enhancements */
-+    if (cap_protected) {
-+        set_bit(S390_FEAT_UNPACK, model->features);
-+    }
-+
-     /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
-     set_bit(S390_FEAT_ZPCI, model->features);
-     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
--- 
-2.25.1
+--QpLD2kAHEffIkpxCJZc4UpF3FHLYOLcbR--
+
+--nl5LzX2PFjIifYZL7aDFL4EefpJAOWQfV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl5o6CMACgkQ41TmuOI4
+ufhjNBAAuAFrEw5ZV9KtPQ9bOCTycGKDFBahVNKC0KN9t+OuDsEQ1FtdvFxy0c8m
+62jLNrjKjQ9788l92irXo44GAJICQJx+QhORhNE95lOqy2pLcXAUoycRfuogwnOH
+PdweWANnAFkmohFKRS20GQdRexylOwQOKekzEt6cIOtXEqsaH12NpjlqLCb8+p1n
+zo/ggx0IDR2eMlapv+SdDAZLLWAhExid9qsJ4Kmm1u3hl8EKtxI32BzchSNdJH+d
+1iqVzG5k8MYr8EOFK7cfyBEirtP1hr+dmbKeaoZ+r6FbUEo+6wUviqmqqG/XfC1s
+eymr1fO7iFB1JXiMIPnrfJsIW7bScXFb6cEwk73tqznztzhUlxbee2ZowmSiQXeb
+zI2/ZcCkhnGja97Yr23OMVVo4rOTZ4DaayUhzPVSjQ9m5EKikCDXNqkS9/P7MuDO
+OBQ37KoizM26RuedEWCNN7UZdtD/HJqdJGKGD6LlLld4JtbFdMd1ojuIdenv+6mT
+YtyfUwLJHwpRtpWi8lHONtBfGteKHZbk733i/E9dbsXzODja2NCf8wSmtkUNIEtl
+UxicrqWWRegyX850+Rmw+b7LzXZPeXDO1vZbqBJlU0abEIXH/PR1oMPPKvH8rKST
+dT9FiL6qUROOs8K0FDiIqkhrQfKIIg96dv4qrqym+oYelUfAgac=
+=5AVQ
+-----END PGP SIGNATURE-----
+
+--nl5LzX2PFjIifYZL7aDFL4EefpJAOWQfV--
 
 
