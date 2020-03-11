@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C8E1817EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:25:11 +0100 (CET)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54940181802
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 13:30:58 +0100 (CET)
+Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC0QA-0003xW-VI
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
+	id 1jC0Vl-0002sf-9d
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 08:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1jC0Oz-0003DX-Rp
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:23:59 -0400
+ (envelope-from <eblake@redhat.com>) id 1jC0US-00022M-B9
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:29:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1jC0Oy-0000Pr-Gy
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:23:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25015
+ (envelope-from <eblake@redhat.com>) id 1jC0UR-0006Zf-7D
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:29:36 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57215
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1jC0Oy-0000Pl-Cy
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:23:56 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1jC0UR-0006ZN-4I
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 08:29:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583929435;
+ s=mimecast20190719; t=1583929774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KBuiODKRxkaRVL2hQqHCpTe1BuPlp8I9j0M96k7lkTg=;
- b=JrRzut3yYKPzPlqqn5omCa+JP5w0lllmbtzWs26pakSyXTBMclzypnKZSPez9nde7QVpjM
- cjzt4R72NQ4dyJUyh1DXKd12je5AqsVoHkqVr1r+0XLfBOr8SvD3HSuhZnnO9/+79JP/QB
- b/XT8XLRFSL9PFCLsW93LBxoPMGPFwc=
+ bh=PCuibaYC6ojR/kYXj+gnirgJLuQUZGQYHGxrLbAL92s=;
+ b=Ntrbsvr0lfJxQGprGh5X3Q4ttjLhgfBvBPL8dDMIH/bMza/KZ/cSTKsrZGil83ddtyQQDg
+ PqtWcq2vGjrxqs4PqTgL5roaE8AL7dv/ozNBu0MUG2Jhf3MdubDRZCrwi5xPLW6OgmuzWo
+ Q7RDJLreM+HhRkinsoCYji+daB/hmIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-lj48Q7GPPsGWSL-CZHCwtQ-1; Wed, 11 Mar 2020 08:23:54 -0400
-X-MC-Unique: lj48Q7GPPsGWSL-CZHCwtQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-430-BgJV0j2kODaOWRBUFdj0Hw-1; Wed, 11 Mar 2020 08:29:30 -0400
+X-MC-Unique: BgJV0j2kODaOWRBUFdj0Hw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0405D18CA240;
- Wed, 11 Mar 2020 12:23:53 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (ovpn-206-80.brq.redhat.com
- [10.40.206.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22D0D8F364;
- Wed, 11 Mar 2020 12:23:48 +0000 (UTC)
-Date: Wed, 11 Mar 2020 13:23:46 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v4 5/6] hw/arm/virt: kvm: Restructure
- finalize_gic_version()
-Message-ID: <20200311122346.a3cizebacaipgbyl@kamzik.brq.redhat.com>
-References: <20200311111626.5705-1-eric.auger@redhat.com>
- <20200311111626.5705-6-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BCDD477;
+ Wed, 11 Mar 2020 12:29:29 +0000 (UTC)
+Received: from [10.3.116.177] (ovpn-116-177.phx2.redhat.com [10.3.116.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B400690519;
+ Wed, 11 Mar 2020 12:29:28 +0000 (UTC)
+Subject: Re: [PATCH 3/3] block: fail on open when file size is unaligned to
+ request_alignment
+To: Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200130152218.7600-1-vsementsov@virtuozzo.com>
+ <20200130152218.7600-4-vsementsov@virtuozzo.com>
+ <4fb7d692-4009-c6a7-c765-292ac8073ae3@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <186c8080-a45b-0756-fa4d-c38af02f3a8b@redhat.com>
+Date: Wed, 11 Mar 2020 07:29:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200311111626.5705-6-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <4fb7d692-4009-c6a7-c765-292ac8073ae3@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,176 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, maz@kernel.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, philmd@redhat.com,
- eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 11, 2020 at 12:16:25PM +0100, Eric Auger wrote:
-> Restructure the finalize_gic_version with switch cases and
-> clearly separate the following cases:
+On 3/11/20 6:06 AM, Max Reitz wrote:
+> On 30.01.20 16:22, Vladimir Sementsov-Ogievskiy wrote:
+>> Prior to the commit the following command lead to crash:
+>>
+>>    ./qemu-io --image-opts -c 'write 0 512' \
+>>    driver=3Dblkdebug,align=3D4096,image.driver=3Dnull-co,image.size=3D51=
+2
+>>
+>> It failes on assertion in bdrv_aligned_pwritev:
+>>    "end_sector <=3D bs->total_sectors || child->perm & BLK_PERM_RESIZE"
+>>
+>> The problem is obvious: 512 is aligned to 4096 and becomes larger than
+>> file size. And the core bad thing is that file size is unaligned to
+>> request_alignment.
+>>
+>> Let's catch such case on bdrv_open_driver and fail.
 >=20
-> - KVM mode / in-kernel irqchip
-> - KVM mode / userspace irqchip
-> - TCG mode
+> I think we had a discussion on this before, but I can=92t find it right
+> now.  (Although I think that had more to do with something in the
+> file-posix driver, because it wasn=92t limited to alignments above 512.)
 >=20
-> In KVM mode / in-kernel irqchip , we explictly check whether
-> the chosen version is supported by the host. If the end-user
-> explicitly sets v2/v3 and this is not supported by the host,
-> then the user gets an explicit error message. Note that for
-> old kernels where the CREATE_DEVICE ioctl doesn't exist then
-> we will now fail if the user specifically asked for gicv2,
-> where previously we (probably) would have succeeded.
+> In any case, the file itself is totally valid.  Most importantly, qcow2
+> will regularly create files with unaligned file lengths.
 >=20
-> In KVM mode / userspace irqchip we immediatly output an error
-> in case the end-user explicitly selected v3. Also we warn the
-> end-user about the unexpected usage of gic-version=3Dhost in
-> that case as only userspace GICv2 is supported.
+> So let me create a qcow2 image on a 4k-aligned device:
 >=20
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> $ truncate 512M fs.img
+> $ sudo losetup -f --show -b 4096 fs.img
+> /dev/loop0
+> $ sudo mkfs.ext4 /dev/loop0
+> [...]
+> $ sudo mount /dev/loop0 /mnt/tmp
 >=20
-> ---
+> $ sudo ./qemu-img create -f qcow2 /mnt/tmp/foo.qcow2 64M
+> Formatting '/mnt/tmp/foo.qcow2', fmt=3Dqcow2 size=3D67108864
+> cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+> $ sudo ./qemu-io -t none -c quit /mnt/tmp/foo.qcow2
+> qemu-io: can't open device /mnt/tmp/foo.qcow2: File size is unaligned to
+> request alignment
 >=20
-> v3 -> v4:
-> - introduce a separate switch case for KVM mode / userspace
->   irqchip
-> - don't probe the host GIC version in case of userspace
->   GIC
-> - add error/warning messages in v3/host mode in userspace
->   mode
-> - mention old kernel case with explicit v2/v3 regression
+> Which is too bad.
 >=20
-> v2 -> v3:
-> - explictly list V2 and V3 in the switch/case
-> - fix indent
-> ---
->  hw/arm/virt.c | 89 +++++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 68 insertions(+), 21 deletions(-)
->=20
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f798b6ec10..f5ff2d9006 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1543,33 +1543,80 @@ static void virt_set_memmap(VirtMachineState *vms=
-)
->   */
->  static void finalize_gic_version(VirtMachineState *vms)
->  {
-> -    if (vms->gic_version =3D=3D VIRT_GIC_VERSION_HOST ||
-> -        vms->gic_version =3D=3D VIRT_GIC_VERSION_MAX) {
-> -        if (!kvm_enabled()) {
-> -            if (vms->gic_version =3D=3D VIRT_GIC_VERSION_HOST) {
-> -                error_report("gic-version=3Dhost requires KVM");
-> -                exit(1);
-> -            } else {
-> -                /* "max": currently means 3 for TCG */
-> -                vms->gic_version =3D VIRT_GIC_VERSION_3;
-> -            }
-> -        } else {
-> -            int probe_bitmap =3D kvm_arm_vgic_probe();
-> +    if (kvm_enabled()) {
-> +        int probe_bitmap;
-> =20
-> -            if (!probe_bitmap) {
-> +        if (!kvm_irqchip_in_kernel()) {
-> +            switch (vms->gic_version) {
-> +            case VIRT_GIC_VERSION_HOST:
-> +                warn_report(
-> +                    "gic-version=3Dhost not relevant with kernel-irqchip=
-=3Doff "
-> +                     "as only userspace GICv2 is supported. Using v2 ...=
-");
-> +                return;
-> +            case VIRT_GIC_VERSION_MAX:
-> +            case VIRT_GIC_VERSION_NOSEL:
-> +                vms->gic_version =3D VIRT_GIC_VERSION_2;
-> +                return;
-> +            case VIRT_GIC_VERSION_2:
-> +                return;
-> +            case VIRT_GIC_VERSION_3:
->                  error_report(
-> -                    "Unable to determine GIC version supported by host")=
-;
-> +                    "gic-version=3D3 is not supported with kernel-irqchi=
-p=3Doff");
->                  exit(1);
-> -            } else {
-> -                if (probe_bitmap & KVM_ARM_VGIC_V3) {
-> -                    vms->gic_version =3D VIRT_GIC_VERSION_3;
-> -                } else {
-> -                    vms->gic_version =3D VIRT_GIC_VERSION_2;
-> -                }
->              }
->          }
-> -    } else if (vms->gic_version =3D=3D VIRT_GIC_VERSION_NOSEL) {
-> +
-> +        probe_bitmap =3D kvm_arm_vgic_probe();
-> +        if (!probe_bitmap) {
-> +            error_report(
-> +                "Unable to determine GIC version supported by host");
+> So the real solution would probably...  Be to align the file size up to
+> the alignment?
 
-No need for this line break
+Or to bite the bullet and finally implement byte-accurate size=20
+everywhere (instead of our current insistence on rounding size up to=20
+512-byte multiples).  If we have to deal with unaligned tails anyways,=20
+it's better to make the code universally applicable whether that=20
+unaligned tail is to 512 or to 4k, than to have it work for 512 but to=20
+fail for 4k.
 
-> +            exit(1);
-> +        }
-> +
-> +        switch (vms->gic_version) {
-> +        case VIRT_GIC_VERSION_HOST:
-> +        case VIRT_GIC_VERSION_MAX:
-> +            if (probe_bitmap & KVM_ARM_VGIC_V3) {
-> +                vms->gic_version =3D VIRT_GIC_VERSION_3;
-> +            } else {
-> +                vms->gic_version =3D VIRT_GIC_VERSION_2;
-> +            }
-> +            return;
-> +        case VIRT_GIC_VERSION_NOSEL:
-> +            vms->gic_version =3D VIRT_GIC_VERSION_2;
-> +            break;
-> +        case VIRT_GIC_VERSION_2:
-> +        case VIRT_GIC_VERSION_3:
-> +            break;
-> +        }
-> +
-> +        /* Check chosen version is effectively supported by the host */
-> +        if (vms->gic_version =3D=3D VIRT_GIC_VERSION_2 &&
-> +            !(probe_bitmap & KVM_ARM_VGIC_V2)) {
-> +            error_report("host does not support in-kernel GICv2 emulatio=
-n");
-> +            exit(1);
-> +        } else if (vms->gic_version =3D=3D VIRT_GIC_VERSION_3 &&
-> +                   !(probe_bitmap & KVM_ARM_VGIC_V3)) {
-> +            error_report("host does not support in-kernel GICv3 emulatio=
-n");
-> +            exit(1);
-> +        }
-> +        return;
-> +    }
-> +
-> +    /* TCG mode */
-> +    switch (vms->gic_version) {
-> +    case VIRT_GIC_VERSION_NOSEL:
->          vms->gic_version =3D VIRT_GIC_VERSION_2;
-> +        break;
-> +    case VIRT_GIC_VERSION_MAX:
-> +        vms->gic_version =3D VIRT_GIC_VERSION_3;
-> +        break;
-> +    case VIRT_GIC_VERSION_HOST:
-> +        error_report("gic-version=3Dhost requires KVM");
-> +        exit(1);
-> +    case VIRT_GIC_VERSION_2:
-> +    case VIRT_GIC_VERSION_3:
-> +        break;
->      }
->  }
-> =20
-> --=20
-> 2.20.1
->
-
-Other than the nit,
-
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-=20
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
