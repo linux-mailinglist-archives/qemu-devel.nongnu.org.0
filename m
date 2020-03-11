@@ -2,108 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C1F181345
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 09:36:40 +0100 (CET)
-Received: from localhost ([::1]:48084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA1118138F
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 09:47:17 +0100 (CET)
+Received: from localhost ([::1]:48162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jBwr1-0001JG-81
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 04:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34913)
+	id 1jBx1I-0005DN-Rs
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 04:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jBwq4-0000qb-Qs
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:35:41 -0400
+ (envelope-from <bounces@canonical.com>) id 1jBwzn-0004lz-KY
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:45:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jBwq3-0001vn-Rp
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:35:40 -0400
-Received: from mail-eopbgr140110.outbound.protection.outlook.com
- ([40.107.14.110]:42931 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jBwq1-0001jF-23; Wed, 11 Mar 2020 04:35:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ToUzIkSX0IwG1ytez3mwCSaXQL8oRVCdIXfojEevzWseXv4aLOAL8QkY/7ixymBodFoVVKhIDsY7CmwNISnrVWHgTruT9gsqSydOrhgjMhJe4JRCfH8FWFCyJNLWxqz+bFooqw8Io4F1WjgOii3FiWR+RmyXwhPXPSRhXUK3UZhXIAQKyu4Yt4xSkRuiXejVhTFKgfvKGegtQ60Cn+KxSmsXoQoTomWUqA5soaUYSaWDIWEEgtkm2+wBQpXV39RJHzzB3NZNM1mRkLBK8RpEzcUzJSi6Ia2NJvOnuDjpbDJ+ycOAaPI1VR0WoiKefeW1B9xhr5YxucmyEPu7W+sPOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R6p/eG7L7CphNYwpwo9W4bWRRk5pEuCL4cMVPkIakI4=;
- b=O2iCoXZk66v0Gm5gVNSY1VoYMKuIQtCqUs+jZ8GxWg+n1JrFOcsq+bz1iBbB1nXUd5WDtlc+U+SoIVEPfuXstvCRmGpoCgsb+kaWLnY7dQGo1nGIyw8yVDZga2QwR3n7TbLr12Eq8HIo5fLQoDrBiMjeNrlD51nr4qCpEqXyJ7kmMai+Tt0GWzYIGWbbX+Ju2mfUqeWoULbhImDmpy8Em3shSf2j8VjJxVbHb7lNDOZu9Fq8gOwxfpt3jltXdBoauQlNNL11BoWV2JaWwRth5GL7JRo2ud0rnk27aShfYIfQXyUx5VWWrQ5cpFjyb3WZMuz64Qx8ja7gP+Apf9JnwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R6p/eG7L7CphNYwpwo9W4bWRRk5pEuCL4cMVPkIakI4=;
- b=PLkFhn18SsmfQBXjmD3nZ9PH4h2JOOXEUHAJ3yPRdZx/Q/+eJmtVVVA+r07bdbTPVq8OoxdMmsX7fXNQwtiyjeqYxTuiLKNufw5Hc9QdjafJlWjYuKkIDO0w80pbULzCe7hYwspRe1brQc2/24ZHH6A9EH4tqRlidjGp3YpquUs=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4533.eurprd08.prod.outlook.com (20.179.5.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Wed, 11 Mar 2020 08:35:33 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::e05a:63af:818c:b664]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::e05a:63af:818c:b664%4]) with mapi id 15.20.2814.007; Wed, 11 Mar 2020
- 08:35:33 +0000
-Subject: Re: [PATCH v8 02/10] scripts: add coccinelle script to use auto
- propagated errp
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200306051536.27803-1-vsementsov@virtuozzo.com>
- <20200306051536.27803-3-vsementsov@virtuozzo.com>
- <87lfo997hs.fsf@dusky.pond.sub.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200311113529850
-Message-ID: <83b327b0-34d9-ad71-ba3c-156bd7b82836@virtuozzo.com>
-Date: Wed, 11 Mar 2020 11:35:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <87lfo997hs.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1P191CA0018.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::28)
- To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
+ (envelope-from <bounces@canonical.com>) id 1jBwzl-0004jA-2P
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:45:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43348)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1jBwzk-0004iN-Pp
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 04:45:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jBwzj-0004Tn-Ta
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 08:45:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D79792E80C7
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 08:45:39 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.16.24.200] (185.231.240.5) by
- HE1P191CA0018.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.15 via Frontend Transport; Wed, 11 Mar 2020 08:35:31 +0000
-X-Tagtoolbar-Keys: D20200311113529850
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 20dca1d6-603a-4b3b-2949-08d7c59729da
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4533:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB45331F7B2736BD29F5B9E15DC1FC0@AM6PR08MB4533.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
-X-Forefront-PRVS: 0339F89554
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(39850400004)(376002)(136003)(346002)(366004)(396003)(199004)(66946007)(2906002)(66556008)(81166006)(6486002)(81156014)(956004)(66476007)(52116002)(5660300002)(86362001)(186003)(16526019)(31696002)(26005)(4326008)(8676002)(2616005)(4744005)(36756003)(54906003)(478600001)(16576012)(316002)(6916009)(8936002)(31686004)(7416002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4533;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YOHmTsvbWRt0ib8nD8p/hvZibb96lUKhtmv1/L4it9WDJZ5JH2+uQP3ysJGy1DV89axXjn7R2qKFMwYL1bPgxFdcOi3t9ygVFUt3RTbdKN6ufuybp1YMe4md+WJ8Q1gEgY2dzugsblKTVaJ43qeFXUmUZhvSmE5IBEnjL5/YvpjFqnWtYoRBAawonMPZm0I2i041djnZvXh2CRGh9oZVMqMp1m4Kv570ULwEd8aDl/Lod1tyXRJHtny+ZMNFtBRBAb/1IFQF0tvgIHvgy8NF+UlFVwLqYn3lG8wc0Yg/7VBbq2oYYVC/Y7evf5Bz3KLOazw0NFBxULK+KtFp8LYuFGXzq+v4njhDHnrbIKw9ZDkRY9a+qcH1RGIBcHQk9UlphMj3qtES0RgccnvhwZ6DWmvn08ETrdGTO2xcWCyaXu/lZpcP03Mbzd4iYAPOenCp
-X-MS-Exchange-AntiSpam-MessageData: JyDQ5wH/Ld+OnDq8Al4mDU3PwaFpwMtWogXAtrerx7WEUQ+ZJfabBMdD9yFWeePQEhjczIcVZjanL9pxK63g+2cez2EExMH2ujQFK3gA3eChyG8kAiVQgVH0ZZmmlI7OKk9cKs329j/KscTuP3zOug==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20dca1d6-603a-4b3b-2949-08d7c59729da
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 08:35:33.0350 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8c6N1zqBmiltv6YCn8KUeLQG/dMY/ppxtovjwiCVlhozuxUg1z0+0uQW7FhkNQZeV7PpQfzPit5TB1KiHa5QO434af/yc8yaZSfnMmgWJvw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4533
-X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
- [fuzzy]
-X-Received-From: 40.107.14.110
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Mar 2020 08:36:42 -0000
+From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: hugepage kvm powerpc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sathnaga
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
+Message-Id: <158391580227.26961.2494190856052631580.malonedeb@gac.canonical.com>
+Subject: [Bug 1866962] [NEW] Powerpc kvm guest unable to start with hugepage
+ backed memory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e0878392dc799b267dea80578fa65500a5d74155";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 33366fab29ccbc4366fe330c196e1113bb6dfc3b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -112,44 +65,425 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, Laszlo Ersek <lersek@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Reply-To: Bug 1866962 <1866962@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.03.2020 12:56, Markus Armbruster wrote:
->> +
->> +// Convert error clearing functions
-> Suggest: Ensure @local_err is cleared on free
+Public bug reported:
 
-But there is no local_err after conversion
+Current upstream qemu master does not boot a powerpc kvm guest backed by
+hugepage.
 
-> 
->> +(
->> +-    error_free(local_err);
->> ++    error_free_errp(errp);
->> +|
->> +-    error_report_err(local_err);
->> ++    error_report_errp(errp);
->> +|
->> +-    error_reportf_err(local_err, args);
->> ++    error_reportf_errp(errp, args);
->> +|
->> +-    warn_report_err(local_err);
->> ++    warn_report_errp(errp);
->> +|
->> +-    warn_reportf_err(local_err, args);
+HW: Power9 (DD2.3)
+Host Kernel: 5.6.0-rc5
+Guest Kernel: 5.6.0-rc5
+Qemu: ba29883206d92a29ad5a466e679ccfc2ee6132ef
+
+Steps to reproduce:
+1. Allocate enough hugepage to boot a KVM guest
+# cat /proc/meminfo |grep ^HugePages
+HugePages_Total:    5000
+HugePages_Free:     5000
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+
+2. Define and boot a guest
+/usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate --name =
+'vm1' --machine pseries --memory=3D8192,hugepages=3Dyes --vcpu=3D8,maxvcpus=
+=3D8,sockets=3D1,cores=3D8,threads=3D1 --import --nographics --serial pty -=
+-memballoon model=3Dvirtio --controller type=3Dscsi,model=3Dvirtio-scsi --d=
+isk path=3D/home/kvmci/tests/data/avocado-vt/images/f31-ppc64le.qcow2,bus=
+=3Dscsi,size=3D10,format=3Dqcow2 --network=3Dbridge=3Dvirbr0,model=3Dvirtio=
+,mac=3D52:54:00:5f:82:83 --mac=3D52:54:00:5f:82:83 --boot emulator=3D/home/=
+sath/qemu/ppc64-softmmu/qemu-system-ppc64,kernel=3D/home/kvmci/linux/vmlinu=
+x,kernel_args=3D"root=3D/dev/sda5 rw console=3Dtty0 console=3DttyS0,115200 =
+init=3D/sbin/init initcall_debug selinux=3D0" --noautoconsole
+
+Starting install...
+ERROR    internal error: qemu unexpectedly closed the monitor: qemu-system-=
+ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Assertion `mutex-=
+>initialized' failed.
+qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Asser=
+tion `mutex->initialized' failed.
+
+ -----------NOK
 
 
--- 
-Best regards,
-Vladimir
+Bisected the issue to below commit.
+
+037fb5eb3941c80a2b7c36a843e47207ddb004d4 is the first bad commit
+commit 037fb5eb3941c80a2b7c36a843e47207ddb004d4
+Author: bauerchen <bauerchen@tencent.com>
+Date:   Tue Feb 11 17:10:35 2020 +0800
+
+    mem-prealloc: optimize large guest startup
+    =
+
+    [desc]:
+        Large memory VM starts slowly when using -mem-prealloc, and
+        there are some areas to optimize in current method;
+    =
+
+        1=E3=80=81mmap will be used to alloc threads stack during create pa=
+ge
+        clearing threads, and it will attempt mm->mmap_sem for write
+        lock, but clearing threads have hold read lock, this competition
+        will cause threads createion very slow;
+    =
+
+        2=E3=80=81methods of calcuating pages for per threads is not well;i=
+f we use
+        64 threads to split 160 hugepage,63 threads clear 2page,1 thread
+        clear 34 page,so the entire speed is very slow;
+    =
+
+        to solve the first problem,we add a mutex in thread function,and
+        start all threads when all threads finished createion;
+        and the second problem, we spread remainder to other threads,in
+        situation that 160 hugepage and 64 threads, there are 32 threads
+        clear 3 pages,and 32 threads clear 2 pages.
+    =
+
+    [test]:
+        320G 84c VM start time can be reduced to 10s
+        680G 84c VM start time can be reduced to 18s
+    =
+
+    Signed-off-by: bauerchen <bauerchen@tencent.com>
+    Reviewed-by: Pan Rui <ruippan@tencent.com>
+    Reviewed-by: Ivan Ren <ivanren@tencent.com>
+    [Simplify computation of the number of pages per thread. - Paolo]
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+ util/oslib-posix.c | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
+
+
+bisect log:
+
+# git bisect log
+git bisect start
+# good: [52901abf94477b400cf88c1f70bb305e690ba2de] Update version for v4.2.=
+0-rc5 release
+git bisect good 52901abf94477b400cf88c1f70bb305e690ba2de
+# bad: [ba29883206d92a29ad5a466e679ccfc2ee6132ef] Merge remote-tracking bra=
+nch 'remotes/borntraeger/tags/s390x-20200310' into staging
+git bisect bad ba29883206d92a29ad5a466e679ccfc2ee6132ef
+# good: [d1ebbc9d16297b54b153ee33abe05eb4f1df0c66] target/arm/kvm: trivial:=
+ Clean up header documentation
+git bisect good d1ebbc9d16297b54b153ee33abe05eb4f1df0c66
+# good: [87b74e8b6edd287ea2160caa0ebea725fa8f1ca1] target/arm: Vectorize US=
+HL and SSHL
+git bisect good 87b74e8b6edd287ea2160caa0ebea725fa8f1ca1
+# bad: [e0175b71638cf4398903c0d25f93fe62e0606389] Merge remote-tracking bra=
+nch 'remotes/pmaydell/tags/pull-target-arm-20200228' into staging
+git bisect bad e0175b71638cf4398903c0d25f93fe62e0606389
+# bad: [ca6155c0f2bd39b4b4162533be401c98bd960820] Merge tag 'patchew/202002=
+19160953.13771-1-imammedo@redhat.com' of https://github.com/patchew-project=
+/qemu into HEAD
+git bisect bad ca6155c0f2bd39b4b4162533be401c98bd960820
+# good: [ab74e543112957696f7c79b0c33ecebd18b52af5] ppc/spapr: use memdev fo=
+r RAM
+git bisect good ab74e543112957696f7c79b0c33ecebd18b52af5
+# good: [cb06fdad05f3e546a4e20f1f3c0127f9ae53de1a] fuzz: support for fork-b=
+ased fuzzing.
+git bisect good cb06fdad05f3e546a4e20f1f3c0127f9ae53de1a
+# bad: [037fb5eb3941c80a2b7c36a843e47207ddb004d4] mem-prealloc: optimize la=
+rge guest startup
+git bisect bad 037fb5eb3941c80a2b7c36a843e47207ddb004d4
+# good: [88e2b97aa3e369a454c9d8360afddc348070c708] Merge remote-tracking br=
+anch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20200221' into staging
+git bisect good 88e2b97aa3e369a454c9d8360afddc348070c708
+# good: [b1db8c63169f2139af9f26c884e5e2abd27dd290] fuzz: add virtio-net fuz=
+z target
+git bisect good b1db8c63169f2139af9f26c884e5e2abd27dd290
+# good: [e5c59355ae9f724777c61c859292ec9db2c8c2ab] fuzz: add documentation =
+to docs/devel/
+git bisect good e5c59355ae9f724777c61c859292ec9db2c8c2ab
+# good: [920d557e5ae58671d335acbcfba3f9a97a02911c] memory: batch allocate i=
+oeventfds[] in address_space_update_ioeventfds()
+git bisect good 920d557e5ae58671d335acbcfba3f9a97a02911c
+# first bad commit: [037fb5eb3941c80a2b7c36a843e47207ddb004d4] mem-prealloc=
+: optimize large guest startup
+
+
+Qemu cmdline:
+```
+/home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 \
+-name guest=3Dvm1,debug-threads=3Don \
+-S \
+-object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/do=
+main-9-vm1/master-key.aes \
+-machine pseries-5.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+-m 8192 \
+-mem-prealloc \
+-mem-path /dev/hugepages/libvirt/qemu/9-vm1 \
+-overcommit mem-lock=3Doff \
+-smp 8,sockets=3D1,cores=3D8,threads=3D1 \
+-uuid e5875dd8-0d1c-422f-ae46-9a0b88919902 \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=3Dcharmonitor,fd=3D36,server,nowait \
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+-rtc base=3Dutc \
+-no-shutdown \
+-boot strict=3Don \
+-kernel /home/kvmci/linux/vmlinux \
+-append 'root=3D/dev/sda5 rw console=3Dtty0 console=3DttyS0,115200 init=3D/=
+sbin/init initcall_debug selinux=3D0' \
+-device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.0,addr=3D0x3 \
+-device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x2 \
+-device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x4 \
+-drive file=3D/home/kvmci/tests/data/avocado-vt/images/f31-ppc64le.qcow2,fo=
+rmat=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 \
+-device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=3Dd=
+rive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 \
+-netdev tap,fd=3D38,id=3Dhostnet0,vhost=3Don,vhostfd=3D39 \
+-device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:5f:82:83,=
+bus=3Dpci.0,addr=3D0x1 \
+-chardev pty,id=3Dcharserial0 \
+-device spapr-vty,chardev=3Dcharserial0,id=3Dserial0,reg=3D0x30000000 \
+-chardev socket,id=3Dcharchannel0,fd=3D40,server,nowait \
+-device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0=
+,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+-device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+-msg timestamp=3Don
+2020-03-11 08:11:46.639+0000: 494632: info : libvirt version: 5.6.0, packag=
+e: 5.fc31 (Fedora Project, 2019-11-11-20:24:40, )
+2020-03-11 08:11:46.639+0000: 494632: info : hostname: ltcmihawk50.aus.stgl=
+abs.ibm.com
+2020-03-11 08:11:46.639+0000: 494632: info : virObjectUnref:349 : OBJECT_UN=
+REF: obj=3D0x7fff3c0f6fb0
+char device redirected to /dev/pts/2 (label charserial0)
+qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Asser=
+tion `mutex->initialized' failed.
+qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Asser=
+tion `mutex->initialized' failed.
+2020-03-11 08:11:47.195+0000: shutting down, reason=3Dfailed
+```
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: hugepage kvm powerpc
+
+** Summary changed:
+
+- Powerpc kvm guest unable to start with hugepage backed
++ Powerpc kvm guest unable to start with hugepage backed memory
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1866962
+
+Title:
+  Powerpc kvm guest unable to start with hugepage backed memory
+
+Status in QEMU:
+  New
+
+Bug description:
+  Current upstream qemu master does not boot a powerpc kvm guest backed
+  by hugepage.
+
+  HW: Power9 (DD2.3)
+  Host Kernel: 5.6.0-rc5
+  Guest Kernel: 5.6.0-rc5
+  Qemu: ba29883206d92a29ad5a466e679ccfc2ee6132ef
+
+  Steps to reproduce:
+  1. Allocate enough hugepage to boot a KVM guest
+  # cat /proc/meminfo |grep ^HugePages
+  HugePages_Total:    5000
+  HugePages_Free:     5000
+  HugePages_Rsvd:        0
+  HugePages_Surp:        0
+
+  2. Define and boot a guest
+  /usr/bin/virt-install --connect=3Dqemu:///system --hvm --accelerate --nam=
+e 'vm1' --machine pseries --memory=3D8192,hugepages=3Dyes --vcpu=3D8,maxvcp=
+us=3D8,sockets=3D1,cores=3D8,threads=3D1 --import --nographics --serial pty=
+ --memballoon model=3Dvirtio --controller type=3Dscsi,model=3Dvirtio-scsi -=
+-disk path=3D/home/kvmci/tests/data/avocado-vt/images/f31-ppc64le.qcow2,bus=
+=3Dscsi,size=3D10,format=3Dqcow2 --network=3Dbridge=3Dvirbr0,model=3Dvirtio=
+,mac=3D52:54:00:5f:82:83 --mac=3D52:54:00:5f:82:83 --boot emulator=3D/home/=
+sath/qemu/ppc64-softmmu/qemu-system-ppc64,kernel=3D/home/kvmci/linux/vmlinu=
+x,kernel_args=3D"root=3D/dev/sda5 rw console=3Dtty0 console=3DttyS0,115200 =
+init=3D/sbin/init initcall_debug selinux=3D0" --noautoconsole
+
+  Starting install...
+  ERROR    internal error: qemu unexpectedly closed the monitor: qemu-syste=
+m-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Assertion `mute=
+x->initialized' failed.
+  qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Ass=
+ertion `mutex->initialized' failed.
+
+   -----------NOK
+
+  =
+
+  Bisected the issue to below commit.
+
+  037fb5eb3941c80a2b7c36a843e47207ddb004d4 is the first bad commit
+  commit 037fb5eb3941c80a2b7c36a843e47207ddb004d4
+  Author: bauerchen <bauerchen@tencent.com>
+  Date:   Tue Feb 11 17:10:35 2020 +0800
+
+      mem-prealloc: optimize large guest startup
+      =
+
+      [desc]:
+          Large memory VM starts slowly when using -mem-prealloc, and
+          there are some areas to optimize in current method;
+      =
+
+          1=E3=80=81mmap will be used to alloc threads stack during create =
+page
+          clearing threads, and it will attempt mm->mmap_sem for write
+          lock, but clearing threads have hold read lock, this competition
+          will cause threads createion very slow;
+      =
+
+          2=E3=80=81methods of calcuating pages for per threads is not well=
+;if we use
+          64 threads to split 160 hugepage,63 threads clear 2page,1 thread
+          clear 34 page,so the entire speed is very slow;
+      =
+
+          to solve the first problem,we add a mutex in thread function,and
+          start all threads when all threads finished createion;
+          and the second problem, we spread remainder to other threads,in
+          situation that 160 hugepage and 64 threads, there are 32 threads
+          clear 3 pages,and 32 threads clear 2 pages.
+      =
+
+      [test]:
+          320G 84c VM start time can be reduced to 10s
+          680G 84c VM start time can be reduced to 18s
+      =
+
+      Signed-off-by: bauerchen <bauerchen@tencent.com>
+      Reviewed-by: Pan Rui <ruippan@tencent.com>
+      Reviewed-by: Ivan Ren <ivanren@tencent.com>
+      [Simplify computation of the number of pages per thread. - Paolo]
+      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+   util/oslib-posix.c | 32 ++++++++++++++++++++++++--------
+   1 file changed, 24 insertions(+), 8 deletions(-)
+
+
+  bisect log:
+
+  # git bisect log
+  git bisect start
+  # good: [52901abf94477b400cf88c1f70bb305e690ba2de] Update version for v4.=
+2.0-rc5 release
+  git bisect good 52901abf94477b400cf88c1f70bb305e690ba2de
+  # bad: [ba29883206d92a29ad5a466e679ccfc2ee6132ef] Merge remote-tracking b=
+ranch 'remotes/borntraeger/tags/s390x-20200310' into staging
+  git bisect bad ba29883206d92a29ad5a466e679ccfc2ee6132ef
+  # good: [d1ebbc9d16297b54b153ee33abe05eb4f1df0c66] target/arm/kvm: trivia=
+l: Clean up header documentation
+  git bisect good d1ebbc9d16297b54b153ee33abe05eb4f1df0c66
+  # good: [87b74e8b6edd287ea2160caa0ebea725fa8f1ca1] target/arm: Vectorize =
+USHL and SSHL
+  git bisect good 87b74e8b6edd287ea2160caa0ebea725fa8f1ca1
+  # bad: [e0175b71638cf4398903c0d25f93fe62e0606389] Merge remote-tracking b=
+ranch 'remotes/pmaydell/tags/pull-target-arm-20200228' into staging
+  git bisect bad e0175b71638cf4398903c0d25f93fe62e0606389
+  # bad: [ca6155c0f2bd39b4b4162533be401c98bd960820] Merge tag 'patchew/2020=
+0219160953.13771-1-imammedo@redhat.com' of https://github.com/patchew-proje=
+ct/qemu into HEAD
+  git bisect bad ca6155c0f2bd39b4b4162533be401c98bd960820
+  # good: [ab74e543112957696f7c79b0c33ecebd18b52af5] ppc/spapr: use memdev =
+for RAM
+  git bisect good ab74e543112957696f7c79b0c33ecebd18b52af5
+  # good: [cb06fdad05f3e546a4e20f1f3c0127f9ae53de1a] fuzz: support for fork=
+-based fuzzing.
+  git bisect good cb06fdad05f3e546a4e20f1f3c0127f9ae53de1a
+  # bad: [037fb5eb3941c80a2b7c36a843e47207ddb004d4] mem-prealloc: optimize =
+large guest startup
+  git bisect bad 037fb5eb3941c80a2b7c36a843e47207ddb004d4
+  # good: [88e2b97aa3e369a454c9d8360afddc348070c708] Merge remote-tracking =
+branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20200221' into staging
+  git bisect good 88e2b97aa3e369a454c9d8360afddc348070c708
+  # good: [b1db8c63169f2139af9f26c884e5e2abd27dd290] fuzz: add virtio-net f=
+uzz target
+  git bisect good b1db8c63169f2139af9f26c884e5e2abd27dd290
+  # good: [e5c59355ae9f724777c61c859292ec9db2c8c2ab] fuzz: add documentatio=
+n to docs/devel/
+  git bisect good e5c59355ae9f724777c61c859292ec9db2c8c2ab
+  # good: [920d557e5ae58671d335acbcfba3f9a97a02911c] memory: batch allocate=
+ ioeventfds[] in address_space_update_ioeventfds()
+  git bisect good 920d557e5ae58671d335acbcfba3f9a97a02911c
+  # first bad commit: [037fb5eb3941c80a2b7c36a843e47207ddb004d4] mem-preall=
+oc: optimize large guest startup
+
+
+  =
+
+  Qemu cmdline:
+  ```
+  /home/sath/qemu/ppc64-softmmu/qemu-system-ppc64 \
+  -name guest=3Dvm1,debug-threads=3Don \
+  -S \
+  -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/=
+domain-9-vm1/master-key.aes \
+  -machine pseries-5.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff \
+  -m 8192 \
+  -mem-prealloc \
+  -mem-path /dev/hugepages/libvirt/qemu/9-vm1 \
+  -overcommit mem-lock=3Doff \
+  -smp 8,sockets=3D1,cores=3D8,threads=3D1 \
+  -uuid e5875dd8-0d1c-422f-ae46-9a0b88919902 \
+  -display none \
+  -no-user-config \
+  -nodefaults \
+  -chardev socket,id=3Dcharmonitor,fd=3D36,server,nowait \
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  -rtc base=3Dutc \
+  -no-shutdown \
+  -boot strict=3Don \
+  -kernel /home/kvmci/linux/vmlinux \
+  -append 'root=3D/dev/sda5 rw console=3Dtty0 console=3DttyS0,115200 init=
+=3D/sbin/init initcall_debug selinux=3D0' \
+  -device qemu-xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.0,addr=3D0x3 \
+  -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x2 \
+  -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x4 \
+  -drive file=3D/home/kvmci/tests/data/avocado-vt/images/f31-ppc64le.qcow2,=
+format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0 \
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,device_id=
+=3Ddrive-scsi0-0-0-0,drive=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=
+=3D1 \
+  -netdev tap,fd=3D38,id=3Dhostnet0,vhost=3Don,vhostfd=3D39 \
+  -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:5f:82:8=
+3,bus=3Dpci.0,addr=3D0x1 \
+  -chardev pty,id=3Dcharserial0 \
+  -device spapr-vty,chardev=3Dcharserial0,id=3Dserial0,reg=3D0x30000000 \
+  -chardev socket,id=3Dcharchannel0,fd=3D40,server,nowait \
+  -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchanne=
+l0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x5 \
+  -msg timestamp=3Don
+  2020-03-11 08:11:46.639+0000: 494632: info : libvirt version: 5.6.0, pack=
+age: 5.fc31 (Fedora Project, 2019-11-11-20:24:40, )
+  2020-03-11 08:11:46.639+0000: 494632: info : hostname: ltcmihawk50.aus.st=
+glabs.ibm.com
+  2020-03-11 08:11:46.639+0000: 494632: info : virObjectUnref:349 : OBJECT_=
+UNREF: obj=3D0x7fff3c0f6fb0
+  char device redirected to /dev/pts/2 (label charserial0)
+  qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Ass=
+ertion `mutex->initialized' failed.
+  qemu-system-ppc64: util/qemu-thread-posix.c:76: qemu_mutex_lock_impl: Ass=
+ertion `mutex->initialized' failed.
+  2020-03-11 08:11:47.195+0000: shutting down, reason=3Dfailed
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1866962/+subscriptions
 
