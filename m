@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7305182009
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:51:53 +0100 (CET)
-Received: from localhost ([::1]:56654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D1218200A
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 Mar 2020 18:51:56 +0100 (CET)
+Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jC5WK-0003Yf-S7
-	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:51:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36582)
+	id 1jC5WN-0003g3-Ec
+	for lists+qemu-devel@lfdr.de; Wed, 11 Mar 2020 13:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jC5V6-00026X-Gj
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:37 -0400
+ (envelope-from <bounces@canonical.com>) id 1jC5V7-000272-D1
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1jC5V5-0001EN-CL
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35836)
+ (envelope-from <bounces@canonical.com>) id 1jC5V6-0001JG-3j
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35910)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1jC5V5-00016v-6p
- for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:35 -0400
+ id 1jC5V5-0001DS-UG
+ for qemu-devel@nongnu.org; Wed, 11 Mar 2020 13:50:36 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jC5V3-0003gY-0f
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:33 +0000
+ id 1jC5V4-0003fR-On
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DF7582E80CE
- for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:32 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B95F12E8041
+ for <qemu-devel@nongnu.org>; Wed, 11 Mar 2020 17:50:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Mar 2020 17:31:42 -0000
+Date: Wed, 11 Mar 2020 17:32:05 -0000
 From: tstrike <1866870@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: paelzer tstrike34
 X-Launchpad-Bug-Reporter: tstrike (tstrike34)
 X-Launchpad-Bug-Modifier: tstrike (tstrike34)
 References: <158386023038.12575.5865810528923078550.malonedeb@soybean.canonical.com>
-Message-Id: <158394790236.7438.8753625939605519730.malone@chaenomeles.canonical.com>
+Message-Id: <158394792562.12776.14518835156505265879.malone@soybean.canonical.com>
 Subject: [Bug 1866870] Re: KVM Guest pauses after upgrade to Ubuntu 20.04
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e0878392dc799b267dea80578fa65500a5d74155";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d708b6d9b206c17e92e8bc21f9533780ef94ea4a
+X-Launchpad-Hash: 0e5190c92f5e592a8d7b0c6b3471d2d6725e412e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,9 +70,9 @@ Reply-To: Bug 1866870 <1866870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "List of Domains"
-   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5335795/+files/=
-libvirttstrike_domains.txt
+** Attachment added: "dmesg"
+   https://bugs.launchpad.net/qemu/+bug/1866870/+attachment/5335796/+files/=
+libvirttstrike_dmesg.txt
 
 -- =
 
